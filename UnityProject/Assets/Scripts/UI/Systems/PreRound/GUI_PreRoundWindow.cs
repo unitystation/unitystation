@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 using TMPro;
 using AdminCommands;
 using Messages.Client.Lobby;
+using Systems.Character;
 using UI.Character;
 
 namespace UI
@@ -223,6 +225,12 @@ namespace UI
 		public void OnJoinButton()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			if (PlayerManager.CharacterManager.Characters.Any() == false)
+			{
+				characterCustomization.SetActive(true);
+				Chat.AddExamineMsgToClient("<color=red>No character sheets detected.</color>");
+				return;
+			}
 			UIManager.Display.SetScreenForJobSelect();
 		}
 
@@ -336,6 +344,10 @@ namespace UI
 			normalWindows.SetActive(true);
 			mapLoadingPanel.SetActive(false);
 			UpdateLoadingBar("Preparing..", 0.1f);
+			if (PlayerManager.CharacterManager.Characters.Any() == false)
+			{
+				characterCustomization.SetActive(true);
+			}
 		}
 	}
 }
