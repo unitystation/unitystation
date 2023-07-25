@@ -229,6 +229,7 @@ namespace Changeling
 								() => PerfomAbilityAfter(changeling, data, clickPosition, target));
 							action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, AbilityData.StingTime, changeling.ChangelingMind.Body.gameObject);
 							return true;
+							break;
 						case StingType.Absorb:
 
 							Chat.AddCombatMsgToChat(changeling.gameObject,
@@ -249,11 +250,13 @@ namespace Changeling
 
 							action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, AbilityData.StingTime, changeling.ChangelingMind.Body.gameObject);
 							return true;
+							break;
 						case StingType.HallucinationSting:
 							action = StandardProgressAction.Create(injectProgressBar,
 								() => PerfomAbilityAfter(changeling, data, clickPosition, target));
 							action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, AbilityData.StingTime, changeling.ChangelingMind.Body.gameObject);
 							return true;
+							break;
 					}
 					break;
 				case ChangelingAbilityType.Heal:
@@ -262,8 +265,10 @@ namespace Changeling
 						case ChangelingHealType.Regenerate:
 							StartCoroutine(RegenerationProcess(changeling));
 							return true;
+							break;
 						case ChangelingHealType.RevivingStasis:
 							return true;
+							break;
 					}
 					break;
 				case ChangelingAbilityType.Transform:
@@ -301,6 +306,7 @@ namespace Changeling
 
 							changeling.AddDNA(targetDNA);
 							return true;
+							break;
 						case StingType.Absorb:
 							//var spellComponent = spellObject.GetComponent<ChangelingAbility>();
 							Chat.AddCombatMsgToChat(changeling.gameObject,
@@ -353,6 +359,7 @@ namespace Changeling
 
 							changeling.AbsorbDNA(targetDNA, target);
 							return true;
+							break;
 						case StingType.HallucinationSting:
 							var randomTimeAfter = UnityEngine.Random.Range(30, 60f);
 							targetDNA = new ChangelingDNA(); // Instantiate(ChangelingAbilityList.Instance.DNAPrefab, changeling.gameObject.transform);
@@ -364,6 +371,7 @@ namespace Changeling
 
 							StartCoroutine(ReagentAdding(randomTimeAfter, AbilityData.Reagent, AbilityData.ReagentCount, target));
 							return true;
+							break;
 					}
 					break;
 			}
@@ -383,11 +391,13 @@ namespace Changeling
 						case ChangelingMiscType.OpenStore:
 							UIManager.Display.hudChangeling.OpenStoreUI();
 							return true;
+							break;
 						case ChangelingMiscType.AugmentedEyesight:
 							break;
 						case ChangelingMiscType.OpenMemories:
 							UIManager.Display.hudChangeling.OpenMemoriesUI();
 							return true;
+							break;
 					}
 					break;
 				case ChangelingAbilityType.Transform:
@@ -399,6 +409,7 @@ namespace Changeling
 								PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesWithParam(AbilityData.UseAfterChoise.Index, new Vector3(), $"{dna.DnaID}");
 							});
 							return true;
+							break;
 					}
 					break;
 			}
@@ -617,6 +628,7 @@ namespace Changeling
 								changeling.isFakingDeath = false;
 							}
 							return true;
+							break;
 					}
 					break;
 				case ChangelingAbilityType.Misc:
@@ -661,6 +673,7 @@ namespace Changeling
 								}
 							}
 							return true;
+							break;
 					}
 					break;
 			}
@@ -805,6 +818,7 @@ namespace Changeling
 
 							StartCoroutine(body.playerHealth.ProcessDNAPayload(dataForMutations, characterSheet, dna, changeling));
 							return true;
+							break;
 					}
 					break;
 				case ChangelingAbilityType.Misc:
