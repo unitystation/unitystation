@@ -9,10 +9,10 @@ namespace Changeling
 	public class ChangelingAbilityEntry : MonoBehaviour
 	{
 		[SerializeField]
-		private TMP_Text alienNameText = null;
+		private TMP_Text nameText = null;
 
 		[SerializeField]
-		private TMP_Text alienDescriptionText = null;
+		private TMP_Text descriptionText = null;
 
 		[SerializeField]
 		private TMP_Text gpCost = null;
@@ -21,7 +21,7 @@ namespace Changeling
 		private TMP_Text cpCost = null;
 
 		[SerializeField]
-		private Image alienImage = null;
+		private Image image = null;
 
 		[SerializeField]
 		private GameObject buyButton = null;
@@ -46,9 +46,9 @@ namespace Changeling
 
 		public void Refresh()
 		{
-			alienNameText.text = data.Name;
-			alienDescriptionText.text = data.DescriptionStore;
-			alienImage.sprite = data.Sprites[0].Variance[0].Frames[0].sprite;
+			nameText.text = data.Name;
+			descriptionText.text = data.DescriptionStore;
+			image.sprite = data.Sprites[0].Variance[0].Frames[0].sprite;
 			gpCost.text = $"GP: {data.AbilityEPCost}";
 			cpCost.text = $"CP: {data.AbilityChemCost}";
 			buyButton.SetActive(!changelingMain.AbilitiesNowData.Contains(data));

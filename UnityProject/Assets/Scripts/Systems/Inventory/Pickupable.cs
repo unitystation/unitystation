@@ -108,6 +108,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			Inventory.ServerDespawn(itemSlot);
 		}
 		OnMoveToPlayerInventory?.RemoveAllListeners();
+		OnInventoryMoveServerEvent?.RemoveAllListeners();
 		OnDrop?.RemoveAllListeners();
 		OnThrow?.RemoveAllListeners();
 	}
@@ -148,7 +149,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 
 		if (info.ToPlayer != null &&
-		    HasClothingItem(info.ToPlayer, RecordedItemSlot))
+			HasClothingItem(info.ToPlayer, RecordedItemSlot))
 		{
 			//change appearance based on new item
 			PlayerAppearanceMessage.SendToAll(info.ToPlayer.gameObject,
@@ -156,9 +157,8 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 			//ask target playerscript to update shown name.
 			info.ToPlayer.GetComponent<PlayerScript>().RefreshVisibleName();
-
-			OnInventoryMoveServerEvent?.Invoke(gameObject);
 		}
+		OnInventoryMoveServerEvent?.Invoke(gameObject);
 
 		switch (info.RemoveType)
 		{

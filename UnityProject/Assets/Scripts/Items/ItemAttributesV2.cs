@@ -4,6 +4,12 @@ using UnityEngine;
 using Mirror;
 using AddressableReferences;
 using Systems.Clothing;
+using Chemistry.Components;
+using Clothing;
+using Items.Others;
+using Items.PDA;
+using Objects.Atmospherics;
+using UI.Action;
 
 namespace Items
 {
@@ -181,6 +187,110 @@ namespace Items
 		[Tooltip("The In hands Sprites If it has any")]
 		[SerializeField]
 		private ItemsSprites itemSprites;
+
+		[SyncVar(hook = nameof(FakeItemSync))]
+		public bool IsFakeItem = false;
+
+		[Client]
+		private void FakeItemSync(bool oldValue, bool newValue)
+		{
+			if (newValue)
+			{
+				IsFakeItem = true;
+				var fakeClothes = this;
+
+				if (fakeClothes.TryGetComponent<WearableArmor>(out var armor))
+				{
+					foreach (var bodyArmr in armor.ArmoredBodyParts)
+					{
+						bodyArmr.Armor.Melee = 0;
+						bodyArmr.Armor.Bullet = 0;
+						bodyArmr.Armor.Laser = 0;
+						bodyArmr.Armor.Energy = 0;
+						bodyArmr.Armor.Bomb = 0;
+						bodyArmr.Armor.Rad = 0;
+						bodyArmr.Armor.Fire = 0;
+						bodyArmr.Armor.Acid = 0;
+						bodyArmr.Armor.Magic = 0;
+						bodyArmr.Armor.Bio = 0;
+						bodyArmr.Armor.Anomaly = 0;
+						bodyArmr.Armor.DismembermentProtectionChance = 0;
+						bodyArmr.Armor.StunImmunity = false;
+						bodyArmr.Armor.TemperatureProtectionInK = new Vector2(283.15f, 283.15f + 20);
+						bodyArmr.Armor.PressureProtectionInKpa = new Vector2(30f, 300f);
+
+					}
+				}
+				//if (fakeClothes.TryGetComponent<IDCard>(out var card))
+				//{
+				//	var cardName = card.GetJobTitle();
+				//	var cardRagName = card.RegisteredName;
+				//	card.ServerChangeOccupation(OccupationList.Instance.Get(JobType.ASSISTANT), false, true);
+				//	card.SyncJobTitle("", cardName);
+				//	card.SyncName("", cardRagName);
+				//	for (int i = 0; i < card.currencies.Length; i++)
+				//	{
+				//		card.currencies[i] = 0;
+				//	}
+				//}
+				else if (fakeClothes.TryGetComponent<Headset>(out var headset))
+				{
+					Destroy(headset);
+					//Destroy(headset);
+					//headset.IsPowered = false;
+					//headset.EncryptionKey = EncryptionKeyType.None;
+					//headset.EmmitableSignalData.Clear();
+				}
+				else if (fakeClothes.TryGetComponent<NightVisionGoggles>(out var nightVision))
+				{
+					Destroy(nightVision);
+				}
+				else if (fakeClothes.TryGetComponent<PrescriptionGlasses>(out var glasses))
+				{
+					Destroy(glasses);
+				}
+				if (fakeClothes.TryGetComponent<ReagentContainer>(out var container))
+				{
+					Destroy(container);
+				}
+				if (fakeClothes.TryGetComponent<ItemActionButton>(out var actionButton))
+				{
+					//actionButton.OnRemovedFromBody(this);
+					Destroy(actionButton);
+				}
+				if (fakeClothes.TryGetComponent<GasContainer>(out var gasContainer))
+				{
+					Destroy(gasContainer);
+					//gasContainer.NetDisable();
+				}
+				if (fakeClothes.TryGetComponent<EmergencyOxygenTank>(out var emergencyOxygenTank))
+				{
+					Destroy(emergencyOxygenTank);
+					//emergencyOxygenTank.NetDisable();
+				}
+				if (fakeClothes.TryGetComponent<PDALogic>(out var pda))
+				{
+					pda.NetDisable();
+					Destroy(pda);
+					Destroy(fakeClothes.GetComponent<HasNetworkTabItem>());
+					Destroy(fakeClothes.GetComponent<PDANotesNetworkHandler>());
+				}
+				if (fakeClothes.TryGetComponent<ItemLightControl>(out var lightControl))
+				{
+					Destroy(lightControl);
+				}
+				if (fakeClothes.TryGetComponent<FlashLight>(out var flashLight))
+				{
+					Destroy(flashLight);
+					flashLight.NetDisable();
+				}
+				if (fakeClothes.TryGetComponent<InteractableStorage>(out var intStorage))
+				{
+					intStorage.NetDisable();
+					Destroy(intStorage);
+				}
+			}
+		}
 
 		#region Lifecycle
 

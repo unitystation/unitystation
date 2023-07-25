@@ -959,10 +959,32 @@ namespace HealthV2
 				foreach (var id in dna.BodyClothesPrefabID)
 				{
 					var fakeClothes = Spawn.ServerPrefab(CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[id]).GameObject;
-					var placed = Inventory.ServerAdd(fakeClothes, storage.GetBestSlotFor(fakeClothes));
+
+					ItemSlot bestSlot = storage.GetBestSlotFor(fakeClothes);
+
+					var placed = Inventory.ServerAdd(fakeClothes, bestSlot);
+
+					if (placed && (bestSlot.NamedSlot == NamedSlot.storage01 || bestSlot.NamedSlot == NamedSlot.storage02 || bestSlot.NamedSlot == NamedSlot.storage03
+					 || bestSlot.NamedSlot == NamedSlot.storage04 || bestSlot.NamedSlot == NamedSlot.storage05 || bestSlot.NamedSlot == NamedSlot.storage06
+					  || bestSlot.NamedSlot == NamedSlot.storage07 || bestSlot.NamedSlot == NamedSlot.storage08 || bestSlot.NamedSlot == NamedSlot.storage09
+					   || bestSlot.NamedSlot == NamedSlot.storage10 || bestSlot.NamedSlot == NamedSlot.storage11 || bestSlot.NamedSlot == NamedSlot.storage12
+						|| bestSlot.NamedSlot == NamedSlot.storage13 || bestSlot.NamedSlot == NamedSlot.storage14)) // better don`t put fake clothes into storages
+					{
+						placed = false;
+					}
+
+
+
 					var itemName = fakeClothes.GetComponent<ItemAttributesV2>().InitialName;
 
+					if (!placed)
+					{
+						_ = Despawn.ServerSingle(fakeClothes);
+						continue;
+					}
 					//making items absolutely useless
+					fakeClothes.GetComponent<ItemAttributesV2>().IsFakeItem = true;
+
 					if (fakeClothes.TryGetComponent<WearableArmor>(out var armor))
 					{
 						foreach (var bodyArmr in armor.ArmoredBodyParts)
@@ -987,14 +1009,17 @@ namespace HealthV2
 					}
 					if (fakeClothes.TryGetComponent<IDCard>(out var card))
 					{
-						var cardName = card.GetJobTitle();
-						var cardRagName = card.RegisteredName;
-						card.ServerChangeOccupation(OccupationList.Instance.Get(JobType.ASSISTANT), false, true);
-						card.SyncJobTitle("", cardName);
-						card.SyncName("", cardRagName);
+						var cardJobName = card.GetJobTitle();
+						var cardRegName = card.RegisteredName;
+						card.ServerChangeOccupation(OccupationList.Instance.Get(JobType.ASSISTANT), true, true);
+
+						//card.SyncJobTitle("", cardName);
+						//card.SyncName("", cardRagName);
+						card.ServerSetRegisteredName(cardRegName);
+						card.ServerSetJobTitle(cardJobName);
 						for (int i = 0; i < card.currencies.Length; i++)
 						{
-							card.currencies[i] = 0;
+							card.currencies[i] = 0; // removing all currencies on card to be sure
 						}
 					}
 					else if (fakeClothes.TryGetComponent<Headset>(out var headset))
@@ -1017,20 +1042,6 @@ namespace HealthV2
 					{
 						Destroy(container);
 					}
-					if (fakeClothes.TryGetComponent<ItemLightControl>(out var lightControl))
-					{
-						Destroy(lightControl);
-					}
-					if (fakeClothes.TryGetComponent<FlashLight>(out var flashLight))
-					{
-						Destroy(flashLight);
-						flashLight.NetDisable();
-					}
-					if (fakeClothes.TryGetComponent<ItemActionButton>(out var actionButton))
-					{
-						actionButton.OnRemovedFromBody(this);
-						Destroy(actionButton);
-					}
 					if (fakeClothes.TryGetComponent<GasContainer>(out var gasContainer))
 					{
 						Destroy(gasContainer);
@@ -1045,6 +1056,27 @@ namespace HealthV2
 					{
 						pda.NetDisable();
 						Destroy(pda);
+						Destroy(fakeClothes.GetComponent<HasNetworkTabItem>()); // Need to destroy all pda related components
+						Destroy(fakeClothes.GetComponent<PDANotesNetworkHandler>());
+					}
+					if (fakeClothes.TryGetComponent<InteractableStorage>(out var intStorage))
+					{
+						intStorage.NetDisable();
+						Destroy(intStorage);
+					}
+					if (fakeClothes.TryGetComponent<ItemActionButton>(out var actionButton))
+					{
+						actionButton.OnRemovedFromBody(this);
+						Destroy(actionButton);
+					}
+					if (fakeClothes.TryGetComponent<ItemLightControl>(out var lightControl))
+					{
+						Destroy(lightControl);
+					}
+					if (fakeClothes.TryGetComponent<FlashLight>(out var flashLight))
+					{
+						Destroy(flashLight);
+						flashLight.NetDisable();
 					}
 
 					fakeClothes.GetComponent<Pickupable>().OnInventoryMoveServerEvent.AddListener((GameObject item) => // removing item anytime when item was moved or something
@@ -1057,11 +1089,6 @@ namespace HealthV2
 
 						changeling.ChangelingMind.Body.RefreshVisibleName();
 					});
-
-					if (!placed)
-					{
-						_ = Despawn.ServerSingle(fakeClothes);
-					}
 				}
 			}
 
@@ -1651,11 +1678,13 @@ namespace HealthV2
 						heart.HeartAttack = true;
 						heart.CanTriggerHeartAttack = false;
 						heart.CurrentPulse = 0;
+						continue;
 					}
-					//if (organ is Eye eye)
-					//{
-					//	eye.ApplyChangesBlurryVision(10);
-					//}
+					if (organ is Eye eye)
+					{
+						eye.BadEyesight = 10;
+						continue;
+					}
 				}
 			}
 			CalculateOverallHealth();
@@ -1665,6 +1694,18 @@ namespace HealthV2
 		public void UnstopMetabolismAndRestartHeart()
 		{
 			stopMetabolism = false;
+			foreach (var bodyPart in BodyPartList)
+			{
+				foreach (BodyPartFunctionality organ in bodyPart.OrganList)
+				{
+					if (organ is Eye eye)
+					{
+						eye.BadEyesight = 0;
+						goto BreakFor;
+					}
+				}
+			}
+			BreakFor:
 			RestartHeart();
 		}
 

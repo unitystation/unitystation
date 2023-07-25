@@ -12,7 +12,6 @@ namespace Changeling
 	{
 		[ReorderableList]
 		public List<ChangelingData> Abilites = new List<ChangelingData>();
-		public GameObject DNAPrefab = null;
 		public GameObject ChangelingMainPrefab;
 
 		public ChangelingData InvalidData;

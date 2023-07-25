@@ -60,27 +60,4 @@ namespace Changeling
 			entryPool.Add(dataForCreatingEntry, newEntry);
 		}
 	}
-
-	public class ChangelingMemories
-	{
-		[SyncVar] private JobType memoriesJob;
-		public JobType MemoriesJob => memoriesJob;
-		[SyncVar] private string memoriesName;
-		public string MemoriesName => memoriesName;
-		[SyncVar] private string memoriesObjectives;
-		public string MemoriesObjectives => memoriesObjectives;
-		[SyncVar] private string memoriesSpecies;
-		public string MemoriesSpecies => memoriesSpecies;
-		[SyncVar] private Gender memoriesGender;
-		public Gender MemoriesGender => memoriesGender;
-
-		public void Form(JobType job, string playerName, string objectives, string species, Gender gender)
-		{
-			memoriesJob = job;
-			memoriesName = playerName;
-			memoriesObjectives = objectives;
-			memoriesSpecies = species;
-			memoriesGender = gender;
-		}
-	}
 }

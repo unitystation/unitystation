@@ -157,9 +157,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ef459fdc07bd2641a3ab3c686e0cbcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alienNameText: {fileID: 149457338937362308}
-  alienDescriptionText: {fileID: 9111204331529153187}
-  alienImage: {fileID: 1898840793425000855}
+  nameText: {fileID: 9111204331529153187}
+  descriptionText: {fileID: 149457338937362308}
+  image: {fileID: 1898840793425000855}
 --- !u!1 &578086225510287656
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,11 +640,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fee65aca7ace2c4aad6c26434e08d7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alienNameText: {fileID: 5022239024014328258}
-  alienDescriptionText: {fileID: 3776833176590068174}
+  nameText: {fileID: 5022239024014328258}
+  descriptionText: {fileID: 3776833176590068174}
   gpCost: {fileID: 8247230034879437230}
   cpCost: {fileID: 4431047525341302158}
-  alienImage: {fileID: 4135415322215443608}
+  image: {fileID: 4135415322215443608}
   buyButton: {fileID: 8614390242043644895}
 --- !u!1 &1519484962335665213
 GameObject:
@@ -1274,6 +1274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95cffef87f0011a479517b9b0b66f14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ChangelingMain: {fileID: 0}
   chemText: {fileID: 6987709501259167462}
   chems: {fileID: 3864443822231574083}
   storeGameObject: {fileID: 6005869487732999419}
@@ -1649,7 +1650,7 @@ GameObject:
   - component: {fileID: 1577202535448024917}
   - component: {fileID: 9111204331529153187}
   m_Layer: 5
-  m_Name: AlienName
+  m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2345,7 +2346,7 @@ GameObject:
   - component: {fileID: 6457917677401271174}
   - component: {fileID: 5022239024014328258}
   m_Layer: 5
-  m_Name: AlienName
+  m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

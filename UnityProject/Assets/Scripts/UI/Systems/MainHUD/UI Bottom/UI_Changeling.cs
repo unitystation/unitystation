@@ -52,7 +52,7 @@ namespace Changeling
 
 		public void ResetAbilites()
 		{
-			ChangelingMain.ResetAbilites();
+			ChangelingMain.CmdResetAbilities();
 			store.Refresh(ChangelingDataToBuy, ChangelingMain);
 		}
 
@@ -81,7 +81,8 @@ namespace Changeling
 
 		public void AddAbility(ChangelingData abilityToAdd)
 		{
-			ChangelingMain.AddAbility(abilityToAdd);
+			//ChangelingMain.AddAbility(abilityToAdd);
+			ChangelingMain.CmdBuyAbility(abilityToAdd.Index);
 			//RefreshUI();
 		}
 
@@ -115,6 +116,7 @@ namespace Changeling
 					{
 						actionForUse(x);
 					};
+
 					newEntry.Icon = OccupationList.Instance.Get(x.Job).PreviewSprite;
 				}
 
@@ -134,6 +136,8 @@ namespace Changeling
 
 		public void OpenStoreUI()
 		{
+			if (ChangelingMain.AbilitiesNowData.Count == 0)
+				return;
 			storeGameObject.SetActive(true);
 			store.Refresh(ChangelingDataToBuy, ChangelingMain);
 			CloseMemoriesUI();
@@ -147,6 +151,11 @@ namespace Changeling
 		public void CloseMemoriesUI()
 		{
 			memoriesGameObject.SetActive(false);
+		}
+
+		public void UpdateResetButton()
+		{
+			store.UpdateResetButton();
 		}
 	}
 }

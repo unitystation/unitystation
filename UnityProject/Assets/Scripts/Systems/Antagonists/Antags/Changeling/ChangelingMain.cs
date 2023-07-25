@@ -1,30 +1,12 @@
-using Chemistry.Components;
-using Clothing;
-using GameModes;
-using HealthV2;
-using Items;
-using Items.Implants.Organs;
-using Items.Others;
-using Items.PDA;
 using Mirror;
 using Newtonsoft.Json;
-using Objects.Atmospherics;
-using Shared.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net;
-using System.Text;
 using Systems.Character;
-using Systems.Clothing;
-using UI;
-using UI.Action;
-using UI.CharacterCreator;
-using UI.Core.Action;
 using UnityEngine;
-using UnityEngine.Events;
 using Util;
 
 namespace Changeling
@@ -33,28 +15,33 @@ namespace Changeling
 	public class ChangelingMain : NetworkBehaviour, IServerActionGUIMulti
 	{
 		[Header("Changeling main")]
-		[SyncVar (hook = nameof(SyncChemCount))] private float chem = 25;
+		[SyncVar(hook = nameof(SyncChemCount))] private float chem = 25;
 		public float Chem => chem;
 		[SyncVar(hook = nameof(SyncMindID))] private uint changelingMindID = 0;
 		[SyncVar] private float chemMax = 75;
-		[SyncVar] private float chemAddPerTime = CHEM_ADD_PER_TIME;
-		[SyncVar] private float chemAddTime = CHEM_ADD_TIME_BASE;
+		[SyncVar] private float chemAddPerTime = CHEM_ADD_TIME;
+		[SyncVar] private float chemAddTime = CHEM_ADD_PER_TIME_BASE;
 		public int ExtractedDNA => changelingDNAs.Count;
 
-		[SyncVar] private int resetCount = 0;
-		[SyncVar] private int resetCountMax = 1;
+		[SyncVar(hook = nameof(SyncResetCounts))] private int resetCount = 0;
+		[SyncVar(hook = nameof(SyncMaxResetCounts))] private int resetCountMax = 1;
 
 		[SyncVar] private int absorbCount = 0;
 		public int AbsorbCount => absorbCount;
 		public int ResetsLeft => resetCountMax - resetCount;
 
-		[SyncVar] private List<ChangelingDNA> changelingDNAs = new List<ChangelingDNA>();
-		[SyncVar] private List<ChangelingMemories> changelingMemories = new List<ChangelingMemories>();
+		private List<ChangelingDNA> changelingDNAs = new List<ChangelingDNA>();
+		private List<ChangelingMemories> changelingMemories = new List<ChangelingMemories>();
 		public List<ChangelingMemories> ChangelingMemories => changelingMemories;
 
 		public bool isFakingDeath = false;
 
 		public ChangelingDNA currentDNA;
+
+		[SyncVar(hook = nameof(ChangelingDNASync))]
+		private string changelingDNASer = "";
+		[SyncVar(hook = nameof(ChangelingMemoriesSync))]
+		private string changelingMemoriesSer = "";
 
 		public List<ChangelingDNA> ChangelingDNAs => new List<ChangelingDNA>(changelingDNAs);
 		public List<ChangelingDNA> ChangelingLastDNAs
@@ -64,57 +51,79 @@ namespace Changeling
 				return ChangelingDNAs.Skip(changelingDNAs.Count - MAX_LAST_EXTRACTED_DNA_FOR_TRANSFORM).ToList();
 			}
 		}
-		public List<int> ChangelingDNAsID
-		{
-			get
-			{
-				var dNAsIDs = new List<int>();
-				foreach (var x in changelingDNAs)
-				{
-					dNAsIDs.Add(x.DnaID);
-				}
-				return dNAsIDs;
-			}
-		}
-		public List<ChangelingAbility> ChangelingAbilitesForReset
-		{
-			get
-			{
-				var forRemove = new List<ChangelingAbility>();
-				foreach (var x in abilitiesNow)
-				{
-					if (x.AbilityData.canBeReseted)
-						forRemove.Add(x);
-				}
-				return forRemove;
-			}
-		}
+		//public List<int> ChangelingDNAsID
+		//{
+		//	get
+		//	{
+		//		var dNAsIDs = new List<int>();
+		//		foreach (var x in changelingDNAs)
+		//		{
+		//			dNAsIDs.Add(x.DnaID);
+		//		}
+		//		return dNAsIDs;
+		//	}
+		//}
+		//public List<ChangelingAbility> ChangelingAbilitesForReset
+		//{
+		//	get
+		//	{
+		//		var forRemove = new List<ChangelingAbility>();
+		//		foreach (var x in abilitiesNow)
+		//		{
+		//			if (x.AbilityData.canBeReseted)
+		//				forRemove.Add(x);
+		//		}
+		//		return forRemove;
+		//	}
+		//}
 		[SyncVar(hook = nameof(SyncEPCount))] private int evolutionPoints = 10;
 		public int EvolutionPoints => evolutionPoints;
 
-		private List<ChangelingData> abilitiesToBuy = new List<ChangelingData>();
-		public List<ChangelingData> AbilitiesToBuy => abilitiesToBuy;
 		private ObservableCollection<ChangelingAbility> abilitiesNow => changelingMind.ChangelingAbilities;
 		public ObservableCollection<ChangelingAbility> AbilitiesNow => abilitiesNow;
+		private List<ChangelingData> AbilitiesNowDataSynced = new List<ChangelingData>();
 		public List<ChangelingData> AbilitiesNowData
 		{
 			get
 			{
-				var data = new List<ChangelingData>();
+				return AbilitiesNowDataSynced;
+				//if (CustomNetworkManager.IsServer)
+				//{
+				//	var data = new List<ChangelingData>();
 
-				foreach (var x in abilitiesNow)
-				{
-					data.Add(x.AbilityData);
-				}
-				return data;
+				//	foreach (var x in abilitiesNow)
+				//	{
+				//		data.Add(x.AbilityData);
+				//	}
+				//	return data;
+				//} else
+				//{
+				//	return AbilitiesNowDataSynced;
+				//}
 			}
 		}
 		public List<ChangelingData> AllAbilities => ChangelingAbilityList.Instance.Abilites;
 
+		[SyncVar(hook = nameof(SyncAbilityList))]
+		private string abilitesIDSNow = "";
+
+		public static Dictionary<uint, ChangelingMain> ChangelingByMindID = new();
+		public static Dictionary<uint, Mind> ChangelingMinds = new();
 		private UI_Changeling uiChangeling;
 		public UI_Changeling Ui => uiChangeling;
 		private Mind changelingMind;
-		public Mind ChangelingMind => changelingMind;
+		public Mind ChangelingMind
+		{
+			get
+			{
+				if (changelingMind == null)
+				{
+					Logger.LogError("Changeling can`t find Mind", Category.Changeling);
+					changelingMind = gameObject.transform.parent.gameObject.GetComponent<PlayerScript>().Mind;
+				}
+				return changelingMind;
+			}
+		}
 
 		public List<ActionData> ActionData => throw new NotImplementedException();
 
@@ -122,10 +131,215 @@ namespace Changeling
 
 		private int tickTimer = 0;
 
-		private const float CHEM_ADD_PER_TIME = 1;
-		private const float CHEM_ADD_TIME_BASE = 2;
-		private const float CHEM_ADD_TIME_BASE_SLOWED_ADD = 1;
+		private const float CHEM_ADD_TIME = 1;
+		private const float CHEM_ADD_PER_TIME_BASE = 2;
+		private const float CHEM_ADD_PER_TIME_BASE_SLOWED = 1;
 		private const int MAX_LAST_EXTRACTED_DNA_FOR_TRANSFORM = 7;
+
+		#region Hooks
+
+		[Client]
+		private void ChangelingDNASync(string oldValue, string newValue)
+		{
+			if (changelingDNAs == null)
+				changelingDNAs = new List<ChangelingDNA>();
+			else
+				changelingDNAs.Clear();
+
+			foreach (var dnaSer in newValue.Split("\n"))
+			{
+				dnaSer.Replace("\\", "");
+				var dnaDes = JsonConvert.DeserializeObject<ChangelingDNA>(dnaSer);
+				if (dnaDes == null)
+					continue;
+
+				changelingDNAs.Add(dnaDes);
+			}
+			changelingDNASer = newValue;
+
+			if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.Mind != null && changelingMindID == PlayerManager.LocalPlayerScript.Mind.netId)
+			{
+				if (changelingMind == null)
+					changelingMind = PlayerManager.LocalPlayerScript.Mind;
+				SetChangelingUI();
+			}
+		}
+
+		[Client]
+		private void ChangelingMemoriesSync(string oldValue, string newValue)
+		{
+			if (changelingMemories == null)
+				changelingMemories = new List<ChangelingMemories>();
+			else
+				changelingMemories.Clear();
+
+			foreach (var memSer in newValue.Split("\n"))
+			{
+				var memDes = JsonConvert.DeserializeObject<ChangelingMemories>(memSer);
+
+				if (memDes == null)
+					continue;
+
+				changelingMemories.Add(memDes);
+			}
+
+			changelingMemoriesSer = newValue;
+		}
+
+		[Client]
+		private void SyncAbilityList(string oldValue, string newValue)
+		{
+			abilitesIDSNow = newValue;
+
+			if (AbilitiesNowDataSynced == null)
+				AbilitiesNowDataSynced = new List<ChangelingData>();
+			else
+				AbilitiesNowDataSynced.Clear();
+			foreach (string id in abilitesIDSNow.Split("\n"))
+			{
+				if (short.TryParse(id, out var idParsed) && !AbilitiesNowDataSynced.Contains(ChangelingAbilityList.Instance.FromIndex(idParsed)))
+					AbilitiesNowDataSynced.Add(ChangelingAbilityList.Instance.FromIndex(idParsed));
+			}
+		}
+
+		[Client]
+		private void SyncChemCount(float oldValue, float newValue)
+		{
+			chem = newValue;
+
+			try
+			{
+				if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.Mind != null && changelingMindID == PlayerManager.LocalPlayerScript.Mind.netId)
+				{
+					if (changelingMind == null)
+						changelingMind = PlayerManager.LocalPlayerScript.Mind;
+					SetChangelingUI();
+					uiChangeling.UpdateChemText();
+				}
+			}
+			catch
+			{
+				Logger.LogError("Changeling can`t set up UI when sync chem", Category.Changeling);
+			}
+		}
+
+		[Client]
+		private void SyncMindID(uint oldValue, uint newValue)
+		{
+			changelingMindID = newValue;
+			try
+			{
+				if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.Mind != null && changelingMindID == PlayerManager.LocalPlayerScript.Mind.netId)
+				{
+					if (changelingMind == null)
+						changelingMind = PlayerManager.LocalPlayerScript.Mind;
+					SetChangelingUI();
+				}
+			}
+			catch
+			{
+				Logger.LogError("Changeling can`t set up UI when sync mind", Category.Changeling);
+			}
+		}
+
+		[Client]
+		private void SyncEPCount(int oldValue, int newValue)
+		{
+			evolutionPoints = newValue;
+			try
+			{
+				if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.Mind != null && changelingMindID == PlayerManager.LocalPlayerScript.Mind.netId)
+				{
+					if (changelingMind == null)
+						changelingMind = PlayerManager.LocalPlayerScript.Mind;
+					SetChangelingUI();
+					uiChangeling.UpdateEPText();
+				}
+			}
+			catch
+			{
+				Logger.LogError("Changeling can`t set up UI when sync ep", Category.Changeling);
+			}
+		}
+
+		[Client]
+		private void SyncResetCounts(int oldValue, int newValue)
+		{
+			resetCount = newValue;
+			try
+			{
+				UIManager.Display.hudChangeling.UpdateResetButton();
+			}
+			catch
+			{
+				Logger.LogError("Changeling failes to update reset button", Category.Changeling);
+			}
+		}
+
+		[Client]
+		private void SyncMaxResetCounts(int oldValue, int newValue)
+		{
+			resetCountMax = newValue;
+			try
+			{
+				UIManager.Display.hudChangeling.UpdateResetButton();
+			}
+			catch
+			{
+				Logger.LogError("Changeling failes to update reset button", Category.Changeling);
+			}
+		}
+
+		#endregion
+
+		#region Commands
+
+		/// <summary>
+		/// Resets changeling abilities
+		/// </summary>
+		[Command(requiresAuthority = false)]
+		public void CmdResetAbilities()
+		{
+			if (resetCount >= resetCountMax)
+				return;
+			resetCount++;
+
+			var forRemove = new List<ChangelingAbility>();
+			foreach (var abil in abilitiesNow)
+			{
+				if (abil.AbilityData.canBeReseted)
+				{
+					forRemove.Add(abil);
+				}
+			}
+
+			abilitesIDSNow = "";
+			foreach (var abil in forRemove)
+			{
+				evolutionPoints += abil.AbilityData.AbilityEPCost;
+				abilitiesNow.Remove(abil);
+			}
+			foreach (var abil in abilitiesNow)
+			{
+				abilitesIDSNow += $"\n{abil.AbilityData.Index}";
+			}
+		}
+
+
+		/// <summary>
+		/// Add ability to changeling
+		/// </summary>
+		/// <param name="index">Ability index</param>
+		[Command(requiresAuthority = false)]
+		public void CmdBuyAbility(short index)
+		{
+			//var changeling = changelingMindID[changelingPlayer.netId];
+			var abil = ChangelingAbilityList.Instance.FromIndex(index);
+
+			AddAbility(abil);
+		}
+
+		#endregion
 
 		private void OnDisable()
 		{
@@ -145,7 +359,11 @@ namespace Changeling
 		public void AddDNA(ChangelingDNA dna)
 		{
 			if (!HasDna(dna))
+			{
 				changelingDNAs.Add(dna);
+				changelingDNASer += $"{JsonConvert.SerializeObject(dna)}\n";
+			}
+			//return JsonConvert.DeserializeObject<CharacterSheet>(json);
 		}
 
 		private void OnCrit()
@@ -158,42 +376,6 @@ namespace Changeling
 				{
 					abil.ForceToggleToState(true);
 				}
-			}
-		}
-
-		[Client]
-		private void SyncChemCount(float oldValue, float newValue)
-		{
-			chem = newValue;
-
-			if (changelingMindID == PlayerManager.LocalPlayerScript.Mind.netId)
-			{
-				SetChangelingUI();
-				uiChangeling.UpdateChemText();
-			}
-		}
-
-		[Client]
-		private void SyncMindID(uint oldValue, uint newValue)
-		{
-			changelingMindID = newValue;
-
-			if (PlayerManager.LocalPlayerScript != null && changelingMindID == PlayerManager.LocalPlayerScript.Mind.netId)
-			{
-				SetChangelingUI();
-				changelingMind = gameObject.transform.parent.gameObject.GetComponent<PlayerScript>().Mind;
-			}
-		}
-
-		[Client]
-		private void SyncEPCount(int oldValue, int newValue)
-		{
-			evolutionPoints = newValue;
-
-			if (changelingMindID == PlayerManager.LocalPlayerScript.Mind.netId)
-			{
-				SetChangelingUI();
-				uiChangeling.UpdateChemText();
 			}
 		}
 
@@ -238,8 +420,9 @@ namespace Changeling
 
 		public void AbsorbDNA(ChangelingDNA dna, PlayerScript target)
 		{
-			if (!HasDna(dna))
-				changelingDNAs.Add(dna);
+			AddDNA(dna);
+			//if (!HasDna(dna))
+				//changelingDNAs.Add(dna);
 			if (chem + 50 <= chemMax)
 				chem += 50;
 			else
@@ -249,9 +432,22 @@ namespace Changeling
 			AddMemories(dna, target);
 		}
 
+		private void AddMemories(List<ChangelingMemories> mem)
+		{
+			changelingMemories.AddRange(mem);
+
+			changelingMemoriesSer = "";
+
+			foreach (var memToSer in changelingMemories)
+			{
+				changelingMemoriesSer += $"{JsonConvert.SerializeObject(memToSer)}\n";
+			}
+		}
+
 		private void AddMemories(ChangelingMemories memories)
 		{
 			changelingMemories.Add(memories);
+			changelingMemoriesSer += $"{JsonConvert.SerializeObject(memories)}\n";
 		}
 
 		private void AddMemories(ChangelingDNA dna, PlayerScript target)
@@ -262,7 +458,7 @@ namespace Changeling
 			var species = target.Mind.CurrentCharacterSettings.Species;
 			var gender = target.Mind.CurrentCharacterSettings.GetGender();
 			mem.Form(dna.Job, targetName, information, species, gender);
-			changelingMemories.Add(mem);
+			AddMemories(mem);
 		}
 
 		private void AddMemories(PlayerScript target)
@@ -273,7 +469,13 @@ namespace Changeling
 			var species = target.Mind.CurrentCharacterSettings.Species;
 			var gender = target.Mind.CurrentCharacterSettings.GetGender();
 			mem.Form(target.PlayerInfo.Job, targetName, information, species, gender);
-			changelingMemories.Add(mem);
+			AddMemories(mem);
+		}
+
+		private void ClearMemories()
+		{
+			changelingMemories.Clear();
+			changelingMemoriesSer = "";
 		}
 
 		//public void AddDNA(List<ChangelingDNA> dnas) // that gonna be another changeling
@@ -288,16 +490,18 @@ namespace Changeling
 		//	chem += 50;
 		//	evolutionPoints += 5;
 		//}
-
+		
 		public void AbsorbDNA(List<ChangelingDNA> dnas, PlayerScript target, ChangelingMain changelingMain) // That gonna be another changeling
 		{
 			foreach (var dna in dnas)
 			{
-				if (!HasDna(dna))
-					changelingDNAs.Add(dna);
+				AddDNA(dna);
+				//if (!HasDna(dna))
+				//	changelingDNAs.Add(dna);
 			}
-			changelingMemories.AddRange(changelingMain.changelingMemories);
-			changelingMain.changelingMemories.Clear();
+			AddMemories(changelingMain.changelingMemories);
+			changelingMain.RemoveDNA(changelingMain.changelingDNAs);
+			changelingMain.ClearMemories();// changelingMain.changelingMemories.Clear();
 			AddMemories(target);
 			resetCountMax++;
 			chemMax += 50;
@@ -310,6 +514,13 @@ namespace Changeling
 			foreach (var dna in targetDNAs)
 			{
 				changelingDNAs.Remove(dna);
+			}
+
+			changelingDNASer = "";
+			foreach (var dna in changelingDNAs)
+			{
+				changelingDNAs.Remove(dna);
+				changelingDNASer += $"{JsonConvert.SerializeObject(dna)}\n";
 			}
 		}
 
@@ -346,8 +557,8 @@ namespace Changeling
 				}
 			}
 
-			chemAddPerTime = CHEM_ADD_PER_TIME;
-			chemAddTime = CHEM_ADD_TIME_BASE + CHEM_ADD_TIME_BASE_SLOWED_ADD * slowingCount;
+			chemAddPerTime = CHEM_ADD_TIME;
+			chemAddTime = CHEM_ADD_PER_TIME_BASE + CHEM_ADD_PER_TIME_BASE_SLOWED * slowingCount;
 		}
 
 		public void Init(Mind changelingMindUser)
@@ -356,10 +567,24 @@ namespace Changeling
 
 			playerScript = changelingMindUser.CurrentPlayScript;
 			playerScript.OnActionControlPlayer += PlayerEnterBody;
+			//ChangelingByNetPlayerID.Add(playerScript.netId, this);
 
-			SetUpAbilites();
 
 			if (!CustomNetworkManager.IsServer) return;
+
+			if (ChangelingByMindID.ContainsKey(changelingMind.netId))
+			{
+				ChangelingByMindID.Remove(changelingMind.netId);
+			}
+			ChangelingByMindID.Add(changelingMind.netId, this);
+
+			if (ChangelingMinds.ContainsKey(changelingMind.netId))
+			{
+				ChangelingMinds.Remove(changelingMind.netId);
+			}
+			ChangelingMinds.Add(changelingMind.netId, changelingMind);
+
+			SetUpAbilites();
 
 			UpdateManager.Add(Tick, 1f);
 			StartCoroutine(LateInit());
@@ -375,27 +600,27 @@ namespace Changeling
 
 		private IEnumerator LateInit() // need to be done after spawn because not all player systems was loaded at init moment
 		{
-			var inited = false;
-			while (!inited)
-			{
-				yield return WaitFor.SecondsRealtime(1f);
-				try
-				{
-					inited = true;
+			//var inited = false;
+			//while (!inited)
+			//{
+				yield return WaitFor.SecondsRealtime(1.5f);
+				//try
+				//{
+					//inited = true;
 					changelingMindID = changelingMind.netId;
-					var dnaObject = Spawn.ServerPrefab(ChangelingAbilityList.Instance.DNAPrefab, parent: gameObject.transform).GameObject.GetComponent<ChangelingDNA>();
-					dnaObject.FormDNA(changelingMind.Body.PlayerInfo.Script, this);
+					var dnaObject = new ChangelingDNA(); //Instantiate(ChangelingAbilityList.Instance.DNAPrefab, gameObject.transform).GetComponent<ChangelingDNA>();
+
+					dnaObject.FormDNA(changelingMind.Body.PlayerInfo.Script);
 
 					AddDNA(dnaObject);
 					currentDNA = dnaObject;
-				}
-				catch
-				{
-
-				}
-			}
+				//}
+				//catch
+				//{
+				//	Logger.LogError("Changeling failes to late init", Category.Changeling);
+				//}
+			//}
 		}
-
 		//private IEnumerator LateUIInit() // need to be done after spawn because not all player systems was loaded at init moment
 		//{
 		//	yield return WaitFor.SecondsRealtime(1f);
@@ -414,48 +639,54 @@ namespace Changeling
 				if (ability.startAbility)
 				{
 					AddAbility(ability);
-				} else
-				{
-					AddAbilityToStore(ability);
 				}
 			}
 		}
 
 		public void AddAbility(ChangelingData ability)
 		{
-			if (CustomNetworkManager.IsServer)
-				evolutionPoints -= ability.AbilityEPCost;
+			if (evolutionPoints - ability.AbilityEPCost < 0)
+				return;
+			evolutionPoints -= ability.AbilityEPCost;
+			abilitesIDSNow += $"\n{ability.Index}";
 			changelingMind.AddAbility(ability.AddToPlayer(changelingMind));
 		}
 
 		public void RemoveAbility(ChangelingData ability)
 		{
+			abilitesIDSNow = "";
 			if (CustomNetworkManager.IsServer)
 				evolutionPoints += ability.AbilityEPCost;
 			changelingMind.RemoveAbility(ability.AddToPlayer(changelingMind));
-		}
 
-		public void AddAbilityToStore(ChangelingData ability)
-		{
-			if (!abilitiesToBuy.Contains(ability))
+			foreach (var x in abilitiesNow)
 			{
-				abilitiesToBuy.Add(ability);
+				abilitesIDSNow = $"\n{x.AbilityData.Index}";
 			}
 		}
 
+		//public void AddAbilityToStore(ChangelingData ability)
+		//{
+		//	if (!abilitiesToBuy.Contains(ability))
+		//	{
+		//		abilitiesToBuy.Add(ability);
+		//	}
+		//}
+
 		public void PlayerEnterBody()
 		{
+
 			//StartCoroutine(LateUIInit());
 		}
 
 		public void CallActionServer(ActionData data, PlayerInfo playerInfo)
 		{
-			
+
 		}
 
 		public void CallActionClient(ActionData data)
 		{
-			
+
 		}
 
 		public bool HasAbility(ChangelingData ability)
@@ -463,10 +694,10 @@ namespace Changeling
 			return AbilitiesNowData.Contains(ability);
 		}
 
-		public void RemoveAbilityFromStore(ChangelingData abilityToAdd)
-		{
-			abilitiesToBuy.Remove(abilityToAdd);
-		}
+		//public void RemoveAbilityFromStore(ChangelingData abilityToAdd)
+		//{
+		//	abilitiesToBuy.Remove(abilityToAdd);
+		//}
 
 		public void UseAbility(ChangelingAbility changelingAbility)
 		{
@@ -486,29 +717,6 @@ namespace Changeling
 
 		}
 
-		public void ResetAbilites()
-		{
-			resetCount++;
-
-			if (resetCount > resetCountMax)
-				return;
-
-			var forRemove = new List<ChangelingAbility>();
-			foreach (var abil in abilitiesNow)
-			{
-				if (abil.AbilityData.canBeReseted)
-				{
-					forRemove.Add(abil);
-				}
-			}
-
-			foreach (var abil in forRemove)
-			{
-				evolutionPoints += abil.AbilityData.AbilityEPCost;
-				abilitiesNow.Remove(abil);
-			}
-		}
-
 		public ChangelingDNA GetDNAByID(int dnaID)
 		{
 			foreach (var x in ChangelingLastDNAs)
@@ -520,6 +728,73 @@ namespace Changeling
 			}
 
 			return null;
+		}
+	}
+
+	public class ChangelingMemories
+	{
+		public JobType MemoriesJob;
+		public string MemoriesName;
+		public string MemoriesObjectives;
+		public string MemoriesSpecies;
+		public Gender MemoriesGender;
+
+		public void Form(JobType job, string playerName, string objectives, string species, Gender gender)
+		{
+			MemoriesJob = job;
+			MemoriesName = playerName;
+			MemoriesObjectives = objectives;
+			MemoriesSpecies = species;
+			MemoriesGender = gender;
+		}
+	}
+
+	public class ChangelingDNA
+	{
+		public int DnaID;
+		public string PlayerName = "";
+		public string Objectives;
+		public CharacterSheet CharacterSheet;
+		public JobType Job;
+		public List<string> BodyClothesPrefabID = new();
+
+		public void FormDNA(PlayerScript playerDataForDNA)
+		{
+			foreach (var clothe in playerDataForDNA.Mind.Body.playerSprites.clothes)
+			{
+				if (clothe.Value.GameObjectReference != null)
+				{
+					BodyClothesPrefabID.Add(clothe.Value.GameObjectReference.GetComponent<PrefabTracker>().ForeverID);
+					// var obj = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[clothe.Value.GameObjectReference.GetComponent<PrefabTracker>().ForeverID]; 
+				}
+			}
+
+			//dnaID = playerData.Mind.Body.netId;
+			PlayerName = playerDataForDNA.playerName;
+			DnaID = playerDataForDNA.Mind.bodyMobID;
+			CharacterSheet = (CharacterSheet)playerDataForDNA.Mind.CurrentCharacterSettings.Clone();
+			try
+			{
+				Job = playerDataForDNA.PlayerInfo.Job;
+			}
+			catch
+			{
+				Job = JobType.ASSISTANT;
+				Logger.LogError("When creating DNA can`t find target job", Category.Changeling);
+			}
+		}
+
+		public void UpdateDNA(PlayerScript playerDataForDNA)
+		{
+			BodyClothesPrefabID.Clear();
+
+			foreach (var clothe in playerDataForDNA.Mind.Body.playerSprites.clothes)
+			{
+				if (clothe.Value.GameObjectReference != null)
+					BodyClothesPrefabID.Add(clothe.Value.GameObjectReference.GetComponent<PrefabTracker>().ForeverID);
+			}
+
+			CharacterSheet = (CharacterSheet)playerDataForDNA.characterSettings.Clone();
 		}
 	}
 }

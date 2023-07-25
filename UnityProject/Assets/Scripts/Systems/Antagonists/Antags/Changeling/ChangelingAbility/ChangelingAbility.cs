@@ -8,6 +8,7 @@ using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Systems.Character;
 using TileManagement;
 using UI.Action;
@@ -27,7 +28,7 @@ namespace Changeling
 
 		public ActionData ActionData => ability;
 		public float CooldownTime { get; set; }
-		[SyncVar(hook = nameof(SyncIsToggled))]
+		[SyncVar]
 		private bool isToggled = false;
 		public bool IsToggled => isToggled;
 
@@ -39,22 +40,21 @@ namespace Changeling
 		private const float MAX_REMOVING_WHILE_ABSORBING_BODY = 70f;
 		private const float MAX_DISTANCE_TO_TILE = 1.6f;
 
-		public void SyncIsToggled(bool oldValue, bool value)
-		{
-			isToggled = value;
-		}
+		//public void SyncIsToggled(bool oldValue, bool value)
+		//{
+		//	isToggled = value;
+		//}
 
 		public virtual void CallActionClient()
 		{
 			UIAction action = UIActionManager.Instance.DicIActionGUI[this][0];
 			//PlayerList.Instance.GetPlayersOnMatrix()
-			if (AbilityData.IsLocal)// && ValidateAbility(PlayerManager.LocalPlayerScript.PlayerInfo))
+			if (AbilityData.IsLocal && ValidateAbilityClient())// && ValidateAbility(PlayerManager.LocalPlayerScript.PlayerInfo))
 			{
-				if (ValidateAbilityClient(PlayerManager.LocalPlayerScript))
-				{
-					UseAbilityLocal(PlayerManager.LocalPlayerScript.PlayerInfo.Mind.Body.GetComponent<ChangelingMain>(), ability);
-				}
-				//AbilityData.PerfomAbilityClient();
+					//UseAbilityLocal(PlayerManager.LocalPlayerScript.PlayerInfo.Mind.Body.Changeling, ability);
+					UseAbilityLocal(UIManager.Instance.displayControl.hudChangeling.ChangelingMain, ability);
+					AfterAbility(PlayerManager.LocalPlayerScript);
+					//AbilityData.PerfomAbilityClient();
 			}
 			else
 			{
@@ -68,9 +68,9 @@ namespace Changeling
 				return;
 			isToggled = toggled;
 			UIAction action = UIActionManager.Instance.DicIActionGUI[this][0];
-			if (AbilityData.IsLocal) //  && ValidateAbilityClient(PlayerManager.LocalPlayerScript.PlayerInfo)
+			if (AbilityData.IsLocal && ValidateAbilityClient()) //  && ValidateAbilityClient(PlayerManager.LocalPlayerScript.PlayerInfo)
 			{
-				UseAbilityToggle(PlayerManager.LocalPlayerScript.PlayerInfo.Mind.Body.GetComponent<ChangelingMain>(), ability, toggled);
+				UseAbilityToggle(UIManager.Instance.displayControl.hudChangeling.ChangelingMain, ability, toggled);
 			}
 			else
 			{
@@ -122,25 +122,28 @@ namespace Changeling
 			}
 		}
 
-		public void CallActionServerWithParam(PlayerInfo SentByPlayer, Vector3 clickPosition, List<string> param)
+		public void CallActionServerWithParam(PlayerInfo sentByPlayer, Vector3 clickPosition, string paramString)
 		{
-			if (ValidateAbility(SentByPlayer) &&
-				CastAbilityServerWithParam(SentByPlayer, clickPosition, param))
+			var changeling = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];
+			List<string> param = paramString.Split('\n').ToList();
+			if (ValidateAbility(sentByPlayer) &&
+				CastAbilityServerWithParam(sentByPlayer, clickPosition, param))
 			{
-				//AfterAbility(SentByPlayer);
+				//AfterAbility(sentByPlayer);
+				changeling.UseAbility(this);
 			}
 		}
 
 		private bool CastAbilityServerWithParam(PlayerInfo sentByPlayer, Vector3 clickPosition, List<string> param)
 		{
-			var changeling = sentByPlayer.Mind.Body.GetComponent<ChangelingMain>();
+			var changeling = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];
 			UseAbilityWithParam(changeling, AbilityData, param);
 			return true;
 		}
 
 		private bool CastAbilityToggleServer(PlayerInfo sentByPlayer, Vector3 clickPosition, bool toggle)
 		{
-			var changeling = sentByPlayer.Mind.Body.GetComponent<ChangelingMain>();
+			var changeling = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];
 			if (toggle)
 			{
 				if (AbilityData.CooldownWhenToggled)
@@ -162,7 +165,7 @@ namespace Changeling
 
 		private bool CastAbilityServer(PlayerInfo sentByPlayer, Vector3 clickPosition)
 		{
-			var changeling = sentByPlayer.Mind.Body.GetComponent<ChangelingMain>();
+			var changeling = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];//sentByPlayer.Mind.Body.Changeling;
 			if (!AbilityData.IsAimable)
 				changeling.UseAbility(this);
 			//ability.PerfomAbility(changeling, clickPosition);
@@ -192,6 +195,8 @@ namespace Changeling
 				target = integrity;
 				break;
 			}
+			if (target == null)
+				return null;
 
 			if (Vector3.Distance(changeling.ChangelingMind.Body.GameObject.AssumedWorldPosServer(), target.Mind.Body.GameObject.AssumedWorldPosServer()) > MAX_DISTANCE_TO_TILE)
 			{
@@ -222,7 +227,7 @@ namespace Changeling
 
 							var action = StandardProgressAction.Create(injectProgressBar,
 								() => PerfomAbilityAfter(changeling, data, clickPosition, target));
-							action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, AbilityData.StingTime, changeling.gameObject);
+							action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, AbilityData.StingTime, changeling.ChangelingMind.Body.gameObject);
 							return true;
 						case StingType.Absorb:
 
@@ -242,12 +247,12 @@ namespace Changeling
 								});
 
 
-							action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, AbilityData.StingTime, changeling.gameObject);
+							action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, AbilityData.StingTime, changeling.ChangelingMind.Body.gameObject);
 							return true;
 						case StingType.HallucinationSting:
 							action = StandardProgressAction.Create(injectProgressBar,
 								() => PerfomAbilityAfter(changeling, data, clickPosition, target));
-							action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, AbilityData.StingTime, changeling.gameObject);
+							action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, AbilityData.StingTime, changeling.ChangelingMind.Body.gameObject);
 							return true;
 					}
 					break;
@@ -277,7 +282,7 @@ namespace Changeling
 					switch (data.stingType)
 					{
 						case StingType.ExtractDNASting:
-							var dnaObject = Instantiate(ChangelingAbilityList.Instance.DNAPrefab, changeling.gameObject.transform);
+							var targetDNA = new ChangelingDNA();// Spawn.ServerPrefab(ChangelingAbilityList.Instance.DNAPrefab).GameObject;
 							//var spellComponent = spellObject.GetComponent<ChangelingAbility>();
 							Chat.AddCombatMsgToChat(changeling.gameObject,
 							$"<color=red>You finished sting of {target.playerName}</color>",
@@ -287,12 +292,12 @@ namespace Changeling
 							{
 								if (x.DnaID == target.Mind.bodyMobID)
 								{
-									x.UpdateDNA(target, changeling);
+									x.UpdateDNA(target);
 									return true;
 								}
 							}
-							var targetDNA = dnaObject.GetComponent<ChangelingDNA>();
-							targetDNA.FormDNA(target, changeling);
+							//var targetDNA = dnaObject.GetComponent<ChangelingDNA>();
+							targetDNA.FormDNA(target);
 
 							changeling.AddDNA(targetDNA);
 							return true;
@@ -308,22 +313,22 @@ namespace Changeling
 								{
 									var targetDNAs = new List<ChangelingDNA>();
 
-									targetDNAs.AddRange(target.Mind.Body.GetComponent<ChangelingMain>().ChangelingDNAs);
+									targetDNAs.AddRange(target.Mind.Body.Changeling.ChangelingDNAs);
 
-									foreach (var x in targetDNAs)
-									{
-										x.transform.SetParent(changeling.transform);
-									}
+									//foreach (var x in targetDNAs)
+									//{
+									//	x.transform.SetParent(changeling.transform);
+									//}
 
-									target.Mind.Body.GetComponent<ChangelingMain>().RemoveDNA(targetDNAs);
-									changeling.AbsorbDNA(targetDNAs, target, target.GetComponent<ChangelingMain>());
+									target.Mind.Body.Changeling.RemoveDNA(targetDNAs);
+									changeling.AbsorbDNA(targetDNAs, target, target.Changeling);
 									return true;
 								}
 							} catch
 							{
 								Logger.LogWarning("Can`t get player is antag", Category.Changeling);
 							}
-							dnaObject = Instantiate(ChangelingAbilityList.Instance.DNAPrefab, changeling.gameObject.transform);
+							targetDNA = new ChangelingDNA();
 
 							// fatal damage
 							target.Mind.Body.playerHealth.ApplyDamageAll(null, 999, AttackType.Internal, DamageType.Oxy);
@@ -343,17 +348,17 @@ namespace Changeling
 							}
 
 							SkipingFor:
-							targetDNA = dnaObject.GetComponent<ChangelingDNA>();
-							targetDNA.FormDNA(target, changeling);
+							//targetDNA = dnaObject.GetComponent<ChangelingDNA>();
+							targetDNA.FormDNA(target);
 
 							changeling.AbsorbDNA(targetDNA, target);
 							return true;
 						case StingType.HallucinationSting:
 							var randomTimeAfter = UnityEngine.Random.Range(30, 60f);
-							dnaObject = Instantiate(ChangelingAbilityList.Instance.DNAPrefab, changeling.gameObject.transform);
+							targetDNA = new ChangelingDNA(); // Instantiate(ChangelingAbilityList.Instance.DNAPrefab, changeling.gameObject.transform);
 
-							targetDNA = dnaObject.GetComponent<ChangelingDNA>();
-							targetDNA.FormDNA(target, changeling);
+							//targetDNA = dnaObject.GetComponent<ChangelingDNA>();
+							targetDNA.FormDNA(target);
 
 							changeling.AddDNA(targetDNA);
 
@@ -391,10 +396,7 @@ namespace Changeling
 						case ChangelingTransformType.TransformMenuOpen:
 							UIManager.Display.hudChangeling.OpenTransformUI(changeling, (ChangelingDNA dna) =>
 							{
-								PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesWithParam(AbilityData.UseAfterChoise.Index, new Vector3(), new List<string>()
-								{
-									dna.DnaID.ToString()
-								});
+								PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesWithParam(AbilityData.UseAfterChoise.Index, new Vector3(), $"{dna.DnaID}");
 							});
 							return true;
 					}
@@ -636,7 +638,8 @@ namespace Changeling
 								{
 									if (organ is Eye eye)
 									{
-										eye.ApplyChangesXrayState(toggle);
+										eye.HasXray = toggle;
+										//eye.ApplyChangesXrayState(toggle);
 										goto SkipingFor;
 									}
 								}
@@ -680,8 +683,8 @@ namespace Changeling
 
 							var dna = changeling.GetDNAByID(int.Parse(dnaID));
 
-							if (dna == changeling.currentDNA)
-								return false;
+							//if (dna == changeling.currentDNA)
+							//	return false;
 
 							CharacterSheet characterSheet = dna.CharacterSheet;
 
@@ -812,14 +815,22 @@ namespace Changeling
 
 		private void AfterAbility(PlayerInfo sentByPlayer)
 		{
-			Cooldowns.TryStartServer(sentByPlayer.Script, AbilityData, CooldownTime);
+			Cooldowns.TryStartClient(sentByPlayer.Script, AbilityData, CooldownTime);
+
+			UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
+		}
+
+		private void AfterAbility(PlayerScript sentByPlayer)
+		{
+			Cooldowns.TryStartClient(sentByPlayer, AbilityData, CooldownTime);
 
 			UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
 		}
 
 		private bool ValidateAbility(PlayerInfo sentByPlayer)
 		{
-			var changelingMain = sentByPlayer.Mind.Body.GetComponent<ChangelingMain>();
+			var changelingMain = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];//sentByPlayer.Mind.Body.Changeling;
+			//var changelingMain = ChangelingMain.ChangelingByNetPlayerID[sentByPlayer.PosssingID];
 			if (sentByPlayer.Script.IsDeadOrGhost || (sentByPlayer.Script.playerHealth.IsCrit && !AbilityData.CanBeUsedWhileInCrit))
 			{
 				return false;
@@ -839,15 +850,15 @@ namespace Changeling
 			return changelingMain.HasAbility(ability);
 		}
 
-		private bool ValidateDNA(PlayerInfo sentByPlayer, ChangelingDNA dna)
-		{
-			var changelingMain = sentByPlayer.Mind.Body.GetComponent<ChangelingMain>();
-			return changelingMain.HasDna(dna);
-		}
+		//private bool ValidateDNA(PlayerInfo sentByPlayer, ChangelingDNA dna)
+		//{
+		//	var changelingMain = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];//sentByPlayer.Mind.Body.Changeling;
+		//	return changelingMain.HasDna(dna);
+		//}
 
-		private bool ValidateAbilityClient(PlayerScript sentByPlayer)
+		private bool ValidateAbilityClient()
 		{
-			var changelingMain = sentByPlayer.Mind.Body.GetComponent<ChangelingMain>();
+			var changelingMain = UIManager.Display.hudChangeling.ChangelingMain;
 			if (changelingMain.ChangelingMind.Body.IsDeadOrGhost || changelingMain.ChangelingMind.Body.playerHealth.IsCrit ||
 			changelingMain.Chem - AbilityData.AbilityChemCost < 0)
 			{

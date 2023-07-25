@@ -10,64 +10,62 @@ using Util;
 
 namespace Changeling
 {
-	public class ChangelingDNA : NetworkBehaviour
-	{
-		private ChangelingMain changelingOwner = null;
-		public ChangelingMain ChangelingOwner => changelingOwner;
-		[SyncVar] private CharacterSheet characterSheet;
-		public CharacterSheet CharacterSheet => characterSheet;
-		[SyncVar] private int dnaID;
-		public int DnaID => dnaID;
-		[SyncVar] List<string> bodyClothesPrefabID = new ();
-		public List<string> BodyClothesPrefabID => bodyClothesPrefabID;
+	//public class ChangelingDNA// : NetworkBehaviour
+	//{
+	//	//private ChangelingMain changelingOwner = null;
+	//	//public ChangelingMain ChangelingOwner => changelingOwner;
+	//	public CharacterSheet CharacterSheet;
+	//	//public CharacterSheet CharacterSheet => characterSheet;
+	//	public int DnaID;
+	//	//public int DnaID => dnaID;
+	//	public List<string> BodyClothesPrefabID = new ();
+	//	//public List<string> BodyClothesPrefabID => bodyClothesPrefabID;
 
-		[SyncVar] private string playerName = "";
-		public string PlayerName => playerName;
+	//	public string PlayerName = "";
+	//	//public string PlayerName => playerName;
 
-		[SyncVar] private JobType job;
-		public JobType Job => job;
+	//	public JobType Job;
+	//	//public JobType Job => job;
 
-		[SyncVar] private string objectives;
-		public string Objectives => objectives;
+	//	public string Objectives;
+	//	//public string Objectives => objectives;
 
-		public void FormDNA(PlayerScript playerDataForDNA, ChangelingMain changelingOwnerSet)
-		{
-			foreach (var clothe in playerDataForDNA.Mind.Body.playerSprites.clothes)
-			{
-				if (clothe.Value.GameObjectReference != null)
-				{
-					bodyClothesPrefabID.Add(clothe.Value.GameObjectReference.GetComponent<PrefabTracker>().ForeverID);
-					// var obj = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[clothe.Value.GameObjectReference.GetComponent<PrefabTracker>().ForeverID]; 
-				}
-			}
+	//	public void FormDNA(PlayerScript playerDataForDNA)
+	//	{
+	//		foreach (var clothe in playerDataForDNA.Mind.Body.playerSprites.clothes)
+	//		{
+	//			if (clothe.Value.GameObjectReference != null)
+	//			{
+	//				BodyClothesPrefabID.Add(clothe.Value.GameObjectReference.GetComponent<PrefabTracker>().ForeverID);
+	//				// var obj = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[clothe.Value.GameObjectReference.GetComponent<PrefabTracker>().ForeverID]; 
+	//			}
+	//		}
 
-			//dnaID = playerData.Mind.Body.netId;
-			playerName = playerDataForDNA.playerName;
-			dnaID = playerDataForDNA.Mind.bodyMobID;
-			characterSheet = (CharacterSheet)playerDataForDNA.Mind.CurrentCharacterSettings.Clone();
-			changelingOwner = changelingOwnerSet;
-			try
-			{
-				job = playerDataForDNA.PlayerInfo.Job;
-			} catch
-			{
-				job = JobType.ASSISTANT;
-				Logger.LogError("When creating DNA can`t find target job", Category.Changeling);
-			}
-		}
+	//		//dnaID = playerData.Mind.Body.netId;
+	//		PlayerName = playerDataForDNA.playerName;
+	//		DnaID = playerDataForDNA.Mind.bodyMobID;
+	//		CharacterSheet = (CharacterSheet)playerDataForDNA.Mind.CurrentCharacterSettings.Clone();
+	//		try
+	//		{
+	//			Job = playerDataForDNA.PlayerInfo.Job;
+	//		} catch
+	//		{
+	//			Job = JobType.ASSISTANT;
+	//			Logger.LogError("When creating DNA can`t find target job", Category.Changeling);
+	//		}
+	//	}
 
-		public void UpdateDNA(PlayerScript playerDataForDNA, ChangelingMain changelingOwnerSet)
-		{
-			bodyClothesPrefabID.Clear();
+	//	public void UpdateDNA(PlayerScript playerDataForDNA)
+	//	{
+	//		BodyClothesPrefabID.Clear();
 
-			foreach (var clothe in playerDataForDNA.Mind.Body.playerSprites.clothes)
-			{
-				if (clothe.Value.GameObjectReference != null)
-					bodyClothesPrefabID.Add(clothe.Value.GameObjectReference.GetComponent<PrefabTracker>().ForeverID);
-			}
+	//		foreach (var clothe in playerDataForDNA.Mind.Body.playerSprites.clothes)
+	//		{
+	//			if (clothe.Value.GameObjectReference != null)
+	//				BodyClothesPrefabID.Add(clothe.Value.GameObjectReference.GetComponent<PrefabTracker>().ForeverID);
+	//		}
 
-			characterSheet = (CharacterSheet)playerDataForDNA.characterSettings.Clone();
-			changelingOwner = changelingOwnerSet;
-		}
-	}
+	//		CharacterSheet = (CharacterSheet)playerDataForDNA.characterSettings.Clone();
+	//	}
+	//}
 }

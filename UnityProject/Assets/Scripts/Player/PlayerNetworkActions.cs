@@ -872,11 +872,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdRequestChangelingAbilites(int spellIndex, Vector3 clickPosition)
+	public void CmdRequestChangelingAbilites(int abilityIndex, Vector3 clickPosition)
 	{
-		foreach (var spell in playerScript.Mind.Body.GetComponent<ChangelingMain>().AbilitiesNow)
+		foreach (var spell in playerScript.Mind.ChangelingAbilities)
 		{
-			if (spell.AbilityData.Index == spellIndex)
+			if (spell.AbilityData.Index == abilityIndex)
 			{
 				spell.CallActionServer(PlayerList.Instance.GetOnline(gameObject), clickPosition);
 				return;
@@ -885,13 +885,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdRequestChangelingAbilitesToggle(int spellIndex, Vector3 clickPosition, bool toggled)
+	public void CmdRequestChangelingAbilitesToggle(int abilityIndex, Vector3 clickPosition, bool toggled)
 	{
-		foreach (var spell in playerScript.Mind.Body.GetComponent<ChangelingMain>().AbilitiesNow)
+		foreach (var ability in playerScript.Mind.ChangelingAbilities)
 		{
-			if (spell.AbilityData.Index == spellIndex)
+			if (ability.AbilityData.Index == abilityIndex)
 			{
-				spell.CallActionToggleServer(PlayerList.Instance.GetOnline(gameObject), clickPosition, toggled);
+				ability.CallActionToggleServer(PlayerList.Instance.GetOnline(gameObject), clickPosition, toggled);
 				return;
 			}
 		}
@@ -899,13 +899,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	
 
 	[Command]
-	public void CmdRequestChangelingAbilitesWithParam(int spellIndex, Vector3 clickPosition, List<string> param)
+	public void CmdRequestChangelingAbilitesWithParam(int abilityIndex, Vector3 clickPosition, string param)
 	{
-		foreach (var spell in playerScript.Mind.Body.GetComponent<ChangelingMain>().AbilitiesNow)
+		foreach (var ability in playerScript.Mind.Body.Changeling.AbilitiesNow)
 		{
-			if (spell.AbilityData.Index == spellIndex)
+			if (ability.AbilityData.Index == abilityIndex)
 			{
-				spell.CallActionServerWithParam(PlayerList.Instance.GetOnline(gameObject), clickPosition, param);
+				ability.CallActionServerWithParam(PlayerList.Instance.GetOnline(gameObject), clickPosition, param);
 				return;
 			}
 		}

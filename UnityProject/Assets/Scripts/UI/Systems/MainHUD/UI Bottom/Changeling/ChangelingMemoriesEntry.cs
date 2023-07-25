@@ -10,13 +10,13 @@ namespace Changeling
 	public class ChangelingMemoriesEntry : MonoBehaviour
 	{
 		[SerializeField]
-		private TMP_Text alienNameText = null;
+		private TMP_Text nameText = null;
 
 		[SerializeField]
-		private TMP_Text alienDescriptionText = null;
+		private TMP_Text descriptionText = null;
 
 		[SerializeField]
-		private Image alienImage = null;
+		private Image image = null;
 
 
 		private UI_ChangelingMemories ui;
@@ -33,20 +33,20 @@ namespace Changeling
 
 		public void Refresh()
 		{
-			alienNameText.text = $"Memories of {data.MemoriesName}.";
+			nameText.text = $"Memories of {data.MemoriesName}.";
 
-			alienDescriptionText.text = $"{data.MemoriesName} was {OccupationList.Instance.Get(data.MemoriesJob).DisplayName}.\n" +
-			$"Specie was {data.MemoriesSpecies} and gender was {data.MemoriesGender}\n" +
+			descriptionText.text = $"{data.MemoriesName} was {OccupationList.Instance.Get(data.MemoriesJob).DisplayName}.\n" +
+			$"Specie was {data.MemoriesSpecies}\n gender was {data.MemoriesGender}\n" +
 			$"And the memories contains";
 
 			if (data.MemoriesObjectives == "")
 			{
-				alienDescriptionText.text += $" nothing worth.";
+				descriptionText.text += $" nothing worth.";
 			} else
 			{
-				alienDescriptionText.text = $"\n{data.MemoriesObjectives}";
+				descriptionText.text = $"\n{data.MemoriesObjectives}";
 			}
-			alienImage.sprite = OccupationList.Instance.Get(data.MemoriesJob).PreviewSprite;
+			image.sprite = OccupationList.Instance.Get(data.MemoriesJob).PreviewSprite;
 		}
 	}
 }

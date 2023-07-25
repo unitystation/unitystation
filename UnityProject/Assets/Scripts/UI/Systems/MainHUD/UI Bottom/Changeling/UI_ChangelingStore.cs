@@ -67,7 +67,16 @@ namespace Changeling
 
 		public void ResetAbilites()
 		{
+			if (changelingMain == null)
+				return;
 			ui.ResetAbilites();
+			resetButton.SetActive(changelingMain.ResetsLeft > 0);
+		}
+
+		public void UpdateResetButton()
+		{
+			if (changelingMain == null)
+				return;
 			resetButton.SetActive(changelingMain.ResetsLeft > 0);
 		}
 

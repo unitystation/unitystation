@@ -182,8 +182,9 @@ namespace Changeling
 			return true;
 		}
 
-		public virtual bool PerfomAbilityClient()
+		public virtual bool PerfomAbilityClient(ChangelingAbility abil)
 		{
+			UIManager.Display.hudChangeling.ChangelingMain.UseAbility(abil);
 			return true;
 		}
 		#endif
