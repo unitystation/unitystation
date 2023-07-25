@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using ConfigurationSaves;
 using DatabaseAPI;
 using Lobby;
 using Managers;
@@ -101,9 +101,7 @@ public class GameData : MonoBehaviour
 #if UNITY_EDITOR
 		DevBuild = true;
 #endif
-		var buildInfo =
-			JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
-				"buildinfo.json")));
+		var buildInfo = JsonUtility.FromJson<BuildInfo>(AccessFile.Load("buildinfo.json"));
 		BuildNumber = buildInfo.BuildNumber;
 		ForkName = buildInfo.ForkName;
 		forceOfflineMode = !string.IsNullOrEmpty(GetArgument("-offlinemode"));

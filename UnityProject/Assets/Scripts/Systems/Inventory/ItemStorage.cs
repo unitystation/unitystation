@@ -536,6 +536,12 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 			.Where(its => its.SlotIdentifier.SlotIdentifierType == SlotIdentifierType.Indexed);
 	}
 
+	public IEnumerable<ItemSlot> GetNamedItemSlots()
+	{
+		return GetItemSlots()
+			.Where(its => its.SlotIdentifier.SlotIdentifierType == SlotIdentifierType.Named);
+	}
+
 	/// <summary>
 	/// Gets the next free indexed slot. Null if none.
 	/// </summary>
@@ -544,6 +550,16 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		return GetIndexedSlots().FirstOrDefault(its => its.Item == null);
 	}
+
+	/// <summary>
+	/// Gets the next free indexed slot. Null if none.
+	/// </summary>
+	/// <returns></returns>
+	public ItemSlot GetNextFreeNamedSlot()
+	{
+		return GetNamedItemSlots().FirstOrDefault(its => its.Item == null);
+	}
+
 
 	/// <summary>
 	/// Returns the best slot (according to BestSlotForTrait) that is capable of holding

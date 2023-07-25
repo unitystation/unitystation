@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using AdminTools;
 using Mirror;
 using UnityEngine;
@@ -46,22 +45,7 @@ namespace Messages.Server.AdminTools
 
 		private static List<ProfileEntryData> GetAllProfiles()
 		{
-			var profileList = new List<ProfileEntryData>();
-			var info = new DirectoryInfo("Profiles");
-
-			if (!info.Exists)
-				return profileList;
-
-			var fileInfo = info.GetFiles();
-			foreach (var file in fileInfo)
-			{
-				var entry = new ProfileEntryData();
-				entry.Name = file.Name;
-				var size = (float)file.Length / 1048576; // 1048576 = 1024 * 1024
-				entry.Size = System.Math.Round(size, 2) + " MB";
-				profileList.Add(entry);
-			}
-			return profileList;
+			return ProfileManager.Instance.GetCurrentProfiles();
 		}
 
 

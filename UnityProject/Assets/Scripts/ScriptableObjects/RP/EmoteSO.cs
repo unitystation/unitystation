@@ -110,16 +110,13 @@ namespace ScriptableObjects.RP
 
 		protected void PlayAudio(List<AddressableAudioSource> audio, GameObject player)
 		{
-			//If there is no audio in the audio list, exit out of this function.
-			if (audio.Count == 0)
-			{
-				Logger.LogWarning("[EmoteSO/" + $"{name}] - " + "No audio files detected!.");
-				return;
-			}
+			if (audio.Count == 0) return;
 
 			var audioSourceParameters = new AudioSourceParameters(Random.Range(pitchRange.x, pitchRange.y), 100f);
+			var audioSource = audio.PickRandom();
 
-			_ = SoundManager.PlayNetworkedAtPosAsync(audio.PickRandom(), player.AssumedWorldPosServer(), audioSourceParameters);
+			_ = SoundManager.PlayNetworkedAtPosAsync(audioSource, player.AssumedWorldPosServer(),
+				audioSourceParameters, sourceObj: player, attachToSource: true);
 		}
 
 		/// <summary>

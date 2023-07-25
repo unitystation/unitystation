@@ -82,7 +82,7 @@ namespace UI.Objects
 			for (int i = 0; i < vendorContent.Count; i++)
 			{
 				VendorItemEntry item = itemList.Entries[i] as VendorItemEntry;
-				item.SetItem(vendorContent[i], this);
+				item.OrNull()?.SetItem(vendorContent[i], this);
 			}
 		}
 

@@ -1245,6 +1245,7 @@ namespace Blob
 
 			if (endRoundWhenKilled)
 			{
+				GameManager.Instance.RoundEndTime = 60;
 				GameManager.Instance.EndRound();
 			}
 
@@ -1284,21 +1285,14 @@ namespace Blob
 
 			if (endRoundWhenBlobVictory)
 			{
-				StartCoroutine(EndRound());
+				Chat.AddGameWideSystemMsgToChat("The blob has consumed the station, we are all but goo now.");
+
+				Chat.AddGameWideSystemMsgToChat($"At its biggest the blob had {maxCount} tiles controlled" +
+				                                $" but only had {maxNonSpaceCount} non-space tiles which counted to victory.");
+
+				GameManager.Instance.RoundEndTime = 60;
+				GameManager.Instance.EndRound();
 			}
-		}
-
-		private IEnumerator EndRound()
-		{
-			yield return WaitFor.Seconds(60f);
-
-			Chat.AddGameWideSystemMsgToChat("The blob has consumed the station, we are all but goo now.");
-
-			Chat.AddGameWideSystemMsgToChat($"At its biggest the blob had {maxCount} tiles controlled" +
-			                                $" but only had {maxNonSpaceCount} non-space tiles which counted to victory.");
-
-			GameManager.Instance.RoundEndTime = 10; // Quick round end when triggered by Players
-			GameManager.Instance.EndRound();
 		}
 
 		#endregion

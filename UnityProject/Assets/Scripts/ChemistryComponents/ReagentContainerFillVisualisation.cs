@@ -16,7 +16,7 @@ public class ReagentContainerFillVisualisation : NetworkBehaviour, IServerSpawn
 	/// <summary>
 	/// Stores all information about visual state of container
 	/// </summary>
-	protected struct VisualState
+	public struct VisualState
 	{
 		public Color mixColor;
 		public float fillPercent;

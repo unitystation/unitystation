@@ -10,6 +10,7 @@ using Messages.Server.LocalGuiMessages;
 using Objects.Command;
 using Strings;
 using Player;
+using Systems.Character;
 
 namespace Antagonists
 {
@@ -113,12 +114,22 @@ namespace Antagonists
 			}
 
 			Occupation Occupation = connectedPlayer.Mind.occupation;
+			CharacterSheet CharacterSettings = connectedPlayer.Mind.CurrentCharacterSettings;
+
+			if(antagonist.RandomizeCharacterForGhostRole == true)
+			{
+				CharacterSettings = CharacterSheet.GenerateRandomCharacter();
+			}
+
 			if (antagonist.AntagOccupation != null) // means it as a modifier such as a traitor Traitor CMO, traitor assistant for example
 			{
 				Occupation = antagonist.AntagOccupation;
 			}
-
-			var AntagonistsMind  = PlayerSpawn.NewSpawnPlayerV2(connectedPlayer,Occupation, connectedPlayer.Mind.CurrentCharacterSettings);
+			else if(antagonist.GhostRoleOccupation != null)
+			{
+				Occupation = antagonist.GhostRoleOccupation;
+			}
+			var AntagonistsMind  = PlayerSpawn.NewSpawnPlayerV2(connectedPlayer,Occupation, CharacterSettings);
 			ServerFinishAntag(antagonist, AntagonistsMind);
 		}
 

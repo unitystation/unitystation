@@ -14,7 +14,7 @@ namespace Items.Others
 	[RequireComponent(typeof(Pickupable))]
 	public class Gibtonite : NetworkBehaviour, ICheckedInteractable<HandApply>, IHoverTooltip
 	{
-		private enum GibState
+		public enum GibState
 		{
 			ACTIVE,
 			INACTIVE,

@@ -9,6 +9,7 @@ using Messages.Server.SoundMessages;
 using Mirror;
 using Systems.Score;
 using UI.Systems.Tooltips.HoverTooltips;
+using UnityEngine.Serialization;
 
 namespace Items.Food
 {
@@ -18,12 +19,13 @@ namespace Items.Food
 	[RequireComponent(typeof(RegisterItem))]
 	[RequireComponent(typeof(ItemAttributesV2))]
 	[RequireComponent(typeof(ReagentContainer))]
-	public class Edible : Consumable, ICheckedInteractable<HandActivate>, IHoverTooltip
+	public class Edible : Consumable, ICheckedInteractable<HandActivate>, IHoverTooltip, IServerSpawn
 	{
 		public GameObject leavings;
 		[SerializeField, SyncVar] private int currentBites;
 		[SerializeField] private int maxBites = 1;
-		[SerializeField] private bool setCurrentBitesToMaxBitesOnAwake = true;
+		[SerializeField] private float forceFeedTime = 3f;
+		[SerializeField] private bool setCurrentBitesToMaxBitesOnServerSpawn = true;
 
 		[SerializeField] private AddressableAudioSource sound = null;
 
@@ -54,8 +56,11 @@ namespace Items.Food
 			{
 				Logger.LogErrorFormat("{0} prefab is missing ItemAttributes", Category.Objects, name);
 			}
+		}
 
-			if (setCurrentBitesToMaxBitesOnAwake) currentBites = maxBites;
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			if (setCurrentBitesToMaxBitesOnServerSpawn) currentBites = maxBites;
 		}
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
@@ -82,7 +87,13 @@ namespace Items.Food
 				SoundManager.PlayNetworkedAtPos(sound, item.WorldPosition, eatSoundParameters);
 				if (leavings != null)
 				{
-					Spawn.ServerPrefab(leavings, item.WorldPosition, transform.parent);
+					var LeavingSpawned = Spawn.ServerPrefab(leavings, item.WorldPosition, transform.parent).GameObject;
+					var Pickupable = this.GetComponent<Pickupable>();
+					if (Pickupable != null && Pickupable.ItemSlot != null)
+					{
+						Inventory.ServerAdd(LeavingSpawned.GetComponent<Pickupable>(), Pickupable.ItemSlot,
+							ReplacementStrategy.DropOther);
+					}
 				}
 
 				_ = Despawn.ServerSingle(gameObject);
@@ -112,28 +123,24 @@ namespace Items.Food
 
 			if (feeder != eater) //If you're feeding it to someone else.
 			{
-				//Wait 3 seconds before you can feed
 				StandardProgressAction.Create(ProgressConfig, () =>
 				{
 					ConsumableTextUtils.SendGenericForceFeedMessage(feeder, eater, eaterHungerState, Name, "eat");
 					Eat(eater, feeder);
-				}).ServerStartProgress(eater.RegisterPlayer, 3f, feeder.gameObject);
+				}).ServerStartProgress(eater.RegisterPlayer, forceFeedTime, feeder.gameObject);
 				return;
 			}
-			else
-			{
-				Eat(eater, feeder);
-			}
+			StandardProgressAction.Create(ProgressConfig, () =>
+				{
+					Eat(eater, feeder);
+				}).ServerStartProgress(eater.RegisterPlayer, consumeTime, feeder.gameObject);
 		}
 
 		protected virtual void Eat(PlayerScript eater, PlayerScript feeder)
 		{
 			//TODO: Reimplement metabolism.
-			AudioSourceParameters eatSoundParameters = new AudioSourceParameters(pitch: RandomPitch);
-			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, eatSoundParameters, sourceObj: eater.gameObject);
-
-			var Stomachs = eater.playerHealth.GetStomachs();
-			if (Stomachs.Count == 0)
+			var stomachs = eater.playerHealth.GetStomachs();
+			if (stomachs.Count == 0)
 			{
 				//No stomachs?!
 				return;
@@ -141,9 +148,9 @@ namespace Items.Food
 
 			float SpareSpace = 0;
 
-			foreach (var Stomach in Stomachs)
+			foreach (var stomach in stomachs)
 			{
-				SpareSpace += Stomach.StomachContents.SpareCapacity;
+				SpareSpace += stomach.StomachContents.SpareCapacity;
 			}
 
 			if (SpareSpace < 0.5f)
@@ -172,11 +179,13 @@ namespace Items.Food
 
 			ReagentMix incomingFood = GetMixForBite(feeder);
 
-			foreach (var Stomach in Stomachs)
+			foreach (var stomach in stomachs)
 			{
-				Stomach.StomachContents.Add(incomingFood.Clone());
+				stomach.StomachContents.Add(incomingFood.Clone());
 			}
 
+			AudioSourceParameters eatSoundParameters = new AudioSourceParameters(pitch: RandomPitch);
+			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, eatSoundParameters, sourceObj: eater.gameObject);
 			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FOODEATEN);
 		}
 
@@ -197,29 +206,34 @@ namespace Items.Food
 			{
 
 				currentBites--;
-				if (leavings != null)
+
+
+				if (currentBites <= 0)
 				{
-					var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
-					var pickupable = leavingsInstance.GetComponent<Pickupable>();
-					bool added = false;
-					var ToDropOn = gameObject;
-
-					if (feeder != null)
+					if (leavings != null)
 					{
-						var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
+						var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
+						var pickupable = leavingsInstance.GetComponent<Pickupable>();
+						bool added = false;
+						var ToDropOn = gameObject;
 
-						ToDropOn = feeder.gameObject;
-						added = Inventory.ServerAdd(pickupable, feederSlot);
-					}
+						if (feeder != null)
+						{
+							var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
 
-					if (added == false)
-					{
-						//If stackable has leavings and they couldn't go in the same slot, they should be dropped
-						pickupable.UniversalObjectPhysics.DropAtAndInheritMomentum(
-							ToDropOn.GetComponent<UniversalObjectPhysics>());
+							ToDropOn = feeder.gameObject;
+							added = Inventory.ServerAdd(pickupable, feederSlot, ReplacementStrategy.DropOther);
+						}
+
+						if (added == false)
+						{
+							//If stackable has leavings and they couldn't go in the same slot, they should be dropped
+							pickupable.UniversalObjectPhysics.DropAtAndInheritMomentum(
+								ToDropOn.GetComponent<UniversalObjectPhysics>());
+						}
 					}
+					_ = Inventory.ServerDespawn(gameObject);
 				}
-				_ = Inventory.ServerDespawn(gameObject);
 			}
 
 			return incomingFood;

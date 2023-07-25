@@ -75,7 +75,7 @@ namespace Systems
 		{
 			CrewManifestEntry entry = new CrewManifestEntry()
 			{
-				Name = script.playerName,
+				Name = script.characterSettings.Name,
 				JobType = jobType,
 			};
 			CrewManifest.Add(entry);
@@ -99,7 +99,7 @@ namespace Systems
 		{
 			SecurityRecord record = new SecurityRecord();
 
-			record.EntryName = script.playerName;
+			record.EntryName = script.characterSettings.Name;
 			record.Age = script.characterSettings.Age.ToString();
 			record.Rank = jobType.JobString();
 			record.Occupation = OccupationList.Instance.Get(jobType);
