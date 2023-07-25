@@ -97,7 +97,7 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 			if (Design.Technology == null)
 			{
 				Design.Technology = TechnologyLaser.ShotFrom.researchServer.Techweb.AvailableTech.PickRandom();
-				Design.Colour = Design.Technology.Colour;
+				Design.Colour = Design.Technology.ColourPublic;
 			}
 		}
 

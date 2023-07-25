@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ConfigurationSaves;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 using Systems.Research.Data;
 using UnityEngine;
 
@@ -96,11 +97,13 @@ namespace Systems.Research.ImporterExporter
 
 				if (JsonTechweb[i].ContainsKey("Colour"))
 				{
-					TechnologyPass.Colour = JsonTechweb[i]["Colour"].ToString().ToColour();
+					MatchCollection Matches = Regex.Matches(JsonTechweb[i]["Colour"].ToString(), @"(\d+)\b");
+
+					TechnologyPass.ColourPublic = new Color(int.Parse(Matches[0].Groups[0].Value) / 255.0f, int.Parse(Matches[1].Groups[0].Value) / 255.0f, int.Parse(Matches[2].Groups[0].Value) / 255.0f, 1.0f);
 				}
 				else
 				{
-					TechnologyPass.Colour = Color.white;
+					TechnologyPass.ColourPublic = Color.white;
 				}
 
 
