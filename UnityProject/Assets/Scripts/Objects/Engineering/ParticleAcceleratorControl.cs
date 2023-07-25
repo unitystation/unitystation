@@ -325,12 +325,12 @@ namespace Objects.Engineering
 		{
 			if (isHacked)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {gameObject.ExpensiveName()} has already been hacked!");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {gameObject.DisplayName()} has already been hacked!");
 				return;
 			}
 
-			Chat.AddActionMsgToChat(interaction.Performer, $"You attempt to hack the {gameObject.ExpensiveName()}, this will take around {timeToHack} seconds",
-				$"{interaction.Performer.ExpensiveName()} starts hacking the {gameObject.ExpensiveName()}");
+			Chat.AddActionMsgToChat(interaction.Performer, $"You attempt to hack the {gameObject.DisplayName()}, this will take around {timeToHack} seconds",
+				$"{interaction.Performer.DisplayName()} starts hacking the {gameObject.DisplayName()}");
 
 			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Restrain);
 
@@ -345,13 +345,13 @@ namespace Objects.Engineering
 		{
 			if (DMMath.Prob(chanceToFailHack))
 			{
-				Chat.AddActionMsgToChat(interaction.Performer, $"Your attempt to hack the {gameObject.ExpensiveName()} failed",
-					$"{interaction.Performer.ExpensiveName()} failed to hack the {gameObject.ExpensiveName()}");
+				Chat.AddActionMsgToChat(interaction.Performer, $"Your attempt to hack the {gameObject.DisplayName()} failed",
+					$"{interaction.Performer.DisplayName()} failed to hack the {gameObject.DisplayName()}");
 				return;
 			}
 
-			Chat.AddActionMsgToChat(interaction.Performer, $"You hack the {gameObject.ExpensiveName()}",
-				$"{interaction.Performer.ExpensiveName()} hacked the {gameObject.ExpensiveName()}");
+			Chat.AddActionMsgToChat(interaction.Performer, $"You hack the {gameObject.DisplayName()}",
+				$"{interaction.Performer.DisplayName()} hacked the {gameObject.DisplayName()}");
 
 			isHacked = true;
 		}

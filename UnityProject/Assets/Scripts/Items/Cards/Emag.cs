@@ -95,8 +95,8 @@ namespace Items
 		public bool UseCharge(GameObject TargetObject, GameObject Performer)
 		{
 			Chat.AddActionMsgToChat(Performer,
-				$"You wave the Emag over the {TargetObject.ExpensiveName()}'s electrical panel.",
-				$"{Performer.ExpensiveName()} waves something over the {TargetObject.ExpensiveName()}'s electrical panel.");
+				$"You wave the Emag over the {TargetObject.DisplayName()}'s electrical panel.",
+				$"{Performer.DisplayName()} waves something over the {TargetObject.DisplayName()}'s electrical panel.");
 			return UseChargeLogic(Performer);
 		}
 

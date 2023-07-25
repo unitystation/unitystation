@@ -296,7 +296,7 @@ namespace Blob
 
 
 			Chat.AddActionMsgToChat(spawnResult.GameObject, $"<color=#FF151F>You explode from your {bodyPart}, a new being has been born.</color>",
-				$"<color=#FF151F>{gameObject.ExpensiveName()} explodes into a pile of mush.</color>");
+				$"<color=#FF151F>{gameObject.DisplayName()} explodes into a pile of mush.</color>");
 			gameObject.GetComponent<IGib>()?.OnGib();
 			Destroy(this);
 		}

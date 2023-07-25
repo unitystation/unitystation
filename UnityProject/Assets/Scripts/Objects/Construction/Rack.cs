@@ -37,7 +37,7 @@ namespace Objects.Construction
 			if (interaction.HandObject == null)
 			{ // No item in hand, so let's TEACH THIS RACK A LESSON
 				Chat.AddCombatMsgToChat(interaction.Performer, "You kick the rack. Nice job!",
-					interaction.Performer.ExpensiveName() + " kicks the rack.");
+					interaction.Performer.DisplayName() + " kicks the rack.");
 
 				integrity.ApplyDamage(Random.Range(4, 8), AttackType.Melee, DamageType.Brute);
 				return;

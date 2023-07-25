@@ -44,7 +44,7 @@ namespace Objects.Disposals
 
 		public override void OnStartServer()
 		{
-			objectName = gameObject.ExpensiveName();
+			objectName = gameObject.DisplayName();
 			if (gameObject.TryGetComponent<ObjectAttributes>(out var attributes))
 			{
 				objectName = attributes.InitialName;
@@ -176,9 +176,9 @@ namespace Objects.Disposals
 		{
 			ToolUtils.ServerUseToolWithActionMessages(currentInteraction, wrenchTime,
 					wrenchTime == 0 ? "" : $"You start securing the {objectName} to the floor...",
-					wrenchTime == 0 ? "" : $"{currentInteraction.Performer.ExpensiveName()} starts securing the {objectName} to the floor...",
+					wrenchTime == 0 ? "" : $"{currentInteraction.Performer.DisplayName()} starts securing the {objectName} to the floor...",
 					$"You secure the {objectName} to the floor.",
-					$"{currentInteraction.Performer.ExpensiveName()} secures the {objectName} to the floor.",
+					$"{currentInteraction.Performer.DisplayName()} secures the {objectName} to the floor.",
 					() => behaviour.ServerSetAnchored(true, currentInteraction.Performer)
 			);
 		}
@@ -187,9 +187,9 @@ namespace Objects.Disposals
 		{
 			ToolUtils.ServerUseToolWithActionMessages(currentInteraction, wrenchTime,
 					wrenchTime == 0 ? "" : $"You start unsecuring the {objectName} from the floor...",
-					wrenchTime == 0 ? "" : $"{currentInteraction.Performer.ExpensiveName()} starts unsecuring the {objectName} from the floor...",
+					wrenchTime == 0 ? "" : $"{currentInteraction.Performer.DisplayName()} starts unsecuring the {objectName} from the floor...",
 					$"You unsecure the {objectName} from the floor.",
-					$"{currentInteraction.Performer.ExpensiveName()} unsecures the {objectName} from the floor.",
+					$"{currentInteraction.Performer.DisplayName()} unsecures the {objectName} from the floor.",
 					() => behaviour.ServerSetAnchored(false, currentInteraction.Performer)
 			);
 		}
@@ -198,9 +198,9 @@ namespace Objects.Disposals
 		{
 			ToolUtils.ServerUseToolWithActionMessages(currentInteraction, weldTime,
 					$"You start welding the {objectName} to the floor...",
-					$"{currentInteraction.Performer.ExpensiveName()} starts welding the {objectName} to the floor...",
+					$"{currentInteraction.Performer.DisplayName()} starts welding the {objectName} to the floor...",
 					$"You weld the {objectName} to the floor.",
-					$"{currentInteraction.Performer.ExpensiveName()} welds the {objectName} to the floor.",
+					$"{currentInteraction.Performer.DisplayName()} welds the {objectName} to the floor.",
 					() => ChangePipeObjectToTile()
 			);
 		}

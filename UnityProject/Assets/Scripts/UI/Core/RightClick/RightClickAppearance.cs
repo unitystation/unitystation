@@ -32,7 +32,7 @@ public class RightClickAppearance : MonoBehaviour
 	/// <param name="subMenus">sub menu items to show underneath this object's menu</param>
 	public RightClickMenuItem AsMenu(List<RightClickMenuItem> subMenus)
 	{
-		var label = nameOverride != null && nameOverride.Trim().Length != 0 ? nameOverride : gameObject.ExpensiveName();
+		var label = nameOverride != null && nameOverride.Trim().Length != 0 ? nameOverride : gameObject.DisplayName();
 		Sprite sprite = null;
 		if (iconOverride == null)
 		{

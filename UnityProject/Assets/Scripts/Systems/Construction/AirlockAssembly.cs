@@ -143,9 +143,9 @@ namespace Objects.Construction
 					//wrench in place
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start to secure the airlock assembly to the floor...",
-						$"{interaction.Performer.ExpensiveName()} starts to secure the airlock assembly to the floor...",
+						$"{interaction.Performer.DisplayName()} starts to secure the airlock assembly to the floor...",
 						"You secure the airlock assembly.",
-						$"{interaction.Performer.ExpensiveName()} secures the airlock assembly to the floor.",
+						$"{interaction.Performer.DisplayName()} secures the airlock assembly to the floor.",
 						() => objectBehaviour.ServerSetAnchored(true, interaction.Performer));
 					stateful.ServerChangeState(wrenchedState);
 				}
@@ -159,9 +159,9 @@ namespace Objects.Construction
 				//deconsruct, spawn 4 metals
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You start to disassemble the airlock assembly...",
-					$"{interaction.Performer.ExpensiveName()} starts to disassemble the airlock assembly...",
+					$"{interaction.Performer.DisplayName()} starts to disassemble the airlock assembly...",
 					"You disassemble the airlock assembly.",
-					$"{interaction.Performer.ExpensiveName()} disassembles the airlock assembly.",
+					$"{interaction.Performer.DisplayName()} disassembles the airlock assembly.",
 					() =>
 					{
 						Spawn.ServerPrefab(airlockMaterial, SpawnDestination.At(gameObject), 4);
@@ -182,9 +182,9 @@ namespace Objects.Construction
 				//add 1 cable
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You start adding cables to the airlock assembly...",
-					$"{interaction.Performer.ExpensiveName()} starts adding cables to the airlock assembly...",
+					$"{interaction.Performer.DisplayName()} starts adding cables to the airlock assembly...",
 					"You add cables to the airlock.",
-					$"{interaction.Performer.ExpensiveName()} adds cables to the airlock assembly.",
+					$"{interaction.Performer.DisplayName()} adds cables to the airlock assembly.",
 					() =>
 					{
 						Inventory.ServerConsume(interaction.HandSlot, 1);
@@ -197,9 +197,9 @@ namespace Objects.Construction
 				//unwrench
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You start to unsecure the airlock assembly from the floor...",
-					$"{interaction.Performer.ExpensiveName()} starts to unsecure the airlock assembly from the floor...",
+					$"{interaction.Performer.DisplayName()} starts to unsecure the airlock assembly from the floor...",
 					"You unsecure the airlock assembly.",
-					$"{interaction.Performer.ExpensiveName()} unsecures the airlock assembly from the floor.",
+					$"{interaction.Performer.DisplayName()} unsecures the airlock assembly from the floor.",
 					() => objectBehaviour.ServerSetAnchored(false, interaction.Performer));
 				stateful.ServerChangeState(initialState);
 			}
@@ -209,9 +209,9 @@ namespace Objects.Construction
 				//add glass
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You start to install glass into the airlock assembly...",
-					$"{interaction.Performer.ExpensiveName()} starts to install glass into the airlock assembly...",
+					$"{interaction.Performer.DisplayName()} starts to install glass into the airlock assembly...",
 					"You install glass windows into the airlock assembly.",
-					$"{interaction.Performer.ExpensiveName()} installs glass windows into the airlock assembly.",
+					$"{interaction.Performer.DisplayName()} installs glass windows into the airlock assembly.",
 					() =>
 					{
 						Inventory.ServerConsume(interaction.HandSlot, 1);
@@ -231,9 +231,9 @@ namespace Objects.Construction
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You start to install electronics into the airlock assembly...",
-					$"{interaction.Performer.ExpensiveName()} starts to install the electronics into the airlock assembly...",
+					$"{interaction.Performer.DisplayName()} starts to install the electronics into the airlock assembly...",
 					"You install the airlock electronics.",
-					$"{interaction.Performer.ExpensiveName()} installs the electronics into the airlock assembly.",
+					$"{interaction.Performer.DisplayName()} installs the electronics into the airlock assembly.",
 					() =>
 					{
 						if(Inventory.ServerTransfer(interaction.HandSlot, airlockElectronicsSlot))
@@ -248,9 +248,9 @@ namespace Objects.Construction
 				//cut out cables
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You start to cut the cables from the airlock assembly...",
-					$"{interaction.Performer.ExpensiveName()} starts to cut the cables from the airlock assembly...",
+					$"{interaction.Performer.DisplayName()} starts to cut the cables from the airlock assembly...",
 					"You cut the cables from the airlock assembly.",
-					$"{interaction.Performer.ExpensiveName()} cuts the cables from the airlock assembly.",
+					$"{interaction.Performer.DisplayName()} cuts the cables from the airlock assembly.",
 					() =>
 					{
 						Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject));
@@ -270,10 +270,10 @@ namespace Objects.Construction
 			{
 				//screw in the airlock electronics
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-					$"You start to screw the {airlockElectronicsSlot.ItemObject.ExpensiveName()} into place...",
-					$"{interaction.Performer.ExpensiveName()} starts to screw the {airlockElectronicsSlot.ItemObject.ExpensiveName()} into place...",
+					$"You start to screw the {airlockElectronicsSlot.ItemObject.DisplayName()} into place...",
+					$"{interaction.Performer.DisplayName()} starts to screw the {airlockElectronicsSlot.ItemObject.DisplayName()} into place...",
 					"You finish the airlock.",
-					$"{interaction.Performer.ExpensiveName()} finishes the airlock.",
+					$"{interaction.Performer.DisplayName()} finishes the airlock.",
 					() =>
 					{
 						if (glassAdded && airlockWindowedToSpawn)
@@ -292,9 +292,9 @@ namespace Objects.Construction
 				//Crowbar the electronics out
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You start to remove electronics from the airlock assembly...",
-					$"{interaction.Performer.ExpensiveName()} starts to remove electronics from the airlock assembly...",
+					$"{interaction.Performer.DisplayName()} starts to remove electronics from the airlock assembly...",
 					"You remove the airlock electronics from the airlock assembly.",
-					$"{interaction.Performer.ExpensiveName()} removes the electronics from the airlock assembly.",
+					$"{interaction.Performer.DisplayName()} removes the electronics from the airlock assembly.",
 					() =>
 					{
 						Inventory.ServerDrop(airlockElectronicsSlot);

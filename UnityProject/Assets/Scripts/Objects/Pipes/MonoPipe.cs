@@ -109,7 +109,7 @@ namespace Objects.Atmospherics
 			{
 				Chat.AddExamineMsg(
 						interaction.Performer,
-						$"The floor plating must be exposed before you can disconnect the {gameObject.ExpensiveName()}!");
+						$"The floor plating must be exposed before you can disconnect the {gameObject.DisplayName()}!");
 				return;
 			}
 
@@ -117,7 +117,7 @@ namespace Objects.Atmospherics
 			if (pipeData.mixAndVolume.GetGasMix().Pressure > AtmosConstants.ONE_ATMOSPHERE * 20)
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 3,
-						$"As you begin disconnecting the {gameObject.ExpensiveName()}, " +
+						$"As you begin disconnecting the {gameObject.DisplayName()}, " +
 								"a jet of gas blasts into your face... maybe you should reconsider?",
 						string.Empty,
 						string.Empty, // $"The pressure sends you flying!"
@@ -186,8 +186,8 @@ namespace Objects.Atmospherics
 
 		protected void DoVentCrawl(HandApply interaction, GasMix pipeMix)
 		{
-			Chat.AddActionMsgToChat(gameObject, $"You start to enter the {gameObject.ExpensiveName()}",
-				$"{interaction.Performer.ExpensiveName()} starts to enter the {gameObject.ExpensiveName()}!");
+			Chat.AddActionMsgToChat(gameObject, $"You start to enter the {gameObject.DisplayName()}",
+				$"{interaction.Performer.DisplayName()} starts to enter the {gameObject.DisplayName()}!");
 
 			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Escape);
 
@@ -224,8 +224,8 @@ namespace Objects.Atmospherics
 				GasMix.TransferGas(gasContainer.GasMix, pipeMix, pipeMix.Moles);
 			}
 
-			Chat.AddActionMsgToChat(gameObject, $"You enter the {gameObject.ExpensiveName()}",
-				$"{interaction.Performer.ExpensiveName()} enters the {gameObject.ExpensiveName()}!");
+			Chat.AddActionMsgToChat(gameObject, $"You enter the {gameObject.DisplayName()}",
+				$"{interaction.Performer.DisplayName()} enters the {gameObject.DisplayName()}!");
 		}
 
 		#endregion

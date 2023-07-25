@@ -413,9 +413,9 @@ namespace Objects.Engineering
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 10,
 						"You start to deconstruct the empty core...",
-						$"{interaction.Performer.ExpensiveName()} starts to deconstruct the empty core...",
+						$"{interaction.Performer.DisplayName()} starts to deconstruct the empty core...",
 						"You deconstruct the empty core.",
-						$"{interaction.Performer.ExpensiveName()} deconstruct the empty core.",
+						$"{interaction.Performer.DisplayName()} deconstruct the empty core.",
 						() => { _ = Despawn.ServerSingle(gameObject); });
 				}
 				else
@@ -437,9 +437,9 @@ namespace Objects.Engineering
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 10,
 					"You start to hack away at the molten core...",
-					$"{interaction.Performer.ExpensiveName()} starts to hack away at the molten core...",
+					$"{interaction.Performer.DisplayName()} starts to hack away at the molten core...",
 					"You break the molten core to pieces.",
-					$"{interaction.Performer.ExpensiveName()} breaks the molten core to pieces.",
+					$"{interaction.Performer.DisplayName()} breaks the molten core to pieces.",
 					() => { _ = Despawn.ServerSingle(gameObject); });
 				return true;
 			}

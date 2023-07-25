@@ -156,9 +156,9 @@ namespace Objects.Construction
 				//add 5 cables
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You start adding cables to the frame...",
-					$"{interaction.Performer.ExpensiveName()} starts adding cables to the frame...",
+					$"{interaction.Performer.DisplayName()} starts adding cables to the frame...",
 					"You add cables to the frame.",
-					$"{interaction.Performer.ExpensiveName()} adds cables to the frame.",
+					$"{interaction.Performer.DisplayName()} adds cables to the frame.",
 					() =>
 					{
 						Inventory.ServerConsume(interaction.HandSlot, 5);
@@ -170,9 +170,9 @@ namespace Objects.Construction
 				//deconsruct
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You start deconstructing the frame...",
-					$"{interaction.Performer.ExpensiveName()} starts deconstructing the frame...",
+					$"{interaction.Performer.DisplayName()} starts deconstructing the frame...",
 					"You deconstruct the frame.",
-					$"{interaction.Performer.ExpensiveName()} deconstructs the frame.",
+					$"{interaction.Performer.DisplayName()} deconstructs the frame.",
 					() =>
 					{
 						Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 2);
@@ -191,7 +191,7 @@ namespace Objects.Construction
 			{
 				//cut out cables
 				Chat.AddActionMsgToChat(interaction, $"You remove the cables.",
-					$"{interaction.Performer.ExpensiveName()} removes the cables.");
+					$"{interaction.Performer.DisplayName()} removes the cables.");
 				ToolUtils.ServerPlayToolSound(interaction);
 				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
 				stateful.ServerChangeState(initialState);
@@ -201,8 +201,8 @@ namespace Objects.Construction
 		    else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.PowerControlBoard))
 			{
 				//stick in the circuit board
-				Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the frame.",
-					$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the frame.");
+				Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.DisplayName()} inside the frame.",
+					$"{interaction.Performer.DisplayName()} places the {interaction.UsedObject.DisplayName()} inside the frame.");
 				Inventory.ServerTransfer(interaction.HandSlot, powerControlSlot);
 
 				stateful.ServerChangeState(powerControlAddedState);
@@ -220,7 +220,7 @@ namespace Objects.Construction
 			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar))
 			{
 				Chat.AddActionMsgToChat(interaction, $"You remove the power control module from the frame.",
-					$"{interaction.Performer.ExpensiveName()} removes the power control module from the frame.");
+					$"{interaction.Performer.DisplayName()} removes the power control module from the frame.");
 				ToolUtils.ServerPlayToolSound(interaction);
 
 				RemoveCircuitAndParts();
@@ -229,8 +229,8 @@ namespace Objects.Construction
 			{
 				var usedObject = interaction.UsedObject;
 
-				Chat.AddActionMsgToChat(interaction, $"You place the {usedObject.ExpensiveName()} inside the frame.",
-					$"{interaction.Performer.ExpensiveName()} places the {usedObject.ExpensiveName()} inside the frame.");
+				Chat.AddActionMsgToChat(interaction, $"You place the {usedObject.DisplayName()} inside the frame.",
+					$"{interaction.Performer.DisplayName()} places the {usedObject.DisplayName()} inside the frame.");
 				Inventory.ServerTransfer(interaction.HandSlot, powerCellSlot);
 
 				stateful.ServerChangeState(powerCellAddedState);
@@ -252,9 +252,9 @@ namespace Objects.Construction
 				ToolUtils.ServerPlayToolSound(interaction);
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You begin securing the cover to the frame...",
-					$"{interaction.Performer.ExpensiveName()} begins securing the cover to the frame...",
+					$"{interaction.Performer.DisplayName()} begins securing the cover to the frame...",
 					"You secure the cover to the frame.",
-					$"{interaction.Performer.ExpensiveName()} secures the cover to the frame.",
+					$"{interaction.Performer.DisplayName()} secures the cover to the frame.",
 					() =>
 					{
 						stateful.ServerChangeState(wrenchedState);
@@ -266,7 +266,7 @@ namespace Objects.Construction
 			{
 				//Remove the the circuit board and power cell.
 				Chat.AddActionMsgToChat(interaction, $"You remove the power control module from the frame.",
-					$"{interaction.Performer.ExpensiveName()} removes the power control module from the frame.");
+					$"{interaction.Performer.DisplayName()} removes the power control module from the frame.");
 				ToolUtils.ServerPlayToolSound(interaction);
 
 				RemoveCircuitAndParts();
@@ -283,7 +283,7 @@ namespace Objects.Construction
 			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 			{
 				Chat.AddActionMsgToChat(interaction, $"You secure the electronics to the APC.",
-					$"{interaction.Performer.ExpensiveName()} secures the electronics to the APC.");
+					$"{interaction.Performer.DisplayName()} secures the electronics to the APC.");
 				ToolUtils.ServerPlayToolSound(interaction);
 
 				MatrixInfo matrix = MatrixManager.AtPoint(gameObject.AssumedWorldPosServer(), true);
@@ -322,9 +322,9 @@ namespace Objects.Construction
 				ToolUtils.ServerPlayToolSound(interaction);
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You begin prying the cover from the frame...",
-					$"{interaction.Performer.ExpensiveName()} begins prying the cover from the frame...",
+					$"{interaction.Performer.DisplayName()} begins prying the cover from the frame...",
 					"You pry the cover from the frame.",
-					$"{interaction.Performer.ExpensiveName()} pries the cover from the frame.",
+					$"{interaction.Performer.DisplayName()} pries the cover from the frame.",
 					() =>
 					{
 						stateful.ServerChangeState(powerCellAddedState);

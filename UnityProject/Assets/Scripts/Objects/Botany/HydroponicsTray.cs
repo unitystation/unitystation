@@ -463,8 +463,8 @@ namespace Objects.Botany
 					{
 						objectContainer.MoveReagentsTo(5, reagentContainer);
 						Chat.AddActionMsgToChat(interaction.Performer,
-							$"You add reagents to the {gameObject.ExpensiveName()}.",
-							$"{interaction.Performer.name} adds reagents to the {gameObject.ExpensiveName()}.");
+							$"You add reagents to the {gameObject.DisplayName()}.",
+							$"{interaction.Performer.name} adds reagents to the {gameObject.DisplayName()}.");
 						if (reagentContainer[mutagen] >= 5)
 						{
 							reagentContainer.Subtract(new ReagentMix(mutagen, 5));
@@ -485,7 +485,7 @@ namespace Objects.Botany
 					if (weedLevel > 0)
 					{
 						Chat.AddActionMsgToChat(interaction.Performer,
-							$"You remove the weeds from the {gameObject.ExpensiveName()}.",
+							$"You remove the weeds from the {gameObject.DisplayName()}.",
 							$"{interaction.Performer.name} uproots the weeds.");
 					}
 
@@ -497,8 +497,8 @@ namespace Objects.Botany
 				//If hand slot contains Bucket water plants
 				if (objectItemAttributes.HasTrait(CommonTraits.Instance.Bucket))
 				{
-					Chat.AddActionMsgToChat(interaction.Performer, $"You water the {gameObject.ExpensiveName()}.",
-						$"{interaction.Performer.name} waters the {gameObject.ExpensiveName()}.");
+					Chat.AddActionMsgToChat(interaction.Performer, $"You water the {gameObject.DisplayName()}.",
+						$"{interaction.Performer.name} waters the {gameObject.DisplayName()}.");
 					reagentContainer.Add(new ReagentMix(water, 100));
 					return;
 				}
@@ -509,8 +509,8 @@ namespace Objects.Botany
 					if (HasPlant)
 					{
 						Chat.AddActionMsgToChat(interaction.Performer,
-							$"You dig out all of the {gameObject.ExpensiveName()}'s plants!",
-							$"{interaction.Performer.name} digs out the plants in the {gameObject.ExpensiveName()}!");
+							$"You dig out all of the {gameObject.DisplayName()}'s plants!",
+							$"{interaction.Performer.name} digs out the plants in the {gameObject.DisplayName()}!");
 						CropDeath();
 					}
 
@@ -527,8 +527,8 @@ namespace Objects.Botany
 				if (HasPlant)
 				{
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You compost the {foodObject.name} in the {gameObject.ExpensiveName()}.",
-						$"{interaction.Performer.name} composts {foodObject.name} in the {gameObject.ExpensiveName()}.");
+						$"You compost the {foodObject.name} in the {gameObject.DisplayName()}.",
+						$"{interaction.Performer.name} composts {foodObject.name} in the {gameObject.DisplayName()}.");
 					reagentContainer.Add(new ReagentMix(nutriment, foodObject.GetPlantData().Potency));
 					_ = Despawn.ServerSingle(interaction.HandObject);
 					return;
@@ -542,8 +542,8 @@ namespace Objects.Botany
 					UpdateHarvestFlag(showHarvestFlag, false);
 					Inventory.ServerVanish(slot);
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You plant the {foodObject.name} in the {gameObject.ExpensiveName()}.",
-						$"{interaction.Performer.name} plants the {foodObject.name} in the {gameObject.ExpensiveName()}.");
+						$"You plant the {foodObject.name} in the {gameObject.DisplayName()}.",
+						$"{interaction.Performer.name} plants the {foodObject.name} in the {gameObject.DisplayName()}.");
 				}
 			}
 
@@ -557,8 +557,8 @@ namespace Objects.Botany
 				UpdateHarvestFlag(showHarvestFlag, false);
 				Inventory.ServerVanish(slot);
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You plant the {Object.name} in the {gameObject.ExpensiveName()}.",
-					$"{interaction.Performer.name} plants the {Object.name} in the {gameObject.ExpensiveName()}.");
+					$"You plant the {Object.name} in the {gameObject.DisplayName()}.",
+					$"{interaction.Performer.name} plants the {Object.name} in the {gameObject.DisplayName()}.");
 				return;
 			}
 

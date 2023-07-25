@@ -42,7 +42,7 @@ namespace Systems.Scenes.Electricity
 				apc.AddDevice(targetDevice);
 				if (verboseDebugging)
 				{
-					Logger.Log($"[AutoAPCLinker] - Found APC for {targetDevice.gameObject.ExpensiveName()} " +
+					Logger.Log($"[AutoAPCLinker] - Found APC for {targetDevice.gameObject.DisplayName()} " +
 					           $"at {apc.gameObject.AssumedWorldPosServer()}", Category.Electrical);
 				}
 				break;

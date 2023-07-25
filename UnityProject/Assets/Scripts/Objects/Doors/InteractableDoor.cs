@@ -135,9 +135,9 @@ namespace Doors
 				//allows the jaws of life to pry open doors
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 4.5f,
 				"You start prying open the door...",
-				$"{interaction.Performer.ExpensiveName()} starts prying open the door...",
-				$"You force the door open with your {interaction.HandObject.ExpensiveName()}!",
-				$"{interaction.Performer.ExpensiveName()} forces the door open!",
+				$"{interaction.Performer.DisplayName()} starts prying open the door...",
+				$"You force the door open with your {interaction.HandObject.DisplayName()}!",
+				$"{interaction.Performer.DisplayName()} forces the door open!",
 				() =>
 				{
 					Controller.Open();
@@ -168,9 +168,9 @@ namespace Doors
 				ToolUtils.ServerUseToolWithActionMessages(
 						interaction, weldTime,
 						$"You start {(Controller.IsWelded ? "unwelding" : "welding")} the door...",
-						$"{interaction.Performer.ExpensiveName()} starts {(Controller.IsWelded ? "unwelding" : "welding")} the door...",
+						$"{interaction.Performer.DisplayName()} starts {(Controller.IsWelded ? "unwelding" : "welding")} the door...",
 						$"You {(Controller.IsWelded ? "unweld" : "weld")} the door.",
-						$"{interaction.Performer.ExpensiveName()} {(Controller.IsWelded ? "unwelds" : "welds")} the door.",
+						$"{interaction.Performer.DisplayName()} {(Controller.IsWelded ? "unwelds" : "welds")} the door.",
 						Controller.ServerTryWeld);
 			}
 
@@ -180,9 +180,9 @@ namespace Doors
 				ToolUtils.ServerUseToolWithActionMessages(
 						interaction, 4f,
 						"You start to disassemble the false wall...",
-						$"{interaction.Performer.ExpensiveName()} starts to disassemble the false wall...",
+						$"{interaction.Performer.DisplayName()} starts to disassemble the false wall...",
 						"You disassemble the girder.",
-						$"{interaction.Performer.ExpensiveName()} disassembles the false wall.",
+						$"{interaction.Performer.DisplayName()} disassembles the false wall.",
 						() => Controller.ServerDisassemble(interaction));
 				return;
 			}

@@ -92,7 +92,7 @@ namespace Objects.Medical
 			if (closet.IsLocked)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer,
-						$"The scanner's {gameObject.ExpensiveName()} door bolts refuse to budge!");
+						$"The scanner's {gameObject.DisplayName()} door bolts refuse to budge!");
 				return;
 			}
 

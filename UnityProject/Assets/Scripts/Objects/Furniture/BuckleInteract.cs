@@ -136,7 +136,7 @@ namespace Objects
 		{
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Click01, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
 
-			if (forceLayingDown && playerScript.RegisterPlayer.IsLayingDown == false) playerScript.RegisterPlayer.ServerSetIsStanding(false);		
+			if (forceLayingDown && playerScript.RegisterPlayer.IsLayingDown == false) playerScript.RegisterPlayer.ServerSetIsStanding(false);
 
 			objectPhysics.BuckleTo(playerScript.playerMove);
 			occupiedSpriteHandler.OrNull()?.ChangeSprite(0);
@@ -192,8 +192,8 @@ namespace Objects
 				{
 					Chat.AddActionMsgToChat(
 						playerScript.gameObject,
-						$"You start trying to unbuckle yourself from the {gameObject.ExpensiveName()}! (this will take some time...)",
-						$"{playerScript.visibleName} is trying to unbuckle themself from the {gameObject.ExpensiveName()}!"
+						$"You start trying to unbuckle yourself from the {gameObject.DisplayName()}! (this will take some time...)",
+						$"{playerScript.visibleName} is trying to unbuckle themself from the {gameObject.DisplayName()}!"
 					);
 
 					StandardProgressAction.Create(

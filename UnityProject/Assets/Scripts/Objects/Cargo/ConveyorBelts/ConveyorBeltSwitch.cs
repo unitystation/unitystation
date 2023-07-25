@@ -80,9 +80,9 @@ namespace Construction.Conveyors
 				//deconsruct
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You start deconstructing the conveyor belt switch...",
-					$"{interaction.Performer.ExpensiveName()} starts deconstructing the conveyor belt switch...",
+					$"{interaction.Performer.DisplayName()} starts deconstructing the conveyor belt switch...",
 					"You deconstruct the conveyor belt switch.",
-					$"{interaction.Performer.ExpensiveName()} deconstructs the conveyor belt switch.",
+					$"{interaction.Performer.DisplayName()} deconstructs the conveyor belt switch.",
 					DeconstructSwitch);
 			}
 			else

@@ -87,7 +87,7 @@ namespace UI.Items
 			{
 				foreach (var peeper in Peepers)
 				{
-					Chat.AddExamineMsg(peeper.GameObject, $"<color=red>The {Provider.ExpensiveName()} is already armed!</color>");
+					Chat.AddExamineMsg(peeper.GameObject, $"<color=red>The {Provider.DisplayName()} is already armed!</color>");
 					return;
 				}
 			}
@@ -103,7 +103,7 @@ namespace UI.Items
 			{
 				foreach (var peeper in Peepers)
 				{
-					Chat.AddExamineMsg(peeper.GameObject, $"<color=red>The {Provider.ExpensiveName()} is already armed!</color>");
+					Chat.AddExamineMsg(peeper.GameObject, $"<color=red>The {Provider.DisplayName()} is already armed!</color>");
 					return;
 				}
 			}
@@ -113,7 +113,7 @@ namespace UI.Items
 			foreach (var peeper in Peepers)
 			{
 				var signalStatus = explosiveDevice.DetonateImmediatelyOnSignal ? "awaits a signal" : "awaits armament";
-				Chat.AddExamineMsg(peeper.GameObject, $"The {Provider.ExpensiveName()} {signalStatus}");
+				Chat.AddExamineMsg(peeper.GameObject, $"The {Provider.DisplayName()} {signalStatus}");
 			}
 		}
 

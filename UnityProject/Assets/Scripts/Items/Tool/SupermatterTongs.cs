@@ -73,7 +73,7 @@ namespace Items
 					{
 						Chat.AddActionMsgToChat(interaction.Performer,
 							$"You load supermatter sliver into the container.",
-							$"{interaction.Performer.ExpensiveName()} loads supermatter sliver into the container.");
+							$"{interaction.Performer.DisplayName()} loads supermatter sliver into the container.");
 					}
 				}
 				else if (!smContainer.isSealed && smContainer.isLoaded)
@@ -82,7 +82,7 @@ namespace Items
 					{
 						Chat.AddActionMsgToChat(interaction.Performer,
 							$"You unload supermatter sliver from the container.",
-							$"{interaction.Performer.ExpensiveName()} unloads supermatter sliver from the container.");
+							$"{interaction.Performer.DisplayName()} unloads supermatter sliver from the container.");
 					}
 				}
 				else
@@ -111,7 +111,7 @@ namespace Items
 					{
 						Chat.AddActionMsgToChat(interaction.Performer,
 							$"You load supermatter sliver into the container.",
-							$"{interaction.Performer.ExpensiveName()} loads supermatter sliver into the container.");
+							$"{interaction.Performer.DisplayName()} loads supermatter sliver into the container.");
 					}
 				}
 				else if (!smContainer.isSealed && smContainer.isLoaded)
@@ -120,7 +120,7 @@ namespace Items
 					{
 						Chat.AddActionMsgToChat(interaction.Performer,
 							$"You unload supermatter sliver from the container.",
-							$"{interaction.Performer.ExpensiveName()} unloads supermatter sliver from the container.");
+							$"{interaction.Performer.DisplayName()} unloads supermatter sliver from the container.");
 					}
 				}
 				else

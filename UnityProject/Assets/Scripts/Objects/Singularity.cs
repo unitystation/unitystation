@@ -349,7 +349,7 @@ namespace Objects
 				{
 					playerHealth.RegisterPlayer.ServerStun();
 					Chat.AddActionMsgToChat(objectToPush.gameObject, "You are knocked down by the singularity",
-						$"{objectToPush.gameObject.ExpensiveName()} is knocked down by the singularity");
+						$"{objectToPush.gameObject.DisplayName()} is knocked down by the singularity");
 				}
 			}
 			else if (objectToPush.IsNotPushable)

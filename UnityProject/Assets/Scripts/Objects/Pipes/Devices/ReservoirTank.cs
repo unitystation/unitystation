@@ -43,9 +43,9 @@ namespace Objects.Atmospherics
 				ToolUtils.ServerUseToolWithActionMessages(
 						interaction, 10,
 						"You start to deconstruct the tank...",
-						$"{interaction.Performer.ExpensiveName()} starts to deconstruct the tank...",
+						$"{interaction.Performer.DisplayName()} starts to deconstruct the tank...",
 						"You deconstruct the tank.",
-						$"{interaction.Performer.ExpensiveName()} deconstructs the tank.",
+						$"{interaction.Performer.DisplayName()} deconstructs the tank.",
 						() => _ = Despawn.ServerSingle(gameObject));
 			}
 		}

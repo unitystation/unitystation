@@ -40,8 +40,8 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 	{
 		performer = interaction.Performer;
 		target = interaction.TargetObject;
-		performerName = interaction.Performer.ExpensiveName();
-		targetName = interaction.TargetObject.ExpensiveName();
+		performerName = interaction.Performer.DisplayName();
+		targetName = interaction.TargetObject.DisplayName();
 		interactionWorldPosition = interaction.WorldPositionTarget;
 
 		if (Cooldowns.TryStart(interaction, this, side: NetworkSide.Server) == false) return;

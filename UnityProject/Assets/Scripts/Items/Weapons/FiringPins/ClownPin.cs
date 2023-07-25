@@ -21,7 +21,7 @@ namespace Weapons
 
 				Chat.AddActionMsgToChat(interaction.Performer,
 				"You somehow shoot yourself in the face! How the hell?!",
-				$"{interaction.Performer.ExpensiveName()} somehow manages to shoot themself in the face!");
+				$"{interaction.Performer.DisplayName()} somehow manages to shoot themself in the face!");
 			}
 		}
 

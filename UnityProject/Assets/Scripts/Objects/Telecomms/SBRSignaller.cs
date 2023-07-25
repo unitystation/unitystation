@@ -25,7 +25,7 @@ namespace Objects.Telecomms
 			if (interaction.TargetObject.TryGetComponent<RemoteSignaller>(out var device))
 			{
 				Emitter = device;
-				Chat.AddExamineMsg(interaction.Performer, $"You pair the {Emitter.gameObject.ExpensiveName()} to the {radio.gameObject.ExpensiveName()}");
+				Chat.AddExamineMsg(interaction.Performer, $"You pair the {Emitter.gameObject.DisplayName()} to the {radio.gameObject.DisplayName()}");
 			}
 		}
 	}

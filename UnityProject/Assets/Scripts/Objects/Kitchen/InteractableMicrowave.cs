@@ -41,7 +41,7 @@ namespace Objects.Kitchen
 		public string Examine(Vector3 worldPos = default)
 		{
 			var contents = microwave.HasContents
-					? string.Join(", ", microwave.Slots.Where(slot => slot.IsOccupied).Select(slot => $"<b>{slot.ItemObject.ExpensiveName()}</b>"))
+					? string.Join(", ", microwave.Slots.Where(slot => slot.IsOccupied).Select(slot => $"<b>{slot.ItemObject.DisplayName()}</b>"))
 					: "<b>nothing</b>";
 
 			return $"The microwave is currently <b>{microwave.CurrentState.StateMsgForExamine}</b>. " +
@@ -56,7 +56,7 @@ namespace Objects.Kitchen
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) 
+			return (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver)
 				|| Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar)) == false;
 		}
 

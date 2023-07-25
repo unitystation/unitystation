@@ -19,8 +19,8 @@ public class MutationInjector : Syringe
 	public override void InjectBehavior(LivingHealthMasterBase LHB, RegisterPlayer performer)
 	{
 		Chat.AddCombatMsgToChat(performer.gameObject,
-			$"You Inject The {this.name} into {LHB.gameObject.ExpensiveName()}",
-			$"{performer.PlayerScript.visibleName} injects a {this.name} into {LHB.gameObject.ExpensiveName()}");
+			$"You Inject The {this.name} into {LHB.gameObject.DisplayName()}",
+			$"{performer.PlayerScript.visibleName} injects a {this.name} into {LHB.gameObject.DisplayName()}");
 		if (SicknessesInSyringe.Count > 0) LHB.AddSickness(SicknessesInSyringe.PickRandom().Sickness);
 		LHB.InjectDNA(DNAPayload);
 

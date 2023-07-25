@@ -178,13 +178,13 @@ namespace Items
 			{
 				DeactivateBeacon();
 				Chat.AddActionMsgToChat(interaction.Performer, $"You turn off the tracking beacon",
-					$"{interaction.Performer.ExpensiveName()} turns off the tracking beacon");
+					$"{interaction.Performer.DisplayName()} turns off the tracking beacon");
 				return;
 			}
 
 			ActivateBeacon();
 			Chat.AddActionMsgToChat(interaction.Performer, $"You turn on the tracking beacon",
-				$"{interaction.Performer.ExpensiveName()} turns on the tracking beacon");
+				$"{interaction.Performer.DisplayName()} turns on the tracking beacon");
 		}
 
 		private void OnBeaconDestruction(DestructionInfo info)

@@ -42,7 +42,7 @@ namespace UI.Objects
 			else
 			{
 				// If no override is specified, default to the prefab provided name
-				itemNameStr = TextUtils.UppercaseFirst(itemGO.ExpensiveName());
+				itemNameStr = TextUtils.UppercaseFirst(itemGO.DisplayName());
 			}
 
 			itemName.MasterSetValue(itemNameStr);

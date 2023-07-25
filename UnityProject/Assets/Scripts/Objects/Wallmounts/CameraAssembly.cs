@@ -53,9 +53,9 @@ namespace Objects.Wallmounts
 					//Weld onto wall
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start welding the camera assembly onto the wall...",
-						$"{interaction.Performer.ExpensiveName()} starts welding the camera assembly onto the wall...",
+						$"{interaction.Performer.DisplayName()} starts welding the camera assembly onto the wall...",
 						"You weld the camera assembly onto the wall.",
-						$"{interaction.Performer.ExpensiveName()} welds the camera assembly onto the wall.",
+						$"{interaction.Performer.DisplayName()} welds the camera assembly onto the wall.",
 						() =>
 						{
 							SetState(CameraAssemblyState.Welded);
@@ -69,9 +69,9 @@ namespace Objects.Wallmounts
 					//Wrench from wall
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start wrenching the camera assembly from the wall...",
-						$"{interaction.Performer.ExpensiveName()} starts wrenching the camera assembly from the wall...",
+						$"{interaction.Performer.DisplayName()} starts wrenching the camera assembly from the wall...",
 						"You wrench the camera assembly from the wall.",
-						$"{interaction.Performer.ExpensiveName()} wrenchs the camera assembly from the wall.",
+						$"{interaction.Performer.DisplayName()} wrenchs the camera assembly from the wall.",
 						() =>
 						{
 							Spawn.ServerPrefab(securityCameraItemPrefab, registerTile.WorldPositionServer,
@@ -93,9 +93,9 @@ namespace Objects.Wallmounts
 					//Add cable
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start adding cable to the camera assembly...",
-						$"{interaction.Performer.ExpensiveName()} starts adding cable to the camera assembly...",
+						$"{interaction.Performer.DisplayName()} starts adding cable to the camera assembly...",
 						"You add cable to the camera assembly.",
-						$"{interaction.Performer.ExpensiveName()} adds cable to the camera assembly.",
+						$"{interaction.Performer.DisplayName()} adds cable to the camera assembly.",
 						() =>
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 1);
@@ -110,9 +110,9 @@ namespace Objects.Wallmounts
 					//Unweld from wall
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start unwelding the camera assembly from the wall...",
-						$"{interaction.Performer.ExpensiveName()} starts unwelding the camera assembly from the wall...",
+						$"{interaction.Performer.DisplayName()} starts unwelding the camera assembly from the wall...",
 						"You unweld the camera assembly onto the wall.",
-						$"{interaction.Performer.ExpensiveName()} unwelds the camera assembly from the wall.",
+						$"{interaction.Performer.DisplayName()} unwelds the camera assembly from the wall.",
 						() =>
 						{
 							SetState(CameraAssemblyState.Unwelded);
@@ -131,9 +131,9 @@ namespace Objects.Wallmounts
 					//Screwdrive shut
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start closing the panel on the camera assembly...",
-						$"{interaction.Performer.ExpensiveName()} starts closing the panel on the camera assembly...",
+						$"{interaction.Performer.DisplayName()} starts closing the panel on the camera assembly...",
 						"You close the panel on the camera assembly.",
-						$"{interaction.Performer.ExpensiveName()} closes the panel on the camera assembly.",
+						$"{interaction.Performer.DisplayName()} closes the panel on the camera assembly.",
 						() =>
 						{
 							var result = Spawn.ServerPrefab(securityCameraPrefab, registerTile.WorldPositionServer,
@@ -156,9 +156,9 @@ namespace Objects.Wallmounts
 					//Cut cable
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start cutting the cable from the camera assembly...",
-						$"{interaction.Performer.ExpensiveName()} starts cutting the cable from the camera assembly...",
+						$"{interaction.Performer.DisplayName()} starts cutting the cable from the camera assembly...",
 						"You cut the cable from the camera assembly.",
-						$"{interaction.Performer.ExpensiveName()} cuts the cable from the camera assembly.",
+						$"{interaction.Performer.DisplayName()} cuts the cable from the camera assembly.",
 						() =>
 						{
 							Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, registerTile.WorldPositionServer, transform.parent);

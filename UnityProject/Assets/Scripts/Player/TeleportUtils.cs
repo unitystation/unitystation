@@ -148,7 +148,7 @@ namespace Systems.Teleport
 
 					var placePosition = playerScript.transform.position;// Only way to get position of this object.
 
-					var teleportInfo = new TeleportInfo(playerScript.gameObject.ExpensiveName(), placePosition.CutToInt(), playerScript.gameObject);
+					var teleportInfo = new TeleportInfo(playerScript.gameObject.DisplayName(), placePosition.CutToInt(), playerScript.gameObject);
 
 					yield return teleportInfo;
 				}
@@ -165,7 +165,7 @@ namespace Systems.Teleport
 
 					var placePosition = mobAI.transform.position;// Only way to get position of this object.
 
-					var teleportInfo = new TeleportInfo(mobAI.gameObject.ExpensiveName(), placePosition.CutToInt(), mobAI.gameObject);
+					var teleportInfo = new TeleportInfo(mobAI.gameObject.DisplayName(), placePosition.CutToInt(), mobAI.gameObject);
 
 					yield return teleportInfo;
 				}

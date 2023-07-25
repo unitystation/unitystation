@@ -24,7 +24,7 @@ namespace Items.Atmospherics
 					IsBent = false;
 					SpriteHandler.ChangeSpriteVariant(StraightVariantLocation);
 					Chat.AddExamineMsgFromServer(interaction.Performer,
-						"You straighten the pipe with the " + interaction.UsedObject.ExpensiveName());
+						"You straighten the pipe with the " + interaction.UsedObject.DisplayName());
 					return;
 				}
 				else
@@ -32,7 +32,7 @@ namespace Items.Atmospherics
 					IsBent = true;
 					SpriteHandler.ChangeSpriteVariant(BentVariantLocation);
 					Chat.AddExamineMsgFromServer(interaction.Performer,
-						"You Bend the pipe with the " + interaction.UsedObject.ExpensiveName());
+						"You Bend the pipe with the " + interaction.UsedObject.DisplayName());
 					return;
 				}
 

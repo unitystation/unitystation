@@ -23,7 +23,7 @@ namespace Items.Cargo.Wrapping
 				Chat.AddActionMsgToChat(
 					gameObject,
 					"",
-					$"The {gameObject.ExpensiveName()} finishes unwrapping itself but there is no content! " +
+					$"The {gameObject.DisplayName()} finishes unwrapping itself but there is no content! " +
 					$"What is this magic?!");
 				_ = Despawn.ServerSingle(gameObject);
 				return;

@@ -94,7 +94,7 @@ namespace Core.Editor.Tools
 				if (found != count)
 				{
 					stringBuilder.AppendLine(
-						$"MonoPipe ({pipe.gameObject.ExpensiveName()}) at World: {pipe.registerTile.WorldPositionServer} Local: {pipe.registerTile.LocalPositionServer}, Has incorrect pipe connections, Expected {count}, was {found}");
+						$"MonoPipe ({pipe.gameObject.DisplayName()}) at World: {pipe.registerTile.WorldPositionServer} Local: {pipe.registerTile.LocalPositionServer}, Has incorrect pipe connections, Expected {count}, was {found}");
 				}
 			}
 

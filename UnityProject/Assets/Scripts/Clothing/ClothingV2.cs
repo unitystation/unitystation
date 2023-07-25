@@ -1,6 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using Core.Identity;
 using Items;
 using UnityEngine;
 using Mirror;
@@ -27,8 +27,16 @@ namespace Systems.Clothing
 		[SerializeField, BoxGroup("Cloth Data")]
 		private bool randomInitialClothData = false;
 
+		[Tooltip("Wether this clothing will make the wearer's name appear as the artistic name.")]
+		[SerializeField, BoxGroup("Identity")]
+		private bool providesArtisticName = false;
+
+		[Tooltip("What type of artistic name does this clothing provide?")]
+		[SerializeField, BoxGroup("Identity"), ShowIf(nameof(providesArtisticName))]
+		private ArtisticNameType artisticNameType = ArtisticNameType.Clown;
+
 		[Tooltip("Determine whether this piece of clothing obscures the identity of the wearer (head, maskwear)")]
-		[SerializeField]
+		[SerializeField, HideIf(nameof(providesArtisticName)) , BoxGroup("Identity")]
 		private bool hidesIdentity = false;
 
 		[Tooltip("Determine which slots this clothing should obscure.")]

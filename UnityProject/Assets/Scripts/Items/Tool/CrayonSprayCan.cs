@@ -112,14 +112,14 @@ namespace Items.Tool
 			if (registerItem.Matrix.IsSpaceAt(cellPos, true))
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer,
-					$"Cannot use {gameObject.ExpensiveName()} on space");
+					$"Cannot use {gameObject.DisplayName()} on space");
 				return;
 			}
 
 			if (charges <= 0)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer,
-					$"The {gameObject.ExpensiveName()} needs refilling");
+					$"The {gameObject.DisplayName()} needs refilling");
 				return;
 			}
 
@@ -139,7 +139,7 @@ namespace Items.Tool
 				ignoreObjects: true) == false)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer,
-					$"Cannot use {gameObject.ExpensiveName()} on that surface");
+					$"Cannot use {gameObject.DisplayName()} on that surface");
 				return;
 			}
 
@@ -147,7 +147,7 @@ namespace Items.Tool
 			if (registerItem.Matrix.IsWallAt(cellPos, true))
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer,
-					$"Cannot use {gameObject.ExpensiveName()} on a wall, try a spray can instead");
+					$"Cannot use {gameObject.DisplayName()} on a wall, try a spray can instead");
 				return;
 			}
 
@@ -169,7 +169,7 @@ namespace Items.Tool
 			    && registerItem.Matrix.IsPassableAtOneMatrixOneTile(cellPos, true, false) == false)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer,
-					$"Cannot use {gameObject.ExpensiveName()} on that surface");
+					$"Cannot use {gameObject.DisplayName()} on that surface");
 				return;
 			}
 
@@ -203,9 +203,9 @@ namespace Items.Tool
 					//Add change overlay
 					ToolUtils.ServerUseToolWithActionMessages(interaction, timeToDraw,
 						$"You begin to {(isCan ? "spray" : "draw")} graffiti on to the {(isWall ? "wall" : "floor")}...",
-						$"{interaction.Performer.ExpensiveName()} starts to {(isCan ? "spray" : "draw")} graffiti on the {(isWall ? "wall" : "floor")}...",
+						$"{interaction.Performer.DisplayName()} starts to {(isCan ? "spray" : "draw")} graffiti on the {(isWall ? "wall" : "floor")}...",
 						$"You {(isCan ? "spray" : "draw")} graffiti on to the {(isWall ? "wall" : "floor")}",
-						$"{interaction.Performer.ExpensiveName()} {(isCan ? "sprays" : "draws")} graffiti on to the {(isWall ? "wall" : "floor")}",
+						$"{interaction.Performer.DisplayName()} {(isCan ? "sprays" : "draws")} graffiti on to the {(isWall ? "wall" : "floor")}",
 						() =>
 						{
 							if (charges > 0 || charges == -1)
@@ -238,9 +238,9 @@ namespace Items.Tool
 			//Add overlay
 			ToolUtils.ServerUseToolWithActionMessages(interaction, timeToDraw,
 				$"You begin to {(isCan ? "spray" : "draw")} on the {(isWall ? "wall" : "floor")}...",
-				$"{interaction.Performer.ExpensiveName()} starts to {(isCan ? "spray" : "draw")} on the {(isWall ? "wall" : "floor")}...",
+				$"{interaction.Performer.DisplayName()} starts to {(isCan ? "spray" : "draw")} on the {(isWall ? "wall" : "floor")}...",
 				$"You {(isCan ? "spray" : "draw")} on the {(isWall ? "wall" : "floor")}",
-				$"{interaction.Performer.ExpensiveName()} {(isCan ? "sprays" : "draws")} on the {(isWall ? "wall" : "floor")}",
+				$"{interaction.Performer.DisplayName()} {(isCan ? "sprays" : "draws")} on the {(isWall ? "wall" : "floor")}",
 				() =>
 				{
 					if (charges > 0 || charges == -1)
@@ -313,12 +313,12 @@ namespace Items.Tool
 			if (isCan)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer,
-					$"The {gameObject.ExpensiveName()} needs refilling!");
+					$"The {gameObject.DisplayName()} needs refilling!");
 				return;
 			}
 
 			Chat.AddExamineMsgFromServer(interaction.Performer,
-				$"There is no more of the {gameObject.ExpensiveName()} left!");
+				$"There is no more of the {gameObject.DisplayName()} left!");
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
@@ -442,7 +442,7 @@ namespace Items.Tool
 
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
-			return $"The {gameObject.ExpensiveName()} has {charges} uses left";
+			return $"The {gameObject.DisplayName()} has {charges} uses left";
 		}
 
 		public void OnInventoryMoveServer(InventoryMove info)

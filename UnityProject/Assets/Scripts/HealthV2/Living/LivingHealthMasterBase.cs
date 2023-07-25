@@ -1602,7 +1602,7 @@ namespace HealthV2
 				if (part.IsBleeding)
 				{
 					healthString.Append(
-						$"<color=red>\n {theyPronoun} {part.gameObject.ExpensiveName()} is bleeding!</color>");
+						$"<color=red>\n {theyPronoun} {part.gameObject.DisplayName()} is bleeding!</color>");
 				}
 			}
 
@@ -2228,7 +2228,7 @@ namespace HealthV2
 
 		public string CustomTitle()
 		{
-			return IsDead == false ? null : $"{gameObject.ExpensiveName()} [dead]";
+			return IsDead == false ? null : $"{gameObject.DisplayName()} [dead]";
 		}
 
 		public Sprite CustomIcon()

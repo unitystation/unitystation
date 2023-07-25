@@ -200,7 +200,7 @@ namespace Chemistry.Components
 				{
 					SyringePulling = false;
 					Chat.AddExamineMsg(interaction.Performer,
-						$"The {gameObject.ExpensiveName()} Is full, you can't pull any more.");
+						$"The {gameObject.DisplayName()} Is full, you can't pull any more.");
 					return;
 				}
 
@@ -208,13 +208,13 @@ namespace Chemistry.Components
 				{
 					SyringePulling = true;
 					Chat.AddExamineMsg(interaction.Performer,
-						$"The {gameObject.ExpensiveName()} Is empty, there's nothing to inject.");
+						$"The {gameObject.DisplayName()} Is empty, there's nothing to inject.");
 					return;
 				}
 
 				var pullstreing = SyringePulling ? "Pulling mode" : "Injecting mode";
 				Chat.AddExamineMsg(interaction.Performer,
-					$"You change {gameObject.ExpensiveName()} to {pullstreing}.");
+					$"You change {gameObject.DisplayName()} to {pullstreing}.");
 			}
 			else
 			{
@@ -229,7 +229,7 @@ namespace Chemistry.Components
 				}
 
 				Chat.AddExamineMsg(interaction.Performer,
-					$"The {gameObject.ExpensiveName()}'s transfer amount is now {TransferAmount} units.");
+					$"The {gameObject.DisplayName()}'s transfer amount is now {TransferAmount} units.");
 			}
 		}
 
@@ -338,7 +338,7 @@ namespace Chemistry.Components
 			if (transferFrom.IsEmpty)
 			{
 				//red msg
-				Chat.AddExamineMsg(performer, "The " + transferFrom.gameObject.ExpensiveName() + " is empty!");
+				Chat.AddExamineMsg(performer, "The " + transferFrom.gameObject.DisplayName() + " is empty!");
 				return;
 			}
 
@@ -350,8 +350,8 @@ namespace Chemistry.Components
 			string resultMessage;
 			if (string.IsNullOrEmpty(result.Message))
 				resultMessage = useFillMessage
-					? $"You fill the {transferTo.gameObject.ExpensiveName()} with {result.TransferAmount} units of contents from the {transferFrom.gameObject.ExpensiveName()}."
-					: $"You transfer {result.TransferAmount} units of the solution to the {transferTo.gameObject.ExpensiveName()}.";
+					? $"You fill the {transferTo.gameObject.DisplayName()} with {result.TransferAmount} units of contents from the {transferFrom.gameObject.DisplayName()}."
+					: $"You transfer {result.TransferAmount} units of the solution to the {transferTo.gameObject.DisplayName()}.";
 			else
 				resultMessage = result.Message;
 			if (transferFrom.IsEmpty && transferFrom.destroyOnEmpty)

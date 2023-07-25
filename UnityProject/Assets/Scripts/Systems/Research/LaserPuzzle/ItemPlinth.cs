@@ -122,7 +122,7 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 			}
 			else
 			{
-				Chat.AddActionMsgToChat(this.gameObject, $"{DisplayedItem.gameObject.ExpensiveName()} Explodes Shooting out many bright beams");
+				Chat.AddActionMsgToChat(this.gameObject, $"{DisplayedItem.gameObject.DisplayName()} Explodes Shooting out many bright beams");
 			}
 
 			gameObject.GetComponent<Collider2D>().enabled = false;
@@ -160,7 +160,7 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 		}
 		else
 		{
-			Chat.AddActionMsgToChat(this.gameObject, $"{DisplayedItem.gameObject.ExpensiveName()} Fizzles and disappears, looks like all useful research has been extracted from this");
+			Chat.AddActionMsgToChat(this.gameObject, $"{DisplayedItem.gameObject.DisplayName()} Fizzles and disappears, looks like all useful research has been extracted from this");
 		}
 
 

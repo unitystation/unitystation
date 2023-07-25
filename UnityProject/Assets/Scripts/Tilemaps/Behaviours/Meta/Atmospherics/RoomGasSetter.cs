@@ -30,7 +30,7 @@ namespace Systems.Atmospherics
 
 			if (gasMixToSpawn == null)
 			{
-				Logger.LogError($"Gas mix was null on {gameObject.ExpensiveName()}");
+				Logger.LogError($"Gas mix was null on {gameObject.DisplayName()}");
 				return;
 			}
 
@@ -52,7 +52,7 @@ namespace Systems.Atmospherics
 		{
 			if (gasMixToSpawn == null)
 			{
-				Logger.LogError($"Gas mix was null on {gameObject.ExpensiveName()}");
+				Logger.LogError($"Gas mix was null on {gameObject.DisplayName()}");
 				return;
 			}
 

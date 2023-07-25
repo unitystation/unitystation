@@ -33,7 +33,7 @@ namespace Objects.Kitchen
 		public string Examine(Vector3 worldPos = default)
 		{
 			var contents = oven.HasContents
-					? string.Join(", ", oven.Slots.Where(slot => slot.IsOccupied).Select(slot => $"<b>{slot.ItemObject.ExpensiveName()}</b>"))
+					? string.Join(", ", oven.Slots.Where(slot => slot.IsOccupied).Select(slot => $"<b>{slot.ItemObject.DisplayName()}</b>"))
 					: "<b>nothing</b>";
 
 			return $"The oven is currently <b>{oven.CurrentState.StateMsgForExamine}</b>. " +
@@ -47,7 +47,7 @@ namespace Objects.Kitchen
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) 
+			return (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver)
 				|| Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar)) == false;
 		}
 

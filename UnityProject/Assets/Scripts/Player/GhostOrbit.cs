@@ -112,7 +112,7 @@ namespace Player
 			ghostMove.ForcePositionClient( worldMove.ToLocal(matrix), matrix.Id, OrientationEnum.Down_By180);
 
 			UpdateManager.Add(FollowTarget, 0.1f);
-			Chat.AddExamineMsg(gameObject, $"You start orbiting {thingToOrbit.ExpensiveName()}");
+			Chat.AddExamineMsg(gameObject, $"You start orbiting {thingToOrbit.DisplayName()}");
 		}
 
 		[Server]
@@ -120,7 +120,7 @@ namespace Player
 		{
 			if(Target == null) return;
 
-			Chat.AddExamineMsg(gameObject, $"You stop orbiting {Target.ExpensiveName()}");
+			Chat.AddExamineMsg(gameObject, $"You stop orbiting {Target.DisplayName()}");
 			Target = null;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, FollowTarget);
 			ResetRotate();

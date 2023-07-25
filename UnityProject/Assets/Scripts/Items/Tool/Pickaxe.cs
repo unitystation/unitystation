@@ -80,7 +80,7 @@ namespace Items
 				ToolUtils.ServerUseToolWithActionMessages(
 				interaction, calculatedMineTime,
 				$"You start mining the {objectName}...",
-				$"{interaction.Performer.ExpensiveName()} starts mining the {objectName}...",
+				$"{interaction.Performer.DisplayName()} starts mining the {objectName}...",
 				default, default,
 				FinishMine);
 			}
@@ -88,7 +88,7 @@ namespace Items
 			{
 				Chat.AddActionMsgToChat(interaction,
 					$"You ping off the {objectName}, leaving hardly a scratch.",
-						$"{interaction.Performer.ExpensiveName()} pings off the {objectName}, leaving hardly a scratch.");
+						$"{interaction.Performer.DisplayName()} pings off the {objectName}, leaving hardly a scratch.");
 			}
 		}
 
@@ -107,7 +107,7 @@ namespace Items
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			var calculatedMineTime = interaction.TargetObject.GetComponent<PickaxeMineable>().MineTime * timeMultiplier;
-			objectName = interaction.TargetObject.ExpensiveName();
+			objectName = interaction.TargetObject.DisplayName();
 
 			SoundManager.PlayNetworkedAtPos(pickaxeSound, interaction.PerformerPlayerScript.WorldPos, sourceObj: interaction.Performer);
 
@@ -116,7 +116,7 @@ namespace Items
 				ToolUtils.ServerUseToolWithActionMessages(
 				interaction, calculatedMineTime,
 				$"You start mining the {objectName}...",
-				$"{interaction.Performer.ExpensiveName()} starts mining the {objectName}...",
+				$"{interaction.Performer.DisplayName()} starts mining the {objectName}...",
 				default, default,
 				() =>
 				{
@@ -129,7 +129,7 @@ namespace Items
 			{
 				Chat.AddActionMsgToChat(interaction,
 					$"You ping off the {objectName}, leaving hardly a scratch.",
-						$"{interaction.Performer.ExpensiveName()} pings off the {objectName}, leaving hardly a scratch.");
+						$"{interaction.Performer.DisplayName()} pings off the {objectName}, leaving hardly a scratch.");
 			}
 
 

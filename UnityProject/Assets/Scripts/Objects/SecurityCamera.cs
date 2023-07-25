@@ -144,7 +144,7 @@ namespace Objects
 
 			if (cameraActive == false)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot move to {gameObject.ExpensiveName()}, as it is deactivated");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot move to {gameObject.DisplayName()}, as it is deactivated");
 				return;
 			}
 
@@ -265,7 +265,7 @@ namespace Objects
 		private void TryScrewdriver(HandApply interaction)
 		{
 			Chat.AddActionMsgToChat(interaction.Performer, $"You {(panelOpen ? "close" : "open")} the cameras back panel",
-				$"{interaction.Performer.ExpensiveName()} {(panelOpen ? "closes" : "opens")} the cameras back panel");
+				$"{interaction.Performer.DisplayName()} {(panelOpen ? "closes" : "opens")} the cameras back panel");
 			panelOpen = !panelOpen;
 		}
 
@@ -291,7 +291,7 @@ namespace Objects
 			}
 
 			Chat.AddActionMsgToChat(interaction.Performer, $"You {(wiresCut ? "cut" : "repair")} the cameras wiring",
-				$"{interaction.Performer.ExpensiveName()} {(panelOpen ? "cuts" : "repairs")} the cameras wiring");
+				$"{interaction.Performer.DisplayName()} {(panelOpen ? "cuts" : "repairs")} the cameras wiring");
 		}
 
 		private void TryWeld(HandApply interaction)
@@ -313,9 +313,9 @@ namespace Objects
 				//Unweld from wall
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You start unwelding the camera assembly from the wall...",
-					$"{interaction.Performer.ExpensiveName()} starts unwelding the camera assembly from the wall...",
+					$"{interaction.Performer.DisplayName()} starts unwelding the camera assembly from the wall...",
 					"You unweld the camera assembly onto the wall.",
-					$"{interaction.Performer.ExpensiveName()} unwelds the camera assembly from the wall.",
+					$"{interaction.Performer.DisplayName()} unwelds the camera assembly from the wall.",
 					() =>
 					{
 						var result = Spawn.ServerPrefab(CommonPrefabs.Instance.CameraAssembly,

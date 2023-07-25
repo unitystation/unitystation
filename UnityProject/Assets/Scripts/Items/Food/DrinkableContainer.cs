@@ -60,12 +60,12 @@ public class DrinkableContainer : Consumable
 		var reagentUnits = container.ReagentMixTotal;
 		if (reagentUnits <= 0f)
 		{
-			Chat.AddExamineMsgFromServer(eater.gameObject, $"The {gameObject.ExpensiveName()} is empty.");
+			Chat.AddExamineMsgFromServer(eater.gameObject, $"The {gameObject.DisplayName()} is empty.");
 			return;
 		}
 
 		// Get current container name
-		var name = itemAttributes ? itemAttributes.ArticleName : gameObject.ExpensiveName();
+		var name = itemAttributes ? itemAttributes.ArticleName : gameObject.DisplayName();
 		// Generate message to player
 		ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, HungerState.Hungry, name, "drink");
 

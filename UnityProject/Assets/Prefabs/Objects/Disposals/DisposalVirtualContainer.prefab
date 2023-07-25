@@ -224,6 +224,7 @@ PrefabInstance:
     - {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
     - {fileID: 5971563122362279857, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
     - {fileID: 7474997010728688467, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
+    - {fileID: 1344368169052875666, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!1 &721717256067945856 stripped
 GameObject:
@@ -251,6 +252,8 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  struggleChance: 50
+  timeForStruggle: 3.25
 --- !u!114 &293370161908963151
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -28,7 +28,7 @@ public class WindowInteract : TileInteraction
 		if (interaction.HandObject == null)
 		{
 			Chat.AddActionMsgToChat(interaction.Performer,
-				$"You knock on the {interaction.BasicTile.DisplayName}.", $"{interaction.Performer.ExpensiveName()} knocks on the {interaction.BasicTile.DisplayName}.");
+				$"You knock on the {interaction.BasicTile.DisplayName}.", $"{interaction.Performer.DisplayName()} knocks on the {interaction.BasicTile.DisplayName}.");
 
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GlassKnock, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
 		}
@@ -36,9 +36,9 @@ public class WindowInteract : TileInteraction
 		{
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 				$"You begin repairing the {interaction.BasicTile.DisplayName}...",
-				$"{interaction.Performer.ExpensiveName()} begins to repair the {interaction.BasicTile.DisplayName}...",
+				$"{interaction.Performer.DisplayName()} begins to repair the {interaction.BasicTile.DisplayName}...",
 				$"You repair the {interaction.BasicTile.DisplayName}.",
-				$"{interaction.Performer.ExpensiveName()} repairs the {interaction.BasicTile.DisplayName}.",
+				$"{interaction.Performer.DisplayName()} repairs the {interaction.BasicTile.DisplayName}.",
 				() => RepairWindow(interaction));
 		}
 	}

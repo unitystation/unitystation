@@ -250,8 +250,8 @@ namespace Objects.Drawers
 				true, false, true, true), OpenDrawer);
 			bar.ServerStartProgress(gameObject.RegisterTile(), escapeTime, entity);
 			Chat.AddActionMsgToChat(entity,
-				$"You begin breaking out of the {gameObject.ExpensiveName()}...",
-				$"You hear noises coming from the {gameObject.ExpensiveName()}... Something must be trying to break out!");
+				$"You begin breaking out of the {gameObject.DisplayName()}...",
+				$"You hear noises coming from the {gameObject.DisplayName()}... Something must be trying to break out!");
 		}
 
 		#endregion Server Only

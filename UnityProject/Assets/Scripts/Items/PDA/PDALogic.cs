@@ -287,12 +287,12 @@ namespace Items.PDA
 			{
 				EjectIDCard();
 				Chat.AddActionMsgToChat(gameObject, "You eject the ID from the PDA.",
-					$"{interaction.Performer.ExpensiveName()} ejects an ID from the {gameObject.ExpensiveName()}");
+					$"{interaction.Performer.DisplayName()} ejects an ID from the {gameObject.DisplayName()}");
 				return;
 			}
 
 			ServerInsertItem(interaction.UsedObject, interaction.HandSlot, interaction.Performer);
-			Chat.AddActionMsgToChat(gameObject, "You insert the ID inside the PDA.", $"{interaction.Performer.ExpensiveName()} inserts an ID into the {gameObject.ExpensiveName()}");
+			Chat.AddActionMsgToChat(gameObject, "You insert the ID inside the PDA.", $"{interaction.Performer.DisplayName()} inserts an ID into the {gameObject.DisplayName()}");
 		}
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
@@ -367,7 +367,7 @@ namespace Items.PDA
 					_ = Despawn.ServerSingle(item);
 
 					var uplinkMessage =
-						$"You press the Telecrystal{(quantity == 1 ? "" : "s")} into the screen of your {this.gameObject.ExpensiveName()}\n" +
+						$"You press the Telecrystal{(quantity == 1 ? "" : "s")} into the screen of your {this.gameObject.DisplayName()}\n" +
 						$"After a moment it disappears, your Telecrystal counter ticks up a second later";
 
 					Chat.AddExamineMsgFromServer(player, uplinkMessage);
@@ -425,7 +425,7 @@ namespace Items.PDA
 		{
 			var uplinkMessage =
 					$"{(debugUplink ? "<b>UPLINK DEBUGGING ENABLED: </b>" : "")}" +
-					$"</i>The Syndicate has cunningly disguised a <i>Syndicate Uplink</i> as your <i>{gameObject.ExpensiveName()}</i>. " +
+					$"</i>The Syndicate has cunningly disguised a <i>Syndicate Uplink</i> as your <i>{gameObject.DisplayName()}</i>. " +
 					$"Simply enter the code <b>{UplinkUnlockCode}</b> into the ringtone select to unlock its hidden features.<i>";
 
 			PlaySoundPrivate(Ringtone);

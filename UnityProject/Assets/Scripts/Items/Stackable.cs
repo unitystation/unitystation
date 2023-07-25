@@ -209,7 +209,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 			}
 			attributes.ServerSetArticleName(correctName.Name);
 		}
-		else if(amount == 1 && stackNames.Any(item => item.Name == gameObject.ExpensiveName()))
+		else if(amount == 1 && stackNames.Any(item => item.Name == gameObject.DisplayName()))
 		{
 			attributes.ServerSetArticleName(attributes.InitialName);
 		}
@@ -429,7 +429,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	public string Examine(Vector3 worldPos)
 	{
-		return $"This {gameObject.ExpensiveName()} contains {Amount} stacks.";
+		return $"This {gameObject.DisplayName()} contains {Amount} stacks.";
 	}
 
 	[Serializable]

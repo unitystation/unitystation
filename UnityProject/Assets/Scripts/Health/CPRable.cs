@@ -37,8 +37,8 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		performerName = interaction.Performer.ExpensiveName();
-		targetName = interaction.TargetObject.ExpensiveName();
+		performerName = interaction.Performer.DisplayName();
+		targetName = interaction.TargetObject.DisplayName();
 
 		var cardiacArrestPlayerRegister = interaction.TargetObject.GetComponent<RegisterPlayer>();
 

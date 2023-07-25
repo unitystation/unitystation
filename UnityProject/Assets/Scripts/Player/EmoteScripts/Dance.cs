@@ -29,7 +29,7 @@ namespace Player.EmoteScripts
 
 			if (move.AllowInput && !move.IsBuckled)
 			{
-				Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
+				Chat.AddActionMsgToChat(player, $"{youText}", $"{player.DisplayName()} {viewText}.");
 				directional.FaceDirection(OrientationEnum.Up_By0);
 				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
 				directional.FaceDirection(OrientationEnum.Left_By90);

@@ -47,7 +47,7 @@ namespace Objects.ExecutionDevices
 			if (Victim == null || executioner == null) return;
 			var time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
 			UIManager.Instance.playerAlerts.ServerAddNewEntry(time, PlayerAlertTypes.RDM, executioner.Player(),
-				$"{time} : {executioner.Player().Mind.CurrentPlayScript.playerName} attempted to execute {Victim.ExpensiveName()} at {Victim.AssumedWorldPosServer()}.");
+				$"{time} : {executioner.Player().Mind.CurrentPlayScript.playerName} attempted to execute {Victim.DisplayName()} at {Victim.AssumedWorldPosServer()}.");
 		}
 
 		public RightClickableResult GenerateRightClickOptions()

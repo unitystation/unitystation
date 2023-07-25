@@ -188,7 +188,7 @@ namespace Objects.Disposals
 			if (MachineAnchored)
 			{
 				finishPerformerMsg = $"You unbolt the {objectAttributes.InitialName} from the {PIPE_TERMINAL_NAME}.";
-				finishOthersMsg = $"{currentInteraction.Performer.ExpensiveName()} unbolts the " +
+				finishOthersMsg = $"{currentInteraction.Performer.DisplayName()} unbolts the " +
 						$"{objectAttributes.InitialName} from the {PIPE_TERMINAL_NAME}.";
 			}
 			else
@@ -198,7 +198,7 @@ namespace Objects.Disposals
 				if (VerbosePipeTerminalExists() == false) return;
 
 				finishPerformerMsg = $"You bolt the {objectAttributes.InitialName} to the {PIPE_TERMINAL_NAME}.";
-				finishOthersMsg = $"{currentInteraction.Performer.ExpensiveName()} bolts the " +
+				finishOthersMsg = $"{currentInteraction.Performer.DisplayName()} bolts the " +
 							$"{objectAttributes.InitialName} to the {PIPE_TERMINAL_NAME}.";
 			}
 
@@ -227,10 +227,10 @@ namespace Objects.Disposals
 			{
 				startPerformerMsg = "You start cutting the welds between the " +
 						$"{objectAttributes.InitialName} and the {PIPE_TERMINAL_NAME}...";
-				startOthersMsg = $"{currentInteraction.Performer.ExpensiveName()} starts cutting the " +
+				startOthersMsg = $"{currentInteraction.Performer.DisplayName()} starts cutting the " +
 						$"{objectAttributes.InitialName} from the {PIPE_TERMINAL_NAME}...";
 				finishPerformerMsg = $"You cut the {objectAttributes.InitialName} free from the {PIPE_TERMINAL_NAME}.";
-				finishOthersMsg = $"{currentInteraction.Performer.ExpensiveName()} cuts the " +
+				finishOthersMsg = $"{currentInteraction.Performer.DisplayName()} cuts the " +
 						$"{objectAttributes.InitialName} free from the {PIPE_TERMINAL_NAME}.";
 			}
 			else
@@ -241,10 +241,10 @@ namespace Objects.Disposals
 
 				startPerformerMsg = "You start welding the joints between the " +
 						$"{objectAttributes.InitialName} and the {PIPE_TERMINAL_NAME}...";
-				startOthersMsg = $"{currentInteraction.Performer.ExpensiveName()} starts welding the " +
+				startOthersMsg = $"{currentInteraction.Performer.DisplayName()} starts welding the " +
 						$"{objectAttributes.InitialName} and the {PIPE_TERMINAL_NAME} together...";
 				finishPerformerMsg = $"You weld the {objectAttributes.InitialName} to the {PIPE_TERMINAL_NAME}.";
-				finishOthersMsg = $"{currentInteraction.Performer.ExpensiveName()} welds the " +
+				finishOthersMsg = $"{currentInteraction.Performer.DisplayName()} welds the " +
 						$"{objectAttributes.InitialName} to the {PIPE_TERMINAL_NAME}.";
 			}
 

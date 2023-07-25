@@ -504,9 +504,9 @@ namespace AdminCommands
 				Chat.AddExamineMsg(player.GameObject, customMessage);
 			}
 
-			Chat.AddExamineMsg(admin.GameObject, $"You have given {player.Script.playerName} : {item.GameObject.ExpensiveName()}");
+			Chat.AddExamineMsg(admin.GameObject, $"You have given {player.Script.playerName} : {item.GameObject.DisplayName()}");
 
-			var message = $"{admin.Username}: gave {player.Script.playerName} {count} {item.GameObject.ExpensiveName()}";
+			var message = $"{admin.Username}: gave {player.Script.playerName} {count} {item.GameObject.DisplayName()}";
 
 			//Log what we did.
 			LogAdminAction(message);
@@ -774,7 +774,7 @@ namespace AdminCommands
 			reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.up, 1000, true);
 			reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.right, 1000, true);
 
-			LogAdminAction($"{admin.Username} exposed: {onObject.ExpensiveName()}");
+			LogAdminAction($"{admin.Username} exposed: {onObject.DisplayName()}");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -787,7 +787,7 @@ namespace AdminCommands
 			var integrity = toSmash.GetComponent<Integrity>();
 			if (integrity == null) return;
 
-			LogAdminAction($"{admin.Username} smashed: {toSmash.ExpensiveName()}");
+			LogAdminAction($"{admin.Username} smashed: {toSmash.DisplayName()}");
 
 			integrity.ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
 		}
@@ -819,7 +819,7 @@ namespace AdminCommands
 			//Open no matter what, even if welded or bolted closed
 			doorMasterController.Open();
 
-			LogAdminAction($"{admin.Username} forced {doorToOpen.ExpensiveName()} to open");
+			LogAdminAction($"{admin.Username} forced {doorToOpen.DisplayName()} to open");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -834,7 +834,7 @@ namespace AdminCommands
 			var boltModule = doorMasterController.GetComponentInChildren<BoltsModule>();
 			boltModule.ToggleBolts();
 
-			LogAdminAction($"{admin.Username} toggled the bolts {(boltModule.BoltsDown ? "ON" : "OFF")} for: {doorToToggle.ExpensiveName()}");
+			LogAdminAction($"{admin.Username} toggled the bolts {(boltModule.BoltsDown ? "ON" : "OFF")} for: {doorToToggle.DisplayName()}");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -849,7 +849,7 @@ namespace AdminCommands
 			var electrify = doorMasterController.GetComponentInChildren<ElectrifiedDoorModule>();
 			electrify.ToggleElectrocution();
 
-			LogAdminAction($"{admin.Username} toggled electrify {(electrify.IsElectrified ? "ON" : "OFF")} for: {doorToToggle.ExpensiveName()}");
+			LogAdminAction($"{admin.Username} toggled electrify {(electrify.IsElectrified ? "ON" : "OFF")} for: {doorToToggle.DisplayName()}");
 		}
 
 		#endregion
@@ -876,7 +876,7 @@ namespace AdminCommands
 				ghostMove.ForcePositionClient(uop.OfficialPosition, false);
 			}
 
-			LogAdminAction($"{admin.Username} teleported themselves to: {teleportTo.ExpensiveName()}");
+			LogAdminAction($"{admin.Username} teleported themselves to: {teleportTo.DisplayName()}");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -889,7 +889,7 @@ namespace AdminCommands
 
 			uop.SetIsNotPushable(!uop.isNotPushable);
 
-			LogAdminAction($"{admin.Username} made {gameObjectToToggle.ExpensiveName()} {(uop.IsNotPushable ? "not" : "")} pushable");
+			LogAdminAction($"{admin.Username} made {gameObjectToToggle.DisplayName()} {(uop.IsNotPushable ? "not" : "")} pushable");
 		}
 
 		#endregion
@@ -922,7 +922,7 @@ namespace AdminCommands
 			if (button.TryGetComponent<GeneralSwitch>(out var generalSwitch))
 			{
 				generalSwitch.RunDoorController();
-				LogAdminAction($"{admin.Username} activated button : {button.ExpensiveName()}");
+				LogAdminAction($"{admin.Username} activated button : {button.DisplayName()}");
 				return;
 			}
 
@@ -930,7 +930,7 @@ namespace AdminCommands
 
 			doorSwitch.RunDoorController();
 
-			LogAdminAction($"{admin.Username} activated button : {button.ExpensiveName()}");
+			LogAdminAction($"{admin.Username} activated button : {button.DisplayName()}");
 		}
 
 		#endregion
@@ -952,7 +952,7 @@ namespace AdminCommands
 			fullyHealable.FullyHeal();
 
 			//Log what we did.
-			LogAdminAction($"{admin.Username} healed {mobToHeal.ExpensiveName()} to full health");
+			LogAdminAction($"{admin.Username} healed {mobToHeal.DisplayName()} to full health");
 		}
 
 		#endregion

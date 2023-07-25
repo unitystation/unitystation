@@ -38,13 +38,13 @@ namespace Items.Others
 			role.OnTimerExpired += ClearGhostRole;
 
 			userPlayer = interaction.Performer;
-			Chat.AddExamineMsgFromServer(userPlayer, $"The {gameObject.ExpensiveName()} sends out a reinforcement request!");
+			Chat.AddExamineMsgFromServer(userPlayer, $"The {gameObject.DisplayName()} sends out a reinforcement request!");
 		}
 
 		private void SpawnReinforcement(PlayerInfo player)
 		{
 			player.Script.PlayerNetworkActions.ServerRespawnPlayerAntag(player, "Nuclear Operative");
-			Chat.AddExamineMsgFromServer(userPlayer, $"The {gameObject.ExpensiveName()} lets out a chime, reinforcement found!");
+			Chat.AddExamineMsgFromServer(userPlayer, $"The {gameObject.DisplayName()} lets out a chime, reinforcement found!");
 			WasUsed = true;
 			StartCoroutine(TeleportOnSpawn(player));
 		}

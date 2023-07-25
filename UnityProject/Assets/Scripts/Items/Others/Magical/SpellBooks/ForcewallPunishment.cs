@@ -23,7 +23,7 @@ namespace Items.Magical
 		{
 			Chat.AddCombatMsgToChat(player.GameObject,
 					"You suddenly feel very solid!",
-					$"{player.GameObject.ExpensiveName()} goes very still! {player.Script.characterSettings.TheyPronoun(player.Script)}'s been petrified!");
+					$"{player.GameObject.DisplayName()} goes very still! {player.Script.characterSettings.TheyPronoun(player.Script)}'s been petrified!");
 
 			player.Script.playerMove.ServerAllowInput.RecordPosition(this, false);
 			// Piggy-back off IsMiming property to prevent the player from speaking.
@@ -35,7 +35,7 @@ namespace Items.Magical
 			SoundManager.PlayNetworkedAtPos(punishSfx, player.Script.WorldPos, sourceObj: player.GameObject);
 			Chat.AddCombatMsgToChat(player.GameObject,
 					$"<size={ChatTemplates.VeryLargeText}><b>Your body freezes up! Can't... move... can't... think...</b></size>",
-					$"{player.GameObject.ExpensiveName()}'s skin rapidly turns to marble!");
+					$"{player.GameObject.DisplayName()}'s skin rapidly turns to marble!");
 
 		}
 

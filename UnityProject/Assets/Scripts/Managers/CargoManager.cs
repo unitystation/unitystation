@@ -339,7 +339,7 @@ namespace Systems.Cargo
 			}
 			else
 			{
-				exportName = obj.gameObject.ExpensiveName();
+				exportName = obj.gameObject.DisplayName();
 			}
 
 			// If there is no bounty for the item - we dont destroy it.

@@ -135,7 +135,7 @@ namespace Objects.Botany
 			ObjectPhysics.AppearAtWorldPositionServer(spawnPos);
 
 			// Notify chat
-			Chat.AddActionMsgToChat(gameObject, $"{seedPacket.gameObject.ExpensiveName()} was dispensed from the seed extractor.");
+			Chat.AddActionMsgToChat(gameObject, $"{seedPacket.gameObject.DisplayName()} was dispensed from the seed extractor.");
 
 			// Remove spawned entry from list
 			seedPackets.Remove(seedPacket);
@@ -182,13 +182,13 @@ namespace Objects.Botany
 				seedPackets.Add(packet);
 				UpdateEvent.Invoke();
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You place the {packet.gameObject.ExpensiveName()} into the seed extractor.",
-					$"{interaction.Performer.name} places the {packet.gameObject.ExpensiveName()} into the seed extractor.");
+					$"You place the {packet.gameObject.DisplayName()} into the seed extractor.",
+					$"{interaction.Performer.name} places the {packet.gameObject.DisplayName()} into the seed extractor.");
 				return;
 			}
 			Chat.AddActionMsgToChat(interaction.Performer,
-				$"You try and place the {packet.gameObject.ExpensiveName()} into the seed extractor but it is full!",
-				$"{interaction.Performer.name} tries to place the {packet.gameObject.ExpensiveName()} into the seed extractor but it is full!");
+				$"You try and place the {packet.gameObject.DisplayName()} into the seed extractor but it is full!",
+				$"{interaction.Performer.name} tries to place the {packet.gameObject.DisplayName()} into the seed extractor but it is full!");
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)

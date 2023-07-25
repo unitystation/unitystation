@@ -24,7 +24,7 @@ public class ResearchItemScanner : MonoBehaviour,	ICheckedInteractable<Positiona
 		var Purity = Research.CurrentPurity;
 
 
-		Stringy.AppendLine($" Item {interaction.TargetObject.gameObject.ExpensiveName()} has a purity of {Purity}");
+		Stringy.AppendLine($" Item {interaction.TargetObject.gameObject.DisplayName()} has a purity of {Purity}");
 		Stringy.AppendLine($" Also contains { Research.TechWebDesigns.Count} as potential technologies");
 
 		if (Research.IsTooPure)

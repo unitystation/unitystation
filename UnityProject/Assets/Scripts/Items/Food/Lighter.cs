@@ -75,8 +75,8 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 			return;
 		}
 
-		var playerName = player.gameObject.ExpensiveName();
-		var lighterName = gameObject.ExpensiveName();
+		var playerName = player.gameObject.DisplayName();
+		var lighterName = gameObject.DisplayName();
 
 		// generate message for chat
 		if (isLit)

@@ -342,7 +342,7 @@ public class RightClickManager : SingletonManager<RightClickManager>
 		}
 		// else use defaults:
 
-		var label = forObject.ExpensiveName();
+		var label = forObject.DisplayName();
 
 		// check if is a paletted item
 		ItemAttributesV2 item = forObject.GetComponent<ItemAttributesV2>();

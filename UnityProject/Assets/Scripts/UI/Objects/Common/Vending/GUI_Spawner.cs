@@ -38,7 +38,7 @@ namespace UI
 			   switch (elementName)
 			   {
 				   case "MobName":
-					   netElement.MasterSetValue(newObject.ExpensiveName());
+					   netElement.MasterSetValue(newObject.DisplayName());
 					   break;
 				   case "MobIcon":
 					   netElement.MasterSetValue(newObject.NetId().ToString());

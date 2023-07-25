@@ -55,10 +55,10 @@ namespace MiniGames.MiniGameModules
 		private IEnumerator IdentifySequence()
 		{
 			stage = sequenceStage.SPEAKING;
-			Chat.AddActionMsgToChat(MiniGameParent, $"An advanced looking lock-pad lights up on the {MiniGameParent.ExpensiveName()} before" +
+			Chat.AddActionMsgToChat(MiniGameParent, $"An advanced looking lock-pad lights up on the {MiniGameParent.DisplayName()} before" +
 													" a static and muffled robotic voice loudly starts making fake alarm noises.");
 			yield return WaitFor.Seconds(SHORT_WAIT_LENGTH);
-			Chat.AddActionMsgToChat(MiniGameParent, $"{MiniGameParent.ExpensiveName()} loudly states 'IDENTIFY YOURSELF'.");
+			Chat.AddActionMsgToChat(MiniGameParent, $"{MiniGameParent.DisplayName()} loudly states 'IDENTIFY YOURSELF'.");
 			stage = sequenceStage.IDENTIFY;
 			yield return WaitFor.Seconds(LONG_WAIT_LENGTH);
 			if (stage != sequenceStage.IDENTIFY) yield break;
@@ -69,7 +69,7 @@ namespace MiniGames.MiniGameModules
 		{
 			stage = sequenceStage.SPEAKING;
 			yield return WaitFor.Seconds(SHORT_WAIT_LENGTH);
-			Chat.AddActionMsgToChat(MiniGameParent, $"{MiniGameParent.ExpensiveName()} loudly states '{nameGiven} DOES NOT HAVE" +
+			Chat.AddActionMsgToChat(MiniGameParent, $"{MiniGameParent.DisplayName()} loudly states '{nameGiven} DOES NOT HAVE" +
 													" A REGISTERED FINGER-PRINT ID NOR VOICE. STATE THE FOUR DIGIT PASSCODE.'");
 			stage = sequenceStage.PASSCODE;
 			yield return WaitFor.Seconds(LONG_WAIT_LENGTH);
@@ -88,7 +88,7 @@ namespace MiniGames.MiniGameModules
 			}
 			if (chatEvent.message.Length > SHORT_NAME_LENGTH)
 			{
-				Chat.AddActionMsgToChat(MiniGameParent, $"{Tracker.gameObject.ExpensiveName()} loudly states 'I DO NOT WANT TO HEAR YOUR FULL LEGAL NAME.' before shutting off.");
+				Chat.AddActionMsgToChat(MiniGameParent, $"{Tracker.gameObject.DisplayName()} loudly states 'I DO NOT WANT TO HEAR YOUR FULL LEGAL NAME.' before shutting off.");
 				OnGameDone(false);
 				return;
 			}
@@ -101,7 +101,7 @@ namespace MiniGames.MiniGameModules
 		{
 			if (chatEvent.message.Length > MINIMUM_WORDS)
 			{
-				Chat.AddActionMsgToChat(MiniGameParent, $"{MiniGameParent.ExpensiveName()} loudly states 'THE PASSCODE IS FOUR DIGITS ONLY.'");
+				Chat.AddActionMsgToChat(MiniGameParent, $"{MiniGameParent.DisplayName()} loudly states 'THE PASSCODE IS FOUR DIGITS ONLY.'");
 				return;
 			}
 
@@ -113,7 +113,7 @@ namespace MiniGames.MiniGameModules
 					return;
 				}
 			}
-			Chat.AddActionMsgToChat(MiniGameParent, $"{MiniGameParent.ExpensiveName()} loudly states 'INCORRECT PASSCODE.'");
+			Chat.AddActionMsgToChat(MiniGameParent, $"{MiniGameParent.DisplayName()} loudly states 'INCORRECT PASSCODE.'");
 		}
 
 

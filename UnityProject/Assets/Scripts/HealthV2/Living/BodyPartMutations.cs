@@ -191,24 +191,24 @@ public class BodyPartMutations : BodyPartFunctionality
 		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 
 		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
-			$" Your {RelatedPart.gameObject.ExpensiveName()} Feels strange");
+			$" Your {RelatedPart.gameObject.DisplayName()} Feels strange");
 
 		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) *  modifier);
 
 		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
-			$" Your {RelatedPart.gameObject.ExpensiveName()} Starts to hurt");
+			$" Your {RelatedPart.gameObject.DisplayName()} Starts to hurt");
 
 		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 
 		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
-			$" You feel {RelatedPart.gameObject.ExpensiveName()} starting to morph and change");
+			$" You feel {RelatedPart.gameObject.DisplayName()} starting to morph and change");
 
 		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 
 		var SpawnedBodypart = Spawn.ServerPrefab(BodyPart).GameObject.GetComponent<BodyPart>();
 
 		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
-			$" Your {RelatedPart.gameObject.ExpensiveName()} Morphs into a {SpawnedBodypart.gameObject.ExpensiveName()}");
+			$" Your {RelatedPart.gameObject.DisplayName()} Morphs into a {SpawnedBodypart.gameObject.DisplayName()}");
 
 
 		bool HasOpenProcedure = Enumerable.OfType<OpenProcedure>(SpawnedBodypart.SurgeryProcedureBase).Any();

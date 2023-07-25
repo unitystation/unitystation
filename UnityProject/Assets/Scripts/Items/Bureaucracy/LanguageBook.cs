@@ -72,8 +72,8 @@ namespace Items.Bureaucracy
 				if (health.IsDead)
 				{
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You smack {health.playerScript.visibleName}'s lifeless corpse with {gameObject.ExpensiveName()}.",
-						$"{interaction.PerformerPlayerScript.visibleName} smacks {health.playerScript.visibleName}'s lifeless corpse with {gameObject.ExpensiveName()}.");
+						$"You smack {health.playerScript.visibleName}'s lifeless corpse with {gameObject.DisplayName()}.",
+						$"{interaction.PerformerPlayerScript.visibleName} smacks {health.playerScript.visibleName}'s lifeless corpse with {gameObject.DisplayName()}.");
 					return;
 				}
 			}
@@ -83,16 +83,16 @@ namespace Items.Bureaucracy
 			if (mobLanguages.CanSpeakLanguage(languageToLearn))
 			{
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You beat {health.playerScript.visibleName} over the head with {gameObject.ExpensiveName()}.",
-					$"{interaction.PerformerPlayerScript.visibleName} beats {health.playerScript.visibleName} over the head with {gameObject.ExpensiveName()}.");
+					$"You beat {health.playerScript.visibleName} over the head with {gameObject.DisplayName()}.",
+					$"{interaction.PerformerPlayerScript.visibleName} beats {health.playerScript.visibleName} over the head with {gameObject.DisplayName()}.");
 				return;
 			}
 
 			mobLanguages.LearnLanguage(languageToLearn, true);
 
 			Chat.AddActionMsgToChat(interaction.Performer,
-				$"You teach {health.playerScript.visibleName} by beating {health.playerScript.characterSettings.ThemPronoun(health.playerScript)} over the head with {gameObject.ExpensiveName()}.",
-				$"{interaction.PerformerPlayerScript.visibleName} teaches {health.playerScript.visibleName} by beating {health.playerScript.characterSettings.ThemPronoun(health.playerScript)} over the head with {gameObject.ExpensiveName()}.");
+				$"You teach {health.playerScript.visibleName} by beating {health.playerScript.characterSettings.ThemPronoun(health.playerScript)} over the head with {gameObject.DisplayName()}.",
+				$"{interaction.PerformerPlayerScript.visibleName} teaches {health.playerScript.visibleName} by beating {health.playerScript.characterSettings.ThemPronoun(health.playerScript)} over the head with {gameObject.DisplayName()}.");
 
 			UseCharge(interaction.PerformerPlayerScript);
 		}
@@ -115,7 +115,7 @@ namespace Items.Bureaucracy
 		{
 			if (performer.playerHealth.IsDead)
 			{
-				Chat.AddExamineMsgFromServer(performer.gameObject, $"You are dead, you cannot read {gameObject.ExpensiveName()}");
+				Chat.AddExamineMsgFromServer(performer.gameObject, $"You are dead, you cannot read {gameObject.DisplayName()}");
 				return;
 			}
 
@@ -123,13 +123,13 @@ namespace Items.Bureaucracy
 
 			if (mobLanguages.CanSpeakLanguage(languageToLearn))
 			{
-				Chat.AddExamineMsgFromServer(performer.gameObject, $"You start skimming through {gameObject.ExpensiveName()}, but you already know {languageToLearn.LanguageName}.");
+				Chat.AddExamineMsgFromServer(performer.gameObject, $"You start skimming through {gameObject.DisplayName()}, but you already know {languageToLearn.LanguageName}.");
 				return;
 			}
 
 			mobLanguages.LearnLanguage(languageToLearn, true);
 
-			Chat.AddExamineMsgFromServer(performer.gameObject, $"You start skimming through {gameObject.ExpensiveName()}, and {flavourText}.");
+			Chat.AddExamineMsgFromServer(performer.gameObject, $"You start skimming through {gameObject.DisplayName()}, and {flavourText}.");
 
 			UseCharge(performer);
 		}
@@ -140,7 +140,7 @@ namespace Items.Bureaucracy
 
 			if(maxCharges == -1) return;
 
-			Chat.AddExamineMsgFromServer(performer.gameObject, $"The cover and contents of {gameObject.ExpensiveName()} start shifting and changing! It slips out of your hands!");
+			Chat.AddExamineMsgFromServer(performer.gameObject, $"The cover and contents of {gameObject.DisplayName()} start shifting and changing! It slips out of your hands!");
 
 			//Spawn random book
 			_ = Spawn.ServerPrefab(randomBook.Pool.GetRandom().Prefab, objectPhysics.OfficialPosition);

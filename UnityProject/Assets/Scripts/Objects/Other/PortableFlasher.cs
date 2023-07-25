@@ -52,8 +52,8 @@ namespace Objects.Other
 			objectBehaviour.SetIsNotPushable(isWrenched);
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Wrench, gameObject.AssumedWorldPosServer());
 			var status = !isWrenched ? "movable" : "immovable";
-			Chat.AddActionMsgToChat(wrenchHolder.gameObject, $"The {gameObject.ExpensiveName()} is now {status}",
-				$"{wrenchHolder.visibleName} uses the wrench on the {gameObject.ExpensiveName()}");
+			Chat.AddActionMsgToChat(wrenchHolder.gameObject, $"The {gameObject.DisplayName()} is now {status}",
+				$"{wrenchHolder.visibleName} uses the wrench on the {gameObject.DisplayName()}");
 		}
 
 		private void SwitchOffOn(PlayerScript switcher)
@@ -74,7 +74,7 @@ namespace Objects.Other
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE ,FlashInRadius);
 			}
 			var status = isOn ? "on" : "off";
-			Chat.AddActionMsgToChat(gameObject, $"{switcher.visibleName} switches {status} the {gameObject.ExpensiveName()}.");
+			Chat.AddActionMsgToChat(gameObject, $"{switcher.visibleName} switches {status} the {gameObject.DisplayName()}.");
 		}
 	}
 }

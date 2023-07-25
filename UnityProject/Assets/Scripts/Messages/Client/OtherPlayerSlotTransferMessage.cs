@@ -51,14 +51,14 @@ namespace Messages.Client
 			int speed;
 			if (!targetSlot.IsEmpty)
 			{
-				Chat.AddActionMsgToChat(playerObject, $"You try to remove {targetObject.ExpensiveName()}'s {targetSlot.ItemObject.ExpensiveName()}...",
-					$"{playerObject.ExpensiveName()} tries to remove {targetObject.ExpensiveName()}'s {targetSlot.ItemObject.ExpensiveName()}.");
+				Chat.AddActionMsgToChat(playerObject, $"You try to remove {targetObject.DisplayName()}'s {targetSlot.ItemObject.DisplayName()}...",
+					$"{playerObject.DisplayName()} tries to remove {targetObject.DisplayName()}'s {targetSlot.ItemObject.DisplayName()}.");
 				speed = 3;
 			}
 			else if (playerSlot.IsOccupied)
 			{
-				Chat.AddActionMsgToChat(playerObject, $"You try to put the {playerSlot.ItemObject.ExpensiveName()} on {targetObject.ExpensiveName()}...",
-					$"{playerObject.ExpensiveName()} tries to put the {playerSlot.ItemObject.ExpensiveName()} on {targetObject.ExpensiveName()}.");
+				Chat.AddActionMsgToChat(playerObject, $"You try to put the {playerSlot.ItemObject.DisplayName()} on {targetObject.DisplayName()}...",
+					$"{playerObject.DisplayName()} tries to put the {playerSlot.ItemObject.DisplayName()} on {targetObject.DisplayName()}.");
 				speed = 1;
 			}
 			else return;

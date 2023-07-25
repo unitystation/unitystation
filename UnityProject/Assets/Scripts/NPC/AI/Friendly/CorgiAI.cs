@@ -46,7 +46,7 @@ namespace Systems.MobAIs
 			if (barked != null)
 			{
 				Chat.AddActionMsgToChat(barked, $"{MobName} barks at you!",
-					$"{MobName} barks at {barked.ExpensiveName()}");
+					$"{MobName} barks at {barked.DisplayName()}");
 			}
 			else
 			{
@@ -171,13 +171,13 @@ namespace Systems.MobAIs
 					Chat.AddActionMsgToChat(
 						performer,
 						$"{MobName} licks your hand!",
-						$"{MobName} licks {performer.ExpensiveName()}'s hand!");
+						$"{MobName} licks {performer.DisplayName()}'s hand!");
 					break;
 				case 5:
 					Chat.AddActionMsgToChat(
 						performer,
 						$"{MobName} gives you its paw!",
-						$"{MobName} gives his paw to {performer.ExpensiveName()}");
+						$"{MobName} gives his paw to {performer.DisplayName()}");
 					break;
 			}
 		}

@@ -405,7 +405,7 @@ namespace Systems.Ai
 
 			if (newObject != null && isCarded == false && moveMessage)
 			{
-				Chat.AddExamineMsgFromServer(gameObject, $"You move to the {newObject.ExpensiveName()}");
+				Chat.AddExamineMsgFromServer(gameObject, $"You move to the {newObject.DisplayName()}");
 			}
 		}
 
@@ -539,7 +539,7 @@ namespace Systems.Ai
 
 			if (hasPower == false)
 			{
-				Chat.AddExamineMsgFromServer(gameObject, $"We have no power, cannot move to {securityCamera.gameObject.ExpensiveName()}");
+				Chat.AddExamineMsgFromServer(gameObject, $"We have no power, cannot move to {securityCamera.gameObject.DisplayName()}");
 
 				//Sanity check to make sure if we have no power we are at core
 				if (cameraLocation != vesselObject.transform)
@@ -551,7 +551,7 @@ namespace Systems.Ai
 
 			if (securityCamera.CameraActive == false)
 			{
-				Chat.AddExamineMsgFromServer(gameObject, $"{securityCamera.gameObject.ExpensiveName()} is inactive, cannot move to it");
+				Chat.AddExamineMsgFromServer(gameObject, $"{securityCamera.gameObject.DisplayName()} is inactive, cannot move to it");
 				return;
 			}
 
@@ -575,7 +575,7 @@ namespace Systems.Ai
 
 			if (hasPower == false)
 			{
-				Chat.AddExamineMsgFromServer(gameObject, $"We have no power, cannot track {objectToTrack.ExpensiveName()}");
+				Chat.AddExamineMsgFromServer(gameObject, $"We have no power, cannot track {objectToTrack.DisplayName()}");
 
 				//Sanity check to make sure if we have no power we are at core
 				if (cameraLocation != vesselObject.transform)
@@ -589,7 +589,7 @@ namespace Systems.Ai
 
 			if (cameraThatCanSee == null)
 			{
-				Chat.AddExamineMsgFromServer(gameObject, $"Failed to track {objectToTrack.ExpensiveName()}");
+				Chat.AddExamineMsgFromServer(gameObject, $"Failed to track {objectToTrack.DisplayName()}");
 				return;
 			}
 
@@ -828,7 +828,7 @@ namespace Systems.Ai
 			var newState = !objectBehaviour.IsNotPushable;
 
 			Chat.AddActionMsgToChat(gameObject, $"You {(newState ? "disengage" : "engage")} your core floor bolts",
-				$"{vesselObject.ExpensiveName()} {(newState ? "disengages" : "engages")} its floor bolts");
+				$"{vesselObject.DisplayName()} {(newState ? "disengages" : "engages")} its floor bolts");
 			objectBehaviour.SetIsNotPushable(newState);
 		}
 
@@ -1304,7 +1304,7 @@ namespace Systems.Ai
 			//Check Ai isn't dead, or carded and disallowed interactions
 			if (HasDied || (isCarded && allowRemoteAction == false))
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"Unable to connect to {gameObject.ExpensiveName()}");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"Unable to connect to {gameObject.DisplayName()}");
 				return;
 			}
 
@@ -1321,8 +1321,8 @@ namespace Systems.Ai
 			{
 				var isPurge = module.AiModuleType == AiModuleType.Purge;
 				ResetLaws(isPurge);
-				Chat.AddActionMsgToChat(interaction.Performer, $"You {(isPurge ? "purge" : "reset")} all of {gameObject.ExpensiveName()}'s laws",
-					$"{interaction.Performer.ExpensiveName()} {(isPurge ? "purges" : "resets")} all of {gameObject.ExpensiveName()}'s laws");
+				Chat.AddActionMsgToChat(interaction.Performer, $"You {(isPurge ? "purge" : "reset")} all of {gameObject.DisplayName()}'s laws",
+					$"{interaction.Performer.DisplayName()} {(isPurge ? "purges" : "resets")} all of {gameObject.DisplayName()}'s laws");
 				return;
 			}
 
@@ -1347,8 +1347,8 @@ namespace Systems.Ai
 
 			SetLaws(lawFromModule, true, notOnlyCoreLaws);
 
-			Chat.AddActionMsgToChat(interaction.Performer, $"You change {gameObject.ExpensiveName()} laws",
-				$"{interaction.Performer.ExpensiveName()} changes {gameObject.ExpensiveName()} laws");
+			Chat.AddActionMsgToChat(interaction.Performer, $"You change {gameObject.DisplayName()} laws",
+				$"{interaction.Performer.DisplayName()} changes {gameObject.DisplayName()} laws");
 		}
 
 		//Add one law

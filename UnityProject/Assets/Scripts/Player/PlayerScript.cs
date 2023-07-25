@@ -618,7 +618,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 				details.AddDetail(new Detail
 				{
 					CausedByInstanceID = slotGlove.Item.gameObject.GetInstanceID(),
-					Description = $" A fibre from a {slotGlove.Item.gameObject.ExpensiveName()}",
+					Description = $" A fibre from a {slotGlove.Item.gameObject.DisplayName()}",
 					DetailType = DetailType.Fibre
 				});
 			}
@@ -647,7 +647,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 				details.AddDetail(new Detail
 				{
 					CausedByInstanceID = slot.Item.gameObject.GetInstanceID(),
-					Description = $" A fibre from a {slot.Item.gameObject.ExpensiveName()}",
+					Description = $" A fibre from a {slot.Item.gameObject.DisplayName()}",
 					DetailType = DetailType.Fibre
 				});
 			}

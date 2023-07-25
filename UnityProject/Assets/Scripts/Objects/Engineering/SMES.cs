@@ -261,7 +261,7 @@ namespace Objects.Engineering
 			{
 				isExploding = true;
 				TrySpark();
-				Chat.AddActionMsgToChat(gameObject, $"<color=red>{gameObject.ExpensiveName()} starts to spit out sparks and smoke! No way this can end good...");
+				Chat.AddActionMsgToChat(gameObject, $"<color=red>{gameObject.DisplayName()} starts to spit out sparks and smoke! No way this can end good...");
 				StartCoroutine(Emp());
 			}
 			batterySupplyingModule.CurrentCapacity -= EmpStrength * 1000;

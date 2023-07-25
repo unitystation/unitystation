@@ -49,13 +49,13 @@ namespace Objects.Other
 
 			if (monoPipe != null)
 			{
-				Chat.AddActionMsgToChat(entity, $"You exit out of the {monoPipe.ExpensiveName()}",
-					$"{entity.ExpensiveName()} exits out of the {monoPipe.ExpensiveName()}!");
+				Chat.AddActionMsgToChat(entity, $"You exit out of the {monoPipe.DisplayName()}",
+					$"{entity.DisplayName()} exits out of the {monoPipe.DisplayName()}!");
 			}
 			else
 			{
 				Chat.AddActionMsgToChat(entity, "You emerge out of the floor",
-					$"{entity.ExpensiveName()} emerges out of the floor!");
+					$"{entity.DisplayName()} emerges out of the floor!");
 			}
 
 			_ = Despawn.ServerSingle(gameObject);

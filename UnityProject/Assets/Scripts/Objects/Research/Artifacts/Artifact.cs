@@ -310,7 +310,7 @@ namespace Objects.Research
 			if (isDormant && Validations.HasItemTrait(interaction.UsedObject, DormantTrigger))
 			{
 				ToggleDormancy(false);
-				Chat.AddActionMsgToChat(gameObject, $"{gameObject.ExpensiveName()} begins to humm quietly!");
+				Chat.AddActionMsgToChat(gameObject, $"{gameObject.DisplayName()} begins to humm quietly!");
 			}
 
 			TryActivateByTouch(interaction);
@@ -325,10 +325,10 @@ namespace Objects.Research
 			}
 
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 5f,
-				$"You begin extracting a sample from {gameObject.ExpensiveName()}...",
-				$"{interaction.Performer.ExpensiveName()} begins extracting a sample from {gameObject.ExpensiveName()}...",
-				$"You extract a sample from {gameObject.ExpensiveName()}.",
-				$"{interaction.Performer.ExpensiveName()} extracts a sample from {gameObject.ExpensiveName()}.",
+				$"You begin extracting a sample from {gameObject.DisplayName()}...",
+				$"{interaction.Performer.DisplayName()} begins extracting a sample from {gameObject.DisplayName()}...",
+				$"You extract a sample from {gameObject.DisplayName()}.",
+				$"{interaction.Performer.DisplayName()} extracts a sample from {gameObject.DisplayName()}.",
 				() =>
 				{
 					GameObject sliver = Spawn.ServerPrefab(SliverPrefab, gameObject.AssumedWorldPosServer()).GameObject;
@@ -364,7 +364,7 @@ namespace Objects.Research
 				}
 				else
 				{
-					Chat.AddActionMsgToChat(gameObject, $"{gameObject.ExpensiveName()} quivers as a crack forms along its edge!");
+					Chat.AddActionMsgToChat(gameObject, $"{gameObject.DisplayName()} quivers as a crack forms along its edge!");
 				}
 			}
 			if (isDormant == false && !UnderTimeoutDamage)
@@ -382,13 +382,13 @@ namespace Objects.Research
 				if (DMMath.Prob(10))
 				{
 					Chat.AddActionMsgToChat(interaction.Performer, "You touch the anomaly, a chill goes down your spine as the anomaly begins to humm quietly...",
-						$"{interaction.Performer.ExpensiveName()} touches the anomaly, a chill goes down your spine as the anomaly begins to humm quietly...");
+						$"{interaction.Performer.DisplayName()} touches the anomaly, a chill goes down your spine as the anomaly begins to humm quietly...");
 					ToggleDormancy(false);
 				}
 				else
 				{
 					Chat.AddActionMsgToChat(interaction.Performer, "You touch the anomaly, it twitches slightly, but remains dormant...",
-						$"{interaction.Performer.ExpensiveName()} touches the anomaly, it twitches slightly, but remains dormant...");
+						$"{interaction.Performer.DisplayName()} touches the anomaly, it twitches slightly, but remains dormant...");
 				}
 			}
 			else if(!UnderTimeoutTouch)
@@ -420,7 +420,7 @@ namespace Objects.Research
 			if (moles > 0 && DMMath.Prob(Mathf.Clamp(moles, 0, 100)))
 			{
 				ToggleDormancy(true);
-				Chat.AddActionMsgToChat(gameObject, $"{gameObject.ExpensiveName()} falls dormant...");
+				Chat.AddActionMsgToChat(gameObject, $"{gameObject.DisplayName()} falls dormant...");
 			}
 		}
 

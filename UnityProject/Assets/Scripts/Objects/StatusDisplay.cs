@@ -172,9 +172,9 @@ namespace Objects.Wallmounts
 					//add 5 cables
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start adding cables to the frame...",
-						$"{interaction.Performer.ExpensiveName()} starts adding cables to the frame...",
+						$"{interaction.Performer.DisplayName()} starts adding cables to the frame...",
 						"You add cables to the frame.",
-						$"{interaction.Performer.ExpensiveName()} adds cables to the frame.",
+						$"{interaction.Performer.DisplayName()} adds cables to the frame.",
 						() =>
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 5);
@@ -188,9 +188,9 @@ namespace Objects.Wallmounts
 					//add 2 glass
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start to put in the glass panel...",
-						$"{interaction.Performer.ExpensiveName()} starts to put in the glass panel...",
+						$"{interaction.Performer.DisplayName()} starts to put in the glass panel...",
 						"You put in the glass panel.",
-						$"{interaction.Performer.ExpensiveName()} puts in the glass panel.",
+						$"{interaction.Performer.DisplayName()} puts in the glass panel.",
 						() =>
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 2);
@@ -201,7 +201,7 @@ namespace Objects.Wallmounts
 				{
 					//cut out cables
 					Chat.AddActionMsgToChat(interaction, $"You remove the cables.",
-						$"{interaction.Performer.ExpensiveName()} removes the cables.");
+						$"{interaction.Performer.DisplayName()} removes the cables.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
 					stateSync = MountedMonitorState.OpenEmpty;
@@ -217,7 +217,7 @@ namespace Objects.Wallmounts
 				{
 					//remove glass
 					Chat.AddActionMsgToChat(interaction, $"You remove the glass panel.",
-						$"{interaction.Performer.ExpensiveName()} removes the glass panel.");
+						$"{interaction.Performer.DisplayName()} removes the glass panel.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					Spawn.ServerPrefab(CommonPrefabs.Instance.GlassSheet, SpawnDestination.At(gameObject), 2);
 					if (hasCables)
@@ -233,7 +233,7 @@ namespace Objects.Wallmounts
 				{
 					//screw in monitor, completing construction
 					Chat.AddActionMsgToChat(interaction, $"You connect the monitor.",
-						$"{interaction.Performer.ExpensiveName()} connects the monitor.");
+						$"{interaction.Performer.DisplayName()} connects the monitor.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					if (hasCables)
 					{
@@ -247,7 +247,7 @@ namespace Objects.Wallmounts
 				{
 					//disconnect the monitor
 					Chat.AddActionMsgToChat(interaction, $"You disconnect the monitor.",
-						$"{interaction.Performer.ExpensiveName()} disconnect the monitor.");
+						$"{interaction.Performer.DisplayName()} disconnect the monitor.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					stateSync = MountedMonitorState.NonScrewedPanel;
 				}
@@ -302,7 +302,7 @@ namespace Objects.Wallmounts
 		private void ChangeChannelMessage(HandApply interaction)
 		{
 			Chat.AddActionMsgToChat(interaction, $"You change the channel of the monitor.",
-				$"{interaction.Performer.ExpensiveName()} changes the channel of the monitor.");
+				$"{interaction.Performer.DisplayName()} changes the channel of the monitor.");
 		}
 
 		private IEnumerator BlinkText()

@@ -125,9 +125,9 @@ namespace Systems.Construction
 						//wrench in place
 						ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 							"You start wrenching the turret frame into place...",
-							$"{interaction.Performer.ExpensiveName()} starts wrenching the turret frame into place...",
+							$"{interaction.Performer.DisplayName()} starts wrenching the turret frame into place...",
 							"You wrench the turret frame into place.",
-							$"{interaction.Performer.ExpensiveName()} wrenches the turret frame into place.",
+							$"{interaction.Performer.DisplayName()} wrenches the turret frame into place.",
 							() =>
 							{
 								objectBehaviour.ServerSetAnchored(true, interaction.Performer);
@@ -145,9 +145,9 @@ namespace Systems.Construction
 					//deconstruct
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start deconstructing the turret frame...",
-						$"{interaction.Performer.ExpensiveName()} starts deconstructing the turret frame...",
+						$"{interaction.Performer.DisplayName()} starts deconstructing the turret frame...",
 						"You deconstruct the turret frame.",
-						$"{interaction.Performer.ExpensiveName()} deconstructs the turret frame.",
+						$"{interaction.Performer.DisplayName()} deconstructs the turret frame.",
 						() =>
 						{
 							Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
@@ -166,9 +166,9 @@ namespace Systems.Construction
 					//Add metal
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start adding a metal cover to the turret frame...",
-						$"{interaction.Performer.ExpensiveName()} starts adding a metal cover to the turret frame...",
+						$"{interaction.Performer.DisplayName()} starts adding a metal cover to the turret frame...",
 						"You add a metal cover to the turret frame.",
-						$"{interaction.Performer.ExpensiveName()} adds a metal cover to the turret frame.",
+						$"{interaction.Performer.DisplayName()} adds a metal cover to the turret frame.",
 						() =>
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 1);
@@ -180,9 +180,9 @@ namespace Systems.Construction
 					//Unanchor
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start unwrenching the turret frame from the floor...",
-						$"{interaction.Performer.ExpensiveName()} starts unwrenching the turret frame from the floor...",
+						$"{interaction.Performer.DisplayName()} starts unwrenching the turret frame from the floor...",
 						"You unwrench the turret frame from the floor.",
-						$"{interaction.Performer.ExpensiveName()} unwrenches the turret frame from the floor.",
+						$"{interaction.Performer.DisplayName()} unwrenches the turret frame from the floor.",
 						() =>
 						{
 							objectBehaviour.ServerSetAnchored(false, interaction.Performer);
@@ -202,9 +202,9 @@ namespace Systems.Construction
 					//Wrench
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start wrenching the bolts on the turret frame...",
-						$"{interaction.Performer.ExpensiveName()} starts wrenching the bolts on the turret frame...",
+						$"{interaction.Performer.DisplayName()} starts wrenching the bolts on the turret frame...",
 						"You wrench the bolts on the turret frame.",
-						$"{interaction.Performer.ExpensiveName()} wrenches the bolts on the turret frame.",
+						$"{interaction.Performer.DisplayName()} wrenches the bolts on the turret frame.",
 						() =>
 						{
 							stateful.ServerChangeState(wrenchState);
@@ -215,9 +215,9 @@ namespace Systems.Construction
 					//Remove metal
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start removing the metal cover from the turret frame...",
-						$"{interaction.Performer.ExpensiveName()} starts removing the metal cover from the turret frame...",
+						$"{interaction.Performer.DisplayName()} starts removing the metal cover from the turret frame...",
 						"You remove the metal cover from the turret frame.",
-						$"{interaction.Performer.ExpensiveName()} removes the metal cover from the turret frame.",
+						$"{interaction.Performer.DisplayName()} removes the metal cover from the turret frame.",
 						() =>
 						{
 							Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 1);
@@ -234,8 +234,8 @@ namespace Systems.Construction
 				if (Validations.HasItemTrait(interaction, gunTrait))
 				{
 					//Add energy gun
-					Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the turret frame.",
-						$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the turret frame.");
+					Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.DisplayName()} inside the turret frame.",
+						$"{interaction.Performer.DisplayName()} places the {interaction.UsedObject.DisplayName()} inside the turret frame.");
 					Inventory.ServerTransfer(interaction.HandSlot, gunSlot);
 					stateful.ServerChangeState(gunAddedState);
 				}
@@ -244,9 +244,9 @@ namespace Systems.Construction
 					//Remove unwrench bolts
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start removing the bolts from the turret frame...",
-						$"{interaction.Performer.ExpensiveName()} starts removing the bolts from the turret frame...",
+						$"{interaction.Performer.DisplayName()} starts removing the bolts from the turret frame...",
 						"You remove the bolts from the turret frame.",
-						$"{interaction.Performer.ExpensiveName()} removes the bolts from the turret frame.",
+						$"{interaction.Performer.DisplayName()} removes the bolts from the turret frame.",
 						() =>
 						{
 							stateful.ServerChangeState(metalAddedState);
@@ -262,16 +262,16 @@ namespace Systems.Construction
 				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.ProximitySensor))
 				{
 					//Add proximity sensor
-					Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the turret frame.",
-						$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the turret frame.");
+					Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.DisplayName()} inside the turret frame.",
+						$"{interaction.Performer.DisplayName()} places the {interaction.UsedObject.DisplayName()} inside the turret frame.");
 					_ = Despawn.ServerSingle(interaction.UsedObject);
 					stateful.ServerChangeState(proxAddedState);
 				}
 				else if  (interaction.HandObject == null)
 				{
 					//Remove gun
-					Chat.AddActionMsgToChat(interaction, $"You remove the {gunSlot.ItemObject.ExpensiveName()} from the frame.",
-						$"{interaction.Performer.ExpensiveName()} removes the {gunSlot.ItemObject.ExpensiveName()} from the frame.");
+					Chat.AddActionMsgToChat(interaction, $"You remove the {gunSlot.ItemObject.DisplayName()} from the frame.",
+						$"{interaction.Performer.DisplayName()} removes the {gunSlot.ItemObject.DisplayName()} from the frame.");
 					Inventory.ServerDrop(gunSlot);
 
 					stateful.ServerChangeState(wrenchState);
@@ -288,9 +288,9 @@ namespace Systems.Construction
 					//Screw
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start closing the internal hatch of the turret frame...",
-						$"{interaction.Performer.ExpensiveName()} starts closing the internal hatch of the turret frame...",
+						$"{interaction.Performer.DisplayName()} starts closing the internal hatch of the turret frame...",
 						"You close the internal hatch of the turret frame.",
-						$"{interaction.Performer.ExpensiveName()} closes the internal hatch of the turret frame.",
+						$"{interaction.Performer.DisplayName()} closes the internal hatch of the turret frame.",
 						() =>
 						{
 							stateful.ServerChangeState(screwState);
@@ -299,8 +299,8 @@ namespace Systems.Construction
 				else if  (interaction.HandObject == null)
 				{
 					//Remove prox
-					Chat.AddActionMsgToChat(interaction, $"You remove the {gunSlot.ItemObject.ExpensiveName()} from the frame.",
-						$"{interaction.Performer.ExpensiveName()} removes the {gunSlot.ItemObject.ExpensiveName()} from the frame.");
+					Chat.AddActionMsgToChat(interaction, $"You remove the {gunSlot.ItemObject.DisplayName()} from the frame.",
+						$"{interaction.Performer.DisplayName()} removes the {gunSlot.ItemObject.DisplayName()} from the frame.");
 					Spawn.ServerPrefab(proximityPrefab, objectBehaviour.registerTile.WorldPosition, transform.parent);
 
 					stateful.ServerChangeState(gunAddedState);
@@ -317,9 +317,9 @@ namespace Systems.Construction
 					//Add metal
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start adding a metal cover to the turret frame...",
-						$"{interaction.Performer.ExpensiveName()} starts adding a metal cover to the turret frame...",
+						$"{interaction.Performer.DisplayName()} starts adding a metal cover to the turret frame...",
 						"You add a metal cover to the turret frame.",
-						$"{interaction.Performer.ExpensiveName()} adds a metal cover to the turret frame.",
+						$"{interaction.Performer.DisplayName()} adds a metal cover to the turret frame.",
 						() =>
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 1);
@@ -331,9 +331,9 @@ namespace Systems.Construction
 					//Unscrew
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start removing the bolts from the turret frame...",
-						$"{interaction.Performer.ExpensiveName()} starts removing the bolts from the turret frame...",
+						$"{interaction.Performer.DisplayName()} starts removing the bolts from the turret frame...",
 						"You remove the bolts from the turret frame.",
-						$"{interaction.Performer.ExpensiveName()} removes the bolts from the turret frame.",
+						$"{interaction.Performer.DisplayName()} removes the bolts from the turret frame.",
 						() =>
 						{
 							stateful.ServerChangeState(proxAddedState);
@@ -351,9 +351,9 @@ namespace Systems.Construction
 					//Weld to finish turret
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start welding the outer metal cover to the turret frame...",
-						$"{interaction.Performer.ExpensiveName()} starts welding the outer metal cover to the turret frame...",
+						$"{interaction.Performer.DisplayName()} starts welding the outer metal cover to the turret frame...",
 						"You weld the outer metal cover to the turret frame.",
-						$"{interaction.Performer.ExpensiveName()} welds the outer metal cover to the turret frame.",
+						$"{interaction.Performer.DisplayName()} welds the outer metal cover to the turret frame.",
 						() =>
 						{
 							var spawnedTurret = Spawn.ServerPrefab(turretPrefab, objectBehaviour.registerTile.WorldPosition, transform.parent);
@@ -371,9 +371,9 @@ namespace Systems.Construction
 					//remove metal
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start prying off the outer metal cover from the turret frame...",
-						$"{interaction.Performer.ExpensiveName()} starts prying off the outer metal cover from the turret frame...",
+						$"{interaction.Performer.DisplayName()} starts prying off the outer metal cover from the turret frame...",
 						"You pry off the outer metal cover from the turret frame.",
-						$"{interaction.Performer.ExpensiveName()} prys off the outer metal cover from the turret frame.",
+						$"{interaction.Performer.DisplayName()} prys off the outer metal cover from the turret frame.",
 						() =>
 						{
 							stateful.ServerChangeState(screwState);

@@ -63,7 +63,7 @@ namespace Items.Storage
 			if (isOpen) pizzaSprites.SetSpriteSO(spritePizzaBoxBombActive);
 			if (writtenNote != "")
 			{
-				Chat.AddActionMsgToChat(gameObject, $"<color=red>An explosive can be seen ticking from the {gameObject.ExpensiveName()} " +
+				Chat.AddActionMsgToChat(gameObject, $"<color=red>An explosive can be seen ticking from the {gameObject.DisplayName()} " +
 													$"and below it is a note that reads '{writtenNote}'!</color>");
 			}
 			if (PizzaGui != null) PizzaGui.StartCoroutine(PizzaGui.UpdateTimer());
@@ -158,7 +158,7 @@ namespace Items.Storage
 				if(TryAddPizza(interaction.UsedObject) == false)
 				{
 					Chat.AddExamineMsg(interaction.Performer, $"<color=red>You can't add {interaction.UsedObject} " +
-					                                          $"to the {gameObject.ExpensiveName()} because there's already something in it!</color>");
+					                                          $"to the {gameObject.DisplayName()} because there's already something in it!</color>");
 					return;
 				}
 			}
@@ -186,7 +186,7 @@ namespace Items.Storage
 			{
 				if(TryAddPizza(interaction.TargetObject)) return;
 				Chat.AddExamineMsg(interaction.Performer, $"<color=red>You can't add {interaction.TargetObject} " +
-				                                          $"to the {gameObject.ExpensiveName()} because there's already something in it!</color>");
+				                                          $"to the {gameObject.DisplayName()} because there's already something in it!</color>");
 				return;
 			}
 			if (isBomb && interaction.IsAltClick == false)

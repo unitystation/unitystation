@@ -748,7 +748,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			pointTarget = matrixSync.NetworkedMatrix.gameObject;
 		}
 
-		string pointedName = pointTarget.ExpensiveName();
+		string pointedName = pointTarget.DisplayName();
 		var interactableTiles = pointTarget.GetComponent<InteractableTiles>();
 		if (interactableTiles)
 		{
@@ -766,7 +766,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		Effect.PlayParticleDirectional(gameObject, mousePos);
 		Chat.AddActionMsgToChat(playerScript.gameObject, $"You point at {preposition}{pointedName}.",
-			$"{playerScript.gameObject.ExpensiveName()} points at {preposition}{pointedName}.");
+			$"{playerScript.gameObject.DisplayName()} points at {preposition}{pointedName}.");
 	}
 
 	[Command]

@@ -26,7 +26,7 @@ namespace Items.Cargo
 		{
 			if (isOnCooldown)
 			{
-				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} is still recharging!");
+				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.DisplayName()} is still recharging!");
 				return;
 			}
 
@@ -39,7 +39,7 @@ namespace Items.Cargo
 				HighlightScanManager.Instance.Highlight();
 			}
 			StartCoroutine(Cooldown());
-			Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} makes a buzzing sound as it scans the area around you for things that can be highlighted.");
+			Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.DisplayName()} makes a buzzing sound as it scans the area around you for things that can be highlighted.");
 		}
 
 		private IEnumerator Cooldown()

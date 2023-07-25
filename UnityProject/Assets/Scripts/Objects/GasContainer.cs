@@ -148,7 +148,7 @@ namespace Objects.Atmospherics
 			ReleaseContentsInstantly();
 
 			ExplosionUtils.PlaySoundAndShake(registerTile.WorldPositionServer, shakeIntensity, (int) shakeDistance);
-			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " exploded!", gameObject);
+			Chat.AddLocalDestroyMsgToChat(gameObject.DisplayName(), " exploded!", gameObject);
 
 			ServerContainerExplode?.Invoke();
 			// Disable this script, gameObject has no valid container now.

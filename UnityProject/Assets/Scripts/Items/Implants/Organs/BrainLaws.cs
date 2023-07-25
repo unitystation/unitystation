@@ -197,8 +197,8 @@ public class BrainLaws : NetworkBehaviour, IActionGUI, IClientInteractable<HandA
 			var isPurge = module.AiModuleType == AiModuleType.Purge;
 			ResetLaws(isPurge);
 			Chat.AddActionMsgToChat(interaction.Performer,
-				$"You {(isPurge ? "purge" : "reset")} all of {gameObject.ExpensiveName()}'s laws",
-				$"{interaction.Performer.ExpensiveName()} {(isPurge ? "purges" : "resets")} all of {gameObject.ExpensiveName()}'s laws");
+				$"You {(isPurge ? "purge" : "reset")} all of {gameObject.DisplayName()}'s laws",
+				$"{interaction.Performer.DisplayName()} {(isPurge ? "purges" : "resets")} all of {gameObject.DisplayName()}'s laws");
 			return;
 		}
 
@@ -221,8 +221,8 @@ public class BrainLaws : NetworkBehaviour, IActionGUI, IClientInteractable<HandA
 
 		SetLaws(lawFromModule, true, notOnlyCoreLaws);
 
-		Chat.AddActionMsgToChat(interaction.Performer, $"You change {gameObject.ExpensiveName()} laws",
-			$"{interaction.Performer.ExpensiveName()} changes {gameObject.ExpensiveName()} laws");
+		Chat.AddActionMsgToChat(interaction.Performer, $"You change {gameObject.DisplayName()} laws",
+			$"{interaction.Performer.DisplayName()} changes {gameObject.DisplayName()} laws");
 	}
 
 	//Add one law

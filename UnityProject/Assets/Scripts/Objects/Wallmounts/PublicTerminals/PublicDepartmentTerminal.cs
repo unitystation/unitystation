@@ -51,7 +51,7 @@ namespace Objects.Wallmounts.PublicTerminals
 		//For displaying what the console's department is for
 		[field: SerializeField]
 		public DepartmentToInt Department {get; private set;}
-		
+
 		// for the UI
 		private float currentVoltage;
 
@@ -173,7 +173,7 @@ namespace Objects.Wallmounts.PublicTerminals
 			}
 
 			Chat.AddActionMsgToChat(interaction.Performer, $"You swipe your ID through the supply console's ID slot. " + interact,
-				$"{interaction.Performer.ExpensiveName()} swiped their ID through the supply console's ID slot");
+				$"{interaction.Performer.DisplayName()} swiped their ID through the supply console's ID slot");
 		}
 
 		public void ClearID()

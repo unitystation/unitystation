@@ -321,13 +321,13 @@ namespace Objects.Disposals
 			{
 				if (DMMath.Prob(25))
 				{
-					Chat.AddActionMsgToChat(gameObject, $"The {item.ExpensiveName()} bounces off the rim of the {gameObject.ExpensiveName()}!");
+					Chat.AddActionMsgToChat(gameObject, $"The {item.DisplayName()} bounces off the rim of the {gameObject.DisplayName()}!");
 					var dunkMissParameters = new AudioSourceParameters(pitch: RandomDunkPitch);
 					SoundManager.PlayNetworkedAtPos(trashDunkMissSound, registerObject.WorldPositionServer, dunkMissParameters);
 					return;
 				}
 
-				Chat.AddActionMsgToChat(gameObject, $"The {item.ExpensiveName()} goes straight into the {gameObject.ExpensiveName()}! Score!");
+				Chat.AddActionMsgToChat(gameObject, $"The {item.DisplayName()} goes straight into the {gameObject.DisplayName()}! Score!");
 				StoreItem(item);
 			}
 		}
@@ -472,7 +472,7 @@ namespace Objects.Disposals
 		{
 			var rechargeTime = 0;
 			PoweredDevice.Wattusage += wattageUseage;
-			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} starts humming as it sucks the surrounding air into it.");
+			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.DisplayName()} starts humming as it sucks the surrounding air into it.");
 			while (BinCharging && BinCharged == false || rechargeTime < MAX_RECHARGE_TIME)
 			{
 				yield return WaitFor.Seconds(1);
@@ -488,7 +488,7 @@ namespace Objects.Disposals
 
 			// Sound of the bin's air intake flap closing.
 			SoundManager.PlayNetworkedAtPos(AirFlapSound, registerObject.WorldPositionServer, sourceObj: gameObject);
-			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} closes its air intake's flaps.");
+			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.DisplayName()} closes its air intake's flaps.");
 			PoweredDevice.Wattusage -= wattageUseage;
 		}
 
@@ -538,13 +538,13 @@ namespace Objects.Disposals
 		{
 			// Assume binState is Secured
 			string finishPerformerMsg = $"You connect the {objectAttributes.InitialName} to the power.";
-			string finishOthersMsg = $"{currentInteraction.Performer.ExpensiveName()} connects the " +
+			string finishOthersMsg = $"{currentInteraction.Performer.DisplayName()} connects the " +
 						$"{objectAttributes.InitialName} to the power.";
 
 			if (PowerDisconnected == false)
 			{
 				finishPerformerMsg = $"You disconnect the {objectAttributes.InitialName} from the power.";
-				finishOthersMsg = $"{currentInteraction.Performer.ExpensiveName()} disconnects the " +
+				finishOthersMsg = $"{currentInteraction.Performer.DisplayName()} disconnects the " +
 						$"{objectAttributes.InitialName} from the power.";
 			}
 

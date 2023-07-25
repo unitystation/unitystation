@@ -110,7 +110,7 @@ namespace Objects.Telecomms
 		{
 			isScrewed = !isScrewed;
 			string status = isScrewed ? "screw" : "unscrew";
-			Chat.AddExamineMsg(Performer, $"You {status} the {gameObject.ExpensiveName()}.");
+			Chat.AddExamineMsg(Performer, $"You {status} the {gameObject.DisplayName()}.");
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)

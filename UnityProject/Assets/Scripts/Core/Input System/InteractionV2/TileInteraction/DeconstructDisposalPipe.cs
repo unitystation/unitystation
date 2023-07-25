@@ -65,9 +65,9 @@ namespace Objects.Disposals
 			ToolUtils.ServerUseToolWithActionMessages(
 					interaction, seconds,
 					"You start slicing the welds that secure the disposal pipe...",
-					$"{interaction.Performer.ExpensiveName()} starts cutting the disposal pipe welds...",
+					$"{interaction.Performer.DisplayName()} starts cutting the disposal pipe welds...",
 					"You cut the disposal pipe welds.",
-					$"{interaction.Performer.ExpensiveName()} cuts the disposal pipe welds.",
+					$"{interaction.Performer.DisplayName()} cuts the disposal pipe welds.",
 					() => DeconstructPipe(interaction)
 			);
 		}

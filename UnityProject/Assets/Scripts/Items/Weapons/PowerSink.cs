@@ -85,7 +85,7 @@ namespace Items.Weapons
 			{
 				Emitter = signaller;
 				Frequency = signaller.Frequency;
-				Chat.AddExamineMsg(interaction.Performer, $"You pair the {interaction.UsedObject.ExpensiveName()} to this device.");
+				Chat.AddExamineMsg(interaction.Performer, $"You pair the {interaction.UsedObject.DisplayName()} to this device.");
 			}
 		}
 
@@ -101,7 +101,7 @@ namespace Items.Weapons
 			pickupable.ServerSetCanPickup(false);
 			objectBehaviour.SetIsNotPushable(true);
 			ElectricalManager.Instance.electricalSync.StructureChange = true;
-			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} makes a clicking sound as it <b>anchors</b> to the ground.");
+			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.DisplayName()} makes a clicking sound as it <b>anchors</b> to the ground.");
 		}
 		private void UnAnchor()
 		{
@@ -110,7 +110,7 @@ namespace Items.Weapons
 			objectBehaviour.SetIsNotPushable(false);
 			ElectricalManager.Instance.electricalSync.StructureChange = true;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckForVoltage);
-			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} makes a clicking sound as it <b>unanchors</b> from the ground.");
+			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.DisplayName()} makes a clicking sound as it <b>unanchors</b> from the ground.");
 		}
 
 		private void ToggleActivity()

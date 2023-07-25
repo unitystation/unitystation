@@ -58,8 +58,8 @@ namespace Items.Others
 			{
 				ToggleLight(false);
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You blow out the {gameObject.ExpensiveName()}!",
-					$"{interaction.Performer.name} blows out the {gameObject.ExpensiveName()}!");
+					$"You blow out the {gameObject.DisplayName()}!",
+					$"{interaction.Performer.name} blows out the {gameObject.DisplayName()}!");
 			}
 			else
 			{
@@ -67,8 +67,8 @@ namespace Items.Others
 				{
 					ToggleLight(true);
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You light the {gameObject.ExpensiveName()}!",
-						$"{interaction.Performer.name} lights the {gameObject.ExpensiveName()}!");
+						$"You light the {gameObject.DisplayName()}!",
+						$"{interaction.Performer.name} lights the {gameObject.DisplayName()}!");
 				}
 			}
 		}

@@ -42,7 +42,7 @@ namespace Weapons
 
 				Chat.AddActionMsgToChat(interaction.Performer,
 				"You fumble up and shoot yourself!",
-				$"{interaction.Performer.ExpensiveName()} fumbles up and shoots themself!");
+				$"{interaction.Performer.DisplayName()} fumbles up and shoots themself!");
 			}
 			else
 			{

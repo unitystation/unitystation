@@ -47,8 +47,8 @@ namespace Objects
 				}
 			}).ServerStartProgress(interaction.UsedObject.RegisterTile(), ClimbTime, interaction.Performer);
 			Chat.AddActionMsgToChat(interaction.Performer,
-				$"You begin climbing onto the {interaction.TargetObject.gameObject.ExpensiveName()}...",
-				$"{interaction.Performer.ExpensiveName()} begins climbing onto the {interaction.TargetObject.gameObject.ExpensiveName()}...");
+				$"You begin climbing onto the {interaction.TargetObject.gameObject.DisplayName()}...",
+				$"{interaction.Performer.DisplayName()} begins climbing onto the {interaction.TargetObject.gameObject.DisplayName()}...");
 		}
 	}
 }

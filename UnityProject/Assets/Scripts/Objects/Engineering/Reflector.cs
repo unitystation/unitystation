@@ -187,10 +187,10 @@ namespace Objects.Engineering
 			{
 				//Unweld
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 5,
-					$"You begin to unweld the {gameObject.ExpensiveName()}...",
-					$"{interaction.Performer.ExpensiveName()} starts unweld the {gameObject.ExpensiveName()} from the floor...",
-					$"You unweld the {gameObject.ExpensiveName()}",
-					$"{interaction.Performer.ExpensiveName()} unwelds the {gameObject.ExpensiveName()}",
+					$"You begin to unweld the {gameObject.DisplayName()}...",
+					$"{interaction.Performer.DisplayName()} starts unweld the {gameObject.DisplayName()} from the floor...",
+					$"You unweld the {gameObject.DisplayName()}",
+					$"{interaction.Performer.DisplayName()} unwelds the {gameObject.DisplayName()}",
 					() =>
 					{
 						isWelded = false;
@@ -205,10 +205,10 @@ namespace Objects.Engineering
 			{
 				//Weld to floor if not base
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 5,
-					$"You begin to weld the {gameObject.ExpensiveName()}...",
-					$"{interaction.Performer.ExpensiveName()} starts weld the {gameObject.ExpensiveName()} to the floor...",
-					$"You weld the {gameObject.ExpensiveName()}",
-					$"{interaction.Performer.ExpensiveName()} welds the {gameObject.ExpensiveName()}",
+					$"You begin to weld the {gameObject.DisplayName()}...",
+					$"{interaction.Performer.DisplayName()} starts weld the {gameObject.DisplayName()} to the floor...",
+					$"You weld the {gameObject.DisplayName()}",
+					$"{interaction.Performer.DisplayName()} welds the {gameObject.DisplayName()}",
 					() =>
 					{
 						isWelded = true;
@@ -234,10 +234,10 @@ namespace Objects.Engineering
 			}
 
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 5,
-				$"You begin to deconstuct the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}...",
-				$"{interaction.Performer.ExpensiveName()} starts deconstructing the {gameObject.ExpensiveName()}...",
-				$"You deconstruct the {gameObject.ExpensiveName()}",
-				$"{interaction.Performer.ExpensiveName()} deconstructs the {gameObject.ExpensiveName()}",
+				$"You begin to deconstuct the {gameObject.DisplayName()} with the {interaction.HandObject.DisplayName()}...",
+				$"{interaction.Performer.DisplayName()} starts deconstructing the {gameObject.DisplayName()}...",
+				$"You deconstruct the {gameObject.DisplayName()}",
+				$"{interaction.Performer.DisplayName()} deconstructs the {gameObject.DisplayName()}",
 				() => { DownGradeState(); }
 			);
 		}
@@ -336,7 +336,7 @@ namespace Objects.Engineering
 
 					Chat.AddActionMsgToChat(interaction.Performer,
 						$"You add {glassNeeded} glass sheets to the reflector.",
-						$"{interaction.Performer.ExpensiveName()} adds {glassNeeded} glass sheets to the reflector.");
+						$"{interaction.Performer.DisplayName()} adds {glassNeeded} glass sheets to the reflector.");
 
 					return true;
 				}
@@ -356,7 +356,7 @@ namespace Objects.Engineering
 
 					Chat.AddActionMsgToChat(interaction.Performer,
 						$"You add {reinforcedGlassNeeded} reinforced glass sheets to the reflector.",
-						$"{interaction.Performer.ExpensiveName()} adds {reinforcedGlassNeeded} reinforced glass sheets to the reflector.");
+						$"{interaction.Performer.DisplayName()} adds {reinforcedGlassNeeded} reinforced glass sheets to the reflector.");
 					return true;
 				}
 
@@ -375,7 +375,7 @@ namespace Objects.Engineering
 
 					Chat.AddActionMsgToChat(interaction.Performer,
 						$"You add {diamondsNeeded} glass sheets to the reflector.",
-						$"{interaction.Performer.ExpensiveName()} adds {diamondsNeeded} diamond to the reflector.");
+						$"{interaction.Performer.DisplayName()} adds {diamondsNeeded} diamond to the reflector.");
 					return true;
 				}
 

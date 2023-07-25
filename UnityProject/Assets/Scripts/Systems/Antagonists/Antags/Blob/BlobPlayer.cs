@@ -812,7 +812,7 @@ namespace Blob
 			if (noMsg) return false;
 
 			Chat.AddExamineMsgFromServer(gameObject,
-				$"Unable to place {toSpawn.ExpensiveName()}, {cost - resources} biomass missing");
+				$"Unable to place {toSpawn.DisplayName()}, {cost - resources} biomass missing");
 
 			return false;
 		}

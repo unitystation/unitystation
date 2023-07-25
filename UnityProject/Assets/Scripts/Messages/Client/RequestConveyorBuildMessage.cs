@@ -100,11 +100,11 @@ namespace Messages.Client
 					if (conveyorBelt != null) conveyorBelt.SetBeltFromBuildMenu(msg.Direction);
 
 					Chat.AddActionMsgToChat(playerObject, $"You finish building the {entry.Name}.",
-						 $"{playerObject.ExpensiveName()} finishes building the {entry.Name}.");
+						 $"{playerObject.DisplayName()} finishes building the {entry.Name}.");
 				}
 			}
 			Chat.AddActionMsgToChat(playerObject, $"You begin building the {entry.Name}...",
-				$"{playerObject.ExpensiveName()} begins building the {entry.Name}...");
+				$"{playerObject.DisplayName()} begins building the {entry.Name}...");
 			ToolUtils.ServerUseTool(playerObject, usedSlot.ItemObject,
 				ActionTarget.Tile(playerScript.RegisterPlayer.WorldPositionServer), entry.BuildTime,
 				ProgressComplete);

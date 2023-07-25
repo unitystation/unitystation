@@ -81,9 +81,9 @@ namespace Objects.Construction
 					}
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start adding plating...",
-						$"{interaction.Performer.ExpensiveName()} begins adding plating...",
+						$"{interaction.Performer.DisplayName()} begins adding plating...",
 						"You create a false wall.",
-						$"{interaction.Performer.ExpensiveName()} creates a false wall.",
+						$"{interaction.Performer.DisplayName()} creates a false wall.",
 						() => ConstructFalseWall(interaction));
 				}
 				else
@@ -95,9 +95,9 @@ namespace Objects.Construction
 					}
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start adding plating...",
-						$"{interaction.Performer.ExpensiveName()} begins adding plating...",
+						$"{interaction.Performer.DisplayName()} begins adding plating...",
 						"You create a wall.",
-						$"{interaction.Performer.ExpensiveName()} creates a wall.",
+						$"{interaction.Performer.DisplayName()} creates a wall.",
 						() => ConstructWall(interaction));
 				}
 			}
@@ -112,9 +112,9 @@ namespace Objects.Construction
 					}
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start adding plating...",
-						$"{interaction.Performer.ExpensiveName()} begins adding plating...",
+						$"{interaction.Performer.DisplayName()} begins adding plating...",
 						"You add the plating.",
-						$"{interaction.Performer.ExpensiveName()} adds the plating.",
+						$"{interaction.Performer.DisplayName()} adds the plating.",
 						() => ConstructReinforcedFalseWall(interaction));
 				}
 				else
@@ -122,9 +122,9 @@ namespace Objects.Construction
 					// add plasteel for constructing reinforced girder
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 6f,
 						"You start reinforcing the girder...",
-						$"{interaction.Performer.ExpensiveName()} starts reinforcing the girder...",
+						$"{interaction.Performer.DisplayName()} starts reinforcing the girder...",
 						"You reinforce the girder.",
-						$"{interaction.Performer.ExpensiveName()} reinforces the girder.",
+						$"{interaction.Performer.DisplayName()} reinforces the girder.",
 						() => ReinforceGirder(interaction));
 				}
 			}
@@ -143,9 +143,9 @@ namespace Objects.Construction
 					{
 						ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 							"You start securing the girder...",
-							$"{interaction.Performer.ExpensiveName()} starts securing the girder...",
+							$"{interaction.Performer.DisplayName()} starts securing the girder...",
 							"You secure the girder.",
-							$"{interaction.Performer.ExpensiveName()} secures the girder.",
+							$"{interaction.Performer.DisplayName()} secures the girder.",
 							() => objectBehaviour.ServerSetAnchored(true, interaction.Performer));
 					}
 				}
@@ -154,9 +154,9 @@ namespace Objects.Construction
 					// unsecure it
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start unsecuring the girder...",
-						$"{interaction.Performer.ExpensiveName()} starts unsecuring the girder...",
+						$"{interaction.Performer.DisplayName()} starts unsecuring the girder...",
 						"You unsecure the girder.",
-						$"{interaction.Performer.ExpensiveName()} unsecures the girder.",
+						$"{interaction.Performer.DisplayName()} unsecures the girder.",
 						() => objectBehaviour.ServerSetAnchored(false, interaction.Performer));
 				}
 
@@ -168,9 +168,9 @@ namespace Objects.Construction
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start to disassemble the girder...",
-						$"{interaction.Performer.ExpensiveName()} starts to disassemble the girder...",
+						$"{interaction.Performer.DisplayName()} starts to disassemble the girder...",
 						"You disassemble the girder.",
-						$"{interaction.Performer.ExpensiveName()} disassembles the girder.",
+						$"{interaction.Performer.DisplayName()} disassembles the girder.",
 						() => Disassemble(interaction));
 				}
 				else

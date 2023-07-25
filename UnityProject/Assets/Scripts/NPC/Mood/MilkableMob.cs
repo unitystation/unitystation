@@ -82,7 +82,7 @@ namespace NPC.Mood
 
 				Chat.AddActionMsgToChat(
 					performer,
-					string.Format(noMilkMessage, performer.ExpensiveName(), mobAI.mobName.Capitalize()),
+					string.Format(noMilkMessage, performer.DisplayName(), mobAI.mobName.Capitalize()),
 					""
 				);
 
@@ -92,7 +92,7 @@ namespace NPC.Mood
 			Chat.AddActionMsgToChat(
 				performer,
 				string.Format(milkMessageYou, mobAI.mobName.Capitalize()),
-				string.Format(milkMessageOthers, mobAI.mobName.Capitalize(), performer.ExpensiveName())
+				string.Format(milkMessageOthers, mobAI.mobName.Capitalize(), performer.DisplayName())
 			);
 
 			currentMilkAmount -= milkAmount;

@@ -87,7 +87,7 @@ namespace Objects.Cargo
 				denyString = "the console accepts your ID";
 			}
 			Chat.AddActionMsgToChat(interaction.Performer, $"You swipe your ID through the supply console's ID slot, {denyString}",
-				$"{interaction.Performer.ExpensiveName()} swiped their ID through the supply console's ID slot");
+				$"{interaction.Performer.DisplayName()} swiped their ID through the supply console's ID slot");
 
 		}
 

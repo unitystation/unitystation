@@ -27,7 +27,7 @@ public class Headset : SignalEmitter, IInteractable<HandActivate>, IExaminable, 
 		{
 			LoudSpeakOn = !LoudSpeakOn;
 			string result = LoudSpeakOn ? "turn on" : "turn off";
-			Chat.AddExamineMsg(interaction.Performer, $"You {result} the {gameObject.ExpensiveName()}");
+			Chat.AddExamineMsg(interaction.Performer, $"You {result} the {gameObject.DisplayName()}");
 		}
 	}
 
@@ -64,10 +64,10 @@ public class Headset : SignalEmitter, IInteractable<HandActivate>, IExaminable, 
 	{
 		int effectTime = (int)(EmpStrength * 0.75f);
 		isEMPed = true;
-		Chat.AddExamineMsg(PlayerManager.LocalPlayerScript.gameObject, $"Your {gameObject.ExpensiveName()} suddenly becomes very quiet...");
+		Chat.AddExamineMsg(PlayerManager.LocalPlayerScript.gameObject, $"Your {gameObject.DisplayName()} suddenly becomes very quiet...");
 		yield return WaitFor.Seconds(effectTime);
 		isEMPed = false;
-		Chat.AddExamineMsg(PlayerManager.LocalPlayerScript.gameObject, $"Your {gameObject.ExpensiveName()} became emmiting buzz and radio messages again.");
+		Chat.AddExamineMsg(PlayerManager.LocalPlayerScript.gameObject, $"Your {gameObject.DisplayName()} became emmiting buzz and radio messages again.");
 	}
 
 	private void getEncryptionTypeFromHier()

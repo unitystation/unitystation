@@ -62,7 +62,7 @@ namespace Objects.Construction
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			this.interaction = interaction;
-			performerName = interaction.Performer.ExpensiveName();
+			performerName = interaction.Performer.DisplayName();
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 			{

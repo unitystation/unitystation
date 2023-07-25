@@ -147,7 +147,7 @@ namespace Objects
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 
 			//Fetch the items name to use in messages
-			closetName = gameObject.ExpensiveName();
+			closetName = gameObject.DisplayName();
 		}
 
 		public override void OnStartClient()
@@ -295,7 +295,7 @@ namespace Objects
 				SoundManager.PlayNetworkedAtPos(soundOnEmag, sourceregisterobject.WorldPositionServer, sourceObj: sourceobjbehavior);
 				Chat.AddActionMsgToChat(performer,
 						$"You successfully break out of the {closetName}.",
-						$"{performer.ExpensiveName()} emerges from the {closetName}!");
+						$"{performer.DisplayName()} emerges from the {closetName}!");
 			});
 
 			bar.ServerStartProgress(sourceregisterobject, breakoutTime, performer);
@@ -438,12 +438,12 @@ namespace Objects
 					.FirstOrDefault(slot => slot.IsOccupied);
 				if (idSource != null)
 				{
-					effector = idSource.ItemObject.ExpensiveName();
+					effector = idSource.ItemObject.DisplayName();
 				}
 			}
 			else if (interaction.HandSlot.IsOccupied)
 			{
-				effector = interaction.HandObject.ExpensiveName();
+				effector = interaction.HandObject.DisplayName();
 			}
 
 			if (lockState == Lock.Broken)
@@ -491,9 +491,9 @@ namespace Objects
 			ToolUtils.ServerUseToolWithActionMessages(
 				interaction, weldTime,
 				$"You start {(IsWelded ? "unwelding" : "welding")} the {closetName}...",
-				$"{interaction.Performer.ExpensiveName()} starts {(IsWelded ? "unwelding" : "welding")} the {closetName}...",
+				$"{interaction.Performer.DisplayName()} starts {(IsWelded ? "unwelding" : "welding")} the {closetName}...",
 				$"You {(IsWelded ? "unweld" : "weld")} the {closetName}.",
-				$"{interaction.Performer.ExpensiveName()} {(IsWelded ? "unwelds" : "welds")} the {closetName}.",
+				$"{interaction.Performer.DisplayName()} {(IsWelded ? "unwelds" : "welds")} the {closetName}.",
 				() => SetWeld(IsWelded ? Weld.NotWelded : Weld.Welded));
 		}
 

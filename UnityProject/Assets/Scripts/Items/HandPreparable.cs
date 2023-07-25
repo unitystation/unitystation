@@ -22,7 +22,7 @@ namespace Items
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
 			Open();
-			Chat.AddExamineMsg(interaction.Performer, $"You {openingVerb} the {gameObject.ExpensiveName()}");
+			Chat.AddExamineMsg(interaction.Performer, $"You {openingVerb} the {gameObject.DisplayName()}");
 		}
 
 		public virtual void Open()

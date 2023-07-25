@@ -61,9 +61,9 @@ namespace Doors.Modules
 					ToolUtils.ServerUseToolWithActionMessages(
 						interaction, weldTime,
 						$"You start {(isWelded ? "unwelding" : "welding")} the door...",
-						$"{interaction.Performer.ExpensiveName()} starts {(isWelded ? "unwelding" : "welding")} the door...",
+						$"{interaction.Performer.DisplayName()} starts {(isWelded ? "unwelding" : "welding")} the door...",
 						$"You {(isWelded ? "unweld" : "weld")} the door.",
-						$"{interaction.Performer.ExpensiveName()} {(isWelded ? "unwelds" : "welds")} the door.",
+						$"{interaction.Performer.DisplayName()} {(isWelded ? "unwelds" : "welds")} the door.",
 						ToggleWeld);
 					break;
 				case Intent.Help:

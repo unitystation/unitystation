@@ -32,7 +32,7 @@ public class DetectiveScanner : NetworkBehaviour, ICheckedInteractable<Positiona
 		if (interaction.TargetObject.GetComponent<Attributes>() != null)
 		{
 			appliedDetails = interaction.TargetObject.GetComponent<Attributes>().OrNull()?.AppliedDetails;
-			ScanningName = interaction.TargetObject.ExpensiveName() + " \n Clue ID " + interaction.TargetObject.gameObject.GetInstanceID();
+			ScanningName = interaction.TargetObject.DisplayName() + " \n Clue ID " + interaction.TargetObject.gameObject.GetInstanceID();
 		}
 		else
 		{

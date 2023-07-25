@@ -93,7 +93,7 @@ public class TableInteractionClimb : TileInteraction
 					_ = SoundManager.PlayNetworkedAtPosAsync(soundOnBreak, interaction.WorldPositionTarget);
 					Chat.AddActionMsgToChat(interaction.UsedObject,
 						$"Your weight pushes onto the {interaction.BasicTile.DisplayName} and you break it and fall through it",
-						$"{interaction.UsedObject.ExpensiveName()} falls through the {interaction.BasicTile.DisplayName} as it breaks from their weight.");
+						$"{interaction.UsedObject.DisplayName()} falls through the {interaction.BasicTile.DisplayName} as it breaks from their weight.");
 					victim.PlayerScript.playerHealth.ApplyDamageAll(interaction.Performer, damageOnBreak, AttackType.Melee, DamageType.Brute);
 					interaction.TileChangeManager.MetaTileMap.RemoveTileWithlayer(interaction.TargetCellPos, interaction.BasicTile.LayerType);
 				}
@@ -102,6 +102,6 @@ public class TableInteractionClimb : TileInteraction
 
 		Chat.AddActionMsgToChat(interaction.Performer,
 			"You begin climbing onto the table...",
-			$"{interaction.Performer.ExpensiveName()} begins climbing onto the table...");
+			$"{interaction.Performer.DisplayName()} begins climbing onto the table...");
 	}
 }

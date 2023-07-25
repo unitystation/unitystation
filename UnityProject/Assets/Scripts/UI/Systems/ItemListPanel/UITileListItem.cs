@@ -25,7 +25,7 @@ namespace UI
 				itemSpriteRenderer = value.transform.GetComponentInChildren<SpriteRenderer>(false);
 				image.sprite = itemSpriteRenderer.sprite;
 				tileSprite = null;
-				text.text = value.ExpensiveName();
+				text.text = value.DisplayName();
 			}
 		}
 

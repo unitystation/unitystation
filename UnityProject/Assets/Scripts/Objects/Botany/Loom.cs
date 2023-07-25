@@ -61,18 +61,18 @@ namespace Objects.Botany
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 3f,
 					"You start weaving raw cotton through the loom...",
-					$"{interaction.Performer.ExpensiveName()} starts weaving raw cotton through the loom...",
+					$"{interaction.Performer.DisplayName()} starts weaving raw cotton through the loom...",
 					"You weave the raw cotton into a workable fabric.",
-					$"{interaction.Performer.ExpensiveName()} weaves the raw cotton into a workable fabric.",
+					$"{interaction.Performer.DisplayName()} weaves the raw cotton into a workable fabric.",
 					() => Production(cottonSheet, interaction));
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.RawDurathreadBundle))
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 3f,
 					"You start weaving raw durathread through the loom...",
-					$"{interaction.Performer.ExpensiveName()} starts weaving raw durathread through the loom...",
+					$"{interaction.Performer.DisplayName()} starts weaving raw durathread through the loom...",
 					"You weave the raw durathread into a workable fabric.",
-					$"{interaction.Performer.ExpensiveName()} weaves the raw durathread into a workable fabric.",
+					$"{interaction.Performer.DisplayName()} weaves the raw durathread into a workable fabric.",
 					() => Production(durathreadSheet, interaction));
 			}
 		}

@@ -158,8 +158,8 @@ namespace Items
 				return;
 			}
 
-			Chat.AddActionMsgToChat(interaction.Performer, $"You melt the {gameObject.ExpensiveName()} with the {interaction.UsedObject.ExpensiveName()}",
-				$"{interaction.Performer.ExpensiveName()} melts the {gameObject.ExpensiveName()} with the {interaction.UsedObject.ExpensiveName()}");
+			Chat.AddActionMsgToChat(interaction.Performer, $"You melt the {gameObject.DisplayName()} with the {interaction.UsedObject.DisplayName()}",
+				$"{interaction.Performer.DisplayName()} melts the {gameObject.DisplayName()} with the {interaction.UsedObject.DisplayName()}");
 
 			if (isHotIce == false)
 			{

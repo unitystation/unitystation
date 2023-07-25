@@ -54,14 +54,14 @@ namespace HealthV2.TraumaTypes
 					bodyPart.HealthMaster.ChangeBleedStacks(3);
 					Chat.AddActionMsgToChat(bodyPart.HealthMaster.gameObject,
 						$"<color=red>{bodyPart.HealthMaster.playerScript.visibleName}'s " +
-						$"{bodyPart.gameObject.ExpensiveName()} starts dripping blood lightly as it gets slightly cut open.</color>");
+						$"{bodyPart.gameObject.DisplayName()} starts dripping blood lightly as it gets slightly cut open.</color>");
 					StartCoroutine(NaturalHealing(healingTimeFirstStage));
 					break;
 				case 2:
 					bodyPart.HealthMaster.ChangeBleedStacks(9);
 					Chat.AddActionMsgToChat(bodyPart.HealthMaster.gameObject,
 						$"<color=red>Blood heavily pours out of {bodyPart.HealthMaster.playerScript.visibleName}'s " +
-						$"{bodyPart.gameObject.ExpensiveName()} as a huge gash can be seen open.</color>");
+						$"{bodyPart.gameObject.DisplayName()} as a huge gash can be seen open.</color>");
 					StopCoroutine(nameof(NaturalHealing));
 					StartCoroutine(NaturalHealing(healingTimeSecondStage));
 					break;
@@ -69,7 +69,7 @@ namespace HealthV2.TraumaTypes
 					bodyPart.HealthMaster.ChangeBleedStacks(27);
 					Chat.AddActionMsgToChat(bodyPart.HealthMaster.gameObject,
 						$"<size=+6><color=red>{bodyPart.HealthMaster.playerScript.visibleName}'s " +
-						$"{bodyPart.gameObject.ExpensiveName()} becomes heavily mangled and torn!</color></size>");
+						$"{bodyPart.gameObject.DisplayName()} becomes heavily mangled and torn!</color></size>");
 					StopCoroutine(nameof(NaturalHealing));
 					break;
 				case 4:
@@ -97,9 +97,9 @@ namespace HealthV2.TraumaTypes
 			return currentStage switch
 			{
 				0 => null,
-				1 => $"{bodyPart.gameObject.ExpensiveName()} - Rough Abrasion.",
-				2 => $"{bodyPart.gameObject.ExpensiveName()} - Open Laceration.",
-				3 => $"{bodyPart.gameObject.ExpensiveName()} - Weeping Avulsion.",
+				1 => $"{bodyPart.gameObject.DisplayName()} - Rough Abrasion.",
+				2 => $"{bodyPart.gameObject.DisplayName()} - Open Laceration.",
+				3 => $"{bodyPart.gameObject.DisplayName()} - Weeping Avulsion.",
 				_ => null
 			};
 		}

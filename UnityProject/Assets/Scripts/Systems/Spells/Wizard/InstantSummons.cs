@@ -55,7 +55,7 @@ namespace Systems.Spells.Wizard
 
 		private void SummonObject(GameObject summonedObject)
 		{
-			string summonedName = summonedObject.ExpensiveName();
+			string summonedName = summonedObject.DisplayName();
 			Chat.AddActionMsgToChat(summonedObject,
 				"<color=red>You feel a magical force transposing you!</color>",
 				$"<color=red>The {summonedName} suddenly disappears!</color>");
@@ -113,7 +113,7 @@ namespace Systems.Spells.Wizard
 		{
 			markedItem = item;
 			isSet = true;
-			Chat.AddExamineMsgFromServer(caster, $"You mark the {item.gameObject.ExpensiveName()} for recall.");
+			Chat.AddExamineMsgFromServer(caster, $"You mark the {item.gameObject.DisplayName()} for recall.");
 		}
 
 		private void RemoveMark(GameObject item)
@@ -121,7 +121,7 @@ namespace Systems.Spells.Wizard
 			markedItem = null;
 			isSet = false;
 			Chat.AddExamineMsgFromServer(caster,
-				$"You remove the mark on the {item.ExpensiveName()} to use elsewhere.");
+				$"You remove the mark on the {item.DisplayName()} to use elsewhere.");
 		}
 
 		#region Generic Helpers

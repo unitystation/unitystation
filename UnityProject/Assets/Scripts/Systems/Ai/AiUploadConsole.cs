@@ -34,7 +34,7 @@ namespace Systems.Ai
 		{
 			if (apcPoweredDevice.State == PowerState.Off)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} has no power");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.DisplayName()} has no power");
 				return;
 			}
 
@@ -59,7 +59,7 @@ namespace Systems.Ai
 
 				selectedAiPlayer = aiPlayers[lastIndex].GameObject.GetComponent<AiPlayer>();
 
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"{selectedAiPlayer.gameObject.ExpensiveName()} selected");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"{selectedAiPlayer.gameObject.DisplayName()} selected");
 
 				lastIndex++;
 				return;
@@ -80,7 +80,7 @@ namespace Systems.Ai
 		{
 			if (selectedAiPlayer != null)
 			{
-				return $"{selectedAiPlayer.gameObject.ExpensiveName()} selected for law change";
+				return $"{selectedAiPlayer.gameObject.DisplayName()} selected for law change";
 			}
 
 			return "";

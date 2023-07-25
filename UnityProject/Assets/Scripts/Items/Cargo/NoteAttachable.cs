@@ -31,7 +31,7 @@ namespace Items.Cargo
 		{
 			if (noteText.IsNullOrEmpty() == false && performer != null)
 			{
-				Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} already has a note attached to it!");
+				Chat.AddExamineMsg(performer, $"{gameObject.DisplayName()} already has a note attached to it!");
 				return;
 			}
 
@@ -45,8 +45,8 @@ namespace Items.Cargo
 			ServerSetNoteText(string.Empty);
 
 			Chat.AddActionMsgToChat(performer,
-				$"You detach the note from {gameObject.ExpensiveName()}",
-				$"{performer.ExpensiveName()} detaches the note from {gameObject.ExpensiveName()}");
+				$"You detach the note from {gameObject.DisplayName()}",
+				$"{performer.DisplayName()} detaches the note from {gameObject.DisplayName()}");
 		}
 
 		private bool CommonWillInteract(TargetedInteraction interaction)

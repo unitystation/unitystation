@@ -389,7 +389,7 @@ namespace Weapons
 			{
 				if (interaction.Performer == PlayerManager.LocalPlayerObject)
 				{
-					Chat.AddExamineMsgToClient("The " + gameObject.ExpensiveName() +
+					Chat.AddExamineMsgToClient("The " + gameObject.DisplayName() +
 					                           "'s trigger is locked. It doesn't have a firing pin installed!");
 				}
 
@@ -472,7 +472,7 @@ namespace Weapons
 					? $"{CurrentMagazine.ServerAmmoRemains} rounds loaded"
 					: "It's empty!")
 				.AppendLine(FiringPin != null
-					? $"It has a {FiringPin.gameObject.ExpensiveName()} installed"
+					? $"It has a {FiringPin.gameObject.DisplayName()} installed"
 					: "It doesn't have a firing pin installed, it won't fire");
 			return exam.ToString();
 		}
@@ -497,8 +497,8 @@ namespace Weapons
 		private void PinAddition(InventoryApply interaction)
 		{
 			Chat.AddActionMsgToChat(interaction.Performer,
-				$"You insert the {interaction.UsedObject.gameObject.ExpensiveName()} into {gameObject.ExpensiveName()}.",
-				$"{interaction.Performer.ExpensiveName()} inserts the {interaction.UsedObject.gameObject.ExpensiveName()} into {gameObject.ExpensiveName()}.");
+				$"You insert the {interaction.UsedObject.gameObject.DisplayName()} into {gameObject.DisplayName()}.",
+				$"{interaction.Performer.DisplayName()} inserts the {interaction.UsedObject.gameObject.DisplayName()} into {gameObject.DisplayName()}.");
 			Inventory.ServerTransfer(interaction.FromSlot, pinSlot);
 			FiringPin.gunComp = this;
 		}
@@ -511,8 +511,8 @@ namespace Weapons
 			void ProgressFinishAction()
 			{
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You remove the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}",
-					$"{interaction.Performer.ExpensiveName()} removes the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}.");
+					$"You remove the {FiringPin.gameObject.DisplayName()} from {gameObject.DisplayName()}",
+					$"{interaction.Performer.DisplayName()} removes the {FiringPin.gameObject.DisplayName()} from {gameObject.DisplayName()}.");
 
 				FiringPin.gunComp = null;
 
@@ -525,8 +525,8 @@ namespace Weapons
 			if (bar != null)
 			{
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You begin removing the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}",
-					$"{interaction.Performer.ExpensiveName()} begins removing the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}.");
+					$"You begin removing the {FiringPin.gameObject.DisplayName()} from {gameObject.DisplayName()}",
+					$"{interaction.Performer.DisplayName()} begins removing the {FiringPin.gameObject.DisplayName()} from {gameObject.DisplayName()}.");
 
 				AudioSourceParameters audioSourceParameters =
 					new AudioSourceParameters(UnityEngine.Random.Range(0.8f, 1.2f));
@@ -651,8 +651,8 @@ namespace Weapons
 			if (isSuppressed == false && isSuicideShot == false)
 			{
 				Chat.AddActionMsgToChat(serverHolder,
-					$"You fire your {gameObject.ExpensiveName()}",
-					$"{serverHolder.ExpensiveName()} fires their {gameObject.ExpensiveName()}");
+					$"You fire your {gameObject.DisplayName()}",
+					$"{serverHolder.DisplayName()} fires their {gameObject.DisplayName()}");
 			}
 
 				//kickback

@@ -35,7 +35,7 @@ namespace Objects.Other
 		{
 			isArmed = !isArmed;
 			Chat.AddExamineMsgFromServer(Performer,
-				isArmed ? "You arm the " + gameObject.ExpensiveName() : "You disarm the " + gameObject.ExpensiveName());
+				isArmed ? "You arm the " + gameObject.DisplayName() : "You disarm the " + gameObject.DisplayName());
 			return isArmed;
 		}
 
@@ -50,8 +50,8 @@ namespace Objects.Other
 				if(ignoresHandwear == false && hand.IsEmpty == false) continue;
 				ApplyDamageToPartyType(health, handTypes.PickRandom());
 			}
-			Chat.AddActionMsgToChat(gameObject, $"You are surprised with a {gameObject.ExpensiveName()} biting your hand!",
-				$"{health.playerScript.visibleName} screams in pain and surprise as {gameObject.ExpensiveName()} " +
+			Chat.AddActionMsgToChat(gameObject, $"You are surprised with a {gameObject.DisplayName()} biting your hand!",
+				$"{health.playerScript.visibleName} screams in pain and surprise as {gameObject.DisplayName()} " +
 				$"bites {health.playerScript.characterSettings.TheirPronoun(health.playerScript)} hand!");
 			PlayStepAudio();
 		}

@@ -36,7 +36,7 @@ namespace Items.Magical
 
 			if (base.TryReading(player) == false)
 			{
-				Chat.AddActionMsgToChat(gameObject, default, $"The {gameObject.ExpensiveName()} glows in a black light!");
+				Chat.AddActionMsgToChat(gameObject, default, $"The {gameObject.DisplayName()} glows in a black light!");
 				Punish(player);
 				return false;
 			}
@@ -51,7 +51,7 @@ namespace Items.Magical
 
 			if (AllowOnlyOneReader && hasBeenRead)
 			{
-				Chat.AddCombatMsgToChat(gameObject, default, $"The {gameObject.ExpensiveName()} glows dark for a second!");
+				Chat.AddCombatMsgToChat(gameObject, default, $"The {gameObject.DisplayName()} glows dark for a second!");
 			}
 		}
 

@@ -67,7 +67,7 @@ namespace Items.Bureaucracy
 			if (canBeReadMultipleTimes == false &&
 					readerProgress.ContainsKey(player) && readerProgress[player] > pagesToRead)
 			{
-				Chat.AddExamineMsgFromServer(player.GameObject, $"You already know all about <b>{gameObject.ExpensiveName()}</b>!");
+				Chat.AddExamineMsgFromServer(player.GameObject, $"You already know all about <b>{gameObject.DisplayName()}</b>!");
 				return false;
 			}
 			if (AllowOnlyOneReader && hasBeenRead)
@@ -85,15 +85,15 @@ namespace Items.Bureaucracy
 			{
 				readerProgress.Add(player, 0);
 				Chat.AddActionMsgToChat(player.GameObject,
-						$"You begin reading {gameObject.ExpensiveName()}...",
-						$"{player.Script.visibleName} begins reading {gameObject.ExpensiveName()}...");
+						$"You begin reading {gameObject.DisplayName()}...",
+						$"{player.Script.visibleName} begins reading {gameObject.DisplayName()}...");
 				ReadBook(player);
 			}
 			else
 			{
 				Chat.AddActionMsgToChat(player.GameObject,
-						$"You resume reading {gameObject.ExpensiveName()}...",
-						$"{player.Script.visibleName} resumes reading {gameObject.ExpensiveName()}...");
+						$"You resume reading {gameObject.DisplayName()}...",
+						$"{player.Script.visibleName} resumes reading {gameObject.DisplayName()}...");
 				ReadBook(player, readerProgress[player]);
 			}
 		}
@@ -143,8 +143,8 @@ namespace Items.Bureaucracy
 			}
 
 			Chat.AddActionMsgToChat(player.GameObject,
-					$"You finish reading {gameObject.ExpensiveName()}!",
-					$"{player.Script.visibleName} finishes reading {gameObject.ExpensiveName()}!");
+					$"You finish reading {gameObject.DisplayName()}!",
+					$"{player.Script.visibleName} finishes reading {gameObject.DisplayName()}!");
 			OnBookRead?.Invoke(player);
 		}
 	}

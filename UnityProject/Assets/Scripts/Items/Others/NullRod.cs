@@ -81,11 +81,11 @@ public class NullRod : NetworkBehaviour, IInteractable<HandActivate>, IServerSpa
 
 		var storage = GetComponent<Pickupable>().ItemSlot.Player.GetComponent<DynamicItemStorage>();
 		int currentTimes = TransformTimes;
-		string oldItem = gameObject.ExpensiveName();
+		string oldItem = gameObject.DisplayName();
 		_ = Inventory.ServerDespawn(gameObject);
 
 		var item = Spawn.ServerPrefab(obj).GameObject;
-		string newItem = item.ExpensiveName();
+		string newItem = item.DisplayName();
 		var nullComp = item.GetComponent<NullRod>();
 
 		//Reduce amount of transformation charges.

@@ -356,12 +356,12 @@ namespace HealthV2
 			if (electrocution.ShockSourceName != null)
 			{
 				victimChatString = $"The {electrocution.ShockSourceName} electrocutes you!";
-				observerChatString = $"{gameObject.ExpensiveName()} is electrocuted by the {electrocution.ShockSourceName}!";
+				observerChatString = $"{gameObject.DisplayName()} is electrocuted by the {electrocution.ShockSourceName}!";
 			}
 			else
 			{
 				victimChatString = $"Something electrocutes you!";
-				observerChatString = $"{gameObject.ExpensiveName()} is electrocuted by something!";
+				observerChatString = $"{gameObject.DisplayName()} is electrocuted by something!";
 			}
 			Chat.AddCombatMsgToChat(gameObject, victimChatString, observerChatString);
 

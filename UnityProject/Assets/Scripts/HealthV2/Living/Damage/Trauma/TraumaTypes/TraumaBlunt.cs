@@ -77,9 +77,9 @@ namespace HealthV2.TraumaTypes
 			return currentStage switch
 			{
 				0 => null,
-				1 => $"{bodyPart.gameObject.ExpensiveName()} - Joint Dislocation.",
-				2 => $"{bodyPart.gameObject.ExpensiveName()} - Hairline Fracture.",
-				3 => $"{bodyPart.gameObject.ExpensiveName()} - Compound Fracture.",
+				1 => $"{bodyPart.gameObject.DisplayName()} - Joint Dislocation.",
+				2 => $"{bodyPart.gameObject.DisplayName()} - Hairline Fracture.",
+				3 => $"{bodyPart.gameObject.DisplayName()} - Compound Fracture.",
 				_ => null
 			};
 		}

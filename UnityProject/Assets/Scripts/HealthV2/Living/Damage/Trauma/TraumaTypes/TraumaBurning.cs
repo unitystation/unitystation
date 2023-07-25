@@ -67,7 +67,7 @@ namespace HealthV2.TraumaTypes
 					{
 						currentStage = 3;
 						Chat.AddActionMsgToChat(bodyPart.HealthMaster.gameObject,
-							$"<color=red>Parts of the {bodyPart.gameObject.ExpensiveName()} crumble and ash away.</color");
+							$"<color=red>Parts of the {bodyPart.gameObject.DisplayName()} crumble and ash away.</color");
 						return;
 					}
 					AshBodyPart();
@@ -94,7 +94,7 @@ namespace HealthV2.TraumaTypes
 			}
 
 			Chat.AddActionMsgToChat(bodyPart.HealthMaster.gameObject,
-				$"{bodyPart.HealthMaster.playerScript.visibleName}'s {bodyPart.gameObject.ExpensiveName()} ashes away.");
+				$"{bodyPart.HealthMaster.playerScript.visibleName}'s {bodyPart.gameObject.DisplayName()} ashes away.");
 
 			_ = Spawn.ServerPrefab(bodyPart.OrganStorage.AshPrefab, bodyPart.HealthMaster.RegisterTile.WorldPosition);
 			bodyPart.HealthMaster.DismemberBodyPart(bodyPart);
@@ -106,9 +106,9 @@ namespace HealthV2.TraumaTypes
 			return currentStage switch
 			{
 				0 => null,
-				1 => $"{bodyPart.gameObject.ExpensiveName()} - Second Degree Burns.",
-				2 => $"{bodyPart.gameObject.ExpensiveName()} - Third Degree Burns.",
-				3 => $"{bodyPart.gameObject.ExpensiveName()} - Fourth Degree Burns. (Catastrophic Burns)",
+				1 => $"{bodyPart.gameObject.DisplayName()} - Second Degree Burns.",
+				2 => $"{bodyPart.gameObject.DisplayName()} - Third Degree Burns.",
+				3 => $"{bodyPart.gameObject.DisplayName()} - Fourth Degree Burns. (Catastrophic Burns)",
 				_ => null
 			};
 		}

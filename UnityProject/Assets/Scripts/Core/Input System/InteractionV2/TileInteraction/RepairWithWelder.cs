@@ -31,9 +31,9 @@ public class RepairWithWelder : TileInteraction
 
 		 ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 				$"You begin repairing the {interaction.BasicTile.DisplayName}...",
-				$"{interaction.Performer.ExpensiveName()} begins to repair the {interaction.BasicTile.DisplayName}...",
+				$"{interaction.Performer.DisplayName()} begins to repair the {interaction.BasicTile.DisplayName}...",
 				$"You repair the {interaction.BasicTile.DisplayName}.",
-				$"{interaction.Performer.ExpensiveName()} repairs the {interaction.BasicTile.DisplayName}.",
+				$"{interaction.Performer.DisplayName()} repairs the {interaction.BasicTile.DisplayName}.",
 				() => RepairTile(interaction));
 
 	}

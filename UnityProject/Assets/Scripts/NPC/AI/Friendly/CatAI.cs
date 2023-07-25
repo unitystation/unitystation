@@ -111,7 +111,7 @@ namespace Systems.MobAIs
 				Chat.AddActionMsgToChat(
 					purred,
 					$"{MobName} purrs at you!",
-					$"{MobName} purrs at {purred.ExpensiveName()}");
+					$"{MobName} purrs at {purred.DisplayName()}");
 			}
 			else
 			{
@@ -129,7 +129,7 @@ namespace Systems.MobAIs
 				Chat.AddActionMsgToChat(
 					meowed,
 					$"{MobName} meows at you!",
-					$"{MobName} meows at {meowed.ExpensiveName()}");
+					$"{MobName} meows at {meowed.DisplayName()}");
 			}
 			else
 			{
@@ -147,7 +147,7 @@ namespace Systems.MobAIs
 				Chat.AddActionMsgToChat(
 					hissed,
 					$"{MobName} hisses at you!",
-					$"{MobName} hisses at {hissed.ExpensiveName()}");
+					$"{MobName} hisses at {hissed.DisplayName()}");
 			}
 			else
 			{
