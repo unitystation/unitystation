@@ -98,6 +98,8 @@ namespace Player
 
 		public bool RootBodyPartsLoaded;
 
+		public bool IsOldCustomPrefab;
+
 		[SerializeField]
 		private GameObject OverlaySprites;
 
@@ -444,6 +446,7 @@ namespace Player
 
 		public void OnCharacterSettingsChange(CharacterSheet characterSettings)
 		{
+			if (IsOldCustomPrefab) return;
 			if (RootBodyPartsLoaded) return;
 			RootBodyPartsLoaded = true;
 			var overrideSheet = string.IsNullOrEmpty(RaceOverride) == false;

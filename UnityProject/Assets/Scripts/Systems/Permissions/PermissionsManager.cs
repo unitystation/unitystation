@@ -1,5 +1,6 @@
-﻿using Shared.Managers;
-using System.IO;
+﻿using System.IO;
+using ConfigurationSaves;
+using Shared.Managers;
 using Tomlyn;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace Systems.Permissions
 {
 	public class PermissionsManager: SingletonManager<PermissionsManager>
 	{
-		private readonly string configPath = Path.Combine(Application.streamingAssetsPath, "admin", "permissions.toml");
+		private readonly string configPath = Path.Combine("admin", "permissions.toml");
 
 		public PermissionsConfig Config { get; private set; }
 
@@ -19,14 +20,14 @@ namespace Systems.Permissions
 		/// </summary>
 		public void LoadPermissionsConfig()
 		{
-			if (File.Exists(configPath) == false)
+			if (AccessFile.Exists(configPath) == false)
 			{
 				Logger.LogError("Permissions config file not found!", Category.Admin);
 				Config = new PermissionsConfig();
 				return;
 			}
 
-			var fileContent = File.ReadAllText(configPath);
+			var fileContent = AccessFile.Load(configPath);
 
 			LoadPermissionsConfig(fileContent);
 		}

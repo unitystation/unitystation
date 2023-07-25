@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ConfigurationSaves;
 using Newtonsoft.Json;
 using UnityEngine;
 using Mirror;
@@ -322,13 +322,13 @@ namespace Lobby
 
 		#region Server History
 
-		private static string HistoryFile => $"{Application.persistentDataPath}{Path.DirectorySeparatorChar}ConnectionHistory.json";
+		private static string HistoryFile => "ConnectionHistory.json";
 
 		private void LoadHistoricalServers()
 		{
-			if (File.Exists(HistoryFile))
+			if (AccessFile.Exists(HistoryFile, userPersistent: true))
 			{
-				string json = File.ReadAllText(HistoryFile);
+				string json = AccessFile.Load(HistoryFile, userPersistent: true);
 
 				ServerJoinHistory = JsonConvert.DeserializeObject<List<ConnectionHistory>>(json)?.Distinct()?.ToList();
 			}
@@ -372,16 +372,8 @@ namespace Lobby
 		private void SaveServerHistoryFile()
 		{
 			string json = JsonConvert.SerializeObject(ServerJoinHistory);
-			if (File.Exists(HistoryFile))
-			{
-				File.Delete(HistoryFile);
-			}
-			while (File.Exists(HistoryFile) == false) // TODO isn't this quite dangerous??
-			{
-				var fs = new FileStream(HistoryFile, FileMode.Create); //To avoid share rule violations
-				fs.Dispose();
-				File.WriteAllText(HistoryFile, json);
-			}
+
+			AccessFile.Save(HistoryFile, json);
 		}
 
 		#endregion

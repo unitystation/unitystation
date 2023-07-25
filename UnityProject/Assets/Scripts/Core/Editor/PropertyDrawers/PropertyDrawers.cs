@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-
-
 namespace Core.Editor.Attributes
 {
 	[CustomPropertyDrawer(typeof(PrefabModeOnlyAttribute))]
 	public class PrefabModeOnlyDrawer : PropertyDrawer
 	{
-		private bool HideProperty => HideIrrelevantFields.IsEnabled && UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() == null;
+		private bool HideProperty => QuickLoad.HideIrrelevantFields.IsEnabled && UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() == null;
 
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
@@ -25,7 +23,7 @@ namespace Core.Editor.Attributes
 	[CustomPropertyDrawer(typeof(SceneModeOnlyAttribute))]
 	public class SceneModeOnlyDrawer : PropertyDrawer
 	{
-		private bool HideProperty => HideIrrelevantFields.IsEnabled && UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() != null;
+		private bool HideProperty => QuickLoad.HideIrrelevantFields.IsEnabled && UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() != null;
 
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{

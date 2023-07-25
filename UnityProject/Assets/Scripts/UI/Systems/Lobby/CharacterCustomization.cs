@@ -1207,7 +1207,7 @@ namespace UI.CharacterCreator
 			}
 
 			Cleanup();
-			LoadCharacter(currentCharacter);
+			LoadCharacter(inCharacter);
 		}
 
 		public enum CharacterDir

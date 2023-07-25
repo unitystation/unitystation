@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using ConfigurationSaves;
 using DatabaseAPI;
 using Mirror;
 using UnityEngine;
@@ -23,9 +24,6 @@ using UI;
 /// </summary>
 public partial class PlayerList
 {
-	private FileSystemWatcher adminListWatcher;
-	private FileSystemWatcher mentorListWatcher;
-	private FileSystemWatcher WhiteListWatcher;
 	private HashSet<string> serverAdmins = new HashSet<string>();
 
 	public  HashSet<string> ServerAdmins => serverAdmins;
@@ -54,57 +52,25 @@ public partial class PlayerList
 	[Server]
 	void InitAdminController()
 	{
-		adminsPath = Path.Combine(Application.streamingAssetsPath, "admin", "admins.txt");
-		mentorsPath = Path.Combine(Application.streamingAssetsPath, "admin", "mentors.txt");
-		banPath = Path.Combine(Application.streamingAssetsPath, "admin", "banlist.json");
-		whiteListPath = Path.Combine(Application.streamingAssetsPath, "admin", "whitelist.txt");
-		jobBanPath = Path.Combine(Application.streamingAssetsPath, "admin", "jobBanlist.json");
+		adminsPath = Path.Combine( "admin", "admins.txt");
+		mentorsPath = Path.Combine( "admin", "mentors.txt");
+		banPath = Path.Combine( "admin", "banlist.json");
+		whiteListPath = Path.Combine( "admin", "whitelist.txt");
+		jobBanPath = Path.Combine( "admin", "jobBanlist.json");
 
-		if (!File.Exists(adminsPath))
+		if (AccessFile.Exists(banPath)  == false)
 		{
-			File.CreateText(adminsPath).Close();
+			AccessFile.Save(banPath, JsonUtility.ToJson(new BanList()));
 		}
 
-		if (!File.Exists(mentorsPath))
+		if (AccessFile.Exists(jobBanPath) == false)
 		{
-			File.CreateText(mentorsPath).Close();
+			AccessFile.Save(jobBanPath, JsonUtility.ToJson(new JobBanList()));
 		}
 
-		if (!File.Exists(banPath))
-		{
-			File.WriteAllText(banPath, JsonUtility.ToJson(new BanList()));
-		}
-
-		if (!File.Exists(whiteListPath))
-		{
-			File.CreateText(whiteListPath).Close();
-		}
-
-		if (!File.Exists(jobBanPath))
-		{
-			File.WriteAllText(jobBanPath, JsonUtility.ToJson(new JobBanList()));
-		}
-
-		adminListWatcher = new FileSystemWatcher();
-		adminListWatcher.Path = Path.GetDirectoryName(adminsPath);
-		adminListWatcher.Filter = Path.GetFileName(adminsPath);
-		adminListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
-		adminListWatcher.Changed += LoadCurrentAdmins;
-		adminListWatcher.EnableRaisingEvents = true;
-
-		mentorListWatcher = new FileSystemWatcher();
-		mentorListWatcher.Path = Path.GetDirectoryName(mentorsPath);
-		mentorListWatcher.Filter = Path.GetFileName(mentorsPath);
-		mentorListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
-		mentorListWatcher.Changed += LoadCurrentMentors;
-		mentorListWatcher.EnableRaisingEvents = true;
-
-		WhiteListWatcher = new FileSystemWatcher();
-		WhiteListWatcher.Path = Path.GetDirectoryName(whiteListPath);
-		WhiteListWatcher.Filter = Path.GetFileName(whiteListPath);
-		WhiteListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
-		WhiteListWatcher.Changed += LoadWhiteList;
-		WhiteListWatcher.EnableRaisingEvents = true;
+		AccessFile.Watch(adminsPath, LoadCurrentAdmins);
+		AccessFile.Watch(mentorsPath, LoadCurrentMentors);
+		AccessFile.Watch(whiteListPath, LoadWhiteList);
 
 		LoadBanList();
 		LoadCurrentAdmins();
@@ -117,29 +83,15 @@ public partial class PlayerList
 	{
 		Instance.StartCoroutine(LoadBans());
 	}
-	static void LoadWhiteList(object source, FileSystemEventArgs e)
-	{
-		LoadWhiteList();
-	}
 
 	static void LoadWhiteList()
 	{
 		Instance.StartCoroutine(LoadWhiteListed());
 	}
 
-	static void LoadCurrentAdmins(object source, FileSystemEventArgs e)
-	{
-		LoadCurrentAdmins();
-	}
-
 	static void LoadCurrentAdmins()
 	{
 		Instance.StartCoroutine(LoadAdmins());
-	}
-
-	static void LoadCurrentMentors(object source, FileSystemEventArgs e)
-	{
-		LoadCurrentMentors();
 	}
 
 	static void LoadCurrentMentors()
@@ -156,14 +108,14 @@ public partial class PlayerList
 	{
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
-		Instance.jobBanList = JsonUtility.FromJson<JobBanList>(File.ReadAllText(Instance.jobBanPath));
+		Instance.jobBanList = JsonUtility.FromJson<JobBanList>(AccessFile.Load(Instance.jobBanPath));
 	}
 
 	static IEnumerator LoadBans()
 	{
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
-		Instance.banList = JsonUtility.FromJson<BanList>(File.ReadAllText(Instance.banPath));
+		Instance.banList = JsonUtility.FromJson<BanList>(AccessFile.Load(Instance.banPath));
 	}
 
 	static IEnumerator LoadWhiteListed()
@@ -171,7 +123,7 @@ public partial class PlayerList
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
 		Instance.whiteListUsers.Clear();
-		Instance.whiteListUsers = new List<string>(File.ReadAllLines(Instance.whiteListPath));
+		Instance.whiteListUsers = new List<string>(AccessFile.ReadAllLines(Instance.whiteListPath));
 	}
 
 	static IEnumerator LoadAdmins()
@@ -179,7 +131,7 @@ public partial class PlayerList
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
 		Instance.serverAdmins.Clear();
-		Instance.serverAdmins = new HashSet<string>(File.ReadAllLines(Instance.adminsPath));
+		Instance.serverAdmins = new HashSet<string>(AccessFile.ReadAllLines(Instance.adminsPath));
 	}
 
 	static IEnumerator LoadMentors()
@@ -187,7 +139,7 @@ public partial class PlayerList
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
 		Instance.mentorUsers.Clear();
-		Instance.mentorUsers = new HashSet<string>(File.ReadAllLines(Instance.mentorsPath));
+		Instance.mentorUsers = new HashSet<string>(AccessFile.ReadAllLines(Instance.mentorsPath));
 	}
 
 	[Server]
@@ -303,12 +255,12 @@ public partial class PlayerList
 		if (addToFile == false) return;
 
 		//Read file to see if already in file
-		var fileContents = File.ReadAllLines(mentorsPath);
+		var fileContents = AccessFile.ReadAllLines(mentorsPath);
 		if(fileContents.Contains(userID)) return;
 
 		//Write to file if not
-		var newContents = fileContents.Append(userID);
-		File.WriteAllLines(mentorsPath, newContents);
+		var newContents = fileContents.Append(userID).ToArray();
+		AccessFile.WriteAllLines(mentorsPath, newContents);
 	}
 
 	[Server]
@@ -326,12 +278,12 @@ public partial class PlayerList
 		}
 
 		//Read file to see if already in file
-		var fileContents = File.ReadAllLines(mentorsPath);
+		var fileContents = AccessFile.ReadAllLines(mentorsPath);
 		if(fileContents.Contains(userID) == false) return;
 
 		//Remove from file if they are in there
-		var newContents = fileContents.Where(line => line != userID);
-		File.WriteAllLines(mentorsPath, newContents);
+		var newContents = fileContents.Where(line => line != userID).ToArray();
+		AccessFile.WriteAllLines(mentorsPath, newContents);
 	}
 
 	[TargetRpc]
@@ -396,7 +348,7 @@ public partial class PlayerList
 		//Whitelist checking:
 		//Checks whether the userid is in either the Admins or whitelist AND that the whitelist file has something in it.
 		//Whitelist only activates if whitelist is populated.
-		var lines = File.ReadAllLines(whiteListPath);
+		var lines = AccessFile.ReadAllLines(whiteListPath);
 		if (lines.Length > 0 && !whiteListUsers.Contains(player.UserId))
 		{
 			ServerKickPlayer(player, $"This server uses a whitelist. This account is not whitelisted.");
@@ -468,7 +420,7 @@ public partial class PlayerList
 
 	private void SaveBanList()
 	{
-		File.WriteAllText(banPath, JsonUtility.ToJson(banList));
+		AccessFile.Save(banPath, JsonUtility.ToJson(banList));
 	}
 
 	#region JobBans
@@ -628,7 +580,7 @@ public partial class PlayerList
 
 	void SaveJobBanList()
 	{
-		File.WriteAllText(jobBanPath, JsonUtility.ToJson(jobBanList));
+		AccessFile.Save(jobBanPath, JsonUtility.ToJson(jobBanList));
 	}
 
 	/// <summary>
@@ -856,10 +808,7 @@ public partial class PlayerList
 		Logger.Log(
 			$"{admin} has promoted {userToPromote} to admin. Time: {DateTime.Now}", Category.Admin);
 
-		File.AppendAllLines(adminsPath, new string[]
-		{
-			"\r\n" + userToPromote
-		});
+		AccessFile.AppendAllText(adminsPath, "\r\n" + userToPromote);
 
 		serverAdmins.Add(userToPromote);
 		if (TryGetOnlineByUserID(userToPromote, out var user) == false) return;

@@ -69,6 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 825558115691839795, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
+      propertyPath: _assetId
+      value: 1905384318
+      objectReference: {fileID: 0}
+    - target: {fileID: 825558115691839795, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
       propertyPath: m_AssetId
       value: eaf8c1f2a0f9374488e16061fd5b4dcd
       objectReference: {fileID: 0}
@@ -183,13 +188,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e06ddb12acf47158b8cccf9289fd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   consumeTime: 0.1
   leavings: {fileID: 0}
   currentBites: 0
   maxBites: 3
-  setCurrentBitesToMaxBitesOnAwake: 1
+  timeToEat: 0.25
+  forceFeedTime: 3
+  setCurrentBitesToMaxBitesOnServerSpawn: 1
   sound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/EatFood.prefab

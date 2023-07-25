@@ -1,10 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-using System.IO;
+using ConfigurationSaves;
 
 namespace Systems.Research
 {
@@ -70,13 +71,13 @@ namespace Systems.Research
 
 				Globals.InternalIDSearch = new Dictionary<string, Design>();
 
-				string info = Path.Combine(Application.streamingAssetsPath, "TechWeb", "Designs");
+				string info = Path.Combine("TechWeb", "Designs");
 
-				string[] fileInfo = Directory.GetFiles(info,"*.json");
+				var Files = AccessFile.Contents(info);
 
-				foreach(string file in fileInfo)
+				foreach(string file in Files)
 				{
-					Jsons.Add(File.ReadAllText(file));
+					Jsons.Add(AccessFile.Load(Path.Combine("TechWeb", "Designs",file)));
 				}
 
 				new Task(JsonImportInitialization).Start();

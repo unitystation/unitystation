@@ -340,9 +340,9 @@ namespace Systems.Pipes
 			if (MonoPipe == null)
 			{
 				Matrix4x4 matrix = Matrix.MetaTileMap.GetMatrix4x4(pipeNode.NodeLocation, LayerType.Pipe, true).GetValueOrDefault(Matrix4x4.identity);
-				var pipe = Spawn.ServerPrefab(
-						pipeNode.RelatedTile.SpawnOnDeconstruct,
-						MatrixManager.LocalToWorld(pipeNode.NodeLocation, this.Matrix), localRotation: PipeDeconstruction.QuaternionFromMatrix(matrix)).GameObject;
+				var pipe = Spawn.ServerPrefab(pipeNode.RelatedTile.SpawnOnDeconstruct,
+											MatrixManager.LocalToWorld(pipeNode.NodeLocation, this.Matrix).To2().To3(),									
+											localRotation: PipeDeconstruction.QuaternionFromMatrix(matrix)).GameObject;
 
 				var itempipe = pipe.GetComponent<PipeItemTile>();
 				itempipe.Colour = Matrix.MetaTileMap.GetColour(pipeNode.NodeLocation, LayerType.Pipe, true).GetValueOrDefault(Color.white);

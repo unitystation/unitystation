@@ -81,17 +81,17 @@ PrefabInstance:
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -113,6 +113,11 @@ PrefabInstance:
       propertyPath: Meleeable
       value: 
       objectReference: {fileID: 4687198204525923257}
+    - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: _assetId
+      value: 3012407303
+      objectReference: {fileID: 0}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_AssetId
@@ -198,15 +203,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemStorageStructure: {fileID: 11400000, guid: 31e85fdaff610a047b77f53487ba609b,
     type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 1f9f25038d1a04600849433231c1d4fc,
+  itemStorageCapacity: {fileID: 11400000, guid: 55f5f99a0b2fbd94190a0a9639b36ffe,
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 1
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &4687198204525923257 stripped

@@ -1,5 +1,9 @@
 When looking through our code, you'll notice different that some network actions are handles differently. We have a guideline with which one to use. But take note: although many are already in the codebase, their legacy use may be wrong in comparison to current guidelines. So don't trust the code blindly!
 
+
+### Important note:
+Any class/struct used to send data, Must be public otherwise this will cause IL errors and your Assembly will be rejected by the IL Scanner
+
 ## NetMsg
 
 Netmessages should be used in case where security of information is important. Ask yourself "If someone fakes this, could it influence the gameplay for others"?
@@ -49,5 +53,7 @@ RPC is a nice and clean solution to send non-secure data. An example for non-sec
 
 Please note, that some insignificant graffical updates, may be important to send sparsely.
 
+For target RPCs Please do not use NetworkConnectionToClient Use NetworkConnection Instead in the Function parameter, You doing it the wrong way will cause IL errors
+You Should still pass in to The function x.ConnectionToClient, mirror will be able to handle conversion fine
 ## SyncVar
 SyncVar can be a simple alternative to NetMsg or RPC for sending updates to all clients. But it has some caveats for how to use it without having unexpected behavior. See [SyncVar Best Practices for Easy Networking](SyncVar-Best-Practices-for-Easy-Networking.md)

@@ -19,7 +19,7 @@ public struct Orientation : IEquatable<Orientation>
 	/// <summary>
 	/// Euler angle (rotation about the z axis, right is 0 and up is 90).
 	/// </summary>
-	public readonly int Degrees;
+	public int Degrees;
 
 	public Orientation(int degree)
 	{
