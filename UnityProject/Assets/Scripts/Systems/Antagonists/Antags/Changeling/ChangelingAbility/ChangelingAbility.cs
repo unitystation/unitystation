@@ -632,20 +632,20 @@ namespace Changeling
 							if (Camera.main == null ||
 								Camera.main.TryGetComponent<CameraEffectControlScript>(out var effects) == false) return false;
 
-							foreach (var bodyPart in changeling.ChangelingMind.Body.playerHealth.BodyPartList)
-							{
-								foreach (BodyPartFunctionality organ in bodyPart.OrganList)
-								{
-									if (organ is Eye eye)
-									{
-										eye.HasXray = toggle;
-										//eye.ApplyChangesXrayState(toggle);
-										goto SkipingFor;
-									}
-								}
-							}
+							//foreach (var bodyPart in changeling.ChangelingMind.Body.playerHealth.BodyPartList)
+							//{
+							//	foreach (BodyPartFunctionality organ in bodyPart.OrganList)
+							//	{
+							//		if (organ is Eye eye)
+							//		{
+							//			eye.HasXray = toggle;
+							//			//eye.ApplyChangesXrayState(toggle);
+							//			goto SkipingFor;
+							//		}
+							//	}
+							//}
 
-							SkipingFor:
+							//SkipingFor:
 
 							effects.AdjustPlayerVisibility(
 								toggle ? AbilityData.ExpandedNightVisionVisibility : effects.MinimalVisibilityScale,
