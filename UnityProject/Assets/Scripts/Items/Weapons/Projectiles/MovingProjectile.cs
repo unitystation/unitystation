@@ -1,6 +1,7 @@
 using Mirror;
  using System;
 using ScriptableObjects.Gun;
+using Tiles;
 using UnityEngine;
 
 namespace Weapons.Projectiles
@@ -25,6 +26,9 @@ namespace Weapons.Projectiles
 		private Quaternion rotation;
 
 		private float velocity;
+
+		[SerializeField]
+		private LayerTile[] tileNamesToIgnore;
 
 		private void Awake()
 		{
@@ -101,7 +105,7 @@ namespace Weapons.Projectiles
 		private void SimulateCollision()
 		{
 			var distanceDelta = ProjectileTransform.position - previousPosition;
-			var hit = MatrixManager.RayCast(previousPosition, distanceDelta.normalized, distanceDelta.magnitude, maskData.TileMapLayers, maskData.Layers);
+			var hit = MatrixManager.RayCast(previousPosition, distanceDelta.normalized, distanceDelta.magnitude, maskData.TileMapLayers, maskData.Layers, tileNamesToIgnore: tileNamesToIgnore);
 
 			projectile.ProcessRaycastHit(hit);
 		}

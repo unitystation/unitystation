@@ -54,6 +54,8 @@ public class SlimeEat : BodyPartFunctionality
 
 	public void ClimbAndEat(GameObject ToEat)
 	{
+		if (ToEat.GetComponent<UniversalObjectPhysics>().IsVisible == false) return;
+		if (this.GetComponent<UniversalObjectPhysics>().IsVisible == false) return;
 		if ((this.RelatedPart.HealthMaster.transform.position - ToEat.transform.position).magnitude > 1.5)
 		{
 			return;

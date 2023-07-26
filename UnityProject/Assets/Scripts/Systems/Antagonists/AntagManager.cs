@@ -59,17 +59,17 @@ namespace Antagonists
 
 		private void OnEnable()
 		{
-			SceneManager.activeSceneChanged += OnSceneChange;
+			EventManager.AddHandler(Event.ReadyToInitialiseMatrices, UpdateSyndiNukeCode);
 			EventManager.AddHandler(Event.RoundEnded, OnRoundEnd);
 		}
 
 		private void OnDisable()
 		{
-			SceneManager.activeSceneChanged -= OnSceneChange;
+			EventManager.RemoveHandler(Event.ReadyToInitialiseMatrices, UpdateSyndiNukeCode);
 			EventManager.RemoveHandler(Event.RoundEnded, OnRoundEnd);
 		}
 
-		private void OnSceneChange(Scene oldScene, Scene newScene)
+		private void UpdateSyndiNukeCode()
 		{
 			SyndiNukeCode = Nuke.CodeGenerator();
 		}

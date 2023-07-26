@@ -67,38 +67,38 @@ namespace Chemistry
 
 		public void ApplyReaction(MonoBehaviour sender, ReagentMix reagentMix)
 		{
-			var reactionAmount = GetReactionAmount(reagentMix);
+			var reactionMultiplier = GetReactionAmount(reagentMix);
 
 			foreach (var ingredient in ingredients.m_dict)
 			{
-				reagentMix.Subtract(ingredient.Key, reactionAmount * ingredient.Value);
+				reagentMix.Subtract(ingredient.Key, reactionMultiplier * ingredient.Value);
 			}
 
 			foreach (var result in results.m_dict)
 			{
-				var reactionResult = reactionAmount * result.Value;
+				var reactionResult = reactionMultiplier * result.Value;
 				reagentMix.Add(result.Key, reactionResult);
 			}
 
 			foreach (var effect in effects)
 			{
 				if (effect != null)
-					effect.Apply(sender, reactionAmount);
+					effect.Apply(sender, reactionMultiplier);
 			}
 		}
 
 		public float GetReactionAmount(ReagentMix reagentMix)
 		{
-			var reactionAmount = Mathf.Infinity;
+			var reactionMultiplier = Mathf.Infinity;
 			foreach (var ingredient in ingredients.m_dict)
 			{
 				var value = reagentMix.reagents.m_dict[ingredient.Key] / ingredient.Value;
-				if (value < reactionAmount)
+				if (value < reactionMultiplier)
 				{
-					reactionAmount = value;
+					reactionMultiplier = value;
 				}
 			}
-			return reactionAmount;
+			return reactionMultiplier;
 		}
 
 		public bool HasIngredients(ReagentMix reagentMix)

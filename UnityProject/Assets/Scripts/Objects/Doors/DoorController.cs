@@ -78,6 +78,8 @@ namespace Doors
 
 		[NonSerialized] public UnityEvent OnDoorOpen = new UnityEvent();
 
+		public bool enableDisabledCollider = false;
+
 		/// <summary>
 		/// Makes registerTile door closed state accessible
 		/// </summary>
@@ -291,6 +293,11 @@ namespace Doors
 
 			IsClosed = true;
 			OnDoorClose?.Invoke();
+			if (enableDisabledCollider)
+			{
+				this.GetComponent<Collider2D>().enabled = true;
+			}
+
 			if (isPerformingAction == false)
 			{
 				DoorUpdateMessage.SendToAll(gameObject, DoorUpdateType.Close);
@@ -365,6 +372,12 @@ namespace Doors
 			}
 			IsClosed = false;
 			OnDoorOpen?.Invoke();
+			
+			if (enableDisabledCollider)
+			{
+				this.GetComponent<Collider2D>().enabled = false;
+			}
+
 			if (isPerformingAction == false)
 			{
 				DoorUpdateMessage.SendToAll(gameObject, DoorUpdateType.Open);
