@@ -911,7 +911,7 @@ namespace HealthV2
 				}
 			}
 
-			//relooking for pumps because sometime pumps wasn't removing when transferring to new part
+			//relooking for pumps because sometime old pumps wasn't removed when transferred to new part
 			reagentPoolSystem.PumpingDevices.Clear();
 
 			foreach (var x in BodyPartList)
@@ -1701,11 +1701,11 @@ namespace HealthV2
 					if (organ is Eye eye)
 					{
 						eye.BadEyesight = 0;
-						goto BreakFor;
+						//goto BreakFor;
 					}
 				}
 			}
-			BreakFor:
+			//BreakFor:
 			RestartHeart();
 		}
 

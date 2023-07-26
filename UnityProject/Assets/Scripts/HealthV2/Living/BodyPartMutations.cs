@@ -395,7 +395,6 @@ public class BodyPartMutations : BodyPartFunctionality
 			var SpawnedBodypart = Spawn.ServerPrefab(BodyPart).GameObject.GetComponent<BodyPart>();
 
 			ColorUtility.TryParseHtmlString(characterSheet.SkinTone, out var bodyColor);
-			SpawnedBodypart.ChangeBodyPartColor(bodyColor);
 
 			bool HasOpenProcedure = Enumerable.OfType<OpenProcedure>(SpawnedBodypart.SurgeryProcedureBase).Any();
 			var bodyParts = characterSheet.GetRaceSoNoValidation();
@@ -519,6 +518,8 @@ public class BodyPartMutations : BodyPartFunctionality
 				ONMutation.MutateCustomisation(((BodyPartFunctionality)ONMutation).RelatedPart.SetCustomisationData,
 					RelatedPart.SetCustomisationData);
 			}
+
+			SpawnedBodypart.ChangeBodyPartColor(bodyColor);
 		}
 		else
 			StartCoroutine(ProcessChangeToSpecies(PlayerHealthData, BodyPart, characterSheet));
