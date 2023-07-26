@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -26,9 +27,13 @@ public static class SafeURL
 		if (Uri.TryCreate(inputURL, UriKind.Absolute, out Uri uriResult) &&
 		    uriResult.Scheme == Uri.UriSchemeHttps)
 		{
-			// Optionally, you can add additional checks here based on your requirements.
-			// For example, you may want to check for specific domains in a whitelist.
 			if (uriResult.IsUnc)
+			{
+				sanitizedURL = null;
+				return false;
+			}
+
+			if (IPAddress.TryParse(uriResult.Host, out var IP))
 			{
 				sanitizedURL = null;
 				return false;
