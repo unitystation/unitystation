@@ -297,12 +297,15 @@ namespace Changeling
 							{
 								if (target.PlayerInfo.Mind.IsOfAntag<Changeling>())
 								{
-									var targetDNAs = new List<ChangelingDNA>();
+									//var targetDNAs = new List<ChangelingDNA>();
+									//var targetMems = new List<ChangelingMemories>();
 
-									targetDNAs.AddRange(target.Mind.Body.Changeling.ChangelingDNAs);
+									//targetDNAs.AddRange(target.Mind.Body.Changeling.ChangelingDNAs);
+									//targetMems.AddRange(target.Mind.Body.Changeling.ChangelingMemories);
 
-									target.Mind.Body.Changeling.RemoveDNA(targetDNAs);
-									changeling.AbsorbDNA(targetDNAs, target, target.Changeling);
+									//target.Mind.Body.Changeling.RemoveDNA(targetDNAs);
+									//target.Mind.Body.Changeling.ClearMemories();
+									changeling.AbsorbDNA(target, target.Changeling);
 									return true;
 								}
 							} catch
