@@ -506,6 +506,8 @@ public class BodyPartMutations : BodyPartFunctionality
 					ContainedIn.BodyPartStorage.GetBestSlotFor(SpawnedBodypart.gameObject));
 			}
 
+			SpawnedBodypart.ChangeBodyPartColor(bodyColor);
+
 			var ONMutation = SpawnedBodypart.gameObject.GetComponent<BodyPartMutations>();
 
 			if (ONMutation != null && characterSheet == null)
@@ -518,8 +520,6 @@ public class BodyPartMutations : BodyPartFunctionality
 				ONMutation.MutateCustomisation(((BodyPartFunctionality)ONMutation).RelatedPart.SetCustomisationData,
 					RelatedPart.SetCustomisationData);
 			}
-
-			SpawnedBodypart.ChangeBodyPartColor(bodyColor);
 		}
 		else
 			StartCoroutine(ProcessChangeToSpecies(PlayerHealthData, BodyPart, characterSheet));

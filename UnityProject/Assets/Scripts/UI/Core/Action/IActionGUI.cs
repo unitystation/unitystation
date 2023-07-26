@@ -41,7 +41,7 @@ public class __ExampleIActionGUI__ : IActionGUI
 
 	public void CallToggleActionClient(bool toggled)
 	{
-		//Do action when isToggleble and toggle is toggled
+		//Do action when isToggleble and toggled on or off
 	}
 }
 
@@ -65,14 +65,14 @@ public class __ExampleIServerActionGUI__ : IServerActionGUI
 
 	public void CallToggleActionClient(bool toggled)
 	{
-		//Do action when isToggleble and toggle is toggled
+		//Do action when isToggleble and toggled on or off
 		//Remember if its networked do validation
 	}
 
 	public void CallToggleActionServer(PlayerInfo playerInfo, bool toggled)
 	{
 		//Validation
-		//Do action when isToggleble and toggle is toggled
+		//Do action when isToggleble and toggled on or off
 	}
 }
 
