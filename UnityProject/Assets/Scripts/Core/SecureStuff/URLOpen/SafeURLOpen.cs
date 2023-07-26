@@ -11,12 +11,12 @@ public static class SafeURL
 	{
 		URL = URL.ToLower();
 
-		if (URL.StartsWith($"http://") || URL.StartsWith($"https://"))
+		if (URL.StartsWith($"https://"))
 		{
-			if (TrySanitizeURL(URL, out var GoodURL ))
+			if (TrySanitizeURL(URL, out var goodURL ))
 			{
-				Logger.Log($"Opening URL {GoodURL}");
-				Application.OpenURL(GoodURL);
+				Logger.Log($"Opening URL {goodURL}");
+				Application.OpenURL(goodURL);
 			}
 		}
 	}
@@ -24,7 +24,7 @@ public static class SafeURL
 	private static bool TrySanitizeURL(string inputURL, out string sanitizedURL)
 	{
 		if (Uri.TryCreate(inputURL, UriKind.Absolute, out Uri uriResult) &&
-		    (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
+		    uriResult.Scheme == Uri.UriSchemeHttps)
 		{
 			// Optionally, you can add additional checks here based on your requirements.
 			// For example, you may want to check for specific domains in a whitelist.
