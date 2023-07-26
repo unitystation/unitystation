@@ -57,7 +57,7 @@ namespace Core
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
-			Application.OpenURL("http://doobly.izz.moe/unitystation/");
+			SafeURL.Open("http://doobly.izz.moe/unitystation/");
 			Application.Quit();
 		}
 

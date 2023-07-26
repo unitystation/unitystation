@@ -83,11 +83,11 @@ public class Manager3D : MonoBehaviour
 
 		if (reversedString == "007") //This never happened to the other fella
 		{
-			Application.OpenURL("https://youtu.be/AFaJWqVcv8k?t=11");
+			SafeURL.Open("https://youtu.be/AFaJWqVcv8k?t=11");
 		}
 		else
 		{
-			Application.OpenURL("https://youtu.be/0gEkNVq1ct0?t=8");
+			SafeURL.Open("https://youtu.be/0gEkNVq1ct0?t=8");
 		}
 
 		ConvertTo3D();
