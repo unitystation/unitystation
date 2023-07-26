@@ -14,8 +14,6 @@ namespace Changeling
 		[SerializeField]
 		private GameObject contentArea = null;
 
-		[SerializeField]
-		private UI_Changeling ui = null;
 		private ChangelingMain changelingMain = null;
 
 		private Dictionary<ChangelingMemories, ChangelingMemoriesEntry> entryPool = new();
