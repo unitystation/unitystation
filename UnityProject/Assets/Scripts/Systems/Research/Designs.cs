@@ -74,7 +74,7 @@ namespace Systems.Research
 
 				Globals.InternalIDSearch = new Dictionary<string, Design>();
 
-				var files = AccessFile.Contents(TechWebFolder);
+				var files = AccessFile.Contents(TechWebDesignsFolder);
 
 				foreach(string file in files)
 				{
