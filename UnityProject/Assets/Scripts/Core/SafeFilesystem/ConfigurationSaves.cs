@@ -16,83 +16,67 @@ namespace Core.SafeFilesystem
 
 	public static class AccessFile
 	{
-		private static string CashedForkName;
+		private static string cashedForkName;
 
 		private static string ForkName
 		{
 			get
 			{
-				if (string.IsNullOrEmpty(CashedForkName))
-				{
-					var path = Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,
-						FolderType.Config.ToString(),
-						"buildinfo.json"));
-					var text = File.ReadAllText(path);
-					var data = JsonConvert.DeserializeObject<BuiltFork>(text);
-					if (data == null)
-					{
-						CashedForkName = "Unitystation";
-					}
-					else
-					{
-						CashedForkName = data.ForkName;
-					}
-				}
+				if (string.IsNullOrEmpty(cashedForkName) == false) return cashedForkName;
+				var path = Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,
+					FolderType.Config.ToString(),
+					"buildinfo.json"));
+				var text = File.ReadAllText(path);
+				var data = JsonConvert.DeserializeObject<BuiltFork>(text);
+				cashedForkName = data == null ? "Unitystation" : data.Name;
 
-				return CashedForkName;
+				return cashedForkName;
 			}
 		}
 
-		private static Dictionary<string, FileSystemWatcher> CurrentlyWatchingFile = new Dictionary<string, FileSystemWatcher>();
+		private static readonly Dictionary<string, FileSystemWatcher> CurrentlyWatchingFile = new();
 
-		private static Dictionary<Action, string> RegisteredToFile = new Dictionary<Action, string>();
+		private static readonly Dictionary<Action, string> RegisteredToFile = new();
 
-		private static Dictionary<string, List<Action>> RegisteredToWatch = new Dictionary<string, List<Action>>();
+		private static readonly Dictionary<string, List<Action>> RegisteredToWatch = new();
 
 		private class BuiltFork
 		{
-			public string ForkName; // = Unitystation"
+			public string Name { get; set; } // = Unitystation"
 		}
 
 
 		private static readonly string[] AllowedExtensions = new[] {".txt", ".json", ".toml", ".yaml", ".data", ".log"};
 
 		private static string ValidatePath(string relativePath, FolderType folderType, bool userPersistent,
-			bool CreateFile, bool AddExtension = true)
+			bool createFile, bool addExtension = true)
 		{
 			bool isAllowedExtension = false;
 			var extension = "";
 
-			if (AddExtension)
+			if (addExtension)
 			{
 				foreach (var allowedExtension in AllowedExtensions)
 				{
-					if (relativePath.EndsWith(allowedExtension))
-					{
-						isAllowedExtension = true;
-						break;
-					}
+					if (relativePath.EndsWith(allowedExtension) == false) continue;
+					isAllowedExtension = true;
+					break;
 				}
 
 				if (isAllowedExtension == false)
 				{
-					switch (folderType)
+					extension = folderType switch
 					{
-						case FolderType.Config:
-							extension = ".txt";
-							break;
-						case FolderType.Data:
-							extension = ".Data";
-							break;
-						case FolderType.Logs:
-							extension = ".log";
-							break;
-					}
+						FolderType.Config => ".txt",
+						FolderType.Data => ".Data",
+						FolderType.Logs => ".log",
+						_ => extension
+					};
 				}
 
 			}
 
-			string resolvedPath = "";
+			string resolvedPath;
 
 			if (userPersistent)
 			{
@@ -113,10 +97,13 @@ namespace Core.SafeFilesystem
 				}
 			}
 
-			var ADirectory = Path.GetDirectoryName(resolvedPath);
-			Directory.CreateDirectory(ADirectory);
+			var aDirectory = Path.GetDirectoryName(resolvedPath);
+			if (aDirectory is not null)
+			{
+				Directory.CreateDirectory(aDirectory);
+			}
 
-			if (CreateFile)
+			if (createFile)
 			{
 				// Check if the file already exists
 				if (File.Exists(resolvedPath) == false)
@@ -231,8 +218,8 @@ namespace Core.SafeFilesystem
 		public static string[] Contents(string relativePath, FolderType folderType = FolderType.Config, bool userPersistent = false)
 		{
 			var resolvedPath = ValidatePath(relativePath, folderType, userPersistent, false, false);
-			var Directorys = new DirectoryInfo(resolvedPath);
-			return Directorys.GetFiles().Select(x => x.Name.Replace(".txt", "")).Where(x => x.Contains(".meta") == false).ToArray();
+			var directories = new DirectoryInfo(resolvedPath);
+			return directories.GetFiles().Select(x => x.Name.Replace(".txt", "")).Where(x => x.Contains(".meta") == false).ToArray();
 		}
 
 
@@ -281,9 +268,9 @@ namespace Core.SafeFilesystem
 		{
 			var resolvedPath = ValidatePath(relativePath, folderType, userPersistent, true);
 
-			byte[] DataSet = new byte[data.Length];
-			Array.Copy(data, DataSet, data.Length);
-			File.WriteAllBytes(resolvedPath, DataSet);
+			byte[] dataSet = new byte[data.Length];
+			Array.Copy(data, dataSet, data.Length);
+			File.WriteAllBytes(resolvedPath, dataSet);
 		}
 
 
@@ -351,9 +338,9 @@ namespace Core.SafeFilesystem
 		}
 
 
-		private static void FileChanged(string Path)
+		private static void FileChanged(string path)
 		{
-			foreach (var toInvoke in RegisteredToWatch[Path])
+			foreach (var toInvoke in RegisteredToWatch[path])
 			{
 				try
 				{
@@ -361,7 +348,7 @@ namespace Core.SafeFilesystem
 				}
 				catch (Exception e)
 				{
-					Logger.LogError($"Exception when triggering file change for {Path}, Exception > " + e.ToString());
+					Logger.LogError($"Exception when triggering file change for {path}, Exception > " + e.ToString());
 				}
 			}
 		}
@@ -372,24 +359,20 @@ namespace Core.SafeFilesystem
 		/// <param name="toRemove">The action to be unregistered from the file watcher.</param>
 		public static void UnRegister(Action toRemove)
 		{
-			if (RegisteredToFile.ContainsKey(toRemove))
-			{
-				var path = RegisteredToFile[toRemove];
-				RegisteredToWatch[path].Remove(toRemove);
-				RegisteredToFile.Remove(toRemove);
-				if (RegisteredToWatch[path].Count == 0)
-				{
-					RegisteredToWatch.Remove(path);
-					// Dispose the watcher
-					CurrentlyWatchingFile[path].Dispose();
-					CurrentlyWatchingFile.Remove(path);
-				}
-			}
+			if (RegisteredToFile.ContainsKey(toRemove) == false) return;
+
+			var path = RegisteredToFile[toRemove];
+			RegisteredToWatch[path].Remove(toRemove);
+			RegisteredToFile.Remove(toRemove);
+			if (RegisteredToWatch[path].Count != 0) return;
+
+			RegisteredToWatch.Remove(path);
+			// Dispose the watcher
+			CurrentlyWatchingFile[path].Dispose();
+			CurrentlyWatchingFile.Remove(path);
 		}
 
 	}
-
-
 }
 
 
