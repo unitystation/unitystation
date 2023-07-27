@@ -18,6 +18,9 @@ namespace Core.SafeFilesystem
 	{
 		private static string cashedForkName;
 
+		public static string ChatLogsFolder => "Chatlogs";
+		public static string AdminFolder => "Admin";
+
 		private static string ForkName
 		{
 			get
@@ -259,7 +262,6 @@ namespace Core.SafeFilesystem
 			Array.Copy(data, dataSet, data.Length);
 			File.WriteAllBytes(resolvedPath, dataSet);
 		}
-
 
 
 		/// <summary>

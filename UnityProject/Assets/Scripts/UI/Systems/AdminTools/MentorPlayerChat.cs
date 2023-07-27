@@ -83,9 +83,7 @@ namespace AdminTools
 				return;
 			}
 
-			var chatlogDir =  "chatlogs";
-
-			var filePath = Path.Combine(chatlogDir, $"{playerId}-mentor.txt");
+			var filePath = Path.Combine(AccessFile.ChatLogsFolder, $"{playerId}-mentor.txt");
 
 
 			if (AccessFile.Exists(filePath) == false)
