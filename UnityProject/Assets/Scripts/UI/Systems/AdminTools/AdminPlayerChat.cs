@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ConfigurationSaves;
+using Core.SafeFilesystem;
 using Mirror;
 using UnityEngine;
 using DatabaseAPI;
@@ -87,13 +87,13 @@ namespace AdminTools
 
 			var filePath = Path.Combine(chatlogDir, $"{playerId}.txt");
 
-			if (AccessFile.Exists(filePath, true, AccessCategory.Logs) == false)
+			if (AccessFile.Exists(filePath, true, FolderType.Logs) == false)
 			{
 				string header = $"Username: {player.Username} Character Name: {player.Name} \r\n" +
 				                $"IsAntag: {PlayerList.Instance.AntagPlayers.Contains(player)}  role: {player.Job} \r\n" +
 				                $"-----Chat Log----- \r\n" +
 				                $" \r\n";
-				AccessFile.AppendAllText(filePath, header, AccessCategory.Logs);
+				AccessFile.AppendAllText(filePath, header, FolderType.Logs);
 			}
 
 			string entryName = player.Name;
@@ -104,7 +104,7 @@ namespace AdminTools
 
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminURL, entry.Message, entryName);
 
-			AccessFile.AppendAllText(filePath, $"[{DateTime.Now.ToString("O")}] {entryName}: {entry.Message}", AccessCategory.Logs);
+			AccessFile.AppendAllText(filePath, $"[{DateTime.Now.ToString("O")}] {entryName}: {entry.Message}", FolderType.Logs);
 		}
 
 		public void ServerGetUnreadMessages(string playerId, int currentCount, NetworkConnection requestee)

@@ -1,5 +1,4 @@
-﻿
-using ConfigurationSaves;
+﻿using Core.SafeFilesystem;
 using UnityEngine;
 
 namespace Util
@@ -39,7 +38,7 @@ namespace Util
 			Destroy(tex);
 
 
-			AccessFile.Write(bytes, Path + "/" + FileName, AccessCategory.Data);
+			AccessFile.Write(bytes, Path + "/" + FileName, FolderType.Data);
 
 		}
 	}
