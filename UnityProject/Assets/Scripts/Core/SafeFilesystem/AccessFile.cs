@@ -18,10 +18,7 @@ namespace Core.SafeFilesystem
 	{
 		private static string cashedForkName;
 
-		public static string ChatLogsFolder => "Chatlogs";
 		public static string AdminFolder => "Admin";
-		public static string TechWebFolder => "TechWeb";
-		public static string TechWebDesignsFolder => Path.Combine(TechWebFolder, "Designs");
 
 		private static string ForkName
 		{

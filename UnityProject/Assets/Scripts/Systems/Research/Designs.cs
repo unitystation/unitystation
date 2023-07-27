@@ -63,6 +63,9 @@ namespace Systems.Research
 
 		static List<string> Jsons = new List<string>();
 
+		private static string TechWebFolder => "TechWeb";
+		private static string TechWebDesignsFolder => Path.Combine(TechWebFolder, "Designs");
+
 		void Awake()
 		{
 			if (!(Globals.IsInitialised))
@@ -71,11 +74,11 @@ namespace Systems.Research
 
 				Globals.InternalIDSearch = new Dictionary<string, Design>();
 
-				var files = AccessFile.Contents(AccessFile.TechWebDesignsFolder);
+				var files = AccessFile.Contents(TechWebFolder);
 
 				foreach(string file in files)
 				{
-					Jsons.Add(AccessFile.Load(Path.Combine(AccessFile.TechWebDesignsFolder ,file)));
+					Jsons.Add(AccessFile.Load(Path.Combine(TechWebDesignsFolder ,file)));
 				}
 
 				new Task(JsonImportInitialization).Start();

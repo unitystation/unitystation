@@ -21,6 +21,9 @@ namespace AdminTools
 		{
 			get { return selectedPlayer; }
 		}
+
+		public static string ChatLogsFolder => "Chatlogs";
+
 		/// <summary>
 		/// All messages sent and recieved from players to admins
 		/// </summary>
@@ -83,7 +86,7 @@ namespace AdminTools
 				return;
 			}
 
-			var filePath = Path.Combine(AccessFile.ChatLogsFolder, $"{playerId}.txt");
+			var filePath = Path.Combine(ChatLogsFolder, $"{playerId}.txt");
 
 			if (AccessFile.Exists(filePath, true, FolderType.Logs) == false)
 			{
