@@ -12,7 +12,7 @@ namespace ConfigurationSaves
 
 	public enum AccessCategory
 	{
-		Config,
+		config,
 		Data,
 		Logs
 	}
