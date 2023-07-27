@@ -1,138 +1,111 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace ConfigurationSaves
+namespace Core.SafeFilesystem
 {
-	//Better name
-
-	public enum AccessCategory
+	public enum FolderType
 	{
 		Config,
 		Data,
 		Logs
 	}
 
-
 	public static class AccessFile
 	{
-		private static string CashedForkName;
+		private static string cashedForkName;
+
+		public static string ChatLogsFolder => "Chatlogs";
+		public static string AdminFolder => "Admin";
 
 		private static string ForkName
 		{
 			get
 			{
-				if (string.IsNullOrEmpty(CashedForkName))
-				{
-					var path = Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,
-						AccessCategory.Config.ToString(),
-						"buildinfo.json"));
-					var text = File.ReadAllText(path);
-					var data = JsonConvert.DeserializeObject<BuiltFork>(text);
-					if (data == null)
-					{
-						CashedForkName = "Unitystation";
-					}
-					else
-					{
-						CashedForkName = data.ForkName;
-					}
-				}
+				if (string.IsNullOrEmpty(cashedForkName) == false) return cashedForkName;
+				var path = Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,
+					FolderType.Config.ToString(),
+					"buildinfo.json"));
+				var text = File.ReadAllText(path);
+				var data = JsonConvert.DeserializeObject<BuiltFork>(text);
+				cashedForkName = data == null ? "Unitystation" : data.Name;
 
-				return CashedForkName;
+				return cashedForkName;
 			}
 		}
 
-		private static Dictionary<string, FileSystemWatcher> CurrentlyWatchingFile = new Dictionary<string, FileSystemWatcher>();
+		private static readonly Dictionary<string, FileSystemWatcher> CurrentlyWatchingFile = new();
 
-		private static Dictionary<Action, string> RegisteredToFile = new Dictionary<Action, string>();
+		private static readonly Dictionary<Action, string> RegisteredToFile = new();
 
-		private static Dictionary<string, List<Action>> RegisteredToWatch = new Dictionary<string, List<Action>>();
+		private static readonly Dictionary<string, List<Action>> RegisteredToWatch = new();
 
 		private class BuiltFork
 		{
-			public string ForkName; // = Unitystation"
+			public string Name { get; set; } // = Unitystation"
 		}
 
 
 		private static readonly string[] AllowedExtensions = new[] {".txt", ".json", ".toml", ".yaml", ".data", ".log"};
 
-		private static string ValidatePath(string relativePath, AccessCategory accessCategory, bool userPersistent,
-			bool CreateFile, bool AddExtension = true)
+		private static string ValidatePath(string relativePath, FolderType folderType, bool userPersistent, bool createFile, bool addExtension = true)
 		{
-			bool isAllowedExtension = false;
-			var extension = "";
+			string extension = GetFileExtension(relativePath, folderType, addExtension);
+			string resolvedPath = GetResolvedPath(relativePath + extension, folderType, userPersistent);
+			CreateDirectoryIfNotExists(resolvedPath);
+			CreateFileIfRequired(resolvedPath, createFile);
+			return resolvedPath;
+		}
 
-			if (AddExtension)
+		private static string GetFileExtension(string relativePath, FolderType folderType, bool addExtension)
+		{
+			if (!addExtension) return "";
+
+			var isAllowedExtension = AllowedExtensions.Any(relativePath.EndsWith);
+			if (isAllowedExtension) return "";
+
+			return folderType switch
 			{
-				foreach (var allowedExtension in AllowedExtensions)
-				{
-					if (relativePath.EndsWith(allowedExtension))
-					{
-						isAllowedExtension = true;
-						break;
-					}
-				}
+				FolderType.Config => ".txt",
+				FolderType.Data => ".Data",
+				FolderType.Logs => ".log",
+				_ => ""
+			};
+		}
 
-				if (isAllowedExtension == false)
-				{
-					switch (accessCategory)
-					{
-						case AccessCategory.Config:
-							extension = ".txt";
-							break;
-						case AccessCategory.Data:
-							extension = ".Data";
-							break;
-						case AccessCategory.Logs:
-							extension = ".log";
-							break;
-					}
-				}
+		private static string GetResolvedPath(string relativePath, FolderType folderType, bool userPersistent)
+		{
+			string baseFolder = userPersistent ? Application.persistentDataPath : Application.streamingAssetsPath;
+			string resolvedPath = Path.GetFullPath(Path.Combine(baseFolder, ForkName, folderType.ToString(), relativePath));
 
-			}
-
-			string resolvedPath = "";
-
-			if (userPersistent)
+			if (!resolvedPath.StartsWith(Path.GetFullPath(Path.Combine(baseFolder, ForkName, folderType.ToString()))))
 			{
-				resolvedPath = Path.GetFullPath(Path.Combine(Application.persistentDataPath, ForkName , accessCategory.ToString(), relativePath + extension));
-				if (resolvedPath.StartsWith(Path.GetFullPath(Path.Combine(Application.persistentDataPath, ForkName, accessCategory.ToString()))) == false)
-				{
-					Logger.LogError($"Persistent data Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
-					throw new Exception($"Persistent data  Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
-				}
+				var error = $"{(userPersistent ? "Persistent data" : "Streaming assets")} Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}";
+				Logger.LogError(error);
+				throw new Exception(error);
 			}
-			else
-			{
-				resolvedPath = Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,accessCategory.ToString(), relativePath + extension));
-				if (resolvedPath.StartsWith(Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,  accessCategory.ToString()))) == false)
-				{
-					Logger.LogError($"Streaming assets Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
-					throw new Exception($"Streaming assets Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
-				}
-			}
-
-			var ADirectory = Path.GetDirectoryName(resolvedPath);
-			Directory.CreateDirectory(ADirectory);
-
-			if (CreateFile)
-			{
-				// Check if the file already exists
-				if (File.Exists(resolvedPath) == false)
-				{
-					// Create the file at the specified path
-					File.Create(resolvedPath).Close();
-				}
-			}
-
 
 			return resolvedPath;
+		}
 
+		private static void CreateDirectoryIfNotExists(string resolvedPath)
+		{
+			var directoryPath = Path.GetDirectoryName(resolvedPath);
+			if (directoryPath is not null)
+			{
+				Directory.CreateDirectory(directoryPath);
+			}
+		}
+
+		private static void CreateFileIfRequired(string resolvedPath, bool createFile)
+		{
+			if (createFile && !File.Exists(resolvedPath))
+			{
+				File.Create(resolvedPath).Close();
+			}
 		}
 
 
@@ -141,12 +114,12 @@ namespace ConfigurationSaves
 		/// </summary>
 		/// <param name="relativePath">The relative path to the file to be saved.</param>
 		/// <param name="data">The data to be saved as a string.</param>
-		/// <param name="accessCategory">The category of access for the file (e.g., Config, Data, Logs).</param>
+		/// <param name="folderType">The category of access for the file (e.g., Config, Data, Logs).</param>
 		/// <param name="userPersistent">Indicates whether the file should be saved in a user-specific persistent data path (true) or in the streaming assets path (false).</param>
 		/// <exception cref="Exception">Thrown when a malicious path is passed into the file access.</exception>
-		public static void Save(string relativePath, string data, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
+		public static void Save(string relativePath, string data, FolderType folderType = FolderType.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
+			var resolvedPath = ValidatePath(relativePath, folderType, userPersistent, true);
 			File.WriteAllText(resolvedPath, data);
 		}
 
@@ -154,15 +127,15 @@ namespace ConfigurationSaves
 		/// Loads data from a specified file path within a designated access category and returns it as a string. The function ensures the path's validity and security before performing the load operation. The data can be loaded from either a user-specific persistent data path or the streaming assets path, based on the 'userPersistent' parameter.
 		/// </summary>
 		/// <param name="relativePath">The relative path to the file from which the data will be loaded. The path should be relative to the base path of the chosen access category.</param>
-		/// <param name="accessCategory">The category of access for the file, which helps determine the base path for the file. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
+		/// <param name="folderType">The category of access for the file, which helps determine the base path for the file. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
 		/// <param name="userPersistent">A flag indicating whether the file should be loaded from a user-specific persistent data path (true) or from the streaming assets path (false).</param>
 		/// <returns>The data loaded from the specified file as a string.</returns>
 		/// <exception cref="Exception">Thrown when a malicious path is passed into the file access. This security measure helps prevent unauthorized file access.</exception>
 		/// <exception cref="FileNotFoundException">Thrown when the specified file is not found at the provided path.</exception>
 		/// <exception cref="IOException">Thrown when an error occurs during the file reading operation.</exception>
-		public static string Load(string relativePath, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
+		public static string Load(string relativePath, FolderType folderType = FolderType.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
+			var resolvedPath = ValidatePath(relativePath, folderType, userPersistent, true);
 			var data = File.ReadAllText(resolvedPath);
 			return data;
 		}
@@ -171,15 +144,15 @@ namespace ConfigurationSaves
 		/// Reads all lines of text from a specified file path within a designated access category and returns them as an array of strings. The function ensures the path's validity and security before performing the read operation. The lines of text can be read from either a user-specific persistent data path or the streaming assets path, based on the 'userPersistent' parameter.
 		/// </summary>
 		/// <param name="relativePath">The relative path to the file from which the lines of text will be read. The path should be relative to the base path of the chosen access category.</param>
-		/// <param name="accessCategory">The category of access for the file, which helps determine the base path for the file. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
+		/// <param name="folderType">The category of access for the file, which helps determine the base path for the file. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
 		/// <param name="userPersistent">A flag indicating whether the file should be read from a user-specific persistent data path (true) or from the streaming assets path (false).</param>
 		/// <returns>An array of strings representing the lines of text read from the specified file.</returns>
 		/// <exception cref="Exception">Thrown when a malicious path is passed into the file access. This security measure helps prevent unauthorized file access.</exception>
 		/// <exception cref="FileNotFoundException">Thrown when the specified file is not found at the provided path.</exception>
 		/// <exception cref="IOException">Thrown when an error occurs during the file reading operation.</exception>
-		public static string[] ReadAllLines(string relativePath, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
+		public static string[] ReadAllLines(string relativePath, FolderType folderType = FolderType.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
+			var resolvedPath = ValidatePath(relativePath, folderType, userPersistent, true);
 			return File.ReadAllLines(resolvedPath);
 		}
 
@@ -188,13 +161,13 @@ namespace ConfigurationSaves
 		/// </summary>
 		/// <param name="relativePath">The relative path to the file where the lines of text will be written. The path should be relative to the base path of the chosen access category.</param>
 		/// <param name="lines">An array of strings representing the lines of text to be written to the file.</param>
-		/// <param name="accessCategory">The category of access for the file, which helps determine the base path for the file. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
+		/// <param name="folderType">The category of access for the file, which helps determine the base path for the file. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
 		/// <param name="userPersistent">A flag indicating whether the file should be written to a user-specific persistent data path (true) or to the streaming assets path (false).</param>
 		/// <exception cref="Exception">Thrown when a malicious path is passed into the file access. This security measure helps prevent unauthorized file access.</exception>
 		/// <exception cref="IOException">Thrown when an error occurs during the file writing operation.</exception>
-		public static void WriteAllLines(string relativePath, string[] lines, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
+		public static void WriteAllLines(string relativePath, string[] lines, FolderType folderType = FolderType.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
+			var resolvedPath = ValidatePath(relativePath, folderType, userPersistent, true);
 			File.WriteAllLines(resolvedPath, lines);
 		}
 
@@ -204,13 +177,13 @@ namespace ConfigurationSaves
 		/// </summary>
 		/// <param name="relativePath">The relative path to the file or directory for which existence will be checked. The path should be relative to the base path of the chosen access category.</param>
 		/// <param name="isFile">A flag indicating whether the existence check is for a file (true) or a directory (false). If true, the function checks for the existence of a file; if false, it checks for the existence of a directory.</param>
-		/// <param name="accessCategory">The category of access for the file or directory, which helps determine the base path for the check. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
+		/// <param name="folderType">The category of access for the file or directory, which helps determine the base path for the check. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
 		/// <param name="userPersistent">A flag indicating whether the existence check should be performed in a user-specific persistent data path (true) or in the streaming assets path (false).</param>
 		/// <returns>True if the specified file or directory exists; otherwise, false.</returns>
 		/// <exception cref="Exception">Thrown when a malicious path is passed into the file access. This security measure helps prevent unauthorized file access.</exception>
-		public static bool Exists(string relativePath, bool isFile = true, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
+		public static bool Exists(string relativePath, bool isFile = true, FolderType folderType = FolderType.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, false, isFile);
+			var resolvedPath = ValidatePath(relativePath, folderType, userPersistent, false, isFile);
 
 			if (isFile)
 			{
@@ -228,15 +201,15 @@ namespace ConfigurationSaves
 		/// Retrieves the names of files contained within a specified directory path within a designated access category. The function ensures the path's validity and security before performing the operation. The contents are obtained from either a user-specific persistent data path or the streaming assets path, based on the 'userPersistent' parameter.
 		/// </summary>
 		/// <param name="relativePath">The relative path to the directory from which file names will be retrieved. The path should be relative to the base path of the chosen access category.</param>
-		/// <param name="accessCategory">The category of access for the directory, which helps determine the base path for the retrieval. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
+		/// <param name="folderType">The category of access for the directory, which helps determine the base path for the retrieval. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
 		/// <param name="userPersistent">A flag indicating whether the file names should be retrieved from a user-specific persistent data path (true) or from the streaming assets path (false).</param>
 		/// <returns>An array of strings containing the names of files within the specified directory, excluding files with '.meta' extensions and '.txt' extensions (if any).</returns>
 		/// <exception cref="Exception">Thrown when a malicious path is passed into the file access. This security measure helps prevent unauthorized file access.</exception>
-		public static string[] Contents(string relativePath, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
+		public static string[] Contents(string relativePath, FolderType folderType = FolderType.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, false, false);
-			var Directorys = new DirectoryInfo(resolvedPath);
-			return Directorys.GetFiles().Select(x => x.Name.Replace(".txt", "")).Where(x => x.Contains(".meta") == false).ToArray();
+			var resolvedPath = ValidatePath(relativePath, folderType, userPersistent, false, false);
+			var directories = new DirectoryInfo(resolvedPath);
+			return directories.GetFiles().Select(x => x.Name.Replace(".txt", "")).Where(x => x.Contains(".meta") == false).ToArray();
 		}
 
 
@@ -244,14 +217,14 @@ namespace ConfigurationSaves
 		/// Deletes a specified file within a designated access category and location. The function ensures the path's validity and security before performing the deletion. The file can be deleted from either a user-specific persistent data path or the streaming assets path, based on the 'userPersistent' parameter.
 		/// </summary>
 		/// <param name="relativePath">The relative path to the file that will be deleted. The path should be relative to the base path of the chosen access category.</param>
-		/// <param name="accessCategory">The category of access for the file, which helps determine the base path for the deletion. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
+		/// <param name="folderType">The category of access for the file, which helps determine the base path for the deletion. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
 		/// <param name="userPersistent">A flag indicating whether the file should be deleted from a user-specific persistent data path (true) or from the streaming assets path (false).</param>
 		/// <exception cref="Exception">Thrown when a malicious path is passed into the file access. This security measure helps prevent unauthorized file access.</exception>
 		/// <exception cref="FileNotFoundException">Thrown when the specified file is not found at the provided path.</exception>
 		/// <exception cref="IOException">Thrown when an error occurs during the file deletion operation.</exception>
-		public static void Delete(string relativePath, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
+		public static void Delete(string relativePath, FolderType folderType = FolderType.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
+			var resolvedPath = ValidatePath(relativePath, folderType, userPersistent, true);
 			File.Delete(resolvedPath);
 		}
 
@@ -261,13 +234,13 @@ namespace ConfigurationSaves
 		/// </summary>
 		/// <param name="relativePath">The relative path to the file where the data will be appended as text. The path should be relative to the base path of the chosen access category.</param>
 		/// <param name="data">The data to be appended as text to the file.</param>
-		/// <param name="accessCategory">The category of access for the file, which helps determine the base path for the append operation. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
+		/// <param name="folderType">The category of access for the file, which helps determine the base path for the append operation. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
 		/// <param name="userPersistent">A flag indicating whether the data should be appended to a user-specific persistent data path (true) or to the streaming assets path (false).</param>
 		/// <exception cref="Exception">Thrown when a malicious path is passed into the file access. This security measure helps prevent unauthorized file access.</exception>
 		/// <exception cref="IOException">Thrown when an error occurs during the file append operation.</exception>
-		public static void AppendAllText(string relativePath, string data , AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
+		public static void AppendAllText(string relativePath, string data , FolderType folderType = FolderType.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
+			var resolvedPath = ValidatePath(relativePath, folderType, userPersistent, true);
 			File.AppendAllText(resolvedPath, data);
 		}
 
@@ -277,33 +250,32 @@ namespace ConfigurationSaves
 		/// </summary>
 		/// <param name="data">The binary data to be written to the file.</param>
 		/// <param name="relativePath">The relative path to the file where the binary data will be written. The path should be relative to the base path of the chosen access category.</param>
-		/// <param name="accessCategory">The category of access for the file, which helps determine the base path for the write operation. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
+		/// <param name="folderType">The category of access for the file, which helps determine the base path for the write operation. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
 		/// <param name="userPersistent">A flag indicating whether the binary data should be written to a user-specific persistent data path (true) or to the streaming assets path (false).</param>
 		/// <exception cref="Exception">Thrown when a malicious path is passed into the file access. This security measure helps prevent unauthorized file access.</exception>
 		/// <exception cref="IOException">Thrown when an error occurs during the file writing operation.</exception>
-		public static void Write(byte[] data, string relativePath, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
+		public static void Write(byte[] data, string relativePath, FolderType folderType = FolderType.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
+			var resolvedPath = ValidatePath(relativePath, folderType, userPersistent, true);
 
-			byte[] DataSet = new byte[data.Length];
-			Array.Copy(data, DataSet, data.Length);
-			File.WriteAllBytes(resolvedPath, DataSet);
+			byte[] dataSet = new byte[data.Length];
+			Array.Copy(data, dataSet, data.Length);
+			File.WriteAllBytes(resolvedPath, dataSet);
 		}
-
 
 
 		/// <summary>
 		/// Reads binary data from a specified file within a designated access category and location. The function ensures the path's validity and security before performing the read operation. The binary data is read from either a user-specific persistent data path or the streaming assets path, based on the 'userPersistent' parameter.
 		/// </summary>
 		/// <param name="relativePath">The relative path to the file from which the binary data will be read. The path should be relative to the base path of the chosen access category.</param>
-		/// <param name="accessCategory">The category of access for the file, which helps determine the base path for the read operation. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
+		/// <param name="folderType">The category of access for the file, which helps determine the base path for the read operation. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
 		/// <param name="userPersistent">A flag indicating whether the binary data should be read from a user-specific persistent data path (true) or from the streaming assets path (false).</param>
 		/// <returns>A byte array containing the binary data read from the specified file. If the file does not exist, null is returned.</returns>
 		/// <exception cref="Exception">Thrown when a malicious path is passed into the file access. This security measure helps prevent unauthorized file access.</exception>
 		/// <exception cref="IOException">Thrown when an error occurs during the file reading operation.</exception>
-		public static byte[] Read(string relativePath, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
+		public static byte[] Read(string relativePath, FolderType folderType = FolderType.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
+			var resolvedPath = ValidatePath(relativePath, folderType, userPersistent, true);
 
 			if (File.Exists(resolvedPath))
 			{
@@ -327,13 +299,13 @@ namespace ConfigurationSaves
 		/// </summary>
 		/// <param name="relativePath">The relative path to the file to be watched.</param>
 		/// <param name="toInvoke">The action to be invoked when the file is modified.</param>
-		/// <param name="accessCategory">The access category folder where the file is expected to reside (Config, Data, or Logs). Default is Config.</param>
+		/// <param name="folderType">The access category folder where the file is expected to reside (Config, Data, or Logs). Default is Config.</param>
 		/// <param name="userPersistent">If true, the file is expected to be in the persistent data path; otherwise, it is expected in the streaming assets path.</param>
 
-		public static void Watch(string relativePath, Action toInvoke ,  AccessCategory accessCategory = AccessCategory.Config,
+		public static void Watch(string relativePath, Action toInvoke ,  FolderType folderType = FolderType.Config,
 			bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
+			var resolvedPath = ValidatePath(relativePath, folderType, userPersistent, true);
 
 			if (CurrentlyWatchingFile.ContainsKey(resolvedPath) == false)
 			{
@@ -355,9 +327,9 @@ namespace ConfigurationSaves
 		}
 
 
-		private static void FileChanged(string Path)
+		private static void FileChanged(string path)
 		{
-			foreach (var toInvoke in RegisteredToWatch[Path])
+			foreach (var toInvoke in RegisteredToWatch[path])
 			{
 				try
 				{
@@ -365,7 +337,7 @@ namespace ConfigurationSaves
 				}
 				catch (Exception e)
 				{
-					Logger.LogError($"Exception when triggering file change for {Path}, Exception > " + e.ToString());
+					Logger.LogError($"Exception when triggering file change for {path}, Exception > " + e.ToString());
 				}
 			}
 		}
@@ -376,24 +348,20 @@ namespace ConfigurationSaves
 		/// <param name="toRemove">The action to be unregistered from the file watcher.</param>
 		public static void UnRegister(Action toRemove)
 		{
-			if (RegisteredToFile.ContainsKey(toRemove))
-			{
-				var path = RegisteredToFile[toRemove];
-				RegisteredToWatch[path].Remove(toRemove);
-				RegisteredToFile.Remove(toRemove);
-				if (RegisteredToWatch[path].Count == 0)
-				{
-					RegisteredToWatch.Remove(path);
-					// Dispose the watcher
-					CurrentlyWatchingFile[path].Dispose();
-					CurrentlyWatchingFile.Remove(path);
-				}
-			}
+			if (RegisteredToFile.ContainsKey(toRemove) == false) return;
+
+			var path = RegisteredToFile[toRemove];
+			RegisteredToWatch[path].Remove(toRemove);
+			RegisteredToFile.Remove(toRemove);
+			if (RegisteredToWatch[path].Count != 0) return;
+
+			RegisteredToWatch.Remove(path);
+			// Dispose the watcher
+			CurrentlyWatchingFile[path].Dispose();
+			CurrentlyWatchingFile.Remove(path);
 		}
 
 	}
-
-
 }
 
 

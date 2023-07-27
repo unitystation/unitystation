@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using ConfigurationSaves;
+using Core.SafeFilesystem;
 using DatabaseAPI;
 using Mirror;
 using UnityEngine;
@@ -52,11 +52,11 @@ public partial class PlayerList
 	[Server]
 	void InitAdminController()
 	{
-		adminsPath = Path.Combine( "admin", "admins.txt");
-		mentorsPath = Path.Combine( "admin", "mentors.txt");
-		banPath = Path.Combine( "admin", "banlist.json");
-		whiteListPath = Path.Combine( "admin", "whitelist.txt");
-		jobBanPath = Path.Combine( "admin", "jobBanlist.json");
+		adminsPath = Path.Combine( AccessFile.AdminFolder, "admins.txt");
+		mentorsPath = Path.Combine( AccessFile.AdminFolder, "mentors.txt");
+		banPath = Path.Combine( AccessFile.AdminFolder, "banlist.json");
+		whiteListPath = Path.Combine( AccessFile.AdminFolder, "whitelist.txt");
+		jobBanPath = Path.Combine( AccessFile.AdminFolder, "jobBanlist.json");
 
 		if (AccessFile.Exists(banPath)  == false)
 		{

@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using ConfigurationSaves;
+using Core.SafeFilesystem;
 using Shared.Managers;
 using Tomlyn;
 using UnityEngine;
@@ -8,7 +8,7 @@ namespace Systems.Permissions
 {
 	public class PermissionsManager: SingletonManager<PermissionsManager>
 	{
-		private readonly string configPath = Path.Combine("admin", "permissions.toml");
+		private readonly string configPath = Path.Combine(AccessFile.AdminFolder, "permissions.toml");
 
 		public PermissionsConfig Config { get; private set; }
 
