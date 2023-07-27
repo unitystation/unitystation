@@ -48,74 +48,61 @@ namespace Core.SafeFilesystem
 
 		private static readonly string[] AllowedExtensions = new[] {".txt", ".json", ".toml", ".yaml", ".data", ".log"};
 
-		private static string ValidatePath(string relativePath, FolderType folderType, bool userPersistent,
-			bool createFile, bool addExtension = true)
+		private static string ValidatePath(string relativePath, FolderType folderType, bool userPersistent, bool createFile, bool addExtension = true)
 		{
-			bool isAllowedExtension = false;
-			var extension = "";
+			string extension = GetFileExtension(relativePath, folderType, addExtension);
+			string resolvedPath = GetResolvedPath(relativePath + extension, folderType, userPersistent);
+			CreateDirectoryIfNotExists(resolvedPath);
+			CreateFileIfRequired(resolvedPath, createFile);
+			return resolvedPath;
+		}
 
-			if (addExtension)
+		private static string GetFileExtension(string relativePath, FolderType folderType, bool addExtension)
+		{
+			if (!addExtension) return "";
+
+			var isAllowedExtension = AllowedExtensions.Any(relativePath.EndsWith);
+			if (isAllowedExtension) return "";
+
+			return folderType switch
 			{
-				foreach (var allowedExtension in AllowedExtensions)
-				{
-					if (relativePath.EndsWith(allowedExtension) == false) continue;
-					isAllowedExtension = true;
-					break;
-				}
+				FolderType.Config => ".txt",
+				FolderType.Data => ".Data",
+				FolderType.Logs => ".log",
+				_ => ""
+			};
+		}
 
-				if (isAllowedExtension == false)
-				{
-					extension = folderType switch
-					{
-						FolderType.Config => ".txt",
-						FolderType.Data => ".Data",
-						FolderType.Logs => ".log",
-						_ => extension
-					};
-				}
+		private static string GetResolvedPath(string relativePath, FolderType folderType, bool userPersistent)
+		{
+			string baseFolder = userPersistent ? Application.persistentDataPath : Application.streamingAssetsPath;
+			string resolvedPath = Path.GetFullPath(Path.Combine(baseFolder, ForkName, folderType.ToString(), relativePath));
 
-			}
-
-			string resolvedPath;
-
-			if (userPersistent)
+			if (!resolvedPath.StartsWith(Path.GetFullPath(Path.Combine(baseFolder, ForkName, folderType.ToString()))))
 			{
-				resolvedPath = Path.GetFullPath(Path.Combine(Application.persistentDataPath, ForkName , folderType.ToString(), relativePath + extension));
-				if (resolvedPath.StartsWith(Path.GetFullPath(Path.Combine(Application.persistentDataPath, ForkName, folderType.ToString()))) == false)
-				{
-					Logger.LogError($"Persistent data Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
-					throw new Exception($"Persistent data  Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
-				}
+				var error = $"{(userPersistent ? "Persistent data" : "Streaming assets")} Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}";
+				Logger.LogError(error);
+				throw new Exception(error);
 			}
-			else
-			{
-				resolvedPath = Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,folderType.ToString(), relativePath + extension));
-				if (resolvedPath.StartsWith(Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,  folderType.ToString()))) == false)
-				{
-					Logger.LogError($"Streaming assets Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
-					throw new Exception($"Streaming assets Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
-				}
-			}
-
-			var aDirectory = Path.GetDirectoryName(resolvedPath);
-			if (aDirectory is not null)
-			{
-				Directory.CreateDirectory(aDirectory);
-			}
-
-			if (createFile)
-			{
-				// Check if the file already exists
-				if (File.Exists(resolvedPath) == false)
-				{
-					// Create the file at the specified path
-					File.Create(resolvedPath).Close();
-				}
-			}
-
 
 			return resolvedPath;
+		}
 
+		private static void CreateDirectoryIfNotExists(string resolvedPath)
+		{
+			var directoryPath = Path.GetDirectoryName(resolvedPath);
+			if (directoryPath is not null)
+			{
+				Directory.CreateDirectory(directoryPath);
+			}
+		}
+
+		private static void CreateFileIfRequired(string resolvedPath, bool createFile)
+		{
+			if (createFile && !File.Exists(resolvedPath))
+			{
+				File.Create(resolvedPath).Close();
+			}
 		}
 
 
