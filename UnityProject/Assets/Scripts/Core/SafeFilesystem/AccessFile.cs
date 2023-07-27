@@ -20,6 +20,8 @@ namespace Core.SafeFilesystem
 
 		public static string ChatLogsFolder => "Chatlogs";
 		public static string AdminFolder => "Admin";
+		public static string TechWebFolder => "TechWeb";
+		public static string TechWebDesignsFolder => Path.Combine(TechWebFolder, "Designs");
 
 		private static string ForkName
 		{
@@ -43,11 +45,12 @@ namespace Core.SafeFilesystem
 
 		private static readonly Dictionary<string, List<Action>> RegisteredToWatch = new();
 
+		[Serializable]
 		private class BuiltFork
 		{
+			[JsonProperty("ForkName")]
 			public string Name { get; set; } // = Unitystation"
 		}
-
 
 		private static readonly string[] AllowedExtensions = new[] {".txt", ".json", ".toml", ".yaml", ".data", ".log"};
 
