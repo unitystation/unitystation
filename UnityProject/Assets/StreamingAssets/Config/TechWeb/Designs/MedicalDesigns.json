@@ -1,0 +1,477 @@
+[
+    {
+        "Internal_ID": "mmi",
+        "Description": "The Warrior's bland acronym, MMI, obscures the true horror of this monstrosity.",
+        "Category": [
+            "Cyborg Parts"
+        ],
+        "Materials": {
+            "Metal": 1000,
+            "Glass": 500
+        },
+        "Machinery_type": [
+            "ExosuitFabricator"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Man-Machine Interface",
+        "Item_ID": "078c2fa95806853429b804a438e8dafe"
+    },
+    {
+        "Internal_ID": "cyber_heart",
+        "Description": "A mechanical heart.",
+        "Category": [
+            "Synthetic Implants"
+        ],
+        "Materials": {
+            "Metal": 1000,
+            "Glass": 500,
+            "Gold": 100
+        },
+        "Machinery_type": [
+            "ExosuitFabricator"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Cybernetic Heart",
+        "Item_ID": "oZ$qFf9Q2zVR!nCaGFkE"
+    },
+    {
+        "Internal_ID": "cyber_lung",
+        "Description": "A pair of lungs covered in blinking lights.",
+        "Category": [
+            "Misc",
+            "Synthetic Implants"
+        ],
+        "Materials": {
+            "Metal": 500,
+            "Glass": 1000,
+            "Gold": 100
+        },
+        "Machinery_type": [
+            "ExosuitFabricator"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Cybernetic Lungs",
+        "Item_ID": "Rwg@6xa51aeimGt4WvV6"
+    },
+    {
+        "Internal_ID": "cyber_liver",
+        "Description": "A large mechanical liver emulating a filter.",
+        "Category": [
+            "Misc",
+            "Synthetic Implants"
+        ],
+        "Materials": {
+            "Metal": 500,
+            "Glass": 1000,
+            "Gold": 100
+        },
+        "Machinery_type": [
+            "ExosuitFabricator"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Cybernetic Liver",
+        "Item_ID": "cyberliver"
+    },
+    {
+        "Internal_ID": "mmi_posi",
+        "Description": "The latest in Artificial Intelligences.",
+        "Category": [
+            "Cyborg Parts"
+        ],
+        "Materials": {
+            "Metal": 1700,
+            "Glass": 1350,
+            "Gold": 500
+        },
+        "Machinery_type": [
+            "ExosuitFabricator"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Artificial Brain",
+        "Item_ID": "8f1728f5955b2e549b17eb98ffbd5c3c"
+    },
+    {
+        "Internal_ID": "bluespace_beaker",
+        "Description": "A bluespace beaker, powered by experimental bluespace technology and Element Cuban combined with the Compound Pete. Can hold up to 300 units.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Glass": 3000,
+            "Plasma": 3000,
+            "Diamond": 250,
+            "BlueSpace": 250
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Bluespace Beaker",
+        "Item_ID": "bluebeaker"
+    },
+    {
+        "Internal_ID": "beaker",
+        "Description": "A beaker. It can hold up to 50 units.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Glass": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Beaker",
+        "Item_ID": "beaker"
+    },
+    {
+        "Internal_ID": "large_beaker",
+        "Description": "A large beaker. Can hold up to 100 units.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Glass": 150
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Large Beaker",
+        "Item_ID": "largebeaker"
+    },
+    {
+        "Internal_ID": "xl_beaker",
+        "Description": "An extra-large beaker. Can hold up to 120 units.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Glass": 250
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "XL Beaker",
+        "Item_ID": "xlbeaker"
+    },
+    {
+        "Internal_ID": "meta_beaker",
+        "Description": "A large beaker. Can hold up to 180 units.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Glass": 250,
+            "Plasma": 250,
+            "Gold": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Meta-Material Beaker",
+        "Item_ID": "metabeaker"
+    },
+    {
+        "Internal_ID": "splitbeaker",
+        "Description": "A cryostasis beaker that allows for chemical storage without reactions. Can hold up to 50 units.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Metal": 3000
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Medical"
+        ],
+        "name": "Cryostasis Beaker",
+        "Item_ID": "/obj/item/weapon/reagent_containers/glass/beaker/noreact"
+    },
+    {
+        "Internal_ID": "cloning_disk",
+        "Description": "Produce additional disks for storing genetic data.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Metal": 300,
+            "Glass": 100,
+            "Silver": 50
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Cloning Data Disk",
+        "Item_ID": "/obj/item/weapon/disk/data"
+    },
+    {
+        "Internal_ID": "bluespacebodybag",
+        "Description": "A bluespace body bag, powered by experimental bluespace technology. It can hold loads of bodies and the largest of creatures.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Metal": 3000,
+            "Plasma": 2000,
+            "Diamond": 500,
+            "BlueSpace": 500
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Bluespace Body Bag",
+        "Item_ID": "/obj/item/bodybag/bluespace"
+    },
+    {
+        "Internal_ID": "plasmarefiller",
+        "Description": "A refill pack for the auto-extinguisher on Plasma-man suits.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Metal": 4000,
+            "Plasma": 1000
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "AllProtoLathes"
+        ],
+        "name": "Plasma-Man Jumpsuit Refill",
+        "Item_ID": "/obj/item/device/extinguisher_refill"
+    },
+    {
+        "Internal_ID": "defibrillator",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Metal": 8000,
+            "Glass": 4000,
+            "Silver": 3000,
+            "Gold": 1500
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Medical"
+        ],
+        "name": "Defibrillator",
+        "Item_ID": "/obj/item/weapon/defibrillator"
+    },
+    {
+        "Internal_ID": "ci_breather",
+        "Description": "This simple implant adds an internals connector to your back, allowing you to use internals without a mask and protecting you from being choked.",
+        "Category": [
+            "Synthetic Implants"
+        ],
+        "Materials": {
+            "Metal": 600,
+            "Glass": 250
+        },
+        "Machinery_type": [
+            "ExosuitFabricator"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Breathing Tube Implant",
+        "Item_ID": "breathing_tube"
+    },
+    {
+        "Internal_ID": "ci_weldshield",
+        "Description": "This simple implant grants the wearing immunity to bright flashes.",
+        "Category": [
+            "Synthetic Implants"
+        ],
+        "Materials": {
+            "Metal": 600,
+            "Glass": 250
+        },
+        "Machinery_type": [
+            "ExosuitFabricator"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Welding Shield Implant",
+        "Item_ID": "weldingshield"
+    },
+    {
+        "Internal_ID": "ci-nutriment",
+        "Description": "This implant with synthesize and pump into your bloodstream a small amount of nutriment when you are starving.",
+        "Category": [
+            "Synthetic Implants"
+        ],
+        "Materials": {
+            "Metal": 500,
+            "Glass": 500,
+            "Gold": 500
+        },
+        "Machinery_type": [
+            "ExosuitFabricator"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Nutriment Pump Implant",
+        "Item_ID": "/obj/item/organ/cyberimp/chest/nutriment"
+    },
+    {
+        "Internal_ID": "ci-nutrimentplus",
+        "Description": "This implant with synthesize and pump into your bloodstream a small amount of nutriment when you are hungry.",
+        "Category": [
+            "Misc",
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Metal": 600,
+            "Glass": 600,
+            "Gold": 500,
+            "Uranium": 750
+        },
+        "Machinery_type": [
+            "ExosuitFabricator"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Nutriment Pump Implant PLUS",
+        "Item_ID": "/obj/item/organ/cyberimp/chest/nutriment/plus"
+    },
+    {
+        "Internal_ID": "ci_reviver",
+        "Description": "This implant will attempt to revive you if you lose consciousness. For the faint of heart!",
+        "Category": [
+            "Synthetic Implants"
+        ],
+        "Materials": {
+            "Metal": 800,
+            "Glass": 800,
+            "Gold": 300,
+            "Uranium": 500
+        },
+        "Machinery_type": [
+            "ExisuitFabricator"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Reviver Implant",
+        "Item_ID": "reviver"
+    },
+    {
+        "Internal_ID": "ci-thrusters",
+        "Description": "This implant will allow you to use gas from environment or your internals for propulsion in zero-gravity areas.",
+        "Category": [
+            "Synthetic Implants"
+        ],
+        "Materials": {
+            "Metal": 4000,
+            "Glass": 2000,
+            "Silver": 1000,
+            "Diamond": 1000
+        },
+        "Machinery_type": [
+            "ExosuitFabricator"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Thrusters Set Implant",
+        "Item_ID": "/obj/item/organ/cyberimp/chest/thrusters"
+    },
+    {
+        "Internal_ID": "implanter",
+        "Description": "A sterile automatic implant injector.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Metal": 600,
+            "Glass": 200
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science",
+            "Security",
+            "Medical"
+        ],
+        "name": "Implanter",
+        "Item_ID": "/obj/item/weapon/implanter"
+    },
+    {
+        "Internal_ID": "implantcase",
+        "Description": "A glass case for containing an implant.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Glass": 500
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science",
+            "Security",
+            "Medical"
+        ],
+        "name": "Implant Case",
+        "Item_ID": "/obj/item/weapon/implantcase"
+    }
+]

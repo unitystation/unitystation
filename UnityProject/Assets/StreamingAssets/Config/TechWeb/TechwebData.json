@@ -1,0 +1,393 @@
+[
+  {
+    "ID": "base",
+    "DisplayName": "Basic Research Technology",
+    "Description": "NT default research technologies.",
+    "StartingNode": true,
+    "RequiredTechnologies": [],
+    "DesignIDs": [],
+    "ResearchCosts": 0,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [
+      "advcyber",
+      "bluespace",
+      "advstock"
+    ],
+    "prefabID": "base",
+    "techType": 0,
+    "Techweb": null,
+    "Colour": "55, 127, 242"
+  },
+  {
+    "ID": "synthorgan",
+    "DisplayName": "Synthetic Organs",
+    "Description": "Mechanical replacements for living organs. Improved and refined.",
+    "StartingNode": true,
+    "RequiredTechnologies": [
+      "base"
+    ],
+    "DesignIDs": [
+      "cyber_heart",
+      "cyber_lung",
+      "cyber_liver"
+    ],
+    "ResearchCosts": 15,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "organ",
+    "techType": 1,
+    "Techweb": null,
+    "Colour": "203, 39, 244"
+  },
+  {
+    "ID": "synthenhance",
+    "DisplayName": "Synthetic Enhancements",
+    "Description": "The newest in synthetic implant technology, pushing past the limitations of living flesh.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "synthorgan"
+    ],
+    "DesignIDs": [
+      "ci_breather",
+      "ci_reviver",
+      "ci_weldshield"
+    ],
+    "ResearchCosts": 30,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "synth",
+    "techType": 1,
+    "Techweb": null,
+    "Colour": "178, 227, 168"
+  },
+  {
+    "ID": "cyborgs",
+    "DisplayName": "Advanced Cybernetics",
+    "Description": "The newest in artifical intelligence, and the technology needed to give them form.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "synthorgan"
+    ],
+    "DesignIDs": [
+      "cyborg_head",
+      "cyborg_chassis",
+      "cyborg_torso",
+      "cyborg_leftarm",
+      "cyborg_rightarm",
+      "cyborg_leftleg",
+      "cyborg_rightleg",
+      "mmi",
+      "mmi_posi",
+      "cyborg_lights",
+      "battery_pack"
+    ],
+    "ResearchCosts": 30,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "cyborgs",
+    "techType": 1,
+    "Techweb": null,
+    "Colour": "118, 17, 121"
+  },
+  {
+    "ID": "cyborgtools",
+    "DisplayName": "Cyborg Tool Carousel",
+    "Description": "Tools and equipment for cyborgs.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "cyborgs"
+    ],
+    "DesignIDs": [
+      "tc_janitor",
+      "tc_engineer",
+      "tc_medical"
+    ],
+    "ResearchCosts": 25,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "tools",
+    "techType": 1,
+    "Techweb": null,
+    "Colour": "237, 124, 62"
+  },
+  {
+    "ID": "bluespace",
+    "DisplayName": "Bluespace Technology",
+    "Description": "Allows for research into bluespace technology",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "base"
+    ],
+    "DesignIDs": [],
+    "ResearchCosts": 30,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [
+      "bluespacestorage"
+    ],
+    "prefabID": "bluespace",
+    "techType": 0,
+    "Techweb": null,
+    "Colour": "65, 145, 186"
+  },
+  {
+    "ID": "janitor",
+    "DisplayName": "Janitorial Science",
+    "Description": "New ways to keep the station clean.",
+    "StartingNode": false,
+    "RequiredTechnologies": [],
+    "DesignIDs": [
+      "adv_mop",
+      "adv_lightreplacer"
+    ],
+    "ResearchCosts": 10,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "janitor",
+    "techType": 3,
+    "Techweb": null,
+    "Colour": "78, 113, 37"
+  },
+  {
+    "ID": "advstock",
+    "DisplayName": "Advanced Machine Parts",
+    "Description": "Better parts for your machines.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "base"
+    ],
+    "DesignIDs": [
+      "adv_capacitor",
+      "adv_scanning",
+      "nano_mani",
+      "high_micro_laser"
+    ],
+    "ResearchCosts": 15,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "advstock",
+    "techType": 2,
+    "Techweb": null,
+    "Colour": "180, 195, 50"
+  },
+  {
+    "ID": "expertstock",
+    "DisplayName": "Expert Machine Parts",
+    "Description": "Even better parts for your machines",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "advstock"
+    ],
+    "DesignIDs": [
+      "super_capacitor",
+      "phasic_scanning",
+      "pico_mani",
+      "ultra_micro_laser",
+      "quadratic_capacitor",
+      "triphasic_scanning",
+      "femto_mani",
+      "quadultra_micro_laser"
+    ],
+    "ResearchCosts": 45,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "expertstock",
+    "techType": 2,
+    "Techweb": null,
+    "Colour": "173, 240, 120"
+  },
+  {
+    "ID": "advpow",
+    "DisplayName": "Advanced Power Storage",
+    "Description": "Larger power cells for more demanding tasks.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "advstock"
+    ],
+    "DesignIDs": [
+      "high_cell",
+      "super_cell"
+    ],
+    "ResearchCosts": 15,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "power",
+    "techType": 2,
+    "Techweb": null,
+    "Colour": "50, 15, 120"
+  },
+  {
+    "ID": "bluepower",
+    "DisplayName": "Expert Power Cells",
+    "Description": "Machine parts and cells powered by bluespace.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "advpow",
+      "expertstock",
+      "bluespace"
+    ],
+    "DesignIDs": [
+      "bluespace_cell",
+      "hyper_cell"
+    ],
+    "ResearchCosts": 30,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "powerblue",
+    "techType": 2,
+    "Techweb": null,
+    "Colour": "125, 219, 39"
+  },
+  {
+    "ID": "basechem",
+    "DisplayName": "Basic Chemistry",
+    "Description": "Basic equipment required for chemistry.",
+    "StartingNode": false,
+    "RequiredTechnologies": [],
+    "DesignIDs": [
+      "sci_goggles",
+      "adv_matter_bin",
+      "beaker",
+      "large_beaker",
+      "xl_beaker"
+    ],
+    "ResearchCosts": 15,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "advmatter",
+    "techType": 4,
+    "Techweb": null,
+    "Colour": "77, 181, 191"
+  },
+  {
+    "ID": "metamatter",
+    "DisplayName": "Meta Materaial Storage",
+    "Description": "High tech methods of storing even more material",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "basechem"
+    ],
+    "DesignIDs": [
+      "meta_beaker",
+      "super_matter_bin"
+    ],
+    "ResearchCosts": 30,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "metamatter",
+    "techType": 4,
+    "Techweb": null,
+    "Colour": "61, 138, 107"
+  },
+  {
+    "ID": "bluespacestorage",
+    "DisplayName": "Bluespace Storage",
+    "Description": "Unique methods of storing matter using bluespace.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "bluespace",
+      "metamatter"
+    ],
+    "DesignIDs": [
+      "bluespace_matter_bin",
+      "bluespace_beaker"
+    ],
+    "ResearchCosts": 30,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [
+      "holding"
+    ],
+    "prefabID": "bluespacestorage",
+    "techType": 4,
+    "Techweb": null,
+    "Colour": "195, 113, 133"
+  },
+  {
+    "ID": "holding",
+    "DisplayName": "Bluespace Holding",
+    "Description": "New methods of storage allowing container contents to be stored in large quantity in alternate dimensions.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "bluespacestorage"
+    ],
+    "DesignIDs": [
+      "bag_holding",
+      "satchel_holding",
+      "trash_bag_holding"
+    ],
+    "ResearchCosts": 50,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "bluespaceholding",
+    "techType": 3,
+    "Techweb": null,
+    "Colour": "195, 15, 64"
+  },
+  {
+    "ID": "industry",
+    "DisplayName": "Industrial Tools",
+    "Description": "Industrial standard tools for engineers.",
+    "StartingNode": false,
+    "RequiredTechnologies": [],
+    "DesignIDs": [
+      "welding_mask",
+      "jaws_of_life",
+      "mag_boots"
+    ],
+    "ResearchCosts": 15,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "industry",
+    "techType": 3,
+    "Techweb": null,
+    "Colour": "78, 28, 23"
+  },
+  {
+    "ID": "anomaly",
+    "DisplayName": "Anomaly Science",
+    "Description": "Specialised suits and equipment for handling artifacts.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "industry"
+    ],
+    "DesignIDs": [
+      "ap_helm",
+      "ap_suit",
+      "anomaly_helm",
+      "anomaly_suit",
+      "hand_pick",
+      "sample_container",
+      "artifact_data_disk"
+    ],
+    "ResearchCosts": 30,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "anomaly",
+    "techType": 3,
+    "Techweb": null,
+    "Colour": "93, 204, 182"
+  },
+  {
+    "ID": "mining",
+    "DisplayName": "Mining Technology",
+    "Description": "The necessities for mining in space.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "industry"
+    ],
+    "DesignIDs": [
+      "mining_helm",
+      "mining_suit",
+      "drill",
+      "drill_diamond",
+      "plasma_cutter",
+      "plasma_cutter_adv"
+    ],
+    "ResearchCosts": 40,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "mining",
+    "techType": 3,
+    "Techweb": null,
+    "Colour": "209, 114, 46"
+  }
+]

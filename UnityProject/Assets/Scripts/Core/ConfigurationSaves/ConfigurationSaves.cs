@@ -29,7 +29,7 @@ namespace ConfigurationSaves
 				if (string.IsNullOrEmpty(CashedForkName))
 				{
 					var path = Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,
-						"config",
+						AccessCategory.Config.ToString(),
 						"buildinfo.json"));
 					var text = File.ReadAllText(path);
 					var data = JsonConvert.DeserializeObject<BuiltFork>(text);

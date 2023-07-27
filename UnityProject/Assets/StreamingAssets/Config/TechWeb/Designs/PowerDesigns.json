@@ -1,0 +1,144 @@
+[
+    {
+        "Internal_ID": "basic_cell",
+        "Description": "A basic power cell that holds 1 MJ of energy.",
+        "Category": [
+            "Misc",
+            "Power Designs",
+            "Machinery",
+            "initial"
+        ],
+        "Materials": {
+            "Metal": 700,
+            "Glass": 50
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "AutoLathe",
+            "MechFabricator"
+        ],
+        "Compatible_machinery": [
+            "Science",
+            "Engineering"
+        ],
+        "name": "Basic Power Cell",
+        "Item_ID": "a910878bd30ff5d439b94cd12e623762"
+    },
+    {
+        "Internal_ID": "high_cell",
+        "Description": "A power cell that holds 10 MJ of energy.",
+        "Category": [
+            "Misc",
+            "Power Designs"
+        ],
+        "Materials": {
+            "Metal": 700,
+            "Glass": 70,
+            "Silver": 10
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "AutoLathe",
+            "MechFabricator"
+        ],
+        "Compatible_machinery": [
+            "Science",
+            "Engineering"
+        ],
+        "name": "High-Capacity Power Cell",
+        "Item_ID": "e95a1fa76d625d348b07406df101d4c0"
+    },
+    {
+        "Internal_ID": "super_cell",
+        "Description": "A power cell that holds 20 MJ of energy.",
+        "Category": [
+            "Misc",
+            "Power Designs"
+        ],
+        "Materials": {
+            "Metal": 700,
+            "Glass": 80,
+            "Silver": 50
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "MechFabricator"
+        ],
+        "Compatible_machinery": [
+            "Science",
+            "Engineering"
+        ],
+        "name": "Super-Capacity Power Cell",
+        "Item_ID": "2ae9099a5658a05418f3185e2ddd67b1"
+    },
+    {
+        "Internal_ID": "hyper_cell",
+        "Description": "A power cell that holds 30 MJ of energy.",
+        "Category": [
+            "Misc",
+            "Power Designs"
+        ],
+        "Materials": {
+            "Metal": 700,
+            "Gold": 150,
+            "Silver": 150,
+            "Glass": 80
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "MechFabricator"
+        ],
+        "Compatible_machinery": [
+            "Science",
+            "Engineering"
+        ],
+        "name": "Hyper-Capacity Power Cell",
+        "Item_ID": "0a53ebee1e0986546b60d1c4db04f258"
+    },
+    {
+        "Internal_ID": "bluespace_cell",
+        "Description": "A power cell that holds 40 MJ of energy.",
+        "Category": [
+            "Misc",
+            "Power Designs"
+        ],
+        "Materials": {
+            "Metal": 800,
+            "Gold": 120,
+            "Glass": 160,
+            "Diamond": 160,
+            "Titanium": 300,
+            "BlueSpace": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "MechFabricator"
+        ],
+        "Compatible_machinery": [
+            "Science",
+            "Engineering"
+        ],
+        "name": "Bluespace Power Cell",
+        "Item_ID": "4fe646094fef97d47b13f0d2dd3f3b0c"
+    },
+    {
+        "Internal_ID": "light_replacer",
+        "Description": "A device to automatically replace lights. Refill with working light bulbs.",
+        "Category": [
+            "Power Designs"
+        ],
+        "Materials": {
+            "Metal": 1500,
+            "Silver": 150,
+            "Glass": 3000
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Service"
+        ],
+        "name": "Light Replacer",
+        "Item_ID": "/obj/item/device/lightreplacer"
+    }
+]
