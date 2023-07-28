@@ -121,6 +121,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7607258964611336719, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
+      propertyPath: _assetId
+      value: 3991417348
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607258964611336719, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
       propertyPath: m_AssetId
       value: 8986f5f9b33cae34aa97c4f56be39e3f
       objectReference: {fileID: 0}
@@ -199,6 +204,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6c589ccf330c5478854f4822f1d639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: mouse
   registerObject: {fileID: 0}
   minTimeBetweenRandomActions: 10

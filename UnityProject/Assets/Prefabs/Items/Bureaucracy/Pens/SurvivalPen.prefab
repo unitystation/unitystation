@@ -20,6 +20,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8692691054828270594, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
+      propertyPath: _assetId
+      value: 4186301656
+      objectReference: {fileID: 0}
+    - target: {fileID: 8692691054828270594, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
       propertyPath: m_AssetId
       value: 8eac02a97abb37941be5cfe5d17972a5
       objectReference: {fileID: 0}
@@ -151,5 +156,4 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   timeMultiplier: 10
-pickaxe-hardness
-  pickHardness: 3
+  pickHardness: 5

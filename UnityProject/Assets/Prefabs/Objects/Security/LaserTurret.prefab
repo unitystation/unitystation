@@ -155,6 +155,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6198577405933172929
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,6 +414,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
+      propertyPath: _assetId
+      value: 2895320793
+      objectReference: {fileID: 0}
+    - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
       propertyPath: m_AssetId
       value: 24217cb8b2338a3479aaf8d32b727ed1
       objectReference: {fileID: 0}
@@ -447,6 +455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8834d09d3d6759c479d22c84a45216ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   spawnGun: {fileID: 6733076708105069041, guid: d589c17f6fd91da4190edfdd2cb5aa53,
@@ -474,11 +483,11 @@ MonoBehaviour:
   ballisticTurret: 0
   turretType: 0
   CheckWeaponAuthorisation: 0
-  weaponAuthorisationClearance: 0100000012000000
+  weaponAuthorisationClearance: {fileID: 0}
   CheckSecurityRecords: 1
   CheckForArrest: 1
   CheckUnauthorisedPersonnel: 0
-  authorisedClearance: 0100000012000000
+  authorisedClearance: {fileID: 0}
   CheckUnidentifiedLifeSigns: 1
 --- !u!114 &2506153195070795302
 MonoBehaviour:
@@ -492,6 +501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   minimumWorkingVoltage: 190
@@ -504,6 +514,12 @@ MonoBehaviour:
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
+  OnDeviceLinked:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeviceUnLinked:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7246554565139759485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -516,6 +532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   NetTabType: 43
@@ -538,11 +555,13 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 0}
 --- !u!4 &1530055412931709374 stripped
 Transform:

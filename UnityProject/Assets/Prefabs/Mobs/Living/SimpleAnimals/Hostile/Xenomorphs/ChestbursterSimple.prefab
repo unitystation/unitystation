@@ -69,6 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3826885964139575000, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
+      propertyPath: _assetId
+      value: 3139219173
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826885964139575000, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
       propertyPath: m_AssetId
       value: 2ba8c4b90a981a94fb6946f53f09667f
       objectReference: {fileID: 0}
@@ -216,6 +221,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2287edb10a0f4d21a75b58f179a7e673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: chestburster
   registerObject: {fileID: 0}
   minTimeBetweenRandomActions: 10

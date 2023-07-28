@@ -52,6 +52,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!23 &1943877668351587828
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -240,6 +241,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7419268474676488679, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
+      propertyPath: _assetId
+      value: 517831372
+      objectReference: {fileID: 0}
+    - target: {fileID: 7419268474676488679, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
       propertyPath: m_AssetId
       value: 2c46f309a45d8714f9c5db5361e854e6
       objectReference: {fileID: 0}
@@ -343,20 +349,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 5820569774446038092}
-  CommonComponents: {fileID: 0}
-  Intensity: 0.5
-  Colour: {r: 1, g: 1, b: 1, a: 1}
-  EnumSprite: 0
-  Size: 6
   IsOn: 0
-  PlayerLightData:
-    Colour: {r: 0, g: 0, b: 0, a: 0}
-    EnumSprite: 0
-    Size: 12
+  colour: {r: 1, g: 1, b: 1, a: 1}
+  objectLightSprite: {fileID: 0}
+  commonComponents: {fileID: 0}
+  SpriteShape: 0
+  Size: 6
+  weakenOnGround: 0
+  revertToOldConsistencyBehavior: 0
+  weakenStrength: 1.45
 --- !u!114 &9128007668606455301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,6 +375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 364f9fbced37d9048b4071fca95e51ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 6476465160503121524}

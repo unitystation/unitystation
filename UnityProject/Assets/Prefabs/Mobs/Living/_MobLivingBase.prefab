@@ -59,7 +59,11 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    Anomaly: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
 --- !u!1 &8475669850248876922
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,7 +123,11 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    Anomaly: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
 --- !u!1001 &3977010902794921796
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -158,6 +166,11 @@ PrefabInstance:
     - target: {fileID: 4398708211663736, guid: 7687d3939b2457c44afbab3d0fdd5b8d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114379009499332576, guid: 7687d3939b2457c44afbab3d0fdd5b8d,
+        type: 3}
+      propertyPath: _assetId
+      value: 2312897893
       objectReference: {fileID: 0}
     - target: {fileID: 114379009499332576, guid: 7687d3939b2457c44afbab3d0fdd5b8d,
         type: 3}

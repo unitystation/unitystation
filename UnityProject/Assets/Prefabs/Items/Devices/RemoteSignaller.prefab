@@ -57,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: _assetId
+      value: 3398521756
+      objectReference: {fileID: 0}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: m_AssetId
       value: c9d03be44229a74469be1b6738941ec3
       objectReference: {fileID: 0}
@@ -271,6 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ec6520efd9ebf42b84c0327839f2bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   emmitableSignalData:
@@ -280,6 +286,7 @@ MonoBehaviour:
   requiresPower: 0
   isPowered: 1
   canExamineFrequency: 0
+  minimumDamageBeforeObfuscation: 12
 --- !u!114 &3550542116650327313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,5 +299,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   NetTabType: 48
   aiInteractable: 1

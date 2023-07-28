@@ -453,7 +453,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   OnBodyID: 0
-  Pickupable: {fileID: 0}
   DrunkReagent: {fileID: 11400000, guid: 68548df5bd53cc24b8d2bbfa735a274d, type: 2}
   MaxDrunkAtPercentage: 0.06
   hasInbuiltSight: 0
@@ -462,6 +461,12 @@ MonoBehaviour:
   hasInbuiltSpeech: 0
   BodyChatModifier: 0
   ReagentCirculatedComponent: {fileID: 0}
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevival:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8557864071590038898
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -17,7 +17,7 @@ MonoBehaviour:
   SurgerySteps:
   - RequiredTrait: {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
     Time: 2
-    SuccessChance: 0
+    FailChance: 0
     StartSelf: 
     StartOther: 
     SuccessSelf: You unscrew the cover
@@ -26,7 +26,7 @@ MonoBehaviour:
     FailOther: 
   - RequiredTrait: {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
     Time: 2
-    SuccessChance: 0
+    FailChance: 0
     StartSelf: 
     StartOther: 
     SuccessSelf: You cut the damaged cables
@@ -35,7 +35,7 @@ MonoBehaviour:
     FailOther: 
   - RequiredTrait: {fileID: 11400000, guid: e39c048ec864b47a495a40f9c76af764, type: 2}
     Time: 2
-    SuccessChance: 0
+    FailChance: 0
     StartSelf: 
     StartOther: 
     SuccessSelf: You replace the missing cables
@@ -44,7 +44,7 @@ MonoBehaviour:
     FailOther: 
   - RequiredTrait: {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
     Time: 2
-    SuccessChance: 0
+    FailChance: 0
     StartSelf: 
     StartOther: 
     SuccessSelf: You screw the cover back in

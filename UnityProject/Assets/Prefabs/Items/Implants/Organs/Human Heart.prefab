@@ -239,8 +239,9 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  CanHaveHeartAttack: 1
+  EfficiencyLinksToModifiers: 1
   HeartAttack: 0
-  CanTriggerHeartAttack: 1
   heartAttackThreshold: -100
   SecondsOfRevivePulse: 30
   CurrentPulse: 0

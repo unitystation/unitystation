@@ -13,20 +13,22 @@ MonoBehaviour:
   m_Name: ChemMasterStoragePopulator
   m_EditorClassIdentifier: 
   SlotContents:
-  - IndexSlot: 1
-    IfOccupiedFindEmptyIndexSlot: 0
-    UesIndex: 1
-    NamedSlot: 0
+  - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 8679969532050251905, guid: 8fee22e722a3782408324281846ebd02,
       type: 3}
+    UseIndex: 1
+    IndexSlot: 1
+    NamedSlot: 0
+    IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 0
     namedSlotPopulatorEntrys: []
-  - IndexSlot: 2
-    IfOccupiedFindEmptyIndexSlot: 0
-    UesIndex: 1
-    NamedSlot: 0
+  - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 8679969532050251905, guid: 8fee22e722a3782408324281846ebd02,
       type: 3}
+    UseIndex: 1
+    IndexSlot: 2
+    NamedSlot: 0
+    IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 0
     namedSlotPopulatorEntrys: []
   DeprecatedContents: []

@@ -89,6 +89,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9212640593017544930, guid: db8a2e4c2c7146b48abcc5b32a5ccd26,
         type: 3}
+      propertyPath: _assetId
+      value: 3333241369
+      objectReference: {fileID: 0}
+    - target: {fileID: 9212640593017544930, guid: db8a2e4c2c7146b48abcc5b32a5ccd26,
+        type: 3}
       propertyPath: m_AssetId
       value: 5d4af384590c62640ab752c59b27d13c
       objectReference: {fileID: 0}
@@ -113,6 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98c398f1c91a442083de0b054d51641f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   ClangSound:

@@ -57,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: _assetId
+      value: 649338241
+      objectReference: {fileID: 0}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: m_AssetId
       value: 23a0b694284152342b2ec0817fade0d6
       objectReference: {fileID: 0}
@@ -191,6 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 688c1e96a5726b74ab42eea0a4838426, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   SignalTypeToReceive: 2
@@ -216,6 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 458fbf1d878e7c94bb6b81631a76bbd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   SignalTypeToReceive: 0
@@ -243,11 +250,13 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
     type: 3}
 --- !u!114 &5110815081077416878
@@ -262,6 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69fe5ea6073a0284c929bc6658ba75b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   emmitableSignalData:
@@ -271,6 +281,7 @@ MonoBehaviour:
   requiresPower: 1
   isPowered: 1
   canExamineFrequency: 0
+  minimumDamageBeforeObfuscation: 12
 --- !u!114 &7282473451808205216
 MonoBehaviour:
   m_ObjectHideFlags: 0

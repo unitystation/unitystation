@@ -23,6 +23,11 @@ PrefabInstance:
       propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 14087197572857903, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].moles
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1211068856770080705, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
       propertyPath: foreverID
@@ -104,6 +109,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: JetpackOxygen
+      objectReference: {fileID: 0}
+    - target: {fileID: 5323282012667387416, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: _assetId
+      value: 269943569
       objectReference: {fileID: 0}
     - target: {fileID: 5323282012667387416, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}

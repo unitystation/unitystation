@@ -52,6 +52,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!23 &7279073728372527064
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -192,6 +193,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1410495953153992223, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
+      propertyPath: _assetId
+      value: 822448444
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410495953153992223, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
       propertyPath: m_AssetId
       value: f65f1f0bd0295df468272b3d767985a7
       objectReference: {fileID: 0}
@@ -269,6 +275,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  numberOfTilesAffected: 1
   maxHits: 4
 --- !u!4 &7818161943669900781 stripped
 Transform:

@@ -39,7 +39,7 @@ TextureImporter:
       213: 21300022
     second: frog_11
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -99,6 +99,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -114,6 +115,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -390,18 +403,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      frog_4: 21300008
-      frog_10: 21300020
-      frog_2: 21300004
-      frog_5: 21300010
-      frog_8: 21300016
-      frog_11: 21300022
-      frog_3: 21300006
       frog_0: 21300000
-      frog_7: 21300014
-      frog_6: 21300012
-      frog_9: 21300018
       frog_1: 21300002
+      frog_10: 21300020
+      frog_11: 21300022
+      frog_2: 21300004
+      frog_3: 21300006
+      frog_4: 21300008
+      frog_5: 21300010
+      frog_6: 21300012
+      frog_7: 21300014
+      frog_8: 21300016
+      frog_9: 21300018
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

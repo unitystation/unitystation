@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2917128564446547862, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
+      propertyPath: _assetId
+      value: 60080351
+      objectReference: {fileID: 0}
+    - target: {fileID: 2917128564446547862, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
       propertyPath: m_AssetId
       value: 05a135eab68164d34bb02b82fff3cde0
       objectReference: {fileID: 0}
@@ -177,6 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slot: 5
+  CompatibleSlots: 
   armoredBodyParts:
   - armoringBodyPartType: 0
     armor:
@@ -190,7 +196,11 @@ MonoBehaviour:
       Acid: 0
       Magic: 0
       Bio: 0
+      Anomaly: 0
       DismembermentProtectionChance: 0
+      StunImmunity: 0
+      TemperatureProtectionInK: {x: 268.15, y: 313.15}
+      PressureProtectionInKpa: {x: 30, y: 300}
   - armoringBodyPartType: 7
     armor:
       Melee: 0
@@ -203,7 +213,11 @@ MonoBehaviour:
       Acid: 0
       Magic: 0
       Bio: 0
+      Anomaly: 0
       DismembermentProtectionChance: 0
+      StunImmunity: 0
+      TemperatureProtectionInK: {x: 268.15, y: 313.15}
+      PressureProtectionInKpa: {x: 30, y: 300}
   - armoringBodyPartType: 8
     armor:
       Melee: 0
@@ -216,4 +230,8 @@ MonoBehaviour:
       Acid: 0
       Magic: 0
       Bio: 0
+      Anomaly: 0
       DismembermentProtectionChance: 0
+      StunImmunity: 0
+      TemperatureProtectionInK: {x: 268.15, y: 313.15}
+      PressureProtectionInKpa: {x: 30, y: 300}

@@ -42,7 +42,7 @@ TextureImporter:
       213: 21300024
     second: hierophant_ansible_12
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -102,6 +102,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -117,6 +118,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -414,19 +427,19 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      hierophant_ansible_3: 21300006
-      hierophant_ansible_8: 21300016
-      hierophant_ansible_1: 21300002
-      hierophant_ansible_6: 21300012
-      hierophant_ansible_2: 21300004
       hierophant_ansible_0: 21300000
-      hierophant_ansible_5: 21300010
-      hierophant_ansible_12: 21300024
-      hierophant_ansible_4: 21300008
-      hierophant_ansible_11: 21300022
-      hierophant_ansible_9: 21300018
+      hierophant_ansible_1: 21300002
       hierophant_ansible_10: 21300020
+      hierophant_ansible_11: 21300022
+      hierophant_ansible_12: 21300024
+      hierophant_ansible_2: 21300004
+      hierophant_ansible_3: 21300006
+      hierophant_ansible_4: 21300008
+      hierophant_ansible_5: 21300010
+      hierophant_ansible_6: 21300012
       hierophant_ansible_7: 21300014
+      hierophant_ansible_8: 21300016
+      hierophant_ansible_9: 21300018
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

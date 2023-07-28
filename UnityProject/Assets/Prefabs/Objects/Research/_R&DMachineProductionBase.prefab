@@ -94,6 +94,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7601794184611008114, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
+      propertyPath: _assetId
+      value: 977542937
+      objectReference: {fileID: 0}
+    - target: {fileID: 7601794184611008114, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
       propertyPath: m_AssetId
       value: 76c4b888beee06f4c9fda031b6e4d47b
       objectReference: {fileID: 0}
@@ -117,6 +122,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   NetTabType: 51
   aiInteractable: 1
 --- !u!114 &7450782813167368733
@@ -131,6 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2d704290178fc3469f378c39a09f003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 8234065340674907188}

@@ -20,6 +20,7 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Wood floor tiles
     prefab: {fileID: 7602444472548548205, guid: b72fa05149b4449b79ffe7363b7dd252,
       type: 3}
@@ -27,12 +28,14 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 4
     onePerTile: 0
+    facePlayerDirectionOnConstruction: 0
   - name: Wood Table Frame
     prefab: {fileID: 722470636391152515, guid: 178838c1c5b3f8c4f9bb61f39ce55541, type: 3}
     cost: 2
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Wood Door
     prefab: {fileID: 8406608262543337592, guid: 93dbd338c6220214c926ec72a2c9c6b2,
       type: 3}
@@ -40,6 +43,7 @@ MonoBehaviour:
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Wooden Bucket
     prefab: {fileID: 2264909744418000957, guid: f74cd572a2fd578449d39575ba225405,
       type: 3}
@@ -47,18 +51,21 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 0
+    facePlayerDirectionOnConstruction: 0
   - name: Wooden Table Frame
     prefab: {fileID: 722470636391152515, guid: 178838c1c5b3f8c4f9bb61f39ce55541, type: 3}
     cost: 2
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Loom
     prefab: {fileID: 1449387945419676, guid: df5517f4ff1b94c5c8fc72ffdfc9ad4c, type: 3}
     cost: 10
     buildTime: 15
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Ore Box
     prefab: {fileID: 8309667075700373638, guid: f5de2b6011113f0469b27cd8289f2d8b,
       type: 3}
@@ -66,6 +73,7 @@ MonoBehaviour:
     buildTime: 5
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Wooden Crate
     prefab: {fileID: 6829341300379324721, guid: 6ecb8b1a0d8d9184fa74bdd3c7ded42d,
       type: 3}
@@ -73,6 +81,7 @@ MonoBehaviour:
     buildTime: 5
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Drying Rack
     prefab: {fileID: 6385563160038612826, guid: eb544c62ea86cf24f8a88cdcd1ed8d70,
       type: 3}
@@ -80,12 +89,14 @@ MonoBehaviour:
     buildTime: 5
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Wooden Barrel
     prefab: {fileID: 1239712576668220, guid: db8717f3f2a8a4170a0d870dcc9662e1, type: 3}
     cost: 8
     buildTime: 5
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Wooden Airlock Assembly
     prefab: {fileID: 8253473784596383832, guid: 00e4cb42a21df154c8608a588271cf86,
       type: 3}
@@ -93,3 +104,4 @@ MonoBehaviour:
     buildTime: 5
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0

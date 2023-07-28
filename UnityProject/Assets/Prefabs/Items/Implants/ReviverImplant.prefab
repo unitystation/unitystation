@@ -105,6 +105,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &5930475597155213129
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -171,6 +174,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1274760333973328556, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: _assetId
+      value: 1152330334
       objectReference: {fileID: 0}
     - target: {fileID: 1274760333973328556, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -373,10 +381,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06277cdbd868758498dabd79f8f57f87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  isEMPVunerable: 1
-  EMPResistance: 2
   objectPhysics: {fileID: 670891434631168175}
   reviveSound:
     SetLoadSetting: 0
@@ -387,6 +394,8 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   delaySeconds: 600
+  isEMPVunerable: 1
+  EMPResistance: 2
 --- !u!4 &4790181145912823077 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,

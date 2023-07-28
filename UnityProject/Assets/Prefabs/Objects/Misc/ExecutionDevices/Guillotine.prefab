@@ -105,6 +105,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8248417872068901956
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,6 +216,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &4218887424821755918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -239,6 +245,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialIntegrity
       value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 1103043220628936744, guid: c735db9af3182104f8006ec3d79e6056,
+        type: 3}
+      propertyPath: _assetId
+      value: 168801134
       objectReference: {fileID: 0}
     - target: {fileID: 1103043220628936744, guid: c735db9af3182104f8006ec3d79e6056,
         type: 3}

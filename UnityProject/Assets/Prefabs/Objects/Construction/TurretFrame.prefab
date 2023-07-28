@@ -105,6 +105,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &7131701351565382625
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -219,6 +222,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TurretFrame
+      objectReference: {fileID: 0}
+    - target: {fileID: 6019724306477015009, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: _assetId
+      value: 821388091
       objectReference: {fileID: 0}
     - target: {fileID: 6019724306477015009, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}

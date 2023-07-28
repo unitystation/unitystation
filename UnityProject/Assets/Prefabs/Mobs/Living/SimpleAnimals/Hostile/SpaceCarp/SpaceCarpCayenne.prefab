@@ -49,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 141161933889620847, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d,
         type: 3}
+      propertyPath: _assetId
+      value: 2736981607
+      objectReference: {fileID: 0}
+    - target: {fileID: 141161933889620847, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d,
+        type: 3}
       propertyPath: m_AssetId
       value: 69b4425f24ada65409bdef749cdd2c18
       objectReference: {fileID: 0}
@@ -88,6 +93,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d0edb2cf5e642899505000d40ff13ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: Cayenne
   registerObject: {fileID: 0}
   deathSounds: []
@@ -96,3 +104,4 @@ MonoBehaviour:
   randomSoundProbability: 20
   searchTickRate: 0.5
   currentStatus: 0
+  ScoreForKilling: 5

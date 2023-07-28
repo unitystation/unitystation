@@ -20,6 +20,7 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Sandstone Door
     prefab: {fileID: 5650404602772803864, guid: c32252ab9e386cd41a495831538dd9f7,
       type: 3}
@@ -27,6 +28,7 @@ MonoBehaviour:
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Assistant Statue
     prefab: {fileID: 2970343800728676807, guid: b5b230c56841e6d4589ffbb8a43b29bf,
       type: 3}
@@ -34,12 +36,14 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Breakdown Into Sand
     prefab: {fileID: 773312911048126984, guid: 6e4200f349a2e834c93abd60c2264641, type: 3}
     cost: 1
     buildTime: 0
     spawnAmount: 1
     onePerTile: 0
+    facePlayerDirectionOnConstruction: 0
   - name: Sandstone Airlock Assembly
     prefab: {fileID: 3589552196075740139, guid: d42de2dfb338387489b8b61816b205c2,
       type: 3}
@@ -47,3 +51,4 @@ MonoBehaviour:
     buildTime: 5
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0

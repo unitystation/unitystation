@@ -39,7 +39,7 @@ TextureImporter:
       213: 21300022
     second: blob_node_11
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -99,6 +99,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -114,6 +115,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -390,18 +403,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      blob_node_1: 21300002
       blob_node_0: 21300000
+      blob_node_1: 21300002
+      blob_node_10: 21300020
+      blob_node_11: 21300022
+      blob_node_2: 21300004
+      blob_node_3: 21300006
+      blob_node_4: 21300008
+      blob_node_5: 21300010
       blob_node_6: 21300012
       blob_node_7: 21300014
-      blob_node_9: 21300018
       blob_node_8: 21300016
-      blob_node_3: 21300006
-      blob_node_11: 21300022
-      blob_node_5: 21300010
-      blob_node_10: 21300020
-      blob_node_2: 21300004
-      blob_node_4: 21300008
+      blob_node_9: 21300018
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

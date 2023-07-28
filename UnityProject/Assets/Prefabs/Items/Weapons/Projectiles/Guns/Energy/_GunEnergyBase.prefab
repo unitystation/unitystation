@@ -105,6 +105,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2220118134753059110
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,6 +213,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6227234703256324225
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,6 +321,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8546303518654307076
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,6 +429,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &5533974169584468468
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -469,6 +481,11 @@ PrefabInstance:
         type: 3}
       propertyPath: allowMagazineRemoval
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8109205671878849838, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      propertyPath: _assetId
+      value: 806525295
       objectReference: {fileID: 0}
     - target: {fileID: 8109205671878849838, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
@@ -613,6 +630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b65971c5a3836c41e850378c8d413b4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   ammoPrefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,

@@ -93,6 +93,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!1001 &4243836579678140783
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -237,6 +238,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Resistances.LavaProof
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748064994123771905, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      propertyPath: _assetId
+      value: 2933453998
       objectReference: {fileID: 0}
     - target: {fileID: 6748064994123771905, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}

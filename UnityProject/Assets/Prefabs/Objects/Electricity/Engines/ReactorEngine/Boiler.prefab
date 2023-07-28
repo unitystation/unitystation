@@ -95,6 +95,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: _assetId
+      value: 414173974
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: m_AssetId
       value: 212fb4f9ee5822c4c8584d1e7fc90905
       objectReference: {fileID: 0}
@@ -166,18 +171,22 @@ MonoBehaviour:
     Connections:
       Directions:
       - Bool: 1
+        MappedNeeded: 0
         pipeType: 1
         PortType: 3
         flagLogic: 0
       - Bool: 1
+        MappedNeeded: 0
         pipeType: 1
         PortType: 3
         flagLogic: 0
       - Bool: 1
+        MappedNeeded: 0
         pipeType: 1
         PortType: 3
         flagLogic: 0
       - Bool: 1
+        MappedNeeded: 0
         pipeType: 1
         PortType: 3
         flagLogic: 0
@@ -193,9 +202,9 @@ MonoBehaviour:
       gasMix:
         GasData:
           GasesArray: []
-        Pressure: 0
+        pressure: 0
         Volume: 100
-        Temperature: 0
+        temperature: 0
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 1

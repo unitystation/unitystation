@@ -105,6 +105,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &9166176503069144041
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,6 +213,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1694231013772067744
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -403,6 +409,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
+      propertyPath: _assetId
+      value: 3589712048
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
       propertyPath: m_AssetId
       value: b735ab74dab174a4f90c79558cd51e43
       objectReference: {fileID: 0}
@@ -507,6 +518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 583ecd0d959514254ae71e8e4eace1d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   welderSprites:
@@ -537,7 +549,6 @@ MonoBehaviour:
   maxCapacity: 20
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   AdditionalReactions: []
-  canPourOut: 1
   initialReagentMix:
     temperature: 0
     reagents:
@@ -549,6 +560,7 @@ MonoBehaviour:
   destroyOnEmpty: 0
   ContentsSet: 0
   menuOptions: 0
+  spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 1
   ExamineContent: 0
@@ -556,5 +568,7 @@ MonoBehaviour:
   reagentWhitelist:
   - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
   transferMode: 3
+  SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 100
+  transferSound: []

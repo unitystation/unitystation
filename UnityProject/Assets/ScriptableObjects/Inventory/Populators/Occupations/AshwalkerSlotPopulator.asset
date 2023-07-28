@@ -13,20 +13,22 @@ MonoBehaviour:
   m_Name: AshwalkerSlotPopulator
   m_EditorClassIdentifier: 
   Entries:
-  - IndexSlot: 0
-    IfOccupiedFindEmptyIndexSlot: 0
-    UesIndex: 0
-    NamedSlot: 7
+  - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 2654136094092541073, guid: 8f1ce2b118c25334fa660be931e62dbf,
       type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 7
+    IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 0
     namedSlotPopulatorEntrys: []
-  - IndexSlot: 0
-    IfOccupiedFindEmptyIndexSlot: 0
-    UesIndex: 0
-    NamedSlot: 8
+  - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 2654136094092541073, guid: 82cb1c39112974a498a9756981eb07d0,
       type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 8
+    IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 0
     namedSlotPopulatorEntrys: []
   skirtVariant: {fileID: 0}

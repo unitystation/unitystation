@@ -123,6 +123,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1051931730128558
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,6 +283,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1106181757792460
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,6 +409,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1133514949248654
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,6 +679,7 @@ MonoBehaviour:
   CustomisationSprites: {fileID: 975496025995574624}
   BodySprites: {fileID: 193028258071297994}
   RootBodyPartsLoaded: 0
+  IsOldCustomPrefab: 0
   OverlaySprites: {fileID: 9164488584065593561}
 --- !u!114 &114413669770135258
 MonoBehaviour:
@@ -1052,6 +1062,9 @@ MonoBehaviour:
   BodyChatModifier: 0
   BodyPartSurfaceVolume: 5
   playerScript: {fileID: 0}
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
   CannotRecognizeNames: 0
   UsedZones: 000000000100000003000000020000000500000004000000
   meatProduce: {fileID: 0}
@@ -1739,6 +1752,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1332325770335918
 GameObject:
   m_ObjectHideFlags: 0
@@ -1862,6 +1878,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1392646042361530
 GameObject:
   m_ObjectHideFlags: 0
@@ -1985,6 +2004,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1442926995363424
 GameObject:
   m_ObjectHideFlags: 0
@@ -2108,6 +2130,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1456517064699986
 GameObject:
   m_ObjectHideFlags: 0
@@ -2231,6 +2256,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1562215114468348
 GameObject:
   m_ObjectHideFlags: 0
@@ -2354,6 +2382,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1626073062007556
 GameObject:
   m_ObjectHideFlags: 0
@@ -2477,6 +2508,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1653009388007362
 GameObject:
   m_ObjectHideFlags: 0
@@ -2600,6 +2634,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1660669868818532
 GameObject:
   m_ObjectHideFlags: 0
@@ -2723,6 +2760,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1889549945948160
 GameObject:
   m_ObjectHideFlags: 0
@@ -2846,6 +2886,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1894933337466704
 GameObject:
   m_ObjectHideFlags: 0
@@ -3255,6 +3298,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1243472505666966351
 GameObject:
   m_ObjectHideFlags: 0
@@ -8410,6 +8456,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4006269813396621170
 GameObject:
   m_ObjectHideFlags: 0
@@ -8533,6 +8582,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4560473325844253165
 GameObject:
   m_ObjectHideFlags: 0

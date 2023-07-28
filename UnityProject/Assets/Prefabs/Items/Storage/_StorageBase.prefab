@@ -57,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: _assetId
+      value: 1271274985
+      objectReference: {fileID: 0}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: m_AssetId
       value: e46ba34aab52d654787ef10d896b0874
       objectReference: {fileID: 0}
@@ -133,11 +138,13 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &6900997446700812531
 MonoBehaviour:
@@ -152,10 +159,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   denyStorageOfStorageItems: 0
+  itemStorage: {fileID: 0}
   canClickPickup: 0
   canQuickEmpty: 0
   TopLevelAlt: 0
   actionData: {fileID: 0}
+  DoNotShowInventoryOnUI: 0
 --- !u!114 &7638055454506760798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,3 +180,4 @@ MonoBehaviour:
   shadow: {fileID: 0}
   draggerMustBeAdjacent: 1
   allowDragWhileSoftCrit: 1
+  allowedToMouseDrag: 1

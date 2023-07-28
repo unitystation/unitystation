@@ -116,6 +116,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7799949450078925336, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
+      propertyPath: _assetId
+      value: 3705568163
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799949450078925336, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
       propertyPath: m_AssetId
       value: 0c06e6afc8686d24b85639acdc03c511
       objectReference: {fileID: 0}
@@ -231,6 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86536f54b4694d5a98b2f4962a473b7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 0}

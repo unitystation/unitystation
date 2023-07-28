@@ -154,7 +154,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableDrag: 0
-  resetPositionOnDisable: 0
 --- !u!114 &114385320989314586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -697,6 +696,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3773351971482973895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1087,6 +1092,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7443394124603733518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1696,6 +1707,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5343131274052675427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1951,6 +1968,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4822761770879270567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2129,6 +2152,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &9029838182908598504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2522,6 +2551,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8445796899964380592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3319,6 +3354,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8889562719245698248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3879,6 +3920,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &108346318594760165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4162,6 +4209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f292f84d97a0414aa87a188627de5881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SetInteractionMode: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:

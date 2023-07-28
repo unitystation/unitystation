@@ -105,6 +105,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &5138270576490816514
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -291,6 +294,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9166802612737582820, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: _assetId
+      value: 3178327527
       objectReference: {fileID: 0}
     - target: {fileID: 9166802612737582820, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}

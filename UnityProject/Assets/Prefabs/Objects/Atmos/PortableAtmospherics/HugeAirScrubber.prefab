@@ -15,6 +15,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2486924934493515795, guid: bde2e04457efae9448181975599790a5,
         type: 3}
+      propertyPath: _assetId
+      value: 3459081768
+      objectReference: {fileID: 0}
+    - target: {fileID: 2486924934493515795, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
       propertyPath: m_AssetId
       value: 9ac0c27f2e3faf54492f0b9921a5b262
       objectReference: {fileID: 0}
@@ -119,6 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   minimumWorkingVoltage: 190
@@ -131,3 +137,9 @@ MonoBehaviour:
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
+  OnDeviceLinked:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeviceUnLinked:
+    m_PersistentCalls:
+      m_Calls: []

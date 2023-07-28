@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1487812944719290307, guid: 5f8f71237e56b5244a4119555cda299e,
         type: 3}
+      propertyPath: _assetId
+      value: 1672415926
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487812944719290307, guid: 5f8f71237e56b5244a4119555cda299e,
+        type: 3}
       propertyPath: m_AssetId
       value: bebd7acbb85fa544784c08545a845e2c
       objectReference: {fileID: 0}
@@ -89,7 +94,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6735081632615268852, guid: 5f8f71237e56b5244a4119555cda299e,
         type: 3}
+      propertyPath: StoredGasMix.pressure
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6735081632615268852, guid: 5f8f71237e56b5244a4119555cda299e,
+        type: 3}
       propertyPath: StoredGasMix.Temperature
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6735081632615268852, guid: 5f8f71237e56b5244a4119555cda299e,
+        type: 3}
+      propertyPath: StoredGasMix.temperature
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6735081632615268852, guid: 5f8f71237e56b5244a4119555cda299e,

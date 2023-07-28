@@ -75,6 +75,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
+      propertyPath: _assetId
+      value: 4240075442
+      objectReference: {fileID: 0}
+    - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
       propertyPath: m_AssetId
       value: 9965705e0b30db94ab453acb77547175
       objectReference: {fileID: 0}
@@ -265,12 +270,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 064528c52a5b48c7f8912a3b6914eb79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   CorrectID: 0
   Emagged: 0
   cargoGUI: {fileID: 0}
-  allowedTypes: 0000000006000000070000001600000001000000100000001d000000
   creditArrivalSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/UI/Select.prefab

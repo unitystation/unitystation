@@ -89,6 +89,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
+      propertyPath: _assetId
+      value: 968490293
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
       propertyPath: m_AssetId
       value: 764cc89fcad4df74f92d294e87d2a8de
       objectReference: {fileID: 0}
@@ -190,6 +195,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healType: 1
   StopsExternalBleeding: 0
-  HealsTraumaDamage: 1
-  TraumaDamageToHeal: 20
   TraumaTypeToHeal: 4

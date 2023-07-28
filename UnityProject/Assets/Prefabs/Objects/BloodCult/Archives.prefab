@@ -52,6 +52,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!23 &4016691702239424841
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -230,6 +231,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A desk covered in arcane manuscripts and tomes in unknown languages.
         Looking at the text makes your skin crawl.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880733353738370345, guid: 9d469eef54a89534b99df7992a4f8ff5,
+        type: 3}
+      propertyPath: _assetId
+      value: 280303478
       objectReference: {fileID: 0}
     - target: {fileID: 5880733353738370345, guid: 9d469eef54a89534b99df7992a4f8ff5,
         type: 3}

@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: _assetId
+      value: 226539686
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: m_AssetId
       value: cd0a7f50aede9e84599a86e571f388bb
       objectReference: {fileID: 0}
@@ -156,10 +161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa625f9b5b4acbe42a53729aeb60f38e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  isEMPVunerable: 0
-  EMPResistance: 2
   xenomorphLarvaeOccupation: {fileID: 11400000, guid: aafe8bd761e215b4d8af3394211f6db2,
     type: 2}
   incubationTime: 180

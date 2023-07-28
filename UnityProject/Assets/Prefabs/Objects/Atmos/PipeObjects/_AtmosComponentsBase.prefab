@@ -105,6 +105,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7498943208734113070
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,6 +213,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &653810697508814765
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -236,6 +242,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialCrawlPassable
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409890578738218794, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: _assetId
+      value: 827558833
       objectReference: {fileID: 0}
     - target: {fileID: 4409890578738218794, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
@@ -366,6 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   MethodRotation: 1

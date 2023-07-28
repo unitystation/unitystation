@@ -123,6 +123,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8410813880369429899, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
+      propertyPath: _assetId
+      value: 2258664472
+      objectReference: {fileID: 0}
+    - target: {fileID: 8410813880369429899, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
       propertyPath: m_AssetId
       value: dfe30ea3b0c7a1a48ab584f1f6776309
       objectReference: {fileID: 0}
@@ -234,6 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a92be9a13622bf48a10f05367a474f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   rods: 2

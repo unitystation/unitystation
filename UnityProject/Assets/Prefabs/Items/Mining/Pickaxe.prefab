@@ -57,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: _assetId
+      value: 1327320841
+      objectReference: {fileID: 0}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: m_AssetId
       value: 82cb1c39112974a498a9756981eb07d0
       objectReference: {fileID: 0}
@@ -310,3 +315,4 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   timeMultiplier: 1
+  pickHardness: 5

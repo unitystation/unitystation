@@ -63,7 +63,7 @@ TextureImporter:
       213: -2596778954854866357
     second: ocannabis-harvest_15
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -123,6 +123,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -142,6 +143,18 @@ TextureImporter:
     resizeAlgorithm: 0
     textureFormat: 4
     textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -246,9 +259,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      ocannabis-harvest_0: 4069729046960050304
       ocannabis-harvest_1: -8584300463074034844
       ocannabis-harvest_2: -1572515799807337519
-      ocannabis-harvest_0: 4069729046960050304
       ocannabis-harvest_3: -4430132092802110862
   spritePackingTag: 
   pSDRemoveMatte: 0
