@@ -13,7 +13,7 @@ namespace AdminTools
 
 		private List<ProfileEntry> shownEntries = new List<ProfileEntry>();
 
-		public void RefreshProfileList(ProfileEntryDataList newProfileList)
+		public void RefreshProfileList(SafeProfileManager.ProfileEntryDataList newProfileList)
 		{
 			var entriesIndex = -1;
 			for (var i = 0; i < newProfileList.Profiles.Count; i++)
@@ -41,18 +41,5 @@ namespace AdminTools
 				Destroy(entry.gameObject);
 			}
 		}
-	}
-
-	[Serializable]
-	public class ProfileEntryDataList //neded for json parsing
-	{
-		public List<ProfileEntryData> Profiles = new List<ProfileEntryData>();
-	}
-
-	[Serializable]
-	public class ProfileEntryData
-	{
-		public string Name;
-		public string Size;
 	}
 }

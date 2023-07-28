@@ -3,23 +3,29 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using AdminTools;
-using Messages.Server.AdminTools;
-using Shared.Util;
+using System.Linq;
 using UnityEngine.Profiling;
 using UnityEngine.Profiling.Memory.Experimental;
-using Util;
 
-public class ProfileManager : MonoBehaviour
+public class SafeProfileManager : MonoBehaviour
 {
-	private static ProfileManager profileManager;
-	public static ProfileManager Instance => FindUtils.LazyFindObject(ref profileManager);
+	private static SafeProfileManager _safeProfileManager;
+	public static SafeProfileManager Instance => LazyFindObject(ref _safeProfileManager);
+
+	private static T LazyFindObject<T>(ref T obj, bool includeInactive = false) where T : UnityEngine.Object
+	{
+		if (obj == null) obj = UnityEngine.Object.FindObjectOfType<T>(includeInactive);
+		return obj;
+	}
+
+	public static event Action ProfileBegin;
+	public static event Action ProfileEnd;
 
 	private void Awake()
 	{
-		if (profileManager == null)
+		if (_safeProfileManager == null)
 		{
-			profileManager = this;
+			_safeProfileManager = this;
 		}
 	}
 
@@ -42,7 +48,8 @@ public class ProfileManager : MonoBehaviour
 		Profiler.maxUsedMemory = 1000000000; //1GB
 		Profiler.enabled = true;
 
-		UpdateManager.Instance.Profile = true;
+		ProfileBegin?.Invoke();
+
 
 		StartCoroutine(RunPorfile(frameCount));
 	}
@@ -61,12 +68,8 @@ public class ProfileManager : MonoBehaviour
 		Profiler.enableAllocationCallstacks = false;
 		Profiler.logFile = "";
 
-		UpdateManager.Instance.Profile = false;
+		ProfileEnd?.Invoke();
 
-		if (CustomNetworkManager.IsServer)
-		{
-			ProfileMessage.SendToApplicable();
-		}
 	}
 
 	public void RunMemoryProfile(bool full = true)
@@ -74,7 +77,7 @@ public class ProfileManager : MonoBehaviour
 		if (runningMemoryProfile || runningProfile) return;
 		runningMemoryProfile = true;
 
-		UpdateManager.Instance.Profile = true;
+		ProfileBegin?.Invoke();
 
 		Directory.CreateDirectory("Profiles");
 
@@ -95,7 +98,7 @@ public class ProfileManager : MonoBehaviour
 	private void MemoryProfileEnd(string t, bool b)
 	{
 		runningMemoryProfile = false;
-		UpdateManager.Instance.Profile = false;
+		ProfileEnd?.Invoke();
 	}
 
 	public List<ProfileEntryData> GetCurrentProfiles()
@@ -120,10 +123,29 @@ public class ProfileManager : MonoBehaviour
 
 	public void RemoveProfile(string profileName)
 	{
-		string path = Directory.GetCurrentDirectory() + "/Profiles/" + profileName;
+
+		var Current = GetCurrentProfiles();
+		var profile = Current.FirstOrDefault(x => x.Name == profileName);
+		if (profile == null) return;
+
+		string path = Directory.GetCurrentDirectory() + "/Profiles/" + profile.Name;
 		if (File.Exists(path))
 		{
 			File.Delete(path);
 		}
+	}
+
+	[Serializable]
+	public class ProfileEntryDataList //neded for json parsing
+	{
+		public List<ProfileEntryData> Profiles = new List<ProfileEntryData>();
+	}
+
+	[Serializable]
+	public class ProfileEntryData
+	{
+		public string Name;
+		public int ProfileIndex;
+		public string Size;
 	}
 }
