@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Threading;
-using ConfigurationSaves;
+using Core.SafeFilesystem;
 using Initialisation;
 using Mirror;
 using Mirror.RemoteCalls;
@@ -31,8 +31,8 @@ namespace Managers
 	        base.Start();
 	        thread = new Thread (OverwatchMainThread);
 	        thread.Start();
-	        AccessFile.Delete("InfiniteLoopTracker.txt",AccessCategory.Logs);
-	        AccessFile.AppendAllText("InfiniteLoopTracker.txt", "", AccessCategory.Logs);
+	        AccessFile.Delete("InfiniteLoopTracker.txt",FolderType.Logs);
+	        AccessFile.AppendAllText("InfiniteLoopTracker.txt", "", FolderType.Logs);
         }
 
         private void OnEnable()
@@ -158,7 +158,7 @@ namespace Managers
         private void Log(string aText)
         {
 	        Debug.LogError(aText); //in case of case positives we make a normal log
-	        AccessFile.AppendAllText("InfiniteLoopTracker.txt", aText, AccessCategory.Logs);
+	        AccessFile.AppendAllText("InfiniteLoopTracker.txt", aText, FolderType.Logs);
         }
 	}
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ConfigurationSaves;
+using Core.SafeFilesystem;
 using UnityEngine;
 using Mirror;
 using DatabaseAPI;
@@ -21,6 +21,9 @@ namespace AdminTools
 		{
 			get { return selectedPlayer; }
 		}
+
+		public static string ChatLogsFolder => "Chatlogs";
+
 		/// <summary>
 		/// All messages sent and recieved from players to mentors
 		/// </summary>
@@ -83,9 +86,7 @@ namespace AdminTools
 				return;
 			}
 
-			var chatlogDir =  "chatlogs";
-
-			var filePath = Path.Combine(chatlogDir, $"{playerId}-mentor.txt");
+			var filePath = Path.Combine(ChatLogsFolder, $"{playerId}-mentor.txt");
 
 
 			if (AccessFile.Exists(filePath) == false)

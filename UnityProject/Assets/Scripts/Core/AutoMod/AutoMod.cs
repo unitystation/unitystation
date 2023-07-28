@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using ConfigurationSaves;
+using Core.SafeFilesystem;
 using Initialisation;
 using Shared.Util;
 using UnityEngine;
@@ -45,11 +45,14 @@ namespace AdminTools
 		private AutoModConfig loadedConfig;
 
 		private static string AutoModConfigPath =>
-			Path.Combine("admin", "automodconfig.json");
+			Path.Combine(AccessFile.AdminFolder, "automodconfig.json");
+
+		private static string WordFilterPath =>
+			Path.Combine(AccessFile.AdminFolder, "wordfilter.txt");
 
 		private void LoadWordFilter()
 		{
-			var data = AccessFile.Load("wordfilter.txt");
+			var data = AccessFile.Load(WordFilterPath);
 			var base64EncodedBytes = Convert.FromBase64String(data);
 			var text = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
 

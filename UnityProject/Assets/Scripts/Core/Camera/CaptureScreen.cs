@@ -1,5 +1,4 @@
-﻿
-using ConfigurationSaves;
+﻿using Core.SafeFilesystem;
 using UnityEngine;
 
 /// <summary>
@@ -44,7 +43,7 @@ namespace Core.Cam
 				result.ReadPixels(rect, 0, 0);
 
 				byte[] byteArray = result.EncodeToPNG();
-				AccessFile.Write( byteArray, Path + "/" + FileName, AccessCategory.Data);
+				AccessFile.Write( byteArray, Path + "/" + FileName, FolderType.Data);
 
 				RenderTexture.ReleaseTemporary(texture);
 				cam.targetTexture = null;
