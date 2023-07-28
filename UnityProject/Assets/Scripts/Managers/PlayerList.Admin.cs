@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Core.SafeFilesystem;
 using DatabaseAPI;
@@ -68,9 +69,10 @@ public partial class PlayerList
 			AccessFile.Save(jobBanPath, JsonUtility.ToJson(new JobBanList()));
 		}
 
-		AccessFile.Watch(adminsPath, LoadCurrentAdmins);
-		AccessFile.Watch(mentorsPath, LoadCurrentMentors);
-		AccessFile.Watch(whiteListPath, LoadWhiteList);
+		AccessFile.Watch(adminsPath, ThreadLoadCurrentAdmins);
+		AccessFile.Watch(mentorsPath, ThreadLoadCurrentMentors);
+		AccessFile.Watch(whiteListPath, ThreadLoadWhiteList);
+
 
 		LoadBanList();
 		LoadCurrentAdmins();
@@ -84,19 +86,44 @@ public partial class PlayerList
 		Instance.StartCoroutine(LoadBans());
 	}
 
+
 	static void LoadWhiteList()
 	{
 		Instance.StartCoroutine(LoadWhiteListed());
 	}
+
+	static void ThreadLoadWhiteList()
+	{
+		Thread.Sleep(100);
+		Instance.whiteListUsers.Clear();
+		Instance.whiteListUsers = new List<string>(AccessFile.ReadAllLines(Instance.whiteListPath));
+	}
+
 
 	static void LoadCurrentAdmins()
 	{
 		Instance.StartCoroutine(LoadAdmins());
 	}
 
+	static void ThreadLoadCurrentAdmins()
+	{
+		Thread.Sleep(100);
+		Instance.serverAdmins.Clear();
+		Instance.serverAdmins = new HashSet<string>(AccessFile.ReadAllLines(Instance.adminsPath));
+	}
+
+
 	static void LoadCurrentMentors()
 	{
+
 		Instance.StartCoroutine(LoadMentors());
+	}
+
+	static void ThreadLoadCurrentMentors()
+	{
+		Thread.Sleep(100);
+		Instance.mentorUsers.Clear();
+		Instance.mentorUsers = new HashSet<string>(AccessFile.ReadAllLines(Instance.mentorsPath));
 	}
 
 	static void LoadJobBanList()
