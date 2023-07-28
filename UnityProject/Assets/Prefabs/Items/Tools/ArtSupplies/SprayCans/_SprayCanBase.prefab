@@ -34,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
+      propertyPath: _assetId
+      value: 2055784574
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
       propertyPath: m_AssetId
       value: fd39cc49bd6b3074792f93ac2596561b
       objectReference: {fileID: 0}
@@ -117,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1360d2b65a03cdf449035cd3c4cd0153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   actionData: {fileID: 11400000, guid: 1a6d538370bbd7e498bfec2b538f1767, type: 2}
@@ -135,6 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d138364514c28c94082e6a2b3b63a68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   setCrayonColour: 0

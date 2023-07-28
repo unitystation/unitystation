@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2374380983259834516, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
+      propertyPath: _assetId
+      value: 1521196763
+      objectReference: {fileID: 0}
+    - target: {fileID: 2374380983259834516, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
       propertyPath: m_AssetId
       value: 38587331617a9c747832658ce8bee272
       objectReference: {fileID: 0}
@@ -169,6 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   allClothingData:

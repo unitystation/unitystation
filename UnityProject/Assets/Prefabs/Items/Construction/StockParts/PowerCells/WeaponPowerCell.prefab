@@ -31,6 +31,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1048113473106476432, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
+      propertyPath: _assetId
+      value: 1048396248
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048113473106476432, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
       propertyPath: m_AssetId
       value: bd07fb3945875634685790190ea8decc
       objectReference: {fileID: 0}
@@ -101,6 +106,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1851616424243757961, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
+      propertyPath: watts
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1851616424243757961, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
       propertyPath: MaxWatts
       value: 10000
       objectReference: {fileID: 0}
@@ -147,6 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4366bd96f24a5244680b41595883f300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   magType: 2

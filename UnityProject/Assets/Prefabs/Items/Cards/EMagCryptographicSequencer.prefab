@@ -108,6 +108,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &5805812536563727567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -246,6 +249,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8921851247785389219, guid: 08128a9a69925eb4c93bc817c6ec2a88,
         type: 3}
+      propertyPath: _assetId
+      value: 2373593329
+      objectReference: {fileID: 0}
+    - target: {fileID: 8921851247785389219, guid: 08128a9a69925eb4c93bc817c6ec2a88,
+        type: 3}
       propertyPath: m_AssetId
       value: 92d97624df4de9c44b21713ad3a016cc
       objectReference: {fileID: 0}
@@ -334,6 +342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3396317bdb375ad43bba000678424868, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   startCharges: 5
@@ -358,6 +367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   allClothingData:

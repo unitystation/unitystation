@@ -17,7 +17,7 @@ MonoBehaviour:
   SurgerySteps:
   - RequiredTrait: {fileID: 11400000, guid: 96c07e6a6b942f645abf4ea7f9328eea, type: 2}
     Time: 1
-    SuccessChance: 100
+    FailChance: 0
     StartSelf: you start to use {Using} to seal up {WhoOn}'s {OnPart}
     StartOther: '{performer} uses {Using} starting to close up {WhoOn}''s {OnPart}'
     SuccessSelf: you use {Using} to seal up {WhoOn}'s {OnPart}

@@ -178,7 +178,6 @@ MonoBehaviour:
     type: 3}
   BodyPartItemSprite: {fileID: 4999823976648774815}
   BodyPartItemInheritsSkinColor: 0
-  BodySpriteSet: 0
   LobbyCustomisation: {fileID: 0}
   optionalOrgans: []
   OptionalReplacementOrgan: []
@@ -287,6 +286,7 @@ MonoBehaviour:
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 0
+  SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20
   transferSound: []

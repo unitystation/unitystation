@@ -10,13 +10,19 @@ PrefabInstance:
     - target: {fileID: 3051557759065229148, guid: 05e915de5d60b5048859f453c92c198f,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3051557759065229148, guid: 05e915de5d60b5048859f453c92c198f,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3051557759065229148, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 52863117fba0f70c8af5b46be6699fa2,
+        type: 2}
     - target: {fileID: 3051557759065229148, guid: 05e915de5d60b5048859f453c92c198f,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
@@ -25,8 +31,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3051557759065229148, guid: 05e915de5d60b5048859f453c92c198f,
         type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3051557759065229148, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4244486289140544064, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: _assetId
+      value: 317374638
       objectReference: {fileID: 0}
     - target: {fileID: 4244486289140544064, guid: 05e915de5d60b5048859f453c92c198f,
         type: 3}

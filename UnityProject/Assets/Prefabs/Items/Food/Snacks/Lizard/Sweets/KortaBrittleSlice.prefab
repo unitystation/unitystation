@@ -128,6 +128,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1400446589329289331, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
+      propertyPath: _assetId
+      value: 1510587287
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400446589329289331, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
       propertyPath: m_AssetId
       value: 5b279b951adb0534b99fa8c560a5b2c1
       objectReference: {fileID: 0}
@@ -172,12 +177,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7c30ca55ffa4467a421abf7a832a6a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   initialAmount: 5
   maxAmount: 5
   stacksWith:
   - {fileID: 8192723771560842583}
+  isRepresentationOfStack: 0
   stackNames: []
   stackSprites: []
   autoStackOnSpawn: 1

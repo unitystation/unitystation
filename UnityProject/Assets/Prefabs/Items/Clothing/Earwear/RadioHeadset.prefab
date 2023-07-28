@@ -107,6 +107,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8475018044423385274, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}
+      propertyPath: _assetId
+      value: 3411302831
+      objectReference: {fileID: 0}
+    - target: {fileID: 8475018044423385274, guid: 23a0b694284152342b2ec0817fade0d6,
+        type: 3}
       propertyPath: m_AssetId
       value: 6c06d764ea0ea9e4f9dff0e83cbb46e6
       objectReference: {fileID: 0}
@@ -139,6 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   allClothingData:
@@ -161,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dc5bf41c2d60a74dbc6d60ff537eb85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   emmitableSignalData:
@@ -170,6 +177,7 @@ MonoBehaviour:
   requiresPower: 0
   isPowered: 1
   canExamineFrequency: 0
+  minimumDamageBeforeObfuscation: 12
   EncryptionKey: 1
   LoudSpeakOn: 0
   isEMPed: 0

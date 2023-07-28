@@ -235,6 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Priority>k__BackingField: 0
+  <RegisteredToLegacySubsystemManager>k__BackingField: 1
   defaultRoomGasMixOverride: {fileID: 0}
   overriderTileSpawnWithNoAir: 0
 --- !u!114 &6969103768064173240
@@ -277,6 +278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Priority>k__BackingField: 0
+  <RegisteredToLegacySubsystemManager>k__BackingField: 1
 --- !u!114 &7608414173912689888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7070,13 +7072,13 @@ Tilemap:
   - m_RefCount: 536
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   - m_RefCount: 0
-    m_Data: {r: 6.0845e-40, g: 6.0845e-40, b: 6.0845e-40, a: 6.0845e-40}
+    m_Data: {r: 1.004905e-39, g: 1.004905e-39, b: 1.004905e-39, a: 1.004905e-39}
   - m_RefCount: 0
-    m_Data: {r: 6.0845e-40, g: 6.0845e-40, b: 6.0845e-40, a: 6.0845e-40}
+    m_Data: {r: 1.004905e-39, g: 1.004905e-39, b: 1.004905e-39, a: 1.004905e-39}
   - m_RefCount: 34
-    m_Data: {r: 0.70922154, g: 0.40423933, b: 0.48255736, a: 1}
+    m_Data: {r: 0.97335666, g: 0.4064407, b: 0.4991203, a: 1}
   - m_RefCount: 55
-    m_Data: {r: 0.87243766, g: 0.41902208, b: 0.45130026, a: 1}
+    m_Data: {r: 0.7415539, g: 0.45920354, b: 0.47300553, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -13103,6 +13105,7 @@ MonoBehaviour:
   IsMainStation: 0
   IsLavaLand: 0
   PresentPlayers: []
+  UpdatedPlayerFrame: 0
   HasGravity: 1
 --- !u!114 &7923614964340937298
 MonoBehaviour:

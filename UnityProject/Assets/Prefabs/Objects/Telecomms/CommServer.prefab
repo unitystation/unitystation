@@ -148,6 +148,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7153803037707514078, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: _assetId
+      value: 3727869693
+      objectReference: {fileID: 0}
+    - target: {fileID: 7153803037707514078, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: m_AssetId
       value: e654148c91063ed499de6438ee9dd63e
       objectReference: {fileID: 0}
@@ -191,6 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 563b5a14563f48fa9359646a6684c4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   SignalTypeToReceive: 1
@@ -201,7 +207,6 @@ MonoBehaviour:
   ListenToEncryptedData: 0
   blackbox: {fileID: 0}
   apcPoweredDevice: {fileID: 7650334476715349503}
-  EmpResistence: 250
 --- !u!114 &7650334476715349503 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,

@@ -75,6 +75,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3676122640429376199, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
+      propertyPath: _assetId
+      value: 2407440976
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676122640429376199, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
       propertyPath: m_AssetId
       value: 351fa36521ade244b9d7d66b21f7f333
       objectReference: {fileID: 0}
@@ -141,6 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adb32492e5772fa4d9e222f1a90d8359, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 2506717331081805387}

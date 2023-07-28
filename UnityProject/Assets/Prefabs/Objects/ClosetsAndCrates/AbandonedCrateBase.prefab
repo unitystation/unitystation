@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 162552311794462770, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
+      propertyPath: _assetId
+      value: 2417764815
+      objectReference: {fileID: 0}
+    - target: {fileID: 162552311794462770, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
       propertyPath: m_AssetId
       value: 712602426c244754cbfc696362bb07c5
       objectReference: {fileID: 0}
@@ -177,6 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450a9711770b4bf3a2a7fd2592b164df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   OnStartGame:

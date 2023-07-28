@@ -111,6 +111,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5857058975867227086, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
+      propertyPath: _assetId
+      value: 2250302748
+      objectReference: {fileID: 0}
+    - target: {fileID: 5857058975867227086, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
       propertyPath: m_AssetId
       value: 22153594ca62ee0418bb92cef2a1a384
       objectReference: {fileID: 0}
@@ -389,11 +394,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7c30ca55ffa4467a421abf7a832a6a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   initialAmount: 1
   maxAmount: 6
   stacksWith: []
+  isRepresentationOfStack: 0
   stackNames: []
   stackSprites: []
   autoStackOnSpawn: 1

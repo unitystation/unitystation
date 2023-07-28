@@ -94,6 +94,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!114 &6688351210976818708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,6 +227,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659277074312158701, guid: bdc0bbe82126ea747b3fc1d25464d588,
+        type: 3}
+      propertyPath: _assetId
+      value: 1904228608
       objectReference: {fileID: 0}
     - target: {fileID: 4659277074312158701, guid: bdc0bbe82126ea747b3fc1d25464d588,
         type: 3}

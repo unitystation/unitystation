@@ -176,7 +176,8 @@ MonoBehaviour:
   leavings: {fileID: 0}
   currentBites: 0
   maxBites: 1
-  setCurrentBitesToMaxBitesOnAwake: 1
+  forceFeedTime: 3
+  setCurrentBitesToMaxBitesOnServerSpawn: 1
   sound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
@@ -237,20 +238,8 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  AssociatedSystem:
-    Base: {fileID: 0}
-    BloodPool:
-      temperature: 273.15
-      reagents:
-        m_keys: []
-        m_values: []
-      reagentKeys: []
-    StartingBlood: 500
-    bloodInfo: {fileID: 0}
-    bloodType: {fileID: 0}
-    PumpingDevices: []
   Throughput: 1
-  bloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
+  bloodReagent: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
 --- !u!114 &8705967904398053582
 MonoBehaviour:
   m_ObjectHideFlags: 0

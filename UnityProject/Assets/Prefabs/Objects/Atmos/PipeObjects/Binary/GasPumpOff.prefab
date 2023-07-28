@@ -105,6 +105,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1410381801743561416
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -233,6 +236,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6931842893682907539, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
+      propertyPath: _assetId
+      value: 1690241406
+      objectReference: {fileID: 0}
+    - target: {fileID: 6931842893682907539, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
+        type: 3}
       propertyPath: m_AssetId
       value: d243343741d540446b159becf769231a
       objectReference: {fileID: 0}
@@ -328,9 +336,9 @@ MonoBehaviour:
       gasMix:
         GasData:
           GasesArray: []
-        Pressure: 0
+        pressure: 0
         Volume: 2.5
-        Temperature: 293.15
+        temperature: 293.15
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 1

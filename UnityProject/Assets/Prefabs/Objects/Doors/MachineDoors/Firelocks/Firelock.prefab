@@ -196,6 +196,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6950079160659059188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,6 +320,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5535747336687579010
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,6 +430,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5893083064311537363
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,6 +549,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2968860930292390072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -662,6 +674,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8097008815040610290
 GameObject:
   m_ObjectHideFlags: 0
@@ -774,6 +789,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &2351700664918873728
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -850,6 +868,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3968779613111739762, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: _assetId
+      value: 4186383850
       objectReference: {fileID: 0}
     - target: {fileID: 3968779613111739762, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
@@ -1051,6 +1074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f1c80a23946ca84489209f24da99cfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   damageOnClose: 0

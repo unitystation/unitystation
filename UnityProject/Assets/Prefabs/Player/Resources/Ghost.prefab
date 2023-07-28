@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 8744048983066700626}
   - component: {fileID: 8577256020621858143}
   - component: {fileID: 5763817749914786213}
+  - component: {fileID: 8715673610173069278}
   m_Layer: 31
   m_Name: Ghost
   m_TagString: Untagged
@@ -102,10 +103,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f99bb0ad07434da089f740997e6916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   playerTypeSettings: {fileID: 11400000, guid: f3010aaf40d515547b1fbd815268ca20, type: 2}
   inventorySpeechModifiers: 0
+  characterSettings:
+    Name: Cuban Pete
+    AiName: R.O.B.O.T.
+    BodyType: 1
+    ClothingStyle: 0
+    BagStyle: 0
+    PlayerPronoun: 1
+    Age: 22
+    Speech: 0
+    SkinTone: '#ffe0d1'
+    SerialisedBodyPartCustom: []
+    SerialisedExternalCustom: []
+    Species: Human
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
@@ -115,6 +130,12 @@ MonoBehaviour:
   RcsMatrixMove: {fileID: 0}
   playerChatLocation: {fileID: 4390267312333422610}
   canVentCrawl: 0
+  <OnBodyPossesedByPlayer>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnBodyUnPossesedByPlayer>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
   ClueHandsImprintInverseChance: 55
   ClueUniformImprintInverseChance: 65
   ClueSpeciesImprintInverseChance: 85
@@ -147,6 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9451929b6fd9342dab7a272b50ef5aa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   chatBubbleTarget: {fileID: 3627016732473475008}
@@ -162,12 +184,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c7b6bc021c23c54d8e5410a430ca7fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
+  <LayDownBehavior>k__BackingField: {fileID: 0}
   networkedLean: {fileID: 0}
 --- !u!114 &1176408661413567387
 MonoBehaviour:
@@ -181,6 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   MethodRotation: 0
@@ -218,9 +243,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 2346838544
   serverOnly: 0
   visible: 0
-  m_AssetId: 15adb8ff4b5062d41a3738e0a52ea01c
   hasSpawned: 0
 --- !u!114 &8224268276445300722
 MonoBehaviour:
@@ -274,6 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb66dca4b3d0d3e4fb6c386f50cd0375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   ghostMove: {fileID: 0}
@@ -290,6 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf282c09194a314cb25f54383703898, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   MoveSpeed: 8
@@ -311,6 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c918846612a844a8a3c91a1ddb280a87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
 --- !u!114 &9073641150364035070
@@ -325,6 +353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45a69f256a574520a759ff5c8c603402, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
 --- !u!114 &8744048983066700626
@@ -354,6 +383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd4fccae344a4981a0739eaa263d1b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 1
   syncInterval: 0.1
   defaultLanguages: {fileID: 0}
@@ -371,16 +401,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38196b7d809184840971e7812a0120af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 1
   syncInterval: 0.1
-  occupation: {fileID: 0}
   IsGhosting: 0
+  occupation: {fileID: 0}
   DenyCloning: 0
   bodyMobID: 0
   StepSound: {fileID: 0}
   SecondaryStepSound: {fileID: 0}
+  CurrentCharacterSettings:
+    Name: Cuban Pete
+    AiName: R.O.B.O.T.
+    BodyType: 1
+    ClothingStyle: 0
+    BagStyle: 0
+    PlayerPronoun: 1
+    Age: 22
+    Speech: 0
+    SkinTone: '#ffe0d1'
+    SerialisedBodyPartCustom: []
+    SerialisedExternalCustom: []
+    Species: Human
   ghostLocked: 0
+  NonImportantMind: 0
   actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
+--- !u!114 &8715673610173069278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f7e7b047d3c42e0b2df604c775f9cfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  sprites: {fileID: 0}
+  health: {fileID: 0}
+  playerDirectional: {fileID: 0}
+  playerScript: {fileID: 0}
+  networkedLean: {fileID: 0}
+  disabled: 0
+  IsLayingDown: 0
 --- !u!1 &7113893953078827476
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,6 +586,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3704879063443130025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -728,3 +798,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []

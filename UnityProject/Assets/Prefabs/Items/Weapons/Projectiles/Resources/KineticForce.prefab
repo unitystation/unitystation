@@ -78,6 +78,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1410495953153992223, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
+      propertyPath: _assetId
+      value: 2969865198
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410495953153992223, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
       propertyPath: m_AssetId
       value: a4c2debd67d612549b05801d1e37121a
       objectReference: {fileID: 0}
@@ -120,6 +125,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  numberOfTilesAffected: 1
 --- !u!114 &1221977244184338686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageData: {fileID: 11400000, guid: 85c028573e7db4840a963fb98f8f51d5, type: 2}
   layersToHit: 0500000001000000
+  numberOfTilesAffected: 1
 --- !u!114 &8095977274259475600
 MonoBehaviour:
   m_ObjectHideFlags: 0

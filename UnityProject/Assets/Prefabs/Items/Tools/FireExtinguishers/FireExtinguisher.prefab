@@ -5125,6 +5125,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: _assetId
+      value: 2504500023
+      objectReference: {fileID: 0}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: m_AssetId
       value: 908afbc5b9f871148b5ccd0b81bd147f
       objectReference: {fileID: 0}
@@ -5339,6 +5344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df14585efc20d2f4c9f0b66982db3b8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   travelDistance: 6
@@ -5367,7 +5373,6 @@ MonoBehaviour:
   maxCapacity: 3000
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   AdditionalReactions: []
-  canPourOut: 1
   initialReagentMix:
     temperature: 273.15
     reagents:
@@ -5378,6 +5383,8 @@ MonoBehaviour:
     reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
+  menuOptions: -1
+  spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
@@ -5385,5 +5392,7 @@ MonoBehaviour:
   reagentWhitelist:
   - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
   transferMode: 3
+  SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20
+  transferSound: []

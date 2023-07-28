@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: inhale
   m_EditorClassIdentifier: 
   emoteName: inhale
+  EmoteIcon: {fileID: 0}
   requiresHands: 0
   allowEmoteWhileInCrit: 1
   isAudibleEmote: 0
@@ -26,3 +27,4 @@ MonoBehaviour:
   defaultSounds: []
   TypedSounds: []
   pitchRange: {x: 0.7, y: 1}
+  allowedPlayerTypes: 1

@@ -106,6 +106,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &5247733581753757860
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -176,7 +179,7 @@ PrefabInstance:
     - target: {fileID: 3843837462726334872, guid: 00173e5de3306664c90ceda936ce817f,
         type: 3}
       propertyPath: m_Name
-      value: xJungleGrassAx
+      value: GrassThick
       objectReference: {fileID: 0}
     - target: {fileID: 3906926717121101199, guid: 00173e5de3306664c90ceda936ce817f,
         type: 3}

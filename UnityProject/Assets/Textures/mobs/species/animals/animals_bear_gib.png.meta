@@ -48,7 +48,7 @@ TextureImporter:
       213: 21300028
     second: bear_gib_14
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -108,6 +108,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -123,6 +124,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -463,20 +476,20 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       bear_gib_0: 21300000
-      bear_gib_5: 21300010
-      bear_gib_11: 21300022
-      bear_gib_7: 21300014
-      bear_gib_13: 21300026
-      bear_gib_12: 21300024
-      bear_gib_14: 21300028
-      bear_gib_10: 21300020
-      bear_gib_9: 21300018
-      bear_gib_2: 21300004
       bear_gib_1: 21300002
+      bear_gib_10: 21300020
+      bear_gib_11: 21300022
+      bear_gib_12: 21300024
+      bear_gib_13: 21300026
+      bear_gib_14: 21300028
+      bear_gib_2: 21300004
       bear_gib_3: 21300006
       bear_gib_4: 21300008
+      bear_gib_5: 21300010
       bear_gib_6: 21300012
+      bear_gib_7: 21300014
       bear_gib_8: 21300016
+      bear_gib_9: 21300018
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

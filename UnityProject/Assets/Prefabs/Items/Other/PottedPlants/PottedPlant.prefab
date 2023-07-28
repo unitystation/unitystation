@@ -163,10 +163,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   denyStorageOfStorageItems: 0
+  itemStorage: {fileID: 0}
   canClickPickup: 0
   canQuickEmpty: 0
   TopLevelAlt: 0
   actionData: {fileID: 0}
+  DoNotShowInventoryOnUI: 0
 --- !u!114 &6973312636274247284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,11 +187,13 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &7760753812183991672
 MonoBehaviour:

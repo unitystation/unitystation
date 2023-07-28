@@ -123,6 +123,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7153803037707514078, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: _assetId
+      value: 1980723316
+      objectReference: {fileID: 0}
+    - target: {fileID: 7153803037707514078, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: m_AssetId
       value: 9d444ad6dde436d44920ac030fc733de
       objectReference: {fileID: 0}
@@ -156,6 +161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   NetTabType: 0
   aiInteractable: 1
 --- !u!114 &3537368556672211879
@@ -170,11 +178,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   InitialVendorContent: []
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 0
-  VendingSound:
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  isEmagged: 0
+  VendorContent: []
+  ActualCurrentPowerState: 2
+  vendingSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/MachineVend.prefab
     AssetReference:
@@ -182,9 +198,12 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  restockMessage: Items restocked.
-  noAccessMessage: Access denied!
-  isEmagged: 0
-  VendorContent: []
-  ActualCurrentPowerState: 2
-  DoesntRequirePower: 0
+  ambientSoundWhileOn:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  lightSprite: {fileID: 0}

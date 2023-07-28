@@ -108,6 +108,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3063001773969750252
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,6 +220,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1606511904356885276
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -231,6 +237,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 136634061082832056, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
+      propertyPath: _assetId
+      value: 2542495335
+      objectReference: {fileID: 0}
+    - target: {fileID: 136634061082832056, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
       propertyPath: m_AssetId
       value: b52e9566ba635f944a7a656928335414
       objectReference: {fileID: 0}
@@ -238,7 +249,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 5392900523666943428}
+      objectReference: {fileID: 0}
     - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: initialIntegrity
@@ -353,18 +364,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
---- !u!114 &5392900523666943428 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6673231170480590552, guid: a7af28adb717b4c44b8b2002b27670bd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1606511904356885276}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7094225144452479686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &7090484289108851740 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
@@ -395,11 +394,13 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &3120403218613559149
@@ -414,6 +415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b4619b51575ae14b8215f7645417818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   overlayFill: {fileID: 1901404012677323498}
@@ -440,6 +442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88c89d0d426a7494092fa829cce24578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   initialState: {fileID: 11400000, guid: 4518c423fbb9d124283df2bfab42e0c4, type: 2}

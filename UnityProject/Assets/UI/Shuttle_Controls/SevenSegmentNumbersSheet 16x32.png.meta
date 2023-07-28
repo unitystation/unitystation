@@ -33,7 +33,7 @@ TextureImporter:
       213: 21300018
     second: SevenSegmentNumbersSheet 16x32_9
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -93,6 +93,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -156,6 +157,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -390,16 +403,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      SevenSegmentNumbersSheet 16x32_6: 21300012
-      SevenSegmentNumbersSheet 16x32_3: 21300006
-      SevenSegmentNumbersSheet 16x32_4: 21300008
       SevenSegmentNumbersSheet 16x32_0: 21300000
       SevenSegmentNumbersSheet 16x32_1: 21300002
+      SevenSegmentNumbersSheet 16x32_2: 21300004
+      SevenSegmentNumbersSheet 16x32_3: 21300006
+      SevenSegmentNumbersSheet 16x32_4: 21300008
+      SevenSegmentNumbersSheet 16x32_5: 21300010
+      SevenSegmentNumbersSheet 16x32_6: 21300012
+      SevenSegmentNumbersSheet 16x32_7: 21300014
       SevenSegmentNumbersSheet 16x32_8: 21300016
       SevenSegmentNumbersSheet 16x32_9: 21300018
-      SevenSegmentNumbersSheet 16x32_2: 21300004
-      SevenSegmentNumbersSheet 16x32_5: 21300010
-      SevenSegmentNumbersSheet 16x32_7: 21300014
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

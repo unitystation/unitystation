@@ -110,6 +110,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3777985596206283457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,6 +237,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3296440861055232477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,6 +424,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7153803037707514078, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: _assetId
+      value: 1880183644
+      objectReference: {fileID: 0}
+    - target: {fileID: 7153803037707514078, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: m_AssetId
       value: e6e7f915b6b6fc14c981a592369d47f8
       objectReference: {fileID: 0}
@@ -547,6 +558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   MethodRotation: 0
@@ -568,6 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aa8c34adfb884646b01b21e62173b62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   runningInterfaces:
@@ -582,6 +595,8 @@ MonoBehaviour:
   bottomLightSpriteHandler: {fileID: 6366995917858756332}
   coverOpen: 0
   hasCables: 1
+  registerTile: {fileID: 0}
+  integrity: {fileID: 0}
   FireAlarmSFX:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/FireAlarm.prefab

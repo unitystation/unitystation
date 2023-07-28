@@ -25,6 +25,7 @@ MonoBehaviour:
   passable: 1
   mineable: 0
   miningTime: 5
+  miningHardness: 1
   constructable: 1
   RadiationPassability: 1
   ThermalConductivity: 0.05
@@ -49,11 +50,17 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 100
+    Anomaly: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
   tileInteractions:
   - {fileID: 11400000, guid: 433fa20f26ef08d4a844cf98c3a923f3, type: 2}
   - {fileID: 11400000, guid: 56d4fa73fb766d54383a8a2453c9d619, type: 2}
   - {fileID: 11400000, guid: 894695c059ed5e64da8e5ad42c196d22, type: 2}
+  <OnTileStartMining>k__BackingField: []
+  <OnTileFinishMining>k__BackingField: []
   tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 0
@@ -78,3 +85,5 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   sprite: {fileID: 21300000, guid: 2f1b3e8d6fb118b41889deb99ae48c0d, type: 3}
+  CanBeHighlightedThroughScanners: 0
+  HighlightObject: {fileID: 0}

@@ -56,6 +56,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!23 &23824325930050846
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -119,9 +120,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 2070270686
   serverOnly: 0
   visible: 0
-  m_AssetId: 715614a08d7f9514aab57170abfe56ef
   hasSpawned: 0
 --- !u!114 &3136316728950698336
 MonoBehaviour:
@@ -147,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 210ea710705d58e4bab8dd3bab07fe17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
 --- !u!114 &582239529690298414
@@ -169,3 +171,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []

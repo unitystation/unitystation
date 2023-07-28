@@ -414,7 +414,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableDrag: 0
-  resetPositionOnDisable: 0
 --- !u!114 &1652657522639985837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,6 +550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e798a74be3b69c1a9aab4faa8fc5cdd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Entries: []
   EntryPrefab: {fileID: 8252912647532467127, guid: 8fedcc3ee6ac71843a4821632eb9ada4,
     type: 3}
 --- !u!1 &2156284639372117712

@@ -106,6 +106,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &3115570867604696953
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -321,6 +324,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8730627397065656938, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
+      propertyPath: _assetId
+      value: 2530046213
+      objectReference: {fileID: 0}
+    - target: {fileID: 8730627397065656938, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
       propertyPath: m_AssetId
       value: 3b78df7a6bcb5d043a184b848eddfa74
       objectReference: {fileID: 0}
@@ -346,6 +354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb8324d02f1bc094abd472d69fa10b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   spawnFalling: 1

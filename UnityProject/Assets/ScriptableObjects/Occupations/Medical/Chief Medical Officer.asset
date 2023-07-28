@@ -17,10 +17,10 @@ MonoBehaviour:
   lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: 3064aa8c8254b4ea68f6df3f95cfb03c, type: 2}
   useStandardPopulator: 1
+  useCharacterSettings: 1
+  CustomSpeciesOverwrite: {fileID: 0}
   limit: 1
   priority: 2
-  allowedAccess: 190000001a000000220000001700000025000000260000002c00000031000000330000003a0000003b000000460000004e000000
-  allowedLowPopAccess: 
   issuedClearance: 250000001f0000000d000000200000000900000012000000340000000c00000005000000060000003d0000002800000024000000
   issuedLowPopClearance: 250000001f0000000d000000200000000900000012000000340000000c00000005000000060000003d0000002800000024000000
   spells: []
@@ -44,6 +44,7 @@ MonoBehaviour:
   customProperties:
     m_keys: []
     m_values: 
+  BetterCustomProperties: []
   isTargeteable: 1
   playSound: 1
   spawnSound:
@@ -57,3 +58,6 @@ MonoBehaviour:
   textColor: {r: 1, g: 0.86666673, b: 0.94117653, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
   specialPlayerPrefab: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []

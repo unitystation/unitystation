@@ -39,7 +39,7 @@ TextureImporter:
       213: 21300022
     second: cart_water_11
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -99,6 +99,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -114,6 +115,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -390,18 +403,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      cart_water_3: 21300006
-      cart_water_6: 21300012
-      cart_water_9: 21300018
-      cart_water_7: 21300014
+      cart_water_0: 21300000
+      cart_water_1: 21300002
       cart_water_10: 21300020
       cart_water_11: 21300022
-      cart_water_0: 21300000
-      cart_water_4: 21300008
-      cart_water_1: 21300002
       cart_water_2: 21300004
+      cart_water_3: 21300006
+      cart_water_4: 21300008
       cart_water_5: 21300010
+      cart_water_6: 21300012
+      cart_water_7: 21300014
       cart_water_8: 21300016
+      cart_water_9: 21300018
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

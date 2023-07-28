@@ -89,6 +89,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7507686105970318355, guid: a5d30d7a952f2ef4a9caeb42a12d472f,
         type: 3}
+      propertyPath: _assetId
+      value: 3788750267
+      objectReference: {fileID: 0}
+    - target: {fileID: 7507686105970318355, guid: a5d30d7a952f2ef4a9caeb42a12d472f,
+        type: 3}
       propertyPath: m_AssetId
       value: c2c4445c53781df4884a5bf817e0b8c6
       objectReference: {fileID: 0}
@@ -154,6 +159,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 715d7edbfa5ae6742b05a85634ad752c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: corgi
   registerObject: {fileID: 0}
   minTimeBetweenRandomActions: 10

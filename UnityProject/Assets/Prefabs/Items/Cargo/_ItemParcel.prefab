@@ -57,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: _assetId
+      value: 3452466063
+      objectReference: {fileID: 0}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: m_AssetId
       value: 2b7b7624210ee9a4db29860a7e0d9105
       objectReference: {fileID: 0}
@@ -194,7 +199,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialContents: {fileID: 0}
   spawnContentsAtRoundstart: 1
+  registerTile: {fileID: 0}
   randomContentList: []
+  RandomPrefab: 0
+  OnlySpawn: 2
   alternativeUnwrapSound:
     SetLoadSetting: 0
     AssetAddress: null
@@ -219,6 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89bf7311f10246d58a3a3606d45d78f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   initialNoteText: 

@@ -143,6 +143,13 @@ namespace Util
 		[MenuItem("Tools/GenerateSpriteSO")]
 		public static void Generate()
 		{
+				AssetDatabase.StartAssetEditing();
+                        			AssetDatabase.ForceReserializeAssets();
+                        		AssetDatabase.StopAssetEditing();
+                                			AssetDatabase.SaveAssets();
+                    return;
+                    
+
 			EditorPrefs.SetInt("kAutoRefreshMode", (int)1);
 			EditorPrefs.SetInt("kAutoRefresh", 1); //older unity versions
 			//var SGen = new SudokuGenerator();

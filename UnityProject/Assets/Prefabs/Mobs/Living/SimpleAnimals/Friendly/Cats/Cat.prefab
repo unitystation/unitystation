@@ -128,6 +128,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7581244375763357991, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
+      propertyPath: _assetId
+      value: 3805496732
+      objectReference: {fileID: 0}
+    - target: {fileID: 7581244375763357991, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
       propertyPath: m_AssetId
       value: e481edcb288d49f488b609f15236afbe
       objectReference: {fileID: 0}
@@ -163,6 +168,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e4b4c6fc6efb9f42af4b869972cd4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: cat
   registerObject: {fileID: 0}
   minTimeBetweenRandomActions: 15
@@ -204,7 +212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 857bf8f3709511b4fb9178b76caed382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UniversalObjectPhysics: {fileID: 0}
   AllowDead: 0
   AllowUnconscious: 0
   Priority: 0

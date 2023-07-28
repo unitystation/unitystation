@@ -178,6 +178,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &438963611027620064
 GameObject:
   m_ObjectHideFlags: 0
@@ -918,6 +924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 930c93e05847c0a40aba22ed4d36edc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Poolble: 1
   spellLabel: {fileID: 7043767399217298467}
   costLabel: {fileID: 3356928713716749370}
   cooldownLabel: {fileID: 2544958524150050526}

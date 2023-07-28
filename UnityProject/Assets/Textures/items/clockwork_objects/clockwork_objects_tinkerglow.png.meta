@@ -72,7 +72,7 @@ TextureImporter:
       213: 21300044
     second: tinkerglow_22
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -132,6 +132,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -147,6 +148,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -654,28 +667,28 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      tinkerglow_1: 21300002
-      tinkerglow_11: 21300022
-      tinkerglow_21: 21300042
-      tinkerglow_12: 21300024
-      tinkerglow_22: 21300044
-      tinkerglow_20: 21300040
-      tinkerglow_5: 21300010
       tinkerglow_0: 21300000
-      tinkerglow_7: 21300014
-      tinkerglow_2: 21300004
-      tinkerglow_3: 21300006
-      tinkerglow_8: 21300016
+      tinkerglow_1: 21300002
       tinkerglow_10: 21300020
-      tinkerglow_18: 21300036
-      tinkerglow_16: 21300032
-      tinkerglow_19: 21300038
+      tinkerglow_11: 21300022
+      tinkerglow_12: 21300024
       tinkerglow_13: 21300026
       tinkerglow_14: 21300028
-      tinkerglow_17: 21300034
-      tinkerglow_4: 21300008
-      tinkerglow_6: 21300012
       tinkerglow_15: 21300030
+      tinkerglow_16: 21300032
+      tinkerglow_17: 21300034
+      tinkerglow_18: 21300036
+      tinkerglow_19: 21300038
+      tinkerglow_2: 21300004
+      tinkerglow_20: 21300040
+      tinkerglow_21: 21300042
+      tinkerglow_22: 21300044
+      tinkerglow_3: 21300006
+      tinkerglow_4: 21300008
+      tinkerglow_5: 21300010
+      tinkerglow_6: 21300012
+      tinkerglow_7: 21300014
+      tinkerglow_8: 21300016
       tinkerglow_9: 21300018
   spritePackingTag: 
   pSDRemoveMatte: 0

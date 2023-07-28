@@ -17,7 +17,7 @@ MonoBehaviour:
   SurgerySteps:
   - RequiredTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
     Time: 3
-    SuccessChance: 0
+    FailChance: 0
     StartSelf: 
     StartOther: 
     SuccessSelf: You successfully undo the cover
@@ -26,7 +26,7 @@ MonoBehaviour:
     FailOther: 
   - RequiredTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
     Time: 1
-    SuccessChance: 0
+    FailChance: 0
     StartSelf: 
     StartOther: 
     SuccessSelf: You successfully move the cover out of the way
@@ -35,7 +35,7 @@ MonoBehaviour:
     FailOther: 
   - RequiredTrait: {fileID: 11400000, guid: aaed69546e98a47d8b488a046d00ebe7, type: 2}
     Time: 2
-    SuccessChance: 0
+    FailChance: 0
     StartSelf: 
     StartOther: 
     SuccessSelf: you weld the  damage and dents away
@@ -44,7 +44,7 @@ MonoBehaviour:
     FailOther: 
   - RequiredTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
     Time: 2
-    SuccessChance: 0
+    FailChance: 0
     StartSelf: 
     StartOther: 
     SuccessSelf: you reattach the cover

@@ -52,6 +52,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!23 &2080691098234756876
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -193,6 +194,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialIntegrity
       value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 8848689545314208691, guid: ba5045d716084034ab5a9b712f8ce559,
+        type: 3}
+      propertyPath: _assetId
+      value: 857455363
       objectReference: {fileID: 0}
     - target: {fileID: 8848689545314208691, guid: ba5045d716084034ab5a9b712f8ce559,
         type: 3}
