@@ -52,6 +52,7 @@ namespace Systems.Research.Objects
 
 			if (diskStorage.GetIndexedItemSlot(0).ItemObject.TryGetComponent<HardDriveBase>(out var disk) == true)
 			{
+				
 				string path = Path.Combine("TechWeb", "TechwebData.json");
 				Techweb.LoadTechweb(path);
 
