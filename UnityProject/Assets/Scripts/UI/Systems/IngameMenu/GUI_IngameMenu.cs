@@ -185,7 +185,7 @@ namespace UI
 		public void OpenWiki()
 		{
 			HideAllMenus();
-			Application.OpenURL(wikiURL);
+			SafeURL.Open(wikiURL);
 		}
 
 		#endregion

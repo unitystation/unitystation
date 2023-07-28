@@ -6,6 +6,7 @@
 // to the LICENSE file for more information.
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEngine;
 
 namespace IgnoranceTransport
 {
@@ -22,19 +23,19 @@ namespace IgnoranceTransport
         [MenuItem("Ignorance/RTFM/Github Repo")]
         private static void LaunchGithubRepo()
         {
-            UnityEngine.Application.OpenURL("https://github.com/SoftwareGuy/Ignorance");
+	        Debug.LogError("https://github.com/SoftwareGuy/Ignorance");
         }
 
         [MenuItem("Ignorance/RTFM/Issue Tracker")]
         private static void LaunchGithubIssueTracker()
         {
-            UnityEngine.Application.OpenURL("https://github.com/SoftwareGuy/Ignorance/issues");
+              Debug.LogError("https://github.com/SoftwareGuy/Ignorance/issues");
         }
 
         [MenuItem("Ignorance/RTFM/ENet-C# Repo")]
         private static void LaunchENetCSharpForkRepo()
         {
-            UnityEngine.Application.OpenURL("https://github.com/SoftwareGuy/ENet-CSharp");
+            Debug.LogError("https://github.com/SoftwareGuy/ENet-CSharp");
         }
 
 #pragma warning restore
