@@ -73,16 +73,20 @@
 
 				//2.25 Is balancing numbers
 				half3 normaliseColour = (mixedLight / (length/2.25)) ; 
-			
 
+				//generate bloom 
+				half3 balancedMixLight =  clamp(normaliseColour*(mixedLight.a - 0.66), 0, 10)*1;
+				mixedLight.a = (mixedLight.a - 0.5) * 1.1;
+				
 				//Adding the occlusion and wall stuff
 				half3 BalanceLight = clamp(normaliseColour * clamp( occLightSample.a +  mixedLight.a + 0.55, 0,1), 0, 1);
 
+			
+				
 				//Adding the occlusion and wall stuff
 				BalanceLight = BalanceLight + (( occLightSample * 0.75 ) * (_obstacleMask));
 				
-				//generate bloom 
-				half3 balancedMixLight =  clamp(normaliseColour*(mixedLight.a - 0.66), 0, 10)*1;
+	
 				
 				// Blend light with scene.
 				half4 screenLit =  fixed4( ((screen.rgb*BalanceLight+balancedMixLight)) , screen.a);
