@@ -23,12 +23,12 @@ namespace Unitystation.Options
             PresistOptions(1);
             if (chatLogSlider != null && chatSliderValueLabel)
             {
-	            chatLogSlider.value = ChatUI.Instance.maxLogLength;
 	            chatSliderValueLabel.text = chatLogSlider.value.ToString();
             }
             if (chatFontSizeSlider != null && chatFontSizeSliderValueLabel != null)
             {
-	            chatFontSizeSlider.value = PlayerPrefs.GetInt(FONTSCALE_KEY, FONTSCALE_KEY_DEFAULT);
+	            var inty = PlayerPrefs.GetInt(FONTSCALE_KEY, FONTSCALE_KEY_DEFAULT);;
+	            chatFontSizeSlider.value = inty;
 	            chatFontSizeSliderValueLabel.text = chatFontSizeSlider.value.ToString();
             }
         }
