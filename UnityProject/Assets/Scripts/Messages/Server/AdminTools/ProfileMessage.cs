@@ -16,14 +16,14 @@ namespace Messages.Server.AdminTools
 		public override void Process(NetMessage msg)
 		{
 			LoadNetworkObject(msg.Recipient);
-			var listData = JsonUtility.FromJson<ProfileEntryDataList>(msg.JsonData);
+			var listData = JsonUtility.FromJson<SafeProfileManager.ProfileEntryDataList>(msg.JsonData);
 			UIManager.Instance.profileScrollView.RefreshProfileList(listData);
 
 		}
 
 		public static NetMessage Send(GameObject recipient)
 		{
-			var profileList = new ProfileEntryDataList();
+			var profileList = new SafeProfileManager.ProfileEntryDataList();
 			profileList.Profiles = GetAllProfiles();
 			var data = JsonUtility.ToJson(profileList);
 
@@ -43,9 +43,9 @@ namespace Messages.Server.AdminTools
 			}
 		}
 
-		private static List<ProfileEntryData> GetAllProfiles()
+		private static List<SafeProfileManager.ProfileEntryData> GetAllProfiles()
 		{
-			return ProfileManager.Instance.GetCurrentProfiles();
+			return SafeProfileManager.Instance.GetCurrentProfiles();
 		}
 
 

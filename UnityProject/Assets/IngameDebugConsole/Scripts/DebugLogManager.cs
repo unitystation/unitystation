@@ -600,7 +600,7 @@ namespace IngameDebugConsole
 		{
 			if (Debug.isDebugBuild)
 			{
-				ProfileManager.Instance.StartProfile(30);
+				SafeProfileManager.Instance.StartProfile(30);
 				Logger.Log("Running a local profile, saving on installation folder", Category.DebugConsole);
 			}
 			else
@@ -616,7 +616,7 @@ namespace IngameDebugConsole
 		{
 			if (Debug.isDebugBuild)
 			{
-				ProfileManager.Instance.RunMemoryProfile();
+				SafeProfileManager.Instance.RunMemoryProfile();
 				Logger.Log("Running a local memory profile, saving on installation folder", Category.DebugConsole);
 			}
 			else

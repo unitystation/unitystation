@@ -176,7 +176,7 @@ namespace Systems.Character
 				bool exists = File.Exists(OLDOfflineStoragePath);
 				if (exists)
 				{
-					//C:\Users\PCV3\AppData\LocalLow\Unitystation
+					//C:\Users\PCV3\AppData\LocalLow\Unitystationcharacters.json
 					//to
 					//C:\Users\PCV3\AppData\LocalLow\Unitystation\unitystation\Unitystation\Config\characters.json
 					Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Unitystation/Config"));
