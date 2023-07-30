@@ -137,6 +137,7 @@ public partial class SubSceneManager
 
 		foreach (var asteroid in asteroidList.Asteroids)
 		{
+			Logger.Log($" Loading Asteroid {asteroid} ");
 			yield return StartCoroutine(LoadSubScene(asteroid, loadTimer, default, SceneType.Asteroid));
 		}
 	}
