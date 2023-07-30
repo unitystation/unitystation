@@ -360,7 +360,7 @@ public static class CleanupUtil
 		{
 			a.Image.ClearAll();
 		}
-		
+
 		foreach (var a in GameObject.FindObjectsOfType<UI_SlotManager>(true))
 		{
 			a.OpenSlots.Clear();
@@ -397,7 +397,7 @@ public static class CleanupUtil
 				UnityEngine.GameObject.Destroy(a.gameObject);
 			}
 		}
-		
+
 		ComponentManager.ObjectToPhysics.Clear();
 		Spawn.Clean();
 		MatrixManager.Instance.PostRoundStartCleanup();
@@ -415,5 +415,6 @@ public static class CleanupUtil
 		SpriteHandlerManager.Instance.Clean();
 		Debug.Log("removed " + RidDictionaryOfDeadElements(SoundManager.Instance.NonplayingSounds, (u, k) => k != null) + " dead elements from SoundManager.Instance.NonplayingSounds");
 		RidDictionaryOfDeadElements(SpriteHandlerManager.PresentSprites, (u, k) => u != null && k != null);
+		Debug.Log("Finished RoundStartCleanup!");
 	}
 }

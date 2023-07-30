@@ -108,6 +108,12 @@ namespace UI
 			waitMessage.SetActive(false);
 		}
 
+		public void BackButton()
+		{
+			this.gameObject.SetActive(false);
+			GUI_PreRoundWindow.Instance.gameObject.SetActive(true);
+		}
+
 		public void ShowFailMessage(JobRequestError failReason)
 		{
 			waitForSpawnTimer = 0;
