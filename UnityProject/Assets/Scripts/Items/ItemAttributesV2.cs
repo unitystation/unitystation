@@ -4,12 +4,6 @@ using UnityEngine;
 using Mirror;
 using AddressableReferences;
 using Systems.Clothing;
-using Chemistry.Components;
-using Clothing;
-using Items.Others;
-using Items.PDA;
-using Objects.Atmospherics;
-using UI.Action;
 
 namespace Items
 {
