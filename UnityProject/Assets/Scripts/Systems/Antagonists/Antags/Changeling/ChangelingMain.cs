@@ -100,7 +100,7 @@ namespace Changeling
 
 		#region Hooks
 
-		private void ChangelingDnaSync(string newValue)
+		private void ChangelingDnaSync(string oldValue, string newValue)
 		{
 			if (changelingDnas == null)
 				changelingDnas = new List<ChangelingDna>();
@@ -125,7 +125,7 @@ namespace Changeling
 			}
 		}
 
-		private void ChangelingMemoriesSync(string newValue)
+		private void ChangelingMemoriesSync(string oldValue, string newValue)
 		{
 			if (changelingMemories == null)
 				changelingMemories = new List<ChangelingMemories>();
@@ -145,7 +145,7 @@ namespace Changeling
 			changelingMemoriesSer = newValue;
 		}
 
-		private void SyncAbilityList(string newValue)
+		private void SyncAbilityList(string oldValue, string newValue)
 		{
 			abilitesIDSNow = newValue;
 
@@ -160,7 +160,7 @@ namespace Changeling
 			}
 		}
 
-		private void SyncChemCount(float newValue)
+		private void SyncChemCount(float oldValue, float newValue)
 		{
 			chem = newValue;
 
@@ -180,7 +180,7 @@ namespace Changeling
 			}
 		}
 
-		private void SyncMindID(uint newValue)
+		private void SyncMindID(uint oldValue, uint newValue)
 		{
 			changelingMindID = newValue;
 			try
@@ -198,7 +198,7 @@ namespace Changeling
 			}
 		}
 
-		private void SyncEPCount(int newValue)
+		private void SyncEPCount(int oldValue, int newValue)
 		{
 			evolutionPoints = newValue;
 			try
@@ -217,13 +217,13 @@ namespace Changeling
 			}
 		}
 
-		private void SyncResetCounts(int newValue)
+		private void SyncResetCounts(int oldValue, int newValue)
 		{
 			resetCount = newValue;
 			UIManager.Display.hudChangeling.UpdateResetButton();
 		}
 
-		private void SyncMaxResetCounts(int newValue)
+		private void SyncMaxResetCounts(int oldValue, int newValue)
 		{
 			resetCountMax = newValue;
 			UIManager.Display.hudChangeling.UpdateResetButton();
