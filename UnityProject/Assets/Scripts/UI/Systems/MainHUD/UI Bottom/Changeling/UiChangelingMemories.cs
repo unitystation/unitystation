@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Changeling
 {
-	public class UI_ChangelingMemories : MonoBehaviour
+	public class UiChangelingMemories : MonoBehaviour
 	{
 		[SerializeField]
 		private GameObject entryPrefab = null;

@@ -26,11 +26,11 @@ namespace Changeling
 		[SerializeField]
 		private GameObject buyButton = null;
 
-		private UI_ChangelingStore ui;
+		private UiChangelingStore ui;
 		private ChangelingData data;
 		private ChangelingMain changelingMain;
 
-		public void Init(UI_ChangelingStore changelingUI, ChangelingData dataToView, ChangelingMain changeling)
+		public void Init(UiChangelingStore changelingUI, ChangelingData dataToView, ChangelingMain changeling)
 		{
 			ui = changelingUI;
 			data = dataToView;

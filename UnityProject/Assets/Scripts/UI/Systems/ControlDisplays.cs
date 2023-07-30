@@ -33,7 +33,7 @@ namespace UI
 		public GameObject hudBottomBlob;
 		public GameObject hudBottomAi;
 		public GameObject hudAlien;
-		public UI_Changeling hudChangeling;
+		public UiChangeling hudChangeling;
 		public GameObject currentHud;
 
 		public GameObject jobSelectWindow;

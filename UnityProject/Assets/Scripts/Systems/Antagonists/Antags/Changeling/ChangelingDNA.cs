@@ -8,7 +8,7 @@ using Util;
 
 namespace Changeling
 {
-	public class ChangelingDNA : ICloneable
+	public class ChangelingDna : ICloneable
 	{
 		public int DnaID;
 		public string PlayerName = "";
@@ -57,7 +57,7 @@ namespace Changeling
 		public object Clone()
 		{
 			string json = JsonConvert.SerializeObject(this);
-			return JsonConvert.DeserializeObject<ChangelingDNA>(json);
+			return JsonConvert.DeserializeObject<ChangelingDna>(json);
 		}
 	}
 }

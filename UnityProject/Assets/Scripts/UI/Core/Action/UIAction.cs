@@ -25,10 +25,13 @@ namespace UI.Action
 		private Vector3 lastClickPosition = default;
 		public Vector3 LastClickPosition => lastClickPosition;
 		private bool toggled = false;
-		public bool IsToggled { get
+		public bool IsToggled
+		{
+			get
 			{
 				return ActionData.IsToggle && toggled;
-			} }
+			}
+		}
 
 		#region Lifecycle
 

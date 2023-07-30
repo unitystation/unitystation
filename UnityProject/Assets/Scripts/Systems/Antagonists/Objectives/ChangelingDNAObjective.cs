@@ -6,13 +6,13 @@ using UnityEngine;
 namespace Changeling
 {
 	[CreateAssetMenu(menuName = "ScriptableObjects/AntagObjectives/GetDNA")]
-	public class ChangelingDNAObjective : Objective
+	public class ChangelingDnaObjective : Objective
 	{
 		[SerializeField] private int dnaNeedCount = 7;
 
 		protected override bool CheckCompletion()
 		{
-			return Owner.Body.GetComponent<ChangelingMain>().ExtractedDNA >= dnaNeedCount;
+			return Owner.Body.GetComponent<ChangelingMain>().ExtractedDna >= dnaNeedCount;
 		}
 
 		protected override void Setup()

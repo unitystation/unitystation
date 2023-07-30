@@ -63,7 +63,6 @@ namespace Changeling
 			if (ActionData.IsAimable)
 				return;
 			isToggled = toggled;
-			UIAction action = UIActionManager.Instance.DicIActionGUI[this][0];
 			if (AbilityData.IsLocal && ValidateAbilityClient())
 			{
 				UseAbilityToggle(UIManager.Instance.displayControl.hudChangeling.ChangelingMain, ability, toggled);
@@ -239,12 +238,21 @@ namespace Changeling
 			return false;
 		}
 
+		private void SpawnPart(GameObject toSpawn, Color bodyColor, PlayerHealthV2 containedIn)
+		{
+			var spawnedBodypart = Spawn.ServerPrefab(toSpawn).GameObject.GetComponent<HealthV2.BodyPart>();
+			spawnedBodypart.ChangeBodyPartColor(bodyColor);
+
+			Inventory.ServerAdd(spawnedBodypart.gameObject,
+				containedIn.BodyPartStorage.GetBestSlotFor(spawnedBodypart.gameObject));
+		}
+
 		private void RespawnMissedBodyparts(ChangelingMain changeling, Color bodyColor, PlayerHealthV2 containedIn, PlayerHealthData bodyParts)
 		{
-			bool noLeftArm = true,
-			noRightArm = true,
-			noLeftLeg = true,
-			noRightLeg = true;
+			bool noLeftArm = true;
+			bool noRightArm = true;
+			bool noLeftLeg = true;
+			bool noRightLeg = true;
 			foreach (var RelatedPart in changeling.ChangelingMind.Body.playerHealth.SurfaceBodyParts)
 			{
 				switch (RelatedPart.BodyPartType)
@@ -264,30 +272,21 @@ namespace Changeling
 				}
 			}
 
-			void SpawnPart(GameObject toSpawn, Color bodyColor)
-			{
-				var spawnedBodypart = Spawn.ServerPrefab(toSpawn).GameObject.GetComponent<HealthV2.BodyPart>();
-				spawnedBodypart.ChangeBodyPartColor(bodyColor);
-
-				Inventory.ServerAdd(spawnedBodypart.gameObject,
-					containedIn.BodyPartStorage.GetBestSlotFor(spawnedBodypart.gameObject));
-			}
-
 			if (noLeftArm)
 			{
-				SpawnPart(bodyParts.Base.ArmLeft.Elements[0], bodyColor);
+				SpawnPart(bodyParts.Base.ArmLeft.Elements[0], bodyColor, containedIn);
 			}
 			if (noRightArm)
 			{
-				SpawnPart(bodyParts.Base.ArmRight.Elements[0], bodyColor);
+				SpawnPart(bodyParts.Base.ArmRight.Elements[0], bodyColor, containedIn);
 			}
 			if (noLeftLeg)
 			{
-				SpawnPart(bodyParts.Base.LegLeft.Elements[0], bodyColor);
+				SpawnPart(bodyParts.Base.LegLeft.Elements[0], bodyColor, containedIn);
 			}
 			if (noRightLeg)
 			{
-				SpawnPart(bodyParts.Base.LegRight.Elements[0], bodyColor);
+				SpawnPart(bodyParts.Base.LegRight.Elements[0], bodyColor, containedIn);
 			}
 
 			if (noLeftArm || noLeftLeg || noRightArm || noRightLeg)
@@ -326,7 +325,6 @@ namespace Changeling
 						break;
 				}
 
-				var bodyPartExampleStorage = bodyPartExample.GetComponent<ItemStorage>();
 				var usedOrgansInSpawnedPart = new List<GameObject>();
 
 				foreach (var itemSlot in RelatedPart.OrganStorage.GetItemSlots())
@@ -478,7 +476,7 @@ namespace Changeling
 					UIManager.Display.hudChangeling.OpenMemoriesUI();
 					return true;
 				case ChangelingMiscType.OpenTransform:
-					UIManager.Display.hudChangeling.OpenTransformUI(changeling, (ChangelingDNA dna) =>
+					UIManager.Display.hudChangeling.OpenTransformUI(changeling, (ChangelingDna dna) =>
 					{
 						PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesWithParam(AbilityData.UseAfterChoise.Index, $"{dna.DnaID}");
 					});
@@ -590,7 +588,7 @@ namespace Changeling
 				case ChangelingTransformType.Transform:
 					string dnaID = param[0];
 
-					var dna = changeling.GetDNAByID(int.Parse(dnaID));
+					var dna = changeling.GetDnaById(int.Parse(dnaID));
 
 					CharacterSheet characterSheet = dna.CharacterSheet;
 
@@ -797,7 +795,7 @@ namespace Changeling
 			switch (data.stingType)
 			{
 				case StingType.ExtractDNASting:
-					var targetDNA = new ChangelingDNA();
+					var targetDNA = new ChangelingDna();
 					Chat.AddCombatMsgToChat(changeling.gameObject,
 					$"<color=red>You finished sting of {target.playerName}</color>",
 					$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} finished sting of {target.playerName}</color>");
@@ -812,7 +810,7 @@ namespace Changeling
 					}
 					targetDNA.FormDNA(target);
 
-					changeling.AddDNA(targetDNA);
+					changeling.AddDna(targetDNA);
 					return true;
 				case StingType.Absorb:
 					Chat.AddCombatMsgToChat(changeling.gameObject,
@@ -823,7 +821,7 @@ namespace Changeling
 					{
 						if (target.PlayerInfo.Mind.IsOfAntag<Changeling>())
 						{
-							changeling.AbsorbDNA(target, target.Changeling);
+							changeling.AbsorbDna(target, target.Changeling);
 							return true;
 						}
 					}
@@ -831,7 +829,7 @@ namespace Changeling
 					{
 						Logger.LogWarning("Can`t get player is antag", Category.Changeling);
 					}
-					targetDNA = new ChangelingDNA();
+					targetDNA = new ChangelingDna();
 
 					// fatal damage
 					target.Mind.Body.playerHealth.ApplyDamageAll(null, 999, AttackType.Internal, DamageType.Oxy);
@@ -850,15 +848,15 @@ namespace Changeling
 					}
 					targetDNA.FormDNA(target);
 
-					changeling.AbsorbDNA(targetDNA, target);
+					changeling.AbsorbDna(targetDNA, target);
 					return true;
 				case StingType.HallucinationSting:
 					var randomTimeAfter = UnityEngine.Random.Range(30, 60f);
-					targetDNA = new ChangelingDNA();
+					targetDNA = new ChangelingDna();
 
 					targetDNA.FormDNA(target);
 
-					changeling.AddDNA(targetDNA);
+					changeling.AddDna(targetDNA);
 
 					StartCoroutine(ReagentAdding(randomTimeAfter, AbilityData.Reagent, AbilityData.ReagentCount, target));
 					return true;

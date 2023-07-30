@@ -293,7 +293,7 @@ public class BodyPartMutations : BodyPartFunctionality
 		if (this.TryGetComponent<Brain>(out var brain)) return; //Make it a little bit harder to remove from a round
 		if (characterSheet != null)
 		{
-			PerfomChangeToSpecies(PlayerHealthData, BodyPart, characterSheet);
+			PerfomChangeToSpecies(BodyPart, characterSheet);
 		}
 		else
 			StartCoroutine(ProcessChangeToSpecies(PlayerHealthData, BodyPart, characterSheet));
@@ -384,7 +384,7 @@ public class BodyPartMutations : BodyPartFunctionality
 		}
 	}
 
-	private void PerfomChangeToSpecies(PlayerHealthData PlayerHealthData, GameObject BodyPart, CharacterSheet characterSheet = null)
+	private void PerfomChangeToSpecies(GameObject BodyPart, CharacterSheet characterSheet = null)
 	{
 		var SpawnedBodypart = Spawn.ServerPrefab(BodyPart).GameObject.GetComponent<BodyPart>();
 

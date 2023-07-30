@@ -155,7 +155,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 			}
 		};
 
-		changelingAbilities.CollectionChanged += (sender, e) =>
+		changelingAbilities.CollectionChanged += (_, e) =>
 		{
 			if (e == null)
 			{
@@ -833,7 +833,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 		{
 			changelingAbilities.Remove(ability);
 		}
-		return;
 	}
 
 	public ChangelingAbility GetAbilityInstance (ChangelingData ability)

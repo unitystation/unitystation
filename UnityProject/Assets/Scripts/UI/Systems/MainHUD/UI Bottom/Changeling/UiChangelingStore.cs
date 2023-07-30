@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Changeling
 {
-	public class UI_ChangelingStore : MonoBehaviour
+	public class UiChangelingStore : MonoBehaviour
 	{
 		[SerializeField]
 		private GameObject entryPrefab = null;
@@ -18,10 +18,10 @@ namespace Changeling
 		private GameObject resetButton = null;
 
 		[SerializeField]
-		private UI_Changeling ui = null;
+		private UiChangeling ui = null;
 		private ChangelingMain changelingMain = null;
 
-		private Dictionary<ChangelingData, ChangelingAbilityEntry> entryPool = new ();
+		private readonly Dictionary<ChangelingData, ChangelingAbilityEntry> entryPool = new ();
 
 		public void Refresh(List<ChangelingData> toBuy, ChangelingMain changeling)
 		{

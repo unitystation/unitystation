@@ -19,11 +19,11 @@ namespace Changeling
 		private Image image = null;
 
 
-		private UI_ChangelingMemories ui;
+		private UiChangelingMemories ui;
 		private ChangelingMemories data;
 		private ChangelingMain changelingMain;
 
-		public void Init(UI_ChangelingMemories changelingUI, ChangelingMemories dataToView, ChangelingMain changeling)
+		public void Init(UiChangelingMemories changelingUI, ChangelingMemories dataToView, ChangelingMain changeling)
 		{
 			ui = changelingUI;
 			data = dataToView;

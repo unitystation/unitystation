@@ -11,17 +11,17 @@ using UnityEngine;
 
 namespace Changeling
 {
-	public class UI_Changeling : MonoBehaviour
+	public class UiChangeling : MonoBehaviour
 	{
 		public ChangelingMain ChangelingMain;
-		public static UI_Changeling instance;
+		public static UiChangeling instance;
 		[SerializeField] private TMP_Text chemText = null;
 		[SerializeField] private GameObject chems = null;
 		[SerializeField] private GameObject storeGameObject = null;
-		[SerializeField] private UI_ChangelingStore store = null;
+		[SerializeField] private UiChangelingStore store = null;
 
 		[SerializeField] private GameObject memoriesGameObject = null;
-		[SerializeField] private UI_ChangelingMemories memories = null;
+		[SerializeField] private UiChangelingMemories memories = null;
 
 		[SerializeField] private TMP_Text abilityPointsCount = null;
 
@@ -93,7 +93,7 @@ namespace Changeling
 			}
 		}
 
-		public void OpenTransformUI(ChangelingMain changeling, Action<ChangelingDNA> actionForUse)
+		public void OpenTransformUI(ChangelingMain changeling, Action<ChangelingDna> actionForUse)
 		{
 			var choise = new List<DynamicUIChoiceEntryData>();
 			for (int i = 0; i < changeling.ChangelingLastDNAs.Count + 1; i++)
@@ -104,7 +104,7 @@ namespace Changeling
 					newEntry.Text = $"Back";
 				} else
 				{
-					ChangelingDNA x = changeling.ChangelingLastDNAs[i];
+					ChangelingDna x = changeling.ChangelingLastDNAs[i];
 					newEntry.Text = $"{x.PlayerName}";
 					newEntry.ChoiceAction = () =>
 					{
