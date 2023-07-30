@@ -1037,12 +1037,7 @@ namespace HealthV2
 					}
 					var placed = Inventory.ServerAdd(fakeItem, bestSlot);
 					// better don`t put fake items into storages
-					if (placed == false)
-					{
-						_ = Despawn.ServerSingle(fakeItem);
-						continue;
-					}
-					else if ((((int?)bestSlot.NamedSlot) > 15) || bestSlot.NamedSlot == NamedSlot.handcuffs)
+					if (placed == false || (((int?)bestSlot.NamedSlot) > 15) || bestSlot.NamedSlot == NamedSlot.handcuffs)
 					{
 						_ = Despawn.ServerSingle(fakeItem);
 						continue;

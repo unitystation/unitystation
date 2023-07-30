@@ -295,7 +295,7 @@ namespace Changeling
 			}
 		}
 
-		private void RegenerationOfBodyOrgans(ChangelingMain changeling, PlayerHealthData bodyParts)
+		private void RegenerationOfBodyOrgans(ChangelingMain changeling)
 		{
 			foreach (var RelatedPart in changeling.ChangelingMind.Body.playerHealth.SurfaceBodyParts)
 			{
@@ -671,7 +671,7 @@ namespace Changeling
 			return false;
 		}
 
-		private void RevivingStasis(ChangelingMain changeling, ChangelingData data, bool toggle)
+		private void RevivingStasis(ChangelingMain changeling, bool toggle)
 		{
 			if (toggle)
 			{
@@ -699,7 +699,7 @@ namespace Changeling
 			switch (data.healType)
 			{
 				case ChangelingHealType.RevivingStasis:
-					RevivingStasis(changeling, data, toggle);
+					RevivingStasis(changeling, toggle);
 					return true;
 			}
 			return false;
@@ -782,7 +782,7 @@ namespace Changeling
 			ColorUtility.TryParseHtmlString(characterSheet.SkinTone, out var bodyColor);
 			RespawnMissedBodyparts(changeling, bodyColor, changeling.ChangelingMind.Body.playerHealth, bodyParts);
 
-			RegenerationOfBodyOrgans(changeling, bodyParts);
+			RegenerationOfBodyOrgans(changeling);
 
 			UpdateBloodPool(bloodSystem, changeling);
 		}
