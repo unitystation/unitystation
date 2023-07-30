@@ -81,24 +81,33 @@ public partial class SubSceneManager : MonoBehaviour
 	IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true,
 		SceneType sceneType = SceneType.HiddenScene)
 	{
+
 		if (CustomNetworkManager.IsServer == false)
 		{
-			if (clientLoadedSubScenes.Any(x => x.SceneName == sceneName)) yield break;
+			if (clientLoadedSubScenes.Any(x => x.SceneName == sceneName))
+			{
+				Logger.Log($"Scene already loaded client {sceneName}");
+				yield break;
+			}
 		}
 
 		ConnectionLoadedRecord[sceneName] = new HashSet<int>();
 		AsyncOperation AO = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+		Logger.Log($"AO Handle Generated for {sceneName}");
 		if (AO != null)
 		{
+			Logger.Log($"Waiting for AO.isDone {sceneName}");
 			while (AO.isDone == false)
 			{
 				if (loadTimer != null) loadTimer.IncrementLoadBar();
 				yield return WaitFor.EndOfFrame;
 			}
 
+			Logger.Log($"Finished waiting for AO.isDone {sceneName}");
 			if (loadTimer != null) loadTimer.IncrementLoadBar();
 			if (CustomNetworkManager.IsServer)
 			{
+				Logger.Log($"SpawnObjects + RequestObserverRefresh {sceneName}");
 				NetworkServer.SpawnObjects();
 				RequestObserverRefresh.Send(sceneName);
 			}
@@ -114,6 +123,7 @@ public partial class SubSceneManager : MonoBehaviour
 
 			if (CustomNetworkManager.IsServer)
 			{
+				Logger.Log($"SloadedScenesList.add {sceneName}");
 				loadedScenesList.Add(new SceneInfo
 				{
 					SceneName = sceneName,
@@ -126,6 +136,7 @@ public partial class SubSceneManager : MonoBehaviour
 		{
 			Logger.LogError($"was unable to find scene for {sceneName} Skipping");
 		}
+		Logger.Log($"Finished loading {sceneName}");
 	}
 
 	public static void ProcessObserverRefreshReq(PlayerInfo connectedPlayer, Scene sceneContext)
