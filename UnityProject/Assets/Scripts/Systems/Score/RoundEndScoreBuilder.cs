@@ -93,7 +93,7 @@ namespace Systems.Score
 			if (string.IsNullOrEmpty(lowestHealthCrewMemberName)) return;
 			var lowestHealthWinner = $"{lowestHealthCrewMemberName} - {lowestHealthCrewMemberNumber}HP";
 			ScoreMachine.AddNewScoreEntry("worstBatteredCrewMemeber", "Crewmember with the lowest health", ScoreMachine.ScoreType.String, ScoreCategory.StationScore, ScoreAlignment.Bad);
-			ScoreMachine.AddToScoreString(lowestHealthWinner, lowestHealthCrewMemberNumber > 25f ? 0 : -5, "worstBatteredCrewMemeber");
+			ScoreMachine.AddToScoreString(lowestHealthWinner, lowestHealthCrewMemberNumber > 25f ? 100 : -5, "worstBatteredCrewMemeber");
 		}
 
 		private static void FindHarmfulDoors()
