@@ -40,7 +40,7 @@ namespace Changeling
 
 		public ChangelingDna currentDNA;
 
-		[SyncVar(hook = nameof(ChangelingDNASync))]
+		[SyncVar(hook = nameof(ChangelingDnaSync))]
 		private string changelingDNASer = "";
 		[SyncVar(hook = nameof(ChangelingMemoriesSync))]
 		private string changelingMemoriesSer = "";
@@ -100,7 +100,7 @@ namespace Changeling
 
 		#region Hooks
 
-		private void ChangelingDNASync(string oldValue, string newValue)
+		private void ChangelingDnaSync(string newValue)
 		{
 			if (changelingDnas == null)
 				changelingDnas = new List<ChangelingDna>();
@@ -125,7 +125,7 @@ namespace Changeling
 			}
 		}
 
-		private void ChangelingMemoriesSync(string oldValue, string newValue)
+		private void ChangelingMemoriesSync(string newValue)
 		{
 			if (changelingMemories == null)
 				changelingMemories = new List<ChangelingMemories>();
@@ -145,7 +145,7 @@ namespace Changeling
 			changelingMemoriesSer = newValue;
 		}
 
-		private void SyncAbilityList(string oldValue, string newValue)
+		private void SyncAbilityList(string newValue)
 		{
 			abilitesIDSNow = newValue;
 
@@ -160,7 +160,7 @@ namespace Changeling
 			}
 		}
 
-		private void SyncChemCount(float oldValue, float newValue)
+		private void SyncChemCount(float newValue)
 		{
 			chem = newValue;
 
@@ -180,7 +180,7 @@ namespace Changeling
 			}
 		}
 
-		private void SyncMindID(uint oldValue, uint newValue)
+		private void SyncMindID(uint newValue)
 		{
 			changelingMindID = newValue;
 			try
@@ -198,7 +198,7 @@ namespace Changeling
 			}
 		}
 
-		private void SyncEPCount(int oldValue, int newValue)
+		private void SyncEPCount(int newValue)
 		{
 			evolutionPoints = newValue;
 			try
@@ -217,13 +217,13 @@ namespace Changeling
 			}
 		}
 
-		private void SyncResetCounts(int oldValue, int newValue)
+		private void SyncResetCounts(int newValue)
 		{
 			resetCount = newValue;
 			UIManager.Display.hudChangeling.UpdateResetButton();
 		}
 
-		private void SyncMaxResetCounts(int oldValue, int newValue)
+		private void SyncMaxResetCounts(int newValue)
 		{
 			resetCountMax = newValue;
 			UIManager.Display.hudChangeling.UpdateResetButton();
@@ -458,12 +458,13 @@ namespace Changeling
 				changelingDnas.Remove(dna);
 			}
 
-			changelingDNASer = "";
+			var builder = new StringBuilder();
 			foreach (var dna in changelingDnas)
 			{
 				changelingDnas.Remove(dna);
-				changelingDNASer += $"{JsonConvert.SerializeObject(dna)}\n";
+				builder.AppendLine(JsonConvert.SerializeObject(dna));
 			}
+			changelingDNASer = builder.ToString();
 		}
 
 		private void Tick()
@@ -539,7 +540,7 @@ namespace Changeling
 			changelingMindID = changelingMind.netId;
 			var dnaObject = new ChangelingDna();
 
-			dnaObject.FormDNA(changelingMind.Body.PlayerInfo.Script);
+			dnaObject.FormDna(changelingMind.Body.PlayerInfo.Script);
 
 			AddDna(dnaObject);
 			currentDNA = dnaObject;

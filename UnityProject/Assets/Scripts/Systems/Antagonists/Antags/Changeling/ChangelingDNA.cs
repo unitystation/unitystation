@@ -17,9 +17,9 @@ namespace Changeling
 		public JobType Job;
 		public List<string> BodyClothesPrefabID = new();
 
-		public void FormDNA(PlayerScript playerDataForDNA)
+		public void FormDna(PlayerScript playerDataForDna)
 		{
-			foreach (var clothe in playerDataForDNA.Mind.Body.playerSprites.clothes)
+			foreach (var clothe in playerDataForDna.Mind.Body.playerSprites.clothes)
 			{
 				if (clothe.Value.GameObjectReference != null)
 				{
@@ -27,31 +27,31 @@ namespace Changeling
 				}
 			}
 
-			PlayerName = playerDataForDNA.playerName;
-			DnaID = playerDataForDNA.Mind.bodyMobID;
-			CharacterSheet = (CharacterSheet)playerDataForDNA.Mind.CurrentCharacterSettings.Clone();
+			PlayerName = playerDataForDna.playerName;
+			DnaID = playerDataForDna.Mind.bodyMobID;
+			CharacterSheet = (CharacterSheet)playerDataForDna.Mind.CurrentCharacterSettings.Clone();
 			try
 			{
-				Job = playerDataForDNA.PlayerInfo.Job;
+				Job = playerDataForDna.PlayerInfo.Job;
 			}
 			catch
 			{
 				Job = JobType.ASSISTANT;
-				Logger.LogError($"[ChangelingDNA/FormDNA] When creating DNA can`t find {playerDataForDNA.playerName} job", Category.Changeling);
+				Logger.LogError($"[ChangelingDNA/FormDNA] When creating DNA can`t find {playerDataForDna.playerName} job", Category.Changeling);
 			}
 		}
 
-		public void UpdateDNA(PlayerScript playerDataForDNA)
+		public void UpdateDma(PlayerScript playerDataForDna)
 		{
 			BodyClothesPrefabID.Clear();
 
-			foreach (var clothe in playerDataForDNA.Mind.Body.playerSprites.clothes)
+			foreach (var clothe in playerDataForDna.Mind.Body.playerSprites.clothes)
 			{
 				if (clothe.Value.GameObjectReference != null)
 					BodyClothesPrefabID.Add(clothe.Value.GameObjectReference.GetComponent<PrefabTracker>().ForeverID);
 			}
 
-			CharacterSheet = (CharacterSheet)playerDataForDNA.characterSettings.Clone();
+			CharacterSheet = (CharacterSheet)playerDataForDna.characterSettings.Clone();
 		}
 
 		public object Clone()

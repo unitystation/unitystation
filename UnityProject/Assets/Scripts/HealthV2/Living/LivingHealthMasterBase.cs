@@ -841,8 +841,7 @@ namespace HealthV2
 
 							if (Payload.SpeciesMutateTo != null && Payload.MutateToBodyPart != null)
 							{
-								Mutation.ChangeToSpecies(Payload.SpeciesMutateTo,
-									Payload.MutateToBodyPart);
+								Mutation.ChangeToSpecies(Payload.MutateToBodyPart);
 							}
 						}
 					}
@@ -881,8 +880,7 @@ namespace HealthV2
 
 								if (Payload.SpeciesMutateTo != null && Payload.MutateToBodyPart != null)
 								{
-									Mutation.ChangeToSpecies(Payload.SpeciesMutateTo,
-										Payload.MutateToBodyPart, characterSheet);
+									Mutation.ChangeToSpecies(Payload.MutateToBodyPart, characterSheet);
 									break;
 								}
 							}
@@ -1039,7 +1037,12 @@ namespace HealthV2
 					}
 					var placed = Inventory.ServerAdd(fakeItem, bestSlot);
 					// better don`t put fake items into storages
-					if (placed == false || placed && (((int?)bestSlot.NamedSlot) > 15) || bestSlot.NamedSlot == NamedSlot.handcuffs)
+					if (placed == false)
+					{
+						_ = Despawn.ServerSingle(fakeItem);
+						continue;
+					}
+					else if ((((int?)bestSlot.NamedSlot) > 15) || bestSlot.NamedSlot == NamedSlot.handcuffs)
 					{
 						_ = Despawn.ServerSingle(fakeItem);
 						continue;
@@ -1068,10 +1071,8 @@ namespace HealthV2
 			}
 		}
 
-		public IEnumerator ProcessDNAPayload(List<DNAMutationData> InDNAMutationDatas, CharacterSheet characterSheet, ChangelingDna dna = null, ChangelingMain changeling = null) // made for changeling
+		public IEnumerator ProcessDnaPayload(List<DNAMutationData> InDNAMutationDatas, CharacterSheet characterSheet, ChangelingDna dna = null, ChangelingMain changeling = null) // made for changeling
 		{
-			//yield return WaitFor.Seconds(2f);
-
 			var itemsBeforeTransform = GetCurrentItems();
 
 			foreach (var item in itemsBeforeTransform)
@@ -1126,7 +1127,6 @@ namespace HealthV2
 				// set new hand because we deleted prev
 				playerScript.PlayerNetworkActions.CmdSetActiveHand(bodyParts[NamedSlot.leftHand].ItemStorageNetID, NamedSlot.leftHand); 
 			}
-			yield break;
 		}
 
 		#endregion
@@ -1640,7 +1640,6 @@ namespace HealthV2
 					if (organ is Eye eye)
 					{
 						eye.BadEyesight = 10;
-						continue;
 					}
 				}
 			}
@@ -1658,11 +1657,9 @@ namespace HealthV2
 					if (organ is Eye eye)
 					{
 						eye.BadEyesight = 0;
-						//goto BreakFor;
 					}
 				}
 			}
-			//BreakFor:
 			RestartHeart();
 		}
 

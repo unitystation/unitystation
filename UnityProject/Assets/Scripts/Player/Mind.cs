@@ -90,7 +90,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	private ObservableCollection<Spell> spells = new ObservableCollection<Spell>();
 	public ObservableCollection<Spell> Spells => spells;
 
-	private ObservableCollection<ChangelingAbility> changelingAbilities = new ObservableCollection<ChangelingAbility>();
+	private readonly ObservableCollection<ChangelingAbility> changelingAbilities = new ObservableCollection<ChangelingAbility>();
 	public ObservableCollection<ChangelingAbility> ChangelingAbilities => changelingAbilities;
 
 	/// <summary>

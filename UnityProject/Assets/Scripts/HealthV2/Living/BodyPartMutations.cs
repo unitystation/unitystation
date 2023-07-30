@@ -188,7 +188,7 @@ public class BodyPartMutations : BodyPartFunctionality
 	}
 
 	//TODO System for adding and removing body parts
-	private IEnumerator ProcessChangeToSpecies(PlayerHealthData NewSpecies, GameObject BodyPart, CharacterSheet characterSheet = null)
+	private IEnumerator ProcessChangeToSpecies(GameObject BodyPart)
 	{
 		var modifier = (1 + UnityEngine.Random.Range(-0.75f, 0.90f));
 		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
@@ -279,7 +279,7 @@ public class BodyPartMutations : BodyPartFunctionality
 	[ContextMenu("MUTATEBODYPART")]
 	public void MutateBodyPart()
 	{
-		ChangeToSpecies(PlayerHealthData, TOMutateBodyPart);
+		ChangeToSpecies(TOMutateBodyPart);
 	}
 
 	public void OnDestroy()
@@ -288,7 +288,7 @@ public class BodyPartMutations : BodyPartFunctionality
 	}
 
 
-	public void ChangeToSpecies(PlayerHealthData PlayerHealthData, GameObject BodyPart, CharacterSheet characterSheet = null)
+	public void ChangeToSpecies(GameObject BodyPart, CharacterSheet characterSheet = null)
 	{
 		if (this.TryGetComponent<Brain>(out var brain)) return; //Make it a little bit harder to remove from a round
 		if (characterSheet != null)
@@ -296,7 +296,7 @@ public class BodyPartMutations : BodyPartFunctionality
 			PerfomChangeToSpecies(BodyPart, characterSheet);
 		}
 		else
-			StartCoroutine(ProcessChangeToSpecies(PlayerHealthData, BodyPart, characterSheet));
+			StartCoroutine(ProcessChangeToSpecies(BodyPart));
 	}
 
 	private void SettingUpSubOrgans(BodyPart SpawnedBodypart, ItemStorage bodyPartExampleStorage, bool HasOpenProcedure)
@@ -420,7 +420,7 @@ public class BodyPartMutations : BodyPartFunctionality
 
 		var ONMutation = SpawnedBodypart.gameObject.GetComponent<BodyPartMutations>();
 
-		if (ONMutation != null && characterSheet == null)
+		if (ONMutation != null)
 		{
 			foreach (var Mutations in ActiveMutations)
 			{
