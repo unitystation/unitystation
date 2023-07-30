@@ -46,13 +46,11 @@ namespace Changeling
 			ChangelingMain = changeling;
 			RefreshUI();
 			chems.SetActive(true);
-
-			//UpdateManager.Add(RefreshUI, 1f);
 		}
 
 		public void ResetAbilites()
 		{
-			ChangelingMain.CmdResetAbilities();
+			ChangelingMain.ResetAbilities();
 			store.Refresh(ChangelingDataToBuy, ChangelingMain);
 		}
 
@@ -81,9 +79,7 @@ namespace Changeling
 
 		public void AddAbility(ChangelingData abilityToAdd)
 		{
-			//ChangelingMain.AddAbility(abilityToAdd);
 			ChangelingMain.CmdBuyAbility(abilityToAdd.Index);
-			//RefreshUI();
 		}
 
 		public void RefreshUI()

@@ -1491,11 +1491,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				return;
 		}
 	}
-
-	public void CallToggleActionClient(bool toggled)
-	{
-
-	}
 }
 
 /// <summary>

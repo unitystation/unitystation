@@ -38,6 +38,8 @@ using Items.Others;
 using UI.Action;
 using Objects.Atmospherics;
 using Items.PDA;
+using GameModes;
+using UnityEngine.Rendering;
 
 namespace HealthV2
 {
@@ -681,7 +683,7 @@ namespace HealthV2
 
 		public float NutrimentConsumed = 0;
 		[SerializeField] private bool stopOverallCalculation = false;
-		[SerializeField] private bool stopMetabolism = false;
+		[SerializeField] private bool stopHealthSystems = false;
 
 		//Server Side only
 		private void PeriodicUpdate()
@@ -689,19 +691,21 @@ namespace HealthV2
 			NutrimentConsumed = 0;
 			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{
-				if (!stopMetabolism)
-					BodyPartList[i].ImplantPeriodicUpdate();
+				if (stopHealthSystems == true)
+					continue;
+				BodyPartList[i].ImplantPeriodicUpdate();
 			}
 
 
 			foreach (var system in ActiveSystems)
 			{
-				if (!stopMetabolism)
-					system.SystemUpdate();
+				if (stopHealthSystems == true)
+					continue;
+				system.SystemUpdate();
 			}
 
 
-			if (!stopMetabolism)
+			if (stopHealthSystems == false)
 				ExternalMetaboliseReactions();
 
 			FireStacksDamage();
@@ -846,29 +850,8 @@ namespace HealthV2
 			}
 		}
 
-		public IEnumerator ProcessDNAPayload(List<DNAMutationData> InDNAMutationDatas, CharacterSheet characterSheet = null, ChangelingDNA dna = null, ChangelingMain changeling = null) // made for changeling
+		private void UploadDNADataToBodyParts(CharacterSheet characterSheet, List<DNAMutationData> InDNAMutationDatas)
 		{
-			Chat.AddExamineMsgFromServer(gameObject,
-				$" Your body starts morph into a new form");
-
-			yield return WaitFor.Seconds(2f);
-
-			SerializableDictionary<Reagent, float> blood = new(reagentPoolSystem.BloodPool.reagents);
-
-			var itemsBeforeTransform = new List<(Pickupable, NamedSlot)>();
-			if (characterSheet != null)
-			{
-				DynamicItemStorage storage = playerScript.DynamicItemStorage;
-				var allItemsStorage = storage.GetItemSlotTree();
-
-				foreach (ItemSlot itemSlot in allItemsStorage)
-				{
-					var item = InventoryMove.Drop(itemSlot).MovedObject;
-					if (item != null && itemSlot.NamedSlot != null)
-						itemsBeforeTransform.Add((item, (NamedSlot)itemSlot.NamedSlot));
-				}
-			}
-
 			foreach (var InDNAMutationData in InDNAMutationDatas)
 			{
 				//yield return WaitFor.Seconds(2f);
@@ -910,8 +893,10 @@ namespace HealthV2
 					}
 				}
 			}
+		}
 
-			//relooking for pumps because sometime old pumps wasn't removed when transferred to new part
+		private void UpdatePumps()
+		{
 			reagentPoolSystem.PumpingDevices.Clear();
 
 			foreach (var x in BodyPartList)
@@ -921,8 +906,13 @@ namespace HealthV2
 					reagentPoolSystem.PumpingDevices.Add(hrt);
 				}
 			}
+		}
 
+		private void UpdateBloodPool()
+		{
 			//saving food
+			SerializableDictionary<Reagent, float> blood = new(reagentPoolSystem.BloodPool.reagents);
+
 			reagentPoolSystem.BloodPool.RemoveVolume(reagentPoolSystem.BloodPool.Total);
 			reagentPoolSystem.AddFreshBlood(reagentPoolSystem.BloodPool, reagentPoolSystem.StartingBlood);
 
@@ -935,8 +925,170 @@ namespace HealthV2
 				else
 					reagentPoolSystem.BloodPool.Add(x.Key, 100);
 			}
+		}
 
-			//reagentPoolSystem.BloodPool.reagents = blood;
+		private List<(Pickupable, NamedSlot)> GetCurrentItems()
+		{
+			var itemsBeforeTransform = new List<(Pickupable, NamedSlot)>();
+			DynamicItemStorage storage = playerScript.DynamicItemStorage;
+			var allItemsStorage = storage.GetItemSlotTree();
+
+			foreach (ItemSlot itemSlot in allItemsStorage)
+			{
+				var item = InventoryMove.Drop(itemSlot).MovedObject;
+				if (item != null && itemSlot.NamedSlot != null)
+					itemsBeforeTransform.Add((item, (NamedSlot)itemSlot.NamedSlot));
+			}
+
+			return itemsBeforeTransform;
+		}
+
+		private void SetUpFakeItems(ChangelingDNA dna, ChangelingMain changeling)
+		{
+			if (dna != null && changeling != null)
+			{
+				var storage = changeling.ChangelingMind.CurrentPlayScript.DynamicItemStorage;
+
+				// need to firstly create fake uniform for placing id card into fake slot
+				for (int i = 0; i < dna.BodyClothesPrefabID.Count; i++)
+				{
+					string id = dna.BodyClothesPrefabID[i];
+					if (CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[id].TryGetComponent<ClothingSlots>(out var slots))
+					{
+						if (slots.NamedSlotFlagged.HasFlag(NamedSlotFlagged.Uniform))
+						{
+							var exchange = id;
+							dna.BodyClothesPrefabID[i] = dna.BodyClothesPrefabID[0];
+							dna.BodyClothesPrefabID[0] = exchange;
+							break;
+						}
+					}
+				}
+
+				foreach (var id in dna.BodyClothesPrefabID)
+				{
+					var fakeItem = Spawn.ServerPrefab(CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[id]).GameObject;
+
+					ItemSlot bestSlot = storage.GetBestSlotFor(fakeItem);
+
+					if (bestSlot == null)
+					{
+						_ = Despawn.ServerSingle(fakeItem);
+						continue;
+					}
+
+					var placed = Inventory.ServerAdd(fakeItem, bestSlot);
+
+					// better don`t put fake items into storages
+					if (placed == false || placed && (((int?)bestSlot.NamedSlot) > 15) || bestSlot.NamedSlot == NamedSlot.handcuffs)
+					{
+						_ = Despawn.ServerSingle(fakeItem);
+						continue;
+					}
+					fakeItem.GetComponent<ItemAttributesV2>().IsFakeItem = true;
+
+					// making items absolutely useless
+					var comps = fakeItem.GetComponents(typeof(Component));
+					ItemStorage itemStrg = null;
+					foreach (var comp in fakeItem.GetComponents(typeof(Component)))
+					{
+						if (comp is WearableArmor armor)
+						{
+							foreach (var bodyArmr in armor.ArmoredBodyParts)
+							{
+								bodyArmr.Armor.Melee = 0;
+								bodyArmr.Armor.Bullet = 0;
+								bodyArmr.Armor.Laser = 0;
+								bodyArmr.Armor.Energy = 0;
+								bodyArmr.Armor.Bomb = 0;
+								bodyArmr.Armor.Rad = 0;
+								bodyArmr.Armor.Fire = 0;
+								bodyArmr.Armor.Acid = 0;
+								bodyArmr.Armor.Magic = 0;
+								bodyArmr.Armor.Bio = 0;
+								bodyArmr.Armor.Anomaly = 0;
+								bodyArmr.Armor.DismembermentProtectionChance = 0;
+								bodyArmr.Armor.StunImmunity = false;
+								bodyArmr.Armor.TemperatureProtectionInK = new Vector2(283.15f, 283.15f + 20);
+								bodyArmr.Armor.PressureProtectionInKpa = new Vector2(30f, 300f);
+							}
+							continue;
+						}
+						if (comp is IDCard card)
+						{
+							var cardJobName = card.GetJobTitle();
+							var cardRegName = card.RegisteredName;
+							card.ServerChangeOccupation(OccupationList.Instance.Get(JobType.ASSISTANT), true, true);
+
+							card.ServerSetRegisteredName(cardRegName);
+							card.ServerSetJobTitle(cardJobName);
+							for (int i = 0; i < card.currencies.Length; i++)
+							{
+								card.currencies[i] = 0; // removing all currencies on card to be sure
+							}
+							continue;
+						}
+						if (comp is ItemStorage itemStorage)
+						{
+							itemStrg = itemStorage;
+							continue;
+						}
+						if (comp is ItemActionButton actionButton)
+						{
+							actionButton.OnRemovedFromBody(this);
+							continue;
+						}
+						if (comp is not Pickupable && comp is not UprightSprites && comp is not UniversalObjectPhysics
+						 && comp is not SortingGroup && comp is MonoBehaviour mono)
+						{
+							mono.NetDisable();
+							continue;
+						}
+					}
+
+					var itemName = fakeItem.GetComponent<ItemAttributesV2>().InitialName;
+
+					// removing item anytime when item was moved or something
+					fakeItem.GetComponent<Pickupable>().OnInventoryMoveServerEvent.AddListener((GameObject item) =>
+					{
+						Chat.AddCombatMsgToChat(gameObject,
+						$"<color=red>{itemName} was absorbed back into your body.</color>",
+						$"<color=red>{itemName} was absorbed into {changeling.ChangelingMind.CurrentPlayScript.visibleName} body.</color>");
+
+						if (itemStrg != null)
+							itemStrg.ServerDropAll();
+
+						_ = Inventory.ServerDespawn(fakeItem);
+
+						changeling.ChangelingMind.Body.RefreshVisibleName();
+					});
+				}
+			}
+		}
+
+		public IEnumerator ProcessDNAPayload(List<DNAMutationData> InDNAMutationDatas, CharacterSheet characterSheet, ChangelingDNA dna = null, ChangelingMain changeling = null) // made for changeling
+		{
+			//yield return WaitFor.Seconds(2f);
+
+			var itemsBeforeTransform = GetCurrentItems();
+
+			foreach (var item in itemsBeforeTransform)
+			{
+				if (item.Item1.gameObject.GetComponent<ItemAttributesV2>().IsFakeItem)
+				{
+					// deleting prev fake items
+					if (item.Item1.gameObject.GetComponent<ItemAttributesV2>().IsFakeItem)
+						_ = Despawn.ServerSingle(item.Item1.gameObject);
+				}
+			}
+			yield return WaitFor.SecondsRealtime(2f);
+
+			UploadDNADataToBodyParts(characterSheet, InDNAMutationDatas);
+			//relooking for pumps because sometime old pumps wasn't removed when transferred to new part
+			UpdatePumps();
+
+			UpdateBloodPool();
+
 			var bodyParts = new Dictionary<NamedSlot, ItemSlot>();
 			foreach (var x in playerScript.DynamicItemStorage.GetItemSlotTree())
 			{
@@ -951,226 +1103,29 @@ namespace HealthV2
 					Inventory.ServerAdd(itemForPlace.Item1.gameObject, bodyParts[itemForPlace.Item2]);
 				}
 			}
-
-			if (dna != null && changeling != null)
-			{
-				var storage = changeling.ChangelingMind.CurrentPlayScript.DynamicItemStorage;
-
-				foreach (var id in dna.BodyClothesPrefabID)
-				{
-					var fakeClothes = Spawn.ServerPrefab(CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[id]).GameObject;
-
-					ItemSlot bestSlot = storage.GetBestSlotFor(fakeClothes);
-
-					var placed = Inventory.ServerAdd(fakeClothes, bestSlot);
-
-					if (placed && (bestSlot.NamedSlot == NamedSlot.storage01 || bestSlot.NamedSlot == NamedSlot.storage02 || bestSlot.NamedSlot == NamedSlot.storage03
-					 || bestSlot.NamedSlot == NamedSlot.storage04 || bestSlot.NamedSlot == NamedSlot.storage05 || bestSlot.NamedSlot == NamedSlot.storage06
-					  || bestSlot.NamedSlot == NamedSlot.storage07 || bestSlot.NamedSlot == NamedSlot.storage08 || bestSlot.NamedSlot == NamedSlot.storage09
-					   || bestSlot.NamedSlot == NamedSlot.storage10 || bestSlot.NamedSlot == NamedSlot.storage11 || bestSlot.NamedSlot == NamedSlot.storage12
-						|| bestSlot.NamedSlot == NamedSlot.storage13 || bestSlot.NamedSlot == NamedSlot.storage14)) // better don`t put fake clothes into storages
-					{
-						placed = false;
-					}
-
-
-
-					var itemName = fakeClothes.GetComponent<ItemAttributesV2>().InitialName;
-
-					if (!placed)
-					{
-						_ = Despawn.ServerSingle(fakeClothes);
-						continue;
-					}
-					//making items absolutely useless
-					fakeClothes.GetComponent<ItemAttributesV2>().IsFakeItem = true;
-
-					if (fakeClothes.TryGetComponent<WearableArmor>(out var armor))
-					{
-						foreach (var bodyArmr in armor.ArmoredBodyParts)
-						{
-							bodyArmr.Armor.Melee = 0;
-							bodyArmr.Armor.Bullet = 0;
-							bodyArmr.Armor.Laser = 0;
-							bodyArmr.Armor.Energy = 0;
-							bodyArmr.Armor.Bomb = 0;
-							bodyArmr.Armor.Rad = 0;
-							bodyArmr.Armor.Fire = 0;
-							bodyArmr.Armor.Acid = 0;
-							bodyArmr.Armor.Magic = 0;
-							bodyArmr.Armor.Bio = 0;
-							bodyArmr.Armor.Anomaly = 0;
-							bodyArmr.Armor.DismembermentProtectionChance = 0;
-							bodyArmr.Armor.StunImmunity = false;
-							bodyArmr.Armor.TemperatureProtectionInK = new Vector2(283.15f, 283.15f + 20);
-							bodyArmr.Armor.PressureProtectionInKpa = new Vector2(30f, 300f);
-
-						}
-					}
-					if (fakeClothes.TryGetComponent<IDCard>(out var card))
-					{
-						var cardJobName = card.GetJobTitle();
-						var cardRegName = card.RegisteredName;
-						card.ServerChangeOccupation(OccupationList.Instance.Get(JobType.ASSISTANT), true, true);
-
-						//card.SyncJobTitle("", cardName);
-						//card.SyncName("", cardRagName);
-						card.ServerSetRegisteredName(cardRegName);
-						card.ServerSetJobTitle(cardJobName);
-						for (int i = 0; i < card.currencies.Length; i++)
-						{
-							card.currencies[i] = 0; // removing all currencies on card to be sure
-						}
-					}
-					else if (fakeClothes.TryGetComponent<Headset>(out var headset))
-					{
-						Destroy(headset);
-						//Destroy(headset);
-						//headset.IsPowered = false;
-						//headset.EncryptionKey = EncryptionKeyType.None;
-						//headset.EmmitableSignalData.Clear();
-					}
-					else if (fakeClothes.TryGetComponent<NightVisionGoggles>(out var nightVision))
-					{
-						Destroy(nightVision);
-					}
-					else if (fakeClothes.TryGetComponent<PrescriptionGlasses>(out var glasses))
-					{
-						Destroy(glasses);
-					}
-					if (fakeClothes.TryGetComponent<ReagentContainer>(out var container))
-					{
-						Destroy(container);
-					}
-					if (fakeClothes.TryGetComponent<GasContainer>(out var gasContainer))
-					{
-						Destroy(gasContainer);
-						gasContainer.NetDisable();
-					}
-					if (fakeClothes.TryGetComponent<EmergencyOxygenTank>(out var emergencyOxygenTank))
-					{
-						Destroy(emergencyOxygenTank);
-						emergencyOxygenTank.NetDisable();
-					}
-					if (fakeClothes.TryGetComponent<PDALogic>(out var pda))
-					{
-						pda.NetDisable();
-						Destroy(pda);
-						Destroy(fakeClothes.GetComponent<HasNetworkTabItem>()); // Need to destroy all pda related components
-						Destroy(fakeClothes.GetComponent<PDANotesNetworkHandler>());
-					}
-					if (fakeClothes.TryGetComponent<InteractableStorage>(out var intStorage))
-					{
-						intStorage.NetDisable();
-						Destroy(intStorage);
-					}
-					if (fakeClothes.TryGetComponent<ItemActionButton>(out var actionButton))
-					{
-						actionButton.OnRemovedFromBody(this);
-						Destroy(actionButton);
-					}
-					if (fakeClothes.TryGetComponent<ItemLightControl>(out var lightControl))
-					{
-						Destroy(lightControl);
-					}
-					if (fakeClothes.TryGetComponent<FlashLight>(out var flashLight))
-					{
-						Destroy(flashLight);
-						flashLight.NetDisable();
-					}
-
-					fakeClothes.GetComponent<Pickupable>().OnInventoryMoveServerEvent.AddListener((GameObject item) => // removing item anytime when item was moved or something
-					{
-						Chat.AddCombatMsgToChat(gameObject,
-						$"<color=red>{itemName} was absorbed back into your body.</color>",
-						$"<color=red>{itemName} was absorbed into {changeling.ChangelingMind.CurrentPlayScript.playerName} body.</color>");
-
-						_ = Inventory.ServerDespawn(fakeClothes);
-
-						changeling.ChangelingMind.Body.RefreshVisibleName();
-					});
-				}
-			}
-
+			SetUpFakeItems(dna, changeling);
 
 			if (characterSheet != null)
 			{
-				yield return WaitFor.Seconds(1f);
+				yield return WaitFor.SecondsRealtime(2f);
 
 				foreach (var x in playerSprites.OpenSprites)
 				{
 					_ = Despawn.ServerSingle(x.gameObject);
 				}
 
+				playerSprites.ThisCharacter = characterSheet;
 				playerSprites.SetupSprites();
 				playerSprites.SetSurfaceColour();
 
 				meatProduce = characterSheet.GetRaceSoNoValidation().Base.MeatProduce;
 				skinProduce = characterSheet.GetRaceSoNoValidation().Base.SkinProduce;
 
-				playerScript.PlayerNetworkActions.CmdSetActiveHand(bodyParts[NamedSlot.leftHand].ItemStorageNetID, NamedSlot.leftHand); // setting new hand because we deleted prev
+				// set new hand because we deleted prev
+				playerScript.PlayerNetworkActions.CmdSetActiveHand(bodyParts[NamedSlot.leftHand].ItemStorageNetID, NamedSlot.leftHand); 
 			}
 			yield break;
 		}
-
-		private void SubSetBodyPart(BodyPart Body_Part, string path, CharacterSheet ThisCharacter, bool Randomised = false)
-		{
-			var livingHealthMasterBase = this;
-			path = path + "/" + Body_Part.name;
-
-			CustomisationStorage customisationStorage = null;
-			if (ThisCharacter.SerialisedBodyPartCustom != null)
-			{
-				foreach (var Custom in ThisCharacter.SerialisedBodyPartCustom)
-				{
-					if (path == Custom.path)
-					{
-						customisationStorage = Custom;
-						break;
-					}
-				}
-			}
-
-
-			if (customisationStorage != null)
-			{
-				var data = customisationStorage.Data.Replace("@£", "\"");
-				if (Body_Part.OptionalOrgans.Count > 0)
-				{
-					BodyPartDropDownOrgans.PlayerBodyDeserialise(Body_Part, data, livingHealthMasterBase);
-				}
-				else if (Body_Part.OptionalReplacementOrgan.Count > 0)
-				{
-					BodyPartDropDownReplaceOrgan.OnPlayerBodyDeserialise(Body_Part, data);
-				}
-				else
-				{
-					if (Body_Part.LobbyCustomisation != null)
-					{
-						Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part, data, livingHealthMasterBase);
-					}
-					else
-					{
-						Logger.Log($"[PlayerSprites] - Could not find {Body_Part.name}'s characterCustomization script. Returns -> {Body_Part.OrNull()?.LobbyCustomisation.OrNull()?.characterCustomization}", Category.Character);
-					}
-				}
-			}
-			else if (Randomised)
-			{
-				if (Body_Part.LobbyCustomisation != null)
-				{
-					Body_Part.LobbyCustomisation.RandomizeInBody(Body_Part, livingHealthMasterBase);
-				}
-			}
-
-
-			for (int i = 0; i < Body_Part.ContainBodyParts.Count; i++)
-			{
-				SubSetBodyPart(Body_Part.ContainBodyParts[i], path, ThisCharacter, Randomised);
-			}
-
-		}
-
 
 		#endregion
 		/// <summary>
@@ -1667,7 +1622,7 @@ namespace HealthV2
 			stopOverallCalculation = false;
 		}
 
-		public void StopMetabolismAndHeart()
+		public void StopHealthSystemsAndHeart()
 		{
 			foreach (var bodyPart in BodyPartList)
 			{
@@ -1688,12 +1643,12 @@ namespace HealthV2
 				}
 			}
 			CalculateOverallHealth();
-			stopMetabolism = true;
+			stopHealthSystems = true;
 		}
 
-		public void UnstopMetabolismAndRestartHeart()
+		public void UnstopHealthSystemsAndRestartHeart()
 		{
-			stopMetabolism = false;
+			stopHealthSystems = false;
 			foreach (var bodyPart in BodyPartList)
 			{
 				foreach (BodyPartFunctionality organ in bodyPart.OrganList)

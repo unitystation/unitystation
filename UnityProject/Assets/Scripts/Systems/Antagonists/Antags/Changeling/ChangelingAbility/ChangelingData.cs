@@ -30,10 +30,10 @@ namespace Changeling
 		// ep - evolution point
 		[Tooltip("Evolution points cost for buying")]
 		[SerializeField] private int abilityEPCost;
-		[SerializeField] public int AbilityEPCost => abilityEPCost;
+		public int AbilityEPCost => abilityEPCost;
 		[Tooltip("Chemical points cost for use")]
 		[SerializeField] private int abilityChemCost;
-		[SerializeField] public int AbilityChemCost => abilityChemCost;
+		public int AbilityChemCost => abilityChemCost;
 
 		[Tooltip("Sount called when ability is used")]
 		[SerializeField] private AddressableAudioSource castSound = null;
@@ -53,29 +53,33 @@ namespace Changeling
 		[Tooltip("Is ability called on client")]
 		[SerializeField] private bool isLocal = false;
 		public bool IsLocal => isLocal;
-		//[SerializeField] private GameObject dnaPrefab;
-		//public GameObject DnaPrefab => dnaPrefab;
 
 		[Tooltip("Is ability will be showed in abilites store")]
 		[SerializeField] private bool showInStore = true;
 		public bool ShowInStore => showInStore;
 
+		[ShowIf("ShowIfToggle")]
 		[SerializeField] private bool canBeUsedWhileInCrit = false;
 		public bool CanBeUsedWhileInCrit => canBeUsedWhileInCrit;
 
+		[ShowIf("ShowIfToggle")]
 		[SerializeField] private bool swithedToOnWhenInCrit = false;
 		public bool SwithedToOnWhenInCrit => swithedToOnWhenInCrit;
 
+		[ShowIf("ShowIfToggle")]
 		[SerializeField] private bool swithedToOffWhenExitCrit = false;
 		public bool SwithedToOffWhenExitCrit => swithedToOffWhenExitCrit;
 
 		[Tooltip("Activats cooldown when ability is toggled anytime. Not after ability is toggled off only")]
+		[ShowIf("ShowIfToggle")]
 		[SerializeField] private bool cooldownWhenToggled = false;
 		public bool CooldownWhenToggled => cooldownWhenToggled;
 
+		[ShowIf("ShowIfToggle")]
 		[SerializeField] private bool drawCostWhenToggledOn = false;
 		public bool DrawCostWhenToggledOn => drawCostWhenToggledOn;
 
+		[ShowIf("ShowIfToggle")]
 		[SerializeField] private bool drawCostWhenToggledOff = false;
 		public bool DrawCostWhenToggledOff => drawCostWhenToggledOff;
 
@@ -142,6 +146,11 @@ namespace Changeling
 		#region Inspector
 
 		#if UNITY_EDITOR
+		private bool ShowIfToggle()
+		{
+			return IsToggle && !IsAimable;
+		}
+
 		private bool ShowIfSting()
 		{
 			return abilityType == ChangelingAbilityType.Sting;
@@ -237,7 +246,6 @@ namespace Changeling
 
 	public enum ChangelingTransformType
 	{
-		TransformMenuOpen,
 		Transform
 	}
 
@@ -245,6 +253,7 @@ namespace Changeling
 	{
 		AugmentedEyesight,
 		OpenStore,
-		OpenMemories
+		OpenMemories,
+		OpenTransform
 	}
 }

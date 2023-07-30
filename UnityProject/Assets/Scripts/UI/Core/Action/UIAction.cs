@@ -105,7 +105,7 @@ namespace UI.Action
 			if (actionData.IsToggle)
 			{
 				Toggle();
-				if (!actionData.IsAimable)
+				if (actionData.IsAimable == false)
 				{
 					UseToggleAction();
 				}

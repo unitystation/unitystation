@@ -56,10 +56,7 @@ namespace Objects.Doors
 		{
 			UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMethod);
 			falseWallPresented.Remove(falseWallPosition);
-			//tileChangeManager.MetaTileMap.RemoveTileWithlayer(falseWallPosition, LayerType.Walls);
 			tileChangeManager.MetaTileMap.Layers[LayerType.Walls].RemoveTile(falseWallPosition);
-
-			//ChangeNearFalseWallSprites(GetNearFalseWalls(falseWallPosition));
 		}
 
 		private void UpdateMethod()

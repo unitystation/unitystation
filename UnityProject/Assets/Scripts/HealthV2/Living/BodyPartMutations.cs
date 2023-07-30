@@ -191,160 +191,60 @@ public class BodyPartMutations : BodyPartFunctionality
 	private IEnumerator ProcessChangeToSpecies(PlayerHealthData NewSpecies, GameObject BodyPart, CharacterSheet characterSheet = null)
 	{
 		var modifier = (1 + UnityEngine.Random.Range(-0.75f, 0.90f));
-		if (characterSheet != null)
-			modifier = 0; // (1 + UnityEngine.Random.Range(-0.85f, -0.8f))
-		if (characterSheet == null)
-		{
-			yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
+		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 
-			Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
-				$" Your {RelatedPart.gameObject.ExpensiveName()} Feels strange");
+		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
+			$" Your {RelatedPart.gameObject.ExpensiveName()} Feels strange");
 
-			yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
+		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 
-			Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
-				$" Your {RelatedPart.gameObject.ExpensiveName()} Starts to hurt");
+		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
+			$" Your {RelatedPart.gameObject.ExpensiveName()} Starts to hurt");
 
-			yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
+		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 
-			Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
-				$" You feel {RelatedPart.gameObject.ExpensiveName()} starting to morph and change");
+		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
+			$" You feel {RelatedPart.gameObject.ExpensiveName()} starting to morph and change");
 
-			yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
+		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 
-		}
 		var SpawnedBodypart = Spawn.ServerPrefab(BodyPart).GameObject.GetComponent<BodyPart>();
 
-		if (characterSheet != null)
-		{
-			ColorUtility.TryParseHtmlString(characterSheet.SkinTone, out var bodyColor);
-			SpawnedBodypart.ChangeBodyPartColor(bodyColor);
-		} else
-		{
-			Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
-				$" Your {RelatedPart.gameObject.ExpensiveName()} Morphs into a {SpawnedBodypart.gameObject.ExpensiveName()}");
-		}
+		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
+			$" Your {RelatedPart.gameObject.ExpensiveName()} Morphs into a {SpawnedBodypart.gameObject.ExpensiveName()}");
+
 
 		bool HasOpenProcedure = Enumerable.OfType<OpenProcedure>(SpawnedBodypart.SurgeryProcedureBase).Any();
-		if (characterSheet != null)
+
+
+		foreach (var itemSlot in RelatedPart.OrganStorage.GetItemSlots())
 		{
-			var bodyParts = characterSheet.GetRaceSoNoValidation();
-
-			var bodyPartExample = bodyParts.Base.Head.Elements[0];
-
-			switch (RelatedPart.BodyPartType)
+			if (itemSlot.Item != null)
 			{
-				case BodyPartType.Head:
-					bodyPartExample = bodyParts.Base.Head.Elements[0];
-					break;
-				case BodyPartType.Chest:
-					bodyPartExample = bodyParts.Base.Torso.Elements[0];
-					break;
-				case BodyPartType.LeftArm:
-					bodyPartExample = bodyParts.Base.ArmLeft.Elements[0];
-					break;
-				case BodyPartType.RightArm:
-					bodyPartExample = bodyParts.Base.ArmRight.Elements[0];
-					break;
-				case BodyPartType.LeftLeg:
-					bodyPartExample = bodyParts.Base.LegLeft.Elements[0];
-					break;
-				case BodyPartType.RightLeg:
-					bodyPartExample = bodyParts.Base.LegRight.Elements[0];
-					break;
-			}
-
-			var bodyPartExampleStorage = bodyPartExample.GetComponent<ItemStorage>();
-			var usedOrgansInSpawnedPart = new List<GameObject>();
-
-			if (bodyPartExampleStorage.Populater.SlotContents.Count() != 0)
-			{
-				foreach (var x in bodyPartExampleStorage.Populater.SlotContents)
+				if (HasOpenProcedure)
 				{
-					if (x.Prefab != null)
-						usedOrgansInSpawnedPart.Add(x.Prefab);
+					var toSlot = SpawnedBodypart.OrganStorage;
+					Inventory.ServerTransfer(itemSlot, toSlot.GetBestSlotFor(itemSlot.Item));
 				}
-			}
-			else
-			{
-				usedOrgansInSpawnedPart.AddRange(bodyPartExampleStorage.Populater.DeprecatedContents);
-			}
-
-			foreach (var itemSlot in RelatedPart.OrganStorage.GetItemSlots())
-			{
-				if (itemSlot.Item != null)
+				else
 				{
-					if (HasOpenProcedure)
-					{
-						var toSlot = SpawnedBodypart.OrganStorage;
-						GameObject organContains = null;
-
-						foreach (var organ in usedOrgansInSpawnedPart)
-						{
-							if (organ != null &&
-							organ.GetComponent<PrefabTracker>().ForeverID == itemSlot.Item.gameObject.GetComponent<PrefabTracker>().ForeverID)
-							{
-								organContains = organ;
-								break;
-							}
-						}
-
-						if (organContains != null)
-						{
-							Inventory.ServerTransfer(itemSlot, toSlot.GetBestSlotFor(itemSlot.Item));
-							usedOrgansInSpawnedPart.Remove(organContains);
-						}
-						else
-						{
-							RelatedPart.OrganStorage.ServerTryRemove(itemSlot.Item.gameObject, true);
-						}
-					}
-					else
-					{
-						RelatedPart.OrganStorage.ServerTryRemove(itemSlot.Item.gameObject, false,
-							DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f, 0.5f), Throw: true);
-					}
-				}
-			}
-
-			foreach (var toSpawn in usedOrgansInSpawnedPart)
-			{
-				if (toSpawn != null)
-				{
-					var bodyPartObject = Spawn.ServerPrefab(toSpawn, spawnManualContents: true).GameObject;
-					SpawnedBodypart.OrganStorage.ServerTryAdd(bodyPartObject);
-				}
-			}
-		} else
-		{
-			foreach (var itemSlot in RelatedPart.OrganStorage.GetItemSlots())
-			{
-				if (itemSlot.Item != null)
-				{
-					if (HasOpenProcedure)
-					{
-						var toSlot = SpawnedBodypart.OrganStorage;
-
-						Inventory.ServerTransfer(itemSlot, toSlot.GetBestSlotFor(itemSlot.Item));
-					}
-					else
-					{
-						RelatedPart.OrganStorage.ServerTryRemove(itemSlot.Item.gameObject, false,
-							DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f, 0.5f), Throw: true);
-					}
+					RelatedPart.OrganStorage.ServerTryRemove(itemSlot.Item.gameObject, false,
+						DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f, 0.5f), Throw: true);
 				}
 			}
 		}
+
 
 		var ContainedIn = RelatedPart.HealthMaster;
 		var Region = RelatedPart.BodyPartType;
 
 		var Parent = RelatedPart.ContainedIn;
 
-		RelatedPart.TryRemoveFromBody(CausesBleed: false, Destroy: true, PreventGibb_Death: true);
 
+		RelatedPart.TryRemoveFromBody(CausesBleed: false, Destroy: true, PreventGibb_Death: true);
 		//dropping UI slots??
-		//Relink fat / stomach??.
+		//Relink fat / stomach??
+
 
 		if (Parent != null)
 		{
@@ -357,16 +257,17 @@ public class BodyPartMutations : BodyPartFunctionality
 				ContainedIn.BodyPartStorage.GetBestSlotFor(SpawnedBodypart.gameObject));
 		}
 
+
 		var ONMutation = SpawnedBodypart.gameObject.GetComponent<BodyPartMutations>();
 
-		if (ONMutation != null && characterSheet == null)
+		if (ONMutation != null)
 		{
 			foreach (var Mutations in ActiveMutations)
 			{
 				ONMutation.AddMutation(Mutations.RelatedMutationSO);
 			}
 
-			ONMutation.MutateCustomisation(((BodyPartFunctionality) ONMutation).RelatedPart.SetCustomisationData,
+			ONMutation.MutateCustomisation(((BodyPartFunctionality)ONMutation).RelatedPart.SetCustomisationData,
 				RelatedPart.SetCustomisationData);
 		}
 	}
@@ -392,137 +293,143 @@ public class BodyPartMutations : BodyPartFunctionality
 		if (this.TryGetComponent<Brain>(out var brain)) return; //Make it a little bit harder to remove from a round
 		if (characterSheet != null)
 		{
-			var SpawnedBodypart = Spawn.ServerPrefab(BodyPart).GameObject.GetComponent<BodyPart>();
-
-			ColorUtility.TryParseHtmlString(characterSheet.SkinTone, out var bodyColor);
-
-			bool HasOpenProcedure = Enumerable.OfType<OpenProcedure>(SpawnedBodypart.SurgeryProcedureBase).Any();
-			var bodyParts = characterSheet.GetRaceSoNoValidation();
-
-			var bodyPartExample = bodyParts.Base.Head.Elements[0];
-
-			switch (RelatedPart.BodyPartType)
-			{
-				case BodyPartType.Head:
-					bodyPartExample = bodyParts.Base.Head.Elements[0];
-					break;
-				case BodyPartType.Chest:
-					bodyPartExample = bodyParts.Base.Torso.Elements[0];
-					break;
-				case BodyPartType.LeftArm:
-					bodyPartExample = bodyParts.Base.ArmLeft.Elements[0];
-					break;
-				case BodyPartType.RightArm:
-					bodyPartExample = bodyParts.Base.ArmRight.Elements[0];
-					break;
-				case BodyPartType.LeftLeg:
-					bodyPartExample = bodyParts.Base.LegLeft.Elements[0];
-					break;
-				case BodyPartType.RightLeg:
-					bodyPartExample = bodyParts.Base.LegRight.Elements[0];
-					break;
-			}
-
-			var bodyPartExampleStorage = bodyPartExample.GetComponent<ItemStorage>();
-			var usedOrgansInSpawnedPart = new List<GameObject>();
-
-			if (bodyPartExampleStorage.Populater.SlotContents.Count() != 0)
-			{
-				foreach (var x in bodyPartExampleStorage.Populater.SlotContents)
-				{
-					if (x.Prefab != null)
-						usedOrgansInSpawnedPart.Add(x.Prefab);
-				}
-			}
-			else
-			{
-				usedOrgansInSpawnedPart.AddRange(bodyPartExampleStorage.Populater.DeprecatedContents);
-			}
-
-			foreach (var itemSlot in RelatedPart.OrganStorage.GetItemSlots())
-			{
-				if (itemSlot.Item != null)
-				{
-					if (HasOpenProcedure)
-					{
-						var toSlot = SpawnedBodypart.OrganStorage;
-						GameObject organContains = null;
-
-						foreach (var organ in usedOrgansInSpawnedPart)
-						{
-							if (organ != null &&
-							organ.GetComponent<PrefabTracker>().ForeverID == itemSlot.Item.gameObject.GetComponent<PrefabTracker>().ForeverID)
-							{
-								organContains = organ;
-								break;
-							}
-						}
-
-						if (organContains != null)
-						{
-							Inventory.ServerTransfer(itemSlot, toSlot.GetBestSlotFor(itemSlot.Item));
-							usedOrgansInSpawnedPart.Remove(organContains);
-						}
-						else
-						{
-							RelatedPart.OrganStorage.ServerTryRemove(itemSlot.Item.gameObject, true);
-						}
-					}
-					else
-					{
-						RelatedPart.OrganStorage.ServerTryRemove(itemSlot.Item.gameObject, false,
-							DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f, 0.5f), Throw: true);
-					}
-				}
-			}
-
-			foreach (var toSpawn in usedOrgansInSpawnedPart)
-			{
-				if (toSpawn != null)
-				{
-					var bodyPartObject = Spawn.ServerPrefab(toSpawn, spawnManualContents: true).GameObject;
-					SpawnedBodypart.OrganStorage.ServerTryAdd(bodyPartObject);
-				}
-			}
-
-			var ContainedIn = RelatedPart.HealthMaster;
-			var Region = RelatedPart.BodyPartType;
-
-			var Parent = RelatedPart.ContainedIn;
-
-			RelatedPart.TryRemoveFromBody(CausesBleed: false, Destroy: true, PreventGibb_Death: true);
-
-			//dropping UI slots??
-			//Relink fat / stomach??.
-
-			if (Parent != null)
-			{
-				Inventory.ServerAdd(SpawnedBodypart.gameObject,
-					Parent.OrganStorage.GetBestSlotFor(SpawnedBodypart.gameObject));
-			}
-			else
-			{
-				Inventory.ServerAdd(SpawnedBodypart.gameObject,
-					ContainedIn.BodyPartStorage.GetBestSlotFor(SpawnedBodypart.gameObject));
-			}
-
-			SpawnedBodypart.ChangeBodyPartColor(bodyColor);
-
-			var ONMutation = SpawnedBodypart.gameObject.GetComponent<BodyPartMutations>();
-
-			if (ONMutation != null && characterSheet == null)
-			{
-				foreach (var Mutations in ActiveMutations)
-				{
-					ONMutation.AddMutation(Mutations.RelatedMutationSO);
-				}
-
-				ONMutation.MutateCustomisation(((BodyPartFunctionality)ONMutation).RelatedPart.SetCustomisationData,
-					RelatedPart.SetCustomisationData);
-			}
+			PerfomChangeToSpecies(PlayerHealthData, BodyPart, characterSheet);
 		}
 		else
 			StartCoroutine(ProcessChangeToSpecies(PlayerHealthData, BodyPart, characterSheet));
+	}
+
+	private void SettingUpSubOrgans(BodyPart SpawnedBodypart, ItemStorage bodyPartExampleStorage, bool HasOpenProcedure)
+	{
+		var usedOrgansInSpawnedPart = new List<GameObject>();
+
+		if (bodyPartExampleStorage.Populater.SlotContents.Count() != 0)
+		{
+			foreach (var x in bodyPartExampleStorage.Populater.SlotContents)
+			{
+				if (x.Prefab != null)
+					usedOrgansInSpawnedPart.Add(x.Prefab);
+			}
+		}
+		else
+		{
+			usedOrgansInSpawnedPart.AddRange(bodyPartExampleStorage.Populater.DeprecatedContents);
+		}
+
+		foreach (var itemSlot in RelatedPart.OrganStorage.GetItemSlots())
+		{
+			if (itemSlot.Item != null)
+			{
+				if (HasOpenProcedure)
+				{
+					var toSlot = SpawnedBodypart.OrganStorage;
+					GameObject organContains = null;
+
+					foreach (var organ in usedOrgansInSpawnedPart)
+					{
+						if (organ != null &&
+						organ.GetComponent<PrefabTracker>().ForeverID == itemSlot.Item.gameObject.GetComponent<PrefabTracker>().ForeverID)
+						{
+							organContains = organ;
+							break;
+						}
+					}
+
+					if (organContains != null)
+					{
+						Inventory.ServerTransfer(itemSlot, toSlot.GetBestSlotFor(itemSlot.Item));
+						usedOrgansInSpawnedPart.Remove(organContains);
+					}
+					else
+					{
+						RelatedPart.OrganStorage.ServerTryRemove(itemSlot.Item.gameObject, true);
+					}
+				}
+				else
+				{
+					RelatedPart.OrganStorage.ServerTryRemove(itemSlot.Item.gameObject, false,
+						DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f, 0.5f), Throw: true);
+				}
+			}
+		}
+
+		foreach (var toSpawn in usedOrgansInSpawnedPart)
+		{
+			if (toSpawn != null)
+			{
+				var bodyPartObject = Spawn.ServerPrefab(toSpawn, spawnManualContents: true).GameObject;
+				SpawnedBodypart.OrganStorage.ServerTryAdd(bodyPartObject);
+			}
+		}
+	}
+
+	private GameObject GetBodyPartByType(PlayerHealthData bodyParts)
+	{
+		switch (RelatedPart.BodyPartType)
+		{
+			case BodyPartType.Head:
+				return bodyParts.Base.Head.Elements[0];
+			case BodyPartType.Chest:
+				return bodyParts.Base.Torso.Elements[0];
+			case BodyPartType.LeftArm:
+				return bodyParts.Base.ArmLeft.Elements[0];
+			case BodyPartType.RightArm:
+				return bodyParts.Base.ArmRight.Elements[0];
+			case BodyPartType.LeftLeg:
+				return bodyParts.Base.LegLeft.Elements[0];
+			case BodyPartType.RightLeg:
+				return bodyParts.Base.LegRight.Elements[0];
+			default:
+				return bodyParts.Base.Head.Elements[0];
+		}
+	}
+
+	private void PerfomChangeToSpecies(PlayerHealthData PlayerHealthData, GameObject BodyPart, CharacterSheet characterSheet = null)
+	{
+		var SpawnedBodypart = Spawn.ServerPrefab(BodyPart).GameObject.GetComponent<BodyPart>();
+
+		ColorUtility.TryParseHtmlString(characterSheet.SkinTone, out var bodyColor);
+
+		bool HasOpenProcedure = Enumerable.OfType<OpenProcedure>(SpawnedBodypart.SurgeryProcedureBase).Any();
+		PlayerHealthData bodyParts = characterSheet.GetRaceSoNoValidation();
+
+		SettingUpSubOrgans(SpawnedBodypart, GetBodyPartByType(bodyParts).GetComponent<ItemStorage>(), HasOpenProcedure);
+
+		var ContainedIn = RelatedPart.HealthMaster;
+		var Region = RelatedPart.BodyPartType;
+
+		var Parent = RelatedPart.ContainedIn;
+
+		RelatedPart.TryRemoveFromBody(CausesBleed: false, Destroy: true, PreventGibb_Death: true);
+
+		//dropping UI slots??
+		//Relink fat / stomach??.
+
+		if (Parent != null)
+		{
+			Inventory.ServerAdd(SpawnedBodypart.gameObject,
+				Parent.OrganStorage.GetBestSlotFor(SpawnedBodypart.gameObject));
+		}
+		else
+		{
+			Inventory.ServerAdd(SpawnedBodypart.gameObject,
+				ContainedIn.BodyPartStorage.GetBestSlotFor(SpawnedBodypart.gameObject));
+		}
+
+		SpawnedBodypart.ChangeBodyPartColor(bodyColor);
+
+		var ONMutation = SpawnedBodypart.gameObject.GetComponent<BodyPartMutations>();
+
+		if (ONMutation != null && characterSheet == null)
+		{
+			foreach (var Mutations in ActiveMutations)
+			{
+				ONMutation.AddMutation(Mutations.RelatedMutationSO);
+			}
+
+			ONMutation.MutateCustomisation(((BodyPartFunctionality)ONMutation).RelatedPart.SetCustomisationData,
+				RelatedPart.SetCustomisationData);
+		}
 	}
 
 	public class MutationRoundData

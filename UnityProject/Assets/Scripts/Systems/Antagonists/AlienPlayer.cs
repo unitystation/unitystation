@@ -985,16 +985,6 @@ namespace Systems.Antagonists
 
 		#region Action Button Interactions
 
-		public void CallToggleActionServer(ActionData data, PlayerInfo playerInfo, bool toggle)
-		{
-
-		}
-
-		public void CallToggleActionClient(ActionData data, bool toggle)
-		{
-
-		}
-
 		public void CallActionClient(ActionData data)
 		{
 			//CLIENT SIDE//

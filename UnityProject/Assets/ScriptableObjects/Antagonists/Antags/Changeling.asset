@@ -24,7 +24,7 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   textColor: {r: 1, g: 0, b: 0, a: 1}
-  backgroundColor: {r: 1, g: 0, b: 0, a: 1}
+  backgroundColor: {r: 0.73, g: 0, b: 0, a: 1}
   numberOfObjectives: 2
   canUseSharedObjectives: 0
   needsEscapeObjective: 1
@@ -33,5 +33,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 02dc5916faf00a94eae966e7a1ab17bd, type: 2}
   antagOccupation: {fileID: 0}
   showInPreferences: 1
+  randomizeCharacterForGhostRole: 0
+  ghostRoleOccupation: {fileID: 0}
   <BlackListedObjectives>k__BackingField: []
   <AlwaysStartWithObjectives>k__BackingField: []

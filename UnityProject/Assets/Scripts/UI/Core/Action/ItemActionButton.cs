@@ -125,15 +125,5 @@ namespace UI.Action
 				UIActionManager.SetServerSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), spriteHandler.Palette);
 			}
 		} //Warning only add body parts do not remove body parts in this
-
-		public void CallToggleActionClient(bool toggled)
-		{
-			
-		}
-
-		public void CallToggleActionServer(PlayerInfo playerInfo, bool toggled)
-		{
-
-		}
 	}
 }

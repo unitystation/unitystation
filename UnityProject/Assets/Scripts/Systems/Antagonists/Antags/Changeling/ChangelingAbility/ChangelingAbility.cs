@@ -13,6 +13,7 @@ using Systems.Character;
 using TileManagement;
 using UI.Action;
 using UI.Core.Action;
+using UnityEditor;
 using UnityEngine;
 using Util;
 
@@ -32,8 +33,11 @@ namespace Changeling
 		private bool isToggled = false;
 		public bool IsToggled => isToggled;
 
-		private static readonly StandardProgressActionConfig injectProgressBar =
+		private static readonly StandardProgressActionConfig stingProgressBar =
 		new StandardProgressActionConfig(StandardProgressActionType.CPR);
+
+		private static readonly StandardProgressActionConfig transformProgressBar =
+		new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false, true, true, true);
 
 		private bool absorbing = true;
 
@@ -47,7 +51,6 @@ namespace Changeling
 			{
 					UseAbilityLocal(UIManager.Instance.displayControl.hudChangeling.ChangelingMain, ability);
 					AfterAbility(PlayerManager.LocalPlayerScript);
-					//AbilityData.PerfomAbilityClient();
 			}
 			else
 			{
@@ -61,7 +64,7 @@ namespace Changeling
 				return;
 			isToggled = toggled;
 			UIAction action = UIActionManager.Instance.DicIActionGUI[this][0];
-			if (AbilityData.IsLocal && ValidateAbilityClient()) //  && ValidateAbilityClient(PlayerManager.LocalPlayerScript.PlayerInfo)
+			if (AbilityData.IsLocal && ValidateAbilityClient())
 			{
 				UseAbilityToggle(UIManager.Instance.displayControl.hudChangeling.ChangelingMain, ability, toggled);
 			}
@@ -80,7 +83,7 @@ namespace Changeling
 			}
 		}
 
-		public void CallActionToggleServer(PlayerInfo SentByPlayer, Vector3 clickPosition, bool toggle)
+		public void CallToggleActionServer(PlayerInfo SentByPlayer, Vector3 clickPosition, bool toggle)
 		{
 			var validateAbility = ValidateAbility(SentByPlayer);
 			if (validateAbility &&
@@ -89,7 +92,7 @@ namespace Changeling
 				isToggled = toggle;
 			} else if (!validateAbility)
 			{
-				//Setting ability icon back
+				//Set ability icon back
 				if (isToggled)
 				{
 					UIActionManager.SetServerSpriteSO(this, ActionData.Sprites[1]);
@@ -101,7 +104,7 @@ namespace Changeling
 			}
 		}
 
-		public void ForceToggleToState(bool toggle)
+		public void ForceToggleToState(bool toggle, bool useAbility = false)
 		{
 			isToggled = toggle;
 
@@ -122,7 +125,6 @@ namespace Changeling
 			if (ValidateAbility(sentByPlayer) &&
 				CastAbilityServerWithParam(sentByPlayer, clickPosition, param))
 			{
-				//AfterAbility(sentByPlayer);
 				changeling.UseAbility(this);
 			}
 		}
@@ -130,7 +132,7 @@ namespace Changeling
 		private bool CastAbilityServerWithParam(PlayerInfo sentByPlayer, Vector3 clickPosition, List<string> param)
 		{
 			var changeling = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];
-			UseAbilityWithParam(changeling, AbilityData, param);
+			UseAbilityWithParam(changeling, AbilityData, param, clickPosition);
 			return true;
 		}
 
@@ -158,10 +160,9 @@ namespace Changeling
 
 		private bool CastAbilityServer(PlayerInfo sentByPlayer, Vector3 clickPosition)
 		{
-			var changeling = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];//sentByPlayer.Mind.Body.Changeling;
+			var changeling = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];
 			if (!AbilityData.IsAimable)
 				changeling.UseAbility(this);
-			//ability.PerfomAbility(changeling, clickPosition);
 			UseAbility(changeling, ability, clickPosition);
 			return true;
 		}
@@ -207,58 +208,9 @@ namespace Changeling
 						return false;
 					}
 					changeling.UseAbility(this);
-					switch (data.stingType)
-					{
-						case StingType.ExtractDNASting:
-							Chat.AddCombatMsgToChat(changeling.gameObject,
-							$"<color=red>You start stings of {target.playerName}</color>",
-							$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} starts stings of {target.playerName}</color>");
-
-							var action = StandardProgressAction.Create(injectProgressBar,
-								() => PerfomAbilityAfter(changeling, data, clickPosition, target));
-							action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, AbilityData.StingTime, changeling.ChangelingMind.Body.gameObject);
-							return true;
-						case StingType.Absorb:
-
-							Chat.AddCombatMsgToChat(changeling.gameObject,
-							$"<color=red>You start absorbing of {target.playerName}</color>",
-							$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} starts absorbing of {target.playerName}</color>");
-							var cor = StartCoroutine(AbsorbingProgress(ability.StingTime / 10f, target));
-							action = StandardProgressAction.Create(injectProgressBar,
-								() =>
-								{
-									StopCoroutine(cor);
-									PerfomAbilityAfter(changeling, data, clickPosition, target);
-								},
-								(interruptionType) =>
-								{
-									StopCoroutine(cor);
-								});
-
-
-							action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, AbilityData.StingTime, changeling.ChangelingMind.Body.gameObject);
-							return true;
-						case StingType.HallucinationSting:
-							action = StandardProgressAction.Create(injectProgressBar,
-								() => PerfomAbilityAfter(changeling, data, clickPosition, target));
-							action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, AbilityData.StingTime, changeling.ChangelingMind.Body.gameObject);
-							return true;
-					}
-					break;
+					return StingAbilities(changeling, data, clickPosition, target);
 				case ChangelingAbilityType.Heal:
-					switch (data.healType)
-					{
-						case ChangelingHealType.Regenerate:
-							StartCoroutine(RegenerationProcess(changeling));
-							return true;
-						case ChangelingHealType.RevivingStasis:
-							return true;
-					}
-					break;
-				case ChangelingAbilityType.Transform:
-					break;
-				case ChangelingAbilityType.Misc:
-					break;
+					return RegenerateAbilities(changeling, data);
 			}
 			return false;
 		}
@@ -297,14 +249,6 @@ namespace Changeling
 							{
 								if (target.PlayerInfo.Mind.IsOfAntag<Changeling>())
 								{
-									//var targetDNAs = new List<ChangelingDNA>();
-									//var targetMems = new List<ChangelingMemories>();
-
-									//targetDNAs.AddRange(target.Mind.Body.Changeling.ChangelingDNAs);
-									//targetMems.AddRange(target.Mind.Body.Changeling.ChangelingMemories);
-
-									//target.Mind.Body.Changeling.RemoveDNA(targetDNAs);
-									//target.Mind.Body.Changeling.ClearMemories();
 									changeling.AbsorbDNA(target, target.Changeling);
 									return true;
 								}
@@ -325,13 +269,10 @@ namespace Changeling
 								{
 									if (organ is Brain brain)
 									{
-										Destroy(brain);
-										//goto SkipingFor;
+										_ = Despawn.ServerSingle(organ.gameObject);
 									}
 								}
 							}
-
-							//SkipingFor:
 							targetDNA.FormDNA(target);
 
 							changeling.AbsorbDNA(targetDNA, target);
@@ -354,74 +295,20 @@ namespace Changeling
 
 		private bool UseAbilityLocal(ChangelingMain changeling, ChangelingData data)
 		{
-			if (!data.IsLocal)
+			if (data.IsLocal == false)
 				return false;
 
 			switch (data.abilityType)
 			{
 				case ChangelingAbilityType.Misc:
-					switch (data.miscType)
-					{
-						case ChangelingMiscType.OpenStore:
-							UIManager.Display.hudChangeling.OpenStoreUI();
-							return true;
-						case ChangelingMiscType.AugmentedEyesight:
-							break;
-						case ChangelingMiscType.OpenMemories:
-							UIManager.Display.hudChangeling.OpenMemoriesUI();
-							return true;
-					}
-					break;
-				case ChangelingAbilityType.Transform:
-					switch (data.transformType)
-					{
-						case ChangelingTransformType.TransformMenuOpen:
-							UIManager.Display.hudChangeling.OpenTransformUI(changeling, (ChangelingDNA dna) =>
-							{
-								PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesWithParam(AbilityData.UseAfterChoise.Index, new Vector3(), $"{dna.DnaID}");
-							});
-							return true;
-					}
-					break;
+					return MiscAbilitiesLocal(changeling, data);
 			}
 
 			return false;
 		}
 
-		private IEnumerator RegenerationProcess(ChangelingMain changeling)
+		private void RespawnMissedBodyparts(ChangelingMain changeling, Color bodyColor, PlayerHealthV2 containedIn, PlayerHealthData bodyParts)
 		{
-			for (int i = 1; i < 4; i++)
-			{
-				foreach (var part in changeling.ChangelingMind.Body.playerHealth.BodyPartList)
-				{
-					if (part.Health == part.MaxHealth)
-						continue;
-					if (part.name.ToLower().Contains("bones") || part.Health < part.MaxHealth / 3)
-					{
-						Chat.AddCombatMsgToChat(changeling.gameObject,
-						$"<color=red>Your bones starts to cracking</color>",
-						$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} bones starts to cracking</color>");
-						if (AbilityData.CastSound != null)
-							SoundManager.PlayNetworkedAtPos(
-							AbilityData.CastSound, changeling.ChangelingMind.CurrentPlayScript.WorldPos, sourceObj: changeling.ChangelingMind.Body.GameObject, global: false);
-					}
-					part.HealDamage(null, part.MaxHealth / 4, DamageType.Brute);
-					part.HealDamage(null, part.MaxHealth / 12, DamageType.Tox);
-					part.HealDamage(null, part.MaxHealth / 24, DamageType.Burn);
-					part.HealDamage(null, part.MaxHealth / 24, DamageType.Radiation);
-					part.HealDamage(null, part.MaxHealth / 12, DamageType.Oxy);
-				}
-				yield return WaitFor.SecondsRealtime(1f);
-			}
-			changeling.ChangelingMind.Body.playerHealth.RestartHeart();
-
-			var bloodSystem = changeling.ChangelingMind.Body.playerHealth.reagentPoolSystem;
-
-			var characterSheet = changeling.ChangelingMind.Body.characterSettings;
-			var bodyParts = characterSheet.GetRaceSoNoValidation();
-			var ContainedIn = changeling.ChangelingMind.Body.playerHealth;
-
-			//Regeneration of body parts
 			bool noLeftArm = true, noRightArm = true, noLeftLeg = true, noRightLeg = true;
 			foreach (var RelatedPart in changeling.ChangelingMind.Body.playerHealth.SurfaceBodyParts)
 			{
@@ -441,7 +328,6 @@ namespace Changeling
 						break;
 				}
 			}
-			ColorUtility.TryParseHtmlString(characterSheet.SkinTone, out var bodyColor);
 
 			void SpawnPart(GameObject toSpawn)
 			{
@@ -449,34 +335,36 @@ namespace Changeling
 				spawnedBodypart.ChangeBodyPartColor(bodyColor);
 
 				Inventory.ServerAdd(spawnedBodypart.gameObject,
-					ContainedIn.BodyPartStorage.GetBestSlotFor(spawnedBodypart.gameObject));
+					containedIn.BodyPartStorage.GetBestSlotFor(spawnedBodypart.gameObject));
 			}
 
 			if (noLeftArm)
 			{
-				SpawnPart(changeling.ChangelingMind.Body.characterSettings.GetRaceSoNoValidation().Base.ArmLeft.Elements[0]);
+				SpawnPart(bodyParts.Base.ArmLeft.Elements[0]);
 			}
 			if (noRightArm)
 			{
-				SpawnPart(changeling.ChangelingMind.Body.characterSettings.GetRaceSoNoValidation().Base.ArmRight.Elements[0]);
+				SpawnPart(bodyParts.Base.ArmRight.Elements[0]);
 			}
 			if (noLeftLeg)
 			{
-				SpawnPart(changeling.ChangelingMind.Body.characterSettings.GetRaceSoNoValidation().Base.LegLeft.Elements[0]);
+				SpawnPart(bodyParts.Base.LegLeft.Elements[0]);
 			}
 			if (noRightLeg)
 			{
-				SpawnPart(changeling.ChangelingMind.Body.characterSettings.GetRaceSoNoValidation().Base.LegRight.Elements[0]);
+				SpawnPart(bodyParts.Base.LegRight.Elements[0]);
 			}
 
 			if (noLeftArm || noLeftLeg || noRightArm || noRightLeg)
 			{
 				Chat.AddCombatMsgToChat(changeling.gameObject,
-				$"<color=red>Your body starts to grow missed parts and reconstruct.</color>",
-				$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} body starts to grow missed parts and reconstruct.</color>");
+				$"<color=red>Your body starts to reconstruct and grow missing parts.</color>",
+				$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.visibleName}'s body starts to grow missing parts, reconstructing it self in the process.</color>");
 			}
+		}
 
-			//Regeneration of body organs
+		private void RegenerationOfBodyOrgans(ChangelingMain changeling, PlayerHealthData bodyParts)
+		{
 			foreach (var RelatedPart in changeling.ChangelingMind.Body.playerHealth.SurfaceBodyParts)
 			{
 				var bodyPartExample = bodyParts.Base.Head.Elements[0];
@@ -527,7 +415,10 @@ namespace Changeling
 					RelatedPart.OrganStorage.ServerTryAdd(bodyPartObject);
 				}
 			}
+		}
 
+		private void UpdateBloodPool(ReagentPoolSystem bloodSystem, ChangelingMain changeling)
+		{
 			// just saving food yum yum
 			SerializableDictionary<Reagent, float> blood = new(bloodSystem.BloodPool.reagents);
 
@@ -543,8 +434,6 @@ namespace Changeling
 				else
 					bloodSystem.BloodPool.Add(x.Key, 25);
 			}
-
-			yield break;
 		}
 
 		private IEnumerator ReagentAdding(float time, Reagent reagent, float reagentCount, PlayerScript target)
@@ -574,96 +463,116 @@ namespace Changeling
 				return false;
 			switch (data.abilityType)
 			{
-				case ChangelingAbilityType.Sting:
-					break;
 				case ChangelingAbilityType.Heal:
-					switch (data.healType)
-					{
-						case ChangelingHealType.RevivingStasis:
-							if (toggle)
-							{
-								UIActionManager.SetServerSpriteSO(this, ActionData.Sprites[1]);
-								changeling.isFakingDeath = true;
-
-								changeling.ChangelingMind.Body.playerHealth.StopMetabolismAndHeart();
-								changeling.ChangelingMind.Body.playerHealth.StopOverralCalculation();
-								changeling.ChangelingMind.Body.playerHealth.SetConsciousState(ConsciousState.UNCONSCIOUS);
-							} else
-							{
-								UIActionManager.SetServerSpriteSO(this, ActionData.Sprites[0]);
-								changeling.UseAbility(this);
-								// healing
-								changeling.ChangelingMind.Body.playerHealth.FullyHeal();
-								changeling.ChangelingMind.Body.playerHealth.UnstopOverallCalculation();
-								changeling.ChangelingMind.Body.playerHealth.UnstopMetabolismAndRestartHeart();
-								changeling.isFakingDeath = false;
-							}
-							return true;
-					}
-					break;
+					return RegenerateAbilitiesToggle(changeling, data, toggle);
 				case ChangelingAbilityType.Misc:
-					switch (data.miscType)
-					{
-						case ChangelingMiscType.AugmentedEyesight:
-							if (Camera.main == null ||
-								Camera.main.TryGetComponent<CameraEffectControlScript>(out var effects) == false) return false;
-
-							foreach (var bodyPart in changeling.ChangelingMind.Body.playerHealth.BodyPartList)
-							{
-								foreach (BodyPartFunctionality organ in bodyPart.OrganList)
-								{
-									if (organ is Eye eye)
-									{
-										eye.ApplyChangesXrayState(toggle);
-										//goto SkipingFor;
-									}
-								}
-							}
-
-							//SkipingFor:
-							effects.AdjustPlayerVisibility(
-								toggle ? AbilityData.ExpandedNightVisionVisibility : effects.MinimalVisibilityScale,
-								toggle ? AbilityData.DefaultvisibilityAnimationSpeed : AbilityData.RevertvisibilityAnimationSpeed);
-							effects.ToggleNightVisionEffectState(toggle);
-							effects.SetNightVisionMaxLensRadius(true);
-
-							foreach (var x in changeling.AbilitiesNow)
-							{
-								if (x.AbilityData == AbilityData)
-								{
-									x.isToggled = toggle;
-								}
-							}
-							return true;
-					}
-					break;
+					return MiscAbilitiesToggle(changeling, data, toggle);
 			}
 			return false;
 		}
 
-		private bool UseAbilityWithParam(ChangelingMain changeling, ChangelingData data, List<string> param)
+		private bool UseAbilityWithParam(ChangelingMain changeling, ChangelingData data, List<string> param, Vector3 clickPosition)
 		{
+			// TODO delete this when clickPosition will be needed
+			clickPosition.Normalize();
 			switch (data.abilityType)
 			{
-				case ChangelingAbilityType.Sting:
-					break;
-				case ChangelingAbilityType.Heal:
-					break;
 				case ChangelingAbilityType.Transform:
-					switch (data.transformType)
+					return TransformAbilityWithParam(changeling, data, param);
+			}
+
+			return false;
+		}
+
+		private void AfterAbility(PlayerInfo sentByPlayer)
+		{
+			Cooldowns.TryStartClient(sentByPlayer.Script, AbilityData, CooldownTime);
+
+			UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
+		}
+
+		private void AfterAbility(PlayerScript sentByPlayer)
+		{
+			Cooldowns.TryStartClient(sentByPlayer, AbilityData, CooldownTime);
+
+			UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
+		}
+
+		private bool ValidateAbility(PlayerInfo sentByPlayer)
+		{
+			var changelingMain = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];
+			if (sentByPlayer.Script.IsDeadOrGhost || (sentByPlayer.Script.playerHealth.IsCrit && !AbilityData.CanBeUsedWhileInCrit))
+			{
+				return false;
+			}
+
+			if (changelingMain.Chem - AbilityData.AbilityChemCost < 0)
+			{
+				Chat.AddExamineMsg(changelingMain.gameObject, "Not enough chemicals for ability!");
+				return false;
+			}
+
+			bool isRecharging = Cooldowns.IsOnServer(sentByPlayer.Script, AbilityData);
+			if (isRecharging)
+			{
+				return false;
+			}
+			return changelingMain.HasAbility(ability);
+		}
+
+		private bool ValidateAbilityClient()
+		{
+			var changelingMain = UIManager.Display.hudChangeling.ChangelingMain;
+			if (changelingMain.ChangelingMind.Body.IsDeadOrGhost || changelingMain.ChangelingMind.Body.playerHealth.IsCrit ||
+			changelingMain.Chem - AbilityData.AbilityChemCost < 0)
+			{
+				return false;
+			}
+
+			return changelingMain.HasAbility(ability);
+		}
+
+		#region Abilities
+
+		private bool MiscAbilitiesLocal(ChangelingMain changeling, ChangelingData data)
+		{
+			switch (data.miscType)
+			{
+				case ChangelingMiscType.OpenStore:
+					UIManager.Display.hudChangeling.OpenStoreUI();
+					return true;
+				case ChangelingMiscType.OpenMemories:
+					UIManager.Display.hudChangeling.OpenMemoriesUI();
+					return true;
+				case ChangelingMiscType.OpenTransform:
+					UIManager.Display.hudChangeling.OpenTransformUI(changeling, (ChangelingDNA dna) =>
 					{
-						case ChangelingTransformType.Transform:
-							string dnaID = param[0];
+						PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesWithParam(AbilityData.UseAfterChoise.Index, new Vector3(), $"{dna.DnaID}");
+					});
+					return true;
+			}
+			return false;
+		}
 
-							var dna = changeling.GetDNAByID(int.Parse(dnaID));
+		private bool TransformAbilityWithParam(ChangelingMain changeling, ChangelingData data, List<string> param)
+		{
+			switch (data.transformType)
+			{
+				case ChangelingTransformType.Transform:
+					string dnaID = param[0];
 
-							//if (dna == changeling.currentDNA)
-							//	return false;
+					var dna = changeling.GetDNAByID(int.Parse(dnaID));
 
-							CharacterSheet characterSheet = dna.CharacterSheet;
+					CharacterSheet characterSheet = dna.CharacterSheet;
 
-							PlayerScript body = changeling.ChangelingMind.Body;
+					PlayerScript body = changeling.ChangelingMind.Body;
 
+					Chat.AddExamineMsgFromServer(body.gameObject,
+						$"Your body starts morph into a new form.");
+
+					var action = StandardProgressAction.Create(transformProgressBar,
+						() =>
+						{
 							body.visibleName = characterSheet.Name;
 							body.playerName = characterSheet.Name;
 
@@ -671,13 +580,11 @@ namespace Changeling
 
 							PlayerHealthData raceBodyparts = characterSheet.GetRaceSoNoValidation();
 
-							//ColorUtility.TryParseHtmlString(characterSheet.SkinTone, out var bodyColor);
+							List<DNAMutationData> dataForMutations = new ();
 
-							List<DNAMutationData> dataForMutations = new List<DNAMutationData>();
+							DNAMutationData dataForMutation = new ();
 
-							DNAMutationData dataForMutation = new DNAMutationData();
-
-							DNAMutationData.DNAPayload payload = new DNAMutationData.DNAPayload();
+							DNAMutationData.DNAPayload payload = new ();
 
 							payload.SpeciesMutateTo = raceBodyparts;
 							payload.MutateToBodyPart = raceBodyparts.Base.Head.Elements[0];
@@ -710,7 +617,7 @@ namespace Changeling
 							dataForMutation.Payload.Add(payload);
 
 							// adding the same thing but with dif name just because main body is named as tosrso or as chest is some cases
-							dataForMutation.BodyPartSearchString = "Torso"; 
+							dataForMutation.BodyPartSearchString = "Torso";
 
 							dataForMutations.Add(dataForMutation);
 
@@ -778,62 +685,175 @@ namespace Changeling
 							changeling.currentDNA = dna;
 
 							StartCoroutine(body.playerHealth.ProcessDNAPayload(dataForMutations, characterSheet, dna, changeling));
-							return true;
-					}
-					break;
-				case ChangelingAbilityType.Misc:
-					break;
+						});
+					action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, 2f, changeling.ChangelingMind.Body.gameObject);
+
+					return true;
 			}
 			return false;
 		}
 
-		private void AfterAbility(PlayerInfo sentByPlayer)
+		private bool StingAbilities(ChangelingMain changeling, ChangelingData data, Vector3 clickPosition, PlayerScript target)
 		{
-			Cooldowns.TryStartClient(sentByPlayer.Script, AbilityData, CooldownTime);
+			switch (data.stingType)
+			{
+				case StingType.ExtractDNASting:
+					Chat.AddCombatMsgToChat(changeling.gameObject,
+					$"<color=red>You start stings of {target.playerName}</color>",
+					$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} starts stings of {target.playerName}</color>");
 
-			UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
+					var action = StandardProgressAction.Create(stingProgressBar,
+						() => PerfomAbilityAfter(changeling, data, clickPosition, target));
+					action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, AbilityData.StingTime, changeling.ChangelingMind.Body.gameObject);
+					return true;
+				case StingType.Absorb:
+
+					Chat.AddCombatMsgToChat(changeling.gameObject,
+					$"<color=red>You start absorbing of {target.playerName}</color>",
+					$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} starts absorbing of {target.playerName}</color>");
+					var cor = StartCoroutine(AbsorbingProgress(ability.StingTime / 10f, target));
+					action = StandardProgressAction.Create(stingProgressBar,
+						() =>
+						{
+							StopCoroutine(cor);
+							PerfomAbilityAfter(changeling, data, clickPosition, target);
+						},
+						(interruptionType) =>
+						{
+							StopCoroutine(cor);
+						});
+
+
+					action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, AbilityData.StingTime, changeling.ChangelingMind.Body.gameObject);
+					return true;
+				case StingType.HallucinationSting:
+					action = StandardProgressAction.Create(stingProgressBar,
+						() => PerfomAbilityAfter(changeling, data, clickPosition, target));
+					action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, AbilityData.StingTime, changeling.ChangelingMind.Body.gameObject);
+					return true;
+			}
+			return false;
 		}
 
-		private void AfterAbility(PlayerScript sentByPlayer)
+		private bool RegenerateAbilities(ChangelingMain changeling, ChangelingData data)
 		{
-			Cooldowns.TryStartClient(sentByPlayer, AbilityData, CooldownTime);
-
-			UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
+			switch (data.healType)
+			{
+				case ChangelingHealType.Regenerate:
+					StartCoroutine(RegenerationProcess(changeling));
+					return true;
+			}
+			return false;
 		}
 
-		private bool ValidateAbility(PlayerInfo sentByPlayer)
+		private bool RegenerateAbilitiesToggle(ChangelingMain changeling, ChangelingData data, bool toggle)
 		{
-			var changelingMain = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];
-			if (sentByPlayer.Script.IsDeadOrGhost || (sentByPlayer.Script.playerHealth.IsCrit && !AbilityData.CanBeUsedWhileInCrit))
+			switch (data.healType)
 			{
-				return false;
-			}
+				case ChangelingHealType.RevivingStasis:
+					if (toggle)
+					{
+						UIActionManager.SetServerSpriteSO(this, ActionData.Sprites[1]);
+						changeling.isFakingDeath = true;
 
-			if (changelingMain.Chem - AbilityData.AbilityChemCost < 0)
-			{
-				Chat.AddExamineMsg(changelingMain.gameObject, "Not enough chemicals for ability!");
-				return false;
+						changeling.ChangelingMind.Body.playerHealth.StopHealthSystemsAndHeart();
+						changeling.ChangelingMind.Body.playerHealth.StopOverralCalculation();
+						changeling.ChangelingMind.Body.playerHealth.SetConsciousState(ConsciousState.UNCONSCIOUS);
+					}
+					else
+					{
+						UIActionManager.SetServerSpriteSO(this, ActionData.Sprites[0]);
+						changeling.UseAbility(this);
+						// healing
+						changeling.ChangelingMind.Body.playerHealth.FullyHeal();
+						changeling.ChangelingMind.Body.playerHealth.UnstopOverallCalculation();
+						changeling.ChangelingMind.Body.playerHealth.UnstopHealthSystemsAndRestartHeart();
+						changeling.isFakingDeath = false;
+					}
+					return true;
 			}
-
-			bool isRecharging = Cooldowns.IsOnServer(sentByPlayer.Script, AbilityData);
-			if (isRecharging)
-			{
-				return false;
-			}
-			return changelingMain.HasAbility(ability);
+			return false;
 		}
 
-		private bool ValidateAbilityClient()
+		private bool MiscAbilitiesToggle(ChangelingMain changeling, ChangelingData data, bool toggle)
 		{
-			var changelingMain = UIManager.Display.hudChangeling.ChangelingMain;
-			if (changelingMain.ChangelingMind.Body.IsDeadOrGhost || changelingMain.ChangelingMind.Body.playerHealth.IsCrit ||
-			changelingMain.Chem - AbilityData.AbilityChemCost < 0)
+			switch (data.miscType)
 			{
-				return false;
-			}
+				case ChangelingMiscType.AugmentedEyesight:
+					if (Camera.main == null ||
+						Camera.main.TryGetComponent<CameraEffectControlScript>(out var effects) == false) return false;
 
-			return changelingMain.HasAbility(ability);
+					foreach (var bodyPart in changeling.ChangelingMind.Body.playerHealth.BodyPartList)
+					{
+						foreach (BodyPartFunctionality organ in bodyPart.OrganList)
+						{
+							if (organ is Eye eye)
+							{
+								eye.ApplyChangesXrayState(toggle);
+							}
+						}
+					}
+
+					effects.AdjustPlayerVisibility(
+						toggle ? AbilityData.ExpandedNightVisionVisibility : effects.MinimalVisibilityScale,
+						toggle ? AbilityData.DefaultvisibilityAnimationSpeed : AbilityData.RevertvisibilityAnimationSpeed);
+					effects.ToggleNightVisionEffectState(toggle);
+					effects.SetNightVisionMaxLensRadius(true);
+
+					foreach (var x in changeling.AbilitiesNow)
+					{
+						if (x.AbilityData == AbilityData)
+						{
+							x.isToggled = toggle;
+						}
+					}
+					return true;
+			}
+			return false;
 		}
 
+		private IEnumerator RegenerationProcess(ChangelingMain changeling)
+		{
+			for (int i = 1; i < 4; i++)
+			{
+				foreach (var part in changeling.ChangelingMind.Body.playerHealth.BodyPartList)
+				{
+					if (part.Health == part.MaxHealth)
+						continue;
+					if (part.name.ToLower().Contains("bones") || part.Health < part.MaxHealth / 3)
+					{
+						Chat.AddCombatMsgToChat(changeling.gameObject,
+						$"<color=red>Your bones makes cracking noise.</color>",
+						$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.visibleName}'s bones make cracking noises.</color>");
+						if (AbilityData.CastSound != null)
+							SoundManager.PlayNetworkedAtPos(
+							AbilityData.CastSound, changeling.ChangelingMind.CurrentPlayScript.WorldPos, sourceObj: changeling.ChangelingMind.Body.GameObject, global: false);
+					}
+					part.HealDamage(null, part.MaxHealth / 4, DamageType.Brute);
+					part.HealDamage(null, part.MaxHealth / 12, DamageType.Tox);
+					part.HealDamage(null, part.MaxHealth / 24, DamageType.Burn);
+					part.HealDamage(null, part.MaxHealth / 24, DamageType.Radiation);
+					part.HealDamage(null, part.MaxHealth / 12, DamageType.Oxy);
+				}
+				yield return WaitFor.SecondsRealtime(1f);
+			}
+			changeling.ChangelingMind.Body.playerHealth.RestartHeart();
+
+			var bloodSystem = changeling.ChangelingMind.Body.playerHealth.reagentPoolSystem;
+
+			var characterSheet = changeling.ChangelingMind.Body.characterSettings;
+			var bodyParts = characterSheet.GetRaceSoNoValidation();
+
+			ColorUtility.TryParseHtmlString(characterSheet.SkinTone, out var bodyColor);
+			RespawnMissedBodyparts(changeling, bodyColor, changeling.ChangelingMind.Body.playerHealth, bodyParts);
+
+			RegenerationOfBodyOrgans(changeling, bodyParts);
+
+			UpdateBloodPool(bloodSystem, changeling);
+
+			yield break;
+		}
+
+		#endregion
 	}
 }

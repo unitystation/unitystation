@@ -901,9 +901,4 @@ public class Mind : NetworkBehaviour, IActionGUI
 	{
 		return properties.GetOrDefault(key, defaultValue) is T typedProperty ? typedProperty : defaultValue;
 	}
-
-	public void CallToggleActionClient(bool toggled)
-	{
-
-	}
 }

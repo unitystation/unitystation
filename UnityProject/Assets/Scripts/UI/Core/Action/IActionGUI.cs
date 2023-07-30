@@ -14,7 +14,10 @@ public interface IActionGUI : IAction
 	ActionData ActionData { get; }
 
 	void CallActionClient();
-	void CallToggleActionClient(bool toggled);
+	public virtual void CallToggleActionClient(bool toggled)
+	{
+
+	}
 }
 
 
@@ -24,7 +27,6 @@ public interface IActionGUI : IAction
 public interface IServerActionGUI : IActionGUI
 {
 	void CallActionServer(PlayerInfo playerInfo); //Requires validation in this
-	void CallToggleActionServer(PlayerInfo playerInfo, bool toggled); //Requires validation in this
 }
 
 
@@ -84,7 +86,10 @@ public interface IActionGUIMulti : IAction
 	List<ActionData> ActionData { get; }
 
 	void CallActionClient(ActionData data);
-	void CallToggleActionClient(ActionData data, bool toggle);
+	public void CallToggleActionClient(ActionData data, bool toggle)
+	{
+
+	}
 }
 
 
@@ -94,5 +99,4 @@ public interface IActionGUIMulti : IAction
 public interface IServerActionGUIMulti : IActionGUIMulti
 {
 	void CallActionServer(ActionData data, PlayerInfo playerInfo); //Requires validation in this
-	void CallToggleActionServer(ActionData data, PlayerInfo playerInfo, bool toggle);
 }

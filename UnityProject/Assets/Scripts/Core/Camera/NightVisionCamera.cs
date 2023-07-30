@@ -22,12 +22,12 @@ namespace CameraEffects
 		{
 			if (shader != null)
 			{
-				if (!material)
+				if (material == false)
 				{
 					material = new Material(shader);
 				}
 				material.SetVector("_Luminance", new Vector4(luminance, luminance, luminance, luminance));
-				if (!lensRadiusMaxed)
+				if (lensRadiusMaxed == false)
 					material.SetFloat("_LensRadius", lensRadius);
 				else
 					material.SetFloat("_LensRadius", 4f);

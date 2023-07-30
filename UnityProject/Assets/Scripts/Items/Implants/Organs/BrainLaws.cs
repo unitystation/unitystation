@@ -471,9 +471,4 @@ public class BrainLaws : NetworkBehaviour, IActionGUI, IClientInteractable<HandA
 			Debug.LogError(law);
 		}
 	}
-
-	public void CallToggleActionClient(bool toggled)
-	{
-
-	}
 }

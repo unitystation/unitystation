@@ -95,10 +95,10 @@ namespace Messages.Server
 
 				if (UIActionManager.HasActionData(abilityData, out action) == false)
 				{
-					// no need to instantiate a spell if server asks to hide one anyway
+					// no need to instantiate a action if server asks to hide one anyway
 					if (msg.ProposedAction == UpdateType.StateChange && msg.showAlert == false) return;
 
-					//Loads what game object this Spell is on
+					//Loads what game object this Action is on
 					LoadNetworkObject(msg.NetObjectOn);
 					action = abilityData.AddToPlayer(NetworkObject.GetComponent<Mind>());
 				}

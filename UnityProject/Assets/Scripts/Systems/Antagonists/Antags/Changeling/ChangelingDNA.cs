@@ -37,7 +37,7 @@ namespace Changeling
 			catch
 			{
 				Job = JobType.ASSISTANT;
-				Logger.LogError("When creating DNA can`t find target job", Category.Changeling);
+				Logger.LogError($"[ChangelingDNA/FormDNA] When creating DNA can`t find {playerDataForDNA.playerName} job", Category.Changeling);
 			}
 		}
 

@@ -69,8 +69,7 @@ public enum JobType
 	REDSHIELD_OFFICER = 57,
 	ASHWALKER = 58,
 	HIGHLANDER = 59,
-	THEWELDER = 60,
-	CHANGELING = 61
+	THEWELDER = 60
 }
 
 public static class JobCategories

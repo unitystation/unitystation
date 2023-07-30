@@ -890,7 +890,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (ability.AbilityData.Index == abilityIndex)
 			{
-				ability.CallActionToggleServer(PlayerList.Instance.GetOnline(gameObject), clickPosition, toggled);
+				ability.CallToggleActionServer(PlayerList.Instance.GetOnline(gameObject), clickPosition, toggled);
 				return;
 			}
 		}

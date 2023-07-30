@@ -724,9 +724,4 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 		return interactions;
 	}
-
-	public void CallToggleActionClient(bool toggled)
-	{
-		
-	}
 }

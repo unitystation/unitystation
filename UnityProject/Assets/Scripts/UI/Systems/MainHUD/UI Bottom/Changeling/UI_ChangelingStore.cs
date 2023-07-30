@@ -82,7 +82,6 @@ namespace Changeling
 
 		public void AddAbility(ChangelingData data)
 		{
-			//RemoveEntry(data);
 			ui.AddAbility(data);
 		}
 	}

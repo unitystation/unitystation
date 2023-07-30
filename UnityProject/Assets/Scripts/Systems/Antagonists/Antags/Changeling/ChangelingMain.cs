@@ -12,10 +12,11 @@ using Util;
 namespace Changeling
 {
 	[DisallowMultipleComponent]
-	public class ChangelingMain : NetworkBehaviour, IServerActionGUIMulti
+	public class ChangelingMain : NetworkBehaviour
 	{
 		[Header("Changeling main")]
-		[SyncVar(hook = nameof(SyncChemCount))] private float chem = 25;
+		[SyncVar(hook = nameof(SyncChemCount))]
+		private float chem = 25;
 		public float Chem => chem;
 		[SyncVar(hook = nameof(SyncMindID))] private uint changelingMindID = 0;
 		[SyncVar] private float chemMax = 75;
@@ -51,7 +52,8 @@ namespace Changeling
 				return ChangelingDNAs.Skip(changelingDNAs.Count - MAX_LAST_EXTRACTED_DNA_FOR_TRANSFORM).ToList();
 			}
 		}
-		[SyncVar(hook = nameof(SyncEPCount))] private int evolutionPoints = 10;
+		[SyncVar(hook = nameof(SyncEPCount))]
+		private int evolutionPoints = 10;
 		public int EvolutionPoints => evolutionPoints;
 
 		private ObservableCollection<ChangelingAbility> abilitiesNow => changelingMind.ChangelingAbilities;
@@ -80,7 +82,6 @@ namespace Changeling
 			{
 				if (changelingMind == null)
 				{
-					Logger.LogError("Changeling can`t find Mind", Category.Changeling);
 					changelingMind = gameObject.transform.parent.gameObject.GetComponent<PlayerScript>().Mind;
 				}
 				return changelingMind;
@@ -95,12 +96,11 @@ namespace Changeling
 
 		private const float CHEM_ADD_TIME = 1;
 		private const float CHEM_ADD_PER_TIME_BASE = 2;
-		private const float CHEM_ADD_PER_TIME_BASE_SLOWED = 1;
+		private const float CHEM_ADD_PER_TIME_BASE_SLOWED = 2;
 		private const int MAX_LAST_EXTRACTED_DNA_FOR_TRANSFORM = 7;
 
 		#region Hooks
 
-		[Client]
 		private void ChangelingDNASync(string oldValue, string newValue)
 		{
 			if (changelingDNAs == null)
@@ -127,7 +127,6 @@ namespace Changeling
 			}
 		}
 
-		[Client]
 		private void ChangelingMemoriesSync(string oldValue, string newValue)
 		{
 			if (changelingMemories == null)
@@ -148,7 +147,6 @@ namespace Changeling
 			changelingMemoriesSer = newValue;
 		}
 
-		[Client]
 		private void SyncAbilityList(string oldValue, string newValue)
 		{
 			abilitesIDSNow = newValue;
@@ -164,7 +162,6 @@ namespace Changeling
 			}
 		}
 
-		[Client]
 		private void SyncChemCount(float oldValue, float newValue)
 		{
 			chem = newValue;
@@ -181,11 +178,10 @@ namespace Changeling
 			}
 			catch
 			{
-				Logger.LogError("Changeling can`t set up UI when sync chem", Category.Changeling);
+				Logger.LogError($"[ChangelingMain/SyncChemCount]{ChangelingMind.CurrentPlayScript.playerName} can`t set up UI", Category.Changeling);
 			}
 		}
 
-		[Client]
 		private void SyncMindID(uint oldValue, uint newValue)
 		{
 			changelingMindID = newValue;
@@ -200,11 +196,10 @@ namespace Changeling
 			}
 			catch
 			{
-				Logger.LogError("Changeling can`t set up UI when sync mind", Category.Changeling);
+				Logger.LogError($"[ChangelingMain/SyncMindID]{ChangelingMind.CurrentPlayScript.playerName} can`t set up UI", Category.Changeling);
 			}
 		}
 
-		[Client]
 		private void SyncEPCount(int oldValue, int newValue)
 		{
 			evolutionPoints = newValue;
@@ -220,36 +215,20 @@ namespace Changeling
 			}
 			catch
 			{
-				Logger.LogError("Changeling can`t set up UI when sync ep", Category.Changeling);
+				Logger.LogError($"[ChangelingMain/SyncEPCount]{ChangelingMind.CurrentPlayScript.playerName} can`t set up UI", Category.Changeling);
 			}
 		}
 
-		[Client]
 		private void SyncResetCounts(int oldValue, int newValue)
 		{
 			resetCount = newValue;
-			try
-			{
-				UIManager.Display.hudChangeling.UpdateResetButton();
-			}
-			catch
-			{
-				Logger.LogError("Changeling failes to update reset button", Category.Changeling);
-			}
+			UIManager.Display.hudChangeling.UpdateResetButton();
 		}
 
-		[Client]
 		private void SyncMaxResetCounts(int oldValue, int newValue)
 		{
 			resetCountMax = newValue;
-			try
-			{
-				UIManager.Display.hudChangeling.UpdateResetButton();
-			}
-			catch
-			{
-				Logger.LogError("Changeling failes to update reset button", Category.Changeling);
-			}
+			UIManager.Display.hudChangeling.UpdateResetButton();
 		}
 
 		#endregion
@@ -259,7 +238,7 @@ namespace Changeling
 		/// <summary>
 		/// Resets changeling abilities
 		/// </summary>
-		[Command(requiresAuthority = false)]
+		[Command(requiresAuthority = true)]
 		public void CmdResetAbilities()
 		{
 			if (resetCount >= resetCountMax)
@@ -292,16 +271,28 @@ namespace Changeling
 		/// Add ability to changeling
 		/// </summary>
 		/// <param name="index">Ability index</param>
-		[Command(requiresAuthority = false)]
+		[Command(requiresAuthority = true)]
 		public void CmdBuyAbility(short index)
 		{
-			//var changeling = changelingMindID[changelingPlayer.netId];
 			var abil = ChangelingAbilityList.Instance.FromIndex(index);
 
 			AddAbility(abil);
 		}
 
 		#endregion
+
+		public void ResetAbilities()
+		{
+			// toggle off abilities when player resets them
+			foreach (var abil in abilitiesNow)
+			{
+				if (abil.AbilityData.canBeReseted && abil.IsToggled && !abil.AbilityData.IsAimable)
+				{
+					abil.CallToggleActionClient(false);
+				}
+			}
+			CmdResetAbilities();
+		}
 
 		private void OnDisable()
 		{
@@ -325,7 +316,6 @@ namespace Changeling
 				changelingDNAs.Add(dna);
 				changelingDNASer += $"{JsonConvert.SerializeObject(dna)}\n";
 			}
-			//return JsonConvert.DeserializeObject<CharacterSheet>(json);
 		}
 
 		private void OnCrit()
@@ -443,8 +433,6 @@ namespace Changeling
 			foreach (var dna in changelingMain.changelingDNAs)
 			{
 				AddDNA(dna);
-				//if (!HasDna(dna))
-				//	changelingDNAs.Add(dna);
 			}
 			AddMemories(changelingMain.changelingMemories);
 			changelingMain.RemoveDNA(changelingMain.changelingDNAs);
@@ -517,8 +505,6 @@ namespace Changeling
 			changelingMind = changelingMindUser;
 
 			playerScript = changelingMindUser.CurrentPlayScript;
-			playerScript.OnActionControlPlayer += PlayerEnterBody;
-			//ChangelingByNetPlayerID.Add(playerScript.netId, this);
 
 
 			if (!CustomNetworkManager.IsServer) return;
@@ -589,21 +575,6 @@ namespace Changeling
 			}
 		}
 
-		public void PlayerEnterBody()
-		{
-			
-		}
-
-		public void CallActionServer(ActionData data, PlayerInfo playerInfo)
-		{
-
-		}
-
-		public void CallActionClient(ActionData data)
-		{
-
-		}
-
 		public bool HasAbility(ChangelingData ability)
 		{
 			return AbilitiesNowData.Contains(ability);
@@ -615,16 +586,6 @@ namespace Changeling
 			{
 				chem -= changelingAbility.AbilityData.AbilityChemCost;
 			}
-		}
-
-		public void CallToggleActionServer(ActionData data, PlayerInfo playerInfo, bool toggle)
-		{
-
-		}
-
-		public void CallToggleActionClient(ActionData data, bool toggle)
-		{
-
 		}
 
 		public ChangelingDNA GetDNAByID(int dnaID)
