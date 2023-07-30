@@ -1,11 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Doors;
 using Doors.Modules;
-using Managers;
 using Objects.Construction;
-using Objects.Other;
 using Shared.Managers;
 
 namespace Systems.Score
@@ -118,7 +115,7 @@ namespace Systems.Score
 
 		private void CheckMainStationFilth()
 		{
-			var dirtyness= 0;
+			var dirtyness = 0;
 			foreach (var decal in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<FloorDecal>())
 			{
 				if (decal.Cleanable) dirtyness++;
