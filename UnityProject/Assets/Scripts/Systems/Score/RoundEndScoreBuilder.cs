@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Doors;
 using Doors.Modules;
 using Managers;
+using Objects.Construction;
+using Objects.Other;
 using Shared.Managers;
 
 namespace Systems.Score
@@ -45,29 +48,37 @@ namespace Systems.Score
 			ScoreMachine.AddNewScoreEntry("roundLength", "Shift Length", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
 			ScoreMachine.AddToScoreInt(GameManager.Instance.RoundTime.Minute, "roundLength");
 			//How many crew members are still on the station?
-			ScoreMachine.AddNewScoreEntry("abandonedCrew", "Abandoned Crew", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
+			ScoreMachine.AddNewScoreEntry("abandonedCrew", "Abandoned Crew Score", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
 			ScoreMachine.AddToScoreInt(-MatrixManager.MainStationMatrix.Matrix.PresentPlayers.Count * negativeModifer, "abandonedCrew");
 			//Is the captain still on his ship during a red alert or higher?
+#if UNITY_EDITOR
+			ScoreMachine.AddNewScoreEntry("captainWithHisShip", "Captain goes down with his ship", ScoreMachine.ScoreType.Bool, ScoreCategory.StationScore, ScoreAlignment.Good);
+			ScoreMachine.AddToScoreBool(MatrixManager.MainStationMatrix.Matrix.PresentPlayers.Any(crew =>
+				crew.OrNull()?.PlayerScript.OrNull()?.Mind.OrNull()?.occupation == captainOccupation), "captainWithHisShip");
+#else
 			if (GameManager.Instance.CentComm.CurrentAlertLevel >= CentComm.AlertLevel.Red)
 			{
 				ScoreMachine.AddNewScoreEntry("captainWithHisShip", "Captain goes down with his ship", ScoreMachine.ScoreType.Bool, ScoreCategory.StationScore, ScoreAlignment.Good);
 				ScoreMachine.AddToScoreBool(MatrixManager.MainStationMatrix.Matrix.PresentPlayers.Any(crew =>
 					crew.OrNull()?.PlayerScript.OrNull()?.Mind.OrNull()?.occupation == captainOccupation), "captainWithHisShip");
 			}
+#endif
+
 			//How many dead crew are there if there are more than two crewmembers?
-			if (PlayerList.Instance.AllPlayers.Count > 2)
+			if (PlayerList.Instance.NonAntagPlayers.Count > 2)
 			{
-				ScoreMachine.AddNewScoreEntry("deadCrew", "Dead Crew", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
+				ScoreMachine.AddNewScoreEntry("deadCrew", "Dead Crew Score", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
 				//We can get away with using expensive LINQ methods here at round end.
-				foreach (var player in PlayerList.Instance.AllPlayers.Where(player => player.Mind != null && player.Script != null))
+				foreach (var player in PlayerList.Instance.NonAntagPlayers.Where(player => player.Mind != null && player.Script != null))
 				{
-					ScoreMachine.AddToScoreInt(DEAD_CREW_SCORE * negativeModifer, "deadCrew");
+					if (player.Script.playerHealth.IsDead) ScoreMachine.AddToScoreInt(DEAD_CREW_SCORE * negativeModifer, "deadCrew");
 				}
 			}
 			//Who's the crew member with the worst overall health?
 			FindLowestHealthCrew();
 			//Are there any electrified doors on the station?
 			FindHarmfulDoors();
+			CheckMainStationFilth();
 		}
 
 		private static void FindLowestHealthCrew()
@@ -82,10 +93,10 @@ namespace Systems.Score
 				lowestHealthCrewMemberNumber = alivePlayer.Script.playerHealth.OverallHealth;
 				lowestHealthCrewMemberName = alivePlayer.Script.playerName;
 			}
-			if(string.IsNullOrEmpty(lowestHealthCrewMemberName)) return;
+			if (string.IsNullOrEmpty(lowestHealthCrewMemberName)) return;
 			var lowestHealthWinner = $"{lowestHealthCrewMemberName} - {lowestHealthCrewMemberNumber}HP";
 			ScoreMachine.AddNewScoreEntry("worstBatteredCrewMemeber", "Crewmember with the lowest health", ScoreMachine.ScoreType.String, ScoreCategory.StationScore, ScoreAlignment.Bad);
-			ScoreMachine.AddToScoreString(lowestHealthWinner, "worstBatteredCrewMemeber");
+			ScoreMachine.AddToScoreString(lowestHealthWinner, lowestHealthCrewMemberNumber > 25f ? 0 : -5, "worstBatteredCrewMemeber");
 		}
 
 		private static void FindHarmfulDoors()
@@ -105,6 +116,34 @@ namespace Systems.Score
 			ScoreMachine.AddToScoreInt(numberOfDoors, COMMON_DOOR_ELECTRIC_ENTRY);
 		}
 
+		private void CheckMainStationFilth()
+		{
+			var dirtyness= 0;
+			foreach (var decal in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<FloorDecal>())
+			{
+				if (decal.Cleanable) dirtyness++;
+			}
+
+			if (MatrixManager.MainStationMatrix.SubsystemManager
+				    .TryGetComponent<FilthGenerator.FilthGenerator>(out var generator) == false)
+			{
+				Logger.LogWarning("[RoundEndScoreBuilder] - Cannot find filth generator, skipping..", Category.Round);
+				return;
+			}
+			if (generator.FilthCleanGoal >= dirtyness)
+			{
+				ScoreMachine.AddNewScoreEntry(FILTH_ENTRY, "Station Filth Score",
+					ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
+				ScoreMachine.AddToScoreInt(CLEAN_STATION_SCORE, FILTH_ENTRY);
+			}
+			else
+			{
+				ScoreMachine.AddNewScoreEntry(FILTH_ENTRY, "Station Filth Score",
+					ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
+				ScoreMachine.AddToScoreInt(DIRTY_STATION_SCORE, FILTH_ENTRY);
+			}
+		}
+
 		public void CalculateScoresAndShow()
 		{
 			if(CustomNetworkManager.IsServer == false) return;
@@ -118,18 +157,40 @@ namespace Systems.Score
 
 			foreach (var entry in ScoreMachine.Instance.Scores)
 			{
-				if (entry.Value.Category == ScoreCategory.StationScore)
+				switch (entry.Value.Category)
 				{
-					stationScoreEntries.Add(entry.Value);
-					if (entry.Value is ScoreEntryInt a) finalStationScore += a.Score;
-					if (entry.Value is ScoreEntryBool m) finalStationScore += m.Score ? boolScore : -boolScore;
-				}
-
-				if (entry.Value.Category == ScoreCategory.AntagScore)
-				{
-					antagScoreEntries.Add(entry.Value);
-					if (entry.Value is ScoreEntryInt o) finalAntagScore += o.Score;
-					if (entry.Value is ScoreEntryBool g) finalAntagScore += g.Score ? boolScore : -boolScore;
+					case ScoreCategory.StationScore:
+						stationScoreEntries.Add(entry.Value);
+						switch (entry.Value)
+						{
+							case ScoreEntryInt a:
+								finalStationScore += a.Score;
+								entry.Value.ScoreValue = a.Score;
+								break;
+							case ScoreEntryBool m:
+								finalStationScore += m.Score ? boolScore : -boolScore;
+								entry.Value.ScoreValue = m.Score ? boolScore : -boolScore;
+								break;
+						}
+						break;
+					//TODO: Add Antag Score UI.
+					case ScoreCategory.AntagScore:
+						antagScoreEntries.Add(entry.Value);
+						switch (entry.Value)
+						{
+							case ScoreEntryInt o:
+								finalAntagScore += o.Score;
+								entry.Value.ScoreValue = o.Score;
+								break;
+							case ScoreEntryBool g:
+								entry.Value.ScoreValue = g.Score ? boolScore : -boolScore;
+								break;
+						}
+						break;
+					case
+						ScoreCategory.MiscScore :
+						default:
+							break;
 				}
 			}
 
