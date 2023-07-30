@@ -170,7 +170,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 				{
 					changeling = UIManager.Instance.displayControl.hudChangeling.ChangelingMain;
 				}
-				//changeling = Mind.Body.GetComponentInChildren<ChangelingMain>();
 			}
 			return changeling;
 		}

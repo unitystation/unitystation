@@ -884,13 +884,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdRequestChangelingAbilitesToggle(int abilityIndex, Vector3 clickPosition, bool toggled)
+	public void CmdRequestChangelingAbilitesToggle(int abilityIndex, bool toggled)
 	{
 		foreach (var ability in playerScript.Mind.ChangelingAbilities)
 		{
 			if (ability.AbilityData.Index == abilityIndex)
 			{
-				ability.CallToggleActionServer(PlayerList.Instance.GetOnline(gameObject), clickPosition, toggled);
+				ability.CallToggleActionServer(PlayerList.Instance.GetOnline(gameObject), toggled);
 				return;
 			}
 		}
@@ -898,13 +898,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	
 
 	[Command]
-	public void CmdRequestChangelingAbilitesWithParam(int abilityIndex, Vector3 clickPosition, string param)
+	public void CmdRequestChangelingAbilitesWithParam(int abilityIndex, string param)
 	{
 		foreach (var ability in playerScript.Mind.Body.Changeling.AbilitiesNow)
 		{
 			if (ability.AbilityData.Index == abilityIndex)
 			{
-				ability.CallActionServerWithParam(PlayerList.Instance.GetOnline(gameObject), clickPosition, param);
+				ability.CallActionServerWithParam(PlayerList.Instance.GetOnline(gameObject), param);
 				return;
 			}
 		}

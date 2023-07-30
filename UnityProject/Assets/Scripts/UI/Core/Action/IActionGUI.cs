@@ -88,7 +88,7 @@ public interface IActionGUIMulti : IAction
 	void CallActionClient(ActionData data);
 	public void CallToggleActionClient(ActionData data, bool toggle)
 	{
-
+		//Called when action is toggled
 	}
 }
 

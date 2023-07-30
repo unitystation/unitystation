@@ -16,7 +16,7 @@ namespace Changeling
 
 		private ChangelingMain changelingMain = null;
 
-		private Dictionary<ChangelingMemories, ChangelingMemoriesEntry> entryPool = new();
+		private readonly Dictionary<ChangelingMemories, ChangelingMemoriesEntry> entryPool = new();
 
 		public void Refresh(List<ChangelingMemories> toBuy, ChangelingMain changeling)
 		{

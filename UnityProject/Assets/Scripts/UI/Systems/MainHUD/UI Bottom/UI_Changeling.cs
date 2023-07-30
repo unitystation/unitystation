@@ -13,7 +13,6 @@ namespace Changeling
 {
 	public class UI_Changeling : MonoBehaviour
 	{
-		//private ChangelingMain ChangelingMain;
 		public ChangelingMain ChangelingMain;
 		public static UI_Changeling instance;
 		[SerializeField] private TMP_Text chemText = null;
@@ -25,7 +24,6 @@ namespace Changeling
 		[SerializeField] private UI_ChangelingMemories memories = null;
 
 		[SerializeField] private TMP_Text abilityPointsCount = null;
-		//private List<ActionData> actData = new List<ActionData>();
 
 		public List<ChangelingData> ChangelingDataToBuy => ChangelingMain.AllAbilities;
 
@@ -61,7 +59,7 @@ namespace Changeling
 
 		public void UpdateEPText()
 		{
-			abilityPointsCount.text = $"Left genetic points {ChangelingMain.EvolutionPoints}"; //changelingMain.EpPoints.ToString();
+			abilityPointsCount.text = $"Left genetic points {ChangelingMain.EvolutionPoints}";
 		}
 
 		public void TurnOff()

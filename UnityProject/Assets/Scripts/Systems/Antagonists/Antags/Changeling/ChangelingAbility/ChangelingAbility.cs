@@ -70,7 +70,7 @@ namespace Changeling
 			}
 			else
 			{
-				PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesToggle(AbilityData.Index, action.LastClickPosition, toggled);
+				PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesToggle(AbilityData.Index, toggled);
 			}
 		}
 
@@ -83,11 +83,11 @@ namespace Changeling
 			}
 		}
 
-		public void CallToggleActionServer(PlayerInfo SentByPlayer, Vector3 clickPosition, bool toggle)
+		public void CallToggleActionServer(PlayerInfo SentByPlayer, bool toggle)
 		{
 			var validateAbility = ValidateAbility(SentByPlayer);
 			if (validateAbility &&
-				CastAbilityToggleServer(SentByPlayer, clickPosition, toggle))
+				CastAbilityToggleServer(SentByPlayer, toggle))
 			{
 				isToggled = toggle;
 			} else if (!validateAbility)
@@ -104,7 +104,7 @@ namespace Changeling
 			}
 		}
 
-		public void ForceToggleToState(bool toggle, bool useAbility = false)
+		public void ForceToggleToState(bool toggle)
 		{
 			isToggled = toggle;
 
@@ -118,25 +118,25 @@ namespace Changeling
 			}
 		}
 
-		public void CallActionServerWithParam(PlayerInfo sentByPlayer, Vector3 clickPosition, string paramString)
+		public void CallActionServerWithParam(PlayerInfo sentByPlayer, string paramString)
 		{
 			var changeling = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];
 			List<string> param = paramString.Split('\n').ToList();
 			if (ValidateAbility(sentByPlayer) &&
-				CastAbilityServerWithParam(sentByPlayer, clickPosition, param))
+				CastAbilityServerWithParam(sentByPlayer, param))
 			{
 				changeling.UseAbility(this);
 			}
 		}
 
-		private bool CastAbilityServerWithParam(PlayerInfo sentByPlayer, Vector3 clickPosition, List<string> param)
+		private bool CastAbilityServerWithParam(PlayerInfo sentByPlayer, List<string> param)
 		{
 			var changeling = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];
-			UseAbilityWithParam(changeling, AbilityData, param, clickPosition);
+			UseAbilityWithParam(changeling, AbilityData, param);
 			return true;
 		}
 
-		private bool CastAbilityToggleServer(PlayerInfo sentByPlayer, Vector3 clickPosition, bool toggle)
+		private bool CastAbilityToggleServer(PlayerInfo sentByPlayer, bool toggle)
 		{
 			var changeling = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];
 			if (toggle)
@@ -215,80 +215,12 @@ namespace Changeling
 			return false;
 		}
 
-		public bool PerfomAbilityAfter(ChangelingMain changeling, ChangelingData data, Vector3 clickPos, PlayerScript target)
+		public bool PerfomAbilityAfter(ChangelingMain changeling, ChangelingData data, PlayerScript target)
 		{
 			switch (data.abilityType)
 			{
 				case ChangelingAbilityType.Sting:
-					switch (data.stingType)
-					{
-						case StingType.ExtractDNASting:
-							var targetDNA = new ChangelingDNA();
-							Chat.AddCombatMsgToChat(changeling.gameObject,
-							$"<color=red>You finished sting of {target.playerName}</color>",
-							$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} finished sting of {target.playerName}</color>");
-
-							foreach (var x in changeling.ChangelingDNAs)
-							{
-								if (x.DnaID == target.Mind.bodyMobID)
-								{
-									x.UpdateDNA(target);
-									return true;
-								}
-							}
-							targetDNA.FormDNA(target);
-
-							changeling.AddDNA(targetDNA);
-							return true;
-						case StingType.Absorb:
-							Chat.AddCombatMsgToChat(changeling.gameObject,
-							$"<color=red>You finished absorbing of {target.playerName}</color>",
-							$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} finished absorbing of {target.playerName}</color>");
-
-							try
-							{
-								if (target.PlayerInfo.Mind.IsOfAntag<Changeling>())
-								{
-									changeling.AbsorbDNA(target, target.Changeling);
-									return true;
-								}
-							} catch
-							{
-								Logger.LogWarning("Can`t get player is antag", Category.Changeling);
-							}
-							targetDNA = new ChangelingDNA();
-
-							// fatal damage
-							target.Mind.Body.playerHealth.ApplyDamageAll(null, 999, AttackType.Internal, DamageType.Oxy);
-							target.Mind.Body.playerHealth.ApplyDamageAll(null, 999, AttackType.Internal, DamageType.Brute);
-							target.Mind.Body.playerHealth.ApplyDamageAll(null, 999, AttackType.Internal, DamageType.Clone);
-							target.Mind.Body.playerHealth.reagentPoolSystem.BloodPool.RemoveVolume(target.Mind.Body.playerHealth.reagentPoolSystem.BloodPool.Total);
-							foreach (var bodyPart in target.Mind.Body.playerHealth.BodyPartList)
-							{
-								foreach (BodyPartFunctionality organ in bodyPart.OrganList)
-								{
-									if (organ is Brain brain)
-									{
-										_ = Despawn.ServerSingle(organ.gameObject);
-									}
-								}
-							}
-							targetDNA.FormDNA(target);
-
-							changeling.AbsorbDNA(targetDNA, target);
-							return true;
-						case StingType.HallucinationSting:
-							var randomTimeAfter = UnityEngine.Random.Range(30, 60f);
-							targetDNA = new ChangelingDNA();
-
-							targetDNA.FormDNA(target);
-
-							changeling.AddDNA(targetDNA);
-
-							StartCoroutine(ReagentAdding(randomTimeAfter, AbilityData.Reagent, AbilityData.ReagentCount, target));
-							return true;
-					}
-					break;
+					return PerfomAbilityAfterSting(changeling, target, data);
 			}
 			return false;
 		}
@@ -309,7 +241,10 @@ namespace Changeling
 
 		private void RespawnMissedBodyparts(ChangelingMain changeling, Color bodyColor, PlayerHealthV2 containedIn, PlayerHealthData bodyParts)
 		{
-			bool noLeftArm = true, noRightArm = true, noLeftLeg = true, noRightLeg = true;
+			bool noLeftArm = true,
+			noRightArm = true,
+			noLeftLeg = true,
+			noRightLeg = true;
 			foreach (var RelatedPart in changeling.ChangelingMind.Body.playerHealth.SurfaceBodyParts)
 			{
 				switch (RelatedPart.BodyPartType)
@@ -329,7 +264,7 @@ namespace Changeling
 				}
 			}
 
-			void SpawnPart(GameObject toSpawn)
+			void SpawnPart(GameObject toSpawn, Color bodyColor)
 			{
 				var spawnedBodypart = Spawn.ServerPrefab(toSpawn).GameObject.GetComponent<HealthV2.BodyPart>();
 				spawnedBodypart.ChangeBodyPartColor(bodyColor);
@@ -340,19 +275,19 @@ namespace Changeling
 
 			if (noLeftArm)
 			{
-				SpawnPart(bodyParts.Base.ArmLeft.Elements[0]);
+				SpawnPart(bodyParts.Base.ArmLeft.Elements[0], bodyColor);
 			}
 			if (noRightArm)
 			{
-				SpawnPart(bodyParts.Base.ArmRight.Elements[0]);
+				SpawnPart(bodyParts.Base.ArmRight.Elements[0], bodyColor);
 			}
 			if (noLeftLeg)
 			{
-				SpawnPart(bodyParts.Base.LegLeft.Elements[0]);
+				SpawnPart(bodyParts.Base.LegLeft.Elements[0], bodyColor);
 			}
 			if (noRightLeg)
 			{
-				SpawnPart(bodyParts.Base.LegRight.Elements[0]);
+				SpawnPart(bodyParts.Base.LegRight.Elements[0], bodyColor);
 			}
 
 			if (noLeftArm || noLeftLeg || noRightArm || noRightLeg)
@@ -471,10 +406,8 @@ namespace Changeling
 			return false;
 		}
 
-		private bool UseAbilityWithParam(ChangelingMain changeling, ChangelingData data, List<string> param, Vector3 clickPosition)
+		private bool UseAbilityWithParam(ChangelingMain changeling, ChangelingData data, List<string> param)
 		{
-			// TODO delete this when clickPosition will be needed
-			clickPosition.Normalize();
 			switch (data.abilityType)
 			{
 				case ChangelingAbilityType.Transform:
@@ -547,11 +480,107 @@ namespace Changeling
 				case ChangelingMiscType.OpenTransform:
 					UIManager.Display.hudChangeling.OpenTransformUI(changeling, (ChangelingDNA dna) =>
 					{
-						PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesWithParam(AbilityData.UseAfterChoise.Index, new Vector3(), $"{dna.DnaID}");
+						PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesWithParam(AbilityData.UseAfterChoise.Index, $"{dna.DnaID}");
 					});
 					return true;
 			}
 			return false;
+		}
+
+		private List<DNAMutationData> SettingUpDNAList(PlayerHealthData raceBodyparts)
+		{
+			List<DNAMutationData> dataForMutations = new();
+
+			DNAMutationData dataForMutation = new();
+
+			DNAMutationData.DNAPayload payload = new();
+
+			payload.SpeciesMutateTo = raceBodyparts;
+			payload.MutateToBodyPart = raceBodyparts.Base.Head.Elements[0];
+
+			dataForMutation.Payload.Add(payload);
+			dataForMutation.BodyPartSearchString = "Head";
+
+			dataForMutations.Add(dataForMutation);
+
+			dataForMutation = new DNAMutationData();
+			payload = new DNAMutationData.DNAPayload
+			{
+				SpeciesMutateTo = raceBodyparts,
+				MutateToBodyPart = raceBodyparts.Base.Torso.Elements[0]
+			};
+
+			dataForMutation.Payload.Add(payload);
+
+			dataForMutation.BodyPartSearchString = "Chest";
+
+			dataForMutations.Add(dataForMutation);
+
+			dataForMutation = new DNAMutationData();
+			payload = new DNAMutationData.DNAPayload
+			{
+				SpeciesMutateTo = raceBodyparts,
+				MutateToBodyPart = raceBodyparts.Base.Torso.Elements[0]
+			};
+
+			dataForMutation.Payload.Add(payload);
+
+			// adding the same thing but with dif name just because main body is named as tosrso or as chest is some cases
+			dataForMutation.BodyPartSearchString = "Torso";
+
+			dataForMutations.Add(dataForMutation);
+
+			dataForMutation = new DNAMutationData();
+			payload = new DNAMutationData.DNAPayload
+			{
+				SpeciesMutateTo = raceBodyparts,
+				MutateToBodyPart = raceBodyparts.Base.LegRight.Elements[0]
+			};
+
+			dataForMutation.Payload.Add(payload);
+			dataForMutation.BodyPartSearchString = "RightLeg";
+
+			dataForMutations.Add(dataForMutation);
+
+			dataForMutation = new DNAMutationData();
+			payload = new DNAMutationData.DNAPayload
+			{
+				SpeciesMutateTo = raceBodyparts,
+				MutateToBodyPart = raceBodyparts.Base.ArmLeft.Elements[0]
+			};
+
+			dataForMutation.Payload.Add(payload);
+
+			dataForMutation.BodyPartSearchString = "LeftArm";
+
+			dataForMutations.Add(dataForMutation);
+
+			dataForMutation = new DNAMutationData();
+			payload = new DNAMutationData.DNAPayload
+			{
+				SpeciesMutateTo = raceBodyparts,
+				MutateToBodyPart = raceBodyparts.Base.LegLeft.Elements[0]
+			};
+
+			dataForMutation.Payload.Add(payload);
+			dataForMutation.BodyPartSearchString = "LeftLeg";
+
+			dataForMutations.Add(dataForMutation);
+
+			dataForMutation = new DNAMutationData();
+			payload = new DNAMutationData.DNAPayload
+			{
+				SpeciesMutateTo = raceBodyparts,
+				MutateToBodyPart = raceBodyparts.Base.ArmRight.Elements[0]
+			};
+
+			dataForMutation.Payload.Add(payload);
+
+			dataForMutation.BodyPartSearchString = "RightArm";
+
+			dataForMutations.Add(dataForMutation);
+
+			return dataForMutations;
 		}
 
 		private bool TransformAbilityWithParam(ChangelingMain changeling, ChangelingData data, List<string> param)
@@ -580,96 +609,7 @@ namespace Changeling
 
 							PlayerHealthData raceBodyparts = characterSheet.GetRaceSoNoValidation();
 
-							List<DNAMutationData> dataForMutations = new ();
-
-							DNAMutationData dataForMutation = new ();
-
-							DNAMutationData.DNAPayload payload = new ();
-
-							payload.SpeciesMutateTo = raceBodyparts;
-							payload.MutateToBodyPart = raceBodyparts.Base.Head.Elements[0];
-
-							dataForMutation.Payload.Add(payload);
-							dataForMutation.BodyPartSearchString = "Head";
-
-							dataForMutations.Add(dataForMutation);
-
-							dataForMutation = new DNAMutationData();
-							payload = new DNAMutationData.DNAPayload
-							{
-								SpeciesMutateTo = raceBodyparts,
-								MutateToBodyPart = raceBodyparts.Base.Torso.Elements[0]
-							};
-
-							dataForMutation.Payload.Add(payload);
-
-							dataForMutation.BodyPartSearchString = "Chest";
-
-							dataForMutations.Add(dataForMutation);
-
-							dataForMutation = new DNAMutationData();
-							payload = new DNAMutationData.DNAPayload
-							{
-								SpeciesMutateTo = raceBodyparts,
-								MutateToBodyPart = raceBodyparts.Base.Torso.Elements[0]
-							};
-
-							dataForMutation.Payload.Add(payload);
-
-							// adding the same thing but with dif name just because main body is named as tosrso or as chest is some cases
-							dataForMutation.BodyPartSearchString = "Torso";
-
-							dataForMutations.Add(dataForMutation);
-
-							dataForMutation = new DNAMutationData();
-							payload = new DNAMutationData.DNAPayload
-							{
-								SpeciesMutateTo = raceBodyparts,
-								MutateToBodyPart = raceBodyparts.Base.LegRight.Elements[0]
-							};
-
-							dataForMutation.Payload.Add(payload);
-							dataForMutation.BodyPartSearchString = "RightLeg";
-
-							dataForMutations.Add(dataForMutation);
-
-							dataForMutation = new DNAMutationData();
-							payload = new DNAMutationData.DNAPayload
-							{
-								SpeciesMutateTo = raceBodyparts,
-								MutateToBodyPart = raceBodyparts.Base.ArmLeft.Elements[0]
-							};
-
-							dataForMutation.Payload.Add(payload);
-
-							dataForMutation.BodyPartSearchString = "LeftArm";
-
-							dataForMutations.Add(dataForMutation);
-
-							dataForMutation = new DNAMutationData();
-							payload = new DNAMutationData.DNAPayload
-							{
-								SpeciesMutateTo = raceBodyparts,
-								MutateToBodyPart = raceBodyparts.Base.LegLeft.Elements[0]
-							};
-
-							dataForMutation.Payload.Add(payload);
-							dataForMutation.BodyPartSearchString = "LeftLeg";
-
-							dataForMutations.Add(dataForMutation);
-
-							dataForMutation = new DNAMutationData();
-							payload = new DNAMutationData.DNAPayload
-							{
-								SpeciesMutateTo = raceBodyparts,
-								MutateToBodyPart = raceBodyparts.Base.ArmRight.Elements[0]
-							};
-
-							dataForMutation.Payload.Add(payload);
-
-							dataForMutation.BodyPartSearchString = "RightArm";
-
-							dataForMutations.Add(dataForMutation);
+							var dataForMutations = SettingUpDNAList(raceBodyparts);
 
 
 							body.visibleName = characterSheet.Name;
@@ -703,7 +643,7 @@ namespace Changeling
 					$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} starts stings of {target.playerName}</color>");
 
 					var action = StandardProgressAction.Create(stingProgressBar,
-						() => PerfomAbilityAfter(changeling, data, clickPosition, target));
+						() => PerfomAbilityAfter(changeling, data, target));
 					action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, AbilityData.StingTime, changeling.ChangelingMind.Body.gameObject);
 					return true;
 				case StingType.Absorb:
@@ -716,9 +656,9 @@ namespace Changeling
 						() =>
 						{
 							StopCoroutine(cor);
-							PerfomAbilityAfter(changeling, data, clickPosition, target);
+							PerfomAbilityAfter(changeling, data, target);
 						},
-						(interruptionType) =>
+						(_) =>
 						{
 							StopCoroutine(cor);
 						});
@@ -728,7 +668,7 @@ namespace Changeling
 					return true;
 				case StingType.HallucinationSting:
 					action = StandardProgressAction.Create(stingProgressBar,
-						() => PerfomAbilityAfter(changeling, data, clickPosition, target));
+						() => PerfomAbilityAfter(changeling, data, target));
 					action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, AbilityData.StingTime, changeling.ChangelingMind.Body.gameObject);
 					return true;
 			}
@@ -850,8 +790,80 @@ namespace Changeling
 			RegenerationOfBodyOrgans(changeling, bodyParts);
 
 			UpdateBloodPool(bloodSystem, changeling);
+		}
 
-			yield break;
+		private bool PerfomAbilityAfterSting(ChangelingMain changeling, PlayerScript target, ChangelingData data)
+		{
+			switch (data.stingType)
+			{
+				case StingType.ExtractDNASting:
+					var targetDNA = new ChangelingDNA();
+					Chat.AddCombatMsgToChat(changeling.gameObject,
+					$"<color=red>You finished sting of {target.playerName}</color>",
+					$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} finished sting of {target.playerName}</color>");
+
+					foreach (var x in changeling.ChangelingDNAs)
+					{
+						if (x.DnaID == target.Mind.bodyMobID)
+						{
+							x.UpdateDNA(target);
+							return true;
+						}
+					}
+					targetDNA.FormDNA(target);
+
+					changeling.AddDNA(targetDNA);
+					return true;
+				case StingType.Absorb:
+					Chat.AddCombatMsgToChat(changeling.gameObject,
+					$"<color=red>You finished absorbing of {target.playerName}</color>",
+					$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} finished absorbing of {target.playerName}</color>");
+
+					try
+					{
+						if (target.PlayerInfo.Mind.IsOfAntag<Changeling>())
+						{
+							changeling.AbsorbDNA(target, target.Changeling);
+							return true;
+						}
+					}
+					catch
+					{
+						Logger.LogWarning("Can`t get player is antag", Category.Changeling);
+					}
+					targetDNA = new ChangelingDNA();
+
+					// fatal damage
+					target.Mind.Body.playerHealth.ApplyDamageAll(null, 999, AttackType.Internal, DamageType.Oxy);
+					target.Mind.Body.playerHealth.ApplyDamageAll(null, 999, AttackType.Internal, DamageType.Brute);
+					target.Mind.Body.playerHealth.ApplyDamageAll(null, 999, AttackType.Internal, DamageType.Clone);
+					target.Mind.Body.playerHealth.reagentPoolSystem.BloodPool.RemoveVolume(target.Mind.Body.playerHealth.reagentPoolSystem.BloodPool.Total);
+					foreach (var bodyPart in target.Mind.Body.playerHealth.BodyPartList)
+					{
+						foreach (BodyPartFunctionality organ in bodyPart.OrganList)
+						{
+							if (organ is Brain brain)
+							{
+								_ = Despawn.ServerSingle(organ.gameObject);
+							}
+						}
+					}
+					targetDNA.FormDNA(target);
+
+					changeling.AbsorbDNA(targetDNA, target);
+					return true;
+				case StingType.HallucinationSting:
+					var randomTimeAfter = UnityEngine.Random.Range(30, 60f);
+					targetDNA = new ChangelingDNA();
+
+					targetDNA.FormDNA(target);
+
+					changeling.AddDNA(targetDNA);
+
+					StartCoroutine(ReagentAdding(randomTimeAfter, AbilityData.Reagent, AbilityData.ReagentCount, target));
+					return true;
+			}
+			return false;
 		}
 
 		#endregion

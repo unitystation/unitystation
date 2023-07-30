@@ -792,7 +792,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 			}
 
 			objectives += codeWordsString;
-			//Chat.AddExamineMsgFromServer(playerMob, codeWordsString);
 
 			objectives += $"\nPDA uplink code retrieved:{pdaUplinkCode}";
 		}
