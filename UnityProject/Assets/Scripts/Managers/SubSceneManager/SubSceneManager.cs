@@ -23,12 +23,10 @@ public partial class SubSceneManager : MonoBehaviour
 	public MainStationListSO MainStationList => mainStationList;
 
 	public bool AwaySiteLoaded { get; private set; }
+
 	public bool IsMaintRooms
 	{
-		get
-		{
-			return serverChosenAwaySite == "Backrooms";
-		}
+		get { return serverChosenAwaySite == "Backrooms"; }
 	}
 
 	public bool MainStationLoaded { get; private set; }
@@ -80,49 +78,54 @@ public partial class SubSceneManager : MonoBehaviour
 	/// </summary>
 	/// <param name="sceneName"></param>
 	/// <returns></returns>
-	IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true, SceneType sceneType = SceneType.HiddenScene)
+	IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true,
+		SceneType sceneType = SceneType.HiddenScene)
 	{
 		if (CustomNetworkManager.IsServer == false)
 		{
-			if(clientLoadedSubScenes.Any(x=> x.SceneName == sceneName)) yield break;
+			if (clientLoadedSubScenes.Any(x => x.SceneName == sceneName)) yield break;
 		}
 
 		ConnectionLoadedRecord[sceneName] = new HashSet<int>();
 		AsyncOperation AO = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-		if (AO == null) yield break; // Null if scene not found.
-
-		while (AO.isDone == false)
+		if (AO != null)
 		{
+			while (AO.isDone == false)
+			{
+				if (loadTimer != null) loadTimer.IncrementLoadBar();
+				yield return WaitFor.EndOfFrame;
+			}
+
 			if (loadTimer != null) loadTimer.IncrementLoadBar();
-			yield return WaitFor.EndOfFrame;
-		}
+			if (CustomNetworkManager.IsServer)
+			{
+				NetworkServer.SpawnObjects();
+				RequestObserverRefresh.Send(sceneName);
+			}
+			else
+			{
+				if (HandlSynchronising)
+				{
+					NetworkClient.PrepareToSpawnSceneObjects();
+					yield return WaitFor.Seconds(0.2f);
+					RequestObserverRefresh.Send(sceneName);
+				}
+			}
 
-		if (loadTimer != null) loadTimer.IncrementLoadBar();
-		if (CustomNetworkManager.IsServer)
-		{
-			NetworkServer.SpawnObjects();
-			RequestObserverRefresh.Send(sceneName);
+			if (CustomNetworkManager.IsServer)
+			{
+				loadedScenesList.Add(new SceneInfo
+				{
+					SceneName = sceneName,
+					SceneType = sceneType
+				});
+				SubSceneManagerNetworked.netIdentity.isDirty = true;
+			}
 		}
 		else
 		{
-			if (HandlSynchronising)
-			{
-				NetworkClient.PrepareToSpawnSceneObjects();
-				yield return WaitFor.Seconds(0.2f);
-				RequestObserverRefresh.Send(sceneName);
-			}
+			Logger.LogError($"was unable to find scene for {sceneName} Skipping");
 		}
-
-		if (CustomNetworkManager.IsServer)
-		{
-			loadedScenesList.Add(new SceneInfo
-			{
-				SceneName = sceneName,
-				SceneType = sceneType
-			});
-			SubSceneManagerNetworked.netIdentity.isDirty = true;
-		}
-
 	}
 
 	public static void ProcessObserverRefreshReq(PlayerInfo connectedPlayer, Scene sceneContext)
@@ -139,7 +142,6 @@ public partial class SubSceneManager : MonoBehaviour
 			Instance.AddObserverToAllObjects(connectedPlayer.Connection, sceneContext);
 		}
 	}
-
 }
 
 public enum SceneType

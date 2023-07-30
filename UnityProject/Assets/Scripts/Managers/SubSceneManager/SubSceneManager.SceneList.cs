@@ -36,25 +36,34 @@ public partial class SubSceneManager
 		loadTimer.MaxLoadTime = 20f + (asteroidList.Asteroids.Count * 10f);
 		loadTimer.IncrementLoadBar("Preparing..");
 
+		Logger.Log(" waiting for addressables To load ");
 		while (AddressableCatalogueManager.FinishLoaded == false)
 		{
 			yield return null;
 		}
 
+		Logger.Log(" Loading space ");
 		yield return StartCoroutine(ServerLoadSpaceScene(loadTimer));
 
 		//Choose and load a mainstation
+		Logger.Log(" Loading main station ");
 		yield return StartCoroutine(ServerLoadMainStation(loadTimer));
 
 		if (GameManager.Instance.QuickLoad == false)
 		{
+			Logger.Log(" Loading Asteroids ");
 			//Load Asteroids:
 			yield return StartCoroutine(ServerLoadAsteroids(loadTimer));
+			Logger.Log(" Loading AwaySite ");
 			//Load away site:
 			yield return StartCoroutine(ServerLoadAwaySite(loadTimer));
+
+			Logger.Log(" Loading CentCom ");
 			//Load CentCom Scene:
 			yield return StartCoroutine(ServerLoadCentCom(loadTimer));
 			//Load Additional Scenes:
+
+			Logger.Log(" Loading AdditionalScenes ");
 			yield return StartCoroutine(ServerLoadAdditionalScenes(loadTimer));
 		}
 
@@ -62,15 +71,18 @@ public partial class SubSceneManager
 		EventManager.Broadcast(Event.ReadyToInitialiseMatrices, false);
 		SubSceneManagerNetworked.ScenesInitialLoadingComplete = true;
 
+		Logger.Log(" waiting for MatrixManager.IsInitialized");
 		while (MatrixManager.IsInitialized == false)
 		{
 			yield return null;
 		}
 
 
+		Logger.Log(" Triggering for SubsystemMatrixQueueInit.InitAllSystems");
 		loadTimer.IncrementLoadBar("Loading Subsystems..");
 		yield return SubsystemMatrixQueueInit.InitAllSystems();
 
+		Logger.Log(" waiting for SubsystemMatrixQueueInit.InitializedAll");
 		while (SubsystemMatrixQueueInit.InitializedAll == false)
 		{
 			yield return WaitFor.Seconds(1f);
