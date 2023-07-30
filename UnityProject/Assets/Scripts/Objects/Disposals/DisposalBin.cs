@@ -98,8 +98,6 @@ namespace Objects.Disposals
 
 		private float RandomDunkPitch => Random.Range(0.7f, 1.2f);
 
-		public override bool MachineWeldable => base.MachineWeldable && binState is BinState.Disconnected or BinState.Off;
-
 		/// <summary>
 		/// Checks if the bin is turned off locally. Does not relate to APC functionality.
 		/// </summary>
