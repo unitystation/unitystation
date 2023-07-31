@@ -24,6 +24,9 @@ namespace Systems.FilthGenerator
 
 		[SerializeField] private List<GameObject> filthDecalsAndObjects = new List<GameObject>();
 
+		private int filthGenerated = 0;
+		public int FilthCleanGoal { get; private set; } = 0;
+
 		public override void Awake()
 		{
 			RegisteredToLegacySubsystemManager = false;
@@ -85,10 +88,13 @@ namespace Systems.FilthGenerator
 				var chosenLocation = EmptyTiled[Random.Next(EmptyTiled.Count)];
 				DetermineFilthToSpawn(chosenLocation);
 			}
+
+			FilthCleanGoal = filthGenerated / Random.Next(3, 8);
 		}
 
 		private void DetermineFilthToSpawn(Vector3Int chosenLocation)
 		{
+			filthGenerated++;
 			// Make this a local void to avoid code duplication.
 			void ReagentSpawn()
 			{
