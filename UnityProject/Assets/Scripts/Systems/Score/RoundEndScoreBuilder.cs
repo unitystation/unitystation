@@ -152,42 +152,27 @@ namespace Systems.Score
 			var finalStationScore = 0;
 			var finalAntagScore = 0;
 
-			foreach (var entry in ScoreMachine.Instance.Scores)
+			foreach (var pair in ScoreMachine.Instance.Scores)
 			{
-				switch (entry.Value.Category)
+				var entry = pair.Value;
+				var score = entry switch
+				{
+					ScoreEntryInt a => a.Score,
+					ScoreEntryBool m => m.Score ? boolScore : -boolScore,
+					_ => 0,
+				};
+				entry.ScoreValue = score;
+				switch (entry.Category)
 				{
 					case ScoreCategory.StationScore:
-						stationScoreEntries.Add(entry.Value);
-						switch (entry.Value)
-						{
-							case ScoreEntryInt a:
-								finalStationScore += a.Score;
-								entry.Value.ScoreValue = a.Score;
-								break;
-							case ScoreEntryBool m:
-								finalStationScore += m.Score ? boolScore : -boolScore;
-								entry.Value.ScoreValue = m.Score ? boolScore : -boolScore;
-								break;
-						}
+						stationScoreEntries.Add(entry);
+						finalStationScore += score;
 						break;
 					//TODO: Add Antag Score UI.
 					case ScoreCategory.AntagScore:
-						antagScoreEntries.Add(entry.Value);
-						switch (entry.Value)
-						{
-							case ScoreEntryInt o:
-								finalAntagScore += o.Score;
-								entry.Value.ScoreValue = o.Score;
-								break;
-							case ScoreEntryBool g:
-								entry.Value.ScoreValue = g.Score ? boolScore : -boolScore;
-								break;
-						}
+						antagScoreEntries.Add(entry);
+						finalAntagScore += score;
 						break;
-					case
-						ScoreCategory.MiscScore :
-						default:
-							break;
 				}
 			}
 
