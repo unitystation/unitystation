@@ -100,7 +100,8 @@ public partial class SubSceneManager : MonoBehaviour
 			while (AO.isDone == false)
 			{
 				if (loadTimer != null) loadTimer.IncrementLoadBar();
-				yield return WaitFor.EndOfFrame;
+				Logger.Log($"Percentage loaded {sceneName} {AO.progress}");
+				yield return null;
 			}
 
 			Logger.Log($"Finished waiting for AO.isDone {sceneName}");
