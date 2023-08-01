@@ -324,7 +324,7 @@ namespace Core.SafeFilesystem
 				CurrentlyWatchingFile[resolvedPath] = watcher;
 				watcher.Path = Path.GetDirectoryName(resolvedPath);
 				watcher.Filter = Path.GetFileName(resolvedPath);
-				watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
+				watcher.NotifyFilter = NotifyFilters.LastWrite;
 				watcher.Changed += (object source, FileSystemEventArgs e) => { FileChanged(resolvedPath); };
 				watcher.EnableRaisingEvents = true;
 			}
