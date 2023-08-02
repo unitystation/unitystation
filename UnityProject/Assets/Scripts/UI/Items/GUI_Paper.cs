@@ -34,12 +34,12 @@ namespace UI.Items
 			base.RefreshTab();
 		}
 
-		public void RefreshText()
+		private void RefreshText()
 		{
-			if (Provider != null)
-			{
-				textField.text = Provider.GetComponent<Paper>()?.PaperString;
-			}
+			if (Provider == null || Provider.TryGetComponent<Paper>(out var paper) == false) return;
+			textField.lineLimit = paper.CustomLineLimit;
+			textField.characterLimit = paper.CustomCharacterLimit;
+			textField.text = Provider.GetComponent<Paper>()?.PaperString;
 		}
 
 		public void ClosePaper()
