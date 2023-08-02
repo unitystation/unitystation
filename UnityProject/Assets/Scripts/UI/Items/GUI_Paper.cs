@@ -14,7 +14,8 @@ namespace UI.Items
 		{
 			base.OnEnable();
 			StartCoroutine(WaitForProvider());
-			textField.readOnly = true;
+			UIManager.IsInputFocus = true;
+			UIManager.PreventChatInput = true;
 		}
 
 		IEnumerator WaitForProvider()
