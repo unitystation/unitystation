@@ -185,7 +185,8 @@ namespace Changeling
 			if (target == null)
 				return null;
 
-			if (Vector3.Distance(changeling.ChangelingMind.Body.GameObject.AssumedWorldPosServer(), target.Mind.Body.GameObject.AssumedWorldPosServer()) > MAX_DISTANCE_TO_TILE)
+			if (Vector3.Distance(changeling.ChangelingMind.Body.GameObject.AssumedWorldPosServer(), target.Mind.Body.GameObject.AssumedWorldPosServer()) > MAX_DISTANCE_TO_TILE
+				|| target.IsDeadOrGhost) // think it's a bad idea to sting or absorb dead body
 			{
 				return null;
 			}
@@ -398,6 +399,8 @@ namespace Changeling
 
 		private void AfterAbility(PlayerScript sentByPlayer)
 		{
+			if (CooldownTime == 0)
+				return;
 			Cooldowns.TryStartClient(sentByPlayer, AbilityData, CooldownTime);
 
 			UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
@@ -606,8 +609,8 @@ namespace Changeling
 		private void ExtractSting(ChangelingMain changeling, ChangelingData data, PlayerScript target)
 		{
 			Chat.AddCombatMsgToChat(changeling.gameObject,
-			$"<color=red>You start stings of {target.playerName}</color>",
-			$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} starts stings of {target.playerName}</color>");
+			$"<color=red>You start sting of {target.playerName}</color>",
+			$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} starts sting of {target.playerName}</color>");
 
 			var action = StandardProgressAction.Create(stingProgressBar,
 				() => PerfomAbilityAfter(changeling, data, target));
@@ -716,7 +719,17 @@ namespace Changeling
 				{
 					if (organ is Eye eye)
 					{
-						eye.ApplyChangesXrayState(toggle);
+						if (toggle)
+						{
+							effects.LightingSystem.renderSettings
+								.fovOcclusionSpread = 3;
+						}
+						else
+						{
+							effects.LightingSystem.renderSettings
+								.fovOcclusionSpread = 0;
+						}
+						//eye.ApplyChangesXrayState(toggle);
 					}
 				}
 			}
@@ -823,15 +836,18 @@ namespace Changeling
 			}
 			catch
 			{
-				Logger.LogWarning("Can`t get player is antag", Category.Changeling);
+				Logger.LogWarning($"[ChangelingAbility/AfterAbsorbSting]Can`t get {target.PlayerInfo.Mind.Body.playerName} is antag", Category.Changeling);
 			}
 			var targetDNA = new ChangelingDna();
+			targetDNA.FormDna(target);
+			changeling.AbsorbDna(targetDNA, target);
 
 			// fatal damage
 			target.Mind.Body.playerHealth.ApplyDamageAll(null, 999, AttackType.Internal, DamageType.Oxy);
 			target.Mind.Body.playerHealth.ApplyDamageAll(null, 999, AttackType.Internal, DamageType.Brute);
 			target.Mind.Body.playerHealth.ApplyDamageAll(null, 999, AttackType.Internal, DamageType.Clone);
 			target.Mind.Body.playerHealth.reagentPoolSystem.BloodPool.RemoveVolume(target.Mind.Body.playerHealth.reagentPoolSystem.BloodPool.Total);
+			var breakLoop = false;
 			foreach (var bodyPart in target.Mind.Body.playerHealth.BodyPartList)
 			{
 				foreach (BodyPartFunctionality organ in bodyPart.OrganList)
@@ -839,12 +855,15 @@ namespace Changeling
 					if (organ is Brain brain)
 					{
 						_ = Despawn.ServerSingle(organ.gameObject);
+						breakLoop = true;
+						break;
 					}
 				}
+				if (breakLoop == true)
+				{
+					break;
+				}
 			}
-			targetDNA.FormDna(target);
-
-			changeling.AbsorbDna(targetDNA, target);
 		}
 
 		private void AfterHallucinationSting(ChangelingMain changeling, PlayerScript target)

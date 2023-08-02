@@ -19,12 +19,19 @@ namespace Changeling
 
 		public void FormDna(PlayerScript playerDataForDna)
 		{
-			foreach (var clothe in playerDataForDna.Mind.Body.playerSprites.clothes)
+			try
 			{
-				if (clothe.Value.GameObjectReference != null)
+				foreach (var clothe in playerDataForDna.Mind.Body.playerSprites.clothes)
 				{
-					BodyClothesPrefabID.Add(clothe.Value.GameObjectReference.GetComponent<PrefabTracker>().ForeverID);
+					if (clothe.Value.GameObjectReference != null)
+					{
+						BodyClothesPrefabID.Add(clothe.Value.GameObjectReference.GetComponent<PrefabTracker>().ForeverID);
+					}
 				}
+			} catch
+			{
+				Logger.LogError($"[ChangelingDNA/FormDNA] When creating DNA can`t find {playerDataForDna.playerName} Body", Category.Changeling);
+				BodyClothesPrefabID = new ();
 			}
 
 			PlayerName = playerDataForDna.playerName;

@@ -29,16 +29,9 @@ using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Systems.Character;
 using Changeling;
-using UI.CharacterCreator;
-using UnityEditor;
 using Items;
 using Clothing;
-using Chemistry.Components;
-using Items.Others;
 using UI.Action;
-using Objects.Atmospherics;
-using Items.PDA;
-using GameModes;
 using UnityEngine.Rendering;
 
 namespace HealthV2
@@ -957,7 +950,7 @@ namespace HealthV2
 			return dna;
 		}
 
-		private ItemStorage MakeFakeItemsUseless(GameObject fakeItem)
+		private ItemStorage MakeFakeItemUseless(GameObject fakeItem)
 		{
 			ItemStorage itemStrg = null;
 			foreach (var comp in fakeItem.GetComponents(typeof(Component)))
@@ -1018,6 +1011,20 @@ namespace HealthV2
 			return itemStrg;
 		}
 
+		private void RemoveItemsInsideFakeItem(GameObject fakeItem)
+		{
+			if (fakeItem.TryGetComponent<InteractableStorage>(out var iS))
+			{
+				var items = iS.ItemStorage.GetItemSlots();
+
+				foreach (var x in items)
+				{
+					if (x.ItemObject != null)
+						_ = Despawn.ServerSingle(x.ItemObject);
+				}
+			}
+		}
+
 		private void SetUpFakeItems(ChangelingDna dna, ChangelingMain changeling)
 		{
 			if (dna != null && changeling != null)
@@ -1044,7 +1051,8 @@ namespace HealthV2
 					}
 					fakeItem.GetComponent<ItemAttributesV2>().IsFakeItem = true;
 					// making items absolutely useless
-					ItemStorage itemStrg = MakeFakeItemsUseless(fakeItem);
+					RemoveItemsInsideFakeItem(fakeItem);
+					ItemStorage itemStrg = MakeFakeItemUseless(fakeItem);
 
 
 					var itemName = fakeItem.GetComponent<ItemAttributesV2>().InitialName;
@@ -1080,6 +1088,7 @@ namespace HealthV2
 				}
 			}
 			yield return WaitFor.SecondsRealtime(2f);
+			InternalNetIDs.Clear();
 
 			UploadDnaDataToBodyParts(characterSheet, InDNAMutationDatas);
 			//relooking for pumps because sometime old pumps wasn't removed when transferred to new part
@@ -1103,25 +1112,34 @@ namespace HealthV2
 			}
 			SetUpFakeItems(dna, changeling);
 
-			if (characterSheet != null)
+			yield return WaitFor.SecondsRealtime(2f);
+			foreach (var x in playerSprites.OpenSprites)
 			{
-				yield return WaitFor.SecondsRealtime(2f);
-
-				foreach (var x in playerSprites.OpenSprites)
+				SpriteHandlerManager.UnRegisterHandler(x.gameObject.GetComponent<SpriteHandler>().GetMasterNetID(), x.gameObject.GetComponent<SpriteHandler>());
+				_ = Despawn.ServerSingle(x.gameObject);
+			}
+			foreach (Transform x in playerSprites.CustomisationSprites.transform)
+			{
+				if (x.gameObject.name.ToLower().Contains("undershirt") || x.gameObject.name.ToLower().Contains("underwear") ||
+				x.gameObject.name.ToLower().Contains("socks"))
 				{
+					SpriteHandlerManager.UnRegisterHandler(x.gameObject.GetComponent<SpriteHandler>().GetMasterNetID(), x.gameObject.GetComponent<SpriteHandler>());
 					_ = Despawn.ServerSingle(x.gameObject);
 				}
-
-				playerSprites.ThisCharacter = characterSheet;
-				playerSprites.SetupSprites();
-				playerSprites.SetSurfaceColour();
-
-				meatProduce = characterSheet.GetRaceSoNoValidation().Base.MeatProduce;
-				skinProduce = characterSheet.GetRaceSoNoValidation().Base.SkinProduce;
-
-				// set new hand because we deleted prev
-				playerScript.PlayerNetworkActions.CmdSetActiveHand(bodyParts[NamedSlot.leftHand].ItemStorageNetID, NamedSlot.leftHand); 
 			}
+			playerSprites.OpenSprites.Clear();
+
+			playerSprites.ThisCharacter = characterSheet;
+			playerSprites.SetupSprites();
+
+			ColorUtility.TryParseHtmlString(characterSheet.SkinTone, out Color CurrentSurfaceColour);
+			playerSprites.SetSurfaceColour(CurrentSurfaceColour);
+
+			meatProduce = characterSheet.GetRaceSoNoValidation().Base.MeatProduce;
+			skinProduce = characterSheet.GetRaceSoNoValidation().Base.SkinProduce;
+
+			// set new hand because we deleted prev
+			playerScript.PlayerNetworkActions.CmdSetActiveHand(bodyParts[NamedSlot.leftHand].ItemStorageNetID, NamedSlot.leftHand);
 		}
 
 		#endregion

@@ -49,6 +49,10 @@ namespace Changeling
 		public void ResetAbilites()
 		{
 			ChangelingMain.ResetAbilities();
+		}
+
+		public void RefreshAbilites()
+		{
 			store.Refresh(ChangelingDataToBuy, ChangelingMain);
 		}
 

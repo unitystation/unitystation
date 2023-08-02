@@ -40,9 +40,9 @@ namespace Changeling
 
 		public ChangelingDna currentDNA;
 
-		[SyncVar(hook = nameof(ChangelingDnaSync))]
+		[SyncVar(hook = nameof(SyncChangelingDna))]
 		private string changelingDNASer = "";
-		[SyncVar(hook = nameof(ChangelingMemoriesSync))]
+		[SyncVar(hook = nameof(SyncChangelingMemories))]
 		private string changelingMemoriesSer = "";
 
 		public List<ChangelingDna> ChangelingDNAs => new List<ChangelingDna>(changelingDnas);
@@ -100,7 +100,7 @@ namespace Changeling
 
 		#region Hooks
 
-		private void ChangelingDnaSync(string oldValue, string newValue)
+		private void SyncChangelingDna(string oldValue, string newValue)
 		{
 			if (changelingDnas == null)
 				changelingDnas = new List<ChangelingDna>();
@@ -125,7 +125,7 @@ namespace Changeling
 			}
 		}
 
-		private void ChangelingMemoriesSync(string oldValue, string newValue)
+		private void SyncChangelingMemories(string oldValue, string newValue)
 		{
 			if (changelingMemories == null)
 				changelingMemories = new List<ChangelingMemories>();
@@ -157,6 +157,18 @@ namespace Changeling
 			{
 				if (short.TryParse(id, out var idParsed) && !AbilitiesNowDataSynced.Contains(ChangelingAbilityList.Instance.FromIndex(idParsed)))
 					AbilitiesNowDataSynced.Add(ChangelingAbilityList.Instance.FromIndex(idParsed));
+			}
+
+			try
+			{
+				if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.Mind != null && changelingMindID == PlayerManager.LocalPlayerScript.Mind.netId)
+				{
+					uiChangeling.RefreshAbilites();
+				}
+			}
+			catch
+			{
+				Logger.LogError($"[ChangelingMain/SyncAbilityList]{ChangelingMind.CurrentPlayScript.playerName} can`t refresh abilities", Category.Changeling);
 			}
 		}
 
@@ -389,6 +401,7 @@ namespace Changeling
 			changelingMemories.AddRange(mem);
 
 			var changelingMemoriesToSer = new StringBuilder();
+			changelingMemoriesToSer.Append(changelingMemoriesSer);
 
 			foreach (var memToSer in changelingMemories)
 			{
@@ -400,7 +413,10 @@ namespace Changeling
 		private void AddMemories(ChangelingMemories memories)
 		{
 			changelingMemories.Add(memories);
-			changelingMemoriesSer += $"{JsonConvert.SerializeObject(memories)}\n";
+			var changelingMemoriesToSer = new StringBuilder();
+			changelingMemoriesToSer.Append(changelingMemoriesSer);
+			changelingMemoriesToSer.AppendLine($"{JsonConvert.SerializeObject(memories)}");
+			changelingMemoriesSer += changelingMemoriesToSer.ToString();
 		}
 
 		private void AddMemories(ChangelingDna dna, PlayerScript target)

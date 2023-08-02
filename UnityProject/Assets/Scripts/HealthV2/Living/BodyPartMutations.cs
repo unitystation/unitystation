@@ -417,19 +417,6 @@ public class BodyPartMutations : BodyPartFunctionality
 		}
 
 		SpawnedBodypart.ChangeBodyPartColor(bodyColor);
-
-		var ONMutation = SpawnedBodypart.gameObject.GetComponent<BodyPartMutations>();
-
-		if (ONMutation != null)
-		{
-			foreach (var Mutations in ActiveMutations)
-			{
-				ONMutation.AddMutation(Mutations.RelatedMutationSO);
-			}
-
-			ONMutation.MutateCustomisation(((BodyPartFunctionality)ONMutation).RelatedPart.SetCustomisationData,
-				RelatedPart.SetCustomisationData);
-		}
 	}
 
 	public class MutationRoundData
