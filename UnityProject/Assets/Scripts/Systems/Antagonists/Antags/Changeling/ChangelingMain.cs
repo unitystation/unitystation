@@ -416,7 +416,7 @@ namespace Changeling
 			var changelingMemoriesToSer = new StringBuilder();
 			changelingMemoriesToSer.Append(changelingMemoriesSer);
 			changelingMemoriesToSer.AppendLine($"{JsonConvert.SerializeObject(memories)}");
-			changelingMemoriesSer += changelingMemoriesToSer.ToString();
+			changelingMemoriesSer = changelingMemoriesToSer.ToString();
 		}
 
 		private void AddMemories(ChangelingDna dna, PlayerScript target)

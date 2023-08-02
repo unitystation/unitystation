@@ -399,7 +399,7 @@ namespace Changeling
 
 		private void AfterAbility(PlayerScript sentByPlayer)
 		{
-			if (CooldownTime == 0)
+			if (CooldownTime < 0.01f)
 				return;
 			Cooldowns.TryStartClient(sentByPlayer, AbilityData, CooldownTime);
 
@@ -729,7 +729,6 @@ namespace Changeling
 							effects.LightingSystem.renderSettings
 								.fovOcclusionSpread = 0;
 						}
-						//eye.ApplyChangesXrayState(toggle);
 					}
 				}
 			}
