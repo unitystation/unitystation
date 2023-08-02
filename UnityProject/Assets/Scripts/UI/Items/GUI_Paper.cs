@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using UI;
+using UnityEngine.Events;
 
 namespace UI.Items
 {
@@ -39,7 +37,7 @@ namespace UI.Items
 		{
 			if (Provider != null)
 			{
-				textField.text = Provider.GetComponent<Paper>().PaperString;
+				textField.text = Provider.GetComponent<Paper>()?.PaperString;
 			}
 		}
 
@@ -63,7 +61,6 @@ namespace UI.Items
 
 			UIManager.IsInputFocus = true;
 			UIManager.PreventChatInput = true;
-			CheckForInput();
 		}
 
 		private bool IsPenInHand()
@@ -78,17 +75,6 @@ namespace UI.Items
 			}
 
 			return pen != null;
-		}
-
-		//Safety measure:
-		private async void CheckForInput()
-		{
-			await Task.Delay(500);
-			if (!textField.isFocused)
-			{
-				UIManager.IsInputFocus = false;
-				UIManager.PreventChatInput = false;
-			}
 		}
 
 		//Request an edit from server:
