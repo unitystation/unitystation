@@ -18,6 +18,13 @@ namespace UI.Items
 			UIManager.PreventChatInput = true;
 		}
 
+  		public override void OnDisable()
+		{
+			base.OnDisable();
+			UIManager.IsInputFocus = false;
+			UIManager.PreventChatInput = false;
+		}
+
 		IEnumerator WaitForProvider()
 		{
 			while (Provider == null)
