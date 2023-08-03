@@ -38,6 +38,7 @@ namespace Changeling
 			descriptionText.text = $"{data.MemoriesName} was {OccupationList.Instance.Get(data.MemoriesJob).DisplayName}.\n" +
 			$"Specie was {data.MemoriesSpecies}\n" +
 			$"Gender was {data.MemoriesGender}\n" +
+			$"Pronoun was {data.MemoriesPronoun}\n" +
 			$"And the memories contains";
 
 			if (data.MemoriesObjectives == "")

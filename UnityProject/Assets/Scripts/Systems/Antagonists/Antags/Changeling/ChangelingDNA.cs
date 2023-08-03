@@ -48,7 +48,7 @@ namespace Changeling
 			}
 		}
 
-		public void UpdateDma(PlayerScript playerDataForDna)
+		public void UpdateDna(PlayerScript playerDataForDna)
 		{
 			BodyClothesPrefabID.Clear();
 

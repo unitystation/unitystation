@@ -426,7 +426,8 @@ namespace Changeling
 			var information = target.Mind.GetObjectives();
 			var species = target.Mind.CurrentCharacterSettings.Species;
 			var gender = target.Mind.CurrentCharacterSettings.GetGender();
-			mem.Form(dna.Job, targetName, information, species, gender);
+			var pronoun = target.Mind.CurrentCharacterSettings.PlayerPronoun;
+			mem.Form(dna.Job, targetName, information, species, gender, pronoun);
 			AddMemories(mem);
 		}
 
@@ -437,7 +438,8 @@ namespace Changeling
 			var information = target.Mind.GetObjectives();
 			var species = target.Mind.CurrentCharacterSettings.Species;
 			var gender = target.Mind.CurrentCharacterSettings.GetGender();
-			mem.Form(target.PlayerInfo.Job, targetName, information, species, gender);
+			var pronoun = target.Mind.CurrentCharacterSettings.PlayerPronoun;
+			mem.Form(target.PlayerInfo.Job, targetName, information, species, gender, pronoun);
 			AddMemories(mem);
 		}
 

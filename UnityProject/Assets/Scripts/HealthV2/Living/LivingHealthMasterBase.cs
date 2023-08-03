@@ -850,33 +850,29 @@ namespace HealthV2
 				{
 					foreach (var BP in BodyPartList)
 					{
-						if (BP.name.ToLower().Contains(InDNAMutationData.BodyPartSearchString.ToLower()))
+						if (BP.name.ToLower().Contains(InDNAMutationData.BodyPartSearchString.ToLower()) == false) continue;
+						var Mutation = BP.GetComponent<BodyPartMutations>();
+						if (Mutation == null) continue;
+						if (string.IsNullOrEmpty(Payload.CustomisationTarget) == false || string.IsNullOrEmpty(Payload.CustomisationReplaceWith) == false)
 						{
-							var Mutation = BP.GetComponent<BodyPartMutations>();
-							if (Mutation != null)
-							{
-								if (string.IsNullOrEmpty(Payload.CustomisationTarget) == false || string.IsNullOrEmpty(Payload.CustomisationReplaceWith) == false)
-								{
-									Mutation.MutateCustomisation(Payload.CustomisationTarget,
-										Payload.CustomisationReplaceWith);
-								}
+							Mutation.MutateCustomisation(Payload.CustomisationTarget,
+								Payload.CustomisationReplaceWith);
+						}
 
-								if (Payload.RemoveTargetMutationSO != null)
-								{
-									Mutation.RemoveMutation(Payload.RemoveTargetMutationSO);
-								}
+						if (Payload.RemoveTargetMutationSO != null)
+						{
+							Mutation.RemoveMutation(Payload.RemoveTargetMutationSO);
+						}
 
-								if (Payload.TargetMutationSO != null)
-								{
-									Mutation.AddMutation(Payload.TargetMutationSO);
-								}
+						if (Payload.TargetMutationSO != null)
+						{
+							Mutation.AddMutation(Payload.TargetMutationSO);
+						}
 
-								if (Payload.SpeciesMutateTo != null && Payload.MutateToBodyPart != null)
-								{
-									Mutation.ChangeToSpecies(Payload.MutateToBodyPart, characterSheet);
-									break;
-								}
-							}
+						if (Payload.SpeciesMutateTo != null && Payload.MutateToBodyPart != null)
+						{
+							Mutation.ChangeToSpecies(Payload.MutateToBodyPart, characterSheet);
+							break;
 						}
 					}
 				}
@@ -909,9 +905,13 @@ namespace HealthV2
 			foreach (var x in foodComps)
 			{
 				if (blood.ContainsKey(x.Key))
+				{
 					reagentPoolSystem.BloodPool.Add(x.Key, blood[x.Key]);
+				}
 				else
+				{
 					reagentPoolSystem.BloodPool.Add(x.Key, 100);
+				}
 			}
 		}
 

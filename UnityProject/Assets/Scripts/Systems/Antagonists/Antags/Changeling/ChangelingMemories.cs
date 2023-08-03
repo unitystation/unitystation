@@ -13,6 +13,7 @@ namespace Changeling
 		public string MemoriesObjectives;
 		public string MemoriesSpecies;
 		public Gender MemoriesGender;
+		public PlayerPronoun MemoriesPronoun;
 
 		public object Clone()
 		{
@@ -20,13 +21,14 @@ namespace Changeling
 			return JsonConvert.DeserializeObject<ChangelingMemories>(json);
 		}
 
-		public void Form(JobType job, string playerName, string objectives, string species, Gender gender)
+		public void Form(JobType job, string playerName, string objectives, string species, Gender gender, PlayerPronoun pronoun)
 		{
 			MemoriesJob = job;
 			MemoriesName = playerName;
 			MemoriesObjectives = objectives;
 			MemoriesSpecies = species;
 			MemoriesGender = gender;
+			MemoriesPronoun = pronoun;
 		}
 	}
 }

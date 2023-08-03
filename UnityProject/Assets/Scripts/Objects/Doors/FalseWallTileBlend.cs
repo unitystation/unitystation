@@ -105,8 +105,7 @@ namespace Objects.Doors
 				sprite.sprite = sprites[smoothFrameIndex];
 			doorAnimator.closeFrame = smoothFrameIndex;
 
-
-			if (!HasRealWall(falseWallPosition, tileChangeManager.MetaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>()) && !emptyWallIsPlaced)
+			if (HasRealWall(falseWallPosition, tileChangeManager.MetaTileMap.Layers[LayerType.Walls]?.GetComponent<Tilemap>()) == false && emptyWallIsPlaced == false)
 			{
 				tileChangeManager.MetaTileMap.SetTile(falseWallPosition, falseTile);
 				emptyWallIsPlaced = true;

@@ -14,7 +14,6 @@ namespace Changeling
 	public class UiChangeling : MonoBehaviour
 	{
 		public ChangelingMain ChangelingMain;
-		public static UiChangeling instance;
 		[SerializeField] private TMP_Text chemText = null;
 		[SerializeField] private GameObject chems = null;
 		[SerializeField] private GameObject storeGameObject = null;
@@ -29,7 +28,6 @@ namespace Changeling
 
 		private void Awake()
 		{
-			instance = this;
 			if (ChangelingMain == null)
 				TurnOff();
 		}
@@ -42,7 +40,8 @@ namespace Changeling
 		public void SetUp(ChangelingMain changeling)
 		{
 			ChangelingMain = changeling;
-			RefreshUI();
+			UpdateChemText();
+			UpdateEPText();
 			chems.SetActive(true);
 		}
 
@@ -68,8 +67,6 @@ namespace Changeling
 
 		public void TurnOff()
 		{
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RefreshUI);
-
 			if (chems != null)
 				chems.SetActive(false);
 			if (storeGameObject != null)
@@ -82,19 +79,6 @@ namespace Changeling
 		public void AddAbility(ChangelingData abilityToAdd)
 		{
 			ChangelingMain.CmdBuyAbility(abilityToAdd.Index);
-		}
-
-		public void RefreshUI()
-		{
-			try
-			{
-				UpdateChemText();
-				UpdateEPText();
-			}
-			catch (Exception)
-			{
-				TurnOff();
-			}
 		}
 
 		public void OpenTransformUI(ChangelingMain changeling, Action<ChangelingDna> actionForUse)

@@ -810,7 +810,7 @@ namespace Changeling
 			{
 				if (x.DnaID == target.Mind.bodyMobID)
 				{
-					x.UpdateDma(target);
+					x.UpdateDna(target);
 					return;
 				}
 			}
