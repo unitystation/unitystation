@@ -182,7 +182,8 @@ namespace Items
 		[SerializeField]
 		private ItemsSprites itemSprites;
 
-		public bool IsFakeItem { get; set; } = false;
+		[HideInInspector]
+		public bool IsFakeItem = false;
 
 		#region Lifecycle
 
