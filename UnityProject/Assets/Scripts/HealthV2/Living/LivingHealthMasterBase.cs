@@ -879,7 +879,7 @@ namespace HealthV2
 			}
 		}
 
-		private void UpdatePumps()
+		private void RefreshPumps()
 		{
 			reagentPoolSystem.PumpingDevices.Clear();
 
@@ -1092,7 +1092,7 @@ namespace HealthV2
 
 			UploadDnaDataToBodyParts(characterSheet, InDNAMutationDatas);
 			//relooking for pumps because sometime old pumps wasn't removed when transferred to new part
-			UpdatePumps();
+			RefreshPumps();
 
 			UpdateBloodPool();
 
