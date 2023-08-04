@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -89,7 +88,7 @@ namespace UI.Core.RightClick.LegacyRightClick
 				var obj = Instantiate(prefabOfSelf, subMenusField, false);
 				var item = obj.gameObject.GetComponent<LegacyRightClickEntry>();
 				item.Setup(entry);
-				item.OnClicked.AddListener(() => OnClicked?.Invoke());
+				if (entry.keepMenuOpen == false) item.OnClicked.AddListener(() => OnClicked?.Invoke());
 			}
 			subMenusField.SetActive(true);
 		}

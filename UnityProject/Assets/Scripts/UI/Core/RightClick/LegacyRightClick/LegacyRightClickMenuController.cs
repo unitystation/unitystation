@@ -44,7 +44,7 @@ namespace UI.Core.RightClick.LegacyRightClick
 
 		private void CheckForInput()
 		{
-			if (Input.GetKeyDown(KeyCode.Escape))
+			if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
 			{
 				self.SetActive(false);
 				return;
@@ -89,7 +89,10 @@ namespace UI.Core.RightClick.LegacyRightClick
 				var entry = Instantiate(entryPrefab, entries, false);
 				if (entry.gameObject.TryGetComponent<LegacyRightClickEntry>(out var newEntry) == false) continue;
 				newEntry.Setup(menuItem);
-				newEntry.OnClicked.AddListener(HideSelf);
+				if (menuItem.keepMenuOpen == false)
+				{
+					newEntry.OnClicked.AddListener(HideSelf);
+				}
 				newEntry.OnOpenedSubmenu.AddListener(HideActiveSubMenu);
 				newEntry.SetActive(true);
 			}
