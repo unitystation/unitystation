@@ -60,6 +60,8 @@ namespace UI.Core.RightClick.LegacyRightClick
 		/// </summary>
 		private void CheckMouseClickInBounds()
 		{
+			//BUG: rect transform extends way beyond the bounds of the UI for some reason when resizing the game's screen or UI scale.
+			//This is not a major issue. But it can be annoying trying to click away, and the menu decides to never go away.
 			if (RectTransformUtility.RectangleContainsScreenPoint(gameObject.GetComponent<RectTransform>(),
 				    Input.mousePosition)) return;
 			self.SetActive(false);
