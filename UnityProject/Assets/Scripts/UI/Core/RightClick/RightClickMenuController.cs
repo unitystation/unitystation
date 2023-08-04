@@ -6,7 +6,7 @@ using UI.Core.Events;
 
 namespace UI.Core.RightClick
 {
-	public class RightClickMenuController : MonoBehaviour
+	public class RightClickMenuController : MonoBehaviour, IRightClickMenu
 	{
 		public static RightClickRadialOptions RadialOptions { get; private set; }
 
@@ -33,10 +33,17 @@ namespace UI.Core.RightClick
 		private ActionRadial actionRadial;
 
 		private Canvas canvas;
+		private GameObject self;
 
 		public Canvas Canvas => this.GetComponentByRef(ref canvas);
 
-		private List<RightClickMenuItem> Items { get; set; }
+		public List<RightClickMenuItem> Items { get; set; }
+
+		GameObject IRightClickMenu.Self
+		{
+			get => self == null ? gameObject : self;
+			set => self = value;
+		}
 
 		private ItemRadial ItemRadial
 		{
@@ -236,6 +243,7 @@ namespace UI.Core.RightClick
 
 		public void UpdateMe()
 		{
+			if (RadialOptions == null) return;
 			if (RadialOptions.ShowBranch)
 			{
 				radialBranch.UpdateLines(ActionRadial, ItemRadial.OuterRadius);
