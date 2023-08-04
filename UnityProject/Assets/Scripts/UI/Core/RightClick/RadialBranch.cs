@@ -120,6 +120,7 @@ namespace UI.Core.RightClick
 
 		public void UpdateLines(IRadial outerRadial, int radius)
 		{
+			if (RadialPosition == null) return;
 			if (RadialPosition.IsWorldPosition == false)
 			{
 				return;
