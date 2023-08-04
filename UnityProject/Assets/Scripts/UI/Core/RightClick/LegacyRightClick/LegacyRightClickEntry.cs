@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Audio.Containers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -33,6 +34,7 @@ namespace UI.Core.RightClick.LegacyRightClick
 			SetupIcon();
 			SetupSubMenus();
 			mainButton.onClick.AddListener(OnClick);
+			mainButton.onClick.AddListener(() => _ = SoundManager.Play(CommonSounds.Instance.Click01));
 		}
 
 		private void SetupSubMenus()
@@ -101,6 +103,7 @@ namespace UI.Core.RightClick.LegacyRightClick
 				if (entry.keepMenuOpen == false) item.OnClicked.AddListener(() => OnClicked?.Invoke());
 			}
 			subMenusField.SetActive(true);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 	}
 }

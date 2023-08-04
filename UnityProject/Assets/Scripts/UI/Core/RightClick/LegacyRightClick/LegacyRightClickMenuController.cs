@@ -75,6 +75,7 @@ namespace UI.Core.RightClick.LegacyRightClick
 			SpawnEntries();
 			this.SetActive(true);
 			LeanTween.scale(self, new Vector3(1, 1, 1), 0.15f).setEase(LeanTweenType.easeInOutQuad);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		private void SpawnEntries()

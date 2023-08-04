@@ -62,7 +62,7 @@ public class RightClickManager : SingletonManager<RightClickManager>
 	private List<RaycastResult> raycastResults = new List<RaycastResult>();
 
 
-	public bool UsingLegacyDropDownMenu = true;
+	public bool UsingLegacyDropDownMenu = false;
 
 	//defines a particular component that has one or more methods which have been attributed with RightClickMethod. Cached
 	// in the above list to avoid expensive lookup at click-time.
@@ -116,11 +116,19 @@ public class RightClickManager : SingletonManager<RightClickManager>
 	{
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		var currentPref = PlayerPrefs.GetInt("UseDropdown", 0);
+		SetRightClickPreference(currentPref == 1);
 	}
 
 	private void OnDisable()
 	{
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	public static void SetRightClickPreference(bool pref)
+	{
+		PlayerPrefs.SetInt("UseDropdown", pref ? 1 : 0);
+		Instance.UsingLegacyDropDownMenu = pref;
 	}
 
 	private void GetRightClickAttributedMethods()
