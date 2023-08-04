@@ -58,6 +58,8 @@ namespace UI.Core.RightClick.LegacyRightClick
 
 		private void OnClick()
 		{
+			if (Item.gameObject != null && DistanceCheck() == false) return;
+
 			if (Item.SubMenus != null && Item.SubMenus.Any())
 			{
 				CreateSubMenus();
@@ -67,6 +69,14 @@ namespace UI.Core.RightClick.LegacyRightClick
 				Item.Action?.Invoke();
 				OnClicked?.Invoke();
 			}
+		}
+
+		private bool DistanceCheck()
+		{
+			var distance = Vector3.Distance(Item.gameObject.AssumedWorldPosServer(), PlayerManager.LocalPlayerObject.AssumedWorldPosServer());
+			if (distance < 12f) return true;
+			Chat.AddExamineMsg(PlayerManager.LocalPlayerObject, "<color=red>You're too far!</color>");
+			return false;
 		}
 
 		public void SubmenuOpenedEvent()
