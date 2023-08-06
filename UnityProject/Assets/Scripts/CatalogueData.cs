@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+fuck you
+
 [CreateAssetMenu(fileName = "CatalogueData", menuName = "ScriptableObjects/CatalogueData")]
 public class CatalogueData : ScriptableObject
 {
