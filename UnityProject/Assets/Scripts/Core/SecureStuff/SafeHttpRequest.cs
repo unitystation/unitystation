@@ -11,12 +11,15 @@ using UnityEngine;
 
 public static class SafeHttpRequest
 {
-
-
-	public static async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request ,  CancellationToken? cancellationToken = null)
+	public static async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+		CancellationToken? cancellationToken = null)
 	{
 		var Client = new HttpClient();
-		if (IsValid(request.RequestUri) == false) return null;
+		if (IsValid(request.RequestUri) == false)
+		{
+			Logger.LogError($"Provided URL for API request was blocked due to pointing to an IP URL {request.RequestUri}");
+			return null;
+		}
 
 		if (cancellationToken == null)
 		{
@@ -33,7 +36,11 @@ public static class SafeHttpRequest
 	{
 		var URL = new System.Uri(requestUri);
 		var Client = new HttpClient();
-		if (IsValid(URL) == false) return null;
+		if (IsValid(URL) == false)
+		{
+			Logger.LogError($"Provided URL for API request was blocked due to pointing to an IP URL {requestUri}");
+			return null;
+		}
 
 		return await Client.GetStringAsync(URL);
 	}
@@ -41,7 +48,6 @@ public static class SafeHttpRequest
 
 	public static bool IsValid(Uri requestUri)
 	{
-
 		if (requestUri.IsAbsoluteUri == false)
 		{
 			return false;
@@ -61,7 +67,6 @@ public static class SafeHttpRequest
 
 		switch (baseUri.HostNameType)
 		{
-
 			case UriHostNameType.Dns:
 				return true;
 			case UriHostNameType.IPv4:
@@ -70,5 +75,4 @@ public static class SafeHttpRequest
 				return false;
 		}
 	}
-
 }
