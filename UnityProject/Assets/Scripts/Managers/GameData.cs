@@ -83,6 +83,7 @@ public class GameData : MonoBehaviour
 		}
 		catch (System.Net.Http.HttpRequestException e)
 		{
+			Logger.LogError(" APITest Failed setting to off-line mode  " +e.ToString());
 			forceOfflineMode = true;
 			return;
 		}
