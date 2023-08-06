@@ -2,7 +2,7 @@ name: Download Test Results
 
 on:
   workflow_run:
-    workflows: ["Tests", "pr2changelog"]
+    workflows: ["Tests"]
     types:
       - completed
 
@@ -53,5 +53,13 @@ jobs:
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
                 body: `Test Errors:\n\n${errors.join('\n')}`,
+              });
+            }
+            else {
+                await github.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: `Tests passed.`,
               });
             }
