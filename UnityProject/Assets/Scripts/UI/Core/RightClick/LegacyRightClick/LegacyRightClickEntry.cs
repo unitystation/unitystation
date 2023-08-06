@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using Audio.Containers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.Core.RightClick.LegacyRightClick
@@ -12,13 +12,17 @@ namespace UI.Core.RightClick.LegacyRightClick
 		public RightClickMenuItem Item { get; private set; }
 
 		[SerializeField] private Transform prefabOfSelf;
-		[SerializeField] private Transform subMenusField;
+		[FormerlySerializedAs("subMenusField")] public Transform SubMenusField;
 		[SerializeField] private Button subMenusButton;
 		[SerializeField] private Button mainButton;
 		[SerializeField] private TMP_Text itemName;
 		[SerializeField] private Image itemIcon;
 		public UnityEvent OnClicked = new UnityEvent();
 		public UnityEvent OnOpenedSubmenu = new UnityEvent();
+		public InvokeEventOnPointer PointerEvents;
+		public LegacyRightClickMenuController Manager;
+
+		private GameObject linkedObject;
 
 		private void OnDestroy()
 		{
@@ -26,10 +30,12 @@ namespace UI.Core.RightClick.LegacyRightClick
 			OnOpenedSubmenu.RemoveAllListeners();
 		}
 
-		public void Setup(RightClickMenuItem newItem)
+		public void Setup(RightClickMenuItem newItem, LegacyRightClickMenuController manager, GameObject linked = null)
 		{
 			Item = newItem;
-			itemName.text = Item.Label;
+			itemName.text = Item.Label.Capitalize();
+			linkedObject = linked;
+			Manager = manager;
 			SetupColors();
 			SetupIcon();
 			SetupSubMenus();
@@ -37,9 +43,14 @@ namespace UI.Core.RightClick.LegacyRightClick
 			mainButton.onClick.AddListener(() => _ = SoundManager.Play(CommonSounds.Instance.Click01));
 		}
 
+		private bool HasSubMenus()
+		{
+			return Item.SubMenus != null && Item.SubMenus.Any();
+		}
+
 		private void SetupSubMenus()
 		{
-			var hasMenus = Item.SubMenus != null && Item.SubMenus.Any();
+			var hasMenus = HasSubMenus();
 			subMenusButton.SetActive(hasMenus);
 			if (hasMenus == false) return;
 			subMenusButton.onClick.AddListener(CreateSubMenus);
@@ -62,7 +73,7 @@ namespace UI.Core.RightClick.LegacyRightClick
 		{
 			if (Item.gameObject != null && DistanceCheck() == false) return;
 
-			if (Item.SubMenus != null && Item.SubMenus.Any())
+			if (HasSubMenus())
 			{
 				CreateSubMenus();
 			}
@@ -83,26 +94,29 @@ namespace UI.Core.RightClick.LegacyRightClick
 
 		public void SubmenuOpenedEvent()
 		{
-			subMenusField.SetActive(false);
+			if (linkedObject != null) return;
+			SubMenusField.SetActive(false);
 		}
 
 		public void CreateSubMenus()
 		{
-			if (subMenusField.gameObject.activeSelf) return;
+			if (SubMenusField.gameObject.activeSelf || HasSubMenus() == false) return;
 			OnOpenedSubmenu?.Invoke();
-			foreach (Transform child in subMenusField)
+			foreach (Transform child in SubMenusField)
 			{
 				Destroy(child.gameObject);
 			}
 
 			foreach (var entry in Item.SubMenus)
 			{
-				var obj = Instantiate(prefabOfSelf, subMenusField, false);
+				var obj = Instantiate(prefabOfSelf, SubMenusField, false);
 				var item = obj.gameObject.GetComponent<LegacyRightClickEntry>();
-				item.Setup(entry);
+				item.Setup(entry, Manager, gameObject);
 				if (entry.keepMenuOpen == false) item.OnClicked.AddListener(() => OnClicked?.Invoke());
+				item.PointerEvents.OnEnter.AddListener(Manager.Focus);
+				item.PointerEvents.OnExit.AddListener(Manager.UnFocus);
 			}
-			subMenusField.SetActive(true);
+			SubMenusField.SetActive(true);
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 	}
