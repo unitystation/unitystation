@@ -79,7 +79,7 @@ public class GameData : MonoBehaviour
 		HttpResponseMessage res;
 		try
 		{
-			res = await ServerData.HttpClient.SendAsync(r, cancellationToken);
+			res = await SafeHttpRequest.SendAsync(r, cancellationToken);
 		}
 		catch (System.Net.Http.HttpRequestException e)
 		{

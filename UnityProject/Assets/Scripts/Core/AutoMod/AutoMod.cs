@@ -85,46 +85,6 @@ namespace AdminTools
 
 		}
 
-		private void OnEnable()
-		{
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		}
-
-		private void OnDisable()
-		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		}
-
-		void UpdateMe()
-		{
-			if (!IsEnabled()) return;
-			MonitorEnvironment();
-		}
-
-		void MonitorEnvironment()
-		{
-			// if (Common.allocationAttackQueue.Count > 0)
-			// {
-			// 	ProcessAllocationAttack(Common.allocationAttackQueue.Dequeue());
-			// }
-		}
-
-		public static void ProcessAllocationAttack(string ipAddress)
-		{
-			if (!Instance.loadedConfig.enableAllocationProtection) return;
-			if (Application.platform == RuntimePlatform.LinuxPlayer)
-			{
-				Logger.Log($"Auto mod has taken steps to protect against an allocation attack from {ipAddress}",
-					Category.Admin);
-				ProcessStartInfo processInfo = new ProcessStartInfo();
-				processInfo.FileName = "ufw";
-				processInfo.Arguments = $"insert 1 deny from {ipAddress} to any";
-				processInfo.CreateNoWindow = true;
-				processInfo.UseShellExecute = false;
-				Process.Start(processInfo);
-			}
-		}
-
 		public static string ProcessChatServer(PlayerInfo player, string message)
 		{
 			if (player == null || Instance.loadedConfig == null

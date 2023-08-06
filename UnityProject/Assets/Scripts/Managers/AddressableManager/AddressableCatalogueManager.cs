@@ -91,8 +91,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 
 			if (Catalogue.Contains("http"))
 			{
-				HttpClient client = new HttpClient();
-				string result = await client.GetStringAsync(Catalogue);
+				string result = await SafeHttpRequest.GetStringAsync(Catalogue);
 				var Task = Addressables.LoadContentCatalogAsync(result);
 				await Task.Task;
 				Instance.AssetBundleDownloadDependencies(Task, RegisterComplete);
