@@ -46,7 +46,7 @@ namespace UI.Core.RightClick.LegacyRightClick
 		{
 			if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
 			{
-				self.SetActive(false);
+				HideSelf();
 				return;
 			}
 
@@ -64,7 +64,7 @@ namespace UI.Core.RightClick.LegacyRightClick
 			//This is not a major issue. But it can be annoying trying to click away, and the menu decides to never go away.
 			if (RectTransformUtility.RectangleContainsScreenPoint(gameObject.GetComponent<RectTransform>(),
 				    Input.mousePosition)) return;
-			self.SetActive(false);
+			HideSelf();
 		}
 
 
@@ -76,6 +76,7 @@ namespace UI.Core.RightClick.LegacyRightClick
 			self.transform.rotation = Quaternion.identity;
 			SpawnEntries();
 			this.SetActive(true);
+			entries.gameObject.SetActive(true);
 			LeanTween.scale(self, new Vector3(1, 1, 1), 0.15f).setEase(LeanTweenType.easeInOutQuad);
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
@@ -104,6 +105,7 @@ namespace UI.Core.RightClick.LegacyRightClick
 		private void HideSelf()
 		{
 			self.SetActive(false);
+			entries.gameObject.SetActive(false);
 		}
 
 		private void HideActiveSubMenu()
