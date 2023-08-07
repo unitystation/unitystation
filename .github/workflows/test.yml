@@ -94,25 +94,3 @@ jobs:
         with:
           name: Test results
           path: ./testReports/${{ matrix.targetPlatform }}
-
-      - name: Comment PR
-        uses: thollander/actions-comment-pull-request@v1
-        if: always()
-        with:
-          script: |
-            const fs = require('fs');
-            const cheerio = require('cheerio');
-            const html = fs.readFileSync('./testReports/${{ matrix.targetPlatform }}', 'utf8');
-            const $ = cheerio.load(html);
-            const errors = [];
-            const final = '';
-            $('textarea.code-block').each((i, elem) => {
-              errors.push($(elem).text());
-            });
-            if (errors.length > 0) {
-              final = `Test Errors:\n\n${errors.join('\n')}`;
-            else {
-              final = 'Tests passed';
-            }
-          message: "${{steps.script.variable.final}}"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
