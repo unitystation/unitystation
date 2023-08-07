@@ -374,7 +374,7 @@ public class ItemSlot
 
 		//if the slot already has an item, it's allowed to stack only if the item to add can stack with
 		//the existing item.
-		if (!ignoreOccupied && item != null)
+		if (ignoreOccupied == false && item != null)
 		{
 			var thisStackable = item.GetComponent<Stackable>();
 			var otherStackable = toStore.GetComponent<Stackable>();
