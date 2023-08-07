@@ -97,6 +97,7 @@ jobs:
 
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v1
+        if: always()
         with:
           script: |
             const fs = require('fs');
@@ -113,5 +114,5 @@ jobs:
             else {
               final = 'Tests passed';
             }
-          message: "${{ env.final }}"
+          message: "${{ steps.script.variable.final }}"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
