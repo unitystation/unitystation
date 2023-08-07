@@ -137,5 +137,5 @@ jobs:
             else {
               final = 'Tests passed';
             }
-          message: "${{ steps.script.variable.final }}"
+          message: "${final}"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
