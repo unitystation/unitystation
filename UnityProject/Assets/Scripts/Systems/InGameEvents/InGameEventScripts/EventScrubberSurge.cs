@@ -15,6 +15,10 @@ namespace InGameEvents
 {
 	public class EventScrubberSurge : EventScriptBase
 	{
+		//TODO some time
+		//5% chance to make the janitor antagonist When the scrubber Surge  event happens
+		//like a special antag "you can't deal with this crap anymore! make a mess!!!"
+
 		private System.Random RNG = new System.Random();
 
 		[Tooltip("A temporary container by which chemicals can be dispersed from.")]
