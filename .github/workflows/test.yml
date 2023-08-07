@@ -95,29 +95,6 @@ jobs:
           name: Test results
           path: ./testReports/${{ matrix.targetPlatform }}
 
-      - name: 'Download artifact'
-        if: always()
-        uses: actions/github-script@v3
-        with:
-            script: |
-              const fs = require('fs');
-              const path = require('path');
-              const artifact = await github.actions.listWorkflowRunArtifacts({
-                 owner: context.repo.owner,
-                 repo: context.repo.repo,
-                 run_id: context.payload.workflow_run.id,
-              });
-              const zipArtifact = artifact.data.artifacts.filter(artifact => artifact.name == 'test-results')[0];
-              const download = await github.actions.downloadArtifact({
-                 owner: context.repo.owner,
-                 repo: context.repo.repo,
-                 artifact_id: zipArtifact.id,
-                 archive_format: 'zip',
-              });
-              const outputPath = path.join(process.env.GITHUB_WORKSPACE, 'test-results.zip');
-              fs.writeFileSync(outputPath, Buffer.from(download.data));
-              console.log('Artifact downloaded to', outputPath);
-
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v1
         if: always()
@@ -125,7 +102,7 @@ jobs:
           script: |
             const fs = require('fs');
             const cheerio = require('cheerio');
-            const html = fs.readFileSync('./index.html', 'utf8');
+            const html = fs.readFileSync('./testReports/${{ matrix.targetPlatform }}', 'utf8');
             const $ = cheerio.load(html);
             const errors = [];
             const final = '';
@@ -137,5 +114,5 @@ jobs:
             else {
               final = 'Tests passed';
             }
-          message: "${final}"
+          message: "${{steps.script.variable.final}}"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
