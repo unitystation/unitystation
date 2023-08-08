@@ -17,8 +17,10 @@ namespace UI.Core.RightClick.LegacyRightClick
 		private Canvas canvas;
 		public Canvas Canvas => this.GetComponentByRef(ref canvas);
 
-		[SerializeField] private Transform entryPrefab;
+		[SerializeField] private GameObject entryPrefab;
 		[SerializeField] private Transform entries;
+
+		private bool isFocused = false;
 
 
 		private void Awake()
@@ -46,25 +48,14 @@ namespace UI.Core.RightClick.LegacyRightClick
 		{
 			if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
 			{
-				self.SetActive(false);
-				return;
+				HideSelf();
 			}
 
-			if (Input.GetMouseButtonDown(0) == false) return;
-			CheckMouseClickInBounds();
-		}
-
-		/// <summary>
-		/// Checks if a mouse click occurred within the bounds of the current game object's RectTransform.
-		/// If the mouse click is outside of the bounds, deactivates the game object.
-		/// </summary>
-		private void CheckMouseClickInBounds()
-		{
-			//BUG: rect transform extends way beyond the bounds of the UI for some reason when resizing the game's screen or UI scale.
-			//This is not a major issue. But it can be annoying trying to click away, and the menu decides to never go away.
-			if (RectTransformUtility.RectangleContainsScreenPoint(gameObject.GetComponent<RectTransform>(),
-				    Input.mousePosition)) return;
-			self.SetActive(false);
+			if (Input.GetMouseButtonDown(0))
+			{
+				if(isFocused ) return;
+				HideSelf();
+			}
 		}
 
 
@@ -91,12 +82,14 @@ namespace UI.Core.RightClick.LegacyRightClick
 			{
 				var entry = Instantiate(entryPrefab, entries, false);
 				if (entry.gameObject.TryGetComponent<LegacyRightClickEntry>(out var newEntry) == false) continue;
-				newEntry.Setup(menuItem);
+				newEntry.Setup(menuItem, this);
 				if (menuItem.keepMenuOpen == false)
 				{
 					newEntry.OnClicked.AddListener(HideSelf);
 				}
 				newEntry.OnOpenedSubmenu.AddListener(HideActiveSubMenu);
+				newEntry.PointerEvents.OnEnter.AddListener(Focus);
+				newEntry.PointerEvents.OnExit.AddListener(UnFocus);
 				newEntry.SetActive(true);
 			}
 		}
@@ -104,6 +97,11 @@ namespace UI.Core.RightClick.LegacyRightClick
 		private void HideSelf()
 		{
 			self.SetActive(false);
+			entries.localPosition = new Vector3(0, 0, 0);
+			foreach (Transform child in entries)
+			{
+				Destroy(child.gameObject);
+			}
 		}
 
 		private void HideActiveSubMenu()
@@ -112,6 +110,15 @@ namespace UI.Core.RightClick.LegacyRightClick
 			{
 				child.GetComponent<LegacyRightClickEntry>()?.SubmenuOpenedEvent();
 			}
+		}
+
+		public void Focus()
+		{
+			isFocused = true;
+		}
+		public void UnFocus()
+		{
+			isFocused = false;
 		}
 	}
 }
