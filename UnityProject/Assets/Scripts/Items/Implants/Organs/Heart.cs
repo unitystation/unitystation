@@ -35,6 +35,8 @@ namespace Items.Implants.Organs
 
 		public ReagentCirculatedComponent _ReagentCirculatedComponent;
 
+		public ReagentPoolSystem CashedReagentPoolSystem = null;
+
 		public int ForcedBeats = 0;
 
 		public bool isEMPVunerable = false;
@@ -98,14 +100,14 @@ namespace Items.Implants.Organs
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			_ReagentCirculatedComponent.OrNull()?.AssociatedSystem?.PumpingDevices?.Remove(this);
-
+			CashedReagentPoolSystem.PumpingDevices.Remove(this);
+			CashedReagentPoolSystem = null;
 		}
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
-
-			_ReagentCirculatedComponent.AssociatedSystem.PumpingDevices.Add(this);
+			CashedReagentPoolSystem = _ReagentCirculatedComponent.AssociatedSystem;
+			CashedReagentPoolSystem.PumpingDevices.Add(this);
 		}
 
 		public void DoHeartBeat()
