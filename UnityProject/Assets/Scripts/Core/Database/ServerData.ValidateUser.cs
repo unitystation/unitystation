@@ -33,7 +33,7 @@ namespace DatabaseAPI
 			HttpResponseMessage response;
 			try
 			{
-				response = await ServerData.HttpClient.SendAsync(req, cancellationToken);
+				response = await SafeHttpRequest.SendAsync(req, cancellationToken);
 			}
 			catch (Exception e)
 			{
@@ -107,7 +107,7 @@ namespace DatabaseAPI
 			HttpResponseMessage res;
 			try
 			{
-				res = await HttpClient.SendAsync(r, cancellationToken);
+				res = await SafeHttpRequest.SendAsync(r, cancellationToken);
 			}
 			catch (Exception e)
 			{

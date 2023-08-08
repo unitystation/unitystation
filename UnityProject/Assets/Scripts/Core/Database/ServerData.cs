@@ -42,9 +42,6 @@ namespace DatabaseAPI
 		private bool fetchingToken = false;
 		public string idToken;
 		public static string IdToken => Instance.idToken;
-		private readonly HttpClient httpClient = new HttpClient();
-
-		public static HttpClient HttpClient => Instance.httpClient;
 
 		public InitialisationSystems Subsystem => InitialisationSystems.ServerData;
 

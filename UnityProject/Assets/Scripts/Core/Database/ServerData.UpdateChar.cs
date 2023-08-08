@@ -27,6 +27,7 @@ namespace DatabaseAPI
 				}
 			});
 
+			
 			HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Put,
 				UserFirestoreURL + "/?updateMask.fieldPaths=character");
 			r.Method = new HttpMethod("PATCH");
@@ -36,7 +37,7 @@ namespace DatabaseAPI
 
 			try
 			{
-				await HttpClient.SendAsync(r);
+				await SafeHttpRequest.SendAsync(r);
 			}
 			catch (Exception e)
 			{
