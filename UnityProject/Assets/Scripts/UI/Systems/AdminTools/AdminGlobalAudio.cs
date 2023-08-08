@@ -48,8 +48,7 @@ namespace AdminTools
 				AsyncOperationHandle<IResourceLocator> task;
 				if (serverCatalouge.Contains("http"))
 				{
-					HttpClient client = new HttpClient();
-					string result = await client.GetStringAsync(serverCatalouge);
+					string result = await SafeHttpRequest.GetStringAsync(serverCatalouge);
 					Logger.Log(result);
 					task = Addressables.LoadContentCatalogAsync(result);
 					await task.Task;
