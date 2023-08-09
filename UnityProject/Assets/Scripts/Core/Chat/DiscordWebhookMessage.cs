@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using DatabaseAPI;
@@ -52,7 +53,7 @@ namespace DiscordWebhook
 				if (!messageSendingInProgress)
 				{
 					messageSendingInProgress = true;
-					ThreadPool.QueueUserWorkItem( SendQueuedMessagesToWebhooks);
+					ThreadPool.QueueUserWorkItem(SendQueuedMessagesToWebhooks);
 				}
 
 				sendingTimer = 0;
@@ -123,13 +124,20 @@ namespace DiscordWebhook
 			};
 		}
 
-		private void Post(string url, JsonPayloadContent playload)
+		private async void Post(string url, JsonPayloadContent playload)
 		{
-			using (WebClient webClient = new WebClient())
+			var jsonContent = JsonConvert.SerializeObject(playload);
+			var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+			HttpResponseMessage response = await SafeHttpRequest.PostAsync(url, content);
+
+			if (response.IsSuccessStatusCode)
 			{
-				var dataString = JsonConvert.SerializeObject(playload);
-				webClient.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-				webClient.UploadString(url, dataString);
+				Console.WriteLine("Request was successful.");
+			}
+			else
+			{
+				Console.WriteLine($"Request failed with status code: {response.StatusCode}");
 			}
 		}
 
