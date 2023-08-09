@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Firebase.Auth;
 using Newtonsoft.Json;
+using SecureStuff;
 using UnityEngine;
 using Systems.Character;
 

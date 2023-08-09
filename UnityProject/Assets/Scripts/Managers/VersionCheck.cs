@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Initialisation;
+using SecureStuff;
 using Shared.Util;
 using UnityEngine;
 using UnityEngine.UI;

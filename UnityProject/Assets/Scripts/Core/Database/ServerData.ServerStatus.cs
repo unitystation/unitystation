@@ -7,7 +7,7 @@ using UnityEngine;
 using Mirror;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Core.SafeFilesystem;
+using SecureStuff;
 using IgnoranceTransport;
 using Managers;
 using Newtonsoft.Json;

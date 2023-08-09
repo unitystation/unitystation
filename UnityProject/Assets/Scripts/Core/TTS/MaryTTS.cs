@@ -7,6 +7,7 @@ using UnityEngine.Audio;
 using Audio.Containers;
 using Initialisation;
 using Mirror;
+using SecureStuff;
 
 public class MaryTTS : MonoBehaviour {
 	public static MaryTTS Instance;

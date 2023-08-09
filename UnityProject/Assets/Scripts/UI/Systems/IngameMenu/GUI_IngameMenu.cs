@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Learning;
 using Messages.Client.Lobby;
+using SecureStuff;
 using UI.Chat_UI;
 
 

@@ -2,7 +2,7 @@
 using UnityEngine;
 using Mirror;
 using System.Linq;
-using Core.SafeFilesystem;
+using SecureStuff;
 
 namespace Antagonists
 {
@@ -51,7 +51,7 @@ namespace Antagonists
 			}
 
 			string[] allWords = AccessFile.ReadAllLines(filePath);
-      
+
 			allWords = allWords.Shuffle().ToArray();
 
 			for (int i = 0; i < WORD_COUNT; i++)

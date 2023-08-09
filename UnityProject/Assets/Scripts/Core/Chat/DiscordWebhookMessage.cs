@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using DatabaseAPI;
 using Newtonsoft.Json;
+using SecureStuff;
 using Shared.Managers;
 using UnityEngine;
 using Object = System.Object;

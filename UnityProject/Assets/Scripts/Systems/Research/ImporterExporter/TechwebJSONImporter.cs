@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
-using Core.SafeFilesystem;
+using SecureStuff;
 using Systems.Research.Data;
 using UnityEngine;
 
