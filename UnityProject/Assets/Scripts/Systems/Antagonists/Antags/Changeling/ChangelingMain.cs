@@ -24,7 +24,7 @@ namespace Changeling
 		[SyncVar] private float chemMax = 75;
 		[SyncVar] private float chemAddPerTime = CHEM_ADD_PER_TIME;
 		[SyncVar] private float chemAddTime = CHEM_ADD_TIME_BASE;
-		public int ExtractedDna => changelingDnas.Count;
+		public int ExtractedDna => ChangelingDnas.Count;
 
 		[SyncVar(hook = nameof(SyncResetCounts))] private int resetCount = 0;
 		[SyncVar(hook = nameof(SyncMaxResetCounts))] private int resetCountMax = 1;
@@ -32,28 +32,18 @@ namespace Changeling
 		[SyncVar] private int absorbCount = 0;
 		public int AbsorbCount => absorbCount;
 		public int ResetsLeft => resetCountMax - resetCount;
-
-		//private List<ChangelingDna> changelingDnas = new List<ChangelingDna>();
-		//private List<ChangelingMemories> changelingMemories = new List<ChangelingMemories>();
-		public List<ChangelingMemories> ChangelingMemories => new(changelingMemories);
-		public List<ChangelingMemories> changelingMemories => changelingMind.Body.playerHealth.brain.ChangelingMemories;
+		public List<ChangelingMemories> ChangelingMemories => changelingMind.Body.playerHealth.brain.ChangelingMemories;
 
 		private bool isFakingDeath = false;
 
 		public ChangelingDna currentDNA;
 
-		//[SyncVar(hook = nameof(SyncChangelingDna))]
-		//private string changelingDNASer = "";
-		//[SyncVar(hook = nameof(SyncChangelingMemories))]
-		//private string changelingMemoriesSer = "";
-
-		public List<ChangelingDna> ChangelingDNAs => new List<ChangelingDna>(changelingDnas);
-		public List<ChangelingDna> changelingDnas => changelingMind.Body.playerHealth.brain.ChangelingDNAs;
+		public List<ChangelingDna> ChangelingDnas => changelingMind.Body.playerHealth.brain.ChangelingDNAs;
 		public List<ChangelingDna> ChangelingLastDNAs
 		{
 			get
 			{
-				return ChangelingDNAs.Skip(changelingDnas.Count - MAX_LAST_EXTRACTED_DNA_FOR_TRANSFORM).ToList();
+				return ChangelingDnas.Skip(ChangelingDnas.Count - MAX_LAST_EXTRACTED_DNA_FOR_TRANSFORM).ToList();
 			}
 		}
 		[SyncVar(hook = nameof(SyncEPCount))]
@@ -290,7 +280,7 @@ namespace Changeling
 
 		public bool HasDna(ChangelingDna dna)
 		{
-			return changelingDnas.Contains(dna);
+			return ChangelingDnas.Contains(dna);
 		}
 
 		public void AddDna(ChangelingDna dna)
@@ -406,12 +396,12 @@ namespace Changeling
 		
 		public void AbsorbDna(PlayerScript target, ChangelingMain changelingMain) // That gonna be another changeling
 		{
-			foreach (var dna in changelingMain.changelingDnas)
+			foreach (var dna in changelingMain.ChangelingDnas)
 			{
 				AddDna(dna);
 			}
-			AddMemories(changelingMain.changelingMemories);
-			changelingMain.RemoveDna(changelingMain.changelingDnas);
+			AddMemories(changelingMain.ChangelingMemories);
+			changelingMain.RemoveDna(changelingMain.ChangelingDnas);
 			foreach (var mem in changelingMain.ChangelingMemories)
 			{
 				AddMemories(mem);

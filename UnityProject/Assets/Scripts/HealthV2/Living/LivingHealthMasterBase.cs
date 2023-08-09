@@ -788,7 +788,7 @@ namespace HealthV2
 
 
 
-		public Coroutine InjectDNA(List<DNAMutationData> Payloads, bool skipWaiting = false, CharacterSheet characterSheet = null)
+		public Coroutine InjectDna(List<DNAMutationData> Payloads, bool skipWaiting = false, CharacterSheet characterSheet = null)
 		{
 			return StartCoroutine(EnumeratorInjectDna(Payloads, skipWaiting, characterSheet));
 		}
@@ -798,11 +798,11 @@ namespace HealthV2
 		{
 			foreach (var Payload in Payloads)
 			{
-				yield return StartCoroutine(ProcessDNAPayload(Payload, skipWaiting, characterSheet));
+				yield return StartCoroutine(ProcessDnaPayload(Payload, skipWaiting, characterSheet));
 			}
 		}
 
-		public IEnumerator ProcessDNAPayload(DNAMutationData InDNAMutationData, bool skipWaiting = false, CharacterSheet characterSheet = null)
+		public IEnumerator ProcessDnaPayload(DNAMutationData InDNAMutationData, bool skipWaiting = false, CharacterSheet characterSheet = null)
 		{
 			//TODO Skin and body type , is in character Settings  so is awkward
 			foreach (var Payload in InDNAMutationData.Payload)

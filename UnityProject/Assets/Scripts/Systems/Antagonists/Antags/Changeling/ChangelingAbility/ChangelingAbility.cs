@@ -627,7 +627,7 @@ namespace Changeling
 				}
 			}
 
-			yield return body.playerHealth.InjectDNA(dataForMutations, true, characterSheet);
+			yield return body.playerHealth.InjectDna(dataForMutations, true, characterSheet);
 
 			body.playerHealth.RefreshPumps();
 			body.playerHealth.UpdateBloodPool(true);
@@ -1028,7 +1028,7 @@ namespace Changeling
 			$"<color=red>You finished sting of {target.playerName}</color>",
 			$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} finished sting of {target.playerName}</color>");
 
-			foreach (var x in changeling.ChangelingDNAs)
+			foreach (var x in changeling.ChangelingDnas)
 			{
 				if (x.DnaID == target.Mind.bodyMobID)
 				{
