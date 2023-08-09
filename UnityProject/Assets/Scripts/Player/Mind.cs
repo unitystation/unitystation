@@ -90,9 +90,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 	private ObservableCollection<Spell> spells = new ObservableCollection<Spell>();
 	public ObservableCollection<Spell> Spells => spells;
 
-	private readonly ObservableCollection<ChangelingAbility> changelingAbilities = new ObservableCollection<ChangelingAbility>();
-	public ObservableCollection<ChangelingAbility> ChangelingAbilities => changelingAbilities;
-
 	/// <summary>
 	/// General purpose properties storage for misc stuff like job-specific flags
 	/// </summary>
@@ -149,31 +146,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 			if (e.OldItems != null)
 			{
 				foreach (Spell y in e.OldItems)
-				{
-					UIActionManager.ToggleServer(this.gameObject, y, false);
-				}
-			}
-		};
-
-		changelingAbilities.CollectionChanged += (_, e) =>
-		{
-			if (e == null)
-			{
-				return;
-			}
-
-			if (e.NewItems != null)
-			{
-				foreach (ChangelingAbility x in e.NewItems)
-				{
-					if (x.AbilityData.ShowInActions)
-						UIActionManager.ToggleServer(this.gameObject, x, true);
-				}
-			}
-
-			if (e.OldItems != null)
-			{
-				foreach (ChangelingAbility y in e.OldItems)
 				{
 					UIActionManager.ToggleServer(this.gameObject, y, false);
 				}
@@ -815,36 +787,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 		if (IsAntag == false) return false;
 
 		return antag.Antagonist is T;
-	}
-
-	public void AddAbility(ChangelingAbility ability)
-	{
-		if (changelingAbilities.Contains(ability))
-		{
-			return;
-		}
-
-		changelingAbilities.Add(ability);
-	}
-
-	public void RemoveAbility(ChangelingAbility ability)
-	{
-		if (changelingAbilities.Contains(ability))
-		{
-			changelingAbilities.Remove(ability);
-		}
-	}
-
-	public ChangelingAbility GetAbilityInstance (ChangelingData ability)
-	{
-		foreach (var spell in ChangelingAbilities)
-		{
-			if (spell.AbilityData == ability)
-			{
-				return spell;
-			}
-		}
-		return default;
 	}
 
 	public void AddSpell(Spell spell)

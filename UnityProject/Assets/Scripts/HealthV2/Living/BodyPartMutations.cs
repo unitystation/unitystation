@@ -296,25 +296,21 @@ public class BodyPartMutations : BodyPartFunctionality
 			PerfomChangeToSpecies(BodyPart, characterSheet);
 		}
 		else
+		{
 			StartCoroutine(ProcessChangeToSpecies(BodyPart));
+		}
 	}
 
 	private void SettingUpSubOrgans(BodyPart SpawnedBodypart, ItemStorage bodyPartExampleStorage, bool HasOpenProcedure)
 	{
 		var usedOrgansInSpawnedPart = new List<GameObject>();
 
-		if (bodyPartExampleStorage.Populater.SlotContents.Count() != 0)
+		foreach (var x in bodyPartExampleStorage.Populater.SlotContents)
 		{
-			foreach (var x in bodyPartExampleStorage.Populater.SlotContents)
-			{
-				if (x.Prefab != null)
-					usedOrgansInSpawnedPart.Add(x.Prefab);
-			}
+			if (x.Prefab != null)
+				usedOrgansInSpawnedPart.Add(x.Prefab);
 		}
-		else
-		{
-			usedOrgansInSpawnedPart.AddRange(bodyPartExampleStorage.Populater.DeprecatedContents);
-		}
+		usedOrgansInSpawnedPart.AddRange(bodyPartExampleStorage.Populater.DeprecatedContents);
 
 		foreach (var itemSlot in RelatedPart.OrganStorage.GetItemSlots())
 		{

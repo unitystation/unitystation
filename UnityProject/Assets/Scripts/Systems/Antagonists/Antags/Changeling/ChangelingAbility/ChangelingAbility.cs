@@ -1,10 +1,13 @@
 using CameraEffects;
 using Chemistry;
+using Clothing;
 using GameModes;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems;
+using Items;
 using Items.Implants.Organs;
 using Mirror;
+using Player;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +18,7 @@ using UI.Action;
 using UI.Core.Action;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Util;
 
 namespace Changeling
@@ -41,6 +45,7 @@ namespace Changeling
 
 		private const float MAX_REMOVING_WHILE_ABSORBING_BODY = 70f;
 		private const float MAX_DISTANCE_TO_TILE = 1.6f;
+		private const float TIME_FOR_COMPLETION_TRANSFORM = 2f;
 
 		public virtual void CallActionClient()
 		{
@@ -558,36 +563,253 @@ namespace Changeling
 			return dataForMutations;
 		}
 
-		private void ChangelingStartTransformAction(PlayerScript body, CharacterSheet characterSheet, ChangelingDna dna, ChangelingMain changeling)
+		private void UpdatePlayerSettings(PlayerScript body, ChangelingMain changeling, CharacterSheet characterSheet, ChangelingDna dna)
+		{
+			body.visibleName = characterSheet.Name;
+			body.playerName = characterSheet.Name;
+
+			body.playerSprites.ThisCharacter = characterSheet;
+			body.GetComponent<PlayerScript>().characterSettings = characterSheet;
+			body.characterSettings = characterSheet;
+			body.PlayerInfo.Name = characterSheet.Name;
+			body.PlayerInfo.RequestedCharacterSettings = characterSheet;
+			body.Mind.CurrentCharacterSettings = characterSheet;
+			body.Mind.name = characterSheet.Name;
+			changeling.currentDNA = dna;
+		}
+
+		private List<(Pickupable, NamedSlot)> GetCurrentItems(PlayerScript playerScript)
+		{
+			var itemsBeforeTransform = new List<(Pickupable, NamedSlot)>();
+			DynamicItemStorage storage = playerScript.DynamicItemStorage;
+			var allItemsStorage = storage.GetItemSlotTree();
+
+			foreach (ItemSlot itemSlot in allItemsStorage)
+			{
+				var item = InventoryMove.Drop(itemSlot).MovedObject;
+				if (item != null && itemSlot.NamedSlot != null)
+					itemsBeforeTransform.Add((item, (NamedSlot)itemSlot.NamedSlot));
+			}
+
+			return itemsBeforeTransform;
+		}
+
+		private IEnumerator ChangelingStartTransformAction(PlayerScript body, CharacterSheet characterSheet, ChangelingDna dna, ChangelingMain changeling)
 		{
 			var action = StandardProgressAction.Create(transformProgressBar,
 						() =>
 						{
-							body.visibleName = characterSheet.Name;
-							body.playerName = characterSheet.Name;
-
-							body.characterSettings = characterSheet;
-
-							PlayerHealthData raceBodyparts = characterSheet.GetRaceSoNoValidation();
-
-							var dataForMutations = SettingUpDnaList(raceBodyparts);
-
-
-							body.visibleName = characterSheet.Name;
-							body.playerName = characterSheet.Name;
-
-							body.playerSprites.ThisCharacter = characterSheet;
-							body.GetComponent<PlayerScript>().characterSettings = characterSheet;
-							body.characterSettings = characterSheet;
-							body.PlayerInfo.Name = characterSheet.Name;
-							body.PlayerInfo.RequestedCharacterSettings = characterSheet;
-							body.Mind.CurrentCharacterSettings = characterSheet;
-							body.Mind.name = characterSheet.Name;
-							changeling.currentDNA = dna;
-
-							StartCoroutine(body.playerHealth.ProcessDnaPayload(dataForMutations, characterSheet, dna, changeling));
 						});
-			action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, 2f, changeling.ChangelingMind.Body.gameObject);
+			action.ServerStartProgress(changeling.ChangelingMind.Body.AssumedWorldPos, TIME_FOR_COMPLETION_TRANSFORM, changeling.ChangelingMind.Body.gameObject);
+
+			yield return WaitFor.SecondsRealtime(TIME_FOR_COMPLETION_TRANSFORM);
+
+			body.visibleName = characterSheet.Name;
+			body.playerName = characterSheet.Name;
+
+			body.characterSettings = characterSheet;
+
+			PlayerHealthData raceBodyparts = characterSheet.GetRaceSoNoValidation();
+
+			var dataForMutations = SettingUpDnaList(raceBodyparts);
+
+			var itemsBeforeTransform = GetCurrentItems(body);
+
+			UpdatePlayerSettings(body, changeling, characterSheet, dna);
+
+			foreach (var item in itemsBeforeTransform)
+			{
+				if (item.Item1.gameObject.GetComponent<ItemAttributesV2>().IsFakeItem)
+				{
+					// deleting prev fake items
+					if (item.Item1.gameObject.GetComponent<ItemAttributesV2>().IsFakeItem)
+						_ = Despawn.ServerSingle(item.Item1.gameObject);
+				}
+			}
+
+			yield return body.playerHealth.InjectDNA(dataForMutations, true, characterSheet);
+
+			body.playerHealth.RefreshPumps();
+			body.playerHealth.UpdateBloodPool(true);
+			var bodyParts = GetBodyParts(body);
+			SetUpItems(itemsBeforeTransform, bodyParts);
+			SetUpFakeItems(dna, changeling, body.playerHealth);
+			yield return WaitFor.SecondsRealtime(2f);
+			UpdateSprites(body.playerHealth.playerSprites, characterSheet);
+			body.playerHealth.UpdateMeatAndSkinProduce();
+
+			// set new hand because we deleted prev
+			body.playerHealth.playerScript.PlayerNetworkActions.CmdSetActiveHand(bodyParts[NamedSlot.leftHand].ItemStorageNetID, NamedSlot.leftHand);
+		}
+
+		private void UpdateSprites(PlayerSprites playerSprites, CharacterSheet characterSheet)
+		{
+			foreach (var x in playerSprites.OpenSprites)
+			{
+				SpriteHandlerManager.UnRegisterHandler(x.gameObject.GetComponent<SpriteHandler>().GetMasterNetID(), x.gameObject.GetComponent<SpriteHandler>());
+				_ = Despawn.ServerSingle(x.gameObject);
+			}
+			foreach (Transform x in playerSprites.CustomisationSprites.transform)
+			{
+				if (x.gameObject.name.ToLower().Contains("undershirt") || x.gameObject.name.ToLower().Contains("underwear") ||
+				x.gameObject.name.ToLower().Contains("socks"))
+				{
+					SpriteHandlerManager.UnRegisterHandler(x.gameObject.GetComponent<SpriteHandler>().GetMasterNetID(), x.gameObject.GetComponent<SpriteHandler>());
+					_ = Despawn.ServerSingle(x.gameObject);
+				}
+			}
+			playerSprites.OpenSprites.Clear();
+
+			playerSprites.ThisCharacter = characterSheet;
+			playerSprites.SetupSprites();
+
+			ColorUtility.TryParseHtmlString(characterSheet.SkinTone, out Color CurrentSurfaceColour);
+			playerSprites.SetSurfaceColour(CurrentSurfaceColour);
+		}
+
+		private Dictionary<NamedSlot, ItemSlot> GetBodyParts(PlayerScript body)
+		{
+			var bodyParts = new Dictionary<NamedSlot, ItemSlot>();
+			foreach (var x in body.DynamicItemStorage.GetItemSlotTree())
+			{
+				if (x.NamedSlot != null && !bodyParts.ContainsKey((NamedSlot)x.NamedSlot))
+					bodyParts.Add((NamedSlot)x.NamedSlot, x);
+			}
+			return bodyParts;
+		}
+
+		private void SetUpItems(List<(Pickupable, NamedSlot)> itemsBeforeTransform, Dictionary<NamedSlot, ItemSlot> bodyParts)
+		{
+
+			foreach (var itemForPlace in itemsBeforeTransform)
+			{
+				if (itemForPlace.Item1 != null && bodyParts.ContainsKey(itemForPlace.Item2))
+				{
+					Inventory.ServerAdd(itemForPlace.Item1.gameObject, bodyParts[itemForPlace.Item2]);
+				}
+			}
+		}
+
+		private void SetUpFakeItems(ChangelingDna dna, ChangelingMain changeling, LivingHealthMasterBase health)
+		{
+			if (dna != null && changeling != null)
+			{
+				var storage = changeling.ChangelingMind.CurrentPlayScript.DynamicItemStorage;
+				// need to firstly create fake uniform for placing id card into fake slot
+				foreach (var id in dna.BodyClothesPrefabID)
+				{
+					var fakeItem = Spawn.ServerPrefab(CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[id]).GameObject;
+					ItemSlot bestSlot = storage.GetBestSlotFor(fakeItem);
+					if (bestSlot == null)
+					{
+						_ = Despawn.ServerSingle(fakeItem);
+						continue;
+					}
+					var placed = Inventory.ServerAdd(fakeItem, bestSlot);
+					// better don`t put fake items into storages
+					if (placed == false || (((int?)bestSlot.NamedSlot) > 15) || bestSlot.NamedSlot == NamedSlot.handcuffs)
+					{
+						_ = Despawn.ServerSingle(fakeItem);
+						continue;
+					}
+					fakeItem.GetComponent<ItemAttributesV2>().IsFakeItem = true;
+					// making items absolutely useless
+					RemoveItemsInsideFakeItem(fakeItem);
+					ItemStorage itemStrg = MakeFakeItemUseless(fakeItem, health);
+
+
+					var itemName = fakeItem.GetComponent<ItemAttributesV2>().InitialName;
+					// removing item anytime when item was moved or something
+					fakeItem.GetComponent<Pickupable>().OnInventoryMoveServerEvent.AddListener((GameObject item) =>
+					{
+						Chat.AddCombatMsgToChat(gameObject,
+						$"<color=red>{itemName} was absorbed back into your body.</color>",
+						$"<color=red>{itemName} was absorbed into {changeling.ChangelingMind.CurrentPlayScript.visibleName} body.</color>");
+
+						if (itemStrg != null)
+							itemStrg.ServerDropAll();
+
+						_ = Inventory.ServerDespawn(item);
+
+						changeling.ChangelingMind.Body.RefreshVisibleName();
+					});
+				}
+			}
+		}
+
+		private ItemStorage MakeFakeItemUseless(GameObject fakeItem, LivingHealthMasterBase health)
+		{
+			ItemStorage itemStrg = null;
+			foreach (var comp in fakeItem.GetComponents(typeof(Component)))
+			{
+				if (comp is WearableArmor armor)
+				{
+					foreach (var bodyArmr in armor.ArmoredBodyParts)
+					{
+						bodyArmr.Armor.Melee = 0;
+						bodyArmr.Armor.Bullet = 0;
+						bodyArmr.Armor.Laser = 0;
+						bodyArmr.Armor.Energy = 0;
+						bodyArmr.Armor.Bomb = 0;
+						bodyArmr.Armor.Rad = 0;
+						bodyArmr.Armor.Fire = 0;
+						bodyArmr.Armor.Acid = 0;
+						bodyArmr.Armor.Magic = 0;
+						bodyArmr.Armor.Bio = 0;
+						bodyArmr.Armor.Anomaly = 0;
+						bodyArmr.Armor.DismembermentProtectionChance = 0;
+						bodyArmr.Armor.StunImmunity = false;
+						bodyArmr.Armor.TemperatureProtectionInK = new Vector2(283.15f, 283.15f + 20);
+						bodyArmr.Armor.PressureProtectionInKpa = new Vector2(30f, 300f);
+					}
+					continue;
+				}
+				if (comp is IDCard card)
+				{
+					var cardJobName = card.GetJobTitle();
+					var cardRegName = card.RegisteredName;
+					card.ServerChangeOccupation(OccupationList.Instance.Get(JobType.ASSISTANT), true, true);
+
+					card.ServerSetRegisteredName(cardRegName);
+					card.ServerSetJobTitle(cardJobName);
+					for (int i = 0; i < card.currencies.Length; i++)
+					{
+						card.currencies[i] = 0; // removing all currencies on card to be sure
+					}
+					continue;
+				}
+				if (comp is ItemStorage itemStorage)
+				{
+					itemStrg = itemStorage;
+					continue;
+				}
+				if (comp is ItemActionButton actionButton)
+				{
+					actionButton.OnRemovedFromBody(health);
+					continue;
+				}
+				if (comp is not Pickupable && comp is not UprightSprites && comp is not UniversalObjectPhysics
+				 && comp is not SortingGroup && comp is MonoBehaviour mono)
+				{
+					mono.NetDisable();
+					continue;
+				}
+			}
+			return itemStrg;
+		}
+
+		private void RemoveItemsInsideFakeItem(GameObject fakeItem)
+		{
+			if (fakeItem.TryGetComponent<InteractableStorage>(out var iS))
+			{
+				var items = iS.ItemStorage.GetItemSlots();
+
+				foreach (var x in items)
+				{
+					if (x.ItemObject != null)
+						_ = Despawn.ServerSingle(x.ItemObject);
+				}
+			}
 		}
 
 		private bool TransformAbilityWithParam(ChangelingMain changeling, ChangelingData data, List<string> param)
@@ -600,7 +822,7 @@ namespace Changeling
 					CharacterSheet characterSheet = dna.CharacterSheet;
 					PlayerScript body = changeling.ChangelingMind.Body;
 					Chat.AddExamineMsgFromServer(body.gameObject, $"Your body starts morph into a new form.");
-					ChangelingStartTransformAction(body, characterSheet, dna, changeling);
+					StartCoroutine(ChangelingStartTransformAction(body, characterSheet, dna, changeling));
 					return true;
 			}
 			return false;
@@ -679,7 +901,7 @@ namespace Changeling
 			if (toggle)
 			{
 				UIActionManager.SetServerSpriteSO(this, ActionData.Sprites[1]);
-				changeling.isFakingDeath = true;
+				changeling.HasFakingDeath(true);
 
 				changeling.ChangelingMind.Body.playerHealth.StopHealthSystemsAndHeart();
 				changeling.ChangelingMind.Body.playerHealth.StopOverralCalculation();
@@ -693,7 +915,7 @@ namespace Changeling
 				changeling.ChangelingMind.Body.playerHealth.FullyHeal();
 				changeling.ChangelingMind.Body.playerHealth.UnstopOverallCalculation();
 				changeling.ChangelingMind.Body.playerHealth.UnstopHealthSystemsAndRestartHeart();
-				changeling.isFakingDeath = false;
+				changeling.HasFakingDeath(false);
 			}
 		}
 
@@ -737,7 +959,7 @@ namespace Changeling
 				toggle ? AbilityData.ExpandedNightVisionVisibility : effects.MinimalVisibilityScale,
 				toggle ? AbilityData.DefaultvisibilityAnimationSpeed : AbilityData.RevertvisibilityAnimationSpeed);
 			effects.ToggleNightVisionEffectState(toggle);
-			effects.SetNightVisionMaxLensRadius(true);
+			effects.NvgHasMaxedLensRadius(true);
 
 			foreach (var x in changeling.AbilitiesNow)
 			{

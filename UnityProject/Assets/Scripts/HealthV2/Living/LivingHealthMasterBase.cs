@@ -788,358 +788,81 @@ namespace HealthV2
 
 
 
-		public void InjectDNA(List<DNAMutationData> Payloads)
+		public Coroutine InjectDNA(List<DNAMutationData> Payloads, bool skipWaiting = false, CharacterSheet characterSheet = null)
 		{
-			StartCoroutine(EnumeratorInjectDna(Payloads));
+			return StartCoroutine(EnumeratorInjectDna(Payloads, skipWaiting, characterSheet));
 		}
 
 
-		private IEnumerator EnumeratorInjectDna(List<DNAMutationData> Payloads)
+		private IEnumerator EnumeratorInjectDna(List<DNAMutationData> Payloads, bool skipWaiting = false, CharacterSheet characterSheet = null)
 		{
 			foreach (var Payload in Payloads)
 			{
-				yield return ProcessDNAPayload(Payload);
+				yield return StartCoroutine(ProcessDNAPayload(Payload, skipWaiting, characterSheet));
 			}
 		}
 
-		public IEnumerator ProcessDNAPayload(DNAMutationData InDNAMutationData)
+		public IEnumerator ProcessDNAPayload(DNAMutationData InDNAMutationData, bool skipWaiting = false, CharacterSheet characterSheet = null)
 		{
 			//TODO Skin and body type , is in character Settings  so is awkward
 			foreach (var Payload in InDNAMutationData.Payload)
 			{
-				yield return WaitFor.Seconds(1f);
+				if (!skipWaiting)
+					yield return WaitFor.Seconds(1f);
 				foreach (var BP in BodyPartList)
 				{
-					if (BP.name.ToLower().Contains(InDNAMutationData.BodyPartSearchString.ToLower()))
-					{
+					if (BP.name.ToLower().Contains(InDNAMutationData.BodyPartSearchString.ToLower()) == false) continue;
+					var Mutation = BP.GetComponent<BodyPartMutations>();
+					if (Mutation == null) continue;
+					if (!skipWaiting)
 						yield return WaitFor.Seconds(1f);
-						var Mutation = BP.GetComponent<BodyPartMutations>();
-						if (Mutation != null)
-						{
-							if (string.IsNullOrEmpty(Payload.CustomisationTarget) ==false ||  string.IsNullOrEmpty(Payload.CustomisationReplaceWith) ==false)
-							{
-								Mutation.MutateCustomisation(Payload.CustomisationTarget,
-									Payload.CustomisationReplaceWith);
-							}
+					if (string.IsNullOrEmpty(Payload.CustomisationTarget) == false || string.IsNullOrEmpty(Payload.CustomisationReplaceWith) == false)
+					{
+						Mutation.MutateCustomisation(Payload.CustomisationTarget,
+							Payload.CustomisationReplaceWith);
+					}
 
-							if (Payload.RemoveTargetMutationSO != null)
-							{
-								Mutation.RemoveMutation(Payload.RemoveTargetMutationSO);
-							}
+					if (Payload.RemoveTargetMutationSO != null)
+					{
+						Mutation.RemoveMutation(Payload.RemoveTargetMutationSO);
+					}
 
-							if (Payload.TargetMutationSO != null)
-							{
-								Mutation.AddMutation(Payload.TargetMutationSO);
-							}
+					if (Payload.TargetMutationSO != null)
+					{
+						Mutation.AddMutation(Payload.TargetMutationSO);
+					}
 
-							if (Payload.SpeciesMutateTo != null && Payload.MutateToBodyPart != null)
-							{
-								Mutation.ChangeToSpecies(Payload.MutateToBodyPart);
-							}
-						}
+					if (Payload.SpeciesMutateTo != null && Payload.MutateToBodyPart != null)
+					{
+						Mutation.ChangeToSpecies(Payload.MutateToBodyPart, characterSheet);
+						// Anyway triggers error because changed BodyPartList
+						break; 
 					}
 				}
 			}
 		}
 
-		private void UploadDnaDataToBodyParts(CharacterSheet characterSheet, List<DNAMutationData> InDNAMutationDatas)
+		public void RefreshPumps()
 		{
-			foreach (var InDNAMutationData in InDNAMutationDatas)
-			{
-				foreach (var Payload in InDNAMutationData.Payload)
-				{
-					foreach (var BP in BodyPartList)
-					{
-						if (BP.name.ToLower().Contains(InDNAMutationData.BodyPartSearchString.ToLower()) == false) continue;
-						var Mutation = BP.GetComponent<BodyPartMutations>();
-						if (Mutation == null) continue;
-						if (string.IsNullOrEmpty(Payload.CustomisationTarget) == false || string.IsNullOrEmpty(Payload.CustomisationReplaceWith) == false)
-						{
-							Mutation.MutateCustomisation(Payload.CustomisationTarget,
-								Payload.CustomisationReplaceWith);
-						}
-
-						if (Payload.RemoveTargetMutationSO != null)
-						{
-							Mutation.RemoveMutation(Payload.RemoveTargetMutationSO);
-						}
-
-						if (Payload.TargetMutationSO != null)
-						{
-							Mutation.AddMutation(Payload.TargetMutationSO);
-						}
-
-						if (Payload.SpeciesMutateTo != null && Payload.MutateToBodyPart != null)
-						{
-							Mutation.ChangeToSpecies(Payload.MutateToBodyPart, characterSheet);
-							break;
-						}
-					}
-				}
-			}
+			reagentPoolSystem.RefreshPumps(BodyPartList);
 		}
 
-		private void RefreshPumps()
+		/// <summary>
+		/// Updates blood pool with giving body start blood and removing previous
+		/// </summary>
+		public void UpdateBloodPool(bool needToTransferFood = false)
 		{
-			reagentPoolSystem.PumpingDevices.Clear();
-
-			foreach (var x in BodyPartList)
-			{
-				if (x.TryGetComponent<Heart>(out var hrt))
-				{
-					reagentPoolSystem.PumpingDevices.Add(hrt);
-				}
-			}
+			reagentPoolSystem.UpdateBloodPool(needToTransferFood, GetSystem<HungerSystem>());
 		}
 
-		private void UpdateBloodPool()
+		/// <summary>
+		/// Updates meat Produce and skin through getting them from character sheet
+		/// </summary>
+		public void UpdateMeatAndSkinProduce()
 		{
-			//saving food
-			SerializableDictionary<Reagent, float> blood = new(reagentPoolSystem.BloodPool.reagents);
-
-			reagentPoolSystem.BloodPool.RemoveVolume(reagentPoolSystem.BloodPool.Total);
-			reagentPoolSystem.AddFreshBlood(reagentPoolSystem.BloodPool, reagentPoolSystem.StartingBlood);
-
-			var foodComps = GetSystem<HungerSystem>().NutrimentToConsume;
-
-			foreach (var x in foodComps)
-			{
-				if (blood.ContainsKey(x.Key))
-				{
-					reagentPoolSystem.BloodPool.Add(x.Key, blood[x.Key]);
-				}
-				else
-				{
-					reagentPoolSystem.BloodPool.Add(x.Key, 100);
-				}
-			}
-		}
-
-		private List<(Pickupable, NamedSlot)> GetCurrentItems()
-		{
-			var itemsBeforeTransform = new List<(Pickupable, NamedSlot)>();
-			DynamicItemStorage storage = playerScript.DynamicItemStorage;
-			var allItemsStorage = storage.GetItemSlotTree();
-
-			foreach (ItemSlot itemSlot in allItemsStorage)
-			{
-				var item = InventoryMove.Drop(itemSlot).MovedObject;
-				if (item != null && itemSlot.NamedSlot != null)
-					itemsBeforeTransform.Add((item, (NamedSlot)itemSlot.NamedSlot));
-			}
-
-			return itemsBeforeTransform;
-		}
-
-		private ChangelingDna SortFakeItems(ChangelingDna dna)
-		{
-			for (int i = 0; i < dna.BodyClothesPrefabID.Count; i++)
-			{
-				string id = dna.BodyClothesPrefabID[i];
-				if (CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[id].TryGetComponent<ClothingSlots>(out var slots))
-				{
-					if (slots.NamedSlotFlagged.HasFlag(NamedSlotFlagged.Uniform))
-					{
-						var exchange = id;
-						dna.BodyClothesPrefabID[i] = dna.BodyClothesPrefabID[0];
-						dna.BodyClothesPrefabID[0] = exchange;
-						break;
-					}
-				}
-			}
-			return dna;
-		}
-
-		private ItemStorage MakeFakeItemUseless(GameObject fakeItem)
-		{
-			ItemStorage itemStrg = null;
-			foreach (var comp in fakeItem.GetComponents(typeof(Component)))
-			{
-				if (comp is WearableArmor armor)
-				{
-					foreach (var bodyArmr in armor.ArmoredBodyParts)
-					{
-						bodyArmr.Armor.Melee = 0;
-						bodyArmr.Armor.Bullet = 0;
-						bodyArmr.Armor.Laser = 0;
-						bodyArmr.Armor.Energy = 0;
-						bodyArmr.Armor.Bomb = 0;
-						bodyArmr.Armor.Rad = 0;
-						bodyArmr.Armor.Fire = 0;
-						bodyArmr.Armor.Acid = 0;
-						bodyArmr.Armor.Magic = 0;
-						bodyArmr.Armor.Bio = 0;
-						bodyArmr.Armor.Anomaly = 0;
-						bodyArmr.Armor.DismembermentProtectionChance = 0;
-						bodyArmr.Armor.StunImmunity = false;
-						bodyArmr.Armor.TemperatureProtectionInK = new Vector2(283.15f, 283.15f + 20);
-						bodyArmr.Armor.PressureProtectionInKpa = new Vector2(30f, 300f);
-					}
-					continue;
-				}
-				if (comp is IDCard card)
-				{
-					var cardJobName = card.GetJobTitle();
-					var cardRegName = card.RegisteredName;
-					card.ServerChangeOccupation(OccupationList.Instance.Get(JobType.ASSISTANT), true, true);
-
-					card.ServerSetRegisteredName(cardRegName);
-					card.ServerSetJobTitle(cardJobName);
-					for (int i = 0; i < card.currencies.Length; i++)
-					{
-						card.currencies[i] = 0; // removing all currencies on card to be sure
-					}
-					continue;
-				}
-				if (comp is ItemStorage itemStorage)
-				{
-					itemStrg = itemStorage;
-					continue;
-				}
-				if (comp is ItemActionButton actionButton)
-				{
-					actionButton.OnRemovedFromBody(this);
-					continue;
-				}
-				if (comp is not Pickupable && comp is not UprightSprites && comp is not UniversalObjectPhysics
-				 && comp is not SortingGroup && comp is MonoBehaviour mono)
-				{
-					mono.NetDisable();
-					continue;
-				}
-			}
-			return itemStrg;
-		}
-
-		private void RemoveItemsInsideFakeItem(GameObject fakeItem)
-		{
-			if (fakeItem.TryGetComponent<InteractableStorage>(out var iS))
-			{
-				var items = iS.ItemStorage.GetItemSlots();
-
-				foreach (var x in items)
-				{
-					if (x.ItemObject != null)
-						_ = Despawn.ServerSingle(x.ItemObject);
-				}
-			}
-		}
-
-		private void SetUpFakeItems(ChangelingDna dna, ChangelingMain changeling)
-		{
-			if (dna != null && changeling != null)
-			{
-				var storage = changeling.ChangelingMind.CurrentPlayScript.DynamicItemStorage;
-				// need to firstly create fake uniform for placing id card into fake slot
-				dna = SortFakeItems(dna);
-
-				foreach (var id in dna.BodyClothesPrefabID)
-				{
-					var fakeItem = Spawn.ServerPrefab(CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[id]).GameObject;
-					ItemSlot bestSlot = storage.GetBestSlotFor(fakeItem);
-					if (bestSlot == null)
-					{
-						_ = Despawn.ServerSingle(fakeItem);
-						continue;
-					}
-					var placed = Inventory.ServerAdd(fakeItem, bestSlot);
-					// better don`t put fake items into storages
-					if (placed == false || (((int?)bestSlot.NamedSlot) > 15) || bestSlot.NamedSlot == NamedSlot.handcuffs)
-					{
-						_ = Despawn.ServerSingle(fakeItem);
-						continue;
-					}
-					fakeItem.GetComponent<ItemAttributesV2>().IsFakeItem = true;
-					// making items absolutely useless
-					RemoveItemsInsideFakeItem(fakeItem);
-					ItemStorage itemStrg = MakeFakeItemUseless(fakeItem);
-
-
-					var itemName = fakeItem.GetComponent<ItemAttributesV2>().InitialName;
-					// removing item anytime when item was moved or something
-					fakeItem.GetComponent<Pickupable>().OnInventoryMoveServerEvent.AddListener((GameObject item) =>
-					{
-						Chat.AddCombatMsgToChat(gameObject,
-						$"<color=red>{itemName} was absorbed back into your body.</color>",
-						$"<color=red>{itemName} was absorbed into {changeling.ChangelingMind.CurrentPlayScript.visibleName} body.</color>");
-
-						if (itemStrg != null)
-							itemStrg.ServerDropAll();
-
-						_ = Inventory.ServerDespawn(item);
-
-						changeling.ChangelingMind.Body.RefreshVisibleName();
-					});
-				}
-			}
-		}
-
-		public IEnumerator ProcessDnaPayload(List<DNAMutationData> InDNAMutationDatas, CharacterSheet characterSheet, ChangelingDna dna = null, ChangelingMain changeling = null) // made for changeling
-		{
-			var itemsBeforeTransform = GetCurrentItems();
-
-			foreach (var item in itemsBeforeTransform)
-			{
-				if (item.Item1.gameObject.GetComponent<ItemAttributesV2>().IsFakeItem)
-				{
-					// deleting prev fake items
-					if (item.Item1.gameObject.GetComponent<ItemAttributesV2>().IsFakeItem)
-						_ = Despawn.ServerSingle(item.Item1.gameObject);
-				}
-			}
-			yield return WaitFor.SecondsRealtime(2f);
-			InternalNetIDs.Clear();
-
-			UploadDnaDataToBodyParts(characterSheet, InDNAMutationDatas);
-			//relooking for pumps because sometime old pumps wasn't removed when transferred to new part
-			RefreshPumps();
-
-			UpdateBloodPool();
-
-			var bodyParts = new Dictionary<NamedSlot, ItemSlot>();
-			foreach (var x in playerScript.DynamicItemStorage.GetItemSlotTree())
-			{
-				if (x.NamedSlot != null && !bodyParts.ContainsKey((NamedSlot)x.NamedSlot))
-					bodyParts.Add((NamedSlot)x.NamedSlot, x);
-			}
-
-			foreach (var itemForPlace in itemsBeforeTransform)
-			{
-				if (itemForPlace.Item1 != null && bodyParts.ContainsKey(itemForPlace.Item2))
-				{
-					Inventory.ServerAdd(itemForPlace.Item1.gameObject, bodyParts[itemForPlace.Item2]);
-				}
-			}
-			SetUpFakeItems(dna, changeling);
-
-			yield return WaitFor.SecondsRealtime(2f);
-			foreach (var x in playerSprites.OpenSprites)
-			{
-				SpriteHandlerManager.UnRegisterHandler(x.gameObject.GetComponent<SpriteHandler>().GetMasterNetID(), x.gameObject.GetComponent<SpriteHandler>());
-				_ = Despawn.ServerSingle(x.gameObject);
-			}
-			foreach (Transform x in playerSprites.CustomisationSprites.transform)
-			{
-				if (x.gameObject.name.ToLower().Contains("undershirt") || x.gameObject.name.ToLower().Contains("underwear") ||
-				x.gameObject.name.ToLower().Contains("socks"))
-				{
-					SpriteHandlerManager.UnRegisterHandler(x.gameObject.GetComponent<SpriteHandler>().GetMasterNetID(), x.gameObject.GetComponent<SpriteHandler>());
-					_ = Despawn.ServerSingle(x.gameObject);
-				}
-			}
-			playerSprites.OpenSprites.Clear();
-
-			playerSprites.ThisCharacter = characterSheet;
-			playerSprites.SetupSprites();
-
-			ColorUtility.TryParseHtmlString(characterSheet.SkinTone, out Color CurrentSurfaceColour);
-			playerSprites.SetSurfaceColour(CurrentSurfaceColour);
-
-			meatProduce = characterSheet.GetRaceSoNoValidation().Base.MeatProduce;
-			skinProduce = characterSheet.GetRaceSoNoValidation().Base.SkinProduce;
-
-			// set new hand because we deleted prev
-			playerScript.PlayerNetworkActions.CmdSetActiveHand(bodyParts[NamedSlot.leftHand].ItemStorageNetID, NamedSlot.leftHand);
+			var raceParts = playerSprites.ThisCharacter.GetRaceSoNoValidation();
+			meatProduce = raceParts.Base.MeatProduce;
+			skinProduce = raceParts.Base.SkinProduce;
 		}
 
 		#endregion

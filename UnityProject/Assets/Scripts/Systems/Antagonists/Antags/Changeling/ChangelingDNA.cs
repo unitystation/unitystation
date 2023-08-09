@@ -1,3 +1,4 @@
+using Clothing;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -32,6 +33,21 @@ namespace Changeling
 			{
 				Logger.LogError($"[ChangelingDNA/FormDNA] When creating DNA can`t find {playerDataForDna.playerName} Body", Category.Changeling);
 				BodyClothesPrefabID = new ();
+			}
+
+			for (int i = 0; i < BodyClothesPrefabID.Count; i++)
+			{
+				string id = BodyClothesPrefabID[i];
+				if (CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[id].TryGetComponent<ClothingSlots>(out var slots))
+				{
+					if (slots.NamedSlotFlagged.HasFlag(NamedSlotFlagged.Uniform))
+					{
+						var exchange = id;
+						BodyClothesPrefabID[i] = BodyClothesPrefabID[0];
+						BodyClothesPrefabID[0] = exchange;
+						break;
+					}
+				}
 			}
 
 			PlayerName = playerDataForDna.playerName;

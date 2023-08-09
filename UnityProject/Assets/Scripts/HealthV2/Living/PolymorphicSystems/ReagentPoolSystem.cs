@@ -58,6 +58,7 @@ namespace HealthV2.Living.PolymorphicSystems
 		}
 
 
+
 		public void Bleed(float amount, bool spawnReagentOnFloor = true)
 		{
 			var bloodLoss = new ReagentMix();
@@ -73,6 +74,47 @@ namespace HealthV2.Living.PolymorphicSystems
 			return GetSpareBlood();
 		}
 
+		public void RefreshPumps(List<BodyPart> currentBodyParts)
+		{
+			PumpingDevices.Clear();
+
+			foreach (var x in currentBodyParts)
+			{
+				if (x.TryGetComponent<Heart>(out var hrt))
+				{
+					PumpingDevices.Add(hrt);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Updates blood pool with giving body start blood and removing previous
+		/// </summary>
+		public void UpdateBloodPool(bool needToTransferFood, HungerSystem hungerSystem = null)
+		{
+			//saving food
+			SerializableDictionary<Reagent, float> blood = new(BloodPool.reagents);
+
+			BloodPool.RemoveVolume(BloodPool.Total);
+			AddFreshBlood(BloodPool, StartingBlood);
+
+			if (hungerSystem == null || needToTransferFood == false)
+				return;
+
+			var foodComps = hungerSystem.NutrimentToConsume;
+
+			foreach (var x in foodComps)
+			{
+				if (blood.ContainsKey(x.Key))
+				{
+					BloodPool.Add(x.Key, blood[x.Key]);
+				}
+				else
+				{
+					BloodPool.Add(x.Key, 100);
+				}
+			}
+		}
 
 		/// <summary>
 		/// Returns the total amount of 'spare' blood outside of the organs

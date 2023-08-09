@@ -873,7 +873,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestChangelingAbilites(int abilityIndex, Vector3 clickPosition)
 	{
-		foreach (var spell in playerScript.Mind.ChangelingAbilities)
+		foreach (var spell in playerScript.Changeling.ChangelingAbilities)
 		{
 			if (spell.AbilityData.Index == abilityIndex)
 			{
@@ -886,7 +886,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestChangelingAbilitesToggle(int abilityIndex, bool toggled)
 	{
-		foreach (var ability in playerScript.Mind.ChangelingAbilities)
+		foreach (var ability in playerScript.Changeling.ChangelingAbilities)
 		{
 			if (ability.AbilityData.Index == abilityIndex)
 			{
@@ -900,7 +900,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestChangelingAbilitesWithParam(int abilityIndex, string param)
 	{
-		foreach (var ability in playerScript.Mind.Body.Changeling.AbilitiesNow)
+		foreach (var ability in playerScript.Changeling.AbilitiesNow)
 		{
 			if (ability.AbilityData.Index == abilityIndex)
 			{
