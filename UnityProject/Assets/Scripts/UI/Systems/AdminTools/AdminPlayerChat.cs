@@ -9,6 +9,7 @@ using DatabaseAPI;
 using DiscordWebhook;
 using Messages.Client.Admin;
 using Messages.Server.AdminTools;
+using Newtonsoft.Json;
 
 
 namespace AdminTools
@@ -148,7 +149,7 @@ namespace AdminTools
 				clientAdminPlayerChatLogs.Add(playerId, new List<AdminChatMessage>());
 			}
 
-			var update = JsonUtility.FromJson<AdminChatUpdate>(unreadMessagesJson);
+			var update = JsonConvert.DeserializeObject<AdminChatUpdate>(unreadMessagesJson);
 			clientAdminPlayerChatLogs[playerId].AddRange(update.messages);
 
 			if (selectedPlayer != null && selectedPlayer.uid == playerId)

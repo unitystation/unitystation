@@ -121,7 +121,7 @@ namespace HealthV2
 		[Server]
 		public void SetDNA(DNAandBloodType newDNA)
 		{
-			DNABloodTypeJSONSync = JsonUtility.ToJson(newDNA);
+			DNABloodTypeJSONSync = JsonConvert.SerializeObject(newDNA);
 			DNABloodType = newDNA;
 		}
 
@@ -171,7 +171,7 @@ namespace HealthV2
 		private void SyncDNABloodTypeJSON(string oldDNABloodTypeJSON, string newDNABloodTypeJSON)
 		{
 			DNABloodTypeJSONSync = newDNABloodTypeJSON;
-			DNABloodType = JsonUtility.FromJson<DNAandBloodType>(newDNABloodTypeJSON);
+			DNABloodType = JsonConvert.DeserializeObject<DNAandBloodType>(newDNABloodTypeJSON);
 		}
 
 		[Client]

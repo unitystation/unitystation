@@ -52,12 +52,12 @@ namespace DatabaseAPI
 		void AttemptConfigLoad()
 		{
 			var configExists = AccessFile.Exists("config.json");
-			buildInfo = JsonUtility.FromJson<BuildInfo>(AccessFile.Load("buildinfo.json"));
+			buildInfo = JsonConvert.DeserializeObject<BuildInfo>(AccessFile.Load("buildinfo.json"));
 
 			if (configExists)
 			{
 				ignoranceTransport = FindObjectOfType<Ignorance>();
-				config = JsonUtility.FromJson<ServerConfig>(AccessFile.Load("config.json"));
+				config = JsonConvert.DeserializeObject<ServerConfig>(AccessFile.Load("config.json"));
 				_ = Instance.SendServerStatus();
 			}
 			else

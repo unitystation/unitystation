@@ -7,6 +7,7 @@ using Core.SafeFilesystem;
 using DatabaseAPI;
 using Lobby;
 using Managers;
+using Newtonsoft.Json;
 using Shared.Util;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -71,7 +72,7 @@ public class GameData : MonoBehaviour
 		var url = "https://api.unitystation.org/validatetoken?data=";
 
 		HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get,
-			url + JsonUtility.ToJson(""));
+			url + JsonConvert.SerializeObject(""));
 
 		CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
 
@@ -101,7 +102,7 @@ public class GameData : MonoBehaviour
 #if UNITY_EDITOR
 		DevBuild = true;
 #endif
-		var buildInfo = JsonUtility.FromJson<BuildInfo>(AccessFile.Load("buildinfo.json"));
+		var buildInfo = JsonConvert.DeserializeObject<BuildInfo>(AccessFile.Load("buildinfo.json"));
 		BuildNumber = buildInfo.BuildNumber;
 		ForkName = buildInfo.ForkName;
 		forceOfflineMode = !string.IsNullOrEmpty(GetArgument("-offlinemode"));

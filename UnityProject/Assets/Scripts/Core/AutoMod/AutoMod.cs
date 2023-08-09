@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Core.SafeFilesystem;
 using Initialisation;
+using Newtonsoft.Json;
 using Shared.Util;
 using UnityEngine;
 using Util;
@@ -56,7 +57,7 @@ namespace AdminTools
 			var base64EncodedBytes = Convert.FromBase64String(data);
 			var text = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
 
-			var list = JsonUtility.FromJson<WordFilterEntries>(text);
+			var list = JsonConvert.DeserializeObject<WordFilterEntries>(text);
 			foreach (var w in list.FilterList)
 			{
 				var targetWord = w.TargetWord.ToLower();
@@ -71,7 +72,7 @@ namespace AdminTools
 		{
 			if (loadedConfig == null) return;
 
-			AccessFile.Save(AutoModConfigPath, JsonUtility.ToJson(loadedConfig));
+			AccessFile.Save(AutoModConfigPath, JsonConvert.SerializeObject(loadedConfig));
 		}
 
 		private void LoadConfig()
@@ -79,7 +80,7 @@ namespace AdminTools
 			if (AccessFile.Exists(AutoModConfigPath))
 			{
 				var config = AccessFile.Load(AutoModConfigPath);
-				loadedConfig = JsonUtility.FromJson<AutoModConfig>(config);
+				loadedConfig = JsonConvert.DeserializeObject<AutoModConfig>(config);
 				Logger.Log("Successfully loaded Auto Mod config", Category.Admin);
 			}
 
@@ -157,7 +158,7 @@ namespace AdminTools
 		[ContextMenu("Create default config file")]
 		void CreateDefaultConfig()
 		{
-			AccessFile.Save(AutoModConfigPath, JsonUtility.ToJson(new AutoModConfig()));
+			AccessFile.Save(AutoModConfigPath, JsonConvert.SerializeObject(new AutoModConfig()));
 		}
 
 		class MuteRecord

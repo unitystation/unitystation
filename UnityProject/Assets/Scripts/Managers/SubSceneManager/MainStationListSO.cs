@@ -3,6 +3,7 @@ using System.Linq;
 using Core.SafeFilesystem;
 using UnityEngine;
 using NaughtyAttributes;
+using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
 
 [CreateAssetMenu(fileName = "MainStationListSO", menuName = "ScriptableObjects/MainStationList", order = 1)]
@@ -20,7 +21,7 @@ public class MainStationListSO : ScriptableObject
 
 		if (AccessFile.Exists(mapConfigPath))
 		{
-			var maps = JsonUtility.FromJson<MapList>(AccessFile.Load("maps.json"));
+			var maps = JsonConvert.DeserializeObject<MapList>(AccessFile.Load("maps.json"));
 			return maps.GetRandomMap();
 		}
 
@@ -41,7 +42,7 @@ public class MainStationListSO : ScriptableObject
 
 		if (AccessFile.Exists(mapConfigPath))
 		{
-			var maps = JsonUtility.FromJson<MapList>(AccessFile.Load(mapConfigPath));
+			var maps = JsonConvert.DeserializeObject<MapList>(AccessFile.Load(mapConfigPath));
 
 			return maps.highPopMaps.Union(maps.medPopMaps).Union(maps.lowPopMaps).ToList();
 		}

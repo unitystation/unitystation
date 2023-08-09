@@ -61,12 +61,12 @@ public partial class PlayerList
 
 		if (AccessFile.Exists(banPath)  == false)
 		{
-			AccessFile.Save(banPath, JsonUtility.ToJson(new BanList()));
+			AccessFile.Save(banPath, JsonConvert.SerializeObject(new BanList()));
 		}
 
 		if (AccessFile.Exists(jobBanPath) == false)
 		{
-			AccessFile.Save(jobBanPath, JsonUtility.ToJson(new JobBanList()));
+			AccessFile.Save(jobBanPath, JsonConvert.SerializeObject(new JobBanList()));
 		}
 
 		AccessFile.Watch(adminsPath, ThreadLoadCurrentAdmins);
@@ -135,14 +135,14 @@ public partial class PlayerList
 	{
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
-		Instance.jobBanList = JsonUtility.FromJson<JobBanList>(AccessFile.Load(Instance.jobBanPath));
+		Instance.jobBanList = JsonConvert.DeserializeObject<JobBanList>(AccessFile.Load(Instance.jobBanPath));
 	}
 
 	static IEnumerator LoadBans()
 	{
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
-		Instance.banList = JsonUtility.FromJson<BanList>(AccessFile.Load(Instance.banPath));
+		Instance.banList = JsonConvert.DeserializeObject<BanList>(AccessFile.Load(Instance.banPath));
 	}
 
 	static IEnumerator LoadWhiteListed()
@@ -447,7 +447,7 @@ public partial class PlayerList
 
 	private void SaveBanList()
 	{
-		AccessFile.Save(banPath, JsonUtility.ToJson(banList));
+		AccessFile.Save(banPath, JsonConvert.SerializeObject(banList));
 	}
 
 	#region JobBans
@@ -607,7 +607,7 @@ public partial class PlayerList
 
 	void SaveJobBanList()
 	{
-		AccessFile.Save(jobBanPath, JsonUtility.ToJson(jobBanList));
+		AccessFile.Save(jobBanPath, JsonConvert.SerializeObject(jobBanList));
 	}
 
 	/// <summary>
