@@ -19,6 +19,19 @@ public static class SafeHttpRequest
 
 	private static HashSet<string> TrustedHosts = new HashSet<string>(); //Populated as Requests are validated from hub
 
+
+	public static async Task<HttpResponseMessage> GetAsync(string URLstring)
+	{
+		var URL = new Uri(URLstring);
+		var Client = new HttpClient();
+		if (IsValid(URL) == false)
+		{
+			return null;
+		}
+
+		return await Client.GetAsync(URL);
+
+	}
 	public static async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
 		CancellationToken? cancellationToken = null)
 	{

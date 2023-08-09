@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
+using System.Net.Http;
 using UnityEngine;
-using UnityWebRequest = UnityEngine.Networking.UnityWebRequest;
 using Mirror;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Core.SafeFilesystem;
 using IgnoranceTransport;
 using Managers;
+using Newtonsoft.Json;
 using UI.Systems.ServerInfoPanel.Models;
+using UnityEngine.Networking;
 
 namespace DatabaseAPI
 {
@@ -55,7 +58,7 @@ namespace DatabaseAPI
 			{
 				ignoranceTransport = FindObjectOfType<Ignorance>();
 				config = JsonUtility.FromJson<ServerConfig>(AccessFile.Load("config.json"));
-				Instance.StartCoroutine(Instance.SendServerStatus());
+				_ = Instance.SendServerStatus();
 			}
 			else
 			{
@@ -87,108 +90,131 @@ namespace DatabaseAPI
 			if (updateWait >= 10f)
 			{
 				updateWait = 0f;
-				Instance.StartCoroutine(Instance.SendServerStatus());
+				_=Instance.SendServerStatus();
 			}
 		}
 
-		IEnumerator SendServerStatus()
+		private async Task SendServerStatus()
 		{
 			if (string.IsNullOrEmpty(config.HubUser) || string.IsNullOrEmpty(config.HubPass))
-			{
-				Logger.Log("Invalid Hub creds found, aborting HUB connection", Category.DatabaseAPI);
-				yield break;
-			}
+	        {
+	            Console.WriteLine("Invalid Hub creds found, aborting HUB connection");
+	            return;
+	        }
 
-			var loginRequest = new HubLoginReq
-			{
-				username = config.HubUser,
-				password = config.HubPass
-			};
+	        var loginRequest = new HubLoginReq
+	        {
+	            username = config.HubUser,
+	            password = config.HubPass
+	        };
+	        var status = new ServerStatus();
+	        status.ServerName = config.ServerName;
+	        status.ForkName = buildInfo.ForkName;
+	        status.BuildVersion = buildInfo.BuildNumber;
 
-			var requestData = JsonUtility.ToJson(loginRequest);
-			UnityWebRequest req = UnityWebRequest.Get(hubLogin + UnityWebRequest.EscapeURL(requestData));
-			yield return req.SendWebRequest();
-			if (req.error == null)
+	        if (SubSceneManager.Instance == null)
+	        {
+		        status.CurrentMap = "loading";
+	        }
+	        else
+	        {
+		        status.CurrentMap = SubSceneManager.ServerChosenMainStation;
+	        }
+
+	        status.Passworded = string.IsNullOrEmpty(config.ConnectionPassword) == false;
+	        status.RoundTime = GameManager.Instance.RoundTimeInMinutes.ToString();
+	        status.PlayerCountMax = GameManager.Instance.PlayerLimit;
+
+	        status.GameMode = GameManager.Instance.GetGameModeName();
+	        status.IngameTime = GameManager.Instance.roundTimer.text;
+	        if (PlayerList.Instance != null)
+	        {
+		        status.PlayerCount = PlayerList.Instance.ConnectionCount;
+	        }
+	        status.ServerIP = publicIP;
+	        status.ServerPort = GetPort();
+	        status.WinDownload = config.WinDownload;
+	        status.OSXDownload = config.OSXDownload;
+	        status.LinuxDownload = config.LinuxDownload;
+
+	        status.fps = (int)FPSMonitor.Instance.Current;
+
+
+	        var requestData = JsonConvert.SerializeObject(loginRequest);
+
+	        try
+	        {
+	            string escapedData = Uri.EscapeDataString(requestData);
+	            HttpResponseMessage response = await  SafeHttpRequest.GetAsync(hubLogin + escapedData);
+
+	            if (response.IsSuccessStatusCode)
+	            {
+	                string responseBody = await response.Content.ReadAsStringAsync();
+	                var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(responseBody);
+
+	                if (apiResponse.errorCode == 0)
+	                {
+	                    string cookieHeader = response.Headers.GetValues("set-cookie")?.FirstOrDefault();
+	                    if (!string.IsNullOrEmpty(cookieHeader))
+	                    {
+	                        string[] cookieParts = cookieHeader.Split(';');
+	                        string hubCookie = cookieParts[0];
+	                    }
+
+	                    if (!string.IsNullOrEmpty(config.PublicAddress))
+	                    {
+	                        publicIP = config.PublicAddress;
+	                    }
+	                    else if (!string.IsNullOrEmpty(config.BindAddress))
+	                    {
+	                        publicIP = config.BindAddress;
+	                    }
+	                    else
+	                    {
+	                        response = await SafeHttpRequest.GetAsync("http://ipinfo.io/ip");
+	                        string ipResponse = await response.Content.ReadAsStringAsync();
+	                        publicIP = Regex.Replace(ipResponse, @"\t|\n|\r", "");
+	                    }
+	                }
+	                else if (apiResponse.errorCode == 901)
+	                {
+	                    Console.WriteLine("Hub API returned unauthorized credentials, aborting HUB connection");
+	                }
+	                else
+	                {
+	                    Console.WriteLine("Hub API returned error code " + apiResponse.errorCode + ", aborting HUB connection\n" + apiResponse.errorMsg);
+	                }
+	            }
+	            else
+	            {
+	                Console.WriteLine("Hub API returned error, aborting HUB connection");
+	            }
+	        }
+	        catch (Exception ex)
+	        {
+	            Console.WriteLine("Error: " + ex.Message);
+	        }
+
+			try
 			{
-				var response = JsonUtility.FromJson<ApiResponse>(req.downloadHandler.text);
-				if (response.errorCode == 0)
+				string url = hubUpdate + Uri.EscapeDataString( JsonConvert.SerializeObject(status)) + "&user=" + config.HubUser;
+
+				HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
+				request.Headers.Add("Cookie", hubCookie);
+
+				HttpResponseMessage response = await SafeHttpRequest.SendAsync(request);
+
+				if (!response.IsSuccessStatusCode)
 				{
-					string s = req.GetResponseHeader("set-cookie");
-					hubCookie = s.Split(';') [0];
-					if (string.IsNullOrEmpty(config.PublicAddress) == false)
-					{
-						publicIP = config.PublicAddress;
-					}
-					else if (string.IsNullOrEmpty(config.BindAddress) == false)
-					{
-						publicIP = config.BindAddress;
-					}
-					else
-					{
-						req = UnityWebRequest.Get("http://ipinfo.io/ip");
-						yield return req.SendWebRequest();
-						// Regex: /\t|\n|\r/ = Matches Tab, Newline, or Carriage Return.
-						// Effectively, this line removes those three characters from the response body, assigning it to the publicIp variable.
-						publicIP = Regex.Replace(req.downloadHandler.text, @"\t|\n|\r", "");
-					}
-				}
-				else if (response.errorCode == 901)
-				{
-					Logger.Log("Hub API returned unauthorized credentials, aborting HUB connection", Category.DatabaseAPI);
-					yield break;
-				}
-				else
-				{
-					Logger.Log("Hub API returned error code "+response.errorCode+", aborting HUB connection\n"+response.errorMsg, Category.DatabaseAPI);
-					yield break;
+					Logger.LogError("Failed to update hub with server status. Error: " + response.ReasonPhrase);
 				}
 			}
-			else
+			catch (Exception ex)
 			{
-				Logger.Log("Hub API returned error, aborting HUB connection", Category.DatabaseAPI);
-				yield break;
-			}
-
-			var status = new ServerStatus();
-			status.ServerName = config.ServerName;
-			status.ForkName = buildInfo.ForkName;
-			status.BuildVersion = buildInfo.BuildNumber;
-
-			if (SubSceneManager.Instance == null)
-			{
-				status.CurrentMap = "loading";
-			}
-			else
-			{
-				status.CurrentMap = SubSceneManager.ServerChosenMainStation;
-			}
-
-			status.Passworded = string.IsNullOrEmpty(config.ConnectionPassword) == false;
-            status.RoundTime = GameManager.Instance.RoundTimeInMinutes.ToString();
-            status.PlayerCountMax = GameManager.Instance.PlayerLimit;
-
-			status.GameMode = GameManager.Instance.GetGameModeName();
-			status.IngameTime = GameManager.Instance.roundTimer.text;
-			if (PlayerList.Instance != null)
-			{
-				status.PlayerCount = PlayerList.Instance.ConnectionCount;
-			}
-			status.ServerIP = publicIP;
-			status.ServerPort = GetPort();
-			status.WinDownload = config.WinDownload;
-			status.OSXDownload = config.OSXDownload;
-			status.LinuxDownload = config.LinuxDownload;
-
-			status.fps = (int)FPSMonitor.Instance.Current;
-
-			UnityWebRequest r = UnityWebRequest.Get(hubUpdate + UnityWebRequest.EscapeURL(JsonUtility.ToJson(status)) + "&user=" + config.HubUser);
-			r.SetRequestHeader("Cookie", hubCookie);
-			yield return r.SendWebRequest();
-			if (r.error != null)
-			{
-				Logger.Log("Failed to update hub with server status" + r.error, Category.DatabaseAPI);
+				Console.WriteLine("Error: " + ex.Message);
 			}
 		}
+
 
 		private int GetPort()
 		{
@@ -201,7 +227,11 @@ namespace DatabaseAPI
 
 			return port;
 		}
+
+
 	}
+
+
 
 	[Serializable]
 	public class HubLoginReq

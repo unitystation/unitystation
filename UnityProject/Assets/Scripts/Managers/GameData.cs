@@ -9,7 +9,6 @@ using Lobby;
 using Managers;
 using Shared.Util;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
@@ -72,7 +71,7 @@ public class GameData : MonoBehaviour
 		var url = "https://api.unitystation.org/validatetoken?data=";
 
 		HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get,
-			url + UnityWebRequest.EscapeURL(JsonUtility.ToJson("")));
+			url + JsonUtility.ToJson(""));
 
 		CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
 
