@@ -941,16 +941,7 @@ namespace Changeling
 				{
 					if (organ is Eye eye)
 					{
-						if (toggle)
-						{
-							effects.LightingSystem.renderSettings
-								.fovOcclusionSpread = 3;
-						}
-						else
-						{
-							effects.LightingSystem.renderSettings
-								.fovOcclusionSpread = 0;
-						}
+						eye.ApplyChangesXrayState(toggle);
 					}
 				}
 			}
