@@ -807,14 +807,14 @@ namespace HealthV2
 			//TODO Skin and body type , is in character Settings  so is awkward
 			foreach (var Payload in InDNAMutationData.Payload)
 			{
-				if (!skipWaiting)
+				if (skipWaiting == false)
 					yield return WaitFor.Seconds(1f);
 				foreach (var BP in BodyPartList)
 				{
 					if (BP.name.ToLower().Contains(InDNAMutationData.BodyPartSearchString.ToLower()) == false) continue;
 					var Mutation = BP.GetComponent<BodyPartMutations>();
 					if (Mutation == null) continue;
-					if (!skipWaiting)
+					if (skipWaiting == false)
 						yield return WaitFor.Seconds(1f);
 					if (string.IsNullOrEmpty(Payload.CustomisationTarget) == false || string.IsNullOrEmpty(Payload.CustomisationReplaceWith) == false)
 					{

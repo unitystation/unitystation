@@ -121,7 +121,7 @@ namespace Items.Implants.Organs
 
 		public void RemoveDna(ChangelingDna dna)
 		{
-			if (!changelingDnas.Contains(dna))
+			if (changelingDnas.Contains(dna) == false)
 				return;
 			changelingDnas.Remove(dna);
 
@@ -156,7 +156,7 @@ namespace Items.Implants.Organs
 
 		public void RemoveMemories(ChangelingMemories mem)
 		{
-			if (!changelingMemories.Contains(mem))
+			if (changelingMemories.Contains(mem) == false)
 				return;
 			changelingMemories.Remove(mem);
 
