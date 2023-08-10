@@ -113,8 +113,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6269830135824793344, guid: 411e38af01d5a8249afcbd5beb9de197,
         type: 3}
+      propertyPath: _assetId
+      value: 1177566207
+      objectReference: {fileID: 0}
+    - target: {fileID: 6269830135824793344, guid: 411e38af01d5a8249afcbd5beb9de197,
+        type: 3}
       propertyPath: m_AssetId
       value: fc656a40bbce25c4f8c7b33b892d22a4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001555796081604719, guid: 411e38af01d5a8249afcbd5beb9de197,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001555796081604719, guid: 411e38af01d5a8249afcbd5beb9de197,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001555796081604719, guid: 411e38af01d5a8249afcbd5beb9de197,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7590973992759467133, guid: 411e38af01d5a8249afcbd5beb9de197, type: 3}
@@ -152,6 +172,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 526f944188797b340b690113f0b7db00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: statue
   registerObject: {fileID: 0}
   deathSounds: []
@@ -160,3 +183,4 @@ MonoBehaviour:
   randomSoundProbability: 20
   searchTickRate: 0.5
   currentStatus: 0
+  ScoreForKilling: 5

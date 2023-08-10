@@ -74,6 +74,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4123048385342335615, guid: 2d25908ce8ab84cda986faf02dd3c84c,
         type: 3}
+      propertyPath: _assetId
+      value: 3245148430
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123048385342335615, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
       propertyPath: m_AssetId
       value: 868598a9acc5f40b0811af946a2c4c27
       objectReference: {fileID: 0}
@@ -138,10 +143,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   denyStorageOfStorageItems: 88
+  itemStorage: {fileID: 0}
   canClickPickup: 0
   canQuickEmpty: 0
   TopLevelAlt: 0
   actionData: {fileID: 0}
+  DoNotShowInventoryOnUI: 0
 --- !u!114 &7351678338761958606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,6 +164,7 @@ MonoBehaviour:
   shadow: {fileID: 0}
   draggerMustBeAdjacent: 1
   allowDragWhileSoftCrit: 1
+  allowedToMouseDrag: 1
 --- !u!114 &8333586519074616349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,9 +184,11 @@ MonoBehaviour:
   itemStoragePopulator: {fileID: 11400000, guid: 2445b31fbca7544668ce953da308a35e,
     type: 2}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 0}

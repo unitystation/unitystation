@@ -92,10 +92,14 @@ namespace UI.Systems.ServerInfoPanel
 		private static async Task<AllChangesResponse> FetchChanges(string url = BASE_API_URL)
 		{
 			AllChangesResponse newData = null;
-			using var client = new HttpClient();
-			client.DefaultRequestHeaders.Accept.Add(
-				new MediaTypeWithQualityHeaderValue("application/json"));
-			using var response = await client.GetAsync(url);
+
+			// Create an instance of HttpRequestMessage
+			HttpRequestMessage request = new HttpRequestMessage( HttpMethod.Get,url );
+			request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+
+
+			using var response = await SafeHttpRequest.SendAsync(request);
 			if (response.IsSuccessStatusCode)
 			{
 				var json = await response.Content.ReadAsStringAsync();

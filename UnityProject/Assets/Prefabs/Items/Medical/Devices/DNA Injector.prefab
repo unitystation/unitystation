@@ -57,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: _assetId
+      value: 3427603694
+      objectReference: {fileID: 0}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: m_AssetId
       value: 19764608bd06b2c4881f15b968f0eade
       objectReference: {fileID: 0}
@@ -138,7 +143,7 @@ MonoBehaviour:
   ChangesSprite: 0
   SpiteFullIndex: 0
   SpiteEmptyIndex: 1
+  TransferAmount: 5
   injectTime: 0.55
   armourMultiplier: 2.75
   DNAPayload: []
-  SpriteHandler: {fileID: 2932140103522656762}

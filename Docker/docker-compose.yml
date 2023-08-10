@@ -22,6 +22,8 @@ services:
     labels:
       - io.portainer.accesscontrol.public
     volumes:
-      - /root/staging/admin:/server/Unitystation_Data/StreamingAssets/admin
-      - /root/staging/gameConfig.json:/server/Unitystation_Data/StreamingAssets/config/gameConfig.json
-      - /root/staging/serverDesc.txt:/server/Unitystation_Data/StreamingAssets/config/serverDesc.txt
+      - /root/staging/gameConfig.json:/server/Unitystation_Data/StreamingAssets/Config/gameConfig.json
+      - /root/staging/gameConfig.json:/server/Unitystation_Data/StreamingAssets/Config/rules.txt
+      - /root/staging/playTestServerDesc.txt:/server/Unitystation_Data/StreamingAssets/Config/serverDesc.txt
+      - /root/staging/profiles:/server/Unitystation_Data/StreamingAssets/Config/Profiles
+      - /root/staging/admin:/server/Unitystation_Data/StreamingAssets/Config/admin

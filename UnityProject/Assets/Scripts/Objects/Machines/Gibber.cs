@@ -128,6 +128,7 @@ namespace Objects.Machines
 				{
 					oldMob.Death();
 					AddItemsThatWillBeSpawned(defaultProduce);
+					_ = Despawn.ServerSingle(oldMob.gameObject);
 					continue;
 				}
 				if (slot.TryGetComponent<Integrity>(out var integrity) == false) continue;

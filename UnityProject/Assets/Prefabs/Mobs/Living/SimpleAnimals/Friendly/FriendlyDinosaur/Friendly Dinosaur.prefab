@@ -161,6 +161,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7581244375763357991, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
+      propertyPath: _assetId
+      value: 1708238238
+      objectReference: {fileID: 0}
+    - target: {fileID: 7581244375763357991, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
       propertyPath: m_AssetId
       value: ab4bcef2d82b5664fa26bc76bd9542ee
       objectReference: {fileID: 0}
@@ -184,10 +189,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 789c0c9f10c6cba4f8d9bc7b8b09f976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   CarryingMutations: []
-  DifficultyLevel: 0
   GrowingStages:
   - SpriteSizeScale: 0.5
     FoodRefreshTime: 120

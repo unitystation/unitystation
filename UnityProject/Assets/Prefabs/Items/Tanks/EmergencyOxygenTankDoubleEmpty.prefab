@@ -19,7 +19,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2617888966943836785, guid: 559a6395df37aa249a2e1407680afd35,
         type: 3}
+      propertyPath: StoredGasMix.pressure
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617888966943836785, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
       propertyPath: StoredGasMix.Temperature
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617888966943836785, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: StoredGasMix.temperature
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2617888966943836785, guid: 559a6395df37aa249a2e1407680afd35,
@@ -96,6 +106,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EmergencyOxygenTankDoubleEmpty
+      objectReference: {fileID: 0}
+    - target: {fileID: 7892145854740960326, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: _assetId
+      value: 2527585036
       objectReference: {fileID: 0}
     - target: {fileID: 7892145854740960326, guid: 559a6395df37aa249a2e1407680afd35,
         type: 3}

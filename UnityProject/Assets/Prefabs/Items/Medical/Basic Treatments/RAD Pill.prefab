@@ -57,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: _assetId
+      value: 1546981090
+      objectReference: {fileID: 0}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: m_AssetId
       value: e9faaf09b99986345b369321292e6812
       objectReference: {fileID: 0}
@@ -139,5 +144,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c62aaac22b2ab7a4c86a8c9b6cc4be1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  consumeTime: 0.1
   RADRemover: {fileID: 11400000, guid: bdb2fef35f661fc43a5a3f362222d7c1, type: 2}
   Amount: 50

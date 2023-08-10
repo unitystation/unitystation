@@ -124,6 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 495fe45e5ed9d9944bffe7b926c2339d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Poolble: 1
   reagentName: {fileID: 8467188182007967853}
   reagentAmountDisplay: {fileID: 5372927311807585954}
 --- !u!1 &164350013795006829
@@ -249,6 +250,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &164378321247761476
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,6 +379,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &357825369012057291
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,6 +812,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1587733723284344696
 GameObject:
   m_ObjectHideFlags: 0
@@ -1020,6 +1039,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1955340306690427161
 GameObject:
   m_ObjectHideFlags: 0
@@ -2635,6 +2660,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8061874905308807345
 GameObject:
   m_ObjectHideFlags: 0

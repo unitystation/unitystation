@@ -80,6 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a9287351b8506a45a1002f72b08c336, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Poolble: 1
   label: {fileID: 7913504572502207449}
 --- !u!1 &2197305064974238059
 GameObject:
@@ -522,6 +523,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8295741360342997693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -721,6 +728,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6913342023018191266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1564,6 +1577,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8399159048316205054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1866,6 +1885,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4534889308355328262
 MonoBehaviour:
   m_ObjectHideFlags: 0

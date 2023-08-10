@@ -99,6 +99,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7607845521540798885, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
+      propertyPath: _assetId
+      value: 661551607
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607845521540798885, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
       propertyPath: m_AssetId
       value: 2937fbb42f33c07428faabfd58578633
       objectReference: {fileID: 0}
@@ -123,6 +128,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84cd02d18c094950961c275572844115, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: xenomorph princess
   registerObject: {fileID: 0}
   deathSounds:
@@ -173,6 +181,7 @@ MonoBehaviour:
   randomSoundProbability: 20
   searchTickRate: 0.5
   currentStatus: 0
+  ScoreForKilling: 5
   ignoreForQueenCount: 0
   huggerCap: 20
   fertility: 50

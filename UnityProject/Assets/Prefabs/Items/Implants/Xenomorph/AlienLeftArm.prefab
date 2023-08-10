@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3326786436010601342, guid: 1f74ff76597345148a3687fa9467b3ab,
         type: 3}
+      propertyPath: _assetId
+      value: 2035483081
+      objectReference: {fileID: 0}
+    - target: {fileID: 3326786436010601342, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
       propertyPath: m_AssetId
       value: 75e18304c88acf4419ebf1405ea10783
       objectReference: {fileID: 0}
@@ -100,6 +105,23 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7898896040612738270}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &879321704953524796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4765282443109851668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79a26cefea34ae3ad4615dab28acf61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  armEfficiency: 1
+  crawlingSpeed: 0.3
 --- !u!114 &2288932229244256589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,7 +134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe56a83532907c141b7592eead8f0641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlotFlagged: 0
   relatedStorage: {fileID: 3519982645230346832}
   storage:
   - NotPresentOnUI: 0
@@ -145,25 +166,11 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 1
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 0}
---- !u!114 &879321704953524796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4765282443109851668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79a26cefea34ae3ad4615dab28acf61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isEMPVunerable: 0
-  EMPResistance: 2
-  armEfficiency: 1
-  crawlingSpeed: 0.3

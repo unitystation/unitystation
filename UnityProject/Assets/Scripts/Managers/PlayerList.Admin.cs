@@ -5,8 +5,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
-using ConfigurationSaves;
+using Core.SafeFilesystem;
 using DatabaseAPI;
 using Mirror;
 using UnityEngine;
@@ -52,11 +53,11 @@ public partial class PlayerList
 	[Server]
 	void InitAdminController()
 	{
-		adminsPath = Path.Combine( "admin", "admins.txt");
-		mentorsPath = Path.Combine( "admin", "mentors.txt");
-		banPath = Path.Combine( "admin", "banlist.json");
-		whiteListPath = Path.Combine( "admin", "whitelist.txt");
-		jobBanPath = Path.Combine( "admin", "jobBanlist.json");
+		adminsPath = Path.Combine( AccessFile.AdminFolder, "admins.txt");
+		mentorsPath = Path.Combine( AccessFile.AdminFolder, "mentors.txt");
+		banPath = Path.Combine( AccessFile.AdminFolder, "banlist.json");
+		whiteListPath = Path.Combine( AccessFile.AdminFolder, "whitelist.txt");
+		jobBanPath = Path.Combine( AccessFile.AdminFolder, "jobBanlist.json");
 
 		if (AccessFile.Exists(banPath)  == false)
 		{
@@ -68,9 +69,10 @@ public partial class PlayerList
 			AccessFile.Save(jobBanPath, JsonUtility.ToJson(new JobBanList()));
 		}
 
-		AccessFile.Watch(adminsPath, LoadCurrentAdmins);
-		AccessFile.Watch(mentorsPath, LoadCurrentMentors);
-		AccessFile.Watch(whiteListPath, LoadWhiteList);
+		AccessFile.Watch(adminsPath, ThreadLoadCurrentAdmins);
+		AccessFile.Watch(mentorsPath, ThreadLoadCurrentMentors);
+		AccessFile.Watch(whiteListPath, ThreadLoadWhiteList);
+
 
 		LoadBanList();
 		LoadCurrentAdmins();
@@ -84,19 +86,44 @@ public partial class PlayerList
 		Instance.StartCoroutine(LoadBans());
 	}
 
+
 	static void LoadWhiteList()
 	{
 		Instance.StartCoroutine(LoadWhiteListed());
 	}
+
+	static void ThreadLoadWhiteList()
+	{
+		Thread.Sleep(100);
+		Instance.whiteListUsers.Clear();
+		Instance.whiteListUsers = new List<string>(AccessFile.ReadAllLines(Instance.whiteListPath));
+	}
+
 
 	static void LoadCurrentAdmins()
 	{
 		Instance.StartCoroutine(LoadAdmins());
 	}
 
+	static void ThreadLoadCurrentAdmins()
+	{
+		Thread.Sleep(100);
+		Instance.serverAdmins.Clear();
+		Instance.serverAdmins = new HashSet<string>(AccessFile.ReadAllLines(Instance.adminsPath));
+	}
+
+
 	static void LoadCurrentMentors()
 	{
+
 		Instance.StartCoroutine(LoadMentors());
+	}
+
+	static void ThreadLoadCurrentMentors()
+	{
+		Thread.Sleep(100);
+		Instance.mentorUsers.Clear();
+		Instance.mentorUsers = new HashSet<string>(AccessFile.ReadAllLines(Instance.mentorsPath));
 	}
 
 	static void LoadJobBanList()

@@ -93,6 +93,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!1 &4225673206677485874
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,6 +534,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: _assetId
+      value: 3159981900
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: m_AssetId
       value: e4bc61a6fcb60ad42a9ae65e7678d70c
       objectReference: {fileID: 0}
@@ -647,6 +653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b137ecbc04593249b954730673929e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   startingStage: 0
@@ -662,6 +669,12 @@ MonoBehaviour:
   zeroPointDeath: 1
   vertical: {fileID: 11400000, guid: 51840014302a39247966acfe3275576f, type: 2}
   horizontal: {fileID: 11400000, guid: 36ea0bfaed379084fb2513e68ccffb50, type: 2}
+  DEBUGpointLock: 0
+  DEBUGPushBlock: 0
+  DEBUGDestroyBlock: 0
+  DEBUGMoveBlock: 0
+  DEBUGExplosionBlock: 0
+  DEBUGRadiationBlock: 0
 --- !u!114 &6563874705953926858
 MonoBehaviour:
   m_ObjectHideFlags: 0

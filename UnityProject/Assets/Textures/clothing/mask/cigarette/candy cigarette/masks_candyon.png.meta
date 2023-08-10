@@ -27,7 +27,7 @@ TextureImporter:
       213: 4472013596362277469
     second: candyon_7
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -87,6 +87,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -102,6 +103,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -294,14 +307,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      candyon_6: 5392009605959200376
-      candyon_3: 6483377790443901095
-      candyon_4: -8450468858253359429
-      candyon_2: 2017778225651520738
-      candyon_5: -1036578993010174390
-      candyon_7: 4472013596362277469
       candyon_0: -750583694876826310
       candyon_1: -8868853374480848284
+      candyon_2: 2017778225651520738
+      candyon_3: 6483377790443901095
+      candyon_4: -8450468858253359429
+      candyon_5: -1036578993010174390
+      candyon_6: 5392009605959200376
+      candyon_7: 4472013596362277469
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -121,6 +121,17 @@ namespace ScriptableObjects
 				AssetDatabase.Refresh();
 			}
 
+
+			if (GUILayout.Button("Collect all Reagents"))
+			{
+				ChemistryReagentsSO singleton = (ChemistryReagentsSO) target;
+				singleton.AllChemistryReagents.Clear();
+				singleton.AllChemistryReagents.AddRange(FindAssetsByType<Reagent>());
+				EditorUtility.SetDirty(singleton);
+				AssetDatabase.SaveAssets();
+				AssetDatabase.Refresh();
+			}
+
 			if (GUILayout.Button("Collect all reactions"))
 			{
 				ChemistryReagentsSO singleton = (ChemistryReagentsSO) target;
@@ -130,7 +141,6 @@ namespace ScriptableObjects
 				AssetDatabase.SaveAssets();
 				AssetDatabase.Refresh();
 			}
-
 		}
 	}
 #endif

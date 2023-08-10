@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1133514949248654, guid: c4494414d24d2f2468e74daa79468631, type: 3}
       propertyPath: m_Name
-      value: test_cyborgTODO_dynamic
+      value: BodyWithCyborgChassis
       objectReference: {fileID: 0}
     - target: {fileID: 4102488425209486, guid: c4494414d24d2f2468e74daa79468631, type: 3}
       propertyPath: m_RootOrder
@@ -54,6 +54,11 @@ PrefabInstance:
     - target: {fileID: 4102488425209486, guid: c4494414d24d2f2468e74daa79468631, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114279031792796038, guid: c4494414d24d2f2468e74daa79468631,
+        type: 3}
+      propertyPath: _assetId
+      value: 2225081708
       objectReference: {fileID: 0}
     - target: {fileID: 114279031792796038, guid: c4494414d24d2f2468e74daa79468631,
         type: 3}

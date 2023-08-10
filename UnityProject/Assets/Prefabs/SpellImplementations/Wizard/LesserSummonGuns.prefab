@@ -47,9 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 3289895304
   serverOnly: 0
   visible: 0
-  m_AssetId: 751d903cc6682e04ba5dd33466daddab
   hasSpawned: 0
 --- !u!114 &-2961367611600828348
 MonoBehaviour:
@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aed59c8bd3a97f48ab9ef8aa5bff7e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   portalPrefab: {fileID: 4686069471335676681, guid: 6ca11e1a2337f494d8337d3d47f0a042,

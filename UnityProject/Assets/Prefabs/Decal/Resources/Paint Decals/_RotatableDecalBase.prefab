@@ -9,12 +9,17 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -6881874909172061398, guid: 66aad43ea1945ac458990cb6d4169cde,
         type: 3}
+      propertyPath: _assetId
+      value: 3443114742
+      objectReference: {fileID: 0}
+    - target: {fileID: -6881874909172061398, guid: 66aad43ea1945ac458990cb6d4169cde,
+        type: 3}
       propertyPath: m_AssetId
       value: d1a099c0079e7c14cb19f64a63457b2a
       objectReference: {fileID: 0}
     - target: {fileID: 1069497300762596, guid: 66aad43ea1945ac458990cb6d4169cde, type: 3}
       propertyPath: m_Name
-      value: loading area decal
+      value: _RotatableDecalBase
       objectReference: {fileID: 0}
     - target: {fileID: 4477121353083166, guid: 66aad43ea1945ac458990cb6d4169cde, type: 3}
       propertyPath: m_LocalRotation.w
@@ -120,6 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   MethodRotation: 2

@@ -2,6 +2,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Core.Utils;
+using Initialisation;
 using Systems.Character;
 using UI.CharacterCreator;
 
@@ -65,7 +66,7 @@ namespace UI.Character
 
 			if (TryShowOptions())
 			{
-				PreviewCharacterByIndex(previewedCharacterKey);
+				LoadManager.RegisterActionDelayed(() => { PreviewCharacterByIndex(previewedCharacterKey); }, 10);
 			}
 		}
 

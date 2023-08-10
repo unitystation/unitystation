@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Merp
   m_EditorClassIdentifier: 
   emoteName: merp
+  EmoteIcon: {fileID: 0}
   requiresHands: 0
   allowEmoteWhileInCrit: 1
   isAudibleEmote: 1
@@ -33,3 +34,4 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   TypedSounds: []
   pitchRange: {x: 0.8, y: 1}
+  allowedPlayerTypes: 1

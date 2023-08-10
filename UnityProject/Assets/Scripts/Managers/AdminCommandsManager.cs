@@ -550,7 +550,7 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out _) == false) return;
 
-			ProfileManager.Instance.StartProfile(frameCount);
+			SafeProfileManager.Instance.StartProfile(frameCount);
 		}
 
 		[Command(requiresAuthority = false)]
@@ -566,9 +566,9 @@ namespace AdminCommands
 		public void CmdDeleteProfile(string profileName, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out _) == false) return;
-			if (ProfileManager.runningProfile || ProfileManager.runningMemoryProfile) return;
+			if (SafeProfileManager.runningProfile || SafeProfileManager.runningMemoryProfile) return;
 
-			ProfileManager.Instance.RemoveProfile(profileName);
+			SafeProfileManager.Instance.RemoveProfile(profileName);
 
 			ProfileMessage.SendToApplicable();
 		}
@@ -578,7 +578,7 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out _) == false) return;
 
-			ProfileManager.Instance.RunMemoryProfile(full);
+			SafeProfileManager.Instance.RunMemoryProfile(full);
 		}
 
 		#endregion

@@ -118,9 +118,9 @@ public class FoamNode : SpreadNode
 	}
 
 
-	public override void DistributeToTile(SourceReservoir sourceReservoir)
+	public override void DistributeToTile(SpreadNode SpreadingFrom,SourceReservoir sourceReservoir)
 	{
-		base.DistributeToTile(sourceReservoir);
+		base.DistributeToTile(SpreadingFrom,sourceReservoir);
 
 		var colour = Present.MixColor;
 		if (Present.MixColor == Color.clear)
@@ -140,5 +140,13 @@ public class FoamSourceReservoir : SourceReservoir
 	public override void RemoveTileInherit()
 	{
 
+	}
+
+	public override void GainTileInherit(SpreadNode ToSpreadNode)
+	{
+		if (SmartFoam == false && WallFoam == false)
+		{
+			MatrixManager.ReagentReact(ToSpreadNode.Present, ToSpreadNode.OnMetaDataNode.WorldPosition);
+		}
 	}
 }

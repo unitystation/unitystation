@@ -66,7 +66,7 @@ public class ChatHyperlinks : MonoBehaviour, IPointerClickHandler {
 
             // Debug.Log(string.Format("id: {0}, text: {1}", linkInfo.GetLinkID(), linkInfo.GetLinkText()));
             // open the link id as a url, which is the metadata we added in the text field
-            Application.OpenURL(linkInfo.GetLinkID());
+            SafeURL.Open(linkInfo.GetLinkID());
         }
     }
 

@@ -27,7 +27,7 @@ TextureImporter:
       213: 669053264439333102
     second: sheepmale_7
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -87,6 +87,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -102,6 +103,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -294,14 +307,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      sheepmale_2: 7008707996336569971
-      sheepmale_3: -8039639827999291430
-      sheepmale_5: 6807561051830816593
-      sheepmale_4: 5252252229620612250
-      sheepmale_7: 669053264439333102
       sheepmale_0: -4684753402657003168
       sheepmale_1: -1047465676305725613
+      sheepmale_2: 7008707996336569971
+      sheepmale_3: -8039639827999291430
+      sheepmale_4: 5252252229620612250
+      sheepmale_5: 6807561051830816593
       sheepmale_6: -4249162540570618167
+      sheepmale_7: 669053264439333102
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -39,6 +39,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
+      propertyPath: noItemHighlight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: noMouseHighlight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
       propertyPath: initialDescription
       value: A huge chunk of metal used to separate rooms.
       objectReference: {fileID: 0}
@@ -244,6 +254,7 @@ MonoBehaviour:
   damageClosed: 90
   ignorePassableChecks: 0
   IsAutomatic: 0
+  enableDisabledCollider: 1
   isPerformingAction: 0
   isWindowedDoor: 0
   useSimpleLightAnimation: 0
@@ -319,7 +330,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   falseTile: {fileID: 11400000, guid: 8a5d7b8cc9d261442bd185a31ad88e67, type: 2}
-  needUpdate: 0
 --- !u!210 &4061496330317937190 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 6554009657133641066, guid: a7af28adb717b4c44b8b2002b27670bd,

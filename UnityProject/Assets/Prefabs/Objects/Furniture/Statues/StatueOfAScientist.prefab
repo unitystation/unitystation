@@ -15,8 +15,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3121672499629588273, guid: 586e4c629584b404d8595aa0691ed07f,
         type: 3}
+      propertyPath: exportCost
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121672499629588273, guid: 586e4c629584b404d8595aa0691ed07f,
+        type: 3}
       propertyPath: initialName
       value: statue of a scientist
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191237880968369507, guid: 586e4c629584b404d8595aa0691ed07f,
+        type: 3}
+      propertyPath: _assetId
+      value: 4062486278
       objectReference: {fileID: 0}
     - target: {fileID: 4191237880968369507, guid: 586e4c629584b404d8595aa0691ed07f,
         type: 3}
@@ -62,17 +72,17 @@ PrefabInstance:
     - target: {fileID: 5756199169060153051, guid: 586e4c629584b404d8595aa0691ed07f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5756199169060153051, guid: 586e4c629584b404d8595aa0691ed07f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5756199169060153051, guid: 586e4c629584b404d8595aa0691ed07f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5756199169060153051, guid: 586e4c629584b404d8595aa0691ed07f,
         type: 3}

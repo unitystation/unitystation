@@ -41,6 +41,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7560587375320734517, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
+      propertyPath: _assetId
+      value: 2148939773
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560587375320734517, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
       propertyPath: m_AssetId
       value: 7a080af524aab314bac7f69c18defcd5
       objectReference: {fileID: 0}
@@ -171,7 +176,6 @@ MonoBehaviour:
   maxCapacity: 100
   reactionSet: {fileID: 0}
   AdditionalReactions: []
-  canPourOut: 1
   initialReagentMix:
     temperature: 273.15
     reagents:
@@ -182,11 +186,15 @@ MonoBehaviour:
     reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
+  menuOptions: -1
+  spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 0
+  SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20
+  transferSound: []

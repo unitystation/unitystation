@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ConfigurationSaves;
+using Core.SafeFilesystem;
 using Newtonsoft.Json;
 using UnityEngine;
 using Mirror;
@@ -373,7 +373,7 @@ namespace Lobby
 		{
 			string json = JsonConvert.SerializeObject(ServerJoinHistory);
 
-			AccessFile.Save(HistoryFile, json);
+			AccessFile.Save(HistoryFile, json, userPersistent: true);
 		}
 
 		#endregion

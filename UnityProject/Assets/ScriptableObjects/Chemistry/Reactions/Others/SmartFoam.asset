@@ -15,10 +15,11 @@ MonoBehaviour:
   ingredients:
     m_keys:
     - {fileID: 11400000, guid: 0b8ae0a034025c1afb82d9b40b73b7dc, type: 2}
-    - {fileID: 11400000, guid: 94790f2b8609fe11188aa84ac9edee86, type: 2}
-    - {fileID: 11400000, guid: 5b255694ed5e8945790b893c1975d7cc, type: 2}
+    - {fileID: 11400000, guid: bb1b374d9154ed45ca903a8ace087e8d, type: 2}
+    - {fileID: 11400000, guid: b0d244ad6284333a1b4962f309f7f593, type: 2}
     m_values: 030000000100000001000000
   useExactAmounts: 0
+  MinimumReactionMultiple: 0
   catalysts:
     m_keys: []
     m_values: 
@@ -30,6 +31,7 @@ MonoBehaviour:
   hasMaxTemp: 0
   serializableTempMax: 0
   results:
-    m_keys: []
-    m_values: 
+    m_keys:
+    - {fileID: 11400000, guid: 94790f2b8609fe11188aa84ac9edee86, type: 2}
+    m_values: 05000000
   effects: []

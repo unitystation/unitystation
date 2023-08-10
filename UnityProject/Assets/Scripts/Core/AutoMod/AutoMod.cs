@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using ConfigurationSaves;
+using Core.SafeFilesystem;
 using Initialisation;
 using Shared.Util;
 using UnityEngine;
@@ -45,11 +45,14 @@ namespace AdminTools
 		private AutoModConfig loadedConfig;
 
 		private static string AutoModConfigPath =>
-			Path.Combine("admin", "automodconfig.json");
+			Path.Combine(AccessFile.AdminFolder, "automodconfig.json");
+
+		private static string WordFilterPath =>
+			Path.Combine(AccessFile.AdminFolder, "wordfilter.txt");
 
 		private void LoadWordFilter()
 		{
-			var data = AccessFile.Load("wordfilter.txt");
+			var data = AccessFile.Load(WordFilterPath);
 			var base64EncodedBytes = Convert.FromBase64String(data);
 			var text = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
 
@@ -80,46 +83,6 @@ namespace AdminTools
 				Logger.Log("Successfully loaded Auto Mod config", Category.Admin);
 			}
 
-		}
-
-		private void OnEnable()
-		{
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		}
-
-		private void OnDisable()
-		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		}
-
-		void UpdateMe()
-		{
-			if (!IsEnabled()) return;
-			MonitorEnvironment();
-		}
-
-		void MonitorEnvironment()
-		{
-			// if (Common.allocationAttackQueue.Count > 0)
-			// {
-			// 	ProcessAllocationAttack(Common.allocationAttackQueue.Dequeue());
-			// }
-		}
-
-		public static void ProcessAllocationAttack(string ipAddress)
-		{
-			if (!Instance.loadedConfig.enableAllocationProtection) return;
-			if (Application.platform == RuntimePlatform.LinuxPlayer)
-			{
-				Logger.Log($"Auto mod has taken steps to protect against an allocation attack from {ipAddress}",
-					Category.Admin);
-				ProcessStartInfo processInfo = new ProcessStartInfo();
-				processInfo.FileName = "ufw";
-				processInfo.Arguments = $"insert 1 deny from {ipAddress} to any";
-				processInfo.CreateNoWindow = true;
-				processInfo.UseShellExecute = false;
-				Process.Start(processInfo);
-			}
 		}
 
 		public static string ProcessChatServer(PlayerInfo player, string message)

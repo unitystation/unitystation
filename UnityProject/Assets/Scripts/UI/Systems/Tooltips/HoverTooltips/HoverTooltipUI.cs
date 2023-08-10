@@ -154,9 +154,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private void ResetTool()
 		{
-			nameText.text = string.Empty;
-			descText.text = string.Empty;
-			iconTarget.sprite = errorIconSprite;
+
 			ResetInteractionsList();
 			showing = false;
 			StartCoroutine(AnimateBackground());
@@ -199,6 +197,13 @@ namespace UI.Systems.Tooltips.HoverTooltips
 				content.alpha = Mathf.Clamp(content.alpha, 0f, FULLY_VISIBLE_ALPHA);
 			}
 			animating = false;
+			if (showing == false)
+			{
+				iconTarget.sprite = errorIconSprite;
+				nameText.text = string.Empty;
+				descText.text = string.Empty;
+
+			}
 		}
 
 		private IEnumerator QueueTip(GameObject queuedObject, bool noWait = false)

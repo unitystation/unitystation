@@ -2,7 +2,7 @@
 using UnityEngine;
 using Mirror;
 using System.Linq;
-using ConfigurationSaves;
+using Core.SafeFilesystem;
 
 namespace Antagonists
 {
@@ -26,12 +26,12 @@ namespace Antagonists
 
 		private void OnEnable()
 		{
-			EventManager.AddHandler(Event.RoundStarted, ChooseCodeWords);
+			EventManager.AddHandler(Event.ScenesLoadedServer, ChooseCodeWords);
 		}
 
 		private void OnDisable()
 		{
-			EventManager.RemoveHandler(Event.RoundStarted, ChooseCodeWords);
+			EventManager.RemoveHandler(Event.ScenesLoadedServer, ChooseCodeWords);
 		}
 
 		[Server]
@@ -50,8 +50,8 @@ namespace Antagonists
 				return;
 			}
 
-
 			string[] allWords = AccessFile.ReadAllLines(filePath);
+      
 			allWords = allWords.Shuffle().ToArray();
 
 			for (int i = 0; i < WORD_COUNT; i++)

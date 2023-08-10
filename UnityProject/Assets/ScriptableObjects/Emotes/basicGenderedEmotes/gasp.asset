@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: gasp
   m_EditorClassIdentifier: 
   emoteName: gasp
+  EmoteIcon: {fileID: 0}
   requiresHands: 0
   allowEmoteWhileInCrit: 1
   isAudibleEmote: 0
@@ -27,3 +28,4 @@ MonoBehaviour:
   defaultSounds: []
   TypedSounds: []
   pitchRange: {x: 0.7, y: 1}
+  allowedPlayerTypes: 1

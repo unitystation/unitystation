@@ -35,6 +35,9 @@ namespace Unitystation.Options
 		private Toggle HighlightToggle = null;
 
 		[SerializeField]
+		private Toggle legacyRightClickMenuToggle = null;
+
+		[SerializeField]
 		private Toggle chatHighlightToggle = null;
 
 		[SerializeField]
@@ -91,6 +94,7 @@ namespace Unitystation.Options
 			chatContentAlphaFadeMinimum.value =  UI.Chat_UI.ChatUI.Instance.GetPreferenceChatContent();
 			hoverTooltipDelaySlider.value = UIManager.Instance.HoverTooltipUI.GetSavedTooltipDelay();
 			hoverTooltipDelaySliderValueText.text = UIManager.Instance.HoverTooltipUI.GetSavedTooltipDelay().ToString();
+			legacyRightClickMenuToggle.isOn = RightClickManager.Instance.UsingLegacyDropDownMenu;
 		}
 
 		void ConstructChatBubbleOptions()
@@ -122,6 +126,11 @@ namespace Unitystation.Options
 		{
 			Highlight.SetPreference(HighlightToggle.isOn);
 			Refresh();
+		}
+
+		public void RightClickPreference()
+		{
+			RightClickManager.SetRightClickPreference(legacyRightClickMenuToggle.isOn);
 		}
 
 		public void ChatHighlightSetPreference()

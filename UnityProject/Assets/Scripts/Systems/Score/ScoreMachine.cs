@@ -45,7 +45,6 @@ namespace Systems.Score
 		{
 			if (Instance.Scores.ContainsKey(ID))
 			{
-				Logger.LogWarning($"[ScoreMachine] - Attempting to add new entry with id ({ID}) but it already exists!");
 				return;
 			}
 			switch (type)
@@ -123,7 +122,7 @@ namespace Systems.Score
 		/// <summary>
 		/// whats the new string for this score?
 		/// </summary>
-		public static void AddToScoreString(String newValue, string ID)
+		public static void AddToScoreString(String newValue, int givenScore, string ID)
 		{
 			if (Instance.Scores.ContainsKey(ID) == false)
 			{

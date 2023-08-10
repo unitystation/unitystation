@@ -9,7 +9,7 @@ on:
       - "UnityProject/**"
       - ".github/workflows/**"
       - "Docker/**"
-  pull_request:
+  pull_request_target:
     branches:
       - develop
     paths:
@@ -67,6 +67,7 @@ jobs:
       # Run tests - only edit mode supported
       # Note: exits with non-zero on legitimate test fails, "if: always()" is needed for reporting
       - name: Run tests
+        id: tests
         uses: game-ci/unity-test-runner@v2
         with:
           customParameters: "-nographics"
@@ -74,6 +75,21 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}
           testMode: editmode
+      
+      # Try comment errors on the PR
+      - name: read and parse test results
+        if: always() && steps.tests.outcome != 'success'
+        id: readFile
+        uses: corp-0/testResultsToMarkdown@v1
+        with:
+          testResultsFile: testReports/${{ matrix.targetPlatform }}/editmode-results.xml
+      
+      - name: Comment errors
+        if: always() && steps.readFile.outcome == 'success'
+        uses: thollander/actions-comment-pull-request@v1
+        with:
+          message: "${{ steps.readFile.outputs.markdownText }}"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Install dotnet
       - name: Installing dotnet

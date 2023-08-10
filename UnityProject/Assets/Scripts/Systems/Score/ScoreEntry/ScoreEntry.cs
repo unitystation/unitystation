@@ -6,6 +6,8 @@ namespace Systems.Score
 		private ScoreCategory category;
 		private ScoreAlignment alignment;
 
+		public int ScoreValue { get; set; }
+
 		public string ScoreName
 		{
 			get => scoreName;

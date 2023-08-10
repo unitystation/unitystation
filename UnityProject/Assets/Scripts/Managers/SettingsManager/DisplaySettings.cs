@@ -399,7 +399,7 @@ namespace Managers.SettingsManager
 		//TODO: Resolution options: issues #2047 #4107
 
 		public static string UISCALE_KEY = "uiscale";
-		public static float UISCALE_DEFAULT = 0.50f;
+		public static float UISCALE_DEFAULT = 0.85f;
 
 		public event EventHandler<DisplaySettingsChangedEventArgs> SettingsChanged;
 		protected virtual void OnSettingsChanged(DisplaySettingsChangedEventArgs e)

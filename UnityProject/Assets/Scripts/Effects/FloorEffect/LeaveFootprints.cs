@@ -1,15 +1,5 @@
-using System;
-using System.Collections.Generic;
-using NaughtyAttributes;
-using AddressableReferences;
-using Chemistry;
 using Chemistry.Components;
 using Effects.FloorEffect;
-using HealthV2;
-using Systems.Clothing;
-
-
-using UnityEngine;
 
 namespace Objects.Other
 {

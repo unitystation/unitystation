@@ -118,7 +118,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   OnBodyID: 0
-  Pickupable: {fileID: 7902331556431840712}
   DrunkReagent: {fileID: 11400000, guid: 6d141e282b2a3ade0a523d28b721aa13, type: 2}
   MaxDrunkAtPercentage: 0.06
   hasInbuiltSight: 0
@@ -127,15 +126,9 @@ MonoBehaviour:
   hasInbuiltSpeech: 1
   BodyChatModifier: 0
   ReagentCirculatedComponent: {fileID: 0}
---- !u!114 &7902331556431840712 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4617479933783932959, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-    type: 3}
-  m_PrefabInstance: {fileID: 3296121625708414423}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7799866819818449590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevival:
+    m_PersistentCalls:
+      m_Calls: []

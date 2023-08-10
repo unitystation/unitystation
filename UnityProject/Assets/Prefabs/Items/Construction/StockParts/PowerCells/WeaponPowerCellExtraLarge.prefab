@@ -42,6 +42,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5039032819772725725, guid: bd07fb3945875634685790190ea8decc,
         type: 3}
+      propertyPath: watts
+      value: 50000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039032819772725725, guid: bd07fb3945875634685790190ea8decc,
+        type: 3}
       propertyPath: MaxWatts
       value: 50000
       objectReference: {fileID: 0}
@@ -51,6 +56,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 5f8d5f9a1ef2d664395141e5a55be07b,
         type: 3}
+    - target: {fileID: 5969480983207831492, guid: bd07fb3945875634685790190ea8decc,
+        type: 3}
+      propertyPath: _assetId
+      value: 3386895982
+      objectReference: {fileID: 0}
     - target: {fileID: 5969480983207831492, guid: bd07fb3945875634685790190ea8decc,
         type: 3}
       propertyPath: m_AssetId

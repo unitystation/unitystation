@@ -19,7 +19,8 @@ namespace Systems.Radiation
 			float RadiationLevel = 0;
 			for (var i = 0; i < RecordedPulses.Count; i++)
 			{
-				if ((DateTime.Now - RecordedPulses[i].Timestamp).Seconds > 10)
+				if (RecordedPulses[i].RadiationStrength == 0) continue;
+				if ((DateTime.Now - RecordedPulses[i].Timestamp).TotalSeconds > 10)
 				{
 					RecordedPulses[i] = RadiationPulseRecord.ToReplace();
 				}

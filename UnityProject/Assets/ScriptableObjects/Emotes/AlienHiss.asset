@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: AlienHiss
   m_EditorClassIdentifier: 
   emoteName: hiss
+  EmoteIcon: {fileID: 0}
   requiresHands: 0
   allowEmoteWhileInCrit: 1
   isAudibleEmote: 0
@@ -61,4 +62,4 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   TypedSounds: []
   pitchRange: {x: 0.7, y: 1}
-  allowedPlayerStates: 16
+  allowedPlayerTypes: 16

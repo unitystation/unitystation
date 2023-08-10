@@ -18,6 +18,7 @@ using UI.Jobs;
 using UI.UI_Bottom;
 using UI.Windows;
 using Systems.CraftingV2.GUI;
+using UI.Character;
 using UI.Systems.AdminTools.DevTools;
 using UI.Systems.EndRound;
 using UI.Systems.ServerInfoPanel;
@@ -82,6 +83,8 @@ public class UIManager : MonoBehaviour, IInitialise
 	public SplittingMenu SplittingMenu;
 
 	public GUI_DevTileChanger TileChanger;
+
+	public CharacterSettings CharacterSettings;
 
 	[field: SerializeField] public ServerInfoPanelWindow ServerInfoPanelWindow { get; private set; }
 

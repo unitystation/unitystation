@@ -69,6 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3826885964139575000, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
+      propertyPath: _assetId
+      value: 2852194714
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826885964139575000, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
       propertyPath: m_AssetId
       value: 00a84f751afb412428a586d23cf90b39
       objectReference: {fileID: 0}
@@ -288,6 +293,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab0b22d0dd164c31bcc4746cd3300663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: xenomorph hunter
   registerObject: {fileID: 0}
   deathSounds:
@@ -338,6 +346,7 @@ MonoBehaviour:
   randomSoundProbability: 20
   searchTickRate: 0.5
   currentStatus: 0
+  ScoreForKilling: 5
   disableAscension: 1
   queenCap: 1
   queenPrefab: {fileID: 2058504753171968459, guid: 850a00ce2fc547b499ef46733c95c580,
