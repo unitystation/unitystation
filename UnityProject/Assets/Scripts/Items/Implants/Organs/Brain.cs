@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Audio.Containers;
 using CameraEffects;
-using Changeling;
 using Chemistry;
 using Core.Utils;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Mirror;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
-using static UnityEditor.ObjectChangeEventStream;
 
 namespace Items.Implants.Organs
 {
@@ -22,7 +16,7 @@ namespace Items.Implants.Organs
 	{
 
 		public IPlayerPossessable Itself => this as IPlayerPossessable;
-		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect) this;
+		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect)this;
 
 		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
 		[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
@@ -33,11 +27,11 @@ namespace Items.Implants.Organs
 		public uint OnPlayerID => OnBodyID;
 		public uint PossessingID => possessingID;
 
-		[FormerlySerializedAs("hasInbuiltSite")] [SerializeField] private bool hasInbuiltSight = false;
+		[FormerlySerializedAs("hasInbuiltSite")][SerializeField] private bool hasInbuiltSight = false;
 		[SerializeField] private bool hasInbuiltHearing = false;
 
 
-		[SerializeField] private bool CannotSpeak  = false;
+		[SerializeField] private bool CannotSpeak = false;
 
 
 		[SerializeField] private bool hasInbuiltSpeech = false;
@@ -57,124 +51,6 @@ namespace Items.Implants.Organs
 
 		public UnityEvent OnDeath = new UnityEvent();
 		public UnityEvent OnRevival = new UnityEvent();
-
-		private List<ChangelingDna> changelingDnas = new List<ChangelingDna>();
-		private List<ChangelingMemories> changelingMemories = new List<ChangelingMemories>();
-		public List<ChangelingMemories> ChangelingMemories => new(changelingMemories);
-		public List<ChangelingDna> ChangelingDNAs => new List<ChangelingDna>(changelingDnas);
-
-		[SyncVar(hook = nameof(SyncChangelingDna))]
-		private string changelingDNASer = "";
-		[SyncVar(hook = nameof(SyncChangelingMemories))]
-		private string changelingMemoriesSer = "";
-
-		private void SyncChangelingDna(string oldValue, string newValue)
-		{
-			if (changelingDnas == null)
-				changelingDnas = new List<ChangelingDna>();
-			else
-				changelingDnas.Clear();
-
-			foreach (var dnaSer in newValue.Split("\n"))
-			{
-				var dnaDes = JsonConvert.DeserializeObject<ChangelingDna>(dnaSer);
-				if (dnaDes == null)
-					continue;
-
-				changelingDnas.Add(dnaDes);
-			}
-			changelingDNASer = newValue;
-		}
-
-		private void SyncChangelingMemories(string oldValue, string newValue)
-		{
-			if (changelingMemories == null)
-				changelingMemories = new List<ChangelingMemories>();
-			else
-				changelingMemories.Clear();
-
-			foreach (var memSer in newValue.Split("\n"))
-			{
-				var memDes = JsonConvert.DeserializeObject<ChangelingMemories>(memSer);
-
-				if (memDes == null)
-					continue;
-
-				changelingMemories.Add(memDes);
-			}
-
-			changelingMemoriesSer = newValue;
-		}
-
-		public void AddDna(ChangelingDna dna)
-		{
-			changelingDnas.Add(dna);
-
-			StringBuilder builder = new StringBuilder();
-
-			builder.Append(changelingDNASer);
-
-			builder.AppendLine(JsonConvert.SerializeObject(dna));
-
-			SyncChangelingMemories(changelingDNASer, builder.ToString());
-		}
-
-		public void RemoveDna(ChangelingDna dna)
-		{
-			if (changelingDnas.Contains(dna) == false)
-				return;
-			changelingDnas.Remove(dna);
-
-			StringBuilder builder = new StringBuilder();
-
-			foreach (var dnas in changelingDnas)
-			{
-				builder.AppendLine(JsonConvert.SerializeObject(dnas));
-			}
-
-			SyncChangelingDna(changelingDNASer, builder.ToString());
-		}
-
-		public void ClearDna()
-		{
-			changelingDnas.Clear();
-			SyncChangelingDna(changelingMemoriesSer, "");
-		}
-
-		public void AddMemories(ChangelingMemories mem)
-		{
-			changelingMemories.Add(mem);
-
-			StringBuilder changelingMemoriesSerNow = new StringBuilder();
-
-			changelingMemoriesSerNow.Append(changelingMemoriesSer);
-
-			changelingMemoriesSerNow.AppendLine(JsonConvert.SerializeObject(mem));
-
-			SyncChangelingMemories(changelingMemoriesSer, changelingMemoriesSerNow.ToString());
-		}
-
-		public void RemoveMemories(ChangelingMemories mem)
-		{
-			if (changelingMemories.Contains(mem) == false)
-				return;
-			changelingMemories.Remove(mem);
-
-			StringBuilder changelingMemoriesSerNow = new StringBuilder();
-
-			foreach (var memr in changelingMemories)
-			{
-				changelingMemoriesSerNow.AppendLine(JsonConvert.SerializeObject(memr));
-			}
-
-			SyncChangelingMemories(changelingMemoriesSer, changelingMemoriesSerNow.ToString());
-		}
-
-		public void ClearMemories()
-		{
-			changelingMemories.Clear();
-			SyncChangelingMemories(changelingMemoriesSer, "");
-		}
 
 		[RightClickMethod]
 		public void Possess()
@@ -295,14 +171,14 @@ namespace Items.Implants.Organs
 		{
 			if (ReagentCirculatedComponent.OrNull()?.AssociatedSystem != null && ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(DrunkReagent))
 			{
-				float DrunkPercentage  = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(DrunkReagent);
+				float DrunkPercentage = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(DrunkReagent);
 				if (DrunkPercentage > 0)
 				{
 					if (DrunkPercentage > MaxDrunkAtPercentage)
 					{
 						DrunkPercentage = MaxDrunkAtPercentage;
 					}
-					var  percentage = DrunkPercentage / MaxDrunkAtPercentage;
+					var percentage = DrunkPercentage / MaxDrunkAtPercentage;
 
 					if (percentage > 0.05f)
 					{
@@ -392,7 +268,7 @@ namespace Items.Implants.Organs
 
 		public void UpdateChatModifier(bool add)
 		{
-			if (RelatedPart.HealthMaster == null)  return;
+			if (RelatedPart.HealthMaster == null) return;
 			if (add)
 			{
 				RelatedPart.HealthMaster.BodyChatModifier |= BodyChatModifier;
@@ -435,8 +311,8 @@ namespace Items.Implants.Organs
 		public RegisterPlayer CurrentlyOn { get; set; }
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-		public void OnControlPlayer( Mind mind) { }
-		public void OnPossessPlayer(Mind mind, IPlayerPossessable parent) {}
+		public void OnControlPlayer(Mind mind) { }
+		public void OnPossessPlayer(Mind mind, IPlayerPossessable parent) { }
 		#endregion
 	}
 }

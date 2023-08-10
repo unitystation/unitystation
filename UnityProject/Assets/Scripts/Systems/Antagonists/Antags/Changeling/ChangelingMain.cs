@@ -32,13 +32,15 @@ namespace Changeling
 		[SyncVar] private int absorbCount = 0;
 		public int AbsorbCount => absorbCount;
 		public int ResetsLeft => resetCountMax - resetCount;
-		public List<ChangelingMemories> ChangelingMemories => changelingMind.Body.playerHealth.brain.ChangelingMemories;
+		private List<ChangelingMemories> changelingMemories = new List<ChangelingMemories>();
+		public List<ChangelingMemories> ChangelingMemories => new List<ChangelingMemories>(changelingMemories);
 
 		private bool isFakingDeath = false;
 
 		public ChangelingDna currentDNA;
 
-		public List<ChangelingDna> ChangelingDnas => changelingMind.Body.playerHealth.brain.ChangelingDNAs;
+		private List<ChangelingDna> changelingDnas = new List<ChangelingDna>();
+		public List<ChangelingDna> ChangelingDnas => new List<ChangelingDna>(changelingDnas);
 		public List<ChangelingDna> ChangelingLastDNAs
 		{
 			get
@@ -97,7 +99,58 @@ namespace Changeling
 		private const float CHEM_ADD_TIME_BASE_SLOWED = 2;
 		private const int MAX_LAST_EXTRACTED_DNA_FOR_TRANSFORM = 7;
 
+		[SyncVar(hook = nameof(SyncChangelingDna))]
+		private string changelingDNASer = "";
+		[SyncVar(hook = nameof(SyncChangelingMemories))]
+		private string changelingMemoriesSer = "";
+
 		#region Hooks
+
+		private void SyncChangelingDna(string oldValue, string newValue)
+		{
+			if (changelingDnas == null)
+				changelingDnas = new List<ChangelingDna>();
+			else
+				changelingDnas.Clear();
+
+			foreach (var dnaSer in newValue.Split("\n"))
+			{
+				var dnaDes = JsonConvert.DeserializeObject<ChangelingDna>(dnaSer);
+				if (dnaDes == null)
+					continue;
+
+				changelingDnas.Add(dnaDes);
+			}
+			changelingDNASer = newValue;
+
+			if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.Mind != null && changelingMindID == PlayerManager.LocalPlayerScript.Mind.netId)
+			{
+				if (changelingMind == null)
+					changelingMind = PlayerManager.LocalPlayerScript.Mind;
+				SetChangelingUI();
+			}
+		}
+
+		private void SyncChangelingMemories(string oldValue, string newValue)
+		{
+			if (changelingMemories == null)
+				changelingMemories = new List<ChangelingMemories>();
+			else
+				changelingMemories.Clear();
+
+			foreach (var memSer in newValue.Split("\n"))
+			{
+				var memDes = JsonConvert.DeserializeObject<ChangelingMemories>(memSer);
+
+				if (memDes == null)
+					continue;
+
+				changelingMemories.Add(memDes);
+			}
+
+			changelingMemoriesSer = newValue;
+		}
+
 
 		private void SyncAbilityList(string oldValue, string newValue)
 		{
@@ -285,7 +338,14 @@ namespace Changeling
 
 		public void AddDna(ChangelingDna dna)
 		{
-			changelingMind.Body.playerHealth.brain.AddDna(dna);
+			var stringBuildes = new StringBuilder();
+			stringBuildes.Append(changelingDNASer);
+			if (!HasDna(dna))
+			{
+				changelingDnas.Add(dna);
+				stringBuildes.AppendLine(JsonConvert.SerializeObject(dna));
+			}
+			changelingDNASer = stringBuildes.ToString();
 		}
 
 		private void OnCrit()
@@ -354,15 +414,28 @@ namespace Changeling
 
 		private void AddMemories(List<ChangelingMemories> mem)
 		{
-			foreach (var memToSer in mem)
+			changelingMemories.AddRange(mem);
+
+			var changelingMemoriesToSer = new StringBuilder();
+			changelingMemoriesToSer.Append(changelingMemoriesSer);
+
+			foreach (var memToSer in changelingMemories)
 			{
-				changelingMind.Body.playerHealth.brain.AddMemories(memToSer);
+				changelingMemoriesToSer.AppendLine(JsonConvert.SerializeObject(memToSer));
 			}
+			SyncChangelingMemories(changelingMemoriesSer, changelingMemoriesToSer.ToString());
 		}
 
 		private void AddMemories(ChangelingMemories memories)
 		{
-			changelingMind.Body.playerHealth.brain.AddMemories(memories);
+			changelingMemories.Add(memories);
+
+			var changelingMemoriesToSer = new StringBuilder();
+			changelingMemoriesToSer.Append(changelingMemoriesSer);
+
+			changelingMemoriesToSer.AppendLine(JsonConvert.SerializeObject(memories));
+
+			SyncChangelingMemories(changelingMemoriesSer, changelingMemoriesToSer.ToString());
 		}
 
 		private void AddMemories(ChangelingDna dna, PlayerScript target)
@@ -391,7 +464,9 @@ namespace Changeling
 
 		public void ClearMemories()
 		{
-			changelingMind.Body.playerHealth.brain.ClearMemories();
+			changelingMemories.Clear();
+
+			SyncChangelingMemories(changelingMemoriesSer, "");
 		}
 		
 		public void AbsorbDna(PlayerScript target, ChangelingMain changelingMain) // That gonna be another changeling
@@ -418,8 +493,16 @@ namespace Changeling
 		{
 			foreach (var dna in targetDNAs)
 			{
-				changelingMind.Body.playerHealth.brain.RemoveDna(dna);
+				changelingDnas.Remove(dna);
 			}
+
+			var builder = new StringBuilder();
+			foreach (var dna in changelingDnas)
+			{
+				changelingDnas.Remove(dna);
+				builder.AppendLine(JsonConvert.SerializeObject(dna));
+			}
+			SyncChangelingDna(changelingDNASer, builder.ToString());
 		}
 
 		private void Tick()
