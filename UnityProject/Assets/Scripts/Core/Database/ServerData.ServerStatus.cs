@@ -98,7 +98,7 @@ namespace DatabaseAPI
 		{
 			if (string.IsNullOrEmpty(config.HubUser) || string.IsNullOrEmpty(config.HubPass))
 	        {
-	            Console.WriteLine("Invalid Hub creds found, aborting HUB connection");
+	            Logger.LogError("Invalid Hub creds found, aborting HUB connection");
 	            return;
 	        }
 
@@ -178,21 +178,21 @@ namespace DatabaseAPI
 	                }
 	                else if (apiResponse.errorCode == 901)
 	                {
-	                    Console.WriteLine("Hub API returned unauthorized credentials, aborting HUB connection");
+	                    Logger.LogError("Hub API returned unauthorized credentials, aborting HUB connection");
 	                }
 	                else
 	                {
-	                    Console.WriteLine("Hub API returned error code " + apiResponse.errorCode + ", aborting HUB connection\n" + apiResponse.errorMsg);
+	                    Logger.LogError("Hub API returned error code " + apiResponse.errorCode + ", aborting HUB connection\n" + apiResponse.errorMsg);
 	                }
 	            }
 	            else
 	            {
-	                Console.WriteLine("Hub API returned error, aborting HUB connection");
+	                Logger.LogError("Hub API returned error, aborting HUB connection");
 	            }
 	        }
 	        catch (Exception ex)
 	        {
-	            Console.WriteLine("Error: " + ex.Message);
+	            Logger.LogError("Error: " + ex.Message);
 	        }
 
 			try
@@ -211,7 +211,7 @@ namespace DatabaseAPI
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("Error: " + ex.Message);
+				Logger.LogError("Error: " + ex.Message);
 			}
 		}
 

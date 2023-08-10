@@ -49,7 +49,7 @@ public class MaryTTS : MonoBehaviour {
 
 			if (response.IsSuccessStatusCode == false)
 			{
-				Console.WriteLine("Err: " + response.ReasonPhrase);
+				Logger.LogError("Err: " + response.ReasonPhrase);
 			}
 			else
 			{

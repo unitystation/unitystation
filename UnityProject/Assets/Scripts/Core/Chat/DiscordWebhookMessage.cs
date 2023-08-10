@@ -134,11 +134,11 @@ namespace DiscordWebhook
 
 			if (response.IsSuccessStatusCode)
 			{
-				Console.WriteLine("Request was successful.");
+				Logger.Log("Request was successful.");
 			}
 			else
 			{
-				Console.WriteLine($"Request failed with status code: {response.StatusCode}");
+				Logger.Log($"Request failed with status code: {response.StatusCode}");
 			}
 		}
 
