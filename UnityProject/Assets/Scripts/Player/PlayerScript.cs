@@ -20,6 +20,7 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Changeling;
 using UI;
+using GameModes;
 
 public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlayerPossessable, IHoverTooltip
 {
@@ -165,7 +166,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 			{
 				if (CustomNetworkManager.IsServer)
 				{
-					changeling = gameObject.transform.GetComponentInChildren<ChangelingMain>();
+					changeling = playerHealth.brain.gameObject.GetComponent<ChangelingMain>();
 				} else
 				{
 					changeling = UIManager.Instance.displayControl.hudChangeling.ChangelingMain;

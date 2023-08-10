@@ -24,7 +24,8 @@ namespace Changeling
 
 		public override void AfterSpawn(Mind NewMind)
 		{
-			var ch = Spawn.ServerPrefab(ChangelingAbilityList.Instance.ChangelingMainPrefab, parent: NewMind.Body.gameObject.transform).GameObject.GetComponent<ChangelingMain>();
+			var ch = NewMind.Body.playerHealth.brain.gameObject.GetComponent<ChangelingMain>();
+			ch.NetEnable();
 			PlayerSpawn.TransferOwnershipFromToConnection(playerConn, null, ch.gameObject.GetComponent<NetworkIdentity>());
 
 			ch.Init(NewMind);
