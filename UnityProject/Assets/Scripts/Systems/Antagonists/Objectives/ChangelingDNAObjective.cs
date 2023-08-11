@@ -12,7 +12,7 @@ namespace Changeling
 
 		protected override bool CheckCompletion()
 		{
-			return Owner.Body.GetComponent<ChangelingMain>().ExtractedDna >= dnaNeedCount;
+			return Owner.Body.Changeling.ExtractedDna >= dnaNeedCount;
 		}
 
 		protected override void Setup()

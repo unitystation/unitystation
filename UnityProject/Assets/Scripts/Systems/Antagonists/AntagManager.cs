@@ -138,7 +138,15 @@ namespace Antagonists
 			try
 			{
 				// Generate objectives for this antag
-				List<Objective> objectives = antagData.GenerateObjectives(Mind, chosenAntag);
+				List<Objective> objectives = new List<Objective>();
+
+				try
+				{
+					objectives.AddRange(antagData.GenerateObjectives(Mind, chosenAntag));
+				} catch (Exception e)
+				{
+					Logger.LogError($"failed to create antagonist objectives {chosenAntag.OrNull()?.AntagName} " + e.ToString());
+				}
 				// Set the antag
 				var spawnedAntag = SpawnedAntag.Create(chosenAntag, Mind, objectives);
 				Mind.SetAntag(spawnedAntag);
