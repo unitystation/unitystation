@@ -10,7 +10,7 @@ namespace Systems.Electricity
 			ElectricalOIinheritance SourceInstance,
 			IntrinsicElectronicData Thiswire)
 		{
-			
+
 			//Logger.Log("4 > " + Current);
 			//Logger.Log("poke > " + SourceInstance.InData.Data.SupplyDependent[SourceInstance].ToString());
 			var OutputSupplyingUsingData = Thiswire.Data.SupplyDependent[SourceInstance];
@@ -92,6 +92,14 @@ namespace Systems.Electricity
 		{
 			if (Thiswire.Data.SupplyDependent.TryGetValue(SourceInstance, out ElectronicSupplyData supplyDep))
 			{
+				if (supplyDep.Upstream.Count > 1)
+				{
+					var newWrap = ElectricalPool.GetResistanceWrap();
+					newWrap.SetUp(Resistance);
+					newWrap.Multiply(supplyDep.Upstream.Count);
+					Resistance = newWrap;
+				}
+
 				foreach (var JumpTo in supplyDep.Upstream)
 				{
 					if (!supplyDep.ResistanceGoingTo.TryGetValue(JumpTo, out VIRResistances resGoTo))
