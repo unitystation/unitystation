@@ -37,10 +37,10 @@ public abstract class BrainMobState : BodyPartFunctionality
 
 	public void InternalOnUpdateTick()
 	{
-		if (master.IsControlledByPlayer) return;
 		if (master.OrNull()?.Body.OrNull()?.LivingHealth == null) return;
+		if (master.IsControlledByPlayer) return;
 		if (master.Body.LivingHealth.IsDead) return;
-		if (this.GetComponent<UniversalObjectPhysics>().IsVisible == false) return;
+		if (master.Body.UniversalObjectPhysics.IsVisible == false) return;
 		OnUpdateTick();
 
 	}

@@ -49,6 +49,7 @@ namespace UI.Core.RightClick.LegacyRightClick
 			if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
 			{
 				HideSelf();
+				return;
 			}
 
 			if (Input.GetMouseButtonDown(0))
@@ -59,6 +60,7 @@ namespace UI.Core.RightClick.LegacyRightClick
 		}
 
 
+
 		public void SetupMenu(List<RightClickMenuItem> items, IRadialPosition radialPosition, RightClickRadialOptions radialOptions)
 		{
 			transform.localScale = new Vector3(1, 0, 1);
@@ -67,6 +69,7 @@ namespace UI.Core.RightClick.LegacyRightClick
 			self.transform.rotation = Quaternion.identity;
 			SpawnEntries();
 			this.SetActive(true);
+			entries.gameObject.SetActive(true);
 			LeanTween.scale(self, new Vector3(1, 1, 1), 0.15f).setEase(LeanTweenType.easeInOutQuad);
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
@@ -97,6 +100,7 @@ namespace UI.Core.RightClick.LegacyRightClick
 		private void HideSelf()
 		{
 			self.SetActive(false);
+			entries.gameObject.SetActive(false);
 			entries.localPosition = new Vector3(0, 0, 0);
 			foreach (Transform child in entries)
 			{

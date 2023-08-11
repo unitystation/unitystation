@@ -136,7 +136,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	private bool IsFull(GameObject usedObject, GameObject player, bool noMessage = false)
 	{
 		//NOTE: this wont fail on client if the storage they are checking is not being observered by them
-		if (itemStorage.GetNextFreeIndexedSlot() == null && usedObject != null)
+		if (itemStorage.GetBestSlotFor(usedObject) == null && usedObject != null)
 		{
 			if (noMessage == false)
 			{
