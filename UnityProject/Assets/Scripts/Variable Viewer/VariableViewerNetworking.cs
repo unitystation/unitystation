@@ -131,6 +131,7 @@ public class VariableViewerNetworking : MonoBehaviour
 		public string VariableName;
 		public string Variable;
 		public string VariableType;
+		public string FullVariableType;
 		public bool CanWrite = true;
 		public VVHighlight VVHighlight = VVHighlight.None;
 
@@ -285,7 +286,8 @@ public class VariableViewerNetworking : MonoBehaviour
 				Variable = VVUIElementHandler.Serialise(bob.Variable, bob.VariableType),
 				VariableName = bob.VariableName,
 				VariableType = bob.VariableType?.ToString(),
-				VVHighlight = bob.VVHighlight
+				VVHighlight = bob.VVHighlight,
+				FullVariableType = bob.AssemblyQualifiedName
 			};
 			if (bob.PInfo != null)
 			{
@@ -294,7 +296,7 @@ public class VariableViewerNetworking : MonoBehaviour
 
 
 
-			if (Librarian.UEGetType(Page.VariableType) == null)
+			if (Librarian.UEGetType(Page.FullVariableType) == null)
 			{
 				Page.VariableType = bob?.VariableType?.AssemblyQualifiedName;
 			}
