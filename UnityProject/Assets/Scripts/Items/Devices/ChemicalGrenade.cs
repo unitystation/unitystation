@@ -31,6 +31,8 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 
 	private ReagentContainer mixedReagentContainer;
 
+	[SerializeField] private bool InitiallyScrewed = false;
+
 	[field: SyncVar] public bool ScrewedClosed { get; private set; } = false;
 
 	public bool IsFullContainers
@@ -76,8 +78,11 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 		containerStorage = GetComponent<ItemStorage>();
 		pickupable = GetComponent<Pickupable>();
 
+		ScrewedClosed = InitiallyScrewed;
+
 		// Set grenade to unlocked state by default
-		UpdateSprite(UNLOCKED_SPRITE);
+		if (ScrewedClosed) UpdateSprite(LOCKED_SPRITE);
+		else UpdateSprite(UNLOCKED_SPRITE);
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
@@ -148,7 +153,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 			if (timerRunning)
 			{
 				timerRunning = false;
-				MixReagents();		
+				MixReagents();
 			}
 		}
 	}
@@ -176,7 +181,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 			var worldPos = objectPhysics.registerTile.WorldPosition;
 
 			BlastData blastData = new BlastData();
-		
+
 			ReagentContainer1.TransferTo(ReagentContainer1.ReagentMixTotal, mixedReagentContainer, false); //We use false to ensure the reagents do not react before we can obtain our blast data
 			ReagentContainer2.TransferTo(ReagentContainer2.ReagentMixTotal, mixedReagentContainer, false);
 
