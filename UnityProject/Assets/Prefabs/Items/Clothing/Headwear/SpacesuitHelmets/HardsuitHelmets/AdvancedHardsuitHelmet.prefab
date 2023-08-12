@@ -117,6 +117,51 @@ PrefabInstance:
       propertyPath: armoredBodyParts.Array.data[2].armor.Melee
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.PressureProtectionInKpa.y
+      value: 30000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.PressureProtectionInKpa.y
+      value: 30000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.PressureProtectionInKpa.y
+      value: 30000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.TemperatureProtectionInK.y
+      value: 30000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.TemperatureProtectionInK.y
+      value: 30000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.TemperatureProtectionInK.y
+      value: 30000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.DismembermentProtectionChance
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.DismembermentProtectionChance
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.DismembermentProtectionChance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 7499075161934737357, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: _assetId
@@ -185,17 +230,17 @@ PrefabInstance:
     - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}

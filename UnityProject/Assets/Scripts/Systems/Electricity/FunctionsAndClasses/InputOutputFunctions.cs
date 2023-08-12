@@ -10,13 +10,15 @@ namespace Systems.Electricity
 			ElectricalOIinheritance SourceInstance,
 			IntrinsicElectronicData Thiswire)
 		{
+
 			//Logger.Log("4 > " + Current);
 			//Logger.Log("poke > " + SourceInstance.InData.Data.SupplyDependent[SourceInstance].ToString());
 			var OutputSupplyingUsingData = Thiswire.Data.SupplyDependent[SourceInstance];
+
 			VIRCurrent SupplyingCurrent = null;
 			float Divider = (ElectricityFunctions.WorkOutResistance(OutputSupplyingUsingData.ResistanceComingFrom));
 			foreach (KeyValuePair<IntrinsicElectronicData, VIRResistances> JumpTo in OutputSupplyingUsingData
-				.ResistanceComingFrom)
+				         .ResistanceComingFrom)
 			{
 				if (OutputSupplyingUsingData.ResistanceComingFrom.Count > 1)
 				{
@@ -26,6 +28,7 @@ namespace Systems.Electricity
 				{
 					SupplyingCurrent = Current;
 				}
+
 
 				OutputSupplyingUsingData.CurrentGoingTo[JumpTo.Key] = SupplyingCurrent;
 				if (JumpTo.Key != null && JumpTo.Key.Categorytype != PowerTypeCategory.DeadEndConnection)
@@ -42,14 +45,8 @@ namespace Systems.Electricity
 		{
 			if (thiswire.Data.SupplyDependent.TryGetValue(sourceInstance, out ElectronicSupplyData supplyDep))
 			{
-				if (supplyDep.CurrentComingFrom.TryGetValue(comingFrom, out VIRCurrent currentComFrom))
-				{
-					currentComFrom.addCurrent(current);
-				}
-				else
-				{
-					supplyDep.CurrentComingFrom[comingFrom] = current;
-				}
+
+				supplyDep.CurrentComingFrom[comingFrom] = current;
 
 				if (!(supplyDep.ResistanceComingFrom.Count > 0))
 				{
@@ -62,11 +59,31 @@ namespace Systems.Electricity
 					return;
 				}
 
-				supplyDep.SourceVoltage = (float)current.Current() * ElectricityFunctions.WorkOutResistance(supplyDep.ResistanceComingFrom);
+				if (supplyDep.ResistanceGoingTo.Count != supplyDep.CurrentComingFrom.Count)
+				{
+					//Waiting on everyone to agree
+					return;
+				}
+
+				if (supplyDep.CurrentComingFrom.Count > 1)
+				{
+					var newCurrent = ElectricalPool.GetVIRCurrent();//Combines the current back
+					foreach (var Coming in supplyDep.CurrentComingFrom)
+					{
+						newCurrent.CombineWith(Coming.Value);
+					}
+
+					current = newCurrent;
+				}
+
+				supplyDep.SourceVoltage = (float) current.Current() *
+				                          ElectricityFunctions.WorkOutResistance(supplyDep.ResistanceComingFrom);
 			}
+
 
 			//ELCurrent.CurrentWorkOnNextListADD(Thiswire);
 			thiswire.ElectricityOutput(current, sourceInstance);
+
 		}
 
 		public static void ResistancyOutput(ResistanceWrap Resistance,
@@ -75,6 +92,14 @@ namespace Systems.Electricity
 		{
 			if (Thiswire.Data.SupplyDependent.TryGetValue(SourceInstance, out ElectronicSupplyData supplyDep))
 			{
+				if (supplyDep.Upstream.Count > 1)
+				{
+					var newWrap = ElectricalPool.GetResistanceWrap();
+					newWrap.SetUp(Resistance);
+					newWrap.Multiply(supplyDep.Upstream.Count);
+					Resistance = newWrap;
+				}
+
 				foreach (var JumpTo in supplyDep.Upstream)
 				{
 					if (!supplyDep.ResistanceGoingTo.TryGetValue(JumpTo, out VIRResistances resGoTo))
@@ -116,7 +141,7 @@ namespace Systems.Electricity
 			}
 
 			if (!(Thiswire.Data.SupplyDependent.TryGetValue(SourceInstance,
-				out ElectronicSupplyData outputSupplyingUsingData)))
+				    out ElectronicSupplyData outputSupplyingUsingData)))
 			{
 				outputSupplyingUsingData =
 					Thiswire.Data.SupplyDependent[SourceInstance] = ElectricalPool.GetElectronicSupplyData();
@@ -135,7 +160,8 @@ namespace Systems.Electricity
 						}
 					}
 
-					if (outputSupplyingUsingData.Downstream.Contains(Relatedindata) == false && pass && Relatedindata.Present != SourceInstance)
+					if (outputSupplyingUsingData.Downstream.Contains(Relatedindata) == false && pass &&
+					    Relatedindata.Present != SourceInstance)
 					{
 						outputSupplyingUsingData.Downstream.Add(Relatedindata);
 						Relatedindata.DirectionInput(SourceInstance, Thiswire);
@@ -190,7 +216,7 @@ namespace Systems.Electricity
 						var resToConDev = Thiswire.Data.ResistanceToConnectedDevices[SupplyBool];
 
 						if (!resToConDev.TryGetValue(reaction.ResistanceReactionA.Resistance,
-							out HashSet<IntrinsicElectronicData> resToConDevHash))
+							    out HashSet<IntrinsicElectronicData> resToConDevHash))
 						{
 							resToConDevHash = resToConDev[reaction.ResistanceReactionA.Resistance] =
 								new HashSet<IntrinsicElectronicData>();
