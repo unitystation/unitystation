@@ -638,6 +638,9 @@ namespace Changeling
 			UpdateSprites(body.playerHealth.playerSprites, characterSheet);
 			body.playerHealth.UpdateMeatAndSkinProduce();
 
+			yield return WaitFor.SecondsRealtime(2f);
+			body.playerHealth.playerSprites.SetSurfaceColour();
+
 			// set new hand because we deleted prev
 			body.playerHealth.playerScript.PlayerNetworkActions.CmdSetActiveHand(bodyParts[NamedSlot.leftHand].ItemStorageNetID, NamedSlot.leftHand);
 		}
