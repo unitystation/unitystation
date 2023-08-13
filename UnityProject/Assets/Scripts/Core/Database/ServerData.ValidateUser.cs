@@ -5,8 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Firebase.Auth;
 using Newtonsoft.Json;
+using SecureStuff;
 using UnityEngine;
-using UnityEngine.Networking;
 using Systems.Character;
 
 namespace DatabaseAPI
@@ -43,7 +43,7 @@ namespace DatabaseAPI
 			}
 
 			string content = await response.Content.ReadAsStringAsync();
-			FireStoreResponse fr = JsonUtility.FromJson<FireStoreResponse>(content);
+			FireStoreResponse fr = JsonConvert.DeserializeObject<FireStoreResponse>(content);
 			FireStoreCharacter fireStoreChar = fr.fields.character;
 
 			CharacterSheet characterSettings;
@@ -100,7 +100,7 @@ namespace DatabaseAPI
 			}
 
 			HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get,
-				url + UnityWebRequest.EscapeURL(JsonUtility.ToJson(refreshToken)));
+				url + Uri.EscapeDataString(JsonConvert.SerializeObject(refreshToken)));
 
 			CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
 
@@ -121,7 +121,7 @@ namespace DatabaseAPI
 			}
 
 			string msg = await res.Content.ReadAsStringAsync();
-			return JsonUtility.FromJson<ApiResponse>(msg);
+			return JsonConvert.DeserializeObject<ApiResponse>(msg);
 		}
 	}
 }

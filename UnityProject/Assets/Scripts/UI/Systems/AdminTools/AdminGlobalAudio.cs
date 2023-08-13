@@ -5,6 +5,7 @@ using UnityEngine;
 using Audio.Containers;
 using AddressableReferences;
 using DatabaseAPI;
+using SecureStuff;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;

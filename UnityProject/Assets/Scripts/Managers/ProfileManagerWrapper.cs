@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Messages.Server.AdminTools;
+using SecureStuff;
 using UnityEngine;
 
 public class ProfileManagerWrapper : MonoBehaviour

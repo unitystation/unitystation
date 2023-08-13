@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AdminTools;
 using Messages.Server;
 using Mirror;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Messages.Server.AdminTools
@@ -39,7 +40,7 @@ namespace Messages.Server.AdminTools
 				UIManager.Instance.adminChatButtons.ClearAllNotifications();
 				UIManager.Instance.mentorChatButtons.ClearAllNotifications();
 				UIManager.Instance.prayerChatButtons.ClearAllNotifications();
-				var notiUpdate = JsonUtility.FromJson<AdminChatNotificationFullUpdate>(msg.FullUpdateJson);
+				var notiUpdate = JsonConvert.DeserializeObject<AdminChatNotificationFullUpdate>(msg.FullUpdateJson);
 
 				foreach (var n in notiUpdate.notificationEntries)
 				{
@@ -81,7 +82,7 @@ namespace Messages.Server.AdminTools
 			NetMessage msg = new NetMessage
 			{
 				IsFullUpdate = true,
-				FullUpdateJson = JsonUtility.ToJson(update)
+				FullUpdateJson = JsonConvert.SerializeObject(update)
 			};
 
 			SendTo(adminConn, msg);

@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Firebase.Auth;
 using Newtonsoft.Json;
+using SecureStuff;
 using UnityEngine;
 using Systems.Character;
 
@@ -27,7 +28,7 @@ namespace DatabaseAPI
 				}
 			});
 
-			
+
 			HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Put,
 				UserFirestoreURL + "/?updateMask.fieldPaths=character");
 			r.Method = new HttpMethod("PATCH");

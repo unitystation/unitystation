@@ -59,9 +59,21 @@ namespace Initialisation
 		}
 
 
+		public static void DoInMainThread(Action InAction)
+		{
+			lock (QueueInitialise)
+			{
+				QueueInitialise.Enqueue(InAction);
+			}
+		}
+
+
 		public static void RegisterAction(Action InAction)
 		{
-			QueueInitialise.Enqueue(InAction);
+			lock (QueueInitialise)
+			{
+				QueueInitialise.Enqueue(InAction);
+			}
 		}
 
 		public static void RegisterActionDelayed(Action InAction, int Frames)
@@ -148,36 +160,39 @@ namespace Initialisation
 
 			if (QueueInitialise.Count > 0)
 			{
-				//Logger.Log(QueueInitialise.Count.ToString() + " < in queue ");
-				stopwatch.Start();
-				IsExecuting = true;
-				Action QueueAction = null;
-				while (stopwatch.ElapsedMilliseconds < TargetMSprefFramePreStep)
+				lock (QueueInitialise)
 				{
-					if (QueueInitialise.Count > 0)
+					//Logger.Log(QueueInitialise.Count.ToString() + " < in queue ");
+					stopwatch.Start();
+					IsExecuting = true;
+					Action QueueAction = null;
+					while (stopwatch.ElapsedMilliseconds < TargetMSprefFramePreStep)
 					{
-						QueueAction = QueueInitialise.Dequeue();
-						try
+						if (QueueInitialise.Count > 0)
 						{
-							LastInvokedAction = QueueAction.Invoke;
-							QueueAction.Invoke();
+							QueueAction = QueueInitialise.Dequeue();
+							try
+							{
+								LastInvokedAction = QueueAction.Invoke;
+								QueueAction.Invoke();
+							}
+							catch (Exception e)
+							{
+								Logger.LogError(e.ToString());
+							}
 						}
-						catch (Exception e)
+						else
 						{
-							Logger.LogError(e.ToString());
+							break;
 						}
 					}
-					else
-					{
-						break;
-					}
-				}
 
-				stopwatch.Stop();
-				stopwatch.Reset();
-				IsExecuting = false;
-				IsExecutingGeneric = false;
-				//Logger.Log(stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds ");
+					stopwatch.Stop();
+					stopwatch.Reset();
+					IsExecuting = false;
+					IsExecutingGeneric = false;
+					//Logger.Log(stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds ");
+				}
 			}
 
 			foreach (var delayedAction in ToClear)

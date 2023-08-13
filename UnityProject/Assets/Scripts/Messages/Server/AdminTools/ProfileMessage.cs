@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using AdminTools;
+using SecureStuff;
 using Mirror;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Messages.Server.AdminTools
@@ -16,7 +18,7 @@ namespace Messages.Server.AdminTools
 		public override void Process(NetMessage msg)
 		{
 			LoadNetworkObject(msg.Recipient);
-			var listData = JsonUtility.FromJson<SafeProfileManager.ProfileEntryDataList>(msg.JsonData);
+			var listData = JsonConvert.DeserializeObject<SafeProfileManager.ProfileEntryDataList>(msg.JsonData);
 			UIManager.Instance.profileScrollView.RefreshProfileList(listData);
 
 		}
@@ -25,7 +27,7 @@ namespace Messages.Server.AdminTools
 		{
 			var profileList = new SafeProfileManager.ProfileEntryDataList();
 			profileList.Profiles = GetAllProfiles();
-			var data = JsonUtility.ToJson(profileList);
+			var data = JsonConvert.SerializeObject(profileList);
 
 
 			NetMessage msg = new NetMessage {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};

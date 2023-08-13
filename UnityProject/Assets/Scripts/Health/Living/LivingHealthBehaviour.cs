@@ -8,6 +8,7 @@ using Messages.Server.HealthMessages;
 using Systems.Atmospherics;
 using Light2D;
 using HealthV2;
+using Newtonsoft.Json;
 
 
 /// <summary>
@@ -176,7 +177,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		//Generate BloodType and DNA
 		DNABloodType = new DNAandBloodType();
 		DNABloodType.BloodColor = bloodColor;
-		DNABloodTypeJSON = JsonUtility.ToJson(DNABloodType);
+		DNABloodTypeJSON = JsonConvert.SerializeObject(DNABloodType);
 	}
 
 	public override void OnStartClient()
@@ -204,7 +205,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	{
 		EnsureInit();
 		DNABloodTypeJSON = updatedDNA;
-		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(updatedDNA);
+		DNABloodType = JsonConvert.DeserializeObject<DNAandBloodType>(updatedDNA);
 	}
 
 	/// <summary>

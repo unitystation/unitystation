@@ -1,5 +1,6 @@
 ﻿using Messages.Server;
 using Mirror;
+using Newtonsoft.Json;
 using UnityEngine;
 using Systems.Electricity;
 
@@ -35,7 +36,7 @@ namespace Messages.Client
 
 		void SendDataToClient(ElectronicData data, GameObject recipient)
 		{
-			string json = JsonUtility.ToJson(data);
+			string json = JsonConvert.SerializeObject(data);
 			ElectricalStatsMessage.Send(recipient, json);
 		}
 
