@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class ThreadLogger : MonoBehaviour
+public sealed class ThreadLogger : MonoBehaviour
 {
 	public static List<string> otherThreadLogs = new List<string>();
 

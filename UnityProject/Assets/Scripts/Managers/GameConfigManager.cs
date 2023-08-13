@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
-using Core.SafeFilesystem;
+using SecureStuff;
+using Newtonsoft.Json;
 using UnityEngine;
 using Shared.Managers;
 
@@ -29,7 +30,7 @@ namespace GameConfig
 
 			if (AccessFile.Exists(path))
 			{
-				config = JsonUtility.FromJson<GameConfig>(AccessFile.Load(path));
+				config = JsonConvert.DeserializeObject<GameConfig>(AccessFile.Load(path));
 			}
 		}
 	}

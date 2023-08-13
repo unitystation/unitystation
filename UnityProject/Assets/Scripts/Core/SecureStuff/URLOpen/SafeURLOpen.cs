@@ -5,54 +5,57 @@ using System.Net;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-public static class SafeURL
+namespace SecureStuff
 {
-
-	public static void Open(string URL)
+	public static class SafeURL
 	{
-		URL = URL.ToLower();
+		//TODO hub Integration same with http client
 
-		if (URL.StartsWith($"https://"))
+		public static void Open(string URL)
 		{
-			if (TrySanitizeURL(URL, out var goodURL ))
+			URL = URL.ToLower();
+
+			if (URL.StartsWith($"https://"))
 			{
-				Logger.Log($"Opening URL {goodURL}");
-				Application.OpenURL(goodURL);
+				if (TrySanitizeURL(URL, out var goodURL))
+				{
+					Logger.Log($"Opening URL {goodURL}");
+					Application.OpenURL(goodURL);
+				}
+			}
+		}
+
+		private static bool TrySanitizeURL(string inputURL, out string sanitizedURL)
+		{
+			if (Uri.TryCreate(inputURL, UriKind.Absolute, out Uri uriResult) &&
+			    uriResult.Scheme == Uri.UriSchemeHttps)
+			{
+				if (uriResult.IsUnc)
+				{
+					sanitizedURL = null;
+					return false;
+				}
+
+				if (IPAddress.TryParse(uriResult.Host, out var IP))
+				{
+					sanitizedURL = null;
+					return false;
+				}
+
+				if (uriResult.IsFile)
+				{
+					sanitizedURL = null;
+					return false;
+				}
+
+				sanitizedURL = uriResult.AbsoluteUri;
+				return true;
+			}
+			else
+			{
+				sanitizedURL = null;
+				return false;
 			}
 		}
 	}
-
-	private static bool TrySanitizeURL(string inputURL, out string sanitizedURL)
-	{
-		if (Uri.TryCreate(inputURL, UriKind.Absolute, out Uri uriResult) &&
-		    uriResult.Scheme == Uri.UriSchemeHttps)
-		{
-			if (uriResult.IsUnc)
-			{
-				sanitizedURL = null;
-				return false;
-			}
-
-			if (IPAddress.TryParse(uriResult.Host, out var IP))
-			{
-				sanitizedURL = null;
-				return false;
-			}
-
-			if (uriResult.IsFile)
-			{
-				sanitizedURL = null;
-				return false;
-			}
-
-			sanitizedURL = uriResult.AbsoluteUri;
-			return true;
-		}
-		else
-		{
-			sanitizedURL = null;
-			return false;
-		}
-	}
-
 }

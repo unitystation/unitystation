@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Messages.Client.Admin;
 using Messages.Server.AdminTools;
 using Mirror;
+using Newtonsoft.Json;
 using Shared.Managers;
 using UnityEngine;
 
@@ -56,7 +57,7 @@ namespace AdminTools
 		{
 			if (string.IsNullOrEmpty(data)) return;
 
-			var update = JsonUtility.FromJson<PlayerAlertsUpdate>(data);
+			var update = JsonConvert.DeserializeObject<PlayerAlertsUpdate>(data);
 			clientPlayerAlerts.AddRange(update.playerAlerts);
 			LoadAllEntries(clientPlayerAlerts);
 		}

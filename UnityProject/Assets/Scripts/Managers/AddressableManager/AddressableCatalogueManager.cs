@@ -10,6 +10,7 @@ using Messages.Server.Addressable;
 using Mirror;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using SecureStuff;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
@@ -106,8 +107,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 		}
 	}
 
-	public void AssetBundleDownloadDependencies(AsyncOperationHandle<IResourceLocator> Content, bool RegisterComplete =
-		true)
+	public void AssetBundleDownloadDependencies(AsyncOperationHandle<IResourceLocator> Content, bool RegisterComplete = true)
 	{
 		ResourceLocationMap locMap = Content.Result as ResourceLocationMap;
 

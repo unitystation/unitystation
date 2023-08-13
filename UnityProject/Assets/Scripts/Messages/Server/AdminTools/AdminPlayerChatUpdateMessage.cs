@@ -1,5 +1,6 @@
 ﻿using AdminTools;
 using Mirror;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Messages.Server.AdminTools
@@ -22,7 +23,7 @@ namespace Messages.Server.AdminTools
 			AdminChatUpdate update = new AdminChatUpdate();
 			update.messages.Add(chatMessage);
 			NetMessage  msg =
-				new NetMessage  {JsonData = JsonUtility.ToJson(update), PlayerId = playerId};
+				new NetMessage  {JsonData = JsonConvert.SerializeObject(update), PlayerId = playerId};
 
 			SendToAdmins(msg);
 			return msg;
@@ -33,7 +34,7 @@ namespace Messages.Server.AdminTools
 			NetMessage msg =
 				new NetMessage
 				{
-					JsonData = JsonUtility.ToJson(update),
+					JsonData = JsonConvert.SerializeObject(update),
 					PlayerId = playerId
 				};
 

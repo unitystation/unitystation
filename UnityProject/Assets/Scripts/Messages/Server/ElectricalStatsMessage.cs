@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Newtonsoft.Json;
 using UnityEngine;
 using Systems.Electricity;
 
@@ -17,7 +18,7 @@ namespace Messages.Server
 		public override void Process(NetMessage msg)
 		{
 			LoadNetworkObject(msg.Recipient);
-			ElectronicData data = JsonUtility.FromJson<ElectronicData>(msg.JsonData);
+			ElectronicData data = JsonConvert.DeserializeObject<ElectronicData>(msg.JsonData);
 
 			string newChatText = "";
 			newChatText += $"Current: {data.CurrentInWire} \n";

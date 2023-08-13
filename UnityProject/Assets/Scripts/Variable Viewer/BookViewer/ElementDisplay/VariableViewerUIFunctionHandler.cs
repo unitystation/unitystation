@@ -25,6 +25,19 @@ public static class VVUIElementHandler
 		Type2Element.Clear();
 	}
 
+	public class SerialiseHook : ICustomSerialisationSystem
+	{
+		public bool CanDeSerialiseValue(Type InType)
+		{
+			return Type2Element.ContainsKey(InType);
+		}
+
+		public object DeSerialiseValue(string StringData, Type InType)
+		{
+			return Type2Element[InType].DeSerialise(StringData);
+		}
+	}
+
 	public static void ProcessElement(GameObject DynamicPanel, VariableViewerNetworking.NetFriendlyPage Page = null,
 		VariableViewerNetworking.NetFriendlySentence Sentence = null, bool iskey = false)
 	{
@@ -166,6 +179,7 @@ public static class VVUIElementHandler
 		return (InObject.ToString());
 	}
 }
+
 
 public enum PageElementEnum
 {

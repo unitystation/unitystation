@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using System.IO;
 #endif
+using Newtonsoft.Json;
 using UnityEngine;
 
 
@@ -18,7 +19,7 @@ public class BuildPreferences
             }
             else
             {
-                var buildPrefs = JsonUtility.FromJson<BuildPrefs>(json.ToString());
+                var buildPrefs = JsonConvert.DeserializeObject<BuildPrefs>(json.ToString());
                 return buildPrefs.isForRelease;
             }
         }
@@ -35,7 +36,7 @@ public class BuildPreferences
             }
             else
             {
-                var buildPrefs = JsonUtility.FromJson<BuildPrefs>(json.ToString());
+                var buildPrefs = JsonConvert.DeserializeObject<BuildPrefs>(json.ToString());
                 return buildPrefs.isSteamServer;
             }
         }
@@ -52,7 +53,7 @@ public class BuildPreferences
         var buildPrefs = new BuildPrefs();
         buildPrefs.isForRelease = isOn;
         buildPrefs.isSteamServer = isOn;
-        var json = JsonUtility.ToJson(buildPrefs);
+        var json = JsonConvert.SerializeObject(buildPrefs);
         File.WriteAllText(filePath + "BuildPrefs.json", json);
     }
 #endif

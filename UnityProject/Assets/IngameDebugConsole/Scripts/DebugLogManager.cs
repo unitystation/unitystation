@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Mirror;
+using SecureStuff;
 using UnityEngine.UI;
 
 namespace IngameDebugConsole

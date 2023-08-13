@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Core.SafeFilesystem;
+using System.Threading;
+using SecureStuff;
 using Newtonsoft.Json;
 using UnityEngine;
 using DatabaseAPI;
@@ -169,7 +170,6 @@ namespace Systems.Character
 		public void LoadOfflineCharacters()
 		{
 			Characters.Clear();
-
 			if (AccessFile.Exists(OfflineStoragePath, userPersistent: true) == false)
 			{
 				//TODO Remove

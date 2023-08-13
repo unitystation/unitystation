@@ -23,6 +23,7 @@ using Objects.Disposals;
 using Objects.Lighting;
 using Objects.Wallmounts;
 using ScriptableObjects;
+using SecureStuff;
 using Systems.Atmospherics;
 using Systems.Cargo;
 using Systems.Electricity;

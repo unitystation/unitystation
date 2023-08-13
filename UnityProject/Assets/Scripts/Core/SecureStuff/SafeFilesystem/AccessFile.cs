@@ -5,7 +5,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace Core.SafeFilesystem
+namespace SecureStuff
 {
 	public enum FolderType
 	{

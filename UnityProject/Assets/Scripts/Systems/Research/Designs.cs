@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-using Core.SafeFilesystem;
+using SecureStuff;
 
 namespace Systems.Research
 {

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using Messages.Client;
 using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 
 public class RequestGameActionSO : ClientMessage<RequestGameActionSO.NetMessage>

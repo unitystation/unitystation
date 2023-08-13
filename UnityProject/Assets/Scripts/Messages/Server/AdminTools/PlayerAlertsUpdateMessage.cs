@@ -1,5 +1,6 @@
 ﻿using AdminTools;
 using Mirror;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Messages.Server.AdminTools
@@ -16,7 +17,7 @@ namespace Messages.Server.AdminTools
 		{
 			if (msg.IsSingleEntry)
 			{
-				UIManager.Instance.playerAlerts.ClientUpdateSingleEntry(JsonUtility.FromJson<PlayerAlertData>(msg.JsonData));
+				UIManager.Instance.playerAlerts.ClientUpdateSingleEntry(JsonConvert.DeserializeObject<PlayerAlertData>(msg.JsonData));
 			}
 			else
 			{
@@ -29,7 +30,7 @@ namespace Messages.Server.AdminTools
 			NetMessage  msg =
 				new NetMessage
 				{
-					JsonData = JsonUtility.ToJson(alertMessage),
+					JsonData = JsonConvert.SerializeObject(alertMessage),
 					IsSingleEntry = true
 				};
 
@@ -42,7 +43,7 @@ namespace Messages.Server.AdminTools
 			NetMessage msg =
 				new NetMessage
 				{
-					JsonData = JsonUtility.ToJson(update),
+					JsonData = JsonConvert.SerializeObject(update),
 					IsSingleEntry = false
 				};
 

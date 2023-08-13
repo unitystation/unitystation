@@ -4,6 +4,7 @@ using System.Text;
 using DatabaseAPI;
 using IngameDebugConsole;
 using Managers;
+using Newtonsoft.Json;
 using Shared.Managers;
 using UnityEngine;
 using WebSocketSharp;
@@ -189,7 +190,7 @@ public class RconManager : SingletonManager<RconManager>
 	public static void UpdatePlayerListRcon()
 	{
 		if(Instance.playerListHost == null) return;
-		var json = JsonUtility.ToJson(new Players());
+		var json = JsonConvert.SerializeObject(new Players());
 		BroadcastToSessions(json, Instance.playerListHost.Sessions.Sessions);
 	}
 
@@ -379,7 +380,7 @@ public class RconPlayerList : WebSocketBehavior
 
 		if (e.Data == "players")
 		{
-			var playerList = JsonUtility.ToJson(new Players());
+			var playerList = JsonConvert.SerializeObject(new Players());
 			if (!string.IsNullOrEmpty(playerList))
 			{
 				Send(playerList);

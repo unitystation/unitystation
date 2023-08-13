@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AddressableReferences;
-using Core.SafeFilesystem;
+using SecureStuff;
 using Initialisation;
 using Shared.Util;
 using UnityEngine;
