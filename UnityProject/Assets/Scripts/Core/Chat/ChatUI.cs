@@ -114,6 +114,9 @@ namespace UI.Chat_UI
 
 		[BoxGroup("Animation"), Range(0,1)] public float ChatContentMinimumAlpha = 0f;
 
+		[field: SerializeField] public List<TMP_FontAsset> Fonts = new List<TMP_FontAsset>();
+		public int FontIndexToUse = -1;
+
 
 		public void SetPreferenceChatContent(float preference)
 		{
@@ -121,7 +124,6 @@ namespace UI.Chat_UI
 			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatContentMinimumAlpha, preference);
 			PlayerPrefs.Save();
 		}
-
 
 		public float GetPreferenceChatContent()
 		{
@@ -135,7 +137,6 @@ namespace UI.Chat_UI
 				PlayerPrefs.Save();
 				return 0f;
 			}
-
 		}
 
 		public void SetPreferenceChatBackground(float preference)
@@ -157,7 +158,6 @@ namespace UI.Chat_UI
 				PlayerPrefs.Save();
 				return 0f;
 			}
-
 		}
 
 
@@ -166,6 +166,7 @@ namespace UI.Chat_UI
 			base.Awake();
 			ChatMinimumBackgroundAlpha = GetPreferenceChatBackground();
 			ChatContentMinimumAlpha = GetPreferenceChatContent();
+			FontIndexToUse = PlayerPrefs.GetInt("fontPref", -1);
 		}
 
 		/// <summary>
@@ -318,7 +319,7 @@ namespace UI.Chat_UI
 			GameObject entry = entryPool.GetChatEntry();
 			var chatEntry = entry.GetComponent<ChatEntry>();
 			chatEntry.ViewportTransform = viewportTransform;
-			chatEntry.SetText(message, languageSprite);
+			chatEntry.SetText(message, languageSprite, FontIndexToUse != -1 ? Fonts[FontIndexToUse] : null);
 			allEntries.Add(chatEntry);
 			SetEntryTransform(entry);
 			CheckLengthOfChatLog();

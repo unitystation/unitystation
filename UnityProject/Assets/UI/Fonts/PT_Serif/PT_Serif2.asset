@@ -69,9 +69,9 @@ Material:
     - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
-    - _ScaleRatioA: 1
-    - _ScaleRatioB: 1
-    - _ScaleRatioC: 1
+    - _ScaleRatioA: 0.9
+    - _ScaleRatioB: 0.73125
+    - _ScaleRatioC: 0.73125
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0
@@ -2243,7 +2243,12 @@ MonoBehaviour:
   m_FontFeatureTable:
     m_GlyphPairAdjustmentRecords: []
   fallbackFontAssets: []
-  m_FallbackFontAssetTable: []
+  m_FallbackFontAssetTable:
+  - {fileID: 11400000, guid: 86cc3cba78717ad48a40abf01295cd8b, type: 2}
+  - {fileID: 11400000, guid: 3999dce05e0dddf4d8ca4ddcbe466189, type: 2}
+  - {fileID: 11400000, guid: 6f48e94536cbde44d931a33e0f712314, type: 2}
+  - {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: 11400000, guid: 06163af7308fb7345b59dc7e46b231d7, type: 2}
   m_CreationSettings:
     sourceFontFileName: 
     sourceFontFileGUID: 4b66630b812144919da66601440fa930

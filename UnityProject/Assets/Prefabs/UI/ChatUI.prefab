@@ -513,7 +513,7 @@ MonoBehaviour:
   m_CaretWidth: 2
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_GlobalFontAsset: {fileID: 11400000, guid: 06163af7308fb7345b59dc7e46b231d7, type: 2}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_RestoreOriginalTextOnEscape: 1
@@ -589,8 +589,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Speaking as Ghost:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 06163af7308fb7345b59dc7e46b231d7, type: 2}
-  m_sharedMaterial: {fileID: 5936035488957414831, guid: 06163af7308fb7345b59dc7e46b231d7,
+  m_fontAsset: {fileID: 11400000, guid: 86cc3cba78717ad48a40abf01295cd8b, type: 2}
+  m_sharedMaterial: {fileID: -161229536068243249, guid: 86cc3cba78717ad48a40abf01295cd8b,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1227,7 +1227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2971698, g: 0.50929385, b: 1, a: 0.5372549}
+  m_Color: {r: 0, g: 0.07146935, b: 0.23584908, a: 0.5372549}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3468,9 +3468,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 06163af7308fb7345b59dc7e46b231d7, type: 2}
-  m_sharedMaterial: {fileID: 5936035488957414831, guid: 06163af7308fb7345b59dc7e46b231d7,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3617,6 +3616,20 @@ MonoBehaviour:
   ChatMinimumBackgroundAlpha: 0
   SetChatBackgroundToHiddenOnStartup: 1
   ChatContentMinimumAlpha: 0
+  Fonts:
+  - {fileID: 11400000, guid: 3999dce05e0dddf4d8ca4ddcbe466189, type: 2}
+  - {fileID: 11400000, guid: 211daea8d9a1f484db6be9d5fbc00de5, type: 2}
+  - {fileID: 11400000, guid: daf1ee826722b634d9d700cc29877e9a, type: 2}
+  - {fileID: 11400000, guid: 06163af7308fb7345b59dc7e46b231d7, type: 2}
+  - {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: 11400000, guid: db7a4906cad9d92448547ae6ad6498d8, type: 2}
+  - {fileID: 11400000, guid: ecdcc6f0b368fde97adf0f4fe5884058, type: 2}
+  - {fileID: 11400000, guid: 6f48e94536cbde44d931a33e0f712314, type: 2}
+  - {fileID: 11400000, guid: 86d9cae515958f04587d4dedb707c1da, type: 2}
+  - {fileID: 11400000, guid: 86cc3cba78717ad48a40abf01295cd8b, type: 2}
+  - {fileID: 11400000, guid: 3ec0f3e555d158046b753f5bcd36b1cc, type: 2}
+  - {fileID: 11400000, guid: 026e5ac2497f33242a3cc41e20fea0cc, type: 2}
+  FontIndexToUse: -1
   entryPool: {fileID: 8616099336857514012}
   Showing: 0
   Animating: 0
@@ -8551,9 +8564,8 @@ MonoBehaviour:
     Check the buttons
     bellow to choose which channels to speak on.'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 06163af7308fb7345b59dc7e46b231d7, type: 2}
-  m_sharedMaterial: {fileID: 5936035488957414831, guid: 06163af7308fb7345b59dc7e46b231d7,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
