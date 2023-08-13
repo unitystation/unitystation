@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ using Core.Chat;
 using Items;
 using Shared.Managers;
 using UnityEngine.Serialization;
+using Enumerable = System.Linq.Enumerable;
 
 namespace UI.Chat_UI
 {
@@ -736,17 +738,22 @@ namespace UI.Chat_UI
 		/// </summary>
 		private void UpdateInputLabel()
 		{
+			var localStatus = selectedChannels.GetFlags().Any(x => RadioChannels.Contains((ChatChannel)x))
+				? "on radio" : "to nearby characters";
 			if ((SelectedChannels & ChatChannel.OOC) == ChatChannel.OOC)
 			{
-				chatInputLabel.text = "OOC:";
+				chatInputLabel.text = "Speaking Out Of Character (OOC):";
 			}
 			else if ((SelectedChannels & ChatChannel.Ghost) == ChatChannel.Ghost)
 			{
-				chatInputLabel.text = "Ghost:";
+				chatInputLabel.text = "Speaking as a Ghost:";
 			}
 			else
 			{
-				chatInputLabel.text = "Say:";
+				chatInputLabel.text = PlayerManager.
+					LocalPlayerScript != null ?
+					$"Say as {PlayerManager.LocalPlayerScript.visibleName} {localStatus}:"
+					: "Say:";
 			}
 		}
 
