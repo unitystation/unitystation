@@ -101,8 +101,6 @@ namespace Objects.Atmospherics
 
 		private void Awake()
 		{
-			UnityEngine.Input.
-
 			restricted = GetComponent<ClearanceRestricted>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 
