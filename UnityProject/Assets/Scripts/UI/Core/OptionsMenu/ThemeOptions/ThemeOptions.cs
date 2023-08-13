@@ -112,7 +112,8 @@ namespace Unitystation.Options
 				fontDropdown.ClearOptions();
 				var fontNames = ChatUI.Instance.Fonts.Select(font => font.name).ToList();
 				fontDropdown.AddOptions(fontNames);
-				fontDropdown.value = PlayerPrefs.GetInt("fontPref", -1);
+				var value = PlayerPrefs.GetInt("fontPref", -1);
+				fontDropdown.value = value != -1 ? value : 0;
 			}
 			catch (Exception e)
 			{
