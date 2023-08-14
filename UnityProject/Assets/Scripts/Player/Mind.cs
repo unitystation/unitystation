@@ -709,7 +709,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 		//Send Objectives
 		Chat.AddExamineMsgFromServer(playerMob, antag.GetObjectivesForPlayer());
 
-		if (CodeWordManager.Instance.CodeWordRoles.Contains(PlayerManager.LocalPlayerScript.PossessingMind.NetworkedAntagJob) == true)
+		if (CodeWordManager.Instance.CodeWordRoles.Contains(NetworkedAntagJob) == true)
 		{
 			string codeWordsString = "Code Words:";
 			for (int i = 0; i < CodeWordManager.WORD_COUNT; i++)
@@ -727,7 +727,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 		}
 
 		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return;
-		if (CodeWordManager.Instance.CodeWordRoles.Contains(PlayerManager.LocalPlayerScript.PossessingMind.NetworkedAntagJob) == true || antag.Antagonist is BloodBrother == true)
+
+		if (CodeWordManager.Instance.CodeWordRoles.Contains(NetworkedAntagJob) == true || antag.Antagonist is BloodBrother == true)
 		{
 			if (body.OrNull()?.DynamicItemStorage == null) return;
 			var playerInventory = body.DynamicItemStorage.GetItemSlots();
