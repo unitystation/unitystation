@@ -416,14 +416,10 @@ public partial class Chat
 
 	private static string HighLightCodeWords(string input)
 	{
-		Debug.Log($"Chat Highlight: {ThemeManager.ChatHighlight}. " +
-			$"\nLocal Player Script exists: {PlayerManager.LocalPlayerScript != null}.");
 
-		if (ThemeManager.ChatHighlight == false || PlayerManager.LocalPlayerScript == null) return input;
-		Debug.Log($"LocalPlayerScript has possesing mind: {PlayerManager.LocalPlayerScript.PossessingMind != null}.");
+		if (PlayerManager.LocalPlayerScript == null) return input;
 
 		if (PlayerManager.LocalPlayerScript.PossessingMind == null) return input;
-		Debug.Log($"Is antagonist?: {PlayerManager.LocalPlayerScript.PossessingMind.IsAntag == false}");
 
 		if (PlayerManager.LocalPlayerScript.PossessingMind.IsAntag == false) return input;
 
