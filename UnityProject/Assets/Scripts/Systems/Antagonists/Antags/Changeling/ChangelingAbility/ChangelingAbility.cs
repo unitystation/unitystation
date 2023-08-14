@@ -3,6 +3,7 @@ using Chemistry;
 using Clothing;
 using GameModes;
 using HealthV2;
+using HealthV2.Living.Mutations.Eyes;
 using HealthV2.Living.PolymorphicSystems;
 using Items;
 using Items.Implants.Organs;
@@ -68,7 +69,7 @@ namespace Changeling
 			isToggled = toggled;
 			if (AbilityData.IsLocal && ValidateAbilityClient())
 			{
-				UseAbilityToggle(UIManager.Instance.displayControl.hudChangeling.ChangelingMain, ability, toggled);
+				UseAbilityToggleLocal(UIManager.Instance.displayControl.hudChangeling.ChangelingMain, ability, toggled);
 			}
 			else
 			{
@@ -380,6 +381,18 @@ namespace Changeling
 					return RegenerateAbilitiesToggle(changeling, data, toggle);
 				case ChangelingAbilityType.Misc:
 					return MiscAbilitiesToggle(changeling, data, toggle);
+			}
+			return false;
+		}
+
+		private bool UseAbilityToggleLocal(ChangelingMain changeling, ChangelingData data, bool toggle)
+		{
+			if (!data.IsToggle)
+				return false;
+			switch (data.abilityType)
+			{
+				case ChangelingAbilityType.Misc:
+					return MiscAbilitiesToggleLocal(changeling, data, toggle);
 			}
 			return false;
 		}
@@ -933,21 +946,10 @@ namespace Changeling
 			return false;
 		}
 
-		private void AugmentedEyesight(ChangelingMain changeling, bool toggle)
+		private void AugmentedEyesightLocal(ChangelingMain changeling, bool toggle)
 		{
 			if (Camera.main == null ||
 				Camera.main.TryGetComponent<CameraEffectControlScript>(out var effects) == false) return;
-
-			foreach (var bodyPart in changeling.ChangelingMind.Body.playerHealth.BodyPartList)
-			{
-				foreach (BodyPartFunctionality organ in bodyPart.OrganList)
-				{
-					if (organ is Eye eye)
-					{
-						eye.ApplyChangesXrayState(toggle);
-					}
-				}
-			}
 
 			effects.AdjustPlayerVisibility(
 				toggle ? AbilityData.ExpandedNightVisionVisibility : effects.MinimalVisibilityScale,
@@ -962,7 +964,34 @@ namespace Changeling
 					x.isToggled = toggle;
 				}
 			}
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesToggle(AbilityData.Index, toggle);
 		}
+
+		private void AugmentedEyesight(ChangelingMain changeling, bool toggle)
+		{
+			foreach (var bodyPart in changeling.ChangelingMind.Body.playerHealth.BodyPartList)
+			{
+				foreach (BodyPartFunctionality organ in bodyPart.OrganList)
+				{
+					if (organ is Eye eye)
+					{
+						eye.SyncXrayState(eye.HasXray, toggle);
+					}
+				}
+			}
+		}
+
+		private bool MiscAbilitiesToggleLocal(ChangelingMain changeling, ChangelingData data, bool toggle)
+		{
+			switch (data.miscType)
+			{
+				case ChangelingMiscType.AugmentedEyesight:
+					AugmentedEyesightLocal(changeling, toggle);
+					return true;
+			}
+			return false;
+		}
+		
 
 		private bool MiscAbilitiesToggle(ChangelingMain changeling, ChangelingData data, bool toggle)
 		{
