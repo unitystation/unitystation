@@ -3,6 +3,7 @@ using UnityEngine;
 using Mirror;
 using System.Linq;
 using SecureStuff;
+using System.Collections.Generic;
 
 namespace Antagonists
 {
@@ -10,6 +11,8 @@ namespace Antagonists
 	{
 		public readonly SyncList<string> Words = new SyncList<string>();
 		public readonly SyncList<string> Responses = new SyncList<string>();
+
+		[field: SerializeField] public List<JobType> CodeWordRoles { get; private set; } = new List<JobType>();
 
 		public const int WORD_COUNT = 3;
 
@@ -51,7 +54,7 @@ namespace Antagonists
 			}
 
 			string[] allWords = AccessFile.ReadAllLines(filePath);
-
+      
 			allWords = allWords.Shuffle().ToArray();
 
 			for (int i = 0; i < WORD_COUNT; i++)
