@@ -11,17 +11,21 @@ public static class Librarian
 {
 	public static Library library = new Library();
 
-	public static Dictionary<ulong, Library.LibraryBookShelf> IDToBookShelf = new Dictionary<ulong, Library.LibraryBookShelf>();
+	public static Dictionary<ulong, Library.LibraryBookShelf> IDToBookShelf =
+		new Dictionary<ulong, Library.LibraryBookShelf>();
+
 	public static Dictionary<ulong, Book> IDToBook = new Dictionary<ulong, Book>();
 	public static Dictionary<ulong, Page> IDToPage = new Dictionary<ulong, Page>();
 
-	public static ulong BookShelfAID = 1;
-	public static ulong BookAID = 1;
-	public static ulong PageAID = 1;
+	private static ulong BookShelfAID = 1;
+	private static ulong BookAID = 1;
+	private static ulong PageAID = 1;
 
-	public static Dictionary<Transform, Library.LibraryBookShelf> TransformToBookShelf = new Dictionary<Transform, Library.LibraryBookShelf>();
-	public static Dictionary<MonoBehaviour, Book> MonoBehaviourToBook = new Dictionary<MonoBehaviour, Book>();
-	public static Dictionary<object, Book> ObjectToBook = new Dictionary<object, Book>();
+	public static Dictionary<Transform, Library.LibraryBookShelf> TransformToBookShelf =
+		new Dictionary<Transform, Library.LibraryBookShelf>();
+
+	private static Dictionary<MonoBehaviour, Book> MonoBehaviourToBook = new Dictionary<MonoBehaviour, Book>();
+	private static Dictionary<object, Book> ObjectToBook = new Dictionary<object, Book>();
 
 	private static Type TupleTypeReference = Type.GetType("System.ITuple, mscorlib");
 
@@ -34,7 +38,6 @@ public static class Librarian
 		{
 			if (vvUIElementHandler == null)
 			{
-
 				// Load all assemblies in the current application domain
 				Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
@@ -42,7 +45,8 @@ public static class Librarian
 				foreach (var assembly in assemblies)
 				{
 					// Get types from the assembly that implement IMyInterface
-					var types = assembly.GetTypes().Where(type => typeof(ICustomSerialisationSystem).IsAssignableFrom(type));
+					var types = assembly.GetTypes()
+						.Where(type => typeof(ICustomSerialisationSystem).IsAssignableFrom(type));
 
 					// Iterate through each type that implements the interface
 					foreach (var type in types)
@@ -59,7 +63,6 @@ public static class Librarian
 
 	public static void Reset()
 	{
-
 		library = new Library();
 		ObjectToBook.Clear();
 		MonoBehaviourToBook.Clear();
@@ -74,39 +77,71 @@ public static class Librarian
 	}
 
 
-	public static void PageSetValue(Page Page, string newValue)
+	public static void ChangeVariableClient(GameObject NetworkObject, string MonoBehaviourName, string ValueName,
+		string Newvalue, bool IsInvokeFunction)
 	{
-		Page.SetValue(newValue);
+		//No statics!
+		//Private fields/properties set good?
+		//public functions good, Private  requires VV attribute, No return
+
+		//hummmmmm SO Nonstatic %100
+		//Private yeah
+		//so What they want access to
+		//Token/Account
+		//File access
+
+		var workObject =
+			NetworkObject.GetComponent(MonoBehaviourName.Substring(MonoBehaviourName.LastIndexOf('.') + 1));
+		var Worktype = workObject.GetType();
+
+		if (IsInvokeFunction)
+		{
+			var infoField = Worktype.GetField(ValueName);
+
+			if (infoField != null)
+			{
+				if (infoField.IsStatic) return;
+				infoField.SetValue(workObject,
+					Librarian.Page.DeSerialiseValue(workObject, Newvalue, infoField.FieldType));
+				return;
+			}
+
+
+			var infoProperty = Worktype.GetProperty(ValueName);
+			if (infoProperty != null)
+			{
+				var Method = infoProperty.GetSetMethod();
+				if (Method == null) return;
+				if (Method.IsStatic) return;
+				infoProperty.SetValue(workObject,
+					Librarian.Page.DeSerialiseValue(workObject, Newvalue, infoProperty.PropertyType));
+				return;
+			}
+		}
+		else
+		{
+			var Method = Worktype.GetMethod(ValueName);
+			if (Method != null)
+			{
+				if (Method.IsPrivate)
+				{
+					var attribute = Method.GetCustomAttributes(typeof(VVNote), true);
+					if (attribute.Length == 0) return;
+
+					var VVNoteAttributes = attribute.Cast<VVNote>().ToArray()[0];
+					if (VVNoteAttributes.variableHighlightl != VVHighlight.SafeToModify100)
+					{
+						return;
+					}
+				}
+
+				if (Method.IsStatic) return;
+				Method.Invoke(workObject, null); //TODO Parameters sometime
+			}
+		}
 	}
 
-
-	// public static BookShelf GenerateCustomBookCase(List<BookShelf> BookShelfs)
-	// {
-	// 	BookShelf Customshelf = new BookShelf();
-	// 	Customshelf.ID = BookShelfAID;
-	// 	BookShelfAID++;
-	// 	Customshelf.IsPartiallyGenerated = false;
-	// 	Customshelf.ShelfName = "Your custom list of bookshelves";
-	// 	Customshelf.ObscuredBookShelves = BookShelfs;
-	// 	Customshelf.ICustomBookshelf = true;
-	// 	IDToBookShelf[Customshelf.ID] = Customshelf;
-	// 	return (Customshelf);
-	// }
-	//
-	// public static BookShelf GenerateCustomBookCase(BookShelf BookShelf)
-	// {
-	// 	BookShelf Customshelf = new BookShelf();
-	// 	Customshelf.ID = BookShelfAID;
-	// 	BookShelfAID++;
-	// 	Customshelf.IsPartiallyGenerated = false;
-	// 	Customshelf.ShelfName = "Your custom list of bookshelves";
-	// 	Customshelf.ObscuredBookShelves.Add(BookShelf);
-	// 	Customshelf.ICustomBookshelf = true;
-	// 	IDToBookShelf[Customshelf.ID] = Customshelf;
-	// 	return (Customshelf);
-	// }
-
-	public static Book GetAttributes(Book Book, object Script)
+	private static Book GetAttributes(Book Book, object Script)
 	{
 		Type monoType = Script.GetType();
 		var Fields = monoType.BaseType.GetFields(
@@ -154,7 +189,8 @@ public static class Librarian
 			}
 		}
 
-		if (TupleTypeReference != monoType) //Causes an error if this is not here and Tuples can not get Custom properties so it is I needed to get the properties
+		if (TupleTypeReference !=
+		    monoType) //Causes an error if this is not here and Tuples can not get Custom properties so it is I needed to get the properties
 		{
 			var Propertie = monoType.BaseType.GetProperties(
 				BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static |
@@ -175,6 +211,7 @@ public static class Librarian
 					{
 						continue; //TODO maybe UI indication and then sitting directly idk
 					}
+
 					Page Page = new Page();
 					Page.VariableName = Properties.Name;
 
@@ -226,12 +263,12 @@ public static class Librarian
 			{
 				Page.Variable = "null";
 			}
+
 			Page.BindedTo = Book;
 			IDToPage[Page.ID] = Page;
 			Page.Sentences = new Librarian.Sentence();
 			Page.Sentences.SentenceID = Page.ASentenceID;
 			Page.ASentenceID++;
-
 
 
 			var attribute = Method.GetCustomAttributes(typeof(VVNote), true);
@@ -248,15 +285,16 @@ public static class Librarian
 		return (Book);
 	}
 
-	public static void GenerateSentenceValuesforSentence(Sentence sentence, Type VariableType, Page Page, object Script,
+	private static void GenerateSentenceValuesforSentence(Sentence sentence, Type VariableType, Page Page,
+		object Script,
 		FieldInfo FInfo = null, PropertyInfo PInfo = null)
 	{
 		if (FInfo == null && PInfo == null)
 		{
 			foreach (FieldInfo Field in VariableType.GetFields(
-				BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static |
-				BindingFlags.FlattenHierarchy
-			))
+				         BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static |
+				         BindingFlags.FlattenHierarchy
+			         ))
 			{
 				if (Field.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
 				{
@@ -370,9 +408,12 @@ public static class Librarian
 	{
 		public List<LibraryBookShelf> Roots = new List<LibraryBookShelf>();
 
-		public Dictionary<Transform, LibraryBookShelf> TransformToBookShelves = new Dictionary<Transform,LibraryBookShelf>();
+		public Dictionary<Transform, LibraryBookShelf> TransformToBookShelves =
+			new Dictionary<Transform, LibraryBookShelf>();
+
 		public void TraverseHierarchy()
 		{
+			//HHL
 			List<Transform> Transforms = new List<Transform>();
 			foreach (var KV in Librarian.library.TransformToBookShelves)
 			{
@@ -418,8 +459,10 @@ public static class Librarian
 		List<Transform> Children = new List<Transform>();
 		List<Transform> TOProcessAdd = new List<Transform>();
 		List<LibraryBookShelf> TOProcessRemove = new List<LibraryBookShelf>();
+
 		public void RecursivePopulate(Transform Object, Transform Parent)
 		{
+			//HHL
 			THISDestroy.Clear();
 			Children.Clear();
 			TOProcessAdd.Clear();
@@ -427,7 +470,6 @@ public static class Librarian
 
 			if (TransformToBookShelves.ContainsKey(Object))
 			{
-
 				if (Object.childCount > 0)
 				{
 					for (int i = 0; i < Object.childCount; i++)
@@ -436,7 +478,7 @@ public static class Librarian
 					}
 				}
 
-				var libraryBookShelf =  TransformToBookShelves[Object];
+				var libraryBookShelf = TransformToBookShelves[Object];
 
 
 				foreach (var Child in Children)
@@ -463,11 +505,11 @@ public static class Librarian
 						TOProcessRemove.Add(Child);
 						continue;
 					}
+
 					if (Children.Contains(Child.Shelf.transform) == false)
 					{
 						TOProcessRemove.Add(Child);
 					}
-
 				}
 
 
@@ -488,7 +530,6 @@ public static class Librarian
 					}
 
 					libraryBookShelf.InternalContain.Remove(Child);
-
 				}
 
 
@@ -511,7 +552,7 @@ public static class Librarian
 
 				foreach (var Child in Children.ToArray())
 				{
-					RecursivePopulate(Child,Object);
+					RecursivePopulate(Child, Object);
 				}
 			}
 			else
@@ -524,7 +565,7 @@ public static class Librarian
 					}
 				}
 
-				var libraryBookShelf =  LibraryBookShelf.PartialGenerateLibraryBookShelf(Object, Parent, Children);
+				var libraryBookShelf = LibraryBookShelf.PartialGenerateLibraryBookShelf(Object, Parent, Children);
 				TransformToBookShelves[Object] = libraryBookShelf;
 				if (Parent == null)
 				{
@@ -533,11 +574,9 @@ public static class Librarian
 
 				foreach (var Child in Children.ToArray())
 				{
-					RecursivePopulate(Child,Object);
+					RecursivePopulate(Child, Object);
 				}
 			}
-
-
 		}
 
 
@@ -563,14 +602,15 @@ public static class Librarian
 					Librarian.library.TransformToBookShelves.Remove(Shelf.transform);
 					TransformToBookShelf.Remove(Shelf.transform);
 				}
+
 				IDToBookShelf.Remove(ID);
 				Librarian.library.Roots.Remove(this);
 				Contains.Clear();
-
 			}
 
 			public static LibraryBookShelf PartialGenerateLibraryBookShelf(Transform _Transform)
 			{
+				//HHL
 				List<Transform> Children = new List<Transform>();
 				if (_Transform.childCount > 0)
 				{
@@ -584,8 +624,10 @@ public static class Librarian
 			}
 
 
-			public static LibraryBookShelf PartialGenerateLibraryBookShelf(Transform _Transform, Transform _Parent, List<Transform> Children)
+			public static LibraryBookShelf PartialGenerateLibraryBookShelf(Transform _Transform, Transform _Parent,
+				List<Transform> Children)
 			{
+				//HHL
 				if (library.TransformToBookShelves.ContainsKey(_Transform))
 				{
 					return (library.TransformToBookShelves[_Transform]);
@@ -611,10 +653,12 @@ public static class Librarian
 
 			public bool ParentChange()
 			{
+				//HHL
 				if (Shelf == null)
 				{
 					return false;
 				}
+
 				Parent = Shelf.transform.parent;
 				if (Shelf.transform.parent != null)
 				{
@@ -627,10 +671,12 @@ public static class Librarian
 
 			public void PopulateBookShelf()
 			{
-				if (!this.IsPartiallyGenerated)
+				//HHL
+				if (this.IsPartiallyGenerated == false)
 				{
 					return;
 				}
+
 				MonoBehaviour[] scriptComponents = Shelf.GetComponents<MonoBehaviour>();
 				HeldBooks.Clear();
 				foreach (MonoBehaviour mono in scriptComponents)
@@ -642,19 +688,17 @@ public static class Librarian
 				}
 
 				this.IsPartiallyGenerated = false;
-
 			}
 
 			public void UpdateBookShelf()
 			{
+				//HHL
 				if (IsPartiallyGenerated)
 				{
 					PopulateBookShelf();
 					return;
 				}
 			}
-
-
 		}
 	}
 
@@ -673,7 +717,8 @@ public static class Librarian
 			{
 				if (UnGenerated)
 				{
-					Logger.LogWarning("USE GetBindedPages()!,since these books are ungenerated ", Category.VariableViewer);
+					Logger.LogWarning("USE GetBindedPages()!,since these books are ungenerated ",
+						Category.VariableViewer);
 				}
 
 				return _BindedPages;
@@ -720,6 +765,7 @@ public static class Librarian
 
 		public static Book PopulateBook(Book book)
 		{
+			//HHL
 			if (!book.UnGenerated)
 			{
 				return (book);
@@ -735,6 +781,7 @@ public static class Librarian
 
 		public static Book PartialGeneratebook(MonoBehaviour mono)
 		{
+			//HHL
 			if (MonoBehaviourToBook.ContainsKey(mono))
 			{
 				return (MonoBehaviourToBook[mono]);
@@ -752,6 +799,7 @@ public static class Librarian
 
 		public static Book GenerateNonMonoBook(object Eclass)
 		{
+			//HHL
 			if (ObjectToBook.ContainsKey(Eclass))
 			{
 				return (ObjectToBook[Eclass]);
@@ -794,6 +842,7 @@ public static class Librarian
 
 		public Dictionary<uint, Sentence> IDtoSentence = new Dictionary<uint, Sentence>();
 		public VVHighlight VVHighlight = VVHighlight.None;
+
 		public override string ToString()
 		{
 			return (VariableName + " = " + Variable + " of   " + VariableType);
@@ -801,6 +850,7 @@ public static class Librarian
 
 		public void SetValue(string Value)
 		{
+			//HHL
 			//Logger.Log(this.ToString());
 			//Logger.Log(ID.ToString());
 			//Logger.Log(Variable.GetType().ToString());
@@ -819,12 +869,15 @@ public static class Librarian
 			}
 			catch (ArgumentException exception)
 			{
-				Logger.LogError($"Catch Argument Exception for Variable Viewer {exception.Message} \n {exception.StackTrace}", Category.VariableViewer);
+				Logger.LogError(
+					$"Catch Argument Exception for Variable Viewer {exception.Message} \n {exception.StackTrace}",
+					Category.VariableViewer);
 			}
 		}
 
 		public void Invoke()
 		{
+			//HHL
 			if (MInfo != null)
 			{
 				MInfo.Invoke(BindedTo.BookClass, null);
@@ -850,7 +903,8 @@ public static class Librarian
 					if (InType == null || InObject == null || InObject as IConvertible == null)
 					{
 						Logger.Log($"Can't convert {StringVariable} to {InObject.GetType()}  " +
-							$"[(InType == null) = {InType == null} || (InObject == null) == {InObject == null} || (InObject as IConvertible == null) = {InObject as IConvertible == null}]", Category.VariableViewer);
+						           $"[(InType == null) = {InType == null} || (InObject == null) == {InObject == null} || (InObject as IConvertible == null) = {InObject as IConvertible == null}]",
+							Category.VariableViewer);
 						return null;
 					}
 
@@ -862,10 +916,12 @@ public static class Librarian
 
 		public void UpdatePage()
 		{
+			//HHL
 			if (PInfo != null)
 			{
 				Variable = PInfo.GetValue(BindedTo.BookClass);
 			}
+
 			if (Info != null)
 			{
 				Variable = Info.GetValue(BindedTo.BookClass);
@@ -974,13 +1030,13 @@ public static class Librarian
 		switch (member.MemberType)
 		{
 			case MemberTypes.Event:
-				return ((EventInfo)member).EventHandlerType;
+				return ((EventInfo) member).EventHandlerType;
 			case MemberTypes.Field:
-				return ((FieldInfo)member).FieldType;
+				return ((FieldInfo) member).FieldType;
 			case MemberTypes.Method:
-				return ((MethodInfo)member).ReturnType;
+				return ((MethodInfo) member).ReturnType;
 			case MemberTypes.Property:
-				return ((PropertyInfo)member).PropertyType;
+				return ((PropertyInfo) member).PropertyType;
 			default:
 				throw new ArgumentException
 				(
@@ -994,23 +1050,23 @@ public static class Librarian
 		switch (memberInfo.MemberType)
 		{
 			case MemberTypes.Field:
-				return ((FieldInfo)memberInfo).GetValue(forObject);
+				return ((FieldInfo) memberInfo).GetValue(forObject);
 			case MemberTypes.Property:
-				return ((PropertyInfo)memberInfo).GetValue(forObject);
+				return ((PropertyInfo) memberInfo).GetValue(forObject);
 			default:
 				throw new NotImplementedException();
 		}
 	}
 
-	private static void MemberInfoSetValue(this MemberInfo memberInfo, object ClassObject, object NewVariableObject )
+	private static void MemberInfoSetValue(this MemberInfo memberInfo, object ClassObject, object NewVariableObject)
 	{
 		switch (memberInfo.MemberType)
 		{
 			case MemberTypes.Field:
-				((FieldInfo)memberInfo).SetValue(ClassObject,NewVariableObject);
+				((FieldInfo) memberInfo).SetValue(ClassObject, NewVariableObject);
 				break;
 			case MemberTypes.Property:
-				((PropertyInfo)memberInfo).SetValue(ClassObject,NewVariableObject );
+				((PropertyInfo) memberInfo).SetValue(ClassObject, NewVariableObject);
 				break;
 			default:
 				throw new NotImplementedException();

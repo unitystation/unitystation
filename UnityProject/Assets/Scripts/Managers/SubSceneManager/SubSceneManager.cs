@@ -110,6 +110,10 @@ public partial class SubSceneManager : MonoBehaviour
 			{
 				Logger.Log($"SpawnObjects + RequestObserverRefresh {sceneName}");
 				NetworkServer.SpawnObjects();
+				while (NetworkClient.connection.isAuthenticated == false)
+				{
+					yield return null;
+				}
 				RequestObserverRefresh.Send(sceneName);
 			}
 			else

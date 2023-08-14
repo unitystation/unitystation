@@ -107,7 +107,7 @@ public static class VariableViewer
 
 	public static void SendBookToClient(Librarian.Book Book, GameObject ToWho)
 	{
-		if (!Book.UnGenerated)
+		if (Book.UnGenerated == false)
 		{
 			foreach (var page in Book.BindedPages)
 			{
@@ -231,13 +231,13 @@ public static class VariableViewer
 				WhoBy.name + " Modified " + Librarian.IDToPage[PageID].VariableName + " on " +  Librarian.IDToPage[PageID].BindedTo.Title
 				+ " From " + VVUIElementHandler.Serialise(Librarian.IDToPage[PageID].Variable, Librarian.IDToPage[PageID].VariableType) + " to "+ ChangeTo
 				+ " with Send to clients? " + SendToClient, AdminId);
-			Librarian.PageSetValue(Librarian.IDToPage[PageID], ChangeTo);
+			Librarian.IDToPage[PageID].SetValue(ChangeTo);
 			if (SendToClient)
 			{
 				var monoBehaviour = (Librarian.IDToPage[PageID].BindedTo.BookClass as Component);
 				UpdateClientValue.Send(ChangeTo, Librarian.IDToPage[PageID].VariableName,
 					TypeDescriptor.GetClassName(monoBehaviour),
-					monoBehaviour.gameObject);
+					monoBehaviour.gameObject, false);
 			}
 		}
 		else
@@ -246,7 +246,7 @@ public static class VariableViewer
 		}
 	}
 
-	public static void RequestInvokeFunction(ulong PageID, GameObject WhoBy, string AdminId)
+	public static void RequestInvokeFunction(ulong PageID, bool SendToClient, GameObject WhoBy, string AdminId)
 	{
 		if (Librarian.IDToPage.ContainsKey(PageID))
 		{
@@ -255,6 +255,13 @@ public static class VariableViewer
 				, AdminId);
 
 			Librarian.IDToPage[PageID].Invoke();
+			if (SendToClient)
+			{
+				var monoBehaviour = (Librarian.IDToPage[PageID].BindedTo.BookClass as Component);
+				UpdateClientValue.Send("", Librarian.IDToPage[PageID].VariableName,
+					TypeDescriptor.GetClassName(monoBehaviour),
+					monoBehaviour.gameObject, true);
+			}
 		}
 		else
 		{
