@@ -419,11 +419,11 @@ public partial class Chat
 
 		if (PlayerManager.LocalPlayerScript == null) return input;
 
-		if (PlayerManager.LocalPlayerScript.PossessingMind == null) return input;
+		if (PlayerManager.LocalMindScript == null) return input;
 
-		if (PlayerManager.LocalPlayerScript.PossessingMind.IsAntag == false) return input;
+		if (PlayerManager.LocalMindScript.IsAntag == false) return input;
 
-		if (CodeWordManager.Instance.CodeWordRoles.Contains(PlayerManager.LocalPlayerScript.PossessingMind.NetworkedAntagJob) == false) return input;
+		if (CodeWordManager.Instance.CodeWordRoles.Contains(PlayerManager.LocalMindScript.NetworkedAntagJob) == false) return input;
 
 		string[] coloredText = input.Split(' '); //Split at each Word
 
