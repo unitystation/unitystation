@@ -6,10 +6,10 @@ namespace Systems.Scenes
 {
 	public class MaintGeneratorManager : MonoBehaviour
 	{
-		public static List<MaintGenerator> MaintGenerators { get; set; } = new List<MaintGenerator>();
-		[SerializeField] private GameObject gateway;
+		internal static readonly List<MaintGenerator> MaintGenerators = new List<MaintGenerator>();
+		internal static readonly List<GameObject> possibleExits = new List<GameObject>();
 
-		public static readonly List<GameObject> possibleExits = new List<GameObject>();
+		[SerializeField] private GameObject gateway;
 
 		private void Awake()
 		{
