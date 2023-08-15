@@ -4,6 +4,7 @@ using Objects.Research;
 using Systems.Explosions;
 using Systems.Teleport;
 using UnityEngine;
+using Systems.Scenes;
 using Random = UnityEngine.Random;
 
 namespace Items.Others
@@ -28,6 +29,8 @@ namespace Items.Others
 
 		private Portal exitPortal;
 
+		[field:SerializeField] private bool ignoreInhibitors = false;
+
 		private void Awake()
 		{
 			objectPhysics = GetComponent<UniversalObjectPhysics>();
@@ -45,6 +48,22 @@ namespace Items.Others
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
+			var worldPosEntrance = objectPhysics.OfficialPosition.RoundToInt();
+
+			if (ignoreInhibitors == false)
+			{
+				foreach(TeleportInhibitor inhib in TeleportInhibitor.Inhibitors)
+				{
+					var inhibPosition = inhib.GetComponent<UniversalObjectPhysics>().OfficialPosition.RoundToInt();
+					if(Vector3.Distance(inhibPosition, worldPosEntrance) <= inhib.Range)
+					{
+						SparkUtil.TrySpark(worldPosEntrance, expose: false);
+						Chat.AddExamineMsgFromServer(interaction.Performer, $"The teleporter sparks as it attempts to open a portal. An unknown force appears to be interfering with the device!");
+						return;
+					}
+				}
+			}
+
 			//If theres more than 6 portals (3 pairs) don't allow more
 			if (Portal.PortalPairs.Count >= maxPortalPairs * 2)
 			{
@@ -74,8 +93,6 @@ namespace Items.Others
 
 				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} flashes briefly. Opening portal to {linkedBeacon.gameObject.ExpensiveName()}!");
 			}
-
-			var worldPosEntrance = objectPhysics.OfficialPosition.RoundToInt();
 
 			//Go to selected tracked beacon or open portal in random 10 x 10 coord
 			Vector3 worldPosExit;
