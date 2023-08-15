@@ -36,6 +36,9 @@ public class Mind : NetworkBehaviour, IActionGUI
 	//Antag
 	[SyncVar] private bool NetworkedisAntag;
 
+	//Type of Antagonist
+	[field: SyncVar] public JobType NetworkedAntagJob { get; private set; }
+
 	public GameObject PossessingObject
 	{
 		get
@@ -256,6 +259,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 	{
 		antag = newAntag;
 		NetworkedisAntag = newAntag != null;
+		NetworkedAntagJob = newAntag.Antagonist.AntagJobType;
+
 		ShowObjectives();
 		ActivateAntagAction(NetworkedisAntag);
 	}
@@ -348,6 +353,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 	{
 		antag = null;
 		NetworkedisAntag = antag != null;
+		NetworkedAntagJob = JobType.NULL;
+
 		ActivateAntagAction(NetworkedisAntag);
 	}
 
@@ -705,8 +712,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 		//Send Objectives
 		Chat.AddExamineMsgFromServer(playerMob, antag.GetObjectivesForPlayer());
 
-		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return;
-		if (antag.Antagonist.AntagJobType == JobType.TRAITOR || antag.Antagonist.AntagJobType == JobType.SYNDICATE || antag.Antagonist is BloodBrother)
+		if (CodeWordManager.Instance.CodeWordRoles.Contains(NetworkedAntagJob) == true)
 		{
 			string codeWordsString = "Code Words:";
 			for (int i = 0; i < CodeWordManager.WORD_COUNT; i++)
@@ -721,7 +727,12 @@ public class Mind : NetworkBehaviour, IActionGUI
 			}
 
 			Chat.AddExamineMsgFromServer(playerMob, codeWordsString);
+		}
 
+		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return;
+
+		if (CodeWordManager.Instance.CodeWordRoles.Contains(NetworkedAntagJob) == true || antag.Antagonist is BloodBrother == true)
+		{
 			if (body.OrNull()?.DynamicItemStorage == null) return;
 			var playerInventory = body.DynamicItemStorage.GetItemSlots();
 			foreach (var item in playerInventory)
