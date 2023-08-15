@@ -8,5 +8,10 @@ namespace Systems.Scenes
 		{
 			MaintGeneratorManager.possibleExits.Add(gameObject);
 		}
+
+		private void OnDestroy()
+		{
+			if (CustomNetworkManager.IsServer) MaintGeneratorManager.possibleExits.Remove(gameObject);
+		}
 	}
 }
