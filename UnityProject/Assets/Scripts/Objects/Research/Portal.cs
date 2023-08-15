@@ -121,7 +121,7 @@ namespace Objects.Research
 			    || eventData.TryGetComponent<UniversalObjectPhysics>(out var uop) == false) return;
 			connectedPortal.isOnCooldown = true;
 			isOnCooldown = true;
-			TransportUtility.TransportObject(uop, connectedPortal.ObjectPhysics.OfficialPosition, false, 0.01f);
+			TransportUtility.TransportObject(uop, connectedPortal.ObjectPhysics.OfficialPosition, false, 100000f);
 			await Task.Delay(650);
 			isOnCooldown = false;
 			connectedPortal.isOnCooldown = false;
