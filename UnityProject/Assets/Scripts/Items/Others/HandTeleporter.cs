@@ -52,7 +52,7 @@ namespace Items.Others
 
 			if (ignoreInhibitors == false)
 			{
-				foreach(TeleportInhibitor inhib in new List<TeleportInhibitor>(TeleportInhibitor.Inhibitors))
+				foreach(TeleportInhibitor inhib in TeleportInhibitor.Inhibitors)
 				{
 					var inhibPosition = inhib.GetComponent<UniversalObjectPhysics>().OfficialPosition.RoundToInt();
 					if(Vector3.Distance(inhibPosition, worldPosEntrance) <= inhib.Range)

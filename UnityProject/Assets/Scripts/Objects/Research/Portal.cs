@@ -25,13 +25,16 @@ namespace Objects.Research
 		private SpriteHandler spriteHandler;
 		private LightSprite lightSprite;
 
-		private bool isOnCooldown = false;
-		private readonly float cooldownTime = 1.45f;
+		private bool isOnCooldown => Time.time - lastActivationTime <= cooldownTime;
+		private float lastActivationTime = 0.0f;
+
+		[SerializeField] private float cooldownTime = 0.65f;
 
 		protected override void Awake()
 		{
 			base.Awake();
 
+			lastActivationTime = Time.time;
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			lightSprite = GetComponentInChildren<LightSprite>();
 		}
@@ -120,15 +123,10 @@ namespace Objects.Research
 			if (eventData.HasComponent<SparkEffect>()) return;
 			if(eventData.TryGetComponent<UniversalObjectPhysics>(out var uop) == false) return;
 
-			connectedPortal.isOnCooldown = true;
-			isOnCooldown = true;
+			lastActivationTime = Time.time;
+			connectedPortal.lastActivationTime = Time.time;
 
 			TransportUtility.TransportObject(uop, connectedPortal.ObjectPhysics.OfficialPosition, false);
-
-			await Task.Delay(650);
-
-			isOnCooldown = false;
-			connectedPortal.isOnCooldown = false;
 		}
 
 
