@@ -132,14 +132,11 @@ namespace DiscordWebhook
 
 			HttpResponseMessage response = await SafeHttpRequest.PostAsync(url, content);
 
-			if (response.IsSuccessStatusCode)
+			if (response.IsSuccessStatusCode == false)
 			{
-				Logger.Log("Request was successful.");
+				Logger.LogError($"Request failed with status code: {response.StatusCode}, {response.ReasonPhrase}");
 			}
-			else
-			{
-				Logger.Log($"Request failed with status code: {response.StatusCode}");
-			}
+	
 		}
 
 		public void AddWebHookMessageToQueue(DiscordWebhookURLs urlToUse, string msg, string username,
