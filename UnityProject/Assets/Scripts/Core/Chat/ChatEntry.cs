@@ -149,8 +149,9 @@ namespace UI.Chat_UI
 
 		#endregion
 
-		public void SetText(string message, TMP_SpriteAsset languageSprite)
+		public void SetText(string message, TMP_SpriteAsset languageSprite, TMP_FontAsset font)
 		{
+			if (font != null) messageText.font = font;
 			if (languageSprite != null)
 			{
 				message = $"<sprite=\"{languageSprite.name}\" index=0>{message}";
