@@ -221,7 +221,7 @@ namespace Systems.Scenes
 
 				if (h > obj.ObjectChance || (obj.RequireOpposingWalls && CheckOpposites(i, j) == false)) continue;
 
-				var pos = new Vector3Int(i, j, 0) + transform.position;
+				Vector3 pos = new Vector3Int(i, j, 0) + transform.position.CutToInt();
 				if(obj.ObjectToSpawn != null) Spawn.ServerPrefab(obj.ObjectToSpawn, SpawnDestination.At(pos));
 
 				if (obj.SpawnLockerCrate)
