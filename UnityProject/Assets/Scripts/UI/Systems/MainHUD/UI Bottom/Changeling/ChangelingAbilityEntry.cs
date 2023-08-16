@@ -26,13 +26,13 @@ namespace Changeling
 		[SerializeField]
 		private GameObject buyButton = null;
 
-		private UiChangelingStore ui;
+		private UiChangelingStore storeUi;
 		private ChangelingData data;
 		private ChangelingMain changelingMain;
 
 		public void Init(UiChangelingStore changelingUI, ChangelingData dataToView, ChangelingMain changeling)
 		{
-			ui = changelingUI;
+			storeUi = changelingUI;
 			data = dataToView;
 			changelingMain = changeling;
 			Refresh();
@@ -40,8 +40,8 @@ namespace Changeling
 
 		public void OnBuy()
 		{
-			buyButton.SetActive(false);
-			ui.AddAbility(data);
+			storeUi.Ui.RefreshAbilites();
+			storeUi.AddAbility(data);
 		}
 
 		public void Refresh()
@@ -51,7 +51,16 @@ namespace Changeling
 			image.sprite = data.Sprites[0].Variance[0].Frames[0].sprite;
 			gpCost.text = $"GP: {data.AbilityEPCost}";
 			cpCost.text = $"CP: {data.AbilityChemCost}";
-			buyButton.SetActive(!changelingMain.AbilitiesNowData.Contains(data));
+
+			buyButton.SetActive(changelingMain.EvolutionPoints - data.AbilityEPCost >= 0 && !changelingMain.HasAbility(data));
+
+			if ((changelingMain.EvolutionPoints - data.AbilityEPCost >= 0 || changelingMain.HasAbility(data)) == true)
+			{
+				gpCost.color = new Color(0.1921569f, 0.3098039f, 0.172549f, 1f);
+			} else
+			{
+				gpCost.color = Color.red;
+			}
 		}
 	}
 }

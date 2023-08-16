@@ -640,6 +640,7 @@ namespace Changeling
 				}
 			}
 
+			body.playerHealth.InternalNetIDs.Clear();
 			yield return body.playerHealth.InjectDna(dataForMutations, true, characterSheet);
 
 			body.playerHealth.RefreshPumps();
@@ -678,6 +679,7 @@ namespace Changeling
 
 			playerSprites.ThisCharacter = characterSheet;
 			playerSprites.SetupSprites();
+			playerSprites.BodySprites.gameObject.GetComponent<RootBodyPartController>().UpdateClients();
 
 			ColorUtility.TryParseHtmlString(characterSheet.SkinTone, out Color CurrentSurfaceColour);
 			playerSprites.SetSurfaceColour(CurrentSurfaceColour);

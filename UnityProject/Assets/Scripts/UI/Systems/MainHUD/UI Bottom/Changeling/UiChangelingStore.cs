@@ -19,6 +19,7 @@ namespace Changeling
 
 		[SerializeField]
 		private UiChangeling ui = null;
+		public UiChangeling Ui => ui;
 		private ChangelingMain changelingMain = null;
 
 		private readonly Dictionary<ChangelingData, ChangelingAbilityEntry> entryPool = new ();

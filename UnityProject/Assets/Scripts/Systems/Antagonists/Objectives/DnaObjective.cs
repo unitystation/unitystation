@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Changeling
 {
-	[CreateAssetMenu(menuName = "ScriptableObjects/AntagObjectives/GetDNA")]
-	public class ChangelingDnaObjective : Objective
+	[CreateAssetMenu(menuName = "ScriptableObjects/AntagObjectives/DnaObjective")]
+	public class DnaObjective : Objective
 	{
 		[SerializeField] private int dnaNeedCount = 7;
 

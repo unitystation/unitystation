@@ -33,7 +33,8 @@ MonoBehaviour:
     them a toggleable night-vision and xray-vision mode. The changeling will become
     more vulnerable to flash-based devices while this ability is active. While it's
     inactive, it will instead protect you from flashes and bright lights, such as
-    welders. This cannot be detected by normal means.
+    welders. This cannot be detected by normal means. While active slows chemical
+    regeneration.
   abilityEPCost: 2
   abilityChemCost: 0
   castSound:
