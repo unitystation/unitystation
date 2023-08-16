@@ -31,6 +31,8 @@ namespace Systems.Scenes
 		private const int WALL_GAP = 2;
 		private readonly Vector3 GIZMO_OFFSET = new Vector3(-0.5f, -0.5f, 0);
 
+		[SerializeField] private Vector2 offset = Vector2.zero;
+
 		[SerializeField, Range(1, MAX_DIMENSIONS)] private int width = 20;
 		[SerializeField, Range(1, MAX_DIMENSIONS)] private int height = 20;
 		[SerializeField] private LayerTile wallTile;
@@ -62,12 +64,12 @@ namespace Systems.Scenes
 			Gizmos.color = Color.red;
 			var size = new Vector2Int(width, height).To3();
 
-			Gizmos.DrawWireCube(transform.position + size/WALL_GAP + GIZMO_OFFSET, size);
+			Gizmos.DrawWireCube(transform.position + offset.To3() + size/WALL_GAP + GIZMO_OFFSET, size);
 
 			Gizmos.color = Color.cyan;
 			foreach(ExclusionZone zone in exclusionZones)
 			{
-				Gizmos.DrawWireCube(transform.position + zone.Offset.To3() + zone.Size.To3()/WALL_GAP + GIZMO_OFFSET, zone.Size.To3());
+				Gizmos.DrawWireCube(transform.position + offset.To3() + zone.Offset.To3() + zone.Size.To3()/WALL_GAP + GIZMO_OFFSET, zone.Size.To3());
 			}
 		}
 
@@ -180,7 +182,7 @@ namespace Systems.Scenes
 			{
 				for (int y = 0; y < height; y++)
 				{
-					var pos = new Vector3Int(x, y, 0) + transform.localPosition.CutToInt();
+					Vector3Int pos = new Vector3Int(x, y, 0) + transform.localPosition.CutToInt() + offset.To3Int();
 
 					if (mazeArray[x, y] == 1)
 					{
@@ -221,7 +223,7 @@ namespace Systems.Scenes
 
 				if (h > obj.ObjectChance || (obj.RequireOpposingWalls && CheckOpposites(i, j) == false)) continue;
 
-				Vector3 pos = new Vector3Int(i, j, 0) + transform.position.CutToInt();
+				Vector3 pos = new Vector3Int(i, j, 0) + transform.position.CutToInt() + offset.To3();
 				if(obj.ObjectToSpawn != null) Spawn.ServerPrefab(obj.ObjectToSpawn, SpawnDestination.At(pos));
 
 				if (obj.SpawnLockerCrate)
