@@ -96,6 +96,7 @@ namespace DatabaseAPI
 
 		private async Task SendServerStatus()
 		{
+
 			var status = new ServerStatus();
 			var requestData = "";
 			try
@@ -105,7 +106,6 @@ namespace DatabaseAPI
 					Logger.LogError("Invalid Hub creds found, aborting HUB connection");
 					return;
 				}
-
 				var loginRequest = new HubLoginReq
 				{
 					username = config.HubUser,
@@ -129,20 +129,25 @@ namespace DatabaseAPI
 				status.RoundTime = GameManager.Instance.RoundTimeInMinutes.ToString();
 				status.PlayerCountMax = GameManager.Instance.PlayerLimit;
 
+
 				status.GameMode = GameManager.Instance.GetGameModeName();
 				status.IngameTime = GameManager.Instance.roundTimer.text;
 				if (PlayerList.Instance != null)
 				{
 					status.PlayerCount = PlayerList.Instance.ConnectionCount;
 				}
+
+
 				status.ServerIP = publicIP;
 				status.ServerPort = GetPort();
 				status.WinDownload = config.WinDownload;
 				status.OSXDownload = config.OSXDownload;
 				status.LinuxDownload = config.LinuxDownload;
 
+
 				status.fps = (int)FPSMonitor.Instance.Current;
 				requestData = JsonConvert.SerializeObject(loginRequest);
+
 			}
 			catch (Exception e)
 			{
@@ -163,11 +168,12 @@ namespace DatabaseAPI
 
 	                if (apiResponse.errorCode == 0)
 	                {
+
 	                    string cookieHeader = response.Headers.GetValues("set-cookie")?.FirstOrDefault();
 	                    if (!string.IsNullOrEmpty(cookieHeader))
 	                    {
 	                        string[] cookieParts = cookieHeader.Split(';');
-	                        string hubCookie = cookieParts[0];
+		                    hubCookie = cookieParts[0];
 	                    }
 
 	                    if (!string.IsNullOrEmpty(config.PublicAddress))
