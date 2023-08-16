@@ -47,7 +47,6 @@ namespace SecureStuff
 			}
 		}
 
-
 		private enum ClientRequest
 		{
 			URL = 1,
