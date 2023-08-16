@@ -416,14 +416,14 @@ public partial class Chat
 
 	private static string HighLightCodeWords(string input)
 	{
-		if (ThemeManager.ChatHighlight == false || PlayerManager.LocalPlayerScript == null) return input;
-		if (PlayerManager.LocalPlayerScript.PossessingMind == null) return input;
-		if (PlayerManager.LocalPlayerScript.PossessingMind.IsAntag == false) return input;
 
-		SpawnedAntag antag = PlayerManager.LocalMindScript.GetAntag();
+		if (PlayerManager.LocalPlayerScript == null) return input;
 
-		if (antag == null) return input;
-		if(antag.Antagonist.AntagJobType != JobType.TRAITOR && antag.Antagonist.AntagJobType != JobType.SYNDICATE) return input;
+		if (PlayerManager.LocalMindScript == null) return input;
+
+		if (PlayerManager.LocalMindScript.IsAntag == false) return input;
+
+		if (CodeWordManager.Instance.CodeWordRoles.Contains(PlayerManager.LocalMindScript.NetworkedAntagJob) == false) return input;
 
 		string[] coloredText = input.Split(' '); //Split at each Word
 

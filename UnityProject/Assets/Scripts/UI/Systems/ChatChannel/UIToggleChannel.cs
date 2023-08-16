@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
@@ -13,13 +13,13 @@ namespace UI.Chat_UI
 		[SerializeField]
 		private Toggle toggle = null;
 		[SerializeField]
-		private Text displayText = null;
+		private TMPro.TMP_Text displayText = null;
 
-		private Text tooltipText;
+		private TMPro.TMP_Text tooltipText;
 
 		private void Start()
 		{
-			tooltipText = tooltip.GetComponentInChildren<Text>();
+			tooltipText = tooltip.GetComponentInChildren<TMPro.TMP_Text>();
 			tooltipText.text = Channel.ToString();
 		}
 

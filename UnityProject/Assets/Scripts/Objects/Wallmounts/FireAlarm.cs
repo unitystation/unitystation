@@ -76,7 +76,8 @@ namespace Objects.Wallmounts
 
 			foreach (var firelock in FireLockList)
 			{
-				firelock.fireAlarm = this;
+				if (firelock != null) firelock.fireAlarm = this;
+				else Logger.LogWarning("[Object/FireAlarm/OnSpawnServer] Firelock list on fire alarm has null entry.", Category.ItemSpawn);
 			}
 
 			if (info.SpawnItems == false)
