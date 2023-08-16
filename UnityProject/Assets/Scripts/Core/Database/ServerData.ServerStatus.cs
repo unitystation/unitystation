@@ -96,51 +96,65 @@ namespace DatabaseAPI
 
 		private async Task SendServerStatus()
 		{
-			if (string.IsNullOrEmpty(config.HubUser) || string.IsNullOrEmpty(config.HubPass))
-	        {
-	            Logger.LogError("Invalid Hub creds found, aborting HUB connection");
-	            return;
-	        }
 
-	        var loginRequest = new HubLoginReq
-	        {
-	            username = config.HubUser,
-	            password = config.HubPass
-	        };
-	        var status = new ServerStatus();
-	        status.ServerName = config.ServerName;
-	        status.ForkName = buildInfo.ForkName;
-	        status.BuildVersion = buildInfo.BuildNumber;
+			var status = new ServerStatus();
+			var requestData = "";
+			try
+			{
+				if (string.IsNullOrEmpty(config.HubUser) || string.IsNullOrEmpty(config.HubPass))
+				{
+					Logger.LogError("Invalid Hub creds found, aborting HUB connection");
+					return;
+				}
+				var loginRequest = new HubLoginReq
+				{
+					username = config.HubUser,
+					password = config.HubPass
+				};
 
-	        if (SubSceneManager.Instance == null)
-	        {
-		        status.CurrentMap = "loading";
-	        }
-	        else
-	        {
-		        status.CurrentMap = SubSceneManager.ServerChosenMainStation;
-	        }
+				status.ServerName = config.ServerName;
+				status.ForkName = buildInfo.ForkName;
+				status.BuildVersion = buildInfo.BuildNumber;
 
-	        status.Passworded = string.IsNullOrEmpty(config.ConnectionPassword) == false;
-	        status.RoundTime = GameManager.Instance.RoundTimeInMinutes.ToString();
-	        status.PlayerCountMax = GameManager.Instance.PlayerLimit;
+				if (SubSceneManager.Instance == null)
+				{
+					status.CurrentMap = "loading";
+				}
+				else
+				{
+					status.CurrentMap = SubSceneManager.ServerChosenMainStation;
+				}
 
-	        status.GameMode = GameManager.Instance.GetGameModeName();
-	        status.IngameTime = GameManager.Instance.roundTimer.text;
-	        if (PlayerList.Instance != null)
-	        {
-		        status.PlayerCount = PlayerList.Instance.ConnectionCount;
-	        }
-	        status.ServerIP = publicIP;
-	        status.ServerPort = GetPort();
-	        status.WinDownload = config.WinDownload;
-	        status.OSXDownload = config.OSXDownload;
-	        status.LinuxDownload = config.LinuxDownload;
-
-	        status.fps = (int)FPSMonitor.Instance.Current;
+				status.Passworded = string.IsNullOrEmpty(config.ConnectionPassword) == false;
+				status.RoundTime = GameManager.Instance.RoundTimeInMinutes.ToString();
+				status.PlayerCountMax = GameManager.Instance.PlayerLimit;
 
 
-	        var requestData = JsonConvert.SerializeObject(loginRequest);
+				status.GameMode = GameManager.Instance.GetGameModeName();
+				status.IngameTime = GameManager.Instance.roundTimer.text;
+				if (PlayerList.Instance != null)
+				{
+					status.PlayerCount = PlayerList.Instance.ConnectionCount;
+				}
+
+
+				status.ServerIP = publicIP;
+				status.ServerPort = GetPort();
+				status.WinDownload = config.WinDownload;
+				status.OSXDownload = config.OSXDownload;
+				status.LinuxDownload = config.LinuxDownload;
+
+
+				status.fps = (int)FPSMonitor.Instance.Current;
+				requestData = JsonConvert.SerializeObject(loginRequest);
+
+			}
+			catch (Exception e)
+			{
+				Logger.LogError(e.ToString());
+				return;
+			}
+
 
 	        try
 	        {
@@ -154,11 +168,12 @@ namespace DatabaseAPI
 
 	                if (apiResponse.errorCode == 0)
 	                {
+
 	                    string cookieHeader = response.Headers.GetValues("set-cookie")?.FirstOrDefault();
 	                    if (!string.IsNullOrEmpty(cookieHeader))
 	                    {
 	                        string[] cookieParts = cookieHeader.Split(';');
-	                        string hubCookie = cookieParts[0];
+		                    hubCookie = cookieParts[0];
 	                    }
 
 	                    if (!string.IsNullOrEmpty(config.PublicAddress))
