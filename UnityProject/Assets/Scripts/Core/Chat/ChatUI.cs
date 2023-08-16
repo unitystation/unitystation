@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ using Core.Chat;
 using Items;
 using Shared.Managers;
 using UnityEngine.Serialization;
+using Enumerable = System.Linq.Enumerable;
 
 namespace UI.Chat_UI
 {
@@ -112,6 +114,9 @@ namespace UI.Chat_UI
 
 		[BoxGroup("Animation"), Range(0,1)] public float ChatContentMinimumAlpha = 0f;
 
+		[field: SerializeField] public List<TMP_FontAsset> Fonts = new List<TMP_FontAsset>();
+		public int FontIndexToUse = -1;
+
 
 		public void SetPreferenceChatContent(float preference)
 		{
@@ -119,7 +124,6 @@ namespace UI.Chat_UI
 			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatContentMinimumAlpha, preference);
 			PlayerPrefs.Save();
 		}
-
 
 		public float GetPreferenceChatContent()
 		{
@@ -133,7 +137,6 @@ namespace UI.Chat_UI
 				PlayerPrefs.Save();
 				return 0f;
 			}
-
 		}
 
 		public void SetPreferenceChatBackground(float preference)
@@ -155,7 +158,6 @@ namespace UI.Chat_UI
 				PlayerPrefs.Save();
 				return 0f;
 			}
-
 		}
 
 
@@ -164,6 +166,7 @@ namespace UI.Chat_UI
 			base.Awake();
 			ChatMinimumBackgroundAlpha = GetPreferenceChatBackground();
 			ChatContentMinimumAlpha = GetPreferenceChatContent();
+			FontIndexToUse = PlayerPrefs.GetInt("fontPref", -1);
 		}
 
 		/// <summary>
@@ -316,7 +319,7 @@ namespace UI.Chat_UI
 			GameObject entry = entryPool.GetChatEntry();
 			var chatEntry = entry.GetComponent<ChatEntry>();
 			chatEntry.ViewportTransform = viewportTransform;
-			chatEntry.SetText(message, languageSprite);
+			chatEntry.SetText(message, languageSprite, FontIndexToUse != -1 ? Fonts[FontIndexToUse] : null);
 			allEntries.Add(chatEntry);
 			SetEntryTransform(entry);
 			CheckLengthOfChatLog();
@@ -736,17 +739,22 @@ namespace UI.Chat_UI
 		/// </summary>
 		private void UpdateInputLabel()
 		{
+			var localStatus = selectedChannels.GetFlags().Any(x => RadioChannels.Contains((ChatChannel)x))
+				? "on radio" : "to nearby characters";
 			if ((SelectedChannels & ChatChannel.OOC) == ChatChannel.OOC)
 			{
-				chatInputLabel.text = "OOC:";
+				chatInputLabel.text = "Speaking Out Of Character (OOC):";
 			}
 			else if ((SelectedChannels & ChatChannel.Ghost) == ChatChannel.Ghost)
 			{
-				chatInputLabel.text = "Ghost:";
+				chatInputLabel.text = "Speaking as a Ghost:";
 			}
 			else
 			{
-				chatInputLabel.text = "Say:";
+				chatInputLabel.text = PlayerManager.
+					LocalPlayerScript != null ?
+					$"Say as {PlayerManager.LocalPlayerScript.visibleName} {localStatus}:"
+					: "Say:";
 			}
 		}
 

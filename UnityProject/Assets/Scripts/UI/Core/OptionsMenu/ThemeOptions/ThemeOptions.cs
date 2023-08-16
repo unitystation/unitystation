@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Managers.SettingsManager;
 using TMPro;
+using UI.Chat_UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -58,6 +60,9 @@ namespace Unitystation.Options
 		[SerializeField]
 		private Text hoverTooltipDelaySliderValueText;
 
+		[SerializeField]
+		private Dropdown fontDropdown = null;
+
 		void OnEnable()
 		{
 			Refresh();
@@ -68,7 +73,15 @@ namespace Unitystation.Options
 		{
 			//Reload all the themes as there might be
 			//updates
-			ThemeManager.Instance.LoadAllThemes();
+			try
+			{
+				ThemeManager.Instance.LoadAllThemes();
+			}
+			catch (Exception e)
+			{
+				Logger.LogError($"[ThemeOptions/Refresh()] - Failed to Load themes.\n {e}");
+			}
+
 			HighlightToggle.isOn = Highlight.HighlightEnabled;
 			chatHighlightToggle.isOn = ThemeManager.ChatHighlight;
 			mentionSoundToggle.isOn = ThemeManager.MentionSound;
@@ -79,16 +92,35 @@ namespace Unitystation.Options
 			chatBubbleAdditionalTimeSlider.value = DisplaySettings.Instance.ChatBubbleAdditionalTime;
 			chatBubbleClownColourToggle.isOn = DisplaySettings.Instance.ChatBubbleClownColour == 1;
 
-			var newOptions = new List<TMP_Dropdown.OptionData>();
-
-			foreach (var sound in ThemeManager.Instance.MentionSounds)
+			try
 			{
-				newOptions.Add(new TMP_Dropdown.OptionData(sound.AudioSource.name));
+				var newOptions = new List<TMP_Dropdown.OptionData>();
+				foreach (var sound in ThemeManager.Instance.MentionSounds)
+				{
+					newOptions.Add(new TMP_Dropdown.OptionData(sound.AudioSource.name));
+				}
+				mentionSoundDropdown.options = newOptions;
+				mentionSoundDropdown.value = ThemeManager.MentionSoundIndex;
+			}
+			catch (Exception e)
+			{
+				Logger.LogError(e.ToString());
 			}
 
-			mentionSoundDropdown.options = newOptions;
-
-			mentionSoundDropdown.value = ThemeManager.MentionSoundIndex;
+			try
+			{
+				fontDropdown.ClearOptions();
+				var fontNames = ChatUI.Instance.Fonts.Select(font => font.name).ToList();
+				fontDropdown.AddOptions(fontNames);
+				var value = PlayerPrefs.GetInt("fontPref", -1);
+				fontDropdown.value = value != -1 ? value : 0;
+			}
+			catch (Exception e)
+			{
+				var chatUIHasNoFonts = ChatUI.Instance.Fonts?.Count == 0;
+				Logger.LogError($"[ThemeOptions/Refresh()] - Failed to setup font options. " +
+				                $"\n chat has no fonts: {chatUIHasNoFonts} \n {e}");
+			}
 
 			chatAlphaFadeMinimum.value = UI.Chat_UI.ChatUI.Instance.GetPreferenceChatBackground();
 			chatContentAlphaFadeMinimum.value =  UI.Chat_UI.ChatUI.Instance.GetPreferenceChatContent();
@@ -199,6 +231,12 @@ namespace Unitystation.Options
 			PlayerPrefs.SetFloat(PlayerPrefKeys.HoverTooltipDelayKey, hoverTooltipDelaySlider.value);
 			PlayerPrefs.Save();
 			Refresh();
+		}
+
+		public void OnFontPreferenceChange()
+		{
+			ChatUI.Instance.FontIndexToUse = fontDropdown.value;
+			PlayerPrefs.SetInt("fontPref", fontDropdown.value);
 		}
 	}
 }
