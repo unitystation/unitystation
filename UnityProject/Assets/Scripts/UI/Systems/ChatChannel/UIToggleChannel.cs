@@ -15,11 +15,11 @@ namespace UI.Chat_UI
 		[SerializeField]
 		private TMPro.TMP_Text displayText = null;
 
-		private TMPro.TMP_Text tooltipText;
+		[SerializeField] private TMPro.TMP_Text tooltipText;
 
 		private void Start()
 		{
-			tooltipText = tooltip.GetComponentInChildren<TMPro.TMP_Text>();
+			tooltipText ??= tooltip.GetComponentInChildren<TMPro.TMP_Text>();
 			tooltipText.text = Channel.ToString();
 		}
 
