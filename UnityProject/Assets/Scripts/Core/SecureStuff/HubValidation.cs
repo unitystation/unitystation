@@ -60,16 +60,17 @@ namespace SecureStuff
 			public List<string> AllowedAPIHosts = new List<string>();
 		}
 
-		private static async Task<bool> SetUp()
+		private static async Task<bool> SetUp(string OnFailText, string URLClipboard = "")
 		{
-			//TODO Test if hub is there
 			int timeout = 5000;
+			clientPipe = new NamedPipeClientStream(".", "Unitystation_Hub_Build_Communication", PipeDirection.InOut);
 			var task = clientPipe.ConnectAsync();
 			if (await Task.WhenAny(task, Task.Delay(timeout)) == task) {
 				reader = new StreamReader(clientPipe);
 				writer = new StreamWriter(clientPipe);
 				return true;
 			} else {
+				HubNotConnectedPopUp.Instance.SetUp(OnFailText, URLClipboard);
 				return false;
 			}
 
@@ -149,9 +150,9 @@ namespace SecureStuff
 			}
 
 			var AbleToConnect = true;
-			if (writer == null)
+			if (writer == null || (clientPipe != null && clientPipe.IsConnected == false))
 			{
-				AbleToConnect = await SetUp();
+				AbleToConnect = await SetUp($" Wasn't able to connect the hub to Evaluate new domain for API Request URL {URL}, The hub is used as a secure method for getting user input ");
 			}
 
 			if (AbleToConnect == false)
@@ -182,9 +183,11 @@ namespace SecureStuff
 			}
 
 			var AbleToConnect = true;
-			if (writer == null)
+			if (writer == null || (clientPipe != null && clientPipe.IsConnected == false))
 			{
-				AbleToConnect = await SetUp();
+				AbleToConnect = await SetUp(
+					$" Wasn't able to connect the hub to Get user input on open URL {URL}, The hub is used as a secure method for getting user input ",
+					URL.ToString());
 			}
 
 			if (AbleToConnect == false)
@@ -203,16 +206,17 @@ namespace SecureStuff
 
 			return openURL;
 		}
-		
+
 
 		public static async Task<bool> RequestTrustedMode(string JustificationReason)
 		{
-
 			if (TrustedMode) return true;
 			var AbleToConnect = true;
-			if (writer == null)
+			if (writer == null || (clientPipe != null && clientPipe.IsConnected == false))
 			{
-				AbleToConnect = await SetUp();
+				AbleToConnect = await SetUp($" Wasn't able to connect the hub to Turn on trusted mode " +
+				                            $"(Access to Verbal viewer on client side, automatic yes to API and open URL requests)," +
+				                            $" The hub is used as a secure method for getting user input ");;
 			}
 
 			if (AbleToConnect == false)
@@ -236,11 +240,5 @@ namespace SecureStuff
 
 			return IsTrusted;
 		}
-
-		static  HubValidation()
-		{
-			clientPipe = new NamedPipeClientStream(".", "Unitystation_Hub_Build_Communication", PipeDirection.InOut);
-		}
-
 	}
 }

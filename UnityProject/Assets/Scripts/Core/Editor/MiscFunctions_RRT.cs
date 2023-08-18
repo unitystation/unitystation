@@ -146,13 +146,13 @@ namespace Util
 		[MenuItem("Tools/||||||||||||||||||||Debug function||||||||||||||||")]
 		public static void ResetPipe()
 		{
-			HubValidation.ResetPipe();
+			//HubValidation.ResetPipe();
 		}
 
 		public static async Task Dothing()
 		{
-			var data = await HubValidation.RequestOpenURL(new Uri("https://www.google.com/"), " because lol ", true);
-			data = await HubValidation.RequestAPIURL(new Uri("https://www.google.com/"), " Because I needed ", true);
+			var data = await HubValidation.RequestOpenURL(new Uri("https://old.reddit.com"), " because lol ", false);
+			data = await HubValidation.RequestAPIURL(new Uri("https://old.reddit.com"), " Because I needed ", false);
 			data = await HubValidation.RequestTrustedMode("AAAAAAAAAAAAAAAA");
 			Logger.LogError(data.ToString());
 		}
