@@ -12,7 +12,9 @@ using IgnoranceTransport;
 using Managers;
 using Newtonsoft.Json;
 using UI.Systems.ServerInfoPanel.Models;
+using UnityEditor;
 using UnityEngine.Networking;
+using UnityEngine.WSA;
 
 namespace DatabaseAPI
 {
@@ -49,21 +51,41 @@ namespace DatabaseAPI
 
 		//Data.Write( byteArray, Path + "/" + FileName);
 
-		void AttemptConfigLoad()
+		private void AttemptConfigLoad()
 		{
-			var configExists = AccessFile.Exists("config.json");
-			buildInfo = JsonConvert.DeserializeObject<BuildInfo>(AccessFile.Load("buildinfo.json"));
-
-			if (configExists)
+			try
 			{
-				ignoranceTransport = FindObjectOfType<Ignorance>();
-				config = JsonConvert.DeserializeObject<ServerConfig>(AccessFile.Load("config.json"));
-				_ = Instance.SendServerStatus();
+				buildInfo = JsonConvert.DeserializeObject<BuildInfo>(AccessFile.Load("buildinfo.json"));
 			}
-			else
+			catch (Exception e)
+			{
+				Logger.Log($"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load buildinfo \n {e}",
+					Category.DatabaseAPI);
+			}
+
+			if (AccessFile.Exists("config.json") == false)
 			{
 				Logger.Log("No config found for Rcon and Server Hub connections", Category.DatabaseAPI);
+				return;
 			}
+			var configData = new ServerConfig();
+			try
+			{
+				configData = JsonConvert.DeserializeObject<ServerConfig>(AccessFile.Load("config.json"));
+				if (string.IsNullOrEmpty(configData.HubUser) || string.IsNullOrEmpty(configData.HubPass))
+				{
+					Logger.LogError($"[ServerData.ServerStatus/AttemptConfigLoad()] - Invalid Hub creds found, aborting HUB connection. " +
+					                $"\n No Hub User:{string.IsNullOrEmpty(configData.HubUser)} \n " +
+					                $" No Hub Pass: {string.IsNullOrEmpty(configData.HubPass)}");
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.LogError($"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load config.json. \n {e}");
+			}
+			ignoranceTransport = FindObjectOfType<Ignorance>();
+			config = configData;
+			_ = Instance.SendServerStatus();
 		}
 
 		private void LoadMotd()
