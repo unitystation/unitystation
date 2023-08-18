@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace SecureStuff
 {
-	internal static class HubValidation
+	public static class HubValidation
 	{
 		internal static bool? trustedMode = null;
 
@@ -60,9 +60,25 @@ namespace SecureStuff
 			public List<string> AllowedAPIHosts = new List<string>();
 		}
 
+		private static async Task<bool> SetUp()
+		{
+			//TODO Test if hub is there
+			int timeout = 5000;
+			var task = clientPipe.ConnectAsync();
+			if (await Task.WhenAny(task, Task.Delay(timeout)) == task) {
+				reader = new StreamReader(clientPipe);
+				writer = new StreamWriter(clientPipe);
+				return true;
+			} else {
+				return false;
+			}
+
+		}
+
 		private static void LoadCashedURLConfiguration()
 		{
 			var path = Path.Combine(Application.persistentDataPath, AccessFile.ForkName, "TrustedURLs.json");
+
 
 			// Check if the file already exists
 			if (File.Exists(path) == false)
@@ -80,6 +96,8 @@ namespace SecureStuff
 		private static void SaveCashedURLConfiguration(URLData URLData)
 		{
 			var path = Path.Combine(Application.persistentDataPath, AccessFile.ForkName, "TrustedURLs.json");
+
+			Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, AccessFile.ForkName));
 
 			File.WriteAllText(path, JsonConvert.SerializeObject(URLData));
 
@@ -103,10 +121,15 @@ namespace SecureStuff
 			});
 		}
 
-		internal static bool TrustedMode
+		public static bool TrustedMode
 		{
 			get
 			{
+				return true;
+#if UNITY_EDITOR
+				return true;
+#endif
+
 				if (trustedMode == null)
 				{
 					string[] commandLineArgs = Environment.GetCommandLineArgs();
@@ -117,18 +140,30 @@ namespace SecureStuff
 			}
 		}
 
-		public static bool RequestAPIURL(Uri URL, string JustificationReason, bool addAsTrusted)
+		public static async Task<bool> RequestAPIURL(Uri URL, string JustificationReason, bool addAsTrusted)
 		{
-
+			if (TrustedMode) return true;
 			if (AllowedAPIHosts.Contains(URL.Host))
 			{
 				return true;
 			}
 
+			var AbleToConnect = true;
+			if (writer == null)
+			{
+				AbleToConnect = await SetUp();
+			}
+
+			if (AbleToConnect == false)
+			{
+				return false;
+			}
+
+
 			writer.WriteLine($"{ClientRequest.API_URL},{URL},{JustificationReason}");
 			writer.Flush();
 
-			var APIURL = bool.Parse(reader.ReadLine());
+			var APIURL = bool.Parse(await reader.ReadLineAsync());
 			if (APIURL && addAsTrusted)
 			{
 				AddTrustedHost(URL.Host, true);
@@ -138,11 +173,23 @@ namespace SecureStuff
 			return APIURL;
 		}
 
-		public static bool RequestOpenURL(Uri URL, string justificationReason, bool addAsTrusted)
+		public static async Task<bool> RequestOpenURL(Uri URL, string justificationReason, bool addAsTrusted)
 		{
+			if (TrustedMode) return true;
 			if (AllowedOpenHosts.Contains(URL.Host))
 			{
 				return true;
+			}
+
+			var AbleToConnect = true;
+			if (writer == null)
+			{
+				AbleToConnect = await SetUp();
+			}
+
+			if (AbleToConnect == false)
+			{
+				return false;
 			}
 
 			writer.WriteLine($"{ClientRequest.URL},{URL},{justificationReason}");
@@ -156,14 +203,28 @@ namespace SecureStuff
 
 			return openURL;
 		}
+		
 
-
-		public static bool RequestTrustedMode(string JustificationReason)
+		public static async Task<bool> RequestTrustedMode(string JustificationReason)
 		{
-			writer.WriteLine($"{ClientRequest.Host_Trust_Mode},{JustificationReason}");
-			writer.Flush();
 
-			var IsTrusted = bool.Parse(reader.ReadLine());
+			if (TrustedMode) return true;
+			var AbleToConnect = true;
+			if (writer == null)
+			{
+				AbleToConnect = await SetUp();
+			}
+
+			if (AbleToConnect == false)
+			{
+				return false;
+			}
+
+			await writer.WriteLineAsync($"{ClientRequest.Host_Trust_Mode},{JustificationReason}");
+			await writer.FlushAsync();
+
+
+			bool IsTrusted = bool.Parse(await reader.ReadLineAsync());
 			if (IsTrusted)
 			{
 				trustedMode = true;
@@ -178,10 +239,7 @@ namespace SecureStuff
 
 		static  HubValidation()
 		{
-			clientPipe = new NamedPipeClientStream(".", "Unitystation Hub<-->Build Communication", PipeDirection.InOut);
-			clientPipe.Connect();
-			reader = new StreamReader(clientPipe);
-			writer = new StreamWriter(clientPipe);
+			clientPipe = new NamedPipeClientStream(".", "Unitystation_Hub_Build_Communication", PipeDirection.InOut);
 		}
 
 	}

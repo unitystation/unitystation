@@ -71,6 +71,7 @@ public static class VariableViewer
 
 
 		BookShelf.PopulateBookShelf();
+
 		SendBookShelfToClient(BookShelf,WhoBy);
 		if (RefreshHierarchy)
 		{

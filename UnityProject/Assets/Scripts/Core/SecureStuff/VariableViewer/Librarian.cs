@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using SecureStuff;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -143,6 +144,7 @@ public static class Librarian
 
 	private static Book GetAttributes(Book Book, object Script)
 	{
+		if (HubValidation.TrustedMode == false) return null;
 		Type monoType = Script.GetType();
 		var Fields = monoType.BaseType.GetFields(
 			BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static |
@@ -289,6 +291,7 @@ public static class Librarian
 		object Script,
 		FieldInfo FInfo = null, PropertyInfo PInfo = null)
 	{
+		if (HubValidation.TrustedMode == false) return;
 		if (FInfo == null && PInfo == null)
 		{
 			foreach (FieldInfo Field in VariableType.GetFields(
@@ -404,7 +407,7 @@ public static class Librarian
 		}
 	}
 
-	public class Library
+	public sealed class Library
 	{
 		public List<LibraryBookShelf> Roots = new List<LibraryBookShelf>();
 
@@ -413,7 +416,7 @@ public static class Librarian
 
 		public void TraverseHierarchy()
 		{
-			//HHL
+			if (HubValidation.TrustedMode == false) return;
 			List<Transform> Transforms = new List<Transform>();
 			foreach (var KV in Librarian.library.TransformToBookShelves)
 			{
@@ -462,7 +465,7 @@ public static class Librarian
 
 		public void RecursivePopulate(Transform Object, Transform Parent)
 		{
-			//HHL
+			if (HubValidation.TrustedMode == false) return;
 			THISDestroy.Clear();
 			Children.Clear();
 			TOProcessAdd.Clear();
@@ -610,7 +613,7 @@ public static class Librarian
 
 			public static LibraryBookShelf PartialGenerateLibraryBookShelf(Transform _Transform)
 			{
-				//HHL
+				if (HubValidation.TrustedMode == false) return null;
 				List<Transform> Children = new List<Transform>();
 				if (_Transform.childCount > 0)
 				{
@@ -627,7 +630,7 @@ public static class Librarian
 			public static LibraryBookShelf PartialGenerateLibraryBookShelf(Transform _Transform, Transform _Parent,
 				List<Transform> Children)
 			{
-				//HHL
+				if (HubValidation.TrustedMode == false) return null;
 				if (library.TransformToBookShelves.ContainsKey(_Transform))
 				{
 					return (library.TransformToBookShelves[_Transform]);
@@ -653,7 +656,6 @@ public static class Librarian
 
 			public bool ParentChange()
 			{
-				//HHL
 				if (Shelf == null)
 				{
 					return false;
@@ -671,7 +673,7 @@ public static class Librarian
 
 			public void PopulateBookShelf()
 			{
-				//HHL
+				if (HubValidation.TrustedMode == false) return;
 				if (this.IsPartiallyGenerated == false)
 				{
 					return;
@@ -692,7 +694,7 @@ public static class Librarian
 
 			public void UpdateBookShelf()
 			{
-				//HHL
+				if (HubValidation.TrustedMode == false) return;
 				if (IsPartiallyGenerated)
 				{
 					PopulateBookShelf();
@@ -730,6 +732,7 @@ public static class Librarian
 
 		public List<Page> GetBindedPages()
 		{
+			if (HubValidation.TrustedMode == false) return null;
 			if (UnGenerated)
 			{
 				if (BookClass != null)
@@ -765,7 +768,7 @@ public static class Librarian
 
 		public static Book PopulateBook(Book book)
 		{
-			//HHL
+			if (HubValidation.TrustedMode == false) return null;
 			if (!book.UnGenerated)
 			{
 				return (book);
@@ -781,7 +784,7 @@ public static class Librarian
 
 		public static Book PartialGeneratebook(MonoBehaviour mono)
 		{
-			//HHL
+			if (HubValidation.TrustedMode == false) return null;
 			if (MonoBehaviourToBook.ContainsKey(mono))
 			{
 				return (MonoBehaviourToBook[mono]);
@@ -799,7 +802,7 @@ public static class Librarian
 
 		public static Book GenerateNonMonoBook(object Eclass)
 		{
-			//HHL
+			if (HubValidation.TrustedMode == false) return null;
 			if (ObjectToBook.ContainsKey(Eclass))
 			{
 				return (ObjectToBook[Eclass]);
@@ -850,7 +853,7 @@ public static class Librarian
 
 		public void SetValue(string Value)
 		{
-			//HHL
+			if (HubValidation.TrustedMode == false) return;
 			//Logger.Log(this.ToString());
 			//Logger.Log(ID.ToString());
 			//Logger.Log(Variable.GetType().ToString());
@@ -877,7 +880,7 @@ public static class Librarian
 
 		public void Invoke()
 		{
-			//HHL
+			if (HubValidation.TrustedMode == false) return;
 			if (MInfo != null)
 			{
 				MInfo.Invoke(BindedTo.BookClass, null);
@@ -916,7 +919,7 @@ public static class Librarian
 
 		public void UpdatePage()
 		{
-			//HHL
+			if (HubValidation.TrustedMode == false) return;
 			if (PInfo != null)
 			{
 				Variable = PInfo.GetValue(BindedTo.BookClass);
@@ -1027,6 +1030,7 @@ public static class Librarian
 
 	private static Type GetUnderlyingType(this MemberInfo member)
 	{
+		if (HubValidation.TrustedMode == false) return null;
 		switch (member.MemberType)
 		{
 			case MemberTypes.Event:
@@ -1047,6 +1051,7 @@ public static class Librarian
 
 	private static object GetValue(this MemberInfo memberInfo, object forObject)
 	{
+		if (HubValidation.TrustedMode == false) return null;
 		switch (memberInfo.MemberType)
 		{
 			case MemberTypes.Field:
@@ -1060,6 +1065,7 @@ public static class Librarian
 
 	private static void MemberInfoSetValue(this MemberInfo memberInfo, object ClassObject, object NewVariableObject)
 	{
+		if (HubValidation.TrustedMode == false) return;
 		switch (memberInfo.MemberType)
 		{
 			case MemberTypes.Field:
