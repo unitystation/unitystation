@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Messages.Client.VariableViewer;
+using SecureStuff;
 
 
 namespace AdminTools.VariableViewer

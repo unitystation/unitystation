@@ -3,23 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VVNote : Attribute
+namespace SecureStuff
 {
-
-	public readonly VVHighlight variableHighlightl;
-
-	public VVNote(VVHighlight InvariableHighlightl)
+	public class VVNote : Attribute
 	{
-		variableHighlightl = InvariableHighlightl;
-	}
 
+		public readonly VVHighlight variableHighlightl;
+
+		public VVNote(VVHighlight InvariableHighlightl)
+		{
+			variableHighlightl = InvariableHighlightl;
+		}
+
+	}
+	public enum VVHighlight
+	{
+		None,
+		SafeToModify100, //green
+		SafeToModify, //Cyan
+		UnsafeToModify,//orange
+		VariableChangeUpdate, //Yellow
+		DEBUG, //red
+	}
 }
-public enum VVHighlight
-{
-	None,
-	SafeToModify100, //green
-	SafeToModify, //Cyan
-	UnsafeToModify,//orange
-	VariableChangeUpdate, //Yellow
-	DEBUG, //red
-}
+
