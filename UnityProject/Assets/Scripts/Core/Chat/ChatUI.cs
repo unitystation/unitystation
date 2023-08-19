@@ -759,18 +759,15 @@ namespace UI.Chat_UI
 
 		private string SpeakRadioText()
 		{
-			if (selectedChannels.GetFlags().Count() > 3) return "to multiple channels on radio.";
+			if (selectedChannels.GetFlags().Count() > 3) return "to multiple channels.";
 			var speakTo = "to ";
-			int count = ChannelToggles.Count;
+			int count = selectedChannels.GetFlags().Count() - 1;
 			int index = -1;
 			foreach (var channel in selectedChannels.GetFlags())
 			{
 				index++;
 				if (channel.ToString() == "None") continue;
-				var seperator = index == count - 2 ? "and" : ",";
-				if (index == count - 1) seperator = "";
-				speakTo += $"{channel.ToString()}{seperator} ";
-
+				speakTo += index != count ? $"{channel.ToString()}, " : $"and {channel.ToString()} ";
 			}
 
 			return speakTo + "channels";
