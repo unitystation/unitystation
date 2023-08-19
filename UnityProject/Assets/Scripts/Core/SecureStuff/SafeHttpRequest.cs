@@ -55,7 +55,7 @@ namespace SecureStuff
 		public static async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
 			CancellationToken? cancellationToken = null)
 		{
-			var Client = new HttpClient();
+			using var client = new HttpClient();
 			if (IsValid(request.RequestUri) == false)
 			{
 				return null;
@@ -63,11 +63,11 @@ namespace SecureStuff
 
 			if (cancellationToken == null)
 			{
-				return await Client.SendAsync(request);
+				return await client.SendAsync(request);
 			}
 			else
 			{
-				return await Client.SendAsync(request, cancellationToken.Value);
+				return await client.SendAsync(request, cancellationToken.Value);
 			}
 		}
 

@@ -12,7 +12,6 @@ using Core.Chat;
 using Items;
 using Shared.Managers;
 using UnityEngine.Serialization;
-using Enumerable = System.Linq.Enumerable;
 
 namespace UI.Chat_UI
 {
@@ -740,7 +739,7 @@ namespace UI.Chat_UI
 		private void UpdateInputLabel()
 		{
 			var localStatus = selectedChannels.GetFlags().Any(x => RadioChannels.Contains((ChatChannel)x))
-				? "on radio" : "to nearby characters";
+				? $"{SpeakRadioText()}" : "to nearby characters";
 			if ((SelectedChannels & ChatChannel.OOC) == ChatChannel.OOC)
 			{
 				chatInputLabel.text = "Speaking Out Of Character (OOC):";
@@ -756,6 +755,22 @@ namespace UI.Chat_UI
 					$"Say as {PlayerManager.LocalPlayerScript.visibleName} {localStatus}:"
 					: "Say:";
 			}
+		}
+
+		private string SpeakRadioText()
+		{
+			if (selectedChannels.GetFlags().Count() > 3) return "to multiple channels.";
+			var speakTo = "to ";
+			int count = selectedChannels.GetFlags().Count() - 1;
+			int index = -1;
+			foreach (var channel in selectedChannels.GetFlags())
+			{
+				index++;
+				if (channel.ToString() == "None") continue;
+				speakTo += index != count ? $"{channel.ToString()}, " : $"and {channel.ToString()} ";
+			}
+
+			return speakTo + "channels";
 		}
 
 		/// <summary>
