@@ -586,7 +586,7 @@ namespace SecureStuff
 			}
 
 
-			public class LibraryBookShelf
+			public sealed class LibraryBookShelf
 			{
 				public Transform Parent;
 				public List<Transform> Contains = new List<Transform>();
@@ -707,7 +707,7 @@ namespace SecureStuff
 			}
 		}
 
-		public class Book
+		public sealed class Book
 		{
 			public ulong ID;
 			public string Title;
@@ -828,7 +828,7 @@ namespace SecureStuff
 		}
 
 
-		public class Page
+		public sealed class Page
 		{
 			public ulong ID;
 			public string VariableName;
@@ -960,7 +960,7 @@ namespace SecureStuff
 			}
 		}
 
-		public class Sentence
+		public sealed class Sentence
 		{
 			public uint SentenceID;
 			public uint PagePosition;
