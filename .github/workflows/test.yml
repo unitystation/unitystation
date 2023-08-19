@@ -9,7 +9,7 @@ on:
       - "UnityProject/**"
       - ".github/workflows/**"
       - "Docker/**"
-  pull_request_target:
+  pull_request:
     branches:
       - develop
     paths:
@@ -76,20 +76,12 @@ jobs:
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}
           testMode: editmode
       
-      # Try comment errors on the PR
-      - name: read and parse test results
+      - name: Upload Raw Test Results
         if: always() && steps.tests.outcome != 'success'
-        id: readFile
-        uses: corp-0/testResultsToMarkdown@v1
+        uses: actions/upload-artifact@v2
         with:
-          testResultsFile: testReports/${{ matrix.targetPlatform }}/editmode-results.xml
-      
-      - name: Comment errors
-        if: always() && steps.readFile.outcome == 'success'
-        uses: thollander/actions-comment-pull-request@v1
-        with:
-          message: "${{ steps.readFile.outputs.markdownText }}"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: Raw Test Results
+          path: testReports/${{ matrix.targetPlatform }}/editmode-results.xml
 
       # Install dotnet
       - name: Installing dotnet
