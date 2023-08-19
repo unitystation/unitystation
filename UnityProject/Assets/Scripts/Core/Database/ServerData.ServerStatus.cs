@@ -72,12 +72,6 @@ namespace DatabaseAPI
 			try
 			{
 				configData = JsonConvert.DeserializeObject<ServerConfig>(AccessFile.Load("config.json"));
-				if (string.IsNullOrEmpty(configData.HubUser) || string.IsNullOrEmpty(configData.HubPass))
-				{
-					Logger.LogError($"[ServerData.ServerStatus/AttemptConfigLoad()] - Invalid Hub creds found, aborting HUB connection. " +
-					                $"\n No Hub User:{string.IsNullOrEmpty(configData.HubUser)} \n " +
-					                $" No Hub Pass: {string.IsNullOrEmpty(configData.HubPass)}");
-				}
 			}
 			catch (Exception e)
 			{
@@ -125,7 +119,7 @@ namespace DatabaseAPI
 			{
 				if (string.IsNullOrEmpty(config.HubUser) || string.IsNullOrEmpty(config.HubPass))
 				{
-					Logger.LogError("Invalid Hub creds found, aborting HUB connection");
+					Logger.LogWarning("Invalid Hub creds found, aborting HUB connection");
 					return;
 				}
 				var loginRequest = new HubLoginReq
