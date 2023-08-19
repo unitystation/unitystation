@@ -12,9 +12,6 @@ using IgnoranceTransport;
 using Managers;
 using Newtonsoft.Json;
 using UI.Systems.ServerInfoPanel.Models;
-using UnityEditor;
-using UnityEngine.Networking;
-using UnityEngine.WSA;
 
 namespace DatabaseAPI
 {
