@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Initialisation;
+using SecureStuff;
 using UnityEngine;
 
 public class VariableViewerManager : MonoBehaviour, IInitialise

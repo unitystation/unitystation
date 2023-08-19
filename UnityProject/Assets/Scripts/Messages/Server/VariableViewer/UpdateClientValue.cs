@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Transactions;
 using Mirror;
+using SecureStuff;
 using UnityEngine;
 
 namespace Messages.Server.VariableViewer

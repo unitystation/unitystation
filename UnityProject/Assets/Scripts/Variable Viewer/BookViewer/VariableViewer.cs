@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Text;
 using System.Linq;
 using Messages.Server.VariableViewer;
+using SecureStuff;
 using UnityEngine.SceneManagement;
 using Component = UnityEngine.Component;
 using Object = System.Object;
