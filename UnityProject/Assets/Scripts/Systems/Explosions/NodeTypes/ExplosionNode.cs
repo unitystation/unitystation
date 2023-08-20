@@ -164,14 +164,13 @@ namespace Systems.Explosions
 			}
 		}
 
-		public async Task TimedEffect(Vector3Int position, float time, string effectName, OverlayType effectOverlayType, TileChangeManager tileChangeManager)
+		public void TimedEffect(Vector3Int position, float time, string effectName, OverlayType effectOverlayType, TileChangeManager tileChangeManager)
 		{
 			//Dont add effect if it is already there
 			if (tileChangeManager.MetaTileMap.HasOverlay(position, TileType.Effects, effectName)) return;
-
 			tileChangeManager.MetaTileMap.AddOverlay(position, TileType.Effects, effectName);
-			await Task.Delay((int)time);
-			tileChangeManager.MetaTileMap.RemoveOverlaysOfType(position, LayerType.Effects, effectOverlayType);
+			ExplosionManager.CleanupEffectLater(time * 0.001f, tileChangeManager.MetaTileMap,
+				position, effectOverlayType);
 		}
 	}
 }

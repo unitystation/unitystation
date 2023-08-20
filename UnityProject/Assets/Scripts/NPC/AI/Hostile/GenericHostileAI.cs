@@ -79,7 +79,7 @@ namespace Systems.MobAIs
 
 		protected override void OnAIStart()
 		{
-			_ = PlayRandomSound();
+			StartCoroutine(PlayRandomSound());
 			BeginSearch();
 		}
 
@@ -230,11 +230,11 @@ namespace Systems.MobAIs
 			movementTickRate = Random.Range(1f, 3f);
 		}
 
-		protected virtual async Task PlayRandomSound(bool force = false)
+		protected virtual IEnumerator PlayRandomSound(bool force = false)
 		{
 			while(!IsDead && !IsUnconscious && randomSounds.Count > 0 && this != null)
 			{
-				await Task.Delay(playRandomSoundTimer * 1000); //Converted from seconds to milliseconds
+				yield return WaitFor.Seconds(playRandomSoundTimer);
 				if (force || DMMath.Prob(randomSoundProbability))
 				{
 					AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));

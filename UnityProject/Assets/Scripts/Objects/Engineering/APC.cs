@@ -134,7 +134,6 @@ namespace Objects.Engineering
 					batteryCharging = true;
 				}
 			}
-			ElectricityFunctions.WorkOutActualNumbers(electricalNodeControl.Node.InData);
 			SyncVoltage(voltageSync, electricalNodeControl.Node.InData.Data.ActualVoltage);
 			Current = electricalNodeControl.Node.InData.Data.CurrentInWire;
 			HandleDevices();
@@ -216,11 +215,16 @@ namespace Objects.Engineering
 			}
 
 			float calculatingResistance = 0f;
+			var connectedDevicesCount = connectedDevices.Count;
+			for (int i = 0; i < connectedDevicesCount; i++)
+			{
+				connectedDevices[i].PowerNetworkUpdate(voltages);
+				calculatingResistance += (1 / connectedDevices[i].Resistance);
+			}
 
 			foreach (APCPoweredDevice device in connectedDevices)
 			{
-				device.PowerNetworkUpdate(voltages);
-				calculatingResistance += (1 / device.Resistance);
+
 			}
 
 			resistanceSourceModule.Resistance = (1 / calculatingResistance);
