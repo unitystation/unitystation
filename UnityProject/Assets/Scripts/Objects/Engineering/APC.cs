@@ -221,12 +221,7 @@ namespace Objects.Engineering
 				connectedDevices[i].PowerNetworkUpdate(voltages);
 				calculatingResistance += (1 / connectedDevices[i].Resistance);
 			}
-
-			foreach (APCPoweredDevice device in connectedDevices)
-			{
-
-			}
-
+			
 			resistanceSourceModule.Resistance = (1 / calculatingResistance);
 		}
 
