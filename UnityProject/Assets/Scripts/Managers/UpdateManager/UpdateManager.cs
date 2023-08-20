@@ -312,15 +312,16 @@ public class UpdateManager : MonoBehaviour
 		{
 			if (i < updateActions.Count)
 			{
+				var callingAction = updateActions[i];
 				if (Profile)
 				{
-					Profiler.BeginSample(updateActions[i]?.Method?.ReflectedType?.FullName);
+					Profiler.BeginSample(callingAction.Method?.ReflectedType?.FullName);
 				}
 
-				LastInvokedAction = updateActions[i];
+				LastInvokedAction = callingAction;
 				try
 				{
-					updateActions[i].Invoke();
+					callingAction.Invoke();
 				}
 				catch (Exception e)
 				{
@@ -335,12 +336,14 @@ public class UpdateManager : MonoBehaviour
 		}
 		MidInvokeCalls = false;
 
+
 		if (Profile)
 		{
 			Profiler.BeginSample(" Periodic update Process ");
 		}
 
 		ProcessDelayUpdate();
+
 
 		if (Profile)
 		{
@@ -353,18 +356,20 @@ public class UpdateManager : MonoBehaviour
 	/// </summary>
 	private void ProcessDelayUpdate()
 	{
+		MidInvokeCalls = true;
 		for (int i = 0; i < periodicUpdateActions.Count; i++)
 		{
-			periodicUpdateActions[i].TimeTitleNext -= CashedDeltaTime;
-			if (periodicUpdateActions[i].TimeTitleNext <= 0)
+			var periodicCall = periodicUpdateActions[i];
+			periodicCall.TimeTitleNext -= CashedDeltaTime;
+			if (periodicCall.TimeTitleNext <= 0)
 			{
-				LastInvokedAction = periodicUpdateActions[i].Action;
-				periodicUpdateActions[i].TimeTitleNext = periodicUpdateActions[i].TimeDelayPreUpdate + periodicUpdateActions[i].TimeTitleNext;
-				periodicUpdateActions[i].Action();
+				LastInvokedAction = periodicCall.Action;
+				periodicCall.TimeTitleNext = periodicCall.TimeDelayPreUpdate + periodicCall.TimeTitleNext;
+				periodicCall.Action();
 			}
 		}
+		MidInvokeCalls = false;
 	}
-
 
 	private void FixedUpdate()
 	{
