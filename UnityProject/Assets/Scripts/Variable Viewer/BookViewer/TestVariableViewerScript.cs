@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using SecureStuff;
 using Random = UnityEngine.Random;
 
 public class TestVariableViewerScript : MonoBehaviour

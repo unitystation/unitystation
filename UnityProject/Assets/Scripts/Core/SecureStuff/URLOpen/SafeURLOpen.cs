@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using System.Security.Policy;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace SecureStuff
@@ -11,7 +13,7 @@ namespace SecureStuff
 	{
 		//TODO hub Integration same with http client
 
-		public static void Open(string URL)
+		public static async Task Open(string URL, bool AddToAllowList = true, string justificationReason = "")
 		{
 			URL = URL.ToLower();
 
@@ -19,8 +21,16 @@ namespace SecureStuff
 			{
 				if (TrySanitizeURL(URL, out var goodURL))
 				{
-					Logger.Log($"Opening URL {goodURL}");
-					Application.OpenURL(goodURL);
+					var goodyURL = new System.Uri(goodURL);
+					if (await HubValidation.RequestOpenURL(goodyURL, justificationReason, AddToAllowList))
+					{
+						Logger.Log($"Opening URL {goodURL}");
+						Application.OpenURL(goodURL);
+					}
+					else
+					{
+						Logger.Log("Open URL failed from no user validation");
+					}
 				}
 			}
 		}

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Doors;
 using UnityEditor;
 using UnityEngine;
@@ -8,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Items;
 using Items.Botany;
+using SecureStuff;
 using Debug = UnityEngine.Debug;
 
 namespace Util
@@ -140,15 +143,33 @@ namespace Util
 			AssetDatabase.SaveAssets();
 		}
 
-		[MenuItem("Tools/GenerateSpriteSO")]
+		[MenuItem("Tools/||||||||||||||||||||Debug function||||||||||||||||")]
+		public static void ResetPipe()
+		{
+			//HubValidation.ResetPipe();
+		}
+
+		public static async Task Dothing()
+		{
+			var data = await HubValidation.RequestOpenURL(new Uri("https://old.reddit.com"), " because lol ", false);
+			data = await HubValidation.RequestAPIURL(new Uri("https://old.reddit.com"), " Because I needed ", false);
+			data = await HubValidation.RequestTrustedMode("AAAAAAAAAAAAAAAA");
+			Logger.LogError(data.ToString());
+		}
+
+		[MenuItem("Tools/------------ Debug function -----------")]
 		public static void Generate()
 		{
-				AssetDatabase.StartAssetEditing();
-                        			AssetDatabase.ForceReserializeAssets();
-                        		AssetDatabase.StopAssetEditing();
-                                			AssetDatabase.SaveAssets();
-                    return;
-                    
+
+				// AssetDatabase.StartAssetEditing();
+    //                     			AssetDatabase.ForceReserializeAssets();
+    //                     		AssetDatabase.StopAssetEditing();
+    //                             			AssetDatabase.SaveAssets();
+
+			_ = Dothing();
+
+			return;
+
 
 			EditorPrefs.SetInt("kAutoRefreshMode", (int)1);
 			EditorPrefs.SetInt("kAutoRefresh", 1); //older unity versions
