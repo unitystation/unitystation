@@ -44,13 +44,15 @@ namespace Changeling
 		private const float MAX_DISTANCE_TO_TILE = 1.6f;
 		private const float TIME_FOR_COMPLETION_TRANSFORM = 2f;
 
+		private UIAction action;
+
 		public virtual void CallActionClient()
 		{
-			UIAction action = UIActionManager.Instance.DicIActionGUI[this][0];
+			action = UIActionManager.Instance.DicIActionGUI[this][0];
 			if (AbilityData.IsLocal && ValidateAbilityClient())
 			{
-					UseAbilityLocal(UIManager.Instance.displayControl.hudChangeling.ChangelingMain, ability);
-					AfterAbility(PlayerManager.LocalPlayerScript);
+				UseAbilityLocal(UIManager.Instance.displayControl.hudChangeling.ChangelingMain, ability);
+				AfterAbility(PlayerManager.LocalPlayerScript);
 			}
 			else
 			{
@@ -70,7 +72,7 @@ namespace Changeling
 			}
 			else
 			{
-				PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesToggle(AbilityData.Index, toggled);
+				PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesToggle(AbilityData.Index, isToggled);
 			}
 		}
 
@@ -86,10 +88,10 @@ namespace Changeling
 		public void CallToggleActionServer(PlayerInfo SentByPlayer, bool toggle)
 		{
 			var validateAbility = ValidateAbility(SentByPlayer);
-			if (validateAbility &&
-				CastAbilityToggleServer(SentByPlayer, toggle))
+			if (validateAbility)
 			{
-				isToggled = toggle;
+				isToggled = !isToggled;
+				CastAbilityToggleServer(SentByPlayer, isToggled);
 			} else if (validateAbility == false)
 			{
 				//Set ability icon back
@@ -144,15 +146,18 @@ namespace Changeling
 				if (AbilityData.CooldownWhenToggled)
 				{
 					AfterAbility(sentByPlayer);
-					if (AbilityData.DrawCostWhenToggledOn)
-						changeling.UseAbility(this);
 				}
+				if (AbilityData.DrawCostWhenToggledOn)
+					changeling.UseAbility(this);
 			}
 			else
 			{
 				if (AbilityData.DrawCostWhenToggledOff)
 					changeling.UseAbility(this);
-				AfterAbility(sentByPlayer);
+				if (AbilityData.CooldownWhenToggled == false)
+				{
+					AfterAbility(sentByPlayer);
+				}
 			}
 			UseAbilityToggle(changeling, AbilityData, toggle);
 			return true;
@@ -943,12 +948,8 @@ namespace Changeling
 
 		private void RevivingStasis(ChangelingMain changeling, bool toggle)
 		{
-			if (toggle == false || changeling.IsFakingDeath)
+			if (toggle == false)
 			{
-				if (changeling.IsFakingDeath)
-				{
-					isToggled = false;
-				}
 				UIActionManager.SetServerSpriteSO(this, ActionData.Sprites[0]);
 				changeling.UseAbility(this);
 				// healing
