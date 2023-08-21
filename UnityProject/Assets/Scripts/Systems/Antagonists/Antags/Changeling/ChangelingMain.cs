@@ -1,3 +1,4 @@
+using GameModes;
 using Mirror;
 using Newtonsoft.Json;
 using System;
@@ -36,6 +37,7 @@ namespace Changeling
 		public List<ChangelingMemories> ChangelingMemories => new List<ChangelingMemories>(changelingMemories);
 
 		private bool isFakingDeath = false;
+		public bool IsFakingDeath => isFakingDeath;
 
 		public ChangelingDna currentDNA;
 
@@ -259,7 +261,7 @@ namespace Changeling
 		[Command(requiresAuthority = true)]
 		public void CmdResetAbilities()
 		{
-			if (resetCount >= resetCountMax)
+			if (ResetsLeft <= 0)
 				return;
 			resetCount++;
 
@@ -270,6 +272,12 @@ namespace Changeling
 				{
 					forRemove.Add(abil);
 				}
+			}
+			// If we don't have to remove any ability it's a good choice to save reset
+			if (forRemove.Count == 0)
+			{
+				resetCount--;
+				return;
 			}
 
 			StringBuilder abilitesIDSNowToSer = new StringBuilder();
@@ -341,13 +349,22 @@ namespace Changeling
 		public void AddDna(ChangelingDna dna)
 		{
 			var stringBuildes = new StringBuilder();
+			foreach (var x in ChangelingDnas)
+			{
+				if (x.DnaID == dna.DnaID)
+				{
+					RemoveDna(new List<ChangelingDna>() {x});
+					break;
+				}
+			}
+
 			stringBuildes.Append(changelingDNASer);
 			if (!HasDna(dna))
 			{
 				changelingDnas.Add(dna);
 				stringBuildes.AppendLine(JsonConvert.SerializeObject(dna));
 			}
-			changelingDNASer = stringBuildes.ToString();
+			SyncChangelingDna(changelingDNASer, stringBuildes.ToString());
 		}
 
 		private void OnCrit()
@@ -501,7 +518,6 @@ namespace Changeling
 			var builder = new StringBuilder();
 			foreach (var dna in changelingDnas)
 			{
-				changelingDnas.Remove(dna);
 				builder.AppendLine(JsonConvert.SerializeObject(dna));
 			}
 			SyncChangelingDna(changelingDNASer, builder.ToString());
@@ -626,14 +642,15 @@ namespace Changeling
 		{
 			if (evolutionPoints - ability.AbilityEPCost < 0)
 				return;
-			evolutionPoints -= ability.AbilityEPCost;
-			abilitesIDSNow += $"\n{ability.Index}";
 
 			var abilityInst = ability.AddToPlayer(changelingMind);
 			if (changelingAbilities.Contains(abilityInst))
 			{
 				return;
 			}
+			evolutionPoints -= ability.AbilityEPCost;
+			abilitesIDSNow += $"\n{ability.Index}";
+
 			changelingAbilities.Add(abilityInst);
 		}
 

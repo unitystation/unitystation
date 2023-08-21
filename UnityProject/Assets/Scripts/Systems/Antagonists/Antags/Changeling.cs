@@ -14,11 +14,9 @@ namespace Changeling
 	[CreateAssetMenu(menuName = "ScriptableObjects/Antagonist/Changeling/Changeling")]
 	public class Changeling : Antagonist
 	{
-		private PlayerInfo playerConn;
 		public override Mind ServerSpawn(PlayerSpawnRequest spawnRequest)
 		{
 			// spawn them normally, with their preferred occupation
-			playerConn = spawnRequest.Player;
 			return PlayerSpawn.NewSpawnPlayerV2(spawnRequest.Player, spawnRequest.RequestedOccupation, spawnRequest.CharacterSettings);
 		}
 
@@ -26,7 +24,8 @@ namespace Changeling
 		{
 			var ch = NewMind.Body.playerHealth.brain.gameObject.GetComponent<ChangelingMain>();
 			ch.NetEnable();
-			PlayerSpawn.TransferOwnershipFromToConnection(playerConn, null, ch.gameObject.GetComponent<NetworkIdentity>());
+
+			PlayerSpawn.TransferOwnershipFromToConnection(NewMind.ControlledBy, null, ch.gameObject.GetComponent<NetworkIdentity>());
 
 			ch.Init(NewMind);
 		}

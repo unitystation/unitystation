@@ -15,7 +15,6 @@ using Health.Sickness;
 using HealthV2.Living.CirculatorySystem;
 using HealthV2.Living.PolymorphicSystems;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
-using Initialisation;
 using Items.Implants.Organs;
 using JetBrains.Annotations;
 using NaughtyAttributes;
@@ -28,11 +27,6 @@ using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Systems.Character;
-using Changeling;
-using Items;
-using Clothing;
-using UI.Action;
-using UnityEngine.Rendering;
 
 namespace HealthV2
 {

@@ -1,9 +1,7 @@
 using CameraEffects;
 using Chemistry;
 using Clothing;
-using GameModes;
 using HealthV2;
-using HealthV2.Living.Mutations.Eyes;
 using HealthV2.Living.PolymorphicSystems;
 using Items;
 using Items.Implants.Organs;
@@ -14,10 +12,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Systems.Character;
-using TileManagement;
 using UI.Action;
 using UI.Core.Action;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Util;
@@ -66,9 +62,10 @@ namespace Changeling
 		{
 			if (ActionData.IsAimable)
 				return;
-			isToggled = toggled;
+
 			if (AbilityData.IsLocal && ValidateAbilityClient())
 			{
+				isToggled = toggled;
 				UseAbilityToggleLocal(UIManager.Instance.displayControl.hudChangeling.ChangelingMain, ability, toggled);
 			}
 			else
@@ -93,7 +90,7 @@ namespace Changeling
 				CastAbilityToggleServer(SentByPlayer, toggle))
 			{
 				isToggled = toggle;
-			} else if (!validateAbility)
+			} else if (validateAbility == false)
 			{
 				//Set ability icon back
 				if (isToggled)
@@ -164,7 +161,7 @@ namespace Changeling
 		private bool CastAbilityServer(PlayerInfo sentByPlayer, Vector3 clickPosition)
 		{
 			var changeling = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];
-			if (!AbilityData.IsAimable)
+			if (AbilityData.IsAimable == false)
 				changeling.UseAbility(this);
 			UseAbility(changeling, ability, clickPosition);
 			return true;
@@ -188,14 +185,32 @@ namespace Changeling
 				target = integrity;
 				break;
 			}
-			if (target == null)
+			if (target == null || target.Mind == null)
 				return null;
 
+			var brainIsFounded = false;
+			foreach (var bodyPart in target.Mind.Body.playerHealth.BodyPartList)
+			{
+				foreach (BodyPartFunctionality organ in bodyPart.OrganList)
+				{
+					if (organ is Brain brain)
+					{
+						brainIsFounded = true;
+						break;
+					}
+				}
+				if (brainIsFounded == true)
+				{
+					break;
+				}
+			}
+
 			if (Vector3.Distance(changeling.ChangelingMind.Body.GameObject.AssumedWorldPosServer(), target.Mind.Body.GameObject.AssumedWorldPosServer()) > MAX_DISTANCE_TO_TILE
-				|| target.IsDeadOrGhost) // think it's a bad idea to sting or absorb dead body
+				|| target.IsDeadOrGhost || brainIsFounded == false)
 			{
 				return null;
 			}
+
 			return target;
 		}
 
@@ -354,7 +369,8 @@ namespace Changeling
 		{
 			yield return WaitFor.SecondsRealtime(time);
 
-			target.playerHealth.reagentPoolSystem.BloodPool.Add(reagent, reagentCount);
+			if (target.Mind.IsGhosting == false && target.playerHealth.IsDead == false)
+				target.playerHealth.reagentPoolSystem.BloodPool.Add(reagent, reagentCount);
 		}
 
 		private IEnumerator AbsorbingProgress(float pauseTime, PlayerScript target)
@@ -373,7 +389,7 @@ namespace Changeling
 
 		private bool UseAbilityToggle(ChangelingMain changeling, ChangelingData data, bool toggle)
 		{
-			if (!data.IsToggle)
+			if (data.IsToggle == false)
 				return false;
 			switch (data.abilityType)
 			{
@@ -387,7 +403,7 @@ namespace Changeling
 
 		private bool UseAbilityToggleLocal(ChangelingMain changeling, ChangelingData data, bool toggle)
 		{
-			if (!data.IsToggle)
+			if (data.IsToggle == false)
 				return false;
 			switch (data.abilityType)
 			{
@@ -438,9 +454,10 @@ namespace Changeling
 				return false;
 			}
 
-			bool isRecharging = Cooldowns.IsOnServer(sentByPlayer.Script, AbilityData);
+			bool isRecharging = Cooldowns.IsOnClient(sentByPlayer.Script, AbilityData) || Cooldowns.IsOnServer(sentByPlayer.Script, AbilityData);
 			if (isRecharging)
 			{
+				Chat.AddExamineMsg(changelingMain.gameObject, $"Ability {AbilityData.Name} is recharging!");
 				return false;
 			}
 			return changelingMain.HasAbility(ability);
@@ -449,9 +466,21 @@ namespace Changeling
 		private bool ValidateAbilityClient()
 		{
 			var changelingMain = UIManager.Display.hudChangeling.ChangelingMain;
-			if (changelingMain.ChangelingMind.Body.IsDeadOrGhost || changelingMain.ChangelingMind.Body.playerHealth.IsCrit ||
-			changelingMain.Chem - AbilityData.AbilityChemCost < 0)
+			if (changelingMain.Chem - AbilityData.AbilityChemCost < 0)
 			{
+				Chat.AddExamineMsg(changelingMain.gameObject, "Not enough chemicals for ability!");
+				return false;
+			}
+			if (changelingMain.ChangelingMind.Body.IsDeadOrGhost || changelingMain.ChangelingMind.Body.playerHealth.IsCrit)
+			{
+				return false;
+			}
+
+			bool isRecharging = Cooldowns.IsOnClient(changelingMain.ChangelingMind.Body, AbilityData) ||
+			Cooldowns.IsOnServer(changelingMain.ChangelingMind.Body, AbilityData);
+			if (isRecharging)
+			{
+				Chat.AddExamineMsg(changelingMain.gameObject, $"Ability {AbilityData.Name} is recharging!");
 				return false;
 			}
 
@@ -652,9 +681,6 @@ namespace Changeling
 			UpdateSprites(body.playerHealth.playerSprites, characterSheet);
 			body.playerHealth.UpdateMeatAndSkinProduce();
 
-			yield return WaitFor.SecondsRealtime(2f);
-			body.playerHealth.playerSprites.SetSurfaceColour();
-
 			// set new hand because we deleted prev
 			body.playerHealth.playerScript.PlayerNetworkActions.CmdSetActiveHand(bodyParts[NamedSlot.leftHand].ItemStorageNetID, NamedSlot.leftHand);
 		}
@@ -679,7 +705,7 @@ namespace Changeling
 
 			playerSprites.ThisCharacter = characterSheet;
 			playerSprites.SetupSprites();
-			playerSprites.BodySprites.gameObject.GetComponent<RootBodyPartController>().UpdateClients();
+			playerSprites.gameObject.GetComponent<RootBodyPartController>().UpdateClients();
 
 			ColorUtility.TryParseHtmlString(characterSheet.SkinTone, out Color CurrentSurfaceColour);
 			playerSprites.SetSurfaceColour(CurrentSurfaceColour);
@@ -740,9 +766,10 @@ namespace Changeling
 					// removing item anytime when item was moved or something
 					fakeItem.GetComponent<Pickupable>().OnInventoryMoveServerEvent.AddListener((GameObject item) =>
 					{
+						item.TryGetPlayer(out var pl);
 						Chat.AddCombatMsgToChat(gameObject,
 						$"<color=red>{itemName} was absorbed back into your body.</color>",
-						$"<color=red>{itemName} was absorbed into {changeling.ChangelingMind.CurrentPlayScript.visibleName} body.</color>");
+						$"<color=red>{itemName} was absorbed into {pl.Username} body.</color>");
 
 						if (itemStrg != null)
 							itemStrg.ServerDropAll();
@@ -916,17 +943,12 @@ namespace Changeling
 
 		private void RevivingStasis(ChangelingMain changeling, bool toggle)
 		{
-			if (toggle)
+			if (toggle == false || changeling.IsFakingDeath)
 			{
-				UIActionManager.SetServerSpriteSO(this, ActionData.Sprites[1]);
-				changeling.HasFakingDeath(true);
-
-				changeling.ChangelingMind.Body.playerHealth.StopHealthSystemsAndHeart();
-				changeling.ChangelingMind.Body.playerHealth.StopOverralCalculation();
-				changeling.ChangelingMind.Body.playerHealth.SetConsciousState(ConsciousState.UNCONSCIOUS);
-			}
-			else
-			{
+				if (changeling.IsFakingDeath)
+				{
+					isToggled = false;
+				}
 				UIActionManager.SetServerSpriteSO(this, ActionData.Sprites[0]);
 				changeling.UseAbility(this);
 				// healing
@@ -934,6 +956,15 @@ namespace Changeling
 				changeling.ChangelingMind.Body.playerHealth.UnstopOverallCalculation();
 				changeling.ChangelingMind.Body.playerHealth.UnstopHealthSystemsAndRestartHeart();
 				changeling.HasFakingDeath(false);
+			}
+			else
+			{
+				UIActionManager.SetServerSpriteSO(this, ActionData.Sprites[1]);
+				changeling.HasFakingDeath(true);
+
+				changeling.ChangelingMind.Body.playerHealth.StopHealthSystemsAndHeart();
+				changeling.ChangelingMind.Body.playerHealth.StopOverralCalculation();
+				changeling.ChangelingMind.Body.playerHealth.SetConsciousState(ConsciousState.UNCONSCIOUS);
 			}
 		}
 
@@ -1053,14 +1084,6 @@ namespace Changeling
 			$"<color=red>You finished sting of {target.playerName}</color>",
 			$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} finished sting of {target.playerName}</color>");
 
-			foreach (var x in changeling.ChangelingDnas)
-			{
-				if (x.DnaID == target.Mind.bodyMobID)
-				{
-					x.UpdateDna(target);
-					return;
-				}
-			}
 			targetDNA.FormDna(target);
 
 			changeling.AddDna(targetDNA);
@@ -1077,16 +1100,19 @@ namespace Changeling
 				if (target.PlayerInfo.Mind.IsOfAntag<Changeling>())
 				{
 					changeling.AbsorbDna(target, target.Changeling);
-					return;
+				}
+				else
+				{
+					var targetDNA = new ChangelingDna();
+					targetDNA.FormDna(target);
+					changeling.AbsorbDna(targetDNA, target);
 				}
 			}
-			catch
+			catch (Exception ex)
 			{
-				Logger.LogWarning($"[ChangelingAbility/AfterAbsorbSting]Can`t get {target.PlayerInfo.Mind.Body.playerName} is antag", Category.Changeling);
+				Logger.LogError($"[ChangelingAbility/AfterAbsorbSting] Failed to create DNA of absorbed body ({target.PlayerInfo.Mind.Body.playerName}) {ex}", Category.Changeling);
+				return;
 			}
-			var targetDNA = new ChangelingDna();
-			targetDNA.FormDna(target);
-			changeling.AbsorbDna(targetDNA, target);
 
 			// fatal damage
 			target.Mind.Body.playerHealth.ApplyDamageAll(null, 999, AttackType.Internal, DamageType.Oxy);
@@ -1100,6 +1126,7 @@ namespace Changeling
 				{
 					if (organ is Brain brain)
 					{
+						brain.SyncDrunkenness(brain.DrunkAmount, 0);
 						_ = Despawn.ServerSingle(organ.gameObject);
 						breakLoop = true;
 						break;

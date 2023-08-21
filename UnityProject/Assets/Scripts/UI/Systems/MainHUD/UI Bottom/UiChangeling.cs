@@ -1,12 +1,7 @@
-using Mirror;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using Systems.Antagonists;
 using TMPro;
 using UI.Core;
-using UI.Core.Action;
 using UnityEngine;
 
 namespace Changeling
@@ -104,7 +99,7 @@ namespace Changeling
 
 				choise.Add(newEntry);
 			}
-			DynamicChoiceUI.ClientDisplayChoicesNotNetworked("Choise transform DNA", "Choise transform DNA", choise);
+			DynamicChoiceUI.ClientDisplayChoicesNotNetworked("Select DNA to transform", "Select DNA to transform", choise, true);
 		}
 
 		public void OpenMemoriesUI()

@@ -41,7 +41,9 @@ namespace Items.Implants.Organs
 
 		[SyncVar(hook = nameof(SyncTelekinesis))] private bool hasTelekinesis = false;
 
-		[SyncVar(hook = nameof(SyncDrunkenness))] private float DrunkAmount = 0;
+		[SyncVar(hook = nameof(SyncDrunkenness))] private float drunkAmount = 0;
+
+		public float DrunkAmount => drunkAmount;
 
 		public bool HasTelekinesis => hasTelekinesis;
 
@@ -135,10 +137,10 @@ namespace Items.Implants.Organs
 
 		public void SyncDrunkenness(float Oldvalue, float NewValue)
 		{
-			DrunkAmount = NewValue;
+			drunkAmount = NewValue;
 			if (Preimplemented.IsOnLocalPlayer)
 			{
-				ApplyChangesDrunkenness(DrunkAmount);
+				ApplyChangesDrunkenness(drunkAmount);
 			}
 
 		}
@@ -182,18 +184,18 @@ namespace Items.Implants.Organs
 
 					if (percentage > 0.05f)
 					{
-						SyncDrunkenness(DrunkAmount, percentage);
+						SyncDrunkenness(drunkAmount, percentage);
 					}
 					else
 					{
-						SyncDrunkenness(DrunkAmount, 0);
+						SyncDrunkenness(drunkAmount, 0);
 					}
 				}
 				else
 				{
-					if (DrunkAmount != 0)
+					if (drunkAmount != 0)
 					{
-						DrunkAmount = 0;
+						drunkAmount = 0;
 					}
 				}
 			}
@@ -214,7 +216,7 @@ namespace Items.Implants.Organs
 		{
 			ApplyChangesBlindness(Default ? false : true);
 			ApplyDeafness(Default ? 0 : 1);
-			ApplyChangesDrunkenness(Default ? 0 : DrunkAmount);
+			ApplyChangesDrunkenness(Default ? 0 : drunkAmount);
 		}
 
 		public void ApplyDeafness(float Value)

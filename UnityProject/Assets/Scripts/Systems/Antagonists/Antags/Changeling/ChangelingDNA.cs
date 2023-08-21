@@ -77,6 +77,18 @@ namespace Changeling
 			CharacterSheet = (CharacterSheet)playerDataForDna.characterSettings.Clone();
 		}
 
+		public void UpdateDna(ChangelingDna dna)
+		{
+			BodyClothesPrefabID.Clear();
+
+			foreach (var clothe in dna.BodyClothesPrefabID)
+			{
+				BodyClothesPrefabID.Add(clothe);
+			}
+
+			CharacterSheet = (CharacterSheet)dna.CharacterSheet.Clone();
+		}
+
 		public object Clone()
 		{
 			string json = JsonConvert.SerializeObject(this);

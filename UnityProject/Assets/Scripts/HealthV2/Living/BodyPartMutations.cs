@@ -5,8 +5,6 @@ using System.Linq;
 using HealthV2;
 using Items.Implants.Organs;
 using Systems.Character;
-using Systems.Storage;
-using UnityEditor;
 using UnityEngine;
 using Util;
 using BodyPart = HealthV2.BodyPart;
@@ -308,9 +306,17 @@ public class BodyPartMutations : BodyPartFunctionality
 		foreach (var x in bodyPartExampleStorage.Populater.SlotContents)
 		{
 			if (x.Prefab != null)
+			{
 				usedOrgansInSpawnedPart.Add(x.Prefab);
+			}
 		}
-		usedOrgansInSpawnedPart.AddRange(bodyPartExampleStorage.Populater.DeprecatedContents);
+		foreach (var x in bodyPartExampleStorage.Populater.DeprecatedContents)
+		{
+			if (x != null)
+			{
+				usedOrgansInSpawnedPart.Add(x);
+			}
+		}
 
 		foreach (var itemSlot in RelatedPart.OrganStorage.GetItemSlots())
 		{
