@@ -136,7 +136,7 @@ namespace DiscordWebhook
 			{
 				Logger.LogError($"Request failed with status code: {response.StatusCode}, {response.ReasonPhrase}");
 			}
-	
+
 		}
 
 		public void AddWebHookMessageToQueue(DiscordWebhookURLs urlToUse, string msg, string username,

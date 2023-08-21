@@ -20,7 +20,7 @@ namespace SecureStuff
 
 		public static string AdminFolder => "Admin";
 
-		private static string ForkName
+		public static string ForkName
 		{
 			get
 			{
