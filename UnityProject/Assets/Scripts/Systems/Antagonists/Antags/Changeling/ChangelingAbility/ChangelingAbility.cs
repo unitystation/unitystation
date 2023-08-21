@@ -44,11 +44,9 @@ namespace Changeling
 		private const float MAX_DISTANCE_TO_TILE = 1.6f;
 		private const float TIME_FOR_COMPLETION_TRANSFORM = 2f;
 
-		private UIAction action;
-
 		public virtual void CallActionClient()
 		{
-			action = UIActionManager.Instance.DicIActionGUI[this][0];
+			var action = UIActionManager.Instance.DicIActionGUI[this][0];
 			if (AbilityData.IsLocal && ValidateAbilityClient())
 			{
 				UseAbilityLocal(UIManager.Instance.displayControl.hudChangeling.ChangelingMain, ability);
@@ -92,7 +90,7 @@ namespace Changeling
 			{
 				isToggled = !isToggled;
 				CastAbilityToggleServer(SentByPlayer, isToggled);
-			} else if (validateAbility == false)
+			} else
 			{
 				//Set ability icon back
 				if (isToggled)
@@ -138,7 +136,7 @@ namespace Changeling
 			return true;
 		}
 
-		private bool CastAbilityToggleServer(PlayerInfo sentByPlayer, bool toggle)
+		private void CastAbilityToggleServer(PlayerInfo sentByPlayer, bool toggle)
 		{
 			var changeling = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];
 			if (toggle)
@@ -160,7 +158,6 @@ namespace Changeling
 				}
 			}
 			UseAbilityToggle(changeling, AbilityData, toggle);
-			return true;
 		}
 
 		private bool CastAbilityServer(PlayerInfo sentByPlayer, Vector3 clickPosition)
