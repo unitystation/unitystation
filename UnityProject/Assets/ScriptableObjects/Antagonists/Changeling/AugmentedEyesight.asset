@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee1470b55cb32bb42a0f600e94a1fae7, type: 3}
   m_Name: AugmentedEyesight
   m_EditorClassIdentifier: 
-  actionType: 1
+  actionType: 0
   activeSpriteIndex: 0
   callOnClient: 0
   callOnServer: 1
@@ -50,6 +50,7 @@ MonoBehaviour:
   isSlowingChemRegeneration: 1
   isStopingChemRegeneration: 0
   isLocal: 1
+  isToggleable: 1
   showInStore: 1
   canBeUsedWhileInCrit: 0
   swithedToOnWhenInCrit: 0

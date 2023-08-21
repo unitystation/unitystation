@@ -70,7 +70,7 @@ namespace Changeling
 			}
 			else
 			{
-				PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesToggle(AbilityData.Index, isToggled);
+				PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilites(ability.Index, new Vector3());
 			}
 		}
 
@@ -83,7 +83,7 @@ namespace Changeling
 			}
 		}
 
-		public void CallToggleActionServer(PlayerInfo SentByPlayer, bool toggle)
+		public void CallToggleActionServer(PlayerInfo SentByPlayer)
 		{
 			var validateAbility = ValidateAbility(SentByPlayer);
 			if (validateAbility)
@@ -163,6 +163,11 @@ namespace Changeling
 		private bool CastAbilityServer(PlayerInfo sentByPlayer, Vector3 clickPosition)
 		{
 			var changeling = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];
+			if (AbilityData.IsToggleable == true)
+			{
+				CallToggleActionServer(sentByPlayer);
+				return true;
+			}
 			if (AbilityData.IsAimable == false)
 				changeling.UseAbility(this);
 			UseAbility(changeling, ability, clickPosition);
@@ -250,6 +255,11 @@ namespace Changeling
 		{
 			if (data.IsLocal == false)
 				return false;
+			if (data.IsToggleable)
+			{
+				CallToggleActionClient(!isToggled);
+				return false;
+			}
 
 			switch (data.abilityType)
 			{
@@ -391,7 +401,7 @@ namespace Changeling
 
 		private bool UseAbilityToggle(ChangelingMain changeling, ChangelingData data, bool toggle)
 		{
-			if (data.IsToggle == false)
+			if (data.IsToggleable == false)
 				return false;
 			switch (data.abilityType)
 			{
@@ -405,7 +415,7 @@ namespace Changeling
 
 		private bool UseAbilityToggleLocal(ChangelingMain changeling, ChangelingData data, bool toggle)
 		{
-			if (data.IsToggle == false)
+			if (data.IsToggleable == false)
 				return false;
 			switch (data.abilityType)
 			{
@@ -982,20 +992,15 @@ namespace Changeling
 			if (Camera.main == null ||
 				Camera.main.TryGetComponent<CameraEffectControlScript>(out var effects) == false) return;
 
+			isToggled = !isToggled;
 			effects.AdjustPlayerVisibility(
 				toggle ? AbilityData.ExpandedNightVisionVisibility : effects.MinimalVisibilityScale,
 				toggle ? AbilityData.DefaultvisibilityAnimationSpeed : AbilityData.RevertvisibilityAnimationSpeed);
 			effects.ToggleNightVisionEffectState(toggle);
 			effects.NvgHasMaxedLensRadius(true);
+			isToggled = !isToggled;
 
-			foreach (var x in changeling.AbilitiesNow)
-			{
-				if (x.AbilityData == AbilityData)
-				{
-					x.isToggled = toggle;
-				}
-			}
-			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesToggle(AbilityData.Index, toggle);
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilites(AbilityData.Index, new Vector3());
 		}
 
 		private void AugmentedEyesight(ChangelingMain changeling, bool toggle)

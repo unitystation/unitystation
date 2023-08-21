@@ -882,19 +882,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 	}
-
-	[Command]
-	public void CmdRequestChangelingAbilitesToggle(int abilityIndex, bool toggled)
-	{
-		foreach (var ability in playerScript.Changeling.ChangelingAbilities)
-		{
-			if (ability.AbilityData.Index == abilityIndex)
-			{
-				ability.CallToggleActionServer(PlayerList.Instance.GetOnline(gameObject), toggled);
-				return;
-			}
-		}
-	}
 	
 
 	[Command]

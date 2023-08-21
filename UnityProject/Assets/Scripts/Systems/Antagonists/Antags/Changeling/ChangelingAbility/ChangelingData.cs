@@ -53,6 +53,8 @@ namespace Changeling
 		[Tooltip("Is ability called on client")]
 		[SerializeField] private bool isLocal = false;
 		public bool IsLocal => isLocal;
+		[SerializeField] private bool isToggleable = false;
+		public bool IsToggleable => isToggleable;
 
 		[Tooltip("Is ability will be showed in abilites store")]
 		[SerializeField] private bool showInStore = true;
@@ -148,7 +150,7 @@ namespace Changeling
 		#if UNITY_EDITOR
 		private bool ShowIfToggle()
 		{
-			return IsToggle && !IsAimable;
+			return IsToggleable;
 		}
 
 		private bool ShowIfSting()

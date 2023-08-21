@@ -286,7 +286,7 @@ namespace Changeling
 				if (changelingAbilities.Contains(abil))
 				{
 					evolutionPoints += abil.AbilityData.AbilityEPCost;
-					if (abil.AbilityData.IsToggle == true && abil.AbilityData.IsAimable == false && abil.IsToggled == true)
+					if (abil.AbilityData.IsToggleable == true && abil.AbilityData.IsAimable == false && abil.IsToggled == true)
 						abil.CallToggleActionClient(false);
 					changelingAbilities.Remove(abil);
 				}
