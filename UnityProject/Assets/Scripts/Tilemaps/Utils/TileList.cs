@@ -98,7 +98,7 @@ namespace Tilemaps.Utils
 			return objects.TryGetValue(chunkPos, out var objectsOut) ? objectsOut.Get(position) : EmptyList;
 		}
 
-		public IEnumerable<RegisterTile> Get(Vector3Int position, ObjectType type)
+		public List<RegisterTile> Get(Vector3Int position, ObjectType type)
 		{
 			var chunkPos = GetChunkPos(position);
 

@@ -298,13 +298,15 @@ public class Matrix : MonoBehaviour
 	//Has to inherit from register tile
 	public IEnumerable<T> GetAs<T>(Vector3Int localPosition, bool isServer) where T : RegisterTile
 	{
-		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
+
+		var objects = (isServer ? ServerObjects : ClientObjects).Get(localPosition);
+		if (objects.Count == 0)
 		{
 			return Enumerable.Empty<T>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
 		}
 
 		var filtered = new List<T>();
-		foreach (RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(localPosition))
+		foreach (RegisterTile t in objects)
 		{
 			if (t is T x)
 			{
@@ -318,26 +320,29 @@ public class Matrix : MonoBehaviour
 
 	public IEnumerable<RegisterTile> Get(Vector3Int localPosition, bool isServer)
 	{
-		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
+		var objects = (isServer ? ServerObjects : ClientObjects).Get(localPosition);
+
+		if (objects.Count == 0)
 		{
 			return Enumerable.Empty<RegisterTile>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
 		}
 
 		var filtered = new List<RegisterTile>();
-		filtered.AddRange((isServer ? ServerObjects : ClientObjects).Get(localPosition));
+		filtered.AddRange(objects);
 		return filtered;
 	}
 
 
 	public IEnumerable<T> Get<T>(Vector3Int localPosition, bool isServer)
 	{
-		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
+		var objects = (isServer ? ServerObjects : ClientObjects).Get(localPosition);
+		if (objects.Count == 0)
 		{
 			return Enumerable.Empty<T>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
 		}
 
 		var filtered = new List<T>();
-		foreach (RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(localPosition))
+		foreach (RegisterTile t in objects)
 		{
 			if (t == null || t.TryGetComponent<T>(out var x) == false) continue;
 			filtered.Add(x);
@@ -363,13 +368,15 @@ public class Matrix : MonoBehaviour
 	}
 	public IEnumerable<T> Get<T>(Vector3Int localPosition, ObjectType type, bool isServer) where T : MonoBehaviour
 	{
-		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
+		var objects = (isServer ? ServerObjects : ClientObjects).Get(localPosition, type);
+
+		if (objects.Count == 0)
 		{
-			return  Enumerable.Empty<T>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
+			return Enumerable.Empty<T>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
 		}
 
 		var filtered = new List<T>();
-		foreach (RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(localPosition, type))
+		foreach (RegisterTile t in objects)
 		{
 			T x = t.GetComponent<T>();
 			if (x != null)
