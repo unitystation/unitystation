@@ -1831,7 +1831,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &5563283116829581103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7631,6 +7630,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1100946973444367980, guid: f27842d0cfc85ff4d8adb73f44a5fc20,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1100946973444367980, guid: f27842d0cfc85ff4d8adb73f44a5fc20,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1100946973444367980, guid: f27842d0cfc85ff4d8adb73f44a5fc20,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1100946973444367980, guid: f27842d0cfc85ff4d8adb73f44a5fc20,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1307237007785660045, guid: f27842d0cfc85ff4d8adb73f44a5fc20,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -8259,6 +8278,26 @@ PrefabInstance:
     - target: {fileID: 4660853724584916151, guid: f27842d0cfc85ff4d8adb73f44a5fc20,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4880176436812367641, guid: f27842d0cfc85ff4d8adb73f44a5fc20,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4880176436812367641, guid: f27842d0cfc85ff4d8adb73f44a5fc20,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4880176436812367641, guid: f27842d0cfc85ff4d8adb73f44a5fc20,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4880176436812367641, guid: f27842d0cfc85ff4d8adb73f44a5fc20,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4942042244674082905, guid: f27842d0cfc85ff4d8adb73f44a5fc20,
