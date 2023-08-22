@@ -25,25 +25,19 @@ namespace Changeling
 	public class ChangelingAbility : NetworkBehaviour, IActionGUI
 	{
 		public ChangelingData ability;
-
 		public ChangelingData AbilityData => ability;
-
 		public ActionData ActionData => ability;
 		public float CooldownTime { get; set; }
 		[SyncVar]
 		private bool isToggled = false;
 		public bool IsToggled => isToggled;
-
 		private static readonly StandardProgressActionConfig stingProgressBar =
 		new StandardProgressActionConfig(StandardProgressActionType.CPR);
-
 		private static readonly StandardProgressActionConfig transformProgressBar =
 		new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false, true, true, true);
-
 		private const float MAX_REMOVING_WHILE_ABSORBING_BODY = 70f;
 		private const float MAX_DISTANCE_TO_TILE = 1.6f;
 		private const float TIME_FOR_COMPLETION_TRANSFORM = 2f;
-
 		public virtual void CallActionClient()
 		{
 			var action = UIActionManager.Instance.DicIActionGUI[this][0];
@@ -990,7 +984,7 @@ namespace Changeling
 			return false;
 		}
 
-		private void AugmentedEyesightLocal(ChangelingMain changeling, bool toggle)
+		private void AugmentedEyesightLocal(bool toggle)
 		{
 			if (Camera.main == null ||
 				Camera.main.TryGetComponent<CameraEffectControlScript>(out var effects) == false) return;
@@ -1025,7 +1019,7 @@ namespace Changeling
 			switch (data.miscType)
 			{
 				case ChangelingMiscType.AugmentedEyesight:
-					AugmentedEyesightLocal(changeling, toggle);
+					AugmentedEyesightLocal(toggle);
 					return true;
 			}
 			return false;
