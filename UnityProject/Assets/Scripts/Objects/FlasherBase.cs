@@ -58,32 +58,14 @@ namespace Objects
 		[Server]
 		private void PerformFlash(GameObject target)
 		{
-			if (target.TryGetComponent<RegisterPlayer>(out var player) == false) return;
 			if (target.gameObject.TryGetComponent<PlayerFlashEffects>(out var flashEffector) == false) return;
-			if (target.gameObject.TryGetComponent<DynamicItemStorage>(out var playerStorage) == false) return;
-
-			bool hasProtection = false;
-
-			foreach (var slots in playerStorage.ServerContents)
-			{
-				if (slots.Key != NamedSlot.eyes && slots.Key != NamedSlot.mask) continue;
-				foreach (ItemSlot onSlots in slots.Value)
-				{
-					if (onSlots.IsEmpty) continue;
-					if (onSlots.ItemAttributes.HasTrait(sunglassesTrait))
-					{
-						hasProtection = true;
-						break;
-					}
-				}
-			}
-			if (hasProtection == false) TellClientThatTheyHaveBeenFlashed(flashEffector, player);
+			TellClientThatTheyHaveBeenFlashed(flashEffector);
 		}
 
 		[Server]
-		private void TellClientThatTheyHaveBeenFlashed(PlayerFlashEffects effects, RegisterPlayer player)
+		private void TellClientThatTheyHaveBeenFlashed(PlayerFlashEffects effects)
 		{
-			if(effects.ServerSendMessageToClient(player.gameObject, flashTime) && stunsPlayers) player.ServerStun(flashTime + stunExtraTime);
+			effects.ServerSendMessageToClient(effects.gameObject, flashTime, true, stunsPlayers, flashTime + stunExtraTime);
 		}
 
 		[Server]

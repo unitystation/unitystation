@@ -86,6 +86,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	[BoxGroup("Clothing")] public ItemTrait GasMask;
 	[BoxGroup("Clothing")] public ItemTrait BlackGloves;
 	[BoxGroup("Clothing")] public ItemTrait WizardGarb;
+	[BoxGroup("Clothing")] public ItemTrait Sunglasses;
 
 	public ItemTrait LightTube;
 	public ItemTrait LightBulb;
