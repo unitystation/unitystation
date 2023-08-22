@@ -1078,6 +1078,7 @@ namespace HealthV2
 			if (currentHealth < -100)
 			{
 				CheckHeartStatus();
+				OnCrit?.Invoke();
 			}
 			else if (currentHealth < -50)
 			{
@@ -1087,6 +1088,7 @@ namespace HealthV2
 			else if (currentHealth < 0)
 			{
 				SetConsciousState(ConsciousState.BARELY_CONSCIOUS);
+				OnCrit?.Invoke();
 			}
 			else
 			{

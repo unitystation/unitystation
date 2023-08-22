@@ -64,6 +64,10 @@ namespace Changeling
 		[SerializeField] private bool canBeUsedWhileInCrit = false;
 		public bool CanBeUsedWhileInCrit => canBeUsedWhileInCrit;
 
+		[Tooltip("Shows only when absorbed someone")]
+		[SerializeField] private bool showsOnlyWhenAbsorbedSomeone = false;
+		public bool ShowsOnlyWhenAbsorbedSomeone => showsOnlyWhenAbsorbedSomeone;
+
 		[ShowIf("ShowIfToggle")]
 		[SerializeField] private bool swithedToOnWhenInCrit = false;
 		public bool SwithedToOnWhenInCrit => swithedToOnWhenInCrit;

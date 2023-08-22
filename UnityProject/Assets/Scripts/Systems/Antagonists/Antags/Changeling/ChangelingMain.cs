@@ -373,9 +373,22 @@ namespace Changeling
 				return;
 			foreach (var abil in AbilitiesNow)
 			{
-				if (abil.AbilityData.IsToggle && !abil.AbilityData.IsAimable && abil.AbilityData.SwithedToOnWhenInCrit)
+				if (abil.AbilityData.IsToggleable && !abil.AbilityData.IsAimable && abil.AbilityData.SwithedToOnWhenInCrit)
 				{
 					abil.ForceToggleToState(true);
+				}
+			}
+		}
+
+		private void OnExitCrit()
+		{
+			if (isFakingDeath)
+				return;
+			foreach (var abil in AbilitiesNow)
+			{
+				if (abil.AbilityData.IsToggleable && !abil.AbilityData.IsAimable && abil.AbilityData.SwithedToOffWhenExitCrit)
+				{
+					abil.ForceToggleToState(false);
 				}
 			}
 		}
@@ -406,19 +419,6 @@ namespace Changeling
 			}
 		}
 
-		private void OnExitCrit()
-		{
-			if (isFakingDeath)
-				return;
-			foreach (var abil in AbilitiesNow)
-			{
-				if (abil.AbilityData.IsToggle && !abil.AbilityData.IsAimable && abil.AbilityData.SwithedToOffWhenExitCrit)
-				{
-					abil.ForceToggleToState(false);
-				}
-			}
-		}
-
 		public void AbsorbDna(ChangelingDna dna, PlayerScript target)
 		{
 			AddDna(dna);
@@ -429,6 +429,8 @@ namespace Changeling
 
 			absorbCount++;
 			AddMemories(dna, target);
+			if (absorbCount == 1)
+				UpdateShowsAbilitiesOnlyWhenSomeoneAbsorbed();
 		}
 
 		private void AddMemories(List<ChangelingMemories> mem)
@@ -528,6 +530,8 @@ namespace Changeling
 			if (CustomNetworkManager.IsServer)
 			{
 				tickTimer++;
+				if (chem < 0)
+					chem = 0;
 
 				if (tickTimer >= chemAddTime)
 				{
@@ -560,6 +564,17 @@ namespace Changeling
 			chemAddTime = CHEM_ADD_TIME_BASE + CHEM_ADD_TIME_BASE_SLOWED * slowingCount;
 		}
 
+		private void UpdateShowsAbilitiesOnlyWhenSomeoneAbsorbed()
+		{
+			foreach (var x in changelingAbilities)
+			{
+				if (x.AbilityData.ShowsOnlyWhenAbsorbedSomeone)
+				{
+					UIActionManager.ToggleServer(changelingMind.gameObject, x, absorbCount > 0);
+				}
+			}
+		}
+
 		public void Init(Mind changelingMindUser)
 		{
 			changelingMind = changelingMindUser;
@@ -582,6 +597,8 @@ namespace Changeling
 					{
 						if (x.AbilityData.ShowInActions)
 							UIActionManager.ToggleServer(changelingMind.gameObject, x, true);
+						if (x.AbilityData.ShowsOnlyWhenAbsorbedSomeone)
+							UIActionManager.ToggleServer(changelingMind.gameObject, x, absorbCount > 0);
 					}
 				}
 
@@ -624,6 +641,7 @@ namespace Changeling
 			dnaObject.FormDna(changelingMind.Body.PlayerInfo.Script);
 
 			AddDna(dnaObject);
+			AddMemories(dnaObject, changelingMind.Body);
 			currentDNA = dnaObject;
 		}
 

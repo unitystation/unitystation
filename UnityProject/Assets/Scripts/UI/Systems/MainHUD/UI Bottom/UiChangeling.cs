@@ -79,24 +79,28 @@ namespace Changeling
 		public void OpenTransformUI(ChangelingMain changeling, Action<ChangelingDna> actionForUse)
 		{
 			var choise = new List<DynamicUIChoiceEntryData>();
-			for (int i = 0; i < changeling.ChangelingLastDNAs.Count + 1; i++)
+			foreach (ChangelingDna x in changeling.ChangelingLastDNAs)
 			{
-				var newEntry = new DynamicUIChoiceEntryData();
-				if (i == changeling.ChangelingLastDNAs.Count)
+				if (x.CharacterSheet.Species.ToLower().Contains("cow")
+				|| x.CharacterSheet.Species.ToLower().Contains("monkey"))
 				{
-					newEntry.Text = $"Back";
-				} else
-				{
-					ChangelingDna x = changeling.ChangelingLastDNAs[i];
-					newEntry.Text = $"{x.PlayerName}";
-					newEntry.ChoiceAction = () =>
-					{
-						actionForUse(x);
-					};
-
-					newEntry.Icon = OccupationList.Instance.Get(x.Job).PreviewSprite;
+					continue;
 				}
 
+				var newEntry = new DynamicUIChoiceEntryData();
+				newEntry.Text = $"{x.PlayerName}";
+				newEntry.ChoiceAction = () =>
+				{
+					actionForUse(x);
+				};
+
+				try
+				{
+					newEntry.Icon = OccupationList.Instance.Get(x.Job).PreviewSprite;
+				} catch
+				{
+					Logger.LogError("[UiChangeling/OpenTransformUI] Can`t pick preview sprite", Category.Changeling);
+				}
 				choise.Add(newEntry);
 			}
 			DynamicChoiceUI.ClientDisplayChoicesNotNetworked("Select DNA to transform", "Select DNA to transform", choise, true);

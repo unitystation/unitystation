@@ -45,8 +45,10 @@ MonoBehaviour:
   isSlowingChemRegeneration: 0
   isStopingChemRegeneration: 0
   isLocal: 1
+  isToggleable: 0
   showInStore: 0
   canBeUsedWhileInCrit: 0
+  showsOnlyWhenAbsorbedSomeone: 0
   swithedToOnWhenInCrit: 0
   swithedToOffWhenExitCrit: 0
   cooldownWhenToggled: 0
@@ -64,7 +66,7 @@ MonoBehaviour:
   stingType: 0
   healType: 0
   transformType: 0
-  useAfterChoise: {fileID: 11400000, guid: c658f85d11b4ee442ac1ea6d62a43d8f, type: 2}
+  useAfterChoise: {fileID: 0}
   miscType: 2
   abilityImplementation: {fileID: 1515064019581797830, guid: 5722bf93b0593b44caafd2931b25840d,
     type: 3}

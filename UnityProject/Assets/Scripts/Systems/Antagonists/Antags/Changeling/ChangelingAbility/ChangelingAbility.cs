@@ -187,7 +187,8 @@ namespace Changeling
 			foreach (PlayerScript integrity in matrixinfo.Matrix.Get<PlayerScript>(Vector3Int.CeilToInt(localPosInt), true))
 			{
 				// to be sure that player don`t morph into AI or something like that
-				if (integrity.PlayerType != PlayerTypes.Normal)
+				if (integrity.PlayerType != PlayerTypes.Normal || integrity.characterSettings.Species.ToLower().Contains("cow")
+				|| integrity.characterSettings.Species.ToLower().Contains("monkey"))
 					continue;
 				target = integrity;
 				break;
@@ -438,6 +439,8 @@ namespace Changeling
 
 		private void AfterAbility(PlayerInfo sentByPlayer)
 		{
+			if (CooldownTime < 0.01f)
+				return;
 			Cooldowns.TryStartClient(sentByPlayer.Script, AbilityData, CooldownTime);
 
 			UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
@@ -888,8 +891,8 @@ namespace Changeling
 		private void ExtractSting(ChangelingMain changeling, ChangelingData data, PlayerScript target)
 		{
 			Chat.AddCombatMsgToChat(changeling.gameObject,
-			$"<color=red>You start sting of {target.playerName}</color>",
-			$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} starts sting of {target.playerName}</color>");
+			$"<color=red>You start sting of {target.visibleName}</color>",
+			$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.visibleName} starts sting of {target.visibleName}</color>");
 
 			var action = StandardProgressAction.Create(stingProgressBar,
 				() => PerfomAbilityAfter(changeling, data, target));
@@ -907,8 +910,8 @@ namespace Changeling
 		{
 
 			Chat.AddCombatMsgToChat(changeling.gameObject,
-			$"<color=red>You start absorbing of {target.playerName}</color>",
-			$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} starts absorbing of {target.playerName}</color>");
+			$"<color=red>You start absorbing of {target.visibleName}</color>",
+			$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.visibleName} starts absorbing of {target.visibleName}</color>");
 			var cor = StartCoroutine(AbsorbingProgress(ability.StingTime / 10f, target));
 			var action = StandardProgressAction.Create(stingProgressBar,
 				() =>
@@ -1084,8 +1087,8 @@ namespace Changeling
 		{
 			var targetDNA = new ChangelingDna();
 			Chat.AddCombatMsgToChat(changeling.gameObject,
-			$"<color=red>You finished sting of {target.playerName}</color>",
-			$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} finished sting of {target.playerName}</color>");
+			$"<color=red>You finished sting of {target.visibleName}</color>",
+			$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.visibleName} finished sting of {target.visibleName}</color>");
 
 			targetDNA.FormDna(target);
 
@@ -1095,26 +1098,28 @@ namespace Changeling
 		private void AfterAbsorbSting(ChangelingMain changeling, PlayerScript target)
 		{
 			Chat.AddCombatMsgToChat(changeling.gameObject,
-			$"<color=red>You finished absorbing of {target.playerName}</color>",
-			$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.playerName} finished absorbing of {target.playerName}</color>");
+			$"<color=red>You finished absorbing of {target.visibleName}</color>",
+			$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.visibleName} finished absorbing of {target.visibleName}</color>");
 
+			bool targetIsChangeling = false;
 			try
 			{
-				if (target.PlayerInfo.Mind.IsOfAntag<Changeling>())
-				{
-					changeling.AbsorbDna(target, target.Changeling);
-				}
-				else
-				{
-					var targetDNA = new ChangelingDna();
-					targetDNA.FormDna(target);
-					changeling.AbsorbDna(targetDNA, target);
-				}
+				targetIsChangeling = target.PlayerInfo.Mind.IsOfAntag<Changeling>();
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError($"[ChangelingAbility/AfterAbsorbSting] Failed to create DNA of absorbed body ({target.PlayerInfo.Mind.Body.playerName}) {ex}", Category.Changeling);
-				return;
+				Logger.LogError($"[ChangelingAbility/AfterAbsorbSting] Failed to find target PlayerInfo or mind of {target.visibleName} {ex}", Category.Changeling);
+			}
+
+			if (targetIsChangeling)
+			{
+				changeling.AbsorbDna(target, target.Changeling);
+			}
+			else
+			{
+				var targetDNA = new ChangelingDna();
+				targetDNA.FormDna(target);
+				changeling.AbsorbDna(targetDNA, target);
 			}
 
 			// fatal damage

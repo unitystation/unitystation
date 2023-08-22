@@ -1,3 +1,4 @@
+using Castle.Core.Internal;
 using Systems.Antagonists;
 using TMPro;
 using UI.Systems.MainHUD.UI_Bottom;
@@ -35,10 +36,10 @@ namespace Changeling
 		{
 			nameText.text = $"Memories of {data.MemoriesName}.";
 
-			descriptionText.text = $"{data.MemoriesName} was {OccupationList.Instance.Get(data.MemoriesJob).DisplayName}.\n" +
+			descriptionText.text = $"{data.MemoriesName} was {data.MemoriesJob}.\n" +
 			$"Specie was {data.MemoriesSpecies}\n" +
 			$"Gender was {data.MemoriesGender}\n" +
-			$"Pronoun was {data.MemoriesPronoun}\n" +
+			$"Pronoun was {data.MemoriesPronoun.ToString().Replace('_', ' ')}\n" +
 			$"And the memories contains";
 
 			if (data.MemoriesObjectives == "")
@@ -46,9 +47,16 @@ namespace Changeling
 				descriptionText.text += $" nothing worth.";
 			} else
 			{
-				descriptionText.text = $"\n{data.MemoriesObjectives}";
+				descriptionText.text += $"\n{data.MemoriesObjectives}";
 			}
-			image.sprite = OccupationList.Instance.Get(data.MemoriesJob).PreviewSprite;
+			try
+			{
+				image.sprite = OccupationList.Instance.Get(data.MemoriesJob).PreviewSprite;
+			} catch
+			{
+				Logger.LogError("[ChangelingMemoriesEntry/Refresh] Can`t pick preview sprite", Category.Changeling);
+				image.gameObject.SetActive(false);
+			}
 		}
 	}
 }
