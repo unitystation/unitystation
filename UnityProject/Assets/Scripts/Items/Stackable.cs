@@ -184,12 +184,25 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		if (stackSprites.Count == 0 || spriteHandler == null) return;
 		if (amount > 1)
 		{
+			bool found = false;
+
+
 			foreach (var sprite in stackSprites)
 			{
 				if (sprite.OverAmount <= amount) continue;
-				if (spriteHandler.GetCurrentSpriteSO() != sprite.SpriteSO) spriteHandler.SetSpriteSO(sprite.SpriteSO);
+				found = true;
+				if (spriteHandler.GetCurrentSpriteSO() != sprite.SpriteSO)
+				{
+					spriteHandler.SetSpriteSO(sprite.SpriteSO);
+				}
 				break;
 			}
+
+			if (found == false)
+			{
+				spriteHandler.SetSpriteSO(stackSprites.Last().SpriteSO);
+			}
+
 		}
 		else if(amount == 1)
 		{

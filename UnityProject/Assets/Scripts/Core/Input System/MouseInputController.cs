@@ -673,13 +673,19 @@ public class MouseInputController : MonoBehaviour
 	#region Cursor Textures
 
 	[Header("Examine Cursor Settings")] [SerializeField]
-	private Texture2D examineCursor = default;
+	public MouseIconSo examineCursor;
+	public MouseIconSo grabbingCursor;
+	public MouseIconSo altInteractionCursor;
 
-	[SerializeField] private Vector2 cursorOffset = Vector2.zero;
+	public MouseIconSo HarmCursor;
+	public MouseIconSo GrabCursor;
+	public MouseIconSo DisarmCursor;
 
-	private bool isShowingExamineCursor = false;
+	private bool isShowingKeyComboCursor = false;
 	private static Texture2D currentCursorTexture = null;
 	private static Vector2 currentCursorOffset = Vector2.zero;
+
+	private Intent previousIntent = Intent.Help;
 
 	/// <summary>
 	/// Sets the cursor's texture to the given texture.
@@ -727,15 +733,56 @@ public class MouseInputController : MonoBehaviour
 
 	private void CheckCursorTexture()
 	{
-		if (isShowingExamineCursor == false && KeyboardInputManager.IsShiftPressed())
+		if (isShowingKeyComboCursor == false && (KeyboardInputManager.IsShiftPressed() ||  KeyboardInputManager.IsControlPressed() ||  KeyboardInputManager.IsAltActionKeyPressed()))
 		{
-			Cursor.SetCursor(examineCursor, cursorOffset, CursorMode.Auto);
-			isShowingExamineCursor = true;
+			if (KeyboardInputManager.IsControlPressed())
+			{
+				Cursor.SetCursor(grabbingCursor.Texture, grabbingCursor.Offset, CursorMode.Auto);
+			}
+			else if (KeyboardInputManager.IsShiftPressed())
+			{
+				Cursor.SetCursor(examineCursor.Texture, examineCursor.Offset, CursorMode.Auto);
+			}
+			else
+			{
+				Cursor.SetCursor(altInteractionCursor.Texture, altInteractionCursor.Offset, CursorMode.Auto);
+			}
+
+			isShowingKeyComboCursor = true;
+			previousIntent = Intent.Help;
 		}
-		else if (isShowingExamineCursor && KeyboardInputManager.IsShiftPressed() == false)
+		else if (isShowingKeyComboCursor && KeyboardInputManager.IsShiftPressed() == false && KeyboardInputManager.IsControlPressed() == false && KeyboardInputManager.IsAltActionKeyPressed() == false)
 		{
 			Cursor.SetCursor(currentCursorTexture, currentCursorOffset, CursorMode.Auto);
-			isShowingExamineCursor = false;
+			isShowingKeyComboCursor = false;
+			previousIntent = Intent.Help;
+		}
+
+		if (currentCursorTexture == null && isShowingKeyComboCursor == false)
+		{
+			//Go back to intents
+			if (UIManager.CurrentIntent != previousIntent )
+			{
+				switch (UIManager.CurrentIntent)
+				{
+					case Intent.Harm:
+						Cursor.SetCursor(HarmCursor.Texture, HarmCursor.Offset, CursorMode.Auto);
+						previousIntent = UIManager.CurrentIntent;
+						break;
+					case Intent.Disarm:
+						Cursor.SetCursor(DisarmCursor.Texture, DisarmCursor.Offset, CursorMode.Auto);
+						previousIntent = UIManager.CurrentIntent;
+						break;
+					case Intent.Grab:
+						Cursor.SetCursor(GrabCursor.Texture, GrabCursor.Offset, CursorMode.Auto);
+						previousIntent = UIManager.CurrentIntent;
+						break;
+					case Intent.Help:
+						Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+						previousIntent = UIManager.CurrentIntent;
+						break;
+				}
+			}
 		}
 	}
 
