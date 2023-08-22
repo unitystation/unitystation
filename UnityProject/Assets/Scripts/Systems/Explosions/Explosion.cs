@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Player;
 using Systems.Score;
 using UnityEngine;
 
@@ -178,7 +179,7 @@ namespace Systems.Explosions
 		}
 
 		public static void StartExplosion(Vector3Int WorldPOS, float strength, ExplosionNode nodeType = null,
-			int fixedRadius = -1, int fixedShakingStrength = -1, List<ItemTrait> damageIgnoreAttributes = null)
+			int fixedRadius = -1, int fixedShakingStrength = -1, List<ItemTrait> damageIgnoreAttributes = null, bool stunNearbyPlayers = true)
 		{
 			if (nodeType == null)
 			{
@@ -237,7 +238,28 @@ namespace Systems.Explosions
 				Line.Step();
 			}
 
+			if (stunNearbyPlayers)
+			{
+				StunAndFlashPlayers(WorldPOS.To2Int());
+			}
+
+
 			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_EXPLOSION);
+		}
+
+		private static void StunAndFlashPlayers(Vector2Int startingPos)
+		{
+			var s = Physics2D.OverlapCircleAll(startingPos, 5, LayerMask.GetMask("Players"));
+			Debug.Log(s.Length);
+			foreach (Collider2D obj in s)
+			{
+				var result = MatrixManager.Linecast(
+					startingPos.To3Int(), LayerTypeSelection.Walls, null,
+					obj.gameObject.AssumedWorldPosServer(), true);
+				if (result.ItHit) continue;
+				if (obj.gameObject.TryGetComponent<PlayerFlashEffects>(out var flashEffector) == false) continue;
+				flashEffector.ServerSendMessageToClient(obj.gameObject, 5, true, result.Distance <= 3, 9);
+			}
 		}
 
 

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
 using UnityEngine;

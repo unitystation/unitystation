@@ -10,11 +10,11 @@ namespace Player
 		[SyncVar,HideInInspector] public int WeldingShieldImplants = 0;
 
 		[Server]
-		public bool ServerSendMessageToClient(GameObject client, float newValue, bool checkForProtectiveCloth, bool stunPlayer = true, float stunDuration = 4f)
+		public bool ServerSendMessageToClient(GameObject client, float flashDuration, bool checkForProtectiveCloth, bool stunPlayer = true, float stunDuration = 4f)
 		{
 			if (WeldingShieldImplants > 0) return false;
 
-			PlayerFlashEffectsMessage.Send(client, newValue, checkForProtectiveCloth, stunPlayer, stunDuration);
+			PlayerFlashEffectsMessage.Send(client, flashDuration, checkForProtectiveCloth, stunPlayer, stunDuration);
 
 			return true;
 		}
