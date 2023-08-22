@@ -18,17 +18,12 @@ namespace SecureStuff
 		//TODO
 		//Build -> Hub Indication for pop-ups unknown request Hosts
 
-		private static bool TrustedMode = true; //TODO Set in Launch arguments or Via hub
 
-		private static HashSet<string>
-			TrustedHosts = new HashSet<string>(); //Populated as Requests are validated from hub
-
-
-		public static async Task<HttpResponseMessage> PostAsync(string URLstring, StringContent StringContent)
+		public static async Task<HttpResponseMessage> PostAsync(string URLstring, StringContent StringContent, bool addAsTrusted = true, string JustificationReason = "")
 		{
 			var URL = new Uri(URLstring);
 			var Client = new HttpClient();
-			if (IsValid(URL) == false)
+			if (await IsValid(URL, addAsTrusted, JustificationReason) == false)
 			{
 				return null;
 			}
@@ -39,11 +34,11 @@ namespace SecureStuff
 
 
 
-		public static async Task<HttpResponseMessage> GetAsync(string URLstring)
+		public static async Task<HttpResponseMessage> GetAsync(string URLstring, bool addAsTrusted = true, string JustificationReason = "")
 		{
 			var URL = new Uri(URLstring);
 			var Client = new HttpClient();
-			if (IsValid(URL) == false)
+			if (await IsValid(URL, addAsTrusted, JustificationReason) == false)
 			{
 				return null;
 			}
@@ -53,10 +48,10 @@ namespace SecureStuff
 		}
 
 		public static async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
-			CancellationToken? cancellationToken = null)
+			CancellationToken? cancellationToken = null, bool addAsTrusted = true, string JustificationReason = "")
 		{
 			using var client = new HttpClient();
-			if (IsValid(request.RequestUri) == false)
+			if (await IsValid(request.RequestUri, addAsTrusted, JustificationReason) == false)
 			{
 				return null;
 			}
@@ -72,49 +67,20 @@ namespace SecureStuff
 		}
 
 
-		public static async Task<string> GetStringAsync(string requestUri)
+		public static async Task<string> GetStringAsync(string requestUri, bool addAsTrusted = true, string JustificationReason = "")
 		{
 			var URL = new System.Uri(requestUri);
 			var Client = new HttpClient();
-			if (IsValid(URL) == false)
+			if (await IsValid(URL, addAsTrusted, JustificationReason) == false)
 			{
 				return null;
 			}
 
 
-
 			return await Client.GetStringAsync(URL);
 		}
 
-		private static bool IsValidatedWithHub(Uri requestUri)
-		{
-			if (TrustedMode)
-			{
-				return true;
-			}
-
-			if (TrustedHosts.Contains(requestUri.Host))
-			{
-				return true;
-			}
-
-
-			//TODO A send a message to Hub
-
-			bool IsGood = true;
-			if (IsGood)
-			{
-				TrustedHosts.Add(requestUri.Host);
-				return true;
-			}
-			else
-			{
-				Logger.LogError($"User declined to access {requestUri}");
-				return false;
-			}
-		}
-
-		private static bool IsValid(Uri requestUri)
+		private static async Task<bool> IsValid(Uri requestUri, bool addAsTrusted = true, string JustificationReason = "")
 		{
 			if (requestUri.IsAbsoluteUri == false)
 			{
@@ -161,6 +127,16 @@ namespace SecureStuff
 					Logger.LogError($"Invalid IP Address Return from DNS for {requestUri}");
 					return false;
 				}
+			}
+
+			if (await HubValidation.RequestAPIURL(requestUri, JustificationReason, addAsTrusted))
+			{
+				return true;
+			}
+			else
+			{
+				Logger.Log($"Hub validation failed for {requestUri}");
+				return false;
 			}
 
 			return true;

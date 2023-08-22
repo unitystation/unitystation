@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Text;
 using Newtonsoft.Json;
+using SecureStuff;
 
 public class VariableViewerNetworking : MonoBehaviour
 {
