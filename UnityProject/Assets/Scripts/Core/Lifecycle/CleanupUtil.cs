@@ -409,7 +409,7 @@ public static class CleanupUtil
 		CleanupUtil.RidListOfDeadElements(GameManager.Instance.SpaceBodies);
 		UI.Core.Action.UIActionManager.Instance.Clear();//maybe it'l work second time?
 		SpriteHandlerManager.Instance.Clean();
-		Dictionary<UInt64, Mirror.NetworkIdentity > dict = (Dictionary < UInt64, Mirror.NetworkIdentity > )typeof(Mirror.NetworkIdentity).GetField("sceneIds", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).GetValue(null);
+		Dictionary<UInt64, Mirror.NetworkIdentity > dict = Mirror.NetworkIdentity.sceneIds;
 		Debug.Log("removed " + RidDictionaryOfDeadElements(dict, (u, k) => k != null) + " dead elements from Mirror.NetworkIdentity.sceneIds");
 		RidDictionaryOfDeadElements(LandingZoneManager.Instance.landingZones, (u, k) => u != null);
 		SpriteHandlerManager.Instance.Clean();
