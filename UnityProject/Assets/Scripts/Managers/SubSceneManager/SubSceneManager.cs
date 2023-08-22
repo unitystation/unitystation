@@ -110,11 +110,12 @@ public partial class SubSceneManager : MonoBehaviour
 			{
 				Logger.Log($"SpawnObjects + RequestObserverRefresh {sceneName}");
 				NetworkServer.SpawnObjects();
-				
+
 				while (NetworkClient.connection.isAuthenticated == false) //Needed so that if Authentication takes time, server instance does not disconnect itself.
 				{
 					yield return null;
-				}		
+				}
+				RequestObserverRefresh.Send(sceneName);
 			}
 			else
 			{
