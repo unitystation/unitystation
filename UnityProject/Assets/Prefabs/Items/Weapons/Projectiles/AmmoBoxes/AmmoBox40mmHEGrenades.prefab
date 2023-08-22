@@ -17,6 +17,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A box of High Explosive 40mm grenade shells.
       objectReference: {fileID: 0}
+    - target: {fileID: 1413473502823383205, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1413473502823383205, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 094db329f7e1ab142b090d0140516c00,
+        type: 2}
     - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
       propertyPath: m_RootOrder
