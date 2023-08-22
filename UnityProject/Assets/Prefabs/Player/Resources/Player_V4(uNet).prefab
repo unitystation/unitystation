@@ -696,8 +696,13 @@ MonoBehaviour:
   MaxClickDuration: 1
   MouseDragDeadzone: 0.2
   AimApplyInterval: 0.01
-  examineCursor: {fileID: 0}
-  cursorOffset: {x: 0, y: 0}
+  examineCursor: {fileID: 11400000, guid: cfca37c32850f304889c7a8d039a8047, type: 2}
+  grabbingCursor: {fileID: 11400000, guid: fce8b05a7bd8cb647bd741fe69adb581, type: 2}
+  altInteractionCursor: {fileID: 11400000, guid: d138d7ef96ec75844bf436749791353c,
+    type: 2}
+  HarmCursor: {fileID: 11400000, guid: da3c73fa7af4d204d980268095802847, type: 2}
+  GrabCursor: {fileID: 11400000, guid: 8f2a43425b956ec45be31b0470f347a9, type: 2}
+  DisarmCursor: {fileID: 11400000, guid: 9e0272263f7878141806be75b6fca7e5, type: 2}
 --- !u!114 &114407246905810916
 MonoBehaviour:
   m_ObjectHideFlags: 0
