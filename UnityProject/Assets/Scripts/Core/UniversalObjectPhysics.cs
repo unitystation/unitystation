@@ -94,7 +94,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	[SyncVar(hook = nameof(SyncIsNotPushable))]
 	public bool isNotPushable;
 	[SyncVar(hook = nameof(SyncLocalTarget))]
-	private Vector3WithData synchLocalTargetPosition; //TODO Only really used for re-logging,  need to think of a way to stop it spamming updates
+	private Vector3WithData synchLocalTargetPosition;
 	[SyncVar(hook = nameof(SynchroniseUpdatePulling))]
 	private PullData ThisPullData;
 
