@@ -1,4 +1,5 @@
 ﻿using AddressableReferences;
+using Audio.Containers;
 using NaughtyAttributes;
 using Player;
 using UnityEngine;
@@ -32,6 +33,7 @@ namespace Items.Weapons
 				flashEffector.ServerSendMessageToClient(obj.gameObject, duration, true, true, duration + extraStunDuration);
 			}
 
+			if (flashSound != null) SoundManager.PlayNetworkedAtPos(flashSound, gameObject.AssumedWorldPosServer());
 			if (despawnOnInvoke) _ = Despawn.ServerSingle(gameObject);
 		}
 	}
