@@ -117,7 +117,7 @@ namespace Changeling
 			if (ValidateAbility(sentByPlayer) &&
 				CastAbilityServerWithParam(sentByPlayer, param))
 			{
-
+				AfterAbility(sentByPlayer);
 			}
 		}
 

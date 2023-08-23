@@ -22,7 +22,6 @@ namespace Changeling
 			if (CustomNetworkManager.IsServer == false) return false;
 			if (toggle == false)
 			{
-				//UIActionManager.SetServerSpriteSO(this, Sprites[0]);
 				changeling.UseAbility(this);
 				// healing
 				changeling.ChangelingMind.Body.playerHealth.FullyHeal();
@@ -32,7 +31,6 @@ namespace Changeling
 			}
 			else
 			{
-				//UIActionManager.SetServerSpriteSO(this, Sprites[1]);
 				changeling.HasFakingDeath(true);
 
 				changeling.ChangelingMind.Body.playerHealth.StopHealthSystemsAndHeart();
