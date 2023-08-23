@@ -435,8 +435,6 @@ namespace Changeling
 
 			absorbCount++;
 			AddMemories(dna, target);
-			if (absorbCount == 1)
-				UpdateShowsAbilitiesOnlyWhenSomeoneAbsorbed();
 		}
 
 		private void AddMemories(List<ChangelingMemories> mem)
@@ -570,17 +568,6 @@ namespace Changeling
 			chemAddTime = CHEM_ADD_TIME_BASE + CHEM_ADD_TIME_BASE_SLOWED * slowingCount;
 		}
 
-		private void UpdateShowsAbilitiesOnlyWhenSomeoneAbsorbed()
-		{
-			foreach (var x in changelingAbilities)
-			{
-				if (x.AbilityData.ShowsOnlyWhenAbsorbedSomeone)
-				{
-					UIActionManager.ToggleServer(changelingMind.gameObject, x, absorbCount > 0);
-				}
-			}
-		}
-
 		public void Init(Mind changelingMindUser)
 		{
 			changelingMind = changelingMindUser;
@@ -603,8 +590,6 @@ namespace Changeling
 					{
 						if (x.AbilityData.ShowInActions)
 							UIActionManager.ToggleServer(changelingMind.gameObject, x, true);
-						if (x.AbilityData.ShowsOnlyWhenAbsorbedSomeone)
-							UIActionManager.ToggleServer(changelingMind.gameObject, x, absorbCount > 0);
 					}
 				}
 
