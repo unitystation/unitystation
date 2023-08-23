@@ -18,10 +18,10 @@ namespace Changeling
 		[SerializeField] private bool cooldownWhenToggled = false;
 		public bool CooldownWhenToggled => cooldownWhenToggled;
 
-		[Tooltip("Is ability slows chem generation while active")]
+		[Tooltip("Will this ability make chem regeneration slower?")]
 		[SerializeField] protected bool isSlowingChemRegeneration = false;
 		public bool IsSlowingChemRegeneration => isSlowingChemRegeneration;
-		[Tooltip("Is ability stops chem generation while active")]
+		[Tooltip("Will this ability stop chem regenration while active?")]
 		[SerializeField] protected bool isStopingChemRegeneration = false;
 		public bool IsStopingChemRegeneration => isStopingChemRegeneration;
 

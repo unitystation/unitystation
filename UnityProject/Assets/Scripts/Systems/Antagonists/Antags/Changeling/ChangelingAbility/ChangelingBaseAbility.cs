@@ -42,7 +42,7 @@ namespace Changeling
 			}
 		}
 
-		[Tooltip("Is ability will be added on start")]
+		[Tooltip("Is the ability available from the beginning?")]
 		public bool startAbility = false;
 
 		[SerializeField] protected bool showInStore = true;
