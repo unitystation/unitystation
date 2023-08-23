@@ -22,6 +22,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 {
 	//TODO Definitely can do the cleanup There's a decent amount of duplication
 
+	//TODO Movement desynchronisations,
+	//TODO Pulling a locker and then going down and the opposite direction you are pulling, causes the locker to get a push but server disagrees
+	//TODO Client prediction for doors
+
 	//TODO parentContainer Need to test
 	//TODO Maybe work on conveyor belts and players a bit more
 	//TODO Sometime Combine buckling and object storage
@@ -76,8 +80,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	private FloorDecal floorDecal; // Used to make sure some objects are not causing gravity
 	private Vector3Int oldLocalTilePosition;
 
-
-	[SyncVar] private float TileMoveSpeedOverride = 0;
+	private float localTileMoveSpeedOverride = 0;
+	[SyncVar] private float networkedTileMoveSpeedOverride = 0; //TODO Potential Desynchronisation issues, Probably should have a who caused
 	[SyncVar] public float tileMoveSpeed = 1;
 	[SyncVar] private uint parentContainer;
 	[SyncVar] protected int SetTimestampID = -1;
@@ -141,13 +145,18 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		get
 		{
-			if (TileMoveSpeedOverride == 0)
+			if (localTileMoveSpeedOverride != 0)
 			{
-				return tileMoveSpeed;
+				return localTileMoveSpeedOverride;
+			}
+
+			if (networkedTileMoveSpeedOverride != 0)
+			{
+				return networkedTileMoveSpeedOverride;
 			}
 			else
 			{
-				return TileMoveSpeedOverride;
+				return tileMoveSpeed;
 			}
 		}
 	}
@@ -417,12 +426,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (LocalTargetPosition == newLocalTarget.Vector3) return;
 		if (isOwned && PulledBy.HasComponent == false) return;
 
+
+
 		var spawned = CustomNetworkManager.Spawned;
 
 		if (newLocalTarget.ByClient is not NetId.Empty or NetId.Invalid
 		    && spawned.TryGetValue(newLocalTarget.ByClient, out var local)
 		    && local.gameObject == PlayerManager.LocalPlayerObject) return;
-
 
 		if (newLocalTarget.Matrix != -1)
 		{
@@ -1040,7 +1050,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			Animating = true;
 			UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
-			TileMoveSpeedOverride = speed;
+			localTileMoveSpeedOverride = speed;
+			if (isServer)
+			{
+				networkedTileMoveSpeedOverride = localTileMoveSpeedOverride;
+			}
 		}
 
 		if (isServer && (PulledBy.HasComponent == false || overridePull))
@@ -1337,7 +1351,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 
 			var cache = CurrentTileMoveSpeed;
-			TileMoveSpeedOverride = 0;
+			localTileMoveSpeedOverride = 0;
+			if (isServer)
+			{
+				networkedTileMoveSpeedOverride = 0;
+			}
 			Animating = false;
 
 			MoveIsWalking = false;
@@ -1792,7 +1810,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		if (Animating)
 		{
-			TileMoveSpeedOverride = 0;
+			localTileMoveSpeedOverride = 0;
+			if (isServer)
+			{
+				networkedTileMoveSpeedOverride = 0;
+			}
+
 			Animating = false;
 			MoveIsWalking = false;
 			IsMoving = false;
