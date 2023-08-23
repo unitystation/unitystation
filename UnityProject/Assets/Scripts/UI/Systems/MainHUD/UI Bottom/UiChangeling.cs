@@ -19,7 +19,7 @@ namespace Changeling
 
 		[SerializeField] private TMP_Text abilityPointsCount = null;
 
-		public List<ChangelingData> ChangelingDataToBuy => ChangelingMain.AllAbilities;
+		public List<ChangelingBaseAbility> ChangelingDataToBuy => ChangelingMain.AllAbilities;
 
 		private void Awake()
 		{
@@ -71,7 +71,7 @@ namespace Changeling
 			gameObject.SetActive(false);
 		}
 
-		public void AddAbility(ChangelingData abilityToAdd)
+		public void AddAbility(ChangelingBaseAbility abilityToAdd)
 		{
 			ChangelingMain.CmdBuyAbility(abilityToAdd.Index);
 		}

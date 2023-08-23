@@ -47,7 +47,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private MovementSynchronisation playerMove;
 	private PlayerScript playerScript;
 	public DynamicItemStorage itemStorage => playerScript.DynamicItemStorage;
-	public Transform chatBubbleTarget;
+	public UnityEngine.Transform chatBubbleTarget;
 
 	public bool IsRolling { get; private set; } = false;
 
@@ -892,6 +892,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			if (ability.AbilityData.Index == abilityIndex)
 			{
 				ability.CallActionServerWithParam(PlayerList.Instance.GetOnline(gameObject), param);
+				return;
+			}
+		}
+	}
+	
+	[Command]
+	public void CmdRequestChangelingAbilitesToggle(int abilityIndex, bool toggle)
+	{
+		foreach (var ability in playerScript.Changeling.AbilitiesNow)
+		{
+			if (ability.AbilityData.Index == abilityIndex)
+			{
+				ability.CallActionServerToggle(PlayerList.Instance.GetOnline(gameObject), toggle);
 				return;
 			}
 		}

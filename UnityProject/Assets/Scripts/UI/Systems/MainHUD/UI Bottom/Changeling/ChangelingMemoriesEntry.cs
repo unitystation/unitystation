@@ -1,7 +1,4 @@
-using Castle.Core.Internal;
-using Systems.Antagonists;
 using TMPro;
-using UI.Systems.MainHUD.UI_Bottom;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee1470b55cb32bb42a0f600e94a1fae7, type: 3}
+  m_Script: {fileID: 11500000, guid: de6bfe467fe549a41b2854692534a958, type: 3}
   m_Name: OpenStore
   m_EditorClassIdentifier: 
   actionType: 0
   activeSpriteIndex: 1
-  callOnClient: 1
+  callOnClient: 0
   callOnServer: 0
   actionName: Store
   description: Store for getting abilities.
@@ -29,44 +29,17 @@ MonoBehaviour:
   cursorTexture: {fileID: 0}
   cursorOffsetType: 0
   cursorOffset: {x: 0, y: 0}
-  descriptionStore: 
+  cooldown: 1
   abilityEPCost: 0
   abilityChemCost: 0
-  castSound:
-    SetLoadSetting: 0
-    AssetAddress: 
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  canBeReseted: 0
+  abilityImplementation: {fileID: 1515064019581797830, guid: 5722bf93b0593b44caafd2931b25840d,
+    type: 3}
+  descriptionStore: 
+  canBeUsedWhileInCrit: 0
+  isLocal: 1
+  showsOnlyWhenAbsorbedSomeone: 0
   startAbility: 1
   isSlowingChemRegeneration: 0
   isStopingChemRegeneration: 0
-  isLocal: 1
-  isToggleable: 0
   showInStore: 0
-  canBeUsedWhileInCrit: 0
-  showsOnlyWhenAbsorbedSomeone: 0
-  swithedToOnWhenInCrit: 0
-  swithedToOffWhenExitCrit: 0
-  cooldownWhenToggled: 0
-  drawCostWhenToggledOn: 0
-  drawCostWhenToggledOff: 0
   showInActions: 1
-  cooldown: 0
-  expandedNightVisionVisibility: {x: 25, y: 25, z: 42}
-  defaultvisibilityAnimationSpeed: 1.25
-  revertvisibilityAnimationSpeed: 0.2
-  stingTime: 4
-  reagent: {fileID: 0}
-  reagentCount: 25
-  abilityType: 3
-  stingType: 0
-  healType: 0
-  transformType: 0
-  useAfterChoise: {fileID: 0}
-  miscType: 1
-  abilityImplementation: {fileID: 1515064019581797830, guid: 5722bf93b0593b44caafd2931b25840d,
-    type: 3}

@@ -58,15 +58,15 @@ namespace Changeling
 		public ObservableCollection<ChangelingAbility> ChangelingAbilities => new(changelingAbilities);
 
 		public ObservableCollection<ChangelingAbility> AbilitiesNow => changelingAbilities;
-		private List<ChangelingData> AbilitiesNowDataSynced = new List<ChangelingData>();
-		public List<ChangelingData> AbilitiesNowData
+		private List<ChangelingBaseAbility> AbilitiesNowDataSynced = new List<ChangelingBaseAbility>();
+		public List<ChangelingBaseAbility> AbilitiesNowData
 		{
 			get
 			{
 				return AbilitiesNowDataSynced;
 			}
 		}
-		public List<ChangelingData> AllAbilities => ChangelingAbilityList.Instance.Abilites;
+		public List<ChangelingBaseAbility> AllAbilities => ChangelingAbilityList.Instance.Abilites;
 
 		[SyncVar(hook = nameof(SyncAbilityList))]
 		private string abilitesIDSNow = "";
@@ -159,7 +159,7 @@ namespace Changeling
 			abilitesIDSNow = newValue;
 
 			if (AbilitiesNowDataSynced == null)
-				AbilitiesNowDataSynced = new List<ChangelingData>();
+				AbilitiesNowDataSynced = new List<ChangelingBaseAbility>();
 			else
 				AbilitiesNowDataSynced.Clear();
 			foreach (string id in abilitesIDSNow.Split("\n"))
@@ -268,7 +268,7 @@ namespace Changeling
 			var forRemove = new List<ChangelingAbility>();
 			foreach (var abil in AbilitiesNow)
 			{
-				if (abil.AbilityData.canBeReseted)
+				if (abil.AbilityData.startAbility == false)
 				{
 					forRemove.Add(abil);
 				}
@@ -286,8 +286,11 @@ namespace Changeling
 				if (changelingAbilities.Contains(abil))
 				{
 					evolutionPoints += abil.AbilityData.AbilityEPCost;
-					if (abil.AbilityData.IsToggleable == true && abil.AbilityData.IsAimable == false && abil.IsToggled == true)
-						abil.CallToggleActionClient(false);
+					if (abil.AbilityData is ChangelingToggleAbility toggleAbility && abil.AbilityData.IsAimable == false && abil.IsToggled == true)
+					{
+						toggleAbility.UseAbilityToggleClient(this, false);
+					}
+
 					changelingAbilities.Remove(abil);
 				}
 			}
@@ -323,9 +326,10 @@ namespace Changeling
 			// toggle off abilities when player resets them
 			foreach (var abil in AbilitiesNow)
 			{
-				if (abil.AbilityData.canBeReseted && abil.IsToggled && !abil.AbilityData.IsAimable)
+				if (abil.AbilityData is ChangelingToggleAbility toggleAbility &&
+				abil.AbilityData.startAbility == false && abil.IsToggled && !abil.AbilityData.IsAimable)
 				{
-					abil.CallToggleActionClient(false);
+					toggleAbility.UseAbilityToggleClient(this, false);
 				}
 			}
 			CmdResetAbilities();
@@ -373,7 +377,8 @@ namespace Changeling
 				return;
 			foreach (var abil in AbilitiesNow)
 			{
-				if (abil.AbilityData.IsToggleable && !abil.AbilityData.IsAimable && abil.AbilityData.SwithedToOnWhenInCrit)
+				if (abil.AbilityData is ChangelingToggleAbility toggleAbility &&
+				toggleAbility.SwithedToOnWhenInCrit)
 				{
 					abil.ForceToggleToState(true);
 				}
@@ -386,7 +391,8 @@ namespace Changeling
 				return;
 			foreach (var abil in AbilitiesNow)
 			{
-				if (abil.AbilityData.IsToggleable && !abil.AbilityData.IsAimable && abil.AbilityData.SwithedToOffWhenExitCrit)
+				if (abil.AbilityData is ChangelingToggleAbility toggleAbility &&
+				toggleAbility.SwithedToOffWhenExitCrit)
 				{
 					abil.ForceToggleToState(false);
 				}
@@ -656,7 +662,7 @@ namespace Changeling
 			}
 		}
 
-		public void AddAbility(ChangelingData ability)
+		public void AddAbility(ChangelingBaseAbility ability)
 		{
 			if (evolutionPoints - ability.AbilityEPCost < 0)
 				return;
@@ -672,7 +678,7 @@ namespace Changeling
 			changelingAbilities.Add(abilityInst);
 		}
 
-		public void RemoveAbility(ChangelingData ability)
+		public void RemoveAbility(ChangelingBaseAbility ability)
 		{
 			abilitesIDSNow = "";
 			if (CustomNetworkManager.IsServer)
@@ -691,7 +697,7 @@ namespace Changeling
 			}
 		}
 
-		public bool HasAbility(ChangelingData ability)
+		public bool HasAbility(ChangelingBaseAbility ability)
 		{
 			return AbilitiesNowData.Contains(ability);
 		}
@@ -702,6 +708,11 @@ namespace Changeling
 			{
 				chem -= changelingAbility.AbilityData.AbilityChemCost;
 			}
+		}
+
+		public void UseAbility(ChangelingBaseAbility changelingAbility)
+		{
+			chem -= changelingAbility.AbilityChemCost;
 		}
 
 		public ChangelingDna GetDnaById(int dnaID)

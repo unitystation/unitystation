@@ -27,10 +27,10 @@ namespace Changeling
 		private GameObject buyButton = null;
 
 		private UiChangelingStore storeUi;
-		private ChangelingData data;
+		private ChangelingBaseAbility data;
 		private ChangelingMain changelingMain;
 
-		public void Init(UiChangelingStore changelingUI, ChangelingData dataToView, ChangelingMain changeling)
+		public void Init(UiChangelingStore changelingUI, ChangelingBaseAbility dataToView, ChangelingMain changeling)
 		{
 			storeUi = changelingUI;
 			data = dataToView;

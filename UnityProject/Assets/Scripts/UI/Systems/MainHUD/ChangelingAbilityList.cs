@@ -11,12 +11,12 @@ namespace Changeling
 	public class ChangelingAbilityList : SingletonScriptableObject<ChangelingAbilityList>
 	{
 		[ReorderableList]
-		public List<ChangelingData> Abilites = new List<ChangelingData>();
+		public List<ChangelingBaseAbility> Abilites = new List<ChangelingBaseAbility>();
 
-		public ChangelingData InvalidData;
+		public ChangelingBaseAbility InvalidData;
 
 
-		public ChangelingData FromIndex(short index)
+		public ChangelingBaseAbility FromIndex(short index)
 		{
 			if (index < 0 || index > Abilites.Count - 1)
 			{

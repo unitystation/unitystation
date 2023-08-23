@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee1470b55cb32bb42a0f600e94a1fae7, type: 3}
+  m_Script: {fileID: 11500000, guid: 65e16b5aff70c7e459da7c35dc450bcc, type: 3}
   m_Name: RevivingStasis
   m_EditorClassIdentifier: 
   actionType: 0
-  activeSpriteIndex: 0
+  activeSpriteIndex: 1
   callOnClient: 0
   callOnServer: 0
   actionName: Reviving Stasis
@@ -30,44 +30,21 @@ MonoBehaviour:
   cursorTexture: {fileID: 0}
   cursorOffsetType: 0
   cursorOffset: {x: 0, y: 0}
-  descriptionStore: A starter ability. The changeling can fake its death and enter
-    a stasis for a small cost of 15 chems. While active stops chemical regeneration.
+  cooldown: 15
   abilityEPCost: 0
   abilityChemCost: 15
-  castSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  canBeReseted: 0
+  abilityImplementation: {fileID: 1515064019581797830, guid: 5722bf93b0593b44caafd2931b25840d,
+    type: 3}
+  descriptionStore: A starter ability. The changeling can fake its death and enter
+    a stasis for a small cost of 15 chems. While active stops chemical regeneration.
+  canBeUsedWhileInCrit: 1
+  isLocal: 0
+  showsOnlyWhenAbsorbedSomeone: 0
   startAbility: 1
   isSlowingChemRegeneration: 0
   isStopingChemRegeneration: 1
-  isLocal: 0
-  isToggleable: 1
   showInStore: 1
-  canBeUsedWhileInCrit: 1
+  showInActions: 1
   swithedToOnWhenInCrit: 1
   swithedToOffWhenExitCrit: 1
   cooldownWhenToggled: 1
-  drawCostWhenToggledOn: 0
-  drawCostWhenToggledOff: 1
-  showInActions: 1
-  cooldown: 15
-  expandedNightVisionVisibility: {x: 25, y: 25, z: 42}
-  defaultvisibilityAnimationSpeed: 1.25
-  revertvisibilityAnimationSpeed: 0.2
-  stingTime: 4
-  reagent: {fileID: 0}
-  reagentCount: 25
-  abilityType: 1
-  stingType: 0
-  healType: 1
-  transformType: 0
-  useAfterChoise: {fileID: 0}
-  miscType: 0
-  abilityImplementation: {fileID: 1515064019581797830, guid: 5722bf93b0593b44caafd2931b25840d,
-    type: 3}

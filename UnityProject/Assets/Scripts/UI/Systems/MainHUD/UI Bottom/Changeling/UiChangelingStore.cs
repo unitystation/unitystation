@@ -22,16 +22,16 @@ namespace Changeling
 		public UiChangeling Ui => ui;
 		private ChangelingMain changelingMain = null;
 
-		private readonly Dictionary<ChangelingData, ChangelingAbilityEntry> entryPool = new ();
+		private readonly Dictionary<ChangelingBaseAbility, ChangelingAbilityEntry> entryPool = new ();
 
-		public void Refresh(List<ChangelingData> toBuy, ChangelingMain changeling)
+		public void Refresh(List<ChangelingBaseAbility> toBuy, ChangelingMain changeling)
 		{
 			changelingMain = changeling;
 			Clear();
 			ShowAbilities(toBuy);
 		}
 
-		private void ShowAbilities(List<ChangelingData> toBuy)
+		private void ShowAbilities(List<ChangelingBaseAbility> toBuy)
 		{
 			foreach (var x in toBuy)
 			{
@@ -50,7 +50,7 @@ namespace Changeling
 			entryPool.Clear();
 		}
 
-		private void AddEntry(ChangelingData dataForCreatingEntry)
+		private void AddEntry(ChangelingBaseAbility dataForCreatingEntry)
 		{
 			if (entryPool.ContainsKey(dataForCreatingEntry))
 				return;
@@ -61,7 +61,7 @@ namespace Changeling
 			entryPool.Add(dataForCreatingEntry, newEntry);
 		}
 
-		private void RemoveEntry(ChangelingData dataForRemovingEntry)
+		private void RemoveEntry(ChangelingBaseAbility dataForRemovingEntry)
 		{
 			Destroy(entryPool[dataForRemovingEntry].gameObject);
 		}
@@ -81,7 +81,7 @@ namespace Changeling
 			resetButton.SetActive(changelingMain.ResetsLeft > 0);
 		}
 
-		public void AddAbility(ChangelingData data)
+		public void AddAbility(ChangelingBaseAbility data)
 		{
 			ui.AddAbility(data);
 		}
