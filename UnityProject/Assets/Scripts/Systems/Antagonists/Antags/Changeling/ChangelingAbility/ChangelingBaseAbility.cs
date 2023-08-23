@@ -44,12 +44,6 @@ namespace Changeling
 
 		[Tooltip("Is ability will be added on start")]
 		public bool startAbility = false;
-		[Tooltip("Is ability slows chem generation while active")]
-		[SerializeField] protected bool isSlowingChemRegeneration = false;
-		public bool IsSlowingChemRegeneration => isSlowingChemRegeneration;
-		[Tooltip("Is ability stops chem generation while active")]
-		[SerializeField] protected bool isStopingChemRegeneration = false;
-		public bool IsStopingChemRegeneration => isStopingChemRegeneration;
 
 		[SerializeField] protected bool showInStore = true;
 		public bool ShowInStore => showInStore;

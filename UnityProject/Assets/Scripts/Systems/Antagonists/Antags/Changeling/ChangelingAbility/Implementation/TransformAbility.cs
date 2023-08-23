@@ -270,10 +270,10 @@ namespace Changeling
 					// removing item anytime when item was moved or something
 					fakeItem.GetComponent<Pickupable>().OnInventoryMoveServerEvent.AddListener((GameObject item) =>
 					{
-						item.TryGetPlayer(out var pl);
-						Chat.AddCombatMsgToChat(changeling.gameObject,
-						$"<color=red>{itemName} was absorbed back into your body.</color>",
-						$"<color=red>{itemName} was absorbed into {pl.Username} body.</color>");
+						if (item.TryGetPlayer(out var pl))
+							Chat.AddCombatMsgToChat(changeling.gameObject,
+							$"<color=red>{itemName} was absorbed back into your body.</color>",
+							$"<color=red>{itemName} was absorbed into {pl.Username} body.</color>");
 
 						if (itemStrg != null)
 							itemStrg.ServerDropAll();

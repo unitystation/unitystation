@@ -552,11 +552,11 @@ namespace Changeling
 			int slowingCount = 0;
 			foreach (ChangelingAbility abil in AbilitiesNow)
 			{
-				if (abil.IsToggled)
+				if (abil.AbilityData is ChangelingToggleAbility toggleAbility && abil.IsToggled)
 				{
-					if (abil.AbilityData.IsSlowingChemRegeneration)
+					if (toggleAbility.IsSlowingChemRegeneration)
 						slowingCount++;
-					if (abil.AbilityData.IsStopingChemRegeneration)
+					if (toggleAbility.IsStopingChemRegeneration)
 					{
 						chemAddPerTime = 0;
 						return;

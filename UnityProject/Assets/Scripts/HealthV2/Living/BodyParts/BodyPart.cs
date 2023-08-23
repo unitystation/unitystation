@@ -8,7 +8,6 @@ using NaughtyAttributes;
 using Player;
 using Systems.Clothing;
 using UI.CharacterCreator;
-using UnityEditor;
 
 namespace HealthV2
 {

@@ -18,6 +18,13 @@ namespace Changeling
 		[SerializeField] private bool cooldownWhenToggled = false;
 		public bool CooldownWhenToggled => cooldownWhenToggled;
 
+		[Tooltip("Is ability slows chem generation while active")]
+		[SerializeField] protected bool isSlowingChemRegeneration = false;
+		public bool IsSlowingChemRegeneration => isSlowingChemRegeneration;
+		[Tooltip("Is ability stops chem generation while active")]
+		[SerializeField] protected bool isStopingChemRegeneration = false;
+		public bool IsStopingChemRegeneration => isStopingChemRegeneration;
+
 
 		public virtual bool UseAbilityToggleClient(ChangelingMain changeling, bool toggle)
 		{
