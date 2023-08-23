@@ -42,10 +42,6 @@ namespace Changeling
 			}
 		}
 
-		[Tooltip("Shows only when absorbed someone")]
-		[SerializeField] private bool showsOnlyWhenAbsorbedSomeone = false;
-		public bool ShowsOnlyWhenAbsorbedSomeone => showsOnlyWhenAbsorbedSomeone;
-
 		[Tooltip("Is ability will be added on start")]
 		public bool startAbility = false;
 		[Tooltip("Is ability slows chem generation while active")]

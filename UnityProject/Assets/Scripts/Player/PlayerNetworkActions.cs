@@ -27,8 +27,6 @@ using Systems.Ai;
 using Tiles;
 using Util;
 using Random = UnityEngine.Random;
-using Changeling;
-using System.Collections.Generic;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -47,7 +45,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private MovementSynchronisation playerMove;
 	private PlayerScript playerScript;
 	public DynamicItemStorage itemStorage => playerScript.DynamicItemStorage;
-	public UnityEngine.Transform chatBubbleTarget;
+	public Transform chatBubbleTarget;
 
 	public bool IsRolling { get; private set; } = false;
 
