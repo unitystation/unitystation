@@ -329,7 +329,7 @@ public class ChatScroll : MonoBehaviour
 		}
 		else if (TMPinputField != null)
 		{
-			if (TMPinputField.isFocused && KeyboardInputManager.IsEnterPressed())
+			if (TMPinputField.text.Length > 0 && KeyboardInputManager.IsEnterPressed())
 			{
 				OnInputSubmit();
 			}
