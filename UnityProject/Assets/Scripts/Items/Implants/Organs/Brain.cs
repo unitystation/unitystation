@@ -193,10 +193,7 @@ namespace Items.Implants.Organs
 				}
 				else
 				{
-					if (drunkAmount != 0)
-					{
-						drunkAmount = 0;
-					}
+					drunkAmount = 0;
 				}
 			}
 		}
