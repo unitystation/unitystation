@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: Flashbang
+  m_EditorClassIdentifier: 
+  category: 0
+  craftingTime: 12
+  recipeName: Flashbang
+  recipeIconOverride: {fileID: 21300000, guid: 5c2e811d11576194e99b82843369289f, type: 3}
+  recipeDescription: Look directly at it for a suprise :)
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 3473322799948726337, guid: dba4afe66472bda4999773fdac6810f1,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb,
+      type: 3}
+  - requiredAmount: 6
+    requiredItem: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits:
+  - {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
+  result:
+  - {fileID: 1751178680301309953, guid: 1dc8ba0207acf41478d8ad69acb8fcc7, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 447

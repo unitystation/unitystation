@@ -124,6 +124,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: 4fc275ebdf468a342b3cfaedf59c45a6,
         type: 3}
+    - target: {fileID: 5285243985238219479, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5285243985238219479, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 094db329f7e1ab142b090d0140516c00,
+        type: 2}
+    - target: {fileID: 5285243985238219479, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: CableType

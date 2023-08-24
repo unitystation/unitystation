@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
+using Core.Camera;
 using Core.Utils;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace CameraEffects
@@ -9,6 +9,7 @@ namespace CameraEffects
 	public class CameraEffectControlScript : MonoBehaviour
 	{
 
+		[Header("Effect scripts")]
 		public DrunkCamera drunkCamera;
 		public GreyscaleCamera greyscaleCamera;
 		public GlitchEffect glitchEffect;
@@ -16,7 +17,9 @@ namespace CameraEffects
 
 		public BlurryVision blurryVisionEffect;
 		public ColourblindEmulation colourblindEmulationEffect;
+		[field: SerializeField] public FlashbangCamera FlashbangCamera { get; private set; }
 
+		[Header("Settings")]
 		[SerializeField]
 		private GameObject minimalVisibilitySprite;
 		public Vector3 MinimalVisibilityScale { private set; get; } = new(3.5f, 3.5f, 8);
@@ -42,6 +45,7 @@ namespace CameraEffects
 		public float BlindFOVDistance = 0.65f;
 		public float FullVisionFOVDistance = 15;
 
+		private Coroutine lastFlashbangCoroutine = null;
 
 		public void Awake()
 		{
@@ -89,14 +93,30 @@ namespace CameraEffects
 			}
 		}
 
+		[Button("[DEBUG] - Flash me!")]
+		public void DebugFlashMeDaddy()
+		{
+			FlashEyes(5f);
+		}
+
 		public void FlashEyes(float flashTime)
 		{
-			StartCoroutine(FlashEyesCoroutine(flashTime));
+			if (lastFlashbangCoroutine != null) StopCoroutine(lastFlashbangCoroutine);
+			lastFlashbangCoroutine = StartCoroutine(FlashEyesCoroutine(flashTime));
 		}
+
 		private IEnumerator FlashEyesCoroutine(float flashTime)
 		{
-			//TODO : Add flash effects here later
-			yield break;
+			FlashbangCamera.enabled = true;
+			FlashbangCamera.Power = 4f;
+			FlashbangCamera.SetFlashbangSoundStrength(FlashbangCamera.LOWPASS);
+			yield return WaitFor.Seconds(flashTime);
+			LeanTween.value(gameObject, f => FlashbangCamera.Power = f, FlashbangCamera.Power, 0, 1.9f).setEaseInOutQuad();
+			LeanTween.value(gameObject, f => FlashbangCamera.SetFlashbangSoundStrength(f),
+				FlashbangCamera.GetFlashbangSoundStrength(), FlashbangCamera.NO_LOWPASS, 1.9f).setEaseInOutQuad();
+			yield return WaitFor.Seconds(1.91f);
+			FlashbangCamera.enabled = false;
+			lastFlashbangCoroutine = null;
 		}
 
 		public void ToggleGlitchEffectState(bool state)
@@ -138,6 +158,7 @@ namespace CameraEffects
 			glitchEffect.enabled = false;
 			nightVisionCamera.enabled = false;
 			greyscaleCamera.enabled = false;
+			FlashbangCamera.enabled = false;
 			colourblindEmulationEffect.SetColourMode(ColourBlindMode.None);
 			blurryVisionEffect.SetBlurStrength(0);
 		}

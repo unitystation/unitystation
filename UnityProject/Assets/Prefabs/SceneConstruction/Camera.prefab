@@ -560,6 +560,7 @@ GameObject:
   - component: {fileID: 7964655504328845500}
   - component: {fileID: 8481840996761083126}
   - component: {fileID: 7940020621871424808}
+  - component: {fileID: 1486188175020947451}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -776,6 +777,7 @@ MonoBehaviour:
   nightVisionCamera: {fileID: 1620099701739618863}
   blurryVisionEffect: {fileID: 7964655504328845500}
   colourblindEmulationEffect: {fileID: 8481840996761083126}
+  <FlashbangCamera>k__BackingField: {fileID: 1486188175020947451}
   minimalVisibilitySprite: {fileID: 1917856994}
   maxDrunkTime: 120
   maxFlashTime: 25
@@ -873,6 +875,20 @@ Skybox:
   m_GameObject: {fileID: 1365047106309440}
   m_Enabled: 1
   m_CustomSkybox: {fileID: 0}
+--- !u!114 &1486188175020947451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365047106309440}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53df904fb5344f9db34e6ba9ff84b868, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Power: 0
+  material: {fileID: 2100000, guid: cef4fc4729339bf489a24c0cf7c0672b, type: 2}
 --- !u!1 &1456048741972242
 GameObject:
   m_ObjectHideFlags: 0
