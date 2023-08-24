@@ -93,6 +93,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A box of 40mm Canister grenade shells.
       objectReference: {fileID: 0}
+    - target: {fileID: 993502170476006930, guid: 19fb6e6a3e54bc54e8215d5cbb5163b9,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 993502170476006930, guid: 19fb6e6a3e54bc54e8215d5cbb5163b9,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 094db329f7e1ab142b090d0140516c00,
+        type: 2}
     - target: {fileID: 5978539856827747241, guid: 19fb6e6a3e54bc54e8215d5cbb5163b9,
         type: 3}
       propertyPath: foreverID

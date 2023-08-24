@@ -15,12 +15,17 @@ namespace UI.Chat_UI
 		[SerializeField]
 		private TMPro.TMP_Text displayText = null;
 
+
 		[SerializeField] private TMPro.TMP_Text tooltipText;
+
+		[SerializeField]
+		private TooltipMonoBehaviour TooltipMonoBehaviour;
 
 		private void Start()
 		{
 			tooltipText ??= tooltip.GetComponentInChildren<TMPro.TMP_Text>();
 			tooltipText.text = Channel.ToString();
+			TooltipMonoBehaviour.baseTooltip = Channel.ToString();
 		}
 
 		public Toggle SetToggle(ChatChannel _channel)
