@@ -99,7 +99,8 @@ namespace Changeling
 		public void ForceToggleToState(bool toggle)
 		{
 			isToggled = toggle;
-
+			if (ActionData.Sprites.Count != 2)
+				return;
 			if (isToggled)
 			{
 				UIActionManager.SetServerSpriteSO(this, ActionData.Sprites[1]);
@@ -159,21 +160,6 @@ namespace Changeling
 			Cooldowns.TryStartClient(sentByPlayer, AbilityData, CooldownTime);
 
 			UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
-		}
-
-		private void AfterAbility(PlayerScript sentByPlayer)
-		{
-			if (CooldownTime < 0.01f)
-				return;
-			Cooldowns.TryStartServer(sentByPlayer, AbilityData, CooldownTime);
-
-			try
-			{
-				UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.gameObject);
-			} catch (Exception ex)
-			{
-				Logger.LogError($"[ChangelingAbility/AfterAbility] Can`t find ability of {sentByPlayer.playerName} {ex}", Category.Changeling);
-			}
 		}
 
 		private bool ValidateAbility(PlayerInfo sentByPlayer)
