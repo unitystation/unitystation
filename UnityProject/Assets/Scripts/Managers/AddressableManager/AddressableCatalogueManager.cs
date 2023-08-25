@@ -39,7 +39,9 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 		var cool = new List<string>();
 		if (Application.isEditor)
 		{
+#if UNITY_EDITOR
 			cool.AddRange(GetCataloguePath());
+#endif
 		}
 		else if (GameData.Instance.DevBuild)
 		{
@@ -192,7 +194,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 //Can add some checks here
 		LoadCatalogue(toLoad);
 	}
-
+#if UNITY_EDITOR
 	public static List<string> GetCataloguePath()
 	{
 		var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
@@ -236,7 +238,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 
 		return FoundFiles;
 	}
-
+#endif
 
 	public static List<string> GetCataloguePathStreamingAssets()
 	{

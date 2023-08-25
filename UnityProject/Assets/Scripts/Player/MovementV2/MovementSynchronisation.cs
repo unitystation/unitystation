@@ -552,6 +552,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		public bool SwappedOnMove;
 
 		public string SwappedWithIDs;
+
+		public bool IsNotMove;
 	}
 
 	public enum PlayerMoveDirection
@@ -780,7 +782,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						Bump = false,
 						LastPushID = SetTimestampID,
 						Pulling = Pulling.Component.OrNull()?.netId ?? NetId.Empty,
-						LastResetID = entry.LastResetID
+						LastResetID = entry.LastResetID,
+						IsNotMove =  entry.IsNotMove
 					};
 
 					if (TryMove(ref Newmove, gameObject, true, out var slip))
@@ -892,6 +895,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					}
 					else
 					{
+
+						if (Newmove.IsNotMove) //they didn't on their end so
+						{
+							return;
+						}
 
 						if (this.connectionToClient != null) //IDK How this could happen, since it came from a client may be for disconnected after a move , better safe than sorry
 						{
@@ -1094,6 +1102,18 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (CanMoveTo(newMoveData, out var causesSlipClient, Pushing, Bumps, out var pushesOff,
 			    out var slippingOn))
 		{
+			if (serverProcessing)
+			{
+				if (newMoveData.IsNotMove)
+				{
+					return false;
+				}
+			}
+			else
+			{
+				newMoveData.IsNotMove = false;
+			}
+
 			if (serverProcessing == false)
 			{
 				newMoveData.CausesSlip = causesSlipClient;
@@ -1194,8 +1214,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			}
 
 			IsBumping = false;
+
 			if (serverProcessing == false)
 			{
+				newMoveData.IsNotMove = true;
 				newMoveData.Bump = bumpedSomething;
 			}
 
