@@ -2,6 +2,7 @@
 using System.Text;
 using System;
 using System.IO;
+using SecureStuff;
 
 /// <summary>
 /// WAV utility for recording and audio playback functions in Unity.
@@ -188,10 +189,10 @@ public class WavUtility {
 
 	public static byte[] FromAudioClip( AudioClip audioClip ) {
 		string file;
-		return FromAudioClip( audioClip, out file, false );
+		return FromAudioClip( audioClip, false );
 	}
 
-	public static byte[] FromAudioClip( AudioClip audioClip, out string filepath, bool saveAsFile = true, string dirname = "recordings" ) {
+	public static byte[] FromAudioClip( AudioClip audioClip, bool saveAsFile = true, string dirname = "recordings" ) {
 		MemoryStream stream = new MemoryStream();
 
 		const int headerSize = 44;
@@ -219,13 +220,11 @@ public class WavUtility {
 
 		// Save file to persistant storage location
 		if ( saveAsFile ) {
-			filepath = string.Format( "{0}/{1}/{2}.{3}", Application.persistentDataPath, dirname, DateTime.UtcNow.ToString( "yyMMdd-HHmmss-fff" ),
-				"wav" );
-			Directory.CreateDirectory( Path.GetDirectoryName( filepath ) );
-			File.WriteAllBytes( filepath, bytes );
+			//filepath = string.Format( "{0}/{1}/{2}.{3}", Application.persistentDataPath, dirname, DateTime.UtcNow.ToString( "yyMMdd-HHmmss-fff" ),
+			//	"wav" );
+			//Directory.CreateDirectory( Path.GetDirectoryName( filepath ) );
+			AccessFile.Write(bytes, $"{dirname}/{DateTime.UtcNow.ToString( "yyMMdd-HHmmss-fff" )}wav", FolderType.Data );
 			//Logger.Log ("Auto-saved .wav file: " + filepath, Category.Audio);
-		} else {
-			filepath = null;
 		}
 
 		stream.Dispose();
