@@ -72,7 +72,7 @@ namespace Changeling
 		private string abilitesIDSNow = "";
 
 		private static Dictionary<uint, ChangelingMain> changelingByMindID = new();
-		public static Dictionary<uint, ChangelingMain> ChangelingByMindID => changelingByMindID;
+		public static Dictionary<uint, ChangelingMain> ChangelingByMindID => new (changelingByMindID);
 		private static Dictionary<uint, Mind> changelingMinds = new();
 		private UiChangeling uiChangeling;
 		public UiChangeling Ui => uiChangeling;
@@ -335,12 +335,25 @@ namespace Changeling
 			CmdResetAbilities();
 		}
 
+		private void OnEnable()
+		{
+			if (changelingMind != null)
+			{
+				var mindId = changelingMind.netId;
+				changelingByMindID.Add(mindId, this);
+				changelingMinds.Add(mindId, changelingMind);
+			}
+		}
+
 		private void OnDisable()
 		{
 			if (UIManager.Display.hudChangeling.ChangelingMain == this)
 			{
 				UIManager.Display.hudChangeling.SetActive(false);
 			}
+			var mindId = changelingMind.netId;
+			changelingByMindID.Remove(mindId);
+			changelingMinds.Remove(mindId);
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Tick);
 		}
@@ -697,7 +710,8 @@ namespace Changeling
 
 		public void UseAbility(ChangelingBaseAbility changelingAbility)
 		{
-			chem -= changelingAbility.AbilityChemCost;
+			if (HasAbility(changelingAbility))
+				chem -= changelingAbility.AbilityChemCost;
 		}
 
 		public ChangelingDna GetDnaById(int dnaID)
