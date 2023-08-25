@@ -58,7 +58,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	public TileChangeManager TileChangeManager => Matrix ? Matrix.TileChangeManager : null;
 
-	[SerializeField, FormerlySerializedAs("ObjectType"), PrefabModeOnly]
+	[SerializeField, FormerlySerializedAs("ObjectType") ]
 	[Tooltip("The kind of object this is.")]
 	private ObjectType objectType = ObjectType.Item;
 
@@ -183,7 +183,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private CheckedComponent<UniversalObjectPhysics> objectPhysics = new CheckedComponent<UniversalObjectPhysics>();
 	public CheckedComponent<UniversalObjectPhysics> ObjectPhysics => objectPhysics;
 
-	[SerializeField, PrefabModeOnly]
+	[SerializeField ]
 	private SortingGroup CurrentsortingGroup;
 
 	private bool Initialized;

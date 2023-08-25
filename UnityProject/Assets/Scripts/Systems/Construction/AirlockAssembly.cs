@@ -10,11 +10,11 @@ namespace Objects.Construction
 {
 	public class AirlockAssembly : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Game object which represents the fill layer of this airlock")]
 		private GameObject overlayFill = null;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Game object which represents the hacking panel layer for this airlock")]
 		private GameObject overlayHacking = null;
 

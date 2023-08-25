@@ -40,7 +40,7 @@ namespace Objects.Atmospherics
 			Welded = 9,
 		}
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Sound to play when the welding task is complete.")]
 		private AddressableReferences.AddressableAudioSource weldFinishSfx = default;
 

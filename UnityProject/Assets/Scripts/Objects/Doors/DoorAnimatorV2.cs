@@ -14,60 +14,60 @@ namespace Doors
 	public class DoorAnimatorV2 : MonoBehaviour
 	{
 		#region Sprite layers
-		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[SerializeField, BoxGroup("Sprite Layers") ]
 		[Tooltip("Game object which represents the base of this door")]
 		private GameObject doorBase = null;
 		public GameObject DoorBase => doorBase;
 
-		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[SerializeField, BoxGroup("Sprite Layers") ]
 		[Tooltip("Game object which represents the light layer of this door")]
 		private GameObject overlaySparks = null;
 		public GameObject OverlaySparks => overlaySparks;
 
-		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[SerializeField, BoxGroup("Sprite Layers") ]
 		[Tooltip("Game object which represents the light layer of this door")]
 		private GameObject overlayLights = null;
 		public GameObject OverlayLights => overlayLights;
 
-		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[SerializeField, BoxGroup("Sprite Layers") ]
 		[Tooltip("Game object which represents the fill layer of this door")]
 		private GameObject overlayFill = null;
 		public GameObject OverlayFill => overlayFill;
 
-		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[SerializeField, BoxGroup("Sprite Layers") ]
 		[Tooltip("Game object which represents the welded and effects layer for this door")]
 		private GameObject overlayWeld = null;
 		public GameObject OverlayWeld => overlayWeld;
 
-		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[SerializeField, BoxGroup("Sprite Layers") ]
 		[Tooltip("Game object which represents the hacking panel layer for this door")]
 		private GameObject overlayHacking = null;
 		public GameObject OverlayHacking => overlayHacking;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Time this door's opening animation takes")]
 		private float openingAnimationTime = 0.6f;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Time this door's closing animation takes")]
 		private float closingAnimationTime = 0.6f;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Time this door's denied animation takes")]
 		private float deniedAnimationTime = 0.6f;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Time this door's warning animation takes")]
 		private float warningAnimationTime = 0.6f;
 		#endregion
 
-		[SerializeField, PrefabModeOnly, Tooltip("Sound that plays when opening this door")]
+		[SerializeField, Tooltip("Sound that plays when opening this door")]
 		private AddressableAudioSource openingSFX;
-		[SerializeField, PrefabModeOnly, Tooltip("Sound that plays when closing this door")]
+		[SerializeField, Tooltip("Sound that plays when closing this door")]
 		private AddressableAudioSource closingSFX;
-		[SerializeField, PrefabModeOnly, Tooltip("Sound that plays when access is denied by this door")]
+		[SerializeField, Tooltip("Sound that plays when access is denied by this door")]
 		private AddressableAudioSource deniedSFX;
-		[SerializeField, PrefabModeOnly, Tooltip("Sound that plays when pressure warning is played by this door")]
+		[SerializeField, Tooltip("Sound that plays when pressure warning is played by this door")]
 		private AddressableAudioSource warningSFX;
 
 		public event Action AnimationFinished;

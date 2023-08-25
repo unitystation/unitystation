@@ -10,7 +10,7 @@ namespace Objects.Electrical
 {
 	public class MachineConnectorSpriteHandler : MonoBehaviour, IServerSpawn
 	{
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		public List<PowerTypeCategory> connectables = new List<PowerTypeCategory>();
 
 		[SerializeField, BoxGroup("Sprite Handlers")]

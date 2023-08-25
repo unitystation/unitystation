@@ -3,7 +3,6 @@ using UnityEditor;
 
 namespace Core.Editor.Attributes
 {
-	[CustomPropertyDrawer(typeof(PrefabModeOnlyAttribute))]
 	public class PrefabModeOnlyDrawer : PropertyDrawer
 	{
 		private bool HideProperty => QuickLoad.HideIrrelevantFields.IsEnabled && UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() == null;

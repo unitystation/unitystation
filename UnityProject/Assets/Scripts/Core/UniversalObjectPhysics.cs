@@ -56,10 +56,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	[PlayModeOnly] public int ForcedPushedFrame = 0;
 	[PlayModeOnly] public int TryPushedFrame = 0;
 	[PlayModeOnly] public int PushedFrame = 0;
-	[PrefabModeOnly] public bool ChangesDirectionPush = false;
-	[PrefabModeOnly] public bool Intangible = false;
-	[PrefabModeOnly] public bool SnapToGridOnStart = false;
-	[PrefabModeOnly] public bool IsPlayer = false;
+	public bool ChangesDirectionPush = false;
+	public bool Intangible = false;
+	public bool SnapToGridOnStart = false;
+	public bool IsPlayer = false;
 
 	protected MatrixCash SetMatrixCache = new MatrixCash();
 
@@ -205,17 +205,16 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[PlayModeOnly] public bool FramePushDecision = true;
 
-	[PrefabModeOnly] public bool stickyMovement = false;
+	public bool stickyMovement = false;
 	//If this thing likes to grab onto stuff such as like a player
 	public bool IsStickyMovement => stickyMovement && SetIgnoreSticky == false;
+	public bool OnThrowEndResetRotation;
 
-	[PrefabModeOnly] public bool OnThrowEndResetRotation;
 
-
-	[PrefabModeOnly] public float maximumStickSpeed = 1.5f;
+	public float maximumStickSpeed = 1.5f;
 	//Speed In tiles per second that, The thing would able to be stop itself if it was sticky
 
-	[PrefabModeOnly] public bool onStationMovementsRound;
+	public bool onStationMovementsRound;
 
 	[HideInInspector] public CheckedComponent<Attributes> attributes = new CheckedComponent<Attributes>();
 
