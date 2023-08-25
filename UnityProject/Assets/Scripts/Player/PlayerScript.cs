@@ -18,7 +18,9 @@ using Systems.StatusesAndEffects;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
-
+using Changeling;
+using UI;
+using GameModes;
 
 public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlayerPossessable, IHoverTooltip
 {
@@ -154,6 +156,25 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float INTERACTION_DISTANCE = 1.5f;
 	public const float INTERACTION_DISTANCE_EXTENDED = 1.75f;
+
+	private ChangelingMain changeling = null;
+	public ChangelingMain Changeling
+	{
+		get
+		{
+			if (changeling == null)
+			{
+				if (CustomNetworkManager.IsServer)
+				{
+					changeling = playerHealth.brain.gameObject.GetComponent<ChangelingMain>();
+				} else
+				{
+					changeling = UIManager.Instance.displayControl.hudChangeling.ChangelingMain;
+				}
+			}
+			return changeling;
+		}
+	}
 
 
 	#region Lifecycle

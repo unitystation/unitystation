@@ -182,6 +182,9 @@ namespace Items
 		[SerializeField]
 		private ItemsSprites itemSprites;
 
+		[HideInInspector]
+		public bool IsFakeItem = false;
+
 		#region Lifecycle
 
 		private void Awake()

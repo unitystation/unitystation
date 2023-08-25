@@ -869,6 +869,46 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
+	public void CmdRequestChangelingAbilites(int abilityIndex, Vector3 clickPosition)
+	{
+		foreach (var spell in playerScript.Changeling.ChangelingAbilities)
+		{
+			if (spell.AbilityData.Index == abilityIndex)
+			{
+				spell.CallActionServer(PlayerList.Instance.GetOnline(gameObject), clickPosition);
+				return;
+			}
+		}
+	}
+	
+
+	[Command]
+	public void CmdRequestChangelingAbilitesWithParam(int abilityIndex, string param)
+	{
+		foreach (var ability in playerScript.Changeling.AbilitiesNow)
+		{
+			if (ability.AbilityData.Index == abilityIndex)
+			{
+				ability.CallActionServerWithParam(PlayerList.Instance.GetOnline(gameObject), param);
+				return;
+			}
+		}
+	}
+	
+	[Command]
+	public void CmdRequestChangelingAbilitesToggle(int abilityIndex, bool toggle)
+	{
+		foreach (var ability in playerScript.Changeling.AbilitiesNow)
+		{
+			if (ability.AbilityData.Index == abilityIndex)
+			{
+				ability.CallActionServerToggle(PlayerList.Instance.GetOnline(gameObject), toggle);
+				return;
+			}
+		}
+	}
+
+	[Command]
 	public void CmdSetCrayon(GameObject crayon, uint category, uint index, uint colourIndex, OrientationEnum direction)
 	{
 		if(crayon == null || crayon.TryGetComponent<CrayonSprayCan>(out var crayonScript) ==  false) return;

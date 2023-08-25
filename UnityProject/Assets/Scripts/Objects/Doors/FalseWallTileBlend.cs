@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Tiles;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 namespace Objects.Doors
@@ -20,6 +21,7 @@ namespace Objects.Doors
 		private List<LayerTile> tilesPresendtedNear = new List<LayerTile>();
 		private List<FalseWallTileBlend> falseWallsPresendtedNear = new List<FalseWallTileBlend>();
 		private static Dictionary<Vector3Int, FalseWallTileBlend> falseWallPresented = new Dictionary<Vector3Int, FalseWallTileBlend>();
+		private bool emptyWallIsPlaced = false;
 
 		private Sprite[] sprites;
 
@@ -47,14 +49,14 @@ namespace Objects.Doors
 			UpdateWallSprite();
 			ChangeNearFalseWallSprites(GetNearFalseWalls(falseWallPosition));
 
-			UpdateManager.Add(CallbackType.LATE_UPDATE, UpdateMethod);
+			tileChangeManager.MetaTileMap.Layers[LayerType.Walls].onTileMapChanges.AddListener(UpdateMethod);
 		}
 
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMethod);
 			falseWallPresented.Remove(falseWallPosition);
-			tileChangeManager.MetaTileMap.RemoveTileWithlayer(falseWallPosition, LayerType.Walls);
+			tileChangeManager.MetaTileMap.Layers[LayerType.Walls].RemoveTile(falseWallPosition);
 		}
 
 		private void UpdateMethod()
@@ -103,9 +105,11 @@ namespace Objects.Doors
 				sprite.sprite = sprites[smoothFrameIndex];
 			doorAnimator.closeFrame = smoothFrameIndex;
 
-
-			if (!HasRealWall(falseWallPosition, tileChangeManager.MetaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>()))
+			if (HasRealWall(falseWallPosition, tileChangeManager.MetaTileMap.Layers[LayerType.Walls]?.GetComponent<Tilemap>()) == false && emptyWallIsPlaced == false)
+			{
 				tileChangeManager.MetaTileMap.SetTile(falseWallPosition, falseTile);
+				emptyWallIsPlaced = true;
+			}
 		}
 
 		private List<FalseWallTileBlend> GetNearFalseWalls(Vector3Int location)

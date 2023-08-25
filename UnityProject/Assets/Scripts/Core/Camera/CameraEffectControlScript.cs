@@ -129,6 +129,11 @@ namespace CameraEffects
 			nightVisionCamera.enabled = state;
 		}
 
+		public void NvgHasMaxedLensRadius(bool set)
+		{
+			nightVisionCamera.HasMaxedLensRadius(set);
+		}
+
 		private void DoEffectTimeCheck()
 		{
 			if (drunkCameraTime > 0)

@@ -346,6 +346,16 @@ namespace Player
 			}
 		}
 
+		public void SetSurfaceColour(Color CurrentSurfaceColour)
+		{
+			CurrentSurfaceColour.a = 1;
+
+			foreach (var sp in SurfaceSprite)
+			{
+				sp.baseSpriteHandler.SetColor(CurrentSurfaceColour);
+			}
+		}
+
 		private void OnClientFireStacksChange(float newStacks)
 		{
 			UpdateBurningOverlays(newStacks, directional.CurrentDirection);
@@ -359,9 +369,20 @@ namespace Player
 				clothingItem.Direction = direction;
 			}
 
+			var toRemove = new List<SpriteHandlerNorder>();
 			foreach (var sprite in OpenSprites)
 			{
+				if (sprite == null)
+				{
+					toRemove.Add(sprite);
+					continue;
+				}
 				sprite.OnDirectionChange(direction);
+			}
+
+			foreach (var toRem in toRemove)
+			{
+				OpenSprites.Remove(toRem);
 			}
 
 			foreach (var bodypart in Addedbodypart)

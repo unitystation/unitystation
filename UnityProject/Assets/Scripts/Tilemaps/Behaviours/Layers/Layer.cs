@@ -6,6 +6,7 @@ using Initialisation;
 using TileManagement;
 using Tiles;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 
@@ -13,6 +14,8 @@ using UnityEngine.Tilemaps;
 public class Layer : MonoBehaviour
 {
 	public MatrixSystemManager SubsystemManager { get; private set; }
+
+	[HideInInspector] public UnityEvent onTileMapChanges;
 
 	public LayerType LayerType;
 	protected Tilemap tilemap;
@@ -152,6 +155,8 @@ public class Layer : MonoBehaviour
 		tilemap.SetColor(position, color);
 		tilemap.SetTransformMatrix(position, transformMatrix);
 
+		onTileMapChanges.Invoke();
+
 
 
 		//Client stuff, never spawn this on the server. (IsServer is technically a client in some cases so only return this on headless)
@@ -168,6 +173,7 @@ public class Layer : MonoBehaviour
 	{
 		var tileRemoved = false;
 		tileRemoved = InternalSetTile(position, null);
+		onTileMapChanges.Invoke();
 		return tileRemoved;
 	}
 

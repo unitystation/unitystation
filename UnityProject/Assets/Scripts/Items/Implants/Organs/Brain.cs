@@ -16,7 +16,7 @@ namespace Items.Implants.Organs
 	{
 
 		public IPlayerPossessable Itself => this as IPlayerPossessable;
-		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect) this;
+		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect)this;
 
 		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
 		[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
@@ -27,11 +27,11 @@ namespace Items.Implants.Organs
 		public uint OnPlayerID => OnBodyID;
 		public uint PossessingID => possessingID;
 
-		[FormerlySerializedAs("hasInbuiltSite")] [SerializeField] private bool hasInbuiltSight = false;
+		[FormerlySerializedAs("hasInbuiltSite")][SerializeField] private bool hasInbuiltSight = false;
 		[SerializeField] private bool hasInbuiltHearing = false;
 
 
-		[SerializeField] private bool CannotSpeak  = false;
+		[SerializeField] private bool CannotSpeak = false;
 
 
 		[SerializeField] private bool hasInbuiltSpeech = false;
@@ -41,7 +41,9 @@ namespace Items.Implants.Organs
 
 		[SyncVar(hook = nameof(SyncTelekinesis))] private bool hasTelekinesis = false;
 
-		[SyncVar(hook = nameof(SyncDrunkenness))] private float DrunkAmount = 0;
+		[SyncVar(hook = nameof(SyncDrunkenness))] private float drunkAmount = 0;
+
+		public float DrunkAmount => drunkAmount;
 
 		public bool HasTelekinesis => hasTelekinesis;
 
@@ -135,10 +137,10 @@ namespace Items.Implants.Organs
 
 		public void SyncDrunkenness(float Oldvalue, float NewValue)
 		{
-			DrunkAmount = NewValue;
+			drunkAmount = NewValue;
 			if (Preimplemented.IsOnLocalPlayer)
 			{
-				ApplyChangesDrunkenness(DrunkAmount);
+				ApplyChangesDrunkenness(drunkAmount);
 			}
 
 		}
@@ -171,30 +173,27 @@ namespace Items.Implants.Organs
 		{
 			if (ReagentCirculatedComponent.OrNull()?.AssociatedSystem != null && ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(DrunkReagent))
 			{
-				float DrunkPercentage  = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(DrunkReagent);
+				float DrunkPercentage = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(DrunkReagent);
 				if (DrunkPercentage > 0)
 				{
 					if (DrunkPercentage > MaxDrunkAtPercentage)
 					{
 						DrunkPercentage = MaxDrunkAtPercentage;
 					}
-					var  percentage = DrunkPercentage / MaxDrunkAtPercentage;
+					var percentage = DrunkPercentage / MaxDrunkAtPercentage;
 
 					if (percentage > 0.05f)
 					{
-						SyncDrunkenness(DrunkAmount, percentage);
+						SyncDrunkenness(drunkAmount, percentage);
 					}
 					else
 					{
-						SyncDrunkenness(DrunkAmount, 0);
+						SyncDrunkenness(drunkAmount, 0);
 					}
 				}
 				else
 				{
-					if (DrunkAmount != 0)
-					{
-						DrunkAmount = 0;
-					}
+					drunkAmount = 0;
 				}
 			}
 		}
@@ -214,7 +213,7 @@ namespace Items.Implants.Organs
 		{
 			ApplyChangesBlindness(Default ? false : true);
 			ApplyDeafness(Default ? 0 : 1);
-			ApplyChangesDrunkenness(Default ? 0 : DrunkAmount);
+			ApplyChangesDrunkenness(Default ? 0 : drunkAmount);
 		}
 
 		public void ApplyDeafness(float Value)
@@ -268,7 +267,7 @@ namespace Items.Implants.Organs
 
 		public void UpdateChatModifier(bool add)
 		{
-			if (RelatedPart.HealthMaster == null)  return;
+			if (RelatedPart.HealthMaster == null) return;
 			if (add)
 			{
 				RelatedPart.HealthMaster.BodyChatModifier |= BodyChatModifier;
@@ -311,8 +310,8 @@ namespace Items.Implants.Organs
 		public RegisterPlayer CurrentlyOn { get; set; }
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-		public void OnControlPlayer( Mind mind) { }
-		public void OnPossessPlayer(Mind mind, IPlayerPossessable parent) {}
+		public void OnControlPlayer(Mind mind) { }
+		public void OnPossessPlayer(Mind mind, IPlayerPossessable parent) { }
 		#endregion
 	}
 }

@@ -130,6 +130,11 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
+	public virtual void ClearPresentSpriteSet()
+	{
+		PresentSpriteSet = null;
+	}
+
 	/// <summary>
 	/// Current sprite color from SpriteRender or Image
 	/// White means no color modification was added

@@ -64,7 +64,7 @@ public class DNAConsole : MonoBehaviour
 	[NaughtyAttributes.Button()]
 	public void Inject()
 	{
-		DNAScanner.occupant.InjectDNA(Injecting);
+		DNAScanner.occupant.InjectDna(Injecting);
 	}
 
 

@@ -61,6 +61,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// Cached for quick lookup of what slots are actually available in this storage.
 	/// </summary>
 	private HashSet<SlotIdentifier> definedSlots;
+	public HashSet<SlotIdentifier> DefinedSlots => new(definedSlots);
 
 	//note this will be null if this is not a player's own top-level inventory
 	private PlayerNetworkActions playerNetworkActions;

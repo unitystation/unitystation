@@ -74,6 +74,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Useful for smelling!
       objectReference: {fileID: 0}
+    - target: {fileID: 2988332360848176654, guid: 2cdfee5611d505240ab3835c94a38fa8,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2988332360848176654, guid: 2cdfee5611d505240ab3835c94a38fa8,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e9ac88966a35d34a9fd90c34e1ddaa0,
+        type: 2}
     - target: {fileID: 3270984814907370032, guid: 2cdfee5611d505240ab3835c94a38fa8,
         type: 3}
       propertyPath: m_Sprite

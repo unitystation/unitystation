@@ -29,7 +29,13 @@ public class SpriteHandlerNorder : MonoBehaviour
 
 	public void UpdateData(string InNew)
 	{
-		if (InNew == null) return;
+		if (InNew == null)
+		{
+			SpriteHandler.ClearPresentSpriteSet();
+			spriteRenderer.sprite = null;
+			return;
+		}
+
 		Data = InNew;
 		if (CustomNetworkManager.Instance._isServer) return;
 		spriteOrder = JsonConvert.DeserializeObject<SpriteOrder>(Data);

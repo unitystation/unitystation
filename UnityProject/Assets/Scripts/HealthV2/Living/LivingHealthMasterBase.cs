@@ -15,7 +15,6 @@ using Health.Sickness;
 using HealthV2.Living.CirculatorySystem;
 using HealthV2.Living.PolymorphicSystems;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
-using Initialisation;
 using Items.Implants.Organs;
 using JetBrains.Annotations;
 using NaughtyAttributes;
@@ -27,6 +26,7 @@ using Systems.Score;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using Systems.Character;
 
 namespace HealthV2
 {
@@ -283,6 +283,8 @@ namespace HealthV2
 
 		public event Action OnDeath;
 		public UnityEvent OnRevive;
+		public UnityEvent OnCrit;
+		public UnityEvent OnCritExit;
 
 		[SyncVar] public bool CannotRecognizeNames = false;
 
@@ -667,6 +669,8 @@ namespace HealthV2
 		}
 
 		public float NutrimentConsumed = 0;
+		[SerializeField] private bool stopOverallCalculation = false;
+		[SerializeField] private bool stopHealthSystems = false;
 
 		//Server Side only
 		private void PeriodicUpdate()
@@ -674,17 +678,22 @@ namespace HealthV2
 			NutrimentConsumed = 0;
 			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{
+				if (stopHealthSystems == true)
+					continue;
 				BodyPartList[i].ImplantPeriodicUpdate();
 			}
 
 
 			foreach (var system in ActiveSystems)
 			{
+				if (stopHealthSystems == true)
+					continue;
 				system.SystemUpdate();
 			}
 
 
-			ExternalMetaboliseReactions();
+			if (stopHealthSystems == false)
+				ExternalMetaboliseReactions();
 
 			FireStacksDamage();
 			CalculateRadiationDamage();
@@ -692,7 +701,8 @@ namespace HealthV2
 
 			EnvironmentDamage();
 
-			CalculateOverallHealth();
+			if (!stopOverallCalculation)
+				CalculateOverallHealth();
 
 
 			if (IsDead)
@@ -772,64 +782,84 @@ namespace HealthV2
 
 
 
-		public void InjectDNA(List<DNAMutationData> Payloads)
+		public Coroutine InjectDna(List<DNAMutationData> Payloads, bool skipWaiting = false, CharacterSheet characterSheet = null)
 		{
-			StartCoroutine(EnumeratorInjectDna(Payloads));
+			return StartCoroutine(EnumeratorInjectDna(Payloads, skipWaiting, characterSheet));
 		}
 
 
-		private IEnumerator EnumeratorInjectDna(List<DNAMutationData> Payloads)
+		private IEnumerator EnumeratorInjectDna(List<DNAMutationData> Payloads, bool skipWaiting = false, CharacterSheet characterSheet = null)
 		{
 			foreach (var Payload in Payloads)
 			{
-				yield return ProcessDNAPayload(Payload);
+				yield return StartCoroutine(ProcessDnaPayload(Payload, skipWaiting, characterSheet));
 			}
 		}
 
-
-		public IEnumerator ProcessDNAPayload(DNAMutationData InDNAMutationData)
+		public IEnumerator ProcessDnaPayload(DNAMutationData InDNAMutationData, bool skipWaiting = false, CharacterSheet characterSheet = null)
 		{
 			//TODO Skin and body type , is in character Settings  so is awkward
 			foreach (var Payload in InDNAMutationData.Payload)
 			{
-				yield return WaitFor.Seconds(1f);
+				if (skipWaiting == false)
+					yield return WaitFor.Seconds(1f);
 				foreach (var BP in BodyPartList)
 				{
-					if (BP.name.ToLower().Contains(InDNAMutationData.BodyPartSearchString.ToLower()))
-					{
+					if (BP.name.ToLower().Contains(InDNAMutationData.BodyPartSearchString.ToLower()) == false) continue;
+					var Mutation = BP.GetComponent<BodyPartMutations>();
+					if (Mutation == null) continue;
+					if (skipWaiting == false)
 						yield return WaitFor.Seconds(1f);
-						var Mutation = BP.GetComponent<BodyPartMutations>();
-						if (Mutation != null)
-						{
-							if (string.IsNullOrEmpty(Payload.CustomisationTarget) ==false ||  string.IsNullOrEmpty(Payload.CustomisationReplaceWith) ==false)
-							{
-								Mutation.MutateCustomisation(Payload.CustomisationTarget,
-									Payload.CustomisationReplaceWith);
-							}
+					if (string.IsNullOrEmpty(Payload.CustomisationTarget) == false || string.IsNullOrEmpty(Payload.CustomisationReplaceWith) == false)
+					{
+						Mutation.MutateCustomisation(Payload.CustomisationTarget,
+							Payload.CustomisationReplaceWith);
+					}
 
-							if (Payload.RemoveTargetMutationSO != null)
-							{
-								Mutation.RemoveMutation(Payload.RemoveTargetMutationSO);
-							}
+					if (Payload.RemoveTargetMutationSO != null)
+					{
+						Mutation.RemoveMutation(Payload.RemoveTargetMutationSO);
+					}
 
-							if (Payload.TargetMutationSO != null)
-							{
-								Mutation.AddMutation(Payload.TargetMutationSO);
-							}
+					if (Payload.TargetMutationSO != null)
+					{
+						Mutation.AddMutation(Payload.TargetMutationSO);
+					}
 
-							if (Payload.SpeciesMutateTo != null && Payload.MutateToBodyPart != null)
-							{
-								Mutation.ChangeToSpecies(Payload.SpeciesMutateTo,
-									Payload.MutateToBodyPart);
-							}
-						}
+					if (Payload.SpeciesMutateTo != null && Payload.MutateToBodyPart != null)
+					{
+						Mutation.ChangeToSpecies(Payload.MutateToBodyPart, characterSheet);
+						// Anyway triggers error because changed BodyPartList
+						break; 
 					}
 				}
 			}
 		}
 
-		#endregion
+		public void RefreshPumps()
+		{
+			reagentPoolSystem.RefreshPumps(BodyPartList);
+		}
 
+		/// <summary>
+		/// Updates blood pool with giving body start blood and removing previous
+		/// </summary>
+		public void UpdateBloodPool(bool needToTransferFood = false)
+		{
+			reagentPoolSystem.UpdateBloodPool(needToTransferFood, GetSystem<HungerSystem>());
+		}
+
+		/// <summary>
+		/// Updates meat Produce and skin through getting them from character sheet
+		/// </summary>
+		public void UpdateMeatAndSkinProduce()
+		{
+			var raceParts = playerSprites.ThisCharacter.GetRaceSoNoValidation();
+			meatProduce = raceParts.Base.MeatProduce;
+			skinProduce = raceParts.Base.SkinProduce;
+		}
+
+		#endregion
 		/// <summary>
 		/// Calculates and applies radiation damage
 		/// </summary>
@@ -1048,18 +1078,26 @@ namespace HealthV2
 			if (currentHealth < -100)
 			{
 				CheckHeartStatus();
+				OnCrit?.Invoke();
 			}
 			else if (currentHealth < -50)
 			{
 				SetConsciousState(ConsciousState.UNCONSCIOUS);
+				OnCrit?.Invoke();
 			}
 			else if (currentHealth < 0)
 			{
 				SetConsciousState(ConsciousState.BARELY_CONSCIOUS);
+				OnCrit?.Invoke();
 			}
 			else
 			{
 				SetConsciousState(ConsciousState.CONSCIOUS);
+			}
+
+			if (conState == ConsciousState.UNCONSCIOUS && ConsciousState is ConsciousState.CONSCIOUS or ConsciousState.BARELY_CONSCIOUS)
+			{
+				OnCritExit?.Invoke();
 			}
 
 			if (conState == ConsciousState.DEAD && ConsciousState is ConsciousState.CONSCIOUS or ConsciousState.BARELY_CONSCIOUS)
@@ -1091,7 +1129,7 @@ namespace HealthV2
 			}
 		}
 
-		private void SetConsciousState(ConsciousState NewConsciousState)
+		public void SetConsciousState(ConsciousState NewConsciousState)
 		{
 			if (ConsciousState != NewConsciousState)
 			{
@@ -1306,6 +1344,55 @@ namespace HealthV2
 			}
 
 			CalculateOverallHealth(); //This makes the player alive and concision.
+		}
+
+		public void StopOverralCalculation()
+		{
+			stopOverallCalculation = true;
+		}
+
+		public void UnstopOverallCalculation()
+		{
+			stopOverallCalculation = false;
+		}
+
+		public void StopHealthSystemsAndHeart()
+		{
+			foreach (var bodyPart in BodyPartList)
+			{
+				foreach (BodyPartFunctionality organ in bodyPart.OrganList)
+				{
+					if (organ is Heart heart)
+					{
+						heart.HeartAttack = true;
+						heart.CanTriggerHeartAttack = false;
+						heart.CurrentPulse = 0;
+						continue;
+					}
+					if (organ is Eye eye)
+					{
+						eye.BadEyesight = 10;
+					}
+				}
+			}
+			CalculateOverallHealth();
+			stopHealthSystems = true;
+		}
+
+		public void UnstopHealthSystemsAndRestartHeart()
+		{
+			stopHealthSystems = false;
+			foreach (var bodyPart in BodyPartList)
+			{
+				foreach (BodyPartFunctionality organ in bodyPart.OrganList)
+				{
+					if (organ is Eye eye)
+					{
+						eye.BadEyesight = 0;
+					}
+				}
+			}
+			RestartHeart();
 		}
 
 		/// <summary>
