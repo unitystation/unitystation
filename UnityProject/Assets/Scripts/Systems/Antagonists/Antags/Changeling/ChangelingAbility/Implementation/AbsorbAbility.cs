@@ -9,7 +9,6 @@ namespace Changeling
 	[CreateAssetMenu(menuName = "ScriptableObjects/Systems/ChangelingAbilities/AbsorbAbility")]
 	public class AbsorbAbility : Sting
 	{
-		private const float MAX_REMOVING_WHILE_ABSORBING_BODY = 70f;
 
 		public override bool UseAbilityClient(ChangelingMain changeling)
 		{
@@ -29,16 +28,15 @@ namespace Changeling
 			Chat.AddCombatMsgToChat(changeling.gameObject,
 			$"<color=red>You start absorbing of {target.visibleName}</color>",
 			$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.visibleName} starts absorbing of {target.visibleName}</color>");
-			var cor = changeling.StartCoroutine(AbsorbingProgress(stingTime / 10f, target));
+			Chat.AddExamineMsg(target.gameObject, "<color=red>Your body is absorbing!</color>");
 			var action = StandardProgressAction.Create(stingProgressBar,
 				() =>
 				{
-					changeling.StopCoroutine(cor);
 					PerfomAbilityAfter(changeling, target);
 				},
 				(_) =>
 				{
-					changeling.StopCoroutine(cor);
+					Chat.AddExamineMsg(target.gameObject, "<color=red>Your body is stopped being absorbing!</color>");
 				});
 
 
@@ -96,20 +94,6 @@ namespace Changeling
 				{
 					break;
 				}
-			}
-		}
-
-		private IEnumerator AbsorbingProgress(float pauseTime, PlayerScript target)
-		{
-			var absorbing = true;
-			var toRemove = target.Mind.Body.playerHealth.reagentPoolSystem.BloodPool.Total / 10f;
-			while (absorbing)
-			{
-				yield return WaitFor.SecondsRealtime(pauseTime);
-				Chat.AddExamineMsg(target.gameObject, "<color=red>Your body is absorbing!</color>");
-
-				if (target.playerHealth.reagentPoolSystem.BloodPool.Total > toRemove && target.playerHealth.reagentPoolSystem.BloodPool.Total > MAX_REMOVING_WHILE_ABSORBING_BODY)
-					target.playerHealth.reagentPoolSystem.BloodPool.RemoveVolume(toRemove);
 			}
 		}
 	}
