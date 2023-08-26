@@ -23,11 +23,15 @@ Please join us on Discord:
 ## Feel like getting involved?
 Read our Quick Start guide [here](https://unitystation.github.io/unitystation/contribution-guides/Starting-contribution/)
 1. [Get Unity Hub](https://unity3d.com/get-unity/download)
-2. Install editor version **2021.3.16f1 LTS**
+2. Install editor version **2023.1.9f1**
 3. Fork the repo
 4. Add your changes
 5. Read the contribution guidelines
 6. Submit a pull request
+
+> **Warning**
+> Unitystation's requires an SSD to run.
+> The first-time import process will generally take around 1 hour and 30 minutes approximately to generate a local library. (The project will open in less than a minute afterwards)
 
 ## LICENSE
 
