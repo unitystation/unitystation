@@ -16,7 +16,7 @@ namespace Changeling
 		[SerializeField] protected float stingTime = 4f;
 		public float StingTime => stingTime;
 
-		protected PlayerScript GetPlayerOnClick(ChangelingMain changeling, Vector3 clickPosition, Vector3 rounded, string messageWhenPlayerIsDead = "<color=red>Your cannot sting a dead body!</color>")
+		protected PlayerScript GetPlayerOnClick(ChangelingMain changeling, Vector3 clickPosition, Vector3 rounded, string messageWhenTargetIsDead = "<color=red>Your cannot sting a dead body!</color>")
 		{
 			MatrixInfo matrixinfo = MatrixManager.AtPoint(rounded, true);
 			clickPosition += new Vector3(-0.5f, -0.5f); // shifting point for geting player tile instead of shifted
@@ -41,8 +41,7 @@ namespace Changeling
 			}
 			if (target.IsDeadOrGhost)
 			{
-
-				Chat.AddExamineMsg(changeling.ChangelingMind.gameObject, messageWhenPlayerIsDead);
+				Chat.AddExamineMsg(changeling.ChangelingMind.gameObject, messageWhenTargetIsDead);
 				return null;
 			}
 
