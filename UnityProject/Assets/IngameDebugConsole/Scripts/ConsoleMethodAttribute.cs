@@ -1,9 +1,10 @@
 ﻿using System;
+using SecureStuff;
 
 namespace IngameDebugConsole
 {
 	[AttributeUsage( AttributeTargets.Method, Inherited = false, AllowMultiple = true )]
-	public class ConsoleMethodAttribute : Attribute
+	public class ConsoleMethodAttribute : BaseAttribute
 	{
 		private string m_command;
 		private string m_description;
