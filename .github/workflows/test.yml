@@ -29,12 +29,8 @@ jobs:
           - UnityProject
         targetPlatform:
           - StandaloneWindows64
-          
-    - uses: game-ci/unity-builder@v3
-        with:
-            customImage: 'editor:ubuntu-2023.1.9f1-base-2'
             
-    steps:
+    steps:  
       # Checkout repository (required to test local actions)
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -75,6 +71,7 @@ jobs:
           customParameters: "-nographics"
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
+          customImage: 'editor:ubuntu-2023.1.9f1-base-2'
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}
           testMode: editmode
       
