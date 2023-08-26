@@ -31,6 +31,7 @@ Read our Quick Start guide [here](https://unitystation.github.io/unitystation/co
 
 > **Warning**
 > Unitystation's requires an SSD to run.
+
 > The first-time import process will generally take around 1 hour and 30 minutes approximately to generate a local library. (The project will open in less than a minute afterwards)
 
 ## LICENSE
