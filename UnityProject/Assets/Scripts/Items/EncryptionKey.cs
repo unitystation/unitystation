@@ -6,6 +6,7 @@ using Mirror;
 using Objects.Telecomms;
 using Messages.Client;
 using ScriptableObjects.Communications;
+using SecureStuff;
 
 namespace Items
 {

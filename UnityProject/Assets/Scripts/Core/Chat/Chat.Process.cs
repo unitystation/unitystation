@@ -18,6 +18,7 @@ using Tilemaps.Behaviours.Meta;
 using Unitystation.Options;
 using WebSocketSharp;
 using Antagonists;
+using SecureStuff;
 using Random = UnityEngine.Random;
 
 public partial class Chat

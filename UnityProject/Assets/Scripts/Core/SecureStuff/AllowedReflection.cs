@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using NUnit.Framework;
 using UnityEngine;
 
 namespace SecureStuff
@@ -15,8 +16,58 @@ namespace SecureStuff
 		public T Attribute;
 	}
 
+	public interface IAllowedReflection{}
+
 	public static class AllowedReflection
 	{
+
+		public static void RegisterNetworkMessages(Type messagebaseType, Type networkManagerExtensions, string registerMethodName, bool IsServer)
+		{
+			if (messagebaseType.GetInterfaces().Contains(typeof(IAllowedReflection)) == false)
+            {
+            	Logger.LogError("RegisterNetworkMessages Got a message type that didn't Implement IAllowedReflection Interface");
+            	return;
+
+			}
+
+			var methodInfo = networkManagerExtensions.GetMethod(registerMethodName, BindingFlags.Static | BindingFlags.Public);
+
+			if (methodInfo.GetCustomAttribute<BaseAttribute>(true) == null)
+			{
+				var VVNote = methodInfo.GetCustomAttribute<VVNote>(true);
+				if (VVNote is not {variableHighlightl: VVHighlight.SafeToModify100})
+				{
+					Logger.LogError("registerMethod Wasn't marked with VVNote VVHighlight.SafeToModify100 or BaseAttribute Presumed unsafe");
+					return;
+				}
+			}
+
+			IEnumerable<Type> types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes().Where(t => !t.IsAbstract && t.IsSubclassOfOpen(messagebaseType))).ToArray();
+
+			foreach (var type in types)
+			{
+				var message = Activator.CreateInstance(type);
+				MethodInfo method = methodInfo.MakeGenericMethod(type, type.BaseType?.GenericTypeArguments[0]);
+				method.Invoke(null, new object[] {IsServer, message});
+			}
+		}
+
+		// https://stackoverflow.com/questions/457676/check-if-a-class-is-derived-from-a-generic-class
+		private static bool IsSubclassOfOpen(this Type t, Type baseType)
+		{
+			while (t != null && t != typeof(object))
+			{
+				Type cur = t.IsGenericType ? t.GetGenericTypeDefinition() : t;
+				if (baseType == cur)
+				{
+					return true;
+				}
+				t = t.BaseType;
+			}
+
+			return false;
+		}
+
 		public static object InvokeFunction(MethodInfo methodInfo, object instance , object[] parameters)
 		{
 			if (methodInfo.GetCustomAttribute<BaseAttribute>(true) == null)
@@ -126,6 +177,26 @@ namespace SecureStuff
 
 			return result;
 		}
+
+		public static string GetDescription(this Enum value)
+		{
+			FieldInfo fieldInfo = value.GetType().GetField(value.ToString());
+			if (fieldInfo == null)
+			{
+				return null;
+			}
+			System.ComponentModel.DescriptionAttribute descriptionAttribute =
+				fieldInfo.GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false).FirstOrDefault() as System.ComponentModel.DescriptionAttribute;
+			return descriptionAttribute == null ? value.ToString() : descriptionAttribute.Description;
+		}
+		public static int GetOrder(this Enum value)
+		{
+			FieldInfo fieldInfo = value.GetType().GetField(value.ToString());
+			OrderAttribute attribute =
+				fieldInfo.GetCustomAttributes(typeof(OrderAttribute), false).FirstOrDefault() as OrderAttribute;
+			return attribute == null ? -1 : attribute.Order;
+		}
+
 	}
 }
 
