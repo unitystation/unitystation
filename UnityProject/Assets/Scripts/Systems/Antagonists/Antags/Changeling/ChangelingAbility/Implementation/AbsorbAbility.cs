@@ -15,19 +15,14 @@ namespace Changeling
 			return true;
 		}
 
+
 		public override bool UseAbilityServer(ChangelingMain changeling, Vector3 clickPosition)
 		{
 			clickPosition = new Vector3(clickPosition.x, clickPosition.y, 0);
 			var rounded = Vector3Int.RoundToInt(clickPosition);
-			var target = GetPlayerOnClick(changeling, clickPosition, rounded);
+			var target = GetPlayerOnClick(changeling, clickPosition, rounded, "<color=red>Your cannot absorb a dead body!</color>");
 			if (target == null || target == changeling.ChangelingMind.Body)
 			{
-				return false;
-			}
-
-			if (target.playerHealth.IsDead == true)
-			{
-				Chat.AddExamineMsg(changeling.ChangelingMind.gameObject, "<color=red>Your cannot absorb a dead body!</color>");
 				return false;
 			}
 

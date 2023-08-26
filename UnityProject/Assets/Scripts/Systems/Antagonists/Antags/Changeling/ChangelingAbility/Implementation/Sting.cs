@@ -16,7 +16,7 @@ namespace Changeling
 		[SerializeField] protected float stingTime = 4f;
 		public float StingTime => stingTime;
 
-		protected PlayerScript GetPlayerOnClick(ChangelingMain changeling, Vector3 clickPosition, Vector3 rounded)
+		protected PlayerScript GetPlayerOnClick(ChangelingMain changeling, Vector3 clickPosition, Vector3 rounded, string messageWhenPlayerIsDead = "<color=red>Your cannot sting a dead body!</color>")
 		{
 			MatrixInfo matrixinfo = MatrixManager.AtPoint(rounded, true);
 			clickPosition += new Vector3(-0.5f, -0.5f); // shifting point for geting player tile instead of shifted
@@ -36,27 +36,17 @@ namespace Changeling
 				break;
 			}
 			if (target == null || target.Mind == null)
-				return null;
-
-			var brainIsFounded = false;
-			foreach (var bodyPart in target.playerHealth.BodyPartList)
 			{
-				foreach (BodyPartFunctionality organ in bodyPart.OrganList)
-				{
-					if (organ is Brain brain)
-					{
-						brainIsFounded = true;
-						break;
-					}
-				}
-				if (brainIsFounded == true)
-				{
-					break;
-				}
+				return null;
+			}
+			if (target.IsDeadOrGhost)
+			{
+
+				Chat.AddExamineMsg(changeling.ChangelingMind.gameObject, messageWhenPlayerIsDead);
+				return null;
 			}
 
-			if (Vector3.Distance(changeling.ChangelingMind.Body.GameObject.AssumedWorldPosServer(), target.Mind.Body.GameObject.AssumedWorldPosServer()) > MAX_DISTANCE_TO_TILE
-				|| target.IsDeadOrGhost || brainIsFounded == false)
+			if (Vector3.Distance(changeling.ChangelingMind.Body.GameObject.AssumedWorldPosServer(), target.Mind.Body.GameObject.AssumedWorldPosServer()) > MAX_DISTANCE_TO_TILE)
 			{
 				return null;
 			}
