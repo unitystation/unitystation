@@ -27,11 +27,13 @@ jobs:
       matrix:
         projectPath:
           - UnityProject
-        unityVersion:
-          - '2023.1.9f1'
         targetPlatform:
           - StandaloneWindows64
-
+          
+    - uses: game-ci/unity-builder@v3
+        with:
+            customImage: 'editor:ubuntu-2023.1.9f1-base-2'
+            
     steps:
       # Checkout repository (required to test local actions)
       - name: Checkout repository
