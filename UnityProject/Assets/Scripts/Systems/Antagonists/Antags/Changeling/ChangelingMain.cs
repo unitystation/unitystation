@@ -335,16 +335,6 @@ namespace Changeling
 			CmdResetAbilities();
 		}
 
-		private void OnEnable()
-		{
-			if (changelingMind != null)
-			{
-				var mindId = changelingMind.netId;
-				changelingByMindID.Add(mindId, this);
-				changelingMinds.Add(mindId, changelingMind);
-			}
-		}
-
 		private void OnDisable()
 		{
 			if (UIManager.Display.hudChangeling.ChangelingMain == this)
