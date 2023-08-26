@@ -25,6 +25,12 @@ namespace Changeling
 				return false;
 			}
 
+			if (target.playerHealth.IsDead == true)
+			{
+				Chat.AddExamineMsg(changeling.ChangelingMind.gameObject, "<color=red>Your cannot absorb a dead body!</color>");
+				return false;
+			}
+
 			Chat.AddCombatMsgToChat(changeling.gameObject,
 			$"<color=red>You start absorbing of {target.visibleName}</color>",
 			$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.visibleName} starts absorbing of {target.visibleName}</color>");

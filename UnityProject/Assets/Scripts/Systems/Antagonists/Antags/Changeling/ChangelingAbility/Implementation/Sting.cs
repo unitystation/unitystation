@@ -35,7 +35,7 @@ namespace Changeling
 				target = integrity;
 				break;
 			}
-			if (target == null || target.Mind == null || target.playerHealth.IsDead)
+			if (target == null || target.Mind == null)
 				return null;
 
 			var brainIsFounded = false;
@@ -78,6 +78,12 @@ namespace Changeling
 			var target = GetPlayerOnClick(changeling, clickPosition, rounded);
 			if (target == null || target == changeling.ChangelingMind.Body)
 			{
+				return false;
+			}
+
+			if (target.playerHealth.IsDead == true)
+			{
+				Chat.AddExamineMsg(changeling.ChangelingMind.gameObject, "<color=red>Your cannot sting a dead body!</color>");
 				return false;
 			}
 

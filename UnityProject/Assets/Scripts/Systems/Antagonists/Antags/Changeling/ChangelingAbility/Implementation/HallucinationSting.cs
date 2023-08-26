@@ -30,6 +30,11 @@ namespace Changeling
 			{
 				return false;
 			}
+			if (target.playerHealth.IsDead == true)
+			{
+				Chat.AddExamineMsg(changeling.ChangelingMind.gameObject, "<color=red>Your cannot sting a dead body!</color>");
+				return false;
+			}
 
 			changeling.UseAbility(this);
 			var action = StandardProgressAction.Create(stingProgressBar,
