@@ -1,4 +1,3 @@
-using GameModes;
 using Mirror;
 using Newtonsoft.Json;
 using System;
@@ -7,10 +6,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using Systems.Character;
 using UI.Core.Action;
 using UnityEngine;
-using Util;
 
 namespace Changeling
 {
@@ -72,7 +69,7 @@ namespace Changeling
 		private string abilitesIDSNow = "";
 
 		private static Dictionary<uint, ChangelingMain> changelingByMindID = new();
-		public static Dictionary<uint, ChangelingMain> ChangelingByMindID => changelingByMindID;
+		public static Dictionary<uint, ChangelingMain> ChangelingByMindID => new(changelingByMindID);
 		private static Dictionary<uint, Mind> changelingMinds = new();
 		private UiChangeling uiChangeling;
 		public UiChangeling Ui => uiChangeling;
@@ -341,6 +338,11 @@ namespace Changeling
 			{
 				UIManager.Display.hudChangeling.SetActive(false);
 			}
+			var mindId = changelingMind.netId;
+			if (changelingByMindID.ContainsKey(mindId))
+				changelingByMindID.Remove(mindId);
+			if (changelingMinds.ContainsKey(mindId))
+				changelingMinds.Remove(mindId);
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Tick);
 		}
@@ -697,7 +699,8 @@ namespace Changeling
 
 		public void UseAbility(ChangelingBaseAbility changelingAbility)
 		{
-			chem -= changelingAbility.AbilityChemCost;
+			if (HasAbility(changelingAbility))
+				chem -= changelingAbility.AbilityChemCost;
 		}
 
 		public ChangelingDna GetDnaById(int dnaID)

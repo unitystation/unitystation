@@ -35,11 +35,11 @@ namespace Changeling
 				target = integrity;
 				break;
 			}
-			if (target == null || target.Mind == null)
+			if (target == null || target.Mind == null || target.playerHealth.IsDead)
 				return null;
 
 			var brainIsFounded = false;
-			foreach (var bodyPart in target.Mind.Body.playerHealth.BodyPartList)
+			foreach (var bodyPart in target.playerHealth.BodyPartList)
 			{
 				foreach (BodyPartFunctionality organ in bodyPart.OrganList)
 				{
