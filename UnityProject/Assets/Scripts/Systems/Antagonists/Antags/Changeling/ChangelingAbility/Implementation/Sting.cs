@@ -29,8 +29,7 @@ namespace Changeling
 			foreach (PlayerScript integrity in matrixinfo.Matrix.Get<PlayerScript>(Vector3Int.CeilToInt(localPosInt), true))
 			{
 				// to be sure that player don`t morph into AI or something like that
-				if (integrity.PlayerType != PlayerTypes.Normal || integrity.characterSettings.Species.ToLower().Contains("cow")
-				|| integrity.characterSettings.Species.ToLower().Contains("monkey"))
+				if (integrity.PlayerType != PlayerTypes.Normal || integrity.characterSettings.GetRaceSoNoValidation().Base.allowedToChangeling == false)
 					continue;
 				target = integrity;
 				break;

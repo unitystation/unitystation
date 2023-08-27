@@ -81,12 +81,6 @@ namespace Changeling
 			var choise = new List<DynamicUIChoiceEntryData>();
 			foreach (ChangelingDna x in changeling.ChangelingLastDNAs)
 			{
-				if (x.CharacterSheet.Species.ToLower().Contains("cow")
-				|| x.CharacterSheet.Species.ToLower().Contains("monkey"))
-				{
-					continue;
-				}
-
 				var newEntry = new DynamicUIChoiceEntryData();
 				newEntry.Text = $"{x.PlayerName}";
 				newEntry.ChoiceAction = () =>

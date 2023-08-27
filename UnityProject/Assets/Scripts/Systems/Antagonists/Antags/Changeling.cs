@@ -17,14 +17,13 @@ namespace Changeling
 	{
 		public override Mind ServerSpawn(PlayerSpawnRequest spawnRequest)
 		{
-			if (spawnRequest.CharacterSettings.Species.ToLower().Contains("cow") || spawnRequest.CharacterSettings.Species.ToLower().Contains("monkey"))
+			if (spawnRequest.CharacterSettings.GetRaceSoNoValidation().Base.allowedToChangeling == false)
 			{
-				var races = RaceSOSingleton.Instance.Races;
 				var racesToAdd = new List<PlayerHealthData>();
 
-				foreach (PlayerHealthData x in races)
+				foreach (PlayerHealthData x in RaceSOSingleton.Instance.Races)
 				{
-					if (x.name.ToLower().Contains("monkey") == false)
+					if (x.Base.allowedToChangeling)
 					{
 						racesToAdd.Add(x);
 					}
