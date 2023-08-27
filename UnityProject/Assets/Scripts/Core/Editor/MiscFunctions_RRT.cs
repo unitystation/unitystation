@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Doors;
 using UnityEditor;
@@ -46,8 +48,6 @@ namespace Util
 		{
 			EditorPrefs.SetInt("kAutoRefresh", 1);
 			UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
-
-
 		}
 
 
@@ -109,6 +109,7 @@ namespace Util
 			{
 				AssetDatabase.DeleteAsset(oDe);
 			}
+
 			var AAA = FindAssetsByType<SpriteCatalogue>();
 			foreach (var Seve in ToSeve)
 			{
@@ -138,6 +139,7 @@ namespace Util
 			{
 				AAA[0].AddToCatalogue(SO);
 			}
+
 			EditorUtility.SetDirty(AAA[0]);
 			AssetDatabase.StopAssetEditing();
 			AssetDatabase.SaveAssets();
@@ -160,18 +162,24 @@ namespace Util
 		[MenuItem("Tools/------------ Debug function -----------")]
 		public static void Generate()
 		{
+			// AssetDatabase.StartAssetEditing();
+			//                     			AssetDatabase.ForceReserializeAssets();
+			//                     		AssetDatabase.StopAssetEditing();
+			//                             			AssetDatabase.SaveAssets();
 
-				// AssetDatabase.StartAssetEditing();
-    //                     			AssetDatabase.ForceReserializeAssets();
-    //                     		AssetDatabase.StopAssetEditing();
-    //                             			AssetDatabase.SaveAssets();
 
-			_ = Dothing();
+			// Get the type (class) that contains the method
+			Type type = typeof(MiscFunctions_RRT);
+
+			// Get the method information
+			MethodInfo methodInfo = type.GetMethod("Dothing");
+
+			var Info = methodInfo.GetCustomAttributes();
 
 			return;
 
 
-			EditorPrefs.SetInt("kAutoRefreshMode", (int)1);
+			EditorPrefs.SetInt("kAutoRefreshMode", (int) 1);
 			EditorPrefs.SetInt("kAutoRefresh", 1); //older unity versions
 			//var SGen = new SudokuGenerator();
 
@@ -613,11 +621,12 @@ namespace Util
 					var Sprites = AssetDatabase.LoadAllAssetsAtPath(TT).OfType<Sprite>().ToArray();
 					if (Sprites.Length > 1)
 					{
-						Sprites = Sprites.OrderBy(x => int.Parse(x.name.Substring(x.name.LastIndexOf('_') + 1))).ToArray();
+						Sprites = Sprites.OrderBy(x => int.Parse(x.name.Substring(x.name.LastIndexOf('_') + 1)))
+							.ToArray();
 					}
 
 					//yeah If you named your sub sprites rip, have to find another way of ordering them correctly since the editor doesnt want to do that		E
-					var EquippedData = (TextAsset)AssetDatabase.LoadAssetAtPath(
+					var EquippedData = (TextAsset) AssetDatabase.LoadAssetAtPath(
 						path.Replace(".png", ".json").Replace(Application.dataPath, "Assets"), typeof(TextAsset));
 					var SpriteData = ScriptableObject.CreateInstance<SpriteDataSO>();
 

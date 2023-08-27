@@ -137,28 +137,32 @@ namespace AdminTools.VariableViewer
 			{
 				if (inType == typeof(Vector3))
 				{
-					var X = (float)inType.GetField("x").GetValue(Data);
-					var Y = (float)inType.GetField("y").GetValue(Data);
-					var Z = (float)inType.GetField("z").GetValue(Data);
+					Vector3 Vector3 = (Vector3) Data ;
+					var X = (float)Vector3.x;
+					var Y = (float)Vector3.y;
+					var Z = (float)Vector3.z;
 					return (X + "," + Y + "," + Z);
 				}
 				else if (inType == typeof(Vector3Int))
 				{
-					var X = (int)inType.GetProperty("x").GetValue(Data);
-					var Y = (int)inType.GetProperty("y").GetValue(Data);
-					var Z = (int)inType.GetProperty("z").GetValue(Data);
+					Vector3Int Vector3Int = (Vector3Int) Data;
+					var X = (int) Vector3Int.x;
+					var Y = (int) Vector3Int.y;
+					var Z = (int) Vector3Int.z;
 					return (X + "," + Y + "," + Z + "#");
 				}
 				else if (inType == typeof(Vector2))
 				{
-					var X = (float)inType.GetField("x").GetValue(Data);
-					var Y = (float)inType.GetField("y").GetValue(Data);
+					Vector2 Vector2 = (Vector2) Data;
+					var X = (float)Vector2.x;
+					var Y = (float) Vector2.y;
 					return (X + "," + Y);
 				}
 				else if (inType == typeof(Vector2Int))
 				{
-					var X = (int)inType.GetProperty("x").GetValue(Data);
-					var Y = (int)inType.GetProperty("y").GetValue(Data);
+					Vector2Int Vector2Int = (Vector2Int) Data;
+					var X = (int) Vector2Int.x;
+					var Y = (int) Vector2Int.y;
 					return (X + "," + Y + "#");
 				}
 			}

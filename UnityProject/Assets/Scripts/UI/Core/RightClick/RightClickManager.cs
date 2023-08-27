@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using SecureStuff;
 using Shared.Managers;
 using Tiles;
 using UI;
@@ -135,21 +136,17 @@ public class RightClickManager : SingletonManager<RightClickManager>
 	{
 		var result = new List<RightClickAttributedComponent>();
 
-		var allComponentTypes = AppDomain.CurrentDomain.GetAssemblies()
-			.SelectMany(s => s.GetTypes())
-			.Where(s => typeof(MonoBehaviour).IsAssignableFrom(s));
+		var data = AllowedReflection.GetFunctionsWithAttribute<RightClickMethod>();
 
-		foreach (var componentType in allComponentTypes)
+		foreach (var MonoBehaviourAndMethods in data)
 		{
-			var attributedMethodsForType = componentType.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy)
-				.Where(m => m.GetCustomAttribute<RightClickMethod>(true) != null)
-				.ToList();
-			if (attributedMethodsForType.Count > 0)
+			if (MonoBehaviourAndMethods.Value.Count > 0)
 			{
 				RightClickAttributedComponent component = new RightClickAttributedComponent
 				{
-					ComponentType = componentType,
-					AttributedMethods = attributedMethodsForType
+					ComponentType = MonoBehaviourAndMethods.Key,
+					AttributedMethods = MonoBehaviourAndMethods.Value.Select(x => x.MethodInfo).ToList()
+
 				};
 				result.Add(component);
 			}

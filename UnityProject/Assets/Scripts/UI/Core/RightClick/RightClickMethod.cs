@@ -1,6 +1,7 @@
 
 using System;
 using System.Reflection;
+using SecureStuff;
 using UnityEngine;
 
 /// <summary>
@@ -10,7 +11,7 @@ using UnityEngine;
 /// from the right click menu for any objects that component is attached to. Can be useful for debugging.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]
-public class RightClickMethod : Attribute
+public class RightClickMethod : BaseAttribute
 {
 	public readonly string label;
 	public readonly string bgColorHex;
@@ -75,6 +76,7 @@ public class RightClickMethod : Attribute
 			}
 		}
 
-		return RightClickMenuItem.CreateSubMenuItem(colorToUse, sprite, bgSprite, labelToUse, (Action) Delegate.CreateDelegate(typeof(Action), forComponent, attributedMethod));
+		return RightClickMenuItem.CreateSubMenuItem(colorToUse, sprite, bgSprite, labelToUse,
+			() => { _ = AllowedReflection.InvokeFunction(attributedMethod, forComponent, null); });
 	}
 }
