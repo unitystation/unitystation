@@ -124,7 +124,7 @@ namespace Systems.Explosions
 			{
 				if (IsAnyMatchingType(NodePoint.ExplosionNodes, NodeType) == false)
 				{
-					ExplosionNode expNode = (ExplosionNode)Activator.CreateInstance(NodeType.GetType());
+					ExplosionNode expNode = NodeType.GenInstance();
 					int fnull = FirstNullValue(NodePoint.ExplosionNodes);
 					if (fnull >= 0) NodePoint.ExplosionNodes[fnull] = expNode;
 					expNode.Initialise(Local, Matrix.Matrix);

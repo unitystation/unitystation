@@ -1,11 +1,12 @@
 ﻿using System;
 using Managers;
 using Mirror;
+using SecureStuff;
 using UnityEngine;
 
 namespace Messages
 {
-	public abstract class GameMessageBase<T> where T : struct, NetworkMessage
+	public abstract class GameMessageBase<T> : IAllowedReflection where T : struct, NetworkMessage
 	{
 		public GameObject NetworkObject;
 		public GameObject[] NetworkObjects;

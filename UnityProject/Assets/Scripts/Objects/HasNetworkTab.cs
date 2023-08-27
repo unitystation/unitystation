@@ -20,11 +20,11 @@ namespace Objects
 		[NonSerialized]
 		private GameObject playerInteracted;
 
-		[PrefabModeOnly]
+
 		[Tooltip("Network tab to display.")]
 		public NetTabType NetTabType = NetTabType.None;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		private bool aiInteractable = true;
 
 		public event Action<GameObject> OnShowUI;

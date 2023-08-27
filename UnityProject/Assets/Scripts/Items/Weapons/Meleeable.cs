@@ -12,7 +12,7 @@ namespace Systems.Interaction
 	/// </summary>
 	public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>
 	{
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		private bool isMeleeable = true;
 		// If it has this component, isn't it assumed to be meleeable? Is this still true for tilemaps?
 		public bool IsMeleeable

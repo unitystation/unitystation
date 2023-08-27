@@ -52,7 +52,7 @@ namespace Objects.Engineering
 		private ResistanceSourceModule resistanceSourceModule;
 
 		[Tooltip("Sound used when the APC loses all power.")]
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		private AddressableAudioSource NoPowerSound = null;
 
 		[NonSerialized]
@@ -221,7 +221,7 @@ namespace Objects.Engineering
 				connectedDevices[i].PowerNetworkUpdate(voltages);
 				calculatingResistance += (1 / connectedDevices[i].Resistance);
 			}
-			
+
 			resistanceSourceModule.Resistance = (1 / calculatingResistance);
 		}
 
@@ -293,27 +293,27 @@ namespace Objects.Engineering
 		/// <summary>
 		/// The screen sprites which are currently being displayed
 		/// </summary>
-		[PrefabModeOnly]
+
 		Sprite[] loadedScreenSprites;
 		/// <summary>
 		/// The animation sprites for when the APC is in a critical state
 		/// </summary>
-		[PrefabModeOnly]
+
 		public Sprite[] criticalSprites;
 		/// <summary>
 		/// The animation sprites for when the APC is charging
 		/// </summary>
-		[PrefabModeOnly]
+
 		public Sprite[] chargingSprites;
 		/// <summary>
 		/// The animation sprites for when the APC is fully charged
 		/// </summary>
-		[PrefabModeOnly]
+
 		public Sprite[] fullSprites;
 		/// <summary>
 		/// The sprite renderer for the APC display
 		/// </summary>
-		[PrefabModeOnly]
+
 		public SpriteRenderer screenDisplay;
 		/// <summary>
 		/// The sprite index for the display animation

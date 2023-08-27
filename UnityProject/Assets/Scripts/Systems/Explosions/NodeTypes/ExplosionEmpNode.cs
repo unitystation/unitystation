@@ -97,5 +97,10 @@ namespace Systems.Explosions
 
 			return true;
 		}
+
+		public override ExplosionNode GenInstance()
+		{
+			return new ExplosionEmpNode();
+		}
 	}
 }

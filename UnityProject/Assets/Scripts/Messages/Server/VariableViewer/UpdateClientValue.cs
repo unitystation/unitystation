@@ -23,7 +23,7 @@ namespace Messages.Server.VariableViewer
 			LoadNetworkObject(msg.GameObject);
 			if (NetworkObject != null)
 			{
-				Librarian.ChangeVariableClient(NetworkObject, msg.MonoBehaviourName, msg.ValueName, msg.Newvalue, msg.IsInvokeFunction);
+				AllowedReflection.ChangeVariableClient(NetworkObject, msg.MonoBehaviourName, msg.ValueName, msg.Newvalue, msg.IsInvokeFunction);
 			}
 		}
 

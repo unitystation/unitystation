@@ -4,6 +4,7 @@ using Communications;
 using InGameEvents;
 using Objects.Machines.ServerMachines.Communications;
 using System.Collections.Generic;
+using SecureStuff;
 using Shared.Systems.ObjectConnection;
 using Systems.Communications;
 using Systems.Electricity;

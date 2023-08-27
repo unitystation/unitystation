@@ -179,5 +179,10 @@ namespace Systems.Explosions
 			ExplosionManager.CleanupEffectLater(time * 0.001f, tileChangeManager.MetaTileMap,
 				position, effectOverlayType);
 		}
+
+		public virtual ExplosionNode GenInstance()
+		{
+			return new ExplosionNode();
+		}
 	}
 }
