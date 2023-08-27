@@ -148,9 +148,12 @@ namespace Changeling
 					var errorStringBuilder = new StringBuilder();
 					foreach (var x in param)
 					{
+						errorStringBuilder.Append("'");
 						errorStringBuilder.AppendLine(x);
+						if (param.Last() != x)
+							errorStringBuilder.Append("',");
 					}
-					Logger.LogError($"[ChangelingAbility/CastAbilityServerWithParam] Failed to use ability {AbilityData.Name}. Params was: \n{errorStringBuilder}.\n" +
+					Logger.LogError($"[ChangelingAbility/CastAbilityServerWithParam] Failed to use ability {AbilityData.Name}. Params was: {errorStringBuilder}." +
 					$"Sented was by player '{sentByPlayer.Username}' {ex}");
 					return false;
 				}
