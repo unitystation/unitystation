@@ -2,6 +2,7 @@ using HealthV2;
 using Items.Implants.Organs;
 using System;
 using System.Collections;
+using System.Security.Policy;
 using UnityEngine;
 
 namespace Changeling
@@ -20,16 +21,21 @@ namespace Changeling
 		{
 			clickPosition = new Vector3(clickPosition.x, clickPosition.y, 0);
 			var rounded = Vector3Int.RoundToInt(clickPosition);
-			var target = GetPlayerOnClick(changeling, clickPosition, rounded, "<color=red>You cannot absorb a dead body!</color>");
+			var target = GetPlayerOnClick(changeling, clickPosition, rounded);
 			if (target == null || target == changeling.ChangelingMind.Body)
 			{
+				return false;
+			}
+			if (target.IsDeadOrGhost)
+			{
+				Chat.AddExamineMsg(changeling.ChangelingMind.gameObject, "<color=red>You cannot absorb a dead body!</color>");
 				return false;
 			}
 
 			Chat.AddCombatMsgToChat(changeling.gameObject,
 			$"<color=red>You start absorbing of {target.visibleName}</color>",
 			$"<color=red>{changeling.ChangelingMind.CurrentPlayScript.visibleName} starts absorbing of {target.visibleName}</color>");
-			Chat.AddExamineMsg(target.gameObject, "<color=red>Your body is absorbing!</color>");
+			Chat.AddExamineMsg(target.gameObject, "<color=red>Your body is being absorbed!</color>");
 			var action = StandardProgressAction.Create(stingProgressBar,
 				() =>
 				{
@@ -37,7 +43,7 @@ namespace Changeling
 				},
 				(_) =>
 				{
-					Chat.AddExamineMsg(target.gameObject, "<color=red>Your body is stopped being absorbing!</color>");
+					Chat.AddExamineMsg(target.gameObject, "<color=red>Your body is no longer being absorbed!</color>");
 				});
 
 

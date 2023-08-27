@@ -14,9 +14,10 @@ namespace Changeling
 		new StandardProgressActionConfig(StandardProgressActionType.CPR);
 
 		[SerializeField] protected float stingTime = 4f;
+
 		public float StingTime => stingTime;
 
-		protected PlayerScript GetPlayerOnClick(ChangelingMain changeling, Vector3 clickPosition, Vector3 rounded, string messageWhenTargetIsDead = "<color=red>You cannot sting a dead body!</color>")
+		protected PlayerScript GetPlayerOnClick(ChangelingMain changeling, Vector3 clickPosition, Vector3 rounded)
 		{
 			MatrixInfo matrixinfo = MatrixManager.AtPoint(rounded, true);
 			clickPosition += new Vector3(-0.5f, -0.5f); // shifting point for geting player tile instead of shifted
@@ -36,11 +37,6 @@ namespace Changeling
 			}
 			if (target == null || target.Mind == null)
 			{
-				return null;
-			}
-			if (target.IsDeadOrGhost)
-			{
-				Chat.AddExamineMsg(changeling.ChangelingMind.gameObject, messageWhenTargetIsDead);
 				return null;
 			}
 
@@ -68,10 +64,9 @@ namespace Changeling
 			{
 				return false;
 			}
-
-			if (target.playerHealth.IsDead == true)
+			if (target.IsDeadOrGhost)
 			{
-				Chat.AddExamineMsg(changeling.ChangelingMind.gameObject, "<color=red>Your cannot sting a dead body!</color>");
+				Chat.AddExamineMsg(changeling.ChangelingMind.gameObject, "<color=red>You cannot sting a dead body!</color>");
 				return false;
 			}
 
