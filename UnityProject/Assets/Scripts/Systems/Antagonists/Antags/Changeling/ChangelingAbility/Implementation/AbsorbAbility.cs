@@ -20,7 +20,7 @@ namespace Changeling
 		{
 			clickPosition = new Vector3(clickPosition.x, clickPosition.y, 0);
 			var rounded = Vector3Int.RoundToInt(clickPosition);
-			var target = GetPlayerOnClick(changeling, clickPosition, rounded, "<color=red>Your cannot absorb a dead body!</color>");
+			var target = GetPlayerOnClick(changeling, clickPosition, rounded, "<color=red>You cannot absorb a dead body!</color>");
 			if (target == null || target == changeling.ChangelingMind.Body)
 			{
 				return false;

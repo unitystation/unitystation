@@ -91,7 +91,7 @@ namespace Changeling
 				catch (Exception ex)
 				{
 					Logger.LogError($"[ChangelingAbility/CallActionServerToggle] Failed to use ability {AbilityData.Name}. Toggle to was {toggle}." +
-					$" Sented was by player '{sentByPlayer.Username}' {ex}");
+					$"Sented was by player '{sentByPlayer.Username}' {ex}");
 				}
 			}
 			if (ActionData.Sprites.Count != 2)
@@ -151,7 +151,7 @@ namespace Changeling
 						errorStringBuilder.AppendLine(x);
 					}
 					Logger.LogError($"[ChangelingAbility/CastAbilityServerWithParam] Failed to use ability {AbilityData.Name}. Params was: \n{errorStringBuilder}.\n" +
-					$" Sented was by player '{sentByPlayer.Username}' {ex}");
+					$"Sented was by player '{sentByPlayer.Username}' {ex}");
 					return false;
 				}
 				return true;
@@ -169,7 +169,7 @@ namespace Changeling
 			} catch (Exception ex)
 			{
 				Logger.LogError($"[ChangelingAbility/CastAbilityServer] Failed to use ability {AbilityData.Name}. Click positiong was {clickPosition}." +
-				$" Sented was by player '{sentByPlayer.Username}' {ex}");
+				$"Sented was by player '{sentByPlayer.Username}' {ex}");
 				return false;
 			}
 			return true;
