@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 
 namespace Core.Utils
@@ -10,6 +11,30 @@ namespace Core.Utils
 
 	public static class Utils
 	{
+		public static void SetValueByName(this Dropdown dropdown, string valueName)
+		{
+			List<Dropdown.OptionData> options = dropdown.options;
+			for (int i = 0; i < options.Count; i++)
+			{
+				if (options[i].text == valueName)
+				{
+					dropdown.value = i;
+					break;
+				}
+			}
+		}
+
+		public static string GetValueName(this Dropdown dropdown)
+		{
+			List<Dropdown.OptionData> options = dropdown.options;
+			int selectedIndex = dropdown.value;
+			if (selectedIndex >= 0 && selectedIndex < options.Count)
+			{
+				return options[selectedIndex].text;
+			}
+			return null;
+		}
+
 		public static T[] FindAll<T>(this T[] items, Predicate<T> predicate) => Array.FindAll<T>(items, predicate);
 		public static T PickRandom<T>(this IEnumerable<T> source)
 		{
@@ -305,9 +330,8 @@ namespace Core.Utils
 			Behaviour = inRegisterBehaviour;
 			SetFloatBehaviour  = InSetFloatBehaviour;
 		}
+
 	}
-
-
 
 }
 

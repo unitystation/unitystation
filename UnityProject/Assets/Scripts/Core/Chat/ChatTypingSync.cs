@@ -17,6 +17,7 @@ public class ChatTypingSync : MonoBehaviour
 
 	private void Start()
 	{
+		if (ChatUI.Instance == null) return;
 		ChatUI.Instance.OnChatInputChanged += OnChatInputChanged;
 		ChatUI.Instance.OnChatWindowClosed += OnChatWindowClosed;
 	}
