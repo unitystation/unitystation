@@ -13,11 +13,11 @@ namespace Objects.Atmospherics
 {
 	public class MonoPipe : MonoBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>
 	{
-		[PrefabModeOnly]
+
 		public SpriteHandler spritehandler;
-		[PrefabModeOnly]
+
 		public GameObject SpawnOnDeconstruct;
-		[PrefabModeOnly]
+
 		public RegisterTile registerTile;
 		public PipeData pipeData;
 		public Matrix Matrix => registerTile.Matrix;

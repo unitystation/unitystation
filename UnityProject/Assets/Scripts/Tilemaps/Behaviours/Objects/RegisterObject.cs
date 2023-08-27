@@ -16,7 +16,7 @@ using UnityEngine.UIElements;
 [ExecuteInEditMode]
 public class RegisterObject : RegisterTile, IPointerEnterHandler, IPointerExitHandler
 {
-	[PrefabModeOnly]
+
 	public bool AtmosPassable = true;
 
 	[NonSerialized]
@@ -27,20 +27,20 @@ public class RegisterObject : RegisterTile, IPointerEnterHandler, IPointerExitHa
 	[SyncVar(hook = nameof(SetCrawlingPassable))]
 	public bool CrawlPassable = false;
 
-	[PrefabModeOnly]
+
 	[Tooltip("If true, this object won't block players from interacting with other objects")]
 	public bool ReachableThrough = true;
 
 
 	private bool initialAtmosPassable;
 
-	[SerializeField, FormerlySerializedAs("Passable"), PrefabModeOnly]
+	[SerializeField, FormerlySerializedAs("Passable") ]
 	private bool initialPassable;
 
-	[SerializeField, FormerlySerializedAs("CrawlPassable"), PrefabModeOnly]
+	[SerializeField, FormerlySerializedAs("CrawlPassable") ]
 	private bool initialCrawlPassable;
 
-	[SerializeField, PrefabModeOnly]
+	[SerializeField ]
 	private List<PassableExclusionTrait> passableExclusionsToThis = default;
 
 	protected override void Awake()

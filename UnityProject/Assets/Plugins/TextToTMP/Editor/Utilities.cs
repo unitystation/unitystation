@@ -217,7 +217,7 @@ namespace TextToTMPNamespace
 
 		private bool AreScenesSaved()
 		{
-			for( int i = 0; i < EditorSceneManager.loadedSceneCount; i++ )
+			for( int i = 0; i < SceneManager.loadedSceneCount; i++ )
 			{
 				Scene scene = EditorSceneManager.GetSceneAt( i );
 				if( scene.isDirty || string.IsNullOrEmpty( scene.path ) )

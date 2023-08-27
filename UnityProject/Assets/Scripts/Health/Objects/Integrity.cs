@@ -72,11 +72,11 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[Tooltip("This object's initial \"HP\"")]
 	public float initialIntegrity = 100f;
 
-	//[PrefabModeOnly] Commented out as it doesnt work correctly
+	//  Commented out as it doesnt work correctly
 	[Tooltip("Sound to play when damage applied.")]
 	public AddressableAudioSource soundOnHit;
 
-	[PrefabModeOnly]
+
 	[Tooltip("A damage threshold the attack needs to pass in order to apply damage to this item.")]
 	public float damageDeflection = 0;
 
@@ -89,25 +89,25 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// <summary>
 	/// resistances for this object.
 	/// </summary>
-	//[PrefabModeOnly] Commented out as it doesnt work correctly
+	//  Commented out as it doesnt work correctly
 	[Tooltip("Resistances of this object.")]
 	public Resistances Resistances = new Resistances();
 
 	/// <summary>
 	/// Below this temperature (in Kelvin) the object will be unaffected by fire exposure.
 	/// </summary>
-	[PrefabModeOnly]
+
 	[Tooltip("Below this temperature (in Kelvin) the object will be unaffected by fire exposure.")]
 	public float HeatResistance = 100;
 
 	/// <summary>
 	/// The explosion strength of this object if is set to explode on destroy
 	/// </summary>
-	[PrefabModeOnly]
+
 	[Tooltip("The explosion strength of this object if is set to explode on destroy")]
 	public float ExplosionsDamage = 100f;
 
-	[SerializeField, PrefabModeOnly]
+	[SerializeField ]
 	private bool doDamageMessage = true;
 
 	public bool DoDamageMessage => doDamageMessage;

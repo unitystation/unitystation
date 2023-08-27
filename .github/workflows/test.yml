@@ -27,12 +27,10 @@ jobs:
       matrix:
         projectPath:
           - UnityProject
-        unityVersion:
-          - 2021.3.16f1
         targetPlatform:
           - StandaloneWindows64
-
-    steps:
+            
+    steps:  
       # Checkout repository (required to test local actions)
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -73,6 +71,7 @@ jobs:
           customParameters: "-nographics"
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
+          customImage: 'unityci/editor:ubuntu-2023.1.9f1-base-2'
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}
           testMode: editmode
       

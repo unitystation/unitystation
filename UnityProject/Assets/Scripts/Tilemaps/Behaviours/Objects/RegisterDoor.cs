@@ -22,7 +22,7 @@ using Util;
 		[NonSerialized]
 		public InteractableDoor InteractableDoor;
 
-		[PrefabModeOnly]
+
 		public bool OneDirectionRestricted;
 
 		[SerializeField]

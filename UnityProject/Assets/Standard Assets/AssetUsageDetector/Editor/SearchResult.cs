@@ -690,7 +690,7 @@ namespace AssetUsageDetectorNamespace
 					// If the container (scene, usually) is left clicked, highlight it on Project view
 					AssetDatabase.LoadAssetAtPath<SceneAsset>( Title ).SelectInEditor();
 				}
-				else if( !EditorApplication.isPlaying && EditorSceneManager.loadedSceneCount > 1 )
+				else if( !EditorApplication.isPlaying && SceneManager.loadedSceneCount > 1 )
 				{
 					// Show context menu when SearchResultGroup's header is right clicked
 					Scene scene = EditorSceneManager.GetSceneByPath( Title );

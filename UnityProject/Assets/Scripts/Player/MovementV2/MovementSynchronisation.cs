@@ -56,7 +56,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public bool IsTrapped => IsCuffed || ContainedInObjectContainer != null;
 
-	[PrefabModeOnly] public bool CanMoveThroughObstructions = false;
+	  public bool CanMoveThroughObstructions = false;
 
 	//Sync vars commented out as only the current speed is sync'd
 	//[SyncVar(hook = nameof(SyncRunSpeed))]
