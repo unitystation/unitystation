@@ -30,10 +30,10 @@ Read our Quick Start guide [here](https://unitystation.github.io/unitystation/co
 6. Submit a pull request
 
 > **Warning**
-> Unitystation's requires an SSD to run.
+> The Unitystation editor project greatly prefers a SSD, so it is recommended to have an SSD when developing
 
 > **Note**
-> The first-time import process will generally take around 1 hour and 30 minutes approximately to generate a local library.
+> The first-time import process will take a while , depending on your system configuration it could take 15 minutes to an hour, subsequent launches of the project should take a max a minute
 
 ## LICENSE
 
