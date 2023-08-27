@@ -725,6 +725,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 
 #if  UNITY_EDITOR
+		if (this == null) return;
 		if (Application.isPlaying == false)
 		{
 			if (spriteRenderer == null)

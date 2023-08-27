@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
@@ -15,13 +16,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 768dd751540d35142a72e32044033c45,
         type: 2}
     - target: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[3]
+      propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 4f443b74e230a024583d526d1beda6b0,
         type: 2}
@@ -187,6 +188,13 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8594439505056330043, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3861562749713631138}
   m_SourcePrefab: {fileID: 100100000, guid: 838a4732b2dece64497d074b7a700be6, type: 3}
 --- !u!1 &1751178680301309953 stripped
 GameObject:
@@ -206,15 +214,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5c1b4675d6344cd964771a27f256f44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  despawnOnInvoke: 1
-  radius: 20
-  layersToUse:
-    serializedVersion: 2
-    m_Bits: 4352
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   maximumDistance: 20
-  fullDuration: 12
+  flashRadius: 20
+  flashTime: 12
   weakDuration: 4
-  extraStunDuration: 4
+  stunExtraTime: 3
+  flashCooldown: 24
+  sunglassesTrait: {fileID: 0}
+  flashSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/FlashbangBoom.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  stunsPlayers: 1
+  despawnOnInvoke: 1
   flashSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/FlashbangBoom.prefab

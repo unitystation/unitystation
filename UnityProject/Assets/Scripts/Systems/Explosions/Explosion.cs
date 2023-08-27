@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HealthV2;
 using Player;
 using Systems.Score;
 using UnityEngine;
@@ -179,7 +180,7 @@ namespace Systems.Explosions
 		}
 
 		public static void StartExplosion(Vector3Int WorldPOS, float strength, ExplosionNode nodeType = null,
-			int fixedRadius = -1, int fixedShakingStrength = -1, List<ItemTrait> damageIgnoreAttributes = null, bool stunNearbyPlayers = true)
+			int fixedRadius = -1, int fixedShakingStrength = -1, List<ItemTrait> damageIgnoreAttributes = null, bool stunNearbyPlayers = false)
 		{
 			if (nodeType == null)
 			{
@@ -257,8 +258,10 @@ namespace Systems.Explosions
 					startingPos.To3Int(), LayerTypeSelection.Walls, null,
 					obj.gameObject.AssumedWorldPosServer(), true);
 				if (result.ItHit) continue;
-				if (obj.gameObject.TryGetComponent<PlayerFlashEffects>(out var flashEffector) == false) continue;
-				flashEffector.ServerSendMessageToClient(obj.gameObject, 5, true, result.Distance <= 3, 9);
+				if (obj.gameObject.TryGetComponentCustom<LivingHealthMasterBase>(out var livingHealthMasterBase) == false) continue;
+				//TODO Stun , result.Distance <= 3, 9
+				//GameObject client, float flashDuration, bool checkForProtectiveCloth, bool stunPlayer = true, float stunDuration = 4f
+				livingHealthMasterBase.TryFlash(5, true);
 			}
 		}
 

@@ -22,6 +22,17 @@ public class CommonComponents : MonoBehaviour
 
 	public Dictionary<Type, Component> dictionary = new Dictionary<Type, Component>();
 
+	public bool TrySafeGetComponent<T>(out T component) where T : Component
+	{
+		if (dictionary.ContainsKey(typeof(T)) == false)
+		{
+			dictionary[typeof(T)] = this.GetComponent<T>();
+		}
+
+		component = dictionary[typeof(T)] as T;
+		return component != null;
+	}
+
 	public T SafeGetComponent<T>() where T : Component
 	{
 		if (dictionary.ContainsKey(typeof(T)) == false)
@@ -30,7 +41,6 @@ public class CommonComponents : MonoBehaviour
 		}
 
 		return dictionary[typeof(T)] as T;
-
 	}
 
 }
