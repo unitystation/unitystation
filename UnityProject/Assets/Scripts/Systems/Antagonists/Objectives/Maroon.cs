@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.LowLevel;
 
 namespace Antagonists
 {
@@ -61,6 +62,31 @@ namespace Antagonists
 			description = $"Prevent {Target.name}, the {Target.occupation.DisplayName} from leaving the station";
 
 			ValidShuttles.Add(GameManager.Instance.PrimaryEscapeShuttle);
+		}
+
+		protected override void SetupInGame()
+		{
+			if (attributes[0] is ObjectiveAttributePlayer player)
+			{
+				Target = PlayerList.Instance.InGamePlayers.Where(pl => pl.UserId == player.playerID).ElementAt(0).Mind;
+			}
+
+			//If still null then its a free objective
+			if (Target == null || Target.occupation == null)
+			{
+				FreeObjective();
+				return;
+			}
+
+			AntagManager.Instance.TargetedPlayers.Add(Target);
+			description = $"Prevent {Target.name}, the {Target.occupation.DisplayName} from leaving the station";
+
+			ValidShuttles.Add(GameManager.Instance.PrimaryEscapeShuttle);
+		}
+
+		public override string GetDescription()
+		{
+			return $"Prevent {Target.name}, the {Target.occupation.DisplayName} from leaving the station";
 		}
 
 		private void FreeObjective()

@@ -148,9 +148,8 @@ namespace Antagonists
 					Logger.LogError($"failed to create antagonist objectives {chosenAntag.OrNull()?.AntagName} " + e.ToString());
 				}
 				// Set the antag
-				var spawnedAntag = SpawnedAntag.Create(chosenAntag, Mind, objectives);
-				Mind.SetAntag(spawnedAntag);
-				return spawnedAntag;
+
+				return Mind.InitAntag(chosenAntag, objectives);
 			}
 			catch (Exception e)
 			{
@@ -245,6 +244,13 @@ namespace Antagonists
 			{
 				message += $"\nThere were no antagonists!\n";
 				statusSB.AppendLine($"<size={ChatTemplates.LargeText}>There were no antagonists!</size>");
+			}
+
+			foreach (var x in PlayerList.Instance.AllPlayers)
+			{
+				statusSB.AppendLine($"<size={ChatTemplates.LargeText}>The <b>{x.Name} objectives</b> were:\n</size>");
+				message += $"\n{x.Mind.Antag.GetObjectiveStatusNonRich()}\n";
+				statusSB.AppendLine(x.Mind.Antag.GetObjectiveStatus());
 			}
 
 			if (PlayerList.Instance.ConnectionCount == 1)

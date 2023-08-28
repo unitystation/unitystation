@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56a2fc4f41d401644abd460e2c2127bd, type: 3}
   m_Name: Capture Caps Hat
   m_EditorClassIdentifier: 
+  attributes: []
   objectiveName: Capture Captain's hat
   IsUnique: 1
   description: Captain's hat is a symbol of authority. Capture all captain's hats!
@@ -20,3 +21,6 @@ MonoBehaviour:
   - {fileID: 7636118406116123594, guid: 97b4b6e6d0aac46f6ad3fb58fb826008, type: 3}
   - {fileID: 8380583935265400359, guid: e0ad94345b4adf747bf60c3ea1de181d, type: 3}
   - {fileID: 2906156019921960007, guid: a340b01570aae8349b6c47fabfe0d4a3, type: 3}
+  references:
+    version: 2
+    RefIds: []

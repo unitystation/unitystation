@@ -12,7 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28a963723fa0d1d48ad3cf52053703ce, type: 3}
   m_Name: Assassinate
   m_EditorClassIdentifier: 
+  attributes:
+  - rid: 5303221271648535210
   objectiveName: Assassinate
   IsUnique: 0
   description: Assassinate someone on the station
   aiCanHave: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5303221271648535210
+      type: {class: ObjectiveAttributePlayer, ns: Antagonists, asm: Assets}
+      data:
+        name: Who?
+        playerID: 

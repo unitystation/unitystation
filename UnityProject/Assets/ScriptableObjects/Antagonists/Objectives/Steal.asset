@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fab70c9bf9ee1d438e76270938c1092, type: 3}
   m_Name: Steal
   m_EditorClassIdentifier: 
+  attributes:
+  - rid: 5303221271648535211
+  - rid: 5303221278942691339
   objectiveName: Steal
   IsUnique: 0
   description: Steal something from the station
@@ -100,3 +103,18 @@ MonoBehaviour:
       BlacklistedOccupations:
       - {fileID: 11400000, guid: ea02bc3c4a28c430ea905db72a3630ec, type: 2}
   uniqueTargets: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5303221271648535211
+      type: {class: ObjectiveAttributeItem, ns: Antagonists, asm: Assets}
+      data:
+        name: What?
+        index: -1
+        itemID: 
+    - rid: 5303221278942691339
+      type: {class: ObjectiveAttributeNumber, ns: Antagonists, asm: Assets}
+      data:
+        name: Amount
+        index: -1
+        number: 1

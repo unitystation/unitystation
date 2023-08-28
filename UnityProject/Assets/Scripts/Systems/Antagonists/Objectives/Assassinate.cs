@@ -60,6 +60,27 @@ namespace Antagonists
 			description = $"Assassinate {Target.name}, the {Target.occupation.DisplayName}";
 		}
 
+		protected override void SetupInGame()
+		{
+			if (attributes[0] is ObjectiveAttributePlayer player)
+			{
+				Target = PlayerList.Instance.InGamePlayers.Where(pl => pl.UserId == player.playerID).ElementAt(0).Mind;
+			}
+
+			if (Target == null || Target.occupation == null)
+			{
+				FreeObjective();
+				return;
+			}
+			AntagManager.Instance.TargetedPlayers.Add(Target);
+			description = $"Assassinate {Target.name}, the {Target.occupation.DisplayName}";
+		}
+
+		public override string GetDescription()
+		{
+			return $"Assassinate {Target.name}, the {Target.occupation.DisplayName}";
+		}
+
 		private void FreeObjective()
 		{
 			Logger.LogWarning("Unable to find any suitable assassination targets! Giving free objective", Category.Antags);

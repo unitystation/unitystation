@@ -15,6 +15,15 @@ namespace Antagonists
 
 		protected override void Setup() { }
 
+		protected override void SetupInGame()
+		{
+			// Pick a random item and add it to the targeted list
+			if (attributes[0] is ObjectiveAttributeNumber targetNumber)
+			{
+				minimumSpellsNeeded = targetNumber.number;
+			}
+		}
+
 		protected override bool CheckCompletion()
 		{
 			return Owner.Spells.Count >= minimumSpellsNeeded;

@@ -12,8 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 847871e6e43543d439911e47b6055d04, type: 3}
   m_Name: GetDna
   m_EditorClassIdentifier: 
-  objectiveName: Get {0} DNA
+  attributes:
+  - rid: 5303221278942691329
+  objectiveName: Get DNA
   IsUnique: 1
-  description: Extract {0} DNA by using your abilities.
+  description: Extract DNA by using your abilities.
   aiCanHave: 0
   dnaNeedCount: 5
+  references:
+    version: 2
+    RefIds:
+    - rid: 5303221278942691329
+      type: {class: ObjectiveAttributeNumber, ns: Antagonists, asm: Assets}
+      data:
+        name: Amount
+        index: -1
+        number: 5

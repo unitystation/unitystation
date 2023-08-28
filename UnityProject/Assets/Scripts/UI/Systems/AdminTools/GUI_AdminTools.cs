@@ -23,6 +23,7 @@ namespace AdminTools
 		[SerializeField] private GameObject devToolsPage = null;
 		[SerializeField] private GameObject serverSettingsPage = null;
 		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
+		[SerializeField] private ObjectiveManagerPage antagManagerPage = default;
 		[SerializeField] private Slider transparencySlider;
 		[SerializeField] private Image backgroundImage;
 		public AdminGiveItem giveItemPage;
@@ -141,6 +142,13 @@ namespace AdminTools
 			windowTitle.text = "RESPAWN A PLAYER";
 		}
 
+		public void ShowAntagManagerPage()
+		{
+			DisableAllPages();
+			antagManagerPage.gameObject.SetActive(true);
+			windowTitle.text = "ANTAGONIST MANAGER";
+		}
+
 		public void ShowGiveItemPagePage()
 		{
 			DisableAllPages();
@@ -164,6 +172,7 @@ namespace AdminTools
 			kickBanEntryPage.gameObject.SetActive(false);
 			areYouSurePage.gameObject.SetActive(false);
 			adminRespawnPage.gameObject.SetActive(false);
+			antagManagerPage.gameObject.SetActive(false);
 			serverSettingsPage.gameObject.SetActive(false);
 			giveItemPage.SetActive(false);
 		}

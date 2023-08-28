@@ -15,8 +15,7 @@ using ScriptableObjects.Audio;
 using ScriptableObjects.Systems.Spells;
 using Systems.Antagonists.Antags;
 using UI.Core.Action;
-using Changeling;
-using static UniversalObjectPhysics;
+using System.Linq;
 
 /// <summary>
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
@@ -66,8 +65,18 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 	public PlayerScript ghost { private set; get; }
 	public PlayerScript Body => GetDeepestBody()?.GetComponent<PlayerScript>();
-	private SpawnedAntag antag;
-	public bool IsAntag => CustomNetworkManager.IsServer ? antag != null : NetworkedisAntag;
+	private SpawnedAntag antagContainer = null;
+	private SpawnedAntag antag
+	{
+		get
+		{
+			if (antagContainer == null)
+				antagContainer = GetComponent<SpawnedAntag>();
+			return antagContainer;
+		}
+	}
+	public SpawnedAntag Antag => antag;
+	public bool IsAntag => CustomNetworkManager.IsServer ? antag.Antagonist != null : NetworkedisAntag;
 
 
 	public bool DenyCloning;
@@ -251,18 +260,30 @@ public class Mind : NetworkBehaviour, IActionGUI
 		this.name = newName;
 	}
 
+	public void UpdateAntagButtons()
+	{
+		if (antag.Objectives.Count() == 0)
+		{
+			ActivateAntagAction(false);
+		} else
+		{
+			ActivateAntagAction(true);
+		}
+	}
 
 	/// <summary>
 	/// Make this mind a specific spawned antag
 	/// </summary>
-	public void SetAntag(SpawnedAntag newAntag)
+	public SpawnedAntag InitAntag(Antagonist antagonist, IEnumerable<Objective> objectives)
 	{
-		antag = newAntag;
-		NetworkedisAntag = newAntag != null;
-		NetworkedAntagJob = newAntag.Antagonist.AntagJobType;
+		antag.Init(antagonist, this, objectives);
+		NetworkedisAntag = antagonist != null;
+		NetworkedAntagJob = antagonist.AntagJobType;
 
 		ShowObjectives();
 		ActivateAntagAction(NetworkedisAntag);
+
+		return antag;
 	}
 
 	public void ActivateAntagAction(bool state)
@@ -351,8 +372,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 	/// </summary>
 	public void RemoveAntag()
 	{
-		antag = null;
-		NetworkedisAntag = antag != null;
+		antag.Clear();
+		NetworkedisAntag = antag.Antagonist != null;
 		NetworkedAntagJob = JobType.NULL;
 
 		ActivateAntagAction(NetworkedisAntag);
@@ -604,8 +625,10 @@ public class Mind : NetworkBehaviour, IActionGUI
 	//Gets all Bodies that are related to this mind,  Mind-> Brain-> Body
 	public List<NetworkIdentity> GetRelatedBodies()
 	{
-		var returnList = new List<NetworkIdentity>();
-		returnList.Add(this.netIdentity);
+		var returnList = new List<NetworkIdentity>
+		{
+			this.netIdentity
+		};
 
 		if (PlayerPossessable != null)
 		{
@@ -706,7 +729,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	/// </summary>
 	public void ShowObjectives()
 	{
-		if (IsAntag == false) return;
+		if (antag.Objectives.Count() == 0 && NetworkedisAntag == false) return;
 		var playerMob = GetCurrentMob();
 
 		//Send Objectives
