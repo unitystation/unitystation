@@ -32,6 +32,7 @@ public class RaceHealthData
 	public ObjectList ArmLeft;
 	public ObjectList LegRight;
 	public ObjectList LegLeft;
+	public bool allowedToChangeling = false;
 
 	public List<CustomisationAllowedSetting> CustomisationSettings = new List<CustomisationAllowedSetting>();
 
