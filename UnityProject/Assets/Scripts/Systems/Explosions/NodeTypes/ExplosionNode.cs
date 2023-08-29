@@ -123,17 +123,8 @@ namespace Systems.Explosions
 			{
 				// do damage
 				player.ApplyDamageAll(null, DamageDealt, AttackType.Bomb, DamageType.Brute, default, TraumaticDamageTypes.NONE, 75);
-				FlashPlayer(player, v3int);
 			}
 			return EnergyExpended;
-		}
-
-		private void FlashPlayer(LivingHealthMasterBase player, Vector3Int v3int)
-		{
-			var distance = Vector3Int.Distance(player.gameObject.AssumedWorldPosServer().CutToInt(), v3int);
-			if (distance > 25) return;
-			if (player.gameObject.TryGetComponent<PlayerFlashEffects>(out var flashEffector) == false) return;
-			flashEffector.ServerSendMessageToClient(player.gameObject, distance < 15 ? 12 : 4, true, false);
 		}
 
 		//triggered by ChemExplosion, this method says what to do when explosion is inside body

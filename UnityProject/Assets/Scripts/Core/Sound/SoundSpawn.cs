@@ -59,6 +59,7 @@ public class SoundSpawn: MonoBehaviour
 
 	private void OnDisable()
 	{
+		if (SoundManager.Instance == null) return;
 		SoundManager.Instance.SoundSpawns.Remove(Token);
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 	}

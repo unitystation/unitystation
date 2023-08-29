@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Utils;
 using Managers.SettingsManager;
 using TMPro;
 using UI.Chat_UI;
@@ -112,8 +113,11 @@ namespace Unitystation.Options
 				fontDropdown.ClearOptions();
 				var fontNames = ChatUI.Instance.Fonts.Select(font => font.name).ToList();
 				fontDropdown.AddOptions(fontNames);
-				var value = PlayerPrefs.GetInt("fontPref", -1);
-				fontDropdown.value = value != -1 ? value : 0;
+
+
+
+				var value = PlayerPrefs.GetString("fontPref", "Ubuntu-R SDF");
+				fontDropdown.SetValueByName(value);
 			}
 			catch (Exception e)
 			{
@@ -236,7 +240,7 @@ namespace Unitystation.Options
 		public void OnFontPreferenceChange()
 		{
 			ChatUI.Instance.FontIndexToUse = fontDropdown.value;
-			PlayerPrefs.SetInt("fontPref", fontDropdown.value);
+			PlayerPrefs.SetString("fontPref", fontDropdown.GetValueName());
 		}
 	}
 }

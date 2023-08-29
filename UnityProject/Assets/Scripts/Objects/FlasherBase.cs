@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using AddressableReferences;
+using HealthV2;
 using Mirror;
 using NaughtyAttributes;
 using Player;
@@ -10,8 +11,10 @@ namespace Objects
 {
 	public class FlasherBase : NetworkBehaviour
 	{
+		[SerializeField] private float maximumDistance = 12f;
 		[SerializeField] protected float flashRadius = 12f;
 		[SerializeField] protected float flashTime = 12f;
+		[SerializeField] protected float weakDuration  = 12f;
 		[SerializeField, ShowIf(nameof(stunsPlayers))] protected float stunExtraTime = 3f;
 		[SerializeField] protected float flashCooldown = 24f;
 		[SerializeField] protected ItemTrait sunglassesTrait;
@@ -38,35 +41,48 @@ namespace Objects
 			foreach (var target in possibleTargets)
 			{
 				if(gameObject == target.gameObject) continue;
-				if (MatrixManager.Linecast(gameObject.AssumedWorldPosServer(), LayerTypeSelection.Walls,
-					    layerMask, target.gameObject.AssumedWorldPosServer()).ItHit) continue;
-				PerformFlash(target.gameObject);
+
+				var result = MatrixManager.Linecast(
+					gameObject.AssumedWorldPosServer(), LayerTypeSelection.Walls, null,
+					target.gameObject.AssumedWorldPosServer(), false);
+				if (result.ItHit) continue;
+				var duration = result.Distance < maximumDistance ? flashTime : weakDuration;
+
+				if (stunsPlayers)
+				{
+					PerformFlash(target.gameObject, duration , duration + stunExtraTime);
+				}
+				else
+				{
+					PerformFlash(target.gameObject, duration , 0);
+				}
+
 			}
 			StartCoroutine(Cooldown());
 			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} flashes everyone in its radius.");
 		}
 
 		[Server]
-		public void FlashTarget(GameObject target)
+		public void FlashTarget(GameObject target, float time, float stunnedtime)
 		{
 			if (onCooldown) return;
 			if (flashSound != null) _ = SoundManager.PlayNetworkedAtPosAsync(flashSound, gameObject.AssumedWorldPosServer());
 			StartCoroutine(Cooldown());
-			PerformFlash(target);
+			PerformFlash(target,time, stunnedtime);
 		}
 
 		[Server]
-		private void PerformFlash(GameObject target)
+		private void PerformFlash(GameObject target, float time, float stunnedtime)
 		{
-			if (target.gameObject.TryGetComponent<PlayerFlashEffects>(out var flashEffector) == false) return;
-			TellClientThatTheyHaveBeenFlashed(flashEffector);
+			//TODO Stun flashTime + stunExtraTime
+			if (target.gameObject.TryGetComponentCustom<LivingHealthMasterBase>(out var livingHealthMasterBase) == false) return;
+			if (stunnedtime > 0)
+			{
+				livingHealthMasterBase.GetComponent<RegisterPlayer>().ServerStun(stunnedtime);
+			}
+			livingHealthMasterBase.TryFlash(time, true);
 		}
 
-		[Server]
-		private void TellClientThatTheyHaveBeenFlashed(PlayerFlashEffects effects)
-		{
-			effects.ServerSendMessageToClient(effects.gameObject, flashTime, true, stunsPlayers, flashTime + stunExtraTime);
-		}
 
 		[Server]
 		private IEnumerator Cooldown()

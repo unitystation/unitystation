@@ -125,6 +125,8 @@ public class SlimeEat : BodyPartFunctionality
 
 	public override void ImplantPeriodicUpdate()
 	{
+		if (RelatedPart.HealthMaster.ObjectBehaviour.IsVisible == false) return;
+
 		//TODO check buckling instead of this!!!
 		//Problem is determining intent, Since you can be riding something without eating it, So you have to set here
 		//Also the get component for edible and Living health , Could be fixed by common component reference in universal object physics
