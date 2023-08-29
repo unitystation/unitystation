@@ -905,15 +905,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1365047106309440}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3033b5d39951d430299684ac3cd06d7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   holeMat: {fileID: 2100000, guid: ecc97e9b19bc34985b4b01b0121c9683, type: 2}
-  shroudColor: {r: 1, g: 0, b: 0, a: 1}
+  TargetshroudColor: {r: 1, g: 0, b: 0, a: 0}
+  shroudColor: {r: 1, g: 0, b: 0, a: 0}
   Radius: 5
   Epow: 2
+  TargetRadius: 3
 --- !u!1 &1456048741972242
 GameObject:
   m_ObjectHideFlags: 0

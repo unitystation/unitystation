@@ -21,7 +21,7 @@ using System.Collections;
 
 		public float Epow = 2;
 
-		private float TargetRadius = 20;
+		public float TargetRadius = 3;
 
 		public void Awake()
 		{
