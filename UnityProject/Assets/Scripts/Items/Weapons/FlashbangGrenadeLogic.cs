@@ -10,7 +10,6 @@ namespace Items.Weapons
 	public class FlashbangGrenadeLogic : FlasherBase
 	{
 		[SerializeField] private bool despawnOnInvoke = true;
-		[SerializeField] private AddressableAudioSource flashSound;
 
 		[Button("Flash!")]
 		public void OnExpload()
