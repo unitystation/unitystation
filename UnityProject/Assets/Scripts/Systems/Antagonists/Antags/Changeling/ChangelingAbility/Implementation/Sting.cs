@@ -14,6 +14,7 @@ namespace Changeling
 		new StandardProgressActionConfig(StandardProgressActionType.CPR);
 
 		[SerializeField] protected float stingTime = 4f;
+
 		public float StingTime => stingTime;
 
 		protected PlayerScript GetPlayerOnClick(ChangelingMain changeling, Vector3 clickPosition, Vector3 rounded)
@@ -29,34 +30,17 @@ namespace Changeling
 			foreach (PlayerScript integrity in matrixinfo.Matrix.Get<PlayerScript>(Vector3Int.CeilToInt(localPosInt), true))
 			{
 				// to be sure that player don`t morph into AI or something like that
-				if (integrity.PlayerType != PlayerTypes.Normal || integrity.characterSettings.Species.ToLower().Contains("cow")
-				|| integrity.characterSettings.Species.ToLower().Contains("monkey"))
+				if (integrity.PlayerType != PlayerTypes.Normal || integrity.characterSettings.GetRaceSoNoValidation().Base.allowedToChangeling == false)
 					continue;
 				target = integrity;
 				break;
 			}
 			if (target == null || target.Mind == null)
-				return null;
-
-			var brainIsFounded = false;
-			foreach (var bodyPart in target.Mind.Body.playerHealth.BodyPartList)
 			{
-				foreach (BodyPartFunctionality organ in bodyPart.OrganList)
-				{
-					if (organ is Brain brain)
-					{
-						brainIsFounded = true;
-						break;
-					}
-				}
-				if (brainIsFounded == true)
-				{
-					break;
-				}
+				return null;
 			}
 
-			if (Vector3.Distance(changeling.ChangelingMind.Body.GameObject.AssumedWorldPosServer(), target.Mind.Body.GameObject.AssumedWorldPosServer()) > MAX_DISTANCE_TO_TILE
-				|| target.IsDeadOrGhost || brainIsFounded == false)
+			if (Vector3.Distance(changeling.ChangelingMind.Body.GameObject.AssumedWorldPosServer(), target.Mind.Body.GameObject.AssumedWorldPosServer()) > MAX_DISTANCE_TO_TILE)
 			{
 				return null;
 			}
@@ -78,6 +62,11 @@ namespace Changeling
 			var target = GetPlayerOnClick(changeling, clickPosition, rounded);
 			if (target == null || target == changeling.ChangelingMind.Body)
 			{
+				return false;
+			}
+			if (target.IsDeadOrGhost)
+			{
+				Chat.AddExamineMsg(changeling.ChangelingMind.gameObject, "<color=red>You cannot sting a dead body!</color>");
 				return false;
 			}
 

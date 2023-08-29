@@ -2,6 +2,7 @@ using Mirror;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UI.Core.Action;
 using UnityEngine;
 
@@ -73,8 +74,7 @@ namespace Changeling
 			var validateAbility = ValidateAbility(sentByPlayer);
 			if (validateAbility && AbilityData is ChangelingToggleAbility toggleAbility)
 			{
-				isToggled = toggle;
-				if (isToggled == true && toggleAbility.CooldownWhenToggled == true)
+				if (toggle == true && toggleAbility.CooldownWhenToggled == true)
 				{
 					AfterAbility(sentByPlayer);
 				}
@@ -82,7 +82,17 @@ namespace Changeling
 				{
 					AfterAbility(sentByPlayer);
 				}
-				toggleAbility.UseAbilityToggleServer(changeling, isToggled);
+
+				try
+				{
+					isToggled = toggle;
+					toggleAbility.UseAbilityToggleServer(changeling, isToggled);
+				}
+				catch (Exception ex)
+				{
+					Logger.LogError($"[ChangelingAbility/CallActionServerToggle] Failed to use ability {AbilityData.Name}. Toggle to was {toggle}." +
+					$"Sent by player '{sentByPlayer.Username}' {ex}");
+				}
 			}
 			if (ActionData.Sprites.Count != 2)
 				return;
@@ -129,7 +139,24 @@ namespace Changeling
 
 			if (AbilityData is ChangelingParamAbility abilityParam)
 			{
-				abilityParam.UseAbilityParamServer(changeling, param);
+				try
+				{
+					abilityParam.UseAbilityParamServer(changeling, param);
+				}
+				catch (Exception ex)
+				{
+					var errorStringBuilder = new StringBuilder();
+					foreach (var x in param)
+					{
+						errorStringBuilder.Append("'");
+						errorStringBuilder.AppendLine(x);
+						if (param.Last() != x)
+							errorStringBuilder.Append("',");
+					}
+					Logger.LogError($"[ChangelingAbility/CastAbilityServerWithParam] Failed to use ability {AbilityData.Name}. Params was: {errorStringBuilder}." +
+					$"Sent by player '{sentByPlayer.Username}' {ex}");
+					return false;
+				}
 				return true;
 			}
 			return false;
@@ -139,8 +166,15 @@ namespace Changeling
 		private bool CastAbilityServer(PlayerInfo sentByPlayer, Vector3 clickPosition)
 		{
 			var changeling = ChangelingMain.ChangelingByMindID[sentByPlayer.Mind.netId];
-
-			AbilityData.UseAbilityServer(changeling, clickPosition);
+			try
+			{
+				AbilityData.UseAbilityServer(changeling, clickPosition);
+			} catch (Exception ex)
+			{
+				Logger.LogError($"[ChangelingAbility/CastAbilityServer] Failed to use ability {AbilityData.Name}. Click position was {clickPosition}." +
+				$"Sent by player '{sentByPlayer.Username}' {ex}");
+				return false;
+			}
 			return true;
 		}
 
