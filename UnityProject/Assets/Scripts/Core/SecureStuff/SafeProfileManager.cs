@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine.Profiling;
-using UnityEngine.Profiling.Memory.Experimental;
 
 namespace SecureStuff
 {
