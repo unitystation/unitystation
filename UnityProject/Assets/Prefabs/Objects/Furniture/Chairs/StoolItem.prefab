@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 542775556866826484, guid: c8af057edecfa6c4f877ae1b042d6ead,
@@ -148,6 +149,13 @@ PrefabInstance:
       value: StoolItem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6859803131222715545, guid: c8af057edecfa6c4f877ae1b042d6ead,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2755492268855524102}
   m_SourcePrefab: {fileID: 100100000, guid: c8af057edecfa6c4f877ae1b042d6ead, type: 3}
 --- !u!1 &7978696986387520845 stripped
 GameObject:

@@ -162,19 +162,19 @@ namespace Util
 		[MenuItem("Tools/------------ Debug function -----------")]
 		public static void Generate()
 		{
-			// AssetDatabase.StartAssetEditing();
-			//                     			AssetDatabase.ForceReserializeAssets();
-			//                     		AssetDatabase.StopAssetEditing();
-			//                             			AssetDatabase.SaveAssets();
+			 AssetDatabase.StartAssetEditing();
+			                     			AssetDatabase.ForceReserializeAssets();
+			                     		AssetDatabase.StopAssetEditing();
+			                             			AssetDatabase.SaveAssets();
 
 
 			// Get the type (class) that contains the method
-			Type type = typeof(MiscFunctions_RRT);
-
-			// Get the method information
-			MethodInfo methodInfo = type.GetMethod("Dothing");
-
-			var Info = methodInfo.GetCustomAttributes();
+			// Type type = typeof(MiscFunctions_RRT);
+			//
+			// // Get the method information
+			// MethodInfo methodInfo = type.GetMethod("Dothing");
+			//
+			// var Info = methodInfo.GetCustomAttributes();
 
 			return;
 

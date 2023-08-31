@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 465681690408585956, guid: 789d74731ecbf8e4a813fc024afaf831,
@@ -36,7 +37,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 830506982411812940, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: OptionalReplacementOrgan.Array.data[11]
+      propertyPath: 'OptionalReplacementOrgan.Array.data[11]'
       value: 
       objectReference: {fileID: 5684339788712811641}
     - target: {fileID: 4128751699915098252, guid: 789d74731ecbf8e4a813fc024afaf831,
@@ -122,7 +123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6561237704828026111, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: AdditionalReactions.Array.data[0]
+      propertyPath: 'AdditionalReactions.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 27609423c94c2fb6fb4b65147af95811,
         type: 2}
@@ -138,6 +139,9 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: ebdd9801119f6bd4f997622dfa8c11a2,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 789d74731ecbf8e4a813fc024afaf831, type: 3}
 --- !u!114 &5684339788712811641 stripped
 MonoBehaviour:

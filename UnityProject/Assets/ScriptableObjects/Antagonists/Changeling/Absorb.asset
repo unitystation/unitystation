@@ -41,10 +41,8 @@ MonoBehaviour:
     If you absorb another changeling, your maximum and current chemical storage will
     increase, and you will gain 5 extra evolution points to spend.'
   canBeUsedWhileInCrit: 0
-  showsOnlyWhenAbsorbedSomeone: 0
+  isLocal: 0
   startAbility: 1
-  isSlowingChemRegeneration: 0
-  isStopingChemRegeneration: 0
   showInStore: 1
   showInActions: 1
   stingTime: 20
