@@ -117,6 +117,7 @@ namespace UI.Chat_UI
 		public int FontIndexToUse = -1;
 
 
+
 		public void SetPreferenceChatContent(float preference)
 		{
 			ChatContentMinimumAlpha = preference;
@@ -165,7 +166,17 @@ namespace UI.Chat_UI
 			base.Awake();
 			ChatMinimumBackgroundAlpha = GetPreferenceChatBackground();
 			ChatContentMinimumAlpha = GetPreferenceChatContent();
-			FontIndexToUse = PlayerPrefs.GetInt("fontPref", -1);
+
+			var Option =PlayerPrefs.GetString("fontPref", "Ubuntu-R SDF");;
+
+			for (int i = 0; i < Fonts.Count; i++)
+			{
+				if (Fonts[i].name == Option)
+				{
+					FontIndexToUse = i;
+					break;
+				}
+			}
 		}
 
 		/// <summary>

@@ -40,7 +40,6 @@ namespace HealthV2
 	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable, IGib,
 		IAreaReactionBase, IRightClickable, IServerSpawn, IHoverTooltip, IChargeable
 	{
-
 		public bool DoesNotRequireBrain = false;
 
 		/// <summary>
@@ -117,7 +116,7 @@ namespace HealthV2
 		///<summary>
 		/// Fetch first or default system by type from the active systems on this living thing.
 		///</summary>
-		public T  GetSystem<T>()
+		public T GetSystem<T>()
 		{
 			return ActiveSystems.OfType<T>().FirstOrDefault();
 		}
@@ -126,8 +125,7 @@ namespace HealthV2
 		public Brain brain { get; private set; }
 
 
-		[SyncVar(hook = nameof(SyncBain))]
-		private uint BrainID;
+		[SyncVar(hook = nameof(SyncBain))] private uint BrainID;
 
 		/// <summary>
 		/// The creature's Respiratory System
@@ -316,15 +314,13 @@ namespace HealthV2
 		public GameObject SkinProduce => skinProduce;
 
 
-		[NonSerialized]
-		public MultiInterestBool IsMute = new MultiInterestBool(true,
+		[NonSerialized] public MultiInterestBool IsMute = new MultiInterestBool(true,
 			MultiInterestBool.RegisterBehaviour.RegisterFalse,
 			MultiInterestBool.BoolBehaviour.ReturnOnTrue);
 
-		[SerializeField, Range(1,60f)] private float updateTime = 1f;
+		[SerializeField, Range(1, 60f)] private float updateTime = 1f;
 
-		[NonSerialized]
-		public PlayerHealthData InitialSpecies = null;
+		[NonSerialized] public PlayerHealthData InitialSpecies = null;
 
 		//Default is mute yes
 
@@ -337,6 +333,7 @@ namespace HealthV2
 					return true;
 				}
 			}
+
 			return false;
 		}
 
@@ -376,13 +373,11 @@ namespace HealthV2
 			brain = newBrain;
 			if (newBrain == null)
 			{
-
 			}
 			else
 			{
 				BrainID = newBrain.gameObject.NetId();
 			}
-
 		}
 
 		private void SyncBain(uint oldId, uint newID)
@@ -401,7 +396,6 @@ namespace HealthV2
 			{
 				brain = spawnedList[newID].GetComponent<Brain>();
 			}
-
 		}
 
 
@@ -461,7 +455,6 @@ namespace HealthV2
 					//TODO cyborg chassis doesn't appear, shouldn't be able to get a  chassis by itself?
 					_ = Despawn.ServerSingle(this.gameObject);
 				}
-
 			}
 		}
 
@@ -479,7 +472,6 @@ namespace HealthV2
 					SurfaceBodyParts.Add(BodyPart);
 				}
 			}
-
 
 
 			foreach (var sys in ActiveSystems)
@@ -528,7 +520,6 @@ namespace HealthV2
 				}
 			}
 		}
-
 
 
 		private List<MetabolismComponent> TMPUseList = new List<MetabolismComponent>();
@@ -586,8 +577,6 @@ namespace HealthV2
 								break;
 							}
 						}
-
-
 					}
 
 					if (HasBodyPart)
@@ -713,8 +702,6 @@ namespace HealthV2
 
 			//Sickness logic should not be triggered if the player is dead.
 			mobSickness.TriggerCustomSicknessLogic();
-
-
 		}
 
 		#region Mutations
@@ -781,14 +768,15 @@ namespace HealthV2
 		}
 
 
-
-		public Coroutine InjectDna(List<DNAMutationData> Payloads, bool skipWaiting = false, CharacterSheet characterSheet = null)
+		public Coroutine InjectDna(List<DNAMutationData> Payloads, bool skipWaiting = false,
+			CharacterSheet characterSheet = null)
 		{
 			return StartCoroutine(EnumeratorInjectDna(Payloads, skipWaiting, characterSheet));
 		}
 
 
-		private IEnumerator EnumeratorInjectDna(List<DNAMutationData> Payloads, bool skipWaiting = false, CharacterSheet characterSheet = null)
+		private IEnumerator EnumeratorInjectDna(List<DNAMutationData> Payloads, bool skipWaiting = false,
+			CharacterSheet characterSheet = null)
 		{
 			foreach (var Payload in Payloads)
 			{
@@ -796,7 +784,8 @@ namespace HealthV2
 			}
 		}
 
-		public IEnumerator ProcessDnaPayload(DNAMutationData InDNAMutationData, bool skipWaiting = false, CharacterSheet characterSheet = null)
+		public IEnumerator ProcessDnaPayload(DNAMutationData InDNAMutationData, bool skipWaiting = false,
+			CharacterSheet characterSheet = null)
 		{
 			//TODO Skin and body type , is in character Settings  so is awkward
 			foreach (var Payload in InDNAMutationData.Payload)
@@ -810,7 +799,8 @@ namespace HealthV2
 					if (Mutation == null) continue;
 					if (skipWaiting == false)
 						yield return WaitFor.Seconds(1f);
-					if (string.IsNullOrEmpty(Payload.CustomisationTarget) == false || string.IsNullOrEmpty(Payload.CustomisationReplaceWith) == false)
+					if (string.IsNullOrEmpty(Payload.CustomisationTarget) == false ||
+					    string.IsNullOrEmpty(Payload.CustomisationReplaceWith) == false)
 					{
 						Mutation.MutateCustomisation(Payload.CustomisationTarget,
 							Payload.CustomisationReplaceWith);
@@ -830,7 +820,7 @@ namespace HealthV2
 					{
 						Mutation.ChangeToSpecies(Payload.MutateToBodyPart, characterSheet);
 						// Anyway triggers error because changed BodyPartList
-						break; 
+						break;
 					}
 				}
 			}
@@ -860,6 +850,7 @@ namespace HealthV2
 		}
 
 		#endregion
+
 		/// <summary>
 		/// Calculates and applies radiation damage
 		/// </summary>
@@ -898,7 +889,9 @@ namespace HealthV2
 			//gradually deplete fire stacks
 			fireStacks -= 0.1f;
 			//instantly stop burning if there's no oxygen at this location
-			MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient); //TODO Account for containers
+			MetaDataNode
+				node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile
+					.LocalPositionClient); //TODO Account for containers
 			if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 			{
 				fireStacks = 0;
@@ -979,7 +972,6 @@ namespace HealthV2
 		}
 
 
-
 		/// <summary>
 		/// Returns true if the creature has the given body part of a type targetable by the UI
 		/// </summary>
@@ -1048,7 +1040,6 @@ namespace HealthV2
 				}
 				else
 				{
-
 					currentHealth -= brain.RelatedPart.Oxy;
 				}
 			}
@@ -1095,12 +1086,14 @@ namespace HealthV2
 				SetConsciousState(ConsciousState.CONSCIOUS);
 			}
 
-			if (conState == ConsciousState.UNCONSCIOUS && ConsciousState is ConsciousState.CONSCIOUS or ConsciousState.BARELY_CONSCIOUS)
+			if (conState == ConsciousState.UNCONSCIOUS &&
+			    ConsciousState is ConsciousState.CONSCIOUS or ConsciousState.BARELY_CONSCIOUS)
 			{
 				OnCritExit?.Invoke();
 			}
 
-			if (conState == ConsciousState.DEAD && ConsciousState is ConsciousState.CONSCIOUS or ConsciousState.BARELY_CONSCIOUS)
+			if (conState == ConsciousState.DEAD &&
+			    ConsciousState is ConsciousState.CONSCIOUS or ConsciousState.BARELY_CONSCIOUS)
 			{
 				OnRevive?.Invoke();
 			}
@@ -1152,7 +1145,8 @@ namespace HealthV2
 		/// <param name="damageSplit">Should the damage be divided by number of body parts or applied to each body part separately</param>
 		[Server]
 		public void ApplyDamageAll(GameObject damagedBy, float damage, AttackType attackType, DamageType damageType,
-			bool damageSplit = true, TraumaticDamageTypes traumaticDamageTypes = TraumaticDamageTypes.NONE, double traumaChance = 50)
+			bool damageSplit = true, TraumaticDamageTypes traumaticDamageTypes = TraumaticDamageTypes.NONE,
+			double traumaChance = 50)
 		{
 			if (damageSplit)
 			{
@@ -1189,44 +1183,17 @@ namespace HealthV2
 			DamageType damageType, BodyPartType bodyPartAim = BodyPartType.None, float armorPenetration = 0,
 			double traumaDamageChance = 0, TraumaticDamageTypes tramuticDamageType = TraumaticDamageTypes.NONE)
 		{
-			if (bodyPartAim == BodyPartType.None)
-			{
-				bodyPartAim = BodyPartType.Chest.Randomize(0);
-			}
+			bodyPartAim = AimToUsableAim(bodyPartAim);
 
 			LastDamagedBy = damagedBy;
 
-			var count = 0;
-
-			// If targeting eyes or mouth, damage head instead
-			if (bodyPartAim == BodyPartType.Eyes || bodyPartAim == BodyPartType.Mouth)
+			var listHitting = GetBodyPartsInArea(bodyPartAim, false);
+			var count = listHitting.Count;
+			foreach (var bodyPart in listHitting)
 			{
-				bodyPartAim = BodyPartType.Head;
-			}
-
-			//Currently there is no phyiscal "hand" or "foot" game object to be targeted.
-			//We reasign these aims to the arms and legs instead.
-			if (bodyPartAim == BodyPartType.LeftHand) bodyPartAim = BodyPartType.LeftArm;
-			if (bodyPartAim == BodyPartType.RightHand) bodyPartAim = BodyPartType.RightArm;
-			if (bodyPartAim == BodyPartType.LeftFoot) bodyPartAim = BodyPartType.LeftLeg;
-			if (bodyPartAim == BodyPartType.RightFoot) bodyPartAim = BodyPartType.RightLeg;
-
-			foreach (var bodyPart in SurfaceBodyParts)
-			{
-				if (bodyPart.BodyPartType == bodyPartAim)
-				{
-					count++;
-				}
-			}
-
-			foreach (var bodyPart in SurfaceBodyParts.ToArray())
-			{
-				if (bodyPart.BodyPartType == bodyPartAim)
-				{
-					bodyPart.TakeDamage(damagedBy, damage / count, attackType, damageType,
-						armorPenetration: armorPenetration,
-						traumaDamageChance: traumaDamageChance, tramuticDamageType: tramuticDamageType);
-				}
+				bodyPart.TakeDamage(damagedBy, damage / count, attackType, damageType,
+					armorPenetration: armorPenetration,
+					traumaDamageChance: traumaDamageChance, tramuticDamageType: tramuticDamageType);
 			}
 
 			IndicatePain(damage);
@@ -1235,18 +1202,107 @@ namespace HealthV2
 		}
 
 
-
-		public BodyPart GetFirstBodyPartInArea(BodyPartType bodyPartAim)
+		public BodyPartType AimToUsableAim(BodyPartType bodyPartAim)
 		{
-			foreach (var bodyPart in SurfaceBodyParts)
+			if (bodyPartAim == BodyPartType.None)
 			{
-				if (bodyPart.BodyPartType == bodyPartAim)
-				{
-					return bodyPart;
-				}
+				bodyPartAim = BodyPartType.Chest.Randomize(0);
+			}
+
+			//Currently there is no phyiscal "hand" or "foot" game object to be targeted.
+			//We reasign these aims to the arms and legs instead.
+			if (bodyPartAim == BodyPartType.LeftHand) bodyPartAim = BodyPartType.LeftArm;
+			if (bodyPartAim == BodyPartType.RightHand) bodyPartAim = BodyPartType.RightArm;
+			if (bodyPartAim == BodyPartType.LeftFoot) bodyPartAim = BodyPartType.LeftLeg;
+			if (bodyPartAim == BodyPartType.RightFoot) bodyPartAim = BodyPartType.RightLeg;
+			return bodyPartAim;
+		}
+
+		public BodyPart GetFirstBodyPartInArea(BodyPartType bodyPartAim, bool validateAim = true)
+		{
+			if (validateAim)
+			{
+				bodyPartAim = AimToUsableAim(bodyPartAim);
+			}
+
+			switch (bodyPartAim)
+			{
+				case BodyPartType.Eyes:
+				case BodyPartType.Mouth:
+					foreach (var bodyPart in BodyPartList)
+					{
+						if (bodyPart.BodyPartType == bodyPartAim)
+						{
+							return bodyPart;
+						}
+					}
+
+					break;
+				default:
+					foreach (var bodyPart in SurfaceBodyParts)
+					{
+						if (bodyPart.BodyPartType == bodyPartAim)
+						{
+							return bodyPart;
+						}
+					}
+
+					break;
 			}
 
 			return null;
+		}
+
+		public List<BodyPart> GetBodyPartsInArea(BodyPartType bodyPartAim, bool validateAim = true)
+		{
+			var ReturnList = new List<BodyPart>();
+			if (validateAim)
+			{
+				bodyPartAim = AimToUsableAim(bodyPartAim);
+			}
+
+			switch (bodyPartAim)
+			{
+				case BodyPartType.Eyes:
+				case BodyPartType.Mouth:
+					foreach (var bodyPart in BodyPartList)
+					{
+						if (bodyPart.BodyPartType == bodyPartAim)
+						{
+							ReturnList.Add(bodyPart);
+						}
+					}
+
+					break;
+				default:
+					foreach (var bodyPart in SurfaceBodyParts)
+					{
+						if (bodyPart.BodyPartType == bodyPartAim)
+						{
+							ReturnList.Add(bodyPart);
+						}
+					}
+
+					break;
+			}
+
+			return ReturnList;
+		}
+
+		public bool TryFlash(float flashDuration, bool checkForProtectiveCloth = true)
+		{
+			bool didFlash = false;
+			var eyes = GetBodyPartsInArea(BodyPartType.Eyes, false);
+			foreach (var eye in eyes)
+			{
+				var EyeFlash = eye.GetComponentCustom<EyeFlash>();
+				if (EyeFlash != null && EyeFlash.TryFlash(flashDuration, checkForProtectiveCloth))
+				{
+					didFlash = true;
+				}
+			}
+
+			return didFlash;
 		}
 
 
@@ -1369,12 +1425,14 @@ namespace HealthV2
 						heart.CurrentPulse = 0;
 						continue;
 					}
+
 					if (organ is Eye eye)
 					{
 						eye.BadEyesight = 10;
 					}
 				}
 			}
+
 			CalculateOverallHealth();
 			stopHealthSystems = true;
 		}
@@ -1392,6 +1450,7 @@ namespace HealthV2
 					}
 				}
 			}
+
 			RestartHeart();
 		}
 
@@ -1496,7 +1555,7 @@ namespace HealthV2
 			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{
 				if (BodyPartList[i].BodyPartType == BodyPartType.Chest) continue;
-				BodyPartList[i].TryRemoveFromBody(true, PreventGibb_Death : true);
+				BodyPartList[i].TryRemoveFromBody(true, PreventGibb_Death: true);
 			}
 		}
 
@@ -1846,7 +1905,8 @@ namespace HealthV2
 			var sprites = implant.GetBodyTypeSprites(bodyType);
 			foreach (var Sprite in sprites.Item2)
 			{
-				var newSprite = Spawn.ServerPrefab(implant.SpritePrefab.gameObject, Vector3.zero, playerSprites.BodySprites.transform)
+				var newSprite = Spawn.ServerPrefab(implant.SpritePrefab.gameObject, Vector3.zero,
+						playerSprites.BodySprites.transform)
 					.GameObject.GetComponent<BodyPartSprites>();
 				newSprite.transform.localPosition = Vector3.zero;
 				playerSprites.Addedbodypart.Add(newSprite);
@@ -1862,7 +1922,8 @@ namespace HealthV2
 				ClientData.Name =
 					implant.name + "_" + i + "_" + implant.GetInstanceID(); //is Fine because name is being Networked
 				newSprite.SetName(ClientData.Name);
-				ClientData.Int = CustomNetworkManager.Instance.IndexLookupSpawnablePrefabs[implant.SpritePrefab.gameObject];
+				ClientData.Int =
+					CustomNetworkManager.Instance.IndexLookupSpawnablePrefabs[implant.SpritePrefab.gameObject];
 				ClientData.Data = JsonConvert.SerializeObject(newOrder);
 				implant.intName = ClientData;
 				InternalNetIDs.Add(ClientData);
@@ -1903,6 +1964,7 @@ namespace HealthV2
 						Logger.LogError("playerSprites.ThisCharacter == null");
 						return;
 					}
+
 					ColorUtility.TryParseHtmlString(playerSprites.ThisCharacter.SkinTone, out CurrentSurfaceColour);
 
 					var hasColour = false;
@@ -2178,7 +2240,6 @@ namespace HealthV2
 		}
 
 
-
 		public void IndicatePain(float dmgTaken, bool ignoreCooldown = false)
 		{
 			if (EmoteActionManager.Instance == null || screamEmote == null
@@ -2301,6 +2362,7 @@ namespace HealthV2
 				var state = IsDead ? "They appear to be dead!" : "They appear to be in a critical condition!";
 				finalText.AppendLine(state);
 			}
+
 			if (FireStacks > 0)
 			{
 				finalText.AppendLine("They are on fire!");
@@ -2310,6 +2372,7 @@ namespace HealthV2
 			{
 				finalText.AppendLine("They are bleeding!");
 			}
+
 			return finalText.ToString();
 		}
 

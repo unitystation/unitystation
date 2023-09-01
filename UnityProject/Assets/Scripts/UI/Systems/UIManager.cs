@@ -66,7 +66,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public ProfileScrollView profileScrollView;
 	public PlayerAlerts playerAlerts;
 	[FormerlySerializedAs("antagBanner")] public GUIAntagBanner spawnBanner;
-	private bool preventChatInput;
+	private static bool preventChatInput;
 	[SerializeField] [Range(0.1f, 10f)] private float PhoneZoomFactor = 1.6f;
 	public LobbyUIPlayerListController lobbyUIPlayerListController = null;
 
@@ -95,8 +95,8 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public static bool PreventChatInput
 	{
-		get { return uiManager.preventChatInput; }
-		set { uiManager.preventChatInput = value; }
+		get { return preventChatInput; }
+		set { preventChatInput = value; }
 	}
 
 	//map from progress bar id to actual progress bar component.

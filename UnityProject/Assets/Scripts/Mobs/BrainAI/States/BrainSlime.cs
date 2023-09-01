@@ -80,7 +80,6 @@ public class BrainSlime : BrainMobState
 	{
 		if (SlimeEat == null) return;
 
-
 		if (SlimeCore.CanSlimesSplit())
 		{
 			if (SlimeEat.CurrentlyEating != null)

@@ -224,6 +224,7 @@ public static class SweetExtensions
 	}
 
 
+
 	//New better system for Get component That cashs results
 	public static T GetComponentCustom<T>(this GameObject go)  where T : Component
 	{
@@ -236,6 +237,34 @@ public static class SweetExtensions
 			return null;
 		}
 	}
+
+
+	public static bool TryGetComponentCustom<T>(this Component go, out T component) where T : Component
+	{
+		if (ComponentManager.TryGetCommonComponent(go.gameObject, out  var commonComponent))
+		{
+			return commonComponent.TrySafeGetComponent<T>(out component);
+		}
+		else
+		{
+			component = null;
+			return false;
+		}
+	}
+
+	public static bool TryGetComponentCustom<T>(this GameObject go, out T component)  where T : Component
+	{
+		if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
+		{
+			return commonComponent.TrySafeGetComponent<T>(out component);
+		}
+		else
+		{
+			component = null;
+			return false;
+		}
+	}
+
 
 	/// <summary>
 	/// Returns true for adjacent coordinates

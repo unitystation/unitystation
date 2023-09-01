@@ -5,16 +5,18 @@ namespace Items.Implants.Organs
 {
 	public class WeldingShieldImplant : BodyPartFunctionality
 	{
+		private EyeFlash flash;
+
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			if(RelatedPart.HealthMaster.playerScript.gameObject.TryGetComponent<PlayerFlashEffects>(out var flash) == false) return;
+			flash = RelatedPart.ContainedIn.GetComponent<EyeFlash>();
 			flash.WeldingShieldImplants++;
 		}
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			if (RelatedPart.HealthMaster.playerScript.gameObject.TryGetComponent<PlayerFlashEffects>(out var flash) == false) return;
 			flash.WeldingShieldImplants--;
+			flash = null;
 		}
 	}
 }
