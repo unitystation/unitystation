@@ -229,41 +229,6 @@ public class ObjectiveManagerPage : MonoBehaviour
 		}
 	}
 
-	#region TEST REMOVE AFTER WITH FLAMER
-
-	[Space(10)]
-	public GameObject playerTEST;
-	public string TESTObjectiveText;
-
-	[ContextMenu("AddCustomObjectiveTEST")]
-	public void AddCustomObjectiveTEST()
-	{
-		CustomObjective customObj = CreateCustomObjective(TESTObjectiveText);
-
-		AddCustomObjective(playerTEST.GetComponent<PlayerScript>().Mind, customObj);
-	}
-
-	public int ObjectiveNumber = 0;
-	[ContextMenu("RemoveCustomObjectiveTEST")]
-	public void RemoveCustomObjectiveTEST()
-	{
-		var playerScript = playerTEST.GetComponent<PlayerScript>();
-		Objective obj = playerScript.Mind.Antag.Objectives.ElementAt(ObjectiveNumber);
-
-		RemoveObjective(playerTEST.GetComponent<PlayerScript>().Mind, obj);
-	}
-
-	public bool stateTEST = false;
-	[ContextMenu("ChangeCustomObjectiveStateTEST")]
-	public void ChangeCustomObjectiveStateTEST()
-	{
-		var playerScript = playerTEST.GetComponent<PlayerScript>();
-		if (playerScript.Mind.Antag.Objectives.ElementAt(ObjectiveNumber) is CustomObjective obj)
-			ChangeCustomObjectiveState(playerTEST.GetComponent<PlayerScript>().Mind, obj, stateTEST);
-	}
-
-	#endregion
-
 	private static Objective GetObjective(Mind player, string ID)
 	{
 		return player.Antag.Objectives.Where(o => o.ID == ID)?.ElementAt(0);
@@ -306,7 +271,6 @@ public class ObjectiveManagerPage : MonoBehaviour
 				pl.playerID = plSet.playerID;
 			}
 		}
-		//TODO Add check here
 		obj.DoSetupInGame(player);
 
 		antag.Objectives = antag.Objectives.Concat(new[] { obj });
