@@ -8,11 +8,6 @@ public class CustomAntag : Antagonist
 	private string antagName;
 	public new string AntagName => antagName;
 
-	public override void AfterSpawn(Mind SpawnMind)
-	{
-
-	}
-
 	private void Init(string newAntagName)
 	{
 		antagName = newAntagName;

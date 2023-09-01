@@ -66,7 +66,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 	public PlayerScript ghost { private set; get; }
 	public PlayerScript Body => GetDeepestBody()?.GetComponent<PlayerScript>();
 	private SpawnedAntag antagContainer = null;
-	private SpawnedAntag antag
+
+	private SpawnedAntag Antag
 	{
 		get
 		{
@@ -75,8 +76,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 			return antagContainer;
 		}
 	}
-	public SpawnedAntag Antag => antag;
-	public bool IsAntag => CustomNetworkManager.IsServer ? antag.Antagonist != null : NetworkedisAntag;
+	public SpawnedAntag AntagPublic => Antag;
+	public bool IsAntag => CustomNetworkManager.IsServer ? Antag.Antagonist != null : NetworkedisAntag;
 
 
 	public bool DenyCloning;
@@ -262,7 +263,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 	public void UpdateAntagButtons()
 	{
-		if (antag.Objectives.Count() == 0)
+		if (Antag.Objectives.Count() == 0)
 		{
 			ActivateAntagAction(false);
 		} else
@@ -276,14 +277,14 @@ public class Mind : NetworkBehaviour, IActionGUI
 	/// </summary>
 	public SpawnedAntag InitAntag(Antagonist antagonist, IEnumerable<Objective> objectives)
 	{
-		antag.Init(antagonist, this, objectives);
+		Antag.Init(antagonist, this, objectives);
 		NetworkedisAntag = antagonist != null;
 		NetworkedAntagJob = antagonist.AntagJobType;
 
 		ShowObjectives();
 		ActivateAntagAction(NetworkedisAntag);
 
-		return antag;
+		return Antag;
 	}
 
 	public void ActivateAntagAction(bool state)
@@ -362,9 +363,9 @@ public class Mind : NetworkBehaviour, IActionGUI
 	{
 		//TODO : Notify the player that a new objective has been added automatically.
 		var list = new List<Objective>();
-		antag.Objectives.CopyTo<Objective>(list);
+		Antag.Objectives.CopyTo<Objective>(list);
 		list.Add(objectiveToAdd);
-		antag.Objectives = list;
+		Antag.Objectives = list;
 	}
 
 	/// <summary>
@@ -372,8 +373,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 	/// </summary>
 	public void RemoveAntag()
 	{
-		antag.Clear();
-		NetworkedisAntag = antag.Antagonist != null;
+		Antag.Clear();
+		NetworkedisAntag = Antag.Antagonist != null;
 		NetworkedAntagJob = JobType.NULL;
 
 		ActivateAntagAction(NetworkedisAntag);
@@ -729,11 +730,11 @@ public class Mind : NetworkBehaviour, IActionGUI
 	/// </summary>
 	public void ShowObjectives()
 	{
-		if (antag.Objectives.Count() == 0 && NetworkedisAntag == false) return;
+		if (Antag.Objectives.Count() == 0 && NetworkedisAntag == false) return;
 		var playerMob = GetCurrentMob();
 
 		//Send Objectives
-		Chat.AddExamineMsgFromServer(playerMob, antag.GetObjectivesForPlayer());
+		Chat.AddExamineMsgFromServer(playerMob, Antag.GetObjectivesForPlayer());
 
 		if (CodeWordManager.Instance.CodeWordRoles.Contains(NetworkedAntagJob) == true)
 		{
@@ -754,7 +755,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return;
 
-		if (CodeWordManager.Instance.CodeWordRoles.Contains(NetworkedAntagJob) == true || antag.Antagonist is BloodBrother == true)
+		if (CodeWordManager.Instance.CodeWordRoles.Contains(NetworkedAntagJob) == true || Antag.Antagonist is BloodBrother == true)
 		{
 			if (body.OrNull()?.DynamicItemStorage == null) return;
 			var playerInventory = body.DynamicItemStorage.GetItemSlots();
@@ -780,10 +781,10 @@ public class Mind : NetworkBehaviour, IActionGUI
 		var playerMob = GetCurrentMob();
 
 		//Send Objectives
-		objectives += antag.GetObjectivesForPlayer();
+		objectives += Antag.GetObjectivesForPlayer();
 
 		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return "";
-		if (antag.Antagonist.AntagJobType == JobType.TRAITOR || antag.Antagonist.AntagJobType == JobType.SYNDICATE || antag.Antagonist is BloodBrother)
+		if (Antag.Antagonist.AntagJobType == JobType.TRAITOR || Antag.Antagonist.AntagJobType == JobType.SYNDICATE || Antag.Antagonist is BloodBrother)
 		{
 			string codeWordsString = "\nCode Words:";
 			for (int i = 0; i < CodeWordManager.WORD_COUNT; i++)
@@ -809,7 +810,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	/// </summary>
 	public SpawnedAntag GetAntag()
 	{
-		return antag;
+		return Antag;
 	}
 
 	/// <summary>
@@ -820,7 +821,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	{
 		if (IsAntag == false) return false;
 
-		return antag.Antagonist is T;
+		return Antag.Antagonist is T;
 	}
 
 	public void AddSpell(Spell spell)

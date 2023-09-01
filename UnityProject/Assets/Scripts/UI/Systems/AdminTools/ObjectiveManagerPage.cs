@@ -19,14 +19,14 @@ public class ObjectiveManagerPage : MonoBehaviour
 	[SerializeField] private ObjectiveEntry addEntry;
 	[SerializeField] private GameObject contentArea;
 	[SerializeField] private Dropdown dropdown;
-	private Dictionary<int, Objective> objectives = new Dictionary<int, Objective>();
+	private readonly Dictionary<int, Objective> objectives = new Dictionary<int, Objective>();
 	private Objective selectedObjective = null;
-	private List<ObjectiveEntry> addedEntries = new List<ObjectiveEntry>();
+	private readonly List<ObjectiveEntry> addedEntries = new List<ObjectiveEntry>();
 
 	[SerializeField] private ObjectiveAttributesEntry attributesEntry;
 	[SerializeField] private GameObject attributesContentArea;
 	[SerializeField] private GameObject attributesList;
-	private List<ObjectiveAttributesEntry> addedAttributesEntries = new List<ObjectiveAttributesEntry>();
+	private readonly List<ObjectiveAttributesEntry> addedAttributesEntries = new List<ObjectiveAttributesEntry>();
 
 	private AdminPlayerEntry player;
 
@@ -231,7 +231,7 @@ public class ObjectiveManagerPage : MonoBehaviour
 
 	private static Objective GetObjective(Mind player, string ID)
 	{
-		return player.Antag.Objectives.Where(o => o.ID == ID)?.ElementAt(0);
+		return player.AntagPublic.Objectives.Where(o => o.ID == ID)?.ElementAt(0);
 	}
 
 	private static CustomObjective CreateCustomObjective(string desctiption)
@@ -241,20 +241,20 @@ public class ObjectiveManagerPage : MonoBehaviour
 		return customObj;
 	}
 
-	private static Objective AddObjective(Mind player, ObjectiveInfo info)
+	private static void AddObjective(Mind player, ObjectiveInfo info)
 	{
 		if (player.Body == null)
-			return null;
+			return;
 		var playerScript = player.Body;
 		if (playerScript.Mind == null)
-			return null;
+			return;
 
 
-		var antag = playerScript.Mind.Antag;
+		var antag = playerScript.Mind.AntagPublic;
 		Objective obj = AntagData.Instance.FromIndexObj(info.PrefabID);
 		if (obj == null)
 		{
-			return null;
+			return;
 		}
 		foreach (var attr in info.attributes)
 		{
@@ -274,8 +274,6 @@ public class ObjectiveManagerPage : MonoBehaviour
 		obj.DoSetupInGame(player);
 
 		antag.Objectives = antag.Objectives.Concat(new[] { obj });
-
-		return obj;
 	}
 
 	private static CustomObjective AddCustomObjective(Mind player, CustomObjective customObj)
@@ -285,7 +283,7 @@ public class ObjectiveManagerPage : MonoBehaviour
 			return null;
 
 
-		var antag = playerScript.Mind.Antag;
+		var antag = playerScript.Mind.AntagPublic;
 		customObj.DoSetupInGame(player);
 
 		antag.Objectives = antag.Objectives.Concat(new[] { customObj });
@@ -299,7 +297,7 @@ public class ObjectiveManagerPage : MonoBehaviour
 		if (playerScript.Mind == null)
 			return;
 
-		player.Antag.Objectives = player.Antag.Objectives.Where(o => o != objective);
+		player.AntagPublic.Objectives = player.AntagPublic.Objectives.Where(o => o != objective);
 	}
 
 	private static void RemoveObjective(Mind player, string ID)
@@ -308,7 +306,7 @@ public class ObjectiveManagerPage : MonoBehaviour
 		if (playerScript.Mind == null)
 			return;
 
-		player.Antag.Objectives = player.Antag.Objectives.Where(o => o.ID != ID);
+		player.AntagPublic.Objectives = player.AntagPublic.Objectives.Where(o => o.ID != ID);
 	}
 
 	private static void ChangeCustomObjectiveState(Mind player, CustomObjective objective, bool state)
@@ -416,16 +414,14 @@ public class ObjectiveRefreshMessage : ServerMessage<ObjectiveRefreshMessage.Net
 		//Gather the data
 		var objectivesInfo = new AntagonistInfo();
 		var player = PlayerList.Instance.GetPlayerByID(playerForRequestID);
-		if (player.Mind.Antag.Antagonist != null)
+		if (player.Mind.AntagPublic.Antagonist != null)
 		{
-			objectivesInfo.antagID = AntagData.Instance.GetIndexAntag(player.Mind.Antag.Antagonist);
+			objectivesInfo.antagID = AntagData.Instance.GetIndexAntag(player.Mind.AntagPublic.Antagonist);
 		}
 
-		if (player == null || player.Mind == null || player.Mind.Antag == null)
-			return new NetMessage { Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = "" };
-		for (int i = 0; i < player.Mind.Antag.Objectives.Count(); i++)
+		for (int i = 0; i < player.Mind.AntagPublic.Objectives.Count(); i++)
 		{
-			var x = player.Mind.Antag.Objectives.ElementAt(i);
+			var x = player.Mind.AntagPublic.Objectives.ElementAt(i);
 			var objInfo = new ObjectiveInfo();
 
 			objInfo.Status = x.IsComplete();

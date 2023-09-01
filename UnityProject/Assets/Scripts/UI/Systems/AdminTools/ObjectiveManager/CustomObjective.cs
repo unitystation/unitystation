@@ -13,11 +13,6 @@ public class CustomObjective : Objective
 		return Complete;
 	}
 
-	protected override void Setup()
-	{
-
-	}
-
 	public void SetStatus(bool state)
 	{
 		Complete = state;
@@ -28,11 +23,6 @@ public class CustomObjective : Objective
 		description = newDescription;
 		name = newDescription;
 		Complete = false;
-	}
-
-	private CustomObjective()
-	{
-
 	}
 
 	public static CustomObjective Create(string newDescription)

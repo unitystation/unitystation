@@ -224,7 +224,7 @@ namespace Antagonists
 		{
 			StringBuilder statusSB = new StringBuilder();
 
-			var message = $"";
+			var message = new StringBuilder();
 
 			if (activeAntags.Count > 0)
 			{
@@ -232,37 +232,37 @@ namespace Antagonists
 				foreach (var antagType in activeAntags.GroupBy(t => t.GetType()))
 				{
 					statusSB.AppendLine($"<size={ChatTemplates.LargeText}>The <b>{antagType.First().Antagonist.AntagName}s</b> were:\n</size>");
-					message += $"The {antagType.First().Antagonist.AntagName}s were:\n";
+					message.Append($"The {antagType.First().Antagonist.AntagName}s were:\n");
 					foreach (var antag in antagType)
 					{
-						message += $"\n{antag.GetObjectiveStatusNonRich()}\n";
+						message.AppendLine($"{antag.GetObjectiveStatusNonRich()}\n");
 						statusSB.AppendLine(antag.GetObjectiveStatus());
 					}
 				}
 			}
 			else
 			{
-				message += $"\nThere were no antagonists!\n";
+				message.AppendLine($"There were no antagonists!\n");
 				statusSB.AppendLine($"<size={ChatTemplates.LargeText}>There were no antagonists!</size>");
 			}
 
 			foreach (var x in PlayerList.Instance.AllPlayers)
 			{
 				statusSB.AppendLine($"<size={ChatTemplates.LargeText}>The <b>{x.Name} objectives</b> were:\n</size>");
-				message += $"\n{x.Mind.Antag.GetObjectiveStatusNonRich()}\n";
-				statusSB.AppendLine(x.Mind.Antag.GetObjectiveStatus());
+				message.AppendLine($"\n{x.Mind.AntagPublic.GetObjectiveStatusNonRich()}\n");
+				statusSB.AppendLine(x.Mind.AntagPublic.GetObjectiveStatus());
 			}
 
 			if (PlayerList.Instance.ConnectionCount == 1)
 			{
-				message += $"\n There is 1 player online.\n";
+				message.AppendLine($" There is 1 player online.\n");
 			}
 			else
 			{
-				message += $"\n There are {PlayerList.Instance.ConnectionCount} players online.\n";
+				message.AppendLine($" There are {PlayerList.Instance.ConnectionCount} players online.\n");
 			}
 
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message.ToString(), "");
 
 			// Send the message
 			Chat.AddGameWideSystemMsgToChat(statusSB.ToString());

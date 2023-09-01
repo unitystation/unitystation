@@ -68,7 +68,10 @@ public class ObjectiveEntry : MonoBehaviour
 
 	private void UpdateCheckBox()
 	{
-		if (relatedObjective != null && relatedObjective.PrefabID >= 0 && AntagData.Instance.FromIndexObj(relatedObjective.PrefabID).IsEndRoundObjective)
+		if (relatedObjective == null)
+			return;
+
+		if (relatedObjective.PrefabID >= 0 && AntagData.Instance.FromIndexObj(relatedObjective.PrefabID).IsEndRoundObjective)
 		{
 			checkBoxText.text = "E";
 		}

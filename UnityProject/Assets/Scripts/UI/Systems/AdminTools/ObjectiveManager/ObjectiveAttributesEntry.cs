@@ -97,20 +97,4 @@ public class ObjectiveAttributesEntry : MonoBehaviour
 			inputItem.AddOptions(newOptions);
 		}
 	}
-
-	public void UpdateAttributeInput()
-	{
-		if (attribute is ObjectiveAttributeNumber)
-		{
-
-		}
-		else if (attribute is ObjectiveAttributePlayer)
-		{
-
-		}
-		else if (attribute is ObjectiveAttributeItem)
-		{
-
-		}
-	}
 }
