@@ -358,6 +358,51 @@ public class ObjectiveManagerPage : MonoBehaviour
 	#endregion
 }
 
+
+public class RequestAdminObjectiveUpdateMessage : ClientMessage<RequestAdminObjectiveUpdateMessage.NetMessage>
+{
+	public struct NetMessage : NetworkMessage
+	{
+		public string playerForRequestID;
+		public string json;
+	}
+
+	public override void Process(NetMessage msg)
+	{
+		if (IsFromAdmin())
+		{
+			var info = JsonConvert.DeserializeObject<AntagonistInfo>(msg.json);
+			try
+			{
+				var player = PlayerList.Instance.GetPlayerByID(msg.playerForRequestID);
+
+				ObjectiveManagerPage.ProceedServerObjectivesUpdate(info.Objectives, player.Mind);
+			}
+			catch (Exception ex)
+			{
+				Logger.LogError($"[RequestAdminObjectiveUpdateMessage/Process] Failed to process objective update {ex}");
+			}
+		}
+	}
+
+	public static NetMessage Send(string playerForRequestID, List<ObjectiveInfo> info)
+	{
+		var objs = new AntagonistInfo()
+		{
+			Objectives = info
+		};
+
+		NetMessage msg = new NetMessage
+		{
+			playerForRequestID = playerForRequestID,
+			json = JsonConvert.SerializeObject(objs)
+		};
+
+		Send(msg);
+		return msg;
+	}
+}
+
 public class RequestAdminObjectiveRefreshMessage: ClientMessage<RequestAdminObjectiveRefreshMessage.NetMessage>
 {
 	public struct NetMessage : NetworkMessage
@@ -385,50 +430,6 @@ public class RequestAdminObjectiveRefreshMessage: ClientMessage<RequestAdminObje
 	}
 }
 
-public class RequestAdminObjectiveUpdateMessage: ClientMessage<RequestAdminObjectiveUpdateMessage.NetMessage>
-{
-	public struct NetMessage : NetworkMessage
-	{
-		public string playerForRequestID;
-		public string json;
-	}
-
-	public override void Process(NetMessage msg)
-	{
-		if (IsFromAdmin())
-		{
-			var info = JsonConvert.DeserializeObject<AntagonistInfo>(msg.json);
-			try
-			{
-				var player = PlayerList.Instance.GetPlayerByID(msg.playerForRequestID);
-
-				ObjectiveManagerPage.ProceedServerObjectivesUpdate(info.Objectives, player.Mind);
-			}
-			catch (Exception ex)
-			{
-				Logger.LogError($"[RequestAdminObjectiveUpdateMessage/Process] Failed to find player {ex}");
-			}
-		}
-	}
-
-	public static NetMessage Send(string playerForRequestID, List<ObjectiveInfo> info)
-	{
-		var objs = new AntagonistInfo()
-		{
-			Objectives = info
-		};
-
-		NetMessage msg = new NetMessage
-		{
-			playerForRequestID = playerForRequestID,
-			json = JsonConvert.SerializeObject(objs)
-		};
-
-		Send(msg);
-		return msg;
-	}
-}
-
 public class ObjectiveRefreshMessage : ServerMessage<ObjectiveRefreshMessage.NetMessage>
 {
 	public struct NetMessage : NetworkMessage
@@ -436,9 +437,6 @@ public class ObjectiveRefreshMessage : ServerMessage<ObjectiveRefreshMessage.Net
 		public string JsonData;
 		public uint Recipient;
 	}
-
-	//This is needed so the message can be discovered in NetworkManagerExtensions
-	public NetMessage IgnoreMe;
 
 	public override void Process(NetMessage msg)
 	{
@@ -451,7 +449,7 @@ public class ObjectiveRefreshMessage : ServerMessage<ObjectiveRefreshMessage.Net
 
 	public static NetMessage Send(GameObject recipient, string adminID, string playerForRequestID)
 	{
-		//Gather the data:
+		//Gather the data
 		var objectivesInfo = new AntagonistInfo();
 		var player = PlayerList.Instance.GetPlayerByID(playerForRequestID);
 		if (player.Mind.Antag.Antagonist != null)
