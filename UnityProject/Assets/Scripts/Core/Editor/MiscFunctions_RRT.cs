@@ -17,6 +17,9 @@ using Debug = UnityEngine.Debug;
 
 namespace Util
 {
+
+
+
 	/// <summary>
 	/// Used for random ass editor scripts, Has all the functions you need in a pinch
 	/// </summary>
@@ -158,6 +161,8 @@ namespace Util
 			data = await HubValidation.RequestTrustedMode("AAAAAAAAAAAAAAAA");
 			Logger.LogError(data.ToString());
 		}
+
+
 
 		[MenuItem("Tools/------------ Debug function -----------")]
 		public static void Generate()
