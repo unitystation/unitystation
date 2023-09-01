@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <_TargetFrameworkDirectories>non_empty_path_generated_by_unity.rider.package</_TargetFrameworkDirectories>
     <_FullFrameworkReferenceAssemblyPaths>non_empty_path_generated_by_unity.rider.package</_FullFrameworkReferenceAssemblyPaths>
     <DisableHandlePackageFileConflicts>true</DisableHandlePackageFileConflicts>
@@ -25,8 +25,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Temp\Bin\Debug\</OutputPath>
-    <DefineConstants></DefineConstants>
+    <OutputPath>Temp\Bin\Debug\Unity.Rider.Editor\</OutputPath>
+    <DefineConstants>UNITY_EDITOR</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169,0649</NoWarn>
@@ -41,15 +41,27 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\RectMask2D" />
+     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\InputField" />
+     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor" />
+     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\UI\PropertyDrawers" />
+     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\UI" />
+     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\EventSystem" />
+     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\Canvas" />
+     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\UnityEvent" />
+     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\Slider" />
      <None Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\UnityEditor.UI.EditorTests.asmdef" />
+     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\CanvasRenderer" />
+     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\Dropdown" />
+     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\Text" />
      <Reference Include="UnityEngine">
-     <HintPath>D:/UnityPath/Unity 2021.1.28f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
+     <HintPath>Q:\Fast programmes\Unity\2023.1.10f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.CoreModule">
-     <HintPath>D:/UnityPath/Unity 2021.1.28f1/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
+     <HintPath>Q:\Fast programmes\Unity\2023.1.10f1\Editor\Data\Managed\UnityEngine\UnityEngine.CoreModule.dll</HintPath>
      </Reference>
      <Reference Include="UnityEditor">
-     <HintPath>D:/UnityPath/Unity 2021.1.28f1/Editor/Data/Managed/UnityEngine/UnityEditor.dll</HintPath>
+     <HintPath>Q:\Fast programmes\Unity\2023.1.10f1\Editor\Data\Managed\UnityEngine\UnityEditor.dll</HintPath>
      </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
