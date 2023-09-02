@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1548266987274834536, guid: f9025da3beb40304cb15babfc0a6cafa,
@@ -201,25 +202,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: f761bdcfae971bc41ae9298a15c79f9c,
         type: 2}
     - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 5d07159fe94699d42b7637a10bbfdd32,
         type: 2}
     - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 875871c2f3aa9ce40a2036a607d2a8bb,
         type: 2}
     - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[3]
+      propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: d1ea0d9a95e98d643bdf09400061158e,
         type: 2}
@@ -245,17 +246,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
-      propertyPath: ListCanConnectTo.Array.data[0]
+      propertyPath: 'ListCanConnectTo.Array.data[0]'
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
-      propertyPath: ListCanConnectTo.Array.data[1]
+      propertyPath: 'ListCanConnectTo.Array.data[1]'
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
-      propertyPath: ListCanConnectTo.Array.data[2]
+      propertyPath: 'ListCanConnectTo.Array.data[2]'
       value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
@@ -305,6 +306,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4484593196699027616, guid: f9025da3beb40304cb15babfc0a6cafa, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2453728123087481889, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7926788470919046243}
+    - targetCorrespondingSourceObject: {fileID: 2453728123087481889, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1391099956464558305}
+    - targetCorrespondingSourceObject: {fileID: 2453728123087481889, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1771482854461073481}
+    - targetCorrespondingSourceObject: {fileID: 2453728123087481889, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3879102292432146991}
+    - targetCorrespondingSourceObject: {fileID: 2453728123087481889, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7229877133248999746}
   m_SourcePrefab: {fileID: 100100000, guid: f9025da3beb40304cb15babfc0a6cafa, type: 3}
 --- !u!210 &1511291056692446084 stripped
 SortingGroup:

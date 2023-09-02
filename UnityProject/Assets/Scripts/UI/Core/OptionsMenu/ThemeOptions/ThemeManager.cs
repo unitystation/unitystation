@@ -191,7 +191,7 @@ namespace Unitystation.Options
             {
                 if (AccessFile.Exists(di, userPersistent: true, isFile: false))
                 {
-	                var files = AccessFile.Contents(di, userPersistent: true);
+	                var files = AccessFile.DirectoriesOrFilesIn(di, userPersistent: true);
                     foreach (string file in files)
                     {
                         if (file.EndsWith(".yaml"))

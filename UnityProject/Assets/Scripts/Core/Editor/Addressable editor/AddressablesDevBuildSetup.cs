@@ -92,10 +92,10 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 			{
 				var newID = IDs[i].ToString();
 				newID = newID.Replace("AddressablePackingProjects/" + flip.Directory.Parent.Name + "/ServerData/",
-					"unitystation_Data/StreamingAssets/AddressableCatalogues/"+  flip.Directory.Parent.Name + "/");
+					"StreamingAssets/AddressableCatalogues/"+  flip.Directory.Parent.Name + "/");
 
 				newID = newID.Replace(@"AddressablePackingProjects\" + flip.Directory.Parent.Name + @"\ServerData\",
-					"unitystation_Data/StreamingAssets/AddressableCatalogues/"+  flip.Directory.Parent.Name + "/");
+					"StreamingAssets/AddressableCatalogues/"+  flip.Directory.Parent.Name + "/");
 				//Assets < Editor, build > unitystation_Data
 				//Check cache in app data if changes aren't applying
 				IDs[i] = newID;

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3547883628967403028, guid: c947ef228fe12b44dad029156a74f62b,
@@ -29,13 +30,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3601505531603534332, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: a6c4297d3e799ab45bbb80bb4cd3c620,
         type: 2}
     - target: {fileID: 3601505531603534332, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: ecb17808990566d449db9825a82d7c69,
         type: 2}
@@ -47,13 +48,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4377564325058947582, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 0287527d229ef16459d28adea4e829a1,
         type: 2}
     - target: {fileID: 4377564325058947582, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 2fd580f19436823439e793f6e54eff5b,
         type: 2}
@@ -276,15 +277,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8034228813080640986, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
-      propertyPath: toggleSprites.Array.data[0]
+      propertyPath: 'toggleSprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 18f81a75b12175e4dba3bd3a1fb700a0,
         type: 3}
     - target: {fileID: 8034228813080640986, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
-      propertyPath: toggleSprites.Array.data[1]
+      propertyPath: 'toggleSprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300000, guid: 25046d1cc9626fd40a6d2946b71eae3a,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c947ef228fe12b44dad029156a74f62b, type: 3}

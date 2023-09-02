@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 183937588760773362, guid: 2995d6d8e44f22b438ab7b65cc62994a,
@@ -130,6 +131,13 @@ PrefabInstance:
       value: xPineTreeXmasx
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8813773544674583226, guid: 2995d6d8e44f22b438ab7b65cc62994a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7997258077140921742}
   m_SourcePrefab: {fileID: 100100000, guid: 2995d6d8e44f22b438ab7b65cc62994a, type: 3}
 --- !u!1 &2220604233615136267 stripped
 GameObject:

@@ -31,7 +31,6 @@ RectTransform:
   m_Children:
   - {fileID: 5288348493137659960}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -50,13 +49,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3033b5d39951d430299684ac3cd06d7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 0
   holeMat: {fileID: 2100000, guid: ecc97e9b19bc34985b4b01b0121c9683, type: 2}
-  shroud: {fileID: 5288348493137659960}
-  shroudImg: {fileID: 5470271345630498554}
+  TargetshroudColor: {r: 1, g: 0, b: 0, a: 1}
   shroudColor: {r: 0.50980395, g: 0, b: 0, a: 0}
   Radius: 5
   Epow: 1.5
+  TargetRadius: 3
 --- !u!1 &5367048007662142620
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,7 +86,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5287873272021720522}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}

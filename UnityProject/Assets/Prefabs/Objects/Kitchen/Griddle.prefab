@@ -30,7 +30,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1581827510003495535}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -79,7 +78,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1581827510003495535}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -103,6 +101,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
@@ -216,13 +215,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 4f4c055a45460004aa9595cfe8646f52,
         type: 2}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: ee6f58e86909f094dbca95724321a2c0,
         type: 2}
@@ -252,6 +251,29 @@ PrefabInstance:
       value: Grills meat and meat products.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 807825981556954769}
+    - targetCorrespondingSourceObject: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2703508310100748506}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8653197631355161607}
+    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3318242476442790104}
+    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3503557380829932379}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
 --- !u!4 &1581827510003495535 stripped
 Transform:

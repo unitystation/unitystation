@@ -31,7 +31,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1315004704628093875}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -168,7 +167,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3554213835904699855}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -254,6 +252,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseTooltip: 
+  baseExitTooltip: 
   useObjectName: 0
   hoverName: Zoom In
 --- !u!1 &3673807334165445727
@@ -289,7 +289,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3554213835904699855}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -375,6 +374,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseTooltip: 
+  baseExitTooltip: 
   useObjectName: 0
   hoverName: Zoom Out
 --- !u!1 &4381382441019776122
@@ -410,7 +411,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3554213835904699855}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -496,6 +496,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseTooltip: 
+  baseExitTooltip: 
   useObjectName: 1
   hoverName: 
 --- !u!1 &5020937021831491296
@@ -531,7 +533,6 @@ RectTransform:
   - {fileID: 7427307805282769401}
   - {fileID: 1315004704628093875}
   m_Father: {fileID: 4660853724584916151}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -569,7 +570,6 @@ RectTransform:
   m_Children:
   - {fileID: 3554213835904699855}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -623,7 +623,6 @@ RectTransform:
   m_Children:
   - {fileID: 8452187000147548026}
   m_Father: {fileID: 3554213835904699855}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -658,7 +657,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: b3f0d976f6d6802479d6465d11b3aa68, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -736,5 +735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseTooltip: 
+  baseExitTooltip: 
   useObjectName: 1
   hoverName: 

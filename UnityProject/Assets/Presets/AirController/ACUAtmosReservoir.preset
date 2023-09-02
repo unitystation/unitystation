@@ -34,19 +34,19 @@ Preset:
     value: 4
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: initialAcuThresholds.Pressure.Array.data[0]
+    propertyPath: 'initialAcuThresholds.Pressure.Array.data[0]'
     value: 10000
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: initialAcuThresholds.Pressure.Array.data[1]
+    propertyPath: 'initialAcuThresholds.Pressure.Array.data[1]'
     value: 20000
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: initialAcuThresholds.Pressure.Array.data[2]
+    propertyPath: 'initialAcuThresholds.Pressure.Array.data[2]'
     value: 80000
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: initialAcuThresholds.Pressure.Array.data[3]
+    propertyPath: 'initialAcuThresholds.Pressure.Array.data[3]'
     value: 100000
     objectReference: {fileID: 0}
   - target: {fileID: 0}
@@ -54,19 +54,19 @@ Preset:
     value: 4
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: initialAcuThresholds.Temperature.Array.data[0]
+    propertyPath: 'initialAcuThresholds.Temperature.Array.data[0]'
     value: 273.15
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: initialAcuThresholds.Temperature.Array.data[1]
+    propertyPath: 'initialAcuThresholds.Temperature.Array.data[1]'
     value: 283.15
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: initialAcuThresholds.Temperature.Array.data[2]
+    propertyPath: 'initialAcuThresholds.Temperature.Array.data[2]'
     value: 313.15
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: initialAcuThresholds.Temperature.Array.data[3]
+    propertyPath: 'initialAcuThresholds.Temperature.Array.data[3]'
     value: 339.15
     objectReference: {fileID: 0}
   - target: {fileID: 0}
@@ -82,3 +82,8 @@ Preset:
     value: 0
     objectReference: {fileID: 0}
   m_ExcludedProperties: []
+  m_CoupledType:
+    m_NativeTypeID: 0
+    m_ManagedTypePPtr: {fileID: 0}
+    m_ManagedTypeFallback: 
+  m_CoupledProperties: []

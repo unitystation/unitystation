@@ -42,15 +42,14 @@ MonoBehaviour:
     regeneration.
   canBeUsedWhileInCrit: 0
   isLocal: 1
-  showsOnlyWhenAbsorbedSomeone: 0
   startAbility: 0
-  isSlowingChemRegeneration: 1
-  isStopingChemRegeneration: 0
   showInStore: 1
   showInActions: 1
   swithedToOnWhenInCrit: 0
   swithedToOffWhenExitCrit: 0
   cooldownWhenToggled: 0
+  isSlowingChemRegeneration: 1
+  isStopingChemRegeneration: 0
   expandedNightVisionVisibility: {x: 25, y: 25, z: 42}
   defaultvisibilityAnimationSpeed: 1.25
   revertvisibilityAnimationSpeed: 0.2

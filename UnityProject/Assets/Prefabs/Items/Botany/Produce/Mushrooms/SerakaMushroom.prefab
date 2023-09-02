@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2911140076600614213, guid: f0108676c1bf82d41a7c4efdfc660dc0,
@@ -126,24 +127,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4128808782120064493, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 59534ad2cd612bb41a1714b595343772,
         type: 2}
     - target: {fileID: 4128808782120064493, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 7c1c27ae524b16444a3570d0f39dfc32,
         type: 2}
     - target: {fileID: 4128808782120064493, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4128808782120064493, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[1]'
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8132598906308874536, guid: f0108676c1bf82d41a7c4efdfc660dc0,
@@ -158,6 +159,17 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 6ec0523bc212775408c2f6bd7ade1c54,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2911140076600614213, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8149282529400748603}
+    - targetCorrespondingSourceObject: {fileID: 2911140076600614213, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9006046965436588250}
   m_SourcePrefab: {fileID: 100100000, guid: f0108676c1bf82d41a7c4efdfc660dc0, type: 3}
 --- !u!1 &337262202966937944 stripped
 GameObject:

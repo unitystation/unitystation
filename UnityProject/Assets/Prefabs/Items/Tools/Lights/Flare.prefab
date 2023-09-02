@@ -5,11 +5,12 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -760478612880655057, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 1d66f3311bbec3e4c858a29f06adde35,
         type: 2}
@@ -56,19 +57,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: ffeb376a37839934385617a7a415f67b,
         type: 2}
     - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: cc73178d517fe324b95168df570fa6f7,
         type: 2}
     - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: a5016b1cf63d0114d9d9114367b6da44,
         type: 2}
@@ -147,49 +148,49 @@ PrefabInstance:
       objectReference: {fileID: 4900000, guid: b91ff0a20c7ec35438867d1cee40bc5d, type: 3}
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 4897d81aa0858be4b98f2b936cd45301,
         type: 3}
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: 4897d81aa0858be4b98f2b936cd45301,
         type: 3}
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300004, guid: 4897d81aa0858be4b98f2b936cd45301,
         type: 3}
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300006, guid: 4897d81aa0858be4b98f2b936cd45301,
         type: 3}
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 836483e4d8f7914418528f5c31948475,
         type: 3}
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: 836483e4d8f7914418528f5c31948475,
         type: 3}
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300004, guid: 836483e4d8f7914418528f5c31948475,
         type: 3}
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300006, guid: 836483e4d8f7914418528f5c31948475,
         type: 3}
@@ -352,6 +353,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5091645988084169630, guid: 6f371050bff8b32438f91c7c680900bb, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8188105322153847258}
+    - targetCorrespondingSourceObject: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1149402479745122159}
   m_SourcePrefab: {fileID: 100100000, guid: 6f371050bff8b32438f91c7c680900bb, type: 3}
 --- !u!114 &1666505115895660852 stripped
 MonoBehaviour:

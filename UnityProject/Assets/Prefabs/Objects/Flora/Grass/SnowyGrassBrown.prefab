@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8840053766249652534}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2302527192595441827}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9174567198104269068
 SpriteRenderer:
@@ -114,6 +114,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 155908463860164561, guid: 00173e5de3306664c90ceda936ce817f,
@@ -225,23 +226,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8577383740918461250, guid: 00173e5de3306664c90ceda936ce817f,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 1e1bb492367680c45af80c9dce722a71,
         type: 2}
     - target: {fileID: 8577383740918461250, guid: 00173e5de3306664c90ceda936ce817f,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: ebf2632f9b2b776469e2a0fcbdeb9949,
         type: 2}
     - target: {fileID: 8577383740918461250, guid: 00173e5de3306664c90ceda936ce817f,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 9474a7093050c5f4d973eb3b620674fd,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3840928387997474626, guid: 00173e5de3306664c90ceda936ce817f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7702638208660009583}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00173e5de3306664c90ceda936ce817f, type: 3}
 --- !u!4 &2302527192595441827 stripped
 Transform:

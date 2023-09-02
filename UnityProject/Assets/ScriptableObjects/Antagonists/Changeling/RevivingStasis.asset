@@ -39,12 +39,11 @@ MonoBehaviour:
     a stasis for a small cost of 15 chems. While active stops chemical regeneration.
   canBeUsedWhileInCrit: 1
   isLocal: 0
-  showsOnlyWhenAbsorbedSomeone: 0
   startAbility: 1
-  isSlowingChemRegeneration: 0
-  isStopingChemRegeneration: 1
   showInStore: 1
   showInActions: 1
   swithedToOnWhenInCrit: 1
   swithedToOffWhenExitCrit: 1
   cooldownWhenToggled: 1
+  isSlowingChemRegeneration: 0
+  isStopingChemRegeneration: 1

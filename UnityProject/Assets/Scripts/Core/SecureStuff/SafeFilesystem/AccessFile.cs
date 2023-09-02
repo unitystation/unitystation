@@ -11,7 +11,8 @@ namespace SecureStuff
 	{
 		Config,
 		Data,
-		Logs
+		Logs,
+		AddressableCatalogues
 	}
 
 	public static class AccessFile
@@ -214,13 +215,22 @@ namespace SecureStuff
 		/// <param name="relativePath">The relative path to the directory from which file names will be retrieved. The path should be relative to the base path of the chosen access category.</param>
 		/// <param name="folderType">The category of access for the directory, which helps determine the base path for the retrieval. This category can be Config, Data, Logs, or other appropriate access categories (defined elsewhere in the code).</param>
 		/// <param name="userPersistent">A flag indicating whether the file names should be retrieved from a user-specific persistent data path (true) or from the streaming assets path (false).</param>
+		/// <param name="files">A flag indicating Whether it should look for files ( true ) or directories ( false ) in the specified directory </param>
 		/// <returns>An array of strings containing the names of files within the specified directory, excluding files with '.meta' extensions and '.txt' extensions (if any).</returns>
 		/// <exception cref="Exception">Thrown when a malicious path is passed into the file access. This security measure helps prevent unauthorized file access.</exception>
-		public static string[] Contents(string relativePath, FolderType folderType = FolderType.Config, bool userPersistent = false)
+		public static string[] DirectoriesOrFilesIn(string relativePath, FolderType folderType = FolderType.Config, bool userPersistent = false, bool files = true)
 		{
 			var resolvedPath = ValidatePath(relativePath, folderType, userPersistent, false, false);
 			var directories = new DirectoryInfo(resolvedPath);
-			return directories.GetFiles().Select(x => x.Name.Replace(".txt", "")).Where(x => x.Contains(".meta") == false).ToArray();
+			if (files)
+			{
+				return directories.GetFiles().Select(x => x.Name).Where(x => x.Contains(".meta") == false).ToArray();
+			}
+			else
+			{
+				return directories.GetDirectories().Select(x => x.Name).Where(x => x.Contains(".meta") == false).ToArray();
+			}
+
 		}
 
 

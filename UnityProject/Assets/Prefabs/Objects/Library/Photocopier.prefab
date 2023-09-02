@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,
@@ -118,13 +119,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: c0500ac1c98af8c448f0a4a9408cf864,
         type: 2}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 2c263b03e3b590142bdcb81bc509a227,
         type: 2}
@@ -164,6 +165,17 @@ PrefabInstance:
       value: Used to copy important documents and anatomy studies.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3234161548863277215}
+    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4363321682485785553}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
 --- !u!114 &2205140157534800012 stripped
 MonoBehaviour:

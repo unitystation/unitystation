@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1632096134032418045}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8431935078031720043}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3430472353476352236
 SpriteRenderer:
@@ -113,6 +113,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 581308222893969371, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
@@ -213,7 +214,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 868446610880926693, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: dd7de6502f637d6488830d490ee200bd,
         type: 2}
@@ -239,42 +240,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[0]
+      propertyPath: 'possibleTransferAmounts.Array.data[0]'
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[1]
+      propertyPath: 'possibleTransferAmounts.Array.data[1]'
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[2]
+      propertyPath: 'possibleTransferAmounts.Array.data[2]'
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[3]
+      propertyPath: 'possibleTransferAmounts.Array.data[3]'
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[4]
+      propertyPath: 'possibleTransferAmounts.Array.data[4]'
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[5]
+      propertyPath: 'possibleTransferAmounts.Array.data[5]'
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[6]
+      propertyPath: 'possibleTransferAmounts.Array.data[6]'
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[7]
+      propertyPath: 'possibleTransferAmounts.Array.data[7]'
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5934183858157482218, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
@@ -289,6 +290,21 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: aa747bddfc05abe42befbe9631375bf2,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2021716953393998812}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 783851887035088007, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5003536389538966795}
+    - targetCorrespondingSourceObject: {fileID: 783851887035088007, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2575248337170886117}
   m_SourcePrefab: {fileID: 100100000, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3, type: 3}
 --- !u!4 &8431935078031720043 stripped
 Transform:
