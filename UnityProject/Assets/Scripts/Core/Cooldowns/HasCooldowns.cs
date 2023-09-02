@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 
 /// <summary>
@@ -96,10 +97,10 @@ public class HasCooldowns : MonoBehaviour
 
 	private IEnumerator DoCooldown(CooldownID cooldownId, float seconds)
 	{
-		Logger.LogTraceFormat("Started cooldown {0}: {1} seconds", Category.Objects, cooldownId, seconds);
+		Loggy.LogTraceFormat("Started cooldown {0}: {1} seconds", Category.Objects, cooldownId, seconds);
 		onCooldowns.Add(cooldownId);
 		yield return WaitFor.Seconds(seconds);
 		onCooldowns.Remove(cooldownId);
-		Logger.LogTraceFormat("Finished cooldown {0}: {1} seconds", Category.Objects, cooldownId, seconds);
+		Loggy.LogTraceFormat("Finished cooldown {0}: {1} seconds", Category.Objects, cooldownId, seconds);
 	}
 }

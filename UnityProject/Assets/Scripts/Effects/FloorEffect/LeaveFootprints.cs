@@ -1,5 +1,6 @@
 using Chemistry.Components;
 using Effects.FloorEffect;
+using Logs;
 
 namespace Objects.Other
 {
@@ -17,9 +18,9 @@ namespace Objects.Other
 			return;
 			if (reagentContainer.CurrentReagentMix.Total == 0)
 			{
-				Logger.LogError("AAAA");
+				Loggy.LogError("AAAA");
 			}
-			Logger.LogError(reagentContainer.CurrentReagentMix.ToString() + "_" + name);
+			Loggy.LogError(reagentContainer.CurrentReagentMix.ToString() + "_" + name);
 		}
 
 		public void GiveFootprints(MakesFootPrints print = null, int index = 0)

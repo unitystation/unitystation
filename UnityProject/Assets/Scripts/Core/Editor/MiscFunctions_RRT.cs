@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Items;
 using Items.Botany;
+using Logs;
 using SecureStuff;
 using Debug = UnityEngine.Debug;
 
@@ -59,12 +60,12 @@ namespace Util
 		{
 			var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
 			path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData"; //Make OS agnostic
-			Logger.Log(path, Category.Editor);
+			Loggy.Log(path, Category.Editor);
 			var Files = Directory.GetFiles(path);
 			string FoundFile = "";
 			foreach (var File in Files)
 			{
-				Logger.Log(File, Category.Editor);
+				Loggy.Log(File, Category.Editor);
 				if (File.EndsWith(".json"))
 				{
 					FoundFile = File;
@@ -73,7 +74,7 @@ namespace Util
 
 			if (FoundFile == "")
 			{
-				Logger.LogWarning("missing json file", Category.Editor);
+				Loggy.LogWarning("missing json file", Category.Editor);
 				return;
 			}
 
@@ -82,7 +83,7 @@ namespace Util
 			var ListIDs = IDs.ToObject<List<string>>().Where(x => x.Contains(".bundle") == false);
 			foreach (var ListID in ListIDs)
 			{
-				Logger.Log(ListID, Category.Editor);
+				Loggy.Log(ListID, Category.Editor);
 			}
 		}
 
@@ -159,7 +160,7 @@ namespace Util
 			var data = await HubValidation.RequestOpenURL(new Uri("https://old.reddit.com"), " because lol ", false);
 			data = await HubValidation.RequestAPIURL(new Uri("https://old.reddit.com"), " Because I needed ", false);
 			data = await HubValidation.RequestTrustedMode("AAAAAAAAAAAAAAAA");
-			Logger.LogError(data.ToString());
+			Loggy.LogError(data.ToString());
 		}
 
 
@@ -273,7 +274,7 @@ namespace Util
 				}
 				catch
 				{
-					Logger.Log(GetRoot(SH.gameObject).name + "Not root apparently", Category.Editor);
+					Loggy.Log(GetRoot(SH.gameObject).name + "Not root apparently", Category.Editor);
 				}
 			}
 
@@ -669,7 +670,7 @@ namespace Util
 			{
 				if (Sprites.Length > 1)
 				{
-					Logger.LogError("OH NO json File wasn't found for " + Sprites[0].name, Category.Editor);
+					Loggy.LogError("OH NO json File wasn't found for " + Sprites[0].name, Category.Editor);
 				}
 
 				SpriteData.Variance.Add(new SpriteDataSO.Variant());

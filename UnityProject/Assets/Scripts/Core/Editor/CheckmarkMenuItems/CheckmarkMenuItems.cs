@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using Logs;
+using UnityEditor;
 
 namespace Core.Editor
 {
@@ -101,7 +102,7 @@ namespace Core.Editor
 					("Assets/Prefabs/SceneConstruction/NestedManagers/GameManager.prefab");
 				if (gameManager == null)
 				{
-					Logger.LogWarning(
+					Loggy.LogWarning(
 						$"{nameof(GameManager)} not found! Cannot set {nameof(GameManager.QuickLoad)} property.");
 					return;
 				}

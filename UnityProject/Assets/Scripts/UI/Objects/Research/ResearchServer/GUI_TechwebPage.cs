@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Logs;
+using UnityEngine;
 using UI.Core.NetUI;
 using Systems.Research.Data;
 
@@ -26,7 +27,7 @@ namespace UI.Objects.Research
 
 		public void UpdateGUI()
 		{
-			if (serverGUI.CurrentPage != this) return; 
+			if (serverGUI.CurrentPage != this) return;
 
 			UpdateResearchTechList();
 			UpdateFutureTechList();
@@ -46,7 +47,7 @@ namespace UI.Objects.Research
 				Technology technology = serverGUI.TechWeb.ResearchedTech[i];
 
 				if (ResearchedTechList.Entries[i].TryGetComponent<ResearchedTechEntry>(out var entry)) entry.Initialise(AppendNameAndTechType(technology), technology.Description);
-				else Logger.LogError("GUI_ResearchServer.cs: Could not find ResearchTechEntry component on ResearchedTech Entry");
+				else Loggy.LogError("GUI_ResearchServer.cs: Could not find ResearchTechEntry component on ResearchedTech Entry");
 			}
 		}
 
@@ -65,7 +66,7 @@ namespace UI.Objects.Research
 				}
 
 				if (FutureTechList.Entries[i].TryGetComponent<ResearchedTechEntry>(out var entry)) entry.Initialise(AppendNameAndTechType(technology), description);
-				else Logger.LogError("GUI_ResearchServer.cs: Could not find ResearchTechEntry component on FutureTech Entry");
+				else Loggy.LogError("GUI_ResearchServer.cs: Could not find ResearchTechEntry component on FutureTech Entry");
 			}
 		}
 
@@ -79,7 +80,7 @@ namespace UI.Objects.Research
 				Technology technology = serverGUI.TechWeb.AvailableTech[i];
 
 				if (AvailableTechList.Entries[i].TryGetComponent<AvailableTechEntry>(out var entry)) entry.Initialise(technology, serverGUI.TechWeb);
-				else Logger.LogError("GUI_ResearchServer.cs: Could not find AvailableTechEntry component on AvailableTech Entry");
+				else Loggy.LogError("GUI_ResearchServer.cs: Could not find AvailableTechEntry component on AvailableTech Entry");
 			}
 		}
 

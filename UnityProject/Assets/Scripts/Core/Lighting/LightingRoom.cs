@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using Objects.Lighting;
 
@@ -48,7 +49,7 @@ namespace Core.Lighting
 
 		private void PrintBounds()
 		{
-			Logger.Log("LIGHTING: Bounds calc for " + gameObject.name + ": " + Bounds, Category.Lighting);
+			Loggy.Log("LIGHTING: Bounds calc for " + gameObject.name + ": " + Bounds, Category.Lighting);
 		}
 
 		public void LightSwitchOff()

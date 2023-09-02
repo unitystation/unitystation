@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using Systems.Pipes;
 
@@ -23,7 +24,7 @@ namespace Objects.Atmospherics
 				MonoPipe = pipeData.MonoPipe;
 				if (MonoPipe == null)
 				{
-					Logger.Log("Tried to update MonoPipe, but it was null", Category.Pipes);
+					Loggy.Log("Tried to update MonoPipe, but it was null", Category.Pipes);
 				}
 			}
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Logs;
 
 public static class WireDirections
 {
@@ -56,7 +57,7 @@ public static class WireDirections
 
 		if (!LogicToIndexMap.TryGetValue(connectTuple, out int result))
 		{
-			Logger.Log($"WIRE DIRECTION NOT FOUND: {connectTuple.Item1} -> {connectTuple.Item2}");
+			Loggy.Log($"WIRE DIRECTION NOT FOUND: {connectTuple.Item1} -> {connectTuple.Item2}");
 			return 0;
 		}
 

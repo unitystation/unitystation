@@ -1,5 +1,6 @@
 ﻿using AdminCommands;
 using DatabaseAPI;
+using Logs;
 using Messages.Client.Admin;
 using UI.AdminTools;
 using UI.Systems.AdminTools;
@@ -81,7 +82,7 @@ namespace AdminTools
 				}
 				if (spawnOcc == null)
 				{
-					Logger.LogError("Cannot find Occupation for selected player, they most likely haven't joined yet.");
+					Loggy.LogError("Cannot find Occupation for selected player, they most likely haven't joined yet.");
 					return;
 				}
 				RequestRespawnPlayer.SendNormalRespawn(PlayerEntry.PlayerData.uid, spawnOcc);

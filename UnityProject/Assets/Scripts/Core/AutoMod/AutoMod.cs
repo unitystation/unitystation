@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using SecureStuff;
 using Initialisation;
+using Logs;
 using Newtonsoft.Json;
 using Shared.Util;
 using UnityEngine;
@@ -81,7 +82,7 @@ namespace AdminTools
 			{
 				var config = AccessFile.Load(AutoModConfigPath);
 				loadedConfig = JsonConvert.DeserializeObject<AutoModConfig>(config);
-				Logger.Log("Successfully loaded Auto Mod config", Category.Admin);
+				Loggy.Log("Successfully loaded Auto Mod config", Category.Admin);
 			}
 
 		}

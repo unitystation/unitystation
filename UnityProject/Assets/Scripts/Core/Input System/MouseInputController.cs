@@ -2,6 +2,7 @@ using Mirror;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Messages.Client.Interaction;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -403,7 +404,7 @@ public class MouseInputController : MonoBehaviour
 			var handAppliables = handApply.HandObject.GetComponents<MonoBehaviour>()
 				.Where(c => c != null && c.enabled &&
 				            (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
-			Logger.LogTraceFormat("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
+			Loggy.LogTraceFormat("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
 				Category.Interaction, handApply.HandObject.name, target.name);
 
 			foreach (var handAppliable in handAppliables.Reverse())
@@ -611,7 +612,7 @@ public class MouseInputController : MonoBehaviour
 				MatrixManager.ForMatrixAt(position, true, (matrix, localPos) =>
 				{
 					matrix.SubsystemManager.UpdateAt(localPos);
-					Logger.LogFormat(
+					Loggy.LogFormat(
 						$"Forcefully updated atmos at worldPos {position}/ localPos {localPos} of {matrix.Name}");
 				});
 

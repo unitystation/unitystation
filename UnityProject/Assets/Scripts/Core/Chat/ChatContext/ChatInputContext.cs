@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Items;
+using Logs;
 
 public class ChatInputContext : IChatInputContext
 {
@@ -44,7 +45,7 @@ public class ChatInputContext : IChatInputContext
 			var key = playerHeadset.EncryptionKey;
 			if (EncryptionKey.DefaultChannel.ContainsKey(key) == false)
 			{
-				Logger.LogError($"Can't find default channel for a {key}", Category.Chat);
+				Loggy.LogError($"Can't find default channel for a {key}", Category.Chat);
 				return PlayerManager.LocalPlayerScript.PlayerTypeSettings.DefaultChannel;
 			}
 

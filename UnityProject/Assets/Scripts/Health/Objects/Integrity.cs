@@ -10,6 +10,7 @@ using AdminCommands;
 using DatabaseAPI;
 using Effects.Overlays;
 using InGameEvents;
+using Logs;
 using Messages.Client.DevSpawner;
 using ScriptableObjects;
 using Systems.Atmospherics;
@@ -253,7 +254,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 			CheckDestruction(explodeOnDestroy);
 
-			Logger.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Damage, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);
+			Loggy.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Damage, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);
 		}
 	}
 
@@ -374,7 +375,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		Profiler.BeginSample("DefaultBurnUp");
 		registerTile.TileChangeManager.MetaTileMap.AddOverlay(registerTile.LocalPosition, isLarge ? LARGE_ASH : SMALL_ASH);
 		Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " burnt to ash.", gameObject);
-		Logger.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.onFire, burningObjectOverlay?.enabled);
+		Loggy.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.onFire, burningObjectOverlay?.enabled);
 		_ = Despawn.ServerSingle(gameObject);
 		Profiler.EndSample();
 	}

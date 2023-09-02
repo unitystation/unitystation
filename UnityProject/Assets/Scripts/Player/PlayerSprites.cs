@@ -8,6 +8,7 @@ using Systems.Clothing;
 using Light2D;
 using Effects.Overlays;
 using HealthV2;
+using Logs;
 using Messages.Server;
 using Mobs;
 using Newtonsoft.Json;
@@ -201,7 +202,7 @@ namespace Player
 					}
 					else
 					{
-						Logger.Log($"[PlayerSprites] - Could not find {Body_Part.name}'s characterCustomization script. Returns -> {Body_Part.OrNull()?.LobbyCustomisation.OrNull()?.characterCustomization}", Category.Character);
+						Loggy.Log($"[PlayerSprites] - Could not find {Body_Part.name}'s characterCustomization script. Returns -> {Body_Part.OrNull()?.LobbyCustomisation.OrNull()?.characterCustomization}", Category.Character);
 					}
 				}
 			}
@@ -475,7 +476,7 @@ namespace Player
 
 			if (RaceBodyparts == null)
 			{
-				Logger.LogError($"Failed to find race for {gameObject.ExpensiveName()} with race: {characterSettings.Species}");
+				Loggy.LogError($"Failed to find race for {gameObject.ExpensiveName()} with race: {characterSettings.Species}");
 			}
 
 			livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);

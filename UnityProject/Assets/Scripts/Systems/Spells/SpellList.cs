@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using NaughtyAttributes;
 
@@ -22,7 +23,7 @@ namespace ScriptableObjects.Systems.Spells
 		{
 			if (index < 0 || index > Spells.Count - 1)
 			{
-				Logger.LogErrorFormat("SpellList: no spell found at index {0}", Category.Spells, index);
+				Loggy.LogErrorFormat("SpellList: no spell found at index {0}", Category.Spells, index);
 				return InvalidData;
 			}
 

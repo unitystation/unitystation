@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using Shared.Managers;
 
 namespace Systems.Electricity
@@ -35,7 +36,7 @@ namespace Systems.Electricity
 				}
 				catch (Exception e)
 				{
-					Logger.LogError($"Electrical MainThreadProcess Error! {e.GetStack()}", Category.Electrical);
+					Loggy.LogError($"Electrical MainThreadProcess Error! {e.GetStack()}", Category.Electrical);
 				}
 			}
 		}
@@ -45,13 +46,13 @@ namespace Systems.Electricity
 			if (CustomNetworkManager.IsServer == false) return;
 
 			electricalSync.StartSim();
-			Logger.Log("Round Started", Category.Electrical);
+			Loggy.Log("Round Started", Category.Electrical);
 		}
 
 		private void Stop()
 		{
 			electricalSync.StopSim();
-			Logger.Log("Round Ended", Category.Electrical);
+			Loggy.Log("Round Ended", Category.Electrical);
 		}
 	}
 }

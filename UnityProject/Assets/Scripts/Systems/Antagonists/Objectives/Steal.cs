@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using Logs;
 
 namespace Antagonists
 {
@@ -74,7 +75,7 @@ namespace Antagonists
 
 			if (possibleItems.Count == 0)
 			{
-				Logger.LogWarning("Unable to find any suitable items to steal! Giving free objective", Category.Antags);
+				Loggy.LogWarning("Unable to find any suitable items to steal! Giving free objective", Category.Antags);
 				description = "Free objective";
 				Complete = true;
 				return;
@@ -84,7 +85,7 @@ namespace Antagonists
 			var itemEntry = possibleItems.PickRandom();
 			if (itemEntry.Key == null)
 			{
-				Logger.LogError($"Objective steal item target failed because the item chosen is somehow destroyed." +
+				Loggy.LogError($"Objective steal item target failed because the item chosen is somehow destroyed." +
 				                " Definitely a programming bug. ", Category.Antags);
 				return;
 			}
@@ -93,7 +94,7 @@ namespace Antagonists
 
 			if (string.IsNullOrEmpty(ItemName))
 			{
-				Logger.LogError($"Objective steal item target failed because the InitialName has not been" +
+				Loggy.LogError($"Objective steal item target failed because the InitialName has not been" +
 				                $" set on this objects ItemAttributes. " +
 				                $"Item: {itemEntry.Key.Item().gameObject.name}", Category.Antags);
 				return;

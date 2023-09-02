@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Logs;
 using SecureStuff;
 using Shared.Managers;
 using Tiles;
@@ -383,7 +384,7 @@ public class RightClickManager : SingletonManager<RightClickManager>
 		}
 		else
 		{
-			Logger.LogWarningFormat("Could not determine sprite to use for right click menu" +
+			Loggy.LogWarningFormat("Could not determine sprite to use for right click menu" +
 					" for object {0}. Please manually configure a sprite in a RightClickAppearance component" +
 					" on this object.", Category.UserInput, forObject.name);
 		}

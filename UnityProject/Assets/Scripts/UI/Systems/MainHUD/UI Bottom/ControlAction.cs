@@ -1,3 +1,4 @@
+using Logs;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,7 +31,7 @@ namespace UI
 			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdResist();
 
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			Logger.Log("Resist Button", Category.UserInput);
+			Loggy.Log("Resist Button", Category.UserInput);
 		}
 
 		/// <summary>
@@ -43,7 +44,7 @@ namespace UI
 
 			if (PlayerManager.LocalPlayerScript.DynamicItemStorage == null)
 			{
-				Logger.LogError("Tried to drop, but has no DynamicItemStorage");
+				Loggy.LogError("Tried to drop, but has no DynamicItemStorage");
 				return;
 			}
 
@@ -59,7 +60,7 @@ namespace UI
 			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdDropItem(currentSlot.ItemStorage.gameObject.NetId(),
 				currentSlot.NamedSlot.GetValueOrDefault(NamedSlot.none));
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			Logger.Log("Drop Button", Category.UserInput);
+			Loggy.Log("Drop Button", Category.UserInput);
 		}
 
 		/// <summary>
@@ -69,7 +70,7 @@ namespace UI
 		{
 			if (forceDisable)
 			{
-				Logger.Log("Throw force disabled", Category.UserInput);
+				Loggy.Log("Throw force disabled", Category.UserInput);
 				UIManager.IsThrow = false;
 				throwImage.sprite = throwSprites[0];
 				return;
@@ -83,7 +84,7 @@ namespace UI
 					    Validations.CheckState(x => x.CanThrowItems)) == false) return;
 
 				// Enable throw
-				Logger.Log("Throw Button Enabled", Category.UserInput);
+				Loggy.Log("Throw Button Enabled", Category.UserInput);
 				_ = SoundManager.Play(CommonSounds.Instance.Click01);
 				UIManager.IsThrow = true;
 				throwImage.sprite = throwSprites[1];
@@ -91,7 +92,7 @@ namespace UI
 			else if (throwImage.sprite == throwSprites[1] && UIManager.IsThrow == true)
 			{
 				// Disable throw
-				Logger.Log("Throw Button Disabled", Category.UserInput);
+				Loggy.Log("Throw Button Disabled", Category.UserInput);
 				UIManager.IsThrow = false;
 				throwImage.sprite = throwSprites[0];
 			}

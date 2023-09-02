@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using UnityEngine;
 using ScriptableObjects.Gun;
 
@@ -44,7 +45,7 @@ namespace Weapons.Projectiles.Behaviours
 
 			Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
 
-			Logger.LogTraceFormat(
+			Loggy.LogTraceFormat(
 				"Hit {0} for {1} with Integrity! bullet absorbed",
 				Category.Firearms,
 				integrity.gameObject.name,

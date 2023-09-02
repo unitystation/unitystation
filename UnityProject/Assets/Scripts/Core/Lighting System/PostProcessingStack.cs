@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using UnityEngine;
 
 public class PostProcessingStack
@@ -220,7 +221,7 @@ public class PostProcessingStack
 
 		if (iBlurMaterial == null)
 		{
-			Logger.LogError($"PostProcessingStack: Unable to do a blur pass. Provided material is null.",
+			Loggy.LogError($"PostProcessingStack: Unable to do a blur pass. Provided material is null.",
 				Category.Lighting);
 			return false;
 		}

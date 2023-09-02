@@ -1,4 +1,5 @@
 using HealthV2;
+using Logs;
 using Mobs.AI;
 using Systems.Character;
 using UnityEngine;
@@ -30,7 +31,7 @@ namespace Mobs
 			Movement ??= GetComponent<MovementSynchronisation>();
 			Pathfinder ??= GetComponent<MobPathfinderV2>();
 			AI ??= GetComponent<MobAI>();
-			if (Possession.playerSprites.RaceBodyparts is null) Logger.LogError("[Mob/Awake] Possession.playerSprites.RaceBodyparts is null");
+			if (Possession.playerSprites.RaceBodyparts is null) Loggy.LogError("[Mob/Awake] Possession.playerSprites.RaceBodyparts is null");
 		}
 
 		private void Start()

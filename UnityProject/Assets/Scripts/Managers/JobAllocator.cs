@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Player;
 
 namespace Managers
@@ -164,7 +165,7 @@ namespace Managers
 		{
 			if (playersLeft.Any())
 			{
-				Logger.LogFormat("These people were not allocated a job, assigning them to {0}: {1}", Category.Jobs,
+				Loggy.LogFormat("These people were not allocated a job, assigning them to {0}: {1}", Category.Jobs,
 					DefaultJob.DisplayName, string.Join("\n", playersLeft));
 
 				// Update determined players and players left
@@ -173,7 +174,7 @@ namespace Managers
 
 			if (missedOutPlayers.Any() || playersLeft.Any())
 			{
-				Logger.LogError("There are still unallocated players, something has gone wrong in the JobAllocator!",
+				Loggy.LogError("There are still unallocated players, something has gone wrong in the JobAllocator!",
 					Category.Jobs);
 			}
 		}

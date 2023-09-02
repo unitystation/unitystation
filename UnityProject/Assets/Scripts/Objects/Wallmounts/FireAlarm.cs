@@ -9,6 +9,7 @@ using Systems.Interaction;
 using Shared.Systems.ObjectConnection;
 using CustomInspectors;
 using Doors;
+using Logs;
 
 
 namespace Objects.Wallmounts
@@ -77,7 +78,7 @@ namespace Objects.Wallmounts
 			foreach (var firelock in FireLockList)
 			{
 				if (firelock != null) firelock.fireAlarm = this;
-				else Logger.LogWarning("[Object/FireAlarm/OnSpawnServer] Firelock list on fire alarm has null entry.", Category.ItemSpawn);
+				else Loggy.LogWarning("[Object/FireAlarm/OnSpawnServer] Firelock list on fire alarm has null entry.", Category.ItemSpawn);
 			}
 
 			if (info.SpawnItems == false)

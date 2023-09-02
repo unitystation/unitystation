@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
+using Logs;
 using Systems.Atmospherics;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -36,7 +37,7 @@ namespace Learning.ProtipObjectTypes
 		{
 			healthState = GetComponentInParent<HealthStateController>();
 			if (healthState != null) return;
-			Logger.LogError($"[Protips/HealthStateChangeTip/{gameObject} - Missing Health State controller.]");
+			Loggy.LogError($"[Protips/HealthStateChangeTip/{gameObject} - Missing Health State controller.]");
 			Destroy(this);
 		}
 

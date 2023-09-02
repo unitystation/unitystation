@@ -7,6 +7,7 @@ using UnityEngine;
 using Mirror;
 using DatabaseAPI;
 using DiscordWebhook;
+using Logs;
 using Messages.Client.Admin;
 using Messages.Server.AdminTools;
 using Newtonsoft.Json;
@@ -83,7 +84,7 @@ namespace AdminTools
 		{
 			if (PlayerList.Instance.TryGetByUserID(playerId, out var player) == false)
 			{
-				Logger.LogError($"Could not find player with ID '{playerId}'. Unable to record mentor dialogue.");
+				Loggy.LogError($"Could not find player with ID '{playerId}'. Unable to record mentor dialogue.");
 				return;
 			}
 

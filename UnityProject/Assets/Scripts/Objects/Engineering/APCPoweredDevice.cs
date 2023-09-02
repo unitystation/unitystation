@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Mirror;
 using Core.Editor.Attributes;
+using Logs;
 using Shared.Systems.ObjectConnection;
 using Systems.Explosions;
 using ScriptableObjects;
@@ -270,7 +271,7 @@ namespace Systems.Electricity
 			EnsureInit();
 			if (oldVoltage != newVoltage)
 			{
-				Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.RoundTo2Int(), oldVoltage, newVoltage);
+				Loggy.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.RoundTo2Int(), oldVoltage, newVoltage);
 			}
 
 			recordedVoltage = newVoltage;
@@ -299,7 +300,7 @@ namespace Systems.Electricity
 			{
 				if (newState != state)
 				{
-					Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.RoundTo2Int(), this.state, newState);
+					Loggy.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.RoundTo2Int(), this.state, newState);
 				}
 
 				state = newState;

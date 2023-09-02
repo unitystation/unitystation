@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using System.Text;
 using System.Linq;
 using DiscordWebhook;
+using Logs;
 using Messages.Server.LocalGuiMessages;
 using Objects.Command;
 using Strings;
@@ -145,7 +146,7 @@ namespace Antagonists
 					objectives.AddRange(antagData.GenerateObjectives(Mind, chosenAntag));
 				} catch (Exception e)
 				{
-					Logger.LogError($"failed to create antagonist objectives {chosenAntag.OrNull()?.AntagName} " + e.ToString());
+					Loggy.LogError($"failed to create antagonist objectives {chosenAntag.OrNull()?.AntagName} " + e.ToString());
 				}
 				// Set the antag
 				var spawnedAntag = SpawnedAntag.Create(chosenAntag, Mind, objectives);
@@ -154,7 +155,7 @@ namespace Antagonists
 			}
 			catch (Exception e)
 			{
-				Logger.LogError( $"failed to create antagonist {chosenAntag.OrNull()?.AntagName} "  + e.ToString());
+				Loggy.LogError( $"failed to create antagonist {chosenAntag.OrNull()?.AntagName} "  + e.ToString());
 				return null;
 			}
 
@@ -169,7 +170,7 @@ namespace Antagonists
 			ShowAntagBanner(SpawnMind, chosenAntag);
 			chosenAntag.AfterSpawn(SpawnMind);
 
-			Logger.Log(
+			Loggy.Log(
 				$"Created new antag. Made {SpawnMind.name} a {chosenAntag.AntagName} with objectives:\n{spawnedAntag.GetObjectivesForLog()}",
 				Category.Antags);
 		}

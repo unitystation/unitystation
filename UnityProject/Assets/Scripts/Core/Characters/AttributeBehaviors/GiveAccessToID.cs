@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Logs;
 using Systems.Clearance;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ namespace Core.Characters.AttributeBehaviors
 			var inventory = characterBody.GetComponent<DynamicItemStorage>();
 			if (inventory == null)
 			{
-				Logger.LogWarning("[Attributes/Behaviors/GiveAccessToID] - " +
+				Loggy.LogWarning("[Attributes/Behaviors/GiveAccessToID] - " +
 				                  "Attempted to access player inventory but could not find it!");
 				return;
 			}

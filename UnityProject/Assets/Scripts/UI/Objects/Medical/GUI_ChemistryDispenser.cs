@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Chemistry;
+using Logs;
 using Systems.Electricity;
 using UI.Core.NetUI;
 using UnityEngine;
@@ -109,7 +110,7 @@ namespace UI.Objects.Medical
 		{
 			ChemistryDispenser.HeaterOn = !ChemistryDispenser.HeaterOn;
 			ChemistryDispenser.UpdatePowerDraw();
-			Logger.LogFormat("Heater turned {0}.", Category.Chemistry, ChemistryDispenser.HeaterOn ? "on" : "off");
+			Loggy.LogFormat("Heater turned {0}.", Category.Chemistry, ChemistryDispenser.HeaterOn ? "on" : "off");
 			UpdateAll();
 		}
 

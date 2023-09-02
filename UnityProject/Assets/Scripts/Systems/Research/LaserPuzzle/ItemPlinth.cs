@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using InGameEvents;
+using Logs;
 using Mirror;
 using Systems.Explosions;
 using UnityEngine;
@@ -105,7 +106,7 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 
 		if (Identifier == null)
 		{
-			Logger.LogError($"aaa get rid of non-parented prefabs!, Missing PrefabTracker on item prefab for {DisplayedItem.name} " );
+			Loggy.LogError($"aaa get rid of non-parented prefabs!, Missing PrefabTracker on item prefab for {DisplayedItem.name} " );
 			return;
 		}
 

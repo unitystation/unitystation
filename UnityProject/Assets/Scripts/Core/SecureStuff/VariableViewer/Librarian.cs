@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Logs;
 using SecureStuff;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -658,7 +659,7 @@ namespace SecureStuff
 				{
 					if (UnGenerated)
 					{
-						Logger.LogWarning("USE GetBindedPages()!,since these books are ungenerated ",
+						Loggy.LogWarning("USE GetBindedPages()!,since these books are ungenerated ",
 							Category.VariableViewer);
 					}
 
@@ -680,7 +681,7 @@ namespace SecureStuff
 					}
 					else
 					{
-						Logger.LogError("Book has been destroyed!" + ID, Category.VariableViewer);
+						Loggy.LogError("Book has been destroyed!" + ID, Category.VariableViewer);
 					}
 
 					UnGenerated = false;
@@ -811,7 +812,7 @@ namespace SecureStuff
 				}
 				catch (ArgumentException exception)
 				{
-					Logger.LogError(
+					Loggy.LogError(
 						$"Catch Argument Exception for Variable Viewer {exception.Message} \n {exception.StackTrace}",
 						Category.VariableViewer);
 				}
@@ -844,7 +845,7 @@ namespace SecureStuff
 					{
 						if (InType == null || InObject == null || InObject as IConvertible == null)
 						{
-							Logger.Log($"Can't convert {StringVariable} to {InObject.GetType()}  " +
+							Loggy.Log($"Can't convert {StringVariable} to {InObject.GetType()}  " +
 							           $"[(InType == null) = {InType == null} || (InObject == null) == {InObject == null} || (InObject as IConvertible == null) = {InObject as IConvertible == null}]",
 								Category.VariableViewer);
 							return null;

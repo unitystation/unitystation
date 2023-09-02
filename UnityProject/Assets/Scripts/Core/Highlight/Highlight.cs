@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Initialisation;
+using Logs;
 
 public class Highlight : MonoBehaviour, IInitialise
 {
@@ -242,7 +243,7 @@ public class Highlight : MonoBehaviour, IInitialise
 			var handAppliables = handApply.HandObject.GetComponents<MonoBehaviour>()
 				.Where(c => c != null && c.enabled &&
 				            (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
-			Logger.LogTraceFormat("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
+			Loggy.LogTraceFormat("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
 				Category.Interaction, handApply.HandObject.name, target.name);
 
 			foreach (var handAppliable in handAppliables.Reverse())
@@ -312,7 +313,7 @@ public class Highlight : MonoBehaviour, IInitialise
 			result = clientInteractable.Interact(interaction);
 			if (result)
 			{
-				Logger.LogTraceFormat("ClientInteractable triggered from {0} on {1} for object {2}",
+				Loggy.LogTraceFormat("ClientInteractable triggered from {0} on {1} for object {2}",
 					Category.Interaction, typeof(T).Name, clientInteractable.GetType().Name,
 					(clientInteractable as Component).gameObject.name);
 				Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Interaction);
@@ -326,7 +327,7 @@ public class Highlight : MonoBehaviour, IInitialise
 			result = checkable.WillInteract(interaction, side);
 			if (result)
 			{
-				Logger.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction,
+				Loggy.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction,
 					typeof(T).Name, checkable.GetType().Name,
 					(checkable as Component).gameObject.name);
 				return true;
@@ -338,7 +339,7 @@ public class Highlight : MonoBehaviour, IInitialise
 			result = DefaultWillInteract.Default(interaction, side);
 			if (result)
 			{
-				Logger.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction,
+				Loggy.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction,
 					typeof(T).Name, interactable.GetType().Name,
 					(interactable as Component).gameObject.name);
 
@@ -346,7 +347,7 @@ public class Highlight : MonoBehaviour, IInitialise
 			}
 		}
 
-		Logger.LogTraceFormat("No interaction triggered from {0} on {1} for object {2}", Category.Interaction,
+		Loggy.LogTraceFormat("No interaction triggered from {0} on {1} for object {2}", Category.Interaction,
 			typeof(T).Name, interactable.GetType().Name,
 			(interactable as Component).gameObject.name);
 

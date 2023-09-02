@@ -18,6 +18,7 @@ using Tilemaps.Behaviours.Meta;
 using Unitystation.Options;
 using WebSocketSharp;
 using Antagonists;
+using Logs;
 using SecureStuff;
 using Random = UnityEngine.Random;
 
@@ -647,7 +648,7 @@ public partial class Chat
 	{
 		if (!CustomNetworkManager.Instance._isServer)
 		{
-			Logger.LogError("A server only method was called on a client in chat.cs", Category.Chat);
+			Loggy.LogError("A server only method was called on a client in chat.cs", Category.Chat);
 			return false;
 		}
 
@@ -767,7 +768,7 @@ public partial class Chat
 					}
 					else
 					{
-						Logger.LogWarning("Chat context is null - can't resolve :h tag", Category.Chat);
+						Loggy.LogWarning("Chat context is null - can't resolve :h tag", Category.Chat);
 						extractedChanel = ChatChannel.None;
 					}
 

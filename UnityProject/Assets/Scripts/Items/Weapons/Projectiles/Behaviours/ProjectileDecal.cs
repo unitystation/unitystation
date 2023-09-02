@@ -1,5 +1,6 @@
 ﻿using Detective;
 using Items;
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace Weapons.Projectiles.Behaviours
 		{
 			if (decal == null)
 			{
-				Logger.LogError($"{this} on {gameObject} decal field not set in inspector!", Category.Firearms);
+				Loggy.LogError($"{this} on {gameObject} decal field not set in inspector!", Category.Firearms);
 				return false;
 			}
 

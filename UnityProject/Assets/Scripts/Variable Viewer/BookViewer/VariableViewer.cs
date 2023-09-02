@@ -6,6 +6,7 @@ using System.Reflection;
 using UnityEngine;
 using System.Text;
 using System.Linq;
+using Logs;
 using Messages.Server.VariableViewer;
 using SecureStuff;
 using UnityEngine.SceneManagement;
@@ -103,7 +104,7 @@ public static class VariableViewer
 		}
 		else
 		{
-			Logger.LogError("book ID has not been generated  BookID > " + BookID, Category.VariableViewer);
+			Loggy.LogError("book ID has not been generated  BookID > " + BookID, Category.VariableViewer);
 		}
 	}
 
@@ -143,7 +144,7 @@ public static class VariableViewer
 				{
 					if ((Page.Variable as string) == "null")
 					{
-						Logger.LogWarning("Trying to process page value as book PageID > " + PageID,
+						Loggy.LogWarning("Trying to process page value as book PageID > " + PageID,
 							Category.VariableViewer);
 						return;
 					}
@@ -174,7 +175,7 @@ public static class VariableViewer
 		}
 		else
 		{
-			Logger.LogError("Page ID has not been generated PageID > " + PageID, Category.VariableViewer);
+			Loggy.LogError("Page ID has not been generated PageID > " + PageID, Category.VariableViewer);
 		}
 	}
 
@@ -187,7 +188,7 @@ public static class VariableViewer
 			{
 				if (Bookshelf.Shelf == null)
 				{
-					Logger.LogError("Bookshelf has been destroyed > " + BookshelfID, Category.VariableViewer);
+					Loggy.LogError("Bookshelf has been destroyed > " + BookshelfID, Category.VariableViewer);
 					Librarian.library.TraverseHierarchy();
 					LibraryNetMessage.Send(Librarian.library, WhoBy);
 					return;
@@ -206,7 +207,7 @@ public static class VariableViewer
 		}
 		else
 		{
-			Logger.LogError("Bookshelf ID has not been generated BookshelfID > " + BookshelfID,
+			Loggy.LogError("Bookshelf ID has not been generated BookshelfID > " + BookshelfID,
 				Category.VariableViewer);
 		}
 	}
@@ -220,7 +221,7 @@ public static class VariableViewer
 		}
 		else
 		{
-			Logger.LogError("Book ID has not been generated Book ID > " + BookID, Category.VariableViewer);
+			Loggy.LogError("Book ID has not been generated Book ID > " + BookID, Category.VariableViewer);
 		}
 	}
 
@@ -244,7 +245,7 @@ public static class VariableViewer
 		}
 		else
 		{
-			Logger.LogError("Page ID has not been generated Page ID > " + PageID, Category.VariableViewer);
+			Loggy.LogError("Page ID has not been generated Page ID > " + PageID, Category.VariableViewer);
 		}
 	}
 
@@ -267,7 +268,7 @@ public static class VariableViewer
 		}
 		else
 		{
-			Logger.LogError("Page ID has not been generated Page ID > " + PageID, Category.VariableViewer);
+			Loggy.LogError("Page ID has not been generated Page ID > " + PageID, Category.VariableViewer);
 		}
 	}
 

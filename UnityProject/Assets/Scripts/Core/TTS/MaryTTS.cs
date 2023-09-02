@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using Audio.Containers;
 using Initialisation;
+using Logs;
 using Mirror;
 using SecureStuff;
 
@@ -49,7 +50,7 @@ public class MaryTTS : MonoBehaviour {
 
 			if (response.IsSuccessStatusCode == false)
 			{
-				Logger.LogError("Err: " + response.ReasonPhrase);
+				Loggy.LogError("Err: " + response.ReasonPhrase);
 			}
 			else
 			{
@@ -59,7 +60,7 @@ public class MaryTTS : MonoBehaviour {
 		}
 		catch (Exception e)
 		{
-			Logger.LogError(e.ToString());
+			Loggy.LogError(e.ToString());
 		}
 	}
 

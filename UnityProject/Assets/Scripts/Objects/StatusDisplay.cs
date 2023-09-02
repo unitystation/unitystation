@@ -10,6 +10,7 @@ using ScriptableObjects;
 using Systems.Interaction;
 using Managers;
 using Doors;
+using Logs;
 using Shared.Systems.ObjectConnection;
 using Systems.Clearance;
 
@@ -374,7 +375,7 @@ namespace Objects.Wallmounts
 
 		public void LinkDoor(DoorController doorController)
 		{
-			Logger.LogWarning("[Deprecated] - old doors have exploits and bugs related to them. " +
+			Loggy.LogWarning("[Deprecated] - old doors have exploits and bugs related to them. " +
 			                  "Please avoid using old doors whenever possible.");
 			//TODO: Nuke this as it has an exploits that's not really worth anyone's time. Move all doors to V2.
 			doorControllers.Add(doorController);

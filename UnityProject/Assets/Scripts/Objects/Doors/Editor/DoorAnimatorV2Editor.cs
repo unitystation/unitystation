@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -85,7 +86,7 @@ namespace Doors.Editor
 
 			if (GUILayout.Button("Test emergency"))
 			{
-				Logger.Log("Not implemented", Category.Doors);
+				Loggy.Log("Not implemented", Category.Doors);
 			}
 			GUILayout.EndHorizontal();
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 
 
@@ -26,7 +27,7 @@ namespace Items.Atmospherics
 			}
 
 			Chat.AddExamineMsgFromServer(interaction.Performer, toShow);
-			Logger.Log(toShow);
+			Loggy.Log(toShow);
 		}
 	}
 }

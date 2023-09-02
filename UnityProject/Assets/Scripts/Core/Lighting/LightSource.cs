@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 using Mirror;
 using ScriptableObjects;
 using Light2D;
+using Logs;
 using Messages.Server.SoundMessages;
 using Systems.Electricity;
 using Shared.Systems.ObjectConnection;
@@ -393,7 +394,7 @@ namespace Objects.Lighting
 			}
 			catch (NullReferenceException exception)
 			{
-				Logger.LogError(
+				Loggy.LogError(
 					$"A NRE was caught in LightSource.TryRemoveBulb(): {exception.Message} \n {exception.StackTrace}",
 					Category.Lighting);
 			}

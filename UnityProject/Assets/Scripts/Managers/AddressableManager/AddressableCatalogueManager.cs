@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using DatabaseAPI;
 using Initialisation;
+using Logs;
 using Messages.Client.Addressable;
 using Messages.Server.Addressable;
 using Mirror;
@@ -219,7 +220,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 					{
 						if (FoundFile != "")
 						{
-							Logger.LogError("two catalogues present please only ensure one", Category.Addressables);
+							Loggy.LogError("two catalogues present please only ensure one", Category.Addressables);
 						}
 
 						FoundFile = File;
@@ -228,7 +229,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 
 				if (FoundFile == "")
 				{
-					Logger.LogWarning("missing json file", Category.Addressables);
+					Loggy.LogWarning("missing json file", Category.Addressables);
 				}
 				else
 				{

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Logs;
+using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(InputField))]
@@ -38,7 +39,7 @@ public class HexColorField : MonoBehaviour
         if (ColorUtility.TryParseHtmlString(newHex, out color))
             hsvpicker.CurrentColor = color;
         else
-            Logger.Log("hex value is in the wrong format, valid formats are: #RGB, #RGBA, #RRGGBB and #RRGGBBAA (# is optional)",
+            Loggy.Log("hex value is in the wrong format, valid formats are: #RGB, #RGBA, #RRGGBB and #RRGGBBAA (# is optional)",
                 Category.UI);
     }
 

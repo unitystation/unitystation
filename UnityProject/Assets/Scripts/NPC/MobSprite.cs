@@ -5,6 +5,7 @@ using Mirror;
 using NaughtyAttributes;
 using Core.Directionals;
 using Effects.Overlays;
+using Logs;
 
 namespace Systems.Mob
 {
@@ -142,7 +143,7 @@ namespace Systems.Mob
 		{
 			if (spriteHandler == null)
 			{
-				Logger.LogWarning($"{nameof(SpriteHandler)} missing on {gameObject}!", Category.Mobs);
+				Loggy.LogWarning($"{nameof(SpriteHandler)} missing on {gameObject}!", Category.Mobs);
 				return;
 			}
 

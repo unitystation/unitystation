@@ -10,6 +10,7 @@ using TMPro;
 using AdminTools;
 using Core.Chat;
 using Items;
+using Logs;
 using Shared.Managers;
 using UnityEngine.Serialization;
 
@@ -283,7 +284,7 @@ namespace UI.Chat_UI
 			// TODO add events to inventory slot changes to trigger channel refresh
 			if (chatInputWindow.activeInHierarchy && !isChannelListUpToDate())
 			{
-				Logger.Log("Channel list is outdated!", Category.Chat);
+				Loggy.Log("Channel list is outdated!", Category.Chat);
 				RefreshChannelPanel();
 			}
 
@@ -602,8 +603,8 @@ namespace UI.Chat_UI
 		/// </summary>
 		private void RefreshChannelPanel()
 		{
-			Logger.LogTrace("Refreshing channel panel!", Category.Chat);
-			Logger.Log("Selected channels: " + ListChannels(SelectedChannels), Category.Chat);
+			Loggy.LogTrace("Refreshing channel panel!", Category.Chat);
+			Loggy.Log("Selected channels: " + ListChannels(SelectedChannels), Category.Chat);
 			RefreshToggles();
 			UpdateInputLabel();
 		}
@@ -660,7 +661,7 @@ namespace UI.Chat_UI
 			// Check a channel toggle doesn't already exist
 			if (ChannelToggles.ContainsKey(channel))
 			{
-				Logger.LogWarning($"Channel toggle already exists for {channel}!", Category.Chat);
+				Loggy.LogWarning($"Channel toggle already exists for {channel}!", Category.Chat);
 				return;
 			}
 
@@ -809,7 +810,7 @@ namespace UI.Chat_UI
 		/// </summary>
 		public void EnableChannel(ChatChannel channel)
 		{
-			Logger.Log($"Enabling {channel}", Category.Chat);
+			Loggy.Log($"Enabling {channel}", Category.Chat);
 
 			if (ChannelToggles.ContainsKey(channel))
 			{
@@ -817,7 +818,7 @@ namespace UI.Chat_UI
 			}
 			else
 			{
-				Logger.LogWarning($"Can't enable {channel} because it isn't in ChannelToggles!", Category.Chat);
+				Loggy.LogWarning($"Can't enable {channel} because it isn't in ChannelToggles!", Category.Chat);
 			}
 
 			//Deselect all other channels in UI if it's a main channel
@@ -867,7 +868,7 @@ namespace UI.Chat_UI
 		/// </summary>
 		public void DisableChannel(ChatChannel channel)
 		{
-			Logger.Log($"Disabling {channel}", Category.Chat);
+			Loggy.Log($"Disabling {channel}", Category.Chat);
 
 			// Special behaviour for main channels
 			if (MainChannels.Contains(channel))
@@ -929,7 +930,7 @@ namespace UI.Chat_UI
 				else
 				{
 					// TODO: need some addition UX indication that channel is not avaliable
-					Logger.Log($"Player trying to write message to channel {inputChannel}, but there are only {availChannels} avaliable;", Category.Chat);
+					Loggy.Log($"Player trying to write message to channel {inputChannel}, but there are only {availChannels} avaliable;", Category.Chat);
 				}
 
 				// delete all tags from input

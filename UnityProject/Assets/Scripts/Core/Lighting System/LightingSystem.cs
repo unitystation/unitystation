@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -248,7 +249,7 @@ public class LightingSystem : MonoBehaviour
 	{
 		if (iMainCamera.backgroundColor.a > 0)
 		{
-			Logger.Log("FovSystem Camera Validation: Camera backgroundColor.a must be 0." +
+			Loggy.Log("FovSystem Camera Validation: Camera backgroundColor.a must be 0." +
 				" This is required to create background mask. Adjusted...", Category.Lighting);
 
 			iMainCamera.backgroundColor = new Color(iMainCamera.backgroundColor.r, iMainCamera.backgroundColor.g, iMainCamera.backgroundColor.b, 0);
@@ -256,7 +257,7 @@ public class LightingSystem : MonoBehaviour
 
 		if (((LayerMask)iMainCamera.cullingMask).HasAny(iRenderSettings.lightSourceLayers))
 		{
-			Logger.Log("FovSystem Camera Validation: Camera does not cull one of Light Source Layers!" +
+			Loggy.Log("FovSystem Camera Validation: Camera does not cull one of Light Source Layers!" +
 				" Light System may not work currently.", Category.Lighting);
 		}
 
@@ -269,7 +270,7 @@ public class LightingSystem : MonoBehaviour
 
 	private void OnEnable()
 	{
-		Logger.Log("Lighting system enabled.", Category.Lighting);
+		Loggy.Log("Lighting system enabled.", Category.Lighting);
 		//don't run lighting system on headless
 		if (GameInfo.IsHeadlessServer)
 		{
@@ -280,7 +281,7 @@ public class LightingSystem : MonoBehaviour
 
 		if (!SystemInfo.supportsAsyncGPUReadback)
 		{
-			Logger.LogWarning("LightingSystem: Async GPU Readback not supported on this machine, slower synchronous readback will" +
+			Loggy.LogWarning("LightingSystem: Async GPU Readback not supported on this machine, slower synchronous readback will" +
 				" be used instead.", Category.Lighting);
 		}
 		HandlePPPositionRequest += ProviderPPPosition;
@@ -333,7 +334,7 @@ public class LightingSystem : MonoBehaviour
 
 	private void OnDisable()
 	{
-		Logger.Log("Lighting system disabled.", Category.Lighting);
+		Loggy.Log("Lighting system disabled.", Category.Lighting);
 		//don't run lighting system on headless
 		if (GameInfo.IsHeadlessServer)
 		{
@@ -537,7 +538,7 @@ public class LightingSystem : MonoBehaviour
 
 		if (materialContainer.blitMaterial == null)
 		{
-			Logger.LogFormat("FovSystemManager: Unable to blit Fov mask. {0} not provided.", Category.Lighting, nameof(materialContainer.blitMaterial));
+			Loggy.LogFormat("FovSystemManager: Unable to blit Fov mask. {0} not provided.", Category.Lighting, nameof(materialContainer.blitMaterial));
 			return;
 		}
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using AddressableReferences;
 using AdminTools;
+using Logs;
 using Managers;
 using Messages.Server;
 using Messages.Server.AdminTools;
@@ -44,13 +45,13 @@ namespace Objects.Shuttles
 				ShuttleMatrixMove = MatrixManager.Get(registerTile.Matrix).MatrixMove;
 				if (ShuttleMatrixMove == null)
 				{
-					Logger.Log($"{this} is not on a movable matrix, so won't function.", Category.Shuttles);
+					Loggy.Log($"{this} is not on a movable matrix, so won't function.", Category.Shuttles);
 					hasNetworkTab.enabled = false;
 					return;
 				}
 				else
 				{
-					Logger.Log($"No MatrixMove reference set to {this}, found {ShuttleMatrixMove} automatically",
+					Loggy.Log($"No MatrixMove reference set to {this}, found {ShuttleMatrixMove} automatically",
 						Category.Shuttles);
 				}
 			}

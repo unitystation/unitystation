@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using Shared.Managers;
 
@@ -55,19 +56,19 @@ namespace Util
 
 			if (managerPrefabPaths.Count != 1)
 			{
-				Logger.LogError($"Couldn't find {managerName} prefab in specified path, or more than one {managerName} found at: {MANAGER_PATH}");
+				Loggy.LogError($"Couldn't find {managerName} prefab in specified path, or more than one {managerName} found at: {MANAGER_PATH}");
 				return null;
 			}
 
 			var gameManagerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(managerPrefabPaths.First());
 			if (gameManagerPrefab == null)
 			{
-				Logger.LogError($"Couldn't find {managerName} prefab in specified path: {MANAGER_PATH}");
+				Loggy.LogError($"Couldn't find {managerName} prefab in specified path: {MANAGER_PATH}");
 			}
 
 			if (gameManagerPrefab.TryGetComponent<T>(out var singletonManager) == false)
 			{
-				Logger.LogError($"Couldn't get the component from the specified prefab: {MANAGER_PATH}");
+				Loggy.LogError($"Couldn't get the component from the specified prefab: {MANAGER_PATH}");
 			}
 
 			return singletonManager;

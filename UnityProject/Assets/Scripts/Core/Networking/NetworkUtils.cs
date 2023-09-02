@@ -1,4 +1,5 @@
 
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -26,14 +27,14 @@ public static class NetworkUtils
 		{
 			if (networkIdentity == null)
 			{
-				Logger.LogWarningFormat("Network(Server/Client).spawned.TryGetValue was true but networkIdentity var is null.", Category.Server);
+				Loggy.LogWarningFormat("Network(Server/Client).spawned.TryGetValue was true but networkIdentity var is null.", Category.Server);
 				return null;
 			}
 
 			return networkIdentity.gameObject;
 		}
 
-		Logger.LogWarningFormat("Unable to find object with id {0}.", Category.Server, netId);
+		Loggy.LogWarningFormat("Unable to find object with id {0}.", Category.Server, netId);
 		return null;
 	}
 }

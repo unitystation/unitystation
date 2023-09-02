@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 
 namespace Chemistry
@@ -129,7 +130,7 @@ namespace Chemistry
 			{
 				if (float.IsNormal(value) == false && value != 0)
 				{
-					Logger.LogError($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix temperature Invalid number!!!! {value}");
+					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix temperature Invalid number!!!! {value}");
 					return;
 				}
 
@@ -170,7 +171,7 @@ namespace Chemistry
 			{
 				if (float.IsNormal(value) == false && value != 0)
 				{
-					Logger.LogError($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix InternalEnergy Invalid number!!!! {value}");
+					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix InternalEnergy Invalid number!!!! {value}");
 					return;
 				}
 
@@ -302,13 +303,13 @@ namespace Chemistry
 
 			if (amount < 0f)
 			{
-				Logger.LogError($"Trying to add negative {amount} amount of {reagent}", Category.Chemistry);
+				Loggy.LogError($"Trying to add negative {amount} amount of {reagent}", Category.Chemistry);
 				return;
 			}
 
 			if (float.IsNormal(amount) == false)
 			{
-				Logger.LogError($"Trying to add {amount} amount of {reagent}", Category.Chemistry);
+				Loggy.LogError($"Trying to add {amount} amount of {reagent}", Category.Chemistry);
 				return;
 			}
 
@@ -346,7 +347,7 @@ namespace Chemistry
 
 			if (float.IsNormal(amount ) == false)
 			{
-				Logger.LogError($"Trying to remove {amount} amount of {reagent}", Category.Chemistry);
+				Loggy.LogError($"Trying to remove {amount} amount of {reagent}", Category.Chemistry);
 				return 0;
 			}
 
@@ -388,14 +389,14 @@ namespace Chemistry
 		{
 			if (subAmount < 0)
 			{
-				Logger.LogErrorFormat("Trying to subtract negative {0} amount of {1}. Use positive amount instead.", Category.Chemistry,
+				Loggy.LogErrorFormat("Trying to subtract negative {0} amount of {1}. Use positive amount instead.", Category.Chemistry,
 					subAmount, reagent);
 				return 0;
 			}
 
 			if (float.IsNaN(subAmount) || float.IsInfinity(subAmount))
 			{
-				Logger.LogError($"Trying to subtract {subAmount} amount of {reagent}", Category.Chemistry);
+				Loggy.LogError($"Trying to subtract {subAmount} amount of {reagent}", Category.Chemistry);
 				return 0;
 			}
 
@@ -435,13 +436,13 @@ namespace Chemistry
 		{
 			if (multiplier < 0f)
 			{
-				Logger.LogError($"Trying to multiply reagentmix by {multiplier}", Category.Chemistry);
+				Loggy.LogError($"Trying to multiply reagentmix by {multiplier}", Category.Chemistry);
 				return;
 			}
 
 			if (float.IsNormal(multiplier) == false && multiplier != 0)
 			{
-				Logger.LogError($"Trying to Multiply by {multiplier}", Category.Chemistry);
+				Loggy.LogError($"Trying to Multiply by {multiplier}", Category.Chemistry);
 				return;
 			}
 
@@ -477,7 +478,7 @@ namespace Chemistry
 		{
 			if (Divider < 0f)
 			{
-				Logger.LogError($"Trying to Divide reagentmix by {Divider}", Category.Chemistry);
+				Loggy.LogError($"Trying to Divide reagentmix by {Divider}", Category.Chemistry);
 				return;
 			}
 
@@ -489,7 +490,7 @@ namespace Chemistry
 
 			if (float.IsNormal(Divider) == false)
 			{
-				Logger.LogError($"Trying to Divide by {Divider}", Category.Chemistry);
+				Loggy.LogError($"Trying to Divide by {Divider}", Category.Chemistry);
 				return;
 			}
 
@@ -521,7 +522,7 @@ namespace Chemistry
 
 			if (float.IsNormal(amount) == false)
 			{
-				Logger.LogError($"Trying to Transfer by {amount}", Category.Chemistry);
+				Loggy.LogError($"Trying to Transfer by {amount}", Category.Chemistry);
 				return;
 			}
 
@@ -581,7 +582,7 @@ namespace Chemistry
 
 			if (float.IsNormal(amount) == false)
 			{
-				Logger.LogError($"Trying to Take {amount}", Category.Chemistry);
+				Loggy.LogError($"Trying to Take {amount}", Category.Chemistry);
 				return new ReagentMix();;
 			}
 
@@ -599,7 +600,7 @@ namespace Chemistry
 
 			if (float.IsNaN(amount) || float.IsInfinity(amount))
 			{
-				Logger.LogError($"Trying to RemoveVolume {amount}", Category.Chemistry);
+				Loggy.LogError($"Trying to RemoveVolume {amount}", Category.Chemistry);
 				return;
 			}
 

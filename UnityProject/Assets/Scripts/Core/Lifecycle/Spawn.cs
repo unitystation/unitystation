@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Logs;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -50,7 +51,7 @@ public static class Spawn
 
 	public static void Clean()
 	{
-		Logger.Log("Removed  " + CleanupUtil.RidDictionaryOfDeadElements(nameToSpawnablePrefab) + " elements from " + nameof(Spawn) + "." + nameof(nameToSpawnablePrefab), Category.MemoryCleanup);
+		Loggy.Log("Removed  " + CleanupUtil.RidDictionaryOfDeadElements(nameToSpawnablePrefab) + " elements from " + nameof(Spawn) + "." + nameof(nameToSpawnablePrefab), Category.MemoryCleanup);
 		_ClearPools();
 	}
 
@@ -92,7 +93,7 @@ public static class Spawn
 			var prefab = CustomNetworkManager.Instance.GetSpawnablePrefabFromName(prefabName);
 			if (prefab == null)
 			{
-				Logger.LogErrorFormat("Could not find prefab with name {0}, please ensure it is correctly spelled.",
+				Loggy.LogErrorFormat("Could not find prefab with name {0}, please ensure it is correctly spelled.",
 					Category.ItemSpawn,
 					prefabName);
 				return null;
@@ -277,12 +278,12 @@ public static class Spawn
 	{
 		if (info == null)
 		{
-			Logger.LogError("Cannot spawn, info is null", Category.ItemSpawn);
+			Loggy.LogError("Cannot spawn, info is null", Category.ItemSpawn);
 			return SpawnResult.Fail(info);
 		}
 
 		EnsureInit();
-		Logger.LogTraceFormat("Server spawning {0}", Category.ItemSpawn, info);
+		Loggy.LogTraceFormat("Server spawning {0}", Category.ItemSpawn, info);
 
 		List<GameObject> spawnedObjects = new List<GameObject>();
 		for (int i = 0; i < info.Count; i++)
@@ -347,7 +348,7 @@ public static class Spawn
 	{
 		if (info == null)
 		{
-			Logger.LogError("Cannot spawn, info is null", Category.ItemSpawn);
+			Loggy.LogError("Cannot spawn, info is null", Category.ItemSpawn);
 			return SpawnResult.Fail(info);
 		}
 
@@ -372,7 +373,7 @@ public static class Spawn
 		}
 		else
 		{
-			Logger.LogErrorFormat("Cannot spawn {0} client side, spawnable does not" +
+			Loggy.LogErrorFormat("Cannot spawn {0} client side, spawnable does not" +
 			                      " implement IClientSpawnable", Category.ItemSpawn, info);
 			return SpawnResult.Fail(info);
 		}

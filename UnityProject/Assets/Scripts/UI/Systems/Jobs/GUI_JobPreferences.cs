@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 
 /// <summary>
@@ -78,7 +79,7 @@ namespace UI.Character
 		{
 			if (force == false && jobsPopulated)
 			{
-				Logger.Log("Jobs have already been populated!", Category.Jobs);
+				Loggy.Log("Jobs have already been populated!", Category.Jobs);
 				return;
 			}
 
@@ -160,7 +161,7 @@ namespace UI.Character
 		/// <param name="entry">Entry reference to change dropdown boxes</param>
 		public void OnPriorityChange(JobType job, Priority priority, JobListEntry entry)
 		{
-			Logger.Log($"Changed priority for {job} to {priority}.", Category.Jobs);
+			Loggy.Log($"Changed priority for {job} to {priority}.", Category.Jobs);
 
 			if (priority == Priority.None)
 			{
@@ -190,7 +191,7 @@ namespace UI.Character
 				}
 			}
 
-			Logger.Log("Current Job Preferences:\n" +
+			Loggy.Log("Current Job Preferences:\n" +
 				string.Join("\n", jobPreferences.Select(a => $"{a.Key}: {a.Value}")), Category.Jobs);
 		}
 

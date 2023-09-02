@@ -1,3 +1,4 @@
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ namespace Messages.Server
 			var storageObject = NetworkObject;
 			if (storageObject == null)
 			{
-				Logger.LogWarningFormat("Client could not find observed storage with id {0}", Category.Inventory, msg.Storage);
+				Loggy.LogWarningFormat("Client could not find observed storage with id {0}", Category.Inventory, msg.Storage);
 				return;
 			}
 

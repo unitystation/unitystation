@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using Logs;
 using SecureStuff;
 
 namespace Systems.Research
@@ -164,7 +165,7 @@ namespace Systems.Research
 				}
 
 			}
-			Logger.Log("JsonImportInitialization for designs is done!", Category.Research);
+			Loggy.Log("JsonImportInitialization for designs is done!", Category.Research);
 			Globals.IsInitialised = true;
 		}
 

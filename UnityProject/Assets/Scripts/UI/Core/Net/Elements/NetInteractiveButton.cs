@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,7 +30,7 @@ namespace UI.Core.NetUI
 				}
 				else
 				{
-					Logger.Log("Interactable shouldn't be set to anything other than true or false.", Category.Machines);
+					Loggy.Log("Interactable shouldn't be set to anything other than true or false.", Category.Machines);
 				}
 			}
 		}

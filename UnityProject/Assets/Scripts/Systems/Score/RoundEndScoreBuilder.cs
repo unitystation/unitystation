@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Doors;
 using Doors.Modules;
+using Logs;
 using Managers;
 using Objects.Construction;
 using Shared.Managers;
@@ -125,7 +126,7 @@ namespace Systems.Score
 			if (MatrixManager.MainStationMatrix.SubsystemManager
 				    .TryGetComponent<FilthGenerator.FilthGenerator>(out var generator) == false)
 			{
-				Logger.LogWarning("[RoundEndScoreBuilder] - Cannot find filth generator, skipping..", Category.Round);
+				Loggy.LogWarning("[RoundEndScoreBuilder] - Cannot find filth generator, skipping..", Category.Round);
 				return;
 			}
 			if (generator.FilthCleanGoal >= dirtyness)

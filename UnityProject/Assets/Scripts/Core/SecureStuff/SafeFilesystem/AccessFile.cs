@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Logs;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -87,7 +88,7 @@ namespace SecureStuff
 				resolvedPath = Path.GetFullPath(Path.Combine(Application.persistentDataPath, ForkName , folderType.ToString(), relativePath + extension));
 				if (resolvedPath.StartsWith(Path.GetFullPath(Path.Combine(Application.persistentDataPath, ForkName, folderType.ToString()))) == false)
 				{
-					Logger.LogError($"Persistent data Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
+					Loggy.LogError($"Persistent data Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 					throw new Exception($"Persistent data  Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 				}
 			}
@@ -96,7 +97,7 @@ namespace SecureStuff
 				resolvedPath = Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,folderType.ToString(), relativePath + extension));
 				if (resolvedPath.StartsWith(Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,  folderType.ToString()))) == false)
 				{
-					Logger.LogError($"Streaming assets Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
+					Loggy.LogError($"Streaming assets Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 					throw new Exception($"Streaming assets Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 				}
 			}
@@ -307,7 +308,7 @@ namespace SecureStuff
 			}
 			else
 			{
-				Logger.LogError($"Unable to load Data {relativePath} It might be missing Used {resolvedPath} to try to find it ");
+				Loggy.LogError($"Unable to load Data {relativePath} It might be missing Used {resolvedPath} to try to find it ");
 				return null;
 			}
 		}
@@ -358,7 +359,7 @@ namespace SecureStuff
 				}
 				catch (Exception e)
 				{
-					Logger.LogError($"Exception when triggering file change for {path}, Exception > " + e.ToString());
+					Loggy.LogError($"Exception when triggering file change for {path}, Exception > " + e.ToString());
 				}
 			}
 		}

@@ -6,6 +6,7 @@ using Mirror;
 using UnityEngine;
 using Systems.Electricity;
 using Items;
+using Logs;
 
 namespace Chemistry
 {
@@ -56,12 +57,12 @@ namespace Chemistry
 
 			//math
 			float space = capacity - currentTotal;
-			Logger.LogTrace($"Buffer| capacity:{capacity} total:{currentTotal} space:{space}", Category.Chemistry);
+			Loggy.LogTrace($"Buffer| capacity:{capacity} total:{currentTotal} space:{space}", Category.Chemistry);
 
 			//part one of transfer: isolate reagents, add to tempTransfer Mix
 			if (space > 0)
 			{
-				Logger.LogTrace($"BEFORE| Mix:{Container.CurrentReagentMix}", Category.Chemistry);
+				Loggy.LogTrace($"BEFORE| Mix:{Container.CurrentReagentMix}", Category.Chemistry);
 				if (amount < space)
 				{
 					Container.CurrentReagentMix.Remove(reagent, amount);
@@ -73,7 +74,7 @@ namespace Chemistry
 					tempTransfer.Add(reagent, space);
 				}
 
-				Logger.LogTrace($"AFTER|| Mix:{Container.CurrentReagentMix}", Category.Chemistry);
+				Loggy.LogTrace($"AFTER|| Mix:{Container.CurrentReagentMix}", Category.Chemistry);
 			}
 
 			//part two of transfer: fill Buffer from tempTransfer Mix
@@ -128,7 +129,7 @@ namespace Chemistry
 					overridingMix.TransferTo(BufferslotOne.CurrentReagentMix, BufferslotOne.MaxCapacity);
 				}
 
-				Logger.LogTrace($"ChemMaster: {gameObject} " +
+				Loggy.LogTrace($"ChemMaster: {gameObject} " +
 				                $"Reagentmix buffer one after: {BufferslotOne.CurrentReagentMix}", Category.Chemistry);
 			}
 
@@ -138,7 +139,7 @@ namespace Chemistry
 				//Only two containers, and previous math confirms
 				// that tempTransfer amount won't be larger than last buffer
 				overridingMix.TransferTo(BufferslotTwo.CurrentReagentMix, overridingMix.Total);
-				Logger.LogTrace($"ChemMaster: {gameObject} " +
+				Loggy.LogTrace($"ChemMaster: {gameObject} " +
 				                $"reagentmix buffer two after: {BufferslotTwo.CurrentReagentMix}", Category.Chemistry);
 			}
 		}
@@ -155,7 +156,7 @@ namespace Chemistry
 				BufferslotTwo.CurrentReagentMix.Clear();
 			}
 
-			Logger.LogTrace($"The buffer for ChemMaster {gameObject} is cleared.", Category.Chemistry);
+			Loggy.LogTrace($"The buffer for ChemMaster {gameObject} is cleared.", Category.Chemistry);
 		}
 
 		public void DispenseProduct(int productId, int numberOfProduct, string newName)

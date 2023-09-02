@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 using System.Text;
 using System.Threading.Tasks;
 using Items;
+using Logs;
 using Messages.Server;
 
 public static class SweetExtensions
@@ -164,7 +165,7 @@ public static class SweetExtensions
 	{
 		if (go == null)
 		{
-			Logger.LogError("Null object passed into AssumedWorldPosServer");
+			Loggy.LogError("Null object passed into AssumedWorldPosServer");
 			return TransformState.HiddenPos;
 		}
 
@@ -344,7 +345,7 @@ public static class SweetExtensions
 		float boost = (distance - NO_BOOST_THRESHOLD) * 2;
 		if (boost > 0)
 		{
-			Logger.LogTraceFormat("Lerp speed boost exceeded by {0}", Category.Movement, boost);
+			Loggy.LogTraceFormat("Lerp speed boost exceeded by {0}", Category.Movement, boost);
 		}
 		return 1 + boost;
 	}
@@ -398,7 +399,7 @@ public static class SweetExtensions
 		{
 			return new Vector2(x, y);
 		}
-		Logger.LogWarning($"Vector parse failed: what the hell is '{stringifiedVector}'?", Category.Unknown);
+		Loggy.LogWarning($"Vector parse failed: what the hell is '{stringifiedVector}'?", Category.Unknown);
 		return TransformState.HiddenPos;
 	}
 
@@ -723,7 +724,7 @@ public static class SweetExtensions
 			e = e.InnerException;
 		}
 
-		Logger.LogError(e?.ToString(), category);
+		Loggy.LogError(e?.ToString(), category);
 	}
 
 	/// <summary>

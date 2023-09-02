@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Systems.Clearance;
 using UnityEngine;
 
@@ -30,7 +31,7 @@ public class GroupedAccess : MonoBehaviour, IClearanceSource
 	{
 		if (NewIClearanceSource.GetType() == typeof(GroupedAccess))
 		{
-			Logger.LogError( "prevented adding of GroupedAccess to GroupedAccess,  I don't want no infinite loops, If you need it you can change it So it can catch the loops" );
+			Loggy.LogError( "prevented adding of GroupedAccess to GroupedAccess,  I don't want no infinite loops, If you need it you can change it So it can catch the loops" );
 			return;
 		}
 

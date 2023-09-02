@@ -5,6 +5,7 @@ using System.Linq;
 using HealthV2;
 using Items;
 using Items.Implants.Organs;
+using Logs;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -129,7 +130,7 @@ public class HandsController : MonoBehaviour
 				uesToolCarousel.AddToCarousel(bodyPartUISlots,StorageCharacteristics );
 				break;
 			default:
-				Logger.LogError("humm Tried to put non-hand into Hand Slot");
+				Loggy.LogError("humm Tried to put non-hand into Hand Slot");
 				return;
 		}
 
@@ -268,7 +269,7 @@ public class HandsController : MonoBehaviour
 
 				if (uesToolCarousel == null)
 				{
-					Logger.LogError($"Slot wasn't found for  {StorageCharacteristics.namedSlot}");
+					Loggy.LogError($"Slot wasn't found for  {StorageCharacteristics.namedSlot}");
 					return;
 				}
 
@@ -285,7 +286,7 @@ public class HandsController : MonoBehaviour
 
 				break;
 			default:
-				Logger.LogError("humm Tried to put non-hand into Hand Slot");
+				Loggy.LogError("humm Tried to put non-hand into Hand Slot");
 				return;
 		}
 
@@ -310,7 +311,7 @@ public class HandsController : MonoBehaviour
 		}
 		catch (Exception e)
 		{
-			Logger.LogError(e.ToString());
+			Loggy.LogError(e.ToString());
 		}
 
 		activeDoubleHandController = doubleHandController;
@@ -422,7 +423,7 @@ public class HandsController : MonoBehaviour
 		if (!PlayerManager.LocalPlayerScript.playerMove.AllowInput ||
 		    PlayerManager.LocalPlayerScript.IsGhost)
 		{
-			Logger.Log("Invalid player, cannot perform action!", Category.Interaction);
+			Loggy.Log("Invalid player, cannot perform action!", Category.Interaction);
 			return false;
 		}
 

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using SecureStuff;
 using UnityEngine;
 using NaughtyAttributes;
@@ -30,7 +31,7 @@ public class MainStationListSO : ScriptableObject
 
 		if (mapSoList.Count == 0)
 		{
-			Logger.LogError("No valid maps found! Make sure theres a map inside the MainStationList that is also in the build settings");
+			Loggy.LogError("No valid maps found! Make sure theres a map inside the MainStationList that is also in the build settings");
 		}
 
 		return mapSoList.PickRandom();

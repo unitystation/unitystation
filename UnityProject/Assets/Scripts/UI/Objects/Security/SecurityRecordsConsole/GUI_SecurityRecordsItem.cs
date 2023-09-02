@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using UI.Core.NetUI;
 using Objects.Security;
@@ -30,7 +31,7 @@ namespace UI.Objects.Security
 		{
 			if (record == null)
 			{
-				Logger.Log("SecurityRecordItem: no record found, not doing init", Category.Machines);
+				Loggy.Log("SecurityRecordItem: no record found, not doing init", Category.Machines);
 				return;
 			}
 			securityRecord = record;

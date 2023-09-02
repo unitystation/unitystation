@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Logs;
 using Shared.Managers;
 
 namespace Managers
@@ -38,7 +39,7 @@ namespace Managers
 
 			if (Instance.Matrixs.Contains(Matrix))
 			{
-				Logger.LogWarning($"{Matrix.gameObject} has the same exact behavior queued. Skipping");
+				Loggy.LogWarning($"{Matrix.gameObject} has the same exact behavior queued. Skipping");
 				return;
 			}
 

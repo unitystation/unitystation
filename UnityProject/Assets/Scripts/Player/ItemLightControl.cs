@@ -4,6 +4,7 @@ using System.Linq;
 using Core.Lighting;
 using HealthV2;
 using Light2D;
+using Logs;
 using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
@@ -56,13 +57,13 @@ public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer
 	{
 		if (objectLightEmission == null)
 		{
-			Logger.LogError($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
+			Loggy.LogError($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
 			return;
 		}
 
 		if (netIdentity == null)
 		{
-			Logger.LogError($"Mirror will not accept {this} while syncing in the LightsHolder syncList " +
+			Loggy.LogError($"Mirror will not accept {this} while syncing in the LightsHolder syncList " +
 			                $"because it is missing a net identity component.");
 			return;
 		}
@@ -127,7 +128,7 @@ public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer
 		if (IsOn == on) return;
 		if (LightEmission == null)
 		{
-			Logger.LogError($"{this} field LightEmission is null, please check scripts.", Category.Lighting);
+			Loggy.LogError($"{this} field LightEmission is null, please check scripts.", Category.Lighting);
 			return;
 		}
 

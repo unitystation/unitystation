@@ -2,6 +2,7 @@
 using UnityEngine;
 using Chemistry.Components;
 using Items;
+using Logs;
 
 namespace Objects.Kitchen
 {
@@ -103,7 +104,7 @@ namespace Objects.Kitchen
 					grinder.SwitchMode();
 					break;
 				default:
-					Logger.LogError("Unexpected interaction request occurred in grinder context menu.", Category.Interaction);
+					Loggy.LogError("Unexpected interaction request occurred in grinder context menu.", Category.Interaction);
 					break;
 			}
 		}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -113,7 +114,7 @@ namespace Messages.Server
 			}
 			catch (NullReferenceException exception)
 			{
-				Logger.LogError($"An NRE was caught in UpdateItemSlotMessage: {exception.Message} \n {exception.StackTrace}", Category.Inventory);
+				Loggy.LogError($"An NRE was caught in UpdateItemSlotMessage: {exception.Message} \n {exception.StackTrace}", Category.Inventory);
 			}
 		}
 

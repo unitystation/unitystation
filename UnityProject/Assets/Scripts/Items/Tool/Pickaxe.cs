@@ -1,5 +1,6 @@
 using UnityEngine;
 using AddressableReferences;
+using Logs;
 using Messages.Server.SoundMessages;
 using Objects.Mining;
 using TileManagement;
@@ -48,7 +49,7 @@ namespace Items
 			{
 				if (interactableTiles == null)
 				{
-					Logger.LogError("No interactable tiles found, mining cannot be finished", Category.TileMaps);
+					Loggy.LogError("No interactable tiles found, mining cannot be finished", Category.TileMaps);
 				}
 				else
 				{

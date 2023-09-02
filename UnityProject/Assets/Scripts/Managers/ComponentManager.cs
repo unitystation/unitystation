@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Logs;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -53,7 +54,7 @@ public class ComponentManager : SingletonManager<ComponentManager>
 			UOP = gameObject.GetComponentInParent<UniversalObjectPhysics>(); //No try get components in parent : ( : P
 			if (UOP == null)
 			{
-				Logger.LogError($"Unable to find UniversalObjectPhysics on {gameObject.name}");
+				Loggy.LogError($"Unable to find UniversalObjectPhysics on {gameObject.name}");
 				return false;
 			}
 		}

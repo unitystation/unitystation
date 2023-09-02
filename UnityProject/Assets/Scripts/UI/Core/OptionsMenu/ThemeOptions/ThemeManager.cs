@@ -6,6 +6,7 @@ using System.Linq;
 using AddressableReferences;
 using SecureStuff;
 using Initialisation;
+using Logs;
 using Shared.Util;
 using UnityEngine;
 using UnityEngine.UI;
@@ -241,7 +242,7 @@ namespace Unitystation.Options
 		        {
 
 			        //YML is God damned Stupid, No one cares if it has a tab just pass it Anyways You stupid pile of S****
-			        Logger.LogError(e.ToString());
+			        Loggy.LogError(e.ToString());
 			        return;
 		        }
 
@@ -255,7 +256,7 @@ namespace Unitystation.Options
 
                 if (string.IsNullOrEmpty(nodeName))
                 {
-                    Logger.LogError($"No Theme Type found for {nodeName}", Category.Themes);
+                    Loggy.LogError($"No Theme Type found for {nodeName}", Category.Themes);
                     continue;
                 }
 
@@ -288,7 +289,7 @@ namespace Unitystation.Options
                             {
                                 if (!ColorUtility.TryParseHtmlString(kvp.Value.ToString(), out cfg.imageColor))
                                 {
-                                    Logger.LogError($"Failed to parse html color {kvp.Value.ToString()}", Category.Themes);
+                                    Loggy.LogError($"Failed to parse html color {kvp.Value.ToString()}", Category.Themes);
                                 }
                             }
 
@@ -296,7 +297,7 @@ namespace Unitystation.Options
                             {
                                 if (!ColorUtility.TryParseHtmlString(kvp.Value.ToString(), out cfg.textColor))
                                 {
-                                    Logger.LogError($"Failed to parse html color {kvp.Value.ToString()}", Category.Themes);
+                                    Loggy.LogError($"Failed to parse html color {kvp.Value.ToString()}", Category.Themes);
                                 }
                             }
                         }
@@ -304,7 +305,7 @@ namespace Unitystation.Options
                     }
                     else
                     {
-                        Logger.LogError($"There is already a config named {cfg.themeName} in {theme.ToString()}", Category.Themes);
+                        Loggy.LogError($"There is already a config named {cfg.themeName} in {theme.ToString()}", Category.Themes);
                     }
                 }
             }
@@ -333,14 +334,14 @@ namespace Unitystation.Options
         {
             if (!Instance.Setconfigs.ContainsKey(themeType))
             {
-                Logger.LogError($"Theme Type {themeType} not found in ThemeManager", Category.Themes);
+                Loggy.LogError($"Theme Type {themeType} not found in ThemeManager", Category.Themes);
                 return;
             }
 
             var index = Instance.Setconfigs[themeType].FindIndex(x => string.Equals(x.themeName, themeName, StringComparison.OrdinalIgnoreCase));
             if (index == -1)
             {
-                Logger.LogError($"Theme not found {themeName}", Category.Themes);
+                Loggy.LogError($"Theme not found {themeName}", Category.Themes);
                 return;
             }
 

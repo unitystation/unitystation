@@ -1,4 +1,5 @@
-﻿using SecureStuff;
+﻿using Logs;
+using SecureStuff;
 using UnityEngine;
 
 namespace UI.Systems.IngameMenu
@@ -14,7 +15,7 @@ namespace UI.Systems.IngameMenu
 		[NaughtyAttributes.Button()]
 		public void Open()
 		{
-			Logger.LogTrace($"Opening '{url}' in the user's internet browser...");
+			Loggy.LogTrace($"Opening '{url}' in the user's internet browser...");
 			SafeURL.Open(url);
 		}
 	}

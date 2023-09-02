@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Chemistry;
 using Doors;
+using Logs;
 using Managers;
 using TileManagement;
 using UnityEngine;
@@ -259,7 +260,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			}
 			else
 			{
-				Logger.Log("There is already a space matrix registered", Category.Matrix);
+				Loggy.Log("There is already a space matrix registered", Category.Matrix);
 			}
 		}
 
@@ -271,7 +272,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			}
 			else
 			{
-				Logger.Log("There is already a main station matrix registered", Category.Matrix);
+				Loggy.Log("There is already a main station matrix registered", Category.Matrix);
 			}
 		}
 
@@ -283,7 +284,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			}
 			else
 			{
-				Logger.Log("There is already a lava land matrix registered", Category.Matrix);
+				Loggy.Log("There is already a lava land matrix registered", Category.Matrix);
 			}
 		}
 
@@ -390,7 +391,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		if (distance > 30)
 		{
-			Logger.LogError(
+			Loggy.LogError(
 				$" Limit exceeded on raycast, Look at stack trace for What caused it at {distance}"); //Meant to catch up stuff that's been naughty and doing stuff like 900 tile Ray casts
 			return new CustomPhysicsHit();
 		}

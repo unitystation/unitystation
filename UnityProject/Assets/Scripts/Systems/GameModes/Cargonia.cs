@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using Player;
 
@@ -19,7 +20,7 @@ namespace GameModes
 			var rebelDep = (Departments) rnd.Next(Enum.GetNames(typeof(Departments)).Length);
 			rebelJob = rebelJobs[rebelDep];
 			GameManager.Instance.Rebels = rebelJob;
-			Logger.LogFormat("The using {0} as the rebel department!", Category.GameMode, rebelDep);
+			Loggy.LogFormat("The using {0} as the rebel department!", Category.GameMode, rebelDep);
 
 		}
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UI.Core;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -252,7 +253,7 @@ public static class MouseUtils
 		if (sprite.packed && sprite.packingMode == SpritePackingMode.Tight)
 		{
 			// Cannot use textureRect on tightly packed sprites
-			Logger.LogError("SpritePackingMode.Tight atlas packing is not supported!", Category.Sprites);
+			Loggy.LogError("SpritePackingMode.Tight atlas packing is not supported!", Category.Sprites);
 			// TODO: support tightly packed sprites
 			return false;
 		}

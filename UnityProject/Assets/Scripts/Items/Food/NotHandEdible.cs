@@ -4,6 +4,7 @@ using AddressableReferences;
 using Chemistry;
 using Chemistry.Components;
 using HealthV2.Living.PolymorphicSystems;
+using Logs;
 using UnityEngine;
 
 namespace Items
@@ -53,7 +54,7 @@ namespace Items
 			}
 			else
 			{
-				Logger.LogErrorFormat("{0} prefab is missing ItemAttributes", Category.Objects, name);
+				Loggy.LogErrorFormat("{0} prefab is missing ItemAttributes", Category.Objects, name);
 			}
 		}
 

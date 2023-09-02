@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core.Utils;
+using Logs;
 using Managers.SettingsManager;
 using TMPro;
 using UI.Chat_UI;
@@ -80,7 +81,7 @@ namespace Unitystation.Options
 			}
 			catch (Exception e)
 			{
-				Logger.LogError($"[ThemeOptions/Refresh()] - Failed to Load themes.\n {e}");
+				Loggy.LogError($"[ThemeOptions/Refresh()] - Failed to Load themes.\n {e}");
 			}
 
 			HighlightToggle.isOn = Highlight.HighlightEnabled;
@@ -105,7 +106,7 @@ namespace Unitystation.Options
 			}
 			catch (Exception e)
 			{
-				Logger.LogError(e.ToString());
+				Loggy.LogError(e.ToString());
 			}
 
 			try
@@ -122,7 +123,7 @@ namespace Unitystation.Options
 			catch (Exception e)
 			{
 				var chatUIHasNoFonts = ChatUI.Instance.Fonts?.Count == 0;
-				Logger.LogError($"[ThemeOptions/Refresh()] - Failed to setup font options. " +
+				Loggy.LogError($"[ThemeOptions/Refresh()] - Failed to setup font options. " +
 				                $"\n chat has no fonts: {chatUIHasNoFonts} \n {e}");
 			}
 
@@ -154,7 +155,7 @@ namespace Unitystation.Options
 			else
 			{
 				chatBubbleDropDown.interactable = false;
-				Logger.LogError("No Options found for ChatBubbles", Category.Themes);
+				Loggy.LogError("No Options found for ChatBubbles", Category.Themes);
 			}
 		}
 

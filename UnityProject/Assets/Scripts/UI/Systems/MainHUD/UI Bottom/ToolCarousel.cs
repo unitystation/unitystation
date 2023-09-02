@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Items.Implants.Organs;
+using Logs;
 using UnityEngine;
 
 public class ToolCarousel : MonoBehaviour, IUIHandAreasSelectable
@@ -41,7 +42,7 @@ public class ToolCarousel : MonoBehaviour, IUIHandAreasSelectable
 
 		if (slot == null)
 		{
-			Logger.LogError($"Slot wasn't found for  {storageCharacteristics.namedSlot}");
+			Loggy.LogError($"Slot wasn't found for  {storageCharacteristics.namedSlot}");
 			return;
 		}
 

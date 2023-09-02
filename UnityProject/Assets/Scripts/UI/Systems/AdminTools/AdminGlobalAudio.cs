@@ -5,6 +5,7 @@ using UnityEngine;
 using Audio.Containers;
 using AddressableReferences;
 using DatabaseAPI;
+using Logs;
 using SecureStuff;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
@@ -45,12 +46,12 @@ namespace AdminTools
 			//ALS Ice Bucket Challenge, CIA style.
 			foreach (var serverCatalouge in serverCatalouges.Where(serverCatalouge => serverCatalouge != string.Empty))
 			{
-				Logger.Log(serverCatalouge);
+				Loggy.Log(serverCatalouge);
 				AsyncOperationHandle<IResourceLocator> task;
 				if (serverCatalouge.Contains("http"))
 				{
 					string result = await SafeHttpRequest.GetStringAsync(serverCatalouge);
-					Logger.Log(result);
+					Loggy.Log(result);
 					task = Addressables.LoadContentCatalogAsync(result);
 					await task.Task;
 				}

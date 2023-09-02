@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Logs;
 using UnityEngine;
 using Systems.Electricity;
 
@@ -41,7 +42,7 @@ public static class Despawn
 	{
 		if (info == null)
 		{
-			Logger.LogError("Cannot despawn - info is null", Category.ItemSpawn);
+			Loggy.LogError("Cannot despawn - info is null", Category.ItemSpawn);
 			return DespawnResult.Fail(info);
 		}
 
@@ -78,7 +79,7 @@ public static class Despawn
 		}
 		catch (Exception e)
 		{
-			Logger.LogError(e.ToString());
+			Loggy.LogError(e.ToString());
 		}
 
 
@@ -125,7 +126,7 @@ public static class Despawn
 	{
 		if (info == null)
 		{
-			Logger.LogError("Cannot despawn - info is null", Category.ItemSpawn);
+			Loggy.LogError("Cannot despawn - info is null", Category.ItemSpawn);
 			return DespawnResult.Fail(info);
 		}
 

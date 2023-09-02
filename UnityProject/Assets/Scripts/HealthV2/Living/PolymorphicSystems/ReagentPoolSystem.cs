@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Chemistry;
 using Items.Implants.Organs;
+using Logs;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -35,7 +36,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			// Currently only does blood and required reagents, should at nutriments and other common gases
 			if (bloodPool == null || bloodReagent == null)
 			{
-				Logger.LogError("[ReagentPoolSystem/AddFreshBlood] - Missing data detected. Make sure you're not spawning a bodyPart without its proper systems defined.");
+				Loggy.LogError("[ReagentPoolSystem/AddFreshBlood] - Missing data detected. Make sure you're not spawning a bodyPart without its proper systems defined.");
 			}
 			try
 			{
@@ -49,7 +50,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			}
 			catch (Exception e)
 			{
-				Logger.LogError(e.ToString());
+				Loggy.LogError(e.ToString());
 			}
 		}
 		public override void StartFresh()

@@ -1,3 +1,4 @@
+using Logs;
 using Systems.Interaction;
 
 
@@ -86,7 +87,7 @@ public static class DefaultWillInteract
 			return Validations.CanApply(interaction as AiActivate, side);
 		}
 
-		Logger.LogError("Unable to recognize interaction type.", Category.Interaction);
+		Loggy.LogError("Unable to recognize interaction type.", Category.Interaction);
 		return false;
 	}
 

@@ -6,6 +6,7 @@ using SecureStuff;
 using Newtonsoft.Json;
 using UnityEngine;
 using DatabaseAPI;
+using Logs;
 
 namespace Systems.Character
 {
@@ -53,7 +54,7 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Logger.LogError("An attempt was made to set the active character with a key that doesn't exist. Ignoring.");
+				Loggy.LogError("An attempt was made to set the active character with a key that doesn't exist. Ignoring.");
 				return;
 			}
 
@@ -83,7 +84,7 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Logger.LogError("An attempt was made to set the active character with a key that doesn't exist. Ignoring.");
+				Loggy.LogError("An attempt was made to set the active character with a key that doesn't exist. Ignoring.");
 				return;
 			}
 
@@ -98,7 +99,7 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Logger.LogWarning($"An attempt was made to fetch a character with an invalid key \"{key}\". Ignoring.");
+				Loggy.LogWarning($"An attempt was made to fetch a character with an invalid key \"{key}\". Ignoring.");
 				return default;
 			}
 
@@ -112,7 +113,7 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Logger.LogWarning($"An attempt was made to set a character with an invalid key \"{key}\". Ignoring.");
+				Loggy.LogWarning($"An attempt was made to set a character with an invalid key \"{key}\". Ignoring.");
 				return;
 			}
 
@@ -125,7 +126,7 @@ namespace Systems.Character
 		{
 			if (ValidateCharacterSheet(character) == false)
 			{
-				Logger.LogError("An attempt was made to add a character but character validation failed. Ignoring.");
+				Loggy.LogError("An attempt was made to add a character but character validation failed. Ignoring.");
 				return;
 			}
 
@@ -138,13 +139,13 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Logger.LogWarning($"An attempt was made to remove a character with an invalid key \"{key}\". Ignoring.");
+				Loggy.LogWarning($"An attempt was made to remove a character with an invalid key \"{key}\". Ignoring.");
 				return;
 			}
 
 			if (key < Characters.Count - 1)
 			{
-				Logger.LogWarning($"An attempt was made to remove the last character with key \"{key}\". Ignoring as there should be at least one character.");
+				Loggy.LogWarning($"An attempt was made to remove the last character with key \"{key}\". Ignoring as there should be at least one character.");
 				return;
 			}
 
@@ -169,6 +170,7 @@ namespace Systems.Character
 		/// <summary>Load characters that are saved to Unity's persistent data folder.</summary>
 		public void LoadOfflineCharacters()
 		{
+
 			Characters.Clear();
 			if (AccessFile.Exists(OfflineStoragePath, userPersistent: true) == false)
 			{

@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Text;
+using Logs;
 using Newtonsoft.Json;
 using SecureStuff;
 
@@ -319,7 +320,7 @@ public class VariableViewerNetworking : MonoBehaviour
 			// if currentSize is greater than the maxPacketSize - break loop and send message
 			if (currentSize > maxPacketSize)
 			{
-				Logger.LogError("[VariableViewerNetworking.ProcessBook] - message is to big to send in one packet", Category.VariableViewer);
+				Loggy.LogError("[VariableViewerNetworking.ProcessBook] - message is to big to send in one packet", Category.VariableViewer);
 				break;
 			}
 

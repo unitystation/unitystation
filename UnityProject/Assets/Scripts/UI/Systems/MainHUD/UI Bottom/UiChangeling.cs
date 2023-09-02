@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Logs;
 using TMPro;
 using UI.Core;
 using UnityEngine;
@@ -93,7 +94,7 @@ namespace Changeling
 					newEntry.Icon = OccupationList.Instance.Get(x.Job).PreviewSprite;
 				} catch
 				{
-					Logger.LogError("[UiChangeling/OpenTransformUI] Can`t pick preview sprite", Category.Changeling);
+					Loggy.LogError("[UiChangeling/OpenTransformUI] Can`t pick preview sprite", Category.Changeling);
 				}
 				choise.Add(newEntry);
 			}

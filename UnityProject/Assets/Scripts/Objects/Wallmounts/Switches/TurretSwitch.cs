@@ -6,6 +6,7 @@ using Messages.Server;
 using Systems.Electricity;
 using Systems.Interaction;
 using CustomInspectors;
+using Logs;
 using UI.Core.Net;
 using Objects.Other;
 using Shared.Systems.ObjectConnection;
@@ -170,7 +171,7 @@ namespace Objects.Wallmounts.Switches
 			{
 				if (turret == null)
 				{
-					Logger.LogError($"null turrets in Turret switch at {this.transform.localPosition}");
+					Loggy.LogError($"null turrets in Turret switch at {this.transform.localPosition}");
 					continue;
 				}
 

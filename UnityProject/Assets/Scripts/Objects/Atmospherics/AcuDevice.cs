@@ -1,3 +1,4 @@
+using Logs;
 using UnityEngine;
 using Systems.Atmospherics;
 using Shared.Systems.ObjectConnection;
@@ -34,7 +35,7 @@ namespace Objects.Atmospherics
 			device = GetComponent<IAcuControllable>();
 			if (device == null)
 			{
-				Logger.LogError($"{this} has no component that implements {nameof(IAcuControllable)}!");
+				Loggy.LogError($"{this} has no component that implements {nameof(IAcuControllable)}!");
 			}
 		}
 

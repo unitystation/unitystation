@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Logs;
 using Newtonsoft.Json;
 using SecureStuff;
 using UI.Systems.ServerInfoPanel.Models;
@@ -108,8 +109,8 @@ namespace UI.Systems.ServerInfoPanel
 			}
 			else
 			{
-				Logger.LogError($"Failed to fetch changelog from {url}", Category.UI);
-				Logger.LogError($"Status: {response.StatusCode}. Reason: {response.ReasonPhrase}", Category.UI);
+				Loggy.LogError($"Failed to fetch changelog from {url}", Category.UI);
+				Loggy.LogError($"Status: {response.StatusCode}. Reason: {response.ReasonPhrase}", Category.UI);
 			}
 
 			return newData;

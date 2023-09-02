@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 
 namespace Systems.Electricity.NodeModules
 {
@@ -17,7 +18,7 @@ namespace Systems.Electricity.NodeModules
 		{
 			if (supply.ControllingNode == null)
 			{
-				Logger.LogError("Supply.ControllingNode == null", Category.Electrical);
+				Loggy.LogError("Supply.ControllingNode == null", Category.Electrical);
 				return;
 			}
 

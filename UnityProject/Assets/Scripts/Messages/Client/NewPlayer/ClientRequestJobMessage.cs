@@ -1,4 +1,5 @@
 using System.Linq;
+using Logs;
 using Messages.Server;
 using Mirror;
 using Newtonsoft.Json;
@@ -47,7 +48,7 @@ namespace Messages.Client.NewPlayer
 		{
 			if (SentByPlayer == null || SentByPlayer.Equals(PlayerInfo.Invalid))
 			{
-				Logger.LogError($"Cannot process {nameof(ClientRequestJobMessage)}: {nameof(SentByPlayer)} is null!", Category.Jobs);
+				Loggy.LogError($"Cannot process {nameof(ClientRequestJobMessage)}: {nameof(SentByPlayer)} is null!", Category.Jobs);
 				return false;
 			}
 
@@ -117,13 +118,13 @@ namespace Messages.Client.NewPlayer
 
 		private void NotifyError(JobRequestError error, string message)
 		{
-			Logger.LogError($"Cannot process {SentByPlayer}'s {nameof(ClientRequestJobMessage)}: {message}.", Category.Jobs);
+			Loggy.LogError($"Cannot process {SentByPlayer}'s {nameof(ClientRequestJobMessage)}: {message}.", Category.Jobs);
 			JobRequestFailedMessage.SendTo(SentByPlayer, error);
 		}
 
 		private void NotifyRequestRejected(JobRequestError error, string message)
 		{
-			Logger.Log($"Job request from {SentByPlayer} rejected: {message}.", Category.Jobs);
+			Loggy.Log($"Job request from {SentByPlayer} rejected: {message}.", Category.Jobs);
 			JobRequestFailedMessage.SendTo(SentByPlayer, error);
 		}
 	}

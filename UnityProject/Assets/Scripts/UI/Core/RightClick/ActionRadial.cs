@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.UI;
@@ -88,7 +89,7 @@ namespace UI.Core.RightClick
 			{
 				if (i >= Items.Count)
 				{
-					Logger.LogError("Too many subentries on Right click menu");
+					Loggy.LogError("Too many subentries on Right click menu");
 					continue;
 				}
 				Items[i].ChangeItem(actions[i]);

@@ -1,5 +1,6 @@
 ﻿using System;
 using Light2D;
+using Logs;
 using Mirror;
 using TileManagement;
 using Tiles;
@@ -160,7 +161,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 					if (overFlowProtection > maxOverflowProtection)
 					{
-						Logger.LogError($"Overflow protection triggered on {basicTile.name}, ToTileWhenDestroyed is spawning tiles in a loop", Category.TileMaps);
+						Loggy.LogError($"Overflow protection triggered on {basicTile.name}, ToTileWhenDestroyed is spawning tiles in a loop", Category.TileMaps);
 						break;
 					}
 				}

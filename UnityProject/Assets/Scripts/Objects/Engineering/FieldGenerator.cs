@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Systems.ElectricalArcs;
 using ScriptableObjects.Gun;
 using UnityEngine;
@@ -434,7 +435,7 @@ namespace Objects.Engineering
 				case Direction.Right:
 					return horizontal;
 				default:
-					Logger.LogError($"Somehow got a wrong direction for {gameObject.ExpensiveName()} tile setting", Category.Machines);
+					Loggy.LogError($"Somehow got a wrong direction for {gameObject.ExpensiveName()} tile setting", Category.Machines);
 					return vertical;
 			}
 		}
@@ -452,7 +453,7 @@ namespace Objects.Engineering
 				case Direction.Right:
 					return Vector3Int.right;
 				default:
-					Logger.LogError($"Somehow got a wrong direction for {gameObject.ExpensiveName()}", Category.Machines);
+					Loggy.LogError($"Somehow got a wrong direction for {gameObject.ExpensiveName()}", Category.Machines);
 					return Vector3Int.zero;
 			}
 		}
@@ -470,7 +471,7 @@ namespace Objects.Engineering
 				case Direction.Right:
 					return Direction.Left;
 				default:
-					Logger.LogError($"Somehow got wrong opposite direction for {gameObject.ExpensiveName()}", Category.Machines);
+					Loggy.LogError($"Somehow got wrong opposite direction for {gameObject.ExpensiveName()}", Category.Machines);
 					return Direction.Up;
 			}
 		}

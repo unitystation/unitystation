@@ -3,6 +3,7 @@ using Items.Implants.Organs;
 using System;
 using System.Collections;
 using System.Security.Policy;
+using Logs;
 using UnityEngine;
 
 namespace Changeling
@@ -65,7 +66,7 @@ namespace Changeling
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError($"[ChangelingAbility/AfterAbsorbSting] Failed to find target PlayerInfo or mind of {target.visibleName} {ex}", Category.Changeling);
+				Loggy.LogError($"[ChangelingAbility/AfterAbsorbSting] Failed to find target PlayerInfo or mind of {target.visibleName} {ex}", Category.Changeling);
 			}
 
 			if (targetIsChangeling)

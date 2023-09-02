@@ -1,4 +1,5 @@
 using System.Collections;
+using Logs;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -14,7 +15,7 @@ namespace GameRunTests
 
 			if (GameManager.Instance == null)
 			{
-				Logger.LogError("Unable to load OnlineScene Properly returning");
+				Loggy.LogError("Unable to load OnlineScene Properly returning");
 				yield break;
 			}
 			GameManager.Instance.QuickLoad = true;

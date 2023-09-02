@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Logs;
 using Newtonsoft.Json;
 using UnityEngine;
 using UI.CharacterCreator;
@@ -294,7 +295,7 @@ public class CharacterSheet : ICloneable
 		var toReturn = RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == Species);
 		if (toReturn == null)
 		{
-			Logger.LogError("[GetRaceSONoValidation] No race found for " + Species);
+			Loggy.LogError("[GetRaceSONoValidation] No race found for " + Species);
 			return  RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == "Human");
 		}
 		return toReturn;

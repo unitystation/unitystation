@@ -5,6 +5,7 @@ using System.Net;
 using System.Security.Policy;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Logs;
 using UnityEngine;
 
 namespace SecureStuff
@@ -24,12 +25,12 @@ namespace SecureStuff
 					var goodyURL = new System.Uri(goodURL);
 					if (await HubValidation.RequestOpenURL(goodyURL, justificationReason, AddToAllowList))
 					{
-						Logger.Log($"Opening URL {goodURL}");
+						Loggy.Log($"Opening URL {goodURL}");
 						Application.OpenURL(goodURL);
 					}
 					else
 					{
-						Logger.Log("Open URL failed from no user validation");
+						Loggy.Log("Open URL failed from no user validation");
 					}
 				}
 			}

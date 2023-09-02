@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using AddressableReferences;
 using Core.Utils;
+using Logs;
 using Shared.Managers;
 
 namespace Audio.Containers
@@ -219,17 +220,17 @@ namespace Audio.Containers
         //Make sure it is a valid Addressable AudioSource
         if (addressableAudioSource == null || addressableAudioSource == default(AddressableAudioSource))
             {
-                Logger.LogWarning("AudioManager recieved a null Addressable audio source, look at log trace for responsible component", Category.Audio);
+                Loggy.LogWarning("AudioManager recieved a null Addressable audio source, look at log trace for responsible component", Category.Audio);
                 return null;
             }
             if (string.IsNullOrEmpty(addressableAudioSource.AssetAddress))
             {
-                Logger.LogWarning("AudioManager received a null address for an addressable, look at log trace for responsible component", Category.Audio);
+                Loggy.LogWarning("AudioManager received a null address for an addressable, look at log trace for responsible component", Category.Audio);
                 return null;
             }
             if (addressableAudioSource.AssetAddress == "null")
             {
-                Logger.LogWarning("AudioManager received an addressable with an address set to the string 'null', look at log trace for responsible component", Category.Audio);
+                Loggy.LogWarning("AudioManager received an addressable with an address set to the string 'null', look at log trace for responsible component", Category.Audio);
                 return null;
             }
             if (await addressableAudioSource.HasValidAddress() == false) return null;
@@ -255,7 +256,7 @@ namespace Audio.Containers
 
             if (gameObject == null)
             {
-                Logger.LogError(
+                Loggy.LogError(
                     $"AddressableAudioSource in AudioManager failed to load from address: {addressableAudioSourceFromCache.AssetAddress}",
                     Category.Audio);
                 return null;
@@ -263,7 +264,7 @@ namespace Audio.Containers
 
             if (gameObject.TryGetComponent(out AudioSource audioSource) == false)
             {
-                Logger.LogError(
+                Loggy.LogError(
                     $"AddressableAudioSource in AudioManager doesn't contain an AudioSource: {addressableAudioSourceFromCache.AssetAddress}",
                     Category.Audio);
                 return null;

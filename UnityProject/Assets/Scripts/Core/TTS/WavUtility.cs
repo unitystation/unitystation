@@ -2,6 +2,7 @@
 using System.Text;
 using System;
 using System.IO;
+using Logs;
 using SecureStuff;
 
 /// <summary>
@@ -20,7 +21,7 @@ using SecureStuff;
 public class WavUtility {
 	// Force save as 16-bit .wav
 	const int BlockSize_16Bit = 2;
-	
+
 	public static AudioClip ToAudioClip( byte[] fileBytes, int offsetSamples = 0, string name = "wav" ) {
 		//string riff = Encoding.ASCII.GetString (fileBytes, 0, 4);
 		//string wave = Encoding.ASCII.GetString (fileBytes, 8, 4);
@@ -373,7 +374,7 @@ public class WavUtility {
 			case 65534:
 				return "WaveFormatExtensable";
 			default:
-				Logger.LogWarning( "Unknown wav code format:" + code, Category.Audio );
+				Loggy.LogWarning( "Unknown wav code format:" + code, Category.Audio );
 				return "";
 		}
 	}

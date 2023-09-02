@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 using System.Collections;
+using Logs;
 using UnityEngine.Serialization;
 
 namespace Learning.ProtipObjectTypes
@@ -48,7 +49,7 @@ namespace Learning.ProtipObjectTypes
 			yield return WaitFor.EndOfFrame;
 			if (PlayerManager.LocalPlayerScript == null)
 			{
-				Logger.LogError("[Protips] - Something went wrong accessing the player's local player script.. Are you sure everything is setup correctly?", Category.Character);
+				Loggy.LogError("[Protips] - Something went wrong accessing the player's local player script.. Are you sure everything is setup correctly?", Category.Character);
 				yield break;
 			}
 			PlayerManager.LocalPlayerScript.DynamicItemStorage.OnContentsChangeClient.AddListener(OnInventoryChange);
@@ -69,7 +70,7 @@ namespace Learning.ProtipObjectTypes
 			}
 			catch (Exception e)
 			{
-				Logger.LogWarning("[Protips] - Attempted to unsubscribe an event while the player script is null, player might have become a ghost or deleted.");
+				Loggy.LogWarning("[Protips] - Attempted to unsubscribe an event while the player script is null, player might have become a ghost or deleted.");
 			}
 
 		}

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blob;
+using Logs;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -109,7 +110,7 @@ public class BlobMouseInputController : MouseInputController
 					blobPlayer.CmdRally(MouseUtils.MouseToWorldPos().RoundToInt());
 					break;
 				default:
-					Logger.LogError("Switch has no correct case for blob click!", Category.Blob);
+					Loggy.LogError("Switch has no correct case for blob click!", Category.Blob);
 					break;
 			}
 

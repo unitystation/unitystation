@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Systems.Ai;
 using Systems.MobAIs;
 using UnityEngine;
@@ -213,7 +214,7 @@ namespace Systems.Teleport
 			}
 			else
 			{
-				Logger.LogError($"No transform on {objectToTeleport} - can't teleport!", Category.Movement);
+				Loggy.LogError($"No transform on {objectToTeleport} - can't teleport!", Category.Movement);
 				return originalPosition;
 			}
 

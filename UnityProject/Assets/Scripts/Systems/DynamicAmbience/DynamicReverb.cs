@@ -1,6 +1,7 @@
 ﻿using System;
 using Audio.Containers;
 using Core.Sound;
+using Logs;
 using UnityEngine;
 
 namespace Systems.DynamicAmbience
@@ -35,7 +36,7 @@ namespace Systems.DynamicAmbience
 			if (CustomNetworkManager.IsHeadless) return;
 			if (transform.parent.gameObject.NetWorkIdentity()?.isOwned == false || isEnabled) return;
 
-			Logger.Log("Enabling Dynamic Reverb system.");
+			Loggy.Log("Enabling Dynamic Reverb system.");
 			UpdateManager.Add(UpdateMe, updateTime);
 			isEnabled = true;
 		}
@@ -45,7 +46,7 @@ namespace Systems.DynamicAmbience
 			if (CustomNetworkManager.IsHeadless) return;
 			if (transform.parent.gameObject.NetWorkIdentity()?.isOwned == false || isEnabled == false) return;
 
-			Logger.Log("Disabling Dynamic Reverb system.");
+			Loggy.Log("Disabling Dynamic Reverb system.");
 			AudioManager.Instance.GameplayMixer.audioMixer.ClearFloat(AUDIOMIXER_REVERB_KEY);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 			isEnabled = false;

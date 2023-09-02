@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using DatabaseAPI;
+using Logs;
 using Newtonsoft.Json;
 using SecureStuff;
 using Shared.Managers;
@@ -104,7 +105,7 @@ namespace DiscordWebhook
 				if (loggedWebKookError == false)
 				{
 					loggedWebKookError = true;
-					Logger.LogError(e.ToString());
+					Loggy.LogError(e.ToString());
 				}
 			}
 
@@ -134,7 +135,7 @@ namespace DiscordWebhook
 
 			if (response.IsSuccessStatusCode == false)
 			{
-				Logger.LogError($"Request failed with status code: {response.StatusCode}, {response.ReasonPhrase}");
+				Loggy.LogError($"Request failed with status code: {response.StatusCode}, {response.ReasonPhrase}");
 			}
 
 		}

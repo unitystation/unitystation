@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 
 namespace Systems.Electricity
 {
@@ -55,7 +56,7 @@ namespace Systems.Electricity
 					sync.NUStructureChangeReact.Add(thiswire.ControllingDevice);
 					sync.NUResistanceChange.Add(thiswire.ControllingDevice);
 					sync.NUCurrentChange.Add(thiswire.ControllingDevice);
-					Logger.LogErrorFormat("Resistance isn't initialised on", Category.Electrical);
+					Loggy.LogErrorFormat("Resistance isn't initialised on", Category.Electrical);
 					return;
 				}
 

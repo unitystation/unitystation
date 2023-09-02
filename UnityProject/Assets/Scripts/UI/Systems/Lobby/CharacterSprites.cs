@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +20,7 @@ namespace UI.CharacterCreator
 		{
 			sprites = GetComponent<SpriteHandler>();
 			if(!sprites)
-				Logger.LogWarning("SpriteHandler component is missing!", Category.Sprites);
+				Loggy.LogWarning("SpriteHandler component is missing!", Category.Sprites);
 		}
 
 		private void Start()

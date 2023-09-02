@@ -20,6 +20,7 @@ using Shuttles;
 using UI.Core;
 using UI.Items;
 using Doors;
+using Logs;
 using Managers;
 using Objects;
 using Player.Language;
@@ -97,7 +98,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (playerScript.OrNull()?.playerMove == null)
 		{
-			Logger.LogError($"null playerScript/playerMove in {this.name} ");
+			Loggy.LogError($"null playerScript/playerMove in {this.name} ");
 			return;
 		}
 		playerScript.playerMove.intent = intent;
@@ -676,7 +677,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
-		Logger.LogWarning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!", Category.Antags);
+		Loggy.LogWarning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!", Category.Antags);
 	}
 
 	[Command]
@@ -880,7 +881,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 	}
-	
+
 
 	[Command]
 	public void CmdRequestChangelingAbilitesWithParam(int abilityIndex, string param)
@@ -894,7 +895,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 	}
-	
+
 	[Command]
 	public void CmdRequestChangelingAbilitesToggle(int abilityIndex, bool toggle)
 	{
@@ -1005,7 +1006,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var health = playerScript.playerHealth;
 		if (health.IsDead)
 		{
-			Logger.LogError("[PlayerNetworkActions/HardSuicide()] - Player is already dead!");
+			Loggy.LogError("[PlayerNetworkActions/HardSuicide()] - Player is already dead!");
 			return;
 		}
 		health.ApplyDamageAll(playerScript.gameObject,

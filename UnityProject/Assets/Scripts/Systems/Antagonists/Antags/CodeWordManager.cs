@@ -4,6 +4,7 @@ using Mirror;
 using System.Linq;
 using SecureStuff;
 using System.Collections.Generic;
+using Logs;
 
 namespace Antagonists
 {
@@ -49,12 +50,12 @@ namespace Antagonists
 
 			if(AccessFile.Exists(filePath) == false)
 			{
-				Logger.LogError($"Traitor Code Words: Could not find text file to read at: {filePath}");
+				Loggy.LogError($"Traitor Code Words: Could not find text file to read at: {filePath}");
 				return;
 			}
 
 			string[] allWords = AccessFile.ReadAllLines(filePath);
-      
+
 			allWords = allWords.Shuffle().ToArray();
 
 			for (int i = 0; i < WORD_COUNT; i++)

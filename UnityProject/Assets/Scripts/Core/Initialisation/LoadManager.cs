@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+using Logs;
 using NaughtyAttributes;
 using Shared.Managers;
 using UnityEngine;
@@ -55,7 +56,7 @@ namespace Initialisation
 		public virtual void Start()
 		{
 			base.Start();
-			Logger.MainGameThread = Thread.CurrentThread; //Initialises logger
+			Loggy.MainGameThread = Thread.CurrentThread; //Initialises logger
 		}
 
 
@@ -110,7 +111,7 @@ namespace Initialisation
 				}
 				catch (Exception e)
 				{
-					Logger.LogError(e.ToString());
+					Loggy.LogError(e.ToString());
 				}
 				IsExecuting = false;
 			}
@@ -139,7 +140,7 @@ namespace Initialisation
 							}
 							catch (Exception e)
 							{
-								Logger.LogError(e.ToString());
+								Loggy.LogError(e.ToString());
 							}
 						}
 
@@ -178,7 +179,7 @@ namespace Initialisation
 							}
 							catch (Exception e)
 							{
-								Logger.LogError(e.ToString());
+								Loggy.LogError(e.ToString());
 							}
 						}
 						else
