@@ -45,4 +45,9 @@ public class CustomObjective : Objective
 		Complete = custom.Status;
 		description = custom.Description;
 	}
+
+	protected override void Setup()
+	{
+		
+	}
 }

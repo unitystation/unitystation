@@ -19,4 +19,9 @@ public class CustomAntag : Antagonist
 		toRet.Init("CustomAntag");
 		return toRet;
 	}
+
+	public override void AfterSpawn(Mind SpawnMind)
+	{
+
+	}
 }
