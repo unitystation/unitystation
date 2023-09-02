@@ -40,6 +40,7 @@ public class UpdateTextures : MonoBehaviour
 	        Image image = component.GetComponent<Image>();
 	        if (image != null && image.sprite != null )
 	        {
+
 		        if (textureMap.ContainsKey(image.sprite.texture))
 		        {
 			        // Find the existing sprite used by the Image component
