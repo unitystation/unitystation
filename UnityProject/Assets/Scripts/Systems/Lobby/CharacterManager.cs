@@ -172,23 +172,7 @@ namespace Systems.Character
 			Characters.Clear();
 			if (AccessFile.Exists(OfflineStoragePath, userPersistent: true) == false)
 			{
-				//TODO Remove
-				bool exists = File.Exists(OLDOfflineStoragePath);
-				if (exists)
-				{
-					//C:\Users\PCV3\AppData\LocalLow\Unitystationcharacters.json
-					//to
-					//C:\Users\PCV3\AppData\LocalLow\Unitystation\unitystation\Unitystation\Config\characters.json
-					Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Unitystation/Config"));
-					File.Copy(OLDOfflineStoragePath, Path.Combine(Application.persistentDataPath, "Unitystation/Config/characters.json"));
-					File.Delete(OLDOfflineStoragePath);
-				}
-				else
-				{
-					return;
-				}
-
-				//TODO Remove
+				return;
 			}
 
 			string json = AccessFile.Load(OfflineStoragePath, userPersistent: true);

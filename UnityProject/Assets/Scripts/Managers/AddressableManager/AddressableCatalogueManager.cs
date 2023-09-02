@@ -243,24 +243,6 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 
 	public static List<string> GetCataloguePathStreamingAssets()
 	{
-		var pathss = Application.streamingAssetsPath + "/AddressableCatalogues";
-		var directories = System.IO.Directory.GetDirectories(pathss);
-		var OLDcatalogues = new List<string>();
-		var OLDmultiCatalogues = new List<string>();
-		foreach (var directory in directories)
-		{
-			var newPath = directory.Replace(@"\", "/");
-			var newDirectories = System.IO.Directory.GetFiles(newPath);
-
-			foreach (var pathST in newDirectories)
-			{
-				if (pathST.Contains(".json"))
-				{
-					OLDcatalogues.Add(pathST);
-				}
-			}
-		}
-
 		var catalogues = new List<string>();
 		var multiCatalogues = new List<string>();
 		foreach (var directory in AccessFile.DirectoriesOrFilesIn("", FolderType.AddressableCatalogues, files: false))
