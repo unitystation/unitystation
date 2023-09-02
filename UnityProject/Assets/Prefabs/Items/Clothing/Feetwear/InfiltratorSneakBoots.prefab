@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4024485979655135154, guid: 640362304f8197943af8d02267686221,
@@ -20,7 +21,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4243232050535511984, guid: 640362304f8197943af8d02267686221,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: cca132de946366946a12c8dfbbd44c8f,
         type: 2}
@@ -117,6 +118,13 @@ PrefabInstance:
         if it wasn't for the color scheme.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7106618204054676533, guid: 640362304f8197943af8d02267686221,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2186176916071187332}
   m_SourcePrefab: {fileID: 100100000, guid: 640362304f8197943af8d02267686221, type: 3}
 --- !u!1 &3552996356376015788 stripped
 GameObject:

@@ -34,6 +34,7 @@ public class EyeFlash : BodyPartFunctionality
 			}
 		}
 
+		RelatedPart.TakeDamage(null, flashDuration*0.5f, AttackType.Energy, DamageType.Burn);
 		PlayerFlashEffectsMessage.Send(RelatedPart.HealthMaster.gameObject, flashDuration  * FlashMultiplier);
 		return true;
 	}

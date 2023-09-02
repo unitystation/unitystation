@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9022212187074110458}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -1, w: -0.00000004371139}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8586105927633606280}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3327325209178255850
 SpriteRenderer:
@@ -113,6 +113,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 511634085231996503, guid: 9a9e0975a92c4564094bbb26dd165002,
@@ -122,12 +123,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 511634085231996503, guid: 9a9e0975a92c4564094bbb26dd165002,
         type: 3}
-      propertyPath: spriteHandlers.Array.data[3]
+      propertyPath: 'spriteHandlers.Array.data[3]'
       value: 
       objectReference: {fileID: 1367751887141801738}
     - target: {fileID: 511634085231996503, guid: 9a9e0975a92c4564094bbb26dd165002,
         type: 3}
-      propertyPath: spriteHandlers.Array.data[4]
+      propertyPath: 'spriteHandlers.Array.data[4]'
       value: 
       objectReference: {fileID: 245935552815682260}
     - target: {fileID: 1580494814286032113, guid: 9a9e0975a92c4564094bbb26dd165002,
@@ -238,6 +239,21 @@ PrefabInstance:
       value: Very useful for filtering gasses.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1583787549853510187, guid: 9a9e0975a92c4564094bbb26dd165002,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5798747285961487761}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1580494814286032113, guid: 9a9e0975a92c4564094bbb26dd165002,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3395688390007674471}
+    - targetCorrespondingSourceObject: {fileID: 1580494814286032113, guid: 9a9e0975a92c4564094bbb26dd165002,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7643419451972840866}
   m_SourcePrefab: {fileID: 100100000, guid: 9a9e0975a92c4564094bbb26dd165002, type: 3}
 --- !u!114 &1367751887141801738 stripped
 MonoBehaviour:

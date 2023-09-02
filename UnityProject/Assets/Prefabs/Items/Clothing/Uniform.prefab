@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2917128564446547862, guid: 6b5f74a79e023479cb5b30a2879621da,
@@ -110,7 +111,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
-      propertyPath: initialTraits.Array.data[0]
+      propertyPath: 'initialTraits.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: df3f1a389c0f2428690a13b95cf1f9f9,
         type: 2}
@@ -136,6 +137,29 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: b7d4c78abb2c03c4aa66078ed7bcbe9c,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 241252857582927713}
+    - targetCorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1200700073424461999}
+    - targetCorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2299321045887744718}
+    - targetCorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2460845081740100905}
+    - targetCorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8215174308799955191}
   m_SourcePrefab: {fileID: 100100000, guid: 6b5f74a79e023479cb5b30a2879621da, type: 3}
 --- !u!210 &1449145570125458988 stripped
 SortingGroup:

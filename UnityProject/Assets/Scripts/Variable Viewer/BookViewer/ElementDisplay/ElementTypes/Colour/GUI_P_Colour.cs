@@ -84,7 +84,7 @@ namespace AdminTools.VariableViewer
 			if (CanDo.Contains(inType))
 			{
 				Color Color = (Color) Data;
-				string newstring = "" + Convert.ToChar(Mathf.RoundToInt((float)inType.GetField("r").GetValue(Data) * 255));
+				string newstring = "" + Convert.ToChar(Mathf.RoundToInt((float)Color.r * 255));
 				newstring += Convert.ToChar(Mathf.RoundToInt((float)Color.g * 255));
 				newstring += Convert.ToChar(Mathf.RoundToInt((float)Color.b * 255));
 				newstring += Convert.ToChar(Mathf.RoundToInt((float)Color.a * 255));

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3679165279116993520, guid: 78253771c2047f94c9ae40161a6be7ee,
@@ -25,13 +26,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 0062f621621b25f4f907b2b61c776813,
         type: 2}
     - target: {fileID: 6786220533655849171, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
-      propertyPath: Populater.DeprecatedContents.Array.data[0]
+      propertyPath: 'Populater.DeprecatedContents.Array.data[0]'
       value: 
       objectReference: {fileID: 7873410431773068794, guid: 8f29f835722bb83429363f904882d1bb,
         type: 3}
@@ -107,4 +108,7 @@ PrefabInstance:
       value: MonkeyHead
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78253771c2047f94c9ae40161a6be7ee, type: 3}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4043889440569410898, guid: 89855ce616f6fac4db5a551a6b8ace28,
@@ -129,57 +130,60 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
-      propertyPath: OptionalSprites.Array.data[0]
+      propertyPath: 'OptionalSprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 2851782e636c0fa42beb85549e92b6b5,
         type: 2}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
-      propertyPath: OptionalSprites.Array.data[1]
+      propertyPath: 'OptionalSprites.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 623752d811502a64b8054b30e5ecbbbc,
         type: 2}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
-      propertyPath: OptionalSprites.Array.data[2]
+      propertyPath: 'OptionalSprites.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 2e6062d295d09fe4897b27033637fb03,
         type: 2}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
-      propertyPath: OptionalSprites.Array.data[3]
+      propertyPath: 'OptionalSprites.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 6cae4ed6f0159b24fb510b9db0d151d2,
         type: 2}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
-      propertyPath: OptionalSprites.Array.data[4]
+      propertyPath: 'OptionalSprites.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: 59718b7cc8af49d4f9b4e4970dcd51ef,
         type: 2}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
-      propertyPath: OptionalSprites.Array.data[5]
+      propertyPath: 'OptionalSprites.Array.data[5]'
       value: 
       objectReference: {fileID: 11400000, guid: c32f60f9dc6dbe24eb895219e282e0c2,
         type: 2}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
-      propertyPath: OptionalSprites.Array.data[6]
+      propertyPath: 'OptionalSprites.Array.data[6]'
       value: 
       objectReference: {fileID: 11400000, guid: ec3921fdd4cf5ff49af300c6389240f6,
         type: 2}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
-      propertyPath: OptionalSprites.Array.data[7]
+      propertyPath: 'OptionalSprites.Array.data[7]'
       value: 
       objectReference: {fileID: 11400000, guid: 67e8101e8db300e4ba49ae88d842ddd3,
         type: 2}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
-      propertyPath: OptionalSprites.Array.data[8]
+      propertyPath: 'OptionalSprites.Array.data[8]'
       value: 
       objectReference: {fileID: 11400000, guid: 74d1e4627c3fc484989ccbebda245384,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89855ce616f6fac4db5a551a6b8ace28, type: 3}

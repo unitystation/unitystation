@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2282787501680206576, guid: 2cdfee5611d505240ab3835c94a38fa8,
@@ -35,22 +36,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2282787501680206576, guid: 2cdfee5611d505240ab3835c94a38fa8,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[0]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[0]'
       value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 2282787501680206576, guid: 2cdfee5611d505240ab3835c94a38fa8,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[1]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[1]'
       value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 2282787501680206576, guid: 2cdfee5611d505240ab3835c94a38fa8,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[2]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[2]'
       value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 2282787501680206576, guid: 2cdfee5611d505240ab3835c94a38fa8,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[3]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[3]'
       value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 2282787501680206576, guid: 2cdfee5611d505240ab3835c94a38fa8,
@@ -60,7 +61,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2282787501680206576, guid: 2cdfee5611d505240ab3835c94a38fa8,
         type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 86bad545946d48142ad3f93abc0216f4,
         type: 2}
@@ -81,7 +82,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2988332360848176654, guid: 2cdfee5611d505240ab3835c94a38fa8,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 5e9ac88966a35d34a9fd90c34e1ddaa0,
         type: 2}
@@ -178,6 +179,13 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 86bad545946d48142ad3f93abc0216f4,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3428693725631813996, guid: 2cdfee5611d505240ab3835c94a38fa8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7070673514935781146}
   m_SourcePrefab: {fileID: 100100000, guid: 2cdfee5611d505240ab3835c94a38fa8, type: 3}
 --- !u!1 &5847522936213140177 stripped
 GameObject:

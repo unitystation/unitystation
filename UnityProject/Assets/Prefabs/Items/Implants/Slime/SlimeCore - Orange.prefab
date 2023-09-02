@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 465681690408585956, guid: 789d74731ecbf8e4a813fc024afaf831,
@@ -64,7 +65,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 830506982411812940, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: OptionalReplacementOrgan.Array.data[14]
+      propertyPath: 'OptionalReplacementOrgan.Array.data[14]'
       value: 
       objectReference: {fileID: 3306226245817645891}
     - target: {fileID: 4128751699915098252, guid: 789d74731ecbf8e4a813fc024afaf831,
@@ -156,23 +157,26 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8358244675405048560, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: AdditionalReactions.Array.data[0]
+      propertyPath: 'AdditionalReactions.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 754ee90c4df6d1e409bd5589f9675dce,
         type: 2}
     - target: {fileID: 8358244675405048560, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: AdditionalReactions.Array.data[1]
+      propertyPath: 'AdditionalReactions.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: dc78f710c7a1b78469cee10562dbdc80,
         type: 2}
     - target: {fileID: 8358244675405048560, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: AdditionalReactions.Array.data[2]
+      propertyPath: 'AdditionalReactions.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 13cb49fed12af8549be71ea6aae66fc9,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 789d74731ecbf8e4a813fc024afaf831, type: 3}
 --- !u!114 &3306226245817645891 stripped
 MonoBehaviour:

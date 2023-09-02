@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3185798692742469044}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2553433226350356333}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7073899732039749527
 MonoBehaviour:
@@ -93,13 +93,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8518599047709719652}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2553433226350356333}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &477889042948838881
 MonoBehaviour:
@@ -147,6 +147,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
@@ -279,13 +280,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 892f0c642e2049640b08d738517bb0f5,
         type: 2}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: initialTraits.Array.data[2]
+      propertyPath: 'initialTraits.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 7577eabe60e5ac546901dbb7c30538fc,
         type: 2}
@@ -331,36 +332,55 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[0]
+      propertyPath: 'SurgeryProcedureBase.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 32f04f929f3a7134e8894559e262ec8a,
         type: 2}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[1]
+      propertyPath: 'SurgeryProcedureBase.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051,
         type: 2}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[2]
+      propertyPath: 'SurgeryProcedureBase.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329,
         type: 2}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[3]
+      propertyPath: 'SurgeryProcedureBase.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: b6fd9e69eadae4148bbd6a85d785f16a,
         type: 2}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[4]
+      propertyPath: 'SurgeryProcedureBase.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: 3a60d21cb4e18b14ba0387530f2dccd5,
         type: 2}
     m_RemovedComponents:
     - {fileID: 8095853447068111044, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5820328182453633227}
+    - targetCorrespondingSourceObject: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8020505243148839587}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1458293514004664868}
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8132119848969428107}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
 --- !u!4 &2553433226350356333 stripped
 Transform:

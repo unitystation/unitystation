@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4043889440569410898, guid: 89855ce616f6fac4db5a551a6b8ace28,
@@ -129,21 +130,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
-      propertyPath: OptionalSprites.Array.data[0]
+      propertyPath: 'OptionalSprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: c8ed898b373e89641a186d2f55c57127,
         type: 2}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
-      propertyPath: OptionalSprites.Array.data[1]
+      propertyPath: 'OptionalSprites.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: b0c3e6e9f822f7140b3ce36dd6469469,
         type: 2}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
-      propertyPath: OptionalSprites.Array.data[2]
+      propertyPath: 'OptionalSprites.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: aff380645b1dd774e9c12928729f0d4b,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89855ce616f6fac4db5a551a6b8ace28, type: 3}

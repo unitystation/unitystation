@@ -33,7 +33,7 @@ Preset:
     value: 3
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_VelocityThreshold
+    propertyPath: m_BounceThreshold
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
@@ -149,6 +149,26 @@ Preset:
     value: 2
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_SimulationLayers.m_Bits
+    value: 4294967295
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_MaxSubStepCount
+    value: 4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_MinSubStepFPS
+    value: 30
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_UseSubStepping
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_UseSubStepContacts
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_QueriesHitTriggers
     value: 1
     objectReference: {fileID: 0}
@@ -169,219 +189,144 @@ Preset:
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_AlwaysShowColliders
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ShowColliderSleep
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ShowColliderContacts
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ShowColliderAABB
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ContactArrowScale
-    value: 0.2
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ColliderAwakeColor.r
-    value: 0.5686275
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ColliderAwakeColor.g
-    value: 0.95686275
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ColliderAwakeColor.b
-    value: 0.54509807
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ColliderAwakeColor.a
-    value: 0.7529412
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ColliderAsleepColor.r
-    value: 0.5686275
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ColliderAsleepColor.g
-    value: 0.95686275
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ColliderAsleepColor.b
-    value: 0.54509807
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ColliderAsleepColor.a
-    value: 0.36078432
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ColliderContactColor.r
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ColliderContactColor.g
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ColliderContactColor.b
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ColliderContactColor.a
-    value: 0.6862745
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ColliderAABBColor.r
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ColliderAABBColor.g
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ColliderAABBColor.b
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_ColliderAABBColor.a
-    value: 0.2509804
+    propertyPath: m_GizmoOptions
+    value: 10
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_LayerCollisionMatrix.Array.size
     value: 32
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[0]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[0]'
     value: 1589641416
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[1]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[1]'
     value: 1589641416
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[2]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[2]'
     value: 1589641416
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[3]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[3]'
     value: 4294967295
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[4]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[4]'
     value: 1589641416
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[5]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[5]'
     value: 1589641416
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[6]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[6]'
     value: 4294967295
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[7]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[7]'
     value: 4294967295
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[8]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[8]'
     value: 1589674184
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[9]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[9]'
     value: 1589674184
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[10]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[10]'
     value: 1589641416
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[11]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[11]'
     value: 1589674184
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[12]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[12]'
     value: 1589674184
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[13]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[13]'
     value: 1589641416
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[14]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[14]'
     value: 1589674184
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[15]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[15]'
     value: 1046371272
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[16]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[16]'
     value: 1589641416
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[17]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[17]'
     value: 1589674184
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[18]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[18]'
     value: 1589674184
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[19]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[19]'
     value: 1589674184
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[20]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[20]'
     value: 1589674184
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[21]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[21]'
     value: 1589641416
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[22]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[22]'
     value: 4294967295
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[23]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[23]'
     value: 4294934527
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[24]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[24]'
     value: 1589641416
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[25]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[25]'
     value: 4294967295
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[26]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[26]'
     value: 4294967295
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[27]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[27]'
     value: 4294967295
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[28]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[28]'
     value: 4294967295
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[29]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[29]'
     value: 1589674184
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[30]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[30]'
     value: 4294934527
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_LayerCollisionMatrix.Array.data[31]
+    propertyPath: 'm_LayerCollisionMatrix.Array.data[31]'
     value: 1589641416
     objectReference: {fileID: 0}
   m_ExcludedProperties: []
+  m_CoupledType:
+    m_NativeTypeID: 0
+    m_ManagedTypePPtr: {fileID: 0}
+    m_ManagedTypeFallback: 
+  m_CoupledProperties: []

@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4015290184458145129}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4790181145912823077}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1035664615217789213
 SpriteRenderer:
@@ -113,6 +113,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
@@ -220,7 +221,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 892f0c642e2049640b08d738517bb0f5,
         type: 2}
@@ -334,7 +335,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[0]
+      propertyPath: 'SurgeryProcedureBase.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329,
         type: 2}
@@ -350,6 +351,17 @@ PrefabInstance:
       value: reviver
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4305036595317287007}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 814925072882350519}
   m_SourcePrefab: {fileID: 100100000, guid: 1162a9966a460f940a18b4d183b04c30, type: 3}
 --- !u!114 &670891434631168175 stripped
 MonoBehaviour:

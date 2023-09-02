@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 02_serviceClose
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -18,7 +18,8 @@ AnimationClip:
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
     - time: 0
       value: {fileID: 21300016, guid: c4bcb1d51a7b4281bd9e4422701c1643, type: 3}
     - time: 0.1
@@ -37,7 +38,9 @@ AnimationClip:
     path: doorbase
     classID: 212
     script: {fileID: 0}
-  - curve:
+    flags: 2
+  - serializedVersion: 2
+    curve:
     - time: 0
       value: {fileID: 21300094, guid: 3e4987268ca1409ab11864438256f5ec, type: 3}
     - time: 0.1
@@ -56,7 +59,9 @@ AnimationClip:
     path: overlay_Glass
     classID: 212
     script: {fileID: 0}
-  - curve:
+    flags: 2
+  - serializedVersion: 2
+    curve:
     - time: 0
       value: {fileID: 21300012, guid: 3e4987268ca1409ab11864438256f5ec, type: 3}
     - time: 0.1
@@ -75,6 +80,7 @@ AnimationClip:
     path: overlay_Lights
     classID: 212
     script: {fileID: 0}
+    flags: 2
   m_SampleRate: 20
   m_WrapMode: 0
   m_Bounds:
@@ -89,6 +95,8 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     - serializedVersion: 2
       path: 61446187
       attribute: 0
@@ -96,6 +104,8 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     - serializedVersion: 2
       path: 1875863018
       attribute: 0
@@ -103,6 +113,8 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     pptrCurveMapping:
     - {fileID: 21300016, guid: c4bcb1d51a7b4281bd9e4422701c1643, type: 3}
     - {fileID: 21300018, guid: c4bcb1d51a7b4281bd9e4422701c1643, type: 3}

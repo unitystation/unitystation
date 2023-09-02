@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using DatabaseAPI;
@@ -244,8 +245,8 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 	{
 		var pathss = Application.streamingAssetsPath + "/AddressableCatalogues";
 		var directories = System.IO.Directory.GetDirectories(pathss);
-		var catalogues = new List<string>();
-		var multiCatalogues = new List<string>();
+		var OLDcatalogues = new List<string>();
+		var OLDmultiCatalogues = new List<string>();
 		foreach (var directory in directories)
 		{
 			var newPath = directory.Replace(@"\", "/");
@@ -255,9 +256,24 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 			{
 				if (pathST.Contains(".json"))
 				{
-					multiCatalogues.Add(pathST);
+					OLDcatalogues.Add(pathST);
 				}
+			}
+		}
 
+		var catalogues = new List<string>();
+		var multiCatalogues = new List<string>();
+		foreach (var directory in AccessFile.DirectoriesOrFilesIn("", FolderType.AddressableCatalogues, files: false))
+		{
+
+			var newDirectories = AccessFile.DirectoriesOrFilesIn(directory, FolderType.AddressableCatalogues);
+
+			foreach (var pathST in newDirectories)
+			{
+				if (pathST.Contains(".json"))
+				{
+					multiCatalogues.Add( Application.streamingAssetsPath +  "/AddressableCatalogues/" + directory + "\\" + pathST);
+				}
 			}
 
 

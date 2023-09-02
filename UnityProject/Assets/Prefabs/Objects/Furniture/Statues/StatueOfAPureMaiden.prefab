@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1166556112042603466, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
@@ -138,6 +139,13 @@ PrefabInstance:
         Shame about the broken arm, though.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1391696340077254621, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5622412366906893254}
   m_SourcePrefab: {fileID: 100100000, guid: 650bd15c5a981ff4ebfba4e3f3b224d1, type: 3}
 --- !u!1 &2970343800728676807 stripped
 GameObject:

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
@@ -159,13 +160,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: initialTraits.Array.data[0]
+      propertyPath: 'initialTraits.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af,
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: eca72cf10c773424ab1605cf913b19a1,
         type: 2}
@@ -197,49 +198,49 @@ PrefabInstance:
       objectReference: {fileID: 4900000, guid: c83c6d8c8f51ae14e8882b5d8930b5ab, type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: eace84a1724a65e46828c27f465258d4,
         type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: eace84a1724a65e46828c27f465258d4,
         type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300004, guid: eace84a1724a65e46828c27f465258d4,
         type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300006, guid: eace84a1724a65e46828c27f465258d4,
         type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 497cdca2f81e8ac46992a07d86815479,
         type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: 497cdca2f81e8ac46992a07d86815479,
         type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300004, guid: 497cdca2f81e8ac46992a07d86815479,
         type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300006, guid: 497cdca2f81e8ac46992a07d86815479,
         type: 3}
@@ -273,19 +274,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: a9ec6db2fa803e24f91e526a3f946a6a,
         type: 2}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: b0fd576be5ff7f348aaa8389d156e9a7,
         type: 2}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 97a797c1a94bab64aa620be9d9eaa266,
         type: 2}
@@ -295,6 +296,29 @@ PrefabInstance:
       value: 82677ff961fa72944936cc923625a1bc
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 757987664224774851}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 876689034008534668}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3832299256199899869}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7942108884443502463}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8670566117553005211}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &2265521501557685915 stripped
 GameObject:

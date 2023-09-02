@@ -109,9 +109,10 @@ public class GameData : MonoBehaviour
 		Logger.Log($"Build Version is: {BuildNumber}. " + (OfflineMode ? "Offline mode" : string.Empty));
 		CheckHeadlessState();
 		APITest();
-		Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
 
-		string testServerEnv = Environment.GetEnvironmentVariable("TEST_SERVER");
+		AllowedEnvironmentVariables.SetMONO_REFLECTION_SERIALIZER();
+
+		string testServerEnv = AllowedEnvironmentVariables.GetTEST_SERVER();
 		if (!string.IsNullOrEmpty(testServerEnv))
 		{
 			testServer = Convert.ToBoolean(testServerEnv);

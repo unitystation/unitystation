@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
@@ -167,7 +168,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 892f0c642e2049640b08d738517bb0f5,
         type: 2}
@@ -178,19 +179,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: CapableMutations.Array.data[4]
+      propertyPath: 'CapableMutations.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: 272b118ea4f142b44a728e22bce099d3,
         type: 2}
     - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: CapableMutations.Array.data[5]
+      propertyPath: 'CapableMutations.Array.data[5]'
       value: 
       objectReference: {fileID: 11400000, guid: ac4e1b1c48077d44b8f0bb173eb74261,
         type: 2}
     - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: CapableMutations.Array.data[6]
+      propertyPath: 'CapableMutations.Array.data[6]'
       value: 
       objectReference: {fileID: 11400000, guid: 375976598f7d1ed4ba0e6d26208b232c,
         type: 2}
@@ -217,6 +218,17 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: -4791504671035111961, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
     - {fileID: 8095853447068111044, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1637282562550164045}
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1957473696940495703}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
 --- !u!1 &3177982829949495349 stripped
 GameObject:

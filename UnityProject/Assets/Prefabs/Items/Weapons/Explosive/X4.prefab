@@ -34,6 +34,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 896716891640034833}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -41,7 +42,6 @@ Transform:
   m_Children:
   - {fileID: 3977958541996598942}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3984589335700137458
 MonoBehaviour:
@@ -78,6 +78,9 @@ MonoBehaviour:
   pickupAnimSpeed: 0.1
   ItemAttributesV2: {fileID: 0}
   OnMoveToPlayerInventory:
+    m_PersistentCalls:
+      m_Calls: []
+  OnInventoryMoveServerEvent:
     m_PersistentCalls:
       m_Calls: []
   OnDrop:
@@ -252,6 +255,7 @@ MonoBehaviour:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
     IsPaletted: 0
+  IsFakeItem: 0
 --- !u!114 &1944057801525881069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,6 +307,7 @@ SortingGroup:
   m_SortingLayerID: -1964781063
   m_SortingLayer: 25
   m_SortingOrder: 32767
+  m_SortAtRoot: 0
 --- !u!114 &5745720402341052027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,7 +423,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 406365593819970653}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
