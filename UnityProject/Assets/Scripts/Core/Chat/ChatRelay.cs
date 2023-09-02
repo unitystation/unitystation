@@ -10,7 +10,6 @@ using Managers;
 using Systems.Ai;
 using Messages.Server;
 using Messages.Server.SoundMessages;
-using Objects.Telecomms;
 using Player.Language;
 using Systems.Communications;
 using TMPro;
@@ -30,10 +29,9 @@ public class ChatRelay : NetworkBehaviour
 
 	private bool radioCheckIsOnCooldown = false;
 	[SerializeField] private float radioCheckRadius = 4f;
-	[SerializeField] private float whisperHearDistance = 5f;
 	[SerializeField] private float whisperFalloffDistance = 3f;
 
-	private const string whisperPrefix = "w!";
+	private static readonly List<string> whisperPrefix = new List<string> { "w!", "#", "/w " };
 
 	private RconManager rconManager;
 
@@ -66,17 +64,17 @@ public class ChatRelay : NetworkBehaviour
 		rconManager = RconManager.Instance;
 	}
 
-	private void WhisperCheck(ref ChatEvent chatEvent)
+	private void WhisperCheck(ChatEvent chatEvent)
 	{
-		if (chatEvent.message.Contains(whisperPrefix, StringComparison.InvariantCultureIgnoreCase) == false) return;
-		chatEvent.IsWhispering = true;
+		bool containsPrefix = whisperPrefix.Any(prefix => chatEvent.message.Contains(prefix));
+		chatEvent.IsWhispering = containsPrefix;
 	}
 
 	[Server]
 	public void PropagateChatToClients(ChatEvent chatEvent)
 	{
 		List<PlayerInfo> players = PlayerList.Instance.AllPlayers;
-		WhisperCheck(ref chatEvent);
+		WhisperCheck(chatEvent);
 
 		bool DistanceCheck(Vector3 playerPos)
 		{
@@ -267,16 +265,38 @@ public class ChatRelay : NetworkBehaviour
 
 		if (chatEvent.IsWhispering)
 		{
-			copiedString = copiedString.Replace(whisperPrefix, "");
+			foreach (var prefix in whisperPrefix)
+			{
+				copiedString = copiedString.Replace(prefix, "");
+			}
 		}
-		if (chatEvent.IsWhispering &&
-		    Vector2.Distance(chatEvent.position, playerToSend.AssumedWorldPosServer()) >= Instance.whisperFalloffDistance)
-		{
-			copiedString = LanguageManager.Scramble(chatEvent.language, playerScript, string.Copy(chatEvent.message));
-		}
+
+		if (string.IsNullOrWhiteSpace(chatEvent.message)) return;
 
 		UpdateChatMessage.Send(playerToSend, channel, chatEvent.modifiers, copiedString, chatEvent.VoiceLevel,
 			chatEvent.messageOthers, chatEvent.originator, chatEvent.speaker, chatEvent.stripTags, languageId, chatEvent.IsWhispering);
+	}
+
+	public static void HideWhisperedText(ref GameObject originator, ref string message, ref GameObject playerToSend)
+	{
+		if (playerToSend == originator)
+		{
+			Logger.Log("Same person, skipping.");
+			return;
+		}
+		if (Vector2.Distance(originator.AssumedWorldPosServer(), playerToSend.AssumedWorldPosServer()) < Instance.whisperFalloffDistance) return;
+		Debug.Log($"scrambling text for {playerToSend} with distance {Vector2.Distance(originator.AssumedWorldPosServer(), playerToSend.AssumedWorldPosServer())}");
+		var msg = string.Empty;
+		foreach (var character in message.ToList())
+		{
+			var c = character;
+			if (DMMath.Prob(50))
+			{
+				c = '*';
+			}
+			msg += c;
+		}
+		message = msg;
 	}
 
 	private ChatEvent CheckForRadios(ChatEvent chatEvent)
@@ -342,7 +362,7 @@ public class ChatRelay : NetworkBehaviour
 	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient,
 		Loudness loudness, ChatModifier modifiers, ushort languageId = 0)
 	{
-		if (string.IsNullOrEmpty(message)) return;
+		if (string.IsNullOrWhiteSpace(message)) return;
 
 		trySendingTTS(message);
 

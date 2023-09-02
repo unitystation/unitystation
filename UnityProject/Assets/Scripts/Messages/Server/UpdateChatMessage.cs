@@ -33,6 +33,16 @@ namespace Messages.Server
 		{
 			LoadNetworkObject(msg.Recipient);
 			var recipientObject = NetworkObject;
+			LoadNetworkObject(msg.Originator);
+			var orginatorObject = NetworkObject;
+
+			//(Max): this only works on the client for some reason.
+			//So it will stay like this until I figure out how to make it work on the server.
+			if (msg.IsWhispering)
+			{
+				ChatRelay.HideWhisperedText(ref orginatorObject, ref msg.Message, ref recipientObject);
+			}
+
 			Chat.ProcessUpdateChatMessage(msg.Recipient, msg.Originator,
 				msg.Message, msg.OthersMessage, msg.Channels, msg.ChatModifiers, msg.Speaker, recipientObject,
 				msg.Loudness, msg.StripTags, msg.LanguageId, msg.IsWhispering);
