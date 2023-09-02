@@ -105,6 +105,7 @@ public class ChatEvent
 	public bool stripTags = true;
 	public Loudness VoiceLevel = Loudness.NORMAL;
 	public LanguageSO language;
+	public bool IsWhispering = false;
 
 	/// <summary>
 	/// Send chat message only to those on this matrix

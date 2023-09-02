@@ -180,7 +180,8 @@ public partial class Chat : MonoBehaviour
 			position = (player == null) ? TransformState.HiddenPos : player.PlayerChatLocation.AssumedWorldPosServer(),
 			channels = channels,
 			originator = sentByPlayer.GameObject,
-			VoiceLevel = loudness
+			VoiceLevel = loudness,
+
 		};
 
 		//This is to make sure OOC doesn't break
@@ -859,7 +860,7 @@ public partial class Chat : MonoBehaviour
 
 	public static void AddWarningMsgToClient(string message)
 	{
-		message = ProcessMessageFurther(message, "", ChatChannel.Warning, ChatModifier.None, Loudness.NORMAL); //TODO: Put processing in a unified place for server and client.
+		message = ProcessMessageFurther(message, "", ChatChannel.Warning, ChatModifier.None, Loudness.NORMAL, false); //TODO: Put processing in a unified place for server and client.
 		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Warning, true, PlayerManager.LocalPlayerObject, Loudness.NORMAL, ChatModifier.None);
 	}
 
