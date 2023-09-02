@@ -118,7 +118,14 @@ namespace Antagonists
 				Amount = targetNumber.number;
 			}
 
-			ItemName = item.Item().InitialName;
+			if (item.Item().InitialName == null)
+			{
+				ItemName = "NULLNAME";
+				Logger.LogError($"[Steal/SetupInGame] Can`t find name of item {item}");
+			} else
+			{
+				ItemName = item.Item().InitialName;
+			}
 			AntagManager.Instance.TargetedItems.Add(item);
 			// TODO randomise amount based on range/weightings?
 			description = $"Steal {Amount} {ItemName}";

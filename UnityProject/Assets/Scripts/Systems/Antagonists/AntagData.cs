@@ -34,7 +34,7 @@ namespace Antagonists
 		private List<Objective> GimmickObjectives = new List<Objective>();
 
 
-		private List<Objective> allObjectives = new List<Objective>();
+		private readonly List<Objective> allObjectives = new List<Objective>();
 
 		public List<Objective> AllObjectives
 		{

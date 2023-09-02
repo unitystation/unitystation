@@ -20,8 +20,8 @@ public class ObjectiveAttributesEntry : MonoBehaviour
 	[SerializeField] private Dropdown inputPlayer;
 	[SerializeField] private Dropdown inputItem;
 
-	private Dictionary<int, AdminPlayerEntry> players = new();
-	private Dictionary<int, GameObject> items = new();
+	private readonly Dictionary<int, AdminPlayerEntry> players = new();
+	private readonly Dictionary<int, GameObject> items = new();
 
 	ObjectiveManagerPage antagManagerPage;
 
