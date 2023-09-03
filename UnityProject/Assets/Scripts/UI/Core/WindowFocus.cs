@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -19,7 +20,7 @@ public class WindowFocus : MonoBehaviour
 
 		if (Searchtext == null)
 		{
-			Logger.LogError($"{nameof(TMP_InputField)} not found / assigned to {this}.");
+			Loggy.LogError($"{nameof(TMP_InputField)} not found / assigned to {this}.");
 			enabled = false;
 		}
 	}

@@ -2,6 +2,7 @@
 using System.Text;
 using System;
 using System.IO;
+using Logs;
 using SecureStuff;
 
 /// <summary>
@@ -20,23 +21,6 @@ using SecureStuff;
 public class WavUtility {
 	// Force save as 16-bit .wav
 	const int BlockSize_16Bit = 2;
-
-	/// <summary>
-	/// Load PCM format *.wav audio file (using Unity's Application data path) and convert to AudioClip.
-	/// </summary>
-	/// <returns>The AudioClip.</returns>
-	/// <param name="filePath">Local file path to .wav file</param>
-	public static AudioClip ToAudioClip( string filePath ) {
-		if ( !filePath.StartsWith( Application.persistentDataPath ) && !filePath.StartsWith( Application.dataPath ) ) {
-			Logger.LogWarning( "This only supports files that are stored using Unity's Application data path. \n" +
-			                   "To load bundled resources use 'Resources.Load(\"filename\") typeof(AudioClip)' method. \n" +
-			                   "https://docs.unity3d.com/ScriptReference/Resources.Load.html", Category.Audio );
-			return null;
-		}
-
-		byte[] fileBytes = File.ReadAllBytes( filePath );
-		return ToAudioClip( fileBytes, 0 );
-	}
 
 	public static AudioClip ToAudioClip( byte[] fileBytes, int offsetSamples = 0, string name = "wav" ) {
 		//string riff = Encoding.ASCII.GetString (fileBytes, 0, 4);
@@ -390,7 +374,7 @@ public class WavUtility {
 			case 65534:
 				return "WaveFormatExtensable";
 			default:
-				Logger.LogWarning( "Unknown wav code format:" + code, Category.Audio );
+				Loggy.LogWarning( "Unknown wav code format:" + code, Category.Audio );
 				return "";
 		}
 	}

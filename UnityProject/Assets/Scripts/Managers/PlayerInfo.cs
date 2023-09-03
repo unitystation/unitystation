@@ -1,4 +1,5 @@
 using System;
+using Logs;
 using UnityEngine;
 using Mirror;
 using Player;
@@ -141,7 +142,7 @@ public class PlayerInfo
 		//Issue #1377
 		if (string.IsNullOrWhiteSpace(playerName))
 		{
-			Logger.LogWarningFormat("Attempting to assign invalid name to ConnectedPlayer. Assigning default name ({0}) instead", Category.Server, DEFAULT_NAME);
+			Loggy.LogWarningFormat("Attempting to assign invalid name to ConnectedPlayer. Assigning default name ({0}) instead", Category.Server, DEFAULT_NAME);
 			playerName = DEFAULT_NAME;
 		}
 
@@ -193,7 +194,7 @@ public class PlayerInfo
 			if (sameNames != 0)
 			{
 				proposedName = $"{name}{sameNames + 1}";
-				Logger.LogTrace($"TRYING: {proposedName}", Category.Connections);
+				Loggy.LogTrace($"TRYING: {proposedName}", Category.Connections);
 			}
 
 			if (!PlayerList.Instance.Has(proposedName, userId))
@@ -201,7 +202,7 @@ public class PlayerInfo
 				return proposedName;
 			}
 
-			Logger.LogTrace($"NAME ALREADY EXISTS: {proposedName}", Category.Connections);
+			Loggy.LogTrace($"NAME ALREADY EXISTS: {proposedName}", Category.Connections);
 			sameNames++;
 		}
 	}

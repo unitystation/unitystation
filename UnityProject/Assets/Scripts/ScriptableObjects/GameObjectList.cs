@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using NaughtyAttributes;
 
@@ -37,7 +38,7 @@ namespace ScriptableObjects
 			{
 				if (gameObjectFromList.Count > 1)
 				{
-					Logger.LogError($"There is {gameObjectFromList.Count} prefabs with the name: {gameObjectName}, please rename them");
+					Loggy.LogError($"There is {gameObjectFromList.Count} prefabs with the name: {gameObjectName}, please rename them");
 				}
 
 				return gameObjectFromList[0];

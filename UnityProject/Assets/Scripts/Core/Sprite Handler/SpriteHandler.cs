@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
@@ -202,7 +203,7 @@ public class SpriteHandler : MonoBehaviour
 
 		if (cataloguePage >= SubCatalogue.Count)
 		{
-			Logger.LogError($"Sprite catalogue index '{cataloguePage}' is out of bounds on {transform.parent.gameObject}.");
+			Loggy.LogError($"Sprite catalogue index '{cataloguePage}' is out of bounds on {transform.parent.gameObject}.");
 			return;
 		}
 
@@ -475,7 +476,7 @@ public class SpriteHandler : MonoBehaviour
 			var NetID = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(this.gameObject);
 			if (NetID == null)
 			{
-				Logger.LogError("Was unable to find A NetworkBehaviour for ",
+				Loggy.LogError("Was unable to find A NetworkBehaviour for ",
 					Category.Sprites);
 				return;
 			}
@@ -488,7 +489,7 @@ public class SpriteHandler : MonoBehaviour
 				{
 					gamename = gameObject.name;
 				}
-				Logger.LogError("Was unable to find A NetworkBehaviour for " + gamename,
+				Loggy.LogError("Was unable to find A NetworkBehaviour for " + gamename,
 					Category.Sprites);
 			}
 		}
@@ -510,7 +511,7 @@ public class SpriteHandler : MonoBehaviour
 		{
 			if (newSpriteSO.SetID == -1)
 			{
-				Logger.Log("NewSpriteDataSO NO ID!" + newSpriteSO.name, Category.Sprites);
+				Loggy.Log("NewSpriteDataSO NO ID!" + newSpriteSO.name, Category.Sprites);
 			}
 			if (spriteChange.Empty) spriteChange.Empty = false;
 			spriteChange.PresentSpriteSet = newSpriteSO.SetID;
@@ -584,7 +585,7 @@ public class SpriteHandler : MonoBehaviour
 		yield return null;
 		if (networkIdentity.netId == 0)
 		{
-			Logger.LogError($"ID hasn't been set for ${this.transform.parent}.", Category.Sprites);
+			Loggy.LogError($"ID hasn't been set for ${this.transform.parent}.", Category.Sprites);
 			yield break;
 		}
 

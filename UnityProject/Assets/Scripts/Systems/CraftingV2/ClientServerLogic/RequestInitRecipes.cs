@@ -1,4 +1,5 @@
-﻿using Messages.Client;
+﻿using Logs;
+using Messages.Client;
 using Mirror;
 using Player;
 
@@ -17,7 +18,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 
 			if (SentByPlayer.Script == null)
 			{
-				Logger.LogError($"{SentByPlayer.Username} has null script and asked for recipes");
+				Loggy.LogError($"{SentByPlayer.Username} has null script and asked for recipes");
 				return;
 			}
 

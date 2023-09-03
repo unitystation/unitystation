@@ -2,6 +2,7 @@ using System;
 using ScriptableObjects;
 using UnityEngine;
 using Items.Construction;
+using Logs;
 
 namespace Objects.Construction
 {
@@ -216,7 +217,7 @@ namespace Objects.Construction
 					var circuitBoard = circuitBoardSlot.ItemObject?.GetComponent<ComputerCircuitboard>();
 					if (circuitBoard == null)
 					{
-						Logger.LogWarningFormat("Cannot complete computer, circuit board not in frame {0}. Probably a coding error.",
+						Loggy.LogWarningFormat("Cannot complete computer, circuit board not in frame {0}. Probably a coding error.",
 							Category.Construction, name);
 						return;
 					}

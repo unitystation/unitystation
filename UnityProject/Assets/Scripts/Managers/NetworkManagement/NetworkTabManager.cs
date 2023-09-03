@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Messages.Server;
 using ScriptableObjects;
 using Shared.Managers;
@@ -166,7 +167,7 @@ public struct NetTabDescriptor
 		this.type = type;
 		if (type == NetTabType.None && this.provider != null)
 		{
-			Logger.LogError($"You forgot to set a proper NetTabType in your new tab on {this.provider.ExpensiveName()}!\n" +
+			Loggy.LogError($"You forgot to set a proper NetTabType in your new tab on {this.provider.ExpensiveName()}!\n" +
 				"Go to Prefabs/GUI/Resources and see if any prefabs starting with Tab has Type=None",Category.NetUI);
 		}
 	}
@@ -182,7 +183,7 @@ public struct NetTabDescriptor
 
 		if(toInstantiate == null)
 		{
-			Logger.LogWarning($"[NetworkTabManager.Spawn] - Couldn't load 'Tab{type}' from the netTab SO", Category.NetUI);
+			Loggy.LogWarning($"[NetworkTabManager.Spawn] - Couldn't load 'Tab{type}' from the netTab SO", Category.NetUI);
 			return null;
 		}
 

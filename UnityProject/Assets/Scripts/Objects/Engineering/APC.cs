@@ -13,6 +13,7 @@ using Objects.Construction;
 using Core.Editor.Attributes;
 using CustomInspectors;
 using HealthV2;
+using Logs;
 using Shared.Systems.ObjectConnection;
 
 namespace Objects.Engineering
@@ -551,7 +552,7 @@ namespace Objects.Engineering
 			SpawnResult frameSpawn = Spawn.ServerPrefab(APCFrameObj, SpawnDestination.At(gameObject));
 			if (frameSpawn.Successful == false)
 			{
-				Logger.LogError($"Failed to spawn frame! Is {this} missing references in the inspector?", Category.Construction);
+				Loggy.LogError($"Failed to spawn frame! Is {this} missing references in the inspector?", Category.Construction);
 				return;
 			}
 

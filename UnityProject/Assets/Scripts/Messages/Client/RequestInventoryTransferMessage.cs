@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Logs;
 using Messages.Server;
 using Mirror;
 
@@ -65,7 +66,7 @@ namespace Messages.Client
 
 		private void HandleFail(ItemSlot fromSlot, ItemSlot toSlot)
 		{
-			Logger.LogWarningFormat(
+			Loggy.LogWarningFormat(
 				"Possible hacking attempt (or bad clientside logic), {0} tried to transfer from slot {1} to {2} when they" +
 				" are not allowed.", Category.Exploits, SentByPlayer.GameObject.name, fromSlot, toSlot);
 

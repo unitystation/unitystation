@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Logs;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -12,7 +13,7 @@ public class DamageMonitorListener : MonoBehaviour
 	private void Awake()
 	{
 		if(damageMaskImage == null)
-			Logger.LogWarning($"Missing reference on {name}.DamageMonitorListener.{nameof(damageMaskImage)}", Category.UI);
+			Loggy.LogWarning($"Missing reference on {name}.DamageMonitorListener.{nameof(damageMaskImage)}", Category.UI);
 	}
 
 

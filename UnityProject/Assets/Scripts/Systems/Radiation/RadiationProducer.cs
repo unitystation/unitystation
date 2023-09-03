@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Light2D;
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -81,7 +82,7 @@ namespace Systems.Radiation
 		{
 			if (this == null)
 			{
-				Logger.LogError(" The radioactive object has been destroyed but you're still trying to Produce radiation ", Category.Radiation);
+				Loggy.LogError(" The radioactive object has been destroyed but you're still trying to Produce radiation ", Category.Radiation);
 				return;
 			}
 			OutPuttingRadiation = Invalue;

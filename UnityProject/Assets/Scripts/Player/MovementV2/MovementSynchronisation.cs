@@ -4,6 +4,7 @@ using System.Linq;
 using Core.Editor.Attributes;
 using Core.Utils;
 using Items;
+using Logs;
 using Managers;
 using Messages.Client.Interaction;
 using Mirror;
@@ -118,7 +119,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		var buckleInteract = BuckledToObject.GetComponent<BuckleInteract>();
 		if (buckleInteract == null)
 		{
-			Logger.LogError($"{BuckledToObject.gameObject.ExpensiveName()} has no BuckleInteract!");
+			Loggy.LogError($"{BuckledToObject.gameObject.ExpensiveName()} has no BuckleInteract!");
 			return;
 		}
 
@@ -761,7 +762,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 				if (DEBUG)
 				{
-					Logger.LogError(" Is Animating:" + Animating
+					Loggy.LogError(" Is Animating:" + Animating
 					                                 + "\n Is floating: " + IsFloating()
 					                                 + "\n move processed at" + transform.localPosition
 					                                 + "\n is flying:" + IsFlyingSliding);
@@ -814,7 +815,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						{
 							//Reset Swapped thing
 							//TODO
-							Logger.LogError("TODO Reset location of swapped Stuff on client ");
+							Loggy.LogError("TODO Reset location of swapped Stuff on client ");
 						}
 
 						//Logger.LogError("Move processed");
@@ -927,7 +928,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				{
 					if (DEBUG)
 					{
-						Logger.LogError("Failed Can input", Category.Movement);
+						Loggy.LogError("Failed Can input", Category.Movement);
 					}
 					if (fudged)
 					{
@@ -952,7 +953,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			if (dummyMind == null || dummyMind.Body == null ||
 			    dummyMind.Body.TryGetComponent<UniversalObjectPhysics>(out var physics) == false)
 			{
-				Logger.LogError("Something went wrong while spawning a dummy player.");
+				Loggy.LogError("Something went wrong while spawning a dummy player.");
 			}
 			else
 			{

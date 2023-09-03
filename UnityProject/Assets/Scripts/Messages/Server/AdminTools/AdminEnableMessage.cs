@@ -3,6 +3,7 @@ using System.Collections;
 using System.Threading.Tasks;
 using Core.Threading;
 using Initialisation;
+using Logs;
 using Managers;
 using Mirror;
 using UnityEngine;
@@ -57,7 +58,7 @@ namespace Messages.Server.AdminTools
 			}
 			catch (Exception e)
 			{
-				Logger.LogError(e.ToString());
+				Loggy.LogError(e.ToString());
 			}
 
 

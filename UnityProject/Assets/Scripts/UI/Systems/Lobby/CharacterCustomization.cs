@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using NaughtyAttributes;
 using Core.Editor.Attributes;
 using HealthV2;
+using Logs;
 using Systems.Character;
 using UI.Character;
 
@@ -118,7 +119,7 @@ namespace UI.CharacterCreator
 		{
 			if (RaceSOSingleton.Instance == null || RaceSOSingleton.Instance.Races.Count == 0)
 			{
-				Logger.LogError("UNABLE TO GRAB ALL SPECIES!! CHARACTER CREATION SCREEN IS SURELY GOING TO BE BROKEN!!!");
+				Loggy.LogError("UNABLE TO GRAB ALL SPECIES!! CHARACTER CREATION SCREEN IS SURELY GOING TO BE BROKEN!!!");
 				return;
 			}
 			allSpecies = RaceSOSingleton.Instance.Races;
@@ -243,7 +244,7 @@ namespace UI.CharacterCreator
 			{
 				if (organ.TryGetComponent<BodyPart>(out var bodyPart) == false)
 				{
-					Logger.LogError("[CharacterCustomization/BasedBodyPart] - Unable to grab bodyPart component on object!!");
+					Loggy.LogError("[CharacterCustomization/BasedBodyPart] - Unable to grab bodyPart component on object!!");
 					continue;
 				}
 				SetUpBodyPart(bodyPart);
@@ -254,7 +255,7 @@ namespace UI.CharacterCreator
 		{
 			if (bodyPart == null)
 			{
-				Logger.LogWarning("[CharacterCustomization/SetupBodyPart] - Given bodyPart was null, skipping...");
+				Loggy.LogWarning("[CharacterCustomization/SetupBodyPart] - Given bodyPart was null, skipping...");
 				return;
 			}
 			//bodyPart.LimbSpriteData;
@@ -297,7 +298,7 @@ namespace UI.CharacterCreator
 					{
 						if (organ == null)
 						{
-							Logger.LogError($"[CharacterCustomization/SetUpBodyPart/Setup Sprites] - " + "Organ was detected as null!");
+							Loggy.LogError($"[CharacterCustomization/SetUpBodyPart/Setup Sprites] - " + "Organ was detected as null!");
 							continue;
 						}
 						if (organ.TryGetComponent<BodyPart>(out var subBodyPart) == false) return;
@@ -316,7 +317,7 @@ namespace UI.CharacterCreator
 
 						if (organ.namedSlotPopulatorEntrys.Count > 0)
 						{
-							Logger.LogError($"[CharacterCustomization/SetUpBodyPart/Setup Sprites] - " + ".namedSlotPopulatorEntrys Is not supported in character customisation yet!!!");
+							Loggy.LogError($"[CharacterCustomization/SetUpBodyPart/Setup Sprites] - " + ".namedSlotPopulatorEntrys Is not supported in character customisation yet!!!");
 						}
 
 
@@ -331,7 +332,7 @@ namespace UI.CharacterCreator
 		{
 			if (ThisBodyType == null || bodyPart == null)
 			{
-				Logger.LogError("[CharacterCustomization/SetupBodyPartSprites] - Unable to find a body! Are you sure you got one setup?");
+				Loggy.LogError("[CharacterCustomization/SetupBodyPartSprites] - Unable to find a body! Are you sure you got one setup?");
 				return;
 			}
 			Tuple<SpriteOrder, List<SpriteDataSO>> Sprites = null;
@@ -342,14 +343,14 @@ namespace UI.CharacterCreator
 			}
 			catch (Exception e)
 			{
-				Logger.LogError(e.ToString());
+				Loggy.LogError(e.ToString());
 			}
 			OpenBodySprites[bodyPart] = new List<SpriteHandlerNorder>();
 
 			if (Sprites == null) return;
 			if (Sprites?.Item1?.Orders == null || Sprites.Item1.Orders.Count == 0)
 			{
-				Logger.LogError("Rendering order not specified on " + bodyPart.name, Category.Character);
+				Loggy.LogError("Rendering order not specified on " + bodyPart.name, Category.Character);
 			}
 
 			int i = 0;
@@ -667,7 +668,7 @@ namespace UI.CharacterCreator
 			{
 				if (Organ.TryGetComponent<BodyPart>(out var bodyPart) == false)
 				{
-					Logger.LogError("[CharacterCustomization/SetDropdownBody] - Organ had no body part component, cannot do subsets.");
+					Loggy.LogError("[CharacterCustomization/SetDropdownBody] - Organ had no body part component, cannot do subsets.");
 					continue;
 				}
 				SubSetBodyPart(bodyPart, "");
@@ -701,7 +702,7 @@ namespace UI.CharacterCreator
 				{
 					if (organ == null)
 					{
-						Logger.LogError($"[CharacterCustomization/SetUpBodyPart/Setup Sprites] - " + "Organ was detected as null!");
+						Loggy.LogError($"[CharacterCustomization/SetUpBodyPart/Setup Sprites] - " + "Organ was detected as null!");
 						continue;
 					}
 					if (organ.TryGetComponent<BodyPart>(out var subBodyPart) == false) continue;
@@ -720,7 +721,7 @@ namespace UI.CharacterCreator
 
 					if (subBodyPart == null)
 					{
-						Logger.LogError($"[CharacterCustomization/SetUpBodyPart/Setup Sprites] - " + "Organ was detected as null!");
+						Loggy.LogError($"[CharacterCustomization/SetUpBodyPart/Setup Sprites] - " + "Organ was detected as null!");
 						continue;
 					}
 
@@ -750,8 +751,8 @@ namespace UI.CharacterCreator
 
 			currentCharacter.SerialisedBodyPartCustom = new List<CustomisationStorage>(bodyPartCustomisationStorage);
 
-			Logger.LogTrace(JsonConvert.SerializeObject(bodyPartCustomisationStorage), Category.Character);
-			Logger.LogTrace(JsonConvert.SerializeObject(ExternalCustomisationStorage), Category.Character);
+			Loggy.LogTrace(JsonConvert.SerializeObject(bodyPartCustomisationStorage), Category.Character);
+			Loggy.LogTrace(JsonConvert.SerializeObject(ExternalCustomisationStorage), Category.Character);
 
 			characterSettingsWindow.SaveCharacter(currentCharacter);
 		}
@@ -777,7 +778,7 @@ namespace UI.CharacterCreator
 			{
 				if (organ.TryGetComponent<BodyPart>(out var bodyPart) == false)
 				{
-					Logger.LogError("[CharacterCustomization/SaveBodyPart] - Attempted to save an organ but did not have a body part script!");
+					Loggy.LogError("[CharacterCustomization/SaveBodyPart] - Attempted to save an organ but did not have a body part script!");
 					continue;
 				}
 				SubSaveBodyPart(bodyPart, "");
@@ -816,7 +817,7 @@ namespace UI.CharacterCreator
 				{
 					if (organ == null)
 					{
-						Logger.LogError("[CharacterCustomization/SaveBodyPart] - Attempted to save an organ but did not have a body part script!");
+						Loggy.LogError("[CharacterCustomization/SaveBodyPart] - Attempted to save an organ but did not have a body part script!");
 						continue;
 					}
 					if(organ.TryGetComponent<BodyPart>(out var subBodyPart) == false) continue;
@@ -834,7 +835,7 @@ namespace UI.CharacterCreator
 
 					if (subBodyPart == null)
 					{
-						Logger.LogError($"[CharacterCustomization/SaveBodyPart] - " + "Attempted to save an organ but did not have a body part script!");
+						Loggy.LogError($"[CharacterCustomization/SaveBodyPart] - " + "Attempted to save an organ but did not have a body part script!");
 						continue;
 					}
 
@@ -865,7 +866,7 @@ namespace UI.CharacterCreator
 			}
 			catch (InvalidOperationException e)
 			{
-				Logger.LogFormat("Invalid character settings: {0}", Category.Character, e.Message);
+				Loggy.LogFormat("Invalid character settings: {0}", Category.Character, e.Message);
 				_ = SoundManager.Play(CommonSounds.Instance.AccessDenied);
 				DisplayErrorText(e.Message);
 				return;

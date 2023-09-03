@@ -1,4 +1,5 @@
 
+using Logs;
 using UnityEngine;
 
 /// <summary>
@@ -19,13 +20,13 @@ public class AutoOccupationStoragePopulator : ItemStoragePopulator
 		if (occupation == null) return;
 		if (context.SpawnInfo.SpawnItems == false) return;
 
-		Logger.LogTraceFormat("Populating item storage using configured populator for occupation {0}",
+		Loggy.LogTraceFormat("Populating item storage using configured populator for occupation {0}",
 			Category.EntitySpawn, occupation.JobType);
 
 		occupation.InventoryPopulator.PopulateItemStorage(toPopulate, context, info);
 		if (StandardPopulator != null)
 		{
-			Logger.LogTraceFormat("Populating item storage using standard populator",
+			Loggy.LogTraceFormat("Populating item storage using standard populator",
 				Category.EntitySpawn);
 			StandardPopulator.PopulateItemStorage(toPopulate, context, info);
 		}

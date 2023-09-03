@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using Mirror;
 
@@ -30,7 +31,7 @@ public class MatrixSystemManager : MonoBehaviour
 			catch (Exception e)
 			{
 				Chat.AddGameWideSystemMsgToChat($"<color=red>Error when initialising  {nameof(system)} on {this.name} Weird stuff might happen, check logs for error..</color>");
-				Logger.LogError(e.ToString());
+				Loggy.LogError(e.ToString());
 			}
 
 			yield return null;

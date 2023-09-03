@@ -2,6 +2,7 @@ using ScriptableObjects.Systems.Spells;
 using ScriptableObjects;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using NaughtyAttributes;
 
@@ -20,7 +21,7 @@ namespace Changeling
 		{
 			if (index < 0 || index > Abilites.Count - 1)
 			{
-				Logger.LogErrorFormat("ChangelingAbilityList: no ability found at index {0}", Category.Changeling, index);
+				Loggy.LogErrorFormat("ChangelingAbilityList: no ability found at index {0}", Category.Changeling, index);
 				return InvalidData;
 			}
 

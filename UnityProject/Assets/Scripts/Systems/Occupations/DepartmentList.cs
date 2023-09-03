@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ public class DepartmentList : SingletonScriptableObject<DepartmentList>
 	{
 		// Log Errors for missing head jobs (Improves debugging)
 		foreach (Department dept in departments.Where(p => p.HeadOccupations == null))
-			Logger.LogError($"Missing head of department reference for department {dept.Description}", Category.Jobs);
+			Loggy.LogError($"Missing head of department reference for department {dept.Description}", Category.Jobs);
 
 		// Won't crash if a department is missing it's headOccupation reference.
 		return departments.Where(p => p.HeadOccupations != null).SelectMany(dept => dept.HeadOccupations);

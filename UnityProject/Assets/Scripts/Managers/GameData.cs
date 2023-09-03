@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SecureStuff;
 using DatabaseAPI;
 using Lobby;
+using Logs;
 using Managers;
 using Newtonsoft.Json;
 using Shared.Util;
@@ -83,7 +84,7 @@ public class GameData : MonoBehaviour
 		}
 		catch (System.Net.Http.HttpRequestException e)
 		{
-			Logger.LogError(" APITest Failed setting to off-line mode  " +e.ToString());
+			Loggy.LogError(" APITest Failed setting to off-line mode  " +e.ToString());
 			forceOfflineMode = true;
 			return;
 		}
@@ -106,7 +107,7 @@ public class GameData : MonoBehaviour
 		BuildNumber = buildInfo.BuildNumber;
 		ForkName = buildInfo.ForkName;
 		forceOfflineMode = !string.IsNullOrEmpty(GetArgument("-offlinemode"));
-		Logger.Log($"Build Version is: {BuildNumber}. " + (OfflineMode ? "Offline mode" : string.Empty));
+		Loggy.Log($"Build Version is: {BuildNumber}. " + (OfflineMode ? "Offline mode" : string.Empty));
 		CheckHeadlessState();
 		APITest();
 
@@ -124,7 +125,7 @@ public class GameData : MonoBehaviour
 
 	private void OnEnable()
 	{
-		Logger.RefreshPreferences();
+		Loggy.RefreshPreferences();
 
 		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
 	}
@@ -175,7 +176,7 @@ public class GameData : MonoBehaviour
 			//			Logger.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}",
 			//				Category.Server);
 
-			Logger.Log($"FrameRate limiting has been disabled on Headless Server",
+			Loggy.Log($"FrameRate limiting has been disabled on Headless Server",
 				Category.Server);
 			IsHeadlessServer = true;
 			StartCoroutine(WaitToStartServer());
@@ -184,7 +185,7 @@ public class GameData : MonoBehaviour
 			{
 				GameObject rcon = Instantiate(Resources.Load("Rcon/RconManager") as GameObject, null) as GameObject;
 				rconManager = rcon.GetComponent<RconManager>();
-				Logger.Log("Start rcon server", Category.Rcon);
+				Loggy.Log("Start rcon server", Category.Rcon);
 			}
 		}
 	}
@@ -202,7 +203,7 @@ public class GameData : MonoBehaviour
 
 		if (ushort.TryParse(portStr, out var port) == false)
 		{
-			Logger.LogWarning("Invalid port provided in command line. Cannot join game via args.");
+			Loggy.LogWarning("Invalid port provided in command line. Cannot join game via args.");
 			return false;
 		}
 
@@ -215,13 +216,13 @@ public class GameData : MonoBehaviour
 
 		if (string.IsNullOrEmpty(token) == false)
 		{
-			Logger.Log("Logging in via hub account...");
+			Loggy.Log("Logging in via hub account...");
 			if (await LobbyManager.Instance.TryTokenLogin(uid, token))
 			{
 				LobbyManager.Instance.JoinServer(ip, port);
 				return true;
 			}
-			Logger.LogWarning("Logging in via hub account (via command line args) failed.");
+			Loggy.LogWarning("Logging in via hub account (via command line args) failed.");
 		}
 
 		if (await LobbyManager.Instance.TryAutoLogin())
@@ -230,7 +231,7 @@ public class GameData : MonoBehaviour
 			return true;
 		}
 
-		Logger.LogWarning("Logging in via stored account token failed.");
+		Loggy.LogWarning("Logging in via stored account token failed.");
 		return false;
 	}
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using Messages.Client.Interaction;
 using UnityEngine;
 
@@ -58,7 +59,7 @@ namespace Objects
 			}
 			else
 			{
-				Logger.LogError(
+				Loggy.LogError(
 						$"Failed to spawn {name}'s flipped version! " +
 						$"Is {name} missing reference to {nameof(flippedObject)} prefab?", Category.Interaction);
 			}

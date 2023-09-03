@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Objects;
 using Tilemaps.Utils;
 using Tiles;
@@ -97,7 +98,7 @@ public class ObjectLayer : Layer
 	{
 		if (o.ObjectPhysics.HasComponent == false)
 		{
-			Logger.LogError(o.name + " Is missing UniversalObjectPhysics");
+			Loggy.LogError(o.name + " Is missing UniversalObjectPhysics");
 		}
 		if (PushObjectSet == false)
 		{

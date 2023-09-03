@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using UnityEngine.UI;
 using static KeybindManager;
@@ -41,7 +42,7 @@ namespace UI
 
 		private void primary_onClick()
 		{
-			Logger.Log("Changing primary " + ItemAction + " keybind", Category.Keybindings);
+			Loggy.Log("Changing primary " + ItemAction + " keybind", Category.Keybindings);
 			StartCoroutine(controlSettingsMenu.ChangeKeybind(ItemAction, true));
 		}
 
@@ -54,7 +55,7 @@ namespace UI
 
 		private void secondary_onClick()
 		{
-			Logger.Log("Changing secondary " + ItemAction + " keybind", Category.Keybindings);
+			Loggy.Log("Changing secondary " + ItemAction + " keybind", Category.Keybindings);
 			StartCoroutine(controlSettingsMenu.ChangeKeybind(ItemAction, false));
 		}
 

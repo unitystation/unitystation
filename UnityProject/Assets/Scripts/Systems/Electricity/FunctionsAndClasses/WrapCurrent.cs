@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 
 namespace Systems.Electricity
@@ -19,7 +20,7 @@ namespace Systems.Electricity
 			}
 			else
 			{
-				Logger.Log("Tried to combine two currents, but they were not equal", Category.Electrical);
+				Loggy.Log("Tried to combine two currents, but they were not equal", Category.Electrical);
 			}
 		}
 

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Logs;
 using UI.Core.Action;
 using UnityEngine;
 
@@ -174,7 +175,7 @@ namespace Changeling
 			}
 			catch
 			{
-				Logger.LogError($"[ChangelingMain/SyncAbilityList]{ChangelingMind.CurrentPlayScript.playerName} can`t refresh abilities", Category.Changeling);
+				Loggy.LogError($"[ChangelingMain/SyncAbilityList]{ChangelingMind.CurrentPlayScript.playerName} can`t refresh abilities", Category.Changeling);
 			}
 		}
 
@@ -194,7 +195,7 @@ namespace Changeling
 			}
 			catch
 			{
-				Logger.LogError($"[ChangelingMain/SyncChemCount]{ChangelingMind.CurrentPlayScript.playerName} can`t set up UI", Category.Changeling);
+				Loggy.LogError($"[ChangelingMain/SyncChemCount]{ChangelingMind.CurrentPlayScript.playerName} can`t set up UI", Category.Changeling);
 			}
 		}
 
@@ -213,7 +214,7 @@ namespace Changeling
 			}
 			catch
 			{
-				Logger.LogError($"[ChangelingMain/SyncMindID]{ChangelingMind.CurrentPlayScript.playerName} can`t set up UI", Category.Changeling);
+				Loggy.LogError($"[ChangelingMain/SyncMindID]{ChangelingMind.CurrentPlayScript.playerName} can`t set up UI", Category.Changeling);
 			}
 		}
 
@@ -232,7 +233,7 @@ namespace Changeling
 			}
 			catch
 			{
-				Logger.LogError($"[ChangelingMain/SyncEPCount]{ChangelingMind.CurrentPlayScript.playerName} can`t set up UI", Category.Changeling);
+				Loggy.LogError($"[ChangelingMain/SyncEPCount]{ChangelingMind.CurrentPlayScript.playerName} can`t set up UI", Category.Changeling);
 			}
 		}
 
@@ -495,7 +496,7 @@ namespace Changeling
 
 			SyncChangelingMemories(changelingMemoriesSer, "");
 		}
-		
+
 		public void AbsorbDna(PlayerScript target, ChangelingMain changelingMain) // That gonna be another changeling
 		{
 			foreach (var dna in changelingMain.ChangelingDnas)

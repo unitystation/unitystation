@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using Messages.Client;
 using Mirror;
 using Newtonsoft.Json;
@@ -32,7 +33,7 @@ public class RequestForceSpriteUpdate : ClientMessage<RequestForceSpriteUpdate.N
 		}
 		catch (Exception e)
 		{
-			Logger.LogError("malformed Json from client " + SentByPlayer + "\n" + e);
+			Loggy.LogError("malformed Json from client " + SentByPlayer + "\n" + e);
 			return;
 		}
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AddressableReferences;
+using Logs;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -255,7 +256,7 @@ namespace Chemistry.Components
 							transferTo = target;
 							break;
 						default:
-							Logger.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
+							Loggy.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
 								Category.Chemistry, objectInHands, target);
 							break;
 					}
@@ -274,7 +275,7 @@ namespace Chemistry.Components
 							transferTo = target;
 							break;
 						default:
-							Logger.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
+							Loggy.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
 								Category.Chemistry, objectInHands, target);
 							break;
 					}
@@ -293,7 +294,7 @@ namespace Chemistry.Components
 							transferTo = target;
 							break;
 						default:
-							Logger.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
+							Loggy.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
 								Category.Chemistry, objectInHands, target);
 							break;
 					}
@@ -312,14 +313,14 @@ namespace Chemistry.Components
 							Chat.AddExamineMsg(performer, "Both containers are input-only.");
 							break;
 						default:
-							Logger.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
+							Loggy.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
 								Category.Chemistry, objectInHands, target);
 							break;
 					}
 
 					break;
 				default:
-					Logger.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}", Category.Chemistry,
+					Loggy.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}", Category.Chemistry,
 						objectInHands,
 						target);
 					break;
@@ -332,7 +333,7 @@ namespace Chemistry.Components
 
 			var transferFrom = target == transferTo ? objectInHands : target;
 
-			Logger.LogTraceFormat("Attempting transfer from {0} into {1}", Category.Chemistry, transferFrom, transferTo);
+			Loggy.LogTraceFormat("Attempting transfer from {0} into {1}", Category.Chemistry, transferFrom, transferTo);
 
 
 			if (transferFrom.IsEmpty)

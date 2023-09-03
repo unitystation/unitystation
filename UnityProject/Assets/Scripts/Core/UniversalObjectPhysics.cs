@@ -5,6 +5,7 @@ using Core.Editor.Attributes;
 using HealthV2;
 using Items;
 using JetBrains.Annotations;
+using Logs;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using Mirror;
@@ -465,7 +466,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			Chat.AddGameWideSystemMsgToChat(
 				" Something doesn't feel right? **BBBBBBBBBBBBBOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMEMMEEEEE** ");
-			Logger.LogError("Tried to store object within itself");
+			Loggy.LogError("Tried to store object within itself");
 			return; //Storing something inside of itself what?
 		}
 
@@ -874,7 +875,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (movetoMatrix == null) return;
 		if (registerTile == null)
 		{
-			Logger.LogError("null Register tile on " + this.name);
+			Loggy.LogError("null Register tile on " + this.name);
 			return;
 		}
 

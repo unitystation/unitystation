@@ -1,4 +1,5 @@
-﻿using Systems.CraftingV2.GUI;
+﻿using Logs;
+using Systems.CraftingV2.GUI;
 using Messages.Server;
 using Mirror;
 
@@ -40,7 +41,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 		{
 			if (craftingRecipe.IndexInSingleton < 0)
 			{
-				Logger.LogError($"The server tried to send the negative recipe index when {connectedPlayer.Name} " +
+				Loggy.LogError($"The server tried to send the negative recipe index when {connectedPlayer.Name} " +
 				                $"had tried to learn this recipe: {craftingRecipe}. " +
 				                "Perhaps some recipe is missing from the singleton.");
 				return;
@@ -52,7 +53,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 				!= craftingRecipe
 			)
 			{
-				Logger.LogError($"The server tried to send the wrong recipe index when {connectedPlayer.Name} " +
+				Loggy.LogError($"The server tried to send the wrong recipe index when {connectedPlayer.Name} " +
 				                $"had tried to learn this recipe: {craftingRecipe}. " +
 				                "Perhaps some recipe has wrong indexInSingleton that doesn't match a real index in " +
 				                "the singleton.");

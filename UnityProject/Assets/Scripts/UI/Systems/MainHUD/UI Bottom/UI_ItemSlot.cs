@@ -9,6 +9,7 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using HealthV2;
 using Items.Implants.Organs;
+using Logs;
 using Managers;
 using UI;
 
@@ -325,7 +326,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		if (!PlayerManager.LocalPlayerScript.playerMove.AllowInput ||
 		    PlayerManager.LocalPlayerScript.IsGhost)
 		{
-			Logger.Log("Invalid player, cannot perform action!", Category.Interaction);
+			Loggy.Log("Invalid player, cannot perform action!", Category.Interaction);
 			return false;
 		}
 
@@ -450,7 +451,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	[ContextMenu("Debug Slot")]
 	void DebugItem()
 	{
-		Logger.Log(itemSlot.ToString(), Category.PlayerInventory);
+		Loggy.Log(itemSlot.ToString(), Category.PlayerInventory);
 	}
 
 	/// <summary>

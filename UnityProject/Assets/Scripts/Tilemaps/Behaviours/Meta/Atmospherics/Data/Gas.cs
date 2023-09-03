@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Chemistry;
+using Logs;
 using ScriptableObjects.Atmospherics;
 using TileManagement;
 using UnityEngine;
@@ -94,7 +95,7 @@ namespace Systems.Atmospherics
 
 				if (float.IsNormal(value) == false && value != 0)
 				{
-					Logger.LogError($"AAAAAAAAAAAAA REEEEEEEEE Moles Invalid number!!!! {value}");
+					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Moles Invalid number!!!! {value}");
 					return;
 				}
 

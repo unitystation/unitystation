@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
 using Items.Implants.Organs;
+using Logs;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
@@ -117,7 +118,7 @@ namespace UI.CharacterCreator
 			}
 			else
 			{
-				Logger.LogWarning($"Unable to find index of {currentSetting}! Using default", Category.Character);
+				Loggy.LogWarning($"Unable to find index of {currentSetting}! Using default", Category.Character);
 				Dropdown.value = 0;
 			}
 		}

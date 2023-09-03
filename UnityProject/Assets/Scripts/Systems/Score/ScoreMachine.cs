@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Logs;
 using Shared.Managers;
 using UnityEngine;
 
@@ -88,13 +89,13 @@ namespace Systems.Score
 		{
 			if (Instance.Scores.ContainsKey(ID) == false)
 			{
-				Logger.LogError($"[ScoreMachine] - {ID} does not exist in the score machine!");
+				Loggy.LogError($"[ScoreMachine] - {ID} does not exist in the score machine!");
 				return;
 			}
 
 			if (Instance.Scores[ID] is not ScoreEntryInt c)
 			{
-				Logger.LogError($"[ScoreMachine] - Attempted to add an integer to {ID} but it's entry is not a ScoreEntryInt!");
+				Loggy.LogError($"[ScoreMachine] - Attempted to add an integer to {ID} but it's entry is not a ScoreEntryInt!");
 				return;
 			}
 			c.Score += valueToAddOnTop;
@@ -107,13 +108,13 @@ namespace Systems.Score
 		{
 			if (Instance.Scores.ContainsKey(ID) == false)
 			{
-				Logger.LogError($"[ScoreMachine] - {ID} does not exist in the score machine!");
+				Loggy.LogError($"[ScoreMachine] - {ID} does not exist in the score machine!");
 				return;
 			}
 
 			if (Instance.Scores[ID] is not ScoreEntryBool c)
 			{
-				Logger.LogError($"[ScoreMachine] - Attempted to change a bool in {ID} but it's entry is not a ScoreEntryBool!");
+				Loggy.LogError($"[ScoreMachine] - Attempted to change a bool in {ID} but it's entry is not a ScoreEntryBool!");
 				return;
 			}
 			c.Score = newValue;
@@ -126,13 +127,13 @@ namespace Systems.Score
 		{
 			if (Instance.Scores.ContainsKey(ID) == false)
 			{
-				Logger.LogError($"[ScoreMachine] - {ID} does not exist in the score machine!");
+				Loggy.LogError($"[ScoreMachine] - {ID} does not exist in the score machine!");
 				return;
 			}
 
 			if (Instance.Scores[ID] is not ScoreEntryString c)
 			{
-				Logger.LogError($"[ScoreMachine] - Attempted to change a string in {ID} but it's entry is not a ScoreEntryString!");
+				Loggy.LogError($"[ScoreMachine] - Attempted to change a string in {ID} but it's entry is not a ScoreEntryString!");
 				return;
 			}
 			c.Score = newValue;
@@ -149,7 +150,7 @@ namespace Systems.Score
 			{
 				if (Scores.ContainsKey(id) == false)
 				{
-					Logger.LogError($"[ScoreMachine] - {id} does not exist in the score machine!");
+					Loggy.LogError($"[ScoreMachine] - {id} does not exist in the score machine!");
 					continue;
 				}
 				if (Scores[id] is not ScoreEntryInt c || c.Score <= highestScoreIndex) continue;

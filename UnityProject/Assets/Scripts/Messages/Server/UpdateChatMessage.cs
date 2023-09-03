@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Logs;
+using Mirror;
 using UnityEngine;
 
 namespace Messages.Server
@@ -53,7 +54,7 @@ namespace Messages.Server
 
 			if (recipient == null)
 			{
-				Logger.LogError("null recipient for Update chat message Please fix");
+				Loggy.LogError("null recipient for Update chat message Please fix");
 				return new NetMessage();
 			}
 

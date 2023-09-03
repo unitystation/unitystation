@@ -1,4 +1,5 @@
-﻿using ScriptableObjects.RP;
+﻿using Logs;
+using ScriptableObjects.RP;
 using UnityEngine;
 
 namespace Player.EmoteScripts
@@ -14,7 +15,7 @@ namespace Player.EmoteScripts
 
 			if (registerPlayer == null)
 			{
-				Logger.LogError("RegisterPlayer could not be found!");
+				Loggy.LogError("RegisterPlayer could not be found!");
 				Chat.AddActionMsgToChat(player, $"{failText}", "");
 				return;
 			}

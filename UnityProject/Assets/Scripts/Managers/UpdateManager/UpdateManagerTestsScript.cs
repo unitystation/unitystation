@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Logs;
 using UnityEngine;
 
 public class UpdateManagerTestsScript : MonoBehaviour
@@ -34,7 +35,7 @@ public class UpdateManagerTestsScript : MonoBehaviour
 		}
 		Stopwatch.Stop();
 
-		Logger.Log(Stopwatch.ElapsedTicks.ToString() + " < ElapsedTicks for AddAlot ");
+		Loggy.Log(Stopwatch.ElapsedTicks.ToString() + " < ElapsedTicks for AddAlot ");
 		Stopwatch.Reset();
 
 	}
@@ -51,7 +52,7 @@ public class UpdateManagerTestsScript : MonoBehaviour
 			UpdateManager.Remove(CallbackType.UPDATE, Action);
 		}
 		Stopwatch.Stop();
-		Logger.Log(Stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds for RemoveAlot ");
+		Loggy.Log(Stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds for RemoveAlot ");
 		Stopwatch.Reset();
 
 	}

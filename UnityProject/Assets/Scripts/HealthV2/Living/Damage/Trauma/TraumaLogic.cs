@@ -1,3 +1,4 @@
+using Logs;
 using UnityEngine;
 
 namespace HealthV2
@@ -48,7 +49,7 @@ namespace HealthV2
 		{
 			if (gameObject == null || bodyPart == null)
 			{
-				Logger.LogWarning(
+				Loggy.LogWarning(
 					"[TraumaLogic/GenericStageProgression] - bodyPart might have been destroyed during other stage progressions. Skipping..");
 				return;
 			}

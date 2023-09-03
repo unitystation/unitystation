@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Systems.Spawns;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -25,7 +26,7 @@ namespace ScriptableObjects.TimedGameEvents
 			if(SetSpawns() == false) yield break;
 			if (horrorsToSpawn.Count <= 0)
 			{
-				Logger.LogError("[TimedEvent/Halloween/Ghosts] - No ghosts assigned to spawn them!!", Category.Event);
+				Loggy.LogError("[TimedEvent/Halloween/Ghosts] - No ghosts assigned to spawn them!!", Category.Event);
 				yield break;
 			}
 
@@ -72,7 +73,7 @@ namespace ScriptableObjects.TimedGameEvents
 			spawnPoints = SpawnPoint.GetPointsForCategory(spawnPointCategory).ToList();
 
 			if (spawnPoints.Count >= 1) return true;
-			Logger.LogError($"No spawn points found for {spawnPointCategory} in " +
+			Loggy.LogError($"No spawn points found for {spawnPointCategory} in " +
 			                $"{SubSceneManager.ServerChosenMainStation}! Cannot start {this}.", Category.Event);
 			return false;
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
+using Logs;
 using Objects;
 using Objects.Atmospherics;
 using Objects.Disposals;
@@ -74,7 +75,7 @@ namespace Systems.Disposals
 			SpawnResult virtualContainerSpawn = Spawn.ServerPrefab(Instance.VirtualContainerPrefab, worldPosition);
 			if (virtualContainerSpawn.Successful == false)
 			{
-				Logger.LogError(
+				Loggy.LogError(
 						"Failed to spawn disposal virtual container! " +
 						$"Is {nameof(DisposalsManager)} missing reference to {nameof(Instance.VirtualContainerPrefab)}?",
 						Category.Machines);

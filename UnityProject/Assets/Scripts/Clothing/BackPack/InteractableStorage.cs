@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Items;
+using Logs;
 using Messages.Server;
 using Objects.Disposals;
 using UI.Core.Action;
@@ -108,7 +109,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 				msg = $"The {gameObject.ExpensiveName()} now drops all items on the tile at once";
 				break;
 			default:
-				Logger.LogError($"Unknown pickup mode set! Found: {pickupMode}", Category.Inventory);
+				Loggy.LogError($"Unknown pickup mode set! Found: {pickupMode}", Category.Inventory);
 				break;
 		}
 

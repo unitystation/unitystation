@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using Managers;
 using ScriptableObjects.Communications;
 using UnityEngine;
@@ -57,7 +58,7 @@ namespace Communications
 		{
 			if (emmitableSignalData == null || emmitableSignalData.Count == 0)
 			{
-				Logger.LogError("[Singals] - No emmitable signal data detected!");
+				Loggy.LogError("[Singals] - No emmitable signal data detected!");
 				return;
 			}
 			//if no signalData is given, always use the first signal SO in the list as it's considered the main signal.

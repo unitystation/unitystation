@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Logs;
 using UI.Core.Action;
 using UnityEngine;
 
@@ -90,7 +91,7 @@ namespace Changeling
 				}
 				catch (Exception ex)
 				{
-					Logger.LogError($"[ChangelingAbility/CallActionServerToggle] Failed to use ability {AbilityData.Name}. Toggle to was {toggle}." +
+					Loggy.LogError($"[ChangelingAbility/CallActionServerToggle] Failed to use ability {AbilityData.Name}. Toggle to was {toggle}." +
 					$"Sent by player '{sentByPlayer.Username}' {ex}");
 				}
 			}
@@ -153,7 +154,7 @@ namespace Changeling
 						if (param.Last() != x)
 							errorStringBuilder.Append("',");
 					}
-					Logger.LogError($"[ChangelingAbility/CastAbilityServerWithParam] Failed to use ability {AbilityData.Name}. Params was: {errorStringBuilder}." +
+					Loggy.LogError($"[ChangelingAbility/CastAbilityServerWithParam] Failed to use ability {AbilityData.Name}. Params was: {errorStringBuilder}." +
 					$"Sent by player '{sentByPlayer.Username}' {ex}");
 					return false;
 				}
@@ -171,7 +172,7 @@ namespace Changeling
 				AbilityData.UseAbilityServer(changeling, clickPosition);
 			} catch (Exception ex)
 			{
-				Logger.LogError($"[ChangelingAbility/CastAbilityServer] Failed to use ability {AbilityData.Name}. Click position was {clickPosition}." +
+				Loggy.LogError($"[ChangelingAbility/CastAbilityServer] Failed to use ability {AbilityData.Name}. Click position was {clickPosition}." +
 				$"Sent by player '{sentByPlayer.Username}' {ex}");
 				return false;
 			}

@@ -2,6 +2,7 @@
 using UnityEngine;
 using Chemistry.Components;
 using Items;
+using Logs;
 
 namespace Objects.Kitchen
 {
@@ -80,7 +81,7 @@ namespace Objects.Kitchen
 					barrel.OpenClose();
 					break;
 				default:
-					Logger.LogError("Unexpected interaction request occurred in barrel context menu.", Category.Interaction);
+					Loggy.LogError("Unexpected interaction request occurred in barrel context menu.", Category.Interaction);
 					break;
 			}
 		}

@@ -1,4 +1,5 @@
 using System;
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -52,7 +53,7 @@ public class SpriteColorSync : NetworkBehaviour
 		{
 			return;
 		}
-		Logger.LogFormat("Color changed to {0}", Category.Sprites, newColor.ToString());
+		Loggy.LogFormat("Color changed to {0}", Category.Sprites, newColor.ToString());
 		ColorChanged(newColor,newColor);
 	}
 

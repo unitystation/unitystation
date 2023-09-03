@@ -2,6 +2,7 @@
 using AddressableReferences;
 using Chemistry.Components;
 using HealthV2;
+using Logs;
 using NaughtyAttributes;
 using ScriptableObjects.RP;
 using UnityEngine;
@@ -37,7 +38,7 @@ namespace Items.Implants.Organs.Vomit
 			var vomitReagent = vomitSplat.GameObject.GetComponent<ReagentContainer>();
 			if (vomitReagent == null)
 			{
-				Logger.LogError($"Vomit prefab does not have a reagent container!!!");
+				Loggy.LogError($"Vomit prefab does not have a reagent container!!!");
 				return;
 			}
 			stomach.StomachContents.TransferTo(amountToVomit, vomitReagent);

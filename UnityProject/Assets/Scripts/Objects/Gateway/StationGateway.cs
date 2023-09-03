@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEditor;
 using Gateway;
+using Logs;
 using Systems.Electricity;
 using Managers;
 using Strings;
@@ -187,7 +188,7 @@ namespace Objects
 
 			if (randomWorld == null)
 			{
-				Logger.Log("StationGateway failed to connect to an away world", Category.Machines);
+				Loggy.Log("StationGateway failed to connect to an away world", Category.Machines);
 				SetOffline();
 				return;
 			}
@@ -220,7 +221,7 @@ namespace Objects
 			if (SpawnedMobs == false && selectedWorld != null && playersFound.Count() > 0)
 			{
 				selectedWorld.SetUp(this);
-				Logger.Log("Gateway Spawned Mobs", Category.Machines);
+				Loggy.Log("Gateway Spawned Mobs", Category.Machines);
 				if (selectedWorld.GetComponent<MobSpawnControlScript>() != null)
 				{
 					selectedWorld.GetComponent<MobSpawnControlScript>().SpawnMobs();

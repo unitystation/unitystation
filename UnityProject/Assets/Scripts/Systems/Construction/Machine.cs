@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Items;
+using Logs;
 using UnityEngine;
 using ScriptableObjects;
 using Systems.Hacking;
@@ -173,7 +174,7 @@ namespace Objects.Machines
 			SpawnResult frameSpawn = Spawn.ServerPrefab(CommonPrefabs.Instance.MachineFrame, SpawnDestination.At(gameObject));
 			if (!frameSpawn.Successful)
 			{
-				Logger.LogError($"Failed to spawn frame! Is {this} missing references in the inspector?",
+				Loggy.LogError($"Failed to spawn frame! Is {this} missing references in the inspector?",
 					Category.Construction);
 				return;
 			}
@@ -197,7 +198,7 @@ namespace Objects.Machines
 
 			if (InActiveGameObjectpartsInFrame == null)
 			{
-				Logger.LogError($"PartsInFrame was null on {gameObject.ExpensiveName()}");
+				Loggy.LogError($"PartsInFrame was null on {gameObject.ExpensiveName()}");
 				return;
 			}
 
@@ -246,7 +247,7 @@ namespace Objects.Machines
 
 			if (activeGameObjectpartsInFrame == null)
 			{
-				Logger.LogError($"BasicPartsUsed was null on {gameObject.ExpensiveName()}");
+				Loggy.LogError($"BasicPartsUsed was null on {gameObject.ExpensiveName()}");
 				return;
 			}
 			//Means we are mapped so use machine parts ist
@@ -256,7 +257,7 @@ namespace Objects.Machines
 				{
 					if (canNotBeDeconstructed == false)
 					{
-						Logger.LogError($"MachineParts was null on {gameObject.ExpensiveName()}");
+						Loggy.LogError($"MachineParts was null on {gameObject.ExpensiveName()}");
 					}
 
 					return;
@@ -321,7 +322,7 @@ namespace Objects.Machines
 		{
 			if (ItemTrait == null)
 			{
-				Logger.LogError($" null ItemTrait Tried to be passed into GetCertainPartMultiplier for {this.name} ");
+				Loggy.LogError($" null ItemTrait Tried to be passed into GetCertainPartMultiplier for {this.name} ");
 				return 1;
 			}
 			float TotalParts = 0;
@@ -340,7 +341,7 @@ namespace Objects.Machines
 
 			if (TotalParts == 0)
 			{
-				Logger.LogError($"Warning {ItemTrait.name} was not present on {this.name} somehow ");
+				Loggy.LogError($"Warning {ItemTrait.name} was not present on {this.name} somehow ");
 				return 1;
 			}
 			return Alladded / TotalParts;

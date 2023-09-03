@@ -21,6 +21,7 @@ using UnityEngine.Serialization;
 using Changeling;
 using UI;
 using GameModes;
+using Logs;
 
 public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlayerPossessable, IHoverTooltip
 {
@@ -401,7 +402,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		var lighting = Camera.main.GetComponent<LightingSystem>();
 		if (!lighting)
 		{
-			Logger.LogWarning("Local Player can't find lighting system on Camera.main", Category.Lighting);
+			Loggy.LogWarning("Local Player can't find lighting system on Camera.main", Category.Lighting);
 			return;
 		}
 
@@ -410,13 +411,13 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	private void OnPlayerReturnedToBody()
 	{
-		Logger.Log("Local player become Ghost", Category.Ghosts);
+		Loggy.Log("Local player become Ghost", Category.Ghosts);
 		EnableLighting(true);
 	}
 
 	private void OnPlayerBecomeGhost()
 	{
-		Logger.Log("Local player returned to the body", Category.Ghosts);
+		Loggy.Log("Local player returned to the body", Category.Ghosts);
 		EnableLighting(false);
 		OnBodyUnPossesedByPlayer?.Invoke();
 	}

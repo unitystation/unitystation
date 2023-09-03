@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 using Health.Objects;
+using Logs;
 
 namespace HealthV2
 {
@@ -219,7 +220,7 @@ namespace HealthV2
 
 			if (float.IsNormal(damage) == false)
 			{
-				Logger.LogError("oh no/..!!!! NAN /Abnormal number as damage > " + damage );
+				Loggy.LogError("oh no/..!!!! NAN /Abnormal number as damage > " + damage );
 				return;
 			}
 			float toDamage = Damages[damageType] + damage;

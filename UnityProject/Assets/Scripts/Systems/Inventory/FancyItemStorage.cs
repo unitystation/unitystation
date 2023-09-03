@@ -3,12 +3,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 
 /// <summary>
 /// The 'fancy' component defines objects like donut boxes, egg boxes or cigs packets
 /// that show how many items are in the ItemStorage on the sprite itself
-/// 
+///
 /// Need to have ItemStorage component on a same gameobject
 /// </summary>
 [RequireComponent(typeof(ItemStorage))]
@@ -36,7 +37,7 @@ public class FancyItemStorage : NetworkBehaviour
 		storage = GetComponent<ItemStorage>();
 		if (!storage)
 		{
-			Logger.LogError($"FancyItemStorage on {gameObject.name} can't find ItemStorage component!", Category.Inventory);
+			Loggy.LogError($"FancyItemStorage on {gameObject.name} can't find ItemStorage component!", Category.Inventory);
 			return;
 		}
 

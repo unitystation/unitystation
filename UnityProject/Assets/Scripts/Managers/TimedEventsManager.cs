@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Initialisation;
+using Logs;
 using UnityEngine;
 using ScriptableObjects.TimedGameEvents;
 using Shared.Managers;
@@ -22,7 +23,7 @@ namespace Managers
 
 		public void Initialise()
 		{
-			Logger.Log("[Subsystems/TimedEvents] - Setting up event hooks.");
+			Loggy.Log("[Subsystems/TimedEvents] - Setting up event hooks.");
 			EventManager.AddHandler(Event.RoundStarted, StartActiveEvents);
 			EventManager.AddHandler(Event.ScenesLoadedServer, CleanAndUpdateActiveEvents);
 			EventManager.AddHandler(Event.RoundEnded, EndActiveEvents);
@@ -37,13 +38,13 @@ namespace Managers
 
 		private void CleanAndUpdateActiveEvents()
 		{
-			Logger.Log("[SubSystems/TimedEvents] - Cleaning active events.");
+			Loggy.Log("[SubSystems/TimedEvents] - Cleaning active events.");
 			UpdateActiveEvents();
 		}
 
 		private void StartActiveEvents()
 		{
-			Logger.Log("[Subsystems/TimedEvents] - Starting timed events.");
+			Loggy.Log("[Subsystems/TimedEvents] - Starting timed events.");
 			foreach (var timedEvent in activeEvents)
 			{
 				StartCoroutine(timedEvent.EventStart());
@@ -52,7 +53,7 @@ namespace Managers
 
 		private void EndActiveEvents()
 		{
-			Logger.Log("[Subsystems/TimedEvents] - Stopping timed events.");
+			Loggy.Log("[Subsystems/TimedEvents] - Stopping timed events.");
 			foreach (var timedEvent in activeEvents)
 			{
 				StartCoroutine(timedEvent.OnRoundEnd());

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Mirror;
 using TMPro;
 using AdminCommands;
+using Logs;
 using Messages.Client.Lobby;
 using Systems.Character;
 using UI.Character;
@@ -182,7 +183,7 @@ namespace UI
 
 		public void SyncCountdown(bool started, double endTime)
 		{
-			Logger.LogFormat("SyncCountdown called with: started={0}, endTime={1}, current NetworkTime={2}", Category.Round,
+			Loggy.LogFormat("SyncCountdown called with: started={0}, endTime={1}, current NetworkTime={2}", Category.Round,
 				started, endTime, NetworkTime.time);
 			countdownEndTime = endTime;
 			doCountdown = started;

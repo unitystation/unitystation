@@ -16,6 +16,7 @@ using ScriptableObjects.Systems.Spells;
 using Systems.Antagonists.Antags;
 using UI.Core.Action;
 using Changeling;
+using Logs;
 using static UniversalObjectPhysics;
 
 /// <summary>
@@ -572,7 +573,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	{
 		if (ControlledBy?.Connection == null)
 		{
-			Logger.LogError("oh god!, Somehow there's no connection to client when ReLog Code has Been called");
+			Loggy.LogError("oh god!, Somehow there's no connection to client when ReLog Code has Been called");
 			return;
 		}
 

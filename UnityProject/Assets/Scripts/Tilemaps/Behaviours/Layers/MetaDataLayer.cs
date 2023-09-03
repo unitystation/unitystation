@@ -8,6 +8,7 @@ using Chemistry.Components;
 using Core.Factories;
 using HealthV2;
 using Items;
+using Logs;
 using Messages.Server;
 using Mirror;
 using Newtonsoft.Json;
@@ -116,8 +117,8 @@ public class MetaDataLayer : MonoBehaviour
 		}
 		catch (Exception e)
 		{
-			Logger.LogError("THIS REALLY SHOULDN'T HAPPEN!");
-			Logger.LogError(e.ToString());
+			Loggy.LogError("THIS REALLY SHOULDN'T HAPPEN!");
+			Loggy.LogError(e.ToString());
 
 			if (createIfNotExists)
 			{

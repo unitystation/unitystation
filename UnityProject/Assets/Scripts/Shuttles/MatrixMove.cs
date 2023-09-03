@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Light2D;
+using Logs;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
@@ -244,7 +245,7 @@ public class MatrixMove : ManagedBehaviour
 	{
 		serverState.FlyingDirection = InitialFacing;
 		serverState.FacingDirection = InitialFacing;
-		Logger.LogTraceFormat("{0} server initial facing / flying {1}", Category.Shuttles, this, InitialFacing);
+		Loggy.LogTraceFormat("{0} server initial facing / flying {1}", Category.Shuttles, this, InitialFacing);
 
 		Vector3Int initialPositionInt =
 			Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
@@ -254,7 +255,7 @@ public class MatrixMove : ManagedBehaviour
 		var childPosition = Vector3Int.CeilToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
 		SyncPivot(pivot, initialPosition - childPosition);
 
-		Logger.LogTraceFormat("{0}: pivot={1} initialPos={2}", Category.Shuttles, gameObject.name,
+		Loggy.LogTraceFormat("{0}: pivot={1} initialPos={2}", Category.Shuttles, gameObject.name,
 			pivot, initialPositionInt);
 		serverState.Speed = 1f;
 		serverState.Position = initialPosition;
@@ -296,7 +297,7 @@ public class MatrixMove : ManagedBehaviour
 
 			SensorPositions = sensors.Select(sensor => Vector3Int.RoundToInt(sensor.transform.localPosition)).ToArray();
 
-			Logger.Log($"Initialized sensors at {string.Join(",", SensorPositions)}," +
+			Loggy.Log($"Initialized sensors at {string.Join(",", SensorPositions)}," +
 					   $" direction is {ServerState.FlyingDirection}", Category.Shuttles);
 		}
 
@@ -321,7 +322,7 @@ public class MatrixMove : ManagedBehaviour
 		{
 			SetSpeed(ServerState.Speed / 2);
 			yield return WaitFor.Seconds(delay);
-			Logger.LogFormat("{0}: Stopping due to missing thrusters!", Category.Shuttles, matrix.name);
+			Loggy.LogFormat("{0}: Stopping due to missing thrusters!", Category.Shuttles, matrix.name);
 			StopMovement();
 		}
 	}
@@ -384,7 +385,7 @@ public class MatrixMove : ManagedBehaviour
 		if (!NeedsRotationClient && inProgressRotation != null)
 		{
 			//client and server logic happens here because server also must wait for the rotation to finish lerping.
-			Logger.LogTraceFormat("{0} ending rotation progress to {1}", Category.Shuttles, this, inProgressRotation.Value);
+			Loggy.LogTraceFormat("{0} ending rotation progress to {1}", Category.Shuttles, this, inProgressRotation.Value);
 			if (CustomNetworkManager.IsServer)
 			{
 				MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, inProgressRotation.Value, NetworkSide.Server, RotationEvent.End));
@@ -419,7 +420,7 @@ public class MatrixMove : ManagedBehaviour
 				SetSpeed(1);
 			}
 
-			Logger.LogTrace(gameObject.name + " started moving with speed " + serverTargetState.Speed, Category.Shuttles);
+			Loggy.LogTrace(gameObject.name + " started moving with speed " + serverTargetState.Speed, Category.Shuttles);
 			serverTargetState.IsMoving = true;
 			MatrixMoveEvents.OnStartMovementServer.Invoke();
 
@@ -445,7 +446,7 @@ public class MatrixMove : ManagedBehaviour
 	[Server]
 	public void StopMovement()
 	{
-		Logger.LogTrace(gameObject.name + " stopped movement", Category.Shuttles);
+		Loggy.LogTrace(gameObject.name + " stopped movement", Category.Shuttles);
 		serverTargetState.IsMoving = false;
 		MatrixMoveEvents.OnStopMovementServer.Invoke();
 
@@ -521,7 +522,7 @@ public class MatrixMove : ManagedBehaviour
 
 		if (absoluteValue > MaxSpeed)
 		{
-			Logger.LogWarning($"MaxSpeed {MaxSpeed} reached, not going further", Category.Shuttles);
+			Loggy.LogWarning($"MaxSpeed {MaxSpeed} reached, not going further", Category.Shuttles);
 			if (serverTargetState.Speed >= MaxSpeed)
 			{
 				//Not notifying people if some dick is spamming "increase speed" button at max speed
@@ -714,7 +715,7 @@ public class MatrixMove : ManagedBehaviour
 			if (!MatrixManager.IsPassableAtAllMatrices(sensorPos, sensorPos + dir.RoundToInt(), isServer: true,
 											collisionType: matrixColliderType, excludeMatrix: MatrixInfo))
 			{
-				Logger.LogTrace($"Can't pass {serverTargetState.Position}->{serverTargetState.Position + dir} (because {sensorPos}->{sensorPos + dir})!",
+				Loggy.LogTrace($"Can't pass {serverTargetState.Position}->{serverTargetState.Position + dir} (because {sensorPos}->{sensorPos + dir})!",
 					Category.Shuttles);
 				return false;
 			}
@@ -743,7 +744,7 @@ public class MatrixMove : ManagedBehaviour
 			if (!MatrixManager.IsPassableAtAllMatrices(sensorPos, sensorPos, isServer: true,
 											collisionType: matrixColliderType, includingPlayers: true, excludeMatrix: MatrixInfo))
 			{
-				Logger.LogTrace(
+				Loggy.LogTrace(
 					$"Can't rotate at {serverTargetState.Position}->{serverTargetState.Position } (because {sensorPos} is occupied)!",
 					Category.Shuttles);
 				return false;
@@ -778,7 +779,7 @@ public class MatrixMove : ManagedBehaviour
 			matrix.MetaTileMap.GlobalCachedBounds = null;
 		}
 
-		Logger.LogTraceFormat("{0} setting client / client target state from message {1}", Category.Shuttles, this, newState);
+		Loggy.LogTraceFormat("{0} setting client / client target state from message {1}", Category.Shuttles, this, newState);
 
 
 		if (!Equals(oldState.FacingDirection, newState.FacingDirection))
@@ -788,7 +789,7 @@ public class MatrixMove : ManagedBehaviour
 				pendingInitialRotation = true;
 			}
 			inProgressRotation = oldState.FacingDirection.OffsetTo(newState.FacingDirection);
-			Logger.LogTraceFormat("{0} starting rotation progress to {1}", Category.Shuttles, this, newState.FacingDirection);
+			Loggy.LogTraceFormat("{0} starting rotation progress to {1}", Category.Shuttles, this, newState.FacingDirection);
 			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, inProgressRotation.Value, NetworkSide.Client, RotationEvent.Start));
 		}
 
@@ -868,7 +869,7 @@ public class MatrixMove : ManagedBehaviour
 			//				When serverState reaches its planned destination,
 			//				embrace all other updates like changed speed and rotation
 			serverState = serverTargetState;
-			Logger.LogTraceFormat("{0} setting server state from target state {1}", Category.Shuttles, this, serverState);
+			Loggy.LogTraceFormat("{0} setting server state from target state {1}", Category.Shuttles, this, serverState);
 			NotifyPlayers();
 		}
 	}
@@ -939,7 +940,7 @@ public class MatrixMove : ManagedBehaviour
 		{
 			serverTargetState.FacingDirection = desiredOrientation;
 			serverTargetState.FlyingDirection = desiredOrientation;
-			Logger.LogTraceFormat("{0} server target facing / flying {1}", Category.Shuttles, this, desiredOrientation);
+			Loggy.LogTraceFormat("{0} server target facing / flying {1}", Category.Shuttles, this, desiredOrientation);
 
 			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, serverState.FacingDirection.OffsetTo(desiredOrientation), NetworkSide.Server, RotationEvent.Start));
 			RequestNotify();
@@ -954,7 +955,7 @@ public class MatrixMove : ManagedBehaviour
 	public void ChangeFlyingDirection(Orientation newFlyingDirection)
 	{
 		serverTargetState.FlyingDirection = newFlyingDirection;
-		Logger.LogTraceFormat("{0} server target flying {1}", Category.Shuttles, this, newFlyingDirection);
+		Loggy.LogTraceFormat("{0} server target flying {1}", Category.Shuttles, this, newFlyingDirection);
 	}
 
 	/// Changes facing direction without changing flying direction, for use in reversing in EscapeShuttle
@@ -964,7 +965,7 @@ public class MatrixMove : ManagedBehaviour
 		if (CanRotateTo(newFacingDirection))
 		{
 			serverTargetState.FacingDirection = newFacingDirection;
-			Logger.LogTraceFormat("{0} server target facing  {1}", Category.Shuttles, this, newFacingDirection);
+			Loggy.LogTraceFormat("{0} server target facing  {1}", Category.Shuttles, this, newFacingDirection);
 
 			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, serverState.FacingDirection.OffsetTo(newFacingDirection), NetworkSide.Server, RotationEvent.Start));
 

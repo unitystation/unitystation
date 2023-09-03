@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using Systems.Character;
 using UnityEngine;
 using Util;
@@ -31,7 +32,7 @@ namespace Changeling
 				}
 			} catch
 			{
-				Logger.LogError($"[ChangelingDNA/FormDNA] When creating DNA can`t find {playerDataForDna.playerName} Body", Category.Changeling);
+				Loggy.LogError($"[ChangelingDNA/FormDNA] When creating DNA can`t find {playerDataForDna.playerName} Body", Category.Changeling);
 				BodyClothesPrefabID = new ();
 			}
 
@@ -60,7 +61,7 @@ namespace Changeling
 			catch
 			{
 				Job = JobType.ASSISTANT;
-				Logger.LogError($"[ChangelingDNA/FormDNA] When creating DNA can`t find {playerDataForDna.playerName} job", Category.Changeling);
+				Loggy.LogError($"[ChangelingDNA/FormDNA] When creating DNA can`t find {playerDataForDna.playerName} job", Category.Changeling);
 			}
 		}
 

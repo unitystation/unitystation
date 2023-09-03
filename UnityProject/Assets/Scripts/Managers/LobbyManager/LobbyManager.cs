@@ -13,6 +13,7 @@ using Firebase.Extensions;
 using Shared.Managers;
 using Managers;
 using DatabaseAPI;
+using Logs;
 
 namespace Lobby
 {
@@ -83,7 +84,7 @@ namespace Lobby
 			{
 				if (task.IsCanceled)
 				{
-					Logger.LogWarning($"Sign in canceled.", Category.DatabaseAPI);
+					Loggy.LogWarning($"Sign in canceled.", Category.DatabaseAPI);
 					lobbyDialogue.ShowLoginPanel();
 				}
 				else if (task.IsFaulted)
@@ -91,7 +92,7 @@ namespace Lobby
 					var knownCodes = new List<int> { 12 };
 
 					var exception = task.Exception.Flatten().InnerExceptions[0];
-					Logger.LogError($"Sign in error: {task.Exception.Message}", Category.DatabaseAPI);
+					Loggy.LogError($"Sign in error: {task.Exception.Message}", Category.DatabaseAPI);
 
 					if (exception is FirebaseException firebaseException && knownCodes.Contains(firebaseException.ErrorCode))
 					{
@@ -103,7 +104,7 @@ namespace Lobby
 					}
 				}
 				else if (await ServerData.ValidateUser(task.Result, (errorStr) => {
-					Logger.LogError($"Account validation error: {errorStr}", Category.DatabaseAPI);
+					Loggy.LogError($"Account validation error: {errorStr}", Category.DatabaseAPI);
 					lobbyDialogue.ShowLoginError($"Account validation error. {errorStr}");
 				}))
 				{
@@ -134,7 +135,7 @@ namespace Lobby
 
 			if (string.IsNullOrEmpty(response.errorMsg) == false)
 			{
-				Logger.LogError($"Something went wrong with hub token validation: {response.errorMsg}", Category.DatabaseAPI);
+				Loggy.LogError($"Something went wrong with hub token validation: {response.errorMsg}", Category.DatabaseAPI);
 				lobbyDialogue.ShowLoginError($"Could not verify your details. {response.errorMsg}");
 				return false;
 			}
@@ -145,17 +146,17 @@ namespace Lobby
 			{
 				if (task.IsCanceled)
 				{
-					Logger.LogError("Custom token sign in was canceled.", Category.DatabaseAPI);
+					Loggy.LogError("Custom token sign in was canceled.", Category.DatabaseAPI);
 					lobbyDialogue.ShowLoginError($"Sign in was cancelled.");
 				}
 				else if (task.IsFaulted)
 				{
-					Logger.LogError($"Token login task faulted: {task.Exception}", Category.DatabaseAPI);
+					Loggy.LogError($"Token login task faulted: {task.Exception}", Category.DatabaseAPI);
 					lobbyDialogue.ShowLoginError($"Unexpected error encountered. Check your console (F5)");
 				}
 				else if (await ServerData.ValidateUser(task.Result, lobbyDialogue.ShowLoginError))
 				{
-					Logger.Log("Sign in with token successful.", Category.DatabaseAPI);
+					Loggy.Log("Sign in with token successful.", Category.DatabaseAPI);
 					isLoginSuccess = true;
 				}
 			});
@@ -179,12 +180,12 @@ namespace Lobby
 			await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(task => {
 				if (task.IsCanceled)
 				{
-					Logger.LogWarning($"Auto sign in cancelled.");
+					Loggy.LogWarning($"Auto sign in cancelled.");
 					lobbyDialogue.ShowLoginPanel();
 				}
 				else if (task.IsFaulted)
 				{
-					Logger.LogError($"Auto sign in failed: {task.Exception?.Message}");
+					Loggy.LogError($"Auto sign in failed: {task.Exception?.Message}");
 					lobbyDialogue.ShowLoginError("Unexpected error encountered. Check your console (F5)");
 				}
 				isLoginSuccess = true;
@@ -207,7 +208,7 @@ namespace Lobby
 		{
 			if (FirebaseAuth.DefaultInstance.CurrentUser == null)
 			{
-				Logger.LogError("Cannot resend email for unknown account.", Category.DatabaseAPI);
+				Loggy.LogError("Cannot resend email for unknown account.", Category.DatabaseAPI);
 				return;
 			}
 
@@ -230,7 +231,7 @@ namespace Lobby
 			LoadingScreenManager.LoadFromLobby(() =>
 			{
 				// Init network client
-				Logger.LogFormat("Client trying to connect to {0}:{1}", Category.Connections, address, port);
+				Loggy.LogFormat("Client trying to connect to {0}:{1}", Category.Connections, address, port);
 				LogServerConnHistory(address, port);
 
 				CustomNetworkManager.Instance.networkAddress = address;

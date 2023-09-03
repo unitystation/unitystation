@@ -15,6 +15,7 @@ using UnityEngine.SceneManagement;
 using NaughtyAttributes;
 using Items.Science;
 using Items.Storage.VirtualStorage;
+using Logs;
 
 namespace Systems.Cargo
 {
@@ -378,7 +379,7 @@ namespace Systems.Cargo
 				{
 					if (itemTrait == null)
 					{
-						Logger.LogError($"{itemAttributes.name} has null or empty item trait, please fix");
+						Loggy.LogError($"{itemAttributes.name} has null or empty item trait, please fix");
 						continue;
 					}
 

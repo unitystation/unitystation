@@ -3,6 +3,7 @@ using AddressableReferences;
 using Chemistry;
 using Chemistry.Components;
 using HealthV2.Living.PolymorphicSystems;
+using Logs;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
@@ -54,7 +55,7 @@ namespace Items.Food
 			}
 			else
 			{
-				Logger.LogErrorFormat("{0} prefab is missing ItemAttributes", Category.Objects, name);
+				Loggy.LogErrorFormat("{0} prefab is missing ItemAttributes", Category.Objects, name);
 			}
 		}
 

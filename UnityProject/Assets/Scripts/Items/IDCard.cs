@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Items;
+using Logs;
 using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
@@ -85,7 +86,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		initialized = false;
 		if (autoInitOnPickup && HasInitialNameOrTitle)
 		{
-			Logger.LogWarning($"{gameObject.name} has autoInitOnPickup and initialName or initialJobTitle set. These values will be overriden when a player picks it up!", Category.Objects);
+			Loggy.LogWarning($"{gameObject.name} has autoInitOnPickup and initialName or initialJobTitle set. These values will be overriden when a player picks it up!", Category.Objects);
 		}
 
 		if (string.IsNullOrEmpty(initialName) == false)
@@ -160,7 +161,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		SyncIDCardType(newIDCardType, newIDCardType);
 		if (ClearanceSource == null)
 		{
-			Logger.LogError($"IDCard {gameObject.name} has no IClearanceSource component, cannot set clearance!", Category.Objects);
+			Loggy.LogError($"IDCard {gameObject.name} has no IClearanceSource component, cannot set clearance!", Category.Objects);
 			return;
 		}
 

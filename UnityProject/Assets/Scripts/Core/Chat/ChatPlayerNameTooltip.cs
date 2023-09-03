@@ -1,3 +1,4 @@
+using Logs;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
@@ -15,7 +16,7 @@ public class ChatPlayerNameTooltip : TooltipMonoBehaviour
 		{
 			if (playeNameText == null)
 			{
-				Logger.LogWarning("playeNameText is null", Category.Chat);
+				Loggy.LogWarning("playeNameText is null", Category.Chat);
 				return string.Empty;
 			}
 

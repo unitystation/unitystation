@@ -7,6 +7,7 @@ using Objects.Machines.ServerMachines.Communications;
 using ScriptableObjects.Communications;
 using Systems.Communications;
 using InGameEvents;
+using Logs;
 
 namespace Objects.Telecomms
 {
@@ -142,7 +143,7 @@ namespace Objects.Telecomms
 		{
 			if (poweredDevice == null || integrity == null)
 			{
-				Logger.LogError("[Telecomms/AutomatedAnnouncer] - Missing components detected on a terminal.");
+				Loggy.LogError("[Telecomms/AutomatedAnnouncer] - Missing components detected on a terminal.");
 				return false;
 			}
 			// Don't send anything if this terminal has no power

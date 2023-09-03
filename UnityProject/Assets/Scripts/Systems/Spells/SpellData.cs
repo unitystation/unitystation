@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using NaughtyAttributes;
 using AddressableReferences;
+using Logs;
 using Systems.Spells;
 using Tiles;
 
@@ -122,7 +123,7 @@ namespace ScriptableObjects.Systems.Spells
 			var spellComponent = spellObject.GetComponent<Spell>();
 			if (spellComponent == null)
 			{
-				Logger.LogError($"No spell component found on {spellObject} for {this}!", Category.Spells);
+				Loggy.LogError($"No spell component found on {spellObject} for {this}!", Category.Spells);
 				return default;
 			}
 			spellComponent.SpellData = this;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using NaughtyAttributes;
 using ScriptableObjects;
@@ -46,12 +47,12 @@ namespace Items.Magical
 		{
 			if (GhostRoleManager.Instance.serverAvailableRoles.ContainsKey(createdRoleKey))
 			{
-				Logger.LogWarning("A wizard apprentice ghost role already exists.", Category.Spells);
+				Loggy.LogWarning("A wizard apprentice ghost role already exists.", Category.Spells);
 				return;
 			}
 			else if (WasUsed)
 			{
-				Logger.LogWarning("This contract has already been used. Cannot spawn another apprentice.", Category.Spells);
+				Loggy.LogWarning("This contract has already been used. Cannot spawn another apprentice.", Category.Spells);
 				return;
 			}
 

@@ -3,6 +3,7 @@ using Items.Bureaucracy;
 using Mirror;
 using Objects.Construction;
 using System.Collections.Generic;
+using Logs;
 using Objects.Doors;
 using ScriptableObjects;
 using UI.Core.RightClick;
@@ -54,7 +55,7 @@ namespace Doors
 		{
 			if (tonerPrefab == null)
 			{
-				Logger.LogError($"{gameObject.name} toner prefab was null, cannot auto-populate.", Category.ItemSpawn);
+				Loggy.LogError($"{gameObject.name} toner prefab was null, cannot auto-populate.", Category.ItemSpawn);
 				return;
 			}
 			Inventory.ServerSpawnPrefab(tonerPrefab, tonerSlot);

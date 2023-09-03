@@ -2,6 +2,7 @@ using Changeling;
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 
 namespace Changeling
@@ -62,7 +63,7 @@ namespace Changeling
 			var abilityComponent = abilityObject.GetComponent<ChangelingAbility>();
 			if (abilityComponent == null)
 			{
-				Logger.LogError($"No ability component found on {abilityObject} for {this}!", Category.Changeling);
+				Loggy.LogError($"No ability component found on {abilityObject} for {this}!", Category.Changeling);
 				return default;
 			}
 			abilityComponent.ability = this;

@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using UnityEngine;
 
 namespace HealthV2.TraumaTypes
@@ -13,7 +14,7 @@ namespace HealthV2.TraumaTypes
 		{
 			if (stages.Count != internalDamagePerStage.Count)
 			{
-				Logger.LogWarning("[Health/Trauma/TraumaBlunt] - Mismatched number of stages and damage info. " +
+				Loggy.LogWarning("[Health/Trauma/TraumaBlunt] - Mismatched number of stages and damage info. " +
 				                  "NREs have a high chance of happening.", Category.Health);
 			}
 		}

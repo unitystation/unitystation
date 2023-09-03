@@ -9,6 +9,7 @@ using UI.Systems.Ghost;
 using UI.Action;
 using UI.Core.Action;
 using Changeling;
+using Logs;
 
 namespace UI
 {
@@ -142,7 +143,7 @@ namespace UI
 		/// <param name="screen">The UI action to perform</param>
 		public void SetScreenFor(Screens screen)
 		{
-			Logger.Log($"Setting screen for {screen}", Category.UI);
+			Loggy.Log($"Setting screen for {screen}", Category.UI);
 			switch (screen)
 			{
 				case Screens.SlotReset:

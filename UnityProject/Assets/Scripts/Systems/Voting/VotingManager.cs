@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Logs;
 using Messages.Client.Admin;
 using Messages.Server;
 using Mirror;
@@ -167,7 +168,7 @@ public class VotingManager : NetworkBehaviour
 			RpcVoteCallerDefault(sender);
 		}
 
-		Logger.Log($"Vote initiated by {instigator.name}", Category.Admin);
+		Loggy.Log($"Vote initiated by {instigator.name}", Category.Admin);
 	}
 
 	/// <summary>
@@ -195,7 +196,7 @@ public class VotingManager : NetworkBehaviour
 		{
 			votes.Add(userId, isFor);
 		}
-		Logger.Log($"A user: {userId} voted: {isFor}", Category.Admin);
+		Loggy.Log($"A user: {userId} voted: {isFor}", Category.Admin);
 	}
 
 	[Server]
@@ -210,7 +211,7 @@ public class VotingManager : NetworkBehaviour
 		var msg = $"Vote was vetoed by {admin.Username}.";
 
 		UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(msg, admin.UserId);
-		Logger.Log(msg, Category.Admin);
+		Loggy.Log(msg, Category.Admin);
 	}
 
 	void UpdateMe()
@@ -268,7 +269,7 @@ public class VotingManager : NetworkBehaviour
 						return;
 					}
 					if (GameManager.Instance.CurrentRoundState != RoundState.Started) return;
-					Logger.Log("Vote to restart server was successful. Restarting now.....", Category.Admin);
+					Loggy.Log("Vote to restart server was successful. Restarting now.....", Category.Admin);
 					VideoPlayerMessage.Send(VideoType.RestartRound);
 					GameManager.Instance.RoundEndTime = 5; // Quick round end when triggered by Players.
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Items;
+using Logs;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects;
@@ -61,7 +62,7 @@ namespace Objects.Construction
 			}
 			catch (NullReferenceException exception)
 			{
-				Logger.LogError($"Catched a NRE in APCFrame OnEnable() {exception.Message} \n {exception.StackTrace}", Category.Electrical);
+				Loggy.LogError($"Catched a NRE in APCFrame OnEnable() {exception.Message} \n {exception.StackTrace}", Category.Electrical);
 			}
 		}
 		private void OnDisable()

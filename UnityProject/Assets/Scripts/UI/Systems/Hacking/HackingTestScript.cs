@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using NaughtyAttributes;
 using Systems.Hacking;
@@ -27,7 +28,7 @@ namespace Tests.Hacking
 
 		public void Bob2()
 		{
-			Logger.Log("BOB");
+			Loggy.Log("BOB");
 		}
 
 		[Button]
@@ -38,7 +39,7 @@ namespace Tests.Hacking
 
 		public void Jane2()
 		{
-			Logger.Log("Jane");
+			Loggy.Log("Jane");
 		}
 
 
@@ -50,7 +51,7 @@ namespace Tests.Hacking
 
 		public void Cat2()
 		{
-			Logger.Log("Cat");
+			Loggy.Log("Cat");
 		}
 	}
 }

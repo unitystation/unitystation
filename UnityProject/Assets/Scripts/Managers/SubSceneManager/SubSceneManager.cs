@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Messages.Client;
 using Mirror;
 using UnityEngine;
@@ -86,29 +87,29 @@ public partial class SubSceneManager : MonoBehaviour
 		{
 			if (clientLoadedSubScenes.Any(x => x.SceneName == sceneName))
 			{
-				Logger.Log($"Scene already loaded client {sceneName}");
+				Loggy.Log($"Scene already loaded client {sceneName}");
 				yield break;
 			}
 		}
 
 		ConnectionLoadedRecord[sceneName] = new HashSet<int>();
 		AsyncOperation AO = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-		Logger.Log($"AO Handle Generated for {sceneName}");
+		Loggy.Log($"AO Handle Generated for {sceneName}");
 		if (AO != null)
 		{
-			Logger.Log($"Waiting for AO.isDone {sceneName}");
+			Loggy.Log($"Waiting for AO.isDone {sceneName}");
 			while (AO.isDone == false)
 			{
 				if (loadTimer != null) loadTimer.IncrementLoadBar();
-				Logger.Log($"Percentage loaded {sceneName} {AO.progress}");
+				Loggy.Log($"Percentage loaded {sceneName} {AO.progress}");
 				yield return null;
 			}
 
-			Logger.Log($"Finished waiting for AO.isDone {sceneName}");
+			Loggy.Log($"Finished waiting for AO.isDone {sceneName}");
 			if (loadTimer != null) loadTimer.IncrementLoadBar();
 			if (CustomNetworkManager.IsServer)
 			{
-				Logger.Log($"SpawnObjects + RequestObserverRefresh {sceneName}");
+				Loggy.Log($"SpawnObjects + RequestObserverRefresh {sceneName}");
 				NetworkServer.SpawnObjects();
 
 				while (NetworkClient.connection.isAuthenticated == false) //Needed so that if Authentication takes time, server instance does not disconnect itself.
@@ -129,7 +130,7 @@ public partial class SubSceneManager : MonoBehaviour
 
 			if (CustomNetworkManager.IsServer)
 			{
-				Logger.Log($"SloadedScenesList.add {sceneName}");
+				Loggy.Log($"SloadedScenesList.add {sceneName}");
 				loadedScenesList.Add(new SceneInfo
 				{
 					SceneName = sceneName,
@@ -140,9 +141,9 @@ public partial class SubSceneManager : MonoBehaviour
 		}
 		else
 		{
-			Logger.LogError($"was unable to find scene for {sceneName} Skipping");
+			Loggy.LogError($"was unable to find scene for {sceneName} Skipping");
 		}
-		Logger.Log($"Finished loading {sceneName}");
+		Loggy.Log($"Finished loading {sceneName}");
 	}
 
 	public static void ProcessObserverRefreshReq(PlayerInfo connectedPlayer, Scene sceneContext)

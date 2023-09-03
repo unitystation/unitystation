@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Core.Utils;
 using HealthV2;
+using Logs;
 using Messages.Server;
 using Mirror;
 using Systems.Ai;
@@ -26,7 +27,7 @@ public interface IPlayerPossessable
 			{
 				if (CustomNetworkManager.IsServer)
 				{
-					Logger.LogError(
+					Loggy.LogError(
 						$"Destroyed Possessing  While PossessingID Still references it fixing, Please work out how it got a Destroyed ID {PossessingMind.OrNull()?.name}");
 					SyncPossessingID(PossessingID, NetId.Empty);
 				}

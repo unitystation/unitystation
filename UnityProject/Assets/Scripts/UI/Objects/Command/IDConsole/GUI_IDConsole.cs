@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Systems.Clearance;
 using UnityEngine;
 using UI.Core.NetUI;
@@ -179,7 +180,7 @@ namespace UI.Objects.Command
 			var idClearance = console.TargetCard.ClearanceSource;
 			if (idClearance == null)
 			{
-				Logger.LogError($"ID card {gameObject.name} has no BasicClearanceSource component!", Category.Objects);
+				Loggy.LogError($"ID card {gameObject.name} has no BasicClearanceSource component!", Category.Objects);
 				return;
 			}
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using Managers;
 using UnityEngine;
 using ScriptableObjects;
@@ -26,7 +27,7 @@ namespace InGameEvents
 		{
 			if (gunList == null || gunList.GameObjectPrefabs.Length == 0)
 			{
-				Logger.LogError($"No guns in gun list! Cannot spawn guns for {nameof(EventGiveGuns)}.", Category.Event);
+				Loggy.LogError($"No guns in gun list! Cannot spawn guns for {nameof(EventGiveGuns)}.", Category.Event);
 				return;
 			}
 

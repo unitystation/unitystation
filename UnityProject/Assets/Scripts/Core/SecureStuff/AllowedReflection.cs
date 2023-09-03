@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Logs;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -25,7 +26,7 @@ namespace SecureStuff
 		{
 			if (messagebaseType.GetInterfaces().Contains(typeof(IAllowedReflection)) == false)
             {
-            	Logger.LogError("RegisterNetworkMessages Got a message type that didn't Implement IAllowedReflection Interface");
+            	Loggy.LogError("RegisterNetworkMessages Got a message type that didn't Implement IAllowedReflection Interface");
             	return;
 
 			}
@@ -37,7 +38,7 @@ namespace SecureStuff
 				var VVNote = methodInfo.GetCustomAttribute<VVNote>(true);
 				if (VVNote is not {variableHighlightl: VVHighlight.SafeToModify100})
 				{
-					Logger.LogError("registerMethod Wasn't marked with VVNote VVHighlight.SafeToModify100 or BaseAttribute Presumed unsafe");
+					Loggy.LogError("registerMethod Wasn't marked with VVNote VVHighlight.SafeToModify100 or BaseAttribute Presumed unsafe");
 					return;
 				}
 			}
@@ -144,7 +145,7 @@ namespace SecureStuff
 		{
 			if (typeof(T) == typeof(ObsoleteAttribute))
 			{
-				Logger.LogError("hey no, no obsolete stuff");
+				Loggy.LogError("hey no, no obsolete stuff");
 				return null;
 			}
 

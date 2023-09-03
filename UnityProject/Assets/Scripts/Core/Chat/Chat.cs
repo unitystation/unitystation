@@ -12,6 +12,7 @@ using Systems.Communications;
 using Systems.MobAIs;
 using Messages.Server;
 using Items;
+using Logs;
 using Managers;
 using Objects.Machines.ServerMachines.Communications;
 using Objects.Wallmounts.PublicTerminals.Modules;
@@ -139,7 +140,7 @@ public partial class Chat : MonoBehaviour
 		//Sanity check for null username
 		if (string.IsNullOrWhiteSpace(sentByPlayer.Username))
 		{
-			Logger.Log($"Null/empty Username, Details: Username: {sentByPlayer.Username}, ClientID: {sentByPlayer.ClientId}, IP: {sentByPlayer.ConnectionIP}",
+			Loggy.Log($"Null/empty Username, Details: Username: {sentByPlayer.Username}, ClientID: {sentByPlayer.ClientId}, IP: {sentByPlayer.ConnectionIP}",
 				Category.Admin);
 			return;
 		}
@@ -809,7 +810,7 @@ public partial class Chat : MonoBehaviour
 	{
 		if (recipient == null || recipient.Equals(PlayerInfo.Invalid))
 		{
-			Logger.LogError($"Can't send message \"{msg}\" to invalid player!", Category.Chat);
+			Loggy.LogError($"Can't send message \"{msg}\" to invalid player!", Category.Chat);
 			return;
 		}
 

@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Logs;
+using Mirror;
 
 
 namespace Messages.Client.VariableViewer
@@ -25,7 +26,7 @@ namespace Messages.Client.VariableViewer
 			global::VariableViewer.RequestChangeVariable(
 					msg.PageID, msg.newValue, msg.SendToClient, SentByPlayer.GameObject, SentByPlayer.UserId);
 
-			Logger.Log(
+			Loggy.Log(
 					$"Admin {SentByPlayer.Username} changed variable {msg.PageID} (in VV) with a new value of: {msg.newValue} ",
 					Category.Admin);
 		}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Logs;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -36,7 +37,7 @@ namespace Util
 
 			var objName = go.name.RemoveClone();
 			var description = MissingRefDescription(parent, objName, refName, refDescription, typeof(V));
-			Logger.LogError($"{description} Functionality may be hindered or broken.", category);
+			Loggy.LogError($"{description} Functionality may be hindered or broken.", category);
 
 			return component;
 		}
@@ -79,13 +80,13 @@ namespace Util
 			component = componentsFound.FirstOrDefault(c => c.name.ToLower() == childName?.ToLower());
 			if (component == null && componentsFound.Length > 1)
 			{
-				Logger.LogError($"{description} Found multiple children with the required component. Check the object/prefab and add a reference to one of them.", category);
+				Loggy.LogError($"{description} Found multiple children with the required component. Check the object/prefab and add a reference to one of them.", category);
 			}
 			else
 			{
 				component ??= componentsFound.FirstOrDefault();
 
-				Logger.LogError(
+				Loggy.LogError(
 					component == null
 						? $"{description} Unable to find a child object with a '{typeof(V)}' component. Functionality may be hindered or broken."
 						: $"{description} Found '{component.name}' as a child in the object. Check the object/prefab and add a reference to '{component.name}'.",

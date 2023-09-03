@@ -1,3 +1,5 @@
+using Logs;
+
 /// <summary>
 /// Main API for working with spatial relationships. If you want to activate or end a relationship,
 /// use these methods. Use spatial relationships if you need to have some logic run when 2 things
@@ -28,7 +30,7 @@ public static class SpatialRelationship
 	/// <param name="relationship"></param>
 	public static void ServerActivate(BaseSpatialRelationship relationship)
 	{
-		Logger.LogTraceFormat("Activating spatial relationship {0}", Category.SpatialRelationship, relationship);
+		Loggy.LogTraceFormat("Activating spatial relationship {0}", Category.SpatialRelationship, relationship);
 		relationship.obj1._AddSpatialRelationship(relationship);
 		relationship.obj2._AddSpatialRelationship(relationship);
 		//check the relationship immediately

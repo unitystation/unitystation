@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Systems.Antagonists.Antags;
 using UnityEngine;
 using Systems.GhostRoles;
@@ -62,7 +63,7 @@ namespace Antagonists
 
 		private void FreeObjective()
 		{
-			Logger.LogWarning("Unable to find any suitable assassination targets! Giving free objective", Category.Antags);
+			Loggy.LogWarning("Unable to find any suitable assassination targets! Giving free objective", Category.Antags);
 			description = "Free objective";
 			Complete = true;
 		}

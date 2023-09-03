@@ -10,6 +10,7 @@ using TileManagement;
 using Tilemaps.Behaviours.Layers;
 using Light2D;
 using HealthV2;
+using Logs;
 using Systems.Atmospherics;
 using Systems.Electricity;
 using Systems.Pipes;
@@ -113,7 +114,7 @@ public class Matrix : MonoBehaviour
 		metaTileMap = GetComponent<MetaTileMap>();
 		if (metaTileMap == null)
 		{
-			Logger.LogError($"MetaTileMap was null on {gameObject.name}");
+			Loggy.LogError($"MetaTileMap was null on {gameObject.name}");
 		}
 
 		networkedMatrix = transform.parent.GetComponent<NetworkedMatrix>();
@@ -567,7 +568,7 @@ public class Matrix : MonoBehaviour
 	public static Vector3Int GetWorldPositionFromRootObject(UniversalObjectPhysics physics)
 	{
 		if (physics.GetRootObject.RegisterTile() != null) return physics.GetRootObject.RegisterTile().WorldPosition;
-		Logger.LogError("[Matrix/GetLocalPosFromWorldPos] - Could not find RegisterTile.");
+		Loggy.LogError("[Matrix/GetLocalPosFromWorldPos] - Could not find RegisterTile.");
 		return Vector3Int.zero;
 	}
 
@@ -580,7 +581,7 @@ public class Matrix : MonoBehaviour
 	public static Vector3Int GetLocalPositionFromRootObject(UniversalObjectPhysics physics)
 	{
 		if (physics.GetRootObject.RegisterTile() != null) return physics.GetRootObject.RegisterTile().LocalPosition;
-		Logger.LogError("[Matrix/GetLocalPosFromWorldPos] - Could not find RegisterTile.");
+		Loggy.LogError("[Matrix/GetLocalPosFromWorldPos] - Could not find RegisterTile.");
 		return Vector3Int.zero;
 	}
 

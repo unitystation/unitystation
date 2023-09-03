@@ -1,4 +1,5 @@
 using System;
+using Logs;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -69,7 +70,7 @@ namespace Objects.Construction
 
 			if (objectBehaviour == null)
 			{
-				Logger.LogWarning($"{nameof(objectBehaviour)} was not found on {this}!", Category.Construction);
+				Loggy.LogWarning($"{nameof(objectBehaviour)} was not found on {this}!", Category.Construction);
 			}
 		}
 

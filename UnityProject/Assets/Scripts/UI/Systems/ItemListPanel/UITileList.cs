@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Objects.Disposals;
 using Objects.Other;
 using TileManagement;
@@ -225,7 +226,7 @@ namespace UI
 		{
 			if (!Instance.listedObjects.Contains(tileListItemObject))
 			{
-				Logger.LogError("Attempted to remove tileListItem not on list", Category.NetUI);
+				Loggy.LogError("Attempted to remove tileListItem not on list", Category.NetUI);
 				return;
 			}
 

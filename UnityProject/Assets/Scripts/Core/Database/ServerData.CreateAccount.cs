@@ -1,5 +1,6 @@
 ﻿using System;
 using Firebase.Auth;
+using Logs;
 
 namespace DatabaseAPI
 {
@@ -25,7 +26,7 @@ namespace DatabaseAPI
 
 				await user.UpdateUserProfileAsync(profile);
 
-				Logger.LogFormat($"Firebase user created successfully: {proposedName}",
+				Loggy.LogFormat($"Firebase user created successfully: {proposedName}",
 					Category.DatabaseAPI);
 
 				callBack.Invoke(user);
@@ -33,12 +34,12 @@ namespace DatabaseAPI
 			catch (AggregateException ex)
 			{
 				var innerEx = ex.Flatten().InnerExceptions[0];
-				Logger.LogError($"Failed to sign up: {innerEx.Message}", Category.DatabaseAPI);
+				Loggy.LogError($"Failed to sign up: {innerEx.Message}", Category.DatabaseAPI);
 				errorCallBack.Invoke(innerEx.Message);
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError($"Failed to sign up: {ex.Message}", Category.DatabaseAPI);
+				Loggy.LogError($"Failed to sign up: {ex.Message}", Category.DatabaseAPI);
 				errorCallBack.Invoke(ex.Message);
 			}
 		}

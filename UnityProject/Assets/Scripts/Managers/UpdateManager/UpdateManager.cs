@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.Profiling;
 using System.Linq;
 using System.Text;
+using Logs;
 
 /// <summary>
 ///     Handles the update methods for in game objects
@@ -325,7 +326,7 @@ public class UpdateManager : MonoBehaviour
 				}
 				catch (Exception e)
 				{
-					Logger.LogError(e.ToString());
+					Loggy.LogError(e.ToString());
 				}
 
 				if (Profile)
@@ -385,7 +386,7 @@ public class UpdateManager : MonoBehaviour
 				}
 				catch (Exception e)
 				{
-					Logger.LogError(e.ToString());
+					Loggy.LogError(e.ToString());
 				}
 			}
 		}
@@ -406,7 +407,7 @@ public class UpdateManager : MonoBehaviour
 				}
 				catch (Exception e)
 				{
-					Logger.LogError(e.ToString());
+					Loggy.LogError(e.ToString());
 				}
 			}
 		}

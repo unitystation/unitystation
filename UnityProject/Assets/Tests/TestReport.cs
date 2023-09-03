@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Logs;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 
@@ -132,7 +133,7 @@ namespace Tests
 		/// </summary>
 		public TestReport Log()
 		{
-			if (Failed && Builder.Length > 1) Logger.Log(Builder.ToString(), Category.Tests);
+			if (Failed && Builder.Length > 1) Loggy.Log(Builder.ToString(), Category.Tests);
 			return this;
 		}
 	}

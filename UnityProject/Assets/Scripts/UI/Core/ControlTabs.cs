@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -292,7 +293,7 @@ namespace UI
 
 			if (!tab)
 			{
-				Logger.LogWarning($"No tab found with index {index}!", Category.NetUI);
+				Loggy.LogWarning($"No tab found with index {index}!", Category.NetUI);
 				return;
 			}
 			tab.gameObject.SetActive(true);

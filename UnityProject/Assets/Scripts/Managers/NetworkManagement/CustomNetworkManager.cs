@@ -10,6 +10,7 @@ using UnityEngine.Events;
 using DatabaseAPI;
 using IgnoranceTransport;
 using Initialisation;
+using Logs;
 using Messages.Server;
 using UnityEditor;
 using Util;
@@ -142,7 +143,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		config = ServerData.ServerConfig;
 		if (config.ServerPort != 0 && config.ServerPort <= 65535)
 		{
-			Logger.LogFormat("ServerPort defined in config: {0}", Category.Server, config.ServerPort);
+			Loggy.LogFormat("ServerPort defined in config: {0}", Category.Server, config.ServerPort);
 			// var booster = GetComponent<BoosterTransport>();
 			// if (booster != null)
 			// {
@@ -180,13 +181,13 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	[ContextMenu("Print network server")]
 	public void PrintNetworkServer()
 	{
-		Logger.LogError(NetworkServer.spawned.Count.ToString());
+		Loggy.LogError(NetworkServer.spawned.Count.ToString());
 	}
 
 	[ContextMenu("Print network client")]
 	public void PrintNetworkClient()
 	{
-		Logger.LogError(NetworkClient.spawned.Count.ToString());
+		Loggy.LogError(NetworkClient.spawned.Count.ToString());
 	}
 
 	public void SetSpawnableList()
@@ -234,11 +235,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 					if (preexisting.ForeverID != originalOldID &&
 					    prefabTracker.ForeverID != originalOldID)
 					{
-						Logger.LogError("OH GOD What is the original I can't tell!! " +
-						                "Manually edit the ForeverID For the newly created prefab to not be the same as " +
-						                "the prefab variant parent for " +
-						                preexisting.gameObject +
-						                " and " + prefabTracker.gameObject);
+						Loggy.LogError("OH GOD What is the original I can't tell!! " +
+						               "Manually edit the ForeverID For the newly created prefab to not be the same as " +
+						               "the prefab variant parent for " +
+						               preexisting.gameObject +
+						               " and " + prefabTracker.gameObject);
 
 						prefabTracker.ForeverID = originalOldID;
 						preexisting.ForeverID = originalOldID;
@@ -269,13 +270,13 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			if (prefab.Count > 1)
 			{
-				Logger.LogError($"There is {prefab.Count} prefabs with the name: {prefabName}, please rename them");
+				Loggy.LogError($"There is {prefab.Count} prefabs with the name: {prefabName}, please rename them");
 			}
 
 			return prefab[0];
 		}
 
-		Logger.LogError(
+		Loggy.LogError(
 			$"There is no prefab with the name: {prefabName} inside the AllSpawnablePrefabs list in the network manager," +
 			" all prefabs must be in this list if they need to be spawnable");
 
@@ -330,12 +331,12 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			if (conn == NetworkServer.localConnection)
 			{
-				Logger.Log("Prevented headless server from spawning a player", Category.Connections);
+				Loggy.Log("Prevented headless server from spawning a player", Category.Connections);
 				return;
 			}
 		}
 
-		Logger.LogTrace($"Spawning a GameObject for the client {conn}.", Category.Connections);
+		Loggy.LogTrace($"Spawning a GameObject for the client {conn}.", Category.Connections);
 		base.OnServerAddPlayer(conn);
 		SubSceneManager.Instance.AddNewObserverScenePermissions(conn);
 		UpdateRoundTimeMessage.Send(GameManager.Instance.RoundTime.ToString("O"), GameManager.Instance.RoundTimeInMinutes);
@@ -352,7 +353,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnClientDisconnect()
 	{
-		Logger.Log("Client disconnected from the server.");
+		Loggy.Log("Client disconnected from the server.");
 		base.OnClientDisconnect();
 		OnClientDisconnected.Invoke();
 	}
@@ -360,7 +361,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	public override void OnServerConnect(NetworkConnectionToClient conn)
 	{
 		// Connection has been authenticated via Authentication.cs
-		Logger.LogTrace($"A client has been authenticated and has joined. Address: {conn.address}.");
+		Loggy.LogTrace($"A client has been authenticated and has joined. Address: {conn.address}.");
 
 		base.OnServerConnect(conn);
 	}
@@ -368,7 +369,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	/// server actions when client disconnects
 	public override void OnServerDisconnect(NetworkConnectionToClient conn)
 	{
-		Logger.LogError($"Disconnecting {conn.address}");
+		Loggy.LogError($"Disconnecting {conn.address}");
 		//register them as removed from our own player list
 		PlayerList.Instance.RemoveByConnection(conn);
 

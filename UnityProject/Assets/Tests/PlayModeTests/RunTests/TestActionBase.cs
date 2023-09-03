@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using GameRunTests;
+using Logs;
 using UnityEngine;
 
 [System.Serializable]
@@ -63,7 +64,7 @@ public partial class TestAction
 			case ActionType.ManipulatePlayersInventory:
 				return InManipulatePlayersInventory.Initiate(TestRunSO);
 			default:
-				Logger.LogError($"Unset {SpecifiedAction}");
+				Loggy.LogError($"Unset {SpecifiedAction}");
 				return false;
 		}
 

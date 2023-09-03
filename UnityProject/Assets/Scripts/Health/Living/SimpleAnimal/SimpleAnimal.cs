@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Logs;
 using UnityEngine;
 using Mirror;
 
@@ -51,7 +52,7 @@ namespace Systems.Mob
 
 			if (mobSprite == null)
 			{
-				Logger.LogError($"No {nameof(MobSprite)} component on {this}!", Category.Mobs);
+				Loggy.LogError($"No {nameof(MobSprite)} component on {this}!", Category.Mobs);
 				return;
 			}
 
@@ -77,7 +78,7 @@ namespace Systems.Mob
 		{
 			if (mobSprite == null)
 			{
-				Logger.LogError($"No {nameof(MobSprite)} component on {this}!", Category.Mobs);
+				Loggy.LogError($"No {nameof(MobSprite)} component on {this}!", Category.Mobs);
 				return;
 			}
 

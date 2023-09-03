@@ -1,4 +1,5 @@
 using System;
+using Logs;
 using UnityEngine;
 using Mirror;
 using Systems.Atmospherics;
@@ -311,7 +312,7 @@ namespace Objects.Atmospherics
 			}
 			else
 			{
-				Logger.LogError(
+				Loggy.LogError(
 						$"{interaction.Performer} tried inserting {interaction.UsedObject} into {gameObject}, " +
 						$"but the tank didn't have a {nameof(GasContainer)} component associated with it. " +
 						$"Something terrible has happened, or an item that should not has the CanisterFillable ItemTrait.",

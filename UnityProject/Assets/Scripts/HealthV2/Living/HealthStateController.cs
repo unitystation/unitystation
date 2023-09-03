@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -193,7 +194,7 @@ namespace HealthV2
 			}
 			catch (Exception e)
 			{
-				Logger.LogError(e.ToString()); //some weird ass serialisation error
+				Loggy.LogError(e.ToString()); //some weird ass serialisation error
 				return;
 			}
 

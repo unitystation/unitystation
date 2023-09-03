@@ -15,6 +15,7 @@ using Mirror;
 using GameConfig;
 using Initialisation;
 using Audio.Containers;
+using Logs;
 using Managers;
 using Messages.Server;
 using Objects.Machines.ServerMachines.Communications;
@@ -215,7 +216,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 #if UNITY_EDITOR
 			var editorLoadPref = EditorPrefs.GetBool("quickLoad", false);
 			QuickLoad = editorLoadPref;
-			Logger.Log($"Currently using editor pref for quick-load checkup. Current value is {editorLoadPref}. To change this, please head to tools -> Enable QuickLoad.");
+			Loggy.Log($"Currently using editor pref for quick-load checkup. Current value is {editorLoadPref}. To change this, please head to tools -> Enable QuickLoad.");
 #endif
 		}
 		else
@@ -315,7 +316,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		if (mm.ServerState.Position == TransformState.HiddenPos)
 		{
-			Logger.LogError("Matrix Move is not initialized! Wait for it to be" +
+			Loggy.LogError("Matrix Move is not initialized! Wait for it to be" +
 			                "ready before calling ServerSetSpaceBody ", Category.Server);
 			return;
 		}
@@ -390,13 +391,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		if (GameManager.Instance.PrimaryEscapeShuttle == null)
 		{
-			Logger.LogWarning("Cannot generate primary escape shuttle path. Shuttle not found.");
+			Loggy.LogWarning("Cannot generate primary escape shuttle path. Shuttle not found.");
 			return;
 		}
 
 		if (CargoShuttle.Instance == null)
 		{
-			Logger.LogWarning("Cannot generate cargo escape shuttle path. Shuttle not found.");
+			Loggy.LogWarning("Cannot generate cargo escape shuttle path. Shuttle not found.");
 			return;
 		}
 
@@ -539,7 +540,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			}
 			catch (Exception e)
 			{
-				Logger.LogErrorFormat("Exception message on map loading: {0}", Category.Server, e);
+				Loggy.LogErrorFormat("Exception message on map loading: {0}", Category.Server, e);
 			}
 		}
 	}
@@ -567,7 +568,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		catch (Exception e)
 		{
-			Logger.LogError("Failed to log Players antagonist preferences" + e.ToString());
+			Loggy.LogError("Failed to log Players antagonist preferences" + e.ToString());
 		}
 
 
@@ -593,7 +594,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		catch (Exception e)
 		{
-			Logger.LogError("Failed to GameMode.SetupRound(); " + e.ToString());
+			Loggy.LogError("Failed to GameMode.SetupRound(); " + e.ToString());
 		}
 
 
@@ -668,11 +669,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			if (CurrentRoundState == RoundState.Ended)
 			{
-				Logger.LogError("Cannot end round, round has already ended!", Category.Round);
+				Loggy.LogError("Cannot end round, round has already ended!", Category.Round);
 			}
 			else
 			{
-				Logger.LogError("Cannot end round, round has not started yet!", Category.Round);
+				Loggy.LogError("Cannot end round, round has not started yet!", Category.Round);
 			}
 
 			return;
@@ -686,7 +687,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		catch (Exception e)
 		{
-			Logger.LogError(e.ToString());
+			Loggy.LogError(e.ToString());
 		}
 
 		try
@@ -695,7 +696,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		catch (Exception e)
 		{
-			Logger.LogError(e.ToString());
+			Loggy.LogError(e.ToString());
 		}
 
 		counting = false;
@@ -708,7 +709,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		catch (Exception e)
 		{
-			Logger.LogError(e.ToString());
+			Loggy.LogError(e.ToString());
 		}
 
 		StartCoroutine(WaitForRoundRestart());
@@ -721,7 +722,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	private IEnumerator WaitForRoundRestart()
 	{
-		Logger.LogError($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
+		Loggy.LogError($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
 		yield return WaitFor.Seconds(RoundEndTime);
 		RoundEndTime = DefaultRoundEndTime;
 		RestartRound();
@@ -804,7 +805,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			SendClientLogMessage.SendErrorToClient(spawnRequest.Player,
 				$"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn you.");
-			Logger.LogError($"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn player.");
+			Loggy.LogError($"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn player.");
 			return false;
 		}
 
@@ -829,7 +830,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		if (count != 0)
 		{
-			Logger.Log($"{jobType} count: {count}", Category.Jobs);
+			Loggy.Log($"{jobType} count: {count}", Category.Jobs);
 		}
 
 		return count;
@@ -886,7 +887,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		if (count != 0)
 		{
-			Logger.Log($"{jobType} count: {count}", Category.Jobs);
+			Loggy.Log($"{jobType} count: {count}", Category.Jobs);
 		}
 
 		return count;
@@ -935,13 +936,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		if (CustomNetworkManager.Instance._isServer == false)
 		{
-			Logger.LogError("Cannot restart round, Is not server!", Category.Round);
+			Loggy.LogError("Cannot restart round, Is not server!", Category.Round);
 			return;
 		}
 
 		if (CurrentRoundState == RoundState.Restarting)
 		{
-			Logger.LogError("Cannot restart round, round is already restarting!", Category.Round);
+			Loggy.LogError("Cannot restart round, round is already restarting!", Category.Round);
 			return;
 		}
 
@@ -969,13 +970,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		catch (Exception e)
 		{
-			Logger.LogError(" Failed to determine if the Server should restart , Restarting " + e.ToString());
+			Loggy.LogError(" Failed to determine if the Server should restart , Restarting " + e.ToString());
 			reboot = true;
 		}
 
 		if (reboot == false)
 		{
-			Logger.Log("Server restarting round now.", Category.Round);
+			Loggy.Log("Server restarting round now.", Category.Round);
 			Chat.AddGameWideSystemMsgToChat("<b>The round is now restarting...</b>");
 			// Notify all clients that the round has ended
 			EventManager.Broadcast(Event.RoundEnded, true);
@@ -986,7 +987,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			}
 			catch (Exception e)
 			{
-				Logger.LogError(e.ToString());
+				Loggy.LogError(e.ToString());
 			}
 
 			EventManager.Broadcast(Event.CleanupEnd, true);
@@ -998,7 +999,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			}
 			catch (Exception e)
 			{
-				Logger.LogError(e.ToString());
+				Loggy.LogError(e.ToString());
 			}
 
 			EventManager.Broadcast(Event.Cleanup, true);
@@ -1010,7 +1011,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		else
 		{
-			Logger.LogError("Server is rebooting now. If you don't have a way to automatically restart the " +
+			Loggy.LogError("Server is rebooting now. If you don't have a way to automatically restart the " +
 			                "Unitystation process such as systemctl the server won't be able to restart!",
 				Category.Round);
 			Chat.AddGameWideSystemMsgToChat("<size=72><b>The server is now restarting!</b></size>");

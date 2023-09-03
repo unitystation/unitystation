@@ -1,5 +1,6 @@
 using System.Collections;
 using Initialisation;
+using Logs;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -102,7 +103,7 @@ public class ResponsiveUI : MonoBehaviour, IInitialise
 		bool requiresChange = false;
 		if (width % 2 != 0)
 		{
-			Logger.Log($"Odd width {width}->{width - 1}", Category.UI);
+			Loggy.Log($"Odd width {width}->{width - 1}", Category.UI);
 			width--;
 			requiresChange = true;
 		}
@@ -110,7 +111,7 @@ public class ResponsiveUI : MonoBehaviour, IInitialise
 		int height = Screen.height;
 		if (height % 2 != 0)
 		{
-			Logger.Log($"Odd height {height}->{height - 1}", Category.UI);
+			Loggy.Log($"Odd height {height}->{height - 1}", Category.UI);
 			height--;
 			requiresChange = true;
 		}

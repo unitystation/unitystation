@@ -1,3 +1,4 @@
+using Logs;
 using UnityEngine;
 using UnityEditor;
 
@@ -54,7 +55,7 @@ public class ReplaceWithPrefab : EditorWindow
 				// -- if for some reason Unity couldn't perform your request, print an error
 				if (newObject == null)
 				{
-					Logger.LogError("Error instantiating prefab", Category.Editor);
+					Loggy.LogError("Error instantiating prefab", Category.Editor);
 					break;
 				}
 

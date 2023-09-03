@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using HealthV2;
 using Items;
 using Items.Others;
+using Logs;
 using Messages.Client.Interaction;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -134,7 +135,7 @@ namespace Chemistry.Components
 				return currentReagentMix;
 			}
 		}
-		
+
 
 		/// <summary>
 		/// Returns reagent amount in container
@@ -458,7 +459,7 @@ namespace Chemistry.Components
 			}
 			catch (NullReferenceException exception)
 			{
-				Logger.LogError(
+				Loggy.LogError(
 					$"Caught NRE in ReagentContainer SpillAll method: {exception.Message} \n {exception.StackTrace}",
 					Category.Chemistry);
 			}

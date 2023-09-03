@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Core.Factories;
+using Logs;
 using Mirror;
 using UnityEngine;
 using Util;
@@ -16,7 +17,7 @@ namespace Core.Lighting
 		{
 			if (CustomNetworkManager.IsHeadless)
 			{
-				Logger.LogError("Highlight scanner detected on headless server! Despawning self..");
+				Loggy.LogError("Highlight scanner detected on headless server! Despawning self..");
 				Despawn.ClientSingle(this.gameObject);
 				return;
 			}

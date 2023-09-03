@@ -7,6 +7,7 @@ using ScriptableObjects.Systems.Spells;
 using UI.Action;
 using UI.Core.Action;
 using Changeling;
+using Logs;
 
 namespace Messages.Server
 {
@@ -243,7 +244,7 @@ namespace Messages.Server
 				}
 				else
 				{
-					Logger.LogError("Failed to find IActionGUI on NetworkIdentity", Category.UserInput);
+					Loggy.LogError("Failed to find IActionGUI on NetworkIdentity", Category.UserInput);
 				}
 			}
 
@@ -488,7 +489,7 @@ namespace Messages.Server
 				}
 				else
 				{
-					Logger.LogError("Failed to find IActionGUI on NetworkIdentity", Category.UserInput);
+					Loggy.LogError("Failed to find IActionGUI on NetworkIdentity", Category.UserInput);
 				}
 			}
 

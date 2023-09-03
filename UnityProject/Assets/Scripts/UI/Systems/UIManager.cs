@@ -10,6 +10,7 @@ using AdminTools.VariableViewer;
 using Audio.Managers;
 using Initialisation;
 using Learning;
+using Logs;
 using UI;
 using UI.Core;
 using UI.Core.Windows;
@@ -174,7 +175,7 @@ public class UIManager : MonoBehaviour, IInitialise
 			float screenHeight = Screen.height / Screen.dpi;
 			float diagonalInches = Mathf.Sqrt(Mathf.Pow(screenWidth, 2) + Mathf.Pow(screenHeight, 2));
 
-			Logger.Log("Getting mobile device screen size in inches: " + diagonalInches, Category.UI);
+			Loggy.Log("Getting mobile device screen size in inches: " + diagonalInches, Category.UI);
 
 			return diagonalInches;
 		}
@@ -293,7 +294,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	void IInitialise.Initialise()
 	{
 		DetermineInitialTargetFrameRate();
-		Logger.Log("Touchscreen support = " + CommonInput.IsTouchscreen, Category.Sprites);
+		Loggy.Log("Touchscreen support = " + CommonInput.IsTouchscreen, Category.Sprites);
 		InitMobile();
 
 		if (!PlayerPrefs.HasKey(PlayerPrefKeys.TTSToggleKey))
@@ -322,7 +323,7 @@ public class UIManager : MonoBehaviour, IInitialise
 
 		if (!IsTablet) //tablets should be fine as is
 		{
-			Logger.Log("Looks like it's a phone, scaling UI", Category.UI);
+			Loggy.Log("Looks like it's a phone, scaling UI", Category.UI);
 			var canvasScaler = GetComponent<CanvasScaler>();
 			if (!canvasScaler)
 			{
@@ -506,7 +507,7 @@ public class UIManager : MonoBehaviour, IInitialise
 		var bar = GetProgressBar(progressBarId);
 		if (bar == null)
 		{
-			Logger.LogWarningFormat("Tried to destroy progress bar with unrecognized id {0}, nothing will be done.",
+			Loggy.LogWarningFormat("Tried to destroy progress bar with unrecognized id {0}, nothing will be done.",
 				Category.UI, progressBarId);
 		}
 		else
@@ -543,7 +544,7 @@ public class UIManager : MonoBehaviour, IInitialise
 		if (!progressAction.OnServerStartProgress(startProgressInfo))
 		{
 			//stop it without even having started it
-			Logger.LogTraceFormat("Server cancelling progress start, OnServerStartProgress=false for {0}",
+			Loggy.LogTraceFormat("Server cancelling progress start, OnServerStartProgress=false for {0}",
 				Category.ProgressAction,
 				startProgressInfo);
 			Despawn.ClientSingle(barObject);
@@ -554,7 +555,7 @@ public class UIManager : MonoBehaviour, IInitialise
 		progressBar._ServerStartProgress(progressAction, startProgressInfo);
 		Instance.progressBars.Add(progressBar.ID, progressBar);
 
-		Logger.LogTraceFormat("Server started progress bar {0} for {1}", Category.ProgressAction, progressBar.ID,
+		Loggy.LogTraceFormat("Server started progress bar {0} for {1}", Category.ProgressAction, progressBar.ID,
 			startProgressInfo);
 
 		return progressBar;

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Gateway;
+using Logs;
 
 namespace Systems.Scenes
 {
@@ -30,7 +31,7 @@ namespace Systems.Scenes
 				if (maintGenerator == null) continue;
 				maintGenerator.CreateTiles();
 			}
-			Logger.Log("Finished generating maints tiles!", Category.Round);
+			Loggy.Log("Finished generating maints tiles!", Category.Round);
 		}
 
 		private void PostStart()
@@ -48,7 +49,7 @@ namespace Systems.Scenes
 				maintGenerator.PlaceObjects();
 			}
 			MaintGenerators.Clear();
-			Logger.Log("Finished generating maints objects!", Category.Round);
+			Loggy.Log("Finished generating maints objects!", Category.Round);
 		}
 	}
 }

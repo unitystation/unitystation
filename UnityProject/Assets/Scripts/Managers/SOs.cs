@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using HealthV2;
 using Items.PDA;
+using Logs;
 using Machines;
 using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;
@@ -92,14 +93,14 @@ namespace ScriptableObjects
 			{
 				if (value == null)
 				{
-					Logger.LogError($"{typeof(T).FullName} is not assigned to {gameObject.name} prefab.");
+					Loggy.LogError($"{typeof(T).FullName} is not assigned to {gameObject.name} prefab.");
 					return null;
 				}
 
 				return value as T;
 			}
 
-			Logger.LogWarning($"{nameof(SOs)} is missing entry for {typeof(T).FullName}.");
+			Loggy.LogWarning($"{nameof(SOs)} is missing entry for {typeof(T).FullName}.");
 			return default;
 		}
 	}

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Logs;
 
 namespace Systems.Electricity
 {
@@ -28,10 +29,10 @@ namespace Systems.Electricity
 
 		public static void PoolsStatuses()
 		{
-			Logger.Log("PooledResistanceWraps" + PooledResistanceWraps.Count, Category.Electrical);
-			Logger.Log("PooledVIRResistances" + PooledVIRResistances.Count, Category.Electrical);
-			Logger.Log("PooledVIRCurrent" + PooledVIRCurrent.Count, Category.Electrical);
-			Logger.Log("PooledWrapCurrent" + PooledWrapCurrent.Count, Category.Electrical);
+			Loggy.Log("PooledResistanceWraps" + PooledResistanceWraps.Count, Category.Electrical);
+			Loggy.Log("PooledVIRResistances" + PooledVIRResistances.Count, Category.Electrical);
+			Loggy.Log("PooledVIRCurrent" + PooledVIRCurrent.Count, Category.Electrical);
+			Loggy.Log("PooledWrapCurrent" + PooledWrapCurrent.Count, Category.Electrical);
 		}
 
 		public static ResistanceWrap GetResistanceWrap()

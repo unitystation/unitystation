@@ -8,6 +8,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Logs;
 using UnityEngine;
 
 namespace SecureStuff
@@ -84,20 +85,20 @@ namespace SecureStuff
 		{
 			if (requestUri.IsAbsoluteUri == false)
 			{
-				Logger.LogError(
+				Loggy.LogError(
 					$"URL For Request was not absolute e.g Was local such as /blahblahblah/thing {requestUri}");
 				return false;
 			}
 
 			if (requestUri.IsUnc)
 			{
-				Logger.LogError($"why IsUnc? Not allowed {requestUri}");
+				Loggy.LogError($"why IsUnc? Not allowed {requestUri}");
 				return false;
 			}
 
 			if (Uri.TryCreate(requestUri.GetLeftPart(UriPartial.Authority), UriKind.Absolute, out var baseUri) == false)
 			{
-				Logger.LogError($"Somehow completely failed URL format check {requestUri}");
+				Loggy.LogError($"Somehow completely failed URL format check {requestUri}");
 				// Invalid URI format
 				return false;
 			}
@@ -110,7 +111,7 @@ namespace SecureStuff
 				{
 					if (IsNotSafeIPv4(AddressToUse))
 					{
-						Logger.LogError($"HEY BAD Not allowed, Private network IPv4 Address returned for {requestUri}");
+						Loggy.LogError($"HEY BAD Not allowed, Private network IPv4 Address returned for {requestUri}");
 						return false;
 					}
 				}
@@ -118,13 +119,13 @@ namespace SecureStuff
 				{
 					if (IsNotSafeIPv6(AddressToUse))
 					{
-						Logger.LogError($"HEY BAD Not allowed, Private network IPv6 Address returned for {requestUri}");
+						Loggy.LogError($"HEY BAD Not allowed, Private network IPv6 Address returned for {requestUri}");
 						return false;
 					}
 				}
 				else
 				{
-					Logger.LogError($"Invalid IP Address Return from DNS for {requestUri}");
+					Loggy.LogError($"Invalid IP Address Return from DNS for {requestUri}");
 					return false;
 				}
 			}
@@ -135,7 +136,7 @@ namespace SecureStuff
 			}
 			else
 			{
-				Logger.Log($"Hub validation failed for {requestUri}");
+				Loggy.Log($"Hub validation failed for {requestUri}");
 				return false;
 			}
 
