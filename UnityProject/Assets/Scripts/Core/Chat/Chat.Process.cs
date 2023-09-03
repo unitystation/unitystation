@@ -605,7 +605,7 @@ public partial class Chat
 		}
 
 		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, loudness, isWhispering, originatorUint, stripTags);
-		if (isWhispering == false) ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness, modifiers, languageId);
+		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness, modifiers, languageId, isWhispering);
 	}
 
 	private static bool GhostValidationRejection(uint originator, ChatChannel channels)
