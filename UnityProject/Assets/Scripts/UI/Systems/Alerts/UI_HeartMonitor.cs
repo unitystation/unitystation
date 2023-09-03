@@ -45,6 +45,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 
 	private void OnSceneChange(Scene prev, Scene next)
 	{
+		if (OverlayCrits.Instance == null) return;
 		// Ensure crit overlay is reset to normal.
 		OverlayCrits.Instance.SetState(OverlayState.normal);
 	}
