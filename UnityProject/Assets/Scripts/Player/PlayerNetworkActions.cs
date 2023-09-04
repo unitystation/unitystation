@@ -872,11 +872,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestChangelingAbilites(int abilityIndex, Vector3 clickPosition)
 	{
-		foreach (var spell in playerScript.Changeling.ChangelingAbilities)
+		if (playerScript.Changeling == null)
+			return;
+		foreach (var ability in playerScript.Changeling.ChangelingAbilities)
 		{
-			if (spell.AbilityData.Index == abilityIndex)
+			if (ability.AbilityData.Index == abilityIndex)
 			{
-				spell.CallActionServer(PlayerList.Instance.GetOnline(gameObject), clickPosition);
+				ability.CallActionServer(PlayerList.Instance.GetOnline(gameObject), clickPosition);
 				return;
 			}
 		}
@@ -886,6 +888,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestChangelingAbilitesWithParam(int abilityIndex, string param)
 	{
+		if (playerScript.Changeling == null)
+			return;
 		foreach (var ability in playerScript.Changeling.AbilitiesNow)
 		{
 			if (ability.AbilityData.Index == abilityIndex)
@@ -899,6 +903,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestChangelingAbilitesToggle(int abilityIndex, bool toggle)
 	{
+		if (playerScript.Changeling == null)
+			return;
 		foreach (var ability in playerScript.Changeling.AbilitiesNow)
 		{
 			if (ability.AbilityData.Index == abilityIndex)
