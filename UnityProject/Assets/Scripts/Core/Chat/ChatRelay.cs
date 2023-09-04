@@ -280,19 +280,19 @@ public class ChatRelay : NetworkBehaviour
 
 	public static void ShowChatBubbleToNearbyPlayers(ref ChatEvent chatEvent)
 	{
-		if (chatEvent.IsWhispering) HideWhisperedText(chatEvent.message);
-		ShowChatBubbleMessage.SendToNearby(chatEvent.originator, chatEvent.message, chatEvent.language);
+		var msg = "";
+		if (chatEvent.IsWhispering) msg = HideWhisperedText(ref chatEvent.message);
+		ShowChatBubbleMessage.SendToNearby(chatEvent.originator, msg, chatEvent.language);
 	}
 
 	public static void HideWhisperedText(ref GameObject originator, ref string message, ref GameObject playerToSend)
 	{
 		if (originator == null || playerToSend == originator) return;
 		if (Vector2.Distance(originator.AssumedWorldPosServer(), playerToSend.AssumedWorldPosServer()) < Instance.whisperFalloffDistance) return;
-		Debug.Log($"scrambling text for {playerToSend} with distance {Vector2.Distance(originator.AssumedWorldPosServer(), playerToSend.AssumedWorldPosServer())}");
-		message = HideWhisperedText(message);
+		message = HideWhisperedText(ref message);
 	}
 
-	public static string HideWhisperedText(string message)
+	public static string HideWhisperedText(ref string message)
 	{
 		var msg = string.Empty;
 		foreach (var character in message.ToList())
