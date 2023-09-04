@@ -1,9 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Text.RegularExpressions;
 using Player.Language;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 /// <summary>
 /// A set of flags to show active chat channels. Be aware this can contain multiple active chat channels at a time!
@@ -106,6 +104,7 @@ public class ChatEvent
 	public Loudness VoiceLevel = Loudness.NORMAL;
 	public LanguageSO language;
 	public bool IsWhispering = false;
+	public bool ShowChatBubble = false;
 
 	/// <summary>
 	/// Send chat message only to those on this matrix

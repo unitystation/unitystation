@@ -766,12 +766,9 @@ public partial class Chat : MonoBehaviour
 			message = message,
 			position = worldPos,
 			originator = originator,
-			speaker = speakerName
+			speaker = speakerName,
+			ShowChatBubble = doSpeechBubble,
 		});
-
-		if(doSpeechBubble == false) return;
-
-		ShowChatBubbleMessage.SendToNearby(originator, message, language);
 	}
 
 	/// <summary>

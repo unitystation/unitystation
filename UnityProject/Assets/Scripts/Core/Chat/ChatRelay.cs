@@ -66,13 +66,7 @@ public class ChatRelay : NetworkBehaviour
 
 	private void WhisperCheck(ChatEvent chatEvent)
 	{
-		var willWhisper = false;
-		foreach (var prefix in whisperPrefix)
-		{
-			if (chatEvent.message.Contains(prefix) == false) continue;
-			willWhisper = true;
-			break;
-		}
+		var willWhisper = whisperPrefix.Any(prefix => chatEvent.message.Contains(prefix));
 		chatEvent.IsWhispering = willWhisper;
 	}
 
@@ -281,6 +275,13 @@ public class ChatRelay : NetworkBehaviour
 
 		UpdateChatMessage.Send(playerToSend, channel, chatEvent.modifiers, copiedString, chatEvent.VoiceLevel,
 			chatEvent.messageOthers, chatEvent.originator, chatEvent.speaker, chatEvent.stripTags, languageId, chatEvent.IsWhispering);
+		ShowChatBubbleToNearbyPlayers(ref chatEvent);
+	}
+
+	public static void ShowChatBubbleToNearbyPlayers(ref ChatEvent chatEvent)
+	{
+		if (chatEvent.IsWhispering) HideWhisperedText(chatEvent.message);
+		ShowChatBubbleMessage.SendToNearby(chatEvent.originator, chatEvent.message, chatEvent.language);
 	}
 
 	public static void HideWhisperedText(ref GameObject originator, ref string message, ref GameObject playerToSend)
@@ -288,6 +289,11 @@ public class ChatRelay : NetworkBehaviour
 		if (originator == null || playerToSend == originator) return;
 		if (Vector2.Distance(originator.AssumedWorldPosServer(), playerToSend.AssumedWorldPosServer()) < Instance.whisperFalloffDistance) return;
 		Debug.Log($"scrambling text for {playerToSend} with distance {Vector2.Distance(originator.AssumedWorldPosServer(), playerToSend.AssumedWorldPosServer())}");
+		message = HideWhisperedText(message);
+	}
+
+	public static string HideWhisperedText(string message)
+	{
 		var msg = string.Empty;
 		foreach (var character in message.ToList())
 		{
@@ -298,7 +304,7 @@ public class ChatRelay : NetworkBehaviour
 			}
 			msg += c;
 		}
-		message = msg;
+		return msg;
 	}
 
 	private ChatEvent CheckForRadios(ChatEvent chatEvent)

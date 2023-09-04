@@ -145,13 +145,6 @@ public partial class Chat
 
 			chatModifiers |= ChatModifier.Emote;
 		}
-		// Whisper
-		else if (message.StartsWith("#") || message.StartsWith("/w ", true, CultureInfo.CurrentCulture))
-		{
-			message = message.Replace("/w", "");
-			message = message.Substring(1);
-			chatModifiers |= ChatModifier.Whisper;
-		}
 		// Sing
 		else if (message.StartsWith("%") || message.StartsWith("/s ", true, CultureInfo.CurrentCulture))
 		{

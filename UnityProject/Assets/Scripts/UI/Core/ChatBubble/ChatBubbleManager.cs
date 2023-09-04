@@ -88,7 +88,7 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise, IDisposable
 	{
 		//TODO this will prevent emotes from appearing as speech. We should streamline it and simply don't use
 		// the chat api when the message is an emote, instead generate an action message.
-		if ((chatModifier & ChatModifier.Emote) == ChatModifier.Emote || chatModifier.HasFlag(ChatModifier.Whisper))
+		if ((chatModifier & ChatModifier.Emote) == ChatModifier.Emote)
 		{
 			return;
 		}
