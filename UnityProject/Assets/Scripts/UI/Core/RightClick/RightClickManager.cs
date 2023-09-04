@@ -71,7 +71,13 @@ public class RightClickManager : SingletonManager<RightClickManager>
 	private class RightClickAttributedComponent
 	{
 		public Type ComponentType;
-		public List<MethodInfo> AttributedMethods;
+		public List<MethodInfoAndRightClick> AttributedMethods;
+	}
+
+	public class MethodInfoAndRightClick
+	{
+		public MethodInfo MethodInfo;
+		public RightClickMethod RightClickMethod;
 	}
 
 	[SerializeField]
@@ -146,7 +152,12 @@ public class RightClickManager : SingletonManager<RightClickManager>
 				RightClickAttributedComponent component = new RightClickAttributedComponent
 				{
 					ComponentType = MonoBehaviourAndMethods.Key,
-					AttributedMethods = MonoBehaviourAndMethods.Value.Select(x => x.MethodInfo).ToList()
+					AttributedMethods = MonoBehaviourAndMethods.Value.Select(x => new MethodInfoAndRightClick()
+					{
+						MethodInfo = x.MethodInfo,
+						RightClickMethod = x.Attribute
+
+					}).ToList()
 
 				};
 				result.Add(component);
@@ -339,12 +350,11 @@ public class RightClickManager : SingletonManager<RightClickManager>
 	private IEnumerable<RightClickMenuItem> CreateSubMenuOptions(RightClickAttributedComponent attributedType, Component actualComponent)
 	{
 		return attributedType.AttributedMethods
-			.Select(m => CreateSubMenuOption(m, actualComponent));
+			.Select(m => CreateSubMenuOption(m.MethodInfo, actualComponent, m.RightClickMethod));
 	}
 
-	private RightClickMenuItem CreateSubMenuOption(MethodInfo forMethod, Component actualComponent)
+	private RightClickMenuItem CreateSubMenuOption(MethodInfo forMethod, Component actualComponent,  RightClickMethod rightClickMethod)
 	{
-		var rightClickMethod = forMethod.GetCustomAttribute<RightClickMethod>(true);
 		return rightClickMethod.AsMenu(forMethod, actualComponent);
 	}
 

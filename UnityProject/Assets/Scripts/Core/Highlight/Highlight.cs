@@ -104,11 +104,12 @@ public class Highlight : MonoBehaviour, IInitialise
 			subscribeSpriteHandlers.Clear();
 
 			Texture2D mainTex = instance.spriteRenderer.sprite.texture;
-			Unity.Collections.NativeArray<Color32> data = mainTex.GetRawTextureData<Color32>();
+			var data = mainTex.GetPixels();
 			for (int xy = 0; xy < data.Length; xy++)
 			{
 				data[xy] = new Color32(0, 0, 0, 0);
 			}
+			mainTex.SetPixels(data);
 			mainTex.Apply();
 			instance.TargetObject = null;
 
@@ -135,11 +136,12 @@ public class Highlight : MonoBehaviour, IInitialise
 		}
 
 		Texture2D mainTex = instance.spriteRenderer.sprite.texture;
-		Unity.Collections.NativeArray<Color32> data = mainTex.GetRawTextureData<Color32>();
+		var data = mainTex.GetPixels();
 		for (int xy = 0; xy < data.Length; xy++)
 		{
 			data[xy] = new Color32(0, 0, 0, 0);
 		}
+		mainTex.SetPixels(data);
 
 		instance.TargetObject = Highlightobject;
 		instance.spriteRenderer.gameObject.SetActive(true);
