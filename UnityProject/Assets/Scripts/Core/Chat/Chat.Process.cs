@@ -145,13 +145,6 @@ public partial class Chat
 
 			chatModifiers |= ChatModifier.Emote;
 		}
-		// Whisper
-		else if (message.StartsWith("#") || message.StartsWith("/w ", true, CultureInfo.CurrentCulture))
-		{
-			message = message.Replace("/w", "");
-			message = message.Substring(1);
-			chatModifiers |= ChatModifier.Whisper;
-		}
 		// Sing
 		else if (message.StartsWith("%") || message.StartsWith("/s ", true, CultureInfo.CurrentCulture))
 		{
@@ -215,7 +208,7 @@ public partial class Chat
 	/// </summary>
 	/// <returns>The chat message, formatted to suit the chat log.</returns>
 	public static string ProcessMessageFurther(string message, string speaker, ChatChannel channels,
-		ChatModifier modifiers, Loudness loudness, uint originatorUint = 0, bool stripTags = true)
+		ChatModifier modifiers, Loudness loudness, bool isWhispering, uint originatorUint = 0, bool stripTags = true)
 	{
 		playedSound = false;
 		//Highlight in game name by bolding and underlining if possible
@@ -238,7 +231,8 @@ public partial class Chat
 		//without a speaker (which is used by machines)
 		if (channels.HasFlag(ChatChannel.Examine) ||
 		    channels.HasFlag(ChatChannel.Action) ||
-		    channels.HasFlag(ChatChannel.Local) && string.IsNullOrEmpty(speaker))
+		    channels.HasFlag(ChatChannel.Local)
+		    && string.IsNullOrEmpty(speaker))
 		{
 			return AddMsgColor(channels, $"<i>{message}</i>");
 		}
@@ -300,10 +294,11 @@ public partial class Chat
 			return "";
 		}
 
-		if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper)
+		if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper || isWhispering)
 		{
 			verb = "whispers,";
 			message = $"<i>{message}</i>";
+			loudness = Loudness.QUIET;
 		}
 		else if ((modifiers & ChatModifier.Sing) == ChatModifier.Sing)
 		{
@@ -577,7 +572,7 @@ public partial class Chat
 	/// </summary>
 	public static void ProcessUpdateChatMessage(uint recipientUint, uint originatorUint, string message,
 		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, GameObject recipient,
-		Loudness loudness, bool stripTags = true, ushort languageId = 0)
+		Loudness loudness, bool stripTags = true, ushort languageId = 0, bool isWhispering = false)
 	{
 
 		var isOriginator = true;
@@ -602,8 +597,8 @@ public partial class Chat
 			speaker = "<color=red>Unknown</color>";
 		}
 
-		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, loudness, originatorUint, stripTags);
-		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness, modifiers, languageId);
+		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, loudness, isWhispering, originatorUint, stripTags);
+		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness, modifiers, languageId, isWhispering);
 	}
 
 	private static bool GhostValidationRejection(uint originator, ChatChannel channels)
