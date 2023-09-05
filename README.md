@@ -5,8 +5,9 @@
 [![Discord](https://img.shields.io/discord/273774715741667329.svg)](https://discord.gg/H6EunER)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
-![built-with-resentment](http://forthebadge.com/images/badges/built-with-resentment.svg)
-![contains-technical-debt](http://forthebadge.com/images/badges/contains-technical-debt.svg)
+
+![CONTAINS](https://img.shields.io/badge/CONTAINS-TECHNICAL%20DEBT-green?labelColor=blue&style=flat)
+![BUILT WITH](https://img.shields.io/badge/BUILT%20WITH-RESENTMENT-green?labelColor=blue&style=flat)
 
 _Unitystation has been active since late 2016_
 
