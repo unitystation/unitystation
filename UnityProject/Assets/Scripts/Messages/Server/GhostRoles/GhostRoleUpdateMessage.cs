@@ -30,9 +30,9 @@ namespace Messages.Server.GhostRoles
 		}
 
 		/// <summary>
-		/// Sends a message to all dead, informing them about a new ghost role that has become available.
+		/// Sends a message to all clients, informing them about a new ghost role that has become available.
 		/// </summary>
-		public static NetMessage SendToDead(uint key)
+		public static NetMessage SendToClients(uint key)
 		{
 			if (GhostRoleManager.Instance != null)
 			{
@@ -46,11 +46,9 @@ namespace Messages.Server.GhostRoles
 				{
 					if (player?.Script == null)
 					{
-						Logger.LogError("SendToDead, player?.Script == null", Category.Ghosts);
+						Logger.LogError("SendToClients, player?.Script == null", Category.Ghosts);
 						continue;
 					}
-
-					if (player.Script.IsDeadOrGhost == false) continue;
 
 					SendTo(player, key, role);
 				}
@@ -58,7 +56,7 @@ namespace Messages.Server.GhostRoles
 			}
 			else
 			{
-				Logger.LogError("SendToDead, GhostRoleManager.Instance == null", Category.Ghosts);
+				Logger.LogError("SendToClients, GhostRoleManager.Instance == null", Category.Ghosts);
 			}
 
 			return new NetMessage();

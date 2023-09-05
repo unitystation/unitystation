@@ -22,8 +22,10 @@ namespace AdminTools
 		[SerializeField] private GameObject roundManagerPage = null;
 		[SerializeField] private GameObject devToolsPage = null;
 		[SerializeField] private GameObject serverSettingsPage = null;
+		[SerializeField] private TeamObjectiveAdminPage teamObjectivePage = null;
+		[SerializeField] private GhostRoleAdminPage ghostRolesPage = null;
 		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
-		[SerializeField] private ObjectiveManagerPage antagManagerPage = default;
+		[SerializeField] private PlayerObjectiveManagerPage antagManagerPage = default;
 		[SerializeField] private Slider transparencySlider;
 		[SerializeField] private Image backgroundImage;
 		public AdminGiveItem giveItemPage;
@@ -135,6 +137,22 @@ namespace AdminTools
 			windowTitle.text = "SERVER SETTINGS";
 		}
 
+		public void ShowTeamObjectivePage()
+		{
+			DisableAllPages();
+			teamObjectivePage.gameObject.SetActive(true);
+			teamObjectivePage.Init(this);
+			windowTitle.text = "TEAM OBJECTIVES";
+		}
+
+		public void ShowGhostRolesPage()
+		{
+			DisableAllPages();
+			ghostRolesPage.gameObject.SetActive(true);
+			ghostRolesPage.Init();
+			windowTitle.text = "GHOST ROLES";
+		}
+
 		public void ShowRespawnPage()
 		{
 			DisableAllPages();
@@ -174,6 +192,8 @@ namespace AdminTools
 			adminRespawnPage.gameObject.SetActive(false);
 			antagManagerPage.gameObject.SetActive(false);
 			serverSettingsPage.gameObject.SetActive(false);
+			teamObjectivePage.gameObject.SetActive(false);
+			ghostRolesPage.gameObject.SetActive(false);
 			giveItemPage.SetActive(false);
 		}
 

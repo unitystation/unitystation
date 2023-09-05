@@ -20,6 +20,9 @@ public class ObjectiveEditor : Editor
 		} else if (GUILayout.Button("AddAttributeItem"))
 		{
 			objective.attributes.Add(new ObjectiveAttributeItem());
+		}  else if (GUILayout.Button("AddAttributeItemTrait"))
+		{
+			objective.attributes.Add(new ObjectiveAttributeItemTrait());
 		} 
 	}
 }

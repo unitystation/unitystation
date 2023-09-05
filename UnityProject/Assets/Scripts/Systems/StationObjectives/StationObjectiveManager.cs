@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using DatabaseAPI;
 using DiscordWebhook;
 using Shared.Managers;
@@ -13,7 +14,7 @@ namespace StationObjectives
 		[Tooltip("Stores all station objective data.")]
 		private StationObjectiveData stationObjectiveData = null;
 
-		private StationObjective activeObjective;
+		public List<StationObjective> ActiveObjective = new ();
 
 		private void OnEnable()
 		{
@@ -27,9 +28,24 @@ namespace StationObjectives
 
 		public void ServerChooseObjective()
 		{
-			activeObjective = stationObjectiveData.GetRandomObjective();
-			activeObjective.Setup();
-			GameManager.Instance.CentComm.MakeCommandReport(activeObjective.description, false);
+			var obj = stationObjectiveData.GetRandomObjective();
+			ActiveObjective.Add(obj);
+			obj.DoSetupStationObjective();
+		}
+
+		public void RemoveStationObjective(StationObjective toRemove)
+		{
+			if (ActiveObjective.Contains(toRemove))
+			{
+				toRemove.OnCanceling();
+				ActiveObjective.Remove(toRemove);
+			}
+		}
+
+		public void AddObjective(StationObjective toAdd)
+		{
+			ActiveObjective.Add(toAdd);
+			toAdd.DoSetupStationObjective();
 		}
 
 		public void ShowStationStatusReport()
@@ -54,27 +70,33 @@ namespace StationObjectives
 					$"<color={ChatTemplates.Blue}><size={ChatTemplates.LargeText}>" +
 					$"Objective of <b>{MatrixManager.MainStationMatrix.GameObject.scene.name}</b>:</size></color>\n",
 					200);
-			if (activeObjective == null)
+			if (ActiveObjective == null)
 			{
 				return "Error: Status not found :S";
 			}
-			var complete = activeObjective.CheckCompletion();
-			stringBuilder.Append($"{activeObjective.GetRoundEndReport()}\n");
-			stringBuilder.AppendLine(complete ? "<color=green><b>Completed</b></color>" : "<color=red><b>Failed</b></color>");
+			foreach (var obj in ActiveObjective)
+			{
+				var complete = obj.CheckStationObjectiveCompletion();
+				stringBuilder.Append($"{obj.GetRoundEndReport()}\n");
+				stringBuilder.AppendLine(complete ? "<color=green><b>Completed</b></color>" : "<color=red><b>Failed</b></color>");
+			}
 			return stringBuilder.ToString();
 		}
 
 		private string GetObjectiveStatusNonRich()
 		{
 			var message = $"Status of {MatrixManager.MainStationMatrix.GameObject.scene.name}:\n";
-			if (activeObjective != null)
+			if (ActiveObjective != null)
 			{
 
 				bool complete = false;
 
-				complete = activeObjective.CheckCompletion();
-				message += $"{activeObjective.GetRoundEndReport()}";
-				message += complete ? "Completed\n" : "Failed\n";
+				foreach (var obj in ActiveObjective)
+				{
+					complete = obj.CheckStationObjectiveCompletion();
+					message += $"{obj.GetRoundEndReport()}";
+					message += complete ? "Completed\n" : "Failed\n";
+				}
 				return message;
 			}
 			return message + " Did not have any active objectives ";
@@ -82,7 +104,7 @@ namespace StationObjectives
 
 		private void ResetObjectives()
 		{
-			activeObjective = null;
+			ActiveObjective.Clear();
 		}
 	}
 }

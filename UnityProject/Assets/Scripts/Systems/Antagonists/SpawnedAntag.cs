@@ -21,6 +21,16 @@ namespace Antagonists
 		private Antagonist curAntagonist;
 		public Antagonist Antagonist => curAntagonist;
 
+		private Team curTeam = null;
+		public Team CurTeam
+		{
+			get { return curTeam; }
+			set
+			{
+				curTeam = value;
+			}
+		}
+
 		/// <summary>
 		/// Player controlling this antag.
 		/// </summary>
@@ -104,6 +114,20 @@ namespace Antagonists
 					objSB.AppendLine($"{i+1}. {objectiveList[i].Description}");
 				}
 			}
+			if (curTeam != null)
+			{
+				objSB.AppendLine($"You are member of {curTeam.GetTeamName()}.");
+				if (curTeam.TeamObjectives.Count > 0)
+				{
+					objSB.AppendLine($"And {curTeam.GetTeamName()} objectives are:");
+				}
+				for (int i = 0; i < curTeam.TeamObjectives.Count; i++)
+				{
+					var obj = curTeam.TeamObjectives[i];
+
+					objSB.AppendLine($"{i + 1}. {obj.Description}");
+				}
+			}
 			// Adding back italic tag so rich text doesn't break
 			objSB.AppendLine("<i>");
 			return objSB.ToString();
@@ -135,6 +159,21 @@ namespace Antagonists
 			return objSB.ToString();
 		}
 
+		/// <summary>
+		/// Returns a string with the status of all objectives for this antag
+		/// </summary>
+		public string GetObjectiveStatusWiouthName()
+		{
+			StringBuilder objSB = new StringBuilder($"\n", 200);
+			var objectiveList = Objectives.ToList();
+			for (int i = 0; i < objectiveList.Count; i++)
+			{
+				objSB.Append($"{i+1}. {objectiveList[i].Description}: ");
+				objSB.AppendLine(objectiveList[i].IsComplete() ? "<color=green><b>Completed</b></color>" : "<color=red><b>Failed</b></color>");
+			}
+			return objSB.ToString();
+		}
+
 		public string GetObjectiveStatusNonRich()
 		{
 			var message = $"{Owner.OrNull()?.Body.OrNull()?.playerName}, {Owner.OrNull()?.occupation.OrNull()?.DisplayName}\n";
@@ -144,6 +183,12 @@ namespace Antagonists
 				message += $"{i + 1}. {objectiveList[i].Description}: ";
 				message += objectiveList[i].IsComplete() ? "Completed\n" : "Failed\n";
 			}
+			return message;
+		}
+
+		public string GetPlayerName()
+		{
+			var message = $"{Owner.OrNull()?.Body.OrNull()?.playerName}, {Owner.OrNull()?.occupation.OrNull()?.DisplayName}\n";
 			return message;
 		}
 	}

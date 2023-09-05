@@ -12,10 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7a70c401d44b34a907aa592ed71ee3, type: 3}
   m_Name: Ship Resources
   m_EditorClassIdentifier: 
+  attributes:
+  - rid: 2286632946148835328
+  - rid: 2286632946148835329
+  isEndRoundObjective: 0
+  objectiveName: Ship resources
+  IsUnique: 0
   description: <size=26>Asteroid bodies have been sighted in the local area around
     {1}. Locate and exploit local sources for {0} deposits.</size><br><br><color=blue><size=32>Crew
     Objectives:</size></color><br><br><size=24> - Locate and mine local {0} Deposits<br><br>
     - Fulfill order of {2} {0} sheets and dispatch to Central Command via Cargo Shuttle</size>
+  aiCanHave: 0
   roundEndReport: 'Locate and mine local {1} Deposits<br> - Fulfill order of {0}
     {1} sheets and dispatch to Central Command via Cargo Shuttle<br>Amount of {1}
     sheets shipped: {2}/{0}'
@@ -26,3 +33,18 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 4f4583e504cb03c41b2c0a97202be49e, type: 2}
     - {fileID: 11400000, guid: 66d1cd8016198e74c92a755f9b2bdeb0, type: 2}
     m_values: 640000001e0000000a00000014000000
+  references:
+    version: 2
+    RefIds:
+    - rid: 2286632946148835328
+      type: {class: ObjectiveAttributeItemTrait, ns: Antagonists, asm: Assets}
+      data:
+        name: What resource?
+        index: -1
+        itemTraitIndex: 0
+    - rid: 2286632946148835329
+      type: {class: ObjectiveAttributeNumber, ns: Antagonists, asm: Assets}
+      data:
+        name: What count?
+        index: -1
+        number: 0

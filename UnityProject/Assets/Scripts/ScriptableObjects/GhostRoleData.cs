@@ -25,6 +25,11 @@ namespace ScriptableObjects
 		[InfoBox("Set to -1 for no timeout.", EInfoBoxType.Normal)]
 		[SerializeField, Range(-1, 120)] private float timeout = 30;
 
+		[Tooltip("The team of the ghost type")]
+		[SerializeField]
+		private TeamData team;
+		public TeamData Team => team;
+
 		[Tooltip("What player counts the player should see on this ghost role entry - min/max possible players, current players.")]
 		[SerializeField] private GhostRolePlayerCountType playerCountType = GhostRolePlayerCountType.ShowCurrentAndMaxCounts;
 

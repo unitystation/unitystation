@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using NaughtyAttributes;
 using ScriptableObjects;
 using UnityEngine;
@@ -106,6 +107,15 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	/// <summary>
 	/// Do not use this list to get references to traits, locally reference them in your scripts instead!
 	/// </summary>
-	[Obsolete]
 	public List<ItemTrait> everyTraitOutThere = new List<ItemTrait>();
+
+	public ItemTrait GetFromIndex(short index)
+	{
+		return everyTraitOutThere.ElementAt(index);
+	}
+
+	public short GetIndex(ItemTrait trait)
+	{
+		return (short)everyTraitOutThere.IndexOf(trait);
+	}
 }

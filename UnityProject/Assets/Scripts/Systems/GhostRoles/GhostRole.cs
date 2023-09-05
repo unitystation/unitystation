@@ -6,6 +6,7 @@ using UnityEngine;
 using ScriptableObjects;
 using Systems.Character;
 using UI.Character;
+using Antagonists;
 
 namespace Systems.GhostRoles
 {
@@ -18,7 +19,11 @@ namespace Systems.GhostRoles
 		/// <summary>Static data pertaining to this specific ghost role.</summary>
 		public readonly GhostRoleData RoleData;
 		/// <summary>The index of the GhostRoleData in the GhostRoleList SO.</summary>
-		public readonly int RoleListIndex;
+		protected int roleListIndex;
+		public int RoleListIndex => roleListIndex;
+
+		/// <summary>The key for GhostRoles in GhostRoleManager.</summary>
+		public readonly uint RoleKey;
 
 		/// <summary> The minimum amount of players this ghost role instance can support.</summary>
 		public int MinPlayers { get; private set; }
@@ -35,12 +40,13 @@ namespace Systems.GhostRoles
 
 		protected Coroutine timeoutCoroutine;
 
-		protected GhostRole(int roleDataIndex)
+		protected GhostRole(int roleDataIndex, uint roleKey)
 		{
-			RoleListIndex = roleDataIndex;
+			roleListIndex = roleDataIndex;
 			RoleData = GhostRoleManager.Instance.GhostRoles[roleDataIndex];
 
 			UpdateRole(RoleData.MinPlayers, RoleData.MaxPlayers, RoleData.Timeout);
+			RoleKey = roleKey;
 		}
 
 		public void UpdateRole(int minPlayers, int maxPlayers, float timeRemaining)
@@ -48,6 +54,14 @@ namespace Systems.GhostRoles
 			MinPlayers = minPlayers;
 			MaxPlayers = maxPlayers;
 			TimeRemaining = timeRemaining;
+		}
+
+		public void UpdateRole(int minPlayers, int maxPlayers, float timeRemaining, int newRoleListIndex)
+		{
+			MinPlayers = minPlayers;
+			MaxPlayers = maxPlayers;
+			TimeRemaining = timeRemaining;
+			roleListIndex = newRoleListIndex;
 		}
 
 		protected IEnumerator TimeoutTimer(float timeRemaining)
@@ -100,7 +114,7 @@ namespace Systems.GhostRoles
 		private int playersSpawned = 0;
 		public int PlayersSpawned => playersSpawned;
 
-		public GhostRoleServer(int roleDataIndex) : base(roleDataIndex)
+		public GhostRoleServer(int roleDataIndex, uint roleKey) : base(roleDataIndex, roleKey)
 		{
 			timeoutCoroutine = GhostRoleManager.Instance.StartCoroutine(TimeoutTimer(RoleData.Timeout));
 
@@ -146,8 +160,15 @@ namespace Systems.GhostRoles
 
 			OnMinPlayersReached += () =>
 			{
+				Team newTeam = null;
+				if (RoleData.Team != null)
+				{
+					newTeam = AntagManager.Instance.CreateTeam(RoleData.Team);
+				}
 				foreach (PlayerInfo player in WaitingPlayers)
 				{
+					if (newTeam != null)
+						newTeam.AddTeamMember(player.Mind);
 					SpawnPlayer(player);
 				}
 				WaitingPlayers.Clear();
@@ -202,7 +223,7 @@ namespace Systems.GhostRoles
 		/// </summary>
 		public int PlayerCount { get; set; }
 
-		public GhostRoleClient(int roleDataIndex, int playerCount, float timeRemaining) : base(roleDataIndex)
+		public GhostRoleClient(int roleDataIndex, int playerCount, float timeRemaining, uint roleKey) : base(roleDataIndex, roleKey)
 		{
 			PlayerCount = playerCount;
 			timeoutCoroutine = GhostRoleManager.Instance.StartCoroutine(TimeoutTimer(timeRemaining));
@@ -212,6 +233,13 @@ namespace Systems.GhostRoles
 		{
 			UpdateRole(minPlayers, maxPlayers, timeRemaining);
 			PlayerCount = playerCount;
+		}
+
+		public void UpdateRole(int minPlayers, int maxPlayers, float timeRemaining, int playerCount, int newIndex)
+		{
+			UpdateRole(minPlayers, maxPlayers, timeRemaining);
+			PlayerCount = playerCount;
+			roleListIndex = newIndex;
 		}
 	}
 }

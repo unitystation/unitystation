@@ -263,7 +263,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 	public void UpdateAntagButtons()
 	{
-		if (Antag.Objectives.Count() == 0)
+		if (Antag.Objectives.Count() == 0 && antagContainer == null)
 		{
 			ActivateAntagAction(false);
 		} else
@@ -280,8 +280,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 		Antag.Init(antagonist, this, objectives);
 		NetworkedisAntag = antagonist != null;
 		NetworkedAntagJob = antagonist.AntagJobType;
-
-		ShowObjectives();
 		ActivateAntagAction(NetworkedisAntag);
 
 		return Antag;

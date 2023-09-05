@@ -15,6 +15,16 @@ namespace Antagonists
 		[SerializeField]
 		private string antagName = "New Antag";
 
+		[Tooltip("The team of the antagonist type")]
+		[SerializeField]
+		private TeamData team = null;
+		public TeamData Team => team;
+
+		[Tooltip("Is team will be added to antag when antag is initiated")]
+		[SerializeField]
+		private bool addTeamAtInit;
+		public bool AddTeamAtInit => addTeamAtInit;
+
 		[Tooltip("The antag jobType")]
 		[SerializeField]
 		private JobType antagJobType = default;

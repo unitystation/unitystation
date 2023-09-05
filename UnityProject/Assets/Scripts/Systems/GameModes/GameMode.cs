@@ -366,6 +366,7 @@ namespace GameModes
 			int antagsToSpawn = CalculateAntagCount(PlayerList.Instance.ReadyPlayers.Count);
 			var jobAllocator = new JobAllocator();
 			var playerPool = PlayerList.Instance.ReadyPlayers;
+			AntagManager.Instance.ServerSpawnTeams();
 
 			AntagJobAllocation(jobAllocator, playerPool, ref playerSpawnRequests, ref antagSpawnRequests, antagsToSpawn);
 

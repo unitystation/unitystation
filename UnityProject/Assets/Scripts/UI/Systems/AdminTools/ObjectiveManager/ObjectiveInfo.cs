@@ -8,10 +8,9 @@ public class ObjectiveInfo
 	public bool Status;
 	public bool IsCustom = false;
 	public bool toDelete = false;
-	public bool IsNew;
 	public string ID = "";
 	public short PrefabID = -1;
-	public List<ObjectiveAttribute> attributes = new List<ObjectiveAttribute>();
+	public List<ObjectiveAttribute> Attributes = new List<ObjectiveAttribute>();
 
 	public bool IsDifferent(CustomObjective objective)
 	{

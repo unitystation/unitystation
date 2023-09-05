@@ -9,6 +9,7 @@ namespace Antagonists
 	public class ObjectiveAttribute
 	{
 		public string name;
+		[HideInInspector]
 		public short index = -1;
 	}
 
@@ -30,11 +31,22 @@ namespace Antagonists
 		public string itemID;
 	}
 
+	[System.Serializable]
+	public class ObjectiveAttributeItemTrait: ObjectiveAttribute
+	{
+		public short itemTraitIndex;
+	}
+
 	/// <summary>
 	/// The base class ScriptableObject for all antagonist objectives
 	/// </summary>
 	public abstract class Objective : ScriptableObject
 	{
+
+		/// <summary>
+		/// Used for adding custom attributes to admin panel
+		/// Need to be added through inspector buttons or in code
+		/// </summary>
 		[SerializeReference]
 		public List<ObjectiveAttribute> attributes = new List<ObjectiveAttribute>();
 
@@ -156,7 +168,6 @@ namespace Antagonists
 			{
 				Logger.LogError($"Failed to set up objectives for {this.name}" +e.ToString());
 			}
-
 		}
 
 		/// <summary>
@@ -178,6 +189,11 @@ namespace Antagonists
 		public bool IsComplete()
 		{
 			return (Complete || CheckCompletion());
+		}
+
+		public virtual string GetShortDescription()
+		{
+			return description;
 		}
 
 		/// <summary>

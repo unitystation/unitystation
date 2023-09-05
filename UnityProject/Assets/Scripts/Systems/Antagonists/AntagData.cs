@@ -21,6 +21,14 @@ namespace Antagonists
 		/// </summary>
 		[SerializeField]
 		private List<Objective> SharedObjectives = new List<Objective>();
+		public List<Objective> SharedObjectivesPublic => new List<Objective>(SharedObjectives);
+
+		/// <summary>
+		/// All possible teams.
+		/// </summary>
+		[SerializeField]
+		private List<TeamData> teamDatas = new List<TeamData>();
+		public List<TeamData> TeamDatas => teamDatas;
 		/// <summary>
 		/// Possible escape objectives. Antags should only get one of these.
 		/// </summary>
@@ -33,9 +41,17 @@ namespace Antagonists
 		[SerializeField]
 		private List<Objective> GimmickObjectives = new List<Objective>();
 
+		[SerializeField]
+		private List<TeamObjective> TeamObjectives = new List<TeamObjective>();
 
+		/// <summary>
+		/// Putting all objectives to one list
+		/// </summary>
 		private readonly List<Objective> allObjectives = new List<Objective>();
 
+		/// <summary>
+		/// All antags, teams, station objectives in one list
+		/// </summary>
 		public List<Objective> AllObjectives
 		{
 			get
@@ -49,6 +65,8 @@ namespace Antagonists
 					allObjectives.AddRange(SharedObjectives);
 					allObjectives.AddRange(EscapeObjectives);
 					allObjectives.AddRange(GimmickObjectives);
+					allObjectives.AddRange(TeamObjectives);
+					allObjectives.AddRange(StationObjectives.StationObjectiveData.Instance.ObjectivesPublic);
 				}
 
 				return new (allObjectives);
@@ -236,6 +254,22 @@ namespace Antagonists
 		public short GetIndexObj(Objective obj)
 		{
 			return (short)AllObjectives.IndexOf(obj);
+		}
+
+		public short GetTeamIndex(TeamData data)
+		{
+			return (short)teamDatas.IndexOf(data);
+		}
+
+		public TeamData GetFromIndex(short index)
+		{
+			if (index < 0 || index > teamDatas.Count - 1)
+			{
+				Logger.LogErrorFormat("TeamList: no TeamData found at index {0}", Category.Antags, index);
+				return null;
+			}
+
+			return teamDatas[index];
 		}
 	}
 }

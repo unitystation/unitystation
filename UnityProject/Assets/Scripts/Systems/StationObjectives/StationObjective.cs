@@ -1,32 +1,32 @@
-﻿using System;
+﻿using Antagonists;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace StationObjectives
 {
-	public abstract class StationObjective : ScriptableObject
+	public class StationObjective : TeamObjective
 	{
-		/// <summary>
-		/// The description of the objective which is shown to players.
-		/// </summary>
-		public string description;
-
 		/// <summary>
 		/// The description read out at the end of the round.
 		/// </summary>
 		[SerializeField]
 		protected string roundEndReport;
 
-		/// <summary>
-		/// Set true when the objective has been completed
-		/// </summary>
-		protected bool Complete;
+		public void DoSetupStationObjective()
+		{
+			SetupStationObjective();
+			GameManager.Instance.CentComm.MakeCommandReport(Description, false);
+		}
 
 		/// <summary>
 		/// Perform initial setup of the objective if needed
 		/// </summary>
-		public abstract void Setup();
+		protected virtual void SetupStationObjective()
+		{
+			
+		}
 
 		/// <summary>
 		/// Override to make modifications of the end report
@@ -36,9 +36,19 @@ namespace StationObjectives
 			return roundEndReport;
 		}
 
-		public virtual bool CheckCompletion()
+		public virtual bool CheckStationObjectiveCompletion()
 		{
 			return Complete;
+		}
+
+		protected override void Setup()
+		{
+			
+		}
+
+		protected override bool CheckCompletion()
+		{
+			return CheckStationObjectiveCompletion();
 		}
 	}
 }
