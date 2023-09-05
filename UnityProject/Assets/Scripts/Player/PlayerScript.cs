@@ -167,7 +167,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 			{
 				if (CustomNetworkManager.IsServer)
 				{
-					changeling = playerHealth.brain.gameObject.GetComponent<ChangelingMain>();
+					if (playerHealth != null && playerHealth.brain != null && playerHealth.brain.gameObject.TryGetComponent<ChangelingMain>(out var change))
+						changeling = change;
 				} else
 				{
 					changeling = UIManager.Instance.displayControl.hudChangeling.ChangelingMain;
