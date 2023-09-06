@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
 using Logs;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -317,57 +314,6 @@ namespace Light2D
 			vec.z = value;
 			return vec;
 		}
-
-#if !UNITY_WINRT
-		public static void Serialize<T>(string path, T obj) where T : class
-		{
-			using (var stream = File.Create(path))
-			{
-				var serializer = new XmlSerializer(typeof (T));
-				var xmlWriter = new XmlTextWriter(stream, Encoding.UTF8);
-				serializer.Serialize(xmlWriter, obj);
-			}
-		}
-
-		public static byte[] Serialize<T>(T obj)
-		{
-			using (var stream = new MemoryStream())
-			{
-				var serializer = new XmlSerializer(typeof (T));
-				var xmlWriter = new XmlTextWriter(stream, Encoding.UTF8);
-				serializer.Serialize(xmlWriter, obj);
-				return stream.ToArray();
-			}
-		}
-
-		public static T Deserialize<T>(string path) where T : class
-		{
-			using (var stream = File.OpenRead(path))
-			{
-				var serializer = new XmlSerializer(typeof (T));
-				var fromFile = serializer.Deserialize(stream) as T;
-				return fromFile;
-			}
-		}
-
-		public static T Deserialize<T>(byte[] data)
-		{
-			try
-			{
-				using (var stream = new MemoryStream(data))
-				{
-					var serializer = new XmlSerializer(typeof (T));
-					var fromFile = (T) serializer.Deserialize(stream);
-					return fromFile;
-				}
-			}
-			catch (Exception ex)
-			{
-				Loggy.LogErrorFormat("Deserialize: {0}", Category.Lighting, ex);
-				return default(T);
-			}
-		}
-#endif
 
 		public static int IndexOfMin<T>(this List<T> list, Func<T, float> pred)
 		{
