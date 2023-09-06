@@ -26,15 +26,26 @@ namespace Messages.Server
 			public bool StripTags;
 			public Loudness Loudness;
 			public ushort LanguageId;
+			public bool IsWhispering;
 		}
 
 		public override void Process(NetMessage msg)
 		{
 			LoadNetworkObject(msg.Recipient);
 			var recipientObject = NetworkObject;
+			LoadNetworkObject(msg.Originator);
+			var orginatorObject = NetworkObject;
+
+			//(Max): this only works on the client for some reason.
+			//So it will stay like this until I figure out how to make it work on the server.
+			if (msg.IsWhispering)
+			{
+				ChatRelay.HideWhisperedText(ref orginatorObject, ref msg.Message, ref recipientObject);
+			}
+
 			Chat.ProcessUpdateChatMessage(msg.Recipient, msg.Originator,
 				msg.Message, msg.OthersMessage, msg.Channels, msg.ChatModifiers, msg.Speaker, recipientObject,
-				msg.Loudness, msg.StripTags, msg.LanguageId);
+				msg.Loudness, msg.StripTags, msg.LanguageId, msg.IsWhispering);
 		}
 
 		/// <summary>
@@ -44,7 +55,7 @@ namespace Messages.Server
 		/// </summary>
 		public static NetMessage Send(GameObject recipient, ChatChannel channels, ChatModifier chatMods, string chatMessage,
 			Loudness loudness = Loudness.NORMAL, string othersMsg = "",
-			GameObject originator = null, string speaker = "", bool stripTags = true, ushort languageId = 0)
+			GameObject originator = null, string speaker = "", bool stripTags = true, ushort languageId = 0, bool isWhispering = false)
 		{
 			uint origin = NetId.Empty;
 			if (originator != null)
@@ -68,7 +79,8 @@ namespace Messages.Server
 					Speaker = speaker,
 					StripTags = stripTags,
 					Loudness = loudness,
-					LanguageId = languageId
+					LanguageId = languageId,
+					IsWhispering = isWhispering,
 				};
 
 			SendTo(recipient, msg, Category.Chat, 2);

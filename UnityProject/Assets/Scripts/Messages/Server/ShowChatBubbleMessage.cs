@@ -48,7 +48,7 @@ namespace Messages.Server
 
 		public static void SendToNearby(GameObject followTransform, string message, LanguageSO language)
 		{
-
+			if (followTransform == null) return;
 			var visiblePlayers = OtherUtil.GetVisiblePlayers(followTransform.transform.position);
 
 			foreach (var player in visiblePlayers)
