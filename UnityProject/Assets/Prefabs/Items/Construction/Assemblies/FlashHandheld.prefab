@@ -13,6 +13,21 @@ PrefabInstance:
       propertyPath: foreverID
       value: 7885c3ef269a1bb49870f7fb6d8f904d
       objectReference: {fileID: 0}
+    - target: {fileID: 6031154819312805203, guid: e77ad8336ea71364c9ec01faad07f5f4,
+        type: 3}
+      propertyPath: flashTime
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6031154819312805203, guid: e77ad8336ea71364c9ec01faad07f5f4,
+        type: 3}
+      propertyPath: flashRadius
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6031154819312805203, guid: e77ad8336ea71364c9ec01faad07f5f4,
+        type: 3}
+      propertyPath: stunExtraTime
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 9115576831223235532, guid: e77ad8336ea71364c9ec01faad07f5f4,
         type: 3}
       propertyPath: customNetTransform
@@ -61,17 +76,17 @@ PrefabInstance:
     - target: {fileID: 9153242923020361508, guid: e77ad8336ea71364c9ec01faad07f5f4,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9153242923020361508, guid: e77ad8336ea71364c9ec01faad07f5f4,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9153242923020361508, guid: e77ad8336ea71364c9ec01faad07f5f4,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9153242923020361508, guid: e77ad8336ea71364c9ec01faad07f5f4,
         type: 3}

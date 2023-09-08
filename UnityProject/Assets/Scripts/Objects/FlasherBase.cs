@@ -11,13 +11,15 @@ namespace Objects
 {
 	public class FlasherBase : NetworkBehaviour
 	{
-		[SerializeField] private float maximumDistance = 12f;
+		[SerializeField] protected float maximumDistance = 12f;
 		[SerializeField] protected float flashRadius = 12f;
 		[SerializeField] protected float flashTime = 12f;
-		[SerializeField] protected float weakDuration  = 12f;
+
+		[SerializeField, Tooltip("Duration used for when players are standing further away from the flash distance")]
+		protected float weakDuration  = 6f;
+
 		[SerializeField, ShowIf(nameof(stunsPlayers))] protected float stunExtraTime = 3f;
 		[SerializeField] protected float flashCooldown = 24f;
-		[SerializeField] protected ItemTrait sunglassesTrait;
 		[SerializeField] protected AddressableAudioSource flashSound;
 		[SerializeField] protected bool stunsPlayers = true;
 		[SyncVar] private bool onCooldown = false;
@@ -27,7 +29,6 @@ namespace Objects
 
 		private void Start()
 		{
-			//(Max) : How would this work when we get to the mind rework? Will we force all objects that inherit from player to change their mask to "Players"? Or will we make a new one?
 			pLayerMask = LayerMask.GetMask("Players");
 			layerMask = LayerMask.GetMask("Door Closed"); //I copied this from ChatRelay.cs
 		}
@@ -63,24 +64,22 @@ namespace Objects
 		}
 
 		[Server]
-		public void FlashTarget(GameObject target, float time, float stunnedtime)
+		public void FlashTarget(GameObject target, float time, float stunnedtime, bool checkForProtectiveGear = true)
 		{
 			if (onCooldown) return;
 			if (flashSound != null) _ = SoundManager.PlayNetworkedAtPosAsync(flashSound, gameObject.AssumedWorldPosServer());
 			StartCoroutine(Cooldown());
-			PerformFlash(target,time, stunnedtime);
+			PerformFlash(target, time, stunnedtime, checkForProtectiveGear);
 		}
 
 		[Server]
-		private void PerformFlash(GameObject target, float time, float stunnedtime)
+		private void PerformFlash(GameObject target, float time, float stunnedTime, bool checkForProtectiveGear = true)
 		{
-			//TODO Stun flashTime + stunExtraTime
 			if (target.gameObject.TryGetComponentCustom<LivingHealthMasterBase>(out var livingHealthMasterBase) == false) return;
-			if (stunnedtime > 0)
+			if (stunnedTime > 0 && livingHealthMasterBase.TryFlash(time, checkForProtectiveGear))
 			{
-				livingHealthMasterBase.GetComponent<RegisterPlayer>().ServerStun(stunnedtime);
+				livingHealthMasterBase.GetComponent<RegisterPlayer>()?.ServerStun(stunnedTime);
 			}
-			livingHealthMasterBase.TryFlash(time, true);
 		}
 
 

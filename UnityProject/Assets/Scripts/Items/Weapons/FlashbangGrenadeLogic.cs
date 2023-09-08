@@ -1,7 +1,5 @@
-﻿using AddressableReferences;
-using NaughtyAttributes;
+﻿using NaughtyAttributes;
 using Objects;
-using Player;
 using UnityEngine;
 
 namespace Items.Weapons
