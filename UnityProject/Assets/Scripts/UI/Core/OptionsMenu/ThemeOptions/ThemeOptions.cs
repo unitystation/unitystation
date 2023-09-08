@@ -39,9 +39,6 @@ namespace Unitystation.Options
 		private Toggle HighlightToggle = null;
 
 		[SerializeField]
-		private Toggle legacyRightClickMenuToggle = null;
-
-		[SerializeField]
 		private Toggle chatHighlightToggle = null;
 
 		[SerializeField]
@@ -64,6 +61,10 @@ namespace Unitystation.Options
 
 		[SerializeField]
 		private Dropdown fontDropdown = null;
+
+		[SerializeField]
+		private Dropdown RightClickropdown = null;
+
 
 		void OnEnable()
 		{
@@ -127,11 +128,25 @@ namespace Unitystation.Options
 				                $"\n chat has no fonts: {chatUIHasNoFonts} \n {e}");
 			}
 
+			try
+			{
+				RightClickropdown.ClearOptions();
+
+				var Options = RightClickManager.AvailableRightClickOptions.Keys.ToList();
+
+				RightClickropdown.AddOptions(Options);
+				var value = RightClickManager.GetRightClickPreference();
+				RightClickropdown.SetValueByName(value);
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError($"[ThemeOptions/Refresh()] - Failed to setup RightClick options. " );
+			}
+
 			chatAlphaFadeMinimum.value = UI.Chat_UI.ChatUI.Instance.GetPreferenceChatBackground();
 			chatContentAlphaFadeMinimum.value =  UI.Chat_UI.ChatUI.Instance.GetPreferenceChatContent();
 			hoverTooltipDelaySlider.value = UIManager.Instance.HoverTooltipUI.GetSavedTooltipDelay();
 			hoverTooltipDelaySliderValueText.text = UIManager.Instance.HoverTooltipUI.GetSavedTooltipDelay().ToString();
-			legacyRightClickMenuToggle.isOn = RightClickManager.Instance.UsingLegacyDropDownMenu;
 		}
 
 		void ConstructChatBubbleOptions()
@@ -163,11 +178,6 @@ namespace Unitystation.Options
 		{
 			Highlight.SetPreference(HighlightToggle.isOn);
 			Refresh();
-		}
-
-		public void RightClickPreference()
-		{
-			RightClickManager.SetRightClickPreference(legacyRightClickMenuToggle.isOn);
 		}
 
 		public void ChatHighlightSetPreference()
@@ -242,6 +252,11 @@ namespace Unitystation.Options
 		{
 			ChatUI.Instance.FontIndexToUse = fontDropdown.value;
 			PlayerPrefs.SetString("fontPref", fontDropdown.GetValueName());
+		}
+
+		public void OnRightClickPreferenceChange()
+		{
+			RightClickManager.SetRightClickPreference(RightClickropdown.GetValueName());
 		}
 	}
 }

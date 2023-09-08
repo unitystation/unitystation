@@ -17,7 +17,7 @@ namespace UI.Core.RightClick.LegacyRightClick
 		private Canvas canvas;
 		public Canvas Canvas => this.GetComponentByRef(ref canvas);
 
-		[SerializeField] private GameObject entryPrefab;
+		[SerializeField] public GameObject entryPrefab;
 		[SerializeField] private Transform entries;
 
 		private bool isFocused = false;

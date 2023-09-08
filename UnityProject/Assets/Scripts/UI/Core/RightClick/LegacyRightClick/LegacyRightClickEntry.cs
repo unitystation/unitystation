@@ -67,6 +67,10 @@ namespace UI.Core.RightClick.LegacyRightClick
 			itemIcon.sprite = Item.IconSprite;
 			itemIcon.color = Item.IconColor;
 			itemIcon.SetActive(Item.IconSprite != null);
+			if (itemIcon.gameObject.activeSelf)
+			{
+				itemIcon.ApplySpriteScaling(itemIcon.sprite);
+			}
 		}
 
 		private void OnClick()
@@ -109,9 +113,10 @@ namespace UI.Core.RightClick.LegacyRightClick
 
 			foreach (var entry in Item.SubMenus)
 			{
-				var obj = Instantiate(prefabOfSelf, SubMenusField, false);
+				var obj = Instantiate(Manager.entryPrefab, SubMenusField, false);
 				var item = obj.gameObject.GetComponent<LegacyRightClickEntry>();
 				item.Setup(entry, Manager, gameObject);
+
 				if (entry.keepMenuOpen == false) item.OnClicked.AddListener(() => OnClicked?.Invoke());
 				item.PointerEvents.OnEnter.AddListener(Manager.Focus);
 				item.PointerEvents.OnExit.AddListener(Manager.UnFocus);
