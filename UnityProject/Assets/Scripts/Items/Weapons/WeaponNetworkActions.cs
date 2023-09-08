@@ -84,7 +84,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 	public void ServerPerformMeleeAttack(GameObject victim, Vector2 attackDirection, BodyPartType damageZone, LayerType layerType)
 	{
 		if (victim == null) return;
-		if (playerMove.ObjectIsBuckling.OrNull()?.gameObject != null)
+		if (playerMove.ObjectIsBuckling.OrNull()?.gameObject != null && playerMove.ObjectIsBuckling is MovementSynchronisation)
 		{
 			victim = playerMove.ObjectIsBuckling.gameObject;
 		}
