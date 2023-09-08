@@ -1,5 +1,6 @@
 ﻿using NaughtyAttributes;
 using Objects;
+using Systems.Explosions;
 using UnityEngine;
 
 namespace Items.Weapons
@@ -15,6 +16,7 @@ namespace Items.Weapons
 			FlashInRadius();
 
 			if (flashSound != null) SoundManager.PlayNetworkedAtPos(flashSound, gameObject.AssumedWorldPosServer());
+			SparkUtil.TrySpark(gameObject);
 			if (despawnOnInvoke) _ = Despawn.ServerSingle(gameObject);
 		}
 	}
