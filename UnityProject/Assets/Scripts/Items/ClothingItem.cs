@@ -84,6 +84,7 @@ public class ClothingItem : MonoBehaviour
 				if (unequippedClothing != null)
 				{
 					if (unequippedClothing)
+						unequippedClothing.OrNull()?.LinkClothingItem(null);
 						thisPlayerScript.playerSprites.OnClothingEquipped(unequippedClothing, false);
 				}
 			}
@@ -123,16 +124,26 @@ public class ClothingItem : MonoBehaviour
 
 	public void RefreshFromClothing(ClothingV2 clothing)
 	{
-		spriteHandler.SetCatalogue(clothing.SpriteDataSO);
-		spriteHandler.ChangeSprite(clothing.CurrentClothIndex);
-		List<Color> palette = clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.Palette;
-		if (palette != null)
+
+		if (InHands)
 		{
-			spriteHandler.SetPaletteOfCurrentSprite(palette, networked: false);
+			var ItemAttributesV2 = clothing.GetComponent<ItemAttributesV2>();
+			var InHandsSprites = ItemAttributesV2?.ItemSprites;
+			SetInHand(InHandsSprites);
+		}
+		else
+		{
+			spriteHandler.SetCatalogue(clothing.SpriteDataSO);
+			spriteHandler.ChangeSprite(clothing.CurrentClothIndex);
+			List<Color> palette = clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.Palette;
+			if (palette != null)
+			{
+				spriteHandler.SetPaletteOfCurrentSprite(palette, networked: false);
+			}
 		}
 
-
 		PushTexture();
+
 	}
 
 	private void UpdateReferenceOffset()
