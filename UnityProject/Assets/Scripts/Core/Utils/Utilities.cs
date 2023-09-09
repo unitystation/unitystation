@@ -50,36 +50,15 @@ namespace Core.Utils
 				throw new InvalidOperationException("The list is empty or null.");
 			}
 
-			int randomIndex = random.Next(source.Count);
+			var nonNullItems = source.Where(item => item != null).ToList();
 
-			T lastNonNull = source[0];
-
-			// Find the random non-null element by iterating through the list
-			for (int i = 0; i < source.Count; i++)
+			if (nonNullItems.Count == 0)
 			{
-				if (i == randomIndex)
-				{
-					if (source[i] != null)
-					{
-						return source[i];
-					}
-					else if (lastNonNull != null)
-					{
-						return lastNonNull;
-					}
-					else
-					{
-						randomIndex++;
-					}
-				}
-
-				if (source[i] != null)
-				{
-					lastNonNull = source[i];
-				}
+				throw new InvalidOperationException("There are no non-null elements in the list.");
 			}
 
-			throw new InvalidOperationException("Failed to find a random non-null element.");
+			int randomIndex = random.Next(nonNullItems.Count);
+			return nonNullItems[randomIndex];
 		}
 	}
 
