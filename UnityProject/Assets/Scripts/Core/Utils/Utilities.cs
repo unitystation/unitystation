@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Random = System.Random;
 
 
 namespace Core.Utils
@@ -11,6 +12,7 @@ namespace Core.Utils
 
 	public static class Utils
 	{
+		private static Random random = new Random();
 		public static void SetValueByName(this Dropdown dropdown, string valueName)
 		{
 			List<Dropdown.OptionData> options = dropdown.options;
@@ -39,6 +41,45 @@ namespace Core.Utils
 		public static T PickRandom<T>(this IEnumerable<T> source)
 		{
 			return source.PickRandom(1).SingleOrDefault();
+		}
+
+		public static T PickRandomNonNull<T>(this IList<T> source)
+		{
+			if (source == null || source.Count == 0)
+			{
+				throw new InvalidOperationException("The list is empty or null.");
+			}
+
+			int randomIndex = random.Next(source.Count);
+
+			T lastNonNull = source[0];
+
+			// Find the random non-null element by iterating through the list
+			for (int i = 0; i < source.Count; i++)
+			{
+				if (i == randomIndex)
+				{
+					if (source[i] != null)
+					{
+						return source[i];
+					}
+					else if (lastNonNull != null)
+					{
+						return lastNonNull;
+					}
+					else
+					{
+						randomIndex++;
+					}
+				}
+
+				if (source[i] != null)
+				{
+					lastNonNull = source[i];
+				}
+			}
+
+			throw new InvalidOperationException("Failed to find a random non-null element.");
 		}
 	}
 
