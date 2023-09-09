@@ -108,7 +108,7 @@ namespace Systems.Interaction
 			wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart, layerType);
 			if (Validations.HasItemTrait(handObject, CommonTraits.Instance.Breakable))
 			{
-				handObject.GetComponent<ItemBreakable>().AddDamage();
+				handObject.GetComponent<ItemBreakable>()?.AddDamage();
 			}
 		}
 	}
