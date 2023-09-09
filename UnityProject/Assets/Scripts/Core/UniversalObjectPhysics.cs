@@ -2140,8 +2140,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	#region Buckling
 
 	// netid of the game object we are buckled to, NetId.Empty if not buckled
-	[SyncVar(hook = nameof(SyncBuckledToObject))]
-	public UniversalObjectPhysics ObjectIsBuckling = null;
+	[field: SyncVar(hook = nameof(SyncBuckledToObject))]
+	public UniversalObjectPhysics ObjectIsBuckling { get; protected set; }
 
 	public CheckedComponent<UniversalObjectPhysics> ObjectIsBucklingChecked =
 		new CheckedComponent<UniversalObjectPhysics>();
