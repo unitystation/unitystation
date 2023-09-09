@@ -39,6 +39,21 @@ namespace Chemistry.Components
 			private set { maxCapacity = value; }
 		}
 
+#if UNITY_EDITOR
+		public Reagent DEBUGReagent;
+		public float DEBUGAmount;
+
+		[NaughtyAttributes.Button]
+		public void ADDDEBUGReagent()
+		{
+			// add addition to reagent mix
+			CurrentReagentMix.Add(DEBUGReagent, DEBUGAmount);
+
+			ReagentsChanged(true);
+		}
+
+#endif
+
 
 		//How much room is there left in the container
 		public float SpareCapacity => maxCapacity - ReagentMixTotal;
