@@ -118,7 +118,7 @@ namespace Unitystation.Options
 
 
 
-				var value = PlayerPrefs.GetString("fontPref", "Ubuntu-R SDF");
+				var value = PlayerPrefs.GetString("fontPref", "LiberationSans SDF");
 				fontDropdown.SetValueByName(value);
 			}
 			catch (Exception e)
