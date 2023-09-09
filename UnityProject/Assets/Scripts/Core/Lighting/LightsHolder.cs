@@ -145,7 +145,10 @@ namespace Core.Lighting
 		{
 			lightSprite.Color = data.lightColor;
 			lightSprite.Shape = data.lightShape;
-			lightSprite.Sprite = data.lightSpriteObject.GetComponent<ItemLightControl>().ObjectLightSprite.Sprite;
+			if (data.lightSpriteObject != null)
+			{
+				lightSprite.Sprite = data.lightSpriteObject.GetComponent<ItemLightControl>()?.ObjectLightSprite.Sprite;
+			}
 			lightSprite.transform.localScale = new Vector3(data.size, data.size, data.size);
 			if (data.Id != 0)
 			{

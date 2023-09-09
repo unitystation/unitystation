@@ -576,7 +576,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 
 			if (this is not MovementSynchronisation c) return;
-			c.playerScript.RegisterPlayer.LayDownBehavior.ServerEnsureCorrectState();
+			if (CustomNetworkManager.IsServer)
+			{
+				c.playerScript.RegisterPlayer.LayDownBehavior.ServerEnsureCorrectState();
+			}
+			else
+			{
+				c.playerScript.RegisterPlayer.LayDownBehavior.ClientEnsureCorrectState();
+			}
 		}
 		else
 		{
