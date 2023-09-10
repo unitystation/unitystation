@@ -1,9 +1,11 @@
 using System;
 using System.Runtime.InteropServices;
 
-public class SunVox {
+namespace SunVox
+{
+	public static class SunVox {
   /*
-   You can use SunVox library freely, 
+   You can use SunVox library freely,
    but the following text should be included in your products (e.g. in About window):
 
    SunVox modular synthesizer
@@ -12,7 +14,7 @@ public class SunVox {
    Ogg Vorbis 'Tremor' integer playback codec
    Copyright (c) 2002, Xiph.org Foundation
 */
-  public const int NOTECMD_NOTE_OFF = 128;
+  public  const int NOTECMD_NOTE_OFF = 128;
   public const int NOTECMD_ALL_NOTES_OFF = 129; /* notes of all synths off */
   public const int NOTECMD_CLEAN_SYNTHS = 130; /* stop and clean all synths */
   public const int NOTECMD_STOP = 131;
@@ -45,7 +47,7 @@ public class SunVox {
   public const int SV_STYPE_FLOAT32 = 2;
   public const int SV_STYPE_FLOAT64 = 3;
 
-#if UNITY_EDITOR || UNITY_STANDALONE 
+#if UNITY_EDITOR || UNITY_STANDALONE
   private const string LIBRARY_NAME = "sunvox";
 #elif UNITY_IOS && !UNITY_EDITOR
   private const string LIBRARY_NAME = "__Internal";
@@ -69,7 +71,7 @@ public class SunVox {
       flags - mix of the SV_INIT_FLAG_xxx flags.
   */
   [DllImport (LIBRARY_NAME)] public static extern int sv_init( string config, int freq, int channels, int flags );
-  
+
   // Prevents sv_deinit from crashing the editor, but leaves the call alone on regular builds.
   #if UNITY_EDITOR
   public static int sv_deinit() {return 0;}
@@ -78,7 +80,7 @@ public class SunVox {
   #endif
 
   /*
-    sv_update_input() - 
+    sv_update_input() -
     handle input ON/OFF requests to enable/disable input ports of the sound card
     (for example, after the Input module creation).
     Call it from the main thread only, where the SunVox sound stream is not locked.
@@ -120,7 +122,7 @@ public class SunVox {
   [DllImport (LIBRARY_NAME)] public static extern int sv_audio_callback2( byte[] buf, int frames, int latency, int out_time, int in_type, int in_channels, byte[] in_buf );
 
   /*
-    sv_open_slot(), sv_close_slot(), sv_lock_slot(), sv_unlock_slot() - 
+    sv_open_slot(), sv_close_slot(), sv_lock_slot(), sv_unlock_slot() -
     open/close/lock/unlock sound slot for SunVox.
     You can use several slots simultaneously (each slot with its own SunVox engine)
   */
@@ -130,7 +132,7 @@ public class SunVox {
   [DllImport (LIBRARY_NAME)] public static extern int sv_unlock_slot( int slot );
 
   /*
-    sv_load(), sv_load_from_memory() - 
+    sv_load(), sv_load_from_memory() -
     load SunVox project from the file or from the memory block.
   */
   [DllImport (LIBRARY_NAME)] public static extern int sv_load( int slot, string name );
@@ -149,8 +151,8 @@ public class SunVox {
   */
   [DllImport (LIBRARY_NAME)] public static extern int sv_set_autostop( int slot, int autostop );
 
-  /* 
-    sv_end_of_song() return values: 0 - song is playing now; 1 - stopped. 
+  /*
+    sv_end_of_song() return values: 0 - song is playing now; 1 - stopped.
   */
   [DllImport (LIBRARY_NAME)] public static extern int sv_end_of_song( int slot );
 
@@ -158,8 +160,8 @@ public class SunVox {
   */
   [DllImport (LIBRARY_NAME)] public static extern int sv_rewind( int slot, int line_num );
 
-  /* 
-    sv_volume() - set volume from 0 (min) to 256 (max 100%) 
+  /*
+    sv_volume() - set volume from 0 (min) to 256 (max 100%)
   */
   [DllImport (LIBRARY_NAME)] public static extern int sv_volume( int slot, int vol );
 
@@ -185,10 +187,10 @@ public class SunVox {
   [DllImport (LIBRARY_NAME)] public static extern int sv_get_song_bpm( int slot );
   [DllImport (LIBRARY_NAME)] public static extern int sv_get_song_tpl( int slot );
 
-  /* 
+  /*
     sv_get_song_length_frames(), sv_get_song_length_lines() -
     get the project length.
-    Frame is one discrete of the sound. Sample rate 44100 Hz means, that you hear 44100 frames per second. 
+    Frame is one discrete of the sound. Sample rate 44100 Hz means, that you hear 44100 frames per second.
   */
   [DllImport (LIBRARY_NAME)] public static extern int sv_get_song_length_frames( int slot );
   [DllImport (LIBRARY_NAME)] public static extern int sv_get_song_length_lines( int slot );
@@ -219,7 +221,7 @@ public class SunVox {
   [DllImport (LIBRARY_NAME)] public static extern int sv_get_module_flags( int slot, int mod_num ); /* SV_MODULE_FLAG_xxx */
 
   /*
-    sv_get_module_inputs(), sv_get_module_outputs() - 
+    sv_get_module_inputs(), sv_get_module_outputs() -
     get pointers to the int[] arrays with the input/output links.
     Number of inputs = ( module_flags & SV_MODULE_INPUTS_MASK ) >> SV_MODULE_INPUTS_OFF.
     Number of outputs = ( module_flags & SV_MODULE_OUTPUTS_MASK ) >> SV_MODULE_OUTPUTS_OFF.
@@ -245,8 +247,8 @@ public class SunVox {
   */
   [DllImport (LIBRARY_NAME)] public static extern int sv_get_module_color( int slot, int mod_num );
 
-  /* 
-    sv_get_module_scope2() return value = received number of samples (may be less or equal to samples_to_read). 
+  /*
+    sv_get_module_scope2() return value = received number of samples (may be less or equal to samples_to_read).
   */
   [DllImport (LIBRARY_NAME)] public static extern int sv_get_module_scope2( int slot, int mod_num, int channel, short[] dest_buf, int samples_to_read );
 
@@ -303,3 +305,5 @@ public class SunVox {
   [DllImport (LIBRARY_NAME)] public static extern int sv_get_sample_type(); /* Get internal sample type of the SunVox engine. Return value: one of the SV_STYPE_xxx defines. Use it to get the scope buffer type from get_module_scope() function. */
   [DllImport (LIBRARY_NAME)] public static extern byte[] sv_get_module_scope( int slot, int mod_num, int channel, int[] buffer_offset, int[] buffer_size ); /* Use sv_get_module_scope2() */
 }
+}
+
