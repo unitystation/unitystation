@@ -168,7 +168,7 @@ namespace UI.Chat_UI
 			ChatMinimumBackgroundAlpha = GetPreferenceChatBackground();
 			ChatContentMinimumAlpha = GetPreferenceChatContent();
 
-			var Option =PlayerPrefs.GetString("fontPref", "Ubuntu-R SDF");;
+			var Option =PlayerPrefs.GetString("fontPref", "LiberationSans SDF");
 
 			for (int i = 0; i < Fonts.Count; i++)
 			{
