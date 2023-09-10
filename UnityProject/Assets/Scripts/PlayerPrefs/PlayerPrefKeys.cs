@@ -191,4 +191,6 @@
 	public static readonly string ChatBackgroundMinimumAlpha = "ChatBackgroundMinimumAlpha";
 
 	public static readonly string HoverTooltipDelayKey = "hoverTooltipDelay";
+
+	public static readonly string ThrowHoldPreference = "ThrowHoldPreference";
 }

@@ -112,23 +112,27 @@ public class MouseInputController : MonoBehaviour
 	{
 		if (PlayerManager.LocalPlayerObject != this.gameObject) return;
 
-		if (UIManager.IsThrow == false)
+		if (ControlAction.ThrowHold)
 		{
-			if (KeyboardInputManager.Instance.CheckKeyAction(
-				    KeyAction.ActionThrow,
-				    KeyboardInputManager.KeyEventType.Down))
+			if (UIManager.IsThrow == false)
 			{
-				UIManager.Instance.actionControl.Throw();
+				if (KeyboardInputManager.Instance.CheckKeyAction(
+					    KeyAction.ActionThrow,
+					    KeyboardInputManager.KeyEventType.Down))
+				{
+					UIManager.Instance.actionControl.Throw();
+				}
 			}
-		}
-		else
-		{
-			if (KeyboardInputManager.Instance.CheckKeyAction(
-				    KeyAction.ActionThrow,
-				    KeyboardInputManager.KeyEventType.Up))
+			else
 			{
-				UIManager.Instance.actionControl.Throw();
+				if (KeyboardInputManager.Instance.CheckKeyAction(
+					    KeyAction.ActionThrow,
+					    KeyboardInputManager.KeyEventType.Up))
+				{
+					UIManager.Instance.actionControl.Throw();
+				}
 			}
+
 		}
 
 

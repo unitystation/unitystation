@@ -12,12 +12,39 @@ namespace UI
 
 		public Image pullImage;
 
+		public static bool ThrowHold = true;
+
 		private void Start()
 		{
 			UIManager.IsThrow = false;
 
 			pullImage.enabled = false;
+			ThrowHold = GetThrowPreference();
 		}
+
+		public static bool GetThrowPreference()
+		{
+			return 1 == PlayerPrefs.GetInt("ThrowHoldPreference", 1);
+		}
+
+
+		public static void SetPreference(bool preference)
+		{
+			if (preference)
+			{
+				PlayerPrefs.SetInt(PlayerPrefKeys.ThrowHoldPreference, 1);
+				ThrowHold = true;
+			}
+			else
+			{
+				PlayerPrefs.SetInt(PlayerPrefKeys.ThrowHoldPreference, 0);
+				ThrowHold = false;
+			}
+
+			PlayerPrefs.Save();
+		}
+
+
 
 		#region Buttons
 
