@@ -111,7 +111,7 @@ public class QuickSelectRadial : MonoBehaviour, IRightClickMenu
 	public void SpawnButtons (List<RightClickMenuItem> Menus,int Menudepth,int StartingAngle) {
 		if (gameObject.activeInHierarchy == false) return;
 
-		Loggy.Log (StartingAngle.ToString ()+ " StartingAngle" );
+		//Loggy.Log (StartingAngle.ToString ()+ " StartingAngle" );
 
 		Initialised = false;
 		CurrentMenuDepth = Menudepth;
@@ -128,7 +128,7 @@ public class QuickSelectRadial : MonoBehaviour, IRightClickMenu
 
 			if (Range < (SelectionRange [Menudepth - 100].Range / SelectionRange [Menudepth - 100].NumberOfMenus)) {
 
-				Loggy.LogError("AAAAA");
+				//Loggy.LogError("AAAAA");
 				Range = (SelectionRange [Menudepth - 100].Range  / SelectionRange [Menudepth - 100].NumberOfMenus);
 
 				//Try and keep the icons nicely spaced on the outer rings
@@ -140,8 +140,8 @@ public class QuickSelectRadial : MonoBehaviour, IRightClickMenu
 
 
 
-		Loggy.LogError("MinimumAngle" + MinimumAngle);
-		Loggy.LogError("MaximumAngle" + MaximumAngle);
+		//Loggy.LogError("MinimumAngle" + MinimumAngle);
+		//Loggy.LogError("MaximumAngle" + MaximumAngle);
 
 		var RadIncrement = (Range / Menus.Count) * Mathf.Deg2Rad;
 		var radMinimumAngle = (MinimumAngle * Mathf.Deg2Rad);
@@ -156,7 +156,7 @@ public class QuickSelectRadial : MonoBehaviour, IRightClickMenu
 
 			theta = (theta + radMinimumAngle);
 
-			Loggy.LogError("theta " + theta);
+			//Loggy.LogError("theta " + theta);
 
 			float xpos = Mathf.Sin (theta);
 			float ypos = Mathf.Cos (theta);
