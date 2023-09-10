@@ -52,7 +52,17 @@ public class QuickSelectRadial : MonoBehaviour, IRightClickMenu
 	public bool LastSelectedset = false;
 	public bool Initialised = false;
 
-	public Dictionary<int,List<float>> SelectionRange = new Dictionary<int,List<float>>();
+	public Dictionary<int,SelectionData> SelectionRange = new Dictionary<int,SelectionData>();
+
+	public struct SelectionData
+	{
+		public float Range { get; set; }
+		public float MinimumAngle { get; set; }
+		public float MaximumAngle { get; set; }
+		public float NumberOfMenus { get; set; }
+	}
+
+
 	public int MenuItem;
 
 	public float LastSelectedTime;
@@ -101,33 +111,56 @@ public class QuickSelectRadial : MonoBehaviour, IRightClickMenu
 	public void SpawnButtons (List<RightClickMenuItem> Menus,int Menudepth,int StartingAngle) {
 		if (gameObject.activeInHierarchy == false) return;
 
+		Loggy.Log (StartingAngle.ToString ()+ " StartingAngle" );
+
 		Initialised = false;
 		CurrentMenuDepth = Menudepth;
-		int Range = 360; //is the range that the buttons will be on in degrees
-		int MinimumAngle = 0; //The initial offset Of the buttons in degrees
-		int MaximumAngle = 360; //Linked to range
+		float Range = 360; //is the range that the buttons will be on in degrees
+		float MinimumAngle = 0; //The initial offset Of the buttons in degrees
+		float MaximumAngle = 360;
+		//Linked to range
 		if (Menudepth > 100) {
-			Range = Menus.Count * (360 / Density [Menudepth]); //Try and keep the icons nicely spaced on the outer rings
-			MinimumAngle = (int)(StartingAngle - ((Range / 2) - (0.5f * (360 / Density [Menudepth]))));
-			MaximumAngle = StartingAngle + Range;
 
-			if (Range < (SelectionRange [Menudepth - 100] [0] / SelectionRange [Menudepth - 100] [3])) {
-				Range = (int)(SelectionRange [Menudepth - 100] [0] / SelectionRange [Menudepth - 100] [3]); //Try and keep the icons nicely spaced on the outer rings
-				MinimumAngle = (int)(StartingAngle - ((Range / 2) - (0.5f * (Range / Menus.Count))));
-				MaximumAngle = StartingAngle + Range;
+			//- (0.5f * (360f / Density[Menudepth]))));
+			Range = Menus.Count * (360f / Density[Menudepth]); //Try and keep the icons nicely spaced on the outer rings
+			MinimumAngle = StartingAngle - (Range / 2f);
+			MaximumAngle = StartingAngle + (Range / 2f);
+
+			if (Range < (SelectionRange [Menudepth - 100].Range / SelectionRange [Menudepth - 100].NumberOfMenus)) {
+
+				Loggy.LogError("AAAAA");
+				Range = (SelectionRange [Menudepth - 100].Range  / SelectionRange [Menudepth - 100].NumberOfMenus);
+
+				//Try and keep the icons nicely spaced on the outer rings
+				MinimumAngle = StartingAngle - (Range / 2f);
+
+				MaximumAngle = StartingAngle + (Range / 2f);
 			}
 		}
 
+
+
+		Loggy.LogError("MinimumAngle" + MinimumAngle);
+		Loggy.LogError("MaximumAngle" + MaximumAngle);
+
+		var RadIncrement = (Range / Menus.Count) * Mathf.Deg2Rad;
+		var radMinimumAngle = (MinimumAngle * Mathf.Deg2Rad);
 
 		for (var i = 0; i < Menus.Count; i++) {
 			QuickRadialButton newButton = Instantiate (ButtonPrefab) as QuickRadialButton;
 			newButton.transform.SetParent (transform, false);
 			SpawnedButtons.Add(newButton);
 			//Magic maths
-			float theta = (float)(((Range*Mathf.Deg2Rad) / Menus.Count) * i);
-			theta = (theta + (MinimumAngle * Mathf.Deg2Rad));
+
+			float theta = RadIncrement * i;
+
+			theta = (theta + radMinimumAngle);
+
+			Loggy.LogError("theta " + theta);
+
 			float xpos = Mathf.Sin (theta);
 			float ypos = Mathf.Cos (theta);
+
 			newButton.transform.localPosition = new Vector2 (xpos, ypos) * Menudepth;
 
 			newButton.Circle.color = Menus[i].BackgroundColor;
@@ -167,11 +200,12 @@ public class QuickSelectRadial : MonoBehaviour, IRightClickMenu
 
 		}
 		//Pushes the parameters to the selection system
-		List<float> QuickList = new List<float> {
-			Range,MinimumAngle,MaximumAngle, Menus.Count
+		SelectionData QuickList = new SelectionData {
+			Range = Range,MinimumAngle = MinimumAngle,MaximumAngle = MaximumAngle,NumberOfMenus = Menus.Count
 		};
 		SelectionRange [Menudepth] = QuickList;
 		Initialised = true;
+
 
 	}
 
@@ -186,40 +220,44 @@ public class QuickSelectRadial : MonoBehaviour, IRightClickMenu
 
 			MousePosition = new Vector2 (CommonInput.mousePosition.x, CommonInput.mousePosition.y);
 			toVector2M = new Vector2 (CommonInput.mousePosition.x, CommonInput.mousePosition.y);
-			double IndividualItemDegrees = 0;
+			float IndividualItemDegrees = 0;
 			Vector2 Relativecentre = toVector2M - centercirlce;
-			//Logger.Log (Relativecentre.ToString ()+ " Relativecentre" , Category.RightClick);
-			double Angle = (Mathf.Atan2 (Relativecentre.y, Relativecentre.x) * Mathf.Rad2Deg);
+			//Loggy.Log (Relativecentre.ToString ()+ " Relativecentre");
+			float Angle = (Mathf.Atan2 (Relativecentre.y, Relativecentre.x) * Mathf.Rad2Deg);
 			//off sets the Angle because it starts as -180 to 180
 			Angle += -90;
-			Angle = Angle + SelectionRange[CurrentMenuDepth][1];
+
+			Angle = Angle + SelectionRange[CurrentMenuDepth].MinimumAngle;
 			if (Angle > 0) {
 				Angle += -360;
 			}
 			Angle = Angle * -1; //Turns it from negative to positive
 
-			//Logger.Log (Angle.ToString () + " old Angle", Category.RightClick);
-			//Logger.Log (((int)((Angle) / (SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count))).ToString () + " old MenuItem", Category.RightClick);
-			//Logger.Log (Angle.ToString ()+ " Angle" , Category.RightClick);
-			IndividualItemDegrees = SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count;
+			//Loggy.Log (Angle.ToString () + " old Angle");
+			//Loggy.Log (((int)((Angle) / (SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count))).ToString () + " old MenuItem");
+			//Loggy.Log (Angle.ToString ()+ " Angle" );
+
+			IndividualItemDegrees = SelectionRange[CurrentMenuDepth].Range / CurrentOptions.Count;
 			Angle = Angle + ((IndividualItemDegrees) / 2); //Offsets by half a menu so So the different selection areas aren't in the middle of the menu
 
 			if (Angle > 360) { //Makes sure it's 360
 				Angle += -360;
 			}
 
-			MenuItem = (int)((Angle) / (IndividualItemDegrees));
+			//Loggy.LogError("IndividualItemDegrees > " + IndividualItemDegrees);
 
-			//Logger.Log ((IndividualItemDegrees).ToString () + " Density", Category.RightClick);
-			//Logger.Log (Angle.ToString () + " Angle", Category.RightClick);
-			//Logger.Log (SelectionRange[CurrentMenuDepth][0].ToString () + " Range", Category.RightClick);
-			//Logger.Log (SelectionRange[CurrentMenuDepth][1].ToString () + " MinimumAngle", Category.RightClick);
-			//Logger.Log (MenuItem.ToString () + "MenuItem", Category.RightClick);
-			//Logger.Log (CurrentOptions.Count.ToString () + "CurrentOptions.Count", Category.RightClick);
+			MenuItem = Mathf.RoundToInt(((Angle) / (IndividualItemDegrees)));
+
+			//Loggy.Log ((IndividualItemDegrees).ToString () + " Density");
+			//Loggy.Log (Angle.ToString () + " Angle");
+			//Loggy.Log (SelectionRange[CurrentMenuDepth][0].ToString () + " Range");
+			//Loggy.Log (SelectionRange[CurrentMenuDepth][1].ToString () + " MinimumAngle");
+			//Loggy.Log (MenuItem.ToString () + "MenuItem");
+			//Loggy.Log (CurrentOptions.Count.ToString () + "CurrentOptions.Count");
 
 			if (!(MenuItem > (CurrentOptions.Count - 1)) && !(MenuItem < 0)) { //Ensures its in range Of selection
 				LastInRangeSubMenu = Time.time;
-				Selected = CurrentOptions [MenuItem];
+				Selected = CurrentOptions[MenuItem];
 				if (!(LastSelected == Selected)) {
 					if (LastSelectedset) {
 						if (LastSelected.MenuDepth == CurrentMenuDepth) {
