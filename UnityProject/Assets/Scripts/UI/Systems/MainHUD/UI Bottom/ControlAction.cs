@@ -19,16 +19,16 @@ namespace UI
 			UIManager.IsThrow = false;
 
 			pullImage.enabled = false;
-			ThrowHold = GetThrowPreference();
+			ThrowHold = GetHoldThrowPreference();
 		}
 
-		public static bool GetThrowPreference()
+		public static bool GetHoldThrowPreference()
 		{
 			return 1 == PlayerPrefs.GetInt("ThrowHoldPreference", 1);
 		}
 
 
-		public static void SetPreference(bool preference)
+		public static void SetPreferenceThrowHoldPreference(bool preference)
 		{
 			if (preference)
 			{

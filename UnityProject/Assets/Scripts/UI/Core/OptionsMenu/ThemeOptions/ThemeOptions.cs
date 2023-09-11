@@ -147,7 +147,7 @@ namespace Unitystation.Options
 				Loggy.LogError($"[ThemeOptions/Refresh()] - Failed to setup RightClick options. " );
 			}
 
-			ThrowPreferenceToggle.isOn = ControlAction.GetThrowPreference();
+			ThrowPreferenceToggle.isOn = ControlAction.GetHoldThrowPreference();
 
 			chatAlphaFadeMinimum.value = UI.Chat_UI.ChatUI.Instance.GetPreferenceChatBackground();
 			chatContentAlphaFadeMinimum.value =  UI.Chat_UI.ChatUI.Instance.GetPreferenceChatContent();
@@ -267,7 +267,7 @@ namespace Unitystation.Options
 
 		public void OnThrowHoldPreferenceChange()
 		{
-			ControlAction.SetPreference(ThrowPreferenceToggle.isOn);
+			ControlAction.SetPreferenceThrowHoldPreference(ThrowPreferenceToggle.isOn);
 		}
 	}
 }
