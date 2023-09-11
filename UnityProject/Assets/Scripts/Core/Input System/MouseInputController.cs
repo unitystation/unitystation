@@ -111,6 +111,31 @@ public class MouseInputController : MonoBehaviour
 	private void LateUpdate()
 	{
 		if (PlayerManager.LocalPlayerObject != this.gameObject) return;
+
+		if (ControlAction.ThrowHold)
+		{
+			if (UIManager.IsThrow == false)
+			{
+				if (KeyboardInputManager.Instance.CheckKeyAction(
+					    KeyAction.ActionThrow,
+					    KeyboardInputManager.KeyEventType.Down))
+				{
+					UIManager.Instance.actionControl.Throw();
+				}
+			}
+			else
+			{
+				if (KeyboardInputManager.Instance.CheckKeyAction(
+					    KeyAction.ActionThrow,
+					    KeyboardInputManager.KeyEventType.Up))
+				{
+					UIManager.Instance.actionControl.Throw();
+				}
+			}
+
+		}
+
+
 		CheckMouseInput();
 		CheckCursorTexture();
 	}

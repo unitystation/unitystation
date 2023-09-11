@@ -280,8 +280,16 @@ public class ChatRelay : NetworkBehaviour
 
 	public static void ShowChatBubbleToNearbyPlayers(ref ChatEvent chatEvent)
 	{
+		if (chatEvent.channels != ChatChannel.Local) return;
+
 		var msg = "";
 		if (chatEvent.IsWhispering) msg = HideWhisperedText(ref chatEvent.message);
+		else
+		{
+			msg = chatEvent.message;
+		}
+
+
 		ShowChatBubbleMessage.SendToNearby(chatEvent.originator, msg, chatEvent.language);
 	}
 
