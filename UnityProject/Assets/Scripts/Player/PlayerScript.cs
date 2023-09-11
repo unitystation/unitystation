@@ -22,6 +22,7 @@ using Changeling;
 using UI;
 using GameModes;
 using Logs;
+using Systems.Faith;
 
 public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlayerPossessable, IHoverTooltip
 {
@@ -176,6 +177,13 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 			}
 			return changeling;
 		}
+	}
+
+	private Faith currentFaith = null;
+	public Faith CurrentFaith
+	{
+		get => currentFaith;
+		private set => currentFaith = value;
 	}
 
 
@@ -768,6 +776,34 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		possessingID = currentlyPossessing;
 		Itself.PreImplementedSyncPossessingID(previouslyPossessing, currentlyPossessing);
 	}
+
+	#region FAITH
+
+	[Server]
+	public void JoinReligion(Faith newFaith)
+	{
+		LeaveReligion();
+		currentFaith = newFaith;
+		foreach (var prop in currentFaith.FaithProperties)
+		{
+			prop.OnJoinFaith(this);
+		}
+		if (FaithManager.Instance.CurrentFaith == newFaith) FaithManager.Instance.FaithMembers.Add(this);
+	}
+
+	[Server]
+	public void LeaveReligion()
+	{
+		if (currentFaith == null) return;
+		foreach (var prop in currentFaith.FaithProperties)
+		{
+			prop.OnLeaveFaith(this);
+		}
+		if (FaithManager.Instance.CurrentFaith == currentFaith) FaithManager.Instance.FaithMembers.Remove(this);
+		currentFaith = null;
+	}
+
+	#endregion
 
 
 	#region TOOLTIPDATA
