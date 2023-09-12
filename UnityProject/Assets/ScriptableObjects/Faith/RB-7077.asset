@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc38a6d4227a4347a3517a04dbf55cd6, type: 3}
+  m_Name: RB-7077
+  m_EditorClassIdentifier: 
+  Faith:
+    <FaithName>k__BackingField: RB-7077
+    <FaithDesc>k__BackingField: "From the moment I understood the weakness of my
+      flesh, it disgusted me. I craved the strength and certainty of steel. I aspired
+      to the purity of the Blessed Machine. Your kind cling to your flesh, as though
+      it will not decay and fail you. One day the crude biomass you call the temple
+      will wither, and you will beg my kind to save you. But I am already saved,
+      for the Machine is immortal\u2026 Even in death I serve the Omnissiah."
+    <GodName>k__BackingField: 'Syn '
+    <NanotrasenProgressMessage>k__BackingField: 
+    <ToleranceToOtherFaiths>k__BackingField: 2
+    FaithProperties:
+    - rid: 2708802213016240137
+    - rid: 2708802213016240139
+    - rid: 2708802213016240141
+    - rid: 2708802213016240143
+  references:
+    version: 2
+    RefIds:
+    - rid: 2708802213016240137
+      type: {class: Darkness, ns: Systems.Faith.FaithProperties, asm: Assets}
+      data: 
+    - rid: 2708802213016240139
+      type: {class: Xenophobia, ns: Systems.Faith.FaithProperties, asm: Assets}
+      data: 
+    - rid: 2708802213016240141
+      type: {class: Transhumanist, ns: Systems.Faith.FaithProperties, asm: Assets}
+      data: 
+    - rid: 2708802213016240143
+      type: {class: ScienceComesFirst, ns: Systems.Faith.FaithProperties, asm: Assets}
+      data: 

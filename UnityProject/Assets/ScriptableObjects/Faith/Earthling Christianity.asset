@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc38a6d4227a4347a3517a04dbf55cd6, type: 3}
+  m_Name: Earthling Christianity
+  m_EditorClassIdentifier: 
+  Faith:
+    <FaithName>k__BackingField: Earthling Christianity
+    <FaithDesc>k__BackingField: Escaping from the ashes of the old world, this version
+      of Christianity emerged into space as their worshipers spread the gospel of
+      their lord. They often view everything as against god's creation and plans,
+      and lead lives of intolereance, gluttony and pain.
+    <GodName>k__BackingField: God
+    <NanotrasenProgressMessage>k__BackingField: 
+    <ToleranceToOtherFaiths>k__BackingField: 2
+    FaithProperties:
+    - rid: 2708802213016240151
+    - rid: 2708802213016240153
+  references:
+    version: 2
+    RefIds:
+    - rid: 2708802213016240151
+      type: {class: Gluttony, ns: Systems.Faith.FaithProperties, asm: Assets}
+      data: 
+    - rid: 2708802213016240153
+      type: {class: PainIsVirtue, ns: Systems.Faith.FaithProperties, asm: Assets}
+      data: 

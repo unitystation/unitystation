@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NaughtyAttributes;
 using Shared.Managers;
 
 namespace Systems.Faith
@@ -41,8 +42,19 @@ namespace Systems.Faith
 
 		private void CheckTolerance()
 		{
-			if (FaithMembers.Count < 5 || CurrentFaith.ToleranceToOtherFaiths is ToleranceToOtherFaiths.Accepting) return;
+			if (FaithMembers.Count < 3 || CurrentFaith.ToleranceToOtherFaiths is ToleranceToOtherFaiths.Accepting) return;
 			//TODO: Logic me up daddy uwu
+		}
+
+		[Button()]
+		public static void AwardPoint()
+		{
+			Instance.FaithPoints++;
+		}
+
+		public static void AwardPoints(int points)
+		{
+			Instance.FaithPoints += points;
 		}
 	}
 }
