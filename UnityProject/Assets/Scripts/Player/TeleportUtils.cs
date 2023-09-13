@@ -36,17 +36,10 @@ namespace Systems.Teleport
 			foreach (Mind player in sortedStr)
 			{
 				//Don't add to the list the same player consulting it and ghosts.
-				if (player == PlayerManager.LocalMindScript)
+				if (player == PlayerManager.LocalMindScript || player.NonImportantMind)
 				{
 					continue;
 				}
-
-				if (player.NonImportantMind)
-				{
-					continue;
-				}
-
-
 
 				//Gets Name of Player
 				string nameOfObject = player.name;
