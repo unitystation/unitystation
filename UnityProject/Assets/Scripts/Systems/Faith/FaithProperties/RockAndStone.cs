@@ -1,9 +1,11 @@
-﻿namespace Systems.Faith.FaithProperties
+﻿using Systems.Score;
+
+namespace Systems.Faith.FaithProperties
 {
 	public class RockAndStone : IFaithProperty
 	{
-		private string faithPropertyName;
-		private string faithPropertyDesc;
+		private string faithPropertyName = "Rock and Stone";
+		private string faithPropertyDesc = "Channel your inner dwarf.";
 
 		string IFaithProperty.FaithPropertyName
 		{
@@ -19,27 +21,32 @@
 
 		public void Setup()
 		{
-			throw new System.NotImplementedException();
+			ScoreMachine.Instance.OnScoreChanged.AddListener(UpdatePoints);
+		}
+
+		private void UpdatePoints(string ID, int points)
+		{
+			if (ID != RoundEndScoreBuilder.COMMON_SCORE_LABORPOINTS) return;
+			FaithManager.AwardPoints(points);
 		}
 
 		public void OnJoinFaith(PlayerScript newMember)
 		{
-			throw new System.NotImplementedException();
+
 		}
 
 		public void OnLeaveFaith(PlayerScript member)
 		{
-			throw new System.NotImplementedException();
 		}
 
 		public bool HasTriggeredFaithAction(PlayerScript memberWhoTriggered)
 		{
-			throw new System.NotImplementedException();
+			return false;
 		}
 
 		public bool HasTriggeredFaithInaction(PlayerScript lazyMember)
 		{
-			throw new System.NotImplementedException();
+			return false;
 		}
 
 		public void Reward(PlayerScript member)

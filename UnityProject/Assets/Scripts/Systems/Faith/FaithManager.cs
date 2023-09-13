@@ -32,7 +32,7 @@ namespace Systems.Faith
 
 		private void UpdateMe()
 		{
-			if (FaithPoints.IsBetween(-50, 50)) return;
+			if (FaithPoints.IsBetween(-500, 500)) return;
 			if (DMMath.Prob(35))
 			{
 				CurrentFaith.FaithProperties.PickRandom().RandomEvent();
