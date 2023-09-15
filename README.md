@@ -5,8 +5,9 @@
 [![Discord](https://img.shields.io/discord/273774715741667329.svg)](https://discord.gg/H6EunER)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
-![built-with-resentment](http://forthebadge.com/images/badges/built-with-resentment.svg)
-![contains-technical-debt](http://forthebadge.com/images/badges/contains-technical-debt.svg)
+
+![CONTAINS](https://img.shields.io/badge/CONTAINS-TECHNICAL%20DEBT-green?labelColor=blue&style=flat)
+![BUILT WITH](https://img.shields.io/badge/BUILT%20WITH-RESENTMENT-green?labelColor=blue&style=flat)
 
 _Unitystation has been active since late 2016_
 
@@ -30,10 +31,10 @@ Read our Quick Start guide [here](https://unitystation.github.io/unitystation/co
 6. Submit a pull request
 
 > **Warning**
-> The Unitystation editor project greatly prefers a SSD, so it is recommended to have an SSD when developing
+> It is highly recommended to run the Unitystation project on an SSD in the editor.
 
 > **Note**
-> The first-time import process will take a while , depending on your system configuration it could take 15 minutes to an hour, subsequent launches of the project should take a max a minute
+> The first-time import process will take a while. Depending on your system configuration, This process could take up to 1 hour or 15 minutes. Subsequent launches of the project should take a maximum of a minute.
 
 ## LICENSE
 
