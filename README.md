@@ -31,7 +31,7 @@ Read our Quick Start guide [here](https://unitystation.github.io/unitystation/co
 6. Submit a pull request
 
 > **Warning**
-> The Unitystation project **requires** an SSD to run in the unity editor.
+> It is highly recommended to run the Unitystation project on an SSD in the editor.
 
 > **Note**
 > The first-time import process will take a while. Depending on your system configuration, This process could take up to 1 hour or 15 minutes. Subsequent launches of the project should take a maximum of a minute.
