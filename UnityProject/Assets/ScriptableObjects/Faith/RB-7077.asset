@@ -39,7 +39,21 @@ MonoBehaviour:
       data: 
     - rid: 2708802213016240141
       type: {class: Transhumanist, ns: Systems.Faith.FaithProperties, asm: Assets}
-      data: 
+      data:
+        chaplainOccupation: {fileID: 11400000, guid: 3de3e6078fb2346cba5e445b11b1d3e9,
+          type: 2}
+        chaplainBecomeBorgText: <color=yellow><size+=14>Syn has blessed you with
+          purity</color></size>
+        bodyPartsToMakeTranshumanist:
+        - {fileID: 2001825109870326764, guid: fff7a4f0870e48b439feb1d43d9f8de6, type: 3}
+        - {fileID: 3134263208076850617, guid: 6288c623448564447ad3e18185754a58, type: 3}
+        - {fileID: 6491239688611912051, guid: eb43f0bbcf0aa6d45b1475262374be13, type: 3}
+        - {fileID: 2254330885355759590, guid: 27411efb45fab3f48a82aecd1bb9f338, type: 3}
+        - {fileID: 7330187859556018976, guid: bdd61d74d4f4ef14d9435c363e39b397, type: 3}
+        - {fileID: 5339358238428289753, guid: 05849a8c832dadc4dbdbb0e5bbe37ec8, type: 3}
+        - {fileID: 108926807988360621, guid: 5c22d550fc2d31941bf147d721294daa, type: 3}
+        pettyLeave: {fileID: 9197874253917913631, guid: b28d41c2a9712bc448ba1d43f8554098,
+          type: 3}
     - rid: 2708802213016240143
       type: {class: ScienceComesFirst, ns: Systems.Faith.FaithProperties, asm: Assets}
       data: 
