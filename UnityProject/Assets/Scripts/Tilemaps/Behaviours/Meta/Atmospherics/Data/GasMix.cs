@@ -575,6 +575,23 @@ namespace Systems.Atmospherics
 			RecalculatePressure();
 		}
 
+		public void AddGasWithTemperature(GasSO gas, float moles, float kelvinTemperature)
+		{
+			AddGas(gas, moles, gas.MolarHeatCapacity * moles * kelvinTemperature);
+		}
+
+
+
+		public void AddGas(GasSO gas, float moles, float energyOfAddedGas)
+		{
+			var newInternalenergy = InternalEnergy + energyOfAddedGas;
+			GasData.ChangeMoles(gas, moles);
+			InternalEnergy = newInternalenergy;
+			RecalculatePressure();
+		}
+
+
+
 		public void AddGas(GasSO gas, float moles)
 		{
 			GasData.ChangeMoles(gas, moles);

@@ -79,6 +79,9 @@ namespace Doors
 		private SpriteHandler overlayWeldHandler;
 		private SpriteHandler overlayHackingHandler;
 
+		private int previousLightSprite = -1;
+
+
 		private void Awake()
 		{
 			doorBaseHandler = doorBase.GetComponent<SpriteHandler>();
@@ -142,6 +145,7 @@ namespace Doors
 			}
 
 			overlayLightsHandler.ChangeSprite((int) Lights.NoLight, false);
+			previousLightSprite = (int) Lights.NoLight;
 			overlayFillHandler.ChangeSprite((int) DoorFrame.Open, false);
 			doorBaseHandler.ChangeSprite((int) DoorFrame.Open, false);
 
@@ -160,6 +164,7 @@ namespace Doors
 				if (lights)
 				{
 					overlayLightsHandler.ChangeSprite((int) Lights.Closing, false);
+					previousLightSprite = (int) Lights.Closing;
 				}
 
 				overlayFillHandler.ChangeSprite((int) DoorFrame.Closing, false);
@@ -179,6 +184,7 @@ namespace Doors
 			}
 
 			overlayLightsHandler.ChangeSprite((int) Lights.NoLight, false);
+			previousLightSprite = (int) Lights.NoLight;
 			overlayFillHandler.ChangeSprite((int) DoorFrame.Closed, false);
 			doorBaseHandler.ChangeSprite((int) DoorFrame.Closed, false);
 
@@ -187,24 +193,31 @@ namespace Doors
 
 		public IEnumerator PlayDeniedAnimation()
 		{
-			int previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
+			if (previousLightSprite == -1)
+			{
+				previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
+			}
 			overlayLightsHandler.ChangeSprite((int)Lights.Denied);
 			yield return WaitFor.Seconds(deniedAnimationTime);
 
 			if (previousLightSprite == -1) previousLightSprite = 0;
 			overlayLightsHandler.ChangeSprite(previousLightSprite);
-
+			previousLightSprite = -1;
 			AnimationFinished?.Invoke();
 		}
 
 		public IEnumerator PlayPressureWarningAnimation()
 		{
-			int previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
+			if (previousLightSprite == -1)
+			{
+				previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
+			}
 			overlayLightsHandler.ChangeSprite((int)Lights.PressureWarning);
 			yield return WaitFor.Seconds(warningAnimationTime);
 
 			if (previousLightSprite == -1) previousLightSprite = 0;
 			overlayLightsHandler.ChangeSprite(previousLightSprite);
+			previousLightSprite = -1;
 			AnimationFinished?.Invoke();
 		}
 
@@ -227,11 +240,13 @@ namespace Doors
 		public void TurnOffAllLights()
 		{
 			overlayLightsHandler.ChangeSprite((int) Lights.NoLight);
+			previousLightSprite = (int) Lights.NoLight;
 		}
 
 		public void TurnOnBoltsLight()
 		{
 			overlayLightsHandler.ChangeSprite((int) Lights.BoltsLights);
+			previousLightSprite = (int) Lights.BoltsLights;
 		}
 
 		public void AddWeldOverlay()
