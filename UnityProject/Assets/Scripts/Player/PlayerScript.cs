@@ -104,8 +104,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	/// </summary>
 	public Vector3Int AssumedWorldPos => ObjectPhysics.registerTile.WorldPosition;
 
-	[SyncVar] public Vector3Int SyncedWorldPos = new Vector3Int(0, 0, 0);
-
 	/// <summary>
 	/// World position of the player.
 	/// Returns InvalidPos if you're hidden (e.g. in a locker)
@@ -369,18 +367,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		{
 			playerHealth.RTT = rtt;
 		}
-	}
-
-	[Command(requiresAuthority = false)]
-	public void UpdateLastSyncedPosition()
-	{
-		SetLastRecordedPosition();
-	}
-
-	[Server]
-	private void SetLastRecordedPosition()
-	{
-		SyncedWorldPos = gameObject.AssumedWorldPosServer().CutToInt();
 	}
 
 	/// <summary>

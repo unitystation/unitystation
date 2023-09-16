@@ -40,6 +40,16 @@ public class Mind : NetworkBehaviour, IActionGUI
 	//Type of Antagonist
 	[field: SyncVar] public JobType NetworkedAntagJob { get; private set; }
 
+	public GameObject ControllingObject
+	{
+		get
+		{
+			if (IsGhosting) return this.gameObject;
+
+			return CustomNetworkManager.Spawned[IDActivelyControlling].gameObject;
+		}
+	}
+
 	public GameObject PossessingObject
 	{
 		get
@@ -100,7 +110,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 	/// </summary>
 	private Dictionary<string, object> properties = new Dictionary<string, object>();
 
-	public bool NonImportantMind = false;
+
+	[SyncVar] public bool NonImportantMind = false;
 
 	public bool IsMute
 	{
