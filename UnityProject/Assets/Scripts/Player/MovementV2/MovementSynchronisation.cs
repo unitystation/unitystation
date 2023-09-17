@@ -11,6 +11,7 @@ using Mirror;
 using Newtonsoft.Json;
 using Objects;
 using Player.Movement;
+using ScriptableObjects;
 using ScriptableObjects.Audio;
 using Systems.Character;
 using Systems.Teleport;
@@ -863,11 +864,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 							ResetLocationOnClients();
 						}
 
-						Step = !Step;
-						if (Step)
-						{
-							FootstepSounds.PlayerFootstepAtPosition(transform.position, this);
-						}
+						HandleFootstepLogic();
 
 
 						//TODO this is good but need to clean up movement a bit more Logger.LogError("Delta magnitude " + (transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID).Matrix)).magnitude );
@@ -1047,6 +1044,21 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 	}
 
+	public void HandleFootstepLogic()
+	{
+		if (RNG.Random.Next(0, 1000 + 1) == 1000)
+		{
+			_ = Spawn.ServerPrefab(CommonPrefabs.Instance.DirtyFloorDecal,transform.position.RoundToInt());
+		}
+
+
+		Step = !Step;
+		if (Step)
+		{
+			FootstepSounds.PlayerFootstepAtPosition(transform.position, this);
+		}
+	}
+
 
 	public void AfterSuccessfulTryMove(MoveData newMoveData)
 	{
@@ -1054,11 +1066,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			if (hasAuthority && this.playerScript.OrNull()?.Equipment.OrNull()?.ItemStorage != null)
 			{
-				Step = !Step;
-				if (Step)
-				{
-					FootstepSounds.PlayerFootstepAtPosition(transform.position, this);
-				}
+				HandleFootstepLogic();
 			}
 		}
 
