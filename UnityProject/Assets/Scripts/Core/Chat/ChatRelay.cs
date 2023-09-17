@@ -282,6 +282,8 @@ public class ChatRelay : NetworkBehaviour
 	{
 		if (chatEvent.channels != ChatChannel.Local) return;
 
+		if (chatEvent.modifiers.HasFlag(ChatModifier.Emote)) return;
+
 		var msg = "";
 		if (chatEvent.IsWhispering)
 		{
