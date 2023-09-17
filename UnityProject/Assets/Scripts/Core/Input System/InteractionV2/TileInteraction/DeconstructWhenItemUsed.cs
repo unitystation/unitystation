@@ -57,6 +57,9 @@ public class DeconstructWhenItemUsed : TileInteraction
 			Chat.ReplacePerformer(othersFinishActionMessage, interaction.Performer),
 			() =>
 			{
+				var gotTile = interaction.TileChangeManager.MetaTileMap.GetTile(interaction.TargetCellPos);
+				if (gotTile == null) return;
+				if (gotTile != interaction.BasicTile) return;
 
 				interaction.TileChangeManager.MetaTileMap.RemoveTileWithlayer(interaction.TargetCellPos, interaction.BasicTile.LayerType);
 				interaction.TileChangeManager.MetaTileMap.RemoveFloorWallOverlaysOfType(interaction.TargetCellPos, OverlayType.Cleanable);

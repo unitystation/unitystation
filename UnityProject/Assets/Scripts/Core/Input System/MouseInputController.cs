@@ -112,7 +112,7 @@ public class MouseInputController : MonoBehaviour
 	{
 		if (PlayerManager.LocalPlayerObject != this.gameObject) return;
 
-		if (ControlAction.ThrowHold)
+		if (ControlAction.ThrowHold && UIManager.IsInputFocus == false)
 		{
 			if (UIManager.IsThrow == false)
 			{
