@@ -32,8 +32,8 @@ public class UpdateTextures : MonoBehaviour
 	public Texture2D InbuiltUISprite;
 	public Texture2D customUISprite;
 
-	private  List<Texture2D> inbuiltTextures;
-	private List<Texture2D> customTextures;
+	private  List<Texture2D> inbuiltTextures = new List<Texture2D>();
+	private List<Texture2D> customTextures = new List<Texture2D>();
 
 	private bool changesMade = false;
 	[NaughtyAttributes.Button]
