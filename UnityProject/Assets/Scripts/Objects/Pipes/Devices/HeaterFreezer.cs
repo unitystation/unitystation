@@ -58,7 +58,7 @@ namespace Objects.Atmospherics
 			base.Awake();
 
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
-			apcPoweredDevice.OnStateChangeEvent.AddListener(PowerStateChange);
+			apcPoweredDevice.OnStateChangeEvent += PowerStateChange;
 
 			machine = GetComponent<Machine>();
 		}
@@ -66,13 +66,13 @@ namespace Objects.Atmospherics
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Loop);
-			apcPoweredDevice.OnStateChangeEvent.RemoveListener(PowerStateChange);
+			apcPoweredDevice.OnStateChangeEvent -= (PowerStateChange);
 		}
 
 		private void OnDestroy()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Loop);
-			apcPoweredDevice.OnStateChangeEvent.RemoveListener(PowerStateChange);
+			apcPoweredDevice.OnStateChangeEvent -= (PowerStateChange);
 		}
 
 		public override void TickUpdate()
@@ -270,7 +270,7 @@ namespace Objects.Atmospherics
 
 		#endregion
 
-		private void PowerStateChange(Tuple<PowerState, PowerState> states)
+		private void PowerStateChange(PowerState old , PowerState newState)
 		{
 			if (isOn == false)
 			{
@@ -278,7 +278,7 @@ namespace Objects.Atmospherics
 				return;
 			}
 
-			ChangeSprite(states.Item2 != PowerState.Off);
+			ChangeSprite(newState != PowerState.Off);
 		}
 
 		public void TogglePower(bool newState)

@@ -53,13 +53,13 @@ namespace Objects.Wallmounts.Switches
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			apcPoweredDevice.OnStateChangeEvent.AddListener(OnPowerStatusChange);
+			apcPoweredDevice.OnStateChangeEvent += OnPowerStatusChange;
 			ChangeTurretStates();
 		}
 
 		private void OnDisable()
 		{
-			apcPoweredDevice.OnStateChangeEvent.RemoveListener(OnPowerStatusChange);
+			apcPoweredDevice.OnStateChangeEvent -= OnPowerStatusChange;
 		}
 
 		public void AddTurretToSwitch(Turret turret)
@@ -185,9 +185,9 @@ namespace Objects.Wallmounts.Switches
 			}
 		}
 
-		private void OnPowerStatusChange(Tuple<PowerState, PowerState> newStates)
+		private void OnPowerStatusChange(PowerState old , PowerState newStates)
 		{
-			ChangePowerState(newStates.Item2 != PowerState.Off);
+			ChangePowerState(newStates != PowerState.Off);
 		}
 
 		//Called when player wants to open nettab, so we can validate access
