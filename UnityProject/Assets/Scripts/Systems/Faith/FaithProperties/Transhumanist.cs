@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using HealthV2;
+using InGameEvents;
 using Items.Weapons;
+using Objects.Engineering;
 using UnityEngine;
 
 namespace Systems.Faith.FaithProperties
@@ -50,11 +53,9 @@ namespace Systems.Faith.FaithProperties
 
 		public void OnLeaveFaith(PlayerScript member)
 		{
-			if (DMMath.Prob(50))
-			{
-				var EMP = Spawn.ServerPrefab(pettyLeave.gameObject);
-				EMP.GameObject.GetComponent<Grenade>()?.Explode();
-			}
+			if (DMMath.Prob(50) == false) return;
+			var EMP = Spawn.ServerPrefab(pettyLeave.gameObject, member.gameObject.AssumedWorldPosServer());
+			EMP.GameObject.GetComponent<Grenade>()?.Explode();
 		}
 
 		public bool HasTriggeredFaithAction(PlayerScript memberWhoTriggered)
@@ -62,24 +63,30 @@ namespace Systems.Faith.FaithProperties
 			throw new System.NotImplementedException();
 		}
 
-		public bool HasTriggeredFaithInaction(PlayerScript lazyMember)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void Reward(PlayerScript member)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void Sin(PlayerScript member)
-		{
-			throw new System.NotImplementedException();
-		}
-
 		public void RandomEvent()
 		{
-			throw new System.NotImplementedException();
+			List<Action> randomEvents = new List<Action>()
+			{
+				EventKillerFish,
+				EventBlessedGenerators
+			};
+			randomEvents.PickRandom().Invoke();
+		}
+
+		private void EventBlessedGenerators()
+		{
+			Chat.AddGameWideSystemMsgToChat("<color=#e6b800>The generators are blessed with fuel..</color>");
+			var generators = MatrixManager.MainStationMatrix.GameObject.GetComponentsInChildren<PowerGenerator>();
+			foreach (var generator in generators)
+			{
+				generator.SetFuel(generator.FuelAmount + 50f);
+				generator.ToggleOn();
+			}
+		}
+
+		private void EventKillerFish()
+		{
+			InGameEventsManager.Instance.TriggerSpecificEvent("Carp Migration", DMMath.Prob(50), DMMath.Prob(50));
 		}
 	}
 }

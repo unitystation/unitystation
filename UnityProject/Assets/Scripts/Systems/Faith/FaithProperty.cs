@@ -8,9 +8,6 @@
 		public void OnJoinFaith(PlayerScript newMember);
 		public void OnLeaveFaith(PlayerScript member);
 		public bool HasTriggeredFaithAction(PlayerScript memberWhoTriggered);
-		public bool HasTriggeredFaithInaction(PlayerScript lazyMember);
-		public void Reward(PlayerScript member);
-		public void Sin(PlayerScript member);
 		public void RandomEvent();
 	}
 }

@@ -37,21 +37,6 @@
 			throw new System.NotImplementedException();
 		}
 
-		public bool HasTriggeredFaithInaction(PlayerScript lazyMember)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void Reward(PlayerScript member)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void Sin(PlayerScript member)
-		{
-			throw new System.NotImplementedException();
-		}
-
 		public void RandomEvent()
 		{
 			throw new System.NotImplementedException();

@@ -1,4 +1,7 @@
-﻿namespace Systems.Faith.FaithProperties
+﻿using System.Linq;
+using UnityEngine;
+
+namespace Systems.Faith.FaithProperties
 {
 	public class Xenophobia : IFaithProperty
 	{
@@ -17,44 +20,46 @@
 			set => faithPropertyDesc = value;
 		}
 
+		[SerializeField] private readonly int nonMemberTakePoints = 10;
+		[SerializeField] private readonly int memberGivePoints = 15;
+
 		public void Setup()
 		{
-			throw new System.NotImplementedException();
+			FaithManager.Instance.FaithPropertiesConstantUpdate.Add(CheckForMemberRaces);
+		}
+
+		private void CheckForMemberRaces()
+		{
+			if (FaithManager.Instance.FaithLeaders.Count == 0) return;
+			var leaderRaces = FaithManager.Instance.FaithLeaders.Select(leader => leader.characterSettings.GetRaceSo().name).ToList();
+			foreach (var member in FaithManager.Instance.FaithMembers)
+			{
+				if (leaderRaces.Contains(member.characterSettings.GetRaceSo().name) == false)
+				{
+					FaithManager.TakePoints(nonMemberTakePoints);
+					Chat.AddExamineMsg(member.gameObject, "<i>You feel like you don't belong here..</i>");
+					continue;
+				}
+				FaithManager.AwardPoints(memberGivePoints);
+			}
 		}
 
 		public void OnJoinFaith(PlayerScript newMember)
 		{
-			throw new System.NotImplementedException();
 		}
 
 		public void OnLeaveFaith(PlayerScript member)
 		{
-			throw new System.NotImplementedException();
 		}
 
 		public bool HasTriggeredFaithAction(PlayerScript memberWhoTriggered)
 		{
-			throw new System.NotImplementedException();
-		}
-
-		public bool HasTriggeredFaithInaction(PlayerScript lazyMember)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void Reward(PlayerScript member)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void Sin(PlayerScript member)
-		{
-			throw new System.NotImplementedException();
+			return false;
 		}
 
 		public void RandomEvent()
 		{
-			throw new System.NotImplementedException();
+
 		}
 	}
 }

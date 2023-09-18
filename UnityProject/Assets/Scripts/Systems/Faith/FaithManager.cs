@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NaughtyAttributes;
 using Shared.Managers;
 
@@ -11,6 +12,9 @@ namespace Systems.Faith
 		public int FaithPoints { get; private set; }
 		public float FaithEventsCheckTimeInSeconds = 390f;
 		public List<PlayerScript> FaithMembers { get; private set; } = new List<PlayerScript>();
+		public List<PlayerScript> FaithLeaders { get; private set; } = new List<PlayerScript>();
+		public List<Action> FaithPropertiesEventUpdate { get; set; } = new List<Action>();
+		public List<Action> FaithPropertiesConstantUpdate { get; set; } = new List<Action>();
 
 		public override void Awake()
 		{
@@ -37,6 +41,11 @@ namespace Systems.Faith
 			{
 				CurrentFaith.FaithProperties.PickRandom().RandomEvent();
 			}
+
+			foreach (var update in FaithPropertiesEventUpdate)
+			{
+				update?.Invoke();
+			}
 			CheckTolerance();
 		}
 
@@ -55,6 +64,11 @@ namespace Systems.Faith
 		public static void AwardPoints(int points)
 		{
 			Instance.FaithPoints += points;
+		}
+
+		public static void TakePoints(int points)
+		{
+			Instance.FaithPoints -= points;
 		}
 	}
 }
