@@ -21,7 +21,6 @@ namespace Systems.Faith.FaithProperties
 
 		public void Setup()
 		{
-			throw new System.NotImplementedException();
 		}
 
 		public void OnJoinFaith(PlayerScript newMember)
@@ -43,7 +42,6 @@ namespace Systems.Faith.FaithProperties
 
 		public void RandomEvent()
 		{
-			throw new System.NotImplementedException();
 		}
 	}
 }
