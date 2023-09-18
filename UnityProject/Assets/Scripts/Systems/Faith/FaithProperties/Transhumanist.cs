@@ -58,11 +58,6 @@ namespace Systems.Faith.FaithProperties
 			EMP.GameObject.GetComponent<Grenade>()?.Explode();
 		}
 
-		public bool HasTriggeredFaithAction(PlayerScript memberWhoTriggered)
-		{
-			throw new System.NotImplementedException();
-		}
-
 		public void RandomEvent()
 		{
 			List<Action> randomEvents = new List<Action>()

@@ -32,11 +32,6 @@
 			throw new System.NotImplementedException();
 		}
 
-		public bool HasTriggeredFaithAction(PlayerScript memberWhoTriggered)
-		{
-			throw new System.NotImplementedException();
-		}
-
 		public void RandomEvent()
 		{
 			throw new System.NotImplementedException();

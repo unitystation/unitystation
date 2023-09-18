@@ -41,11 +41,6 @@ namespace Systems.Faith.FaithProperties
 			member.playerHealth.OnTakeDamageType -= EvaluatePain;
 		}
 
-		public bool HasTriggeredFaithAction(PlayerScript memberWhoTriggered)
-		{
-			throw new System.NotImplementedException();
-		}
-
 		public void RandomEvent()
 		{
 			throw new System.NotImplementedException();

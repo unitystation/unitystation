@@ -34,11 +34,6 @@ namespace Systems.Faith.FaithProperties
 
 		public void OnLeaveFaith(PlayerScript member) { }
 
-		public bool HasTriggeredFaithAction(PlayerScript memberWhoTriggered)
-		{
-			return false;
-		}
-
 		public void RandomEvent()
 		{
 

@@ -7,7 +7,6 @@
 		public void Setup();
 		public void OnJoinFaith(PlayerScript newMember);
 		public void OnLeaveFaith(PlayerScript member);
-		public bool HasTriggeredFaithAction(PlayerScript memberWhoTriggered);
 		public void RandomEvent();
 	}
 }

@@ -52,11 +52,6 @@ namespace Systems.Faith.FaithProperties
 		{
 		}
 
-		public bool HasTriggeredFaithAction(PlayerScript memberWhoTriggered)
-		{
-			return false;
-		}
-
 		public void RandomEvent()
 		{
 
