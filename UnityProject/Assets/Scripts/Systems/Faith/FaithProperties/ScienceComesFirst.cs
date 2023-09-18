@@ -1,4 +1,6 @@
-﻿namespace Systems.Faith.FaithProperties
+﻿using Systems.Score;
+
+namespace Systems.Faith.FaithProperties
 {
 	public class ScienceComesFirst : IFaithProperty
 	{
@@ -19,27 +21,27 @@
 
 		public void Setup()
 		{
-			throw new System.NotImplementedException();
+			ScoreMachine.Instance.OnScoreChanged.AddListener(TrackScore);
 		}
 
-		public void OnJoinFaith(PlayerScript newMember)
+		private void TrackScore(string name, int score)
 		{
-			throw new System.NotImplementedException();
+			if (name != RoundEndScoreBuilder.COMMON_SCORE_SCIENCEPOINTS || score < 1) return;
+			FaithManager.AwardPoints(score);
 		}
 
-		public void OnLeaveFaith(PlayerScript member)
-		{
-			throw new System.NotImplementedException();
-		}
+		public void OnJoinFaith(PlayerScript newMember) { }
+
+		public void OnLeaveFaith(PlayerScript member) { }
 
 		public bool HasTriggeredFaithAction(PlayerScript memberWhoTriggered)
 		{
-			throw new System.NotImplementedException();
+			return false;
 		}
 
 		public void RandomEvent()
 		{
-			throw new System.NotImplementedException();
+
 		}
 	}
 }

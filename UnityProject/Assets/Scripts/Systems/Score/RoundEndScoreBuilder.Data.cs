@@ -12,6 +12,7 @@ namespace Systems.Score
 		[SerializeField] private Occupation captainOccupation;
 
 		public const string COMMON_SCORE_LABORPOINTS = "laborPoints";
+		public const string COMMON_SCORE_SCIENCEPOINTS = "sciencePoints";
 		public const string COMMON_SCORE_RANDOMEVENTSTRIGGERED = "randomEventsTriggered";
 		public const string COMMON_SCORE_FOODMADE = "foodmade";
 		public const string COMMON_SCORE_HOSTILENPCDEAD = "hostileNPCdead";

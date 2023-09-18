@@ -22,7 +22,9 @@ namespace Systems.Score
 		void ClearScores()
 		{
 			Scores.Clear();
+			OnScoreChanged?.RemoveAllListeners();
 		}
+
 		public override void Awake()
 		{
 			base.Awake();
