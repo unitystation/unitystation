@@ -17,6 +17,7 @@ namespace Systems.Faith.FaithProperties
 
 		private string faithPropertyName;
 		private string faithPropertyDesc;
+		[SerializeField] private Sprite faithIcon;
 
 		string IFaithProperty.FaithPropertyName
 		{
@@ -28,6 +29,12 @@ namespace Systems.Faith.FaithProperties
 		{
 			get => faithPropertyDesc;
 			set => faithPropertyDesc = value;
+		}
+
+		Sprite IFaithProperty.FaithIcon
+		{
+			get => faithIcon;
+			set => faithIcon = value;
 		}
 
 		public void Setup()

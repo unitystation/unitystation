@@ -7,6 +7,7 @@ namespace Systems.Faith.FaithProperties
 	{
 		private string faithPropertyName = "Xenophobia";
 		private string faithPropertyDesc = "Only the leaders' species of this faith is considered the 'acceptable' one.";
+		[SerializeField] private Sprite faithIcon;
 
 		string IFaithProperty.FaithPropertyName
 		{
@@ -18,6 +19,12 @@ namespace Systems.Faith.FaithProperties
 		{
 			get => faithPropertyDesc;
 			set => faithPropertyDesc = value;
+		}
+
+		Sprite IFaithProperty.FaithIcon
+		{
+			get => faithIcon;
+			set => faithIcon = value;
 		}
 
 		[SerializeField] private int nonMemberTakePoints = 10;

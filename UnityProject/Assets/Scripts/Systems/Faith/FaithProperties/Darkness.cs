@@ -1,9 +1,12 @@
-﻿namespace Systems.Faith.FaithProperties
+﻿using UnityEngine;
+
+namespace Systems.Faith.FaithProperties
 {
 	public class Darkness : IFaithProperty
 	{
 		private string faithPropertyName;
 		private string faithPropertyDesc;
+		[SerializeField] private Sprite faithIcon;
 
 		string IFaithProperty.FaithPropertyName
 		{
@@ -15,6 +18,12 @@
 		{
 			get => faithPropertyDesc;
 			set => faithPropertyDesc = value;
+		}
+
+		Sprite IFaithProperty.FaithIcon
+		{
+			get => faithIcon;
+			set => faithIcon = value;
 		}
 
 		public void Setup()

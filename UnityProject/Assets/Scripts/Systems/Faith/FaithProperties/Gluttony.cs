@@ -23,7 +23,14 @@ namespace Systems.Faith.FaithProperties
 			set => faithPropertyDesc = value;
 		}
 
+		Sprite IFaithProperty.FaithIcon
+		{
+			get => faithIcon;
+			set => faithIcon = value;
+		}
+
 		[SerializeField] private Sickness starvationSickness;
+		[SerializeField] private Sprite faithIcon;
 
 		public void Setup()
 		{

@@ -1,4 +1,5 @@
 ﻿using Systems.Score;
+using UnityEngine;
 
 namespace Systems.Faith.FaithProperties
 {
@@ -6,6 +7,7 @@ namespace Systems.Faith.FaithProperties
 	{
 		private string faithPropertyName = "Science comes first";
 		private string faithPropertyDesc = "To worship is to know. The only way to get close to our creator is to study and observe the universe around us and unlock its secrets.";
+		[SerializeField] private Sprite faithIcon;
 
 		string IFaithProperty.FaithPropertyName
 		{
@@ -17,6 +19,12 @@ namespace Systems.Faith.FaithProperties
 		{
 			get => faithPropertyDesc;
 			set => faithPropertyDesc = value;
+		}
+
+		Sprite IFaithProperty.FaithIcon
+		{
+			get => faithIcon;
+			set => faithIcon = value;
 		}
 
 		public void Setup()
