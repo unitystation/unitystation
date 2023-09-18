@@ -5,8 +5,8 @@ namespace Systems.Faith.FaithProperties
 {
 	public class Xenophobia : IFaithProperty
 	{
-		private string faithPropertyName;
-		private string faithPropertyDesc;
+		private string faithPropertyName = "Xenophobia";
+		private string faithPropertyDesc = "Only the leaders' species of this faith is considered the 'acceptable' one.";
 
 		string IFaithProperty.FaithPropertyName
 		{
