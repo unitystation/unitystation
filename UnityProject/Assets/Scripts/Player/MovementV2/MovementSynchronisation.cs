@@ -1046,7 +1046,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void HandleFootstepLogic()
 	{
-		if (RNG.Random.Next(0, 1000 + 1) == 1000)
+		if (DMMath.Prob(0.1f))
 		{
 			_ = Spawn.ServerPrefab(CommonPrefabs.Instance.DirtyFloorDecal,transform.position.RoundToInt());
 		}
