@@ -1,4 +1,6 @@
-﻿namespace Systems.Faith.FaithProperties
+﻿using UnityEngine;
+
+namespace Systems.Faith.FaithProperties
 {
 	public class PainIsVirtue : IFaithProperty
 	{
@@ -24,30 +26,22 @@
 
 		public void OnJoinFaith(PlayerScript newMember)
 		{
-			throw new System.NotImplementedException();
+			newMember.playerHealth.OnTakeDamageType += EvaluatePain;
+		}
+
+		private void EvaluatePain(DamageType damageType, GameObject idk, float damage)
+		{
+			if (damageType.HasFlag(DamageType.Stamina) || damageType.HasFlag(DamageType.Clone)) return;
+			if (damage < 4) return;
+			FaithManager.AwardPoints((int)damage * 2);
 		}
 
 		public void OnLeaveFaith(PlayerScript member)
 		{
-			throw new System.NotImplementedException();
+			member.playerHealth.OnTakeDamageType -= EvaluatePain;
 		}
 
 		public bool HasTriggeredFaithAction(PlayerScript memberWhoTriggered)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public bool HasTriggeredFaithInaction(PlayerScript lazyMember)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void Reward(PlayerScript member)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void Sin(PlayerScript member)
 		{
 			throw new System.NotImplementedException();
 		}

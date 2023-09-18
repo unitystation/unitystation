@@ -20,8 +20,8 @@ namespace Systems.Faith.FaithProperties
 			set => faithPropertyDesc = value;
 		}
 
-		[SerializeField] private readonly int nonMemberTakePoints = 10;
-		[SerializeField] private readonly int memberGivePoints = 15;
+		[SerializeField] private int nonMemberTakePoints = 10;
+		[SerializeField] private int memberGivePoints = 15;
 
 		public void Setup()
 		{
