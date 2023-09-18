@@ -5,7 +5,7 @@ namespace Systems.Faith.FaithProperties
 	public class RockAndStone : IFaithProperty
 	{
 		private string faithPropertyName = "Rock and Stone";
-		private string faithPropertyDesc = "Channel your inner dwarf.";
+		private string faithPropertyDesc = "Channel your inner dwarf. Mine the earth.";
 
 		string IFaithProperty.FaithPropertyName
 		{
@@ -39,20 +39,6 @@ namespace Systems.Faith.FaithProperties
 		{
 		}
 
-		public bool HasTriggeredFaithInaction(PlayerScript lazyMember)
-		{
-			return false;
-		}
-
-		public void Reward(PlayerScript member)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void Sin(PlayerScript member)
-		{
-			throw new System.NotImplementedException();
-		}
 
 		public void RandomEvent()
 		{

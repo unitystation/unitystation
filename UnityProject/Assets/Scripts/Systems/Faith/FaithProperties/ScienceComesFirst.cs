@@ -4,8 +4,8 @@ namespace Systems.Faith.FaithProperties
 {
 	public class ScienceComesFirst : IFaithProperty
 	{
-		private string faithPropertyName;
-		private string faithPropertyDesc;
+		private string faithPropertyName = "Science comes first";
+		private string faithPropertyDesc = "To worship is to know. The only way to get close to our creator is to study and observe the universe around us and unlock its secrets.";
 
 		string IFaithProperty.FaithPropertyName
 		{

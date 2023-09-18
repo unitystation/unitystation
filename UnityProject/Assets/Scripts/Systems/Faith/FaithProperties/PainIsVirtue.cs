@@ -4,8 +4,8 @@ namespace Systems.Faith.FaithProperties
 {
 	public class PainIsVirtue : IFaithProperty
 	{
-		private string faithPropertyName;
-		private string faithPropertyDesc;
+		private string faithPropertyName = "Pain Is Virtue";
+		private string faithPropertyDesc = "The flesh is sinful, but the soul is strong. You can only find comfort in pain. Virtue is shown through suffering of self and others.";
 
 		string IFaithProperty.FaithPropertyName
 		{

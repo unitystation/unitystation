@@ -2,8 +2,8 @@
 {
 	public class HighLife : IFaithProperty
 	{
-		private string faithPropertyName;
-		private string faithPropertyDesc;
+		private string faithPropertyName = "High life";
+		private string faithPropertyDesc = "This faith relies on the absence of mind, and drinking all your problems away. Smoke illegal substances and drink alcohol to do your part.";
 
 		string IFaithProperty.FaithPropertyName
 		{
@@ -19,22 +19,18 @@
 
 		public void Setup()
 		{
-			throw new System.NotImplementedException();
 		}
 
 		public void OnJoinFaith(PlayerScript newMember)
 		{
-			throw new System.NotImplementedException();
 		}
 
 		public void OnLeaveFaith(PlayerScript member)
 		{
-			throw new System.NotImplementedException();
 		}
 
 		public void RandomEvent()
 		{
-			throw new System.NotImplementedException();
 		}
 	}
 }

@@ -29,10 +29,14 @@ MonoBehaviour:
     RefIds:
     - rid: 2708802213016240129
       type: {class: Gluttony, ns: Systems.Faith.FaithProperties, asm: Assets}
-      data: 
+      data:
+        starvationSickness: {fileID: 5548865049419815919, guid: 32ee1b85ccaf8044b84cd5650a84e233,
+          type: 3}
     - rid: 2708802213016240131
       type: {class: Xenophobia, ns: Systems.Faith.FaithProperties, asm: Assets}
-      data: 
+      data:
+        nonMemberTakePoints: 10
+        memberGivePoints: 15
     - rid: 2708802213016240157
       type: {class: PainIsVirtue, ns: Systems.Faith.FaithProperties, asm: Assets}
       data: 
