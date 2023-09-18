@@ -364,7 +364,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		string str = "";
 		if (integrity < 0.2f * initialIntegrity)
 		{
-			str = "It appears almost destroyed.";
+			str = "it's falling apart";
 		}
 		else if (integrity < 0.4f * initialIntegrity)
 		{

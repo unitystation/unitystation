@@ -97,7 +97,7 @@ public class MutationUnlockMiniGame : MonoBehaviour
 	{
 		if (GUI_DNAConsole.DNAConsole.CurrentDNACharge >= GUI_DNAConsole.DNAConsole.RequiredDNASamples)
 		{
-			GUI_DNAConsole.DNAConsole.CurrentDNACharge =- GUI_DNAConsole.DNAConsole.RequiredDNASamples;
+			GUI_DNAConsole.DNAConsole.CurrentDNACharge -= GUI_DNAConsole.DNAConsole.RequiredDNASamples;
 			UpdateIndicator();
 			GUI_DNAConsole.GenerateEgg();
 		}
