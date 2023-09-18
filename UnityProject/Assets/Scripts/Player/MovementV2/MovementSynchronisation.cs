@@ -1242,7 +1242,26 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			if (IsWalking) return false;
 		}
 
-		if (slideTime > 0) return false;
+
+		if (airTime > 0)
+		{
+			if (Animating == false)
+			{
+				Loggy.LogError("Error somehow have air Time while not animating");
+				airTime = 0;
+			}
+			return false;
+		}
+
+		if (slideTime > 0)
+		{
+			if (Animating == false)
+			{
+				Loggy.LogError("Error somehow have Slide time while not animating");
+				slideTime = 0;
+			}
+			return false;
+		}
 		if (allowInput == false) return false;
 		if (BuckledToObject) return false;
 		if (hasAuthority && UIManager.IsInputFocus) return false;
