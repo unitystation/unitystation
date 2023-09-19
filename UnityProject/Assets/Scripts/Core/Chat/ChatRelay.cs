@@ -280,6 +280,8 @@ public class ChatRelay : NetworkBehaviour
 
 	public static void ShowChatBubbleToPlayer(GameObject toShowTo, ref ChatEvent chatEvent)
 	{
+		if (chatEvent.originator == null) return;
+
 		if (chatEvent.channels != ChatChannel.Local) return;
 
 		if (chatEvent.modifiers.HasFlag(ChatModifier.Emote)) return;

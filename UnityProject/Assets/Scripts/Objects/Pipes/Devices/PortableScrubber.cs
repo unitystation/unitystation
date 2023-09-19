@@ -17,7 +17,7 @@ public class PortableScrubber : MonoBehaviour, ICheckedInteractable<HandApply>
 	public UniversalObjectPhysics UniversalObjectPhysics;
 
 
-	public float ScrubberEfficiency = 0.2f;
+	public float ScrubberEfficiency = 0.5f;
 
 
 	public GasSO TargetGas = null;
@@ -25,18 +25,18 @@ public class PortableScrubber : MonoBehaviour, ICheckedInteractable<HandApply>
 	public List<Vector3Int> RelativePositionsToScrub = new List<Vector3Int>()
 	{
 		new Vector3Int(0, 0),
-		new Vector3Int(1, 0),
-		new Vector3Int(-1, 0),
-		new Vector3Int(0, 1),
-		new Vector3Int(0, -1),
-		new Vector3Int(-1, -1),
-		new Vector3Int(1, 1),
-		new Vector3Int(1, -1),
-		new Vector3Int(-1, 1),
-		new Vector3Int(2, 0),
-		new Vector3Int(-2, 0),
-		new Vector3Int(0, 2),
-		new Vector3Int(0, -2),
+		//new Vector3Int(1, 0),
+		//new Vector3Int(-1, 0),
+		//new Vector3Int(0, 1),
+		//new Vector3Int(0, -1),
+		// new Vector3Int(-1, -1),
+		// new Vector3Int(1, 1),
+		// new Vector3Int(1, -1),
+		// new Vector3Int(-1, 1),
+		// new Vector3Int(2, 0),
+		// new Vector3Int(-2, 0),
+		// new Vector3Int(0, 2),
+		// new Vector3Int(0, -2),
 	};
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -76,6 +76,14 @@ public class PortableScrubber : MonoBehaviour, ICheckedInteractable<HandApply>
 	public void Awake()
 	{
 		UniversalObjectPhysics = this.GetComponentCustom<UniversalObjectPhysics>();
+
+
+		Canister.ServerOnConnectionStatusChange.AddListener(SetValve);
+	}
+
+	public void SetValve(bool State)
+	{
+		Canister.SetValve(State);
 	}
 
 	[NaughtyAttributes.Button]
@@ -141,6 +149,7 @@ public class PortableScrubber : MonoBehaviour, ICheckedInteractable<HandApply>
 		{
 			var tile = UniversalObjectPhysics.registerTile.Matrix.MetaDataLayer.Get(localPosition + offsetPosition);
 			var moles = tile.GasMix.GetMoles(TargetGas) * ScrubberEfficiency;
+			moles = moles.Clamp(0, 10); //max 25 Presumes it's only one
 			if (moles == 0)
 			{
 				continue;
