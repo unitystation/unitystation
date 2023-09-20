@@ -330,7 +330,7 @@ namespace Lobby
 		{
 			await Task.Delay(14000);
 			if (cancelTimer) return;
-			lobbyDialogue.ShowLoadingPanel("This is taking longer than it should..\n\n If this takes longer, please stop using VPNs and move your install to a fully English path.");
+			lobbyDialogue.ShowLoadingPanel("This is taking longer than it should..\n\n If it continues, try disabling your VPNs and installing the game in full English path.");
 			await Task.Delay(30500);
 			if (cancelTimer) return;
 			lobbyDialogue.ShowLoginError($"Unexpected error. Check your console (F5)");
