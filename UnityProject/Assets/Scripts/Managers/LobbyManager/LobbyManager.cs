@@ -39,6 +39,8 @@ namespace Lobby
 		public List<ConnectionHistory> ServerJoinHistory { get; private set; }
 		private static readonly int MaxJoinHistory = 20; // Aribitrary & more than enough
 
+		private bool cancelTimer = false;
+
 		#region Lifecycle
 
 		public override void Start()
@@ -120,6 +122,7 @@ namespace Lobby
 		public async Task<bool> TryTokenLogin(string uid, string token)
 		{
 			lobbyDialogue.ShowLoadingPanel("Welcome back! Signing you in...");
+			LoginTimer();
 
 			var refreshToken = new RefreshToken();
 			refreshToken.refreshToken = token;
@@ -130,6 +133,7 @@ namespace Lobby
 			if (response == null)
 			{
 				lobbyDialogue.ShowLoginError($"Unknown server error. Check your console (F5)");
+				cancelTimer = true;
 				return false;
 			}
 
@@ -137,6 +141,7 @@ namespace Lobby
 			{
 				Loggy.LogError($"Something went wrong with hub token validation: {response.errorMsg}", Category.DatabaseAPI);
 				lobbyDialogue.ShowLoginError($"Could not verify your details. {response.errorMsg}");
+				cancelTimer = true;
 				return false;
 			}
 
@@ -160,7 +165,7 @@ namespace Lobby
 					isLoginSuccess = true;
 				}
 			});
-
+			cancelTimer = true;
 			return isLoginSuccess;
 		}
 
@@ -175,7 +180,7 @@ namespace Lobby
 
 			var randomGreeting = string.Format(greetings.PickRandom(), FirebaseAuth.DefaultInstance.CurrentUser.DisplayName);
 			lobbyDialogue.ShowLoadingPanel($"{randomGreeting}\n\nSigning you in...");
-
+			LoginTimer();
 			bool isLoginSuccess = false;
 			await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(task => {
 				if (task.IsCanceled)
@@ -192,13 +197,13 @@ namespace Lobby
 			});
 
 			if (isLoginSuccess == false) return false;
+			cancelTimer = true;
 
 			if (await ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, lobbyDialogue.ShowLoginError))
 			{
 				lobbyDialogue.ShowMainPanel();
 				return true;
 			}
-
 			return false;
 		}
 
@@ -319,6 +324,16 @@ namespace Lobby
 					lobbyDialogue.transform.localScale *= 0.9f;
 				}
 			}
+		}
+
+		private async void LoginTimer()
+		{
+			await Task.Delay(14000);
+			if (cancelTimer) return;
+			lobbyDialogue.ShowLoadingPanel("This is taking longer than it should..\n\n If this takes longer, please stop using VPNs and move your install to a fully English path.");
+			await Task.Delay(30500);
+			if (cancelTimer) return;
+			lobbyDialogue.ShowLoginError($"Unexpected error. Check your console (F5)");
 		}
 
 		#region Server History
