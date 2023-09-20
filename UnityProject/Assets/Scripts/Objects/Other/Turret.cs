@@ -203,7 +203,7 @@ namespace Objects.Other
 
 			UpdateManager.Add(UpdateLoop, UpdateTimer);
 			integrity.OnWillDestroyServer.AddListener(OnTurretDestroy);
-			apcPoweredDevice.OnStateChangeEvent.AddListener(OnPowerStateChange);
+			apcPoweredDevice.OnStateChangeEvent += (OnPowerStateChange);
 
 			SetUpBullet();
 		}
@@ -212,7 +212,7 @@ namespace Objects.Other
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateLoop);
 			integrity.OnWillDestroyServer.RemoveListener(OnTurretDestroy);
-			apcPoweredDevice.OnStateChangeEvent.RemoveListener(OnPowerStateChange);
+			apcPoweredDevice.OnStateChangeEvent -= OnPowerStateChange;
 			apcPoweredDevice.LockApcLinking(unlocked == false);
 
 			if (connectedSwitch is TurretSwitch generalSwitch)
@@ -449,9 +449,9 @@ namespace Objects.Other
 		}
 
 		//Called when ApcPoweredDevice changes state
-		private void OnPowerStateChange(Tuple<PowerState, PowerState> newStates)
+		private void OnPowerStateChange(PowerState old,  PowerState newStates)
 		{
-			SetPower(newStates.Item2 != PowerState.Off);
+			SetPower(newStates != PowerState.Off);
 
 			//Allow for instant shoot
 			shootingTimer = shootSpeed;

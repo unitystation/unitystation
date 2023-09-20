@@ -103,7 +103,11 @@ namespace Objects
 					ToggleLight(GlobalLightStatus);
 				}
 
-				apcPoweredDevice.OrNull()?.OnStateChangeEvent.AddListener(PowerStateChanged);
+				if (apcPoweredDevice != null)
+				{
+					apcPoweredDevice.OnStateChangeEvent += PowerStateChanged;
+				}
+
 				integrity.OnWillDestroyServer.AddListener(OnCameraDestruction);
 
 				if (motionSensingCamera)
@@ -117,7 +121,11 @@ namespace Objects
 		{
 			cameras[securityCameraChannel].Remove(this);
 
-			apcPoweredDevice.OrNull()?.OnStateChangeEvent.RemoveListener(PowerStateChanged);
+			if (apcPoweredDevice != null)
+			{
+				apcPoweredDevice.OnStateChangeEvent -= PowerStateChanged;
+			}
+
 			integrity.OnWillDestroyServer.RemoveListener(OnCameraDestruction);
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, MotionSensingUpdate);
@@ -337,17 +345,17 @@ namespace Objects
 
 		#region Power
 
-		private void PowerStateChanged(Tuple<PowerState, PowerState> oldAndNewStates)
+		private void PowerStateChanged(PowerState Old, PowerState newState)
 		{
 			//If now off turn off
-			if (oldAndNewStates.Item2 == PowerState.Off)
+			if (newState == PowerState.Off)
 			{
 				ServerSetCameraState(false);
 				return;
 			}
 
 			//If was off turn on if wires not cut
-			if (oldAndNewStates.Item1 == PowerState.Off && wiresCut == false)
+			if (newState == PowerState.On && wiresCut == false)
 			{
 				ServerSetCameraState(true);
 			}

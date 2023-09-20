@@ -1245,6 +1245,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (isVisible == false) return;
 		if (CanMove == false) return;
 		if (PulledBy.HasComponent) return;
+		if (worldDirection == Vector2.zero) return;
 
 		aim = inAim;
 		thrownBy = inThrownBy;

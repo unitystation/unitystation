@@ -80,11 +80,6 @@ public class DNAConsole : MonoBehaviour
 
 	public bool AddAmber()
 	{
-		if (CurrentDNACharge >= RequiredDNASamples)
-		{
-			return false;
-		}
-
 		CurrentDNACharge++;
 
 		if (ActiveGUI_DNAConsole != null)

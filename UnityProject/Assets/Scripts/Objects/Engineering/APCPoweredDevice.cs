@@ -83,8 +83,7 @@ namespace Systems.Electricity
 		/// <summary>
 		/// 1 PowerState is the old state, 2 PowerState is the new state
 		/// </summary>
-		[NonSerialized]
-		public UnityEvent<Tuple<PowerState, PowerState>> OnStateChangeEvent = new UnityEvent<Tuple<PowerState, PowerState>>();
+		public event Action<PowerState, PowerState> OnStateChangeEvent;
 
 		[SyncVar(hook = nameof(UpdateSynchronisedVoltage))]
 		private float recordedVoltage = 0;
@@ -178,7 +177,7 @@ namespace Systems.Electricity
 			else
 			{
 				UpdateSynchronisedState(state, state);
-				OnStateChangeEvent.Invoke(new Tuple<PowerState, PowerState>(PowerState.Off, state));
+				OnStateChangeEvent?.Invoke(PowerState.Off, state);
 			}
 		}
 
@@ -259,7 +258,7 @@ namespace Systems.Electricity
 
 				if (newState == state) return;
 
-				OnStateChangeEvent.Invoke(new Tuple<PowerState, PowerState>(state, newState));
+				OnStateChangeEvent?.Invoke(state, newState);
 
 				state = newState;
 				Powered?.StateUpdate(state);
