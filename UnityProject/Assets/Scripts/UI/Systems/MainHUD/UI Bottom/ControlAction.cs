@@ -24,7 +24,7 @@ namespace UI
 
 		public static bool GetHoldThrowPreference()
 		{
-			return 1 == PlayerPrefs.GetInt("ThrowHoldPreference", 1);
+			return 1 == PlayerPrefs.GetInt("ThrowHoldPreference", 0);
 		}
 
 
