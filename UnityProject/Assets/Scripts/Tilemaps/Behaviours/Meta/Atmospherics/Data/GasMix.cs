@@ -604,6 +604,20 @@ namespace Systems.Atmospherics
 			RecalculatePressure();
 		}
 
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="gas"></param>
+		/// <param name="moles">  Warning!!!! This will have incorrect results if you take more moles than is in the container </param>
+		/// <returns></returns>
+		public float TakeGasReturnEnergy(GasSO gas, float moles)
+		{
+			var energyOfTakingGaslEnergy = moles * gas.MolarHeatCapacity * Temperature;
+			GasData.ChangeMoles(gas, -moles);
+			RecalculatePressure();
+			return energyOfTakingGaslEnergy;
+		}
+
 		public void CopyFrom(GasMix other)
 		{
 			other.GasData.CopyTo(GasData);

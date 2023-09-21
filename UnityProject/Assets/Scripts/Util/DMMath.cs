@@ -27,8 +27,7 @@ public static class DMMath
 	/// <returns>If the random value is less than the threshold, the method returns true. Otherwise, it returns false.</returns>
 	public static bool Prob(double percent)
 	{
-		Random rand = new Random(Guid.NewGuid().GetHashCode());
-		return rand.NextDouble() < percent / 100.0;
+		return RNG.Random.NextDouble() < percent / 100.0;
 	}
 
 	public static float Lerp(float a, float b, float? amount)

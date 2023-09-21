@@ -225,6 +225,20 @@ public static class SweetExtensions
 	}
 
 
+	//New better system for Get component That cashs results
+	public static UniversalObjectPhysics GetUniversalObjectPhysics(this GameObject go)
+	{
+		if (ComponentManager.TryGetUniversalObjectPhysics(go, out  var commonComponent))
+		{
+			return commonComponent;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+
 
 	//New better system for Get component That cashs results
 	public static T GetComponentCustom<T>(this GameObject go)  where T : Component
