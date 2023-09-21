@@ -707,6 +707,8 @@ public class MouseInputController : MonoBehaviour
 	public MouseIconSo GrabCursor;
 	public MouseIconSo DisarmCursor;
 
+	public MouseIconSo ThrowCursor;
+
 	private bool isShowingKeyComboCursor = false;
 	private static Texture2D currentCursorTexture = null;
 	private static Vector2 currentCursorOffset = Vector2.zero;
@@ -759,9 +761,13 @@ public class MouseInputController : MonoBehaviour
 
 	private void CheckCursorTexture()
 	{
-		if (isShowingKeyComboCursor == false && (KeyboardInputManager.IsShiftPressed() ||  KeyboardInputManager.IsControlPressed() ||  KeyboardInputManager.IsAltActionKeyPressed()))
+		if (isShowingKeyComboCursor == false && (KeyboardInputManager.IsShiftPressed() ||  KeyboardInputManager.IsControlPressed() ||  KeyboardInputManager.IsAltActionKeyPressed() || UIManager.IsThrow))
 		{
-			if (KeyboardInputManager.IsControlPressed())
+			if (UIManager.IsThrow)
+			{
+				Cursor.SetCursor(ThrowCursor.Texture, ThrowCursor.Offset, CursorMode.Auto);
+			}
+			else if (KeyboardInputManager.IsControlPressed())
 			{
 				Cursor.SetCursor(grabbingCursor.Texture, grabbingCursor.Offset, CursorMode.Auto);
 			}
@@ -777,7 +783,7 @@ public class MouseInputController : MonoBehaviour
 			isShowingKeyComboCursor = true;
 			previousIntent = Intent.Help;
 		}
-		else if (isShowingKeyComboCursor && KeyboardInputManager.IsShiftPressed() == false && KeyboardInputManager.IsControlPressed() == false && KeyboardInputManager.IsAltActionKeyPressed() == false)
+		else if (isShowingKeyComboCursor && KeyboardInputManager.IsShiftPressed() == false && KeyboardInputManager.IsControlPressed() == false && KeyboardInputManager.IsAltActionKeyPressed() == false && UIManager.IsThrow == false)
 		{
 			Cursor.SetCursor(currentCursorTexture, currentCursorOffset, CursorMode.Auto);
 			isShowingKeyComboCursor = false;

@@ -15,7 +15,7 @@ public class MutationChooseElement : DynamicEntry
 	{
 		MutationSO = InMutationSO;
 		GUI_DNAConsole = InGUI_DNAConsole;
-		NetText_label.MasterSetValue(InMutationSO.name);
+		NetText_label.MasterSetValue(InMutationSO.DisplayName);
 	}
 
 	public void OnSelect()
