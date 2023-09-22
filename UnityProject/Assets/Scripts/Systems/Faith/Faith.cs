@@ -10,6 +10,7 @@ namespace Systems.Faith
 	{
 		[field: SerializeField] public string FaithName { get; set; }
 		[field: SerializeField, TextArea] public string FaithDesc { get; set; }
+		[field: SerializeField] public Sprite FaithIcon { get; set; }
 		[field: SerializeField] public string GodName { get; set; }
 		[field: SerializeField, TextArea] public string NanotrasenProgressMessage { get; set; }
 		[field: SerializeField] public ToleranceToOtherFaiths ToleranceToOtherFaiths { get; set; } = ToleranceToOtherFaiths.Neutral;

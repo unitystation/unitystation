@@ -6,7 +6,7 @@ namespace Systems.Faith.FaithProperties
 	{
 		private string faithPropertyName = "Pain Is Virtue";
 		private string faithPropertyDesc = "The flesh is sinful, but the soul is strong. You can only find comfort in pain. Virtue is shown through suffering of self and others.";
-		[SerializeField] private Sprite faithIcon;
+		[SerializeField] private Sprite propertyIcon;
 
 		string IFaithProperty.FaithPropertyName
 		{
@@ -20,10 +20,10 @@ namespace Systems.Faith.FaithProperties
 			set => faithPropertyDesc = value;
 		}
 
-		Sprite IFaithProperty.FaithIcon
+		Sprite IFaithProperty.PropertyIcon
 		{
-			get => faithIcon;
-			set => faithIcon = value;
+			get => propertyIcon;
+			set => propertyIcon = value;
 		}
 
 		public void Setup()

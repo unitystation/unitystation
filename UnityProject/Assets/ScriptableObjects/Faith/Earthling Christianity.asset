@@ -18,6 +18,8 @@ MonoBehaviour:
       of Christianity emerged into space as their worshipers spread the gospel of
       their lord. They often view everything as against god's creation and plans,
       and lead lives of intolereance, gluttony and pain.
+    <FaithIcon>k__BackingField: {fileID: 21300000, guid: a294f40a865d75c42b7bfe4a0bf5dd26,
+      type: 3}
     <GodName>k__BackingField: God
     <NanotrasenProgressMessage>k__BackingField: 
     <ToleranceToOtherFaiths>k__BackingField: 2
@@ -32,6 +34,8 @@ MonoBehaviour:
       data:
         starvationSickness: {fileID: 5548865049419815919, guid: 32ee1b85ccaf8044b84cd5650a84e233,
           type: 3}
+        propertyIcon: {fileID: 21300000, guid: 40c6dc1a402ce944d9a62d4c57cb03c2, type: 3}
     - rid: 2708802213016240153
       type: {class: PainIsVirtue, ns: Systems.Faith.FaithProperties, asm: Assets}
-      data: 
+      data:
+        propertyIcon: {fileID: 21300000, guid: d982e9cebcf37ea4a81362f3e3f284a7, type: 3}

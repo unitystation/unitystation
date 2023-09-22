@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Systems.Faith.FaithProperties
 {
@@ -7,7 +8,7 @@ namespace Systems.Faith.FaithProperties
 	{
 		private string faithPropertyName = "Xenophobia";
 		private string faithPropertyDesc = "Only the leaders' species of this faith is considered the 'acceptable' one.";
-		[SerializeField] private Sprite faithIcon;
+		[SerializeField] private Sprite propertyIcon;
 
 		string IFaithProperty.FaithPropertyName
 		{
@@ -21,10 +22,10 @@ namespace Systems.Faith.FaithProperties
 			set => faithPropertyDesc = value;
 		}
 
-		Sprite IFaithProperty.FaithIcon
+		Sprite IFaithProperty.PropertyIcon
 		{
-			get => faithIcon;
-			set => faithIcon = value;
+			get => propertyIcon;
+			set => propertyIcon = value;
 		}
 
 		[SerializeField] private int nonMemberTakePoints = 10;

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Systems.Faith.FaithProperties
 {
@@ -6,7 +7,7 @@ namespace Systems.Faith.FaithProperties
 	{
 		private string faithPropertyName = "High life";
 		private string faithPropertyDesc = "This faith relies on the absence of mind, and drinking all your problems away. Smoke illegal substances and drink alcohol to do your part.";
-		[SerializeField] private Sprite faithIcon;
+		[SerializeField] private Sprite propertyIcon;
 
 		string IFaithProperty.FaithPropertyName
 		{
@@ -20,10 +21,10 @@ namespace Systems.Faith.FaithProperties
 			set => faithPropertyDesc = value;
 		}
 
-		Sprite IFaithProperty.FaithIcon
+		Sprite IFaithProperty.PropertyIcon
 		{
-			get => faithIcon;
-			set => faithIcon = value;
+			get => propertyIcon;
+			set => propertyIcon = value;
 		}
 
 		public void Setup()

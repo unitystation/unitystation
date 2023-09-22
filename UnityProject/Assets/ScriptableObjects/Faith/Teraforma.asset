@@ -18,6 +18,8 @@ MonoBehaviour:
       an image of a dwarf, and the whole porpuse of a dwarf is to strike the Earth
       and weed out the evils within, while collecting all the gifts left inside rocks
       by an ancient worm that oversees the book of grudges.
+    <FaithIcon>k__BackingField: {fileID: 21300000, guid: 56c81cd8578b25a4dadd0a2cc6ad279c,
+      type: 3}
     <GodName>k__BackingField: The Great Worm
     <NanotrasenProgressMessage>k__BackingField: '[Mission Control]\n
 
@@ -34,7 +36,9 @@ MonoBehaviour:
     RefIds:
     - rid: 2708802213016240155
       type: {class: RockAndStone, ns: Systems.Faith.FaithProperties, asm: Assets}
-      data: 
+      data:
+        propertyIcon: {fileID: 21300008, guid: 321c51faef850244aa8d67229f4f4a42, type: 3}
     - rid: 2708802213016240158
       type: {class: Darkness, ns: Systems.Faith.FaithProperties, asm: Assets}
-      data: 
+      data:
+        propertyIcon: {fileID: 21300000, guid: 562b5450772949847ba8dc04b0d6f679, type: 3}

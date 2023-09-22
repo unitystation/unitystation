@@ -3,6 +3,7 @@ using Health.Sickness;
 using HealthV2.Living.PolymorphicSystems;
 using Logs;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Systems.Faith.FaithProperties
 {
@@ -23,14 +24,14 @@ namespace Systems.Faith.FaithProperties
 			set => faithPropertyDesc = value;
 		}
 
-		Sprite IFaithProperty.FaithIcon
+		Sprite IFaithProperty.PropertyIcon
 		{
-			get => faithIcon;
-			set => faithIcon = value;
+			get => propertyIcon;
+			set => propertyIcon = value;
 		}
 
 		[SerializeField] private Sickness starvationSickness;
-		[SerializeField] private Sprite faithIcon;
+		[SerializeField] private Sprite propertyIcon;
 
 		public void Setup()
 		{

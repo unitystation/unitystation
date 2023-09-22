@@ -1,5 +1,6 @@
 ﻿using Systems.Score;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Systems.Faith.FaithProperties
 {
@@ -7,7 +8,7 @@ namespace Systems.Faith.FaithProperties
 	{
 		private string faithPropertyName = "Rock and Stone";
 		private string faithPropertyDesc = "Channel your inner dwarf. Mine the earth.";
-		[SerializeField] private Sprite faithIcon;
+		[SerializeField] private Sprite propertyIcon;
 
 		string IFaithProperty.FaithPropertyName
 		{
@@ -21,10 +22,10 @@ namespace Systems.Faith.FaithProperties
 			set => faithPropertyDesc = value;
 		}
 
-		Sprite IFaithProperty.FaithIcon
+		Sprite IFaithProperty.PropertyIcon
 		{
-			get => faithIcon;
-			set => faithIcon = value;
+			get => propertyIcon;
+			set => propertyIcon = value;
 		}
 
 		public void Setup()
