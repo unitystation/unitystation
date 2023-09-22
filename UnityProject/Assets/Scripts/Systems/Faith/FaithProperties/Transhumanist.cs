@@ -16,8 +16,8 @@ namespace Systems.Faith.FaithProperties
 		[SerializeField] private List<BodyPart> bodyPartsToMakeTranshumanist = new List<BodyPart>();
 		[SerializeField] private Grenade pettyLeave;
 
-		private string faithPropertyName;
-		private string faithPropertyDesc;
+		[SerializeField] private string faithPropertyName = "Transhumanist";
+		[SerializeField] private string faithPropertyDesc = "This faith believes the certainty of steel, and worship is unlocked via body modifications that unlocks one's true potential.";
 		[SerializeField] private Sprite propertyIcon;
 
 		string IFaithProperty.FaithPropertyName

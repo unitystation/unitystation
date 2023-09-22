@@ -36,6 +36,8 @@ MonoBehaviour:
     - rid: 2708802213016240137
       type: {class: Darkness, ns: Systems.Faith.FaithProperties, asm: Assets}
       data:
+        faithPropertyName: Darkness
+        faithPropertyDesc: People of this faith like to lurk in the darkness.
         propertyIcon: {fileID: 21300000, guid: 562b5450772949847ba8dc04b0d6f679, type: 3}
     - rid: 2708802213016240139
       type: {class: Xenophobia, ns: Systems.Faith.FaithProperties, asm: Assets}
@@ -61,6 +63,9 @@ MonoBehaviour:
         - {fileID: 108926807988360621, guid: 5c22d550fc2d31941bf147d721294daa, type: 3}
         pettyLeave: {fileID: 9197874253917913631, guid: b28d41c2a9712bc448ba1d43f8554098,
           type: 3}
+        faithPropertyName: Transhumanist
+        faithPropertyDesc: This faith believes the certainty of steel, and worship
+          is unlocked via body modifications that unlocks one's true potential.
         propertyIcon: {fileID: 21300036, guid: cb62d97b741974e4b94847d96225c691, type: 3}
     - rid: 2708802213016240143
       type: {class: ScienceComesFirst, ns: Systems.Faith.FaithProperties, asm: Assets}

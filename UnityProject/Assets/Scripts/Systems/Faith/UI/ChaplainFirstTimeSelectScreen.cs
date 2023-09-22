@@ -41,9 +41,9 @@ namespace Systems.Faith.UI
 			FaithDesc.text = faith.FaithDesc;
 			FaithIcon.sprite = faith.FaithIcon;
 			UnfocusedDescText = faith.FaithDesc;
-			foreach (GameObject gridButton in PropertiesGrid.transform)
+			for (int i = 0; i < PropertiesGrid.childCount; i++)
 			{
-				Destroy(gridButton);
+				Destroy(PropertiesGrid.GetChild(i).gameObject);
 			}
 			foreach (var property in faith.FaithProperties)
 			{

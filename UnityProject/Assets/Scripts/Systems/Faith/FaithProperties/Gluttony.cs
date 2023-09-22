@@ -9,8 +9,8 @@ namespace Systems.Faith.FaithProperties
 {
 	public class Gluttony : IFaithProperty
 	{
-		private string faithPropertyName;
-		private string faithPropertyDesc;
+		[SerializeField] private string faithPropertyName = "Gluttony";
+		[SerializeField] private string faithPropertyDesc = "This faith believes that empty stomachs are a sign of weakness and a lack of a comfortable lifestyle.";
 
 		string IFaithProperty.FaithPropertyName
 		{
