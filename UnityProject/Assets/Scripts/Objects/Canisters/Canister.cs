@@ -25,6 +25,8 @@ namespace Objects.Atmospherics
 		[Tooltip("Tint of the inner panel in the GUI")]
 		public Color UIInnerPanelTint;
 
+		public bool AcceptTanks = true;
+
 		[Header("Canister Settings")]
 		[Tooltip("What tier this canister is. Sets the pressure to 4500e[tier].")]
 		[SerializeField] [Range(0, 3)]
@@ -236,7 +238,7 @@ namespace Objects.Atmospherics
 			//using wrench
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench)) return true;
 			//using any fillable gas container
-			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.CanisterFillable)) return true;
+			if (AcceptTanks && Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.CanisterFillable)) return true;
 
 			return false;
 		}
@@ -252,7 +254,7 @@ namespace Objects.Atmospherics
 			}
 
 			//can click on the canister with a refillable tank to insert the refillable tank into the canister
-			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.CanisterFillable))
+			if (AcceptTanks && Validations.HasItemTrait(interaction, CommonTraits.Instance.CanisterFillable))
 			{
 				TryInsertingContainer();
 			}
@@ -260,7 +262,7 @@ namespace Objects.Atmospherics
 
 
 
-		
+
 		private void TryWrenching()
 		{
 			if (IsConnected)

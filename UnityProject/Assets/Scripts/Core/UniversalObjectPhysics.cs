@@ -297,12 +297,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			SetRotationTargetWhenNull();
 			return;
 		}
-		var sprites = GetComponentsInChildren<SpriteHandler>();
-		if (sprites.Length == 1)
-		{
-			rotationTarget = sprites[0].transform;
-			return;
-		}
 		rotationTarget = transform;
 	}
 

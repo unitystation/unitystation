@@ -587,7 +587,6 @@ MonoBehaviour:
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
-  SyncedWorldPos: {x: 0, y: 0, z: 0}
   RTT: 0
   RcsMode: 0
   RcsMatrixMove: {fileID: 0}
@@ -722,6 +721,7 @@ MonoBehaviour:
   HarmCursor: {fileID: 11400000, guid: da3c73fa7af4d204d980268095802847, type: 2}
   GrabCursor: {fileID: 11400000, guid: 8f2a43425b956ec45be31b0470f347a9, type: 2}
   DisarmCursor: {fileID: 11400000, guid: 9e0272263f7878141806be75b6fca7e5, type: 2}
+  ThrowCursor: {fileID: 11400000, guid: 73a9c3e7adba5314db42d7ac9aeed22c, type: 2}
 --- !u!114 &114407246905810916
 MonoBehaviour:
   m_ObjectHideFlags: 0
