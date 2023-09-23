@@ -60,7 +60,9 @@ namespace UI.Objects.Shuttles
 
 				if (TrackAlready) continue;
 
-				if (ObjectToTrack.TrackedObject.transform.position != TransformState.HiddenPos && ProjectionMagnitude(ObjectToTrack.TrackedObject.transform.position) <= Range)
+				// Tracked objects are in map coordinate system, they should be tracked according to the shuttle, not the map origin
+				Vector2 positionRelativeToShuttle = ObjectToTrack.TrackedObject.transform.position.To2() - originPos;
+				if (ObjectToTrack.TrackedObject.transform.position != TransformState.HiddenPos && ProjectionMagnitude(positionRelativeToShuttle) <= Range)
 				{
 					var OneNew = AddItem();
 					RadarEntry item = OneNew as RadarEntry;
