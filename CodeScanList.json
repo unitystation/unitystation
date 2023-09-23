@@ -1,0 +1,3473 @@
+{
+    "AllowedVerifierErrors": [
+        "InitOnly",
+        "InterfaceMethodNotImplemented"
+    ],
+    "WhitelistedNamespaces": [
+    ],
+	"WhitelistedAssembliesDEBUG" : [
+	],
+    "Types": {
+		"WebSocketSharp":{
+			"MessageEventArgs":{
+				"All": true
+			}, 
+			"Ext" :{
+				"All": true
+			},
+			"CloseEventArgs" :{
+				"All": true
+			},
+			"WebSocketState" :{
+				"All": true
+			},
+			"WebSocket":{
+				"All": true
+			}
+		},
+		"WebSocketSharp.Server":{
+			"HttpServer":{
+				"All": true
+			},
+			"WebSocketBehavior" :{
+				"All": true
+			},
+			"WebSocketSessionManager": {
+				"All": true
+			},
+			"IWebSocketSession" : {
+				"All": true
+			},
+			"WebSocketServiceManager" :{
+				"All": true
+			},
+			"WebSocketServiceHost" :{
+				"All": true,
+			},
+		},
+		"WebSocketSharp.Net.WebSockets" :{
+			"WebSocketContext":{
+				"All": true
+			}
+		},
+		"WebSocketSharp.Net" :{
+			"NetworkCredential":{
+				"All": true
+			},
+			"AuthenticationSchemes" :{
+				"All": true
+			}
+		},
+		"System.Collections.Specialized" : {
+			"NotifyCollectionChangedEventHandler" : {
+				"All": true
+			},
+			"NotifyCollectionChangedEventArgs" : {
+				"All": true
+			},
+		},
+		"System.Runtime.Serialization" : {
+			"SerializationInfo" : {
+				
+			},
+			"ISerializable" : {
+				"All": true
+			},
+			"IDeserializationCallback" : {
+				"All": true
+			},
+			"StreamingContext" : {
+				
+			}
+		},
+		"System.Security.Principal" :{
+			"IIdentity": {
+                "All": true
+            },
+			"IPrincipal": {
+                "All": true
+            },
+		},
+		"System.Drawing": {
+            "Color": {
+                "All": true
+            }
+        },
+        "System.Buffers": {
+            "SpanAction`2": {
+                "All": true
+            },
+			
+        },
+        "System.Buffers.Binary": {
+            "BinaryPrimitives": {
+                "All": true
+            }
+        },
+        "System.Collections.Generic": {
+            "CollectionExtensions": {
+                "All": true
+            },
+            "Comparer`1": {
+                "All": true
+            },
+            "Dictionary`2": {
+                "All": true
+            },
+            "EqualityComparer`1": {
+                "All": true
+            },
+            "HashSet`1": {
+                "All": true
+            },
+            "IAsyncEnumerable`1": {
+                "All": true
+            },
+            "ICollection`1": {
+                "All": true
+            },
+            "IComparer`1": {
+                "All": true
+            },
+            "IDictionary`2": {
+                "All": true
+            },
+            "IEnumerable`1": {
+                "All": true
+            },
+            "IEnumerator`1": {
+                "All": true
+            },
+            "IEqualityComparer`1": {
+                "All": true
+            },
+            "IList`1": {
+                "All": true
+            },
+            "IReadOnlyCollection`1": {
+                "All": true
+            },
+            "IReadOnlyDictionary`2": {
+                "All": true
+            },
+            "IReadOnlyList`1": {
+                "All": true
+            },
+            "IReadOnlySet`1": {
+                "All": true
+            },
+            "ISet`1": {
+                "All": true
+            },
+            "KeyNotFoundException": {
+                "All": true
+            },
+            "KeyValuePair": {
+                "All": true
+            },
+            "KeyValuePair`2": {
+                "All": true
+            },
+            "LinkedList`1": {
+                "All": true
+            },
+            "LinkedListNode`1": {
+                "All": true
+            },
+            "List`1": {
+                "All": true
+            },
+            "Queue`1": {
+                "All": true
+            },
+            "ReferenceEqualityComparer": {
+                "All": true
+            },
+            "SortedDictionary`2": {
+                "All": true
+            },
+            "SortedList`2": {
+                "All": true
+            },
+            "SortedSet`1": {
+                "All": true
+            },
+            "Stack`1": {
+                "All": true
+            }
+        },
+        "System.Collections.Immutable": {
+            "IImmutableDictionary`2": {
+                "All": true
+            },
+            "IImmutableList`1": {
+                "All": true
+            },
+            "IImmutableQueue`1": {
+                "All": true
+            },
+            "IImmutableSet`1": {
+                "All": true
+            },
+            "IImmutableStack`1": {
+                "All": true
+            },
+            "ImmutableArray": {
+                "All": true
+            },
+            "ImmutableArray`1": {
+                "All": true
+            },
+            "ImmutableDictionary": {
+                "All": true
+            },
+            "ImmutableDictionary`2": {
+                "All": true
+            },
+            "ImmutableHashSet": {
+                "All": true
+            },
+            "ImmutableHashSet`1": {
+                "All": true
+            },
+            "ImmutableInterlocked": {
+                "All": true
+            },
+            "ImmutableList": {
+                "All": true
+            },
+            "ImmutableList`1": {
+                "All": true
+            },
+            "ImmutableQueue": {
+                "All": true
+            },
+            "ImmutableQueue`1": {
+                "All": true
+            },
+            "ImmutableSortedDictionary": {
+                "All": true
+            },
+            "ImmutableSortedDictionary`2": {
+                "All": true
+            },
+            "ImmutableSortedSet": {
+                "All": true
+            },
+            "ImmutableSortedSet`1": {
+                "All": true
+            },
+            "ImmutableSortedStack": {
+                "All": true
+            },
+            "ImmutableSortedStack`1": {
+                "All": true
+            }
+        },
+        "System.Collections.Specialized": {
+            "NameValueCollection": {
+                "All": true
+            },
+			"NotifyCollectionChangedEventHandler" : {
+				"All": true
+			},
+			"NotifyCollectionChangedEventArgs" : {
+				"All": true
+			}	
+        },
+		"System.Collections.ObjectModel" : {
+			"ObservableCollection`1" : {
+				"All": true
+			},
+			"ReadOnlyCollection`1" : {
+				"All": true
+			},
+			"Collection`1" : {
+				"All": true
+			},
+		},
+        "System.Collections.Concurrent": {
+            "ConcurrentBag`1": {
+                "All": true
+            },
+            "ConcurrentDictionary`2": {
+                "All": true
+            },
+            "ConcurrentQueue`1": {
+                "All": true
+            },
+            "ConcurrentStack`1": {
+                "All": true
+            }
+        },
+        "System.Collections": {
+            "IEnumerable": {
+                "All": true
+            },
+            "IEnumerator": {
+                "All": true
+            },
+            "IReadOnlyList`1": {
+                "All": true
+            },
+            "Collection": {
+                "All": true
+            },
+			"Collection`1": {
+                "All": true
+            },
+			"IList" : {
+			    "All": true
+			},
+			"IDictionary"  :{
+				"All": true
+			},
+			"IDictionaryEnumerator" : {
+				"All": true
+			},
+			"IDeserializationCallback" : {
+				"All": true
+			},
+			"ICollection" : {
+				"All": true
+			}
+        },
+        "System.ComponentModel": {
+            "CancelEventArgs": {
+                "All": true
+            },
+            "PropertyDescriptor": {},
+            "ISite": {
+                "All": true
+            },
+            "IComponent": {
+                "All": true
+            },
+            "IContainer": {
+                "All": true
+            },
+            "ITypeDescriptorContext": {
+                "All": true
+            },
+			"TypeDescriptor": {
+				"Methods": [
+					"string GetClassName(object)"
+				]	
+            },
+			"DescriptionAttribute" : {
+				"All": true
+			},
+			"EditorBrowsableAttribute":{
+				"All": true
+			},
+			"EditorBrowsableState" :{
+				"All": true
+			}
+        },
+        "System.Diagnostics.CodeAnalysis": {
+            "AllowNullAttribute": {
+                "All": true
+            },
+            "DisallowNullAttribute": {
+                "All": true
+            },
+            "DoesNotReturnAttribute": {
+                "All": true
+            },
+            "DoesNotReturnIfAttribute": {
+                "All": true
+            },
+            "ExcludeFromCodeCoverageAttribute": {
+                "All": true
+            },
+            "MaybeNullAttribute": {
+                "All": true
+            },
+            "MaybeNullWhenAttribute": {
+                "All": true
+            },
+            "MemberNotNullAttribute": {
+                "All": true
+            },
+            "MemberNotNullWhenAttribute": {
+                "All": true
+            },
+            "NotNullAttribute": {
+                "All": true
+            },
+            "NotNullIfNotNullAttribute": {
+                "All": true
+            },
+            "NotNullWhenAttribute": {
+                "All": true
+            },
+            "SuppressMessageAttribute": {
+                "All": true
+            }
+        },
+        "System.Diagnostics": {
+            "DebuggableAttribute": {
+                "All": true
+            },
+            "DebuggerBrowsableAttribute": {
+                "All": true
+            },
+            "DebuggerBrowsableState": {},
+            "DebuggerDisplayAttribute": {
+                "All": true
+            },
+            "DebuggerHiddenAttribute": {
+                "All": true
+            },
+            "DebuggerNonUserCodeAttribute": {
+                "All": true
+            },
+            "DebuggerStepperBoundaryAttribute": {
+                "All": true
+            },
+            "DebuggerStepThroughAttribute": {
+                "All": true
+            },
+            "DebuggerTypeProxyAttribute": {
+                "All": true
+            },
+            "DebuggerVisualizerAttribute": {
+                "All": true
+            },
+            "Stopwatch": {
+                "All": true
+            },
+			"Process": {
+				"Methods": [
+					"void Kill()",
+					"System.Diagnostics.Process GetCurrentProcess()"
+				]
+				
+            },
+        },
+		"System.CodeDom.Compiler" : {
+			"GeneratedCodeAttribute": {
+				 "All": true
+			}
+		},
+        "System.Globalization": {
+            "CompareOptions": {},
+            "CultureInfo": {
+                "All": true
+            },
+            "DateTimeStyles": {
+                "All": true
+            },
+            "NumberFormatInfo": {
+                "All": true
+            },
+            "NumberStyles": {},
+            "TextInfo": {
+                "Methods": [
+                    "bool get_IsRightToLeft()",
+                    "char ToLower(char)",
+                    "char ToUpper(char)",
+                    "string get_ListSeparator()",
+                    "string ToLower(string)",
+                    "string ToTitleCase(string)",
+                    "string ToTitleCase(string)",
+                    "string ToUpper(string)"
+                ]
+            }
+        },
+        "System.IO.Compression": {
+            "CompressionMode": {},
+            "CompressionLevel": {},
+            "DeflateStream": {
+                "All": true
+            },
+            "ZipArchive": {
+                "All": true
+            },
+            "ZipArchiveEntry": {
+                "All": true
+            },
+            "ZipArchiveMode": {}
+        },
+        "System.IO": {
+            "BinaryReader": {
+                "All": true
+            },
+            "FileAccess": {},
+            "FileMode": {},
+            "FileShare": {},
+            "FileNotFoundException": {
+                "All": true
+            },
+            "InvalidDataException": {
+                "All": true
+            },
+            "IOException": {
+                "All": true
+            },
+            "MemoryStream": {
+                "All": true
+            },
+            "SeekOrigin": {},
+            "Stream": {
+                "All": true
+            },
+            "StreamReader": {
+                "Fields": [
+                    "System.IO.StreamReader Null"
+                ],
+                "Methods": [
+                    "System.IO.Stream get_BaseStream()",
+                    "void .ctor(System.IO.Stream)",
+                    "void .ctor(System.IO.Stream, bool)",
+                    "void .ctor(System.IO.Stream, System.Text.Encoding)",
+                    "void .ctor(System.IO.Stream, System.Text.Encoding, bool)",
+                    "void .ctor(System.IO.Stream, System.Text.Encoding, bool, int)",
+                    "void .ctor(System.IO.Stream, System.Text.Encoding, bool, int, bool)"
+                ]
+            },
+            "StreamWriter": {
+                "Fields": [
+                    "System.IO.StreamWriter Null"
+                ],
+                "Methods": [
+                    "bool get_AutoFlush()",
+                    "System.IO.Stream get_BaseStream()",
+                    "void .ctor(System.IO.Stream)",
+                    "void .ctor(System.IO.Stream, System.Text.Encoding)",
+                    "void .ctor(System.IO.Stream, System.Text.Encoding, int)",
+                    "void .ctor(System.IO.Stream, System.Text.Encoding, int, bool)",
+                    "void DiscardBufferedData()"
+                ]
+            },
+            "TextReader": {
+                "All": true
+            },
+            "TextWriter": {
+                "All": true
+            },
+			"Path" : {
+				"Methods": [
+					"string Combine(string, string)"
+				]
+			},
+			"StringReader" : {
+				"All": true
+			},
+        },
+        "System.Linq.Expressions": {
+            "ConstantExpression": {},
+            "Expression": {
+                "Methods": [
+                    "System.Linq.Expressions.Expression`1<!!0> Lambda<>(System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])",
+                ]
+            },
+            "Expression`1": {},
+            "MemberExpression": {},
+            "ParameterExpression": {}
+        },
+        "System.Linq": {
+            "Enumerable": {
+                "All": true
+            },
+            "IGrouping`2": {
+                "All": true
+            },
+            "IOrderedEnumerable`1": {
+                "All": true
+            }
+        },
+        "System.Net": {
+            "DnsEndPoint": {},
+            "IPAddress": {
+                "All": true
+            },
+            "HttpStatusCode": {
+				"All": true
+			},
+			"HttpStatusCode": {
+				"All": true
+			},
+        },
+		"System.Net.Http" : {
+			"StringContent" : {
+				"All": true
+			},
+			"HttpResponseMessage" : {
+				"All": true
+			},
+			"HttpRequestMessage" : {
+				"All": true
+			},
+			"HttpRequestException" : {
+				"All": true
+			},
+			"HttpMethod" : {
+				"All": true
+			}, 
+			"HttpContent" : {
+				"All": true
+			},
+		},
+		"System.Net.Http.Headers" : {
+			"MediaTypeWithQualityHeaderValue" : {
+				"All": true
+			},
+			"HttpResponseHeaders" : {
+				"All": true
+			},
+			"HttpHeaderValueCollection`1" : {
+				"All": true
+			},
+			"HttpHeaders" : {
+				"All": true
+			},
+			"HttpRequestHeaders" :{
+				"All": true
+			}
+		},
+        "System.Net.Sockets": {
+            "AddressFamily": {}
+        },
+		"System.Net.NetworkInformation" : {
+			"PhysicalAddress" : {
+				"All": true
+			},
+			"NetworkInterface" : {
+				"All": true
+			}
+		},
+        "System.Numerics": {
+            "BitOperations": {
+                "All": true
+            },
+            "Vector2": {
+                "All": true
+            }
+        },
+        "System.Reflection": {
+            "Assembly": {
+                "Methods": [
+                    "string CreateQualifiedName(string, string)",
+                    "string get_FullName()",
+                    "System.Collections.Generic.IEnumerable`1<System.Reflection.TypeInfo> get_DefinedTypes()",
+                    "System.IO.Stream GetManifestResourceStream(string)",
+                    "System.IO.Stream GetManifestResourceStream(System.Type, string)",
+                    "System.Reflection.Assembly GetAssembly(System.Type)",
+                    "System.Reflection.Assembly GetExecutingAssembly()",
+                    "System.Type[] GetTypes()",
+                    "System.Reflection.AssemblyName GetName()"
+                ]
+            },
+            "AssemblyCompanyAttribute": {
+                "All": true
+            },
+            "AssemblyConfigurationAttribute": {
+                "All": true
+            },
+            "AssemblyFileVersionAttribute": {
+                "All": true
+            },
+            "AssemblyInformationalVersionAttribute": {
+                "All": true
+            },
+            "AssemblyName": {
+                "Methods": [
+                    "string get_FullName()",
+                    "System.Version get_Version()",
+                    "string get_Name()"
+                ]
+            },
+            "AssemblyProductAttribute": {
+                "All": true
+            },
+            "AssemblyTitleAttribute": {
+                "All": true
+            },
+            "DefaultMemberAttribute": {
+                "All": true
+            },
+            "GenericParameterAttributes": {},
+            "MemberFilter": {},
+            "MemberInfo": {
+                "Methods": [
+                    "string get_Name()",
+                    "System.Reflection.MemberTypes get_MemberType()",
+                    "System.Type get_DeclaringType()",
+					"System.Type get_ReturnType()",
+					"System.Type get_ReflectedType()",
+                ]
+            },
+            "MemberTypes": {},
+            "MethodBase": {
+				"Methods": [
+					"System.Reflection.ParameterInfo[] GetParameters()",
+					"bool get_IsStatic()",
+				]
+            },
+            "MethodInfo": {
+				"Methods": [
+                    "System.Type get_ReturnType()"
+                ]
+			},
+            "TypeAttributes": {},
+            "TypeInfo": {},
+			"PropertyInfo": {
+				"Methods": [
+                    "bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)",
+                ]
+			},
+			"FieldInfo" : {},
+			"ParameterInfo" : {
+				"Methods": [
+                    "System.Type get_ParameterType()",
+					"bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)",
+                ]
+			},
+			"CustomAttributeExtensions": {
+				"Methods": [
+					"!!0 GetCustomAttribute(System.Reflection.MemberInfo, bool)"
+				]
+			}
+        },
+        "System.Runtime.CompilerServices": {
+            "AsyncStateMachineAttribute": {
+                "All": true
+            },
+            "AsyncTaskMethodBuilder": {
+                "All": true
+            },
+            "AsyncTaskMethodBuilder`1": {
+                "All": true
+            },
+            "AsyncValueTaskMethodBuilder": {
+                "All": true
+            },
+            "AsyncValueTaskMethodBuilder`1": {
+                "All": true
+            },
+            "AsyncVoidMethodBuilder": {
+                "All": true
+            },
+            "CallerArgumentExpressionAttribute": {
+                "All": true
+            },
+            "CompilationRelaxationsAttribute": {
+                "All": true
+            },
+            "CompilerFeatureRequiredAttribute": {
+                "All": true
+            },
+            "CompilerGeneratedAttribute": {
+                "All": true
+            },
+            "DefaultInterpolatedStringHandler": {
+                "All": true
+            },
+            "ExtensionAttribute": {
+                "All": true
+            },
+            "IAsyncStateMachine": {
+                "All": true
+            },
+            "InternalsVisibleToAttribute": {
+                "All": true
+            },
+            "InterpolatedStringHandlerAttribute": {
+                "All": true
+            },
+            "IsByRefLikeAttribute": {
+                "All": true
+            },
+            "IsExternalInit": {
+                "All": true
+            },
+            "IsReadOnlyAttribute": {
+                "All": true
+            },
+            "IteratorStateMachineAttribute": {
+                "All": true
+            },
+            "PreserveBaseOverridesAttribute": {
+                "All": true
+            },
+            "RuntimeCompatibilityAttribute": {
+                "All": true
+            },
+            "RuntimeHelpers": {
+                "All": true
+            },
+            "TaskAwaiter": {
+                "All": true
+            },
+            "TaskAwaiter`1": {
+                "All": true
+            },
+            "TupleElementNamesAttribute": {
+                "All": true
+            },
+            "ValueTaskAwaiter": {
+                "All": true
+            },
+            "ValueTaskAwaiter`1": {
+                "All": true
+            },
+			"DecimalConstantAttribute": {
+                "All": true
+            },
+			"ConfiguredTaskAwaitable" : {
+				 "All": true
+			},
+			"CallerMemberNameAttribute" : {
+				"All": true
+			},
+			"ConfiguredTaskAwaitable/ConfiguredTaskAwaiter" : {
+				"All": true
+			},
+        },
+        "System.Runtime.ExceptionServices": {
+            "ExceptionDispatchInfo": {
+                "All": true
+            }
+        },
+        "System.Runtime.InteropServices": {
+            "CollectionsMarshal": {
+                "Methods": [
+                    "System.Span`1<!!0> AsSpan<>(System.Collections.Generic.List`1<!!0>)"
+                ]
+            },
+            "InAttribute": {
+                "All": true
+            },
+            "UnmanagedType": {}
+        },
+        "System.Runtime.Versioning": {
+            "TargetFrameworkAttribute": {
+                "All": true
+            }
+        },
+        "System.Text.Json.Serialization": {
+            "JsonIgnoreAttribute": {
+                "All": true
+            },
+            "JsonPropertyNameAttribute": {
+                "All": true
+            }
+        },
+        "System.Text.RegularExpressions": {
+            "Capture": {
+                "All": true
+            },
+            "CaptureCollection": {
+                "All": true
+            },
+            "Group": {
+                "All": true
+            },
+            "GroupCollection": {
+                "All": true
+            },
+            "Match": {
+                "All": true
+            },
+            "MatchCollection": {
+                "All": true
+            },
+            "MatchEvaluator": {
+                "All": true
+            },
+            "Regex": {
+                "Methods": [
+                    "bool get_RightToLeft()",
+                    "bool IsMatch(string)",
+                    "bool IsMatch(string, int)",
+                    "bool IsMatch(string, string)",
+                    "bool IsMatch(string, string, System.Text.RegularExpressions.RegexOptions)",
+                    "bool IsMatch(string, string, System.Text.RegularExpressions.RegexOptions, System.TimeSpan)",
+                    "int GroupNumberFromName(string)",
+                    "int[] GetGroupNumbers()",
+                    "string Escape()",
+                    "string GroupNameFromNumber(int)",
+                    "string Replace(string, string)",
+                    "string Replace(string, string, int)",
+                    "string Replace(string, string, int, int)",
+                    "string Replace(string, string, string)",
+                    "string Replace(string, string, string, System.Text.RegularExpressions.RegexOptions)",
+                    "string Replace(string, string, string, System.Text.RegularExpressions.RegexOptions, System.TimeSpan)",
+                    "string Replace(string, string, System.Text.RegularExpressions.MatchEvaluator)",
+                    "string Replace(string, string, System.Text.RegularExpressions.MatchEvaluator, System.Text.RegularExpressions.RegexOptions)",
+                    "string Replace(string, string, System.Text.RegularExpressions.MatchEvaluator, System.Text.RegularExpressions.RegexOptions, System.TimeSpan)",
+                    "string Replace(string, System.Text.RegularExpressions.MatchEvaluator)",
+                    "string Replace(string, System.Text.RegularExpressions.MatchEvaluator, int)",
+                    "string Replace(string, System.Text.RegularExpressions.MatchEvaluator, int, int)",
+                    "string ToString()",
+                    "string Unescape(string)",
+                    "string[] GetGroupNames()",
+                    "string[] Split(string)",
+                    "string[] Split(string, int)",
+                    "string[] Split(string, int, int)",
+                    "string[] Split(string, string)",
+                    "string[] Split(string, string, System.Text.RegularExpressions.RegexOptions)",
+                    "string[] Split(string, string, System.Text.RegularExpressions.RegexOptions, System.TimeSpan)",
+                    "System.Text.RegularExpressions.Match Match(string)",
+                    "System.Text.RegularExpressions.Match Match(string, int)",
+                    "System.Text.RegularExpressions.Match Match(string, int, int)",
+                    "System.Text.RegularExpressions.Match Match(string, string)",
+                    "System.Text.RegularExpressions.Match Match(string, string, System.Text.RegularExpressions.RegexOptions)",
+                    "System.Text.RegularExpressions.Match Match(string, string, System.Text.RegularExpressions.RegexOptions, System.TimeSpan)",
+                    "System.Text.RegularExpressions.Match[] Matches(string)",
+                    "System.Text.RegularExpressions.Match[] Matches(string, int)",
+                    "System.Text.RegularExpressions.Match[] Matches(string, string)",
+                    "System.Text.RegularExpressions.Match[] Matches(string, string, System.Text.RegularExpressions.RegexOptions)",
+                    "System.Text.RegularExpressions.Match[] Matches(string, string, System.Text.RegularExpressions.RegexOptions, System.TimeSpan)",
+                    "System.Text.RegularExpressions.RegexOptions get_Options()",
+                    "System.TimeSpan get_MatchTimeout()",
+                    "void .ctor()",
+                    "void .ctor(string)",
+                    "void .ctor(string, System.Text.RegularExpressions.RegexOptions)",
+                    "void .ctor(string, System.Text.RegularExpressions.RegexOptions, System.TimeSpan)",
+					"System.Text.RegularExpressions.MatchCollection Matches(string, string)"
+                ]
+            },
+            "RegexMatchTimeoutException": {
+                "All": true
+            },
+            "RegexOptions": {},
+            "RegexParseError": {},
+            "RegexParseException": {
+                "All": true
+            }
+        },
+        "System.Text": {
+            "Encoding": {
+                "Methods": [
+                    "bool IsAlwaysNormalized()",
+                    "bool IsAlwaysNormalized(System.Text.NormalizationForm)",
+                    "byte[] Convert(System.Text.Encoding, System.Text.Encoding, byte[])",
+                    "byte[] Convert(System.Text.Encoding, System.Text.Encoding, byte[], int, int)",
+                    "byte[] GetBytes(char[])",
+                    "byte[] GetBytes(char[], int, int)",
+                    "byte[] GetBytes(string)",
+                    "byte[] GetBytes(string, int, int)",
+                    "byte[] GetPreamble()",
+                    "char[] GetChars(byte[])",
+                    "char[] GetChars(byte[], int, int)",
+                    "int GetByteCount(char[])",
+                    "int GetByteCount(char[], int, int)",
+                    "int GetByteCount(string)",
+                    "int GetByteCount(string, int, int)",
+                    "int GetByteCount(System.ReadOnlySpan`1<char>)",
+                    "int GetBytes(char[], int, int, byte[], int)",
+                    "int GetBytes(string, int, int, byte[], int)",
+                    "int GetBytes(System.ReadOnlySpan`1<char>, System.Span`1<byte>)",
+                    "int GetCharCount(byte[])",
+                    "int GetCharCount(byte[], int, int)",
+                    "int GetCharCount(System.ReadOnlySpan`1<byte>)",
+                    "int GetChars(byte[], int, int, char[], int)",
+                    "int GetChars(System.ReadOnlySpan`1<byte>, System.Span`1<char>)",
+                    "int GetMaxByteCount(int)",
+                    "int GetMaxCharCount(int)",
+                    "string GetString(byte[])",
+                    "string GetString(byte[], int, int)",
+                    "string GetString(System.ReadOnlySpan`1<byte>)",
+                    "System.Text.Decoder GetDecoder()",
+                    "System.Text.Encoder GetEncoder()",
+                    "System.Text.Encoding get_ASCII()",
+                    "System.Text.Encoding get_BigEndianUnicode()",
+                    "System.Text.Encoder GetEncoder()",
+                    "System.Text.Encoding get_ASCII()",
+                    "System.Text.Encoding get_BigEndianUnicode()",
+                    "System.Text.Encoding get_Unicode()",
+                    "System.Text.Encoding get_UTF7()",
+					"System.Text.Encoding get_UTF8()",
+					"System.Text.Encoding get_UTF32()",
+					"System.Text.Encoding GetEncoding(string)"
+                ]
+            },
+            "NormalizationForm": {},
+            "Rune": {
+                "All": true
+            },
+            "StringBuilder": {
+                "Methods": [
+                    "bool Equals(System.ReadOnlySpan`1<char>)",
+                    "bool Equals(System.Text.StringBuilder)",
+                    "char get_Chars(int)",
+                    "int EnsureCapacity(int)",
+                    "int get_Capacity()",
+                    "int get_Length()",
+                    "int get_MaxCapacity()",
+                    "string ToString()",
+                    "string ToString(int, int)",
+                    "System.Text.StringBuilder Append(bool)",
+                    "System.Text.StringBuilder Append(byte)",
+                    "System.Text.StringBuilder Append(char)",
+                    "System.Text.StringBuilder Append(char, int)",
+                    "System.Text.StringBuilder Append(char[])",
+                    "System.Text.StringBuilder Append(char[], int, int)",
+                    "System.Text.StringBuilder Append(double)",
+                    "System.Text.StringBuilder Append(int)",
+                    "System.Text.StringBuilder Append(long)",
+                    "System.Text.StringBuilder Append(object)",
+                    "System.Text.StringBuilder Append(sbyte)",
+                    "System.Text.StringBuilder Append(short)",
+                    "System.Text.StringBuilder Append(single)",
+                    "System.Text.StringBuilder Append(string)",
+                    "System.Text.StringBuilder Append(string, int, int)",
+                    "System.Text.StringBuilder Append(System.Decimal)",
+                    "System.Text.StringBuilder Append(System.ReadOnlyMemory`2<char>)",
+                    "System.Text.StringBuilder Append(System.ReadOnlySpan`2<char>)",
+                    "System.Text.StringBuilder Append(ref System.Text.StringBuilder/AppendInterpolatedStringHandler)",
+                    "System.Text.StringBuilder Append(System.Text.StringBuilder)",
+                    "System.Text.StringBuilder Append(System.Text.StringBuilder, int, int)",
+                    "System.Text.StringBuilder Append(uint)",
+                    "System.Text.StringBuilder Append(ulong)",
+                    "System.Text.StringBuilder Append(ushort)",
+                    "System.Text.StringBuilder AppendFormat(string, object)",
+                    "System.Text.StringBuilder AppendFormat(string, object, object)",
+                    "System.Text.StringBuilder AppendFormat(string, object, object, object)",
+                    "System.Text.StringBuilder AppendFormat(string, object[])",
+                    "System.Text.StringBuilder AppendFormat(System.IFormatProvider, string, object)",
+                    "System.Text.StringBuilder AppendFormat(System.IFormatProvider, string, object, object)",
+                    "System.Text.StringBuilder AppendFormat(System.IFormatProvider, string, object, object, object)",
+                    "System.Text.StringBuilder AppendFormat(System.IFormatProvider, string, object[])",
+                    "System.Text.StringBuilder AppendJoin(char, object[])",
+                    "System.Text.StringBuilder AppendJoin(char, string[])",
+                    "System.Text.StringBuilder AppendJoin(string, object[])",
+                    "System.Text.StringBuilder AppendJoin(string, string[])",
+                    "System.Text.StringBuilder AppendJoin<>(char, System.Collections.Generic.IEnumerable`1<!!0>)",
+                    "System.Text.StringBuilder AppendJoin<>(string, System.Collections.Generic.IEnumerable`1<!!0>)",
+                    "System.Text.StringBuilder AppendLine()",
+                    "System.Text.StringBuilder AppendLine(string)",
+                    "System.Text.StringBuilder Clear()",
+                    "System.Text.StringBuilder Insert(int, bool)",
+                    "System.Text.StringBuilder Insert(int, byte)",
+                    "System.Text.StringBuilder Insert(int, char)",
+                    "System.Text.StringBuilder Insert(int, char[])",
+                    "System.Text.StringBuilder Insert(int, char[], int, int)",
+                    "System.Text.StringBuilder Insert(int, double)",
+                    "System.Text.StringBuilder Insert(int, float)",
+                    "System.Text.StringBuilder Insert(int, int)",
+                    "System.Text.StringBuilder Insert(int, long)",
+                    "System.Text.StringBuilder Insert(int, object)",
+                    "System.Text.StringBuilder Insert(int, sbyte)",
+                    "System.Text.StringBuilder Insert(int, short)",
+                    "System.Text.StringBuilder Insert(int, string, int)",
+                    "System.Text.StringBuilder Insert(int, System.Decimal)",
+                    "System.Text.StringBuilder Insert(int, System.ReadOnlySpan`1<char>)",
+                    "System.Text.StringBuilder Insert(int, uint)",
+                    "System.Text.StringBuilder Insert(int, ulong)",
+                    "System.Text.StringBuilder Insert(int, ushort)",
+                    "System.Text.StringBuilder Remove(int, int)",
+                    "System.Text.StringBuilder Replace(char, char)",
+                    "System.Text.StringBuilder Replace(char, char, int, int)",
+                    "System.Text.StringBuilder Replace(string, string)",
+                    "System.Text.StringBuilder Replace(string, string, int, int)",
+                    "System.Text.StringBuilder/ChunkEnumerator GetChunks()",
+                    "void .ctor()",
+                    "void .ctor(int)",
+                    "void .ctor(int, int)",
+                    "void .ctor(string)",
+                    "void .ctor(string, int)",
+                    "void .ctor(string, int, int, int)",
+                    "void CopyTo(int, char[], int, int)",
+                    "void CopyTo(int, System.Span`1<char>, int)",
+					"System.Text.StringBuilder Insert(int, string)",
+					"System.Text.StringBuilder Append(float)",
+					"void set_Length(int)"
+                ],
+                "NestedTypes": {
+                    "ChunkEnumerator": {
+                        "All": true
+                    },
+                    "AppendInterpolatedStringHandler": {
+                        "All": true
+                    }
+                }
+            },
+            "StringRuneEnumerator": {
+                "All": true
+            }
+        },
+        "System.Threading.Tasks": {
+            "Task": {
+                "All": true
+            },
+            "Task`1": {
+                "All": true
+            },
+            "TaskCompletionSource": {
+                "All": true
+            },
+            "TaskCompletionSource`1": {
+                "All": true
+            },
+            "TaskCanceledException": {
+                "All": true
+            },
+            "ValueTask": {
+                "All": true
+            },
+            "ValueTask`1": {
+                "All": true
+            },
+			"TaskScheduler" : {
+				"Methods" :[
+					"System.Threading.Tasks.TaskScheduler FromCurrentSynchronizationContext()"
+				]
+			}
+        },
+        "System.Threading": {
+            "CancellationToken": {
+                "All": true
+            },
+            "CancellationTokenSource": {
+                "All": true
+            },
+            "Interlocked": {
+                "All": true
+            },
+            "Monitor": {
+                "All": true
+            },
+			"Thread": {
+				"Methods" :[
+					"void Start()",
+					"void Sleep(int)",
+					"System.Threading.Thread get_CurrentThread()",
+					"System.Globalization.CultureInfo CurrentCulture()",
+					"void Abort()",
+					"System.Globalization.CultureInfo get_CurrentCulture()",
+					"void .ctor(System.Threading.ThreadStart)"
+				]
+			},
+			"ThreadPool" : {
+				"Methods" :[
+				   "bool QueueUserWorkItem(System.Threading.WaitCallback)"
+				]
+			},
+			"ThreadStart" : {
+				"All": true
+			},
+			"WaitCallback" : {
+				"All": true
+			},
+			"WaitHandle" : {
+				"All": true
+			},
+			"Mutex" : {
+				"All": true
+			},
+        },
+        "System.Web": {
+            "HttpUtility": {
+                "Methods": [
+                    "System.Collections.Specialized.NameValueCollection ParseQueryString(string, System.Text.Encoding)",
+                    "System.Collections.Specialized.NameValueCollection ParseQueryString(string)",
+                    "string JavaScriptStringEncode(string)",
+                    "string UrlDecode(string, System.Text.Encoding)",
+                    "string UrlDecode(string)",
+                    "string UrlEncode(string, System.Text.Encoding)",
+                    "string UrlEncode(string)"
+                ]
+            }
+        },
+        "System": {
+			"Decimal" : {
+				"All": true
+			},
+            "IServiceProvider": {
+                "All": true
+            },
+            "Action": {
+                "All": true
+            },
+            "Action`1": {
+                "All": true
+            },
+            "Action`2": {
+                "All": true
+            },
+            "Action`3": {
+                "All": true
+            },
+            "Action`4": {
+                "All": true
+            },
+            "Action`5": {
+                "All": true
+            },
+            "Action`6": {
+                "All": true
+            },
+            "Action`7": {
+                "All": true
+            },
+            "Action`8": {
+                "All": true
+            },
+            "Action`9": {
+                "All": true
+            },
+            "Action`10": {
+                "All": true
+            },
+            "Action`11": {
+                "All": true
+            },
+            "Action`12": {
+                "All": true
+            },
+            "Action`13": {
+                "All": true
+            },
+            "Action`14": {
+                "All": true
+            },
+            "Action`15": {
+                "All": true
+            },
+            "Action`16": {
+                "All": true
+            },
+            "ArgumentException": {
+                "All": true
+            },
+            "ArgumentOutOfRangeException": {
+                "All": true
+            },
+            "Array": {
+                "Methods": [
+                    "!!0 Find<>(!!0[], System.Predicate`1<!!0>)",
+                    "!!0 Resize<>(!!0[], int)",
+                    "!!1 ConvertAll<,>(!!0[], System.Converter`2<!!0, !!1>)",
+                    "!!0[] Empty<>()",
+                    "!!0[] FindAll<>(!!0[], System.Predicate`1<!!0>)",
+                    "bool Exists<>(!!0[], System.Predicate`1<!!0>)",
+                    "bool get_IsFixedSize()",
+                    "bool get_IsReadOnly()",
+                    "bool get_IsSynchronized()",
+                    "bool TrueForAll<>(!!0[], System.Predicate`1<!!0>)",
+                    "int BinarySearch(System.Array, int, int, object)",
+                    "int BinarySearch(System.Array, int, int, object, System.Collections.IComparer)",
+                    "int BinarySearch(System.Array, object)",
+                    "int BinarySearch(System.Array, object, System.Collections.IComparer)",
+                    "int BinarySearch<>(!!0[], !!0[])",
+                    "int BinarySearch<>(!!0[], !!0[], System.Collections.IComparer)",
+                    "int BinarySearch<>(!!0[], int, int, !!0[])",
+                    "int BinarySearch<>(!!0[], int, int, !!0[], System.Collections.IComparer)",
+                    "int FindIndex<>(!!0[], int, int, System.Predicate`1<!!0>)",
+                    "int FindIndex<>(!!0[], int, System.Predicate`1<!!0>)",
+                    "int FindIndex<>(!!0[], System.Predicate`1<!!0>)",
+                    "int FindLastIndex<>(!!0[], int, int, System.Predicate`1<!!0>)",
+                    "int FindLastIndex<>(!!0[], int, System.Predicate`1<!!0>)",
+                    "int FindLastIndex<>(!!0[], System.Predicate`1<!!0>)",
+                    "int get_Length()",
+                    "int get_Rank()",
+                    "int GetLength(int)",
+                    "int GetLowerBound(int)",
+                    "int GetUpperBound(int)",
+                    "int IndexOf(System.Array, object)",
+                    "int IndexOf(System.Array, object, int)",
+                    "int IndexOf(System.Array, object, int, int)",
+                    "int IndexOf<>(!!0[], !!0)",
+                    "int IndexOf<>(!!0[], !!0, int)",
+                    "int IndexOf<>(!!0[], !!0, int, int)",
+                    "int LastIndexOf(System.Array, object)",
+                    "int LastIndexOf(System.Array, object, int)",
+                    "int LastIndexOf(System.Array, object, int, int)",
+                    "int LastIndexOf<>(!!0[], !!0)",
+                    "int LastIndexOf<>(!!0[], !!0, int)",
+                    "int LastIndexOf<>(!!0[], !!0, int, int)",
+                    "long get_LongLength()",
+                    "long GetLongLength(int)",
+                    "object Clone()",
+                    "object get_SyncRoot()",
+                    "object GetValue(int)",
+                    "object GetValue(int, int)",
+                    "object GetValue(int, int, int)",
+                    "object GetValue(int[])",
+                    "object GetValue(long)",
+                    "object GetValue(long, long)",
+                    "object GetValue(long, long, long)",
+                    "object GetValue(long[])",
+                    "System.Collections.IEnumerator GetEnumerator()",
+                    "System.Collections.ObjectModel.ReadOnlyCollection`1<!!0> AsReadOnly<>(!!0[])",
+                    "void Clear(System.Array, int, int)",
+                    "void ConstrainedCopy(System.Array, int, System.Array, int, int)",
+                    "void Copy(System.Array, int, System.Array, int, int)",
+                    "void Copy(System.Array, long, System.Array, long, long)",
+                    "void Copy(System.Array, System.Array, int)",
+                    "void Copy(System.Array, System.Array, long)",
+                    "void CopyTo(System.Array, int)",
+                    "void CopyTo(System.Array, long)",
+                    "void Fill<>(!!0[], !!0)",
+                    "void Fill<>(!!0[], !!0, int, int)",
+                    "void ForEach<>(!!0[], System.Action`1<!!0>)",
+                    "void Reverse(System.Array)",
+                    "void Reverse(System.Array, int, int)",
+                    "void Reverse<>(!!0[])",
+                    "void Reverse<>(!!0[], int, int)",
+                    "void SetValue(object, int)",
+                    "void SetValue(object, int, int)",
+                    "void SetValue(object, int, int, int)",
+                    "void SetValue(object, int[])",
+                    "void SetValue(object, long)",
+                    "void SetValue(object, long, long)",
+                    "void SetValue(object, long, long, long)",
+                    "void SetValue(object, long[])",
+                    "void Sort(System.Array)",
+                    "void Sort(System.Array, int, int)",
+                    "void Sort(System.Array, int, int, System.Collections.IComparer)",
+                    "void Sort(System.Array, System.Array)",
+                    "void Sort(System.Array, System.Array, int, int)",
+                    "void Sort(System.Array, System.Array, int, int, System.Collections.IComparer)",
+                    "void Sort(System.Array, System.Array, System.Collections.IComparer)",
+                    "void Sort(System.Array, System.Collections.IComparer)",
+                    "void Sort<,>(!!0[], !!1[])",
+                    "void Sort<,>(!!0[], !!1[], int, int)",
+                    "void Sort<,>(!!0[], !!1[], int, int, System.Collections.Generic.IComparer`1<!!0>)",
+                    "void Sort<,>(!!0[], !!1[], System.Collections.Generic.IComparer`1<!!0>)",
+                    "void Sort<>(!!0[])",
+                    "void Sort<>(!!0[], int, int)",
+                    "void Sort<>(!!0[], int, int, System.Collections.Generic.IComparer`1<!!0>)",
+                    "void Sort<>(!!0[], System.Collections.Generic.IComparer`1<!!0>)",
+                    "void Sort<>(!!0[], System.Collections.Generic.IComparer`1<!!0>)",
+                    "void Sort<>(!!0[], System.Comparison`1<!!0>)",
+					"void Resize<>(ref !!0[], int)"
+                ]
+            },
+            "ArraySegment`1": {
+                "All": true
+            },
+            "AsyncCallback": {},
+            "Attribute": {
+                "All": true
+            },
+            "AttributeTargets": {},
+            "AttributeUsageAttribute": {
+                "All": true
+            },
+            "BitConverter": {
+                "All": true
+            },
+            "Base64FormattingOptions": {},
+            "Boolean": {
+                "All": true
+            },
+            "Byte": {
+                "All": true
+            },
+            "Char": {
+                "All": true
+            },
+            "CharEnumerator": {
+                "All": true
+            },
+            "Comparison`1": {
+                "All": true
+            },
+            "Convert": {
+                "Fields": [
+                    "object DBNull"
+                ],
+                "Methods": [
+                    "System.TypeCode GetTypeCode(object)",
+                    "bool IsDBNull(object)",
+                    "string ToBase64String(byte[])",
+                    "string ToBase64String(byte[], System.Base64FormattingOptions)",
+                    "string ToBase64String(byte[], int, int)",
+                    "string ToBase64String(byte[], int, int, System.Base64FormattingOptions)",
+                    "string ToBase64String(System.ReadOnlySpan`1<byte>, System.Base64FormattingOptions)",
+                    "int ToBase64CharArray(byte[], int, int, char[], int)",
+                    "int ToBase64CharArray(byte[], int, int, char[], int, System.Base64FormattingOptions)",
+                    "bool TryToBase64Chars(System.ReadOnlySpan`1<byte>, System.Span`1<char>, ref int, System.Base64FormattingOptions)",
+                    "byte[] FromBase64String(string)",
+                    "bool TryFromBase64String(string, System.Span`1<byte>, ref int)",
+                    "bool TryFromBase64Chars(System.ReadOnlySpan`1<char>, System.Span`1<byte>, ref int)",
+                    "byte[] FromBase64CharArray(char[], int, int)",
+                    "byte[] FromHexString(string)",
+                    "byte[] FromHexString(System.ReadOnlySpan`1<char>)",
+                    "string ToHexString(byte[])",
+                    "string ToHexString(byte[], int, int)",
+                    "string ToHexString(System.ReadOnlySpan`1<byte>)",
+					"int ToInt32(string)",
+					"int ToInt32(Double)",
+					"int ToInt32(float)",
+					"int ToInt32(System.Decimal)",
+					"float ToSingle(Double)",
+					"ushort ToUInt16(int)",
+					"ushort ToUInt16(float)",
+					"float ToSingle(double)",
+					"int ToInt32(int)",
+					"int ToInt32(double)",
+					"short ToInt16(double)",
+					"double ToDouble(string)",
+					"System.Decimal ToDecimal(int)",
+					"char ToChar(int)",
+					"bool ToBoolean(string)",
+					"short ToInt16(float)",
+                ]
+            },
+            "Converter`2": {
+                "All": true
+            },
+            "DateTime": {
+                "All": true
+            },
+            "DateTimeKind": {},
+            "DateTimeOffset": {
+                "All": true
+            },
+            "Delegate": {
+                "Methods": [
+                    "System.Delegate Combine(System.Delegate, System.Delegate)",
+                    "System.Delegate Remove(System.Delegate, System.Delegate)",
+					"System.Delegate[] GetInvocationList()",
+					"object get_Target()",
+					"System.Reflection.MethodInfo get_Method()",
+					"bool op_Equality(System.Delegate, System.Delegate)"
+                ]
+            },
+            "DivideByZeroException": {
+                "All": true
+            },
+            "Double": {
+                "All": true
+            },
+            "Enum": {
+                "All": true
+            },
+            "Environment": {
+                "Methods": [
+                    "int get_CurrentManagedThreadId()",
+                    "int get_ProcessorCount()",
+                    "string get_NewLine()",
+                    "string get_StackTrace()",
+					"string[] GetCommandLineArgs() "
+                ]
+            },
+            "EventArgs": {
+                "All": true
+            },
+            "EventHandler": {
+                "All": true
+            },
+            "EventHandler`1": {
+                "All": true
+            },
+            "Exception": {
+                "All": true
+            },
+            "FlagsAttribute": {
+                "All": true
+            },
+            "Func`1": {
+                "All": true
+            },
+            "Func`2": {
+                "All": true
+            },
+            "Func`3": {
+                "All": true
+            },
+            "Func`4": {
+                "All": true
+            },
+            "Func`5": {
+                "All": true
+            },
+            "Func`6": {
+                "All": true
+            },
+            "Func`7": {
+                "All": true
+            },
+            "Func`8": {
+                "All": true
+            },
+            "Func`9": {
+                "All": true
+            },
+            "Func`10": {
+                "All": true
+            },
+            "Func`11": {
+                "All": true
+            },
+            "Func`12": {
+                "All": true
+            },
+            "Func`13": {
+                "All": true
+            },
+            "Func`14": {
+                "All": true
+            },
+            "Func`15": {
+                "All": true
+            },
+            "Func`16": {
+                "All": true
+            },
+            "Func`17": {
+                "All": true
+            },
+            "Guid": {
+                "All": true
+            },
+            "HashCode": {
+                "All": true
+            },
+            "IAsyncDisposable": {
+                "All": true
+            },
+            "IAsyncResult": {},
+            "ICloneable": {
+                "All": true
+            },
+            "IComparable": {
+                "All": true
+            },
+            "IComparable`1": {
+                "All": true
+            },
+            "IDisposable": {
+                "All": true
+            },
+            "IEquatable`1": {},
+            "IFormatProvider": {
+                "All": true
+            },
+            "IFormattable": {
+                "All": true
+            },
+            "Index": {
+                "All": true
+            },
+            "IndexOutOfRangeException": {
+                "All": true
+            },
+            "Int16": {
+                "All": true
+            },
+            "Int32": {
+                "All": true
+            },
+            "Int64": {
+                "All": true
+            },
+            "IntPtr": {
+                "All": true
+            },
+            "InvalidOperationException": {
+                "All": true
+            },
+            "Math": {
+                "All": true
+            },
+            "MathF": {
+                "All": true
+            },
+            "Memory`1": {
+                "Methods": [
+                    "!0[] ToArray()",
+                    "bool Equals(object)",
+                    "bool Equals(System.Memory`1<!0>)",
+                    "bool get_IsEmpty()",
+                    "bool TryCopyTo(System.Memory`1<!0>)",
+                    "int get_Length()",
+                    "string ToString()",
+                    "System.Memory`1<!0> get_Empty()",
+                    "System.Memory`1<!0> op_Implicit(!0[])",
+                    "System.Memory`1<!0> op_Implicit(System.ArraySegment`1<!0>)",
+                    "System.Memory`1<!0> Slice(int)",
+                    "System.Memory`1<!0> Slice(int, int)",
+                    "System.ReadOnlyMemory`1<!0> op_Implicit(System.Memory`1<!0>)",
+                    "System.Span`1<!0> get_Span()",
+                    "void .ctor(!0[])",
+                    "void .ctor(!0[], int, int)",
+                    "void CopyTo(System.Memory`1<!0>)"
+                ]
+            },
+            "MemoryExtensions": {
+                "All": true
+            },
+            "MidpointRounding": {},
+            "MulticastDelegate": {
+                "Inherit": "Allow"
+            },
+            "NotImplementedException": {
+                "All": true
+            },
+            "NotSupportedException": {
+                "All": true
+            },
+            "Nullable": {
+                "All": true
+            },
+            "Nullable`1": {
+                "All": true
+            },
+            "NullReferenceException": {
+                "All": true
+            },
+            "Object": {
+                "All": true
+            },
+            "ObsoleteAttribute": {
+                "All": true
+            },
+            "OperationCanceledException": {
+                "All": true
+            },
+            "ParamArrayAttribute": {
+                "All": true
+            },
+            "Predicate`1": {
+                "All": true
+            },
+            "Random": {
+                "All": true
+            },
+            "Range": {
+                "All": true
+            },
+            "ReadOnlyMemory`1": {
+                "Methods": [
+                    "!0[] ToArray()",
+                    "bool Equals(object)",
+                    "bool Equals(System.ReadOnlyMemory`1<!0>)",
+                    "bool get_IsEmpty()",
+                    "bool TryCopyTo(System.Memory`1<!0>)",
+                    "int get_Length()",
+                    "string ToString()",
+                    "System.ReadOnlyMemory`1<!0> get_Empty()",
+                    "System.ReadOnlyMemory`1<!0> op_Implicit(!0[])",
+                    "System.ReadOnlyMemory`1<!0> op_Implicit(System.ArraySegment`1<!0>)",
+                    "System.ReadOnlyMemory`1<!0> Slice(int)",
+                    "System.ReadOnlyMemory`1<!0> Slice(int, int)",
+                    "System.ReadOnlySpan`1<!0> get_Span()",
+                    "void .ctor(!0[])",
+                    "void .ctor(!0[], int, int)",
+                    "void CopyTo(System.Memory`1<!0>)"
+                ]
+            },
+            "ReadOnlySpan`1": {
+                "Methods": [
+                    "!0[] ToArray()",
+                    "bool get_IsEmpty()",
+                    "bool op_Equality(ReadOnlySystem.Span`1<!0>, ReadOnlySystem.Span`1<!0>)",
+                    "bool op_Inequality(System.ReadOnlySpan`1<!0>, System.ReadOnlySpan`1<!0>)",
+                    "bool TryCopyTo(System.Span`1<!0>)",
+                    "int get_Length()",
+                    "ref !0 get_Item(int)",
+                    "string ToString()",
+                    "System.ReadOnlySpan`1/Enumerator<!0> GetEnumerator()",
+                    "System.ReadOnlySpan`1<!0> get_Empty()",
+                    "System.ReadOnlySpan`1<!0> op_Implicit(!0[])",
+                    "System.ReadOnlySpan`1<!0> op_Implicit(System.ArraySegment`1<!0>)",
+                    "System.ReadOnlySpan`1<!0> Slice(int)",
+                    "System.ReadOnlySpan`1<!0> Slice(int, int)",
+                    "void .ctor(!0[])",
+                    "void .ctor(!0[], int, int)",
+                    "void Clear()",
+                    "void CopyTo(System.Span`1<!0>)",
+                    "void Fill(!0)"
+                ],
+                "NestedTypes": {
+                    "Enumerator": {
+                        "All": true
+                    }
+                }
+            },
+            "Rune": {
+                "All": true
+            },
+            "RuntimeFieldHandle": {},
+            "RuntimeMethodHandle": {},
+            "RuntimeTypeHandle": {},
+            "SByte": {
+                "All": true
+            },
+            "Single": {
+                "All": true
+            },
+            "Span`1": {
+                "Methods": [
+                    "!0[] ToArray()",
+                    "bool get_IsEmpty()",
+                    "bool op_Equality(System.Span`1<!0>, System.Span`1<!0>)",
+                    "bool op_Inequality(System.Span`1<!0>, System.Span`1<!0>)",
+                    "bool TryCopyTo(System.Span`1<!0>)",
+                    "int get_Length()",
+                    "ref !0 get_Item(int)",
+                    "string ToString()",
+                    "System.ReadOnlySpan`1<!0> op_Implicit(System.Span`1<!0>)",
+                    "System.Span`1/Enumerator<!0> GetEnumerator()",
+                    "System.Span`1<!0> get_Empty()",
+                    "System.Span`1<!0> op_Implicit(!0[])",
+                    "System.Span`1<!0> op_Implicit(System.ArraySegment`1<!0>)",
+                    "System.Span`1<!0> Slice(int)",
+                    "System.Span`1<!0> Slice(int, int)",
+                    "void .ctor(!0[])",
+                    "void .ctor(!0[], int, int)",
+                    "void Clear()",
+                    "void CopyTo(System.Span`1<!0>)",
+                    "void Fill(!0)"
+                ],
+                "NestedTypes": {
+                    "Enumerator": {
+                        "All": true
+                    }
+                }
+            },
+            "String": {
+                "Fields": [
+                    "string Empty"
+                ],
+                "Methods": [
+                    "bool Contains(char)",
+                    "bool Contains(char, System.StringComparison)",
+                    "bool Contains(string)",
+                    "bool Contains(string, System.StringComparison)",
+                    "bool EndsWith(char)",
+                    "bool EndsWith(string)",
+                    "bool EndsWith(string, bool, System.Globalization.CultureInfo)",
+                    "bool EndsWith(string, System.StringComparison)",
+                    "bool Equals(object)",
+                    "bool Equals(string)",
+                    "bool Equals(string, string)",
+                    "bool Equals(string, string, System.StringComparison)",
+                    "bool Equals(string, System.StringComparison)",
+                    "bool Equals(string, System.StringComparison)",
+                    "bool IsNormalized()",
+                    "bool IsNormalized(System.Text.NormalizationForm)",
+                    "bool IsNullOrEmpty(string)",
+                    "bool IsNullOrWhiteSpace(string)",
+                    "bool op_Equality(string, string)",
+                    "bool op_Inequality(string, string)",
+                    "bool StartsWith(char)",
+                    "bool StartsWith(string)",
+                    "bool StartsWith(string, bool, System.Globalization.CultureInfo)",
+                    "bool StartsWith(string, System.StringComparison)",
+                    "char get_Chars(int)",
+                    "char[] ToCharArray()",
+                    "char[] ToCharArray(int, int)",
+                    "int Compare(string, int, string, int, int)",
+                    "int Compare(string, int, string, int, int, bool)",
+                    "int Compare(string, int, string, int, int, bool, System.Globalization.CultureInfo)",
+                    "int Compare(string, int, string, int, int, bool, System.Globalization.CultureInfo, System.Globalization.CompareOptions)",
+                    "int Compare(string, int, string, int, int, System.StringComparison)",
+                    "int Compare(string, string)",
+                    "int Compare(string, string, bool)",
+                    "int Compare(string, string, bool, System.Globalization.CultureInfo)",
+                    "int Compare(string, string, bool, System.Globalization.CultureInfo, System.Globalization.CompareOptions)",
+                    "int Compare(string, string, System.StringComparison)",
+                    "int CompareOrdinal(string, int, string, int, int)",
+                    "int CompareOrdinal(string, string)",
+                    "int CompareTo(object)",
+                    "int CompareTo(string)",
+                    "int get_Length()",
+                    "int GetHashCode()",
+                    "int GetHashCode(System.ReadOnlySpan`1<char>)",
+                    "int GetHashCode(System.ReadOnlySpan`1<char>, System.StringComparison)",
+                    "int GetHashCode(System.StringComparison)",
+                    "int GetHashCode(System.StringComparison)",
+                    "int IndexOf(char)",
+                    "int IndexOf(char, int)",
+                    "int IndexOf(char, int, int)",
+                    "int IndexOf(char, System.StringComparison)",
+                    "int IndexOf(string)",
+                    "int IndexOf(string, int)",
+                    "int IndexOf(string, int, int)",
+                    "int IndexOf(string, int, int, System.StringComparison)",
+                    "int IndexOf(string, int, System.StringComparison)",
+                    "int IndexOf(string, System.StringComparison)",
+                    "int IndexOfAny(char[])",
+                    "int IndexOfAny(char[], int)",
+                    "int LastIndexOf(char)",
+                    "int LastIndexOf(char, int)",
+                    "int LastIndexOf(char, int, int)",
+                    "int LastIndexOf(string)",
+                    "int LastIndexOf(string, int)",
+                    "int LastIndexOf(string, int, int)",
+                    "int LastIndexOf(string, int, int, System.StringComparison)",
+                    "int LastIndexOf(string, int, System.StringComparison)",
+                    "int LastIndexOf(string, System.StringComparison)",
+                    "int LastIndexOfAny(char[])",
+                    "int LastIndexOfAny(char[], int)",
+                    "int LastIndexOfAny(char[], int, int)",
+                    "object Clone()",
+                    "string Concat(object)",
+                    "string Concat(object, object)",
+                    "string Concat(object, object, object)",
+                    "string Concat(object[])",
+                    "string Concat(string, string)",
+                    "string Concat(string, string, string)",
+                    "string Concat(string, string, string, string)",
+                    "string Concat(string[])",
+                    "string Concat<>(System.Collections.Generic.IEnumerable`1<!!0>)",
+                    "string Concat(System.Collections.Generic.IEnumerable`1<string>)",
+                    "string Concat(System.ReadOnlySpan`1<char>, System.ReadOnlySpan`1<char>)",
+                    "string Concat(System.ReadOnlySpan`1<char>, System.ReadOnlySpan`1<char>, System.ReadOnlySpan`1<char>)",
+                    "string Concat(System.ReadOnlySpan`1<char>, System.ReadOnlySpan`1<char>, System.ReadOnlySpan`1<char>, System.ReadOnlySpan`1<char>)",
+                    "string Create<>(int, !!0, System.Buffers.SpanAction`2<char, !!0>)",
+                    "string Format(string, object)",
+                    "string Format(string, object, object)",
+                    "string Format(string, object, object, object)",
+                    "string Format(string, object[])",
+                    "string Format(System.IFormatProvider, string, object)",
+                    "string Format(System.IFormatProvider, string, object, object)",
+                    "string Format(System.IFormatProvider, string, object, object, object)",
+                    "string Format(System.IFormatProvider, string, object[])",
+                    "string Insert(int, string)",
+                    "string Intern(string)",
+                    "string IsInterned(string)",
+                    "string Join(char, object[])",
+                    "string Join(char, string[])",
+                    "string Join(char, string[], int, int)",
+                    "string Join(string, object[])",
+                    "string Join(string, string[])",
+                    "string Join(string, string[], int, int)",
+                    "string Join(string, System.Collections.Generic.IEnumerable`1<string>)",
+                    "string Join<>(char, System.Collections.Generic.IEnumerable`1<!!0>)",
+                    "string Join<>(string, System.Collections.Generic.IEnumerable`1<!!0>)",
+                    "string Normalize()",
+                    "string Normalize(System.Text.NormalizationForm)",
+                    "string PadLeft(int)",
+                    "string PadLeft(int, char)",
+                    "string PadRight(int)",
+                    "string PadRight(int, char)",
+                    "string Remove(int)",
+                    "string Remove(int, int)",
+                    "string Replace(char, char)",
+                    "string Replace(string, string)",
+                    "string Replace(string, string, bool, System.Globalization.CultureInfo)",
+                    "string Replace(string, string, System.StringComparison)",
+                    "string Substring(int)",
+                    "string Substring(int, int)",
+                    "string ToLower()",
+                    "string ToLower(System.Globalization.CultureInfo)",
+                    "string ToLowerInvariant()",
+                    "string ToString()",
+                    "string ToString(System.IFormatProvider)",
+                    "string ToUpper()",
+                    "string ToUpper(System.Globalization.CultureInfo)",
+                    "string ToUpperInvariant()",
+                    "string Trim()",
+                    "string Trim(char)",
+                    "string Trim(char[])",
+                    "string TrimEnd()",
+                    "string TrimEnd(char)",
+                    "string TrimEnd(char[])",
+                    "string TrimStart()",
+                    "string TrimStart(char)",
+                    "string TrimStart(char[])",
+                    "string[] Split(char, int, System.StringSplitOptions)",
+                    "string[] Split(char, System.StringSplitOptions)",
+                    "string[] Split(char[])",
+                    "string[] Split(char[], int)",
+                    "string[] Split(char[], int, System.StringSplitOptions)",
+                    "string[] Split(char[], System.StringSplitOptions)",
+                    "string[] Split(string, int, System.StringSplitOptions)",
+                    "string[] Split(string, System.StringSplitOptions)",
+                    "string[] Split(string[], int, System.StringSplitOptions)",
+                    "string[] Split(string[], System.StringSplitOptions)",
+                    "System.Text.StringRuneEnumerator EnumerateRunes()",
+                    "System.CharEnumerator GetEnumerator()",
+                    "System.ReadOnlySpan`1<char> op_Implicit(string)",
+                    "System.TypeCode GetTypeCode()",
+                    "void .ctor(char, int)",
+                    "void .ctor(char[])",
+                    "void .ctor(char[], int, int)",
+                    "void .ctor(System.ReadOnlySpan`1<char>)",
+                    "void CopyTo(int, char[], int, int)",
+					"string Copy(string)"
+                ]
+            },
+            "StringComparison": {},
+            "StringSplitOptions": {},
+            "TimeSpan": {
+                "All": true
+            },
+            "Type": {
+                "Methods": [
+                    "bool Equals(object)",
+                    "bool Equals(System.Type)",
+                    "bool get_ContainsGenericParameters()",
+                    "bool get_HasElementType()",
+                    "bool get_IsAbstract()",
+                    "bool get_IsArray()",
+                    "bool get_IsByRef()",
+                    "bool get_IsByRefLike()",
+                    "bool get_IsClass()",
+                    "bool get_IsConstructedGenericType()",
+                    "bool get_IsEnum()",
+                    "bool get_IsGenericMethodParameter()",
+                    "bool get_IsGenericParameter()",
+                    "bool get_IsGenericType()",
+                    "bool get_IsGenericTypeDefinition()",
+                    "bool get_IsGenericTypeParameter()",
+                    "bool get_IsInterface()",
+                    "bool get_IsNested()",
+                    "bool get_IsNestedAssembly()",
+                    "bool get_IsNestedFamANDAssem()",
+                    "bool get_IsNestedFamily()",
+                    "bool get_IsNestedFamORAssem()",
+                    "bool get_IsNestedPrivate()",
+                    "bool get_IsNestedPublic()",
+                    "bool get_IsNotPublic()",
+                    "bool get_IsPointer()",
+                    "bool get_IsPrimitive()",
+                    "bool get_IsPublic()",
+                    "bool get_IsSealed()",
+                    "bool get_IsSerializable()",
+                    "bool get_IsSignatureType()",
+                    "bool get_IsSpecialName()",
+                    "bool get_IsSZArray()",
+                    "bool get_IsTypeDefinition()",
+                    "bool get_IsValueType()",
+                    "bool IsAssignableFrom(System.Type)",
+                    "bool IsAssignableTo(System.Type)",
+                    "bool IsInstanceOfType(object)",
+                    "bool IsSubclassOf(System.Type)",
+                    "bool op_Equality(System.Type, System.Type)",
+                    "bool op_Inequality(System.Type, System.Type)",
+                    "int get_GenericParameterPosition()",
+                    "int GetArrayRank()",
+                    "string get_AssemblyQualifiedName()",
+                    "string get_FullName()",
+                    "string get_Namespace()",
+                    "string GetEnumName(object)",
+                    "System.Array GetEnumValues()",
+                    "System.Guid get_GUID()",
+                    "System.Reflection.Assembly get_Assembly()",
+                    "System.Reflection.ConstructorInfo GetConstructor(System.Type[])",
+                    "System.Reflection.ConstructorInfo[] GetConstructors()",
+                    "System.Reflection.ConstructorInfo[] GetConstructors(System.Reflection.BindingFlags)",
+                    "System.Reflection.EventInfo GetEvent(string)",
+                    "System.Reflection.EventInfo GetEvent(string, System.Reflection.BindingFlags)",
+                    "System.Reflection.EventInfo[] GetEvents()",
+                    "System.Reflection.EventInfo[] GetEvents(System.Reflection.BindingFlags)",
+                    "System.Reflection.FieldInfo GetField(string)",
+                    "System.Reflection.FieldInfo GetField(string, System.Reflection.BindingFlags)",
+                    "System.Reflection.FieldInfo[] GetFields()",
+                    "System.Reflection.FieldInfo[] GetFields(System.Reflection.BindingFlags)",
+                    "System.Reflection.GenericParameterAttributes get_GenericParameterAttributes()",
+                    "System.Reflection.MemberInfo GetMember(string)",
+                    "System.Reflection.MemberInfo GetMember(string, System.Reflection.BindingFlags)",
+                    "System.Reflection.MemberInfo GetMember(string, System.Reflection.MemberTypes, System.Reflection.BindingFlags)",
+                    "System.Reflection.MemberInfo[] FindMembers(System.Reflection.MemberTypes, System.Reflection.BindingFlags, System.Reflection.MemberFilter, object)",
+                    "System.Reflection.MemberInfo[] GetMembers()",
+                    "System.Reflection.MemberInfo[] GetMembers(System.Reflection.BindingFlags)",
+                    "System.Reflection.MemberTypes get_MemberType()",
+                    "System.Reflection.PropertyInfo GetProperty(string)",
+                    "System.Reflection.PropertyInfo GetProperty(string, System.Reflection.BindingFlags)",
+                    "System.Reflection.PropertyInfo GetProperty(string, System.Type)",
+                    "System.Reflection.PropertyInfo GetProperty(string, System.Type, System.Type[])",
+                    "System.Reflection.PropertyInfo GetProperty(string, System.Type[])",
+                    "System.Reflection.PropertyInfo[] GetProperties()",
+                    "System.Reflection.PropertyInfo[] GetProperties(System.Reflection.BindingFlags)",
+                    "System.Reflection.TypeAttributes get_Attributes()",
+                    "System.Type get_BaseType()",
+                    "System.Type get_DeclaringType()",
+                    "System.Type get_ReflectedType()",
+                    "System.Type GetElementType()",
+                    "System.Type GetEnumUnderlyingType()",
+                    "System.Type GetGenericTypeDefinition()",
+                    "System.Type GetInterface(string)",
+                    "System.Type GetInterface(string, bool)",
+                    "System.Type GetNestedType(string)",
+                    "System.Type GetNestedType(string, System.Reflection.BindingFlags)",
+                    "System.Type GetType(string)",
+                    "System.Type GetType(string, bool)",
+                    "System.Type GetType(string, bool, bool)",
+                    "System.Type GetTypeFromHandle(System.RuntimeTypeHandle)",
+                    "System.Type MakeArrayType()",
+                    "System.Type MakeArrayType(int)",
+                    "System.Type MakeByRefType()",
+                    "System.Type MakeGenericMethodParameter(int)",
+                    "System.Type MakeGenericType(System.Type[])",
+                    "System.Type[] FindInterfaces(System.Reflection.TypeFilter, object)",
+                    "System.Type[] get_GenericTypeArguments()",
+                    "System.Type[] GetGenericParameterConstraints()",
+                    "System.Type[] GetInterfaces()",
+                    "System.Type[] GetNestedTypes()",
+                    "System.Type[] GetNestedTypes(System.Reflection.BindingFlags)"
+                ],
+                "Fields": [
+                    "System.Reflection.MemberFilter FilterAttribute",
+                    "System.Reflection.MemberFilter FilterName",
+                    "System.Reflection.MemberFilter FilterNameIgnoreCase",
+                    "object Missing",
+                    "char Delimiter",
+                    "System.Type[] EmptyTypes"
+                ]
+            },
+            "TypeCode": {},
+            "UInt16": {
+                "All": true
+            },
+            "UInt32": {
+                "All": true
+            },
+            "UInt64": {
+                "All": true
+            },
+            "UIntPtr": {
+                "All": true
+            },
+            "Uri": {
+                "All": true
+            },
+            "ValueTuple": {
+                "All": true
+            },
+            "ValueTuple`1": {
+                "All": true
+            },
+            "ValueTuple`2": {
+                "All": true
+            },
+            "ValueTuple`3": {
+                "All": true
+            },
+            "ValueTuple`4": {
+                "All": true
+            },
+            "ValueTuple`5": {
+                "All": true
+            },
+            "ValueTuple`6": {
+                "All": true
+            },
+            "ValueTuple`7": {
+                "All": true
+            },
+            "ValueTuple`8": {
+                "All": true
+            },
+            "ValueType": {
+                "All": true
+            },
+            "Version": {
+                "All": true
+            },
+            "Void": {
+                "All": true
+            },
+			"Tuple": {
+                "All": true
+            },
+			"Tuple`1": {
+                "All": true
+            },
+			"Tuple`2": {
+                "All": true
+            },
+			"Tuple`3": {
+                "All": true
+            },
+			"TupleExtensions": {
+                "All": true
+            },
+			"IConvertible": {
+                "All": true
+            },
+			"WeakReference" : {
+				 "All": true
+			},
+			"WeakReference`1" : {
+				 "All": true
+			},
+			"ArgumentNullException" : {
+				"All": true
+			},
+			"UriHostNameType" : {
+				"All": true
+			},
+			"Buffer" : {
+				"Methods" : [
+					"void BlockCopy (System.Array, int, System.Array, int, int)",
+				]
+			},
+			"AppDomain" : {
+				
+			},
+			"AggregateException" :{
+				"All": true
+			},
+			"Activator" : {
+				
+			}
+
+        },
+        "UnityEngine": {
+            "MonoBehaviour": {
+				"All": true,
+                "Inherit": "Allow"
+            },
+            "ScriptableObject": {
+				"All": true,
+                "Inherit": "Allow"
+            },
+			"TooltipAttribute":{
+				"All": true
+			},
+			"SerializeField":{
+				"All": true
+			},
+			"GameObject":{
+				"All": true
+			},
+			"Component":{
+				"All": true
+			},
+			"Vector4":{
+				"All": true
+			},
+			"Vector3":{
+				"All": true
+			},
+			"Vector3Int":{
+				"All": true
+			},
+			"Vector2":{
+				"All": true
+			},
+			"Vector2Int":{
+				"All": true
+			},
+			"Coroutine":{
+			},
+			"Object":{
+				"All": true
+			},
+			"Debug":{
+				"All": true
+			},
+			"WaitForEndOfFrame":{
+				"All": true
+			},
+			"WaitForSeconds":{
+				"All": true
+			},
+			"CreateAssetMenuAttribute":{
+				"All": true
+			},
+			"Collider2D":{
+				"All": true
+			},
+			"LayerMask":{
+				"All": true
+			},
+			"Physics2D":{
+				"All": true
+			},
+			"Mathf":{
+				"All": true
+			},
+			"RangeAttribute":{
+				"All": true
+			},
+			"Quaternion":{
+				"All": true
+			},
+			"Transform":{
+				"All": true
+			},
+			"Random":{
+				"All": true
+			},
+			"Matrix4x4":{
+				"All": true
+			},
+			"Color":{
+				"All": true
+			},
+			"Color32":{
+				"All": true
+			},
+			"HideInInspector":{
+				"All": true
+			},
+			"Time":{
+				"All": true
+			},
+			"Behaviour":{
+				"All": true
+			},
+			"RuntimeInitializeOnLoadMethodAttribute":{
+				"All": true
+			},
+			"RuntimeInitializeLoadType":{
+				"All": true
+			},
+			"Rect":{
+				"All": true
+			},
+			"Plane":{
+				"All": true
+			},
+			"Ray":{
+				"All": true
+			},
+			"Texture2D":{
+				"All": true
+			},
+			"Sprite":{
+				"All": true
+			},
+			"SystemInfo":{
+				"All": true
+			},
+			"CanvasGroup":{
+				"All": true
+			},
+			"RaycastHit2D":{
+				"All": true
+			},
+			"CanvasGroup":{
+				"All": true
+			},
+			"RenderTexture":{
+				"All": true
+			},
+			"ColorUtility" :{
+				"All": true
+			},
+			"LineRenderer" :{
+				"All": true
+			},
+			"Bounds":{
+				"All": true
+			},
+			"BoundsInt":{
+				"All": true
+			},
+			"ColorSpace" :{
+				"All": true
+			},
+			"Canvas":{
+				"All": true
+			},
+			"PropertyAttribute":{
+				"All": true
+			},
+			"RectTransformUtility":{
+				"All": true
+			},
+			"ICanvasRaycastFilter":{
+				"All": true
+			},
+			"CanvasRenderer":{
+				"All": true
+			},
+			"AudioSource":{
+				"All": true
+			},
+			"TextGenerator" : {
+				"All": true
+			},
+			"HorizontalWrapMode" : {
+				"All": true
+			},
+			"Physics" :{
+				"All": true
+			},
+			"SimulationMode2D" :{
+				"All": true
+			},
+			"BoxCollider2D" : {
+				"All": true
+			},
+			"ParticleSystem":{
+				
+			},
+			"Touch":{
+				"All": true
+			},
+			"Input" : {
+				"All": true
+			},
+			"GUIUtility" : {
+				"Methods" : [
+					"void set_systemCopyBuffer(string)",
+					"void RotateAroundPivot(float, UnityEngine.Vector2)"
+					]
+			},
+			"GUI" : {
+				"All": true
+			},
+			"Event" : {
+				"All": true
+			},
+			"ImageConversion":{
+				"Methods" : [
+					"byte[] EncodeToPNG(UnityEngine.Texture2D)",
+					]
+				
+			},
+			"GridLayout":{
+				"All": true
+			},
+			"WaitForSecondsRealtime" : {
+				"All": true
+			},
+			"WaitForFixedUpdate" : {
+				"All": true
+			},
+			"TextureWrapMode" : {
+				"All": true
+			},
+			"TextureFormat" : {
+				"All": true
+			},
+			"Texture" : {
+				"All": true
+			},
+			"TextAsset" : {
+				"All": true
+			},
+			"TextAreaAttribute":{
+				"All": true
+			},
+			"SpriteRenderer":{
+				"All": true
+			},
+			"SpritePackingMode":{
+				"All": true
+			},
+			"SpriteMeshType":{
+				"All": true
+			},
+			"SpaceAttribute":{
+				"All": true
+			},
+			"SortingLayer":{
+				"All": true
+			},
+			"Skybox":{
+				"All": true
+			},
+			"Shader":{
+				"All": true
+			},
+			"Space":{
+				"All": true
+			},
+			"SerializeReference":{
+				"All": true
+			},
+			"Material":{
+				"All": true
+			},
+			"Camera" : {
+				"All": true
+			},
+			"AudioClip" : {
+				"All": true
+			},
+			"Screen" : {
+				"All": true
+			},
+			"RuntimePlatform" : {
+				"All": true
+			},
+			"Resolution" : {
+				"All": true
+			},
+			"RequireComponent" : {
+				"All": true
+			},
+			"RenderTextureFormat" : {
+				"All": true
+			},
+			"Renderer" : {
+				"All": true
+			},
+			"RectTransform" : {
+				"All": true
+			},
+			"RectOffset" : {
+				"All": true
+			},
+			"RectInt" : {
+				"All": true
+			},
+			"QualitySettings" : {
+				"All": true
+			},
+			"PlayerPrefs" : {
+				"All": true
+			},
+			"MinAttribute" : {
+				"All": true
+			},
+			"MeshRenderer" : {
+				"All": true
+			},
+			"MaterialPropertyBlock" : {
+				"All": true
+			},
+			"LogType" : {
+				"All": true
+			},
+			"Keyframe" : {
+				"All": true
+			},
+			"Keyframe" : {
+				"All": true
+			},
+			"KeyCode" : {
+				"All": true
+			},
+			"HideFlags" : {
+				"All": true
+			},
+			"HeaderAttribute" : {
+				"All": true
+			},
+			"Graphics" : {
+				"All": true
+			},
+			"GradientAlphaKey" : {
+				"All": true
+			},
+			"Gradient" : {
+				"All": true
+			},
+			"Gizmos" : {
+				"All": true
+			},
+			"FullScreenMode" : {
+				"All": true
+			},
+			"ExecuteInEditMode" : {
+				"All": true
+			},
+			"DrivenTransformProperties" : {
+				"All": true
+			},
+			"DrivenRectTransformTracker" : {
+				"All": true
+			},
+			"DisallowMultipleComponent" : {
+				"All": true
+			},
+			"CursorMode" : {
+				"All": true
+			},
+			"CursorLockMode" : {
+				"All": true
+			},
+			"Cursor" : {
+				"All": true
+			},
+			"ContextMenu" : {
+				"All": true
+			},
+			"ComputeShader" : {
+				"All": true
+			},
+			"CameraClearFlags" : {
+				"All": true
+			},
+			"AsyncOperation" : {
+				"All": true
+			},
+			"Application" : {
+				"Methods" : [
+					"bool get_isPlaying()",
+					"bool get_isMobilePlatform()",
+					"bool get_isFocused()",
+					"bool get_isEditor()",
+					"bool get_isBatchMode()",
+					"string get_version()",
+					"string get_temporaryCachePath()",
+					"string get_streamingAssetsPath()",
+					"string get_productName()",
+					"string get_persistentDataPath()",
+					"string get_dataPath()",
+					"void set_targetFrameRate(int)",
+					"int get_targetFrameRate()",
+					"void set_runInBackground(bool)",
+					"void Quit()",
+					"void remove_logMessageReceived(UnityEngine.Application/LogCallback)",
+					"void add_logMessageReceived(UnityEngine.Application/LogCallback)",
+				],
+				"NestedTypes" :{
+					"LogCallback" : {
+						"All": true
+					}
+				}
+			},
+			"AnimationCurve" : {
+				"All": true
+			},
+			"AddComponentMenu" : {
+				"All": true
+			},
+			"CanBeNullAttribute" : {
+				"All": true
+			},
+			"AudioSourceCurveType" : {
+				"All": true
+			},
+			"AudioRolloffMode" : {
+				"All": true
+			},
+			"AudioListener" : {
+				"All": true
+			},
+			"Animator" : {
+				"All": true
+			},
+			"SendMessageOptions" : {
+				"All": true
+			},
+			"SelectionBaseAttribute" : {
+				"All": true
+			},
+			"ScreenOrientation" : {
+				"All": true
+			},
+			"FilterMode" : {
+				"All": true
+			},
+			"Resources" : {
+				"All": true
+			},
+			"AnimatorControllerParameterType" : {
+				"All": true
+			},
+			"AnimatorControllerParameterType" : {
+				"All": true
+			},
+			"ParticleSystem" : {
+				"All": true
+			},
+			"RenderMode":{
+				"All": true
+			},
+			"ParticleSystemRenderer":{
+				"All": true
+			},
+			"GUIStyle":{
+				"All": true
+			},
+			"Mesh" : {
+				"All": true
+			},
+			"GUIStyleState" : {
+				"All": true
+			},
+			"GUISkin" : {
+				"All": true
+			},
+			"MeshFilter" : {
+				"All": true
+			},
+			"GL" : {
+				"All": true
+			},
+			"TextAnchor" : {
+				"All": true
+			},
+			"MultilineAttribute" :{
+				"All": true
+			},
+			"DeviceType" : {
+				"All": true
+			},
+			"FFTWindow" : {
+				"All": true
+			},
+			"TextEditor" : {
+				"All": true
+			},
+			"ISerializationCallbackReceiver" : {
+				"All": true
+			}
+        },
+		"UnityEngine.Events" :{
+			"UnityEvent":{
+				"All": true
+			},
+			"UnityEvent`1":{
+				"All": true
+			},
+			"UnityEvent`2":{
+				"All": true
+			},
+			"UnityEvent`3":{
+				"All": true
+			},
+			"UnityEvent`4":{
+				"All": true
+			},
+			"UnityEvent`5":{
+				"All": true
+			},
+			"UnityEvent`6":{
+				"All": true
+			},
+			"UnityAction":{
+				"All": true
+			},
+			"UnityAction`1":{
+				"All": true
+			},
+			"UnityAction`2":{
+				"All": true
+			},
+			"UnityAction`3":{
+				"All": true
+			},
+			"UnityAction`4":{
+				"All": true
+			},
+			"UnityEventCallState":{
+				"All": true
+			},
+			"UnityEventBase":{
+				"All": true
+			},
+		
+		},
+		"UnityEngine.UI":{
+			"Dropdown":{
+				"All": true
+			},
+			"InputField":{
+				"All": true
+			},
+			"Scrollbar":{
+				"All": true
+			},
+			"CanvasScaler":{
+				"All": true
+			},
+			"ColorBlock":{
+				"All": true
+			},
+			"Graphic":{
+				"All": true
+			},
+			"Button":{
+				"All": true
+			},
+			"LayoutGroup":{
+				"All": true
+			},
+			"VerticalLayoutGroup":{
+				"All": true
+			},
+			"ToggleGroup":{
+				"All": true
+			},
+			"Toggle":{
+				"All": true
+			},
+			"Text":{
+				"All": true
+			},
+			"Slider":{
+				"All": true
+			},
+			"Shadow":{
+				"All": true
+			},
+			"Selectable":{
+				"All": true
+			},
+			"ScrollRect":{
+				"All": true
+			},
+			"RawImage":{
+				"All": true
+			},
+			"LayoutRebuilder":{
+				"All": true
+			},
+			"Image":{
+				"All": true
+			},
+			"ICanvasElement":{
+				"All": true
+			},
+			"HorizontalOrVerticalLayoutGroup":{
+				"All": true
+			},
+			"GridLayoutGroup":{
+				"All": true
+			},
+			"GraphicRaycaster":{
+				"All": true
+			},
+			"ContentSizeFitter":{
+				"All": true
+			},
+			"CanvasUpdate":{
+				"All": true
+			},	
+			"LayoutElement":{
+				"All": true
+			},
+			"MaskableGraphic" : {
+				"All": true
+			},
+		},
+		"UnityEngine.EventSystems":{
+			"EventSystem":{
+				"All": true
+			},
+			"IPointerExitHandler":{
+				"All": true
+			},
+			"IDragHandler":{
+				"All": true
+			},
+			"IDragHandler":{
+				"All": true
+			},
+			"IPointerDownHandler":{
+				"All": true
+			},
+			"IEventSystemHandler":{
+				"All": true
+			},
+			"IPointerExitHandler":{
+				"All": true
+			},
+			"IPointerEnterHandler":{
+				"All": true
+			},
+			"IPointerUpHandler":{
+				"All": true
+			},
+			"IPointerClickHandler":{
+				"All": true
+			},
+			"IBeginDragHandler":{
+				"All": true
+			},
+			"IEndDragHandler":{
+				"All": true
+			},
+			"PointerEventData":{
+				"All": true
+			},
+			"IScrollHandler":{
+				"All": true
+			},
+			"UIBehaviour":{
+				"All": true
+			},
+			"RaycastResult":{
+				"All": true
+			},	
+			"IDropHandler":{
+				"All": true
+			},
+			"ExecuteEvents":{
+				"All": true
+			},
+			"EventTriggerType":{
+				"All": true
+			},
+			"EventTrigger":{
+				"All": true
+			},
+			"IInitializePotentialDragHandler":{
+				"All": true
+			},
+			"BaseRaycaster":{
+				"All": true
+			},
+			"BaseEventData":{
+				"All": true
+			},
+			
+			
+		},
+		"UnityEngine.Tilemaps":{
+			"TileData":{
+				"All": true
+			},
+			"TileBase":{
+				"All": true
+			},
+			"Tilemap":{
+				"All": true
+			},
+			"Tilemap":{
+				"All": true
+			},
+			"ITilemap":{
+				"All": true
+			},
+			"TileFlags":{
+				"All": true
+			},
+			"TilemapRenderer":{
+				"All": true
+			},
+			"TileAnimationData" : {
+				"All": true
+			},
+			"Tile" : {
+				"All": true
+			}	
+		},
+		"UnityEngine.Video":{
+			"VideoPlayer":{
+				"All": true
+			},
+			"VideoClip":{
+				"All": true
+			},
+			
+		},
+		"UnityEngine.SceneManagement":{
+			"SceneUtility":{
+				"All": true
+			},
+			"SceneManager":{
+				"All": true
+			},
+			"Scene":{
+				"All": true
+			},
+			"LoadSceneMode":{
+				"All": true
+			},
+
+		},
+		"UnityEngine.Rendering":{
+			"SortingGroup":{
+				"All": true
+			},
+			"GraphicsDeviceType":{
+				"All": true
+			},
+			"AsyncGPUReadbackRequest" : {
+				"All": true
+			},
+			"AsyncGPUReadback" : {
+				"All": true
+			}
+		},
+		"UnityEngine.Profiling" :{
+			
+			"Profiler":{
+				"Methods" : [
+					"long GetTotalAllocatedMemoryLong()",
+					"void EndThreadProfiling()",
+					"void EndThreadProfiling()",
+					"long GetTotalReservedMemoryLong()",
+					"long GetMonoUsedSizeLong()"
+					
+				]
+			},
+			"CustomSampler":{
+				"All": true
+			},
+		},
+		"UnityEngine.Pool" : {
+			"PooledObject`1":{
+				"All": true
+			},
+			"CollectionPool`1":{
+				"All": true
+			},
+			"CollectionPool`2":{
+				"All": true
+			},
+		},
+		"UnityEngine.Audio" : {
+			"AudioMixerGroup":{
+				"All": true
+			},
+			"AudioMixer":{
+				"All": true
+			}
+		},
+		"UnityEngine.Animations" : {
+			"ParentConstraint":{
+				"All": true
+			},
+			"ConstraintSource":{
+				"All": true
+			},
+		},
+		"UnityEngine.Serialization" : {
+			"FormerlySerializedAsAttribute":{
+				"All": true
+			},
+		},
+		"UnityEngine.ResourceManagement.ResourceLocations" : {
+			"IResourceLocation":{
+				"All": true
+			},
+		},
+		"UnityEngine.ResourceManagement.AsyncOperations" : {
+			"AsyncOperationStatus":{
+				"All": true
+			},
+			"AsyncOperationHandle":{
+				"All": true
+			},
+			"AsyncOperationHandle`1":{
+				"All": true
+			},
+			
+		},
+		"UnityEngine.AddressableAssets" :{
+			"ResourceLocators" :{
+				"All": true
+			},
+			"AssetReference" :{
+				"All": true
+			},
+			"Addressables" : {
+				"All": true
+			}
+		},
+		"UnityEngine.AddressableAssets.ResourceLocators" :{
+			"IResourceLocator" :{
+				"All": true
+			},
+			"ResourceLocationMap" : {
+				"All": true
+			}
+		},
+		"UnityEngine.U2D" : {
+			"PixelPerfectCamera" : {
+				"All": true
+			}
+		},
+		"Unity.Collections" : {
+			"NativeArray`1" : {
+				"Methods" : [	
+					"int get_Length()",
+					"!0 get_Item(int)",
+					"void Dispose()",
+					"void .ctor(Unity.Collections.NativeArray`1<!0>, Unity.Collections.Allocator)"
+				]
+			},
+			"Allocator" : {
+				"All": true
+			}
+		},
+		"UnityEngine.Experimental.Rendering" : {
+			"GraphicsFormat" : {
+				"All": true
+			}
+		},
+		"JetBrains.Annotations" : {
+			"CanBeNullAttribute":{
+				"All": true
+			},
+		},
+        "Mirror": {
+			"Reader`1":{
+				"Fields":[
+					"System.Func`2<Mirror.NetworkReader, !0> read"
+				]
+			},
+			"Writer`1":{
+				"Fields":[
+					"System.Action`2<Mirror.NetworkWriter, !0> write"
+				]
+			}, 
+			"NetworkBehaviourSyncVar": {
+            },
+			"NetworkPongMessage":{
+				"All": true
+			},
+			"NetworkPingMessage":{
+				"All": true
+			},
+			"EntityStateMessage":{
+				"All": true
+			},
+			"ObjectHideMessage":{
+				"All": true
+			},
+			"ObjectDestroyMessage":{
+				"All": true
+			},
+			"ObjectSpawnFinishedMessage":{
+				"All": true
+			},
+			"ObjectSpawnStartedMessage":{
+				"All": true
+			},
+			"ChangeOwnerMessage":{
+				"All": true
+			},
+			"SpawnMessage":{
+				"All": true
+			},
+			"RpcBufferMessage":{
+				"All": true
+			},
+			"RpcMessage":{
+				"All": true
+			},
+			"RpcMessage":{
+				"All": true
+			},
+			"CommandMessage":{
+				"All": true
+			},
+			"SceneOperation":{
+				"All": true
+			},
+			"SceneMessage":{
+				"All": true
+			},
+			"AddPlayerMessage":{
+				"All": true
+			},
+			"NotReadyMessage":{
+				"All": true
+			},
+			"ReadyMessage":{
+				"All": true
+			},
+			"TimeSnapshotMessage":{
+				"All": true
+			},
+			"ServerAttribute":{
+				"All": true
+			},
+			"CommandAttribute":{
+				"All": true
+			},
+			"SyncVarAttribute":{
+				"All": true
+			},
+			"TargetRpcAttribute":{
+				"All": true
+			},
+			"NetworkServer":{
+				"All": true
+			},
+			"NetworkClient":{
+				"All": true
+			},
+			"NetworkConnectionToClient":{
+				"All": true
+			},
+			"NetworkWriter":{
+				"Methods" : [
+					"void WriteByte(byte)",
+					"void Write<>(!!0)",
+				]
+			},
+			"NetworkWriterExtensions":{
+				"All": true
+			},
+			"NetworkReader":{
+				"Methods" : [
+					"!!0 Read<>()",
+					"byte ReadByte()}"
+				]
+			},
+			"NetworkReaderExtensions":{
+				"All": true
+			},
+			"NetworkWriterPooled":{
+				"All": true
+			},
+			"NetworkWriterPool":{
+				"All": true
+			},
+			"NetworkConnection":{
+				"All": true
+			},
+			"NetworkIdentity" :{
+				"All": true
+			},
+            "NetworkBehaviour": {
+                "Inherit": "Allow",
+				"All": true
+            },
+            "NetworkMessage": {
+				"All": true
+            },
+			"SyncList`1": {
+				"All": true
+            },
+			"NetworkManager":{
+				"All": true
+			},
+			"TelepathyTransport":{
+				"Fields":[
+					"ushort port"
+				]
+			},
+			"SyncObject" : {
+				"All": true
+			},
+			"Transport" :{
+				"Fields":[
+					"Mirror.Transport active"
+				],
+				"Methods" : [
+					"void Shutdown()",
+					"int GetMaxPacketSize(int)"
+				],
+				
+			},
+			"ServerCallbackAttribute" :{
+				"All": true
+			},
+			"NetworkTime" :{
+				"All": true
+			},
+			"ClientRpcAttribute" : {
+				"All": true
+			},
+			"ClientAttribute" : {
+				"All": true
+			},
+			"Extensions" : {
+				"All": true
+			},
+			"InterestManagement" : {
+				"All": true
+			},
+			"LocalConnectionToClient" : {
+				"All": true
+			},
+			"NetworkAuthenticator" : {
+				"All": true
+			},
+			"NetworkStartPosition" : {
+				"All": true
+			},
+        },
+		"IgnoranceTransport":{
+			"Ignorance" :{
+				"Fields" : [
+					"int port",
+					"bool serverBindsAll",
+					"string serverBindAddress"
+				]
+			}
+		},
+		"Mirror.RemoteCalls" : {
+			"RemoteCallDelegate":{
+				"Methods" : [
+					"void .ctor(object, nint)",
+				]
+			},
+			"RemoteProcedureCalls":{
+				"Methods" : [
+					"void RemoteCallDelegate(Mirror.NetworkBehaviour, Mirror.NetworkReader , Mirror.NetworkConnectionToClient)",
+					"void RegisterCommand(System.Type, string, Mirror.RemoteCalls.RemoteCallDelegate, bool)",
+					"void RegisterRpc(System.Type, string, Mirror.RemoteCalls.RemoteCallDelegate)"
+				],
+				"Fields" : [
+					"bool mirrorProcessingCMD",
+					"Mirror.RemoteCalls.Invoker mirrorLastInvoker"
+				]
+			},
+			"Invoker" : {
+				"All": true
+			}
+		},
+		"Logs" :{
+			"Loggy" :{
+				"All": true
+			},
+			"LogOverridePref" :{
+				"All": true
+			},
+			"LoggerPreferences" :{
+				"All": true
+			},
+			"Category" :{
+				"All": true
+			},
+			"LogLevel" :{
+				"All": true
+			},
+			"ThreadLoggy" :{
+				"All": true
+			}
+		},
+		"TMPro" : {
+			"TMP_VertexDataUpdateFlags" : {
+				"All": true
+			},
+			"TMP_TextUtilities" : {
+				"All": true
+			},
+			"TMP_TextInfo" : {
+				"All": true
+			},
+			"TMP_Text" : {
+				"All": true
+			},
+			"TMP_SpriteAsset" : {
+				"All": true
+			},
+			"TMP_MeshInfo" :{
+				"All": true
+			},
+			"TMP_LinkInfo" :{
+				"All": true
+			},
+			"TMP_InputField" :{
+				"All": true
+			},
+			"TMP_FontAsset" :{
+				"All": true
+			},
+			"TMP_Dropdown" :{
+				"All": true
+			},
+			"TMP_CharacterInfo" :{
+				"All": true
+			},
+			"TextMeshProUGUI" :{
+				"All": true
+			},
+			"FontStyles" :{
+				"All": true
+			}
+		},
+		"SecureStuff" : {
+			"SafeURL" : {
+				"All": true
+			},
+			"SafeProfileManager" : {
+				"All": true
+			},
+			"SafeHttpRequest" : {
+				"All": true
+			},
+			"SafeHttpRequest" : {
+				"All": true
+			},
+			"AccessFile" : {
+				"All": true
+			},
+			"FolderType" : {
+				"All": true
+			},
+			"VVNote" : {
+				"All": true
+			},
+			"VVNote" : {
+				"All": true
+			},
+			"VVHighlight":{
+				"All": true
+			},
+			"Librarian" :{
+				"All": true
+			},
+			"ICustomSerialisationSystem" : {
+				"All": true
+			},
+			"BaseAttribute" : {
+				"All": true
+			},
+			"AllowedReflection" : {
+				"All": true
+			},
+			"MethodsAndAttributee`1" : {
+				"All": true
+			},
+			"SecureMapsSaver" : {
+				"All": true
+			},
+			"SceneObjectReference" : {
+				"All": true
+			},
+			"IPopulateIDRelation" : {
+				"All": true
+			},
+			"IAllowedReflection" : {
+				"All": true
+			},
+			"FieldData" : {
+				"All": true
+			},
+			"AllowedEnvironmentVariables" : {
+				"All": true
+			},
+			"SpriteMetadata" : {
+				"Methods" : [
+					"float get_Scale()",
+					"UnityEngine.Vector2 get_Offset()",
+					"SecureStuff.SpriteMetadata Create(UnityEngine.Texture2D, ref UnityEngine.Rect)"
+				],
+				"Fields" : [
+					"SecureStuff.SpriteMetadata Default()"
+				]
+			}
+		},
+		"Newtonsoft.Json" : {
+			"ReferenceLoopHandling" : {
+				"All": true
+			},
+			"PreserveReferencesHandling" : {
+				"All": true
+			},
+			"NullValueHandling" : {
+				"All": true
+			},
+			"JsonWriter" : {
+				"All": true
+			},
+			"JsonSerializerSettings" : {
+				"All": true
+			},
+			"JsonSerializer" : {
+				"All": true
+			},
+			"JsonReader" : {
+				"All": true
+			},
+			"JsonPropertyAttribute" : {
+				"All": true
+			},
+			"JsonIgnoreAttribute" : {
+				"All": true
+			},
+			"JsonConvert" : {
+				"All": true
+			},
+			"Formatting" : {
+				"All": true
+			}
+	
+		},
+		"Newtonsoft.Json.Bson" : {
+			"BsonWriter" : {
+				"All": true
+			},
+			"BsonReader" : {
+				"All": true
+			},
+		},
+		"Tomlyn" : {
+			"Toml" : {
+				"Methods" : [
+					"bool TryToModel<>(string, ref !!0, ref Tomlyn.Syntax.DiagnosticsBag, string, Tomlyn.TomlModelOptions)"
+				]
+			},
+			"TomlModelOptions" : {
+				"All": true
+			}
+		},
+		"Tomlyn.Syntax" : {
+			"DiagnosticsBag"  : {
+				"All": true
+			},
+			"DiagnosticMessage" : {
+				"All": true
+			}
+		},
+		"Tomlyn.Model" : {
+			"TomlPropertiesMetadata" : {
+				"All": true
+			},
+			"ITomlMetadataProvider" : {
+				"All": true
+			}
+		},
+		"YamlDotNet.Serialization" :{
+			"IDeserializer" : {
+				"All": true
+			},
+			"DeserializerBuilder" : {
+				"All": true
+			}
+		},
+		"YamlDotNet.RepresentationModel" :{
+			"YamlStream" : {
+				"All": true
+			},
+			"YamlScalarNode" : {
+				"All": true
+			},
+			"YamlNode" : {
+				"All": true
+			},
+			"YamlMappingNode" : {
+				"All": true
+			},
+			"YamlDocument" : {
+				"All": true
+			}
+		},
+		"YamlDotNet.Helpers" :{
+			"IOrderedDictionary`2" : {
+				"All": true
+			}
+		},
+		"Firebase.Auth" : {
+			"UserProfile" :{
+				"All": true,
+				"TEMP" :  true
+			},
+			"FirebaseUser" :{
+				"All": true,
+				"TEMP" :  true
+			},
+			"FirebaseAuth" :{
+				"All": true,
+				"TEMP" :  true
+			},
+			"FirebaseException" :{
+				"All": true,
+				"TEMP" :  true
+			},
+			"FirebaseApp" :{
+				"All": true,
+				"TEMP" :  true
+			}
+		},
+		"Firebase" : {
+			"FirebaseAuth" :{
+				"All": true,
+				"TEMP" :  true
+			},
+			"FirebaseException" :{
+				"All": true,
+				"TEMP" :  true
+			},
+			"FirebaseApp" :{
+				"All": true,
+				"TEMP" :  true
+			}
+		},
+		"Firebase.Extensions" : {
+			"TaskExtension" :{
+				"All": true,
+				"TEMP" :  true
+			},
+		},
+		"C5" :{
+			"IntervalHeap`1" : {
+				"All": true,
+			},
+			"CollectionValueBase`1" : {
+				"All": true,
+			}
+		},
+		"SunVox" : {
+			"SunVox" : {
+				"All": true
+			}
+		}
+    }
+}
