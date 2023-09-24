@@ -790,6 +790,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
+  LiesFlat3D: 0
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   <LayDownBehavior>k__BackingField: {fileID: 8176686349149668929}
@@ -8777,7 +8778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateTime: 0.75
-  debug: 1
+  debug: 0
 --- !u!1 &7706745016017648645
 GameObject:
   m_ObjectHideFlags: 0
