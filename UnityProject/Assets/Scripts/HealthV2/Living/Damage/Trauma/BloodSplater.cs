@@ -24,6 +24,7 @@ namespace HealthV2
 
 		private void OnTakeDamage(BodyPartDamageData data)
 		{
+			if (data.DamageAmount < 0) return;
 			if (data.AttackType == AttackType.Internal || data.AttackType == AttackType.Fire || data.AttackType == AttackType.Rad) return;
 			if (data.DamageType == DamageType.Clone || data.DamageType == DamageType.Radiation
 			                                        || data.DamageType == DamageType.Stamina || data.DamageType == DamageType.Tox) return;

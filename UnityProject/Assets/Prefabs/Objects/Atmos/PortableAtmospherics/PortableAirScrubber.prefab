@@ -177,6 +177,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5584791139615377314}
+    - targetCorrespondingSourceObject: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1058151150928460662}
   m_SourcePrefab: {fileID: 100100000, guid: 5d7892c86699e21499ad5f872fd4d512, type: 3}
 --- !u!114 &1517277774020816811 stripped
 MonoBehaviour:
@@ -297,3 +301,22 @@ MonoBehaviour:
   syncInterval: 0.1
   NetTabType: 61
   aiInteractable: 1
+--- !u!114 &1058151150928460662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295615321316820337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: 30eb29437c5c20c42acdcf2abf58009c, type: 2}
+  machineBoardPrefab: {fileID: 9187211431276836541, guid: aee77e99947ce624ab5276e560628463,
+    type: 3}
+  canNotBeDeconstructed: 0
+  isEMPResistant: 0
+  mustBeUnanchored: 0
+  secondsToScrewdrive: 2
