@@ -6,16 +6,16 @@ namespace _3D
 {
 	public class ConvertTo3D : MonoBehaviour
 	{
-		private RegisterTile RegisterTile;
+		private RegisterTile registerTile;
 
 		public void Awake()
 		{
-			RegisterTile = this.GetComponent<RegisterTile>();
+			registerTile = this.GetComponent<RegisterTile>();
 		}
 
 		public void DoConvertTo3D()
 		{
-			if (RegisterTile != null && RegisterTile.LiesFlat3D)
+			if (registerTile != null && registerTile.LiesFlat3D)
 			{
 				for (int i = 0; i < gameObject.transform.childCount; i++)
 				{
