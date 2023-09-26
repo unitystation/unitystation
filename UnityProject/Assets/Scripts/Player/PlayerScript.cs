@@ -303,6 +303,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 			EventManager.Broadcast(Event.UpdateChatChannels);
 			UpdateStatusTabUI();
 
+			AmbientSoundArea.TriggerRefresh();
+
 			waitTimeForRTTUpdate = 0f;
 
 			isUpdateRTT = true;

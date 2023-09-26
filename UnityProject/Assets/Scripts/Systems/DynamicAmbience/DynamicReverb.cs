@@ -9,7 +9,7 @@ namespace Systems.DynamicAmbience
 	public class DynamicReverb : MonoBehaviour
 	{
 		[SerializeField] private float updateTime = 0.75f;
-		[SerializeField] private bool debug = true;
+		[SerializeField] private bool debug = false;
 
 		private const string AUDIOMIXER_REVERB_KEY = "SFXReverb";
 		private bool isEnabled = false;

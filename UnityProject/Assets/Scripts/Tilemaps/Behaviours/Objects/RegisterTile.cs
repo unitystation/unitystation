@@ -73,6 +73,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	public Matrix Matrix { get; private set; }
 
+	public bool LiesFlat3D = false;
+
 	/// <summary>
 	/// Invoked when the parent net ID of this RegisterTile has changed, after reparenting
 	/// has been performed in RegisterTile (which updates the parent net ID, parent transform, parent

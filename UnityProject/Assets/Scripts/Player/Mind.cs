@@ -45,6 +45,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 		get
 		{
 			if (IsGhosting) return this.gameObject;
+			if (IDActivelyControlling is NetId.Invalid or NetId.Empty) return this.gameObject;
 
 			return CustomNetworkManager.Spawned[IDActivelyControlling].gameObject;
 		}
