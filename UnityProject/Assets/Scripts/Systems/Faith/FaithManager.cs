@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using Shared.Managers;
 using UnityEngine;
 
@@ -25,10 +26,12 @@ namespace Systems.Faith
 			EventManager.AddHandler(Event.RoundEnded, ResetReligion);
 			UpdateManager.Add(LongUpdate, Application.isEditor ? 60 : FaithEventsCheckTimeInSeconds);
 			UpdateManager.Add(PeriodicUpdate, FaithPerodicCheckTimeInSeconds);
+			Loggy.Log("[FaithManager/Awake] - Setting stuff.");
 		}
 
 		private void ResetReligion()
 		{
+			Loggy.Log("[FaithManager/ResetReligion] - Resetting faiths.");
 			CurrentFaith = DefaultFaith;
 			FaithPoints = 0;
 			FaithLeaders.Clear();
@@ -39,17 +42,19 @@ namespace Systems.Faith
 
 		private void LongUpdate()
 		{
+			foreach (var update in FaithPropertiesEventUpdate)
+			{
+				update?.Invoke();
+			}
+			Loggy.Log("[FaithManager/LongUpdate] - Running LongUpdate.");
 			if (FaithPoints.IsBetween(-500, 500) && Application.isEditor == false) return;
+			Loggy.Log("[FaithManager/LongUpdate] - Passed point check.");
 
 			if (DMMath.Prob(35))
 			{
 				CurrentFaith.FaithProperties.PickRandom()?.RandomEvent();
 			}
 
-			foreach (var update in FaithPropertiesEventUpdate)
-			{
-				update?.Invoke();
-			}
 			CheckTolerance();
 		}
 
