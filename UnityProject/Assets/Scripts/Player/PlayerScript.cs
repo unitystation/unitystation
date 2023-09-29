@@ -19,8 +19,6 @@ using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Changeling;
-using UI;
-using GameModes;
 using Logs;
 using Systems.Faith;
 
@@ -185,6 +183,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		get => currentFaith;
 		private set => currentFaith = value;
 	}
+
+	[field: SyncVar] public string FaithName { get; private set; } = "None";
 
 
 	#region Lifecycle
@@ -784,6 +784,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	{
 		LeaveReligion();
 		currentFaith = newFaith;
+		FaithName = currentFaith.FaithName;
 		foreach (var prop in currentFaith.FaithProperties)
 		{
 			prop.OnJoinFaith(this);
@@ -807,6 +808,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		}
 		if (FaithManager.Instance.CurrentFaith == currentFaith) FaithManager.Instance.FaithMembers.Remove(this);
 		currentFaith = null;
+		FaithName = "None";
 	}
 
 	#endregion
@@ -814,12 +816,61 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	#region TOOLTIPDATA
 
+	private string ToleranceCheckForReligion()
+	{
+		//This is client trickery, anything we want to check on the client itself is from PlayerManager
+		//while things on the other player is done directly from within this class
+		if(PlayerManager.LocalPlayerScript.currentFaith == null) return "";
+		string finalText = "";
+		switch (PlayerManager.LocalPlayerScript.currentFaith.ToleranceToOtherFaiths)
+		{
+			case ToleranceToOtherFaiths.Accepting:
+				finalText = "";
+				break;
+			case ToleranceToOtherFaiths.Neutral:
+				if (PlayerManager.LocalPlayerScript.FaithName != FaithName)
+				{
+					finalText = $"This person appears to have faith in {FaithName}.";
+				}
+				else
+				{
+					finalText = $"<color=green>This person appears to share the same faith as me!</color>";
+				}
+				break;
+			case ToleranceToOtherFaiths.Rejecting:
+				if (PlayerManager.LocalPlayerScript.FaithName != FaithName)
+				{
+					finalText = $"<color=red>This person appears to have faith in {FaithName} which goes against what I believe.</color>";
+				}
+				else
+				{
+					finalText = $"<color=green>This person appears to share the same faith as me!</color>";
+				}
+				break;
+			case ToleranceToOtherFaiths.Violent:
+				if (PlayerManager.LocalPlayerScript.FaithName != FaithName)
+				{
+					finalText = $"<color=red>This person appears to not share the same beliefs as me, and I don't like that.</color>";
+				}
+				else
+				{
+					finalText = $"<color=green>This person appears to share the same faith as me!</color>";
+				}
+				break;
+			default:
+				finalText = "";
+				break;
+		}
+		return finalText;
+	}
+
 	public string HoverTip()
 	{
 		StringBuilder finalText = new StringBuilder();
 		if (characterSettings == null) return finalText.ToString();
 		finalText.Append($"A {characterSettings.Species}.");
 		finalText.Append($" {characterSettings.TheyPronoun(this)}/{characterSettings.TheirPronoun(this)}.");
+		finalText.Append(ToleranceCheckForReligion());
 		return finalText.ToString();
 	}
 
