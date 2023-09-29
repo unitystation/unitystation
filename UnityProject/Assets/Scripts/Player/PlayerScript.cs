@@ -792,6 +792,12 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	}
 
 	[Server]
+	public void JoinReligion(string newFaith)
+	{
+		JoinReligion(FaithManager.Instance.AllFaiths.Find(x => x.Faith.FaithName == newFaith).Faith);
+	}
+
+	[Server]
 	public void LeaveReligion()
 	{
 		if (currentFaith == null) return;

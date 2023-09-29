@@ -161,14 +161,6 @@ MonoBehaviour:
   PropertiesTemplate: {fileID: 157453433437990527}
   FaithList: {fileID: 8686072274388940714}
   FaithButtonTemplate: {fileID: 1864526291215313823}
-  PresetFaiths:
-  - {fileID: 11400000, guid: fb70b54dd325b7f4682b54eab09129e1, type: 2}
-  - {fileID: 11400000, guid: a38d74f25d037be42a07c9f2d018cee6, type: 2}
-  - {fileID: 11400000, guid: 6e4942f152aeb0545ab81b9d621d6fd9, type: 2}
-  - {fileID: 11400000, guid: 2698cc550c4311641886d1164bb980f3, type: 2}
-  - {fileID: 11400000, guid: c365d32821407944992dae8cbe92eb2c, type: 2}
-  - {fileID: 11400000, guid: b0e69e6f903a51241ab1e880d69e59c9, type: 2}
-  - {fileID: 11400000, guid: 37a5db04667712a4eb120ece7e1db7fd, type: 2}
 --- !u!1 &1571967781877764
 GameObject:
   m_ObjectHideFlags: 0
@@ -1868,4 +1860,17 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5702768283052995646}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1279225987533918979}
+        m_TargetAssemblyTypeName: Systems.Faith.UI.ChaplainFirstTimeSelectScreen,
+          Assets
+        m_MethodName: OnChooseFaith
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

@@ -16,17 +16,16 @@ namespace Systems.Faith.UI
 		[SerializeField] private Transform PropertiesTemplate;
 		[SerializeField] private Transform FaithList;
 		[SerializeField] private Transform FaithButtonTemplate;
-		[SerializeField] private List<FaithSO> PresetFaiths = new List<FaithSO>();
 		private Faith currentSelectedFaith;
 
 		private void Awake()
 		{
-			foreach (var faith in PresetFaiths)
+			foreach (var faith in FaithManager.Instance.AllFaiths)
 			{
 				var newFaith = Instantiate(FaithButtonTemplate, FaithList, faith);
 				newFaith.GetComponent<FaithPresetButton>().Setup(faith.Faith, this);
 			}
-			SetFaith(PresetFaiths[0].Faith);
+			SetFaith(FaithManager.Instance.AllFaiths[0].Faith);
 		}
 
 		public void SetDesc(string text)
@@ -50,6 +49,12 @@ namespace Systems.Faith.UI
 				var newProp = Instantiate(PropertiesTemplate, PropertiesGrid, false);
 				newProp.GetComponent<FaithPropertyHoverInfo>().Setup(property, this);
 			}
+		}
+
+		public void OnChooseFaith()
+		{
+			gameObject.SetActive(false);
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdJoinFaith(currentSelectedFaith.FaithName);
 		}
 	}
 }

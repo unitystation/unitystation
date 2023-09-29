@@ -1,15 +1,15 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using HealthV2;
+using Logs;
+using Systems.Faith;
 
 namespace Items
 {
 	/// <summary>
 	/// Component which allows this object to heal or cause brain damage if used by the Chaplain.
 	/// </summary>
-	public class HolyBook : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>, ISuicide
+	public class HolyBook : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>, ICheckedInteractable<HandActivate>, ISuicide
 	{
 		//The amount a single thwack heals or damages.
 		public int healthModifier = 10;
@@ -121,6 +121,26 @@ namespace Items
 			yield return WaitFor.FixedUpdate;
 			Chat.AddActionMsgToChat(performer, $"{performer.ExpensiveName()} farts on the holy book.");
 			performer.Player().Script.playerHealth.OnGib();
+		}
+
+		public bool WillInteract(HandActivate interaction, NetworkSide side)
+		{
+			if (interaction.PerformerPlayerScript.Mind.occupation.DisplayName != "Chaplain") return false;
+			return DefaultWillInteract.Default(interaction, side);
+		}
+
+		public void ServerPerformInteraction(HandActivate interaction)
+		{
+			if (interaction.PerformerPlayerScript.CurrentFaith == null)
+			{
+				FaithManager.Instance.FaithLeaders.Add(interaction.PerformerPlayerScript);
+				interaction.PerformerPlayerScript.PlayerNetworkActions.RpcShowFaithSelectScreen(interaction.PerformerPlayerScript.netIdentity.connectionToClient);
+				return;
+			}
+			else
+			{
+				Loggy.Log("Add shop point pls");
+			}
 		}
 	}
 }
