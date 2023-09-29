@@ -870,7 +870,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		if (characterSettings == null) return finalText.ToString();
 		finalText.Append($"A {characterSettings.Species}.");
 		finalText.Append($" {characterSettings.TheyPronoun(this)}/{characterSettings.TheirPronoun(this)}.");
-		finalText.Append(ToleranceCheckForReligion());
+		finalText.AppendLine(ToleranceCheckForReligion());
 		return finalText.ToString();
 	}
 

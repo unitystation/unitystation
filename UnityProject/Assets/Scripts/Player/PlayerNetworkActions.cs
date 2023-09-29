@@ -1047,6 +1047,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (FaithManager.Instance.FaithLeaders.Contains(playerScript) == false) return;
 		FaithManager.Instance.SetMainFaith(playerScript.CurrentFaith);
+		FaithManager.Instance.FaithMembers.Add(playerScript);
 	}
 
 	[TargetRpc]

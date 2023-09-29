@@ -55,6 +55,7 @@ namespace Systems.Faith.UI
 		{
 			gameObject.SetActive(false);
 			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdJoinFaith(currentSelectedFaith.FaithName);
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSetMainFaith();
 		}
 	}
 }
