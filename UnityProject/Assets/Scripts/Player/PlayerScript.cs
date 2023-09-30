@@ -822,44 +822,51 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		//while things on the other player is done directly from within this class
 		if(PlayerManager.LocalPlayerScript.currentFaith == null) return "";
 		string finalText = "";
-		switch (PlayerManager.LocalPlayerScript.currentFaith.ToleranceToOtherFaiths)
+		if (FaithName == "None")
 		{
-			case ToleranceToOtherFaiths.Accepting:
-				finalText = "";
-				break;
-			case ToleranceToOtherFaiths.Neutral:
-				if (PlayerManager.LocalPlayerScript.FaithName != FaithName)
-				{
-					finalText = $"This person appears to have faith in {FaithName}.";
-				}
-				else
-				{
-					finalText = $"<color=green>This person appears to share the same faith as me!</color>";
-				}
-				break;
-			case ToleranceToOtherFaiths.Rejecting:
-				if (PlayerManager.LocalPlayerScript.FaithName != FaithName)
-				{
-					finalText = $"<color=red>This person appears to have faith in {FaithName} which goes against what I believe.</color>";
-				}
-				else
-				{
-					finalText = $"<color=green>This person appears to share the same faith as me!</color>";
-				}
-				break;
-			case ToleranceToOtherFaiths.Violent:
-				if (PlayerManager.LocalPlayerScript.FaithName != FaithName)
-				{
-					finalText = $"<color=red>This person appears to not share the same beliefs as me, and I don't like that.</color>";
-				}
-				else
-				{
-					finalText = $"<color=green>This person appears to share the same faith as me!</color>";
-				}
-				break;
-			default:
-				finalText = "";
-				break;
+			finalText = "This person does not appear to be a part of any faith.";
+		}
+		else
+		{
+			switch (PlayerManager.LocalPlayerScript.currentFaith.ToleranceToOtherFaiths)
+			{
+				case ToleranceToOtherFaiths.Accepting:
+					finalText = "";
+					break;
+				case ToleranceToOtherFaiths.Neutral:
+					if (PlayerManager.LocalPlayerScript.FaithName != FaithName)
+					{
+						finalText = $"This person appears to have faith in {FaithName}.";
+					}
+					else
+					{
+						finalText = $"<color=green>This person appears to share the same faith as me!</color>";
+					}
+					break;
+				case ToleranceToOtherFaiths.Rejecting:
+					if (PlayerManager.LocalPlayerScript.FaithName != FaithName)
+					{
+						finalText = $"<color=red>This person appears to have faith in {FaithName} which goes against what I believe.</color>";
+					}
+					else
+					{
+						finalText = $"<color=green>This person appears to share the same faith as me!</color>";
+					}
+					break;
+				case ToleranceToOtherFaiths.Violent:
+					if (PlayerManager.LocalPlayerScript.FaithName != FaithName)
+					{
+						finalText = $"<color=red>This person appears to not share the same beliefs as me, and I don't like that.</color>";
+					}
+					else
+					{
+						finalText = $"<color=green>This person appears to share the same faith as me!</color>";
+					}
+					break;
+				default:
+					finalText = "";
+					break;
+			}
 		}
 		return finalText;
 	}
