@@ -46,7 +46,8 @@ namespace Systems.Faith
 			{
 				update?.Invoke();
 			}
-			if (FaithPoints.IsBetween(-500, 500) && Application.isEditor == false) return;
+			//disabled for now until point shops/gameplay are properly implemented in the next chaplain expanded PR
+			//if (FaithPoints.IsBetween(-500, 500) && Application.isEditor == false) return;
 
 			if (DMMath.Prob(35))
 			{
