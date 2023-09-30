@@ -70,7 +70,7 @@ namespace Systems.Faith.FaithProperties
 
 		public void OnJoinFaith(PlayerScript newMember)
 		{
-			Chat.AddExamineMsg(newMember.GameObject, $"Your eyes grow your discomfort when standing next to bright lights now..");
+			Chat.AddExamineMsg(newMember.GameObject, $"Your eyes grow in discomfort when standing next to bright lights now..");
 		}
 
 		public void OnLeaveFaith(PlayerScript member)
@@ -99,6 +99,7 @@ namespace Systems.Faith.FaithProperties
 					currentIndex = 0;
 					yield return WaitFor.EndOfFrame;
 				}
+				if (stationObject.CurrentOnColor.a <= minimumAlphaForDarkness) continue;
 				if (DMMath.Prob(50)) continue;
 				stationObject.Integrity.ForceDestroy();
 				currentIndex++;

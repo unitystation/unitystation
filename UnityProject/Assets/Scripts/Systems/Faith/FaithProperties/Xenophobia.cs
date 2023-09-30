@@ -54,15 +54,17 @@ namespace Systems.Faith.FaithProperties
 
 		public void OnJoinFaith(PlayerScript newMember)
 		{
+			//(Max): Need ideas
 		}
 
 		public void OnLeaveFaith(PlayerScript member)
 		{
+			//(Max): Need ideas
 		}
 
 		public void RandomEvent()
 		{
-
+			//TODO: Add Xenophobia events
 		}
 	}
 }
