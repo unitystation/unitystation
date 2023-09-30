@@ -1,6 +1,5 @@
 ﻿using Systems.Score;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Systems.Faith.FaithProperties
 {
