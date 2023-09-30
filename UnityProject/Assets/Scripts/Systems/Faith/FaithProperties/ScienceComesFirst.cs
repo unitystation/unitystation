@@ -44,7 +44,7 @@ namespace Systems.Faith.FaithProperties
 
 		public void RandomEvent()
 		{
-
+			//TODO: Add events for science.
 		}
 	}
 }

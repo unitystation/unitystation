@@ -1,6 +1,5 @@
 ﻿using Systems.Score;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Systems.Faith.FaithProperties
 {
@@ -41,17 +40,19 @@ namespace Systems.Faith.FaithProperties
 
 		public void OnJoinFaith(PlayerScript newMember)
 		{
-
+			//Work on adding beard additions when joining this faith.
+			//(Max): Adding body parts and changing sprites for them on the player is still too difficult and unreliable, Bod.
 		}
 
 		public void OnLeaveFaith(PlayerScript member)
 		{
+			//Remove beard when leaving faith.
 		}
 
 
 		public void RandomEvent()
 		{
-			throw new System.NotImplementedException();
+			//Todo: Add events tied to lavaland
 		}
 	}
 }
