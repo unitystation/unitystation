@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Systems.Faith.FaithProperties
 {
