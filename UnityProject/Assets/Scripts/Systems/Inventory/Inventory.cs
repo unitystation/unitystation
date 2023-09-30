@@ -219,6 +219,12 @@ public static class Inventory
 	/// <returns>true if successful</returns>
 	public static bool ServerPerform(InventoryMove toPerform)
 	{
+		if (CustomNetworkManager.IsServer == false)
+		{
+			Loggy.LogError("Tried to manipulate item Storage While being on the client");
+			return false;
+		}
+
 		if (toPerform == null)
 		{
 			Loggy.LogError("Inventory move null, likely it failed due to previous error.", Category.Inventory);

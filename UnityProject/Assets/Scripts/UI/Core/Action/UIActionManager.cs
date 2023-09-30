@@ -448,6 +448,7 @@ namespace UI.Core.Action
 
 		public static void ClearAllActionsClient()
 		{
+			if (Instance == null) return;
 			if (Instance.DicIActionGUI.Count == 0) return;
 			for (int i = Instance.DicIActionGUI.Count - 1; i > -1; i--)
 			{

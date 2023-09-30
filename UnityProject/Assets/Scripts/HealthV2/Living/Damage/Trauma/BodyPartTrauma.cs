@@ -45,6 +45,7 @@ namespace HealthV2
 		public override void OnTakeDamage(BodyPartDamageData data)
 		{
 			if (data == null) return;
+			if (data.DamageAmount < 0) return;
 			foreach (var logic in traumaTypesOnBodyPart)
 			{
 				if (logic == null) continue;

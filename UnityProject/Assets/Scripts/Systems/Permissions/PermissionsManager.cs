@@ -65,7 +65,6 @@ namespace Systems.Permissions
 				//Player not found, so they don't have any permissions
 				return false;
 			}
-
 			var rankName = player.Rank;
 			if (Config.Ranks.ContainsKey(rankName) == false)
 			{

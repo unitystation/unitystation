@@ -132,7 +132,7 @@ namespace Tayx.Graphy
             private bool executed = false;
 
             private float timePassed = 0;
-            
+
             public bool Check { get { return canBeChecked; } }
 
             public void Update()
@@ -541,19 +541,6 @@ namespace Tayx.Graphy
                             break;
                     }
                 }
-
-                if (debugPacket.TakeScreenshot)
-                {
-                    string path = debugPacket.ScreenshotFileName + "_" + System.DateTime.Now + ".png";
-                    path = path.Replace("/", "-").Replace(" ", "_").Replace(":", "-");
-
-#if UNITY_2017_1_OR_NEWER
-                    ScreenCapture.CaptureScreenshot(path);
-#else
-                    Application.CaptureScreenshot(path);
-#endif
-                }
-
                 debugPacket.UnityEvents.Invoke();
 
                 foreach (var callback in debugPacket.Callbacks)

@@ -25,6 +25,8 @@ namespace Objects.Atmospherics
 		[Tooltip("Tint of the inner panel in the GUI")]
 		public Color UIInnerPanelTint;
 
+		public bool AcceptTanks = true;
+
 		[Header("Canister Settings")]
 		[Tooltip("What tier this canister is. Sets the pressure to 4500e[tier].")]
 		[SerializeField] [Range(0, 3)]
@@ -55,7 +57,7 @@ namespace Objects.Atmospherics
 		public bool tankValveOpen;
 		public GameObject InsertedContainer { get; private set; }
 		public bool HasContainerInserted => InsertedContainer != null;
-		public bool IsConnected => connector != null || connectorFuel != null;
+		public bool IsConnected => connector != null || connectorFuel != null || connectorFuel != null;
 
 #pragma warning disable CS0414 // The boolean is used to trigger code on the clients.
 		[SyncVar(hook = nameof(SyncBurstState))]
@@ -108,7 +110,7 @@ namespace Objects.Atmospherics
 
 			// We push pressureIndicatorOverlay ourselves; if not,
 			// SpriteHandler will do so but overwrite the current SO when it loads after this component.
-			pressureIndicatorOverlay.PushTexture();
+			pressureIndicatorOverlay.OrNull()?.PushTexture();
 			RefreshOverlays();
 			SetValve(valveIsInitiallyOpen);
 			GasContainer.ServerContainerExplode += OnContainerExploded;
@@ -236,7 +238,7 @@ namespace Objects.Atmospherics
 			//using wrench
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench)) return true;
 			//using any fillable gas container
-			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.CanisterFillable)) return true;
+			if (AcceptTanks && Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.CanisterFillable)) return true;
 
 			return false;
 		}
@@ -252,11 +254,14 @@ namespace Objects.Atmospherics
 			}
 
 			//can click on the canister with a refillable tank to insert the refillable tank into the canister
-			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.CanisterFillable))
+			if (AcceptTanks && Validations.HasItemTrait(interaction, CommonTraits.Instance.CanisterFillable))
 			{
 				TryInsertingContainer();
 			}
 		}
+
+
+
 
 		private void TryWrenching()
 		{
@@ -364,6 +369,7 @@ namespace Objects.Atmospherics
 
 		public void RefreshPressureIndicator()
 		{
+			if (pressureIndicatorOverlay == null) return;
 			var pressure = GasContainer.ServerInternalPressure;
 			if (pressure >= 9100)
 			{
@@ -395,7 +401,7 @@ namespace Objects.Atmospherics
 			}
 			else
 			{
-				pressureIndicatorOverlay.PushClear();
+				pressureIndicatorOverlay.OrNull()?.PushClear();
 			}
 		}
 
@@ -405,13 +411,13 @@ namespace Objects.Atmospherics
 
 			// We set present sprite SO here.
 			// If present SO is set in editor, then the overlays show in editor.
-			connectorHoseOverlay.ChangeSprite(0);
-			tankInsertedOverlay.ChangeSprite(0);
-			openValveOverlay.ChangeSprite(0);
+			if (connectorHoseOverlay != null) connectorHoseOverlay.ChangeSprite(0);
+			if (tankInsertedOverlay != null) tankInsertedOverlay.ChangeSprite(0);
+			if (openValveOverlay != null) openValveOverlay.ChangeSprite(0);
 
-			connectorHoseOverlay.ToggleTexture(IsConnected);
-			tankInsertedOverlay.ToggleTexture(HasContainerInserted);
-			openValveOverlay.ToggleTexture(ValveIsOpen);
+			if (connectorHoseOverlay != null) connectorHoseOverlay.ToggleTexture(IsConnected);
+			if (tankInsertedOverlay != null) tankInsertedOverlay.ToggleTexture(HasContainerInserted);
+			if (openValveOverlay != null) openValveOverlay.ToggleTexture(ValveIsOpen);
 		}
 	}
 }

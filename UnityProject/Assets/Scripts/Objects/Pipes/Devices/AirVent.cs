@@ -99,7 +99,7 @@ namespace Objects.Atmospherics
 		/// <para>Final transfer rate is still limited by the pressure difference and available moles.</para>
 		/// </summary>
 		private float Effectiveness => voltageMultiplier * (isTransitioning ? 0.2f : 1);
-		public float nominalMolesTransferCap = 20;
+		public float nominalMolesTransferCap = 50;
 
 		private void Operate()
 		{

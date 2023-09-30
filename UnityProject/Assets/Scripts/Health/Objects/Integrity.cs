@@ -362,7 +362,19 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public string Examine(Vector3 worldPos)
 	{
 		string str = "";
-		if (integrity < 0.9f * initialIntegrity)
+		if (integrity < 0.2f * initialIntegrity)
+		{
+			str = "it's falling apart";
+		}
+		else if (integrity < 0.4f * initialIntegrity)
+		{
+			str = "It appears very badly damaged.";
+		}
+		else if (integrity < 0.6f * initialIntegrity)
+		{
+			str = "It appears substantially damaged.";
+		}
+		else if (integrity < 0.8f * initialIntegrity)
 		{
 			str = "It appears damaged.";
 		}

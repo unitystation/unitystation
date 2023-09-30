@@ -275,14 +275,36 @@ public class ChatRelay : NetworkBehaviour
 
 		UpdateChatMessage.Send(playerToSend, channel, chatEvent.modifiers, copiedString, chatEvent.VoiceLevel,
 			chatEvent.messageOthers, chatEvent.originator, chatEvent.speaker, chatEvent.stripTags, languageId, chatEvent.IsWhispering);
-		ShowChatBubbleToNearbyPlayers(ref chatEvent);
+		ShowChatBubbleToPlayer( playerToSend, ref chatEvent);
 	}
 
-	public static void ShowChatBubbleToNearbyPlayers(ref ChatEvent chatEvent)
+	public static void ShowChatBubbleToPlayer(GameObject toShowTo, ref ChatEvent chatEvent)
 	{
+		if (chatEvent.originator == null) return;
+
+		if (chatEvent.channels != ChatChannel.Local) return;
+
+		if (chatEvent.modifiers.HasFlag(ChatModifier.Emote)) return;
+
 		var msg = "";
-		if (chatEvent.IsWhispering) msg = HideWhisperedText(ref chatEvent.message);
-		ShowChatBubbleMessage.SendToNearby(chatEvent.originator, msg, chatEvent.language);
+		if (chatEvent.IsWhispering)
+		{
+			if ((toShowTo.transform.position - chatEvent.originator.transform.position).magnitude > 1.5f)
+			{
+				msg = HideWhisperedText(ref chatEvent.message);
+			}
+			else
+			{
+				msg = chatEvent.message;
+			}
+
+		}
+		else
+		{
+			msg = chatEvent.message;
+		}
+
+		ShowChatBubbleMessage.SendTo(toShowTo,  chatEvent.originator, msg, chatEvent.language);
 	}
 
 	public static void HideWhisperedText(ref GameObject originator, ref string message, ref GameObject playerToSend)
