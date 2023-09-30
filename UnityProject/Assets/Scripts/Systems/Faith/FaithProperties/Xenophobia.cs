@@ -32,7 +32,7 @@ namespace Systems.Faith.FaithProperties
 
 		public void Setup()
 		{
-			FaithManager.Instance.FaithPropertiesConstantUpdate.Add(CheckForMemberRaces);
+			FaithManager.Instance.FaithPropertiesEventUpdate.Add(CheckForMemberRaces);
 		}
 
 		private void CheckForMemberRaces()
@@ -41,6 +41,7 @@ namespace Systems.Faith.FaithProperties
 			var leaderRaces = FaithManager.Instance.FaithLeaders.Select(leader => leader.characterSettings.GetRaceSo().name).ToList();
 			foreach (var member in FaithManager.Instance.FaithMembers)
 			{
+				if(member.IsDeadOrGhost) continue;
 				if (leaderRaces.Contains(member.characterSettings.GetRaceSo().name) == false)
 				{
 					FaithManager.TakePoints(nonMemberTakePoints);
