@@ -23,7 +23,7 @@ namespace Systems.Faith
 		{
 			base.Awake();
 			EventManager.AddHandler(Event.RoundEnded, ResetReligion);
-			UpdateManager.Add(LongUpdate, Application.isEditor ? 60 : FaithEventsCheckTimeInSeconds);
+			UpdateManager.Add(LongUpdate, FaithEventsCheckTimeInSeconds);
 			UpdateManager.Add(PeriodicUpdate, FaithPerodicCheckTimeInSeconds);
 			Loggy.Log("[FaithManager/Awake] - Setting stuff.");
 		}
@@ -42,13 +42,11 @@ namespace Systems.Faith
 		private void LongUpdate()
 		{
 			if(CustomNetworkManager.IsServer == false) return;
-			Loggy.Log("[FaithManager/LongUpdate] - Running LongUpdate.");
 			foreach (var update in FaithPropertiesEventUpdate)
 			{
 				update?.Invoke();
 			}
 			if (FaithPoints.IsBetween(-500, 500) && Application.isEditor == false) return;
-			Loggy.Log("[FaithManager/LongUpdate] - Passed point check.");
 
 			if (DMMath.Prob(35))
 			{
