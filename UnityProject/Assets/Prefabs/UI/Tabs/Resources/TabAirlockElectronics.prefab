@@ -3101,6 +3101,7 @@ GameObject:
   - component: {fileID: 3663828361341572412}
   - component: {fileID: 2818272669013691392}
   - component: {fileID: 945528088326660610}
+  - component: {fileID: -6584166182995429773}
   m_Layer: 5
   m_Name: TabAirlockElectronics
   m_TagString: Untagged
@@ -3187,3 +3188,19 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   DisableOnEscape: 0
+--- !u!114 &-6584166182995429773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9015964894283925304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 1

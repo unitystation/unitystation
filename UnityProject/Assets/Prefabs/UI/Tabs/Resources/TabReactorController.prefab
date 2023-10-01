@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 114256104719178052}
   - component: {fileID: 114211738430444870}
   - component: {fileID: 4856944966587640620}
+  - component: {fileID: 8446675616376745406}
   m_Layer: 5
   m_Name: TabReactorController
   m_TagString: Untagged
@@ -384,6 +385,22 @@ MonoBehaviour:
   CoreKValue0_1: {fileID: 4276838110507614815}
   CoreKValue0_01: {fileID: 6244919110770277560}
   RodDepth: {fileID: 1980481329077623988}
+--- !u!114 &8446675616376745406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576420294694384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 0
 --- !u!1 &1695788374799260
 GameObject:
   m_ObjectHideFlags: 0

@@ -1208,6 +1208,7 @@ GameObject:
   - component: {fileID: 222245468049156976}
   - component: {fileID: 114843012948015456}
   - component: {fileID: 114343398355056170}
+  - component: {fileID: 366383782977376842}
   m_Layer: 5
   m_Name: TabShuttleControl
   m_TagString: Untagged
@@ -1280,6 +1281,22 @@ MonoBehaviour:
       m_Calls: []
   rcsLight: {fileID: 6023538412421918743}
   CoordReadout: {fileID: 1286891109983827235}
+--- !u!114 &366383782977376842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576420294694384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 0
 --- !u!1 &1608340126526448
 GameObject:
   m_ObjectHideFlags: 0

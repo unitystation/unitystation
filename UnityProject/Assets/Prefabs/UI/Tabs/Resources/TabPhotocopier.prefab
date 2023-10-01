@@ -986,6 +986,7 @@ GameObject:
   - component: {fileID: 222659016538235246}
   - component: {fileID: 114938334698152020}
   - component: {fileID: 707048971691990574}
+  - component: {fileID: -9158831428554847500}
   m_Layer: 5
   m_Name: TabPhotocopier
   m_TagString: Untagged
@@ -1064,6 +1065,22 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+--- !u!114 &-9158831428554847500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871118659464886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 0
 --- !u!1 &1891596644035688
 GameObject:
   m_ObjectHideFlags: 0

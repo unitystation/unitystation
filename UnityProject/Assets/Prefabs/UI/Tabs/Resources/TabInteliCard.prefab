@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 9056987114892078282}
   - component: {fileID: 1445534178697821282}
   - component: {fileID: 855643844422623375}
+  - component: {fileID: 6886581363202764804}
   m_Layer: 5
   m_Name: TabInteliCard
   m_TagString: Untagged
@@ -256,7 +257,7 @@ MonoBehaviour:
   OnEscapeKey:
     m_PersistentCalls:
       m_Calls: []
-  DisableOnEscape: 1
+  DisableOnEscape: 0
 --- !u!114 &855643844422623375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,6 +296,22 @@ MonoBehaviour:
   allowRemoteActionsSlider: {fileID: 2799855571194314452}
   allowRadioSlider: {fileID: 212507573502427971}
   integritySlider: {fileID: 8975374829178718591}
+--- !u!114 &6886581363202764804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502172408805726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 1
 --- !u!1 &1571967781877764
 GameObject:
   m_ObjectHideFlags: 0

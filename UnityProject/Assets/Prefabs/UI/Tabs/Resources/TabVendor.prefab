@@ -360,6 +360,7 @@ GameObject:
   - component: {fileID: 3660859473899783605}
   - component: {fileID: 4258613911724179277}
   - component: {fileID: 7784512560798948544}
+  - component: {fileID: -5273243143249190953}
   m_Layer: 5
   m_Name: TabVendor
   m_TagString: Untagged
@@ -490,6 +491,22 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &-5273243143249190953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871118659464886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 0
 --- !u!1 &317498785706491285
 GameObject:
   m_ObjectHideFlags: 0

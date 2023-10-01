@@ -151,7 +151,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Poolble: 1
+  PrefabTo: {fileID: 0}
   productImage: {fileID: 4070959410651029931}
+  NetButton: {fileID: 191613308466468474}
 --- !u!1 &3373531724909812363
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,9 +276,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 191613308466468474}
-        m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
-        m_MethodName: ExecuteClient
+      - m_Target: {fileID: 480346322087335364}
+        m_TargetAssemblyTypeName: UI.Objects.Medical.GUI_ChemProductEntry, Assets
+        m_MethodName: PillButtonPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -298,6 +300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:

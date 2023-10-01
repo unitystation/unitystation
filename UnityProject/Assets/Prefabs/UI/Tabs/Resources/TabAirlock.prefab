@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 114055117178974294}
   - component: {fileID: 114385320989314586}
   - component: {fileID: 5290730258345152214}
+  - component: {fileID: -2417811878450967006}
   m_Layer: 5
   m_Name: TabAirlock
   m_TagString: Untagged
@@ -236,6 +237,22 @@ MonoBehaviour:
   safetyImageColorWhenSAFE: {r: 0, g: 1, b: 0.0013728142, a: 0}
   safetyImageColorWhenHARM: {r: 1, g: 0, b: 0, a: 0}
   safetyImageColorWhenNOPOWER: {r: 0.85599875, g: 1, b: 0, a: 0}
+--- !u!114 &-2417811878450967006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502172408805726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 0
 --- !u!1 &1571967781877764
 GameObject:
   m_ObjectHideFlags: 0
