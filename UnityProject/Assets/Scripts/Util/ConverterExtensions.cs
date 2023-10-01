@@ -208,12 +208,19 @@ public static class ConverterExtensions
 
 	public static Color UncompresseToColour(this string SerialiseData)
 	{
-		Color TheColour = Color.white;
-		TheColour.r = ((int) SerialiseData[0] / 255f);
-		TheColour.g = ((int) SerialiseData[1] / 255f);
-		TheColour.b = ((int) SerialiseData[2] / 255f);
-		TheColour.a = ((int) SerialiseData[3] / 255f);
-		return TheColour;
+		if (string.IsNullOrEmpty(SerialiseData) ||  SerialiseData.Length != 4)
+		{
+			return Color.white;
+		}
+		else
+		{
+			Color TheColour = Color.white;
+			TheColour.r = ((int) SerialiseData[0] / 255f);
+			TheColour.g = ((int) SerialiseData[1] / 255f);
+			TheColour.b = ((int) SerialiseData[2] / 255f);
+			TheColour.a = ((int) SerialiseData[3] / 255f);
+			return TheColour;
+		}
 	}
 
 	public static string ToStringCompressed(this Color SetColour)

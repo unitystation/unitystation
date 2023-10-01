@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using SecureStuff;
 using UnityEngine;
 
 namespace HealthV2.Living.PolymorphicSystems.Bodypart
@@ -52,7 +53,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 
 		public HealthSystemBase GenSystem()
 		{
-			return new T();
+			return AllowedReflection.CreateInstance<T>();
 		}
 
 		public void SetSystem(HealthSystemBase healthSystemBase, bool removing)

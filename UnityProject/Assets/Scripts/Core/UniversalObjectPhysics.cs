@@ -297,12 +297,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			SetRotationTargetWhenNull();
 			return;
 		}
-		var sprites = GetComponentsInChildren<SpriteHandler>();
-		if (sprites.Length == 1)
-		{
-			rotationTarget = sprites[0].transform;
-			return;
-		}
 		rotationTarget = transform;
 	}
 
@@ -1245,6 +1239,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (isVisible == false) return;
 		if (CanMove == false) return;
 		if (PulledBy.HasComponent) return;
+		if (worldDirection == Vector2.zero) return;
 
 		aim = inAim;
 		thrownBy = inThrownBy;

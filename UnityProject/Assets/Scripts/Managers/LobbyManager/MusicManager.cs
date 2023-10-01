@@ -145,7 +145,7 @@ namespace Audio.Containers
 		{
 			if (Instance.musicAudioSource != null
 			    && Instance.musicAudioSource.isPlaying
-			    || (SunVox.sv_end_of_song((int) Slot.Music) != 0))
+			    || (SunVox.SunVox.sv_end_of_song((int) Slot.Music) != 0))
 			{
 				return true;
 			}

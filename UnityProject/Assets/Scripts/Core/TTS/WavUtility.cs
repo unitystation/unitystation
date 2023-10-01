@@ -129,6 +129,7 @@ public class WavUtility {
 
 		byte[] block = new byte[sizeof( int )]; // using a 4 byte block for copying 3 bytes, then copy bytes with 1 offset
 
+
 		int offset = 0;
 		int i = 0;
 		while ( i < convertedSize ) {
@@ -139,7 +140,6 @@ public class WavUtility {
 		}
 
 		Debug.AssertFormat( data.Length == convertedSize, "AudioClip .wav data is wrong size: {0} == {1}", data.Length, convertedSize );
-
 		return data;
 	}
 

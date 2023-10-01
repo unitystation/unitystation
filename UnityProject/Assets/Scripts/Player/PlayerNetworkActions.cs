@@ -604,7 +604,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			//See if we need to scramble the message
 			var copiedString = LanguageManager.Scramble(language, player.Script, string.Copy(message));
 
-			ShowChatBubbleMessage.SendTo(player.Connection, gameObject, copiedString, true);
+			ShowChatBubbleMessage.SendTo(player.GameObject, gameObject, copiedString, true);
 		}
 	}
 

@@ -86,11 +86,16 @@ namespace SecureStuff
 						return null;
 					}
 				}
-
 			}
 
 			return methodInfo.Invoke(instance, parameters);;
 		}
+
+		public static T CreateInstance<T>() where T : IAllowedReflection, new()
+		{
+			return new T();
+		}
+
 
 		public static void ChangeVariableClient(GameObject NetworkObject, string MonoBehaviourName, string ValueName,
 			string Newvalue, bool IsInvokeFunction)

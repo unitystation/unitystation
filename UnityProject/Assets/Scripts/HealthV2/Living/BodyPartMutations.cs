@@ -50,8 +50,9 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	private void OnDMGMutationCheck(BodyPartDamageData data)
 	{
-		if (data.DamageType != DamageType.Clone && data.DamageType != DamageType.Radiation) return;
 		if (data.DamageAmount <= 0) return;
+		if (data.DamageType != DamageType.Clone && data.DamageType != DamageType.Radiation) return;
+
 
 		data.DamageAmount = Mathf.Clamp(data.DamageAmount, 0, 100);
 		//Range = 0 to 100

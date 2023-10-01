@@ -1,11 +1,12 @@
 using System;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
+using SecureStuff;
 using UnityEngine;
 
 namespace HealthV2.Living.PolymorphicSystems
 {
 	[System.Serializable]
-	public abstract class HealthSystemBase
+	public abstract class HealthSystemBase : IAllowedReflection
 	{
 
 		//TODO Out of order adding systems  or Ensure fixed order?

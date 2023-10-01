@@ -228,14 +228,15 @@ public static class MouseUtils
 
 		Camera cam = Camera.main;
 
-		Vector2 mousePos = CommonInput.mousePosition;
+		Vector3 mousePos = CommonInput.mousePosition;
 
-		Vector2 viewportPos = cam.ScreenToViewportPoint(mousePos);
+		Vector3 viewportPos = cam.ScreenToViewportPoint(mousePos);
 
 		if (viewportPos.x < 0.0f || viewportPos.x > 1.0f || viewportPos.y < 0.0f || viewportPos.y > 1.0f)
 			return false; // out of viewport bounds
 		// Cast a ray from viewport point into world
 		Ray ray = cam.ViewportPointToRay(viewportPos);
+
 
 		// Check for intersection with sprite and get the color
 		return IntersectsSprite(spriteRenderer, ray, out color);
@@ -260,7 +261,9 @@ public static class MouseUtils
 
 		// Craete a plane so it has the same orientation as the sprite transform
 		Plane plane =
-			new Plane(spriteRenderer.transform.forward, (Vector2) spriteRenderer.transform.position); //????????
+			new Plane(spriteRenderer.transform.forward, spriteRenderer.transform.position); //????????
+
+
 		// Intersect the ray and the plane
 		float rayIntersectDist; // the distance from the ray origin to the intersection point
 		if (!plane.Raycast(ray, out rayIntersectDist)) return false; // no intersection

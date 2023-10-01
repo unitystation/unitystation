@@ -74,10 +74,10 @@ public class ItemResearchPotential : MonoBehaviour
 		}
 
 
-		if (BasePurity + toReturn.AddedPurity > 51)
+		if (BasePurity + toReturn.AddedPurity > 25)
 		{
 			var rng = Random.Range(0, 1000);
-			if (rng > 990)
+			if (rng > 950) //5% now
 			{
 				toReturn.AddedPurity += 100;
 				toReturn.IsTooPure = true;

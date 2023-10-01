@@ -5,6 +5,7 @@ using Core.Utils;
 using Logs;
 using Managers.SettingsManager;
 using TMPro;
+using UI;
 using UI.Chat_UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -66,6 +67,9 @@ namespace Unitystation.Options
 		private Dropdown RightClickropdown = null;
 
 
+		[SerializeField]
+		private Toggle ThrowPreferenceToggle = null;
+
 		void OnEnable()
 		{
 			Refresh();
@@ -118,7 +122,7 @@ namespace Unitystation.Options
 
 
 
-				var value = PlayerPrefs.GetString("fontPref", "Ubuntu-R SDF");
+				var value = PlayerPrefs.GetString("fontPref", "LiberationSans SDF");
 				fontDropdown.SetValueByName(value);
 			}
 			catch (Exception e)
@@ -142,6 +146,8 @@ namespace Unitystation.Options
 			{
 				Loggy.LogError($"[ThemeOptions/Refresh()] - Failed to setup RightClick options. " );
 			}
+
+			ThrowPreferenceToggle.isOn = ControlAction.GetHoldThrowPreference();
 
 			chatAlphaFadeMinimum.value = UI.Chat_UI.ChatUI.Instance.GetPreferenceChatBackground();
 			chatContentAlphaFadeMinimum.value =  UI.Chat_UI.ChatUI.Instance.GetPreferenceChatContent();
@@ -257,6 +263,11 @@ namespace Unitystation.Options
 		public void OnRightClickPreferenceChange()
 		{
 			RightClickManager.SetRightClickPreference(RightClickropdown.GetValueName());
+		}
+
+		public void OnThrowHoldPreferenceChange()
+		{
+			ControlAction.SetPreferenceThrowHoldPreference(ThrowPreferenceToggle.isOn);
 		}
 	}
 }
