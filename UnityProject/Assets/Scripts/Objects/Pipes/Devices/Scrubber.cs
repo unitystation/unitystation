@@ -124,16 +124,16 @@ namespace Objects.Atmospherics
 
 		public float SiphonMultiplier = 2f;
 
-		public float ExpandedRangeNumber = 0.2f;
+		public float ExpandedRangeNumber = 0.5f;
 
-		public float NormalRangeNumber = 0.10f;
+		public float NormalRangeNumber = 0.25f;
 
 		//public bool IsExpandedRange
 		/// <summary>Updates the scrubber's power consumption when the collection is modified.</summary>
 		public ObservableCollection<GasSO> FilteredGases;
 
 		private float Effectiveness => voltageMultiplier;
-		public float nominalMolesTransferCap = 10;
+		public float nominalMolesTransferCap = 50;
 		private float[] scrubbingGasMoles;
 
 		private GasMix pipeMix;

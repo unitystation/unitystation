@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using AdminTools;
+using Logs;
 using UnityEngine;
 
 namespace Objects.ExecutionDevices
@@ -36,7 +37,7 @@ namespace Objects.ExecutionDevices
 		{
 			if (device == null)
 			{
-				Logger.LogError($"[ExecutionDeviceController/ReleaseVictim] - There's no device interface on {gameObject.name}!");
+				Loggy.LogError($"[ExecutionDeviceController/ReleaseVictim] - There's no device interface on {gameObject.name}!");
 				return;
 			}
 			device.OnLeaveDevice(Victim);

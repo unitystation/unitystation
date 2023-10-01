@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Logs;
 using SecureStuff;
 using Shared.Managers;
 using Tomlyn;
@@ -22,7 +23,7 @@ namespace Systems.Permissions
 		{
 			if (AccessFile.Exists(configPath) == false)
 			{
-				Logger.LogError("Permissions config file not found!", Category.Admin);
+				Loggy.LogError("Permissions config file not found!", Category.Admin);
 				Config = new PermissionsConfig();
 				return;
 			}
@@ -36,11 +37,11 @@ namespace Systems.Permissions
 		{
 			if (Toml.TryToModel<PermissionsConfig>(fileContent, out var model, out var diagnostics) == false)
 			{
-				Logger.LogError("Permissions config file is invalid! See next to find why.", Category.Admin);
+				Loggy.LogError("Permissions config file is invalid! See next to find why.", Category.Admin);
 				var errors = diagnostics.GetEnumerator();
 				while (errors.MoveNext())
 				{
-					Logger.LogError($"reason: {errors.Current?.Message}", Category.Admin);
+					Loggy.LogError($"reason: {errors.Current?.Message}", Category.Admin);
 				}
 				errors.Dispose();
 				Config = new PermissionsConfig();
@@ -64,7 +65,6 @@ namespace Systems.Permissions
 				//Player not found, so they don't have any permissions
 				return false;
 			}
-
 			var rankName = player.Rank;
 			if (Config.Ranks.ContainsKey(rankName) == false)
 			{

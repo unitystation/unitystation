@@ -1,4 +1,5 @@
 using System;
+using Logs;
 using Messages.Server;
 using Mirror;
 using UnityEngine;
@@ -39,13 +40,13 @@ public class Effect
 	{
 		if (particleObject == null)
 		{
-			Logger.LogError("Failed to load particle in PlayParticleMessage", Category.Particles);
+			Loggy.LogError("Failed to load particle in PlayParticleMessage", Category.Particles);
 			return;
 		}
 
 		if (particleObject.activeInHierarchy == false)
 		{
-			Logger.LogFormat("PlayParticle request ignored because gameobject {0} is inactive", Category.Particles,
+			Loggy.LogFormat("PlayParticle request ignored because gameobject {0} is inactive", Category.Particles,
 				particleObject);
 			return;
 		}
@@ -64,7 +65,7 @@ public class Effect
 
 		if (particleSystem == null)
 		{
-			Logger.LogWarningFormat("ParticleSystem not found for gameobject {0}, PlayParticle request ignored",
+			Loggy.LogWarningFormat("ParticleSystem not found for gameobject {0}, PlayParticle request ignored",
 				Category.Particles, particleObject);
 			return;
 		}

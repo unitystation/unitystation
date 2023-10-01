@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 
 namespace UI.Core.SpriteProcessing
@@ -26,7 +27,7 @@ namespace UI.Core.SpriteProcessing
 
 			if (texture == null)
 			{
-				Logger.LogWarning($"No texture found for sprite \"{sprite.name}\". Unable to create sprite metadata.",
+				Loggy.LogWarning($"No texture found for sprite \"{sprite.name}\". Unable to create sprite metadata.",
 					Category.Sprites);
 				return null;
 			}

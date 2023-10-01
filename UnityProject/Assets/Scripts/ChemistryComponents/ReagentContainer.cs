@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using HealthV2;
 using Items;
 using Items.Others;
+using Logs;
 using Messages.Client.Interaction;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -37,6 +38,21 @@ namespace Chemistry.Components
 			get => maxCapacity;
 			private set { maxCapacity = value; }
 		}
+
+#if UNITY_EDITOR
+		public Reagent DEBUGReagent;
+		public float DEBUGAmount;
+
+		[NaughtyAttributes.Button]
+		public void ADDDEBUGReagent()
+		{
+			// add addition to reagent mix
+			CurrentReagentMix.Add(DEBUGReagent, DEBUGAmount);
+
+			ReagentsChanged(true);
+		}
+
+#endif
 
 
 		//How much room is there left in the container
@@ -134,7 +150,7 @@ namespace Chemistry.Components
 				return currentReagentMix;
 			}
 		}
-		
+
 
 		/// <summary>
 		/// Returns reagent amount in container
@@ -458,7 +474,7 @@ namespace Chemistry.Components
 			}
 			catch (NullReferenceException exception)
 			{
-				Logger.LogError(
+				Loggy.LogError(
 					$"Caught NRE in ReagentContainer SpillAll method: {exception.Message} \n {exception.StackTrace}",
 					Category.Chemistry);
 			}

@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -40,14 +41,14 @@ public class Stateful : NetworkBehaviour, IServerSpawn
 		//start in initial state
 		if (initialState == null)
 		{
-			Logger.LogErrorFormat("Initial State not defined for {0}. Please fix this component.", Category.ItemSpawn,
+			Loggy.LogErrorFormat("Initial State not defined for {0}. Please fix this component.", Category.ItemSpawn,
 				this);
 			return;
 		}
 		var initialStateIndex = states.FindIndex(se => se == initialState);
 		if (initialStateIndex == -1)
 		{
-			Logger.LogErrorFormat("Initial State doesn't exist in States defined for {0}. Please fix this component.", Category.ItemSpawn,
+			Loggy.LogErrorFormat("Initial State doesn't exist in States defined for {0}. Please fix this component.", Category.ItemSpawn,
 				this);
 			return;
 		}
@@ -76,7 +77,7 @@ public class Stateful : NetworkBehaviour, IServerSpawn
 		var newStateIndex = states.FindIndex(se => se == newState);
 		if (newStateIndex == -1)
 		{
-			Logger.LogErrorFormat("New state doesn't exist in States defined for {0}. State will not be changed.", Category.Objects,
+			Loggy.LogErrorFormat("New state doesn't exist in States defined for {0}. State will not be changed.", Category.Objects,
 				this);
 			return;
 		}

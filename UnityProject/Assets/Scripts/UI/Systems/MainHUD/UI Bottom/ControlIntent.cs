@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Logs;
+using UnityEngine;
 using UnityEngine.UI;
 
 public enum Intent
@@ -34,7 +35,7 @@ namespace UI
 			if (runWalkBorder == null)
 			{
 				// TODO: wait for UI changes to settle down before refactoring this to reflect the changes.
-				Logger.LogWarning("At least one intent GameObject is unassigned.", Category.Interaction);
+				Loggy.LogWarning("At least one intent GameObject is unassigned.", Category.Interaction);
 			}
 			else
 			{
@@ -54,7 +55,7 @@ namespace UI
 
 			if(registerPlayer.PlayerScript.PlayerTypeSettings.CanRest == false) return;
 
-			Logger.Log("OnClickRest", Category.UserInput);
+			Loggy.Log("OnClickRest", Category.UserInput);
 
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
@@ -69,7 +70,7 @@ namespace UI
 		{
 			if(PlayerManager.LocalPlayerScript.PlayerTypeSettings.CanCraft == false) return;
 
-			Logger.Log("OnClickCrafting", Category.UserInput);
+			Loggy.Log("OnClickCrafting", Category.UserInput);
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			UIManager.Instance.CraftingMenu.Open();
@@ -80,7 +81,7 @@ namespace UI
 		/// </summary>
 		public void OnClickRunWalk()
 		{
-			Logger.Log("OnClickRunWalk", Category.UserInput);
+			Loggy.Log("OnClickRunWalk", Category.UserInput);
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			if(PlayerManager.LocalPlayerScript.playerMove.CurrentMovementType == Player.Movement.MovementType.Crawling
 				|| PlayerManager.LocalPlayerScript.playerHealth.IsSoftCrit)
@@ -101,7 +102,7 @@ namespace UI
 		/// </summary>
 		public void OnClickResist()
 		{
-			Logger.Log("OnClickResist", Category.UserInput);
+			Loggy.Log("OnClickResist", Category.UserInput);
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			UIManager.Action.Resist();
@@ -112,7 +113,7 @@ namespace UI
 		/// </summary>
 		public void OnClickHelp()
 		{
-			Logger.Log("OnClickHelp", Category.UserInput);
+			Loggy.Log("OnClickHelp", Category.UserInput);
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			helpWindow.SetActive(!helpWindow.activeSelf);
@@ -122,7 +123,7 @@ namespace UI
 
 		public void CycleIntent(bool cycleLeft = true)
 		{
-			Logger.Log("Intent cycling " + (cycleLeft ? "left" : "right"), Category.UserInput);
+			Loggy.Log("Intent cycling " + (cycleLeft ? "left" : "right"), Category.UserInput);
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			int intent = (int)UIManager.CurrentIntent;
@@ -145,7 +146,7 @@ namespace UI
 		// The selected intent can be passed from a button in the UI
 		public void IntentButton(int selectedIntent)
 		{
-			Logger.Log("Intent Button", Category.UserInput);
+			Loggy.Log("Intent Button", Category.UserInput);
 
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 

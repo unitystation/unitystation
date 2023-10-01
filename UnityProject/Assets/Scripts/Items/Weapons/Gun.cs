@@ -8,6 +8,7 @@ using Mirror;
 using Items;
 using AddressableReferences;
 using HealthV2;
+using Logs;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using Weapons.Projectiles;
@@ -211,7 +212,7 @@ namespace Weapons
 			registerTile = GetComponent<RegisterTile>();
 			if (pinSlot == null || magSlot == null || itemStorage == null)
 			{
-				Logger.LogWarning($"{gameObject.name} missing components, may cause issues", Category.Firearms);
+				Loggy.LogWarning($"{gameObject.name} missing components, may cause issues", Category.Firearms);
 			}
 		}
 
@@ -239,18 +240,18 @@ namespace Weapons
 
 			if (ammoPrefab == null)
 			{
-				Logger.LogError($"{gameObject.name} magazine prefab was null, cannot auto-populate.",
+				Loggy.LogError($"{gameObject.name} magazine prefab was null, cannot auto-populate.",
 					Category.Firearms);
 				return;
 			}
 
 			//populate with a full external mag on spawn
-			Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Firearms, name);
+			Loggy.LogTraceFormat("Auto-populate external magazine for {0}", Category.Firearms, name);
 			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 
 			if (pinPrefab == null)
 			{
-				Logger.LogError($"{gameObject.name} firing pin prefab was null, cannot auto-populate.",
+				Loggy.LogError($"{gameObject.name} firing pin prefab was null, cannot auto-populate.",
 					Category.Firearms);
 				return;
 			}
@@ -379,7 +380,7 @@ namespace Weapons
 				PlayEmptySfx();
 				if (side == NetworkSide.Server)
 				{
-					Logger.LogTrace("Server rejected shot - No magazine being loaded", Category.Firearms);
+					Loggy.LogTrace("Server rejected shot - No magazine being loaded", Category.Firearms);
 				}
 
 				return false;
@@ -393,7 +394,7 @@ namespace Weapons
 					                           "'s trigger is locked. It doesn't have a firing pin installed!");
 				}
 
-				Logger.LogTrace("Rejected shot - no firing pin", Category.Firearms);
+				Loggy.LogTrace("Rejected shot - no firing pin", Category.Firearms);
 				return false;
 			}
 
@@ -581,7 +582,7 @@ namespace Weapons
 			PlayerScript shooter = shotBy.GetComponent<PlayerScript>();
 			if (!Validations.CanInteract(shooter, NetworkSide.Server))
 			{
-				Logger.LogTrace("Server rejected shot: shooter cannot interact", Category.Firearms);
+				Loggy.LogTrace("Server rejected shot: shooter cannot interact", Category.Firearms);
 				return;
 			}
 
@@ -603,8 +604,8 @@ namespace Weapons
 			PlayerScript shooterScript = shotBy.GetComponent<PlayerScript>();
 			if (shooter.AllowInput == false || shooterScript.IsNormal == false)
 			{
-				Logger.Log("A player tried to shoot when not allowed or when they were a ghost.", Category.Exploits);
-				Logger.LogWarning("A shot was attempted when shooter is a ghost or is not allowed to shoot.",
+				Loggy.Log("A player tried to shoot when not allowed or when they were a ghost.", Category.Exploits);
+				Loggy.LogWarning("A shot was attempted when shooter is a ghost or is not allowed to shoot.",
 					Category.Firearms);
 				return;
 			}
@@ -613,15 +614,15 @@ namespace Weapons
 			if (CurrentMagazine == null || CurrentMagazine.ServerAmmoRemains <= 0 ||
 			    CurrentMagazine.containedBullets[0] == null)
 			{
-				Logger.LogTrace("Player tried to shoot when there was no ammo.", Category.Exploits);
-				Logger.LogWarning("A shot was attempted when there is no ammo.", Category.Firearms);
+				Loggy.LogTrace("Player tried to shoot when there was no ammo.", Category.Exploits);
+				Loggy.LogWarning("A shot was attempted when there is no ammo.", Category.Firearms);
 				return;
 			}
 
 			if (FireOnCooldowne)
 			{
-				Logger.LogTrace("Player tried to shoot too fast.", Category.Exploits);
-				Logger.LogWarning("Shot was attempted to be dequeued when the fire count down is not yet at 0.",
+				Loggy.LogTrace("Player tried to shoot too fast.", Category.Exploits);
+				Loggy.LogWarning("Shot was attempted to be dequeued when the fire count down is not yet at 0.",
 					Category.Exploits);
 				return;
 			}
@@ -631,7 +632,7 @@ namespace Weapons
 
 			if (toShoot == null)
 			{
-				Logger.LogError("Shot was attempted but no projectile or quantity was found to use", Category.Firearms);
+				Loggy.LogError("Shot was attempted but no projectile or quantity was found to use", Category.Firearms);
 				return;
 			}
 
@@ -693,7 +694,7 @@ namespace Weapons
 				{
 					if (isServer)
 					{
-						Logger.LogTrace("Server rejected shot - out of ammo", Category.Firearms);
+						Loggy.LogTrace("Server rejected shot - out of ammo", Category.Firearms);
 					}
 
 					return;
@@ -799,7 +800,7 @@ namespace Weapons
 		{
 			if (CurrentMagazine == null)
 			{
-				Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this}?", Category.Firearms);
+				Loggy.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this}?", Category.Firearms);
 			}
 
 			if (MagInternal)
@@ -892,7 +893,7 @@ namespace Weapons
 		{
 			float angle = Mathf.Atan2(target.y, target.x) * Mathf.Rad2Deg;
 			float angleVariance = MagSyncedRandomFloat(-CurrentRecoilVariance, CurrentRecoilVariance);
-			Logger.LogTraceFormat("angleVariance {0}", Category.Firearms, angleVariance);
+			Loggy.LogTraceFormat("angleVariance {0}", Category.Firearms, angleVariance);
 			float newAngle = angle * Mathf.Deg2Rad + angleVariance;
 			Vector2 vec2 = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle)).normalized;
 			return vec2;
@@ -909,7 +910,7 @@ namespace Weapons
 			{
 				//get a random recoil
 				float randRecoil = MagSyncedRandomFloat(CurrentRecoilVariance, MaxRecoilVariance);
-				Logger.LogTraceFormat("randRecoil {0}", Category.Firearms, randRecoil);
+				Loggy.LogTraceFormat("randRecoil {0}", Category.Firearms, randRecoil);
 				CurrentRecoilVariance += randRecoil;
 				//make sure the recoil is not too high
 				if (CurrentRecoilVariance > MaxRecoilVariance)

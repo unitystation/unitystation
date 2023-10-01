@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Logs;
 using UnityEngine;
 using TileManagement;
 using Objects;
@@ -183,7 +184,7 @@ namespace MapSaver
 				}
 				else
 				{
-					Logger.LogError("Missing money behaviour in MonoToID");
+					Loggy.LogError("Missing money behaviour in MonoToID");
 				}
 			}
 
@@ -241,7 +242,7 @@ namespace MapSaver
 					}
 					else
 					{
-						Logger.LogError("Missing money behaviour in MonoToID");
+						Loggy.LogError("Missing money behaviour in MonoToID");
 					}
 				}
 

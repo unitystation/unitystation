@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Logs;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -80,7 +81,7 @@ namespace AddressableReferences
 					}
 					else
 					{
-						Logger.LogError("Address is invalid for " + AssetReference, Category.Addressables);
+						Loggy.LogError("Address is invalid for " + AssetReference, Category.Addressables);
 					}
 				}
 			}
@@ -113,7 +114,7 @@ namespace AddressableReferences
 			}
 			else
 			{
-				Logger.LogError("Asset is not loaded", Category.Addressables);
+				Loggy.LogError("Asset is not loaded", Category.Addressables);
 				return null;
 			}
 		}
@@ -159,7 +160,7 @@ namespace AddressableReferences
 			if (IsReadyLoaded)
 			{
 				//Check manager To see if it's implemented
-				Logger.Log($"Addressable Manager not implemented yet, can't unload {AssetAddress}", Category.Addressables);
+				Loggy.Log($"Addressable Manager not implemented yet, can't unload {AssetAddress}", Category.Addressables);
 			}
 		}
 
@@ -176,7 +177,7 @@ namespace AddressableReferences
 					   return true;
 				}
 			}
-			Logger.LogWarning($"Addressable Address is invalid: {AssetAddress}", Category.Addressables);
+			Loggy.LogWarning($"Addressable Address is invalid: {AssetAddress}", Category.Addressables);
 			return false;
         }
 

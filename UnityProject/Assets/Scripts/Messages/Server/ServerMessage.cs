@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Logs;
 using Mirror;
 using UnityEngine;
 using Util;
@@ -16,7 +17,7 @@ namespace Messages.Server
 		public static void SendToAll(T msg, int channel = 0)
 		{
 			NetworkServer.SendToAll(msg, channel, sendToReadyOnly: true);
-			Logger.LogTraceFormat("SentToAll {0}", Category.Server, msg.GetType());
+			Loggy.LogTraceFormat("SentToAll {0}", Category.Server, msg.GetType());
 		}
 
 		public static void SendToAllExcept(T msg, GameObject excluded, int channel = 0)
@@ -37,7 +38,7 @@ namespace Messages.Server
 				}
 			}
 
-			Logger.LogTraceFormat("SentToAllExcept {1}: {0}", Category.Server, msg.GetType(), excluded.name);
+			Loggy.LogTraceFormat("SentToAllExcept {1}: {0}", Category.Server, msg.GetType(), excluded.name);
 		}
 
 		public static void SendTo(GameObject recipient, T msg, Category category = Category.Server, int channel = 0)
@@ -59,11 +60,11 @@ namespace Messages.Server
 			if (PlayerList.Instance.Has(connection))
 			{
 				connection.Send(msg, channel);
-				Logger.LogTraceFormat("SentTo {0}: {1}", category, recipient.name, msg.GetType());
+				Loggy.LogTraceFormat("SentTo {0}: {1}", category, recipient.name, msg.GetType());
 			}
 			else
 			{
-				Logger.LogTraceFormat("Not sending message {0} to {1}", category, msg.GetType(), recipient.name);
+				Loggy.LogTraceFormat("Not sending message {0} to {1}", category, msg.GetType(), recipient.name);
 			}
 		}
 

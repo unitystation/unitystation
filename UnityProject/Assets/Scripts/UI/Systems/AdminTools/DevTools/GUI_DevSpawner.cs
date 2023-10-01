@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Logs;
 using UI.Chat_UI;
 using UI.Systems.AdminTools.DevTools.Search;
 using UnityEngine;
@@ -144,7 +145,7 @@ public class GUI_DevSpawner : MonoBehaviour
 	public void Open()
 	{
 		_ = SoundManager.Play(CommonSounds.Instance.Click01);
-		Logger.Log("Opening dev spawner menu", Category.NetUI);
+		Loggy.Log("Opening dev spawner menu", Category.NetUI);
 		transform.GetChild(0).gameObject.SetActive(true);
 		transform.SetAsLastSibling();
 	}
@@ -152,7 +153,7 @@ public class GUI_DevSpawner : MonoBehaviour
 	public void Close()
 	{
 		_ = SoundManager.Play(CommonSounds.Instance.Click01);
-		Logger.Log("Closing dev spawner menu", Category.NetUI);
+		Loggy.Log("Closing dev spawner menu", Category.NetUI);
 		transform.GetChild(0).gameObject.SetActive(false);
 	}
 }

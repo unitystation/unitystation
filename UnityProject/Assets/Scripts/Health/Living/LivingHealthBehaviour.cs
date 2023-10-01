@@ -8,6 +8,7 @@ using Messages.Server.HealthMessages;
 using Systems.Atmospherics;
 using Light2D;
 using HealthV2;
+using Logs;
 using Newtonsoft.Json;
 
 
@@ -170,7 +171,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		ResetBodyParts();
 		if (maxHealth <= 0)
 		{
-			Logger.LogWarning($"Max health ({maxHealth}) set to zero/below zero!", Category.Health);
+			Loggy.LogWarning($"Max health ({maxHealth}) set to zero/below zero!", Category.Health);
 			maxHealth = 1;
 		}
 
@@ -262,7 +263,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 		if (BodyParts.Count == 0)
 		{
-			Logger.LogError($"There are no body parts to apply a health change to for {gameObject.name}",
+			Loggy.LogError($"There are no body parts to apply a health change to for {gameObject.name}",
 				Category.Health);
 			return null;
 		}
@@ -291,7 +292,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 				else
 				{
 					//If there is no default chest body part then do nothing
-					Logger.LogError($"No chest body part found for {gameObject.name}", Category.Health);
+					Loggy.LogError($"No chest body part found for {gameObject.name}", Category.Health);
 					return null;
 				}
 			}
@@ -386,7 +387,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		//For special effects spawning like blood:
 		DetermineDamageEffects(damageType);
 
-		Logger.LogTraceFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
+		Loggy.LogTraceFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
 			damage, prevHealth, OverallHealth, gameObject.name, damageType, bodyPartAim, damagedBy);
 	}
 
@@ -434,7 +435,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			bodyPartBehaviour.BurnDamage);
 
 		var prevHealth = OverallHealth;
-		Logger.LogTraceFormat("{3} received {0} {4} healing from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
+		Loggy.LogTraceFormat("{3} received {0} {4} healing from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
 			healAmt, prevHealth, OverallHealth, gameObject.name, damageTypeToHeal, bodyPartAim, healingItem);
 	}
 
@@ -590,7 +591,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	{
 		if (ConsciousState != ConsciousState.CONSCIOUS && OverallHealth > SOFTCRIT_THRESHOLD)
 		{
-			Logger.LogFormat("{0}, back on your feet!", Category.Health, gameObject.name);
+			Loggy.LogFormat("{0}, back on your feet!", Category.Health, gameObject.name);
 			Uncrit();
 			return;
 		}

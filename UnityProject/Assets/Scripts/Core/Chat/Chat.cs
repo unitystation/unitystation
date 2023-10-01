@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -12,9 +11,9 @@ using Systems.Communications;
 using Systems.MobAIs;
 using Messages.Server;
 using Items;
+using Logs;
 using Managers;
 using Objects.Machines.ServerMachines.Communications;
-using Objects.Wallmounts.PublicTerminals.Modules;
 using Player.Language;
 using Shared.Util;
 using Tiles;
@@ -139,7 +138,7 @@ public partial class Chat : MonoBehaviour
 		//Sanity check for null username
 		if (string.IsNullOrWhiteSpace(sentByPlayer.Username))
 		{
-			Logger.Log($"Null/empty Username, Details: Username: {sentByPlayer.Username}, ClientID: {sentByPlayer.ClientId}, IP: {sentByPlayer.ConnectionIP}",
+			Loggy.Log($"Null/empty Username, Details: Username: {sentByPlayer.Username}, ClientID: {sentByPlayer.ClientId}, IP: {sentByPlayer.ConnectionIP}",
 				Category.Admin);
 			return;
 		}
@@ -179,7 +178,8 @@ public partial class Chat : MonoBehaviour
 			position = (player == null) ? TransformState.HiddenPos : player.PlayerChatLocation.AssumedWorldPosServer(),
 			channels = channels,
 			originator = sentByPlayer.GameObject,
-			VoiceLevel = loudness
+			VoiceLevel = loudness,
+
 		};
 
 		//This is to make sure OOC doesn't break
@@ -261,9 +261,6 @@ public partial class Chat : MonoBehaviour
 					}
 				}
 			}
-
-			//Do chat bubble for nearby players
-			player.PlayerNetworkActions.ServerToggleChatIcon(processedMessage.message, processedMessage.chatModifiers, languageToUse);
 		}
 
 		InvokeChatEvent(chatEvent);
@@ -766,12 +763,9 @@ public partial class Chat : MonoBehaviour
 			message = message,
 			position = worldPos,
 			originator = originator,
-			speaker = speakerName
+			speaker = speakerName,
+			ShowChatBubble = doSpeechBubble,
 		});
-
-		if(doSpeechBubble == false) return;
-
-		ShowChatBubbleMessage.SendToNearby(originator, message, language);
 	}
 
 	/// <summary>
@@ -809,7 +803,7 @@ public partial class Chat : MonoBehaviour
 	{
 		if (recipient == null || recipient.Equals(PlayerInfo.Invalid))
 		{
-			Logger.LogError($"Can't send message \"{msg}\" to invalid player!", Category.Chat);
+			Loggy.LogError($"Can't send message \"{msg}\" to invalid player!", Category.Chat);
 			return;
 		}
 
@@ -858,7 +852,7 @@ public partial class Chat : MonoBehaviour
 
 	public static void AddWarningMsgToClient(string message)
 	{
-		message = ProcessMessageFurther(message, "", ChatChannel.Warning, ChatModifier.None, Loudness.NORMAL); //TODO: Put processing in a unified place for server and client.
+		message = ProcessMessageFurther(message, "", ChatChannel.Warning, ChatModifier.None, Loudness.NORMAL, false); //TODO: Put processing in a unified place for server and client.
 		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Warning, true, PlayerManager.LocalPlayerObject, Loudness.NORMAL, ChatModifier.None);
 	}
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Systems.Explosions;
 using AddressableReferences;
+using Logs;
 using Managers;
 using Strings;
 
@@ -48,7 +49,7 @@ namespace InGameEvents
 		{
 			if (stationMatrix != null) return false;
 
-			Logger.LogError($"Unable to start \"{nameof(EventAsteroids)}\". Main station may not be initialized yet.", Category.Event);
+			Loggy.LogError($"Unable to start \"{nameof(EventAsteroids)}\". Main station may not be initialized yet.", Category.Event);
 			return true;
 		}
 

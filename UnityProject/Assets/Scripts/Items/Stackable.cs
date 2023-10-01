@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Mirror;
 using UnityEngine;
 using Messages.Server;
@@ -132,7 +133,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		Logger.LogTraceFormat("Spawning {0}", Category.ItemSpawn, GetInstanceID());
+		Loggy.LogTraceFormat("Spawning {0}", Category.ItemSpawn, GetInstanceID());
 		InitStacksWith();
 		SyncAmount(amount, initialAmount);
 		amountInit = true;
@@ -141,7 +142,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	public void OnDespawnServer(DespawnInfo info)
 	{
-		Logger.LogTraceFormat("Despawning {0}", Category.ItemSpawn, GetInstanceID());
+		Loggy.LogTraceFormat("Despawning {0}", Category.ItemSpawn, GetInstanceID());
 		amountInit = false;
 	}
 
@@ -169,7 +170,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	private void SyncAmount(int oldAmount, int newAmount)
 	{
 		EnsureInit();
-		Logger.LogTraceFormat("Amount {0}->{1} for {2}", Category.Objects, amount, newAmount, GetInstanceID());
+		Loggy.LogTraceFormat("Amount {0}->{1} for {2}", Category.Objects, amount, newAmount, GetInstanceID());
 		this.amount = newAmount;
 		pickupable.RefreshUISlotImage();
 		if (CustomNetworkManager.Instance._isServer)
@@ -239,7 +240,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	{
 		if (consumed > amount)
 		{
-			Logger.LogErrorFormat($"Consumed amount {consumed} is greater than amount in this stack {amount}, will not consume.", Category.Objects);
+			Loggy.LogErrorFormat($"Consumed amount {consumed} is greater than amount in this stack {amount}, will not consume.", Category.Objects);
 			return false;
 		}
 		SyncAmount(amount, amount - consumed);
@@ -266,7 +267,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 		if (increase < 0)
 		{
-			Logger.LogErrorFormat("Attempted to increase stacks by a negative value, ignored", Category.Objects);
+			Loggy.LogErrorFormat("Attempted to increase stacks by a negative value, ignored", Category.Objects);
 			return 0;
 		}
 
@@ -274,7 +275,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 		if (overflow > 0)
 		{
-			Logger.LogErrorFormat($"Increased amount {increase} will overfill stack, filled to max",
+			Loggy.LogErrorFormat($"Increased amount {increase} will overfill stack, filled to max",
 					Category.Objects);
 
 			SyncAmount(amount, MaxAmount);
@@ -314,14 +315,14 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	{
 		if (!StacksWith(toAdd))
 		{
-			Logger.LogErrorFormat($"{toAdd} doesn't stack with {this}, cannot combine. Consider adding" +
+			Loggy.LogErrorFormat($"{toAdd} doesn't stack with {this}, cannot combine. Consider adding" +
 									" this prefab to stacksWith if these really should be stackable.",
 				Category.Objects);
 			return 0;
 		}
 		var amountToConsume = Math.Min(toAdd.amount, SpareCapacity);
 		if (amountToConsume <= 0) return 0;
-		Logger.LogTraceFormat("Combining {0} <- {1}", Category.Objects, GetInstanceID(), toAdd.GetInstanceID());
+		Loggy.LogTraceFormat("Combining {0} <- {1}", Category.Objects, GetInstanceID(), toAdd.GetInstanceID());
 		toAdd.ServerConsume(amountToConsume);
 		SyncAmount(amount, amount + amountToConsume);
 		return amountToConsume;

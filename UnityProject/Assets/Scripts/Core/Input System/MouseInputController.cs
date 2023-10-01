@@ -2,6 +2,7 @@ using Mirror;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Messages.Client.Interaction;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -110,6 +111,31 @@ public class MouseInputController : MonoBehaviour
 	private void LateUpdate()
 	{
 		if (PlayerManager.LocalPlayerObject != this.gameObject) return;
+
+		if (ControlAction.ThrowHold && UIManager.IsInputFocus == false)
+		{
+			if (UIManager.IsThrow == false)
+			{
+				if (KeyboardInputManager.Instance.CheckKeyAction(
+					    KeyAction.ActionThrow,
+					    KeyboardInputManager.KeyEventType.Down))
+				{
+					UIManager.Instance.actionControl.Throw();
+				}
+			}
+			else
+			{
+				if (KeyboardInputManager.Instance.CheckKeyAction(
+					    KeyAction.ActionThrow,
+					    KeyboardInputManager.KeyEventType.Up))
+				{
+					UIManager.Instance.actionControl.Throw();
+				}
+			}
+
+		}
+
+
 		CheckMouseInput();
 		CheckCursorTexture();
 	}
@@ -403,7 +429,7 @@ public class MouseInputController : MonoBehaviour
 			var handAppliables = handApply.HandObject.GetComponents<MonoBehaviour>()
 				.Where(c => c != null && c.enabled &&
 				            (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
-			Logger.LogTraceFormat("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
+			Loggy.LogTraceFormat("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
 				Category.Interaction, handApply.HandObject.name, target.name);
 
 			foreach (var handAppliable in handAppliables.Reverse())
@@ -611,7 +637,7 @@ public class MouseInputController : MonoBehaviour
 				MatrixManager.ForMatrixAt(position, true, (matrix, localPos) =>
 				{
 					matrix.SubsystemManager.UpdateAt(localPos);
-					Logger.LogFormat(
+					Loggy.LogFormat(
 						$"Forcefully updated atmos at worldPos {position}/ localPos {localPos} of {matrix.Name}");
 				});
 
@@ -681,6 +707,8 @@ public class MouseInputController : MonoBehaviour
 	public MouseIconSo GrabCursor;
 	public MouseIconSo DisarmCursor;
 
+	public MouseIconSo ThrowCursor;
+
 	private bool isShowingKeyComboCursor = false;
 	private static Texture2D currentCursorTexture = null;
 	private static Vector2 currentCursorOffset = Vector2.zero;
@@ -733,9 +761,13 @@ public class MouseInputController : MonoBehaviour
 
 	private void CheckCursorTexture()
 	{
-		if (isShowingKeyComboCursor == false && (KeyboardInputManager.IsShiftPressed() ||  KeyboardInputManager.IsControlPressed() ||  KeyboardInputManager.IsAltActionKeyPressed()))
+		if (isShowingKeyComboCursor == false && (KeyboardInputManager.IsShiftPressed() ||  KeyboardInputManager.IsControlPressed() ||  KeyboardInputManager.IsAltActionKeyPressed() || UIManager.IsThrow))
 		{
-			if (KeyboardInputManager.IsControlPressed())
+			if (UIManager.IsThrow)
+			{
+				Cursor.SetCursor(ThrowCursor.Texture, ThrowCursor.Offset, CursorMode.Auto);
+			}
+			else if (KeyboardInputManager.IsControlPressed())
 			{
 				Cursor.SetCursor(grabbingCursor.Texture, grabbingCursor.Offset, CursorMode.Auto);
 			}
@@ -751,7 +783,7 @@ public class MouseInputController : MonoBehaviour
 			isShowingKeyComboCursor = true;
 			previousIntent = Intent.Help;
 		}
-		else if (isShowingKeyComboCursor && KeyboardInputManager.IsShiftPressed() == false && KeyboardInputManager.IsControlPressed() == false && KeyboardInputManager.IsAltActionKeyPressed() == false)
+		else if (isShowingKeyComboCursor && KeyboardInputManager.IsShiftPressed() == false && KeyboardInputManager.IsControlPressed() == false && KeyboardInputManager.IsAltActionKeyPressed() == false && UIManager.IsThrow == false)
 		{
 			Cursor.SetCursor(currentCursorTexture, currentCursorOffset, CursorMode.Auto);
 			isShowingKeyComboCursor = false;

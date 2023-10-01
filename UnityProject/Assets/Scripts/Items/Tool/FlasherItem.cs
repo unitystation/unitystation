@@ -22,14 +22,12 @@ namespace Items.Tool
 				$"{interaction.PerformerPlayerScript.visibleName} flashes {player.PlayerScript.visibleName}!");
 			if (stunsPlayers)
 			{
-				FlashTarget(player.gameObject, flashTime, flashTime+ stunExtraTime);
+				FlashTarget(player.gameObject, flashTime, flashTime + stunExtraTime);
 			}
 			else
 			{
 				FlashTarget(player.gameObject, flashTime, 0);
 			}
-
-
 		}
 	}
 }

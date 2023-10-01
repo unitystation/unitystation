@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Light2D;
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -78,7 +79,7 @@ namespace Core.Lighting
 		{
 			if (Lights.Contains(data) == false)
 			{
-				Logger.LogError("Could not find correct light source to remove.");
+				Loggy.LogError("Could not find correct light source to remove.");
 				ClearHeldLights();
 				UpdateLights();
 				return;
@@ -144,14 +145,17 @@ namespace Core.Lighting
 		{
 			lightSprite.Color = data.lightColor;
 			lightSprite.Shape = data.lightShape;
-			lightSprite.Sprite = data.lightSpriteObject.GetComponent<ItemLightControl>().ObjectLightSprite.Sprite;
+			if (data.lightSpriteObject != null)
+			{
+				lightSprite.Sprite = data.lightSpriteObject.GetComponent<ItemLightControl>()?.ObjectLightSprite.Sprite;
+			}
 			lightSprite.transform.localScale = new Vector3(data.size, data.size, data.size);
 			if (data.Id != 0)
 			{
 				lightSprite.GivenID = data.Id;
 				return;
 			}
-			Logger.LogWarning("No id was given to lightSprite, assigning random one.", Category.Lighting);
+			Loggy.LogWarning("No id was given to lightSprite, assigning random one.", Category.Lighting);
 			var newId = Guid.NewGuid().GetHashCode();
 			data.Id = newId;
 			lightSprite.GivenID = newId;

@@ -2,7 +2,7 @@
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
-namespace UI.Core.SpriteProcessing
+namespace SecureStuff
 {
 	public readonly struct SpriteMetadata
 	{

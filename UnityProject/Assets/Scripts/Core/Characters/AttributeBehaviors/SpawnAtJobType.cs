@@ -1,4 +1,5 @@
 using System;
+using Logs;
 using Systems.Spawns;
 using UnityEngine;
 
@@ -33,7 +34,7 @@ namespace Core.Characters.AttributeBehaviors
 
 			if (spawnTransform == null)
 			{
-				Logger.LogErrorFormat(
+				Loggy.LogErrorFormat(
 					"Unable to determine spawn position for  occupation {0}. Cannot spawn player.",
 					Category.EntitySpawn, jobType);
 				return;

@@ -16,6 +16,9 @@ using ScriptableObjects.Systems.Spells;
 using Systems.Antagonists.Antags;
 using UI.Core.Action;
 using System.Linq;
+using Changeling;
+using Logs;
+using static UniversalObjectPhysics;
 
 /// <summary>
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
@@ -37,6 +40,17 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 	//Type of Antagonist
 	[field: SyncVar] public JobType NetworkedAntagJob { get; private set; }
+
+	public GameObject ControllingObject
+	{
+		get
+		{
+			if (IsGhosting) return this.gameObject;
+			if (IDActivelyControlling is NetId.Invalid or NetId.Empty) return this.gameObject;
+
+			return CustomNetworkManager.Spawned[IDActivelyControlling].gameObject;
+		}
+	}
 
 	public GameObject PossessingObject
 	{
@@ -108,7 +122,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 	/// </summary>
 	private Dictionary<string, object> properties = new Dictionary<string, object>();
 
-	public bool NonImportantMind = false;
+
+	[SyncVar] public bool NonImportantMind = false;
 
 	public bool IsMute
 	{
@@ -591,7 +606,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	{
 		if (ControlledBy?.Connection == null)
 		{
-			Logger.LogError("oh god!, Somehow there's no connection to client when ReLog Code has Been called");
+			Loggy.LogError("oh god!, Somehow there's no connection to client when ReLog Code has Been called");
 			return;
 		}
 

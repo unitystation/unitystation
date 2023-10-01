@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AdminCommands;
 using DatabaseAPI;
+using Logs;
 using Messages.Server.AdminTools;
 using Mirror;
 using UnityEngine;
@@ -176,7 +177,7 @@ namespace AdminTools
 			{
 				if (PlayerManager.LocalPlayerScript == null)
 				{
-					Logger.LogError("Cannot activate Admin Overlay with PlayerManager.LocalPlayerScript being null", Category.Admin);
+					Loggy.LogError("Cannot activate Admin Overlay with PlayerManager.LocalPlayerScript being null", Category.Admin);
 					IsOn = false;
 					overlayToggleButton.image.color = unSelectedColor;
 				}

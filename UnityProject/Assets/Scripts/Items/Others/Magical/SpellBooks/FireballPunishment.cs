@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Logs;
 using UnityEngine;
 using Systems.Explosions;
 
@@ -21,7 +22,7 @@ namespace Items.Magical
 			}
 			else
 			{
-				Logger.LogError($"No explosion component found on {explosionObject}! Was the right prefab assigned?", Category.Spells);
+				Loggy.LogError($"No explosion component found on {explosionObject}! Was the right prefab assigned?", Category.Spells);
 			}
 		}
 	}

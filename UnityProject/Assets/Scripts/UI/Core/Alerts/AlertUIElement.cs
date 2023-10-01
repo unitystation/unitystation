@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Learning;
 using Learning.ProtipObjectTypes;
+using Logs;
 using UnityEngine;
 
 public class AlertUIElement : MonoBehaviour
@@ -84,7 +85,7 @@ public class AlertUIElement : MonoBehaviour
 	{
 		if (StateChangeThisUpdate)
 		{
-			Logger.LogError($"state changed too many times in one frame, potential infinite loop with {AlertSO.name} settings");
+			Loggy.LogError($"state changed too many times in one frame, potential infinite loop with {AlertSO.name} settings");
 		}
 		StateChangeThisUpdate = true;
 		UIManager.Instance.ClientAlertManager.HidingAction(this);
@@ -103,7 +104,7 @@ public class AlertUIElement : MonoBehaviour
 	{
 		if (StateChangeThisUpdate)
 		{
-			Logger.LogError($"state changed too many times in one frame, potential infinite loop with {AlertSO.name} settings");
+			Loggy.LogError($"state changed too many times in one frame, potential infinite loop with {AlertSO.name} settings");
 		}
 		StateChangeThisUpdate = true;
 

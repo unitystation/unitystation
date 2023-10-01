@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using Logs;
 using Messages.Server;
 using UnityEngine;
 using UnityEngine.Profiling;
@@ -381,7 +382,7 @@ namespace Systems.Atmospherics
 			}
 			catch (Exception e)
 			{
-				Logger.LogError(e.ToString());
+				Loggy.LogError(e.ToString());
 			}
 		}
 
@@ -391,7 +392,7 @@ namespace Systems.Atmospherics
 
 			if (hotspots.ContainsKey(hotspotPosition) == false)
 			{
-				Logger.LogError("Hotspot position key was not found in the hotspots dictionary", Category.Atmos);
+				Loggy.LogError("Hotspot position key was not found in the hotspots dictionary", Category.Atmos);
 				return;
 			}
 

@@ -215,7 +215,7 @@ namespace Systems.Ai
 					Chat.AddExamineMsgFromServer(gameObject, "Core was unable to connect to APC");
 				}
 
-				apc.OnStateChangeEvent.AddListener(OnCorePowerLost);
+				apc.OnStateChangeEvent += OnCorePowerLost;
 				hasPower = apc.State != PowerState.Off;
 
 				apc.RelatedAPC.OrNull()?.OnPowerNetworkUpdate.AddListener(OnPowerNetworkUpdate);
@@ -239,7 +239,7 @@ namespace Systems.Ai
 			var apc = vesselObject.GetComponent<APCPoweredDevice>();
 			if (apc != null)
 			{
-				apc.OnStateChangeEvent.RemoveListener(OnCorePowerLost);
+				apc.OnStateChangeEvent -= OnCorePowerLost;
 				apc.RelatedAPC.OrNull()?.OnPowerNetworkUpdate.RemoveListener(OnPowerNetworkUpdate);
 			}
 		}
@@ -863,9 +863,9 @@ namespace Systems.Ai
 
 		//Called when the core has lost power
 		[Server]
-		private void OnCorePowerLost(Tuple<PowerState, PowerState> oldAndNewStates)
+		private void OnCorePowerLost(PowerState old , PowerState newState)
 		{
-			if (oldAndNewStates.Item2 == PowerState.Off)
+			if (newState == PowerState.Off)
 			{
 				hasPower = false;
 				allowRadio = false;
@@ -894,12 +894,12 @@ namespace Systems.Ai
 			//Reset distance validation value
 			interactionDistance = 29;
 
-			if (oldAndNewStates.Item1 == PowerState.LowVoltage)
+			if (newState == PowerState.LowVoltage)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, "Your core power is failing!");
 			}
 
-			if (oldAndNewStates.Item1 == PowerState.OverVoltage)
+			if (newState == PowerState.OverVoltage)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, "Your core power voltage is too high!");
 			}

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using Chemistry;
+using Logs;
 
 namespace ScriptableObjects
 {
@@ -33,13 +34,13 @@ namespace ScriptableObjects
 			{
 				if (allChemistryReagents[i] == null)
 				{
-					Logger.LogError($"The ChemistryReagentsSO singleton has null at the index: {i}.");
+					Loggy.LogError($"The ChemistryReagentsSO singleton has null at the index: {i}.");
 					continue;
 				}
 
 				if (allChemistryReagents[i].IndexInSingleton != i)
 				{
-					Logger.LogError($"The reagent {allChemistryReagents[i]} has the wrong singleton index. " +
+					Loggy.LogError($"The reagent {allChemistryReagents[i]} has the wrong singleton index. " +
 					                $"Expected: {i}. Found: {allChemistryReagents[i].IndexInSingleton}.");
 				}
 			}
@@ -72,7 +73,7 @@ namespace ScriptableObjects
 			}
 			catch (Exception e)
 			{
-				Logger.LogError(e.ToString());
+				Loggy.LogError(e.ToString());
 			}
 		}
 	}

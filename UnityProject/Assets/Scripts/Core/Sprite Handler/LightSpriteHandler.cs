@@ -1,4 +1,5 @@
 using Light2D;
+using Logs;
 using UnityEngine;
 
 namespace Core.Sprite_Handler
@@ -61,7 +62,7 @@ namespace Core.Sprite_Handler
 			base.SetPaletteOnSpriteRenderer();
 			if (lightSprite != null)
 			{
-				Logger.LogError("SetPaletteOnSpriteRenderer Is not supported on lightSprite?");
+				Loggy.LogError("SetPaletteOnSpriteRenderer Is not supported on lightSprite?");
 			}
 		}
 

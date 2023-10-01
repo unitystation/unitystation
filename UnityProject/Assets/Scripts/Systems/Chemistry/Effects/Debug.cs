@@ -1,3 +1,4 @@
+using Logs;
 using UnityEngine;
 
 namespace Chemistry.Effects
@@ -7,7 +8,7 @@ namespace Chemistry.Effects
 	{
 		public override void Apply(MonoBehaviour sender, float amount)
 		{
-			Logger.LogFormat("Effect called, Sender: {0}, amount {1}", Category.Chemistry, sender, amount);
+			Loggy.LogFormat("Effect called, Sender: {0}, amount {1}", Category.Chemistry, sender, amount);
 		}
 	}
 }

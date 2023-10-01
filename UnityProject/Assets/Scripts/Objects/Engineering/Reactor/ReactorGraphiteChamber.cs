@@ -5,6 +5,7 @@ using UnityEngine;
 using Systems.Explosions;
 using Systems.Radiation;
 using Items.Engineering;
+using Logs;
 using Objects.Atmospherics;
 using Objects.Engineering.Reactor;
 using Shared.Systems.ObjectConnection;
@@ -302,7 +303,7 @@ namespace Objects.Engineering
 			var ExtraEnergyGained = (float) EnergyReleased;
 			if (float.IsNormal(ExtraEnergyGained) == false && ExtraEnergyGained != 0)
 			{
-				Logger.LogError(
+				Loggy.LogError(
 					$"PowerOutput Graphite chamber invalid number from EnergyReleased With Float of {ExtraEnergyGained} With decimal of {EnergyReleased}");
 				ExtraEnergyGained = 0;
 			}

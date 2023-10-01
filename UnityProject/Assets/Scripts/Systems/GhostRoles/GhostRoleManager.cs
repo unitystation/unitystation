@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using Messages.Client.GhostRoles;
 using Messages.Server.GhostRoles;
@@ -85,7 +86,7 @@ namespace Systems.GhostRoles
 			int roleIndex = GhostRoles.FindIndex(r => r == roleData);
 			if (roleIndex < 0)
 			{
-				Logger.LogError(
+				Loggy.LogError(
 					$"Ghost role \"{roleData}\" was not found in {nameof(GhostRoleList)} SO! Cannot inform clients about the ghost role.", Category.Ghosts);
 				return default;
 			}
@@ -132,7 +133,7 @@ namespace Systems.GhostRoles
 		{
 			if (typeIndex > GhostRoles.Count)
 			{
-				Logger.LogError($"Ghost role index does not exist in {nameof(GhostRoleList)}! Cannot add to local available ghost role list.", Category.Ghosts);
+				Loggy.LogError($"Ghost role index does not exist in {nameof(GhostRoleList)}! Cannot add to local available ghost role list.", Category.Ghosts);
 				return default;
 			}
 
@@ -197,7 +198,7 @@ namespace Systems.GhostRoles
 		{
 			if (serverAvailableRoles.ContainsKey(key) == false)
 			{
-				Logger.LogWarning("Tried to remove ghost role instance that doesn't or no longer exists.", Category.Ghosts);
+				Loggy.LogWarning("Tried to remove ghost role instance that doesn't or no longer exists.", Category.Ghosts);
 				return;
 			}
 

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using HealthV2;
+using Logs;
 using Systems.Ai;
 using Systems.MobAIs;
 using UnityEngine;
@@ -20,21 +22,21 @@ namespace Systems.Teleport
 		/// <returns>TeleportInfo, with name, position and object</returns>
 		public static IEnumerable<TeleportInfo> GetMobDestinations()
 		{
-			var playerBodies = Object.FindObjectsOfType<PlayerScript>(false);
+			var playerBodies = Object.FindObjectsOfType<Mind>(false);
 
 			if (playerBodies == null)//If list of PlayerScripts is empty dont run rest of code.
 			{
 				yield break;
 			}
 
-			IOrderedEnumerable<PlayerScript> sortedStr = from name in playerBodies
+			IOrderedEnumerable<Mind> sortedStr = from name in playerBodies
 				orderby name.name
 				select name;
 
-			foreach (PlayerScript player in sortedStr)
+			foreach (Mind player in sortedStr)
 			{
 				//Don't add to the list the same player consulting it and ghosts.
-				if (player == PlayerManager.LocalPlayerScript || player.IsGhost)
+				if (player == PlayerManager.LocalMindScript || player.NonImportantMind)
 				{
 					continue;
 				}
@@ -47,17 +49,27 @@ namespace Systems.Teleport
 					nameOfObject = "Spectator";
 				}
 
-				var status = player.PlayerType switch
-				{
-					PlayerTypes.Ai => "(Ai)",
-					PlayerTypes.Blob => "(Blob)",
-					PlayerTypes.Alien => $"(Alien) {(player.playerHealth.IsDead ? "(Dead)" : "(Alive)")}",
-					_ => player.playerHealth.IsDead ? "(Dead)" : "(Alive)"
-				};
+				string status = "";
 
-				//Gets Position of Player
-				player.UpdateLastSyncedPosition();
-				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, player.SyncedWorldPos, player.gameObject);
+				if (player.IsGhosting)
+				{
+					status = "(Ghost)";
+				}
+				else
+				{
+					var Controlling =  player.ControllingObject;
+					var Health = Controlling.GetComponentCustom<LivingHealthMasterBase>();
+					if (Health == null)
+					{
+						status = "(Inanimate)";
+					}
+					else
+					{
+						//TODO Sometimes synchronising Conscious state maybe
+					}
+				}
+
+				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, player.transform.position.RoundToInt(), player.gameObject);
 
 				yield return teleportInfo;
 			}
@@ -213,7 +225,7 @@ namespace Systems.Teleport
 			}
 			else
 			{
-				Logger.LogError($"No transform on {objectToTeleport} - can't teleport!", Category.Movement);
+				Loggy.LogError($"No transform on {objectToTeleport} - can't teleport!", Category.Movement);
 				return originalPosition;
 			}
 

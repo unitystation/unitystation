@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using UnityEngine.Events;
 using UI;
@@ -46,13 +47,13 @@ public class EscapeKeyTarget : MonoBehaviour {
 	void OnEnable()
 	{
 		// Add this object to the top of the stack so Esc will close it next
-		Logger.Log("Adding escape key target: " + this.name, Category.UserInput);
+		Loggy.Log("Adding escape key target: " + this.name, Category.UserInput);
 		Targets.AddLast(this);
 	}
 	void OnDisable()
 	{
 		// Remove the escape key target
-		Logger.Log("Removing escape key target: " + this.name, Category.UserInput);
+		Loggy.Log("Removing escape key target: " + this.name, Category.UserInput);
 		Targets.Remove(this);
 	}
 }

@@ -3,6 +3,7 @@ using System.Text;
 using Chemistry;
 using Chemistry.Components;
 using Items;
+using Logs;
 using TMPro;
 using UI.Core.NetUI;
 using UnityEngine;
@@ -436,7 +437,7 @@ namespace UI.Objects.Medical
 			}
 			else
 			{
-				Logger.LogWarning("Attempted to eject from a ChemMaster without container", Category.Interaction);
+				Loggy.LogWarning("Attempted to eject from a ChemMaster without container", Category.Interaction);
 			}
 		}
 

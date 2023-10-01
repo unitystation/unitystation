@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 
 public class InputManagerWrapper : MonoBehaviour
@@ -165,7 +166,7 @@ public class InputManagerWrapper : MonoBehaviour
 			case 6:
 				return KeyCode.Mouse6;
 			default:
-				Logger.LogWarning("oh look here someone with a fancy mouse, I couldn't possibly support this (Runs out of enum Values)");
+				Loggy.LogWarning("oh look here someone with a fancy mouse, I couldn't possibly support this (Runs out of enum Values)");
 				return KeyCode.None;
 		}
 	}

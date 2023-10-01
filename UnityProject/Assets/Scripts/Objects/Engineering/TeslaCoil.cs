@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using Systems.Explosions;
 using Objects.Construction;
 using UnityEngine;
@@ -210,7 +211,7 @@ namespace Objects.Engineering
 					spriteHandler.ChangeSprite(IsWrenched ? 1 : 0);
 					break;
 				default:
-					Logger.LogError("Tried to wrench Tesla Coil, but switch case was out of bounds", Category.Machines);
+					Loggy.LogError("Tried to wrench Tesla Coil, but switch case was out of bounds", Category.Machines);
 					break;
 			}
 		}

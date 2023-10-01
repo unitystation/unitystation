@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Logs;
 using UnityEngine;
 
 namespace Light2D
@@ -103,7 +104,7 @@ namespace Light2D
 	        }
 	        catch (Exception e)
 	        {
-		        Logger.LogError(e.ToString());
+		        Loggy.LogError(e.ToString());
 	        }
 #endif
 

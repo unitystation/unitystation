@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 using NaughtyAttributes;
 using Systems.Storage;
 using Items;
+using Logs;
 
 /// <summary>
 /// Allows an object to store items.
@@ -269,7 +270,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 					}
 					catch (Exception e)
 					{
-						Logger.LogError(e.ToString());
+						Loggy.LogError(e.ToString());
 					}
 				}
 			}
@@ -328,7 +329,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 		catch (NullReferenceException exception)
 		{
-			Logger.LogError($"Caught NRE in ItemStorage: {exception.Message} \n {exception.StackTrace}",
+			Loggy.LogError($"Caught NRE in ItemStorage: {exception.Message} \n {exception.StackTrace}",
 				Category.Inventory);
 			return null;
 		}
@@ -356,7 +357,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 		catch (NullReferenceException exception)
 		{
-			Logger.LogError($"Caught NRE in ItemStorage: {exception.Message} \n {exception.StackTrace}",
+			Loggy.LogError($"Caught NRE in ItemStorage: {exception.Message} \n {exception.StackTrace}",
 				Category.Inventory);
 			return null;
 		}
@@ -387,7 +388,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		if (itemStorageStructure == null)
 		{
-			Logger.LogErrorFormat(
+			Loggy.LogErrorFormat(
 				"{0} has ItemStorage but no defined ItemStorageStructure. Item storage will not work." +
 				" Please define an ItemStorageStructure for this prefab.", Category.Inventory, name);
 			return;

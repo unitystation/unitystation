@@ -17,6 +17,7 @@ using HealthV2.Living.PolymorphicSystems;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Items.Implants.Organs;
 using JetBrains.Annotations;
+using Logs;
 using NaughtyAttributes;
 using Player;
 using Newtonsoft.Json;
@@ -1961,7 +1962,7 @@ namespace HealthV2
 				{
 					if (playerSprites.ThisCharacter == null)
 					{
-						Logger.LogError("playerSprites.ThisCharacter == null");
+						Loggy.LogError("playerSprites.ThisCharacter == null");
 						return;
 					}
 

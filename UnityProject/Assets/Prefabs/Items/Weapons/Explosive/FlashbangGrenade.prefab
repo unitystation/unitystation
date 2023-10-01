@@ -219,11 +219,10 @@ MonoBehaviour:
   syncInterval: 0.1
   maximumDistance: 20
   flashRadius: 20
-  flashTime: 6
+  flashTime: 5
   weakDuration: 4
-  stunExtraTime: 3
+  stunExtraTime: 8
   flashCooldown: 24
-  sunglassesTrait: {fileID: 0}
   flashSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/FlashbangBoom.prefab

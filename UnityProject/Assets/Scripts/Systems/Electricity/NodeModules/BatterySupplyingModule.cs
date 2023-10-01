@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Light2D;
+using Logs;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -299,7 +300,7 @@ namespace Systems.Electricity.NodeModules
 				}
 				if (highSide && lowSide)
 				{
-					Logger.LogError("Transformer 'high side' connected to its 'low side', and will not work.", Category.Electrical);
+					Loggy.LogError("Transformer 'high side' connected to its 'low side', and will not work.", Category.Electrical);
 				}
 				if (highSide) //Outputs to highSide
 				{
@@ -311,7 +312,7 @@ namespace Systems.Electricity.NodeModules
 					return VoltageAtSupplyPort < MinimumSupportVoltage &&  (VoltageAtChargePort*(1/TTransformerModule.TurnRatio))
 						< MinimumSupportVoltage;
 				}
-				Logger.LogError("No side was found for Transformer battery combo, falling back to default", Category.Electrical);
+				Loggy.LogError("No side was found for Transformer battery combo, falling back to default", Category.Electrical);
 			}
 			return VoltageAtSupplyPort < MinimumSupportVoltage &&  VoltageAtChargePort < MinimumSupportVoltage;
 		}

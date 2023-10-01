@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Core.Camera;
 using Core.Utils;
+using Logs;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -57,7 +58,7 @@ namespace CameraEffects
 				MinimalVisibilityScale = minimalVisibilitySprite.transform.localScale;
 				return;
 			}
-			Logger.LogWarning("[CameraEffectControlScript] - visibilitySprite is null! please set it from the inspector.");
+			Loggy.LogWarning("[CameraEffectControlScript] - visibilitySprite is null! please set it from the inspector.");
 		}
 
 

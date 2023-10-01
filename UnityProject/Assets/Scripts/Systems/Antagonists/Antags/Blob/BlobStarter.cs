@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Antagonists;
 using HealthV2;
+using Logs;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -130,7 +131,7 @@ namespace Blob
 					EndState();
 					break;
 				default:
-					Logger.LogError("Unused state", Category.Blob);
+					Loggy.LogError("Unused state", Category.Blob);
 					break;
 			}
 		}
@@ -276,7 +277,7 @@ namespace Blob
 
 			if (spawnResult.Successful == false)
 			{
-				Logger.LogError("Failed to spawn blob!", Category.Blob);
+				Loggy.LogError("Failed to spawn blob!", Category.Blob);
 				Destroy(this);
 				return;
 			}

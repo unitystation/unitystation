@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using ScriptableObjects;
+using Logs;
 
 namespace Antagonists
 {
@@ -81,7 +82,7 @@ namespace Antagonists
 			var antag = Antags[Random.Range(0, Antags.Count)];
 			if (antag == null)
 			{
-				Logger.LogError("No antags available in AntagData! Ensure you added the ScriptableObjects to it.", Category.Antags);
+				Loggy.LogError("No antags available in AntagData! Ensure you added the ScriptableObjects to it.", Category.Antags);
 			}
 			return Instantiate(antag);
 		}
@@ -116,7 +117,7 @@ namespace Antagonists
 			if (objPool.Count == 0)
 			{
 				amount = 0;
-				Logger.LogWarning($"No objectives available, only assigning escape type objective", Category.Antags);
+				Loggy.LogWarning($"No objectives available, only assigning escape type objective", Category.Antags);
 			}
 
 			List<Objective> generatedObjs = new List<Objective>();

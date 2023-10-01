@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using Messages.Server;
 using Mirror;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace Messages.Server
 
 			if (windEffect.Successful == false)
 			{
-				Logger.LogWarning("Failed to spawn wind effect!", Category.Particles);
+				Loggy.LogWarning("Failed to spawn wind effect!", Category.Particles);
 				return;
 			}
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Items.Storage.VirtualStorage;
+using Logs;
 using Mirror;
 using UnityEngine;
 using Systems.Research.Data;
@@ -45,14 +46,14 @@ namespace Systems.Research.Objects
 			diskStorage = GetComponent<ItemStorage>();
 			if (diskStorage == null || (diskStorage.GetIndexedItemSlot(0).Item == null && techWebDisk == null))
 			{
-				Logger.LogError("Research server spawned without a disk to hold data!");
+				Loggy.LogError("Research server spawned without a disk to hold data!");
 				return;
 			}
 			if(techWebDisk != null) diskStorage.ServerTrySpawnAndAdd(techWebDisk);
 
 			if (diskStorage.GetIndexedItemSlot(0).ItemObject.TryGetComponent<HardDriveBase>(out var disk) == true)
 			{
-				
+
 				string path = Path.Combine("TechWeb", "TechwebData.json");
 				Techweb.LoadTechweb(path);
 
@@ -62,7 +63,7 @@ namespace Systems.Research.Objects
 			}
 			else
 			{
-				Logger.LogError("Could not find correct disk to hold Techweb data!!");
+				Loggy.LogError("Could not find correct disk to hold Techweb data!!");
 				return;
 			}
 

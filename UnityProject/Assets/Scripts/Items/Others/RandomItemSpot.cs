@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using Mirror;
 using Objects;
 using Objects.Engineering;
@@ -112,7 +113,7 @@ namespace Items
 
             if (itemPool == null)
 			{
-				Logger.LogError($"Item pool was null in {gameObject.name}", Category.ItemSpawn);
+				Loggy.LogError($"Item pool was null in {gameObject.name}", Category.ItemSpawn);
 				return;
 			}
 

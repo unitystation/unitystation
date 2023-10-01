@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Logs;
 using Messages.Client;
 using Messages.Client.Admin;
 using Messages.Server;
@@ -103,7 +104,7 @@ namespace AdminTools
 		{
 			if (string.IsNullOrEmpty(kickReasonField.text))
 			{
-				Logger.LogError("Kick reason field needs to be completed!", Category.Admin);
+				Loggy.LogError("Kick reason field needs to be completed!", Category.Admin);
 				return;
 			}
 
@@ -116,13 +117,13 @@ namespace AdminTools
 		{
 			if (string.IsNullOrEmpty(banReasonField.text))
 			{
-				Logger.LogError("Ban reason field needs to be completed!", Category.Admin);
+				Loggy.LogError("Ban reason field needs to be completed!", Category.Admin);
 				return;
 			}
 
 			if (string.IsNullOrEmpty(minutesField.text))
 			{
-				Logger.LogError("Duration field needs to be completed!", Category.Admin);
+				Loggy.LogError("Duration field needs to be completed!", Category.Admin);
 				return;
 			}
 
@@ -135,13 +136,13 @@ namespace AdminTools
 		{
 			if (string.IsNullOrEmpty(jobBanReasonField.text))
 			{
-				Logger.LogError("Job Ban reason field needs to be completed!", Category.Admin);
+				Loggy.LogError("Job Ban reason field needs to be completed!", Category.Admin);
 				return;
 			}
 
 			if (string.IsNullOrEmpty(jobBanMinutesField.text) && jobBanPermaBanToggle.isOn == false)
 			{
-				Logger.LogError("Duration field needs to be completed or Perma toggled!", Category.Admin);
+				Loggy.LogError("Duration field needs to be completed or Perma toggled!", Category.Admin);
 				return;
 			}
 
@@ -155,7 +156,7 @@ namespace AdminTools
 
 			if (!outSuccess && jobBanPermaBanToggle.isOn == false)
 			{
-				Logger.LogError("Minutes Field incorrectly configured", Category.Admin);
+				Loggy.LogError("Minutes Field incorrectly configured", Category.Admin);
 				return;
 			}
 

@@ -5,6 +5,7 @@ using Core.Editor.Attributes;
 using HealthV2;
 using Items;
 using JetBrains.Annotations;
+using Logs;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using Mirror;
@@ -296,12 +297,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			SetRotationTargetWhenNull();
 			return;
 		}
-		var sprites = GetComponentsInChildren<SpriteHandler>();
-		if (sprites.Length == 1)
-		{
-			rotationTarget = sprites[0].transform;
-			return;
-		}
 		rotationTarget = transform;
 	}
 
@@ -465,7 +460,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			Chat.AddGameWideSystemMsgToChat(
 				" Something doesn't feel right? **BBBBBBBBBBBBBOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMEMMEEEEE** ");
-			Logger.LogError("Tried to store object within itself");
+			Loggy.LogError("Tried to store object within itself");
 			return; //Storing something inside of itself what?
 		}
 
@@ -575,7 +570,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 
 			if (this is not MovementSynchronisation c) return;
-			c.playerScript.RegisterPlayer.LayDownBehavior.ServerEnsureCorrectState();
+			if (CustomNetworkManager.IsServer)
+			{
+				c.playerScript.RegisterPlayer.LayDownBehavior.ServerEnsureCorrectState();
+			}
+			else
+			{
+				c.playerScript.RegisterPlayer.LayDownBehavior.ClientEnsureCorrectState();
+			}
 		}
 		else
 		{
@@ -874,7 +876,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (movetoMatrix == null) return;
 		if (registerTile == null)
 		{
-			Logger.LogError("null Register tile on " + this.name);
+			Loggy.LogError("null Register tile on " + this.name);
 			return;
 		}
 
@@ -1237,6 +1239,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (isVisible == false) return;
 		if (CanMove == false) return;
 		if (PulledBy.HasComponent) return;
+		if (worldDirection == Vector2.zero) return;
 
 		aim = inAim;
 		thrownBy = inThrownBy;
@@ -2139,12 +2142,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	#region Buckling
 
 	// netid of the game object we are buckled to, NetId.Empty if not buckled
-	[SyncVar(hook = nameof(SyncBuckledToObject))]
-	protected UniversalObjectPhysics ObjectIsBuckling = null;
+	[field: SyncVar(hook = nameof(SyncBuckledToObject))]
+	public UniversalObjectPhysics ObjectIsBuckling { get; protected set; }
 
 	public CheckedComponent<UniversalObjectPhysics> ObjectIsBucklingChecked =
 		new CheckedComponent<UniversalObjectPhysics>();
-
 
 	public UniversalObjectPhysics BuckledToObject;
 

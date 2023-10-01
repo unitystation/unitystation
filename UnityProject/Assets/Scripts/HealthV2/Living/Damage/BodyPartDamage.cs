@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 using Health.Objects;
+using Logs;
 
 namespace HealthV2
 {
@@ -219,7 +220,7 @@ namespace HealthV2
 
 			if (float.IsNormal(damage) == false)
 			{
-				Logger.LogError("oh no/..!!!! NAN /Abnormal number as damage > " + damage );
+				Loggy.LogError("oh no/..!!!! NAN /Abnormal number as damage > " + damage );
 				return;
 			}
 			float toDamage = Damages[damageType] + damage;
@@ -384,6 +385,7 @@ namespace HealthV2
 								bool organDamageSplit = false, bool DamageSubOrgans = true, float armorPenetration = 0,
 								double traumaDamageChance = 100, TraumaticDamageTypes tramuticDamageType = TraumaticDamageTypes.NONE, bool invokeOnDamageEvent = true)
 		{
+			if (damage == 0) return;
 			LastDamageData = new BodyPartDamageData()
 			{
 				DamageAmount = damage,
@@ -409,7 +411,7 @@ namespace HealthV2
 			}
 
 			AffectDamage(damageToLimb, (int) damageType);
-			if (invokeOnDamageEvent && damage > 0) OnDamageTaken?.Invoke(LastDamageData);
+			if (invokeOnDamageEvent) OnDamageTaken?.Invoke(LastDamageData);
 
 			// May be changed to individual damage
 			// May also want it so it can miss sub organs

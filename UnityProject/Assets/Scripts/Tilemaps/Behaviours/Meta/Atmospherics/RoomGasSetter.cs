@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using ScriptableObjects.Atmospherics;
 using UnityEngine;
 
@@ -30,7 +31,7 @@ namespace Systems.Atmospherics
 
 			if (gasMixToSpawn == null)
 			{
-				Logger.LogError($"Gas mix was null on {gameObject.ExpensiveName()}");
+				Loggy.LogError($"Gas mix was null on {gameObject.ExpensiveName()}");
 				return;
 			}
 
@@ -52,7 +53,7 @@ namespace Systems.Atmospherics
 		{
 			if (gasMixToSpawn == null)
 			{
-				Logger.LogError($"Gas mix was null on {gameObject.ExpensiveName()}");
+				Loggy.LogError($"Gas mix was null on {gameObject.ExpensiveName()}");
 				return;
 			}
 

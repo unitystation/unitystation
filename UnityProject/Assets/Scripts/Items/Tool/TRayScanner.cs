@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using HealthV2;
+using Logs;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -188,7 +189,7 @@ namespace Items.Tool
 						ChangeState(disposalsRenderer, true);
 						continue;
 					default:
-						Logger.LogError($"Found no case for {newMode}");
+						Loggy.LogError($"Found no case for {newMode}");
 						continue;
 				}
 			}

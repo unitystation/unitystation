@@ -10,7 +10,6 @@ using Managers;
 using Systems.Ai;
 using Messages.Server;
 using Messages.Server.SoundMessages;
-using Objects.Telecomms;
 using Player.Language;
 using Systems.Communications;
 using TMPro;
@@ -30,6 +29,9 @@ public class ChatRelay : NetworkBehaviour
 
 	private bool radioCheckIsOnCooldown = false;
 	[SerializeField] private float radioCheckRadius = 4f;
+	private float whisperFalloffDistance = 2.5f;
+
+	private static readonly List<string> whisperPrefix = new List<string> { "w!", "#", "/w" };
 
 	private RconManager rconManager;
 
@@ -58,14 +60,41 @@ public class ChatRelay : NetworkBehaviour
 		                   ChatChannel.Combat;
 		layerMask = LayerMask.GetMask("Door Closed");
 		npcMask = LayerMask.GetMask("NPC");
-		
+
 		rconManager = RconManager.Instance;
+	}
+
+	private void WhisperCheck(ChatEvent chatEvent)
+	{
+		var willWhisper = whisperPrefix.Any(prefix => chatEvent.message.Contains(prefix));
+		chatEvent.IsWhispering = willWhisper;
 	}
 
 	[Server]
 	public void PropagateChatToClients(ChatEvent chatEvent)
 	{
 		List<PlayerInfo> players = PlayerList.Instance.AllPlayers;
+		if (chatEvent.originator != null) WhisperCheck(chatEvent);
+
+		bool DistanceCheck(Vector3 playerPos)
+		{
+			if (Vector2.Distance(chatEvent.position, playerPos) > 14f)
+			{
+				//Player in the list is too far away for local chat, remove them:
+				return false;
+			}
+
+			//Within range, but check if they are in another room or hiding behind a wall
+			if (MatrixManager.Linecast(chatEvent.position, LayerTypeSelection.Walls,
+				    layerMask, playerPos).ItHit)
+			{
+				//If it hit a wall remove that player
+				return false;
+			}
+
+			//Player can see the position
+			return true;
+		}
 
 		//Local chat range checks:
 		if (chatEvent.channels.HasFlag(ChatChannel.Local)
@@ -126,30 +155,7 @@ public class ChatRelay : NetworkBehaviour
 					//Player failed distance checks remove them
 					players.RemoveAt(i);
 				}
-
-				bool DistanceCheck(Vector3 playerPos)
-				{
-					//TODO maybe change this to (chatEvent.position - playerPos).sqrMagnitude > 196f to avoid square root for performance?
-					if (Vector2.Distance(chatEvent.position, playerPos) > 14f)
-					{
-						//Player in the list is too far away for local chat, remove them:
-						return false;
-					}
-
-					//Within range, but check if they are in another room or hiding behind a wall
-					if (MatrixManager.Linecast(chatEvent.position, LayerTypeSelection.Walls,
-						layerMask, playerPos).ItHit)
-					{
-						//If it hit a wall remove that player
-						return false;
-					}
-
-					//Player can see the position
-					return true;
-				}
 			}
-
-
 
 			if (chatEvent.originator != null)
 			{
@@ -162,6 +168,7 @@ public class ChatRelay : NetworkBehaviour
 						layerMask, npcPosition).ItHit == false)
 					{
 						//NPC is in hearing range, pass the message on: Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 8f, itemsMask);
+						//TODO: Make mobAI use chat influencer to avoid dependency
 						var mobAi = coll.GetComponent<MobAI>();
 						if (mobAi != null)
 						{
@@ -244,19 +251,82 @@ public class ChatRelay : NetworkBehaviour
 	private static void SendMessage(ChatEvent chatEvent, GameObject playerToSend, ChatChannel channel)
 	{
 		var copiedString = chatEvent.message;
+		PlayerScript playerScript = null;
 		ushort languageId = 0;
 
 		//Check to see if the target player can understand the language!
 		if (chatEvent.modifiers.HasFlag(ChatModifier.Emote) == false &&
-		    chatEvent.language != null && playerToSend.TryGetComponent<PlayerScript>(out var playerScript))
+		    chatEvent.language != null && playerToSend.TryGetComponent(out playerScript))
 		{
 			languageId = chatEvent.language.LanguageUniqueId;
 
 			copiedString = LanguageManager.Scramble(chatEvent.language, playerScript, string.Copy(chatEvent.message));
 		}
 
+		if (chatEvent.IsWhispering)
+		{
+			foreach (var prefix in whisperPrefix)
+			{
+				copiedString = copiedString.Replace(prefix, "");
+			}
+		}
+
+		if (string.IsNullOrWhiteSpace(chatEvent.message)) return;
+
 		UpdateChatMessage.Send(playerToSend, channel, chatEvent.modifiers, copiedString, chatEvent.VoiceLevel,
-			chatEvent.messageOthers, chatEvent.originator, chatEvent.speaker, chatEvent.stripTags, languageId);
+			chatEvent.messageOthers, chatEvent.originator, chatEvent.speaker, chatEvent.stripTags, languageId, chatEvent.IsWhispering);
+		ShowChatBubbleToPlayer( playerToSend, ref chatEvent);
+	}
+
+	public static void ShowChatBubbleToPlayer(GameObject toShowTo, ref ChatEvent chatEvent)
+	{
+		if (chatEvent.originator == null) return;
+
+		if (chatEvent.channels != ChatChannel.Local) return;
+
+		if (chatEvent.modifiers.HasFlag(ChatModifier.Emote)) return;
+
+		var msg = "";
+		if (chatEvent.IsWhispering)
+		{
+			if ((toShowTo.transform.position - chatEvent.originator.transform.position).magnitude > 1.5f)
+			{
+				msg = HideWhisperedText(ref chatEvent.message);
+			}
+			else
+			{
+				msg = chatEvent.message;
+			}
+
+		}
+		else
+		{
+			msg = chatEvent.message;
+		}
+
+		ShowChatBubbleMessage.SendTo(toShowTo,  chatEvent.originator, msg, chatEvent.language);
+	}
+
+	public static void HideWhisperedText(ref GameObject originator, ref string message, ref GameObject playerToSend)
+	{
+		if (originator == null || playerToSend == originator) return;
+		if (Vector2.Distance(originator.AssumedWorldPosServer(), playerToSend.AssumedWorldPosServer()) < Instance.whisperFalloffDistance) return;
+		message = HideWhisperedText(ref message);
+	}
+
+	public static string HideWhisperedText(ref string message)
+	{
+		var msg = string.Empty;
+		foreach (var character in message.ToList())
+		{
+			var c = character;
+			if (DMMath.Prob(50))
+			{
+				c = '*';
+			}
+			msg += c;
+		}
+		return msg;
 	}
 
 	private ChatEvent CheckForRadios(ChatEvent chatEvent)
@@ -320,9 +390,9 @@ public class ChatRelay : NetworkBehaviour
 
 	[Client]
 	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient,
-		Loudness loudness, ChatModifier modifiers, ushort languageId = 0)
+		Loudness loudness, ChatModifier modifiers, ushort languageId = 0, bool isWhispering = false)
 	{
-		if (string.IsNullOrEmpty(message)) return;
+		if (string.IsNullOrWhiteSpace(message)) return;
 
 		trySendingTTS(message);
 

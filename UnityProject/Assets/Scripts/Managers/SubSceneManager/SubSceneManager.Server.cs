@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Logs;
 using Messages.Server;
 using Mirror;
 using Tilemaps.Behaviours.Layers;
@@ -48,7 +49,7 @@ public partial class SubSceneManager
 
 		var client = connToAdd.clientOwnedObjects.Count == 0 ? null : connToAdd.clientOwnedObjects.ElementAt(0).gameObject;
 
-		Logger.LogFormat("SyncPlayerData. This server sending a bunch of sync data to new " +
+		Loggy.LogFormat("SyncPlayerData. This server sending a bunch of sync data to new " +
 		                 "client {0} for scene {1}", Category.Connections, client, sceneContext.name);
 
 		//Add connection as observer to the scene objects:

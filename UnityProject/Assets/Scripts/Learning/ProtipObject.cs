@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Managers;
 using NaughtyAttributes;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace Learning
 		public ProtipSO TipSO;
 		[SerializeField, Tooltip("Does this tip object only trigger once then saved as so?")]
 		private bool triggerOnce = true;
-		
+
 		[SerializeField]
 		private bool removeAfterRemembering = true;
 
@@ -32,7 +33,7 @@ namespace Learning
 		{
 			if (TipSO == null)
 			{
-				Logger.LogError("[ProtipObject] - Component missing tip data.");
+				Loggy.LogError("[ProtipObject] - Component missing tip data.");
 				RemoveThisComponent();
 				return;
 			}
@@ -68,7 +69,7 @@ namespace Learning
 		{
 			if (ProtipManager.Instance == null)
 			{
-				Logger.LogError("[Protips] - UNABLE TO FIND PROTIP MANAGER!!!");
+				Loggy.LogError("[Protips] - UNABLE TO FIND PROTIP MANAGER!!!");
 				return false;
 			}
 			if (isOnCooldown) return false;
@@ -100,7 +101,7 @@ namespace Learning
 			if (TriggerConditions(triggeredBy, protipSo) == false && CheckSaveStatus(protipSo)) return;
 			if (protipSo == null)
 			{
-				Logger.LogError("Passed ProtipSO is null. Cannot trigger tip.");
+				Loggy.LogError("Passed ProtipSO is null. Cannot trigger tip.");
 				return;
 			}
 			ProtipManager.Instance.QueueTip(protipSo, highlightableObjectNames);

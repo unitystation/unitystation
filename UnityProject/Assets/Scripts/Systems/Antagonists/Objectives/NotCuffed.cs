@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Logs;
+using UnityEngine;
 
 namespace Antagonists
 {
@@ -14,7 +15,7 @@ namespace Antagonists
 		{
 			if (Owner == null)
 			{
-				Logger.LogError("[Objective/NotCuffed] - No owner found! Giving free objective.");
+				Loggy.LogError("[Objective/NotCuffed] - No owner found! Giving free objective.");
 				return true;
 			}
 			//for whatever reason this is null, give the guy the greentext

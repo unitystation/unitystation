@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UI.Core.NetUI;
 using UnityEngine;
 
@@ -36,7 +37,7 @@ namespace UI.Objects.Research
 			if (IsMasterTab == false) return;
 			if (AssociatedConsole == null)
 			{
-				Logger.LogError("AssociatedConsole Was missing or destroyed but GUI_RemoteSyntheticControl Is still alive!!!");
+				Loggy.LogError("AssociatedConsole Was missing or destroyed but GUI_RemoteSyntheticControl Is still alive!!!");
 				return;
 			}
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Core.Lighting;
 using Initialisation;
+using Logs;
 using TileManagement;
 using Tiles;
 using UnityEngine;
@@ -106,7 +107,7 @@ public class Layer : MonoBehaviour
 
 		if (MatrixManager.Instance == null)
 		{
-			Logger.LogError("Matrix Manager is missing from the scene", Category.Matrix);
+			Loggy.LogError("Matrix Manager is missing from the scene", Category.Matrix);
 		}
 
 		InitFromMatrix();
@@ -122,7 +123,7 @@ public class Layer : MonoBehaviour
 
 		if (matrixMove != null)
 		{
-			Logger.LogTraceFormat("{0} layer initializing from matrix", Category.Matrix, matrixMove);
+			Loggy.LogTraceFormat("{0} layer initializing from matrix", Category.Matrix, matrixMove);
 			matrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
 			//initialize from current rotation
 			OnRotate(MatrixRotationInfo.FromInitialRotation(matrixMove, NetworkSide.Client, RotationEvent.Register));
@@ -140,7 +141,7 @@ public class Layer : MonoBehaviour
 		if (info.IsEnding || info.IsObjectBeingRegistered)
 		{
 			RotationOffset = info.RotationOffsetFromInitial;
-			Logger.LogTraceFormat("{0} layer redrawing with offset {1}", Category.Matrix, info.MatrixMove,
+			Loggy.LogTraceFormat("{0} layer redrawing with offset {1}", Category.Matrix, info.MatrixMove,
 				RotationOffset);
 			if (tilemap != null)
 			{

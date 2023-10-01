@@ -11,22 +11,64 @@ using UnityEngine.UI;
 
 public class UpdateTextures : MonoBehaviour
 {
-	public Sprite TestisSprite;
+	public Texture2D InbuiltBackground;
+	public Texture2D customBackground;
 
-	public Texture2D[] inbuiltTextures; // Assign your inbuilt textures here in the inspector
-	public Texture2D[] customTextures; // Assign your duplicated textures here in the inspector
+	public Texture2D InbuiltCheckmark;
+	public Texture2D customCheckmark;
+
+	public Texture2D InbuiltDropDown;
+	public Texture2D customDropDown;
+
+	public Texture2D InbuiltInputField;
+	public Texture2D customInputField;
+
+	public Texture2D InbuiltKnob;
+	public Texture2D customKnob;
+
+	public Texture2D InbuiltUImask;
+	public Texture2D customUImask;
+
+	public Texture2D InbuiltUISprite;
+	public Texture2D customUISprite;
+
+	private  List<Texture2D> inbuiltTextures = new List<Texture2D>();
+	private List<Texture2D> customTextures = new List<Texture2D>();
 
 	private bool changesMade = false;
 	[NaughtyAttributes.Button]
 	public void DO()
 	{
+		inbuiltTextures.Add(InbuiltBackground);
+		customTextures.Add(customBackground);
+
+
+		inbuiltTextures.Add(InbuiltCheckmark);
+		customTextures.Add(customCheckmark);
+
+		inbuiltTextures.Add(InbuiltDropDown);
+		customTextures.Add(customDropDown);
+
+
+		inbuiltTextures.Add(InbuiltInputField);
+		customTextures.Add(customInputField);
+
+		inbuiltTextures.Add(InbuiltKnob);
+		customTextures.Add(customKnob);
+
+		inbuiltTextures.Add(InbuiltUImask);
+		customTextures.Add(customUImask);
+
+		inbuiltTextures.Add(InbuiltUISprite);
+		customTextures.Add(customUISprite);
+
         // Create a dictionary to map inbuilt textures to new textures
         Dictionary<Texture2D, Texture2D> textureMap = new Dictionary<Texture2D, Texture2D>();
 
         // Fill the dictionary with inbuilt and custom textures
-        for (int i = 0; i < inbuiltTextures.Length; i++)
+        for (int i = 0; i < inbuiltTextures.Count; i++)
         {
-            if (inbuiltTextures[i] != null && customTextures.Length > i)
+            if (inbuiltTextures[i] != null && customTextures.Count > i)
             {
                 textureMap[inbuiltTextures[i]] = customTextures[i];
             }

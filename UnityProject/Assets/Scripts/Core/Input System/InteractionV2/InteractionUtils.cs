@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Messages.Client.Interaction;
 using UnityEngine;
 
@@ -74,7 +75,7 @@ public static class InteractionUtils
 		where T : Interaction
 	{
 		if (Cooldowns.IsOnClient(interaction, CommonCooldowns.Instance.Interaction)) return null;
-		Logger.LogTraceFormat("Checking {0} interactions",
+		Loggy.LogTraceFormat("Checking {0} interactions",
 			Category.Interaction, typeof(T).Name);
 		foreach (var interactable in interactables.Reverse())
 		{
@@ -99,7 +100,7 @@ public static class InteractionUtils
 			if (targetedInteraction.TargetObject != null &&
 			    targetedInteraction.TargetObject.IsAtHiddenPos())
 			{
-				Logger.LogTraceFormat("Aborting {0} interaction on object {1} because the object is hidden.",
+				Loggy.LogTraceFormat("Aborting {0} interaction on object {1} because the object is hidden.",
 					Category.Interaction, typeof(T).Name, targetedInteraction.TargetObject.name);
 				return false;
 			}
@@ -112,7 +113,7 @@ public static class InteractionUtils
 			result = clientInteractable.Interact(interaction);
 			if (result)
 			{
-				Logger.LogTraceFormat("ClientInteractable triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, clientInteractable.GetType().Name,
+				Loggy.LogTraceFormat("ClientInteractable triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, clientInteractable.GetType().Name,
 					(clientInteractable as Component).gameObject.name);
 				Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Interaction);
 				wasClientInteractable = true;
@@ -125,7 +126,7 @@ public static class InteractionUtils
 			result = checkable.WillInteract(interaction, side);
 			if (result)
 			{
-				Logger.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, checkable.GetType().Name,
+				Loggy.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, checkable.GetType().Name,
 					(checkable as Component).gameObject.name);
 				wasClientInteractable = false;
 				return true;
@@ -137,14 +138,14 @@ public static class InteractionUtils
 			result = DefaultWillInteract.Default(interaction, side);
 			if (result)
 			{
-				Logger.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, interactable.GetType().Name,
+				Loggy.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, interactable.GetType().Name,
 					(interactable as Component).gameObject.name);
 				wasClientInteractable = false;
 				return true;
 			}
 		}
 
-		Logger.LogTraceFormat("No interaction triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, interactable.GetType().Name,
+		Loggy.LogTraceFormat("No interaction triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, interactable.GetType().Name,
 			(interactable as Component).gameObject.name);
 
 		wasClientInteractable = false;

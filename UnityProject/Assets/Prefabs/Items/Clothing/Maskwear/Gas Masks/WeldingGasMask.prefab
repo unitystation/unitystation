@@ -26,13 +26,19 @@ PrefabInstance:
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: allClothingData.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 8e3458971fd0b134eae65808b604cb73,
+        type: 2}
+    - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: 'allClothingData.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 57007323c881a64478772f029173dcec,
         type: 2}
     - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -212,6 +218,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  SetClothingSprite: 1
   initialStateIndex: 0
   states:
   - ExamineMessage: closed
@@ -235,6 +242,7 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+    clothingV2Index: 0
   - ExamineMessage: open
     changeMessage: you flip up  the welding mask
     changeSound:
@@ -255,3 +263,4 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+    clothingV2Index: 1

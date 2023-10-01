@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Logs;
 using UnityEngine;
 using UI.Core.NetUI;
 using Objects.Engineering;
@@ -121,13 +122,13 @@ namespace UI.Objects.Engineering
 		private bool RefreshDisplay = false;
 		private void StartRefresh()
 		{
-			Logger.Log("Starting APC screen refresh", Category.Machines);
+			Loggy.Log("Starting APC screen refresh", Category.Machines);
 			RefreshDisplay = true;
 			StartCoroutine(Refresh());
 		}
 		private void StopRefresh()
 		{
-			Logger.Log("Stopping APC screen refresh", Category.Machines);
+			Loggy.Log("Stopping APC screen refresh", Category.Machines);
 			RefreshDisplay = false;
 		}
 
@@ -145,7 +146,7 @@ namespace UI.Objects.Engineering
 			if (LocalAPC.State != APC.APCState.Dead)
 			{
 				OffOverlayColor.MasterSetValue(Color.clear);
-				Logger.LogTrace("Updating APC display", Category.Machines);
+				Loggy.LogTrace("Updating APC display", Category.Machines);
 				// Display the electrical values using engineering notation
 				string voltage = LocalAPC.Voltage.ToEngineering("V");
 				string current = LocalAPC.Current.ToEngineering("A");

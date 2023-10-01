@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -313,7 +314,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 						}
 						else
@@ -335,7 +336,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 
 						}
@@ -357,7 +358,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 
 						}
@@ -379,7 +380,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 						}
 						else
@@ -399,7 +400,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 						}
 						else
@@ -418,7 +419,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 
 						}
@@ -439,7 +440,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 						}
 						else
@@ -458,7 +459,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 						}
 						else
@@ -483,7 +484,7 @@ namespace Messages.Server.SpritesMessages
 								}
 								catch (Exception e)
 								{
-									Logger.Log(e.ToString());
+									Loggy.Log(e.ToString());
 								}
 
 							}
@@ -515,7 +516,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 						}
 						else

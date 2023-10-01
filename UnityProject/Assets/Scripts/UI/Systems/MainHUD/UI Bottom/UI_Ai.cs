@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Systems.Ai;
 using Systems.MobAIs;
 using Systems.Teleport;
@@ -194,7 +195,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 			if (aiPlayer == null)
 			{
-				Logger.LogError("Failed to find AiPlayer for player");
+				Loggy.LogError("Failed to find AiPlayer for player");
 				return;
 			}
 

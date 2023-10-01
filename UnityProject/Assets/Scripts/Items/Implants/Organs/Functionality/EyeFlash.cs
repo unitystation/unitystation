@@ -46,7 +46,7 @@ public class EyeFlash : BodyPartFunctionality
 		foreach (var slots in playerStorage.ServerContents)
 		{
 			//TODO Might be better for a script where you ask it if it's blocking Flash but this is good enough for now
-			if (slots.Key != NamedSlot.eyes && slots.Key != NamedSlot.mask) continue;
+			if (slots.Key != NamedSlot.eyes && slots.Key != NamedSlot.mask && slots.Key != NamedSlot.head) continue;
 			foreach (ItemSlot onSlots in slots.Value)
 			{
 				if (onSlots.IsEmpty) continue;

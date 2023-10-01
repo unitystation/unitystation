@@ -5,6 +5,7 @@ using UnityEngine;
 using AddressableReferences;
 using System.Threading.Tasks;
 using HealthV2;
+using Logs;
 
 namespace Systems.MobAIs
 {
@@ -53,7 +54,7 @@ namespace Systems.MobAIs
 			else
 			{
 				//Wait until RTT/2 seconds?
-				Logger.Log($"WAIT FOR ATTACK: {rtt / 2f}", Category.Mobs);
+				Loggy.Log($"WAIT FOR ATTACK: {rtt / 2f}", Category.Mobs);
 				await Task.Delay((int)(rtt * 500));
 			}
 

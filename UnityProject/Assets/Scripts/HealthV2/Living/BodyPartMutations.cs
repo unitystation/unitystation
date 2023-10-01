@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Utils;
 using HealthV2;
 using Items.Implants.Organs;
 using Systems.Character;
@@ -49,8 +50,9 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	private void OnDMGMutationCheck(BodyPartDamageData data)
 	{
-		if (data.DamageType != DamageType.Clone) return;
 		if (data.DamageAmount <= 0) return;
+		if (data.DamageType != DamageType.Clone && data.DamageType != DamageType.Radiation) return;
+
 
 		data.DamageAmount = Mathf.Clamp(data.DamageAmount, 0, 100);
 		//Range = 0 to 100
@@ -64,7 +66,7 @@ public class BodyPartMutations : BodyPartFunctionality
 			available.Remove(active.RelatedMutationSO);
 		}
 
-		AddMutation(available.PickRandom());
+		AddMutation(available.PickRandomNonNull());
 		//Maybe under undo mutations??
 	}
 

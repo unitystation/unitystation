@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Managers;
 using Mirror;
 using UnityEditor;
@@ -36,34 +37,34 @@ public partial class SubSceneManager
 		loadTimer.MaxLoadTime = 20f + (asteroidList.Asteroids.Count * 10f);
 		loadTimer.IncrementLoadBar("Preparing..");
 
-		Logger.Log(" waiting for addressables To load ");
+		Loggy.Log(" waiting for addressables To load ");
 		while (AddressableCatalogueManager.FinishLoaded == false)
 		{
 			yield return null;
 		}
 
-		Logger.Log(" Loading space ");
+		Loggy.Log(" Loading space ");
 		yield return StartCoroutine(ServerLoadSpaceScene(loadTimer));
 
 		//Choose and load a mainstation
-		Logger.Log(" Loading main station ");
+		Loggy.Log(" Loading main station ");
 		yield return StartCoroutine(ServerLoadMainStation(loadTimer));
 
 		if (GameManager.Instance.QuickLoad == false)
 		{
-			Logger.Log(" Loading Asteroids ");
+			Loggy.Log(" Loading Asteroids ");
 			//Load Asteroids:
 			yield return StartCoroutine(ServerLoadAsteroids(loadTimer));
-			Logger.Log(" Loading AwaySite ");
+			Loggy.Log(" Loading AwaySite ");
 			//Load away site:
 			yield return StartCoroutine(ServerLoadAwaySite(loadTimer));
 
-			Logger.Log(" Loading CentCom ");
+			Loggy.Log(" Loading CentCom ");
 			//Load CentCom Scene:
 			yield return StartCoroutine(ServerLoadCentCom(loadTimer));
 			//Load Additional Scenes:
 
-			Logger.Log(" Loading AdditionalScenes ");
+			Loggy.Log(" Loading AdditionalScenes ");
 			yield return StartCoroutine(ServerLoadAdditionalScenes(loadTimer));
 		}
 
@@ -71,18 +72,18 @@ public partial class SubSceneManager
 		EventManager.Broadcast(Event.ReadyToInitialiseMatrices, false);
 		SubSceneManagerNetworked.ScenesInitialLoadingComplete = true;
 
-		Logger.Log(" waiting for MatrixManager.IsInitialized");
+		Loggy.Log(" waiting for MatrixManager.IsInitialized");
 		while (MatrixManager.IsInitialized == false)
 		{
 			yield return null;
 		}
 
 
-		Logger.Log(" Triggering for SubsystemMatrixQueueInit.InitAllSystems");
+		Loggy.Log(" Triggering for SubsystemMatrixQueueInit.InitAllSystems");
 		loadTimer.IncrementLoadBar("Loading Subsystems..");
 		yield return SubsystemMatrixQueueInit.InitAllSystems();
 
-		Logger.Log(" waiting for SubsystemMatrixQueueInit.InitializedAll");
+		Loggy.Log(" waiting for SubsystemMatrixQueueInit.InitializedAll");
 		while (SubsystemMatrixQueueInit.InitializedAll == false)
 		{
 			yield return WaitFor.Seconds(1f);
@@ -90,7 +91,7 @@ public partial class SubSceneManager
 
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 		EventManager.Broadcast(Event.ScenesLoadedServer, false);
-		Logger.Log($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
+		Loggy.Log($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
 		ServerInitialLoadingComplete = true;
 	}
 
@@ -137,7 +138,7 @@ public partial class SubSceneManager
 
 		foreach (var asteroid in asteroidList.Asteroids)
 		{
-			Logger.Log($" Loading Asteroid {asteroid} ");
+			Loggy.Log($" Loading Asteroid {asteroid} ");
 			yield return StartCoroutine(LoadSubScene(asteroid, loadTimer, default, SceneType.Asteroid));
 		}
 	}

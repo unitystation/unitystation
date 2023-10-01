@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -136,12 +137,12 @@ namespace Weapons
 		{
 			if (amount < 0)
 			{
-				Logger.LogWarning("Attempted to expend a negitive amount of ammo", Category.Firearms); // dont use this method to replenish ammo
+				Loggy.LogWarning("Attempted to expend a negitive amount of ammo", Category.Firearms); // dont use this method to replenish ammo
 			}
 
 			if (ClientAmmoRemains < amount)
 			{
-				Logger.LogWarning("Client ammo count is too low, cannot expend that much ammo. Make sure" +
+				Loggy.LogWarning("Client ammo count is too low, cannot expend that much ammo. Make sure" +
 								  " to check ammo count before expending it.", Category.Firearms);
 			}
 			else
@@ -153,7 +154,7 @@ namespace Weapons
 			{
 				if (ServerAmmoRemains < amount)
 				{
-					Logger.LogWarning("Server ammo count is too low, cannot expend that much ammo. Make sure" +
+					Loggy.LogWarning("Server ammo count is too low, cannot expend that much ammo. Make sure" +
 									  " to check ammo count before expending it.", Category.Firearms);
 				}
 				else
@@ -174,7 +175,7 @@ namespace Weapons
 					}
 				}
 
-				Logger.LogTraceFormat("Expended {0} shots, now serverAmmo {1} clientAmmo {2}", Category.Firearms, amount, serverAmmoRemains, clientAmmoRemains);
+				Loggy.LogTraceFormat("Expended {0} shots, now serverAmmo {1} clientAmmo {2}", Category.Firearms, amount, serverAmmoRemains, clientAmmoRemains);
 			}
 		}
 
@@ -272,7 +273,7 @@ namespace Weapons
 				CurrentRng = RNGContents[clientAmmoRemains];
 			}
 
-			Logger.LogTraceFormat("rng {0}, serverAmmo {1} clientAmmo {2}", Category.Firearms, CurrentRng, serverAmmoRemains, clientAmmoRemains);
+			Loggy.LogTraceFormat("rng {0}, serverAmmo {1} clientAmmo {2}", Category.Firearms, CurrentRng, serverAmmoRemains, clientAmmoRemains);
 			return CurrentRng;
 		}
 

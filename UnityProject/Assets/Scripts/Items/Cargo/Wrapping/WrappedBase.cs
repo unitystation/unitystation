@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AddressableReferences;
+using Logs;
 using NaughtyAttributes;
 using Objects;
 using UnityEngine;
@@ -108,7 +109,7 @@ namespace Items.Cargo.Wrapping
 						Runs++;
 						if (Runs > 100)
 						{
-							Logger.LogError("Unable to find prefab matching parameters from allSpawnablePrefabs Breaking loop");
+							Loggy.LogError("Unable to find prefab matching parameters from allSpawnablePrefabs Breaking loop");
 							break;
 						}
 

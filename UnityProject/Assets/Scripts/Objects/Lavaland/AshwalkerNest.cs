@@ -4,6 +4,7 @@ using Systems.CraftingV2;
 using Systems.GhostRoles;
 using AddressableReferences;
 using HealthV2;
+using Logs;
 using Managers;
 using ScriptableObjects;
 using UnityEngine;
@@ -237,7 +238,7 @@ namespace Objects
 			{
 				//Remove the player from all roles (as createdRoleKey will Error)
 				GhostRoleManager.Instance.ServerRemoveWaitingPlayer(player);
-				Logger.LogError("Ghost role spawn called on null ashwalker, was the role not removed on destruction?");
+				Loggy.LogError("Ghost role spawn called on null ashwalker, was the role not removed on destruction?");
 				return;
 			}
 

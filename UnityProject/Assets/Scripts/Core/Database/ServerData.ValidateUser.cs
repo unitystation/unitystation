@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Firebase.Auth;
+using Logs;
 using Newtonsoft.Json;
 using SecureStuff;
 using UnityEngine;
@@ -37,7 +38,7 @@ namespace DatabaseAPI
 			}
 			catch (Exception e)
 			{
-				Logger.LogError($"Error Accessing Firestore: {e.Message}", Category.DatabaseAPI);
+				Loggy.LogError($"Error Accessing Firestore: {e.Message}", Category.DatabaseAPI);
 				errorAction?.Invoke($"Error accessing Firestore. Check your console (F5)");
 				return false;
 			}
@@ -57,14 +58,14 @@ namespace DatabaseAPI
 			else
 			{
 				string unescapedJson = Regex.Unescape(fireStoreChar.stringValue);
-				Logger.Log(unescapedJson);
+				Loggy.Log(unescapedJson);
 				try
 				{
 					characterSettings = JsonConvert.DeserializeObject<CharacterSheet>(unescapedJson);
 				}
 				catch
 				{
-					Logger.LogWarning($"Couldn't deserialise saved character settings.");
+					Loggy.LogWarning($"Couldn't deserialise saved character settings.");
 					characterSettings = CharacterSheet.GenerateRandomCharacter();
 				}
 
@@ -78,7 +79,7 @@ namespace DatabaseAPI
 				bool updateSuccess = await UpdateCharacterProfile(characterSettings);
 				if (!updateSuccess)
 				{
-					Logger.LogError($"Error when updating character", Category.DatabaseAPI);
+					Loggy.LogError($"Error when updating character", Category.DatabaseAPI);
 					errorAction?.Invoke("Error when updating character");
 					return false;
 				}
@@ -114,7 +115,7 @@ namespace DatabaseAPI
 				//fail silently for local offline testing
 				if (!GameData.Instance.OfflineMode)
 				{
-					Logger.Log($"Something went wrong with token validation {e.Message}", Category.DatabaseAPI);
+					Loggy.Log($"Something went wrong with token validation {e.Message}", Category.DatabaseAPI);
 				}
 
 				return null;

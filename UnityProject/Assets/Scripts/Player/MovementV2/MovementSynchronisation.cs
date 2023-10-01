@@ -4,12 +4,14 @@ using System.Linq;
 using Core.Editor.Attributes;
 using Core.Utils;
 using Items;
+using Logs;
 using Managers;
 using Messages.Client.Interaction;
 using Mirror;
 using Newtonsoft.Json;
 using Objects;
 using Player.Movement;
+using ScriptableObjects;
 using ScriptableObjects.Audio;
 using Systems.Character;
 using Systems.Teleport;
@@ -118,7 +120,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		var buckleInteract = BuckledToObject.GetComponent<BuckleInteract>();
 		if (buckleInteract == null)
 		{
-			Logger.LogError($"{BuckledToObject.gameObject.ExpensiveName()} has no BuckleInteract!");
+			Loggy.LogError($"{BuckledToObject.gameObject.ExpensiveName()} has no BuckleInteract!");
 			return;
 		}
 
@@ -761,7 +763,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 				if (DEBUG)
 				{
-					Logger.LogError(" Is Animating:" + Animating
+					Loggy.LogError(" Is Animating:" + Animating
 					                                 + "\n Is floating: " + IsFloating()
 					                                 + "\n move processed at" + transform.localPosition
 					                                 + "\n is flying:" + IsFlyingSliding);
@@ -814,7 +816,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						{
 							//Reset Swapped thing
 							//TODO
-							Logger.LogError("TODO Reset location of swapped Stuff on client ");
+							Loggy.LogError("TODO Reset location of swapped Stuff on client ");
 						}
 
 						//Logger.LogError("Move processed");
@@ -862,11 +864,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 							ResetLocationOnClients();
 						}
 
-						Step = !Step;
-						if (Step)
-						{
-							FootstepSounds.PlayerFootstepAtPosition(transform.position, this);
-						}
+						HandleFootstepLogic();
 
 
 						//TODO this is good but need to clean up movement a bit more Logger.LogError("Delta magnitude " + (transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID).Matrix)).magnitude );
@@ -927,7 +925,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				{
 					if (DEBUG)
 					{
-						Logger.LogError("Failed Can input", Category.Movement);
+						Loggy.LogError("Failed Can input", Category.Movement);
 					}
 					if (fudged)
 					{
@@ -952,7 +950,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			if (dummyMind == null || dummyMind.Body == null ||
 			    dummyMind.Body.TryGetComponent<UniversalObjectPhysics>(out var physics) == false)
 			{
-				Logger.LogError("Something went wrong while spawning a dummy player.");
+				Loggy.LogError("Something went wrong while spawning a dummy player.");
 			}
 			else
 			{
@@ -1046,6 +1044,21 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 	}
 
+	public void HandleFootstepLogic()
+	{
+		if (DMMath.Prob(0.1f))
+		{
+			_ = Spawn.ServerPrefab(CommonPrefabs.Instance.DirtyFloorDecal,transform.position.RoundToInt());
+		}
+
+
+		Step = !Step;
+		if (Step)
+		{
+			FootstepSounds.PlayerFootstepAtPosition(transform.position, this);
+		}
+	}
+
 
 	public void AfterSuccessfulTryMove(MoveData newMoveData)
 	{
@@ -1053,11 +1066,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			if (hasAuthority && this.playerScript.OrNull()?.Equipment.OrNull()?.ItemStorage != null)
 			{
-				Step = !Step;
-				if (Step)
-				{
-					FootstepSounds.PlayerFootstepAtPosition(transform.position, this);
-				}
+				HandleFootstepLogic();
 			}
 		}
 
@@ -1233,7 +1242,26 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			if (IsWalking) return false;
 		}
 
-		if (slideTime > 0) return false;
+
+		if (airTime > 0)
+		{
+			if (Animating == false)
+			{
+				Loggy.LogError("Error somehow have air Time while not animating");
+				airTime = 0;
+			}
+			return false;
+		}
+
+		if (slideTime > 0)
+		{
+			if (Animating == false)
+			{
+				Loggy.LogError("Error somehow have Slide time while not animating");
+				slideTime = 0;
+			}
+			return false;
+		}
 		if (allowInput == false) return false;
 		if (BuckledToObject) return false;
 		if (hasAuthority && UIManager.IsInputFocus) return false;

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core.Utils;
+using Logs;
 using Managers.SettingsManager;
 using TMPro;
+using UI;
 using UI.Chat_UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -38,9 +40,6 @@ namespace Unitystation.Options
 		private Toggle HighlightToggle = null;
 
 		[SerializeField]
-		private Toggle legacyRightClickMenuToggle = null;
-
-		[SerializeField]
 		private Toggle chatHighlightToggle = null;
 
 		[SerializeField]
@@ -64,6 +63,13 @@ namespace Unitystation.Options
 		[SerializeField]
 		private Dropdown fontDropdown = null;
 
+		[SerializeField]
+		private Dropdown RightClickropdown = null;
+
+
+		[SerializeField]
+		private Toggle ThrowPreferenceToggle = null;
+
 		void OnEnable()
 		{
 			Refresh();
@@ -80,7 +86,7 @@ namespace Unitystation.Options
 			}
 			catch (Exception e)
 			{
-				Logger.LogError($"[ThemeOptions/Refresh()] - Failed to Load themes.\n {e}");
+				Loggy.LogError($"[ThemeOptions/Refresh()] - Failed to Load themes.\n {e}");
 			}
 
 			HighlightToggle.isOn = Highlight.HighlightEnabled;
@@ -105,7 +111,7 @@ namespace Unitystation.Options
 			}
 			catch (Exception e)
 			{
-				Logger.LogError(e.ToString());
+				Loggy.LogError(e.ToString());
 			}
 
 			try
@@ -116,21 +122,37 @@ namespace Unitystation.Options
 
 
 
-				var value = PlayerPrefs.GetString("fontPref", "Ubuntu-R SDF");
+				var value = PlayerPrefs.GetString("fontPref", "LiberationSans SDF");
 				fontDropdown.SetValueByName(value);
 			}
 			catch (Exception e)
 			{
 				var chatUIHasNoFonts = ChatUI.Instance.Fonts?.Count == 0;
-				Logger.LogError($"[ThemeOptions/Refresh()] - Failed to setup font options. " +
+				Loggy.LogError($"[ThemeOptions/Refresh()] - Failed to setup font options. " +
 				                $"\n chat has no fonts: {chatUIHasNoFonts} \n {e}");
 			}
+
+			try
+			{
+				RightClickropdown.ClearOptions();
+
+				var Options = RightClickManager.AvailableRightClickOptions.Keys.ToList();
+
+				RightClickropdown.AddOptions(Options);
+				var value = RightClickManager.GetRightClickPreference();
+				RightClickropdown.SetValueByName(value);
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError($"[ThemeOptions/Refresh()] - Failed to setup RightClick options. " );
+			}
+
+			ThrowPreferenceToggle.isOn = ControlAction.GetHoldThrowPreference();
 
 			chatAlphaFadeMinimum.value = UI.Chat_UI.ChatUI.Instance.GetPreferenceChatBackground();
 			chatContentAlphaFadeMinimum.value =  UI.Chat_UI.ChatUI.Instance.GetPreferenceChatContent();
 			hoverTooltipDelaySlider.value = UIManager.Instance.HoverTooltipUI.GetSavedTooltipDelay();
 			hoverTooltipDelaySliderValueText.text = UIManager.Instance.HoverTooltipUI.GetSavedTooltipDelay().ToString();
-			legacyRightClickMenuToggle.isOn = RightClickManager.Instance.UsingLegacyDropDownMenu;
 		}
 
 		void ConstructChatBubbleOptions()
@@ -154,7 +176,7 @@ namespace Unitystation.Options
 			else
 			{
 				chatBubbleDropDown.interactable = false;
-				Logger.LogError("No Options found for ChatBubbles", Category.Themes);
+				Loggy.LogError("No Options found for ChatBubbles", Category.Themes);
 			}
 		}
 
@@ -162,11 +184,6 @@ namespace Unitystation.Options
 		{
 			Highlight.SetPreference(HighlightToggle.isOn);
 			Refresh();
-		}
-
-		public void RightClickPreference()
-		{
-			RightClickManager.SetRightClickPreference(legacyRightClickMenuToggle.isOn);
 		}
 
 		public void ChatHighlightSetPreference()
@@ -241,6 +258,16 @@ namespace Unitystation.Options
 		{
 			ChatUI.Instance.FontIndexToUse = fontDropdown.value;
 			PlayerPrefs.SetString("fontPref", fontDropdown.GetValueName());
+		}
+
+		public void OnRightClickPreferenceChange()
+		{
+			RightClickManager.SetRightClickPreference(RightClickropdown.GetValueName());
+		}
+
+		public void OnThrowHoldPreferenceChange()
+		{
+			ControlAction.SetPreferenceThrowHoldPreference(ThrowPreferenceToggle.isOn);
 		}
 	}
 }

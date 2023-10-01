@@ -1,6 +1,7 @@
 ﻿using Mirror;
 using UnityEngine;
 using Items;
+using Logs;
 
 namespace Messages.Client
 {
@@ -21,7 +22,7 @@ namespace Messages.Client
 			{
 				//Failfast
 
-				Logger.LogWarning($"Headset invalid, processing stopped: {ToString()}",Category.Chat);
+				Loggy.LogWarning($"Headset invalid, processing stopped: {ToString()}",Category.Chat);
 				return;
 			}
 
@@ -73,7 +74,7 @@ namespace Messages.Client
 
 			if (encryptionKey.Successful == false)
 			{
-				Logger.LogError($"Headset key instantiation for {player.Name} failed, spawn aborted",Category.Chat);
+				Loggy.LogError($"Headset key instantiation for {player.Name} failed, spawn aborted",Category.Chat);
 				return;
 			}
 

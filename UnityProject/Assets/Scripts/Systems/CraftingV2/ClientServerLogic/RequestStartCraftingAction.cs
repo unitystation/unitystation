@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Items;
+using Logs;
 using Messages.Client;
 using Mirror;
 
@@ -36,7 +37,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 
 			if (netMessage.CraftingRecipeIndex < 0)
 			{
-				Logger.LogError(
+				Loggy.LogError(
 					$"Received the negative recipe index when {SentByPlayer.Name} " +
 					"had tried to craft something. Perhaps some recipe is missing from the singleton."
 				);
@@ -45,7 +46,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 
 			if (netMessage.IsRecipeIndexWrong)
 			{
-				Logger.LogError(
+				Loggy.LogError(
 					$"Received the wrong recipe index when {SentByPlayer.Name} had tried to craft something. " +
 					"Perhaps some recipe has wrong indexInSingleton that doesn't match a real index in the singleton."
 				);

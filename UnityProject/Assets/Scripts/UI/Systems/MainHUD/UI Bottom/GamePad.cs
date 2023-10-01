@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 
 public class GamePad : MonoBehaviour
@@ -34,7 +35,7 @@ public class GamePad : MonoBehaviour
 
 	private void PressKey( GameKey gameKey )
 	{
-		Logger.LogTrace($"Pressed key {gameKey}", Category.UserInput);
+		Loggy.LogTrace($"Pressed key {gameKey}", Category.UserInput);
 		foreach ( var key in gameKey.Keys )
 		{
 			pressedKeys.Add( key );
@@ -46,7 +47,7 @@ public class GamePad : MonoBehaviour
 
 	private void ReleaseKey( GameKey gameKey )
 	{
-		Logger.LogTrace($"Released key {gameKey}", Category.UserInput);
+		Loggy.LogTrace($"Released key {gameKey}", Category.UserInput);
 		foreach ( var key in gameKey.Keys )
 		{
 			pressedKeys.Remove( key );

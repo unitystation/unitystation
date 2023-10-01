@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UI.Core.NetUI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,7 +21,7 @@ public class GUI_CoordReadout : MonoBehaviour
 	{
 		if (xText == null || yText == null)
 		{
-			Logger.LogError("Coord Readout not setup correctly!", Category.Shuttles);
+			Loggy.LogError("Coord Readout not setup correctly!", Category.Shuttles);
 			this.enabled = false;
 			return;
 		}

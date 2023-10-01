@@ -2,6 +2,7 @@
 using UnityEngine;
 using Core.Editor.Attributes;
 using Items;
+using Logs;
 
 
 namespace Systems.Interaction
@@ -21,7 +22,7 @@ namespace Systems.Interaction
 			{
 				if (isMeleeable == false)
 				{
-					Logger.LogWarning($"Remove {nameof(Meleeable)} component from {this} if it isn't meleeable, " +
+					Loggy.LogWarning($"Remove {nameof(Meleeable)} component from {this} if it isn't meleeable, " +
 						$"instead of relying on the isMeleeable field.");
 				}
 				return isMeleeable;
@@ -107,7 +108,7 @@ namespace Systems.Interaction
 			wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart, layerType);
 			if (Validations.HasItemTrait(handObject, CommonTraits.Instance.Breakable))
 			{
-				handObject.GetComponent<ItemBreakable>().AddDamage();
+				handObject.GetComponent<ItemBreakable>()?.AddDamage();
 			}
 		}
 	}

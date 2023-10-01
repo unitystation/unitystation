@@ -26,6 +26,7 @@ public class OreBox : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 
 	private void AfterMovement(Vector3Int newLocalPosition)
 	{
+		if (isServer == false) return;
 		var tileObjects = MatrixManager.GetAt<UniversalObjectPhysics>(registerTile.WorldPosition, true);
 		foreach (var objectBehaviour in tileObjects)
 		{
@@ -48,7 +49,7 @@ public class OreBox : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 			return true;
 		if (Validations.HasItemTrait(interaction.HandSlot.ItemObject, CommonTraits.Instance.OreGeneral))
 			return true;
-		if (interaction.HandSlot.ItemObject.GetComponent<ItemStorage>())
+		if (interaction.HandSlot?.ItemObject.OrNull()?.GetComponent<ItemStorage>())
 			return true;
 
 		return false;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Systems.Antagonists;
 using TMPro;
 using UI.Core.Animations;
@@ -217,7 +218,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 					queenFinder.ChangeSpriteVariant(7, false);
 					return;
 				default:
-					Logger.LogError($"Angle was: {angle} degrees, no case for it!");
+					Loggy.LogError($"Angle was: {angle} degrees, no case for it!");
 					return;
 			}
 		}

@@ -10,6 +10,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using EpPathFinding.cs;
 using HealthV2;
+using Logs;
 using Managers;
 using Strings;
 using Systems.MobAIs;
@@ -193,13 +194,13 @@ namespace Blob
 
 			if (playerScript == null && (!TryGetComponent(out playerScript) || playerScript == null))
 			{
-				Logger.LogError("Playerscript was null on blob and couldnt be found.", Category.Blob);
+				Loggy.LogError("Playerscript was null on blob and couldnt be found.", Category.Blob);
 				return;
 			}
 
 			if (mind == null)
 			{
-				Logger.LogError("Mind was null on blob and couldnt be found.", Category.Blob);
+				Loggy.LogError("Mind was null on blob and couldnt be found.", Category.Blob);
 				return;
 			}
 
@@ -214,7 +215,7 @@ namespace Blob
 
 			if (!result.Successful)
 			{
-				Logger.LogError("Failed to spawn blob core for player!", Category.Blob);
+				Loggy.LogError("Failed to spawn blob core for player!", Category.Blob);
 				return;
 			}
 
@@ -708,7 +709,7 @@ namespace Blob
 
 			if (matrix == null)
 			{
-				Logger.LogError("matrix for blob click was null", Category.Blob);
+				Loggy.LogError("matrix for blob click was null", Category.Blob);
 				return false;
 			}
 
@@ -1043,7 +1044,7 @@ namespace Blob
 					cost = resourceBlobCost;
 					break;
 				default:
-					Logger.LogError("Switch has no correct case for blob structure!", Category.Blob);
+					Loggy.LogError("Switch has no correct case for blob structure!", Category.Blob);
 					break;
 			}
 
@@ -1091,7 +1092,7 @@ namespace Blob
 							resourceBlobs.Add(structure);
 							break;
 						default:
-							Logger.LogError("Switch has no correct case for blob structure!", Category.Blob);
+							Loggy.LogError("Switch has no correct case for blob structure!", Category.Blob);
 							break;
 					}
 
@@ -1176,7 +1177,7 @@ namespace Blob
 						Chat.AddExamineMsgFromServer(gameObject, "This is a blob node. It cannot be removed");
 						return;
 					default:
-						Logger.LogError("Switch has no correct case for blob structure!", Category.Blob);
+						Loggy.LogError("Switch has no correct case for blob structure!", Category.Blob);
 						break;
 				}
 
@@ -1959,7 +1960,7 @@ namespace Blob
 			}
 			catch (Exception e)
 			{
-				Logger.LogError(e.ToString());
+				Loggy.LogError(e.ToString());
 			}
 
 			pathSearch = false;

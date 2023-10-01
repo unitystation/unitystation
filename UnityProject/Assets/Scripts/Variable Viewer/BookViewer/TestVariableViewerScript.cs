@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Logs;
 using SecureStuff;
 using Random = UnityEngine.Random;
 
@@ -65,13 +66,13 @@ public class TestVariableViewerScript : MonoBehaviour
 	public List<Color> ColourList = new  List<Color>();
 	private void DOThingPrivate()
 	{
-		Logger.Log("DOThingPrivate");
+		Loggy.Log("DOThingPrivate");
 	}
 
 
 	public void DOThingPublic()
 	{
-		Logger.Log("DOThingPublic");
+		Loggy.Log("DOThingPublic");
 	}
 
 

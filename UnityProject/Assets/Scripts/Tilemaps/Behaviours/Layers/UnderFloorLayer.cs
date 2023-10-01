@@ -1,3 +1,4 @@
+using Logs;
 using NaughtyAttributes;
 using UnityEngine;
 using Objects.Atmospherics;
@@ -26,19 +27,19 @@ public class UnderFloorLayer : Layer
 
 		if (electricalLayer == null)
 		{
-			Logger.LogError($"Missing electrical layer!");
+			Loggy.LogError($"Missing electrical layer!");
 			return;
 		}
 
 		if (pipeLayer == null)
 		{
-			Logger.LogError($"Missing pipe layer!");
+			Loggy.LogError($"Missing pipe layer!");
 			return;
 		}
 
 		if (disposalsLayer == null)
 		{
-			Logger.LogError($"Missing disposals layer!");
+			Loggy.LogError($"Missing disposals layer!");
 			return;
 		}
 

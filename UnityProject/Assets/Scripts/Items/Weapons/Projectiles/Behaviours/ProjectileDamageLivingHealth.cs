@@ -1,4 +1,5 @@
 ﻿using HealthV2;
+using Logs;
 using ScriptableObjects.Gun;
 using UnityEngine;
 
@@ -38,7 +39,7 @@ namespace Weapons.Projectiles.Behaviours
 
 
 				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
-				Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,
+				Loggy.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,
 					livingHealth.gameObject.name, damageData.Damage);
 
 				return true;
@@ -53,7 +54,7 @@ namespace Weapons.Projectiles.Behaviours
 					TraumaticDamageTypes.PIERCE);
 
 				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
-				Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,
+				Loggy.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,
 					health.gameObject.name, damageData.Damage);
 
 				return true;

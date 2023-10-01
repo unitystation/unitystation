@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Logs;
+using UnityEngine;
 
 namespace Items
 {
@@ -25,7 +26,7 @@ namespace Items
 				Chat.AddActionMsgToChat(gameObject, OnAddBackMessage);
 				return;
 			}
-			Logger.LogError($"[{gameObject.name}/AddBackToStorageOnDropOrThrow] - Something went wrong while trying to re-add this item back to their item storage.");
+			Loggy.LogError($"[{gameObject.name}/AddBackToStorageOnDropOrThrow] - Something went wrong while trying to re-add this item back to their item storage.");
 		}
 	}
 }

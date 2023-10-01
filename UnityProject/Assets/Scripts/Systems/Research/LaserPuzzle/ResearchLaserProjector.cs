@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Mirror;
 using Newtonsoft.Json;
 using Systems.Electricity;
@@ -21,7 +22,7 @@ namespace Objects.Research
 		//TODO Sprite collector
 		//TODO https://www.youtube.com/watch?v=DwGcKFMxrmI
 
-		private const float UPLOAD_EFFICIENCY = 0.75f; //If the player decides to upload research data as direct RP as opposed to technology, how efficient is this process? 
+		private const float UPLOAD_EFFICIENCY = 0.75f; //If the player decides to upload research data as direct RP as opposed to technology, how efficient is this process?
 
 		private LaserProjection LivingLine;
 
@@ -92,7 +93,7 @@ namespace Objects.Research
 
 			if (researchServer == null)
 			{
-				Logger.LogError("Server Not Set");
+				Loggy.LogError("Server Not Set");
 				return;
 			}
 
@@ -108,7 +109,7 @@ namespace Objects.Research
 			gameObject.GetComponent<Collider2D>().enabled = true;
 		}
 
-	
+
 		public void DisableLaser()
 		{
 			IsVisualOn = false;
@@ -146,7 +147,7 @@ namespace Objects.Research
 				GroupedData[data.Technology] += data.ResearchPower;
 			}
 			else GroupedData.Add(data.Technology, data.ResearchPower);
-			
+
 			if (GroupedData[data.Technology] >= data.Technology.ResearchCosts)
 			{
 				if (researchServer.Techweb.ResearchedTech.Contains(data.Technology) == false)
@@ -269,7 +270,7 @@ namespace Objects.Research
 
 				return;
 			}
-		
+
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 3,
 				"You begin to weld the laser projector to the floor...",
 				$"{interaction.Performer.ExpensiveName()} begins to weld the laser projector to the floor...",
@@ -280,7 +281,7 @@ namespace Objects.Research
 					ElectricalManager.Instance.electricalSync.StructureChange = true;
 					isWelded = true;
 				});
-			
+
 		}
 
 		#endregion

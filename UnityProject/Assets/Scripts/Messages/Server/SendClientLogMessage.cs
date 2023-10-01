@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Logs;
+using Mirror;
 
 namespace Messages.Server
 {
@@ -19,11 +20,11 @@ namespace Messages.Server
 		{
 			if (msg.IsError)
 			{
-				Logger.LogError(msg.Message, msg.Category);
+				Loggy.LogError(msg.Message, msg.Category);
 			}
 			else
 			{
-				Logger.Log(msg.Message, msg.Category);
+				Loggy.Log(msg.Message, msg.Category);
 			}
 		}
 

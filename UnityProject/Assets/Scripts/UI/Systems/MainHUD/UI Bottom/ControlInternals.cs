@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using UnityEngine.UI;
 using Objects.Atmospherics;
@@ -60,7 +61,7 @@ namespace UI
 						mask.enabled = true;
 						break;
 					default:
-						Logger.LogError("Internals state is out of range. <1; 5>", Category.PlayerInventory);
+						Loggy.LogError("Internals state is out of range. <1; 5>", Category.PlayerInventory);
 						break;
 				}
 			}

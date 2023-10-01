@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Items;
+using Logs;
 using UnityEngine;
 
 namespace Antagonists
@@ -144,7 +145,7 @@ namespace Antagonists
 			}
 			catch (Exception e)
 			{
-				Logger.LogError($"Failed to set up objectives for {this.name}" +e.ToString());
+				Loggy.LogError($"Failed to set up objectives for {this.name}" +e.ToString());
 			}
 
 		}
@@ -216,7 +217,7 @@ namespace Antagonists
 		{
 			if (Owner.Body.DynamicItemStorage == null)
 			{
-				Logger.LogError($"Unable to find dynamic storage for {Owner.Body} / {Owner.Body.PlayerInfo.Username}");
+				Loggy.LogError($"Unable to find dynamic storage for {Owner.Body} / {Owner.Body.PlayerInfo.Username}");
 				//If they have no storage then fail, as they can't have the item
 				return false;
 			}

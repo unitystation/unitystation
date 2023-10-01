@@ -1,4 +1,5 @@
 using System;
+using Logs;
 using UnityEngine;
 
 namespace Objects.Kitchen
@@ -67,7 +68,7 @@ namespace Objects.Kitchen
 					dryingRack.RequestEjectContents();
 					break;
 				default:
-					Logger.LogError("Unexpected interaction request occurred in food processor context menu.", Category.Interaction);
+					Loggy.LogError("Unexpected interaction request occurred in food processor context menu.", Category.Interaction);
 					break;
 			}
 		}

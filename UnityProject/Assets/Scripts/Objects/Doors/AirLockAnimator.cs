@@ -1,5 +1,6 @@
 using System.Collections;
 using AddressableReferences;
+using Logs;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -227,7 +228,7 @@ namespace Doors
 			}
 			else
 			{
-				Logger.Log("Offset and the range of sprites must be a positive or zero.", Category.Doors);
+				Loggy.Log("Offset and the range of sprites must be a positive or zero.", Category.Doors);
 			}
 		}
 

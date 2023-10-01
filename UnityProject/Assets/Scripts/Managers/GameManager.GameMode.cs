@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using GameModes;
+using Logs;
 using UnityEngine;
 
 /// <summary>
@@ -47,7 +48,7 @@ public partial class GameManager
 		set
 		{
 			currentRoundState = value;
-			Logger.LogFormat("CurrentRoundState is now {0}!", Category.Round, value);
+			Loggy.LogFormat("CurrentRoundState is now {0}!", Category.Round, value);
 		}
 	}
 
@@ -77,7 +78,7 @@ public partial class GameManager
 	/// </summary>
 	public void SetGameMode(GameMode gm)
 	{
-		Logger.Log($"Set game mode to: {gm.Name}", Category.GameMode);
+		Loggy.Log($"Set game mode to: {gm.Name}", Category.GameMode);
 		GameMode = gm;
 	}
 
