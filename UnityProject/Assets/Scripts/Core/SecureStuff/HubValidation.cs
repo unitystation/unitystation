@@ -18,8 +18,12 @@ namespace SecureStuff
 		private static StreamReader reader;
 		private static StreamWriter writer;
 
-		private static List<string> allowedAPIHosts;
-		private static List<string> AllowedAPIHosts
+
+
+		private static HashSet<string> allowedAPIHosts;
+
+
+		private static HashSet<string> AllowedAPIHosts
 		{
 			get
 			{
@@ -33,8 +37,24 @@ namespace SecureStuff
 		}
 
 
-		private static List<string> allowedOpenHosts;
-		private static List<string> AllowedOpenHosts
+		private static HashSet<string> allowedGithubRepositories;
+
+		private static HashSet<string> AllowedGithubRepositories
+		{
+			get
+			{
+				if (allowedGithubRepositories == null)
+				{
+					LoadCashedURLConfiguration();
+				}
+
+				return allowedGithubRepositories;
+			}
+		}
+
+
+		private static HashSet<string> allowedOpenHosts;
+		private static HashSet<string> AllowedOpenHosts
 		{
 			get
 			{
@@ -56,8 +76,10 @@ namespace SecureStuff
 
 		private class URLData
 		{
-			public List<string> AllowedOpenHosts = new List<string>();
-			public List<string> AllowedAPIHosts = new List<string>();
+			public HashSet<string> AllowedOpenHosts = new HashSet<string>();
+			public HashSet<string> AllowedAPIHosts = new HashSet<string>();
+			public HashSet<string> AllowedGithubRepositories = new HashSet<string>();
+
 		}
 
 		private static async Task<bool> SetUp(string OnFailText, string URLClipboard = "")
@@ -92,6 +114,7 @@ namespace SecureStuff
 			var data = JsonConvert.DeserializeObject<URLData>(File.ReadAllText(path));
 			allowedOpenHosts = data.AllowedOpenHosts;
 			allowedAPIHosts = data.AllowedAPIHosts;
+			allowedGithubRepositories = data.AllowedGithubRepositories;
 		}
 
 		private static void SaveCashedURLConfiguration(URLData URLData)
@@ -104,21 +127,36 @@ namespace SecureStuff
 
 		}
 
-		private static void AddTrustedHost(string Host, bool IsAPI)
+		private static void AddTrustedHost(Uri URL, bool IsAPI)
 		{
 			if (IsAPI)
 			{
-				AllowedAPIHosts.Add(Host);
+				if (URL.Host == "raw.githubusercontent.com")
+				{
+					var StringURL = URL.ToString();
+
+					var splits = StringURL.Split("/");
+					if (splits.Length < 6)
+					{
+						return;
+					}
+					AllowedGithubRepositories.Add(splits[3].ToLower() + "/" + splits[4].ToLower() + "/" + splits[5].ToLower());
+				}
+				else
+				{
+					AllowedAPIHosts.Add(URL.Host);
+				}
 			}
 			else
 			{
-				AllowedOpenHosts.Add(Host);
+				AllowedOpenHosts.Add(URL.Host);
 			}
 
 			SaveCashedURLConfiguration(new URLData()
 			{
 				AllowedAPIHosts = allowedAPIHosts,
-				AllowedOpenHosts = AllowedOpenHosts
+				AllowedOpenHosts = AllowedOpenHosts,
+				AllowedGithubRepositories = AllowedGithubRepositories
 			});
 		}
 
@@ -141,10 +179,31 @@ namespace SecureStuff
 			}
 		}
 
+		public static bool CheckWhiteList(Uri URL)
+		{
+			if (URL.Host == "raw.githubusercontent.com")
+			{
+				var StringURL = URL.ToString();
+
+				var splits = StringURL.Split("/");
+				if (splits.Length < 6)
+				{
+					return false;
+				}
+				return AllowedGithubRepositories.Contains(splits[3].ToLower() + "/" + splits[4].ToLower() + "/" + splits[5].ToLower());
+			}
+
+			if (AllowedAPIHosts.Contains(URL.Host))
+			{
+				return true;
+			}
+			return false;
+		}
+
 		public static async Task<bool> RequestAPIURL(Uri URL, string JustificationReason, bool addAsTrusted)
 		{
 			if (TrustedMode) return true;
-			if (AllowedAPIHosts.Contains(URL.Host))
+			if (CheckWhiteList(URL))
 			{
 				return true;
 			}
@@ -167,7 +226,7 @@ namespace SecureStuff
 			var APIURL = bool.Parse(await reader.ReadLineAsync());
 			if (APIURL && addAsTrusted)
 			{
-				AddTrustedHost(URL.Host, true);
+				AddTrustedHost(URL, true);
 			}
 
 
@@ -201,7 +260,7 @@ namespace SecureStuff
 			var openURL = bool.Parse(reader.ReadLine());
 			if (openURL && addAsTrusted)
 			{
-				AddTrustedHost(URL.Host, false);
+				AddTrustedHost(URL, false);
 			}
 
 			return openURL;
