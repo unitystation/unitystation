@@ -159,11 +159,11 @@ namespace Chemistry
 			Loggy.LogTrace($"The buffer for ChemMaster {gameObject} is cleared.", Category.Chemistry);
 		}
 
-		public void DispenseProduct(int productId, int numberOfProduct, string newName)
+		public void DispenseProduct(GameObject productId, int numberOfProduct, string newName, int PillproductChoice)
 		{
 			ReagentMix temp = GetBufferMix();
 			//Do Math
-			float maxProductAmount = ChemMasterProducts[productId].GetComponent<ReagentContainer>().MaxCapacity;
+			float maxProductAmount = productId.GetComponent<ReagentContainer>().MaxCapacity;
 			float maxTotalAllProducts = maxProductAmount * numberOfProduct;
 			float amountPerProduct = ((maxTotalAllProducts > temp.Total) ? temp.Total : maxTotalAllProducts)
 			                         / numberOfProduct;
@@ -171,8 +171,13 @@ namespace Chemistry
 			for (int i = 0; i < numberOfProduct; i++)
 			{
 				//Spawn Object
-				var product = Spawn.ServerPrefab(ChemMasterProducts[productId], gameObject.AssumedWorldPosServer(),
+				var product = Spawn.ServerPrefab(productId, gameObject.AssumedWorldPosServer(),
 					transform.parent).GameObject;
+
+				if (product.GetComponent<ItemAttributesV2>().HasTrait(CommonTraits.Instance.Pill))
+				{
+					product.GetComponentInChildren<SpriteHandler>().ChangeSprite(PillproductChoice);
+				}
 
 				//Fill Product
 				ReagentContainer productContainer = product.GetComponent<ReagentContainer>();
