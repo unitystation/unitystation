@@ -5,21 +5,10 @@ namespace Systems.Faith.FaithProperties
 {
 	public class Xenophobia : IFaithProperty
 	{
-		private string faithPropertyName = "Xenophobia";
-		private string faithPropertyDesc = "Only the leaders' species of this faith is considered the 'acceptable' one.";
 		[SerializeField] private Sprite propertyIcon;
 
-		string IFaithProperty.FaithPropertyName
-		{
-			get => faithPropertyName;
-			set => faithPropertyName = value;
-		}
-
-		string IFaithProperty.FaithPropertyDesc
-		{
-			get => faithPropertyDesc;
-			set => faithPropertyDesc = value;
-		}
+		string IFaithProperty.FaithPropertyName { get; set; } = "Xenophobia";
+		string IFaithProperty.FaithPropertyDesc { get; set; } = "Only the leaders' species of this faith is considered the 'acceptable' one.";
 
 		Sprite IFaithProperty.PropertyIcon
 		{

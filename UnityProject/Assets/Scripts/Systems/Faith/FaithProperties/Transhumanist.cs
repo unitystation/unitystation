@@ -40,7 +40,7 @@ namespace Systems.Faith.FaithProperties
 
 		public void Setup()
 		{
-
+			//Todo: Finish transhumanist setup to include checks for body status
 		}
 
 		public void OnJoinFaith(PlayerScript newMember)

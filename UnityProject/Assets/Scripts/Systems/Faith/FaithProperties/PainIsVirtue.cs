@@ -4,22 +4,9 @@ namespace Systems.Faith.FaithProperties
 {
 	public class PainIsVirtue : IFaithProperty
 	{
-		private string faithPropertyName = "Pain Is Virtue";
-		private string faithPropertyDesc = "The flesh is sinful, but the soul is strong. You can only find comfort in pain. Virtue is shown through suffering of self and others.";
+		string IFaithProperty.FaithPropertyName { get; set; } = "Pain Is Virtue";
+		string IFaithProperty.FaithPropertyDesc { get; set; } = "The flesh is sinful, but the soul is strong. You can only find comfort in pain. Virtue is shown through suffering of self and others.";
 		[SerializeField] private Sprite propertyIcon;
-
-		string IFaithProperty.FaithPropertyName
-		{
-			get => faithPropertyName;
-			set => faithPropertyName = value;
-		}
-
-		string IFaithProperty.FaithPropertyDesc
-		{
-			get => faithPropertyDesc;
-			set => faithPropertyDesc = value;
-		}
-
 		Sprite IFaithProperty.PropertyIcon
 		{
 			get => propertyIcon;
@@ -28,6 +15,7 @@ namespace Systems.Faith.FaithProperties
 
 		public void Setup()
 		{
+			//Todo: add discomfort checks.
 		}
 
 		public void OnJoinFaith(PlayerScript newMember)
@@ -49,6 +37,7 @@ namespace Systems.Faith.FaithProperties
 
 		public void RandomEvent()
 		{
+			//Todo: add random events for pain is virtue.
 		}
 	}
 }

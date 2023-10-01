@@ -95,7 +95,7 @@ namespace Systems.Faith.FaithProperties
 
 		public void RandomEvent()
 		{
-
+			//Todo: add random events for gluttony.
 		}
 	}
 }

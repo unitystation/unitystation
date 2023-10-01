@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Systems.Faith.UI
 {
@@ -8,7 +9,7 @@ namespace Systems.Faith.UI
 
 		public void RefreshShop()
 		{
-
+			throw new NotImplementedException();
 		}
 	}
 }

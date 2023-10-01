@@ -5,22 +5,9 @@ namespace Systems.Faith.FaithProperties
 {
 	public class RockAndStone : IFaithProperty
 	{
-		private string faithPropertyName = "Rock and Stone";
-		private string faithPropertyDesc = "Channel your inner dwarf. Mine the earth.";
+		string IFaithProperty.FaithPropertyName { get; set; } = "Rock and Stone";
+		string IFaithProperty.FaithPropertyDesc { get; set; } = "Channel your inner dwarf. Mine the earth.";
 		[SerializeField] private Sprite propertyIcon;
-
-		string IFaithProperty.FaithPropertyName
-		{
-			get => faithPropertyName;
-			set => faithPropertyName = value;
-		}
-
-		string IFaithProperty.FaithPropertyDesc
-		{
-			get => faithPropertyDesc;
-			set => faithPropertyDesc = value;
-		}
-
 		Sprite IFaithProperty.PropertyIcon
 		{
 			get => propertyIcon;
@@ -46,7 +33,7 @@ namespace Systems.Faith.FaithProperties
 
 		public void OnLeaveFaith(PlayerScript member)
 		{
-			//Remove beard when leaving faith.
+			//Todo: Remove beard when leaving faith.
 		}
 
 

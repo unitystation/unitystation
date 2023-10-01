@@ -81,6 +81,7 @@ namespace Systems.Faith.FaithProperties
 
 		public void RandomEvent()
 		{
+			//Todo: add more events based on points for darkness.
 			if (DMMath.Prob(15))
 			{
 				Chat.AddGameWideSystemMsgToChat("<color=red>An entity is lashing out on station lights..");

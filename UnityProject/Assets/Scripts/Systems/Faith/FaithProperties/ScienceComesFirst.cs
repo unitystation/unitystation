@@ -5,21 +5,10 @@ namespace Systems.Faith.FaithProperties
 {
 	public class ScienceComesFirst : IFaithProperty
 	{
-		private string faithPropertyName = "Science comes first";
-		private string faithPropertyDesc = "To worship is to know. The only way to get close to our creator is to study and observe the universe around us and unlock its secrets.";
 		[SerializeField] private Sprite propertyIcon;
 
-		string IFaithProperty.FaithPropertyName
-		{
-			get => faithPropertyName;
-			set => faithPropertyName = value;
-		}
-
-		string IFaithProperty.FaithPropertyDesc
-		{
-			get => faithPropertyDesc;
-			set => faithPropertyDesc = value;
-		}
+		string IFaithProperty.FaithPropertyName { get; set; } = "Science comes first";
+		string IFaithProperty.FaithPropertyDesc { get; set; } = "To worship is to know. The only way to get close to our creator is to study and observe the universe around us and unlock its secrets.";
 
 		Sprite IFaithProperty.PropertyIcon
 		{
@@ -38,9 +27,9 @@ namespace Systems.Faith.FaithProperties
 			FaithManager.AwardPoints(score);
 		}
 
-		public void OnJoinFaith(PlayerScript newMember) { }
+		public void OnJoinFaith(PlayerScript newMember) { /* intentionally left empty */ }
 
-		public void OnLeaveFaith(PlayerScript member) { }
+		public void OnLeaveFaith(PlayerScript member) { /* intentionally left empty */ }
 
 		public void RandomEvent()
 		{

@@ -135,7 +135,6 @@ namespace Items
 			{
 				FaithManager.Instance.FaithLeaders.Add(interaction.PerformerPlayerScript);
 				interaction.PerformerPlayerScript.PlayerNetworkActions.RpcShowFaithSelectScreen(interaction.PerformerPlayerScript.netIdentity.connectionToClient);
-				return;
 			}
 			else
 			{

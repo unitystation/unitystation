@@ -125,10 +125,9 @@ namespace HealthV2
 		public bool TryGetSystem<T>(out T system)
 		{
 			system = ActiveSystems.OfType<T>().FirstOrDefault();
-			return system != null;
+			return Equals(system, default(T));
 		}
-
-
+		
 		public Brain brain { get; private set; }
 
 
