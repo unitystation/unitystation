@@ -125,8 +125,8 @@ namespace Items
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
-			if (interaction.PerformerPlayerScript.Mind.OrNull()?.occupation.OrNull()?.DisplayName != "Chaplain") return false;
-			return DefaultWillInteract.Default(interaction, side);
+			return interaction.PerformerPlayerScript.Mind.OrNull()?.occupation.OrNull()?.DisplayName == "Chaplain"
+			       && DefaultWillInteract.Default(interaction, side);
 		}
 
 		public void ServerPerformInteraction(HandActivate interaction)
