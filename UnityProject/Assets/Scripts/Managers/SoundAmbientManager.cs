@@ -106,9 +106,13 @@ namespace Audio.Managers
 
 		public static void StopAudio(AddressableAudioSource audioSource)
 		{
-			if (audioSource == null || Instance.playingSource.ContainsKey(audioSource) == false) return;
+			if (audioSource == null  || Instance.playingSource.ContainsKey(audioSource) == false) return;
 
-			audioSource.AudioSource.loop = false;
+			if (audioSource.AudioSource != null)
+			{
+				audioSource.AudioSource.loop = false;
+			}
+
 			SoundManager.Stop(Instance.playingSource[audioSource]);
 		}
 
