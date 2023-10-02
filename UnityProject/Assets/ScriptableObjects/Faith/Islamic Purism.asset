@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc38a6d4227a4347a3517a04dbf55cd6, type: 3}
+  m_Name: Islamic Purism
+  m_EditorClassIdentifier: 
+  Faith:
+    <FaithName>k__BackingField: Islamic Purism
+    <FaithDesc>k__BackingField: A version of Islam that has its followers attempt
+      to preserve the religion in a pure form. This version of Islam is considered
+      the easiest to follow, and heavily preaches progress and peace between everyone.
+    <FaithIcon>k__BackingField: {fileID: 21300000, guid: 5425174376a670440ad78fc63d76f9cc,
+      type: 3}
+    <GodName>k__BackingField: God
+    <NanotrasenProgressMessage>k__BackingField: 
+    <ToleranceToOtherFaiths>k__BackingField: 0
+    FaithProperties:
+    - rid: 2708802213016240135
+  references:
+    version: 2
+    RefIds:
+    - rid: 2708802213016240135
+      type: {class: ScienceComesFirst, ns: Systems.Faith.FaithProperties, asm: Assets}
+      data:
+        propertyIcon: {fileID: 21300000, guid: 4abf5a8866bc15540960ebfe444ffe19, type: 3}

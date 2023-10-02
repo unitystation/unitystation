@@ -19,6 +19,7 @@ using UI.Jobs;
 using UI.UI_Bottom;
 using UI.Windows;
 using Systems.CraftingV2.GUI;
+using Systems.Faith.UI;
 using UI.Character;
 using UI.Systems.AdminTools.DevTools;
 using UI.Systems.EndRound;
@@ -230,6 +231,8 @@ public class UIManager : MonoBehaviour, IInitialise
 	public HoverTooltipUI HoverTooltipUI => hoverTooltipUI;
 
 	[SerializeField] public CanvasScaler Scaler;
+
+	[field: SerializeField] public ChaplainFirstTimeSelectScreen ChaplainFirstTimeSelectScreen { get; private set; }
 
 	public static string SetToolTip
 	{

@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3671237853409620337
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8333569937089689533}
+  - component: {fileID: 2509189934866247986}
+  m_Layer: 0
+  m_Name: FaithManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8333569937089689533
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3671237853409620337}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2509189934866247986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3671237853409620337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b443ed0adc9240759fb8b842c3156b3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultFaith:
+    <FaithName>k__BackingField: None
+    <FaithDesc>k__BackingField: Ambious connection to God
+    <FaithIcon>k__BackingField: {fileID: 0}
+    <GodName>k__BackingField: God
+    <NanotrasenProgressMessage>k__BackingField: Nanotrasen's public mental health
+      department reminds all crew members that a healthy spirtual connection is good
+      to overcome hardships and stay motivated.
+    <ToleranceToOtherFaiths>k__BackingField: 0
+    FaithProperties: []
+  FaithEventsCheckTimeInSeconds: 390
+  FaithPerodicCheckTimeInSeconds: 12
+  <AllFaiths>k__BackingField:
+  - {fileID: 11400000, guid: fb70b54dd325b7f4682b54eab09129e1, type: 2}
+  - {fileID: 11400000, guid: a38d74f25d037be42a07c9f2d018cee6, type: 2}
+  - {fileID: 11400000, guid: 6e4942f152aeb0545ab81b9d621d6fd9, type: 2}
+  - {fileID: 11400000, guid: 2698cc550c4311641886d1164bb980f3, type: 2}
+  - {fileID: 11400000, guid: c365d32821407944992dae8cbe92eb2c, type: 2}
+  - {fileID: 11400000, guid: b0e69e6f903a51241ab1e880d69e59c9, type: 2}
+  - {fileID: 11400000, guid: 37a5db04667712a4eb120ece7e1db7fd, type: 2}
+  references:
+    version: 2
+    RefIds: []

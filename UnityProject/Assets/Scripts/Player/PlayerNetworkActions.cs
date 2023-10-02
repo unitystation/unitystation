@@ -25,6 +25,7 @@ using Managers;
 using Objects;
 using Player.Language;
 using Systems.Ai;
+using Systems.Faith;
 using Tiles;
 using Util;
 using Random = UnityEngine.Random;
@@ -1033,5 +1034,25 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		playerScript.playerMove.ResetEverything();
 		playerScript.playerMove.ResetLocationOnClients();
+	}
+
+	[Command]
+	public void CmdJoinFaith(string faith)
+	{
+		playerScript.JoinReligion(faith);
+	}
+
+	[Command]
+	public void CmdSetMainFaith()
+	{
+		if (FaithManager.Instance.FaithLeaders.Contains(playerScript) == false) return;
+		FaithManager.Instance.SetMainFaith(playerScript.CurrentFaith);
+		FaithManager.Instance.FaithMembers.Add(playerScript);
+	}
+
+	[TargetRpc]
+	public void RpcShowFaithSelectScreen(NetworkConnectionToClient target)
+	{
+		UIManager.Instance.ChaplainFirstTimeSelectScreen.gameObject.SetActive(true);
 	}
 }

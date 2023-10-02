@@ -24,7 +24,7 @@ MonoBehaviour:
   issuedClearance: 150000001a0000001f0000000d00000029000000
   issuedLowPopClearance: 150000001a0000001f0000000d00000029000000
   spells: []
-  progress: 60
+  progress: 75
   choiceColor: {r: 0.8666667, g: 0.8666667, b: 0.8666667, a: 1}
   previewSprite: {fileID: 21300000, guid: b4fbec6f38a0b884fb4631c8396da640, type: 3}
   displayName: Chaplain
@@ -46,7 +46,8 @@ MonoBehaviour:
   customProperties:
     m_keys: []
     m_values: 
-  BetterCustomProperties: []
+  BetterCustomProperties:
+  - rid: 2708802425784369156
   isTargeteable: 1
   playSound: 1
   spawnSound:
@@ -62,4 +63,7 @@ MonoBehaviour:
   specialPlayerPrefab: {fileID: 0}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2708802425784369156
+      type: {class: ChaplainShowFaithScreenOnSpawn, ns: Systems.Faith.Jobs, asm: Assets}
+      data: 
