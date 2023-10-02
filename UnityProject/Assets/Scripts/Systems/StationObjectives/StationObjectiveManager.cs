@@ -98,7 +98,7 @@ namespace StationObjectives
 				}
 				return builder.ToString();
 			}
-			return builder.ToString() + " Did not have any active objectives ";
+			return builder + " Did not have any active objectives ";
 		}
 
 		private void ResetObjectives()
