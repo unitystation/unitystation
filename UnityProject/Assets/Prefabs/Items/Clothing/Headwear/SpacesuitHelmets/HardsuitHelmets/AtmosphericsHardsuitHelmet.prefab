@@ -161,17 +161,17 @@ PrefabInstance:
     - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
@@ -205,6 +205,17 @@ PrefabInstance:
       value: A special helmet designed for work in a hazardous, low-pressure environment.
         Has thermal shielding.
       objectReference: {fileID: 0}
+    - target: {fileID: 8028719723017469211, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8028719723017469211, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f5b7ce1cca0a644cba934af14ea4b2c,
+        type: 2}
     - target: {fileID: 8034228813080640986, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: 'toggleSprites.Array.data[0]'

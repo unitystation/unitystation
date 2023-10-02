@@ -121,6 +121,17 @@ PrefabInstance:
       value: A special bulky helmet designed for work in a hazardous, low pressure
         environment. Has an additional layer of armor.
       objectReference: {fileID: 0}
+    - target: {fileID: 3527317937822577978, guid: 8fa1a57df0a4596419aa720f9f79f1de,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3527317937822577978, guid: 8fa1a57df0a4596419aa720f9f79f1de,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: fe33f4bf42dd236b39e97b3cdcbc7515,
+        type: 2}
     - target: {fileID: 3814517896272406788, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
       propertyPath: m_Sprite
@@ -155,17 +166,17 @@ PrefabInstance:
     - target: {fileID: 3894932452026525484, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3894932452026525484, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3894932452026525484, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3894932452026525484, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
