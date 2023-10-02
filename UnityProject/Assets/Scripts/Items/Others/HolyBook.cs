@@ -125,7 +125,18 @@ namespace Items
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
-			return interaction.PerformerPlayerScript.Mind.OrNull()?.occupation.OrNull()?.DisplayName == "Chaplain"
+			if (interaction.PerformerPlayerScript.Mind is null)
+			{
+				Loggy.LogError("[HolyBook/HandActivate/WillInteract()] - player has no mind? what?");
+				return false;
+			}
+
+			if (interaction.PerformerPlayerScript.Mind.occupation is null)
+			{
+				return false;
+			}
+
+			return interaction.PerformerPlayerScript.Mind.occupation.DisplayName == "Chaplain"
 			       && DefaultWillInteract.Default(interaction, side);
 		}
 
