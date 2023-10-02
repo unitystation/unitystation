@@ -136,12 +136,17 @@ namespace Items
 				return false;
 			}
 
-			return interaction.PerformerPlayerScript.Mind.occupation.DisplayName == "Chaplain"
-			       && DefaultWillInteract.Default(interaction, side);
+			return DefaultWillInteract.Default(interaction, side);
 		}
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
+			if (interaction.PerformerPlayerScript.Mind.occupation.DisplayName != "Chaplain")
+			{
+				Chat.AddExamineMsg(interaction.Performer, "The text is too hard to decipher for most people.. " +
+				                                          "You need an experienced chaplain to properly make sense of this book.");
+				return;
+			}
 			if (interaction.PerformerPlayerScript.CurrentFaith == null)
 			{
 				FaithManager.Instance.FaithLeaders.Add(interaction.PerformerPlayerScript);
