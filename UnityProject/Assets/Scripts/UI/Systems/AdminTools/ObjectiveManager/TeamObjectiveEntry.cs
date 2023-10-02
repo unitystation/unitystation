@@ -91,9 +91,4 @@ public class TeamObjectiveEntry : MonoBehaviour
 	{
 		teamObjectiveAdminPage.OpenSettingsTab(this);
 	}
-
-	public void CheckBox()
-	{
-
-	}
 }

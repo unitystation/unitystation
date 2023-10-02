@@ -16,8 +16,6 @@ namespace Antagonists
 				UpdateChatMessage.Send(x.Owner.Body.gameObject, ChatChannel.Syndicate, ChatModifier.None,
 					"We have intercepted the code for the nuclear weapon: " + AntagManager.SyndiNukeCode);
 			}
-			//UpdateChatMessage.Send(Owner.Body.gameObject, ChatChannel.Syndicate, ChatModifier.None,
-			//	"We have intercepted the code for the nuclear weapon: " + AntagManager.SyndiNukeCode);
 			description += ". Intercepted nuke code is " + AntagManager.SyndiNukeCode;
 		}
 

@@ -21,15 +21,7 @@ namespace Antagonists
 		private Antagonist curAntagonist;
 		public Antagonist Antagonist => curAntagonist;
 
-		private Team curTeam = null;
-		public Team CurTeam
-		{
-			get { return curTeam; }
-			set
-			{
-				curTeam = value;
-			}
-		}
+		public Team CurTeam { get; set; } = null;
 
 		/// <summary>
 		/// Player controlling this antag.
@@ -114,16 +106,16 @@ namespace Antagonists
 					objSB.AppendLine($"{i+1}. {objectiveList[i].Description}");
 				}
 			}
-			if (curTeam != null)
+			if (CurTeam != null)
 			{
-				objSB.AppendLine($"You are member of {curTeam.GetTeamName()}.");
-				if (curTeam.TeamObjectives.Count > 0)
+				objSB.AppendLine($"You are member of {CurTeam.GetTeamName()}.");
+				if (CurTeam.TeamObjectives.Count > 0)
 				{
-					objSB.AppendLine($"And {curTeam.GetTeamName()} objectives are:");
+					objSB.AppendLine($"And {CurTeam.GetTeamName()} objectives are:");
 				}
-				for (int i = 0; i < curTeam.TeamObjectives.Count; i++)
+				for (int i = 0; i < CurTeam.TeamObjectives.Count; i++)
 				{
-					var obj = curTeam.TeamObjectives[i];
+					var obj = CurTeam.TeamObjectives[i];
 
 					objSB.AppendLine($"{i + 1}. {obj.Description}");
 				}

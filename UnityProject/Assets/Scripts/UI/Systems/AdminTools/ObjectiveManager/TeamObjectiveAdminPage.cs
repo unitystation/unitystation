@@ -1,5 +1,6 @@
 using AdminTools;
 using Antagonists;
+using Logs;
 using Messages.Client.Admin;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ public class TeamObjectiveAdminPage : MonoBehaviour
 	private GameObject objectiveAddEntry;
 	[SerializeField]
 	private Dropdown objectiveDropdown;
-	private Dictionary<int, Objective> objectiveDropdownDictionary = new ();
+	private readonly Dictionary<int, Objective> objectiveDropdownDictionary = new ();
 
 	[SerializeField]
 	private TeamMemberEntry entryMember;
@@ -38,11 +39,11 @@ public class TeamObjectiveAdminPage : MonoBehaviour
 	[SerializeField]
 	private GameObject teamsAddEntry;
 
-	private Dictionary <int, AdminPlayerEntry> playersDropdownDictionary = new ();
+	private readonly Dictionary <int, AdminPlayerEntry> playersDropdownDictionary = new ();
 
-	private List<TeamEntry> entryTeams = new List<TeamEntry>();
-	private List<TeamObjectiveEntry> entryObjs = new List<TeamObjectiveEntry>();
-	private List<TeamMemberEntry> entryMembers = new List<TeamMemberEntry>();
+	private readonly List<TeamEntry> entryTeams = new List<TeamEntry>();
+	private readonly List<TeamObjectiveEntry> entryObjs = new List<TeamObjectiveEntry>();
+	private readonly List<TeamMemberEntry> entryMembers = new List<TeamMemberEntry>();
 	private TeamEntry currentTeam;
 	private TeamObjectiveEntry currentObjective;
 
@@ -380,7 +381,7 @@ public class TeamObjectiveAdminPage : MonoBehaviour
 					}
 					catch (Exception ex)
 					{
-						Logger.LogError($"[TeamObjectiveAdminPage/ProcessServer] Failed to add objective to team\n {ex}");
+						Loggy.LogError($"[TeamObjectiveAdminPage/ProcessServer] Failed to add objective to team\n {ex}");
 					}
 				} else if (objInfo.toDelete)
 				{

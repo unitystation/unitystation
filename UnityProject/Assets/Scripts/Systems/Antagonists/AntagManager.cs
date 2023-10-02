@@ -32,7 +32,7 @@ namespace Antagonists
 
 		public List<SpawnedAntag> ActiveAntags => activeAntags;
 
-		private Dictionary<uint, Team> teams = new Dictionary<uint, Team>();
+		private readonly Dictionary<uint, Team> teams = new Dictionary<uint, Team>();
 		public Dictionary<uint, Team> Teams => new (teams);
 
 		private static uint teamIndex = 0;
@@ -177,12 +177,12 @@ namespace Antagonists
 					team.AddTeamObjectives(objectives);
 				} catch (Exception e)
 				{
-					Logger.LogError($"failed to create team objectives {team.GetTeamName()} " + e.ToString());
+					Loggy.LogError($"failed to create team objectives {team.GetTeamName()} " + e.ToString());
 				}
 			}
 			catch (Exception e)
 			{
-				Logger.LogError( $"failed to create team {team.GetTeamName()} "  + e.ToString());
+				Loggy.LogError( $"failed to create team {team.GetTeamName()} "  + e.ToString());
 			}
 
 		}

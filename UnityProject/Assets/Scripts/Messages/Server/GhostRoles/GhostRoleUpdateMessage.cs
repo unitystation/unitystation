@@ -47,7 +47,7 @@ namespace Messages.Server.GhostRoles
 				{
 					if (player?.Script == null)
 					{
-						Logger.LogError("SendToClients, player?.Script == null", Category.Ghosts);
+						Loggy.LogError("SendToClients, player?.Script == null", Category.Ghosts);
 						continue;
 					}
 
@@ -57,7 +57,7 @@ namespace Messages.Server.GhostRoles
 			}
 			else
 			{
-				Logger.LogError("SendToClients, GhostRoleManager.Instance == null", Category.Ghosts);
+				Loggy.LogError("SendToClients, GhostRoleManager.Instance == null", Category.Ghosts);
 			}
 
 			return new NetMessage();

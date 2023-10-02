@@ -48,6 +48,6 @@ public class CustomObjective : Objective
 
 	protected override void Setup()
 	{
-		
+		// Required for implementing
 	}
 }

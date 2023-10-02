@@ -1,3 +1,4 @@
+using Logs;
 using Mirror;
 using Newtonsoft.Json;
 using System;
@@ -25,7 +26,7 @@ namespace Messages.Client.Admin
 				}
 				catch (Exception ex)
 				{
-					Logger.LogError($"[RequestAdminObjectiveUpdateMessage/Process] Failed to process teams update \n{msg.json}\n {ex}");
+					Loggy.LogError($"[RequestAdminObjectiveUpdateMessage/Process] Failed to process teams update \n{msg.json}\n {ex}");
 				}
 			}
 		}

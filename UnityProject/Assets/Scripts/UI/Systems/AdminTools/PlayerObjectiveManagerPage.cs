@@ -1,4 +1,5 @@
 using Antagonists;
+using Logs;
 using Messages.Client.Admin;
 using Mirror;
 using System;
@@ -224,7 +225,7 @@ namespace AdminTools
 					}
 					catch (Exception ex)
 					{
-						Logger.LogError($"[ObjectiveManagerPage/ProceedServerObjectivesUpdate] Failed to add objective {x.ID}\n {x.Description}\n {ex}");
+						Loggy.LogError($"[ObjectiveManagerPage/ProceedServerObjectivesUpdate] Failed to add objective {x.ID}\n {x.Description}\n {ex}");
 					}
 				}
 				else
@@ -251,7 +252,7 @@ namespace AdminTools
 					}
 					catch (Exception ex)
 					{
-						Logger.LogError($"[ObjectiveManagerPage/ProceedServerObjectivesUpdate] Failed to update objective {x.ID}\n {x.Description}\n {ex}");
+						Loggy.LogError($"[ObjectiveManagerPage/ProceedServerObjectivesUpdate] Failed to update objective {x.ID}\n {x.Description}\n {ex}");
 					}
 				}
 			}

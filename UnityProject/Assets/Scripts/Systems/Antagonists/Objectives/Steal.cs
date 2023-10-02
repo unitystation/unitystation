@@ -118,11 +118,13 @@ namespace Antagonists
 			{
 				Amount = targetNumber.number;
 			}
+			if (item == null)
+				return;
 
 			if (item.Item().InitialName == null)
 			{
 				ItemName = "NULLNAME";
-				Logger.LogError($"[Steal/SetupInGame] Can`t find name of item {item}");
+				Loggy.LogError($"[Steal/SetupInGame] Can`t find name of item {item}");
 			} else
 			{
 				ItemName = item.Item().InitialName;

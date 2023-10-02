@@ -167,7 +167,7 @@ namespace Antagonists
 			}
 			catch (Exception e)
 			{
-				Logger.LogError($"Failed to set up objectives for {this.name}" +e.ToString());
+				Loggy.LogError($"Failed to set up objectives for {this.name}" +e.ToString());
 			}
 		}
 

@@ -22,6 +22,6 @@ public class CustomAntag : Antagonist
 
 	public override void AfterSpawn(Mind SpawnMind)
 	{
-
+		// Required for implementing
 	}
 }

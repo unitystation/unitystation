@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
-using Items;
-using UnityEngine;
+using Logs;
 
 namespace Antagonists
 {
@@ -17,12 +15,15 @@ namespace Antagonists
 
 		protected override void Setup()
 		{
-			
+			// Required for implementing
 		}
 
+		/// <summary>
+		/// Called when objective is canceled
+		/// </summary>
 		public virtual void OnCanceling()
 		{
-			
+			// Will be called when objective is canceled
 		}
 
 		/// <summary>
@@ -39,7 +40,7 @@ namespace Antagonists
 			}
 			catch (Exception e)
 			{
-				Logger.LogError($"Failed to set up objectives for {this.name}" + e.ToString());
+				Loggy.LogError($"Failed to set up objectives for {this.name}" + e.ToString());
 			}
 
 		}

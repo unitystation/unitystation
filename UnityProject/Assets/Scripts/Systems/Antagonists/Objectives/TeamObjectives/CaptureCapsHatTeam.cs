@@ -14,7 +14,7 @@ namespace Antagonists
 
 		protected override void Setup()
 		{
-
+			// Required for implementing
 		}
 
 		private PlayerInfo FindCaptain()

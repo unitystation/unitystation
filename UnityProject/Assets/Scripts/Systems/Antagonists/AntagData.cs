@@ -229,7 +229,7 @@ namespace Antagonists
 		{
 			if (index < 0 || index > Antags.Count - 1)
 			{
-				Logger.LogErrorFormat("AntagData: no Antagonist found at index {0}", Category.Antags, index);
+				Loggy.LogErrorFormat("AntagData: no Antagonist found at index {0}", Category.Antags, index);
 				return null;
 			}
 
@@ -245,7 +245,7 @@ namespace Antagonists
 		{
 			if (index < 0 || index > AllObjectives.Count - 1)
 			{
-				Logger.LogErrorFormat("AntagData: no Objective found at index {0}", Category.Antags, index);
+				Loggy.LogErrorFormat("AntagData: no Objective found at index {0}", Category.Antags, index);
 				return null;
 			}
 
@@ -266,7 +266,7 @@ namespace Antagonists
 		{
 			if (index < 0 || index > teamDatas.Count - 1)
 			{
-				Logger.LogErrorFormat("TeamList: no TeamData found at index {0}", Category.Antags, index);
+				Loggy.LogErrorFormat("TeamList: no TeamData found at index {0}", Category.Antags, index);
 				return null;
 			}
 

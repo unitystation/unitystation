@@ -16,16 +16,8 @@ namespace StationObjectives
 
 		public void DoSetupStationObjective()
 		{
-			SetupStationObjective();
+			Setup();
 			GameManager.Instance.CentComm.MakeCommandReport(Description, false);
-		}
-
-		/// <summary>
-		/// Perform initial setup of the objective if needed
-		/// </summary>
-		protected virtual void SetupStationObjective()
-		{
-			
 		}
 
 		/// <summary>
@@ -43,7 +35,7 @@ namespace StationObjectives
 
 		protected override void Setup()
 		{
-			
+			// Required for implementing
 		}
 
 		protected override bool CheckCompletion()

@@ -24,7 +24,7 @@ namespace StationObjectives
 		private ItemTrait itemTrait;
 		private int currentAmount;
 
-		protected override void SetupStationObjective()
+		protected override void Setup()
 		{
 			var itemEntry = itemPool.PickRandom();
 			itemTrait = itemEntry.Key;
