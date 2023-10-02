@@ -125,15 +125,18 @@ namespace Items
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
-			if (interaction.PerformerPlayerScript.Mind is null)
+			if (side is NetworkSide.Server)
 			{
-				Loggy.LogError("[HolyBook/HandActivate/WillInteract()] - player has no mind? what?");
-				return false;
-			}
+				if (interaction.PerformerPlayerScript.Mind is null)
+				{
+					Loggy.LogError("[HolyBook/HandActivate/WillInteract()] - player has no mind? what?");
+					return false;
+				}
 
-			if (interaction.PerformerPlayerScript.Mind.occupation is null)
-			{
-				return false;
+				if (interaction.PerformerPlayerScript.Mind.occupation is null)
+				{
+					return false;
+				}
 			}
 
 			return DefaultWillInteract.Default(interaction, side);

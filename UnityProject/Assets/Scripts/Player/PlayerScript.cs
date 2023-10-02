@@ -911,7 +911,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		RightClickableResult result = new RightClickableResult();
 		if (FaithName != "None" && PlayerManager.LocalPlayerScript.FaithName == "None")
 		{
-			result.AddElement("Join Faith", () => JoinReligion(FaithName));
+			result.AddElement("Join Faith", () => PlayerManager.LocalPlayerScript.JoinReligion(FaithName));
 		}
 		return result;
 	}
