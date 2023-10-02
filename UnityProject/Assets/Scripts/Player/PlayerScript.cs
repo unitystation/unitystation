@@ -22,7 +22,7 @@ using Changeling;
 using Logs;
 using Systems.Faith;
 
-public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlayerPossessable, IHoverTooltip
+public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlayerPossessable, IHoverTooltip, IRightClickable
 {
 	public GameObject GameObject => gameObject;
 	public uint PossessingID => possessingID;
@@ -865,7 +865,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		if (characterSettings == null) return finalText.ToString();
 		finalText.Append($"A {characterSettings.Species}.");
 		finalText.Append($" {characterSettings.TheyPronoun(this)}/{characterSettings.TheirPronoun(this)}.");
-		finalText.AppendLine(ToleranceCheckForReligion());
+		finalText.AppendLine($"\n{ToleranceCheckForReligion()}");
 		return finalText.ToString();
 	}
 
@@ -906,6 +906,15 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	#endregion
 
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		RightClickableResult result = new RightClickableResult();
+		if (FaithName != "None" && PlayerManager.LocalPlayerScript.FaithName == "None")
+		{
+			result.AddElement("Join Faith", () => JoinReligion(FaithName));
+		}
+		return result;
+	}
 }
 
 [Flags]
