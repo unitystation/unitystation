@@ -127,38 +127,41 @@ namespace SecureStuff
 
 		}
 
-		private static void AddTrustedHost(Uri URL, bool IsAPI)
-		{
-			if (IsAPI)
-			{
-				if (URL.Host == "raw.githubusercontent.com")
-				{
-					var StringURL = URL.ToString();
+		private static void AddTrustedHost(Uri url, bool isAPI)
+        {
+            if (isAPI)
+            {
+                if (url.Host == "raw.githubusercontent.com")
+                {
+                    var segments = url.Segments;
 
-					var splits = StringURL.Split("/");
-					if (splits.Length < 6)
-					{
-						return;
-					}
-					AllowedGithubRepositories.Add(splits[3].ToLower() + "/" + splits[4].ToLower() + "/" + splits[5].ToLower());
-				}
-				else
-				{
-					AllowedAPIHosts.Add(URL.Host);
-				}
-			}
-			else
-			{
-				AllowedOpenHosts.Add(URL.Host);
-			}
+                    // Expected format: /username/reponame/branchname/...
+                    if (segments.Length >= 4)
+                    {
+                        var username = segments[1].TrimEnd('/');
+                        var repoName = segments[2].TrimEnd('/');
+                        var branchName = segments[3].TrimEnd('/');
 
-			SaveCashedURLConfiguration(new URLData()
-			{
-				AllowedAPIHosts = allowedAPIHosts,
-				AllowedOpenHosts = AllowedOpenHosts,
-				AllowedGithubRepositories = AllowedGithubRepositories
-			});
-		}
+                        AllowedGithubRepositories.Add($"{username.ToLower()}/{repoName.ToLower()}/{branchName.ToLower()}");
+                    }
+                }
+                else
+                {
+                    AllowedAPIHosts.Add(url.Host);
+                }
+            }
+            else
+            {
+                AllowedOpenHosts.Add(url.Host);
+            }
+
+            SaveCashedURLConfiguration(new URLData()
+            {
+                AllowedAPIHosts = AllowedAPIHosts,
+                AllowedOpenHosts = AllowedOpenHosts,
+                AllowedGithubRepositories = AllowedGithubRepositories
+            });
+        }
 
 		public static bool TrustedMode
 		{
@@ -179,18 +182,27 @@ namespace SecureStuff
 			}
 		}
 
+
+
 		public static bool CheckWhiteList(Uri URL)
 		{
 			if (URL.Host == "raw.githubusercontent.com")
 			{
-				var StringURL = URL.ToString();
+				var segments = URL.Segments;
 
-				var splits = StringURL.Split("/");
-				if (splits.Length < 6)
+				// Expected format: /username/reponame/branchname/...
+				if (segments.Length >= 4)
+				{
+					var username = segments[1].TrimEnd('/');
+					var repoName = segments[2].TrimEnd('/');
+					var branchName = segments[3].TrimEnd('/');
+
+					return AllowedGithubRepositories.Contains($"{username.ToLower()}/{repoName.ToLower()}/{branchName.ToLower()}");
+				}
+				else
 				{
 					return false;
 				}
-				return AllowedGithubRepositories.Contains(splits[3].ToLower() + "/" + splits[4].ToLower() + "/" + splits[5].ToLower());
 			}
 
 			if (AllowedAPIHosts.Contains(URL.Host))
