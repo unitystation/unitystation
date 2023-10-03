@@ -77,9 +77,9 @@ namespace SecureStuff
 
 		private class URLData
 		{
-			public HashSet<string> AllowedOpenHosts = new HashSet<string>();
-			public HashSet<string> AllowedAPIHosts = new HashSet<string>();
-			public HashSet<string> AllowedGithubRepositories = new HashSet<string>();
+			public HashSet<string> SavedAllowedOpenHosts = new HashSet<string>();
+			public HashSet<string> SavedAllowedAPIHosts = new HashSet<string>();
+			public HashSet<string> SavedAllowedGithubRepositories = new HashSet<string>();
 
 		}
 
@@ -113,9 +113,9 @@ namespace SecureStuff
 			}
 
 			var data = JsonConvert.DeserializeObject<URLData>(File.ReadAllText(path));
-			allowedOpenHosts = data.AllowedOpenHosts;
-			allowedAPIHosts = data.AllowedAPIHosts;
-			allowedGithubRepositories = data.AllowedGithubRepositories;
+			allowedOpenHosts = data.SavedAllowedOpenHosts;
+			allowedAPIHosts = data.SavedAllowedAPIHosts;
+			allowedGithubRepositories = data.SavedAllowedGithubRepositories;
 		}
 
 		private static void SaveCashedURLConfiguration(URLData URLData)
@@ -158,9 +158,9 @@ namespace SecureStuff
 
             SaveCashedURLConfiguration(new URLData()
             {
-                AllowedAPIHosts = AllowedAPIHosts,
-                AllowedOpenHosts = AllowedOpenHosts,
-                AllowedGithubRepositories = AllowedGithubRepositories
+                SavedAllowedAPIHosts = AllowedAPIHosts,
+                SavedAllowedOpenHosts = AllowedOpenHosts,
+                SavedAllowedGithubRepositories = AllowedGithubRepositories
             });
         }
 
