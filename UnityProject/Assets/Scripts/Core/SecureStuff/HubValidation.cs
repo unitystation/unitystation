@@ -109,7 +109,12 @@ namespace SecureStuff
 			{
 				// Create the file at the specified path
 				File.Create(path).Close();
-				File.WriteAllText(path, JsonConvert.SerializeObject(new URLData()));
+				File.WriteAllText(path, @"
+{
+    ""SavedAllowedOpenHosts"": [],
+    ""SavedAllowedAPIHosts"": [""api.unitystation.org"", ""firestore.googleapis.com"", ""play.unitystation.org""],
+    ""SavedAllowedGithubRepositories"": [""unitystation/unitystation/develop""]
+}");
 			}
 
 			var data = JsonConvert.DeserializeObject<URLData>(File.ReadAllText(path));
