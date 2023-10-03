@@ -19,6 +19,7 @@ namespace SecureStuff
 		private static StreamWriter writer;
 
 
+		private const string githubusercontent = "raw.githubusercontent.com";
 
 		private static HashSet<string> allowedAPIHosts;
 
@@ -131,7 +132,7 @@ namespace SecureStuff
         {
             if (isAPI)
             {
-                if (url.Host == "raw.githubusercontent.com")
+                if (url.Host == githubusercontent)
                 {
                     var segments = url.Segments;
 
@@ -186,7 +187,7 @@ namespace SecureStuff
 
 		public static bool CheckWhiteList(Uri URL)
 		{
-			if (URL.Host == "raw.githubusercontent.com")
+			if (URL.Host == githubusercontent)
 			{
 				var segments = URL.Segments;
 
