@@ -13,8 +13,8 @@ namespace AdminTools
 	public class ObjectiveAttributesEntry : MonoBehaviour
 	{
 		[SerializeField] private TMP_Text attributeName;
-		private ObjectiveAttribute attribute;
-		public ObjectiveAttribute Attribute => attribute;
+		private ObjectiveAttribute currentAttribute;
+		public ObjectiveAttribute Attribute => currentAttribute;
 		private Objective obj;
 
 		[SerializeField] private TMP_InputField inputNumber;
@@ -25,38 +25,45 @@ namespace AdminTools
 		private readonly Dictionary<int, GameObject> items = new();
 		private readonly Dictionary<int, ItemTrait> itemTraits = new();
 
+		private TeamObjectiveEntry teamEntry = null;
+
 		GUI_AdminTools mainPage;
 
 		public void Init(GUI_AdminTools mainPageToSet, ObjectiveAttribute attributeToSet, Objective objective)
 		{
 			mainPage = mainPageToSet;
 			attributeName.text = attributeToSet.name;
-			attribute = attributeToSet;
+			currentAttribute = attributeToSet;
 			obj = objective;
-			attribute.index = objective.GetAttributeIndex(attribute);
+			currentAttribute.index = objective.GetAttributeIndex(currentAttribute);
+			SetUpAttributes();
+			UpdateAttribute();
+		}
 
-			if (attribute is ObjectiveAttributeNumber)
+		private void SetUpAttributes()
+		{
+			if (currentAttribute.type == ObjectiveAttributeType.ObjectiveAttributeNumber)
 			{
 				inputNumber.gameObject.SetActive(true);
 				inputPlayer.gameObject.SetActive(false);
 				inputItem.gameObject.SetActive(false);
 				SetUpNumbers();
 			}
-			else if (attribute is ObjectiveAttributePlayer)
+			else if (currentAttribute.type == ObjectiveAttributeType.ObjectiveAttributePlayer)
 			{
 				inputNumber.gameObject.SetActive(false);
 				inputPlayer.gameObject.SetActive(true);
 				inputItem.gameObject.SetActive(false);
 				SetUpPlayers();
 			}
-			else if (attribute is ObjectiveAttributeItem)
+			else if (currentAttribute.type == ObjectiveAttributeType.ObjectiveAttributeItem)
 			{
 				inputNumber.gameObject.SetActive(false);
 				inputPlayer.gameObject.SetActive(false);
 				inputItem.gameObject.SetActive(true);
 				SetUpItems();
 			}
-			else if (attribute is ObjectiveAttributeItemTrait)
+			else if (currentAttribute.type == ObjectiveAttributeType.ObjectiveAttributeItemTrait)
 			{
 				inputNumber.gameObject.SetActive(false);
 				inputPlayer.gameObject.SetActive(false);
@@ -129,27 +136,27 @@ namespace AdminTools
 
 		public void UpdateAttribute()
 		{
-			if (attribute is ObjectiveAttributeNumber number)
+			if (currentAttribute.type == ObjectiveAttributeType.ObjectiveAttributeNumber)
 			{
 				if (int.TryParse(inputNumber.text, out var result) && result > 0)
-					number.number = result;
+					currentAttribute.number = result;
 				else
 				{
 					inputNumber.text = "1";
-					number.number = 1;
+					currentAttribute.number = 1;
 				}
 			}
-			else if (attribute is ObjectiveAttributePlayer player)
+			else if (currentAttribute.type == ObjectiveAttributeType.ObjectiveAttributePlayer)
 			{
-				player.playerID = players[inputPlayer.value].PlayerData.uid;
+				currentAttribute.playerID = players[inputPlayer.value].PlayerData.uid;
 			}
-			else if (attribute is ObjectiveAttributeItem item && items[inputItem.value].TryGetComponent<PrefabTracker>(out var itemTracker))
+			else if (currentAttribute.type == ObjectiveAttributeType.ObjectiveAttributeItem && items[inputItem.value].TryGetComponent<PrefabTracker>(out var itemTracker))
 			{
-				item.itemID = itemTracker.ForeverID;
+				currentAttribute.itemID = itemTracker.ForeverID;
 			}
-			else if (attribute is ObjectiveAttributeItemTrait itemTrait)
+			else if (currentAttribute.type == ObjectiveAttributeType.ObjectiveAttributeItemTrait)
 			{
-				itemTrait.itemTraitIndex = CommonTraits.Instance.GetIndex(itemTraits[inputItem.value]);
+				currentAttribute.itemTraitIndex = CommonTraits.Instance.GetIndex(itemTraits[inputItem.value]);
 			}
 		}
 	}

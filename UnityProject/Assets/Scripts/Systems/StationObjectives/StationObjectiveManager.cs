@@ -45,7 +45,6 @@ namespace StationObjectives
 		public void AddObjective(StationObjective toAdd)
 		{
 			ActiveObjective.Add(toAdd);
-			toAdd.DoSetupStationObjective();
 		}
 
 		public void ShowStationStatusReport()

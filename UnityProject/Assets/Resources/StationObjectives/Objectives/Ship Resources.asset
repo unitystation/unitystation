@@ -13,8 +13,20 @@ MonoBehaviour:
   m_Name: Ship Resources
   m_EditorClassIdentifier: 
   attributes:
-  - rid: 2286632946148835328
-  - rid: 2286632946148835329
+  - name: What?
+    index: -1
+    type: 3
+    playerID: 
+    number: 0
+    itemID: 
+    itemTraitIndex: 0
+  - name: Amount?
+    index: -1
+    type: 1
+    playerID: 
+    number: 0
+    itemID: 
+    itemTraitIndex: 0
   isEndRoundObjective: 0
   objectiveName: Ship resources
   IsUnique: 0
@@ -33,18 +45,3 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 4f4583e504cb03c41b2c0a97202be49e, type: 2}
     - {fileID: 11400000, guid: 66d1cd8016198e74c92a755f9b2bdeb0, type: 2}
     m_values: 640000001e0000000a00000014000000
-  references:
-    version: 2
-    RefIds:
-    - rid: 2286632946148835328
-      type: {class: ObjectiveAttributeItemTrait, ns: Antagonists, asm: Assets}
-      data:
-        name: What resource?
-        index: -1
-        itemTraitIndex: 0
-    - rid: 2286632946148835329
-      type: {class: ObjectiveAttributeNumber, ns: Antagonists, asm: Assets}
-      data:
-        name: What count?
-        index: -1
-        number: 0

@@ -67,10 +67,7 @@ namespace Antagonists
 
 		protected override void SetupInGame()
 		{
-			if (attributes[0] is ObjectiveAttributePlayer player)
-			{
-				Target = PlayerList.Instance.InGamePlayers.Where(pl => pl.UserId == player.playerID).ElementAt(0).Mind;
-			}
+			Target = PlayerList.Instance.InGamePlayers.Where(pl => pl.UserId == attributes[0].playerID).ElementAt(0).Mind;
 
 			//If still null then its a free objective
 			if (Target == null || Target.occupation == null)

@@ -110,14 +110,9 @@ namespace Antagonists
 		{
 			// Pick a random item and add it to the targeted list
 			GameObject item = null;
-			if (attributes[0] is ObjectiveAttributeItem targetItem)
-			{
-				item = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[targetItem.itemID];
-			}
-			if (attributes[1] is ObjectiveAttributeNumber targetNumber)
-			{
-				Amount = targetNumber.number;
-			}
+			item = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[attributes[0].itemID];
+			Amount = attributes[1].number;
+
 			if (item == null)
 				return;
 
@@ -136,7 +131,7 @@ namespace Antagonists
 
 		public override string GetDescription()
 		{
-			return $"Steal {Amount} {ItemName}";
+			return $"Steal";
 		}
 
 		protected override bool CheckCompletion()

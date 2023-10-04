@@ -13,7 +13,14 @@ MonoBehaviour:
   m_Name: SurvivalistGuns
   m_EditorClassIdentifier: 
   attributes:
-  - rid: 5303221278942691331
+  - name: Amount?
+    index: -1
+    type: 1
+    playerID: 
+    number: 0
+    itemID: 
+    itemTraitIndex: 0
+  isEndRoundObjective: 0
   objectiveName: Acquire Guns
   IsUnique: 1
   description: Your own safety matters above all else, and the only way to ensure
@@ -21,11 +28,3 @@ MonoBehaviour:
     necessary. Kill anyone who gets in your way.
   aiCanHave: 0
   minimumGunsNeeded: 2
-  references:
-    version: 2
-    RefIds:
-    - rid: 5303221278942691331
-      type: {class: ObjectiveAttributeNumber, ns: Antagonists, asm: Assets}
-      data:
-        name: Amount
-        number: 2

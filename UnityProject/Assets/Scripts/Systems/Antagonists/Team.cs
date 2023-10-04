@@ -141,7 +141,7 @@ namespace Antagonists
 
 		public TeamObjective GetObjectiveByID(string iD)
 		{
-			foreach (var x in teamObjectives)
+			foreach (var x in TeamObjectives)
 			{
 				if (x.ID == iD && x is TeamObjective teamObj)
 				{

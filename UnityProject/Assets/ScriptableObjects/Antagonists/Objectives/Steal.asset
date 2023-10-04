@@ -13,8 +13,21 @@ MonoBehaviour:
   m_Name: Steal
   m_EditorClassIdentifier: 
   attributes:
-  - rid: 5303221271648535211
-  - rid: 5303221278942691339
+  - name: What?
+    index: -1
+    type: 2
+    playerID: 
+    number: 0
+    itemID: 
+    itemTraitIndex: 0
+  - name: Amount?
+    index: -1
+    type: 1
+    playerID: 
+    number: 0
+    itemID: 
+    itemTraitIndex: 0
+  isEndRoundObjective: 0
   objectiveName: Steal
   IsUnique: 0
   description: Steal something from the station
@@ -103,18 +116,3 @@ MonoBehaviour:
       BlacklistedOccupations:
       - {fileID: 11400000, guid: ea02bc3c4a28c430ea905db72a3630ec, type: 2}
   uniqueTargets: 1
-  references:
-    version: 2
-    RefIds:
-    - rid: 5303221271648535211
-      type: {class: ObjectiveAttributeItem, ns: Antagonists, asm: Assets}
-      data:
-        name: What?
-        index: -1
-        itemID: 
-    - rid: 5303221278942691339
-      type: {class: ObjectiveAttributeNumber, ns: Antagonists, asm: Assets}
-      data:
-        name: Amount
-        index: -1
-        number: 1

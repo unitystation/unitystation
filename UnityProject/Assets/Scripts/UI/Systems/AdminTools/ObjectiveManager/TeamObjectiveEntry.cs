@@ -1,7 +1,4 @@
 using Antagonists;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,6 +24,10 @@ public class TeamObjectiveEntry : MonoBehaviour
 
 	TeamObjectiveAdminPage teamObjectiveAdminPage;
 
+	private Objective currentObjective;
+	public Objective CurrentObjective => currentObjective;
+
+
 	public void Init(TeamObjectiveAdminPage teamObjectiveAdminPageToSet, ObjectiveInfo infoToSet)
 	{
 		info = infoToSet;
@@ -39,7 +40,7 @@ public class TeamObjectiveEntry : MonoBehaviour
 
 	public void Init(TeamObjectiveAdminPage teamObjectiveAdminPageToSet, Objective newObjective)
 	{
-		settingsButton.SetActive(true);
+		settingsButton.SetActive(false);
 		checkBoxButton.interactable = false;
 		isNew = true;
 		teamObjectiveAdminPage = teamObjectiveAdminPageToSet;
@@ -48,6 +49,7 @@ public class TeamObjectiveEntry : MonoBehaviour
 			PrefabID = AntagData.Instance.GetIndexObj(newObjective)
 		};
 		text.text = $"{newObjective.ObjectiveName}";
+		currentObjective = Instantiate(newObjective);
 		Settings();
 		UpdateCheckBox();
 	}

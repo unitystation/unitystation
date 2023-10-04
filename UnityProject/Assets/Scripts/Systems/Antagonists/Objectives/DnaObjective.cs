@@ -27,8 +27,7 @@ namespace Changeling
 
 		protected override void SetupInGame()
 		{	
-			if (attributes[0] is ObjectiveAttributeNumber amount)
-				dnaNeedCount = amount.number;
+			dnaNeedCount = attributes[0].number;
 			description = $"Extract {dnaNeedCount} DNA by using your abilities.";
 		}
 	}

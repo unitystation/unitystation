@@ -27,7 +27,7 @@ namespace ScriptableObjects
 		{
 			if (index < 0 || index > ghostRoles.Count - 1)
 			{
-				Loggy.LogErrorFormat("AntagData: no Objective found at index {0}", Category.Antags, index);
+				Loggy.LogErrorFormat("GhostRoleList: no Objective found at index {0}", Category.Antags, index);
 				return null;
 			}
 

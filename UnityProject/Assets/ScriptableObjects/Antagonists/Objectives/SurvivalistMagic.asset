@@ -13,19 +13,17 @@ MonoBehaviour:
   m_Name: SurvivalistMagic
   m_EditorClassIdentifier: 
   attributes:
-  - rid: 2286632377628229632
+  - name: Amount?
+    index: -1
+    type: 1
+    playerID: 
+    number: 0
+    itemID: 
+    itemTraitIndex: 0
+  isEndRoundObjective: 0
   objectiveName: Amateur Magician
   IsUnique: 1
   description: Grow your newfound talent! Grab as many magical artefacts as possible,
     by any means necessary. Kill anyone who gets in your way.
   aiCanHave: 0
   minimumSpellsNeeded: 1
-  references:
-    version: 2
-    RefIds:
-    - rid: 2286632377628229632
-      type: {class: ObjectiveAttributeNumber, ns: Antagonists, asm: Assets}
-      data:
-        name: Amount
-        index: -1
-        number: 1

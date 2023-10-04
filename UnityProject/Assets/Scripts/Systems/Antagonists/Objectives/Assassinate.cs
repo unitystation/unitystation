@@ -63,10 +63,7 @@ namespace Antagonists
 
 		protected override void SetupInGame()
 		{
-			if (attributes[0] is ObjectiveAttributePlayer player)
-			{
-				Target = PlayerList.Instance.InGamePlayers.Where(pl => pl.UserId == player.playerID).ElementAt(0).Mind;
-			}
+			Target = PlayerList.Instance.InGamePlayers.Where(pl => pl.UserId == attributes[0].playerID).ElementAt(0).Mind;
 
 			if (Target == null || Target.occupation == null)
 			{
@@ -79,7 +76,7 @@ namespace Antagonists
 
 		public override string GetDescription()
 		{
-			return $"Assassinate {Target.name}, the {Target.occupation.DisplayName}";
+			return $"Assassinate";
 		}
 
 		private void FreeObjective()

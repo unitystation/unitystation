@@ -262,9 +262,12 @@ public class TeamObjectiveAdminPage : MonoBehaviour
 		objectiveList.SetActive(false);
 		currentObjective = objective;
 
-		var selectedObjective = AntagData.Instance.FromIndexObj(objective.Info.PrefabID);
+		var selectedObjective = objective.CurrentObjective;
 
-		attributesContentArea.SetActive(selectedObjective.attributes.Count != 0);
+		if (objective.Info.Attributes.Count == 0)
+		{
+			objective.Info.Attributes.AddRange(selectedObjective.attributes);
+		}
 
 		foreach (var x in addedAttributesEntries)
 		{
@@ -272,7 +275,7 @@ public class TeamObjectiveAdminPage : MonoBehaviour
 		}
 		addedAttributesEntries.Clear();
 
-		foreach (var x in selectedObjective.attributes)
+		foreach (var x in objective.Info.Attributes)
 		{
 			attributesEntry.SetActive(true);
 			var newEntry = Instantiate(attributesEntry, attributesContentArea.transform).GetComponent<ObjectiveAttributesEntry>();
@@ -462,7 +465,7 @@ public class TeamObjectiveAdminPage : MonoBehaviour
 	/// <param name="objInfo"></param>
 	private static void AddObjective(Team team, ObjectiveInfo objInfo)
 	{
-		Objective obj = AntagData.Instance.FromIndexObj(objInfo.PrefabID);
+		Objective obj = Instantiate(AntagData.Instance.FromIndexObj(objInfo.PrefabID));
 		if (obj == null)
 		{
 			return;
@@ -470,21 +473,23 @@ public class TeamObjectiveAdminPage : MonoBehaviour
 		foreach (var attr in objInfo.Attributes)
 		{
 			var attribute = obj.attributes[attr.index];
-			if (attr is ObjectiveAttributeItem itemSet && attribute is ObjectiveAttributeItem item)
+			if (attr.type != attribute.type)
+				continue;
+			if (attr.type == ObjectiveAttributeType.ObjectiveAttributeItem)
 			{
-				item.itemID = itemSet.itemID;
+				attribute.itemID = attr.itemID;
 			}
-			else if (attr is ObjectiveAttributeNumber numbSet && attribute is ObjectiveAttributeNumber numb)
+			else if (attr.type == ObjectiveAttributeType.ObjectiveAttributeNumber)
 			{
-				numb.number = numbSet.number;
+				attribute.number = attr.number;
 			}
-			else if (attr is ObjectiveAttributePlayer plSet && attribute is ObjectiveAttributePlayer pl)
+			else if (attr.type == ObjectiveAttributeType.ObjectiveAttributePlayer)
 			{
-				pl.playerID = plSet.playerID;
+				attribute.playerID = attr.playerID;
 			}
-			else if (attr is ObjectiveAttributeItemTrait itemTraitSet && attribute is ObjectiveAttributeItemTrait itemTrait)
+			else if (attr.type == ObjectiveAttributeType.ObjectiveAttributeItemTrait)
 			{
-				itemTrait.itemTraitIndex = itemTraitSet.itemTraitIndex;
+				attribute.itemTraitIndex = attr.itemTraitIndex;
 			}
 		}
 		if (obj is TeamObjective teamObj)

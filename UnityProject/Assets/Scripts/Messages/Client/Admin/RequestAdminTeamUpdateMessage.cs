@@ -33,12 +33,14 @@ namespace Messages.Client.Admin
 
 		public static NetMessage Send(List<TeamInfo> info)
 		{
+			var teams = new TeamsInfo()
+			{
+				TeamsInfos = info
+			};
+
 			NetMessage msg = new NetMessage
 			{
-				json = JsonConvert.SerializeObject(new TeamsInfo()
-				{
-					TeamsInfos = info
-				})
+				json = JsonConvert.SerializeObject(teams)
 			};
 
 			Send(msg);

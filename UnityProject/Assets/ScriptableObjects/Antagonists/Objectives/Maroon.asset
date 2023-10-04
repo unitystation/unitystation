@@ -13,16 +13,15 @@ MonoBehaviour:
   m_Name: Maroon
   m_EditorClassIdentifier: 
   attributes:
-  - rid: 5303221278942691330
+  - name: Who?
+    index: -1
+    type: 0
+    playerID: 
+    number: 0
+    itemID: 
+    itemTraitIndex: 0
+  isEndRoundObjective: 0
   objectiveName: Maroon
   IsUnique: 0
   description: Prevent person leaving the station.
   aiCanHave: 1
-  references:
-    version: 2
-    RefIds:
-    - rid: 5303221278942691330
-      type: {class: ObjectiveAttributePlayer, ns: Antagonists, asm: Assets}
-      data:
-        name: Who?
-        playerID: 

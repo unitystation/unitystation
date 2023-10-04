@@ -279,7 +279,7 @@ namespace AdminTools
 
 
 			var antag = playerScript.Mind.AntagPublic;
-			Objective obj = AntagData.Instance.FromIndexObj(info.PrefabID);
+			Objective obj = Instantiate(AntagData.Instance.FromIndexObj(info.PrefabID));
 			if (obj == null)
 			{
 				return;
@@ -287,21 +287,23 @@ namespace AdminTools
 			foreach (var attr in info.Attributes)
 			{
 				var attribute = obj.attributes[attr.index];
-				if (attr is ObjectiveAttributeItem itemSet && attribute is ObjectiveAttributeItem item)
+				if (attr.type != attribute.type)
+					continue;
+				if (attr.type == ObjectiveAttributeType.ObjectiveAttributeItem)
 				{
-					item.itemID = itemSet.itemID;
+					attribute.itemID = attr.itemID;
 				}
-				else if (attr is ObjectiveAttributeNumber numbSet && attribute is ObjectiveAttributeNumber numb)
+				else if (attr.type == ObjectiveAttributeType.ObjectiveAttributeNumber)
 				{
-					numb.number = numbSet.number;
+					attribute.number = attr.number;
 				}
-				else if (attr is ObjectiveAttributePlayer plSet && attribute is ObjectiveAttributePlayer pl)
+				else if (attr.type == ObjectiveAttributeType.ObjectiveAttributePlayer)
 				{
-					pl.playerID = plSet.playerID;
+					attribute.playerID = attr.playerID;
 				}
-				else if (attr is ObjectiveAttributeItemTrait itemTraitSet && attribute is ObjectiveAttributeItemTrait itemTrait)
+				else if (attr.type == ObjectiveAttributeType.ObjectiveAttributeItemTrait)
 				{
-					itemTrait.itemTraitIndex = itemTraitSet.itemTraitIndex;
+					attribute.itemTraitIndex = attr.itemTraitIndex;
 				}
 			}
 			obj.DoSetupInGame(player);

@@ -10,21 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 847871e6e43543d439911e47b6055d04, type: 3}
-  m_Name: GetDna
+  m_Name: GetDNA
   m_EditorClassIdentifier: 
   attributes:
-  - rid: 5303221278942691329
+  - name: Amount?
+    index: -1
+    type: 1
+    playerID: 
+    number: 0
+    itemID: 
+    itemTraitIndex: 0
+  isEndRoundObjective: 0
   objectiveName: Get DNA
   IsUnique: 1
   description: Extract DNA by using your abilities.
   aiCanHave: 0
   dnaNeedCount: 5
-  references:
-    version: 2
-    RefIds:
-    - rid: 5303221278942691329
-      type: {class: ObjectiveAttributeNumber, ns: Antagonists, asm: Assets}
-      data:
-        name: Amount
-        index: -1
-        number: 5
