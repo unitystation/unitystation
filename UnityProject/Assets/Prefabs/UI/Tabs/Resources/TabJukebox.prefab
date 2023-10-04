@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 114385320989314586}
   - component: {fileID: 5807195460405725842}
   - component: {fileID: 9056987114892078282}
+  - component: {fileID: -1080393632829672394}
   m_Layer: 5
   m_Name: TabJukebox
   m_TagString: Untagged
@@ -278,6 +279,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8cb1f7879b64c3f8164c03167eb6396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1080393632829672394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502172408805726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 0
 --- !u!1 &1571967781877764
 GameObject:
   m_ObjectHideFlags: 0

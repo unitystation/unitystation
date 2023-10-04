@@ -3965,6 +3965,7 @@ GameObject:
   - component: {fileID: 6019921654276041890}
   - component: {fileID: 8050396754110437578}
   - component: {fileID: 1554070162117244848}
+  - component: {fileID: 5545078099954928557}
   m_Layer: 5
   m_Name: TabNullRod
   m_TagString: Untagged
@@ -4142,6 +4143,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   DisableOnEscape: 0
+--- !u!114 &5545078099954928557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2553128447893726793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 1
 --- !u!1 &2585395408769468326
 GameObject:
   m_ObjectHideFlags: 0

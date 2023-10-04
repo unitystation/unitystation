@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Logs;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,7 +9,11 @@ using UI;
 /// This component allows the game object to be disabled with the escape key automatically
 /// It pushes the object to the escape key target stack when it's enabled, and pops it when it's disabled.
 /// </summary>
-public class EscapeKeyTarget : MonoBehaviour {
+public class EscapeKeyTarget : MonoBehaviour
+{
+
+	public NetTab NetTab;
+
 	[SerializeField]
 	[Tooltip("What to invoke when this component receives the escape command, other than disabling if DisableOnEscape is true.")]
 	private UnityEvent OnEscapeKey = new UnityEvent();
@@ -31,16 +36,32 @@ public class EscapeKeyTarget : MonoBehaviour {
 		{
 			EscapeKeyTarget escapeKeyTarget = Targets.Last.Value;
 			escapeKeyTarget.OnEscapeKey.Invoke();
-			if (escapeKeyTarget.DisableOnEscape)
-			{
-				// Close the escape key target at the top of the stack
-				GUI_IngameMenu.Instance.CloseMenuPanel(escapeKeyTarget.gameObject);
-			}
+			escapeKeyTarget.ExtraLogic();
 		}
 		else if (GameData.IsInGame)
 		{
 			// Player is in-game and no escape key targets on the stack, so open the in-game menu
 			GUI_IngameMenu.Instance.OpenMenuPanel();
+		}
+	}
+
+	public void Awake()
+	{
+		NetTab = this.GetComponent<NetTab>();
+	}
+
+	public void ExtraLogic()
+	{
+		if (NetTab != null)
+		{
+			NetTab.CloseTab();
+			Targets.Remove(this);
+		}
+
+		if (DisableOnEscape)
+		{
+			// Close the escape key target at the top of the stack
+			GUI_IngameMenu.Instance.CloseMenuPanel(gameObject);
 		}
 	}
 

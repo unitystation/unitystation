@@ -877,6 +877,7 @@ GameObject:
   - component: {fileID: 9155997247415610150}
   - component: {fileID: 2080870293712713015}
   - component: {fileID: 6224200852862704973}
+  - component: {fileID: 7989483792053260936}
   m_Layer: 5
   m_Name: TabHackingPanelOLD
   m_TagString: Untagged
@@ -1027,6 +1028,22 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &7989483792053260936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8317024002202406274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 0
 --- !u!1 &8353108767084960213
 GameObject:
   m_ObjectHideFlags: 0

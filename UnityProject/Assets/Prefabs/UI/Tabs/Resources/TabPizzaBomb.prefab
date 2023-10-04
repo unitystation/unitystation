@@ -253,6 +253,7 @@ GameObject:
   - component: {fileID: 1995694467985933563}
   - component: {fileID: 4039392393093472732}
   - component: {fileID: 9012232754061585173}
+  - component: {fileID: 5153094977224968302}
   m_Layer: 0
   m_Name: TabPizzaBomb
   m_TagString: Untagged
@@ -362,6 +363,22 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &5153094977224968302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901488234431783737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 0
 --- !u!1 &3587191763480291691
 GameObject:
   m_ObjectHideFlags: 0

@@ -2453,6 +2453,7 @@ GameObject:
   - component: {fileID: 5760683192651201408}
   - component: {fileID: 5132843544542544910}
   - component: {fileID: 5071671375371874642}
+  - component: {fileID: -8597118049281156740}
   m_Layer: 5
   m_Name: TabFrequencyChanger
   m_TagString: Untagged
@@ -2515,6 +2516,22 @@ MonoBehaviour:
   radioPowerToggle: {fileID: 2119414084431017395}
   broadcastModeToggle: {fileID: 6371760926059458484}
   numberOfChannels: 1
+--- !u!114 &-8597118049281156740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8317024002202406274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 0
 --- !u!1 &8653157752413004222
 GameObject:
   m_ObjectHideFlags: 0

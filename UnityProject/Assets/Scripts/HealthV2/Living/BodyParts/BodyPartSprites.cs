@@ -24,6 +24,7 @@ public class BodyPartSprites : MonoBehaviour
 
 	public int referenceOffset = 0;
 
+	public IntName intName;
 
 	public void UpdateData(string InNew)
 	{

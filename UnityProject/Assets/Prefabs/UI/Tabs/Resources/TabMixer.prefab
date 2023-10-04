@@ -207,6 +207,7 @@ GameObject:
   - component: {fileID: 114971830198623498}
   - component: {fileID: 114256104719178052}
   - component: {fileID: 183281330244056500}
+  - component: {fileID: -364789444824380350}
   m_Layer: 5
   m_Name: TabMixer
   m_TagString: Untagged
@@ -345,6 +346,22 @@ MonoBehaviour:
   NetWheel: {fileID: 2098665982481398709}
   ToTakeFromInputOne: {fileID: 3244080615162904504}
   ToTakeFromInputTwo: {fileID: 7671984201530937813}
+--- !u!114 &-364789444824380350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576420294694384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 0
 --- !u!1 &1695788374799260
 GameObject:
   m_ObjectHideFlags: 0
