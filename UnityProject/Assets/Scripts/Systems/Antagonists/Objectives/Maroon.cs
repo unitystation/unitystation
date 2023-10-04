@@ -84,7 +84,7 @@ namespace Antagonists
 
 		public override string GetDescription()
 		{
-			return $"Prevent {Target.name}, the {Target.occupation.DisplayName} from leaving the station";
+			return $"Prevent from leaving the station";
 		}
 
 		private void FreeObjective()

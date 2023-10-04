@@ -22,7 +22,7 @@ namespace Changeling
 
 		public override string GetDescription()
 		{
-			return $"Extract {dnaNeedCount} DNA by using your abilities.";
+			return $"Extract DNA by using your abilities.";
 		}
 
 		protected override void SetupInGame()
