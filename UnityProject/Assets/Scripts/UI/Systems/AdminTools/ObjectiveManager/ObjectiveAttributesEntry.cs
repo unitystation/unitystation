@@ -25,8 +25,6 @@ namespace AdminTools
 		private readonly Dictionary<int, GameObject> items = new();
 		private readonly Dictionary<int, ItemTrait> itemTraits = new();
 
-		private TeamObjectiveEntry teamEntry = null;
-
 		GUI_AdminTools mainPage;
 
 		public void Init(GUI_AdminTools mainPageToSet, ObjectiveAttribute attributeToSet, Objective objective)
