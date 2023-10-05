@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &732416311855162690
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 66265935922368722, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 66265935922368722, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 66265935922368722, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 66265935922368722, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 66265935922368722, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 66265935922368722, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 66265935922368722, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 66265935922368722, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 66265935922368722, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 66265935922368722, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 70068185008237990, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      propertyPath: m_Name
+      value: EnrichedFuelRod
+      objectReference: {fileID: 0}
+    - target: {fileID: 102697944633233426, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      propertyPath: _assetId
+      value: 2202969431
+      objectReference: {fileID: 0}
+    - target: {fileID: 146678391487979258, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1338a06a190b5314ba98d9d730266d09,
+        type: 3}
+    - target: {fileID: 438384153452675780, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      propertyPath: initialName
+      value: Enriched fuel rod
+      objectReference: {fileID: 0}
+    - target: {fileID: 438384153452675780, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      propertyPath: initialDescription
+      value: Oddly this rod seems a bit more highly purified than others, almost
+        to the level of a nuclear bomb
+      objectReference: {fileID: 0}
+    - target: {fileID: 6178641353511687713, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f0e59ac2e79065344be1056b43c0aa56,
+        type: 2}
+    - target: {fileID: 6359741559395803595, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      propertyPath: foreverID
+      value: 076498ffd94174f4aac18dbd4325534d
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2668404630649028413, guid: 2c62bf4b8bd1b13409822a00ad8cb214, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 70068185008237990, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1747907023009832571}
+  m_SourcePrefab: {fileID: 100100000, guid: 2c62bf4b8bd1b13409822a00ad8cb214, type: 3}
+--- !u!1 &779965398768208100 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 70068185008237990, guid: 2c62bf4b8bd1b13409822a00ad8cb214,
+    type: 3}
+  m_PrefabInstance: {fileID: 732416311855162690}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1747907023009832571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779965398768208100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df928700416b9ca4c82164f22020494a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentlyInstalledIn: {fileID: 0}
+  rodType: 0
+  color: {r: 0.40381765, g: 1, b: 0, a: 1}
+  EditorPresentAtomsfuel: 0
+  EditorPresentAtomsDecayProducts: 0
+  EditorPresentAtomsXenon: 0
+  EditorOutputtingEnergy: 0

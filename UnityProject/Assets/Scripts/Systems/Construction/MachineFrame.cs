@@ -459,7 +459,7 @@ namespace Objects.Construction
 				var addNew = StackingItem.ServerRemoveOne();
 				addNew.GetComponent<Stackable>().ServerSetAmount(needed);
 
-				StackingItem.ServerSetAmount(oldAmount -needed );
+				StackingItem.ServerSetAmount(oldAmount -needed);
 
 				basicPartsUsed[itemTrait] = machinePartsList.amountOfThisPart;
 				AddItemToDict(addNew, needed, interaction);
