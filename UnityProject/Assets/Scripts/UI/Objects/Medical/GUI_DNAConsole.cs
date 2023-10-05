@@ -180,7 +180,6 @@ namespace UI.Objects.Medical
 			var MutationElement =  MutationChoice.AddItem() as MutationChooseElement;
 			MutationElement.SetValues(Mutation, this);
 			LoadedMutationSO[Mutation] = MutationElement;
-
 		}
 
 

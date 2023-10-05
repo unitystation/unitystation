@@ -3,16 +3,19 @@ using AddressableReferences;
 using Items;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Objects.Medical
 {
-	public class MedicalConsole : NetworkBehaviour
+	public class MedicalTerminal : NetworkBehaviour
 	{
 		[SerializeField] private AddressableAudioSource warnSound;
 		[SerializeField] private float scanInterval = 4.5f;
 
 		[SyncVar] private bool muteWarn = false;
-		private List<HealthInfo> crewInfo = new List<HealthInfo>();
+		public List<HealthInfo> CrewInfo { get; private set; } = new List<HealthInfo>();
+
+		public UnityEvent OnScan = new UnityEvent();
 
 		public struct HealthInfo
 		{
@@ -34,7 +37,7 @@ namespace Objects.Medical
 
 		public void Scan()
 		{
-			crewInfo.Clear();
+			CrewInfo.Clear();
 			var warn = false;
 			foreach (var playerInfo in PlayerList.Instance.AllPlayers)
 			{
@@ -55,11 +58,12 @@ namespace Objects.Medical
 						Mode = sensor.Mode,
 						HealthPercent = sensor.OverallHealth(playerInfo.Mind.CurrentPlayScript.playerHealth),
 					};
-					crewInfo.Add(info);
+					CrewInfo.Add(info);
 					if(info.HealthPercent <= 0.5f) warn = true;
 				}
 			}
 			if (warn) Warn();
+			OnScan?.Invoke();
 		}
 
 	}

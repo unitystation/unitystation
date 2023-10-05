@@ -2,7 +2,6 @@
 using System.Text;
 using HealthV2;
 using JetBrains.Annotations;
-using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -60,15 +59,18 @@ namespace Items
 					fullDamage[i] += bodypart.Damages[i];
 				}
 			}
-			healthReport.Append("<mspace=0.6em>");
-			healthReport.AppendLine(
-				$"<color=#{bruteColor}><b>{"Brute", -8}</color><color=#{burnColor}>{"Burn", -8}</color>" +
-				$"<color=#{toxinColor}>{"Toxin", -8}</color><color=#{oxylossColor}>Oxy</color></b>\n" +
-				$"<color=#{bruteColor}>{Mathf.Round(fullDamage[(int)DamageType.Brute]), 16}</color>" +
-				$"<color=#{burnColor}>{Mathf.Round(fullDamage[(int)DamageType.Burn]), 4}</color>" +
-				$"<color=#{toxinColor}>{Mathf.Round(fullDamage[(int)DamageType.Tox]), 4}</color>" +
-				$"<color=#{oxylossColor}>{Mathf.Round(fullDamage[(int)DamageType.Oxy]), 4}</color>"
+			healthReport.AppendLine("<mspace=0.6em>");
+			healthReport.Append(
+				$"<color=#{bruteColor}><b>{"Brute", -8}</color>" +
+				$"<color=#{burnColor}>{"Burn", -8}</color>" +
+				$"<color=#{toxinColor}>{"Toxin", -8}</color>" +
+				$"<color=#{oxylossColor}>Oxy</color></b>\n"
 			);
+			healthReport.AppendLine(
+				$"<color=#{bruteColor}>{Mathf.Round(fullDamage[(int)DamageType.Brute]),-8}</color>" +
+				$"<color=#{burnColor}>{Mathf.Round(fullDamage[(int)DamageType.Burn]),-8}</color>" +
+				$"<color=#{toxinColor}>{Mathf.Round(fullDamage[(int)DamageType.Tox]),-8}</color>" +
+				$"<color=#{oxylossColor}>{Mathf.Round(fullDamage[(int)DamageType.Oxy]),-8}</color>");
 			healthReport.Append("</mspace>");
 			return healthReport.ToString();
 		}
@@ -88,13 +90,13 @@ namespace Items
 					sensorReport.AppendLine("N/A");
 					break;
 				case SensorMode.LOCATION:
-					sensorReport.AppendLine($"({player.gameObject.AssumedWorldPosServer()})");
+					sensorReport.AppendLine($"{player.gameObject.AssumedWorldPosServer().To2()}");
 					break;
 				case SensorMode.VITALS:
 					sensorReport.AppendLine($"{HealthStatus(health)}");
 					break;
 				case SensorMode.FULL:
-					sensorReport.AppendLine($"{HealthStatus(health)} ({player.gameObject.AssumedWorldPosServer()})");
+					sensorReport.AppendLine($"{HealthStatus(health)}\n {player.gameObject.AssumedWorldPosServer().To2()}");
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -105,23 +107,14 @@ namespace Items
 
 		private void SwitchMode()
 		{
-			switch (Mode)
+			Mode = Mode switch
 			{
-				case SensorMode.OFF:
-					Loggy.Log("You're not supposed to be here, doctor freeman.");
-					break;
-				case SensorMode.LOCATION:
-					Mode = SensorMode.VITALS;
-					break;
-				case SensorMode.VITALS:
-					Mode = SensorMode.FULL;
-					break;
-				case SensorMode.FULL:
-					Mode = SensorMode.VITALS;
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
+				SensorMode.OFF => throw new InvalidOperationException("You're not supposed to be here, doctor freeman."),
+				SensorMode.LOCATION => SensorMode.VITALS,
+				SensorMode.VITALS => SensorMode.FULL,
+				SensorMode.FULL => SensorMode.VITALS,
+				_ => throw new ArgumentOutOfRangeException()
+			};
 			Chat.AddExamineMsg(PlayerManager.LocalPlayerObject, $"Changed sensors to {Mode}");
 		}
 
