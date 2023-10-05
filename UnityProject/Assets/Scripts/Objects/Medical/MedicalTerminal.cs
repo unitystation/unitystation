@@ -57,7 +57,7 @@ namespace Objects.Medical
 						HealthPercent = sensor.OverallHealth(playerInfo.Mind.CurrentPlayScript.playerHealth),
 					};
 					CrewInfo.Add(info);
-					if(info.HealthPercent <= 0.5f) warn = true;
+					if(info.HealthPercent <= 35f) warn = true;
 				}
 			}
 			if (warn) Warn();
