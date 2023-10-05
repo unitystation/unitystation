@@ -82,7 +82,10 @@ namespace Items
 			StringBuilder sensorReport = new StringBuilder();
 			RegisterPlayer player = pickupable.ItemSlot.RootPlayer();
 			LivingHealthMasterBase health = player.PlayerScript.playerHealth;
-			sensorReport.Append($"{player.PlayerScript.playerName}");
+			var isCrewmember = player.PlayerScript.Mind.occupation.IsCrewmember
+				? player.PlayerScript.playerName
+				: "???";
+			sensorReport.Append($"{isCrewmember}");
 			if (Mode == SensorMode.FULL) sensorReport.Append($" - {OverallHealth(health)}%");
 			switch (Mode)
 			{

@@ -43,8 +43,6 @@ namespace Objects.Medical
 			{
 				if (playerInfo.Mind == null) continue;
 				if (playerInfo.Mind.NonImportantMind) continue;
-				if (playerInfo.Mind.occupation == null) continue;
-				if (playerInfo.Mind.occupation.IsCrewmember == false) continue;
 				var uniforms =
 					playerInfo.Mind.CurrentPlayScript.Equipment.ItemStorage.GetNamedItemSlots(NamedSlot.uniform);
 				foreach (var uniform in uniforms)
