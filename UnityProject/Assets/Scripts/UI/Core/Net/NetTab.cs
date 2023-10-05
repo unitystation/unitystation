@@ -77,6 +77,7 @@ public enum NetTabType
 	RemoteSyntheticControl = 59,
 	ResearchLaser = 60,
 	PortableScrubber = 61,
+	MedicalConsole = 62,
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
 	// i.e TabJukeBox
