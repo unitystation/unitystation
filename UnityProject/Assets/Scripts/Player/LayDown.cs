@@ -104,6 +104,8 @@ namespace Player
 			{
 				spriteRenderer.sortingLayerName = "Bodies";
 			}
+			if (playerScript == null || playerScript.PlayerSync == null) return;
+			if (CustomNetworkManager.IsServer == false) return;
 			playerScript.PlayerSync.CurrentMovementType  = MovementType.Crawling;
 			playerDirectional.LockDirectionTo(true, playerDirectional.CurrentDirection);
 			playerScript.OnLayDown?.Invoke();
@@ -120,6 +122,7 @@ namespace Player
 				spriteRenderer.sortingLayerName = "Players";
 			}
 			if (playerScript == null || playerScript.PlayerSync == null) return;
+			if (CustomNetworkManager.IsServer == false) return;
 			playerDirectional.LockDirectionTo(false, playerDirectional.CurrentDirection);
 			playerScript.PlayerSync.CurrentMovementType = MovementType.Running;
 		}
