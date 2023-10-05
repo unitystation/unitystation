@@ -328,42 +328,45 @@ namespace Objects.Engineering
 
 		public bool TryInsertRod(HandApply interaction)
 		{
-			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.ReactorRod))
+			if (MeltedDown == false)
 			{
-				var Rod = interaction.UsedObject.gameObject.GetComponent<ReactorChamberRod>();
-				int pos = Array.IndexOf(ReactorRods, null);
-				if (pos > -1)
+				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.ReactorRod))
 				{
-					Rod.CurrentlyInstalledIn = this;
-					var engineStarter = Rod as EngineStarter;
-					if (engineStarter != null)
+					var Rod = interaction.UsedObject.gameObject.GetComponent<ReactorChamberRod>();
+					int pos = Array.IndexOf(ReactorRods, null);
+					if (pos > -1)
 					{
-						if (ConnectedConsoles.Count == 0)
+						Rod.CurrentlyInstalledIn = this;
+						var engineStarter = Rod as EngineStarter;
+						if (engineStarter != null)
 						{
-							Chat.AddExamineMsgFromServer(interaction.Performer,
-								" The hole for the starter rod seems to be closed, Seems like you need to hook it up to a console for it to open ");
-							return true;
+							if (ConnectedConsoles.Count == 0)
+							{
+								Chat.AddExamineMsgFromServer(interaction.Performer,
+									" The hole for the starter rod seems to be closed, Seems like you need to hook it up to a console for it to open ");
+								return true;
+							}
+						}
+
+						ReactorRods[pos] = Rod;
+						var EmptySlot = RodStorage.GetIndexedItemSlot(pos);
+						Inventory.ServerTransfer(interaction.HandSlot, EmptySlot);
+						var fuelRod = Rod as FuelRod;
+						if (fuelRod != null)
+						{
+							var EnrichedRod = Rod as FuelRod;
+							ReactorFuelRods.Add(fuelRod);
+						}
+
+
+						if (engineStarter != null)
+						{
+							ReactorEngineStarters.Add(engineStarter);
 						}
 					}
 
-					ReactorRods[pos] = Rod;
-					var EmptySlot = RodStorage.GetIndexedItemSlot(pos);
-					Inventory.ServerTransfer(interaction.HandSlot, EmptySlot);
-					var fuelRod = Rod as FuelRod;
-					if (fuelRod != null)
-					{
-						var EnrichedRod = Rod as FuelRod;
-						ReactorFuelRods.Add(fuelRod);
-					}
-
-
-					if (engineStarter != null)
-					{
-						ReactorEngineStarters.Add(engineStarter);
-					}
+					return true;
 				}
-
-				return true;
 			}
 
 			return false;
@@ -371,16 +374,19 @@ namespace Objects.Engineering
 
 		public bool TryInsertPipe(HandApply interaction)
 		{
-			if (Validations.HasItemTrait(interaction.UsedObject, PipeItemTrait))
+			if (MeltedDown == false)
 			{
-				var EmptySlot = PipeStorage.GetIndexedItemSlot(0);
-				if (EmptySlot.Item == null)
+				if (Validations.HasItemTrait(interaction.UsedObject, PipeItemTrait))
 				{
-					Inventory.ServerTransfer(interaction.HandSlot, EmptySlot);
-					PoppedPipes = false;
-				}
+					var EmptySlot = PipeStorage.GetIndexedItemSlot(0);
+					if (EmptySlot.Item == null)
+					{
+						Inventory.ServerTransfer(interaction.HandSlot, EmptySlot);
+						PoppedPipes = false;
+					}
 
-				return true;
+					return true;
+				}
 			}
 
 			return false;
@@ -417,7 +423,7 @@ namespace Objects.Engineering
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Pickaxe) &&
 			    MeltedDown == true)
 			{
-				ToolUtils.ServerUseToolWithActionMessages(interaction, 60,
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 30,
 					"You start to hack away at the molten core...",
 					$"{interaction.Performer.ExpensiveName()} starts to hack away at the molten core...",
 					"You break the molten core to pieces.",
