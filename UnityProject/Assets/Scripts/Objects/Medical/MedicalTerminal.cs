@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 namespace Objects.Medical
 {
-	public class MedicalTerminal : NetworkBehaviour
+	public class MedicalTerminal : NetworkBehaviour, IRightClickable
 	{
 		[SerializeField] private AddressableAudioSource warnSound;
 		[SerializeField] private float scanInterval = 4.5f;
@@ -66,5 +66,9 @@ namespace Objects.Medical
 			OnScan?.Invoke();
 		}
 
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			return new RightClickableResult().AddElement("Toggle Alert Sound", () => muteWarn = !muteWarn);
+		}
 	}
 }
