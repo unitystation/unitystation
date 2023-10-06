@@ -81,24 +81,24 @@ namespace Objects.Engineering.Reactor
 			{
 				SecondSinceLastUpdate = 0;
 				StringBuilder state = new StringBuilder();
-				state.Append("Warning, Reactor Meltdown/Catastrophe imminent.").AppendLine();
+				state.AppendFormat("Warning, Reactor Meltdown/Catastrophe imminent.");
 				if (ReactorChambers.CurrentPressure >= ReactorChambers.MaxPressure / (decimal)1.35f)
 				{
-					state.Append("Pressure: ").Append(
-							Math.Round((ReactorChambers.CurrentPressure /
-							            ReactorChambers.MaxPressure) * 100))
+					state.AppendFormat("Pressure: ").AppendFormat(
+							(Math.Round((ReactorChambers.CurrentPressure /
+							            ReactorChambers.MaxPressure) * 100)).ToString())
 						.Append(".");
 				}
 
 				if (ReactorChambers.Temperature >= ReactorChambers.RodMeltingTemperatureK)
 				{
-					state.Append(" Temperature: ").Append(ReactorChambers.GetTemperature()).Append(".");
+					state.AppendFormat(" Temperature: ").AppendFormat(ReactorChambers.GetTemperature().ToString()).AppendFormat(".");
 				}
 
 				// magic number copied from GUI_ReactorController
 				if (ReactorChambers.PresentNeutrons >= 200)
 				{
-					state.Append(" Neutron levels Unstable. ");
+					state.AppendFormat(" Neutron levels Unstable. ");
 				}
 
 				chatEvent.message = state.ToString();
