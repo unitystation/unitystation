@@ -522,7 +522,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (IDIsLocalPlayerObject(doNotUpdateThisClient)) return;
 
 		//if (isLocalPlayer) return; //We are updating other Objects than the player on the client //TODO Also block if being pulled by local player //Why we need this?
-		newtonianMovement = newMomentum;
+		NewtonianMovement = newMomentum;
 		airTime = inairTime;
 		slideTime = inslideTime;
 		spinMagnitude = inSpinFactor;
@@ -614,7 +614,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	public void DropAtAndInheritMomentum(UniversalObjectPhysics droppedFrom)
 	{
 		SynchroniseVisibility(isVisible, true);
-		AppearAtWorldPositionServer(droppedFrom.OfficialPosition, momentum : droppedFrom.GetRootObject.GetComponent<UniversalObjectPhysics>().newtonianMovement);
+		AppearAtWorldPositionServer(droppedFrom.OfficialPosition, momentum : droppedFrom.GetRootObject.GetComponent<UniversalObjectPhysics>().NewtonianMovement);
 	}
 
 	public void DisappearFromWorld()
@@ -670,7 +670,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			if (IsFlyingSliding)
 			{
-				newtonianMovement = momentum;
+				NewtonianMovement = momentum;
 				LocalDifferenceNeeded = resetToLocal - transform.localPosition;
 				InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
 				if (CorrectingCourse == false)
@@ -688,7 +688,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					ToResetTo = localTarget.Value;
 				}
 
-				newtonianMovement = momentum;
+				NewtonianMovement = momentum;
 				SetLocalTarget = new Vector3WithData()
 				{
 					Vector3 = ToResetTo,
@@ -708,7 +708,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			if (IsFlyingSliding)
 			{
-				newtonianMovement = momentum;
+				NewtonianMovement = momentum;
 				SetTransform(resetToLocal, false);
 				InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
 			}
@@ -721,7 +721,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					ToResetTo = localTarget.Value;
 				}
 
-				newtonianMovement = momentum;
+				NewtonianMovement = momentum;
 				SetLocalTarget = new Vector3WithData()
 				{
 					Vector3 = ToResetTo,
@@ -775,7 +775,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		if (isServer == false) return;
 		SetLastResetID = Time.frameCount;
-		RPCForceSetPosition(transform.localPosition, newtonianMovement, LocalTargetPosition ,  smooth, registerTile.Matrix.Id,
+		RPCForceSetPosition(transform.localPosition, NewtonianMovement, LocalTargetPosition ,  smooth, registerTile.Matrix.Id,
 			rotationTarget.localRotation.eulerAngles.z, SetLastResetID, ignoreForClient);
 
 		if (Pulling.HasComponent)
@@ -796,7 +796,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		isVisible = true;
 		SetLastResetID = Time.frameCount;
-		RPCForceSetPosition(client, transform.localPosition, newtonianMovement, LocalTargetPosition , smooth, registerTile.Matrix.Id,
+		RPCForceSetPosition(client, transform.localPosition, NewtonianMovement, LocalTargetPosition , smooth, registerTile.Matrix.Id,
 			rotationTarget.localRotation.eulerAngles.z, SetLastResetID);
 
 		if (Pulling.HasComponent)
@@ -818,7 +818,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		CorrectingCourse = true;
 		var position = transform.localPosition;
 		var newPosition = this.MoveTowards(position, (position + LocalDifferenceNeeded.To3()),
-			(newtonianMovement.magnitude + 4) * Time.deltaTime);
+			(NewtonianMovement.magnitude + 4) * Time.deltaTime);
 		LocalDifferenceNeeded -= (newPosition - position).To2();
 		SetTransform(newPosition, false);
 
@@ -1129,7 +1129,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 
 
-		newtonianMovement = Vector2.zero;
+		NewtonianMovement = Vector2.zero;
 		airTime = 0;
 		slideTime = 0;
 		IsFlyingSliding = false;
@@ -1231,6 +1231,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	}
 
 
+
+	[NaughtyAttributes.Button]
+	public void DeBGUNewtonianPush()
+	{
+		NewtonianPush(Vector2.right, 4, 3);
+	}
+
+
 	public void NewtonianPush(Vector2 worldDirection, float speed, float nairTime = Single.NaN,
 		float inSlideTime = Single.NaN, BodyPartType inAim = BodyPartType.Chest, GameObject inThrownBy = null,
 		float spinFactor = 0, GameObject doNotUpdateThisClient = null,
@@ -1281,7 +1289,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 
 		OnThrowStart.Invoke(this);
-		if (newtonianMovement.magnitude > 0.01f)
+		if (NewtonianMovement.magnitude > 0.01f)
 		{
 			//It's moving add to update manager
 			if (IsFlyingSliding == false)
@@ -1294,7 +1302,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (isServer)
 		{
 			LastUpdateClientFlying = NetworkTime.time;
-			UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, this.slideTime,
+			UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, this.slideTime,
 				registerTile.Matrix.Id, spinFactor, true, doNotUpdateThisClient.NetId());
 		}
 	}
@@ -1303,7 +1311,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		var speedLossDueToFriction = frictionCoefficient * Time.deltaTime;
 
-		var oldMagnitude = newtonianMovement.magnitude;
+		var oldMagnitude = NewtonianMovement.magnitude;
 
 		var newMagnitude = oldMagnitude - speedLossDueToFriction;
 
@@ -1381,7 +1389,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 			InternalTriggerOnLocalTileReached(transform.localPosition.RoundToInt());
 
-			if (newtonianMovement.magnitude > 0.01f)
+			if (NewtonianMovement.magnitude > 0.01f)
 			{
 				//It's moving add to update manager
 				if (IsFlyingSliding == false)
@@ -1389,7 +1397,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					IsFlyingSliding = true;
 					UpdateManager.Add(CallbackType.UPDATE, FlyingUpdateMe);
 					if (isServer)
-						UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime,
+						UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, slideTime,
 							registerTile.Matrix.Id, spinMagnitude, false, NetId.Empty);
 				}
 			}
@@ -1492,6 +1500,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (this == null)
 		{
+			IsFlyingSliding = false;
+			airTime = 0;
+			slideTime = 0;
 			UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
 		}
 
@@ -1500,7 +1511,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			SecondsFlying += Time.deltaTime;
 			if (SecondsFlying > 90) //Stop taking up CPU resources! If you're flying through space for too long
 			{
-				newtonianMovement *= 0;
+				NewtonianMovement *= 0;
 			}
 		}
 
@@ -1512,7 +1523,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 			if (airTime <= 0)
 			{
-				OnImpact?.Invoke(this, newtonianMovement);
+				OnImpact?.Invoke(this, NewtonianMovement);
 			}
 		}
 		else if (slideTime > 0)
@@ -1529,14 +1540,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			var floating = IsFloating();
 			if (floating == false)
 			{
-				if (newtonianMovement.magnitude > maximumStickSpeed) //Too fast to grab onto anything
+				if (NewtonianMovement.magnitude > maximumStickSpeed) //Too fast to grab onto anything
 				{
 					AppliedFriction(DEFAULT_Friction);
 				}
 				else
 				{
 					//Stuck
-					newtonianMovement *= 0;
+					NewtonianMovement *= 0;
 				}
 			}
 		}
@@ -1552,17 +1563,17 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		var position = this.transform.position;
 
-		var newPosition = position + (newtonianMovement.To3() * Time.deltaTime);
+		var newPosition = position + (NewtonianMovement.To3() * Time.deltaTime);
 
 		// if (Newposition.magnitude > 100000)
 		// {
-		// newtonianMovement *= 0;
+		// NewtonianMovement *= 0;
 		// }
 
 		var intPosition = position.RoundToInt();
 		var intNewPosition = newPosition.RoundToInt();
 
-		rotationTarget.Rotate(new Vector3(0, 0, spinMagnitude * newtonianMovement.magnitude * Time.deltaTime));
+		rotationTarget.Rotate(new Vector3(0, 0, spinMagnitude * NewtonianMovement.magnitude * Time.deltaTime));
 
 		if (intPosition != intNewPosition)
 		{
@@ -1575,8 +1586,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					defaultInteractionLayerMask, newPosition);
 				if (hit.ItHit)
 				{
-					OnImpact?.Invoke(this, newtonianMovement);
-					NewtonianMovement -= 2 * (newtonianMovement * hit.Normal) * hit.Normal;
+					OnImpact?.Invoke(this, NewtonianMovement);
+					NewtonianMovement -= 2 * (NewtonianMovement * hit.Normal) * hit.Normal;
 					var offset = (0.1f * hit.Normal);
 					newPosition = hit.HitWorld + offset.To3();
 					NewtonianMovement *= 0.9f;
@@ -1587,9 +1598,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 
 
-			if (newtonianMovement.magnitude > 0)
+			if (NewtonianMovement.magnitude > 0)
 			{
-				var cashedNewtonianMovement = newtonianMovement;
+				var cashedNewtonianMovement = NewtonianMovement;
 				SetMatrixCache.ResetNewPosition(intPosition, registerTile);
 				Pushing.Clear();
 				Bumps.Clear();
@@ -1613,8 +1624,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 						newPosition = position;
 					}
 
-					OnImpact.Invoke(this, newtonianMovement);
-					NewtonianMovement -= 2 * (newtonianMovement * normal) * normal;
+					OnImpact.Invoke(this, NewtonianMovement);
+					NewtonianMovement -= 2 * (NewtonianMovement * normal) * normal;
 					NewtonianMovement *= 0.9f;
 					spinMagnitude *= -1;
 				}
@@ -1625,7 +1636,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					{
 						if (push == this) continue;
 
-						push.NewtonianNewtonPush(newtonianMovement, (newtonianMovement.magnitude * GetWeight()),
+						push.NewtonianNewtonPush(NewtonianMovement, (NewtonianMovement.magnitude * GetWeight()),
 							Single.NaN, Single.NaN, aim, thrownBy, spinMagnitude);
 					}
 
@@ -1636,8 +1647,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 						newPosition = position;
 					}
 
-					OnImpact.Invoke(this, newtonianMovement);
-					NewtonianMovement -= 2 * (newtonianMovement * normal) * normal;
+					OnImpact.Invoke(this, NewtonianMovement);
+					NewtonianMovement -= 2 * (NewtonianMovement * normal) * normal;
 					spinMagnitude *= -1;
 					NewtonianMovement *= 0.5f;
 				}
@@ -1649,7 +1660,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					{
 						if (Hits.Count > 0)
 						{
-							OnImpact?.Invoke(this, newtonianMovement);
+							OnImpact?.Invoke(this, NewtonianMovement);
 						}
 
 						foreach (var hit in Hits)
@@ -1727,13 +1738,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			if (NetworkTime.time - LastUpdateClientFlying > 2)
 			{
 				LastUpdateClientFlying = NetworkTime.time;
-				UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime,
+				UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, slideTime,
 					registerTile.Matrix.Id, spinMagnitude, true, NetId.Empty);
 			}
 		}
 
 
-		if (newtonianMovement.magnitude < 0.01f) //Has slowed down enough
+		if (NewtonianMovement.magnitude < 0.01f) //Has slowed down enough
 		{
 			localPosition = transform.localPosition;
 			SetLocalTarget = new Vector3WithData()
@@ -1786,7 +1797,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 			else
 			{
-				Pulling.Component.ProcessNewtonianPull(newtonianMovement, newPosition);
+				Pulling.Component.ProcessNewtonianPull(NewtonianMovement, newPosition);
 			}
 		}
 
@@ -1801,7 +1812,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 			else
 			{
-				ObjectIsBucklingChecked.Component.Pulling.Component.ProcessNewtonianPull(newtonianMovement,
+				ObjectIsBucklingChecked.Component.Pulling.Component.ProcessNewtonianPull(NewtonianMovement,
 					newPosition);
 			}
 		}
