@@ -312,7 +312,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		playerScript = GetComponent<PlayerScript>();
 		holder = GetComponent<PassableExclusionHolder>();
-		OnThrowEnd.AddListener(ThrowEnding);
 
 		ServerAllowInput.OnBoolChange.AddListener(BoolServerAllowInputChange);
 
@@ -322,18 +321,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	private void BoolServerAllowInputChange(bool NewValue)
 	{
 		SyncInput(allowInput, NewValue);
-	}
-
-	private void ThrowEnding(UniversalObjectPhysics thing)
-	{
-		if (CustomNetworkManager.IsServer)
-		{
-			playerScript.RegisterPlayer.LayDownBehavior.ServerEnsureCorrectState();
-		}
-		else
-		{
-			playerScript.RegisterPlayer.LayDownBehavior.ClientEnsureCorrectState();
-		}
 	}
 
 	public void Update()

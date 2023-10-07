@@ -570,14 +570,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 
 			if (this is not MovementSynchronisation c) return;
-			if (CustomNetworkManager.IsServer)
-			{
-				c.playerScript.RegisterPlayer.LayDownBehavior.ServerEnsureCorrectState();
-			}
-			else
-			{
-				c.playerScript.RegisterPlayer.LayDownBehavior.ClientEnsureCorrectState();
-			}
+			c.playerScript.RegisterPlayer.LayDownBehavior.EnsureCorrectState();
 		}
 		else
 		{
@@ -1135,14 +1128,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		IsFlyingSliding = false;
 		Animating = false;
 		if (this is not MovementSynchronisation c) return;
-		if (CustomNetworkManager.IsServer)
-		{
-			c.playerScript.RegisterPlayer.LayDownBehavior.ServerEnsureCorrectState();
-		}
-		else
-		{
-			c.playerScript.RegisterPlayer.LayDownBehavior.ClientEnsureCorrectState();
-		}
+		c.playerScript.RegisterPlayer.LayDownBehavior.EnsureCorrectState();
+
 	}
 
 	[Server]
@@ -1781,7 +1768,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			if (OnThrowEndResetRotation)
 			{
 				rotationTarget.rotation = Quaternion.Euler(0, 0, 0);
-				if (this is MovementSynchronisation c) c.playerScript.RegisterPlayer.LayDownBehavior.ServerEnsureCorrectState();
+				if (this is MovementSynchronisation c) c.playerScript.RegisterPlayer.LayDownBehavior.EnsureCorrectState();
 			}
 
 			UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
@@ -2077,8 +2064,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			return;
 		}
-
-		if (pullable is MovementSynchronisation c) c.playerScript.RegisterPlayer.LayDownBehavior.ServerEnsureCorrectState();
 
 		if (Pulling.HasComponent)
 		{

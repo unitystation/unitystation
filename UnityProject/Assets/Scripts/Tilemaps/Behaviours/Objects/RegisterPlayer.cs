@@ -219,21 +219,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			MatrixNew.PresentPlayers.Add(this);
 			MatrixNew.UpdatedPlayerFrame = Time.frameCount;
 		}
-
-		if (CustomNetworkManager.IsServer)
-		{
-			LayDownBehavior.ServerEnsureCorrectState();
-		}
-		else
-		{
-			LayDownBehavior.ClientEnsureCorrectState();
-		}
 	}
 
 	private void SyncIsLayingDown(bool isDown)
 	{
 		OnLyingDownChangeEvent?.Invoke(isDown);
-		LayDownBehavior.LayDownState(isDown);
+		LayDownBehavior.SyncLayDownState(LayDownBehavior.IsLayingDown, isDown);
 	}
 
 
