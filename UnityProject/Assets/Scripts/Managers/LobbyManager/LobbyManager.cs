@@ -240,14 +240,14 @@ namespace Lobby
 				// Check which task completed
 				if (completedTask == longRunningTask)
 				{
-					Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited ServerData.ValidateUser(~~~) with false result.");
-					LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
+					LoadManager.DoInMainThread(() => { lobbyDialogue.ShowMainPanel(); });
+					Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited ServerData.ValidateUser(~~~) and showing main panel.");
 					return false;
 				}
 				else
 				{
-					LoadManager.DoInMainThread(() => { lobbyDialogue.ShowMainPanel(); });
-					Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited ServerData.ValidateUser(~~~) and showing main panel.");
+					Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited ServerData.ValidateUser(~~~) with false result.");
+					LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
 					return true;
 				}
 			}
