@@ -1,14 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using HealthV2;
+using Items.PDA;
 using JetBrains.Annotations;
 using Mirror;
 using UnityEngine;
 
 namespace Items
 {
-	public class SuitSensor : NetworkBehaviour, IRightClickable
+	public class SuitSensor : NetworkBehaviour, IRightClickable, IItemInOutMovedPlayer
 	{
+		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
+
+		public RegisterPlayer CurrentlyOn { get; set; }
+
+		public static List<SuitSensor> WornAndActiveSensors = new List<SuitSensor>();
+
 		public enum SensorMode
 		{
 			OFF,
@@ -20,6 +28,8 @@ namespace Items
 		[field: SerializeField, SyncVar] public SensorMode Mode { get; private set; } = SensorMode.VITALS;
 		[SerializeField] private Pickupable pickupable;
 
+		[SerializeField] private ItemStorage itemStorage;
+
 		private string bruteColor;
 		private string burnColor;
 		private string toxinColor;
@@ -27,6 +37,8 @@ namespace Items
 
 		private void Awake()
 		{
+
+			itemStorage  ??= GetComponent<ItemStorage>();
 			pickupable ??= GetComponent<Pickupable>();
 			bruteColor = ColorUtility.ToHtmlStringRGB(Color.red);
 			burnColor = ColorUtility.ToHtmlStringRGB(Color.yellow);
@@ -34,14 +46,35 @@ namespace Items
 			oxylossColor = ColorUtility.ToHtmlStringRGB(new Color(0.50f, 0.50f, 1));
 		}
 
-		private bool IsEquipped()
+		public void ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
 		{
+			if (HideForPlayer == null && ShowForPlayer != null)
+			{
+				WornAndActiveSensors.Add(this);
+			}
+			else if (HideForPlayer != null && ShowForPlayer == null)
+			{
+				WornAndActiveSensors.Remove(this);
+			}
+		}
+
+		public bool IsValidSetup(RegisterPlayer player)
+		{
+			if (player == null) return false;
+
 			if (pickupable.ItemSlot == null) return false;
+			if (Mode == SensorMode.OFF) return false;
+
 			return pickupable.ItemSlot.RootPlayer() != null && pickupable.ItemSlot.NamedSlot == NamedSlot.uniform;
 		}
 
-		public float OverallHealth(LivingHealthMasterBase health)
+		public float OverallHealth(LivingHealthMasterBase health = null)
 		{
+			if (health == null)
+			{
+				health = pickupable.OrNull()?.ItemSlot?.RootPlayer().OrNull()?.PlayerScript.OrNull()?.playerHealth;
+			}
+			if (health == null) return float.NaN;
 			return Mathf.Floor(100 * health.OverallHealth / health.MaxHealth);
 		}
 
@@ -78,14 +111,17 @@ namespace Items
 		[CanBeNull]
 		public string GetInfo()
 		{
-			if (IsEquipped() == false) return null;
 			StringBuilder sensorReport = new StringBuilder();
 			RegisterPlayer player = pickupable.ItemSlot.RootPlayer();
 			LivingHealthMasterBase health = player.PlayerScript.playerHealth;
-			var isCrewmember = player.PlayerScript.Mind.occupation.IsCrewmember
-				? player.PlayerScript.playerName
-				: "???";
-			sensorReport.Append($"{isCrewmember}");
+			var Identification = GetIdentification();
+
+			var personName = "???";
+			if (Identification != null)
+			{
+				personName = $"{Identification.RegisteredName} ({Identification.GetJobTitle()})";
+			}
+			sensorReport.Append($"{personName}");
 			if (Mode == SensorMode.FULL) sensorReport.Append($" - {OverallHealth(health)}%");
 			switch (Mode)
 			{
@@ -106,6 +142,32 @@ namespace Items
 			}
 
 			return sensorReport.ToString();
+		}
+
+
+		public IDCard GetIdentification()
+		{
+			var SlotsOccupied = itemStorage.GetOccupiedSlots();
+			foreach (var SlotOccupied in SlotsOccupied)
+			{
+				var IDCard = SlotOccupied.Item.GetComponentCustom<IDCard>();
+				if (IDCard == null)
+				{
+					var PDA = SlotOccupied.Item.GetComponentCustom<PDALogic>();
+					if (PDA != null)
+					{
+						IDCard = PDA.GetIDCard();
+					}
+				}
+
+				if (IDCard != null)
+				{
+					return IDCard;
+				}
+			}
+
+			return null;
+
 		}
 
 		private void SwitchMode()
@@ -133,12 +195,26 @@ namespace Items
 			RightClickableResult result = new RightClickableResult();
 			if (Mode is not SensorMode.OFF)
 			{
-				result.AddElement("Turn off sensor", () => Mode = SensorMode.OFF);
+				result.AddElement("Turn off sensor", () =>
+				{
+					Mode = SensorMode.OFF;
+					if (WornAndActiveSensors.Contains(this))
+					{
+						WornAndActiveSensors.Remove(this);
+					}
+				});
 				result.AddElement("Change vitals tracking mode", SwitchMode);
 			}
 			else
 			{
-				result.AddElement("Turn on sensor", () => Mode = SensorMode.VITALS);
+				result.AddElement("Turn on sensor", () =>
+				{
+					Mode = SensorMode.VITALS;
+					if (WornAndActiveSensors.Contains(this) == false)
+					{
+						WornAndActiveSensors.Add(this);
+					}
+				});
 			}
 
 			if (Input.GetKeyDown(KeyCode.LeftControl))
@@ -146,6 +222,14 @@ namespace Items
 				result.AddElement("[Debug]", () => Chat.AddExamineMsg(PlayerManager.LocalPlayerObject, $"{GetInfo()}"), Color.red);
 			}
 			return result;
+		}
+
+		public void OnDestroy()
+		{
+			if (WornAndActiveSensors.Contains(this))
+			{
+				WornAndActiveSensors.Remove(this);
+			}
 		}
 	}
 }
