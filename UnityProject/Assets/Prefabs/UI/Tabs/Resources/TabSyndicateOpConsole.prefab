@@ -869,6 +869,7 @@ GameObject:
   - component: {fileID: 7991201244321225227}
   - component: {fileID: 6515977198484755446}
   - component: {fileID: 8473542747083895745}
+  - component: {fileID: 1778861200515666625}
   m_Layer: 5
   m_Name: TabSyndicateOpConsole
   m_TagString: Untagged
@@ -986,6 +987,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   timerLabel: {fileID: 6426892782615481070}
+--- !u!114 &1778861200515666625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5041479958834324441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 0
 --- !u!1 &5665336181869200014
 GameObject:
   m_ObjectHideFlags: 0

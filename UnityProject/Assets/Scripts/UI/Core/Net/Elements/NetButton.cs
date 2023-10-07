@@ -12,6 +12,8 @@ namespace UI.Core.NetUI
 	public class NetButton : NetUIStringElement, IPointerEnterHandler, IPointerExitHandler
 	{
 
+		public bool AddInRunTime = true;
+
 		private Button Button;
 
 		public UnityEvent ServerMethod;
@@ -27,8 +29,11 @@ namespace UI.Core.NetUI
 		public void Awake()
 		{
 			Button = this.GetComponent<Button>();
-			Button.onClick = new Button.ButtonClickedEvent();
-			Button.onClick.AddListener(ExecuteClient);
+			if (AddInRunTime)
+			{
+				Button.onClick = new Button.ButtonClickedEvent();
+				Button.onClick.AddListener(ExecuteClient);
+			}
 		}
 
 

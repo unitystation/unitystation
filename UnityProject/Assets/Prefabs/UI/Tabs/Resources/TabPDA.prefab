@@ -3677,6 +3677,7 @@ GameObject:
   - component: {fileID: 8835462812452530474}
   - component: {fileID: 3162506428660867889}
   - component: {fileID: 4193310021264659341}
+  - component: {fileID: -4490628373057675397}
   m_Layer: 0
   m_Name: TabPDA
   m_TagString: Untagged
@@ -3802,6 +3803,22 @@ MonoBehaviour:
   notesPage: {fileID: 3074508320256464718}
   settingsPage: {fileID: 7839253988664011157}
   uplinkPage: {fileID: 7234658055291404752}
+--- !u!114 &-4490628373057675397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4609695511057080137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 0
 --- !u!1 &4662296747955762857
 GameObject:
   m_ObjectHideFlags: 0

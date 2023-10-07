@@ -8,6 +8,7 @@ using Mirror;
 using UnityEngine;
 using Systems.Research.Data;
 using Shared.Systems.ObjectConnection;
+using Systems.Score;
 using Random = UnityEngine.Random;
 
 namespace Systems.Research.Objects
@@ -25,8 +26,6 @@ namespace Systems.Research.Objects
 		//Only send signals to the Research Server when issuing commands and changing values, not reading the data everytime we access it.
 		public Techweb Techweb { get; private set; } = new Techweb();
 
-
-
 		/// <summary>
 		/// Used to hold reference to how many points have been awarded, by source.
 		/// </summary>
@@ -40,6 +39,19 @@ namespace Systems.Research.Objects
 		public readonly SyncList<ExplosiveBounty> ExplosiveBounties = new SyncList<ExplosiveBounty>();
 
 		[NonSerialized, SyncVar(hook = nameof(SyncFocus))] public int UIselectedFocus = 1; //The current Focus selected in menu, not nesscarily confirmed.
+		[SerializeField] private RegisterTile registerTile;
+
+		/// <summary>
+		/// How many research points the techweb has acquired?
+		/// </summary>
+		public Action<int> ResearchPointsChanged;
+
+
+		private void Awake()
+		{
+			registerTile ??= GetComponent<RegisterTile>();
+			ResearchPointsChanged += TrackResearchPointsScore;
+		}
 
 		private void InitialiseDisk()
 		{
@@ -162,6 +174,7 @@ namespace Systems.Research.Objects
 		public void AddResearchPoints(int points)
 		{
 			Techweb?.AddResearchPoints(points);
+			ResearchPointsChanged?.Invoke(points);
 		}
 
 		#region RightClickMethods
@@ -209,6 +222,7 @@ namespace Systems.Research.Objects
 
 			Techweb.AddResearchPoints(points);
 			PointTotalSourceList[sourcename] += points;
+			ResearchPointsChanged?.Invoke(points);
 			return points;
 		}
 
@@ -313,6 +327,12 @@ namespace Systems.Research.Objects
 		{
 			UIselectedFocus = newData;
 			Techweb.UIupdate?.Invoke();
+		}
+
+		private void TrackResearchPointsScore(int newPoints)
+		{
+			if (registerTile.Matrix != MatrixManager.MainStationMatrix.Matrix) return;
+			ScoreMachine.AddToScoreInt(newPoints, RoundEndScoreBuilder.COMMON_SCORE_SCIENCEPOINTS);
 		}
 	}
 }

@@ -275,6 +275,17 @@ PrefabInstance:
       value: An advanced helmet designed for work in a hazardous, low pressure environment.
         Shines with a high polish.
       objectReference: {fileID: 0}
+    - target: {fileID: 8028719723017469211, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8028719723017469211, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f5b7ce1cca0a644cba934af14ea4b2c,
+        type: 2}
     - target: {fileID: 8034228813080640986, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: 'toggleSprites.Array.data[0]'

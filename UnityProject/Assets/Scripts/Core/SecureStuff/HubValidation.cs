@@ -18,8 +18,13 @@ namespace SecureStuff
 		private static StreamReader reader;
 		private static StreamWriter writer;
 
-		private static List<string> allowedAPIHosts;
-		private static List<string> AllowedAPIHosts
+
+		private const string githubusercontent = "raw.githubusercontent.com";
+
+		private static HashSet<string> allowedAPIHosts;
+
+
+		private static HashSet<string> AllowedAPIHosts
 		{
 			get
 			{
@@ -33,8 +38,24 @@ namespace SecureStuff
 		}
 
 
-		private static List<string> allowedOpenHosts;
-		private static List<string> AllowedOpenHosts
+		private static HashSet<string> allowedGithubRepositories;
+
+		private static HashSet<string> AllowedGithubRepositories
+		{
+			get
+			{
+				if (allowedGithubRepositories == null)
+				{
+					LoadCashedURLConfiguration();
+				}
+
+				return allowedGithubRepositories;
+			}
+		}
+
+
+		private static HashSet<string> allowedOpenHosts;
+		private static HashSet<string> AllowedOpenHosts
 		{
 			get
 			{
@@ -56,8 +77,10 @@ namespace SecureStuff
 
 		private class URLData
 		{
-			public List<string> AllowedOpenHosts = new List<string>();
-			public List<string> AllowedAPIHosts = new List<string>();
+			public HashSet<string> SavedAllowedOpenHosts = new HashSet<string>();
+			public HashSet<string> SavedAllowedAPIHosts = new HashSet<string>();
+			public HashSet<string> SavedAllowedGithubRepositories = new HashSet<string>();
+
 		}
 
 		private static async Task<bool> SetUp(string OnFailText, string URLClipboard = "")
@@ -86,12 +109,18 @@ namespace SecureStuff
 			{
 				// Create the file at the specified path
 				File.Create(path).Close();
-				File.WriteAllText(path, JsonConvert.SerializeObject(new URLData()));
+				File.WriteAllText(path, @"
+{
+    ""SavedAllowedOpenHosts"": [],
+    ""SavedAllowedAPIHosts"": [""api.unitystation.org"", ""firestore.googleapis.com"", ""play.unitystation.org""],
+    ""SavedAllowedGithubRepositories"": [""unitystation/unitystation/develop""]
+}");
 			}
 
 			var data = JsonConvert.DeserializeObject<URLData>(File.ReadAllText(path));
-			allowedOpenHosts = data.AllowedOpenHosts;
-			allowedAPIHosts = data.AllowedAPIHosts;
+			allowedOpenHosts = data.SavedAllowedOpenHosts;
+			allowedAPIHosts = data.SavedAllowedAPIHosts;
+			allowedGithubRepositories = data.SavedAllowedGithubRepositories;
 		}
 
 		private static void SaveCashedURLConfiguration(URLData URLData)
@@ -104,23 +133,41 @@ namespace SecureStuff
 
 		}
 
-		private static void AddTrustedHost(string Host, bool IsAPI)
-		{
-			if (IsAPI)
-			{
-				AllowedAPIHosts.Add(Host);
-			}
-			else
-			{
-				AllowedOpenHosts.Add(Host);
-			}
+		private static void AddTrustedHost(Uri url, bool isAPI)
+        {
+            if (isAPI)
+            {
+                if (url.Host == githubusercontent)
+                {
+                    var segments = url.Segments;
 
-			SaveCashedURLConfiguration(new URLData()
-			{
-				AllowedAPIHosts = allowedAPIHosts,
-				AllowedOpenHosts = AllowedOpenHosts
-			});
-		}
+                    // Expected format: /username/reponame/branchname/...
+                    if (segments.Length >= 4)
+                    {
+                        var username = segments[1].TrimEnd('/');
+                        var repoName = segments[2].TrimEnd('/');
+                        var branchName = segments[3].TrimEnd('/');
+
+                        AllowedGithubRepositories.Add($"{username.ToLower()}/{repoName.ToLower()}/{branchName.ToLower()}");
+                    }
+                }
+                else
+                {
+                    AllowedAPIHosts.Add(url.Host);
+                }
+            }
+            else
+            {
+                AllowedOpenHosts.Add(url.Host);
+            }
+
+            SaveCashedURLConfiguration(new URLData()
+            {
+                SavedAllowedAPIHosts = AllowedAPIHosts,
+                SavedAllowedOpenHosts = AllowedOpenHosts,
+                SavedAllowedGithubRepositories = AllowedGithubRepositories
+            });
+        }
 
 		public static bool TrustedMode
 		{
@@ -141,10 +188,40 @@ namespace SecureStuff
 			}
 		}
 
+
+
+		public static bool CheckWhiteList(Uri URL)
+		{
+			if (URL.Host == githubusercontent)
+			{
+				var segments = URL.Segments;
+
+				// Expected format: /username/reponame/branchname/...
+				if (segments.Length >= 4)
+				{
+					var username = segments[1].TrimEnd('/');
+					var repoName = segments[2].TrimEnd('/');
+					var branchName = segments[3].TrimEnd('/');
+
+					return AllowedGithubRepositories.Contains($"{username.ToLower()}/{repoName.ToLower()}/{branchName.ToLower()}");
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			if (AllowedAPIHosts.Contains(URL.Host))
+			{
+				return true;
+			}
+			return false;
+		}
+
 		public static async Task<bool> RequestAPIURL(Uri URL, string JustificationReason, bool addAsTrusted)
 		{
 			if (TrustedMode) return true;
-			if (AllowedAPIHosts.Contains(URL.Host))
+			if (CheckWhiteList(URL))
 			{
 				return true;
 			}
@@ -167,7 +244,7 @@ namespace SecureStuff
 			var APIURL = bool.Parse(await reader.ReadLineAsync());
 			if (APIURL && addAsTrusted)
 			{
-				AddTrustedHost(URL.Host, true);
+				AddTrustedHost(URL, true);
 			}
 
 
@@ -201,7 +278,7 @@ namespace SecureStuff
 			var openURL = bool.Parse(reader.ReadLine());
 			if (openURL && addAsTrusted)
 			{
-				AddTrustedHost(URL.Host, false);
+				AddTrustedHost(URL, false);
 			}
 
 			return openURL;

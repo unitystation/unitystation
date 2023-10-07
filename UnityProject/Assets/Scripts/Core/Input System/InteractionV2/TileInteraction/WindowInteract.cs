@@ -9,7 +9,7 @@ public class WindowInteract : TileInteraction
 {
 	public override bool WillInteract(TileApply interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 		if (interaction.Intent == Intent.Harm) return false;
 
 		if (interaction.HandObject != null)

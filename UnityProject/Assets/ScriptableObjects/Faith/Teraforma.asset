@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc38a6d4227a4347a3517a04dbf55cd6, type: 3}
+  m_Name: Teraforma
+  m_EditorClassIdentifier: 
+  Faith:
+    <FaithName>k__BackingField: Teraforma
+    <FaithDesc>k__BackingField: A religion that believes that everyone was born in
+      an image of a dwarf, and the whole porpuse of a dwarf is to strike the Earth
+      and weed out the evils within, while collecting all the gifts left inside rocks
+      by an ancient worm that oversees the book of grudges.
+    <FaithIcon>k__BackingField: {fileID: 21300000, guid: 56c81cd8578b25a4dadd0a2cc6ad279c,
+      type: 3}
+    <GodName>k__BackingField: The Great Worm
+    <NanotrasenProgressMessage>k__BackingField: '[Mission Control]\n
+
+      Congratulations
+      on signing on for Nanotrasen, miner, and welcome on board. Settle in and get
+      your bearings, then proceed to the nearest lavaland teleporter or space shuttle
+      and get to mining! We are looking forward to seeing you in action! '
+    <ToleranceToOtherFaiths>k__BackingField: 1
+    FaithProperties:
+    - rid: 2708802213016240155
+    - rid: 2708802213016240158
+  references:
+    version: 2
+    RefIds:
+    - rid: 2708802213016240155
+      type: {class: RockAndStone, ns: Systems.Faith.FaithProperties, asm: Assets}
+      data:
+        propertyIcon: {fileID: 21300008, guid: 321c51faef850244aa8d67229f4f4a42, type: 3}
+    - rid: 2708802213016240158
+      type: {class: Darkness, ns: Systems.Faith.FaithProperties, asm: Assets}
+      data:
+        faithPropertyName: Darkness
+        faithPropertyDesc: People of this faith like to lurk in the darkness.
+        propertyIcon: {fileID: 21300000, guid: 562b5450772949847ba8dc04b0d6f679, type: 3}

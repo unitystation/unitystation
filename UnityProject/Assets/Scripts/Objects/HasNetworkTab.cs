@@ -1,7 +1,6 @@
 using System;
 using UI.Core.Net;
 using UnityEngine;
-using Core.Editor.Attributes;
 using Messages.Server;
 using Mirror;
 using Systems.Interaction;

@@ -14,10 +14,11 @@ namespace Player
 		[SerializeField] private PlayerScript playerScript;
 		[SerializeField] private Util.NetworkedLeanTween networkedLean;
 		[SerializeField] private bool disabled = false;
+		[SerializeField] private float clientAutoCorrectInterval = 1.35f;
 		private readonly Quaternion layingDownRotation = Quaternion.Euler(0, 0, -90);
 		private readonly Quaternion standingUp = Quaternion.Euler(0, 0, 0);
 
-		[SyncVar(hook = nameof(OnLayDown))] public bool IsLayingDown = false;
+		[field: SyncVar] public bool IsLayingDown { get; private set; } = false;
 
 		private void Awake()
 		{
@@ -25,11 +26,21 @@ namespace Player
 			playerDirectional ??= GetComponent<Rotatable>();
 			health ??= GetComponent<LivingHealthMasterBase>();
 			networkedLean ??= GetComponent<Util.NetworkedLeanTween>();
+			if(CustomNetworkManager.IsServer) UpdateManager.Add(AutoCorrect, clientAutoCorrectInterval);
 		}
 
 		public override void OnStartClient()
 		{
 			base.OnStartClient();
+			ClientEnsureCorrectState();
+		}
+
+		[ClientRpc]
+		private void AutoCorrect()
+		{
+			//(Max): This is a quick bandage for the ping issue related to laydown behaviors on the clients getting desynced at high pings.
+			//It's still unclear why the state gets desynced at high pings, but this should stop bodies from standing up whenever
+			//they're affected by wind or are thrown around while laying down.
 			ClientEnsureCorrectState();
 		}
 
@@ -68,9 +79,11 @@ namespace Player
 			}
 		}
 
-		public void OnLayDown(bool oldValue, bool newValue)
+		[ClientRpc]
+		public void LayDownState(bool isLayingDown)
 		{
-			if (newValue)
+			IsLayingDown = isLayingDown;
+			if (isLayingDown)
 			{
 				LayingDownLogic();
 			}
@@ -78,7 +91,7 @@ namespace Player
 			{
 				UpLogic();
 			}
-			HandleGetupAnimation(newValue == false);
+			HandleGetupAnimation(isLayingDown == false);
 		}
 
 		private void LayingDownLogic(bool forceState = false)
@@ -91,8 +104,9 @@ namespace Player
 			{
 				spriteRenderer.sortingLayerName = "Bodies";
 			}
-			playerScript.PlayerSync.CurrentMovementType  = MovementType.Crawling;
+			if (playerScript == null || playerScript.PlayerSync == null) return;
 			if (CustomNetworkManager.IsServer == false) return;
+			playerScript.PlayerSync.CurrentMovementType  = MovementType.Crawling;
 			playerDirectional.LockDirectionTo(true, playerDirectional.CurrentDirection);
 			playerScript.OnLayDown?.Invoke();
 		}
@@ -107,14 +121,14 @@ namespace Player
 			{
 				spriteRenderer.sortingLayerName = "Players";
 			}
-			if (CustomNetworkManager.IsServer == false || playerScript == null || playerScript.PlayerSync == null) return;
+			if (playerScript == null || playerScript.PlayerSync == null) return;
+			if (CustomNetworkManager.IsServer == false) return;
 			playerDirectional.LockDirectionTo(false, playerDirectional.CurrentDirection);
 			playerScript.PlayerSync.CurrentMovementType = MovementType.Running;
 		}
 
 		private void HandleGetupAnimation(bool getUp)
 		{
-			if (CustomNetworkManager.IsHeadless) return;
 			if (getUp == false && networkedLean.Target.rotation.z > -90)
 			{
 				networkedLean.RotateGameObject(new Vector3(0, 0, -90), 0.15f, sprites.gameObject);

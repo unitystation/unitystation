@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc38a6d4227a4347a3517a04dbf55cd6, type: 3}
+  m_Name: RB-7077
+  m_EditorClassIdentifier: 
+  Faith:
+    <FaithName>k__BackingField: RB-7077
+    <FaithDesc>k__BackingField: "From the moment I understood the weakness of my
+      flesh, it disgusted me. I craved the strength and certainty of steel. I aspired
+      to the purity of the Blessed Machine. Your kind cling to your flesh, as though
+      it will not decay and fail you. One day the crude biomass you call the temple
+      will wither, and you will beg my kind to save you. But I am already saved,
+      for the Machine is immortal\u2026 Even in death I serve the Omnissiah."
+    <FaithIcon>k__BackingField: {fileID: 21300010, guid: a8ecc1783edd54747ad1dfb65800f775,
+      type: 3}
+    <GodName>k__BackingField: 'Syn '
+    <NanotrasenProgressMessage>k__BackingField: 
+    <ToleranceToOtherFaiths>k__BackingField: 2
+    FaithProperties:
+    - rid: 2708802213016240137
+    - rid: 2708802213016240139
+    - rid: 2708802213016240141
+    - rid: 2708802213016240143
+  references:
+    version: 2
+    RefIds:
+    - rid: 2708802213016240137
+      type: {class: Darkness, ns: Systems.Faith.FaithProperties, asm: Assets}
+      data:
+        faithPropertyName: Darkness
+        faithPropertyDesc: People of this faith like to lurk in the darkness.
+        propertyIcon: {fileID: 21300000, guid: 562b5450772949847ba8dc04b0d6f679, type: 3}
+    - rid: 2708802213016240139
+      type: {class: Xenophobia, ns: Systems.Faith.FaithProperties, asm: Assets}
+      data:
+        propertyIcon: {fileID: -4804702189910931937, guid: ac68dec4fdc75b74088b4c9359118177,
+          type: 3}
+        nonMemberTakePoints: 10
+        memberGivePoints: 15
+    - rid: 2708802213016240141
+      type: {class: Transhumanist, ns: Systems.Faith.FaithProperties, asm: Assets}
+      data:
+        chaplainOccupation: {fileID: 11400000, guid: 3de3e6078fb2346cba5e445b11b1d3e9,
+          type: 2}
+        chaplainBecomeBorgText: <color=yellow><size+=14>Syn has blessed you with
+          purity</color></size>
+        bodyPartsToMakeTranshumanist:
+        - {fileID: 2001825109870326764, guid: fff7a4f0870e48b439feb1d43d9f8de6, type: 3}
+        - {fileID: 3134263208076850617, guid: 6288c623448564447ad3e18185754a58, type: 3}
+        - {fileID: 6491239688611912051, guid: eb43f0bbcf0aa6d45b1475262374be13, type: 3}
+        - {fileID: 2254330885355759590, guid: 27411efb45fab3f48a82aecd1bb9f338, type: 3}
+        - {fileID: 7330187859556018976, guid: bdd61d74d4f4ef14d9435c363e39b397, type: 3}
+        - {fileID: 5339358238428289753, guid: 05849a8c832dadc4dbdbb0e5bbe37ec8, type: 3}
+        - {fileID: 108926807988360621, guid: 5c22d550fc2d31941bf147d721294daa, type: 3}
+        pettyLeave: {fileID: 9197874253917913631, guid: b28d41c2a9712bc448ba1d43f8554098,
+          type: 3}
+        faithPropertyName: Transhumanist
+        faithPropertyDesc: This faith believes the certainty of steel, and worship
+          is unlocked via body modifications that unlocks one's true potential.
+        propertyIcon: {fileID: 21300036, guid: cb62d97b741974e4b94847d96225c691, type: 3}
+    - rid: 2708802213016240143
+      type: {class: ScienceComesFirst, ns: Systems.Faith.FaithProperties, asm: Assets}
+      data:
+        propertyIcon: {fileID: 21300000, guid: 4abf5a8866bc15540960ebfe444ffe19, type: 3}

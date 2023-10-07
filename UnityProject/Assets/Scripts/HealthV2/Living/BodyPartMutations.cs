@@ -92,9 +92,8 @@ public class BodyPartMutations : BodyPartFunctionality
 		if (RelatedPart.SetCustomisationData.Contains(InCustomisationTarget))
 		{
 			//Logger.LogError($"{bodyPart.name} has {InCustomisationTarget} in SetCustomisationData");
-			var newone = RelatedPart.SetCustomisationData.Replace(InCustomisationTarget, CustomisationReplaceWith);
+			RelatedPart.SetCustomisationString(RelatedPart.SetCustomisationData.Replace(InCustomisationTarget, CustomisationReplaceWith));
 			//Logger.LogError($"Changing from {bodyPart.SetCustomisationData} to {newone} ");
-			RelatedPart.LobbyCustomisation.OnPlayerBodyDeserialise(RelatedPart, newone, RelatedPart.HealthMaster);
 		}
 	}
 

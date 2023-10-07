@@ -108,45 +108,6 @@ namespace HealthV2
 		/// </summary>
 		[HideInInspector] public List<BodyPartSprites> RelatedPresentSprites = new List<BodyPartSprites>();
 
-		/// <summary>
-		/// The prefab sprites for this body part
-		/// </summary>
-		[Tooltip("The prefab sprites for this")]
-		public BodyPartSprites SpritePrefab;
-
-		[Tooltip("The body part's pickable item's sprites.")]
-		public SpriteHandler BodyPartItemSprite;
-
-		[Tooltip(
-			"Does this body part share the same color as the player's skintone when it deattatches from his body?")]
-		public bool BodyPartItemInheritsSkinColor = false;
-
-
-		/// <summary>
-		/// Custom settings from the lobby character designer
-		/// </summary>
-		[Tooltip("Custom options from the Character Customizer that modifys this")]
-		public BodyPartCustomisationBase LobbyCustomisation;
-
-		[Tooltip("List of optional body added to this, eg what wings a Moth has")] [SerializeField]
-		private List<BodyPart> optionalOrgans = new List<BodyPart>();
-
-		/// <summary>
-		/// The list of optional body that are attached/stored in this body part, eg what wings a Moth has
-		/// </summary>
-		public List<BodyPart> OptionalOrgans => optionalOrgans;
-
-		/// <summary>
-		/// The list of optional body that can be attached/stored in this body part, eg what wings are available on a Moth chest
-		/// </summary>
-		[Tooltip("List of body parts this can be replaced with")]
-		public List<BodyPart> OptionalReplacementOrgan = new List<BodyPart>();
-
-		/// <summary>
-		/// Flag that is true if the body part is external (exposed to the outside world), false if it is internal
-		/// </summary>
-		[Tooltip("Is the body part on the surface?")]
-		public bool IsSurface = false;
 
 		[Tooltip("Does the player die when this part gets removed from their body?")]
 		public bool DeathOnRemoval = false;
@@ -157,18 +118,14 @@ namespace HealthV2
 		[Tooltip("Should clothing be hidden on this?")]
 		public ClothingHideFlags ClothingHide;
 
-		/// <summary>
-		/// What is this BodyPart's sprite's tone if it shared a skin tone with the player?
-		/// </summary>
-		[HideInInspector] public Color? Tone;
-
 		public string SetCustomisationData;
 
 		private bool SystemSetup = false;
 
-		public IntName intName;
-
 		public ItemAttributesV2 ItemAttributes;
+
+
+
 
 		void Awake()
 		{
@@ -290,7 +247,7 @@ namespace HealthV2
 			livingHealth.AddingBodyPart(this);
 
 			SetHealthMaster(livingHealth);
-			livingHealth.ServerCreateSprite(this);
+			ServerCreateSprite();
 
 			foreach (var organ in OrganList)
 			{
@@ -320,8 +277,7 @@ namespace HealthV2
 				organ.BodyPartRemoveHealthMaster();
 			}
 
-			RemoveSprites(playerSprites, HealthMaster);
-			HealthMaster.rootBodyPartController.UpdateClients();
+			RemoveAllSprites();
 			HealthMaster.RemovingBodyPart(this);
 			HealthMaster.BodyPartListChange();
 			HealthMaster = null;
@@ -462,26 +418,6 @@ namespace HealthV2
 
 
 		#region BodyPartStorage
-
-		private void RemoveSprites(PlayerSprites sprites, LivingHealthMasterBase livingHealth)
-		{
-			for (var i = RelatedPresentSprites.Count - 1; i >= 0; i--)
-			{
-				var bodyPartSprite = RelatedPresentSprites[i];
-				if (IsSurface || BodyPartItemInheritsSkinColor)
-				{
-					sprites.SurfaceSprite.Remove(bodyPartSprite);
-				}
-
-				RelatedPresentSprites.Remove(bodyPartSprite);
-				sprites.Addedbodypart.Remove(bodyPartSprite);
-				SpriteHandlerManager.UnRegisterHandler(sprites.GetComponent<NetworkIdentity>(),
-					bodyPartSprite.baseSpriteHandler);
-				Destroy(bodyPartSprite.gameObject);
-			}
-
-			livingHealth.InternalNetIDs.Remove(intName);
-		}
 
 		public void SetUpSystemsThis()
 		{

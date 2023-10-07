@@ -233,7 +233,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	private void SyncIsLayingDown(bool isDown)
 	{
 		OnLyingDownChangeEvent?.Invoke(isDown);
-		LayDownBehavior.IsLayingDown = isDown;
+		LayDownBehavior.LayDownState(isDown);
 	}
 
 

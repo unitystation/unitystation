@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 114055117178974294}
   - component: {fileID: 114385320989314586}
   - component: {fileID: 4742926445127727782}
+  - component: {fileID: 6597364856487689500}
   m_Layer: 5
   m_Name: TabMagicMirror
   m_TagString: Untagged
@@ -132,6 +133,22 @@ MonoBehaviour:
   inputField: {fileID: 8514528037926767295}
   wizardFirstNames: {fileID: 11400000, guid: 4b3a8019fc6e37948b37b76ac221c253, type: 2}
   wizardLastNames: {fileID: 11400000, guid: 2854c54aab158134f9ebb1ad2f982199, type: 2}
+--- !u!114 &6597364856487689500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502172408805726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 0
 --- !u!1 &1718948510130994
 GameObject:
   m_ObjectHideFlags: 0

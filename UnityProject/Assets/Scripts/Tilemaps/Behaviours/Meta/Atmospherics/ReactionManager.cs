@@ -216,7 +216,11 @@ namespace Systems.Atmospherics
 
 				if (pushable.stickyMovement && windyNode.WindForce > (int)WindStrength.STRONG && pushable.CanBeWindPushed )
 				{
-					pushable.TryTilePush((transform.rotation * (Vector2)windyNode.WindDirection).RoundTo2Int(), null);
+					if (windyNode.WindForce * 0.15f > 0.25f)
+					{
+						pushable.NewtonianPush(windyNode.WindDirection, windyNode.WindForce * 0.05f,
+							windyNode.WindForce * 0.1f, spinFactor: Random.Range(20, 150));
+					}
 				}
 			}
 

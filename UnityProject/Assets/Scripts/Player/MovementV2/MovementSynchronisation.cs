@@ -742,11 +742,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public void ServerCheckQueueingAndMove()
 	{
 		if (hasAuthority) return;
-
-		if (CanInPutMove()) //TODO potential issue with messages building up
+		if (MoveQueue.Count > 0)
 		{
-			if (MoveQueue.Count > 0)
+			if (CanInPutMove()) //TODO potential issue with messages building up
 			{
+
 				bool fudged = false;
 				Vector3 stored = Vector3.zero;
 				Dictionary<uint, NetworkIdentity> spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
@@ -1245,9 +1245,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		if (airTime > 0)
 		{
-			if (Animating == false)
+			if (IsFlyingSliding == false)
 			{
-				Loggy.LogError("Error somehow have air Time while not animating");
+				Loggy.LogError("Error somehow have air Time while not IsFlyingSliding");
 				airTime = 0;
 			}
 			return false;
@@ -1255,9 +1255,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		if (slideTime > 0)
 		{
-			if (Animating == false)
+			if (IsFlyingSliding == false)
 			{
-				Loggy.LogError("Error somehow have Slide time while not animating");
+				Loggy.LogError("Error somehow have Slide time while not IsFlyingSliding");
 				slideTime = 0;
 			}
 			return false;

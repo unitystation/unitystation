@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using Logs;
 using Shared.Managers;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Systems.Score
 {
 	public class ScoreMachine : SingletonManager<ScoreMachine>
 	{
 		public Dictionary<string, ScoreEntry> Scores { get; private set; }
+		public UnityEvent<string, int> OnScoreChanged;
 
 		public enum ScoreType
 		{
@@ -20,7 +22,9 @@ namespace Systems.Score
 		void ClearScores()
 		{
 			Scores.Clear();
+			OnScoreChanged?.RemoveAllListeners();
 		}
+
 		public override void Awake()
 		{
 			base.Awake();
@@ -99,6 +103,7 @@ namespace Systems.Score
 				return;
 			}
 			c.Score += valueToAddOnTop;
+			Instance.OnScoreChanged?.Invoke(ID, valueToAddOnTop);
 		}
 
 		/// <summary>
