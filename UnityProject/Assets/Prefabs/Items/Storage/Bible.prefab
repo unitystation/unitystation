@@ -8,6 +8,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 641750117508125258, guid: 3d19628d41d177c469a643ad9c65a0a0,
+        type: 3}
+      propertyPath: TopLevelAlt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 641750117508125258, guid: 3d19628d41d177c469a643ad9c65a0a0,
+        type: 3}
+      propertyPath: canClickPickup
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3527634033172627021, guid: 3d19628d41d177c469a643ad9c65a0a0,
         type: 3}
       propertyPath: PresentSpriteSet
