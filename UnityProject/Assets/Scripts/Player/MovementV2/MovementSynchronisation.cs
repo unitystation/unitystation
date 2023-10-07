@@ -330,9 +330,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			playerScript.RegisterPlayer.LayDownBehavior.ServerEnsureCorrectState();
 		}
-		else
-		{
-		}
 	}
 
 	public void Update()

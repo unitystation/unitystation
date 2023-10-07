@@ -574,9 +574,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				c.playerScript.RegisterPlayer.LayDownBehavior.ServerEnsureCorrectState();
 			}
-			else
-			{
-			}
 		}
 		else
 		{
@@ -1137,9 +1134,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (CustomNetworkManager.IsServer)
 		{
 			c.playerScript.RegisterPlayer.LayDownBehavior.ServerEnsureCorrectState();
-		}
-		else
-		{
 		}
 	}
 

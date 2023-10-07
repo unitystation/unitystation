@@ -224,9 +224,6 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		{
 			LayDownBehavior.ServerEnsureCorrectState();
 		}
-		else
-		{
-		}
 	}
 
 	private void SyncIsLayingDown(bool isDown)
