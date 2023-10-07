@@ -174,7 +174,7 @@ namespace Items
 		{
 			Mode = Mode switch
 			{
-				SensorMode.OFF => throw new InvalidOperationException("You're not supposed to be here, doctor freeman."),
+				SensorMode.OFF => SensorMode.OFF,
 				SensorMode.LOCATION => SensorMode.VITALS,
 				SensorMode.VITALS => SensorMode.FULL,
 				SensorMode.FULL => SensorMode.VITALS,
