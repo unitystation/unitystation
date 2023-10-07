@@ -39,8 +39,6 @@ namespace Lobby
 		public List<ConnectionHistory> ServerJoinHistory { get; private set; }
 		private static readonly int MaxJoinHistory = 20; // Aribitrary & more than enough
 
-		private bool cancelTimer = false;
-
 		#region Lifecycle
 
 		public override void Start()
@@ -125,8 +123,6 @@ namespace Lobby
 		public async Task<bool> TryTokenLogin(string uid, string token)
 		{
 			lobbyDialogue.ShowLoadingPanel("Welcome back! Signing you in...");
-			LoginTimer();
-
 			var refreshToken = new RefreshToken();
 			refreshToken.refreshToken = token;
 			refreshToken.userID = uid;
@@ -139,7 +135,6 @@ namespace Lobby
 			{
 				lobbyDialogue.ShowLoginError($"Unknown server error. Check your console (F5)");
 				Loggy.Log("[LobbyManager/TryTokenLogin()] - Response is null.");
-				cancelTimer = true;
 				return false;
 			}
 
@@ -156,7 +151,6 @@ namespace Lobby
 			{
 				Loggy.LogError($"Something went wrong with hub token validation: {response.errorMsg}");
 				lobbyDialogue.ShowLoginError($"Could not verify your details. {response.errorMsg}");
-				cancelTimer = true;
 				return false;
 			}
 
@@ -182,7 +176,6 @@ namespace Lobby
 				}
 			});
 			Loggy.Log("[LobbyManager/TryTokenLogin()] - Finished FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync() after awaiting it.");
-			cancelTimer = true;
 			return isLoginSuccess;
 		}
 
@@ -198,7 +191,6 @@ namespace Lobby
 
 			var randomGreeting = string.Format(greetings.PickRandom(), FirebaseAuth.DefaultInstance.CurrentUser.DisplayName);
 			lobbyDialogue.ShowLoadingPanel($"{randomGreeting}\n\nSigning you in...");
-			LoginTimer();
 			bool isLoginSuccess = false;
 			Loggy.Log("[LobbyManager/TryAutoLogin()] - Executing  FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread().");
 			await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(task => {
@@ -221,7 +213,6 @@ namespace Lobby
 				Loggy.Log("[LobbyManager/TryAutoLogin()] - isLoginSuccess is false.");
 				return false;
 			}
-			cancelTimer = true;
 
 			Loggy.Log("[LobbyManager/TryAutoLogin()] - Executing awaited ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, lobbyDialogue.ShowLoginError)");
 			if (await ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, lobbyDialogue.ShowLoginError))
@@ -351,16 +342,6 @@ namespace Lobby
 					lobbyDialogue.transform.localScale *= 0.9f;
 				}
 			}
-		}
-
-		private async void LoginTimer()
-		{
-			await Task.Delay(14000);
-			if (cancelTimer) return;
-			lobbyDialogue.ShowLoadingPanel("This is taking longer than it should..\n\n If it continues, try disabling your VPNs and installing the game in full English path.");
-			await Task.Delay(30500);
-			if (cancelTimer) return;
-			lobbyDialogue.ShowLoginError($"Unexpected error. Check your console (F5)");
 		}
 
 		#region Server History
