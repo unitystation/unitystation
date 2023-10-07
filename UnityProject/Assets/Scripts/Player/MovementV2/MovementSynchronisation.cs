@@ -332,7 +332,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 		else
 		{
-			playerScript.RegisterPlayer.LayDownBehavior.ClientEnsureCorrectState();
 		}
 	}
 

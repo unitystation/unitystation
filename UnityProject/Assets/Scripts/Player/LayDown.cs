@@ -14,7 +14,7 @@ namespace Player
 		[SerializeField] private PlayerScript playerScript;
 		[SerializeField] private Util.NetworkedLeanTween networkedLean;
 		[SerializeField] private bool disabled = false;
-		[SerializeField] private float clientAutoCorrectInterval = 1.35f;
+		[SerializeField] private UprightSprites uprightSprites;
 		private readonly Quaternion layingDownRotation = Quaternion.Euler(0, 0, -90);
 		private readonly Quaternion standingUp = Quaternion.Euler(0, 0, 0);
 
@@ -26,28 +26,12 @@ namespace Player
 			playerDirectional ??= GetComponent<Rotatable>();
 			health ??= GetComponent<LivingHealthMasterBase>();
 			networkedLean ??= GetComponent<Util.NetworkedLeanTween>();
-			if(CustomNetworkManager.IsServer) UpdateManager.Add(AutoCorrect, clientAutoCorrectInterval);
+			uprightSprites ??= GetComponent<UprightSprites>();
 		}
 
 		public override void OnStartClient()
 		{
 			base.OnStartClient();
-			ClientEnsureCorrectState();
-		}
-
-		[ClientRpc]
-		private void AutoCorrect()
-		{
-			//(Max): This is a quick bandage for the ping issue related to laydown behaviors on the clients getting desynced at high pings.
-			//It's still unclear why the state gets desynced at high pings, but this should stop bodies from standing up whenever
-			//they're affected by wind or are thrown around while laying down.
-			ClientEnsureCorrectState();
-		}
-
-
-		[Client]
-		public void ClientEnsureCorrectState()
-		{
 			CorrectState();
 		}
 
@@ -96,6 +80,7 @@ namespace Player
 
 		private void LayingDownLogic(bool forceState = false)
 		{
+			uprightSprites.ExtraRotation = layingDownRotation;
 			if (forceState && sprites != null)
 			{
 				sprites.localRotation = layingDownRotation;
@@ -113,6 +98,7 @@ namespace Player
 
 		private void UpLogic(bool forceState = false)
 		{
+			uprightSprites.ExtraRotation = standingUp;
 			if (forceState && sprites != null)
 			{
 				sprites.localRotation = standingUp;

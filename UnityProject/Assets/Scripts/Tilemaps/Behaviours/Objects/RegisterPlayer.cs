@@ -226,7 +226,6 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		}
 		else
 		{
-			LayDownBehavior.ClientEnsureCorrectState();
 		}
 	}
 

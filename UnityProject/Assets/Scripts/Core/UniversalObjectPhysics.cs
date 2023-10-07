@@ -576,7 +576,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 			else
 			{
-				c.playerScript.RegisterPlayer.LayDownBehavior.ClientEnsureCorrectState();
 			}
 		}
 		else
@@ -1141,7 +1140,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 		else
 		{
-			c.playerScript.RegisterPlayer.LayDownBehavior.ClientEnsureCorrectState();
 		}
 	}
 
