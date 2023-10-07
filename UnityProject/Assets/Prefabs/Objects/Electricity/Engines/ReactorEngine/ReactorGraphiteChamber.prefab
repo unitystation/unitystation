@@ -67,17 +67,17 @@ PrefabInstance:
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -216,6 +216,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxCapacity: 100
+  DEBUGReagent: {fileID: 0}
+  DEBUGAmount: 0
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   AdditionalReactions: []
   initialReagentMix:
@@ -371,6 +373,7 @@ MonoBehaviour:
   PipeItemTrait: {fileID: 11400000, guid: 066fee8b180af6c47a2bf6cb99f725a5, type: 2}
   LikelihoodOfSpontaneousNeutron: 0.1
   radiationProducer: {fileID: 0}
+  registerObject: {fileID: 0}
   ReactorPipe: {fileID: 0}
   ReactorRods:
   - {fileID: 0}
@@ -391,8 +394,10 @@ MonoBehaviour:
   - {fileID: 0}
   ReactorFuelRods: []
   ReactorEngineStarters: []
+  HasEnrichedRod: 0
   ControlRodDepthPercentage: 1
   RodMeltingTemperatureK: 1100
   MeltedDown: 0
   PoppedPipes: 0
+  Corium: {fileID: 2574638943807976213, guid: e641b27549abd354084e3b8403810249, type: 3}
   ConnectedConsoles: []
