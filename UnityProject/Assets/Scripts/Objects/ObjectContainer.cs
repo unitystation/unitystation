@@ -141,11 +141,6 @@ namespace Objects
 			if (obj.TryGetComponent<UniversalObjectPhysics>(out var objectPhysics))
 			{
 				objectPhysics.StoreTo(this);
-
-				if (obj.TryGetComponent<PlayerScript>(out var playerScript))
-				{
-					CheckPlayerCrawlState(objectPhysics);
-				}
 			}
 		}
 
@@ -263,12 +258,6 @@ namespace Objects
 			}
 		}
 
-
-		private void CheckPlayerCrawlState(UniversalObjectPhysics playerBehaviour)
-		{
-			var regPlayer = playerBehaviour.GetComponent<RegisterPlayer>();
-			regPlayer.LayDownBehavior.ServerEnsureCorrectState();
-		}
 
 		/// <summary>
 		/// Invoked when the parent net ID of this object's RegisterTile changes. Updates the parent net ID of the player / items

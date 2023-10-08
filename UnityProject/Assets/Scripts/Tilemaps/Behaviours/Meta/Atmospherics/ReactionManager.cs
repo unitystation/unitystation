@@ -219,7 +219,7 @@ namespace Systems.Atmospherics
 					if (windyNode.WindForce * 0.15f > 0.25f)
 					{
 						pushable.NewtonianPush(windyNode.WindDirection, windyNode.WindForce * 0.05f,
-							windyNode.WindForce * 0.1f, spinFactor: Random.Range(20, 150));
+							windyNode.WindForce * 0.05f, spinFactor: Random.Range(20, 150));
 					}
 				}
 			}

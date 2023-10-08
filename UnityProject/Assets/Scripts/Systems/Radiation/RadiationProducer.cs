@@ -82,9 +82,12 @@ namespace Systems.Radiation
 		{
 			if (this == null)
 			{
-				Loggy.LogError(" The radioactive object has been destroyed but you're still trying to Produce radiation ", Category.Radiation);
+				Loggy.LogError(
+					" The radioactive object has been destroyed but you're still trying to Produce radiation ",
+					Category.Radiation);
 				return;
 			}
+
 			OutPuttingRadiation = Invalue;
 			float LightPower = OutPuttingRadiation / 24000;
 			if (LightPower > 1)
@@ -100,16 +103,9 @@ namespace Systems.Radiation
 		{
 			if (OutPuttingRadiation > 0.358f)
 			{
-				if (registerObject == null)
-				{
-					RadiationManager.Instance.RequestPulse(objectBehaviour.registerTile.WorldPositionServer,
-						OutPuttingRadiation, ObjectID);
-				}
-				else
-				{
-					RadiationManager.Instance.RequestPulse(registerObject.WorldPositionServer, OutPuttingRadiation,
-						ObjectID);
-				}
+				RadiationManager.Instance.RequestPulse(gameObject.AssumedWorldPosServer().RoundToInt(),
+					OutPuttingRadiation,
+					ObjectID);
 			}
 
 			UpdateValues(OutPuttingRadiation);

@@ -43,7 +43,6 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 	private SpriteRenderer[] spriteRenderers;
 	private RegisterTile registerTile;
 	private UniversalObjectPhysics uop;
-
 	private void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
