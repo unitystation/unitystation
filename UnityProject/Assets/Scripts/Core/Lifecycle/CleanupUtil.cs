@@ -367,6 +367,7 @@ public static class CleanupUtil
 			a.OpenSlots.Clear();
 		}
 		UI_ItemImage.ImageAndHandler.ClearAll();
+		HUDHandler.Categorys.Clear();
 	}
 
 	/// <summary>

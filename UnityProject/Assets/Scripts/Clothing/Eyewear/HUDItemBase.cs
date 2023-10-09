@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class HUDItemBase : NetworkBehaviour,  IItemInOutMovedPlayer, IClientSynchronisedEffect
 {
-	private Pickupable pickupable;
+	protected Pickupable pickupable;
 
 	private void Awake()
 	{
@@ -17,16 +17,6 @@ public class HUDItemBase : NetworkBehaviour,  IItemInOutMovedPlayer, IClientSync
 	public RegisterPlayer CurrentlyOn { get; set; }
 	bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-	public bool IsValidSetup(RegisterPlayer player)
-	{
-		if (player == null) return false;
-		if (player != null && player.PlayerScript.RegisterPlayer == pickupable.ItemSlot.Player && pickupable.ItemSlot is {NamedSlot: NamedSlot.eyes}) // Checks if it's not null and checks if NamedSlot == NamedSlot.eyes
-		{
-			return true;
-		}
-
-		return false;
-	}
 	void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
 	{
 		if (ShowForPlayer != null)
@@ -60,7 +50,19 @@ public class HUDItemBase : NetworkBehaviour,  IItemInOutMovedPlayer, IClientSync
 		ApplyEffects(Default ? false : true);
 	}
 
-	public void ApplyEffects(bool State)
+	public virtual bool IsValidSetup(RegisterPlayer player)
+	{
+		if (player == null) return false;
+		if (player != null && player.PlayerScript.RegisterPlayer == pickupable.ItemSlot.Player && pickupable.ItemSlot is {NamedSlot: NamedSlot.eyes}) // Checks if it's not null and checks if NamedSlot == NamedSlot.eyes
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+
+	public virtual void ApplyEffects(bool State)
 	{
 		//hummm UI = Objects on player
 		//How is it synchronised??
