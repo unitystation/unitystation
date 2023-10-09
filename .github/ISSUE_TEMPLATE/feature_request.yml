@@ -22,10 +22,11 @@ body:
     attributes:
       label: User stories
       description: Write a list of user stories for this feature. A user story is a sentence that describes a feature from the perspective of the user. For example "As a player, I want to be able to hug the clown without it exploding."
-      placeholder: Edit here 
-      - As a player, I want to be able to hug the clown without it exploding.
-      - As a clown player, I want to be able to hug the HOS without me exploding.
-      - As a developer, I want a clear hugging interface that can be used by other features.
+      value: |
+        - As a player, I want to be able to hug the clown without it exploding.
+        - As a clown player, I want to be able to hug the HOS without me exploding.
+        - As a developer, I want a clear hugging interface that can be used by other features
+      render: markdown
     validations:
       required: true
   - type: textarea
