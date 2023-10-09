@@ -136,10 +136,10 @@ namespace Objects
 		{
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Click01, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
 
-			if (forceLayingDown && playerScript.RegisterPlayer.IsLayingDown == false) playerScript.RegisterPlayer.ServerSetIsStanding(false);		
+			if (forceLayingDown && playerScript.RegisterPlayer.IsLayingDown == false) playerScript.RegisterPlayer.ServerSetIsStanding(false);
 
 			objectPhysics.BuckleTo(playerScript.playerMove);
-			occupiedSpriteHandler.OrNull()?.ChangeSprite(0);
+			occupiedSpriteHandler.OrNull()?.SetCatalogueIndexSprite(0);
 			OnBuckleEvent?.Invoke();
 		}
 

@@ -80,7 +80,7 @@ public class SlimeProcessor : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 		if (processing)
 		{
 			processing = false;
-			Sprite.ChangeSprite(0);
+			Sprite.SetCatalogueIndexSprite(0);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE , Process);
 			return;
 		}
@@ -92,7 +92,7 @@ public class SlimeProcessor : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 		else
 		{
 			processing = true;
-			Sprite.ChangeSprite(1);
+			Sprite.SetCatalogueIndexSprite(1);
 			UpdateManager.Add(Process, 3);
 		}
 	}
@@ -112,7 +112,7 @@ public class SlimeProcessor : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 		if (container.StoredObjectsCount <= 0)
 		{
 			processing = false;
-			Sprite.ChangeSprite(0);
+			Sprite.SetCatalogueIndexSprite(0);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE , Process);
 			return;
 		}
@@ -142,7 +142,7 @@ public class SlimeProcessor : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 				core.RelatedPart.RemoveInventoryAndBody(this.gameObject.transform.position);
 				container.RetrieveObject(core.gameObject);
 			}
-			
+
 			container.RetrieveObject(Remov.Key);
 			_ = Despawn.ServerSingle(Health.gameObject);
 

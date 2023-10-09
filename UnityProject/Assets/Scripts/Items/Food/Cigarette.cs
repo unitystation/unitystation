@@ -98,7 +98,7 @@ namespace Items
 			if (spriteHandler)
 			{
 				var newSpriteID = isLitNow ? LIT_SPRITE : DEFAULT_SPRITE;
-				spriteHandler.ChangeSprite(newSpriteID);
+				spriteHandler.SetCatalogueIndexSprite(newSpriteID);
 			}
 
 			// toggle flame from cigarette

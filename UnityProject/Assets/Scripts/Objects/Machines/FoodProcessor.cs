@@ -350,7 +350,7 @@ namespace Objects.Kitchen
 			{
 				this.processor = processor;
 				StateMsgForExamine = "idle";
-				processor.spriteHandler.ChangeSprite(0);
+				processor.spriteHandler.SetCatalogueIndexSprite(0);
 				processor.HaltProcessor();
 			}
 
@@ -389,7 +389,7 @@ namespace Objects.Kitchen
 			{
 				this.processor = processor;
 				StateMsgForExamine = "running";
-				processor.spriteHandler.ChangeSprite(1);
+				processor.spriteHandler.SetCatalogueIndexSprite(1);
 			}
 
 			public override void ToggleActive()	{ }
@@ -422,7 +422,7 @@ namespace Objects.Kitchen
 				this.processor = processor;
 				StateMsgForExamine = "unpowered";
 				//processor.AnimateProcessor(0);
-				processor.spriteHandler.ChangeSprite(0);
+				processor.spriteHandler.SetCatalogueIndexSprite(0);
 				processor.HaltProcessor();
 			}
 

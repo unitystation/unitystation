@@ -70,7 +70,7 @@ namespace Objects.Electrical
 				{
 					if (spriteHandler.CurrentSpriteIndex == -1)
 					{
-						spriteHandler.ChangeSprite(0);
+						spriteHandler.SetCatalogueIndexSprite(0);
 					}
 					else
 					{

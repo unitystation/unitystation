@@ -60,7 +60,7 @@ namespace Robotics
 				return;
 			}
 
-			spriteHandler.ChangeSprite(1, true);
+			spriteHandler.SetCatalogueIndexSprite(1, true);
 
 		}
 	}

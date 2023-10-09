@@ -69,7 +69,7 @@ namespace Weapons
 		{
 			if(toggleAffectsComponent) meleeEffect.enabled = true;
 			weaponState = WeaponState.On;
-			spriteHandler.ChangeSprite((int)WeaponState.On);
+			spriteHandler.SetCatalogueIndexSprite((int)WeaponState.On);
 		}
 
 		public void TurnOff()
@@ -77,7 +77,7 @@ namespace Weapons
 			//logic to turn the teleprod off.
 			if (toggleAffectsComponent) meleeEffect.enabled = false;
 			weaponState = WeaponState.Off;
-			spriteHandler.ChangeSprite((int)WeaponState.Off);
+			spriteHandler.SetCatalogueIndexSprite((int)WeaponState.Off);
 		}
 
 		private void RemoveCell()
@@ -85,7 +85,7 @@ namespace Weapons
 			//Logic for removing the items battery
 			if (toggleAffectsComponent) meleeEffect.enabled = false;
 			weaponState = WeaponState.NoCell;
-			spriteHandler.ChangeSprite((int)WeaponState.NoCell);
+			spriteHandler.SetCatalogueIndexSprite((int)WeaponState.NoCell);
 			Inventory.ServerDrop(meleeEffect.batterySlot);
 		}
 

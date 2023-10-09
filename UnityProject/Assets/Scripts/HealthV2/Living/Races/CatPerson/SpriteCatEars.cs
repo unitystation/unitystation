@@ -46,7 +46,7 @@ public class SpriteCatEars : BodyPartSprites
 			referenceOffset = 3;
 		}
 
-		baseSpriteHandler.ChangeSpriteVariant(referenceOffset);
-		OverlySpriteHandler.ChangeSpriteVariant(referenceOffset);
+		baseSpriteHandler.SetSpriteVariant(referenceOffset);
+		OverlySpriteHandler.SetSpriteVariant(referenceOffset);
 	}
 }

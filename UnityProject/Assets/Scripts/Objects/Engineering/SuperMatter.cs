@@ -552,13 +552,13 @@ namespace Objects.Engineering
 				if (gasmixPowerRatio > 0.8)
 				{
 					//with a perfect gas mix, make the power more based on heat
-					mainSprite.ChangeSprite(1);
+					mainSprite.SetCatalogueIndexSprite(1);
 				}
 				else
 				{
 					//in normal mode, power is less effected by heat
 					tempFactor = 30;
-					mainSprite.ChangeSprite(0);
+					mainSprite.SetCatalogueIndexSprite(0);
 				}
 
 				//if there is more pluox and n2 then anything else, we receive no power increase from heat
@@ -826,7 +826,7 @@ namespace Objects.Engineering
 			finalCountdown = true;
 
 			//Turn on shield overlay
-			overlaySpriteHandler.ChangeSprite(0);
+			overlaySpriteHandler.SetCatalogueIndexSprite(0);
 
 			AddMessageToChat($"{emergencyAlertText} The supermatter has reached critical integrity failure. Emergency causality destabilization field has been activated.", true);
 

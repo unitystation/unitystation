@@ -147,7 +147,7 @@ namespace Systems.Mob
 				return;
 			}
 
-			spriteHandler.ChangeSprite(index, network);
+			spriteHandler.SetCatalogueIndexSprite(index, network);
 		}
 
 		/// <summary>

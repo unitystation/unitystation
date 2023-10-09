@@ -12,7 +12,7 @@ public class MutationInjector : Syringe
 		if (LHB != null)
 		{
 			LHB.InjectDna(DNAPayload);
-			SpriteHandler.ChangeSprite(1);
+			SpriteHandler.SetCatalogueIndexSprite(1);
 		}
 	}
 
@@ -24,6 +24,6 @@ public class MutationInjector : Syringe
 		if (SicknessesInSyringe.Count > 0) LHB.AddSickness(SicknessesInSyringe.PickRandom().Sickness);
 		LHB.InjectDna(DNAPayload);
 
-		SpriteHandler.ChangeSprite(1);
+		SpriteHandler.SetCatalogueIndexSprite(1);
 	}
 }

@@ -261,7 +261,7 @@ namespace UI.Core.Action
 			if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 			{
 				var _UIAction = Instance.DicIActionGUI[iActionGUI][0];
-				_UIAction.IconFront.ChangeSprite(Location);
+				_UIAction.IconFront.SetCatalogueIndexSprite(Location);
 			}
 			else
 			{
@@ -286,7 +286,7 @@ namespace UI.Core.Action
 			if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 			{
 				var _UIAction = Instance.DicIActionGUI[iActionGUI][0];
-				_UIAction.IconBackground.ChangeSprite(Location);
+				_UIAction.IconBackground.SetCatalogueIndexSprite(Location);
 			}
 			else
 			{
@@ -634,7 +634,7 @@ namespace UI.Core.Action
 				{
 					if (action.ActionData != actionData) continue;
 
-					action.IconFront.ChangeSprite(Location);
+					action.IconFront.SetCatalogueIndexSprite(Location);
 				}
 			}
 			else
@@ -667,7 +667,7 @@ namespace UI.Core.Action
 				{
 					if (action.ActionData != actionData) continue;
 
-					action.IconBackground.ChangeSprite(Location);
+					action.IconBackground.SetCatalogueIndexSprite(Location);
 				}
 			}
 			else

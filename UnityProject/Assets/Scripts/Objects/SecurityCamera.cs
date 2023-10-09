@@ -369,7 +369,7 @@ namespace Objects
 		private void ServerSetCameraState(bool newState)
 		{
 			cameraActive = newState;
-			spriteHandler.OrNull()?.ChangeSprite(cameraActive ? 1 : 0);
+			spriteHandler.OrNull()?.SetCatalogueIndexSprite(cameraActive ? 1 : 0);
 			OnStateChange.Invoke(newState);
 
 			//On state change, resync number of active cameras

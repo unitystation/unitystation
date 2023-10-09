@@ -42,7 +42,7 @@ namespace Weapons
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			spriteHandler.ChangeSprite(0);
+			spriteHandler.SetCatalogueIndexSprite(0);
 		}
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
@@ -85,7 +85,7 @@ namespace Weapons
 						$"{interaction.Performer.ExpensiveName()} shortens the {gameObject.ExpensiveName()}");
 
 					itemAttComp.ServerSetSize(sawnSize);
-					spriteHandler.ChangeSprite(1);
+					spriteHandler.SetCatalogueIndexSprite(1);
 
 					// Don't overwrite recoil conf if it isn't setup
 					if (SawnCameraRecoilConfig.Distance != 0f)

@@ -45,7 +45,7 @@ namespace Items.Cargo.Wrapping
 
 		public void SetSprite(PackageType type)
 		{
-			spriteHandler.ChangeSprite((int) type);
+			spriteHandler.SetCatalogueIndexSprite((int) type);
 		}
 
 		public void SetSize(Size size)

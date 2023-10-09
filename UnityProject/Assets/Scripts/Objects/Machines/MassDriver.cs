@@ -61,8 +61,8 @@ namespace Objects
 
 		private void UpdateSpriteOutletState()
 		{
-			if (massDriverOperating) spriteHandler.ChangeSprite(1);
-			else spriteHandler.ChangeSprite(0);
+			if (massDriverOperating) spriteHandler.SetCatalogueIndexSprite(1);
+			else spriteHandler.SetCatalogueIndexSprite(0);
 		}
 
 		private void OnDirectionChanged(OrientationEnum newDir)
@@ -87,16 +87,16 @@ namespace Objects
 			switch (orientation)
 			{
 				case OrientationEnum.Up_By0:
-					spriteHandler.ChangeSpriteVariant(1);
+					spriteHandler.SetSpriteVariant(1);
 					break;
 				case OrientationEnum.Down_By180:
-					spriteHandler.ChangeSpriteVariant(0);
+					spriteHandler.SetSpriteVariant(0);
 					break;
 				case OrientationEnum.Left_By90:
-					spriteHandler.ChangeSpriteVariant(3);
+					spriteHandler.SetSpriteVariant(3);
 					break;
 				case OrientationEnum.Right_By270:
-					spriteHandler.ChangeSpriteVariant(2);
+					spriteHandler.SetSpriteVariant(2);
 					break;
 			}
 		}

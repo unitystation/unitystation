@@ -225,22 +225,22 @@ namespace Objects.Wallmounts
 			{
 
 				case FireAlarmState.TopLightSpriteAlert:
-					baseSpriteHandler.ChangeSprite(0);
-					topLightSpriteHandler.ChangeSprite(1);
-					bottomLightSpriteHandler.ChangeSprite(2);
+					baseSpriteHandler.SetCatalogueIndexSprite(0);
+					topLightSpriteHandler.SetCatalogueIndexSprite(1);
+					bottomLightSpriteHandler.SetCatalogueIndexSprite(2);
 					break;
 				case FireAlarmState.OpenEmptySprite:
-					baseSpriteHandler.ChangeSprite(2);
+					baseSpriteHandler.SetCatalogueIndexSprite(2);
 					topLightSpriteHandler.PushClear();
 					bottomLightSpriteHandler.PushClear();
 					break;
 				case FireAlarmState.TopLightSpriteNormal:
-					baseSpriteHandler.ChangeSprite(0);
-					topLightSpriteHandler.ChangeSprite(0);
-					bottomLightSpriteHandler.ChangeSprite(0);
+					baseSpriteHandler.SetCatalogueIndexSprite(0);
+					topLightSpriteHandler.SetCatalogueIndexSprite(0);
+					bottomLightSpriteHandler.SetCatalogueIndexSprite(0);
 					break;
 				case FireAlarmState.OpenCabledSprite:
-					baseSpriteHandler.ChangeSprite(1);
+					baseSpriteHandler.SetCatalogueIndexSprite(1);
 					topLightSpriteHandler.PushClear();
 					bottomLightSpriteHandler.PushClear();
 					break;

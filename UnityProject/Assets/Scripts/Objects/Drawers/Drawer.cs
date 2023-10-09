@@ -143,17 +143,17 @@ namespace Objects.Drawers
 
 		private void UpdateSpriteState()
 		{
-			drawerSpriteHandler.ChangeSprite((int)drawerState);
+			drawerSpriteHandler.SetCatalogueIndexSprite((int)drawerState);
 		}
 
 		private void UpdateSpriteOrientation()
 		{
 			int spriteVariant = (int)GetSpriteDirection();
-			drawerSpriteHandler.ChangeSpriteVariant(spriteVariant);
+			drawerSpriteHandler.SetSpriteVariant(spriteVariant);
 
 			if (traySpriteHandler != null)
 			{
-				traySpriteHandler.ChangeSpriteVariant(spriteVariant);
+				traySpriteHandler.SetSpriteVariant(spriteVariant);
 			}
 		}
 

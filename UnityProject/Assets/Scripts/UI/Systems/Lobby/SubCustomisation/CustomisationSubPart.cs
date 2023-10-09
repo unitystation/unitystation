@@ -138,7 +138,7 @@ namespace UI.CharacterCreator
 
 		public void SetRotation(int newValue)
 		{
-			RelatedSpriteRenderer.ChangeSpriteVariant(newValue);
+			RelatedSpriteRenderer.SetSpriteVariant(newValue);
 		}
 
 		public void ItemChange(int newValue)

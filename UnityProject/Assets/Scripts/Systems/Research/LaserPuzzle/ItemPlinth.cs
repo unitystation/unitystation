@@ -75,7 +75,7 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 	{
 		if(DisplayedItem == null)
 		{
-			itemSpriteHandler.ChangeSprite(0);
+			itemSpriteHandler.SetCatalogueIndexSprite(0);
 			return;
 		}
 

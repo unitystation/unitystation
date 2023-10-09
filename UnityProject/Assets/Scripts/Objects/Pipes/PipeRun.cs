@@ -22,7 +22,7 @@ namespace Items.Atmospherics
 				if (IsBent)//This assumes that the connections never get changed around/rotated
 				{
 					IsBent = false;
-					SpriteHandler.ChangeSpriteVariant(StraightVariantLocation);
+					SpriteHandler.SetSpriteVariant(StraightVariantLocation);
 					Chat.AddExamineMsgFromServer(interaction.Performer,
 						"You straighten the pipe with the " + interaction.UsedObject.ExpensiveName());
 					return;
@@ -30,7 +30,7 @@ namespace Items.Atmospherics
 				else
 				{
 					IsBent = true;
-					SpriteHandler.ChangeSpriteVariant(BentVariantLocation);
+					SpriteHandler.SetSpriteVariant(BentVariantLocation);
 					Chat.AddExamineMsgFromServer(interaction.Performer,
 						"You Bend the pipe with the " + interaction.UsedObject.ExpensiveName());
 					return;
@@ -44,12 +44,12 @@ namespace Items.Atmospherics
 		{
 			if (IsBent)//This assumes that the connections never get changed around/rotated
 			{
-				SpriteHandler.ChangeSpriteVariant(BentVariantLocation);
+				SpriteHandler.SetSpriteVariant(BentVariantLocation);
 
 			}
 			else
 			{
-				SpriteHandler.ChangeSpriteVariant(StraightVariantLocation);
+				SpriteHandler.SetSpriteVariant(StraightVariantLocation);
 
 			}
 		}

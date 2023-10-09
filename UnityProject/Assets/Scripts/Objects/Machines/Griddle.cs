@@ -289,7 +289,7 @@ namespace Objects.Kitchen
 			{
 				this.griddle = griddle;
 				StateMsgForExamine = "idle";
-				griddle.spriteHandler.ChangeSprite((int) SpriteState.Idle);
+				griddle.spriteHandler.SetCatalogueIndexSprite((int) SpriteState.Idle);
 				griddle.HaltGriddle();
 				griddle.SetWattage(griddle.circuitWattage);
 			}
@@ -315,7 +315,7 @@ namespace Objects.Kitchen
 			{
 				this.griddle = griddle;
 				StateMsgForExamine = "running";
-				griddle.spriteHandler.ChangeSprite((int) SpriteState.Running);
+				griddle.spriteHandler.SetCatalogueIndexSprite((int) SpriteState.Running);
 				griddle.SetWattage(griddle.circuitWattage + griddle.magnetronWattage);
 			}
 
@@ -339,7 +339,7 @@ namespace Objects.Kitchen
 			{
 				this.griddle = griddle;
 				StateMsgForExamine = "unpowered";
-				griddle.spriteHandler.ChangeSprite((int) SpriteState.Idle);
+				griddle.spriteHandler.SetCatalogueIndexSprite((int) SpriteState.Idle);
 				griddle.HaltGriddle();
 				griddle.SetWattage(griddle.circuitWattage);
 			}

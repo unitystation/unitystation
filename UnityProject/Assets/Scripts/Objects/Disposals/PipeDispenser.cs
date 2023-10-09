@@ -52,11 +52,11 @@ namespace Objects.Atmospherics
 		{
 			if (MachineOperating)
 			{
-				spriteHandler.ChangeSprite((int)SpriteState.Operating);
+				spriteHandler.SetCatalogueIndexSprite((int)SpriteState.Operating);
 			}
 			else
 			{
-				spriteHandler.ChangeSprite((int)SpriteState.Idle);
+				spriteHandler.SetCatalogueIndexSprite((int)SpriteState.Idle);
 			}
 		}
 

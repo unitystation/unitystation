@@ -61,7 +61,7 @@ public class Paper : NetworkBehaviour, IServerSpawn
 
 	private void UpdateState(SpriteState state)
 	{
-		spriteHandler.ChangeSprite((int) state);
+		spriteHandler.SetCatalogueIndexSprite((int) state);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)

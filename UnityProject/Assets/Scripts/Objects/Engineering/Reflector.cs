@@ -70,7 +70,7 @@ namespace Objects.Engineering
 			if (Application.isPlaying || this == null) return;
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			currentState = startingState;
-			spriteHandler.ChangeSprite((int) startingState);
+			spriteHandler.SetCatalogueIndexSprite((int) startingState);
 			SyncRotation(rotation, startingAngle);
 			transform.localEulerAngles = new Vector3(0, 0, rotation);
 			spriteTransform.localEulerAngles = Vector3.zero;
@@ -121,7 +121,7 @@ namespace Objects.Engineering
 		private void ChangeState(ReflectorType newState)
 		{
 			currentState = newState;
-			spriteHandler.ChangeSprite((int) newState);
+			spriteHandler.SetCatalogueIndexSprite((int) newState);
 			objectAttributes.ServerSetArticleName(newState + " Reflector");
 		}
 

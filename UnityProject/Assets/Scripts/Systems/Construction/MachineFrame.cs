@@ -225,7 +225,7 @@ namespace Objects.Construction
 						Inventory.ServerConsume(interaction.HandSlot, 5);
 						stateful.ServerChangeState(cablesAddedState);
 
-						spriteHandler.ChangeSprite((int) SpriteStates.BoxCable);
+						spriteHandler.SetCatalogueIndexSprite((int) SpriteStates.BoxCable);
 					});
 			}
 			else if (Validations.HasUsedActiveWelder(interaction))
@@ -259,7 +259,7 @@ namespace Objects.Construction
 				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
 				stateful.ServerChangeState(initialState);
 
-				spriteHandler.ChangeSprite((int)SpriteStates.Box);
+				spriteHandler.SetCatalogueIndexSprite((int)SpriteStates.Box);
 			}
 			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench))
 			{
@@ -316,7 +316,7 @@ namespace Objects.Construction
 				stateful.ServerChangeState(circuitAddedState);
 				putBoardInManually = true;
 
-				spriteHandler.ChangeSprite((int)SpriteStates.BoxCircuit);
+				spriteHandler.SetCatalogueIndexSprite((int)SpriteStates.BoxCircuit);
 			}
 			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench))
 			{
@@ -660,7 +660,7 @@ namespace Objects.Construction
 		/// <param name="machine"></param>
 		public void ServerInitFromComputer(Machine machine)
 		{
-			spriteHandler.ChangeSprite((int) SpriteStates.BoxCircuit);
+			spriteHandler.SetCatalogueIndexSprite((int) SpriteStates.BoxCircuit);
 
 			// Create the circuit board
 			var board = Spawn.ServerPrefab(machine.MachineBoardPrefab).GameObject;
@@ -793,7 +793,7 @@ namespace Objects.Construction
 			}
 
 			putBoardInManually = false;
-			spriteHandler.ChangeSprite((int) SpriteStates.BoxCable);
+			spriteHandler.SetCatalogueIndexSprite((int) SpriteStates.BoxCable);
 
 			//Reset data
 			partsInFrame.Clear();
