@@ -28,5 +28,6 @@ public class SecurityHUDItem : HUDItemBase
 				HUD.SetVisible(State);
 			}
 		}
+		HUDHandler.CategoryEnabled[HudType] = State;
 	}
 }

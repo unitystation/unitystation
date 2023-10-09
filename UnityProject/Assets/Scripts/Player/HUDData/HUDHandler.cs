@@ -9,6 +9,8 @@ public class HUDHandler : MonoBehaviour
 
 	public static Dictionary<Type, List<IHUD>> Categorys = new Dictionary<Type, List<IHUD>>();
 
+	public static Dictionary<Type, bool> CategoryEnabled = new Dictionary<Type, bool>();
+
 	public GameObject HudContainer;
 
 	public List<IHUD> Huds = new List<IHUD>();

@@ -134,7 +134,7 @@ public class SecurityHUD : NetworkBehaviour, IHUD
 			case SecurityStatus.Criminal:
 				return StatusIcon.Incarcerated;
 			case SecurityStatus.Parole:
-				return StatusIcon.Discharged;
+				return StatusIcon.Released;
 			default:
 				return StatusIcon.Paroled;
 		}
@@ -238,7 +238,14 @@ public class SecurityHUD : NetworkBehaviour, IHUD
 		SecurityHUDHandler.StatusIcon.SetCatalogueIndexSprite((int) CurrentState);
 		SecurityHUDHandler.RoleIcon.SetCatalogueIndexSprite((int) CurrentJob);
 		SecurityHUDHandler.MindShieldImplant.SetCatalogueIndexSprite(HasImplant ? 1 : 0);
-		SecurityHUDHandler.SetVisible(false);
+
+		var visibility = false;
+		var ThisType = typeof(SecurityHUD);
+		if (HUDHandler.CategoryEnabled.ContainsKey(ThisType)) //So if you join mid round you still have the HUD showing
+		{
+			visibility = HUDHandler.CategoryEnabled[ThisType];
+		}
+		SecurityHUDHandler.SetVisible(visibility);
 	}
 
 	public void SetVisible(bool visible)
@@ -250,6 +257,10 @@ public class SecurityHUD : NetworkBehaviour, IHUD
 	public void OnDestroy()
 	{
 		HUDHandler.RemoveHud(this);
+
+		PlayerScript.OnVisibleNameChange -= JobChange;
+		PlayerScript.OnVisibleNameChange -= IdentityChange;
+		SecurityRecord.OnWantedLevelChange -= IdentityChange;
 	}
 
 	public enum StatusIcon

@@ -42,7 +42,15 @@ public class MedicalHUD : NetworkBehaviour, IHUD
 		MedicalHUDHandler = InstantiatedGameObject.GetComponent<MedicalHUDHandler>();
 		MedicalHUDHandler.IconSymbol.SetCatalogueIndexSprite((int)CurrentState);
 		MedicalHUDHandler.BarIcon.SetCatalogueIndexSprite((int)CurrentHealthBarPercentage);
-		MedicalHUDHandler.SetVisible(false);
+
+
+		var visibility = false;
+		var ThisType = typeof(MedicalHUD);
+		if (HUDHandler.CategoryEnabled.ContainsKey(ThisType)) //So if you join mid round you still have the HUD showing
+		{
+			visibility = HUDHandler.CategoryEnabled[ThisType];
+		}
+		MedicalHUDHandler.SetVisible(visibility);
 	}
 
 

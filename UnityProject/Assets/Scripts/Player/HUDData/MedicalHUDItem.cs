@@ -30,5 +30,7 @@ public class MedicalHUDItem : HUDItemBase
 				HUD.SetVisible(State);
 			}
 		}
+
+		HUDHandler.CategoryEnabled[HudType] = State;
 	}
 }

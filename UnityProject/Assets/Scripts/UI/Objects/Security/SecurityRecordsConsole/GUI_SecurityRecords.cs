@@ -161,7 +161,10 @@ namespace Objects.Security
 			get => status;
 			set
 			{
-				if (status != value)
+				bool diff = status != value;
+
+				status = value;
+				if (diff)
 				{
 					try
 					{
@@ -173,7 +176,6 @@ namespace Objects.Security
 
 					}
 				}
-				status = value;
 			}
 		}
 
