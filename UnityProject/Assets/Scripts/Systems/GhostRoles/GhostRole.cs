@@ -111,12 +111,16 @@ namespace Systems.GhostRoles
 
 		private int totalPlayers = 0;
 
+		private Team ghostRoleTeam;
+
 		private int playersSpawned = 0;
 		public int PlayersSpawned => playersSpawned;
 
 		public GhostRoleServer(int roleDataIndex, uint roleKey) : base(roleDataIndex, roleKey)
 		{
 			timeoutCoroutine = GhostRoleManager.Instance.StartCoroutine(TimeoutTimer(RoleData.Timeout));
+			if (RoleData.Team != null)
+				ghostRoleTeam = AntagManager.Instance.CreateTeam(RoleData.Team);
 
 			if (RoleData.RespawnType != GhostRoleSpawnType.Custom)
 			{
@@ -155,21 +159,16 @@ namespace Systems.GhostRoles
 			{
 				if (totalPlayers < MinPlayers) return;
 				SpawnPlayer(player);
+				ghostRoleTeam?.AddTeamMember(player.Mind);
 				WaitingPlayers.Remove(player);
 			};
 
 			OnMinPlayersReached += () =>
 			{
-				Team newTeam = null;
-				if (RoleData.Team != null)
-				{
-					newTeam = AntagManager.Instance.CreateTeam(RoleData.Team);
-				}
 				foreach (PlayerInfo player in WaitingPlayers)
 				{
-					if (newTeam != null)
-						newTeam.AddTeamMember(player.Mind);
 					SpawnPlayer(player);
+					ghostRoleTeam?.AddTeamMember(player.Mind);
 				}
 				WaitingPlayers.Clear();
 			};

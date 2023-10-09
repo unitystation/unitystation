@@ -109,17 +109,25 @@ namespace Antagonists
 		{
 			var message = new StringBuilder($"\nThe {GetTeamName()} were: ");
 			var objectiveList = teamObjectives.ToList();
+			bool noPlayerShown = true;
 			foreach (var teamPlayer in teamMembers)
 			{
+				if (teamPlayer.CurTeam != this)
+					continue;
+				noPlayerShown = false;
 				message.AppendLine($"Team member was {teamPlayer.GetPlayerName()}");
 				if (teamPlayer.Owner != null && teamPlayer.Owner.Body != null)
 				{
-					message.AppendLine($"(Current status {(teamPlayer.Owner.Body.IsDeadOrGhost ? "<color=red>Dead</color>" : "<color=green>Alive</color>")}");
+					message.AppendLine($"(Current status {(teamPlayer.Owner.Body.IsDeadOrGhost ? "<color=red>Dead</color>" : "<color=green>Alive</color>")})");
 					message.AppendLine($"had following objectives: {teamPlayer.GetObjectiveStatusNonRich()}");
 				} else
 				{
-					message.AppendLine($"(Current status unknown");
+					message.AppendLine($"(Current status unknown)");
 				}
+			}
+			if (noPlayerShown == true)
+			{
+				message.AppendLine($"Current team members status unknown");
 			}
 
 			if (objectiveList.Count > 0)

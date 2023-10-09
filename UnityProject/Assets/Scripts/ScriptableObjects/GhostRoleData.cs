@@ -2,6 +2,7 @@
 using UnityEngine;
 using NaughtyAttributes;
 using Antagonists;
+using System.Linq;
 
 namespace ScriptableObjects
 {
@@ -13,6 +14,8 @@ namespace ScriptableObjects
 	{
 		[SerializeField] private new string name = default;
 		[SerializeField] [TextArea(10, 20)] private string description = default;
+		[Tooltip("Description for admin menu")]
+		[SerializeField] [TextArea(5, 10)] private string descriptionAdmin = default;
 		[SerializeField] private SpriteDataSO sprite = default;
 
 		[Tooltip("If custom, then whatever creates the ghost role must decide the respawning logic.")]
@@ -35,6 +38,17 @@ namespace ScriptableObjects
 
 		public string Name => name;
 		public string Description => description;
+		public string DescriptionAdmin
+		{
+			get
+			{
+				if (descriptionAdmin.Count() > 0)
+				{
+					return descriptionAdmin;
+				}
+				return description;
+			}
+		}
 		public SpriteDataSO Sprite => sprite;
 
 		public GhostRoleSpawnType RespawnType => respawnType;

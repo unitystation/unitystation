@@ -14,14 +14,10 @@ namespace Antagonists
 		public short index = -1;
 
 		public ObjectiveAttributeType type;
-		[HideInInspector]
-		public string playerID;
-		[HideInInspector]
-		public int number;
-		[HideInInspector]
-		public string itemID;
-		[HideInInspector]
-		public short itemTraitIndex;
+		public string playerID { get; set; }
+		public int number { get; set; }
+		public string itemID { get; set; }
+		public short itemTraitIndex { get; set; }
 	}
 
 	public enum ObjectiveAttributeType
@@ -42,7 +38,6 @@ namespace Antagonists
 		/// Used for adding custom attributes to admin panel
 		/// Need to be added through inspector buttons or in code
 		/// </summary>
-		[SerializeField]
 		public List<ObjectiveAttribute> attributes = new List<ObjectiveAttribute>();
 
 		/// <summary>

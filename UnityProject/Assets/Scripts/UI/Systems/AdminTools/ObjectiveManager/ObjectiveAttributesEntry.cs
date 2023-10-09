@@ -136,7 +136,7 @@ namespace AdminTools
 		{
 			if (currentAttribute.type == ObjectiveAttributeType.ObjectiveAttributeNumber)
 			{
-				if (int.TryParse(inputNumber.text, out var result) && result > 0)
+				if (int.TryParse(inputNumber.text, out var result) && (result > 0 || result == -1))
 					currentAttribute.number = result;
 				else
 				{

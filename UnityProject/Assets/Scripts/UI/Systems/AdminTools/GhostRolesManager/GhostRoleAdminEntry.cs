@@ -43,7 +43,7 @@ namespace AdminTools
 			minPlayerCount.text = role.Value.MinPlayers.ToString();
 			maxPlayerCount.text = role.Value.MaxPlayers.ToString();
 			timeoutInput.text = role.Value.TimeRemaining.ToString();
-			description.text = role.Value.RoleData.Description;
+			description.text = role.Value.RoleData.DescriptionAdmin;
 
 			var options = new List<Dropdown.OptionData>();
 			foreach (var x in GhostRoleList.Instance.GhostRoles)
@@ -78,7 +78,7 @@ namespace AdminTools
 			minPlayerCount.text = role.MinPlayers.ToString();
 			maxPlayerCount.text = role.MaxPlayers.ToString();
 			timeoutInput.text = role.Timeout.ToString();
-			description.text = role.Description;
+			description.text = role.DescriptionAdmin;
 
 			var options = new List<Dropdown.OptionData>();
 			foreach (var x in GhostRoleList.Instance.GhostRoles)
@@ -121,7 +121,7 @@ namespace AdminTools
 		{
 			var roleData = GhostRoleList.Instance.FromIndex((short)dropdown.value);
 
-			description.text = roleData.Description;
+			description.text = roleData.DescriptionAdmin;
 			roleInfo.RoleIndex = GhostRoleList.Instance.GetIndex(roleData);
 			icon.sprite = roleData.Sprite.Variance[0].Frames[0].sprite;
 		}
@@ -160,7 +160,7 @@ namespace AdminTools
 			minPlayerCount.text = role.MinPlayers.ToString();
 			maxPlayerCount.text = role.MaxPlayers.ToString();
 			timeoutInput.text = role.TimeRemaining.ToString();
-			description.text = role.RoleData.Description;
+			description.text = role.RoleData.DescriptionAdmin;
 
 			var options = new List<Dropdown.OptionData>();
 			foreach (var x in GhostRoleList.Instance.GhostRoles)

@@ -131,8 +131,14 @@ namespace AdminTools
 		{
 			foreach (var ghostRoleInfo in information.Roles)
 			{
-				if (ghostRoleInfo.MinPlayers < 0 && ghostRoleInfo.MaxPlayers < ghostRoleInfo.MinPlayers)
-					continue;
+				if (ghostRoleInfo.MinPlayers < 1)
+				{
+					ghostRoleInfo.MinPlayers = 1;
+				}
+				if (ghostRoleInfo.MaxPlayers < ghostRoleInfo.MinPlayers)
+				{
+					ghostRoleInfo.MaxPlayers = ghostRoleInfo.MinPlayers;
+				}
 				if (ghostRoleInfo.IsNew)
 				{
 					ghostRoleInfo.RoleKey = (int)GhostRoleManager.Instance.ServerCreateRole(GhostRoleList.Instance.FromIndex((short)ghostRoleInfo.RoleIndex));
