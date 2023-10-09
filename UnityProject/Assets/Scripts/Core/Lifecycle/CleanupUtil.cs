@@ -6,6 +6,7 @@ using System;
 using UI.Action;
 using Audio.Containers;
 using Logs;
+using Systems;
 
 public static class CleanupUtil
 {
@@ -368,6 +369,7 @@ public static class CleanupUtil
 		}
 		UI_ItemImage.ImageAndHandler.ClearAll();
 		HUDHandler.Categorys.Clear();
+		CrewManifestManager.Instance.OnRoundRestart();
 	}
 
 	/// <summary>

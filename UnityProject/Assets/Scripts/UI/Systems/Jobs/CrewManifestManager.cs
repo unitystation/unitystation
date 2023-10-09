@@ -27,6 +27,11 @@ namespace Systems
 		public List<SecurityRecord> SecurityRecords { get; private set; } = new List<SecurityRecord>();
 
 		/// <summary>
+		/// Same as SecurityRecords But Uses string as Name for quick lookup
+		/// </summary>
+		public Dictionary<string, List<SecurityRecord>> NameLookUpSecurityRecords { get; private set; } = new Dictionary<string, List<SecurityRecord>>();
+
+		/// <summary>
 		/// A list of crew member jobs and how many there are
 		/// <para>Server and Client Side valid</para>
 		/// </summary>
@@ -46,20 +51,12 @@ namespace Systems
 			}
 		}
 
-		private void OnEnable()
-		{
-			SceneManager.activeSceneChanged += OnRoundRestart;
-		}
 
-		private void OnDisable()
-		{
-			SceneManager.activeSceneChanged -= OnRoundRestart;
-		}
-
-		void OnRoundRestart(Scene scene, Scene newScene)
+		public void OnRoundRestart()
 		{
 			CrewManifest.Clear();
 			SecurityRecords.Clear();
+			NameLookUpSecurityRecords.Clear();
 		}
 
 		#endregion Lifecycle
@@ -87,7 +84,11 @@ namespace Systems
 
 			entry.SecurityRecord = GenerateSecurityRecord(script, jobType);
 			SecurityRecords.Add(entry.SecurityRecord);
-
+			if (NameLookUpSecurityRecords.ContainsKey(entry.Name) == false)
+			{
+				NameLookUpSecurityRecords[entry.Name] = new List<SecurityRecord>();
+			}
+			NameLookUpSecurityRecords[entry.Name].Add(entry.SecurityRecord);
 			return entry;
 		}
 
@@ -119,6 +120,31 @@ namespace Systems
 
 			return record;
 		}
+
+		public void UpdateNameSecurityRecord(SecurityRecord SecurityRecord, string NewName)
+		{
+			if (SecurityRecord.EntryName != null && NameLookUpSecurityRecords.ContainsKey(SecurityRecord.EntryName))
+			{
+				var List = NameLookUpSecurityRecords[SecurityRecord.EntryName];
+				if (List.Contains(SecurityRecord))
+				{
+					List.Remove(SecurityRecord);
+				}
+
+				if (List.Count == 0)
+				{
+					NameLookUpSecurityRecords.Remove(SecurityRecord.EntryName);
+				}
+			}
+
+			if (NameLookUpSecurityRecords.ContainsKey(NewName) == false)
+			{
+				NameLookUpSecurityRecords[NewName] = new List<SecurityRecord>();
+			}
+
+			NameLookUpSecurityRecords[NewName].Add(SecurityRecord);
+		}
+
 
 		#endregion
 

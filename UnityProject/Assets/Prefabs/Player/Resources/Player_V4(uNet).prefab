@@ -479,6 +479,7 @@ GameObject:
   - component: {fileID: 1820177360701840881}
   - component: {fileID: 6363338118611276038}
   - component: {fileID: 5754329967401393357}
+  - component: {fileID: 4201909151401612127}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -1686,9 +1687,32 @@ MonoBehaviour:
   <Prefab>k__BackingField: {fileID: 3773905765040299103, guid: 66a721e65bedba44999e16a9f6948724,
     type: 3}
   HealthStateController: {fileID: 4629273758793479178}
+  PlayerScript: {fileID: 0}
   HUDHandler: {fileID: 6363338118611276038}
   CurrentState: 1
   CurrentHealthBarPercentage: 0
+--- !u!114 &4201909151401612127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac4b8fc6bfdb72a4f9d6e2420ad90acd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  <Prefab>k__BackingField: {fileID: 4570148981496931861, guid: f1270704e2e1d8d43ba363806aafa13f,
+    type: 3}
+  HUDHandler: {fileID: 6363338118611276038}
+  PlayerScript: {fileID: 114617133355526680}
+  CurrentState: 0
+  CurrentJob: 24
+  HasImplant: 0
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0

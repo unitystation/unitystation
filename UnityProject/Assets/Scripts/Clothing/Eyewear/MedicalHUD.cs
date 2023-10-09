@@ -5,7 +5,7 @@ using HealthV2;
 using Mirror;
 using UnityEngine;
 
-public class MedicalHUD : NetworkBehaviour , IHUD
+public class MedicalHUD : NetworkBehaviour, IHUD
 {
 	[field:SerializeField]
 	public GameObject Prefab { get; set; }
@@ -15,8 +15,9 @@ public class MedicalHUD : NetworkBehaviour , IHUD
 
 	private MedicalHUDHandler MedicalHUDHandler;
 
-
 	public HealthStateController HealthStateController;
+
+	public PlayerScript PlayerScript;
 
 	public HUDHandler HUDHandler;
 
@@ -29,6 +30,7 @@ public class MedicalHUD : NetworkBehaviour , IHUD
 
 	public void Awake()
 	{
+		PlayerScript =  this.GetComponentCustom<PlayerScript>();
 		HealthStateController = this.GetComponentCustom<HealthStateController>();
 		HUDHandler = this.GetComponentCustom<HUDHandler>();
 		HealthStateController.ServerOverallHealthChange += SetNewHealthServer;
@@ -148,6 +150,11 @@ public class MedicalHUD : NetworkBehaviour , IHUD
 		{
 			NewHealth = HealthBarPercentage.Dead;
 			NewCurrentState = HealthSymbol.Defibrillatorble;
+			if (PlayerScript.HasSoul == false)
+			{
+				NewCurrentState = HealthSymbol.NoSoul;
+			}
+
 		}
 
 
@@ -155,6 +162,7 @@ public class MedicalHUD : NetworkBehaviour , IHUD
 		SyncCurrentState(CurrentState, NewCurrentState);
 	}
 
+	//connectionToClient
 
 	public void SyncCurrentState(HealthSymbol oldHealth, HealthSymbol newHealth)
 	{
@@ -186,6 +194,7 @@ public class MedicalHUD : NetworkBehaviour , IHUD
 		BarelyConscious, //red, She barely living now, Trippidy tripping now
 		Critical, //flashing
 		Defibrillatorble, //that defibrillator one
+		NoSoul, //Skull, you are Dead! no, you! Pow hAhA. You are dead, no big surprise
 		Ill, //green
 		XenoEgg //eggy //TODO
 
