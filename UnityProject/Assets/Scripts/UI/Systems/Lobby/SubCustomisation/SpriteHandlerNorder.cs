@@ -44,7 +44,7 @@ public class SpriteHandlerNorder : MonoBehaviour
 
 	public void ChangeSpriteVariant(int number)
 	{
-		SpriteHandler.ChangeSpriteVariant(number);
+		SpriteHandler.SetSpriteVariant(number);
 	}
 
 	public virtual void OnDirectionChange(OrientationEnum direction)
@@ -82,7 +82,7 @@ public class SpriteHandlerNorder : MonoBehaviour
 		//Not networked so don't run sprite change on headless
 		if (CustomNetworkManager.IsHeadless) return;
 
-		SpriteHandler.ChangeSpriteVariant(referenceOffset, false);
+		SpriteHandler.SetSpriteVariant(referenceOffset, false);
 	}
 
 }

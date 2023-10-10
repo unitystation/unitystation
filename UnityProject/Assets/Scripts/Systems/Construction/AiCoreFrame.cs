@@ -165,7 +165,7 @@ namespace Systems.Construction
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 1);
 							stateful.ServerChangeState(circuitAddedState);
-							spriteHandler.ChangeSprite(1);
+							spriteHandler.SetCatalogueIndexSprite(1);
 						});
 				}
 				else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench))
@@ -200,7 +200,7 @@ namespace Systems.Construction
 						() =>
 						{
 							stateful.ServerChangeState(screwState);
-							spriteHandler.ChangeSprite(2);
+							spriteHandler.SetCatalogueIndexSprite(2);
 						});
 				}
 				else if (interaction.HandObject == null)
@@ -211,7 +211,7 @@ namespace Systems.Construction
 
 					Spawn.ServerPrefab(aiCoreCircuitBoardPrefab, SpawnDestination.At(gameObject));
 					stateful.ServerChangeState(anchoredState);
-					spriteHandler.ChangeSprite(0);
+					spriteHandler.SetCatalogueIndexSprite(0);
 				}
 
 				return;
@@ -232,7 +232,7 @@ namespace Systems.Construction
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 1);
 							stateful.ServerChangeState(wireAddedState);
-							spriteHandler.ChangeSprite(3);
+							spriteHandler.SetCatalogueIndexSprite(3);
 						});
 				}
 				else if  (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
@@ -246,7 +246,7 @@ namespace Systems.Construction
 						() =>
 						{
 							stateful.ServerChangeState(circuitAddedState);
-							spriteHandler.ChangeSprite(1);
+							spriteHandler.SetCatalogueIndexSprite(1);
 						});
 				}
 
@@ -285,7 +285,7 @@ namespace Systems.Construction
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 2);
 							stateful.ServerChangeState(glassState);
-							spriteHandler.ChangeSprite(5);
+							spriteHandler.SetCatalogueIndexSprite(5);
 						});
 				}
 				else if  (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter))
@@ -300,7 +300,7 @@ namespace Systems.Construction
 						{
 							Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 1);
 							stateful.ServerChangeState(screwState);
-							spriteHandler.ChangeSprite(2);
+							spriteHandler.SetCatalogueIndexSprite(2);
 						});
 				}
 
@@ -328,7 +328,7 @@ namespace Systems.Construction
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 2);
 							stateful.ServerChangeState(glassState);
-							spriteHandler.ChangeSprite(5);
+							spriteHandler.SetCatalogueIndexSprite(5);
 						});
 				}
 				else if  (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar))
@@ -343,7 +343,7 @@ namespace Systems.Construction
 						{
 							//TODO remove brain logic
 							stateful.ServerChangeState(wireAddedState);
-							spriteHandler.ChangeSprite(3);
+							spriteHandler.SetCatalogueIndexSprite(3);
 						});
 				}
 
@@ -394,7 +394,7 @@ namespace Systems.Construction
 
 							Spawn.ServerPrefab(CommonPrefabs.Instance.ReinforcedGlassSheet, SpawnDestination.At(gameObject), 2);
 							stateful.ServerChangeState(wireAddedState);
-							spriteHandler.ChangeSprite(3);
+							spriteHandler.SetCatalogueIndexSprite(3);
 						});
 				}
 			}
@@ -437,7 +437,7 @@ namespace Systems.Construction
 		public void SetUp()
 		{
 			stateful.ServerChangeState(glassState);
-			spriteHandler.ChangeSprite(5);
+			spriteHandler.SetCatalogueIndexSprite(5);
 		}
 
 		//Examine to help build/deconstruct

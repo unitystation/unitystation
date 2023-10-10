@@ -298,11 +298,11 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		{
 			if (isChangingSO)
 			{
-				spriteHandler.ChangeSprite(spriteVariant, false);
+				spriteHandler.SetCatalogueIndexSprite(spriteVariant, false);
 			}
 			else
 			{
-				spriteHandler.ChangeSpriteVariant(spriteVariant, false);
+				spriteHandler.SetSpriteVariant(spriteVariant, false);
 			}
 		}
 	}
@@ -353,11 +353,11 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 			{
 				if (isChangingSO)
 				{
-					spriteHandler.ChangeSprite(0, false);
+					spriteHandler.SetCatalogueIndexSprite(0, false);
 				}
 				else
 				{
-					spriteHandler.ChangeSpriteVariant(0, false);
+					spriteHandler.SetSpriteVariant(0, false);
 				}
 			}
 		}

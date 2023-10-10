@@ -190,7 +190,7 @@ namespace Objects.Research
 				currentVoltage = electricalNodeControl.GetVoltage();
 				hasPower = currentVoltage >= minVoltage;
 			}
-			spriteHandler.ChangeSprite(hasPower == true ? 0 : 1);
+			spriteHandler.SetCatalogueIndexSprite(hasPower == true ? 0 : 1);
 		}
 
 		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)

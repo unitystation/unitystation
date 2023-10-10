@@ -34,6 +34,17 @@ PrefabInstance:
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: ddd85a66da8b22448806f0f8454c01ab,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: ddd85a66da8b22448806f0f8454c01ab,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f5b7ce1cca0a644cba934af14ea4b2c,
+        type: 2}
     - target: {fileID: 3273994478765017941, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}
       propertyPath: m_Sprite
@@ -78,17 +89,17 @@ PrefabInstance:
     - target: {fileID: 3426649003253581181, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}

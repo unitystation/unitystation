@@ -480,7 +480,7 @@ namespace Objects.Other
 			//No power or off set sprite to off state
 			if (hasPower == false || newState == TurretState.Off)
 			{
-				gunSprite.ChangeSprite(0);
+				gunSprite.SetCatalogueIndexSprite(0);
 				return;
 			}
 
@@ -488,7 +488,7 @@ namespace Objects.Other
 			SetUpBullet();
 
 			//Stun or lethal
-			gunSprite.ChangeSprite(newState == TurretState.Stun ? 1 : 2);
+			gunSprite.SetCatalogueIndexSprite(newState == TurretState.Stun ? 1 : 2);
 		}
 
 		private void SetUpBullet()

@@ -113,7 +113,7 @@ namespace Items
 				SyncCharges(Charges, Charges - 1);
 				if (Charges > 0)
 				{
-					spriteHandler.ChangeSprite(ScaleChargesToSpriteIndex());
+					spriteHandler.SetCatalogueIndexSprite(ScaleChargesToSpriteIndex());
 				}
 				else
 				{
@@ -132,7 +132,7 @@ namespace Items
 			if (Charges < startCharges)
 			{
 				AddCharges(1);
-				spriteHandler.ChangeSprite(ScaleChargesToSpriteIndex());
+				spriteHandler.SetCatalogueIndexSprite(ScaleChargesToSpriteIndex());
 			}
 
 			if (Charges >= startCharges)

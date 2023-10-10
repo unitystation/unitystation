@@ -114,7 +114,7 @@ namespace Items.Weapons
 		private void UpdateSprite(int sprite)
 		{
 			// Update sprite in game
-			spriteHandler?.ChangeSprite(sprite);
+			spriteHandler?.SetCatalogueIndexSprite(sprite);
 		}
 
 		/// <summary>

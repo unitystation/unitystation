@@ -168,19 +168,19 @@ namespace Construction.Conveyors
 		{
 			if (Application.isPlaying) return;
 			if (this == null) return;
-			spriteHandler.ChangeSprite((int)CurrentStatus);
+			spriteHandler.SetCatalogueIndexSprite((int)CurrentStatus);
 			var variant = (int)CurrentDirection;
 
-			spriteHandler.ChangeSpriteVariant(variant);
+			spriteHandler.SetSpriteVariant(variant);
 		}
 
 		private void RefreshSprites()
 		{
 			if (this == null) return;
-			spriteHandler.ChangeSprite((int)CurrentStatus);
+			spriteHandler.SetCatalogueIndexSprite((int)CurrentStatus);
 			var variant = (int)CurrentDirection;
 
-			spriteHandler.ChangeSpriteVariant(variant);
+			spriteHandler.SetSpriteVariant(variant);
 		}
 
 		private void GetPositionOffset()
@@ -276,7 +276,7 @@ namespace Construction.Conveyors
 
 			CurrentDirection = (ConveyorDirection)count;
 
-			spriteHandler.ChangeSpriteVariant(count);
+			spriteHandler.SetSpriteVariant(count);
 		}
 
 		#endregion Interaction

@@ -44,11 +44,11 @@ namespace Objects.Atmospherics
 		{
 			if (isOn)
 			{
-				spriteHandlerValve.ChangeSprite((int)DigitalValveSprites.On);
+				spriteHandlerValve.SetCatalogueIndexSprite((int)DigitalValveSprites.On);
 			}
 			else
 			{
-				spriteHandlerValve.ChangeSprite((int)DigitalValveSprites.Off);
+				spriteHandlerValve.SetCatalogueIndexSprite((int)DigitalValveSprites.Off);
 			}
 		}
 
@@ -72,7 +72,7 @@ namespace Objects.Atmospherics
 
 			if (powerState == PowerState.Off)
 			{
-				spriteHandlerValve.ChangeSprite((int)DigitalValveSprites.Unpowered);
+				spriteHandlerValve.SetCatalogueIndexSprite((int)DigitalValveSprites.Unpowered);
 				return;
 			}
 

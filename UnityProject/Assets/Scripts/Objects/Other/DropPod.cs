@@ -92,7 +92,7 @@ namespace Objects
 			GameObject dropPod = baseSpriteHandler.gameObject;
 
 			// Initialise drop pod sprite to the start of falling animation.
-			baseSpriteHandler.ChangeSprite((int)BaseSprite.Falling, false);
+			baseSpriteHandler.SetCatalogueIndexSprite((int)BaseSprite.Falling, false);
 			registerObject.SetPassable(false, true);
 
 			// ClosetControl initialises, redisplaying the door, so wait a frame...
@@ -111,7 +111,7 @@ namespace Objects
 			yield return WaitFor.Seconds(TRAVEL_TIME);
 
 			// Swap to stationary drop pod.
-			baseSpriteHandler.ChangeSprite((int) BaseSprite.Stationary, false);
+			baseSpriteHandler.SetCatalogueIndexSprite((int) BaseSprite.Stationary, false);
 			doorSpriteHandler.PushTexture(false);
 			landingSpriteHandler.PushClear(false);
 			registerObject.SetPassable(false, false);

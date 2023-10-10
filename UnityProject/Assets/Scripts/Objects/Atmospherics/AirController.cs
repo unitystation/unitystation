@@ -133,7 +133,7 @@ namespace Objects.Atmospherics
 		{
 			UpdateAtmosphericAverage();
 			UpdateStatusProperties();
-			spriteHandler.ChangeSprite((int)OverallStatus);
+			spriteHandler.SetCatalogueIndexSprite((int)OverallStatus);
 
 			// Cycle will vacuum air, and then refill.
 			if (DesiredMode == AcuMode.Cycle && AtmosphericAverage.Pressure < AtmosConstants.ONE_ATMOSPHERE / 20)
@@ -330,7 +330,7 @@ namespace Objects.Atmospherics
 					// StateUpdate() can be invoked before OnEnable() or before the matrix is ready.
 					if (IsReady)
 					{
-						spriteHandler.ChangeSprite((int) AcuStatus.Nominal);
+						spriteHandler.SetCatalogueIndexSprite((int) AcuStatus.Nominal);
 						UpdateManager.Add(PeriodicUpdate, 3);
 						PeriodicUpdate();
 					}
@@ -339,7 +339,7 @@ namespace Objects.Atmospherics
 					OverallStatus = AcuStatus.Off;
 					IsPowered = false;
 					UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
-					spriteHandler.ChangeSprite((int) AcuStatus.Off);
+					spriteHandler.SetCatalogueIndexSprite((int) AcuStatus.Off);
 					break;
 			}
 

@@ -194,7 +194,7 @@ namespace Objects
 
 		private void SetSprite()
 		{
-			spriteHandler.ChangeSprite(ashwalkerEggs > 0 ? 1 : 0);
+			spriteHandler.SetCatalogueIndexSprite(ashwalkerEggs > 0 ? 1 : 0);
 		}
 
 		//Used for when admin or in round spawned

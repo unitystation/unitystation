@@ -189,7 +189,7 @@ namespace Objects.Construction
 					{
 						Inventory.ServerConsume(interaction.HandSlot, 1);
 						stateful.ServerChangeState(cablesAddedState);
-						overlayHackingHandler.ChangeSprite((int)Panel.WiresAdded);
+						overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.WiresAdded);
 					});
 			}
 			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench))
@@ -215,7 +215,7 @@ namespace Objects.Construction
 					() =>
 					{
 						Inventory.ServerConsume(interaction.HandSlot, 1);
-						overlayFillHandler.ChangeSprite((int)Fill.GlassFill);
+						overlayFillHandler.SetCatalogueIndexSprite((int)Fill.GlassFill);
 						glassAdded = true;
 					});
 			}
@@ -239,7 +239,7 @@ namespace Objects.Construction
 						if(Inventory.ServerTransfer(interaction.HandSlot, airlockElectronicsSlot))
 						{
 							stateful.ServerChangeState(electronicsAddedState);
-							overlayHackingHandler.ChangeSprite((int)Panel.ElectronicsAdded);
+							overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.ElectronicsAdded);
 						}
 					});
 			}
@@ -255,7 +255,7 @@ namespace Objects.Construction
 					{
 						Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject));
 						stateful.ServerChangeState(wrenchedState);
-						overlayHackingHandler.ChangeSprite((int)Panel.EmptyPanel);
+						overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.EmptyPanel);
 					});
 			}
 		}
@@ -299,7 +299,7 @@ namespace Objects.Construction
 					{
 						Inventory.ServerDrop(airlockElectronicsSlot);
 						stateful.ServerChangeState(cablesAddedState);
-						overlayHackingHandler.ChangeSprite((int)Panel.WiresAdded);
+						overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.WiresAdded);
 					});
 			}
 		}
@@ -388,10 +388,10 @@ namespace Objects.Construction
 
 			objectBehaviour.SetIsNotPushable(true);
 			stateful.ServerChangeState(cablesAddedState);
-			overlayHackingHandler.ChangeSprite((int)Panel.WiresAdded);
+			overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.WiresAdded);
 			if (isWindowed)
 			{
-				overlayFillHandler.ChangeSprite((int)Fill.GlassFill);
+				overlayFillHandler.SetCatalogueIndexSprite((int)Fill.GlassFill);
 				glassAdded = true;
 			}
 		}

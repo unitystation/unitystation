@@ -272,7 +272,7 @@ namespace Messages.Server
 			if (SpriteHandlerManager.SpecialPresentSprites.ContainsKey(ID) &&
 			    SpriteHandlerManager.SpecialPresentSprites[ID] != null)
 			{
-				SpriteHandlerManager.SpecialPresentSprites[ID].ChangeSprite(FrontIconlocation, false);
+				SpriteHandlerManager.SpecialPresentSprites[ID].SetCatalogueIndexSprite(FrontIconlocation, false);
 			}
 			return _Send(recipient, ID, iServerActionGUI, UpdateType.Invalid, Change:Change);
 		}
@@ -307,7 +307,7 @@ namespace Messages.Server
 			if (SpriteHandlerManager.SpecialPresentSprites.ContainsKey(ID) &&
 			    SpriteHandlerManager.SpecialPresentSprites[ID] != null)
 			{
-				SpriteHandlerManager.SpecialPresentSprites[ID].ChangeSprite(BackIconlocation, false);
+				SpriteHandlerManager.SpecialPresentSprites[ID].SetCatalogueIndexSprite(BackIconlocation, false);
 			}
 
 			return _Send(recipient,ID , iServerActionGUI, UpdateType.Invalid, Change : Change);
@@ -354,7 +354,7 @@ namespace Messages.Server
 			if (SpriteHandlerManager.SpecialPresentSprites.ContainsKey(ID) &&
 			    SpriteHandlerManager.SpecialPresentSprites[ID] != null)
 			{
-				SpriteHandlerManager.SpecialPresentSprites[ID].ChangeSprite(FrontIconlocation, false);
+				SpriteHandlerManager.SpecialPresentSprites[ID].SetCatalogueIndexSprite(FrontIconlocation, false);
 			}
 			return _Send(recipient, ID, iServerActionGUI, actionChosen, UpdateType.Invalid, Change: Change);
 		}
@@ -370,7 +370,7 @@ namespace Messages.Server
 			if (SpriteHandlerManager.SpecialPresentSprites.ContainsKey(ID) &&
 			    SpriteHandlerManager.SpecialPresentSprites[ID] != null)
 			{
-				SpriteHandlerManager.SpecialPresentSprites[ID].ChangeSprite(BackIconlocation, false);
+				SpriteHandlerManager.SpecialPresentSprites[ID].SetCatalogueIndexSprite(BackIconlocation, false);
 			}
 
 			return _Send(recipient,ID , iServerActionGUI, actionChosen,  UpdateType.Invalid, Change: Change);

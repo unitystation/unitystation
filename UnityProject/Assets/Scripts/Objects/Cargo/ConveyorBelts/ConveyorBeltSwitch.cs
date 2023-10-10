@@ -161,7 +161,7 @@ namespace Construction.Conveyors
 		private void SetState(SwitchState newState)
 		{
 			CurrentState = newState;
-			spriteHandler.ChangeSprite((int)CurrentState);
+			spriteHandler.SetCatalogueIndexSprite((int)CurrentState);
 
 			if (CurrentState != SwitchState.Off)
 			{

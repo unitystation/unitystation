@@ -121,15 +121,15 @@ namespace Doors
 			{
 				if (panelExposed)
 				{
-					overlayHackingHandler.ChangeSprite((int)Panel.Opening, false);
+					overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.Opening, false);
 				}
 
 				if (lights)
 				{
-					overlayLightsHandler.ChangeSprite((int) Lights.Opening, false);
+					overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.Opening, false);
 				}
-				overlayFillHandler.ChangeSprite((int) DoorFrame.Opening, false);
-				doorBaseHandler.ChangeSprite((int) DoorFrame.Opening, false);
+				overlayFillHandler.SetCatalogueIndexSprite((int) DoorFrame.Opening, false);
+				doorBaseHandler.SetCatalogueIndexSprite((int) DoorFrame.Opening, false);
 				ClientPlaySound(openingSFX);
 				yield return WaitFor.Seconds(openingAnimationTime);
 			}
@@ -137,17 +137,17 @@ namespace Doors
 			// Change to open sprite after done opening
 			if (panelExposed)
 			{
-				overlayHackingHandler.ChangeSprite((int)Panel.Open, false);
+				overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.Open, false);
 			}
 			else
 			{
-				overlayHackingHandler.ChangeSprite((int) Panel.NoPanel, false);
+				overlayHackingHandler.SetCatalogueIndexSprite((int) Panel.NoPanel, false);
 			}
 
-			overlayLightsHandler.ChangeSprite((int) Lights.NoLight, false);
+			overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.NoLight, false);
 			previousLightSprite = (int) Lights.NoLight;
-			overlayFillHandler.ChangeSprite((int) DoorFrame.Open, false);
-			doorBaseHandler.ChangeSprite((int) DoorFrame.Open, false);
+			overlayFillHandler.SetCatalogueIndexSprite((int) DoorFrame.Open, false);
+			doorBaseHandler.SetCatalogueIndexSprite((int) DoorFrame.Open, false);
 
 			AnimationFinished?.Invoke();
 		}
@@ -158,17 +158,17 @@ namespace Doors
 			{
 				if (panelExposed)
 				{
-					overlayHackingHandler.ChangeSprite((int)Panel.Closing, false);
+					overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.Closing, false);
 				}
 
 				if (lights)
 				{
-					overlayLightsHandler.ChangeSprite((int) Lights.Closing, false);
+					overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.Closing, false);
 					previousLightSprite = (int) Lights.Closing;
 				}
 
-				overlayFillHandler.ChangeSprite((int) DoorFrame.Closing, false);
-				doorBaseHandler.ChangeSprite((int) DoorFrame.Closing, false);
+				overlayFillHandler.SetCatalogueIndexSprite((int) DoorFrame.Closing, false);
+				doorBaseHandler.SetCatalogueIndexSprite((int) DoorFrame.Closing, false);
 				ClientPlaySound(closingSFX);
 				yield return WaitFor.Seconds(closingAnimationTime);
 			}
@@ -176,17 +176,17 @@ namespace Doors
 			//Change to closed sprite after it is done closing
 			if (panelExposed)
 			{
-				overlayHackingHandler.ChangeSprite((int) Panel.Closed, false);
+				overlayHackingHandler.SetCatalogueIndexSprite((int) Panel.Closed, false);
 			}
 			else
 			{
-				overlayHackingHandler.ChangeSprite((int) Panel.NoPanel, false);
+				overlayHackingHandler.SetCatalogueIndexSprite((int) Panel.NoPanel, false);
 			}
 
-			overlayLightsHandler.ChangeSprite((int) Lights.NoLight, false);
+			overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.NoLight, false);
 			previousLightSprite = (int) Lights.NoLight;
-			overlayFillHandler.ChangeSprite((int) DoorFrame.Closed, false);
-			doorBaseHandler.ChangeSprite((int) DoorFrame.Closed, false);
+			overlayFillHandler.SetCatalogueIndexSprite((int) DoorFrame.Closed, false);
+			doorBaseHandler.SetCatalogueIndexSprite((int) DoorFrame.Closed, false);
 
 			AnimationFinished?.Invoke();
 		}
@@ -197,11 +197,11 @@ namespace Doors
 			{
 				previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
 			}
-			overlayLightsHandler.ChangeSprite((int)Lights.Denied);
+			overlayLightsHandler.SetCatalogueIndexSprite((int)Lights.Denied);
 			yield return WaitFor.Seconds(deniedAnimationTime);
 
 			if (previousLightSprite == -1) previousLightSprite = 0;
-			overlayLightsHandler.ChangeSprite(previousLightSprite);
+			overlayLightsHandler.SetCatalogueIndexSprite(previousLightSprite);
 			previousLightSprite = -1;
 			AnimationFinished?.Invoke();
 		}
@@ -212,11 +212,11 @@ namespace Doors
 			{
 				previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
 			}
-			overlayLightsHandler.ChangeSprite((int)Lights.PressureWarning);
+			overlayLightsHandler.SetCatalogueIndexSprite((int)Lights.PressureWarning);
 			yield return WaitFor.Seconds(warningAnimationTime);
 
 			if (previousLightSprite == -1) previousLightSprite = 0;
-			overlayLightsHandler.ChangeSprite(previousLightSprite);
+			overlayLightsHandler.SetCatalogueIndexSprite(previousLightSprite);
 			previousLightSprite = -1;
 			AnimationFinished?.Invoke();
 		}
@@ -239,34 +239,34 @@ namespace Doors
 
 		public void TurnOffAllLights()
 		{
-			overlayLightsHandler.ChangeSprite((int) Lights.NoLight);
+			overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.NoLight);
 			previousLightSprite = (int) Lights.NoLight;
 		}
 
 		public void TurnOnBoltsLight()
 		{
-			overlayLightsHandler.ChangeSprite((int) Lights.BoltsLights);
+			overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.BoltsLights);
 			previousLightSprite = (int) Lights.BoltsLights;
 		}
 
 		public void AddWeldOverlay()
 		{
-			overlayWeldHandler.ChangeSprite((int) Weld.Weld);
+			overlayWeldHandler.SetCatalogueIndexSprite((int) Weld.Weld);
 		}
 
 		public void RemoveWeldOverlay()
 		{
-			overlayWeldHandler.ChangeSprite((int) Weld.NoWeld);
+			overlayWeldHandler.SetCatalogueIndexSprite((int) Weld.NoWeld);
 		}
 
 		public void AddPanelOverlay()
 		{
-			overlayHackingHandler.ChangeSprite((int) Panel.Closed);
+			overlayHackingHandler.SetCatalogueIndexSprite((int) Panel.Closed);
 		}
 
 		public void RemovePanelOverlay()
 		{
-			overlayHackingHandler.ChangeSprite((int) Panel.NoPanel);
+			overlayHackingHandler.SetCatalogueIndexSprite((int) Panel.NoPanel);
 		}
 
 		/// <summary>

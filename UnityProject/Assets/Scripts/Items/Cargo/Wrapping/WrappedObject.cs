@@ -54,7 +54,7 @@ namespace Items.Cargo.Wrapping
 
 		public void SetContainerTypeSprite(ContainerTypeSprite type)
 		{
-			spriteHandler.ChangeSprite((int) type);
+			spriteHandler.SetCatalogueIndexSprite((int) type);
 		}
 
 		public override void OnSpawnServer(SpawnInfo info)

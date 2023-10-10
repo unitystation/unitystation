@@ -76,7 +76,7 @@ namespace Objects.Kitchen
 			{
 				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 				SoundManager.PlayNetworkedAtPos(openSound, WorldPosition, sourceObj: gameObject);
-				barrelSpriteHandler.ChangeSprite(0);
+				barrelSpriteHandler.SetCatalogueIndexSprite(0);
 				itemStorage.ServerDropAll();
 				storedFermentables.Clear();
 			}
@@ -84,7 +84,7 @@ namespace Objects.Kitchen
 			{
 				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 				SoundManager.PlayNetworkedAtPos(closeSound, WorldPosition, sourceObj: gameObject);
-				barrelSpriteHandler.ChangeSprite(1);
+				barrelSpriteHandler.SetCatalogueIndexSprite(1);
 			}
 			closed = !closed;
 		}

@@ -29,7 +29,7 @@ public class ChatIcon : MonoBehaviour
 		if (toggle)
 		{
 			spriteHandler.gameObject.SetActive(true);
-			spriteHandler.ChangeSprite(TypingSprite);
+			spriteHandler.SetCatalogueIndexSprite(TypingSprite);
 
 			// start coroutine to wait for TypingTimeout
 			// if we didn't recived any change for so long - other player must be disconected
@@ -68,13 +68,13 @@ public class ChatIcon : MonoBehaviour
 		{
 			case ChatModifier.Yell:
 			case ChatModifier.Exclaim:
-				spriteHandler.ChangeSprite(ExclaimSprite);
+				spriteHandler.SetCatalogueIndexSprite(ExclaimSprite);
 				break;
 			case ChatModifier.Question:
-				spriteHandler.ChangeSprite(QuestionSprite);
+				spriteHandler.SetCatalogueIndexSprite(QuestionSprite);
 				break;
 			default:
-				spriteHandler.ChangeSprite(TalkSprite);
+				spriteHandler.SetCatalogueIndexSprite(TalkSprite);
 				break;
 		}
 		spriteHandler.gameObject.SetActive(true);

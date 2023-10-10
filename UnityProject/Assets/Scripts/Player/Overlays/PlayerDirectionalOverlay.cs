@@ -34,8 +34,8 @@ namespace Effects.Overlays
 		/// <param name="direction"></param>
 		public void StartOverlay(OrientationEnum direction)
 		{
-			spriteHandler.ChangeSprite(0); // Load sprite into SpriteRenderer
-			spriteHandler.ChangeSpriteVariant(GetOrientationVariant(direction));
+			spriteHandler.SetCatalogueIndexSprite(0); // Load sprite into SpriteRenderer
+			spriteHandler.SetSpriteVariant(GetOrientationVariant(direction));
 			OverlayActive = true;
 		}
 

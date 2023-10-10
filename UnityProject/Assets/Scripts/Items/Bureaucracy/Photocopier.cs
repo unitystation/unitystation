@@ -51,11 +51,11 @@ namespace Items.Bureaucracy
 			switch (newState)
 			{
 				case PhotocopierState.Idle:
-					spriteHandler.ChangeSprite(0);
+					spriteHandler.SetCatalogueIndexSprite(0);
 					break;
 
 				case PhotocopierState.Production:
-					spriteHandler.ChangeSprite(1);
+					spriteHandler.SetCatalogueIndexSprite(1);
 					break;
 			}
 		}

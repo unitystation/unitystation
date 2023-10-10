@@ -127,7 +127,7 @@ namespace Objects.Wallmounts.Switches
 				return;
 			}
 
-			spriteHandler.ChangeSprite(0);
+			spriteHandler.SetCatalogueIndexSprite(0);
 		}
 
 		public void ChangeOnState(bool newState)
@@ -145,7 +145,7 @@ namespace Objects.Wallmounts.Switches
 				return;
 			}
 
-			spriteHandler.ChangeSprite(1);
+			spriteHandler.SetCatalogueIndexSprite(1);
 
 			ChangeTurretStates();
 		}
@@ -160,7 +160,7 @@ namespace Objects.Wallmounts.Switches
 			if (hasPower == false || isOn == false) return;
 
 			// 2 = stun, 3 = lethal
-			spriteHandler.ChangeSprite(newState ? 2 : 3);
+			spriteHandler.SetCatalogueIndexSprite(newState ? 2 : 3);
 
 			ChangeTurretStates();
 		}

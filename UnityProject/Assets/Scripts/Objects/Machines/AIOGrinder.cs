@@ -43,7 +43,7 @@ namespace Objects.Kitchen
 			foreach (var slot in itemStorage.GetItemSlots())
 			{
 				Inventory.ServerDrop(itemSlot);
-				spriteHandler.ChangeSprite(1);
+				spriteHandler.SetCatalogueIndexSprite(1);
 			}
 			return;
 		}
@@ -59,7 +59,7 @@ namespace Objects.Kitchen
 				{
 
 					Inventory.ServerTransfer(fromSlot, itemStorage.GetIndexedItemSlot(0));
-					spriteHandler.ChangeSprite(0);
+					spriteHandler.SetCatalogueIndexSprite(0);
 					return;
 				}
 				return;

@@ -55,7 +55,7 @@ namespace Clothing
 		public void KillHugger()
 		{
 			isAlive = false;
-			spriteHandler.ChangeSprite(1);
+			spriteHandler.SetCatalogueIndexSprite(1);
 			clothingV2.ChangeSprite(1);
 			itemAttributesV2.ServerSetArticleDescription("It is not moving anymore.");
 		}

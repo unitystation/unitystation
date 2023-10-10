@@ -97,7 +97,7 @@ namespace Objects.Atmospherics
 				MixAndVolume = metaDataNode.PipeData[0].pipeData.GetMixAndVolume;
 				if (MixAndVolume.Density().y == 0)
 				{
-					spriteHandler.ChangeSprite(0);
+					spriteHandler.SetCatalogueIndexSprite(0);
 				}
 				else
 				{
@@ -112,12 +112,12 @@ namespace Objects.Atmospherics
 						toSet = 20;
 					}
 
-					spriteHandler.ChangeSprite(toSet);
+					spriteHandler.SetCatalogueIndexSprite(toSet);
 				}
 			}
 			else
 			{
-				spriteHandler.ChangeSprite(0);
+				spriteHandler.SetCatalogueIndexSprite(0);
 			}
 		}
 	}

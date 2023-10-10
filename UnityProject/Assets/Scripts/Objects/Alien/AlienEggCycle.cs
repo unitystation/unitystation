@@ -66,21 +66,21 @@ namespace Alien
 			switch (currentState)
 			{
 				case EggState.Growing:
-					spriteHandler.ChangeSprite(SMALL_SPRITE);
+					spriteHandler.SetCatalogueIndexSprite(SMALL_SPRITE);
 					StopAllCoroutines();
 					StartCoroutine(GrowEgg());
 					break;
 				case EggState.Grown:
-					spriteHandler.ChangeSprite(BIG_SPRITE);
+					spriteHandler.SetCatalogueIndexSprite(BIG_SPRITE);
 					StopAllCoroutines();
 					StartCoroutine(WaitForHatchEgg());
 					break;
 				case EggState.Burst:
-					spriteHandler.ChangeSprite(HATCHED_SPRITE);
+					spriteHandler.SetCatalogueIndexSprite(HATCHED_SPRITE);
 					registerObject.SetPassable(false, true);
 					break;
 				case EggState.Squished:
-					spriteHandler.ChangeSprite(SQUISHED_SPRITE);
+					spriteHandler.SetCatalogueIndexSprite(SQUISHED_SPRITE);
 					break;
 			}
 
@@ -102,7 +102,7 @@ namespace Alien
 
 		private IEnumerator HatchEggAnimation()
 		{
-			spriteHandler.ChangeSprite(OPENING_SPRITE);
+			spriteHandler.SetCatalogueIndexSprite(OPENING_SPRITE);
 			yield return WaitFor.Seconds(OPENING_ANIM_TIME);
 			UpdatePhase(EggState.Burst);
 

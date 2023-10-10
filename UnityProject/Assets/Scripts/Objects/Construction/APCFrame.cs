@@ -197,7 +197,7 @@ namespace Objects.Construction
 				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
 				stateful.ServerChangeState(initialState);
 
-				spriteHandler.ChangeSprite((int)SpriteStates.Frame);
+				spriteHandler.SetCatalogueIndexSprite((int)SpriteStates.Frame);
 			}
 		    else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.PowerControlBoard))
 			{
@@ -208,7 +208,7 @@ namespace Objects.Construction
 
 				stateful.ServerChangeState(powerControlAddedState);
 
-				spriteHandler.ChangeSprite((int)SpriteStates.FrameCircuit);
+				spriteHandler.SetCatalogueIndexSprite((int)SpriteStates.FrameCircuit);
 			}
 		}
 
@@ -236,7 +236,7 @@ namespace Objects.Construction
 
 				stateful.ServerChangeState(powerCellAddedState);
 
-				spriteHandler.ChangeSprite((int)SpriteStates.FramePower);
+				spriteHandler.SetCatalogueIndexSprite((int)SpriteStates.FramePower);
 			}
 		}
 
@@ -259,7 +259,7 @@ namespace Objects.Construction
 					() =>
 					{
 						stateful.ServerChangeState(wrenchedState);
-						spriteHandler.ChangeSprite((int)SpriteStates.FrameWrenched);
+						spriteHandler.SetCatalogueIndexSprite((int)SpriteStates.FrameWrenched);
 					});
 
 			}
@@ -329,7 +329,7 @@ namespace Objects.Construction
 					() =>
 					{
 						stateful.ServerChangeState(powerCellAddedState);
-						spriteHandler.ChangeSprite((int)SpriteStates.FramePower);
+						spriteHandler.SetCatalogueIndexSprite((int)SpriteStates.FramePower);
 					});
 
 			}
@@ -379,7 +379,7 @@ namespace Objects.Construction
 			Inventory.ServerTransfer(apcPowerControlSlot, powerControlSlot);
 			Inventory.ServerTransfer(apcPowerCellSlot, powerCellSlot);
 
-			spriteHandler.ChangeSprite((int)SpriteStates.FrameWrenched);
+			spriteHandler.SetCatalogueIndexSprite((int)SpriteStates.FrameWrenched);
 
 			// Set initial state
 			objectBehaviour.SetIsNotPushable(true);
@@ -401,7 +401,7 @@ namespace Objects.Construction
 			Inventory.ServerDrop(powerCellSlot);
 
 			stateful.ServerChangeState(cablesAddedState);
-			spriteHandler.ChangeSprite((int)SpriteStates.Frame);
+			spriteHandler.SetCatalogueIndexSprite((int)SpriteStates.Frame);
 		}
 
 		private enum SpriteStates

@@ -114,13 +114,13 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		if (isActivated)
 		{
 			SetActivatedAttributes();
-			spriteHandler.ChangeSprite((int)color);
+			spriteHandler.SetCatalogueIndexSprite((int)color);
 			itemAttributes.SetSprites(GetItemSprites(color));
 		}
 		else
 		{
 			SetDeactivatedAttributes();
-			spriteHandler.ChangeSprite(0);
+			spriteHandler.SetCatalogueIndexSprite(0);
 			itemAttributes.SetSprites(Sprites.Off);
 		}
 

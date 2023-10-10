@@ -176,7 +176,7 @@ namespace Chemistry
 
 				if (product.GetComponent<ItemAttributesV2>().HasTrait(CommonTraits.Instance.Pill))
 				{
-					product.GetComponentInChildren<SpriteHandler>().ChangeSprite(PillproductChoice);
+					product.GetComponentInChildren<SpriteHandler>().SetCatalogueIndexSprite(PillproductChoice);
 				}
 
 				//Fill Product

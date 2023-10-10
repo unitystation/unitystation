@@ -209,13 +209,14 @@ namespace Lobby
 					{
 						Loggy.LogWarning($"Auto sign in cancelled.");
 						LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
-
+						return;
 					}
 					else if (task.IsFaulted)
 					{
 						Loggy.LogError($"Auto sign in failed: {task.Exception?.Message}");
 						lobbyDialogue.ShowLoginError("Unexpected error encountered. Check your console (F5)");
 						LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
+						return;
 					}
 					isLoginSuccess = true;
 				});
@@ -242,13 +243,13 @@ namespace Lobby
 				{
 					LoadManager.DoInMainThread(() => { lobbyDialogue.ShowMainPanel(); });
 					Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited ServerData.ValidateUser(~~~) and showing main panel.");
-					return false;
+					return true;
 				}
 				else
 				{
 					Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited ServerData.ValidateUser(~~~) with false result.");
 					LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
-					return true;
+					return false;
 				}
 			}
 			catch (Exception e)

@@ -134,7 +134,7 @@ public class ClothingItem : MonoBehaviour
 		else
 		{
 			spriteHandler.SetCatalogue(clothing.SpriteDataSO);
-			spriteHandler.ChangeSprite(clothing.CurrentClothIndex);
+			spriteHandler.SetCatalogueIndexSprite(clothing.CurrentClothIndex);
 			List<Color> palette = clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.Palette;
 			if (palette != null)
 			{
@@ -175,7 +175,7 @@ public class ClothingItem : MonoBehaviour
 	{
 		if (spriteHandler != null)
 		{
-			spriteHandler.ChangeSpriteVariant(referenceOffset, false);
+			spriteHandler.SetSpriteVariant(referenceOffset, false);
 		}
 	}
 
