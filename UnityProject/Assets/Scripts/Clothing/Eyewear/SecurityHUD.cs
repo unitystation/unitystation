@@ -46,6 +46,16 @@ public class SecurityHUD : NetworkBehaviour, IHUD
 		SecurityHUDHandler.MindShieldImplant.SetCatalogueIndexSprite(HasImplant ? 1 : 0);
 	}
 
+	public void Awake()
+	{
+		PlayerScript = this.GetComponentCustom<PlayerScript>();
+		HUDHandler = this.GetComponentCustom<HUDHandler>();
+		PlayerScript.OnVisibleNameChange += JobChange; //TODO Is not the best place
+		PlayerScript.OnVisibleNameChange += IdentityChange;
+		SecurityRecord.OnWantedLevelChange += IdentityChange; //TODO This could be a bit better as well
+		HUDHandler.AddNewHud(this);
+	}
+
 
 	public void IdentityChange()
 	{
@@ -222,15 +232,6 @@ public class SecurityHUD : NetworkBehaviour, IHUD
 	}
 
 
-	public void Awake()
-	{
-		PlayerScript = this.GetComponentCustom<PlayerScript>();
-		HUDHandler = this.GetComponentCustom<HUDHandler>();
-		PlayerScript.OnVisibleNameChange += JobChange; //TODO Is not the best place
-		PlayerScript.OnVisibleNameChange += IdentityChange;
-		SecurityRecord.OnWantedLevelChange += IdentityChange; //TODO This could be a bit better as well
-		HUDHandler.AddNewHud(this);
-	}
 
 	public void SetUp()
 	{
