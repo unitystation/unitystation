@@ -23,7 +23,8 @@ body:
     description: Were you the client or the host when the issue occured?
     options:
     - Client
-    - Server
+    - Server LocalHost
+    - Server Headless 
   validations:
     required: true
 - type: dropdown
