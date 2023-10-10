@@ -1513,6 +1513,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	private void UpdatePassables()
 	{
+		if (holder == null) return;
 		holder.passableExclusions.Remove(needsWalking);
 		holder.passableExclusions.Remove(needsRunning);
 
