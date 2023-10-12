@@ -53,7 +53,7 @@ namespace UI.Windows
 			Role = role;
 
 			nameLabel.text = Role.RoleData.Name;
-			descLabel.text = Role.RoleData.DescriptionAdmin;
+			descLabel.text = Role.RoleData.Description;
 			spriteHandler.SetSpriteSO(Role.RoleData.Sprite);
 			playerCountLabel.text = GeneratePlayerCountLabelText();
 			if (Role.PlayerCount / Role.MaxPlayers > 0.8f || Role.MaxPlayers - Role.PlayerCount == 1)
