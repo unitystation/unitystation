@@ -36,7 +36,6 @@ namespace Antagonists
 
 		/// <summary>
 		/// Used for adding custom attributes to admin panel
-		/// Need to be added through inspector buttons or in code
 		/// </summary>
 		public List<ObjectiveAttribute> attributes = new List<ObjectiveAttribute>();
 
