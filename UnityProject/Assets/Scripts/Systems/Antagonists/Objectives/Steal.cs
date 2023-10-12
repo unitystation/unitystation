@@ -110,8 +110,8 @@ namespace Antagonists
 		{
 			// Pick a random item and add it to the targeted list
 			GameObject item = null;
-			item = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[attributes[0].itemID];
-			Amount = attributes[1].number;
+			item = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[attributes[0].ItemID];
+			Amount = attributes[1].Number;
 
 			if (item == null)
 				return;

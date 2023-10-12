@@ -111,7 +111,7 @@ namespace Systems.GhostRoles
 
 		private int totalPlayers = 0;
 
-		private Team ghostRoleTeam;
+		private readonly Team ghostRoleTeam;
 
 		private int playersSpawned = 0;
 		public int PlayersSpawned => playersSpawned;

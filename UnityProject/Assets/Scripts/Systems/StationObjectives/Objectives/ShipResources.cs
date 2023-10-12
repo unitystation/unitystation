@@ -66,7 +66,7 @@ namespace StationObjectives
 			// randomizes the amount needed to complete the shipment, with a minimum of 2/3rds of the default value and a maximum of 1 and 1/3rd of the default
 			requiredAmount = Random.Range(itemEntry.Value - itemEntry.Value / 3, itemEntry.Value + itemEntry.Value / 3);
 
-			itemEntry = new KeyValuePair<ItemTrait, int>(CommonTraits.Instance.GetFromIndex(attributes[0].itemTraitIndex), attributes[1].number);
+			itemEntry = new KeyValuePair<ItemTrait, int>(CommonTraits.Instance.GetFromIndex(attributes[0].ItemTraitIndex), attributes[1].Number);
 
 			itemTrait = itemEntry.Key;
 			requiredAmount = itemEntry.Value;

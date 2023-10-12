@@ -291,19 +291,19 @@ namespace AdminTools
 					continue;
 				if (attr.type == ObjectiveAttributeType.ObjectiveAttributeItem)
 				{
-					attribute.itemID = attr.itemID;
+					attribute.ItemID = attr.ItemID;
 				}
 				else if (attr.type == ObjectiveAttributeType.ObjectiveAttributeNumber)
 				{
-					attribute.number = attr.number;
+					attribute.Number = attr.Number;
 				}
 				else if (attr.type == ObjectiveAttributeType.ObjectiveAttributePlayer)
 				{
-					attribute.playerID = attr.playerID;
+					attribute.PlayerID = attr.PlayerID;
 				}
 				else if (attr.type == ObjectiveAttributeType.ObjectiveAttributeItemTrait)
 				{
-					attribute.itemTraitIndex = attr.itemTraitIndex;
+					attribute.ItemTraitIndex = attr.ItemTraitIndex;
 				}
 			}
 			obj.DoSetupInGame(player);

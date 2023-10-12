@@ -18,7 +18,7 @@ namespace Antagonists
 		protected override void SetupInGame()
 		{
 			// Pick a random item and add it to the targeted list
-			minimumSpellsNeeded = attributes[0].number;
+			minimumSpellsNeeded = attributes[0].Number;
 		}
 
 		protected override bool CheckCompletion()

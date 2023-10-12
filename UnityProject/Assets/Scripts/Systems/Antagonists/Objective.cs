@@ -14,10 +14,10 @@ namespace Antagonists
 		public short index = -1;
 
 		public ObjectiveAttributeType type;
-		public string playerID { get; set; }
-		public int number { get; set; }
-		public string itemID { get; set; }
-		public short itemTraitIndex { get; set; }
+		public string PlayerID { get; set; }
+		public int Number { get; set; }
+		public string ItemID { get; set; }
+		public short ItemTraitIndex { get; set; }
 	}
 
 	public enum ObjectiveAttributeType

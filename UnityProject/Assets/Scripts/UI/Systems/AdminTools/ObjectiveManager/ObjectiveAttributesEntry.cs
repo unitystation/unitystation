@@ -137,24 +137,24 @@ namespace AdminTools
 			if (currentAttribute.type == ObjectiveAttributeType.ObjectiveAttributeNumber)
 			{
 				if (int.TryParse(inputNumber.text, out var result) && (result > 0 || result == -1))
-					currentAttribute.number = result;
+					currentAttribute.Number = result;
 				else
 				{
 					inputNumber.text = "1";
-					currentAttribute.number = 1;
+					currentAttribute.Number = 1;
 				}
 			}
 			else if (currentAttribute.type == ObjectiveAttributeType.ObjectiveAttributePlayer)
 			{
-				currentAttribute.playerID = players[inputPlayer.value].PlayerData.uid;
+				currentAttribute.PlayerID = players[inputPlayer.value].PlayerData.uid;
 			}
 			else if (currentAttribute.type == ObjectiveAttributeType.ObjectiveAttributeItem && items[inputItem.value].TryGetComponent<PrefabTracker>(out var itemTracker))
 			{
-				currentAttribute.itemID = itemTracker.ForeverID;
+				currentAttribute.ItemID = itemTracker.ForeverID;
 			}
 			else if (currentAttribute.type == ObjectiveAttributeType.ObjectiveAttributeItemTrait)
 			{
-				currentAttribute.itemTraitIndex = CommonTraits.Instance.GetIndex(itemTraits[inputItem.value]);
+				currentAttribute.ItemTraitIndex = CommonTraits.Instance.GetIndex(itemTraits[inputItem.value]);
 			}
 		}
 	}
