@@ -141,7 +141,7 @@ namespace Objects.Medical
 		{
 			if (occupant != null)
 			{
-				spriteHandler.ChangeSprite((int) (powered
+				spriteHandler.SetCatalogueIndexSprite((int) (powered
 						? ScannerState.ClosedPoweredWithOccupant
 						: ScannerState.ClosedUnpoweredWithOccupant));
 				return;
@@ -149,11 +149,11 @@ namespace Objects.Medical
 
 			if (powered)
 			{
-				spriteHandler.ChangeSprite((int) (closet.IsOpen ? ScannerState.OpenPowered : ScannerState.ClosedPowered));
+				spriteHandler.SetCatalogueIndexSprite((int) (closet.IsOpen ? ScannerState.OpenPowered : ScannerState.ClosedPowered));
 			}
 			else
 			{
-				spriteHandler.ChangeSprite((int) (closet.IsOpen ? ScannerState.OpenUnpowered : ScannerState.ClosedUnpowered));
+				spriteHandler.SetCatalogueIndexSprite((int) (closet.IsOpen ? ScannerState.OpenUnpowered : ScannerState.ClosedUnpowered));
 			}
 		}
 

@@ -49,7 +49,7 @@ namespace Objects.Research
 		public void SetLinkedPlayer(AiPlayer aiPlayer)
 		{
 			linkedPlayer = aiPlayer;
-			vesselSpriteHandler.ChangeSprite(aiPlayer == null ? 0 : 1);
+			vesselSpriteHandler.SetCatalogueIndexSprite(aiPlayer == null ? 0 : 1);
 
 			if (isInteliCard)
 			{

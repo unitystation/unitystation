@@ -41,7 +41,7 @@ namespace Objects
 				currentStage = value;
 
 				UpdateVectors();
-				spriteHandler.ChangeSprite((int)currentStage);
+				spriteHandler.SetCatalogueIndexSprite((int)currentStage);
 			}
 		}
 

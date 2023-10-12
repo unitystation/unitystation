@@ -180,7 +180,7 @@ public class SpriteHandler : MonoBehaviour
 	/// </summary>
 	/// <param name="cataloguePage">Index as defined via the inspector on the object.</param>
 	/// <param name="networked">Whether this change should be sent to clients, if server.</param>
-	public void ChangeSprite(int cataloguePage, bool networked = true)
+	public void SetCatalogueIndexSprite(int cataloguePage, bool networked = true)
 	{
 		InternalChangeSprite(cataloguePage, networked);
 	}
@@ -255,7 +255,7 @@ public class SpriteHandler : MonoBehaviour
 		}
 		if (newVariantIndex > -1)
 		{
-			ChangeSpriteVariant(newVariantIndex, networked);
+			SetSpriteVariant(newVariantIndex, networked);
 		}
 	}
 
@@ -275,7 +275,7 @@ public class SpriteHandler : MonoBehaviour
 		TryToggleAnimationState(false);
 	}
 
-	public void ChangeSpriteVariant(int spriteVariant, bool networked = true)
+	public void SetSpriteVariant(int spriteVariant, bool networked = true)
 	{
 		if (PresentSpriteSet != null)
 		{
@@ -379,7 +379,7 @@ public class SpriteHandler : MonoBehaviour
 		SubCatalogue = newCatalogue;
 		if (initialPage > -1)
 		{
-			ChangeSprite(initialPage, networked);
+			SetCatalogueIndexSprite(initialPage, networked);
 		}
 	}
 
@@ -621,11 +621,11 @@ public class SpriteHandler : MonoBehaviour
 
 			if (randomInitialSprite && CatalogueCount > 0)
 			{
-				ChangeSprite(UnityEngine.Random.Range(0, CatalogueCount), NetworkThis);
+				SetCatalogueIndexSprite(UnityEngine.Random.Range(0, CatalogueCount), NetworkThis);
 			}
 			else if (randomInitialSprite && PresentSpriteSet != null && PresentSpriteSet.Variance.Count > 0)
 			{
-				ChangeSpriteVariant(UnityEngine.Random.Range(0, PresentSpriteSet.Variance.Count), NetworkThis);
+				SetSpriteVariant(UnityEngine.Random.Range(0, PresentSpriteSet.Variance.Count), NetworkThis);
 			}
 			else if (PresentSpriteSet != null)
 			{

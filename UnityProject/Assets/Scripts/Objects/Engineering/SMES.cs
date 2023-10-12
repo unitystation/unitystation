@@ -101,18 +101,18 @@ namespace Objects.Engineering
 		{
 			if (IsCharging)
 			{
-				chargingIndicator.ChangeSprite((int) ChargingOverlayState.Charging);
+				chargingIndicator.SetCatalogueIndexSprite((int) ChargingOverlayState.Charging);
 			}
 			else
 			{
-				chargingIndicator.ChangeSprite((int) ChargingOverlayState.Discharging);
+				chargingIndicator.SetCatalogueIndexSprite((int) ChargingOverlayState.Discharging);
 			}
 		}
 
 		private void UpdateChargeLevelIndicator()
 		{
 			int chargeIndex = Convert.ToInt32(Math.Round((ChargePercent / 100f) * 4));
-			chargeLevelIndicator.ChangeSprite(chargeIndex);
+			chargeLevelIndicator.SetCatalogueIndexSprite(chargeIndex);
 		}
 
 		#region Interaction
@@ -235,7 +235,7 @@ namespace Objects.Engineering
 
 		private void ServerToggleOutputModeOn()
 		{
-			outputEnabledIndicator.ChangeSprite((int) OutputEnabledOverlayState.OutputEnabled);
+			outputEnabledIndicator.SetCatalogueIndexSprite((int) OutputEnabledOverlayState.OutputEnabled);
 			outputEnabledIndicator.PushTexture();
 			electricalNodeControl.TurnOnSupply();
 			outputEnabled = true;

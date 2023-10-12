@@ -54,14 +54,14 @@ namespace Objects.Research
 
 		public void SetBlue()
 		{
-			spriteHandler.ChangeSprite(0);
+			spriteHandler.SetCatalogueIndexSprite(0);
 			ColorUtility.TryParseHtmlString("#0099FF", out var color);
 			lightSprite.Color = color;
 		}
 
 		public void SetOrange()
 		{
-			spriteHandler.ChangeSprite(1);
+			spriteHandler.SetCatalogueIndexSprite(1);
 			ColorUtility.TryParseHtmlString("#CC3300", out var color);
 			lightSprite.Color = color;
 		}

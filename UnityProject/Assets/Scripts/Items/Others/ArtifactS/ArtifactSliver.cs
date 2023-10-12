@@ -48,10 +48,10 @@ namespace Items.Science
 
 			sliverData.mass = sliverData.radiationlevel / 20 + sliverData.bluespacesig + sliverData.bananiumsig / 2;
 
-			spriteHandler.ChangeSprite((int)sliverData.Type);
+			spriteHandler.SetCatalogueIndexSprite((int)sliverData.Type);
 
 			GetComponent<ItemAttributesV2>().ServerSetArticleName("Artifact Sample - " + ID);
-		
+
 			Init();
 		}
 

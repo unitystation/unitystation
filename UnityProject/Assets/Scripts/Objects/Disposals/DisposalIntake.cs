@@ -75,11 +75,11 @@ namespace Objects.Disposals
 		{
 			if (IsOperating)
 			{
-				baseSpriteHandler.ChangeSprite((int) SpriteState.Operating);
+				baseSpriteHandler.SetCatalogueIndexSprite((int) SpriteState.Operating);
 			}
 			else
 			{
-				baseSpriteHandler.ChangeSprite((int) SpriteState.Idle);
+				baseSpriteHandler.SetCatalogueIndexSprite((int) SpriteState.Idle);
 			}
 		}
 
@@ -88,16 +88,16 @@ namespace Objects.Disposals
 			switch (directionalPassable.RotatableChecked.Component.CurrentDirection)
 			{
 				case OrientationEnum.Up_By0:
-					baseSpriteHandler.ChangeSpriteVariant(1);
+					baseSpriteHandler.SetSpriteVariant(1);
 					break;
 				case OrientationEnum.Down_By180:
-					baseSpriteHandler.ChangeSpriteVariant(0);
+					baseSpriteHandler.SetSpriteVariant(0);
 					break;
 				case OrientationEnum.Left_By90:
-					baseSpriteHandler.ChangeSpriteVariant(3);
+					baseSpriteHandler.SetSpriteVariant(3);
 					break;
 				case OrientationEnum.Right_By270:
-					baseSpriteHandler.ChangeSpriteVariant(2);
+					baseSpriteHandler.SetSpriteVariant(2);
 					break;
 			}
 		}

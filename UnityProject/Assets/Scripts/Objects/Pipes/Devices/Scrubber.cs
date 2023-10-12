@@ -290,7 +290,7 @@ namespace Objects.Atmospherics
 			}
 
 			if ((int)sprite == spritehandler.CataloguePage) return;
-			spritehandler.ChangeSprite((int)sprite);
+			spritehandler.SetCatalogueIndexSprite((int)sprite);
 		}
 
 		#region IAPCPowerable

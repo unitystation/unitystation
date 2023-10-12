@@ -55,7 +55,7 @@ namespace Systems.Research.Objects
 		private void SyncSprite(BlastYieldDetectorState oldState, BlastYieldDetectorState newState)
 		{
 			stateSync = newState;
-			spriteHandler.ChangeSprite((int)newState);
+			spriteHandler.SetCatalogueIndexSprite((int)newState);
 		}
 
 		private void Start()
@@ -108,13 +108,13 @@ namespace Systems.Research.Objects
 				//Ideally in the future someone reorganises the Chemistry assemblies but this works for now.
 				foreach (Reaction reaction in explosiveReactions)
 				{
-					if (reaction.IsReactionValid(blastData.ReagentMix)) yield += ChemistryUtils.CalculateYieldFromReaction(reaction.GetReactionAmount(blastData.ReagentMix), 1);			
+					if (reaction.IsReactionValid(blastData.ReagentMix)) yield += ChemistryUtils.CalculateYieldFromReaction(reaction.GetReactionAmount(blastData.ReagentMix), 1);
 				}
 
 				blastData.BlastYield += yield;
 
 				BlastYieldData.Add(blastData.BlastYield);
-				
+
 				TryCompleteBounties(blastData);
 
 				blastEvent?.Invoke(blastData);

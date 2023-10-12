@@ -384,8 +384,8 @@ namespace Objects.Kitchen
 			{
 				this.oven = oven;
 				StateMsgForExamine = "idle";
-				oven.spriteHandlerOven.ChangeSprite((int) SpriteStateOven.Idle);
-				oven.spriteHandlerDoor.ChangeSprite((int) SpriteStateDoor.Closed);
+				oven.spriteHandlerOven.SetCatalogueIndexSprite((int) SpriteStateOven.Idle);
+				oven.spriteHandlerDoor.SetCatalogueIndexSprite((int) SpriteStateDoor.Closed);
 				oven.OnSyncScreenGlow(oven.screenGlowEnabled, false);
 				oven.OnSyncOvenGlow(oven.ovenGlowEnabled, false);
 				oven.HaltOven(true);
@@ -419,8 +419,8 @@ namespace Objects.Kitchen
 			{
 				this.oven = oven;
 				StateMsgForExamine = "open";
-				oven.spriteHandlerOven.ChangeSprite((int) SpriteStateOven.Idle);
-				oven.spriteHandlerDoor.ChangeSprite((int) SpriteStateDoor.Open);
+				oven.spriteHandlerOven.SetCatalogueIndexSprite((int) SpriteStateOven.Idle);
+				oven.spriteHandlerDoor.SetCatalogueIndexSprite((int) SpriteStateDoor.Open);
 				oven.OnSyncScreenGlow(oven.screenGlowEnabled, false);
 				oven.OnSyncOvenGlow(oven.ovenGlowEnabled, true);
 				oven.HaltOven(true);
@@ -454,8 +454,8 @@ namespace Objects.Kitchen
 				StateMsgForExamine = "running";
 				oven.OnSyncScreenGlow(oven.screenGlowEnabled, true);
 				oven.OnSyncOvenGlow(oven.ovenGlowEnabled, true);
-				oven.spriteHandlerOven.ChangeSprite((int) SpriteStateOven.Running);
-				oven.spriteHandlerDoor.ChangeSprite((int) SpriteStateDoor.Closed);
+				oven.spriteHandlerOven.SetCatalogueIndexSprite((int) SpriteStateOven.Running);
+				oven.spriteHandlerDoor.SetCatalogueIndexSprite((int) SpriteStateDoor.Closed);
 				oven.SetWattage(oven.circuitWattage + oven.ovenBulbWattage + oven.magnetronWattage);
 			}
 
@@ -486,8 +486,8 @@ namespace Objects.Kitchen
 			{
 				this.oven = oven;
 				StateMsgForExamine = "unpowered";
-				oven.spriteHandlerOven.ChangeSprite((int) SpriteStateOven.Idle);
-				oven.spriteHandlerDoor.ChangeSprite((int) SpriteStateDoor.Closed);
+				oven.spriteHandlerOven.SetCatalogueIndexSprite((int) SpriteStateOven.Idle);
+				oven.spriteHandlerDoor.SetCatalogueIndexSprite((int) SpriteStateDoor.Closed);
 				oven.OnSyncScreenGlow(oven.screenGlowEnabled, false);
 				oven.OnSyncOvenGlow(oven.ovenGlowEnabled, false);
 				oven.HaltOven(true);
@@ -517,8 +517,8 @@ namespace Objects.Kitchen
 			{
 				this.oven = oven;
 				StateMsgForExamine = "unpowered and open";
-				oven.spriteHandlerOven.ChangeSprite((int) SpriteStateOven.Idle);
-				oven.spriteHandlerDoor.ChangeSprite((int) SpriteStateDoor.Open);
+				oven.spriteHandlerOven.SetCatalogueIndexSprite((int) SpriteStateOven.Idle);
+				oven.spriteHandlerDoor.SetCatalogueIndexSprite((int) SpriteStateDoor.Open);
 				oven.OnSyncScreenGlow(oven.screenGlowEnabled, false);
 				oven.OnSyncOvenGlow(oven.ovenGlowEnabled, false);
 				oven.HaltOven(true);

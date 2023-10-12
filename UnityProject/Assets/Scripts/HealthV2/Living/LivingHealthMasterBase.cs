@@ -127,7 +127,7 @@ namespace HealthV2
 			system = ActiveSystems.OfType<T>().FirstOrDefault();
 			return Equals(system, default(T));
 		}
-		
+
 		public Brain brain { get; private set; }
 
 
@@ -659,8 +659,7 @@ namespace HealthV2
 		[RightClickMethod]
 		public void DODMG()
 		{
-			var bodyPart = BodyPartList.PickRandom();
-			bodyPart.TakeDamage(null, 1, AttackType.Melee, DamageType.Brute);
+			ApplyDamageAll(null, 9999, AttackType.Acid, DamageType.Brute);
 		}
 
 		public float NutrimentConsumed = 0;
@@ -1051,10 +1050,6 @@ namespace HealthV2
 			}
 
 
-			//Sync health
-			healthStateController.SetOverallHealth(currentHealth);
-
-			//TODO HungerState should properly have a cash optimisation here!!
 			if (BleedingState != CashedBleedingState)
 			{
 				var old = GetAlertSOFromBleedingState(CashedBleedingState);
@@ -1103,6 +1098,10 @@ namespace HealthV2
 			{
 				OnRevive?.Invoke();
 			}
+
+
+			//Sync health
+			healthStateController.SetOverallHealth(currentHealth);
 		}
 
 		private void CheckHeartStatus()

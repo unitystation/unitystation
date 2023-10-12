@@ -151,6 +151,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	public int ClueUniformImprintInverseChance = 65;
 	public int ClueSpeciesImprintInverseChance = 85;
 
+	public event Action OnVisibleNameChange;
+
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float INTERACTION_DISTANCE = 1.5f;
 	public const float INTERACTION_DISTANCE_EXTENDED = 1.75f;
@@ -574,6 +576,15 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	public void SyncVisibleName(string oldValue, string value)
 	{
 		visibleName = value;
+		try
+		{
+			OnVisibleNameChange?.Invoke();
+		}
+		catch (Exception e)
+		{
+			Loggy.LogError(e.ToString());
+		}
+
 	}
 
 	// Update visible name.
@@ -592,6 +603,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		}
 
 		SyncVisibleName(newVisibleName, newVisibleName);
+
 	}
 
 	// Tooltips inspector bar

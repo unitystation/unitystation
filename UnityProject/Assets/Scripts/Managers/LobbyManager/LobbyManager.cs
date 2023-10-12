@@ -13,6 +13,7 @@ using Firebase.Extensions;
 using Shared.Managers;
 using Managers;
 using DatabaseAPI;
+using Initialisation;
 using Logs;
 
 namespace Lobby
@@ -188,50 +189,77 @@ namespace Lobby
 
 		public async Task<bool> TryAutoLogin()
 		{
-			if (FirebaseAuth.DefaultInstance.CurrentUser == null)
+			try
 			{
-				Loggy.Log("[LobbyManager/TryAutoLogin()] - FirebaseAuth.DefaultInstance.CurrentUser is null. Attempting to send user to first time panel.");
-				// We haven't seen this user before.
-				lobbyDialogue.ShowAlphaPanel();
+				if (FirebaseAuth.DefaultInstance.CurrentUser == null)
+				{
+					Loggy.Log("[LobbyManager/TryAutoLogin()] - FirebaseAuth.DefaultInstance.CurrentUser is null. Attempting to send user to first time panel.");
+					// We haven't seen this user before.
+					lobbyDialogue.ShowAlphaPanel();
+					return false;
+				}
+
+				var randomGreeting = string.Format(greetings.PickRandom(), FirebaseAuth.DefaultInstance.CurrentUser.DisplayName);
+				lobbyDialogue.ShowLoadingPanel($"{randomGreeting}\n\nSigning you in...");
+				LoginTimer();
+				bool isLoginSuccess = false;
+				Loggy.Log("[LobbyManager/TryAutoLogin()] - Executing  FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread().");
+				await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(task => {
+					if (task.IsCanceled)
+					{
+						Loggy.LogWarning($"Auto sign in cancelled.");
+						LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
+						return;
+					}
+					else if (task.IsFaulted)
+					{
+						Loggy.LogError($"Auto sign in failed: {task.Exception?.Message}");
+						lobbyDialogue.ShowLoginError("Unexpected error encountered. Check your console (F5)");
+						LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
+						return;
+					}
+					isLoginSuccess = true;
+				});
+				Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread().");
+
+				if (isLoginSuccess == false)
+				{
+					Loggy.Log("[LobbyManager/TryAutoLogin()] - isLoginSuccess is false.");
+					LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
+					return false;
+				}
+				cancelTimer = true;
+
+				Loggy.Log("[LobbyManager/TryAutoLogin()] - Executing awaited ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, lobbyDialogue.ShowLoginError)");
+
+				var longRunningTask = ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, lobbyDialogue.ShowLoginError);
+				var timeout = TimeSpan.FromSeconds(5);
+
+				// Use Task.WhenAny to wait for either the long-running task to complete or the timeout to occur
+				var completedTask = await Task.WhenAny(longRunningTask, Task.Delay(timeout));
+
+				// Check which task completed
+				if (completedTask == longRunningTask)
+				{
+					LoadManager.DoInMainThread(() => { lobbyDialogue.ShowMainPanel(); });
+					Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited ServerData.ValidateUser(~~~) and showing main panel.");
+					return true;
+				}
+				else
+				{
+					Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited ServerData.ValidateUser(~~~) with false result.");
+					LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
+					return false;
+				}
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+				LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
+
 				return false;
 			}
 
-			var randomGreeting = string.Format(greetings.PickRandom(), FirebaseAuth.DefaultInstance.CurrentUser.DisplayName);
-			lobbyDialogue.ShowLoadingPanel($"{randomGreeting}\n\nSigning you in...");
-			LoginTimer();
-			bool isLoginSuccess = false;
-			Loggy.Log("[LobbyManager/TryAutoLogin()] - Executing  FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread().");
-			await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(task => {
-				if (task.IsCanceled)
-				{
-					Loggy.LogWarning($"Auto sign in cancelled.");
-					lobbyDialogue.ShowLoginPanel();
-				}
-				else if (task.IsFaulted)
-				{
-					Loggy.LogError($"Auto sign in failed: {task.Exception?.Message}");
-					lobbyDialogue.ShowLoginError("Unexpected error encountered. Check your console (F5)");
-				}
-				isLoginSuccess = true;
-			});
-			Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread().");
-
-			if (isLoginSuccess == false)
-			{
-				Loggy.Log("[LobbyManager/TryAutoLogin()] - isLoginSuccess is false.");
-				return false;
-			}
-			cancelTimer = true;
-
-			Loggy.Log("[LobbyManager/TryAutoLogin()] - Executing awaited ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, lobbyDialogue.ShowLoginError)");
-			if (await ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, lobbyDialogue.ShowLoginError))
-			{
-				lobbyDialogue.ShowMainPanel();
-				Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited ServerData.ValidateUser(~~~) and showing main panel.");
-				return true;
-			}
-			Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited ServerData.ValidateUser(~~~) with false result.");
-			return false;
 		}
 
 		#endregion

@@ -75,7 +75,7 @@ namespace Items
 			if(active && firstTime == false) return;
 
 			active = true;
-			spriteHandler.ChangeSprite(0);
+			spriteHandler.SetCatalogueIndexSprite(0);
 
 			StateChangeEvent.Invoke(true, false);
 
@@ -96,7 +96,7 @@ namespace Items
 			if(active == false) return;
 
 			active = false;
-			spriteHandler.ChangeSprite(1);
+			spriteHandler.SetCatalogueIndexSprite(1);
 
 			StateChangeEvent.Invoke(false, destroyed);
 

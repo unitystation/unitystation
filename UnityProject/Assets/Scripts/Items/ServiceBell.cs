@@ -40,7 +40,7 @@ namespace Objects
 			if (Random.value <= 0.005)
 			{
 				RingSound = BigBellRingSound;
-				BellSpriteRenderer.ChangeSpriteVariant(1);
+				BellSpriteRenderer.SetSpriteVariant(1);
 				ScoreMachine.AddNewScoreEntry(BIG_BELL_SCORE_ENTRY, "Number of Big Service Bells",
 					ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Weird);
 				ScoreMachine.AddToScoreInt(BIG_BELL_SCORE_VALUE ,BIG_BELL_SCORE_ENTRY);

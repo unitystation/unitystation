@@ -978,8 +978,8 @@ namespace Systems.Antagonists
 					return;
 			}
 
-			mainSpriteHandler.ChangeSpriteVariant(spriteVariant, false);
-			mainBackSpriteHandler.ChangeSpriteVariant(spriteVariant, false);
+			mainSpriteHandler.SetSpriteVariant(spriteVariant, false);
+			mainBackSpriteHandler.SetSpriteVariant(spriteVariant, false);
 		}
 
 		#endregion

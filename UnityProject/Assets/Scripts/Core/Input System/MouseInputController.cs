@@ -161,7 +161,7 @@ public class MouseInputController : MonoBehaviour
 		if (CommonInput.GetMouseButtonDown(0))
 		{
 			//check ctrl+click for dragging
-			if (KeyboardInputManager.IsControlPressed())
+			if (KeyboardInputManager.IsControlPressed() || UIManager.CurrentIntent == Intent.Grab)
 			{
 				//even if we didn't drag anything, nothing else should happen
 				CheckInitiatePull();

@@ -78,7 +78,7 @@ namespace Objects.Disposals
 
 		protected virtual void UpdateSpriteConstructionState()
 		{
-			baseSpriteHandler.ChangeSprite(0);
+			baseSpriteHandler.SetCatalogueIndexSprite(0);
 		}
 
 		#endregion Sprites

@@ -1,4 +1,5 @@
-﻿using HealthV2;
+﻿using System.Collections;
+using HealthV2;
 using Mirror;
 using Player.Movement;
 using UnityEngine;
@@ -18,41 +19,28 @@ namespace Player
 		private readonly Quaternion layingDownRotation = Quaternion.Euler(0, 0, -90);
 		private readonly Quaternion standingUp = Quaternion.Euler(0, 0, 0);
 
-		[field: SyncVar] public bool IsLayingDown { get; private set; } = false;
+		[SyncVar(hook = nameof(SyncLayDownState))] private bool isLayingDown= false;
+
+		public bool IsLayingDown => isLayingDown;
+
+		private UprightSprites UprightSprites = null;
 
 		private void Awake()
 		{
+			UprightSprites = this.GetComponentCustom<UprightSprites>();
 			playerScript ??= GetComponent<PlayerScript>();
 			playerDirectional ??= GetComponent<Rotatable>();
 			health ??= GetComponent<LivingHealthMasterBase>();
 			networkedLean ??= GetComponent<Util.NetworkedLeanTween>();
-			if(CustomNetworkManager.IsServer) UpdateManager.Add(AutoCorrect, clientAutoCorrectInterval);
 		}
 
 		public override void OnStartClient()
 		{
 			base.OnStartClient();
-			ClientEnsureCorrectState();
+			EnsureCorrectState();
 		}
 
-		[ClientRpc]
-		private void AutoCorrect()
-		{
-			//(Max): This is a quick bandage for the ping issue related to laydown behaviors on the clients getting desynced at high pings.
-			//It's still unclear why the state gets desynced at high pings, but this should stop bodies from standing up whenever
-			//they're affected by wind or are thrown around while laying down.
-			ClientEnsureCorrectState();
-		}
-
-
-		[Client]
-		public void ClientEnsureCorrectState()
-		{
-			CorrectState();
-		}
-
-		[ClientRpc]
-		public void ServerEnsureCorrectState()
+		public void EnsureCorrectState()
 		{
 			CorrectState();
 		}
@@ -79,11 +67,10 @@ namespace Player
 			}
 		}
 
-		[ClientRpc]
-		public void LayDownState(bool isLayingDown)
+		public void SyncLayDownState(bool OldState, bool NewState)
 		{
-			IsLayingDown = isLayingDown;
-			if (isLayingDown)
+			isLayingDown = NewState;
+			if (NewState)
 			{
 				LayingDownLogic();
 			}
@@ -91,7 +78,7 @@ namespace Player
 			{
 				UpLogic();
 			}
-			HandleGetupAnimation(isLayingDown == false);
+			StartCoroutine(HandleGetupAnimation(NewState == false));
 		}
 
 		private void LayingDownLogic(bool forceState = false)
@@ -127,15 +114,21 @@ namespace Player
 			playerScript.PlayerSync.CurrentMovementType = MovementType.Running;
 		}
 
-		private void HandleGetupAnimation(bool getUp)
+		private IEnumerator HandleGetupAnimation(bool getUp)
 		{
 			if (getUp == false && networkedLean.Target.rotation.z > -90)
 			{
 				networkedLean.RotateGameObject(new Vector3(0, 0, -90), 0.15f, sprites.gameObject);
+				yield return WaitFor.Seconds(0.15f);
+				UprightSprites.ExtraRotation = Quaternion.Euler(new Vector3(0, 0, -90));
+
 			}
 			else if (getUp && networkedLean.Target.rotation.z < 90)
 			{
+
 				networkedLean.RotateGameObject(new Vector3(0, 0, 0), 0.19f, sprites.gameObject);
+				yield return WaitFor.Seconds(0.19f);
+				UprightSprites.ExtraRotation = Quaternion.Euler(new Vector3(0, 0, 0));
 			}
 		}
 	}

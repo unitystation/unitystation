@@ -76,7 +76,7 @@ namespace UI.CharacterCreator
 			// It's possible that UpdateSprite gets called before Awake
 			// so try to grab the image here just in case that happens
 			if(sprites != null || TryGetComponent(out sprites))
-				sprites.ChangeSpriteVariant(referenceOffset , networked:false);
+				sprites.SetSpriteVariant(referenceOffset , networked:false);
 		}
 	}
 }

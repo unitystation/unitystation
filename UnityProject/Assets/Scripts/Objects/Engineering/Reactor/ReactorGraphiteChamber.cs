@@ -65,6 +65,8 @@ namespace Objects.Engineering
 
 		public decimal MaxPressure = 120000;
 
+		public GameObject Corium;
+
 		public decimal KFactor
 		{
 			get { return (CalculateKFactor()); }
@@ -114,14 +116,23 @@ namespace Objects.Engineering
 						}
 					}
 				}
+
+
+				for (int i = 0; i < 5; i++)
+				{
+					Spawn.ServerPrefab(Corium, registerObject.WorldPositionServer);
+
+				}
+			}
+			else
+			{
+				Spawn.ServerPrefab(ConstructMaterial, registerObject.WorldPositionServer, count: droppedMaterialAmount);
 			}
 
 			foreach (var Rod in RodStorage.GetItemSlots())
 			{
 				Inventory.ServerDespawn(Rod);
 			}
-
-			Spawn.ServerPrefab(ConstructMaterial, registerObject.WorldPositionServer, count: droppedMaterialAmount);
 
 			MeltedDown = false;
 			PoppedPipes = false;

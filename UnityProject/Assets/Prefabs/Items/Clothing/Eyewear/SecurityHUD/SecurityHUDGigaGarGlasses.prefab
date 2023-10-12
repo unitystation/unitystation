@@ -28,6 +28,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: GIGA GAR glasses with a HUD.
       objectReference: {fileID: 0}
+    - target: {fileID: 4162609630118846559, guid: 351e5fc94af465a438ec9fb7a6f4c6f2,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4162609630118846559, guid: 351e5fc94af465a438ec9fb7a6f4c6f2,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f5b7ce1cca0a644cba934af14ea4b2c,
+        type: 2}
     - target: {fileID: 4456558463953304673, guid: 351e5fc94af465a438ec9fb7a6f4c6f2,
         type: 3}
       propertyPath: m_Sprite
@@ -77,17 +88,17 @@ PrefabInstance:
     - target: {fileID: 4556121044770042441, guid: 351e5fc94af465a438ec9fb7a6f4c6f2,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4556121044770042441, guid: 351e5fc94af465a438ec9fb7a6f4c6f2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4556121044770042441, guid: 351e5fc94af465a438ec9fb7a6f4c6f2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4556121044770042441, guid: 351e5fc94af465a438ec9fb7a6f4c6f2,
         type: 3}

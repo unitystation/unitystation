@@ -128,11 +128,11 @@ namespace Objects.Atmospherics
 				EjectInsertedContainer();
 			}
 
-			baseSpriteHandler.ChangeSprite(BURST_SPRITE);
+			baseSpriteHandler.SetCatalogueIndexSprite(BURST_SPRITE);
 			if (canisterTier > 0) // Tier overlays only for above 0.
 			{
 				int burstTier = canisterTierOverlay.CataloguePage + (canisterTierOverlay.CatalogueCount / 2);
-				canisterTierOverlay.ChangeSprite(burstTier);
+				canisterTierOverlay.SetCatalogueIndexSprite(burstTier);
 			}
 			pressureIndicatorOverlay.PushClear();
 			connectorHoseOverlay.PushClear();
@@ -341,7 +341,7 @@ namespace Objects.Atmospherics
 			if (canisterTier > 0)
 			{
 				GasContainer.GasMix.MultiplyGas(Mathf.Pow(10, canisterTier));
-				canisterTierOverlay.ChangeSprite(canisterTier - 1); // Tier 0 has no overlay.
+				canisterTierOverlay.SetCatalogueIndexSprite(canisterTier - 1); // Tier 0 has no overlay.
 			}
 		}
 
@@ -373,31 +373,31 @@ namespace Objects.Atmospherics
 			var pressure = GasContainer.ServerInternalPressure;
 			if (pressure >= 9100)
 			{
-				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.Green);
+				pressureIndicatorOverlay.SetCatalogueIndexSprite((int)PressureIndicatorState.Green);
 			}
 			else if (pressure >= 40 * AtmosConstants.ONE_ATMOSPHERE)
 			{
-				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.YellowGreen);
+				pressureIndicatorOverlay.SetCatalogueIndexSprite((int)PressureIndicatorState.YellowGreen);
 			}
 			else if (pressure >= 30 * AtmosConstants.ONE_ATMOSPHERE)
 			{
-				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.Yellow);
+				pressureIndicatorOverlay.SetCatalogueIndexSprite((int)PressureIndicatorState.Yellow);
 			}
 			else if (pressure >= 20 * AtmosConstants.ONE_ATMOSPHERE)
 			{
-				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.OrangeYellow);
+				pressureIndicatorOverlay.SetCatalogueIndexSprite((int)PressureIndicatorState.OrangeYellow);
 			}
 			else if (pressure >= 10 * AtmosConstants.ONE_ATMOSPHERE)
 			{
-				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.Orange);
+				pressureIndicatorOverlay.SetCatalogueIndexSprite((int)PressureIndicatorState.Orange);
 			}
 			else if (pressure >= 5 * AtmosConstants.ONE_ATMOSPHERE)
 			{
-				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.Red);
+				pressureIndicatorOverlay.SetCatalogueIndexSprite((int)PressureIndicatorState.Red);
 			}
 			else if (pressure >= 10)
 			{
-				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.RedFlashing);
+				pressureIndicatorOverlay.SetCatalogueIndexSprite((int)PressureIndicatorState.RedFlashing);
 			}
 			else
 			{
@@ -411,9 +411,9 @@ namespace Objects.Atmospherics
 
 			// We set present sprite SO here.
 			// If present SO is set in editor, then the overlays show in editor.
-			if (connectorHoseOverlay != null) connectorHoseOverlay.ChangeSprite(0);
-			if (tankInsertedOverlay != null) tankInsertedOverlay.ChangeSprite(0);
-			if (openValveOverlay != null) openValveOverlay.ChangeSprite(0);
+			if (connectorHoseOverlay != null) connectorHoseOverlay.SetCatalogueIndexSprite(0);
+			if (tankInsertedOverlay != null) tankInsertedOverlay.SetCatalogueIndexSprite(0);
+			if (openValveOverlay != null) openValveOverlay.SetCatalogueIndexSprite(0);
 
 			if (connectorHoseOverlay != null) connectorHoseOverlay.ToggleTexture(IsConnected);
 			if (tankInsertedOverlay != null) tankInsertedOverlay.ToggleTexture(HasContainerInserted);

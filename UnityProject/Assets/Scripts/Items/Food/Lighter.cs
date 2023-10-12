@@ -63,7 +63,7 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 			if (handler)
 			{
 				int newSpriteID = isLit ? LIT_SPRITE : DEFAULT_SPRITE;
-				handler.ChangeSprite(newSpriteID);
+				handler.SetCatalogueIndexSprite(newSpriteID);
 			}
 		}
 	}

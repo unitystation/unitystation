@@ -94,12 +94,12 @@ namespace Objects.Engineering
 		{
 			if (securable.IsAnchored)
 			{
-				baseSpriteHandler.ChangeSprite((int)SpriteState.Off);
+				baseSpriteHandler.SetCatalogueIndexSprite((int)SpriteState.Off);
 			}
 			else
 			{
 				ToggleOff();
-				baseSpriteHandler.ChangeSprite((int)SpriteState.Unsecured);
+				baseSpriteHandler.SetCatalogueIndexSprite((int)SpriteState.Unsecured);
 			}
 
 			ElectricalManager.Instance.electricalSync.StructureChange = true;
@@ -243,7 +243,7 @@ namespace Objects.Engineering
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			electricalNodeControl.TurnOnSupply();
-			baseSpriteHandler.ChangeSprite((int)SpriteState.On);
+			baseSpriteHandler.SetCatalogueIndexSprite((int)SpriteState.On);
 			isOn = true;
 		}
 
@@ -251,7 +251,7 @@ namespace Objects.Engineering
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			electricalNodeControl.TurnOffSupply();
-			baseSpriteHandler.ChangeSprite((int)SpriteState.Off);
+			baseSpriteHandler.SetCatalogueIndexSprite((int)SpriteState.Off);
 			isOn = false;
 		}
 

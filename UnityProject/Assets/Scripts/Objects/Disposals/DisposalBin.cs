@@ -172,7 +172,7 @@ namespace Objects.Disposals
 		{
 			if (MachineUnattached)
 			{
-				baseSpriteHandler.ChangeSprite((int) BinSprite.Sideways);
+				baseSpriteHandler.SetCatalogueIndexSprite((int) BinSprite.Sideways);
 				overlaysSpriteHandler.PushClear();
 				return;
 			}
@@ -185,8 +185,8 @@ namespace Objects.Disposals
 				_ => BinOverlaySprite.Ready,
 			};
 
-			baseSpriteHandler.ChangeSprite((int)baseSprite);
-			overlaysSpriteHandler.ChangeSprite((int)overlaySprite);
+			baseSpriteHandler.SetCatalogueIndexSprite((int)baseSprite);
+			overlaysSpriteHandler.SetCatalogueIndexSprite((int)overlaySprite);
 			overlaysSpriteHandler.PushTexture();
 
 			BinStateUpdated?.Invoke();
@@ -430,7 +430,7 @@ namespace Objects.Disposals
 			}
 			else
 			{
-				overlaysSpriteHandler.ChangeSprite(0);
+				overlaysSpriteHandler.SetCatalogueIndexSprite(0);
 				overlaysSpriteHandler.PushTexture();
 			}
 		}

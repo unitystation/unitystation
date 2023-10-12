@@ -241,7 +241,7 @@ namespace Objects.Engineering
 
 		public void ChangeState(ParticleAcceleratorState newState)
 		{
-			spriteHandler.ChangeSprite((int)newState);
+			spriteHandler.SetCatalogueIndexSprite((int)newState);
 
 			wrenchSecurable.blockAnchorChange = newState != ParticleAcceleratorState.Frame;
 

@@ -51,19 +51,19 @@ public class GhostSprites : MonoBehaviour
 	{
 		if (OrientationEnum.Down_By180 == direction)
 		{
-			SpriteHandler.ChangeSpriteVariant(0, networked:false);
+			SpriteHandler.SetSpriteVariant(0, networked:false);
 		}
 		else if (OrientationEnum.Up_By0 == direction)
 		{
-			SpriteHandler.ChangeSpriteVariant(1, networked:false);
+			SpriteHandler.SetSpriteVariant(1, networked:false);
 		}
 		else if (OrientationEnum.Right_By270 == direction)
 		{
-			SpriteHandler.ChangeSpriteVariant(2, networked:false);
+			SpriteHandler.SetSpriteVariant(2, networked:false);
 		}
 		else
 		{
-			SpriteHandler.ChangeSpriteVariant(3, networked:false);
+			SpriteHandler.SetSpriteVariant(3, networked:false);
 		}
 	}
 }

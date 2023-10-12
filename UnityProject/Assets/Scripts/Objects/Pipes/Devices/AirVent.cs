@@ -274,7 +274,7 @@ namespace Objects.Atmospherics
 			else
 			{
 				// No transitions; just set instantly.
-				spritehandler.ChangeSprite((int)desiredFinalSprite);
+				spritehandler.SetCatalogueIndexSprite((int)desiredFinalSprite);
 			}
 		}
 

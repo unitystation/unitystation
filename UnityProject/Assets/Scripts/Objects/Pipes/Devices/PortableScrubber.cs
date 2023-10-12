@@ -103,12 +103,12 @@ public class PortableScrubber : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (CurrentState)
 		{
 			AtmosManager.Instance.AddUpdate(UpdateMe);
-			Sprite.ChangeSprite(1);
+			Sprite.SetCatalogueIndexSprite(1);
 		}
 		else
 		{
 			AtmosManager.Instance.RemoveUpdate(UpdateMe);
-			Sprite.ChangeSprite(0);
+			Sprite.SetCatalogueIndexSprite(0);
 		}
 	}
 

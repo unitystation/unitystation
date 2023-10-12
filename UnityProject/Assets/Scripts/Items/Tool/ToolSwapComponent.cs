@@ -69,7 +69,7 @@ namespace Items
 				currentStateIndex = 0;
 			}
 
-			spriteHandler.ChangeSprite(CurrentState.spriteIndex);
+			spriteHandler.SetCatalogueIndexSprite(CurrentState.spriteIndex);
 			if (SetClothingSprite)
 			{
 				ClothingV2.ChangeSprite(states[currentStateIndex].clothingV2Index);

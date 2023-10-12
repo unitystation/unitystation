@@ -39,27 +39,19 @@ namespace Objects.Medical
 		{
 			CrewInfo.Clear();
 			var warn = false;
-			foreach (var playerInfo in PlayerList.Instance.AllPlayers)
+			foreach (var sensor in SuitSensor.WornAndActiveSensors)
 			{
-				if (playerInfo.Mind == null) continue;
-				if (playerInfo.Mind.NonImportantMind) continue;
-				var uniforms =
-					playerInfo.Mind.CurrentPlayScript.Equipment.ItemStorage.GetNamedItemSlots(NamedSlot.uniform);
-				foreach (var uniform in uniforms)
+				if (sensor.Mode == SuitSensor.SensorMode.OFF) continue; //hmmm This should theoretically never be hit
+				HealthInfo info = new HealthInfo
 				{
-					if (uniform.IsEmpty) continue;
-					if (uniform.ItemObject.TryGetComponent<SuitSensor>(out var sensor) == false) continue;
-					if (sensor.Mode == SuitSensor.SensorMode.OFF) continue;
-					HealthInfo info = new HealthInfo
-					{
-						Info = sensor.GetInfo(),
-						Mode = sensor.Mode,
-						HealthPercent = sensor.OverallHealth(playerInfo.Mind.CurrentPlayScript.playerHealth),
-					};
-					CrewInfo.Add(info);
-					if(info.HealthPercent <= 35f) warn = true;
-				}
+					Info = sensor.GetInfo(),
+					Mode = sensor.Mode,
+					HealthPercent = sensor.OverallHealth()
+				};
+				CrewInfo.Add(info);
+				if (info.HealthPercent <= 35f) warn = true;
 			}
+
 			if (warn) Warn();
 			OnScan?.Invoke();
 		}
