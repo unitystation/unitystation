@@ -71,7 +71,7 @@ namespace Systems.GhostRoles
 			MinPlayers = minPlayers;
 			MaxPlayers = maxPlayers;
 			roleListIndex = newRoleListIndex;
-			if (timeRemaining == -1)
+			if (timeRemaining.Approx(-1) == true)
 			{
 				stopCor = true;
 			}
