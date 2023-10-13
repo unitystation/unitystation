@@ -36,7 +36,7 @@ namespace Systems.GhostRoles
 		public bool RandomiseCharacterSheet { get; set; } = true;
 
 		/// <summary> Invoked when <see cref="TimeRemaining"/> hits zero.</summary>
-		public event Action OnTimerExpired;
+		public Action OnTimerExpired;
 
 		protected Coroutine timeoutCoroutine;
 		protected bool stopCor = false;
@@ -54,7 +54,7 @@ namespace Systems.GhostRoles
 		{
 			MinPlayers = minPlayers;
 			MaxPlayers = maxPlayers;
-			if (timeRemaining == -1)
+			if (timeRemaining.Approx(-1) == true)
 			{
 				stopCor = true;
 			} else if (stopCor == true)
@@ -84,7 +84,7 @@ namespace Systems.GhostRoles
 			TimeRemaining = timeRemaining;
 		}
 
-		protected IEnumerator TimeoutTimer(float timeRemaining)
+		protected virtual IEnumerator TimeoutTimer(float timeRemaining)
 		{
 			if (timeRemaining == -1) yield break; // -1 represents indefinite role
 
@@ -99,9 +99,9 @@ namespace Systems.GhostRoles
 				yield return WaitFor.EndOfFrame;
 			}
 
-			if ((this is GhostRoleServer && TimeRemaining == -2) || stopCor == true) // -2 represents role prematurely ended
+			if (stopCor == true)
 			{
-				yield break; // Don't invoke OnTimerExpired for premature endings
+				yield break;
 			}
 
 			OnTimerExpired?.Invoke();
@@ -211,6 +211,28 @@ namespace Systems.GhostRoles
 				player.Mind.occupation = RoleData.TargetOccupation;
 				player.Script.PlayerNetworkActions.ServerRespawnPlayer();
 			}
+		}
+
+		protected override IEnumerator TimeoutTimer(float timeRemaining)
+		{
+			if (timeRemaining == -1) yield break; // -1 represents indefinite role
+
+			TimeRemaining = timeRemaining;
+			while (TimeRemaining > 0)
+			{
+				TimeRemaining -= Time.deltaTime;
+
+				if (stopCor == true)
+					yield break;
+
+				yield return WaitFor.EndOfFrame;
+			}
+
+			if (TimeRemaining.Approx(-2) == true || stopCor == true) // -2 represents role prematurely ended
+			{
+				yield break; // Don't invoke OnTimerExpired for premature endings
+			}
+			OnTimerExpired?.Invoke();
 		}
 
 		private IEnumerator CreateQuickPlayerPool()
