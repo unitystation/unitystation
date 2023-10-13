@@ -86,7 +86,7 @@ namespace AdminTools
 					// it was deleted
 					RemoveEntry(info.Item2);
 				}
-			} else
+			} else if (role.TimeRemaining != -2) // -2 - ghost role was deleted
 			{
 				entry.SetActive(true);
 				var newEntry = Instantiate(entry, contentArea.transform).GetComponent<GhostRoleAdminEntry>();

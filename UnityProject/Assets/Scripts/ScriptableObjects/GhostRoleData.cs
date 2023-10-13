@@ -42,7 +42,7 @@ namespace ScriptableObjects
 		{
 			get
 			{
-				if (descriptionAdmin.Count() > 0)
+				if (descriptionAdmin != null && descriptionAdmin.Count() > 0)
 				{
 					return descriptionAdmin;
 				}

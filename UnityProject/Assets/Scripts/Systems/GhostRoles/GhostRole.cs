@@ -39,6 +39,7 @@ namespace Systems.GhostRoles
 		public event Action OnTimerExpired;
 
 		protected Coroutine timeoutCoroutine;
+		protected bool stopCor = false;
 
 		protected GhostRole(int roleDataIndex, uint roleKey)
 		{
@@ -53,6 +54,15 @@ namespace Systems.GhostRoles
 		{
 			MinPlayers = minPlayers;
 			MaxPlayers = maxPlayers;
+			if (timeRemaining == -1)
+			{
+				stopCor = true;
+			} else if (stopCor == true)
+			{
+				stopCor = false;
+				timeoutCoroutine = GhostRoleManager.Instance.StartCoroutine(TimeoutTimer(timeRemaining));
+				return;
+			}
 			TimeRemaining = timeRemaining;
 		}
 
@@ -60,8 +70,18 @@ namespace Systems.GhostRoles
 		{
 			MinPlayers = minPlayers;
 			MaxPlayers = maxPlayers;
-			TimeRemaining = timeRemaining;
 			roleListIndex = newRoleListIndex;
+			if (timeRemaining == -1)
+			{
+				stopCor = true;
+			}
+			else if (stopCor == true)
+			{
+				stopCor = false;
+				timeoutCoroutine = GhostRoleManager.Instance.StartCoroutine(TimeoutTimer(timeRemaining));
+				return;
+			}
+			TimeRemaining = timeRemaining;
 		}
 
 		protected IEnumerator TimeoutTimer(float timeRemaining)
@@ -72,10 +92,14 @@ namespace Systems.GhostRoles
 			while (TimeRemaining > 0)
 			{
 				TimeRemaining -= Time.deltaTime;
+
+				if (stopCor == true)
+					yield break;
+
 				yield return WaitFor.EndOfFrame;
 			}
 
-			if (this is GhostRoleServer && TimeRemaining == -2) // -2 represents role prematurely ended
+			if ((this is GhostRoleServer && TimeRemaining == -2) || stopCor == true) // -2 represents role prematurely ended
 			{
 				yield break; // Don't invoke OnTimerExpired for premature endings
 			}

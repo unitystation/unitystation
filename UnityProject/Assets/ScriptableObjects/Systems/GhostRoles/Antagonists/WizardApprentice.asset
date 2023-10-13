@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Apprentice Wizard
   description: Do the bidding of your master.
+  descriptionAdmin: Apprentice Wizard that helps wizard.
   sprite: {fileID: 11400000, guid: c251e51c37931a447966369525ec261e, type: 2}
   respawnType: 2
   targetOccupation: {fileID: 11400000, guid: 191fa13b4d14221479bf108a4c9628fa, type: 2}
@@ -21,4 +22,5 @@ MonoBehaviour:
   minPlayers: 1
   maxPlayers: 1
   timeout: 15
+  team: {fileID: 0}
   playerCountType: 2
