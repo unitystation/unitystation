@@ -189,7 +189,7 @@ namespace Items
 		{
 			if (Vector3.Distance(gameObject.AssumedWorldPosServer(), player.AssumedWorldPos) > 3.5)
 			{
-				Loggy.LogWarning("[MedicalTerminal/SwitchMode] - Prevented possible cheating from player who is far away from this option.");
+				Loggy.LogWarning($"[MedicalTerminal/SwitchMode] - Prevented possible cheating from player {player.playerName} who is far away from this option.");
 				return;
 			}
 
@@ -209,7 +209,7 @@ namespace Items
 		{
 			if (Vector3.Distance(gameObject.AssumedWorldPosServer(), player.AssumedWorldPos) > 3.5)
 			{
-				Loggy.LogWarning("[MedicalTerminal/TurnOnSuitSensor] - Prevented possible cheating from player who is far away from this option.");
+				Loggy.LogWarning($"[MedicalTerminal/TurnOnSuitSensor] - Prevented possible cheating from player {player.playerName} who is far away from this option.");
 				return;
 			}
 			Mode = SensorMode.VITALS;
@@ -225,7 +225,7 @@ namespace Items
 		{
 			if (Vector3.Distance(gameObject.AssumedWorldPosServer(), player.AssumedWorldPos) > 3.5)
 			{
-				Loggy.LogWarning("[MedicalTerminal/TurnOffSuitSensor] - Prevented possible cheating from player who is far away from this option.");
+				Loggy.LogWarning($"[MedicalTerminal/TurnOffSuitSensor] - Prevented possible cheating from player {player.playerName} who is far away from this option.");
 				return;
 			}
 			Mode = SensorMode.OFF;
