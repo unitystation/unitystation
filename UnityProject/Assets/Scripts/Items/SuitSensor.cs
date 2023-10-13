@@ -248,18 +248,12 @@ namespace Items
 			RightClickableResult result = new RightClickableResult();
 			if (Mode is not SensorMode.OFF)
 			{
-				result.AddElement("Turn off sensor", () =>
-				{
-					TurnOffSuitSensor(PlayerManager.LocalPlayerScript);
-				});
+				result.AddElement("Turn off sensor", () => TurnOffSuitSensor(PlayerManager.LocalPlayerScript));
 				result.AddElement("Change vitals tracking mode", () => SwitchMode(PlayerManager.LocalPlayerScript));
 			}
 			else
 			{
-				result.AddElement("Turn on sensor", () =>
-				{
-					TurnOnSuitSensor(PlayerManager.LocalPlayerScript);
-				});
+				result.AddElement("Turn on sensor", () => TurnOnSuitSensor(PlayerManager.LocalPlayerScript));
 			}
 
 			if (Input.GetKeyDown(KeyCode.LeftControl))
