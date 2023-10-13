@@ -241,7 +241,7 @@ namespace Lobby
 				// Check which task completed
 				if (completedTask == longRunningTask)
 				{
-					LoadManager.DoInMainThread(() => { lobbyDialogue.ShowMainPanel(); });
+					//LoadManager.DoInMainThread(() => { lobbyDialogue.ShowMainPanel(); });
 					Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited ServerData.ValidateUser(~~~) and showing main panel.");
 					return true;
 				}
