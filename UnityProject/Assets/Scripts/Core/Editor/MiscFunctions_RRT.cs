@@ -55,6 +55,254 @@ namespace Util
 		}
 
 
+		public static List<string> FilesToKeepInManaged = new List<string>()
+		{
+				"C5.dll",
+				"FastScriptReload.Tests.Runtime.dll",
+				"Firebase.App.dll",
+				"Firebase.Auth.dll",
+				"Firebase.Firestore.dll",
+				"Firebase.Platform.dll",
+				"Firebase.Storage.dll",
+				"Firebase.TaskExtension.dll",
+				"Google.MiniJson.dll",
+				"kcp2k.dll",
+				"Logger.dll",
+				"Mirror.Authenticators.dll",
+				"Mirror.Components.dll",
+				"Mirror.dll",
+				"Mirror.Examples.dll",
+				"Mirror.Ignorance.dll",
+				"Mirror.Transports.dll",
+				"Mono.Security.dll",
+				"mscorlib.dll",
+				"netstandard.dll",
+				"Newtonsoft.Json.dll",
+				"nunit.framework.dll",
+				"PlayerPrefsEditor.dll",
+				"SecureStuff.dll",
+				"SimpleWebTransport.dll",
+				"SunVoxplugin.dll",
+				"System.ComponentModel.Composition.dll",
+				"System.Configuration.dll",
+				"System.Core.dll",
+				"System.Data.DataSetExtensions.dll",
+				"System.Data.dll",
+				"System.dll",
+				"System.Drawing.dll",
+				"System.EnterpriseServices.dll",
+				"System.IO.Compression.dll",
+				"System.IO.Compression.FileSystem.dll",
+				"System.Net.Http.dll",
+				"System.Numerics.dll",
+				"System.Runtime.Serialization.dll",
+				"System.Security.dll",
+				"System.ServiceModel.Internals.dll",
+				"System.Transactions.dll",
+				"System.Xml.dll",
+				"System.Xml.Linq.dll",
+				"Telepathy.dll",
+				"Tomlyn.dll",
+				"UniTask.Addressables.dll",
+				"UniTask.dll",
+				"UniTask.DOTween.dll",
+				"UniTask.Linq.dll",
+				"UniTask.TextMeshPro.dll",
+				"Unity.2D.PixelPerfect.dll",
+				"Unity.2D.Tilemap.Extras.dll",
+				"Unity.Addressables.dll",
+				"Unity.Compat.dll",
+				"Unity.InternalAPIEngineBridge.003.dll",
+				"Unity.MemoryProfiler.dll",
+				"Unity.Multiplayer.Playmode.Common.Runtime.dll",
+				"Unity.Multiplayer.Playmode.dll",
+				"Unity.Postprocessing.Runtime.dll",
+				"Unity.ResourceManager.dll",
+				"Unity.ScriptableBuildPipeline.dll",
+				"Unity.Tasks.dll",
+				"Unity.TextMeshPro.dll",
+				"Unity.VectorGraphics.dll",
+				"UnityEngine.AccessibilityModule.dll",
+				"UnityEngine.AIModule.dll",
+				"UnityEngine.AndroidJNIModule.dll",
+				"UnityEngine.AnimationModule.dll",
+				"UnityEngine.ARModule.dll",
+				"UnityEngine.AssetBundleModule.dll",
+				"UnityEngine.AudioModule.dll",
+				"UnityEngine.ClothModule.dll",
+				"UnityEngine.ClusterInputModule.dll",
+				"UnityEngine.CommandStateObserverModule.dll",
+				"UnityEngine.ContentLoadModule.dll",
+				"UnityEngine.CoreModule.dll",
+				"UnityEngine.CrashReportingModule.dll",
+				"UnityEngine.DirectorModule.dll",
+				"UnityEngine.dll",
+				"UnityEngine.DSPGraphModule.dll",
+				"UnityEngine.GameCenterModule.dll",
+				"UnityEngine.GIModule.dll",
+				"UnityEngine.GraphToolsFoundationModule.dll",
+				"UnityEngine.GridModule.dll",
+				"UnityEngine.HotReloadModule.dll",
+				"UnityEngine.ImageConversionModule.dll",
+				"UnityEngine.IMGUIModule.dll",
+				"UnityEngine.InputLegacyModule.dll",
+				"UnityEngine.InputModule.dll",
+				"UnityEngine.JSONSerializeModule.dll",
+				"UnityEngine.LocalizationModule.dll",
+				"UnityEngine.MarshallingModule.dll",
+				"UnityEngine.NVIDIAModule.dll",
+				"UnityEngine.ParticleSystemModule.dll",
+				"UnityEngine.PerformanceReportingModule.dll",
+				"UnityEngine.Physics2DModule.dll",
+				"UnityEngine.PhysicsModule.dll",
+				"UnityEngine.ProfilerModule.dll",
+				"UnityEngine.PropertiesModule.dll",
+				"UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll",
+				"UnityEngine.ScreenCaptureModule.dll",
+				"UnityEngine.SharedInternalsModule.dll",
+				"UnityEngine.SpriteMaskModule.dll",
+				"UnityEngine.SpriteShapeModule.dll",
+				"UnityEngine.StreamingModule.dll",
+				"UnityEngine.SubstanceModule.dll",
+				"UnityEngine.SubsystemsModule.dll",
+				"UnityEngine.TerrainModule.dll",
+				"UnityEngine.TerrainPhysicsModule.dll",
+				"UnityEngine.TextCoreFontEngineModule.dll",
+				"UnityEngine.TextCoreTextEngineModule.dll",
+				"UnityEngine.TextRenderingModule.dll",
+				"UnityEngine.TilemapModule.dll",
+				"UnityEngine.TLSModule.dll",
+				"UnityEngine.UI.dll",
+				"UnityEngine.UIElementsModule.dll",
+				"UnityEngine.UIModule.dll",
+				"UnityEngine.UmbraModule.dll",
+				"UnityEngine.UnityAnalyticsCommonModule.dll",
+				"UnityEngine.UnityAnalyticsModule.dll",
+				"UnityEngine.UnityConnectModule.dll",
+				"UnityEngine.ClusterRendererModule.dll",
+				"UnityEngine.UnityCurlModule.dll",
+				"UnityEngine.UnityTestProtocolModule.dll",
+				"UnityEngine.UnityWebRequestAssetBundleModule.dll",
+				"UnityEngine.UnityWebRequestAudioModule.dll",
+				"UnityEngine.UnityWebRequestModule.dll",
+				"UnityEngine.UnityWebRequestTextureModule.dll",
+				"UnityEngine.UnityWebRequestWWWModule.dll",
+				"UnityEngine.VehiclesModule.dll",
+				"UnityEngine.VFXModule.dll",
+				"UnityEngine.VideoModule.dll",
+				"UnityEngine.VirtualTexturingModule.dll",
+				"UnityEngine.VRModule.dll",
+				"UnityEngine.WindModule.dll",
+				"UnityEngine.XRModule.dll",
+				"websocket-sharp.dll",
+				"YamlDotNet.dll",
+				"YamlDotNet.Examples.dll"
+			};
+
+
+		[MenuItem("Tools/𓀠 𓀠 𓀠 𓀠 GenGoodFiles 𓀂 𓀂 𓀂 𓀂")]
+		public static void GenGoodFiles()
+		{
+			BuildWindows();
+			BuildLinux();
+			BuildMac();
+		}
+
+		private static void BuildWindows()
+		{
+			string[] levels = new string[] {};
+
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
+			// Build player.
+			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Windows", "Unitystation.exe") , BuildTarget.StandaloneWindows64, BuildOptions.None);
+
+			var Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data\Managed"));
+
+			foreach (var file in Directory.GetFiles())
+			{
+				if (FilesToKeepInManaged.Contains(file.Name)) continue;
+				file.Delete();
+			}
+			Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data\Resources"));
+			Directory.Delete(true);
+			Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data\StreamingAssets"));
+			Directory.Delete(true);
+
+			Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data"));
+			foreach (var file in Directory.GetFiles())
+			{
+				file.Delete();
+			}
+		}
+
+
+		private static void BuildLinux()
+		{
+			string[] levels = new string[] {};
+
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
+			// Build player.
+			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Linux", "Unitystation.x86_64") , BuildTarget.StandaloneLinux64, BuildOptions.None);
+
+			var Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data\Managed"));
+
+			foreach (var file in Directory.GetFiles())
+			{
+				if (FilesToKeepInManaged.Contains(file.Name)) continue;
+				file.Delete();
+			}
+			Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data\Resources"));
+			Directory.Delete(true);
+			Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data\StreamingAssets"));
+			Directory.Delete(true);
+
+			Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data"));
+			foreach (var file in Directory.GetFiles())
+			{
+				file.Delete();
+			}
+		}
+
+		private static void BuildMac()
+		{
+			string[] levels = new string[] {};
+
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
+			// Build player.
+			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Mac", "Unitystation.x86_64") , BuildTarget.StandaloneOSX, BuildOptions.None);
+
+			var Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data\Managed"));
+
+			foreach (var file in Directory.GetFiles())
+			{
+				if (FilesToKeepInManaged.Contains(file.Name)) continue;
+				file.Delete();
+			}
+			Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data\Resources"));
+			Directory.Delete(true);
+			Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data\StreamingAssets"));
+			Directory.Delete(true);
+
+			Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data"));
+			foreach (var file in Directory.GetFiles())
+			{
+				file.Delete();
+			}
+		}
+
+
 		[MenuItem("Tools/Get Music keys")]
 		public static void GetMusicKeys()
 		{

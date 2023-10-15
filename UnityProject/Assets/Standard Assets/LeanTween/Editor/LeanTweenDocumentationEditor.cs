@@ -5,9 +5,12 @@ using UnityEditor;
 
 public class LeanTweenDocumentationEditor : Editor {
 
+
+
 	[MenuItem ("Help/LeanTween Documentation")]
 	static void openDocumentation()
 	{
+
 		#if !UNITY_3_5 && !UNITY_4_0 && !UNITY_4_0_1 && !UNITY_4_1 && !UNITY_4_2 && !UNITY_4_3
 		// Loops through all items in case the user has moved the default installation directory
 		string[] guids = AssetDatabase.FindAssets ("LeanTween", null);
@@ -46,7 +49,7 @@ public class LeanTweenDocumentationEditor : Editor {
 	[MenuItem ("Help/LeanTween Support (donate)")]
 	static void openLTDonate()
 	{
-		Application.OpenURL("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YJPUT3RAK5VL8");	
+		Application.OpenURL("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YJPUT3RAK5VL8");
 	}
 
 	[MenuItem ("Help/Dented Pixel News")]

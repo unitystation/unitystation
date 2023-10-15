@@ -1,0 +1,100 @@
+{
+  "format": 1,
+  "restore": {
+    "Q:\\Fast programmes\\ss13 development\\unitystation\\Tools\\CodeScanning\\CodeScan\\CodeScan\\CodeScan.csproj": {}
+  },
+  "projects": {
+    "Q:\\Fast programmes\\ss13 development\\unitystation\\Tools\\CodeScanning\\CodeScan\\CodeScan\\CodeScan.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "Q:\\Fast programmes\\ss13 development\\unitystation\\Tools\\CodeScanning\\CodeScan\\CodeScan\\CodeScan.csproj",
+        "projectName": "CodeScan",
+        "projectPath": "Q:\\Fast programmes\\ss13 development\\unitystation\\Tools\\CodeScanning\\CodeScan\\CodeScan\\CodeScan.csproj",
+        "packagesPath": "C:\\Users\\PCV3\\.nuget\\packages\\",
+        "outputPath": "Q:\\Fast programmes\\ss13 development\\unitystation\\Tools\\CodeScanning\\CodeScan\\CodeScan\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\PCV3\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.ILVerification": {
+              "target": "Package",
+              "version": "[8.0.0-rc.2.23479.6, )"
+            },
+            "Microsoft.Packaging.Tools.Trimming": {
+              "target": "Package",
+              "version": "[1.1.0-preview1-26619-01, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "Pidgin": {
+              "target": "Package",
+              "version": "[3.2.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Runtime.osx-x64",
+              "version": "[7.0.12, 7.0.12]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.osx-x64",
+              "version": "[7.0.12, 7.0.12]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Runtime.osx-x64",
+              "version": "[7.0.12, 7.0.12]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "osx-x64": {
+          "#import": []
+        }
+      }
+    }
+  }
+}
