@@ -80,6 +80,7 @@ public static class ThisMain
 				multiAssemblyReference.Add(Path.GetFileNameWithoutExtension(file.Name));
 			}
 
+			
 			foreach (var file in directory.GetFiles())
 			{
 				var listy = multiAssemblyReference.ToList();
