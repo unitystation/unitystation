@@ -54,7 +54,6 @@ namespace Util
 			UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
 		}
 
-
 		public static List<string> FilesToKeepInManaged = new List<string>()
 		{
 				"C5.dll",
