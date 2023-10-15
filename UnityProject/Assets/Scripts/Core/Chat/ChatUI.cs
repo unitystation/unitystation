@@ -18,6 +18,8 @@ namespace UI.Chat_UI
 {
 	public class ChatUI : SingletonManager<ChatUI>
 	{
+
+
 		public GameObject chatInputWindow = default;
 		public Transform content = default;
 		public GameObject chatEntryPrefab = default;

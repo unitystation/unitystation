@@ -112,7 +112,6 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		if (health.gameObject.TryGetComponent<CreatureTraumaManager>(out var traumaManager) == false) return false;
 		return traumaManager.HasAnyTraumaOfType(TraumaTypeToHeal) == false;
-
 	}
 
 	protected virtual void HealTrauma(LivingHealthMasterBase health, HandApply interaction)

@@ -23,6 +23,9 @@
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
+        "nunit.framework.dll",
+        "Newtonsoft.Json.dll",
+        "Shouldly.dll",
         "nunit.framework.dll"
     ],
     "autoReferenced": false,

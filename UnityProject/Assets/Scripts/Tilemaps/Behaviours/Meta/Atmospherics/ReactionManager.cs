@@ -210,7 +210,7 @@ namespace Systems.Atmospherics
 
 				if (pushable.CanBeWindPushed)
 				{
-					pushable.NewtonianPush(registerTile.transform.rotation * (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce),  spinFactor: Random.Range(1, 150));
+					pushable.NewtonianPush( (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce),  spinFactor: Random.Range(1, 150));
 				}
 
 
