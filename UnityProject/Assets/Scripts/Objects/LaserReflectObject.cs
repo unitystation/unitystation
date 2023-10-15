@@ -14,6 +14,7 @@ namespace Objects
 
 		public void OnHitDetect(OnHitDetectData data)
 		{
+			
 			//Only reflect lasers
 			if (data.BulletObject.TryGetComponent<Bullet>(out var bullet) == false || bullet.MaskData != laserData) return;
 
