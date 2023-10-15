@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using AddressableReferences;
 using Items;
+using Logs;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
@@ -56,9 +57,21 @@ namespace Objects.Medical
 			OnScan?.Invoke();
 		}
 
+		[Command(requiresAuthority = false)]
+		private void ToggleAlertSound(PlayerScript player)
+		{
+			if (Vector3.Distance(gameObject.AssumedWorldPosServer(), player.AssumedWorldPos) > 3.5)
+			{
+				Loggy.LogWarning($"[MedicalTerminal/ToggleAlertSound] - Prevented possible cheating from player {player.playerName} who is far away from this option.");
+				return;
+			}
+			muteWarn = !muteWarn;
+			Chat.AddExamineMsg(player.gameObject, $"{gameObject.ExpensiveName()}'s alert system has been set to: {muteWarn}");
+		}
+
 		public RightClickableResult GenerateRightClickOptions()
 		{
-			return new RightClickableResult().AddElement("Toggle Alert Sound", () => muteWarn = !muteWarn);
+			return new RightClickableResult().AddElement("Toggle Alert Sound", () => ToggleAlertSound(PlayerManager.LocalPlayerScript));
 		}
 	}
 }

@@ -15,7 +15,7 @@
         "NaughtyAttributes.Core",
         "Shared",
         "Permissions",
-        ""
+        "Utils"
     ],
     "includePlatforms": [
         "Editor"
@@ -25,7 +25,8 @@
     "overrideReferences": true,
     "precompiledReferences": [
         "nunit.framework.dll",
-        "Newtonsoft.Json.dll"
+        "Newtonsoft.Json.dll",
+        "Shouldly.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [
