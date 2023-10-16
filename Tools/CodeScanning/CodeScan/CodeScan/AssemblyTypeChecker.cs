@@ -29,7 +29,7 @@ namespace UnitystationLauncher.ContentScanning
 	{
 		// Used to be in Sandbox.yml, moved out of there to facilitate faster loading.
 		private const string SystemAssemblyName = "mscorlib"; //TODO check security
-		//UnityEngine.dll
+		//UnityEngine
 		//mscorlib
 		//System.Runtime
 
@@ -81,7 +81,7 @@ namespace UnitystationLauncher.ContentScanning
                 return assembly;
             }
 
-            FileInfo[] files = _managedPath.GetFiles("*.dll"); // Change the file extension to match your DLLs
+            FileInfo[] files = _managedPath.GetFiles("*"); // Change the file extension to match your DLLs
 
             foreach (FileInfo file in files)
             {
@@ -95,7 +95,7 @@ namespace UnitystationLauncher.ContentScanning
                 }
             }
 
-	        files = BackupDlls.GetFiles("*.dll"); // Change the file extension to match your DLLs
+	        files = BackupDlls.GetFiles("*"); // Change the file extension to match your DLLs
 
             foreach (FileInfo file in files)
             {

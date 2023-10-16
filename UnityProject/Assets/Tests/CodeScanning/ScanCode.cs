@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -60,26 +61,38 @@ namespace Tests
 
 			ExecutablePath = ExecutablePath.Replace("UnityProject", @"Tools\CodeScanning\CodeScan\CodeScan\bin\Debug\net7.0");
 
+
+			var ExtractionPath = ExecutablePath;
+			var FolderZip = ExecutablePath;
 			var FolderError = "";
 			FolderError = ExecutablePath;
 			if (Application.platform == RuntimePlatform.WindowsEditor)
 			{
-				FolderError += @"\win-x64\";
+				FolderZip = Path.Combine(FolderZip, @"win-x64.zip");
+				FolderError = Path.Combine(FolderError, @"win-x64");
 				ExecutablePath += @"\win-x64\CodeScan.exe";
 				path += @"\Windows";
 			}
 			else if (Application.platform == RuntimePlatform.LinuxEditor)
 			{
-				FolderError += @"\linux-x64\";
+				FolderZip = Path.Combine(FolderZip, @"linux-x64.zip");
+				FolderError = Path.Combine(FolderError, @"linux-x64");
 				ExecutablePath += @"\linux-x64\CodeScan";
 				path += @"\Linux";
 			}
 			else if (Application.platform == RuntimePlatform.OSXEditor)
 			{
-				FolderError += @"\osx-x64\";
+				FolderZip = Path.Combine(FolderZip, @"osx-x64.zip");
+				FolderError = Path.Combine(FolderError, @"osx-x64");
 				ExecutablePath += @"\osx-x64\CodeScan";
 				path += @"\Mac";
 			}
+
+			if (Directory.Exists(FolderError) == false)
+			{
+				ZipFile.ExtractToDirectory(FolderZip , ExtractionPath);
+			}
+
 
 			// Create a new process
 			Process process = new Process();
@@ -114,7 +127,7 @@ namespace Tests
 
 
 			var Errors = JsonConvert.DeserializeObject<List<string>>(File.ReadAllText(
-				FolderError + "errors.json"));
+				FolderError + "/errors.json"));
 
 			foreach (var Error in Errors)
 			{

@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Import Project="$(NuGetPackageRoot)microsoft.packaging.tools.trimming\1.1.0-preview1-26619-01\build\Microsoft.Packaging.Tools.Trimming.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.packaging.tools.trimming\1.1.0-preview1-26619-01\build\Microsoft.Packaging.Tools.Trimming.targets')" />
-  </ImportGroup>
-</Project>
