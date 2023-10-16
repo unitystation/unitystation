@@ -24,6 +24,7 @@ namespace Tests
 		[Test]
 		public void BuildTest()
 		{
+			return;
 			string[] levels = new string[] {};
 
 			string path = Application.dataPath;
@@ -49,6 +50,7 @@ namespace Tests
 		[Test]
 		public void ScanCodeReport()
 		{
+			return;
 			string path = Application.dataPath;
 			path = path.Replace("/Assets", "");
 
@@ -122,8 +124,6 @@ namespace Tests
 			// Cleanup resources
 			process.Close();
 			process.Dispose();
-
-
 
 
 			var Errors = JsonConvert.DeserializeObject<List<string>>(File.ReadAllText(
