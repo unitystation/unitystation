@@ -166,15 +166,7 @@ namespace Objects.Security
 				status = value;
 				if (diff)
 				{
-					try
-					{
-						OnWantedLevelChange?.Invoke();
-					}
-					catch (Exception e)
-					{
-						Loggy.LogError(e.ToString());
-
-					}
+					IdentityChangeOrWantedLevel();
 				}
 			}
 		}
@@ -195,6 +187,19 @@ namespace Objects.Security
 			Fingerprints = "-";
 			Status = SecurityStatus.None;
 			Crimes = new List<SecurityRecordCrime>();
+		}
+
+		public void IdentityChangeOrWantedLevel()
+		{
+			try
+			{
+				OnWantedLevelChange?.Invoke();
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+
+			}
 		}
 	}
 }
