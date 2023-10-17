@@ -28,7 +28,7 @@ public class MedicalHUD : NetworkBehaviour, IHUD
 	[SyncVar(hook = nameof(SyncHealthBarPercentage))]
 	public HealthBarPercentage CurrentHealthBarPercentage = HealthBarPercentage.Full100;
 
-	public void Awake()
+	public void Start()
 	{
 		PlayerScript =  this.GetComponentCustom<PlayerScript>();
 		HealthStateController = this.GetComponentCustom<HealthStateController>();
@@ -36,6 +36,7 @@ public class MedicalHUD : NetworkBehaviour, IHUD
 		HealthStateController.ServerOverallHealthChange += SetNewHealthServer;
 		HUDHandler.AddNewHud(this);
 	}
+
 
 	public void SetUp()
 	{
