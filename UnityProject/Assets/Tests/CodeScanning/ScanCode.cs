@@ -24,9 +24,6 @@ namespace Tests
 		[Test]
 		public void BuildTest()
 		{
-			var report = new TestReport();
-			report.AssertPassed();
-			return;
 			string[] levels = new string[] {};
 
 			string path = Application.dataPath;
@@ -52,9 +49,6 @@ namespace Tests
 		[Test]
 		public void ScanCodeReport()
 		{
-			var aareport = new TestReport();
-			aareport.AssertPassed();
-			return;
 			string path = Application.dataPath;
 			path = path.Replace("/Assets", "");
 
