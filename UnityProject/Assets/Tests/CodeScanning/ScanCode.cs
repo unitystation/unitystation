@@ -104,7 +104,6 @@ namespace Tests
 			process.StartInfo.UseShellExecute = false;
 			process.StartInfo.RedirectStandardOutput = true;
 			process.StartInfo.RedirectStandardError = true;
-
 			process.StartInfo.Arguments = $">\"{path}\"";
 
 			// Handle the OutputDataReceived event
