@@ -174,31 +174,7 @@ public static class ThisMain
 
 		if (MemoryClearingMode)
 		{
-			string strCmdText;
-			while (true)
-			{
-				string cacheFile = "/proc/sys/vm/drop_caches";
-				int cacheValue = 3; // Value to clear pagecache, dentries, and inodes
 
-				try
-				{
-					using (StreamWriter writer = File.CreateText(cacheFile))
-					{
-						writer.Write(cacheValue.ToString());
-					}
-
-					Console.WriteLine("Caches cleared successfully.");
-				}
-				catch (UnauthorizedAccessException)
-				{
-					Console.WriteLine("You need administrative privileges to clear caches.");
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine($"An error occurred: {ex.Message}");
-				}
-				Thread.Sleep(1000 * 60 * 1);
-			}
 		}
 		else
 		{

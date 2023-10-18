@@ -23,69 +23,8 @@ namespace Tests
 		[Test]
 		public void BuildTest()
 		{
-			Process process = null;
-			if (Application.platform == RuntimePlatform.LinuxEditor)
-			{
-				string path = Application.dataPath;
-				path = path.Replace("/Assets", "");
 
-				var ExecutablePath = path;
-
-				path = Path.Combine(path, "Build");
-
-				var report = new TestReport();
-
-
-				ExecutablePath = ExecutablePath.Replace("UnityProject",
-					@"Tools/CodeScanning/CodeScan/CodeScan/bin/Debug/net7.0");
-
-
-				var ExtractionPath = ExecutablePath;
-				var FolderZip = ExecutablePath;
-				var FolderError = "";
-				FolderError = ExecutablePath;
-				if (Application.platform == RuntimePlatform.WindowsEditor)
-				{
-					FolderZip = Path.Combine(FolderZip, @"win-x64.zip");
-					FolderError = Path.Combine(FolderError, @"win-x64");
-					ExecutablePath += @"/win-x64/CodeScan.exe";
-				}
-				else if (Application.platform == RuntimePlatform.LinuxEditor)
-				{
-					FolderZip = Path.Combine(FolderZip, @"linux-x64.zip");
-					FolderError = Path.Combine(FolderError, @"linux-x64");
-					ExecutablePath += @"/linux-x64/CodeScan";
-				}
-				else if (Application.platform == RuntimePlatform.OSXEditor)
-				{
-					FolderZip = Path.Combine(FolderZip, @"osx-x64.zip");
-					FolderError = Path.Combine(FolderError, @"osx-x64");
-					ExecutablePath += @"/osx-x64/CodeScan";
-				}
-
-				ExecutablePath = ExecutablePath.Replace("UnityProject",
-					@"Tools/CodeScanning/CodeScan/CodeScan/bin/Debug/net7.0");
-
-				if (Directory.Exists(FolderError) == false)
-				{
-					ZipFile.ExtractToDirectory(FolderZip, ExtractionPath);
-				}
-
-				ProcessStartInfo startInfo = new ProcessStartInfo
-				{
-					FileName = "sudo",
-					Arguments = ExecutablePath + " " + $"@",
-					UseShellExecute = false,
-					RedirectStandardOutput = true,
-					RedirectStandardError = true
-				};
-
-				process = new Process { StartInfo = startInfo };
-				process.Start();
-			}
-
-
-			string[] levels = new string[] { };
+			string[] levels = new string[] { "Assets/EmptyScene.unity" };
 
 
 			string pathBuilt = Application.dataPath;
@@ -107,14 +46,6 @@ namespace Tests
 			{
 				BuildPipeline.BuildPlayer(levels, Path.Combine(pathBuilt, "Mac", "Unitystation.x86_64"),
 					BuildTarget.StandaloneOSX, BuildOptions.None);
-			}
-
-
-			if (Application.platform == RuntimePlatform.LinuxEditor)
-			{
-				// Cleanup resources
-				process.Close();
-				process.Dispose();
 			}
 		}
 
