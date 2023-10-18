@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using Shouldly;
 using UnityEngine.TestTools;
 using Util.Independent.FluentRichText;
 using Util.Independent.FluentRichText.Styles;
@@ -18,7 +17,7 @@ namespace Tests.RichTextTests
 			AlignStrategy strategy = new(alignment);
 			const string text = "text";
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<align=\"{alignment}\">{text}</align>");
+			Assert.AreEqual($"<align=\"{alignment}\">{text}</align>", actual);
 		}
 
 		[Test]
@@ -27,7 +26,7 @@ namespace Tests.RichTextTests
 			BoldStrategy strategy = new();
 			const string text = "text";
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<b>{text}</b>");
+			Assert.AreEqual($"<b>{text}</b>", actual);
 		}
 
 		[Test]
@@ -36,7 +35,7 @@ namespace Tests.RichTextTests
 			ItalicStrategy strategy = new();
 			const string text = "text";
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<i>{text}</i>");
+			Assert.AreEqual($"<i>{text}</i>", actual);
 		}
 
 		[Test]
@@ -46,7 +45,7 @@ namespace Tests.RichTextTests
 			const string font = "Arial";
 			FontStrategy strategy = new(font);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<font=\"{font}\">{text}</font>");
+			Assert.AreEqual($"<font=\"{font}\">{text}</font>", actual);
 		}
 
 		[Test]
@@ -59,7 +58,7 @@ namespace Tests.RichTextTests
 			SpacingStrategy strategy = new(validSpacing);
 			const string text = "text";
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<cspace={validSpacing}>{text}</cspace>");
+			Assert.AreEqual($"<cspace={validSpacing}>{text}</cspace>", actual);
 		}
 
 		[Test]
@@ -72,7 +71,7 @@ namespace Tests.RichTextTests
 			SpacingStrategy strategy = new(invalidSpacing);
 			const string text = "text";
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe(text);
+			Assert.AreEqual(text, actual);
 		}
 
 		[Test]
@@ -86,7 +85,7 @@ namespace Tests.RichTextTests
 			AlphaStrategy strategy = new(validAlpha);
 			string actual = strategy.ApplyStyle(text);
 			int alphaValue = (int)Math.Round(255 * (validAlpha / 100.0), MidpointRounding.AwayFromZero);
-			actual.ShouldBe($"<alpha=#{alphaValue:X2}>{text}</alpha>");
+			Assert.AreEqual($"<alpha=#{alphaValue:X2}>{text}</alpha>", actual);
 		}
 
 		[Test]
@@ -98,7 +97,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			AlphaStrategy strategy = new(invalidAlpha);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe(text);
+			Assert.AreEqual(text, actual);
 		}
 
 		[Test]
@@ -115,7 +114,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			ColorStrategy strategy = new(namedColor);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<color=\"{namedColor.ToString().ToLower()}\">{text}</color>");
+			Assert.AreEqual($"<color=\"{namedColor.ToString().ToLower()}\">{text}</color>", actual);
 		}
 
 		[Test]
@@ -127,7 +126,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			ColorStrategy strategy = new(validHexColor);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<color={validHexColor}>{text}</color>");
+			Assert.AreEqual($"<color={validHexColor}>{text}</color>", actual);
 		}
 
 		[Test]
@@ -140,7 +139,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			ColorStrategy strategy = new(invalidHexColor);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe(text);
+			Assert.AreEqual(text, actual);
 		}
 
 		[Test]
@@ -154,7 +153,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			IndentStrategy strategy = new(validIndent);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<indent={validIndent}>{text}</indent>");
+			Assert.AreEqual(text, actual);
 		}
 
 		[Test]
@@ -168,7 +167,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			IndentStrategy strategy = new(invalidIndent);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe(text);
+			Assert.AreEqual(text, actual);
 		}
 
 		[Test]
@@ -182,7 +181,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			LineHeightStrategy strategy = new(validLineHeight);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<line-height={validLineHeight}>{text}</line-height>");
+			Assert.AreEqual(text, actual);
 		}
 
 		[Test]
@@ -196,7 +195,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			LineHeightStrategy strategy = new(invalidLineHeight);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe(text);
+			Assert.AreEqual(text, actual);
 		}
 
 		[Test]
@@ -210,7 +209,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			LineIndentationStrategy strategy = new(validLineIndentation);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<line-indentation={validLineIndentation}>{text}</line-indentation>");
+			Assert.AreEqual($"<line-indentation={validLineIndentation}>{text}</line-indentation>", actual);
 		}
 
 		[Test]
@@ -224,7 +223,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			LineIndentationStrategy strategy = new(invalidLineIndentation);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe(text);
+			Assert.AreEqual(text, actual);
 		}
 
 		[Test]
@@ -234,7 +233,7 @@ namespace Tests.RichTextTests
 			const string url = "https://www.google.com";
 			LinkStrategy strategy = new(url);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<link=\"{url}\">{text}</link>");
+			Assert.AreEqual($"<link=\"{url}\">{text}</link>", actual);
 		}
 
 		[Test]
@@ -243,7 +242,7 @@ namespace Tests.RichTextTests
 			const string text = "TEXT";
 			LowerCaseStrategy strategy = new();
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<lowercase>{text}</lowercase>");
+			Assert.AreEqual($"<lowercase>{text}</lowercase>", actual);
 		}
 
 		[Test]
@@ -252,7 +251,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			UpperCaseStrategy strategy = new();
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<uppercase>{text}</uppercase>");
+			Assert.AreEqual($"<uppercase>{text}</uppercase>", actual);
 		}
 
 		[Test]
@@ -261,7 +260,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			SmallCapsStrategy strategy = new();
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<smallcaps>{text}</smallcaps>");
+			Assert.AreEqual($"<smallcaps>{text}</smallcaps>", actual);
 		}
 
 		[Test]
@@ -275,7 +274,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			MarginStrategy strategy = new(validMargin);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<margin={validMargin}>{text}</margin>");
+			Assert.AreEqual($"<margin={validMargin}>{text}</margin>", actual);
 		}
 
 		[Test]
@@ -289,7 +288,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			MarginStrategy strategy = new(invalidMargin);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe(text);
+			Assert.AreEqual(text, actual);
 		}
 
 		[Test]
@@ -302,7 +301,7 @@ namespace Tests.RichTextTests
 			MarginStrategy strategy = new(validMargin, direction);
 			string actual = strategy.ApplyStyle(text);
 			string stringDirection = direction.ToString().ToLower();
-			actual.ShouldBe($"<margin-{stringDirection}={validMargin}>{text}</margin-{stringDirection}>");
+			Assert.AreEqual($"<margin-{stringDirection}={validMargin}>{text}</margin-{stringDirection}>", actual);
 		}
 
 		[Test]
@@ -312,7 +311,7 @@ namespace Tests.RichTextTests
 			const string validMargin = "15%";
 			MarginStrategy strategy = new(validMargin, MarginDirection.All);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<margin={validMargin}>{text}</margin>");
+			Assert.AreEqual($"<margin={validMargin}>{text}</margin>", actual);
 		}
 
 		[Test]
@@ -324,7 +323,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			MarkStrategy strategy = new(hexColor);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<mark={hexColor}>{text}</mark>");
+			Assert.AreEqual($"<mark={hexColor}>{text}</mark>", actual);
 		}
 
 		[Test]
@@ -336,7 +335,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			MonospaceStrategy strategy = new(validCharacterWidth);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<mspace={validCharacterWidth}>{text}</mspace>");
+			Assert.AreEqual($"<mspace={validCharacterWidth}>{text}</mspace>", actual);
 		}
 
 		[Test]
@@ -351,7 +350,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			MonospaceStrategy strategy = new(invalidCharacterWidth);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe(text);
+			Assert.AreEqual(text, actual);
 		}
 
 		[Test]
@@ -360,7 +359,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			NoParseStrategy strategy = new();
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<noparse>{text}</noparse>");
+			Assert.AreEqual($"<noparse>{text}</noparse>", actual);
 		}
 
 		[Test]
@@ -369,7 +368,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			NonBreakingSpacesStrategy strategy = new();
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<nobr>{text}</nobr>");
+			Assert.AreEqual($"<nobr>{text}</nobr>", actual);
 		}
 
 		[Test]
@@ -382,7 +381,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			HorizontalPositionStrategy strategy = new(validPosition);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<pos={validPosition}>{text}</pos>");
+			Assert.AreEqual($"<pos={validPosition}>{text}</pos>", actual);
 
 		}
 
@@ -397,7 +396,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			HorizontalPositionStrategy strategy = new(invalidPosition);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe(text);
+			Assert.AreEqual(text, actual);
 		}
 
 		[Test]
@@ -411,7 +410,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			FontSizeStrategy strategy = new(validFontSize);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<size={validFontSize}>{text}</size>");
+			Assert.AreEqual($"<size={validFontSize}>{text}</size>", actual);
 		}
 
 		[Test]
@@ -425,7 +424,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			FontSizeStrategy strategy = new(invalidFontSize);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe(text);
+			Assert.AreEqual(text, actual);
 		}
 
 		[Test]
@@ -438,7 +437,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			SpaceStrategy strategy = new(validSpace);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"{text}<space={validSpace}>");
+			Assert.AreEqual($"{text}<space={validSpace}>", actual);
 		}
 
 		[Test]
@@ -452,7 +451,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			SpaceStrategy strategy = new(invalidSpace);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe(text);
+			Assert.AreEqual(text, actual);
 		}
 
 		[Test]
@@ -461,7 +460,7 @@ namespace Tests.RichTextTests
 			SpriteStrategy spriteStrategy = new(1);
 			const string expected = "<sprite=1>";
 			string actual = spriteStrategy.ApplyStyle("");
-			actual.ShouldBe(expected);
+			Assert.AreEqual(expected, actual);
 		}
 
 		[Test]
@@ -470,7 +469,7 @@ namespace Tests.RichTextTests
 			SpriteStrategy spriteStrategy = new("clown");
 			const string expected = "<sprite name=\"clown\">";
 			string actual = spriteStrategy.ApplyStyle("");
-			actual.ShouldBe(expected);
+			Assert.AreEqual(expected, actual);
 		}
 
 		[Test]
@@ -479,7 +478,7 @@ namespace Tests.RichTextTests
 			SpriteStrategy spriteStrategy = new("atlas", 1);
 			const string expected = "<sprite=\"atlas\" index=1>";
 			string actual = spriteStrategy.ApplyStyle("");
-			actual.ShouldBe(expected);
+			Assert.AreEqual(expected, actual);
 		}
 
 		[Test]
@@ -488,7 +487,7 @@ namespace Tests.RichTextTests
 			SpriteStrategy spriteStrategy = new("atlas", "clown");
 			const string expected = "<sprite=\"atlas\" name=\"clown\">";
 			string actual = spriteStrategy.ApplyStyle("");
-			actual.ShouldBe(expected);
+			Assert.AreEqual(expected, actual);
 		}
 
 		[Test]
@@ -497,7 +496,7 @@ namespace Tests.RichTextTests
 			StrikethroughStrategy strategy = new();
 			const string text = "text";
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<s>{text}</s>");
+			Assert.AreEqual($"<s>{text}</s>", actual);
 		}
 
 		[Test]
@@ -506,7 +505,7 @@ namespace Tests.RichTextTests
 			UnderlineStrategy strategy = new();
 			const string text = "text";
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<u>{text}</u>");
+			Assert.AreEqual($"<u>{text}</u>", actual);
 		}
 
 		[Test]
@@ -516,7 +515,7 @@ namespace Tests.RichTextTests
 			const string style = "my-style";
 			CustomStyleStrategy strategy = new(style);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<style=\"my-style\">{text}</style>");
+			Assert.AreEqual($"<style=\"my-style\">{text}</style>", actual);
 		}
 
 		[Test]
@@ -525,7 +524,7 @@ namespace Tests.RichTextTests
 			SubscriptStrategy strategy = new();
 			const string text = "text";
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<sub>{text}</sub>");
+			Assert.AreEqual($"<sub>{text}</sub>", actual);
 		}
 
 		[Test]
@@ -534,7 +533,7 @@ namespace Tests.RichTextTests
 			SuperscriptStrategy strategy = new();
 			const string text = "text";
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<sup>{text}</sup>");
+			Assert.AreEqual($"<sup>{text}</sup>", actual);
 		}
 
 		[Test]
@@ -547,7 +546,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			VerticalOffsetStrategy strategy = new(amount);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<voffset={amount}>{text}</voffset>");
+			Assert.AreEqual($"<voffset={amount}>{text}</voffset>", actual);
 		}
 
 		[Test]
@@ -561,7 +560,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			VerticalOffsetStrategy strategy = new(invalidAmount);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe(text);
+			Assert.AreEqual(text, actual);
 		}
 
 		[Test]
@@ -574,7 +573,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			WidthStrategy strategy = new(validWidth);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe($"<width={validWidth}>{text}</width>");
+			Assert.AreEqual($"<width={validWidth}>{text}</width>", actual);
 		}
 
 		[Test]
@@ -588,7 +587,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			WidthStrategy strategy = new(invalidWidth);
 			string actual = strategy.ApplyStyle(text);
-			actual.ShouldBe(text);
+			Assert.AreEqual(text, actual);
 		}
 
 	}
