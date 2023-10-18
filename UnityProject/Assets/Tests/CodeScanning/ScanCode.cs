@@ -20,38 +20,107 @@ namespace Tests
 {
 	public class ScanCode
 	{
-
 		[Test]
 		public void BuildTest()
 		{
-			return;
-			string[] levels = new string[] {};
+			Process process = null;
+			if (Application.platform == RuntimePlatform.LinuxEditor)
+			{
+				string path = Application.dataPath;
+				path = path.Replace("/Assets", "");
+
+				var ExecutablePath = path;
+
+				path = Path.Combine(path, "Build");
+
+				var report = new TestReport();
 
 
-			string path = Application.dataPath;
-			path = path.Replace("/Assets", "");
+				ExecutablePath = ExecutablePath.Replace("UnityProject",
+					@"Tools\CodeScanning\CodeScan\CodeScan\bin\Debug\net7.0");
 
-			path = Path.Combine(path, "Build");
+
+				var ExtractionPath = ExecutablePath;
+				var FolderZip = ExecutablePath;
+				var FolderError = "";
+				FolderError = ExecutablePath;
+				if (Application.platform == RuntimePlatform.WindowsEditor)
+				{
+					FolderZip = Path.Combine(FolderZip, @"win-x64.zip");
+					FolderError = Path.Combine(FolderError, @"win-x64");
+					ExecutablePath += @"\win-x64\CodeScan.exe";
+				}
+				else if (Application.platform == RuntimePlatform.LinuxEditor)
+				{
+					FolderZip = Path.Combine(FolderZip, @"linux-x64.zip");
+					FolderError = Path.Combine(FolderError, @"linux-x64");
+					ExecutablePath += @"\linux-x64\CodeScan";
+				}
+				else if (Application.platform == RuntimePlatform.OSXEditor)
+				{
+					FolderZip = Path.Combine(FolderZip, @"osx-x64.zip");
+					FolderError = Path.Combine(FolderError, @"osx-x64");
+					ExecutablePath += @"\osx-x64\CodeScan";
+				}
+
+				ExecutablePath = ExecutablePath.Replace("UnityProject",
+					@"Tools\CodeScanning\CodeScan\CodeScan\bin\Debug\net7.0");
+
+				if (Directory.Exists(FolderError) == false)
+				{
+					ZipFile.ExtractToDirectory(FolderZip, ExtractionPath);
+				}
+
+				ProcessStartInfo startInfo = new ProcessStartInfo
+				{
+					FileName = "sudo",
+					Arguments = ExecutablePath + " " + $"@",
+					UseShellExecute = false,
+					RedirectStandardOutput = true,
+					RedirectStandardError = true
+				};
+
+				process = new Process { StartInfo = startInfo };
+				process.Start();
+			}
+
+
+			string[] levels = new string[] { };
+
+
+			string pathBuilt = Application.dataPath;
+			pathBuilt = pathBuilt.Replace("/Assets", "");
+
+			pathBuilt = Path.Combine(pathBuilt, "Build");
 
 			if (Application.platform == RuntimePlatform.WindowsEditor)
 			{
-				BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Windows", "Unitystation.exe"), BuildTarget.StandaloneWindows64, BuildOptions.None);
+				BuildPipeline.BuildPlayer(levels, Path.Combine(pathBuilt, "Windows", "Unitystation.exe"),
+					BuildTarget.StandaloneWindows64, BuildOptions.None);
 			}
 			else if (Application.platform == RuntimePlatform.LinuxEditor)
 			{
-				BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Linux", "Unitystation.x86_64") , BuildTarget.StandaloneLinux64, BuildOptions.None);
+				BuildPipeline.BuildPlayer(levels, Path.Combine(pathBuilt, "Linux", "Unitystation.x86_64"),
+					BuildTarget.StandaloneLinux64, BuildOptions.None);
 			}
 			else if (Application.platform == RuntimePlatform.OSXEditor)
 			{
-				BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Mac", "Unitystation.x86_64") , BuildTarget.StandaloneOSX, BuildOptions.None);
+				BuildPipeline.BuildPlayer(levels, Path.Combine(pathBuilt, "Mac", "Unitystation.x86_64"),
+					BuildTarget.StandaloneOSX, BuildOptions.None);
 			}
 
+
+			if (Application.platform == RuntimePlatform.LinuxEditor)
+			{
+				// Cleanup resources
+				process.Close();
+				process.Dispose();
+			}
 		}
 
 		[Test]
 		public void ScanCodeReport()
 		{
-
 			string path = Application.dataPath;
 			path = path.Replace("/Assets", "");
 
@@ -62,7 +131,8 @@ namespace Tests
 			var report = new TestReport();
 
 
-			ExecutablePath = ExecutablePath.Replace("UnityProject", @"Tools\CodeScanning\CodeScan\CodeScan\bin\Debug\net7.0");
+			ExecutablePath =
+				ExecutablePath.Replace("UnityProject", @"Tools\CodeScanning\CodeScan\CodeScan\bin\Debug\net7.0");
 
 
 			var ExtractionPath = ExecutablePath;
@@ -93,7 +163,7 @@ namespace Tests
 
 			if (Directory.Exists(FolderError) == false)
 			{
-				ZipFile.ExtractToDirectory(FolderZip , ExtractionPath);
+				ZipFile.ExtractToDirectory(FolderZip, ExtractionPath);
 			}
 
 
@@ -136,7 +206,6 @@ namespace Tests
 
 
 			report.Log().AssertPassed();
-
 		}
 	}
 }
