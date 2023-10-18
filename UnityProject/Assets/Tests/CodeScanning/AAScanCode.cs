@@ -18,7 +18,7 @@ using Debug = UnityEngine.Debug;
 
 namespace Tests
 {
-	public class ScanCode
+	public class AAScanCode
 	{
 		[Test]
 		public void BuildTest()
