@@ -37,7 +37,7 @@ namespace Tests
 
 
 				ExecutablePath = ExecutablePath.Replace("UnityProject",
-					@"Tools\CodeScanning\CodeScan\CodeScan\bin\Debug\net7.0");
+					@"Tools/CodeScanning/CodeScan/CodeScan/bin/Debug/net7.0");
 
 
 				var ExtractionPath = ExecutablePath;
@@ -48,23 +48,23 @@ namespace Tests
 				{
 					FolderZip = Path.Combine(FolderZip, @"win-x64.zip");
 					FolderError = Path.Combine(FolderError, @"win-x64");
-					ExecutablePath += @"\win-x64\CodeScan.exe";
+					ExecutablePath += @"/win-x64/CodeScan.exe";
 				}
 				else if (Application.platform == RuntimePlatform.LinuxEditor)
 				{
 					FolderZip = Path.Combine(FolderZip, @"linux-x64.zip");
 					FolderError = Path.Combine(FolderError, @"linux-x64");
-					ExecutablePath += @"\linux-x64\CodeScan";
+					ExecutablePath += @"/linux-x64/CodeScan";
 				}
 				else if (Application.platform == RuntimePlatform.OSXEditor)
 				{
 					FolderZip = Path.Combine(FolderZip, @"osx-x64.zip");
 					FolderError = Path.Combine(FolderError, @"osx-x64");
-					ExecutablePath += @"\osx-x64\CodeScan";
+					ExecutablePath += @"/osx-x64/CodeScan";
 				}
 
 				ExecutablePath = ExecutablePath.Replace("UnityProject",
-					@"Tools\CodeScanning\CodeScan\CodeScan\bin\Debug\net7.0");
+					@"Tools/CodeScanning/CodeScan/CodeScan/bin/Debug/net7.0");
 
 				if (Directory.Exists(FolderError) == false)
 				{
@@ -132,7 +132,7 @@ namespace Tests
 
 
 			ExecutablePath =
-				ExecutablePath.Replace("UnityProject", @"Tools\CodeScanning\CodeScan\CodeScan\bin\Debug\net7.0");
+				ExecutablePath.Replace("UnityProject", @"Tools/CodeScanning/CodeScan/CodeScan/bin/Debug/net7.0");
 
 
 			var ExtractionPath = ExecutablePath;
@@ -143,22 +143,22 @@ namespace Tests
 			{
 				FolderZip = Path.Combine(FolderZip, @"win-x64.zip");
 				FolderError = Path.Combine(FolderError, @"win-x64");
-				ExecutablePath += @"\win-x64\CodeScan.exe";
-				path += @"\Windows";
+				ExecutablePath += @"/win-x64/CodeScan.exe";
+				path += @"/Windows";
 			}
 			else if (Application.platform == RuntimePlatform.LinuxEditor)
 			{
 				FolderZip = Path.Combine(FolderZip, @"linux-x64.zip");
 				FolderError = Path.Combine(FolderError, @"linux-x64");
-				ExecutablePath += @"\linux-x64\CodeScan";
-				path += @"\Linux";
+				ExecutablePath += @"/linux-x64/CodeScan";
+				path += @"/Linux";
 			}
 			else if (Application.platform == RuntimePlatform.OSXEditor)
 			{
 				FolderZip = Path.Combine(FolderZip, @"osx-x64.zip");
 				FolderError = Path.Combine(FolderError, @"osx-x64");
-				ExecutablePath += @"\osx-x64\CodeScan";
-				path += @"\Mac";
+				ExecutablePath += @"/osx-x64/CodeScan";
+				path += @"/Mac";
 			}
 
 			if (Directory.Exists(FolderError) == false)
