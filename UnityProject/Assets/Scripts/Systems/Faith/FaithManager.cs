@@ -41,7 +41,7 @@ namespace Systems.Faith
 
 		private void LongUpdate()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 			foreach (var update in FaithPropertiesEventUpdate)
 			{
 				update?.Invoke();

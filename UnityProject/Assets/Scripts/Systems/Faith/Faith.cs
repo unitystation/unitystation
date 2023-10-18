@@ -17,6 +17,9 @@ namespace Systems.Faith
 
 		[SerializeReference, SelectImplementation(typeof(IFaithProperty))]
 		public List<IFaithProperty> FaithProperties = new List<IFaithProperty>();
+
+		[SerializeReference, SelectImplementation(typeof(IFaithProperty))]
+		public List<IFaithMiracle> FaithMiracles = new List<IFaithMiracle>();
 	}
 
 	public enum ToleranceToOtherFaiths
