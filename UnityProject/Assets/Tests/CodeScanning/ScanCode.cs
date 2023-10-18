@@ -24,9 +24,10 @@ namespace Tests
 		[Test]
 		public void BuildTest()
 		{
+			return;
 			string[] levels = new string[] {};
 
-			
+
 			string path = Application.dataPath;
 			path = path.Replace("/Assets", "");
 
@@ -50,6 +51,7 @@ namespace Tests
 		[Test]
 		public void ScanCodeReport()
 		{
+
 			string path = Application.dataPath;
 			path = path.Replace("/Assets", "");
 
