@@ -23,9 +23,8 @@ namespace Tests
 		[Test]
 		public void BuildTest()
 		{
-
 			string[] levels = new string[] { "Assets/EmptyScene.unity" };
-			
+
 			string pathBuilt = Application.dataPath;
 			pathBuilt = pathBuilt.Replace("/Assets", "");
 
