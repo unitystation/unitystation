@@ -23,7 +23,7 @@ namespace Messages.Client.Admin
 				{
 					var player = PlayerList.Instance.GetPlayerByID(msg.playerForRequestID);
 
-					PlayerObjectiveManagerPage.ProceedServerObjectivesUpdate(info.Objectives, player.Mind);
+					PlayerObjectiveManagerPage.ProceedServerObjectivesUpdate(info, player.Mind);
 				}
 				catch (Exception ex)
 				{
@@ -32,13 +32,8 @@ namespace Messages.Client.Admin
 			}
 		}
 
-		public static NetMessage Send(string playerForRequestID, List<ObjectiveInfo> info)
+		public static NetMessage Send(string playerForRequestID, AntagonistInfo objs)
 		{
-			var objs = new AntagonistInfo()
-			{
-				Objectives = info
-			};
-
 			NetMessage msg = new NetMessage
 			{
 				playerForRequestID = playerForRequestID,

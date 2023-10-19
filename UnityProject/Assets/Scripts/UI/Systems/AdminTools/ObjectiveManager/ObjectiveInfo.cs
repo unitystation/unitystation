@@ -22,4 +22,5 @@ public class AntagonistInfo
 {
 	public List<ObjectiveInfo> Objectives = new();
 	public short antagID = -1;
+	public bool IsAntagCanSeeObjectivesStatus;
 }

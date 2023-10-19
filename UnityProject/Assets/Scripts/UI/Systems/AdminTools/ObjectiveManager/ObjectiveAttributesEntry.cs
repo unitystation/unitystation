@@ -18,6 +18,7 @@ namespace AdminTools
 		private Objective obj;
 
 		[SerializeField] private TMP_InputField inputNumber;
+		[SerializeField] private GameObject inputNumberBackground;
 		[SerializeField] private Dropdown inputPlayer;
 		[SerializeField] private Dropdown inputItem;
 
@@ -42,6 +43,7 @@ namespace AdminTools
 		{
 			if (currentAttribute.type == ObjectiveAttributeType.ObjectiveAttributeNumber)
 			{
+				inputNumberBackground.SetActive(true);
 				inputNumber.gameObject.SetActive(true);
 				inputPlayer.gameObject.SetActive(false);
 				inputItem.gameObject.SetActive(false);

@@ -27,6 +27,9 @@ namespace ScriptableObjects
 		[SerializeField, Range(1, 16)] private int maxPlayers = 1;
 		[InfoBox("Set to -1 for no timeout.", EInfoBoxType.Normal)]
 		[SerializeField, Range(-1, 120)] private float timeout = 30;
+		[SerializeField]
+		private bool canBeAddedByAdmin = true;
+		public bool CanBeAddedByAdmin => canBeAddedByAdmin;
 
 		[Tooltip("The team of the ghost type")]
 		[SerializeField]

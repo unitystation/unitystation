@@ -141,7 +141,11 @@ namespace AdminTools
 				}
 				if (ghostRoleInfo.IsNew)
 				{
-					ghostRoleInfo.RoleKey = (int)GhostRoleManager.Instance.ServerCreateRole(GhostRoleList.Instance.FromIndex((short)ghostRoleInfo.RoleIndex));
+					var ghostRoleData = GhostRoleList.Instance.FromIndex((short)ghostRoleInfo.RoleIndex);
+					if (ghostRoleData != null && ghostRoleData.CanBeAddedByAdmin == true)
+					{
+						ghostRoleInfo.RoleKey = (int)GhostRoleManager.Instance.ServerCreateRole(ghostRoleData);
+					}
 				} else if (ghostRoleInfo.ToRemove)
 				{
 					GhostRoleManager.Instance.ServerRemoveRole((uint)ghostRoleInfo.RoleKey);

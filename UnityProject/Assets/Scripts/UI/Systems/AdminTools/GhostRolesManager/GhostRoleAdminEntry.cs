@@ -48,6 +48,8 @@ namespace AdminTools
 			var options = new List<Dropdown.OptionData>();
 			foreach (var x in GhostRoleList.Instance.GhostRoles)
 			{
+				if (x.CanBeAddedByAdmin == false)
+					continue;
 				var option = new Dropdown.OptionData
 				{
 					text = x.Name

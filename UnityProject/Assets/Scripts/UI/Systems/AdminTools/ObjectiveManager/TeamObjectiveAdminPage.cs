@@ -29,6 +29,8 @@ public class TeamObjectiveAdminPage : MonoBehaviour
 	private GameObject playersAddEntry;
 	[SerializeField]
 	private Dropdown playersDropdown;
+	[SerializeField]
+	private GameObject membersListObj;
 
 	[SerializeField]
 	private TeamEntry entryTeam;
@@ -242,12 +244,15 @@ public class TeamObjectiveAdminPage : MonoBehaviour
 		if (players.Count == 0 || team.CanBeAddedNewMembers == false)
 		{
 			playersAddEntry.SetActive(false);
-			return;
-		}
-		playersAddEntry.SetActive(true);
+		} else
+		{
+			playersAddEntry.SetActive(true);
 
-		playersDropdown.AddOptions(players);
-		playersDropdown.value = 0;
+			playersDropdown.AddOptions(players);
+			playersDropdown.value = 0;
+		}
+
+		membersListObj.SetActive(!team.IsStationTeam);
 	}
 
 	/// <summary>

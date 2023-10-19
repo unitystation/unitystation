@@ -26,6 +26,10 @@ namespace AdminTools
 		[SerializeField] private GameObject attributesContentArea;
 		private readonly List<ObjectiveAttributesEntry> addedAttributesEntries = new List<ObjectiveAttributesEntry>();
 
+		private bool IsAntagCanSeeObjectivesStatusLocal = false;
+		[SerializeField]
+		private Text IsAntagCanSeeObjectivesStatusButtonText;
+
 		private AdminPlayerEntry player;
 
 		/// <summary>
@@ -74,6 +78,8 @@ namespace AdminTools
 			addEntry.transform.SetAsLastSibling();
 			LoadObjectives(antagInfo.antagID);
 			OnSelectedObjectiveChange();
+			IsAntagCanSeeObjectivesStatusLocal = antagInfo.IsAntagCanSeeObjectivesStatus;
+			RefreshObjectiveStatusSeeable();
 		}
 
 		private void LoadObjectives(short antagID)
@@ -173,6 +179,24 @@ namespace AdminTools
 			addEntry.transform.SetAsLastSibling();
 		}
 
+		public void RefreshObjectiveStatusSeeable()
+		{
+			if (IsAntagCanSeeObjectivesStatusLocal == true)
+			{
+				IsAntagCanSeeObjectivesStatusButtonText.color = new Color(0.8f, 0.2f, 0.2f);
+			}
+			else
+			{
+				IsAntagCanSeeObjectivesStatusButtonText.color = new Color(1f, 1f, 0.2f);
+			}
+		}
+
+		public void ToggleObjectiveStatusSeeable()
+		{
+			IsAntagCanSeeObjectivesStatusLocal = !IsAntagCanSeeObjectivesStatusLocal;
+			RefreshObjectiveStatusSeeable();
+		}
+
 		/// <summary>
 		/// Send edited objectives to server and refreshes page
 		/// </summary>
@@ -184,7 +208,13 @@ namespace AdminTools
 				toSend.Add(x.RelatedObjective);
 			}
 
-			RequestAdminObjectiveUpdateMessage.Send(player.PlayerData.uid, toSend);
+			var objs = new AntagonistInfo()
+			{
+				Objectives = toSend,
+				IsAntagCanSeeObjectivesStatus = IsAntagCanSeeObjectivesStatusLocal
+			};
+
+			RequestAdminObjectiveUpdateMessage.Send(player.PlayerData.uid, objs);
 
 			Init(player);
 		}
@@ -196,8 +226,9 @@ namespace AdminTools
 		/// <param name="info"></param>
 		/// <param name="playerMind"></param>
 		[Server]
-		public static void ProceedServerObjectivesUpdate(List<ObjectiveInfo> info, Mind playerMind)
+		public static void ProceedServerObjectivesUpdate(AntagonistInfo genInfo, Mind playerMind)
 		{
+			List<ObjectiveInfo> info = genInfo.Objectives;
 			bool updated = false;
 			foreach (var x in info)
 			{
@@ -256,6 +287,8 @@ namespace AdminTools
 					}
 				}
 			}
+
+			playerMind.AntagPublic.IsAntagCanSeeObjectivesStatus = genInfo.IsAntagCanSeeObjectivesStatus;
 			//if objectives updated - why not show them to player?
 			if (updated == true)
 			{

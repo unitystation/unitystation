@@ -22,6 +22,7 @@ namespace Antagonists
 		public Antagonist Antagonist => curAntagonist;
 
 		public Team CurTeam { get; set; } = null;
+		public bool IsAntagCanSeeObjectivesStatus { get; set; } = false;
 
 		/// <summary>
 		/// Player controlling this antag.
@@ -63,6 +64,7 @@ namespace Antagonists
 		public void Clear()
 		{
 			Objectives = new List<Objective>();
+			IsAntagCanSeeObjectivesStatus = false;
 			curAntagonist = null;
 		}
 
@@ -91,19 +93,19 @@ namespace Antagonists
 				objSB.Append($"</i><size={ChatTemplates.VeryLargeText}><color=red>You are a <b>{Antagonist.AntagName}</b>!</color></size>\n");
 			} else
 			{
-				objSB.Append($"</i><size={ChatTemplates.VeryLargeText}><color=red>You are a <b>CHOISED</b> to have objectives!</color></size>\n");
+				objSB.Append($"</i><size={ChatTemplates.VeryLargeText}><color=red>You have objectives!</color></size>\n");
 			}
 			var objectiveList = Objectives.ToList();
 			objSB.AppendLine("Your objectives are:");
 			for (int i = 0; i < objectiveList.Count; i++)
 			{
-				if (objectiveList[i] is CustomObjective obj)
+				if (IsAntagCanSeeObjectivesStatus == true)
 				{
-					objSB.AppendLine($"{i + 1}. {objectiveList[i].Description}: ");
-					objSB.Append(objectiveList[i].IsComplete() ? "<color=green>Completed\n" : "In progress/Failed\n");
+					objSB.AppendLine($"{i + 1}. {objectiveList[i].Description}:");
+					objSB.AppendLine(objectiveList[i].IsComplete() ? "<color=green>Completed\n" : "In progress/Failed");
 				} else
 				{
-					objSB.AppendLine($"{i+1}. {objectiveList[i].Description}");
+					objSB.AppendLine($"{i + 1}. {objectiveList[i].Description}");
 				}
 			}
 			if (CurTeam != null)

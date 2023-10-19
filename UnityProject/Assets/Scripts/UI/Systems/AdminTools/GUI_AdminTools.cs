@@ -143,6 +143,7 @@ namespace AdminTools
 			teamObjectivePage.gameObject.SetActive(true);
 			teamObjectivePage.Init(this);
 			windowTitle.text = "TEAM OBJECTIVES";
+			retrievingDataScreen.SetActive(true);
 		}
 
 		public void ShowGhostRolesPage()

@@ -33,18 +33,20 @@ namespace Messages.Client.Admin
 			{
 				objectivesInfo.antagID = AntagData.Instance.GetIndexAntag(player.Mind.AntagPublic.Antagonist);
 			}
+			objectivesInfo.IsAntagCanSeeObjectivesStatus = player.Mind.AntagPublic.IsAntagCanSeeObjectivesStatus;
 
 			for (int i = 0; i < player.Mind.AntagPublic.Objectives.Count(); i++)
 			{
 				var x = player.Mind.AntagPublic.Objectives.ElementAt(i);
-				var objInfo = new ObjectiveInfo();
-
-				objInfo.Status = x.IsComplete();
-				objInfo.Description = x.Description;
-				objInfo.Name = x.name;
-				objInfo.ID = x.ID;
-				objInfo.IsCustom = x is CustomObjective;
-				objInfo.PrefabID = AntagData.Instance.GetIndexObj(x);
+				var objInfo = new ObjectiveInfo
+				{
+					Status = x.IsComplete(),
+					Description = x.Description,
+					Name = x.name,
+					ID = x.ID,
+					IsCustom = x is CustomObjective,
+					PrefabID = AntagData.Instance.GetIndexObj(x)
+				};
 
 				objectivesInfo.Objectives.Add(objInfo);
 			}
