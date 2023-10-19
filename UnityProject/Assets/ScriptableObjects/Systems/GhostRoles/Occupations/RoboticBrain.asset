@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Robotic Brain available
   description: Players a cyborg/AI on the station
+  descriptionAdmin: 
   sprite: {fileID: 11400000, guid: c7732c011efa7184ea05c5014b33e414, type: 2}
   respawnType: 2
   targetOccupation: {fileID: 11400000, guid: 4576b42d0f055f4439fcafb8cf87b7ca, type: 2}
@@ -21,4 +22,6 @@ MonoBehaviour:
   minPlayers: 1
   maxPlayers: 1
   timeout: -1
+  canBeAddedByAdmin: 0
+  team: {fileID: 0}
   playerCountType: 2
