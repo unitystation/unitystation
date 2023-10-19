@@ -64,7 +64,7 @@ jobs:
       - name: Set Swap Space
         uses: pierotofy/set-swap-space@master
         with:
-          swap-size-gb: 5
+          swap-size-gb: 8
       # Run tests - only edit mode supported
       # Note: exits with non-zero on legitimate test fails, "if: always()" is needed for reporting
       - name: Run tests
