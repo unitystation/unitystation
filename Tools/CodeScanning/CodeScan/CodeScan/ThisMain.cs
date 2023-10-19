@@ -183,7 +183,7 @@ public static class ThisMain
 				Action<string> info = new Action<string>((string log) => { Infos.Add(log); });
 				Action<string> error = new Action<string>((string log) => { Errors.Add(log); });
 
-				var goodPath = @"Q:\Fast programmes\ss13 development\unitystation\UnityProject\Build\Windows";
+				var goodPath = @"Q:/Fast programmes/ss13 development/unitystation/UnityProject/Build/Windows";
 
 				foreach (var arg in args)
 				{
@@ -202,19 +202,19 @@ public static class ThisMain
 
 				if (OperatingSystem.IsWindows())
 				{
-					ManagedPath = @"Unitystation_Data\Managed";
+					ManagedPath = @"Unitystation_Data/Managed";
 					OSText = "Windows";
 				}
 
 				if (OperatingSystem.IsLinux())
 				{
-					ManagedPath = @"Unitystation_Data\Managed";
+					ManagedPath = @"Unitystation_Data/Managed";
 					OSText = "Linux";
 				}
 
 				if (OperatingSystem.IsMacOS())
 				{
-					ManagedPath = @"Mac.app\Contents\Resources\Data\Managed";
+					ManagedPath = @"Mac.app/Contents/Resources/Data/Managed";
 					OSText = "Mac";
 				}
 
