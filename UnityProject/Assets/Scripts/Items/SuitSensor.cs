@@ -4,6 +4,7 @@ using System.Text;
 using HealthV2;
 using Items.PDA;
 using JetBrains.Annotations;
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -44,6 +45,14 @@ namespace Items
 			burnColor = ColorUtility.ToHtmlStringRGB(Color.yellow);
 			toxinColor = ColorUtility.ToHtmlStringRGB(Color.green);
 			oxylossColor = ColorUtility.ToHtmlStringRGB(new Color(0.50f, 0.50f, 1));
+		}
+
+		public void OnDestroy()
+		{
+			if (WornAndActiveSensors.Contains(this))
+			{
+				WornAndActiveSensors.Remove(this);
+			}
 		}
 
 		public void ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
@@ -114,12 +123,12 @@ namespace Items
 			StringBuilder sensorReport = new StringBuilder();
 			RegisterPlayer player = pickupable.ItemSlot.RootPlayer();
 			LivingHealthMasterBase health = player.PlayerScript.playerHealth;
-			var Identification = GetIdentification();
+			var identification = GetIdentification();
 
 			var personName = "???";
-			if (Identification != null)
+			if (identification != null)
 			{
-				personName = $"{Identification.RegisteredName} ({Identification.GetJobTitle()})";
+				personName = $"{identification.RegisteredName} ({identification.GetJobTitle()})";
 			}
 			sensorReport.Append($"{personName}");
 			if (Mode == SensorMode.FULL) sensorReport.Append($" - {OverallHealth(health)}%");
@@ -144,34 +153,46 @@ namespace Items
 			return sensorReport.ToString();
 		}
 
-
-		public IDCard GetIdentification()
+		private IDCard GetIdentification()
 		{
-			var SlotsOccupied = itemStorage.GetOccupiedSlots();
-			foreach (var SlotOccupied in SlotsOccupied)
+			var slotsOccupied = itemStorage.GetOccupiedSlots();
+			foreach (var slotOccupied in slotsOccupied)
 			{
-				var IDCard = SlotOccupied.Item.GetComponentCustom<IDCard>();
-				if (IDCard == null)
+				var idCard = slotOccupied.Item.GetComponentCustom<IDCard>();
+				if (idCard == null)
 				{
-					var PDA = SlotOccupied.Item.GetComponentCustom<PDALogic>();
+					var PDA = slotOccupied.Item.GetComponentCustom<PDALogic>();
 					if (PDA != null)
 					{
-						IDCard = PDA.GetIDCard();
+						idCard = PDA.GetIDCard();
 					}
 				}
-
-				if (IDCard != null)
+				if (idCard != null)
 				{
-					return IDCard;
+					return idCard;
 				}
 			}
 
+			if (pickupable.ItemSlot.RootPlayer() != null)
+			{
+				foreach (var slotId in pickupable.ItemSlot.RootPlayer().PlayerScript.Equipment.ItemStorage.GetNamedItemSlots(NamedSlot.id))
+				{
+					if (slotId.IsEmpty) continue;
+					return slotId.Item.GetComponent<IDCard>();
+				}
+			}
 			return null;
-
 		}
 
-		private void SwitchMode()
+		[Command(requiresAuthority = false)]
+		private void SwitchMode(PlayerScript player)
 		{
+			if (Vector3.Distance(gameObject.AssumedWorldPosServer(), player.AssumedWorldPos) > 3.5)
+			{
+				Loggy.LogWarning($"[MedicalTerminal/SwitchMode] - Prevented possible cheating from player {player.playerName} who is far away from this option.");
+				return;
+			}
+
 			Mode = Mode switch
 			{
 				SensorMode.OFF => SensorMode.OFF,
@@ -181,6 +202,38 @@ namespace Items
 				_ => throw new ArgumentOutOfRangeException()
 			};
 			Chat.AddExamineMsg(PlayerManager.LocalPlayerObject, $"Changed sensors to {Mode}");
+		}
+
+		[Command(requiresAuthority = false)]
+		private void TurnOnSuitSensor(PlayerScript player)
+		{
+			if (Vector3.Distance(gameObject.AssumedWorldPosServer(), player.AssumedWorldPos) > 3.5)
+			{
+				Loggy.LogWarning($"[MedicalTerminal/TurnOnSuitSensor] - Prevented possible cheating from player {player.playerName} who is far away from this option.");
+				return;
+			}
+			Mode = SensorMode.VITALS;
+			if (WornAndActiveSensors.Contains(this) == false)
+			{
+				WornAndActiveSensors.Add(this);
+			}
+			Chat.AddExamineMsg(player.gameObject, $"Turned on the {gameObject.ExpensiveName()}'s suit sensors.");
+		}
+
+		[Command(requiresAuthority = false)]
+		private void TurnOffSuitSensor(PlayerScript player)
+		{
+			if (Vector3.Distance(gameObject.AssumedWorldPosServer(), player.AssumedWorldPos) > 3.5)
+			{
+				Loggy.LogWarning($"[MedicalTerminal/TurnOffSuitSensor] - Prevented possible cheating from player {player.playerName} who is far away from this option.");
+				return;
+			}
+			Mode = SensorMode.OFF;
+			if (WornAndActiveSensors.Contains(this))
+			{
+				WornAndActiveSensors.Remove(this);
+			}
+			Chat.AddExamineMsg(player.gameObject, $"Turned off the {gameObject.ExpensiveName()}'s suit sensors.");
 		}
 
 		public RightClickableResult GenerateRightClickOptions()
@@ -195,41 +248,19 @@ namespace Items
 			RightClickableResult result = new RightClickableResult();
 			if (Mode is not SensorMode.OFF)
 			{
-				result.AddElement("Turn off sensor", () =>
-				{
-					Mode = SensorMode.OFF;
-					if (WornAndActiveSensors.Contains(this))
-					{
-						WornAndActiveSensors.Remove(this);
-					}
-				});
-				result.AddElement("Change vitals tracking mode", SwitchMode);
+				result.AddElement("Turn off sensor", () => TurnOffSuitSensor(PlayerManager.LocalPlayerScript));
+				result.AddElement("Change vitals tracking mode", () => SwitchMode(PlayerManager.LocalPlayerScript));
 			}
 			else
 			{
-				result.AddElement("Turn on sensor", () =>
-				{
-					Mode = SensorMode.VITALS;
-					if (WornAndActiveSensors.Contains(this) == false)
-					{
-						WornAndActiveSensors.Add(this);
-					}
-				});
+				result.AddElement("Turn on sensor", () => TurnOnSuitSensor(PlayerManager.LocalPlayerScript));
 			}
 
 			if (Input.GetKeyDown(KeyCode.LeftControl))
 			{
-				result.AddElement("[Debug]", () => Chat.AddExamineMsg(PlayerManager.LocalPlayerObject, $"{GetInfo()}"), Color.red);
+				result.AddElement("[Debug]", () => Chat.AddExamineMsg(PlayerManager.LocalPlayerObject, $"{GetInfo()} \n {Mode}"), Color.red);
 			}
 			return result;
-		}
-
-		public void OnDestroy()
-		{
-			if (WornAndActiveSensors.Contains(this))
-			{
-				WornAndActiveSensors.Remove(this);
-			}
 		}
 	}
 }
