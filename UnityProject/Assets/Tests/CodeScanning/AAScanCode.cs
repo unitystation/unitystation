@@ -97,6 +97,33 @@ namespace Tests
 				ZipFile.ExtractToDirectory(FolderZip, ExtractionPath);
 			}
 
+			if (Application.platform == RuntimePlatform.LinuxEditor || Application.platform == RuntimePlatform.OSXEditor)
+			{
+				string filePath = ExecutablePath; // Replace with the actual file path
+
+				// Use the Process class to run the chmod command
+				Process chmodProcess = new Process();
+				chmodProcess.StartInfo.FileName = "chmod";
+				chmodProcess.StartInfo.Arguments = "+x " + filePath;
+				chmodProcess.StartInfo.UseShellExecute = false;
+				chmodProcess.StartInfo.CreateNoWindow = true;
+				chmodProcess.StartInfo.RedirectStandardOutput = true;
+				chmodProcess.StartInfo.RedirectStandardError = true;
+
+				chmodProcess.Start();
+				chmodProcess.WaitForExit();
+				if (chmodProcess.ExitCode == 0)
+				{
+					UnityEngine.Debug.Log("File marked as executable.");
+				}
+				else
+				{
+					UnityEngine.Debug.Log("Failed to mark the file as executable. Exit code: " + chmodProcess.ExitCode);
+					UnityEngine.Debug.Log(chmodProcess.StandardError.ReadToEnd());
+				}
+
+			}
+
 
 			// Create a new process
 			Process process = new Process();
