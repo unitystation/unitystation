@@ -153,7 +153,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			IndentStrategy strategy = new(validIndent);
 			string actual = strategy.ApplyStyle(text);
-			Assert.AreEqual(text, actual);
+			Assert.AreEqual($"<indent={validIndent}>{text}</indent>", actual);
 		}
 
 		[Test]
@@ -181,7 +181,7 @@ namespace Tests.RichTextTests
 			const string text = "text";
 			LineHeightStrategy strategy = new(validLineHeight);
 			string actual = strategy.ApplyStyle(text);
-			Assert.AreEqual(text, actual);
+			Assert.AreEqual($"<line-height={validLineHeight}>{text}</line-height>", actual);
 		}
 
 		[Test]
