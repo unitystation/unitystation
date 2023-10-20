@@ -55,6 +55,12 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	private bool canClickPickup = false;
 
 	/// <summary>
+	/// Flags if you want the UI action to show or not
+	/// </summary>
+	[SerializeField] [Tooltip("Flags if you want the UI action to show or not")]
+	private bool showUIAction = true;
+
+	/// <summary>
 	/// Flag to determine if this can empty out all items by activating it
 	/// </summary>
 	[SerializeField] [Tooltip("Can you empty out all items by activating this item?")]
@@ -672,7 +678,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		{
 			if (hideForPlayer != null)
 			{
-				UIActionManager.ToggleServer(hideForPlayer.gameObject, this, false);
+				if (showUIAction) UIActionManager.ToggleServer(hideForPlayer.gameObject, this, false);
 				itemStorage.ServerRemoveAllObserversExceptOwner();
 				ObserveInteractableStorageMessage.Send(hideForPlayer.PlayerScript.gameObject, this, false);
 			}
@@ -680,7 +686,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			if (showForPlayer != null)
 			{
 				itemStorage.ServerAddObserverPlayer(showForPlayer.PlayerScript.gameObject);
-				UIActionManager.ToggleServer(showForPlayer.gameObject, this, true);
+				if (showUIAction) UIActionManager.ToggleServer(showForPlayer.gameObject, this, true);
 			}
 		}
 	}
