@@ -16,6 +16,7 @@ public class ChangeSpriteByItemStorage : MonoBehaviour
 
     void Start()
     {
+	    if (CustomNetworkManager.IsServer == false) return;
 	    Storage = this.GetComponent<ItemStorage>();
 	    ItemSlot = Storage.GetItemSlots().First();
 	    ItemSlot.OnSlotContentsChangeServer.AddListener(UpdateSprite);
