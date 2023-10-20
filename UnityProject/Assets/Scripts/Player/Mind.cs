@@ -27,7 +27,28 @@ public class Mind : NetworkBehaviour, IActionGUI
 {
 	[SyncVar(hook = nameof(SyncActiveOn))] private uint IDActivelyControlling;
 
-	[SyncVar] public bool IsGhosting;
+	[SyncVar] public bool isGhosting;
+
+	public bool IsGhosting
+	{
+		get
+		{
+			if (isOwned || isServer)
+			{
+				return isGhosting;
+			}
+			else
+			{
+				return AllClientsObservableMind.IsGhosting;
+			}
+		}
+		set
+		{
+			isGhosting = value;
+			AllClientsObservableMind.IsGhosting = value;
+		}
+
+	}
 
 	[SyncVar(hook = nameof(SyncPossessing))]
 	private uint IDPossessing;
@@ -37,17 +58,53 @@ public class Mind : NetworkBehaviour, IActionGUI
 	//Antag
 	[SyncVar] private bool NetworkedisAntag;
 
+	[SyncVar] private bool nonImportantMind = false;
+
+	public bool NonImportantMind
+	{
+		get
+		{
+			if (isOwned || isServer)
+			{
+				return nonImportantMind;
+			}
+			else
+			{
+				return AllClientsObservableMind.NonImportantMind;
+			}
+		}
+		set
+		{
+			nonImportantMind = value;
+			AllClientsObservableMind.NonImportantMind = value;
+		}
+	}
+
 	//Type of Antagonist
 	[field: SyncVar] public JobType NetworkedAntagJob { get; private set; }
 
 	public GameObject ControllingObject
 	{
+		set
+		{
+			var net = value.NetId();
+			AllClientsObservableMind.IDActivelyControlling = net;
+			IDActivelyControlling = net;
+		}
 		get
 		{
-			if (IsGhosting) return this.gameObject;
-			if (IDActivelyControlling is NetId.Invalid or NetId.Empty) return this.gameObject;
+			if (isOwned || isServer)
+			{
+				if (IsGhosting) return this.gameObject;
+				if (IDActivelyControlling is NetId.Invalid or NetId.Empty) return this.gameObject;
+				var Possessable = CustomNetworkManager.Spawned[IDActivelyControlling].GetComponent<IPlayerPossessable>();
 
-			return CustomNetworkManager.Spawned[IDActivelyControlling].gameObject;
+				return 	Possessable.ControllingObject;
+			}
+			else
+			{
+				return AllClientsObservableMind.ControllingObject;
+			}
 		}
 	}
 
@@ -73,6 +130,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 			//TODO Looking to optimising some time
 		}
 	}
+
+	private AllClientsObservableMind AllClientsObservableMind;
 
 	public Occupation occupation;
 
@@ -112,7 +171,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 	private Dictionary<string, object> properties = new Dictionary<string, object>();
 
 
-	[SyncVar] public bool NonImportantMind = false;
 
 	public bool IsMute
 	{
@@ -143,6 +201,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	// use Create to create a mind.
 	public void Awake()
 	{
+		AllClientsObservableMind = this.GetComponent<AllClientsObservableMind>();
 		Move = GetComponent<GhostMove>();
 		// add spell to the UI bar as soon as they're added to the spell list
 		spells.CollectionChanged += (sender, e) =>
@@ -338,6 +397,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 		SyncActiveOn(IDActivelyControlling, obj.NetId());
 
+
 		if (ControlledBy != null)
 		{
 			if (PlayerPossessable != null)
@@ -486,6 +546,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 	private void SyncActiveOn(uint oldID, uint newID)
 	{
+		AllClientsObservableMind.IDActivelyControlling = newID;
 		IDActivelyControlling = newID;
 		if (isClient)
 		{
@@ -542,11 +603,12 @@ public class Mind : NetworkBehaviour, IActionGUI
 		{
 			if (isServer && spawned[newID].gameObject == gameObject) //Has ghosted
 			{
-				PossessAndUnpossessMessage.Send(this.gameObject, gameObject, null);
+				PossessAndUnpossessMessage.Send(this.gameObject, gameObject, null); //TODO rethink this
 			}
 
 			//TODO For objects
 		}
+
 	}
 
 	public void AccountLeavingMind(PlayerInfo account)

@@ -46,7 +46,7 @@ public class SecurityHUD : NetworkBehaviour, IHUD
 		SecurityHUDHandler.MindShieldImplant.SetCatalogueIndexSprite(HasImplant ? 1 : 0);
 	}
 
-	public void Start()
+	public void Awake()
 	{
 		PlayerScript = this.GetComponentCustom<PlayerScript>();
 		HUDHandler = this.GetComponentCustom<HUDHandler>();
