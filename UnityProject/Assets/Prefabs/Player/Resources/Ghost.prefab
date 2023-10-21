@@ -28,6 +28,7 @@ GameObject:
   - component: {fileID: 8577256020621858143}
   - component: {fileID: 5763817749914786213}
   - component: {fileID: 8715673610173069278}
+  - component: {fileID: 2874802121839058501}
   m_Layer: 31
   m_Name: Ghost
   m_TagString: Untagged
@@ -194,6 +195,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
+  LiesFlat3D: 0
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   <LayDownBehavior>k__BackingField: {fileID: 8715673610173069278}
@@ -409,7 +411,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 1
   syncInterval: 0.1
-  IsGhosting: 0
+  isGhosting: 0
   occupation: {fileID: 0}
   DenyCloning: 0
   bodyMobID: 0
@@ -429,7 +431,6 @@ MonoBehaviour:
     SerialisedExternalCustom: []
     Species: Human
   ghostLocked: 0
-  NonImportantMind: 0
   actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
 --- !u!114 &8715673610173069278
 MonoBehaviour:
@@ -452,7 +453,25 @@ MonoBehaviour:
   playerScript: {fileID: 0}
   networkedLean: {fileID: 0}
   disabled: 0
-  IsLayingDown: 0
+  clientAutoCorrectInterval: 1.35
+--- !u!114 &2874802121839058501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e724ac5273425644bf4c09eb2a4d687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  IDActivelyControlling: 0
+  IsGhosting: 0
+  NonImportantMind: 0
 --- !u!1 &7113893953078827476
 GameObject:
   m_ObjectHideFlags: 0

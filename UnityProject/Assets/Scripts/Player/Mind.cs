@@ -131,7 +131,22 @@ public class Mind : NetworkBehaviour, IActionGUI
 		}
 	}
 
-	private AllClientsObservableMind AllClientsObservableMind;
+	private AllClientsObservableMind allClientsObservableMind;
+
+	private AllClientsObservableMind AllClientsObservableMind
+	{
+
+		get
+		{
+			if (allClientsObservableMind == null)
+			{
+				allClientsObservableMind = this.GetComponent<AllClientsObservableMind>();
+			}
+
+			return allClientsObservableMind;
+		}
+
+	}
 
 	public Occupation occupation;
 
@@ -201,7 +216,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 	// use Create to create a mind.
 	public void Awake()
 	{
-		AllClientsObservableMind = this.GetComponent<AllClientsObservableMind>();
 		Move = GetComponent<GhostMove>();
 		// add spell to the UI bar as soon as they're added to the spell list
 		spells.CollectionChanged += (sender, e) =>
