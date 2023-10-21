@@ -18,7 +18,7 @@ using Debug = UnityEngine.Debug;
 
 namespace Tests
 {
-	public class AAScanCode
+	public class ScanCode
 	{
 		[Test]
 		public void BuildTest()
@@ -50,12 +50,12 @@ namespace Tests
 		[Test]
 		public void ScanCodeReport()
 		{
-			string path = Application.dataPath;
-			path = path.Replace("/Assets", "");
+			string BuildPath = Application.dataPath;
+			BuildPath = BuildPath.Replace("/Assets", "");
 
-			var ExecutablePath = path;
+			var ExecutablePath = BuildPath;
 
-			path = Path.Combine(path, "Build");
+			BuildPath = Path.Combine(BuildPath, "Build");
 
 			var report = new TestReport();
 
@@ -73,21 +73,21 @@ namespace Tests
 				FolderZip = Path.Combine(FolderZip, @"win-x64.zip");
 				FolderError = Path.Combine(FolderError, @"win-x64");
 				ExecutablePath += @"/win-x64/CodeScan.exe";
-				path += @"/Windows";
+				BuildPath += @"/Windows";
 			}
 			else if (Application.platform == RuntimePlatform.LinuxEditor)
 			{
 				FolderZip = Path.Combine(FolderZip, @"linux-x64.zip");
 				FolderError = Path.Combine(FolderError, @"linux-x64");
 				ExecutablePath += @"/linux-x64/CodeScan";
-				path += @"/Linux";
+				BuildPath += @"/Linux";
 			}
 			else if (Application.platform == RuntimePlatform.OSXEditor)
 			{
 				FolderZip = Path.Combine(FolderZip, @"osx-x64.zip");
 				FolderError = Path.Combine(FolderError, @"osx-x64");
 				ExecutablePath += @"/osx-x64/CodeScan";
-				path += @"/Mac";
+				BuildPath += @"/Mac";
 			}
 
 			if (Directory.Exists(FolderError) == false)
@@ -131,7 +131,7 @@ namespace Tests
 			process.StartInfo.UseShellExecute = false;
 			process.StartInfo.RedirectStandardOutput = true;
 			process.StartInfo.RedirectStandardError = true;
-			process.StartInfo.Arguments = $">\"{path}\"";
+			process.StartInfo.Arguments = $">\"{BuildPath}\"";
 
 			// Handle the OutputDataReceived event
 			//process.OutputDataReceived += (sender, e) => Debug.Log(e.Data);
@@ -160,6 +160,17 @@ namespace Tests
 				report.Fail().AppendLine(Error).Log();
 			}
 
+			var directory = new DirectoryInfo(BuildPath);
+			if (directory.Exists)
+			{
+				directory.Delete(true);
+			}
+
+			var extractionDirectory = new DirectoryInfo(ExtractionPath);
+			if (extractionDirectory.Exists)
+			{
+				extractionDirectory.Delete(true);
+			}
 
 			report.Log().AssertPassed();
 		}
