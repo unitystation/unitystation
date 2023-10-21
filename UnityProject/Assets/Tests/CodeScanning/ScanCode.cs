@@ -47,6 +47,7 @@ namespace Tests
 			}
 		}
 
+		
 		[Test]
 		public void ScanCodeReport()
 		{
