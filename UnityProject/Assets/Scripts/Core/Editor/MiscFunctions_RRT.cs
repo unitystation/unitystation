@@ -52,6 +52,254 @@ namespace Util
 		{
 			EditorPrefs.SetInt("kAutoRefresh", 1);
 			UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
+
+		}
+
+		public static List<string> FilesToKeepInManaged = new List<string>()
+		{
+				"C5",
+				"FastScriptReload.Tests.Runtime",
+				"Firebase.App",
+				"Firebase.Auth",
+				"Firebase.Firestore",
+				"Firebase.Platform",
+				"Firebase.Storage",
+				"Firebase.TaskExtension",
+				"Google.MiniJson",
+				"kcp2k",
+				"Logger",
+				"Mirror.Authenticators",
+				"Mirror.Components",
+				"Mirror",
+				"Mirror.Examples",
+				"Mirror.Ignorance",
+				"Mirror.Transports",
+				"Mono.Security",
+				"mscorlib",
+				"netstandard",
+				"Newtonsoft.Json",
+				"nunit.framework",
+				"PlayerPrefsEditor",
+				"SecureStuff",
+				"SimpleWebTransport",
+				"SunVoxplugin",
+				"System.ComponentModel.Composition",
+				"System.Configuration",
+				"System.Core",
+				"System.Data.DataSetExtensions",
+				"System.Data",
+				"System",
+				"System.Drawing",
+				"System.EnterpriseServices",
+				"System.IO.Compression",
+				"System.IO.Compression.FileSystem",
+				"System.Net.Http",
+				"System.Numerics",
+				"System.Runtime.Serialization",
+				"System.Security",
+				"System.ServiceModel.Internals",
+				"System.Transactions",
+				"System.Xml",
+				"System.Xml.Linq",
+				"Telepathy",
+				"Tomlyn",
+				"UniTask.Addressables",
+				"UniTask",
+				"UniTask.DOTween",
+				"UniTask.Linq",
+				"UniTask.TextMeshPro",
+				"Unity.2D.PixelPerfect",
+				"Unity.2D.Tilemap.Extras",
+				"Unity.Addressables",
+				"Unity.Compat",
+				"Unity.InternalAPIEngineBridge.003",
+				"Unity.MemoryProfiler",
+				"Unity.Multiplayer.Playmode.Common.Runtime",
+				"Unity.Multiplayer.Playmode",
+				"Unity.Postprocessing.Runtime",
+				"Unity.ResourceManager",
+				"Unity.ScriptableBuildPipeline",
+				"Unity.Tasks",
+				"Unity.TextMeshPro",
+				"Unity.VectorGraphics",
+				"UnityEngine.AccessibilityModule",
+				"UnityEngine.AIModule",
+				"UnityEngine.AndroidJNIModule",
+				"UnityEngine.AnimationModule",
+				"UnityEngine.ARModule",
+				"UnityEngine.AssetBundleModule",
+				"UnityEngine.AudioModule",
+				"UnityEngine.ClothModule",
+				"UnityEngine.ClusterInputModule",
+				"UnityEngine.CommandStateObserverModule",
+				"UnityEngine.ContentLoadModule",
+				"UnityEngine.CoreModule",
+				"UnityEngine.CrashReportingModule",
+				"UnityEngine.DirectorModule",
+				"UnityEngine",
+				"UnityEngine.DSPGraphModule",
+				"UnityEngine.GameCenterModule",
+				"UnityEngine.GIModule",
+				"UnityEngine.GraphToolsFoundationModule",
+				"UnityEngine.GridModule",
+				"UnityEngine.HotReloadModule",
+				"UnityEngine.ImageConversionModule",
+				"UnityEngine.IMGUIModule",
+				"UnityEngine.InputLegacyModule",
+				"UnityEngine.InputModule",
+				"UnityEngine.JSONSerializeModule",
+				"UnityEngine.LocalizationModule",
+				"UnityEngine.MarshallingModule",
+				"UnityEngine.NVIDIAModule",
+				"UnityEngine.ParticleSystemModule",
+				"UnityEngine.PerformanceReportingModule",
+				"UnityEngine.Physics2DModule",
+				"UnityEngine.PhysicsModule",
+				"UnityEngine.ProfilerModule",
+				"UnityEngine.PropertiesModule",
+				"UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule",
+				"UnityEngine.ScreenCaptureModule",
+				"UnityEngine.SharedInternalsModule",
+				"UnityEngine.SpriteMaskModule",
+				"UnityEngine.SpriteShapeModule",
+				"UnityEngine.StreamingModule",
+				"UnityEngine.SubstanceModule",
+				"UnityEngine.SubsystemsModule",
+				"UnityEngine.TerrainModule",
+				"UnityEngine.TerrainPhysicsModule",
+				"UnityEngine.TextCoreFontEngineModule",
+				"UnityEngine.TextCoreTextEngineModule",
+				"UnityEngine.TextRenderingModule",
+				"UnityEngine.TilemapModule",
+				"UnityEngine.TLSModule",
+				"UnityEngine.UI",
+				"UnityEngine.UIElementsModule",
+				"UnityEngine.UIModule",
+				"UnityEngine.UmbraModule",
+				"UnityEngine.UnityAnalyticsCommonModule",
+				"UnityEngine.UnityAnalyticsModule",
+				"UnityEngine.UnityConnectModule",
+				"UnityEngine.ClusterRendererModule",
+				"UnityEngine.UnityCurlModule",
+				"UnityEngine.UnityTestProtocolModule",
+				"UnityEngine.UnityWebRequestAssetBundleModule",
+				"UnityEngine.UnityWebRequestAudioModule",
+				"UnityEngine.UnityWebRequestModule",
+				"UnityEngine.UnityWebRequestTextureModule",
+				"UnityEngine.UnityWebRequestWWWModule",
+				"UnityEngine.VehiclesModule",
+				"UnityEngine.VFXModule",
+				"UnityEngine.VideoModule",
+				"UnityEngine.VirtualTexturingModule",
+				"UnityEngine.VRModule",
+				"UnityEngine.WindModule",
+				"UnityEngine.XRModule",
+				"websocket-sharp",
+				"YamlDotNet",
+				"YamlDotNet.Examples"
+			};
+
+
+		[MenuItem("Tools/𓀠 𓀠 𓀠 𓀠 GenGoodFiles 𓀂 𓀂 𓀂 𓀂")]
+		public static void GenGoodFiles()
+		{
+			BuildWindows();
+			BuildLinux();
+			BuildMac();
+		}
+
+		private static void BuildWindows()
+		{
+			string[] levels = new string[] {};
+
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
+			// Build player.
+			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Windows", "Unitystation.exe") , BuildTarget.StandaloneWindows64, BuildOptions.None);
+
+			var Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data\Managed"));
+
+			foreach (var file in Directory.GetFiles())
+			{
+				if (FilesToKeepInManaged.Contains(file.Name)) continue;
+				file.Delete();
+			}
+			Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data\Resources"));
+			Directory.Delete(true);
+			Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data\StreamingAssets"));
+			Directory.Delete(true);
+
+			Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data"));
+			foreach (var file in Directory.GetFiles())
+			{
+				file.Delete();
+			}
+		}
+
+
+		private static void BuildLinux()
+		{
+			string[] levels = new string[] {};
+
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
+			// Build player.
+			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Linux", "Unitystation.x86_64") , BuildTarget.StandaloneLinux64, BuildOptions.None);
+
+			var Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data\Managed"));
+
+			foreach (var file in Directory.GetFiles())
+			{
+				if (FilesToKeepInManaged.Contains(file.Name)) continue;
+				file.Delete();
+			}
+			Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data\Resources"));
+			Directory.Delete(true);
+			Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data\StreamingAssets"));
+			Directory.Delete(true);
+
+			Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data"));
+			foreach (var file in Directory.GetFiles())
+			{
+				file.Delete();
+			}
+		}
+
+		private static void BuildMac()
+		{
+			string[] levels = new string[] {};
+
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
+			// Build player.
+			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Mac", "Unitystation.x86_64") , BuildTarget.StandaloneOSX, BuildOptions.None);
+
+			var Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data\Managed"));
+
+			foreach (var file in Directory.GetFiles())
+			{
+				if (FilesToKeepInManaged.Contains(file.Name)) continue;
+				file.Delete();
+			}
+			Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data\Resources"));
+			Directory.Delete(true);
+			Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data\StreamingAssets"));
+			Directory.Delete(true);
+
+			Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data"));
+			foreach (var file in Directory.GetFiles())
+			{
+				file.Delete();
+			}
 		}
 
 

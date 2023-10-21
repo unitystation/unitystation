@@ -34,7 +34,7 @@ namespace UI.Systems.Ghost
 		private void OnEnable()
 		{
 			TeleportWindow.onTeleportRequested += TeleportUtils.TeleportLocalGhostTo;
-			TeleportWindow.onTeleportToVector += TeleportUtils.TeleportLocalGhostTo;
+			TeleportWindow.onTeleportToVectorWorld += TeleportUtils.TeleportGhostToWorldPosition;
 			DetermineGhostHearText();
 			RequestAvailableGhostRolesMessage.SendMessage();
 		}
@@ -42,7 +42,7 @@ namespace UI.Systems.Ghost
 		private void OnDisable()
 		{
 			TeleportWindow.onTeleportRequested -= TeleportUtils.TeleportLocalGhostTo;
-			TeleportWindow.onTeleportToVector -= TeleportUtils.TeleportLocalGhostTo;
+			TeleportWindow.onTeleportToVectorWorld -= TeleportUtils.TeleportGhostToWorldPosition;
 		}
 
 		public void JumpToMob()

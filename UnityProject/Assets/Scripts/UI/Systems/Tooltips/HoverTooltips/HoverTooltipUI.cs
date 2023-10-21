@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Learning;
+using Logs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -115,6 +116,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		private void UpdateDetailedView(GameObject target)
 		{
 			var tips = target.GetComponents<IHoverTooltip>();
+			descText.text = "";
 			foreach (var data in tips)
 			{
 				if (String.IsNullOrEmpty(data.CustomTitle()) == false) nameText.text = data.CustomTitle();
@@ -157,6 +159,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 			ResetInteractionsList();
 			showing = false;
+
 			StartCoroutine(AnimateBackground());
 		}
 
@@ -202,7 +205,6 @@ namespace UI.Systems.Tooltips.HoverTooltips
 				iconTarget.sprite = errorIconSprite;
 				nameText.text = string.Empty;
 				descText.text = string.Empty;
-
 			}
 		}
 

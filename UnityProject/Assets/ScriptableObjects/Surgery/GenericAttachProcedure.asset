@@ -42,7 +42,7 @@ MonoBehaviour:
     SuccessOther: '{performer} uses {Using} to hold open {WhoOn}''s {OnPart}'
     FailSelf: you misuse {Using} failing to hold open {WhoOn}'s {OnPart}
     FailOther: '{performer} misuses {Using} failing to hold open {WhoOn}''s {OnPart}'
-  - RequiredTrait: {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c, type: 2}
+  - RequiredTrait: {fileID: 0}
     Time: 2
     FailChance: 0
     StartSelf: you try to insert {Using} into {WhoOn}'s {OnPart}

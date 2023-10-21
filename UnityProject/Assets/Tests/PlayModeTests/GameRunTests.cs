@@ -1,5 +1,6 @@
 using System.Collections;
 using Logs;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -8,7 +9,7 @@ namespace GameRunTests
 {
 	public class GameRunTests
 	{
-		[UnityTest]
+		[Test]
 		public IEnumerator NewTestScriptWithEnumeratorPasses()
 		{
 			yield return SceneManager.LoadSceneAsync("OnlineScene");

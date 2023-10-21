@@ -104,6 +104,8 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait CoreBodyPart;
 
 	public ItemTrait Pill;
+	public ItemTrait ItemBag;
+
 
 	/// <summary>
 	/// Do not use this list to get references to traits, locally reference them in your scripts instead!

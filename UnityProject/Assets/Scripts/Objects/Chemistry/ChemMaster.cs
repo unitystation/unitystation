@@ -13,7 +13,7 @@ namespace Chemistry
 	/// <summary>
 	/// Main component for ChemMaster, or Chemical Master™.
 	/// </summary>
-	public class ChemMaster : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable
+	public class ChemMaster : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable, ICheckedInteractable<MouseDrop>
 	{
 		[SerializeField] public List<GameObject> ChemMasterProducts;
 
@@ -298,6 +298,31 @@ namespace Chemistry
 			ClearBuffer();
 			UpdateGui();
 		}
+
+		public bool WillInteract(MouseDrop interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			//only interaction that works is using a reagent container on this
+			if (Validations.HasComponent<ReagentContainer>(interaction.DroppedObject) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(MouseDrop interaction)
+		{
+
+			if (containerSlot.IsOccupied)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The machine already has a beaker in it");
+				return;
+			}
+
+			//Inserts reagent container
+			Inventory.ServerAdd(interaction.DroppedObject, containerSlot);
+			UpdateGui();
+		}
+
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{

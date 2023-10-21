@@ -12,7 +12,7 @@ namespace Chemistry
 	/// <summary>
 	/// Main component for chemistry dispenser.
 	/// </summary>
-	public class ChemistryDispenser : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable
+	public class ChemistryDispenser : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable, ICheckedInteractable<MouseDrop>
 	{
 		//yes This is a weird script
 		//if you want the functionality it's all in GUI_ChemistryDispenser for some bizarre reason
@@ -86,6 +86,32 @@ namespace Chemistry
 				Inventory.ServerDrop(itemSlot);
 			}
 		}
+
+
+		public bool WillInteract(MouseDrop interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			//only interaction that works is using a reagent container on this
+			if (Validations.HasComponent<ReagentContainer>(interaction.DroppedObject) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(MouseDrop interaction)
+		{
+			//Inserts reagent container
+			if (itemSlot.IsOccupied)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The machine already has a beaker in it");
+				return;
+			}
+
+			//put the reagant container inside me
+			Inventory.ServerAdd(interaction.DroppedObject, itemSlot);
+			UpdateGUI();
+		}
+
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
