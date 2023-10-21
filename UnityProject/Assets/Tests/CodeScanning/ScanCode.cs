@@ -46,6 +46,7 @@ namespace Tests
 					BuildTarget.StandaloneOSX, BuildOptions.None);
 			}
 		}
+
 		
 		[Test]
 		public void ScanCodeReport()
