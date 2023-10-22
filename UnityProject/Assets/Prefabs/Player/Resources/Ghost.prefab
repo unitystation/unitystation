@@ -453,8 +453,8 @@ MonoBehaviour:
   playerScript: {fileID: 0}
   networkedLean: {fileID: 0}
   disabled: 0
+  IsLayingDown: 0
   clientAutoCorrectInterval: 1.35
---- !u!114 &2874802121839058501
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -472,7 +472,6 @@ MonoBehaviour:
   IDActivelyControlling: 0
   IsGhosting: 0
   NonImportantMind: 0
---- !u!1 &7113893953078827476
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

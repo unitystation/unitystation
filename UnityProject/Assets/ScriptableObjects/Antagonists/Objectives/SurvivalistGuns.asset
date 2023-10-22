@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642644d3e2513ce4e8c02e9fdaa18eea, type: 3}
   m_Name: SurvivalistGuns
   m_EditorClassIdentifier: 
+  attributes:
+  - name: Amount?
+    index: -1
+    type: 1
+    playerID: 
+    number: 0
+    itemID: 
+    itemTraitIndex: 0
+  isEndRoundObjective: 0
   objectiveName: Acquire Guns
   IsUnique: 1
   description: Your own safety matters above all else, and the only way to ensure

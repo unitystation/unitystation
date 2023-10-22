@@ -18,6 +18,7 @@ namespace Antagonists
 		/// </summary>
 		[SerializeField]
 		private SerializableDictionary<GameObject, StealData> ItemPool = null;
+		public SerializableDictionary<GameObject, StealData> ItemPools => new (ItemPool);
 
 		/// <summary>
 		/// Whether multiple people can target the same item
@@ -103,6 +104,34 @@ namespace Antagonists
 			AntagManager.Instance.TargetedItems.Add(itemEntry.Key);
 			// TODO randomise amount based on range/weightings?
 			description = $"Steal {Amount} {ItemName}";
+		}
+
+		protected override void SetupInGame()
+		{
+			// Pick a random item and add it to the targeted list
+			GameObject item = null;
+			item = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[attributes[0].ItemID];
+			Amount = attributes[1].Number;
+
+			if (item == null)
+				return;
+
+			if (item.Item().InitialName == null)
+			{
+				ItemName = "NULLNAME";
+				Loggy.LogError($"[Steal/SetupInGame] Can`t find name of item {item}");
+			} else
+			{
+				ItemName = item.Item().InitialName;
+			}
+			AntagManager.Instance.TargetedItems.Add(item);
+			// TODO randomise amount based on range/weightings?
+			description = $"Steal {Amount} {ItemName}";
+		}
+
+		public override string GetDescription()
+		{
+			return $"Steal";
 		}
 
 		protected override bool CheckCompletion()

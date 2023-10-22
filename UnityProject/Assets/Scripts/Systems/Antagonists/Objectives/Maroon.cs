@@ -2,6 +2,7 @@
 using System.Linq;
 using Logs;
 using UnityEngine;
+using UnityEngine.LowLevel;
 
 namespace Antagonists
 {
@@ -62,6 +63,28 @@ namespace Antagonists
 			description = $"Prevent {Target.name}, the {Target.occupation.DisplayName} from leaving the station";
 
 			ValidShuttles.Add(GameManager.Instance.PrimaryEscapeShuttle);
+		}
+
+		protected override void SetupInGame()
+		{
+			Target = PlayerList.Instance.InGamePlayers.Where(pl => pl.UserId == attributes[0].PlayerID).ElementAt(0).Mind;
+
+			//If still null then its a free objective
+			if (Target == null || Target.occupation == null)
+			{
+				FreeObjective();
+				return;
+			}
+
+			AntagManager.Instance.TargetedPlayers.Add(Target);
+			description = $"Prevent {Target.name}, the {Target.occupation.DisplayName} from leaving the station";
+
+			ValidShuttles.Add(GameManager.Instance.PrimaryEscapeShuttle);
+		}
+
+		public override string GetDescription()
+		{
+			return $"Prevent from leaving the station";
 		}
 
 		private void FreeObjective()

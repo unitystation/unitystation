@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a9a8889bd7a8304aa52de3baad9597e, type: 3}
   m_Name: Escape
   m_EditorClassIdentifier: 
+  attributes: []
+  isEndRoundObjective: 1
   objectiveName: Escape
   IsUnique: 1
   description: Escape on the shuttle alive!
   aiCanHave: 0
+  references:
+    version: 2
+    RefIds: []

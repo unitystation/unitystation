@@ -32,6 +32,11 @@ namespace Antagonists
 
 		public List<SpawnedAntag> ActiveAntags => activeAntags;
 
+		private readonly Dictionary<uint, Team> teams = new Dictionary<uint, Team>();
+		public Dictionary<uint, Team> Teams => new (teams);
+
+		private static uint teamIndex = 0;
+
 		/// <summary>
 		/// Keeps track of which players have already been targeted for objectives
 		/// </summary>
@@ -149,14 +154,35 @@ namespace Antagonists
 					Loggy.LogError($"failed to create antagonist objectives {chosenAntag.OrNull()?.AntagName} " + e.ToString());
 				}
 				// Set the antag
-				var spawnedAntag = SpawnedAntag.Create(chosenAntag, Mind, objectives);
-				Mind.SetAntag(spawnedAntag);
-				return spawnedAntag;
+				return Mind.InitAntag(chosenAntag, objectives);
 			}
 			catch (Exception e)
 			{
 				Loggy.LogError( $"failed to create antagonist {chosenAntag.OrNull()?.AntagName} "  + e.ToString());
 				return null;
+			}
+
+		}
+
+		private void SetTeamDetails(Team team)
+		{
+			try
+			{
+				// Generate objectives
+				List<Objective> objectives = new List<Objective>();
+
+				try
+				{
+					objectives.AddRange(team.Data.GenerateObjectives());
+					team.AddTeamObjectives(objectives);
+				} catch (Exception e)
+				{
+					Loggy.LogError($"failed to create team objectives {team.GetTeamName()} " + e.ToString());
+				}
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError( $"failed to create team {team.GetTeamName()} "  + e.ToString());
 			}
 
 		}
@@ -168,11 +194,20 @@ namespace Antagonists
 
 			activeAntags.Add(spawnedAntag);
 			ShowAntagBanner(SpawnMind, chosenAntag);
+
+			SetTeamAntag(SpawnMind, chosenAntag);
+			SpawnMind.ShowObjectives();
 			chosenAntag.AfterSpawn(SpawnMind);
 
 			Loggy.Log(
 				$"Created new antag. Made {SpawnMind.name} a {chosenAntag.AntagName} with objectives:\n{spawnedAntag.GetObjectivesForLog()}",
 				Category.Antags);
+		}
+
+		private void SetTeamAntag(Mind spawnMind, Antagonist chosenAntag)
+		{
+			if (chosenAntag.Team != null && chosenAntag.AddTeamAtInit)
+				spawnMind.AntagPublic.CurTeam = GetFirstTeamOrCreate(chosenAntag.Team);
 		}
 
 		/// <summary>
@@ -226,38 +261,59 @@ namespace Antagonists
 		{
 			StringBuilder statusSB = new StringBuilder();
 
-			var message = $"";
+			var message = new StringBuilder();
 
 			if (activeAntags.Count > 0)
 			{
 				// Group all the antags by type and list them together
 				foreach (var antagType in activeAntags.GroupBy(t => t.GetType()))
 				{
+					if (antagType.First().CurTeam != null && antagType.First().CurTeam.Data.NeedToBeShownAtRoundEnd == true)
+						continue;
 					statusSB.AppendLine($"<size={ChatTemplates.LargeText}>The <b>{antagType.First().Antagonist.AntagName}s</b> were:\n</size>");
-					message += $"The {antagType.First().Antagonist.AntagName}s were:\n";
+					message.Append($"The {antagType.First().Antagonist.AntagName}s were:\n");
 					foreach (var antag in antagType)
 					{
-						message += $"\n{antag.GetObjectiveStatusNonRich()}\n";
+						message.AppendLine($"{antag.GetObjectiveStatusNonRich()}\n");
 						statusSB.AppendLine(antag.GetObjectiveStatus());
 					}
 				}
 			}
 			else
 			{
-				message += $"\nThere were no antagonists!\n";
+				message.AppendLine($"There were no antagonists!\n");
 				statusSB.AppendLine($"<size={ChatTemplates.LargeText}>There were no antagonists!</size>");
+			}
+
+			foreach (var x in PlayerList.Instance.AllPlayers)
+			{
+				if (x.Mind.AntagPublic.Antagonist == null && x.Mind.AntagPublic.CurTeam == null && x.Mind.AntagPublic.Objectives.Count() > 0)
+				{
+					statusSB.AppendLine($"<size={ChatTemplates.LargeText}>The <b>{x.Name} objectives</b> were:\n</size>");
+					message.AppendLine($"\n{x.Mind.AntagPublic.GetObjectiveStatusWiouthName()}\n");
+					statusSB.AppendLine(x.Mind.AntagPublic.GetObjectiveStatus());
+				}
+			}
+
+			foreach (var x in teams)
+			{
+				if (x.Value.TeamMembers.Count > 0 && x.Value.Data.NeedToBeShownAtRoundEnd == true)
+				{
+					message.AppendLine(x.Value.GetObjectiveStatus());
+					statusSB.AppendLine(x.Value.GetObjectiveStatus());
+				}
 			}
 
 			if (PlayerList.Instance.ConnectionCount == 1)
 			{
-				message += $"\n There is 1 player online.\n";
+				message.AppendLine($" There is 1 player online.\n");
 			}
 			else
 			{
-				message += $"\n There are {PlayerList.Instance.ConnectionCount} players online.\n";
+				message.AppendLine($" There are {PlayerList.Instance.ConnectionCount} players online.\n");
 			}
 
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message.ToString(), "");
 
 			// Send the message
 			Chat.AddGameWideSystemMsgToChat(statusSB.ToString());
@@ -271,6 +327,54 @@ namespace Antagonists
 			activeAntags.Clear();
 			TargetedPlayers.Clear();
 			TargetedItems.Clear();
+			teams.Clear();
+		}
+
+		public void RemoveTeam(uint index)
+		{
+			teams.Remove(index);
+		}
+
+		public Team AddTeam(Team teamToAdd)
+		{
+			teams.Add(++teamIndex, teamToAdd);
+			return teamToAdd;
+		}
+
+		public Team CreateTeam(TeamData teamToAdd)
+		{
+			var createdTeam = Team.CreateTeam(teamToAdd);
+			teams.Add(++teamIndex, createdTeam);
+			SetTeamDetails(createdTeam);
+			return createdTeam;
+		}
+
+		public List<Team> GetTeamsByTeamData(TeamData teamToGet)
+		{
+			return teams.Values.Where(t => t.Data == teamToGet).ToList();
+		}
+
+		public Team GetFirstTeamOrCreate(TeamData teamToGet)
+		{
+			var teamsWithData = GetTeamsByTeamData(teamToGet);
+			if (teamsWithData.Count > 0)
+			{
+				return teamsWithData.First();
+			} else
+			{
+				return CreateTeam(teamToGet);
+			}
+		}
+
+		public void ServerSpawnTeams()
+		{
+			foreach (var x in AntagData.Instance.TeamDatas)
+			{
+				if (x.AlwaysSpawnOnRoundStart)
+				{
+					CreateTeam(x);
+				}
+			}
 		}
 	}
 }

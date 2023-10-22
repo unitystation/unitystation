@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5f78799f70c58744badcf52548a4a6c, type: 3}
   m_Name: GloriousDeath
   m_EditorClassIdentifier: 
+  attributes: []
+  isEndRoundObjective: 0
   objectiveName: Glorious Death
   IsUnique: 1
   description: Die a glorious death!
   aiCanHave: 1
+  references:
+    version: 2
+    RefIds: []
