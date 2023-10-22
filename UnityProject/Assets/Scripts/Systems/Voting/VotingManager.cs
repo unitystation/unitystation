@@ -276,9 +276,9 @@ public class VotingManager : NetworkBehaviour
 					GameManager.Instance.EndRound();
 					break;
 				case VoteType.NextGameMode:
-					Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next GameMode will be {winner}</color>");
+					Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next GameMode has been chosen</color>");
 					GameManager.Instance.NextGameMode = winner;
-					GameManager.Instance.SecretGameMode = false;
+					GameManager.Instance.SecretGameMode = true;
 					break;
 				case VoteType.NextMap:
 					Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next map will be {winner}</color>");

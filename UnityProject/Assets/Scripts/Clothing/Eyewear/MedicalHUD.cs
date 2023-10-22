@@ -37,6 +37,7 @@ public class MedicalHUD : NetworkBehaviour, IHUD
 		HUDHandler.AddNewHud(this);
 	}
 
+
 	public void SetUp()
 	{
 		MedicalHUDHandler = InstantiatedGameObject.GetComponent<MedicalHUDHandler>();

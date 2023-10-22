@@ -35,6 +35,7 @@ namespace Systems.Teleport
 
 			foreach (Mind player in sortedStr)
 			{
+
 				//Don't add to the list the same player consulting it and ghosts.
 				if (player == PlayerManager.LocalMindScript || player.NonImportantMind)
 				{
@@ -69,7 +70,7 @@ namespace Systems.Teleport
 					}
 				}
 
-				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, player.transform.position.RoundToInt(), player.gameObject);
+				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, player.ControllingObject.transform.position.RoundToInt(), player.ControllingObject);
 
 				yield return teleportInfo;
 			}
@@ -191,11 +192,17 @@ namespace Systems.Teleport
 
 			if (latestPosition != playerPosition)//Spam Prevention
 			{
-				TeleportLocalGhostTo(latestPosition);
+				TeleportGhostToWorldPosition(latestPosition);
 			}
 		}
 
 		public static void TeleportLocalGhostTo(Vector3 vector)
+		{
+			var ghost = PlayerManager.LocalPlayerObject.GetComponent<GhostMove>();
+			ghost.CMDSetServerPosition(vector);
+		}
+
+		public static void TeleportGhostToWorldPosition(Vector3 vector)
 		{
 			var ghost = PlayerManager.LocalPlayerObject.GetComponent<GhostMove>();
 			ghost.CMDSetServerPosition(vector);

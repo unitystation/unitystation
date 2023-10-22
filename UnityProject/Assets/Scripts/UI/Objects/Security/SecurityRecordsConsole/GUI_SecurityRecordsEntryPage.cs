@@ -260,7 +260,10 @@ namespace UI.Objects.Security
 		public void DeleteRecord()
 		{
 			CrewManifestManager.Instance.SecurityRecords.Remove(record);
+			record.status = SecurityStatus.None;
 			securityRecordsTab.OpenRecords();
+			CrewManifestManager.Instance.OrNull()?.DeleteSecurityRecord(record);
+
 		}
 
 		private void UpdateCrimesList()

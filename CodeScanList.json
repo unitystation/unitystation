@@ -2867,8 +2867,9 @@
 					"void EndThreadProfiling()",
 					"void EndThreadProfiling()",
 					"long GetTotalReservedMemoryLong()",
-					"long GetMonoUsedSizeLong()"
-					
+					"long GetMonoUsedSizeLong()",
+					"void EndSample()",
+					"void BeginSample(string)"
 				]
 			},
 			"CustomSampler":{

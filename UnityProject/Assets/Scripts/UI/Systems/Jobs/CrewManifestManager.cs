@@ -84,11 +84,6 @@ namespace Systems
 
 			entry.SecurityRecord = GenerateSecurityRecord(script, jobType);
 			SecurityRecords.Add(entry.SecurityRecord);
-			if (NameLookUpSecurityRecords.ContainsKey(entry.Name) == false)
-			{
-				NameLookUpSecurityRecords[entry.Name] = new List<SecurityRecord>();
-			}
-			NameLookUpSecurityRecords[entry.Name].Add(entry.SecurityRecord);
 			return entry;
 		}
 
@@ -143,8 +138,26 @@ namespace Systems
 			}
 
 			NameLookUpSecurityRecords[NewName].Add(SecurityRecord);
+			SecurityRecord.IdentityChangeOrWantedLevel();
 		}
+		public void DeleteSecurityRecord(SecurityRecord SecurityRecord)
+		{
+			if (SecurityRecord.EntryName != null && NameLookUpSecurityRecords.ContainsKey(SecurityRecord.EntryName))
+			{
+				var List = NameLookUpSecurityRecords[SecurityRecord.EntryName];
+				if (List.Contains(SecurityRecord))
+				{
+					List.Remove(SecurityRecord);
+				}
 
+				if (List.Count == 0)
+				{
+					NameLookUpSecurityRecords.Remove(SecurityRecord.EntryName);
+				}
+			}
+
+			SecurityRecord.IdentityChangeOrWantedLevel();
+		}
 
 		#endregion
 

@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 4135270175928999527}
   - component: {fileID: 6681392472916456664}
   - component: {fileID: 8813387118744636190}
-  - component: {fileID: 5395410377334056113}
   m_Layer: 5
   m_Name: Disclaimer
   m_TagString: Untagged
@@ -168,23 +167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c1f0054b7d34b30830da442d71fb60d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5395410377334056113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1263714532878096304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85e92d8417db6f44184f63bb043d1a11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TestisSprite: {fileID: 0}
-  inbuiltTextures:
-  - {fileID: 2800000, guid: b3f0d976f6d6802479d6465d11b3aa68, type: 3}
-  customTextures:
-  - {fileID: 2800000, guid: b3f0d976f6d6802479d6465d11b3aa68, type: 3}
 --- !u!1 &4948441129574857915
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,10 +31,21 @@ public interface IPlayerPossessable
 						$"Destroyed Possessing  While PossessingID Still references it fixing, Please work out how it got a Destroyed ID {PossessingMind.OrNull()?.name}");
 					SyncPossessingID(PossessingID, NetId.Empty);
 				}
+
 				return null;
 			}
 
 			return spawned[PossessingID].gameObject;
+		}
+	}
+
+	public GameObject ControllingObject //For now the one you are possessing is The deepest one
+	{
+		get
+		{
+			if (PossessingID is NetId.Invalid or NetId.Empty) return this.GameObject;
+			var Possessable = CustomNetworkManager.Spawned[PossessingID].GetComponent<IPlayerPossessable>();
+			return Possessable.ControllingObject;
 		}
 	}
 
@@ -82,14 +93,14 @@ public interface IPlayerPossessable
 		{
 			if (PossessingMind != null && PossessingMind.IsGhosting == false)
 			{
-				possessing.InternalOnControlPlayer( PossessingMind, CustomNetworkManager.IsServer);
+				possessing.InternalOnControlPlayer(PossessingMind, CustomNetworkManager.IsServer);
 			}
 		}
 		else
 		{
 			if (PossessingMind != null && PossessingMind.IsGhosting == false) //Has authority to Set control
 			{
-				InternalOnControlPlayer( PossessingMind, CustomNetworkManager.IsServer);
+				InternalOnControlPlayer(PossessingMind, CustomNetworkManager.IsServer);
 			}
 		}
 	}
@@ -109,6 +120,7 @@ public interface IPlayerPossessable
 		{
 			gaining.Add(obj.NetWorkIdentity());
 		}
+
 		var losing = new List<NetworkIdentity>();
 
 		var possessing = GetPossessing();
@@ -118,7 +130,6 @@ public interface IPlayerPossessable
 			possessing.GetRelatedBodies(losing);
 			possessing.InternalOnPlayerLeave(PossessingMind);
 			possessing.PossessedBy = null;
-
 		}
 		else if (possessingObject != null)
 		{
@@ -141,6 +152,7 @@ public interface IPlayerPossessable
 		{
 			ServerInternalOnPossess(mind, parent);
 		}
+
 		PossessingMind = mind;
 		PossessedBy = parent;
 
@@ -151,6 +163,7 @@ public interface IPlayerPossessable
 		{
 			possessing.InternalOnPossessPlayer(mind, this);
 		}
+
 		OnPossessedBy?.Invoke(mind, parent);
 	}
 
@@ -203,24 +216,24 @@ public interface IPlayerPossessable
 
 	#region OnControlPlayerORLeaving
 
-
-
-	public void InternalOnControlPlayer( Mind mind, bool isServer)
+	public void InternalOnControlPlayer(Mind mind, bool isServer)
 	{
 		PossessingMind = mind;
 		if (mind == null) return;
 
 		if (isServer)
 		{
-			ServeInternalOnControlPlayer( mind, true);
+			ServeInternalOnControlPlayer(mind, true);
+			//SO The problem is it is recursive so it doesn't know which one is the last one!!! AAAAAAAAAA I'm going to bed
 		}
 
 		if (GameObject.GetComponent<NetworkIdentity>().hasAuthority || mind == PlayerManager.LocalMindScript)
 		{
-			ClientInternalOnControlPlayer( mind, isServer);
+			ClientInternalOnControlPlayer(mind, isServer);
 		}
 
 		OnControlPlayer(mind);
+
 
 		var Possessing = GetPossessing();
 		if (Possessing != null)
@@ -229,7 +242,7 @@ public interface IPlayerPossessable
 		}
 	}
 
-	public void ServeInternalOnControlPlayer( Mind mind, bool isServer)
+	public void ServeInternalOnControlPlayer(Mind mind, bool isServer)
 	{
 		if (mind.ControlledBy != null)
 		{
@@ -286,7 +299,7 @@ public interface IPlayerPossessable
 	public void InternalOnPlayerLeave(Mind mind)
 	{
 		if (GameObject == null) return;
-		if (GameObject.GetComponent<NetworkIdentity>().isOwned  || mind == PlayerManager.LocalMindScript)
+		if (GameObject.GetComponent<NetworkIdentity>().isOwned || mind == PlayerManager.LocalMindScript)
 		{
 			var leaveInterfaces = GameObject.GetComponents<IOnPlayerLeaveBody>();
 			foreach (var leaveInterface in leaveInterfaces)
@@ -297,7 +310,7 @@ public interface IPlayerPossessable
 
 		if (CustomNetworkManager.IsServer)
 		{
-			PossessAndUnpossessMessage.Send(mind?.gameObject, null,GameObject);
+			PossessAndUnpossessMessage.Send(mind?.gameObject, null, GameObject);
 		}
 
 		var possessing = GetPossessing();
@@ -310,6 +323,7 @@ public interface IPlayerPossessable
 	public void OnControlPlayer(Mind mind);
 
 	#endregion
+
 	public void PlayerRejoin()
 	{
 		var leaveInterfaces = GameObject.GetComponents<IOnPlayerRejoin>();

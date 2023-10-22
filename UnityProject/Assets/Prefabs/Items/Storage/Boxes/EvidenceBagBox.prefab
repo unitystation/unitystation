@@ -61,17 +61,17 @@ PrefabInstance:
     - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
@@ -93,6 +93,58 @@ PrefabInstance:
       propertyPath: m_Name
       value: EvidenceBagBox
       objectReference: {fileID: 0}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: UesAddlistPopulater
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[0].Prefab
+      value: 
+      objectReference: {fileID: 3378367491729036453, guid: 09e0d3c634d29814484c38f53b700bee,
+        type: 3}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[1].Prefab
+      value: 
+      objectReference: {fileID: 3378367491729036453, guid: 09e0d3c634d29814484c38f53b700bee,
+        type: 3}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[2].Prefab
+      value: 
+      objectReference: {fileID: 3378367491729036453, guid: 09e0d3c634d29814484c38f53b700bee,
+        type: 3}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[3].Prefab
+      value: 
+      objectReference: {fileID: 3378367491729036453, guid: 09e0d3c634d29814484c38f53b700bee,
+        type: 3}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[4].Prefab
+      value: 
+      objectReference: {fileID: 3378367491729036453, guid: 09e0d3c634d29814484c38f53b700bee,
+        type: 3}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[5].Prefab
+      value: 
+      objectReference: {fileID: 3378367491729036453, guid: 09e0d3c634d29814484c38f53b700bee,
+        type: 3}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[6].Prefab
+      value: 
+      objectReference: {fileID: 3378367491729036453, guid: 09e0d3c634d29814484c38f53b700bee,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -181,6 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NetTab: {fileID: 0}
   OnEscapeKey:
     m_PersistentCalls:
       m_Calls: []
@@ -648,7 +649,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 4133365234857499401}
-          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetLabel, Assets
+          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetText_label, Assets
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -678,6 +679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -688,7 +690,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 4133365234857499401}
-          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetLabel, Assets
+          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetText_label, Assets
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2172,6 +2174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -3274,7 +3277,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 8379597926446059024}
-          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetLabel, Assets
+          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetText_label, Assets
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3304,6 +3307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -3314,7 +3318,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 8379597926446059024}
-          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetLabel, Assets
+          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetText_label, Assets
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4190,7 +4194,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 8969079553995582439}
-          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetLabel, Assets
+          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetText_label, Assets
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4220,6 +4224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -4230,7 +4235,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 8969079553995582439}
-          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetLabel, Assets
+          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetText_label, Assets
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4388,6 +4393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -5473,6 +5479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -6604,6 +6611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -7456,6 +7464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -8174,6 +8183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -8417,6 +8427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -8584,6 +8595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -10539,7 +10551,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 8272404954251566854}
-          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetLabel, Assets
+          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetText_label, Assets
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -10569,6 +10581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -10579,7 +10592,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 8272404954251566854}
-          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetLabel, Assets
+          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetText_label, Assets
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -11149,7 +11162,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 5213047808540777143}
-          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetLabel, Assets
+          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetText_label, Assets
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -11179,6 +11192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -11189,7 +11203,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 5213047808540777143}
-          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetLabel, Assets
+          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetText_label, Assets
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -12532,7 +12546,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1123326001055716688}
-          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetLabel, Assets
+          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetText_label, Assets
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -12562,6 +12576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -12572,7 +12587,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1123326001055716688}
-          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetLabel, Assets
+          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetText_label, Assets
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -13905,7 +13920,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 6711529794452206835}
-          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetLabel, Assets
+          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetText_label, Assets
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -13935,6 +13950,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -13945,7 +13961,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 6711529794452206835}
-          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetLabel, Assets
+          m_ObjectArgumentAssemblyTypeName: UI.Core.NetUI.NetText_label, Assets
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
