@@ -15,6 +15,7 @@ namespace Systems.Permissions
 		public List<Player> Players { get; set; }
 	}
 
+	
 	public class Rank
 	{
 		public bool ShowInChat { get; set; }
