@@ -47,7 +47,7 @@ namespace Tests
 			}
 		}
 
-		
+
 		[Test]
 		public void ScanCodeReport()
 		{
@@ -91,7 +91,7 @@ namespace Tests
 				BuildPath += @"/Mac";
 			}
 
-			if (Directory.Exists(FolderError) == false)
+			if (File.Exists(ExecutablePath) == false)
 			{
 				ZipFile.ExtractToDirectory(FolderZip, ExtractionPath);
 			}
@@ -168,9 +168,24 @@ namespace Tests
 			}
 
 			var extractionDirectory = new DirectoryInfo(ExtractionPath);
-			if (extractionDirectory.Exists)
+			foreach (var directories in extractionDirectory.GetDirectories())
 			{
-				extractionDirectory.Delete(true);
+				if (directories.Name == "MissingAssemblies")
+				{
+					directories.Delete();
+				}
+				if (directories.Name == "linux-x64")
+				{
+					directories.Delete();
+				}
+				if (directories.Name == "osx-x64")
+				{
+					directories.Delete();
+				}
+				if (directories.Name == "win-x64")
+				{
+					directories.Delete();
+				}
 			}
 
 			report.Log().AssertPassed();
