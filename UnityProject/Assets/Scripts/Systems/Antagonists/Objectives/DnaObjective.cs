@@ -17,8 +17,18 @@ namespace Changeling
 
 		protected override void Setup()
 		{
-			objectiveName = string.Format(objectiveName, dnaNeedCount);
 			description = string.Format(description, dnaNeedCount);
+		}
+
+		public override string GetDescription()
+		{
+			return $"Extract DNA by using your abilities.";
+		}
+
+		protected override void SetupInGame()
+		{	
+			dnaNeedCount = attributes[0].Number;
+			description = $"Extract {dnaNeedCount} DNA by using your abilities.";
 		}
 	}
 }

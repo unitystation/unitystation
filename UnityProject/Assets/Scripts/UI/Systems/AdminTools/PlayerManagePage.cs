@@ -16,6 +16,7 @@ namespace AdminTools
 		[SerializeField] private Toggle quickRespawnToggle = default;
 		[SerializeField] private Text mentorButtonText = null;
 		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
+		[SerializeField] private PlayerObjectiveManagerPage antagManagerPage = default;
 
 		[SerializeField] private Text oocMuteButtonText = null;
 
@@ -219,6 +220,12 @@ namespace AdminTools
 		{
 			AdminCommandsManager.Instance.CmdOOCMutePlayer(PlayerEntry.PlayerData.uid);
 			RefreshPage();
+		}
+
+		public void OnAntagonistManager()
+		{
+			antagManagerPage.Init(PlayerEntry);
+			adminTools.ShowAntagManagerPage();
 		}
 	}
 }

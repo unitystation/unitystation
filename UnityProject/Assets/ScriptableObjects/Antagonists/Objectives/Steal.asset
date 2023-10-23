@@ -12,6 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fab70c9bf9ee1d438e76270938c1092, type: 3}
   m_Name: Steal
   m_EditorClassIdentifier: 
+  attributes:
+  - name: What?
+    index: -1
+    type: 2
+    playerID: 
+    number: 0
+    itemID: 
+    itemTraitIndex: 0
+  - name: Amount?
+    index: -1
+    type: 1
+    playerID: 
+    number: 0
+    itemID: 
+    itemTraitIndex: 0
+  isEndRoundObjective: 0
   objectiveName: Steal
   IsUnique: 0
   description: Steal something from the station

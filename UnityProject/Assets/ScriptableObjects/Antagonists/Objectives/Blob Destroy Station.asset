@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7a29ba8405d5b34892cd4b6c74db1d2, type: 3}
   m_Name: Blob Destroy Station
   m_EditorClassIdentifier: 
+  attributes: []
+  isEndRoundObjective: 1
   objectiveName: Destroy the Station
   IsUnique: 1
   description: Devour and destroy the station. Grow and spread everywhere. Reach
     Critical Mass!
   aiCanHave: 0
+  references:
+    version: 2
+    RefIds: []
