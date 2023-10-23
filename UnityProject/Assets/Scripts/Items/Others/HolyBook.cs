@@ -11,6 +11,9 @@ namespace Items
 	/// </summary>
 	public class HolyBook : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>, ICheckedInteractable<HandActivate>, ISuicide
 	{
+
+		[SerializeField] private HasNetworkTabItem bibleTab;
+
 		//The amount a single thwack heals or damages.
 		public int healthModifier = 10;
 
@@ -157,7 +160,7 @@ namespace Items
 			}
 			else
 			{
-				Loggy.Log("Add shop point pls");
+				if (bibleTab != null) bibleTab.ServerPerformInteraction(interaction);
 			}
 		}
 	}

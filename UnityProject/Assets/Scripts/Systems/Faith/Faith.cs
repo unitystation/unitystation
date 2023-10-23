@@ -18,7 +18,7 @@ namespace Systems.Faith
 		[SerializeReference, SelectImplementation(typeof(IFaithProperty))]
 		public List<IFaithProperty> FaithProperties = new List<IFaithProperty>();
 
-		[SerializeReference, SelectImplementation(typeof(IFaithProperty))]
+		[SerializeReference, SelectImplementation(typeof(IFaithMiracle))]
 		public List<IFaithMiracle> FaithMiracles = new List<IFaithMiracle>();
 	}
 
