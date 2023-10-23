@@ -152,6 +152,7 @@ namespace AdminTools
 			ghostRolesPage.gameObject.SetActive(true);
 			ghostRolesPage.Init();
 			windowTitle.text = "GHOST ROLES";
+			retrievingDataScreen.SetActive(true);
 		}
 
 		public void ShowRespawnPage()
