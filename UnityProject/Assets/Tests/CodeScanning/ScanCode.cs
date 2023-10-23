@@ -172,19 +172,19 @@ namespace Tests
 			{
 				if (directories.Name == "MissingAssemblies")
 				{
-					directories.Delete();
+					directories.Delete(true);
 				}
 				if (directories.Name == "linux-x64")
 				{
-					directories.Delete();
+					directories.Delete(true);
 				}
 				if (directories.Name == "osx-x64")
 				{
-					directories.Delete();
+					directories.Delete(true);
 				}
 				if (directories.Name == "win-x64")
 				{
-					directories.Delete();
+					directories.Delete(true);
 				}
 			}
 
