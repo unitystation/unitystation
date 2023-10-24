@@ -36,6 +36,13 @@ public struct PlayerAction
 	}
 
 
+	public MovementSynchronisation.PlayerMoveDirection ToPlayerMoveDirection(Vector2Int InDirection)
+	{
+		InDirection = TransformMove(InDirection);
+
+		return MovementSynchronisation.VectorToPlayerMoveDirection(InDirection);
+	}
+
 
 	public MovementSynchronisation.PlayerMoveDirection ToPlayerMoveDirection()
 	{
