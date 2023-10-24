@@ -985,7 +985,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (CanInPutMove())
 		{
 
-			//if (CachedMove == Vector2Int.zero)
+			if (CachedMove == Vector2Int.zero)
 			{
 				CachedMove = moveActions.Direction();
 			}
