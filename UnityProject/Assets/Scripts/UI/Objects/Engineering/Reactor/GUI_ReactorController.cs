@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using UI.Core.NetUI;
 using Objects.Engineering;
@@ -53,6 +54,8 @@ namespace UI.Objects.Engineering
 
 		public void Refresh()
 		{
+			if (IsMasterTab == false) return;
+
 			if (ReactorControlConsole != null && ReactorControlConsole.ReactorChambers != null)
 			{
 				float temp = ReactorControlConsole.ReactorChambers.Temperature;
@@ -61,11 +64,11 @@ namespace UI.Objects.Engineering
 
 				CorePressure.MasterSetValue(Math
 					.Round((ReactorControlConsole.ReactorChambers.CurrentPressure /
-							ReactorControlConsole.ReactorChambers.MaxPressure) * 100).ToString());
+					        ReactorControlConsole.ReactorChambers.MaxPressure) * 100).ToString());
 
 				CoreWaterLevel.MasterSetValue((Math.Round((ReactorControlConsole.ReactorChambers.ReactorPipe.pipeData
-					.mixAndVolume.Total.x
-					 / 240) * 100)).ToString());
+					                                           .mixAndVolume.Total.x
+				                                           / 240) * 100)).ToString());
 
 				if (PreviousRADlevel != 0 && ReactorControlConsole.ReactorChambers.PresentNeutrons != 0)
 				{
@@ -73,9 +76,9 @@ namespace UI.Objects.Engineering
 						((ReactorControlConsole.ReactorChambers.PresentNeutrons / PreviousRADlevel) * 100);
 
 					PercentageChange = PercentageChange - 100;
-					var ValuePercentageChange = Mathf.Clamp((float)(50 + (PercentageChange * 5)), 0, 100);
-					var ValuePercentageChange0_1 = Mathf.Clamp((float)(50 + (PercentageChange * 50)), 0, 100);
-					var ValuePercentageChange0_01 = Mathf.Clamp((float)(50 + (PercentageChange * 500)), 0, 100);
+					var ValuePercentageChange = Mathf.Clamp((float) (50 + (PercentageChange * 5)), 0, 100);
+					var ValuePercentageChange0_1 = Mathf.Clamp((float) (50 + (PercentageChange * 50)), 0, 100);
+					var ValuePercentageChange0_01 = Mathf.Clamp((float) (50 + (PercentageChange * 500)), 0, 100);
 					CoreKValue.MasterSetValue(Math.Round(ValuePercentageChange).ToString());
 					CoreKValue0_1.MasterSetValue(Math.Round(ValuePercentageChange0_1).ToString());
 					CoreKValue0_01.MasterSetValue(Math.Round(ValuePercentageChange0_01).ToString());
@@ -83,8 +86,9 @@ namespace UI.Objects.Engineering
 
 
 				PreviousRADlevel = ReactorControlConsole.ReactorChambers.PresentNeutrons;
-				RodDepth.MasterSetValue((ReactorControlConsole.ReactorChambers.ControlRodDepthPercentage * 100).ToString() + "%");
-				float Value = SetLogScale((float)PreviousRADlevel);
+				RodDepth.MasterSetValue(
+					(ReactorControlConsole.ReactorChambers.ControlRodDepthPercentage * 100).ToString() + "%");
+				float Value = SetLogScale((float) PreviousRADlevel);
 				CoreFluxLevel.MasterSetValue((Math.Round(Value).ToString()));
 				GUIReactorLayout.Refresh();
 				GUIReactorAnnunciator.Refresh();
@@ -95,11 +99,12 @@ namespace UI.Objects.Engineering
 		{
 			if (INNum == 0) return 0;
 
-			int Power = (int)Math.Floor(Math.Log10(INNum));
+			int Power = (int) Math.Floor(Math.Log10(INNum));
 			return (100f / 12f) * Mathf.Clamp(Power, 0, 100) + ((100f / 12f) * (INNum / (Mathf.Pow(10, Power + 1))));
 		}
 
 		private float MainSetControl = 1;
+
 		public void MainSetControlDepth(float Depth)
 		{
 			MainSetControl = Depth;
@@ -107,6 +112,7 @@ namespace UI.Objects.Engineering
 		}
 
 		private float SecondarySetControl = 1;
+
 		public void SecondarySetControlDepth(float Depth)
 		{
 			SecondarySetControl = Depth;
@@ -185,8 +191,13 @@ namespace UI.Objects.Engineering
 			public NetFlasher HighDegradationOfFuel;
 			public NetFlasher CorePipeBurst;
 
+			private LayerMask? hitMask;
+
 			public void Refresh()
 			{
+				hitMask ??= LayerMask.GetMask("Players");
+
+
 				Temperature();
 				NeutronFlux();
 				KValues();
@@ -195,6 +206,24 @@ namespace UI.Objects.Engineering
 				RobDepth();
 
 				var Chamber = GUIReactorControler.ReactorControlConsole.ReactorChambers;
+
+				bool FoundClown = false;
+
+				var Players = Physics2D.OverlapCircleAll(Chamber.transform.position, 10, hitMask.Value);
+				foreach (var Player in Players)
+				{
+					if (Player.gameObject.OrNull()?.GetComponent<PlayerScript>().OrNull()?.Mind.OrNull()?.occupation
+						    .OrNull()?.JobType == JobType.CLOWN)
+					{
+						FoundClown = true;
+						break;
+					}
+				}
+
+				Loggy.LogError("FoundClown >" + FoundClown );
+				Clown.SetState(FoundClown);
+
+
 				CoreMeltdown.SetState(Chamber.MeltedDown);
 				HighDegradationOfFuel.SetState(
 					Chamber.ReactorFuelRods.Any(x => (x.PresentAtomsfuel / x.PresentAtoms) < 0.65m));
@@ -233,7 +262,6 @@ namespace UI.Objects.Engineering
 				HighNeutronFluxDelta.SetState(HighNeutronFluxDelta_Delta > 100000);
 				LowNeutronFlux.SetState(Chamber.PresentNeutrons < 200);
 				Last_HighNeutronFluxDelta = Chamber.PresentNeutrons;
-
 			}
 
 			public void KValues()
@@ -256,9 +284,9 @@ namespace UI.Objects.Engineering
 			{
 				var Chamber = GUIReactorControler.ReactorControlConsole.ReactorChambers;
 				float Pressure = Chamber.ReactorPipe.pipeData.mixAndVolume.Temperature *
-								 Chamber.ReactorPipe.pipeData.mixAndVolume.Total.x;
+				                 Chamber.ReactorPipe.pipeData.mixAndVolume.Total.x;
 
-				HighCorePressure.SetState(Pressure > (float)(Chamber.MaxPressure - 10000));
+				HighCorePressure.SetState(Pressure > (float) (Chamber.MaxPressure - 10000));
 
 				Pressure_Delta = Math.Abs(Pressure - Last_Pressure);
 				HighPressureDelta.SetState(Pressure_Delta > 100);

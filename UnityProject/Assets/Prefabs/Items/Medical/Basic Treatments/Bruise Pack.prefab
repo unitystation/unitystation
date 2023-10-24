@@ -21,7 +21,7 @@ PrefabInstance:
     - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: stacksWith.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -33,6 +33,12 @@ PrefabInstance:
       propertyPath: 'stacksWith.Array.data[0]'
       value: 
       objectReference: {fileID: 6748581008247049004}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: 'stacksWith.Array.data[1]'
+      value: 
+      objectReference: {fileID: 5960176700413057615, guid: 38e2c2e939a3d044e814d0195cb84ffa,
+        type: 3}
     - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: stackSprites.Array.data[0].SpriteSO
@@ -94,17 +100,17 @@ PrefabInstance:
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
