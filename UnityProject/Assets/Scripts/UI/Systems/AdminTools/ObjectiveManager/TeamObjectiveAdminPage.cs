@@ -9,7 +9,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TeamObjectiveAdminPage : MonoBehaviour
+public class TeamObjectiveAdminPage : AdminPage
 {
 	[SerializeField]
 	private TeamObjectiveEntry entryObj;

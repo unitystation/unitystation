@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace AdminTools
 {
-	public class GhostRoleAdminPage : MonoBehaviour
+	public class GhostRoleAdminPage : AdminPage
 	{
 		[SerializeField] private GhostRoleAdminEntry entry;
 		[SerializeField] private GameObject addButton;
