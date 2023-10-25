@@ -35,6 +35,13 @@ namespace Systems.Faith.Miracles
 		{
 			foreach (var leader in FaithManager.Instance.FaithLeaders)
 			{
+				Chat.AddLocalMsgToChat($"{leader.visibleName}'s eyes become white as they start chanting some words loudly..", leader.gameObject);
+				Chat.AddChatMsgToChatServer(leader.PlayerInfo, "..Gin-La tok.. Ja-kra-ko..", ChatChannel.Local, Loudness.LOUD);
+				if (DMMath.Prob(50))
+				{
+					MakePersonDrunk(leader.playerHealth);
+					Chat.AddExamineMsg(leader.gameObject, "The curse misfires and affects you as well!");
+				}
 				var overlapBox =
 					Physics2D.OverlapBoxAll(leader.gameObject.AssumedWorldPosServer(), new Vector2(6, 6), 0);
 				foreach (var collider in overlapBox)
@@ -43,12 +50,17 @@ namespace Systems.Faith.Miracles
 					if (MatrixManager.Linecast(leader.AssumedWorldPos,
 						    LayerTypeSelection.Walls, LayerMask.GetMask("Walls"),
 						    collider.gameObject.AssumedWorldPosServer()).ItHit == false) continue;
-					if (health.brain == null) continue;
-					health.brain.SyncDrunkenness(health.brain.DrunkAmount, 100);
-					string msg = new RichText("You feel like a drunkard out of nowhere..").Italic().Color(Color.Red);
-					Chat.AddExamineMsg(health.gameObject, msg);
+					MakePersonDrunk(health);
 				}
 			}
+		}
+
+		private void MakePersonDrunk(LivingHealthMasterBase health)
+		{
+			if (health.brain == null) return;
+			health.brain.ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(health.brain.DrunkReagent, 100);
+			string msg = new RichText("You feel like a drunkard out of nowhere..").Italic().Color(Color.Red);
+			Chat.AddExamineMsg(health.gameObject, msg);
 		}
 	}
 }
