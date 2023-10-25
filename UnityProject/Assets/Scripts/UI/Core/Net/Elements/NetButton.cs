@@ -35,8 +35,7 @@ namespace UI.Core.NetUI
 				Button.onClick.AddListener(ExecuteClient);
 			}
 		}
-
-
+		
 		public void OnPointerEnter(PointerEventData eventData)
 		{
 			OnMouseEnter?.Invoke();
