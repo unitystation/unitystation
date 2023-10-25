@@ -11,6 +11,7 @@ namespace Util.Independent.FluentRichText
 	public class RichText
 	{
 		private readonly StringBuilder builder;
+		public StringBuilder Builder => builder;
 		private readonly List<IStyleStrategy> styles = new();
 
 		/// <summary>
@@ -32,8 +33,14 @@ namespace Util.Independent.FluentRichText
 
 		public static implicit operator string(RichText richText)
 		{
-			return richText.ToString();
+			return richText.Builder.ToString();
 		}
+
+		public override string ToString()
+		{
+			return builder.ToString();
+		}
+
 
 		/// <summary>
 		/// Aligns the text according to the specified alignment.

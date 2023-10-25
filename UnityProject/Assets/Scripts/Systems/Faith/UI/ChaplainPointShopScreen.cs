@@ -1,4 +1,5 @@
-﻿using Items;
+﻿using System;
+using Items;
 using TMPro;
 using UI.Core.NetUI;
 using UnityEngine;
@@ -52,7 +53,7 @@ namespace Systems.Faith.UI
 		public void OnBuy()
 		{
 			if (currentFocusedElement == null) return;
-			currentFocusedElement.ExecuteServer(PlayerManager.LocalPlayerScript.PlayerInfo);
+			currentFocusedElement.DoMiracle();
 		}
 	}
 }

@@ -24,6 +24,7 @@ MonoBehaviour:
     FaithProperties:
     - rid: 2708802425784369153
     FaithMiracles:
+    - rid: 6780799841507999746
     - rid: 6780799720538505217
   references:
     version: 2
@@ -39,3 +40,10 @@ MonoBehaviour:
         faithMiracleDesc: Heal all alive believers to max health. This does not cure
           sicknesses, cure trauma or re-grow limbs.
         miracleIcon: {fileID: 11400000, guid: ce46bc3807a375b44a80688b4f4dbe19, type: 2}
+    - rid: 6780799841507999746
+      type: {class: CurseWithDrunkness, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Curse with Drunkness.
+        faithMiracleDesc: Causes all humanoids within a small circle oh all faith
+          leaders to become drunk.
+        miracleIcon: {fileID: 11400000, guid: 5bbf20940998fda4baf45177c699fd6c, type: 2}

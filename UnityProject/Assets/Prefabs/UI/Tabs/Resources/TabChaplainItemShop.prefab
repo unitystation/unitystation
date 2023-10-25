@@ -794,6 +794,7 @@ GameObject:
   - component: {fileID: 5094211908064879567}
   - component: {fileID: 3554401248139596482}
   - component: {fileID: 4378614583993295183}
+  - component: {fileID: 1980007167361941542}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -902,6 +903,22 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3554401248139596482}
   m_OnClick:
     m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1980007167361941542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839893632009361934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80af66fa15a485449be1acba90908fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AddInRunTime: 1
+  ServerMethod:
+    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5580809791260454944}
         m_TargetAssemblyTypeName: Systems.Faith.UI.ChaplainPointShopScreen, Assets
@@ -915,6 +932,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5081457741600344462
 GameObject:
   m_ObjectHideFlags: 0
@@ -1251,7 +1274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3188562279415647161
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1272,7 +1295,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 19.256104, y: -28.5634}
+  m_AnchoredPosition: {x: 658, y: -28.5634}
   m_SizeDelta: {x: 450, y: 87.1267}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1332456799828650865

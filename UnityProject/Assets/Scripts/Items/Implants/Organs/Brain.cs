@@ -142,7 +142,6 @@ namespace Items.Implants.Organs
 			{
 				ApplyChangesDrunkenness(drunkAmount);
 			}
-
 		}
 
 		public void ApplyChangesDrunkenness(float newState)

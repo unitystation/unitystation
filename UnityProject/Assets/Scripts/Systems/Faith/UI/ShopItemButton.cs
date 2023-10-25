@@ -22,18 +22,10 @@ namespace Systems.Faith.UI
 			hiddenCost.MasterSetValue(miracle.MiracleCost.ToString());
 			HiddenDesc.MasterSetValue(miracle.FaithMiracleDesc);
 			spriteSO.MasterSetValue(miracle.MiracleIcon.SetID);
-			ExecuteClient();
 		}
 
-		public override void ExecuteClient()
+		public void DoMiracle()
 		{
-			base.ExecuteClient();
-			gameObject.SetActive(true);
-		}
-
-		public override void ExecuteServer(PlayerInfo subject)
-		{
-			base.ExecuteServer(subject);
 			miracle.DoMiracle();
 		}
 

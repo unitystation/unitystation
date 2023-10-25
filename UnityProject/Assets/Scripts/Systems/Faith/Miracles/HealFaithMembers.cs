@@ -37,7 +37,7 @@ namespace Systems.Faith.Miracles
 			{
 				if (member.IsDeadOrGhost) continue;
 				member.playerHealth.FullyHeal();
-				RichText text = new RichText("You have been blessed..").Bold().Color((Color)Color.Yellow);
+				string text = new RichText("You have been blessed..").Bold().Color((Color)Color.Yellow);
 				Chat.AddExamineMsg(member.gameObject, text);
 			}
 		}
