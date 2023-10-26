@@ -124,11 +124,6 @@ public class ResponsiveUI : MonoBehaviour, IInitialise
 
 		main.rect = new Rect(0, 0, width / (float) Screen.width, height / (float) Screen.height);
 
-		// if (requiresChange && !Screen.fullScreen)
-		// {
-		// 	Screen.SetResolution(width, height, false);
-		// }
-
 		screenWidthCache = Screen.width;
 		screenHeightCache = Screen.height;
 
