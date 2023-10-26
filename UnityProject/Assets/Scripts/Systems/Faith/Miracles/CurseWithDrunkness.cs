@@ -57,7 +57,7 @@ namespace Systems.Faith.Miracles
 
 		private void MakePersonDrunk(LivingHealthMasterBase health)
 		{
-			if (health.brain == null) return;
+			if (health.brain == null || health.brain.ReagentCirculatedComponent?.AssociatedSystem?.BloodPool == null) return;
 			health.brain.ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(health.brain.DrunkReagent, 100);
 			string msg = new RichText("You feel like a drunkard out of nowhere..").Italic().Color(Color.Red);
 			Chat.AddExamineMsg(health.gameObject, msg);

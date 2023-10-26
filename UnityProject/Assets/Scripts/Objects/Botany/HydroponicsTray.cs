@@ -51,6 +51,7 @@ namespace Objects.Botany
 		[SerializeField] private float tickRate = 0;
 
 		[SerializeField] private PlantData plantData;
+		public PlantData PlantData => plantData;
 
 		private readonly List<GameObject> readyProduce = new List<GameObject>();
 		private float tickCount;

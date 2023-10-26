@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
@@ -8,7 +6,7 @@ namespace Scripts.Core.Transform
 
     public class ScaleSync : NetworkBehaviour
     {
-	    [SyncVar(hook = nameof(SyncScale))]
+	    [SyncVar(hook = nameof(SyncScale)), SerializeField]
 	    private Vector3 scaleTransform = new Vector3(1f, 1f, 1f);
 
 	    public override void OnStartClient()

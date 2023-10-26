@@ -64,6 +64,17 @@ namespace Items.Food
 			if (setCurrentBitesToMaxBitesOnServerSpawn) currentBites = maxBites;
 		}
 
+		public void SetMaxBites(int newMaxBites, bool resetCurrentBites = false)
+		{
+			maxBites = newMaxBites;
+			if (resetCurrentBites == false) return;
+			currentBites = maxBites;
+			if (stackable.Amount > 1)
+			{
+				stackable.ServerSetAmount(newMaxBites);
+			}
+		}
+
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
