@@ -26,6 +26,7 @@ MonoBehaviour:
     FaithMiracles:
     - rid: 6780799841507999746
     - rid: 6780799720538505217
+    - rid: 6780799869738287123
   references:
     version: 2
     RefIds:
@@ -47,3 +48,10 @@ MonoBehaviour:
         faithMiracleDesc: Causes all humanoids within a small circle oh all faith
           leaders to become drunk.
         miracleIcon: {fileID: 11400000, guid: 5bbf20940998fda4baf45177c699fd6c, type: 2}
+    - rid: 6780799869738287123
+      type: {class: MakeFoodBigger, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Make food bigger
+        faithMiracleDesc: Bleses (or curses) nearby food to become bigger, allowing
+          for a feast.
+        miracleIcon: {fileID: 11400000, guid: d4eec8993c7464b4f932a254893b6fbf, type: 2}

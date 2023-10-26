@@ -30,6 +30,9 @@ MonoBehaviour:
     - rid: 2708802213016240139
     - rid: 2708802213016240141
     - rid: 2708802213016240143
+    FaithMiracles:
+    - rid: 6780799869088170013
+    - rid: 6780799869738287105
   references:
     version: 2
     RefIds:
@@ -39,6 +42,7 @@ MonoBehaviour:
         faithPropertyName: Darkness
         faithPropertyDesc: People of this faith like to lurk in the darkness.
         propertyIcon: {fileID: 21300000, guid: 562b5450772949847ba8dc04b0d6f679, type: 3}
+        minimumAlphaForDarkness: 0.65
     - rid: 2708802213016240139
       type: {class: Xenophobia, ns: Systems.Faith.FaithProperties, asm: Assets}
       data:
@@ -71,3 +75,23 @@ MonoBehaviour:
       type: {class: ScienceComesFirst, ns: Systems.Faith.FaithProperties, asm: Assets}
       data:
         propertyIcon: {fileID: 21300000, guid: 4abf5a8866bc15540960ebfe444ffe19, type: 3}
+    - rid: 6780799869088170013
+      type: {class: BestowThePowerOfGod, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Bestow the power of god
+        faithMiracleDesc: Give all faith leaders a golden weapon that holds the power
+          of god.
+        miracleIcon: {fileID: 11400000, guid: 93bf57552eef5424a9677ef6d7179beb, type: 2}
+        goldenRevolver: {fileID: 5110185232032146699, guid: 04e181bad9e993944bf2465d48cb41d4,
+          type: 3}
+    - rid: 6780799869738287105
+      type: {class: DarkifyAllLightSources, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Darkify all Light Sources
+        faithMiracleDesc: Turns all light sources into a comfortable warm light.
+        miracleIcon: {fileID: 11400000, guid: 90852564837bdab4e8b8a3343f935ded, type: 2}
+        lightColors:
+        - {r: 0.24777503, g: 0.4812795, b: 0.6037736, a: 0.49803922}
+        - {r: 0.13176396, g: 0.3372357, b: 0.4433962, a: 0.49803922}
+        - {r: 0.13333337, g: 0.44313726, b: 0.31109673, a: 0.49803922}
+        - {r: 0.29730332, g: 0.4811321, b: 0.40201592, a: 0.61960787}

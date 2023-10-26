@@ -52,6 +52,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[NonSerialized]
 	public DamagedEvent OnApplyDamage = new DamagedEvent();
 
+	public UnityEvent OnDamaged = new UnityEvent();
+
 	/// <summary>
 	/// event for hotspots
 	/// </summary>
@@ -249,7 +251,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 			if (triggerEvent)
 			{
-				OnApplyDamage.Invoke(damageInfo);
+				OnApplyDamage?.Invoke(damageInfo);
+				OnDamaged?.Invoke();
 			}
 
 			CheckDestruction(explodeOnDestroy);
