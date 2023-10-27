@@ -75,6 +75,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[SerializeField] private PassableExclusionTrait needsWalking = null;
 	[SerializeField] private PassableExclusionTrait needsRunning = null;
 
+	public Vector2Int CachedPreviousMove = Vector2Int.zero;
+	public Vector2Int CachedMove = Vector2Int.zero;
+
 	[SyncVar(hook = nameof(SyncMovementType))]
 	private MovementType currentMovementType;
 
@@ -946,7 +949,30 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 
 
-		if (moveActions.moveActions.Length == 0) return;
+		if (moveActions.moveActions.Length == 0)
+		{
+			CachedMove = Vector2Int.zero;
+			CachedPreviousMove = Vector2Int.zero;
+			return;
+		}
+		else
+		{
+			var inDirection = moveActions.Direction();
+			if (CachedPreviousMove != inDirection)
+			{
+				if (Mathf.Abs(inDirection.x) > 0)
+				{
+					CachedMove.x = inDirection.x;
+				}
+
+
+				if (Mathf.Abs(inDirection.y) > 0)
+				{
+					CachedMove.y = inDirection.y;
+				}
+			}
+
+		}
 
 		if (KeyboardInputManager.IsControlPressed())
 		{
@@ -958,19 +984,26 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		if (CanInPutMove())
 		{
+
+			if (CachedMove == Vector2Int.zero)
+			{
+				CachedMove = moveActions.Direction();
+			}
+
 			var newMoveData = new MoveData()
 			{
 				LocalPosition = transform.localPosition,
 				Timestamp = NetworkTime.time,
 				MatrixID = registerTile.Matrix.Id,
-				GlobalMoveDirection = moveActions.ToPlayerMoveDirection(),
+				GlobalMoveDirection = moveActions.ToPlayerMoveDirection(CachedMove),
 				CausesSlip = false,
 				Bump = false,
 				LastPushID = SetTimestampID,
 				Pulling = Pulling.Component.OrNull()?.netId ?? NetId.Empty,
 				LastResetID = SetLastResetID
 			};
-
+			CachedPreviousMove = CachedMove;
+			CachedMove = Vector2Int.zero;
 
 			if (TryMove(ref newMoveData, gameObject, false, out _))
 			{
@@ -1014,7 +1047,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			if (Cooldowns.TryStartClient(playerScript, moveCooldown) == false) return;
 
 			CMDTryEscapeContainer(PlayerAction.GetMoveAction(moveActions.Direction()));
+			return;
 		}
+
+
+
 	}
 
 	[Command]
