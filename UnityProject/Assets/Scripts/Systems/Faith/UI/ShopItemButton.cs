@@ -1,6 +1,8 @@
-﻿using UI.Core.Net.Elements;
+﻿using System;
+using UI.Core.Net.Elements;
 using UI.Core.NetUI;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace Systems.Faith.UI
@@ -10,8 +12,10 @@ namespace Systems.Faith.UI
 		[SerializeField] private NetText_label text;
 		[SerializeField] private NetText_label hiddenCost;
 		[SerializeField] private NetText_label HiddenDesc;
+		[SerializeField] private NetText_label id;
 		[SerializeField] private NetSpriteHandler spriteSO;
 		[SerializeField] private ChaplainPointShopScreen screen;
+		public string ID => id.Value;
 
 		private IFaithMiracle miracle;
 
@@ -22,6 +26,7 @@ namespace Systems.Faith.UI
 			hiddenCost.MasterSetValue(miracle.MiracleCost.ToString());
 			HiddenDesc.MasterSetValue(miracle.FaithMiracleDesc);
 			spriteSO.MasterSetValue(miracle.MiracleIcon.SetID);
+			id.MasterSetValue(Guid.NewGuid().ToString());
 		}
 
 		public void DoMiracle()
@@ -31,7 +36,7 @@ namespace Systems.Faith.UI
 
 		public void OnClick()
 		{
-			screen.SetData(text.Value, hiddenCost.Value, HiddenDesc.Value, this);
+			screen.SetData(text.Value, hiddenCost.Value, HiddenDesc.Value, id.Value, spriteSO.Element.CurrentSprite);
 		}
 	}
 }

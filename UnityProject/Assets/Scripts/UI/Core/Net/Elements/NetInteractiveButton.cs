@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using Logs;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.Core.NetUI

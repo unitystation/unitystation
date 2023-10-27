@@ -1,8 +1,11 @@
 ﻿using System;
 using Items;
+using JetBrains.Annotations;
+using Logs;
 using TMPro;
 using UI.Core.NetUI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Systems.Faith.UI
 {
@@ -12,6 +15,8 @@ namespace Systems.Faith.UI
 		[SerializeField] private TMP_Text costText;
 		[SerializeField] private TMP_Text titleText;
 		[SerializeField] private TMP_Text descText;
+		[SerializeField] private NetText_label currentId;
+		[SerializeField] private Image image;
 
 		private HolyBook provider;
 		private ShopItemButton currentFocusedElement;
@@ -31,6 +36,11 @@ namespace Systems.Faith.UI
 			foreach (var miracle in FaithManager.Instance.CurrentFaith.FaithMiracles)
 			{
 				var newItem = shopListTransform.AddItem() as ShopItemButton;
+				if (newItem == null)
+				{
+					Loggy.LogError("[ChaplainPointShopScreen/RefreshShop()] -  Unexpected type detected.");
+					return;
+				}
 				newItem.SetValues(miracle);
 			}
 
@@ -42,18 +52,40 @@ namespace Systems.Faith.UI
 			}
 		}
 
-		public void SetData(string title, string cost, string desc, ShopItemButton focusedElement)
+		public void SetData(string title, string cost, string desc, string elementId, Sprite img)
 		{
 			costText.text = cost;
 			titleText.text = title;
 			descText.text = desc;
-			currentFocusedElement = focusedElement;
+			image.sprite = img;
+			FindFocusedElement(elementId);
+		}
+
+		private void FindFocusedElement(string focuseID)
+		{
+			currentFocusedElement = null;
+			currentId.MasterSetValue("expand dong");
+			foreach (var entry in shopListTransform.Entries)
+			{
+				if (entry is not ShopItemButton c) continue;
+				if (c.ID != focuseID) continue;
+				currentFocusedElement = c;
+				currentId.MasterSetValue(focuseID);
+				Loggy.Log($"Found shitass with id {c.ID} which matches {currentId.Value}");
+				break;
+			}
 		}
 
 		public void OnBuy()
 		{
-			if (currentFocusedElement == null) return;
-			currentFocusedElement.DoMiracle();
+			foreach (var entry in shopListTransform.Entries)
+			{
+				if (entry is not ShopItemButton c) continue;
+				if (c.ID != currentId.Value) continue;
+				Loggy.Log($"Found shitass with id {c.ID} which matches {currentId.Value}");
+				c.DoMiracle();
+				break;
+			}
 		}
 	}
 }
