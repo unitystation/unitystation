@@ -10,33 +10,27 @@ namespace Systems.Faith.UI
 	public class ShopItemButton : DynamicEntry
 	{
 		[SerializeField] private NetText_label text;
-		[SerializeField] private NetText_label hiddenCost;
-		[SerializeField] private NetText_label HiddenDesc;
-		[SerializeField] private NetText_label id;
 		[SerializeField] private NetSpriteHandler spriteSO;
-		[SerializeField] private ChaplainPointShopScreen screen;
-		public string ID => id.Value;
+		[SerializeField] private GUI_ChaplainPointShopScreen screen;
 
-		private IFaithMiracle miracle;
+		public IFaithMiracle Miracle;
 
-		public void SetValues(IFaithMiracle newMiracle)
+		public void SetValues(IFaithMiracle newMiracle, GUI_ChaplainPointShopScreen inscreen )
 		{
-			miracle = newMiracle;
-			text.MasterSetValue(miracle.FaithMiracleName);
-			hiddenCost.MasterSetValue(miracle.MiracleCost.ToString());
-			HiddenDesc.MasterSetValue(miracle.FaithMiracleDesc);
-			spriteSO.MasterSetValue(miracle.MiracleIcon.SetID);
-			id.MasterSetValue(Guid.NewGuid().ToString());
+			screen = inscreen;
+			Miracle = newMiracle;
+			text.MasterSetValue(Miracle.FaithMiracleName);
+			spriteSO.MasterSetValue(Miracle.MiracleIcon.SetID);
 		}
 
 		public void DoMiracle()
 		{
-			miracle.DoMiracle();
+			Miracle.DoMiracle();
 		}
 
-		public void OnClick()
+		public void OnCategoryChosen()
 		{
-			screen.SetData(text.Value, hiddenCost.Value, HiddenDesc.Value, id.Value, spriteSO.Element.CurrentSprite);
+			screen.SetMasterData(this);
 		}
 	}
 }
