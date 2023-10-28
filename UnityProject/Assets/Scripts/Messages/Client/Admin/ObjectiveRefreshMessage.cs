@@ -45,7 +45,7 @@ namespace Messages.Client.Admin
 					Name = x.name,
 					ID = x.ID,
 					IsCustom = x is CustomObjective,
-					PrefabID = AntagData.Instance.GetIndexObj(x)
+					IsEndRound = x.IsEndRoundObjective
 				};
 
 				objectivesInfo.Objectives.Add(objInfo);

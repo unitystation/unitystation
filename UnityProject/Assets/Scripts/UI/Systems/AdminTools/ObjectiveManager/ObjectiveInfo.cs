@@ -7,7 +7,8 @@ public class ObjectiveInfo
 	public string Name;
 	public bool Status;
 	public bool IsCustom = false;
-	public bool toDelete = false;
+	public bool ToDelete = false;
+	public bool IsEndRound = false;
 	public string ID = "";
 	public short PrefabID = -1;
 	public List<ObjectiveAttribute> Attributes = new List<ObjectiveAttribute>();

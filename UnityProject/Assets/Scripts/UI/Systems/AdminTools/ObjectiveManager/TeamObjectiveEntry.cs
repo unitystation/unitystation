@@ -76,8 +76,8 @@ public class TeamObjectiveEntry : MonoBehaviour
 			teamObjectiveAdminPage.RemoveObjectiveEntry(this);
 		} else
 		{
-			info.toDelete = !info.toDelete;
-			if (info.toDelete == true)
+			info.ToDelete = !info.ToDelete;
+			if (info.ToDelete == true)
 			{
 				removeButtonText.color = new Color(1, 0, 0, 1);
 			}
