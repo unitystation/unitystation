@@ -159,6 +159,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdateBurn);
 		}
+		OnDamaged?.RemoveAllListeners();
 	}
 
 	private void EnsureInit()

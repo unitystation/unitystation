@@ -41,7 +41,16 @@ namespace Systems.Faith.Miracles
 						    LayerTypeSelection.Walls, LayerMask.GetMask("Walls"),
 						    collider.gameObject.AssumedWorldPosServer()).ItHit == false) continue;
 					if (collider.TryGetComponent<Integrity>(out var integrity) == false) continue;
-					integrity.OnDamaged.AddListener( () => Explosion.StartExplosion(integrity.gameObject.AssumedWorldPosServer().CutToInt(), 35f) );
+					SparkUtil.TrySpark(integrity.gameObject);
+					integrity.OnDamaged.AddListener( () =>
+					{
+						Explosion.StartExplosion(integrity.gameObject.AssumedWorldPosServer().CutToInt(), 35f);
+						if (DMMath.Prob(35))
+						{
+							integrity.OnDamaged.RemoveAllListeners();
+						}
+						SparkUtil.TrySpark(integrity.gameObject);
+					});
 				}
 			}
 		}
