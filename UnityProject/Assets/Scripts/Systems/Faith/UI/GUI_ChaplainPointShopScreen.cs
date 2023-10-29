@@ -1,12 +1,8 @@
-﻿using System;
-using Items;
-using JetBrains.Annotations;
+﻿using Items;
 using Logs;
-using TMPro;
 using UI.Core.Net.Elements;
 using UI.Core.NetUI;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Systems.Faith.UI
 {
