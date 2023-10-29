@@ -517,10 +517,26 @@ public static class Inventory
 
 			// (Mathf.Pow(IA2.ThrowSpeed,2) / 2*UniversalObjectPhysics.DEFAULT_Friction) / A2.ThrowSpeed
 
-			//speedloss  / friction
-			UOP.NewtonianPush( WorldTrajectory,((ItemAttributesV2) UOP.attributes.Component).ThrowSpeed
-				, (Distance / IA2.ThrowSpeed  ) - ((Mathf.Pow(IA2.ThrowSpeed, 2) / (2*UniversalObjectPhysics.DEFAULT_Friction)) / IA2.ThrowSpeed)
-				 , Single.NaN, toPerform.ThrowAim.GetValueOrDefault(BodyPartType.Chest), holder.gameObject, Random.Range(25, 150));
+			var airtime = 0f;
+
+			if (UOP.stickyMovement)
+			{
+				airtime = (Distance / IA2.ThrowSpeed);
+			}
+			else
+			{
+
+				var timeTakenIfallThrow = (Distance / IA2.ThrowSpeed);
+
+				//speedloss  / friction
+				 airtime = timeTakenIfallThrow- ((Mathf.Pow(IA2.ThrowSpeed, 2) / (2 * UniversalObjectPhysics.DEFAULT_Friction)) / IA2.ThrowSpeed);
+
+			}
+
+			UOP.NewtonianPush(WorldTrajectory, ((ItemAttributesV2) UOP.attributes.Component).ThrowSpeed
+				, airtime
+				, Single.NaN, toPerform.ThrowAim.GetValueOrDefault(BodyPartType.Chest), holder.gameObject,
+				Random.Range(25, 150));
 
 
 			//
