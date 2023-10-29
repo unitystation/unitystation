@@ -71,7 +71,7 @@ namespace Items.Medical
 				{
 					if (Part.HeartAttack)
 					{
-						heartState += "having heart attack,".Color(RichTextColor.Red);
+						heartState += "stopped!,".Color(RichTextColor.Red);
 					}
 					else
 					{
