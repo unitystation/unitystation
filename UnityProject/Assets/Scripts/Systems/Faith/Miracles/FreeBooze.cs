@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Systems.Explosions;
 using UnityEngine;
 using Util.Independent.FluentRichText;
 using Color = Util.Independent.FluentRichText.Color;
@@ -39,7 +40,8 @@ namespace Systems.Faith.Miracles
 			Chat.AddGameWideSystemMsgToChat(msg);
 			foreach (var dong in PlayerList.Instance.GetAlivePlayers())
 			{
-				Spawn.ServerPrefab(boozeItemsToSpawn.PickRandom(), dong.GameObject.AssumedWorldPosServer(), null, count: Random.Range(1,3), scatterRadius: 30f);
+				Spawn.ServerPrefab(boozeItemsToSpawn.PickRandom(), dong.GameObject.AssumedWorldPosServer(), count: Random.Range(1,3), scatterRadius: 0.75f);
+				SparkUtil.TrySpark(dong.GameObject.AssumedWorldPosServer());
 			}
 		}
 	}

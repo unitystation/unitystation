@@ -59,7 +59,7 @@ namespace Systems.Faith.Miracles
 		{
 			if (health.brain == null || health.brain.ReagentCirculatedComponent?.AssociatedSystem?.BloodPool == null) return;
 			health.brain.ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(health.brain.DrunkReagent, 100);
-			string msg = new RichText("You feel like a drunkard out of nowhere..").Italic().Color(Color.Red);
+			string msg = new RichText().Italic().Color(Color.Red).Add("You feel like a drunkard out of nowhere..");
 			Chat.AddExamineMsg(health.gameObject, msg);
 		}
 	}

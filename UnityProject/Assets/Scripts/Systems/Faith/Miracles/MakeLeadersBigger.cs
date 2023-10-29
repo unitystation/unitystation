@@ -33,7 +33,7 @@ namespace Systems.Faith.Miracles
 			foreach (var leader in FaithManager.Instance.FaithLeaders)
 			{
 				if (leader.TryGetComponent<ScaleSync>(out var scale) == false) continue;
-				int scaleNew = Random.Range(2, 4);
+				int scaleNew = Random.Range(2, 3);
 				scale.SetScale(new Vector3(scaleNew,scaleNew,scaleNew));
 				Chat.AddLocalMsgToChat($"{leader.visibleName} inflates and becomes bigger", leader.GameObject);
 			}

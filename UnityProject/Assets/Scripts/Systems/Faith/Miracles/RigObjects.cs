@@ -38,7 +38,7 @@ namespace Systems.Faith.Miracles
 				foreach (var collider in overlapBox)
 				{
 					if (MatrixManager.Linecast(member.AssumedWorldPos,
-						    LayerTypeSelection.Walls, LayerMask.GetMask("Walls"),
+						    LayerTypeSelection.All, LayerMask.GetMask("Walls"),
 						    collider.gameObject.AssumedWorldPosServer()).ItHit == false) continue;
 					if (collider.TryGetComponent<Integrity>(out var integrity) == false) continue;
 					SparkUtil.TrySpark(integrity.gameObject);

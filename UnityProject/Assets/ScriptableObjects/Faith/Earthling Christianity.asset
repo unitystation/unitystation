@@ -56,6 +56,14 @@ MonoBehaviour:
         miracleIcon: {fileID: 11400000, guid: 46b4029d02cc185428441317c4c57c9e, type: 2}
         goldenRevolver: {fileID: 5110185232032146699, guid: 04e181bad9e993944bf2465d48cb41d4,
           type: 3}
+        summonSound:
+          SetLoadSetting: 0
+          AssetAddress: Assets/Prefabs/Magic/SummonMagic.prefab
+          AssetReference:
+            m_AssetGUID: 
+            m_SubObjectName: 
+            m_SubObjectType: 
+            m_EditorAssetChanged: 0
     - rid: 6780799869088169986
       type: {class: CurseWithDrunkness, ns: Systems.Faith.Miracles, asm: Assets}
       data:

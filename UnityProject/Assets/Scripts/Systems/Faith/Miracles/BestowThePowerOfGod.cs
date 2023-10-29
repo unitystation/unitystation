@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using AddressableReferences;
+using Audio.Containers;
+using UnityEngine;
 using Util.Independent.FluentRichText;
 using Color = Util.Independent.FluentRichText.Color;
 
@@ -11,6 +13,7 @@ namespace Systems.Faith.Miracles
 		[SerializeField] private SpriteDataSO miracleIcon;
 
 		[SerializeField] private GameObject goldenRevolver;
+		[SerializeField] private AddressableAudioSource summonSound;
 
 		string IFaithMiracle.FaithMiracleName
 		{
@@ -37,6 +40,10 @@ namespace Systems.Faith.Miracles
 			foreach (var dong in PlayerList.Instance.GetAlivePlayers())
 			{
 				var weapon = Spawn.ServerPrefab(goldenRevolver, dong.GameObject.AssumedWorldPosServer());
+				if (summonSound is not null)
+				{
+					SoundManager.PlayNetworkedAtPos(summonSound, dong.GameObject.AssumedWorldPosServer());
+				}
 				foreach (var handSlot in dong.Script.Equipment.ItemStorage.GetNamedItemSlots(NamedSlot.hands))
 				{
 					if (handSlot.IsOccupied) continue;

@@ -160,7 +160,14 @@ namespace Items
 			}
 			else
 			{
-				if (bibleTab != null) bibleTab.ServerPerformInteraction(interaction);
+				if (bibleTab != null && FaithManager.Instance.CurrentFaith?.FaithMiracles.Count != 0)
+				{
+					bibleTab.ServerPerformInteraction(interaction);
+				}
+				else
+				{
+					Chat.AddExamineMsg(interaction.Performer, "There doesn't appear to be anything you can pray for using your faith.");
+				}
 			}
 		}
 	}

@@ -1,4 +1,6 @@
-﻿using Objects.Botany;
+﻿using Logs;
+using Objects.Botany;
+using Systems.Explosions;
 using UnityEngine;
 
 namespace Systems.Faith.Miracles
@@ -35,13 +37,17 @@ namespace Systems.Faith.Miracles
 				Chat.AddLocalMsgToChat($"{farmer.visibleName}'s eyes become white as they start chanting some words loudly while small vines ever so slowly wrap around them..", farmer.gameObject);
 				Chat.AddChatMsgToChatServer(farmer.PlayerInfo, "..Banana... ro-TA-te..", ChatChannel.Local, Loudness.LOUD);
 				var overlapBox =
-					Physics2D.OverlapBoxAll(farmer.gameObject.AssumedWorldPosServer(), new Vector2(12, 12), 0);
+					Physics2D.OverlapBoxAll(farmer.gameObject.AssumedWorldPosServer(), new Vector2(9, 9), 0);
 				foreach (var collider in overlapBox)
 				{
 					if (MatrixManager.Linecast(farmer.AssumedWorldPos,
-						    LayerTypeSelection.Walls, LayerMask.GetMask("Walls"),
-						    collider.gameObject.AssumedWorldPosServer()).ItHit == false) continue;
-					if (collider.TryGetComponent<HydroponicsTray>(out var tray) == false) continue;
+						    LayerTypeSelection.All, LayerMask.GetMask("Walls"),
+						    collider.gameObject.AssumedWorldPosServer(), DEBUG: true).ItHit == false) continue;
+					if (collider.TryGetComponent<HydroponicsTray>(out var tray) == false)
+					{
+						Loggy.Log($"{collider} has no tray component");
+						continue;
+					}
 					BlessPlant(tray);
 				}
 			}
@@ -49,6 +55,7 @@ namespace Systems.Faith.Miracles
 
 		private void BlessPlant(HydroponicsTray tray)
 		{
+			SparkUtil.TrySpark(tray.gameObject);
 			if (tray.HasPlant == false) return;
 			if (DMMath.Prob(35)) tray.PlantData.Mutation();
 			tray.PlantData.PlantName = $"Blessed {tray.PlantData.PlantName}";
