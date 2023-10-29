@@ -81,11 +81,11 @@ namespace Util.Independent.FluentRichText
 		/// <summary>
 		/// Makes the text colored according to the specified named color.
 		/// </summary>
-		/// <param name="namedColor">What color to use.</param>
+		/// <param name="namedRichTextColor">What color to use.</param>
 		/// <returns>The current RichText instance to allow for method chaining.</returns>
-		public RichText Color(Color namedColor)
+		public RichText Color(RichTextColor namedRichTextColor)
 		{
-			styles.Add(new ColorStrategy(namedColor));
+			styles.Add(new ColorStrategy(namedRichTextColor));
 			return this;
 		}
 
@@ -462,7 +462,7 @@ namespace Util.Independent.FluentRichText
 		Right
 	}
 
-	public enum Color
+	public enum RichTextColor
 	{
 		NoColor,
 		Black,

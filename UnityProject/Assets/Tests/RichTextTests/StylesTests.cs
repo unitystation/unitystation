@@ -101,20 +101,20 @@ namespace Tests.RichTextTests
 		}
 
 		[Test]
-		[TestCase(Color.Black)]
-		[TestCase(Color.Blue)]
-		[TestCase(Color.Green)]
-		[TestCase(Color.Red)]
-		[TestCase(Color.Orange)]
-		[TestCase(Color.Purple)]
-		[TestCase(Color.White)]
-		[TestCase(Color.Yellow)]
-		public void NamedColorShouldReturnColoredText(Color namedColor)
+		[TestCase(RichTextColor.Black)]
+		[TestCase(RichTextColor.Blue)]
+		[TestCase(RichTextColor.Green)]
+		[TestCase(RichTextColor.Red)]
+		[TestCase(RichTextColor.Orange)]
+		[TestCase(RichTextColor.Purple)]
+		[TestCase(RichTextColor.White)]
+		[TestCase(RichTextColor.Yellow)]
+		public void NamedColorShouldReturnColoredText(RichTextColor namedRichTextColor)
 		{
 			const string text = "text";
-			ColorStrategy strategy = new(namedColor);
+			ColorStrategy strategy = new(namedRichTextColor);
 			string actual = strategy.ApplyStyle(text);
-			Assert.AreEqual($"<color=\"{namedColor.ToString().ToLower()}\">{text}</color>", actual);
+			Assert.AreEqual($"<color=\"{namedRichTextColor.ToString().ToLower()}\">{text}</color>", actual);
 		}
 
 		[Test]

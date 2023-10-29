@@ -58,12 +58,6 @@ namespace Items.Medical
 				return false;
 			}
 
-			if (livingHealthMaster.IsDead == false)
-			{
-				Chat.AddExamineMsgFromServer(performer, "The target is alive!");
-				return false;
-			}
-
 			return true;
 		}
 

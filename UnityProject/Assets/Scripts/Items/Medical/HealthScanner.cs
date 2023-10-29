@@ -4,6 +4,8 @@ using System.Text;
 using System.Globalization;
 using HealthV2;
 using UnityEngine;
+using Util.Independent.FluentRichText;
+using Color = UnityEngine.Color;
 
 namespace Items.Medical
 {
@@ -61,11 +63,35 @@ namespace Items.Medical
 				bloodPercent = Mathf.Round(bloodTotal / health.reagentPoolSystem.NormalBlood * 100);
 			}
 
+			var heartState = "";
+
+			if (health.reagentPoolSystem != null)
+			{
+				foreach (var Part in health.reagentPoolSystem.PumpingDevices)
+				{
+					if (Part.HeartAttack)
+					{
+						heartState += "having heart attack,".Color(RichTextColor.Red);
+					}
+					else
+					{
+						heartState += "operating normally,".Color(RichTextColor.Green);
+					}
+				}
+			}
+			else
+			{
+				heartState = "N/A";
+			}
+
+
+
 			float[] fullDamage = new float[7];
 
 			StringBuilder scanMessage = new StringBuilder(
 					"----------------------------------------\n" +
 					$"{targetName} is {health.ConsciousState}\n" +
+					$"{targetName}'s heart is {heartState}\n" +
 					$"<b>Overall status: {totalPercent} % healthy</b>\n" +
 					$"Blood Pool level: {bloodTotal}cc, {bloodPercent} %\n");
 			StringBuilder partMessages = new StringBuilder();

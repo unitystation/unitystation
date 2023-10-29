@@ -1,4 +1,5 @@
-﻿using Util.Independent.FluentRichText.Styles;
+﻿using UnityEngine;
+using Util.Independent.FluentRichText.Styles;
 
 namespace Util.Independent.FluentRichText
 {
@@ -8,8 +9,10 @@ namespace Util.Independent.FluentRichText
 		public static string Bold(this string text) => new BoldStrategy().ApplyStyle(text);
 		public static string Italic(this string text) => new ItalicStrategy().ApplyStyle(text);
 		public static string Spacing(this string text, string amount) => new SpacingStrategy(amount).ApplyStyle(text);
-		public static string Color(this string text, Color namedColor) => new ColorStrategy(namedColor).ApplyStyle(text);
+		public static string Color(this string text, RichTextColor namedRichTextColor) => new ColorStrategy(namedRichTextColor).ApplyStyle(text);
 		public static string Color(this string text, string hexColor) => new ColorStrategy(hexColor).ApplyStyle(text);
+
+		public static string Color(this string text, Color unityColour) => new ColorStrategy(ColorUtility.ToHtmlStringRGBA(unityColour)).ApplyStyle(text);
 		public static string Font(this string text, string fontName) => new FontStrategy(fontName).ApplyStyle(text);
 		public static string Indent(this string text, string amount) => new IndentStrategy(amount).ApplyStyle(text);
 		public static string LineHeight(this string text, string amount) => new LineHeightStrategy(amount).ApplyStyle(text);
