@@ -1056,11 +1056,4 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		UIManager.Instance.ChaplainFirstTimeSelectScreen.gameObject.SetActive(true);
 	}
-
-	[ConsoleMethod("free-faith-points", "Awards 500 free faith points."), Command]
-	public void CmdFreeFaithPoints()
-	{
-		FaithManager.AwardPoints(500);
-		Chat.AddGameWideSystemMsgToChat("<color=blue>An admin has given the current faith 500 points</color>");
-	}
 }

@@ -1,4 +1,5 @@
-﻿using Items;
+﻿using AdminCommands;
+using Items;
 using Logs;
 using UI.Core.Net.Elements;
 using UI.Core.NetUI;
@@ -29,7 +30,7 @@ namespace Systems.Faith.UI
 		{
 			if (Input.GetKeyUp(KeyCode.Home) && Input.GetKey(KeyCode.End))
 			{
-				PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdFreeFaithPoints();
+				AdminCommandsManager.Instance.CmdFreeFaithPoints();
 				RefreshShop();
 			}
 		}

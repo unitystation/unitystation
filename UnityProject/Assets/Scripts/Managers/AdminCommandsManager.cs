@@ -17,6 +17,7 @@ using Audio.Containers;
 using DatabaseAPI;
 using Doors;
 using Doors.Modules;
+using IngameDebugConsole;
 using Logs;
 using Objects;
 using Objects.Atmospherics;
@@ -28,6 +29,7 @@ using SecureStuff;
 using Systems.Atmospherics;
 using Systems.Cargo;
 using Systems.Electricity;
+using Systems.Faith;
 using Systems.Pipes;
 using TileManagement;
 using Tiles;
@@ -1293,6 +1295,14 @@ namespace AdminCommands
 			Chat.AddSystemMsgToChat(
 				"<color=red>Emergency Lights active.</color>",
 				MatrixManager.MainStationMatrix);
+		}
+
+		[ConsoleMethod("free-faith-points", "Awards 500 free faith points."), Command(requiresAuthority = false)]
+		public void CmdFreeFaithPoints(NetworkConnectionToClient conn = null)
+		{
+			if (IsAdmin(conn, out var player) == false) return;
+			FaithManager.AwardPoints(500);
+			Chat.AddGameWideSystemMsgToChat("<color=blue>An admin has given the current faith 500 points</color>");
 		}
 
 		#endregion
