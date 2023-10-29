@@ -84,7 +84,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	//Type of Antagonist
 	[field: SyncVar] public JobType NetworkedAntagJob { get; private set; }
 
-	public GameObject ControllingObject
+	public GameObject CurrentlyControllingObject
 	{
 		set
 		{

@@ -58,7 +58,7 @@ namespace Systems.Teleport
 				}
 				else
 				{
-					var Controlling =  player.ControllingObject;
+					var Controlling =  player.CurrentlyControllingObject;
 					var Health = Controlling.GetComponentCustom<LivingHealthMasterBase>();
 					if (Health == null)
 					{
@@ -70,7 +70,7 @@ namespace Systems.Teleport
 					}
 				}
 
-				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, player.ControllingObject.transform.position.RoundToInt(), player.ControllingObject);
+				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, player.CurrentlyControllingObject.transform.position.RoundToInt(), player.CurrentlyControllingObject);
 
 				yield return teleportInfo;
 			}
