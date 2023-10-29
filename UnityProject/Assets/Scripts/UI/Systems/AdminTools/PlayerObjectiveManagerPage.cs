@@ -158,6 +158,7 @@ namespace AdminTools
 			var newEntry = Instantiate(objectiveEntry, contentArea.transform).GetComponent<ObjectiveEntry>();
 			objectiveEntry.SetActive(false);
 			newEntry.Init(this, info);
+			newEntry.isNew = true;
 			addedEntries.Add(newEntry);
 			addEntry.transform.SetAsLastSibling();
 
@@ -173,6 +174,7 @@ namespace AdminTools
 		{
 			objectiveEntry.SetActive(true);
 			var newEntry = Instantiate(objectiveEntry, contentArea.transform).GetComponent<ObjectiveEntry>();
+			newEntry.isNew = true;
 			objectiveEntry.SetActive(false);
 			newEntry.Init(this, info);
 			addedEntries.Add(newEntry);
@@ -183,11 +185,11 @@ namespace AdminTools
 		{
 			if (IsAntagCanSeeObjectivesStatusLocal == true)
 			{
-				IsAntagCanSeeObjectivesStatusButtonText.color = new Color(0.8f, 0.2f, 0.2f);
+				IsAntagCanSeeObjectivesStatusButtonText.color = new Color(1f, 1f, 0.2f);
 			}
 			else
 			{
-				IsAntagCanSeeObjectivesStatusButtonText.color = new Color(1f, 1f, 0.2f);
+				IsAntagCanSeeObjectivesStatusButtonText.color = new Color(0.8f, 0.2f, 0.2f);
 			}
 		}
 
@@ -266,7 +268,7 @@ namespace AdminTools
 						var obj = GetObjective(playerMind, x.ID);
 						if (obj != null)
 						{
-							if (x.toDelete == true)
+							if (x.ToDelete == true)
 							{
 								RemoveObjective(playerMind, obj.ID);
 								updated = true;
@@ -286,6 +288,11 @@ namespace AdminTools
 						Loggy.LogError($"[ObjectiveManagerPage/ProceedServerObjectivesUpdate] Failed to update objective {x.ID}\n {x.Description}\n {ex}");
 					}
 				}
+			}
+
+			if (playerMind.AntagPublic.Objectives.Count() == 0 && playerMind.AntagPublic.Antagonist == null)
+			{
+				playerMind.UpdateAntagButtons();
 			}
 
 			playerMind.AntagPublic.IsAntagCanSeeObjectivesStatus = genInfo.IsAntagCanSeeObjectivesStatus;

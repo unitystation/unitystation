@@ -343,7 +343,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 	public void UpdateAntagButtons()
 	{
-		if (antagContainer.Objectives.Count() == 0 && antagContainer == null)
+		if (antagContainer.Objectives.Count() == 0 && antagContainer.Antagonist == null)
 		{
 			ActivateAntagAction(false);
 		} else

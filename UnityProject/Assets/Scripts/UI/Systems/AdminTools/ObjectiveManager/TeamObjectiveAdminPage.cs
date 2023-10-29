@@ -391,7 +391,7 @@ public class TeamObjectiveAdminPage : AdminPage
 					{
 						Loggy.LogError($"[TeamObjectiveAdminPage/ProcessServer] Failed to add objective to team\n {ex}");
 					}
-				} else if (objInfo.toDelete)
+				} else if (objInfo.ToDelete)
 				{
 					RemoveObjective(serverTeam, objInfo);
 					wasAddedNewObj = true;

@@ -13,7 +13,7 @@ namespace AdminTools
 		[SerializeField] private Text checkBoxText;
 		[SerializeField] private TMP_Text objectiveDescription;
 		public bool isNew = false;
-		public bool IsForDelete => relatedObjective.toDelete;
+		public bool IsForDelete => relatedObjective.ToDelete;
 
 		private PlayerObjectiveManagerPage antagManager;
 		private ObjectiveInfo relatedObjective;
@@ -38,8 +38,8 @@ namespace AdminTools
 			}
 			else
 			{
-				relatedObjective.toDelete = !relatedObjective.toDelete;
-				if (relatedObjective.toDelete)
+				relatedObjective.ToDelete = !relatedObjective.ToDelete;
+				if (relatedObjective.ToDelete)
 				{
 					removeBoxText.color = new Color(1, 0, 0, 1);
 				}
@@ -75,7 +75,7 @@ namespace AdminTools
 			if (relatedObjective == null)
 				return;
 
-			if (relatedObjective.PrefabID >= 0 && AntagData.Instance.FromIndexObj(relatedObjective.PrefabID).IsEndRoundObjective)
+			if (relatedObjective.PrefabID >= 0 && AntagData.Instance.FromIndexObj(relatedObjective.PrefabID).IsEndRoundObjective || relatedObjective.IsEndRound)
 			{
 				checkBoxText.text = "E";
 			}
