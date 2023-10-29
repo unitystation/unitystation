@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -16,6 +17,8 @@ using Managers;
 using Objects.Machines.ServerMachines.Communications;
 using Player.Language;
 using Shared.Util;
+using Systems.Ai;
+using Systems.Construction;
 using Tiles;
 
 /// <summary>
@@ -36,7 +39,7 @@ public partial class Chat : MonoBehaviour
 
 	private static Regex htmlRegex = new Regex(@"^(http|https)://.*$");
 
-	private static Collider2D[] nonAllocPhysicsSphereResult = new Collider2D[150];
+	private static Collider2D[] nonAllocPhysicsSphereResult = new Collider2D[75];
 	private static float searchRadiusForSphereResult = 20f;
 
 	public static void InvokeChatEvent(ChatEvent chatEvent)
@@ -45,6 +48,12 @@ public partial class Chat : MonoBehaviour
 		StringBuilder discordMessageBuilder = new StringBuilder();
 
 		chatEvent.allChannels = channels;
+		PlayerScript playerScript = chatEvent.originator.GetComponent<PlayerScript>();
+		AiPlayer aiPlayer = null;
+		if (playerScript != null)
+		{
+			aiPlayer = playerScript.RegisterPlayer.GetComponent<AiPlayer>();
+		}
 
 		// There could be multiple channels we need to send a message for each.
 		// We do this on the server side so that local chans can be validated correctly
@@ -54,7 +63,6 @@ public partial class Chat : MonoBehaviour
 			{
 				continue;
 			}
-
 			// if we have a channel that requires transmission, find an emitter and send it via a signal.
 			if (Channels.RadioChannels.HasFlag(channel))
 			{
@@ -64,10 +72,26 @@ public partial class Chat : MonoBehaviour
 				};
 				chatEvent.channels = channel;
 
-				if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript) == false) continue;
+				if (playerScript == null) continue;
+
+				//this should be in its own static function, but unity keeps fucking breaking when extracting this same logic into something else for no apparent reason
+				//also, if you try to make this cleaner by using TryGetComponent(), i hope you love having aneurysms and prepare to check yourself into a mental asylum
+				if (aiPlayer != null)
+				{
+					GameObject vessle = aiPlayer.VesselObject;;
+					var storage = vessle.GetComponent<ItemStorage>();
+					if (storage == null) continue;
+					foreach (var item in storage.GetItemSlots())
+					{
+						if (item.IsEmpty) continue;
+						item.ItemObject.GetComponent<Headset>()?.TrySendSignal(null, radioMessageData);
+					}
+					continue;
+				}
 				//There are some cases where the player might not have a dynamic item storage (like the AI)
 				if (playerScript.DynamicItemStorage == null)
 				{
+					if (ItemStorageInventoryChatInfulencerSearch(playerScript, chatEvent)) continue;
 					NoDynamicInventoryChatInfulencerSearch(playerScript, chatEvent);
 					continue;
 				}
@@ -94,12 +118,31 @@ public partial class Chat : MonoBehaviour
 		Physics2D.OverlapCircleNonAlloc(playerScript.PlayerChatLocation.AssumedWorldPosServer(), searchRadiusForSphereResult, nonAllocPhysicsSphereResult);
 		foreach (var item in nonAllocPhysicsSphereResult)
 		{
+			if (item == null) continue;
 			var module = item.gameObject.GetComponentInChildren<IChatInfluencer>();
-			if(module == null) continue;
-			if(module.WillInfluenceChat() == false) continue;
+			if (module == null) continue;
+			if (module.WillInfluenceChat() == false) continue;
 			module.InfluenceChat(chatEvent);
 			break;
 		}
+	}
+
+	private static bool ItemStorageInventoryChatInfulencerSearch(PlayerScript playerScript, ChatEvent chatEvent)
+	{
+		GameObject vessle = playerScript.GameObject;;
+		var storage = vessle.GetComponent<ItemStorage>();
+		if (storage == null) return false;
+		foreach (var item in storage.GetItemSlots())
+		{
+			if (item.IsEmpty) continue;
+			item.ItemObject.GetComponent<Headset>()?.TrySendSignal();
+			if (item.ItemObject.TryGetComponent<IChatInfluencer>(out var module))
+			{
+				if (module.WillInfluenceChat() == false) continue;
+				module.InfluenceChat(chatEvent);
+			}
+		}
+		return true;
 	}
 
 	private static void DynamicInventoryRadioSignal(PlayerScript playerScript,CommsServer.RadioMessageData radioMessageData)
