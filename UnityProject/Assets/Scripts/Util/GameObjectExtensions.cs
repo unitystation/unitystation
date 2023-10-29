@@ -180,7 +180,7 @@ public static class GameObjectExtensions
 	}
 
 	/// <summary>
-	/// Finds all items/gameObjects with specific components that are nearby a target that aren't usually easily detected using physics functions.
+	/// Finds all items/gameObjects with specific a component that are nearby a target that aren't easily detected using physics functions.
 	/// WARNING: This process is extremely slow, and goes over multiple frames (Can take up to 0.1 or 3 seconds depending on how large the scene is).
 	/// This function will never stall the game/server unless you repeatedly call coroutine multiple times and end up creating a lot of GC.
 	/// </summary>

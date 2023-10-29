@@ -20,6 +20,7 @@ using Shuttles;
 using UI.Core;
 using UI.Items;
 using Doors;
+using IngameDebugConsole;
 using Logs;
 using Managers;
 using Objects;
@@ -1054,5 +1055,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void RpcShowFaithSelectScreen(NetworkConnectionToClient target)
 	{
 		UIManager.Instance.ChaplainFirstTimeSelectScreen.gameObject.SetActive(true);
+	}
+
+	[ConsoleMethod("free-faith-points", "Awards 500 free faith points."), Command]
+	public void CmdFreeFaithPoints()
+	{
+		FaithManager.AwardPoints(500);
+		Chat.AddGameWideSystemMsgToChat("<color=blue>An admin has given the current faith 500 points</color>");
 	}
 }

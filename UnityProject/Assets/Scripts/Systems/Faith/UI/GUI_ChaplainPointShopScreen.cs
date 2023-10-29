@@ -16,6 +16,7 @@ namespace Systems.Faith.UI
 		[SerializeField] private NetText_label costText;
 		[SerializeField] private NetText_label titleText;
 		[SerializeField] private NetText_label descText;
+		[SerializeField] private NetText_label balanceText;
 		[SerializeField] private NetSpriteHandler image;
 
 		private HolyBook provider;
@@ -28,10 +29,20 @@ namespace Systems.Faith.UI
 			RefreshShop();
 		}
 
+		private void Update()
+		{
+			if (Input.GetKeyUp(KeyCode.Home) && Input.GetKey(KeyCode.End))
+			{
+				PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdFreeFaithPoints();
+				RefreshShop();
+			}
+		}
+
 
 		private void RefreshShop()
 		{
 			if (IsMasterTab == false) return;
+			balanceText.MasterSetValue($"Current Balance: <b>{FaithManager.Instance.FaithPoints.ToString()}</b>");
 			shopListTransform.Clear();
 			foreach (var miracle in FaithManager.Instance.CurrentFaith.FaithMiracles)
 			{
@@ -64,7 +75,21 @@ namespace Systems.Faith.UI
 
 		public void OnMasterBuy()
 		{
+			if (FaithManager.Instance.FaithPoints < currentlySelectedMiracle.Miracle.MiracleCost)
+			{
+				foreach (var peeper in Peepers)
+				{
+					Chat.AddExamineMsg(peeper.GameObject, "You cannot afford this currently.");
+				}
+				return;
+			}
+			FaithManager.TakePoints(currentlySelectedMiracle.Miracle.MiracleCost);
 			currentlySelectedMiracle.DoMiracle();
+			foreach (var peeper in Peepers)
+			{
+				ServerCloseTabFor(peeper);
+			}
+			RefreshShop();
 		}
 	}
 }

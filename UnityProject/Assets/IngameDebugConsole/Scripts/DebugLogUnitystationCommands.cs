@@ -15,6 +15,7 @@ using Messages.Server;
 using Messages.Server.HealthMessages;
 using ScriptableObjects;
 using Systems.Character;
+using Systems.Faith;
 using Systems.Score;
 
 namespace IngameDebugConsole
@@ -24,7 +25,7 @@ namespace IngameDebugConsole
 	/// </summary>
 	public class DebugLogUnitystationCommands : MonoBehaviour
 	{
-		private static bool IsAdmin()
+		public static bool IsAdmin()
 		{
 			return PlayerList.Instance.IsClientAdmin;
 		}
