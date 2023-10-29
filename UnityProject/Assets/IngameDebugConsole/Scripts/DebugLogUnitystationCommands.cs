@@ -10,12 +10,10 @@ using DatabaseAPI;
 using HealthV2;
 using Learning;
 using Logs;
-using Messages.Client;
 using Messages.Server;
 using Messages.Server.HealthMessages;
 using ScriptableObjects;
 using Systems.Character;
-using Systems.Faith;
 using Systems.Score;
 
 namespace IngameDebugConsole
