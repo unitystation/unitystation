@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Core;
 using Items.Food;
 using Logs;
 using Scripts.Core.Transform;
@@ -40,13 +41,20 @@ namespace Systems.Faith.Miracles
 			{
 				Chat.AddLocalMsgToChat($"{foodGobbler.visibleName}'s eyes become white as they start chanting some words loudly..", foodGobbler.gameObject);
 				Chat.AddChatMsgToChatServer(foodGobbler.PlayerInfo, "..Eathem.. Wish-ha-pig..", ChatChannel.Local, Loudness.LOUD);
-				GameManager.Instance.StartCoroutine(foodGobbler.GameObject.FindAllComponentsNearestToTarget<Edible>(6, CheckComponents));
+				//GameManager.Instance.StartCoroutine(foodGobbler.GameObject.FindAllComponentsNearestToTarget<Edible>(6, CheckComponents));
+				foreach (var edible in TrackableType<Edible>.GetAllNearbyTypesToTarget(foodGobbler.GameObject, 6))
+				{
+					edible.SetMaxBites(Random.Range(15, 35));
+					var randomScale = (int)Random.Range(2, 5);
+					if (edible.TryGetComponent<ScaleSync>(out var scale) == false) continue;
+					scale.SetScale(new Vector3(randomScale,randomScale, randomScale));
+					SparkUtil.TrySpark(edible.gameObject);
+				}
 			}
 		}
 
 		private void CheckComponents(List<Edible> items)
 		{
-			Loggy.Log($"cawka {items.Count}");
 			foreach (var collider in items)
 			{
 				collider.SetMaxBites(Random.Range(15, 35));

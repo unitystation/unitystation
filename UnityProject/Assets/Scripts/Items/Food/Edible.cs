@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AddressableReferences;
 using Chemistry;
 using Chemistry.Components;
+using Core;
 using HealthV2.Living.PolymorphicSystems;
 using Logs;
 using UnityEngine;
@@ -57,6 +59,13 @@ namespace Items.Food
 			{
 				Loggy.LogErrorFormat("{0} prefab is missing ItemAttributes", Category.Objects, name);
 			}
+
+			TrackableType<Edible>.Instances.Add(this);
+		}
+
+		private void OnDestroy()
+		{
+			TrackableType<Edible>.Instances.Remove(this);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
