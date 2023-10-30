@@ -60,12 +60,12 @@ namespace Items.Food
 				Loggy.LogErrorFormat("{0} prefab is missing ItemAttributes", Category.Objects, name);
 			}
 
-			TrackableType<Edible>.Instances.Add(this);
+			ComponentsTracker<Edible>.Instances.Add(this);
 		}
 
 		private void OnDestroy()
 		{
-			TrackableType<Edible>.Instances.Remove(this);
+			ComponentsTracker<Edible>.Instances.Remove(this);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)

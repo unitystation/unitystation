@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Core
 {
-	public static class TrackableType<T>
+	public static class ComponentsTracker<T>
 	{
 		public static List<T> Instances { get; } = new List<T>();
 

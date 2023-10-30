@@ -41,7 +41,7 @@ namespace Systems.Faith.Miracles
 			{
 				Chat.AddLocalMsgToChat($"{foodGobbler.visibleName}'s eyes become white as they start chanting some words loudly..", foodGobbler.gameObject);
 				Chat.AddChatMsgToChatServer(foodGobbler.PlayerInfo, "..Eathem.. Wish-ha-pig..", ChatChannel.Local, Loudness.LOUD);
-				foreach (var edible in TrackableType<Edible>.GetAllNearbyTypesToTarget(foodGobbler.GameObject, 6))
+				foreach (var edible in ComponentsTracker<Edible>.GetAllNearbyTypesToTarget(foodGobbler.GameObject, 6))
 				{
 					edible.SetMaxBites(Random.Range(15, 35));
 					var randomScale = (int)Random.Range(2, 5);

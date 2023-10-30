@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Core;
 using Objects.Lighting;
 using UnityEngine;
 using Util.Independent.FluentRichText;
@@ -48,7 +49,7 @@ namespace Systems.Faith.Miracles
 
 			var currentIndex = 0;
 			var maximumIndexes = 20;
-			foreach (var stationObject in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<LightSource>())
+			foreach (var stationObject in ComponentsTracker<LightSource>.Instances)
 			{
 				if (currentIndex >= maximumIndexes)
 				{
