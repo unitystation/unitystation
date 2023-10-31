@@ -1,7 +1,6 @@
 ﻿using HealthV2;
 using UnityEngine;
 using Util.Independent.FluentRichText;
-using Color = Util.Independent.FluentRichText.Color;
 
 namespace Systems.Faith.Miracles
 {
@@ -59,7 +58,7 @@ namespace Systems.Faith.Miracles
 		{
 			if (health.brain == null || health.brain.ReagentCirculatedComponent?.AssociatedSystem?.BloodPool == null) return;
 			health.brain.ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(health.brain.DrunkReagent, 100);
-			string msg = new RichText().Italic().Color(Color.Red).Add("You feel like a drunkard out of nowhere..");
+			string msg = new RichText().Italic().Color(RichTextColor.Red).Add("You feel like a drunkard out of nowhere..");
 			Chat.AddExamineMsg(health.gameObject, msg);
 		}
 	}
