@@ -31,6 +31,15 @@ MonoBehaviour:
     FaithProperties:
     - rid: 2708802213016240155
     - rid: 2708802213016240158
+    FaithMiracles:
+    - rid: 6780799869738287107
+    - rid: 6780799869738287109
+    - rid: 6780799869738287111
+    - rid: 6780799869738287113
+    - rid: 6780799869738287115
+    - rid: 6780799869738287117
+    - rid: 6780799869738287119
+    - rid: 6780799869738287121
   references:
     version: 2
     RefIds:
@@ -44,3 +53,94 @@ MonoBehaviour:
         faithPropertyName: Darkness
         faithPropertyDesc: People of this faith like to lurk in the darkness.
         propertyIcon: {fileID: 21300000, guid: 562b5450772949847ba8dc04b0d6f679, type: 3}
+        minimumAlphaForDarkness: 0.65
+    - rid: 6780799869738287107
+      type: {class: BestowThePowerOfGod, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Bestow the power of god
+        faithMiracleDesc: Give all faith leaders a golden weapon that holds the power
+          of god.
+        miracleIcon: {fileID: 11400000, guid: 46b4029d02cc185428441317c4c57c9e, type: 2}
+        goldenRevolver: {fileID: 5110185232032146699, guid: 04e181bad9e993944bf2465d48cb41d4,
+          type: 3}
+        summonSound:
+          SetLoadSetting: 0
+          AssetAddress: Assets/Prefabs/Magic/Blind.prefab
+          AssetReference:
+            m_AssetGUID: 
+            m_SubObjectName: 
+            m_SubObjectType: 
+            m_EditorAssetChanged: 0
+    - rid: 6780799869738287109
+      type: {class: BlessCrops, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Bless Crops
+        faithMiracleDesc: Pray for a blessing upon nearby crops.
+        miracleIcon: {fileID: 11400000, guid: d5451bed7f332b14890f5e2a247209d3, type: 2}
+    - rid: 6780799869738287111
+      type: {class: CurseWithDrunkness, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Curse with Drunkness.
+        faithMiracleDesc: Causes all humanoids within a small circle oh all faith
+          leaders to become drunk.
+        miracleIcon: {fileID: 11400000, guid: 47b303f3d752c264d901d6388cf649e5, type: 2}
+    - rid: 6780799869738287113
+      type: {class: FreeBooze, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Free Booze!
+        faithMiracleDesc: The god(s) gift booze to the world.
+        miracleIcon: {fileID: 11400000, guid: 47b303f3d752c264d901d6388cf649e5, type: 2}
+        boozeItemsToSpawn:
+        - {fileID: 4501053395374146654, guid: 1a8ca75092f9cdd4d9c6022e08419c9b, type: 3}
+        - {fileID: 633885524599903587, guid: cde76a9bba668784bbed55588e194852, type: 3}
+        - {fileID: 684254245239768240, guid: 1f332585069499e49a1f8f8bd17f486d, type: 3}
+    - rid: 6780799869738287115
+      type: {class: GhostOfCarmenMiranda, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Call upon Space Station 3's ghost
+        faithMiracleDesc: "The best odds say she likes the rhythms of the stations
+          drive \nThey didn\u2019t have phase generators while she was alive"
+        miracleIcon: {fileID: 11400000, guid: 34e246d9b40c3834b88fb7a7ebd2d33d, type: 2}
+        ghosts:
+        - {fileID: 4540664087382359385, guid: 3c635c1a747152345962a77b8a32b902, type: 3}
+        - {fileID: 6204346116445057915, guid: 90a9678c803ac2b468555c05e1cea936, type: 3}
+        - {fileID: 1023300728526682005, guid: 2a6a30bb6be97d442b55b5b4ea995772, type: 3}
+        - {fileID: 7200438476090162623, guid: 4deb6718fb5cbdb41846891267b37c5e, type: 3}
+        fruits:
+        - {fileID: 3891794331420956168, guid: 83772d2b0ee9c83478fa7d51322a20c2, type: 3}
+        - {fileID: 4955296975579916585, guid: 003bcc08bfd787c4c8e4d54d3e1aaed4, type: 3}
+        rum:
+        - {fileID: 7305396868739561040, guid: 6a72b953bd878cc44a21a966d9425be0, type: 3}
+        - {fileID: 633885524599903587, guid: cde76a9bba668784bbed55588e194852, type: 3}
+        - {fileID: 4501053395374146654, guid: 1a8ca75092f9cdd4d9c6022e08419c9b, type: 3}
+        - {fileID: 2176312772723587003, guid: 5922881ffc5c59842906e74798fa92bd, type: 3}
+        - {fileID: 4825644788774902061, guid: 41cffce9086697a4686f7fb3b26ba6c3, type: 3}
+        - {fileID: 100425601344266544, guid: fdfae15235fe6164fbd269be37dde40c, type: 3}
+        tangerine:
+        - {fileID: 4795735908449438376, guid: 37e025654ce3f9b43bd61c6caf0f79dc, type: 3}
+        - {fileID: 7376449702682419346, guid: c7ad7eedcf6cf7341832d147735cfa54, type: 3}
+        - {fileID: 1929798987425793865, guid: 6fc005da151b57d46b23a14e39490277, type: 3}
+        - {fileID: 8750944094386566729, guid: b29d3b3d0eac3a84d9ef700d10f41b3a, type: 3}
+        - {fileID: 4795735908449438376, guid: 37e025654ce3f9b43bd61c6caf0f79dc, type: 3}
+        spawnPointCategory: 37
+    - rid: 6780799869738287117
+      type: {class: MakeFoodBigger, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Make food bigger
+        faithMiracleDesc: Bleses (or curses) nearby food to become bigger, allowing
+          for a feast.
+        miracleIcon: {fileID: 11400000, guid: 72c76cdea6656f54b97ccf520f34a409, type: 2}
+    - rid: 6780799869738287119
+      type: {class: MakeLeadersBigger, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Enlarge Leaders
+        faithMiracleDesc: Makes faith leaders bigger physically. Who's the short
+          dwarf now?
+        miracleIcon: {fileID: 11400000, guid: 32e95c8e6839de549a4d4186fb8a75ca, type: 2}
+    - rid: 6780799869738287121
+      type: {class: RigObjects, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Rig Objects
+        faithMiracleDesc: Causes objects nearby faith members to be <i>slightly</i>
+          explosive upon receiving any damage.
+        miracleIcon: {fileID: 11400000, guid: 74e7c133df89d744684571e82e1c1bb1, type: 2}

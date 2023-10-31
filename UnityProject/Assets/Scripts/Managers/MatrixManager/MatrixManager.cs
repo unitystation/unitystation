@@ -358,7 +358,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return false;
 	}
 
-
 	public static CustomPhysicsHit Linecast(Vector3 Worldorigin, LayerTypeSelection layerMask, LayerMask? Layermask2D,
 		Vector3 WorldTo, bool DEBUG = false)
 	{

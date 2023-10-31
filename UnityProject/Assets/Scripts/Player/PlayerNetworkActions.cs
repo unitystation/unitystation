@@ -20,6 +20,7 @@ using Shuttles;
 using UI.Core;
 using UI.Items;
 using Doors;
+using IngameDebugConsole;
 using Logs;
 using Managers;
 using Objects;

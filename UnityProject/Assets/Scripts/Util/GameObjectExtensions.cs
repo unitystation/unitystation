@@ -1,5 +1,7 @@
 
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Logs;
 using UnityEngine;
 using UnityEngine.UI;
@@ -164,5 +166,16 @@ public static class GameObjectExtensions
 		// just to be sure, we give a little buffer in z coordinate, so -90 or lower will
 		// be considered hidden (nothing in the game should be this low except hidden stuff)
 		return gameObject.transform.position.z <= (TransformState.HiddenPos.z + 10);
+	}
+
+	/// <summary>
+	/// Removes all children of this given GameObject.
+	/// </summary>
+	public static void DeleteAllChildren(this GameObject gameObject)
+	{
+		for (int i = 0; i < gameObject.transform.childCount; i++)
+		{
+			Object.Destroy(gameObject.transform.GetChild(i).gameObject);
+		}
 	}
 }

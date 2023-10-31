@@ -1,6 +1,7 @@
 using System;
 using AddressableReferences;
 using Audio.Containers;
+using Core;
 using Items.Implants.Organs;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -99,6 +100,7 @@ namespace Objects.Lighting
 			traitRequired = currentState.TraitRequired;
 			RefreshBoxCollider();
 			loopKey = Guid.NewGuid().ToString();
+			ComponentsTracker<LightSource>.Instances.Add(this);
 		}
 
 		private void Start()
@@ -134,6 +136,11 @@ namespace Objects.Lighting
 			Spawn.ServerPrefab(currentState.LootDrop, gameObject.RegisterTile().WorldPositionServer);
 			UnSubscribeFromSwitchEvent();
 			SoundManager.StopNetworked(loopKey);
+		}
+
+		private void OnDestroy()
+		{
+			ComponentsTracker<LightSource>.Instances.Remove(this);
 		}
 
 		#endregion

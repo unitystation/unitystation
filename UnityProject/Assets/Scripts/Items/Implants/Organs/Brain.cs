@@ -21,7 +21,8 @@ namespace Items.Implants.Organs
 		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
 		[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
 
-		[SerializeField] private Reagent DrunkReagent;
+		[FormerlySerializedAs("DrunkReagent")] [SerializeField] private Reagent drunkReagent;
+		public Reagent DrunkReagent => drunkReagent;
 		[SerializeField] public float MaxDrunkAtPercentage = 0.06f;
 
 		public uint OnPlayerID => OnBodyID;
@@ -142,7 +143,6 @@ namespace Items.Implants.Organs
 			{
 				ApplyChangesDrunkenness(drunkAmount);
 			}
-
 		}
 
 		public void ApplyChangesDrunkenness(float newState)
@@ -171,9 +171,9 @@ namespace Items.Implants.Organs
 
 		public override void ImplantPeriodicUpdate()
 		{
-			if (ReagentCirculatedComponent.OrNull()?.AssociatedSystem != null && ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(DrunkReagent))
+			if (ReagentCirculatedComponent.OrNull()?.AssociatedSystem != null && ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(drunkReagent))
 			{
-				float DrunkPercentage = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(DrunkReagent);
+				float DrunkPercentage = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(drunkReagent);
 				if (DrunkPercentage > 0)
 				{
 					if (DrunkPercentage > MaxDrunkAtPercentage)

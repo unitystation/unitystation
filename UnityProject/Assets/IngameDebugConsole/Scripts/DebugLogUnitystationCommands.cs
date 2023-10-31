@@ -10,7 +10,6 @@ using DatabaseAPI;
 using HealthV2;
 using Learning;
 using Logs;
-using Messages.Client;
 using Messages.Server;
 using Messages.Server.HealthMessages;
 using ScriptableObjects;
@@ -24,7 +23,7 @@ namespace IngameDebugConsole
 	/// </summary>
 	public class DebugLogUnitystationCommands : MonoBehaviour
 	{
-		private static bool IsAdmin()
+		public static bool IsAdmin()
 		{
 			return PlayerList.Instance.IsClientAdmin;
 		}

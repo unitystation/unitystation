@@ -26,12 +26,20 @@ MonoBehaviour:
     - rid: 2708802213016240129
     - rid: 2708802213016240131
     - rid: 2708802213016240157
+    FaithMiracles:
+    - rid: 6780799869088169993
+    - rid: 6780799869088169997
+    - rid: 6780799869088169999
+    - rid: 6780799869088170001
   references:
     version: 2
     RefIds:
     - rid: 2708802213016240129
       type: {class: Gluttony, ns: Systems.Faith.FaithProperties, asm: Assets}
       data:
+        faithPropertyName: Gluttony
+        faithPropertyDesc: This faith believes that empty stomachs are a sign of
+          weakness and a lack of a comfortable lifestyle.
         starvationSickness: {fileID: 5548865049419815919, guid: 32ee1b85ccaf8044b84cd5650a84e233,
           type: 3}
         propertyIcon: {fileID: 21300000, guid: 40c6dc1a402ce944d9a62d4c57cb03c2, type: 3}
@@ -46,3 +54,44 @@ MonoBehaviour:
       type: {class: PainIsVirtue, ns: Systems.Faith.FaithProperties, asm: Assets}
       data:
         propertyIcon: {fileID: 21300000, guid: d982e9cebcf37ea4a81362f3e3f284a7, type: 3}
+    - rid: 6780799869088169993
+      type: {class: BestowThePowerOfGod, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Bestow the power of god
+        faithMiracleDesc: Give all faith leaders a golden weapon that holds the power
+          of god.
+        miracleIcon: {fileID: 11400000, guid: 46b4029d02cc185428441317c4c57c9e, type: 2}
+        goldenRevolver: {fileID: 5110185232032146699, guid: 04e181bad9e993944bf2465d48cb41d4,
+          type: 3}
+        summonSound:
+          SetLoadSetting: 0
+          AssetAddress: Assets/Prefabs/Magic/Blind.prefab
+          AssetReference:
+            m_AssetGUID: 
+            m_SubObjectName: 
+            m_SubObjectType: 
+            m_EditorAssetChanged: 0
+    - rid: 6780799869088169997
+      type: {class: DarkifyAllLightSources, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Darkify all Light Sources
+        faithMiracleDesc: Turns all light sources into a comfortable warm light.
+        miracleIcon: {fileID: 11400000, guid: a53497d0b78777b449dde714f9f04ff5, type: 2}
+        lightColors:
+        - {r: 0.38039216, g: 0.53292215, b: 0.6313726, a: 0.3529412}
+        - {r: 0.16862746, g: 0.27991554, b: 0.5647059, a: 0.3529412}
+        - {r: 0.2627451, g: 0.04538796, b: 0.027450975, a: 0.5372549}
+        - {r: 0.9254902, g: 0.68907875, b: 0.40392154, a: 0.36862746}
+    - rid: 6780799869088169999
+      type: {class: RigObjects, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Rig Objects
+        faithMiracleDesc: Causes objects nearby faith members to be <i>slightly</i>
+          explosive upon receiving any damage.
+        miracleIcon: {fileID: 11400000, guid: dcd31b31287bea446bc66bfa445efc1d, type: 2}
+    - rid: 6780799869088170001
+      type: {class: MakeLeadersBigger, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Enlarge Leaders
+        faithMiracleDesc: Makes faith leaders bigger physically.
+        miracleIcon: {fileID: 11400000, guid: 32e95c8e6839de549a4d4186fb8a75ca, type: 2}
