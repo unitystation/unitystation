@@ -1064,6 +1064,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		FaithManager.Instance.FaithMembers.Add(playerScript);
 	}
 
+	
 	[TargetRpc]
 	public void RpcShowFaithSelectScreen(NetworkConnection target)
 	{
