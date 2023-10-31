@@ -1065,7 +1065,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[TargetRpc]
-	public void RpcShowFaithSelectScreen(NetworkConnectionToClient target)
+	public void RpcShowFaithSelectScreen(NetworkConnection target)
 	{
 		UIManager.Instance.ChaplainFirstTimeSelectScreen.gameObject.SetActive(true);
 	}
