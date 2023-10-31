@@ -103,6 +103,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a9ebfd5d49245c3aae9c470e3101480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnScoreChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &557460515347656071
 MonoBehaviour:
   m_ObjectHideFlags: 0
