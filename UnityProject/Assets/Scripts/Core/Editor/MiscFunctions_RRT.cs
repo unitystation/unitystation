@@ -200,9 +200,29 @@ namespace Util
 			};
 
 
+		[MenuItem("Tools/𓀠 - 𓀠 - ConvertBuildToGoodFiles 𓀂 - 𓀂 -")]
+		public static void ConvertBuildToGoodFiles()
+		{
+			PrepareWindows();
+			PrepareMac();
+			PrepareLinux();
+		}
+
 		[MenuItem("Tools/𓀠 𓀠 𓀠 𓀠 GenGoodFiles 𓀂 𓀂 𓀂 𓀂")]
 		public static void GenGoodFiles()
 		{
+
+
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+			path = Path.Combine(path, "Build");
+			var Directory = new DirectoryInfo(path);
+			if (Directory.Exists)
+			{
+				Directory.Delete(true);
+			}
+			Directory.Create();
+
 			BuildWindows();
 			BuildLinux();
 			BuildMac();
@@ -220,11 +240,21 @@ namespace Util
 			// Build player.
 			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Windows", "Unitystation.exe") , BuildTarget.StandaloneWindows64, BuildOptions.None);
 
+			PrepareWindows();
+		}
+
+		private static void PrepareWindows()
+		{
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
 			var Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data\Managed"));
 
 			foreach (var file in Directory.GetFiles())
 			{
-				if (FilesToKeepInManaged.Contains(file.Name)) continue;
+				if (FilesToKeepInManaged.Contains(file.Name.Replace(file.Extension, ""))) continue;
 				file.Delete();
 			}
 			Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data\Resources"));
@@ -252,11 +282,21 @@ namespace Util
 			// Build player.
 			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Linux", "Unitystation.x86_64") , BuildTarget.StandaloneLinux64, BuildOptions.None);
 
+			PrepareLinux();
+		}
+
+		private static void PrepareLinux()
+		{
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
 			var Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data\Managed"));
 
 			foreach (var file in Directory.GetFiles())
 			{
-				if (FilesToKeepInManaged.Contains(file.Name)) continue;
+				if (FilesToKeepInManaged.Contains(file.Name.Replace(file.Extension, ""))) continue;
 				file.Delete();
 			}
 			Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data\Resources"));
@@ -281,17 +321,24 @@ namespace Util
 			path = Path.Combine(path, "Build");
 
 			// Build player.
-			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Mac", "Unitystation.x86_64") , BuildTarget.StandaloneOSX, BuildOptions.None);
+			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Mac", "Unitystation.app") , BuildTarget.StandaloneOSX, BuildOptions.None);
 
+			PrepareMac();
+		}
+
+		private static void PrepareMac()
+		{
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
 			var Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data\Managed"));
 
 			foreach (var file in Directory.GetFiles())
 			{
-				if (FilesToKeepInManaged.Contains(file.Name)) continue;
+				if (FilesToKeepInManaged.Contains(file.Name.Replace(file.Extension, ""))) continue;
 				file.Delete();
 			}
-			Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data\Resources"));
-			Directory.Delete(true);
 			Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data\StreamingAssets"));
 			Directory.Delete(true);
 
@@ -301,7 +348,6 @@ namespace Util
 				file.Delete();
 			}
 		}
-
 
 		[MenuItem("Tools/Get Music keys")]
 		public static void GetMusicKeys()

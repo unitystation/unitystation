@@ -183,7 +183,7 @@ public static class ThisMain
 				Action<string> info = new Action<string>((string log) => { Infos.Add(log); });
 				Action<string> error = new Action<string>((string log) => { Errors.Add(log); });
 
-				var goodPath = @"Q:/Fast programmes/ss13 development/unitystation/UnityProject/Build/Windows";
+				var goodPath = @"J:/SuperFast Programs/ss13 development/unitystation/Tools/CodeScanning/CodeScan/CodeScan/bin/Debug/net7.0/Windows";
 
 				foreach (var arg in args)
 				{
