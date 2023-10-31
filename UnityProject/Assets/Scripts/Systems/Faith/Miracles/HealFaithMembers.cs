@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Util.Independent.FluentRichText;
-using Color = Util.Independent.FluentRichText.Color;
+
 
 namespace Systems.Faith.Miracles
 {
@@ -37,7 +37,7 @@ namespace Systems.Faith.Miracles
 			{
 				if (member.IsDeadOrGhost) continue;
 				member.playerHealth.FullyHeal();
-				string text = new RichText("You have been blessed..").Bold().Color((Color)Color.Yellow);
+				string text = new RichText("You have been blessed..").Bold().Color(RichTextColor.Yellow);
 				Chat.AddExamineMsg(member.gameObject, text);
 			}
 		}

@@ -575,7 +575,6 @@ MonoBehaviour:
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
-  SyncedWorldPos: {x: 0, y: 0, z: 0}
   RTT: 0
   RcsMode: 0
   RcsMatrixMove: {fileID: 0}
@@ -623,9 +622,10 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
+  LiesFlat3D: 0
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
-  <LayDownBehavior>k__BackingField: {fileID: 0}
+  <LayDownBehavior>k__BackingField: {fileID: 3778468619111041184}
   networkedLean: {fileID: 0}
 --- !u!114 &6528301238134470348
 MonoBehaviour:
@@ -697,6 +697,7 @@ MonoBehaviour:
   HarmCursor: {fileID: 0}
   GrabCursor: {fileID: 0}
   DisarmCursor: {fileID: 0}
+  ThrowCursor: {fileID: 0}
 --- !u!114 &2950133646228227302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -833,6 +834,8 @@ MonoBehaviour:
   CrawlSpeed: 0
   needsWalking: {fileID: 0}
   needsRunning: {fileID: 0}
+  CachedPreviousMove: {x: 0, y: 0}
+  CachedMove: {x: 0, y: 0}
   actionData: {fileID: 0}
   IsBumping: 0
 --- !u!114 &4807786497952879602
@@ -903,5 +906,5 @@ MonoBehaviour:
   playerDirectional: {fileID: 0}
   playerScript: {fileID: 0}
   networkedLean: {fileID: 0}
-  disabled: 0
-  IsLayingDown: 0
+  disabled: 1
+  clientAutoCorrectInterval: 1.35

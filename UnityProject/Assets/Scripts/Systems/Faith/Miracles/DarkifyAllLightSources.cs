@@ -4,7 +4,6 @@ using Core;
 using Objects.Lighting;
 using UnityEngine;
 using Util.Independent.FluentRichText;
-using Color = UnityEngine.Color;
 
 namespace Systems.Faith.Miracles
 {
@@ -38,7 +37,7 @@ namespace Systems.Faith.Miracles
 		public void DoMiracle()
 		{
 			GameManager.Instance.StartCoroutine(ChangeLights());
-			string msg = new RichText().Italic().Color(Util.Independent.FluentRichText.Color.Red)
+			string msg = new RichText().Italic().Color(RichTextColor.Red)
 				.Add("An ominous hum is heard from nearby light sources..");
 			Chat.AddGameWideSystemMsgToChat(msg);
 		}

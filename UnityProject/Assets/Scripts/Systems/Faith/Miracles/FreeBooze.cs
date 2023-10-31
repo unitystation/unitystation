@@ -2,7 +2,6 @@
 using Systems.Explosions;
 using UnityEngine;
 using Util.Independent.FluentRichText;
-using Color = Util.Independent.FluentRichText.Color;
 
 namespace Systems.Faith.Miracles
 {
@@ -36,7 +35,7 @@ namespace Systems.Faith.Miracles
 
 		public void DoMiracle()
 		{
-			string msg = new RichText().Color(Color.Yellow).Italic().Add("You hear bottles of glass fall..");
+			string msg = new RichText().Color(RichTextColor.Yellow).Italic().Add("You hear bottles of glass fall..");
 			Chat.AddGameWideSystemMsgToChat(msg);
 			foreach (var dong in PlayerList.Instance.GetAlivePlayers())
 			{

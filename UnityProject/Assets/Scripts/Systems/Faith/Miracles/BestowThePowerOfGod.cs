@@ -1,8 +1,6 @@
 ﻿using AddressableReferences;
-using Audio.Containers;
 using UnityEngine;
 using Util.Independent.FluentRichText;
-using Color = Util.Independent.FluentRichText.Color;
 
 namespace Systems.Faith.Miracles
 {
@@ -36,7 +34,7 @@ namespace Systems.Faith.Miracles
 		public int MiracleCost { get; set; } = 690;
 		public void DoMiracle()
 		{
-			string msg = new RichText().Color(Color.Yellow).Italic().Add("You feel... Power..");
+			string msg = new RichText().Color(RichTextColor.Yellow).Italic().Add("You feel... Power..");
 			foreach (var dong in PlayerList.Instance.GetAlivePlayers())
 			{
 				var weapon = Spawn.ServerPrefab(goldenRevolver, dong.GameObject.AssumedWorldPosServer());
