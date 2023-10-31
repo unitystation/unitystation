@@ -420,11 +420,24 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 			playerMove.StopPulling(false);
 
-			//TODO speedloss  / friction
 			var speed = 8;
+			var airtime = 0f;
+			if (pulling.stickyMovement)
+			{
+				//When they got no airtime they stick instantly
+				airtime = (distance / speed );
+			}
+			else
+			{
+				var timeTakenIfallThrow = (distance / speed);
+				airtime = timeTakenIfallThrow - ((Mathf.Pow(speed, 2) / (2 * UniversalObjectPhysics.DEFAULT_Friction)) / speed);
+			}
+
+
+
 
 			pulling.NewtonianPush( targetVector,speed,
-				(distance / speed ) - ((Mathf.Pow(speed, 2) / (2*UniversalObjectPhysics.DEFAULT_Friction)) / speed),
+				airtime,
 				Single.NaN, (BodyPartType) aim, this.gameObject, Random.Range(25, 150));
 		}
 

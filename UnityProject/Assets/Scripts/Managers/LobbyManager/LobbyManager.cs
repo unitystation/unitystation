@@ -187,7 +187,7 @@ namespace Lobby
 			return isLoginSuccess;
 		}
 
-		public async Task<bool> TryAutoLogin()
+		public async Task<bool> TryAutoLogin(bool autoJoin)
 		{
 			try
 			{
@@ -241,7 +241,7 @@ namespace Lobby
 				// Check which task completed
 				if (completedTask == longRunningTask)
 				{
-					if (Application.isEditor)
+					if (autoJoin == false)
 					{
 						LoadManager.DoInMainThread(() => { lobbyDialogue.ShowMainPanel(); });
 					}

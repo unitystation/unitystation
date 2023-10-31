@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Color = UnityEngine.Color;
 using Random = System.Random;
 
 
@@ -59,6 +61,11 @@ namespace Core.Utils
 
 			int randomIndex = random.Next(nonNullItems.Count);
 			return nonNullItems[randomIndex];
+		}
+
+		public static string ToHexString(this UnityEngine.Color color)
+		{
+			return ColorUtility.ToHtmlStringRGBA(color);
 		}
 	}
 
@@ -209,6 +216,8 @@ namespace Core.Utils
 		}
 
 	}
+
+
 
 	public class MultiInterestFloat
 	{

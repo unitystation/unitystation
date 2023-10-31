@@ -21,6 +21,8 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	public List<MutationSO> CapableMutations = new List<MutationSO>();
 	public List<Mutation> ActiveMutations = new List<Mutation>();
+	public List<MutationSO> ActiveMutationsSO = new List<MutationSO>();
+
 
 	public int Stability = 0;
 
@@ -108,12 +110,13 @@ public class BodyPartMutations : BodyPartFunctionality
 	public void AddMutation(MutationSO Mutation)
 	{
 		if (CapableMutations.Contains(Mutation) == false) return; //TODO Maybe add negative mutation instead
+		if (ActiveMutationsSO.Contains(Mutation)) return;
 
 		var Data = GetMutationRoundData(Mutation);
 
 		var ActiveMutation = Mutation.GetMutation(RelatedPart, Mutation);
 		ActiveMutation.Stability = Data.Stability;
-
+		ActiveMutationsSO.Add(Mutation);
 
 		ActiveMutations.Add(ActiveMutation);
 		ActiveMutation.SetUp();
@@ -136,6 +139,7 @@ public class BodyPartMutations : BodyPartFunctionality
 		if (Target == null) return;
 
 		ActiveMutations.Remove(Target);
+		ActiveMutationsSO.Remove(Mutation);
 		Target.Remove();
 		CalculateStability();
 		RelatedPart.HealthMaster.OrNull()?.BodyPartsChangeMutation();

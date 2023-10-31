@@ -120,7 +120,7 @@ public class GameData : MonoBehaviour
 		}
 
 		if (await TryJoinViaCmdArgs()) return;
-		_ = LobbyManager.Instance.TryAutoLogin();
+		_ = LobbyManager.Instance.TryAutoLogin(false);
 	}
 
 	private void OnEnable()
@@ -225,7 +225,7 @@ public class GameData : MonoBehaviour
 			Loggy.LogWarning("Logging in via hub account (via command line args) failed.");
 		}
 
-		if (await LobbyManager.Instance.TryAutoLogin())
+		if (await LobbyManager.Instance.TryAutoLogin(true))
 		{
 			LobbyManager.Instance.JoinServer(ip, port);
 			return true;

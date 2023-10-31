@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AddressableReferences;
 using Items;
 using Logs;
@@ -30,11 +31,18 @@ namespace Objects.Medical
 			if (CustomNetworkManager.IsServer) UpdateManager.Add(Scan, scanInterval);
 		}
 
+		public void OnDisable()
+		{
+			SensorsWarning.Clear();
+		}
+
 		private void Warn()
 		{
 			if (muteWarn) return;
 			_ = SoundManager.PlayNetworkedAtPosAsync(warnSound, gameObject.AssumedWorldPosServer());
 		}
+
+		public HashSet<SuitSensor> SensorsWarning = new HashSet<SuitSensor>();
 
 		public void Scan()
 		{
@@ -50,7 +58,21 @@ namespace Objects.Medical
 					HealthPercent = sensor.OverallHealth()
 				};
 				CrewInfo.Add(info);
-				if (info.HealthPercent <= 35f) warn = true;
+				if (info.HealthPercent <= 5f)
+				{
+					if (SensorsWarning.Contains(sensor) == false)
+					{
+						SensorsWarning.Add(sensor);
+						warn = true;
+					}
+				}
+				else
+				{
+					if (SensorsWarning.Contains(sensor))
+					{
+						SensorsWarning.Remove(sensor);
+					}
+				}
 			}
 
 			if (warn) Warn();

@@ -44,6 +44,8 @@ namespace Items.Implants.Organs
 		[ShowIf("isEMPVunerable")]
 		public int EMPResistance = 2;
 
+		public int BeatFrameCash = 0;
+		public float BeatStrength = 0;
 		public override void Awake()
 		{
 			base.Awake();
@@ -140,15 +142,23 @@ namespace Items.Implants.Organs
 
 		public float CalculateHeartbeat()
 		{
+			if (BeatFrameCash == UpdateManager.CurrentFrameCashed)
+			{
+				return BeatStrength;
+			}
+
+			BeatFrameCash = UpdateManager.CurrentFrameCashed;
 			if (ForcedBeats > 0)
 			{
 				ForcedBeats--;
-				return 1;
+				BeatStrength = 1;
+				return BeatStrength;
 			}
 
 			if ((CanHaveHeartAttack && HeartAttack) || RelatedPart.HealthMaster.brain == null) //Needs a brain for heart to work
 			{
-				return 0;
+				BeatStrength = 0;
+				return BeatStrength;
 			}
 
 			//To exclude stuff like hunger and oxygen damage
@@ -177,7 +187,8 @@ namespace Items.Implants.Organs
 
 			}
 
-			return TotalModified;
+			BeatStrength = TotalModified;
+			return BeatStrength;
 		}
 
 		public void DoHeartAttack()

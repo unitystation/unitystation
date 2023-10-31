@@ -5,7 +5,7 @@ namespace Util.Independent.FluentRichText.Styles
 	public class ColorStrategy : IStyleStrategy
 	{
 		private readonly string hexColor;
-		private readonly Color color = Color.NoColor;
+		private readonly RichTextColor _richTextColor = RichTextColor.NoColor;
 
 		public ColorStrategy(string hexColor)
 		{
@@ -19,9 +19,9 @@ namespace Util.Independent.FluentRichText.Styles
 			this.hexColor = hexColor;
 		}
 
-		public ColorStrategy(Color color)
+		public ColorStrategy(RichTextColor richTextColor)
 		{
-			this.color = color;
+			this._richTextColor = richTextColor;
 		}
 
 		public string ApplyStyle(string text)
@@ -33,10 +33,10 @@ namespace Util.Independent.FluentRichText.Styles
 				// If it's a hexadecimal color, use it as is.
 				colorString = hexColor;
 			}
-			else if (color != Color.NoColor)
+			else if (_richTextColor != RichTextColor.NoColor)
 			{
 				// If it's a named color, convert to lowercase and wrap in quotes.
-				colorString = $"\"{color.ToString().ToLower()}\"";
+				colorString = $"\"{_richTextColor.ToString().ToLower()}\"";
 			}
 			else
 			{

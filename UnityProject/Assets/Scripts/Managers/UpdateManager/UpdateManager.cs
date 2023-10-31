@@ -46,6 +46,8 @@ public class UpdateManager : MonoBehaviour
 	public bool MidInvokeCalls {get; private set;}
 	public Action LastInvokedAction {get; private set;}
 
+	public static int CurrentFrameCashed = 0;
+
 	private class NamedAction
 	{
 		public Action Action = null;
@@ -297,6 +299,7 @@ public class UpdateManager : MonoBehaviour
 
 	private void Update()
 	{
+		CurrentFrameCashed = Time.frameCount;
 		if (threadSafeAddQueue.Count > 0)
 		{
 			for (int i = 0; i < threadSafeAddQueue.Count; i++)
