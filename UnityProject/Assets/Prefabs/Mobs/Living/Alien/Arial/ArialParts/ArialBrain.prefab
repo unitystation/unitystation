@@ -163,6 +163,21 @@ MonoBehaviour:
   wanderState: {fileID: 2808876780756977429}
   troubelState: {fileID: 6289005881020540733}
   pathfinder: {fileID: 0}
+  stateEnterSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Arial/ArialPurr.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Arial/ArialTalk.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
 --- !u!114 &6289005881020540733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,7 +201,7 @@ MonoBehaviour:
   troubleState: {fileID: 6222196209030829027}
   stateEnter:
     SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: Assets/Prefabs/NPC/Arial/ArialPrankIn.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -194,7 +209,7 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   stateExit:
     SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: Assets/Prefabs/NPC/Arial/ArialPrankIOut.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 

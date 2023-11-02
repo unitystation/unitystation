@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AddressableReferences;
 using Core;
 using Items.Food;
 using Logs;
@@ -16,6 +17,7 @@ namespace Mobs.BrainAI.States.Arial
 		[SerializeField] private BrainWanderState wanderState;
 		[SerializeField] private CauseTroubleArialAi troubelState;
 		[SerializeField] private MobPathfinderV2 pathfinder;
+		[SerializeField] private List<AddressableAudioSource> stateEnterSounds = new List<AddressableAudioSource>();
 
 		private List<Node> path = new List<Node>();
 
@@ -37,6 +39,7 @@ namespace Mobs.BrainAI.States.Arial
 				//enter wander state.
 				master.AddRemoveState(null, wanderState);
 			}
+			SoundManager.PlayNetworkedAtPos(stateEnterSounds.PickRandom(), LivingHealthMaster.gameObject.AssumedWorldPosServer());
 		}
 
 		public override void OnExitState()
@@ -68,7 +71,6 @@ namespace Mobs.BrainAI.States.Arial
 			}
 			else
 			{
-				Loggy.Log("cant reach target :(");
 				if (DMMath.Prob(5))
 				{
 					List<SpawnPointCategory> spawnPointCategory = new List<SpawnPointCategory>
@@ -85,11 +87,12 @@ namespace Mobs.BrainAI.States.Arial
 						points.AddRange(SpawnPoint.GetPointsForCategory(point).ToList());
 					}
 					LivingHealthMaster.playerScript.playerMove.SetTransform(points.PickRandom().gameObject.AssumedWorldPosServer(), true);
+					SoundManager.PlayNetworkedAtPos(stateEnterSounds.PickRandom(), LivingHealthMaster.gameObject.AssumedWorldPosServer());
 				}
 				target = DecideTarget();
 				return;
 			}
-			if (Vector3.Distance(target.AssumedWorldPosServer(), master.gameObject.AssumedWorldPosServer()) < 3)
+			if (Vector3.Distance(target.AssumedWorldPosServer(), master.gameObject.AssumedWorldPosServer()) < 3.75f)
 			{
 				troubelState.Target = target;
 				master.AddRemoveState(this, troubelState);
