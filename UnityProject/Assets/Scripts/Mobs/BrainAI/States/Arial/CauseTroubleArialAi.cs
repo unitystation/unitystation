@@ -1,10 +1,7 @@
 ﻿using System;
 using AddressableReferences;
 using Core;
-using Core.Utils;
 using Items;
-using Logs;
-using Systems.MobAIs;
 using UnityEngine;
 
 namespace Mobs.BrainAI.States.Arial
