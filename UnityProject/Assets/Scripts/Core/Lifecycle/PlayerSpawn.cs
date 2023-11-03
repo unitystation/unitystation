@@ -309,6 +309,7 @@ public static class PlayerSpawn
 			parentTransform.rotation,
 			parentTransform);
 
+		player.AddComponent<RuntimeSpawned>();
 		//fire all hooks
 		var info = SpawnInfo.Ghost(null, bodyPrefab,
 			SpawnDestination.At(Vector3.zero, parentTransform));
