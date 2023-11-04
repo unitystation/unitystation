@@ -30,11 +30,8 @@ namespace Antagonists
 			}
 			set
 			{
-				if (value != null)
-				{
-					curTeam?.RemoveTeamMember(curOwner);
-					value.AddTeamMember(curOwner);
-				}
+				curTeam?.RemoveTeamMember(curOwner);
+				value?.AddTeamMember(curOwner);
 				curTeam = value;
 			}
 		}
@@ -82,6 +79,7 @@ namespace Antagonists
 			Objectives = new List<Objective>();
 			IsAntagCanSeeObjectivesStatus = false;
 			curAntagonist = null;
+			curTeam = null;
 		}
 
 		/// <summary>
