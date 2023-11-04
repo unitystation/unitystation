@@ -967,7 +967,9 @@ namespace Util
 					Loggy.LogError("OH NO json File wasn't found for " + Sprites[0].name, Category.Editor);
 				}
 
-				SpriteData.Variance.Add(new SpriteDataSO.Variant());
+				var Variant = new SpriteDataSO.Variant();
+				Variant.Frames = new List<SpriteDataSO.Frame>();
+				SpriteData.Variance.Add(Variant);
 				SpriteData.Variance[0].Frames.Add(new SpriteDataSO.Frame());
 				SpriteData.Variance[0].Frames[0].sprite = Sprites[0];
 				return SpriteData;
@@ -977,7 +979,9 @@ namespace Util
 			int frame = 0;
 			for (int J = 0; J < spriteJson.Number_Of_Variants; J++)
 			{
-				SpriteData.Variance.Add(new SpriteDataSO.Variant());
+				var Variant = new SpriteDataSO.Variant();
+				Variant.Frames = new List<SpriteDataSO.Frame>();
+				SpriteData.Variance.Add(Variant);
 			}
 
 			foreach (var SP in Sprites)
