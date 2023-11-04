@@ -28,6 +28,18 @@ public class TeamMemberEntry : MonoBehaviour
 		text.text = $"{adminInfo.PlayerData.name}: {adminInfo.PlayerData.currentJob}";
 	}
 
+	public void Init(TeamObjectiveAdminPage teamObjectiveAdminPageToSet, AdminPlayerEntry adminInfoToSet)
+	{
+		isNew = true;
+		teamObjectiveAdminPage = teamObjectiveAdminPageToSet;
+		teamMemberInfo = new TeamMemberInfo()
+		{
+			Id = adminInfoToSet.PlayerData.uid
+		};
+		adminInfo = adminInfoToSet;
+		text.text = $"{adminInfo.PlayerData.name}: {adminInfo.PlayerData.currentJob}";
+	}
+
 	public void RemoveMember()
 	{
 		if (isNew == true)
@@ -46,17 +58,5 @@ public class TeamMemberEntry : MonoBehaviour
 				removeButtonText.color = new Color(0.8f, 0.2f, 0.2f, 1);
 			}
 		}
-	}
-
-	public void Init(TeamObjectiveAdminPage teamObjectiveAdminPageToSet, AdminPlayerEntry adminInfoToSet)
-	{
-		isNew = true;
-		teamObjectiveAdminPage = teamObjectiveAdminPageToSet;
-		teamMemberInfo = new TeamMemberInfo()
-		{
-			Id = adminInfoToSet.PlayerData.uid
-		};
-		adminInfo = adminInfoToSet;
-		text.text = $"{adminInfo.displayName} {adminInfo.PlayerData.currentJob}";
 	}
 }
