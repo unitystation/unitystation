@@ -3304,6 +3304,9 @@
 			"AllowedEnvironmentVariables" : {
 				"All": true
 			},
+			"PlayModeOnlyAttribute" : {
+				"All": true
+			},
 			"SpriteMetadata" : {
 				"Methods" : [
 					"float get_Scale()",
@@ -3348,8 +3351,10 @@
 			},
 			"Formatting" : {
 				"All": true
+			},
+			"DefaultValueHandling" : {
+				"All": true
 			}
-	
 		},
 		"Newtonsoft.Json.Bson" : {
 			"BsonWriter" : {
