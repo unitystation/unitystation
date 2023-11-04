@@ -79,7 +79,6 @@ namespace Antagonists
 			Objectives = new List<Objective>();
 			IsAntagCanSeeObjectivesStatus = false;
 			curAntagonist = null;
-			curTeam = null;
 		}
 
 		/// <summary>

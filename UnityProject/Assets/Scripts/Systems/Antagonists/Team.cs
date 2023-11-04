@@ -16,7 +16,22 @@ namespace Antagonists
 	public class Team
 	{
 		private List<SpawnedAntag> teamMembers = new List<SpawnedAntag>();
-		public List<SpawnedAntag> TeamMembers => new(teamMembers);
+		public List<SpawnedAntag> TeamMembers
+		{
+			get
+			{
+				var checkedTeamMembers = new List<SpawnedAntag>();
+				foreach (var x in teamMembers)
+				{
+					if (x != null && x.CurTeam == this)
+					{
+						checkedTeamMembers.Add(x);
+					}
+				}
+				teamMembers = checkedTeamMembers;
+				return new(checkedTeamMembers);
+			}
+		}
 
 		private List<Objective> teamObjectives = new List<Objective>();
 		public List<Objective> TeamObjectives
@@ -84,7 +99,6 @@ namespace Antagonists
 
 		public void RemoveTeamMember(Mind playerToAdd)
 		{
-			playerToAdd.AntagPublic.CurTeam = null;
 			if (teamMembers.Contains(playerToAdd.AntagPublic))
 				teamMembers.Remove(playerToAdd.AntagPublic);
 		}

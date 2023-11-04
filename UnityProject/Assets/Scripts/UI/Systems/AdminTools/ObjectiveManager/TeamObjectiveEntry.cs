@@ -56,7 +56,7 @@ public class TeamObjectiveEntry : MonoBehaviour
 
 	private void UpdateCheckBox()
 	{
-		if (info.PrefabID >= 0 && AntagData.Instance.FromIndexObj(info.PrefabID).IsEndRoundObjective)
+		if (info.PrefabID >= 0 && AntagData.Instance.FromIndexObj(info.PrefabID).IsEndRoundObjective || info.IsEndRound)
 		{
 			checkBoxButtonText.text = "E";
 		} else if (info.Status)
