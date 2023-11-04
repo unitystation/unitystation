@@ -21,7 +21,23 @@ namespace Antagonists
 		private Antagonist curAntagonist;
 		public Antagonist Antagonist => curAntagonist;
 
-		public Team CurTeam { get; set; } = null;
+		private Team curTeam = null;
+		public Team CurTeam
+		{
+			get
+			{
+				return curTeam;
+			}
+			set
+			{
+				if (value != null)
+				{
+					curTeam?.RemoveTeamMember(curOwner);
+					value.AddTeamMember(curOwner);
+				}
+				curTeam = value;
+			}
+		}
 		public bool IsAntagCanSeeObjectivesStatus { get; set; } = false;
 
 		/// <summary>

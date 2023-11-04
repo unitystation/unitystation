@@ -42,10 +42,13 @@ namespace AdminTools
 				if (relatedObjective.ToDelete)
 				{
 					removeBoxText.color = new Color(1, 0, 0, 1);
+					objectiveDescription.fontStyle = FontStyles.Strikethrough;
+
 				}
 				else
 				{
 					removeBoxText.color = new Color(0.8f, 0.2f, 0.2f, 1);
+					objectiveDescription.fontStyle = (FontStyles)FontStyle.Normal;
 				}
 			}
 		}

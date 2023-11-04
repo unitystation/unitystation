@@ -78,8 +78,8 @@ namespace Antagonists
 
 		public void AddTeamMember(Mind playerToAdd)
 		{
-			playerToAdd.AntagPublic.CurTeam = this;
-			teamMembers.Add(playerToAdd.AntagPublic);
+			if (!teamMembers.Contains(playerToAdd.AntagPublic))
+				teamMembers.Add(playerToAdd.AntagPublic);
 		}
 
 		public void RemoveTeamMember(Mind playerToAdd)
