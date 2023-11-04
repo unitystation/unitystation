@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 504715263566553044, guid: 0c2a702923a3e6346933f0c6d52fed5d,
@@ -15,7 +16,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 736970104734021590, guid: 0c2a702923a3e6346933f0c6d52fed5d,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: e71bc8dc60fe8cb40aea595f45318717,
         type: 2}
@@ -92,6 +93,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6040225900023683559, guid: 0c2a702923a3e6346933f0c6d52fed5d,
         type: 3}
+      propertyPath: _assetId
+      value: 1374394925
+      objectReference: {fileID: 0}
+    - target: {fileID: 6040225900023683559, guid: 0c2a702923a3e6346933f0c6d52fed5d,
+        type: 3}
       propertyPath: m_AssetId
       value: 0668e414567498d479424012346a17dd
       objectReference: {fileID: 0}
@@ -101,4 +107,7 @@ PrefabInstance:
       value: black bishop mitre
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c2a702923a3e6346933f0c6d52fed5d, type: 3}

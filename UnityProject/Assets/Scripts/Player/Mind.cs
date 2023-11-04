@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using AdminCommands;
 using UnityEngine;
@@ -12,7 +13,12 @@ using Items.PDA;
 using Messages.Server;
 using ScriptableObjects.Audio;
 using ScriptableObjects.Systems.Spells;
+using Systems.Antagonists.Antags;
 using UI.Core.Action;
+using System.Linq;
+using Changeling;
+using Logs;
+using static UniversalObjectPhysics;
 
 /// <summary>
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
@@ -22,7 +28,28 @@ public class Mind : NetworkBehaviour, IActionGUI
 {
 	[SyncVar(hook = nameof(SyncActiveOn))] private uint IDActivelyControlling;
 
-	[SyncVar] public bool IsGhosting;
+	[SyncVar] public bool isGhosting;
+
+	public bool IsGhosting
+	{
+		get
+		{
+			if (isOwned || isServer)
+			{
+				return isGhosting;
+			}
+			else
+			{
+				return AllClientsObservableMind.IsGhosting;
+			}
+		}
+		set
+		{
+			isGhosting = value;
+			AllClientsObservableMind.IsGhosting = value;
+		}
+
+	}
 
 	[SyncVar(hook = nameof(SyncPossessing))]
 	private uint IDPossessing;
@@ -31,6 +58,56 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 	//Antag
 	[SyncVar] private bool NetworkedisAntag;
+
+	[SyncVar] private bool nonImportantMind = false;
+
+	public bool NonImportantMind
+	{
+		get
+		{
+			if (isOwned || isServer)
+			{
+				return nonImportantMind;
+			}
+			else
+			{
+				return AllClientsObservableMind.NonImportantMind;
+			}
+		}
+		set
+		{
+			nonImportantMind = value;
+			AllClientsObservableMind.NonImportantMind = value;
+		}
+	}
+
+	//Type of Antagonist
+	[field: SyncVar] public JobType NetworkedAntagJob { get; private set; }
+
+	public GameObject CurrentlyControllingObject
+	{
+		set
+		{
+			var net = value.NetId();
+			AllClientsObservableMind.IDActivelyControlling = net;
+			IDActivelyControlling = net;
+		}
+		get
+		{
+			if (isOwned || isServer)
+			{
+				if (IsGhosting) return this.gameObject;
+				if (IDActivelyControlling is NetId.Invalid or NetId.Empty) return this.gameObject;
+				var Possessable = CustomNetworkManager.Spawned[IDActivelyControlling].GetComponent<IPlayerPossessable>();
+
+				return 	Possessable.ControllingObject;
+			}
+			else
+			{
+				return AllClientsObservableMind.ControllingObject;
+			}
+		}
+	}
 
 	public GameObject PossessingObject
 	{
@@ -55,12 +132,31 @@ public class Mind : NetworkBehaviour, IActionGUI
 		}
 	}
 
+	private AllClientsObservableMind allClientsObservableMind;
+
+	private AllClientsObservableMind AllClientsObservableMind
+	{
+
+		get
+		{
+			if (allClientsObservableMind == null)
+			{
+				allClientsObservableMind = this.GetComponent<AllClientsObservableMind>();
+			}
+
+			return allClientsObservableMind;
+		}
+
+	}
+
 	public Occupation occupation;
 
 	public PlayerScript ghost { private set; get; }
 	public PlayerScript Body => GetDeepestBody()?.GetComponent<PlayerScript>();
-	private SpawnedAntag antag;
-	public bool IsAntag => CustomNetworkManager.IsServer ? antag != null : NetworkedisAntag;
+	private SpawnedAntag antagContainer = null;
+
+	public SpawnedAntag AntagPublic => antagContainer;
+	public bool IsAntag => CustomNetworkManager.IsServer ? antagContainer.Antagonist != null : NetworkedisAntag;
 
 
 	public bool DenyCloning;
@@ -68,6 +164,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	public FloorSounds StepSound; //Why is this on the mind!!!, Should be on the body
 	public FloorSounds SecondaryStepSound;
 
+	private string pdaUplinkCode = "";
 
 	// Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
 
@@ -89,6 +186,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 	/// General purpose properties storage for misc stuff like job-specific flags
 	/// </summary>
 	private Dictionary<string, object> properties = new Dictionary<string, object>();
+
+
 
 	public bool IsMute
 	{
@@ -119,6 +218,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	// use Create to create a mind.
 	public void Awake()
 	{
+		antagContainer = GetComponent<SpawnedAntag>();
 		Move = GetComponent<GhostMove>();
 		// add spell to the UI bar as soon as they're added to the spell list
 		spells.CollectionChanged += (sender, e) =>
@@ -146,9 +246,48 @@ public class Mind : NetworkBehaviour, IActionGUI
 		};
 	}
 
+	public void Start()
+	{
+		if (NonImportantMind)
+		{
+			UpdateManager.Add(CheckNonImportantMind, 30f);
+		}
+	}
+
+	public void OnDestroy()
+	{
+		if (NonImportantMind)
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckNonImportantMind);
+		}
+	}
+
+
+	[Command]
+	public void CmdRequestPossess(uint ID)
+	{
+
+		if (AdminCommandsManager.IsAdmin(this.connectionToClient, out var _))
+		{
+			SetPossessingObject(CustomNetworkManager.Spawned[ID].gameObject);
+		}
+
+
+	}
+
+
+	public void CheckNonImportantMind()
+	{
+		var Deepestbody = GetDeepestBody();
+		if (Deepestbody.gameObject == this.gameObject && ControlledBy == null)
+		{
+			_ = Despawn.ServerSingle(this.gameObject);
+		}
+	}
 
 	public void ApplyOccupation(Occupation requestedOccupation)
 	{
+		if (requestedOccupation == null) return;
 		this.occupation = requestedOccupation;
 		foreach (var spellData in occupation.Spells)
 		{
@@ -159,6 +298,11 @@ public class Mind : NetworkBehaviour, IActionGUI
 		foreach (var pair in occupation.CustomProperties)
 		{
 			SetProperty(pair.Key, pair.Value);
+		}
+
+		if (occupation.JobType == JobType.AI)
+		{
+			SetPermanentName(CurrentCharacterSettings.AiName ?? "H.A.L.E");
 		}
 	}
 
@@ -197,16 +341,28 @@ public class Mind : NetworkBehaviour, IActionGUI
 		this.name = newName;
 	}
 
+	public void UpdateAntagButtons()
+	{
+		if (antagContainer.Objectives.Count() == 0 && antagContainer.Antagonist == null)
+		{
+			ActivateAntagAction(false);
+		} else
+		{
+			ActivateAntagAction(true);
+		}
+	}
 
 	/// <summary>
 	/// Make this mind a specific spawned antag
 	/// </summary>
-	public void SetAntag(SpawnedAntag newAntag)
+	public SpawnedAntag InitAntag(Antagonist antagonist, IEnumerable<Objective> objectives)
 	{
-		antag = newAntag;
-		NetworkedisAntag = newAntag != null;
-		ShowObjectives();
+		antagContainer.Init(antagonist, this, objectives);
+		NetworkedisAntag = antagonist != null;
+		NetworkedAntagJob = antagonist.AntagJobType;
 		ActivateAntagAction(NetworkedisAntag);
+
+		return antagContainer;
 	}
 
 	public void ActivateAntagAction(bool state)
@@ -268,6 +424,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 		SyncActiveOn(IDActivelyControlling, obj.NetId());
 
+
 		if (ControlledBy != null)
 		{
 			if (PlayerPossessable != null)
@@ -285,9 +442,9 @@ public class Mind : NetworkBehaviour, IActionGUI
 	{
 		//TODO : Notify the player that a new objective has been added automatically.
 		var list = new List<Objective>();
-		antag.Objectives.CopyTo<Objective>(list);
+		antagContainer.Objectives.CopyTo<Objective>(list);
 		list.Add(objectiveToAdd);
-		antag.Objectives = list;
+		antagContainer.Objectives = list;
 	}
 
 	/// <summary>
@@ -295,8 +452,10 @@ public class Mind : NetworkBehaviour, IActionGUI
 	/// </summary>
 	public void RemoveAntag()
 	{
-		antag = null;
-		NetworkedisAntag = antag != null;
+		antagContainer.Clear();
+		NetworkedisAntag = antagContainer.Antagonist != null;
+		NetworkedAntagJob = JobType.NULL;
+
 		ActivateAntagAction(NetworkedisAntag);
 	}
 
@@ -330,7 +489,11 @@ public class Mind : NetworkBehaviour, IActionGUI
 	public void Ghost()
 	{
 		var Body = GetDeepestBody();
-		Move.ForcePositionClient(Body.transform.position, Smooth: false);
+		if (CurrentPlayScript != null)
+		{
+			CurrentPlayScript.OnBodyUnPossesedByPlayer?.Invoke();
+		}
+		Move.ForcePositionClient(Body.gameObject.AssumedWorldPosServer(), Smooth: false);
 		IsGhosting = true;
 		InternalSetControllingObject(GetDeepestBody().gameObject);
 	}
@@ -410,6 +573,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 	private void SyncActiveOn(uint oldID, uint newID)
 	{
+		AllClientsObservableMind.IDActivelyControlling = newID;
 		IDActivelyControlling = newID;
 		if (isClient)
 		{
@@ -466,11 +630,12 @@ public class Mind : NetworkBehaviour, IActionGUI
 		{
 			if (isServer && spawned[newID].gameObject == gameObject) //Has ghosted
 			{
-				PossessAndUnpossessMessage.Send(this.gameObject, gameObject, null);
+				PossessAndUnpossessMessage.Send(this.gameObject, gameObject, null); //TODO rethink this
 			}
 
 			//TODO For objects
 		}
+
 	}
 
 	public void AccountLeavingMind(PlayerInfo account)
@@ -509,7 +674,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	{
 		if (ControlledBy?.Connection == null)
 		{
-			Logger.LogError("oh god!, Somehow there's no connection to client when ReLog Code has Been called");
+			Loggy.LogError("oh god!, Somehow there's no connection to client when ReLog Code has Been called");
 			return;
 		}
 
@@ -524,6 +689,12 @@ public class Mind : NetworkBehaviour, IActionGUI
 		foreach (var Lost in Losing)
 		{
 			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, Lost, null);
+
+			var PlayerPositionable = Lost.GetComponent<IPlayerPossessable>();
+			if (PlayerPositionable != null)
+			{
+				PlayerPositionable.InternalOnLosePossess();
+			}
 		}
 
 		foreach (var Gained in Gaining)
@@ -536,8 +707,10 @@ public class Mind : NetworkBehaviour, IActionGUI
 	//Gets all Bodies that are related to this mind,  Mind-> Brain-> Body
 	public List<NetworkIdentity> GetRelatedBodies()
 	{
-		var returnList = new List<NetworkIdentity>();
-		returnList.Add(this.netIdentity);
+		var returnList = new List<NetworkIdentity>
+		{
+			this.netIdentity
+		};
 
 		if (PlayerPossessable != null)
 		{
@@ -638,14 +811,13 @@ public class Mind : NetworkBehaviour, IActionGUI
 	/// </summary>
 	public void ShowObjectives()
 	{
-		if (IsAntag == false) return;
+		if (antagContainer.Objectives.Count() == 0 && NetworkedisAntag == false) return;
 		var playerMob = GetCurrentMob();
 
 		//Send Objectives
-		Chat.AddExamineMsgFromServer(playerMob, antag.GetObjectivesForPlayer());
+		Chat.AddExamineMsgFromServer(playerMob, antagContainer.GetObjectivesForPlayer());
 
-		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return;
-		if (antag.Antagonist.AntagJobType == JobType.TRAITOR || antag.Antagonist.AntagJobType == JobType.SYNDICATE)
+		if (CodeWordManager.Instance.CodeWordRoles.Contains(NetworkedAntagJob) == true)
 		{
 			string codeWordsString = "Code Words:";
 			for (int i = 0; i < CodeWordManager.WORD_COUNT; i++)
@@ -660,7 +832,12 @@ public class Mind : NetworkBehaviour, IActionGUI
 			}
 
 			Chat.AddExamineMsgFromServer(playerMob, codeWordsString);
+		}
 
+		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return;
+
+		if (CodeWordManager.Instance.CodeWordRoles.Contains(NetworkedAntagJob) == true || antagContainer.Antagonist is BloodBrother == true)
+		{
 			if (body.OrNull()?.DynamicItemStorage == null) return;
 			var playerInventory = body.DynamicItemStorage.GetItemSlots();
 			foreach (var item in playerInventory)
@@ -671,10 +848,42 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 				//Send Uplink code
 				Chat.AddExamineMsgFromServer(playerMob, $"PDA uplink code retrieved: {PDA.UplinkUnlockCode}");
+				pdaUplinkCode = PDA.UplinkUnlockCode;
 				//TODO Store same place as objectives it's Dumb being here,
 				//Means you can View the code of Any PDA If you're an antagonist
 			}
 		}
+	}
+
+	public string GetObjectives()
+	{
+		var objectives = "";
+		if (IsAntag == false) return "";
+		var playerMob = GetCurrentMob();
+
+		//Send Objectives
+		objectives += antagContainer.GetObjectivesForPlayer();
+
+		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return "";
+		if (antagContainer.Antagonist.AntagJobType == JobType.TRAITOR || antagContainer.Antagonist.AntagJobType == JobType.SYNDICATE || antagContainer.Antagonist is BloodBrother)
+		{
+			string codeWordsString = "\nCode Words:";
+			for (int i = 0; i < CodeWordManager.WORD_COUNT; i++)
+			{
+				codeWordsString += $"\n-{CodeWordManager.Instance.Words[i]}";
+			}
+
+			codeWordsString += "\nResponses:";
+			for (int i = 0; i < CodeWordManager.WORD_COUNT; i++)
+			{
+				codeWordsString += $"\n-{CodeWordManager.Instance.Responses[i]}";
+			}
+
+			objectives += codeWordsString;
+
+			objectives += $"\nPDA uplink code retrieved:{pdaUplinkCode}";
+		}
+		return objectives;
 	}
 
 	/// <summary>
@@ -682,7 +891,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	/// </summary>
 	public SpawnedAntag GetAntag()
 	{
-		return antag;
+		return antagContainer;
 	}
 
 	/// <summary>
@@ -693,7 +902,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	{
 		if (IsAntag == false) return false;
 
-		return antag.Antagonist is T;
+		return antagContainer.Antagonist is T;
 	}
 
 	public void AddSpell(Spell spell)

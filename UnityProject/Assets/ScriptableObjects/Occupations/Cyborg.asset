@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c58d5c5a6190436e9d4ae8e32a26ee6a, type: 3}
+  m_Name: Cyborg
+  m_EditorClassIdentifier: 
+  jobType: 16
+  isCrewmember: 1
+  lateSpawnIsArrivals: 1
+  inventoryPopulator: {fileID: 0}
+  useStandardPopulator: 1
+  useCharacterSettings: 1
+  CustomSpeciesOverwrite: {fileID: 11400000, guid: e9ff315a55db70441bed9631f79432e4,
+    type: 2}
+  limit: 2
+  priority: 0
+  issuedClearance: 
+  issuedLowPopClearance: 
+  spells: []
+  progress: 50
+  choiceColor: {r: 0.8, g: 0.8, b: 1, a: 1}
+  previewSprite: {fileID: 21300000, guid: aaf63ff1b7f5c2244b233bf2e2b82a05, type: 3}
+  displayName: Cyborg
+  difficulty: 3
+  descriptionShort: 'A robotic member of the crew tied to the AI '
+  descriptionLong: 
+  customProperties:
+    m_keys: []
+    m_values: 
+  BetterCustomProperties: []
+  isTargeteable: 0
+  playSound: 1
+  spawnSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/departments/Synthetic_Spawn.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  textColor: {r: 0, g: 0.08627451, b: 0.3529412, a: 1}
+  backgroundColor: {r: 0.21960784, g: 0.21960784, b: 0.21960784, a: 1}
+  specialPlayerPrefab: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []

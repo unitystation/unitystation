@@ -17,8 +17,8 @@ namespace Messages.Server
 			LoadNetworkObject(msg.NetId);
 			if(NetworkObject == null) return;
 			if(NetworkObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
-
-			playerScript.playerSprites.InfectedSpriteHandler.ChangeSprite(msg.SpriteIndex, false);
+			playerScript.playerSprites.InfectedSpriteHandler.PushTexture();
+			playerScript.playerSprites.InfectedSpriteHandler.SetCatalogueIndexSprite(msg.SpriteIndex, false);
 		}
 
 		public static void Send(PlayerScript infectedPlayer, short spriteIndex)

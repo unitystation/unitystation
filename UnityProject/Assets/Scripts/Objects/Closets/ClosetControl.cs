@@ -107,9 +107,9 @@ namespace Objects
 		#endregion
 
 		// Components
-		private RegisterObject registerObject;
+		protected RegisterObject registerObject;
 		private ObjectAttributes attributes;
-		private ObjectContainer objectContainer;
+		protected ObjectContainer objectContainer;
 		private GasContainer gasContainer;
 		private UniversalObjectPhysics objectPhysics;
 		private ClearanceRestricted clearanceRestricted;
@@ -128,12 +128,14 @@ namespace Objects
 		public bool IsLocked => lockState == Lock.Locked;
 		public bool IsWelded => weldState == Weld.Welded;
 
+		[SerializeField] protected ItemTrait handPriorityTrait;
+
 
 		[SerializeField] private bool CannotBeInteractedWithWhenClosed = false;
 
 		#region Lifecycle
 
-		private void Awake()
+		public virtual void Awake()
 		{
 			registerObject = GetComponent<RegisterObject>();
 			attributes = GetComponent<ObjectAttributes>();
@@ -182,10 +184,10 @@ namespace Objects
 			if (newState == doorState) return;
 
 			doorState = newState;
-			doorSpriteHandler.ChangeSprite((int) doorState);
+			doorSpriteHandler.SetCatalogueIndexSprite((int) doorState);
 			if (hideLockWhenOpened && lockState != Lock.NoLock)
 			{
-				lockSpritehandler.ChangeSprite((int) (IsOpen ? Lock.NoLock : lockState));
+				lockSpritehandler.SetCatalogueIndexSprite((int) (IsOpen ? Lock.NoLock : lockState));
 			}
 
 			SoundManager.PlayNetworkedAtPos(IsOpen ? soundOnOpen : soundOnClose, registerObject.WorldPositionServer, sourceObj: gameObject);
@@ -207,7 +209,7 @@ namespace Objects
 			if (isLockable == false) return;
 
 			lockState = newState;
-			lockSpritehandler.ChangeSprite((int) lockState);
+			lockSpritehandler.SetCatalogueIndexSprite((int) lockState);
 		}
 
 		public void SetWeld(Weld newState)
@@ -221,7 +223,7 @@ namespace Objects
 				UpdateGasContainer();
 			}
 
-			weldSpriteHandler.ChangeSprite((int) weldState);
+			weldSpriteHandler.SetCatalogueIndexSprite((int) weldState);
 		}
 
 		private void UpdateGasContainer()
@@ -237,15 +239,15 @@ namespace Objects
 		{
 			isLockable = false;
 			lockState = Lock.Broken;
-			lockSpritehandler.ChangeSprite((int) lockState);
+			lockSpritehandler.SetCatalogueIndexSprite((int) lockState);
 		}
 
-		public void CollectObjects()
+		public virtual void CollectObjects()
 		{
 			objectContainer.GatherObjects();
 		}
 
-		public void ReleaseObjects()
+		public virtual void ReleaseObjects()
 		{
 			objectContainer.RetrieveObjects();
 		}
@@ -329,11 +331,16 @@ namespace Objects
 			if (CannotBeInteractedWithWhenClosed && lockState == Lock.Locked) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
+			if (interaction.HandObject != null &&
+			    handPriorityTrait != null && HasHandPriority(interaction.HandObject.PickupableOrNull()?.ItemAttributesV2)) return false;
 
 			//only allow interactions targeting this closet
-			if (interaction.TargetObject != gameObject) return false;
+			return interaction.TargetObject == gameObject;
+		}
 
-			return true;
+		private bool HasHandPriority(ItemAttributesV2 handObjectAttributes)
+		{
+			return handObjectAttributes.GetTraits().Contains(handPriorityTrait);
 		}
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
@@ -343,7 +350,7 @@ namespace Objects
 
 		protected virtual void InteractionChecks(PositionalHandApply interaction)
 		{
-			if (interaction.IsAltClick)
+			if (interaction.IsAltClick && IsOpen == false)
 			{
 				TryToggleLock(interaction);
 			}
@@ -353,7 +360,7 @@ namespace Objects
 			}
 			else if (IsLocked)
 			{
-				if (interaction.HandSlot.IsOccupied && interaction.HandObject.TryGetComponent<Emag>(out var emag))
+				if (interaction.HandSlot.IsOccupied && interaction.HandObject.TryGetComponent<Emag>(out var emag) && interaction.IsAltClick == false)
 				{
 					TryEmag(interaction, emag);
 				}
@@ -364,7 +371,7 @@ namespace Objects
 			}
 			else if (IsOpen)
 			{
-				if (interaction.HandSlot.IsOccupied)
+				if (interaction.HandSlot.IsOccupied && interaction.IsAltClick == false)
 				{
 					// If nothing in the player's hand can be used on the closet, drop it in the closet.
 					TryStoreItem(interaction);
@@ -375,7 +382,7 @@ namespace Objects
 					TryToggleDoor(interaction);
 				}
 			}
-			else if (Validations.HasUsedComponent<IDCard>(interaction) || Validations.HasUsedComponent<Items.PDA.PDALogic>(interaction))
+			else if (Validations.HasUsedComponent<IDCard>(interaction) || Validations.HasUsedComponent<Items.PDA.PDALogic>(interaction) && interaction.IsAltClick == false)
 			{
 				TryToggleLock(interaction);
 			}

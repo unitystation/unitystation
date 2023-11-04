@@ -1,18 +1,21 @@
-﻿using Mirror;
+﻿using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
 using Gateway;
+using Logs;
 using Systems.Electricity;
 using Managers;
 using Strings;
+using UI.Systems.Tooltips.HoverTooltips;
 
 namespace Objects
 {
 	/// <summary>
 	/// For Gateways inheritable class
 	/// </summary>
-	public class StationGateway : NetworkBehaviour, IAPCPowerable
+	public class StationGateway : NetworkBehaviour, IAPCPowerable, IExaminable, IHoverTooltip
 	{
 		[SerializeField]
 		private SpriteRenderer[] Sprites = null;
@@ -104,7 +107,7 @@ namespace Objects
 					if (!string.IsNullOrEmpty(EditorPrefs.GetString("prevEditorScene")))
 					{
 						if (SubSceneManager.Instance.awayWorldList.AwayWorlds.Contains(
-							EditorPrefs.GetString("prevEditorScene")))
+							    EditorPrefs.GetString("prevEditorScene")))
 						{
 							loadNormally = false;
 							// This will ensure that the gateway is ready in 30 seconds
@@ -185,7 +188,7 @@ namespace Objects
 
 			if (randomWorld == null)
 			{
-				Logger.Log("StationGateway failed to connect to an away world", Category.Machines);
+				Loggy.Log("StationGateway failed to connect to an away world", Category.Machines);
 				SetOffline();
 				return;
 			}
@@ -218,7 +221,7 @@ namespace Objects
 			if (SpawnedMobs == false && selectedWorld != null && playersFound.Count() > 0)
 			{
 				selectedWorld.SetUp(this);
-				Logger.Log("Gateway Spawned Mobs", Category.Machines);
+				Loggy.Log("Gateway Spawned Mobs", Category.Machines);
 				if (selectedWorld.GetComponent<MobSpawnControlScript>() != null)
 				{
 					selectedWorld.GetComponent<MobSpawnControlScript>().SpawnMobs();
@@ -235,7 +238,7 @@ namespace Objects
 			}
 
 			foreach (var item in Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Object, true)
-										.Concat(Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Item, true)))
+				         .Concat(Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Item, true)))
 			{
 				TransportUtility.TransportObjectAndPulled(item, TeleportTargetCoord);
 			}
@@ -293,5 +296,34 @@ namespace Objects
 		}
 
 		#endregion
+
+		private string StateExamineMessage()
+		{
+			if (PoweredDevice.State == PowerState.Off)
+			{
+				return "The gateway stands lifeless, void of power.";
+			}
+
+			var text = selectedWorld == null
+				? "A lone red LED blinks on the gateway, signaling a missing connection."
+				: $"A green LED flashes on the gateway, hinting at a stable connection. Display says \"{selectedWorld.WorldName}\".";
+
+			return text;
+		}
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			return StateExamineMessage();
+		}
+
+		public string HoverTip()
+		{
+			return StateExamineMessage();
+		}
+
+		public Sprite CustomIcon() => Sprites[0].sprite;
+		public string CustomTitle() => null;
+		public List<Sprite> IconIndicators() => null;
+		public List<TextColor> InteractionsStrings() => null;
 	}
 }

@@ -27,7 +27,7 @@ TextureImporter:
       213: -6945237888675506819
     second: goldapple-harvest_7
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -44,11 +44,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -87,6 +88,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -102,6 +105,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -294,17 +309,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      goldapple-harvest_4: -9159876636275253390
-      goldapple-harvest_3: 7636232520159840409
-      goldapple-harvest_6: -9053868386421413467
       goldapple-harvest_0: -7162171060355359746
       goldapple-harvest_1: 3621534432177580387
-      goldapple-harvest_7: -6945237888675506819
-      goldapple-harvest_5: 2765255333020683113
       goldapple-harvest_2: -3170115286407736051
-  spritePackingTag: 
+      goldapple-harvest_3: 7636232520159840409
+      goldapple-harvest_4: -9159876636275253390
+      goldapple-harvest_5: 2765255333020683113
+      goldapple-harvest_6: -9053868386421413467
+      goldapple-harvest_7: -6945237888675506819
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

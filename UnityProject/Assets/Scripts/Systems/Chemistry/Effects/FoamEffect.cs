@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Chemistry.Components;
+using Logs;
 using UnityEngine;
 [CreateAssetMenu(fileName = "FoamEffect", menuName = "ScriptableObjects/Chemistry/Effect/FoamEffect")]
 [Serializable]
@@ -18,7 +19,7 @@ public class FoamEffect : Chemistry.Effect
 		var Container = sender.gameObject.GetComponent<ReagentContainer>(); //Not the best thing but see how it Does
 		if (Container == null)
 		{
-			Logger.LogError($"no ReagentContainer on {sender.gameObject} for smoke reaction");
+			Loggy.LogError($"no ReagentContainer on {sender.gameObject} for smoke reaction");
 			return;
 		}
 

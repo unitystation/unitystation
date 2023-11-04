@@ -27,7 +27,7 @@ namespace Player.EmoteScripts
 			var directional = player.transform.GetComponent<Rotatable>();
 			var move = player.transform.GetComponent<MovementSynchronisation>();
 
-			if (move.allowInput && !move.IsBuckled)
+			if (move.AllowInput && !move.IsBuckled)
 			{
 				Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
 				directional.FaceDirection(OrientationEnum.Up_By0);

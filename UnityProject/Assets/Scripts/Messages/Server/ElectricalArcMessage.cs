@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using Systems.ElectricalArcs;
 using Mirror;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace Messages.Server
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public Guid prefabAssetID;
+			public uint prefabAssetID;
 			public GameObject startObject;
 			public GameObject endObject;
 			public Vector3 startPosition;
@@ -32,7 +33,7 @@ namespace Messages.Server
 
 			if (NetworkClient.prefabs.TryGetValue(msg.prefabAssetID, out var prefab) == false)
 			{
-				Logger.LogError(
+				Loggy.LogError(
 						$"Couldn't spawn {nameof(ElectricalArc)}; client doesn't know about this {nameof(msg.prefabAssetID)}: {msg.prefabAssetID}.",
 						Category.Firearms);
 				return;
@@ -51,7 +52,7 @@ namespace Messages.Server
 		{
 			if (arcSettings.arcEffectPrefab.TryGetComponent<NetworkIdentity>(out var identity) == false)
 			{
-				Logger.LogError(
+				Loggy.LogError(
 						$"No {nameof(NetworkIdentity)} found on {arcSettings.arcEffectPrefab}!",
 						Category.Electrical);
 				return default;

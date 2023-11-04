@@ -34,11 +34,11 @@ namespace Objects.Atmospherics
 		{
 			if (isOn)
 			{
-				spriteHandlerValve.ChangeSprite((int)ManualValveSprites.On);
+				spriteHandlerValve.SetCatalogueIndexSprite((int)ManualValveSprites.On);
 			}
 			else
 			{
-				spriteHandlerValve.ChangeSprite((int)ManualValveSprites.Off);
+				spriteHandlerValve.SetCatalogueIndexSprite((int)ManualValveSprites.Off);
 			}
 		}
 

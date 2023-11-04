@@ -13,7 +13,7 @@ namespace Objects
 	{
 		private const int DROP_HEIGHT = 32; // How many tiles high the drop pod should spawn from the landing zone.
 		private const int TRAVEL_TIME = 4; // How many seconds it takes to get from spawn point to landing zone.
-		private const int EXPLOSION_STRENGTH = 80; // The strength of the explosion upon landing. 80 ~= soft crit.
+		private const int EXPLOSION_STRENGTH = 10; // The strength of the explosion upon landing. 80 ~= soft crit.
 
 		[Tooltip("Whether the drop-pod should spawn stationary or falling.")]
 		[SerializeField]
@@ -92,7 +92,7 @@ namespace Objects
 			GameObject dropPod = baseSpriteHandler.gameObject;
 
 			// Initialise drop pod sprite to the start of falling animation.
-			baseSpriteHandler.ChangeSprite((int)BaseSprite.Falling, false);
+			baseSpriteHandler.SetCatalogueIndexSprite((int)BaseSprite.Falling, false);
 			registerObject.SetPassable(false, true);
 
 			// ClosetControl initialises, redisplaying the door, so wait a frame...
@@ -111,7 +111,7 @@ namespace Objects
 			yield return WaitFor.Seconds(TRAVEL_TIME);
 
 			// Swap to stationary drop pod.
-			baseSpriteHandler.ChangeSprite((int) BaseSprite.Stationary, false);
+			baseSpriteHandler.SetCatalogueIndexSprite((int) BaseSprite.Stationary, false);
 			doorSpriteHandler.PushTexture(false);
 			landingSpriteHandler.PushClear(false);
 			registerObject.SetPassable(false, false);

@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using System.IO;
+using SecureStuff;
 using UnityEngine;
 using NaughtyAttributes;
-using System.IO;
 using Newtonsoft.Json;
 using Systems.Research.Data;
 
@@ -17,26 +18,18 @@ namespace ScriptableObjects.Research
 		{
 
 			string jsonData = JsonConvert.SerializeObject(technologies, Formatting.Indented);
-			string path = Path.Combine(Application.streamingAssetsPath, "TechWeb");
+			string path = "TechWeb";
 
 
 			Debug.Log(jsonData);
 
-			if (Directory.Exists($"{path}") == false)
-			{
-				Debug.Log($"{path} not found, making one..");
-				Directory.CreateDirectory(path);
-			}
+			path = Path.Combine("TechWeb", "TechwebData.json");
 
-			path = Path.Combine(path, "TechwebData.json");
-
-			if (File.Exists($"{path}"))
+			if (AccessFile.Exists($"{path}"))
 			{
-				File.Delete(path);
-				File.WriteAllText(path, jsonData);
-				return;
+				AccessFile.Delete(path);
 			}
-			File.WriteAllText(path, jsonData);
+			AccessFile.Save(path, jsonData);
 		}
 	}
 

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 403739247926365693, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
@@ -40,13 +41,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4753068150696918738, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
         type: 2}
     - target: {fileID: 4753068150696918738, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
@@ -108,6 +109,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PieceOfBacon
+      objectReference: {fileID: 0}
+    - target: {fileID: 5857058975867227086, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: _assetId
+      value: 139130898
       objectReference: {fileID: 0}
     - target: {fileID: 5857058975867227086, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
@@ -190,4 +196,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 699a33dd843ab594e9b3dbbf5b6305d4, type: 3}

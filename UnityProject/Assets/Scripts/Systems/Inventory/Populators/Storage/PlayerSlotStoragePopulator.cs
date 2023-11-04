@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -22,9 +23,9 @@ namespace Systems.Storage
 		public GameObject duffelVariant;
 		public GameObject satchelVariant;
 
-		public override void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context)
+		public override void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context, SpawnInfo info)
 		{
-			Logger.LogError("This shouldn't be used but  is required for inheritance", Category.EntitySpawn);
+			Loggy.LogError("This shouldn't be used but  is required for inheritance", Category.EntitySpawn);
 		}
 
 		public virtual void PopulateDynamicItemStorage(DynamicItemStorage toPopulate, PlayerScript PlayerScript, bool useStandardPopulator = true)
@@ -36,20 +37,20 @@ namespace Systems.Storage
 
 			Entries = Entries.OrderBy(entry => entry.NamedSlot).ToList();
 
-			Logger.LogTraceFormat("Populating item storage {0}", Category.EntitySpawn, toPopulate.name);
+			Loggy.LogTraceFormat("Populating item storage {0}", Category.EntitySpawn, toPopulate.name);
 			foreach (var entry in Entries)
 			{
 				var slots = toPopulate.GetNamedItemSlots(entry.NamedSlot);
 				if (slots.Count == 0)
 				{
-					Logger.LogTraceFormat("Skipping populating slot {0} because it doesn't exist in this itemstorage {1}.",
+					Loggy.LogTraceFormat("Skipping populating slot {0} because it doesn't exist in this itemstorage {1}.",
 						Category.EntitySpawn, entry.NamedSlot, toPopulate.name);
 					continue;
 				}
 
 				if (entry.Prefab == null)
 				{
-					Logger.LogTraceFormat("Skipping populating slot {0} because Prefab  Populator was empty for this entry.",
+					Loggy.LogTraceFormat("Skipping populating slot {0} because Prefab  Populator was empty for this entry.",
 						Category.EntitySpawn, entry.NamedSlot);
 					continue;
 				}
@@ -143,6 +144,12 @@ namespace Systems.Storage
 
 				if (ItemSlot == null) continue;
 				var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
+
+				if (Validations.CanFit(ItemSlot, spawn.GameObject, NetworkSide.Server) == false)
+				{
+					Loggy.LogError($"Your initial contents spawn for Storage {gameObject.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
+				}
+
 				Inventory.ServerAdd(spawn.GameObject, ItemSlot, namedSlotPopulatorEntry.ReplacementStrategy, true);
 			}
 		}
@@ -160,25 +167,30 @@ namespace Systems.Storage
 	/// <summary>
 	/// Used for populating a specified index lot or inventory slot, then can specify what should be populated in the inventory of what was populated in the inventory Slot that was specified
 	/// </summary>
-	[Serializable]
+	[System.Serializable]
 	public class SlotPopulatorEntryRecursive
 	{
 		public bool DoNotGetFirstEmptySlot = false;
 
-		[Tooltip("  The Index lot that the prefab will be spawned into " )]
-		public int IndexSlot = 0;
+		[Tooltip("Prefab to spawn in this slot. Takes precedence over slot populator.")]
+		public GameObject Prefab;
 
-		public bool IfOccupiedFindEmptySlot = true;
+		[HorizontalLine]
 
 		[FormerlySerializedAs("UesIndex")] [Tooltip(" Place object in Specified indexed slot or Use named slot Identifer ")]
 		public bool UseIndex = false;
+
+		[Tooltip("  The Index lot that the prefab will be spawned into " )]
+		public int IndexSlot = 0;
 
 		[Tooltip("Named slot being populated. A NamedSlot should not appear" +
 		                                         " more than once in these entries.")]
 		public NamedSlot NamedSlot = NamedSlot.none;
 
-		[Tooltip("Prefab to spawn in this slot. Takes precedence over slot populator.")]
-		public GameObject Prefab;
+		[HorizontalLine]
+
+		public bool IfOccupiedFindEmptySlot = true;
+
 
 		public ReplacementStrategy ReplacementStrategy = ReplacementStrategy.DropOther;
 	}

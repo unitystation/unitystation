@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Logs;
 using Mirror;
 using Shuttles;
 using UnityEngine;
@@ -64,7 +65,7 @@ namespace Tilemaps.Behaviours.Layers
 		{
 			if (networkedMatrixNetId == NetId.Empty || networkedMatrixNetId == NetId.Invalid)
 			{
-				Logger.LogWarning("Attempted to wait on invalid / empty networked matrix net ID. This might be a bug.", Category.Matrix);
+				Loggy.LogWarning("Attempted to wait on invalid / empty networked matrix net ID. This might be a bug.", Category.Matrix);
 				return;
 			}
 
@@ -114,7 +115,7 @@ namespace Tilemaps.Behaviours.Layers
 			//Matrixes cannot be networked as a message to spawn an object beneath it can happen before the matrix has activated
 			if (GetComponent<NetworkIdentity>() != null)
 			{
-				Logger.LogError($"{gameObject.name} has a network identity please remove it, matrixes cannot be networked objects");
+				Loggy.LogError($"{gameObject.name} has a network identity please remove it, matrixes cannot be networked objects");
 			}
 		}
 
@@ -156,7 +157,7 @@ namespace Tilemaps.Behaviours.Layers
 				}
 			}
 
-			Logger.LogError($"Failed to find matrix sync for {gameObject.name}");
+			Loggy.LogError($"Failed to find matrix sync for {gameObject.name}");
 		}
 	}
 

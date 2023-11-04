@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Logs;
 using UnityEditor;
 using UnityEngine;
 
@@ -100,7 +101,7 @@ public class SearchAndDestroy : EditorWindow
 						}
 						catch
 						{
-							Logger.LogFormat("For some reason, prefab {0} won't cast to GameObject", Category.Editor, prefab);
+							Loggy.LogFormat("For some reason, prefab {0} won't cast to GameObject", Category.Editor, prefab);
 						}
 					}
 					EditorUtility.ClearProgressBar();
@@ -145,12 +146,12 @@ public class SearchAndDestroy : EditorWindow
 								//			PrefabUtility.ReplacePrefab(castGO, castPrefab, ReplacePrefabOptions.Default);
 								PrefabUtility.ReplacePrefab(cast, PrefabUtility.GetCorrespondingObjectFromSource(cast), ReplacePrefabOptions.ConnectToPrefab);
 								DestroyImmediate(cast, true);
-								Logger.LogFormat("Removed {0} From {1}.", Category.Editor, componentName, prefab);
+								Loggy.LogFormat("Removed {0} From {1}.", Category.Editor, componentName, prefab);
 								i++;
 							}
 						}
 					}
-					Logger.LogFormat("Removed components from {0} prefabs.", Category.Editor, i);
+					Loggy.LogFormat("Removed components from {0} prefabs.", Category.Editor, i);
 					EditorUtility.ClearProgressBar();
 				}
 				break;

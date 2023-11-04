@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 733360818655498300, guid: f165d0512a4d5ef44ba3d22decd038b7,
@@ -111,6 +112,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Armor.Energy
       value: -55
+      objectReference: {fileID: 0}
+    - target: {fileID: 844810168840007048, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: _assetId
+      value: 855359660
       objectReference: {fileID: 0}
     - target: {fileID: 844810168840007048, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
@@ -393,6 +399,13 @@ PrefabInstance:
       value: acd55c3bd02807b4da0a29b46546b32d
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 733360818655498300, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 325348189252866311}
   m_SourcePrefab: {fileID: 100100000, guid: f165d0512a4d5ef44ba3d22decd038b7, type: 3}
 --- !u!1 &2235147280921133615 stripped
 GameObject:
@@ -414,4 +427,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runningSpeedDebuff: -0.6
   walkingSpeedDebuff: -0.3
+  SpeedDebuffRemoved: 0
   slot: 0

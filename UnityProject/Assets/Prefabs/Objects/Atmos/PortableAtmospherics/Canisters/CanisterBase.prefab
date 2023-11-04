@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2770036439668985193}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3327308291878936282}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4787550694329366047
 SpriteRenderer:
@@ -107,6 +107,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4303483376002105739
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,13 +135,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4303483376002105739}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3327308291878936282}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6586509616821260967
 SpriteRenderer:
@@ -219,6 +222,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7139750000503073243
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,13 +250,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7139750000503073243}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3327308291878936282}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1223468858130494945
 SpriteRenderer:
@@ -325,6 +331,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7290149908648227996
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,13 +359,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7290149908648227996}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3327308291878936282}
-  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3818331873106232460
 SpriteRenderer:
@@ -431,6 +440,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8387653848795343260
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,13 +468,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8387653848795343260}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3327308291878936282}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1969798539537519914
 SpriteRenderer:
@@ -542,11 +554,15 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &71571786451086626
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1852917357894011755, guid: 5d7892c86699e21499ad5f872fd4d512,
@@ -688,6 +704,11 @@ PrefabInstance:
       objectReference: {fileID: 69088610438818992}
     - target: {fileID: 6564800655704309824, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
+      propertyPath: _assetId
+      value: 372088291
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564800655704309824, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
       propertyPath: m_AssetId
       value: c0e96760c016b6140ba8c3979e9213f7
       objectReference: {fileID: 0}
@@ -709,17 +730,60 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: a74c48b29b9c0c14f9919e8aa98be14d,
         type: 2}
     - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: ece3554a33a7c7849894088ccea47d78,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4532487903150221287}
+    - targetCorrespondingSourceObject: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1831417817115113064}
+    - targetCorrespondingSourceObject: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2630187654062604727}
+    - targetCorrespondingSourceObject: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4791705086525803658}
+    - targetCorrespondingSourceObject: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5659113039772297129}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6176799362412192573}
+    - targetCorrespondingSourceObject: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3242550791702936155}
+    - targetCorrespondingSourceObject: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3744673748159336733}
+    - targetCorrespondingSourceObject: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4620245307892029763}
+    - targetCorrespondingSourceObject: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7067097863662868376}
   m_SourcePrefab: {fileID: 100100000, guid: 5d7892c86699e21499ad5f872fd4d512, type: 3}
 --- !u!210 &69088610438818992 stripped
 SortingGroup:
@@ -751,6 +815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   NetTabType: 10
@@ -767,6 +832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf6a312c50114272bc561c429cbb4175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   StoredGasMix:
@@ -818,6 +884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9ae6b6bba5c4e3aa4780272577c9bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   ContentsName: Gas
@@ -865,3 +932,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []

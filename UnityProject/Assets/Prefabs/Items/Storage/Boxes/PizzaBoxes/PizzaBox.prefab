@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7071315272187791505}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6997084797836643915}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2249664124837388844
 SpriteRenderer:
@@ -105,11 +105,15 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1648108108435218021
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2490630288303511261, guid: 3e5919f639f566c4590d07d54ef256dd,
@@ -166,7 +170,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
-      propertyPath: initialTraits.Array.data[0]
+      propertyPath: 'initialTraits.Array.data[0]'
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
@@ -185,7 +189,12 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 6961596275498819311}
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521467601672753390, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: _assetId
+      value: 3612432644
+      objectReference: {fileID: 0}
     - target: {fileID: 8521467601672753390, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
       propertyPath: m_AssetId
@@ -286,6 +295,17 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 7267447368795639582, guid: 3e5919f639f566c4590d07d54ef256dd, type: 3}
     - {fileID: 1910413750983129818, guid: 3e5919f639f566c4590d07d54ef256dd, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5209020073145332673}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8635195139948178778, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6176497755123761644}
   m_SourcePrefab: {fileID: 100100000, guid: 3e5919f639f566c4590d07d54ef256dd, type: 3}
 --- !u!114 &3769300246753970360 stripped
 MonoBehaviour:
@@ -311,18 +331,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6961596275498819311 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8521883043285352586, guid: 3e5919f639f566c4590d07d54ef256dd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1648108108435218021}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6992156924195287871}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6992156924195287871 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8635195139948178778, guid: 3e5919f639f566c4590d07d54ef256dd,
@@ -341,19 +349,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f5d9e3fea76c8043845c5970209fe24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   SignalTypeToReceive: 0
   Frequency: 122
   Emitter: {fileID: 0}
   DelayTime: 3
-  EncryptionData: {fileID: 0}
+  PassCode: 0
   ListenToEncryptedData: 0
   explosiveType: 0
   detonateImmediatelyOnSignal: 0
   timeToDetonate: 10
   minimumTimeToDetonate: 10
   explosiveStrength: 150
+  explosiveRadius: 150
   activeSpriteSO: {fileID: 0}
   beepSound:
     SetLoadSetting: 0

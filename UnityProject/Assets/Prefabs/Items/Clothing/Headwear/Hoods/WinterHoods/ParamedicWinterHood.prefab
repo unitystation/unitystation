@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4289707229103323322, guid: f20181605e8d37a4b84ed0090f6d8432,
@@ -16,6 +17,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A blue winer coat hood with white markings.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391492129781918316, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: _assetId
+      value: 4036064023
       objectReference: {fileID: 0}
     - target: {fileID: 4391492129781918316, guid: f20181605e8d37a4b84ed0090f6d8432,
         type: 3}
@@ -90,7 +96,7 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7284776635404207197, guid: f20181605e8d37a4b84ed0090f6d8432,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: dd64baded852f5844ad2884ab44c382c,
         type: 2}
@@ -106,4 +112,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 971dd7dd56e21794e8f1ca4a8736b986,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f20181605e8d37a4b84ed0090f6d8432, type: 3}

@@ -1,4 +1,6 @@
+using System;
 using System.Threading.Tasks;
+using Logs;
 using UnityEngine;
 using Systems.Electricity;
 
@@ -40,7 +42,7 @@ public static class Despawn
 	{
 		if (info == null)
 		{
-			Logger.LogError("Cannot despawn - info is null", Category.ItemSpawn);
+			Loggy.LogError("Cannot despawn - info is null", Category.ItemSpawn);
 			return DespawnResult.Fail(info);
 		}
 
@@ -71,7 +73,15 @@ public static class Despawn
 			}
 		}
 
-		_ServerFireDespawnHooks(DespawnResult.Single(info));
+		try
+		{
+			_ServerFireDespawnHooks(DespawnResult.Single(info));
+		}
+		catch (Exception e)
+		{
+			Loggy.LogError(e.ToString());
+		}
+
 
 		var objectPhysics = info.GameObject.GetComponent<UniversalObjectPhysics>();
 		if (objectPhysics != null)
@@ -116,7 +126,7 @@ public static class Despawn
 	{
 		if (info == null)
 		{
-			Logger.LogError("Cannot despawn - info is null", Category.ItemSpawn);
+			Loggy.LogError("Cannot despawn - info is null", Category.ItemSpawn);
 			return DespawnResult.Fail(info);
 		}
 

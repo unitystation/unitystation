@@ -27,76 +27,81 @@ MonoBehaviour:
     - advstock
     prefabID: base
     techType: 0
-  - ID: advcyber
-    DisplayName: Advanced Cybernetics
-    Description: Cybernetic organs for more advanced surgeries.
-    StartingNode: 0
+    ColourPublic: {r: 0.21568628, g: 0.49803922, b: 0.9490196, a: 1}
+  - ID: synthorgan
+    DisplayName: Synthetic Organs
+    Description: Mechanical replacements for living organs. Improved and refined.
+    StartingNode: 1
     RequiredTechnologies:
     - base
     DesignIDs:
     - cyber_heart
     - cyber_lung
+    - cyber_liver
     ResearchCosts: 15
     ExportPrice: 0
     PotentialUnlocks: []
-    prefabID: advcyber
+    prefabID: organ
     techType: 1
-  - ID: breathimplant
-    DisplayName: Breathing Tube Implant
-    Description: Implanted in the patients head, this implant will allow for breathing
-      of internals regardless of mask wear.
+    ColourPublic: {r: 0.79607844, g: 0.15294118, b: 0.95686275, a: 1}
+  - ID: synthenhance
+    DisplayName: Synthetic Enhancements
+    Description: The newest in synthetic implant technology, pushing past the limitations
+      of living flesh.
     StartingNode: 0
     RequiredTechnologies:
-    - advcyber
+    - synthorgan
     DesignIDs:
     - ci_breather
-    ResearchCosts: 20
+    - ci_reviver
+    - ci_weldshield
+    ResearchCosts: 30
     ExportPrice: 0
     PotentialUnlocks: []
-    prefabID: breath
+    prefabID: synth
     techType: 1
-  - ID: reviver
-    DisplayName: Reviver Implant
-    Description: Performs an emergency heal after falling into crit. Has a ten minute
-      cooldown between charges
+    ColourPublic: {r: 0.69803923, g: 0.8901961, b: 0.65882355, a: 1}
+  - ID: cyborgs
+    DisplayName: Advanced Cybernetics
+    Description: The newest in artifical intelligence, and the technology needed
+      to give them form.
     StartingNode: 0
     RequiredTechnologies:
-    - advcyber
+    - synthorgan
     DesignIDs:
-    - ci_reviver
+    - cyborg_head
+    - cyborg_chassis
+    - cyborg_torso
+    - cyborg_leftarm
+    - cyborg_rightarm
+    - cyborg_leftleg
+    - cyborg_rightleg
+    - mmi
+    - mmi_posi
+    - cyborg_lights
+    - battery_pack
+    ResearchCosts: 30
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: cyborgs
+    techType: 1
+    ColourPublic: {r: 0.4627451, g: 0.06666667, b: 0.4745098, a: 1}
+  - ID: cyborgtools
+    DisplayName: Cyborg Tool Carousel
+    Description: Tools and equipment for cyborgs.
+    StartingNode: 0
+    RequiredTechnologies:
+    - cyborgs
+    DesignIDs:
+    - tc_janitor
+    - tc_engineer
+    - tc_medical
     ResearchCosts: 25
     ExportPrice: 0
     PotentialUnlocks: []
-    prefabID: reviver
+    prefabID: tools
     techType: 1
-  - ID: weld
-    DisplayName: Welding Shield Implant
-    Description: A small device to implanted in the eye. Protects the wearer from
-      bright flashes of light.
-    StartingNode: 0
-    RequiredTechnologies:
-    - advcyber
-    DesignIDs:
-    - ci_weldshield
-    ResearchCosts: 20
-    ExportPrice: 0
-    PotentialUnlocks: []
-    prefabID: weld
-    techType: 1
-  - ID: filtering
-    DisplayName: Cybernetic Filtering
-    Description: Cybernetic livers are more efficient at filtering toxins from the
-      body, completely protecting the host from certain toxins.
-    StartingNode: 0
-    RequiredTechnologies:
-    - advcyber
-    DesignIDs:
-    - cyber_liver
-    ResearchCosts: 20
-    ExportPrice: 0
-    PotentialUnlocks: []
-    prefabID: liver
-    techType: 1
+    ColourPublic: {r: 0.92941177, g: 0.4862745, b: 0.24313726, a: 1}
   - ID: bluespace
     DisplayName: Bluespace Technology
     Description: Allows for research into bluespace technology
@@ -110,6 +115,7 @@ MonoBehaviour:
     - bluespacestorage
     prefabID: bluespace
     techType: 0
+    ColourPublic: {r: 0.25490198, g: 0.5686275, b: 0.7294118, a: 1}
   - ID: janitor
     DisplayName: Janitorial Science
     Description: New ways to keep the station clean.
@@ -123,6 +129,7 @@ MonoBehaviour:
     PotentialUnlocks: []
     prefabID: janitor
     techType: 3
+    ColourPublic: {r: 0.30588236, g: 0.44313726, b: 0.14509805, a: 1}
   - ID: advstock
     DisplayName: Advanced Machine Parts
     Description: Better parts for your machines.
@@ -139,6 +146,7 @@ MonoBehaviour:
     PotentialUnlocks: []
     prefabID: advstock
     techType: 2
+    ColourPublic: {r: 0.7058824, g: 0.7647059, b: 0.19607843, a: 1}
   - ID: expertstock
     DisplayName: Expert Machine Parts
     Description: Even better parts for your machines
@@ -159,6 +167,7 @@ MonoBehaviour:
     PotentialUnlocks: []
     prefabID: expertstock
     techType: 2
+    ColourPublic: {r: 0.6784314, g: 0.9411765, b: 0.47058824, a: 1}
   - ID: advpow
     DisplayName: Advanced Power Storage
     Description: Larger power cells for more demanding tasks.
@@ -173,6 +182,7 @@ MonoBehaviour:
     PotentialUnlocks: []
     prefabID: power
     techType: 2
+    ColourPublic: {r: 0.19607843, g: 0.05882353, b: 0.47058824, a: 1}
   - ID: bluepower
     DisplayName: Expert Power Cells
     Description: Machine parts and cells powered by bluespace.
@@ -189,6 +199,7 @@ MonoBehaviour:
     PotentialUnlocks: []
     prefabID: powerblue
     techType: 2
+    ColourPublic: {r: 0.49019608, g: 0.85882354, b: 0.15294118, a: 1}
   - ID: basechem
     DisplayName: Basic Chemistry
     Description: Basic equipment required for chemistry.
@@ -205,6 +216,7 @@ MonoBehaviour:
     PotentialUnlocks: []
     prefabID: advmatter
     techType: 4
+    ColourPublic: {r: 0.3019608, g: 0.70980394, b: 0.7490196, a: 1}
   - ID: metamatter
     DisplayName: Meta Materaial Storage
     Description: High tech methods of storing even more material
@@ -219,6 +231,7 @@ MonoBehaviour:
     PotentialUnlocks: []
     prefabID: metamatter
     techType: 4
+    ColourPublic: {r: 0.23921569, g: 0.5411765, b: 0.41960785, a: 1}
   - ID: bluespacestorage
     DisplayName: Bluespace Storage
     Description: Unique methods of storing matter using bluespace.
@@ -235,6 +248,7 @@ MonoBehaviour:
     - holding
     prefabID: bluespacestorage
     techType: 4
+    ColourPublic: {r: 0.7647059, g: 0.44313726, b: 0.52156866, a: 1}
   - ID: holding
     DisplayName: Bluespace Holding
     Description: New methods of storage allowing container contents to be stored
@@ -251,6 +265,7 @@ MonoBehaviour:
     PotentialUnlocks: []
     prefabID: bluespaceholding
     techType: 3
+    ColourPublic: {r: 0.7647059, g: 0.05882353, b: 0.2509804, a: 1}
   - ID: industry
     DisplayName: Industrial Tools
     Description: Industrial standard tools for engineers.
@@ -265,6 +280,7 @@ MonoBehaviour:
     PotentialUnlocks: []
     prefabID: industry
     techType: 3
+    ColourPublic: {r: 0.30588236, g: 0.10980392, b: 0.09019608, a: 1}
   - ID: anomaly
     DisplayName: Anomaly Science
     Description: Specialised suits and equipment for handling artifacts.
@@ -284,6 +300,7 @@ MonoBehaviour:
     PotentialUnlocks: []
     prefabID: anomaly
     techType: 3
+    ColourPublic: {r: 0.3647059, g: 0.8, b: 0.7137255, a: 1}
   - ID: mining
     DisplayName: Mining Technology
     Description: The necessities for mining in space.
@@ -302,3 +319,4 @@ MonoBehaviour:
     PotentialUnlocks: []
     prefabID: mining
     techType: 3
+    ColourPublic: {r: 0.8207547, g: 0.44889674, b: 0.18118544, a: 1}

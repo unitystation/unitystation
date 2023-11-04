@@ -10,6 +10,7 @@ using AdminCommands;
 using DatabaseAPI;
 using Effects.Overlays;
 using InGameEvents;
+using Logs;
 using Messages.Client.DevSpawner;
 using ScriptableObjects;
 using Systems.Atmospherics;
@@ -38,12 +39,20 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[NonSerialized]
 	public DestructionEvent OnWillDestroyServer = new DestructionEvent();
 
+
+	/// <summary>
+	/// Works on client and server , triggered when onDestroyed is called
+	/// </summary>
+	public event Action BeingDestroyed;
+
 	/// <summary>
 	/// Server-side event invoked when ApplyDamage is called
 	/// and Integrity is about to apply damage.
 	/// </summary>
 	[NonSerialized]
 	public DamagedEvent OnApplyDamage = new DamagedEvent();
+
+	public UnityEvent OnDamaged = new UnityEvent();
 
 	/// <summary>
 	/// event for hotspots
@@ -66,11 +75,11 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[Tooltip("This object's initial \"HP\"")]
 	public float initialIntegrity = 100f;
 
-	//[PrefabModeOnly] Commented out as it doesnt work correctly
+	//  Commented out as it doesnt work correctly
 	[Tooltip("Sound to play when damage applied.")]
 	public AddressableAudioSource soundOnHit;
 
-	[PrefabModeOnly]
+
 	[Tooltip("A damage threshold the attack needs to pass in order to apply damage to this item.")]
 	public float damageDeflection = 0;
 
@@ -83,25 +92,25 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// <summary>
 	/// resistances for this object.
 	/// </summary>
-	//[PrefabModeOnly] Commented out as it doesnt work correctly
+	//  Commented out as it doesnt work correctly
 	[Tooltip("Resistances of this object.")]
 	public Resistances Resistances = new Resistances();
 
 	/// <summary>
 	/// Below this temperature (in Kelvin) the object will be unaffected by fire exposure.
 	/// </summary>
-	[PrefabModeOnly]
+
 	[Tooltip("Below this temperature (in Kelvin) the object will be unaffected by fire exposure.")]
 	public float HeatResistance = 100;
 
 	/// <summary>
 	/// The explosion strength of this object if is set to explode on destroy
 	/// </summary>
-	[PrefabModeOnly]
+
 	[Tooltip("The explosion strength of this object if is set to explode on destroy")]
 	public float ExplosionsDamage = 100f;
 
-	[SerializeField, PrefabModeOnly]
+	[SerializeField ]
 	private bool doDamageMessage = true;
 
 	public bool DoDamageMessage => doDamageMessage;
@@ -150,6 +159,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdateBurn);
 		}
+		OnDamaged?.RemoveAllListeners();
 	}
 
 	private void EnsureInit()
@@ -242,12 +252,13 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 			if (triggerEvent)
 			{
-				OnApplyDamage.Invoke(damageInfo);
+				OnApplyDamage?.Invoke(damageInfo);
+				OnDamaged?.Invoke();
 			}
 
 			CheckDestruction(explodeOnDestroy);
 
-			Logger.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Damage, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);
+			Loggy.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Damage, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);
 		}
 	}
 
@@ -355,7 +366,19 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public string Examine(Vector3 worldPos)
 	{
 		string str = "";
-		if (integrity < 0.9f * initialIntegrity)
+		if (integrity < 0.2f * initialIntegrity)
+		{
+			str = "it's falling apart";
+		}
+		else if (integrity < 0.4f * initialIntegrity)
+		{
+			str = "It appears very badly damaged.";
+		}
+		else if (integrity < 0.6f * initialIntegrity)
+		{
+			str = "It appears substantially damaged.";
+		}
+		else if (integrity < 0.8f * initialIntegrity)
 		{
 			str = "It appears damaged.";
 		}
@@ -368,7 +391,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		Profiler.BeginSample("DefaultBurnUp");
 		registerTile.TileChangeManager.MetaTileMap.AddOverlay(registerTile.LocalPosition, isLarge ? LARGE_ASH : SMALL_ASH);
 		Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " burnt to ash.", gameObject);
-		Logger.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.onFire, burningObjectOverlay?.enabled);
+		Loggy.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.onFire, burningObjectOverlay?.enabled);
 		_ = Despawn.ServerSingle(gameObject);
 		Profiler.EndSample();
 	}
@@ -435,6 +458,12 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public void OnDespawnServer(DespawnInfo info)
 	{
 		OnServerDespawnEvent?.Invoke();
+	}
+
+	private void OnDestroy()
+	{
+		BeingDestroyed?.Invoke();
+		BeingDestroyed = null;
 	}
 }
 

@@ -35,7 +35,6 @@ RectTransform:
   m_Children:
   - {fileID: 2000913768062860772}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -66,8 +65,9 @@ MonoBehaviour:
     \u6D4B\u8BD5 \u30C6\u30B9\u30C8\uD14C\uC2A4\uD2B8 \u03B4\u03BF\u03BA\u03B9\u03BC\u03AE
     \u05DE\u05B4\u05D1\u05B0\u05D7\u05B8\u05DF"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 747fce141c06dc341a1430af5d39f097, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 86cc3cba78717ad48a40abf01295cd8b, type: 2}
+  m_sharedMaterial: {fileID: -161229536068243249, guid: 86cc3cba78717ad48a40abf01295cd8b,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -76,7 +76,7 @@ MonoBehaviour:
     rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
-  m_colorMode: 3
+  m_colorMode: 0
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
     topRight: {r: 1, g: 1, b: 1, a: 1}
@@ -218,7 +218,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2000913768062860772}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -355,7 +354,6 @@ RectTransform:
   m_Children:
   - {fileID: 2063088003286547989}
   m_Father: {fileID: 224781789997769250}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using Messages.Client.Admin;
 using Messages.Server.AdminTools;
 using Mirror;
+using Newtonsoft.Json;
 using Shared.Managers;
 using UnityEngine;
 
@@ -56,7 +58,7 @@ namespace AdminTools
 		{
 			if (string.IsNullOrEmpty(data)) return;
 
-			var update = JsonUtility.FromJson<PlayerAlertsUpdate>(data);
+			var update = JsonConvert.DeserializeObject<PlayerAlertsUpdate>(data);
 			clientPlayerAlerts.AddRange(update.playerAlerts);
 			LoadAllEntries(clientPlayerAlerts);
 		}
@@ -140,13 +142,13 @@ namespace AdminTools
 				x.playerNetId == perpId && x.roundTime == roundTimeOfIncident);
 			if (index == -1)
 			{
-				Logger.Log($"Could not find perp id {perpId} with roundTime incident: {roundTimeOfIncident}", Category.Admin);
+				Loggy.Log($"Could not find perp id {perpId} with roundTime incident: {roundTimeOfIncident}", Category.Admin);
 				return;
 			}
 
 			if (NetworkServer.spawned.ContainsKey(perpId) == false)
 			{
-				Logger.Log($"Perp id {perpId} not found in Spawnlist", Category.Admin);
+				Loggy.Log($"Perp id {perpId} not found in Spawnlist", Category.Admin);
 				return;
 			}
 
@@ -217,12 +219,12 @@ namespace AdminTools
 		{
 			if (Instance == null)
 			{
-				Logger.LogError("[PlayerAlerts] - Instance is null!");
+				Loggy.LogError("[PlayerAlerts] - Instance is null!");
 				return;
 			}
 			if (perp == null)
 			{
-				Logger.LogError("[PlayerAlerts/LogPlayerAction] - PlayerInfo cannot be null!");
+				Loggy.LogError("[PlayerAlerts/LogPlayerAction] - PlayerInfo cannot be null!");
 				return;
 			}
 

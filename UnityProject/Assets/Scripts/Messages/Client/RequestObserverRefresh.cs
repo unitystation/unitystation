@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Logs;
+using Mirror;
 using UnityEngine.SceneManagement;
 
 namespace Messages.Client
@@ -24,7 +25,7 @@ namespace Messages.Client
 
 			if (!sceneContext.IsValid())
 			{
-				Logger.LogError( msg.NewSceneNameContext + " < No scene was found for Observer refresh!!", Category.Connections);
+				Loggy.LogError( msg.NewSceneNameContext + " < No scene was found for Observer refresh!!", Category.Connections);
 				return;
 			}
 

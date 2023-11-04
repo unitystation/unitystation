@@ -50,10 +50,15 @@ MonoBehaviour:
     Acid: 90
     Magic: 0
     Bio: 100
+    Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
   tileInteractions:
   - {fileID: 11400000, guid: f3cbdc8fa952d8f41b14bcf1de66e64e, type: 2}
+  <OnTileStartMining>k__BackingField: []
+  <OnTileFinishMining>k__BackingField: []
   tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 6901205439577167846, guid: 771de75cd7e11e14f826a0e520a2b70d,
     type: 3}
@@ -77,18 +82,22 @@ MonoBehaviour:
   Connections:
     Directions:
     - Bool: 0
+      MappedNeeded: 0
       pipeType: 2
       PortType: 0
       flagLogic: 0
     - Bool: 1
+      MappedNeeded: 0
       pipeType: 2
       PortType: 0
       flagLogic: 0
     - Bool: 1
+      MappedNeeded: 0
       pipeType: 2
       PortType: 0
       flagLogic: 0
     - Bool: 0
+      MappedNeeded: 0
       pipeType: 1
       PortType: 0
       flagLogic: 0

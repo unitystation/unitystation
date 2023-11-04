@@ -65,7 +65,6 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			{
 				return;
 			}
-			used = true;
 		}
 
 		var LHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
@@ -91,23 +90,24 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	public virtual void InjectBehavior(LivingHealthMasterBase LHB, RegisterPlayer performer)
 	{
-		if (LocalContainer.ReagentMixTotal > 0)
+		used = true;
+		if (LocalContainer.SyringePulling == false)
 		{
-			if (LHB.CirculatorySystem != null)
-				LHB.CirculatorySystem.BloodPool.Add(LocalContainer.TakeReagents(TransferAmount));
+			if (LHB.reagentPoolSystem != null)
+				LHB.reagentPoolSystem.BloodPool.Add(LocalContainer.TakeReagents(TransferAmount));
 			LocalContainer.ReagentsChanged();
 			Chat.AddCombatMsgToChat(performer.gameObject, $"You Inject The {this.name} into {LHB.gameObject.ExpensiveName()}",
 				$"{performer.PlayerScript.visibleName} injects a {this.name} into {LHB.gameObject.ExpensiveName()}");
 			if(SicknessesInSyringe.Count > 0) LHB.AddSickness(SicknessesInSyringe.PickRandom().Sickness);
-			if (ChangesSprite) SpriteHandler.ChangeSprite(SpiteEmptyIndex);
+			if (ChangesSprite) SpriteHandler.SetCatalogueIndexSprite(SpiteEmptyIndex);
 
 		}
 		else
 		{
-			if (LHB.CirculatorySystem != null)
-				LocalContainer.Add(LHB.CirculatorySystem.BloodPool.Take(LocalContainer.MaxCapacity));
+			if (LHB.reagentPoolSystem != null)
+				LocalContainer.Add(LHB.reagentPoolSystem.BloodPool.Take(LocalContainer.MaxCapacity));
 			LocalContainer.ReagentsChanged();
-			if (ChangesSprite) SpriteHandler.ChangeSprite(SpiteFullIndex);
+			if (ChangesSprite) SpriteHandler.SetCatalogueIndexSprite(SpiteFullIndex);
 			Chat.AddCombatMsgToChat(performer.gameObject, $"You pull the blood from {LHB.gameObject.ExpensiveName()}",
 				$"{performer.PlayerScript.visibleName} pulls the blood from {LHB.gameObject.ExpensiveName()}");
 			if(LHB.mobSickness.sicknessAfflictions.Count > 0) SicknessesInSyringe.AddRange(LHB.mobSickness.sicknessAfflictions);

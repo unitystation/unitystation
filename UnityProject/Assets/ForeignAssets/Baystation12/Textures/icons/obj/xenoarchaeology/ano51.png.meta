@@ -36,7 +36,7 @@ TextureImporter:
       213: -6054068297490562555
     second: ano51_10
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -53,11 +53,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -96,6 +97,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -111,6 +114,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -366,20 +381,19 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ano51_4: 2054462100538170310
-      ano51_7: 5291071684879726696
-      ano51_6: -6942935181186007240
-      ano51_5: 8812643392342099288
-      ano51_8: -5289620346881064281
-      ano51_3: -8063637643815786264
+      ano51_0: -7700174919476802733
+      ano51_1: -5806660745723221015
       ano51_10: -6054068297490562555
       ano51_2: 5813164868888645302
-      ano51_1: -5806660745723221015
-      ano51_0: -7700174919476802733
+      ano51_3: -8063637643815786264
+      ano51_4: 2054462100538170310
+      ano51_5: 8812643392342099288
+      ano51_6: -6942935181186007240
+      ano51_7: 5291071684879726696
+      ano51_8: -5289620346881064281
       ano51_9: -2991706445766634923
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

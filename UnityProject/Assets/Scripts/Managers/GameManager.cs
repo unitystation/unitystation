@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using _3D;
 using Systems;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,14 +15,22 @@ using Mirror;
 using GameConfig;
 using Initialisation;
 using Audio.Containers;
+using Logs;
 using Managers;
 using Messages.Server;
 using Objects.Machines.ServerMachines.Communications;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine.Profiling;
 using Player;
+using ScriptableObjects;
 using Systems.Cargo;
 using ScriptableObjects.Characters;
+using TileManagement;
+using UI.Core;
+using UnityEditor;
+using UnityEngine.Serialization;
+using UnityEngine.Tilemaps;
+using Random = System.Random;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {
@@ -57,6 +66,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// How long to wait between ending the round and starting a new one
 	/// </summary>
 	public float RoundEndTime { get; set; } = 60f;
+
+
+	/// <summary>
+	/// Default How long to wait between ending the round and starting a new one
+	/// </summary>
+	public float DefaultRoundEndTime { get; set; } = 120f;
+
 
 	/// <summary>
 	/// How long to wait between ending the round and starting a new one
@@ -114,11 +130,18 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public string InitialGameMode { get; set; } = "Random";
 
 	public Text roundTimer;
-
 	public bool waitForStart;
 
-	public DateTime stationTime;
-	public int RoundsPerMap { get; set; } = 10;
+	[field: SerializeField, FormerlySerializedAs("stationTime")]
+	public DateTime RoundTime { get; private set; }
+
+	/// <summary>
+	/// Tracks the total number of minutes a round has had since it started. This is to avoid a bug with DateTime that resets
+	/// numbers when rounds spend more than 24 hours being active.
+	/// </summary>
+	public int RoundTimeInMinutes { get; private set; }
+
+	private int RoundsPerMap { get; set; } = 10;
 
 	//Is dependent on number of results
 	public static int RoundID;
@@ -189,6 +212,12 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			{
 				loadedDirectlyToStation = true;
 			}
+
+#if UNITY_EDITOR
+			var editorLoadPref = EditorPrefs.GetBool("quickLoad", false);
+			QuickLoad = editorLoadPref;
+			Loggy.Log($"Currently using editor pref for quick-load checkup. Current value is {editorLoadPref}. To change this, please head to tools -> Enable QuickLoad.");
+#endif
 		}
 		else
 		{
@@ -208,6 +237,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		MinReadyPlayersForCountdown = GameConfigManager.GameConfig.MinReadyPlayersForCountdown;
 		PreRoundTime = GameConfigManager.GameConfig.PreRoundTime;
 		RoundEndTime = GameConfigManager.GameConfig.RoundEndTime;
+		DefaultRoundEndTime = GameConfigManager.GameConfig.RoundEndTime;
 		RoundsPerMap = GameConfigManager.GameConfig.RoundsPerMap;
 		InitialGameMode = GameConfigManager.GameConfig.InitialGameMode;
 		RespawnAllowed = GameConfigManager.GameConfig.RespawnAllowed;
@@ -229,13 +259,19 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		Physics2D.simulationMode = SimulationMode2D.Update;
 	}
 
+	private void Start()
+	{
+		UpdateManager.Add(UpdateMinutes, 60f);
+	}
+
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		EventManager.AddHandler( Event.Cleanup, ClientCleanupInbetweenScenes );
-		EventManager.AddHandler( Event.CleanupEnd, ClientCleanupEndRoundCleanups );
-		EventManager.AddHandler( Event.PostRoundStarted, ClientRoundStartCleanup );
+		EventManager.AddHandler(Event.Cleanup, ClientCleanupInbetweenScenes);
+		EventManager.AddHandler(Event.CleanupEnd, ClientCleanupEndRoundCleanups);
+		EventManager.AddHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
+		EventManager.AddHandler(Event.RoundEnded, ClientAndServerEndCleanup);
 
 
 	}
@@ -244,13 +280,32 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		EventManager.RemoveHandler( Event.Cleanup, ClientCleanupInbetweenScenes );
-		EventManager.RemoveHandler( Event.CleanupEnd, ClientCleanupEndRoundCleanups );
-		EventManager.RemoveHandler( Event.PostRoundStarted, ClientRoundStartCleanup );
-
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMinutes);
+		EventManager.RemoveHandler(Event.Cleanup, ClientCleanupInbetweenScenes);
+		EventManager.RemoveHandler(Event.CleanupEnd, ClientCleanupEndRoundCleanups);
+		EventManager.RemoveHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
+		EventManager.RemoveHandler(Event.RoundEnded, ClientAndServerEndCleanup);
+		Manager3D.Is3D = false;
 	}
 
+	private void ClientAndServerEndCleanup()
+	{
+		if (Manager3D.Is3D)
+		{
+			Manager3D.Is3D = false;
+		}
+	}
 
+	public void PlayerLoadedIn(NetworkConnectionToClient Player)
+	{
+		Manager3D.Instance.OrNull()?.PlayerLoadedIn(Player);
+	}
+
+	private void UpdateMinutes()
+	{
+		if (counting == false || CustomNetworkManager.IsServer == false) return;
+		RoundTimeInMinutes += 1;
+	}
 
 	///<summary>
 	/// This is for any space object that needs to be randomly placed in the solar system
@@ -261,13 +316,14 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		if (mm.ServerState.Position == TransformState.HiddenPos)
 		{
-			Logger.LogError("Matrix Move is not initialized! Wait for it to be" +
+			Loggy.LogError("Matrix Move is not initialized! Wait for it to be" +
 			                "ready before calling ServerSetSpaceBody ", Category.Server);
 			return;
 		}
 
 		PendingSpaceBodies.Enqueue(mm);
 	}
+
 
 	IEnumerator ProcessSpaceBody(MatrixMove mm)
 	{
@@ -335,13 +391,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		if (GameManager.Instance.PrimaryEscapeShuttle == null)
 		{
-			Logger.LogWarning("Cannot generate primary escape shuttle path. Shuttle not found.");
+			Loggy.LogWarning("Cannot generate primary escape shuttle path. Shuttle not found.");
 			return;
 		}
 
 		if (CargoShuttle.Instance == null)
 		{
-			Logger.LogWarning("Cannot generate cargo escape shuttle path. Shuttle not found.");
+			Loggy.LogWarning("Cannot generate cargo escape shuttle path. Shuttle not found.");
 			return;
 		}
 
@@ -378,14 +434,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		return (UnityEngine.Random.insideUnitCircle * solarSystemRadius).RoundToInt();
 	}
 
-	//	private void OnValidate()
-	//	{
-	//		if (Occupations.All(o => o.GetComponent<OccupationRoster>().Type != JobType.ASSISTANT)) //wtf is that about
-	//		{
-	//			Logger.LogError("There is no ASSISTANT job role defined in the the GameManager Occupation rosters");
-	//		}
-	//	}
-
 	private void OnSceneChange(Scene oldScene, Scene newScene)
 	{
 		if (CustomNetworkManager.Instance._isServer && newScene.name != "Lobby")
@@ -411,13 +459,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		NetworkedMatrix._ClearInitEvents();
 	}
 
-	public void SyncTime(string currentTime)
+	public void SyncTime(string currentTime, int minutes)
 	{
 		if (string.IsNullOrEmpty(currentTime)) return;
 
 		if (!CustomNetworkManager.Instance._isServer)
 		{
-			stationTime = DateTime.ParseExact(currentTime, "O", CultureInfo.InvariantCulture,
+			RoundTime = DateTime.ParseExact(currentTime, "O", CultureInfo.InvariantCulture,
 				DateTimeStyles.RoundtripKind);
 			counting = true;
 		}
@@ -425,7 +473,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	public void ResetRoundTime()
 	{
-		stationTime = new DateTime().AddHours(12);
+		RoundTimeInMinutes = 0;
+		RoundTime = new DateTime().AddHours(12);
 		counting = true;
 		StartCoroutine(NotifyClientsRoundTime());
 	}
@@ -433,7 +482,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	IEnumerator NotifyClientsRoundTime()
 	{
 		yield return WaitFor.EndOfFrame;
-		UpdateRoundTimeMessage.Send(stationTime.ToString("O"));
+		UpdateRoundTimeMessage.Send(RoundTime.ToString("O"), RoundTimeInMinutes);
 	}
 
 	private void UpdateMe()
@@ -458,11 +507,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		else if (counting)
 		{
-			stationTime = stationTime.AddSeconds(Time.deltaTime);
-			roundTimer.text = stationTime.ToString("HH:mm:ss");
+			RoundTime = RoundTime.AddSeconds(Time.deltaTime);
+			roundTimer.text = RoundTime.ToString("HH:mm:ss");
 		}
-
-		if (CustomNetworkManager.Instance._isServer == false) return;
 	}
 
 	/// <summary>
@@ -493,7 +540,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			}
 			catch (Exception e)
 			{
-				Logger.LogErrorFormat("Exception message on map loading: {0}", Category.Server, e);
+				Loggy.LogErrorFormat("Exception message on map loading: {0}", Category.Server, e);
 			}
 		}
 	}
@@ -521,7 +568,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		catch (Exception e)
 		{
-			Logger.LogError("Failed to log Players antagonist preferences" + e.ToString());
+			Loggy.LogError("Failed to log Players antagonist preferences" + e.ToString());
 		}
 
 
@@ -547,12 +594,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		catch (Exception e)
 		{
-			Logger.LogError("Failed to GameMode.SetupRound(); " + e.ToString());
+			Loggy.LogError("Failed to GameMode.SetupRound(); " + e.ToString());
 		}
 
 
 		// Standard round start setup
-		stationTime = new DateTime().AddHours(12);
+		RoundTime = new DateTime().AddHours(12);
+		RoundTimeInMinutes = 0;
 		counting = true;
 		RespawnCurrentlyAllowed = GameMode.CanRespawn;
 		StartCoroutine(WaitToInitEscape());
@@ -612,30 +660,57 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void EndRound()
 	{
+
 		if (CustomNetworkManager.Instance._isServer == false) return;
 
-		if (CurrentRoundState != RoundState.Started && CurrentRoundState != RoundState.PreRound) //PreRound If the round didn't even start at all and because of an error
+		if (CurrentRoundState != RoundState.Started &&
+		    CurrentRoundState !=
+		    RoundState.PreRound) //PreRound If the round didn't even start at all and because of an error
 		{
 			if (CurrentRoundState == RoundState.Ended)
 			{
-				Logger.LogError("Cannot end round, round has already ended!", Category.Round);
+				Loggy.LogError("Cannot end round, round has already ended!", Category.Round);
 			}
 			else
 			{
-				Logger.LogError("Cannot end round, round has not started yet!", Category.Round);
+				Loggy.LogError("Cannot end round, round has not started yet!", Category.Round);
 			}
 
 			return;
 		}
 
-		CurrentRoundState = RoundState.Ended;
-		EventManager.Broadcast(Event.RoundEnded, true);
-		GameMode.EndRoundReport();
-		CleanupUtil.EndRoundCleanup();
 
-		EventManager.Broadcast(Event.CleanupEnd, true);
+		CurrentRoundState = RoundState.Ended;
+		try
+		{
+			EventManager.Broadcast(Event.RoundEnded, true);
+		}
+		catch (Exception e)
+		{
+			Loggy.LogError(e.ToString());
+		}
+
+		try
+		{
+			GameMode.EndRoundReport();
+		}
+		catch (Exception e)
+		{
+			Loggy.LogError(e.ToString());
+		}
 
 		counting = false;
+		try
+		{
+			if (RoundEndTime > 10)
+			{
+				VotingManager.Instance.SetupVote(VotingManager.VoteType.NextMap, VotingManager.VotePolicy.MajorityRules,  Mathf.FloorToInt(RoundEndTime-1) , this.gameObject, null);
+			}
+		}
+		catch (Exception e)
+		{
+			Loggy.LogError(e.ToString());
+		}
 
 		StartCoroutine(WaitForRoundRestart());
 
@@ -647,8 +722,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	private IEnumerator WaitForRoundRestart()
 	{
-		Logger.Log($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
+		Loggy.LogError($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
 		yield return WaitFor.Seconds(RoundEndTime);
+		RoundEndTime = DefaultRoundEndTime;
 		RestartRound();
 	}
 
@@ -729,7 +805,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			SendClientLogMessage.SendErrorToClient(spawnRequest.Player,
 				$"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn you.");
-			Logger.LogError($"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn player.");
+			Loggy.LogError($"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn player.");
 			return false;
 		}
 
@@ -754,7 +830,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		if (count != 0)
 		{
-			Logger.Log($"{jobType} count: {count}", Category.Jobs);
+			Loggy.Log($"{jobType} count: {count}", Category.Jobs);
 		}
 
 		return count;
@@ -811,7 +887,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		if (count != 0)
 		{
-			Logger.Log($"{jobType} count: {count}", Category.Jobs);
+			Loggy.Log($"{jobType} count: {count}", Category.Jobs);
 		}
 
 		return count;
@@ -858,11 +934,15 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void RestartRound()
 	{
-		if (CustomNetworkManager.Instance._isServer == false) return;
+		if (CustomNetworkManager.Instance._isServer == false)
+		{
+			Loggy.LogError("Cannot restart round, Is not server!", Category.Round);
+			return;
+		}
 
 		if (CurrentRoundState == RoundState.Restarting)
 		{
-			Logger.Log("Cannot restart round, round is already restarting!", Category.Round);
+			Loggy.LogError("Cannot restart round, round is already restarting!", Category.Round);
 			return;
 		}
 
@@ -890,20 +970,37 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		catch (Exception e)
 		{
-			Logger.LogError(" Failed to determine if the Server should restart , Restarting " + e.ToString());
+			Loggy.LogError(" Failed to determine if the Server should restart , Restarting " + e.ToString());
 			reboot = true;
 		}
 
 		if (reboot == false)
 		{
-			Logger.Log("Server restarting round now.", Category.Round);
+			Loggy.Log("Server restarting round now.", Category.Round);
 			Chat.AddGameWideSystemMsgToChat("<b>The round is now restarting...</b>");
 			// Notify all clients that the round has ended
 			EventManager.Broadcast(Event.RoundEnded, true);
 			EventManager.Broadcast(Event.SceneUnloading, true);
+			try
+			{
+				CleanupUtil.EndRoundCleanup();
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+			}
 
+			EventManager.Broadcast(Event.CleanupEnd, true);
 			yield return WaitFor.Seconds(0.2f);
-			CleanupUtil.CleanupInbetweenScenes();
+
+			try
+			{
+				CleanupUtil.CleanupInbetweenScenes();
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+			}
 
 			EventManager.Broadcast(Event.Cleanup, true);
 
@@ -914,8 +1011,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		else
 		{
-			Logger.LogError("Server is rebooting now. If you don't have a way to automatically restart the " +
-			                "Unitystation process such as systemctl the server won't be able to restart!", Category.Round);
+			Loggy.LogError("Server is rebooting now. If you don't have a way to automatically restart the " +
+			                "Unitystation process such as systemctl the server won't be able to restart!",
+				Category.Round);
 			Chat.AddGameWideSystemMsgToChat("<size=72><b>The server is now restarting!</b></size>");
 			yield return WaitFor.Seconds(4f);
 			Application.Quit();
@@ -928,7 +1026,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			CleanupUtil.CleanupInbetweenScenes();
 		}
-
 	}
 
 	public void ClientCleanupEndRoundCleanups()
@@ -937,7 +1034,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			CleanupUtil.EndRoundCleanup();
 		}
-
 	}
 
 
@@ -948,5 +1044,4 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			CleanupUtil.RoundStartCleanup();
 		}
 	}
-
 }

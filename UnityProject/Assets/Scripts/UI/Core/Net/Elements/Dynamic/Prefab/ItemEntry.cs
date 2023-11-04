@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Items;
+using Logs;
 using UnityEngine;
 
 namespace UI.Core.NetUI
@@ -25,26 +26,26 @@ namespace UI.Core.NetUI
 		{
 			if (!Prefab)
 			{
-				Logger.Log("ItemEntry: no prefab found, not doing init", Category.NetUI);
+				Loggy.Log("ItemEntry: no prefab found, not doing init", Category.NetUI);
 				return;
 			}
 			var itemAttributes = Prefab.GetComponent<ItemAttributesV2>();
 			if (itemAttributes != null)
 			{
-				Logger.LogWarning($"No attributes found for prefab {Prefab}", Category.NetUI);
+				Loggy.LogWarning($"No attributes found for prefab {Prefab}", Category.NetUI);
 				return;
 			}
 			foreach (var element in Elements.Cast<NetUIElement<string>>())
 			{
 				string nameBeforeIndex = element.name.Split(DELIMITER)[0];
-				element.Value = nameBeforeIndex switch
+				element.MasterSetValue(nameBeforeIndex switch
 				{
 					"ItemName" => itemAttributes.name,
 					"ItemIcon" => itemAttributes.gameObject.name,
 					_ => string.Empty,
-				};
+				});
 			}
-			Logger.Log(
+			Loggy.Log(
 					$"ItemEntry: Init success! Prefab={Prefab}, ItemName={itemAttributes.name}, ItemIcon={itemAttributes.gameObject.name}",
 					Category.NetUI);
 		}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Antagonists;
 using DiscordWebhook;
+using Logs;
 using UI.CharacterCreator;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -84,6 +85,10 @@ namespace GameModes
 		[SerializeField]
 		[Min(1)]
 		private int maxAntags = 100;
+
+		[SerializeField]
+		protected int hardNumberOfAntagsToSpawn = 0;
+
 		/// <summary>
 		/// The maximum amount of antags spawned in the gamemode.
 		/// If <see cref="forceMinAntags"/> is true, the number of chosen antags will be rounded up to this number.
@@ -185,7 +190,7 @@ namespace GameModes
 		/// </summary>
 		public virtual void SetupRound()
 		{
-			Logger.LogFormat("Setting up {0} round!", Category.GameMode, Name);
+			Loggy.LogFormat("Setting up {0} round!", Category.GameMode, Name);
 		}
 
 		/// <summary>
@@ -268,7 +273,7 @@ namespace GameModes
 		{
 			if (PossibleAntags.Count <= 0)
 			{
-				Logger.LogError("PossibleAntags is empty! Game mode must have some if spawning antags.",
+				Loggy.LogError("PossibleAntags is empty! Game mode must have some if spawning antags.",
 					Category.Antags);
 				return;
 			}
@@ -279,14 +284,14 @@ namespace GameModes
 
 			if (antagPool.Count < 1)
 			{
-				Logger.LogErrorFormat("No possible antags! Either PossibleAntags is empty or this player hasn't enabled " +
+				Loggy.LogErrorFormat("No possible antags! Either PossibleAntags is empty or this player hasn't enabled " +
 				                      "any antags and they were spawned as one anyways.", Category.Antags);
 			}
 
 			var antag = antagPool.PickRandom();
 			if (!AllocateJobsToAntags && antag.AntagOccupation == null)
 			{
-				Logger.LogErrorFormat("AllocateJobsToAntags is false but {0} AntagOccupation is null! " +
+				Loggy.LogErrorFormat("AllocateJobsToAntags is false but {0} AntagOccupation is null! " +
 				                      "Game mode must either set AllocateJobsToAntags or possible antags neeed an AntagOccupation.",
 					Category.Antags, antag.AntagName);
 				return;
@@ -355,13 +360,62 @@ namespace GameModes
 		/// </summary>
 		public virtual void StartRound()
 		{
-			Logger.LogFormat("Starting {0} round!", Category.GameMode, Name);
+			Loggy.LogFormat("Starting {0} round!", Category.GameMode, Name);
 
 			List<PlayerSpawnRequest> playerSpawnRequests = new List<PlayerSpawnRequest>();
 			List<PlayerSpawnRequest> antagSpawnRequests = new List<PlayerSpawnRequest>();;
 			int antagsToSpawn = CalculateAntagCount(PlayerList.Instance.ReadyPlayers.Count);
 			var jobAllocator = new JobAllocator();
 			var playerPool = PlayerList.Instance.ReadyPlayers;
+			AntagManager.Instance.ServerSpawnTeams();
+
+			AntagJobAllocation(jobAllocator, playerPool, ref playerSpawnRequests, ref antagSpawnRequests, antagsToSpawn);
+
+			// Spawn all players and antags
+			foreach (var spawnReq in playerSpawnRequests)
+			{
+				try
+				{
+					PlayerSpawn.NewSpawnPlayerV2(spawnReq.Player, spawnReq.RequestedOccupation,
+						spawnReq.CharacterSettings);
+				}
+				catch (Exception e)
+				{
+					Loggy.LogError($" Failed to spawn player {spawnReq?.Player?.Name} " + e.ToString());
+				}
+			}
+
+
+
+			foreach (var spawnReq in antagSpawnRequests)
+			{
+				try
+				{
+					SpawnAntag(spawnReq);
+				}
+				catch (Exception e)
+				{
+					Loggy.LogError($" Failed to SpawnAntag {spawnReq?.Player?.Name} Antag {spawnReq?.RequestedOccupation.OrNull()?.name}  " + e.ToString());
+				}
+			}
+
+			try
+			{
+				var msg = $"{PlayerList.Instance.ReadyPlayers.Count} players ready, {antagsToSpawn} antags to spawn. {playerSpawnRequests.Count} players spawned (excludes antags), {antagSpawnRequests.Count} antags spawned";
+				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "[GameMode]");
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError($" Failed to DiscordWebhookMessage Started round message " + e.ToString());
+			}
+
+			GameManager.Instance.CurrentRoundState = RoundState.Started;
+			EventManager.Broadcast(Event.RoundStarted, true);
+		}
+
+		protected void AntagJobAllocation(JobAllocator jobAllocator, List<PlayerInfo> playerPool,
+			ref List<PlayerSpawnRequest> playerSpawnRequests, ref List<PlayerSpawnRequest> antagSpawnRequests, int antagsToSpawn)
+		{
 			try
 			{
 				if (AllocateJobsToAntags)
@@ -390,9 +444,8 @@ namespace GameModes
 			}
 			catch (Exception e)
 			{
-				Logger.LogError("Failed on Antag Job Allocation" + e.ToString());
+				Loggy.LogError("Failed on Antag Job Allocation" + e.ToString());
 			}
-
 			// Spawn all players and antags
 			foreach (var spawnReq in playerSpawnRequests)
 			{
@@ -436,8 +489,9 @@ namespace GameModes
 		/// <summary>
 		/// Calculates how many antags should be chosen at round start based on the player count.
 		/// </summary>
-		private int CalculateAntagCount(int playerCount)
+		protected int CalculateAntagCount(int playerCount)
 		{
+			if (hardNumberOfAntagsToSpawn > 0) return hardNumberOfAntagsToSpawn;
 			var antagCount = Math.Min((int)Math.Floor(playerCount * antagRatio), maxAntags);
 			// If RequiresMinAntags is true then round up to MinAntags if antagCount is below
 			return ForceMinAntags ? Math.Max(MinAntags, antagCount) : antagCount;
@@ -448,22 +502,22 @@ namespace GameModes
 		/// </summary>
 		public virtual void CheckEndCondition()
 		{
-			Logger.Log("Checking end round conditions!", Category.GameMode);
+			Loggy.Log("Checking end round conditions!", Category.GameMode);
 		}
 
 		/// <summary>
 		/// End the round and display any relevant reports
 		/// </summary>
-		public void EndRoundReport()
+		public virtual void EndRoundReport()
 		{
-			var roundDuration = GameManager.Instance.stationTime.AddHours(-12);
+			var roundDuration = GameManager.Instance.RoundTime.AddHours(-12);
 			var output = $"A round has ended. Round duration: {roundDuration.ToString("HH:mm")}.";
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, $"`{output}`", "");
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, $"```{output} Total errors: {GameManager.Instance.errorCounter}. Unique errors: {GameManager.Instance.uniqueErrorCounter}```", "");
 			GameManager.Instance.errorCounter = 0;
 			GameManager.Instance.uniqueErrorCounter = 0;
 
-			Logger.LogFormat("Ending {0} round!", Category.GameMode, Name);
+			Loggy.LogFormat("Ending {0} round!", Category.GameMode, Name);
 			StationObjectiveManager.Instance.ShowStationStatusReport();
 			AntagManager.Instance.ShowAntagStatusReport();
 

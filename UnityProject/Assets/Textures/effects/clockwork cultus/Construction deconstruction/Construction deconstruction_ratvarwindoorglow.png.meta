@@ -207,7 +207,7 @@ TextureImporter:
       213: 21300134
     second: ratvarwindoorglow_67
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -224,11 +224,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -267,6 +268,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -282,6 +285,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1734,77 +1749,76 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ratvarwindoorglow_12: 21300024
-      ratvarwindoorglow_25: 21300050
-      ratvarwindoorglow_48: 21300096
-      ratvarwindoorglow_17: 21300034
-      ratvarwindoorglow_67: 21300134
-      ratvarwindoorglow_49: 21300098
-      ratvarwindoorglow_7: 21300014
-      ratvarwindoorglow_38: 21300076
-      ratvarwindoorglow_13: 21300026
-      ratvarwindoorglow_6: 21300012
-      ratvarwindoorglow_65: 21300130
-      ratvarwindoorglow_61: 21300122
-      ratvarwindoorglow_24: 21300048
-      ratvarwindoorglow_59: 21300118
-      ratvarwindoorglow_42: 21300084
-      ratvarwindoorglow_2: 21300004
-      ratvarwindoorglow_4: 21300008
-      ratvarwindoorglow_63: 21300126
-      ratvarwindoorglow_27: 21300054
-      ratvarwindoorglow_31: 21300062
-      ratvarwindoorglow_20: 21300040
-      ratvarwindoorglow_64: 21300128
-      ratvarwindoorglow_30: 21300060
+      ratvarwindoorglow_0: 21300000
+      ratvarwindoorglow_1: 21300002
       ratvarwindoorglow_10: 21300020
-      ratvarwindoorglow_52: 21300104
-      ratvarwindoorglow_55: 21300110
-      ratvarwindoorglow_28: 21300056
-      ratvarwindoorglow_50: 21300100
       ratvarwindoorglow_11: 21300022
-      ratvarwindoorglow_33: 21300066
-      ratvarwindoorglow_41: 21300082
+      ratvarwindoorglow_12: 21300024
+      ratvarwindoorglow_13: 21300026
+      ratvarwindoorglow_14: 21300028
+      ratvarwindoorglow_15: 21300030
+      ratvarwindoorglow_16: 21300032
+      ratvarwindoorglow_17: 21300034
       ratvarwindoorglow_18: 21300036
-      ratvarwindoorglow_36: 21300072
-      ratvarwindoorglow_47: 21300094
-      ratvarwindoorglow_66: 21300132
-      ratvarwindoorglow_34: 21300068
-      ratvarwindoorglow_5: 21300010
-      ratvarwindoorglow_53: 21300106
-      ratvarwindoorglow_39: 21300078
+      ratvarwindoorglow_19: 21300038
+      ratvarwindoorglow_2: 21300004
+      ratvarwindoorglow_20: 21300040
+      ratvarwindoorglow_21: 21300042
       ratvarwindoorglow_22: 21300044
       ratvarwindoorglow_23: 21300046
-      ratvarwindoorglow_45: 21300090
-      ratvarwindoorglow_35: 21300070
-      ratvarwindoorglow_16: 21300032
-      ratvarwindoorglow_44: 21300088
-      ratvarwindoorglow_8: 21300016
-      ratvarwindoorglow_21: 21300042
-      ratvarwindoorglow_56: 21300112
+      ratvarwindoorglow_24: 21300048
+      ratvarwindoorglow_25: 21300050
       ratvarwindoorglow_26: 21300052
-      ratvarwindoorglow_60: 21300120
-      ratvarwindoorglow_19: 21300038
-      ratvarwindoorglow_54: 21300108
-      ratvarwindoorglow_46: 21300092
+      ratvarwindoorglow_27: 21300054
+      ratvarwindoorglow_28: 21300056
       ratvarwindoorglow_29: 21300058
-      ratvarwindoorglow_1: 21300002
-      ratvarwindoorglow_40: 21300080
-      ratvarwindoorglow_62: 21300124
-      ratvarwindoorglow_37: 21300074
-      ratvarwindoorglow_58: 21300116
       ratvarwindoorglow_3: 21300006
-      ratvarwindoorglow_0: 21300000
-      ratvarwindoorglow_15: 21300030
+      ratvarwindoorglow_30: 21300060
+      ratvarwindoorglow_31: 21300062
       ratvarwindoorglow_32: 21300064
+      ratvarwindoorglow_33: 21300066
+      ratvarwindoorglow_34: 21300068
+      ratvarwindoorglow_35: 21300070
+      ratvarwindoorglow_36: 21300072
+      ratvarwindoorglow_37: 21300074
+      ratvarwindoorglow_38: 21300076
+      ratvarwindoorglow_39: 21300078
+      ratvarwindoorglow_4: 21300008
+      ratvarwindoorglow_40: 21300080
+      ratvarwindoorglow_41: 21300082
+      ratvarwindoorglow_42: 21300084
       ratvarwindoorglow_43: 21300086
+      ratvarwindoorglow_44: 21300088
+      ratvarwindoorglow_45: 21300090
+      ratvarwindoorglow_46: 21300092
+      ratvarwindoorglow_47: 21300094
+      ratvarwindoorglow_48: 21300096
+      ratvarwindoorglow_49: 21300098
+      ratvarwindoorglow_5: 21300010
+      ratvarwindoorglow_50: 21300100
       ratvarwindoorglow_51: 21300102
-      ratvarwindoorglow_14: 21300028
-      ratvarwindoorglow_9: 21300018
+      ratvarwindoorglow_52: 21300104
+      ratvarwindoorglow_53: 21300106
+      ratvarwindoorglow_54: 21300108
+      ratvarwindoorglow_55: 21300110
+      ratvarwindoorglow_56: 21300112
       ratvarwindoorglow_57: 21300114
-  spritePackingTag: 
+      ratvarwindoorglow_58: 21300116
+      ratvarwindoorglow_59: 21300118
+      ratvarwindoorglow_6: 21300012
+      ratvarwindoorglow_60: 21300120
+      ratvarwindoorglow_61: 21300122
+      ratvarwindoorglow_62: 21300124
+      ratvarwindoorglow_63: 21300126
+      ratvarwindoorglow_64: 21300128
+      ratvarwindoorglow_65: 21300130
+      ratvarwindoorglow_66: 21300132
+      ratvarwindoorglow_67: 21300134
+      ratvarwindoorglow_7: 21300014
+      ratvarwindoorglow_8: 21300016
+      ratvarwindoorglow_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

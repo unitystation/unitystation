@@ -135,7 +135,7 @@ namespace Objects.Wallmounts
 
 		private void ServerSetState(FireCabinetState newState)
 		{
-			spriteHandler.ChangeSprite((int)newState);
+			spriteHandler.SetCatalogueIndexSprite((int)newState);
 		}
 	}
 }

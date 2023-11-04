@@ -67,14 +67,14 @@ namespace Items
 					{
 						newSpriteID = SEALED_SPRITE;
 					}
-					handler.ChangeSprite(newSpriteID);
+					handler.SetCatalogueIndexSprite(newSpriteID);
 				}
 			}
 		}
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (isSealed) return false;
 

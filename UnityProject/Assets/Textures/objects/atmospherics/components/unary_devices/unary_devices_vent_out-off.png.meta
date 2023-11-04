@@ -195,7 +195,7 @@ TextureImporter:
       213: 21300126
     second: vent_out-off_63
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -212,11 +212,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -255,6 +256,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -270,6 +273,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1638,73 +1653,72 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      vent_out-off_22: 21300044
-      vent_out-off_8: 21300016
-      vent_out-off_13: 21300026
-      vent_out-off_50: 21300100
-      vent_out-off_19: 21300038
-      vent_out-off_4: 21300008
-      vent_out-off_49: 21300098
       vent_out-off_0: 21300000
       vent_out-off_1: 21300002
-      vent_out-off_7: 21300014
-      vent_out-off_62: 21300124
-      vent_out-off_20: 21300040
-      vent_out-off_18: 21300036
-      vent_out-off_11: 21300022
-      vent_out-off_58: 21300116
       vent_out-off_10: 21300020
-      vent_out-off_57: 21300114
-      vent_out-off_9: 21300018
-      vent_out-off_27: 21300054
-      vent_out-off_5: 21300010
-      vent_out-off_44: 21300088
-      vent_out-off_3: 21300006
-      vent_out-off_48: 21300096
-      vent_out-off_53: 21300106
-      vent_out-off_56: 21300112
-      vent_out-off_16: 21300032
-      vent_out-off_46: 21300092
-      vent_out-off_2: 21300004
-      vent_out-off_31: 21300062
-      vent_out-off_6: 21300012
-      vent_out-off_23: 21300046
-      vent_out-off_34: 21300068
-      vent_out-off_52: 21300104
-      vent_out-off_63: 21300126
-      vent_out-off_15: 21300030
-      vent_out-off_39: 21300078
-      vent_out-off_38: 21300076
-      vent_out-off_51: 21300102
-      vent_out-off_36: 21300072
-      vent_out-off_25: 21300050
-      vent_out-off_61: 21300122
-      vent_out-off_60: 21300120
-      vent_out-off_29: 21300058
+      vent_out-off_11: 21300022
       vent_out-off_12: 21300024
-      vent_out-off_59: 21300118
-      vent_out-off_26: 21300052
-      vent_out-off_43: 21300086
-      vent_out-off_40: 21300080
-      vent_out-off_55: 21300110
-      vent_out-off_33: 21300066
-      vent_out-off_42: 21300084
-      vent_out-off_17: 21300034
-      vent_out-off_28: 21300056
-      vent_out-off_41: 21300082
+      vent_out-off_13: 21300026
       vent_out-off_14: 21300028
-      vent_out-off_47: 21300094
-      vent_out-off_35: 21300070
-      vent_out-off_32: 21300064
-      vent_out-off_24: 21300048
-      vent_out-off_37: 21300074
+      vent_out-off_15: 21300030
+      vent_out-off_16: 21300032
+      vent_out-off_17: 21300034
+      vent_out-off_18: 21300036
+      vent_out-off_19: 21300038
+      vent_out-off_2: 21300004
+      vent_out-off_20: 21300040
       vent_out-off_21: 21300042
-      vent_out-off_45: 21300090
+      vent_out-off_22: 21300044
+      vent_out-off_23: 21300046
+      vent_out-off_24: 21300048
+      vent_out-off_25: 21300050
+      vent_out-off_26: 21300052
+      vent_out-off_27: 21300054
+      vent_out-off_28: 21300056
+      vent_out-off_29: 21300058
+      vent_out-off_3: 21300006
       vent_out-off_30: 21300060
+      vent_out-off_31: 21300062
+      vent_out-off_32: 21300064
+      vent_out-off_33: 21300066
+      vent_out-off_34: 21300068
+      vent_out-off_35: 21300070
+      vent_out-off_36: 21300072
+      vent_out-off_37: 21300074
+      vent_out-off_38: 21300076
+      vent_out-off_39: 21300078
+      vent_out-off_4: 21300008
+      vent_out-off_40: 21300080
+      vent_out-off_41: 21300082
+      vent_out-off_42: 21300084
+      vent_out-off_43: 21300086
+      vent_out-off_44: 21300088
+      vent_out-off_45: 21300090
+      vent_out-off_46: 21300092
+      vent_out-off_47: 21300094
+      vent_out-off_48: 21300096
+      vent_out-off_49: 21300098
+      vent_out-off_5: 21300010
+      vent_out-off_50: 21300100
+      vent_out-off_51: 21300102
+      vent_out-off_52: 21300104
+      vent_out-off_53: 21300106
       vent_out-off_54: 21300108
-  spritePackingTag: 
+      vent_out-off_55: 21300110
+      vent_out-off_56: 21300112
+      vent_out-off_57: 21300114
+      vent_out-off_58: 21300116
+      vent_out-off_59: 21300118
+      vent_out-off_6: 21300012
+      vent_out-off_60: 21300120
+      vent_out-off_61: 21300122
+      vent_out-off_62: 21300124
+      vent_out-off_63: 21300126
+      vent_out-off_7: 21300014
+      vent_out-off_8: 21300016
+      vent_out-off_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

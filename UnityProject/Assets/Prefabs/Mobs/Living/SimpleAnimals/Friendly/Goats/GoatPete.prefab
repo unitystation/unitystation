@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
@@ -49,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2556025810940187981, guid: 8df46e8f4633f9e43ab5993c9075028e,
         type: 3}
+      propertyPath: _assetId
+      value: 2561305731
+      objectReference: {fileID: 0}
+    - target: {fileID: 2556025810940187981, guid: 8df46e8f4633f9e43ab5993c9075028e,
+        type: 3}
       propertyPath: m_AssetId
       value: e56e2d22b6f68cf48b3ababcdccd8a4d
       objectReference: {fileID: 0}
@@ -58,6 +64,25 @@ PrefabInstance:
       value: Pete
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2515425442973781969, guid: 8df46e8f4633f9e43ab5993c9075028e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5473302497831608342}
+    - targetCorrespondingSourceObject: {fileID: 2515425442973781969, guid: 8df46e8f4633f9e43ab5993c9075028e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1576127129019803464}
+    - targetCorrespondingSourceObject: {fileID: 2515425442973781969, guid: 8df46e8f4633f9e43ab5993c9075028e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1856271386541915690}
+    - targetCorrespondingSourceObject: {fileID: 2515425442973781969, guid: 8df46e8f4633f9e43ab5993c9075028e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8035488229934791807}
   m_SourcePrefab: {fileID: 100100000, guid: 8df46e8f4633f9e43ab5993c9075028e, type: 3}
 --- !u!1 &5092666089846311182 stripped
 GameObject:
@@ -148,10 +173,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TipSO: {fileID: 11400000, guid: eb646ca04872733468148685a9a74fc0, type: 2}
-  saveID: 0
   triggerOnce: 1
+  removeAfterRemembering: 1
   showEvenAfterDeath: 0
   tipCooldown: 200
+  highlightableObjectNames: []
   SearchRadius: 12
   SearchCooldown: 6
   MaskToCheck:

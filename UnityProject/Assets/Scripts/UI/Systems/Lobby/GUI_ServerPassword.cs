@@ -1,4 +1,5 @@
 ﻿using Core.Networking;
+using Logs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +16,7 @@ namespace Lobby
 
 			if (authenticator == null)
 			{
-				Logger.LogError("Authenticator wrong type?");
+				Loggy.LogError("Authenticator wrong type?");
 				return;
 			}
 

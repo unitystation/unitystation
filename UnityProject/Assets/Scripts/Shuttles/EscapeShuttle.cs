@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Managers;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine;
@@ -107,7 +108,7 @@ public class EscapeShuttle : MonoBehaviour
 			internalStatus = value;
 			OnShuttleUpdate.Invoke(internalStatus);
 			GameManager.Instance.OnShuttleUpdate(internalStatus);
-			Logger.LogTrace( gameObject.name + " EscapeShuttle status changed to " + internalStatus );
+			Loggy.LogTrace( gameObject.name + " EscapeShuttle status changed to " + internalStatus );
 		}
 	}
 
@@ -308,7 +309,7 @@ public class EscapeShuttle : MonoBehaviour
 			{
 				if ((!matrixMove.ServerState.IsMoving || matrixMove.ServerState.Speed < 1f) && startedMovingToStation)
 				{
-					Logger.LogTrace("Escape shuttle is blocked.", Category.Shuttles);
+					Loggy.LogTrace("Escape shuttle is blocked.", Category.Shuttles);
 					isBlocked = true;
 					escapeBlockedTime = 0f;
 				}
@@ -320,7 +321,7 @@ public class EscapeShuttle : MonoBehaviour
 			if (Status == EscapeShuttleStatus.DockedCentcom || Status == EscapeShuttleStatus.DockedStation ||
 			    (matrixMove.ServerState.IsMoving && matrixMove.ServerState.Speed >= 1f))
 			{
-				Logger.LogTrace("Escape shuttle is unblocked.", Category.Shuttles);
+				Loggy.LogTrace("Escape shuttle is unblocked.", Category.Shuttles);
 				isBlocked = false;
 				escapeBlockedTime = 0f;
 			}
@@ -330,7 +331,7 @@ public class EscapeShuttle : MonoBehaviour
 				escapeBlockedTime += Time.deltaTime;
 				if (escapeBlockedTime > escapeBlockTimeLimit)
 				{
-					Logger.LogTraceFormat("Escape shuttle blocked for more than {0} seconds, stranded ending playing.", Category.Shuttles, escapeBlockTimeLimit);
+					Loggy.LogTraceFormat("Escape shuttle blocked for more than {0} seconds, stranded ending playing.", Category.Shuttles, escapeBlockTimeLimit);
 					//can't escape
 					ServerStartStrandedEnd();
 				}

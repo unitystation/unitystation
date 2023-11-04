@@ -157,7 +157,7 @@ namespace Items.Magical
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			// Return true to stop NetTab interaction.
 			return IsRegistered || (isForWizardsOnly && !IsWizard(interaction.Performer.Player()));

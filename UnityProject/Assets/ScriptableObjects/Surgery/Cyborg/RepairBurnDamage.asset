@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a164ba5d25d3844a8fe6ea510153026, type: 3}
+  m_Name: RepairBurnDamage
+  m_EditorClassIdentifier: 
+  ProcedureName: Repair Burn Damage
+  ProcedureSprite: {fileID: 11400000, guid: 019ec0446d92b564db8cb9b1c053b5aa, type: 2}
+  SurgerySteps:
+  - RequiredTrait: {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
+    Time: 2
+    FailChance: 0
+    StartSelf: 
+    StartOther: 
+    SuccessSelf: You unscrew the cover
+    SuccessOther: 
+    FailSelf: 
+    FailOther: 
+  - RequiredTrait: {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
+    Time: 2
+    FailChance: 0
+    StartSelf: 
+    StartOther: 
+    SuccessSelf: You cut the damaged cables
+    SuccessOther: 
+    FailSelf: 
+    FailOther: 
+  - RequiredTrait: {fileID: 11400000, guid: e39c048ec864b47a495a40f9c76af764, type: 2}
+    Time: 2
+    FailChance: 0
+    StartSelf: 
+    StartOther: 
+    SuccessSelf: You replace the missing cables
+    SuccessOther: 
+    FailSelf: 
+    FailOther: 
+  - RequiredTrait: {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
+    Time: 2
+    FailChance: 0
+    StartSelf: 
+    StartOther: 
+    SuccessSelf: You screw the cover back in
+    SuccessOther: 
+    FailSelf: 
+    FailOther: 
+  Affects: 1
+  HeelStrength: 50
+  ConsumeItem: 0
+  FailAttackType: 0

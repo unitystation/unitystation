@@ -72,7 +72,7 @@ TextureImporter:
       213: 21300044
     second: thenest_22
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -89,11 +89,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -132,6 +133,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -147,6 +150,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -654,32 +669,31 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      thenest_18: 21300036
-      thenest_8: 21300016
-      thenest_2: 21300004
       thenest_0: 21300000
-      thenest_14: 21300028
-      thenest_6: 21300012
-      thenest_5: 21300010
-      thenest_7: 21300014
-      thenest_16: 21300032
-      thenest_20: 21300040
-      thenest_22: 21300044
-      thenest_19: 21300038
-      thenest_10: 21300020
-      thenest_4: 21300008
-      thenest_17: 21300034
-      thenest_15: 21300030
       thenest_1: 21300002
-      thenest_9: 21300018
-      thenest_21: 21300042
+      thenest_10: 21300020
       thenest_11: 21300022
       thenest_12: 21300024
       thenest_13: 21300026
+      thenest_14: 21300028
+      thenest_15: 21300030
+      thenest_16: 21300032
+      thenest_17: 21300034
+      thenest_18: 21300036
+      thenest_19: 21300038
+      thenest_2: 21300004
+      thenest_20: 21300040
+      thenest_21: 21300042
+      thenest_22: 21300044
       thenest_3: 21300006
-  spritePackingTag: 
+      thenest_4: 21300008
+      thenest_5: 21300010
+      thenest_6: 21300012
+      thenest_7: 21300014
+      thenest_8: 21300016
+      thenest_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

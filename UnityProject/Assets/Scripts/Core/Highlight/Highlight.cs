@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Initialisation;
+using Logs;
 
 public class Highlight : MonoBehaviour, IInitialise
 {
@@ -15,6 +15,8 @@ public class Highlight : MonoBehaviour, IInitialise
 	public SpriteRenderer prefabSpriteRenderer;
 	public SpriteRenderer spriteRenderer;
 	public Material material;
+
+	private static List<SpriteHandler> subscribeSpriteHandlers = new List<SpriteHandler>();
 
 	public InitialisationSystems Subsystem => InitialisationSystems.Highlight;
 
@@ -66,28 +68,22 @@ public class Highlight : MonoBehaviour, IInitialise
 		}
 	}
 
-
-	public static List<SpriteHandler> SubscribeSpriteHandlers = new List<SpriteHandler>();
-
-	public static void UpdateCurrentHighlight(Sprite Sprite)
+	public static void UpdateCurrentHighlight()
 	{
-		if (HighlightEnabled)
+		if (instance == null) return;
+		if (HighlightEnabled && instance.TargetObject != null)
 		{
-			if (instance != null)
-			{
-				HighlightThis(instance.TargetObject);
-			}
+			HighlightThis(instance.TargetObject);
 		}
 		else
 		{
-			foreach (var SH in SubscribeSpriteHandlers)
+			foreach (var SH in subscribeSpriteHandlers)
 			{
 				if (SH == null) continue;
-				SH.OnSpriteChanged.Remove(UpdateCurrentHighlight);
+				SH.OnSpriteUpdated.RemoveListener(UpdateCurrentHighlight);
 			}
-			SubscribeSpriteHandlers.Clear();
+			subscribeSpriteHandlers.Clear();
 		}
-
 	}
 
 
@@ -100,19 +96,20 @@ public class Highlight : MonoBehaviour, IInitialise
 				instance.spriteRenderer = Instantiate(instance.prefabSpriteRenderer);
 			}
 
-			foreach (var SH in SubscribeSpriteHandlers)
+			foreach (var SH in subscribeSpriteHandlers)
 			{
 				if (SH == null) continue;
-				SH.OnSpriteChanged.Remove(UpdateCurrentHighlight);
+				SH.OnSpriteUpdated.RemoveListener(UpdateCurrentHighlight);
 			}
-			SubscribeSpriteHandlers.Clear();
+			subscribeSpriteHandlers.Clear();
 
 			Texture2D mainTex = instance.spriteRenderer.sprite.texture;
-			Unity.Collections.NativeArray<Color32> data = mainTex.GetRawTextureData<Color32>();
+			var data = mainTex.GetPixels();
 			for (int xy = 0; xy < data.Length; xy++)
 			{
 				data[xy] = new Color32(0, 0, 0, 0);
 			}
+			mainTex.SetPixels(data);
 			mainTex.Apply();
 			instance.TargetObject = null;
 
@@ -123,6 +120,10 @@ public class Highlight : MonoBehaviour, IInitialise
 	{
 		if (PlayerManager.LocalPlayerScript.IsNormal && HighlightEnabled)
 		{
+			if (Highlightobject.TryGetComponent<Attributes>(out var attributes))
+			{
+				if (attributes.NoMouseHighlight) return;
+			}
 			ShowHighlight(Highlightobject);
 		}
 	}
@@ -135,35 +136,36 @@ public class Highlight : MonoBehaviour, IInitialise
 		}
 
 		Texture2D mainTex = instance.spriteRenderer.sprite.texture;
-		Unity.Collections.NativeArray<Color32> data = mainTex.GetRawTextureData<Color32>();
+		var data = mainTex.GetPixels();
 		for (int xy = 0; xy < data.Length; xy++)
 		{
 			data[xy] = new Color32(0, 0, 0, 0);
 		}
+		mainTex.SetPixels(data);
 
 		instance.TargetObject = Highlightobject;
 		instance.spriteRenderer.gameObject.SetActive(true);
 		instance.spriteRenderer.enabled = true;
 		var SpriteRenderers = Highlightobject.GetComponentsInChildren<SpriteRenderer>();
+		var trans = instance.spriteRenderer.transform;
 
-		instance.spriteRenderer.transform.SetParent(SpriteRenderers[0].transform, false);
-		instance.spriteRenderer.transform.localPosition = Vector3.zero;
-		instance.spriteRenderer.transform.transform.localRotation = Quaternion.Euler(0, 0, 0);
-		instance.spriteRenderer.transform.localScale = Vector3.one;
+		trans.SetParent(SpriteRenderers[0].transform, false);
+		trans.localPosition = Vector3.zero;
+		trans.transform.localRotation = Quaternion.Euler(0, 0, 0);
+		trans.localScale = Vector3.one;
 		instance.spriteRenderer.sortingLayerID = SpriteRenderers[0].sortingLayerID;
 
-		foreach (var SH in SubscribeSpriteHandlers)
+		foreach (var SH in subscribeSpriteHandlers)
 		{
 			if (SH == null) continue;
-			SH.OnSpriteChanged.Remove(UpdateCurrentHighlight);
+			SH.OnSpriteUpdated.RemoveListener(UpdateCurrentHighlight);
 		}
 
-		SubscribeSpriteHandlers = Highlightobject.GetComponentsInChildren<SpriteHandler>().ToList();
-		foreach (var SH in SubscribeSpriteHandlers)
+		subscribeSpriteHandlers = Highlightobject.GetComponentsInChildren<SpriteHandler>().ToList();
+		foreach (var SH in subscribeSpriteHandlers)
 		{
 			if (SH == null) continue;
-			SH.OnSpriteChanged.Remove(UpdateCurrentHighlight);
-			SH.OnSpriteChanged.Add(UpdateCurrentHighlight);
+			SH.OnSpriteUpdated.AddListener(UpdateCurrentHighlight);
 		}
 
 		SpriteRenderers = SpriteRenderers.Where(x => x.sprite != null && x != instance.spriteRenderer).ToArray();
@@ -177,6 +179,7 @@ public class Highlight : MonoBehaviour, IInitialise
 
 			foreach (var T in SpriteRenderers)
 			{
+				if (T.sortingLayerName == "Preview") continue;
 				RecursiveTextureStack(mainTex, T);
 			}
 
@@ -200,28 +203,29 @@ public class Highlight : MonoBehaviour, IInitialise
 				y < SpriteRenderers.sprite.textureRect.position.y + SpriteRenderers.sprite.rect.height;
 				y++)
 			{
+				if (SpriteRenderers.gameObject.activeInHierarchy == false) continue;
 				//Logger.Log(yy + " <XX YY> " + xx + "   " +  x + " <X Y> " + y  );
 				if (SpriteRenderers.sprite.texture.GetPixel(x, y).a != 0)
 				{
 					mainTex.SetPixel(xx, yy, SpriteRenderers.sprite.texture.GetPixel(x, y));
 				}
 
-				yy = yy + 1;
+				yy += 1;
 			}
 
 			yy = 3;
-			xx = xx + 1;
+			xx += 1;
 		}
 	}
 
 	public void OnDestroy()
 	{
-		foreach (var SH in SubscribeSpriteHandlers)
+		foreach (var SH in subscribeSpriteHandlers)
 		{
 			if (SH == null) continue;
-			SH.OnSpriteChanged.Remove(UpdateCurrentHighlight);
+			SH.OnSpriteUpdated.RemoveListener(UpdateCurrentHighlight);
 		}
-		SubscribeSpriteHandlers.Clear();
+		subscribeSpriteHandlers.Clear();
 	}
 
 
@@ -241,7 +245,7 @@ public class Highlight : MonoBehaviour, IInitialise
 			var handAppliables = handApply.HandObject.GetComponents<MonoBehaviour>()
 				.Where(c => c != null && c.enabled &&
 				            (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
-			Logger.LogTraceFormat("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
+			Loggy.LogTraceFormat("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
 				Category.Interaction, handApply.HandObject.name, target.name);
 
 			foreach (var handAppliable in handAppliables.Reverse())
@@ -311,7 +315,7 @@ public class Highlight : MonoBehaviour, IInitialise
 			result = clientInteractable.Interact(interaction);
 			if (result)
 			{
-				Logger.LogTraceFormat("ClientInteractable triggered from {0} on {1} for object {2}",
+				Loggy.LogTraceFormat("ClientInteractable triggered from {0} on {1} for object {2}",
 					Category.Interaction, typeof(T).Name, clientInteractable.GetType().Name,
 					(clientInteractable as Component).gameObject.name);
 				Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Interaction);
@@ -325,7 +329,7 @@ public class Highlight : MonoBehaviour, IInitialise
 			result = checkable.WillInteract(interaction, side);
 			if (result)
 			{
-				Logger.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction,
+				Loggy.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction,
 					typeof(T).Name, checkable.GetType().Name,
 					(checkable as Component).gameObject.name);
 				return true;
@@ -337,7 +341,7 @@ public class Highlight : MonoBehaviour, IInitialise
 			result = DefaultWillInteract.Default(interaction, side);
 			if (result)
 			{
-				Logger.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction,
+				Loggy.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction,
 					typeof(T).Name, interactable.GetType().Name,
 					(interactable as Component).gameObject.name);
 
@@ -345,7 +349,7 @@ public class Highlight : MonoBehaviour, IInitialise
 			}
 		}
 
-		Logger.LogTraceFormat("No interaction triggered from {0} on {1} for object {2}", Category.Interaction,
+		Loggy.LogTraceFormat("No interaction triggered from {0} on {1} for object {2}", Category.Interaction,
 			typeof(T).Name, interactable.GetType().Name,
 			(interactable as Component).gameObject.name);
 

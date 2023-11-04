@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Nuclear Operative Reinforcement
   description: 
+  descriptionAdmin: Nuclear operatives that wanna destroy station
   sprite: {fileID: 11400000, guid: 4c7cb9ad35597ae4bb6824f2232ec36d, type: 2}
   respawnType: 1
   targetOccupation: {fileID: 0}
@@ -21,4 +22,5 @@ MonoBehaviour:
   minPlayers: 1
   maxPlayers: 1
   timeout: 60
+  team: {fileID: 0}
   playerCountType: 1

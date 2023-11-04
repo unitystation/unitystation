@@ -78,7 +78,7 @@ TextureImporter:
       213: 21300048
     second: silver_24
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -95,11 +95,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -138,6 +139,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -189,6 +192,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -738,34 +753,33 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      silver_9: 21300018
-      silver_7: 21300014
-      silver_5: 21300010
       silver_0: 21300000
-      silver_18: 21300036
-      silver_6: 21300012
       silver_1: 21300002
-      silver_15: 21300030
-      silver_19: 21300038
-      silver_21: 21300042
-      silver_23: 21300046
-      silver_3: 21300006
-      silver_22: 21300044
-      silver_12: 21300024
-      silver_14: 21300028
+      silver_10: 21300020
       silver_11: 21300022
+      silver_12: 21300024
       silver_13: 21300026
-      silver_17: 21300034
-      silver_8: 21300016
-      silver_4: 21300008
+      silver_14: 21300028
+      silver_15: 21300030
       silver_16: 21300032
-      silver_24: 21300048
+      silver_17: 21300034
+      silver_18: 21300036
+      silver_19: 21300038
       silver_2: 21300004
       silver_20: 21300040
-      silver_10: 21300020
-  spritePackingTag: 
+      silver_21: 21300042
+      silver_22: 21300044
+      silver_23: 21300046
+      silver_24: 21300048
+      silver_3: 21300006
+      silver_4: 21300008
+      silver_5: 21300010
+      silver_6: 21300012
+      silver_7: 21300014
+      silver_8: 21300016
+      silver_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

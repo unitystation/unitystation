@@ -1,21 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using HealthV2;
 using Mirror;
 using NaughtyAttributes;
 using Systems.Electricity;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 
 namespace Objects.Machines
 {
-	public class Gibber : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>, IExaminable, IRightClickable
+	public class Gibber : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>, IExaminable, IRightClickable, IHoverTooltip
 	{
 		[SerializeField] private ObjectContainer storage;
 		[SerializeField] private UniversalObjectPhysics physics;
 		[SerializeField] private Integrity machineIntegrity;
-		[SerializeField] private float timeToGib = 12f;
-		[SerializeField] private int produceMultiplier = 4;
+		[SerializeField] private int numberOfTimesToDamage = 8;
+		[SerializeField] private int produceMultiplier = 3;
 		[SerializeField] private int damagePerFrame = 20;
 		[SerializeField] private GameObject defaultProduce;
 		[SerializeField] private SpriteHandler lights;
@@ -23,12 +25,13 @@ namespace Objects.Machines
 		[SerializeField] private SpriteDataSO lightson;
 
 		private bool isRunning = false;
+		private int damageNumber = 0;
 
 		private Dictionary<GameObject, int> gibbed = new Dictionary<GameObject, int>();
 
-		private const float DAMAGE_TIME = 0.6f;
+		private const float DAMAGE_TIME = 1.8f;
 		private const int HALF = 2;
-		private const float LOW_HEALTH = -100f;
+		private const float LOW_HEALTH = -75f;
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -48,8 +51,21 @@ namespace Objects.Machines
 				return;
 			}
 
+			if (storage.IsEmpty)
+			{
+				Chat.AddExamineMsg(interaction.Performer, "This Gibber has nothing inside of it.");
+				return;
+			}
+
 			isRunning = !isRunning;
-			if (isRunning) StartCoroutine(GibbingTime());
+			if (isRunning)
+			{
+				StartGibbing();
+			}
+			else
+			{
+				StopGibbing();
+			}
 		}
 
 		public bool WillInteract(MouseDrop interaction, NetworkSide side)
@@ -65,52 +81,46 @@ namespace Objects.Machines
 			storage.StoreObject(interaction.DroppedObject);
 		}
 
-		private IEnumerator GibbingTime()
+		private void StartGibbing()
 		{
-			Chat.AddLocalMsgToChat("The gibber violently shakes as it shreds everything inside of it.", gameObject);
+			Chat.AddActionMsgToChat(gameObject, "The gibber violently shakes as it shreds everything inside of it.");
 			lights.SetSpriteSO(lightson);
-			int time = 0;
-			while (isRunning)
-			{
-				if(timeToGib <= time) break;
-				time++;
-				yield return WaitFor.Seconds(DAMAGE_TIME);
-				yield return CheckContentAndHarm();
-			}
+			UpdateManager.Add(CheckContentAndHarm, DAMAGE_TIME);
+		}
 
-			foreach (var slot in storage.GetStoredObjects().Reverse())
-			{
-				_ = Despawn.ServerSingle(slot);
-			}
-
+		private void StopGibbing()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckContentAndHarm);
+			Chat.AddActionMsgToChat(gameObject, "The gibber stops vibrating as it finishes its operation.");
+			lights.SetSpriteSO(lightsoff);
 			storage.RetrieveObjects();
 
 			foreach (var products in gibbed)
 			{
-				_ = Spawn.ServerPrefab(products.Key, gameObject.TileWorldPosition().To3(), gameObject.RegisterTile().Matrix.transform,
+				_ = Spawn.ServerPrefab(products.Key, gameObject.transform.position, gameObject.RegisterTile().Matrix.transform,
 					null, Mathf.Max(1, products.Value));
 			}
 			gibbed.Clear();
 			isRunning = false;
-			Chat.AddLocalMsgToChat("The gibber stops vibrating as it finishes its operation.", gameObject);
-			lights.SetSpriteSO(lightsoff);
+			numberOfTimesToDamage = 0;
+			damageNumber = 0;
 		}
 
-		private IEnumerator CheckContentAndHarm()
+		private void CheckContentAndHarm()
 		{
+			damageNumber++;
 			foreach (var slot in storage.GetStoredObjects().Reverse())
 			{
 				if (slot.TryGetComponent<LivingHealthMasterBase>(out var gib))
 				{
 					gib.ApplyDamageAll(gameObject, gib.PainScreamDamage + damagePerFrame,
 						AttackType.Melee, DamageType.Brute, true);
-					if (gib.OverallHealth > LOW_HEALTH) continue;
+					if (numberOfTimesToDamage / 2 > damageNumber) gib.Death();
+					if (gib.IsDead == false) continue;
 					var meatToProduce = gib.MeatProduce.OrNull() ?? defaultProduce;
 					var skinToProduce = gib.SkinProduce.OrNull() ?? defaultProduce;
 					AddItemsThatWillBeSpawned(meatToProduce, skinToProduce);
-					storage.RemoveObject(slot);
-					yield return WaitFor.EndOfFrame;
-					gib.OnGib();
+					storage.RetrieveObject(slot ,null, gib.OnGib);
 					continue;
 				}
 
@@ -118,7 +128,7 @@ namespace Objects.Machines
 				{
 					oldMob.Death();
 					AddItemsThatWillBeSpawned(defaultProduce);
-
+					_ = Despawn.ServerSingle(oldMob.gameObject);
 					continue;
 				}
 				if (slot.TryGetComponent<Integrity>(out var integrity) == false) continue;
@@ -128,6 +138,7 @@ namespace Objects.Machines
 					false, false, false, true);
 				integrity.ApplyDamage(damagePerFrame, AttackType.Melee, DamageType.Brute);
 			}
+			if (damageNumber > numberOfTimesToDamage) StopGibbing();
 		}
 
 		private void AddItemsThatWillBeSpawned(GameObject meat, GameObject skin = null)
@@ -151,11 +162,17 @@ namespace Objects.Machines
 			}
 		}
 
-		public string Examine(Vector3 worldPos = default(Vector3))
+		private string ExamineText()
 		{
+			if (physics.isNotPushable == false) return "It is not anchored. It will not function until it is.";
 			if (isRunning == false) return "The display reads 'Waiting..'";
 			var totalMeat = gibbed.Values.Sum();
 			return $"The display reads 'Current Output: {totalMeat}'";
+		}
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			return ExamineText();
 		}
 
 		public RightClickableResult GenerateRightClickOptions()
@@ -164,6 +181,48 @@ namespace Objects.Machines
 			if (isRunning) return rightClickResult;
 			rightClickResult.AddElement("Eject Content", () => storage.RetrieveObjects());
 			return rightClickResult;
+		}
+
+		public string HoverTip()
+		{
+			var SB = new StringBuilder();
+			SB.AppendLine("CAUTION: VERY DEADLY");
+			SB.AppendLine(ExamineText());
+			return SB.ToString();
+		}
+
+		public string CustomTitle()
+		{
+			var active = isRunning ? "[Active]" : "[Inactive]";
+			return gameObject.Object().ArticleName + $" {active}";
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			List<TextColor> interactions = new List<TextColor>()
+			{
+				new TextColor()
+				{
+					Color = Color.red,
+					Text = "Drag and drop object, item or mob to this object to put it inside."
+				},
+				new TextColor()
+				{
+					Color = Color.red,
+					Text = "Click on this with an empty hand to activate it."
+				}
+			};
+			return interactions;
 		}
 	}
 }

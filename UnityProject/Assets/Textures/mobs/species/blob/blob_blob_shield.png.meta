@@ -147,7 +147,7 @@ TextureImporter:
       213: 21300094
     second: blob_shield_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      blob_shield_32: 21300064
-      blob_shield_25: 21300050
-      blob_shield_17: 21300034
-      blob_shield_30: 21300060
-      blob_shield_36: 21300072
-      blob_shield_18: 21300036
-      blob_shield_4: 21300008
+      blob_shield_0: 21300000
       blob_shield_1: 21300002
+      blob_shield_10: 21300020
+      blob_shield_11: 21300022
+      blob_shield_12: 21300024
       blob_shield_13: 21300026
+      blob_shield_14: 21300028
+      blob_shield_15: 21300030
+      blob_shield_16: 21300032
+      blob_shield_17: 21300034
+      blob_shield_18: 21300036
+      blob_shield_19: 21300038
+      blob_shield_2: 21300004
+      blob_shield_20: 21300040
       blob_shield_21: 21300042
       blob_shield_22: 21300044
-      blob_shield_2: 21300004
-      blob_shield_12: 21300024
       blob_shield_23: 21300046
-      blob_shield_35: 21300070
-      blob_shield_15: 21300030
-      blob_shield_38: 21300076
-      blob_shield_14: 21300028
       blob_shield_24: 21300048
-      blob_shield_39: 21300078
-      blob_shield_37: 21300074
-      blob_shield_40: 21300080
-      blob_shield_7: 21300014
-      blob_shield_31: 21300062
-      blob_shield_45: 21300090
-      blob_shield_44: 21300088
-      blob_shield_33: 21300066
-      blob_shield_3: 21300006
-      blob_shield_10: 21300020
-      blob_shield_42: 21300084
+      blob_shield_25: 21300050
+      blob_shield_26: 21300052
+      blob_shield_27: 21300054
+      blob_shield_28: 21300056
       blob_shield_29: 21300058
+      blob_shield_3: 21300006
+      blob_shield_30: 21300060
+      blob_shield_31: 21300062
+      blob_shield_32: 21300064
+      blob_shield_33: 21300066
       blob_shield_34: 21300068
+      blob_shield_35: 21300070
+      blob_shield_36: 21300072
+      blob_shield_37: 21300074
+      blob_shield_38: 21300076
+      blob_shield_39: 21300078
+      blob_shield_4: 21300008
+      blob_shield_40: 21300080
+      blob_shield_41: 21300082
+      blob_shield_42: 21300084
       blob_shield_43: 21300086
-      blob_shield_11: 21300022
-      blob_shield_0: 21300000
-      blob_shield_19: 21300038
-      blob_shield_16: 21300032
-      blob_shield_9: 21300018
+      blob_shield_44: 21300088
+      blob_shield_45: 21300090
+      blob_shield_46: 21300092
+      blob_shield_47: 21300094
       blob_shield_5: 21300010
       blob_shield_6: 21300012
-      blob_shield_20: 21300040
-      blob_shield_26: 21300052
-      blob_shield_46: 21300092
-      blob_shield_41: 21300082
-      blob_shield_47: 21300094
+      blob_shield_7: 21300014
       blob_shield_8: 21300016
-      blob_shield_28: 21300056
-      blob_shield_27: 21300054
-  spritePackingTag: 
+      blob_shield_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

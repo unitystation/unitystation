@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using System;
+using Mirror;
 using NaughtyAttributes;
 
 #if UNITY_EDITOR
@@ -27,6 +28,20 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	[FormerlySerializedAs("InitialDirection")]
 	public OrientationEnum CurrentDirection;
 
+	public Vector2 WorldDirection
+	{
+		get
+		{
+			if (RegisterTile.Matrix.MatrixMove != null)
+			{
+				return CurrentDirection.ToLocalVector2Int()
+					.RotateVectorBy(RegisterTile.Matrix.MatrixMove.CurrentState.FacingDirection.LocalVector);
+			}
+
+			return CurrentDirection.ToLocalVector3();
+		}
+	}
+
 	[SyncVar(hook = nameof(SyncServerDirection))]
 	private OrientationEnum SynchroniseCurrentDirection;
 
@@ -43,6 +58,8 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	public bool IsAtmosphericDevice = false;
 	public bool doNotResetOtherSpriteOptions = false;
+
+	private RegisterTile RegisterTile;
 
 	/// <summary>
 	/// Invoked when this object's sprites should be updated to indicate it is facing the
@@ -204,6 +221,8 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		{
 			spriteHandlers = GetComponentsInChildren<SpriteHandler>();
 		}
+
+		RegisterTile = this.GetComponent<RegisterTile>();
 	}
 
 	public Quaternion ByDegreesToQuaternion(OrientationEnum dir)
@@ -279,11 +298,11 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		{
 			if (isChangingSO)
 			{
-				spriteHandler.ChangeSprite(spriteVariant, false);
+				spriteHandler.SetCatalogueIndexSprite(spriteVariant, false);
 			}
 			else
 			{
-				spriteHandler.ChangeSpriteVariant(spriteVariant, false);
+				spriteHandler.SetSpriteVariant(spriteVariant, false);
 			}
 		}
 	}
@@ -334,11 +353,11 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 			{
 				if (isChangingSO)
 				{
-					spriteHandler.ChangeSprite(0, false);
+					spriteHandler.SetCatalogueIndexSprite(0, false);
 				}
 				else
 				{
-					spriteHandler.ChangeSpriteVariant(0, false);
+					spriteHandler.SetSpriteVariant(0, false);
 				}
 			}
 		}
@@ -406,6 +425,31 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		else
 		{
 			DebugGizmoUtils.DrawArrow(transform.position, CurrentDirection.ToLocalVector3());
+		}
+	}
+
+	public Vector3Int GetOppositeVectorToDirection()
+	{
+		var position = gameObject.AssumedWorldPosServer().CutToInt();
+		switch (CurrentDirection.GetOppositeDirection())
+		{
+			case OrientationEnum.Default:
+				position.y -= 1;
+				return position;
+			case OrientationEnum.Right_By270:
+				position.x += 1;
+				return position;
+			case OrientationEnum.Up_By0:
+				position.y += 1;
+				return position;
+			case OrientationEnum.Left_By90:
+				position.x -= 1;
+				return position;
+			case OrientationEnum.Down_By180:
+				position.y -= 1;
+				return position;
+			default:
+				throw new ArgumentOutOfRangeException();
 		}
 	}
 

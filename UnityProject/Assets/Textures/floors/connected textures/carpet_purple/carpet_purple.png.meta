@@ -147,7 +147,7 @@ TextureImporter:
       213: -7464558202129937811
     second: carpet_purple_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      carpet_purple_40: -797328461964571703
-      carpet_purple_14: -4150018759615763488
-      carpet_purple_23: 1810855337037614509
-      carpet_purple_7: 6383825179786179825
-      carpet_purple_28: -6842312974969117072
-      carpet_purple_5: -6017271573063180914
-      carpet_purple_25: 46551501769445418
-      carpet_purple_10: -4774638414953315043
-      carpet_purple_43: 3195533717670134718
-      carpet_purple_33: -8052182528734808720
-      carpet_purple_18: 7093722313734890987
-      carpet_purple_37: 2519837862114015530
-      carpet_purple_3: -7080341681622315233
-      carpet_purple_9: 1382024311538393319
-      carpet_purple_21: 7240059242379950359
-      carpet_purple_15: -4059458321768587624
-      carpet_purple_31: 193097112524607272
-      carpet_purple_4: 2753541393087714708
-      carpet_purple_36: 2175651155448447504
-      carpet_purple_6: -2010439355816437397
-      carpet_purple_34: -6840529686551702199
-      carpet_purple_19: 7785535717606366342
-      carpet_purple_17: 5292434896494067587
-      carpet_purple_32: 7038110573101954831
-      carpet_purple_45: -6070135532242620317
-      carpet_purple_13: -499605570927021808
-      carpet_purple_26: -8685206806089853491
-      carpet_purple_46: 4809713024996785418
-      carpet_purple_29: -6886684841293384144
-      carpet_purple_41: -487419104336643875
-      carpet_purple_1: 2079679827476040929
-      carpet_purple_44: 6377417343794789285
-      carpet_purple_2: -8250837274064290959
       carpet_purple_0: -6551163809413590484
-      carpet_purple_12: 2908792070326858860
-      carpet_purple_8: -6637766366185628079
-      carpet_purple_30: 5102344559939818108
+      carpet_purple_1: 2079679827476040929
+      carpet_purple_10: -4774638414953315043
       carpet_purple_11: 6016261362112620415
-      carpet_purple_39: 6192141654390043049
-      carpet_purple_47: -7464558202129937811
-      carpet_purple_20: -4721556280548869247
-      carpet_purple_35: 2817585651943774873
-      carpet_purple_22: 3696203972655026403
-      carpet_purple_24: -323985192229134609
+      carpet_purple_12: 2908792070326858860
+      carpet_purple_13: -499605570927021808
+      carpet_purple_14: -4150018759615763488
+      carpet_purple_15: -4059458321768587624
       carpet_purple_16: -4141331627234101259
-      carpet_purple_38: 7997549601042927505
+      carpet_purple_17: 5292434896494067587
+      carpet_purple_18: 7093722313734890987
+      carpet_purple_19: 7785535717606366342
+      carpet_purple_2: -8250837274064290959
+      carpet_purple_20: -4721556280548869247
+      carpet_purple_21: 7240059242379950359
+      carpet_purple_22: 3696203972655026403
+      carpet_purple_23: 1810855337037614509
+      carpet_purple_24: -323985192229134609
+      carpet_purple_25: 46551501769445418
+      carpet_purple_26: -8685206806089853491
       carpet_purple_27: 1398339301371545326
+      carpet_purple_28: -6842312974969117072
+      carpet_purple_29: -6886684841293384144
+      carpet_purple_3: -7080341681622315233
+      carpet_purple_30: 5102344559939818108
+      carpet_purple_31: 193097112524607272
+      carpet_purple_32: 7038110573101954831
+      carpet_purple_33: -8052182528734808720
+      carpet_purple_34: -6840529686551702199
+      carpet_purple_35: 2817585651943774873
+      carpet_purple_36: 2175651155448447504
+      carpet_purple_37: 2519837862114015530
+      carpet_purple_38: 7997549601042927505
+      carpet_purple_39: 6192141654390043049
+      carpet_purple_4: 2753541393087714708
+      carpet_purple_40: -797328461964571703
+      carpet_purple_41: -487419104336643875
       carpet_purple_42: 6179128418590260965
-  spritePackingTag: 
+      carpet_purple_43: 3195533717670134718
+      carpet_purple_44: 6377417343794789285
+      carpet_purple_45: -6070135532242620317
+      carpet_purple_46: 4809713024996785418
+      carpet_purple_47: -7464558202129937811
+      carpet_purple_5: -6017271573063180914
+      carpet_purple_6: -2010439355816437397
+      carpet_purple_7: 6383825179786179825
+      carpet_purple_8: -6637766366185628079
+      carpet_purple_9: 1382024311538393319
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

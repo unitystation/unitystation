@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
@@ -21,6 +22,11 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: _assetId
+      value: 280447318
       objectReference: {fileID: 0}
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -45,19 +51,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3806105522999988684, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: c7334a993340f4d4b89ed839af66d1c7,
         type: 2}
     - target: {fileID: 3806105522999988684, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: c7334a993340f4d4b89ed839af66d1c7,
         type: 2}
     - target: {fileID: 3806105522999988684, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 5f32ea90104d6cc499a92661389bfc31,
         type: 2}
@@ -160,6 +166,13 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 8405b667c7db4204ba4079f63b2d7e99,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1540507996971235209}
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}
 --- !u!114 &1939264505622795277 stripped
 MonoBehaviour:
@@ -192,3 +205,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteHandler: {fileID: 1939264505622795277}
+  trackingBeaconType: 0

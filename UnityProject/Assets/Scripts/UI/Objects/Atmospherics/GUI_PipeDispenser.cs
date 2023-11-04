@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Items;
 using UnityEngine;
 using UI.Core.NetUI;
 using Objects.Atmospherics;
+using UI.Systems.Tooltips.HoverTooltips;
 
 // TODO: Figure out toggling a toggle's interactable.
 // TODO: Add hover box to dispensable objects, showing the object's
@@ -11,7 +13,7 @@ using Objects.Atmospherics;
 
 namespace UI.Objects.Atmospherics
 {
-	public class GUI_PipeDispenser : NetTab
+	public class GUI_PipeDispenser : NetTab, IHoverTooltip
 	{
 		[SerializeField] private NetPageSwitcher categorySwitcher = default;
 		[SerializeField] private NetPageSwitcher dispensePageSwitcher = default;
@@ -28,6 +30,8 @@ namespace UI.Objects.Atmospherics
 		private Color pipeColor;
 
 		private PipeDispenser pipeDispenser;
+
+		private GameObject currentHoverTarget;
 
 		#region Initialisation
 
@@ -148,6 +152,34 @@ namespace UI.Objects.Atmospherics
 			pipeDispenser.Dispense(objectPrefab, pipeLayer, pipeColor);
 		}
 
+		public void ClientSetDispenseToolTip(GameObject target)
+		{
+			currentHoverTarget = target;
+			UIManager.SetHoverToolTip = this.gameObject;
+		}
+
+		public void ClientResetTip()
+		{
+			currentHoverTarget = null;
+			UIManager.SetHoverToolTip = null;
+		}
+
 		#endregion Buttons
+
+		public string HoverTip()
+		{
+			return currentHoverTarget.GetComponent<Attributes>().InitialDescription;
+		}
+
+		public string CustomTitle()
+		{
+			return currentHoverTarget.GetComponent<Attributes>().InitialName;
+		}
+
+		public Sprite CustomIcon() => null;
+
+		public List<Sprite> IconIndicators() => null;
+
+		public List<TextColor> InteractionsStrings() => null;
 	}
 }

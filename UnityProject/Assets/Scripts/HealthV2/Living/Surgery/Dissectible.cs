@@ -368,7 +368,7 @@ namespace HealthV2
 
 			public void SuccessfulProcedure()
 			{
-				if (RNG.Next(0, 100) > ThisSurgeryStep.SuccessChance)
+				if (RNG.Next(0, 100) < ThisSurgeryStep.FailChance)
 				{
 					UnsuccessfulProcedure();
 					return;

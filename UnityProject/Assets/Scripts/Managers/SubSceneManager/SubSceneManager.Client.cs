@@ -12,13 +12,14 @@ public partial class SubSceneManager
 {
 	private bool KillClientLoadingCoroutine = false;
 
-	private bool clientIsLoadingSubscene = false;
+	public bool clientIsLoadingSubscene = false;
 	public HashSet<SceneInfo> clientLoadedSubScenes = new HashSet<SceneInfo>();
 
 	private float waitTime = 0f;
 	private readonly float tickRate = 1f;
 
 	public Dictionary<string, bool> ClientObserver = new Dictionary<string, bool>();
+
 
 	void MonitorServerSceneListOnClient()
 	{
@@ -135,6 +136,7 @@ public partial class SubSceneManager
 
 		ClientObserver.Clear();
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
+		ClientSideFinishAction = null;
 		OnFinish.Invoke();
 	}
 

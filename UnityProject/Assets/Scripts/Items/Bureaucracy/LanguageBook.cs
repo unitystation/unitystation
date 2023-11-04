@@ -158,11 +158,11 @@ namespace Items.Bureaucracy
 			if(languageFound == null) return;
 
 			languageToLearn = languageFound;
-			Chat.AddLocalMsgToChat($"The book transforms into the book for {languageToLearn.LanguageName}", gameObject);
+			Chat.AddActionMsgToChat(gameObject, $"The book transforms into the book for {languageToLearn.LanguageName}.");
 
 			var itemAtt = GetComponent<ItemAttributesV2>();
-			itemAtt.ServerSetArticleName($"{languageToLearn.LanguageName} Manuel");
-			itemAtt.ServerSetArticleDescription($"A manuel to learn {languageToLearn.LanguageName}");
+			itemAtt.ServerSetArticleName($"{languageToLearn.LanguageName} Manual");
+			itemAtt.ServerSetArticleDescription($"A manual to learn {languageToLearn.LanguageName}");
 		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))

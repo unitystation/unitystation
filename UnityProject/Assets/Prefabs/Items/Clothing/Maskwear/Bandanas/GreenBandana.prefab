@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 25715693032685112, guid: ff09e60d118a31e478d827be7faa2f0b,
@@ -24,13 +25,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 44155453462962640, guid: ff09e60d118a31e478d827be7faa2f0b,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 624b82e41879a1f4a88066ffa1437a5e,
         type: 2}
     - target: {fileID: 44155453462962640, guid: ff09e60d118a31e478d827be7faa2f0b,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 97126e7937d82084c8cfc00ef682b811,
         type: 2}
@@ -102,6 +103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6446287369552793569, guid: ff09e60d118a31e478d827be7faa2f0b,
         type: 3}
+      propertyPath: _assetId
+      value: 1622095009
+      objectReference: {fileID: 0}
+    - target: {fileID: 6446287369552793569, guid: ff09e60d118a31e478d827be7faa2f0b,
+        type: 3}
       propertyPath: m_AssetId
       value: bc01a1bad8c4a2744a5638b8951be2c6
       objectReference: {fileID: 0}
@@ -122,4 +128,7 @@ PrefabInstance:
       value: A fine green bandana with nanotech lining and a hydroponics pattern.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff09e60d118a31e478d827be7faa2f0b, type: 3}

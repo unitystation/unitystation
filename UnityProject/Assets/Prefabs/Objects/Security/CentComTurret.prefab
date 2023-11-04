@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1526276624429649764, guid: 24217cb8b2338a3479aaf8d32b727ed1,
@@ -104,7 +105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
-      propertyPath: authorisedAccess.Array.data[0]
+      propertyPath: 'authorisedAccess.Array.data[0]'
       value: 81
       objectReference: {fileID: 0}
     - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
@@ -119,12 +120,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
-      propertyPath: authorisedClearance.Array.data[0]
+      propertyPath: 'authorisedClearance.Array.data[0]'
       value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
-      propertyPath: weaponAuthorisation.Array.data[0]
+      propertyPath: 'weaponAuthorisation.Array.data[0]'
       value: 81
       objectReference: {fileID: 0}
     - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
@@ -134,7 +135,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
-      propertyPath: weaponAuthorisationClearance.Array.data[0]
+      propertyPath: 'weaponAuthorisationClearance.Array.data[0]'
       value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 2476844167198961965, guid: 24217cb8b2338a3479aaf8d32b727ed1,
@@ -149,8 +150,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6986135575158340102, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
+      propertyPath: _assetId
+      value: 3757586470
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986135575158340102, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
       propertyPath: m_AssetId
       value: b5ad133516f9c7a4d957505a336aa1f7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24217cb8b2338a3479aaf8d32b727ed1, type: 3}

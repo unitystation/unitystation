@@ -4,6 +4,7 @@ using System.Text;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
 using Mirror;
+using Systems.Construction.Parts;
 using UnityEditor;
 using UnityEngine;
 using Weapons.Projectiles;

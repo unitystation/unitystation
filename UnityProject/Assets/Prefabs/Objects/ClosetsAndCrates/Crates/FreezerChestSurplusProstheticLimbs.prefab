@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 28495744637739719, guid: ed8901b8487af7841b732663341262ca,
@@ -16,6 +17,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A freezer chest containing an assortment of cheap prosthetic limbs.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233160041846999189, guid: ed8901b8487af7841b732663341262ca,
+        type: 3}
+      propertyPath: _assetId
+      value: 2522195624
       objectReference: {fileID: 0}
     - target: {fileID: 1233160041846999189, guid: ed8901b8487af7841b732663341262ca,
         type: 3}
@@ -101,4 +107,7 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents:
     - {fileID: 0}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed8901b8487af7841b732663341262ca, type: 3}

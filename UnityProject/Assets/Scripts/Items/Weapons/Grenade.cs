@@ -1,11 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Systems.Explosions;
 using AddressableReferences;
-using Messages.Server.SoundMessages;
 using Objects;
+using UnityEngine.Events;
 
 namespace Items.Weapons
 {
@@ -43,6 +42,8 @@ namespace Items.Weapons
 		//this object's registerObject
 		private RegisterItem registerItem;
 		private UniversalObjectPhysics objectPhysics;
+
+		public UnityEvent OnExpload = new UnityEvent();
 
 		private void Start()
 		{
@@ -113,7 +114,7 @@ namespace Items.Weapons
 		private void UpdateSprite(int sprite)
 		{
 			// Update sprite in game
-			spriteHandler?.ChangeSprite(sprite);
+			spriteHandler?.SetCatalogueIndexSprite(sprite);
 		}
 
 		/// <summary>
@@ -136,9 +137,11 @@ namespace Items.Weapons
 			{
 				return;
 			}
-			hasExploded = true;
 
-			if (isServer)
+			hasExploded = true;
+			OnExpload?.Invoke();
+
+			if (isServer && explosionPrefab != null)
 			{
 				// Get data from grenade before despawning
 				var explosionMatrix = registerItem.Matrix;

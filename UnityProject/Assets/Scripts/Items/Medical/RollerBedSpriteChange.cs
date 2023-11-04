@@ -4,8 +4,8 @@ using Objects;
 namespace Items.Medical
 {
 	///<summary>
-	/// Class which subscribes to the OnBuckle Event in BuckleInteract to enable the changing of sprites when someone 
-	/// is buckled and unbuckled from the bed. 
+	/// Class which subscribes to the OnBuckle Event in BuckleInteract to enable the changing of sprites when someone
+	/// is buckled and unbuckled from the bed.
 	///</summary>
 
 	public class RollerBedSpriteChange : MonoBehaviour
@@ -29,12 +29,12 @@ namespace Items.Medical
 		}
 		private void OnBuckle()
 		{
-			spriteHandler.ChangeSprite(ROLLER_BED_SPRITE_INDEX_UP);
+			spriteHandler.SetCatalogueIndexSprite(ROLLER_BED_SPRITE_INDEX_UP);
 		}
 
 		private void OnUnbuckle()
 		{
-			spriteHandler.ChangeSprite(ROLLER_BED_SPRITE_INDEX_DOWN);
+			spriteHandler.SetCatalogueIndexSprite(ROLLER_BED_SPRITE_INDEX_DOWN);
 		}
 	}
 }

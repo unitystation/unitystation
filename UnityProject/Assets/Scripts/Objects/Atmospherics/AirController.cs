@@ -9,6 +9,7 @@ using Objects.Wallmounts;
 using Shared.Systems.ObjectConnection;
 using Systems.Clearance;
 using UI.Objects.Atmospherics.Acu;
+using Items;
 
 
 namespace Objects.Atmospherics
@@ -92,6 +93,8 @@ namespace Objects.Atmospherics
 
 		private readonly AcuSample acuSample = new AcuSample();
 
+		private bool isEmagged = false;
+
 		#region Lifecycle
 
 		private bool IsReady => facingMetaNode != null;
@@ -130,7 +133,7 @@ namespace Objects.Atmospherics
 		{
 			UpdateAtmosphericAverage();
 			UpdateStatusProperties();
-			spriteHandler.ChangeSprite((int)OverallStatus);
+			spriteHandler.SetCatalogueIndexSprite((int)OverallStatus);
 
 			// Cycle will vacuum air, and then refill.
 			if (DesiredMode == AcuMode.Cycle && AtmosphericAverage.Pressure < AtmosConstants.ONE_ATMOSPHERE / 20)
@@ -258,11 +261,27 @@ namespace Objects.Atmospherics
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Id);
+			return Validations.HasItemTrait(interaction, CommonTraits.Instance.Id);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (isEmagged) return;
+
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag) && interaction.HandObject.TryGetComponent<Emag>(out var emag) && emag.EmagHasCharges())
+			{
+				IsLocked = false;
+				isEmagged = true;
+
+				emag.UseCharge(interaction);
+
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"The air controller unit sparks as you wave the emag across it.",
+					$"You hear sparking from somewhere nearby...");
+
+				return;
+			}
+
 			if (restricted.HasClearance(interaction.HandObject))
 			{
 				IsLocked = !IsLocked;
@@ -311,7 +330,7 @@ namespace Objects.Atmospherics
 					// StateUpdate() can be invoked before OnEnable() or before the matrix is ready.
 					if (IsReady)
 					{
-						spriteHandler.ChangeSprite((int) AcuStatus.Nominal);
+						spriteHandler.SetCatalogueIndexSprite((int) AcuStatus.Nominal);
 						UpdateManager.Add(PeriodicUpdate, 3);
 						PeriodicUpdate();
 					}
@@ -320,7 +339,7 @@ namespace Objects.Atmospherics
 					OverallStatus = AcuStatus.Off;
 					IsPowered = false;
 					UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
-					spriteHandler.ChangeSprite((int) AcuStatus.Off);
+					spriteHandler.SetCatalogueIndexSprite((int) AcuStatus.Off);
 					break;
 			}
 

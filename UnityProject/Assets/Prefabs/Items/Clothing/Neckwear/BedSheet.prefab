@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2530104291256965856, guid: b027dfa588d69d848a886ae80d5b25c2,
@@ -30,7 +31,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3325795963608167138, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: d96e193b334b1f645947536ddd99ee1c,
         type: 2}
@@ -93,49 +94,49 @@ PrefabInstance:
       objectReference: {fileID: 4900000, guid: cef7f0ebda45bd54e9d9c3fe7c86874a, type: 3}
     - target: {fileID: 8122024160340692485, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: a8e0e4dd1590ddc4dab6c0f799425e45,
         type: 3}
     - target: {fileID: 8122024160340692485, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: a8e0e4dd1590ddc4dab6c0f799425e45,
         type: 3}
     - target: {fileID: 8122024160340692485, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300004, guid: a8e0e4dd1590ddc4dab6c0f799425e45,
         type: 3}
     - target: {fileID: 8122024160340692485, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300006, guid: a8e0e4dd1590ddc4dab6c0f799425e45,
         type: 3}
     - target: {fileID: 8122024160340692485, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 27a072c88b5ca874daf05702b5b92ed9,
         type: 3}
     - target: {fileID: 8122024160340692485, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: 27a072c88b5ca874daf05702b5b92ed9,
         type: 3}
     - target: {fileID: 8122024160340692485, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300004, guid: 27a072c88b5ca874daf05702b5b92ed9,
         type: 3}
     - target: {fileID: 8122024160340692485, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300006, guid: 27a072c88b5ca874daf05702b5b92ed9,
         type: 3}
@@ -228,8 +229,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8633003412026072275, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
+      propertyPath: _assetId
+      value: 3912127665
+      objectReference: {fileID: 0}
+    - target: {fileID: 8633003412026072275, guid: b027dfa588d69d848a886ae80d5b25c2,
+        type: 3}
       propertyPath: m_AssetId
       value: 423cab216aa4e354f8159742cc80d10a
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b027dfa588d69d848a886ae80d5b25c2, type: 3}

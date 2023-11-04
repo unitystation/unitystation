@@ -27,7 +27,7 @@ TextureImporter:
       213: -8705412580890446912
     second: mineral_doors_wood_7
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -44,11 +44,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -87,6 +88,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -126,6 +129,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -318,17 +333,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      mineral_doors_wood_4: -6217071044803045452
       mineral_doors_wood_0: 5998971780127347687
       mineral_doors_wood_1: -1310488183284337629
-      mineral_doors_wood_6: -3106144914258224219
       mineral_doors_wood_2: -3907617079840002647
-      mineral_doors_wood_5: -4917641206016100688
-      mineral_doors_wood_7: -8705412580890446912
       mineral_doors_wood_3: 2177089641000843345
-  spritePackingTag: 
+      mineral_doors_wood_4: -6217071044803045452
+      mineral_doors_wood_5: -4917641206016100688
+      mineral_doors_wood_6: -3106144914258224219
+      mineral_doors_wood_7: -8705412580890446912
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

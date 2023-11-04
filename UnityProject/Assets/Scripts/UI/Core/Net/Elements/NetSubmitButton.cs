@@ -15,7 +15,7 @@ namespace UI.Core.NetUI
 
 		public override string Value {
 			get => SourceInputField?.text ?? "-1";
-			set {
+			protected set {
 				externalChange = true;
 				SourceInputField.text = value;
 				externalChange = false;

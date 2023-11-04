@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1822513943335648427, guid: 31d01d60b659392429fe6a6384563082,
@@ -16,6 +17,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: The part of the gun that makes the laser go pew.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2176208296632151677, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
+      propertyPath: _assetId
+      value: 487822992
       objectReference: {fileID: 0}
     - target: {fileID: 2176208296632151677, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
@@ -88,4 +94,7 @@ PrefabInstance:
       value: c6221bcd39e8b9a4b8315cd50d85c9b7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31d01d60b659392429fe6a6384563082, type: 3}

@@ -147,7 +147,7 @@ TextureImporter:
       213: 21300094
     second: carpet_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -256,6 +259,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -1278,57 +1293,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      carpet_42: 21300084
-      carpet_46: 21300092
-      carpet_26: 21300052
-      carpet_14: 21300028
-      carpet_17: 21300034
-      carpet_1: 21300002
-      carpet_7: 21300014
-      carpet_13: 21300026
-      carpet_24: 21300048
-      carpet_45: 21300090
-      carpet_33: 21300066
-      carpet_37: 21300074
-      carpet_11: 21300022
-      carpet_3: 21300006
-      carpet_43: 21300086
-      carpet_47: 21300094
-      carpet_2: 21300004
-      carpet_41: 21300082
       carpet_0: 21300000
-      carpet_20: 21300040
-      carpet_44: 21300088
-      carpet_18: 21300036
-      carpet_8: 21300016
-      carpet_23: 21300046
-      carpet_36: 21300072
+      carpet_1: 21300002
+      carpet_10: 21300020
+      carpet_11: 21300022
       carpet_12: 21300024
-      carpet_28: 21300056
-      carpet_40: 21300080
-      carpet_4: 21300008
-      carpet_21: 21300042
-      carpet_32: 21300064
-      carpet_5: 21300010
-      carpet_22: 21300044
-      carpet_29: 21300058
-      carpet_9: 21300018
-      carpet_6: 21300012
+      carpet_13: 21300026
+      carpet_14: 21300028
       carpet_15: 21300030
-      carpet_34: 21300068
-      carpet_38: 21300076
-      carpet_35: 21300070
       carpet_16: 21300032
-      carpet_27: 21300054
-      carpet_39: 21300078
+      carpet_17: 21300034
+      carpet_18: 21300036
+      carpet_19: 21300038
+      carpet_2: 21300004
+      carpet_20: 21300040
+      carpet_21: 21300042
+      carpet_22: 21300044
+      carpet_23: 21300046
+      carpet_24: 21300048
       carpet_25: 21300050
+      carpet_26: 21300052
+      carpet_27: 21300054
+      carpet_28: 21300056
+      carpet_29: 21300058
+      carpet_3: 21300006
       carpet_30: 21300060
       carpet_31: 21300062
-      carpet_19: 21300038
-      carpet_10: 21300020
-  spritePackingTag: 
+      carpet_32: 21300064
+      carpet_33: 21300066
+      carpet_34: 21300068
+      carpet_35: 21300070
+      carpet_36: 21300072
+      carpet_37: 21300074
+      carpet_38: 21300076
+      carpet_39: 21300078
+      carpet_4: 21300008
+      carpet_40: 21300080
+      carpet_41: 21300082
+      carpet_42: 21300084
+      carpet_43: 21300086
+      carpet_44: 21300088
+      carpet_45: 21300090
+      carpet_46: 21300092
+      carpet_47: 21300094
+      carpet_5: 21300010
+      carpet_6: 21300012
+      carpet_7: 21300014
+      carpet_8: 21300016
+      carpet_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

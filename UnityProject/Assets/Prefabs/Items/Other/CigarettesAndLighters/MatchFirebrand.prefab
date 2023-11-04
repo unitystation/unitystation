@@ -5,11 +5,12 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8400735363209450118, guid: c94f0c553fec1af4cb4d7289fcaf0701,
         type: 3}
-      propertyPath: groundReagents.m_keys.Array.data[0]
+      propertyPath: 'groundReagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 82692ea8680693d459ad97993dbda0f3,
         type: 2}
@@ -32,6 +33,11 @@ PrefabInstance:
         type: 3}
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 8382410430362312261, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: _assetId
+      value: 702541344
       objectReference: {fileID: 0}
     - target: {fileID: 8382410430362312261, guid: c94f0c553fec1af4cb4d7289fcaf0701,
         type: 3}
@@ -99,4 +105,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c94f0c553fec1af4cb4d7289fcaf0701, type: 3}

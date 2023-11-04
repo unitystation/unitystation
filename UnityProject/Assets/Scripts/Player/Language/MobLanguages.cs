@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Managers;
 using Mirror;
 using UI.Chat_UI;
@@ -267,7 +268,7 @@ namespace Player.Language
 					RemoveAddedLanguagesClient();
 					break;
 				default:
-					Logger.LogError($"Failed to find case: {op}");
+					Loggy.LogError($"Failed to find case: {op}");
 					return;
 			}
 		}
@@ -310,7 +311,7 @@ namespace Player.Language
 
 		#endregion
 
-		private struct NetworkLanguage
+		public struct NetworkLanguage
 		{
 			public ushort languageId;
 			public bool canUnderstand;

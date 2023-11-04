@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: cueball_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      cueball_10: 21300020
-      cueball_1: 21300002
-      cueball_3: 21300006
-      cueball_20: 21300040
-      cueball_11: 21300022
       cueball_0: 21300000
-      cueball_8: 21300016
-      cueball_15: 21300030
-      cueball_19: 21300038
-      cueball_24: 21300048
-      cueball_23: 21300046
-      cueball_13: 21300026
-      cueball_4: 21300008
-      cueball_16: 21300032
-      cueball_30: 21300060
-      cueball_2: 21300004
-      cueball_28: 21300056
-      cueball_22: 21300044
-      cueball_21: 21300042
-      cueball_27: 21300054
-      cueball_6: 21300012
-      cueball_17: 21300034
-      cueball_26: 21300052
-      cueball_31: 21300062
-      cueball_29: 21300058
-      cueball_18: 21300036
-      cueball_25: 21300050
-      cueball_9: 21300018
-      cueball_5: 21300010
+      cueball_1: 21300002
+      cueball_10: 21300020
+      cueball_11: 21300022
       cueball_12: 21300024
-      cueball_7: 21300014
+      cueball_13: 21300026
       cueball_14: 21300028
-  spritePackingTag: 
+      cueball_15: 21300030
+      cueball_16: 21300032
+      cueball_17: 21300034
+      cueball_18: 21300036
+      cueball_19: 21300038
+      cueball_2: 21300004
+      cueball_20: 21300040
+      cueball_21: 21300042
+      cueball_22: 21300044
+      cueball_23: 21300046
+      cueball_24: 21300048
+      cueball_25: 21300050
+      cueball_26: 21300052
+      cueball_27: 21300054
+      cueball_28: 21300056
+      cueball_29: 21300058
+      cueball_3: 21300006
+      cueball_30: 21300060
+      cueball_31: 21300062
+      cueball_4: 21300008
+      cueball_5: 21300010
+      cueball_6: 21300012
+      cueball_7: 21300014
+      cueball_8: 21300016
+      cueball_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Logs;
 using TMPro;
 using UnityEngine;
 
@@ -140,12 +141,12 @@ public class ChatBubble : MonoBehaviour, IDisposable
 	private void OnEnable()
 	{
 		cam = Camera.main;
-		UpdateManager.Add(CallbackType.LATE_UPDATE, UpdateMe);
+		UpdateManager.Add(CallbackType.POST_CAMERA_UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
+		UpdateManager.Remove(CallbackType.POST_CAMERA_UPDATE, UpdateMe);
 	}
 
 	public void AppendToBubble(string newMessage, ChatModifier chatModifier = ChatModifier.None)

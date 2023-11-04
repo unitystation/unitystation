@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 
 namespace Construction
@@ -96,7 +97,7 @@ namespace Construction
 				{
 					if (stackable.Amount < cost)
 					{
-						Logger.LogWarningFormat("Server logic error. " +
+						Loggy.LogWarningFormat("Server logic error. " +
 						                        "Tried building {0} with insufficient materials in hand ({1})." +
 						                        " Build will not be performed.", Category.Construction, name,
 							buildingMaterial);
@@ -108,7 +109,7 @@ namespace Construction
 				{
 					if (cost > 1)
 					{
-						Logger.LogWarningFormat("Server logic error. " +
+						Loggy.LogWarningFormat("Server logic error. " +
 						                        "Tried building {0} with insufficient materials in hand ({1})." +
 						                        " Build will not be performed.", Category.Construction, name,
 							buildingMaterial);

@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: holocontrol_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      holocontrol_10: 21300020
-      holocontrol_19: 21300038
-      holocontrol_25: 21300050
-      holocontrol_20: 21300040
-      holocontrol_9: 21300018
-      holocontrol_11: 21300022
       holocontrol_0: 21300000
-      holocontrol_3: 21300006
-      holocontrol_16: 21300032
-      holocontrol_13: 21300026
-      holocontrol_22: 21300044
-      holocontrol_29: 21300058
       holocontrol_1: 21300002
+      holocontrol_10: 21300020
+      holocontrol_11: 21300022
+      holocontrol_12: 21300024
+      holocontrol_13: 21300026
+      holocontrol_14: 21300028
+      holocontrol_15: 21300030
+      holocontrol_16: 21300032
+      holocontrol_17: 21300034
+      holocontrol_18: 21300036
+      holocontrol_19: 21300038
+      holocontrol_2: 21300004
+      holocontrol_20: 21300040
+      holocontrol_21: 21300042
+      holocontrol_22: 21300044
+      holocontrol_23: 21300046
+      holocontrol_24: 21300048
+      holocontrol_25: 21300050
       holocontrol_26: 21300052
+      holocontrol_27: 21300054
+      holocontrol_28: 21300056
+      holocontrol_29: 21300058
+      holocontrol_3: 21300006
+      holocontrol_30: 21300060
       holocontrol_31: 21300062
       holocontrol_4: 21300008
-      holocontrol_6: 21300012
-      holocontrol_14: 21300028
-      holocontrol_18: 21300036
-      holocontrol_21: 21300042
-      holocontrol_28: 21300056
-      holocontrol_15: 21300030
-      holocontrol_8: 21300016
-      holocontrol_17: 21300034
       holocontrol_5: 21300010
-      holocontrol_12: 21300024
-      holocontrol_24: 21300048
-      holocontrol_2: 21300004
+      holocontrol_6: 21300012
       holocontrol_7: 21300014
-      holocontrol_27: 21300054
-      holocontrol_30: 21300060
-      holocontrol_23: 21300046
-  spritePackingTag: 
+      holocontrol_8: 21300016
+      holocontrol_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

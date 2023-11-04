@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Logs;
 using UnityEditor;
 using UnityEngine;
 
@@ -26,12 +27,12 @@ public class LogLevels : EditorWindow
 
 	void OnEnable()
 	{
-		Logger.levelChange += CheckCategories;
+		Loggy.levelChange += CheckCategories;
 	}
 
 	void OnDisable()
 	{
-		Logger.levelChange -= CheckCategories;
+		Loggy.levelChange -= CheckCategories;
 	}
 
 	private void CheckCategories()
@@ -77,7 +78,7 @@ public class LogLevels : EditorWindow
 
 		if (Application.isPlaying)
 		{
-			Logger.RefreshPreferences();
+			Loggy.RefreshPreferences();
 		}
 	}
 

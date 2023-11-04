@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2916459844357016968, guid: fee295a4b61f370429840936c3956722,
@@ -81,7 +82,12 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 4980137051466096026}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3386979507669081950, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: _assetId
+      value: 3907447406
+      objectReference: {fileID: 0}
     - target: {fileID: 3386979507669081950, guid: fee295a4b61f370429840936c3956722,
         type: 3}
       propertyPath: m_AssetId
@@ -105,25 +111,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4593330484870900290, guid: fee295a4b61f370429840936c3956722,
         type: 3}
-      propertyPath: AdditionalReactions.Array.data[0]
+      propertyPath: 'AdditionalReactions.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: b9b2d19afaa324540a0b5a9d8bb203af,
         type: 2}
     - target: {fileID: 4593330484870900290, guid: fee295a4b61f370429840936c3956722,
         type: 3}
-      propertyPath: AdditionalReactions.Array.data[1]
+      propertyPath: 'AdditionalReactions.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: c57863b3f01a344e58e3fb4a55f80d3a,
         type: 2}
     - target: {fileID: 4593330484870900290, guid: fee295a4b61f370429840936c3956722,
         type: 3}
-      propertyPath: AdditionalReactions.Array.data[2]
+      propertyPath: 'AdditionalReactions.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 775e363ed10182c4dbb4e39792a14759,
         type: 2}
     - target: {fileID: 4593330484870900290, guid: fee295a4b61f370429840936c3956722,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 44d930a4eaefa064ba2d7c934f0bd0a9,
         type: 2}
@@ -134,6 +140,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3523207349366164119, guid: fee295a4b61f370429840936c3956722, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3356521420407087850, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4089827206837211520}
   m_SourcePrefab: {fileID: 100100000, guid: fee295a4b61f370429840936c3956722, type: 3}
 --- !u!1 &4938389421849145418 stripped
 GameObject:
@@ -153,6 +166,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba8febc3c8584802b87295d0f110959e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  consumeTime: 0.1
   drinkSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Slurp.prefab
@@ -162,15 +179,3 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   lungDamage: 30
---- !u!114 &4980137051466096026 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3387108457866989370, guid: fee295a4b61f370429840936c3956722,
-    type: 3}
-  m_PrefabInstance: {fileID: 7646106601405272736}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4938389421849145418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

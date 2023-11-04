@@ -25,6 +25,8 @@ namespace Light2D
         private Vector3 _oldLightOrigin;
         private LightShape _oldLightShape;
 
+        public int GivenID = 0;
+
         public MeshRenderer Renderer
         {
             get { return _meshRenderer; }
@@ -82,7 +84,7 @@ namespace Light2D
 	        {
 		        return;
 	        }
-	        
+
             if (IsPartOfStaticBatch)
                 return;
 

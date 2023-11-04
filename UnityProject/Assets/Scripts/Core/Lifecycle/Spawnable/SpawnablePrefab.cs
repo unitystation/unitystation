@@ -1,5 +1,6 @@
 
 using Items;
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -43,7 +44,7 @@ public class SpawnablePrefab : ISpawnable, IClientSpawnable
 		GameObject prefab = Spawn.GetPrefabByName(prefabName);
 		if (prefab == null)
 		{
-			Logger.LogErrorFormat("Attempted to spawn prefab with name {0} which is either not an actual prefab name or" +
+			Loggy.LogErrorFormat("Attempted to spawn prefab with name {0} which is either not an actual prefab name or" +
 			                      " is a prefab which is not spawnable. Request to spawn will be ignored.", Category.ItemSpawn, prefabName);
 			return null;
 		}
@@ -56,10 +57,10 @@ public class SpawnablePrefab : ISpawnable, IClientSpawnable
 
 		if (prefab == null)
 		{
-			Logger.LogWarning("Cannot spawn, prefab to use is null", Category.ItemSpawn);
+			Loggy.LogWarning("Cannot spawn, prefab to use is null", Category.ItemSpawn);
 			return SpawnableResult.Fail(destination);
 		}
-		Logger.LogTraceFormat("Spawning using prefab {0}", Category.ItemSpawn, prefab);
+		Loggy.LogTraceFormat("Spawning using prefab {0}", Category.ItemSpawn, prefab);
 
 		if (Spawn._ObjectPool.TryPoolInstantiate(prefab, destination, false, out var spawnedObject))
 		{

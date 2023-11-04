@@ -63,7 +63,7 @@ TextureImporter:
       213: 21300038
     second: hierophant_squares_indefinite_19
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -80,11 +80,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -123,6 +124,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -138,6 +141,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -582,29 +597,28 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      hierophant_squares_indefinite_18: 21300036
-      hierophant_squares_indefinite_1: 21300002
       hierophant_squares_indefinite_0: 21300000
+      hierophant_squares_indefinite_1: 21300002
       hierophant_squares_indefinite_10: 21300020
-      hierophant_squares_indefinite_14: 21300028
-      hierophant_squares_indefinite_3: 21300006
-      hierophant_squares_indefinite_6: 21300012
-      hierophant_squares_indefinite_13: 21300026
+      hierophant_squares_indefinite_11: 21300022
       hierophant_squares_indefinite_12: 21300024
+      hierophant_squares_indefinite_13: 21300026
+      hierophant_squares_indefinite_14: 21300028
+      hierophant_squares_indefinite_15: 21300030
       hierophant_squares_indefinite_16: 21300032
+      hierophant_squares_indefinite_17: 21300034
+      hierophant_squares_indefinite_18: 21300036
+      hierophant_squares_indefinite_19: 21300038
       hierophant_squares_indefinite_2: 21300004
+      hierophant_squares_indefinite_3: 21300006
+      hierophant_squares_indefinite_4: 21300008
       hierophant_squares_indefinite_5: 21300010
+      hierophant_squares_indefinite_6: 21300012
+      hierophant_squares_indefinite_7: 21300014
       hierophant_squares_indefinite_8: 21300016
       hierophant_squares_indefinite_9: 21300018
-      hierophant_squares_indefinite_4: 21300008
-      hierophant_squares_indefinite_7: 21300014
-      hierophant_squares_indefinite_15: 21300030
-      hierophant_squares_indefinite_11: 21300022
-      hierophant_squares_indefinite_17: 21300034
-      hierophant_squares_indefinite_19: 21300038
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

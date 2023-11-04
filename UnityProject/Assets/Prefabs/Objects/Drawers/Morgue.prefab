@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 83141582606814714, guid: ebb08cf966efc084aa918bd8d9429604,
@@ -140,6 +141,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: _assetId
+      value: 2505665172
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: m_AssetId
       value: 0058e1fe0dba62b4db396c6a0bbfd99d
       objectReference: {fileID: 0}
@@ -172,31 +178,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 07bc0a179fef95440a12da419f0f613f,
         type: 2}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 1b5769c2db75cc2489c006203107270d,
         type: 2}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: b6c92a8d7cc26e6468460403d68fed78,
         type: 2}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[3]
+      propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 12cbdeead51b1dc49afae97b84e4dedd,
         type: 2}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[4]
+      propertyPath: 'SubCatalogue.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: b414608b6c8c7e74dbce20c71bf2ee42,
         type: 2}
@@ -226,6 +232,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2800000, guid: 0757f1f988ceba94db25bfb406984659, type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6615711806714216801}
+    - targetCorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2294396442231436740}
+    - targetCorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5627962479411611065}
+    - targetCorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7531466758217674494}
+    - targetCorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8559641278420770263}
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!1 &1876053485803257813 stripped
 GameObject:
@@ -245,6 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   MethodRotation: 0
@@ -296,21 +326,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf6a312c50114272bc561c429cbb4175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   StoredGasMix:
     GasData:
       GasesArray:
       - GasSO: {fileID: 11400000, guid: ac2834f2705dcbc4da8731a53d3076fc, type: 2}
-        Moles: 8.314244
+        moles: 8.314244
       - GasSO: {fileID: 11400000, guid: d7d4e6085864f9f4e83593f63d102d08, type: 2}
-        Moles: 33.256973
-    Pressure: 101.32501
+        moles: 33.256973
+    pressure: 101.32501
     Volume: 1
+    temperature: 293.15
   MaximumMoles: 1013.25
   ReleasePressure: 101.325
-  Volume: 1
-  Temperature: 293.15
   CargoSealApproved: 0
 --- !u!114 &8559641278420770263
 MonoBehaviour:
@@ -324,6 +354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d23a1b60ae85b34eb3841bdf4cc3531, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   BinOpenSFX:

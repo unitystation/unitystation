@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Logs;
 using Messages.Server;
 using Mirror;
 using Systems.Antagonists;
@@ -61,45 +63,52 @@ namespace HealthV2
 
 			//Can't hatch is player is dead, shouldn't be getting periodic updates if dead- but just as a double check.
 			if (RelatedPart.HealthMaster.IsDead) return;
-
-			RelatedPart.HealthMaster.ApplyDamageToBodyPart(
-				gameObject,
-				500,
-				AttackType.Internal,
-				DamageType.Brute,
-				BodyPartType.Chest);
-
-			var alienMind = PlayerSpawn.NewSpawnCharacterV2(xenomorphLarvaeOccupation, new CharacterSheet()
+			try
 			{
-				Name = "Larvae"
-			});
+				RelatedPart.HealthMaster.ApplyDamageToBodyPart(
+					gameObject,
+					500,
+					AttackType.Internal,
+					DamageType.Brute,
+					BodyPartType.Chest);
 
-			alienMind.PossessingObject.GetComponent<UniversalObjectPhysics>()
-				.AppearAtWorldPositionServer(RelatedPart.HealthMaster.gameObject.AssumedWorldPosServer());
+
+				var alienMind = PlayerSpawn.NewSpawnCharacterV2(xenomorphLarvaeOccupation, new CharacterSheet()
+				{
+					Name = "Larvae"
+				});
+
+				alienMind.PossessingObject.GetComponent<UniversalObjectPhysics>()
+					.AppearAtWorldPositionServer(RelatedPart.HealthMaster.gameObject.AssumedWorldPosServer());
 
 
 
 
-			if (checkPlayerScript.HasComponent)
-			{
-				//6 bursted sprite
-				SetSprite(6);
+				if (checkPlayerScript.HasComponent)
+				{
+					//6 bursted sprite
+					SetSprite(6);
+				}
+
+				if (checkPlayerScript.HasComponent && checkPlayerScript.Component.Mind.ControlledBy != null)
+				{
+					PlayerSpawn.TransferAccountToSpawnedMind(checkPlayerScript.Component.Mind.ControlledBy, alienMind);
+				}
+
+				var alienPlayer = alienMind.PossessingObject.GetComponent<AlienPlayer>();
+
+				alienPlayer.SetNewPlayer();
+				alienPlayer.DoConnectCheck();
+
+				//kill after transfer
+				RelatedPart.HealthMaster.Death();
+
+				RelatedPart.TryRemoveFromBody();
 			}
-
-			if (checkPlayerScript.HasComponent && checkPlayerScript.Component.Mind.ControlledBy != null)
+			catch (Exception e)
 			{
-				PlayerSpawn.TransferAccountToSpawnedMind(checkPlayerScript.Component.Mind.ControlledBy, alienMind);
+				Loggy.LogError(e.ToString());
 			}
-
-			var alienPlayer = alienMind.PossessingObject.GetComponent<AlienPlayer>();
-
-			alienPlayer.SetNewPlayer();
-			alienPlayer.DoConnectCheck();
-
-			//kill after transfer
-			RelatedPart.HealthMaster.Death();
-
-			RelatedPart.TryRemoveFromBody();
 
 			_ = Despawn.ServerSingle(gameObject);
 		}

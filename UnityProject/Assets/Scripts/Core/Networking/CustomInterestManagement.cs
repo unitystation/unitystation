@@ -22,20 +22,20 @@ namespace Core.Networking
 			return SceneManager.GetActiveScene() == identity.gameObject.scene;
 		}
 
-		public override void OnRebuildObservers(NetworkIdentity identity, HashSet<NetworkConnectionToClient> observers, bool initialize)
+		public override void OnRebuildObservers(NetworkIdentity identity, HashSet<NetworkConnectionToClient> newObservers)
 		{
 			foreach (var obs in NetworkServer.observerSceneList)
 			{
 				if (obs.Key == null) continue;
 				if (identity.gameObject.scene == SceneManager.GetActiveScene())
 				{
-					observers.Add(obs.Key);
+					newObservers.Add(obs.Key);
 				}
 				else
 				{
 					if (obs.Value.Contains(identity.gameObject.scene))
 					{
-						observers.Add(obs.Key);
+						newObservers.Add(obs.Key);
 					}
 				}
 			}

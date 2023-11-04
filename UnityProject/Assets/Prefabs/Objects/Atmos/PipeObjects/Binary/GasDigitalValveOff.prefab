@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1580494814286032113, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
@@ -121,22 +122,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6323048891065173547, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: fe962ea5af2fe97489faad0dd643324c,
         type: 2}
     - target: {fileID: 6323048891065173547, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 9d81c128df766634d856fd77a24c1ad5,
         type: 2}
     - target: {fileID: 6323048891065173547, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 5fa3ea4f4a7934346b82f9372697dab1,
         type: 2}
+    - target: {fileID: 6931842893682907539, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
+        type: 3}
+      propertyPath: _assetId
+      value: 3871808389
+      objectReference: {fileID: 0}
     - target: {fileID: 6931842893682907539, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
       propertyPath: m_AssetId
@@ -165,6 +171,13 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: c59c5e3dd182a7649a161ea1d0bbc672,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1580494814286032113, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 987146247690708519}
   m_SourcePrefab: {fileID: 100100000, guid: 40b91fa71481bb54cbec1e89fa1ff1d2, type: 3}
 --- !u!1 &2700386071862802071 stripped
 GameObject:
@@ -224,9 +237,9 @@ MonoBehaviour:
       gasMix:
         GasData:
           GasesArray: []
-        Pressure: 0
+        pressure: 0
         Volume: 2.5
-        Temperature: 293.15
+        temperature: 293.15
     MonoPipe: {fileID: 987146247690708519}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 1

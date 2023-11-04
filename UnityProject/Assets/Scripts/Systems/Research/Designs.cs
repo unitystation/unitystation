@@ -1,10 +1,12 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-using System.IO;
+using Logs;
+using SecureStuff;
 
 namespace Systems.Research
 {
@@ -62,6 +64,9 @@ namespace Systems.Research
 
 		static List<string> Jsons = new List<string>();
 
+		private static string TechWebFolder => "TechWeb";
+		private static string TechWebDesignsFolder => Path.Combine(TechWebFolder, "Designs");
+
 		void Awake()
 		{
 			if (!(Globals.IsInitialised))
@@ -70,13 +75,11 @@ namespace Systems.Research
 
 				Globals.InternalIDSearch = new Dictionary<string, Design>();
 
-				string info = Path.Combine(Application.streamingAssetsPath, "TechWeb", "Designs");
+				var files = AccessFile.DirectoriesOrFilesIn(TechWebDesignsFolder);
 
-				string[] fileInfo = Directory.GetFiles(info,"*.json");
-
-				foreach(string file in fileInfo)
+				foreach(string file in files)
 				{
-					Jsons.Add(File.ReadAllText(file));
+					Jsons.Add(AccessFile.Load(Path.Combine(TechWebDesignsFolder ,file)));
 				}
 
 				new Task(JsonImportInitialization).Start();
@@ -162,7 +165,7 @@ namespace Systems.Research
 				}
 
 			}
-			Logger.Log("JsonImportInitialization for designs is done!", Category.Research);
+			Loggy.Log("JsonImportInitialization for designs is done!", Category.Research);
 			Globals.IsInitialised = true;
 		}
 

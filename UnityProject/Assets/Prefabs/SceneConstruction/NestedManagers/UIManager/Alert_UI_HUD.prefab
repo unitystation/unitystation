@@ -31,7 +31,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 266305901285764759}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -110,7 +109,6 @@ RectTransform:
   m_Children:
   - {fileID: 8030135661756295973}
   m_Father: {fileID: 8232259481283617645}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -223,6 +221,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseTooltip: 
+  baseExitTooltip: 
   useObjectName: 0
   hoverName: Cuffed
 --- !u!1 &3649146278576809436
@@ -259,7 +259,6 @@ RectTransform:
   m_Children:
   - {fileID: 7852298525453574278}
   m_Father: {fileID: 8232259481283617645}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -372,6 +371,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseTooltip: 
+  baseExitTooltip: 
   useObjectName: 0
   hoverName: Toggle Mag Boots
 --- !u!1 &4496686093604667891
@@ -405,7 +406,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1259841247227107641}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -484,7 +484,6 @@ RectTransform:
   m_Children:
   - {fileID: 6739201316834327378}
   m_Father: {fileID: 8232259481283617645}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -597,6 +596,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseTooltip: 
+  baseExitTooltip: 
   useObjectName: 0
   hoverName: Switch Pickup Mode
 --- !u!1 &8153163913192884163
@@ -636,7 +637,6 @@ RectTransform:
   - {fileID: 1259841247227107641}
   - {fileID: 266305901285764759}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -756,7 +756,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8232259481283617645}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -869,6 +868,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseTooltip: 
+  baseExitTooltip: 
   useObjectName: 0
   hoverName: Buckled
 --- !u!1 &8298666828600119355
@@ -902,7 +903,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1869992359917382297}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}

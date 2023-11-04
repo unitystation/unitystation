@@ -93,7 +93,7 @@ TextureImporter:
       213: 21300058
     second: cult_29
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -110,11 +110,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -153,6 +154,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -192,6 +195,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -847,38 +862,37 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       cult_0: 21300000
+      cult_1: 21300002
+      cult_10: 21300020
+      cult_11: 21300022
+      cult_12: 21300024
+      cult_13: 21300026
+      cult_14: 21300028
+      cult_15: 21300030
       cult_16: 21300032
-      cult_28: 21300056
-      cult_27: 21300054
-      cult_24: 21300048
+      cult_17: 21300034
+      cult_18: 21300036
+      cult_19: 21300038
+      cult_2: 21300004
+      cult_20: 21300040
       cult_21: 21300042
+      cult_22: 21300044
+      cult_23: 21300046
+      cult_24: 21300048
+      cult_25: 21300050
+      cult_26: 21300052
+      cult_27: 21300054
+      cult_28: 21300056
+      cult_29: 21300058
+      cult_3: 21300006
+      cult_4: 21300008
+      cult_5: 21300010
+      cult_6: 21300012
+      cult_7: 21300014
       cult_8: 21300016
       cult_9: 21300018
-      cult_4: 21300008
-      cult_18: 21300036
-      cult_26: 21300052
-      cult_10: 21300020
-      cult_22: 21300044
-      cult_25: 21300050
-      cult_20: 21300040
-      cult_5: 21300010
-      cult_1: 21300002
-      cult_13: 21300026
-      cult_19: 21300038
-      cult_6: 21300012
-      cult_17: 21300034
-      cult_11: 21300022
-      cult_14: 21300028
-      cult_7: 21300014
-      cult_15: 21300030
-      cult_23: 21300046
-      cult_12: 21300024
-      cult_29: 21300058
-      cult_2: 21300004
-      cult_3: 21300006
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

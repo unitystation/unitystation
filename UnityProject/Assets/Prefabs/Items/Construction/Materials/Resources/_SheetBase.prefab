@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
@@ -74,6 +75,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
+      propertyPath: _assetId
+      value: 2717410596
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
       propertyPath: m_AssetId
       value: b56fec0300832ce48ade0ddf2e577ee7
       objectReference: {fileID: 0}
@@ -114,32 +120,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: attackVerbs.Array.data[0]
+      propertyPath: 'attackVerbs.Array.data[0]'
       value: bashed
       objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: attackVerbs.Array.data[1]
+      propertyPath: 'attackVerbs.Array.data[1]'
       value: battered
       objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: attackVerbs.Array.data[2]
+      propertyPath: 'attackVerbs.Array.data[2]'
       value: bludgeoned
       objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: attackVerbs.Array.data[3]
+      propertyPath: 'attackVerbs.Array.data[3]'
       value: thrashed
       objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: attackVerbs.Array.data[4]
+      propertyPath: 'attackVerbs.Array.data[4]'
       value: smashed
       objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: initialTraits.Array.data[0]
+      propertyPath: 'initialTraits.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 361709b70df8de24c8241ab4e5880164,
         type: 2}
@@ -149,6 +155,13 @@ PrefabInstance:
       value: b56fec0300832ce48ade0ddf2e577ee7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1522837875078304347}
   m_SourcePrefab: {fileID: 100100000, guid: c3138c3e8a46444199668b85070b1a39, type: 3}
 --- !u!1 &8443408387443916863 stripped
 GameObject:

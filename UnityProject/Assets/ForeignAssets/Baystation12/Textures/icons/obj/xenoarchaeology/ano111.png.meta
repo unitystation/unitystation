@@ -45,7 +45,7 @@ TextureImporter:
       213: 97930743234771816
     second: ano111_13
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -62,11 +62,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -105,6 +106,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -120,6 +123,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -438,23 +453,22 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ano111_3: 1594909394760791093
+      ano111_0: -3529130238027058070
+      ano111_1: 8247419273088146189
+      ano111_10: -8200784240268719384
+      ano111_11: -5304112159912025704
       ano111_12: -6042042121964971929
       ano111_13: 97930743234771816
-      ano111_5: 872166468769851129
-      ano111_7: 6186625800886327089
+      ano111_2: 3768167218722287735
+      ano111_3: 1594909394760791093
       ano111_4: -2022728184985636246
+      ano111_5: 872166468769851129
       ano111_6: 8528487295952680013
+      ano111_7: 6186625800886327089
       ano111_8: -7892001266435940661
       ano111_9: 2013610709560559901
-      ano111_10: -8200784240268719384
-      ano111_0: -3529130238027058070
-      ano111_11: -5304112159912025704
-      ano111_1: 8247419273088146189
-      ano111_2: 3768167218722287735
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

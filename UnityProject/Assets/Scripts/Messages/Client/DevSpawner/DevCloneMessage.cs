@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Logs;
+using Mirror;
 using UnityEngine;
 
 namespace Messages.Client.DevSpawner
@@ -32,7 +33,7 @@ namespace Messages.Client.DevSpawner
 
 			if (msg.ToClone.Equals(NetId.Invalid))
 			{
-				Logger.LogWarning("Attempted to clone an object with invalid netID, clone will not occur.", Category.Admin);
+				Loggy.LogWarning("Attempted to clone an object with invalid netID, clone will not occur.", Category.Admin);
 			}
 			else
 			{

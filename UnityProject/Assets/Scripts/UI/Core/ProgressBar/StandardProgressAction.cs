@@ -1,6 +1,7 @@
 
 using System;
 using System.Linq;
+using Logs;
 using UnityEngine;
 
 public enum ActionInterruptionType
@@ -116,7 +117,7 @@ public class StandardProgressAction : IProgressAction
 	{
 		if (used)
 		{
-			Logger.LogError("Attempted to reuse a StandardProgressAction that has already been used." +
+			Loggy.LogError("Attempted to reuse a StandardProgressAction that has already been used." +
 			                      " Please create a new StandardProgressAction each time you start a new action.",
 				Category.ProgressAction);
 			return false;
@@ -146,7 +147,7 @@ public class StandardProgressAction : IProgressAction
 
 				if (existingAction != null)
 				{
-					Logger.LogTraceFormat(
+					Loggy.LogTraceFormat(
 						"Server cancelling progress bar {0} start because AllowMultiple=true and progress bar {1} " +
 						" has same progress type and is already in progress.", Category.ProgressAction,
 						info.ProgressBar.ID, existingAction.ID);
@@ -155,7 +156,7 @@ public class StandardProgressAction : IProgressAction
 			}
 			catch
 			{
-				Logger.LogError(
+				Loggy.LogError(
 					"Something terrible happened to ProgressBars but we have recovered.", Category.ProgressAction);
 				return false;
 			}
@@ -170,7 +171,7 @@ public class StandardProgressAction : IProgressAction
 		if (existingBar != null)
 		{
 			//progress already started by this player at this position
-			Logger.LogTraceFormat("Server cancelling progress bar {0} start because progress bar {1} " +
+			Loggy.LogTraceFormat("Server cancelling progress bar {0} start because progress bar {1} " +
 			                      " has same progress type and is already in progress at the target location by this player.",
 				Category.ProgressAction, info.ProgressBar.ID, existingBar.ID);
 			return false;
@@ -185,7 +186,7 @@ public class StandardProgressAction : IProgressAction
 			if (crossMatrix && (performerMatrix.IsMovingServer || info.Target.TargetMatrixInfo.Matrix.IsMovingServer))
 			{
 				//progress already started by this player at this position
-				Logger.LogTraceFormat("Server cancelling progress bar {0} start because it is cross matrix and one of" +
+				Loggy.LogTraceFormat("Server cancelling progress bar {0} start because it is cross matrix and one of" +
 				                      " the matrices is moving.",
 					Category.ProgressAction, info.ProgressBar.ID);
 				return false;
@@ -279,7 +280,7 @@ public class StandardProgressAction : IProgressAction
 
 			foreach (var existingBar in existingBars)
 			{
-				Logger.LogTraceFormat("Server interrupting progress bar {0} because progress bar {1} finished " +
+				Loggy.LogTraceFormat("Server interrupting progress bar {0} because progress bar {1} finished " +
 				                      "on same tile", Category.ProgressAction, existingBar.ID, ProgressBar.ID);
 				existingBar.ServerInterruptProgress();
 			}
@@ -297,7 +298,7 @@ public class StandardProgressAction : IProgressAction
 	private void InterruptProgress(string reason, ActionInterruptionType interruptionType)
 	{
 		if(progressActionConfig.AllowMovement == true) return;
-		Logger.LogTraceFormat("Server progress bar {0} interrupted: {1}.", Category.ProgressAction,
+		Loggy.LogTraceFormat("Server progress bar {0} interrupted: {1}.", Category.ProgressAction,
 			ProgressBar.ID, reason);
 		ProgressBar.ServerInterruptProgress();
 		onInterruption?.Invoke(interruptionType);
@@ -313,11 +314,10 @@ public class StandardProgressAction : IProgressAction
 	{
 		//note: doesn't check cross matrix situations.
 		return playerScript.playerHealth.ConsciousState == initialConsciousState &&
-		       playerScript.playerMove.IsCuffed == false &&
+		       (progressActionConfig.AllowDuringCuff || playerScript.playerMove.IsCuffed == false) &&
 		       playerScript.RegisterPlayer.IsSlippingServer == false &&
 			   playerScript.PlayerNetworkActions.IsRolling == false &&
-		       (progressActionConfig.AllowTurning ||
-		        playerScript.PlayerDirectional.CurrentDirection != initialDirection) &&
+		       (progressActionConfig.AllowTurning || playerScript.PlayerDirectional.CurrentDirection != initialDirection) &&
 		       playerScript.PlayerSync.IsMoving == false &&
 		       //make sure we're still in range
 		       Validations.IsInReachDistanceByPositions(playerScript.RegisterPlayer.WorldPositionServer,

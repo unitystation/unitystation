@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5644017846892497793
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9169678280454860689}
+  - component: {fileID: 7703297122118949435}
+  - component: {fileID: 7445498250542545801}
+  - component: {fileID: 4825464643119326158}
+  - component: {fileID: 1311672579875483436}
+  - component: {fileID: 2649613845349400740}
+  m_Layer: 8
+  m_Name: Protips
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9169678280454860689
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5644017846892497793}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7703297122118949435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5644017846892497793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88c6e154113741fa9f8e2c5c78f76b96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TipSO: {fileID: 11400000, guid: bd96a630dfc985a428804a5de28c855a, type: 2}
+  triggerOnce: 1
+  removeAfterRemembering: 1
+  showEvenAfterDeath: 0
+  tipCooldown: 200
+  highlightableObjectNames: []
+  lateTip: {fileID: 11400000, guid: c37bfe939fdc521499b596905b9d6cd1, type: 2}
+--- !u!114 &7445498250542545801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5644017846892497793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8bfb7119a844b0c9c4672d5a0eefb62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TipSO: {fileID: 0}
+  triggerOnce: 1
+  removeAfterRemembering: 0
+  showEvenAfterDeath: 0
+  tipCooldown: 200
+  highlightableObjectNames: []
+  playerScript: {fileID: 0}
+  HelpIntent: {fileID: 11400000, guid: 630a171bd5c74cd4f8176bca03559fc7, type: 2}
+  HarmIntent: {fileID: 11400000, guid: a7707a622b4eb584e90b99b3073fae38, type: 2}
+  DisarmIntent: {fileID: 11400000, guid: cd13194ba5ecd9d4e99199de810e883d, type: 2}
+--- !u!114 &4825464643119326158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5644017846892497793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdb228305c1b45d1bba3761bc7e63476, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TipSO: {fileID: 11400000, guid: a151f299d3c16a24c87bc1883f18cdd6, type: 2}
+  triggerOnce: 1
+  removeAfterRemembering: 0
+  showEvenAfterDeath: 0
+  tipCooldown: 200
+  highlightableObjectNames: []
+  protipsForTraits:
+    m_keys:
+    - {fileID: 11400000, guid: ba923436cf6803a4f99a5ed73f885d61, type: 2}
+    - {fileID: 11400000, guid: 70d28796af421c64a8770cb93c818bd4, type: 2}
+    m_values:
+    - {fileID: 11400000, guid: 47d1b75ce7e65b84aaea85e7ff3924de, type: 2}
+    - {fileID: 11400000, guid: 6a684b02b4d9ffd46b4cb32d6ff4397b, type: 2}
+--- !u!114 &1311672579875483436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5644017846892497793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac47bea17421462d9123cc255b61a475, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TipSO: {fileID: 11400000, guid: 3b38af0357f6fa44399a8b14f539a581, type: 2}
+  triggerOnce: 1
+  removeAfterRemembering: 0
+  showEvenAfterDeath: 1
+  tipCooldown: 200
+  highlightableObjectNames: []
+  critHealthEvent: {fileID: 11400000, guid: 97a30d051863be242a2d5435c1879dfb, type: 2}
+  softHealthEvent: {fileID: 11400000, guid: f5f80aa9222c534469ed4b48eb14968e, type: 2}
+  deathlHealthEvent: {fileID: 11400000, guid: bbaf9123b7a31974ca6fc120eb465d86, type: 2}
+  unconsciousEvent: {fileID: 11400000, guid: c56aa3f2b478ff94e9b78957d75fd3e7, type: 2}
+  barelyConsciousEvent: {fileID: 11400000, guid: 95ca26ead48bff34b9ca3f710b04d1a9,
+    type: 2}
+--- !u!114 &2649613845349400740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5644017846892497793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d288affa207c424f93d537f45ed888b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TipSO: {fileID: 11400000, guid: 7b9ebf7dd0d9f964198454a0c3ecfd5c, type: 2}
+  triggerOnce: 1
+  removeAfterRemembering: 1
+  showEvenAfterDeath: 0
+  tipCooldown: 200
+  highlightableObjectNames: []
+  playerScript: {fileID: 0}

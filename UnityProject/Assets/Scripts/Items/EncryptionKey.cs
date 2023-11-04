@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using Mirror;
 using Objects.Telecomms;
 using Messages.Client;
 using ScriptableObjects.Communications;
+using SecureStuff;
 
 namespace Items
 {
@@ -146,7 +148,7 @@ public class EncryptionKey : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 			type = value;
 			if (type == EncryptionKeyType.None)
 			{
-				Logger.LogError("Encryption keys cannot be None type!", Category.Chat);
+				Loggy.LogError("Encryption keys cannot be None type!", Category.Chat);
 				type = EncryptionKeyType.Common;
 			}
 		}
@@ -156,10 +158,10 @@ public class EncryptionKey : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 /// This allows clients to initialize attributes
 /// without having to resort to SyncVars and ItemFactory (see IDCard example)
 /// Downside – all players will get that info (same with syncvars)
-	public override bool OnSerialize(NetworkWriter writer, bool initialState)
+	public override void OnSerialize(NetworkWriter writer, bool initialState)
 	{
 		writer.WriteString(type.ToString());
-		return base.OnSerialize(writer, initialState);
+		base.OnSerialize(writer, initialState);
 	}
 	public override void OnDeserialize(NetworkReader reader, bool initialState)
 	{

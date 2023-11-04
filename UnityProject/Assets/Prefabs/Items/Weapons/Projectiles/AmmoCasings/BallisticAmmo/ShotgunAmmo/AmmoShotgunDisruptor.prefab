@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -4441519557137854397, guid: b564e5d916b891446903adc342af08bd,
@@ -43,6 +44,11 @@ PrefabInstance:
         While the heat and power drain limit it to one use, it can still allow an
         operator to engage targets that ballistic ammunition would have difficulty
         with.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8364667066244186251, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: _assetId
+      value: 693153038
       objectReference: {fileID: 0}
     - target: {fileID: 8364667066244186251, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
@@ -116,4 +122,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 7c4a2ab4c0e776f4faf9fe18e7fbe0b1,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b564e5d916b891446903adc342af08bd, type: 3}

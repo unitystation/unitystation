@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,8 @@ public class ChatScroll : MonoBehaviour
 {
 	[SerializeField] private Transform chatContentParent = null;
 	[SerializeField] private InputFieldFocus inputField = null;
+	[SerializeField] private TMP_InputField TMPinputField = null;
+
 	[SerializeField] private GameObject defaultChatEntryPrefab = null;
 	[SerializeField] private Scrollbar scrollBar = null;
 	[SerializeField] private float scrollSpeed = 0.5f;
@@ -250,22 +253,44 @@ public class ChatScroll : MonoBehaviour
 
 	public void OnInputSubmit()
 	{
-		if(inputField == null) return;
-		if (string.IsNullOrEmpty(inputField.text)) return;
 
-		if (!doNotAddInputToChatLog)
+		if (inputField != null)
 		{
-			AddNewChatEntry(new ChatEntryData
+			if (string.IsNullOrEmpty(inputField.text)) return;
+
+			if (!doNotAddInputToChatLog)
 			{
-				Message = $"You: {inputField.text}"
-			});
+				AddNewChatEntry(new ChatEntryData
+				{
+					Message = $"You: { GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " + inputField.text}"
+				});
+			}
+
+			if(OnInputFieldSubmit != null) OnInputFieldSubmit.Invoke(inputField.text);
+
+			inputField.text = "";
+			inputField.ActivateInputField();
+			StartCoroutine(AfterSubmit());
+		}
+		else if (TMPinputField != null)
+		{
+			if (string.IsNullOrEmpty(TMPinputField.text)) return;
+
+			if (!doNotAddInputToChatLog)
+			{
+				AddNewChatEntry(new ChatEntryData
+				{
+					Message = $"You: { GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " + TMPinputField.text}"
+				});
+			}
+
+			if(OnInputFieldSubmit != null) OnInputFieldSubmit.Invoke(TMPinputField.text);
+
+			TMPinputField.text = "";
+			TMPinputField.ActivateInputField();
+			StartCoroutine(AfterSubmit());
 		}
 
-		if(OnInputFieldSubmit != null) OnInputFieldSubmit.Invoke(inputField.text);
-
-		inputField.text = "";
-		inputField.ActivateInputField();
-		StartCoroutine(AfterSubmit());
 	}
 
 	IEnumerator AfterSubmit()
@@ -295,11 +320,22 @@ public class ChatScroll : MonoBehaviour
 	void UpdateMe()
 	{
 		if(isUsingScrollBar) DetermineScrollRate();
-		if(inputField == null) return;
-		if (inputField.IsFocused && KeyboardInputManager.IsEnterPressed())
+		if (inputField != null)
 		{
-			OnInputSubmit();
+			if (inputField.IsFocused && KeyboardInputManager.IsEnterPressed())
+			{
+				OnInputSubmit();
+			}
 		}
+		else if (TMPinputField != null)
+		{
+			if (TMPinputField.text.Length > 0 && KeyboardInputManager.IsEnterPressed())
+			{
+				OnInputSubmit();
+			}
+		}
+
+
 	}
 
 	void DetermineScrollRate()

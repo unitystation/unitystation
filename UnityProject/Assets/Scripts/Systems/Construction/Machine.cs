@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Items;
+using Logs;
 using UnityEngine;
 using ScriptableObjects;
 using Systems.Hacking;
@@ -63,28 +64,28 @@ namespace Objects.Machines
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (!Validations.IsTarget(gameObject, interaction)) return false;
 
 			if (HackingProcessBase != null)
 			{
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
-				       Validations.HasUsedItemTrait(interaction,
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+				       Validations.HasItemTrait(interaction,
 					       CommonTraits.Instance.Crowbar) || //Should probably network if it is open or not
-				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) ||
-				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter);
+				       Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) ||
+				       Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter);
 			}
 			else
 			{
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
-				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+				       Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar);
 			}
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 			{
 				AudioSourceParameters audioSourceParameters =
 					new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
@@ -110,8 +111,8 @@ namespace Objects.Machines
 
 			if (HackingProcessBase != null)
 			{
-				if (panelopen && (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) ||
-				                  Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter)))
+				if (panelopen && (Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) ||
+				                  Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter)))
 				{
 					TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.HackingPanel, TabAction.Open);
 				}
@@ -133,7 +134,7 @@ namespace Objects.Machines
 				return;
 			}
 
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && panelopen)
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar) && panelopen)
 			{
 				//unsecure
 				ToolUtils.ServerUseToolWithActionMessages(interaction, secondsToScrewdrive,
@@ -173,7 +174,7 @@ namespace Objects.Machines
 			SpawnResult frameSpawn = Spawn.ServerPrefab(CommonPrefabs.Instance.MachineFrame, SpawnDestination.At(gameObject));
 			if (!frameSpawn.Successful)
 			{
-				Logger.LogError($"Failed to spawn frame! Is {this} missing references in the inspector?",
+				Loggy.LogError($"Failed to spawn frame! Is {this} missing references in the inspector?",
 					Category.Construction);
 				return;
 			}
@@ -197,7 +198,7 @@ namespace Objects.Machines
 
 			if (InActiveGameObjectpartsInFrame == null)
 			{
-				Logger.LogError($"PartsInFrame was null on {gameObject.ExpensiveName()}");
+				Loggy.LogError($"PartsInFrame was null on {gameObject.ExpensiveName()}");
 				return;
 			}
 
@@ -246,7 +247,7 @@ namespace Objects.Machines
 
 			if (activeGameObjectpartsInFrame == null)
 			{
-				Logger.LogError($"BasicPartsUsed was null on {gameObject.ExpensiveName()}");
+				Loggy.LogError($"BasicPartsUsed was null on {gameObject.ExpensiveName()}");
 				return;
 			}
 			//Means we are mapped so use machine parts ist
@@ -254,7 +255,11 @@ namespace Objects.Machines
 			{
 				if (MachineParts.OrNull()?.machineParts == null)
 				{
-					Logger.LogError($"MachineParts was null on {gameObject.ExpensiveName()}");
+					if (canNotBeDeconstructed == false)
+					{
+						Loggy.LogError($"MachineParts was null on {gameObject.ExpensiveName()}");
+					}
+
 					return;
 				}
 
@@ -317,7 +322,7 @@ namespace Objects.Machines
 		{
 			if (ItemTrait == null)
 			{
-				Logger.LogError($" null ItemTrait Tried to be passed into GetCertainPartMultiplier for {this.name} ");
+				Loggy.LogError($" null ItemTrait Tried to be passed into GetCertainPartMultiplier for {this.name} ");
 				return 1;
 			}
 			float TotalParts = 0;
@@ -336,7 +341,7 @@ namespace Objects.Machines
 
 			if (TotalParts == 0)
 			{
-				Logger.LogError($"Warning {ItemTrait.name} was not present on {this.name} somehow ");
+				Loggy.LogError($"Warning {ItemTrait.name} was not present on {this.name} somehow ");
 				return 1;
 			}
 			return Alladded / TotalParts;

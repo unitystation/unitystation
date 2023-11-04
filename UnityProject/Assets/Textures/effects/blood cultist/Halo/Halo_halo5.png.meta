@@ -186,7 +186,7 @@ TextureImporter:
       213: 21300120
     second: halo5_60
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -203,11 +203,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -246,6 +247,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -261,6 +264,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1566,70 +1581,69 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      halo5_14: 21300028
-      halo5_42: 21300084
-      halo5_54: 21300108
-      halo5_51: 21300102
-      halo5_55: 21300110
-      halo5_12: 21300024
-      halo5_17: 21300034
-      halo5_52: 21300104
-      halo5_41: 21300082
-      halo5_23: 21300046
-      halo5_33: 21300066
-      halo5_43: 21300086
-      halo5_20: 21300040
-      halo5_38: 21300076
-      halo5_58: 21300116
-      halo5_26: 21300052
-      halo5_19: 21300038
-      halo5_59: 21300118
-      halo5_39: 21300078
-      halo5_53: 21300106
-      halo5_36: 21300072
-      halo5_11: 21300022
-      halo5_45: 21300090
-      halo5_27: 21300054
-      halo5_8: 21300016
-      halo5_28: 21300056
+      halo5_0: 21300000
       halo5_1: 21300002
-      halo5_3: 21300006
-      halo5_15: 21300030
-      halo5_18: 21300036
-      halo5_22: 21300044
-      halo5_40: 21300080
-      halo5_6: 21300012
-      halo5_24: 21300048
-      halo5_60: 21300120
+      halo5_10: 21300020
+      halo5_11: 21300022
+      halo5_12: 21300024
       halo5_13: 21300026
+      halo5_14: 21300028
+      halo5_15: 21300030
+      halo5_16: 21300032
+      halo5_17: 21300034
+      halo5_18: 21300036
+      halo5_19: 21300038
+      halo5_2: 21300004
+      halo5_20: 21300040
+      halo5_21: 21300042
+      halo5_22: 21300044
+      halo5_23: 21300046
+      halo5_24: 21300048
       halo5_25: 21300050
+      halo5_26: 21300052
+      halo5_27: 21300054
+      halo5_28: 21300056
+      halo5_29: 21300058
+      halo5_3: 21300006
+      halo5_30: 21300060
+      halo5_31: 21300062
+      halo5_32: 21300064
+      halo5_33: 21300066
+      halo5_34: 21300068
+      halo5_35: 21300070
+      halo5_36: 21300072
+      halo5_37: 21300074
+      halo5_38: 21300076
+      halo5_39: 21300078
       halo5_4: 21300008
+      halo5_40: 21300080
+      halo5_41: 21300082
+      halo5_42: 21300084
+      halo5_43: 21300086
+      halo5_44: 21300088
+      halo5_45: 21300090
+      halo5_46: 21300092
       halo5_47: 21300094
       halo5_48: 21300096
-      halo5_44: 21300088
-      halo5_7: 21300014
-      halo5_29: 21300058
-      halo5_34: 21300068
       halo5_49: 21300098
-      halo5_16: 21300032
-      halo5_31: 21300062
-      halo5_56: 21300112
-      halo5_46: 21300092
-      halo5_0: 21300000
-      halo5_37: 21300074
-      halo5_50: 21300100
-      halo5_2: 21300004
-      halo5_21: 21300042
       halo5_5: 21300010
+      halo5_50: 21300100
+      halo5_51: 21300102
+      halo5_52: 21300104
+      halo5_53: 21300106
+      halo5_54: 21300108
+      halo5_55: 21300110
+      halo5_56: 21300112
       halo5_57: 21300114
-      halo5_32: 21300064
-      halo5_10: 21300020
-      halo5_35: 21300070
+      halo5_58: 21300116
+      halo5_59: 21300118
+      halo5_6: 21300012
+      halo5_60: 21300120
+      halo5_7: 21300014
+      halo5_8: 21300016
       halo5_9: 21300018
-      halo5_30: 21300060
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

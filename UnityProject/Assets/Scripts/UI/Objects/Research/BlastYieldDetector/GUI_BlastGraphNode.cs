@@ -10,10 +10,5 @@ namespace UI.Objects.Research
 		{
 			blastGUI = containedInTab.gameObject.GetComponent<GUI_BlastYieldDetector>();
 		}
-
-		public void SetData()
-		{
-			blastGUI.SetCurrentShownData(transform.GetSiblingIndex());
-		}
 	}
 }

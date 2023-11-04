@@ -76,7 +76,7 @@ namespace UI.Items
 			UpdateStatusText();
 
 			timerCount = explosiveDevice.TimeToDetonate;
-			timer.Value = DisplayTime();
+			timer.MasterSetValue( DisplayTime());
 			explosiveDevice.GUI = this;
 		}
 

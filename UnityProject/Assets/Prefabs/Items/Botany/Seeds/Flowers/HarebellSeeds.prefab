@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
@@ -62,7 +63,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.PlantTrays.Array.data[0]
+      propertyPath: 'plantData.PlantTrays.Array.data[0]'
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
@@ -72,25 +73,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: f04647d0a7df8924daaa22fb41345a1b,
         type: 2}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 83e2156062dfbb94699ae3ee652bcfc0,
         type: 2}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 832da1a67e7166547932ecf978651abf,
         type: 2}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[3]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 4c2bca90dcd0c4141a4494585d0cbe81,
         type: 2}
@@ -103,6 +104,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: These seeds grow into pretty little flowers.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: _assetId
+      value: 1725615649
       objectReference: {fileID: 0}
     - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -187,4 +193,7 @@ PrefabInstance:
       value: d3223adb88ea9fa4885408cf982854e5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26abf4c2c542ffa4098216683cb5f652, type: 3}

@@ -72,7 +72,7 @@ namespace Objects.Lighting
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
 
 			if (side == NetworkSide.Server)

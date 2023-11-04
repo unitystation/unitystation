@@ -13,67 +13,75 @@ MonoBehaviour:
   m_Name: AncientEngineerPopulator
   m_EditorClassIdentifier: 
   Entries:
-  - IndexSlot: 0
-    IfOccupiedFindEmptyIndexSlot: 1
-    UesIndex: 0
-    NamedSlot: 3
+  - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 5289642054559964644, guid: 020aa37cdb1748149b33f0786b431160,
       type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 3
+    IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []
-  - IndexSlot: 0
-    IfOccupiedFindEmptyIndexSlot: 1
-    UesIndex: 0
-    NamedSlot: 6
+  - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 3011710637427380133, guid: 16ff11a6d1a3e7a479eac4e27f8a1349,
       type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 6
+    IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 0
     namedSlotPopulatorEntrys: []
-  - IndexSlot: 0
-    IfOccupiedFindEmptyIndexSlot: 1
-    UesIndex: 0
-    NamedSlot: 9
+  - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 3431291279286482953, guid: e6f80a7fd02e2c14ea72a1410452b690,
       type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 9
+    IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []
-  - IndexSlot: 0
-    IfOccupiedFindEmptyIndexSlot: 1
-    UesIndex: 0
-    NamedSlot: 2
+  - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 8270841412344350951, guid: fb17f2a1a0e48b942aa3fa328dfadb0a,
       type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 2
+    IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []
-  - IndexSlot: 0
-    IfOccupiedFindEmptyIndexSlot: 1
-    UesIndex: 0
-    NamedSlot: 1
+  - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 8185621817755172087, guid: 3e81def4ec9dcac419a017125d9ce991,
       type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 1
+    IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []
-  - IndexSlot: 0
-    IfOccupiedFindEmptyIndexSlot: 1
-    UesIndex: 0
-    NamedSlot: 10
+  - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 6527078367214184808, guid: 9ece9b1c0b01fa46ab120b1b423b1739,
       type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 10
+    IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 0
     namedSlotPopulatorEntrys: []
-  - IndexSlot: 0
-    IfOccupiedFindEmptyIndexSlot: 1
-    UesIndex: 0
-    NamedSlot: 0
+  - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 5692194457598336503, guid: 03131e99f4db8954eb9c1c1f38d6181d,
       type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 0
+    IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []
-  - IndexSlot: 0
-    IfOccupiedFindEmptyIndexSlot: 1
-    UesIndex: 0
-    NamedSlot: 15
+  - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 866608350905553905, guid: b1056bd0d21debe40bbb005c6b4191b7, type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 15
+    IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []
   skirtVariant: {fileID: 6265652412201014143, guid: fc757f45a4cbee34bb99ccba6980a76b,

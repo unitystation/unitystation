@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 462311497119298046, guid: fd73f0a4534c371468020a0e90c93575,
@@ -24,19 +25,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 462311497119298046, guid: fd73f0a4534c371468020a0e90c93575,
         type: 3}
-      propertyPath: possibleGrownForms.Array.data[0]
+      propertyPath: 'possibleGrownForms.Array.data[0]'
       value: 
       objectReference: {fileID: 6328682895030350272, guid: e6b2a22f0985634418d0e1f6e0334ce7,
         type: 3}
     - target: {fileID: 462311497119298046, guid: fd73f0a4534c371468020a0e90c93575,
         type: 3}
-      propertyPath: possibleGrownForms.Array.data[1]
+      propertyPath: 'possibleGrownForms.Array.data[1]'
       value: 
       objectReference: {fileID: 8536983617821984106, guid: eda8d359cf4858d48abeff014a2e810f,
         type: 3}
     - target: {fileID: 462311497119298046, guid: fd73f0a4534c371468020a0e90c93575,
         type: 3}
-      propertyPath: possibleGrownForms.Array.data[2]
+      propertyPath: 'possibleGrownForms.Array.data[2]'
       value: 
       objectReference: {fileID: 3318385157425878679, guid: 93d2d13d5c4ee34468e2be0ed8847e24,
         type: 3}
@@ -54,16 +55,21 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3717847870678705516, guid: fd73f0a4534c371468020a0e90c93575,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 10eb69d98dbe2294db0d49261ed0b8c1,
         type: 2}
     - target: {fileID: 3717847870678705516, guid: fd73f0a4534c371468020a0e90c93575,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 6dff50935b91a6f42b71a27f5549493e,
         type: 2}
+    - target: {fileID: 7830563771081435549, guid: fd73f0a4534c371468020a0e90c93575,
+        type: 3}
+      propertyPath: _assetId
+      value: 2679054849
+      objectReference: {fileID: 0}
     - target: {fileID: 7830563771081435549, guid: fd73f0a4534c371468020a0e90c93575,
         type: 3}
       propertyPath: m_AssetId
@@ -110,4 +116,7 @@ PrefabInstance:
       value: Chick
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd73f0a4534c371468020a0e90c93575, type: 3}

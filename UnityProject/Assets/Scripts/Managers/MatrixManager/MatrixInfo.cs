@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using Mirror;
 using Systems.Atmospherics;
@@ -14,7 +15,7 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 	public Matrix Matrix;
 	public MetaTileMap MetaTileMap;
 	public MetaDataLayer MetaDataLayer;
-	public SubsystemManager SubsystemManager;
+	public MatrixSystemManager SubsystemManager;
 	public TileChangeManager TileChangeManager;
 	public ReactionManager ReactionManager;
 	public GameObject GameObject;
@@ -161,7 +162,7 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 
 		if (netId == NetId.Invalid)
 		{
-			Logger.LogWarning($"Invalid NetID for matrix {matrix.gameObject.name}!", Category.Matrix);
+			Loggy.LogWarning($"Invalid NetID for matrix {matrix.gameObject.name}!", Category.Matrix);
 		}
 
 		return netId;

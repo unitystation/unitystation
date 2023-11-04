@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Objects.Botany;
 using Items.Botany;
+using Logs;
 
 namespace Systems.Botany
 {
@@ -194,7 +195,7 @@ namespace Systems.Botany
 			}
 			else
 			{
-				Logger.LogError($"{nameof(SeedPacket)} component missing on {newPlantData}! Cannot mutate.", Category.Botany);
+				Loggy.LogError($"{nameof(SeedPacket)} component missing on {newPlantData}! Cannot mutate.", Category.Botany);
 			}
 
 			//UpdatePlant(oldPlantData.Name, Name);

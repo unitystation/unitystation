@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: intake-flush_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      intake-flush_14: 21300028
-      intake-flush_20: 21300040
       intake-flush_0: 21300000
-      intake-flush_6: 21300012
+      intake-flush_1: 21300002
+      intake-flush_10: 21300020
+      intake-flush_11: 21300022
+      intake-flush_12: 21300024
+      intake-flush_13: 21300026
+      intake-flush_14: 21300028
+      intake-flush_15: 21300030
+      intake-flush_16: 21300032
+      intake-flush_17: 21300034
+      intake-flush_18: 21300036
+      intake-flush_19: 21300038
+      intake-flush_2: 21300004
+      intake-flush_20: 21300040
+      intake-flush_21: 21300042
+      intake-flush_22: 21300044
+      intake-flush_23: 21300046
+      intake-flush_24: 21300048
+      intake-flush_25: 21300050
+      intake-flush_26: 21300052
       intake-flush_27: 21300054
-      intake-flush_5: 21300010
-      intake-flush_3: 21300006
       intake-flush_28: 21300056
+      intake-flush_29: 21300058
+      intake-flush_3: 21300006
       intake-flush_30: 21300060
       intake-flush_31: 21300062
-      intake-flush_26: 21300052
-      intake-flush_19: 21300038
-      intake-flush_12: 21300024
-      intake-flush_10: 21300020
-      intake-flush_13: 21300026
       intake-flush_4: 21300008
-      intake-flush_1: 21300002
-      intake-flush_16: 21300032
-      intake-flush_2: 21300004
-      intake-flush_11: 21300022
-      intake-flush_29: 21300058
-      intake-flush_21: 21300042
-      intake-flush_18: 21300036
+      intake-flush_5: 21300010
+      intake-flush_6: 21300012
       intake-flush_7: 21300014
       intake-flush_8: 21300016
-      intake-flush_15: 21300030
-      intake-flush_22: 21300044
-      intake-flush_17: 21300034
       intake-flush_9: 21300018
-      intake-flush_25: 21300050
-      intake-flush_24: 21300048
-      intake-flush_23: 21300046
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

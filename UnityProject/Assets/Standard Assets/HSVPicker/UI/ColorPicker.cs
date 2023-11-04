@@ -20,6 +20,9 @@ public class ColorPicker : MonoBehaviour
 
     [Header("Event")]
     public ColorChangedEvent onValueChanged = new ColorChangedEvent();
+    public ColorChangedEvent onColourApply = new ColorChangedEvent();
+
+
     public HSVChangedEvent onHSVChanged = new HSVChangedEvent();
 
     public Action<Color> DynamicValueChangeEvent;
@@ -334,6 +337,7 @@ public class ColorPicker : MonoBehaviour
 
 	public void OnApplyBtn()
 	{
+		onColourApply.Invoke(CurrentColor);
 		// close with currentcolor
 		gameObject.SetActive(false);
 	}

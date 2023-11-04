@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1209025498235043164, guid: 1c2bdc503ea85964dbb86ef10991bef8,
@@ -27,6 +28,16 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: 145dd7fcad8ba0f4d9e228b7dd41f2b8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6026255692539325568, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: BasePurity
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954729823044027032, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: _assetId
+      value: 3144931699
       objectReference: {fileID: 0}
     - target: {fileID: 6954729823044027032, guid: 1c2bdc503ea85964dbb86ef10991bef8,
         type: 3}
@@ -127,27 +138,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8086802171712878468, guid: 1c2bdc503ea85964dbb86ef10991bef8,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
         type: 2}
     - target: {fileID: 8086802171712878468, guid: 1c2bdc503ea85964dbb86ef10991bef8,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
         type: 2}
     - target: {fileID: 8086802171712878468, guid: 1c2bdc503ea85964dbb86ef10991bef8,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8086802171712878468, guid: 1c2bdc503ea85964dbb86ef10991bef8,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[1]'
       value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6994121511001194284, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -9153973110451669335}
   m_SourcePrefab: {fileID: 100100000, guid: 1c2bdc503ea85964dbb86ef10991bef8, type: 3}
 --- !u!1 &1766600106453277603 stripped
 GameObject:

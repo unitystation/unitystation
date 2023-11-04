@@ -91,10 +91,10 @@ namespace Objects.Wallmounts.PublicTerminals
 			if (isPowered == false) return;
 			if (CurrentLogin == null || restricted.HasClearance(currentLogin.ClearanceSource) == false)
 			{
-				Chat.AddLocalMsgToChat("A huge red X appears on the terminal's screen as it says 'access denied'", gameObject);
+				Chat.AddActionMsgToChat(gameObject, "A huge red X appears on the terminal's screen as it says 'access denied'");
 				return;
 			}
-			Chat.AddLocalMsgToChat("A huge ! appears on the terminal's screen as it says 'An error occured.'", gameObject);
+			Chat.AddActionMsgToChat(gameObject, "A huge ! appears on the terminal's screen as it says 'An error occured.'");
 		}
 
 		[Command(requiresAuthority = false)]

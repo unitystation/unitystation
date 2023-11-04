@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
@@ -33,15 +34,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -67,13 +68,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: spriteList.Array.data[0]
+      propertyPath: 'spriteList.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: c85c1a453e6616f4aa2db1fdc7322872,
         type: 3}
     - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: spriteList.Array.data[1]
+      propertyPath: 'spriteList.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: 718fd258f24113246b9d3651b8eada7e,
         type: 3}
@@ -81,6 +82,11 @@ PrefabInstance:
         type: 3}
       propertyPath: IsFixedMatrix
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: _assetId
+      value: 2030985636
       objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -124,6 +130,17 @@ PrefabInstance:
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 3b31d94e5f52dd740a920ade9a2dc27f,
+        type: 2}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -136,6 +153,13 @@ PrefabInstance:
       value: f029ac18cb79ad24c8691a3a0d6f191e
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 549276354854332010}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &8517905270553474336 stripped
 GameObject:
@@ -155,6 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d55bb27d7729e44190487b1ada01adc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   refillTrait: {fileID: 11400000, guid: 9932d4994f6499b4e96c4ad0867c423f, type: 2}

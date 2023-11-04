@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
+using UI.Core;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Tilemaps;
@@ -35,6 +37,15 @@ public static class MouseUtils
 	/// </summary>
 	public static Vector3 MouseToWorldPos()
 	{
+		if (Manager3D.Is3D)
+		{
+			var worldPos3D = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+			worldPos3D = worldPos3D+ Camera.main.transform.forward;
+			worldPos3D.z = 0;
+			return worldPos3D;
+		}
+
 		var worldPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 		worldPos.z = 0;
 		return worldPos;
@@ -138,7 +149,16 @@ public static class MouseUtils
 	public static IEnumerable<GameObject> GetOrderedObjectsUnderMouse(LayerMask? layerMask = null,
 		Func<GameObject, bool> gameObjectFilter = null)
 	{
-		return GetOrderedObjectsAtPoint(MouseToWorldPos(), layerMask,
+
+		var WorldPos = MouseToWorldPos();
+
+		if (ClickOnSelfUI.SelfClick)
+		{
+			ClickOnSelfUI.SelfClick = false;
+			return new[] {PlayerManager.LocalPlayerObject};
+		}
+
+		return GetOrderedObjectsAtPoint(WorldPos, layerMask,
 			gameObjectFilter);
 	}
 
@@ -208,14 +228,15 @@ public static class MouseUtils
 
 		Camera cam = Camera.main;
 
-		Vector2 mousePos = CommonInput.mousePosition;
+		Vector3 mousePos = CommonInput.mousePosition;
 
-		Vector2 viewportPos = cam.ScreenToViewportPoint(mousePos);
+		Vector3 viewportPos = cam.ScreenToViewportPoint(mousePos);
 
 		if (viewportPos.x < 0.0f || viewportPos.x > 1.0f || viewportPos.y < 0.0f || viewportPos.y > 1.0f)
 			return false; // out of viewport bounds
 		// Cast a ray from viewport point into world
 		Ray ray = cam.ViewportPointToRay(viewportPos);
+
 
 		// Check for intersection with sprite and get the color
 		return IntersectsSprite(spriteRenderer, ray, out color);
@@ -233,14 +254,16 @@ public static class MouseUtils
 		if (sprite.packed && sprite.packingMode == SpritePackingMode.Tight)
 		{
 			// Cannot use textureRect on tightly packed sprites
-			Logger.LogError("SpritePackingMode.Tight atlas packing is not supported!", Category.Sprites);
+			Loggy.LogError("SpritePackingMode.Tight atlas packing is not supported!", Category.Sprites);
 			// TODO: support tightly packed sprites
 			return false;
 		}
 
 		// Craete a plane so it has the same orientation as the sprite transform
 		Plane plane =
-			new Plane(spriteRenderer.transform.forward, (Vector2) spriteRenderer.transform.position); //????????
+			new Plane(spriteRenderer.transform.forward, spriteRenderer.transform.position); //????????
+
+
 		// Intersect the ray and the plane
 		float rayIntersectDist; // the distance from the ray origin to the intersection point
 		if (!plane.Raycast(ray, out rayIntersectDist)) return false; // no intersection
@@ -264,7 +287,7 @@ public static class MouseUtils
 		if (texPosY < 0 || texPosY < textureRect.y || texPosY >= Mathf.FloorToInt(textureRect.yMax)) return false;
 
 		// Check to make sure texture is readable and get pixel color
-		if(texture.isReadable)
+		if (texture.isReadable)
 			color = texture.GetPixel(texPosX, texPosY);
 
 		return true;

@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: medlaptop_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      medlaptop_16: 21300032
-      medlaptop_8: 21300016
-      medlaptop_6: 21300012
-      medlaptop_10: 21300020
-      medlaptop_19: 21300038
-      medlaptop_21: 21300042
-      medlaptop_14: 21300028
-      medlaptop_5: 21300010
-      medlaptop_4: 21300008
-      medlaptop_27: 21300054
-      medlaptop_13: 21300026
-      medlaptop_22: 21300044
-      medlaptop_15: 21300030
-      medlaptop_23: 21300046
-      medlaptop_30: 21300060
-      medlaptop_11: 21300022
-      medlaptop_28: 21300056
-      medlaptop_9: 21300018
-      medlaptop_17: 21300034
-      medlaptop_24: 21300048
-      medlaptop_26: 21300052
-      medlaptop_29: 21300058
       medlaptop_0: 21300000
-      medlaptop_3: 21300006
-      medlaptop_18: 21300036
-      medlaptop_31: 21300062
-      medlaptop_20: 21300040
-      medlaptop_2: 21300004
-      medlaptop_25: 21300050
-      medlaptop_12: 21300024
-      medlaptop_7: 21300014
       medlaptop_1: 21300002
-  spritePackingTag: 
+      medlaptop_10: 21300020
+      medlaptop_11: 21300022
+      medlaptop_12: 21300024
+      medlaptop_13: 21300026
+      medlaptop_14: 21300028
+      medlaptop_15: 21300030
+      medlaptop_16: 21300032
+      medlaptop_17: 21300034
+      medlaptop_18: 21300036
+      medlaptop_19: 21300038
+      medlaptop_2: 21300004
+      medlaptop_20: 21300040
+      medlaptop_21: 21300042
+      medlaptop_22: 21300044
+      medlaptop_23: 21300046
+      medlaptop_24: 21300048
+      medlaptop_25: 21300050
+      medlaptop_26: 21300052
+      medlaptop_27: 21300054
+      medlaptop_28: 21300056
+      medlaptop_29: 21300058
+      medlaptop_3: 21300006
+      medlaptop_30: 21300060
+      medlaptop_31: 21300062
+      medlaptop_4: 21300008
+      medlaptop_5: 21300010
+      medlaptop_6: 21300012
+      medlaptop_7: 21300014
+      medlaptop_8: 21300016
+      medlaptop_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 502150733691229820, guid: 3da1d244806a96340a48e959ecc816e4,
@@ -19,7 +20,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 502150733691229820, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: c5dd25000c848a247b3f528547ec6da4,
         type: 2}
@@ -56,6 +57,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 6b2f1574ebf9614419c43191aa66d366,
         type: 3}
+    - target: {fileID: 3365730268199074847, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: _assetId
+      value: 4212243146
+      objectReference: {fileID: 0}
     - target: {fileID: 3365730268199074847, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: m_AssetId
@@ -139,17 +145,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8820110165900900908, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 281b21add084733448db245b3d4c8070,
         type: 2}
     - target: {fileID: 8820110165900900908, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 8f1c60a43de133542bfc54d90e898ea2,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3396079434555916715, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3522461120287781946}
   m_SourcePrefab: {fileID: 100100000, guid: 3da1d244806a96340a48e959ecc816e4, type: 3}
 --- !u!1 &3814654046910142495 stripped
 GameObject:

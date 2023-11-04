@@ -26,7 +26,7 @@ namespace UI.Core.Windows
 		private bool showCoordTeleportRegion = true;
 
 		public event Action<TeleportInfo> onTeleportRequested;
-		public event Action<Vector3> onTeleportToVector;
+		public event Action<Vector3> onTeleportToVectorWorld;
 
 		public List<GameObject> TeleportButtons { get; private set; } = new List<GameObject>();
 
@@ -55,7 +55,7 @@ namespace UI.Core.Windows
 
 		public void TeleportToVector(Vector3 vector)
 		{
-			onTeleportToVector?.Invoke(vector);
+			onTeleportToVectorWorld?.Invoke(vector);
 		}
 
 		public void CloseWindow()

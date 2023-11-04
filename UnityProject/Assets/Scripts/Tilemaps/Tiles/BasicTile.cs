@@ -141,6 +141,9 @@ namespace Tiles
 		/// </summary>
 		public List<TileInteraction> TileInteractions => tileInteractions;
 
+		[field: SerializeField] public List<TileInteraction> OnTileStartMining { get; private set; } = new List<TileInteraction>();
+		[field: SerializeField] public List<TileInteraction> OnTileFinishMining { get; private set; } = new List<TileInteraction>();
+
 		[Tooltip(
 			"Tile step interactions which can occur on this tile. They will be checked in the order they appear in this list (top to bottom).")]
 		[SerializeField]

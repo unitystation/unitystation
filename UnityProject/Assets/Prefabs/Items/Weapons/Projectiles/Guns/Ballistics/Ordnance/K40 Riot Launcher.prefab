@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 98763321632235946, guid: b7d73073fe314b142b63ea52626ddbad,
@@ -22,7 +23,12 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 4611763396473522466}
+      objectReference: {fileID: 0}
+    - target: {fileID: 6372713094223728755, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: _assetId
+      value: 1344389110
+      objectReference: {fileID: 0}
     - target: {fileID: 6372713094223728755, guid: b7d73073fe314b142b63ea52626ddbad,
         type: 3}
       propertyPath: m_AssetId
@@ -106,16 +112,7 @@ PrefabInstance:
         and police forces. '
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7d73073fe314b142b63ea52626ddbad, type: 3}
---- !u!114 &4611763396473522466 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6373145509211209751, guid: b7d73073fe314b142b63ea52626ddbad,
-    type: 3}
-  m_PrefabInstance: {fileID: 1761382773913618741}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

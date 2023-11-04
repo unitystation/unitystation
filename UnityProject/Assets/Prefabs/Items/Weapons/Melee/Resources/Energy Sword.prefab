@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5667522765297587855}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.00000031610085, y: 0.00000021073383, z: -0.70710677, w: 0.7071069}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7777312831022217093}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6176213448508576191
 MonoBehaviour:
@@ -52,6 +52,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!23 &1442319098094179242
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -107,6 +108,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
@@ -127,37 +129,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: ecf7a882f70db2040a4355d24e304b8e,
         type: 2}
     - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 1e0fcea3e4d339c468ede79557cc3686,
         type: 2}
     - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: daeae19dda5100c4a95cc1947601b05f,
         type: 2}
     - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[3]
+      propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: bc29df4853fc2d74dbc8ec751d904071,
         type: 2}
     - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[4]
+      propertyPath: 'SubCatalogue.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: 673a9786899740c42a4c1ab6a7b1bf35,
         type: 2}
     - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[5]
+      propertyPath: 'SubCatalogue.Array.data[5]'
       value: 
       objectReference: {fileID: 11400000, guid: 576dd1204ecd1794e8c6d6bcb9fb9e74,
         type: 2}
@@ -165,6 +167,11 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: bb89e4eb0756de04b8ab904221c23296
+      objectReference: {fileID: 0}
+    - target: {fileID: 5810504842801530893, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: _assetId
+      value: 2972682788
       objectReference: {fileID: 0}
     - target: {fileID: 5810504842801530893, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -305,12 +312,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: attackVerbs.Array.data[0]
+      propertyPath: 'attackVerbs.Array.data[0]'
       value: tapped
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: attackVerbs.Array.data[1]
+      propertyPath: 'attackVerbs.Array.data[1]'
       value: poked
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
@@ -332,6 +339,21 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: ecf7a882f70db2040a4355d24e304b8e,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3285035241223762049}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2350815963227468493}
+    - targetCorrespondingSourceObject: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4821844458157436374}
   m_SourcePrefab: {fileID: 100100000, guid: 93af1c166793efb498012ddc7370f8ec, type: 3}
 --- !u!4 &7777312831022217093 stripped
 Transform:
@@ -357,20 +379,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 5667522765297587855}
-  Intensity: 1
-  Colour: {r: 0, g: 0, b: 0, a: 0}
-  EnumSprite: 0
-  Size: 3.5
   IsOn: 0
-  PlayerLightData:
-    Intensity: 0
-    Colour: {r: 0, g: 0, b: 0, a: 0}
-    EnumSprite: 0
-    Size: 12
+  colour: {r: 0, g: 0, b: 0, a: 0}
+  objectLightSprite: {fileID: 0}
+  commonComponents: {fileID: 0}
+  SpriteShape: 0
+  Size: 3.5
+  weakenOnGround: 0
+  revertToOldConsistencyBehavior: 0
+  weakenStrength: 1.45
 --- !u!114 &4821844458157436374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,6 +405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248d0e8833af4f35917b5fc3503b256c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   color: 0

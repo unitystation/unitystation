@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9156308078107356587}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1084261533008379216}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7232157366715067483
 SpriteRenderer:
@@ -107,11 +107,15 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &2685493019566052597
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2930343684074530701, guid: 792079a5e2a75f94fab3174a3bcd7033,
@@ -189,7 +193,12 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 1047719674219425268}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3156860657619003749, guid: 792079a5e2a75f94fab3174a3bcd7033,
+        type: 3}
+      propertyPath: _assetId
+      value: 4022308755
+      objectReference: {fileID: 0}
     - target: {fileID: 3156860657619003749, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}
       propertyPath: m_AssetId
@@ -227,19 +236,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 6dfa39f936b18f24b833015a255aa6f2,
         type: 2}
     - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}
-      propertyPath: initialTraits.Array.data[2]
+      propertyPath: 'initialTraits.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 14b6795f3a7c586488ff9135a8106b6f,
         type: 2}
     - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}
-      propertyPath: initialTraits.Array.data[3]
+      propertyPath: 'initialTraits.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: e73f3e53735c02e4c94c5c57e59a1579,
         type: 2}
@@ -292,19 +301,22 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: df6b539dc32d1f24a9891da9462fd0c4,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3046926709100325285, guid: 792079a5e2a75f94fab3174a3bcd7033,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1804940198129431406}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3052131659407643857, guid: 792079a5e2a75f94fab3174a3bcd7033,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1851616424243757961}
+    - targetCorrespondingSourceObject: {fileID: 3052131659407643857, guid: 792079a5e2a75f94fab3174a3bcd7033,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3754805696864176165}
   m_SourcePrefab: {fileID: 100100000, guid: 792079a5e2a75f94fab3174a3bcd7033, type: 3}
---- !u!114 &1047719674219425268 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3156731772114303233, guid: 792079a5e2a75f94fab3174a3bcd7033,
-    type: 3}
-  m_PrefabInstance: {fileID: 2685493019566052597}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1089748232968454180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1084261533008379216 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3046926709100325285, guid: 792079a5e2a75f94fab3174a3bcd7033,
@@ -329,10 +341,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5f7bc434f271324f9dceb9f6476a0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Watts: 1000
+  watts: 1000
   MaxWatts: 1000
   InternalResistance: 240
   isBroken: 0
+  SelfCharging: 0
+  SelfChargeWatts: 0
 --- !u!114 &3754805696864176165
 MonoBehaviour:
   m_ObjectHideFlags: 0

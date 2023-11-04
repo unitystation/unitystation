@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using Mirror;
 
@@ -15,34 +16,34 @@ public class UIActionScriptableObject : ScriptableObject, IServerActionGUI, ISer
 
 	public void CallActionClient(ActionData data)
 	{
-		Logger.Log("CallActionClient SO", Category.UserInput);
+		Loggy.Log("CallActionClient SO", Category.UserInput);
 		//Do whatever you want
 		//Remember if its networked do validationNot just
 	}
 
 	public void CallActionServer(ActionData data, PlayerInfo playerInfo)
 	{
-		Logger.Log("CallActionServer SO", Category.UserInput);
+		Loggy.Log("CallActionServer SO", Category.UserInput);
 		//Validation
 		//do Action
 	}
 
 	public virtual void CallActionClient()
 	{
-		Logger.Log("CallActionClient SO", Category.UserInput);
+		Loggy.Log("CallActionClient SO", Category.UserInput);
 		//Do whatever you want
 		//Remember if its networked do validationNot just
 	}
 
 	public virtual void CallActionServer(PlayerInfo playerInfo)
 	{
-		Logger.Log("CallActionServer SO", Category.UserInput);
+		Loggy.Log("CallActionServer SO", Category.UserInput);
 		//Validation
 		//do Action
 	}
 	public NetworkIdentity GetNetworkIdentity()
 	{
-		Logger.Log("GetNetworkIdentity SO", Category.UserInput);
+		Loggy.Log("GetNetworkIdentity SO", Category.UserInput);
 		//Return the network identity that its going to find it from,
 		//**Dont** ues stuff that could change across server and client E.G station matrix
 		return (null);

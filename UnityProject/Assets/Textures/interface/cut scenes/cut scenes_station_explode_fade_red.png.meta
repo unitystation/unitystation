@@ -84,7 +84,7 @@ TextureImporter:
       213: 21300052
     second: station_explode_fade_red_26
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -101,11 +101,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -144,6 +145,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -159,6 +162,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -750,36 +765,35 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      station_explode_fade_red_15: 21300030
-      station_explode_fade_red_20: 21300040
-      station_explode_fade_red_17: 21300034
-      station_explode_fade_red_14: 21300028
-      station_explode_fade_red_3: 21300006
-      station_explode_fade_red_5: 21300010
-      station_explode_fade_red_9: 21300018
-      station_explode_fade_red_10: 21300020
       station_explode_fade_red_0: 21300000
-      station_explode_fade_red_7: 21300014
-      station_explode_fade_red_11: 21300022
-      station_explode_fade_red_22: 21300044
-      station_explode_fade_red_6: 21300012
-      station_explode_fade_red_13: 21300026
       station_explode_fade_red_1: 21300002
-      station_explode_fade_red_21: 21300042
-      station_explode_fade_red_4: 21300008
+      station_explode_fade_red_10: 21300020
+      station_explode_fade_red_11: 21300022
       station_explode_fade_red_12: 21300024
-      station_explode_fade_red_25: 21300050
-      station_explode_fade_red_24: 21300048
-      station_explode_fade_red_26: 21300052
+      station_explode_fade_red_13: 21300026
+      station_explode_fade_red_14: 21300028
+      station_explode_fade_red_15: 21300030
+      station_explode_fade_red_16: 21300032
+      station_explode_fade_red_17: 21300034
+      station_explode_fade_red_18: 21300036
       station_explode_fade_red_19: 21300038
       station_explode_fade_red_2: 21300004
+      station_explode_fade_red_20: 21300040
+      station_explode_fade_red_21: 21300042
+      station_explode_fade_red_22: 21300044
       station_explode_fade_red_23: 21300046
-      station_explode_fade_red_18: 21300036
+      station_explode_fade_red_24: 21300048
+      station_explode_fade_red_25: 21300050
+      station_explode_fade_red_26: 21300052
+      station_explode_fade_red_3: 21300006
+      station_explode_fade_red_4: 21300008
+      station_explode_fade_red_5: 21300010
+      station_explode_fade_red_6: 21300012
+      station_explode_fade_red_7: 21300014
       station_explode_fade_red_8: 21300016
-      station_explode_fade_red_16: 21300032
-  spritePackingTag: 
+      station_explode_fade_red_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

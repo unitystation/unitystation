@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
@@ -57,6 +58,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: _assetId
+      value: 2981577436
+      objectReference: {fileID: 0}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: m_AssetId
       value: 7fcf9e27e01f78e48aad63996e91ff2f
       objectReference: {fileID: 0}
@@ -64,7 +70,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 1821874675337654403}
+      objectReference: {fileID: 0}
     - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: CurrentsortingGroup
@@ -118,7 +124,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: initialTraits.Array.data[0]
+      propertyPath: 'initialTraits.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 983416b6f230b524cacf1a43349d14f7,
         type: 2}
@@ -144,6 +150,21 @@ PrefabInstance:
       value: 7fcf9e27e01f78e48aad63996e91ff2f
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6495101291114284292}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2710468740513023014}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4620297301374731262}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &1791647728409730387 stripped
 GameObject:
@@ -163,11 +184,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7c30ca55ffa4467a421abf7a832a6a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   initialAmount: 15
   maxAmount: 15
   stacksWith: []
+  isRepresentationOfStack: 0
   stackNames: []
   stackSprites:
   - SpriteSO: {fileID: 11400000, guid: 3cb6f2ed76d09d648bda958c4ccebead, type: 2}
@@ -194,8 +217,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healType: 1
   StopsExternalBleeding: 1
-  HealsTraumaDamage: 1
-  TraumaDamageToHeal: 50
   TraumaTypeToHeal: 3
 --- !u!114 &4620297301374731262
 MonoBehaviour:
@@ -209,6 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86536f54b4694d5a98b2f4962a473b7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 5592108624515032788}
@@ -224,18 +246,6 @@ MonoBehaviour:
   openedSprite: {fileID: 11400000, guid: 7ab2f0c44122e1246a8aa1b3bd3f7d6a, type: 2}
   openingVerb: you tear open the anti-microbial wrapping on the
   openingRequirementText: You need to open this first before using it!
---- !u!114 &1821874675337654403 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 1792047792650166761}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1791647728409730387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!210 &5506006793603177245 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 6104600676241079028, guid: a7abba22164ce49f0bf9b9b219f39298,

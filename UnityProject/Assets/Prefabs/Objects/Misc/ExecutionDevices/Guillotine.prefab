@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8153443404168369063}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.01, y: -0.996, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4614729696777464734}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3271367676713184689
 SpriteRenderer:
@@ -105,6 +105,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8248417872068901956
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,13 +133,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8248417872068901956}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4614729696777464734}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2574685408391271123
 SpriteRenderer:
@@ -213,11 +216,15 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &4218887424821755918
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 108041394260435671, guid: c735db9af3182104f8006ec3d79e6056,
@@ -239,6 +246,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialIntegrity
       value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 1103043220628936744, guid: c735db9af3182104f8006ec3d79e6056,
+        type: 3}
+      propertyPath: _assetId
+      value: 168801134
       objectReference: {fileID: 0}
     - target: {fileID: 1103043220628936744, guid: c735db9af3182104f8006ec3d79e6056,
         type: 3}
@@ -279,25 +291,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4090371145196013456, guid: c735db9af3182104f8006ec3d79e6056,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: aa29e01dd1ac5074f9dff92733ba3852,
         type: 2}
     - target: {fileID: 4090371145196013456, guid: c735db9af3182104f8006ec3d79e6056,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 1bf6c5f81096fcb4c85c3c29657e2aea,
         type: 2}
     - target: {fileID: 4090371145196013456, guid: c735db9af3182104f8006ec3d79e6056,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 231fb3300fce8a7408f8b7a5bb812c57,
         type: 2}
     - target: {fileID: 4090371145196013456, guid: c735db9af3182104f8006ec3d79e6056,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[3]
+      propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: e6ec26a6e76a9a4448a0fec4a5987a69,
         type: 2}
@@ -388,6 +400,25 @@ PrefabInstance:
       value: Guillotine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8828937595049274256, guid: c735db9af3182104f8006ec3d79e6056,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1698779998234320138}
+    - targetCorrespondingSourceObject: {fileID: 8828937595049274256, guid: c735db9af3182104f8006ec3d79e6056,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4924080160083399192}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8832432144764185930, guid: c735db9af3182104f8006ec3d79e6056,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4912518087070134177}
+    - targetCorrespondingSourceObject: {fileID: 8832432144764185930, guid: c735db9af3182104f8006ec3d79e6056,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8246528871394793647}
   m_SourcePrefab: {fileID: 100100000, guid: c735db9af3182104f8006ec3d79e6056, type: 3}
 --- !u!114 &166515676364113822 stripped
 MonoBehaviour:

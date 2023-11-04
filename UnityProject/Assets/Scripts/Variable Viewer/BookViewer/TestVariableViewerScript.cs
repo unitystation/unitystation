@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Logs;
+using SecureStuff;
+using Random = UnityEngine.Random;
 
 public class TestVariableViewerScript : MonoBehaviour
 {
@@ -58,15 +61,18 @@ public class TestVariableViewerScript : MonoBehaviour
 
 	public int length = 10;
 
+	public Color Colour = Color.white;
+
+	public List<Color> ColourList = new  List<Color>();
 	private void DOThingPrivate()
 	{
-		Logger.Log("DOThingPrivate");
+		Loggy.Log("DOThingPrivate");
 	}
 
 
 	public void DOThingPublic()
 	{
-		Logger.Log("DOThingPublic");
+		Loggy.Log("DOThingPublic");
 	}
 
 
@@ -75,6 +81,7 @@ public class TestVariableViewerScript : MonoBehaviour
 		Trees = new Tuple<int, string>(2, "ggggggg");
 		for (int i = 0; i < length; i++)
 		{
+			ColourList.Add(new Color(Random.value, Random.value, Random.value));
 			PListInt.Add(i);
 			PListbool.Add(true);
 			PListstring.Add(i.ToString() + "< t");

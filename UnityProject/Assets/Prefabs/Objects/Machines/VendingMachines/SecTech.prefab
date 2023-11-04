@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 396145836350701281, guid: 2f2954acc32d9d3468c620e34a625966,
@@ -18,6 +19,11 @@ PrefabInstance:
       propertyPath: CurrentsortingGroup
       value: 
       objectReference: {fileID: 6130806186991876726}
+    - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: _assetId
+      value: 3209689068
+      objectReference: {fileID: 0}
     - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_AssetId
@@ -45,7 +51,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4299547928631692446, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: requiredClearance.Array.data[0]
+      propertyPath: 'requiredClearance.Array.data[0]'
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
@@ -265,6 +271,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f2954acc32d9d3468c620e34a625966, type: 3}
 --- !u!210 &6130806186991876726 stripped
 SortingGroup:

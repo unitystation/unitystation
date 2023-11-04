@@ -10,11 +10,11 @@ namespace Objects.Construction
 {
 	public class AirlockAssembly : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Game object which represents the fill layer of this airlock")]
 		private GameObject overlayFill = null;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Game object which represents the hacking panel layer for this airlock")]
 		private GameObject overlayHacking = null;
 
@@ -72,7 +72,7 @@ namespace Objects.Construction
 		/// <returns></returns>
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (!Validations.IsTarget(gameObject, interaction)) return false;
 
@@ -80,27 +80,27 @@ namespace Objects.Construction
 			if (CurrentState == initialState)
 			{
 				//wrench the airlock or deconstruct
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) ||
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench) ||
 					  Validations.HasUsedActiveWelder(interaction);
 			}
 			else if (CurrentState == wrenchedState)
 			{
 				//add 1 cables or unwrench the airlock
-				return (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) && Validations.HasUsedAtLeast(interaction, 1)) ||
-					Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) || (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.GlassSheet) &&
+				return (Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) && Validations.HasUsedAtLeast(interaction, 1)) ||
+					Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench) || (Validations.HasItemTrait(interaction, CommonTraits.Instance.GlassSheet) &&
 					Validations.HasUsedAtLeast(interaction, 1) && !glassAdded && airlockWindowedToSpawn);
 			}
 			else if (CurrentState == cablesAddedState)
 			{
 				//add airlock electronics or cut cables
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter) ||
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter) ||
 					Validations.HasUsedComponent<AirlockElectronics>(interaction);
 			}
 			else if (CurrentState == electronicsAddedState)
 			{
 				//screw in or pry off airlock electronics
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
-					   Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+					   Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar);
 			}
 
 			return false;
@@ -136,7 +136,7 @@ namespace Objects.Construction
 		/// <param name="interaction"></param>
 		private void InitialStateInteraction(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench))
 			{
 				if (!ServerValidations.IsAnchorBlocked(interaction))
 				{
@@ -176,7 +176,7 @@ namespace Objects.Construction
 		/// <param name="interaction"></param>
 		private void WrenchedStateInteraction(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) &&
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) &&
 									 Validations.HasUsedAtLeast(interaction, 1))
 			{
 				//add 1 cable
@@ -189,10 +189,10 @@ namespace Objects.Construction
 					{
 						Inventory.ServerConsume(interaction.HandSlot, 1);
 						stateful.ServerChangeState(cablesAddedState);
-						overlayHackingHandler.ChangeSprite((int)Panel.WiresAdded);
+						overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.WiresAdded);
 					});
 			}
-			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench))
 			{
 				//unwrench
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -203,7 +203,7 @@ namespace Objects.Construction
 					() => objectBehaviour.ServerSetAnchored(false, interaction.Performer));
 				stateful.ServerChangeState(initialState);
 			}
-			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.GlassSheet) &&
+			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.GlassSheet) &&
 						 Validations.HasUsedAtLeast(interaction, 1) && !glassAdded && airlockWindowedToSpawn)
 			{
 				//add glass
@@ -215,7 +215,7 @@ namespace Objects.Construction
 					() =>
 					{
 						Inventory.ServerConsume(interaction.HandSlot, 1);
-						overlayFillHandler.ChangeSprite((int)Fill.GlassFill);
+						overlayFillHandler.SetCatalogueIndexSprite((int)Fill.GlassFill);
 						glassAdded = true;
 					});
 			}
@@ -239,11 +239,11 @@ namespace Objects.Construction
 						if(Inventory.ServerTransfer(interaction.HandSlot, airlockElectronicsSlot))
 						{
 							stateful.ServerChangeState(electronicsAddedState);
-							overlayHackingHandler.ChangeSprite((int)Panel.ElectronicsAdded);
+							overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.ElectronicsAdded);
 						}
 					});
 			}
-			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter))
+			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter))
 			{
 				//cut out cables
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -255,7 +255,7 @@ namespace Objects.Construction
 					{
 						Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject));
 						stateful.ServerChangeState(wrenchedState);
-						overlayHackingHandler.ChangeSprite((int)Panel.EmptyPanel);
+						overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.EmptyPanel);
 					});
 			}
 		}
@@ -266,7 +266,7 @@ namespace Objects.Construction
 		/// <param name="interaction"></param>
 		private void ElectronicsAddedStateInteraction(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) && airlockElectronicsSlot.IsOccupied)
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) && airlockElectronicsSlot.IsOccupied)
 			{
 				//screw in the airlock electronics
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -287,7 +287,7 @@ namespace Objects.Construction
 						_ = Despawn.ServerSingle(gameObject);
 					});
 			}
-			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && airlockElectronicsSlot.IsOccupied)
+			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar) && airlockElectronicsSlot.IsOccupied)
 			{
 				//Crowbar the electronics out
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -299,7 +299,7 @@ namespace Objects.Construction
 					{
 						Inventory.ServerDrop(airlockElectronicsSlot);
 						stateful.ServerChangeState(cablesAddedState);
-						overlayHackingHandler.ChangeSprite((int)Panel.WiresAdded);
+						overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.WiresAdded);
 					});
 			}
 		}
@@ -388,10 +388,10 @@ namespace Objects.Construction
 
 			objectBehaviour.SetIsNotPushable(true);
 			stateful.ServerChangeState(cablesAddedState);
-			overlayHackingHandler.ChangeSprite((int)Panel.WiresAdded);
+			overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.WiresAdded);
 			if (isWindowed)
 			{
-				overlayFillHandler.ChangeSprite((int)Fill.GlassFill);
+				overlayFillHandler.SetCatalogueIndexSprite((int)Fill.GlassFill);
 				glassAdded = true;
 			}
 		}

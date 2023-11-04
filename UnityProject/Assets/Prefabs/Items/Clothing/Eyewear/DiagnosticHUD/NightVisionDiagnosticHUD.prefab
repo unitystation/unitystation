@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 59512926401929955, guid: 89d026ca3c185844194baeb3ff3b4d98,
@@ -111,6 +112,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3317552745358689725, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}
+      propertyPath: _assetId
+      value: 2047505496
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317552745358689725, guid: 89d026ca3c185844194baeb3ff3b4d98,
+        type: 3}
       propertyPath: m_AssetId
       value: 900b7573bf251ff4da6fe6f2d4d11307
       objectReference: {fileID: 0}
@@ -156,7 +162,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: a66c2fc67fdb7a24bb0d61120dadd3a7,
         type: 2}
@@ -167,6 +173,17 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: cb02a64914b802b4bbdef0387e77ebbf,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3431291279286482953, guid: 89d026ca3c185844194baeb3ff3b4d98,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4630614476013387876}
+    - targetCorrespondingSourceObject: {fileID: 3431291279286482953, guid: 89d026ca3c185844194baeb3ff3b4d98,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9019850268821512985}
   m_SourcePrefab: {fileID: 100100000, guid: 89d026ca3c185844194baeb3ff3b4d98, type: 3}
 --- !u!114 &4118457802233407726 stripped
 MonoBehaviour:
@@ -198,10 +215,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e8deecf3238eac4597c33d91991c2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  nightVisionVisibility: {x: 10.5, y: 10.5, z: 21}
-  visibilityAnimationSpeed: 0.75
+  OnBodyID: 0
+  isOn: 0
 --- !u!114 &9019850268821512985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1360d2b65a03cdf449035cd3c4cd0153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   actionData: {fileID: 11400000, guid: a5f5824fd6f60514bae4cfbecbb9e44c, type: 2}

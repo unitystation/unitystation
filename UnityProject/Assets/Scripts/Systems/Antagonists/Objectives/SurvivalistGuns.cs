@@ -18,6 +18,12 @@ namespace Antagonists
 		{
 		}
 
+		protected override void SetupInGame()
+		{
+			// Pick a random item and add it to the targeted list
+			minimumGunsNeeded = attributes[0].Number;
+		}
+
 		protected override bool CheckCompletion()
 		{
 			return CheckStorageFor(typeof(Gun), minimumGunsNeeded);

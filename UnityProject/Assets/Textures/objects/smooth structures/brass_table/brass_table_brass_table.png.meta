@@ -147,7 +147,7 @@ TextureImporter:
       213: 3741197682685801004
     second: brass_table_brass_table_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      brass_table_brass_table_8: 8504672072096144549
-      brass_table_brass_table_3: 4681815587823029108
+      brass_table_brass_table_0: 789277883752504185
+      brass_table_brass_table_1: -7554238262642682444
+      brass_table_brass_table_10: -3321093887263289735
       brass_table_brass_table_11: -6123574384622448394
       brass_table_brass_table_12: 8388125478102335905
-      brass_table_brass_table_39: -6806113774043560741
-      brass_table_brass_table_19: 8069615544215245227
-      brass_table_brass_table_42: 7185809859646993976
-      brass_table_brass_table_1: -7554238262642682444
-      brass_table_brass_table_32: 2899019233337452980
-      brass_table_brass_table_30: 702734817939188917
-      brass_table_brass_table_37: 2864725063003924773
-      brass_table_brass_table_46: 2344114445757468672
-      brass_table_brass_table_44: -6421616796470434034
-      brass_table_brass_table_4: 2946362190665955817
-      brass_table_brass_table_9: -6013078546653222899
-      brass_table_brass_table_6: -4182023622807278920
-      brass_table_brass_table_40: 3001462886404214105
-      brass_table_brass_table_18: 8931160000884100178
-      brass_table_brass_table_26: 940284907659056745
-      brass_table_brass_table_20: -5747824792395461944
-      brass_table_brass_table_36: 6047852918116651885
-      brass_table_brass_table_16: 8912418580199465093
-      brass_table_brass_table_23: -993812965140403096
-      brass_table_brass_table_28: -8714722876019717581
-      brass_table_brass_table_34: 3974949598751523958
-      brass_table_brass_table_27: 1576625188819922682
-      brass_table_brass_table_38: -2578181281933107621
-      brass_table_brass_table_22: 7430598631665966303
-      brass_table_brass_table_2: -5195563877251242046
-      brass_table_brass_table_14: 6992182647192031835
-      brass_table_brass_table_43: 902295928848196040
-      brass_table_brass_table_15: 6441883089706263100
       brass_table_brass_table_13: -8784196828778522846
-      brass_table_brass_table_29: 1846422288325848483
-      brass_table_brass_table_21: 4931968619761793244
-      brass_table_brass_table_33: 1375835197370948039
-      brass_table_brass_table_47: 3741197682685801004
-      brass_table_brass_table_45: 793016565068000155
-      brass_table_brass_table_7: 492056553368226863
-      brass_table_brass_table_5: 8016687365384557681
-      brass_table_brass_table_0: 789277883752504185
-      brass_table_brass_table_10: -3321093887263289735
-      brass_table_brass_table_35: 1442369198281824762
-      brass_table_brass_table_24: 5696529996279665064
+      brass_table_brass_table_14: 6992182647192031835
+      brass_table_brass_table_15: 6441883089706263100
+      brass_table_brass_table_16: 8912418580199465093
       brass_table_brass_table_17: -3520918580974283184
-      brass_table_brass_table_31: 5894249350574509029
-      brass_table_brass_table_41: 4281154968391947553
+      brass_table_brass_table_18: 8931160000884100178
+      brass_table_brass_table_19: 8069615544215245227
+      brass_table_brass_table_2: -5195563877251242046
+      brass_table_brass_table_20: -5747824792395461944
+      brass_table_brass_table_21: 4931968619761793244
+      brass_table_brass_table_22: 7430598631665966303
+      brass_table_brass_table_23: -993812965140403096
+      brass_table_brass_table_24: 5696529996279665064
       brass_table_brass_table_25: -1929404840464423366
-  spritePackingTag: 
+      brass_table_brass_table_26: 940284907659056745
+      brass_table_brass_table_27: 1576625188819922682
+      brass_table_brass_table_28: -8714722876019717581
+      brass_table_brass_table_29: 1846422288325848483
+      brass_table_brass_table_3: 4681815587823029108
+      brass_table_brass_table_30: 702734817939188917
+      brass_table_brass_table_31: 5894249350574509029
+      brass_table_brass_table_32: 2899019233337452980
+      brass_table_brass_table_33: 1375835197370948039
+      brass_table_brass_table_34: 3974949598751523958
+      brass_table_brass_table_35: 1442369198281824762
+      brass_table_brass_table_36: 6047852918116651885
+      brass_table_brass_table_37: 2864725063003924773
+      brass_table_brass_table_38: -2578181281933107621
+      brass_table_brass_table_39: -6806113774043560741
+      brass_table_brass_table_4: 2946362190665955817
+      brass_table_brass_table_40: 3001462886404214105
+      brass_table_brass_table_41: 4281154968391947553
+      brass_table_brass_table_42: 7185809859646993976
+      brass_table_brass_table_43: 902295928848196040
+      brass_table_brass_table_44: -6421616796470434034
+      brass_table_brass_table_45: 793016565068000155
+      brass_table_brass_table_46: 2344114445757468672
+      brass_table_brass_table_47: 3741197682685801004
+      brass_table_brass_table_5: 8016687365384557681
+      brass_table_brass_table_6: -4182023622807278920
+      brass_table_brass_table_7: 492056553368226863
+      brass_table_brass_table_8: 8504672072096144549
+      brass_table_brass_table_9: -6013078546653222899
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

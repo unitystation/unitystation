@@ -216,7 +216,7 @@ TextureImporter:
       213: 21300140
     second: ai-triumvirate_70
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -233,11 +233,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -276,6 +277,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -291,6 +294,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1806,80 +1821,79 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ai-triumvirate_4: 21300008
-      ai-triumvirate_5: 21300010
-      ai-triumvirate_33: 21300066
-      ai-triumvirate_61: 21300122
-      ai-triumvirate_16: 21300032
-      ai-triumvirate_69: 21300138
-      ai-triumvirate_17: 21300034
-      ai-triumvirate_7: 21300014
-      ai-triumvirate_37: 21300074
-      ai-triumvirate_11: 21300022
-      ai-triumvirate_1: 21300002
-      ai-triumvirate_23: 21300046
-      ai-triumvirate_13: 21300026
-      ai-triumvirate_64: 21300128
-      ai-triumvirate_34: 21300068
-      ai-triumvirate_44: 21300088
-      ai-triumvirate_57: 21300114
-      ai-triumvirate_60: 21300120
       ai-triumvirate_0: 21300000
-      ai-triumvirate_46: 21300092
-      ai-triumvirate_63: 21300126
-      ai-triumvirate_2: 21300004
-      ai-triumvirate_66: 21300132
-      ai-triumvirate_36: 21300072
-      ai-triumvirate_21: 21300042
-      ai-triumvirate_62: 21300124
-      ai-triumvirate_29: 21300058
-      ai-triumvirate_58: 21300116
-      ai-triumvirate_14: 21300028
-      ai-triumvirate_56: 21300112
-      ai-triumvirate_55: 21300110
-      ai-triumvirate_25: 21300050
-      ai-triumvirate_43: 21300086
-      ai-triumvirate_50: 21300100
-      ai-triumvirate_9: 21300018
-      ai-triumvirate_70: 21300140
-      ai-triumvirate_65: 21300130
-      ai-triumvirate_15: 21300030
-      ai-triumvirate_51: 21300102
-      ai-triumvirate_68: 21300136
-      ai-triumvirate_32: 21300064
-      ai-triumvirate_12: 21300024
-      ai-triumvirate_3: 21300006
-      ai-triumvirate_24: 21300048
-      ai-triumvirate_22: 21300044
-      ai-triumvirate_41: 21300082
-      ai-triumvirate_20: 21300040
-      ai-triumvirate_31: 21300062
-      ai-triumvirate_30: 21300060
-      ai-triumvirate_47: 21300094
-      ai-triumvirate_8: 21300016
-      ai-triumvirate_28: 21300056
-      ai-triumvirate_54: 21300108
-      ai-triumvirate_59: 21300118
-      ai-triumvirate_19: 21300038
-      ai-triumvirate_52: 21300104
-      ai-triumvirate_27: 21300054
-      ai-triumvirate_39: 21300078
-      ai-triumvirate_6: 21300012
-      ai-triumvirate_26: 21300052
-      ai-triumvirate_40: 21300080
-      ai-triumvirate_35: 21300070
-      ai-triumvirate_45: 21300090
-      ai-triumvirate_42: 21300084
-      ai-triumvirate_38: 21300076
-      ai-triumvirate_48: 21300096
+      ai-triumvirate_1: 21300002
       ai-triumvirate_10: 21300020
+      ai-triumvirate_11: 21300022
+      ai-triumvirate_12: 21300024
+      ai-triumvirate_13: 21300026
+      ai-triumvirate_14: 21300028
+      ai-triumvirate_15: 21300030
+      ai-triumvirate_16: 21300032
+      ai-triumvirate_17: 21300034
       ai-triumvirate_18: 21300036
+      ai-triumvirate_19: 21300038
+      ai-triumvirate_2: 21300004
+      ai-triumvirate_20: 21300040
+      ai-triumvirate_21: 21300042
+      ai-triumvirate_22: 21300044
+      ai-triumvirate_23: 21300046
+      ai-triumvirate_24: 21300048
+      ai-triumvirate_25: 21300050
+      ai-triumvirate_26: 21300052
+      ai-triumvirate_27: 21300054
+      ai-triumvirate_28: 21300056
+      ai-triumvirate_29: 21300058
+      ai-triumvirate_3: 21300006
+      ai-triumvirate_30: 21300060
+      ai-triumvirate_31: 21300062
+      ai-triumvirate_32: 21300064
+      ai-triumvirate_33: 21300066
+      ai-triumvirate_34: 21300068
+      ai-triumvirate_35: 21300070
+      ai-triumvirate_36: 21300072
+      ai-triumvirate_37: 21300074
+      ai-triumvirate_38: 21300076
+      ai-triumvirate_39: 21300078
+      ai-triumvirate_4: 21300008
+      ai-triumvirate_40: 21300080
+      ai-triumvirate_41: 21300082
+      ai-triumvirate_42: 21300084
+      ai-triumvirate_43: 21300086
+      ai-triumvirate_44: 21300088
+      ai-triumvirate_45: 21300090
+      ai-triumvirate_46: 21300092
+      ai-triumvirate_47: 21300094
+      ai-triumvirate_48: 21300096
       ai-triumvirate_49: 21300098
+      ai-triumvirate_5: 21300010
+      ai-triumvirate_50: 21300100
+      ai-triumvirate_51: 21300102
+      ai-triumvirate_52: 21300104
       ai-triumvirate_53: 21300106
+      ai-triumvirate_54: 21300108
+      ai-triumvirate_55: 21300110
+      ai-triumvirate_56: 21300112
+      ai-triumvirate_57: 21300114
+      ai-triumvirate_58: 21300116
+      ai-triumvirate_59: 21300118
+      ai-triumvirate_6: 21300012
+      ai-triumvirate_60: 21300120
+      ai-triumvirate_61: 21300122
+      ai-triumvirate_62: 21300124
+      ai-triumvirate_63: 21300126
+      ai-triumvirate_64: 21300128
+      ai-triumvirate_65: 21300130
+      ai-triumvirate_66: 21300132
       ai-triumvirate_67: 21300134
-  spritePackingTag: 
+      ai-triumvirate_68: 21300136
+      ai-triumvirate_69: 21300138
+      ai-triumvirate_7: 21300014
+      ai-triumvirate_70: 21300140
+      ai-triumvirate_8: 21300016
+      ai-triumvirate_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

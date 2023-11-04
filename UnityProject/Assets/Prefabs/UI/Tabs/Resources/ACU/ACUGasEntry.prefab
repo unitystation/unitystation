@@ -33,7 +33,6 @@ RectTransform:
   m_Children:
   - {fileID: 3234372358141284034}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -60,6 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 590ea76a07e0aa64cacb3a74307c7086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Poolble: 1
   label: {fileID: 7913504572502207449}
 --- !u!114 &2656474429918043015
 MonoBehaviour:
@@ -113,7 +113,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 224096793523660850}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

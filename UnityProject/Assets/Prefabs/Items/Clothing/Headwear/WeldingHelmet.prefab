@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
@@ -21,13 +22,19 @@ PrefabInstance:
     - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: ba923436cf6803a4f99a5ed73f885d61,
+        type: 2}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f5b7ce1cca0a644cba934af14ea4b2c,
         type: 2}
     - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
@@ -83,17 +90,17 @@ PrefabInstance:
     - target: {fileID: 2185168809060922027, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2185168809060922027, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2185168809060922027, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2185168809060922027, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
@@ -109,6 +116,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2293722870276993643, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: _assetId
+      value: 3072470293
       objectReference: {fileID: 0}
     - target: {fileID: 2293722870276993643, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
@@ -312,13 +324,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 555b58f45166f714fa7a24ef3b44bc9e,
         type: 2}
     - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: c85fc40448310c646aed36a5f039e82d,
         type: 2}
@@ -333,5 +345,96 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f54389019059b69498d228cf92bebf89,
         type: 2}
+    - target: {fileID: 5406248525527790680, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5406248525527790680, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f54389019059b69498d228cf92bebf89,
+        type: 2}
+    - target: {fileID: 5406248525527790680, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 67dd6dab122c48044a790b199900aaed,
+        type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2179959185564930015, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4381185122294472914}
   m_SourcePrefab: {fileID: 100100000, guid: a7a048f6c330048e9a2358fb6f71d385, type: 3}
+--- !u!1 &7636118406116123594 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2179959185564930015, guid: a7a048f6c330048e9a2358fb6f71d385,
+    type: 3}
+  m_PrefabInstance: {fileID: 8626702741117152277}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4381185122294472914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7636118406116123594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76265263b12ffbbc0ab21ee84affc2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  SetClothingSprite: 1
+  initialStateIndex: 0
+  states:
+  - ExamineMessage: closed
+    changeMessage: you flip down the welding mask
+    changeSound:
+      SetLoadSetting: 0
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    spriteIndex: 0
+    traits:
+    - {fileID: 11400000, guid: 4f5b7ce1cca0a644cba934af14ea4b2c, type: 2}
+    usingSound:
+      SetLoadSetting: 0
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    clothingV2Index: 0
+  - ExamineMessage: open
+    changeMessage: you flip up  the welding mask
+    changeSound:
+      SetLoadSetting: 0
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    spriteIndex: 1
+    traits: []
+    usingSound:
+      SetLoadSetting: 0
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    clothingV2Index: 1

@@ -17,7 +17,7 @@ public class Knife : MonoBehaviour, ICheckedInteractable<InventoryApply>,  IChec
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 		//if the item isn't a butcher knife, no go.
-		if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Knife) == false) return false;
+		if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Knife) == false) return false;
 
 		if (interaction.TargetObject.TryGetComponent<ItemAttributesV2>(out var attr))
 		{
@@ -65,13 +65,13 @@ public class Knife : MonoBehaviour, ICheckedInteractable<InventoryApply>,  IChec
 	{
 
 		//can the player act at all?
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 		//interaction only occurs if cutting target is on a hand slot.
 		if (!interaction.IsToHandSlot) return false;
 
 		//if the item isn't a butcher knife, no go.
-		if (!Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Knife)) return false;
+		if (!Validations.HasItemTrait(interaction, CommonTraits.Instance.Knife)) return false;
 
 
 		//TargetSlot must not be empty.

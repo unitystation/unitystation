@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Core.Utils;
+using Logs;
 using NaughtyAttributes;
 using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;
@@ -33,7 +34,7 @@ namespace Systems.Atmospherics
 			{
 				if (float.IsNormal(value) == false && value != 0)
 				{
-					Logger.LogError($"AAAAAAAAAAAAA REEEEEEEEE pressure Invalid number!!!! {value}");
+					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE pressure Invalid number!!!! {value}");
 					return;
 				}
 
@@ -54,7 +55,7 @@ namespace Systems.Atmospherics
 			{
 				if (float.IsNormal(value) == false && value != 0)
 				{
-					Logger.LogError($"AAAAAAAAAAAAA REEEEEEEEE Temperature Invalid number!!!! {value}");
+					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Temperature Invalid number!!!! {value}");
 					return;
 				}
 
@@ -116,7 +117,7 @@ namespace Systems.Atmospherics
 			{
 				if (float.IsNormal(value) == false && value != 0)
 				{
-					Logger.LogError($"AAAAAAAAAAAAA REEEEEEEEE InternalEnergy Invalid number!!!! {value}");
+					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE InternalEnergy Invalid number!!!! {value}");
 					return;
 				}
 
@@ -215,7 +216,7 @@ namespace Systems.Atmospherics
 
 			if (Mathf.Approximately(ActualMoles, 0))
 			{
-				Logger.LogError("Inappropriate Input for FromTemperatureAndPressure ", Category.Atmos);
+				Loggy.LogError("Inappropriate Input for FromTemperatureAndPressure ", Category.Atmos);
 				return GasMixesSingleton.Instance.air.BaseGasMix;
 			}
 
@@ -253,7 +254,7 @@ namespace Systems.Atmospherics
 		{
 			if (target == source)
 			{
-				Logger.LogError("oh god You're transferring a gas mixture itself!!!");
+				Loggy.LogError("oh god You're transferring a gas mixture itself!!!");
 				return;
 			}
 
@@ -574,6 +575,23 @@ namespace Systems.Atmospherics
 			RecalculatePressure();
 		}
 
+		public void AddGasWithTemperature(GasSO gas, float moles, float kelvinTemperature)
+		{
+			AddGas(gas, moles, gas.MolarHeatCapacity * moles * kelvinTemperature);
+		}
+
+
+
+		public void AddGas(GasSO gas, float moles, float energyOfAddedGas)
+		{
+			var newInternalenergy = InternalEnergy + energyOfAddedGas;
+			GasData.ChangeMoles(gas, moles);
+			InternalEnergy = newInternalenergy;
+			RecalculatePressure();
+		}
+
+
+
 		public void AddGas(GasSO gas, float moles)
 		{
 			GasData.ChangeMoles(gas, moles);
@@ -584,6 +602,20 @@ namespace Systems.Atmospherics
 		{
 			GasData.ChangeMoles(gas, -moles);
 			RecalculatePressure();
+		}
+
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="gas"></param>
+		/// <param name="moles">  Warning!!!! This will have incorrect results if you take more moles than is in the container </param>
+		/// <returns></returns>
+		public float TakeGasReturnEnergy(GasSO gas, float moles)
+		{
+			var energyOfTakingGaslEnergy = moles * gas.MolarHeatCapacity * Temperature;
+			GasData.ChangeMoles(gas, -moles);
+			RecalculatePressure();
+			return energyOfTakingGaslEnergy;
 		}
 
 		public void CopyFrom(GasMix other)

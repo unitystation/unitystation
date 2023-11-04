@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using Mirror;
 using NaughtyAttributes;
 using Initialisation;
+using Logs;
 using Messages.Client;
 using Objects.Electrical;
 using Systems.Explosions;
@@ -126,7 +127,7 @@ namespace Systems.Hacking
 
 			if (ColourDictionary == null)
 			{
-				Logger.Log("Color dictionary wasn't found. RegisterPort has exited.", Category.Interaction);
+				Loggy.Log("Color dictionary wasn't found. RegisterPort has exited.", Category.Interaction);
 				return;
 			}
 
@@ -261,7 +262,7 @@ namespace Systems.Hacking
 
 					if (Cable == null)
 					{
-						Logger.LogWarning("No cable was found for cutting", Category.Interaction);
+						Loggy.LogWarning("No cable was found for cutting", Category.Interaction);
 						return;
 					}
 

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Weapons.Projectiles.Behaviours;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,6 +38,11 @@ namespace Objects.Research
 		private GameObject SliverPrefab = null;
 
 		[SerializeField]
+		private GameObject artifactPlayerTargetEffectSuccess = null;
+		[SerializeField]
+		private GameObject artifactPlayerTargetEffectFail = null;
+
+		[SerializeField]
 		private SpriteHandler spriteHandler = null;
 
 		private RadiationProducer radiationProducer = null;
@@ -71,7 +76,7 @@ namespace Objects.Research
 		[SerializeField]
 		private DamageEffectBase forceWallDamageEffectSO = null;
 		private bool forceWallDamageEffect = false;
-	
+
 
 
 		[SyncVar] public string ID = "T376";
@@ -305,7 +310,7 @@ namespace Objects.Research
 			if (isDormant && Validations.HasItemTrait(interaction.UsedObject, DormantTrigger))
 			{
 				ToggleDormancy(false);
-				Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()} begins to humm quietly", gameObject);
+				Chat.AddActionMsgToChat(gameObject, $"{gameObject.ExpensiveName()} begins to humm quietly!");
 			}
 
 			TryActivateByTouch(interaction);
@@ -354,12 +359,12 @@ namespace Objects.Research
 			{
 				if(DMMath.Prob(50))
 				{
-					Chat.AddLocalMsgToChat("The anomlay begins to gently humm", gameObject);
+					Chat.AddActionMsgToChat(gameObject, "The anomaly begins to gently humm!");
 					ToggleDormancy(false);
 				}
 				else
 				{
-					Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()} quivers as a crack forms along its edge", gameObject);
+					Chat.AddActionMsgToChat(gameObject, $"{gameObject.ExpensiveName()} quivers as a crack forms along its edge!");
 				}
 			}
 			if (isDormant == false && !UnderTimeoutDamage)
@@ -376,14 +381,14 @@ namespace Objects.Research
 			{
 				if (DMMath.Prob(10))
 				{
-					Chat.AddActionMsgToChat(interaction.Performer, "Message for waking up artifact",
-						$"{interaction.Performer.ExpensiveName()} Message for waking up artifact");
+					Chat.AddActionMsgToChat(interaction.Performer, "You touch the anomaly, a chill goes down your spine as the anomaly begins to humm quietly...",
+						$"{interaction.Performer.ExpensiveName()} touches the anomaly, a chill goes down your spine as the anomaly begins to humm quietly...");
 					ToggleDormancy(false);
 				}
 				else
 				{
 					Chat.AddActionMsgToChat(interaction.Performer, "You touch the anomaly, it twitches slightly, but remains dormant...",
-						$"{interaction.Performer.ExpensiveName()} touches the anomaly, it twitches slighty, but remains dormant...");
+						$"{interaction.Performer.ExpensiveName()} touches the anomaly, it twitches slightly, but remains dormant...");
 				}
 			}
 			else if(!UnderTimeoutTouch)
@@ -415,8 +420,18 @@ namespace Objects.Research
 			if (moles > 0 && DMMath.Prob(Mathf.Clamp(moles, 0, 100)))
 			{
 				ToggleDormancy(true);
-				Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()} falls dormant...", gameObject);
+				Chat.AddActionMsgToChat(gameObject, $"{gameObject.ExpensiveName()} falls dormant...");
 			}
+		}
+
+		[TargetRpc]
+		public void SpawnClientEffect(NetworkConnection target, bool successful, Vector3 spawnDestination)
+		{
+			var effect = Spawn.ClientPrefab(successful == true ? artifactPlayerTargetEffectSuccess : artifactPlayerTargetEffectFail, spawnDestination).GameObject;
+
+			var timeLimitedDecal = effect.GetComponent<TimeLimitedDecal>();
+
+			timeLimitedDecal.SetUpDecal(0.5f);
 		}
 
 		#region Sprites

@@ -7,18 +7,27 @@ namespace HealthV2.Living.PolymorphicSystems
 {
 	public class ReagentSaturationSystem : HealthSystemBase
 	{
+		private ReagentPoolSystem reagentPoolSystem
+		{
+			get
+			{
+				if (_reagentPoolSystem == null)
+				{
+					_reagentPoolSystem = Base.reagentPoolSystem;
+				}
+
+				return _reagentPoolSystem;
+			}
+		}
+
 		private ReagentPoolSystem _reagentPoolSystem;
 
 		public Dictionary<BloodType, Dictionary<Reagent, ReagentWithBodyParts>> SaturationToConsume =
 			new Dictionary<BloodType, Dictionary<Reagent, ReagentWithBodyParts>>();
 
 
-		public List<SaturationComponent> BodyParts;
+		public List<SaturationComponent> BodyParts = new  List<SaturationComponent>();
 
-		public override void InIt()
-		{
-			_reagentPoolSystem = Base.reagentPoolSystem; //idk Shouldn't change
-		}
 
 		public override HealthSystemBase CloneThisSystem()
 		{
@@ -38,8 +47,11 @@ namespace HealthV2.Living.PolymorphicSystems
 			var newSaturation =  bodyPart.GetComponent<SaturationComponent>();
 			if (newSaturation != null)
 			{
-				BodyParts.Add(newSaturation);
-				BodyPartListChange();
+				if (BodyParts.Contains(newSaturation) == false)
+				{
+					BodyParts.Add(newSaturation);
+					BodyPartListChange();
+				}
 			}
 		}
 
@@ -62,6 +74,8 @@ namespace HealthV2.Living.PolymorphicSystems
 			SaturationToConsume.Clear();
 			foreach (var bodyPart in BodyParts)
 			{
+				if (bodyPart.isNotBloodReagentConsumed) continue;
+				if (bodyPart.bloodType == null) continue;
 				if (SaturationToConsume.ContainsKey(bodyPart.bloodType) == false)
 				{
 					SaturationToConsume[bodyPart.bloodType] =
@@ -100,7 +114,7 @@ namespace HealthV2.Living.PolymorphicSystems
 		public override void SystemUpdate()
 		{
 			float HeartEfficiency = 0;
-			foreach (var Heart in _reagentPoolSystem.PumpingDevices)
+			foreach (var Heart in reagentPoolSystem.PumpingDevices)
 			{
 				HeartEfficiency += Heart.CalculateHeartbeat();
 			}
@@ -120,7 +134,7 @@ namespace HealthV2.Living.PolymorphicSystems
 
 					var bloodPressure = 1f;
 
-					var percentageBloodPressure = _reagentPoolSystem.BloodPool.Total / _reagentPoolSystem.StartingBlood;
+					var percentageBloodPressure = reagentPoolSystem.BloodPool.Total / reagentPoolSystem.StartingBlood;
 					if (percentageBloodPressure < 0.75f)
 					{
 						bloodPressure = percentageBloodPressure / 0.75f;
@@ -132,9 +146,9 @@ namespace HealthV2.Living.PolymorphicSystems
 					}
 
 					var percentage = 0f;
-					if (_reagentPoolSystem.BloodPool.reagents.ContainsKey(bloodAndValues.Key))
+					if (reagentPoolSystem.BloodPool.reagents.ContainsKey(bloodAndValues.Key))
 					{
-						percentage = _reagentPoolSystem.BloodPool.GetPercent(bloodAndValues.Key);
+						percentage = reagentPoolSystem.BloodPool.GetPercent(bloodAndValues.Key);
 					}
 
 
@@ -148,11 +162,11 @@ namespace HealthV2.Living.PolymorphicSystems
 					float bloodCap = bloodAndValues.Key.GetGasCapacity(Base.reagentPoolSystem.BloodPool, KVP.Key);
 					if (bloodCap > 0)
 					{
-						bloodSaturation = _reagentPoolSystem.BloodPool[KVP.Key] / bloodCap;
+						bloodSaturation = reagentPoolSystem.BloodPool[KVP.Key] / bloodCap;
 					}
 
 					bloodSaturation = bloodSaturation * HeartEfficiency *
-					                  bloodAndValues.Key.CalculatePercentageBloodPresent(_reagentPoolSystem.BloodPool);
+					                  bloodAndValues.Key.CalculatePercentageBloodPresent(reagentPoolSystem.BloodPool);
 
 
 					bloodSaturation *= purityMultiplier;
@@ -160,16 +174,16 @@ namespace HealthV2.Living.PolymorphicSystems
 
 
 					var Available =
-						_reagentPoolSystem.BloodPool[KVP.Key] * KVP.Value.Percentage *
+						reagentPoolSystem.BloodPool[KVP.Key] * KVP.Value.Percentage *
 						HeartEfficiency; // This is just all -  Stuff nothing to do with saturation!
 
 					// Numbers could use some tweaking, maybe consumption goes down when unconscious?
-					_reagentPoolSystem.BloodPool.Subtract(KVP.Key, Available);
+					reagentPoolSystem.BloodPool.Subtract(KVP.Key, Available);
 
 					// Adds waste product (eg CO2) if any
 					foreach (var KVP2 in KVP.Value.ReplacesWith)
 					{
-						_reagentPoolSystem.BloodPool.Add(KVP2.Key, (KVP2.Value.TotalNeeded / KVP.Value.TotalNeeded) * Available);
+						reagentPoolSystem.BloodPool.Add(KVP2.Key, (KVP2.Value.TotalNeeded / KVP.Value.TotalNeeded) * Available);
 					}
 
 					var info = bloodAndValues.Key;
@@ -205,7 +219,17 @@ namespace HealthV2.Living.PolymorphicSystems
 					foreach (var bodyPart in KVP.Value.RelatedBodyParts)
 					{
 						bodyPart.currentBloodSaturation = bloodSaturation;
-						bodyPart.RelatedPart.TakeDamage(null, damage, AttackType.Internal, DamageType.Oxy, DamageSubOrgans: false);
+						if (damage <= 0)
+						{
+							if (bodyPart.RelatedPart.Oxy  > 0)
+							{
+								bodyPart.RelatedPart.TakeDamage(null, damage, AttackType.Internal, DamageType.Oxy, DamageSubOrgans: false);
+							}
+						}
+						else
+						{
+							bodyPart.RelatedPart.TakeDamage(null, damage, AttackType.Internal, DamageType.Oxy, DamageSubOrgans: false);
+						}
 					}
 				}
 			}

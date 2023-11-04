@@ -116,7 +116,7 @@ namespace Items
 			if (moveDirection == Vector3.zero)
 			{
 				ChangeArrowSprite(ArrowSprite.Direct);
-				arrowSpriteHandler.ChangeSpriteVariant(0); // No variant for Direct.
+				arrowSpriteHandler.SetSpriteVariant(0); // No variant for Direct.
 				return;
 			}
 
@@ -157,18 +157,18 @@ namespace Items
 
 		private void ChangeArrowSprite(ArrowSprite sprite)
 		{
-			arrowSpriteHandler.ChangeSprite((int)sprite);
+			arrowSpriteHandler.SetCatalogueIndexSprite((int)sprite);
 		}
 
 		private void ChangeArrowSpriteVariant(ArrowSpriteVariant spriteVariant)
 		{
-			arrowSpriteHandler.ChangeSpriteVariant((int)spriteVariant);
+			arrowSpriteHandler.SetSpriteVariant((int)spriteVariant);
 		}
 
 		private void SetArrowSpriteToNull()
 		{
 			ChangeArrowSprite(ArrowSprite.AlertNull);
-			arrowSpriteHandler.ChangeSpriteVariant(0); // No variant for AlertNull.
+			arrowSpriteHandler.SetSpriteVariant(0); // No variant for AlertNull.
 		}
 
 		#region Interaction

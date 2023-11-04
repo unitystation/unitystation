@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Chemistry;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
+using UnityEngine;
 
 namespace HealthV2.Living.PolymorphicSystems
 {
@@ -8,7 +9,12 @@ namespace HealthV2.Living.PolymorphicSystems
 	{
 		public Dictionary<Reagent, ReagentWithBodyParts> Toxicity = new Dictionary<Reagent, ReagentWithBodyParts>();
 
-		public List<NaturalChemicalReleaseComponent> BodyParts;
+		public List<NaturalChemicalReleaseComponent> BodyParts = new List<NaturalChemicalReleaseComponent>();
+
+		public float TotalToxinGenerationPerSecond = 0.1f;
+
+		[Tooltip("What reagent does this expel as waste?, Sets all the body parts that don't have a set NaturalToxinReagent")]
+		public Reagent BodyNaturalToxinReagent;
 
 		public class ReagentWithBodyParts
 		{
@@ -18,11 +24,52 @@ namespace HealthV2.Living.PolymorphicSystems
 			public Dictionary<Reagent, ReagentWithBodyParts> ReplacesWith = new Dictionary<Reagent, ReagentWithBodyParts>();
 		}
 
+		private ReagentPoolSystem reagentPoolSystem
+		{
+			get
+			{
+				if (_reagentPoolSystem == null)
+				{
+					_reagentPoolSystem = Base.reagentPoolSystem;
+				}
+
+				return _reagentPoolSystem;
+			}
+		}
+
 		private ReagentPoolSystem _reagentPoolSystem;
 
-		public override void InIt()
+		public override void StartFresh()
 		{
-			_reagentPoolSystem = Base.reagentPoolSystem; //idk Shouldn't change
+			foreach (var bodyPart in BodyParts)
+			{
+				if (bodyPart.NaturalToxinReagent == null)
+				{
+					bodyPart.NaturalToxinReagent = BodyNaturalToxinReagent;
+				}
+			}
+
+			InitialiseToxGeneration();
+
+		}
+
+		public void InitialiseToxGeneration()
+		{
+
+			var TotalBloodThroughput = 0f;
+
+			foreach (var bodyPart in BodyParts)
+			{
+				TotalBloodThroughput += bodyPart.BloodThroughput;
+			}
+
+			var ToxinFlowPerOne = TotalToxinGenerationPerSecond / TotalBloodThroughput;
+
+			foreach (var bodyPart in BodyParts)
+			{
+				bodyPart.ToxinGeneration = ToxinFlowPerOne;
+			}
+			BodyPartListChange();
 		}
 
 		public override void BodyPartAdded(BodyPart bodyPart)
@@ -30,8 +77,11 @@ namespace HealthV2.Living.PolymorphicSystems
 			var component = bodyPart.GetComponent<NaturalChemicalReleaseComponent>();
 			if (component != null)
 			{
-				BodyParts.Add(component);
-				BodyPartListChange();
+				if (BodyParts.Contains(component) == false)
+				{
+					BodyParts.Add(component);
+					BodyPartListChange();
+				}
 			}
 		}
 
@@ -69,7 +119,9 @@ namespace HealthV2.Living.PolymorphicSystems
 		public override void SystemUpdate()
 		{
 			float HeartEfficiency = 0;
-			foreach (var Heart in _reagentPoolSystem.PumpingDevices)
+			if (reagentPoolSystem == null) return;
+
+			foreach (var Heart in reagentPoolSystem.PumpingDevices)
 			{
 				HeartEfficiency += Heart.CalculateHeartbeat();
 			}
@@ -82,12 +134,12 @@ namespace HealthV2.Living.PolymorphicSystems
 			float Multiplier = HeartEfficiency;
 			if (HeartEfficiency == 0)
 			{
-				Multiplier = 0.0025f;
+				return;
 			}
 
 			foreach (var KVP in Toxicity)
 			{
-				_reagentPoolSystem.BloodPool.Add(KVP.Key, KVP.Value.TotalNeeded * Multiplier);
+				reagentPoolSystem.BloodPool.Add(KVP.Key, KVP.Value.TotalNeeded * Multiplier);
 			}
 		}
 

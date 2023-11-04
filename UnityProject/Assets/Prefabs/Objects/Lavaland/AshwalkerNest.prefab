@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3643080488099169610}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1975596654213558209}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6261278206009769049
 MeshRenderer:
@@ -94,6 +94,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!114 &6688351210976818708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,6 +115,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 145569013560448710, guid: bdc0bbe82126ea747b3fc1d25464d588,
@@ -229,6 +231,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4659277074312158701, guid: bdc0bbe82126ea747b3fc1d25464d588,
         type: 3}
+      propertyPath: _assetId
+      value: 1904228608
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659277074312158701, guid: bdc0bbe82126ea747b3fc1d25464d588,
+        type: 3}
       propertyPath: m_AssetId
       value: f0665612bae0cb140b3e3c89f9ebcec3
       objectReference: {fileID: 0}
@@ -261,17 +268,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8585042614081307221, guid: bdc0bbe82126ea747b3fc1d25464d588,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: d786303a5a93b434085b2160507b0f82,
         type: 2}
     - target: {fileID: 8585042614081307221, guid: bdc0bbe82126ea747b3fc1d25464d588,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: cf379057f4e30d341b291302eeeb236a,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3846487292726357589, guid: bdc0bbe82126ea747b3fc1d25464d588,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1888611765927639689}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3851917000086120591, guid: bdc0bbe82126ea747b3fc1d25464d588,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5951980482707864936}
   m_SourcePrefab: {fileID: 100100000, guid: bdc0bbe82126ea747b3fc1d25464d588, type: 3}
 --- !u!4 &1975596654213558209 stripped
 Transform:

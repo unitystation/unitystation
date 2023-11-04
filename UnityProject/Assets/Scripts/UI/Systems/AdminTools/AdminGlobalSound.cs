@@ -15,12 +15,9 @@ namespace AdminTools
 	/// </summary>
 	public class AdminGlobalSound : AdminGlobalAudio
 	{
-		public override void PlayAudio(int index) //send sound to audio manager
+		public override void PlayAudio(string index) //send sound to audio manager
 		{
-			if (index < audioList.Count)
-			{
-				//AdminCommandsManager.Instance.CmdPlaySound(audioList[index]);
-			}
+			AdminCommandsManager.Instance.CmdPlaySound(index);
 		}
 	}
 }

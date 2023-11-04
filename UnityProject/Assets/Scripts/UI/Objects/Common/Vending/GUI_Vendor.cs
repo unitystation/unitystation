@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using UI.Core.NetUI;
 using Systems.Electricity;
@@ -82,7 +83,7 @@ namespace UI.Objects
 			for (int i = 0; i < vendorContent.Count; i++)
 			{
 				VendorItemEntry item = itemList.Entries[i] as VendorItemEntry;
-				item.SetItem(vendorContent[i], this);
+				item.OrNull()?.SetItem(vendorContent[i], this);
 			}
 		}
 
@@ -107,7 +108,7 @@ namespace UI.Objects
 			// check if found entry is valid
 			if (!vendorItemEntry)
 			{
-				Logger.LogError($"Can't find {itemToUpdate} to update in {this.gameObject} vendor. " +
+				Loggy.LogError($"Can't find {itemToUpdate} to update in {this.gameObject} vendor. " +
 								$"UpdateAllItems wasn't called before?", Category.Machines);
 				return;
 			}

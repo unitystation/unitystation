@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Threading.Tasks;
 using Core.Threading;
+using Initialisation;
+using Logs;
 using Managers;
 using Mirror;
 using UnityEngine;
@@ -40,27 +42,35 @@ namespace Messages.Server.AdminTools
 
 		public static void SendMessage(PlayerInfo player, string adminToken)
 		{
-			_ = SendMessageCo(player, adminToken);
+			UpdateManager.Instance.StartCoroutine( SendMessageCo(player, adminToken));
 		}
 
-		private static async Task SendMessageCo(PlayerInfo player, string adminToken)
+		private static IEnumerator SendMessageCo(PlayerInfo player, string adminToken)
 		{
 
-			await Task.Delay(3000);
+			yield return WaitFor.Seconds(10);
 			ItemStorage adminGhostItemStorage = null;
 
-			UIManager.Instance.adminChatButtons.ServerUpdateAdminNotifications(player.Connection);
-			adminGhostItemStorage = AdminManager.Instance.GetItemSlotStorage(player);
+			try
+			{
+				UIManager.Instance.adminChatButtons.ServerUpdateAdminNotifications(player.Connection);
+				adminGhostItemStorage = AdminManager.Instance.GetItemSlotStorage(player);
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+			}
 
-			Send(player, adminToken, adminGhostItemStorage.GetComponent<NetworkIdentity>().netId);
+
+			Send(player, adminToken, adminGhostItemStorage?.GetComponent<NetworkIdentity>()?.netId);
 		}
 
-		private static NetMessage Send(PlayerInfo player, string adminToken, uint netId)
+		private static NetMessage Send(PlayerInfo player, string adminToken, uint? netId)
 		{
 			NetMessage msg = new NetMessage
 			{
 				AdminToken = adminToken,
-				AdminGhostStorage = netId
+				AdminGhostStorage = netId ?? NetId.Empty
 			};
 
 			SendTo(player.Connection, msg);

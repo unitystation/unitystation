@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: DrunkMaterial
   m_Shader: {fileID: 4800000, guid: 340152fe3dcfbe74c921d681d222a2f6, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -17,6 +19,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -59,27 +62,27 @@ Material:
     m_Ints: []
     m_Floats:
     - _BumpScale: 1
-    - _CosAmount: 0.053
+    - _CosAmount: 0
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _DoubleVision: 0.0133
+    - _DoubleVision: 0
     - _DstBlend: 0
     - _EffectAmount: 1.97
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _LightAmount: 3.7
+    - _LightAmount: 5
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _SinAmount: 0.05
+    - _SinAmount: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _Speed: 0.14
+    - _Speed: 0
     - _SrcBlend: 1
     - _UVSec: 0
-    - _Waves: 0.266
+    - _Waves: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

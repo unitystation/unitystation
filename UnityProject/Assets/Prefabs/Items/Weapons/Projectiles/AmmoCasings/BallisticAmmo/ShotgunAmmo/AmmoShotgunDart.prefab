@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -4441519557137854397, guid: b564e5d916b891446903adc342af08bd,
@@ -40,6 +41,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A dart for use in shotguns. Can be injected with up to 30 units of any
         chemical.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8364667066244186251, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: _assetId
+      value: 3512759129
       objectReference: {fileID: 0}
     - target: {fileID: 8364667066244186251, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
@@ -113,6 +119,13 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 525944660917714449ca0620264b1e5c,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8467174088351874367, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6819762402639647083}
   m_SourcePrefab: {fileID: 100100000, guid: b564e5d916b891446903adc342af08bd, type: 3}
 --- !u!1 &2173327031778298339 stripped
 GameObject:
@@ -135,7 +148,6 @@ MonoBehaviour:
   maxCapacity: 30
   reactionSet: {fileID: 0}
   AdditionalReactions: []
-  canPourOut: 1
   initialReagentMix:
     temperature: 273.15
     reagents:
@@ -144,11 +156,15 @@ MonoBehaviour:
     reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
+  menuOptions: -1
+  spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 3
+  SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 1
+  transferSound: []

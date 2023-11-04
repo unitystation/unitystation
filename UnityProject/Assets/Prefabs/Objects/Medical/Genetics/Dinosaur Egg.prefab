@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
@@ -76,17 +77,17 @@ PrefabInstance:
     - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -116,10 +117,22 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
+      propertyPath: _assetId
+      value: 3642811441
+      objectReference: {fileID: 0}
+    - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
       propertyPath: m_AssetId
       value: 70dc15450c0778140af8c27e79052aaf
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3707035523642790716}
   m_SourcePrefab: {fileID: 100100000, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}
 --- !u!1 &37564113797041233 stripped
 GameObject:
@@ -142,15 +155,13 @@ MonoBehaviour:
   CarryingMutations: []
   StandardHatchTime: 300
   ChosenHatchTime: 0
-  Mobs000:
+  ALLMobs:
   - {fileID: 8058554704072419796, guid: 0acd57a573cd0cc4a91f063b2ce56533, type: 3}
   - {fileID: 221507470398678439, guid: 31b73f62a8baa5948a075ffc481f2285, type: 3}
   - {fileID: 40551724178753080, guid: e89d363b2ca6bf748b233fe7c1f06c0e, type: 3}
-  Mobs100:
   - {fileID: 4076743079510417742, guid: b23ec1ed3c2319c499d49827d520fb05, type: 3}
   - {fileID: 1319890904449870281, guid: e69efabb21b5e0b44a428ef71a165c2f, type: 3}
   - {fileID: 9114422698776919013, guid: a1dbe8d85aa2c544faaaaf4196b066b2, type: 3}
-  Mobs200:
   - {fileID: 3662343530340924291, guid: 32727544df8699f41ab73cbd98750438, type: 3}
   - {fileID: 5391834631315141114, guid: d7327e575b6bd4d49bec05f88c9c7ae4, type: 3}
   - {fileID: 2186162442505459240, guid: 1f9cfb48284833546a2f511c9bd101e9, type: 3}

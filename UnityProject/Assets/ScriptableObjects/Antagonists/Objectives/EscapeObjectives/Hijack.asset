@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 942177b7aadd24b4d805de696f6c0661, type: 3}
   m_Name: Hijack
   m_EditorClassIdentifier: 
+  attributes: []
+  isEndRoundObjective: 1
   objectiveName: Hijack
   IsUnique: 1
   description: Hijack the emergency shuttle by escaping alone!
   aiCanHave: 0
   numberOfPlayersRequired: 20
+  references:
+    version: 2
+    RefIds: []

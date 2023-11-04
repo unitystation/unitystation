@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using _3D;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using Mirror;
 using Core.Editor.Attributes;
+using Logs;
 using Objects;
 using Tilemaps.Behaviours.Layers;
 using Systems.Electricity;
@@ -57,7 +59,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	public TileChangeManager TileChangeManager => Matrix ? Matrix.TileChangeManager : null;
 
-	[SerializeField, FormerlySerializedAs("ObjectType"), PrefabModeOnly]
+	[SerializeField, FormerlySerializedAs("ObjectType") ]
 	[Tooltip("The kind of object this is.")]
 	private ObjectType objectType = ObjectType.Item;
 
@@ -70,6 +72,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// Matrix this object lives in
 	/// </summary>
 	public Matrix Matrix { get; private set; }
+
+	public bool LiesFlat3D = false;
 
 	/// <summary>
 	/// Invoked when the parent net ID of this RegisterTile has changed, after reparenting
@@ -182,8 +186,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private CheckedComponent<UniversalObjectPhysics> objectPhysics = new CheckedComponent<UniversalObjectPhysics>();
 	public CheckedComponent<UniversalObjectPhysics> ObjectPhysics => objectPhysics;
 
-	[PrefabModeOnly]
-	public SortingGroup CurrentsortingGroup;
+	[SerializeField ]
+	private SortingGroup CurrentsortingGroup;
 
 	private bool Initialized;
 
@@ -205,6 +209,22 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		IPlayerEntersTiles = GetComponents<IPlayerEntersTile>();
 		IObjectEntersTiles = GetComponents<IObjectEntersTile>();
 		CurrentsortingGroup = GetComponent<SortingGroup>();
+
+		if (Manager3D.Is3D && GameData.IsHeadlessServer == false )
+		{
+			var convertTo3d = this.gameObject.GetComponent<ConvertTo3D>();
+			if (convertTo3d  == null)
+			{
+
+				convertTo3d = gameObject.AddComponent<ConvertTo3D>();
+
+			}
+			convertTo3d .DoConvertTo3D();
+		}
+		else
+		{
+			transform.localRotation = Quaternion.Euler(0, 0, transform.localRotation.eulerAngles.z);
+		}
 	}
 
 	public override void OnStartServer()
@@ -293,7 +313,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			for (int i = sameMatrixRelationships.Count-1; i >= 0; i--)
 			{
 				var relationship = sameMatrixRelationships[i];
-				Logger.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.",
+				Loggy.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.",
 					Category.SpatialRelationship, relationship, this);
 				SpatialRelationship.ServerEnd(relationship);
 			}
@@ -304,7 +324,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			for (int i = crossMatrixRelationships.Count - 1; i >= 0; i--)
 			{
 				var relationship = crossMatrixRelationships[i];
-				Logger.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.",
+				Loggy.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.",
 					Category.SpatialRelationship, relationship, this);
 				SpatialRelationship.ServerEnd(relationship);
 			}
@@ -359,12 +379,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 		if (appeared)
 		{
-			OnAppearClient.Invoke();
+			OnAppearClient?.Invoke();
 		}
 
 		if (disappeared)
 		{
-			OnDisappearClient.Invoke();
+			OnDisappearClient?.Invoke();
 		}
 	}
 
@@ -416,7 +436,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			objectLayer = newObjectLayer;
 		}
 
-		transform.SetParent(objectLayer.transform, false);
+		var WorldCashed = transform.position;
+
+		transform.SetParent(objectLayer.transform, true);
 
 		//preserve absolute rotation if there was spin rotation
 		if (hadSpinRotation)
@@ -434,7 +456,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 		if (objectPhysics.HasComponent)
 		{
-			transform.localPosition =  objectPhysics.Component.CalculateLocalPosition();
+			transform.localPosition =  WorldCashed.ToLocal(objectLayer.Matrix);
 		}
 
 		UpdatePositionClient();
@@ -614,7 +636,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			{
 				foreach (var cancelled in toCancel)
 				{
-					Logger.LogTraceFormat("Cancelling spatial relationship {0} because OnRelationshipChanged" +
+					Loggy.LogTraceFormat("Cancelling spatial relationship {0} because OnRelationshipChanged" +
 					                      " returned true.", Category.SpatialRelationship, cancelled);
 					SpatialRelationship.ServerEnd(cancelled);
 				}
@@ -624,7 +646,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			{
 				foreach (var switched in toSwitch)
 				{
-					Logger.LogTraceFormat("Switching spatial relationship {0} to cross matrix because" +
+					Loggy.LogTraceFormat("Switching spatial relationship {0} to cross matrix because" +
 					                      " objects moved to different matrices.", Category.SpatialRelationship,
 						switched);
 					RemoveSameMatrixRelationship(switched);
@@ -641,7 +663,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			sameMatrixRelationships = new List<BaseSpatialRelationship>();
 		}
 
-		Logger.LogTraceFormat("Adding same matrix relationship {0} on {1}",
+		Loggy.LogTraceFormat("Adding same matrix relationship {0} on {1}",
 			Category.SpatialRelationship, toAdd, this);
 		sameMatrixRelationships.Add(toAdd);
 	}
@@ -652,12 +674,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		//one side needs to poll.
 		if (!toAdd.IsLeader(this))
 		{
-			Logger.LogTraceFormat("Not adding cross matrix relationship {0} on {1} because {1} is not the leader",
+			Loggy.LogTraceFormat("Not adding cross matrix relationship {0} on {1} because {1} is not the leader",
 				Category.SpatialRelationship, toAdd, this);
 			return;
 		}
 
-		Logger.LogTraceFormat("Adding cross matrix relationship {0} on {1}",
+		Loggy.LogTraceFormat("Adding cross matrix relationship {0} on {1}",
 			Category.SpatialRelationship, toAdd, this);
 
 		if (crossMatrixRelationships == null)
@@ -672,7 +694,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private void RemoveSameMatrixRelationship(BaseSpatialRelationship toRemove)
 	{
 		if (sameMatrixRelationships == null) return;
-		Logger.LogTraceFormat("Removing same matrix relationship {0} from {1}",
+		Loggy.LogTraceFormat("Removing same matrix relationship {0} from {1}",
 			Category.SpatialRelationship, toRemove, this);
 		sameMatrixRelationships.Remove(toRemove);
 		if (sameMatrixRelationships.Count == 0)
@@ -684,7 +706,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private void RemoveCrossMatrixRelationship(BaseSpatialRelationship toRemove)
 	{
 		if (crossMatrixRelationships == null) return;
-		Logger.LogTraceFormat("Removing cross matrix relationship {0} from {1}",
+		Loggy.LogTraceFormat("Removing cross matrix relationship {0} from {1}",
 			Category.SpatialRelationship, toRemove, this);
 		crossMatrixRelationships.Remove(toRemove);
 		if (crossMatrixRelationships.Count == 0)
@@ -736,7 +758,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			{
 				foreach (var cancelled in toCancel)
 				{
-					Logger.LogTraceFormat("Cancelling spatial relationship {0} because OnRelationshipChanged" +
+					Loggy.LogTraceFormat("Cancelling spatial relationship {0} because OnRelationshipChanged" +
 					                      " returned true.", Category.SpatialRelationship, cancelled);
 					SpatialRelationship.ServerEnd(cancelled);
 				}
@@ -746,7 +768,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			{
 				foreach (var switched in toSwitch)
 				{
-					Logger.LogTraceFormat("Switching spatial relationship {0} to same matrix because" +
+					Loggy.LogTraceFormat("Switching spatial relationship {0} to same matrix because" +
 					                      " objects moved to the same matrix.", Category.SpatialRelationship, switched);
 					RemoveCrossMatrixRelationship(switched);
 					AddSameMatrixRelationship(switched);
@@ -811,7 +833,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	{
 		if (matrixDebugLogging)
 		{
-			Logger.Log(log, Category.Matrix);
+			Loggy.Log(log, Category.Matrix);
 		}
 	}
 
@@ -831,14 +853,24 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public void SetNewSortingOrder(int newLayerId)
 	{
+		if (Manager3D.Is3D) return;
+		if (CurrentsortingGroup == null) return;
+		CurrentsortingGroup.sortingOrder = newLayerId;
+	}
+
+	public void SetNewSortingLayer(int newLayerId, bool BoolReorderSorting = true)
+	{
+		if (Manager3D.Is3D) return;
 		CurrentsortingGroup.sortingLayerID = newLayerId;
-		ReorderSorting();
+		if (BoolReorderSorting)
+		{
+			ReorderSorting();
+		}
 	}
 
 	private void ReorderSorting()
 	{
 		objectLayer.ClientObjects.ReorderObjects(LocalPositionClient);
-
 		if(CustomNetworkManager.IsServer == false) return;
 		objectLayer.ServerObjects.ReorderObjects(LocalPositionServer);
 	}

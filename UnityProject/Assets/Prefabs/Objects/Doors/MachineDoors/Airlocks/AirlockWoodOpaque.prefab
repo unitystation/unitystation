@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 415088052592186546, guid: 53973314651fa7c42bf8d37554722470,
@@ -39,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3288800771724124606, guid: 53973314651fa7c42bf8d37554722470,
         type: 3}
+      propertyPath: _assetId
+      value: 2633086970
+      objectReference: {fileID: 0}
+    - target: {fileID: 3288800771724124606, guid: 53973314651fa7c42bf8d37554722470,
+        type: 3}
       propertyPath: m_AssetId
       value: 682b954af741d3349bc5ba086a10542f
       objectReference: {fileID: 0}
@@ -65,25 +71,25 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5424681749507756621, guid: 53973314651fa7c42bf8d37554722470,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 5266d694d4410a04eb7925357c029507,
         type: 2}
     - target: {fileID: 5424681749507756621, guid: 53973314651fa7c42bf8d37554722470,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 28ba1d58326d25f4f9dfcc37bbcf4599,
         type: 2}
     - target: {fileID: 5424681749507756621, guid: 53973314651fa7c42bf8d37554722470,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: bf8489a929d013f449ce4236ad6fb115,
         type: 2}
     - target: {fileID: 5424681749507756621, guid: 53973314651fa7c42bf8d37554722470,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[3]
+      propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 716ead0d12e5d9743896eb0f01a66703,
         type: 2}
@@ -164,4 +170,7 @@ PrefabInstance:
       value: 682b954af741d3349bc5ba086a10542f
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53973314651fa7c42bf8d37554722470, type: 3}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 756725509527554863, guid: 502f496beb9034b9b9c97868e845ed7e,
@@ -12,6 +13,11 @@ PrefabInstance:
       propertyPath: spriteHandler
       value: 
       objectReference: {fileID: 2030712609210181219}
+    - target: {fileID: 1762207313667118248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: _assetId
+      value: 1392445595
+      objectReference: {fileID: 0}
     - target: {fileID: 1762207313667118248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: m_AssetId
@@ -126,13 +132,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: fe2137f0414ae4e40bd481fba1b5613f,
         type: 2}
     - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 96603839976303545b0f02be6edb7921,
         type: 2}
@@ -149,17 +155,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: e7a9c4058739e964dacc0b6f7eeb548f,
         type: 2}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 178404daa0d55514f90c2cb30bacd44e,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1864679013969520924, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6325943580173109035}
+    - targetCorrespondingSourceObject: {fileID: 1864679013969520924, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6838433784125080246}
   m_SourcePrefab: {fileID: 100100000, guid: 502f496beb9034b9b9c97868e845ed7e, type: 3}
 --- !u!114 &2030712609210181219 stripped
 MonoBehaviour:
@@ -191,6 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1360d2b65a03cdf449035cd3c4cd0153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   actionData: {fileID: 11400000, guid: a9f264c5391b47441beaa8c56ebbf935, type: 2}
@@ -209,6 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 405e48484e64e814f96791247c632a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   runSpeedDebuff: -1.5

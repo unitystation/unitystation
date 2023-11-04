@@ -1,7 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Objects.Disposals;
 using AddressableReferences;
+using Random = UnityEngine.Random;
 
 namespace Systems.Disposals
 {
@@ -13,7 +16,7 @@ namespace Systems.Disposals
 	public class DisposalTraversal
 	{
 		readonly Matrix matrix;
-		readonly DisposalVirtualContainer virtualContainer;
+		public readonly DisposalVirtualContainer virtualContainer;
 		readonly UniversalObjectPhysics ObjectPhysics;
 
 		public bool ReadyToTraverse = false;
@@ -27,6 +30,10 @@ namespace Systems.Disposals
 
 		private Vector3Int NextPipeVector => currentPipeOutputSide.LocalVectorInt.To3Int();
 		private Vector3Int NextPipeLocalPosition => currentPipeLocalPos + NextPipeVector;
+
+		private OrientationEnum nextPipeRequiredSide = OrientationEnum.Default;
+
+		private Vector2 pipeEjectionFloorDamage = new Vector2(30, 55);
 
 		/// <summary>
 		/// Create a new disposal instance.
@@ -58,6 +65,34 @@ namespace Systems.Disposals
 			ReadyToTraverse = true;
 		}
 
+		public void ChangeMovementTrajectory(MoveAction moveAction)
+		{
+			switch (moveAction)
+			{
+				case MoveAction.MoveUp:
+					currentPipeOutputSide = Orientation.Up;
+					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, true).AsEnum();
+					break;
+				case MoveAction.MoveLeft:
+					currentPipeOutputSide = Orientation.Left;
+					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, true).AsEnum();
+					break;
+				case MoveAction.MoveDown:
+					currentPipeOutputSide = Orientation.Down;
+					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, true).AsEnum();
+					break;
+				case MoveAction.MoveRight:
+					currentPipeOutputSide = Orientation.Right;
+					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, true).AsEnum();
+					break;
+				case MoveAction.NoMove:
+					break;
+				default:
+					throw new ArgumentOutOfRangeException(nameof(moveAction), moveAction, null);
+			}
+			Traverse();
+		}
+
 		/// <summary>
 		/// Advances the disposal traversal by one tile.
 		/// </summary>
@@ -66,7 +101,7 @@ namespace Systems.Disposals
 			ReadyToTraverse = false;
 
 			// Check if just started so we don't end the traversal at the disposal machine we started from.
-			if (justStarted == false && currentPipe.PipeType == DisposalPipeType.Terminal)
+			if (justStarted == false && currentPipe.PipeType == DisposalPipeType.Terminal && BlocksForPipeCrawling() == false)
 			{
 				EjectViaDisposalPipeTerminal();
 				return;
@@ -74,11 +109,31 @@ namespace Systems.Disposals
 
 			// Advance to next pipe
 			justStarted = false;
-			OrientationEnum nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide).AsEnum();
+			if (virtualContainer.SelfControlled == false) nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide).AsEnum();
 			DisposalPipe nextPipe = GetPipeAt(NextPipeLocalPosition, requiredSide: nextPipeRequiredSide);
 
 			if (nextPipe == null)
 			{
+				if (virtualContainer.SelfControlled)
+				{
+					var directionsToCheck = new List<Vector3Int>
+						{
+							new Vector3Int(-1, 0, 0),
+							new Vector3Int(1, 0, 0),
+							new Vector3Int(0, -1, 0),
+							new Vector3Int(0, 1, 0)
+						};
+
+					foreach (var direction in directionsToCheck)
+					{
+						if (GetPipeAt(out var pipe, currentPipeLocalPos + direction,
+							    requiredSide: nextPipeRequiredSide) == null) continue;
+						if (pipe.PipeType != DisposalPipeType.Terminal) continue;
+						EjectViaPipeEnd();
+						break;
+					}
+					return;
+				}
 				EjectViaPipeEnd();
 				return;
 			}
@@ -91,13 +146,21 @@ namespace Systems.Disposals
 			ReadyToTraverse = true;
 		}
 
+		private bool BlocksForPipeCrawling()
+		{
+			if (virtualContainer.SelfControlled == false) return false;
+			var disposalMachine = matrix.GetFirst<DisposalMachine>(currentPipeLocalPos, true);
+			if (disposalMachine == null) return false;
+			return disposalMachine is DisposalBin == true;
+		}
+
 		private DisposalPipe GetPipeAt(Vector3Int localPosition, DisposalPipeType? type = null, OrientationEnum? requiredSide = null)
 		{
 			// Gets the first disposal pipe that meets the criteria.
 			foreach (DisposalPipe pipe in matrix.GetDisposalPipesAt(localPosition))
 			{
-				if (type != null && pipe.PipeType != type.Value) continue;
-				if (requiredSide != null && pipe.ConnectablePoints.ContainsKey(requiredSide.Value) == false) continue;
+				if (type != null && (pipe.PipeType != type.Value && virtualContainer.SelfControlled == false)) continue;
+				if (requiredSide != null && pipe.ConnectablePoints.ContainsKey(requiredSide.Value) == false && virtualContainer.SelfControlled == false) continue;
 
 				return pipe;
 			}
@@ -105,40 +168,70 @@ namespace Systems.Disposals
 			return default;
 		}
 
-		private Orientation GetConnectedSide(Orientation side)
+		private DisposalPipe GetPipeAt(out DisposalPipe result, Vector3Int localPosition, DisposalPipeType? type = null, OrientationEnum? requiredSide = null)
 		{
-			switch (side.AsEnum())
+			result = GetPipeAt(localPosition, type, requiredSide);
+			if (result == default)
 			{
-				case OrientationEnum.Up_By0: return Orientation.Down;
-				case OrientationEnum.Down_By180: return Orientation.Up;
-				case OrientationEnum.Left_By90: return Orientation.Right;
-				case OrientationEnum.Right_By270: return Orientation.Left;
+				result = null;
 			}
+			return default;
+		}
 
-			return Orientation.Left;
+		private Orientation GetConnectedSide(Orientation side, bool opposite = false)
+		{
+			if (opposite)
+			{
+				return side.AsEnum() switch
+				{
+					OrientationEnum.Up_By0 => Orientation.Up,
+					OrientationEnum.Down_By180 => Orientation.Down,
+					OrientationEnum.Left_By90 => Orientation.Left,
+					OrientationEnum.Right_By270 => Orientation.Right,
+					_ => throw new ArgumentOutOfRangeException(nameof(side), side, "Invalid OrientationEnum value."),
+				};
+			}
+			return side.AsEnum() switch
+			{
+				OrientationEnum.Up_By0 => Orientation.Down,
+				OrientationEnum.Down_By180 => Orientation.Up,
+				OrientationEnum.Left_By90 => Orientation.Right,
+				OrientationEnum.Right_By270 => Orientation.Left,
+				_ => throw new ArgumentOutOfRangeException(nameof(side), side, "Invalid OrientationEnum value."),
+			};
 		}
 
 		private OrientationEnum GetPipeLeavingSide(DisposalPipe pipe, OrientationEnum sideEntered)
 		{
 			switch (pipe.PipeType)
 			{
+				// Basic pipes should only have two connectable points, so return the first that is not the entered side.
 				case DisposalPipeType.Basic:
-					// Basic pipes should only have two connectable points, so return the first that is not the entered side.
-					return pipe.ConnectablePoints.First(x => x.Key != sideEntered).Key;
+					return virtualContainer.SelfControlled ?
+						pipe.ConnectablePoints.First().Key : //If self controlled, ignore restriction.
+						pipe.ConnectablePoints.First(x => x.Key != sideEntered).Key;
+
+				// Terminals (pipes that connect to disposal machines) should only have one connectable point.
 				case DisposalPipeType.Terminal:
-					// Terminals (pipes that connect to disposal machines) should only have one connectable point.
 					return pipe.ConnectablePoints.First().Key;
+
 				case DisposalPipeType.Merger:
-					OrientationEnum tryOutputSide = pipe.ConnectablePoints.First(x => x.Value == DisposalPipeConnType.Output).Key;
+					OrientationEnum tryOutputSide =
+						pipe.ConnectablePoints.First
+							(x => x.Value == DisposalPipeConnType.Output).Key;
 					if (tryOutputSide == sideEntered)
 					{
 						// If a disposals instance enters a merger pipe from the output, just choose an input to exit from.
 						return pipe.ConnectablePoints.First(x => x.Value != DisposalPipeConnType.Output).Key;
 					}
-					else return tryOutputSide;
+					else
+					{
+						return tryOutputSide;
+					}
+
+				// TODO: Implement disposal instance destination to auto-select appropriate path to take.
+				// Feature: If no destination, split incoming packets alternately.
 				case DisposalPipeType.Splitter:
-					// TODO: Implement disposal instance destination to auto-select appropriate path to take.
-					// Feature: If no destination, split incoming packets alternately.
 					return pipe.ConnectablePoints.First(x => x.Value != DisposalPipeConnType.Input).Key;
 			}
 
@@ -164,7 +257,7 @@ namespace Systems.Disposals
 		private void EjectViaDisposalPipeTerminal()
 		{
 			var disposalMachine = matrix.GetFirst<DisposalMachine>(currentPipeLocalPos, true);
-			if (disposalMachine != null && disposalMachine.MachineSecured)
+			if (disposalMachine is not null && disposalMachine.MachineSecured)
 			{
 				EjectViaDisposalMachine(disposalMachine);
 			}
@@ -180,6 +273,7 @@ namespace Systems.Disposals
 
 		private void EjectViaDisposalMachine(DisposalMachine machine)
 		{
+			virtualContainer.SelfControlled = false;
 			if (machine is DisposalOutlet)
 			{
 				(machine as DisposalOutlet).ServerReceiveAndEjectContainer(virtualContainer);
@@ -200,7 +294,10 @@ namespace Systems.Disposals
 		private void TryDamageTileFromEjection(Vector3Int localPosition)
 		{
 			if (matrix.TileChangeManager.MetaTileMap.HasTile(localPosition, LayerType.Floors) == false) return;
-			matrix.TileChangeManager.MetaTileMap.SetTile(localPosition, TileType.Floor, "damaged3");
+			matrix.TileChangeManager.MetaTileMap.ApplyDamage(
+				localPosition,
+				Random.Range(pipeEjectionFloorDamage.x, pipeEjectionFloorDamage.y),
+				virtualContainer.gameObject.AssumedWorldPosServer().CutToInt());
 		}
 
 		/// <summary>
@@ -208,8 +305,9 @@ namespace Systems.Disposals
 		/// </summary>
 		private void DespawnContainerAndFinish()
 		{
-			_ = Despawn.ServerSingle(virtualContainer.gameObject);
+			virtualContainer.SelfControlled = false;
 			TraversalFinished = true;
+			_ = Despawn.ServerSingle(virtualContainer.gameObject);
 		}
 	}
 }

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 836341927919696222, guid: 32fcd56a575fd884ebae6deb79a43656,
@@ -16,6 +17,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: An omni-technological interface.
+      objectReference: {fileID: 0}
+    - target: {fileID: 928559153827867528, guid: 32fcd56a575fd884ebae6deb79a43656,
+        type: 3}
+      propertyPath: _assetId
+      value: 3824269369
       objectReference: {fileID: 0}
     - target: {fileID: 928559153827867528, guid: 32fcd56a575fd884ebae6deb79a43656,
         type: 3}
@@ -88,6 +94,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f8101d9b1fc8a074facd8d9053b2a3cd,
         type: 3}
+    - target: {fileID: 4595714323023218064, guid: 32fcd56a575fd884ebae6deb79a43656,
+        type: 3}
+      propertyPath: BasePurity
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 6182434986592655953, guid: 32fcd56a575fd884ebae6deb79a43656,
         type: 3}
       propertyPath: foreverID
@@ -105,4 +116,7 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32fcd56a575fd884ebae6deb79a43656, type: 3}

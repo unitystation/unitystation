@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: camera_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -679,32 +694,31 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       camera_0: 21300000
-      camera_7: 21300014
-      camera_17: 21300034
       camera_1: 21300002
-      camera_13: 21300026
-      camera_5: 21300010
-      camera_20: 21300040
-      camera_2: 21300004
-      camera_3: 21300006
-      camera_18: 21300036
-      camera_21: 21300042
-      camera_14: 21300028
-      camera_22: 21300044
-      camera_15: 21300030
-      camera_16: 21300032
-      camera_23: 21300046
+      camera_10: 21300020
       camera_11: 21300022
       camera_12: 21300024
+      camera_13: 21300026
+      camera_14: 21300028
+      camera_15: 21300030
+      camera_16: 21300032
+      camera_17: 21300034
+      camera_18: 21300036
       camera_19: 21300038
-      camera_10: 21300020
-      camera_6: 21300012
+      camera_2: 21300004
+      camera_20: 21300040
+      camera_21: 21300042
+      camera_22: 21300044
+      camera_23: 21300046
+      camera_3: 21300006
       camera_4: 21300008
+      camera_5: 21300010
+      camera_6: 21300012
+      camera_7: 21300014
       camera_8: 21300016
       camera_9: 21300018
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

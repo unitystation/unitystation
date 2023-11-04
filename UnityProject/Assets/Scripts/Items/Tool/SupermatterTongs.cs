@@ -49,14 +49,14 @@ namespace Items
 				if (handler)
 				{
 					int newSpriteID = sliverSlot.ItemObject == null ? NOT_LOADED_SPRITE : LOADED_SPRITE;
-					handler.ChangeSprite(newSpriteID);
+					handler.SetCatalogueIndexSprite(newSpriteID);
 				}
 			}
 		}
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (!Validations.HasItemTrait(interaction.TargetObject, supermatterSliverContainer)) return false;
 
@@ -94,7 +94,7 @@ namespace Items
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (!Validations.HasItemTrait(interaction.TargetObject, supermatterSliverContainer)) return false;
 
@@ -132,7 +132,7 @@ namespace Items
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			return true;
 		}

@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6881874909172061398, guid: 66aad43ea1945ac458990cb6d4169cde,
+        type: 3}
+      propertyPath: _assetId
+      value: 3443114742
+      objectReference: {fileID: 0}
     - target: {fileID: -6881874909172061398, guid: 66aad43ea1945ac458990cb6d4169cde,
         type: 3}
       propertyPath: m_AssetId
@@ -14,7 +20,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1069497300762596, guid: 66aad43ea1945ac458990cb6d4169cde, type: 3}
       propertyPath: m_Name
-      value: loading area decal
+      value: _RotatableDecalBase
       objectReference: {fileID: 0}
     - target: {fileID: 4477121353083166, guid: 66aad43ea1945ac458990cb6d4169cde, type: 3}
       propertyPath: m_LocalRotation.w
@@ -90,17 +96,24 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2789537394278642046, guid: 66aad43ea1945ac458990cb6d4169cde,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: a6835094f4a59364bab1d03eae47c269,
         type: 2}
     - target: {fileID: 5908745450454926434, guid: 66aad43ea1945ac458990cb6d4169cde,
         type: 3}
-      propertyPath: PossibleSprites.Array.data[0]
+      propertyPath: 'PossibleSprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 86cd0997d36f9494abd65c2f75b3ea69,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1069497300762596, guid: 66aad43ea1945ac458990cb6d4169cde,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5256533632382415123}
   m_SourcePrefab: {fileID: 100100000, guid: 66aad43ea1945ac458990cb6d4169cde, type: 3}
 --- !u!1 &103981025015995581 stripped
 GameObject:
@@ -120,6 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   MethodRotation: 2

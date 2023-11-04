@@ -183,7 +183,7 @@ TextureImporter:
       213: 21300118
     second: forensic_59
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -200,11 +200,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -243,6 +244,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -258,6 +261,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1542,69 +1557,68 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      forensic_14: 21300028
-      forensic_5: 21300010
-      forensic_13: 21300026
-      forensic_16: 21300032
-      forensic_36: 21300072
-      forensic_34: 21300068
-      forensic_56: 21300112
-      forensic_33: 21300066
-      forensic_3: 21300006
-      forensic_6: 21300012
-      forensic_11: 21300022
-      forensic_35: 21300070
-      forensic_12: 21300024
-      forensic_25: 21300050
-      forensic_51: 21300102
-      forensic_43: 21300086
-      forensic_7: 21300014
-      forensic_22: 21300044
-      forensic_44: 21300088
-      forensic_42: 21300084
-      forensic_52: 21300104
-      forensic_8: 21300016
-      forensic_20: 21300040
-      forensic_38: 21300076
-      forensic_28: 21300056
-      forensic_55: 21300110
+      forensic_0: 21300000
       forensic_1: 21300002
-      forensic_31: 21300062
-      forensic_15: 21300030
-      forensic_4: 21300008
-      forensic_29: 21300058
-      forensic_18: 21300036
-      forensic_24: 21300048
-      forensic_53: 21300106
       forensic_10: 21300020
+      forensic_11: 21300022
+      forensic_12: 21300024
+      forensic_13: 21300026
+      forensic_14: 21300028
+      forensic_15: 21300030
+      forensic_16: 21300032
+      forensic_17: 21300034
+      forensic_18: 21300036
+      forensic_19: 21300038
+      forensic_2: 21300004
+      forensic_20: 21300040
+      forensic_21: 21300042
+      forensic_22: 21300044
+      forensic_23: 21300046
+      forensic_24: 21300048
+      forensic_25: 21300050
+      forensic_26: 21300052
+      forensic_27: 21300054
+      forensic_28: 21300056
+      forensic_29: 21300058
+      forensic_3: 21300006
+      forensic_30: 21300060
+      forensic_31: 21300062
+      forensic_32: 21300064
+      forensic_33: 21300066
+      forensic_34: 21300068
+      forensic_35: 21300070
+      forensic_36: 21300072
+      forensic_37: 21300074
+      forensic_38: 21300076
+      forensic_39: 21300078
+      forensic_4: 21300008
+      forensic_40: 21300080
+      forensic_41: 21300082
+      forensic_42: 21300084
+      forensic_43: 21300086
+      forensic_44: 21300088
+      forensic_45: 21300090
       forensic_46: 21300092
       forensic_47: 21300094
-      forensic_21: 21300042
-      forensic_2: 21300004
-      forensic_17: 21300034
-      forensic_0: 21300000
-      forensic_37: 21300074
-      forensic_58: 21300116
-      forensic_54: 21300108
-      forensic_50: 21300100
-      forensic_45: 21300090
-      forensic_59: 21300118
-      forensic_19: 21300038
-      forensic_49: 21300098
-      forensic_26: 21300052
-      forensic_9: 21300018
-      forensic_27: 21300054
-      forensic_30: 21300060
       forensic_48: 21300096
-      forensic_41: 21300082
-      forensic_40: 21300080
-      forensic_23: 21300046
-      forensic_32: 21300064
-      forensic_39: 21300078
+      forensic_49: 21300098
+      forensic_5: 21300010
+      forensic_50: 21300100
+      forensic_51: 21300102
+      forensic_52: 21300104
+      forensic_53: 21300106
+      forensic_54: 21300108
+      forensic_55: 21300110
+      forensic_56: 21300112
       forensic_57: 21300114
-  spritePackingTag: 
+      forensic_58: 21300116
+      forensic_59: 21300118
+      forensic_6: 21300012
+      forensic_7: 21300014
+      forensic_8: 21300016
+      forensic_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

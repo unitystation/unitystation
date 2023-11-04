@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2527589168897478388, guid: cc032f91cda505e44b066c36db32760d,
@@ -45,19 +46,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 8b87cffce5436bd4c99e787f44e59f38,
         type: 2}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[1].Sprites.Array.data[0]
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[1].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 8b87cffce5436bd4c99e787f44e59f38,
         type: 2}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[2].Sprites.Array.data[0]
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[2].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 9aa2d2d42866bae48b2b1b66986d15a7,
         type: 2}
@@ -68,13 +69,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5634484993905305047, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
-      propertyPath: Populater.DeprecatedContents.Array.data[6]
+      propertyPath: 'Populater.DeprecatedContents.Array.data[6]'
       value: 
       objectReference: {fileID: 2803962419735060703, guid: df82693e0cd2bfc4b97bdedcf98469fb,
         type: 3}
     - target: {fileID: 5634484993905305047, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
-      propertyPath: Populater.DeprecatedContents.Array.data[7]
+      propertyPath: 'Populater.DeprecatedContents.Array.data[7]'
       value: 
       objectReference: {fileID: 8365410886487118088, guid: 819be8adcec143543b7049d4602018d1,
         type: 3}
@@ -96,6 +97,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -2287311579040807639, guid: 0ea6233064315424298de6ba87c7b30f,
         type: 3}
+    - target: {fileID: 8808267403971002157, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: _assetId
+      value: 619171477
+      objectReference: {fileID: 0}
     - target: {fileID: 8808267403971002157, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_AssetId
@@ -172,4 +178,7 @@ PrefabInstance:
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc032f91cda505e44b066c36db32760d, type: 3}

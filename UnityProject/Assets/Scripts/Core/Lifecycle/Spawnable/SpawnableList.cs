@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 
 /// <summary>
@@ -28,7 +29,7 @@ public class SpawnableList : ScriptableObject, ISpawnable
 			var result = Spawn.ServerPrefab(prefab, destination);
 			if (!result.Successful)
 			{
-				Logger.LogWarningFormat("An item in SpawnableList {0} is missing, please fix prefab reference.", Category.ItemSpawn,
+				Loggy.LogWarningFormat("An item in SpawnableList {0} is missing, please fix prefab reference.", Category.ItemSpawn,
 					name);
 			}
 			else

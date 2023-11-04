@@ -13,14 +13,14 @@ public class RollingPin : MonoBehaviour, ICheckedInteractable<InventoryApply>
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
 		//can the player act at all?
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 		//interaction only occurs if cutting target is on a hand slot.
 		if (!interaction.IsToHandSlot) return false;
 
 		//if the item isn't a butcher knife, no go.
-		if (!Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.RollingPin)) return false;
-		
+		if (!Validations.HasItemTrait(interaction, CommonTraits.Instance.RollingPin)) return false;
+
 		//TargetSlot must not be empty.
 		if (interaction.TargetSlot.Item == null) return false;
 
@@ -38,7 +38,7 @@ public class RollingPin : MonoBehaviour, ICheckedInteractable<InventoryApply>
 		{
 			Inventory.ServerDespawn(interaction.TargetSlot);
 
-			SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.Roll.FindOutputMeal(roll.name), 
+			SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.Roll.FindOutputMeal(roll.name),
 			SpawnDestination.At(), 1);
 
 			if (spwn.Successful)

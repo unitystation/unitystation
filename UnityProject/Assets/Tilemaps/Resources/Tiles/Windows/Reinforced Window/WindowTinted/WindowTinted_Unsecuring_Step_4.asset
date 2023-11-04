@@ -50,13 +50,18 @@ MonoBehaviour:
     Acid: 100
     Magic: 0
     Bio: 100
+    Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
   tileInteractions:
   - {fileID: 11400000, guid: b263fc34126af5045814315a94577d0c, type: 2}
   - {fileID: 11400000, guid: 1f85477b7b824994daadd0998ff0d3c8, type: 2}
   - {fileID: 11400000, guid: 4635ca63f127a4b1cb58c7ff9de5695a, type: 2}
   - {fileID: 11400000, guid: 73b6e68b53987b14ba279e88a021fb21, type: 2}
+  <OnTileStartMining>k__BackingField: []
+  <OnTileFinishMining>k__BackingField: []
   tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 0

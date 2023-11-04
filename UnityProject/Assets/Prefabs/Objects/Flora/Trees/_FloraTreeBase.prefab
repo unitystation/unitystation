@@ -5,17 +5,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 159324666814816991, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
       propertyPath: m_SortingLayer
-      value: 26
-      objectReference: {fileID: 0}
-    - target: {fileID: 159324666814816991, guid: bf1232ff5948494499fb98f10c1c1ef6,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -1919284671
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1984926235737303078, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
@@ -82,16 +78,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: _FloraTreeBase
       objectReference: {fileID: 0}
-    - target: {fileID: 3430066335556137592, guid: bf1232ff5948494499fb98f10c1c1ef6,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 26
-      objectReference: {fileID: 0}
-    - target: {fileID: 3430066335556137592, guid: bf1232ff5948494499fb98f10c1c1ef6,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -1919284671
-      objectReference: {fileID: 0}
     - target: {fileID: 5215109230894565727, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
       propertyPath: initialName
@@ -100,7 +86,7 @@ PrefabInstance:
     - target: {fileID: 5215109230894565727, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
       propertyPath: initialDescription
-      value: A large tree.
+      value: A tree.
       objectReference: {fileID: 0}
     - target: {fileID: 6063988957681333799, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
@@ -116,7 +102,12 @@ PrefabInstance:
         type: 3}
       propertyPath: CurrentsortingGroup
       value: 
-      objectReference: {fileID: 6995534613962390978}
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424356324654834445, guid: bf1232ff5948494499fb98f10c1c1ef6,
+        type: 3}
+      propertyPath: _assetId
+      value: 955244682
+      objectReference: {fileID: 0}
     - target: {fileID: 6424356324654834445, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
       propertyPath: m_AssetId
@@ -127,11 +118,9 @@ PrefabInstance:
       propertyPath: randomInitialSprite
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 159324666814816991, guid: bf1232ff5948494499fb98f10c1c1ef6, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf1232ff5948494499fb98f10c1c1ef6, type: 3}
---- !u!210 &6995534613962390978 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 159324666814816991, guid: bf1232ff5948494499fb98f10c1c1ef6,
-    type: 3}
-  m_PrefabInstance: {fileID: 7143598902180650781}
-  m_PrefabAsset: {fileID: 0}

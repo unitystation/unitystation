@@ -4,6 +4,7 @@ using Systems.CraftingV2;
 using Systems.GhostRoles;
 using AddressableReferences;
 using HealthV2;
+using Logs;
 using Managers;
 using ScriptableObjects;
 using UnityEngine;
@@ -98,7 +99,7 @@ namespace Objects
 
 				if (eatingTimer == 5)
 				{
-					Chat.AddLocalMsgToChat("The nest reaches out and searches for food", gameObject);
+					Chat.AddActionMsgToChat(gameObject, "The nest reaches out and searches for food.");
 				}
 
 				return;
@@ -135,7 +136,7 @@ namespace Objects
 				}
 			}
 
-			Chat.AddLocalMsgToChat("The nest gurgles in displeasure, there was no food to eat", gameObject);
+			Chat.AddActionMsgToChat(gameObject, "The nest gurgles in displeasure, there was no food to eat.");
 		}
 
 		private void EatMobBody(LivingHealthBehaviour mobHealth)
@@ -143,7 +144,9 @@ namespace Objects
 			mobHealth.Harvest();
 			IncreaseMeat();
 
-			Chat.AddLocalMsgToChat($"Serrated tendrils eagerly pull {mobHealth.gameObject.ExpensiveName()} to the {gameObject.ExpensiveName()}, tearing the body apart as its blood seeps over the eggs.", gameObject);
+			Chat.AddActionMsgToChat(gameObject, $"Serrated tendrils eagerly pull {mobHealth.gameObject.ExpensiveName()} to " +
+												$"the {gameObject.ExpensiveName()}, tearing the body apart as its blood seeps over the eggs.");
+
 		}
 
 		private void EatBody(LivingHealthMasterBase healthMasterBase)
@@ -165,7 +168,8 @@ namespace Objects
 
 			healthMasterBase.OnGib();
 
-			Chat.AddLocalMsgToChat($"Serrated tendrils eagerly pull {healthMasterBase.gameObject.ExpensiveName()} to the {gameObject.ExpensiveName()}, tearing the body apart as its blood seeps over the eggs.", gameObject);
+			Chat.AddActionMsgToChat(gameObject, $"Serrated tendrils eagerly pull {healthMasterBase.gameObject.ExpensiveName()} to " +
+												$"the {gameObject.ExpensiveName()}, tearing the body apart as its blood seeps over the eggs.");
 
 			IncreaseMeat();
 		}
@@ -185,12 +189,12 @@ namespace Objects
 			SetSprite();
 			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKey, 1, ashwalkerEggs, -1);
 
-			Chat.AddLocalMsgToChat("One of the eggs swells to an unnatural size and tumbles free. It's ready to hatch!", gameObject);
+			Chat.AddActionMsgToChat(gameObject, "One of the eggs swells to an unnatural size and tumbles free. It's ready to hatch!");
 		}
 
 		private void SetSprite()
 		{
-			spriteHandler.ChangeSprite(ashwalkerEggs > 0 ? 1 : 0);
+			spriteHandler.SetCatalogueIndexSprite(ashwalkerEggs > 0 ? 1 : 0);
 		}
 
 		//Used for when admin or in round spawned
@@ -234,7 +238,7 @@ namespace Objects
 			{
 				//Remove the player from all roles (as createdRoleKey will Error)
 				GhostRoleManager.Instance.ServerRemoveWaitingPlayer(player);
-				Logger.LogError("Ghost role spawn called on null ashwalker, was the role not removed on destruction?");
+				Loggy.LogError("Ghost role spawn called on null ashwalker, was the role not removed on destruction?");
 				return;
 			}
 
@@ -272,11 +276,11 @@ namespace Objects
 			{
 				ashwalkerEggs--;
 				SetSprite();
-				Chat.AddLocalMsgToChat("An egg hatches in the nest!", gameObject);
+				Chat.AddActionMsgToChat(gameObject, "An egg hatches in the nest!");
 			}
 			else
 			{
-				Chat.AddLocalMsgToChat("An creature emerges from the nest. Glory to the Necropolis!", gameObject);
+				Chat.AddActionMsgToChat(gameObject, "A creature emerges from the nest. Glory to the Necropolis!");
 			}
 
 			//Decrease the remaining roles
@@ -293,7 +297,7 @@ namespace Objects
 
 		private void OnDestruction(DestructionInfo info)
 		{
-			Chat.AddLocalMsgToChat("As the nest dies, all the eggs explode. There will be no more ashwalkers today", gameObject);
+			Chat.AddActionMsgToChat(gameObject, "As the nest dies, all the eggs explode. There will be no more ashwalkers today!");
 			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
 		}
 

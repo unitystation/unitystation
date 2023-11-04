@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 532654248772749479, guid: 76c4b888beee06f4c9fda031b6e4d47b,
@@ -97,6 +98,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5028383164152644492, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
+      propertyPath: _assetId
+      value: 3349340705
+      objectReference: {fileID: 0}
+    - target: {fileID: 5028383164152644492, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
       propertyPath: m_AssetId
       value: f68661a1266c7104a8e88709444da749
       objectReference: {fileID: 0}
@@ -162,37 +168,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
-      propertyPath: InitialDesigns.Array.data[0]
+      propertyPath: 'InitialDesigns.Array.data[0]'
       value: basic_cell
       objectReference: {fileID: 0}
     - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
-      propertyPath: InitialDesigns.Array.data[1]
+      propertyPath: 'InitialDesigns.Array.data[1]'
       value: basic_capacitor
       objectReference: {fileID: 0}
     - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
-      propertyPath: InitialDesigns.Array.data[2]
+      propertyPath: 'InitialDesigns.Array.data[2]'
       value: basic_scanning
       objectReference: {fileID: 0}
     - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
-      propertyPath: InitialDesigns.Array.data[3]
+      propertyPath: 'InitialDesigns.Array.data[3]'
       value: micro_mani
       objectReference: {fileID: 0}
     - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
-      propertyPath: InitialDesigns.Array.data[4]
+      propertyPath: 'InitialDesigns.Array.data[4]'
       value: basic_micro_laser
       objectReference: {fileID: 0}
     - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
-      propertyPath: InitialDesigns.Array.data[5]
+      propertyPath: 'InitialDesigns.Array.data[5]'
       value: basic_matter_bin
       objectReference: {fileID: 0}
     - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
-      propertyPath: InitialDesigns.Array.data[6]
+      propertyPath: 'InitialDesigns.Array.data[6]'
       value: gravitygun
       objectReference: {fileID: 0}
     - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
@@ -202,27 +208,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
-      propertyPath: AvailiableCategories.Array.data[0]
+      propertyPath: 'AvailiableCategories.Array.data[0]'
       value: Stock Parts
       objectReference: {fileID: 0}
     - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
-      propertyPath: AvailiableCategories.Array.data[1]
+      propertyPath: 'AvailiableCategories.Array.data[1]'
       value: Power Designs
       objectReference: {fileID: 0}
     - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
-      propertyPath: AvailiableCategories.Array.data[2]
+      propertyPath: 'AvailiableCategories.Array.data[2]'
       value: Weapons
       objectReference: {fileID: 0}
     - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
-      propertyPath: AvailiableCategories.Array.data[3]
+      propertyPath: 'AvailiableCategories.Array.data[3]'
       value: Mining Designs
       objectReference: {fileID: 0}
     - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
-      propertyPath: AvailiableCategories.Array.data[4]
+      propertyPath: 'AvailiableCategories.Array.data[4]'
       value: Misc
       objectReference: {fileID: 0}
     - target: {fileID: 8234065340674907188, guid: 76c4b888beee06f4c9fda031b6e4d47b,
@@ -232,6 +238,9 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: acd573ce73539854397a71430aec20b5,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76c4b888beee06f4c9fda031b6e4d47b, type: 3}
 --- !u!114 &6828357949381082410 stripped
 MonoBehaviour:

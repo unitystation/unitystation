@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
@@ -69,6 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1274760333973328556, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
+      propertyPath: _assetId
+      value: 4174792775
+      objectReference: {fileID: 0}
+    - target: {fileID: 1274760333973328556, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
       propertyPath: m_AssetId
       value: b4b10bd9f59bd504782798ee7d91fb77
       objectReference: {fileID: 0}
@@ -106,7 +112,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 6f9c646e8acfa8846a1b840c7ef89035,
         type: 2}
@@ -220,7 +226,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[0]
+      propertyPath: 'SurgeryProcedureBase.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329,
         type: 2}
@@ -236,6 +242,13 @@ PrefabInstance:
       value: weldingshield
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 505266869520174722}
   m_SourcePrefab: {fileID: 100100000, guid: 1162a9966a460f940a18b4d183b04c30, type: 3}
 --- !u!1 &4785539145425236049 stripped
 GameObject:
@@ -255,10 +268,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f1ec97140d0af94290aa0393ed3b4bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  isEMPVunerable: 0
-  EMPResistance: 2
 --- !u!114 &7374505056648468181 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3754534672887286172, guid: 1162a9966a460f940a18b4d183b04c30,

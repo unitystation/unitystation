@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -2187491265014942030, guid: 2b2e2481ef2e72b48a6b355894ce0eb5,
@@ -127,6 +128,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1556123331721587124, guid: 2b2e2481ef2e72b48a6b355894ce0eb5,
         type: 3}
+      propertyPath: _assetId
+      value: 1529921346
+      objectReference: {fileID: 0}
+    - target: {fileID: 1556123331721587124, guid: 2b2e2481ef2e72b48a6b355894ce0eb5,
+        type: 3}
       propertyPath: m_AssetId
       value: 4bc88c1bc9afbe34d92631492fdcfde7
       objectReference: {fileID: 0}
@@ -136,6 +142,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -8196908270968541667, guid: b5f24a378aa290c428522d8ec92167e2,
         type: 3}
+    - target: {fileID: 2791620021642053548, guid: 2b2e2481ef2e72b48a6b355894ce0eb5,
+        type: 3}
+      propertyPath: BasePurity
+      value: 42
+      objectReference: {fileID: 0}
     - target: {fileID: 4704677503693418375, guid: 2b2e2481ef2e72b48a6b355894ce0eb5,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -149,4 +160,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -2187491265014942030, guid: 2b2e2481ef2e72b48a6b355894ce0eb5, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b2e2481ef2e72b48a6b355894ce0eb5, type: 3}

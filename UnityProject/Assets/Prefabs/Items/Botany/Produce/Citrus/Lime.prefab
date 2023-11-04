@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
@@ -54,6 +55,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1049692092611538263, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: _assetId
+      value: 3420428901
       objectReference: {fileID: 0}
     - target: {fileID: 1049692092611538263, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
@@ -149,14 +155,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6959811042475230069, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
-      propertyPath: juicedReagents.m_keys.Array.data[0]
+      propertyPath: 'juicedReagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 8b43bbb6db549967ba9f96fd90713159,
         type: 2}
     - target: {fileID: 6959811042475230069, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
-      propertyPath: juicedReagents.m_values.Array.data[0]
+      propertyPath: 'juicedReagents.m_values.Array.data[0]'
       value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 626cdf84a36c1384abff4ad0c505ea96, type: 3}

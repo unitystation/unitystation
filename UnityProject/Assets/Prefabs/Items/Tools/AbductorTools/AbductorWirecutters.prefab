@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1733181859376600693, guid: 3266ceefb65da2f4cb4bbfd297415ad5,
+        type: 3}
+      propertyPath: _assetId
+      value: 1424947424
+      objectReference: {fileID: 0}
     - target: {fileID: 1733181859376600693, guid: 3266ceefb65da2f4cb4bbfd297415ad5,
         type: 3}
       propertyPath: m_AssetId
@@ -88,6 +94,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Extremely sharp wirecutters, made out of a silvery-green metal.
       objectReference: {fileID: 0}
+    - target: {fileID: 3109974984834594925, guid: 3266ceefb65da2f4cb4bbfd297415ad5,
+        type: 3}
+      propertyPath: BasePurity
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 4693863293366740908, guid: 3266ceefb65da2f4cb4bbfd297415ad5,
         type: 3}
       propertyPath: foreverID
@@ -105,4 +116,7 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3266ceefb65da2f4cb4bbfd297415ad5, type: 3}

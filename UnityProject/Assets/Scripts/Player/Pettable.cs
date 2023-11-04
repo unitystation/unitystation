@@ -1,4 +1,5 @@
 ﻿using HealthV2;
+using Logs;
 using UnityEngine;
 
 namespace Systems.MobAIs
@@ -25,7 +26,7 @@ namespace Systems.MobAIs
 				return (health.IsDead || health.IsCrit || health.IsSoftCrit) == false;
 			}
 
-			Logger.LogError($"{this} is missing a health component. Cannot pet this mob.");
+			Loggy.LogError($"{this} is missing a health component. Cannot pet this mob.");
 			return false;
 		}
 
@@ -39,7 +40,7 @@ namespace Systems.MobAIs
 				{
 					npcName = npc.mobName;
 				}
-				
+
 			}
 
 			Chat.AddActionMsgToChat(

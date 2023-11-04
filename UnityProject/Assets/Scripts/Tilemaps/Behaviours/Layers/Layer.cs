@@ -3,16 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using Core.Lighting;
 using Initialisation;
+using Logs;
 using TileManagement;
 using Tiles;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 
 [ExecuteInEditMode]
 public class Layer : MonoBehaviour
 {
-	public SubsystemManager SubsystemManager { get; private set; }
+	public MatrixSystemManager SubsystemManager { get; private set; }
+
+	[HideInInspector] public UnityEvent onTileMapChanges;
 
 	public LayerType LayerType;
 	protected Tilemap tilemap;
@@ -68,7 +72,7 @@ public class Layer : MonoBehaviour
 		Matrix = GetComponentInParent<Matrix>();
 		tilemap = GetComponent<Tilemap>();
 		TilemapDamage = GetComponent<TilemapDamage>();
-		SubsystemManager = GetComponentInParent<SubsystemManager>();
+		SubsystemManager = GetComponentInParent<MatrixSystemManager>();
 		RecalculateBounds();
 	}
 
@@ -103,7 +107,7 @@ public class Layer : MonoBehaviour
 
 		if (MatrixManager.Instance == null)
 		{
-			Logger.LogError("Matrix Manager is missing from the scene", Category.Matrix);
+			Loggy.LogError("Matrix Manager is missing from the scene", Category.Matrix);
 		}
 
 		InitFromMatrix();
@@ -119,7 +123,7 @@ public class Layer : MonoBehaviour
 
 		if (matrixMove != null)
 		{
-			Logger.LogTraceFormat("{0} layer initializing from matrix", Category.Matrix, matrixMove);
+			Loggy.LogTraceFormat("{0} layer initializing from matrix", Category.Matrix, matrixMove);
 			matrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
 			//initialize from current rotation
 			OnRotate(MatrixRotationInfo.FromInitialRotation(matrixMove, NetworkSide.Client, RotationEvent.Register));
@@ -137,7 +141,7 @@ public class Layer : MonoBehaviour
 		if (info.IsEnding || info.IsObjectBeingRegistered)
 		{
 			RotationOffset = info.RotationOffsetFromInitial;
-			Logger.LogTraceFormat("{0} layer redrawing with offset {1}", Category.Matrix, info.MatrixMove,
+			Loggy.LogTraceFormat("{0} layer redrawing with offset {1}", Category.Matrix, info.MatrixMove,
 				RotationOffset);
 			if (tilemap != null)
 			{
@@ -151,6 +155,11 @@ public class Layer : MonoBehaviour
 		InternalSetTile(position, tile);
 		tilemap.SetColor(position, color);
 		tilemap.SetTransformMatrix(position, transformMatrix);
+
+		onTileMapChanges.Invoke();
+
+
+
 		//Client stuff, never spawn this on the server. (IsServer is technically a client in some cases so only return this on headless)
 		if (CustomNetworkManager.IsHeadless) return;
 		if (tile is not SimpleTile c) return; //Not a tile that has the data we need
@@ -165,6 +174,7 @@ public class Layer : MonoBehaviour
 	{
 		var tileRemoved = false;
 		tileRemoved = InternalSetTile(position, null);
+		onTileMapChanges.Invoke();
 		return tileRemoved;
 	}
 

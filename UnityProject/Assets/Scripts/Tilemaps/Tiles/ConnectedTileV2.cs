@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
@@ -123,7 +124,7 @@ namespace Tiles
 			//Can't find correct direction so default to none
 			if (SetSprite(ref tileData, ConnectionDirections.None, rotation) == false)
 			{
-				Logger.LogError($"No None direction for {name}");
+				Loggy.LogError($"No None direction for {name}");
 			}
 		}
 

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 113741948671488, guid: 42314b61cae71bf43b6dacdb1b81fc2e, type: 3}
@@ -54,6 +55,11 @@ PrefabInstance:
     - target: {fileID: 5600167094266740, guid: 42314b61cae71bf43b6dacdb1b81fc2e, type: 3}
       propertyPath: m_Name
       value: AdvancedHardsuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 110286284347938496, guid: 42314b61cae71bf43b6dacdb1b81fc2e,
+        type: 3}
+      propertyPath: _assetId
+      value: 97450300
       objectReference: {fileID: 0}
     - target: {fileID: 110286284347938496, guid: 42314b61cae71bf43b6dacdb1b81fc2e,
         type: 3}
@@ -330,7 +336,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6372276647402305777, guid: 42314b61cae71bf43b6dacdb1b81fc2e,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 74df4c7b819c6b342a61093835c85035,
         type: 2}
@@ -340,4 +346,7 @@ PrefabInstance:
       value: 0369ccc30a134a843a4677d9d6795495
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42314b61cae71bf43b6dacdb1b81fc2e, type: 3}

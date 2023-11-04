@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 
 
@@ -30,7 +31,7 @@ using UnityEngine;
 				}
 				else
 				{
-					Logger.LogError("No LightTile component found!",Category.Lighting);
+					Loggy.LogError("No LightTile component found!",Category.Lighting);
 				}
 			}
 

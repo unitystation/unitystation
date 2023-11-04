@@ -70,6 +70,13 @@
 	public static readonly string TTSToggleKey = "TTSSetting";
 
 	/// <summary>
+	/// AudioReflections Toggle Pref.
+	/// 0 = disabled
+	/// 1 = enabled
+	/// </summary>
+	public static readonly string AudioReflectionsToggleKey = "AudioReflectionsSetting";
+
+	/// <summary>
 	/// Returns the name of the currently selected theme name
 	/// </summary>
 	public static readonly string ChatBubbleThemeKey = "ChatBubbleTheme";
@@ -187,4 +194,6 @@
 	public static readonly string ChatBackgroundMinimumAlpha = "ChatBackgroundMinimumAlpha";
 
 	public static readonly string HoverTooltipDelayKey = "hoverTooltipDelay";
+
+	public static readonly string ThrowHoldPreference = "ThrowHoldPreference";
 }

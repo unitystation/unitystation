@@ -1,4 +1,5 @@
 using System;
+using Logs;
 using Systems.Spawns;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ namespace Core.Characters.AttributeBehaviors
 			Transform spawnTransform;
 			var physics = characterBody.GetComponent<UniversalObjectPhysics>();
 			// Spawn normal location for special jobs or if less than 2 minutes passed
-			if (GameManager.Instance.stationTime < ARRIVALS_SPAWN_TIME)
+			if (GameManager.Instance.RoundTime < ARRIVALS_SPAWN_TIME)
 			{
 				spawnTransform = SpawnPoint.GetRandomPointForJob(jobType);
 			}
@@ -33,7 +34,7 @@ namespace Core.Characters.AttributeBehaviors
 
 			if (spawnTransform == null)
 			{
-				Logger.LogErrorFormat(
+				Loggy.LogErrorFormat(
 					"Unable to determine spawn position for  occupation {0}. Cannot spawn player.",
 					Category.EntitySpawn, jobType);
 				return;

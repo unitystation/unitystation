@@ -552,13 +552,13 @@ namespace Objects.Engineering
 				if (gasmixPowerRatio > 0.8)
 				{
 					//with a perfect gas mix, make the power more based on heat
-					mainSprite.ChangeSprite(1);
+					mainSprite.SetCatalogueIndexSprite(1);
 				}
 				else
 				{
 					//in normal mode, power is less effected by heat
 					tempFactor = 30;
-					mainSprite.ChangeSprite(0);
+					mainSprite.SetCatalogueIndexSprite(0);
 				}
 
 				//if there is more pluox and n2 then anything else, we receive no power increase from heat
@@ -826,7 +826,7 @@ namespace Objects.Engineering
 			finalCountdown = true;
 
 			//Turn on shield overlay
-			overlaySpriteHandler.ChangeSprite(0);
+			overlaySpriteHandler.SetCatalogueIndexSprite(0);
 
 			AddMessageToChat($"{emergencyAlertText} The supermatter has reached critical integrity failure. Emergency causality destabilization field has been activated.", true);
 
@@ -1158,16 +1158,15 @@ namespace Objects.Engineering
 			else if (bumpedBy.TryGetComponent<LivingHealthMasterBase>(out var health))
 			{
 				//Npcs
-				Chat.AddLocalMsgToChat(
-					$"The {bumpedBy.ExpensiveName()} slams into the {gameObject.ExpensiveName()} inducing a resonance... its body starts to glow and burst into flames before flashing into dust!",
-					bumpedBy);
+				Chat.AddActionMsgToChat(bumpedBy, $"The {bumpedBy.ExpensiveName()} slams into the {gameObject.ExpensiveName()} inducing a resonance... " +
+													"its body starts to glow and burst into flames before flashing into dust!");
 
 				health.OnGib();
 			}
 			else if (bumpedBy.TryGetComponent<Integrity>(out var integrity))
 			{
 				//Items flying
-				Chat.AddLocalMsgToChat($"The {bumpedBy.ExpensiveName()} smacks into the {gameObject.ExpensiveName()} and rapidly flashes to ash", bumpedBy);
+				Chat.AddActionMsgToChat(bumpedBy, $"The {bumpedBy.ExpensiveName()} smacks into the {gameObject.ExpensiveName()} and rapidly flashes to ash!");
 				LogBumpForAdmin(bumpedBy);
 
 				integrity.ApplyDamage(1000, AttackType.Rad, DamageType.Brute, true, ignoreArmor: true);

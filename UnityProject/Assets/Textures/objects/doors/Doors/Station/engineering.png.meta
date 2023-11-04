@@ -78,7 +78,7 @@ TextureImporter:
       213: 21300048
     second: engineering_24
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -95,11 +95,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -138,6 +139,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -189,6 +192,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -738,34 +753,33 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      engineering_2: 21300004
-      engineering_3: 21300006
-      engineering_15: 21300030
-      engineering_7: 21300014
-      engineering_19: 21300038
-      engineering_6: 21300012
-      engineering_11: 21300022
-      engineering_22: 21300044
-      engineering_5: 21300010
-      engineering_8: 21300016
-      engineering_13: 21300026
-      engineering_17: 21300034
       engineering_0: 21300000
-      engineering_4: 21300008
-      engineering_9: 21300018
-      engineering_12: 21300024
-      engineering_23: 21300046
-      engineering_20: 21300040
-      engineering_16: 21300032
-      engineering_10: 21300020
-      engineering_24: 21300048
-      engineering_14: 21300028
-      engineering_21: 21300042
-      engineering_18: 21300036
       engineering_1: 21300002
-  spritePackingTag: 
+      engineering_10: 21300020
+      engineering_11: 21300022
+      engineering_12: 21300024
+      engineering_13: 21300026
+      engineering_14: 21300028
+      engineering_15: 21300030
+      engineering_16: 21300032
+      engineering_17: 21300034
+      engineering_18: 21300036
+      engineering_19: 21300038
+      engineering_2: 21300004
+      engineering_20: 21300040
+      engineering_21: 21300042
+      engineering_22: 21300044
+      engineering_23: 21300046
+      engineering_24: 21300048
+      engineering_3: 21300006
+      engineering_4: 21300008
+      engineering_5: 21300010
+      engineering_6: 21300012
+      engineering_7: 21300014
+      engineering_8: 21300016
+      engineering_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

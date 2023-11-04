@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1409284694644429063, guid: 54a552cbe4002ac44ae29b958a90e545,
@@ -91,25 +92,25 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4584064363485151374, guid: 54a552cbe4002ac44ae29b958a90e545,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: c5f73284d8cb3bf47a82a7af67083bf2,
         type: 2}
     - target: {fileID: 4584064363485151374, guid: 54a552cbe4002ac44ae29b958a90e545,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 11b0544708a9d034c9fb9cda20fa45c4,
         type: 2}
     - target: {fileID: 4584064363485151374, guid: 54a552cbe4002ac44ae29b958a90e545,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 7a4d5731517cf4f48b5eb058c9625d60,
         type: 2}
     - target: {fileID: 4584064363485151374, guid: 54a552cbe4002ac44ae29b958a90e545,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[3]
+      propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 2d751ea66edbbb4479cc98d956f591ec,
         type: 2}
@@ -132,6 +133,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445112791058527101, guid: 54a552cbe4002ac44ae29b958a90e545,
+        type: 3}
+      propertyPath: _assetId
+      value: 1949737225
       objectReference: {fileID: 0}
     - target: {fileID: 6445112791058527101, guid: 54a552cbe4002ac44ae29b958a90e545,
         type: 3}
@@ -164,4 +170,7 @@ PrefabInstance:
       value: 17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54a552cbe4002ac44ae29b958a90e545, type: 3}

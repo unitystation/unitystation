@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 783851887035088007, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
@@ -69,6 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 825558115691839795, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
+      propertyPath: _assetId
+      value: 1432856764
+      objectReference: {fileID: 0}
+    - target: {fileID: 825558115691839795, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
       propertyPath: m_AssetId
       value: 46bb2fe95f4f66341aadfb4600751333
       objectReference: {fileID: 0}
@@ -99,13 +105,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 868446610880926693, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: dd7de6502f637d6488830d490ee200bd,
         type: 2}
     - target: {fileID: 868446610880926693, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: initialTraits.Array.data[2]
+      propertyPath: 'initialTraits.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 64bb188472a5cf3489d314ab3bef6644,
         type: 2}
@@ -136,37 +142,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[0]
+      propertyPath: 'possibleTransferAmounts.Array.data[0]'
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[1]
+      propertyPath: 'possibleTransferAmounts.Array.data[1]'
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[2]
+      propertyPath: 'possibleTransferAmounts.Array.data[2]'
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[3]
+      propertyPath: 'possibleTransferAmounts.Array.data[3]'
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[4]
+      propertyPath: 'possibleTransferAmounts.Array.data[4]'
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[5]
+      propertyPath: 'possibleTransferAmounts.Array.data[5]'
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[6]
+      propertyPath: 'possibleTransferAmounts.Array.data[6]'
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5934183858157482218, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
@@ -180,6 +186,13 @@ PrefabInstance:
       value: drink
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 783851887035088007, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5747741185675137456}
   m_SourcePrefab: {fileID: 100100000, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3, type: 3}
 --- !u!1 &7902349682654515116 stripped
 GameObject:

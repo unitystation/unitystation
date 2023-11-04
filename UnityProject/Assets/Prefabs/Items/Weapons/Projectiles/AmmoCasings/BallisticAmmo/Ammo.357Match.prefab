@@ -5,12 +5,18 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2414510256709215877, guid: 5bd4694ba27611b46b8e2161fa3132af,
         type: 3}
       propertyPath: foreverID
       value: 68fd1a472b398354b9a4872d9eaf7c87
+      objectReference: {fileID: 0}
+    - target: {fileID: 8695496732523698012, guid: 5bd4694ba27611b46b8e2161fa3132af,
+        type: 3}
+      propertyPath: _assetId
+      value: 1095907929
       objectReference: {fileID: 0}
     - target: {fileID: 8695496732523698012, guid: 5bd4694ba27611b46b8e2161fa3132af,
         type: 3}
@@ -88,4 +94,7 @@ PrefabInstance:
       value: A .357 bullet casing, manufactured to exceedingly high standards.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5bd4694ba27611b46b8e2161fa3132af, type: 3}

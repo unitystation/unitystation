@@ -9,20 +9,24 @@ using Audio.Containers;
 using ScriptableObjects;
 using AdminCommands;
 using Antagonists;
+using Blob;
 using Core.Chat;
 using HealthV2;
 using Items;
 using Items.Tool;
 using Messages.Server;
 using Objects.Other;
-using Player.Movement;
 using Shuttles;
 using UI.Core;
 using UI.Items;
 using Doors;
+using IngameDebugConsole;
+using Logs;
 using Managers;
 using Objects;
 using Player.Language;
+using Systems.Ai;
+using Systems.Faith;
 using Tiles;
 using Util;
 using Random = UnityEngine.Random;
@@ -96,10 +100,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (playerScript.OrNull()?.playerMove == null)
 		{
-			Logger.LogError($"null playerScript/playerMove in {this.name} ");
+			Loggy.LogError($"null playerScript/playerMove in {this.name} ");
 			return;
 		}
 		playerScript.playerMove.intent = intent;
+		playerScript.OnIntentChange?.Invoke(intent);
 	}
 
 
@@ -171,7 +176,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			playerScript.RegisterPlayer.ServerSetIsStanding(false);
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
 		}
-		playerScript.playerMove.allowInput = false;
+		playerScript.playerMove.ServerAllowInput.RecordPosition(this, false);
 
 		// Drop player items
 
@@ -212,13 +217,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			playerScript.playerHealth.Extinguish();
 			playerScript.RegisterPlayer.ServerStandUp(true);
-			playerScript.playerMove.allowInput = true;
+			playerScript.playerMove.ServerAllowInput.RemovePosition(this);
 		}
 
 		//Allow barely conscious players to move again if they are not stunned
 		if (playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS
 			&& playerScript.RegisterPlayer.IsSlippingServer == false) {
-			playerScript.playerMove.allowInput = true;
+			playerScript.playerMove.ServerAllowInput.RemovePosition(this);
 		}
 
 		IsRolling = false;
@@ -236,7 +241,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var pushPull = playerScript.ObjectPhysics.Pulling.Component;
 		Vector3Int origin = pushPull.registerTile.WorldPositionServer;
 		Vector2Int dir = (Vector2Int)(destination - origin);
-		pushPull.TryTilePush(dir, null, overridePull: true);
+		pushPull.TryTilePush(dir, null, speed: playerScript.ObjectPhysics.CurrentTileMoveSpeed, overridePull: true);
 	}
 
 	/// <summary>
@@ -384,7 +389,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		var slot = itemStorage.GetActiveHandSlot();
 		Vector3 targetVector = targetLocalPosition.ToWorld(playerMove.registerTile.Matrix) - playerMove.transform.position;
-		if (slot.Item != null)
+		if (slot?.Item != null)
 		{
 			Inventory.ServerThrow(slot, targetVector, (BodyPartType) aim);
 		}
@@ -407,7 +412,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 
 			if ((playerMove.transform.position - playerMove.Pulling.Component.gameObject.AssumedWorldPosServer()).magnitude >
-			    PlayerScript.INTERACTION_DISTANCE) //If telekinesis was used play effect
+			    PlayerScript.INTERACTION_DISTANCE_EXTENDED) //If telekinesis was used play effect
 			{
 				PlayEffect.SendToAll(playerMove.Pulling.Component.gameObject, "TelekinesisEffect");
 			}
@@ -416,11 +421,24 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 			playerMove.StopPulling(false);
 
-			//TODO speedloss  / friction
 			var speed = 8;
+			var airtime = 0f;
+			if (pulling.stickyMovement)
+			{
+				//When they got no airtime they stick instantly
+				airtime = (distance / speed );
+			}
+			else
+			{
+				var timeTakenIfallThrow = (distance / speed);
+				airtime = timeTakenIfallThrow - ((Mathf.Pow(speed, 2) / (2 * UniversalObjectPhysics.DEFAULT_Friction)) / speed);
+			}
+
+
+
 
 			pulling.NewtonianPush( targetVector,speed,
-				(distance / speed ) - ((Mathf.Pow(speed, 2) / (2*UniversalObjectPhysics.DEFAULT_Friction)) / speed),
+				airtime,
 				Single.NaN, (BodyPartType) aim, this.gameObject, Random.Range(25, 150));
 		}
 
@@ -567,44 +585,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void OnConsciousStateChanged(ConsciousState oldState, ConsciousState newState)
 	{
-		switch (newState)
-		{
-			case ConsciousState.CONSCIOUS:
-				playerMove.allowInput = true;
-				playerMove.CurrentMovementType = MovementType.Running;
-				break;
-			case ConsciousState.BARELY_CONSCIOUS:
-				//Drop hand items when unconscious
-				foreach (var itemSlot in itemStorage.GetHandSlots())
-				{
-					Inventory.ServerDrop(itemSlot);
-				}
-				playerMove.allowInput = true;
-				playerMove.CurrentMovementType = MovementType.Running;
-				if (oldState == ConsciousState.CONSCIOUS)
-				{
-					//only play the sound if we are falling
-					SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
-				}
 
-				break;
-			case ConsciousState.UNCONSCIOUS:
-				//Drop items when unconscious
-				foreach (var itemSlot in itemStorage.GetHandSlots())
-				{
-					Inventory.ServerDrop(itemSlot);
-				}
-				playerMove.allowInput = false;
-				if (oldState == ConsciousState.CONSCIOUS)
-				{
-					//only play the sound if we are falling
-					SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
-				}
-
-				break;
-		}
-
-		playerScript.ObjectPhysics.StopPulling(false);
 	}
 
 	[Server]
@@ -637,7 +618,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			//See if we need to scramble the message
 			var copiedString = LanguageManager.Scramble(language, player.Script, string.Copy(message));
 
-			ShowChatBubbleMessage.SendTo(player.Connection, gameObject, copiedString, true);
+			ShowChatBubbleMessage.SendTo(player.GameObject, gameObject, copiedString, true);
 		}
 	}
 
@@ -711,7 +692,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
-		Logger.LogWarning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!", Category.Antags);
+		Loggy.LogWarning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!", Category.Antags);
 	}
 
 	[Command]
@@ -750,8 +731,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		NetworkIdentity hand = null;
 		if (handID != 0 && NetworkServer.spawned.TryGetValue(handID, out hand) == false) return;
-		if (namedSlot != NamedSlot.leftHand && namedSlot != NamedSlot.rightHand && namedSlot != NamedSlot.none) return;
-
 		// Because Ghosts don't have dynamic item storage
 		if (playerScript.DynamicItemStorage == null) return;
 
@@ -906,6 +885,52 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
+	public void CmdRequestChangelingAbilites(int abilityIndex, Vector3 clickPosition)
+	{
+		if (playerScript.Changeling == null)
+			return;
+		foreach (var ability in playerScript.Changeling.ChangelingAbilities)
+		{
+			if (ability.AbilityData.Index == abilityIndex)
+			{
+				ability.CallActionServer(PlayerList.Instance.GetOnline(gameObject), clickPosition);
+				return;
+			}
+		}
+	}
+
+
+	[Command]
+	public void CmdRequestChangelingAbilitesWithParam(int abilityIndex, string param)
+	{
+		if (playerScript.Changeling == null)
+			return;
+		foreach (var ability in playerScript.Changeling.AbilitiesNow)
+		{
+			if (ability.AbilityData.Index == abilityIndex)
+			{
+				ability.CallActionServerWithParam(PlayerList.Instance.GetOnline(gameObject), param);
+				return;
+			}
+		}
+	}
+
+	[Command]
+	public void CmdRequestChangelingAbilitesToggle(int abilityIndex, bool toggle)
+	{
+		if (playerScript.Changeling == null)
+			return;
+		foreach (var ability in playerScript.Changeling.AbilitiesNow)
+		{
+			if (ability.AbilityData.Index == abilityIndex)
+			{
+				ability.CallActionServerToggle(PlayerList.Instance.GetOnline(gameObject), toggle);
+				return;
+			}
+		}
+	}
+
+	[Command]
 	public void CmdSetCrayon(GameObject crayon, uint category, uint index, uint colourIndex, OrientationEnum direction)
 	{
 		if(crayon == null || crayon.TryGetComponent<CrayonSprayCan>(out var crayonScript) ==  false) return;
@@ -985,8 +1010,64 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
+	public void HardSuicide()
+	{
+		if (playerScript.TryGetComponent<AiPlayer>(out var aiPlayer))
+		{
+			aiPlayer.Suicide();
+			return;
+		}
+
+		if (playerScript.TryGetComponent<BlobPlayer>(out var blobPlayer))
+		{
+			blobPlayer.Death();
+			return;
+		}
+
+		var health = playerScript.playerHealth;
+		if (health.IsDead)
+		{
+			Loggy.LogError("[PlayerNetworkActions/HardSuicide()] - Player is already dead!");
+			return;
+		}
+		health.ApplyDamageAll(playerScript.gameObject,
+			health.MaxHealth * 2,
+			AttackType.Melee, DamageType.Brute,
+			false,
+			traumaChance: 0);
+	}
+
+	[Command]
 	public void CmdDoEmote(string emoteName)
 	{
 		EmoteActionManager.DoEmote(emoteName, playerScript.gameObject);
+	}
+
+	[Command]
+	public void CmdResetMovementForSelf()
+	{
+		playerScript.playerMove.ResetEverything();
+		playerScript.playerMove.ResetLocationOnClients();
+	}
+
+	[Command]
+	public void CmdJoinFaith(string faith)
+	{
+		playerScript.JoinReligion(faith);
+	}
+
+	[Command]
+	public void CmdSetMainFaith()
+	{
+		if (FaithManager.Instance.FaithLeaders.Contains(playerScript) == false) return;
+		FaithManager.Instance.SetMainFaith(playerScript.CurrentFaith);
+		FaithManager.Instance.FaithMembers.Add(playerScript);
+	}
+
+	
+	[TargetRpc]
+	public void RpcShowFaithSelectScreen(NetworkConnection target)
+	{
+		UIManager.Instance.ChaplainFirstTimeSelectScreen.gameObject.SetActive(true);
 	}
 }

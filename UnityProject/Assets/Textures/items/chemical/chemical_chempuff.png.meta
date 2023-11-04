@@ -63,7 +63,7 @@ TextureImporter:
       213: 21300038
     second: chempuff_19
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -80,11 +80,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -123,6 +124,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -138,6 +141,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -582,29 +597,28 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      chempuff_14: 21300028
-      chempuff_18: 21300036
-      chempuff_3: 21300006
-      chempuff_9: 21300018
+      chempuff_0: 21300000
+      chempuff_1: 21300002
+      chempuff_10: 21300020
+      chempuff_11: 21300022
       chempuff_12: 21300024
+      chempuff_13: 21300026
+      chempuff_14: 21300028
+      chempuff_15: 21300030
+      chempuff_16: 21300032
+      chempuff_17: 21300034
+      chempuff_18: 21300036
       chempuff_19: 21300038
       chempuff_2: 21300004
-      chempuff_16: 21300032
-      chempuff_13: 21300026
-      chempuff_11: 21300022
+      chempuff_3: 21300006
       chempuff_4: 21300008
+      chempuff_5: 21300010
       chempuff_6: 21300012
       chempuff_7: 21300014
       chempuff_8: 21300016
-      chempuff_5: 21300010
-      chempuff_1: 21300002
-      chempuff_10: 21300020
-      chempuff_15: 21300030
-      chempuff_0: 21300000
-      chempuff_17: 21300034
-  spritePackingTag: 
+      chempuff_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

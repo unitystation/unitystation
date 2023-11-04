@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
@@ -57,37 +58,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 811eaf9b2e7f5b94baa62836a1075d0e,
         type: 2}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 23075aaca519278499bfb71d8ae1f1bb,
         type: 2}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: d935be648e0f17b4787af6d9c19ada82,
         type: 2}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[3]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 6a3c53d47718f914cbd65430d2dc42fd,
         type: 2}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[4]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: a9448ecec97c8344ab32e6e970576079,
         type: 2}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[5]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[5]'
       value: 
       objectReference: {fileID: 11400000, guid: 9808413f8075bd64dadb380efe728523,
         type: 2}
@@ -98,13 +99,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.data[0]
+      propertyPath: 'plantData.MutatesInToGameObject.Array.data[0]'
       value: 
       objectReference: {fileID: 6269488586934578680, guid: 86633c48818c78841b335905a992120b,
         type: 3}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.data[1]
+      propertyPath: 'plantData.MutatesInToGameObject.Array.data[1]'
       value: 
       objectReference: {fileID: 7571569920162806750, guid: fce8719dcefd31744a60072a76ed5f89,
         type: 3}
@@ -117,6 +118,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: These seeds grow into berry bushes.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: _assetId
+      value: 2623284506
       objectReference: {fileID: 0}
     - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -201,4 +207,7 @@ PrefabInstance:
       value: 0a1175404af7039419a7794cb4bda0d9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26abf4c2c542ffa4098216683cb5f652, type: 3}

@@ -13,35 +13,39 @@ MonoBehaviour:
   m_Name: AssistantPopulator
   m_EditorClassIdentifier: 
   Entries:
-  - IndexSlot: 0
-    IfOccupiedFindEmptyIndexSlot: 1
-    UesIndex: 0
-    NamedSlot: 1
+  - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 234969413023505447, guid: 49b38681833f4d74ba6d4ab654a5d8cf, type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 1
+    IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []
-  - IndexSlot: 0
-    IfOccupiedFindEmptyIndexSlot: 1
-    UesIndex: 0
-    NamedSlot: 3
+  - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa,
       type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 3
+    IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []
-  - IndexSlot: 0
-    IfOccupiedFindEmptyIndexSlot: 1
-    UesIndex: 0
-    NamedSlot: 6
+  - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523,
       type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 6
+    IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 0
     namedSlotPopulatorEntrys: []
-  - IndexSlot: 0
-    IfOccupiedFindEmptyIndexSlot: 1
-    UesIndex: 0
-    NamedSlot: 15
+  - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 4303657253753073484, guid: a964a6c1326a47c40a104866a6ebce52,
       type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 15
+    IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []
   skirtVariant: {fileID: 6313332283237824220, guid: 4c734bb9f1d853f40bb830ca96ef0260,

@@ -9,11 +9,13 @@ using Systems.Interaction;
 using Shared.Systems.ObjectConnection;
 using CustomInspectors;
 using Doors;
+using Logs;
 
 
 namespace Objects.Wallmounts
 {
-	public class FireAlarm : ImnterfaceMultitoolGUI, ISubscriptionController, IServerLifecycle, ICheckedInteractable<HandApply>, IMultitoolMasterable, ICheckedInteractable<AiActivate>
+	public class FireAlarm : ImnterfaceMultitoolGUI, ISubscriptionController, IServerLifecycle,
+		ICheckedInteractable<HandApply>, IMultitoolMasterable, ICheckedInteractable<AiActivate>
 	{
 		public List<FireLock> FireLockList = new List<FireLock>();
 		private MetaDataNode metaNode;
@@ -28,10 +30,9 @@ namespace Objects.Wallmounts
 		public bool coverOpen;
 		public bool hasCables = true;
 
-		private RegisterTile registerTile;
-
-		[SerializeField]
-		private AddressableAudioSource FireAlarmSFX = null;
+		[SerializeField] private RegisterTile registerTile;
+		[SerializeField] private Integrity integrity;
+		[SerializeField] private AddressableAudioSource FireAlarmSFX = null;
 
 		public enum FireAlarmState
 		{
@@ -43,7 +44,8 @@ namespace Objects.Wallmounts
 
 		private void Awake()
 		{
-			registerTile = GetComponent<RegisterTile>();
+			registerTile ??= GetComponent<RegisterTile>();
+			integrity ??= GetComponent<Integrity>();
 		}
 
 
@@ -51,7 +53,7 @@ namespace Objects.Wallmounts
 		{
 			if (hasCables == false) return;
 
-			if(activated || isInCooldown) return;
+			if (activated || isInCooldown) return;
 			activated = true;
 
 			SyncSprite(FireAlarmState.TopLightSpriteAlert);
@@ -67,7 +69,6 @@ namespace Objects.Wallmounts
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			var integrity = GetComponent<Integrity>();
 			integrity.OnExposedEvent.AddListener(SendCloseAlerts);
 			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
 			var wallMount = GetComponent<WallmountBehavior>();
@@ -76,7 +77,8 @@ namespace Objects.Wallmounts
 
 			foreach (var firelock in FireLockList)
 			{
-				firelock.fireAlarm = this;
+				if (firelock != null) firelock.fireAlarm = this;
+				else Loggy.LogWarning("[Object/FireAlarm/OnSpawnServer] Firelock list on fire alarm has null entry.", Category.ItemSpawn);
 			}
 
 			if (info.SpawnItems == false)
@@ -115,14 +117,14 @@ namespace Objects.Wallmounts
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.Intent == Intent.Harm) return false;
 			return true;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 			{
 				if (coverOpen)
 				{
@@ -153,7 +155,7 @@ namespace Objects.Wallmounts
 			}
 			if (coverOpen)
 			{
-				if (hasCables && Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter))
+				if (hasCables && Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter))
 				{
 					//cut out cables
 					Chat.AddActionMsgToChat(interaction, $"You remove the cables.",
@@ -166,7 +168,7 @@ namespace Objects.Wallmounts
 					return;
 				}
 
-				if (!hasCables && Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) &&
+				if (!hasCables && Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) &&
 					Validations.HasUsedAtLeast(interaction, 5))
 				{
 					//add 5 cables
@@ -223,22 +225,22 @@ namespace Objects.Wallmounts
 			{
 
 				case FireAlarmState.TopLightSpriteAlert:
-					baseSpriteHandler.ChangeSprite(0);
-					topLightSpriteHandler.ChangeSprite(1);
-					bottomLightSpriteHandler.ChangeSprite(2);
+					baseSpriteHandler.SetCatalogueIndexSprite(0);
+					topLightSpriteHandler.SetCatalogueIndexSprite(1);
+					bottomLightSpriteHandler.SetCatalogueIndexSprite(2);
 					break;
 				case FireAlarmState.OpenEmptySprite:
-					baseSpriteHandler.ChangeSprite(2);
+					baseSpriteHandler.SetCatalogueIndexSprite(2);
 					topLightSpriteHandler.PushClear();
 					bottomLightSpriteHandler.PushClear();
 					break;
 				case FireAlarmState.TopLightSpriteNormal:
-					baseSpriteHandler.ChangeSprite(0);
-					topLightSpriteHandler.ChangeSprite(0);
-					bottomLightSpriteHandler.ChangeSprite(0);
+					baseSpriteHandler.SetCatalogueIndexSprite(0);
+					topLightSpriteHandler.SetCatalogueIndexSprite(0);
+					bottomLightSpriteHandler.SetCatalogueIndexSprite(0);
 					break;
 				case FireAlarmState.OpenCabledSprite:
-					baseSpriteHandler.ChangeSprite(1);
+					baseSpriteHandler.SetCatalogueIndexSprite(1);
 					topLightSpriteHandler.PushClear();
 					bottomLightSpriteHandler.PushClear();
 					break;

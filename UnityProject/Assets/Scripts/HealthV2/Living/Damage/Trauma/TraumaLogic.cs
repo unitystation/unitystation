@@ -1,3 +1,4 @@
+using Logs;
 using UnityEngine;
 
 namespace HealthV2
@@ -11,6 +12,7 @@ namespace HealthV2
 		[SerializeField] protected BodyPart bodyPart;
 
 		protected int currentStage = 0;
+		public int CurrentStage => currentStage;
 
 		/// <summary>
 		/// Key: Stage Number. Value: Required Damage to trigger.
@@ -45,6 +47,13 @@ namespace HealthV2
 		/// </summary>
 		protected void GenericStageProgression()
 		{
+			if (gameObject == null || bodyPart == null)
+			{
+				Loggy.LogWarning(
+					"[TraumaLogic/GenericStageProgression] - bodyPart might have been destroyed during other stage progressions. Skipping..");
+				return;
+			}
+			if (stages == null || stages.ContainsKey(currentStage + 1) == false) return;
 			if (bodyPart.TotalDamage >= stages[currentStage + 1]) ProgressDeadlyEffect();
 		}
 

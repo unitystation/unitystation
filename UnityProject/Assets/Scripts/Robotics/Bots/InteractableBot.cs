@@ -3,6 +3,7 @@ using UnityEngine;
 using Mirror;
 using Systems.MobAIs;
 using Items;
+using Logs;
 
 namespace Robotics
 {
@@ -26,7 +27,7 @@ namespace Robotics
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.TargetObject != gameObject) return false;
 			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
 
@@ -55,12 +56,12 @@ namespace Robotics
 
 			if (spriteHandler == null)
 			{
-				Logger.LogWarning($"{nameof(SpriteHandler)} missing on {gameObject}!", Category.Mobs);
+				Loggy.LogWarning($"{nameof(SpriteHandler)} missing on {gameObject}!", Category.Mobs);
 				return;
 			}
 
-			spriteHandler.ChangeSprite(1, true);
-			
+			spriteHandler.SetCatalogueIndexSprite(1, true);
+
 		}
 	}
 }

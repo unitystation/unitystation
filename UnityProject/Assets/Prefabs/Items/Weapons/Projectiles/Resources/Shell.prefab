@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3846077716074979931, guid: 23e6e4c96a5d0b049bb6d1af9f2de6e7,
@@ -80,6 +81,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7039735216540050536, guid: 23e6e4c96a5d0b049bb6d1af9f2de6e7,
         type: 3}
+      propertyPath: _assetId
+      value: 2717103641
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039735216540050536, guid: 23e6e4c96a5d0b049bb6d1af9f2de6e7,
+        type: 3}
       propertyPath: m_AssetId
       value: 4f1eb975ef940201eac8726b12289e87
       objectReference: {fileID: 0}
@@ -100,4 +106,7 @@ PrefabInstance:
       value: A spent shotgun shell
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 23e6e4c96a5d0b049bb6d1af9f2de6e7, type: 3}

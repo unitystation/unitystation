@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
@@ -15,13 +16,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
-      propertyPath: firemodeProjectiles.Array.data[0]
+      propertyPath: 'firemodeProjectiles.Array.data[0]'
       value: 
       objectReference: {fileID: 6819783767881871053, guid: 048d1f0aa47e12f4aba56cafa8255b90,
         type: 3}
     - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
-      propertyPath: firemodeProjectiles.Array.data[1]
+      propertyPath: 'firemodeProjectiles.Array.data[1]'
       value: 
       objectReference: {fileID: 6819783767881871053, guid: 048d1f0aa47e12f4aba56cafa8255b90,
         type: 3}
@@ -60,6 +61,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 592e0b931153e374a8f9c6f9ec42a28f,
         type: 2}
+    - target: {fileID: 7509375819178772214, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: _assetId
+      value: 3553333070
+      objectReference: {fileID: 0}
     - target: {fileID: 7509375819178772214, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: m_AssetId
@@ -155,4 +161,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 098a6de7507fc7843a9b515e306ce838,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fd11f09765590540b2685a0dfa2b8ea, type: 3}

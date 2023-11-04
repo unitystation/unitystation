@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Items;
+using Logs;
 
 namespace UI.Core.NetUI
 {
@@ -21,7 +22,7 @@ namespace UI.Core.NetUI
 		{
 			if (!prefab || prefab.GetComponent<ItemAttributesV2>() != null)
 			{
-				Logger.LogWarning($"No valid prefab found: {prefab}", Category.ItemSpawn);
+				Loggy.LogWarning($"No valid prefab found: {prefab}", Category.ItemSpawn);
 				return false;
 			}
 
@@ -32,7 +33,7 @@ namespace UI.Core.NetUI
 				var item = entry as ItemEntry;
 				if (!item || !item.Prefab || item.Prefab.Equals(prefab))
 				{
-					Logger.Log($"Item {prefab} already exists in ItemList", Category.ItemSpawn);
+					Loggy.Log($"Item {prefab} already exists in ItemList", Category.ItemSpawn);
 					return false;
 				}
 			}
@@ -41,13 +42,13 @@ namespace UI.Core.NetUI
 			ItemEntry newEntry = Add() as ItemEntry;
 			if (newEntry == null)
 			{
-				Logger.LogWarning($"Added {newEntry} is not an ItemEntry!", Category.ItemSpawn);
+				Loggy.LogWarning($"Added {newEntry} is not an ItemEntry!", Category.ItemSpawn);
 				return false;
 			}
 
 			//set its elements
 			newEntry.Prefab = prefab;
-			Logger.Log($"ItemList: Item add success! newEntry={newEntry}", Category.ItemSpawn);
+			Loggy.Log($"ItemList: Item add success! newEntry={newEntry}", Category.ItemSpawn);
 
 			//rescan elements  and notify
 			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
@@ -73,7 +74,7 @@ namespace UI.Core.NetUI
 				}
 			}
 
-			Logger.LogWarning($"Didn't find any prefabs called '{prefabName}' in the list", Category.ItemSpawn);
+			Loggy.LogWarning($"Didn't find any prefabs called '{prefabName}' in the list", Category.ItemSpawn);
 			return false;
 		}
 	}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 555559304750522560, guid: 5c40f1e282a3589419bfcca5e7c95320,
@@ -35,7 +36,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 760716373881751746, guid: 5c40f1e282a3589419bfcca5e7c95320,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 1a583f3d940173e498296b42cd82f962,
         type: 2}
@@ -49,6 +50,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NoirSuitskirt
+      objectReference: {fileID: 0}
+    - target: {fileID: 6009935579059185395, guid: 5c40f1e282a3589419bfcca5e7c95320,
+        type: 3}
+      propertyPath: _assetId
+      value: 1231239250
       objectReference: {fileID: 0}
     - target: {fileID: 6009935579059185395, guid: 5c40f1e282a3589419bfcca5e7c95320,
         type: 3}
@@ -159,4 +165,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c40f1e282a3589419bfcca5e7c95320, type: 3}

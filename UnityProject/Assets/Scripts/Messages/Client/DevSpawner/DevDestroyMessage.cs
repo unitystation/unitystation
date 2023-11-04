@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Logs;
+using UnityEngine;
 using Mirror;
 
 
@@ -31,7 +32,7 @@ namespace Messages.Client.DevSpawner
 
 			if (msg.ToDestroy.Equals(NetId.Invalid))
 			{
-				Logger.LogWarning("Attempted to destroy an object with invalid netID, destroy will not occur.", Category.Admin);
+				Loggy.LogWarning("Attempted to destroy an object with invalid netID, destroy will not occur.", Category.Admin);
 			}
 			else
 			{

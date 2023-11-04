@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -1522837875078304347, guid: b56fec0300832ce48ade0ddf2e577ee7,
@@ -31,12 +32,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
-      propertyPath: stacksWith.Array.data[0]
+      propertyPath: 'stacksWith.Array.data[0]'
       value: 
       objectReference: {fileID: 2618787933857517468}
     - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
-      propertyPath: stacksWith.Array.data[1]
+      propertyPath: 'stacksWith.Array.data[1]'
       value: 
       objectReference: {fileID: 4428874053721993406, guid: 138bcfddcc2df004cab835638478a12b,
         type: 3}
@@ -105,7 +106,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 8cc638e21c73349439bdb818262e0b7b,
         type: 2}
@@ -134,6 +135,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Resistances.Flammable
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8410813880369429899, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: _assetId
+      value: 71914926
       objectReference: {fileID: 0}
     - target: {fileID: 8410813880369429899, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -212,6 +218,13 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8443408387443916863, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -496928706672991311}
   m_SourcePrefab: {fileID: 100100000, guid: b56fec0300832ce48ade0ddf2e577ee7, type: 3}
 --- !u!1 &2618787933857517468 stripped
 GameObject:

@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using Logs;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -104,7 +105,7 @@ namespace Core.Editor
 			}
 			catch
 			{
-				Logger.LogError($"Tried to autoload scene, but scene not found: {scenePath}", Category.Editor);
+				Loggy.LogError($"Tried to autoload scene, but scene not found: {scenePath}", Category.Editor);
 			}
 		}
 	}

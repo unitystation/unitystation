@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7014297586313391939}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 587.68176, y: 307.48575, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2286338457384023630
 MonoBehaviour:
@@ -47,9 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 2759091366
   serverOnly: 0
   visible: 2
-  m_AssetId: 8e94465da3b56b14c83e43e786bfb7a6
   hasSpawned: 0
 --- !u!114 &4231537243615088089
 MonoBehaviour:
@@ -78,5 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d3f16c27241f54ebfc7c075dae2027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  <CodeWordRoles>k__BackingField: 240000003000000033000000

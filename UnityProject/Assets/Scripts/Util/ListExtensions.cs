@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
@@ -63,7 +64,7 @@ public static class ListExtensions
 
 		SceneModifiedOnLoad.RequestSaveScene(scene);
 
-		Logger.Log($"\"{@object.name}\" contained a list that had elements removed.", Category.Editor);
+		Loggy.Log($"\"{@object.name}\" contained a list that had elements removed.", Category.Editor);
 #endif
 	}
 }

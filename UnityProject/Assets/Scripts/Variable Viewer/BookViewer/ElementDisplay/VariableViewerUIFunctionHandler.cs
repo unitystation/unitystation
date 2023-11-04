@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SecureStuff;
 using UnityEngine;
 
 public static class VVUIElementHandler
@@ -23,6 +24,19 @@ public static class VVUIElementHandler
 		CurrentlyOpen.Clear();
 		ToDestroy.Clear();
 		Type2Element.Clear();
+	}
+
+	public class SerialiseHook : ICustomSerialisationSystem
+	{
+		public bool CanDeSerialiseValue(Type InType)
+		{
+			return Type2Element.ContainsKey(InType);
+		}
+
+		public object DeSerialiseValue(string StringData, Type InType)
+		{
+			return Type2Element[InType].DeSerialise(StringData);
+		}
 	}
 
 	public static void ProcessElement(GameObject DynamicPanel, VariableViewerNetworking.NetFriendlyPage Page = null,
@@ -166,6 +180,7 @@ public static class VVUIElementHandler
 		return (InObject.ToString());
 	}
 }
+
 
 public enum PageElementEnum
 {

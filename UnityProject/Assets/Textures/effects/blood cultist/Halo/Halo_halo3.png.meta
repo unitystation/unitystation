@@ -186,7 +186,7 @@ TextureImporter:
       213: 21300120
     second: halo3_60
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -203,11 +203,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -246,6 +247,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -261,6 +264,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1566,70 +1581,69 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      halo3_18: 21300036
-      halo3_49: 21300098
-      halo3_21: 21300042
-      halo3_44: 21300088
       halo3_0: 21300000
-      halo3_54: 21300108
-      halo3_16: 21300032
-      halo3_22: 21300044
-      halo3_12: 21300024
-      halo3_26: 21300052
-      halo3_42: 21300084
-      halo3_19: 21300038
-      halo3_5: 21300010
-      halo3_33: 21300066
-      halo3_20: 21300040
-      halo3_57: 21300114
-      halo3_28: 21300056
-      halo3_35: 21300070
-      halo3_27: 21300054
-      halo3_38: 21300076
-      halo3_45: 21300090
-      halo3_29: 21300058
-      halo3_4: 21300008
-      halo3_46: 21300092
-      halo3_58: 21300116
-      halo3_15: 21300030
-      halo3_23: 21300046
-      halo3_25: 21300050
-      halo3_24: 21300048
-      halo3_55: 21300110
-      halo3_30: 21300060
-      halo3_8: 21300016
-      halo3_60: 21300120
-      halo3_50: 21300100
       halo3_1: 21300002
-      halo3_48: 21300096
-      halo3_37: 21300074
-      halo3_32: 21300064
-      halo3_47: 21300094
-      halo3_13: 21300026
-      halo3_17: 21300034
-      halo3_41: 21300082
-      halo3_14: 21300028
-      halo3_59: 21300118
-      halo3_56: 21300112
-      halo3_43: 21300086
-      halo3_7: 21300014
-      halo3_31: 21300062
-      halo3_3: 21300006
-      halo3_40: 21300080
-      halo3_51: 21300102
       halo3_10: 21300020
-      halo3_39: 21300078
       halo3_11: 21300022
+      halo3_12: 21300024
+      halo3_13: 21300026
+      halo3_14: 21300028
+      halo3_15: 21300030
+      halo3_16: 21300032
+      halo3_17: 21300034
+      halo3_18: 21300036
+      halo3_19: 21300038
+      halo3_2: 21300004
+      halo3_20: 21300040
+      halo3_21: 21300042
+      halo3_22: 21300044
+      halo3_23: 21300046
+      halo3_24: 21300048
+      halo3_25: 21300050
+      halo3_26: 21300052
+      halo3_27: 21300054
+      halo3_28: 21300056
+      halo3_29: 21300058
+      halo3_3: 21300006
+      halo3_30: 21300060
+      halo3_31: 21300062
+      halo3_32: 21300064
+      halo3_33: 21300066
+      halo3_34: 21300068
+      halo3_35: 21300070
+      halo3_36: 21300072
+      halo3_37: 21300074
+      halo3_38: 21300076
+      halo3_39: 21300078
+      halo3_4: 21300008
+      halo3_40: 21300080
+      halo3_41: 21300082
+      halo3_42: 21300084
+      halo3_43: 21300086
+      halo3_44: 21300088
+      halo3_45: 21300090
+      halo3_46: 21300092
+      halo3_47: 21300094
+      halo3_48: 21300096
+      halo3_49: 21300098
+      halo3_5: 21300010
+      halo3_50: 21300100
+      halo3_51: 21300102
       halo3_52: 21300104
       halo3_53: 21300106
-      halo3_34: 21300068
+      halo3_54: 21300108
+      halo3_55: 21300110
+      halo3_56: 21300112
+      halo3_57: 21300114
+      halo3_58: 21300116
+      halo3_59: 21300118
       halo3_6: 21300012
-      halo3_2: 21300004
-      halo3_36: 21300072
+      halo3_60: 21300120
+      halo3_7: 21300014
+      halo3_8: 21300016
       halo3_9: 21300018
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

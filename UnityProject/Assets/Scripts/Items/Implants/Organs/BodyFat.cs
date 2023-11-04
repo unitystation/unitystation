@@ -1,5 +1,6 @@
-﻿using System;
+﻿ using System;
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Player.Movement;
 using UnityEngine;
 
@@ -37,13 +38,18 @@ namespace Items.Implants.Organs
 
 		public float NoticeableDebuffInPoint = 45;
 
-		public bool WasApplyingDebuff = false;
-
 		public bool isFreshBlood;
+
+		public HungerComponent HungerComponent;
+		public ReagentCirculatedComponent ReagentCirculatedComponent;
 
 		public void Awake()
 		{
-			AbsorbedAmount = StartAbsorbedAmount;
+			HungerComponent = this.GetComponentCustom<HungerComponent>();
+			ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
+
+
+			AbsorbedAmount = StartAbsorbedAmount; //TODO Probably should be moved somewhere else?
 		}
 
 		public void SetAbsorbedAmount(float newAbsorbedAmount)
@@ -53,10 +59,11 @@ namespace Items.Implants.Organs
 
 		public override void ImplantPeriodicUpdate()
 		{
+
 			isFreshBlood = true;
 			base.ImplantPeriodicUpdate();
 			// Logger.Log("Absorbing >" + Absorbing);
-			float NutrimentPercentage = (RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.Nutriment] / RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Total);
+			float NutrimentPercentage = (ReagentCirculatedComponent.AssociatedSystem.BloodPool[HungerComponent.Nutriment] / ReagentCirculatedComponent.AssociatedSystem.BloodPool.Total);
 			//Logger.Log("NutrimentPercentage >" + NutrimentPercentage);
 			if (NutrimentPercentage < ReleaseNutrimentPercentage)
 			{
@@ -66,20 +73,20 @@ namespace Items.Implants.Organs
 					ToRelease = AbsorbedAmount;
 				}
 
-				RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Add(RelatedPart.Nutriment, ToRelease);
+				ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(HungerComponent.Nutriment, ToRelease);
 				AbsorbedAmount -= ToRelease;
 				isFreshBlood = false;
 				// Logger.Log("ToRelease >" + ToRelease);
 			}
 			else if (isFreshBlood && NutrimentPercentage > AbsorbNutrimentPercentage && AbsorbedAmount < MinuteStoreMaxAmount)
 			{
-				float ToAbsorb = RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.Nutriment];
+				float ToAbsorb = ReagentCirculatedComponent.AssociatedSystem.BloodPool[HungerComponent.Nutriment];
 				if (AbsorbedAmount + ToAbsorb > MinuteStoreMaxAmount)
 				{
 					ToAbsorb = ToAbsorb - ((AbsorbedAmount + ToAbsorb) - MinuteStoreMaxAmount);
 				}
 
-				float Absorbing = RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Remove(RelatedPart.Nutriment, ToAbsorb);
+				float Absorbing = ReagentCirculatedComponent.AssociatedSystem.BloodPool.Remove(HungerComponent.Nutriment, ToAbsorb);
 				AbsorbedAmount += Absorbing;
 				// Logger.Log("Absorbing >" + Absorbing);
 			}
@@ -88,7 +95,6 @@ namespace Items.Implants.Organs
 			//TODOH Proby doesn't need to be updated so often
 			if (DDebuffInPoint < AbsorbedAmount)
 			{
-				WasApplyingDebuff = true;
 				float DeBuffMultiplier = (AbsorbedAmount - DDebuffInPoint) / (MinuteStoreMaxAmount - DDebuffInPoint);
 				// Logger.Log("DeBuffMultiplier >" + DeBuffMultiplier);
 				RunningSpeedModifier = maxRunSpeedDebuff * DeBuffMultiplier;
@@ -103,19 +109,20 @@ namespace Items.Implants.Organs
 
 			if (AbsorbedAmount == 0)
 			{
-				RelatedPart.HungerState = HungerState.Malnourished;
+				HungerComponent.HungerState = HungerState.Malnourished;
 			}
 			else if (AbsorbedAmount < 5) //Five minutes of food
 			{
-				RelatedPart.HungerState = HungerState.Hungry;
+
+				HungerComponent.HungerState = HungerState.Hungry;
 			}
 			else  if (NoticeableDebuffInPoint < AbsorbedAmount)
 			{
-				RelatedPart.HungerState = HungerState.Full;
+				HungerComponent.HungerState = HungerState.Full;
 			}
 			else
 			{
-				RelatedPart.HungerState = HungerState.Normal;
+				HungerComponent.HungerState = HungerState.Normal;
 			}
 		}
 
@@ -138,7 +145,11 @@ namespace Items.Implants.Organs
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			base.OnRemovedFromBody(livingHealth);
-			RelatedStomach.BodyFats.Remove(this);
+			if (RelatedStomach != null)
+			{
+				RelatedStomach.BodyFats.Remove(this);
+			}
+
 			var playerHealthV2 = livingHealth as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{

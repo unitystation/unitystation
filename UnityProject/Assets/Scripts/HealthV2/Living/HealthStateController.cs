@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -40,10 +41,6 @@ namespace HealthV2
 		private HealthBloodMessage bloodHealth;
 		private HealthBloodMessage BloodHealth => bloodHealth;
 
-		[SyncVar]
-		private float bleedStacks; //TODO Change to per body part instead
-		public float BleedStacks => bleedStacks;
-
 		[SyncVar(hook = nameof(SyncFireStacks))]
 		private float fireStacks;
 		public float FireStacks => fireStacks;
@@ -52,41 +49,13 @@ namespace HealthV2
 		private bool isSuffocating;
 		public bool IsSuffocating => isSuffocating;
 
-		[SyncVar]
-		private bool hasToxins;
-		public bool HasToxins => hasToxins;
-
-		[SyncVar] private TemperatureAlert temperature = TemperatureAlert.None;
-		public TemperatureAlert Temperature => temperature;
-
-		[SyncVar]
-		private PressureAlert pressure = PressureAlert.None;
-		public PressureAlert Pressure => pressure;
-
 		private HealthDollStorage CurrentHealthDollStorage = new HealthDollStorage();
 
 		[SyncVar(hook = nameof(SyncHealthDoll))]
 		private string healthDollData;
-
-		[SyncVar]
-		private HungerState hungerState;
-		public HungerState HungerState => hungerState;
-
-		[SyncVar]
-		private BleedingState bleedingState;
-		public BleedingState BleedingState => bleedingState;
-
-		public event Action<HungerState> HungerEvent;
-		public event Action<BleedingState> BleedingEvent;
 		public event Action<ConsciousState> ConsciousEvent;
-		public event Action<bool> SuffuicationEvent;
-		public event Action<bool> ToxinEvent;
-		public event Action<float> OverallHealthEvent;
-		public event Action<float> FireStacksEvent;
-		public event Action<PressureAlert> PressureEvent;
-		public event Action<TemperatureAlert> TemperatureEvent;
 
-
+		public event Action<float> ServerOverallHealthChange;
 
 		private bool DollDataChanged = false;
 
@@ -129,28 +98,15 @@ namespace HealthV2
 		}
 		//Holds all methods which the server will use to change a health value, will then sync change to client
 
-		[Server]
-		public void SetHunger(HungerState newHungerState)
-		{
-			hungerState = newHungerState;
-			if (connectionToClient == null) return;
-			InvokeClientHungerEvent(hungerState);
-		}
-
-		[Server]
-		public void SetBleedingState(BleedingState newBleedingState)
-		{
-			bleedingState = newBleedingState;
-			if (connectionToClient == null) return;
-			InvokeClientBleedEvent(newBleedingState);
-		}
 
 		[Server]
 		public void SetOverallHealth(float newHealth)
 		{
-			overallHealthSync = newHealth;
-			if (connectionToClient == null) return;
-			InvokeClientOverallHealthEvent(newHealth);
+			if (newHealth != overallHealthSync)
+			{
+				overallHealthSync = newHealth;
+				ServerOverallHealthChange?.Invoke(newHealth);
+			}
 		}
 
 		[Server]
@@ -162,7 +118,7 @@ namespace HealthV2
 		[Server]
 		public void SetDNA(DNAandBloodType newDNA)
 		{
-			DNABloodTypeJSONSync = JsonUtility.ToJson(newDNA);
+			DNABloodTypeJSONSync = JsonConvert.SerializeObject(newDNA);
 			DNABloodType = newDNA;
 		}
 
@@ -174,7 +130,6 @@ namespace HealthV2
 			{
 				InvokeClientConsciousStateEvent(newConsciousState);
 			}
-
 		}
 
 		[Server]
@@ -183,51 +138,7 @@ namespace HealthV2
 			bloodHealth = newBloodHealth;
 		}
 
-		[Server]
-		public void SetFireStacks(float newValue)
-		{
-			fireStacks = Math.Max(0, newValue);
-			if (connectionToClient == null) return;
-			InvokeClientFireStackEvent(newValue);
-		}
 
-		[Server]
-		public void SetBleedStacks(float newValue)
-		{
-			bleedStacks = Math.Max(0, newValue);
-		}
-
-		[Server]
-		public void SetSuffocating(bool newSuffocating)
-		{
-			isSuffocating = newSuffocating;
-			if (connectionToClient == null) return;
-			InvokeClientSufficationEvent(newSuffocating);
-		}
-
-		[Server]
-		public void SetToxins(bool newState)
-		{
-			hasToxins = newState;
-			if (connectionToClient == null) return;
-			InvokeClientToxinsEvent(newState);
-		}
-
-		[Server]
-		public void SetTemperature(TemperatureAlert newTemperature)
-		{
-			temperature = newTemperature;
-			if (connectionToClient == null) return;
-			InvokeClientTemperatureEvent(newTemperature);
-		}
-
-		[Server]
-		public void SetPressure(PressureAlert newPressure)
-		{
-			pressure = newPressure;
-			if (connectionToClient == null) return;
-			IvokeClientPressureEvent(newPressure);
-		}
 
 		[Server]
 		public void ServerUpdateDoll(int inLocation, Color INdamageColor, Color INbodyPartColor)
@@ -257,7 +168,7 @@ namespace HealthV2
 		private void SyncDNABloodTypeJSON(string oldDNABloodTypeJSON, string newDNABloodTypeJSON)
 		{
 			DNABloodTypeJSONSync = newDNABloodTypeJSON;
-			DNABloodType = JsonUtility.FromJson<DNAandBloodType>(newDNABloodTypeJSON);
+			DNABloodType = JsonConvert.DeserializeObject<DNAandBloodType>(newDNABloodTypeJSON);
 		}
 
 		[Client]
@@ -279,7 +190,7 @@ namespace HealthV2
 			}
 			catch (Exception e)
 			{
-				Logger.LogError(e.ToString()); //some weird ass serialisation error
+				Loggy.LogError(e.ToString()); //some weird ass serialisation error
 				return;
 			}
 
@@ -291,58 +202,9 @@ namespace HealthV2
 		}
 
 		[TargetRpc]
-		private void InvokeClientHungerEvent(HungerState state)
-		{
-			HungerEvent?.Invoke(state);
-		}
-
-		[TargetRpc]
-		private void InvokeClientBleedEvent(BleedingState state)
-		{
-			BleedingEvent?.Invoke(state);
-		}
-
-		[TargetRpc]
-		private void InvokeClientFireStackEvent(float state)
-		{
-			FireStacksEvent?.Invoke(state);
-		}
-
-		[TargetRpc]
-		private void InvokeClientOverallHealthEvent(float state)
-		{
-			OverallHealthEvent?.Invoke(state);
-		}
-
-		[TargetRpc]
 		private void InvokeClientConsciousStateEvent(ConsciousState state)
 		{
 			ConsciousEvent?.Invoke(state);
-		}
-
-
-		[TargetRpc]
-		private void InvokeClientSufficationEvent(bool state)
-		{
-			SuffuicationEvent?.Invoke(state);
-		}
-
-		[TargetRpc]
-		private void InvokeClientToxinsEvent(bool state)
-		{
-			ToxinEvent?.Invoke(state);
-		}
-
-		[TargetRpc]
-		private void InvokeClientTemperatureEvent(TemperatureAlert state)
-		{
-			TemperatureEvent?.Invoke(state);
-		}
-
-		[TargetRpc]
-		private void IvokeClientPressureEvent(PressureAlert state)
-		{
-			PressureEvent?.Invoke(state);
 		}
 
 		#endregion

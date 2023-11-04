@@ -12,12 +12,17 @@ public class TooltipMonoBehaviour : MonoBehaviour, IPointerEnterHandler, IPointe
 	/// <summary>
 	/// Override this to show a tooltip on hover
 	/// </summary>
-	public virtual string Tooltip => string.Empty;
+	public virtual string Tooltip => baseTooltip;
+
+	public string baseTooltip;
 
 	/// <summary>
 	/// Override this to show a tooltip on cursor exit (intended for special cases)
 	/// </summary>
-	public virtual string ExitTooltip => string.Empty;
+	public virtual string ExitTooltip => baseExitTooltip;
+
+
+	public string baseExitTooltip;
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{

@@ -10,6 +10,7 @@ using Core.Database;
 using DatabaseAPI;
 using GameConfig;
 using Lobby;
+using Logs;
 
 namespace Core.Networking
 {
@@ -80,9 +81,9 @@ namespace Core.Networking
 			NetworkServer.RegisterHandler<ServerClientAuthRequestMessage>(OnServerClientAuthRequest, false);
 		}
 
-		public override void OnServerAuthenticate(NetworkConnection conn)
+		public override void OnServerAuthenticate(NetworkConnectionToClient conn)
 		{
-			Logger.LogTrace($"A client not yet authenticated is joining. Address: {conn.address}.", Category.Connections);
+			Loggy.LogTrace($"A client not yet authenticated is joining. Address: {conn.address}.", Category.Connections);
 		}
 
 		public void OnServerClientAuthRequest(NetworkConnectionToClient conn, ServerClientAuthRequestMessage msg)
@@ -109,7 +110,7 @@ namespace Core.Networking
 
 		public async void OnAuthRequest(NetworkConnectionToClient conn, AuthRequestMessage msg)
 		{
-			Logger.LogTrace($"A client is requesting authentication. " +
+			Loggy.LogTrace($"A client is requesting authentication. " +
 					$"Address: {conn.address}. Client Version: {msg.ClientVersion}. Account ID: {msg.AccountId}.",
 					Category.Connections);
 
@@ -156,7 +157,7 @@ namespace Core.Networking
 			ServerAccept(conn);
 		}
 
-		private bool IsSpamming(NetworkConnection conn)
+		private bool IsSpamming(NetworkConnectionToClient conn)
 		{
 			if (connectionCooldowns.ContainsKey(conn.address) == false)
 			{
@@ -173,7 +174,7 @@ namespace Core.Networking
 				// Cooldown on logging so we don't spam our logs.
 				if (logSecondsElapsed > MinCooldown)
 				{
-					Logger.LogError($"Connection spam alert. Address {conn.address} is trying to spam connections.",
+					Loggy.LogError($"Connection spam alert. Address {conn.address} is trying to spam connections.",
 							Category.Connections);
 				}
 
@@ -199,7 +200,7 @@ namespace Core.Networking
 
 				if (connSecondsElapsed < PasswordRequestTime) continue;
 
-				Logger.LogError(
+				Loggy.LogError(
 					$"A user ran out of time while sending a password. IP: '{connectionTimer.Key}'.",
 					Category.Connections);
 
@@ -218,12 +219,12 @@ namespace Core.Networking
 			}
 		}
 
-		private bool ValidatePlayerClient(NetworkConnection conn, int clientVersion)
+		private bool ValidatePlayerClient(NetworkConnectionToClient conn, int clientVersion)
 		{
 			// Check the client version is the same as the server
 			if (clientVersion != GameData.BuildNumber)
 			{
-				Logger.LogTrace($"A client tried to connect with a different client version. Version: {clientVersion}.",
+				Loggy.LogTrace($"A client tried to connect with a different client version. Version: {clientVersion}.",
 						Category.Connections);
 				DisconnectClient(conn, ResponseCode.InvalidClientVersion,
 						$"Invalid Client Version! You need version {GameData.BuildNumber}. This can be acquired through the station hub.");
@@ -238,7 +239,7 @@ namespace Core.Networking
 			// Must have account ID and player token
 			if (string.IsNullOrEmpty(accountId) || string.IsNullOrEmpty(playerToken))
 			{
-				Logger.LogError(
+				Loggy.LogError(
 						"A user tried to connect with an invalid account ID and/or token."
 						+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
 						Category.Connections);
@@ -306,7 +307,8 @@ namespace Core.Networking
 			return true;
 		}
 
-		private bool ValidateLobbyPassword(NetworkConnection conn, AuthRequestMessage msg)
+
+		private bool ValidatePassword(NetworkConnectionToClient conn, AuthRequestMessage msg)
 		{
 			var accountId = msg.AccountId;
 
@@ -335,7 +337,7 @@ namespace Core.Networking
 			}
 
 			//Request client to send password
-			Logger.Log($"Requesting password from user. Account ID: '{accountId}'. IP: '{conn.address}.",
+			Loggy.Log($"Requesting password from user. Account ID: '{accountId}'. IP: '{conn.address}.",
 				Category.Connections);
 
 			conn.Send(new AuthResponseMessage
@@ -349,10 +351,10 @@ namespace Core.Networking
 			return false;
 		}
 
-		private void DisconnectClient(NetworkConnection connection, ResponseCode reason, string message = "")
+		private void DisconnectClient(NetworkConnectionToClient connection, ResponseCode reason, string message = "")
 				=> StartCoroutine(_DisconnectClient(connection, reason, message));
 
-		private IEnumerator _DisconnectClient(NetworkConnection conn, ResponseCode reason, string message = "")
+		private IEnumerator _DisconnectClient(NetworkConnectionToClient conn, ResponseCode reason, string message = "")
 		{
 			var msg = new AuthResponseMessage
 			{
@@ -374,7 +376,7 @@ namespace Core.Networking
 
 		public override void OnStartClient()
 		{
-			Logger.LogTrace("Authenticator: client starting, preparing before sending authentication request.", Category.Connections);
+			Loggy.LogTrace("Authenticator: client starting, preparing before sending authentication request.", Category.Connections);
 			NetworkClient.RegisterHandler<AuthResponseMessage>(OnAuthResponse, false);
 			NetworkClient.RegisterHandler<ServerClientAuthResponseMessage>(OnServerClientAuthResponse, false);
 		}
@@ -420,7 +422,7 @@ namespace Core.Networking
 				return;
 			}
 
-			Logger.Log($"Disconnecting from server. Reason: {msg.Code}.");
+			Loggy.Log($"Disconnecting from server. Reason: {msg.Code}.");
 			ClientReject(); // Gracefully handle rejection by disconnecting.
 
 			// Then shut down the client to return to the main menu.

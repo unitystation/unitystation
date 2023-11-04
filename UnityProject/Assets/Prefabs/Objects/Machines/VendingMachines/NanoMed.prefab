@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 396145836350701281, guid: 2f2954acc32d9d3468c620e34a625966,
@@ -60,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: _assetId
+      value: 1192158611
+      objectReference: {fileID: 0}
+    - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: m_AssetId
       value: 9b59e4553ab9f7e4a8f46497d7cfd7bc
       objectReference: {fileID: 0}
@@ -75,7 +81,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4299547928631692446, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: requiredClearance.Array.data[0]
+      propertyPath: 'requiredClearance.Array.data[0]'
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
@@ -304,6 +310,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9081061823247388186, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6946043629028183915}
+    - targetCorrespondingSourceObject: {fileID: 9081061823247388186, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2568871122417170740}
   m_SourcePrefab: {fileID: 100100000, guid: 2f2954acc32d9d3468c620e34a625966, type: 3}
 --- !u!1 &5317608158200183530 stripped
 GameObject:
@@ -323,6 +340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   MethodRotation: 0

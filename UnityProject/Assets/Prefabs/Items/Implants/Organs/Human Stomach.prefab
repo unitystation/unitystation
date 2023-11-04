@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3185798692742469044}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2553433226350356333}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7073899732039749527
 MonoBehaviour:
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxCapacity: 80
-  reactionSet: {fileID: 0}
+  reactionSet: {fileID: 11400000, guid: 9635f48a9fe17f742aee13832a4ed6c2, type: 2}
   AdditionalReactions: []
   initialReagentMix:
     temperature: 273.15
@@ -56,19 +56,98 @@ MonoBehaviour:
   destroyOnEmpty: 0
   ContentsSet: 0
   menuOptions: -1
+  spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 0
+  SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20
+  transferSound: []
+--- !u!1 &8518599047709719652
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8020505243148839587}
+  - component: {fileID: 477889042948838881}
+  - component: {fileID: 7830021117134627836}
+  - component: {fileID: 1612141623047297532}
+  m_Layer: 10
+  m_Name: VomitLogic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8020505243148839587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8518599047709719652}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2553433226350356333}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &477889042948838881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8518599047709719652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf51145a61cd4f15bdd5c4b77ee26205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunDuration: 4
+--- !u!114 &7830021117134627836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8518599047709719652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b73a618a36a448796ac2321a4ddd3be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minMaxToxinHeal: {x: 2, y: 6}
+--- !u!114 &1612141623047297532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8518599047709719652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31de4dba07ad41a29b467b82c7e6056c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  traumaTypes: 2
+  minMaxToTakeFromBlood: {x: 2, y: 12}
+  traumaLevelToVomitBloodOn: 2
 --- !u!1001 &7132720453719274872
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
@@ -81,6 +160,11 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: 69104df12837d1e48bb456dce5301bfa
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: _assetId
+      value: 2662982056
       objectReference: {fileID: 0}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -125,17 +209,17 @@ PrefabInstance:
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -192,13 +276,19 @@ PrefabInstance:
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 892f0c642e2049640b08d738517bb0f5,
+        type: 2}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7577eabe60e5ac546901dbb7c30538fc,
         type: 2}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -242,36 +332,55 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[0]
+      propertyPath: 'SurgeryProcedureBase.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 32f04f929f3a7134e8894559e262ec8a,
         type: 2}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[1]
+      propertyPath: 'SurgeryProcedureBase.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051,
         type: 2}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[2]
+      propertyPath: 'SurgeryProcedureBase.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329,
         type: 2}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[3]
+      propertyPath: 'SurgeryProcedureBase.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: b6fd9e69eadae4148bbd6a85d785f16a,
         type: 2}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[4]
+      propertyPath: 'SurgeryProcedureBase.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: 3a60d21cb4e18b14ba0387530f2dccd5,
         type: 2}
     m_RemovedComponents:
     - {fileID: 8095853447068111044, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5820328182453633227}
+    - targetCorrespondingSourceObject: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8020505243148839587}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1458293514004664868}
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8132119848969428107}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
 --- !u!4 &2553433226350356333 stripped
 Transform:
@@ -297,13 +406,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db4404109ee5304895b5058a7eff177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  isEMPVunerable: 0
-  EMPResistance: 2
   StomachContents: {fileID: 7073899732039749527}
   DigesterAmountPerSecond: 1
   BodyFats: []
   BodyFatToInstantiate: {fileID: 5722168868389364961, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
     type: 3}
   InitialFatSpawned: 0
+  _ReagentCirculatedComponent: {fileID: 0}
+  HungerComponent: {fileID: 0}
+--- !u!114 &8132119848969428107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2556953724642564633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb8bd890cb294ce6a2cbbff0d834af9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  stomach: {fileID: 1458293514004664868}
+  dryHeavingEmote: {fileID: 11400000, guid: a6e6bd57706a7ac48a90238687d25868, type: 2}
+  vomitReagentPrefab: {fileID: 1069497300762596, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
+    type: 3}
+  divisbleVomitAmount: 4
+  vomitSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/CutGash.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

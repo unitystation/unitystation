@@ -1,5 +1,7 @@
-﻿using Shared.Managers;
-using System.IO;
+﻿using System.IO;
+using Logs;
+using SecureStuff;
+using Shared.Managers;
 using Tomlyn;
 using UnityEngine;
 
@@ -7,7 +9,7 @@ namespace Systems.Permissions
 {
 	public class PermissionsManager: SingletonManager<PermissionsManager>
 	{
-		private readonly string configPath = Path.Combine(Application.streamingAssetsPath, "admin", "permissions.toml");
+		private readonly string configPath = Path.Combine(AccessFile.AdminFolder, "permissions.toml");
 
 		public PermissionsConfig Config { get; private set; }
 
@@ -19,14 +21,14 @@ namespace Systems.Permissions
 		/// </summary>
 		public void LoadPermissionsConfig()
 		{
-			if (File.Exists(configPath) == false)
+			if (AccessFile.Exists(configPath) == false)
 			{
-				Logger.LogError("Permissions config file not found!", Category.Admin);
+				Loggy.LogError("Permissions config file not found!", Category.Admin);
 				Config = new PermissionsConfig();
 				return;
 			}
 
-			var fileContent = File.ReadAllText(configPath);
+			var fileContent = AccessFile.Load(configPath);
 
 			LoadPermissionsConfig(fileContent);
 		}
@@ -35,11 +37,11 @@ namespace Systems.Permissions
 		{
 			if (Toml.TryToModel<PermissionsConfig>(fileContent, out var model, out var diagnostics) == false)
 			{
-				Logger.LogError("Permissions config file is invalid! See next to find why.", Category.Admin);
+				Loggy.LogError("Permissions config file is invalid! See next to find why.", Category.Admin);
 				var errors = diagnostics.GetEnumerator();
 				while (errors.MoveNext())
 				{
-					Logger.LogError($"reason: {errors.Current?.Message}", Category.Admin);
+					Loggy.LogError($"reason: {errors.Current?.Message}", Category.Admin);
 				}
 				errors.Dispose();
 				Config = new PermissionsConfig();
@@ -63,7 +65,6 @@ namespace Systems.Permissions
 				//Player not found, so they don't have any permissions
 				return false;
 			}
-
 			var rankName = player.Rank;
 			if (Config.Ranks.ContainsKey(rankName) == false)
 			{

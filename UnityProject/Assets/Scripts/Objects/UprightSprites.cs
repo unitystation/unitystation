@@ -11,16 +11,16 @@ using Core.Editor.Attributes;
 [ExecuteInEditMode]
 public class UprightSprites : MonoBehaviour, IMatrixRotation
 {
-	[PrefabModeOnly]
+
 	[Tooltip("Defines how this object's sprites should behave during a matrix rotation")]
 	public SpriteMatrixRotationBehavior spriteMatrixRotationBehavior =
 		SpriteMatrixRotationBehavior.RotateUprightAtEndOfMatrixRotation;
 
-	[PrefabModeOnly]
+
 	[Tooltip("Ignore additional rotation (for example, when object is knocked down)")]
 	public SpriteRenderer[] ignoreExtraRotation = new SpriteRenderer[0];
 
-	[PrefabModeOnly]
+
 	public GameObject RotateParent = null;
 
 	/// <summary>
@@ -43,7 +43,6 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 	private SpriteRenderer[] spriteRenderers;
 	private RegisterTile registerTile;
 	private UniversalObjectPhysics uop;
-
 	private void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();

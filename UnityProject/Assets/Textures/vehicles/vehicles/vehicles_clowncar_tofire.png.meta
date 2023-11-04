@@ -219,7 +219,7 @@ TextureImporter:
       213: 21300142
     second: clowncar_tofire_71
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -236,11 +236,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -279,6 +280,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -294,6 +297,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1830,81 +1845,80 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      clowncar_tofire_30: 21300060
-      clowncar_tofire_50: 21300100
       clowncar_tofire_0: 21300000
-      clowncar_tofire_17: 21300034
-      clowncar_tofire_44: 21300088
-      clowncar_tofire_36: 21300072
-      clowncar_tofire_24: 21300048
-      clowncar_tofire_19: 21300038
-      clowncar_tofire_64: 21300128
-      clowncar_tofire_68: 21300136
-      clowncar_tofire_12: 21300024
-      clowncar_tofire_29: 21300058
-      clowncar_tofire_62: 21300124
-      clowncar_tofire_40: 21300080
-      clowncar_tofire_8: 21300016
-      clowncar_tofire_6: 21300012
-      clowncar_tofire_63: 21300126
-      clowncar_tofire_71: 21300142
-      clowncar_tofire_39: 21300078
-      clowncar_tofire_43: 21300086
-      clowncar_tofire_56: 21300112
-      clowncar_tofire_11: 21300022
-      clowncar_tofire_28: 21300056
-      clowncar_tofire_45: 21300090
-      clowncar_tofire_53: 21300106
-      clowncar_tofire_35: 21300070
-      clowncar_tofire_16: 21300032
-      clowncar_tofire_21: 21300042
-      clowncar_tofire_10: 21300020
-      clowncar_tofire_4: 21300008
-      clowncar_tofire_13: 21300026
-      clowncar_tofire_42: 21300084
-      clowncar_tofire_55: 21300110
-      clowncar_tofire_59: 21300118
-      clowncar_tofire_51: 21300102
-      clowncar_tofire_65: 21300130
-      clowncar_tofire_48: 21300096
-      clowncar_tofire_38: 21300076
       clowncar_tofire_1: 21300002
-      clowncar_tofire_26: 21300052
-      clowncar_tofire_61: 21300122
-      clowncar_tofire_27: 21300054
-      clowncar_tofire_41: 21300082
-      clowncar_tofire_47: 21300094
-      clowncar_tofire_18: 21300036
-      clowncar_tofire_54: 21300108
-      clowncar_tofire_66: 21300132
-      clowncar_tofire_23: 21300046
+      clowncar_tofire_10: 21300020
+      clowncar_tofire_11: 21300022
+      clowncar_tofire_12: 21300024
+      clowncar_tofire_13: 21300026
       clowncar_tofire_14: 21300028
-      clowncar_tofire_2: 21300004
-      clowncar_tofire_32: 21300064
-      clowncar_tofire_20: 21300040
-      clowncar_tofire_9: 21300018
-      clowncar_tofire_33: 21300066
-      clowncar_tofire_25: 21300050
-      clowncar_tofire_5: 21300010
-      clowncar_tofire_49: 21300098
-      clowncar_tofire_52: 21300104
-      clowncar_tofire_69: 21300138
-      clowncar_tofire_22: 21300044
-      clowncar_tofire_70: 21300140
-      clowncar_tofire_37: 21300074
-      clowncar_tofire_34: 21300068
-      clowncar_tofire_31: 21300062
-      clowncar_tofire_46: 21300092
-      clowncar_tofire_57: 21300114
       clowncar_tofire_15: 21300030
-      clowncar_tofire_58: 21300116
-      clowncar_tofire_7: 21300014
-      clowncar_tofire_67: 21300134
-      clowncar_tofire_60: 21300120
+      clowncar_tofire_16: 21300032
+      clowncar_tofire_17: 21300034
+      clowncar_tofire_18: 21300036
+      clowncar_tofire_19: 21300038
+      clowncar_tofire_2: 21300004
+      clowncar_tofire_20: 21300040
+      clowncar_tofire_21: 21300042
+      clowncar_tofire_22: 21300044
+      clowncar_tofire_23: 21300046
+      clowncar_tofire_24: 21300048
+      clowncar_tofire_25: 21300050
+      clowncar_tofire_26: 21300052
+      clowncar_tofire_27: 21300054
+      clowncar_tofire_28: 21300056
+      clowncar_tofire_29: 21300058
       clowncar_tofire_3: 21300006
-  spritePackingTag: 
+      clowncar_tofire_30: 21300060
+      clowncar_tofire_31: 21300062
+      clowncar_tofire_32: 21300064
+      clowncar_tofire_33: 21300066
+      clowncar_tofire_34: 21300068
+      clowncar_tofire_35: 21300070
+      clowncar_tofire_36: 21300072
+      clowncar_tofire_37: 21300074
+      clowncar_tofire_38: 21300076
+      clowncar_tofire_39: 21300078
+      clowncar_tofire_4: 21300008
+      clowncar_tofire_40: 21300080
+      clowncar_tofire_41: 21300082
+      clowncar_tofire_42: 21300084
+      clowncar_tofire_43: 21300086
+      clowncar_tofire_44: 21300088
+      clowncar_tofire_45: 21300090
+      clowncar_tofire_46: 21300092
+      clowncar_tofire_47: 21300094
+      clowncar_tofire_48: 21300096
+      clowncar_tofire_49: 21300098
+      clowncar_tofire_5: 21300010
+      clowncar_tofire_50: 21300100
+      clowncar_tofire_51: 21300102
+      clowncar_tofire_52: 21300104
+      clowncar_tofire_53: 21300106
+      clowncar_tofire_54: 21300108
+      clowncar_tofire_55: 21300110
+      clowncar_tofire_56: 21300112
+      clowncar_tofire_57: 21300114
+      clowncar_tofire_58: 21300116
+      clowncar_tofire_59: 21300118
+      clowncar_tofire_6: 21300012
+      clowncar_tofire_60: 21300120
+      clowncar_tofire_61: 21300122
+      clowncar_tofire_62: 21300124
+      clowncar_tofire_63: 21300126
+      clowncar_tofire_64: 21300128
+      clowncar_tofire_65: 21300130
+      clowncar_tofire_66: 21300132
+      clowncar_tofire_67: 21300134
+      clowncar_tofire_68: 21300136
+      clowncar_tofire_69: 21300138
+      clowncar_tofire_7: 21300014
+      clowncar_tofire_70: 21300140
+      clowncar_tofire_71: 21300142
+      clowncar_tofire_8: 21300016
+      clowncar_tofire_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

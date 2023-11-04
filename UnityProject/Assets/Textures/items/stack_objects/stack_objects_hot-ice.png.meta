@@ -30,7 +30,7 @@ TextureImporter:
       213: -5106130710193397198
     second: hot-ice_8
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -47,11 +47,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -90,6 +91,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -105,6 +108,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -318,18 +333,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      hot-ice_5: -3759386159513825929
-      hot-ice_7: 7835902774784139328
-      hot-ice_3: 7884030292400047657
-      hot-ice_8: -5106130710193397198
-      hot-ice_2: -7562528662503941128
-      hot-ice_6: -9093182025494366347
-      hot-ice_1: -5621369357884286913
-      hot-ice_4: 4287034297366434547
       hot-ice_0: 2512356903426021722
-  spritePackingTag: 
+      hot-ice_1: -5621369357884286913
+      hot-ice_2: -7562528662503941128
+      hot-ice_3: 7884030292400047657
+      hot-ice_4: 4287034297366434547
+      hot-ice_5: -3759386159513825929
+      hot-ice_6: -9093182025494366347
+      hot-ice_7: 7835902774784139328
+      hot-ice_8: -5106130710193397198
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

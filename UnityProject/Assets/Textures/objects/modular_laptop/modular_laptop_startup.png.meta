@@ -144,7 +144,7 @@ TextureImporter:
       213: 21300092
     second: startup_46
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -161,11 +161,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -204,6 +205,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -219,6 +222,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1231,55 +1246,54 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       startup_0: 21300000
-      startup_35: 21300070
-      startup_27: 21300054
-      startup_30: 21300060
-      startup_15: 21300030
-      startup_9: 21300018
-      startup_36: 21300072
-      startup_32: 21300064
-      startup_2: 21300004
-      startup_13: 21300026
-      startup_26: 21300052
-      startup_5: 21300010
-      startup_10: 21300020
-      startup_17: 21300034
-      startup_43: 21300086
-      startup_6: 21300012
-      startup_28: 21300056
-      startup_4: 21300008
-      startup_21: 21300042
-      startup_45: 21300090
       startup_1: 21300002
-      startup_39: 21300078
-      startup_7: 21300014
-      startup_40: 21300080
-      startup_24: 21300048
+      startup_10: 21300020
       startup_11: 21300022
-      startup_31: 21300062
-      startup_44: 21300088
-      startup_42: 21300084
-      startup_38: 21300076
       startup_12: 21300024
+      startup_13: 21300026
       startup_14: 21300028
-      startup_18: 21300036
-      startup_8: 21300016
-      startup_33: 21300066
-      startup_29: 21300058
-      startup_37: 21300074
-      startup_25: 21300050
-      startup_41: 21300082
-      startup_22: 21300044
-      startup_3: 21300006
-      startup_20: 21300040
-      startup_19: 21300038
-      startup_23: 21300046
-      startup_46: 21300092
+      startup_15: 21300030
       startup_16: 21300032
+      startup_17: 21300034
+      startup_18: 21300036
+      startup_19: 21300038
+      startup_2: 21300004
+      startup_20: 21300040
+      startup_21: 21300042
+      startup_22: 21300044
+      startup_23: 21300046
+      startup_24: 21300048
+      startup_25: 21300050
+      startup_26: 21300052
+      startup_27: 21300054
+      startup_28: 21300056
+      startup_29: 21300058
+      startup_3: 21300006
+      startup_30: 21300060
+      startup_31: 21300062
+      startup_32: 21300064
+      startup_33: 21300066
       startup_34: 21300068
-  spritePackingTag: 
+      startup_35: 21300070
+      startup_36: 21300072
+      startup_37: 21300074
+      startup_38: 21300076
+      startup_39: 21300078
+      startup_4: 21300008
+      startup_40: 21300080
+      startup_41: 21300082
+      startup_42: 21300084
+      startup_43: 21300086
+      startup_44: 21300088
+      startup_45: 21300090
+      startup_46: 21300092
+      startup_5: 21300010
+      startup_6: 21300012
+      startup_7: 21300014
+      startup_8: 21300016
+      startup_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

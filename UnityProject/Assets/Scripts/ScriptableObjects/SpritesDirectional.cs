@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -15,7 +16,8 @@ namespace ScriptableObjects
 		{
 			if (sprites.Length != SIZE)
 			{
-				Logger.LogWarning("Don't change the 'ints' field's array size!", Category.Sprites);
+				Loggy.LogWarning("Don't change the 'ints' field's array size!", Category.Sprites);
+
 				Array.Resize(ref sprites, SIZE);
 			}
 		}

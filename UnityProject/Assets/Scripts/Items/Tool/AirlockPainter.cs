@@ -3,6 +3,7 @@ using Items.Bureaucracy;
 using Mirror;
 using Objects.Construction;
 using System.Collections.Generic;
+using Logs;
 using Objects.Doors;
 using ScriptableObjects;
 using UI.Core.RightClick;
@@ -54,7 +55,7 @@ namespace Doors
 		{
 			if (tonerPrefab == null)
 			{
-				Logger.LogError($"{gameObject.name} toner prefab was null, cannot auto-populate.", Category.ItemSpawn);
+				Loggy.LogError($"{gameObject.name} toner prefab was null, cannot auto-populate.", Category.ItemSpawn);
 				return;
 			}
 			Inventory.ServerSpawnPrefab(tonerPrefab, tonerSlot);
@@ -196,7 +197,7 @@ namespace Doors
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (!Validations.IsTarget(gameObject, interaction)) return false;
 
 			if (Validations.HasUsedComponent<Toner>(interaction))

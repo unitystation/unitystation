@@ -87,7 +87,7 @@ TextureImporter:
       213: 21300054
     second: fill_opening_27
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,6 +148,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -162,6 +165,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -774,37 +789,36 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      fill_opening_20: 21300040
-      fill_opening_12: 21300024
-      fill_opening_27: 21300054
-      fill_opening_22: 21300044
       fill_opening_0: 21300000
-      fill_opening_17: 21300034
-      fill_opening_21: 21300042
-      fill_opening_14: 21300028
-      fill_opening_10: 21300020
-      fill_opening_3: 21300006
-      fill_opening_24: 21300048
-      fill_opening_2: 21300004
-      fill_opening_7: 21300014
-      fill_opening_5: 21300010
-      fill_opening_18: 21300036
       fill_opening_1: 21300002
-      fill_opening_25: 21300050
-      fill_opening_9: 21300018
-      fill_opening_26: 21300052
-      fill_opening_19: 21300038
-      fill_opening_23: 21300046
-      fill_opening_13: 21300026
-      fill_opening_16: 21300032
-      fill_opening_15: 21300030
+      fill_opening_10: 21300020
       fill_opening_11: 21300022
+      fill_opening_12: 21300024
+      fill_opening_13: 21300026
+      fill_opening_14: 21300028
+      fill_opening_15: 21300030
+      fill_opening_16: 21300032
+      fill_opening_17: 21300034
+      fill_opening_18: 21300036
+      fill_opening_19: 21300038
+      fill_opening_2: 21300004
+      fill_opening_20: 21300040
+      fill_opening_21: 21300042
+      fill_opening_22: 21300044
+      fill_opening_23: 21300046
+      fill_opening_24: 21300048
+      fill_opening_25: 21300050
+      fill_opening_26: 21300052
+      fill_opening_27: 21300054
+      fill_opening_3: 21300006
       fill_opening_4: 21300008
+      fill_opening_5: 21300010
       fill_opening_6: 21300012
+      fill_opening_7: 21300014
       fill_opening_8: 21300016
-  spritePackingTag: 
+      fill_opening_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using SecureStuff;
 using UnityEngine;
 using Mirror;
 using DiscordWebhook;
+using Logs;
 using Messages.Client.Admin;
 using Messages.Server.AdminTools;
+using Newtonsoft.Json;
 
 
 namespace AdminTools
@@ -15,7 +18,13 @@ namespace AdminTools
 	{
 		[SerializeField] private ChatScroll chatScroll = null;
 		private AdminPlayerEntryData selectedPlayer;
-		public AdminPlayerEntryData SelectedPlayer => selectedPlayer;
+
+		public AdminPlayerEntryData SelectedPlayer
+		{
+			get { return selectedPlayer; }
+		}
+
+		public static string ChatLogsFolder => "Chatlogs";
 
 		/// <summary>
 		/// All messages sent and recieved from players to mentors
@@ -47,7 +56,7 @@ namespace AdminTools
 			var entry = new AdminChatMessage
 			{
 				fromUserid = player.AccountId,
-				Message = message
+				Message = GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " + message
 			};
 
 			if (mentor != null)
@@ -73,27 +82,20 @@ namespace AdminTools
 		{
 			if (PlayerList.Instance.TryGetByUserID(playerId, out var player) == false)
 			{
-				Logger.LogError($"Could not find player with ID '{playerId}'. Unable to record mentor dialogue.");
+				Loggy.LogError($"Could not find player with ID '{playerId}'. Unable to record mentor dialogue.");
 				return;
 			}
 
-			var chatlogDir = Path.Combine(Application.streamingAssetsPath, "chatlogs");
-			if (!Directory.Exists(chatlogDir))
-			{
-				Directory.CreateDirectory(chatlogDir);
-			}
+			var filePath = Path.Combine(ChatLogsFolder, $"{playerId}-mentor.txt");
 
-			var filePath = Path.Combine(chatlogDir, $"{playerId}-mentor.txt");
 
-			if (!File.Exists(filePath))
+			if (AccessFile.Exists(filePath) == false)
 			{
-				var stream = File.Create(filePath);
-				stream.Close();
 				string header = $"Username: {player.Username} Character Name: {player.Name} \r\n" +
 				                $"IsAntag: {PlayerList.Instance.AntagPlayers.Contains(player)}  role: {player.Job} \r\n" +
 				                $"-----Chat Log----- \r\n" +
 				                $" \r\n";
-				File.AppendAllText(filePath, header);
+				AccessFile.AppendAllText(filePath, header);
 			}
 
 			string entryName = player.Name;
@@ -104,7 +106,7 @@ namespace AdminTools
 
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminURL, entry.Message, entryName);
 
-			File.AppendAllText(filePath, $"[{DateTime.Now.ToString("O")}] {entryName}: {entry.Message}");
+			AccessFile.AppendAllText(filePath, $"[{DateTime.Now.ToString("O")}] {entryName}: {entry.Message}");
 		}
 
 		public void ServerGetUnreadMessages(string playerId, int currentCount, NetworkConnection requestee)
@@ -146,7 +148,7 @@ namespace AdminTools
 				clientMentorPlayerChatLogs.Add(playerId, new List<AdminChatMessage>());
 			}
 
-			var update = JsonUtility.FromJson<AdminChatUpdate>(unreadMessagesJson);
+			var update = JsonConvert.DeserializeObject<AdminChatUpdate>(unreadMessagesJson);
 			clientMentorPlayerChatLogs[playerId].AddRange(update.messages);
 
 			if (selectedPlayer != null && selectedPlayer.uid == playerId)

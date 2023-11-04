@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2358826250688525567}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4178913899716887078}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7221673019657161005
 SpriteRenderer:
@@ -105,11 +105,15 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &5138270576490816514
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2745377269052413757, guid: b17740819c0bf4b44a53be1e477dc4d5,
@@ -216,7 +220,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 93d9bd23d2af8ae41b4a0664dd809bbf,
         type: 2}
@@ -294,10 +298,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9166802612737582820, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
+      propertyPath: _assetId
+      value: 3178327527
+      objectReference: {fileID: 0}
+    - target: {fileID: 9166802612737582820, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
       propertyPath: m_AssetId
       value: be5f2723f27ad4148af60edd344e340a
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 9128991954208744996, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2749962318528517627}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b17740819c0bf4b44a53be1e477dc4d5, type: 3}
 --- !u!4 &4178913899716887078 stripped
 Transform:

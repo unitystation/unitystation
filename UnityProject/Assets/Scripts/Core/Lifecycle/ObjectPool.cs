@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -52,7 +53,7 @@ public class ObjectPool
 	{
 		if (!target || !target.activeSelf)
 		{
-			Logger.LogTraceFormat("Object {0} already destroyed or inactive (thus already in the pool), so" +
+			Loggy.LogTraceFormat("Object {0} already destroyed or inactive (thus already in the pool), so" +
 			                      " ignoring this attempt to despawn it to the pool.", Category.Objects, target);
 			// it's allowed to call this method - in this situation...sometimes a component may not know that the object is
 			// already despawned. So we return success.
@@ -61,7 +62,7 @@ public class ObjectPool
 		var isNetworked = target.GetComponent<NetworkIdentity>() != null;
 		if (isNetworked && (asClient || !CustomNetworkManager.IsServer))
 		{
-			Logger.LogWarningFormat("Tried to despawn networked object {0} from clientside logic or" +
+			Loggy.LogWarningFormat("Tried to despawn networked object {0} from clientside logic or" +
 			                        " as a non-server instance of the game," +
 			                        " object will not be despawned.", Category.Objects, target);
 			return false;
@@ -71,7 +72,7 @@ public class ObjectPool
 		if (!poolPrefabTracker)
 		{
 			// this is only needed at trace level because most mapped items don't have a prefab tracker
-			Logger.LogTraceFormat("PoolPrefabTracker not found on {0}, destroying it", Category.Objects, target);
+			Loggy.LogTraceFormat("PoolPrefabTracker not found on {0}, destroying it", Category.Objects, target);
 			shouldDestroy = true;
 		}
 
@@ -86,7 +87,7 @@ public class ObjectPool
 				// failsafe - we should be able to assume we are server if this code path is reached
 				if (CustomNetworkManager.IsServer == false)
 				{
-					Logger.LogErrorFormat("Coding error! Tried to add networked object {0} to pool but we " +
+					Loggy.LogErrorFormat("Coding error! Tried to add networked object {0} to pool but we " +
 					                      "are not server.", Category.Objects, target);
 				}
 
@@ -130,7 +131,7 @@ public class ObjectPool
 				// failsafe - we should be able to assume we are server if this code path is reached
 				if (!CustomNetworkManager.IsServer)
 				{
-					Logger.LogErrorFormat("Coding error! Tried to despawn networked object {0} but we " +
+					Loggy.LogErrorFormat("Coding error! Tried to despawn networked object {0} but we " +
 					                      "are not server.", Category.Objects, target);
 				}
 				//destroy for everyone
@@ -190,7 +191,7 @@ public class ObjectPool
 			isNetworked = spawnedObject.GetComponent<NetworkIdentity>() != null;
 			if (isNetworked && (asClient || !CustomNetworkManager.IsServer))
 			{
-				Logger.LogWarningFormat("Attempted to spawn a networked object {0} as a client or from a non-server instance" +
+				Loggy.LogWarningFormat("Attempted to spawn a networked object {0} as a client or from a non-server instance" +
 				                        " of the game. Object will not be spawned", Category.Objects,
 					spawnedObject);
 				Object.Destroy(spawnedObject);
@@ -198,8 +199,7 @@ public class ObjectPool
 				return false;
 			}
 			spawnedObject.name = prefab.name;
-			var Matrix = MatrixManager.AtPoint(spawnedObject.transform.position, CustomNetworkManager.IsServer);
-			spawnedObject.GetComponent<UniversalObjectPhysics>()?.ForceSetLocalPosition(spawnedObject.transform.localPosition,Vector2.zero, false, Matrix.Id);
+			spawnedObject.GetComponent<UniversalObjectPhysics>()?.AppearAtWorldPositionServer(destination.WorldPosition);
 			// only add pool prefab tracker if the object can be pooled
 			if (IsPoolable(prefab))
 			{
@@ -212,7 +212,7 @@ public class ObjectPool
 			// failsafe - we should be able to assume we are server if this code path is reached
 			if (!CustomNetworkManager.IsServer)
 			{
-				Logger.LogErrorFormat("Coding error! Tried to spawn networked object {0} but we " +
+				Loggy.LogErrorFormat("Coding error! Tried to spawn networked object {0} but we " +
 				                      "are not server.", Category.Objects, spawnedObject);
 			}
 
@@ -249,7 +249,7 @@ public class ObjectPool
 			pooledObject = prefabToPooledObjects[prefab].Peek();
 			if (!pooledObject)
 			{
-				Logger.LogErrorFormat("Coding error! Tried to get {0} from pool but it's already been destroyed." +
+				Loggy.LogErrorFormat("Coding error! Tried to get {0} from pool but it's already been destroyed." +
 				                      " Destroyed objects should not be in the pool", Category.Objects, pooledObject);
 				pooledObject = null;
 				return false;
@@ -257,13 +257,13 @@ public class ObjectPool
 			bool isNetworked = pooledObject.GetComponent<NetworkIdentity>() != null;
 			if (isNetworked && (requireNonNetworked || !CustomNetworkManager.IsServer))
 			{
-				Logger.LogWarningFormat("Attempted to get a networked object {0} from pool when" +
+				Loggy.LogWarningFormat("Attempted to get a networked object {0} from pool when" +
 				                        " requireNonNetworked is true or this is a non-server instance of the game. Object will not be loaded from pool", Category.Objects,
 					pooledObject);
 				pooledObject = null;
 				return false;
 			}
-			Logger.LogTraceFormat("Loading {0} from pool Pooled:{1}", Category.Objects, pooledObject.GetInstanceID(), prefabToPooledObjects[prefab].Count);
+			Loggy.LogTraceFormat("Loading {0} from pool Pooled:{1}", Category.Objects, pooledObject.GetInstanceID(), prefabToPooledObjects[prefab].Count);
 			prefabToPooledObjects[prefab].Pop();
 			return true;
 		}
@@ -308,7 +308,7 @@ public class ObjectPool
 		{
 			// we have capacity, add to pool
 			pooledObjects.Push(poolPrefabTracker.gameObject);
-			Logger.LogTraceFormat("Added {0} to pool, deactivated and moved to hiddenpos Pooled: {1}",
+			Loggy.LogTraceFormat("Added {0} to pool, deactivated and moved to hiddenpos Pooled: {1}",
 				Category.Objects, poolPrefabTracker.gameObject.GetInstanceID(), pooledObjects.Count);
 			return true;
 		}
@@ -322,7 +322,7 @@ public class ObjectPool
 	/// </summary>
 	public void Clear()
 	{
-		Logger.LogTrace("Clearing out object pools.", Category.Objects);
+		Loggy.LogTrace("Clearing out object pools.", Category.Objects);
 		foreach (var pooledObject in prefabToPooledObjects.Values.SelectMany(list => list))
 		{
 			// skip already destroyed objects
@@ -334,19 +334,19 @@ public class ObjectPool
 			{
 				if (CustomNetworkManager.IsServer)
 				{
-					Logger.LogTraceFormat("Destroying networked object {0} from object pool.", Category.Objects, pooledObject);
+					Loggy.LogTraceFormat("Destroying networked object {0} from object pool.", Category.Objects, pooledObject);
 					NetworkServer.Destroy(pooledObject);
 				}
 				else
 				{
-					Logger.LogErrorFormat("Coding error! Found networked object {0} in clientside pool." +
+					Loggy.LogErrorFormat("Coding error! Found networked object {0} in clientside pool." +
 					                      " Networked objects should not be in the clientside pool.", Category.Objects);
 				}
 			}
 			else
 			{
 				//non-networked objects should be destroyed on both sides
-				Logger.LogTraceFormat("Destroying non-networked object {0} from object pool.", Category.Objects, pooledObject);
+				Loggy.LogTraceFormat("Destroying non-networked object {0} from object pool.", Category.Objects, pooledObject);
 				Object.Destroy(pooledObject);
 			}
 			//note we ignore any networked objects on the clientside
@@ -358,6 +358,6 @@ public class ObjectPool
 		}
 
 		prefabToPooledObjects.Clear();
-		Logger.LogTrace("Done clearing out object pools.", Category.Objects);
+		Loggy.LogTrace("Done clearing out object pools.", Category.Objects);
 	}
 }

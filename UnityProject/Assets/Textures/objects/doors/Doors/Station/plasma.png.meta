@@ -78,7 +78,7 @@ TextureImporter:
       213: 21300048
     second: plasma_24
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -95,11 +95,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -138,6 +139,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -189,6 +192,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -738,34 +753,33 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      plasma_9: 21300018
-      plasma_23: 21300046
-      plasma_16: 21300032
-      plasma_24: 21300048
+      plasma_0: 21300000
+      plasma_1: 21300002
+      plasma_10: 21300020
+      plasma_11: 21300022
+      plasma_12: 21300024
       plasma_13: 21300026
+      plasma_14: 21300028
+      plasma_15: 21300030
+      plasma_16: 21300032
+      plasma_17: 21300034
+      plasma_18: 21300036
+      plasma_19: 21300038
+      plasma_2: 21300004
+      plasma_20: 21300040
       plasma_21: 21300042
-      plasma_5: 21300010
+      plasma_22: 21300044
+      plasma_23: 21300046
+      plasma_24: 21300048
       plasma_3: 21300006
       plasma_4: 21300008
-      plasma_17: 21300034
-      plasma_7: 21300014
-      plasma_15: 21300030
-      plasma_1: 21300002
+      plasma_5: 21300010
       plasma_6: 21300012
+      plasma_7: 21300014
       plasma_8: 21300016
-      plasma_18: 21300036
-      plasma_20: 21300040
-      plasma_12: 21300024
-      plasma_2: 21300004
-      plasma_11: 21300022
-      plasma_14: 21300028
-      plasma_19: 21300038
-      plasma_10: 21300020
-      plasma_0: 21300000
-      plasma_22: 21300044
-  spritePackingTag: 
+      plasma_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

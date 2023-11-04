@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 246742310216031076, guid: 09d98d684f3dbe544a3f54331019cba1,
@@ -111,6 +112,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8300100540400329888, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
+      propertyPath: _assetId
+      value: 1930027981
+      objectReference: {fileID: 0}
+    - target: {fileID: 8300100540400329888, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
       propertyPath: m_AssetId
       value: 22459a50d6c71b34ea45089bb0ea70d1
       objectReference: {fileID: 0}
@@ -125,4 +131,7 @@ PrefabInstance:
       value: I wish this was soup.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09d98d684f3dbe544a3f54331019cba1, type: 3}

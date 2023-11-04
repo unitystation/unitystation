@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Logs;
 using Messages.Server;
 using Mirror;
 using Systems.Score;
@@ -24,40 +25,41 @@ namespace UI.Systems.EndRound
 			// Based on the context and content
 			// NOTE //
 			StringBuilder theGoodList = new StringBuilder();
-			theGoodList.AppendLine("<i><u><b>The Good:</b></u></i>");
+			theGoodList.AppendLine("<align=\"center\"><i><u><b>The Good:</b></u></i></align>");
 			StringBuilder theBadList = new StringBuilder();
-			theBadList.AppendLine("<i><u><b>The Bad:</b></u></i>");
+			theBadList.AppendLine("<align=\"center\"><i><u><b>The Bad:</b></u></i></align>");
 			StringBuilder theWeirdList = new StringBuilder();
-			theWeirdList.AppendLine("<i><u><b>The Weird:</b></u></i>");
+			theWeirdList.AppendLine("<align=\"center\"><i><u><b>The Weird:</b></u></i></align>");
 
 			StringBuilder finalResult = new StringBuilder();
 
 			entries.Shuffle(); //Randomize the positions of all entries.
 
-			foreach (var Entry in entries)
+			foreach (ScoreEntry entry in entries)
 			{
-				if (Entry.Alignment == ScoreAlignment.Unspecified || Entry.Category == ScoreCategory.MiscScore) continue;
-				var result = ScoreMachine.ScoreTypeResultAsString(Entry);
+				if (entry.Alignment == ScoreAlignment.Unspecified || entry.Category == ScoreCategory.MiscScore) continue;
+				var result = ScoreMachine.ScoreTypeResultAsString(entry);
 				if (result == null)
 				{
-					Logger.LogError("[ScoreMachine] - Unidentified score entry type detected while building UI text for round end.");
+					Loggy.LogError("[ScoreMachine] - Unidentified score entry type detected while building UI text for round end.");
 					continue;
 				}
-				if (result.ToLower().Contains("true")) result = "<color=green>Success!</color>";
-				if (result.ToLower().Contains("false")) result = "<color=red>Failed!</color>";
-				switch (Entry.Alignment)
+				if (result.ToLower().Contains("true")) result = $"<color=green>Success! ({entry.ScoreValue})</color>";
+				if (result.ToLower().Contains("false")) result = $"<color=red>Failed! ({entry.ScoreValue})</color>";
+				switch (entry.Alignment)
 				{
 					case ScoreAlignment.Good:
-						theGoodList.AppendLine($"<b>{Entry.ScoreName}</b> : {result}");
+						theGoodList.AppendLine($"<b>{entry.ScoreName}</b> : {result}");
 						break;
 					case ScoreAlignment.Bad:
-						theBadList.AppendLine($"<b>{Entry.ScoreName}</b> : {result}");
+						theBadList.AppendLine($"<b>{entry.ScoreName}</b> : {result}");
 						break;
 					case ScoreAlignment.Weird:
-						theWeirdList.AppendLine($"<b>{Entry.ScoreName}</b> : {result}");
+						theWeirdList.AppendLine($"<b>{entry.ScoreName}</b> : {result}");
 						break;
 					default:
-						throw new NotImplementedException();
+						Loggy.LogError("[RoundEndScoreScreen/ShowScore] - Undefined Alignment for score entry.");
+						break;
 				}
 			}
 
@@ -88,13 +90,13 @@ namespace UI.Systems.EndRound
 
 		private string RatePerformance(int finalScore)
 		{
-			if (finalScore <= -1500) return "Expunge from records";
-			if (finalScore <= -1000) return "Singularity Fodder";
-			if (finalScore <= -500) return "Clown Station";
-			if (finalScore <= 0) return "Disaster";
+			if (finalScore.IsBetween(int.MinValue, -1500)) return "Expunge from records";
+			if (finalScore.IsBetween(-1500, -1000)) return "Singularity Fodder";
+			if (finalScore.IsBetween(-1000, -500)) return "Clown Station";
+			if (finalScore.IsBetween(-500, 0)) return "Disaster";
 			if (finalScore.IsBetween(0, 500)) return "Decent Shift";
 			if (finalScore.IsBetween(500, 1000)) return "Net Profit";
-			return finalScore.IsBetween(1000, 1500) ? "Robust Station" : "N/A";
+			return finalScore.IsBetween(1000, int.MaxValue) ? "Robust Station" : "N/A";
 		}
 	}
 

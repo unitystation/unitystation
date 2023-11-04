@@ -18,6 +18,7 @@ namespace Shared.Systems.ObjectConnection
 		Acu,
 		ResearchServer,
 		Artifact,
+		ResearchLaser
 	}
 
 	public interface IMultitoolLinkable

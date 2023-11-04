@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -6212835468440707557, guid: 64d782023543d4542b89ce3f9402b084,
@@ -25,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6212835468440707557, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: butcherResults.Array.data[0]
+      propertyPath: 'butcherResults.Array.data[0]'
       value: 
       objectReference: {fileID: 4301451620404162702, guid: 0220e2b4d42274c4c8f2ef1af25f54a8,
         type: 3}
@@ -69,13 +70,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3936668391451231998, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 20071a4e8da65ba4883ce265738929b2,
         type: 2}
     - target: {fileID: 3936668391451231998, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 82664a393f67f7a4594c8afc386588db,
         type: 2}
@@ -121,6 +122,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7607258964611336719, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
+      propertyPath: _assetId
+      value: 3991417348
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607258964611336719, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
       propertyPath: m_AssetId
       value: 8986f5f9b33cae34aa97c4f56be39e3f
       objectReference: {fileID: 0}
@@ -131,18 +137,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[0]
+      propertyPath: 'foodPreferences.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: bd8363206e639c04886060de7cfcd2d1,
         type: 2}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[1]
+      propertyPath: 'foodPreferences.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 77ecf8292d96402488afcc99b057daab,
         type: 2}
     m_RemovedComponents:
     - {fileID: 2166651219293684434, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7494601431046934675, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1999042661015471151}
+    - targetCorrespondingSourceObject: {fileID: 7494601431046934675, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6785168792680588904}
+    - targetCorrespondingSourceObject: {fileID: 7494601431046934675, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8962060352565631437}
   m_SourcePrefab: {fileID: 100100000, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
 --- !u!1 &2524868651543535755 stripped
 GameObject:
@@ -199,6 +220,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6c589ccf330c5478854f4822f1d639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: mouse
   registerObject: {fileID: 0}
   minTimeBetweenRandomActions: 10

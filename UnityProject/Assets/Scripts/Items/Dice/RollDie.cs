@@ -158,7 +158,7 @@ namespace Items.Dice
 
 			result = GetSide();
 			UpdateOverlay();
-			Chat.AddLocalMsgToChat(GetMessage(), gameObject);
+			Chat.AddActionMsgToChat(gameObject, GetMessage());
 		}
 
 		#endregion Throwing
@@ -169,7 +169,7 @@ namespace Items.Dice
 		{
 			while (IsRolling)
 			{
-				faceOverlayHandler.ChangeSpriteVariant(Random.Range(0, sides));
+				faceOverlayHandler.SetSpriteVariant(Random.Range(0, sides));
 				yield return WaitFor.Seconds(0.1f);
 			}
 		}
@@ -194,7 +194,7 @@ namespace Items.Dice
 		private void UpdateOverlay()
 		{
 			transform.Rotate(Vector3.zero, Space.World);
-			faceOverlayHandler.ChangeSpriteVariant(result - 1);
+			faceOverlayHandler.SetSpriteVariant(result - 1);
 		}
 
 		protected virtual int GetSide()

@@ -1,4 +1,5 @@
 
+using Logs;
 using UnityEngine;
 
 /// <summary>
@@ -16,14 +17,14 @@ public static class SpawnableUtils
 	{
 		if (destination == null)
 		{
-			Logger.LogError("Cannot spawn, destination is null", Category.ItemSpawn);
+			Loggy.LogError("Cannot spawn, destination is null", Category.ItemSpawn);
 			return false;
 		}
 		if (destination.CancelIfImpassable)
 		{
 			if (SpawnDestination.IsTotallyImpassable(destination.WorldPosition.CutToInt()))
 			{
-				Logger.LogTraceFormat("Cancelling spawn because" +
+				Loggy.LogTraceFormat("Cancelling spawn because" +
 				                      " the position being spawned to {0} is impassable",
 					Category.ItemSpawn, destination.WorldPosition.CutToInt());
 				return false;

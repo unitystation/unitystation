@@ -35,7 +35,7 @@ public class GlassShard : NetworkBehaviour, IServerSpawn
 	[Server]
 	public void SetSpriteAndScatter(int index)
 	{
-		spriteHandler.ChangeSprite(index);
+		spriteHandler.SetCatalogueIndexSprite(index);
 		ObjectPhysics?.ForceDrop(ObjectPhysics.OfficialPosition);
 
 		//Add a bit of rotation variance to the sprite obj:

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -6130738676024284386, guid: 5858b89c4790c084bb1915952309853d,
@@ -78,6 +79,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1410495953153992223, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
+      propertyPath: _assetId
+      value: 2969865198
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410495953153992223, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
       propertyPath: m_AssetId
       value: a4c2debd67d612549b05801d1e37121a
       objectReference: {fileID: 0}
@@ -92,6 +98,33 @@ PrefabInstance:
     - {fileID: 107650308199448334, guid: 5858b89c4790c084bb1915952309853d, type: 3}
     - {fileID: 8833570430820708407, guid: 5858b89c4790c084bb1915952309853d, type: 3}
     - {fileID: 1766684164047083533, guid: 5858b89c4790c084bb1915952309853d, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1560634355228308, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -237638106791004033}
+    - targetCorrespondingSourceObject: {fileID: 1560634355228308, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1221977244184338686}
+    - targetCorrespondingSourceObject: {fileID: 1560634355228308, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2938775403966006623}
+    - targetCorrespondingSourceObject: {fileID: 1560634355228308, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3817115638277241594}
+    - targetCorrespondingSourceObject: {fileID: 1560634355228308, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3981583822149455068}
+    - targetCorrespondingSourceObject: {fileID: 1560634355228308, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8095977274259475600}
   m_SourcePrefab: {fileID: 100100000, guid: 5858b89c4790c084bb1915952309853d, type: 3}
 --- !u!1 &7081206667275519994 stripped
 GameObject:
@@ -120,6 +153,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  numberOfTilesAffected: 1
 --- !u!114 &1221977244184338686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageData: {fileID: 11400000, guid: 85c028573e7db4840a963fb98f8f51d5, type: 2}
   layersToHit: 0500000001000000
+  numberOfTilesAffected: 1
 --- !u!114 &8095977274259475600
 MonoBehaviour:
   m_ObjectHideFlags: 0

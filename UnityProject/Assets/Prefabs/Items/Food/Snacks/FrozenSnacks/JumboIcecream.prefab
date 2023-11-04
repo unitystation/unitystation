@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 377872027272854899, guid: 6912188aeedf08e4597674ede9f0c62d,
@@ -24,13 +25,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5525576654264826294, guid: 6912188aeedf08e4597674ede9f0c62d,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: f7d2e4cdb6fe85456b9ac4626bd0baea,
         type: 2}
     - target: {fileID: 5525576654264826294, guid: 6912188aeedf08e4597674ede9f0c62d,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[2]'
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6097223914283758766, guid: 6912188aeedf08e4597674ede9f0c62d,
@@ -49,6 +50,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A luxurious icecream covered in rich chocolate. It seems smaller than
         you remember it being.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6634071525805919402, guid: 6912188aeedf08e4597674ede9f0c62d,
+        type: 3}
+      propertyPath: _assetId
+      value: 203799306
       objectReference: {fileID: 0}
     - target: {fileID: 6634071525805919402, guid: 6912188aeedf08e4597674ede9f0c62d,
         type: 3}
@@ -122,4 +128,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: c0a2598543f8d83469330b1a5cefc4d3,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6912188aeedf08e4597674ede9f0c62d, type: 3}

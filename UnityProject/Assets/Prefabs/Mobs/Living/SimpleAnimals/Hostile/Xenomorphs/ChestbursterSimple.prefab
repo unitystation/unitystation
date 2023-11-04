@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 811126669682120101, guid: cf769d410d94f0e47bab5eee03a3b07d,
@@ -15,17 +16,17 @@ PrefabInstance:
     - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
@@ -69,6 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3826885964139575000, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
+      propertyPath: _assetId
+      value: 3139219173
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826885964139575000, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
       propertyPath: m_AssetId
       value: 2ba8c4b90a981a94fb6946f53f09667f
       objectReference: {fileID: 0}
@@ -95,31 +101,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: f6b6c2543755ec441856d4954f0e79e9,
         type: 2}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 867cc281725ed184d8edd294064d2031,
         type: 2}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: a114ae7f9a5ba9f41946d8a3e7026987,
         type: 2}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[3]
+      propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: a114ae7f9a5ba9f41946d8a3e7026987,
         type: 2}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[4]
+      propertyPath: 'SubCatalogue.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: 66a68b80f9f42da4bb619b9b05f2e390,
         type: 2}
@@ -145,7 +151,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8452744359610409676, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
-      propertyPath: butcherResults.Array.data[0]
+      propertyPath: 'butcherResults.Array.data[0]'
       value: 
       objectReference: {fileID: 2434222561616808047, guid: ec415b83dd52aba48a8c3eb34564b8dc,
         type: 3}
@@ -197,6 +203,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 811126669682120101, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3786279822138338372, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3447538617788203121}
   m_SourcePrefab: {fileID: 100100000, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
 --- !u!1 &7455546943915704510 stripped
 GameObject:
@@ -216,6 +229,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2287edb10a0f4d21a75b58f179a7e673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: chestburster
   registerObject: {fileID: 0}
   minTimeBetweenRandomActions: 10

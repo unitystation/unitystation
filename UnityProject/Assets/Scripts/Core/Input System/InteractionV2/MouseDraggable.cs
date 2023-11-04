@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 
 /// <summary>
@@ -56,7 +57,7 @@ public class MouseDraggable : MonoBehaviour
 			shadow = GetComponentInChildren<SpriteRenderer>()?.sprite;
 			if (shadow == null)
 			{
-				Logger.LogWarning("No drag shadow sprite was set and no sprite renderer found for " + name +
+				Loggy.LogWarning("No drag shadow sprite was set and no sprite renderer found for " + name +
 				                  " so there will be no drag shadow for this object.", Category.Sprites);
 			}
 		}
@@ -93,7 +94,9 @@ public class MouseDraggable : MonoBehaviour
 
 		if (shadowObject != null)
 		{
-			shadowObject.transform.position = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+			var transformPosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+			transformPosition.z = 1;
+			shadowObject.transform.position = transformPosition;
 		}
 	}
 

@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7211338498965613066}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 327299890508004589}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5870339359551189845
 SpriteRenderer:
@@ -105,11 +105,15 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &8501034030556885451
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2605031095160245205, guid: a940a8ef1ee65024fb0a322703040d98,
@@ -161,6 +165,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d44bafb93cd64e846bcd9623a67fcb4f,
         type: 2}
+    - target: {fileID: 8139349595194068454, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: _assetId
+      value: 654587097
+      objectReference: {fileID: 0}
     - target: {fileID: 8139349595194068454, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: m_AssetId
@@ -250,11 +259,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6587197699157636928}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8169796687342940242, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6964865487867032592}
   m_SourcePrefab: {fileID: 100100000, guid: a940a8ef1ee65024fb0a322703040d98, type: 3}
 --- !u!4 &327299890508004589 stripped
 Transform:
@@ -280,6 +300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   allClothingData:

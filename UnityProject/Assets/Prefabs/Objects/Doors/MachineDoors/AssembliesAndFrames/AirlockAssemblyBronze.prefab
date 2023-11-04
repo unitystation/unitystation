@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 90086938426635484, guid: b52e9566ba635f944a7a656928335414,
@@ -15,19 +16,19 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 90086938426635484, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 6dbf50a5b4a0b3c41905828f2c81b0f5,
         type: 2}
     - target: {fileID: 90086938426635484, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 0ce5c6cf9bf6e6341b93a759f2d2d8d2,
         type: 2}
     - target: {fileID: 90086938426635484, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[3]
+      propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: d317f959a23cb6146ab5b4b2af996846,
         type: 2}
@@ -50,16 +51,21 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 700425905060650895, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 66246211da5a7a741873f1104075eda1,
         type: 2}
     - target: {fileID: 700425905060650895, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 9c074e6b991678146bb2528b7802cbe4,
         type: 2}
+    - target: {fileID: 1706320983422357412, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: _assetId
+      value: 3991201904
+      objectReference: {fileID: 0}
     - target: {fileID: 1706320983422357412, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: m_AssetId
@@ -167,4 +173,7 @@ PrefabInstance:
       value: AirlockAssemblyBronze
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b52e9566ba635f944a7a656928335414, type: 3}

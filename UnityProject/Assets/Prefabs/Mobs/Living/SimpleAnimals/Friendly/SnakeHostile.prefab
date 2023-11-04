@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 923913548677835305, guid: a842771eff0d78e42bb2686d82094c96,
@@ -49,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 958033044131174065, guid: a842771eff0d78e42bb2686d82094c96,
         type: 3}
+      propertyPath: _assetId
+      value: 2915403410
+      objectReference: {fileID: 0}
+    - target: {fileID: 958033044131174065, guid: a842771eff0d78e42bb2686d82094c96,
+        type: 3}
       propertyPath: m_AssetId
       value: c71b69d16f6a07f47b380cf452b82699
       objectReference: {fileID: 0}
@@ -59,6 +65,13 @@ PrefabInstance:
       objectReference: {fileID: 6549672480811829761}
     m_RemovedComponents:
     - {fileID: 6087648716899028521, guid: a842771eff0d78e42bb2686d82094c96, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 926571679310220333, guid: a842771eff0d78e42bb2686d82094c96,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6549672480811829761}
   m_SourcePrefab: {fileID: 100100000, guid: a842771eff0d78e42bb2686d82094c96, type: 3}
 --- !u!1 &7564339403847584538 stripped
 GameObject:
@@ -78,6 +91,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 243a3c078e195af4dadbc9f673627997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: snake
   registerObject: {fileID: 0}
   deathSounds: []
@@ -86,3 +102,4 @@ MonoBehaviour:
   randomSoundProbability: 20
   searchTickRate: 0.5
   currentStatus: 0
+  ScoreForKilling: 5

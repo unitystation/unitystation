@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using _3D;
+using UnityEngine;
 using NaughtyAttributes;
 using ScriptableObjects.Gun;
 using Weapons.Projectiles.Behaviours;
@@ -46,6 +47,14 @@ namespace Weapons.Projectiles
 			movingProjectile = GetComponentInChildren<MovingProjectile>();
 
 			thisTransform = transform;
+
+
+			if (Manager3D.Is3D && GameData.IsHeadlessServer == false)
+			{
+				var Handler = this.GetComponentInChildren<SpriteHandler>(); //So it doesn't mess up the movement of the bullet
+				var Is3D =Handler.gameObject.AddComponent<ConvertTo3D>();
+				Is3D?.DoConvertTo3D();
+			}
 		}
 
 		public override void Suicide(GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest)

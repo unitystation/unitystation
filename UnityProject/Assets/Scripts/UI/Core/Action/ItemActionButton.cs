@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
@@ -8,7 +9,7 @@ using UI.Core.Action;
 
 namespace UI.Action
 {
-	public class ItemActionButton : NetworkBehaviour, IServerActionGUI, IItemInOutMovedPlayer
+	public class ItemActionButton : BodyPartFunctionality, IServerActionGUI, IItemInOutMovedPlayer
 	{
 		[Tooltip("The button action data SO this component should use.")]
 		[SerializeField]
@@ -86,7 +87,7 @@ namespace UI.Action
 			return showAlert;
 		}
 
-		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer hideForPlayer, RegisterPlayer showForPlayer)
+		 void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer hideForPlayer, RegisterPlayer showForPlayer)
 		{
 			if (hideForPlayer != null)
 			{
@@ -96,7 +97,10 @@ namespace UI.Action
 			if (showForPlayer != null)
 			{
 				UIActionManager.ToggleServer(showForPlayer.gameObject, this, true);
-				UIActionManager.SetServerSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), spriteHandler.Palette);
+				if (useSpriteHandler)
+				{
+					UIActionManager.SetServerSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), spriteHandler.Palette);
+				}
 			}
 		}
 
@@ -108,5 +112,18 @@ namespace UI.Action
 			}
 		}
 
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		{
+			UIActionManager.ToggleServer(livingHealth.gameObject, this, false);
+		}
+
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
+		{
+			UIActionManager.ToggleServer(livingHealth.gameObject, this, true);
+			if (useSpriteHandler)
+			{
+				UIActionManager.SetServerSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), spriteHandler.Palette);
+			}
+		} //Warning only add body parts do not remove body parts in this
 	}
 }

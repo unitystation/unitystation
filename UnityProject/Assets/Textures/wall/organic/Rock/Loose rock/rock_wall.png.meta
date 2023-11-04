@@ -213,7 +213,7 @@ TextureImporter:
       213: 21300138
     second: rock_wall_69
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -230,11 +230,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -273,6 +274,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -324,6 +327,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1356,57 +1371,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      rock_wall_11: 21300022
-      rock_wall_42: 21300084
-      rock_wall_40: 21300080
-      rock_wall_5: 21300010
-      rock_wall_46: 21300092
-      rock_wall_9: 21300018
-      rock_wall_13: 21300026
-      rock_wall_39: 21300078
-      rock_wall_31: 21300062
-      rock_wall_24: 21300048
-      rock_wall_35: 21300070
-      rock_wall_18: 21300036
       rock_wall_0: 21300000
-      rock_wall_41: 21300082
-      rock_wall_38: 21300076
-      rock_wall_17: 21300034
-      rock_wall_12: 21300024
-      rock_wall_3: 21300006
-      rock_wall_29: 21300058
-      rock_wall_34: 21300068
-      rock_wall_7: 21300014
-      rock_wall_22: 21300044
-      rock_wall_20: 21300040
-      rock_wall_47: 21300094
       rock_wall_1: 21300002
-      rock_wall_4: 21300008
-      rock_wall_37: 21300074
-      rock_wall_16: 21300032
-      rock_wall_14: 21300028
-      rock_wall_43: 21300086
-      rock_wall_8: 21300016
-      rock_wall_27: 21300054
-      rock_wall_33: 21300066
-      rock_wall_28: 21300056
-      rock_wall_26: 21300052
-      rock_wall_2: 21300004
-      rock_wall_21: 21300042
-      rock_wall_32: 21300064
-      rock_wall_23: 21300046
-      rock_wall_19: 21300038
-      rock_wall_15: 21300030
-      rock_wall_36: 21300072
-      rock_wall_25: 21300050
-      rock_wall_44: 21300088
-      rock_wall_30: 21300060
-      rock_wall_45: 21300090
       rock_wall_10: 21300020
+      rock_wall_11: 21300022
+      rock_wall_12: 21300024
+      rock_wall_13: 21300026
+      rock_wall_14: 21300028
+      rock_wall_15: 21300030
+      rock_wall_16: 21300032
+      rock_wall_17: 21300034
+      rock_wall_18: 21300036
+      rock_wall_19: 21300038
+      rock_wall_2: 21300004
+      rock_wall_20: 21300040
+      rock_wall_21: 21300042
+      rock_wall_22: 21300044
+      rock_wall_23: 21300046
+      rock_wall_24: 21300048
+      rock_wall_25: 21300050
+      rock_wall_26: 21300052
+      rock_wall_27: 21300054
+      rock_wall_28: 21300056
+      rock_wall_29: 21300058
+      rock_wall_3: 21300006
+      rock_wall_30: 21300060
+      rock_wall_31: 21300062
+      rock_wall_32: 21300064
+      rock_wall_33: 21300066
+      rock_wall_34: 21300068
+      rock_wall_35: 21300070
+      rock_wall_36: 21300072
+      rock_wall_37: 21300074
+      rock_wall_38: 21300076
+      rock_wall_39: 21300078
+      rock_wall_4: 21300008
+      rock_wall_40: 21300080
+      rock_wall_41: 21300082
+      rock_wall_42: 21300084
+      rock_wall_43: 21300086
+      rock_wall_44: 21300088
+      rock_wall_45: 21300090
+      rock_wall_46: 21300092
+      rock_wall_47: 21300094
+      rock_wall_5: 21300010
       rock_wall_6: 21300012
-  spritePackingTag: 
+      rock_wall_7: 21300014
+      rock_wall_8: 21300016
+      rock_wall_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

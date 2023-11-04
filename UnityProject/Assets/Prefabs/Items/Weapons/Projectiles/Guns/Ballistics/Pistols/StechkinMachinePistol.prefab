@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1176912263951196322, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
@@ -83,6 +84,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StechkinMachinePistol
+      objectReference: {fileID: 0}
+    - target: {fileID: 1669872684171752052, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: _assetId
+      value: 4169700592
       objectReference: {fileID: 0}
     - target: {fileID: 1669872684171752052, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
@@ -170,9 +176,12 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8872496213165831421, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: fdbdc9ddb17d2fd4fb9bceef41908db7,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29de35ce9f3e2ae4daa8de0460cc3009, type: 3}

@@ -7,7 +7,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Text;
+using Logs;
 using Newtonsoft.Json;
+using SecureStuff;
 
 public class VariableViewerNetworking : MonoBehaviour
 {
@@ -131,6 +133,7 @@ public class VariableViewerNetworking : MonoBehaviour
 		public string VariableName;
 		public string Variable;
 		public string VariableType;
+		public string FullVariableType;
 		public bool CanWrite = true;
 		public VVHighlight VVHighlight = VVHighlight.None;
 
@@ -271,7 +274,7 @@ public class VariableViewerNetworking : MonoBehaviour
 		};
 
 		// get max possible packet size from current transform
-		int maxPacketSize = Mirror.Transport.activeTransport.GetMaxPacketSize(0);
+		int maxPacketSize = Mirror.Transport.active.GetMaxPacketSize(0);
 		// set currentSize start value to max TCP header size (60b)
 		int currentSize = 60;
 
@@ -285,7 +288,8 @@ public class VariableViewerNetworking : MonoBehaviour
 				Variable = VVUIElementHandler.Serialise(bob.Variable, bob.VariableType),
 				VariableName = bob.VariableName,
 				VariableType = bob.VariableType?.ToString(),
-				VVHighlight = bob.VVHighlight
+				VVHighlight = bob.VVHighlight,
+				FullVariableType = bob.AssemblyQualifiedName
 			};
 			if (bob.PInfo != null)
 			{
@@ -294,7 +298,7 @@ public class VariableViewerNetworking : MonoBehaviour
 
 
 
-			if (Librarian.UEGetType(Page.VariableType) == null)
+			if (Librarian.UEGetType(Page.FullVariableType) == null)
 			{
 				Page.VariableType = bob?.VariableType?.AssemblyQualifiedName;
 			}
@@ -316,7 +320,7 @@ public class VariableViewerNetworking : MonoBehaviour
 			// if currentSize is greater than the maxPacketSize - break loop and send message
 			if (currentSize > maxPacketSize)
 			{
-				Logger.LogError("[VariableViewerNetworking.ProcessBook] - message is to big to send in one packet", Category.VariableViewer);
+				Loggy.LogError("[VariableViewerNetworking.ProcessBook] - message is to big to send in one packet", Category.VariableViewer);
 				break;
 			}
 

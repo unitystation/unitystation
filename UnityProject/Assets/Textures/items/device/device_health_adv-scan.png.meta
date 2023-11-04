@@ -39,7 +39,7 @@ TextureImporter:
       213: 1835179247301369152
     second: health_adv-scan_11
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -56,11 +56,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -99,6 +100,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -114,6 +117,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -391,20 +406,19 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       health_adv-scan_0: 738458295371786043
-      health_adv-scan_10: -1621352664546623367
       health_adv-scan_1: -5158324494068215283
-      health_adv-scan_6: -708675229228078971
+      health_adv-scan_10: -1621352664546623367
+      health_adv-scan_11: 1835179247301369152
+      health_adv-scan_2: 4818093544721387718
+      health_adv-scan_3: -5647029085063735291
       health_adv-scan_4: -4298132832372638431
       health_adv-scan_5: 7143516407350680041
-      health_adv-scan_8: -3809725202059511308
-      health_adv-scan_3: -5647029085063735291
-      health_adv-scan_2: 4818093544721387718
-      health_adv-scan_9: 5830851691902560449
-      health_adv-scan_11: 1835179247301369152
+      health_adv-scan_6: -708675229228078971
       health_adv-scan_7: 3054002359195888140
-  spritePackingTag: 
+      health_adv-scan_8: -3809725202059511308
+      health_adv-scan_9: 5830851691902560449
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

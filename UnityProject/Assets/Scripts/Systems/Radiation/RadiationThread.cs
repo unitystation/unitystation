@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using Core.Threading;
+using Logs;
 using Tiles;
 
 namespace Systems.Radiation
@@ -69,7 +70,7 @@ namespace Systems.Radiation
 			CircleArea.Clear();
 
 			StopWatchlog.Stop();
-			Logger.Log("StopWatchlog ElapsedMilliseconds time " + StopWatchlog.ElapsedMilliseconds, Category.Radiation);
+			Loggy.Log("StopWatchlog ElapsedMilliseconds time " + StopWatchlog.ElapsedMilliseconds, Category.Radiation);
 		}
 
 

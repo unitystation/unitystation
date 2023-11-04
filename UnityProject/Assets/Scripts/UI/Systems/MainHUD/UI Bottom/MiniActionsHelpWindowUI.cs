@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using SecureStuff;
 using UnityEngine;
 using UI.Chat_UI;
 
@@ -41,7 +42,7 @@ namespace UI
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
-			Application.OpenURL(wikiURL);
+			SafeURL.Open(wikiURL);
 		}
 	}
 }

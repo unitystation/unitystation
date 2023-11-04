@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 256317274070250499, guid: 8c638788cde389a4e897d3fd1a25e1e3,
@@ -86,6 +87,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7665781339583849952, guid: 8c638788cde389a4e897d3fd1a25e1e3,
         type: 3}
+      propertyPath: _assetId
+      value: 2190007559
+      objectReference: {fileID: 0}
+    - target: {fileID: 7665781339583849952, guid: 8c638788cde389a4e897d3fd1a25e1e3,
+        type: 3}
       propertyPath: m_AssetId
       value: 8eab193d6d8ce92468bb22dfde12253a
       objectReference: {fileID: 0}
@@ -95,4 +101,7 @@ PrefabInstance:
       value: department techfab (Science)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c638788cde389a4e897d3fd1a25e1e3, type: 3}

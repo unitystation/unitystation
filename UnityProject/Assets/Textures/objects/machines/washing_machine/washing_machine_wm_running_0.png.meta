@@ -69,7 +69,7 @@ TextureImporter:
       213: -8015114083782613762
     second: washing_machine_wm_running_0_15
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -86,11 +86,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -129,6 +130,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -144,6 +147,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -504,25 +519,24 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      washing_machine_wm_running_0_10: 3607408292535813146
-      washing_machine_wm_running_0_7: -8732787368021996148
-      washing_machine_wm_running_0_15: -8015114083782613762
-      washing_machine_wm_running_0_6: -3336730678024382756
-      washing_machine_wm_running_0_2: 1015471203322410844
-      washing_machine_wm_running_0_4: 1643526198161723571
-      washing_machine_wm_running_0_1: -6633571979181011366
-      washing_machine_wm_running_0_9: -735884229063737362
-      washing_machine_wm_running_0_14: 789454005296995611
-      washing_machine_wm_running_0_8: -5135260505570380333
-      washing_machine_wm_running_0_5: -3431688950331731028
-      washing_machine_wm_running_0_11: 3237811029362774771
       washing_machine_wm_running_0_0: 7863727332075224809
+      washing_machine_wm_running_0_1: -6633571979181011366
+      washing_machine_wm_running_0_10: 3607408292535813146
+      washing_machine_wm_running_0_11: 3237811029362774771
       washing_machine_wm_running_0_12: 2426778615778542105
-      washing_machine_wm_running_0_3: 8173635605989090159
       washing_machine_wm_running_0_13: -2550752414525476619
-  spritePackingTag: 
+      washing_machine_wm_running_0_14: 789454005296995611
+      washing_machine_wm_running_0_15: -8015114083782613762
+      washing_machine_wm_running_0_2: 1015471203322410844
+      washing_machine_wm_running_0_3: 8173635605989090159
+      washing_machine_wm_running_0_4: 1643526198161723571
+      washing_machine_wm_running_0_5: -3431688950331731028
+      washing_machine_wm_running_0_6: -3336730678024382756
+      washing_machine_wm_running_0_7: -8732787368021996148
+      washing_machine_wm_running_0_8: -5135260505570380333
+      washing_machine_wm_running_0_9: -735884229063737362
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

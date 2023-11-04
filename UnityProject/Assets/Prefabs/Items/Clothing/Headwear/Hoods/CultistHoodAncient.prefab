@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2674187374520393135, guid: d0e6cbda5c639f54ba60b282149842aa,
@@ -19,7 +20,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2674187374520393135, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 728ce35c80c125e43904e1f6aa8784b6,
         type: 2}
@@ -43,6 +44,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A torn, dust-caked hood. Strange letters line the inside.
+      objectReference: {fileID: 0}
+    - target: {fileID: 9004261550291760030, guid: d0e6cbda5c639f54ba60b282149842aa,
+        type: 3}
+      propertyPath: _assetId
+      value: 3266283115
       objectReference: {fileID: 0}
     - target: {fileID: 9004261550291760030, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
@@ -116,4 +122,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: a39e143d69ea74c4fa99e92e2b26c92b,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0e6cbda5c639f54ba60b282149842aa, type: 3}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 26931920513500518, guid: f27991fd74b5f6941a1ad2f9e161a022,
@@ -15,13 +16,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 965049928856989028, guid: f27991fd74b5f6941a1ad2f9e161a022,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: c7c93e8cbc5837a48bab09472f43f6a6,
         type: 2}
     - target: {fileID: 965049928856989028, guid: f27991fd74b5f6941a1ad2f9e161a022,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 4bbfe6084627e304bad6ddde8ff3fdbd,
         type: 2}
@@ -41,6 +42,11 @@ PrefabInstance:
       value: A white winter coat with green markings. Warm, but wont fight off the
         common cold or any other disease. Might make people stand far away from you
         in the hallway. The zipper tab looks like an oversized bacteriophage.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092671967717950293, guid: f27991fd74b5f6941a1ad2f9e161a022,
+        type: 3}
+      propertyPath: _assetId
+      value: 1944578927
       objectReference: {fileID: 0}
     - target: {fileID: 6092671967717950293, guid: f27991fd74b5f6941a1ad2f9e161a022,
         type: 3}
@@ -114,4 +120,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 559af73ec1bd2f940a5699ca0e52b4d5,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f27991fd74b5f6941a1ad2f9e161a022, type: 3}

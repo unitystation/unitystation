@@ -87,7 +87,7 @@ TextureImporter:
       213: 21300054
     second: reactive_27
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,6 +148,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -162,6 +165,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -774,37 +789,36 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      reactive_16: 21300032
-      reactive_24: 21300048
-      reactive_4: 21300008
-      reactive_20: 21300040
-      reactive_3: 21300006
+      reactive_0: 21300000
       reactive_1: 21300002
-      reactive_6: 21300012
-      reactive_12: 21300024
-      reactive_5: 21300010
+      reactive_10: 21300020
       reactive_11: 21300022
+      reactive_12: 21300024
+      reactive_13: 21300026
+      reactive_14: 21300028
+      reactive_15: 21300030
+      reactive_16: 21300032
+      reactive_17: 21300034
       reactive_18: 21300036
       reactive_19: 21300038
-      reactive_17: 21300034
-      reactive_23: 21300046
-      reactive_22: 21300044
-      reactive_25: 21300050
-      reactive_13: 21300026
-      reactive_8: 21300016
-      reactive_21: 21300042
-      reactive_7: 21300014
       reactive_2: 21300004
+      reactive_20: 21300040
+      reactive_21: 21300042
+      reactive_22: 21300044
+      reactive_23: 21300046
+      reactive_24: 21300048
+      reactive_25: 21300050
       reactive_26: 21300052
-      reactive_14: 21300028
       reactive_27: 21300054
-      reactive_15: 21300030
-      reactive_10: 21300020
-      reactive_0: 21300000
+      reactive_3: 21300006
+      reactive_4: 21300008
+      reactive_5: 21300010
+      reactive_6: 21300012
+      reactive_7: 21300014
+      reactive_8: 21300016
       reactive_9: 21300018
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Doors;
 using Doors.Modules;
+using Logs;
 using Mirror;
 using Systems.Clearance;
 using UnityEngine;
@@ -28,13 +29,13 @@ namespace Items.Devices
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			if (spriteHandler == null)
 			{
-				Logger.LogError("[AccessRemote] - Cannot find sprite handler! did you accidentally remove it from this item's children?");
+				Loggy.LogError("[AccessRemote] - Cannot find sprite handler! did you accidentally remove it from this item's children?");
 				return;
 			}
 
 			if (departmentSprite == null)
 			{
-				Logger.LogWarning("[AccessRemote] - No department sprite found, using default sprite instead. (default sprite could be blank however!)");
+				Loggy.LogWarning("[AccessRemote] - No department sprite found, using default sprite instead. (default sprite could be blank however!)");
 				return;
 			}
 			spriteHandler.SetSpriteSO(departmentSprite);

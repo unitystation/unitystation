@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 246742310216031076, guid: 09d98d684f3dbe544a3f54331019cba1,
@@ -40,7 +41,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 22e316c4b1669e041be4a0df6a379998,
         type: 2}
@@ -61,61 +62,61 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[0]
+      propertyPath: 'Sprites.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 0c0ba42d9314a434fb9c3ddebdfcc4aa,
         type: 3}
     - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[1]
+      propertyPath: 'Sprites.Array.data[0].Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: 0c0ba42d9314a434fb9c3ddebdfcc4aa,
         type: 3}
     - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[2]
+      propertyPath: 'Sprites.Array.data[0].Sprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300004, guid: 0c0ba42d9314a434fb9c3ddebdfcc4aa,
         type: 3}
     - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[3]
+      propertyPath: 'Sprites.Array.data[0].Sprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300006, guid: 0c0ba42d9314a434fb9c3ddebdfcc4aa,
         type: 3}
     - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[4]
+      propertyPath: 'Sprites.Array.data[0].Sprites.Array.data[4]'
       value: 
       objectReference: {fileID: 21300008, guid: 0c0ba42d9314a434fb9c3ddebdfcc4aa,
         type: 3}
     - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[5]
+      propertyPath: 'Sprites.Array.data[0].Sprites.Array.data[5]'
       value: 
       objectReference: {fileID: 21300010, guid: 0c0ba42d9314a434fb9c3ddebdfcc4aa,
         type: 3}
     - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[6]
+      propertyPath: 'Sprites.Array.data[0].Sprites.Array.data[6]'
       value: 
       objectReference: {fileID: 21300012, guid: 0c0ba42d9314a434fb9c3ddebdfcc4aa,
         type: 3}
     - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[7]
+      propertyPath: 'Sprites.Array.data[0].Sprites.Array.data[7]'
       value: 
       objectReference: {fileID: 21300014, guid: 0c0ba42d9314a434fb9c3ddebdfcc4aa,
         type: 3}
     - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[8]
+      propertyPath: 'Sprites.Array.data[0].Sprites.Array.data[8]'
       value: 
       objectReference: {fileID: 21300016, guid: 0c0ba42d9314a434fb9c3ddebdfcc4aa,
         type: 3}
     - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[9]
+      propertyPath: 'Sprites.Array.data[0].Sprites.Array.data[9]'
       value: 
       objectReference: {fileID: 21300018, guid: 0c0ba42d9314a434fb9c3ddebdfcc4aa,
         type: 3}
@@ -123,6 +124,11 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: 6d982f62c30ad384c86340bad94fb5f0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614578857724824248, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: BasePurity
+      value: 48
       objectReference: {fileID: 0}
     - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
@@ -136,18 +142,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 30402bcebad00fc50b5d41a70f3dda9c,
         type: 2}
     - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[1]'
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8091316462478551624, guid: 09d98d684f3dbe544a3f54331019cba1,
@@ -223,6 +229,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8300100540400329888, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
+      propertyPath: _assetId
+      value: 4108959865
+      objectReference: {fileID: 0}
+    - target: {fileID: 8300100540400329888, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
       propertyPath: m_AssetId
       value: 6d982f62c30ad384c86340bad94fb5f0
       objectReference: {fileID: 0}
@@ -237,4 +248,7 @@ PrefabInstance:
       value: Jello gelatin, from Alfred Hubbard's cookbook.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09d98d684f3dbe544a3f54331019cba1, type: 3}

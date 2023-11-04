@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 504394245435951421, guid: f20181605e8d37a4b84ed0090f6d8432,
@@ -31,6 +32,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A blue winter coat hood.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391492129781918316, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: _assetId
+      value: 2082958707
       objectReference: {fileID: 0}
     - target: {fileID: 4391492129781918316, guid: f20181605e8d37a4b84ed0090f6d8432,
         type: 3}
@@ -105,7 +111,7 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7284776635404207197, guid: f20181605e8d37a4b84ed0090f6d8432,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 8a6af143c500bf54482685c8bef2cb0e,
         type: 2}
@@ -121,4 +127,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 45619f2ca0d93e1469a37043e1dc2a84,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f20181605e8d37a4b84ed0090f6d8432, type: 3}

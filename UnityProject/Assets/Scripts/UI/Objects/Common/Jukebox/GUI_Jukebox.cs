@@ -26,10 +26,10 @@ namespace UI.Objects
 
 		public void OnTabOpenedHandler(PlayerInfo connectedPlayer)
 		{
-			labelTrack.Value = Jukebox.TrackPosition;
-			labelSong.Value = Jukebox.SongName;
-			labelArtist.Value = Jukebox.Artist;
-			prefabImagePlayStop.Value = Jukebox.PlayStopButtonPrefabImage;
+			labelTrack.MasterSetValue(Jukebox.TrackPosition);
+			labelSong.MasterSetValue(Jukebox.SongName) ;
+			labelArtist.MasterSetValue(Jukebox.Artist);
+			prefabImagePlayStop.MasterSetValue(Jukebox.PlayStopButtonPrefabImage);
 		}
 
 		public void PlayOrStop()

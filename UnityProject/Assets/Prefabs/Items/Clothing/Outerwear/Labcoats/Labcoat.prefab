@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2462607273329465766, guid: 47cf030149b5a174f91d3ec320a7f031,
@@ -30,13 +31,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3393416109658108324, guid: 47cf030149b5a174f91d3ec320a7f031,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 86ab519d4ddc9094aaada376d905d86f,
         type: 2}
     - target: {fileID: 3393416109658108324, guid: 47cf030149b5a174f91d3ec320a7f031,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 938c10b472aed4e469133053240e52ad,
         type: 2}
@@ -148,6 +149,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8574531444343578517, guid: 47cf030149b5a174f91d3ec320a7f031,
         type: 3}
+      propertyPath: _assetId
+      value: 2662494790
+      objectReference: {fileID: 0}
+    - target: {fileID: 8574531444343578517, guid: 47cf030149b5a174f91d3ec320a7f031,
+        type: 3}
       propertyPath: m_AssetId
       value: dfc0f23c4db66d144a03103586ce7619
       objectReference: {fileID: 0}
@@ -212,4 +218,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47cf030149b5a174f91d3ec320a7f031, type: 3}

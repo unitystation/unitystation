@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Nuclear Operative Reinforcement
   m_EditorClassIdentifier: 
   antagName: Nuclear Operative Reinforcement
+  team: {fileID: 11400000, guid: cff018263f9c4f247adb4a7310d234f5, type: 2}
+  addTeamAtInit: 1
   antagJobType: 36
   playSound: 1
   spawnSound:
@@ -30,10 +32,13 @@ MonoBehaviour:
   needsEscapeObjective: 0
   chanceForGimmickObjective: 0
   coreObjectives:
-  - {fileID: 11400000, guid: 1a15330eccadc7044b35b5a49a4154b4, type: 2}
   - {fileID: 11400000, guid: b6107e1c868bada4da25dc2fc840e411, type: 2}
   antagOccupation: {fileID: 11400000, guid: 2b5314e7e17be4700b025e39af217ff2, type: 2}
   showInPreferences: 0
+  randomizeCharacterForGhostRole: 0
+  ghostRoleOccupation: {fileID: 0}
+  <BlackListedObjectives>k__BackingField: []
+  <AlwaysStartWithObjectives>k__BackingField: []
   initialTC: 0
   ImplantExplosive: {fileID: 7387852776840792558, guid: dc94bc35b5fe6704b851fa3e1f97bfff,
     type: 3}

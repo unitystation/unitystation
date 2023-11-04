@@ -1,4 +1,5 @@
 using System.Collections;
+using Logs;
 using UnityEngine;
 using Mirror;
 using UnityEngine.UI;
@@ -19,7 +20,7 @@ namespace UI.Core.NetUI
 
 		public override string Value {
 			get => ObjectNetId.ToString();
-			set {
+			protected set {
 				//don't update if it's the same sprite
 				if (ObjectNetId.ToString() != value && uint.TryParse(value, out var result))
 				{
@@ -67,7 +68,7 @@ namespace UI.Core.NetUI
 		{
 			if (id == NetId.Empty)
 			{
-				Logger.LogWarningFormat("{0} tried to wait on an empty (0) id", Category.Server, this.GetType().Name);
+				Loggy.LogWarningFormat("{0} tried to wait on an empty (0) id", Category.Server, this.GetType().Name);
 				yield break;
 			}
 
@@ -79,7 +80,7 @@ namespace UI.Core.NetUI
 			{
 				if (tries++ > 10)
 				{
-					Logger.LogWarningFormat("{0} could not find object with id {1}", Category.Server, this.GetType().Name, id);
+					Loggy.LogWarningFormat("{0} could not find object with id {1}", Category.Server, this.GetType().Name, id);
 					yield break;
 				}
 

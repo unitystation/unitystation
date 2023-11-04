@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 67647418286998, guid: 9c3dd26f8f4925b4ca73976d18a90408, type: 3}
@@ -57,6 +58,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 110208716565644118, guid: 9c3dd26f8f4925b4ca73976d18a90408,
         type: 3}
+      propertyPath: _assetId
+      value: 3289419729
+      objectReference: {fileID: 0}
+    - target: {fileID: 110208716565644118, guid: 9c3dd26f8f4925b4ca73976d18a90408,
+        type: 3}
       propertyPath: m_AssetId
       value: a93cffe3550500f41b1f51162c3a897b
       objectReference: {fileID: 0}
@@ -77,13 +83,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1241221539485677130, guid: 9c3dd26f8f4925b4ca73976d18a90408,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: c4e931cdd4b041652928e77065466e6b,
         type: 2}
     - target: {fileID: 1241221539485677130, guid: 9c3dd26f8f4925b4ca73976d18a90408,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[2]'
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6388644428417446543, guid: 9c3dd26f8f4925b4ca73976d18a90408,
@@ -92,4 +98,7 @@ PrefabInstance:
       value: a93cffe3550500f41b1f51162c3a897b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c3dd26f8f4925b4ca73976d18a90408, type: 3}

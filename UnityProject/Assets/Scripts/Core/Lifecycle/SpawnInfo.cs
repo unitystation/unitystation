@@ -59,13 +59,19 @@ public class SpawnInfo
 	public readonly bool SpawnItems;
 
 	/// <summary>
-	///
+	/// Indicates whether or not this was Spawn in for mapping or Something that was Spawned in during the game
 	/// </summary>
 	public readonly bool Mapspawn;
 
+	/// <summary>
+	/// Forces it to spawn Contents that have to be manually spawned in, e,g Sub- organs in body parts, This is the organ printers don't have to mess around with removing body parts that get included automatically
+	/// Warning is recursive so will Go down the entire stack
+	/// </summary>
+	public readonly bool SpawnManualContents;
+
 	private SpawnInfo(SpawnType spawnType, ISpawnable spawnable, SpawnDestination spawnDestination, float? scatterRadius, int count, Occupation occupation,
 		GameObject clonedFrom = null,
-		CharacterSheet characterSettings = null, bool spawnItems = true, bool mapspawn = false)
+		CharacterSheet characterSettings = null, bool spawnItems = true, bool mapspawn = false, bool spawnManualContents = false)
 	{
 		SpawnType = spawnType;
 		SpawnableToSpawn = spawnable;
@@ -77,6 +83,7 @@ public class SpawnInfo
 		CharacterSettings = characterSettings;
 		SpawnItems = spawnItems;
 		Mapspawn = mapspawn;
+		SpawnManualContents = spawnManualContents;
 	}
 
 	/// <summary>
@@ -121,9 +128,11 @@ public class SpawnInfo
 	/// null (no scatter).</param>
 	/// <param name="cancelIfImpassable">If true, the spawn will be cancelled if the location being spawned into is totally impassable.</param>
 	/// <returns>the newly created GameObject</returns>
-	public static SpawnInfo Spawnable(ISpawnable spawnable, SpawnDestination spawnDestination, int count = 1, float? scatterRadius = null, bool spawnItems = true, bool mapspawn = false)
+	public static SpawnInfo Spawnable(ISpawnable spawnable, SpawnDestination spawnDestination, int count = 1, float? scatterRadius = null, bool spawnItems = true,
+		bool mapspawn = false,
+		bool spawnManualContents = false )
 	{
-		return new SpawnInfo(SpawnType.Default, spawnable, spawnDestination, scatterRadius, count, null, spawnItems: spawnItems, mapspawn : mapspawn );
+		return new SpawnInfo(SpawnType.Default, spawnable, spawnDestination, scatterRadius, count, null, spawnItems: spawnItems, mapspawn : mapspawn, spawnManualContents : spawnManualContents );
 	}
 
 	/// <summary>
@@ -152,6 +161,21 @@ public class SpawnInfo
 		var prefab = Spawn.DeterminePrefab(mappedObject);
 		var spawnable = SpawnablePrefab.For(prefab);
 		return new SpawnInfo(SpawnType.Mapped, spawnable, destination, null, 1, null);
+
+	}
+
+	/// <summary>
+	/// Special type of spawn, for Used for spawning special contents e.g Player body parts with organs, Is recursive
+	/// </summary>
+	/// <param name="Spawnable">object that will have the contents manually spawned</param>
+	/// <returns></returns>
+	public static SpawnInfo ManualContents(GameObject inSpawnable)
+	{
+		var destination = SpawnDestination.At(inSpawnable);
+		//assume prefab
+		var prefab = Spawn.DeterminePrefab(inSpawnable);
+		var spawnable = SpawnablePrefab.For(prefab);
+		return new SpawnInfo(SpawnType.Default, spawnable, destination, null, 1, null, spawnManualContents : true );
 
 	}
 

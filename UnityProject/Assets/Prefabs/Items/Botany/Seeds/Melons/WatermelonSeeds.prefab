@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
@@ -52,37 +53,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 098c2f105ae5f964099b362f267f32f2,
         type: 2}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: d3dbbb7fe023e5646a2664b4c4a4bae3,
         type: 2}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 693f3007b0c7ecd4493b5ae88d5166ae,
         type: 2}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[3]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: a640aefcb9fe0354387900b5d9835bef,
         type: 2}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[4]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: 14a25350be3af664399c4bbe113b9d5e,
         type: 2}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[5]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[5]'
       value: 
       objectReference: {fileID: 11400000, guid: e9fe8a1464bd4674f96faa193e3424bd,
         type: 2}
@@ -93,7 +94,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.data[0]
+      propertyPath: 'plantData.MutatesInToGameObject.Array.data[0]'
       value: 
       objectReference: {fileID: 7733363391324070390, guid: 3194defd54d8e114aa02b6b43d48d998,
         type: 3}
@@ -106,6 +107,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: These seeds grow into watermelon plants.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: _assetId
+      value: 4266082911
       objectReference: {fileID: 0}
     - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -190,4 +196,7 @@ PrefabInstance:
       value: 3e8c4c93bfc2fcc42b528dd025e382ec
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26abf4c2c542ffa4098216683cb5f652, type: 3}

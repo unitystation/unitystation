@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2996950057520413444, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
@@ -18,6 +19,11 @@ PrefabInstance:
       value: Designed to quickly reload revolvers. These rounds are manufactured
         within extremely tight tolerances, making them easy to show off trickshots
         with.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381887893271538130, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
+        type: 3}
+      propertyPath: _assetId
+      value: 4226022485
       objectReference: {fileID: 0}
     - target: {fileID: 3381887893271538130, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
         type: 3}
@@ -90,4 +96,7 @@ PrefabInstance:
       value: 51f300832d29f1d4ea34973715e5536c
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4262f7c3dbc59a8499d9f780d06bd0ad, type: 3}

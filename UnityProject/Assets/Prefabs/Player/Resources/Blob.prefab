@@ -24,6 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1701130744537055684}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.29, y: 0.138, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,7 +32,6 @@ Transform:
   m_Children:
   - {fileID: 5953331426283258979}
   m_Father: {fileID: 4102254142472032470}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7917564154871469183
 SpriteRenderer:
@@ -110,13 +110,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2436598461504102974}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.738, y: 0.313, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5953331426283258979}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &261017343711163771
 SpriteRenderer:
@@ -195,6 +195,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4390267312333422610
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,6 +222,7 @@ GameObject:
   - component: {fileID: 728878296905371439}
   - component: {fileID: 3891003690595634810}
   - component: {fileID: 1272160964095266330}
+  - component: {fileID: 8715673610173069278}
   m_Layer: 31
   m_Name: Blob
   m_TagString: Untagged
@@ -233,6 +237,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4390267312333422610}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -242,7 +247,6 @@ Transform:
   - {fileID: 6724187335295023059}
   - {fileID: 7538797407031182246}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5316147545403001103
 MonoBehaviour:
@@ -256,9 +260,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f99bb0ad07434da089f740997e6916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   playerTypeSettings: {fileID: 11400000, guid: 95bee1ba46efefc4db81c32c0e396606, type: 2}
+  inventorySpeechModifiers: 0
+  characterSettings:
+    Name: Cuban Pete
+    AiName: R.O.B.O.T.
+    BodyType: 1
+    ClothingStyle: 0
+    BagStyle: 0
+    PlayerPronoun: 1
+    Age: 22
+    Speech: 0
+    SkinTone: '#ffe0d1'
+    SerialisedBodyPartCustom: []
+    SerialisedExternalCustom: []
+    Species: Human
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
@@ -266,9 +285,14 @@ MonoBehaviour:
   RTT: 0
   RcsMode: 0
   RcsMatrixMove: {fileID: 0}
-  actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
   playerChatLocation: {fileID: 4390267312333422610}
   canVentCrawl: 0
+  <OnBodyPossesedByPlayer>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnBodyUnPossesedByPlayer>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
   ClueHandsImprintInverseChance: 55
   ClueUniformImprintInverseChance: 65
   ClueSpeciesImprintInverseChance: 85
@@ -284,6 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9451929b6fd9342dab7a272b50ef5aa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   chatBubbleTarget: {fileID: 5953331426283258979}
@@ -299,12 +324,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c7b6bc021c23c54d8e5410a430ca7fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
+  <LayDownBehavior>k__BackingField: {fileID: 0}
   networkedLean: {fileID: 0}
 --- !u!114 &1176408661413567387
 MonoBehaviour:
@@ -318,6 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   MethodRotation: 0
@@ -355,9 +383,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 812345419
   serverOnly: 0
   visible: 0
-  m_AssetId: 827226b12da9f7c4796f22e42a0cffa1
   hasSpawned: 0
 --- !u!114 &8224268276445300722
 MonoBehaviour:
@@ -395,6 +423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f15e987965408b409a2bc3a175fce76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 1
   syncInterval: 0
   blobCorePrefab: {fileID: 2295760805495773599, guid: 6900836707b2b9b44b1d402b18158c31,
@@ -470,7 +499,11 @@ MonoBehaviour:
   MouseDragDeadzone: 0.2
   AimApplyInterval: 0.01
   examineCursor: {fileID: 0}
-  cursorOffset: {x: 0, y: 0}
+  grabbingCursor: {fileID: 0}
+  altInteractionCursor: {fileID: 0}
+  HarmCursor: {fileID: 0}
+  GrabCursor: {fileID: 0}
+  DisarmCursor: {fileID: 0}
   placeOther: 0
   blobConstructs: 0
 --- !u!114 &1205907779006116383
@@ -485,6 +518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f2289be7f53edd4a99fd0e94ec456bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 1
   syncInterval: 0.1
 --- !u!114 &376142281930293820
@@ -499,6 +533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cc34b2077deffe4ca88851eaaff1394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   offsetPosition: {x: 0, y: -0.6}
@@ -515,28 +550,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84699d86ce37b1b40891616630505912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  DEBUG: 0
-  SnapToGridOnStart: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
-  ChangesDirectionPush: 0
-  Intangible: 1
-  CanBeWindPushed: 1
-  IsPlayer: 0
-  InitialLocationSynchronised: 0
-  tileMoveSpeed: 8
-  isNotPushable: 0
-  HasOwnGravity: 0
+  CorrectingCourse: 0
+  Animating: 0
+  SetIgnoreSticky: 0
   airTime: 0
   slideTime: 0
-  SetIgnoreSticky: 0
+  spinMagnitude: 0
   thrownBy: {fileID: 0}
   aim: 0
-  spinMagnitude: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
+  ChangesDirectionPush: 0
+  Intangible: 1
+  SnapToGridOnStart: 0
+  IsPlayer: 0
+  DEBUG: 0
+  tileMoveSpeed: 8
+  HasOwnGravity: 0
+  isNotPushable: 0
+  CanBeWindPushed: 1
+  rotationTarget: {fileID: 0}
   FramePushDecision: 1
   stickyMovement: 1
   OnThrowEndResetRotation: 0
@@ -547,16 +586,17 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
-  LocalDifferenceNeeded: {x: 0, y: 0}
-  CorrectingCourse: 0
   Pushing: []
   Hits: []
-  Animating: 0
   isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
   BuckledToObject: {fileID: 0}
+  IsPressedCashed: 0
+  IsPressedServer: 0
+  HardcodedSpeed: 0
+  LastUpdatedFlyingPosition: 0
   playerScript: {fileID: 0}
   Step: 0
   CanMoveThroughObstructions: 1
@@ -567,10 +607,6 @@ MonoBehaviour:
   needsRunning: {fileID: 0}
   actionData: {fileID: 0}
   IsBumping: 0
-  IsPressedCashed: 0
-  IsPressedServer: 0
-  LastUpdatedFlyingPosition: 0
-  DEBUGLastMoveMessageProcessed: 0
 --- !u!114 &3891003690595634810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -598,10 +634,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd4fccae344a4981a0739eaa263d1b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 1
   syncInterval: 0.1
   defaultLanguages: {fileID: 11400000, guid: 35923031bcd51b94caeed8eb3cd05075, type: 2}
   omniTongue: 0
+  PlayerScript: {fileID: 0}
+--- !u!114 &8715673610173069278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f7e7b047d3c42e0b2df604c775f9cfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  sprites: {fileID: 0}
+  health: {fileID: 0}
+  playerDirectional: {fileID: 0}
+  playerScript: {fileID: 0}
+  networkedLean: {fileID: 0}
+  disabled: 0
+  IsLayingDown: 0
 --- !u!1 &5221521674064678679
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,6 +685,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5221521674064678679}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.27950388, y: 0.3687627, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -632,7 +693,6 @@ Transform:
   m_Children:
   - {fileID: 4599028406856804349}
   m_Father: {fileID: 7538797407031182246}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6777920429691229453
 GameObject:
@@ -659,13 +719,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6777920429691229453}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4102254142472032470}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &948987144100246994
 MeshRenderer:
@@ -727,6 +787,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!1 &7320126117105815585
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,13 +813,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7320126117105815585}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4102254142472032470}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8982399715002782878
 SpriteRenderer:
@@ -832,3 +893,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []

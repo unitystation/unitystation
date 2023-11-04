@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 417155208089742748, guid: d589c17f6fd91da4190edfdd2cb5aa53,
@@ -63,12 +64,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: firemodeName.Array.data[2]
+      propertyPath: 'firemodeName.Array.data[2]'
       value: Stun
       objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: firemodeUsage.Array.data[2]
+      propertyPath: 'firemodeUsage.Array.data[2]'
       value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
@@ -83,12 +84,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: firemodeFiringSound.Array.data[2]
+      propertyPath: 'firemodeFiringSound.Array.data[2]'
       value: ShootTaser
       objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: firemodeProjectiles.Array.data[2]
+      propertyPath: 'firemodeProjectiles.Array.data[2]'
       value: 
       objectReference: {fileID: 5951038657140010356, guid: 00552b9802a37ba4bbe1aca46515b240,
         type: 3}
@@ -136,6 +137,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: dfb63cea5fc82354882e9b6223d8bfb3,
         type: 2}
+    - target: {fileID: 6693620148964760645, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: _assetId
+      value: 921026076
+      objectReference: {fileID: 0}
     - target: {fileID: 6693620148964760645, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
       propertyPath: m_AssetId
@@ -244,4 +250,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: c62e94dd9f55fef4dae89254d8e3e847,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d589c17f6fd91da4190edfdd2cb5aa53, type: 3}

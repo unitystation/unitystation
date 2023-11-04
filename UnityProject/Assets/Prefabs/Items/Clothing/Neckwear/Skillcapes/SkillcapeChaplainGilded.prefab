@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2384499306470650208, guid: 8a6a41fddf08fbc4d93fe7fd70a54ad4,
@@ -24,7 +25,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2436713564703747720, guid: 8a6a41fddf08fbc4d93fe7fd70a54ad4,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: b53180679d258e54788cc0ecef0b0dd1,
         type: 2}
@@ -34,6 +35,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3218901c61685cf4f8cb2f5bcc8dbe68,
         type: 2}
+    - target: {fileID: 8663233536331645113, guid: 8a6a41fddf08fbc4d93fe7fd70a54ad4,
+        type: 3}
+      propertyPath: _assetId
+      value: 2012695373
+      objectReference: {fileID: 0}
     - target: {fileID: 8663233536331645113, guid: 8a6a41fddf08fbc4d93fe7fd70a54ad4,
         type: 3}
       propertyPath: m_AssetId
@@ -111,4 +117,7 @@ PrefabInstance:
       value: chaplain's gilded skillcape
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a6a41fddf08fbc4d93fe7fd70a54ad4, type: 3}

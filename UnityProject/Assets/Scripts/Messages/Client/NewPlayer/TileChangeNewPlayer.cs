@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Logs;
+using Mirror;
 
 namespace Messages.Client.NewPlayer
 {
@@ -15,7 +16,7 @@ namespace Messages.Client.NewPlayer
 
 			if (NetworkObject == null)
 			{
-				Logger.LogError("Failed to load matrix sync for new player", Category.Matrix);
+				Loggy.LogError("Failed to load matrix sync for new player", Category.Matrix);
 				return;
 			}
 

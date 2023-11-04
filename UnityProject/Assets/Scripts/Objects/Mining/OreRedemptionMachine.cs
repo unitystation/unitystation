@@ -101,7 +101,7 @@ namespace Objects.Mining
 					var inStackable = ore.GetComponent<Stackable>();
 					laborPoints += inStackable.Amount * materialSheet.laborPoint;
 					materialStorageLink.TryAddSheet(materialSheet.materialTrait, inStackable.Amount);
-					_ = Despawn.ServerSingle(ore);
+					ore.GetComponent<Stackable>().ServerConsume(inStackable.Amount);
 				}
 			}
 		}

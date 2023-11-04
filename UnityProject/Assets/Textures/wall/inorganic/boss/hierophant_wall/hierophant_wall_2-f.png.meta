@@ -69,7 +69,7 @@ TextureImporter:
       213: 21300042
     second: 2-f_21
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -86,11 +86,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -129,6 +130,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -144,6 +147,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -630,31 +645,30 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      2-f_20: 21300040
-      2-f_17: 21300034
-      2-f_1: 21300002
-      2-f_3: 21300006
-      2-f_2: 21300004
-      2-f_4: 21300008
-      2-f_16: 21300032
-      2-f_12: 21300024
-      2-f_18: 21300036
-      2-f_10: 21300020
-      2-f_13: 21300026
-      2-f_19: 21300038
-      2-f_6: 21300012
-      2-f_11: 21300022
-      2-f_7: 21300014
-      2-f_9: 21300018
-      2-f_21: 21300042
       2-f_0: 21300000
-      2-f_15: 21300030
+      2-f_1: 21300002
+      2-f_10: 21300020
+      2-f_11: 21300022
+      2-f_12: 21300024
+      2-f_13: 21300026
       2-f_14: 21300028
+      2-f_15: 21300030
+      2-f_16: 21300032
+      2-f_17: 21300034
+      2-f_18: 21300036
+      2-f_19: 21300038
+      2-f_2: 21300004
+      2-f_20: 21300040
+      2-f_21: 21300042
+      2-f_3: 21300006
+      2-f_4: 21300008
       2-f_5: 21300010
+      2-f_6: 21300012
+      2-f_7: 21300014
       2-f_8: 21300016
-  spritePackingTag: 
+      2-f_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

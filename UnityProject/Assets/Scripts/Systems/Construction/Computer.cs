@@ -55,27 +55,27 @@ namespace Objects.Construction
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (!Validations.IsTarget(gameObject, interaction)) return false;
 
 			if (HackingProcessBase != null)
 			{
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
-				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) || //Should probably network if it is open or not
-				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) ||
-				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter);
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+				       Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar) || //Should probably network if it is open or not
+				       Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) ||
+				       Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter);
 			}
 			else
 			{
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
-				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+				       Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar);
 			}
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 			{
 				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
 				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
@@ -99,15 +99,15 @@ namespace Objects.Construction
 
 			if (HackingProcessBase != null)
 			{
-				if (panelopen && (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) ||
-				                  Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter)))
+				if (panelopen && (Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) ||
+				                  Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter)))
 				{
 					TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.HackingPanel, TabAction.Open);
 				}
 			}
 
 			//unsecure
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && panelopen)
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar) && panelopen)
 			{
 				if (canNotBeDeconstructed)
 				{

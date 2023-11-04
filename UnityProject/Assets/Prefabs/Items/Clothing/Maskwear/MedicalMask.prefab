@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 25715693032685112, guid: dce8e376d2eca40eabe3f055b41a021c,
@@ -29,13 +30,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 44155453462962640, guid: dce8e376d2eca40eabe3f055b41a021c,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 2ee2367129776de4a96951f217fea87b,
         type: 2}
     - target: {fileID: 44155453462962640, guid: dce8e376d2eca40eabe3f055b41a021c,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: eb7cad530ee2d324c937777d50572dbf,
         type: 2}
@@ -107,6 +108,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6446287369552793569, guid: dce8e376d2eca40eabe3f055b41a021c,
         type: 3}
+      propertyPath: _assetId
+      value: 3720791313
+      objectReference: {fileID: 0}
+    - target: {fileID: 6446287369552793569, guid: dce8e376d2eca40eabe3f055b41a021c,
+        type: 3}
       propertyPath: m_AssetId
       value: 2157439375fd74540b6bdc4a749819c2
       objectReference: {fileID: 0}
@@ -127,4 +133,7 @@ PrefabInstance:
       value: A close-fitting sterile mask that can be connected to an air supply.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dce8e376d2eca40eabe3f055b41a021c, type: 3}

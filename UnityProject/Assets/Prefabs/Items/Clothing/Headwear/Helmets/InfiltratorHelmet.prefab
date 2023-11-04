@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3549479581640830887, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
@@ -14,7 +15,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 4453580d3f1ec9346971734167987683,
         type: 2}
@@ -108,7 +109,12 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 7089618324580036387}
+      objectReference: {fileID: 0}
+    - target: {fileID: 7524605284256423550, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: _assetId
+      value: 1054010483
+      objectReference: {fileID: 0}
     - target: {fileID: 7524605284256423550, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
         type: 3}
       propertyPath: m_AssetId
@@ -197,21 +203,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8004422176852823208, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: ba923436cf6803a4f99a5ed73f885d61,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fceccba0296eb5b4983bdfe2fc9ccdd0, type: 3}
---- !u!114 &7089618324580036387 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7524774435281636890, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
-    type: 3}
-  m_PrefabInstance: {fileID: 724582796308668729}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

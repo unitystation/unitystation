@@ -1,20 +1,60 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Items;
+using Logs;
 using UnityEngine;
 
 namespace Antagonists
 {
+	[System.Serializable]
+	public class ObjectiveAttribute
+	{
+		public string name;
+		[HideInInspector]
+		public short index = -1;
+
+		public ObjectiveAttributeType type;
+		public string PlayerID { get; set; }
+		public int Number { get; set; }
+		public string ItemID { get; set; }
+		public short ItemTraitIndex { get; set; }
+	}
+
+	public enum ObjectiveAttributeType
+	{
+		ObjectiveAttributePlayer,
+		ObjectiveAttributeNumber,
+		ObjectiveAttributeItem,
+		ObjectiveAttributeItemTrait
+	}
+
 	/// <summary>
 	/// The base class ScriptableObject for all antagonist objectives
 	/// </summary>
 	public abstract class Objective : ScriptableObject
 	{
+
+		/// <summary>
+		/// Used for adding custom attributes to admin panel
+		/// </summary>
+		public List<ObjectiveAttribute> attributes = new List<ObjectiveAttribute>();
+
 		/// <summary>
 		/// The player who has this objective
 		/// </summary>
 		public Mind Owner { get; protected set; }
+
+		/// <summary>
+		/// Is that objective may be done only after round?
+		/// </summary>
+		[SerializeField]
+		protected bool isEndRoundObjective = false;
+		/// <summary>
+		/// Is that objective may be done only after round?
+		/// </summary>
+		public bool IsEndRoundObjective => isEndRoundObjective;
+
+		public string ID { get; protected set; }
 
 		/// <summary>
 		/// The name of the objective type
@@ -51,6 +91,11 @@ namespace Antagonists
 		/// </summary>
 		public bool aiCanHave;
 
+		public short GetAttributeIndex(ObjectiveAttribute attribute)
+		{
+			return (short)attributes.IndexOf(attribute);
+		}
+
 		/// <summary>
 		/// Check if this objective is possible for a player, defaults to true if not overriden
 		/// </summary>
@@ -69,21 +114,49 @@ namespace Antagonists
 			return true;
 		}
 
+		public virtual string GetDescription()
+		{
+			return description;
+		}
+
 		/// <summary>
 		/// Sets the owner of the objective and performs setup if required
 		/// </summary>
 		public void DoSetup(Mind owner)
 		{
 			Owner = owner;
+			ID = Guid.NewGuid().ToString();
+
 			try
 			{
 				Setup();
 			}
 			catch (Exception e)
 			{
-				Logger.LogError($"Failed to set up objectives for {this.name}" +e.ToString());
+				Loggy.LogError($"Failed to set up objectives for {this.name}" +e.ToString());
 			}
 
+		}
+
+		/// <summary>
+		/// Sets the owner of the objective and performs setup if required
+		/// </summary>
+		public void DoSetupInGame(Mind owner)
+		{
+			Owner = owner;
+			ID = Guid.NewGuid().ToString();
+
+			try
+			{
+				if (attributes.Count == 0)
+					Setup();
+				else
+					SetupInGame(); // need to handle attributes
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError($"Failed to set up objectives for {this.name}" +e.ToString());
+			}
 		}
 
 		/// <summary>
@@ -92,11 +165,24 @@ namespace Antagonists
 		protected abstract void Setup();
 
 		/// <summary>
+		/// Perform setup of the objective if needed
+		/// </summary>
+		protected virtual void SetupInGame()
+		{
+			
+		}
+
+		/// <summary>
 		/// Shows if this objective is complete or not
 		/// </summary>
 		public bool IsComplete()
 		{
 			return (Complete || CheckCompletion());
+		}
+
+		public virtual string GetShortDescription()
+		{
+			return description;
 		}
 
 		/// <summary>
@@ -119,7 +205,7 @@ namespace Antagonists
 		{
 			if (Owner.Body.DynamicItemStorage == null)
 			{
-				Logger.LogError($"Unable to find dynamic storage for {Owner.Body} / {Owner.Body.PlayerInfo.Username}");
+				Loggy.LogError($"Unable to find dynamic storage for {Owner.Body} / {Owner.Body.PlayerInfo.Username}");
 				//If they have no storage then fail, as they can't have the item
 				return false;
 			}

@@ -87,7 +87,7 @@ TextureImporter:
       213: 21300054
     second: sparks_27
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,6 +148,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -162,6 +165,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -774,37 +789,36 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      sparks_4: 21300008
-      sparks_5: 21300010
-      sparks_7: 21300014
-      sparks_8: 21300016
-      sparks_16: 21300032
-      sparks_10: 21300020
-      sparks_18: 21300036
-      sparks_25: 21300050
-      sparks_6: 21300012
-      sparks_1: 21300002
-      sparks_13: 21300026
-      sparks_20: 21300040
-      sparks_21: 21300042
-      sparks_9: 21300018
-      sparks_15: 21300030
       sparks_0: 21300000
-      sparks_23: 21300046
-      sparks_27: 21300054
-      sparks_3: 21300006
+      sparks_1: 21300002
+      sparks_10: 21300020
+      sparks_11: 21300022
       sparks_12: 21300024
-      sparks_26: 21300052
+      sparks_13: 21300026
+      sparks_14: 21300028
+      sparks_15: 21300030
+      sparks_16: 21300032
+      sparks_17: 21300034
+      sparks_18: 21300036
       sparks_19: 21300038
       sparks_2: 21300004
-      sparks_11: 21300022
-      sparks_14: 21300028
+      sparks_20: 21300040
+      sparks_21: 21300042
       sparks_22: 21300044
+      sparks_23: 21300046
       sparks_24: 21300048
-      sparks_17: 21300034
-  spritePackingTag: 
+      sparks_25: 21300050
+      sparks_26: 21300052
+      sparks_27: 21300054
+      sparks_3: 21300006
+      sparks_4: 21300008
+      sparks_5: 21300010
+      sparks_6: 21300012
+      sparks_7: 21300014
+      sparks_8: 21300016
+      sparks_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

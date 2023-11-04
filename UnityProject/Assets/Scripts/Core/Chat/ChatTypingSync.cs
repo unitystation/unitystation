@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using Messages.Client;
 using UnityEngine;
 using UI.Chat_UI;
@@ -17,6 +18,7 @@ public class ChatTypingSync : MonoBehaviour
 
 	private void Start()
 	{
+		if (ChatUI.Instance == null) return;
 		ChatUI.Instance.OnChatInputChanged += OnChatInputChanged;
 		ChatUI.Instance.OnChatWindowClosed += OnChatWindowClosed;
 	}
@@ -81,7 +83,7 @@ public class ChatTypingSync : MonoBehaviour
 
 		ClientTypingMessage.Send(TypingState.TYPING);
 
-		Logger.Log("Client starts typping to chat", Category.Chat);
+		Loggy.Log("Client starts typping to chat", Category.Chat);
 	}
 
 	private void StopTyping()
@@ -93,6 +95,6 @@ public class ChatTypingSync : MonoBehaviour
 
 		ClientTypingMessage.Send(TypingState.STOP_TYPING);
 
-		Logger.Log("Client stopped typping to chat", Category.Chat);
+		Loggy.Log("Client stopped typping to chat", Category.Chat);
 	}
 }

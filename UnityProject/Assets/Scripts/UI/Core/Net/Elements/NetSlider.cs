@@ -17,7 +17,7 @@ namespace UI.Core.NetUI
 
 		public override string Value {
 			get => ((int)(Element.value * 100)).ToString();
-			set {
+			protected set {
 				externalChange = true;
 				Element.value = int.Parse(value) / 100f;
 				externalChange = false;

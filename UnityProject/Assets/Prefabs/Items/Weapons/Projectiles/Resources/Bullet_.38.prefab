@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2318685547332036631, guid: b343aea0e51a4c44694589195b8eae77,
@@ -84,6 +85,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 7b41205052d6c7e4895869394631a735
       objectReference: {fileID: 0}
+    - target: {fileID: 3552370236935891446, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      propertyPath: _assetId
+      value: 2959809353
+      objectReference: {fileID: 0}
     - target: {fileID: 4204988295596267492, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
       propertyPath: damageData
@@ -97,6 +103,17 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: f2fd2bf590719c84aa20f46fa3892d4b,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2511337419890708861, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1688706694671309749}
+    - targetCorrespondingSourceObject: {fileID: 2511337419890708861, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4109226255753313271}
   m_SourcePrefab: {fileID: 100100000, guid: b343aea0e51a4c44694589195b8eae77, type: 3}
 --- !u!1 &5028489969333880017 stripped
 GameObject:

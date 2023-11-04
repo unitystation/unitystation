@@ -1,7 +1,12 @@
 ﻿using System.Collections;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using Initialisation;
+using SecureStuff;
 using Shared.Util;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 using Util;
 
@@ -29,35 +34,45 @@ namespace Core
 			//		StartCoroutine(CheckVersion());
 		}
 
-		private IEnumerator CheckVersion()
+		private async Task CheckVersion()
 		{
 			string url = urlCheck + "?ver=" + VERSION_NUMBER;
-			var get_curVersion = new UnityWebRequest(url);
-			yield return get_curVersion.SendWebRequest();
 
-			if (get_curVersion.result == UnityWebRequest.Result.ConnectionError
-					|| get_curVersion.result == UnityWebRequest.Result.ProtocolError
-					|| get_curVersion.downloadHandler.text == "")
+
+
+			HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get,
+				url);
+
+
+			var response = await SafeHttpRequest.SendAsync(r);
+
+
+			var stringy = await response.Content.ReadAsStringAsync();
+
+			LoadManager.DoInMainThread(() =>
 			{
-				errorWindow.SetActive(true);
-			}
-			else if (get_curVersion.downloadHandler.text == "1")
-			{
-				loginWindow.SetActive(true);
-			}
-			else
-			{
-				updateWindow.SetActive(true);
-				yourVerText.text = VERSION_NUMBER;
-				newVerText.text = get_curVersion.downloadHandler.text;
-			}
+				if (response.IsSuccessStatusCode == false || stringy == "")
+				{
+					errorWindow.SetActive(true);
+				}
+				else if (stringy == "1")
+				{
+					loginWindow.SetActive(true);
+				}
+				else
+				{
+					updateWindow.SetActive(true);
+					yourVerText.text = VERSION_NUMBER;
+					newVerText.text = stringy;
+				}
+			});
 		}
 
 		public void DownloadButton()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
-			Application.OpenURL("http://doobly.izz.moe/unitystation/");
+			SafeURL.Open("http://doobly.izz.moe/unitystation/");
 			Application.Quit();
 		}
 
@@ -65,7 +80,7 @@ namespace Core
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			errorWindow.SetActive(false);
-			StartCoroutine(CheckVersion());
+			CheckVersion();
 		}
 	}
 }

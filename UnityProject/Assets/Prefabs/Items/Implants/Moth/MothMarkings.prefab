@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1201516008082455910, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
+        type: 3}
+      propertyPath: _assetId
+      value: 1950896533
+      objectReference: {fileID: 0}
     - target: {fileID: 1201516008082455910, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
         type: 3}
       propertyPath: m_AssetId
@@ -75,8 +81,19 @@ PrefabInstance:
     - target: {fileID: 1425781211861103502, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
         type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1717291329471442864, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717291329471442864, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 892f0c642e2049640b08d738517bb0f5,
+        type: 2}
     - target: {fileID: 2378934203328871246, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
         type: 3}
       propertyPath: DamageThreshold
@@ -109,4 +126,7 @@ PrefabInstance:
       value: 45119eb22af0c884593e070c8edbdaf5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ce21cfcc54d23d42825f0d4a9b15d49, type: 3}

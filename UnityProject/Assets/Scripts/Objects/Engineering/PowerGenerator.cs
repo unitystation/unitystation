@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AddressableReferences;
 using UnityEngine;
 using Mirror;
+using NaughtyAttributes;
 using Systems.Electricity;
 using Systems.Electricity.NodeModules;
 using Objects.Construction;
@@ -52,6 +53,8 @@ namespace Objects.Engineering
 			On = 2
 		}
 
+		public float FuelAmount => fuelAmount;
+
 		#region Lifecycle
 
 		void Awake()
@@ -91,12 +94,12 @@ namespace Objects.Engineering
 		{
 			if (securable.IsAnchored)
 			{
-				baseSpriteHandler.ChangeSprite((int)SpriteState.Off);
+				baseSpriteHandler.SetCatalogueIndexSprite((int)SpriteState.Off);
 			}
 			else
 			{
 				ToggleOff();
-				baseSpriteHandler.ChangeSprite((int)SpriteState.Unsecured);
+				baseSpriteHandler.SetCatalogueIndexSprite((int)SpriteState.Unsecured);
 			}
 
 			ElectricalManager.Instance.electricalSync.StructureChange = true;
@@ -140,11 +143,11 @@ namespace Objects.Engineering
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.TargetObject != gameObject) return false;
 			if (interaction.HandObject == null) return true;
 			if (Validations.HasAnyTrait(interaction.HandObject, fuelTypes)) return true;
-			
+
 			return false;
 		}
 
@@ -236,11 +239,11 @@ namespace Objects.Engineering
 			return false;
 		}
 
-		private void ToggleOn()
+		public void ToggleOn()
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			electricalNodeControl.TurnOnSupply();
-			baseSpriteHandler.ChangeSprite((int)SpriteState.On);
+			baseSpriteHandler.SetCatalogueIndexSprite((int)SpriteState.On);
 			isOn = true;
 		}
 
@@ -248,8 +251,19 @@ namespace Objects.Engineering
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			electricalNodeControl.TurnOffSupply();
-			baseSpriteHandler.ChangeSprite((int)SpriteState.Off);
+			baseSpriteHandler.SetCatalogueIndexSprite((int)SpriteState.Off);
 			isOn = false;
+		}
+
+		public void SetFuel(float amount)
+		{
+			fuelAmount = amount;
+		}
+
+		[Button()]
+		public void DebugAddFuel()
+		{
+			SetFuel(fuelAmount + fuelPerSheet);
 		}
 	}
 }

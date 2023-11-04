@@ -22,14 +22,12 @@ namespace Gateway
 		/// <param name="transportTo">Destination to transport <paramref name="objectPhysics"/> to.</param>
 		/// <param name="doTileStep">Whether step interactions should trigger on teleport</param>
 		[Server]
-		public static void TransportObject(UniversalObjectPhysics objectPhysics, Vector3 transportTo, bool doTileStep = true, float maintRoomChanceModifier = 0.5f)
+		public static void TransportObject(UniversalObjectPhysics objectPhysics, Vector3 transportTo, bool doTileStep = true, float maintRoomChanceModifier = 1)
 		{
 			if (objectPhysics == null) return; //Don't even bother...
 
 			var dest = transportTo;
-
-			var RandomChance = Random.Range(0, 100000) / 1000f; //100000 / 1000 = 100
-			if (SubSceneManager.Instance.IsMaintRooms && RandomChance <= maintRoomChanceModifier)
+			if (SubSceneManager.Instance.IsMaintRooms && DMMath.Prob(0.0025 * maintRoomChanceModifier)) //1 in 400 chance for events like portals. 1 in 4000 for quantum pads and the like.
 			{
 				dest = MaintRoomLocations.PickRandom().RegisterTile().WorldPositionServer;
 			}
@@ -48,7 +46,7 @@ namespace Gateway
 		/// <param name="doTileStep">Whether step interactions should trigger on teleport</param>
 		[Server]
 		public static void TransportObjectAndPulled(UniversalObjectPhysics objectPhysics, Vector3 transportTo,
-			bool doTileStep = true, float maintRoomChanceModifier = 0.5f)
+			bool doTileStep = true, float maintRoomChanceModifier = 1f)
 		{
 			if (objectPhysics == null) return; //Don't even bother...
 

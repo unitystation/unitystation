@@ -39,7 +39,7 @@ namespace Core.Chat
 				newChoice.ChoiceAction = () => PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdDoEmote(emote.EmoteName);
 				choices.Add(newChoice);
 			}
-			DynamicChoiceUI.DisplayChoices("Emotes", "Choose an emote you'd like to perform.", choices);
+			DynamicChoiceUI.ClientDisplayChoicesNotNetworked("Emotes", "Choose an emote you'd like to perform.", choices, true);
 		}
 
 		private bool IsPressingEmoteWindowInput()

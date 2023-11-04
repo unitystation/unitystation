@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 664703297392823326, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
@@ -17,6 +18,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: meat fridge
+      objectReference: {fileID: 0}
+    - target: {fileID: 4518413575696831398, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
+        type: 3}
+      propertyPath: _assetId
+      value: 3606411365
       objectReference: {fileID: 0}
     - target: {fileID: 4518413575696831398, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
         type: 3}
@@ -127,4 +133,7 @@ PrefabInstance:
       value: 55924b0ca337c6d4fbed9f36a57d2c73
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4ec918f7ea1a6044b5598bef5bdbbfe, type: 3}

@@ -32,6 +32,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1395871990776010}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -39,7 +40,6 @@ Transform:
   m_Children:
   - {fileID: 4887873931970760}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114121394006510822
 MonoBehaviour:
@@ -66,9 +66,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 388160768
   serverOnly: 0
   visible: 0
-  m_AssetId: c0760b4fcab625b41a604576e37ca584
   hasSpawned: 0
 --- !u!114 &5745080215759849378
 MonoBehaviour:
@@ -82,6 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0
@@ -105,6 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   MethodRotation: 2
@@ -152,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   initialIntegrity: 100
@@ -175,8 +178,11 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -213,27 +219,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  DEBUG: 0
-  SnapToGridOnStart: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
-  ChangesDirectionPush: 0
-  Intangible: 0
-  CanBeWindPushed: 1
-  IsPlayer: 0
-  InitialLocationSynchronised: 0
-  tileMoveSpeed: 1
-  isNotPushable: 1
+  CorrectingCourse: 0
+  Animating: 0
+  SetIgnoreSticky: 0
   airTime: 0
   slideTime: 0
-  SetIgnoreSticky: 0
+  spinMagnitude: 0
   thrownBy: {fileID: 0}
   aim: 0
-  spinMagnitude: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
+  ChangesDirectionPush: 0
+  Intangible: 0
+  SnapToGridOnStart: 0
+  IsPlayer: 0
+  DEBUG: 0
+  tileMoveSpeed: 1
+  HasOwnGravity: 0
+  isNotPushable: 1
+  CanBeWindPushed: 1
+  rotationTarget: {fileID: 0}
   FramePushDecision: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
@@ -244,11 +255,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
-  LocalDifferenceNeeded: {x: 0, y: 0}
-  CorrectingCourse: 0
   Pushing: []
   Hits: []
-  Animating: 0
   isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
@@ -278,13 +286,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1587334133710578}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4725794095997998}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &212550005265104934
 SpriteRenderer:

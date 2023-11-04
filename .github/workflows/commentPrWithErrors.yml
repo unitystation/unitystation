@@ -1,0 +1,65 @@
+name: Comment On PR
+
+on:
+  workflow_run:
+    workflows: ["Tests"]
+    types:
+      - completed
+
+jobs:
+  commentOnPR:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    # Download the test artifact
+    - name: Download test artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: Raw Test Results
+        path: ./testReports/
+
+    # Check if artifact exists
+    - name: Check for artifact existence
+      id: check_artifact
+      run: |
+        if [[ -f ./testReports/editmode-results.xml ]]; then
+          echo "ARTIFACT_EXISTS=true" >> $GITHUB_ENV
+        else
+          echo "ARTIFACT_EXISTS=false" >> $GITHUB_ENV
+        fi
+
+    # Parse test results (using your existing logic)
+    - name: read and parse test results
+      if: env.ARTIFACT_EXISTS == 'true'
+      id: readFile
+      uses: corp-0/testResultsToMarkdown@v1
+      with:
+        testResultsFile: ./testReports/editmode-results.xml
+
+    # Get the PR number associated with this commit SHA
+    - name: Get PR number
+      id: pr_num
+      run: |
+        PR_NUM=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+                 -H "Accept: application/vnd.github.groot-preview+json" \
+                 "https://api.github.com/repos/${{ github.repository }}/commits/${{ github.event.workflow_run.head_sha }}/pulls" \
+                 | jq '.[0].number')
+        echo "PR number is $PR_NUM"
+        echo "::set-output name=number::$PR_NUM"
+
+    # Comment on the PR using the PR number
+    - name: Comment on PR
+      if: steps.readFile.outcome == 'success' && env.ARTIFACT_EXISTS == 'true'
+      uses: actions/github-script@v5
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          const prNumber = ${{steps.pr_num.outputs.number}};
+          const message = "${{ steps.readFile.outputs.markdownText }}";
+          github.rest.issues.createComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: prNumber,
+            body: message
+          });

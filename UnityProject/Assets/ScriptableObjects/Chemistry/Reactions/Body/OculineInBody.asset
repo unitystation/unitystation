@@ -17,6 +17,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: c979e99c127a37aac9ae0958a4cb96aa, type: 2}
     m_values: 01000000
   useExactAmounts: 0
+  MinimumReactionMultiple: 0
   catalysts:
     m_keys: []
     m_values: 
@@ -31,7 +32,7 @@ MonoBehaviour:
     m_keys: []
     m_values: 
   effects: []
-  ReagentMetabolismMultiplier: 1
+  ReagentMetabolismMultiplier: 4
   InternalAllRequired:
   - {fileID: 11400000, guid: 9d0fcfd4288eade4ea93e0741695756b, type: 2}
   InternalBlacklist: []

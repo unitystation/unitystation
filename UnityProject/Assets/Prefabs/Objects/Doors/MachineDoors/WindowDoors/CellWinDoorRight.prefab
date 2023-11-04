@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1145543468140709448, guid: 5516fc74bd367c64baa5a82dff0e929c,
+        type: 3}
+      propertyPath: _assetId
+      value: 195656346
+      objectReference: {fileID: 0}
     - target: {fileID: 1145543468140709448, guid: 5516fc74bd367c64baa5a82dff0e929c,
         type: 3}
       propertyPath: m_AssetId
@@ -29,32 +35,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2845234847224642880, guid: 5516fc74bd367c64baa5a82dff0e929c,
         type: 3}
-      propertyPath: WanimFrames.Array.data[0]
+      propertyPath: 'WanimFrames.Array.data[0]'
       value: 392
       objectReference: {fileID: 0}
     - target: {fileID: 2845234847224642880, guid: 5516fc74bd367c64baa5a82dff0e929c,
         type: 3}
-      propertyPath: WanimFrames.Array.data[1]
+      propertyPath: 'WanimFrames.Array.data[1]'
       value: 396
       objectReference: {fileID: 0}
     - target: {fileID: 2845234847224642880, guid: 5516fc74bd367c64baa5a82dff0e929c,
         type: 3}
-      propertyPath: WanimFrames.Array.data[2]
+      propertyPath: 'WanimFrames.Array.data[2]'
       value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 2845234847224642880, guid: 5516fc74bd367c64baa5a82dff0e929c,
         type: 3}
-      propertyPath: WanimFrames.Array.data[3]
+      propertyPath: 'WanimFrames.Array.data[3]'
       value: 404
       objectReference: {fileID: 0}
     - target: {fileID: 2845234847224642880, guid: 5516fc74bd367c64baa5a82dff0e929c,
         type: 3}
-      propertyPath: WanimFrames.Array.data[4]
+      propertyPath: 'WanimFrames.Array.data[4]'
       value: 408
       objectReference: {fileID: 0}
     - target: {fileID: 2845234847224642880, guid: 5516fc74bd367c64baa5a82dff0e929c,
         type: 3}
-      propertyPath: WanimFrames.Array.data[5]
+      propertyPath: 'WanimFrames.Array.data[5]'
       value: 412
       objectReference: {fileID: 0}
     - target: {fileID: 5153180361575694688, guid: 5516fc74bd367c64baa5a82dff0e929c,
@@ -115,4 +121,7 @@ PrefabInstance:
       value: CellWinDoorRight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5516fc74bd367c64baa5a82dff0e929c, type: 3}

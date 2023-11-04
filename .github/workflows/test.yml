@@ -27,12 +27,10 @@ jobs:
       matrix:
         projectPath:
           - UnityProject
-        unityVersion:
-          - 2021.3.16f1
         targetPlatform:
           - StandaloneWindows64
-
-    steps:
+            
+    steps:  
       # Checkout repository (required to test local actions)
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -57,16 +55,35 @@ jobs:
           cat "$LICENSE_FILE_PATH" >> "$GITHUB_ENV"
           printf "\nLICENSE-EOF" >> "$GITHUB_ENV"
 
+      - name: Installs dotnet and restores packages
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0.x'
+      - run: dotnet tool install --global NuGetForUnity.Cli
+      - run: nugetforunity restore ${{ matrix.projectPath }}
+      - name: Set Swap Space
+        uses: pierotofy/set-swap-space@master
+        with:
+          swap-size-gb: 8
       # Run tests - only edit mode supported
       # Note: exits with non-zero on legitimate test fails, "if: always()" is needed for reporting
       - name: Run tests
+        id: tests
         uses: game-ci/unity-test-runner@v2
         with:
-          customParameters: "-nographics -ignoreCompilerErrors -executeMethod NugetForUnity.NugetHelper.Restore"
+          customParameters: "-nographics"
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
+          customImage: 'unityci/editor:ubuntu-2023.1.10f1-base-2'
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}
           testMode: editmode
+      
+      - name: Upload Raw Test Results
+        if: always() && steps.tests.outcome != 'success'
+        uses: actions/upload-artifact@v2
+        with:
+          name: Raw Test Results
+          path: testReports/${{ matrix.targetPlatform }}/editmode-results.xml
 
       # Install dotnet
       - name: Installing dotnet

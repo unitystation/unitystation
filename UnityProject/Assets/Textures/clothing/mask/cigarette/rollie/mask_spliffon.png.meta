@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: spliffon_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      spliffon_30: 21300060
-      spliffon_17: 21300034
-      spliffon_21: 21300042
-      spliffon_18: 21300036
-      spliffon_7: 21300014
-      spliffon_8: 21300016
-      spliffon_14: 21300028
-      spliffon_13: 21300026
-      spliffon_16: 21300032
-      spliffon_15: 21300030
-      spliffon_3: 21300006
-      spliffon_24: 21300048
       spliffon_0: 21300000
+      spliffon_1: 21300002
+      spliffon_10: 21300020
       spliffon_11: 21300022
       spliffon_12: 21300024
+      spliffon_13: 21300026
+      spliffon_14: 21300028
+      spliffon_15: 21300030
+      spliffon_16: 21300032
+      spliffon_17: 21300034
+      spliffon_18: 21300036
       spliffon_19: 21300038
-      spliffon_9: 21300018
+      spliffon_2: 21300004
       spliffon_20: 21300040
+      spliffon_21: 21300042
+      spliffon_22: 21300044
+      spliffon_23: 21300046
+      spliffon_24: 21300048
+      spliffon_25: 21300050
+      spliffon_26: 21300052
+      spliffon_27: 21300054
+      spliffon_28: 21300056
       spliffon_29: 21300058
+      spliffon_3: 21300006
+      spliffon_30: 21300060
       spliffon_31: 21300062
       spliffon_4: 21300008
-      spliffon_10: 21300020
-      spliffon_6: 21300012
-      spliffon_1: 21300002
-      spliffon_28: 21300056
-      spliffon_22: 21300044
-      spliffon_26: 21300052
-      spliffon_2: 21300004
-      spliffon_27: 21300054
-      spliffon_25: 21300050
       spliffon_5: 21300010
-      spliffon_23: 21300046
-  spritePackingTag: 
+      spliffon_6: 21300012
+      spliffon_7: 21300014
+      spliffon_8: 21300016
+      spliffon_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

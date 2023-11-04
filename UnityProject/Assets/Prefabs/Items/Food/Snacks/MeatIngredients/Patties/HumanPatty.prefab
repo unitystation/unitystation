@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1516801637443345742, guid: 44469c4c67a673e47af107c66a37b48e,
@@ -37,6 +38,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: strange patty
+      objectReference: {fileID: 0}
+    - target: {fileID: 5486034645938023575, guid: 44469c4c67a673e47af107c66a37b48e,
+        type: 3}
+      propertyPath: _assetId
+      value: 2426837708
       objectReference: {fileID: 0}
     - target: {fileID: 5486034645938023575, guid: 44469c4c67a673e47af107c66a37b48e,
         type: 3}
@@ -104,4 +110,7 @@ PrefabInstance:
       value: HumanPatty
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44469c4c67a673e47af107c66a37b48e, type: 3}

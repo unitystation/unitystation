@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1593224944700185510, guid: a435d5d64bc4b48baa27fecfcab9e111,
@@ -173,6 +174,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5706845613525625471, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
+      propertyPath: _assetId
+      value: 2663083416
+      objectReference: {fileID: 0}
+    - target: {fileID: 5706845613525625471, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
       propertyPath: m_AssetId
       value: bae9e1730d4424fbfa160f045597a604
       objectReference: {fileID: 0}
@@ -198,10 +204,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8333640173086716004, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
-      propertyPath: stacksWith.Array.data[0]
+      propertyPath: 'stacksWith.Array.data[0]'
       value: 
       objectReference: {fileID: 7602444472548548205}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a435d5d64bc4b48baa27fecfcab9e111, type: 3}
 --- !u!1 &7602444472548548205 stripped
 GameObject:

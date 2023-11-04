@@ -132,7 +132,7 @@ TextureImporter:
       213: 21300084
     second: screen_midnight_42
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -149,11 +149,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -192,6 +193,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -231,6 +234,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1074,48 +1089,47 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      screen_midnight_21: 21300042
-      screen_midnight_30: 21300060
       screen_midnight_0: 21300000
-      screen_midnight_38: 21300076
-      screen_midnight_27: 21300054
-      screen_midnight_11: 21300022
-      screen_midnight_35: 21300070
-      screen_midnight_4: 21300008
-      screen_midnight_36: 21300072
-      screen_midnight_24: 21300048
-      screen_midnight_16: 21300032
-      screen_midnight_2: 21300004
-      screen_midnight_8: 21300016
       screen_midnight_1: 21300002
-      screen_midnight_7: 21300014
-      screen_midnight_29: 21300058
-      screen_midnight_20: 21300040
-      screen_midnight_5: 21300010
-      screen_midnight_26: 21300052
-      screen_midnight_23: 21300046
-      screen_midnight_17: 21300034
-      screen_midnight_22: 21300044
-      screen_midnight_9: 21300018
-      screen_midnight_25: 21300050
-      screen_midnight_34: 21300068
-      screen_midnight_19: 21300038
-      screen_midnight_6: 21300012
+      screen_midnight_10: 21300020
+      screen_midnight_11: 21300022
+      screen_midnight_12: 21300024
+      screen_midnight_13: 21300026
       screen_midnight_14: 21300028
+      screen_midnight_15: 21300030
+      screen_midnight_16: 21300032
+      screen_midnight_17: 21300034
+      screen_midnight_18: 21300036
+      screen_midnight_19: 21300038
+      screen_midnight_2: 21300004
+      screen_midnight_20: 21300040
+      screen_midnight_21: 21300042
+      screen_midnight_22: 21300044
+      screen_midnight_23: 21300046
+      screen_midnight_24: 21300048
+      screen_midnight_25: 21300050
+      screen_midnight_26: 21300052
+      screen_midnight_27: 21300054
+      screen_midnight_28: 21300056
+      screen_midnight_29: 21300058
+      screen_midnight_3: 21300006
+      screen_midnight_30: 21300060
       screen_midnight_31: 21300062
       screen_midnight_32: 21300064
-      screen_midnight_28: 21300056
-      screen_midnight_12: 21300024
-      screen_midnight_3: 21300006
-      screen_midnight_13: 21300026
-      screen_midnight_15: 21300030
-      screen_midnight_18: 21300036
       screen_midnight_33: 21300066
-      screen_midnight_10: 21300020
+      screen_midnight_34: 21300068
+      screen_midnight_35: 21300070
+      screen_midnight_36: 21300072
       screen_midnight_37: 21300074
-  spritePackingTag: 
+      screen_midnight_38: 21300076
+      screen_midnight_4: 21300008
+      screen_midnight_5: 21300010
+      screen_midnight_6: 21300012
+      screen_midnight_7: 21300014
+      screen_midnight_8: 21300016
+      screen_midnight_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -1,10 +1,13 @@
 using System;
+using System.Linq;
+using Logs;
 using UnityEngine;
 using Mirror;
 using Systems.Spawns;
 using Managers;
 using Messages.Server;
 using Messages.Server.LocalGuiMessages;
+using Newtonsoft.Json;
 using Player;
 using Systems;
 using Systems.Character;
@@ -47,8 +50,6 @@ public interface IOnPlayerPossess
 }
 
 
-
-
 /// <summary>
 /// This interface will be called when a player Ghosts, Or any other time they start controlling a different object
 /// </summary>
@@ -72,7 +73,6 @@ public interface IOnPlayerLosePossess
 	/// <param name="account">The mind of the player leaving the body</param>
 	public void OnPlayerLosePossession(Mind Mind);
 }
-
 
 
 public interface IClientPlayerLeaveBody
@@ -108,7 +108,7 @@ public static class PlayerSpawn
 		}
 
 		//Spawn normal location for special jobs or if less than 2 minutes passed
-		if (GameManager.Instance.stationTime < ArrivalsSpawnTime || occupation.LateSpawnIsArrivals == false)
+		if (GameManager.Instance.RoundTime < ArrivalsSpawnTime || occupation.LateSpawnIsArrivals == false)
 		{
 			spawnTransform = SpawnPoint.GetRandomPointForJob(occupation.JobType);
 		}
@@ -124,7 +124,7 @@ public static class PlayerSpawn
 
 		if (spawnTransform == null)
 		{
-			Logger.LogErrorFormat(
+			Loggy.LogErrorFormat(
 				"Unable to determine spawn position for  occupation {0}. Cannot spawn player.",
 				Category.EntitySpawn, occupation.DisplayName);
 			return Vector3Int.zero;
@@ -149,22 +149,29 @@ public static class PlayerSpawn
 		}
 		catch (Exception e)
 		{
-			Logger.LogError(e.ToString());
+			Loggy.LogError(e.ToString());
 			return null;
 		}
 	}
 
 
-
-	public static Mind NewSpawnCharacterV2(Occupation requestedOccupation, CharacterSheet character)
+	public static Mind NewSpawnCharacterV2(Occupation requestedOccupation, CharacterSheet character,
+		bool nonImportantMind = false)
 	{
+		//TODO: This is hard-coded for now and shouldn't be here.
+		if (IsValidForBorgName(requestedOccupation))
+			character.Name = StringManager.GetRandomGenericBorgSerialNumberName();
 		//Validate?
-		var mind = SpawnMind(character);
+		var mind = SpawnMind(character, nonImportantMind);
 		SpawnAndApplyRole(mind, requestedOccupation, character, SpawnType.NewSpawn);
 		return mind;
 	}
 
-
+	private static bool IsValidForBorgName(Occupation requestedOccupation)
+	{
+		if (requestedOccupation is null) return false;
+		return requestedOccupation.DisplayName == "Cyborg";
+	}
 
 	public static GameObject RespawnPlayer(Mind mind, Occupation requestedOccupation, CharacterSheet character)
 	{
@@ -172,9 +179,11 @@ public static class PlayerSpawn
 	}
 
 
-	public static GameObject RespawnPlayerAt(Mind mind, Occupation requestedOccupation, CharacterSheet character, Vector3? worldPos)
+	public static GameObject RespawnPlayerAt(Mind mind, Occupation requestedOccupation, CharacterSheet character,
+		Vector3? worldPos)
 	{
-		var body = SpawnAndApplyRole(mind, requestedOccupation, character, SpawnType.ReSpawn).GetComponent<UniversalObjectPhysics>();
+		var body = SpawnAndApplyRole(mind, requestedOccupation, character, SpawnType.ReSpawn)
+			.GetComponent<UniversalObjectPhysics>();
 		if (worldPos != null)
 		{
 			body.AppearAtWorldPositionServer(worldPos.Value);
@@ -185,9 +194,11 @@ public static class PlayerSpawn
 
 
 	//sets the SpawnType to Clone ( Character and with no Clothing  ) and Sets the position of the spawned body to the specified Position, Doesn't apply damage
-	public static GameObject ClonePlayerAt(Mind mind, Occupation requestedOccupation, CharacterSheet character, Vector3? worldPos)
+	public static GameObject ClonePlayerAt(Mind mind, Occupation requestedOccupation, CharacterSheet character,
+		Vector3? worldPos)
 	{
-		var body = SpawnAndApplyRole(mind, requestedOccupation, character, SpawnType.Clone).GetComponent<UniversalObjectPhysics>();
+		var body = SpawnAndApplyRole(mind, requestedOccupation, character, SpawnType.Clone)
+			.GetComponent<UniversalObjectPhysics>();
 		if (worldPos != null)
 		{
 			body.AppearAtWorldPositionServer(worldPos.Value);
@@ -205,38 +216,75 @@ public static class PlayerSpawn
 	}
 
 
-
-
 	private static GameObject SpawnAndApplyRole(Mind mind, Occupation requestedOccupation,
 		CharacterSheet character, SpawnType spawnType)
 	{
+		GameObject bodyPrefab = CustomNetworkManager.Instance.humanPlayerPrefab;
+
+		if (requestedOccupation.OrNull()?.SpecialPlayerPrefab != null)
+		{
+			bodyPrefab = requestedOccupation.SpecialPlayerPrefab;
+		}
+
+
+		if (requestedOccupation.OrNull()?.BetterCustomProperties.FirstOrDefault(x => x is IGetPlayerPrefab) is IGetPlayerPrefab overwriteBody)
+		{
+			bodyPrefab = overwriteBody.GetPlayerPrefab();
+			if (bodyPrefab == null)
+			{
+				return mind.gameObject;
+			}
+		}
+
+
 		if (requestedOccupation != null)
 		{
-			GameObject bodyPrefab = CustomNetworkManager.Instance.humanPlayerPrefab;
+			var data = requestedOccupation.BetterCustomProperties.OfType<IModifyCharacterSettings>();
 
-			if (requestedOccupation.SpecialPlayerPrefab != null)
+			foreach (var modifycharacter in data)
 			{
-				bodyPrefab = requestedOccupation.SpecialPlayerPrefab;
+				character = modifycharacter.ModifyingCharacterSheet(character);
 			}
+		}
 
-			var body = SpawnPlayerBody(bodyPrefab);
+		var body = SpawnPlayerBody(bodyPrefab);
 
+		try
+		{
 			mind.ApplyOccupation(requestedOccupation); //Probably shouldn't be here?
+		}
+		catch (Exception e)
+		{
+			Loggy.LogError(e.ToString());
+		}
 
+		try
+		{
 			//Setup body with custom stuff
 			ApplyNewSpawnRoleToBody(body, requestedOccupation, character, spawnType);
+		}
+		catch (Exception e)
+		{
+			Loggy.LogError(e.ToString());
+		}
+
+		try
+		{
 			mind.SetPossessingObject(body);
 			mind.StopGhosting();
-
-			//get the old body if they have one.
-			// var oldBody = existingMind.OrNull()?.GetCurrentMob();
-
-			//transfer control to the player object
-			//ServerTransferPlayer(connection, newPlayer, oldBody, Event.PlayerSpawned, toUseCharacterSettings, existingMind);
-
-			return body;
 		}
-		return null;
+		catch (Exception e)
+		{
+			Loggy.LogError(e.ToString());
+		}
+
+		//get the old body if they have one.
+		// var oldBody = existingMind.OrNull()?.GetCurrentMob();
+
+		//transfer control to the player object
+		//ServerTransferPlayer(connection, newPlayer, oldBody, Event.PlayerSpawned, toUseCharacterSettings, existingMind);
+
+		return body;
 	}
 
 	private static GameObject SpawnPlayerBody(GameObject bodyPrefab)
@@ -272,7 +320,8 @@ public static class PlayerSpawn
 		return player;
 	}
 
-	private static void ApplyNewSpawnRoleToBody( GameObject body, Occupation requestedOccupation, CharacterSheet character, SpawnType spawnType)
+	private static void ApplyNewSpawnRoleToBody(GameObject body, Occupation requestedOccupation,
+		CharacterSheet character, SpawnType spawnType)
 	{
 		//Character attributes
 
@@ -282,7 +331,7 @@ public static class PlayerSpawn
 
 
 		//Character attributes
-		var name = requestedOccupation.JobType != JobType.AI ? character.Name : character.AiName;
+		var name = requestedOccupation.OrNull()?.JobType != JobType.AI ? character.Name : character.AiName;
 		body.name = name;
 
 
@@ -292,26 +341,58 @@ public static class PlayerSpawn
 			PlayerScript.characterSettings = character;
 		}
 
-		//Character attributes
-		var playerSprites = body.GetComponent<PlayerSprites>();
-		if (playerSprites)
+		try
 		{
-			// This causes body parts to be made for the species, will cause death if body parts are needed and
-			// CharacterSettings is null
-			var toUseCharacterSettings = requestedOccupation.UseCharacterSettings ? character : null;
-			playerSprites.OnCharacterSettingsChange(toUseCharacterSettings);
+			//Character attributes
+			var playerSprites = body.GetComponent<PlayerSprites>();
+			if (playerSprites)
+			{
+				// This causes body parts to be made for the species, will cause death if body parts are needed and
+				// CharacterSettings is null
+				var toUseCharacterSettings = character;
+
+				if (requestedOccupation != null)
+				{
+					toUseCharacterSettings = requestedOccupation.UseCharacterSettings ? character : null;
+					if (requestedOccupation.OrNull().CustomSpeciesOverwrite != null)
+					{
+						character.Species = requestedOccupation.CustomSpeciesOverwrite.name;
+						playerSprites.RaceOverride = requestedOccupation.CustomSpeciesOverwrite.name;
+					}
+				}
+
+
+
+
+
+				playerSprites.OnCharacterSettingsChange(toUseCharacterSettings);
+			}
+		}
+		catch (Exception e)
+		{
+			Loggy.LogError(e.ToString());
 		}
 
-
-		//determine where to spawn them
-		physics.AppearAtWorldPositionServer(GetSpawnPointForOccupation(requestedOccupation));
-
-		switch (spawnType)
+		try
 		{
-			case SpawnType.NewSpawn:
-				body.GetComponent<DynamicItemStorage>().OrNull()?.SetUpOccupation(requestedOccupation);
-				CrewManifestManager.Instance.AddMember(body.GetComponent<PlayerScript>(), requestedOccupation.JobType);
-				SpawnBannerMessage.Send(
+			//determine where to spawn them
+			physics.AppearAtWorldPositionServer(GetSpawnPointForOccupation(requestedOccupation));
+		}
+		catch (Exception e)
+		{
+			Loggy.LogError(e.ToString());
+
+			physics.AppearAtWorldPositionServer(SpawnPoint.GetRandomPointForLateSpawn().transform.position);
+		}
+
+		if (requestedOccupation != null)
+		{
+			switch (spawnType)
+			{
+				case SpawnType.NewSpawn:
+					body.GetComponent<DynamicItemStorage>().OrNull()?.SetUpOccupation(requestedOccupation);
+					CrewManifestManager.Instance.AddMember(body.GetComponent<PlayerScript>(), requestedOccupation.JobType);
+					SpawnBannerMessage.Send(
 						body,
 						requestedOccupation.DisplayName,
 						requestedOccupation.SpawnSound.AssetAddress,
@@ -319,10 +400,10 @@ public static class PlayerSpawn
 						requestedOccupation.BackgroundColor,
 						requestedOccupation.PlaySound);
 
-				break;
-			case SpawnType.ReSpawn:
-				body.GetComponent<DynamicItemStorage>().OrNull()?.SetUpOccupation(requestedOccupation);
-				SpawnBannerMessage.Send(
+					break;
+				case SpawnType.ReSpawn:
+					body.GetComponent<DynamicItemStorage>().OrNull()?.SetUpOccupation(requestedOccupation);
+					SpawnBannerMessage.Send(
 						body,
 						requestedOccupation.DisplayName,
 						requestedOccupation.SpawnSound.AssetAddress,
@@ -330,13 +411,14 @@ public static class PlayerSpawn
 						requestedOccupation.BackgroundColor,
 						requestedOccupation.PlaySound);
 
-				break;
-			case SpawnType.Clone:
-				break;
+					break;
+				case SpawnType.Clone:
+					break;
+			}
 		}
 	}
 
-	private static Mind SpawnMind(CharacterSheet character)
+	private static Mind SpawnMind(CharacterSheet character, bool NonImportantMind = false)
 	{
 		var matrixInfo = MatrixManager.AtPoint(Vector3.zero, true);
 		var parentTransform = matrixInfo.Objects;
@@ -356,6 +438,9 @@ public static class PlayerSpawn
 
 		ghost.name = character.Name;
 		var mind = ghost.GetComponent<Mind>();
+
+		mind.NonImportantMind = NonImportantMind;
+
 		var ghosty = ghost.GetComponent<PlayerScript>();
 
 		mind.Ghost();
@@ -395,8 +480,6 @@ public static class PlayerSpawn
 		{
 			_ = Despawn.ServerSingle(account.ViewerScript.gameObject);
 		}
-
-
 	}
 
 	private static void TransferAccountOccupyingMind(PlayerInfo account, Mind from, Mind to)
@@ -428,7 +511,6 @@ public static class PlayerSpawn
 
 		if (to)
 		{
-
 			if (account.ViewerScript != null)
 			{
 				_ = Despawn.ServerSingle(account.ViewerScript.gameObject);
@@ -479,8 +561,10 @@ public static class PlayerSpawn
 			{
 				transfer.OnServerPlayerTransfer(account);
 			}
+
 			to.AccountEnteringMind(account);
 		}
+
 		UpdateMind.SendTo(account.Connection, to);
 	}
 
@@ -506,12 +590,12 @@ public static class PlayerSpawn
 			{
 				if (account.Connection.observing.Contains(to) == false)
 				{
-					account.Connection.observing.Add(to); //TODO because sometimes it cannot be a Observing for some reason , And that causes the ownership message to fail
+					account.Connection.observing
+						.Add(to); //TODO because sometimes it cannot be a Observing for some reason , And that causes the ownership message to fail
 				}
 
 				to.AssignClientAuthority(account.Connection);
 			}
 		}
-
 	}
 }

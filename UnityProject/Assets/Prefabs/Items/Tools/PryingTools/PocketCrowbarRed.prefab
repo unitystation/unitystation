@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3837935182567797810, guid: f709eab732189d6429ae3fa5beaf3fd3,
@@ -80,6 +81,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7030469871661085185, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
+      propertyPath: _assetId
+      value: 1095661482
+      objectReference: {fileID: 0}
+    - target: {fileID: 7030469871661085185, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
       propertyPath: m_AssetId
       value: 8c2f7b54bdcb16f4b9c23ef38c73ab28
       objectReference: {fileID: 0}
@@ -138,49 +144,49 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 89d6fa83e12c7164f8cd1718644063f6,
         type: 3}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: 89d6fa83e12c7164f8cd1718644063f6,
         type: 3}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300004, guid: 89d6fa83e12c7164f8cd1718644063f6,
         type: 3}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300006, guid: 89d6fa83e12c7164f8cd1718644063f6,
         type: 3}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: bc9a9ce538359a043899819e2ce44a01,
         type: 3}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: bc9a9ce538359a043899819e2ce44a01,
         type: 3}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300004, guid: bc9a9ce538359a043899819e2ce44a01,
         type: 3}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300006, guid: bc9a9ce538359a043899819e2ce44a01,
         type: 3}
@@ -190,4 +196,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f709eab732189d6429ae3fa5beaf3fd3, type: 3}

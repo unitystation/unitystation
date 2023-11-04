@@ -45,7 +45,7 @@ TextureImporter:
       213: -5342733497733683470
     second: saw_a_13
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -62,11 +62,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -105,6 +106,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -120,6 +123,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -438,23 +453,22 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      saw_a_9: 3955698848273822106
-      saw_a_8: 7989826744610662841
-      saw_a_13: -5342733497733683470
-      saw_a_2: 7312182028157428259
-      saw_a_12: -8099646948685192401
-      saw_a_6: -4897685627409011407
-      saw_a_7: 2219480868574370262
-      saw_a_3: 2787293927308257694
       saw_a_0: -937281917942298695
       saw_a_1: 2848235005921703462
       saw_a_10: 7486738474436934150
-      saw_a_5: 571884753945609196
-      saw_a_4: 7317205352456188214
       saw_a_11: 4818259930121637805
-  spritePackingTag: 
+      saw_a_12: -8099646948685192401
+      saw_a_13: -5342733497733683470
+      saw_a_2: 7312182028157428259
+      saw_a_3: 2787293927308257694
+      saw_a_4: 7317205352456188214
+      saw_a_5: 571884753945609196
+      saw_a_6: -4897685627409011407
+      saw_a_7: 2219480868574370262
+      saw_a_8: 7989826744610662841
+      saw_a_9: 3955698848273822106
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

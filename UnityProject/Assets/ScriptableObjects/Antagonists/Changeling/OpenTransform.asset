@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e06efc83de7fc604ba2283335065eda4, type: 3}
+  m_Name: OpenTransform
+  m_EditorClassIdentifier: 
+  actionType: 0
+  activeSpriteIndex: 1
+  callOnClient: 0
+  callOnServer: 0
+  actionName: Transform
+  description: Transformation to one of your stored DNA.
+  Sprites:
+  - {fileID: 11400000, guid: 4fafc9fe0d5794243bb8e189d4952093, type: 2}
+  Backgrounds:
+  - {fileID: 11400000, guid: 8b8f8d4ab92854b4cbeb74ec8ec117df, type: 2}
+  PreventBeingControlledBy: 
+  DisableOnEvent: 
+  isAimable: 0
+  useCustomCursor: 0
+  cursorTexture: {fileID: 0}
+  cursorOffsetType: 0
+  cursorOffset: {x: 0, y: 0}
+  cooldown: 1
+  abilityEPCost: 0
+  abilityChemCost: 0
+  abilityImplementation: {fileID: 1515064019581797830, guid: 5722bf93b0593b44caafd2931b25840d,
+    type: 3}
+  descriptionStore: A starter ability. The changeling can transform into any of the
+    DNAs they have stored, allowing them to become nearly anyone. It will also mimic
+    their clothing and ID, if you're not already wearing one in those slots.
+  canBeUsedWhileInCrit: 0
+  isLocal: 1
+  startAbility: 1
+  showInStore: 1
+  showInActions: 1
+  transformAbility: {fileID: 11400000, guid: dc63f5cd0ee30bb46a79d541df093902, type: 2}

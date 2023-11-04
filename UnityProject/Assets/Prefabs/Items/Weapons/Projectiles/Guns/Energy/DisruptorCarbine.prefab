@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 285738389053349974, guid: 1c2ebf5951e982c4cb87e7204c670f99,
@@ -65,6 +66,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 21cd1da1b6f82a145b312ce3be3cb965,
         type: 3}
+    - target: {fileID: 6546450386853695887, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: _assetId
+      value: 1496303433
+      objectReference: {fileID: 0}
     - target: {fileID: 6546450386853695887, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: m_AssetId
@@ -159,13 +165,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
-      propertyPath: initialTraits.Array.data[2]
+      propertyPath: 'initialTraits.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
         type: 2}
     - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
-      propertyPath: initialTraits.Array.data[3]
+      propertyPath: 'initialTraits.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 17a405825a3b91049abaedff4c27bd1b,
         type: 2}
@@ -213,4 +219,7 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents:
     - {fileID: 7444271311577601390, guid: 1c2ebf5951e982c4cb87e7204c670f99, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c2ebf5951e982c4cb87e7204c670f99, type: 3}

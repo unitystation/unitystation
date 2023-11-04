@@ -28,36 +28,36 @@ namespace Doors
 		IBumpableObject, IRightClickable
 	{
 		#region inspector
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Toggle damaging any living entities caught in the door as it closes")]
 		private bool damageOnClose = false;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Amount of damage when closed on someone.")]
 		private float damageClosed = 90;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Does this door open automatically when you walk into it?")]
 		private bool isAutomatic = true;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Can you interact with the door by HandApply or Bump?")]
 		private bool allowInteraction = true;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Is this door designed no matter what is under neath it?")]
 		private bool ignorePassableChecks = false;
 
 		//Maximum time the door will remain open before closing itself.
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Time this door will wait until autoclosing")]
 		private float maxTimeOpen = 5;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Prevent the door from auto closing when opened.")]
 		private bool blockAutoClose = false;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Prevent the door from auto closing when opened if was Clicked on to be opened.")]
 		private bool clickDisablesAutoClose = false;
 
@@ -96,7 +96,7 @@ namespace Doors
 		private APCPoweredDevice apc;
 		public APCPoweredDevice Apc => apc;
 
-		[PrefabModeOnly]
+
 		[Tooltip("Does it have a glass window you can see trough?")]
 		public bool isWindowedDoor;
 
@@ -507,7 +507,7 @@ namespace Doors
 			IsClosed = true;
 			SetLayer(closedLayer);
 			spriteRenderer.sortingLayerID = closedSortingLayer;
-			registerTile.SetNewSortingOrder(closedSortingLayer);
+			registerTile.SetNewSortingLayer(closedSortingLayer);
 		}
 
 		public void BoxCollToggleOff()
@@ -515,7 +515,7 @@ namespace Doors
 			IsClosed = false;
 			SetLayer(openLayer);
 			spriteRenderer.sortingLayerID = openSortingLayer;
-			registerTile.SetNewSortingOrder(openSortingLayer);
+			registerTile.SetNewSortingLayer(openSortingLayer);
 		}
 
 		private void SetLayer(int layer)

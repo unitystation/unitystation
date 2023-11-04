@@ -165,7 +165,7 @@ TextureImporter:
       213: 21300106
     second: peace_transform_53
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -182,11 +182,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -225,6 +226,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -240,6 +243,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1399,62 +1414,61 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       peace_transform_0: 21300000
-      peace_transform_7: 21300014
-      peace_transform_33: 21300066
-      peace_transform_39: 21300078
-      peace_transform_47: 21300094
-      peace_transform_29: 21300058
-      peace_transform_44: 21300088
-      peace_transform_18: 21300036
-      peace_transform_25: 21300050
-      peace_transform_5: 21300010
-      peace_transform_34: 21300068
-      peace_transform_24: 21300048
-      peace_transform_9: 21300018
-      peace_transform_40: 21300080
-      peace_transform_51: 21300102
-      peace_transform_2: 21300004
-      peace_transform_22: 21300044
-      peace_transform_3: 21300006
-      peace_transform_13: 21300026
-      peace_transform_38: 21300076
-      peace_transform_42: 21300084
-      peace_transform_48: 21300096
-      peace_transform_23: 21300046
-      peace_transform_52: 21300104
+      peace_transform_1: 21300002
+      peace_transform_10: 21300020
       peace_transform_11: 21300022
+      peace_transform_12: 21300024
+      peace_transform_13: 21300026
       peace_transform_14: 21300028
-      peace_transform_50: 21300100
-      peace_transform_36: 21300072
+      peace_transform_15: 21300030
+      peace_transform_16: 21300032
+      peace_transform_17: 21300034
+      peace_transform_18: 21300036
       peace_transform_19: 21300038
+      peace_transform_2: 21300004
+      peace_transform_20: 21300040
+      peace_transform_21: 21300042
+      peace_transform_22: 21300044
+      peace_transform_23: 21300046
+      peace_transform_24: 21300048
+      peace_transform_25: 21300050
+      peace_transform_26: 21300052
+      peace_transform_27: 21300054
+      peace_transform_28: 21300056
+      peace_transform_29: 21300058
+      peace_transform_3: 21300006
+      peace_transform_30: 21300060
       peace_transform_31: 21300062
       peace_transform_32: 21300064
-      peace_transform_26: 21300052
-      peace_transform_28: 21300056
-      peace_transform_45: 21300090
-      peace_transform_16: 21300032
-      peace_transform_41: 21300082
-      peace_transform_30: 21300060
-      peace_transform_37: 21300074
-      peace_transform_17: 21300034
-      peace_transform_6: 21300012
-      peace_transform_4: 21300008
-      peace_transform_46: 21300092
-      peace_transform_27: 21300054
-      peace_transform_49: 21300098
-      peace_transform_21: 21300042
-      peace_transform_10: 21300020
-      peace_transform_12: 21300024
-      peace_transform_1: 21300002
-      peace_transform_8: 21300016
-      peace_transform_43: 21300086
-      peace_transform_53: 21300106
-      peace_transform_20: 21300040
-      peace_transform_15: 21300030
+      peace_transform_33: 21300066
+      peace_transform_34: 21300068
       peace_transform_35: 21300070
-  spritePackingTag: 
+      peace_transform_36: 21300072
+      peace_transform_37: 21300074
+      peace_transform_38: 21300076
+      peace_transform_39: 21300078
+      peace_transform_4: 21300008
+      peace_transform_40: 21300080
+      peace_transform_41: 21300082
+      peace_transform_42: 21300084
+      peace_transform_43: 21300086
+      peace_transform_44: 21300088
+      peace_transform_45: 21300090
+      peace_transform_46: 21300092
+      peace_transform_47: 21300094
+      peace_transform_48: 21300096
+      peace_transform_49: 21300098
+      peace_transform_5: 21300010
+      peace_transform_50: 21300100
+      peace_transform_51: 21300102
+      peace_transform_52: 21300104
+      peace_transform_53: 21300106
+      peace_transform_6: 21300012
+      peace_transform_7: 21300014
+      peace_transform_8: 21300016
+      peace_transform_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

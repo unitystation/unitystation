@@ -1,8 +1,10 @@
+using System.Collections;
+using HealthV2;
 using UnityEngine;
 
 namespace Items
 {
-	public class SupermatterSliver : MonoBehaviour, IServerInventoryMove, ICheckedInteractable<HandApply>
+	public class SupermatterSliver : MonoBehaviour, IServerInventoryMove, ICheckedInteractable<HandApply>, ISuicide
 	{
 		[SerializeField]
 		private ItemTrait supermatterScalpel = null;
@@ -14,7 +16,7 @@ namespace Items
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (interaction.HandObject == null) return false;
 
@@ -62,6 +64,18 @@ namespace Items
 					player.playerHealth.OnGib();
 				}
 			}
+		}
+
+		public bool CanSuicide(GameObject performer)
+		{
+			return vaporizeWhenPickedUp;
+		}
+
+		public IEnumerator OnSuicide(GameObject performer)
+		{
+			yield return WaitFor.FixedUpdate;
+			Chat.AddActionMsgToChat(gameObject, $"{performer.ExpensiveName()} mistook the {gameObject.ExpensiveName()} for a tasty snack. Yumm..");
+			gameObject.Player().Script.playerHealth.OnGib();
 		}
 	}
 }

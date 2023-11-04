@@ -11,8 +11,8 @@ public class MutationInjector : Syringe
 		var LHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 		if (LHB != null)
 		{
-			LHB.InjectDNA(DNAPayload);
-			SpriteHandler.ChangeSprite(1);
+			LHB.InjectDna(DNAPayload);
+			SpriteHandler.SetCatalogueIndexSprite(1);
 		}
 	}
 
@@ -22,8 +22,8 @@ public class MutationInjector : Syringe
 			$"You Inject The {this.name} into {LHB.gameObject.ExpensiveName()}",
 			$"{performer.PlayerScript.visibleName} injects a {this.name} into {LHB.gameObject.ExpensiveName()}");
 		if (SicknessesInSyringe.Count > 0) LHB.AddSickness(SicknessesInSyringe.PickRandom().Sickness);
-		LHB.InjectDNA(DNAPayload);
+		LHB.InjectDna(DNAPayload);
 
-		SpriteHandler.ChangeSprite(1);
+		SpriteHandler.SetCatalogueIndexSprite(1);
 	}
 }

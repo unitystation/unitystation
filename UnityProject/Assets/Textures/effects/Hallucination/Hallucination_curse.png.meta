@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: curse_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      curse_22: 21300044
-      curse_4: 21300008
-      curse_29: 21300058
-      curse_30: 21300060
-      curse_9: 21300018
-      curse_8: 21300016
-      curse_20: 21300040
-      curse_15: 21300030
-      curse_18: 21300036
-      curse_7: 21300014
-      curse_10: 21300020
-      curse_16: 21300032
+      curse_0: 21300000
       curse_1: 21300002
-      curse_3: 21300006
-      curse_25: 21300050
-      curse_17: 21300034
+      curse_10: 21300020
       curse_11: 21300022
-      curse_27: 21300054
-      curse_31: 21300062
+      curse_12: 21300024
+      curse_13: 21300026
+      curse_14: 21300028
+      curse_15: 21300030
+      curse_16: 21300032
+      curse_17: 21300034
+      curse_18: 21300036
+      curse_19: 21300038
+      curse_2: 21300004
+      curse_20: 21300040
+      curse_21: 21300042
+      curse_22: 21300044
+      curse_23: 21300046
+      curse_24: 21300048
+      curse_25: 21300050
       curse_26: 21300052
+      curse_27: 21300054
+      curse_28: 21300056
+      curse_29: 21300058
+      curse_3: 21300006
+      curse_30: 21300060
+      curse_31: 21300062
+      curse_4: 21300008
       curse_5: 21300010
       curse_6: 21300012
-      curse_19: 21300038
-      curse_24: 21300048
-      curse_28: 21300056
-      curse_2: 21300004
-      curse_21: 21300042
-      curse_14: 21300028
-      curse_0: 21300000
-      curse_23: 21300046
-      curse_13: 21300026
-      curse_12: 21300024
-  spritePackingTag: 
+      curse_7: 21300014
+      curse_8: 21300016
+      curse_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

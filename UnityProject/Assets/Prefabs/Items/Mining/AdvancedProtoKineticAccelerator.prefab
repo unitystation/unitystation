@@ -1,0 +1,153 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1695320443877836184
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 2930616705810838248, guid: ed27584db3581c646825e141026f3033,
+        type: 3}
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: AllowSuicide
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: rechargeTime
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoilDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoveryDuration
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092814885568586395, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: _assetId
+      value: 1803441748
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_Name
+      value: AdvancedProtoKineticAccelerator
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299065660771937395, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cd1532d707dda3d419ded6d88630921b,
+        type: 3}
+    - target: {fileID: 4299065660771937395, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299065660771937395, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299065660771937395, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: exportCost
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: initialName
+      value: Advanced Proto-kinetic accelerator
+      objectReference: {fileID: 0}
+    - target: {fileID: 7053223090983703362, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: foreverID
+      value: 3053347191ae5df4d8e2f8395311213f
+      objectReference: {fileID: 0}
+    - target: {fileID: 7790862161162773672, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d7f01fed8a3bc58468007f93cc2344d9,
+        type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ad527ba4de069794796e314f236794f4, type: 3}

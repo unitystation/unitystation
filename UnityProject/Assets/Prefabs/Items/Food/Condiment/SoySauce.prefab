@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1632096134032418045, guid: 32a48818544878d4c8e14ac2fd2b195a,
@@ -35,13 +36,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7223151104655182775, guid: 32a48818544878d4c8e14ac2fd2b195a,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 97473bb8bf264de35b63cbcb922a313e,
         type: 2}
     - target: {fileID: 7223151104655182775, guid: 32a48818544878d4c8e14ac2fd2b195a,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8357089723576347773, guid: 32a48818544878d4c8e14ac2fd2b195a,
@@ -53,6 +54,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A salty soy-based flavoring.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8395826806974201515, guid: 32a48818544878d4c8e14ac2fd2b195a,
+        type: 3}
+      propertyPath: _assetId
+      value: 961596847
       objectReference: {fileID: 0}
     - target: {fileID: 8395826806974201515, guid: 32a48818544878d4c8e14ac2fd2b195a,
         type: 3}
@@ -127,4 +133,7 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents:
     - {fileID: -2575248337170886117, guid: 32a48818544878d4c8e14ac2fd2b195a, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32a48818544878d4c8e14ac2fd2b195a, type: 3}

@@ -1,4 +1,5 @@
-﻿using Systems.Explosions;
+﻿using Logs;
+using Systems.Explosions;
 using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours
@@ -46,7 +47,7 @@ namespace Weapons.Projectiles.Behaviours
 			{
 				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
 			}
-			Logger.LogTraceFormat($"{shooter} stunned {player.gameObject.name} for {stunTime} seconds with {weapon.OrNull()?.name}", Category.Firearms);
+			Loggy.LogTraceFormat($"{shooter} stunned {player.gameObject.name} for {stunTime} seconds with {weapon.OrNull()?.name}", Category.Firearms);
 
 			return true;
 		}

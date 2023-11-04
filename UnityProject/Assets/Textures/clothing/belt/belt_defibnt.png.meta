@@ -75,7 +75,7 @@ TextureImporter:
       213: 1373436688067062470
     second: defibnt_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      defibnt_1: 8456272496992839107
-      defibnt_7: 5646684477054673361
-      defibnt_15: 2276212176010394577
-      defibnt_17: -52063569820620774
-      defibnt_12: 5596152397273006386
-      defibnt_18: 8316084985045412916
-      defibnt_6: 1831506491383434417
-      defibnt_5: 5428986397701512824
-      defibnt_11: 3631535910474328883
-      defibnt_23: 1373436688067062470
-      defibnt_13: -3339458086600818561
-      defibnt_2: 1380788264096861521
       defibnt_0: 4155342402995718623
-      defibnt_3: -5812978474720221943
-      defibnt_20: 1464534735685395333
-      defibnt_4: 4516844856121904473
-      defibnt_16: -6844252072908982756
-      defibnt_22: -5909178731080124999
-      defibnt_14: 5350805981997448512
-      defibnt_19: -7006749803974361442
+      defibnt_1: 8456272496992839107
       defibnt_10: 2606254948855575889
-      defibnt_9: -4746233956912961891
+      defibnt_11: 3631535910474328883
+      defibnt_12: 5596152397273006386
+      defibnt_13: -3339458086600818561
+      defibnt_14: 5350805981997448512
+      defibnt_15: 2276212176010394577
+      defibnt_16: -6844252072908982756
+      defibnt_17: -52063569820620774
+      defibnt_18: 8316084985045412916
+      defibnt_19: -7006749803974361442
+      defibnt_2: 1380788264096861521
+      defibnt_20: 1464534735685395333
       defibnt_21: -8873656296917162246
+      defibnt_22: -5909178731080124999
+      defibnt_23: 1373436688067062470
+      defibnt_3: -5812978474720221943
+      defibnt_4: 4516844856121904473
+      defibnt_5: 5428986397701512824
+      defibnt_6: 1831506491383434417
+      defibnt_7: 5646684477054673361
       defibnt_8: -7226929191457049763
-  spritePackingTag: 
+      defibnt_9: -4746233956912961891
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

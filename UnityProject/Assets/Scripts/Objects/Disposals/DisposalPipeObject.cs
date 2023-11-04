@@ -1,6 +1,8 @@
 using System.Linq;
+using Logs;
 using UnityEngine;
 using Mirror;
+using Systems.Disposals;
 
 namespace Objects.Disposals
 {
@@ -56,7 +58,7 @@ namespace Objects.Disposals
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench)
+			return Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench)
 				|| Validations.HasUsedActiveWelder(interaction);
 		}
 
@@ -64,7 +66,7 @@ namespace Objects.Disposals
 		{
 			currentInteraction = interaction;
 
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench))
 			{
 				TryWrench();
 			}
@@ -220,7 +222,7 @@ namespace Objects.Disposals
 			}
 			else
 			{
-				Logger.LogError($"Failed to spawn disposal pipe tile! Is {name} missing reference to tile asset for {orientation}?",
+				Loggy.LogError($"Failed to spawn disposal pipe tile! Is {name} missing reference to tile asset for {orientation}?",
 					Category.Pipes);
 			}
 		}

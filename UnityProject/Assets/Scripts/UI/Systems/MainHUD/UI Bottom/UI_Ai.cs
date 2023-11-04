@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Systems.Ai;
 using Systems.MobAIs;
 using Systems.Teleport;
@@ -194,7 +195,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 			if (aiPlayer == null)
 			{
-				Logger.LogError("Failed to find AiPlayer for player");
+				Loggy.LogError("Failed to find AiPlayer for player");
 				return;
 			}
 
@@ -211,7 +212,16 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			}
 
 			// 0 laws first, freeform last
-			var laws = aiPlayer.GetLaws();
+			var laws = aiPlayer?.GetLaws();
+
+
+			if (laws == null)
+			{
+				laws = PlayerManager.LocalMindScript.PossessingObject.GetComponent<BrainLaws>().GetLaws();
+			}
+
+
+
 
 			amountOfLawsText.text = $"You have <color=orange>{laws.Count}</color> law{(laws.Count == 1 ? "" : "s")}\nYou Must Follow Them";
 

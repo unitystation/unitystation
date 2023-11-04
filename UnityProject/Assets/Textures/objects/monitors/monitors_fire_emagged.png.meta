@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: fire_emagged_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      fire_emagged_11: 21300022
-      fire_emagged_13: 21300026
       fire_emagged_0: 21300000
-      fire_emagged_21: 21300042
-      fire_emagged_23: 21300046
-      fire_emagged_6: 21300012
-      fire_emagged_16: 21300032
-      fire_emagged_9: 21300018
-      fire_emagged_18: 21300036
-      fire_emagged_2: 21300004
-      fire_emagged_19: 21300038
-      fire_emagged_3: 21300006
       fire_emagged_1: 21300002
-      fire_emagged_20: 21300040
-      fire_emagged_15: 21300030
       fire_emagged_10: 21300020
-      fire_emagged_14: 21300028
-      fire_emagged_22: 21300044
+      fire_emagged_11: 21300022
       fire_emagged_12: 21300024
-      fire_emagged_5: 21300010
+      fire_emagged_13: 21300026
+      fire_emagged_14: 21300028
+      fire_emagged_15: 21300030
+      fire_emagged_16: 21300032
       fire_emagged_17: 21300034
+      fire_emagged_18: 21300036
+      fire_emagged_19: 21300038
+      fire_emagged_2: 21300004
+      fire_emagged_20: 21300040
+      fire_emagged_21: 21300042
+      fire_emagged_22: 21300044
+      fire_emagged_23: 21300046
+      fire_emagged_3: 21300006
       fire_emagged_4: 21300008
+      fire_emagged_5: 21300010
+      fire_emagged_6: 21300012
       fire_emagged_7: 21300014
       fire_emagged_8: 21300016
-  spritePackingTag: 
+      fire_emagged_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

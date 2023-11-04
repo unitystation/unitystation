@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: echair_shock_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      echair_shock_18: 21300036
-      echair_shock_2: 21300004
-      echair_shock_17: 21300034
-      echair_shock_13: 21300026
-      echair_shock_15: 21300030
-      echair_shock_8: 21300016
       echair_shock_0: 21300000
       echair_shock_1: 21300002
-      echair_shock_19: 21300038
       echair_shock_10: 21300020
-      echair_shock_23: 21300046
-      echair_shock_21: 21300042
-      echair_shock_6: 21300012
-      echair_shock_9: 21300018
       echair_shock_11: 21300022
-      echair_shock_4: 21300008
-      echair_shock_16: 21300032
-      echair_shock_7: 21300014
-      echair_shock_3: 21300006
-      echair_shock_20: 21300040
       echair_shock_12: 21300024
-      echair_shock_5: 21300010
+      echair_shock_13: 21300026
       echair_shock_14: 21300028
+      echair_shock_15: 21300030
+      echair_shock_16: 21300032
+      echair_shock_17: 21300034
+      echair_shock_18: 21300036
+      echair_shock_19: 21300038
+      echair_shock_2: 21300004
+      echair_shock_20: 21300040
+      echair_shock_21: 21300042
       echair_shock_22: 21300044
-  spritePackingTag: 
+      echair_shock_23: 21300046
+      echair_shock_3: 21300006
+      echair_shock_4: 21300008
+      echair_shock_5: 21300010
+      echair_shock_6: 21300012
+      echair_shock_7: 21300014
+      echair_shock_8: 21300016
+      echair_shock_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

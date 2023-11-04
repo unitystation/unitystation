@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2508680987064040879, guid: e3db388746619344db4cdc07addc4f38,
@@ -102,6 +103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8934627556384033910, guid: e3db388746619344db4cdc07addc4f38,
         type: 3}
+      propertyPath: _assetId
+      value: 1246882163
+      objectReference: {fileID: 0}
+    - target: {fileID: 8934627556384033910, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
       propertyPath: m_AssetId
       value: b7115b784ecf9894d8d5d60c1c290269
       objectReference: {fileID: 0}
@@ -116,4 +122,7 @@ PrefabInstance:
       value: raw sausage pizza
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3db388746619344db4cdc07addc4f38, type: 3}

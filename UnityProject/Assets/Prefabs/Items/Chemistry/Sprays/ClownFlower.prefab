@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 98485280082216606, guid: 7ac9a1237a9a84c429f91947b3594be0,
@@ -25,13 +26,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4986038043911402929, guid: 7ac9a1237a9a84c429f91947b3594be0,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: e165b9d67b5163a9ea82a4c4fed31f7d,
         type: 2}
     - target: {fileID: 4986038043911402929, guid: 7ac9a1237a9a84c429f91947b3594be0,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5978078068588712571, guid: 7ac9a1237a9a84c429f91947b3594be0,
@@ -118,6 +119,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6165367934634639533, guid: 7ac9a1237a9a84c429f91947b3594be0,
         type: 3}
+      propertyPath: _assetId
+      value: 1129343191
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165367934634639533, guid: 7ac9a1237a9a84c429f91947b3594be0,
+        type: 3}
       propertyPath: m_AssetId
       value: bda198be769216d43a47c47bc1c1e193
       objectReference: {fileID: 0}
@@ -133,4 +139,7 @@ PrefabInstance:
       value: Assets/Prefabs/Effects/Spray2.prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ac9a1237a9a84c429f91947b3594be0, type: 3}

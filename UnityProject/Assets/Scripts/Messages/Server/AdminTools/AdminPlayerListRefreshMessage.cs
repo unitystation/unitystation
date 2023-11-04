@@ -2,6 +2,7 @@
 using System.Linq;
 using AdminTools;
 using Mirror;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Messages.Server.AdminTools
@@ -16,8 +17,9 @@ namespace Messages.Server.AdminTools
 
 		public override void Process(NetMessage msg)
 		{
+
 			LoadNetworkObject(msg.Recipient);
-			var listData = JsonUtility.FromJson<AdminPlayersList>(msg.JsonData);
+			var listData = JsonConvert.DeserializeObject<AdminPlayersList>(msg.JsonData);
 
 			foreach (var v in UIManager.Instance.adminChatWindows.playerListViews)
 			{
@@ -36,7 +38,7 @@ namespace Messages.Server.AdminTools
 				players = AdminToolRefreshMessage.GetAllPlayerStates(adminID, true)
 			};
 
-			var data = JsonUtility.ToJson(playerList);
+			var data = JsonConvert.SerializeObject(playerList);
 
 			NetMessage  msg =
 				new NetMessage  {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};

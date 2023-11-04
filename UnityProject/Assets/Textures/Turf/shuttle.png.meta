@@ -507,7 +507,7 @@ TextureImporter:
       213: 21300334
     second: shuttle_167
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -524,11 +524,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -567,6 +568,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -606,6 +609,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -4158,177 +4173,176 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      shuttle_78: 21300156
-      shuttle_55: 21300110
-      shuttle_139: 21300278
-      shuttle_112: 21300224
-      shuttle_148: 21300296
-      shuttle_23: 21300046
-      shuttle_22: 21300044
-      shuttle_28: 21300056
-      shuttle_3: 21300006
-      shuttle_92: 21300184
-      shuttle_127: 21300254
       shuttle_0: 21300000
-      shuttle_82: 21300164
-      shuttle_56: 21300112
-      shuttle_85: 21300170
-      shuttle_154: 21300308
-      shuttle_109: 21300218
-      shuttle_132: 21300264
-      shuttle_106: 21300212
-      shuttle_12: 21300024
-      shuttle_130: 21300260
-      shuttle_163: 21300326
-      shuttle_52: 21300104
-      shuttle_129: 21300258
-      shuttle_123: 21300246
-      shuttle_136: 21300272
-      shuttle_110: 21300220
-      shuttle_161: 21300322
-      shuttle_65: 21300130
-      shuttle_145: 21300290
-      shuttle_67: 21300134
-      shuttle_100: 21300200
-      shuttle_80: 21300160
-      shuttle_20: 21300040
-      shuttle_98: 21300196
-      shuttle_122: 21300244
-      shuttle_64: 21300128
-      shuttle_84: 21300168
-      shuttle_19: 21300038
+      shuttle_1: 21300002
       shuttle_10: 21300020
-      shuttle_49: 21300098
-      shuttle_60: 21300120
-      shuttle_89: 21300178
-      shuttle_94: 21300188
-      shuttle_4: 21300008
-      shuttle_166: 21300332
-      shuttle_31: 21300062
-      shuttle_36: 21300072
-      shuttle_151: 21300302
-      shuttle_79: 21300158
-      shuttle_57: 21300114
-      shuttle_35: 21300070
-      shuttle_121: 21300242
-      shuttle_107: 21300214
-      shuttle_164: 21300328
+      shuttle_100: 21300200
       shuttle_101: 21300202
-      shuttle_73: 21300146
-      shuttle_143: 21300286
-      shuttle_2: 21300004
-      shuttle_8: 21300016
-      shuttle_141: 21300282
-      shuttle_32: 21300064
-      shuttle_137: 21300274
-      shuttle_58: 21300116
-      shuttle_159: 21300318
-      shuttle_146: 21300292
-      shuttle_81: 21300162
-      shuttle_95: 21300190
-      shuttle_38: 21300076
-      shuttle_83: 21300166
-      shuttle_167: 21300334
-      shuttle_54: 21300108
-      shuttle_46: 21300092
-      shuttle_7: 21300014
-      shuttle_76: 21300152
-      shuttle_66: 21300132
-      shuttle_29: 21300058
-      shuttle_42: 21300084
-      shuttle_77: 21300154
-      shuttle_68: 21300136
-      shuttle_6: 21300012
-      shuttle_116: 21300232
-      shuttle_43: 21300086
-      shuttle_37: 21300074
-      shuttle_152: 21300304
-      shuttle_71: 21300142
-      shuttle_75: 21300150
-      shuttle_51: 21300102
-      shuttle_144: 21300288
-      shuttle_140: 21300280
-      shuttle_47: 21300094
-      shuttle_27: 21300054
-      shuttle_147: 21300294
-      shuttle_34: 21300068
-      shuttle_131: 21300262
-      shuttle_97: 21300194
-      shuttle_5: 21300010
-      shuttle_11: 21300022
-      shuttle_63: 21300126
-      shuttle_105: 21300210
-      shuttle_14: 21300028
-      shuttle_41: 21300082
+      shuttle_102: 21300204
       shuttle_103: 21300206
-      shuttle_86: 21300172
-      shuttle_138: 21300276
-      shuttle_142: 21300284
-      shuttle_133: 21300266
-      shuttle_40: 21300080
-      shuttle_59: 21300118
-      shuttle_158: 21300316
-      shuttle_45: 21300090
-      shuttle_18: 21300036
-      shuttle_62: 21300124
-      shuttle_87: 21300174
-      shuttle_24: 21300048
-      shuttle_26: 21300052
-      shuttle_70: 21300140
-      shuttle_124: 21300248
-      shuttle_93: 21300186
+      shuttle_104: 21300208
+      shuttle_105: 21300210
+      shuttle_106: 21300212
+      shuttle_107: 21300214
+      shuttle_108: 21300216
+      shuttle_109: 21300218
+      shuttle_11: 21300022
+      shuttle_110: 21300220
+      shuttle_111: 21300222
+      shuttle_112: 21300224
       shuttle_113: 21300226
       shuttle_114: 21300228
-      shuttle_33: 21300066
-      shuttle_48: 21300096
-      shuttle_72: 21300144
-      shuttle_15: 21300030
-      shuttle_69: 21300138
-      shuttle_99: 21300198
       shuttle_115: 21300230
-      shuttle_13: 21300026
-      shuttle_17: 21300034
-      shuttle_120: 21300240
-      shuttle_134: 21300268
-      shuttle_102: 21300204
-      shuttle_9: 21300018
-      shuttle_160: 21300320
-      shuttle_119: 21300238
-      shuttle_162: 21300324
-      shuttle_91: 21300182
-      shuttle_118: 21300236
-      shuttle_111: 21300222
-      shuttle_135: 21300270
-      shuttle_153: 21300306
+      shuttle_116: 21300232
       shuttle_117: 21300234
-      shuttle_156: 21300312
-      shuttle_165: 21300330
-      shuttle_25: 21300050
-      shuttle_50: 21300100
-      shuttle_21: 21300042
-      shuttle_39: 21300078
-      shuttle_74: 21300148
-      shuttle_88: 21300176
-      shuttle_108: 21300216
-      shuttle_128: 21300256
-      shuttle_16: 21300032
+      shuttle_118: 21300236
+      shuttle_119: 21300238
+      shuttle_12: 21300024
+      shuttle_120: 21300240
+      shuttle_121: 21300242
+      shuttle_122: 21300244
+      shuttle_123: 21300246
+      shuttle_124: 21300248
       shuttle_125: 21300250
-      shuttle_90: 21300180
-      shuttle_155: 21300310
-      shuttle_96: 21300192
-      shuttle_149: 21300298
-      shuttle_150: 21300300
-      shuttle_157: 21300314
       shuttle_126: 21300252
-      shuttle_53: 21300106
+      shuttle_127: 21300254
+      shuttle_128: 21300256
+      shuttle_129: 21300258
+      shuttle_13: 21300026
+      shuttle_130: 21300260
+      shuttle_131: 21300262
+      shuttle_132: 21300264
+      shuttle_133: 21300266
+      shuttle_134: 21300268
+      shuttle_135: 21300270
+      shuttle_136: 21300272
+      shuttle_137: 21300274
+      shuttle_138: 21300276
+      shuttle_139: 21300278
+      shuttle_14: 21300028
+      shuttle_140: 21300280
+      shuttle_141: 21300282
+      shuttle_142: 21300284
+      shuttle_143: 21300286
+      shuttle_144: 21300288
+      shuttle_145: 21300290
+      shuttle_146: 21300292
+      shuttle_147: 21300294
+      shuttle_148: 21300296
+      shuttle_149: 21300298
+      shuttle_15: 21300030
+      shuttle_150: 21300300
+      shuttle_151: 21300302
+      shuttle_152: 21300304
+      shuttle_153: 21300306
+      shuttle_154: 21300308
+      shuttle_155: 21300310
+      shuttle_156: 21300312
+      shuttle_157: 21300314
+      shuttle_158: 21300316
+      shuttle_159: 21300318
+      shuttle_16: 21300032
+      shuttle_160: 21300320
+      shuttle_161: 21300322
+      shuttle_162: 21300324
+      shuttle_163: 21300326
+      shuttle_164: 21300328
+      shuttle_165: 21300330
+      shuttle_166: 21300332
+      shuttle_167: 21300334
+      shuttle_17: 21300034
+      shuttle_18: 21300036
+      shuttle_19: 21300038
+      shuttle_2: 21300004
+      shuttle_20: 21300040
+      shuttle_21: 21300042
+      shuttle_22: 21300044
+      shuttle_23: 21300046
+      shuttle_24: 21300048
+      shuttle_25: 21300050
+      shuttle_26: 21300052
+      shuttle_27: 21300054
+      shuttle_28: 21300056
+      shuttle_29: 21300058
+      shuttle_3: 21300006
       shuttle_30: 21300060
+      shuttle_31: 21300062
+      shuttle_32: 21300064
+      shuttle_33: 21300066
+      shuttle_34: 21300068
+      shuttle_35: 21300070
+      shuttle_36: 21300072
+      shuttle_37: 21300074
+      shuttle_38: 21300076
+      shuttle_39: 21300078
+      shuttle_4: 21300008
+      shuttle_40: 21300080
+      shuttle_41: 21300082
+      shuttle_42: 21300084
+      shuttle_43: 21300086
       shuttle_44: 21300088
-      shuttle_104: 21300208
+      shuttle_45: 21300090
+      shuttle_46: 21300092
+      shuttle_47: 21300094
+      shuttle_48: 21300096
+      shuttle_49: 21300098
+      shuttle_5: 21300010
+      shuttle_50: 21300100
+      shuttle_51: 21300102
+      shuttle_52: 21300104
+      shuttle_53: 21300106
+      shuttle_54: 21300108
+      shuttle_55: 21300110
+      shuttle_56: 21300112
+      shuttle_57: 21300114
+      shuttle_58: 21300116
+      shuttle_59: 21300118
+      shuttle_6: 21300012
+      shuttle_60: 21300120
       shuttle_61: 21300122
-      shuttle_1: 21300002
-  spritePackingTag: 
+      shuttle_62: 21300124
+      shuttle_63: 21300126
+      shuttle_64: 21300128
+      shuttle_65: 21300130
+      shuttle_66: 21300132
+      shuttle_67: 21300134
+      shuttle_68: 21300136
+      shuttle_69: 21300138
+      shuttle_7: 21300014
+      shuttle_70: 21300140
+      shuttle_71: 21300142
+      shuttle_72: 21300144
+      shuttle_73: 21300146
+      shuttle_74: 21300148
+      shuttle_75: 21300150
+      shuttle_76: 21300152
+      shuttle_77: 21300154
+      shuttle_78: 21300156
+      shuttle_79: 21300158
+      shuttle_8: 21300016
+      shuttle_80: 21300160
+      shuttle_81: 21300162
+      shuttle_82: 21300164
+      shuttle_83: 21300166
+      shuttle_84: 21300168
+      shuttle_85: 21300170
+      shuttle_86: 21300172
+      shuttle_87: 21300174
+      shuttle_88: 21300176
+      shuttle_89: 21300178
+      shuttle_9: 21300018
+      shuttle_90: 21300180
+      shuttle_91: 21300182
+      shuttle_92: 21300184
+      shuttle_93: 21300186
+      shuttle_94: 21300188
+      shuttle_95: 21300190
+      shuttle_96: 21300192
+      shuttle_97: 21300194
+      shuttle_98: 21300196
+      shuttle_99: 21300198
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: turf/default
   assetBundleVariant: 

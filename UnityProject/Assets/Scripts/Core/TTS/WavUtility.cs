@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Text;
-using System.IO;
 using System;
+using System.IO;
+using Logs;
+using SecureStuff;
 
 /// <summary>
 /// WAV utility for recording and audio playback functions in Unity.
@@ -19,23 +21,6 @@ using System;
 public class WavUtility {
 	// Force save as 16-bit .wav
 	const int BlockSize_16Bit = 2;
-
-	/// <summary>
-	/// Load PCM format *.wav audio file (using Unity's Application data path) and convert to AudioClip.
-	/// </summary>
-	/// <returns>The AudioClip.</returns>
-	/// <param name="filePath">Local file path to .wav file</param>
-	public static AudioClip ToAudioClip( string filePath ) {
-		if ( !filePath.StartsWith( Application.persistentDataPath ) && !filePath.StartsWith( Application.dataPath ) ) {
-			Logger.LogWarning( "This only supports files that are stored using Unity's Application data path. \n" +
-			                   "To load bundled resources use 'Resources.Load(\"filename\") typeof(AudioClip)' method. \n" +
-			                   "https://docs.unity3d.com/ScriptReference/Resources.Load.html", Category.Audio );
-			return null;
-		}
-
-		byte[] fileBytes = File.ReadAllBytes( filePath );
-		return ToAudioClip( fileBytes, 0 );
-	}
 
 	public static AudioClip ToAudioClip( byte[] fileBytes, int offsetSamples = 0, string name = "wav" ) {
 		//string riff = Encoding.ASCII.GetString (fileBytes, 0, 4);
@@ -144,6 +129,7 @@ public class WavUtility {
 
 		byte[] block = new byte[sizeof( int )]; // using a 4 byte block for copying 3 bytes, then copy bytes with 1 offset
 
+
 		int offset = 0;
 		int i = 0;
 		while ( i < convertedSize ) {
@@ -154,7 +140,6 @@ public class WavUtility {
 		}
 
 		Debug.AssertFormat( data.Length == convertedSize, "AudioClip .wav data is wrong size: {0} == {1}", data.Length, convertedSize );
-
 		return data;
 	}
 
@@ -188,10 +173,10 @@ public class WavUtility {
 
 	public static byte[] FromAudioClip( AudioClip audioClip ) {
 		string file;
-		return FromAudioClip( audioClip, out file, false );
+		return FromAudioClip( audioClip, false );
 	}
 
-	public static byte[] FromAudioClip( AudioClip audioClip, out string filepath, bool saveAsFile = true, string dirname = "recordings" ) {
+	public static byte[] FromAudioClip( AudioClip audioClip, bool saveAsFile = true, string dirname = "recordings" ) {
 		MemoryStream stream = new MemoryStream();
 
 		const int headerSize = 44;
@@ -219,13 +204,11 @@ public class WavUtility {
 
 		// Save file to persistant storage location
 		if ( saveAsFile ) {
-			filepath = string.Format( "{0}/{1}/{2}.{3}", Application.persistentDataPath, dirname, DateTime.UtcNow.ToString( "yyMMdd-HHmmss-fff" ),
-				"wav" );
-			Directory.CreateDirectory( Path.GetDirectoryName( filepath ) );
-			File.WriteAllBytes( filepath, bytes );
+			//filepath = string.Format( "{0}/{1}/{2}.{3}", Application.persistentDataPath, dirname, DateTime.UtcNow.ToString( "yyMMdd-HHmmss-fff" ),
+			//	"wav" );
+			//Directory.CreateDirectory( Path.GetDirectoryName( filepath ) );
+			AccessFile.Write(bytes, $"{dirname}/{DateTime.UtcNow.ToString( "yyMMdd-HHmmss-fff" )}wav", FolderType.Data );
 			//Logger.Log ("Auto-saved .wav file: " + filepath, Category.Audio);
-		} else {
-			filepath = null;
 		}
 
 		stream.Dispose();
@@ -391,7 +374,7 @@ public class WavUtility {
 			case 65534:
 				return "WaveFormatExtensable";
 			default:
-				Logger.LogWarning( "Unknown wav code format:" + code, Category.Audio );
+				Loggy.LogWarning( "Unknown wav code format:" + code, Category.Audio );
 				return "";
 		}
 	}

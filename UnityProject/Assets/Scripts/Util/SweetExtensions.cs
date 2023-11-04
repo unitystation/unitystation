@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Items;
 using System.Threading.Tasks;
+using Logs;
 using Messages.Server;
 
 public static class SweetExtensions
@@ -38,6 +39,11 @@ public static class SweetExtensions
 	public static ObjectAttributes Object(this GameObject go)
 	{
 		return go.OrNull()?.GetComponent<ObjectAttributes>();
+	}
+
+	public static Attributes AttributesOrNull(this GameObject go)
+	{
+		return go.OrNull()?.GetComponent<Attributes>();
 	}
 
 	public static bool HasComponent<T>(this GameObject go) where T : Component
@@ -158,8 +164,26 @@ public static class SweetExtensions
 	/// Creates garbage! Use very sparsely!
 	public static Vector3 AssumedWorldPosServer(this GameObject go)
 	{
+		if (go == null)
+		{
+			Loggy.LogError("Null object passed into AssumedWorldPosServer");
+			return TransformState.HiddenPos;
+		}
+
 		return GetRootGameObject(go).transform.position;
 	}
+
+
+	public static Matrix GetMatrixRoot(this GameObject go)
+	{
+		if (ComponentManager.TryGetUniversalObjectPhysics(GetRootGameObject(go), out var UOP))
+		{
+			return UOP.registerTile.Matrix;
+		}
+
+		return null;
+	}
+
 
 	/// Creates garbage! Use very sparsely!
 	public static GameObject GetRootGameObject(this GameObject go)
@@ -186,6 +210,77 @@ public static class SweetExtensions
 			return null;
 		}
 	}
+
+
+	//New better system for Get component That caches results
+	public static T GetComponentCustom<T>(this Component go)  where T : Component
+	{
+		if (ComponentManager.TryGetCommonComponent(go.gameObject, out  var commonComponent))
+		{
+			return commonComponent.SafeGetComponent<T>();
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+
+	//New better system for Get component That cashs results
+	public static UniversalObjectPhysics GetUniversalObjectPhysics(this GameObject go)
+	{
+		if (ComponentManager.TryGetUniversalObjectPhysics(go, out  var commonComponent))
+		{
+			return commonComponent;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+
+
+	//New better system for Get component That cashs results
+	public static T GetComponentCustom<T>(this GameObject go)  where T : Component
+	{
+		if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
+		{
+			return commonComponent.SafeGetComponent<T>();
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+
+	public static bool TryGetComponentCustom<T>(this Component go, out T component) where T : Component
+	{
+		if (ComponentManager.TryGetCommonComponent(go.gameObject, out  var commonComponent))
+		{
+			return commonComponent.TrySafeGetComponent<T>(out component);
+		}
+		else
+		{
+			component = null;
+			return false;
+		}
+	}
+
+	public static bool TryGetComponentCustom<T>(this GameObject go, out T component)  where T : Component
+	{
+		if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
+		{
+			return commonComponent.TrySafeGetComponent<T>(out component);
+		}
+		else
+		{
+			component = null;
+			return false;
+		}
+	}
+
 
 	/// <summary>
 	/// Returns true for adjacent coordinates
@@ -265,7 +360,7 @@ public static class SweetExtensions
 		float boost = (distance - NO_BOOST_THRESHOLD) * 2;
 		if (boost > 0)
 		{
-			Logger.LogTraceFormat("Lerp speed boost exceeded by {0}", Category.Movement, boost);
+			Loggy.LogTraceFormat("Lerp speed boost exceeded by {0}", Category.Movement, boost);
 		}
 		return 1 + boost;
 	}
@@ -319,7 +414,7 @@ public static class SweetExtensions
 		{
 			return new Vector2(x, y);
 		}
-		Logger.LogWarning($"Vector parse failed: what the hell is '{stringifiedVector}'?", Category.Unknown);
+		Loggy.LogWarning($"Vector parse failed: what the hell is '{stringifiedVector}'?", Category.Unknown);
 		return TransformState.HiddenPos;
 	}
 
@@ -649,7 +744,7 @@ public static class SweetExtensions
 			e = e.InnerException;
 		}
 
-		Logger.LogError(e?.ToString(), category);
+		Loggy.LogError(e?.ToString(), category);
 	}
 
 	/// <summary>
@@ -729,6 +824,69 @@ public static class SweetExtensions
 		};
 	}
 
+
+	public static float VectorToAngle360(this Vector2 vector)
+	{
+		float angle = Mathf.Atan2(vector.y, vector.x) * Mathf.Rad2Deg;
+		if (angle < 0)
+			angle += 360f;
+		return angle;
+	}
+
+	public static float Rotate360By(this OrientationEnum dir, float finalAngle)
+	{
+		switch (dir)
+		{
+			case OrientationEnum.Default:
+				 break;
+			case OrientationEnum.Right_By270:
+				 finalAngle = finalAngle + 270;
+				 break;
+			case OrientationEnum.Up_By0:
+				 finalAngle = finalAngle + 0;
+				 break;
+			case OrientationEnum.Left_By90:
+				finalAngle = finalAngle + 90;
+				break;
+			case OrientationEnum.Down_By180:
+				finalAngle = finalAngle + 180;
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
+
+		// If the final angle is greater than or equal to 360 or less than 0, wrap it around.
+		if (finalAngle >= 360)
+		{
+			finalAngle -= 360;
+		}
+		else if (finalAngle < 0)
+		{
+			finalAngle += 360;
+		}
+		return finalAngle;
+	}
+
+	public static OrientationEnum GetOppositeDirection(this OrientationEnum dir)
+	{
+		switch (dir)
+		{
+			case OrientationEnum.Default:
+				return OrientationEnum.Down_By180;
+			case OrientationEnum.Right_By270:
+				return OrientationEnum.Left_By90;
+			case OrientationEnum.Up_By0:
+				return OrientationEnum.Default;
+			case OrientationEnum.Left_By90:
+				return OrientationEnum.Right_By270;
+			case OrientationEnum.Down_By180:
+				return OrientationEnum.Up_By0;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
+		return OrientationEnum.Down_By180;
+	}
+
 	public static string RemovePunctuation(this string input)
 	{
 		return new string(input.Where(c => !char.IsPunctuation(c)).ToArray());
@@ -772,5 +930,57 @@ public static class SweetExtensions
 		}
 
 		return "Its";
+	}
+
+	/// <summary>
+	/// returns a list of children of that are under a gameObject.
+	/// </summary>
+	public static List<GameObject> GetAllChildren(this GameObject gameObject)
+	{
+		return (from Transform child in gameObject.transform select child.gameObject).ToList();
+	}
+
+	/// <summary>
+	/// Destroys all children that are under a gameObject. Only use this for client-side objects or UI elements.
+	/// Use the despawn class when dealing with networked objects.
+	/// </summary>
+	public static void DestroyAllChildren(this GameObject gameObject)
+	{
+		foreach (var child in GetAllChildren(gameObject))
+		{
+			// Do not use DestroyImmediate() as that will modify the collection before the end of the frame.
+			UnityEngine.Object.Destroy(child);
+		}
+	}
+
+	/// <summary>
+	/// Returns an offset for a single axis for a vector. Axis offset is random.
+	/// </summary>
+	public static Vector3 RandomOnOneAxis(this Vector3 vector3, int min, int max, bool neverZero = true)
+	{
+		var axis = Random.Range(0, 2);
+		var y =  Random.Range(min, max);
+		var x =  Random.Range(min, max);
+
+		if (neverZero)
+		{
+			if (y == 0) y += min;
+			if (x == 0) x += min;
+		}
+
+		if (axis == 0)
+		{
+			vector3.x += x;
+			vector3.y += y;
+		}
+		else if (axis == 1)
+		{
+			vector3.x += x;
+		}
+		else if (axis == 2)
+		{
+			vector3.y += y;
+		}
+		return vector3;
 	}
 }

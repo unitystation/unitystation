@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 590354148432884721, guid: 411e38af01d5a8249afcbd5beb9de197,
@@ -15,13 +16,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 590354148432884721, guid: 411e38af01d5a8249afcbd5beb9de197,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 9a45c2ed35b5b764294abf798d8b5eba,
         type: 2}
     - target: {fileID: 590354148432884721, guid: 411e38af01d5a8249afcbd5beb9de197,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: b0ea6b7c94d6d0641974347bb0e84f0f,
         type: 2}
@@ -128,6 +129,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6269830135824793344, guid: 411e38af01d5a8249afcbd5beb9de197,
         type: 3}
+      propertyPath: _assetId
+      value: 84021493
+      objectReference: {fileID: 0}
+    - target: {fileID: 6269830135824793344, guid: 411e38af01d5a8249afcbd5beb9de197,
+        type: 3}
       propertyPath: m_AssetId
       value: 686203d25e1955b49aa009e1a4edddd9
       objectReference: {fileID: 0}
@@ -146,5 +152,23 @@ PrefabInstance:
       propertyPath: randomSounds.Array.data[0].AssetAddress
       value: null
       objectReference: {fileID: 0}
+    - target: {fileID: 8001555796081604719, guid: 411e38af01d5a8249afcbd5beb9de197,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001555796081604719, guid: 411e38af01d5a8249afcbd5beb9de197,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001555796081604719, guid: 411e38af01d5a8249afcbd5beb9de197,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 411e38af01d5a8249afcbd5beb9de197, type: 3}

@@ -4,6 +4,7 @@ using System.Linq;
 using Mirror;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using SecureStuff;
 using UnityEngine;
 
 namespace Messages.Server.VariableViewer

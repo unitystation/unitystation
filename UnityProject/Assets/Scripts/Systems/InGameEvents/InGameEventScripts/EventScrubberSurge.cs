@@ -8,12 +8,19 @@ using Managers;
 using Strings;
 using ScriptableObjects;
 using Objects.Atmospherics;
+using UnityEngine.Serialization;
 
 
 namespace InGameEvents
 {
 	public class EventScrubberSurge : EventScriptBase
 	{
+		//TODO some time
+		//5% chance to make the janitor antagonist When the scrubber Surge  event happens
+		//like a special antag "you can't deal with this crap anymore! make a mess!!!"
+
+		private System.Random RNG = new System.Random();
+
 		[Tooltip("A temporary container by which chemicals can be dispersed from.")]
 		[SerializeField]
 		private GameObject reagentContainer = default;
@@ -22,9 +29,26 @@ namespace InGameEvents
 		[SerializeField]
 		private List<Reagent> dispersionAgents = default;
 
+		[FormerlySerializedAs("RareDispenseProbability")]
+		[Tooltip("The  probability that a rare dispersionAgents will be chosen")]
+		[SerializeField]
+		private float rareDispenseProbability = 0.005f;
+
+		[FormerlySerializedAs("RareDispersionAgents")]
+		[Tooltip("Assign dispersion agents e.g. smoke or foaming agent That was one according to the Rare probability.")]
+		[SerializeField]
+		private List<Reagent> rareDispersionAgents = default;
+
 		[Tooltip("Each scrubber will randomly select a delay period before spawning reagents, within this range.")]
 		[SerializeField, MinMaxSlider(0f, 100f)]
 		private Vector2 spawnDelayRange = new Vector2(3f, 10f);
+
+
+		public bool ShouldDispenseRareDispersionAgents()
+		{
+			float randomValue = (float)RNG.NextDouble(); // Generates a random value between 0 and 1
+			return randomValue <= rareDispenseProbability;
+		}
 
 
 		public override void OnEventStart()
@@ -63,13 +87,21 @@ namespace InGameEvents
 			var reagentMix = new ReagentMix();
 			lock (reagentMix.reagents)
 			{
+				if (ShouldDispenseRareDispersionAgents())
+				{
+					reagentMix.reagents.m_dict.Add(rareDispersionAgents.PickRandom(), 25f);
+				}
+				else
+				{
+					reagentMix.reagents.m_dict.Add(dispersionAgents.PickRandom(), 25f);
+				}
+
 				reagentMix.reagents.m_dict.Add(ChemistryReagentsSO.Instance.AllChemistryReagents.PickRandom(), 75f);
-				reagentMix.reagents.m_dict.Add(dispersionAgents.PickRandom(), 25f);
 			}
 
 
-			container.Add(reagentMix);
-			container.Spill(scrubber.registerTile.WorldPositionServer, 50f);
+			container.Add(reagentMix, false);
+			container.Spill(scrubber.registerTile.WorldPositionServer, container.MaxCapacity);
 
 			// TODO: Play noise.
 		}

@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7ffaa772af0d4419c4eade14c666bd, type: 3}
+  m_Name: AugmentedEyesight
+  m_EditorClassIdentifier: 
+  actionType: 0
+  activeSpriteIndex: 1
+  callOnClient: 0
+  callOnServer: 0
+  actionName: Augmented Eyesight
+  description: Enables x-ray and night vision.
+  Sprites:
+  - {fileID: 11400000, guid: 5237e15d52676fb46b8120299a044759, type: 2}
+  Backgrounds:
+  - {fileID: 11400000, guid: 8b8f8d4ab92854b4cbeb74ec8ec117df, type: 2}
+  PreventBeingControlledBy: 
+  DisableOnEvent: 
+  isAimable: 0
+  useCustomCursor: 0
+  cursorTexture: {fileID: 0}
+  cursorOffsetType: 0
+  cursorOffset: {x: 0, y: 0}
+  cooldown: 1
+  abilityEPCost: 2
+  abilityChemCost: 0
+  abilityImplementation: {fileID: 1515064019581797830, guid: 5722bf93b0593b44caafd2931b25840d,
+    type: 3}
+  descriptionStore: The changeling evolves additional features in their eyes, giving
+    them a toggleable night-vision and xray-vision mode. The changeling will become
+    more vulnerable to flash-based devices while this ability is active. While it's
+    inactive, it will instead protect you from flashes and bright lights, such as
+    welders. This cannot be detected by normal means. While active slows chemical
+    regeneration.
+  canBeUsedWhileInCrit: 0
+  isLocal: 1
+  startAbility: 0
+  showInStore: 1
+  showInActions: 1
+  swithedToOnWhenInCrit: 0
+  swithedToOffWhenExitCrit: 0
+  cooldownWhenToggled: 0
+  isSlowingChemRegeneration: 1
+  isStopingChemRegeneration: 0
+  expandedNightVisionVisibility: {x: 25, y: 25, z: 42}
+  defaultvisibilityAnimationSpeed: 1.25
+  revertvisibilityAnimationSpeed: 0.2

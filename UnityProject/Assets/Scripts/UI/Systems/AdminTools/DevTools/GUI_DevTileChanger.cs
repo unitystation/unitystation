@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AdminCommands;
 using DatabaseAPI;
+using Logs;
 using ScriptableObjects;
 using TileManagement;
 using TMPro;
@@ -330,7 +331,7 @@ namespace UI.Systems.AdminTools.DevTools
 						ChangeColour();
 						return true;
 					default:
-						Logger.LogError($"Unknown case: {currentAction.ToString()} in switch!");
+						Loggy.LogError($"Unknown case: {currentAction.ToString()} in switch!");
 						return true;
 				}
 			}
@@ -376,7 +377,7 @@ namespace UI.Systems.AdminTools.DevTools
 					ChangeColour();
 					break;
 				default:
-					Logger.LogError($"Unknown case: {currentAction.ToString()} in switch!");
+					Loggy.LogError($"Unknown case: {currentAction.ToString()} in switch!");
 					break;
 			}
 		}

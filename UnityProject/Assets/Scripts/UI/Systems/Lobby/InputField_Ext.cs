@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Logs;
+using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -43,7 +44,7 @@ using UnityEngine.UI;
 			}
 			else
 			{
-				Logger.Log("Caret obj not found",Category.UI);
+				Loggy.Log("Caret obj not found",Category.UI);
 			}
 		}
 	}

@@ -31,15 +31,15 @@ namespace UI.Items
 
 			if (AiVessel.LinkedPlayer == null)
 			{
-				labelLaws.Value = "This intelicard holds no Ai";
-				integritySlider.Value = "0";
-				labelPurgeButton.Value = "No Ai to Purge";
+				labelLaws.MasterSetValue("This intelicard holds no Ai");
+				integritySlider.MasterSetValue( "0");
+				labelPurgeButton.MasterSetValue( "No Ai to Purge"); ;
 				return;
 			}
 
-			labelPurgeButton.Value = AiVessel.LinkedPlayer.IsPurging ? "Stop Purging" : "Start Purging";
-			labelLaws.Value = AiVessel.LinkedPlayer.GetLawsString();
-			integritySlider.Value = AiVessel.LinkedPlayer.Integrity.ToString();
+			labelPurgeButton.MasterSetValue(AiVessel.LinkedPlayer.IsPurging ? "Stop Purging" : "Start Purging");
+			labelLaws.MasterSetValue(AiVessel.LinkedPlayer.GetLawsString());
+			integritySlider.MasterSetValue(AiVessel.LinkedPlayer.Integrity.ToString());
 		}
 
 		public void OnRemoveActionChange()

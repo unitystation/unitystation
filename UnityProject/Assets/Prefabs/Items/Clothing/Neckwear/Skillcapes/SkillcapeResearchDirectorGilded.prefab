@@ -5,12 +5,18 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1415426572140040497, guid: 90e0221d0fd59db458cae1fb06e48759,
         type: 3}
       propertyPath: initialName
       value: research director's gilded skillcape
+      objectReference: {fileID: 0}
+    - target: {fileID: 1503417068660032487, guid: 90e0221d0fd59db458cae1fb06e48759,
+        type: 3}
+      propertyPath: _assetId
+      value: 3446432354
       objectReference: {fileID: 0}
     - target: {fileID: 1503417068660032487, guid: 90e0221d0fd59db458cae1fb06e48759,
         type: 3}
@@ -101,7 +107,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5563136070620278230, guid: 90e0221d0fd59db458cae1fb06e48759,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 2c5dd40baf97e59428850b7d52827f13,
         type: 2}
@@ -111,4 +117,7 @@ PrefabInstance:
       value: dfb91d08d43754847bac8d9a2607dcdc
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90e0221d0fd59db458cae1fb06e48759, type: 3}

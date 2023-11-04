@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6794789698578519870
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2152051915416306454, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: foreverID
+      value: 174a60b83f7a16e429aef53ef61c652a
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866909607520428057, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: initialName
+      value: SlimeSteroid
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866909607520428057, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: initialDescription
+      value: 'a potent chemical mix that will cause a slime to produce one more extract
+        when processed, for a maximum of four extra. The steroid only works on live
+        slimes. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 4968336445900272335, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: _assetId
+      value: 356445469
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001007918263111547, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_Name
+      value: SlimeSteroid
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5001007918263111547, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2750039653614975958}
+  m_SourcePrefab: {fileID: 100100000, guid: 1e86836ca86312b47b6c5416bd8426f1, type: 3}
+--- !u!1 &1958176399667533893 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5001007918263111547, guid: 1e86836ca86312b47b6c5416bd8426f1,
+    type: 3}
+  m_PrefabInstance: {fileID: 6794789698578519870}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2750039653614975958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958176399667533893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d775af92b98ff448891a612e353e75e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaximumNumberOfCore: 5

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Logs;
 using Newtonsoft.Json;
 using UnityEngine;
 using UI.CharacterCreator;
@@ -13,6 +14,7 @@ namespace Systems.Character
 /// Class containing all character preferences for a player
 /// Includes appearance, job preferences etc...
 /// </summary>
+[System.Serializable]
 public class CharacterSheet : ICloneable
 {
 	// TODO: all of the in-game appearance variables should probably be refactored into a separate class which can
@@ -105,6 +107,16 @@ public class CharacterSheet : ICloneable
 			throw new InvalidOperationException("Name cannot exceed " + MAX_NAME_LENGTH + " characters");
 		}
 	}
+
+	public void ValidateSpeciesCanBePlayerChosen()
+	{
+		if (GetRaceSo(true) == null)
+		{
+			Species = RaceSOSingleton.Instance.Races.Where(x => x.Base.CanBePlayerChosen).PickRandom().name;
+		}
+
+	}
+
 
 	/// <summary>
 	/// Checks if the job preferences have more than one high priority set
@@ -267,9 +279,26 @@ public class CharacterSheet : ICloneable
 		}
 	}
 
-	public PlayerHealthData GetRaceSo()
+	public PlayerHealthData GetRaceSo(bool onlyCharacterCurator = false)
 	{
-		return RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == Species);
+		var ToReturn = RaceSOSingleton.Instance.Races.FirstOrDefault(x =>
+			x.name == Species && (onlyCharacterCurator == false || x.Base.CanBePlayerChosen));
+		if (ToReturn == null)
+		{
+			return  null;
+		}
+		return ToReturn;
+	}
+
+	public PlayerHealthData GetRaceSoNoValidation()
+	{
+		var toReturn = RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == Species);
+		if (toReturn == null)
+		{
+			Loggy.LogError("[GetRaceSONoValidation] No race found for " + Species);
+			return  RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == "Human");
+		}
+		return toReturn;
 	}
 
 	public object Clone()
@@ -280,19 +309,33 @@ public class CharacterSheet : ICloneable
 
 	#region StaticCustomizationFunctions
 
-	public static CharacterSheet GenerateRandomCharacter()
+	/// <summary>Generate a random character.</summary>
+	/// <remarks>not safe to use in Awake().</remarks>
+	/// <returns>a random character.</returns>
+	public static CharacterSheet GenerateRandomCharacter(List<PlayerHealthData> speciesToChooseFrom = null)
 	{
 		CharacterSheet character = new CharacterSheet();
 
-		PlayerHealthData race = RaceSOSingleton.Instance.Races.PickRandom();
+
+		if (speciesToChooseFrom == null)
+		{
+			speciesToChooseFrom = RaceSOSingleton.Instance.Races;
+		}
+		PlayerHealthData race = speciesToChooseFrom.PickRandom();
 
 		character.Species = race.name;
-		character.BodyType = race.Base.bodyTypeSettings.AvailableBodyTypes.PickRandom().bodyType;
+		if (race.Base.bodyTypeSettings.AvailableBodyTypes.Count != 0)
+		{
+			character.BodyType = race.Base.bodyTypeSettings.AvailableBodyTypes.PickRandom().bodyType;
+		}
+		else
+		{
+			character.BodyType = BodyType.NonBinary;
+		}
+
 		character.Age = Random.Range(19, 84); // TODO should be a race characteristic, literally 1984
 		character.SkinTone = GetRandomSkinTone(race);
-		character.Name = character.Species == "Lizard"
-				? StringManager.GetRandomLizardName()
-				: StringManager.GetRandomName(); // TODO do moths and what-not not have random names? Should be race characteristic
+		character.Name = StringManager.GetRandomName(character.GetGender(), character.Species);
 		character.Speech = DMMath.Prob(35) ? character.Speech.PickRandom() : Speech.None;
 		character.PlayerPronoun = character.PlayerPronoun.PickRandom();
 		character.ClothingStyle = character.ClothingStyle.PickRandom();

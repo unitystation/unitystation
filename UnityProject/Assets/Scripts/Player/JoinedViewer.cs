@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
 using Mirror;
 using Core.Networking;
+using Logs;
 using Systems;
 using Systems.Character;
 using Messages.Server;
@@ -82,7 +83,7 @@ namespace Player
 			// Sanity check in case Mirror does a surprising thing and allows commands from unauthenticated clients.
 			if (connectionToClient.isAuthenticated == false)
 			{
-				Logger.Log(
+				Loggy.LogError(
 					$"A client attempted to set up their server player object but they haven't authenticated yet! Address: {connectionToClient.address}.");
 				ClearCache();
 				return;
@@ -102,7 +103,7 @@ namespace Player
 
 					if (Existingplayer != null && Existingplayer.Connection != connectionToClient)
 					{
-						Logger.LogError($"Disconnecting player {Existingplayer?.Name} via Disconnect previous Using account/mac Address ");
+						Loggy.LogError($"Disconnecting player {Existingplayer?.Name} via Disconnect previous Using account/mac Address ");
 						Existingplayer.Connection?.Disconnect();
 					}
 				}
@@ -131,10 +132,11 @@ namespace Player
 			var isValidPlayer = PlayerList.Instance.TryLogIn(player);
 			if (isValidPlayer == false)
 			{
-				ClearCache();
 				// Any actions, including logging, done in CanPlayerJoin.
 				PlayerList.Instance.Remove(player);
 				Logger.LogWarning($"Set up new player: invalid player. For {authData.Account.Username}", Category.Connections);
+				ClearCache();
+
 				return;
 			}
 
@@ -158,9 +160,6 @@ namespace Player
 			STVerifiedUserid = authData.Account.Id;
 			STVerifiedConnPlayer = player;
 
-
-
-
 			if (string.IsNullOrEmpty(currentScene) == false)
 			{
 				ServerRequestLoadedScenes(currentScene);
@@ -172,7 +171,7 @@ namespace Player
 		{
 			if (IsValidPlayerAndWaitingOnLoad == false)
 			{
-				Logger.LogError($"Disconnecting {this.STVerifiedUserid} by Trying to call CMDFinishLoading When server wasn't expecting player to be loading  ", Category.Connections);
+				Loggy.LogError($"Disconnecting {this.STVerifiedUserid} by Trying to call CMDFinishLoading When server wasn't expecting player to be loading  ", Category.Connections);
 				connectionToClient.Disconnect();
 				ClearCache();
 				return;
@@ -180,7 +179,7 @@ namespace Player
 
 			if (STVerifiedConnPlayer.Connection != connectionToClient)
 			{
-				Logger.LogError($"Disconnecting {this.STVerifiedConnPlayer.Name} by Authenticated user connection matching The game objects connection ", Category.Connections);
+				Loggy.LogError($"Disconnecting {this.STVerifiedConnPlayer.Name} by Authenticated user connection matching The game objects connection ", Category.Connections);
 				connectionToClient.Disconnect();
 				ClearCache();
 				return;
@@ -199,7 +198,6 @@ namespace Player
 			{
 				_ = Despawn.ServerSingle(this.gameObject);
 			}
-
 		}
 
 		public void ClientFinishLoading()
@@ -226,6 +224,7 @@ namespace Player
 			if (STVerifiedConnPlayer.Mind == null) //TODO Handle when someone gets kicked out of their mind
 			{
 				TargetLocalPlayerSetupNewPlayer(connectionToClient, GameManager.Instance.CurrentRoundState);
+				GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
 				ClearCache(true);
 			}
 			else
@@ -245,7 +244,7 @@ namespace Player
 			var netIdentity = loggedOffPlayer.GetComponent<NetworkIdentity>();
 			if (netIdentity == null)
 			{
-				Logger.LogError($"No {nameof(NetworkIdentity)} component on {loggedOffPlayer}! " +
+				Loggy.LogError($"No {nameof(NetworkIdentity)} component on {loggedOffPlayer}! " +
 				                "Cannot rejoin that player. Was original player object improperly created? " +
 				                "Did we get runtime error while creating it?", Category.Connections);
 				// TODO: if this issue persists, should probably send the poor player a message about failing to rejoin.
@@ -264,8 +263,13 @@ namespace Player
 				}
 			}
 
+
+
 			TargetLocalPlayerRejoinUI(connectionToClient);
+			GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
 			STVerifiedConnPlayer.Mind.OrNull()?.ReLog();
+
+
 			ClearCache();
 		}
 
@@ -298,6 +302,7 @@ namespace Player
 					UIManager.Display.SetScreenForJoining();
 					break;
 			}
+
 		}
 
 		public void RequestJob(JobType job)
@@ -306,7 +311,7 @@ namespace Player
 
 			if (PlayerList.Instance.ClientJobBanCheck(job) == false)
 			{
-				Logger.LogWarning($"Client failed local job-ban check for {job}.", Category.Jobs);
+				Loggy.LogWarning($"Client failed local job-ban check for {job}.", Category.Jobs);
 				UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>()
 					.ShowFailMessage(JobRequestError.JobBanned);
 				return;
@@ -333,7 +338,7 @@ namespace Player
 		[TargetRpc]
 		private void TargetSyncCountdown(NetworkConnection target, bool started, double endTime)
 		{
-			Logger.Log("Syncing countdown!", Category.Round);
+			Loggy.Log("Syncing countdown!", Category.Round);
 			UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(started, endTime);
 		}
 

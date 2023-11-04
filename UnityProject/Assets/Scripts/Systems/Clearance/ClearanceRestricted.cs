@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -36,9 +37,11 @@ namespace Systems.Clearance
 
 			if (requiredClearance.Contains(Clearance.BasicPublicAccess))
 			{
-				Logger.LogError($"{this.name} has null Clearance potentially letting anyone access");
+				Loggy.LogError($"{this.name} has null Clearance potentially letting anyone access at localPosition {this.transform.localPosition} on {this.gameObject.GetMatrixRoot()}");
 				return true;
 			}
+
+			if (clearanceSource == null) return false;
 
 			// If the player has null access, access is denied
 			if (clearanceSource.GetCurrentClearance == null)
@@ -72,7 +75,7 @@ namespace Systems.Clearance
 			// Is the entity an item or mob with clearance source at root?
 			if (entity.TryGetComponent<IClearanceSource>(out var clearanceSource))
 			{
-				return HasClearance(clearanceSource);
+				if (HasClearance(clearanceSource)) return true;
 			}
 
 			// Is the entity a player with dynamic storage?
@@ -81,6 +84,14 @@ namespace Systems.Clearance
 			{
 				return false;
 			}
+
+			// Check hand first
+			var activeHandObject = playerStorage.GetActiveHandSlot()?.ItemObject;
+			if (activeHandObject != null && activeHandObject.TryGetComponent<IClearanceSource>(out var handObject))
+			{
+				if (HasClearance(handObject)) return true;
+			}
+
 
 			// Try get object in ID slot
 			foreach (var slot in playerStorage.GetNamedItemSlots(NamedSlot.id))
@@ -91,14 +102,8 @@ namespace Systems.Clearance
 				}
 			}
 
-			// Nothing worked, let's go with active hand
-			var activeHandObject = playerStorage.GetActiveHandSlot().ItemObject;
-			if (activeHandObject != null && activeHandObject.TryGetComponent<IClearanceSource>(out var handObject))
-			{
-				return HasClearance(handObject);
-			}
+			return HasClearance(null as IClearanceSource);
 
-			return false;
 		}
 
 		/// <summary>

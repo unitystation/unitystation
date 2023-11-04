@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7317932195449864806}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5555387190054977646}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1497992636064459920
 SpriteRenderer:
@@ -105,6 +105,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7934139534291585897
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,13 +133,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7934139534291585897}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5555387190054977646}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8754805749772763956
 SpriteRenderer:
@@ -210,6 +213,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &9154800603489594107
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,13 +241,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9154800603489594107}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5555387190054977646}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4296899226115428905
 SpriteRenderer:
@@ -315,11 +321,15 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &4353788806237965640
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2605031095160245205, guid: a940a8ef1ee65024fb0a322703040d98,
@@ -356,6 +366,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 761969b55136a450a8120ad9f6188ee4,
         type: 2}
+    - target: {fileID: 8139349595194068454, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: _assetId
+      value: 3106258931
+      objectReference: {fileID: 0}
     - target: {fileID: 8139349595194068454, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: m_AssetId
@@ -439,6 +454,21 @@ PrefabInstance:
         Has a threaded barrel for suppressors.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3047514970614198303}
+    - targetCorrespondingSourceObject: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 615812182371325109}
+    - targetCorrespondingSourceObject: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2651062520536802960}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a940a8ef1ee65024fb0a322703040d98, type: 3}
 --- !u!4 &5555387190054977646 stripped
 Transform:

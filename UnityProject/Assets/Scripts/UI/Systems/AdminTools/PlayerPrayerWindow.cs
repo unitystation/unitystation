@@ -27,7 +27,7 @@ namespace AdminTools
 			var entry = new AdminChatMessage
 			{
 				fromUserid = player.AccountId,
-				Message = message
+				Message = GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " + message
 			};
 
 			if (admin != null)

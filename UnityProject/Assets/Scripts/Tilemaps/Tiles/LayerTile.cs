@@ -26,7 +26,7 @@ namespace Tiles
 
 		private static LayerTile emptyTile;
 
-		public static LayerTile EmptyTile => emptyTile ? emptyTile : (emptyTile = CreateInstance<LayerTile>());
+		public static LayerTile EmptyTile => emptyTile ? emptyTile : (emptyTile = ScriptableObject.CreateInstance<LayerTile>());
 
 		public LayerType LayerType;
 		public TileType TileType;

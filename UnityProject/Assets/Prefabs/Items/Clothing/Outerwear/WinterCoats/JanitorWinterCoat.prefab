@@ -5,17 +5,18 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 9abc3f3c63ea8f74f90172770c452d9f,
         type: 2}
     - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 8d0e0f3c897d64244bd8e972e183da28,
         type: 2}
@@ -36,6 +37,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 706cf9cbfe2177a48a7ba0d4941bde49,
         type: 3}
+    - target: {fileID: 6526945778998519847, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: _assetId
+      value: 3007126280
+      objectReference: {fileID: 0}
     - target: {fileID: 6526945778998519847, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: m_AssetId
@@ -112,4 +118,7 @@ PrefabInstance:
       value: A purple-and-beige winter coat that smells of space cleaner.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caa7ec1293d63a74aa063307403f0c7e, type: 3}

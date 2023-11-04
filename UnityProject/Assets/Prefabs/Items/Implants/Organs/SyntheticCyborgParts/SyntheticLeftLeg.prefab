@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
@@ -49,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: d3e2b11fd1d41e240a572b58bb3c1258,
         type: 2}
@@ -61,12 +62,17 @@ PrefabInstance:
     - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: initialName
-      value: Synthetic left leg
+      value: synthetic left leg
       objectReference: {fileID: 0}
     - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: initialDescription
       value: A skeletal limb wrapped in pseudomuscles, with a low-conductivity case.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
@@ -76,10 +82,21 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
+      propertyPath: 'initialTraits.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: da0ab02318f88644982d7ebec5a2c8c9,
+        type: 2}
+    - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
       propertyPath: itemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 51ca87009f5327b44b59092dea2460c5,
         type: 2}
+    - target: {fileID: 2648266232423228038, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: _assetId
+      value: 2019319753
+      objectReference: {fileID: 0}
     - target: {fileID: 2648266232423228038, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: m_AssetId
@@ -113,17 +130,17 @@ PrefabInstance:
     - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
@@ -163,7 +180,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5123827499010467942, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: d3e2b11fd1d41e240a572b58bb3c1258,
         type: 2}
@@ -180,4 +197,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8534892228131982533, guid: 2e6f2ff9beb985749940d242877d84f0, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e6f2ff9beb985749940d242877d84f0, type: 3}

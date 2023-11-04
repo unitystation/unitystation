@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 279572960244344164, guid: eff2d697846b24640887f98c04808460,
@@ -17,6 +18,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A belt-equipped defibrillator that can be rapidly deployed. Must be
         worn on the belt to function.
+      objectReference: {fileID: 0}
+    - target: {fileID: 331174054823786418, guid: eff2d697846b24640887f98c04808460,
+        type: 3}
+      propertyPath: _assetId
+      value: 2636960635
       objectReference: {fileID: 0}
     - target: {fileID: 331174054823786418, guid: eff2d697846b24640887f98c04808460,
         type: 3}
@@ -96,7 +102,7 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2875602828899599032, guid: eff2d697846b24640887f98c04808460,
         type: 3}
-      propertyPath: Populater.DeprecatedContents.Array.data[0]
+      propertyPath: 'Populater.DeprecatedContents.Array.data[0]'
       value: 
       objectReference: {fileID: 1885535167452979881, guid: 6b9e57cfb17daec4fbf9db31964d6057,
         type: 3}
@@ -113,9 +119,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8877902139051033192, guid: eff2d697846b24640887f98c04808460,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: c7088564afe9353458aee9bc7d64cab6,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eff2d697846b24640887f98c04808460, type: 3}

@@ -78,7 +78,7 @@ TextureImporter:
       213: 21300048
     second: ai-house_24
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -95,11 +95,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -138,6 +139,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -153,6 +156,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -703,33 +718,32 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       ai-house_0: 21300000
-      ai-house_24: 21300048
-      ai-house_8: 21300016
-      ai-house_9: 21300018
-      ai-house_4: 21300008
-      ai-house_16: 21300032
-      ai-house_7: 21300014
-      ai-house_18: 21300036
-      ai-house_19: 21300038
-      ai-house_22: 21300044
-      ai-house_5: 21300010
-      ai-house_15: 21300030
-      ai-house_21: 21300042
-      ai-house_13: 21300026
-      ai-house_12: 21300024
-      ai-house_6: 21300012
-      ai-house_20: 21300040
       ai-house_1: 21300002
-      ai-house_23: 21300046
-      ai-house_14: 21300028
-      ai-house_17: 21300034
       ai-house_10: 21300020
       ai-house_11: 21300022
-      ai-house_3: 21300006
+      ai-house_12: 21300024
+      ai-house_13: 21300026
+      ai-house_14: 21300028
+      ai-house_15: 21300030
+      ai-house_16: 21300032
+      ai-house_17: 21300034
+      ai-house_18: 21300036
+      ai-house_19: 21300038
       ai-house_2: 21300004
-  spritePackingTag: 
+      ai-house_20: 21300040
+      ai-house_21: 21300042
+      ai-house_22: 21300044
+      ai-house_23: 21300046
+      ai-house_24: 21300048
+      ai-house_3: 21300006
+      ai-house_4: 21300008
+      ai-house_5: 21300010
+      ai-house_6: 21300012
+      ai-house_7: 21300014
+      ai-house_8: 21300016
+      ai-house_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

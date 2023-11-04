@@ -7,6 +7,7 @@ using Objects.Machines.ServerMachines.Communications;
 using ScriptableObjects.Communications;
 using Systems.Communications;
 using InGameEvents;
+using Logs;
 
 namespace Objects.Telecomms
 {
@@ -31,8 +32,6 @@ namespace Objects.Telecomms
 		private Integrity integrity;
 
 		[SerializeField] private SignalDataSO radioSO;
-
-		private const float MINIMUM_DAMAGE_BEFORE_OBFUSCATION = 8f;
 
 		private void Start()
 		{
@@ -59,7 +58,7 @@ namespace Objects.Telecomms
 
 		private void ServerOnPlayerSpawned(Mind player)
 		{
-			if (GameManager.Instance.stationTime < TIME_BEFORE_JOIN_ANNOUNCEMENTS)
+			if (GameManager.Instance.RoundTime < TIME_BEFORE_JOIN_ANNOUNCEMENTS)
 			{
 				return;
 			}
@@ -77,11 +76,12 @@ namespace Objects.Telecomms
 
 		private void AnnounceNewCrewmember(Mind player)
 		{
+			if (player.occupation == null) return;
 			string playerName = player.CurrentCharacterSettings.Name;
 			Loudness annoucementImportance = GetAnnouncementImportance(player.occupation);
 
 			ChatChannel chatChannels = ChatChannel.Common;
-			string commonMessage = $"{playerName} has signed up as {player.occupation.DisplayName}.";
+			string commonMessage = $"{playerName} has signed up as {player.occupation?.DisplayName}.";
 			string deptMessage = $"{playerName}, {player.occupation.DisplayName}, is the department head.";
 
 			// Get the channel of the newly joined head from their occupation.
@@ -115,6 +115,7 @@ namespace Objects.Telecomms
 
 		private Loudness GetAnnouncementImportance(Occupation job)
 		{
+			if (job == null) return Loudness.NORMAL;
 			if (job.JobType == JobType.AI || job.JobType == JobType.HOP || job.JobType == JobType.CAPTAIN ||
 			    job.JobType == JobType.CMO || job.JobType == JobType.CENTCOMM_COMMANDER || job.JobType == JobType.RD
 			    || job.JobType == JobType.HOS || job.JobType == JobType.CHIEF_ENGINEER || job.JobType == JobType.CARGOTECH)
@@ -142,7 +143,7 @@ namespace Objects.Telecomms
 		{
 			if (poweredDevice == null || integrity == null)
 			{
-				Logger.LogError("[Telecomms/AutomatedAnnouncer] - Missing components detected on a terminal.");
+				Loggy.LogError("[Telecomms/AutomatedAnnouncer] - Missing components detected on a terminal.");
 				return false;
 			}
 			// Don't send anything if this terminal has no power
@@ -154,7 +155,7 @@ namespace Objects.Telecomms
 		{
 			CommsServer.RadioMessageData msg = new CommsServer.RadioMessageData();
 			// If the integrity of this terminal is so low, start scrambling text.
-			if (integrity.integrity > MINIMUM_DAMAGE_BEFORE_OBFUSCATION)
+			if (integrity.integrity > minimumDamageBeforeObfuscation)
 			{
 				msg.ChatEvent = chatToManipulate;
 				TrySendSignal(radioSO, msg);

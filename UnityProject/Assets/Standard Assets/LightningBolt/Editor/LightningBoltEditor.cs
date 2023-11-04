@@ -38,10 +38,6 @@ namespace DigitalRuby.LightningBolt
                 r.x = ((EditorGUIUtility.currentViewWidth - r.width) * 0.5f) - 4.0f;
                 r.y = r2.y;
                 GUI.DrawTexture(r, logo, ScaleMode.StretchToFill);
-                if (GUI.Button(r, "", new GUIStyle()))
-                {
-                    Application.OpenURL("https://www.assetstore.unity3d.com/en/#!/content/34217?aid=1011lGnL");
-                }
                 EditorGUILayout.Separator();
             }
 

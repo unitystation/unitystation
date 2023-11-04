@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1514897673773050596, guid: 8f91a231963bd354ea7ab5c9f9e87335,
@@ -70,11 +71,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6290864714085945612, guid: 8f91a231963bd354ea7ab5c9f9e87335,
         type: 3}
+      propertyPath: _assetId
+      value: 184972142
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290864714085945612, guid: 8f91a231963bd354ea7ab5c9f9e87335,
+        type: 3}
       propertyPath: m_AssetId
       value: 01a7a86ea6f22524f9c9e7860bb462a9
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7572736571525952113, guid: 8f91a231963bd354ea7ab5c9f9e87335, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6259407352254860176, guid: 8f91a231963bd354ea7ab5c9f9e87335,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5297666000700073382}
   m_SourcePrefab: {fileID: 100100000, guid: 8f91a231963bd354ea7ab5c9f9e87335, type: 3}
 --- !u!1 &7910005717050352921 stripped
 GameObject:
@@ -94,6 +107,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d0edb2cf5e642899505000d40ff13ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: Sergeant Araneus
   registerObject: {fileID: 0}
   deathSounds: []
@@ -102,3 +118,4 @@ MonoBehaviour:
   randomSoundProbability: 20
   searchTickRate: 0.5
   currentStatus: 0
+  ScoreForKilling: 5

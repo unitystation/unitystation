@@ -151,6 +151,16 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
         m_values: f4010000
       productionTime: 4
+    - name: item research scanner
+      product: {fileID: 4741038444309498077, guid: 36fae238052a2d449b742db0be4538f6,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: aad81582143ba4f4fb4f4c99563f715f, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: f4010000fa000000fa000000
+      productionTime: 4
   - categoryName: Construction
     products:
     - name: Metal
@@ -348,6 +358,22 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
         - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
         m_values: 6400000064000000
+      productionTime: 4
+    - name: Medium Machine Connector
+      product: {fileID: 2576181618821966758, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 64000000
+      productionTime: 4
+    - name: Low Machine Connector
+      product: {fileID: 783131783223160221, guid: eb3039e757a51bd42aa5d92b0a3711ef,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 64000000
       productionTime: 4
   - categoryName: T-Comm
     products:

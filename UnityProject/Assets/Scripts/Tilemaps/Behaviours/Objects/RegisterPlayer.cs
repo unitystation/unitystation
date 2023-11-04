@@ -7,11 +7,13 @@ using UnityEngine.Events;
 using Random = UnityEngine.Random;
 using Systems.Teleport;
 using Messages.Server.SoundMessages;
+using Player;
 using Player.Movement;
 using Systems.Explosions;
 
 [RequireComponent(typeof(Rotatable))]
 [RequireComponent(typeof(UprightSprites))]
+[RequireComponent(typeof(LayDown))]
 [ExecuteInEditMode]
 public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IControlPlayerState
 {
@@ -23,14 +25,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 
 	const int HELP_CHANCE = 33; // Percent.
 
-	// tracks whether player is down or upright.
-	[SyncVar(hook = nameof(SyncIsLayingDown))]
-	private bool isLayingDown;
+	[field: SerializeField] public LayDown LayDownBehavior { get; private set; }
 
 	/// <summary>
 	/// True when the player is laying down for any reason (shown sideways)
 	/// </summary>
-	public bool IsLayingDown => isLayingDown;
+	public bool IsLayingDown => LayDownBehavior.IsLayingDown;
 
 	/// <summary>
 	/// True when the player is slipping
@@ -74,7 +74,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		playerScript = GetComponent<PlayerScript>();
 		uprightSprites = GetComponent<UprightSprites>();
 		playerDirectional = GetComponent<Rotatable>();
-		//playerDirectional.ChangeDirectionWithMatrix = false;
+		LayDownBehavior ??= GetComponent<LayDown>();
 		uprightSprites.spriteMatrixRotationBehavior = SpriteMatrixRotationBehavior.RemainUpright;
 	}
 
@@ -86,7 +86,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		ServerCheckStandingChange(isLayingDown);
+		ServerCheckStandingChange(IsLayingDown);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -163,10 +163,9 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		ServerCheckStandingChange(!isStanding);
 	}
 
-
 	public bool ServerCheckStandingChange(bool layingDown, bool doBar = false, float time = 1.5f)
 	{
-		if (isLayingDown == layingDown) return false;
+		if (IsLayingDown == layingDown) return false;
 
 		foreach (var status in CheckableStatuses)
 		{
@@ -182,14 +181,26 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 				new StandardProgressActionConfig(StandardProgressActionType.SelfHeal, false, false, true),
 				() =>
 				{
-					SyncIsLayingDown(isLayingDown, layingDown);
+					bool cando = true;
+					foreach (var status in CheckableStatuses)
+					{
+						if (status.AllowChange(layingDown) == false)
+						{
+							cando = false;
+						}
+					}
+
+					if (cando)
+					{
+						SyncIsLayingDown(layingDown);
+					}
 				});
 
 			bar.ServerStartProgress(this, time, gameObject);
 		}
 		else
 		{
-			SyncIsLayingDown(isLayingDown, layingDown);
+			SyncIsLayingDown(layingDown);
 		}
 
 		return true;
@@ -200,64 +211,22 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		if (MatrixOld != null && MatrixOld.PresentPlayers.Contains(this))
 		{
 			MatrixOld.PresentPlayers.Remove(this);
+			MatrixNew.UpdatedPlayerFrame = Time.frameCount;
 		}
 
 		if (MatrixNew != null && MatrixNew.PresentPlayers.Contains(this) == false)
 		{
 			MatrixNew.PresentPlayers.Add(this);
+			MatrixNew.UpdatedPlayerFrame = Time.frameCount;
 		}
 	}
 
-	private void SyncIsLayingDown(bool wasDown, bool isDown)
+	private void SyncIsLayingDown(bool isDown)
 	{
-		this.isLayingDown = isDown;
-
 		OnLyingDownChangeEvent?.Invoke(isDown);
-
-		if (CustomNetworkManager.IsHeadless == false)
-		{
-			HandleGetupAnimation(isDown == false);
-		}
-
-		if (isDown)
-		{
-			//uprightSprites.ExtraRotation = Quaternion.Euler(0, 0, -90);
-			//Change sprite layer
-			foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>())
-			{
-				spriteRenderer.sortingLayerName = "Bodies";
-			}
-
-			playerScript.PlayerSync.CurrentMovementType  = MovementType.Crawling;
-
-			//lock current direction
-			playerDirectional.LockDirectionTo(true, playerDirectional.CurrentDirection);
-		}
-		else
-		{
-			//uprightSprites.ExtraRotation = Quaternion.identity;
-			//back to original layer
-			foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>())
-			{
-				spriteRenderer.sortingLayerName = "Players";
-			}
-
-			playerDirectional.LockDirectionTo(false, playerDirectional.CurrentDirection);
-			playerScript.PlayerSync.CurrentMovementType = MovementType.Running;
-		}
+		LayDownBehavior.SyncLayDownState(LayDownBehavior.IsLayingDown, isDown);
 	}
 
-	public void HandleGetupAnimation(bool getUp)
-	{
-		if (getUp == false && networkedLean.Target.rotation.z > -90)
-		{
-			networkedLean.RotateGameObject(new Vector3(0, 0, -90), 0.15f);
-		}
-		else if (getUp == true && networkedLean.Target.rotation.z < 90)
-		{
-			networkedLean.RotateGameObject(new Vector3(0, 0, 0), 0.19f);
-		}
-	}
 
 	/// <summary>
 	/// Try to help the player stand back up.
@@ -304,12 +273,11 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		// Don't slip while the players hunger state is Strarving
 		// Don't slip if you got no legs (HealthV2)
 		if (IsSlippingServer
-			|| !slipWhileWalking && playerScript.PlayerSync.TileMoveSpeed <= playerScript.playerMove.WalkSpeed
-            || isLayingDown
+			|| !slipWhileWalking && playerScript.PlayerSync.CurrentTileMoveSpeed <= playerScript.playerMove.WalkSpeed
+            || IsLayingDown
 			|| playerScript.playerHealth.IsCrit
 			|| playerScript.playerHealth.IsSoftCrit
-			|| playerScript.playerHealth.IsDead
-			|| playerScript.playerHealth.HungerState == HungerState.Starving)
+			|| playerScript.playerHealth.IsDead)
 		{
 			return;
 		}
@@ -367,7 +335,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 
 		if (StopMovement)
 		{
-			playerScript.playerMove.allowInput = false;
+			playerScript.playerMove.ServerAllowInput.RecordPosition(this, false);
 		}
 
 
@@ -401,7 +369,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS
 			 || playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
 		{
-			playerScript.playerMove.allowInput = true;
+			playerScript.playerMove.ServerAllowInput.RemovePosition(this);
 		}
 	}
 

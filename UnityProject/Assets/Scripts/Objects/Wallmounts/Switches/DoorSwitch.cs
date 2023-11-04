@@ -18,7 +18,8 @@ namespace Objects.Wallmounts
 	/// Allows object to function as a door switch - opening / closing door when clicked.
 	/// </summary>
 	[ExecuteInEditMode]
-	public class DoorSwitch : ImnterfaceMultitoolGUI, ISubscriptionController, ICheckedInteractable<HandApply>, IMultitoolMasterable,
+	public class DoorSwitch : ImnterfaceMultitoolGUI, ISubscriptionController, ICheckedInteractable<HandApply>,
+		IMultitoolMasterable,
 		IServerSpawn, ICheckedInteractable<AiActivate>, IRightClickable
 	{
 		private SpriteRenderer spriteRenderer;
@@ -34,7 +35,7 @@ namespace Objects.Wallmounts
 		private bool buttonCoolDown = false;
 		private ClearanceRestricted clearanceRestricted;
 
-		private APCPoweredDevice APCPoweredDevice;
+		private APCPoweredDevice thisAPCPoweredDevice;
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
@@ -51,12 +52,12 @@ namespace Objects.Wallmounts
 			gameObject.layer = LayerMask.NameToLayer("WallMounts");
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 			clearanceRestricted = GetComponent<ClearanceRestricted>();
-			APCPoweredDevice = GetComponent<APCPoweredDevice>();
+			thisAPCPoweredDevice = GetComponent<APCPoweredDevice>();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			return true;
 		}
 
@@ -84,9 +85,6 @@ namespace Objects.Wallmounts
 				}
 			}
 
-
-
-
 			if (clearanceRestricted.HasClearance(interaction.Performer) == false)
 			{
 				RpcPlayButtonAnim(false);
@@ -110,33 +108,22 @@ namespace Objects.Wallmounts
 				// Door doesn't exist anymore - shuttle crash, admin smash, etc.
 				if (door == null) continue;
 
-				if (APCPoweredDevice != null)
+				if (thisAPCPoweredDevice != null)
 				{
-					if (APCPoweredDevice.IsOn(PowerState.On))
+					if (APCPoweredDevice.IsOn(thisAPCPoweredDevice.State) == false)
 					{
-						if (door.IsClosed)
-						{
-							door.TryOpen(null);
-						}
-						else
-						{
-							door.TryClose();
-						}
+						continue;
 					}
+				}
+
+				if (door.IsClosed)
+				{
+					door.TryOpen(null);
 				}
 				else
 				{
-					if (door.IsClosed)
-					{
-						door.TryOpen(null);
-					}
-					else
-					{
-						door.TryClose();
-					}
+					door.TryClose();
 				}
-
-
 			}
 
 			foreach (var door in NewdoorControllers)
@@ -254,7 +241,7 @@ namespace Objects.Wallmounts
 				if (doorController == null)
 				{
 					var OlddoorController = potentialObject.GetComponent<DoorController>();
-					if (OlddoorController == null )continue;
+					if (OlddoorController == null) continue;
 					AddDoorControllerFromScene(OlddoorController);
 				}
 				else
@@ -325,7 +312,8 @@ namespace Objects.Wallmounts
 		public RightClickableResult GenerateRightClickOptions()
 		{
 			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) ||
-			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
+			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions,
+				    KeyboardInputManager.KeyEventType.Hold) == false)
 			{
 				return null;
 			}

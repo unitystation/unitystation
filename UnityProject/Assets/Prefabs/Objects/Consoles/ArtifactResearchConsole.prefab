@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -4343989174440723700, guid: b46887a995abc224aab70e21b9e53697,
@@ -30,25 +31,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.data[0]
+      propertyPath: 'onSprites.Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: b73daaeb95716f846ac34192923f4ca6,
         type: 3}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.data[1]
+      propertyPath: 'onSprites.Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: b73daaeb95716f846ac34192923f4ca6,
         type: 3}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.data[2]
+      propertyPath: 'onSprites.Sprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300004, guid: b73daaeb95716f846ac34192923f4ca6,
         type: 3}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.data[3]
+      propertyPath: 'onSprites.Sprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300006, guid: b73daaeb95716f846ac34192923f4ca6,
         type: 3}
@@ -73,6 +74,11 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: _assetId
+      value: 1775859657
       objectReference: {fileID: 0}
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -219,25 +225,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.data[0]
+      propertyPath: 'onSprites.Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: b73daaeb95716f846ac34192923f4ca6,
         type: 3}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.data[1]
+      propertyPath: 'onSprites.Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: b73daaeb95716f846ac34192923f4ca6,
         type: 3}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.data[2]
+      propertyPath: 'onSprites.Sprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300004, guid: b73daaeb95716f846ac34192923f4ca6,
         type: 3}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.data[3]
+      propertyPath: 'onSprites.Sprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300006, guid: b73daaeb95716f846ac34192923f4ca6,
         type: 3}
@@ -259,6 +265,17 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 72fa1d63fa729ce42a23bec55fd8f698,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3942760892938711772}
+    - targetCorrespondingSourceObject: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4087141291922530776}
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}
 --- !u!1 &9063439616851718856 stripped
 GameObject:
@@ -278,12 +295,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e020ea2fef82584ea539f53ea8292dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  itemStorage: {fileID: 0}
-  connectedArtifact: {fileID: 0}
-  dataDisk: {fileID: 0}
-  HasDisk: 0
   ArtifactDiskTrait: {fileID: 11400000, guid: 7180e3c6d244846498d07cec4ed7108d, type: 2}
 --- !u!114 &4087141291922530776
 MonoBehaviour:
@@ -303,10 +317,12 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}

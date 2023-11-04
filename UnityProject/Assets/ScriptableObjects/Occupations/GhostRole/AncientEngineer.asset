@@ -17,10 +17,10 @@ MonoBehaviour:
   lateSpawnIsArrivals: 0
   inventoryPopulator: {fileID: 11400000, guid: 391868f2028d39c4db6e084e224d12a1, type: 2}
   useStandardPopulator: 1
+  useCharacterSettings: 1
+  CustomSpeciesOverwrite: {fileID: 0}
   limit: 3
   priority: 1
-  allowedAccess: 1a0000001e0000001f00000020000000220000003100000032000000
-  allowedLowPopAccess: 
   issuedClearance: 1f0000000a0000000d0000000c000000
   issuedLowPopClearance: 1f0000000a0000000d0000000c000000
   spells: []
@@ -35,6 +35,8 @@ MonoBehaviour:
   customProperties:
     m_keys: []
     m_values: 
+  BetterCustomProperties:
+  - rid: 8170595211135418380
   isTargeteable: 0
   playSound: 1
   spawnSound:
@@ -48,3 +50,15 @@ MonoBehaviour:
   textColor: {r: 1, g: 0.9607844, b: 0.8000001, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
   specialPlayerPrefab: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 8170595211135418380
+      type: {class: OccupationPickRandomSpecies, ns: , asm: Assets}
+      data:
+        ToChooseFrom:
+        - {fileID: 11400000, guid: f0deb843b714e8f4590d893251718804, type: 2}
+        - {fileID: 11400000, guid: f8cc40dce57da8d4aa283decb92b4507, type: 2}
+        - {fileID: 11400000, guid: 078513666ca7a3540bf3c90b08eb66da, type: 2}
+        - {fileID: 11400000, guid: 4c4d0af544e2b6847a3902db71f721fd, type: 2}
+        - {fileID: 11400000, guid: 8bc1d65392e05ec4095bddde7a8b1324, type: 2}

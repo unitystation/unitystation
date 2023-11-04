@@ -2,6 +2,7 @@
 using UnityEngine;
 using Chemistry.Components;
 using Items;
+using Logs;
 
 namespace Objects.Kitchen
 {
@@ -28,9 +29,9 @@ namespace Objects.Kitchen
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) == false;
+			return Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench) == false;
 		}
 
 		/// <summary>
@@ -80,7 +81,7 @@ namespace Objects.Kitchen
 					barrel.OpenClose();
 					break;
 				default:
-					Logger.LogError("Unexpected interaction request occurred in barrel context menu.", Category.Interaction);
+					Loggy.LogError("Unexpected interaction request occurred in barrel context menu.", Category.Interaction);
 					break;
 			}
 		}

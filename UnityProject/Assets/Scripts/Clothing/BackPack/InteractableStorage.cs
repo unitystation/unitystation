@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using HealthV2;
 using Items;
+using Logs;
 using Messages.Server;
-using Objects;
-using Objects.Other;
-using UI.Action;
+using Mirror;
+using Objects.Disposals;
 using UI.Core.Action;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 
 /// <summary>
@@ -18,10 +17,10 @@ using UnityEngine;
 [RequireComponent(typeof(ItemStorage))]
 [RequireComponent(typeof(MouseDraggable))]
 //[RequireComponent(typeof(ActionControlInventory))] removed because the PDA wont need it
-public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>,
+public class InteractableStorage : NetworkBehaviour, IClientInteractable<HandActivate>,
 	IClientInteractable<InventoryApply>,
 	ICheckedInteractable<InventoryApply>, ICheckedInteractable<PositionalHandApply>,
-	ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>, IActionGUI, IItemInOutMovedPlayer
+	ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>, IActionGUI, IItemInOutMovedPlayer, IHoverTooltip
 {
 	/// <summary>
 	/// The click pickup mode.
@@ -47,6 +46,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	/// </summary>
 	public ItemStorage ItemStorage => itemStorage;
 
+	[SerializeField]
 	private ItemStorage itemStorage;
 
 	/// <summary>
@@ -56,6 +56,12 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	private bool canClickPickup = false;
 
 	/// <summary>
+	/// Flags if you want the UI action to show or not
+	/// </summary>
+	[SerializeField] [Tooltip("Flags if you want the UI action to show or not")]
+	private bool showUIAction = true;
+
+	/// <summary>
 	/// Flag to determine if this can empty out all items by activating it
 	/// </summary>
 	[SerializeField] [Tooltip("Can you empty out all items by activating this item?")]
@@ -63,6 +69,9 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	[SerializeField] [Tooltip("Does it require alt click When in top-level inventory")]
 	private bool TopLevelAlt = false;
+
+	[SerializeField] [Tooltip("So, It doesn't collide with other interactions if it is full, Not turned on by default Because of large inventories")]
+	private bool NoInteractionIfInventoryFull = false;
 
 	/// <summary>
 	/// The current pickup mode used when clicking
@@ -83,6 +92,14 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		get => preventUIShowingAfterTrapTrigger;
 		set => preventUIShowingAfterTrapTrigger = value;
 	}
+
+
+	public bool DoNotShowInventoryOnUI = false;
+
+
+
+	[SyncVar] private bool inventoryFull = false;
+
 
 	/// <summary>
 	/// Used on the server to switch the pickup mode of this InteractableStorage
@@ -107,7 +124,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 				msg = $"The {gameObject.ExpensiveName()} now drops all items on the tile at once";
 				break;
 			default:
-				Logger.LogError($"Unknown pickup mode set! Found: {pickupMode}", Category.Inventory);
+				Loggy.LogError($"Unknown pickup mode set! Found: {pickupMode}", Category.Inventory);
 				break;
 		}
 
@@ -117,7 +134,11 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	private void OnEnable()
 	{
 		allowedToInteract = false;
-		itemStorage = GetComponent<ItemStorage>();
+		if (itemStorage == null)
+		{
+			itemStorage = GetComponent<ItemStorage>();
+		}
+
 		StartCoroutine(SpawnCoolDown());
 	}
 
@@ -126,12 +147,26 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	{
 		yield return WaitFor.Seconds(0.2f);
 		allowedToInteract = true;
+		if (CustomNetworkManager.IsServer == false) yield break;
+
+		if (NoInteractionIfInventoryFull == false) yield break;
+
+		var slots = itemStorage.GetItemSlots();
+		foreach (var slot in slots)
+		{
+			slot.OnSlotContentsChangeServer.AddListener(CheckInventoryFull);
+		}
+	}
+
+	private void CheckInventoryFull()
+	{
+		inventoryFull = itemStorage.GetItemSlots().All(x => x.Item != null);
 	}
 
 	private bool IsFull(GameObject usedObject, GameObject player, bool noMessage = false)
 	{
 		//NOTE: this wont fail on client if the storage they are checking is not being observered by them
-		if (itemStorage.GetNextFreeIndexedSlot() == null && usedObject != null)
+		if (itemStorage.GetBestSlotFor(usedObject) == null && usedObject != null)
 		{
 			if (noMessage == false)
 			{
@@ -156,7 +191,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 		// can only be opened if it's in the player's top level inventory or player is alt-clicking
 		if ((PlayerManager.LocalPlayerScript.DynamicItemStorage.ClientTotal.Contains(interaction.TargetSlot) &&
-		     TopLevelAlt == false) || interaction.IsAltClick)
+		     TopLevelAlt == false) || interaction.IsAltClick && DoNotShowInventoryOnUI == false)
 		{
 			if (interaction.UsedObject == null)
 			{
@@ -280,9 +315,12 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	/// </summary>
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
+		if (inventoryFull) return false;
 		if (allowedToInteract == false) return false;
 		// Use default interaction checks
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+		if (interaction.TargetObject != null && interaction.TargetObject.HasComponent<DisposalBin>()) return false;
 
 		// See which item needs to be stored
 		if (Validations.IsTarget(gameObject, interaction))
@@ -611,6 +649,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		}
 		else
 		{
+			if (DoNotShowInventoryOnUI) return;
 			// player can observe this storage
 			itemStorage.ServerAddObserverPlayer(interaction.Performer);
 			ObserveInteractableStorageMessage.Send(interaction.Performer, this, true);
@@ -663,7 +702,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		{
 			if (hideForPlayer != null)
 			{
-				UIActionManager.ToggleServer(hideForPlayer.gameObject, this, false);
+				if (showUIAction) UIActionManager.ToggleServer(hideForPlayer.gameObject, this, false);
 				itemStorage.ServerRemoveAllObserversExceptOwner();
 				ObserveInteractableStorageMessage.Send(hideForPlayer.PlayerScript.gameObject, this, false);
 			}
@@ -671,7 +710,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			if (showForPlayer != null)
 			{
 				itemStorage.ServerAddObserverPlayer(showForPlayer.PlayerScript.gameObject);
-				UIActionManager.ToggleServer(showForPlayer.gameObject, this, true);
+				if (showUIAction) UIActionManager.ToggleServer(showForPlayer.gameObject, this, true);
 			}
 		}
 	}
@@ -679,5 +718,41 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	public void CallActionClient()
 	{
 		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSwitchPickupMode();
+	}
+
+	public string HoverTip()
+	{
+		if (itemStorage == null) return null;
+		var slots = itemStorage.GetItemSlots().ToList();
+		return slots.Any() == false ? null : $"This has {slots.Count()} slots.";
+	}
+
+	public string CustomTitle() => null;
+
+	public Sprite CustomIcon() => null;
+
+	public List<Sprite> IconIndicators() => null;
+
+	public List<TextColor> InteractionsStrings()
+	{
+		var interactions = new List<TextColor>()
+		{
+			new()
+			{
+				Text = canQuickEmpty
+					? $"Press {KeybindManager.Instance.userKeybinds[KeyAction.HandActivate].PrimaryCombo} or click to quickly empty"
+					: "",
+				Color = Color.green
+			},
+			new()
+			{
+				Text = TopLevelAlt
+					? $"Alt+Click with a free hand to access storage."
+					: "",
+				Color = Color.green
+			}
+		};
+
+		return interactions;
 	}
 }

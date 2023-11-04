@@ -5,14 +5,25 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 365286942262964143, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: NetworkThis
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 365286942262964143, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: af312efc417fa7f4cace32afb44bd310,
         type: 2}
+    - target: {fileID: 365286942262964143, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: pushTextureOnStartUp
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2391862290675865850, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_Sprite
@@ -23,6 +34,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473701121889670674, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: _assetId
+      value: 875363426
       objectReference: {fileID: 0}
     - target: {fileID: 2473701121889670674, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
@@ -68,17 +84,17 @@ PrefabInstance:
     - target: {fileID: 2581668318916269778, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2581668318916269778, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2581668318916269778, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2581668318916269778, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
@@ -119,16 +135,36 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4724191004971380045, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
+      propertyPath: NetworkThis
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4724191004971380045, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: af312efc417fa7f4cace32afb44bd310,
         type: 2}
+    - target: {fileID: 4724191004971380045, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: pushTextureOnStartUp
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5065124234103176114, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: NetworkThis
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5065124234103176114, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: af312efc417fa7f4cace32afb44bd310,
         type: 2}
+    - target: {fileID: 5065124234103176114, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: pushTextureOnStartUp
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5422858671993271279, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_Sprite
@@ -158,10 +194,20 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5509797517278718378, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
+      propertyPath: NetworkThis
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509797517278718378, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: af312efc417fa7f4cace32afb44bd310,
         type: 2}
+    - target: {fileID: 5509797517278718378, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: pushTextureOnStartUp
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5876897435817811983, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_Sprite
@@ -204,6 +250,16 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 776718967
       objectReference: {fileID: 0}
+    - target: {fileID: 7464693483205764157, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: NetworkThis
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464693483205764157, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: pushTextureOnStartUp
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8897659774656423883, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: foreverID
@@ -243,4 +299,7 @@ PrefabInstance:
       objectReference: {fileID: 1127054139694796, guid: e84d2342632015b4b8ce3227cb04533b,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d88c145d60cabfd4092f839650cea997, type: 3}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -6212835468440707557, guid: 64d782023543d4542b89ce3f9402b084,
@@ -20,13 +21,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6212835468440707557, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: butcherResults.Array.data[0]
+      propertyPath: 'butcherResults.Array.data[0]'
       value: 
       objectReference: {fileID: 2106675762234240265, guid: 7d0886a9531d70647be3830983bb598a,
         type: 3}
     - target: {fileID: -6212835468440707557, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: butcherResults.Array.data[1]
+      propertyPath: 'butcherResults.Array.data[1]'
       value: 
       objectReference: {fileID: 2106675762234240265, guid: 7d0886a9531d70647be3830983bb598a,
         type: 3}
@@ -60,13 +61,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3936668391451231998, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: bec71587dd3ef47408df0cecb82d5b01,
         type: 2}
     - target: {fileID: 3936668391451231998, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 32bfae63259b7c3489bf8a3a2713b51b,
         type: 2}
@@ -117,6 +118,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7607258964611336719, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
+      propertyPath: _assetId
+      value: 2975361040
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607258964611336719, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
       propertyPath: m_AssetId
       value: fd73f0a4534c371468020a0e90c93575
       objectReference: {fileID: 0}
@@ -147,187 +153,206 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[0]
+      propertyPath: 'foodPreferences.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 8476979d3fdab5c4bbcb12e844fed9cf,
         type: 2}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[1]
+      propertyPath: 'foodPreferences.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 07c0512bf3ed26f4e9cd5d1ad5476efd,
         type: 2}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[2]
+      propertyPath: 'foodPreferences.Array.data[2]'
       value: 
       objectReference: {fileID: 7243916662094812898, guid: 3b4af1b581ee3ab48b2ad693596cd29c,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[3]
+      propertyPath: 'foodPreferences.Array.data[3]'
       value: 
       objectReference: {fileID: 6530002286927011991, guid: aea6ac6f49bb5e443ac179f2e10caae0,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[4]
+      propertyPath: 'foodPreferences.Array.data[4]'
       value: 
       objectReference: {fileID: 3378081669817535206, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[5]
+      propertyPath: 'foodPreferences.Array.data[5]'
       value: 
       objectReference: {fileID: 4419045270506127185, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[6]
+      propertyPath: 'foodPreferences.Array.data[6]'
       value: 
       objectReference: {fileID: 4041351290112742493, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[7]
+      propertyPath: 'foodPreferences.Array.data[7]'
       value: 
       objectReference: {fileID: 8019590249366242245, guid: 261e647a61290824199c4d20288a5c60,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[8]
+      propertyPath: 'foodPreferences.Array.data[8]'
       value: 
       objectReference: {fileID: 6407326402676791872, guid: 7be99732ebd190746be21f4797ec639c,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[9]
+      propertyPath: 'foodPreferences.Array.data[9]'
       value: 
       objectReference: {fileID: 8019590249366242245, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[10]
+      propertyPath: 'foodPreferences.Array.data[10]'
       value: 
       objectReference: {fileID: 3368366891375270039, guid: e7021e1ae09eb3c459743d93b8352b3e,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[11]
+      propertyPath: 'foodPreferences.Array.data[11]'
       value: 
       objectReference: {fileID: 1469853839509517426, guid: be29a54809c5bfa4ba2d9fb3f1853261,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[12]
+      propertyPath: 'foodPreferences.Array.data[12]'
       value: 
       objectReference: {fileID: 6051311479596931443, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[13]
+      propertyPath: 'foodPreferences.Array.data[13]'
       value: 
       objectReference: {fileID: 8098474110115415813, guid: ddf5589ea9ed42b41b3469ec36f4bb7c,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[14]
+      propertyPath: 'foodPreferences.Array.data[14]'
       value: 
       objectReference: {fileID: 2607551699824154736, guid: 988c654f569d5a843bba82e700c8edf7,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[15]
+      propertyPath: 'foodPreferences.Array.data[15]'
       value: 
       objectReference: {fileID: 6251606442000466321, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[16]
+      propertyPath: 'foodPreferences.Array.data[16]'
       value: 
       objectReference: {fileID: 2454147907924021695, guid: e746d3505715fa14eb99a37456d99398,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[17]
+      propertyPath: 'foodPreferences.Array.data[17]'
       value: 
       objectReference: {fileID: 841567918206070759, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[18]
+      propertyPath: 'foodPreferences.Array.data[18]'
       value: 
       objectReference: {fileID: 7872250047666169019, guid: a8b053482da561b4eba3bd81d8fe51ab,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[19]
+      propertyPath: 'foodPreferences.Array.data[19]'
       value: 
       objectReference: {fileID: 3645792569818170068, guid: c10750ad2e97d7c449aa7a5518793cdc,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[20]
+      propertyPath: 'foodPreferences.Array.data[20]'
       value: 
       objectReference: {fileID: 3185295443863290486, guid: 74eecc4e2bdf99744869c324b23a224e,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[21]
+      propertyPath: 'foodPreferences.Array.data[21]'
       value: 
       objectReference: {fileID: 4067919374657561001, guid: f3bdddfdb45d67a48b3be064a3169fd8,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[22]
+      propertyPath: 'foodPreferences.Array.data[22]'
       value: 
       objectReference: {fileID: 5698618422307797221, guid: d22737e4cfaa38b4ba554a6281d8452a,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[23]
+      propertyPath: 'foodPreferences.Array.data[23]'
       value: 
       objectReference: {fileID: 4262046009460108445, guid: 1f4cf8ca3c57601448405702729464c2,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[24]
+      propertyPath: 'foodPreferences.Array.data[24]'
       value: 
       objectReference: {fileID: 4572528247601240554, guid: c39de858242b4ac4a9d9613878d79fff,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[25]
+      propertyPath: 'foodPreferences.Array.data[25]'
       value: 
       objectReference: {fileID: 889540569414594200, guid: d3223adb88ea9fa4885408cf982854e5,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[26]
+      propertyPath: 'foodPreferences.Array.data[26]'
       value: 
       objectReference: {fileID: 7733363391324070390, guid: 3194defd54d8e114aa02b6b43d48d998,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[27]
+      propertyPath: 'foodPreferences.Array.data[27]'
       value: 
       objectReference: {fileID: 109438799603730107, guid: a096b50447bc34448ab67474a463eaef,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[28]
+      propertyPath: 'foodPreferences.Array.data[28]'
       value: 
       objectReference: {fileID: 3655365403910077050, guid: b35a262356250504fbfa735d183f9998,
         type: 3}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: foodPreferences.Array.data[29]
+      propertyPath: 'foodPreferences.Array.data[29]'
       value: 
       objectReference: {fileID: 3655365403910077050, guid: b35a262356250504fbfa735d183f9998,
         type: 3}
     m_RemovedComponents:
     - {fileID: 4275609206241353299, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
     - {fileID: 2166651219293684434, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7494601431046934675, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8180421202839227997}
+    - targetCorrespondingSourceObject: {fileID: 7494601431046934675, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 26550565248386917}
+    - targetCorrespondingSourceObject: {fileID: 7494601431046934675, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 462311497119298046}
+    - targetCorrespondingSourceObject: {fileID: 7494601431046934675, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1795240317430841994}
   m_SourcePrefab: {fileID: 100100000, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
 --- !u!1 &7871031768158401281 stripped
 GameObject:
@@ -392,6 +417,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b4b64e6207463f90c2fd542e2cb2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: chicken
   registerObject: {fileID: 0}
   minTimeBetweenRandomActions: 60

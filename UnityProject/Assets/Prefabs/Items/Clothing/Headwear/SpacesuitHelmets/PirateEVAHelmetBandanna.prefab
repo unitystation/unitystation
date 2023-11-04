@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2824864647425762410, guid: 84a43cd75b5a774418e4b082e0336ed4,
@@ -15,7 +16,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3028893754359925864, guid: 84a43cd75b5a774418e4b082e0336ed4,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 1c7953e1d3e1ad94f8941bf52e5babf7,
         type: 2}
@@ -94,23 +95,19 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 1222975138074649700}
+      objectReference: {fileID: 0}
+    - target: {fileID: 8350172619722695257, guid: 84a43cd75b5a774418e4b082e0336ed4,
+        type: 3}
+      propertyPath: _assetId
+      value: 1224171178
+      objectReference: {fileID: 0}
     - target: {fileID: 8350172619722695257, guid: 84a43cd75b5a774418e4b082e0336ed4,
         type: 3}
       propertyPath: m_AssetId
       value: 4c0e2378eb2608e479cb54408d5d494c
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84a43cd75b5a774418e4b082e0336ed4, type: 3}
---- !u!114 &1222975138074649700 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8349778270744818237, guid: 84a43cd75b5a774418e4b082e0336ed4,
-    type: 3}
-  m_PrefabInstance: {fileID: 7140666604808296025}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3549479581640830887, guid: 64e430f828cfc465ea88b8d6e6fecda4,
@@ -24,13 +25,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: bcb9105210ae34d4cb6b26291fcf91ce,
         type: 2}
     - target: {fileID: 3568482238077595727, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 7dddbf3c09b73c24d8062da3293b96f0,
         type: 2}
@@ -42,16 +43,21 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4377197623706982477, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: d6b9c5298c5a8c14fa00e2a3470a6cfc,
         type: 2}
     - target: {fileID: 4377197623706982477, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: f0f5d2c2e2b432a44b9943f8b41944bf,
         type: 2}
+    - target: {fileID: 7524605284256423550, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: _assetId
+      value: 3856613302
+      objectReference: {fileID: 0}
     - target: {fileID: 7524605284256423550, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
       propertyPath: m_AssetId
@@ -124,4 +130,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 3d0a2576828bd934ba253849ae970ab7,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64e430f828cfc465ea88b8d6e6fecda4, type: 3}

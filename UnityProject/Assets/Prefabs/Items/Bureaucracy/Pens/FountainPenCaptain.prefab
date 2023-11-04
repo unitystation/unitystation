@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3127653901449412208, guid: 8aed0ee99da5fca4d93befe72d7da164,
@@ -41,6 +42,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Resistances.FireProof
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3178986680836320422, guid: 8aed0ee99da5fca4d93befe72d7da164,
+        type: 3}
+      propertyPath: _assetId
+      value: 1646886996
       objectReference: {fileID: 0}
     - target: {fileID: 3178986680836320422, guid: 8aed0ee99da5fca4d93befe72d7da164,
         type: 3}
@@ -125,4 +131,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: a7c513738447e534a822fc879fb38af9,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8aed0ee99da5fca4d93befe72d7da164, type: 3}

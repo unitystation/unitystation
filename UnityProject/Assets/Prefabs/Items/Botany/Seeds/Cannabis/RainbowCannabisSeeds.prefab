@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 253386682497890838, guid: e2ecbd3591e115b459b0160c82af302c,
@@ -43,7 +44,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 9931ddb9fd1085842a04bfca2b8f5e3a,
         type: 2}
@@ -130,8 +131,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6293252128790379557, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
+      propertyPath: _assetId
+      value: 3156565691
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293252128790379557, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
       propertyPath: m_AssetId
       value: 4e7c05186b807ce49b80fdb5b8b0403b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2ecbd3591e115b459b0160c82af302c, type: 3}

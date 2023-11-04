@@ -1,6 +1,5 @@
 ﻿using System;
 using Messages.Server;
-using Mirror;
 using UnityEngine;
 
 namespace Items
@@ -14,6 +13,8 @@ namespace Items
 		[Tooltip("Network tab to display.")] public NetTabType NetTabType = NetTabType.None;
 		[SerializeField] private bool requiresAltClick = false;
 
+		[SerializeField] private bool disabled = false;
+
 		[NonSerialized] private GameObject playerInteracted;
 
 		/// <summary>
@@ -26,6 +27,8 @@ namespace Items
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
+			if (disabled) return false;
+
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (requiresAltClick && interaction.IsAltClick == false) return false;

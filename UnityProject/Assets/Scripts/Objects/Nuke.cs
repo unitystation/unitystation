@@ -202,7 +202,7 @@ namespace Objects.Command
 				{
 					if (isTimerTicking)
 					{
-						GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.stationTime;
+						GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.RoundTime;
 						GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
 						this.TryStopCoroutine(ref timerHandle);
 						isTimerTicking = false;
@@ -239,7 +239,7 @@ namespace Objects.Command
 				if (isTimer && isTimerTicking)
 				{
 					isTimerTicking = false;
-					GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.stationTime;
+					GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.RoundTime;
 					GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
 					this.TryStopCoroutine(ref timerHandle);
 				}
@@ -267,7 +267,7 @@ namespace Objects.Command
 				isTimerTicking = true;
 				CurrentTimerSeconds = digit;
 				CurrentAlertLevel = GameManager.Instance.CentComm.CurrentAlertLevel;
-				GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.stationTime;
+				GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.RoundTime;
 				GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Delta);
 				this.StartCoroutine(TickTimer(), ref timerHandle);
 				return true;
@@ -299,7 +299,7 @@ namespace Objects.Command
 
 		IEnumerator WaitForDeath()
 		{
-			yield return WaitFor.Seconds(5f);
+			yield return WaitFor.Seconds(2.5f);
 			var worldPos = gameObject.GetComponent<RegisterTile>().WorldPosition;
 			foreach (LivingHealthMasterBase livingHealth in FindObjectsOfType<LivingHealthMasterBase>())
 			{
@@ -309,9 +309,11 @@ namespace Objects.Command
 					livingHealth.Death();
 				}
 			}
-			yield return WaitFor.Seconds(15f);
+			yield return WaitFor.Seconds(10f);
 			// Trigger end of round
+			GameManager.Instance.RoundEndTime = 10;
 			GameManager.Instance.EndRound();
+
 		}
 
 		IEnumerator TickTimer()

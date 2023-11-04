@@ -1,4 +1,6 @@
-﻿using Mirror;
+﻿using Logs;
+using Mirror;
+using SecureStuff;
 using UnityEngine;
 
 namespace Messages.Server.VariableViewer

@@ -267,7 +267,7 @@ TextureImporter:
       213: 21300174
     second: sandwater_b_87
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -284,11 +284,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -327,6 +328,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -342,6 +345,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -2214,97 +2229,96 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      sandwater_b_37: 21300074
-      sandwater_b_6: 21300012
-      sandwater_b_29: 21300058
-      sandwater_b_52: 21300104
-      sandwater_b_80: 21300160
-      sandwater_b_56: 21300112
-      sandwater_b_31: 21300062
-      sandwater_b_12: 21300024
-      sandwater_b_71: 21300142
-      sandwater_b_72: 21300144
-      sandwater_b_75: 21300150
-      sandwater_b_78: 21300156
-      sandwater_b_73: 21300146
-      sandwater_b_9: 21300018
-      sandwater_b_84: 21300168
-      sandwater_b_24: 21300048
-      sandwater_b_19: 21300038
-      sandwater_b_57: 21300114
-      sandwater_b_30: 21300060
-      sandwater_b_60: 21300120
-      sandwater_b_27: 21300054
-      sandwater_b_25: 21300050
-      sandwater_b_81: 21300162
+      sandwater_b_0: 21300000
       sandwater_b_1: 21300002
-      sandwater_b_67: 21300134
-      sandwater_b_20: 21300040
+      sandwater_b_10: 21300020
+      sandwater_b_11: 21300022
+      sandwater_b_12: 21300024
       sandwater_b_13: 21300026
-      sandwater_b_46: 21300092
-      sandwater_b_15: 21300030
       sandwater_b_14: 21300028
+      sandwater_b_15: 21300030
+      sandwater_b_16: 21300032
+      sandwater_b_17: 21300034
+      sandwater_b_18: 21300036
+      sandwater_b_19: 21300038
+      sandwater_b_2: 21300004
+      sandwater_b_20: 21300040
       sandwater_b_21: 21300042
-      sandwater_b_39: 21300078
-      sandwater_b_48: 21300096
-      sandwater_b_59: 21300118
-      sandwater_b_54: 21300108
       sandwater_b_22: 21300044
-      sandwater_b_62: 21300124
+      sandwater_b_23: 21300046
+      sandwater_b_24: 21300048
+      sandwater_b_25: 21300050
+      sandwater_b_26: 21300052
+      sandwater_b_27: 21300054
+      sandwater_b_28: 21300056
+      sandwater_b_29: 21300058
+      sandwater_b_3: 21300006
+      sandwater_b_30: 21300060
+      sandwater_b_31: 21300062
+      sandwater_b_32: 21300064
+      sandwater_b_33: 21300066
+      sandwater_b_34: 21300068
+      sandwater_b_35: 21300070
+      sandwater_b_36: 21300072
+      sandwater_b_37: 21300074
+      sandwater_b_38: 21300076
+      sandwater_b_39: 21300078
+      sandwater_b_4: 21300008
+      sandwater_b_40: 21300080
+      sandwater_b_41: 21300082
+      sandwater_b_42: 21300084
       sandwater_b_43: 21300086
       sandwater_b_44: 21300088
-      sandwater_b_74: 21300148
-      sandwater_b_53: 21300106
-      sandwater_b_33: 21300066
-      sandwater_b_50: 21300100
-      sandwater_b_23: 21300046
-      sandwater_b_36: 21300072
-      sandwater_b_17: 21300034
-      sandwater_b_64: 21300128
-      sandwater_b_70: 21300140
-      sandwater_b_85: 21300170
-      sandwater_b_42: 21300084
-      sandwater_b_26: 21300052
-      sandwater_b_51: 21300102
-      sandwater_b_3: 21300006
-      sandwater_b_38: 21300076
-      sandwater_b_8: 21300016
-      sandwater_b_40: 21300080
-      sandwater_b_0: 21300000
-      sandwater_b_82: 21300164
-      sandwater_b_2: 21300004
-      sandwater_b_5: 21300010
-      sandwater_b_18: 21300036
-      sandwater_b_7: 21300014
-      sandwater_b_34: 21300068
-      sandwater_b_47: 21300094
-      sandwater_b_32: 21300064
       sandwater_b_45: 21300090
-      sandwater_b_4: 21300008
-      sandwater_b_69: 21300138
-      sandwater_b_86: 21300172
-      sandwater_b_58: 21300116
-      sandwater_b_66: 21300132
-      sandwater_b_11: 21300022
-      sandwater_b_79: 21300158
-      sandwater_b_83: 21300166
+      sandwater_b_46: 21300092
+      sandwater_b_47: 21300094
+      sandwater_b_48: 21300096
       sandwater_b_49: 21300098
-      sandwater_b_63: 21300126
+      sandwater_b_5: 21300010
+      sandwater_b_50: 21300100
+      sandwater_b_51: 21300102
+      sandwater_b_52: 21300104
+      sandwater_b_53: 21300106
+      sandwater_b_54: 21300108
       sandwater_b_55: 21300110
-      sandwater_b_16: 21300032
-      sandwater_b_35: 21300070
-      sandwater_b_10: 21300020
-      sandwater_b_77: 21300154
-      sandwater_b_41: 21300082
-      sandwater_b_68: 21300136
-      sandwater_b_65: 21300130
+      sandwater_b_56: 21300112
+      sandwater_b_57: 21300114
+      sandwater_b_58: 21300116
+      sandwater_b_59: 21300118
+      sandwater_b_6: 21300012
+      sandwater_b_60: 21300120
       sandwater_b_61: 21300122
-      sandwater_b_28: 21300056
+      sandwater_b_62: 21300124
+      sandwater_b_63: 21300126
+      sandwater_b_64: 21300128
+      sandwater_b_65: 21300130
+      sandwater_b_66: 21300132
+      sandwater_b_67: 21300134
+      sandwater_b_68: 21300136
+      sandwater_b_69: 21300138
+      sandwater_b_7: 21300014
+      sandwater_b_70: 21300140
+      sandwater_b_71: 21300142
+      sandwater_b_72: 21300144
+      sandwater_b_73: 21300146
+      sandwater_b_74: 21300148
+      sandwater_b_75: 21300150
       sandwater_b_76: 21300152
+      sandwater_b_77: 21300154
+      sandwater_b_78: 21300156
+      sandwater_b_79: 21300158
+      sandwater_b_8: 21300016
+      sandwater_b_80: 21300160
+      sandwater_b_81: 21300162
+      sandwater_b_82: 21300164
+      sandwater_b_83: 21300166
+      sandwater_b_84: 21300168
+      sandwater_b_85: 21300170
+      sandwater_b_86: 21300172
       sandwater_b_87: 21300174
-  spritePackingTag: 
+      sandwater_b_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

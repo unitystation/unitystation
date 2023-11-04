@@ -183,7 +183,7 @@ TextureImporter:
       213: 21300118
     second: medcomp_59
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -200,11 +200,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -243,6 +244,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -258,6 +261,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1542,69 +1557,68 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      medcomp_40: 21300080
-      medcomp_6: 21300012
-      medcomp_1: 21300002
-      medcomp_17: 21300034
-      medcomp_28: 21300056
-      medcomp_38: 21300076
-      medcomp_55: 21300110
-      medcomp_13: 21300026
-      medcomp_18: 21300036
-      medcomp_24: 21300048
-      medcomp_41: 21300082
-      medcomp_29: 21300058
-      medcomp_37: 21300074
-      medcomp_57: 21300114
-      medcomp_42: 21300084
-      medcomp_59: 21300118
-      medcomp_53: 21300106
-      medcomp_27: 21300054
-      medcomp_25: 21300050
-      medcomp_49: 21300098
-      medcomp_2: 21300004
-      medcomp_3: 21300006
-      medcomp_15: 21300030
-      medcomp_34: 21300068
-      medcomp_32: 21300064
-      medcomp_52: 21300104
-      medcomp_22: 21300044
-      medcomp_48: 21300096
-      medcomp_39: 21300078
-      medcomp_5: 21300010
-      medcomp_7: 21300014
-      medcomp_16: 21300032
-      medcomp_46: 21300092
       medcomp_0: 21300000
-      medcomp_26: 21300052
-      medcomp_14: 21300028
-      medcomp_51: 21300102
-      medcomp_11: 21300022
-      medcomp_33: 21300066
-      medcomp_35: 21300070
-      medcomp_47: 21300094
+      medcomp_1: 21300002
       medcomp_10: 21300020
-      medcomp_30: 21300060
-      medcomp_58: 21300116
-      medcomp_8: 21300016
-      medcomp_21: 21300042
-      medcomp_4: 21300008
-      medcomp_31: 21300062
-      medcomp_43: 21300086
-      medcomp_23: 21300046
-      medcomp_56: 21300112
-      medcomp_50: 21300100
-      medcomp_54: 21300108
-      medcomp_9: 21300018
-      medcomp_19: 21300038
-      medcomp_44: 21300088
-      medcomp_36: 21300072
+      medcomp_11: 21300022
       medcomp_12: 21300024
+      medcomp_13: 21300026
+      medcomp_14: 21300028
+      medcomp_15: 21300030
+      medcomp_16: 21300032
+      medcomp_17: 21300034
+      medcomp_18: 21300036
+      medcomp_19: 21300038
+      medcomp_2: 21300004
       medcomp_20: 21300040
+      medcomp_21: 21300042
+      medcomp_22: 21300044
+      medcomp_23: 21300046
+      medcomp_24: 21300048
+      medcomp_25: 21300050
+      medcomp_26: 21300052
+      medcomp_27: 21300054
+      medcomp_28: 21300056
+      medcomp_29: 21300058
+      medcomp_3: 21300006
+      medcomp_30: 21300060
+      medcomp_31: 21300062
+      medcomp_32: 21300064
+      medcomp_33: 21300066
+      medcomp_34: 21300068
+      medcomp_35: 21300070
+      medcomp_36: 21300072
+      medcomp_37: 21300074
+      medcomp_38: 21300076
+      medcomp_39: 21300078
+      medcomp_4: 21300008
+      medcomp_40: 21300080
+      medcomp_41: 21300082
+      medcomp_42: 21300084
+      medcomp_43: 21300086
+      medcomp_44: 21300088
       medcomp_45: 21300090
-  spritePackingTag: 
+      medcomp_46: 21300092
+      medcomp_47: 21300094
+      medcomp_48: 21300096
+      medcomp_49: 21300098
+      medcomp_5: 21300010
+      medcomp_50: 21300100
+      medcomp_51: 21300102
+      medcomp_52: 21300104
+      medcomp_53: 21300106
+      medcomp_54: 21300108
+      medcomp_55: 21300110
+      medcomp_56: 21300112
+      medcomp_57: 21300114
+      medcomp_58: 21300116
+      medcomp_59: 21300118
+      medcomp_6: 21300012
+      medcomp_7: 21300014
+      medcomp_8: 21300016
+      medcomp_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Systems.Clearance;
 using AddressableReferences;
+using Core.Editor.Attributes;
 using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
@@ -48,6 +50,9 @@ public class Occupation : ScriptableObject
 	[Tooltip("Whether to use the players character settings during spawn (sets player name and race)")]
 	private bool useCharacterSettings = true;
 	public bool UseCharacterSettings => useCharacterSettings;
+
+	public PlayerHealthData CustomSpeciesOverwrite;
+
 
 	[FormerlySerializedAs("Limit")]
 	[SerializeField]
@@ -142,9 +147,13 @@ public class Occupation : ScriptableObject
 	private string descriptionLong = "";
 	public string DescriptionLong => descriptionLong;
 
-	[Header("Custom properties that will be applied\nto new bodies with this occupation")]
+	[Header("Custom properties that will be applied \n to new bodies with this occupation")]
 	[SerializeField] private SerializableDictionary<string, bool> customProperties = default;
 	public SerializableDictionary<string, bool> CustomProperties => customProperties;
+
+	[Header(" Custom properties that will define how the person with this occupation spawns in ")]
+	[SerializeReference, SelectImplementation(typeof(OccupationCustomEffectBase))] public List<OccupationCustomEffectBase> BetterCustomProperties = new List<OccupationCustomEffectBase>();
+
 
 	[Header("If enabled, players with this job can be targeted by antags")]
 	[SerializeField] private bool isTargeteable=true;
@@ -181,4 +190,6 @@ public class Occupation : ScriptableObject
 	[SerializeField]
 	private GameObject specialPlayerPrefab = null;
 	public GameObject SpecialPlayerPrefab => specialPlayerPrefab;
+
+
 }

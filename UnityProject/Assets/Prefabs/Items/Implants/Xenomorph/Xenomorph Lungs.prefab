@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 56063919708023611, guid: cfda4a920ce328d449993498e023ddfc,
@@ -17,6 +18,11 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: b4c8161620e628d49aa507f8cde6de81
+      objectReference: {fileID: 0}
+    - target: {fileID: 6058757090799070472, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: _assetId
+      value: 3854923175
       objectReference: {fileID: 0}
     - target: {fileID: 6058757090799070472, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}
@@ -56,17 +62,17 @@ PrefabInstance:
     - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}
@@ -91,6 +97,13 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents:
     - {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6161261707722952892, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5545930436049008223}
   m_SourcePrefab: {fileID: 100100000, guid: cfda4a920ce328d449993498e023ddfc, type: 3}
 --- !u!1 &3792525331974941799 stripped
 GameObject:
@@ -110,8 +123,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77429c487d746ee9613fc6e24339249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEMPVunerable: 0
-  EMPResistance: 2
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   breatheCooldown: 4
   pressureSafeMin: 16
   toxicGases:
@@ -127,4 +141,11 @@ MonoBehaviour:
   LungSize: 0.3
   coughChanceWhenInternallyBleeding: 1
   internalBleedingCooldown: 4
+  ReagentCirculatedComponent: {fileID: 0}
+  SaturationComponent: {fileID: 0}
+  HungerComponent: {fileID: 0}
+  BodyPartAlerts: {fileID: 0}
+  hasToxinsCash: 0
+  ToxinAlert: {fileID: 11400000, guid: 2c812669f183287449afa3e620bfcef6, type: 2}
+  SuffocatingAlert: {fileID: 11400000, guid: a242a18320bcd0345b83fe02838d0460, type: 2}
   circulatedReagentAmount: 10

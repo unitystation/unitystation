@@ -8,7 +8,7 @@ namespace UI.Core.NetUI
 		public override ElementMode InteractionMode => ElementMode.ServerWrite;
 		public override string Value {
 			get => radius.ToString();
-			set {
+			protected set {
 				externalChange = true;
 				//don't update if it's the same sprite
 				if (radius.ToString() != value)

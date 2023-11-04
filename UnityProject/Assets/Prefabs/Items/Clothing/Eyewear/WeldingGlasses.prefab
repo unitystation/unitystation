@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2546418124722880301, guid: 28c72054b1f484ed4a6253c4feee3eb4,
@@ -33,6 +34,22 @@ PrefabInstance:
         type: 3}
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2546418124722880301, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2546418124722880301, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f5b7ce1cca0a644cba934af14ea4b2c,
+        type: 2}
+    - target: {fileID: 2607336686439034363, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: _assetId
+      value: 636564603
       objectReference: {fileID: 0}
     - target: {fileID: 2607336686439034363, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
@@ -67,17 +84,17 @@ PrefabInstance:
     - target: {fileID: 2713605000496459067, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2713605000496459067, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2713605000496459067, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2713605000496459067, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
@@ -116,6 +133,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c9ca8d41a540b8947bca265e6c069af7,
         type: 2}
+    - target: {fileID: 8141721191079898056, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8141721191079898056, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c9ca8d41a540b8947bca265e6c069af7,
+        type: 2}
+    - target: {fileID: 8141721191079898056, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: fa0f33bd8c6c56c44b9ce4a19e495b6a,
+        type: 2}
     - target: {fileID: 9007641923583695906, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: foreverID
@@ -138,15 +172,89 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9062951044728521674, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: f94e787f9470e194ebe4c7645fa4ccb8,
         type: 2}
     - target: {fileID: 9062951044728521674, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: bdc2d80fafd62d144b0cbf33ab3a5431,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2718814624466391119, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9162164699857769631}
   m_SourcePrefab: {fileID: 100100000, guid: 28c72054b1f484ed4a6253c4feee3eb4, type: 3}
+--- !u!1 &3431291279286482953 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2718814624466391119, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+    type: 3}
+  m_PrefabInstance: {fileID: 731076568007370822}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9162164699857769631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3431291279286482953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76265263b12ffbbc0ab21ee84affc2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  SetClothingSprite: 1
+  initialStateIndex: 0
+  states:
+  - ExamineMessage: closed
+    changeMessage: you flip down the welding goggles
+    changeSound:
+      SetLoadSetting: 0
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    spriteIndex: 0
+    traits:
+    - {fileID: 11400000, guid: 4f5b7ce1cca0a644cba934af14ea4b2c, type: 2}
+    usingSound:
+      SetLoadSetting: 0
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    clothingV2Index: 0
+  - ExamineMessage: open
+    changeMessage: you flip up  the welding goggles
+    changeSound:
+      SetLoadSetting: 0
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    spriteIndex: 1
+    traits: []
+    usingSound:
+      SetLoadSetting: 0
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    clothingV2Index: 1

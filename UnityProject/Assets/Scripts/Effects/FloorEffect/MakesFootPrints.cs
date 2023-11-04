@@ -1,6 +1,7 @@
 using System.Linq;
 using Chemistry;
 using Chemistry.Components;
+using Detective;
 using UnityEngine;
 
 namespace Effects.FloorEffect
@@ -14,6 +15,9 @@ namespace Effects.FloorEffect
 		private Pickupable pickupable;
 
 		[SerializeField] private GameObject FootprintTile;
+
+		private System.Random RNG = new System.Random();
+		public int ClueShoeImprintInverseChance = 75;
 
 		#region Lifecycle
 
@@ -129,7 +133,17 @@ namespace Effects.FloorEffect
 		{
 			//No existing decal tile, lets make one
 			var footTileInst = Spawn.ServerPrefab(FootprintTile, worldPos, MatrixManager.AtPoint(worldPos, true).Objects,
-				Quaternion.identity).GameObject; ;
+				Quaternion.identity).GameObject;
+			if (RNG.Next(0, 100) > ClueShoeImprintInverseChance)
+			{
+				footTileInst.GetComponent<Attributes>().AppliedDetails.AddDetail(new Detail()
+				{
+					DetailType =  DetailType.Footprints,
+					Description = "A shoe print",
+					CausedByInstanceID = this.gameObject.GetInstanceID()
+				});
+			}
+
 			return footTileInst.GetComponent<FloorPrintEffect>();
 		}
 	}

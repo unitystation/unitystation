@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: OverlayCritHole
   m_Shader: {fileID: 4800000, guid: cf2dea0c3a24a4dbf9c5d107a6f2bf69, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
   - ETC1_EXTERNAL_ALPHA
@@ -18,20 +20,21 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: cc7b6c9df049c4bc087df56fc987fe1c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Radius: 0.910116
+    - _Radius: 3.0000005
     - _Shape: 1
     m_Colors:
     - _Center: {r: 0.5, g: 0.5, b: 0, a: 0}
-    - _Color: {r: 0.50980395, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 0, b: 0, a: 0}
     - _RectProperties: {r: 1, g: 1, b: -2.4, a: -1.99}
     - _Test: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

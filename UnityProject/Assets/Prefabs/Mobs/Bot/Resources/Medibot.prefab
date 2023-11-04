@@ -38,6 +38,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4447485276008945440}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -45,7 +46,6 @@ Transform:
   m_Children:
   - {fileID: 9220763097622914983}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2040526581482602852
 BoxCollider2D:
@@ -55,11 +55,32 @@ BoxCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4447485276008945440}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -70,7 +91,6 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &-2540428561962423853
@@ -85,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0
@@ -109,9 +130,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 3747185140
   serverOnly: 0
   visible: 0
-  m_AssetId: 2d3792ef0c450da49ab3ec9bc4ac2664
   hasSpawned: 0
 --- !u!114 &-8165460994767987552
 MonoBehaviour:
@@ -125,20 +146,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1b8bd5d209198a459a56b1b6032b5bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UniversalObjectPhysics: {fileID: 0}
   AllowDead: 0
   AllowUnconscious: 0
   Priority: 0
-  visionRange: 10
   PriorityBalance: 1
   CB_REAGENT: {fileID: 0}
-  HEALING_REAGENT: {fileID: 11400000, guid: 49314e67edf9a9a99966702ee82aeaa8, type: 2}
-  HARMFUL_REAGENT: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12, type: 2}
   target: 3
   actionPerformTime: 1
-  patientMemoryTime: 15
-  visionUpdateInterval: 0.5
-  phraseInterval: 5
   hasFoodPrefereces: 0
   foodPreferences: []
   IsEmagged: 0
@@ -167,6 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   initialIntegrity: 100
@@ -190,8 +205,11 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -204,7 +222,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  Meleeable: {fileID: 0}
 --- !u!114 &-7291452680395599711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,6 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c86f0d5246b4abe8fd9bb34e7cee0d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   maxHealth: 100
@@ -247,7 +265,110 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a02af87cf44eaf4b81945b406d2757f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RegisterTile: {fileID: 0}
+  Active: 0
   MobObjectives: []
+  results:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &1212024150483510973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,6 +381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd3699f88578c2445b1173a427e8cb9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 4858564363706761541}
@@ -287,7 +409,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e16004dedecb6d54e8bde3e5d6279b4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UniversalObjectPhysics: {fileID: 0}
   AllowDead: 0
   AllowUnconscious: 0
   Priority: 0
@@ -333,6 +454,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e28b1f5f04e4f699099349719baa668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: 
   registerObject: {fileID: 0}
   minTimeBetweenRandomActions: 10
@@ -350,47 +474,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  DEBUG: 0
-  SnapToGridOnStart: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
-  ChangesDirectionPush: 0
-  Intangible: 0
-  InitialLocationSynchronised: 0
-  tileMoveSpeed: 1
-  isNotPushable: 0
-  newtonianMovement: {x: 0, y: 0}
+  CorrectingCourse: 0
+  Animating: 0
+  SetIgnoreSticky: 0
   airTime: 0
   slideTime: 0
+  spinMagnitude: 0
   thrownBy: {fileID: 0}
   aim: 0
-  spinMagnitude: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
+  ChangesDirectionPush: 0
+  Intangible: 0
+  SnapToGridOnStart: 0
+  IsPlayer: 0
+  DEBUG: 0
+  tileMoveSpeed: 1
+  HasOwnGravity: 0
+  isNotPushable: 0
+  CanBeWindPushed: 1
+  rotationTarget: {fileID: 0}
   FramePushDecision: 1
   stickyMovement: 0
+  OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
   onStationMovementsRound: 0
-  attributes: {fileID: 0}
   registerTile: {fileID: 0}
   ContextGameObjects:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
-  LocalDifferenceNeeded: {x: 0, y: 0}
-  CorrectingCourse: 0
   Pushing: []
   Hits: []
-  Speed: 1
-  AIR: 3
-  SLIDE: 4
-  Animating: 0
-  IsFlyingSliding: 0
+  isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  BuckledToObject: {fileID: 0}
 --- !u!1 &6133043633157464636
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,13 +542,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6133043633157464636}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 260481592809474432}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4858564363706761541
 MonoBehaviour:
@@ -446,6 +572,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!212 &5576515851082341260
 SpriteRenderer:
   m_ObjectHideFlags: 0

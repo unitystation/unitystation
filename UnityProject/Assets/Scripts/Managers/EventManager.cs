@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using Messages.Server;
 using Shared.Util;
 using UnityEngine;
@@ -38,7 +39,8 @@ public enum Event
 	LavalandFirstEntered,
 	ChatQuickUnfocus,
 	Cleanup,
-	CleanupEnd
+	CleanupEnd,
+	ReadyToInitialiseMatrices
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]
@@ -94,7 +96,15 @@ public class EventManager : MonoBehaviour
 
 		if (CustomNetworkManager.IsServer && network)
 		{
-			TriggerEventMessage.SendToAll(evnt);
+			try
+			{
+				TriggerEventMessage.SendToAll(evnt);
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+			}
+
 		}
 		else
 		{
@@ -106,7 +116,7 @@ public class EventManager : MonoBehaviour
 				}
 				catch (Exception e)
 				{
-					Logger.LogError(e.ToString());
+					Loggy.LogError(e.ToString());
 				}
 			}
 		}
@@ -188,7 +198,7 @@ public class EventManager : MonoBehaviour
 		}
 
 
-		Logger.LogTrace(msg, category);
+		Loggy.LogTrace(msg, category);
 
 
 	}
@@ -202,6 +212,6 @@ public class EventManager : MonoBehaviour
 			removed_count += CleanupUtil.RidListOfDeadElements(a.Value);
 		}
 
-		Logger.Log("removing " + removed_count + " dead elements from EventManager.eventTable", Category.MemoryCleanup);
+		Loggy.Log("removing " + removed_count + " dead elements from EventManager.eventTable", Category.MemoryCleanup);
 	}
 }

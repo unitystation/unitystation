@@ -78,7 +78,7 @@ TextureImporter:
       213: 21300048
     second: public_24
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -95,11 +95,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -138,6 +139,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -189,6 +192,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -738,34 +753,33 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      public_16: 21300032
-      public_18: 21300036
-      public_7: 21300014
-      public_13: 21300026
-      public_15: 21300030
-      public_9: 21300018
-      public_21: 21300042
-      public_23: 21300046
       public_0: 21300000
-      public_8: 21300016
-      public_19: 21300038
-      public_10: 21300020
-      public_22: 21300044
-      public_24: 21300048
-      public_2: 21300004
-      public_5: 21300010
-      public_17: 21300034
-      public_4: 21300008
-      public_12: 21300024
       public_1: 21300002
-      public_14: 21300028
-      public_6: 21300012
-      public_3: 21300006
+      public_10: 21300020
       public_11: 21300022
+      public_12: 21300024
+      public_13: 21300026
+      public_14: 21300028
+      public_15: 21300030
+      public_16: 21300032
+      public_17: 21300034
+      public_18: 21300036
+      public_19: 21300038
+      public_2: 21300004
       public_20: 21300040
-  spritePackingTag: 
+      public_21: 21300042
+      public_22: 21300044
+      public_23: 21300046
+      public_24: 21300048
+      public_3: 21300006
+      public_4: 21300008
+      public_5: 21300010
+      public_6: 21300012
+      public_7: 21300014
+      public_8: 21300016
+      public_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

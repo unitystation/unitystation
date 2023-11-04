@@ -63,7 +63,7 @@ TextureImporter:
       213: -4502530689003082768
     second: suspension3_19
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -80,11 +80,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -123,6 +124,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -138,6 +141,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -583,28 +598,27 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       suspension3_0: -7247621969826134002
-      suspension3_17: -3237799164184471715
-      suspension3_4: 7302417056917482333
-      suspension3_15: -4013307172269284847
-      suspension3_11: -6201717638778709954
-      suspension3_2: -4426012958839193358
       suspension3_1: -7740051911556198879
-      suspension3_3: 8534639995672848616
-      suspension3_5: 5480761912583748705
-      suspension3_7: -7058165164746807339
-      suspension3_13: -3409459172625040745
+      suspension3_10: 3920421929343354074
+      suspension3_11: -6201717638778709954
       suspension3_12: 7890582584494761406
-      suspension3_6: -1597622226093220725
+      suspension3_13: -3409459172625040745
+      suspension3_14: 8510357919394297484
+      suspension3_15: -4013307172269284847
+      suspension3_16: -1378831093199519729
+      suspension3_17: -3237799164184471715
       suspension3_18: -6149208793491709027
+      suspension3_19: -4502530689003082768
+      suspension3_2: -4426012958839193358
+      suspension3_3: 8534639995672848616
+      suspension3_4: 7302417056917482333
+      suspension3_5: 5480761912583748705
+      suspension3_6: -1597622226093220725
+      suspension3_7: -7058165164746807339
       suspension3_8: -4943483748347371912
       suspension3_9: -6046199976747031481
-      suspension3_10: 3920421929343354074
-      suspension3_19: -4502530689003082768
-      suspension3_14: 8510357919394297484
-      suspension3_16: -1378831093199519729
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

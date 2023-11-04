@@ -20,6 +20,7 @@ MonoBehaviour:
     buildTime: 2
     spawnAmount: 1
     onePerTile: 0
+    facePlayerDirectionOnConstruction: 0
   - name: Large Cardboard box
     prefab: {fileID: 3580202830580183012, guid: d0665b639a1bfc340afe3b1fde2773dd,
       type: 3}
@@ -27,6 +28,7 @@ MonoBehaviour:
     buildTime: 6
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Cardborg Suit
     prefab: {fileID: 3966559010717293117, guid: ed647e1dd8fa2da42aac1905ff1c8e81,
       type: 3}
@@ -34,6 +36,7 @@ MonoBehaviour:
     buildTime: 6
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Cardborg Helmet
     prefab: {fileID: 8518846131667135881, guid: 24b6e0d94ce583c4d84d77f18b8dc8be,
       type: 3}
@@ -41,3 +44,4 @@ MonoBehaviour:
     buildTime: 4
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0

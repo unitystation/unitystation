@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3504482881622366517, guid: 7c4d6f08fc4da3b4dbd86d2f111812ea,
@@ -75,6 +76,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3731140592673150941, guid: 7c4d6f08fc4da3b4dbd86d2f111812ea,
         type: 3}
+      propertyPath: _assetId
+      value: 2099374272
+      objectReference: {fileID: 0}
+    - target: {fileID: 3731140592673150941, guid: 7c4d6f08fc4da3b4dbd86d2f111812ea,
+        type: 3}
       propertyPath: m_AssetId
       value: 7c015dc850eb29f43ad09b94d9354fbc
       objectReference: {fileID: 0}
@@ -114,19 +120,19 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7427990728829981166, guid: 7c4d6f08fc4da3b4dbd86d2f111812ea,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: ccce0edd54e712248a28605746a05f35,
         type: 2}
     - target: {fileID: 7427990728829981166, guid: 7c4d6f08fc4da3b4dbd86d2f111812ea,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 3b6f244c018b07f4aa83103bcf0f7670,
         type: 2}
     - target: {fileID: 7427990728829981166, guid: 7c4d6f08fc4da3b4dbd86d2f111812ea,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 233095b0b7c8e174ca0b835f50278a8e,
         type: 2}
@@ -136,4 +142,7 @@ PrefabInstance:
       value: 7c015dc850eb29f43ad09b94d9354fbc
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c4d6f08fc4da3b4dbd86d2f111812ea, type: 3}

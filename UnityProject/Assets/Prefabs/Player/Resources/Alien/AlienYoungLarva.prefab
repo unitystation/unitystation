@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1133514949248654, guid: d1bc864a55af6cb4cad058680cba977a, type: 3}
@@ -57,6 +58,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114279031792796038, guid: d1bc864a55af6cb4cad058680cba977a,
         type: 3}
+      propertyPath: _assetId
+      value: 257005733
+      objectReference: {fileID: 0}
+    - target: {fileID: 114279031792796038, guid: d1bc864a55af6cb4cad058680cba977a,
+        type: 3}
       propertyPath: m_AssetId
       value: 1077e08bc76742f4e8b5a3cfa10a7192
       objectReference: {fileID: 0}
@@ -88,5 +94,74 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f6e87af1b598e4f4ca0c8baafc15bd42,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1133514949248654, guid: d1bc864a55af6cb4cad058680cba977a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5328794294711058013}
   m_SourcePrefab: {fileID: 100100000, guid: d1bc864a55af6cb4cad058680cba977a, type: 3}
+--- !u!1 &589606268908401948 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1133514949248654, guid: d1bc864a55af6cb4cad058680cba977a,
+    type: 3}
+  m_PrefabInstance: {fileID: 588481893658604434}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5328794294711058013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589606268908401948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
+  CorrectingCourse: 0
+  Animating: 0
+  SetIgnoreSticky: 0
+  airTime: 0
+  slideTime: 0
+  spinMagnitude: 0
+  thrownBy: {fileID: 0}
+  aim: 0
+  ForcedPushedFrame: 0
+  TryPushedFrame: 0
+  PushedFrame: 0
+  ChangesDirectionPush: 0
+  Intangible: 0
+  SnapToGridOnStart: 0
+  IsPlayer: 0
+  DEBUG: 0
+  tileMoveSpeed: 1
+  HasOwnGravity: 0
+  isNotPushable: 0
+  CanBeWindPushed: 1
+  rotationTarget: {fileID: 0}
+  FramePushDecision: 1
+  stickyMovement: 0
+  OnThrowEndResetRotation: 0
+  maximumStickSpeed: 1.5
+  onStationMovementsRound: 0
+  registerTile: {fileID: 0}
+  ContextGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  IsCurrentlyFloating: 0
+  Pushing: []
+  Hits: []
+  isFlyingSliding: 0
+  IsMoving: 0
+  MoveIsWalking: 0
+  LastUpdateClientFlying: 0
+  BuckledToObject: {fileID: 0}

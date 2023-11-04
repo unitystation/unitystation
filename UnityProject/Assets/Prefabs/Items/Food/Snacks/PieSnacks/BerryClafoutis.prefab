@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1745938559835986829, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: BasePurity
+      value: 37
+      objectReference: {fileID: 0}
     - target: {fileID: 2916845645141965693, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
       propertyPath: m_Sprite
@@ -80,6 +86,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3107333849576633749, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
+      propertyPath: _assetId
+      value: 274659414
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107333849576633749, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
       propertyPath: m_AssetId
       value: 7dcf86c5f6d63fe489043ef5cc8c4ba7
       objectReference: {fileID: 0}
@@ -105,13 +116,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4296796864559743113, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: f404090add8a06a26a3739a097558b8f,
         type: 2}
     - target: {fileID: 4296796864559743113, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[2]'
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6583149992119454289, guid: 8777e0247dca5ab41a385d81bc5719ab,
@@ -136,4 +147,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: bc23dc99f59d5fd4fad44658c0f7ddf6,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8777e0247dca5ab41a385d81bc5719ab, type: 3}

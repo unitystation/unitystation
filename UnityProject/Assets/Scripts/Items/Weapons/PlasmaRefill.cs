@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Items;
 using Objects;
+using Systems.Construction.Parts;
 
 namespace Weapons
 {
@@ -16,7 +17,7 @@ namespace Weapons
 		private MagazineBehaviour magazineBehaviour;
 		private ElectricalMagazine electricalMagazine;
 		private Battery battery;
-		
+
 		private void Start()
 		{
 			magazineBehaviour = GetComponent<Gun>().CurrentMagazine;
@@ -24,7 +25,7 @@ namespace Weapons
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma)
 			 && !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.OrePlasma))
@@ -110,7 +111,7 @@ namespace Weapons
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (interaction.FromSlot.Item == null) return false;
 			if (!Validations.HasItemTrait(interaction.FromSlot.Item.gameObject, CommonTraits.Instance.SolidPlasma)

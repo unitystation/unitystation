@@ -7,6 +7,7 @@ using UnityEngine;
 using TileManagement;
 using Mirror;
 using HealthV2;
+using Logs;
 using Messages.Client;
 using Messages.Client.Interaction;
 using Systems.Electricity;
@@ -279,7 +280,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			// TODO: Check how many cables we have first. Only open the cable
 			//       cutting window when the number of cables exceeds 2.
 			if (underFloorTile is ElectricalCableTile &&
-			    Validations.HasItemTrait(PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject,
+			    Validations.HasItemTrait(PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject,
 				    CommonTraits.Instance.Wirecutter))
 			{
 				// open cable cutting ui window instead of cutting cable
@@ -403,7 +404,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		if (tile is BasicTile basicTile)
 		{
 			// check which tile interaction occurs in the correct order
-			Logger.LogTraceFormat(
+			Loggy.LogTraceFormat(
 					"Server checking which tile interaction to trigger for TileApply on tile {0} at worldPos {1}",
 					Category.Interaction, tile.name, worldPosTarget);
 
@@ -489,7 +490,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 
 	public bool Interact(MouseDrop interaction)
 	{
-		Logger.Log("Interaction detected on InteractableTiles.", Category.Interaction);
+		Loggy.Log("Interaction detected on InteractableTiles.", Category.Interaction);
 
 		LayerTile tile = LayerTileAt(interaction.ShadowWorldLocation, true);
 

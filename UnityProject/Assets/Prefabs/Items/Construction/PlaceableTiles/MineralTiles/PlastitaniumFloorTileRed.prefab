@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 948067159145795949, guid: 20f299a7ef11e9d449e974cbac180598,
@@ -92,6 +93,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7757970012772837618, guid: 20f299a7ef11e9d449e974cbac180598,
         type: 3}
+      propertyPath: _assetId
+      value: 1321256588
+      objectReference: {fileID: 0}
+    - target: {fileID: 7757970012772837618, guid: 20f299a7ef11e9d449e974cbac180598,
+        type: 3}
       propertyPath: m_AssetId
       value: 06c886dcfc2e1b74998adc37e736a064
       objectReference: {fileID: 0}
@@ -106,4 +112,7 @@ PrefabInstance:
       value: A tile made of plastitanium, used for very red shuttles.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20f299a7ef11e9d449e974cbac180598, type: 3}

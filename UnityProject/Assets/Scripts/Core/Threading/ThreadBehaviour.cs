@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+using Logs;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Profiling;
@@ -65,7 +66,7 @@ namespace Core.Threading
 				}
 				catch (Exception e)
 				{
-					Logger.LogError(e.ToString(), Category.Threading);
+					Loggy.LogError(e.ToString(), Category.Threading);
 					throw;
 				}
 
@@ -88,7 +89,7 @@ namespace Core.Threading
 				}
 				catch (Exception e)
 				{
-					ThreadLogger.AddLog(e.ToString(), Category.Threading);
+					ThreadLoggy.AddLog(e.ToString(), Category.Threading);
 				}
 
 				Thread.Sleep(tickDelay);
@@ -110,7 +111,7 @@ namespace Core.Threading
 				workingThread = new Thread (ThreadLoop);
 				workingThread.Start();
 				currentThreads.Add(this);
-				Logger.LogFormat("<b>{0}</b> Started", Category.Threading, GetType().Name);
+				Loggy.LogFormat("<b>{0}</b> Started", Category.Threading, GetType().Name);
 			}
 			else if (threadMode == ThreadMode.MainThread)
 			{
@@ -133,7 +134,7 @@ namespace Core.Threading
 				workingThread = null;
 			}
 			currentThreads.Remove(this);
-			Logger.LogFormat("<b>{0}</b> Stopped", Category.Threading, GetType().Name);
+			Loggy.LogFormat("<b>{0}</b> Stopped", Category.Threading, GetType().Name);
 			running = false;
 		}
 

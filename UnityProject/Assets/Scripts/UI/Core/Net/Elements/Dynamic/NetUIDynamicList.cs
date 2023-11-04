@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using UnityEngine.UI;
 using Messages.Server;
@@ -24,7 +25,7 @@ namespace UI.Core.NetUI
 
 		public override string[] Value {
 			get => EntryIndex.Keys.ToArray();
-			set {
+			protected set {
 				externalChange = true;
 
 				if (value.Length == 0)
@@ -55,7 +56,7 @@ namespace UI.Core.NetUI
 					var entryName = entry.name;
 					if (dynamicEntries.ContainsKey(entryName))
 					{
-						Logger.LogWarning($"Duplicate entry name {entryName}, something's wrong", Category.NetUI);
+						Loggy.LogWarning($"Duplicate entry name {entryName}, something's wrong", Category.NetUI);
 						continue;
 					}
 
@@ -71,13 +72,13 @@ namespace UI.Core.NetUI
 			if (!EntryPrefab)
 			{
 				var elementType = $"{containedInTab.Type}Entry";
-				Logger.LogFormat("{0} dynamic list: EntryPrefab not assigned, trying to find it as '{1}'", Category.NetUI,
+				Loggy.LogFormat("{0} dynamic list: EntryPrefab not assigned, trying to find it as '{1}'", Category.NetUI,
 					gameObject.name, elementType);
 				EntryPrefab = NetworkTabManager.Instance.NetEntries.GetFromName(elementType);
 
 				if (EntryPrefab == null)
 				{
-					Logger.LogError($"Failed to find net entry {elementType} for {gameObject.name}", Category.NetUI);
+					Loggy.LogError($"Failed to find net entry {elementType} for {gameObject.name}", Category.NetUI);
 				}
 			}
 
@@ -181,12 +182,12 @@ namespace UI.Core.NetUI
 
 				if (resultIndex != string.Empty)
 				{
-					Logger.LogTraceFormat("{0} spawning dynamic entry #[{1}]: proposed: [{2}], entry: {3}", Category.NetUI,
+					Loggy.LogTraceFormat("{0} spawning dynamic entry #[{1}]: proposed: [{2}], entry: {3}", Category.NetUI,
 						mode, resultIndex, proposedIndex, dynamicEntry);
 				}
 				else
 				{
-					Logger.LogWarningFormat(
+					Loggy.LogWarningFormat(
 						"Dynamic entry \"{0}\" {1} spawn failure, something is wrong with {2}", Category.NetUI,
 						proposedIndex, mode, dynamicEntry);
 				}
@@ -296,7 +297,7 @@ namespace UI.Core.NetUI
 					}
 					else
 					{
-						Logger.LogTraceFormat("Reuse: Inner element {0} already had indexed name, while {1} was expected",
+						Loggy.LogTraceFormat("Reuse: Inner element {0} already had indexed name, while {1} was expected",
 							Category.NetUI, innerElement, index);
 						//Different index - cut and let set it again
 						innerElement.name = innerElement.name.Split(DELIMITER)[0];
@@ -307,7 +308,7 @@ namespace UI.Core.NetUI
 				innerElement.name = innerElement.name + DELIMITER + index;
 				if (entry == innerElement)
 				{
-					Logger.LogError("Multiple net elements on one gameobject this is not supported");
+					Loggy.LogError("Multiple net elements on one gameobject this is not supported");
 				}
 
 			}

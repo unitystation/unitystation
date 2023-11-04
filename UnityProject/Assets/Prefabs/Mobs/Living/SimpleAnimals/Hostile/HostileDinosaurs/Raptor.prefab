@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1143022597430681092, guid: 67af4cb5af49a684ebb94d916b49c4d0,
@@ -19,6 +20,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 461865586, guid: d4fb8386dba0ff34ebabbf3f34a5a3b5,
         type: 3}
+    - target: {fileID: 5831992524725326581, guid: 67af4cb5af49a684ebb94d916b49c4d0,
+        type: 3}
+      propertyPath: _assetId
+      value: 241884909
+      objectReference: {fileID: 0}
     - target: {fileID: 5831992524725326581, guid: 67af4cb5af49a684ebb94d916b49c4d0,
         type: 3}
       propertyPath: m_AssetId
@@ -96,15 +102,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6094293423216509451, guid: 67af4cb5af49a684ebb94d916b49c4d0,
         type: 3}
-      propertyPath: foodPreferences.Array.data[0]
+      propertyPath: 'foodPreferences.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: e9640fc5a465def458cfff48c65df282,
         type: 2}
     - target: {fileID: 6094293423216509451, guid: 67af4cb5af49a684ebb94d916b49c4d0,
         type: 3}
-      propertyPath: foodPreferences.Array.data[1]
+      propertyPath: 'foodPreferences.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 961cf84088818c74998a76a42dc4aa07,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67af4cb5af49a684ebb94d916b49c4d0, type: 3}

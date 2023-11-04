@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
@@ -110,17 +111,17 @@ PrefabInstance:
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -141,6 +142,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MiningHardsuitHelmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 2388022189226633715, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: _assetId
+      value: 1299520431
       objectReference: {fileID: 0}
     - target: {fileID: 2388022189226633715, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -190,13 +196,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2760341733104991204, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: toggleSprites.Array.data[0]
+      propertyPath: 'toggleSprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: ca669e27861ba194497ed1034274c806,
         type: 3}
     - target: {fileID: 2760341733104991204, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: toggleSprites.Array.data[1]
+      propertyPath: 'toggleSprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300000, guid: 4e809dd5dff1ac0408db58d51e5487c8,
         type: 3}
@@ -215,6 +221,21 @@ PrefabInstance:
         type: 3}
       propertyPath: Size
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2932610463863930541, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Colour.a
+      value: 0.6862745
+      objectReference: {fileID: 0}
+    - target: {fileID: 2932610463863930541, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: colour.a
+      value: 0.6862745
+      objectReference: {fileID: 0}
+    - target: {fileID: 4417545188675512222, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Color.a
+      value: 0.70980394
       objectReference: {fileID: 0}
     - target: {fileID: 8160527399506739071, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -244,13 +265,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: cebc673f92280fa47b4388f1b5d3fef0,
         type: 2}
     - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 071790a3bab6e644896c1e24a206d35b,
         type: 2}
@@ -276,15 +297,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: ebf7fc21f38e877419869110e4bbf8ba,
         type: 2}
     - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 944b9a6d9b5750642acf489522797b82,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c60440956ff96af4b84ba3e95e41c3e0, type: 3}

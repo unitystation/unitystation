@@ -5,12 +5,18 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2417351120508978651, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
       propertyPath: foreverID
       value: bc9ea4c8c83cbda48957a45b96992e5a
+      objectReference: {fileID: 0}
+    - target: {fileID: 8692691054828270594, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      propertyPath: _assetId
+      value: 11576043
       objectReference: {fileID: 0}
     - target: {fileID: 8692691054828270594, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
@@ -84,11 +90,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9212969941508220628, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
-      propertyPath: initialTraits.Array.data[3]
+      propertyPath: 'initialTraits.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: dd7de6502f637d6488830d490ee200bd,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8734328976324889014, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2731797854964665125}
+    - targetCorrespondingSourceObject: {fileID: 8734328976324889014, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3850116861045429830}
   m_SourcePrefab: {fileID: 100100000, guid: 83442ea1bc97ef04db1f9962a2f7021d, type: 3}
 --- !u!1 &7631335471294115787 stripped
 GameObject:
@@ -127,7 +144,6 @@ MonoBehaviour:
   maxCapacity: 45
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   AdditionalReactions: []
-  canPourOut: 1
   initialReagentMix:
     temperature: 273.15
     reagents:
@@ -142,11 +158,15 @@ MonoBehaviour:
     reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
+  menuOptions: -1
+  spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 0
+  SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20
+  transferSound: []

@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7929520229095653888}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9128471324126248020}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &737724346483419751
 SpriteRenderer:
@@ -105,11 +105,15 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &9038798021405102749
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 89206780398788833, guid: 75421751b31ee7f49b1adb8b70cd2375,
@@ -132,6 +136,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.r
       value: 0.77254903
+      objectReference: {fileID: 0}
+    - target: {fileID: 169216062924189193, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: _assetId
+      value: 4091353766
       objectReference: {fileID: 0}
     - target: {fileID: 169216062924189193, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
@@ -215,62 +224,62 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: attackVerbs.Array.data[0]
+      propertyPath: 'attackVerbs.Array.data[0]'
       value: killed
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: attackVerbs.Array.data[1]
+      propertyPath: 'attackVerbs.Array.data[1]'
       value: stabbed
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: attackVerbs.Array.data[2]
+      propertyPath: 'attackVerbs.Array.data[2]'
       value: shot
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: attackVerbs.Array.data[3]
+      propertyPath: 'attackVerbs.Array.data[3]'
       value: slapped
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: attackVerbs.Array.data[4]
+      propertyPath: 'attackVerbs.Array.data[4]'
       value: stung
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: attackVerbs.Array.data[5]
+      propertyPath: 'attackVerbs.Array.data[5]'
       value: ejected
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: attackVerbs.Array.data[6]
+      propertyPath: 'attackVerbs.Array.data[6]'
       value: bumped
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: attackVerbs.Array.data[7]
+      propertyPath: 'attackVerbs.Array.data[7]'
       value: bumped
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: attackVerbs.Array.data[8]
+      propertyPath: 'attackVerbs.Array.data[8]'
       value: bumped
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: attackVerbs.Array.data[9]
+      propertyPath: 'attackVerbs.Array.data[9]'
       value: bumped
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: attackVerbs.Array.data[10]
+      propertyPath: 'attackVerbs.Array.data[10]'
       value: bumped
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: attackVerbs.Array.data[11]
+      propertyPath: 'attackVerbs.Array.data[11]'
       value: bumped
       objectReference: {fileID: 0}
     - target: {fileID: 6236086576208570426, guid: 75421751b31ee7f49b1adb8b70cd2375,
@@ -285,6 +294,13 @@ PrefabInstance:
       value: c7be39c0717ac904abd674a5b7841358
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6462165001703929168}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75421751b31ee7f49b1adb8b70cd2375, type: 3}
 --- !u!4 &9128471324126248020 stripped
 Transform:

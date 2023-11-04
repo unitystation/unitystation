@@ -7,6 +7,7 @@ using Chemistry;
 using Chemistry.Components;
 using Items;
 using Items.Botany;
+using Logs;
 
 namespace Objects.Botany
 {
@@ -50,6 +51,7 @@ namespace Objects.Botany
 		[SerializeField] private float tickRate = 0;
 
 		[SerializeField] private PlantData plantData;
+		public PlantData PlantData => plantData;
 
 		private readonly List<GameObject> readyProduce = new List<GameObject>();
 		private float tickCount;
@@ -381,7 +383,7 @@ namespace Objects.Botany
 				case PlantSpriteStage.Growing:
 					if (growingPlantStage >= plantData.GrowthSpritesSOs.Count)
 					{
-						Logger.Log(
+						Loggy.Log(
 							$"Plant data does not contain growthsprites for index: {growingPlantStage} in plantData.GrowthSprites. Plant: {plantData.PlantName}", Category.Botany);
 						return;
 					}
@@ -428,7 +430,7 @@ namespace Objects.Botany
 
 				if (produceObject == null)
 				{
-					Logger.Log("plantData.ProduceObject returned an empty gameobject on spawn, skipping this crop produce",
+					Loggy.Log("plantData.ProduceObject returned an empty gameobject on spawn, skipping this crop produce",
 						Category.Botany);
 					continue;
 				}

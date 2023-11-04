@@ -7,6 +7,7 @@ using HealthV2;
 using HealthV2.Limbs;
 using Initialisation;
 using Items.Others;
+using Logs;
 using Managers;
 using Messages.Server.LocalGuiMessages;
 using Mirror;
@@ -420,34 +421,42 @@ namespace Systems.Antagonists
 			if (typeFound.Length <= 0)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, $"Unable to evolve to {newAlien.ToString()}");
-				Logger.LogError($"Could not find alien type: {newAlien.ToString()} in data list!");
+				Loggy.LogError($"Could not find alien type: {newAlien.ToString()} in data list!");
 				return;
 			}
 
-			var newAlienData = typeFound[0];
-
-			if (newAlienData == alienType)
+			try
 			{
-				Chat.AddExamineMsgFromServer(gameObject, $"You are already an {newAlien.ToString()}");
-				return;
+				var newAlienData = typeFound[0];
+
+				if (newAlienData == alienType)
+				{
+					Chat.AddExamineMsgFromServer(gameObject, $"You are already an {newAlien.ToString()}");
+					return;
+				}
+
+				Chat.AddActionMsgToChat(gameObject, "You begin to evolve!",
+					$"{playerScript.playerName} begins to twist and contort!");
+
+				var alienBody = PlayerSpawn.RespawnPlayerAt(playerScript.Mind, newAlienData.AlienOccupation, new CharacterSheet()
+				{
+					Name = "Alien"
+				}, playerScript.ObjectPhysics.OfficialPosition);
+
+
+				Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {alienType.Name}!");
+
+				var newAlienPlayer = alienBody.GetComponent<AlienPlayer>();
+
+				newAlienPlayer.SetUpFromPrefab(alienType, newAlienData,changeName, nameNumber);
+
+				newAlienPlayer.DoConnectCheck();
+
 			}
-
-			Chat.AddActionMsgToChat(gameObject, "You begin to evolve!",
-				$"{playerScript.playerName} begins to twist and contort!");
-
-			 var alienBody = PlayerSpawn.RespawnPlayerAt(playerScript.Mind, newAlienData.AlienOccupation, new CharacterSheet()
-			 {
-				 Name = "Alien"
-			 }, playerScript.ObjectPhysics.OfficialPosition);
-
-
-			Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {alienType.Name}!");
-
-			var newAlienPlayer = alienBody.GetComponent<AlienPlayer>();
-
-			newAlienPlayer.SetUpFromPrefab(alienType, newAlienData,changeName, nameNumber);
-
-			newAlienPlayer.DoConnectCheck();
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+			}
 
 			_ = Despawn.ServerSingle(gameObject);
 		}
@@ -521,7 +530,7 @@ namespace Systems.Antagonists
 			if (typeFound.Length <= 0)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, $"Unable to evolve to {newType.ToString()}");
-				Logger.LogError($"Could not find alien type: {newType.ToString()} in data list!");
+				Loggy.LogError($"Could not find alien type: {newType.ToString()} in data list!");
 				return;
 			}
 
@@ -926,7 +935,7 @@ namespace Systems.Antagonists
 					SetSpriteSO(alienType.Front, true);
 					return;
 				default:
-					Logger.LogError($"Unexpected case: {newSprite.ToString()}");
+					Loggy.LogError($"Unexpected case: {newSprite.ToString()}");
 					return;
 			}
 		}
@@ -965,12 +974,12 @@ namespace Systems.Antagonists
 					spriteVariant = 3;
 					break;
 				default:
-					Logger.LogError($"Unexpected case: {newRotation.ToString()}");
+					Loggy.LogError($"Unexpected case: {newRotation.ToString()}");
 					return;
 			}
 
-			mainSpriteHandler.ChangeSpriteVariant(spriteVariant, false);
-			mainBackSpriteHandler.ChangeSpriteVariant(spriteVariant, false);
+			mainSpriteHandler.SetSpriteVariant(spriteVariant, false);
+			mainBackSpriteHandler.SetSpriteVariant(spriteVariant, false);
 		}
 
 		#endregion

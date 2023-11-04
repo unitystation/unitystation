@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using Messages.Server;
 using Mirror;
 using Player;
@@ -32,7 +33,7 @@ public class PlayerExaminationMessage : ServerMessage<PlayerExaminationMessage.N
 		var storageObject = NetworkObject;
 		if (storageObject == null)
 		{
-			Logger.LogWarningFormat("Client could not find player storage with id {0}", Category.PlayerInventory, msg.ItemStorage);
+			Loggy.LogWarningFormat("Client could not find player storage with id {0}", Category.PlayerInventory, msg.ItemStorage);
 			return;
 		}
 

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
@@ -40,17 +41,17 @@ PrefabInstance:
     - target: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -71,6 +72,11 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1274760333973328556, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: _assetId
+      value: 1954066133
       objectReference: {fileID: 0}
     - target: {fileID: 1274760333973328556, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -105,19 +111,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[0]
+      propertyPath: 'SurgeryProcedureBase.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329,
         type: 2}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[1]
+      propertyPath: 'SurgeryProcedureBase.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: b6fd9e69eadae4148bbd6a85d785f16a,
         type: 2}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[2]
+      propertyPath: 'SurgeryProcedureBase.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 3a60d21cb4e18b14ba0387530f2dccd5,
         type: 2}
@@ -127,6 +133,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
         type: 3}
+    - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 5d8062b14b21639409aecfc808316292,
+        type: 2}
+    - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: ManuallySpawnContent
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5232716269704749941, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: foreverID
@@ -134,6 +151,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -6818438612513610564, guid: 1162a9966a460f940a18b4d183b04c30, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4791504671035111961}
+    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3585042287024462177}
+    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4793242988825983749}
+    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6638208500181761376}
+    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8705967904398053582}
+    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8844008940256618145}
   m_SourcePrefab: {fileID: 100100000, guid: 1162a9966a460f940a18b4d183b04c30, type: 3}
 --- !u!1 &4719944670933102433 stripped
 GameObject:
@@ -153,7 +197,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e06ddb12acf47158b8cccf9289fd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  consumeTime: 0.1
   leavings: {fileID: 0}
+  currentBites: 0
+  maxBites: 1
+  forceFeedTime: 3
+  setCurrentBitesToMaxBitesOnServerSpawn: 1
   sound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
@@ -162,3 +214,97 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+--- !u!114 &3585042287024462177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4719944670933102433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def5c91331915e24e84cbdab0852236a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  <ToxinGeneration>k__BackingField: 0.00005
+  <NaturalToxinReagent>k__BackingField: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
+    type: 2}
+  reagentCirculatedComponent: {fileID: 0}
+--- !u!114 &4793242988825983749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4719944670933102433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49e8d56bad352cc47925df17616dded1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  ReagentMetabolism: 0.2
+  reagentCirculatedComponent: {fileID: 0}
+  saturationComponent: {fileID: 0}
+--- !u!114 &6638208500181761376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4719944670933102433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9ebd1817f5f0547a70d4591eca98a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  Throughput: 1
+  bloodReagent: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
+--- !u!114 &8705967904398053582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4719944670933102433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 132a8f200f593b24cb7bc31ef84a253c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
+  HealingNutrimentMultiplier: 2
+  HungerState: 1
+  reagentCirculatedComponent: {fileID: 0}
+--- !u!114 &8844008940256618145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4719944670933102433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c78758cf40985e84692bbc8a9860e432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
+  wasteReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}
+  bloodReagentConsumedPercentageb: 0.5
+  reagentCirculatedComponent: {fileID: 0}
+  currentBloodSaturation: 0
+  isNotBloodReagentConsumed: 0

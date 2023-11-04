@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 200070983791577357, guid: b735ab74dab174a4f90c79558cd51e43,
@@ -32,6 +33,11 @@ PrefabInstance:
         type: 3}
       propertyPath: welderSprites.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931002827534279771, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: BasePurity
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6984298448623192707, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
@@ -95,6 +101,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7019565730922564163, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
+      propertyPath: _assetId
+      value: 2285999441
+      objectReference: {fileID: 0}
+    - target: {fileID: 7019565730922564163, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
       propertyPath: m_AssetId
       value: ae1035aa6a0a89d449b49518b87e10b7
       objectReference: {fileID: 0}
@@ -126,7 +137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9051842671118403817, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 9001
       objectReference: {fileID: 0}
     - target: {fileID: 9166176503069144041, guid: b735ab74dab174a4f90c79558cd51e43,
@@ -135,4 +146,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b735ab74dab174a4f90c79558cd51e43, type: 3}

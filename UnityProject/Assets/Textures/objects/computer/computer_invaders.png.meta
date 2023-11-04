@@ -75,7 +75,7 @@ TextureImporter:
       213: -7456935912779723727
     second: invaders_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      invaders_23: -7456935912779723727
-      invaders_19: -8778525951879238018
+      invaders_0: -7536518680135635946
+      invaders_1: -1670423918234158100
       invaders_10: 4548211806836340145
-      invaders_8: 9038117966855130876
-      invaders_7: 6785605430171462897
-      invaders_15: -434688496196537467
       invaders_11: -4362168650020461019
-      invaders_6: 4258830900497011927
       invaders_12: 493749415945945540
+      invaders_13: 4629016404098839446
+      invaders_14: -6471003553024888288
+      invaders_15: -434688496196537467
+      invaders_16: 2728226187863975051
       invaders_17: 7136175733318523224
+      invaders_18: 7746060538920995048
+      invaders_19: -8778525951879238018
+      invaders_2: 908456706653216165
+      invaders_20: 6001373814630084952
+      invaders_21: -4136995468463391753
+      invaders_22: -2287046683880723274
+      invaders_23: -7456935912779723727
+      invaders_3: -2313045397889777840
       invaders_4: -2550038084396909842
       invaders_5: 4754220249013808511
-      invaders_20: 6001373814630084952
-      invaders_14: -6471003553024888288
-      invaders_2: 908456706653216165
-      invaders_21: -4136995468463391753
-      invaders_0: -7536518680135635946
-      invaders_22: -2287046683880723274
-      invaders_1: -1670423918234158100
-      invaders_18: 7746060538920995048
+      invaders_6: 4258830900497011927
+      invaders_7: 6785605430171462897
+      invaders_8: 9038117966855130876
       invaders_9: 8012228351106118309
-      invaders_3: -2313045397889777840
-      invaders_16: 2728226187863975051
-      invaders_13: 4629016404098839446
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

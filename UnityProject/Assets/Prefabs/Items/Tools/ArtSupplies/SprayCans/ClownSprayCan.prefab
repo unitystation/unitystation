@@ -5,12 +5,18 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2529982657545401427, guid: fd39cc49bd6b3074792f93ac2596561b,
         type: 3}
       propertyPath: initialName
       value: Clown spray can
+      objectReference: {fileID: 0}
+    - target: {fileID: 2622751940816643717, guid: fd39cc49bd6b3074792f93ac2596561b,
+        type: 3}
+      propertyPath: _assetId
+      value: 2457649565
       objectReference: {fileID: 0}
     - target: {fileID: 2622751940816643717, guid: fd39cc49bd6b3074792f93ac2596561b,
         type: 3}
@@ -101,13 +107,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8122180704106389686, guid: fd39cc49bd6b3074792f93ac2596561b,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 305ba56ae1ca79a41983c8826baafcf9,
         type: 2}
     - target: {fileID: 8122180704106389686, guid: fd39cc49bd6b3074792f93ac2596561b,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 736cb7bf204336a4ea3451e2358302e1,
         type: 2}
@@ -117,4 +123,7 @@ PrefabInstance:
       value: 4f18f59eb657cd24098357c15d0117d1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd39cc49bd6b3074792f93ac2596561b, type: 3}

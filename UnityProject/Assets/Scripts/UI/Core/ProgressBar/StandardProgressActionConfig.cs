@@ -36,6 +36,8 @@ public class StandardProgressActionConfig
 
 	public readonly bool AllowMovement;
 
+	public readonly bool AllowDuringCuff;
+
 	/// <summary>
 	/// Creates a new progress action config with the indicated settings
 	/// </summary>
@@ -46,12 +48,13 @@ public class StandardProgressActionConfig
 	/// completes the action, the other players progress will be interrupted.</param>
 	/// <param name="allowTurning">Whether turning is allowed during the action</param>
 	public StandardProgressActionConfig(StandardProgressActionType standardProgressActionType,
-		bool allowMultiple = false, bool interruptsOverlapping = true, bool allowTurning = true, bool allowMovement = false)
+		bool allowMultiple = false, bool interruptsOverlapping = true, bool allowTurning = true, bool allowMovement = false, bool allowDuringCuff = false)
 	{
 		StandardProgressActionType = standardProgressActionType;
 		AllowMultiple = allowMultiple;
 		InterruptsOverlapping = interruptsOverlapping;
 		AllowTurning = allowTurning;
 		AllowMovement = allowMovement;
+		AllowDuringCuff = allowDuringCuff;
 	}
 }

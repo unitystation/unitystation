@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: zippoon_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      zippoon_2: 21300004
-      zippoon_4: 21300008
-      zippoon_21: 21300042
-      zippoon_5: 21300010
-      zippoon_13: 21300026
-      zippoon_19: 21300038
-      zippoon_22: 21300044
-      zippoon_3: 21300006
-      zippoon_9: 21300018
-      zippoon_17: 21300034
-      zippoon_6: 21300012
-      zippoon_16: 21300032
-      zippoon_20: 21300040
-      zippoon_11: 21300022
-      zippoon_7: 21300014
-      zippoon_18: 21300036
       zippoon_0: 21300000
       zippoon_1: 21300002
       zippoon_10: 21300020
-      zippoon_15: 21300030
-      zippoon_14: 21300028
-      zippoon_23: 21300046
+      zippoon_11: 21300022
       zippoon_12: 21300024
+      zippoon_13: 21300026
+      zippoon_14: 21300028
+      zippoon_15: 21300030
+      zippoon_16: 21300032
+      zippoon_17: 21300034
+      zippoon_18: 21300036
+      zippoon_19: 21300038
+      zippoon_2: 21300004
+      zippoon_20: 21300040
+      zippoon_21: 21300042
+      zippoon_22: 21300044
+      zippoon_23: 21300046
+      zippoon_3: 21300006
+      zippoon_4: 21300008
+      zippoon_5: 21300010
+      zippoon_6: 21300012
+      zippoon_7: 21300014
       zippoon_8: 21300016
-  spritePackingTag: 
+      zippoon_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

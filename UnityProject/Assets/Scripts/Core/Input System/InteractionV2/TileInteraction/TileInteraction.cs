@@ -14,6 +14,7 @@ public abstract class TileInteraction : ScriptableObject, IPredictedCheckedInter
 	}
 
 	public virtual void ServerPerformInteraction(TileApply interaction) { }
+	public virtual void ServerPerformInteraction(PositionalHandApply interaction) { }
 
 	public virtual void ClientPredictInteraction(TileApply interaction) { }
 

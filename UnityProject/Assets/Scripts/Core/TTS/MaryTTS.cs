@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections;
+using System.Net.Http;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
 using Audio.Containers;
-using UnityWebRequest = UnityEngine.Networking.UnityWebRequest;
-using Utility = UnityEngine.Networking.Utility;
+using Initialisation;
+using Logs;
 using Mirror;
+using SecureStuff;
 
 public class MaryTTS : MonoBehaviour {
 	public static MaryTTS Instance;
@@ -25,7 +28,7 @@ public class MaryTTS : MonoBehaviour {
 	}
 
 	public void Synthesize( string textToSynth ) {
-		StartCoroutine( RequestSynth( textToSynth, bytes => audioSource.PlayOneShot( WavUtility.ToAudioClip( bytes, 0, "TTS_Clip" ) ) ) );
+		_= RequestSynth( textToSynth, bytes => audioSource.PlayOneShot( WavUtility.ToAudioClip( bytes, 0, "TTS_Clip" ) ) ) ;
 	}
 //
 //    public void Announce(string textToSynth)
@@ -35,18 +38,29 @@ public class MaryTTS : MonoBehaviour {
 
 	/// Do whatever you want with resulting bytes in callback (if/when you recieve them)
 	public void Synthesize( string textToSynth, Action<byte[]> callback ) {
-		StartCoroutine( RequestSynth( textToSynth, bytes => callback?.Invoke( bytes ) ) );
+		_= RequestSynth( textToSynth, bytes => callback?.Invoke( bytes ) ) ;
 	}
 
-	IEnumerator RequestSynth( string textToSynth, Action<byte[]> callback ) {
-		UnityWebRequest request = UnityWebRequest.Get( GetURL( textToSynth ) );
+	async Task RequestSynth( string textToSynth, Action<byte[]> callback )
+	{
 
-		yield return request.SendWebRequest();
+		try
+		{
+			HttpResponseMessage response = await SafeHttpRequest.GetAsync(GetURL(textToSynth));
 
-		if ( request.error != null ) {
-			Logger.Log( "Err: " + request.error, Category.Audio );
-		} else {
-			callback.Invoke( request.downloadHandler.data );
+			if (response.IsSuccessStatusCode == false)
+			{
+				Loggy.LogError("Err: " + response.ReasonPhrase);
+			}
+			else
+			{
+				byte[] responseData = await response.Content.ReadAsByteArrayAsync();
+				LoadManager.DoInMainThread(() => { callback.Invoke(responseData); });
+			}
+		}
+		catch (Exception e)
+		{
+			Loggy.LogError(e.ToString());
 		}
 	}
 

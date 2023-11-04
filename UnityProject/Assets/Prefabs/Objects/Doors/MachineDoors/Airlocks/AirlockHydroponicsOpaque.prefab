@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 390919374077549457, guid: ab9dcb5010b8e354b83cc955b97b263f,
@@ -26,25 +27,25 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2390451913235129161, guid: ab9dcb5010b8e354b83cc955b97b263f,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 24836d0bac0d9f444915764673b40863,
         type: 2}
     - target: {fileID: 2390451913235129161, guid: ab9dcb5010b8e354b83cc955b97b263f,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 26ad6140762fc61448b727c584089451,
         type: 2}
     - target: {fileID: 2390451913235129161, guid: ab9dcb5010b8e354b83cc955b97b263f,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 8dfa079b7b1833e4fbec24ccb22222d5,
         type: 2}
     - target: {fileID: 2390451913235129161, guid: ab9dcb5010b8e354b83cc955b97b263f,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[3]
+      propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 1222c962f0dce0340ad3866839eaba36,
         type: 2}
@@ -110,6 +111,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5170390715718013114, guid: ab9dcb5010b8e354b83cc955b97b263f,
         type: 3}
+      propertyPath: _assetId
+      value: 1862709157
+      objectReference: {fileID: 0}
+    - target: {fileID: 5170390715718013114, guid: ab9dcb5010b8e354b83cc955b97b263f,
+        type: 3}
       propertyPath: m_AssetId
       value: cbbe312d4b5b75d4dbad1fa508787374
       objectReference: {fileID: 0}
@@ -124,4 +130,7 @@ PrefabInstance:
       value: 42
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab9dcb5010b8e354b83cc955b97b263f, type: 3}

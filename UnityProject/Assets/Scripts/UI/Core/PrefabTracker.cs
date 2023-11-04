@@ -29,6 +29,7 @@ namespace Util
 
 		[SerializeField] private string foreverID;
 		[field:SerializeField] public string AlternativePrefabName { get; private set; }
+		[field: SerializeField] public bool CanBeSpawnedByAdmin { get; private set; } = true;
 
 		public void ReassignID() //Assuming it's a prefab Variant
 		{

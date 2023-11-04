@@ -6,6 +6,24 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "_DoNotUse", menuName = "ScriptableObjects/Mutations/_DoNotUse")]
 public class MutationSO : ScriptableObject
 {
+	[SerializeField]
+	private string displayName = "";
+
+	public string DisplayName
+	{
+		get
+		{
+			if (string.IsNullOrEmpty(displayName) == false)
+			{
+				return displayName;
+			}
+			else
+			{
+				return name;
+			}
+		}
+	}
+
 	[Tooltip(" Effects the type of dinosaur that spawned when An egg is generated, Hire equals more aggressive and dangerous Dinosaurs")]
 	[Range(0, 100)] public int ResearchDifficult;
 

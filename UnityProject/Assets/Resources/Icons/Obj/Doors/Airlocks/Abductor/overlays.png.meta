@@ -93,7 +93,7 @@ TextureImporter:
       213: 21300058
     second: overlays_29
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -110,11 +110,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -153,6 +154,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -192,6 +195,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -846,39 +861,38 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      overlays_22: 21300044
-      overlays_11: 21300022
-      overlays_9: 21300018
-      overlays_13: 21300026
-      overlays_19: 21300038
-      overlays_5: 21300010
-      overlays_7: 21300014
-      overlays_26: 21300052
-      overlays_2: 21300004
-      overlays_24: 21300048
       overlays_0: 21300000
-      overlays_6: 21300012
-      overlays_8: 21300016
+      overlays_1: 21300002
+      overlays_10: 21300020
+      overlays_11: 21300022
+      overlays_12: 21300024
+      overlays_13: 21300026
       overlays_14: 21300028
       overlays_15: 21300030
-      overlays_4: 21300008
+      overlays_16: 21300032
+      overlays_17: 21300034
+      overlays_18: 21300036
+      overlays_19: 21300038
+      overlays_2: 21300004
       overlays_20: 21300040
       overlays_21: 21300042
-      overlays_17: 21300034
-      overlays_25: 21300050
+      overlays_22: 21300044
       overlays_23: 21300046
-      overlays_1: 21300002
-      overlays_3: 21300006
-      overlays_16: 21300032
+      overlays_24: 21300048
+      overlays_25: 21300050
+      overlays_26: 21300052
       overlays_27: 21300054
       overlays_28: 21300056
-      overlays_10: 21300020
-      overlays_12: 21300024
-      overlays_18: 21300036
       overlays_29: 21300058
-  spritePackingTag: 
+      overlays_3: 21300006
+      overlays_4: 21300008
+      overlays_5: 21300010
+      overlays_6: 21300012
+      overlays_7: 21300014
+      overlays_8: 21300016
+      overlays_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

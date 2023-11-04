@@ -1,4 +1,5 @@
 ﻿using Messages.Client.Admin;
+using TMPro;
 using UnityEngine;
 
 namespace AdminTools
@@ -16,6 +17,8 @@ namespace AdminTools
 
 		[Tooltip("Only needed if window has no chatscroll")]
 		[SerializeField] private InputFieldFocus inputFieldFocus = null;
+
+		[SerializeField] private TMP_InputField TMP_InputField = null;
 
 		[SerializeField] ChatWindowType chatWindowType = ChatWindowType.PlayerToAdmin;
 
@@ -41,7 +44,7 @@ namespace AdminTools
 			if (chatScroll == null) return;
 			chatScroll.AddNewChatEntry(new ChatEntryData
 			{
-				Message = message
+				Message =  message
 			});
 		}
 
@@ -56,7 +59,14 @@ namespace AdminTools
 					MentorReplyMessage.Send(message);
 					break;
 				case ChatWindowType.PrayerToAdmin:
-					PrayerReplyMessage.Send(inputFieldFocus.text);
+					if (TMP_InputField != null)
+					{
+						PrayerReplyMessage.Send(TMP_InputField.text);
+					}
+					else
+					{
+						PrayerReplyMessage.Send(inputFieldFocus.text);
+					}
 					Chat.AddPrayerPrivMsg("You pray to the gods.");
 					CloseWindow();
 					break;

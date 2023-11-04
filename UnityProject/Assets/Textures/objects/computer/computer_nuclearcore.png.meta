@@ -147,7 +147,7 @@ TextureImporter:
       213: -930720312846249951
     second: nuclearcore_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      nuclearcore_12: -2393367766770796173
-      nuclearcore_18: -3645136181369307531
-      nuclearcore_45: -3598675169454752392
-      nuclearcore_3: 4120052028575707158
-      nuclearcore_14: 7521765357867841755
-      nuclearcore_26: -4846786417413557291
-      nuclearcore_31: 5205776089174929114
-      nuclearcore_17: -2859502500165017366
-      nuclearcore_32: -663632344858177971
-      nuclearcore_19: -1979265012200965997
-      nuclearcore_38: -5862538552116991887
-      nuclearcore_25: -1637971829913234823
-      nuclearcore_5: -6148629417433704156
-      nuclearcore_36: -7167977816916802855
-      nuclearcore_11: -3122450304419134497
-      nuclearcore_47: -930720312846249951
-      nuclearcore_27: -7174226343796863183
-      nuclearcore_23: -5554101344220460674
-      nuclearcore_9: 1865293757355402084
-      nuclearcore_6: -400892962120872116
-      nuclearcore_20: -6813057101626306925
-      nuclearcore_28: 3088334940912053535
-      nuclearcore_44: 1475765993207030715
-      nuclearcore_33: 868579984524399982
-      nuclearcore_46: -113352073151045015
-      nuclearcore_15: -2318824824603924940
-      nuclearcore_13: -6449638304063407265
-      nuclearcore_30: 1977353021460637684
-      nuclearcore_2: -2320951235454255073
-      nuclearcore_40: -1861146341672188957
-      nuclearcore_24: -3709251790092705050
-      nuclearcore_41: -4515294767793387667
-      nuclearcore_37: 5177452114538644466
-      nuclearcore_43: -5520806353692859008
-      nuclearcore_16: -7254204773052929532
-      nuclearcore_10: 6585528643080495261
-      nuclearcore_34: -4869703405550373944
-      nuclearcore_8: 753009672805883512
-      nuclearcore_42: 8663321718287591266
-      nuclearcore_39: -5408982717900038716
-      nuclearcore_21: 1688684596748121727
       nuclearcore_0: 3564083850250109804
-      nuclearcore_22: 5442576741589477522
-      nuclearcore_4: -7096361223784668131
-      nuclearcore_29: -6211038452315568767
       nuclearcore_1: -4715290653103679909
+      nuclearcore_10: 6585528643080495261
+      nuclearcore_11: -3122450304419134497
+      nuclearcore_12: -2393367766770796173
+      nuclearcore_13: -6449638304063407265
+      nuclearcore_14: 7521765357867841755
+      nuclearcore_15: -2318824824603924940
+      nuclearcore_16: -7254204773052929532
+      nuclearcore_17: -2859502500165017366
+      nuclearcore_18: -3645136181369307531
+      nuclearcore_19: -1979265012200965997
+      nuclearcore_2: -2320951235454255073
+      nuclearcore_20: -6813057101626306925
+      nuclearcore_21: 1688684596748121727
+      nuclearcore_22: 5442576741589477522
+      nuclearcore_23: -5554101344220460674
+      nuclearcore_24: -3709251790092705050
+      nuclearcore_25: -1637971829913234823
+      nuclearcore_26: -4846786417413557291
+      nuclearcore_27: -7174226343796863183
+      nuclearcore_28: 3088334940912053535
+      nuclearcore_29: -6211038452315568767
+      nuclearcore_3: 4120052028575707158
+      nuclearcore_30: 1977353021460637684
+      nuclearcore_31: 5205776089174929114
+      nuclearcore_32: -663632344858177971
+      nuclearcore_33: 868579984524399982
+      nuclearcore_34: -4869703405550373944
       nuclearcore_35: 6346968340847383636
+      nuclearcore_36: -7167977816916802855
+      nuclearcore_37: 5177452114538644466
+      nuclearcore_38: -5862538552116991887
+      nuclearcore_39: -5408982717900038716
+      nuclearcore_4: -7096361223784668131
+      nuclearcore_40: -1861146341672188957
+      nuclearcore_41: -4515294767793387667
+      nuclearcore_42: 8663321718287591266
+      nuclearcore_43: -5520806353692859008
+      nuclearcore_44: 1475765993207030715
+      nuclearcore_45: -3598675169454752392
+      nuclearcore_46: -113352073151045015
+      nuclearcore_47: -930720312846249951
+      nuclearcore_5: -6148629417433704156
+      nuclearcore_6: -400892962120872116
       nuclearcore_7: -1875686775020921958
-  spritePackingTag: 
+      nuclearcore_8: 753009672805883512
+      nuclearcore_9: 1865293757355402084
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

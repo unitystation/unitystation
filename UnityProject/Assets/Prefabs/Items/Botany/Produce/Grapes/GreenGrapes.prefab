@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 207243423708023614, guid: 6fc005da151b57d46b23a14e39490277,
@@ -81,6 +82,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1971503978589092605, guid: 6fc005da151b57d46b23a14e39490277,
         type: 3}
+      propertyPath: _assetId
+      value: 3009957401
+      objectReference: {fileID: 0}
+    - target: {fileID: 1971503978589092605, guid: 6fc005da151b57d46b23a14e39490277,
+        type: 3}
       propertyPath: m_AssetId
       value: 4a794e9f3c5321d40ba6da6ede9a1fb6
       objectReference: {fileID: 0}
@@ -88,6 +94,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: bunch of green grapes
+      objectReference: {fileID: 0}
+    - target: {fileID: 2916527292936344805, guid: 6fc005da151b57d46b23a14e39490277,
+        type: 3}
+      propertyPath: BasePurity
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 4788096132884974372, guid: 6fc005da151b57d46b23a14e39490277,
         type: 3}
@@ -102,9 +113,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 9169388593703740893, guid: 6fc005da151b57d46b23a14e39490277,
         type: 3}
-      propertyPath: fermentedReagents.m_keys.Array.data[0]
+      propertyPath: 'fermentedReagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 9fa17b961e8142ebc9fbd42036448d21,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fc005da151b57d46b23a14e39490277, type: 3}

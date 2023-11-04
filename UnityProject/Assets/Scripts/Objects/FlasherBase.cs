@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using AddressableReferences;
+using HealthV2;
 using Mirror;
 using NaughtyAttributes;
 using Player;
@@ -10,11 +11,15 @@ namespace Objects
 {
 	public class FlasherBase : NetworkBehaviour
 	{
+		[SerializeField] protected float maximumDistance = 12f;
 		[SerializeField] protected float flashRadius = 12f;
 		[SerializeField] protected float flashTime = 12f;
+
+		[SerializeField, Tooltip("Duration used for when players are standing further away from the flash distance")]
+		protected float weakDuration  = 6f;
+
 		[SerializeField, ShowIf(nameof(stunsPlayers))] protected float stunExtraTime = 3f;
 		[SerializeField] protected float flashCooldown = 24f;
-		[SerializeField] protected ItemTrait sunglassesTrait;
 		[SerializeField] protected AddressableAudioSource flashSound;
 		[SerializeField] protected bool stunsPlayers = true;
 		[SyncVar] private bool onCooldown = false;
@@ -24,7 +29,6 @@ namespace Objects
 
 		private void Start()
 		{
-			//(Max) : How would this work when we get to the mind rework? Will we force all objects that inherit from player to change their mask to "Players"? Or will we make a new one?
 			pLayerMask = LayerMask.GetMask("Players");
 			layerMask = LayerMask.GetMask("Door Closed"); //I copied this from ChatRelay.cs
 		}
@@ -38,53 +42,46 @@ namespace Objects
 			foreach (var target in possibleTargets)
 			{
 				if(gameObject == target.gameObject) continue;
-				if (MatrixManager.Linecast(gameObject.AssumedWorldPosServer(), LayerTypeSelection.Walls,
-					    layerMask, target.gameObject.AssumedWorldPosServer()).ItHit) continue;
-				PerformFlash(target.gameObject);
+
+				var result = MatrixManager.Linecast(
+					gameObject.AssumedWorldPosServer(), LayerTypeSelection.Walls, null,
+					target.gameObject.AssumedWorldPosServer(), false);
+				if (result.ItHit) continue;
+				var duration = result.Distance < maximumDistance ? flashTime : weakDuration;
+
+				if (stunsPlayers)
+				{
+					PerformFlash(target.gameObject, duration , duration + stunExtraTime);
+				}
+				else
+				{
+					PerformFlash(target.gameObject, duration , 0);
+				}
+
 			}
 			StartCoroutine(Cooldown());
-			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} flashes everyone in its radius.", gameObject);
+			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} flashes everyone in its radius.");
 		}
 
 		[Server]
-		public void FlashTarget(GameObject target)
+		public void FlashTarget(GameObject target, float time, float stunnedtime, bool checkForProtectiveGear = true)
 		{
 			if (onCooldown) return;
 			if (flashSound != null) _ = SoundManager.PlayNetworkedAtPosAsync(flashSound, gameObject.AssumedWorldPosServer());
 			StartCoroutine(Cooldown());
-			PerformFlash(target);
+			PerformFlash(target, time, stunnedtime, checkForProtectiveGear);
 		}
 
 		[Server]
-		private void PerformFlash(GameObject target)
+		private void PerformFlash(GameObject target, float time, float stunnedTime, bool checkForProtectiveGear = true)
 		{
-			if (target.TryGetComponent<RegisterPlayer>(out var player) == false) return;
-			if (target.gameObject.TryGetComponent<PlayerFlashEffects>(out var flashEffector) == false) return;
-			if (target.gameObject.TryGetComponent<DynamicItemStorage>(out var playerStorage) == false) return;
-
-			bool hasProtection = false;
-
-			foreach (var slots in playerStorage.ServerContents)
+			if (target.gameObject.TryGetComponentCustom<LivingHealthMasterBase>(out var livingHealthMasterBase) == false) return;
+			if (stunnedTime > 0 && livingHealthMasterBase.TryFlash(time, checkForProtectiveGear))
 			{
-				if (slots.Key != NamedSlot.eyes && slots.Key != NamedSlot.mask) continue;
-				foreach (ItemSlot onSlots in slots.Value)
-				{
-					if (onSlots.IsEmpty) continue;
-					if (onSlots.ItemAttributes.HasTrait(sunglassesTrait))
-					{
-						hasProtection = true;
-						break;
-					}
-				}
+				livingHealthMasterBase.GetComponent<RegisterPlayer>()?.ServerStun(stunnedTime);
 			}
-			if (hasProtection == false) TellClientThatTheyHaveBeenFlashed(flashEffector, player);
 		}
 
-		[Server]
-		private void TellClientThatTheyHaveBeenFlashed(PlayerFlashEffects effects, RegisterPlayer player)
-		{
-			if(effects.ServerSendMessageToClient(player.gameObject, flashTime) && stunsPlayers) player.ServerStun(flashTime + stunExtraTime);
-		}
 
 		[Server]
 		private IEnumerator Cooldown()

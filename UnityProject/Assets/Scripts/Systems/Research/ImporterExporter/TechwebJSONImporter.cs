@@ -1,7 +1,8 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
+using SecureStuff;
 using Systems.Research.Data;
 using UnityEngine;
 
@@ -14,8 +15,8 @@ namespace Systems.Research.ImporterExporter
 			Techweb techweb = new Techweb();
 			List<TechWebNode> Nodes = new List<TechWebNode>();
 			var path = $"{filePath}";
-			if(File.Exists(path) == false) return null;
-			string json = File.ReadAllText(path);
+			if(AccessFile.Exists(path) == false) return null;
+			string json = AccessFile.Load(path);
 			if(json == null || json.Length < 3) return null;
 			var JsonTechweb = JsonConvert.DeserializeObject<List<Dictionary<String, System.Object>>>(json);
 			for (var i = 0; i < JsonTechweb.Count; i++)
@@ -91,6 +92,20 @@ namespace Systems.Research.ImporterExporter
 					EmptyPotentialUnlocks.Add("");
 					TechnologyPass.PotentialUnlocks = EmptyPotentialUnlocks;
 				}
+
+
+
+				if (JsonTechweb[i].ContainsKey("Colour"))
+				{
+					MatchCollection Matches = Regex.Matches(JsonTechweb[i]["Colour"].ToString(), @"(\d+)\b");
+
+					TechnologyPass.ColourPublic = new Color(int.Parse(Matches[0].Groups[0].Value) / 255.0f, int.Parse(Matches[1].Groups[0].Value) / 255.0f, int.Parse(Matches[2].Groups[0].Value) / 255.0f, 1.0f);
+				}
+				else
+				{
+					TechnologyPass.ColourPublic = Color.white;
+				}
+
 
 				newNode.technology = TechnologyPass;
 				TechnologyPass.Techweb = techweb;

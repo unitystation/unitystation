@@ -195,7 +195,7 @@ TextureImporter:
       213: 21300126
     second: Contain_F_63
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -212,11 +212,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -255,6 +256,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -270,6 +273,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1638,73 +1653,72 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Contain_F_7: 21300014
-      Contain_F_18: 21300036
-      Contain_F_56: 21300112
-      Contain_F_23: 21300046
-      Contain_F_49: 21300098
-      Contain_F_61: 21300122
-      Contain_F_2: 21300004
-      Contain_F_24: 21300048
-      Contain_F_5: 21300010
-      Contain_F_60: 21300120
-      Contain_F_46: 21300092
-      Contain_F_28: 21300056
-      Contain_F_16: 21300032
-      Contain_F_44: 21300088
-      Contain_F_53: 21300106
-      Contain_F_47: 21300094
-      Contain_F_59: 21300118
-      Contain_F_4: 21300008
-      Contain_F_25: 21300050
-      Contain_F_42: 21300084
-      Contain_F_45: 21300090
-      Contain_F_58: 21300116
-      Contain_F_29: 21300058
-      Contain_F_11: 21300022
-      Contain_F_27: 21300054
-      Contain_F_63: 21300126
       Contain_F_0: 21300000
-      Contain_F_40: 21300080
-      Contain_F_34: 21300068
-      Contain_F_31: 21300062
-      Contain_F_38: 21300076
-      Contain_F_10: 21300020
-      Contain_F_20: 21300040
-      Contain_F_52: 21300104
-      Contain_F_21: 21300042
-      Contain_F_35: 21300070
-      Contain_F_8: 21300016
-      Contain_F_30: 21300060
-      Contain_F_39: 21300078
-      Contain_F_32: 21300064
       Contain_F_1: 21300002
-      Contain_F_6: 21300012
-      Contain_F_17: 21300034
-      Contain_F_3: 21300006
-      Contain_F_14: 21300028
-      Contain_F_26: 21300052
-      Contain_F_19: 21300038
-      Contain_F_43: 21300086
-      Contain_F_41: 21300082
-      Contain_F_48: 21300096
+      Contain_F_10: 21300020
+      Contain_F_11: 21300022
       Contain_F_12: 21300024
-      Contain_F_51: 21300102
-      Contain_F_55: 21300110
-      Contain_F_57: 21300114
       Contain_F_13: 21300026
-      Contain_F_33: 21300066
-      Contain_F_62: 21300124
-      Contain_F_50: 21300100
-      Contain_F_9: 21300018
-      Contain_F_36: 21300072
-      Contain_F_22: 21300044
+      Contain_F_14: 21300028
       Contain_F_15: 21300030
-      Contain_F_54: 21300108
+      Contain_F_16: 21300032
+      Contain_F_17: 21300034
+      Contain_F_18: 21300036
+      Contain_F_19: 21300038
+      Contain_F_2: 21300004
+      Contain_F_20: 21300040
+      Contain_F_21: 21300042
+      Contain_F_22: 21300044
+      Contain_F_23: 21300046
+      Contain_F_24: 21300048
+      Contain_F_25: 21300050
+      Contain_F_26: 21300052
+      Contain_F_27: 21300054
+      Contain_F_28: 21300056
+      Contain_F_29: 21300058
+      Contain_F_3: 21300006
+      Contain_F_30: 21300060
+      Contain_F_31: 21300062
+      Contain_F_32: 21300064
+      Contain_F_33: 21300066
+      Contain_F_34: 21300068
+      Contain_F_35: 21300070
+      Contain_F_36: 21300072
       Contain_F_37: 21300074
-  spritePackingTag: 
+      Contain_F_38: 21300076
+      Contain_F_39: 21300078
+      Contain_F_4: 21300008
+      Contain_F_40: 21300080
+      Contain_F_41: 21300082
+      Contain_F_42: 21300084
+      Contain_F_43: 21300086
+      Contain_F_44: 21300088
+      Contain_F_45: 21300090
+      Contain_F_46: 21300092
+      Contain_F_47: 21300094
+      Contain_F_48: 21300096
+      Contain_F_49: 21300098
+      Contain_F_5: 21300010
+      Contain_F_50: 21300100
+      Contain_F_51: 21300102
+      Contain_F_52: 21300104
+      Contain_F_53: 21300106
+      Contain_F_54: 21300108
+      Contain_F_55: 21300110
+      Contain_F_56: 21300112
+      Contain_F_57: 21300114
+      Contain_F_58: 21300116
+      Contain_F_59: 21300118
+      Contain_F_6: 21300012
+      Contain_F_60: 21300120
+      Contain_F_61: 21300122
+      Contain_F_62: 21300124
+      Contain_F_63: 21300126
+      Contain_F_7: 21300014
+      Contain_F_8: 21300016
+      Contain_F_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

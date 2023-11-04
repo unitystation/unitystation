@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Objects;
 using Items;
+using Logs;
 
 namespace Systems.Cargo
 {
@@ -234,7 +235,7 @@ namespace Systems.Cargo
 					var entryPrefab = order.Items[i];
 					if (entryPrefab == null)
 					{
-						Logger.Log($"Error with order fulfilment. Can't add items index: {i} for {order.OrderName} as the prefab is null. Skipping..", Category.Cargo);
+						Loggy.Log($"Error with order fulfilment. Can't add items index: {i} for {order.OrderName} as the prefab is null. Skipping..", Category.Cargo);
 						continue;
 					}
 
@@ -244,7 +245,7 @@ namespace Systems.Cargo
 						if (orderedItem == null)
 						{
 							//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
-							Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.Cargo);
+							Loggy.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.Cargo);
 							continue;
 						}
 
@@ -269,7 +270,7 @@ namespace Systems.Cargo
 							if (orderedItem == null)
 							{
 								//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
-								Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.Cargo);
+								Loggy.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.Cargo);
 								continue;
 							}
 
@@ -283,7 +284,7 @@ namespace Systems.Cargo
 			}
 			else
 			{
-				Logger.LogWarning($"{crate.ExpensiveName()} does not have {nameof(UniversalObjectPhysics)}. Please fix CargoData" +
+				Loggy.LogWarning($"{crate.ExpensiveName()} does not have {nameof(UniversalObjectPhysics)}. Please fix CargoData" +
 								  $" to ensure that the crate prefab is actually a crate (with {nameof(UniversalObjectPhysics)} component)." +
 								  $" This order will be ignored.", Category.Cargo);
 				return true;

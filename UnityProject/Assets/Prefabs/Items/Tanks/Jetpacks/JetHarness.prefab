@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 524682258643487040, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
@@ -25,18 +26,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1893822906720031044, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
-      propertyPath: Gases.Array.data[1]
+      propertyPath: 'Gases.Array.data[1]'
       value: 9.98244
       objectReference: {fileID: 0}
     - target: {fileID: 2842131419967966115, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: cbdcd972507fb53409ef6cc3d58f640f,
         type: 2}
     - target: {fileID: 2842131419967966115, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: e3a7cd0e6acf14049a66f31cb7ccbbd9,
         type: 2}
@@ -108,6 +109,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6024163822652723059, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
+      propertyPath: _assetId
+      value: 3552384551
+      objectReference: {fileID: 0}
+    - target: {fileID: 6024163822652723059, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
       propertyPath: m_AssetId
       value: 1f8b236fbaa97464abd686f24a59d44a
       objectReference: {fileID: 0}
@@ -133,4 +139,7 @@ PrefabInstance:
         down by traditional jetpacks.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b7c686ad40fca54888ac3c8fc35fc39, type: 3}

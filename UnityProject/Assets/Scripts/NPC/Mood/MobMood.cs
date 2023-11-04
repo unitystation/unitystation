@@ -103,12 +103,12 @@ namespace NPC.Mood
 				return;
 			}
 
-			if (pettingCooldown < 0 || lastPetted.AddSeconds(pettingCooldown) > GameManager.Instance.stationTime)
+			if (pettingCooldown < 0 || lastPetted.AddSeconds(pettingCooldown) > GameManager.Instance.RoundTime)
 			{
 				UpdateLevel(moodOnPetted);
 			}
 
-			lastPetted = GameManager.Instance.stationTime;
+			lastPetted = GameManager.Instance.RoundTime;
 		}
 
 		private void OnDamageReceived(GameObject obj)

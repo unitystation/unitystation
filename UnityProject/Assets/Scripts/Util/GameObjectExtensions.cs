@@ -1,5 +1,8 @@
 
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Logs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -61,7 +64,7 @@ public static class GameObjectExtensions
 		var regTile = obj.GetComponent<RegisterTile>();
 		if (regTile == null)
 		{
-			Logger.LogWarning("Attempting to get world position of object {0} which has no RegisterTile. " +
+			Loggy.LogWarning("Attempting to get world position of object {0} which has no RegisterTile. " +
 			                  "Transform.position will be used instead, which may cause unexpected behavior.", Category.Matrix);
 			return obj.transform.position.RoundTo2Int();
 		}
@@ -87,7 +90,7 @@ public static class GameObjectExtensions
 		var regTile = obj.GetComponent<RegisterTile>();
 		if (regTile == null)
 		{
-			Logger.LogWarning("Attempting to get local position of object {0} which has no RegisterTile. " +
+			Loggy.LogWarning("Attempting to get local position of object {0} which has no RegisterTile. " +
 			                  "Transform.localposition will be used instead, which may cause unexpected behavior.", Category.Matrix);
 			return obj.transform.localPosition.RoundTo2Int();
 		}
@@ -163,5 +166,16 @@ public static class GameObjectExtensions
 		// just to be sure, we give a little buffer in z coordinate, so -90 or lower will
 		// be considered hidden (nothing in the game should be this low except hidden stuff)
 		return gameObject.transform.position.z <= (TransformState.HiddenPos.z + 10);
+	}
+
+	/// <summary>
+	/// Removes all children of this given GameObject.
+	/// </summary>
+	public static void DeleteAllChildren(this GameObject gameObject)
+	{
+		for (int i = 0; i < gameObject.transform.childCount; i++)
+		{
+			Object.Destroy(gameObject.transform.GetChild(i).gameObject);
+		}
 	}
 }

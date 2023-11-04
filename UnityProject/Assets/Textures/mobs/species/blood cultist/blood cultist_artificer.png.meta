@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: artificer_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      artificer_14: 21300028
-      artificer_9: 21300018
-      artificer_12: 21300024
-      artificer_10: 21300020
-      artificer_19: 21300038
-      artificer_4: 21300008
-      artificer_20: 21300040
-      artificer_17: 21300034
       artificer_0: 21300000
+      artificer_1: 21300002
+      artificer_10: 21300020
       artificer_11: 21300022
+      artificer_12: 21300024
       artificer_13: 21300026
-      artificer_8: 21300016
-      artificer_6: 21300012
-      artificer_3: 21300006
+      artificer_14: 21300028
+      artificer_15: 21300030
       artificer_16: 21300032
-      artificer_5: 21300010
+      artificer_17: 21300034
       artificer_18: 21300036
+      artificer_19: 21300038
       artificer_2: 21300004
+      artificer_20: 21300040
       artificer_21: 21300042
       artificer_22: 21300044
-      artificer_1: 21300002
       artificer_23: 21300046
+      artificer_3: 21300006
+      artificer_4: 21300008
+      artificer_5: 21300010
+      artificer_6: 21300012
       artificer_7: 21300014
-      artificer_15: 21300030
-  spritePackingTag: 
+      artificer_8: 21300016
+      artificer_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

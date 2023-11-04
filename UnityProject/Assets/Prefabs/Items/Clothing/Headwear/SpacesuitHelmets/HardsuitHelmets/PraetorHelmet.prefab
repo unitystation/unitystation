@@ -5,11 +5,12 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 32411628071169136, guid: b941c479fbceadf4699dddecee87d3f7,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: f38d2109cb8b23a44bf63cb1c2c7e5c7,
         type: 2}
@@ -86,6 +87,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6456518267312816705, guid: b941c479fbceadf4699dddecee87d3f7,
         type: 3}
+      propertyPath: _assetId
+      value: 580355716
+      objectReference: {fileID: 0}
+    - target: {fileID: 6456518267312816705, guid: b941c479fbceadf4699dddecee87d3f7,
+        type: 3}
       propertyPath: m_AssetId
       value: bc59fe55e5ae0264c92a3ce1b6b7967d
       objectReference: {fileID: 0}
@@ -106,4 +112,7 @@ PrefabInstance:
       value: An advanced helmet of unknown make. A strange rune is engraved ion it.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b941c479fbceadf4699dddecee87d3f7, type: 3}

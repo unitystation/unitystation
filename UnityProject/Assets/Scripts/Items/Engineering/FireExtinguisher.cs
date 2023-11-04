@@ -51,11 +51,11 @@ public class FireExtinguisher : NetworkBehaviour,
 		safety = !safety;
 		if (safety)
 		{
-			spriteHandler.ChangeSprite((int) SpriteState.SafetyOn);
+			spriteHandler.SetCatalogueIndexSprite((int) SpriteState.SafetyOn);
 		}
 		else
 		{
-			spriteHandler.ChangeSprite((int) SpriteState.SafetyOff);
+			spriteHandler.SetCatalogueIndexSprite((int) SpriteState.SafetyOff);
 		}
 	}
 

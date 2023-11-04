@@ -147,7 +147,7 @@ TextureImporter:
       213: -2498886527055312493
     second: alien_table_alien_table_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      alien_table_alien_table_10: 6613877546907294784
-      alien_table_alien_table_27: 1962582264862205472
-      alien_table_alien_table_5: -726160798611271976
-      alien_table_alien_table_13: -89390214957127246
-      alien_table_alien_table_16: 1641927092425831847
-      alien_table_alien_table_43: 7354191946571102592
-      alien_table_alien_table_47: -2498886527055312493
-      alien_table_alien_table_18: 7117859747085466217
-      alien_table_alien_table_46: 5339934014413695587
-      alien_table_alien_table_38: 739570437615376258
-      alien_table_alien_table_12: 3456849921206379178
-      alien_table_alien_table_25: -4751773460839172177
-      alien_table_alien_table_36: -8631546465329359206
-      alien_table_alien_table_40: -7980171886103503996
-      alien_table_alien_table_19: 214433637989681919
-      alien_table_alien_table_31: -6620984374828000982
       alien_table_alien_table_0: 1366996647704419161
-      alien_table_alien_table_3: -1402809502759481278
-      alien_table_alien_table_28: -3280444682742369402
-      alien_table_alien_table_21: -4913245797289048201
-      alien_table_alien_table_15: -1131780410231795353
-      alien_table_alien_table_17: -2941324650283591396
-      alien_table_alien_table_32: -3138685116551955750
-      alien_table_alien_table_41: -3488668330624264739
       alien_table_alien_table_1: -2969731894532329101
-      alien_table_alien_table_24: 4433513724260132926
-      alien_table_alien_table_35: 6663252089984408408
-      alien_table_alien_table_8: 7309083409016405635
-      alien_table_alien_table_23: -7804621402804852793
-      alien_table_alien_table_22: -1133879899775151050
-      alien_table_alien_table_14: -6211158425541666608
-      alien_table_alien_table_33: 7639816055619072380
-      alien_table_alien_table_30: 2465278879217609084
-      alien_table_alien_table_39: 7844899401884463887
-      alien_table_alien_table_2: -3563550704694184251
+      alien_table_alien_table_10: 6613877546907294784
       alien_table_alien_table_11: 4083639094084864068
-      alien_table_alien_table_26: -2542593729253002224
-      alien_table_alien_table_44: 4761724053686830030
-      alien_table_alien_table_42: 3604127321181577784
-      alien_table_alien_table_7: 8290512572724342859
+      alien_table_alien_table_12: 3456849921206379178
+      alien_table_alien_table_13: -89390214957127246
+      alien_table_alien_table_14: -6211158425541666608
+      alien_table_alien_table_15: -1131780410231795353
+      alien_table_alien_table_16: 1641927092425831847
+      alien_table_alien_table_17: -2941324650283591396
+      alien_table_alien_table_18: 7117859747085466217
+      alien_table_alien_table_19: 214433637989681919
+      alien_table_alien_table_2: -3563550704694184251
       alien_table_alien_table_20: -435313409860211940
-      alien_table_alien_table_4: -8918109504273692790
-      alien_table_alien_table_6: -3421522778503374040
-      alien_table_alien_table_9: 6105807218860377823
+      alien_table_alien_table_21: -4913245797289048201
+      alien_table_alien_table_22: -1133879899775151050
+      alien_table_alien_table_23: -7804621402804852793
+      alien_table_alien_table_24: 4433513724260132926
+      alien_table_alien_table_25: -4751773460839172177
+      alien_table_alien_table_26: -2542593729253002224
+      alien_table_alien_table_27: 1962582264862205472
+      alien_table_alien_table_28: -3280444682742369402
       alien_table_alien_table_29: 8021663759607861658
-      alien_table_alien_table_37: 7383605978501957590
-      alien_table_alien_table_45: -4862860655729296046
+      alien_table_alien_table_3: -1402809502759481278
+      alien_table_alien_table_30: 2465278879217609084
+      alien_table_alien_table_31: -6620984374828000982
+      alien_table_alien_table_32: -3138685116551955750
+      alien_table_alien_table_33: 7639816055619072380
       alien_table_alien_table_34: 4090943453318321961
-  spritePackingTag: 
+      alien_table_alien_table_35: 6663252089984408408
+      alien_table_alien_table_36: -8631546465329359206
+      alien_table_alien_table_37: 7383605978501957590
+      alien_table_alien_table_38: 739570437615376258
+      alien_table_alien_table_39: 7844899401884463887
+      alien_table_alien_table_4: -8918109504273692790
+      alien_table_alien_table_40: -7980171886103503996
+      alien_table_alien_table_41: -3488668330624264739
+      alien_table_alien_table_42: 3604127321181577784
+      alien_table_alien_table_43: 7354191946571102592
+      alien_table_alien_table_44: 4761724053686830030
+      alien_table_alien_table_45: -4862860655729296046
+      alien_table_alien_table_46: 5339934014413695587
+      alien_table_alien_table_47: -2498886527055312493
+      alien_table_alien_table_5: -726160798611271976
+      alien_table_alien_table_6: -3421522778503374040
+      alien_table_alien_table_7: 8290512572724342859
+      alien_table_alien_table_8: 7309083409016405635
+      alien_table_alien_table_9: 6105807218860377823
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 218119940625843155, guid: 36fc7777ec7adb649b33688a3fde3e67,
@@ -16,6 +17,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Not so delicious rat meat, on a stick.
+      objectReference: {fileID: 0}
+    - target: {fileID: 324054398724280581, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: _assetId
+      value: 1141619020
       objectReference: {fileID: 0}
     - target: {fileID: 324054398724280581, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
@@ -100,18 +106,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1495612433917174809, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
         type: 2}
     - target: {fileID: 1495612433917174809, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1495612433917174809, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[1]'
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5813425210233296694, guid: 36fc7777ec7adb649b33688a3fde3e67,
@@ -125,5 +131,13 @@ PrefabInstance:
       propertyPath: foreverID
       value: 61e2b60df4f12c5409b1d382b94a6e8b
       objectReference: {fileID: 0}
+    - target: {fileID: 8375638023034351297, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: timeToEat
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36fc7777ec7adb649b33688a3fde3e67, type: 3}

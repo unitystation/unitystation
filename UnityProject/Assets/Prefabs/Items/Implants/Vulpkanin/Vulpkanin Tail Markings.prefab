@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1201516008082455910, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
+        type: 3}
+      propertyPath: _assetId
+      value: 3635017288
+      objectReference: {fileID: 0}
     - target: {fileID: 1201516008082455910, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
         type: 3}
       propertyPath: m_AssetId
@@ -111,22 +117,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2378934203328871246, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[0]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[0]'
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2378934203328871246, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[1]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[1]'
       value: 51
       objectReference: {fileID: 0}
     - target: {fileID: 2378934203328871246, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[2]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[2]'
       value: 51
       objectReference: {fileID: 0}
     - target: {fileID: 2378934203328871246, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[3]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[3]'
       value: 51
       objectReference: {fileID: 0}
     - target: {fileID: 4935539326687624021, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
@@ -151,4 +157,7 @@ PrefabInstance:
       value: a32ec150419df5048b8f35730ef9b6fd
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ce21cfcc54d23d42825f0d4a9b15d49, type: 3}

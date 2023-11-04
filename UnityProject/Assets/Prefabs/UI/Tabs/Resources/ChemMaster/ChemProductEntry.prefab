@@ -32,7 +32,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8573737905651441268}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -125,7 +124,6 @@ RectTransform:
   m_Children:
   - {fileID: 8573737905651441268}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -152,7 +150,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6952ad5fe017d148911e64bb9e2795c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Poolble: 1
+  PrefabTo: {fileID: 0}
   productImage: {fileID: 4070959410651029931}
+  NetButton: {fileID: 191613308466468474}
 --- !u!1 &3373531724909812363
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +188,6 @@ RectTransform:
   m_Children:
   - {fileID: 3191949297406070844}
   m_Father: {fileID: 7832013257122958605}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -276,9 +276,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 191613308466468474}
-        m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
-        m_MethodName: ExecuteClient
+      - m_Target: {fileID: 480346322087335364}
+        m_TargetAssemblyTypeName: UI.Objects.Medical.GUI_ChemProductEntry, Assets
+        m_MethodName: PillButtonPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -300,6 +300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -315,3 +316,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []

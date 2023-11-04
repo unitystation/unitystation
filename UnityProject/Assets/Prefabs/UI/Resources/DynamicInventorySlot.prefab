@@ -31,7 +31,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 224919019639980534}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -113,7 +112,6 @@ RectTransform:
   - {fileID: 3348422306531854785}
   - {fileID: 9178009828120895855}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -170,6 +168,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a02f32610d09c4aaefe46dec0d0d0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseTooltip: 
+  baseExitTooltip: 
 --- !u!114 &114145251905594954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,7 +215,6 @@ RectTransform:
   m_Children:
   - {fileID: 224275137868236406}
   m_Father: {fileID: 224260014393631488}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -272,6 +271,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80302af17c124af448a83b578457062c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseTooltip: 
+  baseExitTooltip: 
   namedSlot: 10
   forLocalPlayer: 0
   hoverName: 
@@ -282,6 +283,18 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 927948408797094197}
   HasSubInventory: {fileID: 5946663002225764041}
   OverlayMaterial: {fileID: 2100000, guid: 0a968fd8e26129845b1d5e4fc47031b0, type: 2}
+  _storageCharacteristics:
+    NotPresentOnUI: 0
+    SlotArea: 0
+    namedSlot: 0
+    hoverName: 
+    DropContents: 0
+    placeholderSprite: {fileID: 0}
+    Conditional: 0
+    Condition:
+      CategoryID: 
+      ConditionalParameter: 0
+      XAmountConditional: 0
 --- !u!1 &3323282838034118039
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,7 +327,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 224260014393631488}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -409,7 +421,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 224260014393631488}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -486,7 +497,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 224260014393631488}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

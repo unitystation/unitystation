@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Logs;
 using UnityEngine;
 
 public static class CoroutineExtensions {
@@ -23,14 +24,14 @@ public static class CoroutineExtensions {
 	public static MonoBehaviour StartCoroutine( this MonoBehaviour script, IEnumerator routine, ref Coroutine handle ) {
 		if ( !script ) {
 #if UNITY_EDITOR
-			Logger.LogWarning( "A coroutine cannot run while it is null or being destroyed", Category.Threading );
+			Loggy.LogWarning( "A coroutine cannot run while it is null or being destroyed", Category.Threading );
 #endif
 			return null;
 		}
 
 		if ( !script.enabled || !script.gameObject.activeInHierarchy ) {
 #if UNITY_EDITOR
-			Logger.LogWarningFormat( "The Script {0} is currently disabled and cannot start coroutines", Category.Threading,  script.name);
+			Loggy.LogWarningFormat( "The Script {0} is currently disabled and cannot start coroutines", Category.Threading,  script.name);
 #endif
 			return script;
 		}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 741549383598998161, guid: 2c46f309a45d8714f9c5db5361e854e6,
@@ -80,6 +81,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 951152395019604039, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
+      propertyPath: _assetId
+      value: 425603183
+      objectReference: {fileID: 0}
+    - target: {fileID: 951152395019604039, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
       propertyPath: m_AssetId
       value: 0fac5acfc78ac2948b5856c5a1f53011
       objectReference: {fileID: 0}
@@ -111,13 +117,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6114237942327262838, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 2701e97707e7e5545a4667ab6cbf27fc,
         type: 2}
     - target: {fileID: 6114237942327262838, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 76089badb1a413c4088965a7877aad89,
         type: 2}
@@ -129,15 +135,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6476465160503121524, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: a7f544a57999ecb41834b493177170b4,
         type: 2}
     - target: {fileID: 6476465160503121524, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 0834d0b1ddafed84999e10e7bbf69a78,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c46f309a45d8714f9c5db5361e854e6, type: 3}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1996529631628265754, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
@@ -17,6 +18,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: An advanced shotgun with two separate magazine tubes, allowing you to
         quickly toggle between ammo types.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2075233859075398604, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: _assetId
+      value: 2237971248
       objectReference: {fileID: 0}
     - target: {fileID: 2075233859075398604, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
@@ -113,7 +119,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3787017684866724271, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 9d8df47828f4a564fb1a32ab80afab90,
         type: 2}
@@ -129,4 +135,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e2f15ba769acfcb4ea4669e9065339a3,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ed41d7e8ee57b545bf808b775a1f78c, type: 3}

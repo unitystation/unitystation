@@ -5,16 +5,17 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 321953948599276768, guid: 96b0fea0625e3b34a8809b52e4883c8d,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 321953948599276768, guid: 96b0fea0625e3b34a8809b52e4883c8d,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[1]'
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1418737316615156522, guid: 96b0fea0625e3b34a8809b52e4883c8d,
@@ -27,6 +28,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A single portion of baked rice, perfect as a side dish, or even as a
         full meal.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1497993601997349372, guid: 96b0fea0625e3b34a8809b52e4883c8d,
+        type: 3}
+      propertyPath: _assetId
+      value: 3928206953
       objectReference: {fileID: 0}
     - target: {fileID: 1497993601997349372, guid: 96b0fea0625e3b34a8809b52e4883c8d,
         type: 3}
@@ -111,6 +117,13 @@ PrefabInstance:
       value: smallbutdeliciousrice
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1539602867468508232, guid: 96b0fea0625e3b34a8809b52e4883c8d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5961183614733501142}
   m_SourcePrefab: {fileID: 100100000, guid: 96b0fea0625e3b34a8809b52e4883c8d, type: 3}
 --- !u!1 &7310932420901411066 stripped
 GameObject:
@@ -130,12 +143,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7c30ca55ffa4467a421abf7a832a6a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   initialAmount: 6
   maxAmount: 6
   stacksWith:
   - {fileID: 7310932420901411066}
+  isRepresentationOfStack: 0
   stackNames: []
   stackSprites: []
   autoStackOnSpawn: 1

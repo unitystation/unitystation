@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3549479581640830887, guid: 788649a7f84574c48a54361479106732,
@@ -24,13 +25,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: 788649a7f84574c48a54361479106732,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 12f0b8d7af224944ead1190475864b7a,
         type: 2}
     - target: {fileID: 3568482238077595727, guid: 788649a7f84574c48a54361479106732,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 94198e2ed905227458af2273081ab28d,
         type: 2}
@@ -109,6 +110,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Armor.Energy
       value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7524605284256423550, guid: 788649a7f84574c48a54361479106732,
+        type: 3}
+      propertyPath: _assetId
+      value: 1482208572
       objectReference: {fileID: 0}
     - target: {fileID: 7524605284256423550, guid: 788649a7f84574c48a54361479106732,
         type: 3}
@@ -192,4 +198,7 @@ PrefabInstance:
       value: It's a baseball hat in a tasteful red olour.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 788649a7f84574c48a54361479106732, type: 3}

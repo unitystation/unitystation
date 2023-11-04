@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEditor;
 using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 using Object = UnityEngine.Object;
 
@@ -200,7 +200,7 @@ public class CreateRequiredComponentWindow : EditorWindow
 
 	private void OnCreateRequiredComponents()
 	{
-		Logger.Log("Performing modifications:", Category.Editor);
+		Loggy.Log("Performing modifications:", Category.Editor);
 		foreach (var prefabModification in prefabModifications)
 		{
 			if (prefabModification.Skip) continue;
@@ -211,7 +211,7 @@ public class CreateRequiredComponentWindow : EditorWindow
 
 				PrefabUtility.SavePrefabAsset(prefabModification.RootGO);
 
-				Logger.LogFormat("Added {0} to game object {1} in prefab {2}", Category.Editor,
+				Loggy.LogFormat("Added {0} to game object {1} in prefab {2}", Category.Editor,
 					componentToAdd.Name, prefabModification.GOToModify, path);
 			}
 		}

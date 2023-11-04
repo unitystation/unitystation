@@ -84,8 +84,12 @@ public class WeaponNetworkActions : NetworkBehaviour
 	public void ServerPerformMeleeAttack(GameObject victim, Vector2 attackDirection, BodyPartType damageZone, LayerType layerType)
 	{
 		if (victim == null) return;
+		if (playerMove.ObjectIsBuckling.OrNull()?.gameObject != null && playerMove.ObjectIsBuckling is MovementSynchronisation)
+		{
+			victim = playerMove.ObjectIsBuckling.gameObject;
+		}
 		if (Cooldowns.IsOnServer(playerScript, CommonCooldowns.Instance.Melee)) return;
-		if (playerMove.allowInput == false) return;
+		if (playerMove.AllowInput == false) return;
 		if (playerScript.PlayerTypeSettings.CanMelee == false) return;
 		if (playerScript.playerHealth.serverPlayerConscious == false) return;
 
@@ -182,8 +186,16 @@ public class WeaponNetworkActions : NetworkBehaviour
 					SoundManager.PlayNetworkedAtPos(miss.missSound.PickRandom(), transform.position, sourceObj: gameObject);
 				}
 
-				Chat.AddCombatMsgToChat(gameObject, $"You attempted to {attackVerb} {victimName} but missed!",
-					$"{gameObject.ExpensiveName()} has attempted to {attackVerb} {victimName}!");
+				if (weaponAttributes != null)
+				{
+					Chat.AddCombatMsgToChat(gameObject, $"You missed {victimName} with {weapon.ExpensiveName()}!",
+						$"{gameObject.ExpensiveName()} missed {victimName} with {weapon.ExpensiveName()}!");
+				}
+				else
+				{
+					Chat.AddCombatMsgToChat(gameObject, $"You missed {victimName}!",
+						$"{gameObject.ExpensiveName()} missed {victimName}!");
+				}
 			}
 		}
 
@@ -243,19 +255,6 @@ public class WeaponNetworkActions : NetworkBehaviour
 		lerping = true;
 	}
 
-	[Command]
-	private void CmdRequestInputActivation()
-	{
-		if (playerScript.playerHealth.serverPlayerConscious)
-		{
-			playerMove.allowInput = true;
-		}
-		else
-		{
-			playerMove.allowInput = false;
-		}
-	}
-
 	// Server lerps
 	private void UpdateMe()
 	{
@@ -269,13 +268,6 @@ public class WeaponNetworkActions : NetworkBehaviour
 				{
 					ResetLerp();
 					spritesObj.transform.localPosition = Vector3.zero;
-					if (PlayerManager.LocalPlayerObject)
-					{
-						if (PlayerManager.LocalPlayerObject == gameObject)
-						{
-							CmdRequestInputActivation(); // Ask server if you can move again after melee attack
-						}
-					}
 				}
 				else
 				{

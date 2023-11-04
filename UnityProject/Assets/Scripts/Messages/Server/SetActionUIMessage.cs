@@ -6,6 +6,8 @@ using Systems.Spells;
 using ScriptableObjects.Systems.Spells;
 using UI.Action;
 using UI.Core.Action;
+using Changeling;
+using Logs;
 
 namespace Messages.Server
 {
@@ -19,6 +21,7 @@ namespace Messages.Server
 			public string SpriteName;
 			public ushort actionListID;
 			public short spellListIndex;
+			public short changelingAbilityListIndex;
 			public bool isMulti;
 			public int ComponentLocation;
 			public uint NetObject;
@@ -87,6 +90,20 @@ namespace Messages.Server
 					action = spellData.AddToPlayer(NetworkObject.GetComponent<Mind>());
 				}
 			}
+			else if (msg.changelingAbilityListIndex >= 0)
+			{
+				var abilityData = ChangelingAbilityList.Instance.FromIndex(msg.changelingAbilityListIndex);
+
+				if (UIActionManager.HasActionData(abilityData, out action) == false)
+				{
+					// no need to instantiate a action if server asks to hide one anyway
+					if (msg.ProposedAction == UpdateType.StateChange && msg.showAlert == false) return;
+
+					//Loads what game object this Action is on
+					LoadNetworkObject(msg.NetObjectOn);
+					action = abilityData.AddToPlayer(NetworkObject.GetComponent<Mind>());
+				}
+			}
 			else
 			{
 				// Action pre-placed on a networked object
@@ -147,6 +164,7 @@ namespace Messages.Server
 					ProposedAction = ProposedAction,
 					ComponentID = SerializeType(actionFromSO.GetType()),
 					spellListIndex = -1,
+					changelingAbilityListIndex = -1,
 					SpriteName = ID,
 					NetObjectOn = recipient.NetId()
 				};
@@ -159,10 +177,27 @@ namespace Messages.Server
 				NetMessage msg = new NetMessage
 				{
 					spellListIndex = spellAction.SpellData.Index,
+					changelingAbilityListIndex = -1,
 					showAlert = show,
 					cooldown = cooldown,
 					ProposedAction = ProposedAction,
 					ComponentID = SerializeType(spellAction.GetType()),
+					SpriteName = ID,
+					NetObjectOn = recipient.NetId()
+				};
+				SendTo(recipient, msg);
+				return msg;
+			}
+			else if (action is ChangelingAbility changelingAbility)
+			{
+				NetMessage msg = new NetMessage
+				{
+					spellListIndex = -1,
+					changelingAbilityListIndex = changelingAbility.AbilityData.Index,
+					showAlert = show,
+					cooldown = cooldown,
+					ProposedAction = ProposedAction,
+					ComponentID = SerializeType(changelingAbility.GetType()),
 					SpriteName = ID,
 					NetObjectOn = recipient.NetId()
 				};
@@ -200,6 +235,7 @@ namespace Messages.Server
 						showAlert = show,
 						ProposedAction = ProposedAction,
 						spellListIndex = -1,
+						changelingAbilityListIndex = -1,
 						SpriteName = ID,
 						NetObjectOn = recipient.NetId()
 					};
@@ -208,7 +244,7 @@ namespace Messages.Server
 				}
 				else
 				{
-					Logger.LogError("Failed to find IActionGUI on NetworkIdentity", Category.UserInput);
+					Loggy.LogError("Failed to find IActionGUI on NetworkIdentity", Category.UserInput);
 				}
 			}
 
@@ -236,7 +272,7 @@ namespace Messages.Server
 			if (SpriteHandlerManager.SpecialPresentSprites.ContainsKey(ID) &&
 			    SpriteHandlerManager.SpecialPresentSprites[ID] != null)
 			{
-				SpriteHandlerManager.SpecialPresentSprites[ID].ChangeSprite(FrontIconlocation, false);
+				SpriteHandlerManager.SpecialPresentSprites[ID].SetCatalogueIndexSprite(FrontIconlocation, false);
 			}
 			return _Send(recipient, ID, iServerActionGUI, UpdateType.Invalid, Change:Change);
 		}
@@ -271,7 +307,7 @@ namespace Messages.Server
 			if (SpriteHandlerManager.SpecialPresentSprites.ContainsKey(ID) &&
 			    SpriteHandlerManager.SpecialPresentSprites[ID] != null)
 			{
-				SpriteHandlerManager.SpecialPresentSprites[ID].ChangeSprite(BackIconlocation, false);
+				SpriteHandlerManager.SpecialPresentSprites[ID].SetCatalogueIndexSprite(BackIconlocation, false);
 			}
 
 			return _Send(recipient,ID , iServerActionGUI, UpdateType.Invalid, Change : Change);
@@ -318,7 +354,7 @@ namespace Messages.Server
 			if (SpriteHandlerManager.SpecialPresentSprites.ContainsKey(ID) &&
 			    SpriteHandlerManager.SpecialPresentSprites[ID] != null)
 			{
-				SpriteHandlerManager.SpecialPresentSprites[ID].ChangeSprite(FrontIconlocation, false);
+				SpriteHandlerManager.SpecialPresentSprites[ID].SetCatalogueIndexSprite(FrontIconlocation, false);
 			}
 			return _Send(recipient, ID, iServerActionGUI, actionChosen, UpdateType.Invalid, Change: Change);
 		}
@@ -334,7 +370,7 @@ namespace Messages.Server
 			if (SpriteHandlerManager.SpecialPresentSprites.ContainsKey(ID) &&
 			    SpriteHandlerManager.SpecialPresentSprites[ID] != null)
 			{
-				SpriteHandlerManager.SpecialPresentSprites[ID].ChangeSprite(BackIconlocation, false);
+				SpriteHandlerManager.SpecialPresentSprites[ID].SetCatalogueIndexSprite(BackIconlocation, false);
 			}
 
 			return _Send(recipient,ID , iServerActionGUI, actionChosen,  UpdateType.Invalid, Change: Change);
@@ -376,6 +412,7 @@ namespace Messages.Server
 					ProposedAction = ProposedAction,
 					ComponentID = SerializeType(actionFromSO.GetType()),
 					spellListIndex = RequestGameAction.FindIndex(action, actionChosen),
+					changelingAbilityListIndex = RequestGameAction.FindIndex(action, actionChosen),
 					isMulti = true
 				};
 				SendTo(recipient, msg);
@@ -387,10 +424,26 @@ namespace Messages.Server
 				NetMessage msg = new NetMessage
 				{
 					spellListIndex = spellAction.SpellData.Index,
+					changelingAbilityListIndex = -1,
 					showAlert = show,
 					cooldown = cooldown,
 					ProposedAction = ProposedAction,
 					ComponentID = SerializeType(spellAction.GetType()),
+					SpriteName = ID,
+					isMulti = true
+				};
+				SendTo(recipient, msg);
+				return msg;
+			} else if (action is ChangelingAbility ability)
+			{
+				NetMessage msg = new NetMessage
+				{
+					//changelingAbilityListIndex = spellAction.SpellData.Index,
+					changelingAbilityListIndex = ability.AbilityData.Index,
+					showAlert = show,
+					cooldown = cooldown,
+					ProposedAction = ProposedAction,
+					ComponentID = SerializeType(ability.GetType()),
 					SpriteName = ID,
 					isMulti = true
 				};
@@ -427,6 +480,7 @@ namespace Messages.Server
 						showAlert = show,
 						ProposedAction = ProposedAction,
 						spellListIndex = RequestGameAction.FindIndex(action, actionChosen),
+						changelingAbilityListIndex = RequestGameAction.FindIndex(action, actionChosen),
 						SpriteName = ID,
 						isMulti = true
 					};
@@ -435,7 +489,7 @@ namespace Messages.Server
 				}
 				else
 				{
-					Logger.LogError("Failed to find IActionGUI on NetworkIdentity", Category.UserInput);
+					Loggy.LogError("Failed to find IActionGUI on NetworkIdentity", Category.UserInput);
 				}
 			}
 

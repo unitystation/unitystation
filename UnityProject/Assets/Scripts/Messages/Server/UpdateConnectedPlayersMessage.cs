@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Logs;
 using Mirror;
 using UI;
 
@@ -20,7 +21,7 @@ namespace Messages.Server
 
 			if (msg.Players != null)
 			{
-				Logger.LogFormat("This client got an updated PlayerList state: {0}", Category.Connections, string.Join(",", msg.Players));
+				Loggy.LogFormat("This client got an updated PlayerList state: {0}", Category.Connections, string.Join(",", msg.Players));
 				PlayerList.Instance.ClientConnectedPlayers.Clear();
 				for (var i = 0; i < msg.Players.Length; i++)
 				{

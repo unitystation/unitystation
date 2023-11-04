@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using Mirror;
 using Systems.Interaction;
@@ -41,7 +42,7 @@ namespace Messages.Server
 
 		public override void Process(NetMessage msg)
 		{
-			Logger.LogTraceFormat("Processed {0}", Category.NetUI, this);
+			Loggy.LogTraceFormat("Processed {0}", Category.NetUI, this);
 			LoadNetworkObject(msg.Provider);
 
 			// If start or middle of message add to cache then stop
@@ -57,7 +58,7 @@ namespace Messages.Server
 				// Sanity check to make sure this isnt the last message
 				if (msg.NumOfMessages == ElementValuesCache[msg.UniqueID].Item2 + 1)
 				{
-					Logger.LogError("This message didnt arrive in time before the end message!", Category.NetUI);
+					Loggy.LogError("This message didnt arrive in time before the end message!", Category.NetUI);
 					ElementValuesCache.Remove(msg.UniqueID);
 					return;
 				}
@@ -76,7 +77,7 @@ namespace Messages.Server
 				// Check to make sure its the last message
 				if (msg.NumOfMessages != ElementValuesCache[msg.UniqueID].Item2)
 				{
-					Logger.LogError("Not all the messages arrived in time for the NetUI update.", Category.NetUI);
+					Loggy.LogError("Not all the messages arrived in time for the NetUI update.", Category.NetUI);
 					return;
 				}
 
@@ -121,7 +122,7 @@ namespace Messages.Server
 					var instance = NetworkTabManager.Instance.Get(provider, type);
 					if (instance == null)
 					{
-						Logger.LogError($"Couldn't find NetTab to send for {provider.OrNull()?.ExpensiveName()} " +
+						Loggy.LogError($"Couldn't find NetTab to send for {provider.OrNull()?.ExpensiveName()} " +
 								$"Does the tab prefab match the type '{type}'? Make sure that 'Tab{type}' is listed inside the NetTabs SO.");
 						return default;
 					}
@@ -165,7 +166,7 @@ namespace Messages.Server
 			if (values != null && tabAction != TabAction.Close)
 			{
 				// get max possible packet size from current transform
-				var maxPacketSize = Transport.activeTransport.GetMaxPacketSize(0);
+				var maxPacketSize = Transport.active.GetMaxPacketSize(0);
 
 				// set currentSize start value to max TCP header size (60b)
 				var currentSize = 100;
@@ -187,7 +188,7 @@ namespace Messages.Server
 					// If a single value is bigger than max packet size cannot proceed
 					if (size + 60 >= maxPacketSize)
 					{
-						Logger.LogError($"This value is above the max mirror packet limit, and cannot be split. Is {size + 60} bytes", Category.NetUI);
+						Loggy.LogError($"This value is above the max mirror packet limit, and cannot be split. Is {size + 60} bytes", Category.NetUI);
 						return null;
 					}
 
@@ -257,7 +258,7 @@ namespace Messages.Server
 				};
 
 				SendTo(recipient, msg);
-				Logger.LogTraceFormat("{0}", Category.NetUI, msg);
+				Loggy.LogTraceFormat("{0}", Category.NetUI, msg);
 				return null;
 			}
 
@@ -276,7 +277,7 @@ namespace Messages.Server
 				};
 
 				SendTo(recipient, msg);
-				Logger.LogTraceFormat("{0}", Category.NetUI, msg);
+				Loggy.LogTraceFormat("{0}", Category.NetUI, msg);
 			}
 
 			return null;

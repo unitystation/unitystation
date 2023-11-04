@@ -250,6 +250,7 @@ namespace Player
 				string id = script.characterSettings.Name;
 				if (TryFindPlayerSecurityRecord(id, out var securityRecord))
 				{
+					if (securityRecord.Occupation == null) return UNKNOWN_VALUE;
 					return securityRecord.Occupation.JobType.ToString();
 				}
 			}

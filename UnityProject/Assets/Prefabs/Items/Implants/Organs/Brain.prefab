@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
@@ -25,20 +26,150 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2392288886832539726, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: AdditionalReactions.Array.data[0]
+      propertyPath: 'AdditionalReactions.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 11e70b972f4994f40ba26c72d9bc4b5e,
         type: 2}
     - target: {fileID: 2392288886832539726, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: AdditionalReactions.Array.data[1]
+      propertyPath: 'AdditionalReactions.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 70f22bab240e3b3468ad4b1509c90e9f,
         type: 2}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: _assetId
+      value: 2881659629
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: m_AssetId
       value: 1e19c4562afbbd2479d14830399db738
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Armor.Bio
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Armor.Rad
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Armor.Magic
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Armor.Energy
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Armor.Anomaly
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Armor.StunImmunity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Resistances.AcidProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Resistances.Flammable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Resistances.LavaProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Resistances.UnAcidable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Resistances.FreezeProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Resistances.Indestructable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Armor.PressureProtectionInKpa.x
+      value: -5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Armor.PressureProtectionInKpa.y
+      value: 50000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Armor.TemperatureProtectionInK.x
+      value: -5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Armor.TemperatureProtectionInK.y
+      value: 50000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Resistances.LightningDamageProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619337224611839637, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Armor.DismembermentProtectionChance
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -73,17 +204,17 @@ PrefabInstance:
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -172,6 +303,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: CanBeSoldInCargo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: initialDescription
       value: Not so intelligent now, ay?
       objectReference: {fileID: 0}
@@ -182,13 +318,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: d959db3d812fcd74792e16aedab33f9e,
         type: 2}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: initialTraits.Array.data[2]
+      propertyPath: 'initialTraits.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 5e9ac88966a35d34a9fd90c34e1ddaa0,
         type: 2}
@@ -199,61 +335,61 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: CapableMutations.Array.data[4]
+      propertyPath: 'CapableMutations.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: 6f4827e9e317a844298816ebf349090e,
         type: 2}
     - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: CapableMutations.Array.data[5]
+      propertyPath: 'CapableMutations.Array.data[5]'
       value: 
       objectReference: {fileID: 11400000, guid: 9d0255666f60f9d43b0a6f158f0dbcbb,
         type: 2}
     - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: CapableMutations.Array.data[6]
+      propertyPath: 'CapableMutations.Array.data[6]'
       value: 
       objectReference: {fileID: 11400000, guid: af4cd79907ff2334d966c29b7d7cbecb,
         type: 2}
     - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: CapableMutations.Array.data[7]
+      propertyPath: 'CapableMutations.Array.data[7]'
       value: 
       objectReference: {fileID: 11400000, guid: 20ed756b4ce4b024dbc0ea5a047e695e,
         type: 2}
     - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: CapableMutations.Array.data[8]
+      propertyPath: 'CapableMutations.Array.data[8]'
       value: 
       objectReference: {fileID: 11400000, guid: 8911073af8af2e942b843e274afcc689,
         type: 2}
     - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: CapableMutations.Array.data[9]
+      propertyPath: 'CapableMutations.Array.data[9]'
       value: 
       objectReference: {fileID: 11400000, guid: 7e53fcf5a47c5134d951ea3c56e2f237,
         type: 2}
     - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: CapableMutations.Array.data[10]
+      propertyPath: 'CapableMutations.Array.data[10]'
       value: 
       objectReference: {fileID: 11400000, guid: 8c9c9234756a0ce49a8d569e94c89e02,
         type: 2}
     - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: CapableMutations.Array.data[11]
+      propertyPath: 'CapableMutations.Array.data[11]'
       value: 
       objectReference: {fileID: 11400000, guid: fa2fe46fa461fb64eb39fff39008d48e,
         type: 2}
     - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: CapableMutations.Array.data[12]
+      propertyPath: 'CapableMutations.Array.data[12]'
       value: 
       objectReference: {fileID: 11400000, guid: 0d67f903a71649d4b95dddb95b36c805,
         type: 2}
     - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: CapableMutations.Array.data[13]
+      propertyPath: 'CapableMutations.Array.data[13]'
       value: 
       objectReference: {fileID: 11400000, guid: 946daa6f977e3404a867763dbd618564,
         type: 2}
@@ -295,6 +431,22 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 8095853447068111044, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+    - {fileID: -4791504671035111961, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2377543636596819394}
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4959976547195528774}
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8557864071590038898}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
 --- !u!1 &3442747058158572537 stripped
 GameObject:
@@ -302,6 +454,21 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7946465884936551576}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2377543636596819394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3442747058158572537}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c54bccf584af80f4dacd9feac205c071, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &4959976547195528774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,12 +481,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840609453e4bf334cbd14cd7999c6fb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  isEMPVunerable: 0
-  EMPResistance: 2
   OnBodyID: 0
-  Pickupable: {fileID: 0}
   DrunkReagent: {fileID: 11400000, guid: 68548df5bd53cc24b8d2bbfa735a274d, type: 2}
   MaxDrunkAtPercentage: 0.06
   hasInbuiltSight: 0
@@ -327,6 +492,13 @@ MonoBehaviour:
   CannotSpeak: 0
   hasInbuiltSpeech: 0
   BodyChatModifier: 0
+  ReagentCirculatedComponent: {fileID: 0}
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevival:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8557864071590038898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,10 +511,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2cd4df264ca2434792937c1337b5b65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  isEMPVunerable: 0
-  EMPResistance: 2
   severityAndSymptoms:
   - HealthPercentageAndBelow: 0.5
     Affects:

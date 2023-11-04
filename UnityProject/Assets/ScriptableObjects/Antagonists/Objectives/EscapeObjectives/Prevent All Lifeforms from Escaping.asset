@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e74228224b048e0a493c1c09c2563df, type: 3}
   m_Name: Prevent All Lifeforms from Escaping
   m_EditorClassIdentifier: 
+  attributes: []
+  isEndRoundObjective: 1
   objectiveName: Prevent all lifeforms from escaping the station.
   IsUnique: 1
   description: Forestall and avert any orangic lifeforms from escaping the station.
   aiCanHave: 1
+  references:
+    version: 2
+    RefIds: []

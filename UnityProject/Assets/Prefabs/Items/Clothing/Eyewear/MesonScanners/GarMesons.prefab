@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
@@ -49,12 +50,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
-      propertyPath: attackVerbs.Array.data[0]
+      propertyPath: 'attackVerbs.Array.data[0]'
       value: sliced
       objectReference: {fileID: 0}
     - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af,
         type: 2}
@@ -64,6 +65,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 023feae971328c04ea890876ac1b1b77,
         type: 3}
+    - target: {fileID: 3317552745358689725, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: _assetId
+      value: 3353471691
+      objectReference: {fileID: 0}
     - target: {fileID: 3317552745358689725, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
       propertyPath: m_AssetId
@@ -151,7 +157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: a63d21b8173a0c844aaee5b2461ca7cb,
         type: 2}
@@ -162,6 +168,13 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: f7090cd1f50f38e4cb5c00519247c8f6,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3431291279286482953, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -9139370816723680653}
   m_SourcePrefab: {fileID: 100100000, guid: e6f80a7fd02e2c14ea72a1410452b690, type: 3}
 --- !u!1 &5425561884246163851 stripped
 GameObject:

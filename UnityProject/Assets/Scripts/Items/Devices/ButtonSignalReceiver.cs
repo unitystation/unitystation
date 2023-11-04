@@ -28,7 +28,7 @@ namespace Items
 
 		public override void Respond(SignalEmitter signalEmitter)
 		{
-			Chat.AddLocalMsgToChat("Signal received!", signalEmitter.gameObject);
+			Chat.AddActionMsgToChat(signalEmitter.gameObject, "Signal received!");
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
@@ -43,7 +43,7 @@ namespace Items
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.TargetObject.TryGetComponent<DoorSwitch>(out var _)) return true;
 			return false;
 		}

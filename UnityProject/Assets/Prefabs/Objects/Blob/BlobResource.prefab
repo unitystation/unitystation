@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 374255548619633186}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1335519297245919958}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &8792582922671139613
 MeshRenderer:
@@ -93,11 +93,13 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!1001 &4243836579678140783
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1157012077813375949, guid: 8222ca60d13546344a9ff991f239a0b0,
@@ -240,6 +242,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748064994123771905, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
+      propertyPath: _assetId
+      value: 2933453998
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748064994123771905, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
       propertyPath: m_AssetId
       value: da15cba24151f9e4ab233f8df65d1600
       objectReference: {fileID: 0}
@@ -250,6 +257,17 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 9404bbd4e10d6984bbc045fcd518d859,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7117784853787680189}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2916116569050989923, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6539844203508628031}
   m_SourcePrefab: {fileID: 100100000, guid: 8222ca60d13546344a9ff991f239a0b0, type: 3}
 --- !u!4 &1335519297245919958 stripped
 Transform:
@@ -265,6 +283,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!120 &6539844203508628031
 LineRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -352,13 +371,17 @@ LineRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
+      m_ColorSpace: -1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
     textureMode: 0
+    textureScale: {x: 1, y: 1}
     shadowBias: 0.5
     generateLightingData: 0
+  m_MaskInteraction: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+  m_ApplyActiveColorSpace: 0

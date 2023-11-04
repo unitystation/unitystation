@@ -72,7 +72,7 @@ TextureImporter:
       213: -6077804221936240361
     second: orang_22
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -89,11 +89,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -132,6 +133,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -147,6 +150,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -655,31 +670,30 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       orang_0: 5099043768942581287
-      orang_2: 3888395685339906240
-      orang_11: -859554847418887140
       orang_1: -1054837280163331445
-      orang_21: -6468058344423219397
+      orang_10: 6177018371617332732
+      orang_11: -859554847418887140
       orang_12: 7080376055603345594
-      orang_3: -7472692206492406292
+      orang_13: -9074589743810911065
+      orang_14: -2525599385435244217
       orang_15: 4890775291032226256
-      orang_17: 8063489468324196814
       orang_16: -7137760005611668710
-      orang_19: 8238669581153363253
-      orang_20: 2558755260638835187
-      orang_4: 8644482931641233961
+      orang_17: 8063489468324196814
       orang_18: -8014789179612285762
-      orang_9: 6225478883938675919
+      orang_19: 8238669581153363253
+      orang_2: 3888395685339906240
+      orang_20: 2558755260638835187
+      orang_21: -6468058344423219397
+      orang_22: -6077804221936240361
+      orang_3: -7472692206492406292
+      orang_4: 8644482931641233961
+      orang_5: -7577864935338997251
       orang_6: -3962501466398540337
       orang_7: 6363078798045993589
       orang_8: -1269984617386669006
-      orang_10: 6177018371617332732
-      orang_22: -6077804221936240361
-      orang_13: -9074589743810911065
-      orang_14: -2525599385435244217
-      orang_5: -7577864935338997251
-  spritePackingTag: 
+      orang_9: 6225478883938675919
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -13,11 +13,7 @@ MonoBehaviour:
   m_Name: SuitStorageCapacity
   m_EditorClassIdentifier: 
   maxSize: 4
-  Whitelist:
-  - {fileID: 11400000, guid: 3c067c15f69684f9bb99b801202069b3, type: 2}
-  - {fileID: 11400000, guid: a88f1555ca8abf643aea180c637f5329, type: 2}
+  Whitelist: []
   Required: []
   Blacklist:
   - {fileID: 11400000, guid: 05e6127af6cf24f08b94fb9922263c26, type: 2}
-  - {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260, type: 2}
-  - {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d, type: 2}

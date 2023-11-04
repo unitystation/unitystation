@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1382846236730718897, guid: 8332fa075a02a824eaf1162a1650b259,
@@ -21,6 +22,11 @@ PrefabInstance:
         type: 3}
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1461827644208326759, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: _assetId
+      value: 3282650130
       objectReference: {fileID: 0}
     - target: {fileID: 1461827644208326759, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
@@ -99,157 +105,160 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[0]
+      propertyPath: 'remarks.Array.data[0]'
       value: A simple hello could lead to a million things.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[1]
+      propertyPath: 'remarks.Array.data[1]'
       value: One of the simplest ways to stay happy is to let go of the things that
         make you sad.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[2]
+      propertyPath: 'remarks.Array.data[2]'
       value: When things aren't adding up in your life start subtracting.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[3]
+      propertyPath: 'remarks.Array.data[3]'
       value: Never overlook the power of simplicity... yes...
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[4]
+      propertyPath: 'remarks.Array.data[4]'
       value: It is the sweet simple things in life which are the real ones afterall.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[5]
+      propertyPath: 'remarks.Array.data[5]'
       value: Simplicity is the ultimate sophistication.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[6]
+      propertyPath: 'remarks.Array.data[6]'
       value: Simplicity is the soul of efficiency.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[7]
+      propertyPath: 'remarks.Array.data[7]'
       value: Simplicity is good for the soul.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[8]
+      propertyPath: 'remarks.Array.data[8]'
       value: Simplicity is the key to brilliance.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[9]
+      propertyPath: 'remarks.Array.data[9]'
       value: Simplicity makes for less stress and more happiness.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[10]
+      propertyPath: 'remarks.Array.data[10]'
       value: The only simplicity to be trusted is the simplicity to be found on the
         far side of complexity.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[11]
+      propertyPath: 'remarks.Array.data[11]'
       value: The core of beauty is simplicity.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[12]
+      propertyPath: 'remarks.Array.data[12]'
       value: Simplicity is a prerequisite for reliability.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[13]
+      propertyPath: 'remarks.Array.data[13]'
       value: There is beauty in simplicity.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[14]
+      propertyPath: 'remarks.Array.data[14]'
       value: Through simplicity comes great beauty.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[15]
+      propertyPath: 'remarks.Array.data[15]'
       value: Live simply, so that others may simply live.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[16]
+      propertyPath: 'remarks.Array.data[16]'
       value: Simplicity is the real beauty...
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[17]
+      propertyPath: 'remarks.Array.data[17]'
       value: Unix is simple. It just takes a genius to understand its simplicity.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[18]
+      propertyPath: 'remarks.Array.data[18]'
       value: I am convinced that there can be luxury in simplicity.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[19]
+      propertyPath: 'remarks.Array.data[19]'
       value: Simplicity is the keynote of all true elegance.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[20]
+      propertyPath: 'remarks.Array.data[20]'
       value: Simplicity is about subtracting the obvious and adding the meaningful.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[21]
+      propertyPath: 'remarks.Array.data[21]'
       value: Everything should be as simple as possible, but not simpler.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[22]
+      propertyPath: 'remarks.Array.data[22]'
       value: The greatest step towards a life of simplicity is to learn to let go.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[23]
+      propertyPath: 'remarks.Array.data[23]'
       value: 'Nothing is more simple than greatness: indeed to be simple is to be
         great.'
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[24]
+      propertyPath: 'remarks.Array.data[24]'
       value: The key to finding a happy balance in modern life is simplicity.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[25]
+      propertyPath: 'remarks.Array.data[25]'
       value: Out of clutter find simplicity.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[26]
+      propertyPath: 'remarks.Array.data[26]'
       value: I have a simple philosophy. Find what's empty. Empty what's full. Scratch
         where it itches.
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[27]
+      propertyPath: 'remarks.Array.data[27]'
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[28]
+      propertyPath: 'remarks.Array.data[28]'
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
         type: 3}
-      propertyPath: remarks.Array.data[29]
+      propertyPath: 'remarks.Array.data[29]'
       value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8332fa075a02a824eaf1162a1650b259, type: 3}

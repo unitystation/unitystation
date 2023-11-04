@@ -147,7 +147,7 @@ TextureImporter:
       213: 21300094
     second: blob_resource_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      blob_resource_25: 21300050
-      blob_resource_27: 21300054
-      blob_resource_11: 21300022
-      blob_resource_3: 21300006
-      blob_resource_20: 21300040
-      blob_resource_19: 21300038
-      blob_resource_40: 21300080
-      blob_resource_5: 21300010
-      blob_resource_34: 21300068
-      blob_resource_24: 21300048
-      blob_resource_42: 21300084
-      blob_resource_44: 21300088
-      blob_resource_22: 21300044
-      blob_resource_36: 21300072
-      blob_resource_33: 21300066
-      blob_resource_21: 21300042
-      blob_resource_14: 21300028
-      blob_resource_37: 21300074
-      blob_resource_46: 21300092
-      blob_resource_8: 21300016
-      blob_resource_39: 21300078
-      blob_resource_6: 21300012
-      blob_resource_38: 21300076
-      blob_resource_43: 21300086
-      blob_resource_23: 21300046
-      blob_resource_2: 21300004
-      blob_resource_9: 21300018
-      blob_resource_13: 21300026
-      blob_resource_41: 21300082
-      blob_resource_1: 21300002
-      blob_resource_4: 21300008
-      blob_resource_26: 21300052
-      blob_resource_10: 21300020
-      blob_resource_15: 21300030
-      blob_resource_30: 21300060
-      blob_resource_16: 21300032
-      blob_resource_32: 21300064
-      blob_resource_31: 21300062
-      blob_resource_47: 21300094
-      blob_resource_17: 21300034
-      blob_resource_7: 21300014
-      blob_resource_28: 21300056
-      blob_resource_12: 21300024
-      blob_resource_45: 21300090
-      blob_resource_18: 21300036
       blob_resource_0: 21300000
+      blob_resource_1: 21300002
+      blob_resource_10: 21300020
+      blob_resource_11: 21300022
+      blob_resource_12: 21300024
+      blob_resource_13: 21300026
+      blob_resource_14: 21300028
+      blob_resource_15: 21300030
+      blob_resource_16: 21300032
+      blob_resource_17: 21300034
+      blob_resource_18: 21300036
+      blob_resource_19: 21300038
+      blob_resource_2: 21300004
+      blob_resource_20: 21300040
+      blob_resource_21: 21300042
+      blob_resource_22: 21300044
+      blob_resource_23: 21300046
+      blob_resource_24: 21300048
+      blob_resource_25: 21300050
+      blob_resource_26: 21300052
+      blob_resource_27: 21300054
+      blob_resource_28: 21300056
       blob_resource_29: 21300058
+      blob_resource_3: 21300006
+      blob_resource_30: 21300060
+      blob_resource_31: 21300062
+      blob_resource_32: 21300064
+      blob_resource_33: 21300066
+      blob_resource_34: 21300068
       blob_resource_35: 21300070
-  spritePackingTag: 
+      blob_resource_36: 21300072
+      blob_resource_37: 21300074
+      blob_resource_38: 21300076
+      blob_resource_39: 21300078
+      blob_resource_4: 21300008
+      blob_resource_40: 21300080
+      blob_resource_41: 21300082
+      blob_resource_42: 21300084
+      blob_resource_43: 21300086
+      blob_resource_44: 21300088
+      blob_resource_45: 21300090
+      blob_resource_46: 21300092
+      blob_resource_47: 21300094
+      blob_resource_5: 21300010
+      blob_resource_6: 21300012
+      blob_resource_7: 21300014
+      blob_resource_8: 21300016
+      blob_resource_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

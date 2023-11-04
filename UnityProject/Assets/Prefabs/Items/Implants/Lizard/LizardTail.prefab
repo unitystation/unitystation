@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3297364101944848990, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
@@ -35,22 +36,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4990853901509658031, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[1]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[1]'
       value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 4990853901509658031, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[2]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[2]'
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4990853901509658031, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[3]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[3]'
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4990853901509658031, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
         type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: e7262018d6d537a428d9e7f88f362630,
         type: 2}
@@ -96,6 +97,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A severed lizard tail. Somewhere, no doubt, a lizard hater is very pleased
         with themselves.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8425139041998570375, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
+        type: 3}
+      propertyPath: _assetId
+      value: 2369206552
       objectReference: {fileID: 0}
     - target: {fileID: 8425139041998570375, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
         type: 3}
@@ -163,4 +169,7 @@ PrefabInstance:
       value: LizardTail
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b87ebcdea6fb0dd49b0fbcf1b308c159, type: 3}

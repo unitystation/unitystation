@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2996950057520413444, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
@@ -17,6 +18,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Designed to quickly reload revolvers. These rounds are incredibly bouncy
         and MOSTLY nonlethal, making them great to show off trickshots with.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381887893271538130, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
+        type: 3}
+      propertyPath: _assetId
+      value: 312054339
       objectReference: {fileID: 0}
     - target: {fileID: 3381887893271538130, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
         type: 3}
@@ -89,4 +95,7 @@ PrefabInstance:
       value: 111c6e0e841c81a4dbbf5d548ac77cd6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4262f7c3dbc59a8499d9f780d06bd0ad, type: 3}

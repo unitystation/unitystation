@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
@@ -44,22 +45,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
-      propertyPath: attackVerbs.Array.data[0]
+      propertyPath: 'attackVerbs.Array.data[0]'
       value: bashed
       objectReference: {fileID: 0}
     - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
-      propertyPath: attackVerbs.Array.data[1]
+      propertyPath: 'attackVerbs.Array.data[1]'
       value: battered
       objectReference: {fileID: 0}
     - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
-      propertyPath: attackVerbs.Array.data[2]
+      propertyPath: 'attackVerbs.Array.data[2]'
       value: bludgeoned
       objectReference: {fileID: 0}
     - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
-      propertyPath: attackVerbs.Array.data[3]
+      propertyPath: 'attackVerbs.Array.data[3]'
       value: whacked
       objectReference: {fileID: 0}
     - target: {fileID: 4314607143740255459, guid: 983b718a497883e46bb1b4c8927f9961,
@@ -140,6 +141,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4467490074185128065, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
+      propertyPath: _assetId
+      value: 3202952940
+      objectReference: {fileID: 0}
+    - target: {fileID: 4467490074185128065, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
       propertyPath: m_AssetId
       value: f9ce0aa9f9bf2be4ea2468ff10f9ab93
       objectReference: {fileID: 0}
@@ -172,6 +178,13 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 9553cf8a0175a124b84d95c72a39b689,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4353717592831911221, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5771745461331304457}
   m_SourcePrefab: {fileID: 100100000, guid: 983b718a497883e46bb1b4c8927f9961, type: 3}
 --- !u!1 &6062953987052555307 stripped
 GameObject:

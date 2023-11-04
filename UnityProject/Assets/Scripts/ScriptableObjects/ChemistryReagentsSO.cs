@@ -1,11 +1,13 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
 #endif
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using Chemistry;
+using Logs;
 
 namespace ScriptableObjects
 {
@@ -32,13 +34,13 @@ namespace ScriptableObjects
 			{
 				if (allChemistryReagents[i] == null)
 				{
-					Logger.LogError($"The ChemistryReagentsSO singleton has null at the index: {i}.");
+					Loggy.LogError($"The ChemistryReagentsSO singleton has null at the index: {i}.");
 					continue;
 				}
 
 				if (allChemistryReagents[i].IndexInSingleton != i)
 				{
-					Logger.LogError($"The reagent {allChemistryReagents[i]} has the wrong singleton index. " +
+					Loggy.LogError($"The reagent {allChemistryReagents[i]} has the wrong singleton index. " +
 					                $"Expected: {i}. Found: {allChemistryReagents[i].IndexInSingleton}.");
 				}
 			}
@@ -46,15 +48,33 @@ namespace ScriptableObjects
 
 		public void GenerateReagentReactionReferences()
 		{
-
-			foreach (var Reaction in allChemistryReactions)
+			try
 			{
-				foreach (var Required in Reaction.ingredients)
+				foreach (var reaction in allChemistryReactions)
 				{
-					Required.Key.RelatedReactions = Required.Key.RelatedReactions.Append(Reaction).ToArray();
+					foreach (var required in reaction.ingredients)
+					{
+						required.Key.RelatedReactions = new Reaction[0];
+					}
+				}
+
+				foreach (var reaction in allChemistryReactions)
+				{
+					foreach (var required in reaction.ingredients)
+					{
+						if (required.Key == null) continue;
+						if (required.Key.RelatedReactions == null)
+						{
+							required.Key.RelatedReactions = new Reaction[0];
+						}
+						required.Key.RelatedReactions = required.Key.RelatedReactions.Append(reaction).ToArray();
+					}
 				}
 			}
-
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+			}
 		}
 	}
 
@@ -102,6 +122,17 @@ namespace ScriptableObjects
 				AssetDatabase.Refresh();
 			}
 
+
+			if (GUILayout.Button("Collect all Reagents"))
+			{
+				ChemistryReagentsSO singleton = (ChemistryReagentsSO) target;
+				singleton.AllChemistryReagents.Clear();
+				singleton.AllChemistryReagents.AddRange(FindAssetsByType<Reagent>());
+				EditorUtility.SetDirty(singleton);
+				AssetDatabase.SaveAssets();
+				AssetDatabase.Refresh();
+			}
+
 			if (GUILayout.Button("Collect all reactions"))
 			{
 				ChemistryReagentsSO singleton = (ChemistryReagentsSO) target;
@@ -111,7 +142,6 @@ namespace ScriptableObjects
 				AssetDatabase.SaveAssets();
 				AssetDatabase.Refresh();
 			}
-
 		}
 	}
 #endif

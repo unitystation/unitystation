@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -478411493099748252, guid: aa11b93feb043fe4e84e2f313cc41f6b,
@@ -122,6 +123,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6019724306477015009, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
+      propertyPath: _assetId
+      value: 1659723808
+      objectReference: {fileID: 0}
+    - target: {fileID: 6019724306477015009, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
       propertyPath: m_AssetId
       value: c4c22bdc7cdd546479ac1de5589b5617
       objectReference: {fileID: 0}
@@ -138,31 +144,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6153340046991516868, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
-      propertyPath: states.Array.data[0]
+      propertyPath: 'states.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: f1c55d938596898489275b5d67ae8183,
         type: 2}
     - target: {fileID: 6153340046991516868, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
-      propertyPath: states.Array.data[1]
+      propertyPath: 'states.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 0300501e8d77d5c4f9264bf9f87dd62e,
         type: 2}
     - target: {fileID: 6153340046991516868, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
-      propertyPath: states.Array.data[2]
+      propertyPath: 'states.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 58f920c5778516c469fd44836715ce0c,
         type: 2}
     - target: {fileID: 6153340046991516868, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
-      propertyPath: states.Array.data[3]
+      propertyPath: 'states.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: e0ac3c48fdc6a374b812dcf38f61c86a,
         type: 2}
     - target: {fileID: 6153340046991516868, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
-      propertyPath: states.Array.data[4]
+      propertyPath: 'states.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: a9770efcfaef8a841bba9179224e0683,
         type: 2}
@@ -184,23 +190,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7207864184339415129, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 213fb3b2db65cc34684697d47bb8f7ad,
         type: 2}
     - target: {fileID: 7207864184339415129, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 87c4013f1f99c9749bf238404d3898e2,
         type: 2}
     - target: {fileID: 7207864184339415129, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 085f18e36927a034e9c7fe05071ad821,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2762829276071619203, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1857382574510368006}
   m_SourcePrefab: {fileID: 100100000, guid: aa11b93feb043fe4e84e2f313cc41f6b, type: 3}
 --- !u!1 &260239628808517242 stripped
 GameObject:
@@ -220,6 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2921effb2de2dd443a2814a4e5900618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   initialState: {fileID: 11400000, guid: f1c55d938596898489275b5d67ae8183, type: 2}

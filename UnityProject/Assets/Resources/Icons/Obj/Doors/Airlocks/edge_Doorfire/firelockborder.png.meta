@@ -57,7 +57,7 @@ TextureImporter:
       213: 976463374551642304
     second: firelockborder_17
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -74,11 +74,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -117,6 +118,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -132,6 +135,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -534,27 +549,26 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      firelockborder_0: -8014727978812905255
+      firelockborder_1: 740148938137783019
+      firelockborder_10: -98502489416618968
+      firelockborder_11: -6057903033770087542
+      firelockborder_12: 7694470332362118988
+      firelockborder_13: -1000046099130435990
+      firelockborder_14: -4393063938333249764
       firelockborder_15: -4884335851472628081
-      firelockborder_9: -3425505920948373843
+      firelockborder_16: 3250969970699351633
       firelockborder_17: 976463374551642304
       firelockborder_2: -1945912852935232330
-      firelockborder_16: 3250969970699351633
-      firelockborder_5: 5142960425923316564
-      firelockborder_4: -2351098709695406572
-      firelockborder_12: 7694470332362118988
-      firelockborder_6: -5012202841273689580
-      firelockborder_8: 1174626919883932328
-      firelockborder_11: -6057903033770087542
-      firelockborder_7: -9074536048835532057
-      firelockborder_14: -4393063938333249764
-      firelockborder_1: 740148938137783019
-      firelockborder_13: -1000046099130435990
-      firelockborder_0: -8014727978812905255
-      firelockborder_10: -98502489416618968
       firelockborder_3: -1966290997497829641
-  spritePackingTag: 
+      firelockborder_4: -2351098709695406572
+      firelockborder_5: 5142960425923316564
+      firelockborder_6: -5012202841273689580
+      firelockborder_7: -9074536048835532057
+      firelockborder_8: 1174626919883932328
+      firelockborder_9: -3425505920948373843
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -9,20 +9,24 @@ using System.Collections;
 	/// </summary>
 	public class OverlayCrits : MonoBehaviour
 	{
-		public OverlayState currentState;
+		public static OverlayCrits Instance;
+
 		public Material holeMat;
-		public RectTransform shroud;
-		public Image shroudImg;
 
 		private bool MonitorTarget = false;
-		private Vector3 positionCache = Vector3.zero;
 
-		public Color shroudColor;
+		public Color TargetshroudColor = Color.red;
+		public Color shroudColor = Color.red;
 		public float Radius = 5;
 
 		public float Epow = 2;
 
-		private float expectedRadius;
+		public float TargetRadius = 3;
+
+		public void Awake()
+		{
+			Instance = this;
+		}
 
 		void LateUpdate()
 		{
@@ -30,17 +34,25 @@ using System.Collections;
 			{
 				if (PlayerManager.LocalPlayerObject != null)
 				{
-					Vector3 playerPos =
-						Camera.main.WorldToScreenPoint(PlayerManager.LocalPlayerObject.transform.position);
-					shroud.position = playerPos;
+					Vector3 playerPos = Camera.main.WorldToScreenPoint(PlayerManager.LocalPlayerObject.transform.position);
 				}
 			}
 		}
 
 		private void Update()
 		{
-			Radius = Mathf.Lerp(Radius, expectedRadius, Time.deltaTime);
+			shroudColor = Color.Lerp(shroudColor, TargetshroudColor, Time.deltaTime);
+			Radius = Mathf.Lerp(Radius, TargetRadius, Time.deltaTime);
+		}
+
+
+		void OnRenderImage(RenderTexture source, RenderTexture destination)
+		{
+			holeMat.SetColor("_Color", shroudColor);
 			holeMat.SetFloat("_Radius", Radius);
+			holeMat.SetFloat("_Shape", 1f);
+
+			Graphics.Blit(source, destination, holeMat);
 		}
 
 		public void SetState(OverlayState state)
@@ -63,7 +75,6 @@ using System.Collections;
 				    SetState(-1.1f);
 			 		break;
 			 }
-			currentState = state;
 		 }
 
 
@@ -99,11 +110,11 @@ using System.Collections;
 				var PercentagePower = Mathf.Abs(((state+0.66f)/(1.16f)));
 				PercentagePower = Mathf.Clamp(PercentagePower, 0, 1);
 				// )
-				shroudColor.a = Mathf.Lerp(0.60f , 0.0f, Mathf.Pow(PercentagePower, (float)Math.E * Epow));
+				TargetshroudColor.a = Mathf.Lerp(0.60f , 0.0f, Mathf.Pow(PercentagePower, (float)Math.E * Epow));
 			}
 			else
 			{
-				shroudColor.a = 0;
+				TargetshroudColor.a = 0;
 			}
 
 			//_Radius, 1 to 0
@@ -112,32 +123,15 @@ using System.Collections;
 			if (state < 0.5f)
 			{
 				var PercentagePower = Mathf.Clamp(((state + 0.66f) / (1.16f)), 0f, 1f);
-				expectedRadius = Mathf.Lerp(0f, 1f, Mathf.Pow(PercentagePower,(float)Math.E * Epow));
+				TargetRadius = Mathf.Lerp(0f, 1f, Mathf.Pow(PercentagePower,(float)Math.E * Epow));
 			}
 			else
 			{
-				Radius = 5;
+				TargetRadius = 3;
 			}
-
-
-			holeMat.SetColor("_Color", shroudColor);
-			//holeMat.SetFloat("_Radius", Radius);
-			holeMat.SetFloat("_Shape", 1f);
-
-			shroudImg.enabled = true;
 		}
 
 
-	}
-
-	[Serializable]
-	public class ShroudPreference
-	{
-		public float holeRadius;
-		public float holeShape;
-		public bool shroudActive = true;
-
-		public Color shroudColor;
 	}
 
 	public enum OverlayState

@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: extinguish_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      extinguish_19: 21300038
-      extinguish_10: 21300020
-      extinguish_14: 21300028
-      extinguish_16: 21300032
-      extinguish_25: 21300050
-      extinguish_18: 21300036
-      extinguish_5: 21300010
-      extinguish_26: 21300052
       extinguish_0: 21300000
-      extinguish_30: 21300060
-      extinguish_11: 21300022
-      extinguish_9: 21300018
-      extinguish_20: 21300040
       extinguish_1: 21300002
-      extinguish_7: 21300014
-      extinguish_3: 21300006
-      extinguish_15: 21300030
-      extinguish_17: 21300034
-      extinguish_28: 21300056
-      extinguish_4: 21300008
-      extinguish_13: 21300026
-      extinguish_27: 21300054
-      extinguish_8: 21300016
-      extinguish_29: 21300058
-      extinguish_24: 21300048
+      extinguish_10: 21300020
+      extinguish_11: 21300022
       extinguish_12: 21300024
-      extinguish_21: 21300042
-      extinguish_23: 21300046
-      extinguish_31: 21300062
-      extinguish_6: 21300012
+      extinguish_13: 21300026
+      extinguish_14: 21300028
+      extinguish_15: 21300030
+      extinguish_16: 21300032
+      extinguish_17: 21300034
+      extinguish_18: 21300036
+      extinguish_19: 21300038
       extinguish_2: 21300004
+      extinguish_20: 21300040
+      extinguish_21: 21300042
       extinguish_22: 21300044
-  spritePackingTag: 
+      extinguish_23: 21300046
+      extinguish_24: 21300048
+      extinguish_25: 21300050
+      extinguish_26: 21300052
+      extinguish_27: 21300054
+      extinguish_28: 21300056
+      extinguish_29: 21300058
+      extinguish_3: 21300006
+      extinguish_30: 21300060
+      extinguish_31: 21300062
+      extinguish_4: 21300008
+      extinguish_5: 21300010
+      extinguish_6: 21300012
+      extinguish_7: 21300014
+      extinguish_8: 21300016
+      extinguish_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

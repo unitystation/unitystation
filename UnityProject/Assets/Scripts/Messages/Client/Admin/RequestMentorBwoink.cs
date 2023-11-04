@@ -18,7 +18,8 @@ namespace Messages.Client.Admin
 
 			if (PlayerList.Instance.TryGetByUserID(msg.UserToBwoink, out var recipient) == false) return;
 
-			MentorBwoinkMessage.Send(recipient.GameObject, SentByPlayer.AccountId, $"<color=#6400FF>{SentByPlayer.Username}: {msg.Message}</color>");
+			MentorBwoinkMessage.Send(recipient.GameObject, SentByPlayer.AccountId, $"<color=#6400FF>{SentByPlayer.Username}: { GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " + msg.Message}</color>");
+
 			UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(msg.Message, recipient, SentByPlayer);
 		}
 

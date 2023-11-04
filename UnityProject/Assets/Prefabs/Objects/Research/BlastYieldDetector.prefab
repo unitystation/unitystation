@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 41151664025558929, guid: 84ac8abc1d963be42906a209a1b97350,
@@ -163,22 +164,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6842057026420969930, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 24904f3ccd19f8642a9c0047ef52bf0a,
         type: 2}
     - target: {fileID: 6842057026420969930, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 6acb70e808b7a3d49afcc5eeb9620228,
         type: 2}
     - target: {fileID: 6842057026420969930, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 945934c4a757b0d4280c386d220d5323,
         type: 2}
+    - target: {fileID: 7601794184611008114, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: _assetId
+      value: 2419667408
+      objectReference: {fileID: 0}
     - target: {fileID: 7601794184611008114, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
       propertyPath: m_AssetId
@@ -195,6 +201,21 @@ PrefabInstance:
       value: Detects explosions and their composition in the direction it is facing.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2063543918209415952, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2754291635358447244}
+    - targetCorrespondingSourceObject: {fileID: 2063543918209415952, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3033139694172101358}
+    - targetCorrespondingSourceObject: {fileID: 2063543918209415952, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5608448172585773026}
   m_SourcePrefab: {fileID: 100100000, guid: 84ac8abc1d963be42906a209a1b97350, type: 3}
 --- !u!1 &4129947782088424588 stripped
 GameObject:
@@ -214,6 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bbc616eb881dd44aa96df6fc3efbdc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   researchServer: {fileID: 0}
@@ -243,6 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   NetTabType: 55
@@ -259,6 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   MethodRotation: 0

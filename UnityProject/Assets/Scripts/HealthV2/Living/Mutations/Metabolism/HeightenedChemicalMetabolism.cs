@@ -1,3 +1,4 @@
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using UnityEngine;
 
 namespace HealthV2.Living.Mutations.Metabolism
@@ -18,7 +19,7 @@ namespace HealthV2.Living.Mutations.Metabolism
 		{
 			public HeightenedChemicalMetabolism HeightenedChemicalMetabolism => RelatedMutationSO as HeightenedChemicalMetabolism;
 
-			public BodyPart Related;
+			public MetabolismComponent Related;
 
 			public InHeightenedChemicalMetabolism(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
 			{
@@ -27,7 +28,7 @@ namespace HealthV2.Living.Mutations.Metabolism
 
 			public override void SetUp()
 			{
-				Related = BodyPart;
+				Related = BodyPart.GetComponent<MetabolismComponent>();
 				Related.ReagentMetabolism += HeightenedChemicalMetabolism.ReagentMetabolism;
 			}
 

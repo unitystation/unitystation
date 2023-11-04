@@ -8,6 +8,7 @@ using Chemistry.Components;
 using Core.Factories;
 using HealthV2;
 using Items;
+using Logs;
 using Messages.Server;
 using Mirror;
 using Newtonsoft.Json;
@@ -34,7 +35,7 @@ public class MetaDataLayer : MonoBehaviour
 
 	private MetaDataSystem MetaDataSystem;
 
-	private SubsystemManager subsystemManager;
+	private MatrixSystemManager subsystemManager;
 	private ReactionManager reactionManager;
 	private Matrix matrix;
 	public Matrix Matrix => matrix;
@@ -64,7 +65,7 @@ public class MetaDataLayer : MonoBehaviour
 
 	private void Awake()
 	{
-		subsystemManager = GetComponentInParent<SubsystemManager>();
+		subsystemManager = GetComponentInParent<MatrixSystemManager>();
 		reactionManager = GetComponentInParent<ReactionManager>();
 		matrix = GetComponent<Matrix>();
 		MetaDataSystem = subsystemManager.GetComponent<MetaDataSystem>();
@@ -116,8 +117,8 @@ public class MetaDataLayer : MonoBehaviour
 		}
 		catch (Exception e)
 		{
-			Logger.LogError("THIS REALLY SHOULDN'T HAPPEN!");
-			Logger.LogError(e.ToString());
+			Loggy.LogError("THIS REALLY SHOULDN'T HAPPEN!");
+			Loggy.LogError(e.ToString());
 
 			if (createIfNotExists)
 			{
@@ -307,9 +308,8 @@ public class MetaDataLayer : MonoBehaviour
 		{
 			case "powder":
 			{
-
-					EffectsFactory.PowderSplat(worldPosInt, reagents.MixColor, reagents);
-					break;
+				EffectsFactory.PowderSplat(worldPosInt, reagents.MixColor, reagents);
+				break;
 			}
 			case "liquid":
 			{

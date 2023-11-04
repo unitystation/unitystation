@@ -32,7 +32,7 @@ namespace Effects
 			{
 				totalTime += Time.deltaTime;
 
-				lightSprite.Color.a = 1 - (totalTime / time);
+				lightSprite.Color.a =  0.8f * ( 1  - (totalTime / time));
 				yield return WaitFor.EndOfFrame;
 			}
 

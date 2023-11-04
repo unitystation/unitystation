@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2917128564446547862, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: _assetId
+      value: 3695648020
+      objectReference: {fileID: 0}
     - target: {fileID: 2917128564446547862, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: m_AssetId
@@ -95,7 +101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
-      propertyPath: initialTraits.Array.data[0]
+      propertyPath: 'initialTraits.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: a2402731d72264ec4a2baec0351f6858,
         type: 2}
@@ -111,6 +117,13 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: be4056d73ecd47243826e80e6e520a0a,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3470201379774433319}
   m_SourcePrefab: {fileID: 100100000, guid: 6b5f74a79e023479cb5b30a2879621da, type: 3}
 --- !u!1 &2718814624466391119 stripped
 GameObject:
@@ -131,6 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slot: 9
+  CompatibleSlots: 
   armoredBodyParts:
   - armoringBodyPartType: 7
     armor:
@@ -144,7 +158,11 @@ MonoBehaviour:
       Acid: 0
       Magic: 0
       Bio: 0
+      Anomaly: 0
       DismembermentProtectionChance: 0
+      StunImmunity: 0
+      TemperatureProtectionInK: {x: 268.15, y: 313.15}
+      PressureProtectionInKpa: {x: 30, y: 300}
 --- !u!210 &8146828530602300929 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 9033094390735762540, guid: 6b5f74a79e023479cb5b30a2879621da,

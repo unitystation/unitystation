@@ -5,12 +5,18 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: foreverID
       value: db8a2e4c2c7146b48abcc5b32a5ccd26
+      objectReference: {fileID: 0}
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: <CanBeSpawnedByAdmin>k__BackingField
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1481169419180323577, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -126,17 +132,17 @@ PrefabInstance:
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -180,6 +186,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: _assetId
+      value: 137814685
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: m_AssetId
       value: db8a2e4c2c7146b48abcc5b32a5ccd26
       objectReference: {fileID: 0}
@@ -214,6 +225,21 @@ PrefabInstance:
     - {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
     - {fileID: 5971563122362279857, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
     - {fileID: 7474997010728688467, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 59648761982488179}
+    - targetCorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 293370161908963151}
+    - targetCorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 406488744750735638}
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!1 &721717256067945856 stripped
 GameObject:
@@ -241,6 +267,8 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  struggleChance: 50
+  timeForStruggle: 3.25
 --- !u!114 &293370161908963151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,18 +281,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf6a312c50114272bc561c429cbb4175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   StoredGasMix:
     GasData:
       GasesArray: []
-    Pressure: 0
+    pressure: 0
     Volume: 0.5
-    Temperature: 293.15
+    temperature: 293.15
   MaximumMoles: 1013.25
   ReleasePressure: 101.325
-  Volume: 0.5
-  Temperature: 0
   CargoSealApproved: 0
 --- !u!114 &406488744750735638
 MonoBehaviour:

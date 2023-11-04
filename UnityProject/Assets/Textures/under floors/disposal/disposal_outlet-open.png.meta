@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: outlet-open_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      outlet-open_13: 21300026
-      outlet-open_15: 21300030
-      outlet-open_20: 21300040
-      outlet-open_5: 21300010
-      outlet-open_28: 21300056
-      outlet-open_12: 21300024
-      outlet-open_10: 21300020
       outlet-open_0: 21300000
-      outlet-open_2: 21300004
-      outlet-open_6: 21300012
-      outlet-open_19: 21300038
-      outlet-open_25: 21300050
-      outlet-open_31: 21300062
-      outlet-open_21: 21300042
-      outlet-open_26: 21300052
-      outlet-open_24: 21300048
-      outlet-open_29: 21300058
-      outlet-open_27: 21300054
-      outlet-open_17: 21300034
-      outlet-open_22: 21300044
-      outlet-open_9: 21300018
-      outlet-open_23: 21300046
-      outlet-open_30: 21300060
-      outlet-open_8: 21300016
-      outlet-open_7: 21300014
-      outlet-open_16: 21300032
-      outlet-open_3: 21300006
-      outlet-open_11: 21300022
-      outlet-open_4: 21300008
       outlet-open_1: 21300002
+      outlet-open_10: 21300020
+      outlet-open_11: 21300022
+      outlet-open_12: 21300024
+      outlet-open_13: 21300026
       outlet-open_14: 21300028
+      outlet-open_15: 21300030
+      outlet-open_16: 21300032
+      outlet-open_17: 21300034
       outlet-open_18: 21300036
-  spritePackingTag: 
+      outlet-open_19: 21300038
+      outlet-open_2: 21300004
+      outlet-open_20: 21300040
+      outlet-open_21: 21300042
+      outlet-open_22: 21300044
+      outlet-open_23: 21300046
+      outlet-open_24: 21300048
+      outlet-open_25: 21300050
+      outlet-open_26: 21300052
+      outlet-open_27: 21300054
+      outlet-open_28: 21300056
+      outlet-open_29: 21300058
+      outlet-open_3: 21300006
+      outlet-open_30: 21300060
+      outlet-open_31: 21300062
+      outlet-open_4: 21300008
+      outlet-open_5: 21300010
+      outlet-open_6: 21300012
+      outlet-open_7: 21300014
+      outlet-open_8: 21300016
+      outlet-open_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

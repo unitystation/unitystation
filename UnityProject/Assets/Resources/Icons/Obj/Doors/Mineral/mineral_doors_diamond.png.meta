@@ -27,7 +27,7 @@ TextureImporter:
       213: -7552224168640508002
     second: mineral_doors_diamond_7
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -44,11 +44,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -87,6 +88,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -126,6 +129,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -318,17 +333,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      mineral_doors_diamond_5: -5983228023345976486
-      mineral_doors_diamond_7: -7552224168640508002
-      mineral_doors_diamond_1: -8715162819401591150
-      mineral_doors_diamond_3: -4739415682430820534
-      mineral_doors_diamond_2: 2872188594899318968
       mineral_doors_diamond_0: 5688999423079232761
-      mineral_doors_diamond_6: -1627522423526859167
+      mineral_doors_diamond_1: -8715162819401591150
+      mineral_doors_diamond_2: 2872188594899318968
+      mineral_doors_diamond_3: -4739415682430820534
       mineral_doors_diamond_4: 5028787009539831559
-  spritePackingTag: 
+      mineral_doors_diamond_5: -5983228023345976486
+      mineral_doors_diamond_6: -1627522423526859167
+      mineral_doors_diamond_7: -7552224168640508002
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -165,7 +165,7 @@ TextureImporter:
       213: -1867002349597119371
     second: reinf_fwall_closing_53
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -182,11 +182,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -225,6 +226,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -274,6 +277,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -1422,63 +1437,62 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      reinf_fwall_closing_3: 1300363179737549482
-      reinf_fwall_closing_49: 3270018571254419609
-      reinf_fwall_closing_32: -7579813496997919700
-      reinf_fwall_closing_17: 7606047665659806167
-      reinf_fwall_closing_51: 7660320348431186025
-      reinf_fwall_closing_28: -730028010233545465
+      reinf_fwall_closing_0: -4348920143209673882
+      reinf_fwall_closing_1: 6462616551550262871
       reinf_fwall_closing_10: 9144752307462832811
-      reinf_fwall_closing_31: -7279008262931537078
+      reinf_fwall_closing_11: -7953504802805786019
+      reinf_fwall_closing_12: 3813635697314343723
+      reinf_fwall_closing_13: -2855965034391375576
+      reinf_fwall_closing_14: -4159171691500612754
+      reinf_fwall_closing_15: -6422759542842438235
+      reinf_fwall_closing_16: 7284172577898079431
+      reinf_fwall_closing_17: 7606047665659806167
+      reinf_fwall_closing_18: 6416730952509808174
+      reinf_fwall_closing_19: -8347167896921018785
+      reinf_fwall_closing_2: 3159334864553433648
+      reinf_fwall_closing_20: 1339155669421991248
       reinf_fwall_closing_21: -4863807549851139440
       reinf_fwall_closing_22: -6198704987150838470
-      reinf_fwall_closing_19: -8347167896921018785
-      reinf_fwall_closing_24: -8169783137877358225
       reinf_fwall_closing_23: -2127388162175206140
-      reinf_fwall_closing_44: 2332836099258450392
-      reinf_fwall_closing_45: 6938985670990736280
-      reinf_fwall_closing_26: 7542739090997120840
-      reinf_fwall_closing_1: 6462616551550262871
-      reinf_fwall_closing_36: -6172418463447316987
-      reinf_fwall_closing_53: -1867002349597119371
-      reinf_fwall_closing_52: 8244160928642892151
-      reinf_fwall_closing_14: -4159171691500612754
-      reinf_fwall_closing_38: -91373192290993962
-      reinf_fwall_closing_50: -935965672510404289
-      reinf_fwall_closing_42: 3775333290840392193
-      reinf_fwall_closing_5: -4327331470655079170
-      reinf_fwall_closing_30: 3373791176100891503
-      reinf_fwall_closing_16: 7284172577898079431
-      reinf_fwall_closing_15: -6422759542842438235
-      reinf_fwall_closing_8: -8254581031874846035
-      reinf_fwall_closing_48: -6969361176286678854
-      reinf_fwall_closing_9: 6159277220773017947
-      reinf_fwall_closing_39: 6217772710718433542
-      reinf_fwall_closing_20: 1339155669421991248
-      reinf_fwall_closing_18: 6416730952509808174
-      reinf_fwall_closing_27: 6476544779075473769
-      reinf_fwall_closing_0: -4348920143209673882
-      reinf_fwall_closing_13: -2855965034391375576
+      reinf_fwall_closing_24: -8169783137877358225
       reinf_fwall_closing_25: 2436305523183381777
+      reinf_fwall_closing_26: 7542739090997120840
+      reinf_fwall_closing_27: 6476544779075473769
+      reinf_fwall_closing_28: -730028010233545465
       reinf_fwall_closing_29: -991952993924842802
-      reinf_fwall_closing_46: -5552493195867401033
-      reinf_fwall_closing_4: -4761282758480444916
-      reinf_fwall_closing_37: -4657628674169137969
-      reinf_fwall_closing_12: 3813635697314343723
-      reinf_fwall_closing_47: 2765757952282348305
-      reinf_fwall_closing_7: 6164740048635807132
+      reinf_fwall_closing_3: 1300363179737549482
+      reinf_fwall_closing_30: 3373791176100891503
+      reinf_fwall_closing_31: -7279008262931537078
+      reinf_fwall_closing_32: -7579813496997919700
       reinf_fwall_closing_33: -5401733568840131970
-      reinf_fwall_closing_11: -7953504802805786019
-      reinf_fwall_closing_40: 7191499143462410816
-      reinf_fwall_closing_2: 3159334864553433648
-      reinf_fwall_closing_41: -1969615270851719459
-      reinf_fwall_closing_43: -2938713648634856261
-      reinf_fwall_closing_6: 8306538382088911167
       reinf_fwall_closing_34: -8348274349071338820
       reinf_fwall_closing_35: -4358691514302829104
-  spritePackingTag: 
+      reinf_fwall_closing_36: -6172418463447316987
+      reinf_fwall_closing_37: -4657628674169137969
+      reinf_fwall_closing_38: -91373192290993962
+      reinf_fwall_closing_39: 6217772710718433542
+      reinf_fwall_closing_4: -4761282758480444916
+      reinf_fwall_closing_40: 7191499143462410816
+      reinf_fwall_closing_41: -1969615270851719459
+      reinf_fwall_closing_42: 3775333290840392193
+      reinf_fwall_closing_43: -2938713648634856261
+      reinf_fwall_closing_44: 2332836099258450392
+      reinf_fwall_closing_45: 6938985670990736280
+      reinf_fwall_closing_46: -5552493195867401033
+      reinf_fwall_closing_47: 2765757952282348305
+      reinf_fwall_closing_48: -6969361176286678854
+      reinf_fwall_closing_49: 3270018571254419609
+      reinf_fwall_closing_5: -4327331470655079170
+      reinf_fwall_closing_50: -935965672510404289
+      reinf_fwall_closing_51: 7660320348431186025
+      reinf_fwall_closing_52: 8244160928642892151
+      reinf_fwall_closing_53: -1867002349597119371
+      reinf_fwall_closing_6: 8306538382088911167
+      reinf_fwall_closing_7: 6164740048635807132
+      reinf_fwall_closing_8: -8254581031874846035
+      reinf_fwall_closing_9: 6159277220773017947
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

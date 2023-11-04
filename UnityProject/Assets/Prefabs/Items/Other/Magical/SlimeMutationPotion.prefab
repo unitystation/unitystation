@@ -1,0 +1,129 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4371191716314666493
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1162272864508818684, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 31726d8234adad44991bb46642657854,
+        type: 2}
+    - target: {fileID: 2152051915416306454, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: foreverID
+      value: 332f47c3ec8532841928fefeb5f29b4d
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866909607520428057, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: initialName
+      value: Slime Mutation Potion
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866909607520428057, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: initialDescription
+      value: A potent chemical mix that will increase the chance of a slime mutating.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4968336445900272335, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: _assetId
+      value: 2999874026
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001007918263111547, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_Name
+      value: SlimeMutationPotion
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004805494286152207, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5158543143172848679, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f7f0bd94e9f2fa0458de43ce6bdd69b4,
+        type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5001007918263111547, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4222511438706258149}
+  m_SourcePrefab: {fileID: 100100000, guid: 1e86836ca86312b47b6c5416bd8426f1, type: 3}
+--- !u!1 &8777147888698251910 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5001007918263111547, guid: 1e86836ca86312b47b6c5416bd8426f1,
+    type: 3}
+  m_PrefabInstance: {fileID: 4371191716314666493}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-4222511438706258149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8777147888698251910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4935089296d7b469ccb8aacb3b8d8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

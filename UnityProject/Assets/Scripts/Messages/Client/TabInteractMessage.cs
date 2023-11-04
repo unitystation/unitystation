@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using Mirror;
 using UI.Core.NetUI;
@@ -33,12 +34,12 @@ namespace Messages.Client
 		{
 			if (player == null)
 			{
-				Logger.LogWarning("[TabInteractMessage.ProcessFurther] - player is null", Category.NetUI);
+				Loggy.LogWarning("[TabInteractMessage.ProcessFurther] - player is null", Category.NetUI);
 				return;
 			}
 			else if (tabProvider == null)
 			{
-				Logger.LogWarning("[TabInteractMessage.ProcessFurther] - tabProvider is null", Category.NetUI);
+				Loggy.LogWarning("[TabInteractMessage.ProcessFurther] - tabProvider is null", Category.NetUI);
 				return;
 			}
 
@@ -69,7 +70,7 @@ namespace Messages.Client
 				}
 				catch (NullReferenceException exception)
 				{
-					Logger.LogError($"Caught NRE in TabInteractMessage.Process: Tab: {tabProvider.OrNull().ExpensiveName()} {exception.Message} \n {exception.StackTrace}", Category.Interaction);
+					Loggy.LogError($"Caught NRE in TabInteractMessage.Process: Tab: {tabProvider.OrNull().ExpensiveName()} {exception.Message} \n {exception.StackTrace}", Category.Interaction);
 					return;
 				}
 			}
@@ -130,7 +131,7 @@ namespace Messages.Client
 
 		private TabUpdateMessage FailValidation(PlayerInfo player, GameObject tabProvider, NetMessage msg, string reason = "")
 		{
-			Logger.LogWarning($"{player.Name}: Tab interaction w/{tabProvider} denied: {reason}", Category.NetUI);
+			Loggy.LogWarning($"{player.Name}: Tab interaction w/{tabProvider} denied: {reason}", Category.NetUI);
 			return TabUpdateMessage.Send(player.GameObject, tabProvider, msg.NetTabType, TabAction.Close);
 		}
 

@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 405957635251688022, guid: 33dfe2b5f12db3a43af6d409a2b599e5,
+        type: 3}
+      propertyPath: _assetId
+      value: 959759238
+      objectReference: {fileID: 0}
     - target: {fileID: 592746078290061541, guid: 33dfe2b5f12db3a43af6d409a2b599e5,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -104,4 +110,7 @@ PrefabInstance:
     - {fileID: 1059985465387772996, guid: 33dfe2b5f12db3a43af6d409a2b599e5, type: 3}
     - {fileID: 1679602605286099783, guid: 33dfe2b5f12db3a43af6d409a2b599e5, type: 3}
     - {fileID: 7408355133989614826, guid: 33dfe2b5f12db3a43af6d409a2b599e5, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33dfe2b5f12db3a43af6d409a2b599e5, type: 3}

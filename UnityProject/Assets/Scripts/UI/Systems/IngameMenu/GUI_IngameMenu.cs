@@ -2,7 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Learning;
+using Logs;
 using Messages.Client.Lobby;
+using SecureStuff;
+using UI.Chat_UI;
 
 
 namespace UI
@@ -24,6 +27,8 @@ namespace UI
 		public static GUI_IngameMenu Instance;
 
 		private bool sentData;
+
+		[SerializeField] private string wikiURL = "https://wiki.unitystation.org/index.php/Welcome_to_Unitystation";
 
 		#region Lifecycle
 
@@ -73,7 +78,7 @@ namespace UI
 		public void OpenMenuPanel(GameObject nextMenuPanel)
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			Logger.Log("Opening " + nextMenuPanel.name + " menu", Category.UI);
+			Loggy.Log("Opening " + nextMenuPanel.name + " menu", Category.UI);
 			nextMenuPanel.SetActive(true);
 		}
 
@@ -83,7 +88,7 @@ namespace UI
 		public void OpenMenuPanel()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			Logger.Log($"Opening {menuWindow.name} menu", Category.UI);
+			Loggy.Log($"Opening {menuWindow.name} menu", Category.UI);
 			menuWindow.SetActive(true);
 			InfoPanelMessageClient.Send();
 			if (UIManager.Instance.ServerInfoPanelWindow != null) UIManager.Instance.ServerInfoPanelWindow.SetActive(true);
@@ -96,7 +101,7 @@ namespace UI
 		public void CloseMenuPanel(GameObject thisPanel)
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			Logger.Log("Closing " + thisPanel.name + " menu", Category.UI);
+			Loggy.Log("Closing " + thisPanel.name + " menu", Category.UI);
 			thisPanel.SetActive(false);
 		}
 
@@ -110,7 +115,7 @@ namespace UI
 				_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			}
 
-			Logger.Log($"Closing {menuWindow.name} menu", Category.UI);
+			Loggy.Log($"Closing {menuWindow.name} menu", Category.UI);
 			HideAllMenus();
 		}
 
@@ -173,6 +178,18 @@ namespace UI
 			ProtipManager.Instance.ShowListUI();
 		}
 
+		public void ShowMentorHelp()
+		{
+			HideAllMenus();
+			ChatUI.Instance.OnHelpButton();
+		}
+
+		public void OpenWiki()
+		{
+			HideAllMenus();
+			SafeURL.Open(wikiURL);
+		}
+
 		#endregion
 
 		#region Logout Confirmation Window Functions
@@ -224,12 +241,12 @@ namespace UI
 			if (NetworkManager._isServer)
 			{
 				NetworkManager.StopHost();
-				Logger.Log("Stopping host", Category.Connections);
+				Loggy.Log("Stopping host", Category.Connections);
 			}
 			else
 			{
 				NetworkManager.StopClient();
-				Logger.Log("Stopping client", Category.Connections);
+				Loggy.Log("Stopping client", Category.Connections);
 			}
 		}
 
@@ -237,6 +254,7 @@ namespace UI
 		{
 			menuWindow.SetActive(false);
 			votingWindow.SetActive(false);
+			helpWindow.SetActive(false);
 			if (UIManager.Display.disclaimer != null) UIManager.Display.disclaimer.SetActive(false);
 		}
 

@@ -18,6 +18,8 @@ namespace Weapons.Projectiles.Behaviours
 		[Tooltip("The sound made when this projectile fails to break a tile due to insufficient hardness.")]
 		public AddressableAudioSource projectileMineFail;
 
+		[SerializeField] private int numberOfTilesAffected = 1;
+
 		public virtual bool Interact(MatrixManager.CustomPhysicsHit hit, InteractableTiles interactableTiles, Vector3 worldPosition)
 		{
 
@@ -28,12 +30,28 @@ namespace Weapons.Projectiles.Behaviours
 				if (projectileHardness < basicTile.MiningHardness)
 				{
 					SoundManager.PlayNetworkedAtPos(projectileMineFail, gameObject.AssumedWorldPosServer());
-					Chat.AddLocalMsgToChat($"The projectile pings off the surface, leaving hardly a scratch.", gameObject);
+					Chat.AddActionMsgToChat(gameObject, $"The projectile pings off the surface, leaving hardly a scratch.");
 					return false;
 				}
-
-
 			}
+
+			if (numberOfTilesAffected <= 1) return interactableTiles.TryMine(worldPosition);
+
+			for (int i = 0; i < numberOfTilesAffected; i++)
+			{
+				Vector3[] positionsToDamage = new Vector3[4]
+				{
+					new Vector3(worldPosition.x + i, worldPosition.y),
+					new Vector3(worldPosition.x - i, worldPosition.y),
+					new Vector3(worldPosition.x, worldPosition.y + i),
+					new Vector3(worldPosition.x, worldPosition.y - i)
+				};
+				foreach (var position in positionsToDamage)
+				{
+					interactableTiles.TryMine(position);
+				}
+			}
+
 			return interactableTiles.TryMine(worldPosition);
 		}
 

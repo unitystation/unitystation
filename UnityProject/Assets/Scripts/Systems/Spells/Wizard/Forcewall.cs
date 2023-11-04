@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Logs;
 
 namespace Systems.Spells.Wizard
 {
@@ -54,7 +55,7 @@ namespace Systems.Spells.Wizard
 			}
 			else
 			{
-				Logger.LogError($"{nameof(PassableExclusionHolder)} not found on {caster}!", Category.Spells);
+				Loggy.LogError($"{nameof(PassableExclusionHolder)} not found on {caster}!", Category.Spells);
 			}
 		}
 

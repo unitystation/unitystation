@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3611203652882625299, guid: d7d543912ffafe3478e119cbce62b13b,
@@ -20,13 +21,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4603017766652364025, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 3f28b74de1ecca2499e1e628e68ac192,
         type: 2}
     - target: {fileID: 4603017766652364025, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 7b85f63feede7bb47bc45235a6b9d024,
         type: 2}
@@ -98,6 +99,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7724551780263838410, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
+      propertyPath: _assetId
+      value: 3401223691
+      objectReference: {fileID: 0}
+    - target: {fileID: 7724551780263838410, guid: d7d543912ffafe3478e119cbce62b13b,
+        type: 3}
       propertyPath: m_AssetId
       value: ae47c23beb964a84985742583ef03b76
       objectReference: {fileID: 0}
@@ -117,4 +123,7 @@ PrefabInstance:
       value: A mythril coin. It has a worth of 300 credits.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7d543912ffafe3478e119cbce62b13b, type: 3}

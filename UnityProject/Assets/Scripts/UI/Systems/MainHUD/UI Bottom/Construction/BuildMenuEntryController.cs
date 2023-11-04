@@ -1,5 +1,6 @@
 using System;
 using Construction;
+using Logs;
 using Messages.Client;
 using UnityEngine;
 using UnityEngine.UI;
@@ -75,7 +76,7 @@ namespace UI.UI_Bottom
 			}
 			else
 			{
-				Logger.LogError($"Construction Entry {entry.Name} doesn't use prefab", Category.Construction);
+				Loggy.LogError($"Construction Entry {entry.Name} doesn't use prefab", Category.Construction);
 			}
 
 			entryName.text = entry.Name;

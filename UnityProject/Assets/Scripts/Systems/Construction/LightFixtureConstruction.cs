@@ -112,14 +112,14 @@ namespace Objects.Construction
 			switch (constructionState)
 			{
 				case State.initial:
-					return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) || Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench);
+					return Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) || Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench);
 
 				case State.wiresAdded:
-					return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter) || Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver);
+					return Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter) || Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver);
 
 				case State.ready:
 				default:
-					return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) && !lightSource.HasBulb();
+					return Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) && !lightSource.HasBulb();
 			}
 		}
 
@@ -129,7 +129,7 @@ namespace Objects.Construction
 
 		private void InitialStateInteract(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable))
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You start adding cables to the frame...",
@@ -143,18 +143,18 @@ namespace Objects.Construction
 					});
 			}
 
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) == false) return;
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench) == false) return;
 			Spawn.ServerPrefab(FixtureFrameItemPrefab, gameObject.AssumedWorldPosServer(), interaction.Performer.transform.parent, spawnItems: false);
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		private void WiresAddedStateInteract(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter))
 			{
 				ServerSetState(State.initial);
 			}
-			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 			{
 				ServerSetState(State.ready);
 			}
@@ -162,7 +162,7 @@ namespace Objects.Construction
 
 		private void ReadyStateInteract(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) && !lightSource.HasBulb())
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) && !lightSource.HasBulb())
 			{
 				ServerSetState(State.wiresAdded);
 			}

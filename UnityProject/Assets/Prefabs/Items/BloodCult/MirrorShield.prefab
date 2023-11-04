@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1384538510348964022, guid: d8e28939643d5a34095fed9b0898c45b,
@@ -28,6 +29,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5339107572780065135, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: _assetId
+      value: 97477053
       objectReference: {fileID: 0}
     - target: {fileID: 5339107572780065135, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
@@ -138,12 +144,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
-      propertyPath: attackVerbs.Array.data[0]
+      propertyPath: 'attackVerbs.Array.data[0]'
       value: bumped
       objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
-      propertyPath: attackVerbs.Array.data[1]
+      propertyPath: 'attackVerbs.Array.data[1]'
       value: prodded
       objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
@@ -159,4 +165,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 7dbd4c4d845fd944ba5e220292e342c1,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8e28939643d5a34095fed9b0898c45b, type: 3}

@@ -147,7 +147,7 @@ TextureImporter:
       213: 3148552821530806685
     second: pilot_key_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      pilot_key_45: -7257605757359183184
-      pilot_key_10: -277648132803886531
-      pilot_key_27: 890134617405485249
-      pilot_key_44: 4278096758931304048
-      pilot_key_13: -1476624511332340754
-      pilot_key_43: -7899814269489997319
-      pilot_key_20: -7634822498916422833
-      pilot_key_4: -8008658337844341651
-      pilot_key_34: -3895712475245366953
-      pilot_key_21: 4879607366084533747
-      pilot_key_38: -8198911186257280275
-      pilot_key_11: 2206413786304815987
-      pilot_key_41: -8453173266532513903
-      pilot_key_6: 3241107801495762879
-      pilot_key_19: -962497016974695738
-      pilot_key_3: 3858210109690130888
       pilot_key_0: 124375931300013382
-      pilot_key_22: -2538058594746138058
-      pilot_key_31: 3527279339909981208
-      pilot_key_39: -8968548878992002177
-      pilot_key_15: -6702110054324858611
-      pilot_key_33: -2981286004073850880
-      pilot_key_23: -4895594462551890595
-      pilot_key_32: 6774404820948225649
-      pilot_key_9: 4700021604065185341
-      pilot_key_8: -396410952250788042
-      pilot_key_16: 3381566819106193267
-      pilot_key_30: 6533744492523107131
-      pilot_key_29: 9129534407315313414
-      pilot_key_5: 4272464994518980602
-      pilot_key_25: -7878543253538966270
-      pilot_key_37: 481984612065963507
-      pilot_key_26: 8205163972456447252
-      pilot_key_42: 8569639569091610018
-      pilot_key_17: -6734577268328184286
-      pilot_key_2: 2092130829303058698
-      pilot_key_14: 101529085731989587
-      pilot_key_47: 3148552821530806685
-      pilot_key_12: -8677435729476946001
-      pilot_key_7: 716511986455376269
       pilot_key_1: -2181348325677793452
-      pilot_key_28: 6972030928500076769
-      pilot_key_46: 7020788257223489605
-      pilot_key_35: -3336972351809469359
-      pilot_key_24: 6069661904699199719
-      pilot_key_40: 117248071318765718
-      pilot_key_36: 7245699774147337841
+      pilot_key_10: -277648132803886531
+      pilot_key_11: 2206413786304815987
+      pilot_key_12: -8677435729476946001
+      pilot_key_13: -1476624511332340754
+      pilot_key_14: 101529085731989587
+      pilot_key_15: -6702110054324858611
+      pilot_key_16: 3381566819106193267
+      pilot_key_17: -6734577268328184286
       pilot_key_18: 7929582293957109912
-  spritePackingTag: 
+      pilot_key_19: -962497016974695738
+      pilot_key_2: 2092130829303058698
+      pilot_key_20: -7634822498916422833
+      pilot_key_21: 4879607366084533747
+      pilot_key_22: -2538058594746138058
+      pilot_key_23: -4895594462551890595
+      pilot_key_24: 6069661904699199719
+      pilot_key_25: -7878543253538966270
+      pilot_key_26: 8205163972456447252
+      pilot_key_27: 890134617405485249
+      pilot_key_28: 6972030928500076769
+      pilot_key_29: 9129534407315313414
+      pilot_key_3: 3858210109690130888
+      pilot_key_30: 6533744492523107131
+      pilot_key_31: 3527279339909981208
+      pilot_key_32: 6774404820948225649
+      pilot_key_33: -2981286004073850880
+      pilot_key_34: -3895712475245366953
+      pilot_key_35: -3336972351809469359
+      pilot_key_36: 7245699774147337841
+      pilot_key_37: 481984612065963507
+      pilot_key_38: -8198911186257280275
+      pilot_key_39: -8968548878992002177
+      pilot_key_4: -8008658337844341651
+      pilot_key_40: 117248071318765718
+      pilot_key_41: -8453173266532513903
+      pilot_key_42: 8569639569091610018
+      pilot_key_43: -7899814269489997319
+      pilot_key_44: 4278096758931304048
+      pilot_key_45: -7257605757359183184
+      pilot_key_46: 7020788257223489605
+      pilot_key_47: 3148552821530806685
+      pilot_key_5: 4272464994518980602
+      pilot_key_6: 3241107801495762879
+      pilot_key_7: 716511986455376269
+      pilot_key_8: -396410952250788042
+      pilot_key_9: 4700021604065185341
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

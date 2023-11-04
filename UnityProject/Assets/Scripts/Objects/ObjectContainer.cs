@@ -78,6 +78,10 @@ namespace Objects
 		// stored contents and their positional offsets, if applicable
 		private readonly Dictionary<GameObject, Vector3> storedObjects = new Dictionary<GameObject, Vector3>();
 
+		public Dictionary<GameObject, Vector3> StoredObjects => storedObjects;
+
+		public int StoredObjectsCount => storedObjects.Count;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -137,11 +141,6 @@ namespace Objects
 			if (obj.TryGetComponent<UniversalObjectPhysics>(out var objectPhysics))
 			{
 				objectPhysics.StoreTo(this);
-
-				if (obj.TryGetComponent<PlayerScript>(out var playerScript))
-				{
-					CheckPlayerCrawlState(objectPhysics);
-				}
 			}
 		}
 
@@ -201,16 +200,26 @@ namespace Objects
 		/// Takes the given object out of storage, dropping it in the tile of the container, inheriting the inertia of the container.
 		/// If the object belongs to a player, then sends a <see cref="FollowCameraMessage"/>.
 		/// </summary>
-		public void RetrieveObject(GameObject obj, Vector3? worldPosition = null)
+		public void RetrieveObject(GameObject obj, Vector3? worldPosition = null, Action onDrop = null)
 		{
 			if (obj == null || storedObjects.TryGetValue(obj, out var offset) == false) return;
 			storedObjects.Remove(obj);
 
 			if (obj.TryGetComponent<UniversalObjectPhysics>(out var uop))
 			{
-				uop.DropAtAndInheritMomentum(ObjectPhysics);
+				if (worldPosition == null)
+				{
+					uop.DropAtAndInheritMomentum(ObjectPhysics);
+
+				}
+				else
+				{
+					uop.AppearAtWorldPositionServer(worldPosition.Value);
+				}
 				uop.StoreTo(null);
 			}
+
+			onDrop?.Invoke();
 		}
 
 		public void RetrieveObjects(Vector3? worldPosition = null)
@@ -240,11 +249,15 @@ namespace Objects
 			}
 		}
 
-		private void CheckPlayerCrawlState(UniversalObjectPhysics playerBehaviour)
+		public void RetrieveObject(Vector3 worldPosition)
 		{
-			var regPlayer = playerBehaviour.GetComponent<RegisterPlayer>();
-			regPlayer.HandleGetupAnimation(!regPlayer.IsLayingDown);
+			foreach (var entity in GetStoredObjects().ToArray())
+			{
+				RetrieveObject(entity, worldPosition);
+				return; //So inefficient xD
+			}
 		}
+
 
 		/// <summary>
 		/// Invoked when the parent net ID of this object's RegisterTile changes. Updates the parent net ID of the player / items

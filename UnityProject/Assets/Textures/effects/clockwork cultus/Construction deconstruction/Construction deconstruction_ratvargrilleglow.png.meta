@@ -54,7 +54,7 @@ TextureImporter:
       213: 21300032
     second: ratvargrilleglow_16
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -71,11 +71,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -114,6 +115,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -129,6 +132,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -510,26 +525,25 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ratvargrilleglow_11: 21300022
-      ratvargrilleglow_5: 21300010
-      ratvargrilleglow_2: 21300004
-      ratvargrilleglow_1: 21300002
-      ratvargrilleglow_3: 21300006
-      ratvargrilleglow_7: 21300014
-      ratvargrilleglow_10: 21300020
-      ratvargrilleglow_15: 21300030
-      ratvargrilleglow_14: 21300028
-      ratvargrilleglow_6: 21300012
-      ratvargrilleglow_16: 21300032
-      ratvargrilleglow_13: 21300026
-      ratvargrilleglow_9: 21300018
-      ratvargrilleglow_8: 21300016
-      ratvargrilleglow_4: 21300008
       ratvargrilleglow_0: 21300000
+      ratvargrilleglow_1: 21300002
+      ratvargrilleglow_10: 21300020
+      ratvargrilleglow_11: 21300022
       ratvargrilleglow_12: 21300024
-  spritePackingTag: 
+      ratvargrilleglow_13: 21300026
+      ratvargrilleglow_14: 21300028
+      ratvargrilleglow_15: 21300030
+      ratvargrilleglow_16: 21300032
+      ratvargrilleglow_2: 21300004
+      ratvargrilleglow_3: 21300006
+      ratvargrilleglow_4: 21300008
+      ratvargrilleglow_5: 21300010
+      ratvargrilleglow_6: 21300012
+      ratvargrilleglow_7: 21300014
+      ratvargrilleglow_8: 21300016
+      ratvargrilleglow_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

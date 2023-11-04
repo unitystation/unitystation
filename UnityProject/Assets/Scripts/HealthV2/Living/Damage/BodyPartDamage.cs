@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
-using System.Linq;
 using Health.Objects;
-using Random = System.Random;
+using Logs;
 
 namespace HealthV2
 {
 	public partial class BodyPart
 	{
+
+		public bool CanNotBeHealedByExternalHealingPack = false;
+
 		/// <summary>
 		/// The armor of the clothing covering a part of the body, ignoring selfArmor.
 		/// </summary>
@@ -42,10 +43,6 @@ namespace HealthV2
 		[Tooltip("Does damaging this body part affect the creature's overall health?")]
 		public bool DamageContributesToOverallHealth = true;
 
-		/// <summary>
-		/// Affects how much damage contributes to the efficiency of the body part, currently unimplemented
-		/// </summary>
-		[HideInInspector] public float DamageEfficiencyMultiplier = 1;
 
 		/// <summary>
 		/// Modifier that multiplicatively reduces the efficiency of the body part based on damage
@@ -165,6 +162,23 @@ namespace HealthV2
 			}
 		}
 
+		public float TotalDamageWithoutOxyRadStam
+		{
+			get
+			{
+				float TDamage = 0;
+				for (int i = 0; i < Damages.Length; i++)
+				{
+					if ((int) DamageType.Oxy == i) continue;
+					if ((int) DamageType.Radiation == i) continue;
+					if ((int) DamageType.Stamina == i) continue;
+					TDamage += Damages[i];
+				}
+
+				return TDamage;
+			}
+		}
+
 		/// <summary>
 		/// The total damage this body part has taken
 		/// </summary>
@@ -192,6 +206,8 @@ namespace HealthV2
 		public BodyPartDamageData LastDamageData { get; private set; } = new BodyPartDamageData();
 
 
+		public const float DMG_Environment_Multiplier = 1.5f;
+
 		/// <summary>
 		/// Adjusts the appropriate damage type by the given damage amount and updates body part
 		/// functionality based on its new health total
@@ -204,7 +220,7 @@ namespace HealthV2
 
 			if (float.IsNormal(damage) == false)
 			{
-				Logger.LogError("oh no/..!!!! NAN /Abnormal number as damage > " + damage );
+				Loggy.LogError("oh no/..!!!! NAN /Abnormal number as damage > " + damage );
 				return;
 			}
 			float toDamage = Damages[damageType] + damage;
@@ -226,7 +242,7 @@ namespace HealthV2
 		}
 
 
-		public TemperatureAlert ExposeTemperature(float environmentalTemperature)
+		public TemperatureAlert ExposeTemperature(float environmentalTemperature, float divideBy)
 		{
 			bool alertTypeHigherTemperature = false;
 			if (SelfArmor.TemperatureOutsideSafeRange(environmentalTemperature))
@@ -245,8 +261,9 @@ namespace HealthV2
 
 				if (environmentalTemperature < min)
 				{
+					//NOTE It's clamped maximum one for minimum
 					//so, Half Temperature of the minimum threshold that's when the maximum damage will kick in
-					TakeDamage(null,   0.25f*Mathf.Clamp((min-environmentalTemperature)/(min/2f), 0f,1f), AttackType.Internal, DamageType.Burn);
+					TakeDamage(null,   (DMG_Environment_Multiplier*Mathf.Clamp((min-environmentalTemperature)/(min/2f), 0f,1f))/divideBy, AttackType.Internal, DamageType.Burn, true);
 					return TemperatureAlert.TooCold;
 				}
 				else if (environmentalTemperature > max)
@@ -256,7 +273,7 @@ namespace HealthV2
 					var hotRange =  (max - mid ); //To get how much hot protection it has
 
 					//so, Double of the maximum temperature that's when the maximum damage Will start kicking
-					TakeDamage(null, 0.25f*Mathf.Clamp((environmentalTemperature-max)/hotRange, 0f,1f), AttackType.Internal, DamageType.Burn);
+					TakeDamage(null, DMG_Environment_Multiplier*Mathf.Clamp((environmentalTemperature-max)/hotRange, 0f,0.30f), AttackType.Internal, DamageType.Burn, true);
 					return TemperatureAlert.TooHot;
 				}
 			}
@@ -289,7 +306,7 @@ namespace HealthV2
 			return TemperatureAlert.None;
 		}
 
-		public PressureAlert ExposePressure(float environmentalPressure)
+		public PressureAlert ExposePressure(float environmentalPressure, float divideBy)
 		{
 			bool alertTypeHigherPressure = false;
 
@@ -310,8 +327,9 @@ namespace HealthV2
 
 				if (environmentalPressure < min)
 				{
+					//NOTE It's clamped maximum one for minimum
 					//so, Half Pressure of the minimum threshold that's when the maximum damage will kick in
-					TakeDamage(null,   0.25f*Mathf.Clamp((min - environmentalPressure)/(min/2f), 0f,1f), AttackType.Internal, DamageType.Brute);
+					TakeDamage(null,   (DMG_Environment_Multiplier*Mathf.Clamp((min - environmentalPressure)/(min/2f), 0f,1f))/divideBy, AttackType.Internal, DamageType.Brute, true);
 					return PressureAlert.PressureTooLow;
 
 				}
@@ -323,7 +341,7 @@ namespace HealthV2
 					var PressureRange =  (max - mid ); //To get how much PressureRange protection it has
 
 					//so, Double of the maximum Pressure that's when the maximum damage Will start kicking
-					TakeDamage(null, 0.25f*Mathf.Clamp((environmentalPressure-max)/PressureRange, 0f,1f), AttackType.Internal, DamageType.Brute);
+					TakeDamage(null, DMG_Environment_Multiplier*Mathf.Clamp((environmentalPressure-max)/PressureRange, 0f,0.30f), AttackType.Internal, DamageType.Brute, true);
 					return PressureAlert.PressureTooHigher;
 				}
 			}
@@ -369,6 +387,7 @@ namespace HealthV2
 								bool organDamageSplit = false, bool DamageSubOrgans = true, float armorPenetration = 0,
 								double traumaDamageChance = 100, TraumaticDamageTypes tramuticDamageType = TraumaticDamageTypes.NONE, bool invokeOnDamageEvent = true)
 		{
+			if (damage == 0) return;
 			LastDamageData = new BodyPartDamageData()
 			{
 				DamageAmount = damage,
@@ -394,7 +413,7 @@ namespace HealthV2
 			}
 
 			AffectDamage(damageToLimb, (int) damageType);
-			if (invokeOnDamageEvent && damage > 0) OnDamageTaken?.Invoke(LastDamageData);
+			if (invokeOnDamageEvent) OnDamageTaken?.Invoke(LastDamageData);
 
 			// May be changed to individual damage
 			// May also want it so it can miss sub organs

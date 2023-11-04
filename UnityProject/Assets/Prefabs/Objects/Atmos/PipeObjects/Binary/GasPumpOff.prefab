@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8615011672783284396}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -1, w: -0.00000004371139}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 461637258738260195}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &228571802473416214
 SpriteRenderer:
@@ -105,11 +105,15 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1410381801743561416
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 511634085231996503, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
@@ -119,7 +123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 511634085231996503, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
-      propertyPath: spriteHandlers.Array.data[3]
+      propertyPath: 'spriteHandlers.Array.data[3]'
       value: 
       objectReference: {fileID: 6365627804656590152}
     - target: {fileID: 1580494814286032113, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
@@ -233,6 +237,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6931842893682907539, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
+      propertyPath: _assetId
+      value: 1690241406
+      objectReference: {fileID: 0}
+    - target: {fileID: 6931842893682907539, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
+        type: 3}
       propertyPath: m_AssetId
       value: d243343741d540446b159becf769231a
       objectReference: {fileID: 0}
@@ -263,6 +272,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1583787549853510187, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 303738706374402811}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1580494814286032113, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 879461776497341774}
   m_SourcePrefab: {fileID: 100100000, guid: 40b91fa71481bb54cbec1e89fa1ff1d2, type: 3}
 --- !u!4 &461637258738260195 stripped
 Transform:
@@ -328,9 +348,9 @@ MonoBehaviour:
       gasMix:
         GasData:
           GasesArray: []
-        Pressure: 0
+        pressure: 0
         Volume: 2.5
-        Temperature: 293.15
+        temperature: 293.15
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 1

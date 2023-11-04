@@ -147,7 +147,7 @@ TextureImporter:
       213: 7732449469837558008
     second: carpet_cyan_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      carpet_cyan_46: -780442167107198848
-      carpet_cyan_45: -8636901009815571711
-      carpet_cyan_10: 8966794577243303893
-      carpet_cyan_44: 4217831800815931363
-      carpet_cyan_43: -2922917068454885746
-      carpet_cyan_20: 8776352087643289984
-      carpet_cyan_32: -3204113055381154804
-      carpet_cyan_38: -4861186074438320177
-      carpet_cyan_29: 1515360963854049499
-      carpet_cyan_35: 722467441101096829
+      carpet_cyan_0: -8373667487294691241
       carpet_cyan_1: 2394615465330708319
+      carpet_cyan_10: 8966794577243303893
+      carpet_cyan_11: 3939739945866028210
+      carpet_cyan_12: -46479286007049816
+      carpet_cyan_13: -4022128424505222961
+      carpet_cyan_14: -405464303923947438
+      carpet_cyan_15: -3027193911933931823
+      carpet_cyan_16: -2444491356359817637
       carpet_cyan_17: -2395964528563499290
       carpet_cyan_18: 5841762816599150154
-      carpet_cyan_14: -405464303923947438
-      carpet_cyan_22: -7751513769859202746
-      carpet_cyan_4: 6224749024579058466
-      carpet_cyan_41: -5701091812576867029
-      carpet_cyan_34: 8262511107166606531
-      carpet_cyan_12: -46479286007049816
-      carpet_cyan_15: -3027193911933931823
-      carpet_cyan_30: 5814976436161193393
-      carpet_cyan_8: 7810466447333113033
-      carpet_cyan_23: -2831536127214454094
-      carpet_cyan_33: -3068218025479253635
-      carpet_cyan_5: 6407299885647626173
-      carpet_cyan_42: -6759982037816431201
-      carpet_cyan_7: 569367046950051081
-      carpet_cyan_13: -4022128424505222961
-      carpet_cyan_27: -4889793377262627204
-      carpet_cyan_26: 1196340905308941264
-      carpet_cyan_37: 8692350957470520086
-      carpet_cyan_21: 1697171243107582745
-      carpet_cyan_2: 8347450640349271749
-      carpet_cyan_11: 3939739945866028210
-      carpet_cyan_9: -4621770355707260368
       carpet_cyan_19: -3825023414292018979
-      carpet_cyan_47: 7732449469837558008
-      carpet_cyan_3: -5513698654013323969
-      carpet_cyan_39: -5999884963850215826
-      carpet_cyan_31: 5321606176767895961
+      carpet_cyan_2: 8347450640349271749
+      carpet_cyan_20: 8776352087643289984
+      carpet_cyan_21: 1697171243107582745
+      carpet_cyan_22: -7751513769859202746
+      carpet_cyan_23: -2831536127214454094
       carpet_cyan_24: 7580333955052465593
-      carpet_cyan_40: 6211605165952779111
       carpet_cyan_25: 114366649361521658
+      carpet_cyan_26: 1196340905308941264
+      carpet_cyan_27: -4889793377262627204
       carpet_cyan_28: -7839414949634517277
-      carpet_cyan_16: -2444491356359817637
-      carpet_cyan_6: 8618951408046796541
-      carpet_cyan_0: -8373667487294691241
+      carpet_cyan_29: 1515360963854049499
+      carpet_cyan_3: -5513698654013323969
+      carpet_cyan_30: 5814976436161193393
+      carpet_cyan_31: 5321606176767895961
+      carpet_cyan_32: -3204113055381154804
+      carpet_cyan_33: -3068218025479253635
+      carpet_cyan_34: 8262511107166606531
+      carpet_cyan_35: 722467441101096829
       carpet_cyan_36: 5197070029830028390
-  spritePackingTag: 
+      carpet_cyan_37: 8692350957470520086
+      carpet_cyan_38: -4861186074438320177
+      carpet_cyan_39: -5999884963850215826
+      carpet_cyan_4: 6224749024579058466
+      carpet_cyan_40: 6211605165952779111
+      carpet_cyan_41: -5701091812576867029
+      carpet_cyan_42: -6759982037816431201
+      carpet_cyan_43: -2922917068454885746
+      carpet_cyan_44: 4217831800815931363
+      carpet_cyan_45: -8636901009815571711
+      carpet_cyan_46: -780442167107198848
+      carpet_cyan_47: 7732449469837558008
+      carpet_cyan_5: 6407299885647626173
+      carpet_cyan_6: 8618951408046796541
+      carpet_cyan_7: 569367046950051081
+      carpet_cyan_8: 7810466447333113033
+      carpet_cyan_9: -4621770355707260368
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: shieldsparkles_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      shieldsparkles_13: 21300026
-      shieldsparkles_6: 21300012
       shieldsparkles_0: 21300000
+      shieldsparkles_1: 21300002
+      shieldsparkles_10: 21300020
+      shieldsparkles_11: 21300022
+      shieldsparkles_12: 21300024
+      shieldsparkles_13: 21300026
       shieldsparkles_14: 21300028
+      shieldsparkles_15: 21300030
+      shieldsparkles_16: 21300032
+      shieldsparkles_17: 21300034
       shieldsparkles_18: 21300036
       shieldsparkles_19: 21300038
+      shieldsparkles_2: 21300004
+      shieldsparkles_20: 21300040
+      shieldsparkles_21: 21300042
       shieldsparkles_22: 21300044
       shieldsparkles_23: 21300046
-      shieldsparkles_8: 21300016
       shieldsparkles_3: 21300006
       shieldsparkles_4: 21300008
-      shieldsparkles_16: 21300032
-      shieldsparkles_11: 21300022
-      shieldsparkles_2: 21300004
-      shieldsparkles_21: 21300042
       shieldsparkles_5: 21300010
-      shieldsparkles_1: 21300002
-      shieldsparkles_12: 21300024
-      shieldsparkles_10: 21300020
-      shieldsparkles_9: 21300018
-      shieldsparkles_15: 21300030
-      shieldsparkles_17: 21300034
+      shieldsparkles_6: 21300012
       shieldsparkles_7: 21300014
-      shieldsparkles_20: 21300040
-  spritePackingTag: 
+      shieldsparkles_8: 21300016
+      shieldsparkles_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

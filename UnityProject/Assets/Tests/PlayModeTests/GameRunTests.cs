@@ -1,4 +1,6 @@
 using System.Collections;
+using Logs;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -7,14 +9,14 @@ namespace GameRunTests
 {
 	public class GameRunTests
 	{
-		[UnityTest]
+		[Test]
 		public IEnumerator NewTestScriptWithEnumeratorPasses()
 		{
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
 
 			if (GameManager.Instance == null)
 			{
-				Logger.LogError("Unable to load OnlineScene Properly returning");
+				Loggy.LogError("Unable to load OnlineScene Properly returning");
 				yield break;
 			}
 			GameManager.Instance.QuickLoad = true;
@@ -27,7 +29,7 @@ namespace GameRunTests
 		public static void RunRestartRound()
 		{
 			GameManager.Instance.RoundEndTime = 0f;
-			GameManager.Instance.EndRound(); ;
+			GameManager.Instance.EndRound();
 		}
 
 		// public void RunRestartRound()

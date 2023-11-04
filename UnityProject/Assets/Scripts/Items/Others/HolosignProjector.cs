@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Objects.Other;
 using UnityEngine;
 using Util;
@@ -66,7 +67,7 @@ namespace Items.Others
 				var holosign = holosigns[i].OrNull()?.gameObject;
 				if(holosign == null) continue;
 
-				Chat.AddLocalMsgToChat($"{holosign.ExpensiveName()} fizzles out into nothingness", holosign);
+				Chat.AddActionMsgToChat(holosign, $"{holosign.ExpensiveName()} fizzles out into nothingness.");
 
 				_ = Despawn.ServerSingle(holosign);
 			}
@@ -152,7 +153,7 @@ namespace Items.Others
 			var newHolosign = Spawn.ServerPrefab(holosignPrefabs[index], interaction.WorldPositionTarget.RoundToInt());
 			if (newHolosign.Successful == false)
 			{
-				Logger.LogError("Failed to spawn holosign!");
+				Loggy.LogError("Failed to spawn holosign!");
 				return;
 			}
 

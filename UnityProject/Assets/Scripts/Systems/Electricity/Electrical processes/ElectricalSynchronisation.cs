@@ -479,8 +479,10 @@ namespace Systems.Electricity
 				UesAlternativeDirectionWorkOnNextList = true;
 				CircuitSearch(wire, DirectionWorkOnNextList, DirectionWorkOnNextListWait);
 
-				if (DirectionWorkOnNextList.Count <= 0 & DirectionWorkOnNextListWait.Count <= 0 &
-					_DirectionWorkOnNextList.Count <= 0 & _DirectionWorkOnNextListWait.Count <= 0)
+				if (DirectionWorkOnNextList.Count <= 0
+				    && DirectionWorkOnNextListWait.Count <= 0
+				    && _DirectionWorkOnNextList.Count <= 0
+				    && _DirectionWorkOnNextListWait.Count <= 0)
 				{
 					break;
 				}

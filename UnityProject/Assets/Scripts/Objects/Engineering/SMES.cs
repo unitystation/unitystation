@@ -101,18 +101,18 @@ namespace Objects.Engineering
 		{
 			if (IsCharging)
 			{
-				chargingIndicator.ChangeSprite((int) ChargingOverlayState.Charging);
+				chargingIndicator.SetCatalogueIndexSprite((int) ChargingOverlayState.Charging);
 			}
 			else
 			{
-				chargingIndicator.ChangeSprite((int) ChargingOverlayState.Discharging);
+				chargingIndicator.SetCatalogueIndexSprite((int) ChargingOverlayState.Discharging);
 			}
 		}
 
 		private void UpdateChargeLevelIndicator()
 		{
 			int chargeIndex = Convert.ToInt32(Math.Round((ChargePercent / 100f) * 4));
-			chargeLevelIndicator.ChangeSprite(chargeIndex);
+			chargeLevelIndicator.SetCatalogueIndexSprite(chargeIndex);
 		}
 
 		#region Interaction
@@ -129,7 +129,7 @@ namespace Objects.Engineering
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.TargetObject != gameObject) return false;
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 			{
@@ -235,7 +235,7 @@ namespace Objects.Engineering
 
 		private void ServerToggleOutputModeOn()
 		{
-			outputEnabledIndicator.ChangeSprite((int) OutputEnabledOverlayState.OutputEnabled);
+			outputEnabledIndicator.SetCatalogueIndexSprite((int) OutputEnabledOverlayState.OutputEnabled);
 			outputEnabledIndicator.PushTexture();
 			electricalNodeControl.TurnOnSupply();
 			outputEnabled = true;
@@ -261,7 +261,7 @@ namespace Objects.Engineering
 			{
 				isExploding = true;
 				TrySpark();
-				Chat.AddLocalMsgToChat($"<color=red>{gameObject.ExpensiveName()} starts to spit out sparks and smoke! No way this can end good...", gameObject);
+				Chat.AddActionMsgToChat(gameObject, $"<color=red>{gameObject.ExpensiveName()} starts to spit out sparks and smoke! No way this can end good...");
 				StartCoroutine(Emp());
 			}
 			batterySupplyingModule.CurrentCapacity -= EmpStrength * 1000;

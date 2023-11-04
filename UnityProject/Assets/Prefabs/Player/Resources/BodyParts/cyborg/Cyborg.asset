@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
+  m_Name: Cyborg
+  m_EditorClassIdentifier: 
+  Base:
+    Head:
+      Elements: []
+    Torso:
+      Elements:
+      - {fileID: 4762489895222112533, guid: a54ff5941b31b6e499a9f63299979d7d, type: 3}
+    ArmRight:
+      Elements: []
+    ArmLeft:
+      Elements: []
+    LegRight:
+      Elements: []
+    LegLeft:
+      Elements: []
+    allowedToChangeling: 0
+    CustomisationSettings: []
+    bodyTypeSettings:
+      AvailableBodyTypes: []
+    SkinColours: []
+    RootImplantProcedure: {fileID: 0}
+    BodyPartsThatShareTheSkinTone: []
+    ClueString: a piece of metal dust
+    MeatProduce: {fileID: 0}
+    SkinProduce: {fileID: 0}
+    CanBePlayerChosen: 0
+    PreviewSprite: {fileID: 11400000, guid: 9389ef9309092fe40b3e8a28a456fa0e, type: 2}
+    SystemSettings: []
+  references:
+    version: 2
+    RefIds: []

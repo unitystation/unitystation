@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
@@ -39,6 +40,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: b876f95d3bc6d374b9a46c1b0153d68f,
         type: 3}
+    - target: {fileID: 2806690048445349940, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: _assetId
+      value: 1257677071
+      objectReference: {fileID: 0}
     - target: {fileID: 2806690048445349940, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: m_AssetId
@@ -77,17 +83,17 @@ PrefabInstance:
     - target: {fileID: 2843154561411039476, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2843154561411039476, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2843154561411039476, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2843154561411039476, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
@@ -116,4 +122,48 @@ PrefabInstance:
       value: bdee015617db52248b97de650920e2c0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2839352587806555520, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8160932219692824997}
   m_SourcePrefab: {fileID: 100100000, guid: abff3ae0227731244b0814b2055fa6f0, type: 3}
+--- !u!1 &255769160665397397 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2839352587806555520, guid: abff3ae0227731244b0814b2055fa6f0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2660436131299869973}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8160932219692824997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255769160665397397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
+  deviceType: 0
+  isSelfPowered: 0
+  wattusage: 0.01
+  InitialResistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  OnDeviceLinked:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeviceUnLinked:
+    m_PersistentCalls:
+      m_Calls: []

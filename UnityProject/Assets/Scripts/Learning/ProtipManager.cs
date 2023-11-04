@@ -1,7 +1,8 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using SecureStuff;
 using Managers;
+using NaughtyAttributes;
 using Newtonsoft.Json;
 using Shared.Managers;
 using UnityEngine;
@@ -18,8 +19,8 @@ namespace Learning
 
 
 		private readonly Queue<QueueTipData> queuedTips = new Queue<QueueTipData>();
-		private string jsonPath;
-		private readonly string jsonFileName = "/protips.json";
+
+		private const string JSON_FILE_NAME = "protips.json";
 		private const int JSON_EMPTY_LIST = 5;
 
 		public enum ExperienceLevel
@@ -35,7 +36,6 @@ namespace Learning
 		public override void Awake()
 		{
 			base.Awake();
-			jsonPath = Application.persistentDataPath + jsonFileName;
 			var experience = PlayerPrefs.GetInt("Learning/ExperienceLevel", -1);
 			if(experience == -1)
 			{
@@ -72,9 +72,12 @@ namespace Learning
 
 		private void UpdateRecordedTips()
 		{
-			if (File.Exists(jsonPath) == false || File.ReadAllText(jsonPath).Length <= JSON_EMPTY_LIST) return;
+			if (AccessFile.Exists(JSON_FILE_NAME,  folderType: FolderType.Data,  userPersistent : true) == false
+			    || AccessFile.Load(JSON_FILE_NAME, FolderType.Data, userPersistent : true).Length <= JSON_EMPTY_LIST) return;
+
 			var newList =
-				JsonConvert.DeserializeObject<Dictionary<string, bool>>(File.ReadAllText(jsonPath))
+				JsonConvert.DeserializeObject<Dictionary<string, bool>>(
+					AccessFile.Load(JSON_FILE_NAME, FolderType.Data, userPersistent : true))
 				?? new Dictionary<string, bool>();
 			ProtipSaveStates = newList;
 		}
@@ -82,13 +85,13 @@ namespace Learning
 		private void SaveProtipSaveStates()
 		{
 			var newData = JsonConvert.SerializeObject(ProtipSaveStates, Formatting.Indented);
-			File.WriteAllText(jsonPath, newData);
+			AccessFile.Save(JSON_FILE_NAME, newData, FolderType.Data, userPersistent: true);
 		}
 
 		public void ClearSaveState()
 		{
 			ProtipSaveStates.Clear();
-			File.WriteAllText(jsonPath, "");
+			AccessFile.Save(JSON_FILE_NAME, "", FolderType.Data,  userPersistent: true);
 		}
 
 		public void ShowListUI()
@@ -134,6 +137,13 @@ namespace Learning
 				}
 			}
 			IsShowingTip = true;
+		}
+
+		[Button("Test")]
+		public void TriggerTestUI()
+		{
+			if (Application.isPlaying == false) return;
+			ShowTip(RecordedProtips.PickRandom(), new List<string>());
 		}
 
 		private struct QueueTipData

@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 479374489354486641, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: _assetId
+      value: 83060997
+      objectReference: {fileID: 0}
     - target: {fileID: 479374489354486641, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: m_AssetId
@@ -51,7 +57,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 5246632173533382544}
+      objectReference: {fileID: 0}
     - target: {fileID: 5000544461018017584, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: CurrentsortingGroup
@@ -145,94 +151,85 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
-      propertyPath: animFrames.Array.data[0]
+      propertyPath: 'animFrames.Array.data[0]'
       value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
-      propertyPath: animFrames.Array.data[1]
+      propertyPath: 'animFrames.Array.data[1]'
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
-      propertyPath: animFrames.Array.data[2]
+      propertyPath: 'animFrames.Array.data[2]'
       value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
-      propertyPath: animFrames.Array.data[3]
+      propertyPath: 'animFrames.Array.data[3]'
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
-      propertyPath: animFrames.Array.data[4]
+      propertyPath: 'animFrames.Array.data[4]'
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
-      propertyPath: animFrames.Array.data[5]
+      propertyPath: 'animFrames.Array.data[5]'
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
-      propertyPath: animFrames.Array.data[6]
+      propertyPath: 'animFrames.Array.data[6]'
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
-      propertyPath: animFrames.Array.data[7]
+      propertyPath: 'animFrames.Array.data[7]'
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
-      propertyPath: animFrames.Array.data[8]
+      propertyPath: 'animFrames.Array.data[8]'
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
-      propertyPath: animFrames.Array.data[9]
+      propertyPath: 'animFrames.Array.data[9]'
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
-      propertyPath: animFrames.Array.data[10]
+      propertyPath: 'animFrames.Array.data[10]'
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
-      propertyPath: animFrames.Array.data[11]
+      propertyPath: 'animFrames.Array.data[11]'
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
-      propertyPath: animFrames.Array.data[12]
+      propertyPath: 'animFrames.Array.data[12]'
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
-      propertyPath: animFrames.Array.data[13]
+      propertyPath: 'animFrames.Array.data[13]'
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
-      propertyPath: animFrames.Array.data[14]
+      propertyPath: 'animFrames.Array.data[14]'
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3542702998424444105, guid: d6882bf1e96328b4189c858524c259b6, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6882bf1e96328b4189c858524c259b6, type: 3}
---- !u!114 &5246632173533382544 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6619846279543070993, guid: d6882bf1e96328b4189c858524c259b6,
-    type: 3}
-  m_PrefabInstance: {fileID: 1374058821656045185}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!210 &5667596803285361698 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 6752860069303042723, guid: d6882bf1e96328b4189c858524c259b6,

@@ -5,11 +5,12 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1216957477622953521, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 23a462cf13b68af4aaeb2992e263fbfd,
         type: 2}
@@ -36,7 +37,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
-      propertyPath: Gases.Array.data[1]
+      propertyPath: 'Gases.Array.data[1]'
       value: 33.2748
       objectReference: {fileID: 0}
     - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
@@ -51,7 +52,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
+      propertyPath: StoredGasMix.pressure
+      value: 1065.7839
+      objectReference: {fileID: 0}
+    - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
       propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
+      value: 350
+      objectReference: {fileID: 0}
+    - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].moles
       value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 8683563700070376267, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
@@ -116,6 +127,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8720517632814588811, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
+      propertyPath: _assetId
+      value: 3445069904
+      objectReference: {fileID: 0}
+    - target: {fileID: 8720517632814588811, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
       propertyPath: m_AssetId
       value: 559a6395df37aa249a2e1407680afd35
       objectReference: {fileID: 0}
@@ -143,4 +159,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: d36c552d52628744f9329654bbdf563b,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a, type: 3}

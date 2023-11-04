@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7645387831379206112}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7645387831379206110
 MonoBehaviour:
@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a599d49686971941af5117ec166999a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  offset: {x: 0, y: 0}
   width: 44
   height: 44
   wallTile: {fileID: 11400000, guid: 2c5573a92f4b03d4c809a9a90ac4ddac, type: 2}
@@ -57,20 +58,20 @@ MonoBehaviour:
     <RequireOpposingWalls>k__BackingField: 0
     <SpawnLockerCrate>k__BackingField: 0
     <TileToSpawn>k__BackingField: {fileID: 0}
-  - <ObjectToSpawn>k__BackingField: {fileID: 7376449702682419346, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
-      type: 3}
+  - <ObjectToSpawn>k__BackingField: {fileID: 0}
     <ObjectChance>k__BackingField: 10
     <RequiredWalls>k__BackingField: 2
     <RequireOpposingWalls>k__BackingField: 1
     <SpawnLockerCrate>k__BackingField: 0
-    <TileToSpawn>k__BackingField: {fileID: 0}
-  - <ObjectToSpawn>k__BackingField: {fileID: 5284686503705020292, guid: 0ce26a7341e66b142b36e308022db584,
-      type: 3}
+    <TileToSpawn>k__BackingField: {fileID: 11400000, guid: 3975642db6c52ed4fa2086247abc1f28,
+      type: 2}
+  - <ObjectToSpawn>k__BackingField: {fileID: 0}
     <ObjectChance>k__BackingField: 10
     <RequiredWalls>k__BackingField: 2
     <RequireOpposingWalls>k__BackingField: 0
     <SpawnLockerCrate>k__BackingField: 0
-    <TileToSpawn>k__BackingField: {fileID: 0}
+    <TileToSpawn>k__BackingField: {fileID: 11400000, guid: c87a62cb7a026433f9d4e361d2740cbc,
+      type: 2}
   - <ObjectToSpawn>k__BackingField: {fileID: 3378819989493369114, guid: c10109559e87d924bb10ee31d3bd33cb,
       type: 3}
     <ObjectChance>k__BackingField: 15

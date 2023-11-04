@@ -58,7 +58,7 @@ namespace Objects.Atmospherics
 			base.Awake();
 
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
-			apcPoweredDevice.OnStateChangeEvent.AddListener(PowerStateChange);
+			apcPoweredDevice.OnStateChangeEvent += PowerStateChange;
 
 			machine = GetComponent<Machine>();
 		}
@@ -66,13 +66,13 @@ namespace Objects.Atmospherics
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Loop);
-			apcPoweredDevice.OnStateChangeEvent.RemoveListener(PowerStateChange);
+			apcPoweredDevice.OnStateChangeEvent -= (PowerStateChange);
 		}
 
 		private void OnDestroy()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Loop);
-			apcPoweredDevice.OnStateChangeEvent.RemoveListener(PowerStateChange);
+			apcPoweredDevice.OnStateChangeEvent -= (PowerStateChange);
 		}
 
 		public override void TickUpdate()
@@ -270,7 +270,7 @@ namespace Objects.Atmospherics
 
 		#endregion
 
-		private void PowerStateChange(Tuple<PowerState, PowerState> states)
+		private void PowerStateChange(PowerState old , PowerState newState)
 		{
 			if (isOn == false)
 			{
@@ -278,7 +278,7 @@ namespace Objects.Atmospherics
 				return;
 			}
 
-			ChangeSprite(states.Item2 != PowerState.Off);
+			ChangeSprite(newState != PowerState.Off);
 		}
 
 		public void TogglePower(bool newState)
@@ -295,13 +295,13 @@ namespace Objects.Atmospherics
 			if (type == HeaterFreezerType.Both)
 			{
 				//0 is freezer off, 1 is freezer on, 2 is heater off, 3 is heater on
-				spritehandler.ChangeSprite(newState ? targetTemperature > currentTemperature ? 3 : 1
+				spritehandler.SetCatalogueIndexSprite(newState ? targetTemperature > currentTemperature ? 3 : 1
 					: targetTemperature > currentTemperature ? 2 : 0);
 			}
 			else
 			{
 				//0 is off, 1 is heater/freezer depending on prefab
-				spritehandler.ChangeSprite(newState ? 1 : 0);
+				spritehandler.SetCatalogueIndexSprite(newState ? 1 : 0);
 			}
 		}
 
@@ -312,7 +312,7 @@ namespace Objects.Atmospherics
 
 			if (type == HeaterFreezerType.Both && isOn)
 			{
-				spritehandler.ChangeSprite(targetTemperature > currentTemperature ? 3 : 1);
+				spritehandler.SetCatalogueIndexSprite(targetTemperature > currentTemperature ? 3 : 1);
 			}
 
 			UpdateGui();

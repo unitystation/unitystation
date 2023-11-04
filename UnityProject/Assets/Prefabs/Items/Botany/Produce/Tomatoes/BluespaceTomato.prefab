@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 786478901405012644, guid: 214b68550d061cb4dbcadfb70e4473b5,
@@ -95,6 +96,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 978280887754293362, guid: 214b68550d061cb4dbcadfb70e4473b5,
         type: 3}
+      propertyPath: _assetId
+      value: 2956071929
+      objectReference: {fileID: 0}
+    - target: {fileID: 978280887754293362, guid: 214b68550d061cb4dbcadfb70e4473b5,
+        type: 3}
       propertyPath: m_AssetId
       value: 4517f9573453bd5439c897bdc416e6f5
       objectReference: {fileID: 0}
@@ -110,9 +116,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1469853839509517426, guid: be29a54809c5bfa4ba2d9fb3f1853261,
         type: 3}
+    - target: {fileID: 4518846805580426858, guid: 214b68550d061cb4dbcadfb70e4473b5,
+        type: 3}
+      propertyPath: BasePurity
+      value: 29
+      objectReference: {fileID: 0}
     - target: {fileID: 5551815260365209418, guid: 214b68550d061cb4dbcadfb70e4473b5,
         type: 3}
-      propertyPath: fermentedReagents.m_keys.Array.data[0]
+      propertyPath: 'fermentedReagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: e1e8ec5001d527c068ccd89adbbc2461,
         type: 2}
@@ -128,4 +139,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 1f05733d460f86f47b108f40c2912cda,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 214b68550d061cb4dbcadfb70e4473b5, type: 3}

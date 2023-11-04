@@ -41,6 +41,7 @@ namespace HealthV2.Limbs
 		{
 			base.OnRemovedFromBody(livingHealth);
 			playerHealth.OrNull()?.PlayerMove.RemoveLeg(this);
+			playerHealth.OrNull()?.PlayerMove.RemoveModifier(this);
 		}
 
 		public void SetNewSpeeds(float newRunningSpeed, float newWalkingSpeed)

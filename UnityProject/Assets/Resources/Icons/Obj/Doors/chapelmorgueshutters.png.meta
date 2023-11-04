@@ -183,7 +183,7 @@ TextureImporter:
       213: 2557973857968383537
     second: chapelmorgueshutters_59
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -200,11 +200,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -243,6 +244,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -292,6 +295,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -1566,69 +1581,68 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      chapelmorgueshutters_1: -6774803257513705194
-      chapelmorgueshutters_30: -4305694614853746630
-      chapelmorgueshutters_7: 2225257344496755774
-      chapelmorgueshutters_40: -9094856123151515217
-      chapelmorgueshutters_58: -2039282261372846233
-      chapelmorgueshutters_31: -6280845436532945299
-      chapelmorgueshutters_13: 2237470134690523291
-      chapelmorgueshutters_44: -4424709958332768602
-      chapelmorgueshutters_4: -7658782760897984533
-      chapelmorgueshutters_27: -4683049609639106121
-      chapelmorgueshutters_41: 826570313626309377
-      chapelmorgueshutters_56: -1001899362418544027
-      chapelmorgueshutters_15: -1443418794101638333
-      chapelmorgueshutters_25: 8864838837805821179
-      chapelmorgueshutters_9: -8175216887172305403
-      chapelmorgueshutters_49: -3330443863163150674
-      chapelmorgueshutters_24: 5452792121203392911
-      chapelmorgueshutters_26: 7398415659916526333
-      chapelmorgueshutters_20: 2160133539955999514
-      chapelmorgueshutters_28: -7687847886365920027
-      chapelmorgueshutters_23: -3542910157074841699
       chapelmorgueshutters_0: -3768459764970815540
-      chapelmorgueshutters_32: 6345034729659160144
-      chapelmorgueshutters_53: 5302785128529804296
+      chapelmorgueshutters_1: -6774803257513705194
       chapelmorgueshutters_10: 4622222480818814409
-      chapelmorgueshutters_16: -5750928351311266416
-      chapelmorgueshutters_33: -3249621243741879223
-      chapelmorgueshutters_42: -4977269466741472061
-      chapelmorgueshutters_38: 7364350353117499178
-      chapelmorgueshutters_51: -1194095016493674536
-      chapelmorgueshutters_50: -9041029871872287443
-      chapelmorgueshutters_55: 6759805580295475395
-      chapelmorgueshutters_37: 2208611192543595512
-      chapelmorgueshutters_14: 1626257988508452457
-      chapelmorgueshutters_2: -8257130973772203807
-      chapelmorgueshutters_17: -8592318403640929622
-      chapelmorgueshutters_45: 4866804037040516027
-      chapelmorgueshutters_52: 8410345901559562104
-      chapelmorgueshutters_48: -705639045107274539
-      chapelmorgueshutters_35: -6322044282080090915
-      chapelmorgueshutters_6: -29371922495240270
-      chapelmorgueshutters_59: 2557973857968383537
-      chapelmorgueshutters_8: 676339530400971414
-      chapelmorgueshutters_34: 3666362014326157737
-      chapelmorgueshutters_19: -8847234501067754946
-      chapelmorgueshutters_36: -411305270127128936
       chapelmorgueshutters_11: -2044284188544550111
-      chapelmorgueshutters_54: 17919766035468260
-      chapelmorgueshutters_47: 329760623059209163
-      chapelmorgueshutters_39: -6067756560250737791
-      chapelmorgueshutters_22: 4085085285345688454
-      chapelmorgueshutters_5: -5862193561606916452
-      chapelmorgueshutters_46: -5996788534887987295
-      chapelmorgueshutters_43: 2240236545034630687
-      chapelmorgueshutters_21: 3041404519936627216
       chapelmorgueshutters_12: -8228228340437922586
-      chapelmorgueshutters_3: -1433528015002623672
+      chapelmorgueshutters_13: 2237470134690523291
+      chapelmorgueshutters_14: 1626257988508452457
+      chapelmorgueshutters_15: -1443418794101638333
+      chapelmorgueshutters_16: -5750928351311266416
+      chapelmorgueshutters_17: -8592318403640929622
       chapelmorgueshutters_18: 490797898195093287
-      chapelmorgueshutters_57: 2288058427512830850
+      chapelmorgueshutters_19: -8847234501067754946
+      chapelmorgueshutters_2: -8257130973772203807
+      chapelmorgueshutters_20: 2160133539955999514
+      chapelmorgueshutters_21: 3041404519936627216
+      chapelmorgueshutters_22: 4085085285345688454
+      chapelmorgueshutters_23: -3542910157074841699
+      chapelmorgueshutters_24: 5452792121203392911
+      chapelmorgueshutters_25: 8864838837805821179
+      chapelmorgueshutters_26: 7398415659916526333
+      chapelmorgueshutters_27: -4683049609639106121
+      chapelmorgueshutters_28: -7687847886365920027
       chapelmorgueshutters_29: -8752088481057985185
-  spritePackingTag: 
+      chapelmorgueshutters_3: -1433528015002623672
+      chapelmorgueshutters_30: -4305694614853746630
+      chapelmorgueshutters_31: -6280845436532945299
+      chapelmorgueshutters_32: 6345034729659160144
+      chapelmorgueshutters_33: -3249621243741879223
+      chapelmorgueshutters_34: 3666362014326157737
+      chapelmorgueshutters_35: -6322044282080090915
+      chapelmorgueshutters_36: -411305270127128936
+      chapelmorgueshutters_37: 2208611192543595512
+      chapelmorgueshutters_38: 7364350353117499178
+      chapelmorgueshutters_39: -6067756560250737791
+      chapelmorgueshutters_4: -7658782760897984533
+      chapelmorgueshutters_40: -9094856123151515217
+      chapelmorgueshutters_41: 826570313626309377
+      chapelmorgueshutters_42: -4977269466741472061
+      chapelmorgueshutters_43: 2240236545034630687
+      chapelmorgueshutters_44: -4424709958332768602
+      chapelmorgueshutters_45: 4866804037040516027
+      chapelmorgueshutters_46: -5996788534887987295
+      chapelmorgueshutters_47: 329760623059209163
+      chapelmorgueshutters_48: -705639045107274539
+      chapelmorgueshutters_49: -3330443863163150674
+      chapelmorgueshutters_5: -5862193561606916452
+      chapelmorgueshutters_50: -9041029871872287443
+      chapelmorgueshutters_51: -1194095016493674536
+      chapelmorgueshutters_52: 8410345901559562104
+      chapelmorgueshutters_53: 5302785128529804296
+      chapelmorgueshutters_54: 17919766035468260
+      chapelmorgueshutters_55: 6759805580295475395
+      chapelmorgueshutters_56: -1001899362418544027
+      chapelmorgueshutters_57: 2288058427512830850
+      chapelmorgueshutters_58: -2039282261372846233
+      chapelmorgueshutters_59: 2557973857968383537
+      chapelmorgueshutters_6: -29371922495240270
+      chapelmorgueshutters_7: 2225257344496755774
+      chapelmorgueshutters_8: 676339530400971414
+      chapelmorgueshutters_9: -8175216887172305403
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2318685547332036631, guid: b343aea0e51a4c44694589195b8eae77,
@@ -94,6 +95,11 @@ PrefabInstance:
       propertyPath: visibleName
       value: electrode
       objectReference: {fileID: 0}
+    - target: {fileID: 3552370236935891446, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      propertyPath: _assetId
+      value: 219695800
+      objectReference: {fileID: 0}
     - target: {fileID: 4204988295596267492, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
       propertyPath: damageData
@@ -114,6 +120,17 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents:
     - {fileID: 5918026808625155914, guid: b343aea0e51a4c44694589195b8eae77, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2511337419890708861, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3212425729454647511}
+    - targetCorrespondingSourceObject: {fileID: 2511337419890708861, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3333492289853661819}
   m_SourcePrefab: {fileID: 100100000, guid: b343aea0e51a4c44694589195b8eae77, type: 3}
 --- !u!1 &8503226174470518201 stripped
 GameObject:
@@ -134,6 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stunTime: 10
+  passThroughStunImmunity: 1
   willDisarm: 1
   doMsg: 0
 --- !u!114 &3333492289853661819

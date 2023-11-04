@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1714744810668323119, guid: 64a0d2d91b5c1d24596fcac46075e587,
@@ -30,7 +31,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1941292153037560109, guid: 64a0d2d91b5c1d24596fcac46075e587,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: f7287b62dffd6e4459733b452f898a77,
         type: 2}
@@ -102,6 +103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4835130963128809244, guid: 64a0d2d91b5c1d24596fcac46075e587,
         type: 3}
+      propertyPath: _assetId
+      value: 3606373138
+      objectReference: {fileID: 0}
+    - target: {fileID: 4835130963128809244, guid: 64a0d2d91b5c1d24596fcac46075e587,
+        type: 3}
       propertyPath: m_AssetId
       value: 3e86fd940e21c744e94573744e55455b
       objectReference: {fileID: 0}
@@ -116,4 +122,7 @@ PrefabInstance:
       value: A red, casual skirt.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64a0d2d91b5c1d24596fcac46075e587, type: 3}

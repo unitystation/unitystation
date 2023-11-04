@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using UnityEngine;
 
 /// <summary>
@@ -35,11 +36,48 @@ public struct PlayerAction
 	}
 
 
+	public MovementSynchronisation.PlayerMoveDirection ToPlayerMoveDirection(Vector2Int InDirection)
+	{
+		InDirection = TransformMove(InDirection);
+
+		return MovementSynchronisation.VectorToPlayerMoveDirection(InDirection);
+	}
+
 
 	public MovementSynchronisation.PlayerMoveDirection ToPlayerMoveDirection()
 	{
 		var direction = Direction();
+		direction = TransformMove(direction);
+
 		return MovementSynchronisation.VectorToPlayerMoveDirection(direction);
+	}
+
+
+	public Vector2Int TransformMove(Vector2Int moveDirection) {
+
+		// Create the move vector based on the input axis
+		Vector3 moveVector = new Vector3(moveDirection.x, 0, moveDirection.y);
+
+		// Rotate the move vector based on the Y rotation of the camera
+		moveVector = Quaternion.Euler(0f, Camera.main.transform.localEulerAngles.y, 0f) * moveVector;
+
+		// Round the move vector to the nearest move step
+		moveVector = RoundToMoveStep(moveVector);
+
+		// Convert the move vector to Vector2Int
+		moveDirection = new Vector2Int(Mathf.RoundToInt(moveVector.x), Mathf.RoundToInt(moveVector.z));
+		return moveDirection;
+	}
+
+	// Rounds the vector to the nearest move step based on the move step size
+	private Vector3 RoundToMoveStep(Vector3 vector) {
+		float moveAngle = 45f;
+		float angle = Mathf.Atan2(vector.z, vector.x) * Mathf.Rad2Deg;
+		float roundedAngle = Mathf.Round(angle / moveAngle) * moveAngle;
+		float magnitude = vector.magnitude;
+		float roundedMagnitude = Mathf.Round(magnitude);
+		Vector3 roundedVector = new Vector3(Mathf.Cos(roundedAngle * Mathf.Deg2Rad), 0f, Mathf.Sin(roundedAngle * Mathf.Deg2Rad)) * roundedMagnitude;
+		return roundedVector;
 	}
 
 	/// <summary>
@@ -52,7 +90,7 @@ public struct PlayerAction
 		//TODO: Refactor diagonality into an extension
 		if (Math.Abs(direction.x) + Math.Abs(direction.y) >= 2)
 		{
-			Logger.LogErrorFormat("MoveAction.GetMoveAction invoked on an invalid, non-cardinal direction {0}." +
+			Loggy.LogErrorFormat("MoveAction.GetMoveAction invoked on an invalid, non-cardinal direction {0}." +
 			                      " This will cause undefined behavior. Please fix the code to only pass a valid cardinal direction.",
 				Category.Movement, direction);
 		}

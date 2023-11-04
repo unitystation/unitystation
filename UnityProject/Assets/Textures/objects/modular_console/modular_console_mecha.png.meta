@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: mecha_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      mecha_12: 21300024
-      mecha_5: 21300010
-      mecha_18: 21300036
-      mecha_7: 21300014
+      mecha_0: 21300000
       mecha_1: 21300002
+      mecha_10: 21300020
+      mecha_11: 21300022
+      mecha_12: 21300024
+      mecha_13: 21300026
+      mecha_14: 21300028
       mecha_15: 21300030
       mecha_16: 21300032
-      mecha_0: 21300000
-      mecha_9: 21300018
-      mecha_2: 21300004
-      mecha_23: 21300046
-      mecha_8: 21300016
-      mecha_14: 21300028
-      mecha_6: 21300012
-      mecha_3: 21300006
-      mecha_11: 21300022
-      mecha_4: 21300008
-      mecha_21: 21300042
-      mecha_19: 21300038
-      mecha_13: 21300026
       mecha_17: 21300034
+      mecha_18: 21300036
+      mecha_19: 21300038
+      mecha_2: 21300004
       mecha_20: 21300040
+      mecha_21: 21300042
       mecha_22: 21300044
-      mecha_10: 21300020
-  spritePackingTag: 
+      mecha_23: 21300046
+      mecha_3: 21300006
+      mecha_4: 21300008
+      mecha_5: 21300010
+      mecha_6: 21300012
+      mecha_7: 21300014
+      mecha_8: 21300016
+      mecha_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

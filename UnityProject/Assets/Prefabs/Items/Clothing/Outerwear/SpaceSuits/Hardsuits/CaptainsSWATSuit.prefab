@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3087960746820223610, guid: 91aad833277815d498e0686d9fc85bed,
@@ -34,7 +35,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3696664957502459903, guid: 91aad833277815d498e0686d9fc85bed,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 624923aff3c57ae4cbac46a4f5849500,
         type: 2}
@@ -137,6 +138,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7684335182724719054, guid: 91aad833277815d498e0686d9fc85bed,
         type: 3}
+      propertyPath: _assetId
+      value: 3030185904
+      objectReference: {fileID: 0}
+    - target: {fileID: 7684335182724719054, guid: 91aad833277815d498e0686d9fc85bed,
+        type: 3}
       propertyPath: m_AssetId
       value: ac6c0453ea1ca8d45a402ee8a5590a58
       objectReference: {fileID: 0}
@@ -215,4 +221,7 @@ PrefabInstance:
         Better not let the assistants get a hold of it.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91aad833277815d498e0686d9fc85bed, type: 3}

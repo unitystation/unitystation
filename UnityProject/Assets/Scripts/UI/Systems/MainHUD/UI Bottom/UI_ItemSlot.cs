@@ -9,6 +9,7 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using HealthV2;
 using Items.Implants.Organs;
+using Logs;
 using Managers;
 using UI;
 
@@ -51,7 +52,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	/// <summary>
 	/// Item in this slot, null if empty.
 	/// </summary>
-	public Pickupable Item => itemSlot.Item;
+	public Pickupable Item => itemSlot?.Item;
 
 	/// <summary>
 	/// Actual slot this UI slot is linked to
@@ -224,7 +225,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 			//determine if we should show an amount
 			var stack = item.GetComponent<Stackable>();
-			if (stack != null && stack.Amount > 1 && amountText)
+			if (stack != null && ((stack.Amount > 1  && amountText)|| stack.IsRepresentationOfStack) )
 			{
 				amountText.enabled = true;
 				amountText.text = stack.Amount.ToString();
@@ -238,7 +239,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 			if (MoreInventoryImage != null)
 			{
 				var Storage = item.GetComponent<InteractableStorage>();
-				if (Storage != null)
+				if (Storage != null && Storage.DoNotShowInventoryOnUI == false)
 				{
 					HasSubInventory.itemStorage = Storage.ItemStorage;
 					MoreInventoryImage.enabled = true;
@@ -322,10 +323,10 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		if (PlayerManager.LocalPlayerScript == null) return false;
 
 		// TODO tidy up this if statement once it's working correctly
-		if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
+		if (!PlayerManager.LocalPlayerScript.playerMove.AllowInput ||
 		    PlayerManager.LocalPlayerScript.IsGhost)
 		{
-			Logger.Log("Invalid player, cannot perform action!", Category.Interaction);
+			Loggy.Log("Invalid player, cannot perform action!", Category.Interaction);
 			return false;
 		}
 
@@ -368,13 +369,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	{
 		// Clicked on another slot other than our own hands
 		bool IsHandSlots = false;
-		foreach (var HadnitemSlot in PlayerManager.LocalPlayerScript.DynamicItemStorage.GetHandSlots())
-		{
-			if (HadnitemSlot == itemSlot)
-			{
-				IsHandSlots = true;
-			}
-		}
+		IsHandSlots = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot() == itemSlot;
 
 		if (IsHandSlots == false)
 		{
@@ -456,7 +451,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	[ContextMenu("Debug Slot")]
 	void DebugItem()
 	{
-		Logger.Log(itemSlot.ToString(), Category.PlayerInventory);
+		Loggy.Log(itemSlot.ToString(), Category.PlayerInventory);
 	}
 
 	/// <summary>

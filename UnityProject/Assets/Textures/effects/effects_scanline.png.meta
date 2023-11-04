@@ -195,7 +195,7 @@ TextureImporter:
       213: 21300126
     second: scanline_63
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -212,11 +212,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -255,6 +256,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -270,6 +273,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1638,73 +1653,72 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      scanline_21: 21300042
-      scanline_25: 21300050
-      scanline_13: 21300026
-      scanline_27: 21300054
-      scanline_34: 21300068
-      scanline_9: 21300018
-      scanline_41: 21300082
-      scanline_28: 21300056
-      scanline_42: 21300084
-      scanline_46: 21300092
-      scanline_19: 21300038
-      scanline_47: 21300094
-      scanline_43: 21300086
-      scanline_49: 21300098
-      scanline_55: 21300110
-      scanline_62: 21300124
-      scanline_33: 21300066
-      scanline_53: 21300106
-      scanline_26: 21300052
-      scanline_6: 21300012
-      scanline_12: 21300024
-      scanline_40: 21300080
-      scanline_52: 21300104
-      scanline_30: 21300060
-      scanline_36: 21300072
-      scanline_7: 21300014
-      scanline_11: 21300022
-      scanline_4: 21300008
-      scanline_63: 21300126
-      scanline_2: 21300004
-      scanline_39: 21300078
       scanline_0: 21300000
-      scanline_5: 21300010
-      scanline_61: 21300122
-      scanline_17: 21300034
-      scanline_3: 21300006
       scanline_1: 21300002
       scanline_10: 21300020
+      scanline_11: 21300022
+      scanline_12: 21300024
+      scanline_13: 21300026
+      scanline_14: 21300028
+      scanline_15: 21300030
       scanline_16: 21300032
+      scanline_17: 21300034
       scanline_18: 21300036
+      scanline_19: 21300038
+      scanline_2: 21300004
+      scanline_20: 21300040
+      scanline_21: 21300042
+      scanline_22: 21300044
+      scanline_23: 21300046
+      scanline_24: 21300048
+      scanline_25: 21300050
+      scanline_26: 21300052
+      scanline_27: 21300054
+      scanline_28: 21300056
+      scanline_29: 21300058
+      scanline_3: 21300006
+      scanline_30: 21300060
+      scanline_31: 21300062
+      scanline_32: 21300064
+      scanline_33: 21300066
+      scanline_34: 21300068
+      scanline_35: 21300070
+      scanline_36: 21300072
       scanline_37: 21300074
       scanline_38: 21300076
-      scanline_23: 21300046
-      scanline_15: 21300030
-      scanline_31: 21300062
-      scanline_35: 21300070
-      scanline_51: 21300102
-      scanline_29: 21300058
-      scanline_20: 21300040
-      scanline_58: 21300116
-      scanline_54: 21300108
-      scanline_60: 21300120
-      scanline_56: 21300112
-      scanline_59: 21300118
-      scanline_14: 21300028
+      scanline_39: 21300078
+      scanline_4: 21300008
+      scanline_40: 21300080
+      scanline_41: 21300082
+      scanline_42: 21300084
+      scanline_43: 21300086
       scanline_44: 21300088
-      scanline_24: 21300048
-      scanline_22: 21300044
-      scanline_32: 21300064
-      scanline_50: 21300100
-      scanline_57: 21300114
       scanline_45: 21300090
+      scanline_46: 21300092
+      scanline_47: 21300094
       scanline_48: 21300096
+      scanline_49: 21300098
+      scanline_5: 21300010
+      scanline_50: 21300100
+      scanline_51: 21300102
+      scanline_52: 21300104
+      scanline_53: 21300106
+      scanline_54: 21300108
+      scanline_55: 21300110
+      scanline_56: 21300112
+      scanline_57: 21300114
+      scanline_58: 21300116
+      scanline_59: 21300118
+      scanline_6: 21300012
+      scanline_60: 21300120
+      scanline_61: 21300122
+      scanline_62: 21300124
+      scanline_63: 21300126
+      scanline_7: 21300014
       scanline_8: 21300016
-  spritePackingTag: 
+      scanline_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

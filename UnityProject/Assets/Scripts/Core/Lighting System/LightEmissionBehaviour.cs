@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -121,13 +122,13 @@ public class LightEmissionBehaviour : MonoBehaviour
 
 		if (iRoot == null)
 		{
-			Logger.LogError("LightEmissionBehaviour: UInitialization require valid parent.", Category.Lighting);
+			Loggy.LogError("LightEmissionBehaviour: UInitialization require valid parent.", Category.Lighting);
 			return;
 		}
 
 		if (iEmissionMaterial == null)
 		{
-			Logger.LogError("LightEmissionBehaviour: UInitialization require assigned emission material.", Category.Lighting);
+			Loggy.LogError("LightEmissionBehaviour: UInitialization require assigned emission material.", Category.Lighting);
 			return;
 		}
 

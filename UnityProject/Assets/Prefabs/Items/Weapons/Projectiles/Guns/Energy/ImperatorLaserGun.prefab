@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
@@ -19,7 +20,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
-      propertyPath: firemodeName.Array.data[0]
+      propertyPath: 'firemodeName.Array.data[0]'
       value: Hellfire
       objectReference: {fileID: 0}
     - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
@@ -34,7 +35,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
-      propertyPath: firemodeProjectiles.Array.data[0]
+      propertyPath: 'firemodeProjectiles.Array.data[0]'
       value: 
       objectReference: {fileID: 5996511364925663208, guid: c1e78413dfa7c5d4ebb396bb780027c1,
         type: 3}
@@ -61,6 +62,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d876447fb4123ef4f8f6d359f9206a70,
         type: 2}
+    - target: {fileID: 7509375819178772214, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: _assetId
+      value: 3426169687
+      objectReference: {fileID: 0}
     - target: {fileID: 7509375819178772214, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: m_AssetId
@@ -195,4 +201,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 34eed17eb5c9ba7448cb9de02730a7dd,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fd11f09765590540b2685a0dfa2b8ea, type: 3}

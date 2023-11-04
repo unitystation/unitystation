@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2859753007631003197, guid: e77ad8336ea71364c9ec01faad07f5f4,
@@ -17,6 +18,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A modified flash device, programmed to emit a sequence of subliminal
         flashes that can send a vulnerable target into a hypnotic trance.
+      objectReference: {fileID: 0}
+    - target: {fileID: 9115688381779992548, guid: e77ad8336ea71364c9ec01faad07f5f4,
+        type: 3}
+      propertyPath: _assetId
+      value: 2009268336
       objectReference: {fileID: 0}
     - target: {fileID: 9115688381779992548, guid: e77ad8336ea71364c9ec01faad07f5f4,
         type: 3}
@@ -84,4 +90,7 @@ PrefabInstance:
       value: FlashHypnotic
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e77ad8336ea71364c9ec01faad07f5f4, type: 3}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 577579610606509638, guid: 502f496beb9034b9b9c97868e845ed7e,
@@ -26,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: armoredBodyParts.Array.data[1].armor.Fire
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1762207313667118248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: _assetId
+      value: 667701264
       objectReference: {fileID: 0}
     - target: {fileID: 1762207313667118248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -130,13 +136,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 48942eaed196229408100f6ebc5d9e3a,
         type: 2}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: initialTraits.Array.data[2]
+      propertyPath: 'initialTraits.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: e8a69967443cc16429de324b9dfe1852,
         type: 2}
@@ -162,7 +168,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 87a96c2697a1e3a47b8e0fc3df29c6cc,
         type: 2}
@@ -174,6 +180,13 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents:
     - {fileID: 2180396187395717271, guid: 502f496beb9034b9b9c97868e845ed7e, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1864679013969520924, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6471934150862247185}
   m_SourcePrefab: {fileID: 100100000, guid: 502f496beb9034b9b9c97868e845ed7e, type: 3}
 --- !u!1 &7106618204054676533 stripped
 GameObject:
@@ -195,4 +208,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runningSpeedDebuff: 1
   walkingSpeedDebuff: 0.5
+  SpeedDebuffRemoved: 0
   slot: 3

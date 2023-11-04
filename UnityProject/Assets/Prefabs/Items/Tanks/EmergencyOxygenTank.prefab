@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2374380983259834516, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: _assetId
+      value: 3676867698
+      objectReference: {fileID: 0}
     - target: {fileID: 2374380983259834516, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: m_AssetId
@@ -112,7 +118,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
         type: 2}
@@ -139,7 +145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
-      propertyPath: Gases.Array.data[1]
+      propertyPath: 'Gases.Array.data[1]'
       value: 41.5935
       objectReference: {fileID: 0}
     - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
@@ -154,7 +160,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
+      propertyPath: StoredGasMix.pressure
+      value: 1096.2307
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
       propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].moles
       value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 8368062230162943655, guid: 48d3c058a9e5a42418875499b82cc5e3,
@@ -169,6 +185,17 @@ PrefabInstance:
       value: 9ad3756f014fe4f4c9aa35bf9b523a1a
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2406975489804277024, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1216957477622953521}
+    - targetCorrespondingSourceObject: {fileID: 2406975489804277024, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7416259717188023732}
   m_SourcePrefab: {fileID: 100100000, guid: 48d3c058a9e5a42418875499b82cc5e3, type: 3}
 --- !u!1 &8687924225242013247 stripped
 GameObject:
@@ -188,6 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   allClothingData:

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2125034746937388366, guid: f5f0a71baa961804b8ac6eab8516da44,
@@ -27,6 +28,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: No more entropy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923331232764599447, guid: f5f0a71baa961804b8ac6eab8516da44,
+        type: 3}
+      propertyPath: _assetId
+      value: 2630595910
       objectReference: {fileID: 0}
     - target: {fileID: 4923331232764599447, guid: f5f0a71baa961804b8ac6eab8516da44,
         type: 3}
@@ -94,4 +100,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5f0a71baa961804b8ac6eab8516da44, type: 3}

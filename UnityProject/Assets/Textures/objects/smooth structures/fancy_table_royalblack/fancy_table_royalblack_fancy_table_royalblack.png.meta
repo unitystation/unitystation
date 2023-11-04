@@ -147,7 +147,7 @@ TextureImporter:
       213: -7874930764939215881
     second: fancy_table_royalblack_fancy_table_royalblack_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      fancy_table_royalblack_fancy_table_royalblack_17: 9210945010661111820
-      fancy_table_royalblack_fancy_table_royalblack_23: -7182702389135431541
-      fancy_table_royalblack_fancy_table_royalblack_3: 6536813585491294726
-      fancy_table_royalblack_fancy_table_royalblack_36: 4147290456743572048
-      fancy_table_royalblack_fancy_table_royalblack_39: 1620083884803291041
-      fancy_table_royalblack_fancy_table_royalblack_42: 1035670189656214
-      fancy_table_royalblack_fancy_table_royalblack_18: 2331667227077836946
       fancy_table_royalblack_fancy_table_royalblack_0: -2112598619744435831
-      fancy_table_royalblack_fancy_table_royalblack_26: 4725129315029190381
-      fancy_table_royalblack_fancy_table_royalblack_11: 2107358124381897165
-      fancy_table_royalblack_fancy_table_royalblack_25: -3045337351517004525
-      fancy_table_royalblack_fancy_table_royalblack_8: -5874649577836167196
-      fancy_table_royalblack_fancy_table_royalblack_13: 8877240469451659224
-      fancy_table_royalblack_fancy_table_royalblack_22: -3427787749454632743
-      fancy_table_royalblack_fancy_table_royalblack_29: -5779304815860978534
       fancy_table_royalblack_fancy_table_royalblack_1: -4350790434654378087
-      fancy_table_royalblack_fancy_table_royalblack_15: -8860463562228232557
-      fancy_table_royalblack_fancy_table_royalblack_19: -6678817532713043961
-      fancy_table_royalblack_fancy_table_royalblack_6: -3422807553218244725
-      fancy_table_royalblack_fancy_table_royalblack_32: -3453370334123562118
-      fancy_table_royalblack_fancy_table_royalblack_20: 1229249895877733948
-      fancy_table_royalblack_fancy_table_royalblack_31: 1281743215258762
-      fancy_table_royalblack_fancy_table_royalblack_44: 8366899946194892224
-      fancy_table_royalblack_fancy_table_royalblack_27: 6082477416346830963
-      fancy_table_royalblack_fancy_table_royalblack_47: -7874930764939215881
-      fancy_table_royalblack_fancy_table_royalblack_2: -7051234788023414594
       fancy_table_royalblack_fancy_table_royalblack_10: 7386349566083276572
-      fancy_table_royalblack_fancy_table_royalblack_33: 2209900923774382256
+      fancy_table_royalblack_fancy_table_royalblack_11: 2107358124381897165
       fancy_table_royalblack_fancy_table_royalblack_12: -3459415766953447315
-      fancy_table_royalblack_fancy_table_royalblack_46: -491932518442795100
-      fancy_table_royalblack_fancy_table_royalblack_37: 357314479516334716
-      fancy_table_royalblack_fancy_table_royalblack_16: 1212505845594717152
-      fancy_table_royalblack_fancy_table_royalblack_9: 3986080925516403689
+      fancy_table_royalblack_fancy_table_royalblack_13: 8877240469451659224
       fancy_table_royalblack_fancy_table_royalblack_14: -3796320876458309733
+      fancy_table_royalblack_fancy_table_royalblack_15: -8860463562228232557
+      fancy_table_royalblack_fancy_table_royalblack_16: 1212505845594717152
+      fancy_table_royalblack_fancy_table_royalblack_17: 9210945010661111820
+      fancy_table_royalblack_fancy_table_royalblack_18: 2331667227077836946
+      fancy_table_royalblack_fancy_table_royalblack_19: -6678817532713043961
+      fancy_table_royalblack_fancy_table_royalblack_2: -7051234788023414594
+      fancy_table_royalblack_fancy_table_royalblack_20: 1229249895877733948
+      fancy_table_royalblack_fancy_table_royalblack_21: 5926580281928026705
+      fancy_table_royalblack_fancy_table_royalblack_22: -3427787749454632743
+      fancy_table_royalblack_fancy_table_royalblack_23: -7182702389135431541
+      fancy_table_royalblack_fancy_table_royalblack_24: 4836173072205588132
+      fancy_table_royalblack_fancy_table_royalblack_25: -3045337351517004525
+      fancy_table_royalblack_fancy_table_royalblack_26: 4725129315029190381
+      fancy_table_royalblack_fancy_table_royalblack_27: 6082477416346830963
+      fancy_table_royalblack_fancy_table_royalblack_28: -717510890212025484
+      fancy_table_royalblack_fancy_table_royalblack_29: -5779304815860978534
+      fancy_table_royalblack_fancy_table_royalblack_3: 6536813585491294726
+      fancy_table_royalblack_fancy_table_royalblack_30: 2608699801340304453
+      fancy_table_royalblack_fancy_table_royalblack_31: 1281743215258762
+      fancy_table_royalblack_fancy_table_royalblack_32: -3453370334123562118
+      fancy_table_royalblack_fancy_table_royalblack_33: 2209900923774382256
       fancy_table_royalblack_fancy_table_royalblack_34: 250420523394053675
       fancy_table_royalblack_fancy_table_royalblack_35: 7142035045335329195
-      fancy_table_royalblack_fancy_table_royalblack_7: 6353054425318102255
-      fancy_table_royalblack_fancy_table_royalblack_28: -717510890212025484
+      fancy_table_royalblack_fancy_table_royalblack_36: 4147290456743572048
+      fancy_table_royalblack_fancy_table_royalblack_37: 357314479516334716
       fancy_table_royalblack_fancy_table_royalblack_38: -5986735034526184027
-      fancy_table_royalblack_fancy_table_royalblack_40: -7400669839553964447
-      fancy_table_royalblack_fancy_table_royalblack_5: 8805586863219614751
-      fancy_table_royalblack_fancy_table_royalblack_41: -3211958484570632362
+      fancy_table_royalblack_fancy_table_royalblack_39: 1620083884803291041
       fancy_table_royalblack_fancy_table_royalblack_4: 1491271366441065112
-      fancy_table_royalblack_fancy_table_royalblack_21: 5926580281928026705
+      fancy_table_royalblack_fancy_table_royalblack_40: -7400669839553964447
+      fancy_table_royalblack_fancy_table_royalblack_41: -3211958484570632362
+      fancy_table_royalblack_fancy_table_royalblack_42: 1035670189656214
       fancy_table_royalblack_fancy_table_royalblack_43: -99106379482820952
-      fancy_table_royalblack_fancy_table_royalblack_24: 4836173072205588132
-      fancy_table_royalblack_fancy_table_royalblack_30: 2608699801340304453
+      fancy_table_royalblack_fancy_table_royalblack_44: 8366899946194892224
       fancy_table_royalblack_fancy_table_royalblack_45: 2054659425025691475
-  spritePackingTag: 
+      fancy_table_royalblack_fancy_table_royalblack_46: -491932518442795100
+      fancy_table_royalblack_fancy_table_royalblack_47: -7874930764939215881
+      fancy_table_royalblack_fancy_table_royalblack_5: 8805586863219614751
+      fancy_table_royalblack_fancy_table_royalblack_6: -3422807553218244725
+      fancy_table_royalblack_fancy_table_royalblack_7: 6353054425318102255
+      fancy_table_royalblack_fancy_table_royalblack_8: -5874649577836167196
+      fancy_table_royalblack_fancy_table_royalblack_9: 3986080925516403689
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

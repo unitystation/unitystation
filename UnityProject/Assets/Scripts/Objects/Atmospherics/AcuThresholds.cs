@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using NaughtyAttributes;
+using Newtonsoft.Json;
 using ScriptableObjects.Atmospherics;
 
 namespace Objects.Atmospherics
@@ -35,8 +36,15 @@ namespace Objects.Atmospherics
 
 		public AcuThresholds Clone()
 		{
-			// Quick way to clone serializable members.
-			return JsonUtility.FromJson<AcuThresholds>(JsonUtility.ToJson(this));
+			var data = new GasThresholdsDictionary();
+				data.CopyFrom(this.GasMoles);
+
+			return new AcuThresholds()
+			{
+				Pressure = (float[]) this.Pressure.Clone(),
+				Temperature = (float[]) this.Temperature.Clone(),
+				GasMoles = data,
+			};
 		}
 	}
 

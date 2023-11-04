@@ -46,7 +46,7 @@ namespace Systems.Research.Objects
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (interaction.HandSlot.IsEmpty) return false;
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if(Validations.HasItemTrait(interaction.UsedObject, sampleTrait)) return true;
 
 			return false;
@@ -67,7 +67,7 @@ namespace Systems.Research.Objects
 			else
 			{
 				Chat.AddExamineMsg(interaction.Performer, gameObject.ExpensiveName() + " already contains a sample");
-			}	
+			}
 
 		}
 

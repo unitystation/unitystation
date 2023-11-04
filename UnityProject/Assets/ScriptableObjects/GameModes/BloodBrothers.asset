@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cb18b3b91044f949ac792fbc90255bb, type: 3}
+  m_Name: BloodBrothers
+  m_EditorClassIdentifier: 
+  gameModeName: Blood Brothers
+  description: Two syndicate agents bound by their blood to each other after being
+    expiremented on in prison must complete objectives together with limited resources.
+    If one of the antag dies, the other ones dies as well.
+  canRespawn: 1
+  minPlayers: 6
+  antagRatio: 0.2
+  minAntags: 2
+  maxAntags: 4
+  hardNumberOfAntagsToSpawn: 2
+  forceMinAntags: 1
+  teamGameMode: 1
+  midRoundAntags: 1
+  midRoundAntagsChance: 25
+  possibleAntags:
+  - {fileID: 11400000, guid: 054c3003e031e0a4c9146f6b0f806940, type: 2}
+  - {fileID: 11400000, guid: c060c33698c0f81449f0735a800740ca, type: 2}
+  allocateJobsToAntags: 1
+  nonAntagJobTypes: 0600000016000000170000002300000021000000110000000100000010000000

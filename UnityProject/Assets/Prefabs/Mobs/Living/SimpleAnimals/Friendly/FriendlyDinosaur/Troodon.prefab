@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3639426684633069045, guid: ab4bcef2d82b5664fa26bc76bd9542ee,
@@ -69,6 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3679883705366540137, guid: ab4bcef2d82b5664fa26bc76bd9542ee,
         type: 3}
+      propertyPath: _assetId
+      value: 3199912407
+      objectReference: {fileID: 0}
+    - target: {fileID: 3679883705366540137, guid: ab4bcef2d82b5664fa26bc76bd9542ee,
+        type: 3}
       propertyPath: m_AssetId
       value: e89d363b2ca6bf748b233fe7c1f06c0e
       objectReference: {fileID: 0}
@@ -84,13 +90,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3994045681092509591, guid: ab4bcef2d82b5664fa26bc76bd9542ee,
         type: 3}
-      propertyPath: foodPreferences.Array.data[0]
+      propertyPath: 'foodPreferences.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: e9640fc5a465def458cfff48c65df282,
         type: 2}
     - target: {fileID: 3994045681092509591, guid: ab4bcef2d82b5664fa26bc76bd9542ee,
         type: 3}
-      propertyPath: foodPreferences.Array.data[1]
+      propertyPath: 'foodPreferences.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: ac1d4875dd3872c48ab50862a4a6be82,
         type: 2}
@@ -107,4 +113,7 @@ PrefabInstance:
       objectReference: {fileID: -792436953, guid: 6d4f57698b6ee11409674f1d2f94c480,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab4bcef2d82b5664fa26bc76bd9542ee, type: 3}

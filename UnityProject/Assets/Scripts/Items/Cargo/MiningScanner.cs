@@ -45,7 +45,11 @@ namespace Items.Cargo
 		private IEnumerator Cooldown()
 		{
 			isOnCooldown = true;
+#if UNITY_EDITOR
+			yield return WaitFor.Seconds(0.5f);
+#else
 			yield return WaitFor.Seconds(IsAdvanced ? AdvancedScanCooldown : NormalScanCooldown);
+#endif
 			isOnCooldown = false;
 		}
 	}

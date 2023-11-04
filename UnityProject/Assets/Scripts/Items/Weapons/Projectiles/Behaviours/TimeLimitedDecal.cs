@@ -8,7 +8,7 @@ namespace Weapons.Projectiles.Behaviours
 		private SpriteHandler spriteHandler;
 		private LightSprite lightSprite;
 
-		private float lifeTime;
+		[SerializeField] private float lifeTime = 0.5f;
 		private float currentTime = 0;
 
 		private void Awake()

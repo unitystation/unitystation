@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de57d7f7442a7db4d803bdb093350af4, type: 3}
   m_Name: Polycythemia
   m_EditorClassIdentifier: 
+  displayName: Polycythemia
   ResearchDifficult: 40
   Stability: 4
   Description: 
   CanRequireLocks: 0
+  GenerationOvershoot: 1
+  AddedBloodGeneratedByOneNutriment: 50

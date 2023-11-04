@@ -147,7 +147,7 @@ TextureImporter:
       213: 21300094
     second: window_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -258,6 +261,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1290,57 +1305,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      window_14: 21300028
-      window_23: 21300046
-      window_35: 21300070
-      window_6: 21300012
-      window_21: 21300042
-      window_34: 21300068
-      window_36: 21300072
-      window_44: 21300088
-      window_39: 21300078
-      window_47: 21300094
-      window_13: 21300026
+      window_0: 21300000
+      window_1: 21300002
+      window_10: 21300020
+      window_11: 21300022
       window_12: 21300024
+      window_13: 21300026
+      window_14: 21300028
+      window_15: 21300030
+      window_16: 21300032
+      window_17: 21300034
+      window_18: 21300036
       window_19: 21300038
-      window_31: 21300062
-      window_4: 21300008
-      window_38: 21300076
+      window_2: 21300004
+      window_20: 21300040
+      window_21: 21300042
       window_22: 21300044
+      window_23: 21300046
+      window_24: 21300048
+      window_25: 21300050
+      window_26: 21300052
+      window_27: 21300054
       window_28: 21300056
       window_29: 21300058
-      window_40: 21300080
-      window_46: 21300092
-      window_0: 21300000
-      window_24: 21300048
-      window_17: 21300034
-      window_30: 21300060
-      window_33: 21300066
-      window_43: 21300086
-      window_45: 21300090
-      window_37: 21300074
-      window_2: 21300004
-      window_18: 21300036
       window_3: 21300006
-      window_1: 21300002
-      window_27: 21300054
-      window_5: 21300010
-      window_42: 21300084
-      window_16: 21300032
+      window_30: 21300060
+      window_31: 21300062
       window_32: 21300064
-      window_10: 21300020
-      window_26: 21300052
-      window_9: 21300018
-      window_25: 21300050
+      window_33: 21300066
+      window_34: 21300068
+      window_35: 21300070
+      window_36: 21300072
+      window_37: 21300074
+      window_38: 21300076
+      window_39: 21300078
+      window_4: 21300008
+      window_40: 21300080
       window_41: 21300082
-      window_11: 21300022
+      window_42: 21300084
+      window_43: 21300086
+      window_44: 21300088
+      window_45: 21300090
+      window_46: 21300092
+      window_47: 21300094
+      window_5: 21300010
+      window_6: 21300012
       window_7: 21300014
       window_8: 21300016
-      window_15: 21300030
-      window_20: 21300040
-  spritePackingTag: 
+      window_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

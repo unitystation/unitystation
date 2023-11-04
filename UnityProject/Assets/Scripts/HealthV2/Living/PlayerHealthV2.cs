@@ -65,7 +65,45 @@ namespace HealthV2
 		{
 			if (isServer)
 			{
-				playerNetworkActions.OnConsciousStateChanged(oldState, newState);
+				switch (newState)
+				{
+					case ConsciousState.CONSCIOUS:
+						playerMove.ServerAllowInput.RemovePosition(this);
+						playerMove.CurrentMovementType = MovementType.Running;
+						break;
+					case ConsciousState.BARELY_CONSCIOUS:
+						//Drop hand items when unconscious
+						foreach (var itemSlot in playerScript.DynamicItemStorage.GetHandSlots())
+						{
+							Inventory.ServerDrop(itemSlot);
+						}
+						playerMove.ServerAllowInput.RemovePosition(this);
+						playerMove.CurrentMovementType = MovementType.Running;
+						if (oldState == ConsciousState.CONSCIOUS)
+						{
+							//only play the sound if we are falling
+							SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
+						}
+
+						break;
+					case ConsciousState.DEAD:
+					case ConsciousState.UNCONSCIOUS:
+						//Drop items when unconscious
+						foreach (var itemSlot in playerScript.DynamicItemStorage.GetHandSlots())
+						{
+							Inventory.ServerDrop(itemSlot);
+						}
+						playerMove.ServerAllowInput.RecordPosition(this, false);
+						if (oldState == ConsciousState.CONSCIOUS)
+						{
+							//only play the sound if we are falling
+							SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
+						}
+
+						break;
+				}
+
+				playerScript.ObjectPhysics.StopPulling(false);
 			}
 
 			//we stay upright if buckled or conscious
@@ -163,7 +201,7 @@ namespace HealthV2
 				their = "their";
 			}
 
-			Chat.AddLocalMsgToChat($"<b>{playerScript.visibleName}</b> seizes up and falls limp, {their} eyes dead and lifeless...", gameObject);
+			Chat.AddActionMsgToChat(gameObject, $"<b>{playerScript.visibleName}</b> seizes up and falls limp, {their} eyes dead and lifeless...");
 
 			registerPlayer.ServerLayDown();
 
@@ -310,8 +348,6 @@ namespace HealthV2
 
 		protected override void LethalElectrocution(Electrocution electrocution, float shockPower)
 		{
-
-			PlayerMove.allowInput = false;
 			// TODO: Add sparks VFX at shockSourcePos.
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Sparks, electrocution.ShockSourcePos);
 			StartCoroutine(ElectrocutionSequence());

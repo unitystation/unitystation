@@ -1,5 +1,6 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using UnityEditor;
 
@@ -137,7 +138,7 @@ namespace Shared.Editor
 			GUISkin guiSkin = GUI.skin;
 			if (guiSkin == null)
 			{
-				Logger.LogWarning("editor warning: guiSkin parameter is null", Category.UI);
+				Loggy.LogWarning("editor warning: guiSkin parameter is null", Category.UI);
 				return;
 			}
 

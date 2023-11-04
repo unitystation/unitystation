@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Effects;
 using Gateway;
 using Items;
 using Light2D;
@@ -22,10 +25,16 @@ namespace Objects.Research
 		private SpriteHandler spriteHandler;
 		private LightSprite lightSprite;
 
+		private bool isOnCooldown => Time.time - lastActivationTime <= cooldownTime;
+		private float lastActivationTime = 0.0f;
+
+		[SerializeField] private float cooldownTime = 0.65f;
+
 		protected override void Awake()
 		{
 			base.Awake();
 
+			lastActivationTime = Time.time;
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			lightSprite = GetComponentInChildren<LightSprite>();
 		}
@@ -45,14 +54,14 @@ namespace Objects.Research
 
 		public void SetBlue()
 		{
-			spriteHandler.ChangeSprite(0);
+			spriteHandler.SetCatalogueIndexSprite(0);
 			ColorUtility.TryParseHtmlString("#0099FF", out var color);
 			lightSprite.Color = color;
 		}
 
 		public void SetOrange()
 		{
-			spriteHandler.ChangeSprite(1);
+			spriteHandler.SetCatalogueIndexSprite(1);
 			ColorUtility.TryParseHtmlString("#CC3300", out var color);
 			lightSprite.Color = color;
 		}
@@ -61,7 +70,7 @@ namespace Objects.Research
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 
-			Chat.AddLocalMsgToChat("The portal fizzles out into nothing", gameObject);
+			Chat.AddActionMsgToChat(gameObject, "The portal fizzles out into nothing!");
 
 			//Despawn after time is up
 			portalPairs.Remove(this);
@@ -85,7 +94,8 @@ namespace Objects.Research
 
 		public override void OnPlayerStep(PlayerScript playerScript)
 		{
-			Teleport(playerScript.gameObject);
+			if (isOnCooldown) return;
+			_ = Teleport(playerScript.gameObject);
 		}
 
 		public override bool WillAffectObject(GameObject eventData)
@@ -102,18 +112,23 @@ namespace Objects.Research
 
 		public override void OnObjectEnter(GameObject eventData)
 		{
-			Teleport(eventData);
+			if (isOnCooldown) return;
+			_ = Teleport(eventData);
 		}
 
-		private void Teleport(GameObject eventData)
+		private async Task Teleport(GameObject eventData)
 		{
-			if(connectedPortal == null) return;
+			if (connectedPortal == null || isOnCooldown) return;
 
-			SparkUtil.TrySpark(gameObject, expose: false);
+			if (eventData.HasComponent<SparkEffect>()) return;
+			if(eventData.TryGetComponent<UniversalObjectPhysics>(out var uop) == false) return;
 
-			TransportUtility.TeleportToObject(eventData, connectedPortal.gameObject,
-				connectedPortal.ObjectPhysics.OfficialPosition, true, false);
+			lastActivationTime = Time.time;
+			connectedPortal.lastActivationTime = Time.time;
+
+			TransportUtility.TransportObject(uop, connectedPortal.ObjectPhysics.OfficialPosition, false);
 		}
+
 
 		public bool OnPreHitDetect(OnHitDetectData data)
 		{
@@ -129,7 +144,7 @@ namespace Objects.Research
 			ProjectileManager.InstantiateAndShoot(data.BulletObject.GetComponent<Bullet>().PrefabName,
 				data.BulletShootDirection, connectedPortal.gameObject, null, BodyPartType.None, range);
 
-			Chat.AddLocalMsgToChat($"The {data.BulletName} enters through the portal!", gameObject);
+			Chat.AddActionMsgToChat(gameObject, $"The {data.BulletName} enters through the portal!");
 
 			SparkUtil.TrySpark(gameObject, expose: false);
 			SparkUtil.TrySpark(connectedPortal.gameObject, expose: false);

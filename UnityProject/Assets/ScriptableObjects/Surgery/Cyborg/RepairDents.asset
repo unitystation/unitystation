@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a164ba5d25d3844a8fe6ea510153026, type: 3}
+  m_Name: RepairDents
+  m_EditorClassIdentifier: 
+  ProcedureName: Repair Dents
+  ProcedureSprite: {fileID: 11400000, guid: c63617cfed32979408e10c836d29ece1, type: 2}
+  SurgerySteps:
+  - RequiredTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
+    Time: 3
+    FailChance: 0
+    StartSelf: 
+    StartOther: 
+    SuccessSelf: You successfully undo the cover
+    SuccessOther: 
+    FailSelf: 
+    FailOther: 
+  - RequiredTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
+    Time: 1
+    FailChance: 0
+    StartSelf: 
+    StartOther: 
+    SuccessSelf: You successfully move the cover out of the way
+    SuccessOther: 
+    FailSelf: 
+    FailOther: 
+  - RequiredTrait: {fileID: 11400000, guid: aaed69546e98a47d8b488a046d00ebe7, type: 2}
+    Time: 2
+    FailChance: 0
+    StartSelf: 
+    StartOther: 
+    SuccessSelf: you weld the  damage and dents away
+    SuccessOther: 
+    FailSelf: 
+    FailOther: 
+  - RequiredTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
+    Time: 2
+    FailChance: 0
+    StartSelf: 
+    StartOther: 
+    SuccessSelf: you reattach the cover
+    SuccessOther: 
+    FailSelf: 
+    FailOther: 
+  Affects: 0
+  HeelStrength: 50
+  ConsumeItem: 0
+  FailAttackType: 0

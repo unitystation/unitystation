@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7899778639368974607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 781693345469072845}
+  - component: {fileID: 1444663588916545867}
+  m_Layer: 0
+  m_Name: QuickSelectRadialMenu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &781693345469072845
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7899778639368974607}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.4161377, y: -10.923981, z: -0.28246716}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1444663588916545867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7899778639368974607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad6893dceb5160848999fe01cc33b08e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  centercirlce: {x: 0.5, y: 0.5}
+  CurrentMenuDepth: 0
+  ButtonPrefab: {fileID: 8087597058899324288, guid: 4796e3192fa04234bbd62f056408dabb,
+    type: 3}
+  Selected: {fileID: 0}
+  MousePosition: {x: 0, y: 0}
+  toVector2M: {x: 0, y: 0}
+  LastInRangeSubMenu: 0
+  LastSelected: {fileID: 0}
+  LastSelectedset: 0
+  Initialised: 0
+  MenuItem: 0
+  LastSelectedTime: 0

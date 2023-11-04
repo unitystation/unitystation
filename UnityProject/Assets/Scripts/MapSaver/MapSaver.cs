@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
+using Logs;
 using UnityEngine;
 using TileManagement;
 using Objects;
+using SecureStuff;
 using Util;
 using Tiles;
 
@@ -44,6 +45,25 @@ namespace MapSaver
 			public List<string> CommonMatrix4x4;
 			public string Data;
 		}
+
+		public class ClassData
+		{
+			public string ClassID; //name and int, is good
+			public HashSet<FieldData> Data = new HashSet<FieldData>();
+
+			public virtual bool IsEmpty()
+			{
+				if (Data.Count == 0)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+
 
 		//Bob game object ->  Jane ID
 		public static List<Tuple<MonoBehaviour, FieldData>> UnserialisedObjectReferences =
@@ -137,78 +157,6 @@ namespace MapSaver
 			}
 		}
 
-		public class ClassData
-		{
-			public string ClassID; //name and int, is good
-			public HashSet<FieldData> Data = new HashSet<FieldData>();
-
-			public bool IsEmpty()
-			{
-				if (Data.Count == 0)
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-		}
-
-		public class FieldData
-		{
-			private List<string> ReferencingIDs;
-
-			private List<MonoBehaviour> RuntimeReferences;
-
-			public List<MonoBehaviour> GetRuntimeReferences()
-			{
-				return RuntimeReferences;
-			}
-
-			public void RemoveRuntimeReference(MonoBehaviour inRuntimeReference)
-			{
-				if (RuntimeReferences == null)
-				{
-					return;
-				}
-
-				RuntimeReferences.Remove(inRuntimeReference);
-			}
-
-			public void AddRuntimeReference(MonoBehaviour inRuntimeReference)
-			{
-				if (RuntimeReferences == null)
-				{
-					RuntimeReferences = new List<MonoBehaviour>();
-				}
-
-				RuntimeReferences.Add(inRuntimeReference);
-			}
-
-			public void AddID(string ToAdd)
-			{
-				if (ReferencingIDs == null)
-				{
-					ReferencingIDs = new List<string>();
-				}
-
-				ReferencingIDs.Add(ToAdd);
-			}
-
-			public void Serialise()
-			{
-				if (ReferencingIDs == null) return;
-				foreach (var ID in ReferencingIDs)
-				{
-					Data = Data + "," + ID;
-				}
-			}
-
-			public string Name;
-			public string Data;
-		}
-
 		public static MapData SaveMap(List<MetaTileMap> MetaTileMaps,
 			string MapName = "Unknown map name your maps dam it")
 		{
@@ -236,7 +184,7 @@ namespace MapSaver
 				}
 				else
 				{
-					Logger.LogError("Missing money behaviour in MonoToID");
+					Loggy.LogError("Missing money behaviour in MonoToID");
 				}
 			}
 
@@ -294,7 +242,7 @@ namespace MapSaver
 					}
 					else
 					{
-						Logger.LogError("Missing money behaviour in MonoToID");
+						Loggy.LogError("Missing money behaviour in MonoToID");
 					}
 				}
 
@@ -805,7 +753,7 @@ namespace MapSaver
 				var OutClass = new ClassData();
 				OutClass.ClassID = PrefabMono.GetType().Name + "@" + ClassCount[PrefabMono.GetType().Name];
 				MonoToID[gameObjectComponents[i]] = PrefabData.ID + "@" + individualObject.ID + "@" + OutClass.ClassID;
-				RecursiveSearchData(OutClass, "", PrefabMono, gameObjectComponents[i], UseInstance);
+				SecureMapsSaver.RecursiveSearchData(CodeClass.ThisCodeClass, OutClass.Data, "", PrefabMono, gameObjectComponents[i], UseInstance);
 
 				if (OutClass.IsEmpty() == false)
 				{
@@ -815,199 +763,33 @@ namespace MapSaver
 		}
 
 
-		public static void RecursiveSearchData(ClassData ClassData, string Prefix, object PrefabInstance,
-			object SpawnedInstance, bool UseInstance = false)
+		public class CodeClass : IPopulateIDRelation
 		{
-			var TypeMono = PrefabInstance.GetType();
-			var coolFields = TypeMono.GetFields(
-				BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic |
-				BindingFlags.FlattenHierarchy
-			).ToList();
+			private static CodeClass thisCodeClass;
+			public static CodeClass ThisCodeClass => thisCodeClass ??= new CodeClass();
 
-			foreach (var Field in coolFields)
+			public void PopulateIDRelation(HashSet<FieldData> FieldDatas, FieldData fieldData, MonoBehaviour mono,
+				bool UseInstance = false)
 			{
-				if (Field.IsPrivate || Field.IsAssembly || Field.IsFamily)
+				if (UseInstance)
 				{
-					var attribute = Field.GetCustomAttributes(typeof(SerializeField), true);
-					if (attribute.Length == 0)
-					{
-						continue;
-					}
-
-					attribute = Field.GetCustomAttributes(typeof(HideInInspector), true);
-					if (attribute.Length > 0)
-					{
-						continue;
-					}
-
-					attribute = Field.GetCustomAttributes(typeof(NaughtyAttributes.ReadOnlyAttribute), true);
-					if (attribute.Length > 0)
-					{
-						continue;
-					}
-				}
-				else if (Field.IsPublic)
-				{
-					if (Field.IsNotSerialized)
-					{
-						continue;
-					}
-
-					var attribute = Field.GetCustomAttributes(typeof(HideInInspector), true);
-					if (attribute.Length > 0)
-					{
-						continue;
-					}
-
-					attribute = Field.GetCustomAttributes(typeof(NaughtyAttributes.ReadOnlyAttribute), true);
-					if (attribute.Length > 0)
-					{
-						continue;
-					}
+					fieldData.AddRuntimeReference(mono);
 				}
 
-				if (!Field.FieldType.IsValueType && !(Field.FieldType == typeof(string)))
+				if (MonoToID.ContainsKey(mono))
 				{
-					var APrefabDefault = Field.GetValue(PrefabInstance);
-					var AMonoSet = Field.GetValue(SpawnedInstance);
-
-					IEnumerable list = null;
-					var Coolattribute = Field.GetCustomAttributes(typeof(SceneObjectReference), true);
-					if (Coolattribute.Length > 0)
-					{
-						if (Field.FieldType.IsGenericType)
-						{
-							list = AMonoSet as IEnumerable;
-							if (list != null)
-							{
-								bool isListCompatible = false;
-								foreach (var Item in list)
-								{
-									if (Item == null) continue;
-									if (Item.GetType().IsSubclassOf(typeof(UnityEngine.Object)) &&
-									    Item is MonoBehaviour)
-									{
-										isListCompatible = true;
-									}
-
-									break;
-								}
-
-								if (isListCompatible)
-								{
-									var fieldData = new FieldData();
-									fieldData.Name = Prefix + Field.Name;
-									foreach (var Item in list)
-									{
-										var mono = Item as MonoBehaviour;
-										if (mono == null) continue;
-
-										PopulateIDRelation(ClassData, fieldData, mono, UseInstance);
-									}
-								}
-
-								continue;
-							}
-						}
-
-						if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object)))
-						{
-							var mono = Field.GetValue(SpawnedInstance) as MonoBehaviour;
-							if (mono == null) continue;
-							var fieldData = new FieldData();
-							fieldData.Name = Prefix + Field.Name;
-							PopulateIDRelation(ClassData, fieldData, mono, UseInstance);
-						}
-
-						continue;
-					}
-
-					//if Field is a class and is not related to unity engine.object Serialise it
-					if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object))) continue;
-
-					if (APrefabDefault != null && AMonoSet != null)
-					{
-						RecursiveSearchData(ClassData, Prefix + Field.Name + "@", APrefabDefault, AMonoSet,
-							UseInstance);
-						continue;
-					}
-				}
-
-				if (Field.FieldType.IsGenericType && Field.FieldType.GetGenericTypeDefinition() == typeof(Dictionary<,>)
-				) continue; //skipping all dictionaries For now
-				if (Field.FieldType == typeof(System.Action)) continue;
-
-
-				var PrefabDefault = Field.GetValue(PrefabInstance);
-				var MonoSet = Field.GetValue(SpawnedInstance);
-
-				if (MonoSet == null) continue;
-
-				var selfValueComparer = PrefabDefault as IComparable;
-				bool areSame;
-				if (PrefabDefault == null && MonoSet == null)
-				{
-					areSame = true;
-				}
-				else if ((PrefabDefault == null && MonoSet != null) || (PrefabDefault != null && MonoSet == null))
-				{
-					areSame = false; //One is null and the other wasn't
-				}
-				else if (selfValueComparer != null && selfValueComparer.CompareTo(MonoSet) != 0)
-				{
-					areSame = false; //the comparison using IComparable failed
-				}
-				else if (PrefabDefault.Equals(MonoSet) == false)
-				{
-					areSame = false; //Using the overridden one
-				}
-				else if (!object.Equals(PrefabDefault, MonoSet))
-				{
-					areSame = false; //Using the Inbuilt one
+					fieldData.AddID(MonoToID[mono]);
+					fieldData.RemoveRuntimeReference(mono);
 				}
 				else
 				{
-					areSame = true; // match
+					UnserialisedObjectReferences.Add(new Tuple<MonoBehaviour, FieldData>(mono, fieldData));
 				}
 
-
-				if (areSame == false)
-				{
-					FieldData fieldData = new FieldData();
-					fieldData.Name = Prefix + Field.Name;
-					fieldData.Data = MonoSet.ToString();
-					ClassData.Data.Add(fieldData);
-				}
-				//if is a Variables inside of the class will be flattened with field name of class@Field name
-				//Better if recursiveThrough the class
-
-				//Don't do sub- variables in struct
-				//If it is a class,
-				//Is class Is thing thing,
-				//and then Just repeat the loop but within that class with the added notation
+				FieldsToRefresh.Add(fieldData);
+				FieldDatas.Add(fieldData);
 			}
 		}
 
-		public static void PopulateIDRelation(ClassData ClassData, FieldData fieldData, MonoBehaviour mono,
-			bool UseInstance = false)
-		{
-			if (UseInstance)
-			{
-				fieldData.AddRuntimeReference(mono);
-			}
-
-			if (MonoToID.ContainsKey(mono))
-			{
-				fieldData.AddID(MonoToID[mono]);
-				fieldData.RemoveRuntimeReference(mono);
-			}
-			else
-			{
-				UnserialisedObjectReferences.Add(new Tuple<MonoBehaviour, FieldData>(mono, fieldData));
-			}
-
-			FieldsToRefresh.Add(fieldData);
-			ClassData.Data.Add(fieldData);
-		}
 	}
 }

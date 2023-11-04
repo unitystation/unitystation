@@ -291,7 +291,7 @@ TextureImporter:
       213: 21300190
     second: scrub_on_95
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -308,11 +308,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -351,6 +352,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -366,6 +369,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: 4
@@ -2406,105 +2421,104 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      scrub_on_53: 21300106
-      scrub_on_11: 21300022
-      scrub_on_1: 21300002
-      scrub_on_71: 21300142
-      scrub_on_91: 21300182
-      scrub_on_40: 21300080
-      scrub_on_25: 21300050
-      scrub_on_50: 21300100
-      scrub_on_10: 21300020
-      scrub_on_44: 21300088
-      scrub_on_36: 21300072
-      scrub_on_80: 21300160
-      scrub_on_52: 21300104
-      scrub_on_75: 21300150
-      scrub_on_23: 21300046
-      scrub_on_2: 21300004
-      scrub_on_26: 21300052
-      scrub_on_49: 21300098
-      scrub_on_32: 21300064
-      scrub_on_16: 21300032
-      scrub_on_22: 21300044
-      scrub_on_88: 21300176
-      scrub_on_29: 21300058
-      scrub_on_54: 21300108
-      scrub_on_34: 21300068
-      scrub_on_90: 21300180
-      scrub_on_55: 21300110
-      scrub_on_35: 21300070
-      scrub_on_37: 21300074
-      scrub_on_42: 21300084
-      scrub_on_33: 21300066
-      scrub_on_58: 21300116
-      scrub_on_51: 21300102
-      scrub_on_67: 21300134
-      scrub_on_66: 21300132
-      scrub_on_21: 21300042
-      scrub_on_46: 21300092
-      scrub_on_89: 21300178
-      scrub_on_5: 21300010
-      scrub_on_70: 21300140
-      scrub_on_81: 21300162
-      scrub_on_87: 21300174
-      scrub_on_61: 21300122
-      scrub_on_92: 21300184
-      scrub_on_82: 21300164
-      scrub_on_43: 21300086
-      scrub_on_83: 21300166
-      scrub_on_62: 21300124
-      scrub_on_41: 21300082
-      scrub_on_4: 21300008
-      scrub_on_60: 21300120
-      scrub_on_48: 21300096
-      scrub_on_8: 21300016
-      scrub_on_7: 21300014
-      scrub_on_69: 21300138
-      scrub_on_3: 21300006
-      scrub_on_63: 21300126
-      scrub_on_76: 21300152
-      scrub_on_59: 21300118
-      scrub_on_47: 21300094
-      scrub_on_14: 21300028
-      scrub_on_31: 21300062
-      scrub_on_64: 21300128
-      scrub_on_20: 21300040
-      scrub_on_84: 21300168
-      scrub_on_72: 21300144
-      scrub_on_77: 21300154
-      scrub_on_45: 21300090
-      scrub_on_13: 21300026
-      scrub_on_30: 21300060
-      scrub_on_15: 21300030
-      scrub_on_38: 21300076
-      scrub_on_9: 21300018
-      scrub_on_24: 21300048
-      scrub_on_65: 21300130
-      scrub_on_18: 21300036
-      scrub_on_78: 21300156
-      scrub_on_57: 21300114
-      scrub_on_93: 21300186
-      scrub_on_28: 21300056
-      scrub_on_12: 21300024
-      scrub_on_79: 21300158
-      scrub_on_27: 21300054
-      scrub_on_6: 21300012
-      scrub_on_56: 21300112
-      scrub_on_74: 21300148
-      scrub_on_73: 21300146
-      scrub_on_85: 21300170
       scrub_on_0: 21300000
-      scrub_on_95: 21300190
-      scrub_on_94: 21300188
-      scrub_on_86: 21300172
-      scrub_on_68: 21300136
+      scrub_on_1: 21300002
+      scrub_on_10: 21300020
+      scrub_on_11: 21300022
+      scrub_on_12: 21300024
+      scrub_on_13: 21300026
+      scrub_on_14: 21300028
+      scrub_on_15: 21300030
+      scrub_on_16: 21300032
       scrub_on_17: 21300034
+      scrub_on_18: 21300036
       scrub_on_19: 21300038
+      scrub_on_2: 21300004
+      scrub_on_20: 21300040
+      scrub_on_21: 21300042
+      scrub_on_22: 21300044
+      scrub_on_23: 21300046
+      scrub_on_24: 21300048
+      scrub_on_25: 21300050
+      scrub_on_26: 21300052
+      scrub_on_27: 21300054
+      scrub_on_28: 21300056
+      scrub_on_29: 21300058
+      scrub_on_3: 21300006
+      scrub_on_30: 21300060
+      scrub_on_31: 21300062
+      scrub_on_32: 21300064
+      scrub_on_33: 21300066
+      scrub_on_34: 21300068
+      scrub_on_35: 21300070
+      scrub_on_36: 21300072
+      scrub_on_37: 21300074
+      scrub_on_38: 21300076
       scrub_on_39: 21300078
-  spritePackingTag: 
+      scrub_on_4: 21300008
+      scrub_on_40: 21300080
+      scrub_on_41: 21300082
+      scrub_on_42: 21300084
+      scrub_on_43: 21300086
+      scrub_on_44: 21300088
+      scrub_on_45: 21300090
+      scrub_on_46: 21300092
+      scrub_on_47: 21300094
+      scrub_on_48: 21300096
+      scrub_on_49: 21300098
+      scrub_on_5: 21300010
+      scrub_on_50: 21300100
+      scrub_on_51: 21300102
+      scrub_on_52: 21300104
+      scrub_on_53: 21300106
+      scrub_on_54: 21300108
+      scrub_on_55: 21300110
+      scrub_on_56: 21300112
+      scrub_on_57: 21300114
+      scrub_on_58: 21300116
+      scrub_on_59: 21300118
+      scrub_on_6: 21300012
+      scrub_on_60: 21300120
+      scrub_on_61: 21300122
+      scrub_on_62: 21300124
+      scrub_on_63: 21300126
+      scrub_on_64: 21300128
+      scrub_on_65: 21300130
+      scrub_on_66: 21300132
+      scrub_on_67: 21300134
+      scrub_on_68: 21300136
+      scrub_on_69: 21300138
+      scrub_on_7: 21300014
+      scrub_on_70: 21300140
+      scrub_on_71: 21300142
+      scrub_on_72: 21300144
+      scrub_on_73: 21300146
+      scrub_on_74: 21300148
+      scrub_on_75: 21300150
+      scrub_on_76: 21300152
+      scrub_on_77: 21300154
+      scrub_on_78: 21300156
+      scrub_on_79: 21300158
+      scrub_on_8: 21300016
+      scrub_on_80: 21300160
+      scrub_on_81: 21300162
+      scrub_on_82: 21300164
+      scrub_on_83: 21300166
+      scrub_on_84: 21300168
+      scrub_on_85: 21300170
+      scrub_on_86: 21300172
+      scrub_on_87: 21300174
+      scrub_on_88: 21300176
+      scrub_on_89: 21300178
+      scrub_on_9: 21300018
+      scrub_on_90: 21300180
+      scrub_on_91: 21300182
+      scrub_on_92: 21300184
+      scrub_on_93: 21300186
+      scrub_on_94: 21300188
+      scrub_on_95: 21300190
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

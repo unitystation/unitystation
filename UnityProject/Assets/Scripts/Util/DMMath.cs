@@ -20,10 +20,14 @@ public static class DMMath
 		return Mathf.Clamp(val, min, max);
 	}
 
+	/// <summary>
+	/// this method can be used to determine whether a given event should occur with a certain probability defined by the input "percent".
+	/// For example, if percent=50, there is a 50% chance that the method will return true, and a 50% chance that it will return false.
+	/// </summary>
+	/// <returns>If the random value is less than the threshold, the method returns true. Otherwise, it returns false.</returns>
 	public static bool Prob(double percent)
 	{
-		Random rand = new Random(Guid.NewGuid().GetHashCode());
-		return rand.NextDouble() < percent / 100.0;
+		return RNG.Random.NextDouble() < percent / 100.0;
 	}
 
 	public static float Lerp(float a, float b, float? amount)

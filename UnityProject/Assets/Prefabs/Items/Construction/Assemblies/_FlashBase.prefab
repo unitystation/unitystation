@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
@@ -79,17 +80,17 @@ PrefabInstance:
     - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
@@ -113,6 +114,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4578525896496213067, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
+      propertyPath: _assetId
+      value: 4209663472
+      objectReference: {fileID: 0}
+    - target: {fileID: 4578525896496213067, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
       propertyPath: m_AssetId
       value: e77ad8336ea71364c9ec01faad07f5f4
       objectReference: {fileID: 0}
@@ -120,7 +126,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 9115554552792240000}
+      objectReference: {fileID: 0}
     - target: {fileID: 7396244808014028178, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: foreverID
@@ -133,19 +139,14 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: a44218fa113d8bd4ea52492bcbc2c5d7,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4476020110803030527, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6031154819312805203}
   m_SourcePrefab: {fileID: 100100000, guid: 201d4b5714989d64d86b11da761ecb15, type: 3}
---- !u!114 &9115554552792240000 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4578942373061721135, guid: 201d4b5714989d64d86b11da761ecb15,
-    type: 3}
-  m_PrefabInstance: {fileID: 4686944575098696623}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9157326371999507024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &9157326371999507024 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4476020110803030527, guid: 201d4b5714989d64d86b11da761ecb15,
@@ -164,16 +165,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e7a056918f4d81bf5394f635688745, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  flashRadius: 12
-  flashTime: 6
-  stunExtraTime: 4
+  maximumDistance: 6
+  flashRadius: 6
+  flashTime: 4
+  weakDuration: 12
+  stunExtraTime: 9
   flashCooldown: 12
-  sunglassesTrait: {fileID: 11400000, guid: 4f5b7ce1cca0a644cba934af14ea4b2c, type: 2}
   flashSound:
     SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: Assets/Prefabs/Effects/Flash.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 

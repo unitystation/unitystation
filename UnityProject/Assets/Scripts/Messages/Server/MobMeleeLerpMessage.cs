@@ -21,7 +21,7 @@ namespace Messages.Server
 			var getMob = NetworkObject;
 			var mobMelee = getMob.GetComponent<MobMeleeAttack>();
 			var mobAction = getMob.GetComponent<MobMeleeAction>();
-			if (mobMelee == null & mobAction == null)
+			if (mobMelee == null && mobAction == null)
 			{
 				return;
 			}

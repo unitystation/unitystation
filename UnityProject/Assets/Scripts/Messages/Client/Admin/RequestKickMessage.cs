@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Logs;
+using Mirror;
 
 namespace Messages.Client.Admin
 {
@@ -15,13 +16,13 @@ namespace Messages.Client.Admin
 		{
 			if (IsFromAdmin() == false)
 			{
-				Logger.Log($"Player {SentByPlayer.Username} tried to kick someone but they weren't an admin!", Category.Exploits);
+				Loggy.Log($"Player {SentByPlayer.Username} tried to kick someone but they weren't an admin!", Category.Exploits);
 			}
 
 			if (PlayerList.Instance.TryGetByUserID(msg.UserIDToKick, out var player))
 			{
 				PlayerList.Instance.ServerKickPlayer(player, msg.Reason, msg.Announce);
-				Logger.Log($"Admin {SentByPlayer.Username} has kicked {player.Username}.", Category.Admin);
+				Loggy.Log($"Admin {SentByPlayer.Username} has kicked {player.Username}.", Category.Admin);
 			}
 		}
 
@@ -53,13 +54,13 @@ namespace Messages.Client.Admin
 		{
 			if (IsFromAdmin() == false)
 			{
-				Logger.Log($"Player {SentByPlayer.Username} tried to ban someone but they weren't an admin!", Category.Exploits);
+				Loggy.Log($"Player {SentByPlayer.Username} tried to ban someone but they weren't an admin!", Category.Exploits);
 			}
 
 			if (PlayerList.Instance.TryGetByUserID(msg.UserIDToBan, out var player))
 			{
 				PlayerList.Instance.ServerBanPlayer(player, msg.Reason, msg.Announce, msg.Minutes);
-				Logger.Log($"Admin {SentByPlayer.Username} has banned {player.Username}.", Category.Admin);
+				Loggy.Log($"Admin {SentByPlayer.Username} has banned {player.Username}.", Category.Admin);
 			}
 		}
 

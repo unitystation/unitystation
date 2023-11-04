@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 493121677726252, guid: eec487290ececeb4db71bab916465099, type: 3}
@@ -136,6 +137,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Resistances.FireProof
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 538302552490197242, guid: eec487290ececeb4db71bab916465099,
+        type: 3}
+      propertyPath: _assetId
+      value: 1581649385
       objectReference: {fileID: 0}
     - target: {fileID: 538302552490197242, guid: eec487290ececeb4db71bab916465099,
         type: 3}
@@ -415,15 +421,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6814333548009041611, guid: eec487290ececeb4db71bab916465099,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: c7b06c1792d5c164dbe917a800ebad40,
         type: 2}
     - target: {fileID: 6814333548009041611, guid: eec487290ececeb4db71bab916465099,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: b9302a9577b07074ca59e52c751e11d6,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eec487290ececeb4db71bab916465099, type: 3}

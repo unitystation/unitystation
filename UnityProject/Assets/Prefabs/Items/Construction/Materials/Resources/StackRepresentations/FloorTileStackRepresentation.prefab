@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7498192908964307062
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3547700795691028992, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: foreverID
+      value: f8623bc989695f241984dee42398f4f8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089072459069241794, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: stacksWith.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089072459069241794, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: isRepresentationOfStack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089072459069241794, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: 'stacksWith.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7602444472548548205, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+    - target: {fileID: 6089072459069241794, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: 'stacksWith.Array.data[1]'
+      value: 
+      objectReference: {fileID: 112484776313159195}
+    - target: {fileID: 7500036475197416409, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: _assetId
+      value: 3144461978
+      objectReference: {fileID: 0}
+    - target: {fileID: 7602444472548548205, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: m_Name
+      value: FloorTileStackRepresentation
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8, type: 3}
+--- !u!1 &112484776313159195 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7602444472548548205, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+    type: 3}
+  m_PrefabInstance: {fileID: 7498192908964307062}
+  m_PrefabAsset: {fileID: 0}

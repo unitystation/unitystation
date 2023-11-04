@@ -20,7 +20,14 @@ namespace Items.Tool
 			if(interaction.TargetObject == null || interaction.TargetObject.TryGetComponent<RegisterPlayer>(out var player) == false) return;
 			Chat.AddActionMsgToChat(interaction.Performer, $"You flash {player.PlayerScript.visibleName}",
 				$"{interaction.PerformerPlayerScript.visibleName} flashes {player.PlayerScript.visibleName}!");
-			FlashTarget(player.gameObject);
+			if (stunsPlayers)
+			{
+				FlashTarget(player.gameObject, flashTime, flashTime + stunExtraTime);
+			}
+			else
+			{
+				FlashTarget(player.gameObject, flashTime, 0);
+			}
 		}
 	}
 }

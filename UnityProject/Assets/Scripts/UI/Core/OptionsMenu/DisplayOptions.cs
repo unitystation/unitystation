@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Managers.SettingsManager;
+using UI.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,7 @@ namespace Unitystation.Options
 		[SerializeField] private InputField frameRateTarget = null;
 
 		[SerializeField] private Slider camZoomSlider = null;
+		[SerializeField] private Slider uiScaleSlider = null;
 
 		[SerializeField] private Toggle scrollWheelZoomToggle = null;
 
@@ -58,6 +60,7 @@ namespace Unitystation.Options
 			camZoomSlider.value = DisplaySettings.Instance.ZoomLevel / 8f;
 
 			scrollWheelZoomToggle.isOn = DisplaySettings.Instance.ScrollWheelZoom;
+			uiScaleSlider.value = PlayerPrefs.GetFloat(DisplaySettings.UISCALE_KEY, DisplaySettings.UISCALE_DEFAULT);
 		}
 
 		/// <summary>
@@ -125,6 +128,13 @@ namespace Unitystation.Options
 		{
 			int value = (int)camZoomSlider.value * 8;
 			DisplaySettings.Instance.ZoomLevel = value;
+		}
+
+		public void OnUIScaleChange()
+		{
+			UIManager.Instance.Scaler.scaleFactor = uiScaleSlider.value;
+			PlayerPrefs.SetFloat(DisplaySettings.UISCALE_KEY, uiScaleSlider.value);
+			PlayerPrefs.Save();
 		}
 
 		public void OnScrollWheelToggle()

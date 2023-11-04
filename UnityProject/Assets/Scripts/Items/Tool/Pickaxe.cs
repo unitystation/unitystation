@@ -1,5 +1,6 @@
 using UnityEngine;
 using AddressableReferences;
+using Logs;
 using Messages.Server.SoundMessages;
 using Objects.Mining;
 using TileManagement;
@@ -29,7 +30,7 @@ namespace Items
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (!Validations.HasTarget(interaction)) return false;
 			var interactableTiles = interaction.TargetObject.GetComponent<InteractableTiles>();
 			if (interactableTiles == null) return false;
@@ -40,6 +41,7 @@ namespace Items
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
 			var interactableTiles = interaction.TargetObject.GetComponent<InteractableTiles>();
+			if (interactableTiles.LayerTileAt(interaction.WorldPositionTarget) is not BasicTile tile) return;
 			var wallTile = interactableTiles.MetaTileMap.GetTileAtWorldPos(interaction.WorldPositionTarget, LayerType.Walls) as BasicTile;
 			var calculatedMineTime = wallTile.MiningTime * timeMultiplier;
 
@@ -47,7 +49,7 @@ namespace Items
 			{
 				if (interactableTiles == null)
 				{
-					Logger.LogError("No interactable tiles found, mining cannot be finished", Category.TileMaps);
+					Loggy.LogError("No interactable tiles found, mining cannot be finished", Category.TileMaps);
 				}
 				else
 				{
@@ -55,7 +57,10 @@ namespace Items
 					_ = SoundManager.PlayNetworkedAtPosAsync(CommonSounds.Instance.BreakStone, interaction.WorldPositionTarget, parameters);
 					var cellPos = interactableTiles.MetaTileMap.WorldToCell(interaction.WorldPositionTarget);
 
-					var tile = interactableTiles.LayerTileAt(interaction.WorldPositionTarget) as BasicTile;
+					foreach (var tileInteraction in tile.OnTileFinishMining)
+					{
+						tileInteraction.ServerPerformInteraction(interaction);
+					}
 					Spawn.ServerPrefab(tile.SpawnOnDeconstruct, interaction.WorldPositionTarget, count: tile.SpawnAmountOnDeconstruct);
 					interactableTiles.TileChangeManager.MetaTileMap.RemoveTileWithlayer(cellPos, LayerType.Walls);
 					interactableTiles.TileChangeManager.MetaTileMap.RemoveOverlaysOfType(cellPos, LayerType.Effects, OverlayType.Mining);
@@ -65,6 +70,11 @@ namespace Items
 			objectName = wallTile.DisplayName;
 
 			SoundManager.PlayNetworkedAtPos(pickaxeSound, interaction.WorldPositionTarget);
+
+			foreach (var tileInteraction in tile.OnTileStartMining)
+			{
+				tileInteraction.ServerPerformInteraction(interaction);
+			}
 
 			if (pickHardness >= wallTile.MiningHardness)
 			{
@@ -123,7 +133,7 @@ namespace Items
 						$"{interaction.Performer.ExpensiveName()} pings off the {objectName}, leaving hardly a scratch.");
 			}
 
-				
+
 		}
 
 		#endregion

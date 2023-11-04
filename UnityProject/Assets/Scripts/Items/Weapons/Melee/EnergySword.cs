@@ -114,13 +114,13 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		if (isActivated)
 		{
 			SetActivatedAttributes();
-			spriteHandler.ChangeSprite((int)color);
+			spriteHandler.SetCatalogueIndexSprite((int)color);
 			itemAttributes.SetSprites(GetItemSprites(color));
 		}
 		else
 		{
 			SetDeactivatedAttributes();
-			spriteHandler.ChangeSprite(0);
+			spriteHandler.SetCatalogueIndexSprite(0);
 			itemAttributes.SetSprites(Sprites.Off);
 		}
 
@@ -142,8 +142,8 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		//only works if screwdriver is in hand
 		if (!interaction.IsFromHandSlot) return false;
 
-		return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
-				Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Multitool);
+		return Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+				Validations.HasItemTrait(interaction, CommonTraits.Instance.Multitool);
 	}
 
 	public void ServerPerformInteraction(InventoryApply interaction)
@@ -155,8 +155,8 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-		return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
-				Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Multitool);
+		return Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+				Validations.HasItemTrait(interaction, CommonTraits.Instance.Multitool);
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
@@ -252,7 +252,7 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		return default;
 	}
 
-	private enum SwordColor
+	public enum SwordColor
 	{
 		Random = 0,
 		Red = 1,

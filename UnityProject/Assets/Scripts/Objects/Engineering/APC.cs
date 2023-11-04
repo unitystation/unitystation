@@ -13,6 +13,7 @@ using Objects.Construction;
 using Core.Editor.Attributes;
 using CustomInspectors;
 using HealthV2;
+using Logs;
 using Shared.Systems.ObjectConnection;
 
 namespace Objects.Engineering
@@ -52,7 +53,7 @@ namespace Objects.Engineering
 		private ResistanceSourceModule resistanceSourceModule;
 
 		[Tooltip("Sound used when the APC loses all power.")]
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		private AddressableAudioSource NoPowerSound = null;
 
 		[NonSerialized]
@@ -134,7 +135,6 @@ namespace Objects.Engineering
 					batteryCharging = true;
 				}
 			}
-			ElectricityFunctions.WorkOutActualNumbers(electricalNodeControl.Node.InData);
 			SyncVoltage(voltageSync, electricalNodeControl.Node.InData.Data.ActualVoltage);
 			Current = electricalNodeControl.Node.InData.Data.CurrentInWire;
 			HandleDevices();
@@ -216,11 +216,11 @@ namespace Objects.Engineering
 			}
 
 			float calculatingResistance = 0f;
-
-			foreach (APCPoweredDevice device in connectedDevices)
+			var connectedDevicesCount = connectedDevices.Count;
+			for (int i = 0; i < connectedDevicesCount; i++)
 			{
-				device.PowerNetworkUpdate(voltages);
-				calculatingResistance += (1 / device.Resistance);
+				connectedDevices[i].PowerNetworkUpdate(voltages);
+				calculatingResistance += (1 / connectedDevices[i].Resistance);
 			}
 
 			resistanceSourceModule.Resistance = (1 / calculatingResistance);
@@ -294,27 +294,27 @@ namespace Objects.Engineering
 		/// <summary>
 		/// The screen sprites which are currently being displayed
 		/// </summary>
-		[PrefabModeOnly]
+
 		Sprite[] loadedScreenSprites;
 		/// <summary>
 		/// The animation sprites for when the APC is in a critical state
 		/// </summary>
-		[PrefabModeOnly]
+
 		public Sprite[] criticalSprites;
 		/// <summary>
 		/// The animation sprites for when the APC is charging
 		/// </summary>
-		[PrefabModeOnly]
+
 		public Sprite[] chargingSprites;
 		/// <summary>
 		/// The animation sprites for when the APC is fully charged
 		/// </summary>
-		[PrefabModeOnly]
+
 		public Sprite[] fullSprites;
 		/// <summary>
 		/// The sprite renderer for the APC display
 		/// </summary>
-		[PrefabModeOnly]
+
 		public SpriteRenderer screenDisplay;
 		/// <summary>
 		/// The sprite index for the display animation
@@ -459,6 +459,7 @@ namespace Objects.Engineering
 			}
 
 			connectedDevices.Remove(apcPoweredDevice);
+			apcPoweredDevice.OnDeviceUnLinked?.Invoke();
 			apcPoweredDevice.PowerNetworkUpdate(0.1f);
 		}
 
@@ -467,6 +468,7 @@ namespace Objects.Engineering
 			if (!connectedDevices.Contains(apcPoweredDevice))
 			{
 				connectedDevices.Add(apcPoweredDevice);
+				apcPoweredDevice.OnDeviceLinked?.Invoke();
 			}
 		}
 
@@ -512,7 +514,7 @@ namespace Objects.Engineering
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver);
+			return Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
@@ -550,7 +552,7 @@ namespace Objects.Engineering
 			SpawnResult frameSpawn = Spawn.ServerPrefab(APCFrameObj, SpawnDestination.At(gameObject));
 			if (frameSpawn.Successful == false)
 			{
-				Logger.LogError($"Failed to spawn frame! Is {this} missing references in the inspector?", Category.Construction);
+				Loggy.LogError($"Failed to spawn frame! Is {this} missing references in the inspector?", Category.Construction);
 				return;
 			}
 

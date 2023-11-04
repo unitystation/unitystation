@@ -42,7 +42,7 @@ TextureImporter:
       213: -5753904419202748422
     second: ano121_12
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -59,11 +59,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -102,6 +103,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -117,6 +120,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -414,22 +429,21 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ano121_8: 6844553242480610650
-      ano121_6: -4207349757277149998
-      ano121_9: 5798316207491452544
-      ano121_12: -5753904419202748422
-      ano121_5: 5872945024107836912
+      ano121_0: -3808632512519782856
       ano121_1: -3826538304901051704
       ano121_10: 4299615039788982912
-      ano121_4: -512070863858310097
-      ano121_3: -8729334195989441894
-      ano121_7: -2158979649724547691
-      ano121_2: 8818846410722864212
       ano121_11: 2657593287454485125
-      ano121_0: -3808632512519782856
-  spritePackingTag: 
+      ano121_12: -5753904419202748422
+      ano121_2: 8818846410722864212
+      ano121_3: -8729334195989441894
+      ano121_4: -512070863858310097
+      ano121_5: 5872945024107836912
+      ano121_6: -4207349757277149998
+      ano121_7: -2158979649724547691
+      ano121_8: 6844553242480610650
+      ano121_9: 5798316207491452544
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

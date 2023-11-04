@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using ScriptableObjects;
+using Logs;
 
 namespace Antagonists
 {
@@ -8,7 +10,7 @@ namespace Antagonists
 	/// Stores all antagonists and objectives. Use the public methods to get since they must be instantiated
 	/// </summary>
 	[CreateAssetMenu(menuName="ScriptableObjects/AntagData")]
-	public class AntagData : ScriptableObject
+	public class AntagData : SingletonScriptableObject<AntagData>
 	{
 		/// <summary>
 		/// All possible antags.
@@ -20,6 +22,14 @@ namespace Antagonists
 		/// </summary>
 		[SerializeField]
 		private List<Objective> SharedObjectives = new List<Objective>();
+		public List<Objective> SharedObjectivesPublic => new List<Objective>(SharedObjectives);
+
+		/// <summary>
+		/// All possible teams.
+		/// </summary>
+		[SerializeField]
+		private List<TeamData> teamDatas = new List<TeamData>();
+		public List<TeamData> TeamDatas => teamDatas;
 		/// <summary>
 		/// Possible escape objectives. Antags should only get one of these.
 		/// </summary>
@@ -32,6 +42,38 @@ namespace Antagonists
 		[SerializeField]
 		private List<Objective> GimmickObjectives = new List<Objective>();
 
+		[SerializeField]
+		private List<TeamObjective> TeamObjectives = new List<TeamObjective>();
+
+		/// <summary>
+		/// Putting all objectives to one list
+		/// </summary>
+		private readonly List<Objective> allObjectives = new List<Objective>();
+
+		/// <summary>
+		/// All antags, teams, station objectives in one list
+		/// </summary>
+		public List<Objective> AllObjectives
+		{
+			get
+			{
+				if (allObjectives.Count == 0)
+				{
+					foreach (var x in Antags)
+					{
+						allObjectives.AddRange(x.CoreObjectives);
+					}
+					allObjectives.AddRange(SharedObjectives);
+					allObjectives.AddRange(EscapeObjectives);
+					allObjectives.AddRange(GimmickObjectives);
+					allObjectives.AddRange(TeamObjectives);
+					allObjectives.AddRange(StationObjectives.StationObjectiveData.Instance.ObjectivesPublic);
+				}
+
+				return new (allObjectives);
+			}
+		}
+
 		/// <summary>
 		/// Returns a new instance of a random antag type.
 		/// </summary>
@@ -40,7 +82,7 @@ namespace Antagonists
 			var antag = Antags[Random.Range(0, Antags.Count)];
 			if (antag == null)
 			{
-				Logger.LogError("No antags available in AntagData! Ensure you added the ScriptableObjects to it.", Category.Antags);
+				Loggy.LogError("No antags available in AntagData! Ensure you added the ScriptableObjects to it.", Category.Antags);
 			}
 			return Instantiate(antag);
 		}
@@ -66,16 +108,16 @@ namespace Antagonists
 		{
 			int amount = antag.NumberOfObjectives;
 			// Get all antag core and shared objectives which are possible for this player
-			List<Objective> objPool = antag.CoreObjectives.Where(obj => obj.IsPossible(Mind)).ToList();
+			List<Objective> objPool = antag.CoreObjectives.Where(obj => obj.IsPossible(Mind) && antag.BlackListedObjectives.Contains(obj) == false).ToList();
 			if (antag.CanUseSharedObjectives)
 			{
-				objPool = objPool.Concat(SharedObjectives).Where(obj => obj.IsPossible(Mind)).ToList();
+				objPool = objPool.Concat(SharedObjectives).Where(obj => obj.IsPossible(Mind) && antag.BlackListedObjectives.Contains(obj) == false).ToList();
 			}
 
 			if (objPool.Count == 0)
 			{
 				amount = 0;
-				Logger.LogWarning($"No objectives available, only assigning escape type objective", Category.Antags);
+				Loggy.LogWarning($"No objectives available, only assigning escape type objective", Category.Antags);
 			}
 
 			List<Objective> generatedObjs = new List<Objective>();
@@ -122,7 +164,47 @@ namespace Antagonists
 				generatedObjs.Add(newObjective);
 			}
 
+			foreach (var alwaysStartWithObjective in antag.AlwaysStartWithObjectives)
+			{
+				var objectiveNew = Instantiate(alwaysStartWithObjective);
+				objectiveNew.DoSetup(Mind);
+				generatedObjs.Add(objectiveNew);
+			}
+
 			return generatedObjs;
+		}
+
+
+		/// <summary>
+		/// Returns all possible objectives for provided antag type
+		/// </summary>
+		/// <param name="antag">The antag type</param>
+		public List<Objective> GetAllPosibleObjectives(Antagonist antag)
+		{
+			List<Objective> objPool = antag.CoreObjectives.Where(obj => antag.BlackListedObjectives.Contains(obj) == false).ToList();
+			if (antag.CanUseSharedObjectives)
+			{
+				objPool = objPool.Concat(SharedObjectives).Where(obj => antag.BlackListedObjectives.Contains(obj) == false).ToList();
+			}
+			objPool = objPool.Concat(EscapeObjectives).Where(obj => antag.BlackListedObjectives.Contains(obj) == false).ToList();
+			if (antag.ChanceForGimmickObjective != 0 && DMMath.Prob(antag.ChanceForGimmickObjective))
+			{
+				objPool = objPool.Concat(GimmickObjectives).Where(obj => antag.BlackListedObjectives.Contains(obj) == false).ToList();
+			}
+			return objPool;
+		}
+
+		/// <summary>
+		/// Returns all possible objectives for provided antag type
+		/// </summary>
+		/// <param name="antag">The antag type</param>
+		public List<Objective> GetAllBasicObjectives()
+		{
+			// Get all antag core and shared objectives which are possible for this player
+			List<Objective> objPool = EscapeObjectives;
+			objPool = objPool.Concat(SharedObjectives).ToList();
+
+			return objPool;
 		}
 
 		/// <summary>
@@ -141,6 +223,54 @@ namespace Antagonists
 				objectives.RemoveAt(randIndex);
 			}
 			return chosenObjective;
+		}
+
+		public Antagonist FromIndexAntag(short index)
+		{
+			if (index < 0 || index > Antags.Count - 1)
+			{
+				Loggy.LogErrorFormat("AntagData: no Antagonist found at index {0}", Category.Antags, index);
+				return null;
+			}
+
+			return Antags[index];
+		}
+
+		public short GetIndexAntag(Antagonist antag)
+		{
+			return (short)Antags.IndexOf(antag);
+		}
+
+		public Objective FromIndexObj(short index)
+		{
+			if (index < 0 || index > AllObjectives.Count - 1)
+			{
+				Loggy.LogErrorFormat("AntagData: no Objective found at index {0}", Category.Antags, index);
+				return null;
+			}
+
+			return AllObjectives[index];
+		}
+
+		public short GetIndexObj(Objective obj)
+		{
+			return (short)AllObjectives.IndexOf(obj);
+		}
+
+		public short GetTeamIndex(TeamData data)
+		{
+			return (short)teamDatas.IndexOf(data);
+		}
+
+		public TeamData GetFromIndex(short index)
+		{
+			if (index < 0 || index > teamDatas.Count - 1)
+			{
+				Loggy.LogErrorFormat("TeamList: no TeamData found at index {0}", Category.Antags, index);
+				return null;
+			}
+
+			return teamDatas[index];
 		}
 	}
 }

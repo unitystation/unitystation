@@ -57,7 +57,7 @@ TextureImporter:
       213: 21300034
     second: acid_rain_17
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -74,11 +74,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -117,6 +118,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -132,6 +135,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -534,27 +549,26 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      acid_rain_0: 21300000
+      acid_rain_1: 21300002
+      acid_rain_10: 21300020
+      acid_rain_11: 21300022
+      acid_rain_12: 21300024
+      acid_rain_13: 21300026
       acid_rain_14: 21300028
       acid_rain_15: 21300030
-      acid_rain_1: 21300002
-      acid_rain_3: 21300006
-      acid_rain_8: 21300016
-      acid_rain_0: 21300000
+      acid_rain_16: 21300032
       acid_rain_17: 21300034
+      acid_rain_2: 21300004
+      acid_rain_3: 21300006
       acid_rain_4: 21300008
       acid_rain_5: 21300010
-      acid_rain_11: 21300022
-      acid_rain_7: 21300014
-      acid_rain_2: 21300004
-      acid_rain_12: 21300024
       acid_rain_6: 21300012
-      acid_rain_10: 21300020
-      acid_rain_16: 21300032
+      acid_rain_7: 21300014
+      acid_rain_8: 21300016
       acid_rain_9: 21300018
-      acid_rain_13: 21300026
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

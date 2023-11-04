@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+using Logs;
 using UnityEngine.UI;
 
 namespace UI.Core.NetUI
@@ -14,7 +13,7 @@ namespace UI.Core.NetUI
 		//SetValue will set this and change the value for the client.
 		public override string Value {
 			get => Element.interactable.ToString();
-			set {
+			protected set {
 				if (value.ToLower().Equals("false"))
 				{
 					externalChange = true;
@@ -29,7 +28,7 @@ namespace UI.Core.NetUI
 				}
 				else
 				{
-					Logger.Log("Interactable shouldn't be set to anything other than true or false.", Category.Machines);
+					Loggy.Log("Interactable shouldn't be set to anything other than true or false.", Category.Machines);
 				}
 			}
 		}

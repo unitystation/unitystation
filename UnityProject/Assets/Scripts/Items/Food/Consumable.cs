@@ -16,7 +16,7 @@ using Player;
 /// </summary>
 public abstract class Consumable : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
-	[SerializeField] private float consumeTime = 0.1f;
+	[SerializeField] protected float consumeTime = 0.1f;
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
@@ -71,7 +71,7 @@ public abstract class Consumable : NetworkBehaviour, ICheckedInteractable<HandAp
 			}
 		}
 
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 		return CanBeConsumedBy(interaction.TargetObject);
 	}

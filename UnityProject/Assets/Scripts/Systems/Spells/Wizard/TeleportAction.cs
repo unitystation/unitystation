@@ -29,7 +29,7 @@ namespace Systems.Spells.Wizard
 			TeleportWindow.GenerateButtons(TeleportUtils.GetSpawnDestinations());
 
 			TeleportWindow.onTeleportRequested += ClientTeleportDestinationSelected;
-			TeleportWindow.onTeleportToVector += ClientTeleportDestinationSelected;
+			TeleportWindow.onTeleportToVectorWorld += ClientTeleportDestinationSelected;
 		}
 
 		public override bool CastSpellServer(PlayerInfo caster, Vector3 destination)

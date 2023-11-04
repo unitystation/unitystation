@@ -2,7 +2,9 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Logs;
 using Newtonsoft.Json;
+using SecureStuff;
 using UI.Systems.ServerInfoPanel.Models;
 using UnityEngine;
 using UnityEngine.UI;
@@ -92,10 +94,14 @@ namespace UI.Systems.ServerInfoPanel
 		private static async Task<AllChangesResponse> FetchChanges(string url = BASE_API_URL)
 		{
 			AllChangesResponse newData = null;
-			using var client = new HttpClient();
-			client.DefaultRequestHeaders.Accept.Add(
-				new MediaTypeWithQualityHeaderValue("application/json"));
-			using var response = await client.GetAsync(url);
+
+			// Create an instance of HttpRequestMessage
+			HttpRequestMessage request = new HttpRequestMessage( HttpMethod.Get,url );
+			request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+
+
+			using var response = await SafeHttpRequest.SendAsync(request);
 			if (response.IsSuccessStatusCode)
 			{
 				var json = await response.Content.ReadAsStringAsync();
@@ -103,8 +109,8 @@ namespace UI.Systems.ServerInfoPanel
 			}
 			else
 			{
-				Logger.LogError($"Failed to fetch changelog from {url}", Category.UI);
-				Logger.LogError($"Status: {response.StatusCode}. Reason: {response.ReasonPhrase}", Category.UI);
+				Loggy.LogError($"Failed to fetch changelog from {url}", Category.UI);
+				Loggy.LogError($"Status: {response.StatusCode}. Reason: {response.ReasonPhrase}", Category.UI);
 			}
 
 			return newData;

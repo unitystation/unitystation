@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: light_ash_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      light_ash_17: 21300034
-      light_ash_3: 21300006
-      light_ash_18: 21300036
-      light_ash_4: 21300008
+      light_ash_0: 21300000
+      light_ash_1: 21300002
+      light_ash_10: 21300020
+      light_ash_11: 21300022
+      light_ash_12: 21300024
       light_ash_13: 21300026
-      light_ash_9: 21300018
-      light_ash_2: 21300004
       light_ash_14: 21300028
-      light_ash_29: 21300058
-      light_ash_20: 21300040
+      light_ash_15: 21300030
+      light_ash_16: 21300032
+      light_ash_17: 21300034
+      light_ash_18: 21300036
       light_ash_19: 21300038
-      light_ash_31: 21300062
+      light_ash_2: 21300004
+      light_ash_20: 21300040
+      light_ash_21: 21300042
       light_ash_22: 21300044
       light_ash_23: 21300046
-      light_ash_1: 21300002
-      light_ash_5: 21300010
-      light_ash_15: 21300030
-      light_ash_30: 21300060
-      light_ash_27: 21300054
       light_ash_24: 21300048
-      light_ash_6: 21300012
-      light_ash_26: 21300052
-      light_ash_28: 21300056
-      light_ash_12: 21300024
       light_ash_25: 21300050
+      light_ash_26: 21300052
+      light_ash_27: 21300054
+      light_ash_28: 21300056
+      light_ash_29: 21300058
+      light_ash_3: 21300006
+      light_ash_30: 21300060
+      light_ash_31: 21300062
+      light_ash_4: 21300008
+      light_ash_5: 21300010
+      light_ash_6: 21300012
       light_ash_7: 21300014
-      light_ash_11: 21300022
-      light_ash_10: 21300020
       light_ash_8: 21300016
-      light_ash_0: 21300000
-      light_ash_16: 21300032
-      light_ash_21: 21300042
-  spritePackingTag: 
+      light_ash_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

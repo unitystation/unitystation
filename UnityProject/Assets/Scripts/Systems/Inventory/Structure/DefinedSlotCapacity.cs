@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Items;
+using Logs;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -42,7 +43,9 @@ public class DefinedSlotCapacity : SlotCapacity
 	public override bool CanFit(Pickupable toCheck)
 	{
 		if (toCheck == null) return false;
-		Logger.LogTraceFormat("Checking if {0} can fit", Category.Inventory, toCheck.name);
+		bool hasRequiredTraits = true;
+
+		Loggy.LogTraceFormat("Checking if {0} can fit", Category.Inventory, toCheck.name);
 		Size size = Size.Huge;
 		var itemAttrs = toCheck.GetComponent<ItemAttributesV2>();
 		if (itemAttrs != null)
@@ -51,30 +54,30 @@ public class DefinedSlotCapacity : SlotCapacity
 		}
 		else
 		{
-			Logger.LogTraceFormat("{0} has no item attrs, defaulting to ItemSize.Huge", Category.Inventory, toCheck.name);
+			Loggy.LogTraceFormat("{0} has no item attrs, defaulting to ItemSize.Huge", Category.Inventory, toCheck.name);
 		}
 
 		var sizeLimit = maxSize;
 		if (sizeLimit == Size.None)
 		{
-			Logger.LogTraceFormat("No size restriction defined, defaulting to ItemSize.Huge", Category.Inventory);
+			Loggy.LogTraceFormat("No size restriction defined, defaulting to ItemSize.Huge", Category.Inventory);
 			sizeLimit = Size.Huge;
 		}
 
 		if (size > sizeLimit)
 		{
-			Logger.LogTraceFormat("{0} ({1}) exceeds max size of slot ({2})", Category.Inventory, toCheck.name, size, maxSize);
+			Loggy.LogTraceFormat("{0} ({1}) exceeds max size of slot ({2})", Category.Inventory, toCheck.name, size, maxSize);
 			return false;
 		}
 
 		//Item MUST have required traits or it will return false
 		if (Required != null && Required.Count > 0)
 		{
-			Logger.LogTraceFormat("Requirements are {0}", Category.Inventory,
+			Loggy.LogTraceFormat("Requirements are {0}", Category.Inventory,
 				String.Join(", ", Required.Select(it => it.name)));
 			if (itemAttrs == null)
 			{
-				Logger.LogTrace("Item has no ItemAttributes, thus cannot meet the requirements ", Category.Inventory);
+				Loggy.LogTrace("Item has no ItemAttributes, thus cannot meet the requirements ", Category.Inventory);
 				return false;
 			}
 			//requirements are defined, check them
@@ -82,7 +85,7 @@ public class DefinedSlotCapacity : SlotCapacity
 			{
 				if (!itemAttrs.HasTrait(requiredTrait))
 				{
-					Logger.LogTraceFormat("Item doesn't have required trait {0}", Category.Inventory, requiredTrait.name);
+					Loggy.LogTraceFormat("Item doesn't have required trait {0}", Category.Inventory, requiredTrait.name);
 					return false;
 				}
 			}
@@ -91,19 +94,20 @@ public class DefinedSlotCapacity : SlotCapacity
 		//If an item has a whitelisted trait, return true, else move onto black list
 		if (Whitelist != null && Whitelist.Count > 0)
 		{
-			Logger.LogTraceFormat("Whitelist is {0}", Category.Inventory,
+			hasRequiredTraits = false;
+			Loggy.LogTraceFormat("Whitelist is {0}", Category.Inventory,
 				String.Join(", ", Whitelist.Select(it => it == null ? "null" : it.name)));
 			if (itemAttrs == null)
 			{
-				Logger.LogTrace("Item has no ItemAttributes, thus has no whitelisted traits", Category.Inventory);
-				return false;
+				Loggy.LogTrace("Item has no ItemAttributes, thus has no whitelisted traits", Category.Inventory);
+				hasRequiredTraits = false;
 			}
 			foreach (var whitelistTrait in Whitelist)
 			{
 				if (itemAttrs.HasTrait(whitelistTrait))
 				{
-					Logger.LogTraceFormat("Item has whitelisted trait {0}", Category.Inventory, whitelistTrait.name);
-					return true;
+					Loggy.LogTraceFormat("Item has whitelisted trait {0}", Category.Inventory, whitelistTrait.name);
+					hasRequiredTraits = true;
 				}
 			}
 		}
@@ -111,11 +115,11 @@ public class DefinedSlotCapacity : SlotCapacity
 		//If the item has any blacklisted trait return false
 		if (Blacklist != null && Blacklist.Count > 0)
 		{
-			Logger.LogTraceFormat("Blacklist is {0}", Category.Inventory,
+			Loggy.LogTraceFormat("Blacklist is {0}", Category.Inventory,
 				String.Join(", ", Blacklist.Select(it => it.name)));
 			if (itemAttrs == null)
 			{
-				Logger.LogTrace("Item has no ItemAttributes, thus cannot be blacklisted", Category.Inventory);
+				Loggy.LogTrace("Item has no ItemAttributes, thus cannot be blacklisted", Category.Inventory);
 			}
 			else
 			{
@@ -123,13 +127,13 @@ public class DefinedSlotCapacity : SlotCapacity
 				{
 					if (itemAttrs.HasTrait(blacklistTrait))
 					{
-						Logger.LogTraceFormat("Item has blacklisted trait {0}", Category.Inventory, blacklistTrait.name);
-						return false;
+						Loggy.LogTraceFormat("Item has blacklisted trait {0}", Category.Inventory, blacklistTrait.name);
+						hasRequiredTraits = false;
 					}
 				}
 			}
 		}
 
-		return true; //If has required traits, no whitelists or blacklists, the return true
+		return hasRequiredTraits; //If has required traits, no whitelists or blacklists, the return true
 	}
 }

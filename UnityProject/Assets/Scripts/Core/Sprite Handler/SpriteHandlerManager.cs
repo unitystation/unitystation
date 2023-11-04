@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Logs;
 using Messages.Server.SpritesMessages;
 using Mirror;
 using UnityEngine;
@@ -130,13 +131,13 @@ public class SpriteHandlerManager : NetworkBehaviour
 		{
 			if (spriteHandler?.transform?.parent != null)
 			{
-				Logger.LogError(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name,
+				Loggy.LogError(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name,
 					Category.Sprites);
 				return;
 			}
 			else
 			{
-				Logger.LogError(" RegisterHandler networkIdentity is null on  ? ",
+				Loggy.LogError(" RegisterHandler networkIdentity is null on  ? ",
 					Category.Sprites);
 			}
 
@@ -177,13 +178,13 @@ public class SpriteHandlerManager : NetworkBehaviour
 		{
 			if (spriteHandler?.transform?.parent != null)
 			{
-				Logger.LogError(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name,
+				Loggy.LogError(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name,
 					Category.Sprites);
 				return;
 			}
 			else
 			{
-				Logger.LogError(" RegisterHandler networkIdentity is null on  ? ",
+				Loggy.LogError(" RegisterHandler networkIdentity is null on  ? ",
 					Category.Sprites);
 			}
 		}
@@ -198,7 +199,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 		{
 			if (PresentSprites[networkIdentity][spriteHandler.name] != spriteHandler)
 			{
-				Logger.LogError(
+				Loggy.LogError(
 					"SpriteHandler has the same name as another SpriteHandler on the game object > " + spriteHandler.name + " On parent > " +
 					spriteHandler.transform.parent.name + " with Net ID of " +  networkIdentity.netId , Category.Sprites);
 			}
@@ -313,7 +314,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 			return GetRecursivelyANetworkBehaviour(gameObject.transform.parent.gameObject, startingGameObject);
 		}
 
-		Logger.LogError($"Was unable to find A NetworkBehaviour for {startingGameObject.ExpensiveName()} Parent: {startingGameObject.transform.parent.OrNull()?.gameObject.ExpensiveName()}" +
+		Loggy.LogError($"Was unable to find A NetworkBehaviour for {startingGameObject.ExpensiveName()} Parent: {startingGameObject.transform.parent.OrNull()?.gameObject.ExpensiveName()}" +
 		                $"Parent Parent: {startingGameObject.transform.parent.OrNull()?.parent.OrNull()?.gameObject.ExpensiveName()}",
 			Category.Sprites);
 		return null;
@@ -395,6 +396,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 			if (spriteChange.Empty)
 			{
 				if (PresentSpriteSet != -1) PresentSpriteSet = -1;
+				if (CataloguePage != -1) CataloguePage = -1;
 				Empty = spriteChange.Empty;
 			}
 

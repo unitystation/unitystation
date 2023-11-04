@@ -57,7 +57,7 @@ namespace Detective
 		Fingerprints,
 		SpeciesIdentify,
 
-		Footprints, //called by Footstep code Expensive though humm
+		Footprints,
 		Blood, //idk Need blood Splats
 
 		BulletHole, //Applied Decal call

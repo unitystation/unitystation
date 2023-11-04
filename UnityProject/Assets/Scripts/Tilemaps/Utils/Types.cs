@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Logs;
 using UnityEngine.Serialization;
 
 public enum TileType
@@ -108,7 +109,7 @@ public static class LTSUtil
 			case LayerType.Disposals:
 				return LayerTypeSelection.Disposals;
 			default:
-				Logger.LogError($"Failed to have case for: {Layer}");
+				Loggy.LogError($"Failed to have case for: {Layer}");
 				break;
 		}
 

@@ -1,5 +1,6 @@
 using System.Linq;
 using Construction;
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -19,11 +20,11 @@ namespace Messages.Client
 
 		public override void Process(NetMessage msg)
 		{
-			ProcessBuild(msg);
+			ProcessBuild(msg,SentByPlayer );
 		}
 
 
-		public void ProcessBuild(NetMessage msg)
+		public void ProcessBuild(NetMessage msg, PlayerInfo SentByPlayer)
 		{
 			var playerScript = SentByPlayer.Script;
 			var playerObject = SentByPlayer.GameObject;
@@ -52,14 +53,14 @@ namespace Messages.Client
 			if (entry.Prefab == null)
 			{
 				//requires immediate attention, show it regardless of log filter:
-				Logger.Log($"Construction entry is missing prefab for {entry.Name}", Category.Construction);
+				Loggy.Log($"Construction entry is missing prefab for {entry.Name}", Category.Construction);
 				return;
 			}
 
 			var registerTile = entry.Prefab.GetComponent<RegisterTile>();
 			if (registerTile == null)
 			{
-				Logger.LogWarningFormat("Buildable prefab {0} has no registerTile, no idea if it's passable", Category.Construction, entry.Prefab);
+				Loggy.LogWarningFormat("Buildable prefab {0} has no registerTile, no idea if it's passable", Category.Construction, entry.Prefab);
 			}
 
 			var builtObjectIsImpassable = registerTile == null || !registerTile.IsPassable(true);
@@ -95,13 +96,13 @@ namespace Messages.Client
 				$"{playerObject.ExpensiveName()} begins building the {entry.Name}...");
 			ToolUtils.ServerUseTool(playerObject, usedSlot.ItemObject,
 				ActionTarget.Tile(playerScript.RegisterPlayer.WorldPositionServer), entry.BuildTime,
-				(() =>  Build(msg,entry, playerScript, hasConstructionMenu,  playerObject) ));
+				(() =>  Build(msg,entry, playerScript, hasConstructionMenu,  playerObject,SentByPlayer) ));
 
 		}
 
 
 		//build and consume
-		public void Build(NetMessage msg, BuildList.Entry  entry, PlayerScript playerScript, BuildingMaterial hasConstructionMenu, GameObject playerObject)
+		public void Build(NetMessage msg, BuildList.Entry  entry, PlayerScript playerScript, BuildingMaterial hasConstructionMenu, GameObject playerObject, PlayerInfo SentByPlayer)
 		{
 			var builtObject =
 				entry.ServerBuild(SpawnDestination.At(playerScript.RegisterPlayer), hasConstructionMenu);
@@ -124,7 +125,7 @@ namespace Messages.Client
 
 			if (msg.Number > 0)
 			{
-				ProcessBuild(msg);
+				ProcessBuild(msg, SentByPlayer);
 			}
 
 		}

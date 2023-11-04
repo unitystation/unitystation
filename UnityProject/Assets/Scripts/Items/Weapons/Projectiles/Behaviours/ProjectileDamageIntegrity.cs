@@ -1,4 +1,5 @@
-﻿using ScriptableObjects.Gun;
+﻿using Logs;
+using ScriptableObjects.Gun;
 using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours
@@ -35,7 +36,7 @@ namespace Weapons.Projectiles.Behaviours
 
 			var thisGameObject = gameObject;
 
-			var data = new OnHitDetectData(damageData, thisGameObject.name, direction, hit.Normal, thisGameObject);
+			var data = new OnHitDetectData(damageData, thisGameObject.name, direction, hit.Normal, thisGameObject,hit.HitWorld);
 
 			var allowDamage = true;
 
@@ -57,7 +58,7 @@ namespace Weapons.Projectiles.Behaviours
 				Chat.AddThrowHitMsgToChat(thisGameObject, coll.gameObject, targetZone);
 			}
 
-			Logger.LogTraceFormat("Hit {0} for {1} with Integrity! bullet absorbed", Category.Firearms,
+			Loggy.LogTraceFormat("Hit {0} for {1} with Integrity! bullet absorbed", Category.Firearms,
 				integrity.gameObject.name, damageData.Damage);
 
 			foreach (var hitDetect in coll.GetComponents<IOnHitDetect>())

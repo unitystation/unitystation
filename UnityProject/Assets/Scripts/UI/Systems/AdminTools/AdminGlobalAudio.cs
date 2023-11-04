@@ -1,8 +1,16 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Linq;
+using System.Net.Http;
 using UnityEngine;
 using Audio.Containers;
 using AddressableReferences;
+using DatabaseAPI;
+using Logs;
+using SecureStuff;
+using UnityEngine.AddressableAssets;
+using UnityEngine.AddressableAssets.ResourceLocators;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.UI;
 
 namespace AdminTools
 {
@@ -12,35 +20,67 @@ namespace AdminTools
 	public class AdminGlobalAudio : MonoBehaviour
 	{
 		[SerializeField] private GameObject buttonTemplate = null;
+		[SerializeField] private Scrollbar loadingBar = null;
+		[SerializeField] private GameObject loadingView = null;
 		private AdminGlobalAudioSearchBar SearchBar;
 		public List<GameObject> audioButtons = new List<GameObject>();
 
-		[SerializeField] private AudioClipsArray audioAddressables = null;
-
-		public List<AddressableAudioSource> audioList;
+		public Dictionary<AddressableAudioSource, string> audioList = new Dictionary<AddressableAudioSource, string>();
 
 		private void Awake()
 		{
 			SearchBar = GetComponentInChildren<AdminGlobalAudioSearchBar>();
-			
-			DoLoadAudio(audioAddressables);
+			DoLoadAudio();
 		}
 
-		private void DoLoadAudio(AudioClipsArray audioAddressables)
+		private async void DoLoadAudio()
 		{
-			audioList = new List<AddressableAudioSource>();
-
-			async Task LoadAudio()
+			loadingView.SetActive(true);
+			audioList = new Dictionary<AddressableAudioSource, string>();
+			var serverCatalouges = new List<string>();
+			serverCatalouges.AddRange(ServerData.ServerConfig.AddressableCatalogues);
+			serverCatalouges.AddRange(ServerData.ServerConfig.LobbyAddressableCatalogues);
+			loadingBar.size = 0;
+			//(Max): This shit wont work correctly in the editor when adding new sounds but i don't give a fuck anymore.
+			//Fuck addressables and I hope everyone who agreed to use addressables in this project to be forced into an
+			//ALS Ice Bucket Challenge, CIA style.
+			foreach (var serverCatalouge in serverCatalouges.Where(serverCatalouge => serverCatalouge != string.Empty))
 			{
-				foreach (var audioSource in audioAddressables.AddressableAudioSource)
+				Loggy.Log(serverCatalouge);
+				AsyncOperationHandle<IResourceLocator> task;
+				if (serverCatalouge.Contains("http"))
 				{
-					var audio = await AudioManager.GetAddressableAudioSourceFromCache(audioSource);
-					audioList.Add(audio);
+					string result = await SafeHttpRequest.GetStringAsync(serverCatalouge);
+					Loggy.Log(result);
+					task = Addressables.LoadContentCatalogAsync(result);
+					await task.Task;
 				}
-				LoadButtons();
+				else
+				{
+					task = Addressables.LoadContentCatalogAsync(serverCatalouge);
+					await task.Task;
+				}
+
+				var count = 0;
+				foreach (var audioSources in task.Result.Keys)
+				{
+					loadingBar.size = (count - 0.1f) / (task.Result.Keys.Count() - 0.1f);
+					count++;
+					try
+					{
+						AddressableAudioSource audioSource = new AddressableAudioSource();
+						audioSource.AssetAddress = audioSources.ToString();
+						audioSource = await AudioManager.GetAddressableAudioSourceFromCache(audioSource);
+						if(audioSource != null) audioList.Add(audioSource, audioSources.ToString());
+					}
+					catch
+					{
+						continue;
+					}
+				}
 			}
-			
-			_ = LoadAudio();
+			loadingView.SetActive(false);
+			LoadButtons();
 		}
 
 		/// <summary>
@@ -54,22 +94,20 @@ namespace AdminTools
 			}
 
 			int index = 0;
-			foreach (AddressableAudioSource audio in audioList)
+			foreach (var audio in audioList)
 			{
-				AudioSource source = audio.AudioSource;
-				if (!source.loop)
-				{
-					GameObject button = Instantiate(buttonTemplate) as GameObject; //creates new button
-					button.SetActive(true);
-					AdminGlobalAudioButton buttonScript = button.GetComponent<AdminGlobalAudioButton>();
-					buttonScript.SetText(source.clip.name);
-					buttonScript.SetIndex(index++);
-					audioButtons.Add(button);
-					button.transform.SetParent(buttonTemplate.transform.parent, false);
-				}
+				AudioSource source = audio.Key.AudioSource;
+				if (source.loop) continue;
+				GameObject button = Instantiate(buttonTemplate); //creates new button
+				button.SetActive(true);
+				AdminGlobalAudioButton buttonScript = button.GetComponent<AdminGlobalAudioButton>();
+				buttonScript.SetText($"{source.clip.name}\n {(int)source.clip.length} seconds");
+				buttonScript.SoundAddress = audio.Value;
+				audioButtons.Add(button);
+				button.transform.SetParent(buttonTemplate.transform.parent, false);
 			}
 		}
 
-		public virtual void PlayAudio(int index) {}
+		public virtual void PlayAudio(string index) {}
 	}
 }

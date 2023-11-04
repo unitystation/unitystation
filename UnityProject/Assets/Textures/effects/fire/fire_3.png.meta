@@ -171,7 +171,7 @@ TextureImporter:
       213: 21300110
     second: 3_55
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -188,11 +188,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -231,6 +232,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -246,6 +249,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1446,65 +1461,64 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      3_8: 21300016
-      3_49: 21300098
-      3_10: 21300020
-      3_27: 21300054
-      3_38: 21300076
-      3_19: 21300038
-      3_34: 21300068
-      3_41: 21300082
-      3_5: 21300010
-      3_46: 21300092
-      3_33: 21300066
-      3_4: 21300008
-      3_1: 21300002
-      3_42: 21300084
-      3_35: 21300070
-      3_18: 21300036
-      3_47: 21300094
-      3_6: 21300012
-      3_55: 21300110
-      3_12: 21300024
-      3_53: 21300106
       3_0: 21300000
-      3_54: 21300108
-      3_44: 21300088
-      3_37: 21300074
-      3_17: 21300034
-      3_36: 21300072
-      3_16: 21300032
-      3_45: 21300090
-      3_20: 21300040
-      3_26: 21300052
-      3_2: 21300004
-      3_29: 21300058
-      3_52: 21300104
-      3_30: 21300060
-      3_9: 21300018
-      3_31: 21300062
-      3_48: 21300096
-      3_40: 21300080
-      3_28: 21300056
-      3_23: 21300046
+      3_1: 21300002
+      3_10: 21300020
       3_11: 21300022
-      3_14: 21300028
-      3_39: 21300078
-      3_3: 21300006
-      3_50: 21300100
-      3_32: 21300064
+      3_12: 21300024
       3_13: 21300026
-      3_43: 21300086
-      3_51: 21300102
+      3_14: 21300028
       3_15: 21300030
-      3_22: 21300044
-      3_25: 21300050
-      3_24: 21300048
+      3_16: 21300032
+      3_17: 21300034
+      3_18: 21300036
+      3_19: 21300038
+      3_2: 21300004
+      3_20: 21300040
       3_21: 21300042
+      3_22: 21300044
+      3_23: 21300046
+      3_24: 21300048
+      3_25: 21300050
+      3_26: 21300052
+      3_27: 21300054
+      3_28: 21300056
+      3_29: 21300058
+      3_3: 21300006
+      3_30: 21300060
+      3_31: 21300062
+      3_32: 21300064
+      3_33: 21300066
+      3_34: 21300068
+      3_35: 21300070
+      3_36: 21300072
+      3_37: 21300074
+      3_38: 21300076
+      3_39: 21300078
+      3_4: 21300008
+      3_40: 21300080
+      3_41: 21300082
+      3_42: 21300084
+      3_43: 21300086
+      3_44: 21300088
+      3_45: 21300090
+      3_46: 21300092
+      3_47: 21300094
+      3_48: 21300096
+      3_49: 21300098
+      3_5: 21300010
+      3_50: 21300100
+      3_51: 21300102
+      3_52: 21300104
+      3_53: 21300106
+      3_54: 21300108
+      3_55: 21300110
+      3_6: 21300012
       3_7: 21300014
-  spritePackingTag: 
+      3_8: 21300016
+      3_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6881874909172061398, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
+        type: 3}
+      propertyPath: _assetId
+      value: 606784768
+      objectReference: {fileID: 0}
     - target: {fileID: -6881874909172061398, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
         type: 3}
       propertyPath: m_AssetId
@@ -60,6 +66,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114595774069620348, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
+        type: 3}
+      propertyPath: LiesFlat3D
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 212268240904160500, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
         type: 3}
       propertyPath: m_Sprite
@@ -74,25 +85,25 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2789537394278642046, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: b9c27a0834fb4b542af73ec0568a4b1e,
         type: 2}
     - target: {fileID: 2789537394278642046, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: c2efd980ed96ea4408397660434a3d91,
         type: 2}
     - target: {fileID: 2789537394278642046, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: cdf04f160397be140b8834ddb92c42a1,
         type: 2}
     - target: {fileID: 2789537394278642046, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[3]
+      propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 73c107c8fcee0824aabe068db00ebca8,
         type: 2}
@@ -113,40 +124,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4524393934061931853, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 3f8ba0db83a8157ae8fbb3c4115580e7,
         type: 2}
     - target: {fileID: 4524393934061931853, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5908745450454926434, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
         type: 3}
-      propertyPath: PossibleSprites.Array.data[0]
+      propertyPath: 'PossibleSprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 930198f162dea4f45820acdcb7749fbe,
         type: 3}
     - target: {fileID: 5908745450454926434, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
         type: 3}
-      propertyPath: PossibleSprites.Array.data[1]
+      propertyPath: 'PossibleSprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300000, guid: 4d400545ac560e14eacd2fbe637978ea,
         type: 3}
     - target: {fileID: 5908745450454926434, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
         type: 3}
-      propertyPath: PossibleSprites.Array.data[2]
+      propertyPath: 'PossibleSprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300000, guid: cbfcf4522669e764d95c2e431fa7ee0e,
         type: 3}
     - target: {fileID: 5908745450454926434, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
         type: 3}
-      propertyPath: PossibleSprites.Array.data[3]
+      propertyPath: 'PossibleSprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300000, guid: cc4d0ae7432f8384fad80449f45abb8d,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1069497300762596, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3368254069382033395}
   m_SourcePrefab: {fileID: 100100000, guid: dde8d9bf0726b3140971ecd9d5ddcb87, type: 3}
 --- !u!1 &577345115248442667 stripped
 GameObject:

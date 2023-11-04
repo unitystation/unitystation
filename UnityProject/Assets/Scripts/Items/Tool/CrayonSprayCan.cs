@@ -412,7 +412,7 @@ namespace Items.Tool
 
 			capRemoved = !capRemoved;
 
-			spriteHandler.ChangeSprite(capRemoved ? 1 : 0);
+			spriteHandler.SetCatalogueIndexSprite(capRemoved ? 1 : 0);
 		}
 
 		[Client]

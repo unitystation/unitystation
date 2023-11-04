@@ -43,7 +43,7 @@ namespace Objects.Engineering
 			if (Boiler != null)
 			{
 				//Logger.Log("  moduleSupplyingDevice.ProducingWatts " +   moduleSupplyingDevice.ProducingWatts);
-				moduleSupplyingDevice.ProducingWatts = (float)Boiler.OutputEnergy;
+				moduleSupplyingDevice.ProducingWatts  = moduleSupplyingDevice.ProducingWatts  + ((float)Boiler.OutputEnergy) / 2;
 			}
 			else
 			{
@@ -60,7 +60,7 @@ namespace Objects.Engineering
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (!Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder)) return false;
 
 			return true;

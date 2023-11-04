@@ -309,3 +309,10 @@ MonoBehaviour:
     spawnAmount: 1
     onePerTile: 0
     facePlayerDirectionOnConstruction: 0
+  - name: Plinth
+    prefab: {fileID: 504769870920714084, guid: 2fdf8b52304435e40a6ba4475e91c835, type: 3}
+    cost: 4
+    buildTime: 10
+    spawnAmount: 1
+    onePerTile: 1
+    facePlayerDirectionOnConstruction: 0

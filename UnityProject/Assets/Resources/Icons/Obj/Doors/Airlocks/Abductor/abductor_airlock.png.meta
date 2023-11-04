@@ -93,7 +93,7 @@ TextureImporter:
       213: 21300058
     second: abductor_airlock_29
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -110,11 +110,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -153,6 +154,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -192,6 +195,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -846,39 +861,38 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      abductor_airlock_28: 21300056
-      abductor_airlock_10: 21300020
-      abductor_airlock_5: 21300010
-      abductor_airlock_4: 21300008
+      abductor_airlock_0: 21300000
       abductor_airlock_1: 21300002
-      abductor_airlock_15: 21300030
-      abductor_airlock_2: 21300004
-      abductor_airlock_6: 21300012
-      abductor_airlock_21: 21300042
-      abductor_airlock_16: 21300032
-      abductor_airlock_13: 21300026
-      abductor_airlock_17: 21300034
-      abductor_airlock_23: 21300046
-      abductor_airlock_18: 21300036
-      abductor_airlock_27: 21300054
-      abductor_airlock_29: 21300058
-      abductor_airlock_20: 21300040
+      abductor_airlock_10: 21300020
+      abductor_airlock_11: 21300022
       abductor_airlock_12: 21300024
+      abductor_airlock_13: 21300026
       abductor_airlock_14: 21300028
+      abductor_airlock_15: 21300030
+      abductor_airlock_16: 21300032
+      abductor_airlock_17: 21300034
+      abductor_airlock_18: 21300036
+      abductor_airlock_19: 21300038
+      abductor_airlock_2: 21300004
+      abductor_airlock_20: 21300040
+      abductor_airlock_21: 21300042
       abductor_airlock_22: 21300044
+      abductor_airlock_23: 21300046
+      abductor_airlock_24: 21300048
+      abductor_airlock_25: 21300050
+      abductor_airlock_26: 21300052
+      abductor_airlock_27: 21300054
+      abductor_airlock_28: 21300056
+      abductor_airlock_29: 21300058
+      abductor_airlock_3: 21300006
+      abductor_airlock_4: 21300008
+      abductor_airlock_5: 21300010
+      abductor_airlock_6: 21300012
+      abductor_airlock_7: 21300014
       abductor_airlock_8: 21300016
       abductor_airlock_9: 21300018
-      abductor_airlock_0: 21300000
-      abductor_airlock_11: 21300022
-      abductor_airlock_25: 21300050
-      abductor_airlock_19: 21300038
-      abductor_airlock_24: 21300048
-      abductor_airlock_3: 21300006
-      abductor_airlock_7: 21300014
-      abductor_airlock_26: 21300052
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

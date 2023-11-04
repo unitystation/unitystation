@@ -147,7 +147,7 @@ TextureImporter:
       213: 21300094
     second: clock_hawk_fly_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      clock_hawk_fly_14: 21300028
-      clock_hawk_fly_40: 21300080
-      clock_hawk_fly_41: 21300082
-      clock_hawk_fly_47: 21300094
-      clock_hawk_fly_24: 21300048
-      clock_hawk_fly_18: 21300036
-      clock_hawk_fly_33: 21300066
-      clock_hawk_fly_43: 21300086
-      clock_hawk_fly_35: 21300070
-      clock_hawk_fly_9: 21300018
+      clock_hawk_fly_0: 21300000
+      clock_hawk_fly_1: 21300002
       clock_hawk_fly_10: 21300020
-      clock_hawk_fly_2: 21300004
+      clock_hawk_fly_11: 21300022
+      clock_hawk_fly_12: 21300024
+      clock_hawk_fly_13: 21300026
+      clock_hawk_fly_14: 21300028
+      clock_hawk_fly_15: 21300030
+      clock_hawk_fly_16: 21300032
       clock_hawk_fly_17: 21300034
-      clock_hawk_fly_4: 21300008
+      clock_hawk_fly_18: 21300036
       clock_hawk_fly_19: 21300038
-      clock_hawk_fly_3: 21300006
-      clock_hawk_fly_30: 21300060
+      clock_hawk_fly_2: 21300004
+      clock_hawk_fly_20: 21300040
+      clock_hawk_fly_21: 21300042
+      clock_hawk_fly_22: 21300044
+      clock_hawk_fly_23: 21300046
+      clock_hawk_fly_24: 21300048
       clock_hawk_fly_25: 21300050
       clock_hawk_fly_26: 21300052
-      clock_hawk_fly_16: 21300032
-      clock_hawk_fly_20: 21300040
-      clock_hawk_fly_22: 21300044
-      clock_hawk_fly_7: 21300014
-      clock_hawk_fly_28: 21300056
-      clock_hawk_fly_15: 21300030
-      clock_hawk_fly_0: 21300000
-      clock_hawk_fly_39: 21300078
-      clock_hawk_fly_6: 21300012
-      clock_hawk_fly_13: 21300026
-      clock_hawk_fly_45: 21300090
-      clock_hawk_fly_31: 21300062
-      clock_hawk_fly_38: 21300076
-      clock_hawk_fly_32: 21300064
-      clock_hawk_fly_29: 21300058
-      clock_hawk_fly_12: 21300024
-      clock_hawk_fly_42: 21300084
-      clock_hawk_fly_37: 21300074
-      clock_hawk_fly_44: 21300088
-      clock_hawk_fly_1: 21300002
       clock_hawk_fly_27: 21300054
-      clock_hawk_fly_23: 21300046
-      clock_hawk_fly_11: 21300022
-      clock_hawk_fly_5: 21300010
-      clock_hawk_fly_36: 21300072
-      clock_hawk_fly_8: 21300016
-      clock_hawk_fly_21: 21300042
+      clock_hawk_fly_28: 21300056
+      clock_hawk_fly_29: 21300058
+      clock_hawk_fly_3: 21300006
+      clock_hawk_fly_30: 21300060
+      clock_hawk_fly_31: 21300062
+      clock_hawk_fly_32: 21300064
+      clock_hawk_fly_33: 21300066
       clock_hawk_fly_34: 21300068
+      clock_hawk_fly_35: 21300070
+      clock_hawk_fly_36: 21300072
+      clock_hawk_fly_37: 21300074
+      clock_hawk_fly_38: 21300076
+      clock_hawk_fly_39: 21300078
+      clock_hawk_fly_4: 21300008
+      clock_hawk_fly_40: 21300080
+      clock_hawk_fly_41: 21300082
+      clock_hawk_fly_42: 21300084
+      clock_hawk_fly_43: 21300086
+      clock_hawk_fly_44: 21300088
+      clock_hawk_fly_45: 21300090
       clock_hawk_fly_46: 21300092
-  spritePackingTag: 
+      clock_hawk_fly_47: 21300094
+      clock_hawk_fly_5: 21300010
+      clock_hawk_fly_6: 21300012
+      clock_hawk_fly_7: 21300014
+      clock_hawk_fly_8: 21300016
+      clock_hawk_fly_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

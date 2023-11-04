@@ -30,7 +30,7 @@ TextureImporter:
       213: -3375179824516257478
     second: circuit_mess_8
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -47,11 +47,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -90,6 +91,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -105,6 +108,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -318,18 +333,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      circuit_mess_3: -5343576430679880524
+      circuit_mess_0: 729638842875252836
       circuit_mess_1: -4053637155644467105
+      circuit_mess_2: -2255532522851104082
+      circuit_mess_3: -5343576430679880524
+      circuit_mess_4: 1961671990199903850
+      circuit_mess_5: -3354936646694810076
+      circuit_mess_6: -2257980468632360062
       circuit_mess_7: 4417335294578096892
       circuit_mess_8: -3375179824516257478
-      circuit_mess_5: -3354936646694810076
-      circuit_mess_0: 729638842875252836
-      circuit_mess_2: -2255532522851104082
-      circuit_mess_6: -2257980468632360062
-      circuit_mess_4: 1961671990199903850
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: firelight1_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      firelight1_3: 21300006
-      firelight1_8: 21300016
-      firelight1_30: 21300060
-      firelight1_22: 21300044
-      firelight1_17: 21300034
-      firelight1_31: 21300062
-      firelight1_14: 21300028
-      firelight1_20: 21300040
-      firelight1_5: 21300010
       firelight1_0: 21300000
-      firelight1_28: 21300056
       firelight1_1: 21300002
-      firelight1_19: 21300038
+      firelight1_10: 21300020
+      firelight1_11: 21300022
       firelight1_12: 21300024
       firelight1_13: 21300026
-      firelight1_26: 21300052
-      firelight1_7: 21300014
-      firelight1_24: 21300048
-      firelight1_21: 21300042
-      firelight1_18: 21300036
-      firelight1_29: 21300058
-      firelight1_25: 21300050
-      firelight1_27: 21300054
-      firelight1_10: 21300020
+      firelight1_14: 21300028
       firelight1_15: 21300030
-      firelight1_4: 21300008
       firelight1_16: 21300032
-      firelight1_11: 21300022
-      firelight1_23: 21300046
-      firelight1_9: 21300018
-      firelight1_6: 21300012
+      firelight1_17: 21300034
+      firelight1_18: 21300036
+      firelight1_19: 21300038
       firelight1_2: 21300004
-  spritePackingTag: 
+      firelight1_20: 21300040
+      firelight1_21: 21300042
+      firelight1_22: 21300044
+      firelight1_23: 21300046
+      firelight1_24: 21300048
+      firelight1_25: 21300050
+      firelight1_26: 21300052
+      firelight1_27: 21300054
+      firelight1_28: 21300056
+      firelight1_29: 21300058
+      firelight1_3: 21300006
+      firelight1_30: 21300060
+      firelight1_31: 21300062
+      firelight1_4: 21300008
+      firelight1_5: 21300010
+      firelight1_6: 21300012
+      firelight1_7: 21300014
+      firelight1_8: 21300016
+      firelight1_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

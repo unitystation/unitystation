@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2282787501680206576, guid: 2cdfee5611d505240ab3835c94a38fa8,
@@ -25,22 +26,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2282787501680206576, guid: 2cdfee5611d505240ab3835c94a38fa8,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[0]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[0]'
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2282787501680206576, guid: 2cdfee5611d505240ab3835c94a38fa8,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[1]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[1]'
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2282787501680206576, guid: 2cdfee5611d505240ab3835c94a38fa8,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[2]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[2]'
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2282787501680206576, guid: 2cdfee5611d505240ab3835c94a38fa8,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[3]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[3]'
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2282787501680206576, guid: 2cdfee5611d505240ab3835c94a38fa8,
@@ -50,7 +51,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2282787501680206576, guid: 2cdfee5611d505240ab3835c94a38fa8,
         type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 495261ef0d8e622429aed0db02c1caeb,
         type: 2}
@@ -71,13 +72,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2988332360848176654, guid: 2cdfee5611d505240ab3835c94a38fa8,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: e46937b2c7f954643803a936b99c5bb5,
         type: 2}
     - target: {fileID: 2988332360848176654, guid: 2cdfee5611d505240ab3835c94a38fa8,
         type: 3}
-      propertyPath: initialTraits.Array.data[2]
+      propertyPath: 'initialTraits.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 892f0c642e2049640b08d738517bb0f5,
         type: 2}
@@ -91,6 +92,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3314965293999793368, guid: 2cdfee5611d505240ab3835c94a38fa8,
+        type: 3}
+      propertyPath: _assetId
+      value: 500636941
       objectReference: {fileID: 0}
     - target: {fileID: 3314965293999793368, guid: 2cdfee5611d505240ab3835c94a38fa8,
         type: 3}
@@ -175,6 +181,9 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents:
     - {fileID: 6022598648939017194, guid: 2cdfee5611d505240ab3835c94a38fa8, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2cdfee5611d505240ab3835c94a38fa8, type: 3}
 --- !u!210 &2435423574505437309 stripped
 SortingGroup:

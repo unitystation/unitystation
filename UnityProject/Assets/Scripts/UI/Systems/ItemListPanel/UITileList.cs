@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Logs;
+using Objects.Disposals;
+using Objects.Other;
 using TileManagement;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,7 +45,7 @@ namespace UI
 		public static List<GameObject> GetItemsAtPosition(Vector3 position)
 		{
 			var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(position), CustomNetworkManager.Instance._isServer).Matrix;
-			if (!matrix)
+			if (matrix == false)
 			{
 				return new List<GameObject>();
 			}
@@ -52,7 +55,18 @@ namespace UI
 
 			var registerTiles = matrix.Get<RegisterTile>(tilePosition, false);
 
-			var result = registerTiles.Select(x => x.gameObject).ToList();
+			var result = registerTiles.Select(x => x.gameObject).Distinct().ToList();
+			var Count = result.Count;
+
+			for (int i = 0; i < Count; i++)
+			{
+				if (result.Count >= i) continue;
+
+				var possibleGhost = result[i];
+				if (possibleGhost.HasComponent<GhostMove>()
+				    || possibleGhost.HasComponent<DisposalVirtualContainer>()
+				    || possibleGhost.HasComponent<CrawlingVirtualContainer>()) result.Remove(possibleGhost);
+			}
 
 			//include interactable tiles
 			var interactableTiles = matrix.GetComponentInParent<InteractableTiles>();
@@ -212,7 +226,7 @@ namespace UI
 		{
 			if (!Instance.listedObjects.Contains(tileListItemObject))
 			{
-				Logger.LogError("Attempted to remove tileListItem not on list", Category.NetUI);
+				Loggy.LogError("Attempted to remove tileListItem not on list", Category.NetUI);
 				return;
 			}
 

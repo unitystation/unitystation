@@ -23,6 +23,9 @@ GameObject:
   - component: {fileID: 5414819541850508356}
   - component: {fileID: 2611437823404169790}
   - component: {fileID: 4885464012290422036}
+  - component: {fileID: 4611852482270871784}
+  - component: {fileID: 3652986707257552662}
+  - component: {fileID: 8552236617046534393}
   m_Layer: 10
   m_Name: Item
   m_TagString: Abstract
@@ -37,14 +40,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1011433845357754}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4911511444418374}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &499351249353511896
 MonoBehaviour:
@@ -58,6 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   initialName: Unnamed
@@ -67,6 +71,7 @@ MonoBehaviour:
   CanBeSoldInCargo: 1
   exportName: 
   exportMessage: 
+  noMouseHighlight: 0
   initialSize: 3
   initialTraits: []
   hitDamage: 0
@@ -119,6 +124,7 @@ MonoBehaviour:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
     IsPaletted: 0
+  IsFakeItem: 0
 --- !u!114 &114734890905785284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,11 +137,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   pickupAnimSpeed: 0.2
   ItemAttributesV2: {fileID: 0}
   OnMoveToPlayerInventory:
+    m_PersistentCalls:
+      m_Calls: []
+  OnInventoryMoveServerEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDrop:
+    m_PersistentCalls:
+      m_Calls: []
+  OnThrow:
     m_PersistentCalls:
       m_Calls: []
   lastTouch: {fileID: 4885464012290422036}
@@ -151,10 +167,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
+  LiesFlat3D: 0
   prefabTracker: {fileID: 6393191727481188567}
   CurrentsortingGroup: {fileID: 6104600676241079028}
 --- !u!114 &114577415631634126
@@ -184,6 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   initialIntegrity: 100
@@ -237,9 +256,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 1763681916
   serverOnly: 0
   visible: 0
-  m_AssetId: a7abba22164ce49f0bf9b9b219f39298
   hasSpawned: 0
 --- !u!114 &-6201661749900855812
 MonoBehaviour:
@@ -287,6 +306,7 @@ SortingGroup:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40
+  m_SortAtRoot: 0
 --- !u!114 &542829611148227948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,6 +335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foreverID: a7abba22164ce49f0bf9b9b219f39298
   <AlternativePrefabName>k__BackingField: 
+  <CanBeSpawnedByAdmin>k__BackingField: 1
 --- !u!114 &5414819541850508356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,28 +348,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  DEBUG: 0
-  SnapToGridOnStart: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
-  ChangesDirectionPush: 0
-  Intangible: 0
-  CanBeWindPushed: 1
-  IsPlayer: 0
-  InitialLocationSynchronised: 0
-  tileMoveSpeed: 1
-  isNotPushable: 0
-  HasOwnGravity: 0
+  CorrectingCourse: 0
+  Animating: 0
+  SetIgnoreSticky: 0
   airTime: 0
   slideTime: 0
-  SetIgnoreSticky: 0
+  spinMagnitude: 0
   thrownBy: {fileID: 0}
   aim: 0
-  spinMagnitude: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
+  ChangesDirectionPush: 0
+  Intangible: 0
+  SnapToGridOnStart: 0
+  IsPlayer: 0
+  DEBUG: 0
+  tileMoveSpeed: 1
+  HasOwnGravity: 0
+  isNotPushable: 0
+  CanBeWindPushed: 1
+  rotationTarget: {fileID: 0}
   FramePushDecision: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
@@ -359,11 +384,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
-  LocalDifferenceNeeded: {x: 0, y: 0}
-  CorrectingCourse: 0
   Pushing: []
   Hits: []
-  Animating: 0
   isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
@@ -393,6 +415,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9306f5c12c5c44b1a525a287c5cced72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4611852482270871784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a088a411ff27eb7419f4302446539af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3652986707257552662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd0a615c4a14d4147a1cbfa0d1f2d5ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsTooPure: 0
+  PrefabTracker: {fileID: 6393191727481188567}
+  BasePurity: 10
+--- !u!114 &8552236617046534393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a67aad38c961f45ad1cb44ac3b1f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &1344926539164060
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,13 +482,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1344926539164060}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4527534762131918}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &212340400423555046
 SpriteRenderer:
@@ -498,3 +562,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []

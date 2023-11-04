@@ -1,37 +1,31 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Core.Lighting;
+using HealthV2;
+using Light2D;
+using Logs;
 using UnityEngine;
 using Mirror;
-
-[Serializable]
-public class PlayerLightData
-{
-	public Color Colour;
-	//todo Make it so badmins can Mess around with the sprite so It can be set to anything they desire
-	//public Sprite Sprite;
-	public EnumSpriteLightData EnumSprite;
-	public float Size = 12;
-
-}
-
-public enum EnumSpriteLightData
-{
-	Default,
-	Square,
-	Clown,
-}
+using NaughtyAttributes;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Pickupable))]
-public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
+public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer
 {
 	[Tooltip("Controls the light the player emits if they have this object equipped.")]
-	public LightEmissionPlayer LightEmission;
+	public LightsHolder LightEmission;
 
 	[Tooltip("Controls the light the object emits while out of a player's or other object's inventory.")]
 	public GameObject objectLightEmission;
 
-	public CommonComponents CommonComponents;
+	[SyncVar(hook = nameof(SyncState))]
+	public bool IsOn = true;
+
+	[FormerlySerializedAs("Colour")] [SerializeField] private Color colour = default;
+	[SerializeField] private LightSprite objectLightSprite;
+	public LightSprite ObjectLightSprite => objectLightSprite;
+	[SerializeField] private CommonComponents commonComponents;
 
 	public HashSet<NamedSlot> CompatibleSlots = new HashSet<NamedSlot>() {
 		NamedSlot.leftHand,
@@ -47,65 +41,84 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 		NamedSlot.id // PDA in ID slot
 	};
 
-	public float Intensity;
-
-	[SerializeField]
-	private Color Colour = default;
-
-	//public Sprite Sprite;
-	public EnumSpriteLightData EnumSprite;
+	public LightSprite.LightShape SpriteShape;
 	public float Size;
+	private LightData playerLightData;
+	private int lightID;
+	[SerializeField] private bool weakenOnGround = false;
+	[SerializeField] private bool revertToOldConsistencyBehavior = false;
+	[SerializeField, ShowIf(nameof(weakenOnGround))] private float weakenStrength = 1.45f;
 
-	[SyncVar(hook = nameof(SyncState))]
-	public bool IsOn = true;
+	public RegisterPlayer CurrentlyOn { get; set; }
+	bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-	private float CachedIntensity = 0.5f;
-
-	[NaughtyAttributes.ReadOnlyAttribute] public PlayerLightData PlayerLightData;
-
-	private Light2D.LightSprite objectLightSprite;
 
 	private void Awake()
 	{
-		PlayerLightData = new PlayerLightData()
-		{
-			Colour = Colour,
-			EnumSprite = EnumSprite,
-			Size = Size,
-		};
-		CommonComponents = this.GetComponent<CommonComponents>();
-		CommonComponents.RegisterTile.OnAppearClient.AddListener(StateHiddenChange);
-		CommonComponents.RegisterTile.OnDisappearClient.AddListener(StateHiddenChange);
-		CommonComponents.UniversalObjectPhysics.OnVisibilityChange += StateHiddenChange;
-
 		if (objectLightEmission == null)
 		{
-			Logger.LogError($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
+			Loggy.LogError($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
 			return;
 		}
 
-		objectLightSprite = objectLightEmission.GetComponent<Light2D.LightSprite>();
+		if (netIdentity == null)
+		{
+			Loggy.LogError($"Mirror will not accept {this} while syncing in the LightsHolder syncList " +
+			                $"because it is missing a net identity component.");
+			return;
+		}
+		objectLightSprite ??= objectLightEmission.GetComponent<LightSprite>();
+		lightID = Guid.NewGuid().GetHashCode();
+		playerLightData = new LightData()
+		{
+			lightColor = colour,
+			size = Size,
+			lightShape = SpriteShape,
+			lightSpriteObject = netIdentity,
+			Id = lightID,
+		};
+		LightConsistency();
+		commonComponents ??= GetComponent<CommonComponents>();
+		commonComponents.RegisterTile.OnAppearClient.AddListener(StateHiddenChange);
+		commonComponents.RegisterTile.OnDisappearClient.AddListener(StateHiddenChange);
+		commonComponents.UniversalObjectPhysics.OnVisibilityChange += StateHiddenChange;
 	}
 
-	public void OnInventoryMoveServer(InventoryMove info)
+	private void LightConsistency()
 	{
-		//was it transferred from a player's visible inventory?
-		if (info.FromPlayer != null && LightEmission != null)
+		if (revertToOldConsistencyBehavior) return;
+		objectLightSprite.Color = playerLightData.lightColor;
+		objectLightSprite.transform.localScale = weakenOnGround ?
+			new Vector3(Size / weakenStrength, Size / weakenStrength, Size / weakenStrength)
+			: new Vector3(Size, Size, Size);
+	}
+
+	public bool IsValidSetup(RegisterPlayer player)
+	{
+		if (player == null) return false;
+		//more logic stuff here
+		//if (CompatibleSlots.Contains(player.NamedSlot.GetValueOrDefault(NamedSlot.none)) == false) return true;
+		return true;
+	}
+
+	void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
+	{
+		if (HideForPlayer != null)
 		{
-			LightEmission.RemoveLight(PlayerLightData);
+			var aLight = HideForPlayer.GetComponent<LightsHolder>();
+			aLight.RemoveLight(playerLightData);
 			LightEmission = null;
 		}
 
-		if (info.ToPlayer != null)
+		if (ShowForPlayer != null)
 		{
-			if (CompatibleSlots.Contains(info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)))
-			{
-				LightEmission = info.ToPlayer.GetComponent<LightEmissionPlayer>();
-				if (!IsOn) return;
-				LightEmission.AddLight(PlayerLightData);
-			}
+			LightEmission = ShowForPlayer.GetComponent<LightsHolder>();
+			if (IsOn == false || LightEmission.Lights.Contains(playerLightData)) return;
+			LightEmission.AddLight(playerLightData);
 		}
+
 	}
+
 
 	/// <summary>
 	/// Allows you to toggle the light
@@ -115,37 +128,14 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 		if (IsOn == on) return;
 		if (LightEmission == null)
 		{
-			Logger.LogError($"{this} field LightEmission is null, please check scripts.", Category.Lighting);
+			Loggy.LogError($"{this} field LightEmission is null, please check scripts.", Category.Lighting);
 			return;
 		}
 
 		IsOn = on; // Will trigger SyncState.
 		UpdateLights();
 	}
-	/// <summary>
-	/// Changes the intensity of the light, must be higher than -1
-	/// </summary>
-	/// <param name="intensity"></param>
-	public void SetIntensity(float intensity = -1)
-	{
-		if (PlayerLightData == null)
-		{
-			Logger.LogError("PlayerLightData returned Null please check scripts", Category.Lighting);
-			return;
-		}
-		if (IsOn && intensity > -1)
-		{
-			//caches the intensity just incase and sets intensity
-			CachedIntensity = intensity;
-			PlayerLightData.Colour.a = intensity;
-		}
-		else
-		{
-			//Sets the cached intensity so it the light will be set to that intensity when it is toggled on
-			if(intensity <= -1) return;
-			CachedIntensity = intensity;
-		}
-	}
+
 
 	/// <summary>
 	/// Set the color for this GameObject's Light2D object's LightSprite component world color.
@@ -153,32 +143,49 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 	/// <param name="color"></param>
 	public void SetColor(Color color)
 	{
-		Colour = color;
-		PlayerLightData.Colour = color;
+		colour = color;
+		playerLightData.lightColor = color;
 		objectLightSprite.Color = color;
+		SetDataOnHolder();
+	}
+
+	private void SetDataOnHolder()
+	{
+		if (LightEmission != null && IsOn)
+		{
+			int index = LightEmission.Lights.FindIndex(x => x.Id == lightID);
+			LightEmission.Lights[index] = (playerLightData);
+			LightEmission.UpdateLights();
+		}
+	}
+
+	public void SetSize(int Size)
+	{
+		this.Size = Size;
+		playerLightData.size = Size;
+		SetDataOnHolder();
 	}
 
 	private void SyncState(bool oldState, bool newState)
 	{
 		IsOn = newState;
-		if (CommonComponents.UniversalObjectPhysics.IsVisible == false)
+		if (commonComponents.UniversalObjectPhysics.IsVisible == false)
 		{
 			objectLightEmission.SetActive(newState);
 		}
 	}
 
+
 	private void UpdateLights()
 	{
 		if (IsOn)
 		{
-			PlayerLightData.Colour.a = CachedIntensity;
-			LightEmission.AddLight(PlayerLightData);
-			LightToggleIntensity();
+			LightEmission.AddLight(playerLightData);
 			objectLightEmission.SetActive(true);
 		}
 		else
 		{
-			LightEmission.RemoveLight(PlayerLightData);
+			LightEmission.RemoveLight(playerLightData);
 			objectLightEmission.SetActive(false);
 		}
 	}
@@ -186,7 +193,7 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 
 	private void StateHiddenChange()
 	{
-		if (CommonComponents.UniversalObjectPhysics.IsVisible == false)
+		if (commonComponents.UniversalObjectPhysics.IsVisible == false)
 		{
 			objectLightEmission.SetActive(false);
 		}
@@ -194,13 +201,5 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 		{
 			objectLightEmission.SetActive(IsOn);
 		}
-	}
-
-	/// <summary>
-	/// Called when the light is toggled on so that it can set the intensity
-	/// </summary>
-	private void LightToggleIntensity()
-	{
-		PlayerLightData.Colour.a = CachedIntensity;
 	}
 }

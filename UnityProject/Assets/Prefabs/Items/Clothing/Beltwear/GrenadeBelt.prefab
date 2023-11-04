@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1595527395133040477, guid: 51c105fae1f0b074abf4c80745d8b129,
@@ -26,6 +27,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1764592290455851827, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
+      propertyPath: _assetId
+      value: 3334446280
+      objectReference: {fileID: 0}
+    - target: {fileID: 1764592290455851827, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
       propertyPath: m_AssetId
       value: 83d2b03c412c85040b16a0dad37bc91a
       objectReference: {fileID: 0}
@@ -33,7 +39,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 3595191169514204046}
+      objectReference: {fileID: 0}
     - target: {fileID: 1867061792278949511, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: m_Name
@@ -135,21 +141,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7968275424856731504, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 71a032a424456ea4793eae8a3078279c,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51c105fae1f0b074abf4c80745d8b129, type: 3}
---- !u!114 &3595191169514204046 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1764440796268135255, guid: 51c105fae1f0b074abf4c80745d8b129,
-    type: 3}
-  m_PrefabInstance: {fileID: 2997183881482266841}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

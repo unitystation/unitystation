@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1790912408412475822, guid: 435b47dee4994034e85a3b3f00c2afe2,
@@ -91,6 +92,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7955455335317061851, guid: 435b47dee4994034e85a3b3f00c2afe2,
         type: 3}
+      propertyPath: _assetId
+      value: 794614515
+      objectReference: {fileID: 0}
+    - target: {fileID: 7955455335317061851, guid: 435b47dee4994034e85a3b3f00c2afe2,
+        type: 3}
       propertyPath: m_AssetId
       value: afd19108e6ae5874fb594966aef4b0be
       objectReference: {fileID: 0}
@@ -105,4 +111,7 @@ PrefabInstance:
       value: Several lumps of snow put together to form a snowman.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 435b47dee4994034e85a3b3f00c2afe2, type: 3}

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Acid Blood
   description: Some sort of highly acidic liquid used for gas transport
-  color: {r: 0, g: 0.9811321, b: 0.025203956, a: 0}
+  color: {r: 0, g: 0.9811321, b: 0.025203956, a: 1}
   state: 1
   heatDensity: 5
-  indexInSingleton: 538
+  indexInSingleton: 540
   PercentageNeededInBloodFlow: 0.1
   CirculatedReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
   WasteCarryReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}

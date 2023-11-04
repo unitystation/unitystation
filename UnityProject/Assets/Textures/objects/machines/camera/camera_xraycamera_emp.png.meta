@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: xraycamera_emp_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      xraycamera_emp_0: 21300000
+      xraycamera_emp_1: 21300002
+      xraycamera_emp_10: 21300020
+      xraycamera_emp_11: 21300022
+      xraycamera_emp_12: 21300024
+      xraycamera_emp_13: 21300026
+      xraycamera_emp_14: 21300028
+      xraycamera_emp_15: 21300030
+      xraycamera_emp_16: 21300032
+      xraycamera_emp_17: 21300034
+      xraycamera_emp_18: 21300036
+      xraycamera_emp_19: 21300038
+      xraycamera_emp_2: 21300004
+      xraycamera_emp_20: 21300040
+      xraycamera_emp_21: 21300042
       xraycamera_emp_22: 21300044
       xraycamera_emp_23: 21300046
-      xraycamera_emp_4: 21300008
       xraycamera_emp_24: 21300048
       xraycamera_emp_25: 21300050
-      xraycamera_emp_2: 21300004
-      xraycamera_emp_9: 21300018
-      xraycamera_emp_29: 21300058
-      xraycamera_emp_10: 21300020
-      xraycamera_emp_27: 21300054
-      xraycamera_emp_30: 21300060
-      xraycamera_emp_20: 21300040
-      xraycamera_emp_1: 21300002
-      xraycamera_emp_5: 21300010
       xraycamera_emp_26: 21300052
-      xraycamera_emp_7: 21300014
-      xraycamera_emp_13: 21300026
-      xraycamera_emp_0: 21300000
-      xraycamera_emp_12: 21300024
-      xraycamera_emp_8: 21300016
-      xraycamera_emp_21: 21300042
-      xraycamera_emp_15: 21300030
-      xraycamera_emp_19: 21300038
-      xraycamera_emp_6: 21300012
-      xraycamera_emp_11: 21300022
-      xraycamera_emp_14: 21300028
-      xraycamera_emp_16: 21300032
-      xraycamera_emp_18: 21300036
-      xraycamera_emp_3: 21300006
-      xraycamera_emp_17: 21300034
-      xraycamera_emp_31: 21300062
+      xraycamera_emp_27: 21300054
       xraycamera_emp_28: 21300056
-  spritePackingTag: 
+      xraycamera_emp_29: 21300058
+      xraycamera_emp_3: 21300006
+      xraycamera_emp_30: 21300060
+      xraycamera_emp_31: 21300062
+      xraycamera_emp_4: 21300008
+      xraycamera_emp_5: 21300010
+      xraycamera_emp_6: 21300012
+      xraycamera_emp_7: 21300014
+      xraycamera_emp_8: 21300016
+      xraycamera_emp_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

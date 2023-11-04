@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -64,13 +65,13 @@ namespace Messages.Server.SpritesMessages
 				{
 					var argument = spriteUpdateEntry.arg[argumentIndex];
 					argumentIndex++;
-					spriteHandler.ChangeSpriteVariant(argument, false);
+					spriteHandler.SetSpriteVariant(argument, false);
 				}
 				else if (spriteOperation == SpriteOperation.CataloguePage)
 				{
 					var argument = spriteUpdateEntry.arg[argumentIndex];
 					argumentIndex++;
-					spriteHandler.ChangeSprite(argument, false);
+					spriteHandler.SetCatalogueIndexSprite(argument, false);
 				}
 				else if (spriteOperation == SpriteOperation.AnimateOnce)
 				{
@@ -313,7 +314,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 						}
 						else
@@ -331,11 +332,11 @@ namespace Messages.Server.SpritesMessages
 						{
 							try
 							{
-								SP.ChangeSpriteVariant(Variant, networked: false);
+								SP.SetSpriteVariant(Variant, networked: false);
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 
 						}
@@ -353,11 +354,11 @@ namespace Messages.Server.SpritesMessages
 						{
 							try
 							{
-								SP.ChangeSprite(Sprite, false);
+								SP.SetCatalogueIndexSprite(Sprite, false);
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 
 						}
@@ -379,7 +380,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 						}
 						else
@@ -399,7 +400,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 						}
 						else
@@ -418,7 +419,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 
 						}
@@ -439,7 +440,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 						}
 						else
@@ -458,7 +459,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 						}
 						else
@@ -483,7 +484,7 @@ namespace Messages.Server.SpritesMessages
 								}
 								catch (Exception e)
 								{
-									Logger.Log(e.ToString());
+									Loggy.Log(e.ToString());
 								}
 
 							}
@@ -515,7 +516,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Logger.Log(e.ToString());
+								Loggy.Log(e.ToString());
 							}
 						}
 						else

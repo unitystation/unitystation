@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 269479270324243627, guid: 1119a35da5222e24b85fe0cd49f6cb12,
@@ -14,7 +15,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1387664462041162565, guid: 1119a35da5222e24b85fe0cd49f6cb12,
         type: 3}
-      propertyPath: Gases.Array.data[0]
+      propertyPath: 'Gases.Array.data[0]'
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1387664462041162565, guid: 1119a35da5222e24b85fe0cd49f6cb12,
@@ -29,7 +30,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1387664462041162565, guid: 1119a35da5222e24b85fe0cd49f6cb12,
         type: 3}
+      propertyPath: StoredGasMix.pressure
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1387664462041162565, guid: 1119a35da5222e24b85fe0cd49f6cb12,
+        type: 3}
       propertyPath: StoredGasMix.Temperature
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1387664462041162565, guid: 1119a35da5222e24b85fe0cd49f6cb12,
+        type: 3}
+      propertyPath: StoredGasMix.temperature
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1387664462041162565, guid: 1119a35da5222e24b85fe0cd49f6cb12,
@@ -41,6 +52,11 @@ PrefabInstance:
         type: 3}
       propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6526821469536107890, guid: 1119a35da5222e24b85fe0cd49f6cb12,
+        type: 3}
+      propertyPath: _assetId
+      value: 3180021300
       objectReference: {fileID: 0}
     - target: {fileID: 6526821469536107890, guid: 1119a35da5222e24b85fe0cd49f6cb12,
         type: 3}
@@ -108,4 +124,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1119a35da5222e24b85fe0cd49f6cb12, type: 3}

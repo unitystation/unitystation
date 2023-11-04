@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 
 public class InputManagerWrapper : MonoBehaviour
@@ -21,6 +22,12 @@ public class InputManagerWrapper : MonoBehaviour
 
 	public static Vector3 GetMousePosition()
 	{
+		if (Manager3D.Is3D && Input.GetKey(KeyCode.E) == false &&
+		    Application.isFocused)
+		{
+			// Get the center point of the screen
+			return new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
+		}
 
 		if (MousePosition != null)
 		{
@@ -159,7 +166,7 @@ public class InputManagerWrapper : MonoBehaviour
 			case 6:
 				return KeyCode.Mouse6;
 			default:
-				Logger.LogWarning("oh look here someone with a fancy mouse, I couldn't possibly support this (Runs out of enum Values)");
+				Loggy.LogWarning("oh look here someone with a fancy mouse, I couldn't possibly support this (Runs out of enum Values)");
 				return KeyCode.None;
 		}
 	}

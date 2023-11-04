@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4ea11761a8f2844865df391acdc61f, type: 3}
+  m_Name: VomitWhenInBody
+  m_EditorClassIdentifier: 
+  ingredients:
+    m_keys:
+    - {fileID: 11400000, guid: 5e2a5c76d1bce6144b8b1aac987b2751, type: 2}
+    m_values: 03000000
+  useExactAmounts: 0
+  MinimumReactionMultiple: 0
+  catalysts:
+    m_keys: []
+    m_values: 
+  inhibitors:
+    m_keys: []
+    m_values: 
+  hasMinTemp: 0
+  serializableTempMin: 0
+  hasMaxTemp: 0
+  serializableTempMax: 0
+  results:
+    m_keys: []
+    m_values: 
+  effects: []
+  ReagentMetabolismMultiplier: 1
+  InternalAllRequired:
+  - {fileID: 11400000, guid: 7577eabe60e5ac546901dbb7c30538fc, type: 2}
+  InternalBlacklist: []
+  ExternalAllRequired: []
+  ExternalBlacklist: []
+  DamageEffect: 2
+  AttackType: 10
+  AttackBodyPartPerOneU: 1
+  CanOverdose: 0
+  ConcentrationBloodOverdose: 20
+  OverdoseDamageMultiplier: 1
+  MultiEffect: 0
+  Effects: []
+  EmoteEffects:
+  - CustomEmote: 0
+    CustomEmoterMessage: 
+    CustomShownMessage: 
+    Emote: {fileID: 11400000, guid: 10fbc8c0eb861c54199481242aef33a6, type: 2}
+    ChancePerTick: 10
+    StopIfOverdosed: 0

@@ -5,6 +5,7 @@ using System.Linq;
 using HealthV2;
 using Items;
 using Items.Implants.Organs;
+using Logs;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,19 +15,22 @@ public class HandsController : MonoBehaviour
 
 	public DoubleHandController DoubleHandController;
 
+	public ToolCarousel PrefabToolCarousel;
+
 	public HashSet<DoubleHandController> DoubleHandControllers = new HashSet<DoubleHandController>();
 
 	public List<DoubleHandController> AvailableLeftHand = new List<DoubleHandController>();
 
 	public List<DoubleHandController> AvailableRightHand = new List<DoubleHandController>();
 
+	public List<ToolCarousel> AllToolCarousels = new List<ToolCarousel>();
 
 	public Dictionary<BodyPartUISlots.StorageCharacteristics, DoubleHandController> StorageToHands =
 		new Dictionary<BodyPartUISlots.StorageCharacteristics, DoubleHandController>();
 
 	public static readonly UnityEvent OnSwapHand = new UnityEvent();
 
-	public DoubleHandController activeDoubleHandController;
+	public IUIHandAreasSelectable activeDoubleHandController;
 	public NamedSlot ActiveHand;
 
 	public void Awake()
@@ -49,7 +53,7 @@ public class HandsController : MonoBehaviour
 	public void AddHand(IDynamicItemSlotS bodyPartUISlots, BodyPartUISlots.StorageCharacteristics StorageCharacteristics)
 	{
 		if (this == null) return;
-		DoubleHandController HandController;
+		DoubleHandController HandController = null;
 		switch (StorageCharacteristics.namedSlot)
 		{
 			case NamedSlot.leftHand:
@@ -84,20 +88,66 @@ public class HandsController : MonoBehaviour
 				}
 
 				break;
+			case NamedSlot.storage01:
+			case NamedSlot.storage02:
+			case NamedSlot.storage03:
+			case NamedSlot.storage04:
+			case NamedSlot.storage05:
+			case NamedSlot.storage06:
+			case NamedSlot.storage07:
+			case NamedSlot.storage08:
+			case NamedSlot.storage09:
+			case NamedSlot.storage10:
+			case NamedSlot.storage11:
+			case NamedSlot.storage12:
+			case NamedSlot.storage13:
+			case NamedSlot.storage14:
+			case NamedSlot.storage15:
+			case NamedSlot.storage16:
+			case NamedSlot.storage17:
+			case NamedSlot.storage18:
+			case NamedSlot.storage19:
+			case NamedSlot.storage20:
+
+				ToolCarousel uesToolCarousel = null;
+
+				foreach (var ToolCarousel in AllToolCarousels)
+				{
+					if (ToolCarousel.HasFree())
+					{
+						uesToolCarousel = ToolCarousel;
+					}
+				}
+
+				if (uesToolCarousel == null)
+				{
+					uesToolCarousel = Instantiate(PrefabToolCarousel, transform);
+					uesToolCarousel.HideAll();
+					uesToolCarousel.RelatedHandsController = this;
+					AllToolCarousels.Add(uesToolCarousel);
+				}
+
+				uesToolCarousel.AddToCarousel(bodyPartUISlots,StorageCharacteristics );
+				break;
 			default:
-				Logger.LogError("humm Tried to put non-hand into Hand Slot");
+				Loggy.LogError("humm Tried to put non-hand into Hand Slot");
 				return;
 		}
 
-		StorageToHands[StorageCharacteristics] = HandController;
-		HandController.AddHand(bodyPartUISlots, StorageCharacteristics);
-		if (PlayerManager.LocalPlayerScript.OrNull()?.PlayerNetworkActions != null)
+		if (HandController != null)
 		{
-			if (PlayerManager.LocalPlayerScript.PlayerNetworkActions.activeHand == null)
+			StorageToHands[StorageCharacteristics] = HandController;
+			HandController.AddHand(bodyPartUISlots, StorageCharacteristics);
+			if (PlayerManager.LocalPlayerScript.OrNull()?.PlayerNetworkActions != null)
 			{
-				HandController.PickActiveHand();
+				if (PlayerManager.LocalPlayerScript.PlayerNetworkActions.activeHand == null)
+				{
+					HandController.PickActiveHand();
+				}
 			}
 		}
+
+
 	}
 
 	public void RemoveAllHands()
@@ -121,94 +171,152 @@ public class HandsController : MonoBehaviour
 		}
 	}
 
-	public void RemoveHand(
-		BodyPartUISlots.StorageCharacteristics StorageCharacteristics)
+	public void RemoveHand(BodyPartUISlots.StorageCharacteristics StorageCharacteristics)
 	{
-		if (StorageToHands.ContainsKey(StorageCharacteristics) == false) return;
-		if (StorageToHands[StorageCharacteristics].RemoveHand( StorageCharacteristics))
+		switch (StorageCharacteristics.namedSlot)
 		{
-			var DoubleHand = StorageToHands[StorageCharacteristics];
-			DoubleHandControllers.Remove(DoubleHand);
-			if (AvailableLeftHand.Contains(DoubleHand)) AvailableLeftHand.Remove(DoubleHand);
-			if (AvailableRightHand.Contains(DoubleHand)) AvailableRightHand.Remove(DoubleHand);
-			List<BodyPartUISlots.StorageCharacteristics> Toremove = new List<BodyPartUISlots.StorageCharacteristics>();
-			foreach (var KHandController in StorageToHands)
-			{
-				if (KHandController.Value == DoubleHand)
+			case NamedSlot.leftHand:
+			case NamedSlot.rightHand:
+				if (StorageToHands.ContainsKey(StorageCharacteristics) == false) return;
+				if (StorageToHands[StorageCharacteristics].RemoveHand( StorageCharacteristics))
 				{
-					Toremove.Add(KHandController.Key);
-				}
-			}
-
-			foreach (var storageCharacteristicse in Toremove)
-			{
-				StorageToHands.Remove(storageCharacteristicse);
-			}
-
-			if (activeDoubleHandController == DoubleHand)
-			{
-				if (DoubleHandControllers.Count > 0)
-				{
-					foreach (var DHC in DoubleHandControllers)
+					var DoubleHand = StorageToHands[StorageCharacteristics];
+					DoubleHandControllers.Remove(DoubleHand);
+					if (AvailableLeftHand.Contains(DoubleHand)) AvailableLeftHand.Remove(DoubleHand);
+					if (AvailableRightHand.Contains(DoubleHand)) AvailableRightHand.Remove(DoubleHand);
+					List<BodyPartUISlots.StorageCharacteristics> Toremove = new List<BodyPartUISlots.StorageCharacteristics>();
+					foreach (var KHandController in StorageToHands)
 					{
-						DHC.PickActiveHand();
-						break;
+						if (KHandController.Value == DoubleHand)
+						{
+							Toremove.Add(KHandController.Key);
+						}
 					}
+
+					foreach (var storageCharacteristicse in Toremove)
+					{
+						StorageToHands.Remove(storageCharacteristicse);
+					}
+
+					if (activeDoubleHandController == DoubleHand)
+					{
+						if (DoubleHandControllers.Count > 0)
+						{
+							foreach (var DHC in DoubleHandControllers)
+							{
+								DHC.PickActiveHand();
+								break;
+							}
+						}
+						else
+						{
+							if (PlayerManager.LocalPlayerScript.OrNull()?.PlayerNetworkActions != null)
+							{
+								PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSetActiveHand(0, NamedSlot.none);
+								PlayerManager.LocalPlayerScript.PlayerNetworkActions.activeHand = null;
+								PlayerManager.LocalPlayerScript.PlayerNetworkActions.CurrentActiveHand = NamedSlot.none;
+							}
+						}
+					}
+
+					DoubleHandControllers.Remove(DoubleHand);
+					Destroy(DoubleHand.gameObject);
 				}
 				else
 				{
-					if (PlayerManager.LocalPlayerScript.OrNull()?.PlayerNetworkActions != null)
+					switch (StorageCharacteristics.namedSlot)
 					{
-						PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSetActiveHand(0, NamedSlot.none);
-						PlayerManager.LocalPlayerScript.PlayerNetworkActions.activeHand = null;
-						PlayerManager.LocalPlayerScript.PlayerNetworkActions.CurrentActiveHand = NamedSlot.none;
+						case NamedSlot.leftHand:
+							AvailableLeftHand.Add(StorageToHands[StorageCharacteristics]);
+							break;
+						case NamedSlot.rightHand:
+							AvailableRightHand.Add(StorageToHands[StorageCharacteristics]);
+							break;
 					}
 				}
-			}
 
-			DoubleHandControllers.Remove(DoubleHand);
-			Destroy(DoubleHand.gameObject);
-		}
-		else
-		{
-			switch (StorageCharacteristics.namedSlot)
-			{
-				case NamedSlot.leftHand:
-					AvailableLeftHand.Add(StorageToHands[StorageCharacteristics]);
+				StorageToHands.Remove(StorageCharacteristics);
+				break;
+			case NamedSlot.storage01:
+			case NamedSlot.storage02:
+			case NamedSlot.storage03:
+			case NamedSlot.storage04:
+			case NamedSlot.storage05:
+			case NamedSlot.storage06:
+			case NamedSlot.storage07:
+			case NamedSlot.storage08:
+			case NamedSlot.storage09:
+			case NamedSlot.storage10:
+			case NamedSlot.storage11:
+			case NamedSlot.storage12:
+			case NamedSlot.storage13:
+			case NamedSlot.storage14:
+			case NamedSlot.storage15:
+			case NamedSlot.storage16:
+			case NamedSlot.storage17:
+			case NamedSlot.storage18:
+			case NamedSlot.storage19:
+			case NamedSlot.storage20:
+
+				ToolCarousel uesToolCarousel = null;
+
+				foreach (var ToolCarousel in AllToolCarousels)
+				{
+					if (ToolCarousel.HasSlot(StorageCharacteristics) == false) continue;
+					uesToolCarousel = ToolCarousel;
 					break;
-				case NamedSlot.rightHand:
-					AvailableRightHand.Add(StorageToHands[StorageCharacteristics]);
-					break;
-			}
+				}
+
+				if (uesToolCarousel == null)
+				{
+					Loggy.LogError($"Slot wasn't found for  {StorageCharacteristics.namedSlot}");
+					return;
+				}
+
+				uesToolCarousel.RemoveFromCarousel(StorageCharacteristics );
+
+				if (uesToolCarousel.FilledSlots.Count == 0)
+				{
+					AllToolCarousels.Remove(uesToolCarousel);
+					Destroy(uesToolCarousel.gameObject);
+
+				}
+
+				//TODO Pick new slot
+
+				break;
+			default:
+				Loggy.LogError("humm Tried to put non-hand into Hand Slot");
+				return;
 		}
 
-		StorageToHands.Remove(StorageCharacteristics);
+
+
+
 	}
 
 	public static void SwapHand()
 	{
 		OnSwapHand.Invoke();
 		if (Instance.activeDoubleHandController == null) return;
-		Instance.activeDoubleHandController?.Deactivate(Instance.ActiveHand);
-		if (Instance.ActiveHand == NamedSlot.leftHand &&
-		    Instance.activeDoubleHandController.GetHand(NamedSlot.rightHand) != null)
-		{
-			Instance.activeDoubleHandController.ActivateRightHand();
-		}
-		else if (Instance.ActiveHand == NamedSlot.rightHand &&
-		         Instance.activeDoubleHandController.GetHand(NamedSlot.leftHand) != null)
-		{
-			Instance.activeDoubleHandController.ActivateLeftHand();
-		}
+		Instance.activeDoubleHandController.SwapHand();
 	}
 
-	public void SetActiveHand(DoubleHandController doubleHandController, NamedSlot SetActiv)
+	public void SetActiveHand(IUIHandAreasSelectable doubleHandController, NamedSlot SetActiv)
 	{
 
-		activeDoubleHandController.OrNull()?.Deactivate(ActiveHand);
+		try
+		{
+			activeDoubleHandController?.DeSelect(ActiveHand);
+		}
+		catch (Exception e)
+		{
+			Loggy.LogError(e.ToString());
+		}
+
 		activeDoubleHandController = doubleHandController;
 		ActiveHand = SetActiv;
-		if (activeDoubleHandController.GetHand(SetActiv).RelatedBodyPartUISlots.GameObject == null) return;
+		if (activeDoubleHandController.GetHand(SetActiv)?.RelatedBodyPartUISlots?.GameObject == null) return;
 
 		if (PlayerManager.LocalPlayerScript.OrNull()?.PlayerNetworkActions != null)
 		{
@@ -312,10 +420,10 @@ public class HandsController : MonoBehaviour
 		if (PlayerManager.LocalPlayerScript == null) return false;
 
 		// TODO tidy up this if statement once it's working correctly
-		if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
+		if (!PlayerManager.LocalPlayerScript.playerMove.AllowInput ||
 		    PlayerManager.LocalPlayerScript.IsGhost)
 		{
-			Logger.Log("Invalid player, cannot perform action!", Category.Interaction);
+			Loggy.Log("Invalid player, cannot perform action!", Category.Interaction);
 			return false;
 		}
 

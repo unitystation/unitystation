@@ -33,7 +33,7 @@ TextureImporter:
       213: -8284738799439115412
     second: talk_swarmer0_9
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -50,11 +50,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -93,6 +94,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -108,6 +111,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -342,19 +357,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      talk_swarmer0_5: 4965447588984651754
-      talk_swarmer0_8: 8140682755941335502
       talk_swarmer0_0: -5724406844215488599
       talk_swarmer0_1: -4062494429032347560
-      talk_swarmer0_6: 1646083257338295252
-      talk_swarmer0_7: -6338826082877993243
-      talk_swarmer0_4: 3960390753762640164
       talk_swarmer0_2: -4663482093924285153
       talk_swarmer0_3: -7338640242327576374
+      talk_swarmer0_4: 3960390753762640164
+      talk_swarmer0_5: 4965447588984651754
+      talk_swarmer0_6: 1646083257338295252
+      talk_swarmer0_7: -6338826082877993243
+      talk_swarmer0_8: 8140682755941335502
       talk_swarmer0_9: -8284738799439115412
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

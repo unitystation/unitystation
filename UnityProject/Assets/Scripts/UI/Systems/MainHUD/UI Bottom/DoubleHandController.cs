@@ -6,7 +6,7 @@ using Items;
 using Items.Implants.Organs;
 using UnityEngine;
 
-public class DoubleHandController : MonoBehaviour
+public class DoubleHandController : MonoBehaviour, IUIHandAreasSelectable
 {
 
 	public bool LeftHandActive;
@@ -131,7 +131,7 @@ public class DoubleHandController : MonoBehaviour
 		return false;
 	}
 
-	public UI_Hands GetHand(NamedSlot namedSlot)
+	public UI_DynamicItemSlot GetHand(NamedSlot namedSlot)
 	{
 		switch (namedSlot)
 		{
@@ -179,15 +179,28 @@ public class DoubleHandController : MonoBehaviour
 		}
 	}
 
-	public void Deactivate(NamedSlot NamedSlot)
+	public void DeSelect(NamedSlot NamedSlot)
 	{
 		if (NamedSlot == NamedSlot.leftHand)
 		{
-			LeftHandOverlay.SetActive(false);
+			LeftHandOverlay.OrNull()?.SetActive(false);
 		}
 		else
 		{
-			RightHandOverlay.SetActive(false);
+			RightHandOverlay.OrNull()?.SetActive(false);
+		}
+	}
+
+	public void SwapHand()
+	{
+		RelatedHandsController.activeDoubleHandController?.DeSelect(RelatedHandsController.ActiveHand);
+		if (RelatedHandsController.ActiveHand == NamedSlot.leftHand && this.GetHand(NamedSlot.rightHand) != null)
+		{
+			this.ActivateRightHand();
+		}
+		else if (RelatedHandsController.ActiveHand == NamedSlot.rightHand && this.GetHand(NamedSlot.leftHand) != null)
+		{
+			this.ActivateLeftHand();
 		}
 	}
 

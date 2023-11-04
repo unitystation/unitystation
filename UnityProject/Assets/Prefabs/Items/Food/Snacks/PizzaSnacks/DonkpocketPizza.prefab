@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1048207226637103134, guid: 20e558a25e0b41942a7483724b3e4d45,
@@ -40,18 +41,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7959759505750653638, guid: 20e558a25e0b41942a7483724b3e4d45,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[3]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: fa60dedbe4f861e76a46f56f59987729,
         type: 2}
     - target: {fileID: 7959759505750653638, guid: 20e558a25e0b41942a7483724b3e4d45,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 7959759505750653638, guid: 20e558a25e0b41942a7483724b3e4d45,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[3]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[3]'
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8768840950121946380, guid: 20e558a25e0b41942a7483724b3e4d45,
@@ -74,6 +75,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9135694018600570842, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: _assetId
+      value: 2044308729
       objectReference: {fileID: 0}
     - target: {fileID: 9135694018600570842, guid: 20e558a25e0b41942a7483724b3e4d45,
         type: 3}
@@ -141,4 +147,7 @@ PrefabInstance:
       value: DonkpocketPizza
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20e558a25e0b41942a7483724b3e4d45, type: 3}

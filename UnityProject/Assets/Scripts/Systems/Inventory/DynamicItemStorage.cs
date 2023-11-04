@@ -6,6 +6,7 @@ using Clothing;
 using HealthV2;
 using Initialisation;
 using Items.Implants.Organs;
+using Logs;
 using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -486,7 +487,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		}
 		catch (NullReferenceException exception)
 		{
-			Logger.LogError($"Caught NRE in DynamicItemStorage.Remove: {exception.Message} \n {exception.StackTrace}",
+			Loggy.LogError($"Caught NRE in DynamicItemStorage.Remove: {exception.Message} \n {exception.StackTrace}",
 				Category.Inventory);
 			return;
 		}
@@ -538,7 +539,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 			}
 			else
 			{
-				Logger.LogWarning("Key was not found for Body Part UI Slot Object", Category.Inventory);
+				Loggy.LogWarning("Key was not found for Body Part UI Slot Object", Category.Inventory);
 				continue;
 			}
 
@@ -768,44 +769,55 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 
 	private readonly Dictionary<uint, IDynamicItemSlotS> ClientCash = new Dictionary<uint, IDynamicItemSlotS>();
 
-	public void ProcessChangeClient(string NewST)
+	public void ProcessChangeClient(string NewST, int Tries = 0)
 	{
 		added.Clear();
 		removed.Clear();
 		var incomingList = JsonConvert.DeserializeObject<List<InternalData>>(NewST);
 		var spawnedList = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
-		foreach (var IntIn in incomingList)
+		if (incomingList != null)
 		{
-			if (spawnedList.TryGetValue(IntIn.ID, out var spawned) == false)
+			foreach (var IntIn in incomingList)
 			{
-				WeakReference<DynamicItemStorage> wptr = new WeakReference<DynamicItemStorage>(this);
-
-				LoadManager.RegisterActionDelayed(() =>
+				if (spawnedList.TryGetValue(IntIn.ID, out var spawned) == false)
 				{
-					DynamicItemStorage di;
-
-					if (wptr.TryGetTarget(out di))
+					if (Tries > 10)
 					{
-						di.ProcessChangeClient(NewST);
+						Loggy.LogError($"Failed to find object in spawned objects, might have not spawned yet? netId: {IntIn}");
+						continue;
 					}
-				}, 30);
-				return;
-			}
+					WeakReference<DynamicItemStorage> wptr = new WeakReference<DynamicItemStorage>(this);
 
+					LoadManager.RegisterActionDelayed(() =>
+					{
+						DynamicItemStorage DIS;
 
-			bool Contain = false;
-			foreach (var ID in ClientUIBodyPartsToSerialise)
-			{
-				if (ID.ID == IntIn.ID && ID.IndexEnabled == IntIn.IndexEnabled)
-				{
-					Contain = true;
-					break;
+						int LocalTries = Tries;
+						LocalTries++;
+
+						if (wptr.TryGetTarget(out DIS))
+						{
+							DIS.ProcessChangeClient(NewST, LocalTries);
+						}
+					}, 30);
+					return;
 				}
-			}
 
-			if (Contain == false)
-			{
-				added.Add(IntIn);
+
+				bool Contain = false;
+				foreach (var ID in ClientUIBodyPartsToSerialise)
+				{
+					if (ID.ID == IntIn.ID && ID.IndexEnabled == IntIn.IndexEnabled)
+					{
+						Contain = true;
+						break;
+					}
+				}
+
+				if (Contain == false)
+				{
+					added.Add(IntIn);
+				}
 			}
 		}
 
@@ -834,7 +846,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 			{
 				if (spawnedList.TryGetValue(addInt.ID, out var spawned) == false) //TODO Cash!
 				{
-					Logger.LogError(
+					Loggy.LogError(
 						$"Failed to find object in spawned objects, might have not spawned yet? netId: {addInt}");
 					continue;
 				}
@@ -858,7 +870,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		{
 			if (spawnedList.TryGetValue(addInt.ID, out var spawned) == false)
 			{
-				Logger.LogError(
+				Loggy.LogError(
 					$"Failed to find object in spawned objects, might have not spawned yet? netId: {addInt}");
 				continue;
 			}
@@ -873,7 +885,11 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 			AddClient(InIDynamicItemSlotS, addInt.IndexEnabled);
 		}
 
-		ClientUIBodyPartsToSerialise = incomingList;
+		if (incomingList != null)
+		{
+			ClientUIBodyPartsToSerialise = incomingList;
+		}
+
 	}
 
 	public void OnDestroy()
@@ -1003,7 +1019,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		if (occupation == null)
 		{
 			//TODO: Disable this warning after attributes has completely replaced occupations.
-			Logger.LogWarning($"[DynamicInventory] - Attempted to use a null occupation!");
+			Loggy.LogWarning($"[DynamicInventory] - Attempted to use a null occupation!");
 			return;
 		}
 
@@ -1180,7 +1196,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		{
 			if (objt == null)
 			{
-				Logger.LogError($"ServerObjectToSlots had null key on {gameObject.ExpensiveName()}");
+				Loggy.LogError($"ServerObjectToSlots had null key on {gameObject.ExpensiveName()}");
 				continue;
 			}
 

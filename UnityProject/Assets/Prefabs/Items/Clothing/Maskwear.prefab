@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2915024616253055958, guid: 6b5f74a79e023479cb5b30a2879621da,
@@ -16,6 +17,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Resistances.Flammable
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2917128564446547862, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: _assetId
+      value: 60080351
       objectReference: {fileID: 0}
     - target: {fileID: 2917128564446547862, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
@@ -115,7 +121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
-      propertyPath: initialTraits.Array.data[0]
+      propertyPath: 'initialTraits.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 3858899698cc1425f86b8b93032ca57d,
         type: 2}
@@ -151,6 +157,13 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 004fa27701d2f6842b19b4e4212b1dc4,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -9097270597331898786}
   m_SourcePrefab: {fileID: 100100000, guid: 6b5f74a79e023479cb5b30a2879621da, type: 3}
 --- !u!210 &4453177864896913615 stripped
 SortingGroup:
@@ -177,6 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slot: 5
+  CompatibleSlots: 
   armoredBodyParts:
   - armoringBodyPartType: 0
     armor:
@@ -190,7 +204,11 @@ MonoBehaviour:
       Acid: 0
       Magic: 0
       Bio: 0
+      Anomaly: 0
       DismembermentProtectionChance: 0
+      StunImmunity: 0
+      TemperatureProtectionInK: {x: 268.15, y: 313.15}
+      PressureProtectionInKpa: {x: 30, y: 300}
   - armoringBodyPartType: 7
     armor:
       Melee: 0
@@ -203,7 +221,11 @@ MonoBehaviour:
       Acid: 0
       Magic: 0
       Bio: 0
+      Anomaly: 0
       DismembermentProtectionChance: 0
+      StunImmunity: 0
+      TemperatureProtectionInK: {x: 268.15, y: 313.15}
+      PressureProtectionInKpa: {x: 30, y: 300}
   - armoringBodyPartType: 8
     armor:
       Melee: 0
@@ -216,4 +238,8 @@ MonoBehaviour:
       Acid: 0
       Magic: 0
       Bio: 0
+      Anomaly: 0
       DismembermentProtectionChance: 0
+      StunImmunity: 0
+      TemperatureProtectionInK: {x: 268.15, y: 313.15}
+      PressureProtectionInKpa: {x: 30, y: 300}

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Systems.Clearance
 {
@@ -12,7 +13,7 @@ namespace Systems.Clearance
 		/// if the round is currently a lowpop round or not.
 		/// </summary>
 		/// <returns>Current relevant clearance</returns>
-		IEnumerable<Clearance> GetCurrentClearance => GameManager.Instance.CentComm.IsLowPop ? LowPopIssuedClearance : IssuedClearance;
+		IEnumerable<Clearance> GetCurrentClearance => GameManager.Instance.CentComm.IsLowPop ? IssuedClearance.Concat(LowPopIssuedClearance).Distinct() : IssuedClearance;
 
 		/// <summary>
 		/// Issued clearance for this clearance source. This list is consulted when the current round has a normal amount of population.
@@ -20,7 +21,7 @@ namespace Systems.Clearance
 		IEnumerable<Clearance> IssuedClearance { get; }
 
 		/// <summary>
-		/// Issued clearance for this source. This list is consulted when the current round has low population.
+		/// Extra issued clearance for this source. When the round is lowpop, this list is consulted in addition to the normal
 		/// </summary>
 		IEnumerable<Clearance> LowPopIssuedClearance { get; }
 	}

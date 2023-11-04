@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: lightgeist_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      lightgeist_3: 21300006
-      lightgeist_2: 21300004
-      lightgeist_17: 21300034
+      lightgeist_0: 21300000
+      lightgeist_1: 21300002
       lightgeist_10: 21300020
-      lightgeist_19: 21300038
-      lightgeist_14: 21300028
-      lightgeist_16: 21300032
-      lightgeist_18: 21300036
-      lightgeist_21: 21300042
-      lightgeist_5: 21300010
-      lightgeist_8: 21300016
-      lightgeist_22: 21300044
       lightgeist_11: 21300022
       lightgeist_12: 21300024
-      lightgeist_1: 21300002
       lightgeist_13: 21300026
+      lightgeist_14: 21300028
       lightgeist_15: 21300030
+      lightgeist_16: 21300032
+      lightgeist_17: 21300034
+      lightgeist_18: 21300036
+      lightgeist_19: 21300038
+      lightgeist_2: 21300004
       lightgeist_20: 21300040
+      lightgeist_21: 21300042
+      lightgeist_22: 21300044
       lightgeist_23: 21300046
-      lightgeist_7: 21300014
-      lightgeist_0: 21300000
-      lightgeist_6: 21300012
-      lightgeist_9: 21300018
+      lightgeist_3: 21300006
       lightgeist_4: 21300008
-  spritePackingTag: 
+      lightgeist_5: 21300010
+      lightgeist_6: 21300012
+      lightgeist_7: 21300014
+      lightgeist_8: 21300016
+      lightgeist_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

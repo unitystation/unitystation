@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 454348368429393324, guid: ba46a81cbd3cd9c4faea0e047fbae79f,
@@ -19,7 +20,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 454348368429393324, guid: ba46a81cbd3cd9c4faea0e047fbae79f,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: fc816ced1234fc349aaf899dc60612e7,
         type: 2}
@@ -40,6 +41,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8143536106252806184, guid: 840d84d103f52db45866b9942b42c1b6,
         type: 3}
+    - target: {fileID: 8683201485798090396, guid: ba46a81cbd3cd9c4faea0e047fbae79f,
+        type: 3}
+      propertyPath: _assetId
+      value: 3490285180
+      objectReference: {fileID: 0}
     - target: {fileID: 8683201485798090396, guid: ba46a81cbd3cd9c4faea0e047fbae79f,
         type: 3}
       propertyPath: m_AssetId
@@ -160,51 +166,54 @@ PrefabInstance:
       objectReference: {fileID: 4900000, guid: e90ee9406c3328b44adc0e70436f1077, type: 3}
     - target: {fileID: 9221474911054230602, guid: ba46a81cbd3cd9c4faea0e047fbae79f,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 56ffae5139fe58f4ebc282e290af0ec0,
         type: 3}
     - target: {fileID: 9221474911054230602, guid: ba46a81cbd3cd9c4faea0e047fbae79f,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: 56ffae5139fe58f4ebc282e290af0ec0,
         type: 3}
     - target: {fileID: 9221474911054230602, guid: ba46a81cbd3cd9c4faea0e047fbae79f,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300004, guid: 56ffae5139fe58f4ebc282e290af0ec0,
         type: 3}
     - target: {fileID: 9221474911054230602, guid: ba46a81cbd3cd9c4faea0e047fbae79f,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
+      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300006, guid: 56ffae5139fe58f4ebc282e290af0ec0,
         type: 3}
     - target: {fileID: 9221474911054230602, guid: ba46a81cbd3cd9c4faea0e047fbae79f,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 9671f2020dc18b641946fd238b8f72d8,
         type: 3}
     - target: {fileID: 9221474911054230602, guid: ba46a81cbd3cd9c4faea0e047fbae79f,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: 9671f2020dc18b641946fd238b8f72d8,
         type: 3}
     - target: {fileID: 9221474911054230602, guid: ba46a81cbd3cd9c4faea0e047fbae79f,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300004, guid: 9671f2020dc18b641946fd238b8f72d8,
         type: 3}
     - target: {fileID: 9221474911054230602, guid: ba46a81cbd3cd9c4faea0e047fbae79f,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300006, guid: 9671f2020dc18b641946fd238b8f72d8,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba46a81cbd3cd9c4faea0e047fbae79f, type: 3}

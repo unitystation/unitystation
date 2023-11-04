@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Logs;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -78,7 +79,7 @@ public class ConditionalFieldAttribute : PropertyAttribute
 			var who = string.Format("Property <color=brown>{0}</color> in object <color=brown>{1}</color> caused: ", arrayProp.name,
 				target.name);
 
-			Logger.LogWarning($"{who} Array fields is not supported by {target}", Category.Editor);
+			Loggy.LogWarning($"{who} Array fields is not supported by {target}", Category.Editor);
 			_warningsPool.Add(arrayProp.exposedReferenceValue);
 			return null;
 		}

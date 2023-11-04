@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8391079196718515038, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
@@ -19,7 +20,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3888762570051217455, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
-      propertyPath: requiredClearance.Array.data[0]
+      propertyPath: 'requiredClearance.Array.data[0]'
       value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 381971050139752040, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
@@ -146,13 +147,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5417455200430800431, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 2458671ac44892f4da202a561f002f41,
         type: 2}
     - target: {fileID: 5417455200430800431, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 8c9519bff4117d648992da485d519db1,
         type: 2}
@@ -174,8 +175,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8981175845054980503, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
+      propertyPath: _assetId
+      value: 1536205471
+      objectReference: {fileID: 0}
+    - target: {fileID: 8981175845054980503, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
       propertyPath: m_AssetId
       value: 6ad6da3b05c52fb42b0bc1844a76339a
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f3b5940c1a9ba34c856057c8b910cbe, type: 3}

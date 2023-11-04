@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: leftspark_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      leftspark_12: 21300024
       leftspark_0: 21300000
-      leftspark_8: 21300016
+      leftspark_1: 21300002
+      leftspark_10: 21300020
+      leftspark_11: 21300022
+      leftspark_12: 21300024
+      leftspark_13: 21300026
+      leftspark_14: 21300028
+      leftspark_15: 21300030
+      leftspark_16: 21300032
+      leftspark_17: 21300034
       leftspark_18: 21300036
+      leftspark_19: 21300038
+      leftspark_2: 21300004
+      leftspark_20: 21300040
+      leftspark_21: 21300042
       leftspark_22: 21300044
       leftspark_23: 21300046
-      leftspark_1: 21300002
-      leftspark_14: 21300028
-      leftspark_17: 21300034
-      leftspark_7: 21300014
-      leftspark_20: 21300040
-      leftspark_9: 21300018
+      leftspark_3: 21300006
       leftspark_4: 21300008
       leftspark_5: 21300010
-      leftspark_13: 21300026
-      leftspark_10: 21300020
-      leftspark_16: 21300032
-      leftspark_2: 21300004
-      leftspark_21: 21300042
-      leftspark_19: 21300038
       leftspark_6: 21300012
-      leftspark_15: 21300030
-      leftspark_3: 21300006
-      leftspark_11: 21300022
-  spritePackingTag: 
+      leftspark_7: 21300014
+      leftspark_8: 21300016
+      leftspark_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

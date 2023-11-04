@@ -171,7 +171,7 @@ TextureImporter:
       213: 21300110
     second: fox_rest_55
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -188,11 +188,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -231,6 +232,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -246,6 +249,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1446,65 +1461,64 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      fox_rest_1: 21300002
-      fox_rest_28: 21300056
-      fox_rest_23: 21300046
-      fox_rest_26: 21300052
-      fox_rest_29: 21300058
-      fox_rest_33: 21300066
-      fox_rest_5: 21300010
-      fox_rest_10: 21300020
-      fox_rest_42: 21300084
-      fox_rest_27: 21300054
-      fox_rest_37: 21300074
-      fox_rest_11: 21300022
-      fox_rest_45: 21300090
-      fox_rest_40: 21300080
-      fox_rest_49: 21300098
-      fox_rest_30: 21300060
-      fox_rest_32: 21300064
-      fox_rest_48: 21300096
-      fox_rest_36: 21300072
-      fox_rest_46: 21300092
-      fox_rest_14: 21300028
-      fox_rest_41: 21300082
-      fox_rest_43: 21300086
-      fox_rest_4: 21300008
-      fox_rest_19: 21300038
-      fox_rest_34: 21300068
-      fox_rest_15: 21300030
-      fox_rest_7: 21300014
-      fox_rest_16: 21300032
-      fox_rest_54: 21300108
-      fox_rest_13: 21300026
-      fox_rest_21: 21300042
-      fox_rest_18: 21300036
-      fox_rest_8: 21300016
-      fox_rest_39: 21300078
-      fox_rest_24: 21300048
-      fox_rest_52: 21300104
-      fox_rest_44: 21300088
-      fox_rest_9: 21300018
-      fox_rest_35: 21300070
-      fox_rest_31: 21300062
-      fox_rest_47: 21300094
-      fox_rest_53: 21300106
-      fox_rest_17: 21300034
-      fox_rest_25: 21300050
-      fox_rest_50: 21300100
-      fox_rest_55: 21300110
-      fox_rest_38: 21300076
-      fox_rest_51: 21300102
-      fox_rest_2: 21300004
-      fox_rest_12: 21300024
-      fox_rest_3: 21300006
       fox_rest_0: 21300000
+      fox_rest_1: 21300002
+      fox_rest_10: 21300020
+      fox_rest_11: 21300022
+      fox_rest_12: 21300024
+      fox_rest_13: 21300026
+      fox_rest_14: 21300028
+      fox_rest_15: 21300030
+      fox_rest_16: 21300032
+      fox_rest_17: 21300034
+      fox_rest_18: 21300036
+      fox_rest_19: 21300038
+      fox_rest_2: 21300004
       fox_rest_20: 21300040
-      fox_rest_6: 21300012
+      fox_rest_21: 21300042
       fox_rest_22: 21300044
-  spritePackingTag: 
+      fox_rest_23: 21300046
+      fox_rest_24: 21300048
+      fox_rest_25: 21300050
+      fox_rest_26: 21300052
+      fox_rest_27: 21300054
+      fox_rest_28: 21300056
+      fox_rest_29: 21300058
+      fox_rest_3: 21300006
+      fox_rest_30: 21300060
+      fox_rest_31: 21300062
+      fox_rest_32: 21300064
+      fox_rest_33: 21300066
+      fox_rest_34: 21300068
+      fox_rest_35: 21300070
+      fox_rest_36: 21300072
+      fox_rest_37: 21300074
+      fox_rest_38: 21300076
+      fox_rest_39: 21300078
+      fox_rest_4: 21300008
+      fox_rest_40: 21300080
+      fox_rest_41: 21300082
+      fox_rest_42: 21300084
+      fox_rest_43: 21300086
+      fox_rest_44: 21300088
+      fox_rest_45: 21300090
+      fox_rest_46: 21300092
+      fox_rest_47: 21300094
+      fox_rest_48: 21300096
+      fox_rest_49: 21300098
+      fox_rest_5: 21300010
+      fox_rest_50: 21300100
+      fox_rest_51: 21300102
+      fox_rest_52: 21300104
+      fox_rest_53: 21300106
+      fox_rest_54: 21300108
+      fox_rest_55: 21300110
+      fox_rest_6: 21300012
+      fox_rest_7: 21300014
+      fox_rest_8: 21300016
+      fox_rest_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

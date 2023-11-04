@@ -78,7 +78,7 @@ TextureImporter:
       213: 21300048
     second: security_24
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -95,11 +95,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -138,6 +139,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -189,6 +192,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -738,34 +753,33 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      security_22: 21300044
-      security_24: 21300048
-      security_6: 21300012
-      security_1: 21300002
-      security_5: 21300010
-      security_20: 21300040
-      security_7: 21300014
-      security_15: 21300030
-      security_14: 21300028
-      security_17: 21300034
-      security_4: 21300008
       security_0: 21300000
-      security_16: 21300032
-      security_8: 21300016
-      security_9: 21300018
+      security_1: 21300002
       security_10: 21300020
-      security_18: 21300036
-      security_2: 21300004
-      security_23: 21300046
-      security_13: 21300026
-      security_3: 21300006
       security_11: 21300022
       security_12: 21300024
+      security_13: 21300026
+      security_14: 21300028
+      security_15: 21300030
+      security_16: 21300032
+      security_17: 21300034
+      security_18: 21300036
       security_19: 21300038
+      security_2: 21300004
+      security_20: 21300040
       security_21: 21300042
-  spritePackingTag: 
+      security_22: 21300044
+      security_23: 21300046
+      security_24: 21300048
+      security_3: 21300006
+      security_4: 21300008
+      security_5: 21300010
+      security_6: 21300012
+      security_7: 21300014
+      security_8: 21300016
+      security_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

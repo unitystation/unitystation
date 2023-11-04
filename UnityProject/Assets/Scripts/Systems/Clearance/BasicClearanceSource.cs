@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Mirror;
 using NaughtyAttributes;
 using UnityEngine;
@@ -24,11 +25,35 @@ namespace Systems.Clearance
 		protected List<Clearance> lowPopClearance = default;
 
 
+		[SyncVar]
+		public bool ClearanceDisabled = false;
+
 		private readonly SyncList<Clearance> syncedClearance = new SyncListClearance();
 		private readonly SyncList<Clearance> syncedLowpopClearance = new SyncListClearance();
 
-		public IEnumerable<Clearance> IssuedClearance => syncedClearance;
-		public IEnumerable<Clearance> LowPopIssuedClearance => syncedLowpopClearance;
+		public IEnumerable<Clearance> IssuedClearance
+		{
+			get
+			{
+				if (ClearanceDisabled)
+				{
+					return Enumerable.Empty<Clearance>();
+				}
+				return syncedClearance;
+			}
+		}
+
+		public IEnumerable<Clearance> LowPopIssuedClearance
+		{
+			get
+			{
+				if (ClearanceDisabled)
+				{
+					return Enumerable.Empty<Clearance>();
+				}
+				return syncedLowpopClearance;
+			}
+		}
 
 		public override void OnStartServer()
 		{
@@ -43,6 +68,11 @@ namespace Systems.Clearance
 		[Server]
 		public void ServerAddClearance(Clearance newClearance)
 		{
+			if (syncedClearance.Contains(newClearance))
+			{
+				return;
+			}
+
 			syncedClearance.Add(newClearance);
 			netIdentity.isDirty = true;
 		}
@@ -70,12 +100,13 @@ namespace Systems.Clearance
 		[Server]
 		public void ServerAddLowPopClearance(Clearance newClearance)
 		{
+			if (syncedLowpopClearance.Contains(newClearance))
+			{
+				return;
+			}
+
 			syncedLowpopClearance.Add(newClearance);
 			netIdentity.isDirty = true;
-			if (lowPopClearance.Contains(newClearance) == false)
-			{
-				lowPopClearance.Add(newClearance);
-			}
 		}
 
 		/// <summary>

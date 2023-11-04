@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -7063633880587810702, guid: 0a45eeafcc7b5164bb139db7bf25c0a8,
@@ -127,6 +128,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3984589335700137458, guid: 0a45eeafcc7b5164bb139db7bf25c0a8,
         type: 3}
+      propertyPath: _assetId
+      value: 1991038763
+      objectReference: {fileID: 0}
+    - target: {fileID: 3984589335700137458, guid: 0a45eeafcc7b5164bb139db7bf25c0a8,
+        type: 3}
       propertyPath: m_AssetId
       value: 40e765f72dfc72d48ba8ef24ab377060
       objectReference: {fileID: 0}
@@ -192,6 +198,25 @@ PrefabInstance:
     - {fileID: 4084437145900613279, guid: 0a45eeafcc7b5164bb139db7bf25c0a8, type: 3}
     - {fileID: 6536533875639940645, guid: 0a45eeafcc7b5164bb139db7bf25c0a8, type: 3}
     - {fileID: 0}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 896716891640034833, guid: 0a45eeafcc7b5164bb139db7bf25c0a8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1201718566407200232}
+    - targetCorrespondingSourceObject: {fileID: 896716891640034833, guid: 0a45eeafcc7b5164bb139db7bf25c0a8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 743786382192184887}
+    - targetCorrespondingSourceObject: {fileID: 896716891640034833, guid: 0a45eeafcc7b5164bb139db7bf25c0a8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4256679036758816722}
+    - targetCorrespondingSourceObject: {fileID: 896716891640034833, guid: 0a45eeafcc7b5164bb139db7bf25c0a8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8679577253730791549}
   m_SourcePrefab: {fileID: 100100000, guid: 0a45eeafcc7b5164bb139db7bf25c0a8, type: 3}
 --- !u!1 &747172844020729843 stripped
 GameObject:
@@ -211,27 +236,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  DEBUG: 0
-  SnapToGridOnStart: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
-  ChangesDirectionPush: 0
-  Intangible: 0
-  CanBeWindPushed: 1
-  IsPlayer: 0
-  InitialLocationSynchronised: 0
-  tileMoveSpeed: 1
-  isNotPushable: 0
+  CorrectingCourse: 0
+  Animating: 0
+  SetIgnoreSticky: 0
   airTime: 0
   slideTime: 0
-  SetIgnoreSticky: 0
+  spinMagnitude: 0
   thrownBy: {fileID: 0}
   aim: 0
-  spinMagnitude: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
+  ChangesDirectionPush: 0
+  Intangible: 0
+  SnapToGridOnStart: 0
+  IsPlayer: 0
+  DEBUG: 0
+  tileMoveSpeed: 1
+  HasOwnGravity: 0
+  isNotPushable: 0
+  CanBeWindPushed: 1
+  rotationTarget: {fileID: 0}
   FramePushDecision: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
@@ -242,11 +272,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
-  LocalDifferenceNeeded: {x: 0, y: 0}
-  CorrectingCourse: 0
   Pushing: []
   Hits: []
-  Animating: 0
   isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
@@ -264,6 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a54f01494cc4472a5cdd14dbf5771dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   SignalTypeToReceive: 2
@@ -304,6 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0
@@ -327,15 +356,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   initialName: Syndicate Bomb
   initialDescription: looks too dangerous
   willHighlight: 1
   exportCost: 500
-  exportType: 0
+  CanBeSoldInCargo: 1
   exportName: Syndicate Bomb
   exportMessage: Time to Oga some Bogas
+  noMouseHighlight: 0
   initialSize: 3
 --- !u!210 &2006165154517039504 stripped
 SortingGroup:

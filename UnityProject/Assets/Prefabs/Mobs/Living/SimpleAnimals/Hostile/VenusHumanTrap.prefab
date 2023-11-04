@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 811126669682120101, guid: cf769d410d94f0e47bab5eee03a3b07d,
@@ -15,17 +16,17 @@ PrefabInstance:
     - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
@@ -69,6 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3826885964139575000, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
+      propertyPath: _assetId
+      value: 114949149
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826885964139575000, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
       propertyPath: m_AssetId
       value: 0e47639aecb611547962ccc2481106db
       objectReference: {fileID: 0}
@@ -80,13 +86,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 010c16d8d9b0e934e82b5d159286fbe7,
         type: 2}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
         type: 2}
@@ -147,6 +153,13 @@ PrefabInstance:
       value: Assets/Prefabs/Effects/BladeSlice.prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3786279822138338372, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3340261025781841568}
   m_SourcePrefab: {fileID: 100100000, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
 --- !u!1 &6804228171281091180 stripped
 GameObject:

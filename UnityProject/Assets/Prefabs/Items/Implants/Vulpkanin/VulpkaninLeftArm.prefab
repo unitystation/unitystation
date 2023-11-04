@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1766215212362074963, guid: 719377fefb0114b448fc6ca9f7a5a6df,
@@ -69,6 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1807895052203439847, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
+      propertyPath: _assetId
+      value: 2787579442
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807895052203439847, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
       propertyPath: m_AssetId
       value: b958008c840883e4a95171961fc3ea0a
       objectReference: {fileID: 0}
@@ -100,13 +106,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: bdbeb6ff0533a764fb7e2ad2941c0c96,
         type: 2}
     - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[1]
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: e5111a69ba8462442b9dd257ff2a3463,
         type: 2}
@@ -123,15 +129,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8848758621188635655, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 2371767b78363464c902953217c61d3f,
         type: 2}
     - target: {fileID: 8848758621188635655, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[1]
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: a25b3d89d5961e24da2e3fdc505c6f2b,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 719377fefb0114b448fc6ca9f7a5a6df, type: 3}

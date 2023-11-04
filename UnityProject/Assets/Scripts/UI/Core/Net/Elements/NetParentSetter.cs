@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UI.Core.Net.Elements;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public class NetParentSetter : NetUIIntElement
 
 	public override int Value {
 		get => CurrentLocation;
-		set
+		protected set
 		{
 			CurrentLocation = value;
 			SetParentInternal(value);
@@ -31,7 +32,7 @@ public class NetParentSetter : NetUIIntElement
 		if (gameObject.activeSelf == false) return;
 		if (ListLocation >= OrderedTargetParents.Count)
 		{
-			Logger.LogError($"{ListLocation} Was out of bounds on {this.name} ");
+			Loggy.LogError($"{ListLocation} Was out of bounds on {this.name} ");
 			return;
 		}
 
@@ -84,7 +85,7 @@ public class NetParentSetter : NetUIIntElement
 			{
 				if (DictionaryParents.ContainsKey(target.intID))
 				{
-					Logger.LogError($"duplicate ID of {target.intID}  found on {target.name} please give unique ID");
+					Loggy.LogError($"duplicate ID of {target.intID}  found on {target.name} please give unique ID");
 				}
 
 				DictionaryParents[target.intID] = target;
@@ -104,7 +105,7 @@ public class NetParentSetter : NetUIIntElement
 		}
 		else
 		{
-			Logger.LogError($"ID {ID} not present on {this.name}");
+			Loggy.LogError($"ID {ID} not present on {this.name}");
 		}
 
 	}
@@ -131,7 +132,7 @@ public class NetParentSetter : NetUIIntElement
 		}
 		else
 		{
-			Logger.LogError($"NetParentSetterTarget {NetParentSetterTarget.name} not connected to {this.name}");
+			Loggy.LogError($"NetParentSetterTarget {NetParentSetterTarget.name} not connected to {this.name}");
 		}
 	}
 

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 246742310216031076, guid: 09d98d684f3dbe544a3f54331019cba1,
@@ -28,6 +29,11 @@ PrefabInstance:
       propertyPath: foreverID
       value: c6a30c7b1bb167543abf2e9c9bea5cfa
       objectReference: {fileID: 0}
+    - target: {fileID: 4614578857724824248, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: BasePurity
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -40,18 +46,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[3]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5,
         type: 2}
     - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 16.666666
       objectReference: {fileID: 0}
     - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[3]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[3]'
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8091316462478551624, guid: 09d98d684f3dbe544a3f54331019cba1,
@@ -127,6 +133,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8300100540400329888, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
+      propertyPath: _assetId
+      value: 3347399275
+      objectReference: {fileID: 0}
+    - target: {fileID: 8300100540400329888, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
       propertyPath: m_AssetId
       value: c6a30c7b1bb167543abf2e9c9bea5cfa
       objectReference: {fileID: 0}
@@ -141,4 +152,7 @@ PrefabInstance:
       value: If no water is available, you may substitute tears.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09d98d684f3dbe544a3f54331019cba1, type: 3}

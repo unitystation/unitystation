@@ -8,9 +8,12 @@ using Systems.Clothing;
 using Light2D;
 using Effects.Overlays;
 using HealthV2;
+using Logs;
 using Messages.Server;
+using Mobs;
 using Newtonsoft.Json;
 using UI.CharacterCreator;
+using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -48,9 +51,8 @@ namespace Player
 		[SerializeField]
 		private LightSprite muzzleFlash = default;
 
-		[Tooltip("Override the race of the character sheet")]
-		[SerializeField]
-		private string raceOverride = "";
+		[FormerlySerializedAs("raceOverride")] [Tooltip("Override the race of the character sheet")]
+		public string RaceOverride = "";
 
 		#endregion Inspector fields
 
@@ -96,6 +98,8 @@ namespace Player
 		public List<IntName> InternalNetIDs = new List<IntName>();
 
 		public bool RootBodyPartsLoaded;
+
+		public bool IsOldCustomPrefab;
 
 		[SerializeField]
 		private GameObject OverlaySprites;
@@ -198,7 +202,7 @@ namespace Player
 					}
 					else
 					{
-						Logger.Log($"[PlayerSprites] - Could not find {Body_Part.name}'s characterCustomization script. Returns -> {Body_Part.OrNull()?.LobbyCustomisation.OrNull()?.characterCustomization}", Category.Character);
+						Loggy.Log($"[PlayerSprites] - Could not find {Body_Part.name}'s characterCustomization script. Returns -> {Body_Part.OrNull()?.LobbyCustomisation.OrNull()?.characterCustomization}", Category.Character);
 					}
 				}
 			}
@@ -248,7 +252,7 @@ namespace Player
 				SubSetBodyPart(bodyPart.Item.GetComponent<BodyPart>(), "", Randomised);
 			}
 
-			PlayerHealthData SetRace = ThisCharacter.GetRaceSo();
+			PlayerHealthData SetRace = RaceBodyparts;
 
 			List<IntName> ToClient = new List<IntName>();
 			foreach (var Customisation in SetRace.Base.CustomisationSettings)
@@ -297,6 +301,10 @@ namespace Player
 					}
 				}
 			}
+
+			infectedSpriteHandler.OrNull()?.PushTexture(); //This is needed because  RegisterHandler in ServerCreateSprite Is busted and doesn't make sprites
+			infectedSpriteHandler.OrNull()?.PushClear();
+
 			GetComponent<RootBodyPartController>().PlayerSpritesData = JsonConvert.SerializeObject(ToClient);
 
 			SetSurfaceColour();
@@ -339,6 +347,16 @@ namespace Player
 			}
 		}
 
+		public void SetSurfaceColour(Color CurrentSurfaceColour)
+		{
+			CurrentSurfaceColour.a = 1;
+
+			foreach (var sp in SurfaceSprite)
+			{
+				sp.baseSpriteHandler.SetColor(CurrentSurfaceColour);
+			}
+		}
+
 		private void OnClientFireStacksChange(float newStacks)
 		{
 			UpdateBurningOverlays(newStacks, directional.CurrentDirection);
@@ -352,9 +370,20 @@ namespace Player
 				clothingItem.Direction = direction;
 			}
 
+			var toRemove = new List<SpriteHandlerNorder>();
 			foreach (var sprite in OpenSprites)
 			{
+				if (sprite == null)
+				{
+					toRemove.Add(sprite);
+					continue;
+				}
 				sprite.OnDirectionChange(direction);
+			}
+
+			foreach (var toRem in toRemove)
+			{
+				OpenSprites.Remove(toRem);
 			}
 
 			foreach (var bodypart in Addedbodypart)
@@ -424,35 +453,36 @@ namespace Player
 			}
 		}
 
+
+
 		public void OnCharacterSettingsChange(CharacterSheet characterSettings)
 		{
-			if (RootBodyPartsLoaded == false)
+			if (IsOldCustomPrefab) return;
+			if (RootBodyPartsLoaded) return;
+			RootBodyPartsLoaded = true;
+			var overrideSheet = string.IsNullOrEmpty(RaceOverride) == false;
+			if (characterSettings == null || overrideSheet)
 			{
-				RootBodyPartsLoaded = true;
-				var overrideSheet = string.IsNullOrEmpty(raceOverride) == false;
-				if (characterSettings == null || overrideSheet)
-				{
-					characterSettings = new CharacterSheet();
-				}
-
-				if (overrideSheet)
-				{
-					characterSettings.Species = raceOverride;
-				}
-
-				ThisCharacter = characterSettings;
-				RaceBodyparts = characterSettings.GetRaceSo();
-
-				if (RaceBodyparts == null)
-				{
-					Logger.LogError($"Failed to find race for {gameObject.ExpensiveName()} with race: {characterSettings.Species}");
-				}
-
-				livingHealthMasterBase.SetUpCharacter(RaceBodyparts);
-				SetupSprites();
-				livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);
-
+				characterSettings = new CharacterSheet();
 			}
+
+			if (overrideSheet)
+			{
+				characterSettings.Species = RaceOverride;
+			}
+
+			ThisCharacter = characterSettings;
+			RaceBodyparts = characterSettings.GetRaceSoNoValidation();
+
+			if (RaceBodyparts == null)
+			{
+				Loggy.LogError($"Failed to find race for {gameObject.ExpensiveName()} with race: {characterSettings.Species}");
+			}
+
+			livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);
+			livingHealthMasterBase.SetUpCharacter(RaceBodyparts);
+			SetupSprites();
+			livingHealthMasterBase.StartFresh();
 		}
 
 		public void NotifyPlayer(NetworkConnection recipient, bool clothItems = false)

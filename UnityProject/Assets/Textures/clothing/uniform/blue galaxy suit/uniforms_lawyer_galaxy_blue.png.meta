@@ -99,7 +99,7 @@ TextureImporter:
       213: -3085316137272656782
     second: lawyer_galaxy_blue_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      lawyer_galaxy_blue_11: 8944811125935620920
-      lawyer_galaxy_blue_27: -5847147514895109478
-      lawyer_galaxy_blue_20: -6630551449476155771
-      lawyer_galaxy_blue_23: 5613326036549317101
-      lawyer_galaxy_blue_8: -7980892177741752130
-      lawyer_galaxy_blue_17: -8761258438986946742
-      lawyer_galaxy_blue_24: 243109218391637232
-      lawyer_galaxy_blue_16: 6574187036906704876
-      lawyer_galaxy_blue_13: -8429244657332104269
-      lawyer_galaxy_blue_19: 70660526449979408
-      lawyer_galaxy_blue_31: -3085316137272656782
-      lawyer_galaxy_blue_3: 8422035557093248167
-      lawyer_galaxy_blue_6: -1924968176582441541
       lawyer_galaxy_blue_0: -3777530254431137619
-      lawyer_galaxy_blue_7: -4199647291215410274
-      lawyer_galaxy_blue_26: 2433813161359230206
-      lawyer_galaxy_blue_30: 2786225857091535446
-      lawyer_galaxy_blue_2: -2511712372627037506
-      lawyer_galaxy_blue_15: -35217070552420985
-      lawyer_galaxy_blue_9: 3560453303977498932
-      lawyer_galaxy_blue_10: -6309361709770018044
-      lawyer_galaxy_blue_12: -8881087142272291337
       lawyer_galaxy_blue_1: -8057453892321788068
+      lawyer_galaxy_blue_10: -6309361709770018044
+      lawyer_galaxy_blue_11: 8944811125935620920
+      lawyer_galaxy_blue_12: -8881087142272291337
+      lawyer_galaxy_blue_13: -8429244657332104269
       lawyer_galaxy_blue_14: -9212040380174341567
-      lawyer_galaxy_blue_21: 5883226558087771586
-      lawyer_galaxy_blue_4: 7046474836143708750
-      lawyer_galaxy_blue_22: -5955212287500378485
-      lawyer_galaxy_blue_5: -8253194054104185667
-      lawyer_galaxy_blue_28: 2014071438385168449
+      lawyer_galaxy_blue_15: -35217070552420985
+      lawyer_galaxy_blue_16: 6574187036906704876
+      lawyer_galaxy_blue_17: -8761258438986946742
       lawyer_galaxy_blue_18: 2216717086735286466
+      lawyer_galaxy_blue_19: 70660526449979408
+      lawyer_galaxy_blue_2: -2511712372627037506
+      lawyer_galaxy_blue_20: -6630551449476155771
+      lawyer_galaxy_blue_21: 5883226558087771586
+      lawyer_galaxy_blue_22: -5955212287500378485
+      lawyer_galaxy_blue_23: 5613326036549317101
+      lawyer_galaxy_blue_24: 243109218391637232
       lawyer_galaxy_blue_25: 6533872045611514959
+      lawyer_galaxy_blue_26: 2433813161359230206
+      lawyer_galaxy_blue_27: -5847147514895109478
+      lawyer_galaxy_blue_28: 2014071438385168449
       lawyer_galaxy_blue_29: 2268256814364865981
-  spritePackingTag: 
+      lawyer_galaxy_blue_3: 8422035557093248167
+      lawyer_galaxy_blue_30: 2786225857091535446
+      lawyer_galaxy_blue_31: -3085316137272656782
+      lawyer_galaxy_blue_4: 7046474836143708750
+      lawyer_galaxy_blue_5: -8253194054104185667
+      lawyer_galaxy_blue_6: -1924968176582441541
+      lawyer_galaxy_blue_7: -4199647291215410274
+      lawyer_galaxy_blue_8: -7980892177741752130
+      lawyer_galaxy_blue_9: 3560453303977498932
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

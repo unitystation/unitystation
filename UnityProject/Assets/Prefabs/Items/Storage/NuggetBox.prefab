@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2506717331081805387, guid: 351fa36521ade244b9d7d66b21f7f333,
@@ -20,49 +21,49 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[0]
+      propertyPath: 'spritesByCount.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 03cdb03a54a15634d8b9b7c2e86de369,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[1]
+      propertyPath: 'spritesByCount.Array.data[1]'
       value: 
       objectReference: {fileID: 21300000, guid: a242a0b6b6248784cb4a39d6fa9688d1,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[2]
+      propertyPath: 'spritesByCount.Array.data[2]'
       value: 
       objectReference: {fileID: 21300000, guid: 0d675f0f5915c544da48b0ab2f47015a,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[3]
+      propertyPath: 'spritesByCount.Array.data[3]'
       value: 
       objectReference: {fileID: 21300000, guid: 6a4d5456a03021641aff257c64a967e5,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[4]
+      propertyPath: 'spritesByCount.Array.data[4]'
       value: 
       objectReference: {fileID: 21300000, guid: e217586dd879b48479d3679fc2c31b41,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[5]
+      propertyPath: 'spritesByCount.Array.data[5]'
       value: 
       objectReference: {fileID: 21300000, guid: 939702ea8953645469d30d97879a395a,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[6]
+      propertyPath: 'spritesByCount.Array.data[6]'
       value: 
       objectReference: {fileID: 21300000, guid: d21a526cb24234441b62483403c99688,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[7]
+      propertyPath: 'spritesByCount.Array.data[7]'
       value: 
       objectReference: {fileID: 21300000, guid: 8159819c144628d4486bd99783888356,
         type: 3}
@@ -96,6 +97,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8510550462711117944, guid: 351fa36521ade244b9d7d66b21f7f333,
+        type: 3}
+      propertyPath: _assetId
+      value: 138168089
       objectReference: {fileID: 0}
     - target: {fileID: 8510550462711117944, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
@@ -181,4 +187,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e8b6fa61b6bdb4b8aa2833a751dfc487,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 351fa36521ade244b9d7d66b21f7f333, type: 3}

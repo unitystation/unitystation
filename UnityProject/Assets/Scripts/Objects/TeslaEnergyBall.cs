@@ -130,7 +130,7 @@ namespace Objects
 
 			if (teslaPoints <= 0 && zeroPointDeath)
 			{
-				Chat.AddLocalMsgToChat("The energy ball fizzles out", gameObject);
+				Chat.AddActionMsgToChat(gameObject, "The energy ball fizzles out!");
 				_ = Despawn.ServerSingle(gameObject);
 				return;
 			}
@@ -184,7 +184,7 @@ namespace Objects
 
 			if(preventDowngrade && newStage < currentStage) return;
 
-			Chat.AddLocalMsgToChat($"The energy ball fluctuates and {(newStage < currentStage ? "decreases" : "increases")} in size", gameObject);
+			Chat.AddActionMsgToChat(gameObject, $"The energy ball fluctuates and {(newStage < currentStage ? "decreases" : "increases")} in size!");
 
 			currentStage = newStage;
 

@@ -1,4 +1,5 @@
 using System;
+using Logs;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -18,9 +19,10 @@ namespace UI.Core.NetUI
 
 		public override ElementMode InteractionMode => ElementMode.ServerWrite;
 
+		//Do not use this!!!  use MasterSetValue
 		public override string Value {
 			get => ElementTmp != null ? ElementTmp.text : Element.text;
-			set {
+			protected set {
 				externalChange = true;
 				if (ElementTmp != null)
 				{
@@ -32,7 +34,7 @@ namespace UI.Core.NetUI
 				}
 				else
 				{
-					Logger.LogError($"Both Text and TMPText were null on {gameObject.name}, check stacktrace to see exact location");
+					Loggy.LogError($"Both Text and TMPText were null on {gameObject.name}, check stacktrace to see exact location");
 				}
 
 				externalChange = false;

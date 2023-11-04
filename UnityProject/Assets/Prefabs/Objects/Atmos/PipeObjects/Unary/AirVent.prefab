@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 511634085231996503, guid: 3937c48f98f9cd043babc5471ee77682,
@@ -117,85 +118,85 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: ac362153318c8894684e239fe9aa2927,
         type: 2}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: baebcdb1e047abd4a9b13590cdf7e8a2,
         type: 2}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 42b9b9089fd5ed44692feb53ca55fb6b,
         type: 2}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[3]
+      propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: ec617ff61ab581741a2f891194e9b090,
         type: 2}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[4]
+      propertyPath: 'SubCatalogue.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: ac362153318c8894684e239fe9aa2927,
         type: 2}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[5]
+      propertyPath: 'SubCatalogue.Array.data[5]'
       value: 
       objectReference: {fileID: 11400000, guid: b3a045e48a0bbe84d89c1a177090dddd,
         type: 2}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[6]
+      propertyPath: 'SubCatalogue.Array.data[6]'
       value: 
       objectReference: {fileID: 11400000, guid: 8a3dab40edc67484fb3cabcd0ac0de26,
         type: 2}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[7]
+      propertyPath: 'SubCatalogue.Array.data[7]'
       value: 
       objectReference: {fileID: 11400000, guid: 92f2d9155565272448bacfe64b07e9e6,
         type: 2}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[8]
+      propertyPath: 'SubCatalogue.Array.data[8]'
       value: 
       objectReference: {fileID: 11400000, guid: ac362153318c8894684e239fe9aa2927,
         type: 2}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[9]
+      propertyPath: 'SubCatalogue.Array.data[9]'
       value: 
       objectReference: {fileID: 11400000, guid: 8cd86e2e03e92ad48a177259e1c82006,
         type: 2}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[10]
+      propertyPath: 'SubCatalogue.Array.data[10]'
       value: 
       objectReference: {fileID: 11400000, guid: 8cd86e2e03e92ad48a177259e1c82006,
         type: 2}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[11]
+      propertyPath: 'SubCatalogue.Array.data[11]'
       value: 
       objectReference: {fileID: 11400000, guid: 8cd86e2e03e92ad48a177259e1c82006,
         type: 2}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[12]
+      propertyPath: 'SubCatalogue.Array.data[12]'
       value: 
       objectReference: {fileID: 11400000, guid: 8cd86e2e03e92ad48a177259e1c82006,
         type: 2}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[13]
+      propertyPath: 'SubCatalogue.Array.data[13]'
       value: 
       objectReference: {fileID: 11400000, guid: 8cd86e2e03e92ad48a177259e1c82006,
         type: 2}
@@ -203,6 +204,11 @@ PrefabInstance:
         type: 3}
       propertyPath: isDirty
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6931842893682907539, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: _assetId
+      value: 1226794142
       objectReference: {fileID: 0}
     - target: {fileID: 6931842893682907539, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
@@ -236,6 +242,17 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: a8f56b2518664434c8100a8c56dbf5af,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1580494814286032113, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2285184685862058016}
+    - targetCorrespondingSourceObject: {fileID: 1580494814286032113, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5106770035520940082}
   m_SourcePrefab: {fileID: 100100000, guid: 3937c48f98f9cd043babc5471ee77682, type: 3}
 --- !u!1 &2712773701786103897 stripped
 GameObject:
@@ -295,9 +312,9 @@ MonoBehaviour:
       gasMix:
         GasData:
           GasesArray: []
-        Pressure: 0
+        pressure: 0
         Volume: 0.05
-        Temperature: 0
+        temperature: 0
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 1
@@ -311,6 +328,7 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   selfSufficient: 0
+  nominalMolesTransferCap: 50
 --- !u!114 &5106770035520940082
 MonoBehaviour:
   m_ObjectHideFlags: 0

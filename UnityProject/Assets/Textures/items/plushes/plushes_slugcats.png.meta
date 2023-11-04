@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
@@ -304,18 +306,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      artificer: 1598348893
       gormaud: 1823008791
       hunter: -1743688681
+      monk: 189349458
+      night: 111997771
       rivulet: -1870585414
       saint: -1478905934
-      survivor: -2070044355
-      night: 111997771
-      artificer: 1598348893
-      monk: 189349458
       spearmaster: -1192582300
-  spritePackingTag: 
+      survivor: -2070044355
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

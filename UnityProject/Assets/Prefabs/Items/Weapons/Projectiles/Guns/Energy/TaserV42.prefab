@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 96014042515403583, guid: 143d3926d4a5fa84f95f987c152b33a2,
@@ -119,7 +120,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: initialTraits.Array.data[3]
+      propertyPath: 'initialTraits.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 54f3eb2e915e0724cb547bca694b7157,
         type: 2}
@@ -136,6 +137,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: _assetId
+      value: 1650140932
+      objectReference: {fileID: 0}
+    - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: m_AssetId
       value: d8899487e8faa39488f7f57af1acb363
       objectReference: {fileID: 0}
@@ -143,7 +149,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 9124272605048683153}
+      objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_RootOrder
@@ -265,12 +271,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: firemodeName.Array.data[0]
+      propertyPath: 'firemodeName.Array.data[0]'
       value: Stun
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: firemodeName.Array.data[1]
+      propertyPath: 'firemodeName.Array.data[1]'
       value: Stun
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
@@ -285,23 +291,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: firemodeFiringSound.Array.data[0]
+      propertyPath: 'firemodeFiringSound.Array.data[0]'
       value: ShootTazer
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: firemodeFiringSound.Array.data[1]
+      propertyPath: 'firemodeFiringSound.Array.data[1]'
       value: ShootTazer
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: firemodeProjectiles.Array.data[0]
+      propertyPath: 'firemodeProjectiles.Array.data[0]'
       value: 
       objectReference: {fileID: 5951038657140010356, guid: 00552b9802a37ba4bbe1aca46515b240,
         type: 3}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: firemodeProjectiles.Array.data[1]
+      propertyPath: 'firemodeProjectiles.Array.data[1]'
       value: 
       objectReference: {fileID: 5951038657140010356, guid: 00552b9802a37ba4bbe1aca46515b240,
         type: 3}
@@ -327,19 +333,14 @@ PrefabInstance:
       value: 0.28125
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4454405483554457966, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1534828075940723733}
   m_SourcePrefab: {fileID: 100100000, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
---- !u!114 &9124272605048683153 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4342760245914264766, guid: 143d3926d4a5fa84f95f987c152b33a2,
-    type: 3}
-  m_PrefabInstance: {fileID: 4817577236366974511}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9154202684297418561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &9154202684297418561 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4454405483554457966, guid: 143d3926d4a5fa84f95f987c152b33a2,
@@ -359,7 +360,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TipSO: {fileID: 11400000, guid: b86b005353accc140808a2ec427f78fa, type: 2}
-  saveID: 0
   triggerOnce: 1
+  removeAfterRemembering: 1
   showEvenAfterDeath: 0
   tipCooldown: 200
+  highlightableObjectNames: []

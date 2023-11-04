@@ -1,4 +1,5 @@
 ﻿using Antagonists;
+using Logs;
 using Mirror;
 
 namespace Messages.Client.Admin
@@ -23,7 +24,7 @@ namespace Messages.Client.Admin
 
 			if (PlayerList.Instance.TryGetByUserID(msg.UserToRespawn, out var player) == false || player.Script == null)
 			{
-				Logger.LogError($"Player with user ID '{msg.UserToRespawn}' not found or has no script. Cannot respawn player.", Category.Admin);
+				Loggy.LogError($"Player with user ID '{msg.UserToRespawn}' not found or has no script. Cannot respawn player.", Category.Admin);
 				return;
 			}
 

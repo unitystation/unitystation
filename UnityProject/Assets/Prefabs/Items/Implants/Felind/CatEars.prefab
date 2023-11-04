@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4922598334570014167}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7684471636725115939}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8942659969257267349
 SpriteRenderer:
@@ -105,11 +105,15 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &7203729787968877712
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 638280844157600859, guid: b054a3a3b8b51b74ca3853fa734a304b,
@@ -117,6 +121,11 @@ PrefabInstance:
       propertyPath: CurrentsortingGroup
       value: 
       objectReference: {fileID: 4468496624348387097}
+    - target: {fileID: 638323220906383475, guid: b054a3a3b8b51b74ca3853fa734a304b,
+        type: 3}
+      propertyPath: _assetId
+      value: 2808357438
+      objectReference: {fileID: 0}
     - target: {fileID: 638323220906383475, guid: b054a3a3b8b51b74ca3853fa734a304b,
         type: 3}
       propertyPath: m_AssetId
@@ -207,27 +216,27 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4140162561972674139, guid: b054a3a3b8b51b74ca3853fa734a304b,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[0]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[0]'
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4140162561972674139, guid: b054a3a3b8b51b74ca3853fa734a304b,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[1]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[1]'
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4140162561972674139, guid: b054a3a3b8b51b74ca3853fa734a304b,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[2]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[2]'
       value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 4140162561972674139, guid: b054a3a3b8b51b74ca3853fa734a304b,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[3]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[3]'
       value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 4140162561972674139, guid: b054a3a3b8b51b74ca3853fa734a304b,
         type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: e2cf3f0cdbe22fd45a4cb13a131538f4,
         type: 2}
@@ -244,6 +253,13 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents:
     - {fileID: 8452774118089609025, guid: b054a3a3b8b51b74ca3853fa734a304b, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 674537388887267507, guid: b054a3a3b8b51b74ca3853fa734a304b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2751323327470636807}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b054a3a3b8b51b74ca3853fa734a304b, type: 3}
 --- !u!210 &4468496624348387097 stripped
 SortingGroup:

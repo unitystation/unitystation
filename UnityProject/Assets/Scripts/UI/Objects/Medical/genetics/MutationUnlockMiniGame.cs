@@ -71,12 +71,7 @@ public class MutationUnlockMiniGame : MonoBehaviour
 
 		if (Satisfies)
 		{
-			if (GUI_DNAConsole.DNAConsole.CurrentDNACharge >= GUI_DNAConsole.DNAConsole.RequiredDNASamples)
-			{
-				return;
-			}
-
-			GUI_DNAConsole.DNAConsole.CurrentDNACharge += 2;
+			GUI_DNAConsole.DNAConsole.CurrentDNACharge += MutationMiniGameList.Entries.Count;
 			UpdateIndicator();
 			GenerateNewPuzzle();
 		}
@@ -86,13 +81,13 @@ public class MutationUnlockMiniGame : MonoBehaviour
 	{
 		ClearSelection();
 		var data = new BodyPartMutations.MutationRoundData.SliderMiniGameData();
-		BodyPartMutations.MutationRoundData.PopulateSliderMiniGame(data, Random.Range(50, 100), false);
+		BodyPartMutations.MutationRoundData.PopulateSliderMiniGame(data, Random.Range(25, 66), false);
 		GenerateForSliderMiniGameData(data);
 	}
 
 	public void UpdateIndicator()
 	{
-		var TargetValue = (float) GUI_DNAConsole.DNAConsole.CurrentDNACharge /
+		var TargetValue = (float) Mathf.Min(GUI_DNAConsole.DNAConsole.CurrentDNACharge, GUI_DNAConsole.DNAConsole.RequiredDNASamples)  /
 		                  (float) GUI_DNAConsole.DNAConsole.RequiredDNASamples;
 
 		Indicator.SetValue(((int) (TargetValue *100)).ToString());
@@ -102,7 +97,7 @@ public class MutationUnlockMiniGame : MonoBehaviour
 	{
 		if (GUI_DNAConsole.DNAConsole.CurrentDNACharge >= GUI_DNAConsole.DNAConsole.RequiredDNASamples)
 		{
-			GUI_DNAConsole.DNAConsole.CurrentDNACharge = 0;
+			GUI_DNAConsole.DNAConsole.CurrentDNACharge -= GUI_DNAConsole.DNAConsole.RequiredDNASamples;
 			UpdateIndicator();
 			GUI_DNAConsole.GenerateEgg();
 		}

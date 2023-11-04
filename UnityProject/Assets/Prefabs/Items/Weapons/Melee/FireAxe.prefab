@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 490941254463709720, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: BasePurity
+      value: 55
+      objectReference: {fileID: 0}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
       propertyPath: hitDamage
@@ -55,43 +61,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
-      propertyPath: attackVerbs.Array.data[0]
+      propertyPath: 'attackVerbs.Array.data[0]'
       value: chopped
       objectReference: {fileID: 0}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
-      propertyPath: attackVerbs.Array.data[1]
+      propertyPath: 'attackVerbs.Array.data[1]'
       value: axed
       objectReference: {fileID: 0}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
-      propertyPath: attackVerbs.Array.data[2]
+      propertyPath: 'attackVerbs.Array.data[2]'
       value: hacked
       objectReference: {fileID: 0}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
-      propertyPath: attackVerbs.Array.data[3]
+      propertyPath: 'attackVerbs.Array.data[3]'
       value: tears
       objectReference: {fileID: 0}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
-      propertyPath: attackVerbs.Array.data[4]
+      propertyPath: 'attackVerbs.Array.data[4]'
       value: cleaved
       objectReference: {fileID: 0}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
-      propertyPath: attackVerbs.Array.data[5]
+      propertyPath: 'attackVerbs.Array.data[5]'
       value: cut
       objectReference: {fileID: 0}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
         type: 2}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
-      propertyPath: initialTraits.Array.data[2]
+      propertyPath: 'initialTraits.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: a4ba1a0fdc49dd64bb97637eaeaea223,
         type: 2}
@@ -128,17 +134,17 @@ PrefabInstance:
     - target: {fileID: 3779150875782483136, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3779150875782483136, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3779150875782483136, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3779150875782483136, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
@@ -157,6 +163,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3888165632377965568, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
+      propertyPath: _assetId
+      value: 197362585
+      objectReference: {fileID: 0}
+    - target: {fileID: 3888165632377965568, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
       propertyPath: m_AssetId
       value: 59b20c240c1616747aeb0a3fd1680f7b
       objectReference: {fileID: 0}
@@ -164,7 +175,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 2759446343007603882}
+      objectReference: {fileID: 0}
     - target: {fileID: 3931723898954859240, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
       propertyPath: m_Sprite
@@ -234,19 +245,14 @@ PrefabInstance:
       value: 59b20c240c1616747aeb0a3fd1680f7b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3774508599749603764, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3047810243997037760}
   m_SourcePrefab: {fileID: 100100000, guid: c22c01b8dd3a9e34388453bd0bdf4b0f, type: 3}
---- !u!114 &2759446343007603882 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3887750874050845796, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
-    type: 3}
-  m_PrefabInstance: {fileID: 1423019862233174222}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2872780430489198970}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2872780430489198970 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3774508599749603764, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
@@ -265,6 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   allClothingData:

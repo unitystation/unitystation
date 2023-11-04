@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Doors;
 using UnityEditor;
 using UnityEngine;
@@ -8,10 +12,15 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Items;
 using Items.Botany;
+using Logs;
+using SecureStuff;
 using Debug = UnityEngine.Debug;
 
 namespace Util
 {
+
+
+
 	/// <summary>
 	/// Used for random ass editor scripts, Has all the functions you need in a pinch
 	/// </summary>
@@ -38,17 +47,319 @@ namespace Util
 			AddressablePicker.Refresh();
 		}
 
+		[MenuItem("Tools/---CompiledDammit!!!!!!!!! #&q")]
+		public static void CompiledDammit()
+		{
+			EditorPrefs.SetInt("kAutoRefresh", 1);
+			UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
+
+		}
+
+		public static List<string> FilesToKeepInManaged = new List<string>()
+		{
+				"C5",
+				"FastScriptReload.Tests.Runtime",
+				"Firebase.App",
+				"Firebase.Auth",
+				"Firebase.Firestore",
+				"Firebase.Platform",
+				"Firebase.Storage",
+				"Firebase.TaskExtension",
+				"Google.MiniJson",
+				"kcp2k",
+				"Logger",
+				"Mirror.Authenticators",
+				"Mirror.Components",
+				"Mirror",
+				"Mirror.Examples",
+				"Mirror.Ignorance",
+				"Mirror.Transports",
+				"Mono.Security",
+				"mscorlib",
+				"netstandard",
+				"Newtonsoft.Json",
+				"nunit.framework",
+				"PlayerPrefsEditor",
+				"SecureStuff",
+				"SimpleWebTransport",
+				"SunVoxplugin",
+				"System.ComponentModel.Composition",
+				"System.Configuration",
+				"System.Core",
+				"System.Data.DataSetExtensions",
+				"System.Data",
+				"System",
+				"System.Drawing",
+				"System.EnterpriseServices",
+				"System.IO.Compression",
+				"System.IO.Compression.FileSystem",
+				"System.Net.Http",
+				"System.Numerics",
+				"System.Runtime.Serialization",
+				"System.Security",
+				"System.ServiceModel.Internals",
+				"System.Transactions",
+				"System.Xml",
+				"System.Xml.Linq",
+				"Telepathy",
+				"Tomlyn",
+				"UniTask.Addressables",
+				"UniTask",
+				"UniTask.DOTween",
+				"UniTask.Linq",
+				"UniTask.TextMeshPro",
+				"Unity.2D.PixelPerfect",
+				"Unity.2D.Tilemap.Extras",
+				"Unity.Addressables",
+				"Unity.Compat",
+				"Unity.InternalAPIEngineBridge.003",
+				"Unity.MemoryProfiler",
+				"Unity.Multiplayer.Playmode.Common.Runtime",
+				"Unity.Multiplayer.Playmode",
+				"Unity.Postprocessing.Runtime",
+				"Unity.ResourceManager",
+				"Unity.ScriptableBuildPipeline",
+				"Unity.Tasks",
+				"Unity.TextMeshPro",
+				"Unity.VectorGraphics",
+				"UnityEngine.AccessibilityModule",
+				"UnityEngine.AIModule",
+				"UnityEngine.AndroidJNIModule",
+				"UnityEngine.AnimationModule",
+				"UnityEngine.ARModule",
+				"UnityEngine.AssetBundleModule",
+				"UnityEngine.AudioModule",
+				"UnityEngine.ClothModule",
+				"UnityEngine.ClusterInputModule",
+				"UnityEngine.CommandStateObserverModule",
+				"UnityEngine.ContentLoadModule",
+				"UnityEngine.CoreModule",
+				"UnityEngine.CrashReportingModule",
+				"UnityEngine.DirectorModule",
+				"UnityEngine",
+				"UnityEngine.DSPGraphModule",
+				"UnityEngine.GameCenterModule",
+				"UnityEngine.GIModule",
+				"UnityEngine.GraphToolsFoundationModule",
+				"UnityEngine.GridModule",
+				"UnityEngine.HotReloadModule",
+				"UnityEngine.ImageConversionModule",
+				"UnityEngine.IMGUIModule",
+				"UnityEngine.InputLegacyModule",
+				"UnityEngine.InputModule",
+				"UnityEngine.JSONSerializeModule",
+				"UnityEngine.LocalizationModule",
+				"UnityEngine.MarshallingModule",
+				"UnityEngine.NVIDIAModule",
+				"UnityEngine.ParticleSystemModule",
+				"UnityEngine.PerformanceReportingModule",
+				"UnityEngine.Physics2DModule",
+				"UnityEngine.PhysicsModule",
+				"UnityEngine.ProfilerModule",
+				"UnityEngine.PropertiesModule",
+				"UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule",
+				"UnityEngine.ScreenCaptureModule",
+				"UnityEngine.SharedInternalsModule",
+				"UnityEngine.SpriteMaskModule",
+				"UnityEngine.SpriteShapeModule",
+				"UnityEngine.StreamingModule",
+				"UnityEngine.SubstanceModule",
+				"UnityEngine.SubsystemsModule",
+				"UnityEngine.TerrainModule",
+				"UnityEngine.TerrainPhysicsModule",
+				"UnityEngine.TextCoreFontEngineModule",
+				"UnityEngine.TextCoreTextEngineModule",
+				"UnityEngine.TextRenderingModule",
+				"UnityEngine.TilemapModule",
+				"UnityEngine.TLSModule",
+				"UnityEngine.UI",
+				"UnityEngine.UIElementsModule",
+				"UnityEngine.UIModule",
+				"UnityEngine.UmbraModule",
+				"UnityEngine.UnityAnalyticsCommonModule",
+				"UnityEngine.UnityAnalyticsModule",
+				"UnityEngine.UnityConnectModule",
+				"UnityEngine.ClusterRendererModule",
+				"UnityEngine.UnityCurlModule",
+				"UnityEngine.UnityTestProtocolModule",
+				"UnityEngine.UnityWebRequestAssetBundleModule",
+				"UnityEngine.UnityWebRequestAudioModule",
+				"UnityEngine.UnityWebRequestModule",
+				"UnityEngine.UnityWebRequestTextureModule",
+				"UnityEngine.UnityWebRequestWWWModule",
+				"UnityEngine.VehiclesModule",
+				"UnityEngine.VFXModule",
+				"UnityEngine.VideoModule",
+				"UnityEngine.VirtualTexturingModule",
+				"UnityEngine.VRModule",
+				"UnityEngine.WindModule",
+				"UnityEngine.XRModule",
+				"websocket-sharp",
+				"YamlDotNet",
+				"YamlDotNet.Examples"
+			};
+
+
+		[MenuItem("Tools/𓀠 - 𓀠 - ConvertBuildToGoodFiles 𓀂 - 𓀂 -")]
+		public static void ConvertBuildToGoodFiles()
+		{
+			PrepareWindows();
+			PrepareMac();
+			PrepareLinux();
+		}
+
+		[MenuItem("Tools/𓀠 𓀠 𓀠 𓀠 GenGoodFiles 𓀂 𓀂 𓀂 𓀂")]
+		public static void GenGoodFiles()
+		{
+
+
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+			path = Path.Combine(path, "Build");
+			var Directory = new DirectoryInfo(path);
+			if (Directory.Exists)
+			{
+				Directory.Delete(true);
+			}
+			Directory.Create();
+
+			BuildWindows();
+			BuildLinux();
+			BuildMac();
+		}
+
+		private static void BuildWindows()
+		{
+			string[] levels = new string[] {};
+
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
+			// Build player.
+			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Windows", "Unitystation.exe") , BuildTarget.StandaloneWindows64, BuildOptions.None);
+
+			PrepareWindows();
+		}
+
+		private static void PrepareWindows()
+		{
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
+			var Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data\Managed"));
+
+			foreach (var file in Directory.GetFiles())
+			{
+				if (FilesToKeepInManaged.Contains(file.Name.Replace(file.Extension, ""))) continue;
+				file.Delete();
+			}
+			Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data\Resources"));
+			Directory.Delete(true);
+			Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data\StreamingAssets"));
+			Directory.Delete(true);
+
+			Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data"));
+			foreach (var file in Directory.GetFiles())
+			{
+				file.Delete();
+			}
+		}
+
+
+		private static void BuildLinux()
+		{
+			string[] levels = new string[] {};
+
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
+			// Build player.
+			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Linux", "Unitystation.x86_64") , BuildTarget.StandaloneLinux64, BuildOptions.None);
+
+			PrepareLinux();
+		}
+
+		private static void PrepareLinux()
+		{
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
+			var Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data\Managed"));
+
+			foreach (var file in Directory.GetFiles())
+			{
+				if (FilesToKeepInManaged.Contains(file.Name.Replace(file.Extension, ""))) continue;
+				file.Delete();
+			}
+			Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data\Resources"));
+			Directory.Delete(true);
+			Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data\StreamingAssets"));
+			Directory.Delete(true);
+
+			Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data"));
+			foreach (var file in Directory.GetFiles())
+			{
+				file.Delete();
+			}
+		}
+
+		private static void BuildMac()
+		{
+			string[] levels = new string[] {};
+
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
+			// Build player.
+			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Mac", "Unitystation.app") , BuildTarget.StandaloneOSX, BuildOptions.None);
+
+			PrepareMac();
+		}
+
+		private static void PrepareMac()
+		{
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+			var Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data\Managed"));
+
+			foreach (var file in Directory.GetFiles())
+			{
+				if (FilesToKeepInManaged.Contains(file.Name.Replace(file.Extension, ""))) continue;
+				file.Delete();
+			}
+			Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data\StreamingAssets"));
+			Directory.Delete(true);
+
+			Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data"));
+			foreach (var file in Directory.GetFiles())
+			{
+				file.Delete();
+			}
+		}
+
 		[MenuItem("Tools/Get Music keys")]
 		public static void GetMusicKeys()
 		{
 			var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
 			path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData"; //Make OS agnostic
-			Logger.Log(path, Category.Editor);
+			Loggy.Log(path, Category.Editor);
 			var Files = Directory.GetFiles(path);
 			string FoundFile = "";
 			foreach (var File in Files)
 			{
-				Logger.Log(File, Category.Editor);
+				Loggy.Log(File, Category.Editor);
 				if (File.EndsWith(".json"))
 				{
 					FoundFile = File;
@@ -57,7 +368,7 @@ namespace Util
 
 			if (FoundFile == "")
 			{
-				Logger.LogWarning("missing json file", Category.Editor);
+				Loggy.LogWarning("missing json file", Category.Editor);
 				return;
 			}
 
@@ -66,7 +377,7 @@ namespace Util
 			var ListIDs = IDs.ToObject<List<string>>().Where(x => x.Contains(".bundle") == false);
 			foreach (var ListID in ListIDs)
 			{
-				Logger.Log(ListID, Category.Editor);
+				Loggy.Log(ListID, Category.Editor);
 			}
 		}
 
@@ -96,6 +407,7 @@ namespace Util
 			{
 				AssetDatabase.DeleteAsset(oDe);
 			}
+
 			var AAA = FindAssetsByType<SpriteCatalogue>();
 			foreach (var Seve in ToSeve)
 			{
@@ -125,18 +437,53 @@ namespace Util
 			{
 				AAA[0].AddToCatalogue(SO);
 			}
+
 			EditorUtility.SetDirty(AAA[0]);
 			AssetDatabase.StopAssetEditing();
 			AssetDatabase.SaveAssets();
 		}
 
-		[MenuItem("Tools/GenerateSpriteSO")]
+		[MenuItem("Tools/||||||||||||||||||||Debug function||||||||||||||||")]
+		public static void ResetPipe()
+		{
+			//HubValidation.ResetPipe();
+		}
+
+		public static async Task Dothing()
+		{
+			var data = await HubValidation.RequestOpenURL(new Uri("https://old.reddit.com"), " because lol ", false);
+			data = await HubValidation.RequestAPIURL(new Uri("https://old.reddit.com"), " Because I needed ", false);
+			data = await HubValidation.RequestTrustedMode("AAAAAAAAAAAAAAAA");
+			Loggy.LogError(data.ToString());
+		}
+
+
+
+		[MenuItem("Tools/------------ Debug function -----------")]
 		public static void Generate()
 		{
+			 AssetDatabase.StartAssetEditing();
+			                     			AssetDatabase.ForceReserializeAssets();
+			                     		AssetDatabase.StopAssetEditing();
+			                             			AssetDatabase.SaveAssets();
 
-			var SGen = new SudokuGenerator();
 
-			Logger.LogError(SGen.generate("hard"));
+			// Get the type (class) that contains the method
+			// Type type = typeof(MiscFunctions_RRT);
+			//
+			// // Get the method information
+			// MethodInfo methodInfo = type.GetMethod("Dothing");
+			//
+			// var Info = methodInfo.GetCustomAttributes();
+
+			return;
+
+
+			EditorPrefs.SetInt("kAutoRefreshMode", (int) 1);
+			EditorPrefs.SetInt("kAutoRefresh", 1); //older unity versions
+			//var SGen = new SudokuGenerator();
+
+			//Logger.LogError(SGen.generate("hard"));
 			return;
 			AssetDatabase.StartAssetEditing();
 			AssetDatabase.ForceReserializeAssets();
@@ -221,7 +568,7 @@ namespace Util
 				}
 				catch
 				{
-					Logger.Log(GetRoot(SH.gameObject).name + "Not root apparently", Category.Editor);
+					Loggy.Log(GetRoot(SH.gameObject).name + "Not root apparently", Category.Editor);
 				}
 			}
 
@@ -574,11 +921,12 @@ namespace Util
 					var Sprites = AssetDatabase.LoadAllAssetsAtPath(TT).OfType<Sprite>().ToArray();
 					if (Sprites.Length > 1)
 					{
-						Sprites = Sprites.OrderBy(x => int.Parse(x.name.Substring(x.name.LastIndexOf('_') + 1))).ToArray();
+						Sprites = Sprites.OrderBy(x => int.Parse(x.name.Substring(x.name.LastIndexOf('_') + 1)))
+							.ToArray();
 					}
 
 					//yeah If you named your sub sprites rip, have to find another way of ordering them correctly since the editor doesnt want to do that		E
-					var EquippedData = (TextAsset)AssetDatabase.LoadAssetAtPath(
+					var EquippedData = (TextAsset) AssetDatabase.LoadAssetAtPath(
 						path.Replace(".png", ".json").Replace(Application.dataPath, "Assets"), typeof(TextAsset));
 					var SpriteData = ScriptableObject.CreateInstance<SpriteDataSO>();
 
@@ -616,7 +964,7 @@ namespace Util
 			{
 				if (Sprites.Length > 1)
 				{
-					Logger.LogError("OH NO json File wasn't found for " + Sprites[0].name, Category.Editor);
+					Loggy.LogError("OH NO json File wasn't found for " + Sprites[0].name, Category.Editor);
 				}
 
 				SpriteData.Variance.Add(new SpriteDataSO.Variant());

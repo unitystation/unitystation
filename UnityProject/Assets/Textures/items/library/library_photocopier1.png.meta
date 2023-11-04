@@ -183,7 +183,7 @@ TextureImporter:
       213: 5110644558360766679
     second: library_photocopier1_19
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -200,11 +200,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -243,6 +244,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -258,6 +261,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -702,29 +717,28 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      library_photocopier1_6: 1515596730237410189
-      library_photocopier1_9: -7693469711607374128
-      library_photocopier1_3: 4425154471484002041
-      library_photocopier1_10: -6934553277599802098
       library_photocopier1_0: 1219057744168937519
-      library_photocopier1_4: -5930897762437149081
-      library_photocopier1_7: 5435282944792398990
-      library_photocopier1_16: -2085773065785049435
-      library_photocopier1_19: 5110644558360766679
-      library_photocopier1_18: -1628383304096755703
-      library_photocopier1_15: 8109647802011309262
+      library_photocopier1_1: -2628711802997344869
+      library_photocopier1_10: -6934553277599802098
       library_photocopier1_11: -584037810273258932
       library_photocopier1_12: 2544566531917486508
-      library_photocopier1_14: -1332517156804251413
-      library_photocopier1_1: -2628711802997344869
-      library_photocopier1_17: 9148786942350226818
-      library_photocopier1_2: -7337980253040244414
       library_photocopier1_13: 4861013453386212971
+      library_photocopier1_14: -1332517156804251413
+      library_photocopier1_15: 8109647802011309262
+      library_photocopier1_16: -2085773065785049435
+      library_photocopier1_17: 9148786942350226818
+      library_photocopier1_18: -1628383304096755703
+      library_photocopier1_19: 5110644558360766679
+      library_photocopier1_2: -7337980253040244414
+      library_photocopier1_3: 4425154471484002041
+      library_photocopier1_4: -5930897762437149081
       library_photocopier1_5: -5411455866835925
+      library_photocopier1_6: 1515596730237410189
+      library_photocopier1_7: 5435282944792398990
       library_photocopier1_8: -3793340363318279467
-  spritePackingTag: 
+      library_photocopier1_9: -7693469711607374128
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

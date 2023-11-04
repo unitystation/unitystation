@@ -16,6 +16,8 @@ namespace AdminTools.VariableViewer
 		public override PageElementEnum PageElementType => PageElementEnum.Colour;
 		public Color thisColor = Color.white;
 
+		public bool IgnoreUpdates = false;
+
 		public HashSet<Type> CanDo = new HashSet<Type>()
 		{
 			typeof(Color),
@@ -52,6 +54,7 @@ namespace AdminTools.VariableViewer
 
 		public void UpdateColour()
 		{
+			if (IgnoreUpdates) return;
 			if (PageID != 0)
 			{
 				thisColor = ColorPicker.CurrentColor;
@@ -80,10 +83,11 @@ namespace AdminTools.VariableViewer
 			var inType = Data.GetType();
 			if (CanDo.Contains(inType))
 			{
-				string newstring = "" + Convert.ToChar(Mathf.RoundToInt((float)inType.GetField("r").GetValue(Data) * 255));
-				newstring += Convert.ToChar(Mathf.RoundToInt((float)inType.GetField("g").GetValue(Data) * 255));
-				newstring += Convert.ToChar(Mathf.RoundToInt((float)inType.GetField("b").GetValue(Data) * 255));
-				newstring += Convert.ToChar(Mathf.RoundToInt((float)inType.GetField("a").GetValue(Data) * 255));
+				Color Color = (Color) Data;
+				string newstring = "" + Convert.ToChar(Mathf.RoundToInt((float)Color.r * 255));
+				newstring += Convert.ToChar(Mathf.RoundToInt((float)Color.g * 255));
+				newstring += Convert.ToChar(Mathf.RoundToInt((float)Color.b * 255));
+				newstring += Convert.ToChar(Mathf.RoundToInt((float)Color.a * 255));
 				return newstring;
 			}
 
@@ -99,8 +103,10 @@ namespace AdminTools.VariableViewer
 			TheColour.a = Data[3] / 255f;
 			if (SetUI)
 			{
+				IgnoreUpdates = true;
 				thisColor = TheColour;
 				ColorPicker.CurrentColor = TheColour;
+				IgnoreUpdates = false;
 			}
 
 			return TheColour;

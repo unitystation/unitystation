@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 716646880682716998, guid: a910878bd30ff5d439b94cd12e623762,
@@ -16,6 +17,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A power cell with a slightly higher capacity than normal!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048113473106476432, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      propertyPath: _assetId
+      value: 1497868258
       objectReference: {fileID: 0}
     - target: {fileID: 1048113473106476432, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
@@ -89,6 +95,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1851616424243757961, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
+      propertyPath: watts
+      value: 2500
+      objectReference: {fileID: 0}
+    - target: {fileID: 1851616424243757961, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
       propertyPath: MaxWatts
       value: 2500
       objectReference: {fileID: 0}
@@ -98,4 +109,7 @@ PrefabInstance:
       value: dae318bdee00c5846830de6a3761fe2c
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a910878bd30ff5d439b94cd12e623762, type: 3}

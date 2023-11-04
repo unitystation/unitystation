@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2917128564446547862, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: _assetId
+      value: 2147311989
+      objectReference: {fileID: 0}
     - target: {fileID: 2917128564446547862, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: m_AssetId
@@ -16,7 +22,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 3564775555980061888}
+      objectReference: {fileID: 0}
     - target: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: m_Name
@@ -100,7 +106,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
-      propertyPath: initialTraits.Array.data[0]
+      propertyPath: 'initialTraits.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 05e6127af6cf24f08b94fb9922263c26,
         type: 2}
@@ -131,6 +137,29 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 7c0216e23b0d28440851441285af0101,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 964166953619812975}
+    - targetCorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3198588703553528821}
+    - targetCorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4247485008670982582}
+    - targetCorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4279701593722495436}
+    - targetCorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5114211888558087148}
   m_SourcePrefab: {fileID: 100100000, guid: 6b5f74a79e023479cb5b30a2879621da, type: 3}
 --- !u!1 &3525490832341156112 stripped
 GameObject:
@@ -151,6 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slot: 0
+  CompatibleSlots: 
   armoredBodyParts: []
 --- !u!114 &3198588703553528821
 MonoBehaviour:
@@ -167,6 +197,7 @@ MonoBehaviour:
   shadow: {fileID: 0}
   draggerMustBeAdjacent: 1
   allowDragWhileSoftCrit: 1
+  allowedToMouseDrag: 1
 --- !u!114 &4247485008670982582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,11 +243,13 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &5114211888558087148
 MonoBehaviour:
@@ -231,19 +264,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   denyStorageOfStorageItems: 0
+  itemStorage: {fileID: 0}
   canClickPickup: 0
   canQuickEmpty: 0
   TopLevelAlt: 1
   actionData: {fileID: 0}
---- !u!114 &3564775555980061888 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2916681237181358066, guid: 6b5f74a79e023479cb5b30a2879621da,
-    type: 3}
-  m_PrefabInstance: {fileID: 1802146127837016882}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3525490832341156112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  DoNotShowInventoryOnUI: 0

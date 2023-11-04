@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3846204835941215739, guid: 68259771352072a48a290530b2894872,
@@ -80,6 +81,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7039790615201508296, guid: 68259771352072a48a290530b2894872,
         type: 3}
+      propertyPath: _assetId
+      value: 3268769047
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039790615201508296, guid: 68259771352072a48a290530b2894872,
+        type: 3}
       propertyPath: m_AssetId
       value: dcd3d8f4ab469334fbf3b48a5ef58607
       objectReference: {fileID: 0}
@@ -123,42 +129,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
         type: 3}
-      propertyPath: plantData.PlantTrays.Array.data[0]
+      propertyPath: 'plantData.PlantTrays.Array.data[0]'
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: d55b42f50f5ffa34f91554eaa54a638f,
         type: 2}
     - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 1376d28824f9d494c874a3580e4d241f,
         type: 2}
     - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 64a1786b64558cf4fa1607979f03fe60,
         type: 2}
     - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[3]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 322a9236cd304ed4eb1f3604559e5ea2,
         type: 2}
     - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[4]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: 625a7d59fea9fb14b9d379d185f914d6,
         type: 2}
     - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[5]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[5]'
       value: 
       objectReference: {fileID: 11400000, guid: 1ab8c6cee831473498df053df82d8257,
         type: 2}
@@ -168,4 +174,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68259771352072a48a290530b2894872, type: 3}

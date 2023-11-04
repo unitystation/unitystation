@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 377135526006328127, guid: 487e0ccc7184595408fc207296ee20d9,
@@ -15,7 +16,7 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 377135526006328127, guid: 487e0ccc7184595408fc207296ee20d9,
         type: 3}
-      propertyPath: stageSprite.Array.data[0]
+      propertyPath: 'stageSprite.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 346709832a3eedf4e8bd1ba51d627f3f,
         type: 3}
@@ -98,6 +99,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6017404810977134575, guid: 487e0ccc7184595408fc207296ee20d9,
         type: 3}
+      propertyPath: _assetId
+      value: 2344723287
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017404810977134575, guid: 487e0ccc7184595408fc207296ee20d9,
+        type: 3}
       propertyPath: m_AssetId
       value: 840d84d103f52db45866b9942b42c1b6
       objectReference: {fileID: 0}
@@ -107,4 +113,7 @@ PrefabInstance:
       value: wooden cleanbot assembly
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 487e0ccc7184595408fc207296ee20d9, type: 3}

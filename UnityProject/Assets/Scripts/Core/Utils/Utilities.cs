@@ -1,11 +1,85 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+using Color = UnityEngine.Color;
+using Random = System.Random;
 
 
 namespace Core.Utils
 {
+
+	public static class Utils
+	{
+		private static Random random = new Random();
+		public static void SetValueByName(this Dropdown dropdown, string valueName)
+		{
+			List<Dropdown.OptionData> options = dropdown.options;
+			for (int i = 0; i < options.Count; i++)
+			{
+				if (options[i].text == valueName)
+				{
+					dropdown.value = i;
+					break;
+				}
+			}
+		}
+
+		public static string GetValueName(this Dropdown dropdown)
+		{
+			List<Dropdown.OptionData> options = dropdown.options;
+			int selectedIndex = dropdown.value;
+			if (selectedIndex >= 0 && selectedIndex < options.Count)
+			{
+				return options[selectedIndex].text;
+			}
+			return null;
+		}
+
+		public static T[] FindAll<T>(this T[] items, Predicate<T> predicate) => Array.FindAll<T>(items, predicate);
+		public static T PickRandom<T>(this IEnumerable<T> source)
+		{
+			return source.PickRandom(1).SingleOrDefault();
+		}
+
+		public static T PickRandomNonNull<T>(this IList<T> source)
+		{
+			if (source == null || source.Count == 0)
+			{
+				throw new InvalidOperationException("The list is empty or null.");
+			}
+
+			var nonNullItems = source.Where(item => item != null).ToList();
+
+			if (nonNullItems.Count == 0)
+			{
+				throw new InvalidOperationException("There are no non-null elements in the list.");
+			}
+
+			int randomIndex = random.Next(nonNullItems.Count);
+			return nonNullItems[randomIndex];
+		}
+
+		public static string ToHexString(this UnityEngine.Color color)
+		{
+			return ColorUtility.ToHtmlStringRGBA(color);
+		}
+	}
+
+	#if UNITY_EDITOR
+	public static class DEBUG
+	{
+		public static bool RUN(Action Action)
+		{
+			Action.Invoke();
+			return true;
+		}
+	}
+	#endif
+
 
 	public class MindNIPossessingEvent : UnityEvent<Mind, IPlayerPossessable> { }
 
@@ -131,16 +205,19 @@ namespace Core.Utils
 			return value.State;
 		}
 
-		public MultiInterestBool(bool InInitialState = false,
+		public MultiInterestBool(bool InDefaultState = false,
 			RegisterBehaviour inRegisterBehaviour = RegisterBehaviour.RemoveFalse,
 			BoolBehaviour InSetBoolBehaviour = BoolBehaviour.ReturnOnTrue)
 		{
-			InitialState = InInitialState;
+			InitialState = InDefaultState;
+			state = InitialState;
 			Behaviour = inRegisterBehaviour;
 			SetBoolBehaviour = InSetBoolBehaviour;
 		}
 
 	}
+
+
 
 	public class MultiInterestFloat
 	{
@@ -282,7 +359,9 @@ namespace Core.Utils
 			Behaviour = inRegisterBehaviour;
 			SetFloatBehaviour  = InSetFloatBehaviour;
 		}
+
 	}
+
 }
 
 

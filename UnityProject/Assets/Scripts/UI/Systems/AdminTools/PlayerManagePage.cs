@@ -1,3 +1,10 @@
+using AdminCommands;
+using DatabaseAPI;
+using Logs;
+using Messages.Client.Admin;
+using UI.AdminTools;
+using UI.Systems.AdminTools;
+
 using UnityEngine;
 using UnityEngine.UI;
 using Core.Accounts;
@@ -14,6 +21,7 @@ namespace AdminTools
 		[SerializeField] private Toggle quickRespawnToggle = default;
 		[SerializeField] private Text mentorButtonText = null;
 		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
+		[SerializeField] private PlayerObjectiveManagerPage antagManagerPage = default;
 
 		[SerializeField] private Text oocMuteButtonText = null;
 
@@ -80,7 +88,7 @@ namespace AdminTools
 				}
 				if (spawnOcc == null)
 				{
-					Logger.LogError("Cannot find Occupation for selected player, they most likely haven't joined yet.");
+					Loggy.LogError("Cannot find Occupation for selected player, they most likely haven't joined yet.");
 					return;
 				}
 				RequestRespawnPlayer.SendNormalRespawn(PlayerEntry.PlayerData.uid, spawnOcc);
@@ -216,6 +224,12 @@ namespace AdminTools
 		{
 			AdminCommandsManager.Instance.CmdOOCMutePlayer(PlayerEntry.PlayerData.uid);
 			RefreshPage();
+		}
+
+		public void OnAntagonistManager()
+		{
+			antagManagerPage.Init(PlayerEntry);
+			adminTools.ShowAntagManagerPage();
 		}
 	}
 }

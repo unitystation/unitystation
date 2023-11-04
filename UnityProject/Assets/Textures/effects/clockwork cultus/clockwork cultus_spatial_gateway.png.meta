@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: spatial_gateway_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      spatial_gateway_7: 21300014
-      spatial_gateway_10: 21300020
-      spatial_gateway_23: 21300046
-      spatial_gateway_4: 21300008
-      spatial_gateway_5: 21300010
-      spatial_gateway_12: 21300024
       spatial_gateway_0: 21300000
-      spatial_gateway_8: 21300016
-      spatial_gateway_6: 21300012
-      spatial_gateway_14: 21300028
+      spatial_gateway_1: 21300002
+      spatial_gateway_10: 21300020
       spatial_gateway_11: 21300022
+      spatial_gateway_12: 21300024
+      spatial_gateway_13: 21300026
+      spatial_gateway_14: 21300028
       spatial_gateway_15: 21300030
-      spatial_gateway_21: 21300042
+      spatial_gateway_16: 21300032
       spatial_gateway_17: 21300034
+      spatial_gateway_18: 21300036
+      spatial_gateway_19: 21300038
       spatial_gateway_2: 21300004
       spatial_gateway_20: 21300040
-      spatial_gateway_18: 21300036
-      spatial_gateway_13: 21300026
-      spatial_gateway_19: 21300038
-      spatial_gateway_3: 21300006
+      spatial_gateway_21: 21300042
       spatial_gateway_22: 21300044
+      spatial_gateway_23: 21300046
+      spatial_gateway_3: 21300006
+      spatial_gateway_4: 21300008
+      spatial_gateway_5: 21300010
+      spatial_gateway_6: 21300012
+      spatial_gateway_7: 21300014
+      spatial_gateway_8: 21300016
       spatial_gateway_9: 21300018
-      spatial_gateway_16: 21300032
-      spatial_gateway_1: 21300002
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

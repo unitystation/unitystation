@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: cameras_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      cameras_21: 21300042
-      cameras_11: 21300022
-      cameras_22: 21300044
-      cameras_15: 21300030
-      cameras_25: 21300050
-      cameras_20: 21300040
-      cameras_26: 21300052
-      cameras_6: 21300012
-      cameras_1: 21300002
       cameras_0: 21300000
-      cameras_12: 21300024
-      cameras_17: 21300034
-      cameras_28: 21300056
-      cameras_23: 21300046
-      cameras_5: 21300010
-      cameras_9: 21300018
-      cameras_14: 21300028
-      cameras_29: 21300058
-      cameras_7: 21300014
-      cameras_30: 21300060
-      cameras_8: 21300016
-      cameras_18: 21300036
-      cameras_13: 21300026
-      cameras_2: 21300004
-      cameras_19: 21300038
-      cameras_16: 21300032
-      cameras_31: 21300062
-      cameras_3: 21300006
-      cameras_24: 21300048
-      cameras_27: 21300054
+      cameras_1: 21300002
       cameras_10: 21300020
+      cameras_11: 21300022
+      cameras_12: 21300024
+      cameras_13: 21300026
+      cameras_14: 21300028
+      cameras_15: 21300030
+      cameras_16: 21300032
+      cameras_17: 21300034
+      cameras_18: 21300036
+      cameras_19: 21300038
+      cameras_2: 21300004
+      cameras_20: 21300040
+      cameras_21: 21300042
+      cameras_22: 21300044
+      cameras_23: 21300046
+      cameras_24: 21300048
+      cameras_25: 21300050
+      cameras_26: 21300052
+      cameras_27: 21300054
+      cameras_28: 21300056
+      cameras_29: 21300058
+      cameras_3: 21300006
+      cameras_30: 21300060
+      cameras_31: 21300062
       cameras_4: 21300008
-  spritePackingTag: 
+      cameras_5: 21300010
+      cameras_6: 21300012
+      cameras_7: 21300014
+      cameras_8: 21300016
+      cameras_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
+  m_Name: Cow
+  m_EditorClassIdentifier: 
+  Base:
+    Head:
+      Elements: []
+    Torso:
+      Elements:
+      - {fileID: 3900858290405423959, guid: 2561a3eefb5a3824b93384b8c0752d5b, type: 3}
+    ArmRight:
+      Elements: []
+    ArmLeft:
+      Elements: []
+    LegRight:
+      Elements: []
+    LegLeft:
+      Elements: []
+    allowedToChangeling: 0
+    CustomisationSettings: []
+    bodyTypeSettings:
+      AvailableBodyTypes:
+      - bodyType: 0
+        Name: Cow
+    SkinColours: []
+    RootImplantProcedure: {fileID: 0}
+    BodyPartsThatShareTheSkinTone: []
+    ClueString: ' a short strand of white hair'
+    MeatProduce: {fileID: 8959477194135024070, guid: 55924b0ca337c6d4fbed9f36a57d2c73,
+      type: 3}
+    SkinProduce: {fileID: 8592233378525956144, guid: a002cd94594e0f04d8872caee46f879f,
+      type: 3}
+    CanBePlayerChosen: 0
+    PreviewSprite: {fileID: 11400000, guid: 8538e6a992447fb4190cf4023ab272ac, type: 2}
+    SystemSettings: []
+  references:
+    version: 2
+    RefIds: []

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1852917357894011755, guid: 5d7892c86699e21499ad5f872fd4d512,
@@ -31,7 +32,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d1180cf7543131a41aa79883111022dd,
+      objectReference: {fileID: 21300000, guid: af066ec960c8b0b498c76a078074fbc1,
         type: 3}
     - target: {fileID: 3289657738632450357, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
@@ -71,17 +72,17 @@ PrefabInstance:
     - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
@@ -103,15 +104,30 @@ PrefabInstance:
       propertyPath: initialName
       value: portable air scrubber
       objectReference: {fileID: 0}
+    - target: {fileID: 5360118459378231826, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: initialSize
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6137218331869067967, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
       propertyPath: initialIntegrity
       value: 250
       objectReference: {fileID: 0}
+    - target: {fileID: 6204448132171339114, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: initialPassable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6564800655704309824, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
       propertyPath: isDirty
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564800655704309824, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: _assetId
+      value: 3288283322
       objectReference: {fileID: 0}
     - target: {fileID: 6564800655704309824, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
@@ -122,7 +138,185 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
+      objectReference: {fileID: 11400000, guid: 4d19c852a9f97924493312a1cf9c1d76,
+        type: 2}
+    - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4d19c852a9f97924493312a1cf9c1d76,
+        type: 2}
+    - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
+      value: 
       objectReference: {fileID: 11400000, guid: be44ac9c5b30a104eb94a1ea3d24969d,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4613655676182136498}
+    - targetCorrespondingSourceObject: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4035987979738229505}
+    - targetCorrespondingSourceObject: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3873494748954500586}
+    - targetCorrespondingSourceObject: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5584791139615377314}
+    - targetCorrespondingSourceObject: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1058151150928460662}
   m_SourcePrefab: {fileID: 100100000, guid: 5d7892c86699e21499ad5f872fd4d512, type: 3}
+--- !u!114 &1517277774020816811 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
+    type: 3}
+  m_PrefabInstance: {fileID: 8762191123445575763}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6176410661158010379 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3183634417709993560, guid: 5d7892c86699e21499ad5f872fd4d512,
+    type: 3}
+  m_PrefabInstance: {fileID: 8762191123445575763}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295615321316820337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &6295615321316820337 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
+    type: 3}
+  m_PrefabInstance: {fileID: 8762191123445575763}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4613655676182136498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295615321316820337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91861a6005cbce544a551b1efbc95845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Canister: {fileID: 4035987979738229505}
+  CurrentState: 0
+  Sprite: {fileID: 1517277774020816811}
+  UniversalObjectPhysics: {fileID: 6176410661158010379}
+  ScrubberEfficiency: 0.2
+  TargetGas: {fileID: 11400000, guid: 2d3c38fe76e3df249ade18fd6fdac274, type: 2}
+  RelativePositionsToScrub:
+  - {x: 0, y: 0, z: 0}
+--- !u!114 &4035987979738229505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295615321316820337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9ae6b6bba5c4e3aa4780272577c9bcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  ContentsName: Portable Scrubber
+  UIBGTint: {r: 1, g: 1, b: 1, a: 1}
+  UIInnerPanelTint: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 1}
+  AcceptTanks: 0
+  canisterTier: 0
+  valveIsInitiallyOpen: 0
+  baseSpriteHandler: {fileID: 0}
+  canisterTierOverlay: {fileID: 0}
+  pressureIndicatorOverlay: {fileID: 0}
+  connectorHoseOverlay: {fileID: 0}
+  tankInsertedOverlay: {fileID: 0}
+  openValveOverlay: {fileID: 0}
+  tankValveOpen: 0
+--- !u!114 &3873494748954500586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295615321316820337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf6a312c50114272bc561c429cbb4175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  StoredGasMix:
+    GasData:
+      GasesArray: []
+    pressure: 0
+    Volume: 2
+    temperature: 293.15
+  MaximumMoles: 0
+  ReleasePressure: 101.325
+  CargoSealApproved: 0
+--- !u!114 &5584791139615377314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295615321316820337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  NetTabType: 61
+  aiInteractable: 1
+--- !u!114 &1058151150928460662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295615321316820337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: 30eb29437c5c20c42acdcf2abf58009c, type: 2}
+  machineBoardPrefab: {fileID: 9187211431276836541, guid: aee77e99947ce624ab5276e560628463,
+    type: 3}
+  canNotBeDeconstructed: 0
+  isEMPResistant: 0
+  mustBeUnanchored: 0
+  secondsToScrewdrive: 2

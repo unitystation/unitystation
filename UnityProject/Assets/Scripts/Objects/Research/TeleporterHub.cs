@@ -88,7 +88,7 @@ namespace Objects.Research
 			ProjectileManager.InstantiateAndShoot(data.BulletObject.GetComponent<Bullet>().PrefabName,
 				data.BulletShootDirection, linkedBeacon.gameObject, null, BodyPartType.None, range);
 
-			Chat.AddLocalMsgToChat($"The {data.BulletName} enters through the active portal!", gameObject);
+			Chat.AddActionMsgToChat(gameObject, $"The {data.BulletName} enters through the active portal!");
 
 			SparkUtil.TrySpark(gameObject, expose: false);
 			SparkUtil.TrySpark(linkedBeacon.gameObject, expose: false);

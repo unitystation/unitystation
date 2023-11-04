@@ -40,7 +40,7 @@ namespace Objects.Atmospherics
 			Welded = 9,
 		}
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Sound to play when the welding task is complete.")]
 		private AddressableReferences.AddressableAudioSource weldFinishSfx = default;
 
@@ -99,7 +99,7 @@ namespace Objects.Atmospherics
 		/// <para>Final transfer rate is still limited by the pressure difference and available moles.</para>
 		/// </summary>
 		private float Effectiveness => voltageMultiplier * (isTransitioning ? 0.2f : 1);
-		private readonly float nominalMolesTransferCap = 10;
+		public float nominalMolesTransferCap = 50;
 
 		private void Operate()
 		{
@@ -274,7 +274,7 @@ namespace Objects.Atmospherics
 			else
 			{
 				// No transitions; just set instantly.
-				spritehandler.ChangeSprite((int)desiredFinalSprite);
+				spritehandler.SetCatalogueIndexSprite((int)desiredFinalSprite);
 			}
 		}
 

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 417155208089742748, guid: d589c17f6fd91da4190edfdd2cb5aa53,
@@ -78,17 +79,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: firemodeName.Array.data[0]
+      propertyPath: 'firemodeName.Array.data[0]'
       value: Stun
       objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: firemodeName.Array.data[1]
+      propertyPath: 'firemodeName.Array.data[1]'
       value: Disable
       objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: firemodeUsage.Array.data[1]
+      propertyPath: 'firemodeUsage.Array.data[1]'
       value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
@@ -103,23 +104,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: firemodeFiringSound.Array.data[0]
+      propertyPath: 'firemodeFiringSound.Array.data[0]'
       value: ShootTazer
       objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: firemodeFiringSound.Array.data[1]
+      propertyPath: 'firemodeFiringSound.Array.data[1]'
       value: ShootLaser
       objectReference: {fileID: 0}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: firemodeProjectiles.Array.data[0]
+      propertyPath: 'firemodeProjectiles.Array.data[0]'
       value: 
       objectReference: {fileID: 5951038657140010356, guid: 00552b9802a37ba4bbe1aca46515b240,
         type: 3}
     - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: firemodeProjectiles.Array.data[1]
+      propertyPath: 'firemodeProjectiles.Array.data[1]'
       value: 
       objectReference: {fileID: 5418626791516505491, guid: b4492e96cb32b8941a4cf47edcf7c3cc,
         type: 3}
@@ -179,7 +180,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6601480061218639507, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: initialTraits.Array.data[3]
+      propertyPath: 'initialTraits.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 54f3eb2e915e0724cb547bca694b7157,
         type: 2}
@@ -189,6 +190,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: fb4ec893cf4767741a7c3cae4df348c3,
         type: 2}
+    - target: {fileID: 6693620148964760645, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: _assetId
+      value: 1329125022
+      objectReference: {fileID: 0}
     - target: {fileID: 6693620148964760645, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
       propertyPath: m_AssetId
@@ -324,4 +330,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 976cb430547314a47a5125139cfb1442,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d589c17f6fd91da4190edfdd2cb5aa53, type: 3}

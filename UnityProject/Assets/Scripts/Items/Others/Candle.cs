@@ -132,7 +132,7 @@ namespace Items.Others
 				clothing.ChangeSprite(lightControl.IsOn ? 1 + (DecayStage * 2) : 0 + (DecayStage * 2));
 			}
 
-			spriteHandler.ChangeSprite(SpriteIndex + (DecayStage * 2));
+			spriteHandler.SetCatalogueIndexSprite(SpriteIndex + (DecayStage * 2));
 		}
 	}
 }

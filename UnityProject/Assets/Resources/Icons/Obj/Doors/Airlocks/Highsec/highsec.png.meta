@@ -63,7 +63,7 @@ TextureImporter:
       213: 21300038
     second: highsec_19
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -80,11 +80,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -123,6 +124,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -162,6 +165,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -606,29 +621,28 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      highsec_6: 21300012
-      highsec_13: 21300026
+      highsec_0: 21300000
       highsec_1: 21300002
+      highsec_10: 21300020
       highsec_11: 21300022
       highsec_12: 21300024
-      highsec_5: 21300010
-      highsec_2: 21300004
-      highsec_8: 21300016
-      highsec_9: 21300018
-      highsec_16: 21300032
+      highsec_13: 21300026
+      highsec_14: 21300028
       highsec_15: 21300030
-      highsec_18: 21300036
+      highsec_16: 21300032
       highsec_17: 21300034
+      highsec_18: 21300036
+      highsec_19: 21300038
+      highsec_2: 21300004
       highsec_3: 21300006
       highsec_4: 21300008
-      highsec_10: 21300020
-      highsec_14: 21300028
+      highsec_5: 21300010
+      highsec_6: 21300012
       highsec_7: 21300014
-      highsec_0: 21300000
-      highsec_19: 21300038
-  spritePackingTag: 
+      highsec_8: 21300016
+      highsec_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -57,7 +57,7 @@ TextureImporter:
       213: 2313480792443481819
     second: stationobjs_autolathe_nfull_17
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -74,11 +74,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -117,6 +118,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -132,6 +135,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -535,26 +550,25 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       stationobjs_autolathe_nfull_0: 8703128856924854413
-      stationobjs_autolathe_nfull_4: 5399270680963873595
-      stationobjs_autolathe_nfull_12: -8788106736673486409
-      stationobjs_autolathe_nfull_14: -2048358173489525685
-      stationobjs_autolathe_nfull_17: 2313480792443481819
-      stationobjs_autolathe_nfull_7: 4106881395898673252
-      stationobjs_autolathe_nfull_6: 6961802538447911207
-      stationobjs_autolathe_nfull_3: 5979386791730379284
-      stationobjs_autolathe_nfull_11: -8982908389419522036
-      stationobjs_autolathe_nfull_2: 1210377355069897012
-      stationobjs_autolathe_nfull_8: -4351150644770572491
-      stationobjs_autolathe_nfull_10: 4077288278973081940
-      stationobjs_autolathe_nfull_16: -4921068442906992512
       stationobjs_autolathe_nfull_1: 965337075340090404
-      stationobjs_autolathe_nfull_5: -1061856799901130237
-      stationobjs_autolathe_nfull_9: 1251820693659632575
+      stationobjs_autolathe_nfull_10: 4077288278973081940
+      stationobjs_autolathe_nfull_11: -8982908389419522036
+      stationobjs_autolathe_nfull_12: -8788106736673486409
       stationobjs_autolathe_nfull_13: -5489772963193932273
+      stationobjs_autolathe_nfull_14: -2048358173489525685
       stationobjs_autolathe_nfull_15: 8647828239065918026
-  spritePackingTag: 
+      stationobjs_autolathe_nfull_16: -4921068442906992512
+      stationobjs_autolathe_nfull_17: 2313480792443481819
+      stationobjs_autolathe_nfull_2: 1210377355069897012
+      stationobjs_autolathe_nfull_3: 5979386791730379284
+      stationobjs_autolathe_nfull_4: 5399270680963873595
+      stationobjs_autolathe_nfull_5: -1061856799901130237
+      stationobjs_autolathe_nfull_6: 6961802538447911207
+      stationobjs_autolathe_nfull_7: 4106881395898673252
+      stationobjs_autolathe_nfull_8: -4351150644770572491
+      stationobjs_autolathe_nfull_9: 1251820693659632575
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

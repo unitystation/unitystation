@@ -26,6 +26,10 @@ Preset:
     value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: syncDirection
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: syncMode
     value: 0
     objectReference: {fileID: 0}
@@ -42,7 +46,7 @@ Preset:
     value: 
     objectReference: {fileID: 11400000, guid: ac2834f2705dcbc4da8731a53d3076fc, type: 2}
   - target: {fileID: 0}
-    propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
+    propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].moles
     value: 4.157122
     objectReference: {fileID: 0}
   - target: {fileID: 0}
@@ -50,11 +54,11 @@ Preset:
     value: 
     objectReference: {fileID: 11400000, guid: d7d4e6085864f9f4e83593f63d102d08, type: 2}
   - target: {fileID: 0}
-    propertyPath: StoredGasMix.GasData.GasesArray.Array.data[1].Moles
+    propertyPath: StoredGasMix.GasData.GasesArray.Array.data[1].moles
     value: 16.628487
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: StoredGasMix.Pressure
+    propertyPath: StoredGasMix.pressure
     value: 101.32501
     objectReference: {fileID: 0}
   - target: {fileID: 0}
@@ -62,7 +66,7 @@ Preset:
     value: 0.5
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: StoredGasMix.Temperature
+    propertyPath: StoredGasMix.temperature
     value: 293.15
     objectReference: {fileID: 0}
   - target: {fileID: 0}
@@ -74,11 +78,12 @@ Preset:
     value: 101.325
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: Volume
-    value: 0.5
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: Temperature
-    value: 293.15
+    propertyPath: CargoSealApproved
+    value: 0
     objectReference: {fileID: 0}
   m_ExcludedProperties: []
+  m_CoupledType:
+    m_NativeTypeID: 0
+    m_ManagedTypePPtr: {fileID: 0}
+    m_ManagedTypeFallback: 
+  m_CoupledProperties: []

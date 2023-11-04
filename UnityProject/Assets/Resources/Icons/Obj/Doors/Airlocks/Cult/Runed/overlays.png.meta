@@ -303,7 +303,7 @@ TextureImporter:
       213: 21300198
     second: overlays_99
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -320,11 +320,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -363,6 +364,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -402,6 +405,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -2526,109 +2541,108 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      overlays_0: 21300000
+      overlays_1: 21300002
+      overlays_10: 21300020
+      overlays_11: 21300022
+      overlays_12: 21300024
+      overlays_13: 21300026
+      overlays_14: 21300028
+      overlays_15: 21300030
+      overlays_16: 21300032
+      overlays_17: 21300034
+      overlays_18: 21300036
+      overlays_19: 21300038
+      overlays_2: 21300004
+      overlays_20: 21300040
+      overlays_21: 21300042
       overlays_22: 21300044
-      overlays_49: 21300098
-      overlays_53: 21300106
-      overlays_7: 21300014
-      overlays_98: 21300196
-      overlays_32: 21300064
-      overlays_67: 21300134
-      overlays_47: 21300094
+      overlays_23: 21300046
       overlays_24: 21300048
+      overlays_25: 21300050
+      overlays_26: 21300052
+      overlays_27: 21300054
+      overlays_28: 21300056
+      overlays_29: 21300058
+      overlays_3: 21300006
       overlays_30: 21300060
+      overlays_31: 21300062
+      overlays_32: 21300064
+      overlays_33: 21300066
+      overlays_34: 21300068
+      overlays_35: 21300070
+      overlays_36: 21300072
+      overlays_37: 21300074
+      overlays_38: 21300076
+      overlays_39: 21300078
+      overlays_4: 21300008
+      overlays_40: 21300080
+      overlays_41: 21300082
+      overlays_42: 21300084
+      overlays_43: 21300086
+      overlays_44: 21300088
+      overlays_45: 21300090
+      overlays_46: 21300092
+      overlays_47: 21300094
+      overlays_48: 21300096
+      overlays_49: 21300098
+      overlays_5: 21300010
+      overlays_50: 21300100
       overlays_51: 21300102
-      overlays_69: 21300138
-      overlays_79: 21300158
-      overlays_77: 21300154
+      overlays_52: 21300104
+      overlays_53: 21300106
+      overlays_54: 21300108
+      overlays_55: 21300110
+      overlays_56: 21300112
+      overlays_57: 21300114
+      overlays_58: 21300116
+      overlays_59: 21300118
+      overlays_6: 21300012
+      overlays_60: 21300120
+      overlays_61: 21300122
+      overlays_62: 21300124
+      overlays_63: 21300126
+      overlays_64: 21300128
+      overlays_65: 21300130
+      overlays_66: 21300132
+      overlays_67: 21300134
       overlays_68: 21300136
+      overlays_69: 21300138
+      overlays_7: 21300014
+      overlays_70: 21300140
+      overlays_71: 21300142
+      overlays_72: 21300144
+      overlays_73: 21300146
+      overlays_74: 21300148
+      overlays_75: 21300150
+      overlays_76: 21300152
+      overlays_77: 21300154
+      overlays_78: 21300156
+      overlays_79: 21300158
       overlays_8: 21300016
       overlays_80: 21300160
-      overlays_66: 21300132
-      overlays_4: 21300008
-      overlays_63: 21300126
-      overlays_20: 21300040
-      overlays_23: 21300046
-      overlays_88: 21300176
-      overlays_76: 21300152
-      overlays_78: 21300156
-      overlays_70: 21300140
-      overlays_59: 21300118
-      overlays_33: 21300066
-      overlays_52: 21300104
-      overlays_3: 21300006
-      overlays_28: 21300056
-      overlays_86: 21300172
-      overlays_10: 21300020
-      overlays_83: 21300166
-      overlays_41: 21300082
-      overlays_12: 21300024
-      overlays_18: 21300036
-      overlays_95: 21300190
-      overlays_11: 21300022
-      overlays_43: 21300086
-      overlays_19: 21300038
-      overlays_5: 21300010
-      overlays_62: 21300124
-      overlays_2: 21300004
-      overlays_84: 21300168
-      overlays_92: 21300184
-      overlays_6: 21300012
-      overlays_15: 21300030
-      overlays_44: 21300088
-      overlays_46: 21300092
-      overlays_21: 21300042
-      overlays_58: 21300116
-      overlays_94: 21300188
       overlays_81: 21300162
-      overlays_71: 21300142
-      overlays_99: 21300198
-      overlays_27: 21300054
-      overlays_64: 21300128
-      overlays_74: 21300148
-      overlays_9: 21300018
-      overlays_55: 21300110
-      overlays_13: 21300026
-      overlays_85: 21300170
-      overlays_73: 21300146
-      overlays_0: 21300000
-      overlays_38: 21300076
-      overlays_97: 21300194
-      overlays_93: 21300186
-      overlays_57: 21300114
-      overlays_17: 21300034
-      overlays_65: 21300130
-      overlays_91: 21300182
-      overlays_87: 21300174
-      overlays_31: 21300062
-      overlays_37: 21300074
-      overlays_34: 21300068
       overlays_82: 21300164
-      overlays_35: 21300070
-      overlays_42: 21300084
-      overlays_56: 21300112
-      overlays_39: 21300078
-      overlays_26: 21300052
-      overlays_72: 21300144
-      overlays_48: 21300096
-      overlays_40: 21300080
-      overlays_96: 21300192
-      overlays_14: 21300028
-      overlays_54: 21300108
-      overlays_50: 21300100
-      overlays_25: 21300050
-      overlays_45: 21300090
-      overlays_1: 21300002
-      overlays_60: 21300120
-      overlays_75: 21300150
-      overlays_90: 21300180
-      overlays_16: 21300032
-      overlays_61: 21300122
-      overlays_36: 21300072
+      overlays_83: 21300166
+      overlays_84: 21300168
+      overlays_85: 21300170
+      overlays_86: 21300172
+      overlays_87: 21300174
+      overlays_88: 21300176
       overlays_89: 21300178
-      overlays_29: 21300058
-  spritePackingTag: 
+      overlays_9: 21300018
+      overlays_90: 21300180
+      overlays_91: 21300182
+      overlays_92: 21300184
+      overlays_93: 21300186
+      overlays_94: 21300188
+      overlays_95: 21300190
+      overlays_96: 21300192
+      overlays_97: 21300194
+      overlays_98: 21300196
+      overlays_99: 21300198
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -5,12 +5,18 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4318788863381210143, guid: e707afa4977956141a62cc6890d088ca,
         type: 3}
       propertyPath: initialName
       value: black bishop's robes
+      objectReference: {fileID: 0}
+    - target: {fileID: 4365893195372156617, guid: e707afa4977956141a62cc6890d088ca,
+        type: 3}
+      propertyPath: _assetId
+      value: 4096059133
       objectReference: {fileID: 0}
     - target: {fileID: 4365893195372156617, guid: e707afa4977956141a62cc6890d088ca,
         type: 3}
@@ -85,7 +91,7 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7313788246678681848, guid: e707afa4977956141a62cc6890d088ca,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 4c78592012537da4f841b4493b00f9ef,
         type: 2}
@@ -101,4 +107,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 80ceb1d91497b1240980f78ba62f80b5,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e707afa4977956141a62cc6890d088ca, type: 3}

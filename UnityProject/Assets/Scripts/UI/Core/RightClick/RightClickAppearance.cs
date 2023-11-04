@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Logs;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -42,7 +43,7 @@ public class RightClickAppearance : MonoBehaviour
 				return RightClickMenuItem.CreateObjectMenuItem(backgroundColor, firstSprite.sprite, backgroundSprite, label, subMenus, firstSprite.color);
 			}
 
-			Logger.LogWarningFormat("Could not determine sprite to use for right click menu" +
+			Loggy.LogWarningFormat("Could not determine sprite to use for right click menu" +
 			                        " for object {0}. Please specify a sprite in the RightClickMenu component" +
 			                        " for this object.", Category.UserInput, gameObject.name);
 		}

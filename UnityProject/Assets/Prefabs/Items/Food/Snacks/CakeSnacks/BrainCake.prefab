@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 318786259221729225, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
@@ -19,13 +20,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 318786259221729225, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: c4895277f2e88f53cb75fa55a2fc88d8,
         type: 2}
     - target: {fileID: 318786259221729225, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[2]'
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1417260671552940035, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
@@ -37,6 +38,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A squishy cake-thing.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500455408126966485, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: _assetId
+      value: 3518279141
       objectReference: {fileID: 0}
     - target: {fileID: 1500455408126966485, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
@@ -126,4 +132,7 @@ PrefabInstance:
       value: 4a73dfc6e4451f14d9fc2d49bf6afecd
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d3192a7eebeb004c8bd3d53172d6ce9, type: 3}

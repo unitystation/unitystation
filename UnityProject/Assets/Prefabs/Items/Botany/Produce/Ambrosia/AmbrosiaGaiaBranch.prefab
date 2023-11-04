@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8008070255442440296}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.00000031610085, y: 0.00000021073383, z: -0.70710677, w: 0.7071069}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7475475409650541634}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2270892430349934794
 MonoBehaviour:
@@ -52,6 +52,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!23 &3545393844742048917
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -107,6 +108,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 100984610350504696, guid: f92b2950637a12c408848cede6089288,
@@ -125,6 +127,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 848f30b9561aaf74086ab311be2bb09d,
         type: 3}
+    - target: {fileID: 441189880119871534, guid: f92b2950637a12c408848cede6089288,
+        type: 3}
+      propertyPath: _assetId
+      value: 3508367478
+      objectReference: {fileID: 0}
     - target: {fileID: 441189880119871534, guid: f92b2950637a12c408848cede6089288,
         type: 3}
       propertyPath: m_AssetId
@@ -196,6 +203,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9122989393151911348, guid: 34a11862539658743b96c2c59b31a717,
         type: 3}
+    - target: {fileID: 3835604159855027766, guid: f92b2950637a12c408848cede6089288,
+        type: 3}
+      propertyPath: BasePurity
+      value: 42
+      objectReference: {fileID: 0}
     - target: {fileID: 5966497049696685597, guid: f92b2950637a12c408848cede6089288,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -208,6 +220,17 @@ PrefabInstance:
       value: 43513ab6d8fbf664eaf879a7d16a51c3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 547429675929995502, guid: f92b2950637a12c408848cede6089288,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5136788713121402881}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 543631825431754138, guid: f92b2950637a12c408848cede6089288,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7865254825470833407}
   m_SourcePrefab: {fileID: 100100000, guid: f92b2950637a12c408848cede6089288, type: 3}
 --- !u!1 &7470833408491854134 stripped
 GameObject:
@@ -227,20 +250,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 8008070255442440296}
-  Intensity: 1
-  Colour: {r: 0.9882353, g: 0.7607843, b: 0.003921569, a: 1}
-  EnumSprite: 0
-  Size: 5
   IsOn: 0
-  PlayerLightData:
-    Intensity: 0
-    Colour: {r: 0, g: 0, b: 0, a: 0}
-    EnumSprite: 0
-    Size: 12
+  colour: {r: 0.9882353, g: 0.7607843, b: 0.003921569, a: 1}
+  objectLightSprite: {fileID: 0}
+  commonComponents: {fileID: 0}
+  SpriteShape: 0
+  Size: 5
+  weakenOnGround: 0
+  revertToOldConsistencyBehavior: 0
+  weakenStrength: 1.45
 --- !u!4 &7475475409650541634 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 547429675929995502, guid: f92b2950637a12c408848cede6089288,

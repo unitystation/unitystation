@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using HealthV2;
+using Logs;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -36,13 +37,13 @@ namespace Items.Tool
 			if (currentMode == Mode.Off)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"You switch the {gameObject.ExpensiveName()} off");
-				spriteHandler.ChangeSprite(0);
+				spriteHandler.SetCatalogueIndexSprite(0);
 				return;
 			}
 
 			Chat.AddExamineMsgFromServer(interaction.Performer,
 				$"You switch the {gameObject.ExpensiveName()} to detect {currentMode.ToString()}");
-			spriteHandler.ChangeSprite(1);
+			spriteHandler.SetCatalogueIndexSprite(1);
 		}
 
 		private void IncrementMode()
@@ -188,7 +189,7 @@ namespace Items.Tool
 						ChangeState(disposalsRenderer, true);
 						continue;
 					default:
-						Logger.LogError($"Found no case for {newMode}");
+						Loggy.LogError($"Found no case for {newMode}");
 						continue;
 				}
 			}

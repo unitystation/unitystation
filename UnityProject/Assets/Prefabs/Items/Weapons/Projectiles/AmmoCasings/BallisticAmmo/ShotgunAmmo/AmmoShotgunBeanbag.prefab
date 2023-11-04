@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -4441519557137854397, guid: b564e5d916b891446903adc342af08bd,
@@ -33,6 +34,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A weak beanbag slug for riot control.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8364667066244186251, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: _assetId
+      value: 2245349695
       objectReference: {fileID: 0}
     - target: {fileID: 8364667066244186251, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
@@ -106,4 +112,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 1537757940548ca4babed26b349639aa,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b564e5d916b891446903adc342af08bd, type: 3}

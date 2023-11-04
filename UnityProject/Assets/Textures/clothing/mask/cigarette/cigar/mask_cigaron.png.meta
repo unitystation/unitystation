@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: cigaron_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      cigaron_18: 21300036
-      cigaron_4: 21300008
-      cigaron_11: 21300022
-      cigaron_30: 21300060
-      cigaron_23: 21300046
       cigaron_0: 21300000
-      cigaron_15: 21300030
-      cigaron_21: 21300042
-      cigaron_25: 21300050
       cigaron_1: 21300002
-      cigaron_6: 21300012
-      cigaron_29: 21300058
-      cigaron_2: 21300004
-      cigaron_31: 21300062
       cigaron_10: 21300020
-      cigaron_8: 21300016
-      cigaron_14: 21300028
-      cigaron_28: 21300056
-      cigaron_16: 21300032
-      cigaron_27: 21300054
-      cigaron_7: 21300014
-      cigaron_13: 21300026
-      cigaron_19: 21300038
-      cigaron_24: 21300048
+      cigaron_11: 21300022
       cigaron_12: 21300024
+      cigaron_13: 21300026
+      cigaron_14: 21300028
+      cigaron_15: 21300030
+      cigaron_16: 21300032
       cigaron_17: 21300034
+      cigaron_18: 21300036
+      cigaron_19: 21300038
+      cigaron_2: 21300004
       cigaron_20: 21300040
-      cigaron_3: 21300006
-      cigaron_5: 21300010
+      cigaron_21: 21300042
       cigaron_22: 21300044
-      cigaron_9: 21300018
+      cigaron_23: 21300046
+      cigaron_24: 21300048
+      cigaron_25: 21300050
       cigaron_26: 21300052
-  spritePackingTag: 
+      cigaron_27: 21300054
+      cigaron_28: 21300056
+      cigaron_29: 21300058
+      cigaron_3: 21300006
+      cigaron_30: 21300060
+      cigaron_31: 21300062
+      cigaron_4: 21300008
+      cigaron_5: 21300010
+      cigaron_6: 21300012
+      cigaron_7: 21300014
+      cigaron_8: 21300016
+      cigaron_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

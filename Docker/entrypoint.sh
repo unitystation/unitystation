@@ -1,4 +1,4 @@
-cd /server/Unitystation_Data/StreamingAssets/config
+cd /server/Unitystation_Data/StreamingAssets/Config
 if test "$RCON_PASSWORD"; then jq --arg v "$RCON_PASSWORD" '.RconPass = $v'   config.json | sponge config.json; fi
 if test "$HUB_USERNAME" ; then jq --arg v "$HUB_USERNAME"  '.HubUser = $v'    config.json | sponge config.json; fi
 if test "$HUB_PASSWORD" ; then jq --arg v "$HUB_PASSWORD"  '.HubPass = $v'    config.json | sponge config.json; fi

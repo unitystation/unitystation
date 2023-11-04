@@ -52,7 +52,7 @@ public class Renameable : NetworkBehaviour, ICheckedInteractable<HandActivate>, 
 
 	public bool WillInteract(HandActivate interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 		var uop = GetComponent<UniversalObjectPhysics>();
 		var ps = interaction.Performer.GetComponent<PlayerScript>();

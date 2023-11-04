@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Logs;
+using UnityEngine;
 
 public static class DebugGizmoUtils
 {
@@ -8,7 +9,7 @@ public static class DebugGizmoUtils
 		GUISkin guiSkin = GUI.skin;
 		if (guiSkin == null)
 		{
-			Logger.LogWarning("editor warning: guiSkin parameter is null", Category.DebugConsole);
+			Loggy.LogWarning("editor warning: guiSkin parameter is null", Category.DebugConsole);
 			return;
 		}
 

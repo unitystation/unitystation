@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1580494814286032113, guid: 3937c48f98f9cd043babc5471ee77682,
@@ -131,6 +132,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6931842893682907539, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
+      propertyPath: _assetId
+      value: 128741409
+      objectReference: {fileID: 0}
+    - target: {fileID: 6931842893682907539, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
       propertyPath: m_AssetId
       value: 17b6d022d86d9194fbf57acb958df44a
       objectReference: {fileID: 0}
@@ -140,6 +146,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: a5831f8b6dd567b41936e6c9fe76e4a2,
         type: 3}
+    - target: {fileID: 7868529330565958841, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: LiesFlat3D
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8163608160046166977, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: initialName
@@ -164,6 +175,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1580494814286032113, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3905221925973493106}
   m_SourcePrefab: {fileID: 100100000, guid: 3937c48f98f9cd043babc5471ee77682, type: 3}
 --- !u!1 &3325327122824764507 stripped
 GameObject:
@@ -223,13 +241,13 @@ MonoBehaviour:
       gasMix:
         GasData:
           GasesArray: []
-        Pressure: 0
+        pressure: 0
         Volume: 2.5
+        temperature: 293.15
     MonoPipe: {fileID: 3905221925973493106}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 1
   directional: {fileID: 9059593038761234394}
-  maxTempExchange: 10
 --- !u!114 &6266835237918800915 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7868529330565958841, guid: 3937c48f98f9cd043babc5471ee77682,

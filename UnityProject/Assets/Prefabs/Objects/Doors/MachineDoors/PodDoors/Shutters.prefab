@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1587285914693216056, guid: 79cea07a5f8e66f49a554df1a003ecba,
@@ -17,6 +18,11 @@ PrefabInstance:
         type: 3}
       propertyPath: pushTextureOnStartUp
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2416758669775616128, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: _assetId
+      value: 1414291092
       objectReference: {fileID: 0}
     - target: {fileID: 2416758669775616128, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
@@ -40,42 +46,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
-      propertyPath: animFrames.Array.data[0]
+      propertyPath: 'animFrames.Array.data[0]'
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
-      propertyPath: animFrames.Array.data[1]
+      propertyPath: 'animFrames.Array.data[1]'
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
-      propertyPath: animFrames.Array.data[2]
+      propertyPath: 'animFrames.Array.data[2]'
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
-      propertyPath: animFrames.Array.data[3]
+      propertyPath: 'animFrames.Array.data[3]'
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
-      propertyPath: animFrames.Array.data[4]
+      propertyPath: 'animFrames.Array.data[4]'
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
-      propertyPath: animFrames.Array.data[5]
+      propertyPath: 'animFrames.Array.data[5]'
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
-      propertyPath: animFrames.Array.data[6]
+      propertyPath: 'animFrames.Array.data[6]'
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
-      propertyPath: animFrames.Array.data[7]
+      propertyPath: 'animFrames.Array.data[7]'
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3439362329626657407, guid: 79cea07a5f8e66f49a554df1a003ecba,
@@ -190,4 +196,7 @@ PrefabInstance:
       value: Assets/Prefabs/Doors/BlastDoor.prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79cea07a5f8e66f49a554df1a003ecba, type: 3}

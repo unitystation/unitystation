@@ -1,16 +1,14 @@
-﻿using System;
-using AddressableReferences;
+﻿using AddressableReferences;
 using Mirror;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Messages.Server.SoundMessages;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.SceneManagement;
 using Audio.Containers;
+using Core.Sound;
+using Logs;
 using Shared.Util;
-using Util;
 
 /// <summary>
 /// Manager that allows to play sounds.
@@ -58,7 +56,7 @@ public class SoundManager : MonoBehaviour
 		{
 			if (sound.Value == null) //This probably doesn't happen anymore
 			{
-				Logger.LogWarning($"Could not remove SoundSpawn {sound} because its value was null!", Category.Audio);
+				Loggy.LogWarning($"Could not remove SoundSpawn {sound} because its value was null!", Category.Audio);
 				continue;
 			}
 			sound.Value.AudioSource.Stop();
@@ -162,15 +160,16 @@ public class SoundManager : MonoBehaviour
 	/// <param name="global">Does everyone will receive the sound our just nearby players</param>
 	/// <param name="shakeParameters">Camera shake effect associated with this sound</param>
 	/// <param name="sourceObj">The object that is the source of the sound</param>
+	/// <param name="attachToSource">Sound follows the source object</param>
 	/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
 	public static async Task<string> PlayNetworkedAtPosAsync(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false, bool global = true,
-		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
+		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null, bool attachToSource = false)
 	{
 		if (addressableAudioSource == null || string.IsNullOrEmpty(addressableAudioSource.AssetAddress) ||
 			addressableAudioSource.AssetAddress == "null")
 		{
-			Logger.LogWarning($"SoundManager received a null AudioSource to be played at World Position: {worldPos}",
+			Loggy.LogWarning($"SoundManager received a null AudioSource to be played at World Position: {worldPos}",
 				Category.Audio);
 			return null;
 		}
@@ -180,12 +179,12 @@ public class SoundManager : MonoBehaviour
 		if (global)
 		{
 			return PlaySoundMessage.SendToAll(addressableAudioSource, worldPos, polyphonic, sourceObj, shakeParameters,
-				audioSourceParameters);
+				audioSourceParameters, attachToSource);
 		}
 		else
 		{
 			return PlaySoundMessage.SendToNearbyPlayers(addressableAudioSource, worldPos, polyphonic, sourceObj,
-				shakeParameters, audioSourceParameters);
+				shakeParameters, audioSourceParameters, attachToSource);
 		}
 	}
 
@@ -271,7 +270,7 @@ public class SoundManager : MonoBehaviour
 		if (addressableAudioSource == null || string.IsNullOrEmpty(addressableAudioSource.AssetAddress) ||
 			addressableAudioSource.AssetAddress == "null")
 		{
-			Logger.LogWarning($"SoundManager received a null AudioSource to be played for: {recipient.name}",
+			Loggy.LogWarning($"SoundManager received a null AudioSource to be played for: {recipient.name}",
 				Category.Audio);
 			return;
 		}
@@ -317,7 +316,7 @@ public class SoundManager : MonoBehaviour
 		if (addressableAudioSource == null || string.IsNullOrEmpty(addressableAudioSource.AssetAddress) ||
 			addressableAudioSource.AssetAddress == "null")
 		{
-			Logger.LogWarning($"SoundManager received a null AudioSource to be played for: {recipient.name} at position: {worldPos}",
+			Loggy.LogWarning($"SoundManager received a null AudioSource to be played for: {recipient.name} at position: {worldPos}",
 				Category.Audio);
 			return;
 		}
@@ -360,15 +359,15 @@ public class SoundManager : MonoBehaviour
 			return;
 
 		addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
-		if(addressableAudioSource == null) 
+		if(addressableAudioSource == null)
 		{
-			Logger.LogError("Cannot play sound! Sound is null!");
+			Loggy.LogError("Cannot play sound! Sound is null!");
 			return;
 		}
 		SoundSpawn soundSpawn =
 			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
 		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
-		Instance.PlaySource(soundSpawn, polyphonic, true, audioSourceParameters.MixerType);
+		Instance.PlaySource(soundSpawn, polyphonic, true);
 	}
 
 	/// <summary>
@@ -392,25 +391,13 @@ public class SoundManager : MonoBehaviour
 	/// <param name="source">The SoundSpawn to be played</param>
 	/// <param name="polyphonic">Should the sound be played polyphonically</param>
 	/// <param name="global">Does everyone will receive the sound our just nearby players</param>
-	/// <param name="mixerType">The type of mixer to use</param>
-	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool global = true, MixerType mixerType = MixerType.Master)
+	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool global = true)
 	{
 		if (global == false && PlayerManager.LocalPlayerObject != null)
 		{
-			if ( ((PlayerManager.LocalPlayerObject.TileWorldPosition().To3Int() - source.transform.position.RoundTo2Int().To3Int()).magnitude > 20 ))
-			{
-				source.AudioSource.outputAudioMixerGroup = AudioManager.Instance.SFXMuffledMixer; //Maybe just not play?
-			}
-			else
-			{
-				if (MatrixManager.Linecast(PlayerManager.LocalPlayerObject.TileWorldPosition().To3Int(),
-						LayerTypeSelection.Walls, layerMask, source.transform.position.RoundTo2Int().To3Int())
-					.ItHit)
-				{
-					source.AudioSource.outputAudioMixerGroup = AudioManager.Instance.SFXMuffledMixer;
-				}
-			}
+			SoundPhysics.EvaluateAndRouteSoundToMixer(source);
 		}
+
 		if (polyphonic)
 		{
 			source.PlayOneShot();
@@ -431,7 +418,7 @@ public class SoundManager : MonoBehaviour
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
 	public static void PlayAtPositionAttached(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
 		GameObject gameObject, string soundSpawnToken,	bool polyphonic = false, bool isGlobal = false,
-		AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool networked = false)
 	{
 		PlayAtPositionAttached(new List<AddressableAudioSource> {addressableAudioSource}, worldPos, gameObject,
 			soundSpawnToken, polyphonic, isGlobal, audioSourceParameters);
@@ -478,7 +465,7 @@ public class SoundManager : MonoBehaviour
 			netId = gameObject.NetId();
 			if (netId == NetId.Invalid)
 			{
-				Logger.LogError("Provided Game object for PlayAtPosition  does not have a network identity " +
+				Loggy.LogError("Provided Game object for PlayAtPosition  does not have a network identity " +
 				                addressableAudioSource.AssetAddress, Category.Audio);
 				return;
 			}
@@ -504,6 +491,7 @@ public class SoundManager : MonoBehaviour
 			await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSources);
 		SoundSpawn soundSpawn =
 			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
+		var soundTransform = soundSpawn.transform;
 
 		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
 
@@ -512,18 +500,19 @@ public class SoundManager : MonoBehaviour
 			var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 			if (spawned.TryGetValue(netId, out var objectToPlayAt))
 			{
-				soundSpawn.transform.parent = objectToPlayAt.transform;
-				soundSpawn.transform.localPosition = Vector3.zero;
+				soundTransform.parent = objectToPlayAt.transform;
+				soundTransform.localPosition = Vector3.zero;
 
-				Instance.PlaySource(soundSpawn, polyphonic, isGlobal, audioSourceParameters.MixerType);
+				Instance.PlaySource(soundSpawn, polyphonic, isGlobal);
 				return;
 			}
 		}
 
-		soundSpawn.transform.parent = Instance.transform;
-		soundSpawn.transform.position = worldPos;
+		var point = MatrixManager.AtPoint(worldPos, CustomNetworkManager.IsServer);
+		soundTransform.parent = point != null ? point.Objects.transform : Instance.transform;
+		soundTransform.position = worldPos;
 
-		Instance.PlaySource(soundSpawn, polyphonic, isGlobal, audioSourceParameters.MixerType);
+		Instance.PlaySource(soundSpawn, polyphonic, isGlobal);
 	}
 
 	/// <Summary>

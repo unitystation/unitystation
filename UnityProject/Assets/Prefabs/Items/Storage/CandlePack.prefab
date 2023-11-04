@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2506717331081805387, guid: 351fa36521ade244b9d7d66b21f7f333,
@@ -20,37 +21,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[0]
+      propertyPath: 'spritesByCount.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 5f24aee7cf1f1b042b02997e4308383b,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[1]
+      propertyPath: 'spritesByCount.Array.data[1]'
       value: 
       objectReference: {fileID: 21300000, guid: 88e434052e914a044a01e67e51527a99,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[2]
+      propertyPath: 'spritesByCount.Array.data[2]'
       value: 
       objectReference: {fileID: 21300000, guid: f8f42e7702fbc7f4abbb11a3d0a25895,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[3]
+      propertyPath: 'spritesByCount.Array.data[3]'
       value: 
       objectReference: {fileID: 21300000, guid: dc7b2a387184bd74c951779e3a5ccb39,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[4]
+      propertyPath: 'spritesByCount.Array.data[4]'
       value: 
       objectReference: {fileID: 21300000, guid: d1173e0e84e81df429d6b7d452846dfb,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[5]
+      propertyPath: 'spritesByCount.Array.data[5]'
       value: 
       objectReference: {fileID: 21300000, guid: 7a91478d005dab642ab8af0ea10a2cf0,
         type: 3}
@@ -76,7 +77,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8170131852768406190, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: initialTraits.Array.data[0]
+      propertyPath: 'initialTraits.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
         type: 2}
@@ -88,6 +89,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8510550462711117944, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
+      propertyPath: _assetId
+      value: 258192809
+      objectReference: {fileID: 0}
+    - target: {fileID: 8510550462711117944, guid: 351fa36521ade244b9d7d66b21f7f333,
+        type: 3}
       propertyPath: m_AssetId
       value: 2f111d14cf571254bacdce2d50aae81f
       objectReference: {fileID: 0}
@@ -95,7 +101,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 5133322774600980299}
+      objectReference: {fileID: 0}
     - target: {fileID: 8615308116400047564, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
       propertyPath: m_Name
@@ -175,16 +181,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 54cbb4402f813441cb503dcd1d440082,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 351fa36521ade244b9d7d66b21f7f333, type: 3}
---- !u!114 &5133322774600980299 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8510139007079295004, guid: 351fa36521ade244b9d7d66b21f7f333,
-    type: 3}
-  m_PrefabInstance: {fileID: 3541851906729819991}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

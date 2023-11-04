@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
@@ -35,6 +36,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4092814885568586395, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
+      propertyPath: _assetId
+      value: 4081021462
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092814885568586395, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
       propertyPath: m_AssetId
       value: 04af0ec4e4b82d3438b42345522c879f
       objectReference: {fileID: 0}
@@ -42,7 +48,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 3526761068447179105}
+      objectReference: {fileID: 0}
     - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: m_RootOrder
@@ -153,27 +159,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
-      propertyPath: attackVerbs.Array.data[0]
+      propertyPath: 'attackVerbs.Array.data[0]'
       value: sliced
       objectReference: {fileID: 0}
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
-      propertyPath: attackVerbs.Array.data[2]
+      propertyPath: 'attackVerbs.Array.data[2]'
       value: slashed
       objectReference: {fileID: 0}
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
-      propertyPath: attackVerbs.Array.data[3]
+      propertyPath: 'attackVerbs.Array.data[3]'
       value: chopped
       objectReference: {fileID: 0}
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
-      propertyPath: attackVerbs.Array.data[4]
+      propertyPath: 'attackVerbs.Array.data[4]'
       value: lacerated
       objectReference: {fileID: 0}
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
-      propertyPath: attackVerbs.Array.data[5]
+      propertyPath: 'attackVerbs.Array.data[5]'
       value: Reaped
       objectReference: {fileID: 0}
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
@@ -184,13 +190,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
-      propertyPath: initialTraits.Array.data[4]
+      propertyPath: 'initialTraits.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
         type: 2}
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
-      propertyPath: initialTraits.Array.data[5]
+      propertyPath: 'initialTraits.Array.data[5]'
       value: 
       objectReference: {fileID: 11400000, guid: c45c93fdd4d59483cbdb87a1d323bcc5,
         type: 2}
@@ -212,19 +218,14 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e113b73fcd84c9e408ec928cd7453fee,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9137265665619854313}
   m_SourcePrefab: {fileID: 100100000, guid: ad527ba4de069794796e314f236794f4, type: 3}
---- !u!114 &3526761068447179105 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4092931676428677887, guid: ad527ba4de069794796e314f236794f4,
-    type: 3}
-  m_PrefabInstance: {fileID: 593508874221327262}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3559037504847875249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3559037504847875249 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
@@ -243,6 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   allClothingData:

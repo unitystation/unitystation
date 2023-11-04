@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 185805929322484740, guid: 51326f2264a075148a8aaa6bf95604c7,
@@ -52,23 +53,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
-      propertyPath: limbSpriteData.Array.data[0]
+      propertyPath: 'limbSpriteData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 017d1b29096f3444ca19a41866459176,
         type: 2}
     - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[2]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[2]'
       value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[3]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[3]'
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 017d1b29096f3444ca19a41866459176,
         type: 2}
@@ -137,6 +138,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6609755923973416413, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: _assetId
+      value: 424520798
       objectReference: {fileID: 0}
     - target: {fileID: 6609755923973416413, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
@@ -216,22 +222,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[0]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[0]'
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[1]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[1]'
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[2]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[2]'
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[3]
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[3]'
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
@@ -241,7 +247,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 017d1b29096f3444ca19a41866459176,
         type: 2}
@@ -253,4 +259,7 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents:
     - {fileID: 0}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51326f2264a075148a8aaa6bf95604c7, type: 3}

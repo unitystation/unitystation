@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: clockwork_gateway_active_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      clockwork_gateway_active_15: 21300030
-      clockwork_gateway_active_19: 21300038
-      clockwork_gateway_active_3: 21300006
-      clockwork_gateway_active_14: 21300028
-      clockwork_gateway_active_17: 21300034
-      clockwork_gateway_active_1: 21300002
-      clockwork_gateway_active_11: 21300022
-      clockwork_gateway_active_5: 21300010
-      clockwork_gateway_active_23: 21300046
-      clockwork_gateway_active_8: 21300016
-      clockwork_gateway_active_10: 21300020
-      clockwork_gateway_active_12: 21300024
       clockwork_gateway_active_0: 21300000
-      clockwork_gateway_active_6: 21300012
-      clockwork_gateway_active_7: 21300014
+      clockwork_gateway_active_1: 21300002
+      clockwork_gateway_active_10: 21300020
+      clockwork_gateway_active_11: 21300022
+      clockwork_gateway_active_12: 21300024
+      clockwork_gateway_active_13: 21300026
+      clockwork_gateway_active_14: 21300028
+      clockwork_gateway_active_15: 21300030
       clockwork_gateway_active_16: 21300032
-      clockwork_gateway_active_9: 21300018
+      clockwork_gateway_active_17: 21300034
       clockwork_gateway_active_18: 21300036
+      clockwork_gateway_active_19: 21300038
       clockwork_gateway_active_2: 21300004
-      clockwork_gateway_active_22: 21300044
       clockwork_gateway_active_20: 21300040
       clockwork_gateway_active_21: 21300042
-      clockwork_gateway_active_13: 21300026
+      clockwork_gateway_active_22: 21300044
+      clockwork_gateway_active_23: 21300046
+      clockwork_gateway_active_3: 21300006
       clockwork_gateway_active_4: 21300008
-  spritePackingTag: 
+      clockwork_gateway_active_5: 21300010
+      clockwork_gateway_active_6: 21300012
+      clockwork_gateway_active_7: 21300014
+      clockwork_gateway_active_8: 21300016
+      clockwork_gateway_active_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -267,7 +267,7 @@ TextureImporter:
       213: 21300174
     second: dna_87
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -284,11 +284,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -327,6 +328,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -350,6 +353,18 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
@@ -2214,97 +2229,96 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      dna_20: 21300040
-      dna_49: 21300098
-      dna_78: 21300156
-      dna_29: 21300058
-      dna_62: 21300124
-      dna_32: 21300064
-      dna_14: 21300028
-      dna_48: 21300096
-      dna_76: 21300152
-      dna_45: 21300090
-      dna_56: 21300112
-      dna_84: 21300168
-      dna_17: 21300034
-      dna_24: 21300048
-      dna_86: 21300172
-      dna_66: 21300132
-      dna_57: 21300114
-      dna_64: 21300128
-      dna_8: 21300016
-      dna_23: 21300046
-      dna_65: 21300130
-      dna_77: 21300154
-      dna_50: 21300100
-      dna_40: 21300080
-      dna_87: 21300174
-      dna_55: 21300110
-      dna_38: 21300076
-      dna_53: 21300106
-      dna_72: 21300144
-      dna_54: 21300108
-      dna_63: 21300126
-      dna_18: 21300036
-      dna_5: 21300010
-      dna_33: 21300066
-      dna_2: 21300004
-      dna_21: 21300042
-      dna_3: 21300006
-      dna_69: 21300138
-      dna_59: 21300118
-      dna_75: 21300150
-      dna_37: 21300074
-      dna_26: 21300052
-      dna_46: 21300092
-      dna_1: 21300002
-      dna_41: 21300082
-      dna_83: 21300166
-      dna_68: 21300136
-      dna_31: 21300062
-      dna_52: 21300104
-      dna_34: 21300068
-      dna_58: 21300116
-      dna_11: 21300022
-      dna_22: 21300044
-      dna_35: 21300070
-      dna_85: 21300170
-      dna_74: 21300148
-      dna_9: 21300018
-      dna_36: 21300072
-      dna_47: 21300094
-      dna_80: 21300160
-      dna_12: 21300024
-      dna_67: 21300134
-      dna_70: 21300140
-      dna_25: 21300050
-      dna_28: 21300056
-      dna_39: 21300078
-      dna_27: 21300054
-      dna_6: 21300012
-      dna_10: 21300020
-      dna_71: 21300142
-      dna_82: 21300164
-      dna_81: 21300162
-      dna_79: 21300158
-      dna_61: 21300122
-      dna_43: 21300086
-      dna_15: 21300030
-      dna_60: 21300120
-      dna_13: 21300026
-      dna_42: 21300084
-      dna_16: 21300032
-      dna_19: 21300038
-      dna_51: 21300102
-      dna_44: 21300088
       dna_0: 21300000
-      dna_4: 21300008
+      dna_1: 21300002
+      dna_10: 21300020
+      dna_11: 21300022
+      dna_12: 21300024
+      dna_13: 21300026
+      dna_14: 21300028
+      dna_15: 21300030
+      dna_16: 21300032
+      dna_17: 21300034
+      dna_18: 21300036
+      dna_19: 21300038
+      dna_2: 21300004
+      dna_20: 21300040
+      dna_21: 21300042
+      dna_22: 21300044
+      dna_23: 21300046
+      dna_24: 21300048
+      dna_25: 21300050
+      dna_26: 21300052
+      dna_27: 21300054
+      dna_28: 21300056
+      dna_29: 21300058
+      dna_3: 21300006
       dna_30: 21300060
+      dna_31: 21300062
+      dna_32: 21300064
+      dna_33: 21300066
+      dna_34: 21300068
+      dna_35: 21300070
+      dna_36: 21300072
+      dna_37: 21300074
+      dna_38: 21300076
+      dna_39: 21300078
+      dna_4: 21300008
+      dna_40: 21300080
+      dna_41: 21300082
+      dna_42: 21300084
+      dna_43: 21300086
+      dna_44: 21300088
+      dna_45: 21300090
+      dna_46: 21300092
+      dna_47: 21300094
+      dna_48: 21300096
+      dna_49: 21300098
+      dna_5: 21300010
+      dna_50: 21300100
+      dna_51: 21300102
+      dna_52: 21300104
+      dna_53: 21300106
+      dna_54: 21300108
+      dna_55: 21300110
+      dna_56: 21300112
+      dna_57: 21300114
+      dna_58: 21300116
+      dna_59: 21300118
+      dna_6: 21300012
+      dna_60: 21300120
+      dna_61: 21300122
+      dna_62: 21300124
+      dna_63: 21300126
+      dna_64: 21300128
+      dna_65: 21300130
+      dna_66: 21300132
+      dna_67: 21300134
+      dna_68: 21300136
+      dna_69: 21300138
       dna_7: 21300014
+      dna_70: 21300140
+      dna_71: 21300142
+      dna_72: 21300144
       dna_73: 21300146
-  spritePackingTag: 
+      dna_74: 21300148
+      dna_75: 21300150
+      dna_76: 21300152
+      dna_77: 21300154
+      dna_78: 21300156
+      dna_79: 21300158
+      dna_8: 21300016
+      dna_80: 21300160
+      dna_81: 21300162
+      dna_82: 21300164
+      dna_83: 21300166
+      dna_84: 21300168
+      dna_85: 21300170
+      dna_86: 21300172
+      dna_87: 21300174
+      dna_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

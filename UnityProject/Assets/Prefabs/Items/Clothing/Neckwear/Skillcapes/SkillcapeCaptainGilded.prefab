@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 235875332917910865, guid: fbf555b126e71f346a67afc9a471aab6,
@@ -19,7 +20,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 235875332917910865, guid: fbf555b126e71f346a67afc9a471aab6,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 08daede02e8cbd8449f9c4dff407f213,
         type: 2}
@@ -40,6 +41,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -377962149180938134, guid: 7c752d942afa39645b251c093aa6d139,
         type: 3}
+    - target: {fileID: 6533861378768188256, guid: fbf555b126e71f346a67afc9a471aab6,
+        type: 3}
+      propertyPath: _assetId
+      value: 2165168864
+      objectReference: {fileID: 0}
     - target: {fileID: 6533861378768188256, guid: fbf555b126e71f346a67afc9a471aab6,
         type: 3}
       propertyPath: m_AssetId
@@ -111,4 +117,7 @@ PrefabInstance:
       value: captain's gilded skillcape
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbf555b126e71f346a67afc9a471aab6, type: 3}

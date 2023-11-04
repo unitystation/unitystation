@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1787191563519386812, guid: d27d06b68d77a3d49b21cce589f699da,
@@ -71,7 +72,12 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 5323679247586463356}
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822505368983413884, guid: d27d06b68d77a3d49b21cce589f699da,
+        type: 3}
+      propertyPath: _assetId
+      value: 2739139437
+      objectReference: {fileID: 0}
     - target: {fileID: 1822505368983413884, guid: d27d06b68d77a3d49b21cce589f699da,
         type: 3}
       propertyPath: m_AssetId
@@ -121,6 +127,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a4ca6b3a108138b4a83648e365db1da9,
         type: 2}
+    - target: {fileID: 3057786403763915364, guid: d27d06b68d77a3d49b21cce589f699da,
+        type: 3}
+      propertyPath: BasePurity
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4639933048432498085, guid: d27d06b68d77a3d49b21cce589f699da,
         type: 3}
       propertyPath: foreverID
@@ -134,15 +145,26 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5807605059177790027, guid: d27d06b68d77a3d49b21cce589f699da,
         type: 3}
-      propertyPath: Gases.Array.data[0]
+      propertyPath: 'Gases.Array.data[0]'
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5807605059177790027, guid: d27d06b68d77a3d49b21cce589f699da,
         type: 3}
-      propertyPath: Gases.Array.data[1]
+      propertyPath: 'Gases.Array.data[1]'
       value: 17.4693
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1792119712038099400, guid: d27d06b68d77a3d49b21cce589f699da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1662746176630879161}
+    - targetCorrespondingSourceObject: {fileID: 1792119712038099400, guid: d27d06b68d77a3d49b21cce589f699da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4398748733116209864}
   m_SourcePrefab: {fileID: 100100000, guid: d27d06b68d77a3d49b21cce589f699da, type: 3}
 --- !u!1 &5220847695223727020 stripped
 GameObject:
@@ -175,6 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   allClothingData: []
@@ -184,15 +207,3 @@ MonoBehaviour:
   hidesSlots: 0
   hideClothingFlags: 0
   disallowConsume: 0
---- !u!114 &5323679247586463356 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1822634185558930456, guid: d27d06b68d77a3d49b21cce589f699da,
-    type: 3}
-  m_PrefabInstance: {fileID: 5812684988641688164}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5220847695223727020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

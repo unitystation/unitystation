@@ -14,18 +14,18 @@ namespace UI.Core.Net.Elements
 			{
 				return index;
 			}
-			set
+			protected set
 			{
 				if (index == value) return;
-				
+
 				index = value;
-				CurrentSpriteData = SpriteCatalogue.ResistantCatalogue[index];		
+				CurrentSpriteData = SpriteCatalogue.ResistantCatalogue[index];
 			}
 		}
 
 		private int index;
 
-		private SpriteDataSO CurrentSpriteData 
+		private SpriteDataSO CurrentSpriteData
 		{
 			get
 			{

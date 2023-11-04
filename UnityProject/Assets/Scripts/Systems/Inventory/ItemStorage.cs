@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 using NaughtyAttributes;
 using Systems.Storage;
 using Items;
+using Logs;
 
 /// <summary>
 /// Allows an object to store items.
@@ -52,6 +53,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	[Tooltip("Force spawn contents at round start rather than first open")]
 	public bool forceSpawnContents;
 
+	public bool ManuallySpawnContent = false;
+
 	private bool contentsSpawned;
 	public bool ContentsSpawned => contentsSpawned;
 
@@ -59,6 +62,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// Cached for quick lookup of what slots are actually available in this storage.
 	/// </summary>
 	private HashSet<SlotIdentifier> definedSlots;
+	public HashSet<SlotIdentifier> DefinedSlots => new(definedSlots);
 
 	//note this will be null if this is not a player's own top-level inventory
 	private PlayerNetworkActions playerNetworkActions;
@@ -83,6 +87,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public RegisterPlayer Player => player;
 	private RegisterPlayer player;
 
+	public bool SetSlotItemNotRemovableOnStartUp = false;
+
 	public void SetRegisterPlayer(RegisterPlayer registerPlayer)
 	{
 		player = registerPlayer;
@@ -96,6 +102,13 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		CacheDefinedSlots();
+		if (SetSlotItemNotRemovableOnStartUp)
+		{
+			foreach (var slot in GetItemSlots())
+			{
+				slot.ItemNotRemovable = true;
+			}
+		}
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -104,7 +117,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 		if (forceSpawnContents)
 		{
-			TrySpawnContents();
+			TrySpawnContents(info);
 		}
 
 		//if this is a player's inventory, make them an observer of all slots
@@ -114,16 +127,20 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 	}
 
-	public void TrySpawnContents()
+	public void TrySpawnContents(SpawnInfo info = null)
 	{
 		if (contentsSpawned || spawnInfo == null) return;
 		contentsSpawned = true;
 
-		ServerPopulate(itemStoragePopulator, PopulationContext.AfterSpawn(spawnInfo));
-		if (UesAddlistPopulater)
+		if (ManuallySpawnContent == false || info?.SpawnManualContents == true)
 		{
-			ServerPopulate(Populater, PopulationContext.AfterSpawn(spawnInfo));
+			ServerPopulate(itemStoragePopulator, PopulationContext.AfterSpawn(spawnInfo), info);
+			if (UesAddlistPopulater)
+			{
+				ServerPopulate(Populater, PopulationContext.AfterSpawn(spawnInfo), info);
+			}
 		}
+
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
@@ -216,16 +233,17 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 			{
 				return Inventory.ServerDespawn(slot);
 			}
+
 			if (Throw)
 			{
-				return DroppedAtWorldPositionOrThrowVector != null ?
-					Inventory.ServerThrow(slot, DroppedAtWorldPositionOrThrowVector.GetValueOrDefault())
+				return DroppedAtWorldPositionOrThrowVector != null
+					? Inventory.ServerThrow(slot, DroppedAtWorldPositionOrThrowVector.GetValueOrDefault())
 					: Inventory.ServerThrow(slot, Vector2.zero);
 			}
 			else
 			{
-				return DroppedAtWorldPositionOrThrowVector != null ?
-					Inventory.ServerDrop(slot, DroppedAtWorldPositionOrThrowVector.GetValueOrDefault())
+				return DroppedAtWorldPositionOrThrowVector != null
+					? Inventory.ServerDrop(slot, DroppedAtWorldPositionOrThrowVector.GetValueOrDefault())
 					: Inventory.ServerDrop(slot);
 			}
 		}
@@ -252,7 +270,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 					}
 					catch (Exception e)
 					{
-						Logger.LogError(e.ToString());
+						Loggy.LogError(e.ToString());
 					}
 				}
 			}
@@ -311,7 +329,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 		catch (NullReferenceException exception)
 		{
-			Logger.LogError($"Caught NRE in ItemStorage: {exception.Message} \n {exception.StackTrace}",
+			Loggy.LogError($"Caught NRE in ItemStorage: {exception.Message} \n {exception.StackTrace}",
 				Category.Inventory);
 			return null;
 		}
@@ -339,7 +357,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 		catch (NullReferenceException exception)
 		{
-			Logger.LogError($"Caught NRE in ItemStorage: {exception.Message} \n {exception.StackTrace}",
+			Loggy.LogError($"Caught NRE in ItemStorage: {exception.Message} \n {exception.StackTrace}",
 				Category.Inventory);
 			return null;
 		}
@@ -370,7 +388,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		if (itemStorageStructure == null)
 		{
-			Logger.LogErrorFormat(
+			Loggy.LogErrorFormat(
 				"{0} has ItemStorage but no defined ItemStorageStructure. Item storage will not work." +
 				" Please define an ItemStorageStructure for this prefab.", Category.Inventory, name);
 			return;
@@ -414,12 +432,12 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// </summary>
 	/// <param name="populator"></param>
 	/// <param name="context">context of the population</param>
-	public void ServerPopulate(IItemStoragePopulator populator, PopulationContext context)
+	public void ServerPopulate(IItemStoragePopulator populator, PopulationContext context, SpawnInfo info)
 	{
 		if (populator == null) return;
 		if (!CustomNetworkManager.IsServer) return;
 		if (!context.SpawnInfo.SpawnItems) return;
-		populator.PopulateItemStorage(this, context);
+		populator.PopulateItemStorage(this, context, info);
 	}
 
 	/// <summary>
@@ -500,7 +518,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		if (slot.Item == null)
 		{
-			return new[] {slot};
+			return new[] { slot };
 		}
 
 		var itemStorage = slot.Item.GetComponents<ItemStorage>();
@@ -510,7 +528,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 			ListThis.AddRange(itemStorages.GetItemSlotTree());
 		}
 
-		var ToReturn = ListThis.ToArray().Concat(new[] {slot});
+		var ToReturn = ListThis.ToArray().Concat(new[] { slot });
 		return ToReturn;
 	}
 
@@ -518,6 +536,12 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		return GetItemSlots()
 			.Where(its => its.SlotIdentifier.SlotIdentifierType == SlotIdentifierType.Indexed);
+	}
+
+	public IEnumerable<ItemSlot> GetNamedItemSlots()
+	{
+		return GetItemSlots()
+			.Where(its => its.SlotIdentifier.SlotIdentifierType == SlotIdentifierType.Named);
 	}
 
 	/// <summary>
@@ -528,6 +552,16 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		return GetIndexedSlots().FirstOrDefault(its => its.Item == null);
 	}
+
+	/// <summary>
+	/// Gets the next free indexed slot. Null if none.
+	/// </summary>
+	/// <returns></returns>
+	public ItemSlot GetNextFreeNamedSlot()
+	{
+		return GetNamedItemSlots().FirstOrDefault(its => its.Item == null);
+	}
+
 
 	/// <summary>
 	/// Returns the best slot (according to BestSlotForTrait) that is capable of holding
@@ -576,6 +610,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		{
 			if (slot.IsOccupied) result.Add(slot);
 		}
+
 		return result;
 	}
 
@@ -682,9 +717,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		Vector2? worldDeltaTargetVector = null;
 		if (DropAtWorld != null)
 		{
-			worldDeltaTargetVector =  DropAtWorld - gameObject.AssumedWorldPosServer() ;
+			worldDeltaTargetVector = DropAtWorld - gameObject.AssumedWorldPosServer();
 		}
-
 		ServerDropAll(worldDeltaTargetVector);
 	}
 }

@@ -34,7 +34,7 @@ namespace UI.Systems.Ghost
 		private void OnEnable()
 		{
 			TeleportWindow.onTeleportRequested += TeleportUtils.TeleportLocalGhostTo;
-			TeleportWindow.onTeleportToVector += TeleportUtils.TeleportLocalGhostTo;
+			TeleportWindow.onTeleportToVectorWorld += TeleportUtils.TeleportGhostToWorldPosition;
 			DetermineGhostHearText();
 			RequestAvailableGhostRolesMessage.SendMessage();
 		}
@@ -42,7 +42,7 @@ namespace UI.Systems.Ghost
 		private void OnDisable()
 		{
 			TeleportWindow.onTeleportRequested -= TeleportUtils.TeleportLocalGhostTo;
-			TeleportWindow.onTeleportToVector -= TeleportUtils.TeleportLocalGhostTo;
+			TeleportWindow.onTeleportToVectorWorld -= TeleportUtils.TeleportGhostToWorldPosition;
 		}
 
 		public void JumpToMob()
@@ -97,6 +97,7 @@ namespace UI.Systems.Ghost
 
 		public void NewGhostRoleAvailable(GhostRoleData role)
 		{
+			if (gameObject.activeSelf == false) return;
 			ghostRoleSpriteHandler.SetSpriteSO(role.Sprite, networked: false);
 			if (roleBtnAnimating) return; // Drop rapid subsequent notifications
 
@@ -117,7 +118,7 @@ namespace UI.Systems.Ghost
 			ghostRoleAnimator.TriggerAnimation();
 
 			yield return WaitFor.Seconds(5);
-			ghostRoleSpriteHandler.ChangeSprite(0, networked: false);
+			ghostRoleSpriteHandler.SetCatalogueIndexSprite(0, networked: false);
 
 			roleBtnAnimating = false;
 		}

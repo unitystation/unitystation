@@ -87,7 +87,7 @@ TextureImporter:
       213: 21300054
     second: body_cloaked_27
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,6 +148,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -162,6 +165,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -774,37 +789,36 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      body_cloaked_18: 21300036
-      body_cloaked_11: 21300022
-      body_cloaked_26: 21300052
-      body_cloaked_3: 21300006
-      body_cloaked_23: 21300046
-      body_cloaked_12: 21300024
-      body_cloaked_20: 21300040
-      body_cloaked_8: 21300016
-      body_cloaked_10: 21300020
-      body_cloaked_14: 21300028
-      body_cloaked_22: 21300044
-      body_cloaked_1: 21300002
-      body_cloaked_4: 21300008
-      body_cloaked_24: 21300048
-      body_cloaked_5: 21300010
-      body_cloaked_21: 21300042
-      body_cloaked_2: 21300004
-      body_cloaked_15: 21300030
       body_cloaked_0: 21300000
+      body_cloaked_1: 21300002
+      body_cloaked_10: 21300020
+      body_cloaked_11: 21300022
+      body_cloaked_12: 21300024
       body_cloaked_13: 21300026
-      body_cloaked_9: 21300018
-      body_cloaked_19: 21300038
-      body_cloaked_7: 21300014
-      body_cloaked_25: 21300050
-      body_cloaked_6: 21300012
-      body_cloaked_27: 21300054
+      body_cloaked_14: 21300028
+      body_cloaked_15: 21300030
       body_cloaked_16: 21300032
       body_cloaked_17: 21300034
-  spritePackingTag: 
+      body_cloaked_18: 21300036
+      body_cloaked_19: 21300038
+      body_cloaked_2: 21300004
+      body_cloaked_20: 21300040
+      body_cloaked_21: 21300042
+      body_cloaked_22: 21300044
+      body_cloaked_23: 21300046
+      body_cloaked_24: 21300048
+      body_cloaked_25: 21300050
+      body_cloaked_26: 21300052
+      body_cloaked_27: 21300054
+      body_cloaked_3: 21300006
+      body_cloaked_4: 21300008
+      body_cloaked_5: 21300010
+      body_cloaked_6: 21300012
+      body_cloaked_7: 21300014
+      body_cloaked_8: 21300016
+      body_cloaked_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

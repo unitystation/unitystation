@@ -123,7 +123,7 @@ TextureImporter:
       213: 21300078
     second: god_39
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -140,11 +140,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -183,6 +184,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -198,6 +201,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1062,49 +1077,48 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      god_8: 21300016
-      god_1: 21300002
-      god_23: 21300046
-      god_4: 21300008
-      god_14: 21300028
-      god_7: 21300014
-      god_5: 21300010
-      god_18: 21300036
-      god_33: 21300066
-      god_34: 21300068
-      god_26: 21300052
-      god_31: 21300062
-      god_35: 21300070
-      god_20: 21300040
-      god_2: 21300004
-      god_22: 21300044
-      god_36: 21300072
-      god_28: 21300056
-      god_38: 21300076
-      god_11: 21300022
       god_0: 21300000
-      god_37: 21300074
-      god_24: 21300048
-      god_30: 21300060
-      god_9: 21300018
-      god_19: 21300038
-      god_25: 21300050
-      god_29: 21300058
+      god_1: 21300002
+      god_10: 21300020
+      god_11: 21300022
+      god_12: 21300024
       god_13: 21300026
-      god_27: 21300054
-      god_3: 21300006
-      god_39: 21300078
+      god_14: 21300028
       god_15: 21300030
-      god_21: 21300042
       god_16: 21300032
       god_17: 21300034
+      god_18: 21300036
+      god_19: 21300038
+      god_2: 21300004
+      god_20: 21300040
+      god_21: 21300042
+      god_22: 21300044
+      god_23: 21300046
+      god_24: 21300048
+      god_25: 21300050
+      god_26: 21300052
+      god_27: 21300054
+      god_28: 21300056
+      god_29: 21300058
+      god_3: 21300006
+      god_30: 21300060
+      god_31: 21300062
       god_32: 21300064
-      god_12: 21300024
+      god_33: 21300066
+      god_34: 21300068
+      god_35: 21300070
+      god_36: 21300072
+      god_37: 21300074
+      god_38: 21300076
+      god_39: 21300078
+      god_4: 21300008
+      god_5: 21300010
       god_6: 21300012
-      god_10: 21300020
-  spritePackingTag: 
+      god_7: 21300014
+      god_8: 21300016
+      god_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

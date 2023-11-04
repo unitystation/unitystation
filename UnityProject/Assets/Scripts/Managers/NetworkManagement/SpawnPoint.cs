@@ -29,7 +29,17 @@ namespace Systems.Spawns
 
 		public static Transform GetRandomPointForLateSpawn()
 		{
-			return GetPointsForCategory(SpawnPointCategory.LateJoin).ToList().PickRandom();
+			var points = GetPointsForCategory(SpawnPointCategory.LateJoin).ToList();
+			if (points.Any() == false)
+			{
+				return NetworkManager.startPositions.PickRandom();
+			}
+			else
+			{
+				return points.PickRandom();
+			}
+
+
 		}
 
 		public static Transform GetRandomPointForJob(JobType job, bool isGhost = false)

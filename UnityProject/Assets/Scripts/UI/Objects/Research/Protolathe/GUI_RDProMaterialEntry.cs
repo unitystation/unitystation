@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UI.Core.NetUI;
-using UI.Objects.Robotics;
+﻿using UI.Core.NetUI;
 
 namespace UI.Objects
 {

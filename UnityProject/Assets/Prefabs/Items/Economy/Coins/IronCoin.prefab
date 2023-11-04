@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3611203652882625299, guid: d7d543912ffafe3478e119cbce62b13b,
@@ -20,13 +21,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4603017766652364025, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: e7fa5449c740b6d44bc2ef19901bc716,
         type: 2}
     - target: {fileID: 4603017766652364025, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: f1dc53ea1509bbf4385c55fd557c0c53,
         type: 2}
@@ -98,6 +99,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7724551780263838410, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
+      propertyPath: _assetId
+      value: 3164241943
+      objectReference: {fileID: 0}
+    - target: {fileID: 7724551780263838410, guid: d7d543912ffafe3478e119cbce62b13b,
+        type: 3}
       propertyPath: m_AssetId
       value: d0299bbbacd2dd142bb9782d550edf9c
       objectReference: {fileID: 0}
@@ -117,4 +123,7 @@ PrefabInstance:
       value: An iron coin. It has a worth of 1 credit.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7d543912ffafe3478e119cbce62b13b, type: 3}

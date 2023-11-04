@@ -69,7 +69,7 @@ TextureImporter:
       213: 21300042
     second: obelisk_prism_21
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -86,11 +86,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -129,6 +130,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -144,6 +147,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -630,31 +645,30 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      obelisk_prism_18: 21300036
-      obelisk_prism_3: 21300006
-      obelisk_prism_7: 21300014
-      obelisk_prism_9: 21300018
-      obelisk_prism_8: 21300016
-      obelisk_prism_1: 21300002
-      obelisk_prism_14: 21300028
-      obelisk_prism_17: 21300034
-      obelisk_prism_13: 21300026
-      obelisk_prism_2: 21300004
-      obelisk_prism_19: 21300038
-      obelisk_prism_20: 21300040
-      obelisk_prism_12: 21300024
-      obelisk_prism_5: 21300010
-      obelisk_prism_6: 21300012
-      obelisk_prism_11: 21300022
-      obelisk_prism_10: 21300020
       obelisk_prism_0: 21300000
-      obelisk_prism_4: 21300008
+      obelisk_prism_1: 21300002
+      obelisk_prism_10: 21300020
+      obelisk_prism_11: 21300022
+      obelisk_prism_12: 21300024
+      obelisk_prism_13: 21300026
+      obelisk_prism_14: 21300028
       obelisk_prism_15: 21300030
       obelisk_prism_16: 21300032
+      obelisk_prism_17: 21300034
+      obelisk_prism_18: 21300036
+      obelisk_prism_19: 21300038
+      obelisk_prism_2: 21300004
+      obelisk_prism_20: 21300040
       obelisk_prism_21: 21300042
-  spritePackingTag: 
+      obelisk_prism_3: 21300006
+      obelisk_prism_4: 21300008
+      obelisk_prism_5: 21300010
+      obelisk_prism_6: 21300012
+      obelisk_prism_7: 21300014
+      obelisk_prism_8: 21300016
+      obelisk_prism_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

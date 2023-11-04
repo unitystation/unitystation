@@ -171,7 +171,7 @@ TextureImporter:
       213: 21300110
     second: xraycamera_55
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -188,11 +188,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -231,6 +232,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -246,6 +249,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1446,65 +1461,64 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      xraycamera_1: 21300002
-      xraycamera_25: 21300050
-      xraycamera_5: 21300010
-      xraycamera_30: 21300060
-      xraycamera_4: 21300008
-      xraycamera_8: 21300016
-      xraycamera_23: 21300046
       xraycamera_0: 21300000
-      xraycamera_39: 21300078
-      xraycamera_3: 21300006
-      xraycamera_38: 21300076
-      xraycamera_14: 21300028
-      xraycamera_24: 21300048
-      xraycamera_43: 21300086
+      xraycamera_1: 21300002
+      xraycamera_10: 21300020
+      xraycamera_11: 21300022
       xraycamera_12: 21300024
-      xraycamera_41: 21300082
-      xraycamera_53: 21300106
-      xraycamera_52: 21300104
-      xraycamera_33: 21300066
-      xraycamera_22: 21300044
+      xraycamera_13: 21300026
+      xraycamera_14: 21300028
+      xraycamera_15: 21300030
+      xraycamera_16: 21300032
+      xraycamera_17: 21300034
+      xraycamera_18: 21300036
+      xraycamera_19: 21300038
+      xraycamera_2: 21300004
       xraycamera_20: 21300040
-      xraycamera_32: 21300064
-      xraycamera_45: 21300090
-      xraycamera_44: 21300088
-      xraycamera_40: 21300080
-      xraycamera_46: 21300092
+      xraycamera_21: 21300042
+      xraycamera_22: 21300044
+      xraycamera_23: 21300046
+      xraycamera_24: 21300048
+      xraycamera_25: 21300050
+      xraycamera_26: 21300052
+      xraycamera_27: 21300054
       xraycamera_28: 21300056
-      xraycamera_37: 21300074
+      xraycamera_29: 21300058
+      xraycamera_3: 21300006
+      xraycamera_30: 21300060
       xraycamera_31: 21300062
+      xraycamera_32: 21300064
+      xraycamera_33: 21300066
+      xraycamera_34: 21300068
+      xraycamera_35: 21300070
+      xraycamera_36: 21300072
+      xraycamera_37: 21300074
+      xraycamera_38: 21300076
+      xraycamera_39: 21300078
+      xraycamera_4: 21300008
+      xraycamera_40: 21300080
+      xraycamera_41: 21300082
+      xraycamera_42: 21300084
+      xraycamera_43: 21300086
+      xraycamera_44: 21300088
+      xraycamera_45: 21300090
+      xraycamera_46: 21300092
+      xraycamera_47: 21300094
+      xraycamera_48: 21300096
+      xraycamera_49: 21300098
+      xraycamera_5: 21300010
+      xraycamera_50: 21300100
+      xraycamera_51: 21300102
+      xraycamera_52: 21300104
+      xraycamera_53: 21300106
       xraycamera_54: 21300108
       xraycamera_55: 21300110
-      xraycamera_35: 21300070
-      xraycamera_19: 21300038
-      xraycamera_10: 21300020
-      xraycamera_21: 21300042
-      xraycamera_11: 21300022
-      xraycamera_2: 21300004
       xraycamera_6: 21300012
-      xraycamera_16: 21300032
-      xraycamera_48: 21300096
-      xraycamera_34: 21300068
-      xraycamera_47: 21300094
-      xraycamera_18: 21300036
-      xraycamera_50: 21300100
-      xraycamera_13: 21300026
-      xraycamera_49: 21300098
-      xraycamera_26: 21300052
-      xraycamera_42: 21300084
-      xraycamera_51: 21300102
       xraycamera_7: 21300014
-      xraycamera_17: 21300034
-      xraycamera_15: 21300030
-      xraycamera_27: 21300054
-      xraycamera_36: 21300072
+      xraycamera_8: 21300016
       xraycamera_9: 21300018
-      xraycamera_29: 21300058
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

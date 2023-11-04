@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: diverter10_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      diverter10_0: 21300000
+      diverter10_1: 21300002
+      diverter10_10: 21300020
+      diverter10_11: 21300022
+      diverter10_12: 21300024
+      diverter10_13: 21300026
+      diverter10_14: 21300028
+      diverter10_15: 21300030
+      diverter10_16: 21300032
+      diverter10_17: 21300034
+      diverter10_18: 21300036
+      diverter10_19: 21300038
       diverter10_2: 21300004
+      diverter10_20: 21300040
+      diverter10_21: 21300042
+      diverter10_22: 21300044
+      diverter10_23: 21300046
+      diverter10_24: 21300048
+      diverter10_25: 21300050
+      diverter10_26: 21300052
+      diverter10_27: 21300054
+      diverter10_28: 21300056
+      diverter10_29: 21300058
+      diverter10_3: 21300006
+      diverter10_30: 21300060
+      diverter10_31: 21300062
+      diverter10_4: 21300008
+      diverter10_5: 21300010
+      diverter10_6: 21300012
       diverter10_7: 21300014
       diverter10_8: 21300016
-      diverter10_13: 21300026
-      diverter10_31: 21300062
-      diverter10_11: 21300022
-      diverter10_30: 21300060
-      diverter10_5: 21300010
-      diverter10_14: 21300028
-      diverter10_19: 21300038
       diverter10_9: 21300018
-      diverter10_12: 21300024
-      diverter10_3: 21300006
-      diverter10_4: 21300008
-      diverter10_17: 21300034
-      diverter10_6: 21300012
-      diverter10_22: 21300044
-      diverter10_18: 21300036
-      diverter10_21: 21300042
-      diverter10_29: 21300058
-      diverter10_24: 21300048
-      diverter10_16: 21300032
-      diverter10_20: 21300040
-      diverter10_26: 21300052
-      diverter10_23: 21300046
-      diverter10_27: 21300054
-      diverter10_10: 21300020
-      diverter10_28: 21300056
-      diverter10_1: 21300002
-      diverter10_0: 21300000
-      diverter10_25: 21300050
-      diverter10_15: 21300030
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

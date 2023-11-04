@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 590354148432884721, guid: 411e38af01d5a8249afcbd5beb9de197,
@@ -15,13 +16,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 590354148432884721, guid: 411e38af01d5a8249afcbd5beb9de197,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: a577af152ec4b2642863d25d571e5828,
         type: 2}
     - target: {fileID: 590354148432884721, guid: 411e38af01d5a8249afcbd5beb9de197,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: a577af152ec4b2642863d25d571e5828,
         type: 2}
@@ -113,6 +114,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6269830135824793344, guid: 411e38af01d5a8249afcbd5beb9de197,
         type: 3}
+      propertyPath: _assetId
+      value: 185149090
+      objectReference: {fileID: 0}
+    - target: {fileID: 6269830135824793344, guid: 411e38af01d5a8249afcbd5beb9de197,
+        type: 3}
       propertyPath: m_AssetId
       value: b630726c9e54b1c4abfbe90b31311407
       objectReference: {fileID: 0}
@@ -121,7 +127,29 @@ PrefabInstance:
       propertyPath: mobName
       value: shambling corpse
       objectReference: {fileID: 0}
+    - target: {fileID: 8001555796081604719, guid: 411e38af01d5a8249afcbd5beb9de197,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001555796081604719, guid: 411e38af01d5a8249afcbd5beb9de197,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001555796081604719, guid: 411e38af01d5a8249afcbd5beb9de197,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6238238340896744860, guid: 411e38af01d5a8249afcbd5beb9de197,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4825098102926651840}
   m_SourcePrefab: {fileID: 100100000, guid: 411e38af01d5a8249afcbd5beb9de197, type: 3}
 --- !u!1 &7516670754343575980 stripped
 GameObject:

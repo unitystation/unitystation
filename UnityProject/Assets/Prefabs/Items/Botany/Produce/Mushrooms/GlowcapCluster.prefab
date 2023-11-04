@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 658653017241440092, guid: af405bc87f41b6240ac29b45b235181a,
@@ -13,6 +14,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1228169538992626503, guid: 06da711176fdb62468414ecfea71645f,
         type: 3}
+    - target: {fileID: 1195837410598928031, guid: af405bc87f41b6240ac29b45b235181a,
+        type: 3}
+      propertyPath: _assetId
+      value: 3364393203
+      objectReference: {fileID: 0}
     - target: {fileID: 1195837410598928031, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}
       propertyPath: m_AssetId
@@ -95,6 +101,11 @@ PrefabInstance:
       value: 'Mycena Ruthenia: This species of mushroom glows in the dark, but isn''t
         actually bioluminescent. They''re warm to the touch...'
       objectReference: {fileID: 0}
+    - target: {fileID: 2575445152680022151, guid: af405bc87f41b6240ac29b45b235181a,
+        type: 3}
+      propertyPath: BasePurity
+      value: 43
+      objectReference: {fileID: 0}
     - target: {fileID: 4920848234185996460, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -107,4 +118,7 @@ PrefabInstance:
       value: c62770f48079d34458c386b026a36d6d
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af405bc87f41b6240ac29b45b235181a, type: 3}

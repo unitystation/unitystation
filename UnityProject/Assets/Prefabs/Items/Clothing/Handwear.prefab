@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2917128564446547862, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: _assetId
+      value: 2809527858
+      objectReference: {fileID: 0}
     - target: {fileID: 2917128564446547862, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: m_AssetId
@@ -16,7 +22,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 5989569784115140878}
+      objectReference: {fileID: 0}
     - target: {fileID: 2917169708539712446, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: CurrentsortingGroup
@@ -105,13 +111,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
-      propertyPath: initialTraits.Array.data[0]
+      propertyPath: 'initialTraits.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 5e02bb5046f5e49d99d448363a2cdf86,
         type: 2}
     - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 10a21ec3d5e7d1d489334ee8c7382ba7,
         type: 2}
@@ -137,6 +143,13 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 3aabed9cbf8893749a18ebf6445f911b,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7928915401163525585}
   m_SourcePrefab: {fileID: 100100000, guid: 6b5f74a79e023479cb5b30a2879621da, type: 3}
 --- !u!210 &450048392601907856 stripped
 SortingGroup:
@@ -163,6 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slot: 11
+  CompatibleSlots: 
   armoredBodyParts:
   - armoringBodyPartType: 9
     armor:
@@ -176,7 +190,11 @@ MonoBehaviour:
       Acid: 0
       Magic: 0
       Bio: 0
+      Anomaly: 0
       DismembermentProtectionChance: 0
+      StunImmunity: 0
+      TemperatureProtectionInK: {x: 268.15, y: 313.15}
+      PressureProtectionInKpa: {x: 30, y: 300}
   - armoringBodyPartType: 10
     armor:
       Melee: 0
@@ -189,16 +207,8 @@ MonoBehaviour:
       Acid: 0
       Magic: 0
       Bio: 0
+      Anomaly: 0
       DismembermentProtectionChance: 0
---- !u!114 &5989569784115140878 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2916681237181358066, guid: 6b5f74a79e023479cb5b30a2879621da,
-    type: 3}
-  m_PrefabInstance: {fileID: 8891543678580246268}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5947731994596095198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+      StunImmunity: 0
+      TemperatureProtectionInK: {x: 268.15, y: 313.15}
+      PressureProtectionInKpa: {x: 30, y: 300}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1331463362612465219, guid: bc9a1d735c29aec41933c617d03e5148,
@@ -19,7 +20,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1331463362612465219, guid: bc9a1d735c29aec41933c617d03e5148,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: e22a4e44345e12c42a4f6bb978a110e0,
         type: 2}
@@ -102,6 +103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5445768720984105074, guid: bc9a1d735c29aec41933c617d03e5148,
         type: 3}
+      propertyPath: _assetId
+      value: 3409187798
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445768720984105074, guid: bc9a1d735c29aec41933c617d03e5148,
+        type: 3}
       propertyPath: m_AssetId
       value: 2e7704cb08978194f88c2d137293fa77
       objectReference: {fileID: 0}
@@ -111,4 +117,7 @@ PrefabInstance:
       value: chief engineer's gilded skillcape
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc9a1d735c29aec41933c617d03e5148, type: 3}

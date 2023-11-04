@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 53726127740493440, guid: 430cc93dd74c6f84dae776271fdf1a99,
@@ -75,6 +76,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 277850591902437480, guid: 430cc93dd74c6f84dae776271fdf1a99,
         type: 3}
+      propertyPath: _assetId
+      value: 2122107298
+      objectReference: {fileID: 0}
+    - target: {fileID: 277850591902437480, guid: 430cc93dd74c6f84dae776271fdf1a99,
+        type: 3}
       propertyPath: m_AssetId
       value: 9325136c6e552894b913000722a7cdc2
       objectReference: {fileID: 0}
@@ -100,13 +106,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1397560590023353716, guid: 430cc93dd74c6f84dae776271fdf1a99,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 84c6e08358573194c8c518895b225efd,
         type: 2}
     - target: {fileID: 1397560590023353716, guid: 430cc93dd74c6f84dae776271fdf1a99,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[1]'
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6271602279957567067, guid: 430cc93dd74c6f84dae776271fdf1a99,
@@ -121,4 +127,7 @@ PrefabInstance:
       value: unpoppedcornWITHBUTTER
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 430cc93dd74c6f84dae776271fdf1a99, type: 3}

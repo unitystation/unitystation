@@ -115,9 +115,9 @@ namespace Util
 			LeanTween.rotate(Target.gameObject, vector, time);
 		}
 
-		public void RotateGameObject(Vector3 vector, float time)
+		public void RotateGameObject(Vector3 vector, float time, GameObject otherTarget = null)
 		{
-			LeanTween.rotate(Target.gameObject, vector, time);
+			LeanTween.rotate(otherTarget == null ? Target.gameObject : otherTarget.gameObject, vector, time);
 		}
 
 		[ClientRpc]

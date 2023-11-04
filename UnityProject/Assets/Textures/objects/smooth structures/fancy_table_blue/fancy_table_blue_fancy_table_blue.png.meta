@@ -147,7 +147,7 @@ TextureImporter:
       213: 6617334068566170407
     second: fancy_table_blue_fancy_table_blue_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      fancy_table_blue_fancy_table_blue_35: -2249775962411566159
-      fancy_table_blue_fancy_table_blue_28: 8060399572408458457
-      fancy_table_blue_fancy_table_blue_7: 4892558924341935824
-      fancy_table_blue_fancy_table_blue_14: 3105247793641919282
-      fancy_table_blue_fancy_table_blue_8: -1252263540694926481
-      fancy_table_blue_fancy_table_blue_39: 7688598404663162022
-      fancy_table_blue_fancy_table_blue_10: 38788673250405203
-      fancy_table_blue_fancy_table_blue_29: -2138479570128730763
-      fancy_table_blue_fancy_table_blue_37: -7848340766101267894
-      fancy_table_blue_fancy_table_blue_36: -5092710296740849205
-      fancy_table_blue_fancy_table_blue_15: 208939270785336557
-      fancy_table_blue_fancy_table_blue_5: 1028690100783991377
-      fancy_table_blue_fancy_table_blue_26: -1128576986788820177
-      fancy_table_blue_fancy_table_blue_41: 6194179089978133549
-      fancy_table_blue_fancy_table_blue_43: 5583988831169801577
-      fancy_table_blue_fancy_table_blue_47: 6617334068566170407
       fancy_table_blue_fancy_table_blue_0: 3553020583003030952
-      fancy_table_blue_fancy_table_blue_13: 5560310167561587644
-      fancy_table_blue_fancy_table_blue_45: 779020217059831178
-      fancy_table_blue_fancy_table_blue_6: 7357232365820153471
-      fancy_table_blue_fancy_table_blue_12: 7371839828010753314
-      fancy_table_blue_fancy_table_blue_42: 6595871557985918771
-      fancy_table_blue_fancy_table_blue_16: -8109287136360674871
-      fancy_table_blue_fancy_table_blue_21: 3612969045942267870
-      fancy_table_blue_fancy_table_blue_11: -2994941838643927330
-      fancy_table_blue_fancy_table_blue_2: -6552766996940163993
-      fancy_table_blue_fancy_table_blue_34: -3599905278831798199
-      fancy_table_blue_fancy_table_blue_22: 4496290233479414633
-      fancy_table_blue_fancy_table_blue_44: -3767674500982406342
-      fancy_table_blue_fancy_table_blue_17: 7902637297393567114
-      fancy_table_blue_fancy_table_blue_3: -3365203746582128467
-      fancy_table_blue_fancy_table_blue_4: -6214127069218736459
-      fancy_table_blue_fancy_table_blue_20: -8584714742920150169
-      fancy_table_blue_fancy_table_blue_40: -4565672289755748091
-      fancy_table_blue_fancy_table_blue_18: -2328296782583317256
-      fancy_table_blue_fancy_table_blue_25: -2898697630265461466
-      fancy_table_blue_fancy_table_blue_24: -4022553490034219460
-      fancy_table_blue_fancy_table_blue_19: -4377716327508782979
       fancy_table_blue_fancy_table_blue_1: -1278584526376941846
-      fancy_table_blue_fancy_table_blue_33: 5001444856163411754
+      fancy_table_blue_fancy_table_blue_10: 38788673250405203
+      fancy_table_blue_fancy_table_blue_11: -2994941838643927330
+      fancy_table_blue_fancy_table_blue_12: 7371839828010753314
+      fancy_table_blue_fancy_table_blue_13: 5560310167561587644
+      fancy_table_blue_fancy_table_blue_14: 3105247793641919282
+      fancy_table_blue_fancy_table_blue_15: 208939270785336557
+      fancy_table_blue_fancy_table_blue_16: -8109287136360674871
+      fancy_table_blue_fancy_table_blue_17: 7902637297393567114
+      fancy_table_blue_fancy_table_blue_18: -2328296782583317256
+      fancy_table_blue_fancy_table_blue_19: -4377716327508782979
+      fancy_table_blue_fancy_table_blue_2: -6552766996940163993
+      fancy_table_blue_fancy_table_blue_20: -8584714742920150169
+      fancy_table_blue_fancy_table_blue_21: 3612969045942267870
+      fancy_table_blue_fancy_table_blue_22: 4496290233479414633
+      fancy_table_blue_fancy_table_blue_23: -8367485348977953353
+      fancy_table_blue_fancy_table_blue_24: -4022553490034219460
+      fancy_table_blue_fancy_table_blue_25: -2898697630265461466
+      fancy_table_blue_fancy_table_blue_26: -1128576986788820177
       fancy_table_blue_fancy_table_blue_27: 812081824583208044
+      fancy_table_blue_fancy_table_blue_28: 8060399572408458457
+      fancy_table_blue_fancy_table_blue_29: -2138479570128730763
+      fancy_table_blue_fancy_table_blue_3: -3365203746582128467
       fancy_table_blue_fancy_table_blue_30: 3250194934798683377
       fancy_table_blue_fancy_table_blue_31: 295522739448038858
-      fancy_table_blue_fancy_table_blue_46: -7243225914863141654
-      fancy_table_blue_fancy_table_blue_9: 8885665640360065605
-      fancy_table_blue_fancy_table_blue_38: -4600356157716476209
       fancy_table_blue_fancy_table_blue_32: -6392252690830106583
-      fancy_table_blue_fancy_table_blue_23: -8367485348977953353
-  spritePackingTag: 
+      fancy_table_blue_fancy_table_blue_33: 5001444856163411754
+      fancy_table_blue_fancy_table_blue_34: -3599905278831798199
+      fancy_table_blue_fancy_table_blue_35: -2249775962411566159
+      fancy_table_blue_fancy_table_blue_36: -5092710296740849205
+      fancy_table_blue_fancy_table_blue_37: -7848340766101267894
+      fancy_table_blue_fancy_table_blue_38: -4600356157716476209
+      fancy_table_blue_fancy_table_blue_39: 7688598404663162022
+      fancy_table_blue_fancy_table_blue_4: -6214127069218736459
+      fancy_table_blue_fancy_table_blue_40: -4565672289755748091
+      fancy_table_blue_fancy_table_blue_41: 6194179089978133549
+      fancy_table_blue_fancy_table_blue_42: 6595871557985918771
+      fancy_table_blue_fancy_table_blue_43: 5583988831169801577
+      fancy_table_blue_fancy_table_blue_44: -3767674500982406342
+      fancy_table_blue_fancy_table_blue_45: 779020217059831178
+      fancy_table_blue_fancy_table_blue_46: -7243225914863141654
+      fancy_table_blue_fancy_table_blue_47: 6617334068566170407
+      fancy_table_blue_fancy_table_blue_5: 1028690100783991377
+      fancy_table_blue_fancy_table_blue_6: 7357232365820153471
+      fancy_table_blue_fancy_table_blue_7: 4892558924341935824
+      fancy_table_blue_fancy_table_blue_8: -1252263540694926481
+      fancy_table_blue_fancy_table_blue_9: 8885665640360065605
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

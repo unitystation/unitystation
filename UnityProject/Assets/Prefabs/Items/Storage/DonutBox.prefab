@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2506717331081805387, guid: 351fa36521ade244b9d7d66b21f7f333,
@@ -20,43 +21,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[0]
+      propertyPath: 'spritesByCount.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 289f1d456d4a4c043b96cda8189caf61,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[1]
+      propertyPath: 'spritesByCount.Array.data[1]'
       value: 
       objectReference: {fileID: 21300000, guid: 0716dd09dd7de8748b4ca3ae87db7dda,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[2]
+      propertyPath: 'spritesByCount.Array.data[2]'
       value: 
       objectReference: {fileID: 21300000, guid: 2de309c0800491b468f57e3da54f66cf,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[3]
+      propertyPath: 'spritesByCount.Array.data[3]'
       value: 
       objectReference: {fileID: 21300000, guid: 84bac67834b86ef428a5a8835ec68249,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[4]
+      propertyPath: 'spritesByCount.Array.data[4]'
       value: 
       objectReference: {fileID: 21300000, guid: f24761ef8a979e64fbdb883dca6cee7d,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[5]
+      propertyPath: 'spritesByCount.Array.data[5]'
       value: 
       objectReference: {fileID: 21300000, guid: 60a44726cd214f3478578895319da0c6,
         type: 3}
     - target: {fileID: 3044181827350616606, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: spritesByCount.Array.data[6]
+      propertyPath: 'spritesByCount.Array.data[6]'
       value: 
       objectReference: {fileID: 21300000, guid: 448c21b6e8ad297448d445356c99b5af,
         type: 3}
@@ -74,6 +75,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Mmm. Donuts.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8510550462711117944, guid: 351fa36521ade244b9d7d66b21f7f333,
+        type: 3}
+      propertyPath: _assetId
+      value: 2803487605
       objectReference: {fileID: 0}
     - target: {fileID: 8510550462711117944, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
@@ -159,4 +165,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e8b6fa61b6bdb4b8aa2833a751dfc487,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 351fa36521ade244b9d7d66b21f7f333, type: 3}

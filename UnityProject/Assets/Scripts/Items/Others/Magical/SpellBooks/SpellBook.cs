@@ -4,6 +4,7 @@ using UnityEngine;
 using Systems.Spells;
 using ScriptableObjects.Systems.Spells;
 using Items.Bureaucracy;
+using Logs;
 
 namespace Items.Magical
 {
@@ -73,7 +74,7 @@ namespace Items.Magical
 			}
 			else
 			{
-				Logger.LogWarning($"No punishment found for {this}!", Category.Spells);
+				Loggy.LogWarning($"No punishment found for {this}!", Category.Spells);
 			}
 		}
 	}

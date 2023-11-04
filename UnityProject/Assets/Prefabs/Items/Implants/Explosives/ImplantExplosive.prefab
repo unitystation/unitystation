@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
@@ -58,6 +59,11 @@ PrefabInstance:
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: _assetId
+      value: 3642922588
       objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -143,31 +149,31 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: initialTraits.Array.data[0]
+      propertyPath: 'initialTraits.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c,
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 5e9ac88966a35d34a9fd90c34e1ddaa0,
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: initialTraits.Array.data[2]
+      propertyPath: 'initialTraits.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 1c9353050e8d2b54abf42a434ac8bb40,
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: initialTraits.Array.data[3]
+      propertyPath: 'initialTraits.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 4b428f20861eb4044973c835d412d7d4,
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: initialTraits.Array.data[4]
+      propertyPath: 'initialTraits.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: 892f0c642e2049640b08d738517bb0f5,
         type: 2}
@@ -200,6 +206,41 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1373280397285383934, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1335230176832777347}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2959315849646831725}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4373764861328305485}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5153915510540276908}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6433121077656229744}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7968537685027302571}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8042088280160166274}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8358811179410753561}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!114 &2925014835611581738 stripped
 MonoBehaviour:
@@ -231,12 +272,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a5324d1ed58d54eb78577c22157392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  isEMPVunerable: 1
-  EMPResistance: 2
   <TriggerOnDeath>k__BackingField: 0
   <OverrideDeathCountDown>k__BackingField: -1
+  isEMPVunerable: 1
+  EMPResistance: 2
 --- !u!114 &2959315849646831725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,11 +297,13 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 1
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &4373764861328305485
@@ -316,14 +360,17 @@ MonoBehaviour:
   destroyOnEmpty: 0
   ContentsSet: 0
   menuOptions: -1
+  spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 0
+  SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20
+  transferSound: []
 --- !u!114 &7968537685027302571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,6 +383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f0417c7d24d99548aeb830a34e6059d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   SignalTypeToReceive: 2
@@ -390,6 +438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OrganStorage: {fileID: 2959315849646831725}
+  isOpenAir: 0
   CommonComponents: {fileID: 0}
   playerSprites: {fileID: 0}
   IsBleeding: 0
@@ -407,7 +456,6 @@ MonoBehaviour:
   BodyPartItemSprite: {fileID: 56063919708023611, guid: cfda4a920ce328d449993498e023ddfc,
     type: 3}
   BodyPartItemInheritsSkinColor: 0
-  BodySpriteSet: 0
   LobbyCustomisation: {fileID: 0}
   optionalOrgans: []
   OptionalReplacementOrgan: []
@@ -419,22 +467,7 @@ MonoBehaviour:
   TotalModified: 1
   SurgeryProcedureBase:
   - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
-  isBloodCirculated: 0
-  CanGetHungry: 0
-  HasNaturalToxicity: 0
-  isBloodReagentConsumed: 0
-  requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-  wasteReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}
-  bloodReagentConsumedPercentageb: 0
-  bloodThroughput: 0
-  currentBloodSaturation: 0
-  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
-  HealingNutrimentMultiplier: 0
-  ReagentMetabolism: 0
-  NaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
-    type: 2}
-  ToxinGeneration: 0
-  HungerState: 1
+  CanNotBeHealedByExternalHealingPack: 0
   SelfArmor:
     Melee: 0
     Bullet: 0
@@ -449,6 +482,8 @@ MonoBehaviour:
     Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
   SubOrganBodyPartArmour:
     Melee: 100
     Bullet: 90
@@ -463,24 +498,12 @@ MonoBehaviour:
     Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
   SubOrganDamageIncreasePoint: 80
   DamageContributesToOverallHealth: 0
-  DamageEfficiencyMultiplier: 1
   maxHealth: 100
   Severity: 50
-  BodyPartReadableName: Implant Explosive
-  BoneFracturedLvlThreeDesc: This {readableName} is suffering Hairline Fracture.
-  BoneFracturedLvlTwoDesc: This {readableName} is suffering Compound Fracture. It
-    is completely snapped in half.
-  maximumInternalBleedDamage: 165
-  minMaxInternalBleedingBloodLoss: {x: 2, y: 4}
-  minMaxExternalBleedingValues: {x: 2, y: 14}
-  bodyPartColorWhenCharred: {r: 0, g: 0, b: 0, a: 1}
-  GibChance: 0
-  spillChanceWhenCutPresent: 0
-  CanBleedInternally: 0
-  CanBeBroken: 0
-  gibsEntireBodyOnRemoval: 0
 --- !u!114 &8880035226631236047 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,

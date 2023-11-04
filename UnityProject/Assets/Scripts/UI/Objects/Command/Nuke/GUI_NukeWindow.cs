@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using UI.Core.NetUI;
 using Objects.Command;
@@ -72,7 +73,7 @@ namespace UI.Objects.Command
 			InfoTimerDisplay.MasterSetValue(FormatTime(nuke.CurrentTimerSeconds));
 			nuke.OnTimerUpdate.AddListener(timerSeconds => { InfoTimerDisplay.MasterSetValue(FormatTime(timerSeconds)); });
 
-			Logger.Log(nameof(WaitForProvider), Category.Machines);
+			Loggy.Log(nameof(WaitForProvider), Category.Machines);
 		}
 
 		private void Start()

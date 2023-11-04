@@ -147,7 +147,7 @@ TextureImporter:
       213: 21300094
     second: table_poker_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -246,6 +249,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1278,57 +1293,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      table_poker_5: 21300010
-      table_poker_11: 21300022
-      table_poker_29: 21300058
-      table_poker_31: 21300062
-      table_poker_30: 21300060
-      table_poker_8: 21300016
-      table_poker_34: 21300068
-      table_poker_40: 21300080
+      table_poker_0: 21300000
       table_poker_1: 21300002
-      table_poker_23: 21300046
-      table_poker_37: 21300074
+      table_poker_10: 21300020
+      table_poker_11: 21300022
       table_poker_12: 21300024
-      table_poker_18: 21300036
-      table_poker_3: 21300006
-      table_poker_26: 21300052
-      table_poker_7: 21300014
-      table_poker_33: 21300066
-      table_poker_28: 21300056
-      table_poker_44: 21300088
+      table_poker_13: 21300026
+      table_poker_14: 21300028
+      table_poker_15: 21300030
+      table_poker_16: 21300032
       table_poker_17: 21300034
-      table_poker_43: 21300086
-      table_poker_20: 21300040
-      table_poker_47: 21300094
-      table_poker_22: 21300044
-      table_poker_6: 21300012
+      table_poker_18: 21300036
       table_poker_19: 21300038
+      table_poker_2: 21300004
+      table_poker_20: 21300040
+      table_poker_21: 21300042
+      table_poker_22: 21300044
+      table_poker_23: 21300046
+      table_poker_24: 21300048
+      table_poker_25: 21300050
+      table_poker_26: 21300052
+      table_poker_27: 21300054
+      table_poker_28: 21300056
+      table_poker_29: 21300058
+      table_poker_3: 21300006
+      table_poker_30: 21300060
+      table_poker_31: 21300062
+      table_poker_32: 21300064
+      table_poker_33: 21300066
+      table_poker_34: 21300068
+      table_poker_35: 21300070
+      table_poker_36: 21300072
+      table_poker_37: 21300074
       table_poker_38: 21300076
       table_poker_39: 21300078
-      table_poker_36: 21300072
-      table_poker_45: 21300090
-      table_poker_0: 21300000
-      table_poker_16: 21300032
-      table_poker_41: 21300082
-      table_poker_24: 21300048
-      table_poker_27: 21300054
-      table_poker_25: 21300050
-      table_poker_14: 21300028
-      table_poker_35: 21300070
-      table_poker_15: 21300030
-      table_poker_2: 21300004
-      table_poker_46: 21300092
-      table_poker_9: 21300018
-      table_poker_21: 21300042
-      table_poker_42: 21300084
       table_poker_4: 21300008
-      table_poker_10: 21300020
-      table_poker_32: 21300064
-      table_poker_13: 21300026
-  spritePackingTag: 
+      table_poker_40: 21300080
+      table_poker_41: 21300082
+      table_poker_42: 21300084
+      table_poker_43: 21300086
+      table_poker_44: 21300088
+      table_poker_45: 21300090
+      table_poker_46: 21300092
+      table_poker_47: 21300094
+      table_poker_5: 21300010
+      table_poker_6: 21300012
+      table_poker_7: 21300014
+      table_poker_8: 21300016
+      table_poker_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

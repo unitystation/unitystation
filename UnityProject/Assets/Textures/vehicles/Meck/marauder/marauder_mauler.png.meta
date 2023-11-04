@@ -195,7 +195,7 @@ TextureImporter:
       213: 21300126
     second: mauler_63
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -212,11 +212,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -255,6 +256,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -270,6 +273,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1638,73 +1653,72 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      mauler_59: 21300118
-      mauler_44: 21300088
-      mauler_16: 21300032
-      mauler_47: 21300094
-      mauler_14: 21300028
-      mauler_7: 21300014
-      mauler_17: 21300034
-      mauler_10: 21300020
       mauler_0: 21300000
-      mauler_27: 21300054
-      mauler_63: 21300126
-      mauler_35: 21300070
-      mauler_58: 21300116
-      mauler_31: 21300062
-      mauler_56: 21300112
       mauler_1: 21300002
+      mauler_10: 21300020
+      mauler_11: 21300022
+      mauler_12: 21300024
+      mauler_13: 21300026
+      mauler_14: 21300028
+      mauler_15: 21300030
+      mauler_16: 21300032
+      mauler_17: 21300034
+      mauler_18: 21300036
       mauler_19: 21300038
-      mauler_25: 21300050
-      mauler_29: 21300058
+      mauler_2: 21300004
+      mauler_20: 21300040
+      mauler_21: 21300042
+      mauler_22: 21300044
       mauler_23: 21300046
       mauler_24: 21300048
-      mauler_18: 21300036
-      mauler_42: 21300084
-      mauler_12: 21300024
-      mauler_45: 21300090
-      mauler_21: 21300042
-      mauler_57: 21300114
-      mauler_28: 21300056
-      mauler_30: 21300060
+      mauler_25: 21300050
       mauler_26: 21300052
-      mauler_9: 21300018
-      mauler_49: 21300098
-      mauler_11: 21300022
-      mauler_34: 21300068
-      mauler_48: 21300096
-      mauler_22: 21300044
-      mauler_2: 21300004
-      mauler_5: 21300010
-      mauler_43: 21300086
-      mauler_51: 21300102
-      mauler_8: 21300016
+      mauler_27: 21300054
+      mauler_28: 21300056
+      mauler_29: 21300058
+      mauler_3: 21300006
+      mauler_30: 21300060
+      mauler_31: 21300062
       mauler_32: 21300064
       mauler_33: 21300066
-      mauler_40: 21300080
-      mauler_3: 21300006
+      mauler_34: 21300068
+      mauler_35: 21300070
+      mauler_36: 21300072
       mauler_37: 21300074
-      mauler_60: 21300120
-      mauler_41: 21300082
-      mauler_13: 21300026
-      mauler_4: 21300008
-      mauler_46: 21300092
       mauler_38: 21300076
+      mauler_39: 21300078
+      mauler_4: 21300008
+      mauler_40: 21300080
+      mauler_41: 21300082
+      mauler_42: 21300084
+      mauler_43: 21300086
+      mauler_44: 21300088
+      mauler_45: 21300090
+      mauler_46: 21300092
+      mauler_47: 21300094
+      mauler_48: 21300096
+      mauler_49: 21300098
+      mauler_5: 21300010
+      mauler_50: 21300100
+      mauler_51: 21300102
       mauler_52: 21300104
       mauler_53: 21300106
       mauler_54: 21300108
-      mauler_20: 21300040
       mauler_55: 21300110
-      mauler_36: 21300072
-      mauler_50: 21300100
+      mauler_56: 21300112
+      mauler_57: 21300114
+      mauler_58: 21300116
+      mauler_59: 21300118
       mauler_6: 21300012
+      mauler_60: 21300120
       mauler_61: 21300122
       mauler_62: 21300124
-      mauler_15: 21300030
-      mauler_39: 21300078
-  spritePackingTag: 
+      mauler_63: 21300126
+      mauler_7: 21300014
+      mauler_8: 21300016
+      mauler_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

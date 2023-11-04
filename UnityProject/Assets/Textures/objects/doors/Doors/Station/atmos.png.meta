@@ -78,7 +78,7 @@ TextureImporter:
       213: 21300048
     second: atmos_24
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -95,11 +95,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -138,6 +139,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -189,6 +192,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -738,34 +753,33 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      atmos_0: 21300000
+      atmos_1: 21300002
+      atmos_10: 21300020
       atmos_11: 21300022
       atmos_12: 21300024
-      atmos_5: 21300010
-      atmos_21: 21300042
-      atmos_0: 21300000
-      atmos_9: 21300018
-      atmos_8: 21300016
-      atmos_19: 21300038
-      atmos_23: 21300046
-      atmos_2: 21300004
-      atmos_4: 21300008
-      atmos_3: 21300006
-      atmos_18: 21300036
-      atmos_20: 21300040
-      atmos_15: 21300030
-      atmos_22: 21300044
-      atmos_6: 21300012
-      atmos_16: 21300032
-      atmos_1: 21300002
-      atmos_17: 21300034
-      atmos_7: 21300014
-      atmos_10: 21300020
       atmos_13: 21300026
-      atmos_24: 21300048
       atmos_14: 21300028
-  spritePackingTag: 
+      atmos_15: 21300030
+      atmos_16: 21300032
+      atmos_17: 21300034
+      atmos_18: 21300036
+      atmos_19: 21300038
+      atmos_2: 21300004
+      atmos_20: 21300040
+      atmos_21: 21300042
+      atmos_22: 21300044
+      atmos_23: 21300046
+      atmos_24: 21300048
+      atmos_3: 21300006
+      atmos_4: 21300008
+      atmos_5: 21300010
+      atmos_6: 21300012
+      atmos_7: 21300014
+      atmos_8: 21300016
+      atmos_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

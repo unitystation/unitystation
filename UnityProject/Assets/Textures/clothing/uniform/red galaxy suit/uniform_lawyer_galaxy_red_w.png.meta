@@ -99,7 +99,7 @@ TextureImporter:
       213: -7316436465706844535
     second: uniform_lawyer_galaxy_red_w_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      uniform_lawyer_galaxy_red_w_7: 5382971335418664398
-      uniform_lawyer_galaxy_red_w_8: 8493960241887105788
-      uniform_lawyer_galaxy_red_w_3: 6703536707758946679
-      uniform_lawyer_galaxy_red_w_11: -519077409097778422
-      uniform_lawyer_galaxy_red_w_24: -5752425169777191057
-      uniform_lawyer_galaxy_red_w_2: 7894375646166597463
-      uniform_lawyer_galaxy_red_w_14: -3641812618823544047
-      uniform_lawyer_galaxy_red_w_19: -561379596830903140
-      uniform_lawyer_galaxy_red_w_28: -3715182177349372579
       uniform_lawyer_galaxy_red_w_0: -775547759228851855
-      uniform_lawyer_galaxy_red_w_6: -2467062581915478982
-      uniform_lawyer_galaxy_red_w_30: 624404384573113689
-      uniform_lawyer_galaxy_red_w_29: -4254919691522703477
-      uniform_lawyer_galaxy_red_w_12: -6208717582985109332
-      uniform_lawyer_galaxy_red_w_23: -7129610426050324503
       uniform_lawyer_galaxy_red_w_1: -5751868291516169870
-      uniform_lawyer_galaxy_red_w_4: 7577613568254953819
       uniform_lawyer_galaxy_red_w_10: -7113978320835842231
+      uniform_lawyer_galaxy_red_w_11: -519077409097778422
+      uniform_lawyer_galaxy_red_w_12: -6208717582985109332
       uniform_lawyer_galaxy_red_w_13: -6639669799767853654
-      uniform_lawyer_galaxy_red_w_21: -7136446583008687395
-      uniform_lawyer_galaxy_red_w_26: -2762559022002237945
+      uniform_lawyer_galaxy_red_w_14: -3641812618823544047
+      uniform_lawyer_galaxy_red_w_15: 1293807493964435877
       uniform_lawyer_galaxy_red_w_16: -8164213439777440125
-      uniform_lawyer_galaxy_red_w_25: -3077604800678325183
-      uniform_lawyer_galaxy_red_w_9: -5502389322149398547
       uniform_lawyer_galaxy_red_w_17: -405039768713128316
       uniform_lawyer_galaxy_red_w_18: -8885655440275694213
-      uniform_lawyer_galaxy_red_w_27: -3695825427034572547
+      uniform_lawyer_galaxy_red_w_19: -561379596830903140
+      uniform_lawyer_galaxy_red_w_2: 7894375646166597463
       uniform_lawyer_galaxy_red_w_20: -7265650689273684126
-      uniform_lawyer_galaxy_red_w_5: -5408710248503744706
-      uniform_lawyer_galaxy_red_w_31: -7316436465706844535
-      uniform_lawyer_galaxy_red_w_15: 1293807493964435877
+      uniform_lawyer_galaxy_red_w_21: -7136446583008687395
       uniform_lawyer_galaxy_red_w_22: 4105562847435905772
-  spritePackingTag: 
+      uniform_lawyer_galaxy_red_w_23: -7129610426050324503
+      uniform_lawyer_galaxy_red_w_24: -5752425169777191057
+      uniform_lawyer_galaxy_red_w_25: -3077604800678325183
+      uniform_lawyer_galaxy_red_w_26: -2762559022002237945
+      uniform_lawyer_galaxy_red_w_27: -3695825427034572547
+      uniform_lawyer_galaxy_red_w_28: -3715182177349372579
+      uniform_lawyer_galaxy_red_w_29: -4254919691522703477
+      uniform_lawyer_galaxy_red_w_3: 6703536707758946679
+      uniform_lawyer_galaxy_red_w_30: 624404384573113689
+      uniform_lawyer_galaxy_red_w_31: -7316436465706844535
+      uniform_lawyer_galaxy_red_w_4: 7577613568254953819
+      uniform_lawyer_galaxy_red_w_5: -5408710248503744706
+      uniform_lawyer_galaxy_red_w_6: -2467062581915478982
+      uniform_lawyer_galaxy_red_w_7: 5382971335418664398
+      uniform_lawyer_galaxy_red_w_8: 8493960241887105788
+      uniform_lawyer_galaxy_red_w_9: -5502389322149398547
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

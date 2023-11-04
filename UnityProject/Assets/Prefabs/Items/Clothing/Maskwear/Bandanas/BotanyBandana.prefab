@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
@@ -49,13 +50,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 4badcc61c21778a499b0d609c685afde,
         type: 2}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: d6144d0b9eec84944be290f793477e44,
         type: 2}
@@ -74,6 +75,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Resistances.Flammable
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560587375320734517, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: _assetId
+      value: 2078639488
       objectReference: {fileID: 0}
     - target: {fileID: 7560587375320734517, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -172,4 +178,7 @@ PrefabInstance:
       value: A fine bandana with nanotech lining and a hydroponics pattern.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05a135eab68164d34bb02b82fff3cde0, type: 3}

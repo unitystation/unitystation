@@ -1,3 +1,4 @@
+using Logs;
 using UnityEngine;
 
 namespace MiniGames
@@ -36,7 +37,7 @@ namespace MiniGames
 		{
 			if (Tracker == null)
 			{
-				Logger.LogError($"[Minigames] - Tracker missing on {gameObject}!");
+				Loggy.LogError($"[Minigames] - Tracker missing on {gameObject}!");
 				return;
 			}
 			Tracker.OnGameEnd(t);

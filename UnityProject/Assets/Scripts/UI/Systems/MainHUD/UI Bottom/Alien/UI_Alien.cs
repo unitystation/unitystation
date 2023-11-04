@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Systems.Antagonists;
 using TMPro;
 using UI.Core.Animations;
@@ -119,17 +120,17 @@ namespace UI.Systems.MainHUD.UI_Bottom
 		{
 			if (alienPlayer.LivingHealthMasterBase.IsDead)
 			{
-				healthSpriteRender.ChangeSprite(7, false);
+				healthSpriteRender.SetCatalogueIndexSprite(7, false);
 				return;
 			}
 
 			if (alienPlayer.LivingHealthMasterBase.IsCrit)
 			{
-				healthSpriteRender.ChangeSprite(6, false);
+				healthSpriteRender.SetCatalogueIndexSprite(6, false);
 				return;
 			}
 
-			healthSpriteRender.ChangeSprite(Mathf.RoundToInt(Mathf.Clamp((alienPlayer.LivingHealthMasterBase.HealthPercentage() / 16.7f) - 1, 0, 5)), false);
+			healthSpriteRender.SetCatalogueIndexSprite(Mathf.RoundToInt(Mathf.Clamp((alienPlayer.LivingHealthMasterBase.HealthPercentage() / 16.7f) - 1, 0, 5)), false);
 		}
 
 		private void QueenCheck()
@@ -156,24 +157,24 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			if (distance <= 5)
 			{
 				//Set to Closest arrow, doesnt have a direction
-				queenFinder.ChangeSprite(0, false);
+				queenFinder.SetCatalogueIndexSprite(0, false);
 				return;
 			}
 
 			if (distance <= 15)
 			{
 				//Set to semi close arrow
-				queenFinder.ChangeSprite(1, false);
+				queenFinder.SetCatalogueIndexSprite(1, false);
 			}
 			else if (distance <= 30)
 			{
 				//Set to far arrow
-				queenFinder.ChangeSprite(2, false);
+				queenFinder.SetCatalogueIndexSprite(2, false);
 			}
 			else if (distance <= 50)
 			{
 				//Set to very far arrow
-				queenFinder.ChangeSprite(3, false);
+				queenFinder.SetCatalogueIndexSprite(3, false);
 			}
 
 			//How annoying the direction variants are set up like this
@@ -186,38 +187,38 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			{
 				case var n when n.IsBetween(337.5f, 360f) || n.IsBetween(0f, 22.5f):
 					//North
-					queenFinder.ChangeSpriteVariant(1, false);
+					queenFinder.SetSpriteVariant(1, false);
 					return;
 				case var n when n.IsBetween(22.5f, 67.5f):
 					//North East
-					queenFinder.ChangeSpriteVariant(6, false);
+					queenFinder.SetSpriteVariant(6, false);
 					return;
 				case var n when n.IsBetween(67.5f, 112.5f):
 					//East
-					queenFinder.ChangeSpriteVariant(2, false);
+					queenFinder.SetSpriteVariant(2, false);
 					return;
 				case var n when n.IsBetween(112.5f, 157.5f):
 					//South East
-					queenFinder.ChangeSpriteVariant(4, false);
+					queenFinder.SetSpriteVariant(4, false);
 					return;
 				case var n when n.IsBetween(157.5f, 202.5f):
 					//South
-					queenFinder.ChangeSpriteVariant(0, false);
+					queenFinder.SetSpriteVariant(0, false);
 					return;
 				case var n when n.IsBetween(202.5f, 247.5f):
 					//South West
-					queenFinder.ChangeSpriteVariant(5, false);
+					queenFinder.SetSpriteVariant(5, false);
 					return;
 				case var n when n.IsBetween(247.5f, 292.5f):
 					//West
-					queenFinder.ChangeSpriteVariant(3, false);
+					queenFinder.SetSpriteVariant(3, false);
 					return;
 				case var n when n.IsBetween(292.5f, 337.5f):
 					//North West
-					queenFinder.ChangeSpriteVariant(7, false);
+					queenFinder.SetSpriteVariant(7, false);
 					return;
 				default:
-					Logger.LogError($"Angle was: {angle} degrees, no case for it!");
+					Loggy.LogError($"Angle was: {angle} degrees, no case for it!");
 					return;
 			}
 		}

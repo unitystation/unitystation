@@ -9,6 +9,7 @@ namespace Messages.Client.VariableViewer
 		public struct NetMessage : NetworkMessage
 		{
 			public ulong PageID;
+			public bool SendToClient;
 		}
 
 		public override void Process(NetMessage msg)
@@ -23,11 +24,12 @@ namespace Messages.Client.VariableViewer
 			global::VariableViewer.RequestInvokeFunction(msg.PageID, SentByPlayer.GameObject, SentByPlayer.AccountId);
 		}
 
-		public static NetMessage Send(ulong _PageID)
+		public static NetMessage Send(ulong _PageID, bool InSendToClient)
 		{
 			NetMessage msg = new NetMessage
 			{
-				PageID = _PageID
+				PageID = _PageID,
+				SendToClient =  InSendToClient
 			};
 
 			Send(msg);

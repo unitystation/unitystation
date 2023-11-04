@@ -26,6 +26,10 @@ Preset:
     value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: syncDirection
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: syncMode
     value: 0
     objectReference: {fileID: 0}
@@ -106,8 +110,32 @@ Preset:
     value: 100
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: Armor.Anomaly
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: Armor.DismembermentProtectionChance
     value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: Armor.StunImmunity
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: Armor.TemperatureProtectionInK.x
+    value: 268.15
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: Armor.TemperatureProtectionInK.y
+    value: 313.15
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: Armor.PressureProtectionInKpa.x
+    value: 30
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: Armor.PressureProtectionInKpa.y
+    value: 300
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: Resistances.LavaProof
@@ -153,8 +181,9 @@ Preset:
     propertyPath: doDamageMessage
     value: 1
     objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: Meleeable
-    value: 
-    objectReference: {fileID: 0}
   m_ExcludedProperties: []
+  m_CoupledType:
+    m_NativeTypeID: 0
+    m_ManagedTypePPtr: {fileID: 0}
+    m_ManagedTypeFallback: 
+  m_CoupledProperties: []

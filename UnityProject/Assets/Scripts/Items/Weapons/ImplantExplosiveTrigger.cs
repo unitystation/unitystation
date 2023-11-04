@@ -1,4 +1,6 @@
+using System.Collections;
 using HealthV2;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Items.Weapons
@@ -12,6 +14,13 @@ namespace Items.Weapons
 		bool hasDetonated = false;
 
 		private ImplantExplosive explosive;
+
+		public bool isEMPVunerable = false;
+
+		[ShowIf("isEMPVunerable")]
+		public int EMPResistance = 2;
+
+		private IEnumerator ExplodingCoroutine = null;
 
 		public override void SetUpSystems()
 		{
@@ -28,19 +37,31 @@ namespace Items.Weapons
 			{
 				Detonate();
 			}
+
+			if (ExplodingCoroutine != null && RelatedPart.HealthMaster.IsDead == false)
+			{
+				StartCoroutine(ExplodingCoroutine);
+				ExplodingCoroutine = null;
+			}
 		}
 
 		private void Detonate()
 		{
 			hasDetonated = true;
 			if (OverrideDeathCountDown >= 0) explosive.TimeToDetonate = OverrideDeathCountDown;
-
-			StartCoroutine(explosive.Countdown());
+			ExplodingCoroutine = explosive.Countdown();
+			StartCoroutine(ExplodingCoroutine);
 		}
 
-		public override void EmpResult(int strength)
+		public override void OnEmp(int strength)
 		{
-			Detonate();
+			if (isEMPVunerable == false) return;
+
+			if (EMPResistance == 0 || DMMath.Prob(100 / EMPResistance))
+			{
+				Detonate();
+			}
+
 		}
 	}
 }

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1356715202622818403, guid: ac4119e953aec2c4cabe3f23e6d74d13,
@@ -35,7 +36,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2301094173848002657, guid: ac4119e953aec2c4cabe3f23e6d74d13,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 77c7f829af7e9484792d00e85c96c2f0,
         type: 2}
@@ -50,6 +51,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 83e2b51447408d841a591788d81b5d62,
         type: 3}
+    - target: {fileID: 5045773098782559824, guid: ac4119e953aec2c4cabe3f23e6d74d13,
+        type: 3}
+      propertyPath: _assetId
+      value: 551049006
+      objectReference: {fileID: 0}
     - target: {fileID: 5045773098782559824, guid: ac4119e953aec2c4cabe3f23e6d74d13,
         type: 3}
       propertyPath: m_AssetId
@@ -116,4 +122,7 @@ PrefabInstance:
       value: DarkGreenSpaceSuit
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac4119e953aec2c4cabe3f23e6d74d13, type: 3}

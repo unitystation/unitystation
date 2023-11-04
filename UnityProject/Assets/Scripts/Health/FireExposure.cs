@@ -1,4 +1,5 @@
 
+using Logs;
 using UnityEngine;
 using Systems.Atmospherics;
 
@@ -99,7 +100,7 @@ public class FireExposure
 	{
 		if (!hotspotNode.HasHotspot)
 		{
-			Logger.LogErrorFormat("MetaDataNode at local position {0} has no hotspot, so no fire exposure" +
+			Loggy.LogErrorFormat("MetaDataNode at local position {0} has no hotspot, so no fire exposure" +
 			                      " will occur. This is likely a coding error.", Category.Atmos, hotspotNode.LocalPosition);
 			return;
 		}
@@ -119,7 +120,7 @@ public class FireExposure
 	{
 		if (!hotspotNode.HasHotspot)
 		{
-			Logger.LogErrorFormat("MetaDataNode at local position {0} has no hotspot, so no fire exposure" +
+			Loggy.LogErrorFormat("MetaDataNode at local position {0} has no hotspot, so no fire exposure" +
 			                      " will occur. This is likely a coding error.", Category.Atmos, hotspotNode.LocalPosition);
 			return null;
 		}

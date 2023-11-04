@@ -34,6 +34,8 @@ namespace UI.Objects.Research
 			focusDropDown.SetValueWithoutNotify(serverGUI.Server.UIselectedFocus - 1);
 			accessLabel.MasterSetValue("");
 			confirmLabel.MasterSetValue($"Confirm Focus ({FOCUS_COST}RP)");
+
+			UpdateData();
 		}
 
 		public void ConfirmFocus(PlayerInfo Subject)

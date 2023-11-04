@@ -90,15 +90,15 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 	}
 
 	[Command]
-	public void CMDSetServerPosition(Vector3 localPosition)
+	public void CMDSetServerPosition(Vector3 WorldPosition)
 	{
-		ForcePositionClient(localPosition, false);
+		ForcePositionClient(WorldPosition, false);
 	}
 
 	[Command]
-	public void CMDSetServerPosition(Vector3 localPosition, int matrixID, OrientationEnum direction)
+	public void CMDSetServerPosition(Vector3 WorldPosition, int matrixID, OrientationEnum direction)
 	{
-		ForcePositionClient(localPosition, matrixID, direction, false);
+		ForcePositionClient(WorldPosition, matrixID, direction, false);
 	}
 
 	[Server]

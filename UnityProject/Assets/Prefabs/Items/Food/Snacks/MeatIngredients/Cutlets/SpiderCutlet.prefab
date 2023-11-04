@@ -5,12 +5,18 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3568663156133970348, guid: 22153594ca62ee0418bb92cef2a1a384,
         type: 3}
       propertyPath: foreverID
       value: a2d163f426b9dee408d1a72c5a5cf5c3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7541554960362008693, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
+      propertyPath: _assetId
+      value: 2473052191
       objectReference: {fileID: 0}
     - target: {fileID: 7541554960362008693, guid: 22153594ca62ee0418bb92cef2a1a384,
         type: 3}
@@ -176,4 +182,7 @@ PrefabInstance:
       value: spider cutlet
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22153594ca62ee0418bb92cef2a1a384, type: 3}

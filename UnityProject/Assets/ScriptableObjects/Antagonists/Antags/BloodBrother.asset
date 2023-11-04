@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1f709a4738465bad8344d04d81ce34, type: 3}
+  m_Name: BloodBrother
+  m_EditorClassIdentifier: 
+  antagName: Blood Brother
+  antagJobType: 0
+  playSound: 0
+  spawnSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  textColor: {r: 1, g: 0, b: 0, a: 1}
+  backgroundColor: {r: 0.1792453, g: 0, b: 0.067857586, a: 1}
+  numberOfObjectives: 5
+  canUseSharedObjectives: 1
+  needsEscapeObjective: 0
+  chanceForGimmickObjective: 50
+  coreObjectives: []
+  antagOccupation: {fileID: 0}
+  showInPreferences: 1
+  randomizeCharacterForGhostRole: 0
+  ghostRoleOccupation: {fileID: 0}
+  <BlackListedObjectives>k__BackingField:
+  - {fileID: 11400000, guid: ae28c203a113d5b42a7099948692bb10, type: 2}
+  <AlwaysStartWithObjectives>k__BackingField:
+  - {fileID: 11400000, guid: 748ac891cd195d145b7386127b0de87b, type: 2}
+  - {fileID: 11400000, guid: 7bea1ef82dee8264aabacb465d9a7946, type: 2}
+  extraHealthForBrothers: 550
+  paranoiaSickness: {fileID: 8177265969630170377, guid: ad489c5a66fec7f418fa5935feb9efa2,
+    type: 3}
+  initialTC: 8

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2449762591122860759, guid: a4904005b4f886143a41a4b3c99a6845,
@@ -103,6 +104,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3433479011725450937, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
+      propertyPath: _assetId
+      value: 88055847
+      objectReference: {fileID: 0}
+    - target: {fileID: 3433479011725450937, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
       propertyPath: m_AssetId
       value: 853d276e2f2a2aa498871f19fb2fb9b3
       objectReference: {fileID: 0}
@@ -124,6 +130,13 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: b26d9c94ef03e5247906b003195d9145,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3328757573197865741, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 75694408314426424}
   m_SourcePrefab: {fileID: 100100000, guid: a4904005b4f886143a41a4b3c99a6845, type: 3}
 --- !u!1 &1264294747652683380 stripped
 GameObject:
@@ -143,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   allClothingData:

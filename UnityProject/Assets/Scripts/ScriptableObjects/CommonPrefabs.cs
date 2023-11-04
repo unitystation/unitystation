@@ -28,5 +28,9 @@ namespace ScriptableObjects
 
 		public GameObject BurningSmall;
 		public GameObject BurningLarge;
+
+		public GameObject Cube3D;
+
+		public GameObject DirtyFloorDecal;
 	}
 }

@@ -37,7 +37,7 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 		//can only mop tiles
 		if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
 

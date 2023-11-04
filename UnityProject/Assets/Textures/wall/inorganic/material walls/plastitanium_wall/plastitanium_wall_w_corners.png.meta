@@ -165,7 +165,7 @@ TextureImporter:
       213: 5452457831948832903
     second: plastitanium_wall_w_corners_5
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -182,11 +182,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -225,6 +226,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -240,6 +243,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1272,57 +1287,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      plastitanium_wall_w_corners_5: 3948708029890224916
-      plastitanium_wall_w_corners_3: -2225713995990520752
-      plastitanium_wall_w_corners_7: -8698259652588032985
-      plastitanium_wall_w_corners_44: 3372010091349038411
-      plastitanium_wall_w_corners_2: -8774234271290088018
-      plastitanium_wall_w_corners_11: 6684475564837683844
-      plastitanium_wall_w_corners_23: -1906056645469914031
-      plastitanium_wall_w_corners_42: -4232138468591978935
-      plastitanium_wall_w_corners_25: 3782162333774690780
-      plastitanium_wall_w_corners_1: 1921749758740867263
-      plastitanium_wall_w_corners_26: 1599192680974907919
-      plastitanium_wall_w_corners_28: -6520409803123919271
-      plastitanium_wall_w_corners_47: -1560590309121425455
-      plastitanium_wall_w_corners_9: 5156688405242579845
-      plastitanium_wall_w_corners_37: 1763023604989063240
-      plastitanium_wall_w_corners_15: 8975148943474396861
-      plastitanium_wall_w_corners_17: -429717671924683562
-      plastitanium_wall_w_corners_6: 630064425323933984
-      plastitanium_wall_w_corners_39: 2046275457975693940
-      plastitanium_wall_w_corners_27: -1354933067949737254
-      plastitanium_wall_w_corners_30: -3598734521434444010
-      plastitanium_wall_w_corners_10: 2081611350317777526
-      plastitanium_wall_w_corners_20: -2778964432523284978
-      plastitanium_wall_w_corners_14: 8029970457687151763
-      plastitanium_wall_w_corners_22: -4058823002228430245
-      plastitanium_wall_w_corners_13: 6655639615530864942
-      plastitanium_wall_w_corners_21: -443286256691926246
-      plastitanium_wall_w_corners_19: 7769564014550351357
-      plastitanium_wall_w_corners_32: 7315910915731445989
-      plastitanium_wall_w_corners_31: -5640161399094477373
-      plastitanium_wall_w_corners_36: -2372322997268160050
-      plastitanium_wall_w_corners_24: 314958742849210869
-      plastitanium_wall_w_corners_41: 7885947338563846405
-      plastitanium_wall_w_corners_45: -3755841000393857853
-      plastitanium_wall_w_corners_16: -3230014994683381436
-      plastitanium_wall_w_corners_34: 1551217353198365616
-      plastitanium_wall_w_corners_8: -2757758152723051603
-      plastitanium_wall_w_corners_33: -5908217747114002784
-      plastitanium_wall_w_corners_38: 5021680343086529424
-      plastitanium_wall_w_corners_35: -3183457661687813932
-      plastitanium_wall_w_corners_40: 480959163468042147
-      plastitanium_wall_w_corners_43: 945217835723983915
-      plastitanium_wall_w_corners_29: -7290144864399198675
-      plastitanium_wall_w_corners_46: 9084879124184153525
       plastitanium_wall_w_corners_0: 6521754809221456357
-      plastitanium_wall_w_corners_4: -3154416481402995899
-      plastitanium_wall_w_corners_18: -472467659950733170
+      plastitanium_wall_w_corners_1: 1921749758740867263
+      plastitanium_wall_w_corners_10: 2081611350317777526
+      plastitanium_wall_w_corners_11: 6684475564837683844
       plastitanium_wall_w_corners_12: -5717852623079131028
-  spritePackingTag: 
+      plastitanium_wall_w_corners_13: 6655639615530864942
+      plastitanium_wall_w_corners_14: 8029970457687151763
+      plastitanium_wall_w_corners_15: 8975148943474396861
+      plastitanium_wall_w_corners_16: -3230014994683381436
+      plastitanium_wall_w_corners_17: -429717671924683562
+      plastitanium_wall_w_corners_18: -472467659950733170
+      plastitanium_wall_w_corners_19: 7769564014550351357
+      plastitanium_wall_w_corners_2: -8774234271290088018
+      plastitanium_wall_w_corners_20: -2778964432523284978
+      plastitanium_wall_w_corners_21: -443286256691926246
+      plastitanium_wall_w_corners_22: -4058823002228430245
+      plastitanium_wall_w_corners_23: -1906056645469914031
+      plastitanium_wall_w_corners_24: 314958742849210869
+      plastitanium_wall_w_corners_25: 3782162333774690780
+      plastitanium_wall_w_corners_26: 1599192680974907919
+      plastitanium_wall_w_corners_27: -1354933067949737254
+      plastitanium_wall_w_corners_28: -6520409803123919271
+      plastitanium_wall_w_corners_29: -7290144864399198675
+      plastitanium_wall_w_corners_3: -2225713995990520752
+      plastitanium_wall_w_corners_30: -3598734521434444010
+      plastitanium_wall_w_corners_31: -5640161399094477373
+      plastitanium_wall_w_corners_32: 7315910915731445989
+      plastitanium_wall_w_corners_33: -5908217747114002784
+      plastitanium_wall_w_corners_34: 1551217353198365616
+      plastitanium_wall_w_corners_35: -3183457661687813932
+      plastitanium_wall_w_corners_36: -2372322997268160050
+      plastitanium_wall_w_corners_37: 1763023604989063240
+      plastitanium_wall_w_corners_38: 5021680343086529424
+      plastitanium_wall_w_corners_39: 2046275457975693940
+      plastitanium_wall_w_corners_4: -3154416481402995899
+      plastitanium_wall_w_corners_40: 480959163468042147
+      plastitanium_wall_w_corners_41: 7885947338563846405
+      plastitanium_wall_w_corners_42: -4232138468591978935
+      plastitanium_wall_w_corners_43: 945217835723983915
+      plastitanium_wall_w_corners_44: 3372010091349038411
+      plastitanium_wall_w_corners_45: -3755841000393857853
+      plastitanium_wall_w_corners_46: 9084879124184153525
+      plastitanium_wall_w_corners_47: -1560590309121425455
+      plastitanium_wall_w_corners_5: 3948708029890224916
+      plastitanium_wall_w_corners_6: 630064425323933984
+      plastitanium_wall_w_corners_7: -8698259652588032985
+      plastitanium_wall_w_corners_8: -2757758152723051603
+      plastitanium_wall_w_corners_9: 5156688405242579845
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

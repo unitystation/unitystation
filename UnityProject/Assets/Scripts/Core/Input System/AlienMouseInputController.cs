@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using Systems.Antagonists;
 using UI.Systems.MainHUD.UI_Bottom;
 using UnityEngine;
@@ -164,7 +165,7 @@ public class AlienMouseInputController : MouseInputController
 				alienPlayer.ClientTryNeurotoxinSpit(aimApplyInfo);
 				return true;
 			default:
-				Logger.LogError($"Unexpected case: {currentClick.ToString()}");
+				Loggy.LogError($"Unexpected case: {currentClick.ToString()}");
 				return false;
 		}
 

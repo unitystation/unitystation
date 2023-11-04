@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 26931920513500518, guid: f27991fd74b5f6941a1ad2f9e161a022,
@@ -15,13 +16,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 965049928856989028, guid: f27991fd74b5f6941a1ad2f9e161a022,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 2674c3355a1f77c479068996974fe891,
         type: 2}
     - target: {fileID: 965049928856989028, guid: f27991fd74b5f6941a1ad2f9e161a022,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 55c67de3fa1fff9459b3dc6201a41a9f,
         type: 2}
@@ -40,6 +41,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A lab-grade winter coat made with acid resistant polymers. For the enterprising
         chemist who was exiled to a frozen wasteland on the go.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092671967717950293, guid: f27991fd74b5f6941a1ad2f9e161a022,
+        type: 3}
+      propertyPath: _assetId
+      value: 1172006360
       objectReference: {fileID: 0}
     - target: {fileID: 6092671967717950293, guid: f27991fd74b5f6941a1ad2f9e161a022,
         type: 3}
@@ -113,4 +119,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 5ae8b445f863c41428716bd48291e4d6,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f27991fd74b5f6941a1ad2f9e161a022, type: 3}

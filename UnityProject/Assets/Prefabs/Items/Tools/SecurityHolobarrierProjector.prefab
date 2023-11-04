@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 433040487140416842, guid: 0d452d035c46dad46a96790f0c346d17,
@@ -24,7 +25,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 433040487140416842, guid: 0d452d035c46dad46a96790f0c346d17,
         type: 3}
-      propertyPath: holosignPrefabs.Array.data[0]
+      propertyPath: 'holosignPrefabs.Array.data[0]'
       value: 
       objectReference: {fileID: 6343411400343017035, guid: 112db1c68ff09424c85d2c0d93754b9d,
         type: 3}
@@ -112,6 +113,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8302388595661083720, guid: 0d452d035c46dad46a96790f0c346d17,
         type: 3}
+      propertyPath: _assetId
+      value: 948851478
+      objectReference: {fileID: 0}
+    - target: {fileID: 8302388595661083720, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
       propertyPath: m_AssetId
       value: 13c10a5cbbd5f3947936b05ae6d46b82
       objectReference: {fileID: 0}
@@ -126,4 +132,7 @@ PrefabInstance:
       value: A holographic projector that creates holographic security barriers.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d452d035c46dad46a96790f0c346d17, type: 3}

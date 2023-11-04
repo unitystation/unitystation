@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3476999288069474958, guid: 4303d0eb23d121949950815cebc03a0f,
@@ -87,7 +88,12 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 4242441866727971269}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3979325279613556824, guid: 4303d0eb23d121949950815cebc03a0f,
+        type: 3}
+      propertyPath: _assetId
+      value: 1166497773
+      objectReference: {fileID: 0}
     - target: {fileID: 3979325279613556824, guid: 4303d0eb23d121949950815cebc03a0f,
         type: 3}
       propertyPath: m_AssetId
@@ -105,19 +111,14 @@ PrefabInstance:
       value: pinusnotfunny
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3939896346238461420, guid: 4303d0eb23d121949950815cebc03a0f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1782674006049425458}
   m_SourcePrefab: {fileID: 100100000, guid: 4303d0eb23d121949950815cebc03a0f, type: 3}
---- !u!114 &4242441866727971269 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3979209111465068604, guid: 4303d0eb23d121949950815cebc03a0f,
-    type: 3}
-  m_PrefabInstance: {fileID: 997780400393638393}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4284472624482382869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4284472624482382869 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3939896346238461420, guid: 4303d0eb23d121949950815cebc03a0f,

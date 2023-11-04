@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Chemistry.Components;
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 
 namespace Items.Implants.Organs
 {
@@ -16,6 +17,17 @@ namespace Items.Implants.Organs
 
 		public bool InitialFatSpawned = false;
 
+		public ReagentCirculatedComponent _ReagentCirculatedComponent;
+		public HungerComponent HungerComponent;
+
+
+		public override void Awake()
+		{
+			base.Awake();
+			_ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
+			HungerComponent = this.GetComponentCustom<HungerComponent>();
+		}
+
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
@@ -30,16 +42,16 @@ namespace Items.Implants.Organs
 				}
 				var Digesting = StomachContents.TakeReagents(ToDigest);
 
-				RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Add(Digesting);
+				_ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(Digesting);
 			}
 
 			if (StomachContents.SpareCapacity < 15f) //Magic number
 			{
-				RelatedPart.HungerState = HungerState.Full;
+				HungerComponent.HungerState = HungerState.Full;
 			}
 			else
 			{
-				RelatedPart.HungerState = HungerState.Normal;
+				HungerComponent.HungerState = HungerState.Normal;
 			}
 
 			bool AllFat = true;
@@ -55,7 +67,7 @@ namespace Items.Implants.Organs
 
 			if (AllFat)
 			{
-				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
+				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject, spawnManualContents: true).GameObject.GetComponent<BodyFat>();
 				Added.SetAbsorbedAmount(0);
 				Added.RelatedStomach = this;
 				BodyFats.Add(Added);

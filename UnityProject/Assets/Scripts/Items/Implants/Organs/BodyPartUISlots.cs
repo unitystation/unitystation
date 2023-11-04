@@ -9,8 +9,6 @@ namespace Items.Implants.Organs
 {
 	public class BodyPartUISlots : MonoBehaviour, IDynamicItemSlotS
 	{
-		public NamedSlotFlagged NamedSlotFlagged;
-
 		private DynamicItemStorage ItemStorage;
 
 		[CanBeNull] public GameObject GameObject

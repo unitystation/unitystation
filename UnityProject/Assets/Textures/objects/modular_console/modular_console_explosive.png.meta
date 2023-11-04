@@ -111,7 +111,7 @@ TextureImporter:
       213: 21300070
     second: explosive_35
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -128,11 +128,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -171,6 +172,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -186,6 +189,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -966,45 +981,44 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      explosive_17: 21300034
-      explosive_29: 21300058
+      explosive_0: 21300000
       explosive_1: 21300002
-      explosive_7: 21300014
-      explosive_19: 21300038
-      explosive_3: 21300006
-      explosive_20: 21300040
-      explosive_26: 21300052
-      explosive_12: 21300024
-      explosive_15: 21300030
-      explosive_31: 21300062
-      explosive_21: 21300042
-      explosive_30: 21300060
-      explosive_35: 21300070
-      explosive_9: 21300018
-      explosive_24: 21300048
-      explosive_14: 21300028
+      explosive_10: 21300020
       explosive_11: 21300022
-      explosive_28: 21300056
+      explosive_12: 21300024
+      explosive_13: 21300026
+      explosive_14: 21300028
+      explosive_15: 21300030
+      explosive_16: 21300032
+      explosive_17: 21300034
+      explosive_18: 21300036
+      explosive_19: 21300038
       explosive_2: 21300004
+      explosive_20: 21300040
+      explosive_21: 21300042
       explosive_22: 21300044
       explosive_23: 21300046
-      explosive_16: 21300032
+      explosive_24: 21300048
       explosive_25: 21300050
-      explosive_10: 21300020
+      explosive_26: 21300052
       explosive_27: 21300054
+      explosive_28: 21300056
+      explosive_29: 21300058
+      explosive_3: 21300006
+      explosive_30: 21300060
+      explosive_31: 21300062
+      explosive_32: 21300064
       explosive_33: 21300066
       explosive_34: 21300068
-      explosive_0: 21300000
-      explosive_32: 21300064
+      explosive_35: 21300070
       explosive_4: 21300008
-      explosive_8: 21300016
-      explosive_6: 21300012
-      explosive_18: 21300036
-      explosive_13: 21300026
       explosive_5: 21300010
-  spritePackingTag: 
+      explosive_6: 21300012
+      explosive_7: 21300014
+      explosive_8: 21300016
+      explosive_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

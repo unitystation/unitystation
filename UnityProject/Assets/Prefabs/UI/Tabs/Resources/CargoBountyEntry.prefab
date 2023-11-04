@@ -37,12 +37,11 @@ RectTransform:
   - {fileID: 2910861955266229441}
   - {fileID: 1056225099114812996}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 675, y: 60}
+  m_SizeDelta: {x: 550, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1098926129202944411
 CanvasRenderer:
@@ -65,7 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8, b: 0, a: 0.09803922}
+  m_Color: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -94,6 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f092601d81a992d4fb3316a290374679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Poolble: 1
   bountyTitle: {fileID: 362836110038484650}
   InvisblebountyDescription: {fileID: 5750191188921129346}
 --- !u!114 &3644111299621548400
@@ -187,12 +187,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4760123875520080070}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 341.94, y: 0}
-  m_SizeDelta: {x: 666.125, y: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -72.5, y: 25}
+  m_SizeDelta: {x: -175, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5544196538342042180
 CanvasRenderer:
@@ -215,7 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.82100976, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -280,12 +279,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4760123875520080070}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 341.94, y: 0}
-  m_SizeDelta: {x: 666.125, y: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -72.5, y: -20}
+  m_SizeDelta: {x: -175, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7054690175812969494
 CanvasRenderer:
@@ -308,7 +306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8, b: 0, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -322,7 +320,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 300
-    m_Alignment: 3
+    m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -346,6 +344,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4760123875520080070}
     m_Modifications:
     - target: {fileID: 195046673748083777, guid: d06601fc84b25c746bf1bb3382990958,
@@ -366,7 +365,7 @@ PrefabInstance:
     - target: {fileID: 195046673748083777, guid: d06601fc84b25c746bf1bb3382990958,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 195046673748083777, guid: d06601fc84b25c746bf1bb3382990958,
         type: 3}
@@ -376,7 +375,7 @@ PrefabInstance:
     - target: {fileID: 195046673748083777, guid: d06601fc84b25c746bf1bb3382990958,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 195046673748083777, guid: d06601fc84b25c746bf1bb3382990958,
         type: 3}
@@ -431,12 +430,12 @@ PrefabInstance:
     - target: {fileID: 195046673748083777, guid: d06601fc84b25c746bf1bb3382990958,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -60
       objectReference: {fileID: 0}
     - target: {fileID: 195046673748083777, guid: d06601fc84b25c746bf1bb3382990958,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -11
       objectReference: {fileID: 0}
     - target: {fileID: 195046673748083777, guid: d06601fc84b25c746bf1bb3382990958,
         type: 3}
@@ -499,6 +498,9 @@ PrefabInstance:
       value: Tooltip
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d06601fc84b25c746bf1bb3382990958, type: 3}
 --- !u!224 &2910861955266229441 stripped
 RectTransform:

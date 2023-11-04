@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: shadow_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      shadow_16: 21300032
-      shadow_23: 21300046
-      shadow_4: 21300008
-      shadow_6: 21300012
-      shadow_2: 21300004
-      shadow_10: 21300020
-      shadow_18: 21300036
-      shadow_8: 21300016
-      shadow_21: 21300042
-      shadow_12: 21300024
-      shadow_28: 21300056
-      shadow_26: 21300052
-      shadow_13: 21300026
-      shadow_9: 21300018
-      shadow_11: 21300022
-      shadow_25: 21300050
-      shadow_22: 21300044
-      shadow_24: 21300048
       shadow_0: 21300000
-      shadow_29: 21300058
+      shadow_1: 21300002
+      shadow_10: 21300020
+      shadow_11: 21300022
+      shadow_12: 21300024
+      shadow_13: 21300026
+      shadow_14: 21300028
+      shadow_15: 21300030
+      shadow_16: 21300032
       shadow_17: 21300034
+      shadow_18: 21300036
+      shadow_19: 21300038
+      shadow_2: 21300004
+      shadow_20: 21300040
+      shadow_21: 21300042
+      shadow_22: 21300044
+      shadow_23: 21300046
+      shadow_24: 21300048
+      shadow_25: 21300050
+      shadow_26: 21300052
       shadow_27: 21300054
+      shadow_28: 21300056
+      shadow_29: 21300058
+      shadow_3: 21300006
       shadow_30: 21300060
       shadow_31: 21300062
-      shadow_3: 21300006
-      shadow_19: 21300038
-      shadow_15: 21300030
-      shadow_7: 21300014
+      shadow_4: 21300008
       shadow_5: 21300010
-      shadow_14: 21300028
-      shadow_1: 21300002
-      shadow_20: 21300040
-  spritePackingTag: 
+      shadow_6: 21300012
+      shadow_7: 21300014
+      shadow_8: 21300016
+      shadow_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

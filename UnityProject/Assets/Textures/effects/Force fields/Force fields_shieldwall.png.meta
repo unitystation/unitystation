@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: shieldwall_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      shieldwall_17: 21300034
-      shieldwall_6: 21300012
-      shieldwall_20: 21300040
-      shieldwall_19: 21300038
-      shieldwall_5: 21300010
-      shieldwall_21: 21300042
-      shieldwall_16: 21300032
-      shieldwall_9: 21300018
-      shieldwall_22: 21300044
-      shieldwall_4: 21300008
-      shieldwall_7: 21300014
-      shieldwall_14: 21300028
-      shieldwall_18: 21300036
-      shieldwall_3: 21300006
       shieldwall_0: 21300000
-      shieldwall_12: 21300024
-      shieldwall_23: 21300046
-      shieldwall_10: 21300020
-      shieldwall_8: 21300016
-      shieldwall_11: 21300022
-      shieldwall_15: 21300030
-      shieldwall_2: 21300004
       shieldwall_1: 21300002
+      shieldwall_10: 21300020
+      shieldwall_11: 21300022
+      shieldwall_12: 21300024
       shieldwall_13: 21300026
-  spritePackingTag: 
+      shieldwall_14: 21300028
+      shieldwall_15: 21300030
+      shieldwall_16: 21300032
+      shieldwall_17: 21300034
+      shieldwall_18: 21300036
+      shieldwall_19: 21300038
+      shieldwall_2: 21300004
+      shieldwall_20: 21300040
+      shieldwall_21: 21300042
+      shieldwall_22: 21300044
+      shieldwall_23: 21300046
+      shieldwall_3: 21300006
+      shieldwall_4: 21300008
+      shieldwall_5: 21300010
+      shieldwall_6: 21300012
+      shieldwall_7: 21300014
+      shieldwall_8: 21300016
+      shieldwall_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

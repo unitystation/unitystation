@@ -5,11 +5,12 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -4082501454514706868, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
-      propertyPath: fermentedReagents.m_keys.Array.data[0]
+      propertyPath: 'fermentedReagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 32fa5437479bb97fa81b23ddc22fb0de,
         type: 2}
@@ -26,13 +27,19 @@ PrefabInstance:
     - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 30
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
       propertyPath: relatedRecipes.Array.data[18].recipe
       value: 
       objectReference: {fileID: 11400000, guid: a03357a0b04204046bc58611586c14b8,
+        type: 2}
+    - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[30].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 4831afe4577de1e46b0b3c0003af1560,
         type: 2}
     - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
@@ -107,6 +114,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 560563286822459764, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
+      propertyPath: _assetId
+      value: 50548653
+      objectReference: {fileID: 0}
+    - target: {fileID: 560563286822459764, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
       propertyPath: m_AssetId
       value: 0c894a9b739c8444e994c33d43e20db6
       objectReference: {fileID: 0}
@@ -121,6 +133,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8019590249366242245, guid: 7a79d115737203f48b690f595607172a,
         type: 3}
+    - target: {fileID: 3810646874198390636, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: BasePurity
+      value: 45
+      objectReference: {fileID: 0}
     - target: {fileID: 5986884765027999559, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -133,6 +150,9 @@ PrefabInstance:
       value: 0c894a9b739c8444e994c33d43e20db6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 454947e247b8d27408f72041e753e7be, type: 3}
 --- !u!210 &5421610758123853769 stripped
 SortingGroup:

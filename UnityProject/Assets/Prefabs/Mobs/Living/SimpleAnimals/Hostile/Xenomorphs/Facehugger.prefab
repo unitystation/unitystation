@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
@@ -64,6 +65,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3826885964139575000, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
+      propertyPath: _assetId
+      value: 754577120
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826885964139575000, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
       propertyPath: m_AssetId
       value: 28f0f699598b8074389bd2fecadaaf7a
       objectReference: {fileID: 0}
@@ -90,37 +96,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 4aa643bb597b9cc4881cd70a3cdf8994,
         type: 2}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: ffc5268f11da1384f84f9e42c7563962,
         type: 2}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 867913dc815188d4aa4f31ce12df678e,
         type: 2}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[3]
+      propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 191b489a5fd0fe543942fe52c7097879,
         type: 2}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[4]
+      propertyPath: 'SubCatalogue.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: 62f9dd9c0e6eb4b47878239644a1972c,
         type: 2}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[5]
+      propertyPath: 'SubCatalogue.Array.data[5]'
       value: 
       objectReference: {fileID: 11400000, guid: c0c0bf326972dd842b22fd3f4621a256,
         type: 2}
@@ -141,7 +147,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8452744359610409676, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
-      propertyPath: butcherResults.Array.data[0]
+      propertyPath: 'butcherResults.Array.data[0]'
       value: 
       objectReference: {fileID: 2434222561616808047, guid: ec415b83dd52aba48a8c3eb34564b8dc,
         type: 3}
@@ -174,6 +180,17 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 811126669682120101, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
     - {fileID: 9122004212597972209, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3786279822138338372, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8085407894005445929}
+    - targetCorrespondingSourceObject: {fileID: 3786279822138338372, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -673324880222467331}
   m_SourcePrefab: {fileID: 100100000, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
 --- !u!1 &3580619421430961846 stripped
 GameObject:
@@ -211,6 +228,7 @@ MonoBehaviour:
   randomSoundProbability: 20
   searchTickRate: 0.5
   currentStatus: 0
+  ScoreForKilling: 5
   ignoreInQueenCount: 0
 --- !u!114 &-673324880222467331
 MonoBehaviour:

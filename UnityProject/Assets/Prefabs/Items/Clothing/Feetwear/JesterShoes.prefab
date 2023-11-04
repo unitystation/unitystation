@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4024485979655135154, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
@@ -30,7 +31,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4243232050535511984, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: adb31f7bb640837428b3fed98530541b,
         type: 2}
@@ -102,6 +103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7137064127981083009, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
         type: 3}
+      propertyPath: _assetId
+      value: 3682908149
+      objectReference: {fileID: 0}
+    - target: {fileID: 7137064127981083009, guid: 026678bf2f4d34e7a8aa23aab0a96c64,
+        type: 3}
       propertyPath: m_AssetId
       value: 6d3f856edbd845b44ad9f4030930fbf0
       objectReference: {fileID: 0}
@@ -116,4 +122,7 @@ PrefabInstance:
       value: A court jester's shoes, updated with modern squeaking technology.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 026678bf2f4d34e7a8aa23aab0a96c64, type: 3}

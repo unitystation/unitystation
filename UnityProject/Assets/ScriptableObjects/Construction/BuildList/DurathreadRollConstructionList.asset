@@ -20,12 +20,14 @@ MonoBehaviour:
     buildTime: 4
     spawnAmount: 1
     onePerTile: 0
+    facePlayerDirectionOnConstruction: 0
   - name: Durathread Beanie
     prefab: {fileID: 616735813865956089, guid: 64ad449873de9e640a19a5130227c050, type: 3}
     cost: 2
     buildTime: 4
     spawnAmount: 1
     onePerTile: 0
+    facePlayerDirectionOnConstruction: 0
   - name: Durathread Beret
     prefab: {fileID: 6980020022460415521, guid: c54e94b479657484e86c4cb4f7622f91,
       type: 3}
@@ -33,6 +35,7 @@ MonoBehaviour:
     buildTime: 4
     spawnAmount: 1
     onePerTile: 0
+    facePlayerDirectionOnConstruction: 0
   - name: Durathread Bandana
     prefab: {fileID: 2778216794303504049, guid: 9286d158bd715894db3df20c4f6a3ac0,
       type: 3}
@@ -40,3 +43,4 @@ MonoBehaviour:
     buildTime: 3
     spawnAmount: 1
     onePerTile: 0
+    facePlayerDirectionOnConstruction: 0

@@ -5,12 +5,18 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 68346159356632956, guid: adea9286cc4c6ba4ca33b962b5957481,
         type: 3}
       propertyPath: lootDrop.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 328386222814769736, guid: adea9286cc4c6ba4ca33b962b5957481,
+        type: 3}
+      propertyPath: _assetId
+      value: 3734247740
       objectReference: {fileID: 0}
     - target: {fileID: 328386222814769736, guid: adea9286cc4c6ba4ca33b962b5957481,
         type: 3}
@@ -71,9 +77,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6610469746303614649, guid: adea9286cc4c6ba4ca33b962b5957481,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 32e95c8e6839de549a4d4186fb8a75ca,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: adea9286cc4c6ba4ca33b962b5957481, type: 3}

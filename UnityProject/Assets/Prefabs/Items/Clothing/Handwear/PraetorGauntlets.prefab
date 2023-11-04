@@ -5,10 +5,11 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4290517960940578, guid: cf31a682867c234409b80f763fc9a1b9, type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 57b61492e154c1a4a8fd66d8a1ad2e20,
         type: 2}
@@ -82,6 +83,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PraetorGauntlets
+      objectReference: {fileID: 0}
+    - target: {fileID: 6477919160917602835, guid: cf31a682867c234409b80f763fc9a1b9,
+        type: 3}
+      propertyPath: _assetId
+      value: 3216512302
       objectReference: {fileID: 0}
     - target: {fileID: 6477919160917602835, guid: cf31a682867c234409b80f763fc9a1b9,
         type: 3}
@@ -171,4 +177,7 @@ PrefabInstance:
         wristblade.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf31a682867c234409b80f763fc9a1b9, type: 3}

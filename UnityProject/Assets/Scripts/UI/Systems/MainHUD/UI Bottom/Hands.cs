@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using HealthV2;
 using Items.Implants.Organs;
+using Logs;
 
 namespace Player
 {
@@ -204,10 +205,10 @@ namespace Player
 			if (PlayerManager.LocalPlayerScript == null) return false;
 
 			// TODO tidy up this if statement once it's working correctly
-			if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
+			if (!PlayerManager.LocalPlayerScript.playerMove.AllowInput ||
 					PlayerManager.LocalPlayerScript.IsNormal == false)
 			{
-				Logger.Log("Invalid player, cannot perform action!", Category.Interaction);
+				Loggy.Log("Invalid player, cannot perform action!", Category.Interaction);
 				return false;
 			}
 

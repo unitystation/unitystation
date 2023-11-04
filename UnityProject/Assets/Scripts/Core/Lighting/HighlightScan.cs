@@ -1,18 +1,23 @@
 using System;
 using System.Collections;
+using Core.Factories;
+using Logs;
+using Mirror;
 using UnityEngine;
+using Util;
 
 namespace Core.Lighting
 {
 	public class HighlightScan : MonoBehaviour
 	{
 		private SpriteRenderer spriteRenderer;
+		[SerializeField] private GameObject noHighlightSpriteObj;
 
 		private void Awake()
 		{
 			if (CustomNetworkManager.IsHeadless)
 			{
-				Logger.LogError("Highlight scanner detected on headless server! Despawning self..");
+				Loggy.LogError("Highlight scanner detected on headless server! Despawning self..");
 				Despawn.ClientSingle(this.gameObject);
 				return;
 			}
@@ -25,6 +30,11 @@ namespace Core.Lighting
 			HighlightScanManager.Instance.HighlightScans.Add(this);
 		}
 
+		private void OnEnable()
+		{
+			noHighlightSpriteObj ??= CustomNetworkManager.Instance.GetSpawnablePrefabFromName("_RandomItemSpawnerBase");
+		}
+
 		private void OnDisable()
 		{
 			HighlightScanManager.Instance.OrNull()?.HighlightScans.Remove(this);
@@ -32,6 +42,11 @@ namespace Core.Lighting
 
 		public void Setup(Sprite sprite)
 		{
+			if (sprite == null)
+			{
+				spriteRenderer.sprite = noHighlightSpriteObj.GetComponentInChildren<SpriteRenderer>()?.sprite;
+				return;
+			}
 			spriteRenderer.sprite = sprite;
 		}
 

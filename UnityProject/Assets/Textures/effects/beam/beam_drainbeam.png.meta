@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: drainbeam_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      drainbeam_8: 21300016
+      drainbeam_0: 21300000
+      drainbeam_1: 21300002
+      drainbeam_10: 21300020
+      drainbeam_11: 21300022
       drainbeam_12: 21300024
-      drainbeam_17: 21300034
-      drainbeam_20: 21300040
-      drainbeam_16: 21300032
+      drainbeam_13: 21300026
       drainbeam_14: 21300028
-      drainbeam_5: 21300010
-      drainbeam_4: 21300008
-      drainbeam_6: 21300012
-      drainbeam_9: 21300018
+      drainbeam_15: 21300030
+      drainbeam_16: 21300032
+      drainbeam_17: 21300034
+      drainbeam_18: 21300036
+      drainbeam_19: 21300038
+      drainbeam_2: 21300004
+      drainbeam_20: 21300040
+      drainbeam_21: 21300042
+      drainbeam_22: 21300044
+      drainbeam_23: 21300046
       drainbeam_24: 21300048
       drainbeam_25: 21300050
-      drainbeam_28: 21300056
       drainbeam_26: 21300052
       drainbeam_27: 21300054
-      drainbeam_11: 21300022
-      drainbeam_1: 21300002
-      drainbeam_7: 21300014
-      drainbeam_0: 21300000
-      drainbeam_19: 21300038
-      drainbeam_22: 21300044
-      drainbeam_10: 21300020
-      drainbeam_13: 21300026
-      drainbeam_30: 21300060
+      drainbeam_28: 21300056
       drainbeam_29: 21300058
-      drainbeam_18: 21300036
-      drainbeam_15: 21300030
-      drainbeam_23: 21300046
-      drainbeam_31: 21300062
-      drainbeam_2: 21300004
-      drainbeam_21: 21300042
       drainbeam_3: 21300006
-  spritePackingTag: 
+      drainbeam_30: 21300060
+      drainbeam_31: 21300062
+      drainbeam_4: 21300008
+      drainbeam_5: 21300010
+      drainbeam_6: 21300012
+      drainbeam_7: 21300014
+      drainbeam_8: 21300016
+      drainbeam_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

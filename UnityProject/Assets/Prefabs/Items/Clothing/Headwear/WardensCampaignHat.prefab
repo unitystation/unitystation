@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3549479581640830887, guid: 77556be90466a4737b39e556f8ff1d41,
@@ -24,7 +25,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: 77556be90466a4737b39e556f8ff1d41,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 088d8d92b61bd5c43baab45042a45d21,
         type: 2}
@@ -34,6 +35,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: dbe9fb49203c9c24d9b91cc091384033,
         type: 2}
+    - target: {fileID: 7524605284256423550, guid: 77556be90466a4737b39e556f8ff1d41,
+        type: 3}
+      propertyPath: _assetId
+      value: 1701852865
+      objectReference: {fileID: 0}
     - target: {fileID: 7524605284256423550, guid: 77556be90466a4737b39e556f8ff1d41,
         type: 3}
       propertyPath: m_AssetId
@@ -117,4 +123,7 @@ PrefabInstance:
         on it. Uses reinforced fabric to offer sufficient protection.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77556be90466a4737b39e556f8ff1d41, type: 3}

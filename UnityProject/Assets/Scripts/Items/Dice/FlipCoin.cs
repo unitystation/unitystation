@@ -50,8 +50,8 @@ public class FlipCoin : MonoBehaviour, IExaminable, ICheckedInteractable<HandAct
 
 	private void UpdateSprite()
 	{
-		spriteHandler.ChangeSprite(SPRITE_RESTING);
-		spriteHandler.ChangeSpriteVariant(IsUpright ? SPRITE_VARIANT_RESTING_UPRIGHT : SPRITE_VARIANT_RESTING_INVERTED);
+		spriteHandler.SetCatalogueIndexSprite(SPRITE_RESTING);
+		spriteHandler.SetSpriteVariant(IsUpright ? SPRITE_VARIANT_RESTING_UPRIGHT : SPRITE_VARIANT_RESTING_INVERTED);
 	}
 
 	private string GetFaceName()
@@ -101,14 +101,14 @@ public class FlipCoin : MonoBehaviour, IExaminable, ICheckedInteractable<HandAct
 	private IEnumerator Flip()
 	{
 		// The flip animation sprite SO has only only one variant.
-		spriteHandler.ChangeSpriteVariant(0);
-		spriteHandler.ChangeSprite(SPRITE_FLIPPING);
+		spriteHandler.SetSpriteVariant(0);
+		spriteHandler.SetCatalogueIndexSprite(SPRITE_FLIPPING);
 		yield return WaitFor.Seconds(FLIP_TIME);
 
 		IsUpright = Random.Range(0, 2) == 0;
 		UpdateSprite();
 
-		Chat.AddLocalMsgToChat($"The coin lands a '{GetFaceName()}'.", gameObject);
+		Chat.AddActionMsgToChat(gameObject, $"The coin lands a '{GetFaceName()}'.");
 	}
 
 	#endregion Throwing

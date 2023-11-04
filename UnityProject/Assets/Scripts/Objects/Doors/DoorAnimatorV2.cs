@@ -14,60 +14,60 @@ namespace Doors
 	public class DoorAnimatorV2 : MonoBehaviour
 	{
 		#region Sprite layers
-		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[SerializeField, BoxGroup("Sprite Layers") ]
 		[Tooltip("Game object which represents the base of this door")]
 		private GameObject doorBase = null;
 		public GameObject DoorBase => doorBase;
 
-		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[SerializeField, BoxGroup("Sprite Layers") ]
 		[Tooltip("Game object which represents the light layer of this door")]
 		private GameObject overlaySparks = null;
 		public GameObject OverlaySparks => overlaySparks;
 
-		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[SerializeField, BoxGroup("Sprite Layers") ]
 		[Tooltip("Game object which represents the light layer of this door")]
 		private GameObject overlayLights = null;
 		public GameObject OverlayLights => overlayLights;
 
-		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[SerializeField, BoxGroup("Sprite Layers") ]
 		[Tooltip("Game object which represents the fill layer of this door")]
 		private GameObject overlayFill = null;
 		public GameObject OverlayFill => overlayFill;
 
-		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[SerializeField, BoxGroup("Sprite Layers") ]
 		[Tooltip("Game object which represents the welded and effects layer for this door")]
 		private GameObject overlayWeld = null;
 		public GameObject OverlayWeld => overlayWeld;
 
-		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[SerializeField, BoxGroup("Sprite Layers") ]
 		[Tooltip("Game object which represents the hacking panel layer for this door")]
 		private GameObject overlayHacking = null;
 		public GameObject OverlayHacking => overlayHacking;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Time this door's opening animation takes")]
 		private float openingAnimationTime = 0.6f;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Time this door's closing animation takes")]
 		private float closingAnimationTime = 0.6f;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Time this door's denied animation takes")]
 		private float deniedAnimationTime = 0.6f;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Time this door's warning animation takes")]
 		private float warningAnimationTime = 0.6f;
 		#endregion
 
-		[SerializeField, PrefabModeOnly, Tooltip("Sound that plays when opening this door")]
+		[SerializeField, Tooltip("Sound that plays when opening this door")]
 		private AddressableAudioSource openingSFX;
-		[SerializeField, PrefabModeOnly, Tooltip("Sound that plays when closing this door")]
+		[SerializeField, Tooltip("Sound that plays when closing this door")]
 		private AddressableAudioSource closingSFX;
-		[SerializeField, PrefabModeOnly, Tooltip("Sound that plays when access is denied by this door")]
+		[SerializeField, Tooltip("Sound that plays when access is denied by this door")]
 		private AddressableAudioSource deniedSFX;
-		[SerializeField, PrefabModeOnly, Tooltip("Sound that plays when pressure warning is played by this door")]
+		[SerializeField, Tooltip("Sound that plays when pressure warning is played by this door")]
 		private AddressableAudioSource warningSFX;
 
 		public event Action AnimationFinished;
@@ -78,6 +78,9 @@ namespace Doors
 		private SpriteHandler overlayFillHandler;
 		private SpriteHandler overlayWeldHandler;
 		private SpriteHandler overlayHackingHandler;
+
+		private int previousLightSprite = -1;
+
 
 		private void Awake()
 		{
@@ -118,15 +121,15 @@ namespace Doors
 			{
 				if (panelExposed)
 				{
-					overlayHackingHandler.ChangeSprite((int)Panel.Opening, false);
+					overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.Opening, false);
 				}
 
 				if (lights)
 				{
-					overlayLightsHandler.ChangeSprite((int) Lights.Opening, false);
+					overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.Opening, false);
 				}
-				overlayFillHandler.ChangeSprite((int) DoorFrame.Opening, false);
-				doorBaseHandler.ChangeSprite((int) DoorFrame.Opening, false);
+				overlayFillHandler.SetCatalogueIndexSprite((int) DoorFrame.Opening, false);
+				doorBaseHandler.SetCatalogueIndexSprite((int) DoorFrame.Opening, false);
 				ClientPlaySound(openingSFX);
 				yield return WaitFor.Seconds(openingAnimationTime);
 			}
@@ -134,16 +137,17 @@ namespace Doors
 			// Change to open sprite after done opening
 			if (panelExposed)
 			{
-				overlayHackingHandler.ChangeSprite((int)Panel.Open, false);
+				overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.Open, false);
 			}
 			else
 			{
-				overlayHackingHandler.ChangeSprite((int) Panel.NoPanel, false);
+				overlayHackingHandler.SetCatalogueIndexSprite((int) Panel.NoPanel, false);
 			}
 
-			overlayLightsHandler.ChangeSprite((int) Lights.NoLight, false);
-			overlayFillHandler.ChangeSprite((int) DoorFrame.Open, false);
-			doorBaseHandler.ChangeSprite((int) DoorFrame.Open, false);
+			overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.NoLight, false);
+			previousLightSprite = (int) Lights.NoLight;
+			overlayFillHandler.SetCatalogueIndexSprite((int) DoorFrame.Open, false);
+			doorBaseHandler.SetCatalogueIndexSprite((int) DoorFrame.Open, false);
 
 			AnimationFinished?.Invoke();
 		}
@@ -154,16 +158,17 @@ namespace Doors
 			{
 				if (panelExposed)
 				{
-					overlayHackingHandler.ChangeSprite((int)Panel.Closing, false);
+					overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.Closing, false);
 				}
 
 				if (lights)
 				{
-					overlayLightsHandler.ChangeSprite((int) Lights.Closing, false);
+					overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.Closing, false);
+					previousLightSprite = (int) Lights.Closing;
 				}
 
-				overlayFillHandler.ChangeSprite((int) DoorFrame.Closing, false);
-				doorBaseHandler.ChangeSprite((int) DoorFrame.Closing, false);
+				overlayFillHandler.SetCatalogueIndexSprite((int) DoorFrame.Closing, false);
+				doorBaseHandler.SetCatalogueIndexSprite((int) DoorFrame.Closing, false);
 				ClientPlaySound(closingSFX);
 				yield return WaitFor.Seconds(closingAnimationTime);
 			}
@@ -171,40 +176,48 @@ namespace Doors
 			//Change to closed sprite after it is done closing
 			if (panelExposed)
 			{
-				overlayHackingHandler.ChangeSprite((int) Panel.Closed, false);
+				overlayHackingHandler.SetCatalogueIndexSprite((int) Panel.Closed, false);
 			}
 			else
 			{
-				overlayHackingHandler.ChangeSprite((int) Panel.NoPanel, false);
+				overlayHackingHandler.SetCatalogueIndexSprite((int) Panel.NoPanel, false);
 			}
 
-			overlayLightsHandler.ChangeSprite((int) Lights.NoLight, false);
-			overlayFillHandler.ChangeSprite((int) DoorFrame.Closed, false);
-			doorBaseHandler.ChangeSprite((int) DoorFrame.Closed, false);
+			overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.NoLight, false);
+			previousLightSprite = (int) Lights.NoLight;
+			overlayFillHandler.SetCatalogueIndexSprite((int) DoorFrame.Closed, false);
+			doorBaseHandler.SetCatalogueIndexSprite((int) DoorFrame.Closed, false);
 
 			AnimationFinished?.Invoke();
 		}
 
 		public IEnumerator PlayDeniedAnimation()
 		{
-			int previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
-			overlayLightsHandler.ChangeSprite((int)Lights.Denied);
+			if (previousLightSprite == -1)
+			{
+				previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
+			}
+			overlayLightsHandler.SetCatalogueIndexSprite((int)Lights.Denied);
 			yield return WaitFor.Seconds(deniedAnimationTime);
 
 			if (previousLightSprite == -1) previousLightSprite = 0;
-			overlayLightsHandler.ChangeSprite(previousLightSprite);
-
+			overlayLightsHandler.SetCatalogueIndexSprite(previousLightSprite);
+			previousLightSprite = -1;
 			AnimationFinished?.Invoke();
 		}
 
 		public IEnumerator PlayPressureWarningAnimation()
 		{
-			int previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
-			overlayLightsHandler.ChangeSprite((int)Lights.PressureWarning);
+			if (previousLightSprite == -1)
+			{
+				previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
+			}
+			overlayLightsHandler.SetCatalogueIndexSprite((int)Lights.PressureWarning);
 			yield return WaitFor.Seconds(warningAnimationTime);
 
 			if (previousLightSprite == -1) previousLightSprite = 0;
-			overlayLightsHandler.ChangeSprite(previousLightSprite);
+			overlayLightsHandler.SetCatalogueIndexSprite(previousLightSprite);
+			previousLightSprite = -1;
 			AnimationFinished?.Invoke();
 		}
 
@@ -226,32 +239,34 @@ namespace Doors
 
 		public void TurnOffAllLights()
 		{
-			overlayLightsHandler.ChangeSprite((int) Lights.NoLight);
+			overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.NoLight);
+			previousLightSprite = (int) Lights.NoLight;
 		}
 
 		public void TurnOnBoltsLight()
 		{
-			overlayLightsHandler.ChangeSprite((int) Lights.BoltsLights);
+			overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.BoltsLights);
+			previousLightSprite = (int) Lights.BoltsLights;
 		}
 
 		public void AddWeldOverlay()
 		{
-			overlayWeldHandler.ChangeSprite((int) Weld.Weld);
+			overlayWeldHandler.SetCatalogueIndexSprite((int) Weld.Weld);
 		}
 
 		public void RemoveWeldOverlay()
 		{
-			overlayWeldHandler.ChangeSprite((int) Weld.NoWeld);
+			overlayWeldHandler.SetCatalogueIndexSprite((int) Weld.NoWeld);
 		}
 
 		public void AddPanelOverlay()
 		{
-			overlayHackingHandler.ChangeSprite((int) Panel.Closed);
+			overlayHackingHandler.SetCatalogueIndexSprite((int) Panel.Closed);
 		}
 
 		public void RemovePanelOverlay()
 		{
-			overlayHackingHandler.ChangeSprite((int) Panel.NoPanel);
+			overlayHackingHandler.SetCatalogueIndexSprite((int) Panel.NoPanel);
 		}
 
 		/// <summary>

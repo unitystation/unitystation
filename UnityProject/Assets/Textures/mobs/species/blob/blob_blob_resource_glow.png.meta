@@ -147,7 +147,7 @@ TextureImporter:
       213: 21300094
     second: blob_resource_glow_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      blob_resource_glow_6: 21300012
-      blob_resource_glow_29: 21300058
-      blob_resource_glow_35: 21300070
-      blob_resource_glow_22: 21300044
-      blob_resource_glow_38: 21300076
-      blob_resource_glow_45: 21300090
-      blob_resource_glow_31: 21300062
-      blob_resource_glow_43: 21300086
-      blob_resource_glow_36: 21300072
-      blob_resource_glow_44: 21300088
-      blob_resource_glow_2: 21300004
-      blob_resource_glow_26: 21300052
-      blob_resource_glow_13: 21300026
-      blob_resource_glow_18: 21300036
-      blob_resource_glow_21: 21300042
-      blob_resource_glow_14: 21300028
-      blob_resource_glow_11: 21300022
       blob_resource_glow_0: 21300000
-      blob_resource_glow_46: 21300092
-      blob_resource_glow_5: 21300010
-      blob_resource_glow_10: 21300020
-      blob_resource_glow_17: 21300034
-      blob_resource_glow_42: 21300084
-      blob_resource_glow_40: 21300080
-      blob_resource_glow_19: 21300038
-      blob_resource_glow_27: 21300054
-      blob_resource_glow_32: 21300064
-      blob_resource_glow_41: 21300082
-      blob_resource_glow_20: 21300040
-      blob_resource_glow_23: 21300046
-      blob_resource_glow_39: 21300078
-      blob_resource_glow_37: 21300074
-      blob_resource_glow_25: 21300050
       blob_resource_glow_1: 21300002
-      blob_resource_glow_24: 21300048
-      blob_resource_glow_7: 21300014
-      blob_resource_glow_33: 21300066
+      blob_resource_glow_10: 21300020
+      blob_resource_glow_11: 21300022
+      blob_resource_glow_12: 21300024
+      blob_resource_glow_13: 21300026
+      blob_resource_glow_14: 21300028
       blob_resource_glow_15: 21300030
       blob_resource_glow_16: 21300032
-      blob_resource_glow_3: 21300006
-      blob_resource_glow_12: 21300024
-      blob_resource_glow_47: 21300094
-      blob_resource_glow_30: 21300060
-      blob_resource_glow_8: 21300016
-      blob_resource_glow_34: 21300068
+      blob_resource_glow_17: 21300034
+      blob_resource_glow_18: 21300036
+      blob_resource_glow_19: 21300038
+      blob_resource_glow_2: 21300004
+      blob_resource_glow_20: 21300040
+      blob_resource_glow_21: 21300042
+      blob_resource_glow_22: 21300044
+      blob_resource_glow_23: 21300046
+      blob_resource_glow_24: 21300048
+      blob_resource_glow_25: 21300050
+      blob_resource_glow_26: 21300052
+      blob_resource_glow_27: 21300054
       blob_resource_glow_28: 21300056
+      blob_resource_glow_29: 21300058
+      blob_resource_glow_3: 21300006
+      blob_resource_glow_30: 21300060
+      blob_resource_glow_31: 21300062
+      blob_resource_glow_32: 21300064
+      blob_resource_glow_33: 21300066
+      blob_resource_glow_34: 21300068
+      blob_resource_glow_35: 21300070
+      blob_resource_glow_36: 21300072
+      blob_resource_glow_37: 21300074
+      blob_resource_glow_38: 21300076
+      blob_resource_glow_39: 21300078
       blob_resource_glow_4: 21300008
+      blob_resource_glow_40: 21300080
+      blob_resource_glow_41: 21300082
+      blob_resource_glow_42: 21300084
+      blob_resource_glow_43: 21300086
+      blob_resource_glow_44: 21300088
+      blob_resource_glow_45: 21300090
+      blob_resource_glow_46: 21300092
+      blob_resource_glow_47: 21300094
+      blob_resource_glow_5: 21300010
+      blob_resource_glow_6: 21300012
+      blob_resource_glow_7: 21300014
+      blob_resource_glow_8: 21300016
       blob_resource_glow_9: 21300018
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

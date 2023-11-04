@@ -87,7 +87,7 @@ TextureImporter:
       213: 21300054
     second: headphones_on_27
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,6 +148,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -162,6 +165,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -774,37 +789,36 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      headphones_on_4: 21300008
-      headphones_on_8: 21300016
-      headphones_on_17: 21300034
-      headphones_on_11: 21300022
-      headphones_on_2: 21300004
-      headphones_on_10: 21300020
-      headphones_on_7: 21300014
-      headphones_on_3: 21300006
       headphones_on_0: 21300000
-      headphones_on_23: 21300046
-      headphones_on_9: 21300018
-      headphones_on_15: 21300030
-      headphones_on_19: 21300038
-      headphones_on_21: 21300042
+      headphones_on_1: 21300002
+      headphones_on_10: 21300020
+      headphones_on_11: 21300022
       headphones_on_12: 21300024
       headphones_on_13: 21300026
-      headphones_on_27: 21300054
-      headphones_on_5: 21300010
-      headphones_on_18: 21300036
-      headphones_on_20: 21300040
-      headphones_on_24: 21300048
-      headphones_on_22: 21300044
-      headphones_on_25: 21300050
       headphones_on_14: 21300028
-      headphones_on_6: 21300012
+      headphones_on_15: 21300030
       headphones_on_16: 21300032
-      headphones_on_1: 21300002
+      headphones_on_17: 21300034
+      headphones_on_18: 21300036
+      headphones_on_19: 21300038
+      headphones_on_2: 21300004
+      headphones_on_20: 21300040
+      headphones_on_21: 21300042
+      headphones_on_22: 21300044
+      headphones_on_23: 21300046
+      headphones_on_24: 21300048
+      headphones_on_25: 21300050
       headphones_on_26: 21300052
-  spritePackingTag: 
+      headphones_on_27: 21300054
+      headphones_on_3: 21300006
+      headphones_on_4: 21300008
+      headphones_on_5: 21300010
+      headphones_on_6: 21300012
+      headphones_on_7: 21300014
+      headphones_on_8: 21300016
+      headphones_on_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

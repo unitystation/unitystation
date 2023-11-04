@@ -3,62 +3,6 @@ using System.Collections.Generic;
 
 namespace Systems.Electricity
 {
-	public class Current
-	{
-		public double current = 0;
-	}
-
-	public class WrapCurrent
-	{
-		public bool inPool;
-		public Current Current;
-		public double Strength;
-
-		public void CombineCurrent(WrapCurrent addSendingCurrent)
-		{
-			if (Current == addSendingCurrent.Current)
-			{
-				Strength = Strength + addSendingCurrent.Strength;
-			}
-			else
-			{
-				Logger.Log("Tried to combine two currents, but they were not equal", Category.Electrical);
-			}
-		}
-
-		public void Multiply(float Multiply)
-		{
-			Strength = Strength * Multiply;
-		}
-
-		public void SetUp(WrapCurrent _Current)
-		{
-			Current = _Current.Current;
-			Strength = _Current.Strength;
-		}
-
-		public double GetCurrent()
-		{
-			return Current.current * Strength;
-		}
-
-		public override string ToString()
-		{
-			return string.Format("(" + Current.current + "*" + Strength + ")");
-		}
-
-		public void Pool()
-		{
-			if (inPool == false)
-			{
-				Current = null;
-				Strength = 1;
-				ElectricalPool.PooledWrapCurrent.Add(this);
-				inPool = true;
-			}
-		}
-	}
-
 	public class VIRCurrent
 	{
 		public bool inPool;
@@ -77,20 +21,10 @@ namespace Systems.Electricity
 			CurrentSources.Add(NewWrapCurrent);
 		}
 
-		public void addCurrent(VIRCurrent NewWrapCurrent)
+		public void CombineWith(VIRCurrent NewWrapCurrent)
 		{
-			foreach (var inCurrent in NewWrapCurrent.CurrentSources)
-			{
-				foreach (var wrapCurrent in CurrentSources)
-				{
-					if (wrapCurrent.Current == inCurrent.Current)
-					{
-						//wrapCurrent.CombineCurrent(inCurrent);
-						return;
-					}
-				}
-				CurrentSources.Add(inCurrent);
-			}
+			if (CurrentSources == NewWrapCurrent.CurrentSources) return;
+			CurrentSources.AddRange(NewWrapCurrent.CurrentSources);
 		}
 
 		public VIRCurrent SplitCurrent(float Multiplier)

@@ -89,7 +89,7 @@ namespace Items.Others
 		{
 			isOn = true;
 			ApplyEffect();
-			spriteHandler.ChangeSprite((int) SpriteState.On);
+			spriteHandler.SetCatalogueIndexSprite((int) SpriteState.On);
 			pickupable.RefreshUISlotImage();
 		}
 
@@ -97,7 +97,7 @@ namespace Items.Others
 		{
 			isOn = false;
 			RemoveEffect();
-			spriteHandler.ChangeSprite((int) SpriteState.Off);
+			spriteHandler.SetCatalogueIndexSprite((int) SpriteState.Off);
 			pickupable.RefreshUISlotImage();
 		}
 

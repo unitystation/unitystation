@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -428,7 +429,7 @@ public class SudokuGenerator
 
 			if (ti == seq.Count)
 			{
-				Logger.LogError("AAA");
+				Loggy.LogError("AAA");
 			}
 
 			while(string.IsNullOrEmpty(shuffled[ti]) == false){

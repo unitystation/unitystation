@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -13,6 +14,6 @@ public class WhatIsThisNetworkIdentity : MonoBehaviour
 		var spawned =
 			CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 
-		Logger.LogError(spawned[ID].gameObject.name);
+		Loggy.LogError(spawned[ID].gameObject.name);
 	}
 }

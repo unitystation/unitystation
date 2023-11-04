@@ -1,0 +1,243 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4197366876178634829
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 368469359403821245, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: maxAmount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 368469359403821245, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: stackNames.Array.data[0].Name
+      value: '[item]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 368469359403821245, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: stackNames.Array.data[1].Name
+      value: 'an explosive combo of [item]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 368469359403821245, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: stackNames.Array.data[1].OverAmount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043358603169337106, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: m_Name
+      value: GibtoniteOre
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145792851350106790, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: _assetId
+      value: 3777659223
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246068332199459918, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 908b632294388fc4aa4bd4a96f985173,
+        type: 3}
+    - target: {fileID: 4535546548030824560, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: hitDamage
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4535546548030824560, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: damageType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4535546548030824560, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: exportCost
+      value: 950
+      objectReference: {fileID: 0}
+    - target: {fileID: 4535546548030824560, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: initialName
+      value: Gibtone
+      objectReference: {fileID: 0}
+    - target: {fileID: 4535546548030824560, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: throwDamage
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4535546548030824560, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: initialDescription
+      value: A shiny blue ore.. I wonder what happens if I poke it with a sharp object?
+      objectReference: {fileID: 0}
+    - target: {fileID: 4535546548030824560, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4535546548030824560, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4582402145700071108, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4582402145700071108, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: db5eba4a850bfb64e812022fc6d2615f,
+        type: 2}
+    - target: {fileID: 4582402145700071108, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: db5eba4a850bfb64e812022fc6d2615f,
+        type: 2}
+    - target: {fileID: 4582402145700071108, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6964355983317795711, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: foreverID
+      value: 3d90b276e8ed61b42bdc9753e70799ee
+      objectReference: {fileID: 0}
+    - target: {fileID: 6964355983317795711, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: <AlternativePrefabName>k__BackingField
+      value: bomb
+      objectReference: {fileID: 0}
+    - target: {fileID: 7879885434909570197, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a079cc489d71e4b4d9199480bf4ffcf8,
+        type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4043358603169337106, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8867027435020732457}
+  m_SourcePrefab: {fileID: 100100000, guid: fdb2f97a13e5b31468c170e6847a8d15, type: 3}
+--- !u!1 &170274586052777823 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4043358603169337106, guid: fdb2f97a13e5b31468c170e6847a8d15,
+    type: 3}
+  m_PrefabInstance: {fileID: 4197366876178634829}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8867027435020732457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170274586052777823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afc6f168850d4f228b4646965231c123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  spritehandler: {fileID: 6276593887705394392}
+  explosionStrength: 5270
+  fullDifuselTime: 12
+  fuseTime: 4.5
+  spriteActive: {fileID: 11400000, guid: b834598cef2ad3f4a9451c26b42bdcf7, type: 2}
+  spriteInActive: {fileID: 11400000, guid: a079cc489d71e4b4d9199480bf4ffcf8, type: 2}
+  spriteFused: {fileID: 11400000, guid: 6f048e1bf2383d24584f5ec94a6c93bb, type: 2}
+  miningScanner: {fileID: 11400000, guid: 0675322a24120d846bb40ebf9d3e5fc4, type: 2}
+  pickaxe: {fileID: 11400000, guid: 1c4515f9903c29c4f8832bd2f32684ad, type: 2}
+  itemTraitsToIgnoreOnExplosion:
+  - {fileID: 11400000, guid: 3c430c1e9384ac647a81057064b1d664, type: 2}
+  - {fileID: 11400000, guid: 5454ae301f8f02a43ae7496ed16f70bc, type: 2}
+  - {fileID: 11400000, guid: 66ee6ece9a2945342a3013068032cc61, type: 2}
+  - {fileID: 11400000, guid: 1e8921a11f65f9640afc3446c7cb9320, type: 2}
+  - {fileID: 11400000, guid: b6d7aeb207e8c9d47a7744da79141799, type: 2}
+  - {fileID: 11400000, guid: 3d402a2b597113b4a97ee3710288b408, type: 2}
+  - {fileID: 11400000, guid: 9f843295728958e48bcfe5215296ee90, type: 2}
+  - {fileID: 11400000, guid: b52339a75d4b045469c79bd102bc98ea, type: 2}
+  - {fileID: 11400000, guid: e76a2305b1eac4c4786986115a5eb555, type: 2}
+  - {fileID: 11400000, guid: d3b5f22c1469bf34a81e377227b2acf5, type: 2}
+  - {fileID: 11400000, guid: 6097f8423a1b255468e2285de46bc3d3, type: 2}
+  - {fileID: 11400000, guid: eab4a0cf6ec899240b34c27ae82015e2, type: 2}
+--- !u!114 &6276593887705394392 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7879885434909570197, guid: fdb2f97a13e5b31468c170e6847a8d15,
+    type: 3}
+  m_PrefabInstance: {fileID: 4197366876178634829}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1560634355228308, guid: 5858b89c4790c084bb1915952309853d, type: 3}
@@ -71,6 +72,11 @@ PrefabInstance:
       propertyPath: visibleName
       value: electrode
       objectReference: {fileID: 0}
+    - target: {fileID: 1410495953153992223, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
+      propertyPath: _assetId
+      value: 1815498752
+      objectReference: {fileID: 0}
     - target: {fileID: 2164135355554094252, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -78,6 +84,13 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: d4307ebaa19117c40af838e5ab5ae681,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1560634355228308, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1365721336191138629}
   m_SourcePrefab: {fileID: 100100000, guid: 5858b89c4790c084bb1915952309853d, type: 3}
 --- !u!1 &1600147492648282845 stripped
 GameObject:
@@ -98,5 +111,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stunTime: 4
+  passThroughStunImmunity: 1
   willDisarm: 1
   doMsg: 0

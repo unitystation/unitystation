@@ -147,7 +147,7 @@ TextureImporter:
       213: 6271202458095387006
     second: carpet_orange_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      carpet_orange_28: -6384740500229260915
-      carpet_orange_35: 6618797263747970108
-      carpet_orange_34: 6894440507941050796
-      carpet_orange_25: 6706641010578056640
-      carpet_orange_5: -1857390085566611051
-      carpet_orange_15: -832710855244076387
-      carpet_orange_1: 4343523090032800010
-      carpet_orange_36: 8108390789895425575
-      carpet_orange_26: 5263833583450539428
-      carpet_orange_10: -8899088202528735385
-      carpet_orange_33: 2887187874020047848
-      carpet_orange_9: -6725950770694797169
-      carpet_orange_27: 4119182889553624836
       carpet_orange_0: -3614913575238714831
-      carpet_orange_29: -2252408426340309968
-      carpet_orange_7: -5471461889858829128
-      carpet_orange_6: 6563105534239281362
-      carpet_orange_32: -8635866374289787851
-      carpet_orange_18: -6921466330029767387
-      carpet_orange_43: -3669243141371181745
+      carpet_orange_1: 4343523090032800010
+      carpet_orange_10: -8899088202528735385
       carpet_orange_11: 8448745252166093866
-      carpet_orange_13: -7794469191949715633
-      carpet_orange_22: 7664392805675233110
       carpet_orange_12: 1442226630749265835
-      carpet_orange_21: 5975355803167872783
-      carpet_orange_31: -4560010664062804050
-      carpet_orange_4: 2711769959590954079
-      carpet_orange_40: 5167165270220911202
-      carpet_orange_19: 4973541826584594609
-      carpet_orange_39: -8230391897700116372
-      carpet_orange_44: 972260878216676191
+      carpet_orange_13: -7794469191949715633
       carpet_orange_14: 8961373471170619339
-      carpet_orange_23: 8610854971589576021
-      carpet_orange_45: 5623818014297688542
-      carpet_orange_41: 5260906376916704354
-      carpet_orange_42: -8088945408163077814
-      carpet_orange_24: 4047145653411779750
+      carpet_orange_15: -832710855244076387
       carpet_orange_16: 6202504838531510652
       carpet_orange_17: -6164120332265483971
-      carpet_orange_30: -6388690694549885652
-      carpet_orange_8: 4697201905773998829
-      carpet_orange_20: -3986779945586941466
-      carpet_orange_46: -5372542320265756682
-      carpet_orange_37: -1302169952975757671
-      carpet_orange_3: -1301761643752997177
-      carpet_orange_47: 6271202458095387006
-      carpet_orange_38: -1610914546660582522
+      carpet_orange_18: -6921466330029767387
+      carpet_orange_19: 4973541826584594609
       carpet_orange_2: -8638850252919662649
-  spritePackingTag: 
+      carpet_orange_20: -3986779945586941466
+      carpet_orange_21: 5975355803167872783
+      carpet_orange_22: 7664392805675233110
+      carpet_orange_23: 8610854971589576021
+      carpet_orange_24: 4047145653411779750
+      carpet_orange_25: 6706641010578056640
+      carpet_orange_26: 5263833583450539428
+      carpet_orange_27: 4119182889553624836
+      carpet_orange_28: -6384740500229260915
+      carpet_orange_29: -2252408426340309968
+      carpet_orange_3: -1301761643752997177
+      carpet_orange_30: -6388690694549885652
+      carpet_orange_31: -4560010664062804050
+      carpet_orange_32: -8635866374289787851
+      carpet_orange_33: 2887187874020047848
+      carpet_orange_34: 6894440507941050796
+      carpet_orange_35: 6618797263747970108
+      carpet_orange_36: 8108390789895425575
+      carpet_orange_37: -1302169952975757671
+      carpet_orange_38: -1610914546660582522
+      carpet_orange_39: -8230391897700116372
+      carpet_orange_4: 2711769959590954079
+      carpet_orange_40: 5167165270220911202
+      carpet_orange_41: 5260906376916704354
+      carpet_orange_42: -8088945408163077814
+      carpet_orange_43: -3669243141371181745
+      carpet_orange_44: 972260878216676191
+      carpet_orange_45: 5623818014297688542
+      carpet_orange_46: -5372542320265756682
+      carpet_orange_47: 6271202458095387006
+      carpet_orange_5: -1857390085566611051
+      carpet_orange_6: 6563105534239281362
+      carpet_orange_7: -5471461889858829128
+      carpet_orange_8: 4697201905773998829
+      carpet_orange_9: -6725950770694797169
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

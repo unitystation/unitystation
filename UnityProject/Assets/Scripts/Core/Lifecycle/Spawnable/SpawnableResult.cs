@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 
 /// <summary>
@@ -73,7 +74,7 @@ public class SpawnableResult
 		var gameObjects = spawned as GameObject[] ?? spawned.ToArray();
 		if (gameObjects.Length == 0)
 		{
-			Logger.LogWarningFormat("SpawnableResult of Multiple objects has nothing to spawn at worldPos {0}", Category.ItemSpawn,
+			Loggy.LogWarningFormat("SpawnableResult of Multiple objects has nothing to spawn at worldPos {0}", Category.ItemSpawn,
 				destination.WorldPosition);
 			return Fail(destination);
 		}

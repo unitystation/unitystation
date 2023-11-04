@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
+using Managers;
 using Mirror;
 using UnityEditor;
 using UnityEngine.SceneManagement;
@@ -11,7 +13,7 @@ using UnityEngine;
 //The scene list on the server
 public partial class SubSceneManager
 {
-	public bool InitialLoadingComplete { get; private set;  } = false;
+	public bool ServerInitialLoadingComplete { get; private set; } = false;
 	private string serverChosenAwaySite = "loading";
 	private string serverChosenMainStation = "loading";
 
@@ -21,77 +23,103 @@ public partial class SubSceneManager
 	public static string AdminForcedAwaySite = "Random";
 	public static bool AdminAllowLavaland;
 
-	public static Dictionary<string, HashSet<int>> ConnectionLoadedRecord = new Dictionary<string , HashSet<int>>();
+	public static Dictionary<string, HashSet<int>> ConnectionLoadedRecord = new Dictionary<string, HashSet<int>>();
+
 	public IEnumerator RoundStartServerLoadSequence()
 	{
-		InitialLoadingComplete = false;
-		ConnectionLoadedRecord.Clear();//New round
+		SubSceneManagerNetworked.ScenesInitialLoadingComplete = false;
+		ServerInitialLoadingComplete = false;
+		SubsystemMatrixQueueInit.InitializedAll = false;
+
+		ConnectionLoadedRecord.Clear(); //New round
 		var loadTimer = new SubsceneLoadTimer();
 		//calculate load time:
 		loadTimer.MaxLoadTime = 20f + (asteroidList.Asteroids.Count * 10f);
 		loadTimer.IncrementLoadBar("Preparing..");
 
+		Loggy.Log(" waiting for addressables To load ");
 		while (AddressableCatalogueManager.FinishLoaded == false)
 		{
 			yield return null;
 		}
 
+		Loggy.Log(" Loading space ");
 		yield return StartCoroutine(ServerLoadSpaceScene(loadTimer));
 
 		//Choose and load a mainstation
+		Loggy.Log(" Loading main station ");
 		yield return StartCoroutine(ServerLoadMainStation(loadTimer));
 
 		if (GameManager.Instance.QuickLoad == false)
 		{
+			Loggy.Log(" Loading Asteroids ");
 			//Load Asteroids:
 			yield return StartCoroutine(ServerLoadAsteroids(loadTimer));
+			Loggy.Log(" Loading AwaySite ");
 			//Load away site:
 			yield return StartCoroutine(ServerLoadAwaySite(loadTimer));
+
+			Loggy.Log(" Loading CentCom ");
 			//Load CentCom Scene:
 			yield return StartCoroutine(ServerLoadCentCom(loadTimer));
 			//Load Additional Scenes:
+
+			Loggy.Log(" Loading AdditionalScenes ");
 			yield return StartCoroutine(ServerLoadAdditionalScenes(loadTimer));
 		}
 
 		SubSceneManagerNetworked.netIdentity.isDirty = true;
+		EventManager.Broadcast(Event.ReadyToInitialiseMatrices, false);
+		SubSceneManagerNetworked.ScenesInitialLoadingComplete = true;
 
-		yield return WaitFor.Seconds(0.1f);
+		Loggy.Log(" waiting for MatrixManager.IsInitialized");
+		while (MatrixManager.IsInitialized == false)
+		{
+			yield return null;
+		}
+
+
+		Loggy.Log(" Triggering for SubsystemMatrixQueueInit.InitAllSystems");
+		loadTimer.IncrementLoadBar("Loading Subsystems..");
+		yield return SubsystemMatrixQueueInit.InitAllSystems();
+
+		Loggy.Log(" waiting for SubsystemMatrixQueueInit.InitializedAll");
+		while (SubsystemMatrixQueueInit.InitializedAll == false)
+		{
+			yield return WaitFor.Seconds(1f);
+		}
+
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
-		EventManager.Broadcast( Event.ScenesLoadedServer, false);
-		Logger.Log($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
-		InitialLoadingComplete = true;
+		EventManager.Broadcast(Event.ScenesLoadedServer, false);
+		Loggy.Log($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
+		ServerInitialLoadingComplete = true;
 	}
 
 	//Load the space scene on the server
 	IEnumerator ServerLoadSpaceScene(SubsceneLoadTimer loadTimer)
 	{
 		loadTimer.IncrementLoadBar($"Loading the void of time and space");
-		yield return StartCoroutine(LoadSubScene("SpaceScene", loadTimer));
-		loadedScenesList.Add(new SceneInfo
-		{
-			SceneName = "SpaceScene",
-			SceneType = SceneType.Space
-		});
-		SubSceneManagerNetworked.netIdentity.isDirty = true;
+		yield return StartCoroutine(LoadSubScene("SpaceScene", loadTimer, default, SceneType.Space));
 	}
 
 	//Choose and load a main station on the server
 	IEnumerator ServerLoadMainStation(SubsceneLoadTimer loadTimer)
 	{
-		MainStationLoaded = true;
-		//Auto scene load stuff in editor:
 		var prevEditorScene = GetEditorPrevScene();
-		if (AdminForcedMainStation == "Random" && prevEditorScene.Contains("Lobby") == false && (prevEditorScene != ""))
+
+		if (AdminForcedMainStation is not "Random")
+		{
+			serverChosenMainStation = AdminForcedMainStation;
+		}
+		else if (prevEditorScene.Contains("Lobby") == false && (prevEditorScene != "") &&
+		         prevEditorScene.Contains("Online") == false &&
+		         GameData.Instance.DoNotLoadEditorPreviousScene == false) //TODO Game data option!!!!
 		{
 			serverChosenMainStation = prevEditorScene;
 		}
-		else if (AdminForcedMainStation == "Random")
-		{
-			serverChosenMainStation = mainStationList.GetRandomMainStation();
-		}
 		else
 		{
-			serverChosenMainStation = AdminForcedMainStation;
+			serverChosenMainStation = mainStationList.GetRandomMainStation();
 		}
 
 		//Reset map selector
@@ -99,13 +127,8 @@ public partial class SubSceneManager
 
 		loadTimer.IncrementLoadBar($"Loading {serverChosenMainStation}");
 		//load main station
-		yield return StartCoroutine(LoadSubScene(serverChosenMainStation, loadTimer));
-		loadedScenesList.Add(new SceneInfo
-		{
-			SceneName = serverChosenMainStation,
-			SceneType = SceneType.MainStation
-		});
-		SubSceneManagerNetworked.netIdentity.isDirty = true;
+		yield return StartCoroutine(LoadSubScene(serverChosenMainStation, loadTimer, default, SceneType.MainStation));
+		MainStationLoaded = true;
 	}
 
 	//Load all the asteroids on the server
@@ -115,14 +138,8 @@ public partial class SubSceneManager
 
 		foreach (var asteroid in asteroidList.Asteroids)
 		{
-			yield return StartCoroutine(LoadSubScene(asteroid, loadTimer));
-
-			loadedScenesList.Add(new SceneInfo
-			{
-				SceneName = asteroid,
-				SceneType = SceneType.Asteroid
-			});
-			SubSceneManagerNetworked.netIdentity.isDirty = true;
+			Loggy.Log($" Loading Asteroid {asteroid} ");
+			yield return StartCoroutine(LoadSubScene(asteroid, loadTimer, default, SceneType.Asteroid));
 		}
 	}
 
@@ -130,8 +147,9 @@ public partial class SubSceneManager
 	{
 		if (GameManager.Instance.QuickLoad)
 		{
-			yield return null;
+			yield break;
 		}
+
 		loadTimer.IncrementLoadBar("Loading CentCom");
 
 		//CENTCOM
@@ -141,30 +159,15 @@ public partial class SubSceneManager
 
 			if (centComData.DependentScene != serverChosenMainStation) continue;
 
-			yield return StartCoroutine(LoadSubScene(centComData.CentComSceneName, loadTimer));
-
-			loadedScenesList.Add(new SceneInfo
-			{
-				SceneName = centComData.CentComSceneName,
-				SceneType = SceneType.AdditionalScenes
-			});
-			SubSceneManagerNetworked.netIdentity.isDirty = true;
+			yield return StartCoroutine(LoadSubScene(centComData.CentComSceneName, loadTimer, default,
+				SceneType.AdditionalScenes));
 			yield break;
 		}
 
 		var pickedMap = additionalSceneList.defaultCentComScenes.PickRandom();
-
 		if (string.IsNullOrEmpty(pickedMap)) yield break;
-
 		//If no special CentCom load default.
-		yield return StartCoroutine(LoadSubScene(pickedMap, loadTimer));
-
-		loadedScenesList.Add(new SceneInfo
-		{
-			SceneName = pickedMap,
-			SceneType = SceneType.AdditionalScenes
-		});
-		SubSceneManagerNetworked.netIdentity.isDirty = true;
+		yield return StartCoroutine(LoadSubScene(pickedMap, loadTimer, default, SceneType.AdditionalScenes));
 	}
 
 	//Load all the asteroids on the server
@@ -172,7 +175,7 @@ public partial class SubSceneManager
 	{
 		if (GameManager.Instance.QuickLoad)
 		{
-			yield return null;
+			yield break;
 		}
 
 		loadTimer.IncrementLoadBar("Loading Additional Scenes");
@@ -180,7 +183,8 @@ public partial class SubSceneManager
 		{
 			//LAVALAND
 			//only spawn if game config allows
-			if (additionalScene == "LavaLand" && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand && !AdminAllowLavaland)
+			if (additionalScene == "LavaLand" && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand &&
+			    !AdminAllowLavaland)
 			{
 				continue;
 			}
@@ -195,14 +199,7 @@ public partial class SubSceneManager
 				AdminAllowLavaland = true;
 			}
 
-			yield return StartCoroutine(LoadSubScene(additionalScene, loadTimer));
-
-			loadedScenesList.Add(new SceneInfo
-			{
-				SceneName = additionalScene,
-				SceneType = SceneType.AdditionalScenes
-			});
-			SubSceneManagerNetworked.netIdentity.isDirty = true;
+			yield return StartCoroutine(LoadSubScene(additionalScene, loadTimer, default, SceneType.AdditionalScenes));
 		}
 	}
 
@@ -211,15 +208,10 @@ public partial class SubSceneManager
 	{
 		if (GameManager.Instance.QuickLoad)
 		{
-			yield return null;
+			yield break;
 		}
-		var prevEditorScene = GetEditorPrevScene();
-		//Load the away site
-		if (awayWorldList.AwayWorlds.Contains(prevEditorScene) && AdminForcedAwaySite == "Random")
-		{
-			serverChosenAwaySite = prevEditorScene;
-		}
-		else if(AdminForcedAwaySite == "Random")
+
+		if (AdminForcedAwaySite == "Random")
 		{
 			serverChosenAwaySite = awayWorldList.GetRandomAwaySite();
 		}
@@ -235,12 +227,6 @@ public partial class SubSceneManager
 		{
 			yield return StartCoroutine(LoadSubScene(serverChosenAwaySite, loadTimer));
 			AwaySiteLoaded = true;
-			loadedScenesList.Add(new SceneInfo
-			{
-				SceneName = serverChosenAwaySite,
-				SceneType = SceneType.HiddenScene
-			});
-			SubSceneManagerNetworked.netIdentity.isDirty = true;
 		}
 	}
 
@@ -264,14 +250,6 @@ public partial class SubSceneManager
 
 
 		yield return StartCoroutine(LoadSubScene(pickedMap));
-
-		loadedScenesList.Add(new SceneInfo
-		{
-			SceneName = pickedMap,
-			SceneType = SceneType.HiddenScene
-		});
-		SubSceneManagerNetworked.netIdentity.isDirty = true;
-
 		SyndicateScene = SceneManager.GetSceneByName(pickedMap);
 		SyndicateLoaded = true;
 
@@ -286,13 +264,6 @@ public partial class SubSceneManager
 
 		yield return StartCoroutine(LoadSubScene(pickedScene));
 
-		loadedScenesList.Add(new SceneInfo
-		{
-			SceneName = pickedScene,
-			SceneType = SceneType.HiddenScene
-		});
-		SubSceneManagerNetworked.netIdentity.isDirty = true;
-
 		WizardLoaded = true;
 		yield return TryWaitClients(pickedScene);
 	}
@@ -302,13 +273,13 @@ public partial class SubSceneManager
 		int Clients = NetworkServer.connections.Values.Count();
 
 		float Seconds = 0;
-		while (ConnectionLoadedRecord[SceneName].Count < Clients && Seconds < 10) //So hacked clients can't Mess up the round
+		while (ConnectionLoadedRecord[SceneName].Count < Clients &&
+		       Seconds < 10) //So hacked clients can't Mess up the round
 		{
 			yield return WaitFor.Seconds(0.25f);
 			Seconds += 0.25f;
 		}
 	}
-
 
 	#endregion
 

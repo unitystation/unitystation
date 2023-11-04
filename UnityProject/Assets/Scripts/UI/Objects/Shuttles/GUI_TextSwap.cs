@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +25,7 @@ namespace UI.Objects.Shuttles
 		{
 			if (shuttleControlScript == null || textToSet == null)
 			{
-				Logger.LogError("TextSwap script reference failure!", Category.UI);
+				Loggy.LogError("TextSwap script reference failure!", Category.UI);
 				enabled = false;
 				return;
 			}
@@ -36,7 +37,7 @@ namespace UI.Objects.Shuttles
 			}
 			else
 			{
-				Logger.LogWarning("No Key for UIType found in TextSwap. Leaving Text alone", Category.UI);
+				Loggy.LogWarning("No Key for UIType found in TextSwap. Leaving Text alone", Category.UI);
 			}
 		}
 	}

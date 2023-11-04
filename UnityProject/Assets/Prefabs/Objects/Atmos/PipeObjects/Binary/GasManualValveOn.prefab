@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 716967009373025164, guid: 0ce04d2255009ed439a0cdba7a369368,
@@ -13,6 +14,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 91d24efcd7af66c4da832d4fe8824bae,
         type: 2}
+    - target: {fileID: 4503050592185052212, guid: 0ce04d2255009ed439a0cdba7a369368,
+        type: 3}
+      propertyPath: _assetId
+      value: 509411409
+      objectReference: {fileID: 0}
     - target: {fileID: 4503050592185052212, guid: 0ce04d2255009ed439a0cdba7a369368,
         type: 3}
       propertyPath: m_AssetId
@@ -90,6 +96,13 @@ PrefabInstance:
       value: 33c0c1b328fbdb14790c4dd460e5c422
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5450443436599138646, guid: 0ce04d2255009ed439a0cdba7a369368,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7229242276663910974}
   m_SourcePrefab: {fileID: 100100000, guid: 0ce04d2255009ed439a0cdba7a369368, type: 3}
 --- !u!114 &678130187644499123 stripped
 MonoBehaviour:
@@ -184,9 +197,9 @@ MonoBehaviour:
       gasMix:
         GasData:
           GasesArray: []
-        Pressure: 0
+        pressure: 0
         Volume: 2.5
-        Temperature: 293.15
+        temperature: 293.15
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 1

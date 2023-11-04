@@ -3,7 +3,7 @@ guid: 3fbfd1bad814e5b4f8d54855c186fa32
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
-  isReadable: 0
+    flipGreenChannel: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -1134,57 +1137,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      weeds1_complete_16: -119826818
-      weeds1_complete_9: -1600717131
-      weeds1_complete_27: 1905703485
+      weeds1_complete_0: 666827569
       weeds1_complete_1: 563170467
-      weeds1_complete_43: -1761510145
-      weeds1_complete_30: 1507784189
-      weeds1_complete_23: 82841986
-      weeds1_complete_37: -770950353
-      weeds1_complete_25: -1103196851
-      weeds1_complete_39: 1391493482
-      weeds1_complete_38: -287855424
-      weeds1_complete_44: -270117495
-      weeds1_complete_13: 347753831
-      weeds1_complete_19: 1892821003
-      weeds1_complete_45: -570954466
-      weeds1_complete_7: -1330561814
-      weeds1_complete_17: 2101903571
-      weeds1_complete_33: -1441450138
-      weeds1_complete_3: 1519311700
-      weeds1_complete_36: 1800364377
-      weeds1_complete_40: -707329610
-      weeds1_complete_2: -1116608638
-      weeds1_complete_6: 275346680
       weeds1_complete_10: -27994684
-      weeds1_complete_4: -613716833
-      weeds1_complete_5: 2012870200
       weeds1_complete_11: -1299985233
-      weeds1_complete_42: 1907728177
       weeds1_complete_12: -1183637940
-      weeds1_complete_15: -344221543
+      weeds1_complete_13: 347753831
       weeds1_complete_14: -973118357
+      weeds1_complete_15: -344221543
+      weeds1_complete_16: -119826818
+      weeds1_complete_17: 2101903571
+      weeds1_complete_18: -1805113409
+      weeds1_complete_19: 1892821003
+      weeds1_complete_2: -1116608638
+      weeds1_complete_20: 1129046582
+      weeds1_complete_21: -24917768
+      weeds1_complete_22: 60906197
+      weeds1_complete_23: 82841986
+      weeds1_complete_24: -1978249909
+      weeds1_complete_25: -1103196851
+      weeds1_complete_26: -818085854
+      weeds1_complete_27: 1905703485
+      weeds1_complete_28: -1840865864
+      weeds1_complete_29: -820792937
+      weeds1_complete_3: 1519311700
+      weeds1_complete_30: 1507784189
       weeds1_complete_31: -1975185533
       weeds1_complete_32: 1950064474
-      weeds1_complete_28: -1840865864
-      weeds1_complete_0: 666827569
-      weeds1_complete_26: -818085854
+      weeds1_complete_33: -1441450138
       weeds1_complete_34: 1524274738
       weeds1_complete_35: 1426928205
-      weeds1_complete_8: -478286578
-      weeds1_complete_47: 1450357980
+      weeds1_complete_36: 1800364377
+      weeds1_complete_37: -770950353
+      weeds1_complete_38: -287855424
+      weeds1_complete_39: 1391493482
+      weeds1_complete_4: -613716833
+      weeds1_complete_40: -707329610
       weeds1_complete_41: -1952572086
-      weeds1_complete_24: -1978249909
+      weeds1_complete_42: 1907728177
+      weeds1_complete_43: -1761510145
+      weeds1_complete_44: -270117495
+      weeds1_complete_45: -570954466
       weeds1_complete_46: 126543113
-      weeds1_complete_29: -820792937
-      weeds1_complete_18: -1805113409
-      weeds1_complete_20: 1129046582
-      weeds1_complete_22: 60906197
-      weeds1_complete_21: -24917768
-  spritePackingTag: 
+      weeds1_complete_47: 1450357980
+      weeds1_complete_5: 2012870200
+      weeds1_complete_6: 275346680
+      weeds1_complete_7: -1330561814
+      weeds1_complete_8: -478286578
+      weeds1_complete_9: -1600717131
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

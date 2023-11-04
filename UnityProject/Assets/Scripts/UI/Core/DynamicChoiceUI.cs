@@ -15,6 +15,7 @@ namespace UI.Core
 	{
 		[SerializeField] private Transform entryPrefab;
 		[SerializeField] private Transform scrollContent;
+		[SerializeField] private Transform closeButton;
 		[SerializeField] private TMP_Text windowText;
 		[SerializeField] private TMP_Text choiceInfoText;
 
@@ -33,7 +34,7 @@ namespace UI.Core
 			base.OnDestroy();
 		}
 
-		public static void DisplayChoices(string windowName, string choiceInfo, List<DynamicUIChoiceEntryData> choices)
+		public static void ClientDisplayChoicesNotNetworked(string windowName, string choiceInfo, List<DynamicUIChoiceEntryData> choices, bool allowClose = false)
 		{
 			Instance.SetActive(true);
 			Instance.ClearChoices();
@@ -43,7 +44,7 @@ namespace UI.Core
 				entry.GetComponent<DynamicChoiceEntry>().Setup(choice.Text, choice.Icon, choice.ChoiceAction);
 				entry.SetActive(true);
 			}
-
+			Instance.closeButton.SetActive(allowClose);
 			Instance.windowText.text = windowName;
 			Instance.choiceInfoText.text = choiceInfo;
 		}

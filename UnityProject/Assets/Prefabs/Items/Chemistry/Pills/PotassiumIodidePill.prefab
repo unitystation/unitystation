@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2501853773697365535, guid: 41b8ba286ee48d147b5b90a4535e27c8,
@@ -30,35 +31,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7721682058840470234, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: c5ecd98bc2e89ecb79437541929c25de,
         type: 2}
     - target: {fileID: 7721682058840470234, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 7536c223a16702e289aa3b3f8a3ebc5a,
         type: 2}
     - target: {fileID: 7721682058840470234, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 7536c223a16702e289aa3b3f8a3ebc5a,
         type: 2}
     - target: {fileID: 7721682058840470234, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7721682058840470234, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[1]'
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7721682058840470234, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[2]'
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8715330287640054062, guid: 41b8ba286ee48d147b5b90a4535e27c8,
@@ -129,6 +130,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8905537019261093830, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
+      propertyPath: _assetId
+      value: 2522411547
+      objectReference: {fileID: 0}
+    - target: {fileID: 8905537019261093830, guid: 41b8ba286ee48d147b5b90a4535e27c8,
+        type: 3}
       propertyPath: m_AssetId
       value: c98099b78c566a943a336fc1c0d423f4
       objectReference: {fileID: 0}
@@ -143,4 +149,7 @@ PrefabInstance:
       value: Used to reduce low radiation damage very effectively.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41b8ba286ee48d147b5b90a4535e27c8, type: 3}

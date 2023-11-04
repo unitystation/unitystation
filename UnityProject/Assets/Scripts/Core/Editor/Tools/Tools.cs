@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Logs;
 using Systems.CraftingV2;
 using Systems.Electricity;
 using Objects.Lighting;
@@ -40,7 +41,7 @@ namespace Core.Editor.Tools
 				directional.Refresh();
 			}
 
-			Logger.Log($"Refreshed {rotatables.Length} rotatables", Category.Editor);
+			Loggy.Log($"Refreshed {rotatables.Length} rotatables", Category.Editor);
 		}
 
 		[MenuItem("Mapping/Set all sceneids to 0")]
@@ -54,7 +55,7 @@ namespace Core.Editor.Tools
 				EditorUtility.SetDirty(allNets[i]);
 			}
 
-			Logger.Log($"Set {allNets.Length} scene ids", Category.Editor);
+			Loggy.Log($"Set {allNets.Length} scene ids", Category.Editor);
 		}
 
 		[MenuItem("Mapping/Monopipe Link Checker")]
@@ -62,7 +63,7 @@ namespace Core.Editor.Tools
 		{
 			if (Application.isPlaying == false)
 			{
-				Logger.LogError($"This can only be run in playmode", Category.Editor);
+				Loggy.LogError($"This can only be run in playmode", Category.Editor);
 				return;
 			}
 
@@ -98,7 +99,7 @@ namespace Core.Editor.Tools
 				}
 			}
 
-			Logger.LogError(stringBuilder.ToString(), Category.Editor);
+			Loggy.LogError(stringBuilder.ToString(), Category.Editor);
 		}
 
 		[MenuItem("Networking/Find all network identities without visibility component (Scene Check)")]
@@ -146,7 +147,7 @@ namespace Core.Editor.Tools
 			{
 				var net = allNets[i].GetComponent<NetworkIdentity>();
 
-				if (net.assetId == Guid.Empty)
+				if (net.assetId == 0)
 				{
 					Debug.Log($"{allNets[i].name} has empty asset id");
 				}
@@ -381,7 +382,7 @@ namespace Core.Editor.Tools
 
 				if (melees == null || melees.Length <= 1) continue;
 
-				Logger.LogFormat("Removing duplicate Meleeables from {0}", Category.Editor, rootPrefabGO.name);
+				Loggy.LogFormat("Removing duplicate Meleeables from {0}", Category.Editor, rootPrefabGO.name);
 
 				//remove excess
 				for (int i = 1; i < melees.Length; i++)
@@ -430,7 +431,7 @@ namespace Core.Editor.Tools
 				}
 			}
 
-			Logger.Log($"Centered {count} objects!");
+			Loggy.Log($"Centered {count} objects!");
 		}
 
 		public static List<GameObject> LoadAllPrefabsOfType(string path)
@@ -571,7 +572,7 @@ namespace Core.Editor.Tools
 				foundRecipe = true;
 				if (relatedRecipe.IngredientIndex != indexInRecipe)
 				{
-					Logger.Log(
+					Loggy.Log(
 						$"A crafting ingredient ({requiredIngredient}) had a wrong related recipe index, " +
 						"but was fixed automatically. " +
 						$"Expected {indexInRecipe}, but found: {relatedRecipe.IngredientIndex}."
@@ -585,7 +586,7 @@ namespace Core.Editor.Tools
 
 			if (foundRecipe == false)
 			{
-				Logger.Log(
+				Loggy.Log(
 					$"A crafting ingredient ({requiredIngredient}) didn't have a link to a recipe " +
 					$"({checkingRecipe}) in its RelatedRecipes list, since the recipe requires this " +
 					"ingredient (prefab), any of it's heirs (prefab variants) " +

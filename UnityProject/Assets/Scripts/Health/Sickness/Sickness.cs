@@ -6,6 +6,7 @@ using ScriptableObjects.RP;
 using System.Collections.Generic;
 using System.Linq;
 using Chemistry;
+using Logs;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -40,7 +41,7 @@ namespace Health.Sickness
 			{
 				if (value > NumberOfStages)
 				{
-					Logger.LogError("[Sickness] - Attempted setting stage for sickness that was bigger than the identified stages.");
+					Loggy.LogError("[Sickness] - Attempted setting stage for sickness that was bigger than the identified stages.");
 					return;
 				}
 				currentStage = value;
@@ -145,7 +146,7 @@ namespace Health.Sickness
 
 		public virtual bool CheckForCureInHealth(LivingHealthMasterBase health)
 		{
-			return health.CirculatorySystem.BloodPool.reagentKeys.Contains(CureForSickness) || health.CirculatorySystem.NutrimentToConsume.ContainsKey(CureForSickness);
+			return health.reagentPoolSystem.BloodPool.reagentKeys.Contains(CureForSickness);
 		}
 
 		protected virtual IEnumerator Cooldown()

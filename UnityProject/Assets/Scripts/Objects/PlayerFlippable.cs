@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using Messages.Client.Interaction;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ namespace Objects
 
 		public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (TryGetComponent(out UniversalObjectPhysics behaviour) && behaviour.IsNotPushable) return false;
 
 			return DefaultWillInteract.Default(interaction, side);
@@ -58,7 +59,7 @@ namespace Objects
 			}
 			else
 			{
-				Logger.LogError(
+				Loggy.LogError(
 						$"Failed to spawn {name}'s flipped version! " +
 						$"Is {name} missing reference to {nameof(flippedObject)} prefab?", Category.Interaction);
 			}

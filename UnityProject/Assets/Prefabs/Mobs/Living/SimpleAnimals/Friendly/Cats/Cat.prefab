@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 115354289348249290, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
@@ -36,19 +37,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2981390789209867571, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
-      propertyPath: butcherResults.Array.data[0]
+      propertyPath: 'butcherResults.Array.data[0]'
       value: 
       objectReference: {fileID: 2786145059108661523, guid: 9914f83c172606747877a09872724398,
         type: 3}
     - target: {fileID: 2981390789209867571, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
-      propertyPath: butcherResults.Array.data[1]
+      propertyPath: 'butcherResults.Array.data[1]'
       value: 
       objectReference: {fileID: 2786145059108661523, guid: 9914f83c172606747877a09872724398,
         type: 3}
     - target: {fileID: 2981390789209867571, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
-      propertyPath: butcherResults.Array.data[2]
+      propertyPath: 'butcherResults.Array.data[2]'
       value: 
       objectReference: {fileID: 6989094639558291709, guid: 091452380cc20484c9d50501ddce41dd,
         type: 3}
@@ -76,13 +77,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3892885952370613718, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 639fe71c8579b98479fe7f032db1bb85,
         type: 2}
     - target: {fileID: 3892885952370613718, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 7cae565d729bddf47810b6ef22670e5e,
         type: 2}
@@ -128,6 +129,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7581244375763357991, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
+      propertyPath: _assetId
+      value: 3805496732
+      objectReference: {fileID: 0}
+    - target: {fileID: 7581244375763357991, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
       propertyPath: m_AssetId
       value: e481edcb288d49f488b609f15236afbe
       objectReference: {fileID: 0}
@@ -138,12 +144,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7875067654017434073, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
-      propertyPath: foodPreferences.Array.data[0]
+      propertyPath: 'foodPreferences.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: cb77d9615b5e2ea49a8dfab460a66df9,
         type: 2}
     m_RemovedComponents:
     - {fileID: 3329383262291247399, guid: f74cbb9054020dd4f8c9dcdedd7398eb, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7540635897288641467, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2103681918909080673}
+    - targetCorrespondingSourceObject: {fileID: 7540635897288641467, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2433723279685620094}
   m_SourcePrefab: {fileID: 100100000, guid: f74cbb9054020dd4f8c9dcdedd7398eb, type: 3}
 --- !u!1 &2144788095502372098 stripped
 GameObject:
@@ -163,6 +180,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e4b4c6fc6efb9f42af4b869972cd4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: cat
   registerObject: {fileID: 0}
   minTimeBetweenRandomActions: 15
@@ -204,7 +224,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 857bf8f3709511b4fb9178b76caed382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UniversalObjectPhysics: {fileID: 0}
   AllowDead: 0
   AllowUnconscious: 0
   Priority: 0

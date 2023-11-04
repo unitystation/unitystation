@@ -2,6 +2,7 @@
 using Messages.Server;
 using UnityEngine;
 using Mirror;
+using NaughtyAttributes;
 using WebSocketSharp;
 
 public class Paper : NetworkBehaviour, IServerSpawn
@@ -20,6 +21,11 @@ public class Paper : NetworkBehaviour, IServerSpawn
 
 	private Pickupable pickupable;
 	private SpriteHandler spriteHandler;
+
+	[field: SerializeField, InfoBox("Only change this if you require more than 22 lines as a mapper!", EInfoBoxType.Warning)]
+	public int CustomLineLimit { get; private set; } = 22;
+	[field: SerializeField, InfoBox("Values higher than 1750 tend to be problematic without proper styling!", EInfoBoxType.Warning)]
+	public int CustomCharacterLimit { get; private set; } = 1750;
 
 	private enum SpriteState
 	{
@@ -55,7 +61,7 @@ public class Paper : NetworkBehaviour, IServerSpawn
 
 	private void UpdateState(SpriteState state)
 	{
-		spriteHandler.ChangeSprite((int) state);
+		spriteHandler.SetCatalogueIndexSprite((int) state);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)

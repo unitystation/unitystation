@@ -87,7 +87,7 @@ TextureImporter:
       213: 21300054
     second: emitter_magic_a_27
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,6 +148,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -162,6 +165,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -774,37 +789,36 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      emitter_magic_a_15: 21300030
-      emitter_magic_a_27: 21300054
-      emitter_magic_a_23: 21300046
-      emitter_magic_a_5: 21300010
-      emitter_magic_a_14: 21300028
-      emitter_magic_a_20: 21300040
-      emitter_magic_a_1: 21300002
       emitter_magic_a_0: 21300000
-      emitter_magic_a_6: 21300012
-      emitter_magic_a_17: 21300034
-      emitter_magic_a_21: 21300042
-      emitter_magic_a_25: 21300050
-      emitter_magic_a_24: 21300048
-      emitter_magic_a_9: 21300018
+      emitter_magic_a_1: 21300002
+      emitter_magic_a_10: 21300020
       emitter_magic_a_11: 21300022
-      emitter_magic_a_8: 21300016
-      emitter_magic_a_13: 21300026
       emitter_magic_a_12: 21300024
-      emitter_magic_a_26: 21300052
-      emitter_magic_a_2: 21300004
+      emitter_magic_a_13: 21300026
+      emitter_magic_a_14: 21300028
+      emitter_magic_a_15: 21300030
+      emitter_magic_a_16: 21300032
+      emitter_magic_a_17: 21300034
       emitter_magic_a_18: 21300036
       emitter_magic_a_19: 21300038
-      emitter_magic_a_7: 21300014
-      emitter_magic_a_3: 21300006
-      emitter_magic_a_16: 21300032
-      emitter_magic_a_10: 21300020
-      emitter_magic_a_4: 21300008
+      emitter_magic_a_2: 21300004
+      emitter_magic_a_20: 21300040
+      emitter_magic_a_21: 21300042
       emitter_magic_a_22: 21300044
-  spritePackingTag: 
+      emitter_magic_a_23: 21300046
+      emitter_magic_a_24: 21300048
+      emitter_magic_a_25: 21300050
+      emitter_magic_a_26: 21300052
+      emitter_magic_a_27: 21300054
+      emitter_magic_a_3: 21300006
+      emitter_magic_a_4: 21300008
+      emitter_magic_a_5: 21300010
+      emitter_magic_a_6: 21300012
+      emitter_magic_a_7: 21300014
+      emitter_magic_a_8: 21300016
+      emitter_magic_a_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

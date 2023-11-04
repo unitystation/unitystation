@@ -108,7 +108,7 @@ TextureImporter:
       213: 21300068
     second: cobweb2_34
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -125,11 +125,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -168,6 +169,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -183,6 +186,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -942,44 +957,43 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      cobweb2_31: 21300062
-      cobweb2_8: 21300016
-      cobweb2_1: 21300002
-      cobweb2_17: 21300034
-      cobweb2_14: 21300028
-      cobweb2_23: 21300046
-      cobweb2_10: 21300020
       cobweb2_0: 21300000
-      cobweb2_30: 21300060
-      cobweb2_21: 21300042
-      cobweb2_24: 21300048
-      cobweb2_3: 21300006
-      cobweb2_28: 21300056
-      cobweb2_13: 21300026
-      cobweb2_22: 21300044
-      cobweb2_15: 21300030
-      cobweb2_5: 21300010
-      cobweb2_19: 21300038
-      cobweb2_26: 21300052
+      cobweb2_1: 21300002
+      cobweb2_10: 21300020
       cobweb2_11: 21300022
-      cobweb2_18: 21300036
-      cobweb2_33: 21300066
       cobweb2_12: 21300024
-      cobweb2_32: 21300064
-      cobweb2_4: 21300008
-      cobweb2_2: 21300004
-      cobweb2_6: 21300012
-      cobweb2_29: 21300058
+      cobweb2_13: 21300026
+      cobweb2_14: 21300028
+      cobweb2_15: 21300030
       cobweb2_16: 21300032
-      cobweb2_7: 21300014
-      cobweb2_9: 21300018
-      cobweb2_25: 21300050
-      cobweb2_34: 21300068
-      cobweb2_27: 21300054
+      cobweb2_17: 21300034
+      cobweb2_18: 21300036
+      cobweb2_19: 21300038
+      cobweb2_2: 21300004
       cobweb2_20: 21300040
-  spritePackingTag: 
+      cobweb2_21: 21300042
+      cobweb2_22: 21300044
+      cobweb2_23: 21300046
+      cobweb2_24: 21300048
+      cobweb2_25: 21300050
+      cobweb2_26: 21300052
+      cobweb2_27: 21300054
+      cobweb2_28: 21300056
+      cobweb2_29: 21300058
+      cobweb2_3: 21300006
+      cobweb2_30: 21300060
+      cobweb2_31: 21300062
+      cobweb2_32: 21300064
+      cobweb2_33: 21300066
+      cobweb2_34: 21300068
+      cobweb2_4: 21300008
+      cobweb2_5: 21300010
+      cobweb2_6: 21300012
+      cobweb2_7: 21300014
+      cobweb2_8: 21300016
+      cobweb2_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
