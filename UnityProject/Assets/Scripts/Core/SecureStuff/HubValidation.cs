@@ -173,7 +173,6 @@ namespace SecureStuff
 		{
 			get
 			{
-				return true;
 #if UNITY_EDITOR
 				return true;
 #endif
