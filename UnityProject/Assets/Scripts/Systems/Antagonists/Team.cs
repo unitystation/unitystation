@@ -133,7 +133,7 @@ namespace Antagonists
 				if (teamPlayer.Owner != null && teamPlayer.Owner.Body != null)
 				{
 					message.AppendLine($"(Current status {(teamPlayer.Owner.Body.IsDeadOrGhost ? "<color=red>Dead</color>" : "<color=green>Alive</color>")})");
-					message.AppendLine($"had following objectives: {teamPlayer.GetObjectiveStatusNonRich()}");
+					message.AppendLine($"had following objectives: {teamPlayer.GetObjectiveStatus()}");
 				} else
 				{
 					message.AppendLine($"(Current status unknown)");
