@@ -115,7 +115,7 @@ namespace DatabaseAPI
 			var requestData = "";
 			try
 			{
-				Loggy.Log("SendServerStatus Started");
+				Loggy.LogTrace("SendServerStatus Started");
 				if (string.IsNullOrEmpty(config.HubUser) || string.IsNullOrEmpty(config.HubPass))
 				{
 					Loggy.LogWarning("Invalid Hub creds found, aborting HUB connection");
@@ -162,7 +162,7 @@ namespace DatabaseAPI
 
 				status.fps = (int)FPSMonitor.Instance.Current;
 				requestData = JsonConvert.SerializeObject(loginRequest);
-				Loggy.Log("SendServerStatus got to requestData");
+				Loggy.LogTrace("SendServerStatus got to requestData");
 
 			}
 			catch (Exception e)
@@ -174,19 +174,19 @@ namespace DatabaseAPI
 
 	        try
 	        {
-		        Loggy.Log("SendServerStatus hubLogin");
+		        Loggy.LogTrace("SendServerStatus hubLogin");
 	            string escapedData = Uri.EscapeDataString(requestData);
 	            HttpResponseMessage response = await  SafeHttpRequest.GetAsync(hubLogin + escapedData);
 
 	            if (response.IsSuccessStatusCode)
 	            {
-		            Loggy.Log("SendServerStatus response.IsSuccessStatusCode");
+		            Loggy.LogTrace("SendServerStatus response.IsSuccessStatusCode");
 	                string responseBody = await response.Content.ReadAsStringAsync();
 	                var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(responseBody);
 
 	                if (apiResponse.errorCode == 0)
 	                {
-		                Loggy.Log("SendServerStatus apiResponse.errorCode == 0");
+		                Loggy.LogTrace("SendServerStatus apiResponse.errorCode == 0");
 	                    string cookieHeader = response.Headers.GetValues("set-cookie")?.FirstOrDefault();
 	                    if (!string.IsNullOrEmpty(cookieHeader))
 	                    {
@@ -243,7 +243,7 @@ namespace DatabaseAPI
 				}
 				else
 				{
-					Loggy.Log("SendServerStatus hubUpdate response.IsSuccessStatusCode");
+					Loggy.LogTrace("SendServerStatus hubUpdate response.IsSuccessStatusCode");
 				}
 			}
 			catch (Exception ex)
@@ -251,7 +251,7 @@ namespace DatabaseAPI
 				Loggy.LogError("Error: " + ex.Message);
 			}
 
-			Loggy.Log("SendServerStatus end");
+			Loggy.LogTrace("SendServerStatus end");
 		}
 
 
