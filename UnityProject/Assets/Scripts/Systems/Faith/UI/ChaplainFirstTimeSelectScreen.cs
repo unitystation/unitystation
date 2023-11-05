@@ -54,8 +54,9 @@ namespace Systems.Faith.UI
 		public void OnChooseFaith()
 		{
 			gameObject.SetActive(false);
-			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdJoinFaith(currentSelectedFaith.FaithName);
-			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSetMainFaith();
+			PlayerManager.LocalPlayerScript.PlayerFaith.CreateNewFaith(currentSelectedFaith.FaithName);
+			PlayerManager.LocalPlayerScript.PlayerFaith.JoinReligion(currentSelectedFaith.FaithName);
+			PlayerManager.LocalPlayerScript.PlayerFaith.AddNewFaithLeader();
 		}
 	}
 }

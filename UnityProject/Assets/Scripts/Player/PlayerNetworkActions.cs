@@ -1049,25 +1049,4 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerScript.playerMove.ResetEverything();
 		playerScript.playerMove.ResetLocationOnClients();
 	}
-
-	[Command]
-	public void CmdJoinFaith(string faith)
-	{
-		playerScript.JoinReligion(faith);
-	}
-
-	[Command]
-	public void CmdSetMainFaith()
-	{
-		if (FaithManager.Instance.FaithLeaders.Contains(playerScript) == false) return;
-		FaithManager.Instance.SetMainFaith(playerScript.CurrentFaith);
-		FaithManager.Instance.FaithMembers.Add(playerScript);
-	}
-
-	
-	[TargetRpc]
-	public void RpcShowFaithSelectScreen(NetworkConnection target)
-	{
-		UIManager.Instance.ChaplainFirstTimeSelectScreen.gameObject.SetActive(true);
-	}
 }

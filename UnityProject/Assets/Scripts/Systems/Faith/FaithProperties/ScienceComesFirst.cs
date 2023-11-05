@@ -16,15 +16,18 @@ namespace Systems.Faith.FaithProperties
 			set => propertyIcon = value;
 		}
 
-		public void Setup()
+		public FaithData AssociatedFaith { get; set; }
+
+		public void Setup(FaithData associatedFaith)
 		{
 			ScoreMachine.Instance.OnScoreChanged.AddListener(TrackScore);
+			AssociatedFaith = associatedFaith;
 		}
 
 		private void TrackScore(string name, int score)
 		{
 			if (name != RoundEndScoreBuilder.COMMON_SCORE_SCIENCEPOINTS || score < 1) return;
-			FaithManager.AwardPoints(score);
+			FaithManager.AwardPoints(score, AssociatedFaith.Faith.FaithName);
 		}
 
 		public void OnJoinFaith(PlayerScript newMember) { /* intentionally left empty */ }

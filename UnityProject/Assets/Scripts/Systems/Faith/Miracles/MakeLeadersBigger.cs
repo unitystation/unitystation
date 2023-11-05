@@ -28,9 +28,9 @@ namespace Systems.Faith.Miracles
 		}
 
 		public int MiracleCost { get; set; } = 100;
-		public void DoMiracle()
+		public void DoMiracle(FaithData associatedFaith, PlayerScript invoker = null)
 		{
-			foreach (var leader in FaithManager.Instance.FaithLeaders)
+			foreach (var leader in associatedFaith.FaithLeaders)
 			{
 				if (leader.TryGetComponent<ScaleSync>(out var scale) == false) continue;
 				int scaleNew = Random.Range(2, 3);

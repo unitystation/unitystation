@@ -31,9 +31,9 @@ namespace Systems.Faith.Miracles
 		public int MiracleCost { get; set; } = 1500;
 
 
-		public void DoMiracle()
+		public void DoMiracle(FaithData associatedFaith, PlayerScript invoker = null)
 		{
-			foreach (var member in FaithManager.Instance.FaithMembers)
+			foreach (var member in associatedFaith.FaithMembers)
 			{
 				if (member.IsDeadOrGhost) continue;
 				member.playerHealth.FullyHeal();

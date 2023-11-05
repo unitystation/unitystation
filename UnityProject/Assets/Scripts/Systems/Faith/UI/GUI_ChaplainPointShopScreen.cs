@@ -17,8 +17,8 @@ namespace Systems.Faith.UI
 		[SerializeField] private NetSpriteHandler image;
 
 		private HolyBook provider;
-
 		private ShopItemButton currentlySelectedMiracle;
+		public FaithData HolderFaith { get; private set; }
 
 		private void Start()
 		{
@@ -39,9 +39,12 @@ namespace Systems.Faith.UI
 		private void RefreshShop()
 		{
 			if (IsMasterTab == false) return;
-			balanceText.MasterSetValue($"Current Balance: <b>{FaithManager.Instance.FaithPoints.ToString()}</b>");
+			if (provider == null) return;
+			if (provider.lastTouchedBy == null) return;
+			HolderFaith = FaithManager.Instance.CurrentFaiths.Find(x => x.Faith.FaithName == provider.lastTouchedBy.CurrentFaith.FaithName);
+			balanceText.MasterSetValue($"Current Balance: <b>{HolderFaith.Points.ToString()}</b>");
 			shopListTransform.Clear();
-			foreach (var miracle in FaithManager.Instance.CurrentFaith.FaithMiracles)
+			foreach (var miracle in HolderFaith.Faith.FaithMiracles)
 			{
 				var newItem = shopListTransform.AddItem() as ShopItemButton;
 				if (newItem == null)
@@ -72,7 +75,7 @@ namespace Systems.Faith.UI
 
 		public void OnMasterBuy()
 		{
-			if (FaithManager.Instance.FaithPoints < currentlySelectedMiracle.Miracle.MiracleCost)
+			if (HolderFaith.Points < currentlySelectedMiracle.Miracle.MiracleCost)
 			{
 				foreach (var peeper in Peepers)
 				{
@@ -80,7 +83,7 @@ namespace Systems.Faith.UI
 				}
 				return;
 			}
-			FaithManager.TakePoints(currentlySelectedMiracle.Miracle.MiracleCost);
+			FaithManager.TakePoints(currentlySelectedMiracle.Miracle.MiracleCost, HolderFaith.Faith.FaithName);
 			currentlySelectedMiracle.DoMiracle();
 			foreach (var peeper in Peepers)
 			{

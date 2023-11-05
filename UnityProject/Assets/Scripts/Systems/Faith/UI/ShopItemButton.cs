@@ -25,7 +25,7 @@ namespace Systems.Faith.UI
 
 		public void DoMiracle()
 		{
-			Miracle.DoMiracle();
+			Miracle.DoMiracle(screen.HolderFaith);
 		}
 
 		public void OnCategoryChosen()

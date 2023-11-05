@@ -38,9 +38,12 @@ namespace Systems.Faith.FaithProperties
 			set => propertyIcon = value;
 		}
 
-		public void Setup()
+		public FaithData AssociatedFaith { get; set; }
+
+		public void Setup(FaithData associatedFaith)
 		{
 			//Todo: Finish transhumanist setup to include checks for body status
+			((IFaithProperty)this).AssociatedFaith = associatedFaith;
 		}
 
 		public void OnJoinFaith(PlayerScript newMember)
