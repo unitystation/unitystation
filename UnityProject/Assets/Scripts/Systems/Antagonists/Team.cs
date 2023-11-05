@@ -1,11 +1,6 @@
 using System.Collections.Generic;
-using NaughtyAttributes;
-using AddressableReferences;
-using Player;
-using Systems.GhostRoles;
 using System.Text;
 using System.Linq;
-using System;
 using StationObjectives;
 
 namespace Antagonists

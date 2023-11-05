@@ -5,7 +5,6 @@ using System.Linq;
 using UnityEngine;
 using ScriptableObjects;
 using Systems.Character;
-using UI.Character;
 using Antagonists;
 
 namespace Systems.GhostRoles
