@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Strings;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 namespace Antagonists
@@ -157,21 +158,6 @@ namespace Antagonists
 		public string GetObjectiveStatus()
 		{
 			StringBuilder objSB = new StringBuilder($"<b>{Owner.Body.playerName}</b>, {Owner.occupation.DisplayName}\n", 200);
-			var objectiveList = Objectives.ToList();
-			for (int i = 0; i < objectiveList.Count; i++)
-			{
-				objSB.Append($"{i+1}. {objectiveList[i].Description}: ");
-				objSB.AppendLine(objectiveList[i].IsComplete() ? "<color=green><b>Completed</b></color>" : "<color=red><b>Failed</b></color>");
-			}
-			return objSB.ToString();
-		}
-
-		/// <summary>
-		/// Returns a string with the status of all objectives for this antag
-		/// </summary>
-		public string GetObjectiveStatusWiouthName()
-		{
-			StringBuilder objSB = new StringBuilder($"\n", 200);
 			var objectiveList = Objectives.ToList();
 			for (int i = 0; i < objectiveList.Count; i++)
 			{

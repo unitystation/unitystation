@@ -154,6 +154,42 @@ namespace Antagonists
 			return message.ToString();
 		}
 
+		public virtual string GetObjectiveStatusNonRich()
+		{
+			var message = new StringBuilder($"\nThe {GetTeamName()} were: ");
+			var objectiveList = teamObjectives.ToList();
+			bool noPlayerShown = true;
+			foreach (var teamPlayer in teamMembers)
+			{
+				if (teamPlayer.CurTeam != this)
+					continue;
+				noPlayerShown = false;
+				message.AppendLine($"Team member was {teamPlayer.GetPlayerName()}");
+				if (teamPlayer.Owner != null && teamPlayer.Owner.Body != null)
+				{
+					message.AppendLine($"(Current status {(teamPlayer.Owner.Body.IsDeadOrGhost ? "Dead" : "Alive")})");
+					message.AppendLine($"had following objectives: {teamPlayer.GetObjectiveStatusNonRich()}");
+				}
+				else
+				{
+					message.AppendLine($"(Current status unknown)");
+				}
+			}
+			if (noPlayerShown == true)
+			{
+				message.AppendLine($"Current team members status unknown");
+			}
+
+			if (objectiveList.Count > 0)
+				message.AppendLine($"{GetTeamName()} had following objectives: ");
+			for (int i = 0; i < objectiveList.Count; i++)
+			{
+				message.AppendLine($"{i + 1}. {objectiveList[i].Description}: ");
+				message.AppendLine(objectiveList[i].IsComplete() ? "Completed" : "Failed");
+			}
+			return message.ToString();
+		}
+
 		public string GetTeamName()
 		{
 			if (CustomTeamName.Length > 0)

@@ -290,7 +290,7 @@ namespace Antagonists
 				if (x.Mind.AntagPublic.Antagonist == null && x.Mind.AntagPublic.CurTeam == null && x.Mind.AntagPublic.Objectives.Count() > 0)
 				{
 					statusSB.AppendLine($"<size={ChatTemplates.LargeText}>The <b>{x.Name} objectives</b> were:\n</size>");
-					message.AppendLine($"\n{x.Mind.AntagPublic.GetObjectiveStatusWiouthName()}\n");
+					message.AppendLine($"\n{x.Mind.AntagPublic.GetObjectiveStatusNonRich()}\n");
 					statusSB.AppendLine(x.Mind.AntagPublic.GetObjectiveStatus());
 				}
 			}
@@ -299,7 +299,7 @@ namespace Antagonists
 			{
 				if (x.Value.TeamMembers.Count > 0 && x.Value.Data.NeedToBeShownAtRoundEnd == true)
 				{
-					message.AppendLine(x.Value.GetObjectiveStatus());
+					message.AppendLine(x.Value.GetObjectiveStatusNonRich());
 					statusSB.AppendLine(x.Value.GetObjectiveStatus());
 				}
 			}
