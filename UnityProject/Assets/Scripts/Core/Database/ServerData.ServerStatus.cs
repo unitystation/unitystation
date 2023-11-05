@@ -176,6 +176,8 @@ namespace DatabaseAPI
 	        {
 		        Loggy.LogTrace("SendServerStatus hubLogin");
 	            string escapedData = Uri.EscapeDataString(requestData);
+	            Loggy.LogTrace("SendServerStatus GetAsync " + (hubLogin + escapedData).Replace(config.HubUser, "<username>").Replace(config.HubPass, "<password>"));
+
 	            HttpResponseMessage response = await  SafeHttpRequest.GetAsync(hubLogin + escapedData);
 
 	            if (response.IsSuccessStatusCode)
