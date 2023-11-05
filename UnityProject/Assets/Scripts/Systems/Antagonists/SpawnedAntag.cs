@@ -36,6 +36,9 @@ namespace Antagonists
 				curTeam = value;
 			}
 		}
+		/// <summary>
+		/// Allows player to get info about status of objectives. Server side.
+		/// </summary>
 		public bool IsAntagCanSeeObjectivesStatus { get; set; } = false;
 
 		/// <summary>
