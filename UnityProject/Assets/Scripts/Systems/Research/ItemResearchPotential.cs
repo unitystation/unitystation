@@ -24,7 +24,7 @@ public class ItemResearchPotential : MonoBehaviour
 
 
   	[NonSerialized] public int CurrentPurity = 0;
-	public List<TechnologyAndBeams> TechWebDesigns;
+    [NonSerialized] public List<TechnologyAndBeams> TechWebDesigns;
 
 
 	public void Awake()

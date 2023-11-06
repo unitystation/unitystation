@@ -530,7 +530,6 @@ public static class Inventory
 
 				//speedloss  / friction
 				 airtime = timeTakenIfallThrow- ((Mathf.Pow(IA2.ThrowSpeed, 2) / (2 * UniversalObjectPhysics.DEFAULT_Friction)) / IA2.ThrowSpeed);
-
 			}
 
 			UOP.NewtonianPush(WorldTrajectory, ((ItemAttributesV2) UOP.attributes.Component).ThrowSpeed

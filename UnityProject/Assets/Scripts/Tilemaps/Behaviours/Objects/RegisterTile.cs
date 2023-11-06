@@ -170,10 +170,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	//cached for fast fire exposure without gc
 	private IFireExposable[] fireExposables;
 
-	public IPlayerEntersTile[] IPlayerEntersTiles;
-
-	public IObjectEntersTile[] IObjectEntersTiles;
-
 	[SerializeField] private PrefabTracker prefabTracker;
 	public PrefabTracker PrefabTracker => prefabTracker;
 
@@ -206,8 +202,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		objectPhysics.ResetComponent(this);
 		matrixRotationHooks = GetComponents<IMatrixRotation>();
 		fireExposables = GetComponents<IFireExposable>();
-		IPlayerEntersTiles = GetComponents<IPlayerEntersTile>();
-		IObjectEntersTiles = GetComponents<IObjectEntersTile>();
 		CurrentsortingGroup = GetComponent<SortingGroup>();
 
 		if (Manager3D.Is3D && GameData.IsHeadlessServer == false )

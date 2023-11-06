@@ -44,6 +44,7 @@ namespace Objects
 		public RegisterTile registerTile;
 		private UniversalObjectPhysics ObjectPhysics;
 
+		[HideInInspector]
 		public List<IEscapable> IEscapables;
 
 		/// <summary>
