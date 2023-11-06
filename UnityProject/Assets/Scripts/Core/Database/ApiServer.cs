@@ -69,7 +69,7 @@ namespace Core.Database
 			HttpResponseMessage response = SecureStuff.SafeHttpRequest.SendAsync(request).Result;
 			var responseBody = response.Content.ReadAsStringAsync().Result;
 
-			Loggy.LogError(responseBody);
+			Loggy.Log(responseBody);
 			if (response.IsSuccessStatusCode == false)
 			{
 				if (TryGetApiRequestException(responseBody, out var requestException))
