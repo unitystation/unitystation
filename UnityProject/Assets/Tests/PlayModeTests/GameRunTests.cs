@@ -36,11 +36,11 @@ namespace GameRunTests
 		// {
 		// 	if (CustomNetworkManager.Instance._isServer == false)
 		// 	{
-		// 		Logger.Log("Can only execute command from server.", Category.DebugConsole);
+		// 		Loggy.Log("Can only execute command from server.", Category.DebugConsole);
 		// 		return;
 		// 	}
 		//
-		// 	Logger.Log("Triggered round restart from DebugConsole.", Category.DebugConsole);
+		// 	Loggy.Log("Triggered round restart from DebugConsole.", Category.DebugConsole);
 		// 	GameManager.Instance.RoundEndTime = 1f;
 		// 	GameManager.Instance.EndRound();
 		// }

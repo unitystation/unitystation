@@ -4,11 +4,13 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using Core.Networking;
+using Logs;
 
 [assembly: InternalsVisibleTo("Tests")]
 namespace Core.Database
@@ -36,27 +38,41 @@ namespace Core.Database
 
 		internal static async Task<T> Post<T>(Uri uri, JsonObject body) where T : JsonObject
 		{
-			var request = new HttpRequestMessage(HttpMethod.Post, uri);
-
-			if (body is ITokenAuthable authable)
+			try
 			{
-				request.Headers.Authorization = new AuthenticationHeaderValue("Token", authable.Token);
+				var request = new HttpRequestMessage(HttpMethod.Post, uri);
+
+				if (body is ITokenAuthable authable)
+				{
+					request.Headers.Authorization = new AuthenticationHeaderValue("Token", authable.Token);
+				}
+
+				var sss = JsonConvert.SerializeObject(body);
+				request.Content = new StringContent(sss, Encoding.UTF8, "application/json");
+				//request.Content = body.ToStringContent();
+				var responseBody = await Send(request);
+				var response = JsonUtility.FromJson<T>(responseBody);
+
+				return response;
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+				throw;
 			}
 
-			request.Content = body.ToStringContent();
-			var responseBody = await Send(request);
-			var response = JsonUtility.FromJson<T>(responseBody);
-
-			return response;
 		}
+
+
 
 		private static async Task<string> Send(HttpRequestMessage request)
 		{
 			request.Headers.Add("Accept", "application/json");
 
-			HttpResponseMessage response = await Client.SendAsync(request);
-			var responseBody = await response.Content.ReadAsStringAsync();
+			HttpResponseMessage response = Client.SendAsync(request).Result;
+			var responseBody = response.Content.ReadAsStringAsync().Result;
 
+			Loggy.LogError(responseBody);
 			if (response.IsSuccessStatusCode == false)
 			{
 				if (TryGetApiRequestException(responseBody, out var requestException))

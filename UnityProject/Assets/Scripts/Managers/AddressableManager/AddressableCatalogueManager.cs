@@ -204,7 +204,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 		var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
 		//path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData"; //Make OS agnostic
 		path = path + "/AddressablePackingProjects";
-		//Logger.Log(path);
+		//Loggy.Log(path);
 		var Directories = System.IO.Directory.GetDirectories(path);
 		var FoundFiles = new List<string>();
 		foreach (var Directori in Directories)
@@ -217,7 +217,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 				string FoundFile = "";
 				foreach (var File in Files)
 				{
-					//Logger.Log(File);
+					//Loggy.Log(File);
 					if (File.EndsWith(".json"))
 					{
 						if (FoundFile != "")

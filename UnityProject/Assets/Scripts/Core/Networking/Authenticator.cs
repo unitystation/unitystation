@@ -139,7 +139,7 @@ namespace Core.Networking
 				if (ValidatePlayerAccount(conn, account) == false) return;
 			}
 
-			if (ValidateLobbyPassword(conn, msg) == false) return;
+			//if (ValidateLobbyPassword(conn, msg) == false) return; TODO!!!
 
 			// Accept the successful authentication
 			conn.authenticationData = new AuthData
@@ -234,7 +234,7 @@ namespace Core.Networking
 			return true;
 		}
 
-		private bool ValidateRequest(NetworkConnection conn, string accountId, string playerToken)
+		private bool ValidateRequest(NetworkConnectionToClient conn, string accountId, string playerToken)
 		{
 			// Must have account ID and player token
 			if (string.IsNullOrEmpty(accountId) || string.IsNullOrEmpty(playerToken))
@@ -252,7 +252,7 @@ namespace Core.Networking
 			return true;
 		}
 
-		private async Task<Account> TryGetPlayerAccount(NetworkConnection conn, string accountId, string playerToken)
+		private async Task<Account> TryGetPlayerAccount(NetworkConnectionToClient conn, string accountId, string playerToken)
 		{
 			// Validate the provided token against the account details and get the account
 			AccountGetResponse accountResponse;
@@ -262,13 +262,13 @@ namespace Core.Networking
 			}
 			catch (ApiRequestException e)
 			{
-				Logger.Log(
+				Loggy.Log(
 						$"The API server rejected the verification request for account with "
 						+ $"ID '{accountId}' at address '{conn.address}'. Error: {e.Message}",
 						Category.Connections);
 
 				// TODO check which particular error message corresponds with the log below, if we have one.
-				//Logger.Log("A user tried to authenticate with a bad token. Possible spoof attempt."
+				//Loggy.Log("A user tried to authenticate with a bad token. Possible spoof attempt."
 				//		+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
 				//		Category.Connections);
 				DisconnectClient(conn, ResponseCode.AccountValidationFailed,
@@ -278,8 +278,8 @@ namespace Core.Networking
 			}
 			catch (ApiHttpException e)
 			{
-				Logger.LogError($"Http error when validating user account token. Error: {e.Message} - "
-						+ $"Account ID: '{accountId}'. IP: '{conn.address}'.",
+				Loggy.LogError($"Http error when validating user account token. Error: {e.Message} - "
+				               + $"Account ID: '{accountId}'. IP: '{conn.address}'.",
 						Category.Connections);
 				DisconnectClient(conn, ResponseCode.AccountValidationError,
 						"Server Error: unknown problem encountered when attempting to validate your account token.");
@@ -290,12 +290,12 @@ namespace Core.Networking
 			return Account.FromAccountGetResponse(accountResponse);
 		}
 
-		private bool ValidatePlayerAccount(NetworkConnection conn, Account account)
+		private bool ValidatePlayerAccount(NetworkConnectionToClient conn, Account account)
 		{
 			var isVerifiedOnlyServer = true; // TODO add option to server config
 			if (isVerifiedOnlyServer && account.IsVerified == false)
 			{
-				Logger.LogError($"A user tried to authenticate with an unverified account, " +
+				Loggy.LogError($"A user tried to authenticate with an unverified account, " +
 						$"but this server only accepts verified accounts. Username: '{account.Username}'. IP: '{conn.address}'.",
 						Category.Connections);
 				DisconnectClient(conn, ResponseCode.AccountNotVerified,
@@ -326,7 +326,7 @@ namespace Core.Networking
 					return true;
 				}
 
-				Logger.LogError(
+				Loggy.LogError(
 					$"A user tried to connect with an invalid lobby password: {msg.LobbyPassword}."
 					+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
 					Category.Connections);

@@ -681,7 +681,7 @@ namespace MapSaver
 
 			if (PrefabEquivalent.transform.childCount != gameObject.transform.childCount)
 			{
-				// Logger.LogError("Mismatched children between Prefab " + PrefabEquivalent + " and game object " +
+				// Loggy.LogError("Mismatched children between Prefab " + PrefabEquivalent + " and game object " +
 				// gameObject + " at " + gameObject.transform.localPosition +
 				// "  Added children is not currently supported in This version of the map saver ");
 			}

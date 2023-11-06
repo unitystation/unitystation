@@ -38,7 +38,7 @@ namespace Messages.Client.Admin
 				{
 					teamInfo.MembersInfo.Add(new TeamMemberInfo()
 					{
-						Id = teamMember.Owner.ControlledBy.UserId,
+						Id = teamMember.Owner.ControlledBy.AccountId,
 					});
 				}
 

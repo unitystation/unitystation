@@ -184,7 +184,7 @@ public class GameData : MonoBehaviour
 		{
 			//			float calcFrameRate = 1f / Time.deltaTime;
 			//			Application.targetFrameRate = (int) calcFrameRate;
-			//			Logger.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}",
+			//			Loggy.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}",
 			//				Category.Server);
 
 			Loggy.Log($"FrameRate limiting has been disabled on Headless Server",
@@ -227,7 +227,7 @@ public class GameData : MonoBehaviour
 
 		if (string.IsNullOrEmpty(token) == false)
 		{
-			Logger.Log("Logging in via hub account...");
+			Loggy.Log("Logging in via hub account...");
 			if (await LobbyManager.Instance.TryTokenLogin(token)) // TODO uid not needed anymore?
 			{
 				LobbyManager.Instance.JoinServer(ip, port);

@@ -89,7 +89,7 @@ namespace Player
 				return;
 			}
 
-			Logger.LogTrace(
+			Loggy.LogTrace(
 				$"{authData.Account.Username}'s {nameof(JoinedViewer)} called CmdServerSetupPlayer. ClientId: {authData.ClientId}.",
 				Category.Connections);
 
@@ -134,7 +134,7 @@ namespace Player
 			{
 				// Any actions, including logging, done in CanPlayerJoin.
 				PlayerList.Instance.Remove(player);
-				Logger.LogWarning($"Set up new player: invalid player. For {authData.Account.Username}", Category.Connections);
+				Loggy.LogWarning($"Set up new player: invalid player. For {authData.Account.Username}", Category.Connections);
 				ClearCache();
 
 				return;

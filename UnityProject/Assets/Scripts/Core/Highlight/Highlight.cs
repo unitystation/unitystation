@@ -204,7 +204,7 @@ public class Highlight : MonoBehaviour, IInitialise
 				y++)
 			{
 				if (SpriteRenderers.gameObject.activeInHierarchy == false) continue;
-				//Logger.Log(yy + " <XX YY> " + xx + "   " +  x + " <X Y> " + y  );
+				//Loggy.Log(yy + " <XX YY> " + xx + "   " +  x + " <X Y> " + y  );
 				if (SpriteRenderers.sprite.texture.GetPixel(x, y).a != 0)
 				{
 					mainTex.SetPixel(xx, yy, SpriteRenderers.sprite.texture.GetPixel(x, y));

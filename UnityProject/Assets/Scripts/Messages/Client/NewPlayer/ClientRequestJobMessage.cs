@@ -92,7 +92,6 @@ namespace Messages.Client.NewPlayer
 
 			if (msg.JobType == JobType.NULL)
 			{
-				var character = JsonConvert.DeserializeObject<CharacterSheet>(msg.JsonCharSettings);
 				character.ValidateSpeciesCanBePlayerChosen();
 				PlayerSpawn.NewSpawnPlayerV2(SentByPlayer, OccupationList.Instance.AllOcccupations.First(x => x.name == "Spectator") , character);
 			}

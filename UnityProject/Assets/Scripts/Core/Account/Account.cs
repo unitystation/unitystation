@@ -156,7 +156,12 @@ namespace Core.Accounts
 
 			// May be null if AccountGetResponse schema is out of date with the API (TODO: affects all responses, so handle them)
 			AllCharacters ??= new();
-			Characters = AllCharacters[CharacterManager.CharacterSheetVersion] ?? new();
+			if (AllCharacters.ContainsKey(CharacterManager.CharacterSheetVersion) == false)
+			{
+				AllCharacters[CharacterManager.CharacterSheetVersion] = new Dictionary<string, CharacterSheet>();
+			}
+
+			Characters = AllCharacters[CharacterManager.CharacterSheetVersion];
 
 			return this;
 		}

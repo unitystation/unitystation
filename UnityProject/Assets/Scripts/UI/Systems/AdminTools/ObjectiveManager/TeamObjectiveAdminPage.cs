@@ -411,7 +411,7 @@ public class TeamObjectiveAdminPage : AdminPage
 
 				foreach (var originalMember in serverTeam.TeamMembers)
 				{
-					if (originalMember.Owner.ControlledBy.UserId == member.Id)
+					if (originalMember.Owner.ControlledBy.AccountId == member.Id)
 					{
 						isNew = false;
 					}

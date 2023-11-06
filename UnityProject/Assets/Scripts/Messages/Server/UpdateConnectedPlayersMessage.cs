@@ -37,7 +37,7 @@ namespace Messages.Server
 		{
 			//Performance issue with string.Join doing this at high player count
 			//If this is necessary in the future cache it when players leave/join?
-			//Logger.LogFormat("This server informing all clients of the new PlayerList state: {0}", Category.Connections,
+			//Loggy.LogFormat("This server informing all clients of the new PlayerList state: {0}", Category.Connections,
 			//	string.Join(",", PlayerList.Instance.AllPlayers));
 
 			var prepareConnectedPlayers = new List<ClientConnectedPlayer>();

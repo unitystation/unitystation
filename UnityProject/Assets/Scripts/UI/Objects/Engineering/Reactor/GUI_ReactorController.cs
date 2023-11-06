@@ -125,7 +125,7 @@ namespace UI.Objects.Engineering
 		/// <param name="speedMultiplier"></param>
 		public void SetControlDepth()
 		{
-			//Logger.Log("YO " + Depth);
+			//Loggy.Log("YO " + Depth);
 			ReactorControlConsole.SuchControllRodDepth(MainSetControl + (SecondarySetControl / 100));
 		}
 

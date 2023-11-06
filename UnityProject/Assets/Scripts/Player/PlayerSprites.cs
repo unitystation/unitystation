@@ -514,7 +514,7 @@ namespace Player
 
 		public void OnClothingEquipped(ClothingV2 clothing, bool isEquipped)
 		{
-			//Logger.Log($"Clothing {clothing} was equipped {isEquiped}!", Category.Inventory);
+			//Loggy.Log($"Clothing {clothing} was equipped {isEquiped}!", Category.Inventory);
 
 			// if new clothes equiped, add new hide flags
 			if (isEquipped)
@@ -592,7 +592,7 @@ namespace Player
 				// Check if dictionary has entry about such clothing item name
 				if (!clothes.ContainsKey(name))
 				{
-					Logger.LogError($"Can't find {name} clothingItem linked to {hideFlag}", Category.PlayerInventory);
+					Loggy.LogError($"Can't find {name} clothingItem linked to {hideFlag}", Category.PlayerInventory);
 					return;
 				}
 

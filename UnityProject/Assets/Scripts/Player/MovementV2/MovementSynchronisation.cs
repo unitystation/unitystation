@@ -671,7 +671,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			}
 			else
 			{
-				//Logger.LogError(" Fail the Range floating check ");
+				//Loggy.LogError(" Fail the Range floating check ");
 				ResetLocationOnClients();
 				MoveQueue.Clear();
 				return;
@@ -809,7 +809,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 							Loggy.LogError("TODO Reset location of swapped Stuff on client ");
 						}
 
-						//Logger.LogError("Move processed");
+						//Loggy.LogError("Move processed");
 						if (string.IsNullOrEmpty(entry.PushedIDs) == false || Pushing.Count > 0)
 						{
 							var specialist = new List<uint>();
@@ -857,7 +857,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						HandleFootstepLogic();
 
 
-						//TODO this is good but need to clean up movement a bit more Logger.LogError("Delta magnitude " + (transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID).Matrix)).magnitude );
+						//TODO this is good but need to clean up movement a bit more Loggy.LogError("Delta magnitude " + (transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID).Matrix)).magnitude );
 						//do calculation is and set targets and stuff
 						//Reset client if movement failed Since its good movement only Getting sent
 						//if there's enough time to do The next movement to the current time, Then process it instantly
@@ -899,7 +899,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 
 
-						//Logger.LogError("Failed TryMove");
+						//Loggy.LogError("Failed TryMove");
 						if (fudged)
 						{
 							transform.localPosition = stored;
@@ -1117,7 +1117,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			newMoveData.PushedIDs = "";
 		}
 
-		//Logger.LogError(" Requested move > wth  Bump " + NewMoveData.Bump);
+		//Loggy.LogError(" Requested move > wth  Bump " + NewMoveData.Bump);
 		CmdRequestMove(newMoveData);
 	}
 
@@ -1155,7 +1155,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			{
 				if (newMoveData.Bump)
 				{
-					// Logger.LogError("NewMoveData.Bump");
+					// Loggy.LogError("NewMoveData.Bump");
 					return true;
 				}
 
@@ -1326,14 +1326,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				}
 				else
 				{
-					//if (isServer) Logger.LogError("failed is obstructed");
+					//if (isServer) Loggy.LogError("failed is obstructed");
 
 					rotatable.SetFaceDirectionLocalVector(moveAction.GlobalMoveDirection.ToVector());
 				}
 			}
 			else
 			{
-				//if (isServer) Logger.LogError("failed is floating");
+				//if (isServer) Loggy.LogError("failed is floating");
 			}
 		}
 

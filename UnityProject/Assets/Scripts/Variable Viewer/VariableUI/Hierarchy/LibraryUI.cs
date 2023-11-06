@@ -102,7 +102,7 @@ namespace AdminTools.VariableViewer
 			IDtoBookShelves.Clear();
 			THisCompressedHierarchy.Clear();
 			THisCompressedHierarchy.AddRange(CompressedHierarchy);
-			//Logger.Log("CompressedHierarchy Count > " + CompressedHierarchy.Count);
+			//Loggy.Log("CompressedHierarchy Count > " + CompressedHierarchy.Count);
 			foreach (var Compressed in CompressedHierarchy)
 			{
 				IDtoBookShelves[Compressed.ID] = Compressed;
@@ -192,7 +192,7 @@ namespace AdminTools.VariableViewer
 
 			}
 		}
-		
+
 		public HierarchyEntry RecursiveGetParent(
 				VariableViewerNetworking.NetFriendlyHierarchyBookShelf bookShelf,
 				List<VariableViewerNetworking.NetFriendlyHierarchyBookShelf> passlist)

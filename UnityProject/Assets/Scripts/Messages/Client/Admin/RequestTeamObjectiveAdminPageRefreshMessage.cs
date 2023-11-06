@@ -17,7 +17,7 @@ namespace Messages.Client.Admin
 		{
 			if (IsFromAdmin())
 			{
-				TeamObjectiveAdminPageRefreshMessage.Send(SentByPlayer.GameObject, SentByPlayer.UserId);
+				TeamObjectiveAdminPageRefreshMessage.Send(SentByPlayer.GameObject, SentByPlayer.AccountId);
 			}
 		}
 

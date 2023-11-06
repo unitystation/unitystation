@@ -813,14 +813,14 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	//This makes it so electrical Stuff can be done on its own thread
 	public void SetElectricalData(ElectricalOIinheritance inElectricalData)
 	{
-		//Logger.Log("seting " + this.name);
+		//Loggy.Log("seting " + this.name);
 		electricalData = inElectricalData;
 	}
 
 	//This makes it so electrical Stuff can be done on its own thread
 	public void SetPipeData(PipeData InPipeData)
 	{
-		//Logger.Log("seting " + this.name);
+		//Loggy.Log("seting " + this.name);
 		pipeData = InPipeData;
 	}
 

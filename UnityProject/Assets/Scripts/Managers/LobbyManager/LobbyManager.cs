@@ -90,47 +90,47 @@ namespace Lobby
 			});
 
 			return PlayerManager.Account.IsAvailable;
-			
-			bool isLoginSuccess = false;
-			Loggy.Log("[LobbyManager/TryLogin()] - Executing FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync()");
-			await FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(email, password)
-					.ContinueWithOnMainThread(async task =>
-			{
-				if (task.IsCanceled)
-				{
-					Loggy.LogWarning($"Sign in canceled.");
-					lobbyDialogue.ShowLoginPanel();
-				}
-				else if (task.IsFaulted)
-				{
-					var knownCodes = new List<int> { 12 };
 
-					var exception = task.Exception.Flatten().InnerExceptions[0];
-					Loggy.LogError($"Sign in error: {task.Exception.Message}", Category.DatabaseAPI);
-
-					if (exception is FirebaseException firebaseException && knownCodes.Contains(firebaseException.ErrorCode))
-					{
-						lobbyDialogue.ShowLoginError($"Account sign in failed. {firebaseException.Message}");
-					}
-					else
-					{
-						lobbyDialogue.ShowLoginError($"Unexpected error. Check your console (F5)");
-					}
-				}
-				else if (await ServerData.ValidateUser(task.Result, (errorStr) => {
-					Loggy.LogError($"Account validation error: {errorStr}");
-					lobbyDialogue.ShowLoginError($"Account validation error. {errorStr}");
-				}))
-				{
-					isLoginSuccess = true;
-					PlayerPrefs.SetString(PlayerPrefKeys.AccountEmail, task.Result.Email);
-					lobbyDialogue.ShowMainPanel();
-				}
-			});
-
-			Loggy.Log("[LobbyManager/TryLogin()] - Finished FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync()");
-
-			return isLoginSuccess;
+			// bool isLoginSuccess = false;
+			// Loggy.Log("[LobbyManager/TryLogin()] - Executing FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync()");
+			// await FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(email, password)
+			// 		.ContinueWithOnMainThread(async task =>
+			// {
+			// 	if (task.IsCanceled)
+			// 	{
+			// 		Loggy.LogWarning($"Sign in canceled.");
+			// 		lobbyDialogue.ShowLoginPanel();
+			// 	}
+			// 	else if (task.IsFaulted)
+			// 	{
+			// 		var knownCodes = new List<int> { 12 };
+			//
+			// 		var exception = task.Exception.Flatten().InnerExceptions[0];
+			// 		Loggy.LogError($"Sign in error: {task.Exception.Message}", Category.DatabaseAPI);
+			//
+			// 		if (exception is FirebaseException firebaseException && knownCodes.Contains(firebaseException.ErrorCode))
+			// 		{
+			// 			lobbyDialogue.ShowLoginError($"Account sign in failed. {firebaseException.Message}");
+			// 		}
+			// 		else
+			// 		{
+			// 			lobbyDialogue.ShowLoginError($"Unexpected error. Check your console (F5)");
+			// 		}
+			// 	}
+			// 	else if (await ServerData.ValidateUser(task.Result, (errorStr) => {
+			// 		Loggy.LogError($"Account validation error: {errorStr}");
+			// 		lobbyDialogue.ShowLoginError($"Account validation error. {errorStr}");
+			// 	}))
+			// 	{
+			// 		isLoginSuccess = true;
+			// 		PlayerPrefs.SetString(PlayerPrefKeys.AccountEmail, task.Result.Email);
+			// 		lobbyDialogue.ShowMainPanel();
+			// 	}
+			// });
+			//
+			// Loggy.Log("[LobbyManager/TryLogin()] - Finished FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync()");
+			//
+			// return isLoginSuccess;
 		}
 
 		public async Task<bool> TryTokenLogin(string token)
@@ -158,158 +158,158 @@ namespace Lobby
 			}
 
 			return PlayerManager.Account.IsAvailable;
-
-			Loggy.Log("[LobbyManager/TryTokenLogin()] - Executing ServerData.ValidateToken()");
-			var response = await ServerData.ValidateToken(refreshToken);
-			Loggy.Log("[LobbyManager/TryTokenLogin()] - Finished ServerData.ValidateToken() after awaiting.");
-
-			if (response == null)
-			{
-				lobbyDialogue.ShowLoginError($"Unknown server error. Check your console (F5)");
-				Loggy.Log("[LobbyManager/TryTokenLogin()] - Response is null.");
-				cancelTimer = true;
-				return false;
-			}
-
-			try
-			{
-				Loggy.Log($"[LobbyManager/TryTokenLogin()] - ResponseData:\n {response.message}\n {response.errorMsg}\n {response.errorCode}.");
-			}
-			catch (Exception e)
-			{
-				Loggy.Log($"[LobbyManager/TryTokenLogin()] - Failed Attempting to get some data from response:\n {e.ToString()}.");
-			}
-
-			if (string.IsNullOrEmpty(response.errorMsg) == false)
-			{
-				Loggy.LogError($"Something went wrong with hub token validation: {response.errorMsg}");
-				lobbyDialogue.ShowLoginError($"Could not verify your details. {response.errorMsg}");
-				cancelTimer = true;
-				return false;
-			}
-
-			bool isLoginSuccess = false;
-			Loggy.Log("[LobbyManager/TryTokenLogin()] - Executing FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync()");
-			await FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync(response.message)
-					.ContinueWithOnMainThread(async task =>
-			{
-				if (task.IsCanceled)
-				{
-					Loggy.LogError("Custom token sign in was canceled.");
-					lobbyDialogue.ShowLoginError($"Sign in was cancelled.");
-				}
-				else if (task.IsFaulted)
-				{
-					Loggy.LogError($"Token login task faulted: {task.Exception}");
-					lobbyDialogue.ShowLoginError($"Unexpected error encountered. Check your console (F5)");
-				}
-				else if (await ServerData.ValidateUser(task.Result, lobbyDialogue.ShowLoginError))
-				{
-					Loggy.Log("Sign in with token successful.");
-					isLoginSuccess = true;
-				}
-			});
-			Loggy.Log("[LobbyManager/TryTokenLogin()] - Finished FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync() after awaiting it.");
-			cancelTimer = true;
-			return isLoginSuccess;
+			//
+			// Loggy.Log("[LobbyManager/TryTokenLogin()] - Executing ServerData.ValidateToken()");
+			// var response = await ServerData.ValidateToken(refreshToken);
+			// Loggy.Log("[LobbyManager/TryTokenLogin()] - Finished ServerData.ValidateToken() after awaiting.");
+			//
+			// if (response == null)
+			// {
+			// 	lobbyDialogue.ShowLoginError($"Unknown server error. Check your console (F5)");
+			// 	Loggy.Log("[LobbyManager/TryTokenLogin()] - Response is null.");
+			// 	cancelTimer = true;
+			// 	return false;
+			// }
+			//
+			// try
+			// {
+			// 	Loggy.Log($"[LobbyManager/TryTokenLogin()] - ResponseData:\n {response.message}\n {response.errorMsg}\n {response.errorCode}.");
+			// }
+			// catch (Exception e)
+			// {
+			// 	Loggy.Log($"[LobbyManager/TryTokenLogin()] - Failed Attempting to get some data from response:\n {e.ToString()}.");
+			// }
+			//
+			// if (string.IsNullOrEmpty(response.errorMsg) == false)
+			// {
+			// 	Loggy.LogError($"Something went wrong with hub token validation: {response.errorMsg}");
+			// 	lobbyDialogue.ShowLoginError($"Could not verify your details. {response.errorMsg}");
+			// 	cancelTimer = true;
+			// 	return false;
+			// }
+			//
+			// bool isLoginSuccess = false;
+			// Loggy.Log("[LobbyManager/TryTokenLogin()] - Executing FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync()");
+			// await FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync(response.message)
+			// 		.ContinueWithOnMainThread(async task =>
+			// {
+			// 	if (task.IsCanceled)
+			// 	{
+			// 		Loggy.LogError("Custom token sign in was canceled.");
+			// 		lobbyDialogue.ShowLoginError($"Sign in was cancelled.");
+			// 	}
+			// 	else if (task.IsFaulted)
+			// 	{
+			// 		Loggy.LogError($"Token login task faulted: {task.Exception}");
+			// 		lobbyDialogue.ShowLoginError($"Unexpected error encountered. Check your console (F5)");
+			// 	}
+			// 	else if (await ServerData.ValidateUser(task.Result, lobbyDialogue.ShowLoginError))
+			// 	{
+			// 		Loggy.Log("Sign in with token successful.");
+			// 		isLoginSuccess = true;
+			// 	}
+			// });
+			// Loggy.Log("[LobbyManager/TryTokenLogin()] - Finished FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync() after awaiting it.");
+			// cancelTimer = true;
+			// return isLoginSuccess;
 
 		}
 
 		public async Task<bool> TryAutoLogin(bool autoJoin)
 		{
 
-			Logger.Log("Attempting automatic login by token...");
+			Loggy.Log("Attempting automatic login by token...");
 
 			if (PlayerPrefs.GetInt(PlayerPrefKeys.AccountAutoLogin) == 1 && PlayerPrefs.HasKey(PlayerPrefKeys.AccountToken))
 			{
 				return await TryTokenLogin(PlayerPrefs.GetString(PlayerPrefKeys.AccountToken));
 			}
 
-			Logger.Log("Couldn't log in via PlayerPrefs token: automatic login not enabled or no token.");
+			Loggy.Log("Couldn't log in via PlayerPrefs token: automatic login not enabled or no token.");
 
 			return false;
-
-			try
-			{
-				if (FirebaseAuth.DefaultInstance.CurrentUser == null)
-				{
-					Loggy.Log("[LobbyManager/TryAutoLogin()] - FirebaseAuth.DefaultInstance.CurrentUser is null. Attempting to send user to first time panel.");
-					// We haven't seen this user before.
-					lobbyDialogue.ShowAlphaPanel();
-					return false;
-				}
-
-				var randomGreeting = string.Format(greetings.PickRandom(), FirebaseAuth.DefaultInstance.CurrentUser.DisplayName);
-				lobbyDialogue.ShowLoadingPanel($"{randomGreeting}\n\nSigning you in...");
-				LoginTimer();
-				bool isLoginSuccess = false;
-				Loggy.Log("[LobbyManager/TryAutoLogin()] - Executing  FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread().");
-				await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(task => {
-					if (task.IsCanceled)
-					{
-						Loggy.LogWarning($"Auto sign in cancelled.");
-						LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
-						return;
-					}
-					else if (task.IsFaulted)
-					{
-						Loggy.LogError($"Auto sign in failed: {task.Exception?.Message}");
-						lobbyDialogue.ShowLoginError("Unexpected error encountered. Check your console (F5)");
-						LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
-						return;
-					}
-					isLoginSuccess = true;
-				});
-				Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread().");
-
-				if (isLoginSuccess == false)
-				{
-					Loggy.Log("[LobbyManager/TryAutoLogin()] - isLoginSuccess is false.");
-					LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
-					return false;
-				}
-				cancelTimer = true;
-
-				Loggy.Log("[LobbyManager/TryAutoLogin()] - Executing awaited ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, lobbyDialogue.ShowLoginError)");
-
-				var longRunningTask = ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, lobbyDialogue.ShowLoginError);
-				var timeout = TimeSpan.FromSeconds(5);
-
-				// Use Task.WhenAny to wait for either the long-running task to complete or the timeout to occur
-				var completedTask = await Task.WhenAny(longRunningTask, Task.Delay(timeout));
-
-				// Check which task completed
-				if (completedTask == longRunningTask)
-				{
-					if (autoJoin == false)
-					{
-						LoadManager.DoInMainThread(() => { lobbyDialogue.ShowMainPanel(); });
-					}
-
-					Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited ServerData.ValidateUser(~~~) and showing main panel.");
-					return true;
-				}
-				else
-				{
-					Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited ServerData.ValidateUser(~~~) with false result.");
-					LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
-					return false;
-				}
-			}
-			catch (Exception e)
-			{
-				Loggy.LogError(e.ToString());
-				LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
-
-				return false;
-			}
+			//
+			// try
+			// {
+			// 	if (FirebaseAuth.DefaultInstance.CurrentUser == null)
+			// 	{
+			// 		Loggy.Log("[LobbyManager/TryAutoLogin()] - FirebaseAuth.DefaultInstance.CurrentUser is null. Attempting to send user to first time panel.");
+			// 		// We haven't seen this user before.
+			// 		lobbyDialogue.ShowAlphaPanel();
+			// 		return false;
+			// 	}
+			//
+			// 	var randomGreeting = string.Format(greetings.PickRandom(), FirebaseAuth.DefaultInstance.CurrentUser.DisplayName);
+			// 	lobbyDialogue.ShowLoadingPanel($"{randomGreeting}\n\nSigning you in...");
+			// 	LoginTimer();
+			// 	bool isLoginSuccess = false;
+			// 	Loggy.Log("[LobbyManager/TryAutoLogin()] - Executing  FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread().");
+			// 	await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(task => {
+			// 		if (task.IsCanceled)
+			// 		{
+			// 			Loggy.LogWarning($"Auto sign in cancelled.");
+			// 			LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
+			// 			return;
+			// 		}
+			// 		else if (task.IsFaulted)
+			// 		{
+			// 			Loggy.LogError($"Auto sign in failed: {task.Exception?.Message}");
+			// 			lobbyDialogue.ShowLoginError("Unexpected error encountered. Check your console (F5)");
+			// 			LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
+			// 			return;
+			// 		}
+			// 		isLoginSuccess = true;
+			// 	});
+			// 	Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread().");
+			//
+			// 	if (isLoginSuccess == false)
+			// 	{
+			// 		Loggy.Log("[LobbyManager/TryAutoLogin()] - isLoginSuccess is false.");
+			// 		LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
+			// 		return false;
+			// 	}
+			// 	cancelTimer = true;
+			//
+			// 	Loggy.Log("[LobbyManager/TryAutoLogin()] - Executing awaited ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, lobbyDialogue.ShowLoginError)");
+			//
+			// 	var longRunningTask = ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, lobbyDialogue.ShowLoginError);
+			// 	var timeout = TimeSpan.FromSeconds(5);
+			//
+			// 	// Use Task.WhenAny to wait for either the long-running task to complete or the timeout to occur
+			// 	var completedTask = await Task.WhenAny(longRunningTask, Task.Delay(timeout));
+			//
+			// 	// Check which task completed
+			// 	if (completedTask == longRunningTask)
+			// 	{
+			// 		if (autoJoin == false)
+			// 		{
+			// 			LoadManager.DoInMainThread(() => { lobbyDialogue.ShowMainPanel(); });
+			// 		}
+			//
+			// 		Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited ServerData.ValidateUser(~~~) and showing main panel.");
+			// 		return true;
+			// 	}
+			// 	else
+			// 	{
+			// 		Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited ServerData.ValidateUser(~~~) with false result.");
+			// 		LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
+			// 		return false;
+			// 	}
+			// }
+			// catch (Exception e)
+			// {
+			// 	Loggy.LogError(e.ToString());
+			// 	LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
+			//
+			// 	return false;
+			// }
 		}
 
 		private void HandleLoginTask(Task<Account> task)
 		{
 			if (task.IsCanceled)
 			{
-				Logger.LogWarning("Login cancelled.");
+				Loggy.LogWarning("Login cancelled.");
 				lobbyDialogue.ShowLoginPanel();
 			}
 			else if (task.IsFaulted)
@@ -320,7 +320,7 @@ namespace Lobby
 				}
 				else
 				{
-					Logger.LogError("Fault while logging in.");
+					Loggy.LogError("Fault while logging in.");
 					task.LogFaultedTask();
 					lobbyDialogue.ShowLoginError("Cannot communicate with the account server. Check your console (F5).");
 				}
@@ -343,12 +343,13 @@ namespace Lobby
 
 		public async Task<bool> CreateAccount(string username, string email, string accountIdentifier, string password) // TODO accountIdentifier, order
 		{
+
 			var isSuccess = false;
-			await PlayerManager.Account.Register(username, email, accountIdentifier, password).Then(task =>
+			await PlayerManager.Account.Register(accountIdentifier , email, username, password).Then(task =>
 			{
 				if (task.IsCanceled)
 				{
-					Logger.LogWarning("Account creation cancelled.");
+					Loggy.LogWarning("Account creation cancelled.");
 					lobbyDialogue.ShowAccountCreatePanel();
 				}
 				else if (task.IsFaulted)
@@ -407,12 +408,12 @@ namespace Lobby
 			{
 				if (task.IsCanceled)
 				{
-					Logger.Log("Request for a new verification email cancelled.");
+					Loggy.Log("Request for a new verification email cancelled.");
 					lobbyDialogue.ShowLoginPanel();
 				}
 				else if (task.IsFaulted)
 				{
-					Logger.LogError($"Couldn't request a new verification email. {task.Exception.GetBaseException()}");
+					Loggy.LogError($"Couldn't request a new verification email. {task.Exception.GetBaseException()}");
 					lobbyDialogue.ShowInfoPanel(new InfoPanelArgs
 					{
 						Heading = "Account Creation Failed",

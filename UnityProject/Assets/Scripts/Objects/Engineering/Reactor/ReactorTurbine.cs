@@ -42,7 +42,7 @@ namespace Objects.Engineering
 		{
 			if (Boiler != null)
 			{
-				//Logger.Log("  moduleSupplyingDevice.ProducingWatts " +   moduleSupplyingDevice.ProducingWatts);
+				//Loggy.Log("  moduleSupplyingDevice.ProducingWatts " +   moduleSupplyingDevice.ProducingWatts);
 				moduleSupplyingDevice.ProducingWatts  = moduleSupplyingDevice.ProducingWatts  + ((float)Boiler.OutputEnergy) / 2;
 			}
 			else

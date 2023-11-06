@@ -20,8 +20,8 @@ public class TestMapSaverScript : MonoBehaviour
 	public void SaveMatrix()
 	{
 
-		//Logger.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveObjects(MetaTileMap)));
-		//Logger.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveTileMap(MetaTileMap)));
+		//Loggy.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveObjects(MetaTileMap)));
+		//Loggy.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveTileMap(MetaTileMap)));
 		//, UseInstance: true
 		var map = MapSaver.MapSaver.SaveMatrix(MetaTileMap, true);
 
@@ -33,8 +33,8 @@ public class TestMapSaverScript : MonoBehaviour
 	public void SaveMatrixSubsection()
 	{
 
-		//Logger.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveObjects(MetaTileMap)));
-		//Logger.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveTileMap(MetaTileMap)));
+		//Loggy.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveObjects(MetaTileMap)));
+		//Loggy.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveTileMap(MetaTileMap)));
 		Vector3 Vector1 = (Vector3) Vector3Int1 + new Vector3(0.5f, 0.5f, 0); //TODO Tile map upgrade
 		Vector3 Vector2 = (Vector3) Vector3Int2 + new Vector3(-0.5f, -0.5f, 0);
 
@@ -47,8 +47,8 @@ public class TestMapSaverScript : MonoBehaviour
 	public void SaveMap()
 	{
 
-		//Logger.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveObjects(MetaTileMap)));
-		//Logger.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveTileMap(MetaTileMap)));
+		//Loggy.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveObjects(MetaTileMap)));
+		//Loggy.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveTileMap(MetaTileMap)));
 		//TODO Add a category for maps and blueprints
 		//File.WriteAllText("R:\\tests\\bob2.txt", JsonConvert.SerializeObject(MapSaver.MapSaver.SaveMap(MapMatrices)));
 	}

@@ -263,7 +263,7 @@ public class LightingSystem : MonoBehaviour
 
 		/*if (((LayerMask)iMainCamera.cullingMask).HasAny(iRenderSettings.backgroundLayers))
 		{
-			Logger.Log("FovSystem Camera Validation: Camera does not cull one of Background Layers!" +
+			Loggy.Log("FovSystem Camera Validation: Camera does not cull one of Background Layers!" +
 				"Light System wound be able to mask background and would not work correctly.", Category.Lighting);
 		}*/
 	}

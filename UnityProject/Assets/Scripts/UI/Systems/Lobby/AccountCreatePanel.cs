@@ -20,6 +20,9 @@ namespace Lobby
 		private InputField passwordControl = default;
 
 		[SerializeField]
+		private InputField UniqueIdentifierControl = default;
+
+		[SerializeField]
 		private Text errorControl = default;
 
 		[SerializeField]
@@ -37,6 +40,10 @@ namespace Lobby
 
 			usernameControl.onValueChanged.AddListener((_) => ClearError());
 			usernameControl.onEndEdit.AddListener((_) => ValidateUsername());
+
+			UniqueIdentifierControl.onValueChanged.AddListener((_) => ClearError());
+			UniqueIdentifierControl.onEndEdit.AddListener((_) => ValidateUniqueUsername());
+
 
 			backButton.onClick.AddListener(OnBackBtn);
 			submitButton.onClick.AddListener(OnSubmitBtn);
@@ -88,6 +95,26 @@ namespace Lobby
 			ClearError();
 			return true;
 		}
+
+		private bool ValidateUniqueUsername()
+		{
+			var errorStrings = new Dictionary<ValidationUtils.ValidationError, string>
+			{
+				{ ValidationUtils.ValidationError.NullOrWhitespace, "Unique Username is required." },
+				{ ValidationUtils.ValidationError.TooShort, "Unique Username is too short." },
+				{ ValidationUtils.ValidationError.Invalid, "Unique Username is invalid." },
+			};
+
+			if (ValidationUtils.TryValidateUniqueUsername(usernameControl.text, out var failReason) == false)
+			{
+				SetError(errorStrings[failReason]);
+				return false;
+			}
+
+			ClearError();
+			return true;
+		}
+
 
 		private bool ValidateUsername()
 		{
@@ -144,7 +171,7 @@ namespace Lobby
 				RightButtonCallback = () => throw new NotImplementedException(),
 			});
 
-			if (await LobbyManager.Instance.CreateAccount(usernameControl.text, emailControl.text, usernameControl.text, passwordControl.text))
+			if (await LobbyManager.Instance.CreateAccount(usernameControl.text, emailControl.text, UniqueIdentifierControl.text, passwordControl.text))
 			{
 				Reset();
 			}

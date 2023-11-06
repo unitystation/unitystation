@@ -13,12 +13,12 @@ namespace Core.Database
 
 	public static class AccountServer
 	{
-		public static string Host = "usapi.deb.local"; // TODO: expose to config
-		public static UriBuilder UriBuilder = new("http", Host);
+		public static string Host = "dev-api.unitystation.org"; // TODO: expose to config
+		public static UriBuilder UriBuilder = new("https", Host);
 
 		public static Uri GetUri(string endpoint)
 		{
-			UriBuilder.Path = $"/api/accounts/{endpoint}";
+			UriBuilder.Path = $"/accounts/{endpoint}";
 			return UriBuilder.Uri;
 		}
 

@@ -12,7 +12,7 @@ namespace Messages.Client.Admin
 		{
 			if (IsFromAdmin())
 			{
-				ObjectiveRefreshMessage.Send(SentByPlayer.GameObject, SentByPlayer.UserId, msg.playerForRequestID);
+				ObjectiveRefreshMessage.Send(SentByPlayer.GameObject, SentByPlayer.AccountId, msg.playerForRequestID);
 			}
 		}
 

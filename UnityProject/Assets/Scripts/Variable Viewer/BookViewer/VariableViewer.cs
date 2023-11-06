@@ -282,13 +282,13 @@ public static class VariableViewer
 	//		}
 	//		else
 	//		{
-	//			Logger.LogError("Sentence ID has not been generated in Page Page ID > " + PageID + " Sentence ID >  " + SentenceID, Category.VariableViewer);
+	//			Loggy.LogError("Sentence ID has not been generated in Page Page ID > " + PageID + " Sentence ID >  " + SentenceID, Category.VariableViewer);
 	//		}
 
 	//	}
 	//	else
 	//	{
-	//		Logger.LogError("Page ID has not been generated Page ID > " + PageID, Category.VariableViewer);
+	//		Loggy.LogError("Page ID has not been generated Page ID > " + PageID, Category.VariableViewer);
 	//	}
 	//}
 }

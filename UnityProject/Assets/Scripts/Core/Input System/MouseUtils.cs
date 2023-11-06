@@ -278,10 +278,10 @@ public static class MouseUtils
 
 		int texPosX = (int) (sprite.textureRect.position.x + (spritePos.x * pixelsPerUnit + halfRealTexWidth));
 		int texPosY = (int) (sprite.textureRect.position.y + (spritePos.y * pixelsPerUnit + halfRealTexHeight));
-		//Logger.Log(texPosX.ToString() + "texPosX");
-		//Logger.Log(textureRect.x.ToString() + "textureRect");
-		//Logger.Log(Mathf.FloorToInt(textureRect.xMax).ToString() + "textureRect.xMax");
-		//Logger.Log(sprite.textureRectOffset.ToString());
+		//Loggy.Log(texPosX.ToString() + "texPosX");
+		//Loggy.Log(textureRect.x.ToString() + "textureRect");
+		//Loggy.Log(Mathf.FloorToInt(textureRect.xMax).ToString() + "textureRect.xMax");
+		//Loggy.Log(sprite.textureRectOffset.ToString());
 		// Check if pixel is within texture
 		if (texPosX < 0 || texPosX < textureRect.x || texPosX >= Mathf.FloorToInt(textureRect.xMax)) return false;
 		if (texPosY < 0 || texPosY < textureRect.y || texPosY >= Mathf.FloorToInt(textureRect.yMax)) return false;

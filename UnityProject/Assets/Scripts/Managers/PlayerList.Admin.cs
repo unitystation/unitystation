@@ -329,14 +329,14 @@ public partial class PlayerList
 		if (ValidatePlayerAdminStatus(player))
 		{
 			CheckAdminState(player);
-			Logger.Log($"Admin {player.Username} (user ID '{player.AccountId}') logged in successfully.", Category.Admin);
+			Loggy.Log($"Admin {player.Username} (user ID '{player.AccountId}') logged in successfully.", Category.Admin);
 			return true;
 		}
 
 		if (CanRegularPlayerJoin(player) == false) return false;
 		if (ValidateMultikeying(player) == false) return false;
 
-		Logger.Log($"{player.Username} (user ID '{player.AccountId}') logged in successfully.", Category.Admin);
+		Loggy.Log($"{player.Username} (user ID '{player.AccountId}') logged in successfully.", Category.Admin);
 		return true;
 	}
 
@@ -351,10 +351,10 @@ public partial class PlayerList
 		// Players are always admins if in offline mode, for testing
 		if (GameData.Instance.OfflineMode)
 		{
-			Logger.Log($"{player.Username} logged in successfully in offline mode. userid: {player.AccountId}", Category.Admin);
+			Loggy.Log($"{player.Username} logged in successfully in offline mode. userid: {player.AccountId}", Category.Admin);
 			serverAdmins.Add(player.AccountId);
 		}
-		
+
 		return serverAdmins.Contains(player.AccountId);
 	}
 
@@ -906,7 +906,7 @@ public partial class PlayerList
 			int index = banList.banEntries.FindIndex(x => x.userId == connPlayer.AccountId);
 			if (index != -1)
 			{
-				Logger.Log("removing pre-existing ban entry for userId of" + connPlayer.AccountId, Category.Admin);
+				Loggy.Log("removing pre-existing ban entry for userId of" + connPlayer.AccountId, Category.Admin);
 				banList.banEntries.RemoveAt(index);
 			}
 

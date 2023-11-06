@@ -214,10 +214,10 @@ public partial class PlayerList : NetworkBehaviour
 			return player;
 		}
 
-		Logger.LogTrace($"Player {player.Username}'s client ID is: {player.ClientId} User ID: {player.Account.Id}.", Category.Connections);
+		Loggy.LogTrace($"Player {player.Username}'s client ID is: {player.ClientId} User ID: {player.Account.Id}.", Category.Connections);
 
 		loggedIn.Add(player);
-		Logger.Log($"Player with account {player.AccountId} has joined the game. Player count: {loggedIn.Count}.", Category.Connections);
+		Loggy.Log($"Player with account {player.AccountId} has joined the game. Player count: {loggedIn.Count}.", Category.Connections);
 
 		CheckRcon();
 		return player;
@@ -568,7 +568,7 @@ public partial class PlayerList : NetworkBehaviour
 		Loggy.LogTraceFormat("Searching for logged off players with userId {0}", Category.Connections, userId);
 		foreach (var player in loggedOff)
 		{
-			Logger.LogTraceFormat("Found logged off player with userId {0}", Category.Connections, player.AccountId);
+			Loggy.LogTraceFormat("Found logged off player with userId {0}", Category.Connections, player.AccountId);
 			if (player.AccountId == userId)
 			{
 				loggedOff.Remove(player);
@@ -587,7 +587,7 @@ public partial class PlayerList : NetworkBehaviour
 		{
 			if (player.Account.Id == userId)
 			{
-				Logger.LogTraceFormat("Found player with userId {0} clientId: {1}", Category.Connections, player.Account.Id, player.ClientId);
+				Loggy.LogTraceFormat("Found player with userId {0} clientId: {1}", Category.Connections, player.Account.Id, player.ClientId);
 
 				loggedOff.Remove(player);
 				return player;

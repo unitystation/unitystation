@@ -456,7 +456,7 @@ namespace GameModes
 				}
 				catch (Exception e)
 				{
-					Logger.LogError($" Failed to spawn player {spawnReq?.Player?.Name} " + e.ToString());
+					Loggy.LogError($" Failed to spawn player {spawnReq?.Player?.Name} " + e.ToString());
 				}
 			}
 
@@ -468,7 +468,7 @@ namespace GameModes
 				}
 				catch (Exception e)
 				{
-					Logger.LogError($" Failed to SpawnAntag {spawnReq?.Player?.Name} Antag {spawnReq?.RequestedOccupation.OrNull()?.name}  " + e.ToString());
+					Loggy.LogError($" Failed to SpawnAntag {spawnReq?.Player?.Name} Antag {spawnReq?.RequestedOccupation.OrNull()?.name}  " + e.ToString());
 				}
 			}
 
@@ -479,7 +479,7 @@ namespace GameModes
 			}
 			catch (Exception e)
 			{
-				Logger.LogError($" Failed to DiscordWebhookMessage Started round message " + e.ToString());
+				Loggy.LogError($" Failed to DiscordWebhookMessage Started round message " + e.ToString());
 			}
 
 			GameManager.Instance.CurrentRoundState = RoundState.Started;
