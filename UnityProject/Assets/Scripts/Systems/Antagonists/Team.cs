@@ -89,13 +89,21 @@ namespace Antagonists
 		public void AddTeamMember(Mind playerToAdd)
 		{
 			if (teamMembers.Contains(playerToAdd.AntagPublic) == false)
+			{
 				teamMembers.Add(playerToAdd.AntagPublic);
+				if (playerToAdd.AntagPublic.CurTeam != this)
+					playerToAdd.AntagPublic.CurTeam = this;
+			}
 		}
 
 		public void RemoveTeamMember(Mind playerToAdd)
 		{
 			if (teamMembers.Contains(playerToAdd.AntagPublic) == true)
+			{
 				teamMembers.Remove(playerToAdd.AntagPublic);
+				if (playerToAdd.AntagPublic.CurTeam != null)
+					playerToAdd.AntagPublic.CurTeam = null;
+			}
 		}
 
 		public void AddTeamObjective(Objective objectiveToAdd)
