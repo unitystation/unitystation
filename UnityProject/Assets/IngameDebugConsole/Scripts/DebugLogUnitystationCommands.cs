@@ -123,14 +123,14 @@ namespace IngameDebugConsole
 		[ConsoleMethod("myid", "Prints your uuid for your player account")]
 		public static void RunPrintUID()
 		{
-			Logger.Log($"{PlayerManager.Account.Id}", Category.DebugConsole);
+			Loggy.Log($"{PlayerManager.Account.Id}", Category.DebugConsole);
 		}
 
 		[ConsoleMethod("copyid", "Copies your uuid to your clipboard.")]
 		public static void CopyUserID()
 		{
 			TextUtils.CopyTextToClipboard($"{PlayerManager.Account.Id}");
-			Logger.Log($"UUID Copied to clipboard.", Category.DebugConsole);
+			Loggy.Log($"UUID Copied to clipboard.", Category.DebugConsole);
 		}
 
 		[ConsoleMethod("damage-self", "Server only cmd.\nUsage:\ndamage-self <bodyPart> <brute amount> <burn amount>\nExample: damage-self LeftArm 40 20.Insert")]
