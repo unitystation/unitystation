@@ -78,7 +78,7 @@ namespace AdminTools
 			if (relatedObjective == null)
 				return;
 
-			if (relatedObjective.PrefabID >= 0 && AntagData.Instance.FromIndexObj(relatedObjective.PrefabID).IsEndRoundObjective || relatedObjective.IsEndRound)
+			if (relatedObjective.PrefabID >= 0 && AntagData.Instance.FromIndexObj(relatedObjective.PrefabID).IsEndRoundObjective == true || relatedObjective.IsEndRound == true)
 			{
 				checkBoxText.text = "E";
 			}

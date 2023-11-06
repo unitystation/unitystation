@@ -33,7 +33,7 @@ namespace Antagonists
 		{
 			get
 			{
-				if (data.IsStationTeam)
+				if (data.IsStationTeam == true)
 				{
 					return new List<Objective>(StationObjectiveManager.Instance.ActiveObjective);
 				} else
@@ -88,19 +88,19 @@ namespace Antagonists
 
 		public void AddTeamMember(Mind playerToAdd)
 		{
-			if (!teamMembers.Contains(playerToAdd.AntagPublic))
+			if (teamMembers.Contains(playerToAdd.AntagPublic) == false)
 				teamMembers.Add(playerToAdd.AntagPublic);
 		}
 
 		public void RemoveTeamMember(Mind playerToAdd)
 		{
-			if (teamMembers.Contains(playerToAdd.AntagPublic))
+			if (teamMembers.Contains(playerToAdd.AntagPublic) == true)
 				teamMembers.Remove(playerToAdd.AntagPublic);
 		}
 
 		public void AddTeamObjective(Objective objectiveToAdd)
 		{
-			if (data.IsStationTeam && objectiveToAdd is StationObjective stObj)
+			if (data.IsStationTeam == true && objectiveToAdd is StationObjective stObj)
 			{
 				StationObjectiveManager.Instance.AddObjective(stObj);
 			} else
@@ -206,7 +206,7 @@ namespace Antagonists
 
 		public void RemoveTeamObjective(TeamObjective obj)
 		{
-			if (data.IsStationTeam && obj is StationObjective stObj)
+			if (data.IsStationTeam == true && obj is StationObjective stObj)
 			{
 				StationObjectiveManager.Instance.RemoveStationObjective(stObj);
 				return;
