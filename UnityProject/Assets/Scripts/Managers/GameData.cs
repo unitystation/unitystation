@@ -69,11 +69,6 @@ public class GameData : MonoBehaviour
 
 	#region Lifecycle
 
-	private void Awake()
-	{
-		ApiServer.Client = Http.Client;
-	}
-
 	private void Start()
 	{
 		_ = Init();

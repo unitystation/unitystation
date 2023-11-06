@@ -14,7 +14,7 @@ namespace Tests.Database
 		[Test]
 		public void Get_Send()
 		{
-			ApiServer.Client = new HttpClient(new MockHttpServer((request) =>
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient(new MockHttpServer((request) =>
 			{
 				Assert.AreEqual(mockUri, request.RequestUri);
 
@@ -22,13 +22,14 @@ namespace Tests.Database
 			}));
 
 			ApiServer.Get<JsonObject>(mockUri).Wait();
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 		}
 
 		[Test]
 		public void Get_SendAuth()
 		{
 			var mockToken = "asdf123faketokenhuehuehue";
-			ApiServer.Client = new HttpClient(new MockHttpServer((request) =>
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient(new MockHttpServer((request) =>
 			{
 				Assert.AreEqual("Token", request.Headers.Authorization.Scheme);
 				Assert.AreEqual(mockToken, request.Headers.Authorization.Parameter);
@@ -37,13 +38,14 @@ namespace Tests.Database
 			}));
 
 			ApiServer.Get<JsonObject>(mockUri, mockToken).Wait();
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 		}
 
 		[Test]
 		public void Get_ReceiveSuccess()
 		{
 			var mockResponse = new MockResponse();
-			ApiServer.Client = new HttpClient(new MockHttpServer((request) =>
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient(new MockHttpServer((request) =>
 			{
 				return new HttpResponseMessage()
 				{
@@ -58,12 +60,13 @@ namespace Tests.Database
 			Assert.AreEqual(mockResponse.receive_string, response.receive_string);
 			Assert.AreEqual(mockResponse.receive_integer, response.receive_integer);
 			Assert.AreEqual(mockResponse.receive_object.nested_field, response.receive_object.nested_field);
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 		}
 
 		[Test]
 		public void Get_ReceiveHttpError()
 		{
-			ApiServer.Client = new HttpClient(new MockHttpServer((request) =>
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient(new MockHttpServer((request) =>
 			{
 				return new HttpResponseMessage(HttpStatusCode.InternalServerError);
 			}));
@@ -80,6 +83,7 @@ namespace Tests.Database
 				}
 			});
 
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 			Assert.AreEqual(HttpStatusCode.InternalServerError, httpException.StatusCode);
 		}
 
@@ -88,7 +92,7 @@ namespace Tests.Database
 		{
 			var apiErrorMessage = "error thrown by database API server is fake";
 			var apiError = $"startbs[ErrorDetail(string=\'{apiErrorMessage}\'endbs";
-			ApiServer.Client = new HttpClient(new MockHttpServer((request) =>
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient(new MockHttpServer((request) =>
 			{
 				return new HttpResponseMessage(HttpStatusCode.Forbidden)
 				{
@@ -107,7 +111,7 @@ namespace Tests.Database
 					throw e.InnerException;
 				}
 			});
-
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 			Assert.AreEqual(apiErrorMessage, apiRequestException.Message);
 		}
 
@@ -115,7 +119,8 @@ namespace Tests.Database
 		public void Post_Send()
 		{
 			var mockRequest = new MockRequest();
-			ApiServer.Client = new HttpClient(new MockHttpServer((request) =>
+
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient(new MockHttpServer((request) =>
 			{
 				var task = request.Content.ReadAsStringAsync();
 				task.Wait();
@@ -131,13 +136,14 @@ namespace Tests.Database
 			}));
 
 			ApiServer.Post<JsonObject>(mockUri, mockRequest).Wait();
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 		}
 
 		[Test]
 		public void Post_SendAuth()
 		{
 			var mockRequest = new MockRequestAuth();
-			ApiServer.Client = new HttpClient(new MockHttpServer((request) =>
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient(new MockHttpServer((request) =>
 			{
 				Assert.AreEqual("Token", request.Headers.Authorization.Scheme);
 				Assert.AreEqual(mockRequest.Token, request.Headers.Authorization.Parameter);
@@ -146,13 +152,14 @@ namespace Tests.Database
 			}));
 
 			ApiServer.Post<JsonObject>(mockUri, mockRequest).Wait();
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 		}
 
 		[Test]
 		public void Post_ReceiveSuccess()
 		{
 			var mockResponse = new MockResponse();
-			ApiServer.Client = new HttpClient(new MockHttpServer((request) =>
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient(new MockHttpServer((request) =>
 			{
 				return new HttpResponseMessage()
 				{
@@ -167,12 +174,13 @@ namespace Tests.Database
 			Assert.AreEqual(mockResponse.receive_string, response.receive_string);
 			Assert.AreEqual(mockResponse.receive_integer, response.receive_integer);
 			Assert.AreEqual(mockResponse.receive_object.nested_field, response.receive_object.nested_field);
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 		}
 
 		[Test]
 		public void Post_ReceiveHttpError()
 		{
-			ApiServer.Client = new HttpClient(new MockHttpServer((request) =>
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient(new MockHttpServer((request) =>
 			{
 				return new HttpResponseMessage(HttpStatusCode.InternalServerError);
 			}));
@@ -186,11 +194,13 @@ namespace Tests.Database
 				}
 				catch (AggregateException e)
 				{
+					SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 					throw e.InnerException;
 				}
 			});
 
 			Assert.AreEqual(HttpStatusCode.InternalServerError, httpException.StatusCode);
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 		}
 
 		// TODO: tests for other ApiError types like Detail / Error in addition to the odd one below
@@ -199,7 +209,7 @@ namespace Tests.Database
 		{
 			var apiErrorMessage = "error thrown by database API server is fake";
 			var apiError = $"startbs[ErrorDetail(string=\'{apiErrorMessage}\'endbs";
-			ApiServer.Client = new HttpClient(new MockHttpServer((request) =>
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient(new MockHttpServer((request) =>
 			{
 				return new HttpResponseMessage(HttpStatusCode.Forbidden)
 				{
@@ -218,7 +228,7 @@ namespace Tests.Database
 					throw e.InnerException;
 				}
 			});
-
+			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 			Assert.AreEqual(apiErrorMessage, apiRequestException.Message);
 		}
 

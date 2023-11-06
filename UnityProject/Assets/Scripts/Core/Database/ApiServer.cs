@@ -20,8 +20,6 @@ namespace Core.Database
 	/// </summary>
 	public static class ApiServer
 	{
-		public static HttpClient Client = Http.Client;
-
 		internal static async Task<T> Get<T>(Uri uri, string token = default) where T : JsonObject
 		{
 			var request = new HttpRequestMessage(HttpMethod.Get, uri);
@@ -32,8 +30,7 @@ namespace Core.Database
 			}
 
 			var responseBody = await Send(request);
-
-			return JsonUtility.FromJson<T>(responseBody);
+			return JsonConvert.DeserializeObject<T>(responseBody);
 		}
 
 		internal static async Task<T> Post<T>(Uri uri, JsonObject body) where T : JsonObject
@@ -51,7 +48,7 @@ namespace Core.Database
 				request.Content = new StringContent(sss, Encoding.UTF8, "application/json");
 				//request.Content = body.ToStringContent();
 				var responseBody = await Send(request);
-				var response = JsonUtility.FromJson<T>(responseBody);
+				var response = JsonConvert.DeserializeObject<T>(responseBody);
 
 				return response;
 			}
@@ -69,7 +66,7 @@ namespace Core.Database
 		{
 			request.Headers.Add("Accept", "application/json");
 
-			HttpResponseMessage response = Client.SendAsync(request).Result;
+			HttpResponseMessage response = SecureStuff.SafeHttpRequest.SendAsync(request).Result;
 			var responseBody = response.Content.ReadAsStringAsync().Result;
 
 			Loggy.LogError(responseBody);
@@ -108,7 +105,7 @@ namespace Core.Database
 			}
 
 			// Else try get an API detail response.
-			var detailResponse = JsonUtility.FromJson<ApiDetailResponse>(response);
+			var detailResponse = JsonConvert.DeserializeObject<ApiDetailResponse>(response);
 			if (string.IsNullOrEmpty(detailResponse?.detail) == false)
 			{
 				requestException = new ApiRequestException(detailResponse.detail);
