@@ -624,6 +624,9 @@
 			},
 			"HttpRequestHeaders" :{
 				"All": true
+			},
+			"AuthenticationHeaderValue" :{
+				"All": true
 			}
 		},
         "System.Net.Sockets": {
@@ -2100,8 +2103,10 @@
 			},
 			"Activator" : {
 				
+			},
+			"UriBuilder" : {
+				"All": true
 			}
-
         },
         "UnityEngine": {
             "MonoBehaviour": {
@@ -3364,6 +3369,14 @@
 				"All": true
 			},
 		},
+		"Newtonsoft.Json.Linq" : {
+			"JToken" : {
+				"All": true
+			},
+			"JObject" : {
+				"All": true
+			},
+		}
 		"Tomlyn" : {
 			"Toml" : {
 				"Methods" : [
