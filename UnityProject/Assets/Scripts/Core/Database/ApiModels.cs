@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Core.Database
@@ -18,7 +19,7 @@ namespace Core.Database
 	{
 		public virtual string ToJson()
 		{
-			return JsonUtility.ToJson(this);
+			return JsonConvert.SerializeObject(this);
 		}
 
 		public virtual StringContent ToStringContent()
