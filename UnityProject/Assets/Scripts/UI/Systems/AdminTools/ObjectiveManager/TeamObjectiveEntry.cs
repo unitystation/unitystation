@@ -56,7 +56,7 @@ public class TeamObjectiveEntry : MonoBehaviour
 
 	private void UpdateCheckBox()
 	{
-		if (info.PrefabID >= 0 && AntagData.Instance.FromIndexObj(info.PrefabID).IsEndRoundObjective)
+		if (info.PrefabID >= 0 && AntagData.Instance.FromIndexObj(info.PrefabID).IsEndRoundObjective == true || info.IsEndRound == true)
 		{
 			checkBoxButtonText.text = "E";
 		} else if (info.Status)
@@ -80,10 +80,12 @@ public class TeamObjectiveEntry : MonoBehaviour
 			if (info.ToDelete == true)
 			{
 				removeButtonText.color = new Color(1, 0, 0, 1);
+				text.fontStyle = FontStyles.Strikethrough;
 			}
 			else
 			{
 				removeButtonText.color = new Color(0.8f, 0.2f, 0.2f, 1);
+				text.fontStyle = (FontStyles)FontStyle.Normal;
 			}
 
 		}

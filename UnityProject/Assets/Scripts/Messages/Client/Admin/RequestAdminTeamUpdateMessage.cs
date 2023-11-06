@@ -17,7 +17,7 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			if (IsFromAdmin())
+			if (IsFromAdmin() == true)
 			{
 				var info = JsonConvert.DeserializeObject<TeamsInfo>(msg.json);
 				try

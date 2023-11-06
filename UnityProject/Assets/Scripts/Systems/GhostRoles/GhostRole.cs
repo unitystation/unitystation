@@ -5,7 +5,6 @@ using System.Linq;
 using UnityEngine;
 using ScriptableObjects;
 using Systems.Character;
-using UI.Character;
 using Antagonists;
 
 namespace Systems.GhostRoles
@@ -183,7 +182,8 @@ namespace Systems.GhostRoles
 			{
 				if (totalPlayers < MinPlayers) return;
 				SpawnPlayer(player);
-				ghostRoleTeam?.AddTeamMember(player.Mind);
+				if (ghostRoleTeam != null)
+					player.Mind.AntagPublic.CurTeam = ghostRoleTeam;
 				WaitingPlayers.Remove(player);
 			};
 
@@ -192,7 +192,8 @@ namespace Systems.GhostRoles
 				foreach (PlayerInfo player in WaitingPlayers)
 				{
 					SpawnPlayer(player);
-					ghostRoleTeam?.AddTeamMember(player.Mind);
+					if (ghostRoleTeam != null)
+						player.Mind.AntagPublic.CurTeam = ghostRoleTeam;
 				}
 				WaitingPlayers.Clear();
 			};
