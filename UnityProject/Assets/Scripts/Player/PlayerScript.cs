@@ -22,7 +22,7 @@ using Changeling;
 using Logs;
 using Systems.Faith;
 
-public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlayerPossessable, IHoverTooltip, IRightClickable
+public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlayerPossessable, IHoverTooltip
 {
 	public GameObject GameObject => gameObject;
 	public uint PossessingID => possessingID;
@@ -96,6 +96,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	public ChatIcon ChatIcon { get; private set; }
 
 	public StatusEffectManager StatusEffectManager { get; private set; }
+
+	[field: SerializeField] public PlayerFaith PlayerFaith { get; private set; }
 
 	/// <summary>
 	/// Serverside world position.
@@ -177,14 +179,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		}
 	}
 
-	private Faith currentFaith = null;
-	public Faith CurrentFaith
-	{
-		get => currentFaith;
-		private set => currentFaith = value;
-	}
-
-	[field: SyncVar] public string FaithName { get; private set; } = "None";
 
 
 	#region Lifecycle
@@ -208,6 +202,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		PlayerSync = GetComponent<MovementSynchronisation>();
 		StatusEffectManager = GetComponent<StatusEffectManager>();
 		MobLanguages = GetComponent<MobLanguages>();
+		PlayerFaith ??= GetComponent<PlayerFaith>();
 	}
 
 	public override void OnStartClient()
@@ -777,99 +772,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		Itself.PreImplementedSyncPossessingID(previouslyPossessing, currentlyPossessing);
 	}
 
-	#region FAITH
-
-	[Server]
-	public void JoinReligion(Faith newFaith)
-	{
-		LeaveReligion();
-		currentFaith = newFaith;
-		FaithName = currentFaith.FaithName;
-		foreach (var prop in currentFaith.FaithProperties)
-		{
-			prop.OnJoinFaith(this);
-		}
-		if (FaithManager.Instance.CurrentFaith == newFaith) FaithManager.Instance.FaithMembers.Add(this);
-	}
-
-	[Server]
-	public void JoinReligion(string newFaith)
-	{
-		JoinReligion(FaithManager.Instance.AllFaiths.Find(x => x.Faith.FaithName == newFaith).Faith);
-	}
-
-	[Server]
-	public void LeaveReligion()
-	{
-		if (currentFaith == null) return;
-		foreach (var prop in currentFaith.FaithProperties)
-		{
-			prop.OnLeaveFaith(this);
-		}
-		if (FaithManager.Instance.CurrentFaith == currentFaith) FaithManager.Instance.FaithMembers.Remove(this);
-		currentFaith = null;
-		FaithName = "None";
-	}
-
-	#endregion
-
-
 	#region TOOLTIPDATA
-
-	private string ToleranceCheckForReligion()
-	{
-		//This is client trickery, anything we want to check on the client itself is from PlayerManager
-		//while things on the other player is done directly from within this class
-		if(PlayerManager.LocalPlayerScript.currentFaith == null) return "";
-		string finalText = "";
-		if (FaithName == "None")
-		{
-			finalText = "This person does not appear to be a part of any faith.";
-		}
-		else
-		{
-			switch (PlayerManager.LocalPlayerScript.currentFaith.ToleranceToOtherFaiths)
-			{
-				case ToleranceToOtherFaiths.Accepting:
-					finalText = "";
-					break;
-				case ToleranceToOtherFaiths.Neutral:
-					if (PlayerManager.LocalPlayerScript.FaithName != FaithName)
-					{
-						finalText = $"This person appears to have faith in {FaithName}.";
-					}
-					else
-					{
-						finalText = $"<color=green>This person appears to share the same faith as me!</color>";
-					}
-					break;
-				case ToleranceToOtherFaiths.Rejecting:
-					if (PlayerManager.LocalPlayerScript.FaithName != FaithName)
-					{
-						finalText = $"<color=red>This person appears to have faith in {FaithName} which goes against what I believe.</color>";
-					}
-					else
-					{
-						finalText = $"<color=green>This person appears to share the same faith as me!</color>";
-					}
-					break;
-				case ToleranceToOtherFaiths.Violent:
-					if (PlayerManager.LocalPlayerScript.FaithName != FaithName)
-					{
-						finalText = $"<color=red>This person appears to not share the same beliefs as me, and I don't like that.</color>";
-					}
-					else
-					{
-						finalText = $"<color=green>This person appears to share the same faith as me!</color>";
-					}
-					break;
-				default:
-					finalText = "";
-					break;
-			}
-		}
-		return finalText;
-	}
 
 	public string HoverTip()
 	{
@@ -877,7 +780,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		if (characterSettings == null) return finalText.ToString();
 		finalText.Append($"A {characterSettings.Species}.");
 		finalText.Append($" {characterSettings.TheyPronoun(this)}/{characterSettings.TheirPronoun(this)}.");
-		finalText.AppendLine($"\n{ToleranceCheckForReligion()}");
+		finalText.AppendLine($"\n{PlayerFaith.ToleranceCheckForReligion()}");
 		return finalText.ToString();
 	}
 
@@ -917,16 +820,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	}
 
 	#endregion
-
-	public RightClickableResult GenerateRightClickOptions()
-	{
-		RightClickableResult result = new RightClickableResult();
-		if (FaithName != "None" && PlayerManager.LocalPlayerScript.FaithName == "None")
-		{
-			result.AddElement("Join Faith", () => PlayerManager.LocalPlayerScript.JoinReligion(FaithName));
-		}
-		return result;
-	}
 }
 
 [Flags]

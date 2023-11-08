@@ -13,9 +13,12 @@ namespace Systems.Faith.FaithProperties
 			set => propertyIcon = value;
 		}
 
-		public void Setup()
+		public FaithData AssociatedFaith { get; set; }
+
+		public void Setup(FaithData associatedFaith)
 		{
 			//Todo: add discomfort checks.
+			AssociatedFaith = associatedFaith;
 		}
 
 		public void OnJoinFaith(PlayerScript newMember)
@@ -27,7 +30,7 @@ namespace Systems.Faith.FaithProperties
 		{
 			if (damageType.HasFlag(DamageType.Stamina) || damageType.HasFlag(DamageType.Clone)) return;
 			if (damage < 4) return;
-			FaithManager.AwardPoints((int)damage * 2);
+			FaithManager.AwardPoints((int)damage * 2, AssociatedFaith.Faith.FaithName);
 		}
 
 		public void OnLeaveFaith(PlayerScript member)

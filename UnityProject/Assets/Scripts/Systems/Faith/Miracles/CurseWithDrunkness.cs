@@ -30,9 +30,9 @@ namespace Systems.Faith.Miracles
 
 		public int MiracleCost { get; set; } = 350;
 
-		public void DoMiracle()
+		public void DoMiracle(FaithData associatedFaith, PlayerScript invoker = null)
 		{
-			foreach (var leader in FaithManager.Instance.FaithLeaders)
+			foreach (var leader in associatedFaith.FaithLeaders)
 			{
 				Chat.AddLocalMsgToChat($"{leader.visibleName}'s eyes become white as they start chanting some words loudly..", leader.gameObject);
 				Chat.AddChatMsgToChatServer(leader.PlayerInfo, "..Gin-La tok.. Ja-kra-ko..", ChatChannel.Local, Loudness.LOUD);

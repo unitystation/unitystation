@@ -1301,8 +1301,11 @@ namespace AdminCommands
 		public void CmdFreeFaithPoints(NetworkConnectionToClient conn = null)
 		{
 			if (IsAdmin(conn, out var player) == false) return;
-			FaithManager.AwardPoints(500);
-			Chat.AddGameWideSystemMsgToChat("<color=blue>An admin has given the current faith 500 points</color>");
+			foreach (var faith in FaithManager.Instance.CurrentFaiths)
+			{
+				FaithManager.AwardPoints(500, faith.Faith.FaithName);
+				Chat.AddGameWideSystemMsgToChat($"<color=blue>An admin has given the '{faith.Faith.FaithName}' faith 500 points</color>");
+			}
 		}
 
 		#endregion

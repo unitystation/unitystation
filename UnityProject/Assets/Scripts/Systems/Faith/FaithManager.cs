@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Logs;
 using Shared.Managers;
 using UnityEngine;
@@ -9,12 +10,9 @@ namespace Systems.Faith
 	public class FaithManager : SingletonManager<FaithManager>
 	{
 		public Faith DefaultFaith;
-		public Faith CurrentFaith { get; private set; }
-		public int FaithPoints { get; private set; }
+		public List<FaithData> CurrentFaiths { get; private set; } = new List<FaithData>();
 		public float FaithEventsCheckTimeInSeconds = 390f;
 		public float FaithPerodicCheckTimeInSeconds = 12f;
-		public List<PlayerScript> FaithMembers { get; private set; } = new List<PlayerScript>();
-		public List<PlayerScript> FaithLeaders { get; private set; } = new List<PlayerScript>();
 		public List<Action> FaithPropertiesEventUpdate { get; set; } = new List<Action>();
 		public List<Action> FaithPropertiesConstantUpdate { get; set; } = new List<Action>();
 		[field: SerializeField] public List<FaithSO> AllFaiths { get; private set; } = new List<FaithSO>();
@@ -31,10 +29,14 @@ namespace Systems.Faith
 		private void ResetReligion()
 		{
 			Loggy.Log("[FaithManager/ResetReligion] - Resetting faiths.");
-			CurrentFaith = DefaultFaith;
-			FaithPoints = 0;
-			FaithLeaders.Clear();
-			FaithMembers.Clear();
+			var defaultFaith = new FaithData()
+			{
+				Faith = DefaultFaith,
+				Points = 0,
+				FaithLeaders = new List<PlayerScript>(),
+				FaithMembers = new List<PlayerScript>(),
+			};
+			CurrentFaiths.Add(defaultFaith);
 			FaithPropertiesConstantUpdate.Clear();
 			FaithPropertiesEventUpdate.Clear();
 		}
@@ -42,53 +44,86 @@ namespace Systems.Faith
 		private void LongUpdate()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
+
 			foreach (var update in FaithPropertiesEventUpdate)
 			{
 				update?.Invoke();
 			}
-			//disabled for now until point shops/gameplay are properly implemented in the next chaplain expanded PR
-			//go away codacey, shoo. if (FaithPoints.IsBetween(-500, 500) && Application.isEditor == false) return;
 
-			if (DMMath.Prob(35))
+			if (DMMath.Prob(35) == false) return;
+			foreach (var faith in CurrentFaiths)
 			{
-				CurrentFaith.FaithProperties.PickRandom()?.RandomEvent();
+				if (faith.FaithMembers.Count == 0) continue;
+				if (faith.Faith.FaithProperties.Count == 0) continue;
+				if (faith.Points.IsBetween(-250, 250)) continue;
+				faith.Faith.FaithProperties.PickRandom()?.RandomEvent();
 			}
-
-			CheckTolerance();
 		}
 
 		private void PeriodicUpdate()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 			foreach (var property in FaithPropertiesConstantUpdate)
 			{
 				property?.Invoke();
 			}
 		}
 
-		private void CheckTolerance()
+		public static void AwardPoints(int points, string faithName)
 		{
-			if (FaithMembers.Count < 3 || CurrentFaith.ToleranceToOtherFaiths is ToleranceToOtherFaiths.Accepting) return;
-			//TODO: Logic me up daddy uwu
+			foreach (var faith in Instance.CurrentFaiths.Where(faith => faith.Faith.FaithName == faithName))
+			{
+				faith.Points += points;
+			}
 		}
 
-		public static void AwardPoints(int points)
+		public static void TakePoints(int points, string faithName)
 		{
-			Instance.FaithPoints += points;
+			foreach (var faith in Instance.CurrentFaiths.Where(faith => faith.Faith.FaithName == faithName))
+			{
+				faith.Points -= points;
+			}
 		}
 
-		public static void TakePoints(int points)
+		public static void AddLeaderToFaith(string targetFaith, PlayerScript newLeader)
 		{
-			Instance.FaithPoints -= points;
+			foreach (var faith in Instance.CurrentFaiths.Where(faith => faith.Faith.FaithName == targetFaith))
+			{
+				faith.AddMember(newLeader);
+				faith.FaithLeaders.Add(newLeader);
+			}
 		}
 
-		public void SetMainFaith(Faith faith)
+		public void AddFaithToActiveList(Faith faith)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			CurrentFaith = faith;
-			foreach (var property in CurrentFaith.FaithProperties)
+			FaithData data = new FaithData()
 			{
-				property.Setup();
+				Faith = faith,
+				Points = 0,
+				FaithLeaders = new List<PlayerScript>(),
+				FaithMembers = new List<PlayerScript>(),
+			};
+			CurrentFaiths.Add(data);
+			foreach (var property in faith.FaithProperties)
+			{
+				property.Setup(data);
+			}
+		}
+
+		public static void JoinFaith(Faith faith, PlayerScript player)
+		{
+			foreach (var faithData in Instance.CurrentFaiths.Where(x => x.FaithMembers.Contains(player)))
+			{
+				faithData.AddMember(player);
+			}
+		}
+
+		public static void LeaveFaith(PlayerScript playerScript)
+		{
+			foreach (var faith in Instance.CurrentFaiths.Where(faith => faith.FaithMembers.Contains(playerScript)))
+			{
+				faith.RemoveMember(playerScript);
 			}
 		}
 	}

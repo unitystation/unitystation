@@ -14,15 +14,18 @@ namespace Systems.Faith.FaithProperties
 			set => propertyIcon = value;
 		}
 
-		public void Setup()
+		public FaithData AssociatedFaith { get; set; }
+
+		public void Setup(FaithData associatedFaith)
 		{
 			ScoreMachine.Instance.OnScoreChanged.AddListener(UpdatePoints);
+			AssociatedFaith = associatedFaith;
 		}
 
 		private void UpdatePoints(string ID, int points)
 		{
 			if (ID != RoundEndScoreBuilder.COMMON_SCORE_LABORPOINTS) return;
-			FaithManager.AwardPoints(points);
+			FaithManager.AwardPoints(points, AssociatedFaith.Faith.FaithName);
 		}
 
 		public void OnJoinFaith(PlayerScript newMember)

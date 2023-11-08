@@ -481,6 +481,7 @@ GameObject:
   - component: {fileID: 5754329967401393357}
   - component: {fileID: 4201909151401612127}
   - component: {fileID: 5323151696653614753}
+  - component: {fileID: 6182295504772674896}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -592,6 +593,7 @@ MonoBehaviour:
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
+  <PlayerFaith>k__BackingField: {fileID: 6182295504772674896}
   RTT: 0
   RcsMode: 0
   RcsMatrixMove: {fileID: 0}
@@ -1488,6 +1490,8 @@ MonoBehaviour:
   CrawlSpeed: 0
   needsWalking: {fileID: 11400000, guid: 06d78d19774fe204489d635ddb501f83, type: 2}
   needsRunning: {fileID: 11400000, guid: 79263d379ff044244a9baa143471a268, type: 2}
+  CachedPreviousMove: {x: 0, y: 0}
+  CachedMove: {x: 0, y: 0}
   actionData: {fileID: 11400000, guid: 967a13d2ea206e9448f6c6e2af11a3cf, type: 2}
   IsBumping: 0
 --- !u!114 &3901833431230868314
@@ -1730,6 +1734,22 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   scaleTransform: {x: 1, y: 1, z: 1}
+--- !u!114 &6182295504772674896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82def04b61e1483f8a1f4032486d0d97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  player: {fileID: 114617133355526680}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0

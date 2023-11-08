@@ -35,9 +35,9 @@ namespace Systems.Faith.Miracles
 
 		public int MiracleCost { get; set; } = 500;
 
-		public void DoMiracle()
+		public void DoMiracle(FaithData associatedFaith, PlayerScript invoker = null)
 		{
-			foreach (var foodGobbler in FaithManager.Instance.FaithLeaders)
+			foreach (var foodGobbler in associatedFaith.FaithLeaders)
 			{
 				Chat.AddLocalMsgToChat($"{foodGobbler.visibleName}'s eyes become white as they start chanting some words loudly..", foodGobbler.gameObject);
 				Chat.AddChatMsgToChatServer(foodGobbler.PlayerInfo, "..Eathem.. Wish-ha-pig..", ChatChannel.Local, Loudness.LOUD);
