@@ -236,6 +236,15 @@ public class TeamObjectiveAdminPage : AdminPage
 					break;
 				}
 			}
+			foreach (var eM in entryMembers)
+			{
+				if (eM.AdminInfo.PlayerData.uid == x.PlayerData.uid)
+				{
+					playerInTeam = true;
+					break;
+				}
+			}
+
 			if (playerInTeam == true)
 				continue;
 			players.Add(new Dropdown.OptionData(x.PlayerData.name));
@@ -436,7 +445,7 @@ public class TeamObjectiveAdminPage : AdminPage
 	/// <param name="member"></param>
 	private static void RemoveMember(Team serverTeam, PlayerInfo member)
 	{
-		serverTeam.RemoveTeamMember(member.Mind);
+		member.Mind.AntagPublic.CurTeam = null;
 	}
 
 	/// <summary>
