@@ -22,6 +22,28 @@ namespace Core.Database
 	{
 		internal static async Task<T> Get<T>(Uri uri, string token = default) where T : JsonObject
 		{
+			var responseBody = await Get(uri, token);
+			return JsonConvert.DeserializeObject<T>(responseBody);
+		}
+
+		internal static async Task<T> Post<T>(Uri uri, JsonObject body) where T : JsonObject
+		{
+			try
+			{
+				var responseBody = await Post(uri, body);
+				var response = JsonConvert.DeserializeObject<T>(responseBody);
+				return response;
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+				return null;
+			}
+		}
+
+
+		internal static async Task<string> Get(Uri uri, string token = default)
+		{
 			var request = new HttpRequestMessage(HttpMethod.Get, uri);
 
 			if (token != default)
@@ -29,11 +51,10 @@ namespace Core.Database
 				request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
 			}
 
-			var responseBody = await Send(request);
-			return JsonConvert.DeserializeObject<T>(responseBody);
+			return await Send(request);
 		}
 
-		internal static async Task<T> Post<T>(Uri uri, JsonObject body) where T : JsonObject
+		internal static async Task<string> Post(Uri uri, JsonObject body)
 		{
 			try
 			{
@@ -47,27 +68,24 @@ namespace Core.Database
 				var sss = JsonConvert.SerializeObject(body);
 				request.Content = new StringContent(sss, Encoding.UTF8, "application/json");
 				//request.Content = body.ToStringContent();
-				var responseBody = await Send(request);
-				var response = JsonConvert.DeserializeObject<T>(responseBody);
+				Loggy.Log("await Send(request);");
+				return await Send(request);
 
-				return response;
 			}
 			catch (Exception e)
 			{
 				Loggy.LogError(e.ToString());
-				throw;
+				return null;
 			}
-
 		}
-
 
 
 		private static async Task<string> Send(HttpRequestMessage request)
 		{
 			request.Headers.Add("Accept", "application/json");
-
-			HttpResponseMessage response = SecureStuff.SafeHttpRequest.SendAsync(request).Result;
-			var responseBody = response.Content.ReadAsStringAsync().Result;
+			Loggy.Log("SecureStuff.SafeHttpRequest.SendAsync");
+			HttpResponseMessage response = await SecureStuff.SafeHttpRequest.SendAsync(request);
+			var responseBody = await response.Content.ReadAsStringAsync();
 
 			Loggy.Log(responseBody);
 			if (response.IsSuccessStatusCode == false)

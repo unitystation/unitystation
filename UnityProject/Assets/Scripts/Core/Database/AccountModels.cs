@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using Systems.Character;
 
 namespace Core.Database
@@ -67,7 +68,6 @@ namespace Core.Database
 		public string account_identifier;
 		public string username;
 		public bool is_verified;
-		public Dictionary<string, Dictionary<string, CharacterSheet>> characters_data;
 	}
 
 	[Serializable]
@@ -88,15 +88,15 @@ namespace Core.Database
 	[Serializable]
 	public class AccountLoginResponse : JsonObject
 	{
-		public AccountGetResponse account;
 		public string token;
+		public AccountGetResponse account;
 	}
 
 	[Serializable]
 	public class AccountTokenLoginResponse : JsonObject
 	{
-		public AccountGetResponse user;
 		public string token;
+		public AccountGetResponse user;
 	}
 
 	[Serializable]

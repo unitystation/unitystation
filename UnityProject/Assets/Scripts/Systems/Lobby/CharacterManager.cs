@@ -161,15 +161,6 @@ namespace Systems.Character
 			Characters.RemoveAt(key);
 		}
 
-		/// <summary>Load characters that have been saved to the cloud.</summary>
-		public void LoadOnlineCharacters()
-		{
-			throw new NotImplementedException();
-		}
-
-		private string OLDOfflineStoragePath => $"{Application.persistentDataPath}characters.json";
-
-
 		/// <summary>Load characters that are saved to Unity's persistent data folder.</summary>
 		public void LoadOfflineCharacters()
 		{
@@ -202,9 +193,7 @@ namespace Systems.Character
 		/// <summary>Save characters to the cloud.</summary>
 		public void SaveCharactersOnline()
 		{
-			// TODO support multiple characters
-			// TODO: bad
-			_ = PlayerManager.Account.SetCharacter(Get(GetLastCharacterKey()));
+			_ = PlayerManager.Account.SaveCharacters(Characters);
 		}
 
 		/// <summary>Save characters to Unity's persistent data folder.</summary>

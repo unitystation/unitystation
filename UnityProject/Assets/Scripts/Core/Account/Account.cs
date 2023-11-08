@@ -1,7 +1,13 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using Core.Database;
+using Logs;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using SecureStuff;
 using Systems.Character;
 
 namespace Core.Accounts
@@ -45,6 +51,7 @@ namespace Core.Accounts
 		public async Task<Account> Login(string emailAddress, string password)
 		{
 			var loginResponse = await AccountServer.Login(emailAddress, password);
+			//Get account
 			PostLogin(loginResponse.token, loginResponse.account);
 
 			return this;
@@ -111,6 +118,25 @@ namespace Core.Accounts
 		}
 
 		// characterId optional, assign to update existing character
+		public async Task SaveCharacters( List<CharacterSheet> characters)
+		{
+			// Fetch latest account data (we may have saved a character on another session during this session).
+			await FetchAccount();
+			Characters.Clear();
+			foreach (var character in characters)
+			{
+				// Collision risk should be low enough for the consequence
+				string key = RandomUtils.GetRandomString(8);
+				Characters.Add(key, character);
+			}
+
+			AllCharacters[CharacterManager.CharacterSheetVersion] = Characters;
+
+			await AccountServer.UpdateCharacters(Token, AllCharacters);
+		}
+
+
+		// characterId optional, assign to update existing character
 		public async Task<string> SetCharacter(CharacterSheet character, string key = "")
 		{
 			// Fetch latest account data (we may have saved a character on another session during this session).
@@ -145,6 +171,18 @@ namespace Core.Accounts
 			UpdateAccountCache();
 
 			IsAvailable = true;
+			if (PlayerManager.CharacterManager.Characters.Count == 0) //= No Local characters
+			{
+				var sortedCharacterList = Characters
+					.OrderBy(pair => pair.Key)
+					.Select(pair => pair.Value)
+					.ToList();
+
+				PlayerManager.CharacterManager.Characters.AddRange(sortedCharacterList);
+				PlayerManager.CharacterManager.SaveCharactersOffline();
+			}
+
+
 		}
 
 		private Account PopulateAccount(AccountGetResponse accountResponse)
@@ -152,7 +190,70 @@ namespace Core.Accounts
 			Id = accountResponse.account_identifier;
 			Username = accountResponse.username;
 			IsVerified = accountResponse.is_verified;
-			AllCharacters = accountResponse.characters_data;
+
+			//Magic get Character data
+
+			JObject characters_data = JObject.Parse(@"{""cool"" : [ {""mmm"" :""lllll"" } ]}");
+
+
+
+			AllCharacters = new Dictionary<string, Dictionary<string, CharacterSheet>>();
+
+			bool Error = false;
+
+			foreach (var outerKeyValue in characters_data)
+			{
+				string outerKey = outerKeyValue.Key;
+				if (AllCharacters.ContainsKey(outerKey))
+				{
+					AllCharacters[outerKey] = new Dictionary<string, CharacterSheet>();
+				}
+				JObject innerDictionary = outerKeyValue.Value as JObject;
+
+				if (innerDictionary != null)
+				{
+					foreach (var innerKeyValue in innerDictionary)
+					{
+						string innerKey = innerKeyValue.Key;
+						JObject characterSheetObject = innerKeyValue.Value as JObject;
+
+						if (characterSheetObject != null)
+						{
+							// Now you can access the properties of the CharacterSheet object.
+							try
+							{
+								CharacterSheet characterSheet = characterSheetObject.ToObject<CharacterSheet>();
+								AllCharacters[outerKey][innerKey] = characterSheet;
+							}
+							catch (Exception e)
+							{
+								Loggy.LogError(e.ToString());
+								Error = true;
+								continue;
+							}
+						}
+						else
+						{
+							Error = true;
+							continue;
+						}
+					}
+				}
+				else
+				{
+					Error = true;
+					continue;
+				}
+
+			}
+
+
+			if (Error)
+			{
+				AccessFile.Save("LostCharacterSettings.json", characters_data.ToString(),
+					FolderType.Config, true);
+
+			}
 
 			// May be null if AccountGetResponse schema is out of date with the API (TODO: affects all responses, so handle them)
 			AllCharacters ??= new();
