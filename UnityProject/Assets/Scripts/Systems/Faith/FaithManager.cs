@@ -126,5 +126,26 @@ namespace Systems.Faith
 				faith.RemoveMember(playerScript);
 			}
 		}
+
+		public static List<PlayerScript> GetAllMembersOfFaith(string faith)
+		{
+			var result = new List<PlayerScript>();
+			foreach (var f in Instance.CurrentFaiths.Where(f => f.Faith.FaithName == faith))
+			{
+				result.AddRange(f.FaithMembers);
+			}
+			return result;
+		}
+
+		public static int GetPointsOfFaith(string faith)
+		{
+			var result = 0;
+			foreach (var f in Instance.CurrentFaiths.Where(f => f.Faith.FaithName == faith))
+			{
+				result += f.Points;
+				break;
+			}
+			return result;
+		}
 	}
 }

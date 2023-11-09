@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Logs;
+﻿using Logs;
 using UI.Core.Action;
 using UnityEngine;
 using UnityEngine.EventSystems;

@@ -1,9 +1,14 @@
-﻿using Logs;
+﻿using System.Text;
+using Logs;
+using Messages.Server;
 using Mirror;
+using Systems.Faith.UI;
+using UI.Core.Action;
+using UnityEngine;
 
 namespace Systems.Faith
 {
-	public class PlayerFaith : NetworkBehaviour, IRightClickable
+	public class PlayerFaith : NetworkBehaviour, IRightClickable, IActionGUI
 	{
 		public PlayerScript player;
 		private Faith currentFaith = null;
@@ -15,6 +20,13 @@ namespace Systems.Faith
 		}
 
 		[field: SyncVar] public string FaithName { get; private set; } = "None";
+		[SerializeField] private ActionData ability;
+		public ActionData ActionData => ability;
+
+		public void CallActionClient()
+		{
+			UIManager.Instance.FaithInfo.gameObject.SetActive(true);
+		}
 
 		[Server]
 		public void JoinReligion(Faith newFaith)
@@ -33,6 +45,7 @@ namespace Systems.Faith
 		public void JoinReligion(string newFaith)
 		{
 			JoinReligion(FaithManager.Instance.AllFaiths.Find(x => x.Faith.FaithName == newFaith).Faith);
+			UIActionManager.ToggleServer(gameObject, this, true);
 		}
 
 		[Command]
@@ -61,6 +74,30 @@ namespace Systems.Faith
 		public void RpcShowFaithSelectScreen(NetworkConnection target)
 		{
 			UIManager.Instance.ChaplainFirstTimeSelectScreen.gameObject.SetActive(true);
+		}
+
+		[Command]
+		public void CmdUpdateInfoScreenData()
+		{
+			StringBuilder names = new StringBuilder();
+			foreach (var nameOfMember in FaithManager.GetAllMembersOfFaith(FaithName))
+			{
+				names.AppendLine(nameOfMember.playerName);
+			}
+
+			var data = new FaithInfoUI.FaithUIInfo()
+			{
+				FaithName = FaithName,
+				Members = names.ToString(),
+				Points = FaithManager.GetPointsOfFaith(FaithName).ToString(),
+			};
+			RpcUpdateInfoScreenDataForPlayer(player.connectionToClient, data);
+		}
+
+		[TargetRpc]
+		public void RpcUpdateInfoScreenDataForPlayer(NetworkConnectionToClient target, FaithInfoUI.FaithUIInfo data)
+		{
+			UIManager.Instance.FaithInfo.UpdateData(data);
 		}
 
 		public RightClickableResult GenerateRightClickOptions()
