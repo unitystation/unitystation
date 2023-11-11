@@ -85,7 +85,7 @@ namespace Systems.Explosions
 			MatrixManager.LocalToWorldInt(v3int, matrix.MatrixInfo), AttackType.Bomb);
 
 			DamageLayers(DamageDealt, v3int);
-			
+
 			foreach (var integrity in matrix.Get<Integrity>(v3int, true))
 			{
 				//Throw items
@@ -121,18 +121,18 @@ namespace Systems.Explosions
 			}
 			if (DamageDealt > 135)
 			{
+				foreach (var disposalPipe in Node.DisposalPipeData)
+				{
+					matrix.TileChangeManager.MetaTileMap.RemoveTileWithlayer(disposalPipe.NodeLocation, LayerType.Disposals);
+				}
+			}
+			if (DamageDealt > 200)
+			{
 				SavedPipes.Clear();
 				SavedPipes.AddRange(Node.PipeData);
 				foreach (var Pipe in SavedPipes)
 				{
 					Pipe.pipeData.DestroyThis();
-				}
-			}
-			if (DamageDealt > 200)
-			{
-				foreach (var disposalPipe in Node.DisposalPipeData)
-				{
-					matrix.TileChangeManager.MetaTileMap.RemoveTileWithlayer(disposalPipe.NodeLocation, LayerType.Disposals);
 				}
 			}
 		}
