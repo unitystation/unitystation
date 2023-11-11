@@ -19,6 +19,7 @@ using Doors;
 using Doors.Modules;
 using IngameDebugConsole;
 using Logs;
+using Messages.Server.SoundMessages;
 using Objects;
 using Objects.Atmospherics;
 using Objects.Disposals;
@@ -523,12 +524,23 @@ namespace AdminCommands
 		//FIXME: DISABLED UNTIL JUSTIN RETURNS WORK ON THIS AND WEAVER ISSUES GET FIXED
 
 		[Command(requiresAuthority = false)]
-		public void CmdPlaySound(string addressableAudioSource, NetworkConnectionToClient sender = null)
+		public void CmdPlaySound(string addressableAudioSource, AudioSourceParameters parameters,
+			bool poloyphonic, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 			AddressableAudioSource sound = new AddressableAudioSource();
 			sound.AssetAddress = addressableAudioSource;
-			SoundManager.PlayNetworked(sound);
+			SoundManager.PlayNetworked(sound, parameters);
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdPlaySoundAtAdminGhost(string addressableAudioSource, AudioSourceParameters parameters, bool poloyphonic, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			AddressableAudioSource sound = new AddressableAudioSource();
+			sound.AssetAddress = addressableAudioSource;
+			GameObject location = admin.Mind.isGhosting ? admin.Mind.ghost.gameObject : admin.Mind.Body.gameObject;
+			SoundManager.PlayNetworkedAtPos(sound,  location.AssumedWorldPosServer(), parameters, poloyphonic);
 		}
 
 
