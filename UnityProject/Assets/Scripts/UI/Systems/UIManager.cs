@@ -233,6 +233,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	[SerializeField] public CanvasScaler Scaler;
 
 	[field: SerializeField] public ChaplainFirstTimeSelectScreen ChaplainFirstTimeSelectScreen { get; private set; }
+	[field: SerializeField] public FaithInfoUI FaithInfo { get; private set; }
 
 	public static string SetToolTip
 	{
