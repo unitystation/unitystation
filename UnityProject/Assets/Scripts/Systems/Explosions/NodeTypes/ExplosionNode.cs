@@ -84,25 +84,8 @@ namespace Systems.Explosions
 			float EnergyExpended = metaTileMap.ApplyDamage(v3int, DamageDealt,
 			MatrixManager.LocalToWorldInt(v3int, matrix.MatrixInfo), AttackType.Bomb);
 
-			if (DamageDealt > 100)
-			{
-				var Node = matrix.GetMetaDataNode(v3int);
-				if (Node != null)
-				{
-					foreach (var electricalData in Node.ElectricalData)
-					{
-						electricalData.InData.DestroyThisPlease();
-					}
-
-					SavedPipes.Clear();
-					SavedPipes.AddRange(Node.PipeData);
-					foreach (var Pipe in SavedPipes)
-					{
-						Pipe.pipeData.DestroyThis();
-					}
-				}
-			}
-
+			DamageLayers(DamageDealt, v3int);
+			
 			foreach (var integrity in matrix.Get<Integrity>(v3int, true))
 			{
 				//Throw items
@@ -125,6 +108,33 @@ namespace Systems.Explosions
 				player.ApplyDamageAll(null, DamageDealt, AttackType.Bomb, DamageType.Brute, default, TraumaticDamageTypes.NONE, 75);
 			}
 			return EnergyExpended;
+		}
+
+		protected void DamageLayers(float DamageDealt, Vector3Int v3int)
+		{
+			if (DamageDealt < 100) return;
+			var Node = matrix.GetMetaDataNode(v3int);
+			if (Node == null) return;
+			foreach (var electricalData in Node.ElectricalData)
+			{
+				electricalData.InData.DestroyThisPlease();
+			}
+			if (DamageDealt > 135)
+			{
+				SavedPipes.Clear();
+				SavedPipes.AddRange(Node.PipeData);
+				foreach (var Pipe in SavedPipes)
+				{
+					Pipe.pipeData.DestroyThis();
+				}
+			}
+			if (DamageDealt > 200)
+			{
+				foreach (var disposalPipe in Node.DisposalPipeData)
+				{
+					matrix.TileChangeManager.MetaTileMap.RemoveTileWithlayer(disposalPipe.NodeLocation, LayerType.Disposals);
+				}
+			}
 		}
 
 		//triggered by ChemExplosion, this method says what to do when explosion is inside body
