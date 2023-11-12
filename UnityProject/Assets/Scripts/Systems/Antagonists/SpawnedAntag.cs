@@ -30,8 +30,8 @@ namespace Antagonists
 			}
 			set
 			{
-				curTeam?.RemoveTeamMember(curOwner);
-				value?.AddTeamMember(curOwner);
+				curTeam?.RemoveTeamMember(Owner);
+				value?.AddTeamMember(Owner);
 				curTeam = value;
 			}
 		}
