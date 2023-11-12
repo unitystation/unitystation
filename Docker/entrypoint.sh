@@ -10,4 +10,4 @@ if test "$ADMIN_WEBHOOK"  ; then jq --arg v "$ADMIN_WEBHOOK"   '.DiscordWebhookA
 if test "$ADMINLOG_WEBHOOK"  ; then jq --arg v "$ADMINLOG_WEBHOOK"   '.DiscordWebhookAdminLogURL = $v' config.json | sponge config.json; fi
 if test "$ALLCHAT_WEBHOOK"  ; then jq --arg v "$ALLCHAT_WEBHOOK"   '.DiscordWebhookAllChatURL = $v' config.json | sponge config.json; fi
 if test "$DISCORDLINKID"  ; then jq --arg v "$DISCORDLINKID"   '.DiscordLinkID = $v' config.json | sponge config.json; fi
-/server/Unitystation -batchmode -nographics -logfile /dev/stdout
+/server/Unitystation -batchmode --trusted -nographics -logfile /dev/stdout 
