@@ -2,6 +2,7 @@
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 
 static class BuildScript
@@ -99,6 +100,11 @@ static class BuildScript
 		var locationPathName = buildPath;
 
 		var target = (BuildTarget) Enum.Parse(typeof(BuildTarget), buildTarget);
+
+		var Defines = PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone);
+		Defines.Replace("DEV_DEBUG;", "");
+		PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Standalone, "dev");
+
 
 		// Define BuildPlayer Options
 		var buildOptions = new BuildPlayerOptions {
