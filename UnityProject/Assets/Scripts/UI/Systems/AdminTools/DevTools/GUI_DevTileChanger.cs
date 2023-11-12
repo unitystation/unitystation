@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using AdminCommands;
-using DatabaseAPI;
 using Logs;
 using ScriptableObjects;
 using TileManagement;
@@ -48,6 +47,7 @@ namespace UI.Systems.AdminTools.DevTools
 		private ColorPicker colourPicker = null;
 
 		private bool isFocused;
+		private LayerType categoryType;
 		private int categoryIndex = 0;
 		private int tileIndex = -1;
 		private int matrixIndex = 0;
@@ -61,6 +61,8 @@ namespace UI.Systems.AdminTools.DevTools
 		private ActionType currentAction = ActionType.None;
 
 		private Vector3Int dragStartPos;
+
+		private List<Button> activeButtons = new List<Button>();
 
 		private void Awake()
 		{
@@ -112,6 +114,7 @@ namespace UI.Systems.AdminTools.DevTools
 		/// </summary>
 		void LateUpdate()
 		{
+			CaptureTile();
 			if (tileSearchBox.isFocused && isFocused == false)
 			{
 				InputFocus();
@@ -188,6 +191,7 @@ namespace UI.Systems.AdminTools.DevTools
 			tileIndex = -1;
 
 			categoryIndex = index;
+			Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 			LoadTiles(index);
 		}
 
@@ -197,6 +201,7 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private void LoadTiles(int categoryIndex)
 		{
+			activeButtons.Clear();
 			//Clean up old tiles
 			foreach (Transform child in tileContentPanel.transform)
 			{
@@ -218,7 +223,9 @@ namespace UI.Systems.AdminTools.DevTools
 				var newTile = Instantiate(tileButtonPrefab, tileContentPanel.transform);
 
 				var i1 = i;
-				newTile.GetComponent<Button>().onClick.AddListener(() => OnTileSelect(categoryIndex, i1, newTile));
+				var button = newTile.GetComponent<Button>();
+				button.onClick.AddListener(() => OnTileSelect(categoryIndex, i1, newTile));
+				activeButtons.Add(button);
 
 				var tile = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[i];
 
@@ -230,6 +237,7 @@ namespace UI.Systems.AdminTools.DevTools
 				rect.localRotation = Quaternion.Euler(0, 0, -(rotation-90)); //Orientation angles are starting from the positive x axis going anti-clockwise (Like unit circle), but unity transforms start from positive y and go clockwise.
 
 				newTile.GetComponentInChildren<TMP_Text>().text = tile.name;
+				categoryType = TileCategorySO.Instance.TileCategories[categoryIndex].LayerType;
 			}
 
 			tileButtonPrefab.SetActive(false);
@@ -244,10 +252,12 @@ namespace UI.Systems.AdminTools.DevTools
 			if (selectedButton != null)
 			{
 				selectedButton.color = Color.white;
+				Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 			}
 
 			selectedButton = button.GetComponentInChildren<Image>();
 			selectedButton.color = Color.green;
+			Cursor.SetCursor(selectedButton.sprite.texture, Vector2.zero, CursorMode.Auto);
 		}
 
 		#endregion
@@ -296,6 +306,37 @@ namespace UI.Systems.AdminTools.DevTools
 
 		#region Clicking
 
+		private void CaptureTile()
+		{
+			//middle click
+			if (Input.GetMouseButtonDown(2) == false) return;
+			var matrixId =
+				MatrixManager.Instance.ActiveMatrices.Where(x =>
+					x.Value.Name == matrixDropdown.options[matrixIndex].text).ToList();
+			if ( matrixId.Count == 0 )
+			{
+				return;
+			}
+			var matrixInfo = matrixId.First().Value;
+			if (matrixInfo == null || matrixInfo == MatrixInfo.Invalid)
+			{
+				return;
+			}
+			var pos = MatrixManager.WorldToLocalInt(MouseInputController.MouseWorldPosition, matrixInfo);
+			var tile = matrixInfo.MetaTileMap.GetTileAtWorldPos(MouseInputController.MouseWorldPosition, categoryType);
+			if (tile == null)
+			{
+				Debug.Log($"no tile at {pos} on matrix {matrixInfo.Name} with category type: {categoryType} || {MouseInputController.MouseWorldPosition} - {pos}");
+				return;
+			}
+			foreach (var button in activeButtons)
+			{
+				if (button.GetComponentInChildren<TMP_Text>().text != tile.name) continue;
+				button.onClick?.Invoke();
+				break;
+			}
+		}
+
 		private bool OnClick()
 		{
 			if(currentAction == ActionType.None) return true;
@@ -341,7 +382,7 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private void OnDrag()
 		{
-			if(currentAction == ActionType.None) return;
+			if (currentAction == ActionType.None) return;
 
 			//Being held down
 			if (CommonInput.GetMouseButton(0)) return;
@@ -349,6 +390,7 @@ namespace UI.Systems.AdminTools.DevTools
 			if (CommonInput.GetMouseButtonUp(0) == false) return;
 
 			if(dragStartPos == MouseInputController.MouseWorldPosition.RoundToInt()) return;
+
 
 			//End drag
 			switch (currentAction)
@@ -468,11 +510,15 @@ namespace UI.Systems.AdminTools.DevTools
 		private void PlaceTile()
 		{
 			if(categoryIndex == -1 || tileIndex == -1) return;
+			AdminCommandsManager.Instance.CmdPlaceTile(GetPlaceStructInfo());
+		}
 
+		private PlaceStruct GetPlaceStructInfo()
+		{
 			if (Enum.TryParse(directionDropdown.options[directionIndex].text, out OrientationEnum orientation) == false)
 			{
 				Chat.AddExamineMsgToClient("Failed to find orientation!");
-				return;
+				return new PlaceStruct();
 			}
 
 			var matrixId =
@@ -482,7 +528,7 @@ namespace UI.Systems.AdminTools.DevTools
 			if (matrixId.Any() == false)
 			{
 				Chat.AddExamineMsgToClient("Invalid matrix selected!");
-				return;
+				return new PlaceStruct();
 			}
 
 			Color? colour = colourToggle.isOn ? colourPicker.CurrentColor : null;
@@ -499,9 +545,9 @@ namespace UI.Systems.AdminTools.DevTools
 				orientation = orientation,
 				colour = colour
 			};
-
-			AdminCommandsManager.Instance.CmdPlaceTile(data);
+			return data;
 		}
+
 
 		private void RemoveTile()
 		{
