@@ -41,7 +41,7 @@ namespace Util
 		// var localRotation = serializedObject.FindProperty("m_LocalRotation");
 		// PrefabUtility.RevertPropertyOverride(localRotation, InteractionMode.AutomatedAction);
 
-		[MenuItem("Tools/Refresh Sound Catalogue")]
+		[MenuItem("Tools/Audio/Refresh Sound Catalogue")]
 		public static void RefreshSoundCatalogue()
 		{
 			AddressablePicker.Refresh();
@@ -349,7 +349,7 @@ namespace Util
 			}
 		}
 
-		[MenuItem("Tools/Get Music keys")]
+		[MenuItem("Tools/Audio/Get Music keys")]
 		public static void GetMusicKeys()
 		{
 			var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
@@ -393,7 +393,7 @@ namespace Util
 			AssetDatabase.StartAssetEditing();
 		}
 
-		[MenuItem("Tools/Convert Json Sprites")]
+		[MenuItem("Tools/Sprites/Convert Json Sprites")]
 		public static void ConvertJsonSprites()
 		{
 			spriteCatalogue =
@@ -421,7 +421,7 @@ namespace Util
 			AssetDatabase.SaveAssets();
 		}
 
-		[MenuItem("Tools/Reset SO index")]
+		[MenuItem("Tools/Sprites/Reset SO index")]
 		public static void Reset()
 		{
 			AssetDatabase.StartAssetEditing();
@@ -443,12 +443,7 @@ namespace Util
 			AssetDatabase.SaveAssets();
 		}
 
-		[MenuItem("Tools/||||||||||||||||||||Debug function||||||||||||||||")]
-		public static void ResetPipe()
-		{
-			//HubValidation.ResetPipe();
-		}
-
+		[MenuItem("Tools/Debug/CheckURLHubValidation")]
 		public static async Task Dothing()
 		{
 			var data = await HubValidation.RequestOpenURL(new Uri("https://old.reddit.com"), " because lol ", false);
@@ -459,7 +454,7 @@ namespace Util
 
 
 
-		[MenuItem("Tools/------------ Debug function -----------")]
+		[MenuItem("Tools/Debug/------------ Debug function -----------")]
 		public static void Generate()
 		{
 			 AssetDatabase.StartAssetEditing();

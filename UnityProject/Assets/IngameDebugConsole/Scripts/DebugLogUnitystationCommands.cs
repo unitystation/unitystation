@@ -29,7 +29,7 @@ namespace IngameDebugConsole
 		}
 
 #if UNITY_EDITOR
-		[MenuItem("Tool/ConveyorBeltTool")]
+		[MenuItem("Tools/ConveyorBeltTool")]
 #endif
 		[ConsoleMethod("CBTool", "Allows users to quickly build conveyor belts.")]
 		public static void EnableCBTool()
