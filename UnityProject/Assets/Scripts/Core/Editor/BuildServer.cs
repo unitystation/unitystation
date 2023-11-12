@@ -103,7 +103,7 @@ static class BuildScript
 
 		var Defines = PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone);
 		Defines.Replace("DEV_DEBUG;", "");
-		PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Standalone, "dev");
+		PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Standalone, Defines);
 
 
 		// Define BuildPlayer Options
