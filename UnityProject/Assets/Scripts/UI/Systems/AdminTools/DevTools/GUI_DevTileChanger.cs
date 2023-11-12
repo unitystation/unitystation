@@ -258,6 +258,9 @@ namespace UI.Systems.AdminTools.DevTools
 			selectedButton = button.GetComponentInChildren<Image>();
 			selectedButton.color = Color.green;
 			Cursor.SetCursor(selectedButton.sprite.texture, Vector2.zero, CursorMode.Auto);
+			var buttonText = selectedButton.GetComponentInChildren<TMP_Text>();
+			if (buttonText == null) return;
+			Chat.AddExamineMsg(PlayerManager.LocalPlayerObject, $"You will paint now with a '{buttonText.text}'");
 		}
 
 		#endregion
