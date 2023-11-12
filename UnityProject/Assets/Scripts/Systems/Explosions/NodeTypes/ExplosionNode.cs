@@ -78,13 +78,13 @@ namespace Systems.Explosions
 		}
 
 		//method that, surprise, does damage to stuff on node's tile. override for custom behaviour. must return EnergyExpended value
-		public virtual float DoDamage(Matrix matrix, float DamageDealt, Vector3Int v3int)
+		public virtual float DoDamage(Matrix matrix, float damageDealt, Vector3Int v3int)
 		{
 			var metaTileMap = matrix.MetaTileMap;
-			float EnergyExpended = metaTileMap.ApplyDamage(v3int, DamageDealt,
+			float energyExpended = metaTileMap.ApplyDamage(v3int, damageDealt,
 			MatrixManager.LocalToWorldInt(v3int, matrix.MatrixInfo), AttackType.Bomb);
 
-			DamageLayers(DamageDealt, v3int);
+			DamageLayers(damageDealt, v3int);
 
 			foreach (var integrity in matrix.Get<Integrity>(v3int, true))
 			{
@@ -99,37 +99,37 @@ namespace Systems.Explosions
 				}
 
 				//And do damage to objects
-				integrity.ApplyDamage(DamageDealt, AttackType.Bomb, DamageType.Brute);
+				integrity.ApplyDamage(damageDealt, AttackType.Bomb, DamageType.Brute);
 			}
 
 			foreach (var player in matrix.Get<LivingHealthMasterBase>(v3int, ObjectType.Player, true))
 			{
 				// do damage
-				player.ApplyDamageAll(null, DamageDealt, AttackType.Bomb, DamageType.Brute, default, TraumaticDamageTypes.NONE, 75);
+				player.ApplyDamageAll(null, damageDealt, AttackType.Bomb, DamageType.Brute, default, TraumaticDamageTypes.NONE, 75);
 			}
-			return EnergyExpended;
+			return energyExpended;
 		}
 
-		protected void DamageLayers(float DamageDealt, Vector3Int v3int)
+		protected void DamageLayers(float damageDealt, Vector3Int v3int)
 		{
-			if (DamageDealt < 100) return;
-			var Node = matrix.GetMetaDataNode(v3int);
-			if (Node == null) return;
-			foreach (var electricalData in Node.ElectricalData)
+			if (damageDealt < 100) return;
+			var node = matrix.GetMetaDataNode(v3int);
+			if (node == null) return;
+			foreach (var electricalData in node.ElectricalData)
 			{
 				electricalData.InData.DestroyThisPlease();
 			}
-			if (DamageDealt > 135)
+			if (damageDealt > 135)
 			{
-				foreach (var disposalPipe in Node.DisposalPipeData)
+				foreach (var disposalPipe in node.DisposalPipeData)
 				{
 					matrix.TileChangeManager.MetaTileMap.RemoveTileWithlayer(disposalPipe.NodeLocation, LayerType.Disposals);
 				}
 			}
-			if (DamageDealt > 200)
+			if (damageDealt > 200)
 			{
 				SavedPipes.Clear();
-				SavedPipes.AddRange(Node.PipeData);
+				SavedPipes.AddRange(node.PipeData);
 				foreach (var Pipe in SavedPipes)
 				{
 					Pipe.pipeData.DestroyThis();
