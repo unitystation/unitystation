@@ -6,6 +6,7 @@ using UnityEngine;
 
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine.UI;
 
@@ -123,6 +124,15 @@ public class UpdateTextures : MonoBehaviour
 				        }
 			        }
 		        }
+	        }
+
+	        var piss = component.GetComponentsInChildren<TMP_InputField>();
+	        Debug.Log($"found {piss.Length} input fields.");
+	        foreach (var fuck in piss)
+	        {
+		        if (fuck.gameObject.HasComponent<TMPInputFocusWrapper>()) continue;
+		        fuck.gameObject.AddComponent<TMPInputFocusWrapper>();
+		        Debug.Log($"added wrapper for {fuck.gameObject.name}.");
 	        }
         }
 
