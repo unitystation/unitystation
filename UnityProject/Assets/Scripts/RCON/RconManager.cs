@@ -113,6 +113,8 @@ public class RconManager : SingletonManager<RconManager>
 
 		httpServer.AuthenticationSchemes = AuthenticationSchemes.Basic;
 		httpServer.Realm = "Admins";
+
+		//TODO consider using user credentials and the admin permission system instead of a fixed password, for more access control (blocked on centcomm integration, #7179 )
 		httpServer.UserCredentialsFinder = id =>
 		{
 			var name = id.Name;
@@ -152,6 +154,7 @@ public class RconManager : SingletonManager<RconManager>
 		if (rconQueue.Count > 0) {
 			while(rconQueue.TryDequeue(out RconMessage e))
 			{
+
 				if (e.Data == "lastlog")
 				{
 					SendToSocket(e.SocketID, "lastlog" + RconManager.GetLastLog());
@@ -439,7 +442,7 @@ public class RconManager : SingletonManager<RconManager>
 
 	public static string GetFullLog()
 	{
-		var log = ServerLog.Join("\n");
+		string log = String.Join("\n", ServerLog);
 		if (log.Length > 5000)
 		{
 			log = log.Substring(4000);
@@ -449,8 +452,7 @@ public class RconManager : SingletonManager<RconManager>
 
 	public static string GetFullChatLog()
 	{
-		stringBuilder.Append(ChatLog);
-		var log = ChatLog.Join("\n");
+		string log = String.Join("\n", ChatLog);
 
 		if (string.IsNullOrEmpty(log))
 		{
