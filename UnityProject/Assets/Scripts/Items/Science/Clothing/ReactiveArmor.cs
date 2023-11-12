@@ -34,7 +34,7 @@ namespace Items.Science.Clothing
 			if (info.ToSlot?.NamedSlot != NamedSlot.outerwear) return;
 			info.FromRootPlayer.PlayerScript.playerHealth.OnTakeDamageType += TeleportWearer;
 		}
-		private void TeleportWearer(DamageType type, GameObject hitBy)
+		private void TeleportWearer(DamageType type, GameObject hitBy, float DMG)
 		{
 			if (blacklistedDamageTypes.Contains(type)) return;
 			if (pickupable.ItemSlot?.Player == null) return;

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 433040487140416842, guid: 0d452d035c46dad46a96790f0c346d17,
@@ -30,13 +31,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 433040487140416842, guid: 0d452d035c46dad46a96790f0c346d17,
         type: 3}
-      propertyPath: holosignPrefabs.Array.data[0]
+      propertyPath: 'holosignPrefabs.Array.data[0]'
       value: 
       objectReference: {fileID: 1994185639627948638, guid: 501bef69d96f64f44bd124cf62c06b68,
         type: 3}
     - target: {fileID: 433040487140416842, guid: 0d452d035c46dad46a96790f0c346d17,
         type: 3}
-      propertyPath: holosignPrefabs.Array.data[1]
+      propertyPath: 'holosignPrefabs.Array.data[1]'
       value: 
       objectReference: {fileID: 4189414895862531579, guid: 056e3e6b6f40fd04090b504404da5957,
         type: 3}
@@ -124,6 +125,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8302388595661083720, guid: 0d452d035c46dad46a96790f0c346d17,
         type: 3}
+      propertyPath: _assetId
+      value: 981559833
+      objectReference: {fileID: 0}
+    - target: {fileID: 8302388595661083720, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
       propertyPath: m_AssetId
       value: b695fbc00f583e94bbd902133a4782a1
       objectReference: {fileID: 0}
@@ -139,4 +145,7 @@ PrefabInstance:
         changes in atmosphere conditions.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d452d035c46dad46a96790f0c346d17, type: 3}

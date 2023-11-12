@@ -65,7 +65,7 @@ public class SVBoxSlider : MonoBehaviour
 
         image.texture = renderTexture;
     }
-    
+
 
     private void OnEnable()
     {

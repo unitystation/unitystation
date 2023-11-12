@@ -1,4 +1,5 @@
 
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -29,7 +30,7 @@ public class SpawnableClone : ISpawnable
 		var prefab = Spawn.DeterminePrefab(toClone);
 		if (prefab == null)
 		{
-			Logger.LogErrorFormat(
+			Loggy.LogErrorFormat(
 				"Object {0} cannot be cloned because it has no PoolPrefabTracker and its name" +
 				" does not match a prefab name, so we cannot" +
 				" determine the prefab to instantiate. Please fix this object so that it" +

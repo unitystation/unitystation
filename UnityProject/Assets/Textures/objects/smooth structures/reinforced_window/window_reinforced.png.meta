@@ -147,7 +147,7 @@ TextureImporter:
       213: 21300094
     second: window_reinforced_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -246,6 +249,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1278,57 +1293,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      window_reinforced_17: 21300034
-      window_reinforced_18: 21300036
+      window_reinforced_0: 21300000
+      window_reinforced_1: 21300002
       window_reinforced_10: 21300020
       window_reinforced_11: 21300022
-      window_reinforced_3: 21300006
+      window_reinforced_12: 21300024
       window_reinforced_13: 21300026
-      window_reinforced_42: 21300084
+      window_reinforced_14: 21300028
+      window_reinforced_15: 21300030
+      window_reinforced_16: 21300032
+      window_reinforced_17: 21300034
+      window_reinforced_18: 21300036
+      window_reinforced_19: 21300038
       window_reinforced_2: 21300004
+      window_reinforced_20: 21300040
+      window_reinforced_21: 21300042
       window_reinforced_22: 21300044
       window_reinforced_23: 21300046
-      window_reinforced_41: 21300082
-      window_reinforced_9: 21300018
-      window_reinforced_7: 21300014
-      window_reinforced_38: 21300076
-      window_reinforced_14: 21300028
-      window_reinforced_26: 21300052
+      window_reinforced_24: 21300048
       window_reinforced_25: 21300050
-      window_reinforced_37: 21300074
-      window_reinforced_6: 21300012
-      window_reinforced_46: 21300092
-      window_reinforced_34: 21300068
-      window_reinforced_45: 21300090
-      window_reinforced_30: 21300060
-      window_reinforced_1: 21300002
-      window_reinforced_21: 21300042
-      window_reinforced_12: 21300024
-      window_reinforced_5: 21300010
-      window_reinforced_32: 21300064
+      window_reinforced_26: 21300052
       window_reinforced_27: 21300054
-      window_reinforced_43: 21300086
       window_reinforced_28: 21300056
-      window_reinforced_20: 21300040
+      window_reinforced_29: 21300058
+      window_reinforced_3: 21300006
+      window_reinforced_30: 21300060
+      window_reinforced_31: 21300062
+      window_reinforced_32: 21300064
+      window_reinforced_33: 21300066
+      window_reinforced_34: 21300068
+      window_reinforced_35: 21300070
+      window_reinforced_36: 21300072
+      window_reinforced_37: 21300074
+      window_reinforced_38: 21300076
+      window_reinforced_39: 21300078
       window_reinforced_4: 21300008
       window_reinforced_40: 21300080
-      window_reinforced_31: 21300062
-      window_reinforced_39: 21300078
+      window_reinforced_41: 21300082
+      window_reinforced_42: 21300084
+      window_reinforced_43: 21300086
       window_reinforced_44: 21300088
-      window_reinforced_15: 21300030
-      window_reinforced_19: 21300038
-      window_reinforced_35: 21300070
-      window_reinforced_29: 21300058
+      window_reinforced_45: 21300090
+      window_reinforced_46: 21300092
       window_reinforced_47: 21300094
-      window_reinforced_24: 21300048
-      window_reinforced_16: 21300032
+      window_reinforced_5: 21300010
+      window_reinforced_6: 21300012
+      window_reinforced_7: 21300014
       window_reinforced_8: 21300016
-      window_reinforced_33: 21300066
-      window_reinforced_0: 21300000
-      window_reinforced_36: 21300072
-  spritePackingTag: 
+      window_reinforced_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

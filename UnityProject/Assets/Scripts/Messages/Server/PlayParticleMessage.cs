@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using Mirror;
 using Objects;
 using UnityEngine;
@@ -27,7 +28,7 @@ namespace Messages.Server
 		{
 			if (msg.ParticleObject.Equals(NetId.Invalid)) {
 				//Failfast
-				Logger.LogWarning("PlayParticle NetId invalid, processing stopped", Category.Particles);
+				Loggy.LogWarning("PlayParticle NetId invalid, processing stopped", Category.Particles);
 				return;
 			}
 
@@ -60,7 +61,7 @@ namespace Messages.Server
 			}
 			catch (Exception ignored)
 			{
-				Logger.LogError($"PlayParticleMessage threw an exception {ignored} which has been ignored.", Category.Particles);
+				Loggy.LogError($"PlayParticleMessage threw an exception {ignored} which has been ignored.", Category.Particles);
 			}
 
 			SendToAll(msg);

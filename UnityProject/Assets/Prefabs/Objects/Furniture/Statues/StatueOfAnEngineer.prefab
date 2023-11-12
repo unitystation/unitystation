@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1776309160944027190, guid: fb724c28353cf2243a02df332dc09209,
@@ -15,13 +16,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2080691098234756876, guid: fb724c28353cf2243a02df332dc09209,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3398976167246584206, guid: fb724c28353cf2243a02df332dc09209,
+        type: 3}
+      propertyPath: _assetId
+      value: 3896681175
       objectReference: {fileID: 0}
     - target: {fileID: 3398976167246584206, guid: fb724c28353cf2243a02df332dc09209,
         type: 3}
       propertyPath: m_AssetId
       value: 91d328844576060428a328730d6cbd0c
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491138776680199132, guid: fb724c28353cf2243a02df332dc09209,
+        type: 3}
+      propertyPath: exportCost
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 4491138776680199132, guid: fb724c28353cf2243a02df332dc09209,
         type: 3}
@@ -77,17 +88,17 @@ PrefabInstance:
     - target: {fileID: 6549345261661792822, guid: fb724c28353cf2243a02df332dc09209,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6549345261661792822, guid: fb724c28353cf2243a02df332dc09209,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6549345261661792822, guid: fb724c28353cf2243a02df332dc09209,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6549345261661792822, guid: fb724c28353cf2243a02df332dc09209,
         type: 3}
@@ -115,4 +126,7 @@ PrefabInstance:
       value: 91d328844576060428a328730d6cbd0c
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb724c28353cf2243a02df332dc09209, type: 3}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3113739160240451436, guid: 57bdc54d41899c34a897a26ef0a10933,
@@ -14,7 +15,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3113739160240451436, guid: 57bdc54d41899c34a897a26ef0a10933,
         type: 3}
-      propertyPath: languages.Array.data[1]
+      propertyPath: 'languages.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: fc9fe172c4ed34743a0e2d1f4690cbd4,
         type: 2}
@@ -27,6 +28,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: Felind Tongue
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403555682847477396, guid: 57bdc54d41899c34a897a26ef0a10933,
+        type: 3}
+      propertyPath: _assetId
+      value: 3616135985
       objectReference: {fileID: 0}
     - target: {fileID: 7403555682847477396, guid: 57bdc54d41899c34a897a26ef0a10933,
         type: 3}
@@ -94,4 +100,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57bdc54d41899c34a897a26ef0a10933, type: 3}

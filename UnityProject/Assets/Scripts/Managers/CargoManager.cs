@@ -15,6 +15,7 @@ using UnityEngine.SceneManagement;
 using NaughtyAttributes;
 using Items.Science;
 using Items.Storage.VirtualStorage;
+using Logs;
 
 namespace Systems.Cargo
 {
@@ -271,6 +272,15 @@ namespace Systems.Cargo
 
 		public void ProcessCargo(GameObject obj, HashSet<GameObject> alreadySold)
 		{
+			if (obj.TryGetComponent<Attributes>(out var attributes))
+			{
+				if (attributes.CanBeSoldInCargo == false)
+				{
+					Inventory.ServerDrop(attributes.gameObject);
+					return;
+				}
+			}
+
 			if (obj.TryGetComponent<PlayerScript>(out var playerScript))
 			{
 				// No one must survive to tell the secrets of Central Command's cargo handling techniques.
@@ -290,22 +300,26 @@ namespace Systems.Cargo
 			// already sold this this sales cycle.
 			if (alreadySold.Contains(obj)) return;
 
-			if (obj.TryGetComponent<ItemStorage>(out var storage))
+			var storages = obj.GetComponents<ItemStorage>();
 			{
-				// Check to spawn initial contents, can't just use prefab data due to recursion
-				if (storage.ContentsSpawned == false)
+				foreach (var storage in storages)
 				{
-					storage.TrySpawnContents();
-				}
-
-				foreach (var slot in storage.GetItemSlots())
-				{
-					if (slot.Item)
+					// Check to spawn initial contents, can't just use prefab data due to recursion
+					if (storage.ContentsSpawned == false)
 					{
-						ProcessCargo(slot.Item.gameObject, alreadySold);
+						storage.TrySpawnContents();
+					}
+
+					foreach (var slot in storage.GetItemSlots())
+					{
+						if (slot.Item)
+						{
+							ProcessCargo(slot.Item.gameObject, alreadySold);
+						}
 					}
 				}
 			}
+
 
 			if (obj.TryGetComponent<ObjectContainer>(out var container))
 			{
@@ -319,7 +333,7 @@ namespace Systems.Cargo
 			}
 
 			string exportName;
-			if (obj.TryGetComponent<Attributes>(out var attributes))
+			if (attributes != null)
 			{
 				attributes.OnExport();
 				exportName = string.IsNullOrEmpty(attributes.ExportName) ? attributes.ArticleName : attributes.ExportName;
@@ -365,7 +379,7 @@ namespace Systems.Cargo
 				{
 					if (itemTrait == null)
 					{
-						Logger.LogError($"{itemAttributes.name} has null or empty item trait, please fix");
+						Loggy.LogError($"{itemAttributes.name} has null or empty item trait, please fix");
 						continue;
 					}
 

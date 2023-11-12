@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 096298cc0a586154dbd65e16f6717227, type: 3}
   m_Name: TriggerNuke
   m_EditorClassIdentifier: 
+  attributes: []
+  isEndRoundObjective: 0
   objectiveName: Trigger the nuke
   IsUnique: 1
   description: Destroy the station with a nuclear device
   aiCanHave: 0
+  references:
+    version: 2
+    RefIds: []

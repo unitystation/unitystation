@@ -5,17 +5,18 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 375916895662906244, guid: 41220ca24fe3798478f533c5f8102248,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
         type: 2}
     - target: {fileID: 375916895662906244, guid: 41220ca24fe3798478f533c5f8102248,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1364616075872484430, guid: 41220ca24fe3798478f533c5f8102248,
@@ -150,6 +151,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1551974111651655320, guid: 41220ca24fe3798478f533c5f8102248,
         type: 3}
+      propertyPath: _assetId
+      value: 1459786075
+      objectReference: {fileID: 0}
+    - target: {fileID: 1551974111651655320, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
       propertyPath: m_AssetId
       value: 05af51e48ca1ca04db7ce88fc5304117
       objectReference: {fileID: 0}
@@ -157,7 +163,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 8414193716670770645}
+      objectReference: {fileID: 0}
     - target: {fileID: 1651827377870889072, guid: 41220ca24fe3798478f533c5f8102248,
         type: 3}
       propertyPath: m_Sprite
@@ -187,16 +193,7 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41220ca24fe3798478f533c5f8102248, type: 3}
---- !u!114 &8414193716670770645 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1551528433595449084, guid: 41220ca24fe3798478f533c5f8102248,
-    type: 3}
-  m_PrefabInstance: {fileID: 7011289302787412777}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

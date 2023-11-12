@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 434019004450988535, guid: bd07fb3945875634685790190ea8decc,
@@ -37,6 +38,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5039032819772725725, guid: bd07fb3945875634685790190ea8decc,
         type: 3}
+      propertyPath: watts
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039032819772725725, guid: bd07fb3945875634685790190ea8decc,
+        type: 3}
       propertyPath: MaxWatts
       value: 5000
       objectReference: {fileID: 0}
@@ -46,6 +52,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 52a81a3d90dc7374da5dd71752a08995,
         type: 3}
+    - target: {fileID: 5969480983207831492, guid: bd07fb3945875634685790190ea8decc,
+        type: 3}
+      propertyPath: _assetId
+      value: 3461469737
+      objectReference: {fileID: 0}
     - target: {fileID: 5969480983207831492, guid: bd07fb3945875634685790190ea8decc,
         type: 3}
       propertyPath: m_AssetId
@@ -118,9 +129,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6174000230283785490, guid: bd07fb3945875634685790190ea8decc,
         type: 3}
-      propertyPath: initialTraits.Array.data[3]
+      propertyPath: 'initialTraits.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: ba5f29ab4428f254587e3b9ec94addda,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd07fb3945875634685790190ea8decc, type: 3}

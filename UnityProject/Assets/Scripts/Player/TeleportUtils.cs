@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using HealthV2;
+using Logs;
 using Systems.Ai;
 using Systems.MobAIs;
 using UnityEngine;
@@ -22,20 +22,22 @@ namespace Systems.Teleport
 		/// <returns>TeleportInfo, with name, position and object</returns>
 		public static IEnumerable<TeleportInfo> GetMobDestinations()
 		{
-			var playerBodies = UnityEngine.Object.FindObjectsOfType(typeof(PlayerScript));
+			var playerBodies = Object.FindObjectsOfType<Mind>(false);
 
 			if (playerBodies == null)//If list of PlayerScripts is empty dont run rest of code.
 			{
 				yield break;
 			}
 
-			var sortedStr = from name in playerBodies
+			IOrderedEnumerable<Mind> sortedStr = from name in playerBodies
 				orderby name.name
 				select name;
 
-			foreach (PlayerScript player in sortedStr)
+			foreach (Mind player in sortedStr)
 			{
-				if (player == PlayerManager.LocalPlayerScript)
+
+				//Don't add to the list the same player consulting it and ghosts.
+				if (player == PlayerManager.LocalMindScript || player.NonImportantMind)
 				{
 					continue;
 				}
@@ -43,42 +45,32 @@ namespace Systems.Teleport
 				//Gets Name of Player
 				string nameOfObject = player.name;
 
-				if (player.gameObject.name.Length == 0 || player.gameObject.name == null)
+				if (string.IsNullOrEmpty(player.gameObject.name))
 				{
 					nameOfObject = "Spectator";
 				}
 
-				string status;
-				//Gets Status of Player
-				//TODO better way to do this
-				if (player.IsGhost)
+				string status = "";
+
+				if (player.IsGhosting)
 				{
 					status = "(Ghost)";
 				}
-				else if (player.IsNormal)
-				{
-					status = player.playerHealth.IsDead ? "(Dead)" : "(Alive)";
-				}
-				else if (player.PlayerType == PlayerTypes.Ai)
-				{
-					status = "(Ai)";
-				}
-				else if (player.PlayerType == PlayerTypes.Blob)
-				{
-					status = "(Blob)";
-				}
-				else if (player.PlayerType == PlayerTypes.Alien)
-				{
-					status = $"(Alien) {(player.playerHealth.IsDead ? "(Dead)" : "(Alive)")}";
-				}
 				else
 				{
-					status = "(Cant tell if Dead/Alive or Ghost)";
+					var Controlling =  player.CurrentlyControllingObject;
+					var Health = Controlling.GetComponentCustom<LivingHealthMasterBase>();
+					if (Health == null)
+					{
+						status = "(Inanimate)";
+					}
+					else
+					{
+						//TODO Sometimes synchronising Conscious state maybe
+					}
 				}
 
-				//Gets Position of Player
-				player.UpdateLastSyncedPosition();
-				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, player.SyncedWorldPos, player.gameObject);
+				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, player.CurrentlyControllingObject.transform.position.RoundToInt(), player.CurrentlyControllingObject);
 
 				yield return teleportInfo;
 			}
@@ -90,7 +82,7 @@ namespace Systems.Teleport
 		/// <returns>TeleportInfo, with name, position and object</returns>
 		public static IEnumerable<TeleportInfo> GetSpawnDestinations()
 		{
-			var placeGameObjects = UnityEngine.Object.FindObjectsOfType(typeof(SpawnPoint));
+			var placeGameObjects = Object.FindObjectsOfType<SpawnPoint>();
 
 			if (placeGameObjects == null)//If list of SpawnPoints is empty dont run rest of code.
 			{
@@ -200,11 +192,17 @@ namespace Systems.Teleport
 
 			if (latestPosition != playerPosition)//Spam Prevention
 			{
-				TeleportLocalGhostTo(latestPosition);
+				TeleportGhostToWorldPosition(latestPosition);
 			}
 		}
 
 		public static void TeleportLocalGhostTo(Vector3 vector)
+		{
+			var ghost = PlayerManager.LocalPlayerObject.GetComponent<GhostMove>();
+			ghost.CMDSetServerPosition(vector);
+		}
+
+		public static void TeleportGhostToWorldPosition(Vector3 vector)
 		{
 			var ghost = PlayerManager.LocalPlayerObject.GetComponent<GhostMove>();
 			ghost.CMDSetServerPosition(vector);
@@ -234,7 +232,7 @@ namespace Systems.Teleport
 			}
 			else
 			{
-				Logger.LogError($"No transform on {objectToTeleport} - can't teleport!", Category.Movement);
+				Loggy.LogError($"No transform on {objectToTeleport} - can't teleport!", Category.Movement);
 				return originalPosition;
 			}
 

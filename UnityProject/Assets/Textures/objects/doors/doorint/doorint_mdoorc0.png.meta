@@ -183,7 +183,7 @@ TextureImporter:
       213: 21300118
     second: mdoorc0_59
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -200,11 +200,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -243,6 +244,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -258,6 +261,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1542,69 +1557,68 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      mdoorc0_39: 21300078
-      mdoorc0_49: 21300098
-      mdoorc0_36: 21300072
-      mdoorc0_22: 21300044
-      mdoorc0_34: 21300068
-      mdoorc0_52: 21300104
-      mdoorc0_27: 21300054
-      mdoorc0_47: 21300094
-      mdoorc0_58: 21300116
-      mdoorc0_20: 21300040
-      mdoorc0_38: 21300076
-      mdoorc0_43: 21300086
+      mdoorc0_0: 21300000
+      mdoorc0_1: 21300002
+      mdoorc0_10: 21300020
+      mdoorc0_11: 21300022
+      mdoorc0_12: 21300024
+      mdoorc0_13: 21300026
       mdoorc0_14: 21300028
-      mdoorc0_56: 21300112
-      mdoorc0_8: 21300016
-      mdoorc0_53: 21300106
-      mdoorc0_32: 21300064
-      mdoorc0_59: 21300118
-      mdoorc0_2: 21300004
-      mdoorc0_24: 21300048
+      mdoorc0_15: 21300030
+      mdoorc0_16: 21300032
       mdoorc0_17: 21300034
-      mdoorc0_51: 21300102
+      mdoorc0_18: 21300036
+      mdoorc0_19: 21300038
+      mdoorc0_2: 21300004
+      mdoorc0_20: 21300040
+      mdoorc0_21: 21300042
+      mdoorc0_22: 21300044
+      mdoorc0_23: 21300046
+      mdoorc0_24: 21300048
+      mdoorc0_25: 21300050
+      mdoorc0_26: 21300052
+      mdoorc0_27: 21300054
+      mdoorc0_28: 21300056
+      mdoorc0_29: 21300058
+      mdoorc0_3: 21300006
+      mdoorc0_30: 21300060
+      mdoorc0_31: 21300062
+      mdoorc0_32: 21300064
+      mdoorc0_33: 21300066
+      mdoorc0_34: 21300068
+      mdoorc0_35: 21300070
+      mdoorc0_36: 21300072
+      mdoorc0_37: 21300074
+      mdoorc0_38: 21300076
+      mdoorc0_39: 21300078
+      mdoorc0_4: 21300008
+      mdoorc0_40: 21300080
+      mdoorc0_41: 21300082
+      mdoorc0_42: 21300084
+      mdoorc0_43: 21300086
+      mdoorc0_44: 21300088
+      mdoorc0_45: 21300090
+      mdoorc0_46: 21300092
+      mdoorc0_47: 21300094
       mdoorc0_48: 21300096
+      mdoorc0_49: 21300098
+      mdoorc0_5: 21300010
+      mdoorc0_50: 21300100
+      mdoorc0_51: 21300102
+      mdoorc0_52: 21300104
+      mdoorc0_53: 21300106
       mdoorc0_54: 21300108
       mdoorc0_55: 21300110
-      mdoorc0_4: 21300008
-      mdoorc0_19: 21300038
-      mdoorc0_21: 21300042
-      mdoorc0_10: 21300020
-      mdoorc0_23: 21300046
-      mdoorc0_40: 21300080
-      mdoorc0_50: 21300100
-      mdoorc0_25: 21300050
-      mdoorc0_44: 21300088
-      mdoorc0_15: 21300030
+      mdoorc0_56: 21300112
       mdoorc0_57: 21300114
-      mdoorc0_29: 21300058
-      mdoorc0_7: 21300014
-      mdoorc0_11: 21300022
-      mdoorc0_37: 21300074
-      mdoorc0_12: 21300024
-      mdoorc0_35: 21300070
-      mdoorc0_26: 21300052
-      mdoorc0_5: 21300010
+      mdoorc0_58: 21300116
+      mdoorc0_59: 21300118
       mdoorc0_6: 21300012
-      mdoorc0_45: 21300090
-      mdoorc0_31: 21300062
+      mdoorc0_7: 21300014
+      mdoorc0_8: 21300016
       mdoorc0_9: 21300018
-      mdoorc0_33: 21300066
-      mdoorc0_0: 21300000
-      mdoorc0_13: 21300026
-      mdoorc0_3: 21300006
-      mdoorc0_46: 21300092
-      mdoorc0_1: 21300002
-      mdoorc0_41: 21300082
-      mdoorc0_30: 21300060
-      mdoorc0_16: 21300032
-      mdoorc0_42: 21300084
-      mdoorc0_18: 21300036
-      mdoorc0_28: 21300056
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

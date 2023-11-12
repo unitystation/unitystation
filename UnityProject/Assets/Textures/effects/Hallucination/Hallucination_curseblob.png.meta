@@ -147,7 +147,7 @@ TextureImporter:
       213: 21300094
     second: curseblob_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      curseblob_32: 21300064
-      curseblob_31: 21300062
-      curseblob_41: 21300082
-      curseblob_6: 21300012
-      curseblob_10: 21300020
-      curseblob_1: 21300002
-      curseblob_18: 21300036
-      curseblob_28: 21300056
-      curseblob_38: 21300076
-      curseblob_21: 21300042
-      curseblob_25: 21300050
-      curseblob_15: 21300030
-      curseblob_33: 21300066
-      curseblob_16: 21300032
-      curseblob_46: 21300092
-      curseblob_43: 21300086
-      curseblob_26: 21300052
-      curseblob_17: 21300034
-      curseblob_36: 21300072
-      curseblob_3: 21300006
-      curseblob_34: 21300068
       curseblob_0: 21300000
-      curseblob_5: 21300010
-      curseblob_30: 21300060
-      curseblob_8: 21300016
-      curseblob_44: 21300088
-      curseblob_39: 21300078
-      curseblob_19: 21300038
-      curseblob_40: 21300080
-      curseblob_4: 21300008
-      curseblob_29: 21300058
-      curseblob_22: 21300044
-      curseblob_37: 21300074
-      curseblob_13: 21300026
-      curseblob_12: 21300024
-      curseblob_2: 21300004
+      curseblob_1: 21300002
+      curseblob_10: 21300020
       curseblob_11: 21300022
-      curseblob_47: 21300094
-      curseblob_35: 21300070
-      curseblob_23: 21300046
+      curseblob_12: 21300024
+      curseblob_13: 21300026
       curseblob_14: 21300028
-      curseblob_9: 21300018
+      curseblob_15: 21300030
+      curseblob_16: 21300032
+      curseblob_17: 21300034
+      curseblob_18: 21300036
+      curseblob_19: 21300038
+      curseblob_2: 21300004
       curseblob_20: 21300040
-      curseblob_27: 21300054
-      curseblob_45: 21300090
+      curseblob_21: 21300042
+      curseblob_22: 21300044
+      curseblob_23: 21300046
       curseblob_24: 21300048
+      curseblob_25: 21300050
+      curseblob_26: 21300052
+      curseblob_27: 21300054
+      curseblob_28: 21300056
+      curseblob_29: 21300058
+      curseblob_3: 21300006
+      curseblob_30: 21300060
+      curseblob_31: 21300062
+      curseblob_32: 21300064
+      curseblob_33: 21300066
+      curseblob_34: 21300068
+      curseblob_35: 21300070
+      curseblob_36: 21300072
+      curseblob_37: 21300074
+      curseblob_38: 21300076
+      curseblob_39: 21300078
+      curseblob_4: 21300008
+      curseblob_40: 21300080
+      curseblob_41: 21300082
       curseblob_42: 21300084
+      curseblob_43: 21300086
+      curseblob_44: 21300088
+      curseblob_45: 21300090
+      curseblob_46: 21300092
+      curseblob_47: 21300094
+      curseblob_5: 21300010
+      curseblob_6: 21300012
       curseblob_7: 21300014
-  spritePackingTag: 
+      curseblob_8: 21300016
+      curseblob_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1517277774020816811, guid: bde2e04457efae9448181975599790a5,
@@ -13,6 +14,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d30e60e345369f34d96e9b77eb67a300,
         type: 2}
+    - target: {fileID: 2486924934493515795, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      propertyPath: _assetId
+      value: 3459081768
+      objectReference: {fileID: 0}
     - target: {fileID: 2486924934493515795, guid: bde2e04457efae9448181975599790a5,
         type: 3}
       propertyPath: m_AssetId
@@ -100,6 +106,13 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6295615321316820337, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4376987953643144521}
   m_SourcePrefab: {fileID: 100100000, guid: bde2e04457efae9448181975599790a5, type: 3}
 --- !u!1 &347706655283094457 stripped
 GameObject:
@@ -119,6 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   minimumWorkingVoltage: 190
@@ -131,3 +145,9 @@ MonoBehaviour:
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
+  OnDeviceLinked:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeviceUnLinked:
+    m_PersistentCalls:
+      m_Calls: []

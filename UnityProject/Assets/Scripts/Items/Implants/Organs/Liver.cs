@@ -5,6 +5,7 @@ using Chemistry;
 using Chemistry.Components;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
+using Logs;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -97,7 +98,7 @@ namespace Items.Implants.Organs
 
 						if (processingContainer.IsFull)
 						{
-							Logger.LogTrace("Liver is full, please try again. or don't.", Category.Health);
+							Loggy.LogTrace("Liver is full, please try again. or don't.", Category.Health);
 							break;
 						}
 

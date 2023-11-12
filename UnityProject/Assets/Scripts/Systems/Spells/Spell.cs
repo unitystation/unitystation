@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Antagonists;
 using Doors;
+using Logs;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects.Systems.Spells;
@@ -211,13 +212,13 @@ namespace Systems.Spells
 		{
 			if (SpellData == null)
 			{
-				Logger.LogErrorFormat("Spell {0} initiated by {1}:\nSpellData is null!", Category.Spells, this, caster);
+				Loggy.LogErrorFormat("Spell {0} initiated by {1}:\nSpellData is null!", Category.Spells, this, caster);
 				return false;
 			}
 
 			if (!caster.Script.Mind.Spells.Contains(this))
 			{
-				Logger.LogWarningFormat("Illegal spell access: {0} tried to call spell they don't possess ({1})",
+				Loggy.LogWarningFormat("Illegal spell access: {0} tried to call spell they don't possess ({1})",
 					Category.Exploits, caster, this);
 				return false;
 			}

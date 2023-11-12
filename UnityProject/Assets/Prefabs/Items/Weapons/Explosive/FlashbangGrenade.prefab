@@ -1,0 +1,235 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8000920210916745530
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 768dd751540d35142a72e32044033c45,
+        type: 2}
+    - target: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 768dd751540d35142a72e32044033c45,
+        type: 2}
+    - target: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f443b74e230a024583d526d1beda6b0,
+        type: 2}
+    - target: {fileID: 3458532336144809302, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: foreverID
+      value: oTNR6MN$OROxKehh_DBh
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: hitDamage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: exportCost
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: throwRange
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: initialName
+      value: Flashbang
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: initialSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: throwDamage
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: initialDescription
+      value: Look directly at it for a suprise.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8481510294924968551, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 954c2752bafe57545b90eb9c471030e3,
+        type: 3}
+    - target: {fileID: 8561801018043092111, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: _assetId
+      value: 1200479610
+      objectReference: {fileID: 0}
+    - target: {fileID: 8594439505056330043, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_Name
+      value: FlashbangGrenade
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: explosionPrefab
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: OnExpload.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: OnExpload.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: OnExpload.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3861562749713631138}
+    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: OnExpload.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: OnExpload.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnExpload
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: OnExpload.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Items.Weapons.FlashbangGrenadeLogic, Assets
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: OnExpload.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8594439505056330043, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3861562749713631138}
+  m_SourcePrefab: {fileID: 100100000, guid: 838a4732b2dece64497d074b7a700be6, type: 3}
+--- !u!1 &1751178680301309953 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8594439505056330043, guid: 838a4732b2dece64497d074b7a700be6,
+    type: 3}
+  m_PrefabInstance: {fileID: 8000920210916745530}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3861562749713631138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751178680301309953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5c1b4675d6344cd964771a27f256f44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  maximumDistance: 20
+  flashRadius: 20
+  flashTime: 5
+  weakDuration: 4
+  stunExtraTime: 8
+  flashCooldown: 24
+  flashSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/FlashbangBoom.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  stunsPlayers: 1
+  despawnOnInvoke: 1

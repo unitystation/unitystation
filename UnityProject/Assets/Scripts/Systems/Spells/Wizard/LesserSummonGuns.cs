@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using NaughtyAttributes;
 using AddressableReferences;
+using Logs;
 
 namespace Systems.Spells.Wizard
 {
@@ -65,7 +66,7 @@ namespace Systems.Spells.Wizard
 				return true;
 			}
 
-			Logger.LogError($"Failed to spawn {gunPrefab} for {this}!", Category.Spells);
+			Loggy.LogError($"Failed to spawn {gunPrefab} for {this}!", Category.Spells);
 			return false;
 		}
 

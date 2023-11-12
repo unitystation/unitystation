@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using SecureStuff;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -233,7 +234,7 @@ public abstract class SerializableDictionaryBase<TKey, TValue, TValueStorage> : 
 
 public static class SerializableDictionary
 {
-	public class Storage<T> : SerializableDictionaryBase.Storage
+	public class Storage<T> : SerializableDictionaryBase.Storage, IAllowedReflection
 	{
 		public T data;
 	}
@@ -270,7 +271,7 @@ public class SerializableDictionary<TKey, TValue, TValueStorage> : SerializableD
 
 	protected override void SetValue(TValueStorage[] storage, int i, TValue value)
 	{
-		storage[i] = new TValueStorage();
+		storage[i] = AllowedReflection.CreateInstance<TValueStorage>();
 		storage[i].data = value;
 	}
 }

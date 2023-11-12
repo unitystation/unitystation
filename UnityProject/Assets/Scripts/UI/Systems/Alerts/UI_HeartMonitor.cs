@@ -13,9 +13,6 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 
 	private int currentSprite = 0;
 
-	//FIXME doing overlayCrit update based off heart monitor for time being
-	public OverlayCrits overlayCrits;
-
 	public Image pulseImg;
 
 	[SerializeField] private Image bgImage = default;
@@ -48,8 +45,9 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 
 	private void OnSceneChange(Scene prev, Scene next)
 	{
+		if (OverlayCrits.Instance == null) return;
 		// Ensure crit overlay is reset to normal.
-		overlayCrits.SetState(OverlayState.normal);
+		OverlayCrits.Instance.SetState(OverlayState.normal);
 	}
 
 	//Managed by UpdateManager
@@ -181,7 +179,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 		}
 
 
-		overlayCrits.SetState(HealthPercentage);
+		OverlayCrits.Instance.SetState(HealthPercentage);
 
 
 		// crit state has 2 sprite sets (blinking)

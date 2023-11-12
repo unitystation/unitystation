@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3825346111126973168, guid: 06088292fadbbdd40a0d7dce08102a37,
@@ -14,13 +15,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3878126403630593304, guid: 06088292fadbbdd40a0d7dce08102a37,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 0dd2d5b0a1f24e546b7585fd52be4a29,
         type: 2}
     - target: {fileID: 3878126403630593304, guid: 06088292fadbbdd40a0d7dce08102a37,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: d3fea973678758c4c99ab837a35480b4,
         type: 2}
@@ -41,6 +42,11 @@ PrefabInstance:
       value: A black winter coat with a badass flaming robotic skull for the zipper
         tab. This one has purple designs and a few useless buttons.at with an outdated
         atomic model instead of a plastic zipper tab.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7798211974825810729, guid: 06088292fadbbdd40a0d7dce08102a37,
+        type: 3}
+      propertyPath: _assetId
+      value: 520767446
       objectReference: {fileID: 0}
     - target: {fileID: 7798211974825810729, guid: 06088292fadbbdd40a0d7dce08102a37,
         type: 3}
@@ -114,4 +120,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: c3fede2fc1213c14095255e482e271b3,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06088292fadbbdd40a0d7dce08102a37, type: 3}

@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Messages.Server;
 using AddressableReferences;
+using Logs;
 using Systems.Interaction;
 using UI;
 using Objects.Wallmounts;
@@ -74,6 +75,11 @@ public enum NetTabType
 	ArtifactConsole = 57,
 	DNAConsole = 58,
 	RemoteSyntheticControl = 59,
+	ResearchLaser = 60,
+	PortableScrubber = 61,
+	MedicalConsole = 62,
+	ChaplainItemShop = 63,
+
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
 	// i.e TabJukeBox
@@ -186,7 +192,7 @@ public class NetTab : Tab
 			if (CachedElements.ContainsKey(element.name))
 			{
 				// Someone called InitElements in Init()
-				Logger.LogError($"'{name}': rescan during '{element}' Init(), aborting initial scan", Category.NetUI);
+				Loggy.LogError($"'{name}': rescan during '{element}' Init(), aborting initial scan", Category.NetUI);
 				return;
 			}
 
@@ -260,7 +266,7 @@ public class NetTab : Tab
 			}
 			else
 			{
-				Logger.LogWarning(
+				Loggy.LogWarning(
 					$"'{name}' wonky value import: can't find '{elementValue.Id}'.\n Expected: {string.Join("/", CachedElements.Keys)}",
 					Category.NetUI);
 			}
@@ -326,7 +332,7 @@ public class NetTab : Tab
 	{
 		if (Provider == null)
 		{
-			Logger.LogWarning($"Cannot play sound for {gameObject}; provider missing.");
+			Loggy.LogWarning($"Cannot play sound for {gameObject}; provider missing.");
 			return;
 		}
 

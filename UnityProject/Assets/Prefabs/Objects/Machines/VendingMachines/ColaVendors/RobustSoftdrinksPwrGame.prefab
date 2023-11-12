@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 471271850343394589, guid: cce47c5ed69f6ca40a312fa09d93db8f,
@@ -22,6 +23,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: You want it, we got it. Brought to you in partnership with Vlad's Salads.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532909349452968613, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: _assetId
+      value: 2703202690
       objectReference: {fileID: 0}
     - target: {fileID: 3532909349452968613, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
@@ -136,4 +142,7 @@ PrefabInstance:
       value: 0.5058824
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cce47c5ed69f6ca40a312fa09d93db8f, type: 3}

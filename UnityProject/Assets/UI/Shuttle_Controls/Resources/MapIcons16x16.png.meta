@@ -72,7 +72,7 @@ TextureImporter:
       213: 8333530429668401558
     second: MapIcons16x16_22
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -89,11 +89,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -132,6 +133,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -195,6 +198,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -702,32 +717,31 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      MapIcons16x16_3: 21300006
-      MapIcons16x16_4: 21300008
-      MapIcons16x16_17: 3354731494185947597
-      MapIcons16x16_7: 21300014
-      MapIcons16x16_13: 21300026
-      MapIcons16x16_5: 21300010
+      MapIcons16x16_0: 21300000
+      MapIcons16x16_1: 21300002
+      MapIcons16x16_10: 21300020
       MapIcons16x16_11: 21300022
-      MapIcons16x16_9: 21300018
       MapIcons16x16_12: 21300024
+      MapIcons16x16_13: 21300026
+      MapIcons16x16_14: 21300028
+      MapIcons16x16_15: 21300030
+      MapIcons16x16_16: -4366875309641743238
+      MapIcons16x16_17: 3354731494185947597
+      MapIcons16x16_18: 6398044217373421810
+      MapIcons16x16_19: 1805784024952669561
+      MapIcons16x16_2: 21300004
+      MapIcons16x16_20: -1927381138756076784
       MapIcons16x16_21: 2161689491496896386
       MapIcons16x16_22: 8333530429668401558
+      MapIcons16x16_3: 21300006
+      MapIcons16x16_4: 21300008
+      MapIcons16x16_5: 21300010
       MapIcons16x16_6: 21300012
-      MapIcons16x16_20: -1927381138756076784
-      MapIcons16x16_18: 6398044217373421810
-      MapIcons16x16_15: 21300030
+      MapIcons16x16_7: 21300014
       MapIcons16x16_8: 21300016
-      MapIcons16x16_16: -4366875309641743238
-      MapIcons16x16_0: 21300000
-      MapIcons16x16_2: 21300004
-      MapIcons16x16_10: 21300020
-      MapIcons16x16_19: 1805784024952669561
-      MapIcons16x16_14: 21300028
-      MapIcons16x16_1: 21300002
-  spritePackingTag: 
+      MapIcons16x16_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: nanite_programmer_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      nanite_programmer_29: 21300058
-      nanite_programmer_14: 21300028
-      nanite_programmer_18: 21300036
-      nanite_programmer_16: 21300032
-      nanite_programmer_24: 21300048
-      nanite_programmer_10: 21300020
-      nanite_programmer_21: 21300042
-      nanite_programmer_17: 21300034
-      nanite_programmer_9: 21300018
-      nanite_programmer_19: 21300038
-      nanite_programmer_23: 21300046
-      nanite_programmer_6: 21300012
-      nanite_programmer_3: 21300006
-      nanite_programmer_1: 21300002
-      nanite_programmer_25: 21300050
-      nanite_programmer_12: 21300024
-      nanite_programmer_31: 21300062
-      nanite_programmer_8: 21300016
-      nanite_programmer_13: 21300026
-      nanite_programmer_5: 21300010
-      nanite_programmer_20: 21300040
-      nanite_programmer_28: 21300056
-      nanite_programmer_30: 21300060
-      nanite_programmer_27: 21300054
       nanite_programmer_0: 21300000
+      nanite_programmer_1: 21300002
+      nanite_programmer_10: 21300020
       nanite_programmer_11: 21300022
-      nanite_programmer_26: 21300052
-      nanite_programmer_22: 21300044
+      nanite_programmer_12: 21300024
+      nanite_programmer_13: 21300026
+      nanite_programmer_14: 21300028
       nanite_programmer_15: 21300030
+      nanite_programmer_16: 21300032
+      nanite_programmer_17: 21300034
+      nanite_programmer_18: 21300036
+      nanite_programmer_19: 21300038
       nanite_programmer_2: 21300004
+      nanite_programmer_20: 21300040
+      nanite_programmer_21: 21300042
+      nanite_programmer_22: 21300044
+      nanite_programmer_23: 21300046
+      nanite_programmer_24: 21300048
+      nanite_programmer_25: 21300050
+      nanite_programmer_26: 21300052
+      nanite_programmer_27: 21300054
+      nanite_programmer_28: 21300056
+      nanite_programmer_29: 21300058
+      nanite_programmer_3: 21300006
+      nanite_programmer_30: 21300060
+      nanite_programmer_31: 21300062
       nanite_programmer_4: 21300008
+      nanite_programmer_5: 21300010
+      nanite_programmer_6: 21300012
       nanite_programmer_7: 21300014
-  spritePackingTag: 
+      nanite_programmer_8: 21300016
+      nanite_programmer_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

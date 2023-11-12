@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Logs;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -149,6 +150,9 @@ public class Camera2DFollow : MonoBehaviour
 			// ReSharper disable once HONK1002
 			transform.position = newPos + (Vector3)recoilOffset;
 			listenerObj.transform.position = target.gameObject.AssumedWorldPosServer();
+
+
+
 			starsBackground.position = -newPos * starScroll;
 
 			if (stencilMask != null && stencilMask.transform.parent != target)
@@ -158,6 +162,8 @@ public class Camera2DFollow : MonoBehaviour
 			}
 
 		}
+
+		UpdateManager.Instance.OnPostCameraUpdate();
 	}
 
 	public void SetXOffset(float offset)

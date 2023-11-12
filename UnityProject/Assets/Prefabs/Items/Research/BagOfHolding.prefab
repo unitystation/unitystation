@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4083699647597369291, guid: 2d25908ce8ab84cda986faf02dd3c84c,
@@ -74,6 +75,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4123048385342335615, guid: 2d25908ce8ab84cda986faf02dd3c84c,
         type: 3}
+      propertyPath: _assetId
+      value: 894645870
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123048385342335615, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
       propertyPath: m_AssetId
       value: 265109f11fbc186489ba44f6aa9a22fd
       objectReference: {fileID: 0}
@@ -104,6 +110,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4486057492469528745, guid: 2d25908ce8ab84cda986faf02dd3c84c,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4486057492469528745, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 514fee695cad9894fabe5beffcfcd35d,
+        type: 2}
+    - target: {fileID: 4486057492469528745, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
       propertyPath: inventoryMoveSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
@@ -124,7 +141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6976372393121252430, guid: 2d25908ce8ab84cda986faf02dd3c84c,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 220f636f7773ef74ea01700215f318ad,
         type: 2}
@@ -135,6 +152,29 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: a07d029a673b58447b7c55a47d3fb693,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4083699647597369291, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2601978922041572752}
+    - targetCorrespondingSourceObject: {fileID: 4083699647597369291, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5292509171990191586}
+    - targetCorrespondingSourceObject: {fileID: 4083699647597369291, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5864114557364286205}
+    - targetCorrespondingSourceObject: {fileID: 4083699647597369291, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7351678338761958606}
+    - targetCorrespondingSourceObject: {fileID: 4083699647597369291, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8333586519074616349}
   m_SourcePrefab: {fileID: 100100000, guid: 2d25908ce8ab84cda986faf02dd3c84c, type: 3}
 --- !u!1 &1928361214078489529 stripped
 GameObject:
@@ -168,10 +208,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   denyStorageOfStorageItems: 0
+  itemStorage: {fileID: 0}
   canClickPickup: 0
   canQuickEmpty: 0
   TopLevelAlt: 0
   actionData: {fileID: 0}
+  DoNotShowInventoryOnUI: 0
 --- !u!114 &5864114557364286205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,9 +262,11 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 0}

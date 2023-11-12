@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: bhole2_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      bhole2_20: 21300040
-      bhole2_27: 21300054
-      bhole2_21: 21300042
-      bhole2_9: 21300018
-      bhole2_22: 21300044
-      bhole2_30: 21300060
-      bhole2_28: 21300056
-      bhole2_1: 21300002
-      bhole2_7: 21300014
-      bhole2_26: 21300052
-      bhole2_4: 21300008
-      bhole2_14: 21300028
-      bhole2_24: 21300048
-      bhole2_18: 21300036
-      bhole2_29: 21300058
-      bhole2_12: 21300024
-      bhole2_31: 21300062
       bhole2_0: 21300000
-      bhole2_11: 21300022
-      bhole2_3: 21300006
-      bhole2_5: 21300010
-      bhole2_25: 21300050
-      bhole2_8: 21300016
-      bhole2_19: 21300038
-      bhole2_6: 21300012
-      bhole2_23: 21300046
-      bhole2_17: 21300034
-      bhole2_16: 21300032
-      bhole2_13: 21300026
-      bhole2_2: 21300004
+      bhole2_1: 21300002
       bhole2_10: 21300020
+      bhole2_11: 21300022
+      bhole2_12: 21300024
+      bhole2_13: 21300026
+      bhole2_14: 21300028
       bhole2_15: 21300030
-  spritePackingTag: 
+      bhole2_16: 21300032
+      bhole2_17: 21300034
+      bhole2_18: 21300036
+      bhole2_19: 21300038
+      bhole2_2: 21300004
+      bhole2_20: 21300040
+      bhole2_21: 21300042
+      bhole2_22: 21300044
+      bhole2_23: 21300046
+      bhole2_24: 21300048
+      bhole2_25: 21300050
+      bhole2_26: 21300052
+      bhole2_27: 21300054
+      bhole2_28: 21300056
+      bhole2_29: 21300058
+      bhole2_3: 21300006
+      bhole2_30: 21300060
+      bhole2_31: 21300062
+      bhole2_4: 21300008
+      bhole2_5: 21300010
+      bhole2_6: 21300012
+      bhole2_7: 21300014
+      bhole2_8: 21300016
+      bhole2_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

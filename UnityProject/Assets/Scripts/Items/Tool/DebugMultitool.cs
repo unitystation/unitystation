@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Logs;
 using UnityEngine;
 using Systems.Electricity;
 
@@ -31,7 +32,7 @@ namespace Items.Engineering
 			}
 			MetaDataNode.Pool();
 			Chat.AddExamineMsgFromServer(interaction.Performer, SB.ToString());
-			Logger.Log(SB.ToString());
+			Loggy.Log(SB.ToString());
 		}
 	}
 }

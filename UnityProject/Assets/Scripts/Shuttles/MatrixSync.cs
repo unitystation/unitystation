@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using Messages.Client.NewPlayer;
 using Mirror;
 using Tilemaps.Behaviours.Layers;
@@ -34,14 +35,14 @@ namespace Shuttles
 		{
 			if (transform.parent == null)
 			{
-				Logger.LogError($"{gameObject.name} had null transform parent", Category.Matrix);
+				Loggy.LogError($"{gameObject.name} had null transform parent", Category.Matrix);
 			}
 
 			networkedMatrix = transform.parent.GetComponent<NetworkedMatrix>();
 
 			if (networkedMatrix == null)
 			{
-				Logger.LogError($"{gameObject.name} had null networkedMatrix", Category.Matrix);
+				Loggy.LogError($"{gameObject.name} had null networkedMatrix", Category.Matrix);
 			}
 
 			networkedMatrix.MatrixSync = this;

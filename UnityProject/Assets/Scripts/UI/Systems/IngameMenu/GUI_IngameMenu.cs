@@ -2,7 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Learning;
+using Logs;
 using Messages.Client.Lobby;
+using SecureStuff;
 using UI.Chat_UI;
 
 
@@ -76,7 +78,7 @@ namespace UI
 		public void OpenMenuPanel(GameObject nextMenuPanel)
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			Logger.Log("Opening " + nextMenuPanel.name + " menu", Category.UI);
+			Loggy.Log("Opening " + nextMenuPanel.name + " menu", Category.UI);
 			nextMenuPanel.SetActive(true);
 		}
 
@@ -86,7 +88,7 @@ namespace UI
 		public void OpenMenuPanel()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			Logger.Log($"Opening {menuWindow.name} menu", Category.UI);
+			Loggy.Log($"Opening {menuWindow.name} menu", Category.UI);
 			menuWindow.SetActive(true);
 			InfoPanelMessageClient.Send();
 			if (UIManager.Instance.ServerInfoPanelWindow != null) UIManager.Instance.ServerInfoPanelWindow.SetActive(true);
@@ -99,7 +101,7 @@ namespace UI
 		public void CloseMenuPanel(GameObject thisPanel)
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			Logger.Log("Closing " + thisPanel.name + " menu", Category.UI);
+			Loggy.Log("Closing " + thisPanel.name + " menu", Category.UI);
 			thisPanel.SetActive(false);
 		}
 
@@ -113,7 +115,7 @@ namespace UI
 				_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			}
 
-			Logger.Log($"Closing {menuWindow.name} menu", Category.UI);
+			Loggy.Log($"Closing {menuWindow.name} menu", Category.UI);
 			HideAllMenus();
 		}
 
@@ -185,7 +187,7 @@ namespace UI
 		public void OpenWiki()
 		{
 			HideAllMenus();
-			Application.OpenURL(wikiURL);
+			SafeURL.Open(wikiURL);
 		}
 
 		#endregion
@@ -239,12 +241,12 @@ namespace UI
 			if (NetworkManager._isServer)
 			{
 				NetworkManager.StopHost();
-				Logger.Log("Stopping host", Category.Connections);
+				Loggy.Log("Stopping host", Category.Connections);
 			}
 			else
 			{
 				NetworkManager.StopClient();
-				Logger.Log("Stopping client", Category.Connections);
+				Loggy.Log("Stopping client", Category.Connections);
 			}
 		}
 

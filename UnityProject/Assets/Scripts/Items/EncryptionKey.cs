@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using Mirror;
 using Objects.Telecomms;
 using Messages.Client;
 using ScriptableObjects.Communications;
+using SecureStuff;
 
 namespace Items
 {
@@ -146,7 +148,7 @@ public class EncryptionKey : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 			type = value;
 			if (type == EncryptionKeyType.None)
 			{
-				Logger.LogError("Encryption keys cannot be None type!", Category.Chat);
+				Loggy.LogError("Encryption keys cannot be None type!", Category.Chat);
 				type = EncryptionKeyType.Common;
 			}
 		}

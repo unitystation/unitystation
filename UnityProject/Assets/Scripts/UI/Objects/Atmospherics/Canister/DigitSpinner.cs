@@ -1,4 +1,5 @@
 using System;
+using Logs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -136,7 +137,7 @@ namespace UI.Core
 		{
 			if (digit < 0 || digit > 9)
 			{
-				Logger.LogErrorFormat("Specified digit {0} is out of range, must be value between 0 and 9 inclusive",
+				Loggy.LogErrorFormat("Specified digit {0} is out of range, must be value between 0 and 9 inclusive",
 					Category.Atmos, digit);
 				return false;
 			}

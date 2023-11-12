@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AddressableReferences;
+using Logs;
 using Systems.Hacking;
 
 namespace UI.Hacking
@@ -72,7 +73,7 @@ namespace UI.Hacking
 				}
 				else
 				{
-					Logger.LogError("Caught KeyNotFound Exception for hackProcess.DictionaryCurrentPorts[cable.PanelOutput] ln 76 GUI_Hacking.cs", Category.Interaction);
+					Loggy.LogError("Caught KeyNotFound Exception for hackProcess.DictionaryCurrentPorts[cable.PanelOutput] ln 76 GUI_Hacking.cs", Category.Interaction);
 					continue;
 				}
 
@@ -82,7 +83,7 @@ namespace UI.Hacking
 				}
 				else
 				{
-					Logger.LogError("Caught KeyNotFound Exception for hackProcess.DictionaryCurrentPorts[cable.PanelOutput] ln 86 GUI_Hacking.cs", Category.Interaction);
+					Loggy.LogError("Caught KeyNotFound Exception for hackProcess.DictionaryCurrentPorts[cable.PanelOutput] ln 86 GUI_Hacking.cs", Category.Interaction);
 					continue;
 				}
 

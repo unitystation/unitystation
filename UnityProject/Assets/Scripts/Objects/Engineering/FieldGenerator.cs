@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Systems.ElectricalArcs;
 using ScriptableObjects.Gun;
 using UnityEngine;
@@ -230,15 +231,15 @@ namespace Objects.Engineering
 
 			if (energy <= maxEnergy / 3)
 			{
-				powerSpriteHandler.ChangeSprite(0);
+				powerSpriteHandler.SetCatalogueIndexSprite(0);
 			}
 			else if (energy <= maxEnergy / 1.5)
 			{
-				powerSpriteHandler.ChangeSprite(1);
+				powerSpriteHandler.SetCatalogueIndexSprite(1);
 			}
 			else
 			{
-				powerSpriteHandler.ChangeSprite(2);
+				powerSpriteHandler.SetCatalogueIndexSprite(2);
 			}
 		}
 
@@ -329,8 +330,8 @@ namespace Objects.Engineering
 
 					var field = generator.Value.Item1.GetComponent<FieldGenerator>();
 
-					topSpriteHandler.ChangeSprite(0);
-					field.topSpriteHandler.ChangeSprite(0);
+					topSpriteHandler.SetCatalogueIndexSprite(0);
+					field.topSpriteHandler.SetCatalogueIndexSprite(0);
 					field.TogglePower(true);
 					field.SetEnergy(10);
 					SetEnergy(-10);
@@ -434,7 +435,7 @@ namespace Objects.Engineering
 				case Direction.Right:
 					return horizontal;
 				default:
-					Logger.LogError($"Somehow got a wrong direction for {gameObject.ExpensiveName()} tile setting", Category.Machines);
+					Loggy.LogError($"Somehow got a wrong direction for {gameObject.ExpensiveName()} tile setting", Category.Machines);
 					return vertical;
 			}
 		}
@@ -452,7 +453,7 @@ namespace Objects.Engineering
 				case Direction.Right:
 					return Vector3Int.right;
 				default:
-					Logger.LogError($"Somehow got a wrong direction for {gameObject.ExpensiveName()}", Category.Machines);
+					Loggy.LogError($"Somehow got a wrong direction for {gameObject.ExpensiveName()}", Category.Machines);
 					return Vector3Int.zero;
 			}
 		}
@@ -470,7 +471,7 @@ namespace Objects.Engineering
 				case Direction.Right:
 					return Direction.Left;
 				default:
-					Logger.LogError($"Somehow got wrong opposite direction for {gameObject.ExpensiveName()}", Category.Machines);
+					Loggy.LogError($"Somehow got wrong opposite direction for {gameObject.ExpensiveName()}", Category.Machines);
 					return Direction.Up;
 			}
 		}

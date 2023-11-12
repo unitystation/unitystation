@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 46755647271444012, guid: f1a38b78ce2ca024a92744e263e5e94a,
@@ -25,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 46755647271444012, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 1c2c38ba774acbd4eb5c7ebfa09aa894,
         type: 2}
@@ -46,25 +47,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 46755647271444012, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[0]
+      propertyPath: 'Sprites.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 83f62dd0f748b1a4c995e1fd0ee2d76c,
         type: 3}
     - target: {fileID: 46755647271444012, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[1]
+      propertyPath: 'Sprites.Array.data[0].Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: 83f62dd0f748b1a4c995e1fd0ee2d76c,
         type: 3}
     - target: {fileID: 46755647271444012, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[2]
+      propertyPath: 'Sprites.Array.data[0].Sprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300004, guid: 83f62dd0f748b1a4c995e1fd0ee2d76c,
         type: 3}
     - target: {fileID: 46755647271444012, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[3]
+      propertyPath: 'Sprites.Array.data[0].Sprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300006, guid: 83f62dd0f748b1a4c995e1fd0ee2d76c,
         type: 3}
@@ -85,13 +86,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4956784215611960579, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: e1e8ec5001d527c068ccd89adbbc2461,
         type: 2}
     - target: {fileID: 4956784215611960579, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
@@ -103,6 +104,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: You feel like you should give the bottle a good rub before opening.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6085549112089319455, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: _assetId
+      value: 4002258991
       objectReference: {fileID: 0}
     - target: {fileID: 6085549112089319455, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
@@ -181,4 +187,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1a38b78ce2ca024a92744e263e5e94a, type: 3}

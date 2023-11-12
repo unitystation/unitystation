@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1229996321057373250, guid: b9dc042fb6542ef4baea84b36c24b31a,
@@ -45,7 +46,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4808250800529090727, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
-      propertyPath: initialTraits.Array.data[2]
+      propertyPath: 'initialTraits.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 7823f825326168048bad5ebc65bb01d9,
         type: 2}
@@ -111,6 +112,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5027135991655561841, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
+      propertyPath: _assetId
+      value: 1793117021
+      objectReference: {fileID: 0}
+    - target: {fileID: 5027135991655561841, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
       propertyPath: m_AssetId
       value: bda3a92c3bab16e4cb40374111199080
       objectReference: {fileID: 0}
@@ -152,14 +158,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 911271db97b77da51889f97d6688a103,
         type: 2}
     - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9dc042fb6542ef4baea84b36c24b31a, type: 3}

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Logs;
 using UnityEditor;
 using UnityEngine;
 using YamlDotNet.Serialization;
@@ -113,7 +114,7 @@ namespace Chemistry.Editor
 			{
 				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reagentsGroup.Key))
 					.Replace("Reagents", "");
-				Logger.Log(prefix, Category.Editor);
+				Loggy.Log(prefix, Category.Editor);
 				var prefixPath = Path.Combine(reagentExportPath, prefix);
 				if (!Directory.Exists(prefixPath))
 				{
@@ -173,7 +174,7 @@ namespace Chemistry.Editor
 			{
 				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reactionsGroup.Key));
 				var prefixPath = Path.Combine(reactionExportPath, prefix);
-				Logger.Log(prefix, Category.Editor);
+				Loggy.Log(prefix, Category.Editor);
 				foreach (var reaction in reactionsGroup)
 				{
 					var path = Path.Combine(

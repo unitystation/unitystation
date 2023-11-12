@@ -1,10 +1,15 @@
 using System;
+using AddressableReferences;
+using Audio.Containers;
+using Core;
 using Items.Implants.Organs;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Mirror;
 using ScriptableObjects;
 using Light2D;
+using Logs;
+using Messages.Server.SoundMessages;
 using Systems.Electricity;
 using Shared.Systems.ObjectConnection;
 using Objects.Construction;
@@ -70,6 +75,10 @@ namespace Objects.Lighting
 
 		private bool sparking = false;
 
+		[Header("Audio")]
+		[SerializeField] private AddressableAudioSource ambientSoundWhileOn;
+		private string loopKey;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -90,11 +99,14 @@ namespace Objects.Lighting
 			ChangeCurrentState(InitialState);
 			traitRequired = currentState.TraitRequired;
 			RefreshBoxCollider();
+			loopKey = Guid.NewGuid().ToString();
+			ComponentsTracker<LightSource>.Instances.Add(this);
 		}
 
 		private void Start()
 		{
 			lightSprite.Color = CurrentOnColor;
+			CheckAudioState();
 		}
 
 		private void OnEnable()
@@ -123,6 +135,12 @@ namespace Objects.Lighting
 		{
 			Spawn.ServerPrefab(currentState.LootDrop, gameObject.RegisterTile().WorldPositionServer);
 			UnSubscribeFromSwitchEvent();
+			SoundManager.StopNetworked(loopKey);
+		}
+
+		private void OnDestroy()
+		{
+			ComponentsTracker<LightSource>.Instances.Remove(this);
 		}
 
 		#endregion
@@ -264,7 +282,6 @@ namespace Objects.Lighting
 					{
 						emergencyLightAnimator.StartAnimation();
 					}
-
 					break;
 				case LightMountState.On:
 					if (emergencyLightAnimator != null)
@@ -275,16 +292,30 @@ namespace Objects.Lighting
 					lightSprite.Color = newState;
 					mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
 					mLightRendererObject.SetActive(true);
+
 					break;
 				default:
 					if (emergencyLightAnimator != null)
 					{
 						emergencyLightAnimator.StopAnimation();
 					}
-
 					mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
 					mLightRendererObject.SetActive(false);
 					break;
+			}
+			CheckAudioState();
+		}
+
+		private void CheckAudioState()
+		{
+			if (MountState == LightMountState.On)
+			{
+				SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,
+					gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
+			}
+			else
+			{
+				SoundManager.StopNetworked(loopKey);
 			}
 		}
 
@@ -370,7 +401,7 @@ namespace Objects.Lighting
 			}
 			catch (NullReferenceException exception)
 			{
-				Logger.LogError(
+				Loggy.LogError(
 					$"A NRE was caught in LightSource.TryRemoveBulb(): {exception.Message} \n {exception.StackTrace}",
 					Category.Lighting);
 			}

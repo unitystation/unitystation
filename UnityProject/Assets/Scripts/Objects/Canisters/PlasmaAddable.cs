@@ -13,6 +13,9 @@ namespace Objects.Atmospherics
 		public GasContainer gasContainer;
 		public float molesAdded = 15000f;
 
+		public float temperatureKelvin  = 293.15f;
+
+		public float maxPressure  = 15000;
 		void Awake()
 		{
 			gasContainer = GetComponent<GasContainer>();
@@ -44,8 +47,14 @@ namespace Objects.Atmospherics
 				return;
 			}
 
+			if (gasContainer.GasMix.Pressure >= maxPressure)
+			{
+				Chat.AddExamineMsg(interaction.Performer, " The gas canister is too high pressure for you to fit the plasma into ");
+				return;
+			}
+
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(1);
-			gasContainer.GasMix.AddGas(Gas.Plasma, molesAdded);
+			gasContainer.GasMix.AddGasWithTemperature(Gas.Plasma, molesAdded, temperatureKelvin);
 		}
 
 		public RightClickableResult GenerateRightClickOptions()

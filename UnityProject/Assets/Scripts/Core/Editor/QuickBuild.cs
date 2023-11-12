@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
@@ -205,12 +206,12 @@ namespace Core.Editor
 
 			if (report.summary.result == BuildResult.Succeeded)
 			{
-				Logger.Log($"Build complete. ({timeStr})");
+				Loggy.Log($"Build complete. ({timeStr})");
 			}
 
 			if (report.summary.result == BuildResult.Failed)
 			{
-				Logger.LogError($"Build failed! ({timeStr})");
+				Loggy.LogError($"Build failed! ({timeStr})");
 			}
 		}
 	}

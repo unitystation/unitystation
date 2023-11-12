@@ -2,6 +2,7 @@ using Mirror;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Messages.Client.Interaction;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -110,6 +111,31 @@ public class MouseInputController : MonoBehaviour
 	private void LateUpdate()
 	{
 		if (PlayerManager.LocalPlayerObject != this.gameObject) return;
+
+		if (ControlAction.ThrowHold && UIManager.IsInputFocus == false)
+		{
+			if (UIManager.IsThrow == false)
+			{
+				if (KeyboardInputManager.Instance.CheckKeyAction(
+					    KeyAction.ActionThrow,
+					    KeyboardInputManager.KeyEventType.Down))
+				{
+					UIManager.Instance.actionControl.Throw();
+				}
+			}
+			else
+			{
+				if (KeyboardInputManager.Instance.CheckKeyAction(
+					    KeyAction.ActionThrow,
+					    KeyboardInputManager.KeyEventType.Up))
+				{
+					UIManager.Instance.actionControl.Throw();
+				}
+			}
+
+		}
+
+
 		CheckMouseInput();
 		CheckCursorTexture();
 	}
@@ -135,7 +161,7 @@ public class MouseInputController : MonoBehaviour
 		if (CommonInput.GetMouseButtonDown(0))
 		{
 			//check ctrl+click for dragging
-			if (KeyboardInputManager.IsControlPressed())
+			if (KeyboardInputManager.IsControlPressed() || UIManager.CurrentIntent == Intent.Grab)
 			{
 				//even if we didn't drag anything, nothing else should happen
 				CheckInitiatePull();
@@ -403,7 +429,7 @@ public class MouseInputController : MonoBehaviour
 			var handAppliables = handApply.HandObject.GetComponents<MonoBehaviour>()
 				.Where(c => c != null && c.enabled &&
 				            (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
-			Logger.LogTraceFormat("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
+			Loggy.LogTraceFormat("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
 				Category.Interaction, handApply.HandObject.name, target.name);
 
 			foreach (var handAppliable in handAppliables.Reverse())
@@ -611,7 +637,7 @@ public class MouseInputController : MonoBehaviour
 				MatrixManager.ForMatrixAt(position, true, (matrix, localPos) =>
 				{
 					matrix.SubsystemManager.UpdateAt(localPos);
-					Logger.LogFormat(
+					Loggy.LogFormat(
 						$"Forcefully updated atmos at worldPos {position}/ localPos {localPos} of {matrix.Name}");
 				});
 
@@ -658,14 +684,14 @@ public class MouseInputController : MonoBehaviour
 			if (!EventSystem.current.IsPointerOverGameObject() && playerMove.AllowInput &&
 			    playerMove.BuckledToObject == null)
 			{
-				playerDirectional.SetFaceDirectionLocalVector(dir.RoundTo2Int());
+				playerDirectional.OrNull()?.SetFaceDirectionLocalVector(dir.RoundTo2Int());
 			}
 		}
 		else
 		{
 			if (!EventSystem.current.IsPointerOverGameObject())
 			{
-				playerDirectional.SetFaceDirectionLocalVector(dir.RoundTo2Int());
+				playerDirectional.OrNull()?.SetFaceDirectionLocalVector(dir.RoundTo2Int());
 			}
 		}
 	}
@@ -673,13 +699,21 @@ public class MouseInputController : MonoBehaviour
 	#region Cursor Textures
 
 	[Header("Examine Cursor Settings")] [SerializeField]
-	private Texture2D examineCursor = default;
+	public MouseIconSo examineCursor;
+	public MouseIconSo grabbingCursor;
+	public MouseIconSo altInteractionCursor;
 
-	[SerializeField] private Vector2 cursorOffset = Vector2.zero;
+	public MouseIconSo HarmCursor;
+	public MouseIconSo GrabCursor;
+	public MouseIconSo DisarmCursor;
 
-	private bool isShowingExamineCursor = false;
+	public MouseIconSo ThrowCursor;
+
+	private bool isShowingKeyComboCursor = false;
 	private static Texture2D currentCursorTexture = null;
 	private static Vector2 currentCursorOffset = Vector2.zero;
+
+	private Intent previousIntent = Intent.Help;
 
 	/// <summary>
 	/// Sets the cursor's texture to the given texture.
@@ -727,15 +761,60 @@ public class MouseInputController : MonoBehaviour
 
 	private void CheckCursorTexture()
 	{
-		if (isShowingExamineCursor == false && KeyboardInputManager.IsShiftPressed())
+		if (isShowingKeyComboCursor == false && (KeyboardInputManager.IsShiftPressed() ||  KeyboardInputManager.IsControlPressed() ||  KeyboardInputManager.IsAltActionKeyPressed() || UIManager.IsThrow))
 		{
-			Cursor.SetCursor(examineCursor, cursorOffset, CursorMode.Auto);
-			isShowingExamineCursor = true;
+			if (UIManager.IsThrow)
+			{
+				Cursor.SetCursor(ThrowCursor.Texture, ThrowCursor.Offset, CursorMode.Auto);
+			}
+			else if (KeyboardInputManager.IsControlPressed())
+			{
+				Cursor.SetCursor(grabbingCursor.Texture, grabbingCursor.Offset, CursorMode.Auto);
+			}
+			else if (KeyboardInputManager.IsShiftPressed())
+			{
+				Cursor.SetCursor(examineCursor.Texture, examineCursor.Offset, CursorMode.Auto);
+			}
+			else
+			{
+				Cursor.SetCursor(altInteractionCursor.Texture, altInteractionCursor.Offset, CursorMode.Auto);
+			}
+
+			isShowingKeyComboCursor = true;
+			previousIntent = Intent.Help;
 		}
-		else if (isShowingExamineCursor && KeyboardInputManager.IsShiftPressed() == false)
+		else if (isShowingKeyComboCursor && KeyboardInputManager.IsShiftPressed() == false && KeyboardInputManager.IsControlPressed() == false && KeyboardInputManager.IsAltActionKeyPressed() == false && UIManager.IsThrow == false)
 		{
 			Cursor.SetCursor(currentCursorTexture, currentCursorOffset, CursorMode.Auto);
-			isShowingExamineCursor = false;
+			isShowingKeyComboCursor = false;
+			previousIntent = Intent.Help;
+		}
+
+		if (currentCursorTexture == null && isShowingKeyComboCursor == false)
+		{
+			//Go back to intents
+			if (UIManager.CurrentIntent != previousIntent )
+			{
+				switch (UIManager.CurrentIntent)
+				{
+					case Intent.Harm:
+						Cursor.SetCursor(HarmCursor.Texture, HarmCursor.Offset, CursorMode.Auto);
+						previousIntent = UIManager.CurrentIntent;
+						break;
+					case Intent.Disarm:
+						Cursor.SetCursor(DisarmCursor.Texture, DisarmCursor.Offset, CursorMode.Auto);
+						previousIntent = UIManager.CurrentIntent;
+						break;
+					case Intent.Grab:
+						Cursor.SetCursor(GrabCursor.Texture, GrabCursor.Offset, CursorMode.Auto);
+						previousIntent = UIManager.CurrentIntent;
+						break;
+					case Intent.Help:
+						Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+						previousIntent = UIManager.CurrentIntent;
+						break;
+				}
+			}
 		}
 	}
 

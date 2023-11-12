@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462d32d11b1f68a42b35ea152af83b4a, type: 3}
+  m_Name: Changeling
+  m_EditorClassIdentifier: 
+  antagName: Changeling
+  antagJobType: 61
+  playSound: 0
+  spawnSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  textColor: {r: 0.7264151, g: 0, b: 0, a: 1}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 1}
+  numberOfObjectives: 2
+  canUseSharedObjectives: 1
+  needsEscapeObjective: 1
+  chanceForGimmickObjective: 0
+  coreObjectives:
+  - {fileID: 11400000, guid: 551c1135c65a73042bf2338e5bb3fea4, type: 2}
+  antagOccupation: {fileID: 0}
+  showInPreferences: 1
+  randomizeCharacterForGhostRole: 0
+  ghostRoleOccupation: {fileID: 0}
+  <BlackListedObjectives>k__BackingField: []
+  <AlwaysStartWithObjectives>k__BackingField: []

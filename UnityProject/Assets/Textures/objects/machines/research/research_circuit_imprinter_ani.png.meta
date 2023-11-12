@@ -78,7 +78,7 @@ TextureImporter:
       213: 21300048
     second: circuit_imprinter_ani_24
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -95,11 +95,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -138,6 +139,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -153,6 +156,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -702,34 +717,33 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      circuit_imprinter_ani_0: 21300000
+      circuit_imprinter_ani_1: 21300002
+      circuit_imprinter_ani_10: 21300020
+      circuit_imprinter_ani_11: 21300022
+      circuit_imprinter_ani_12: 21300024
+      circuit_imprinter_ani_13: 21300026
       circuit_imprinter_ani_14: 21300028
-      circuit_imprinter_ani_21: 21300042
-      circuit_imprinter_ani_22: 21300044
       circuit_imprinter_ani_15: 21300030
       circuit_imprinter_ani_16: 21300032
-      circuit_imprinter_ani_9: 21300018
-      circuit_imprinter_ani_24: 21300048
-      circuit_imprinter_ani_23: 21300046
-      circuit_imprinter_ani_3: 21300006
-      circuit_imprinter_ani_6: 21300012
-      circuit_imprinter_ani_4: 21300008
-      circuit_imprinter_ani_10: 21300020
-      circuit_imprinter_ani_0: 21300000
-      circuit_imprinter_ani_20: 21300040
       circuit_imprinter_ani_17: 21300034
-      circuit_imprinter_ani_19: 21300038
-      circuit_imprinter_ani_5: 21300010
-      circuit_imprinter_ani_7: 21300014
-      circuit_imprinter_ani_11: 21300022
-      circuit_imprinter_ani_8: 21300016
-      circuit_imprinter_ani_12: 21300024
-      circuit_imprinter_ani_2: 21300004
       circuit_imprinter_ani_18: 21300036
-      circuit_imprinter_ani_13: 21300026
-      circuit_imprinter_ani_1: 21300002
-  spritePackingTag: 
+      circuit_imprinter_ani_19: 21300038
+      circuit_imprinter_ani_2: 21300004
+      circuit_imprinter_ani_20: 21300040
+      circuit_imprinter_ani_21: 21300042
+      circuit_imprinter_ani_22: 21300044
+      circuit_imprinter_ani_23: 21300046
+      circuit_imprinter_ani_24: 21300048
+      circuit_imprinter_ani_3: 21300006
+      circuit_imprinter_ani_4: 21300008
+      circuit_imprinter_ani_5: 21300010
+      circuit_imprinter_ani_6: 21300012
+      circuit_imprinter_ani_7: 21300014
+      circuit_imprinter_ani_8: 21300016
+      circuit_imprinter_ani_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

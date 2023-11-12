@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 300642865487523553, guid: 77024433aa1c0834b95240446321f3f1,
@@ -69,6 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 408612261875805729, guid: 77024433aa1c0834b95240446321f3f1,
         type: 3}
+      propertyPath: _assetId
+      value: 1278482268
+      objectReference: {fileID: 0}
+    - target: {fileID: 408612261875805729, guid: 77024433aa1c0834b95240446321f3f1,
+        type: 3}
       propertyPath: m_AssetId
       value: 24f02ae48d5dd364f83f44531d8fe4e8
       objectReference: {fileID: 0}
@@ -86,13 +92,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5870868726339168274, guid: 77024433aa1c0834b95240446321f3f1,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: a60cfbfc3dbd61348b8a5e9a99a58585,
         type: 2}
     - target: {fileID: 5870868726339168274, guid: 77024433aa1c0834b95240446321f3f1,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 7cb6b1b9b85be664ea56aaee99c9caa6,
         type: 2}
@@ -102,4 +108,7 @@ PrefabInstance:
       value: 24f02ae48d5dd364f83f44531d8fe4e8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77024433aa1c0834b95240446321f3f1, type: 3}

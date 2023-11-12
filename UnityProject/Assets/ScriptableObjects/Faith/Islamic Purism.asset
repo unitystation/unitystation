@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc38a6d4227a4347a3517a04dbf55cd6, type: 3}
+  m_Name: Islamic Purism
+  m_EditorClassIdentifier: 
+  Faith:
+    <FaithName>k__BackingField: Islamic Purism
+    <FaithDesc>k__BackingField: A version of Islam that has its followers attempt
+      to preserve the religion in a pure form. This version of Islam is considered
+      the easiest to follow, and heavily preaches progress and peace between everyone.
+    <FaithIcon>k__BackingField: {fileID: 21300000, guid: 5425174376a670440ad78fc63d76f9cc,
+      type: 3}
+    <GodName>k__BackingField: God
+    <NanotrasenProgressMessage>k__BackingField: 
+    <ToleranceToOtherFaiths>k__BackingField: 0
+    FaithProperties:
+    - rid: 2708802213016240135
+    FaithMiracles:
+    - rid: 6780799869088170004
+    - rid: 6780799869088170006
+    - rid: 6780799869088170008
+    - rid: 6780799869088170010
+  references:
+    version: 2
+    RefIds:
+    - rid: 2708802213016240135
+      type: {class: ScienceComesFirst, ns: Systems.Faith.FaithProperties, asm: Assets}
+      data:
+        propertyIcon: {fileID: 21300000, guid: 4abf5a8866bc15540960ebfe444ffe19, type: 3}
+    - rid: 6780799869088170004
+      type: {class: BlessCrops, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Bless Crops
+        faithMiracleDesc: Pray for a blessing upon nearby crops.
+        miracleIcon: {fileID: 11400000, guid: eb78b8ebd92c01a4d86ba8e5cb4797c9, type: 2}
+    - rid: 6780799869088170006
+      type: {class: DarkifyAllLightSources, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Darkify all Light Sources
+        faithMiracleDesc: Turns all light sources into a comfortable warm light.
+        miracleIcon: {fileID: 11400000, guid: a53497d0b78777b449dde714f9f04ff5, type: 2}
+        lightColors:
+        - {r: 0.38039216, g: 0.53292215, b: 0.6313726, a: 0.3529412}
+        - {r: 0.16862746, g: 0.27991554, b: 0.5647059, a: 0.3529412}
+        - {r: 0.8018868, g: 0.6613745, b: 0.3517711, a: 0.5372549}
+        - {r: 0.9254902, g: 0.68907875, b: 0.40392154, a: 0.36862746}
+    - rid: 6780799869088170008
+      type: {class: GhostOfCarmenMiranda, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Call upon Space Station 3's ghost
+        faithMiracleDesc: "The best odds say she likes the rhythms of the stations
+          drive \nThey didn\u2019t have phase generators while she was alive"
+        miracleIcon: {fileID: 11400000, guid: 34e246d9b40c3834b88fb7a7ebd2d33d, type: 2}
+        ghosts:
+        - {fileID: 4540664087382359385, guid: 3c635c1a747152345962a77b8a32b902, type: 3}
+        - {fileID: 6204346116445057915, guid: 90a9678c803ac2b468555c05e1cea936, type: 3}
+        - {fileID: 1023300728526682005, guid: 2a6a30bb6be97d442b55b5b4ea995772, type: 3}
+        - {fileID: 7200438476090162623, guid: 4deb6718fb5cbdb41846891267b37c5e, type: 3}
+        fruits:
+        - {fileID: 3891794331420956168, guid: 83772d2b0ee9c83478fa7d51322a20c2, type: 3}
+        - {fileID: 4955296975579916585, guid: 003bcc08bfd787c4c8e4d54d3e1aaed4, type: 3}
+        rum:
+        - {fileID: 2176312772723587003, guid: 5922881ffc5c59842906e74798fa92bd, type: 3}
+        - {fileID: 4825644788774902061, guid: 41cffce9086697a4686f7fb3b26ba6c3, type: 3}
+        - {fileID: 100425601344266544, guid: fdfae15235fe6164fbd269be37dde40c, type: 3}
+        - {fileID: 1685560356296603976, guid: 17e959c0601202f41ad790a9f07660e9, type: 3}
+        tangerine:
+        - {fileID: 4795735908449438376, guid: 37e025654ce3f9b43bd61c6caf0f79dc, type: 3}
+        - {fileID: 7376449702682419346, guid: c7ad7eedcf6cf7341832d147735cfa54, type: 3}
+        - {fileID: 1929798987425793865, guid: 6fc005da151b57d46b23a14e39490277, type: 3}
+        - {fileID: 8750944094386566729, guid: b29d3b3d0eac3a84d9ef700d10f41b3a, type: 3}
+        - {fileID: 4795735908449438376, guid: 37e025654ce3f9b43bd61c6caf0f79dc, type: 3}
+        spawnPointCategory: 37
+    - rid: 6780799869088170010
+      type: {class: HealFaithMembers, ns: Systems.Faith.Miracles, asm: Assets}
+      data:
+        faithMiracleName: Heal all believers.
+        faithMiracleDesc: Heal all alive believers to max health. This does not cure
+          sicknesses, cure trauma or re-grow limbs.
+        miracleIcon: {fileID: 11400000, guid: 4953d66a3cf124e40a7ea7bee809e047, type: 2}

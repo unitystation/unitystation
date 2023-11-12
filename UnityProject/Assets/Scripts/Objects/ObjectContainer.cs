@@ -44,6 +44,7 @@ namespace Objects
 		public RegisterTile registerTile;
 		private UniversalObjectPhysics ObjectPhysics;
 
+		[HideInInspector]
 		public List<IEscapable> IEscapables;
 
 		/// <summary>
@@ -77,6 +78,10 @@ namespace Objects
 
 		// stored contents and their positional offsets, if applicable
 		private readonly Dictionary<GameObject, Vector3> storedObjects = new Dictionary<GameObject, Vector3>();
+
+		public Dictionary<GameObject, Vector3> StoredObjects => storedObjects;
+
+		public int StoredObjectsCount => storedObjects.Count;
 
 		#region Lifecycle
 
@@ -137,11 +142,6 @@ namespace Objects
 			if (obj.TryGetComponent<UniversalObjectPhysics>(out var objectPhysics))
 			{
 				objectPhysics.StoreTo(this);
-
-				if (obj.TryGetComponent<PlayerScript>(out var playerScript))
-				{
-					CheckPlayerCrawlState(objectPhysics);
-				}
 			}
 		}
 
@@ -208,7 +208,15 @@ namespace Objects
 
 			if (obj.TryGetComponent<UniversalObjectPhysics>(out var uop))
 			{
-				uop.DropAtAndInheritMomentum(ObjectPhysics);
+				if (worldPosition == null)
+				{
+					uop.DropAtAndInheritMomentum(ObjectPhysics);
+
+				}
+				else
+				{
+					uop.AppearAtWorldPositionServer(worldPosition.Value);
+				}
 				uop.StoreTo(null);
 			}
 
@@ -242,11 +250,15 @@ namespace Objects
 			}
 		}
 
-		private void CheckPlayerCrawlState(UniversalObjectPhysics playerBehaviour)
+		public void RetrieveObject(Vector3 worldPosition)
 		{
-			var regPlayer = playerBehaviour.GetComponent<RegisterPlayer>();
-			regPlayer.LayDownBehavior.EnsureCorrectState();
+			foreach (var entity in GetStoredObjects().ToArray())
+			{
+				RetrieveObject(entity, worldPosition);
+				return; //So inefficient xD
+			}
 		}
+
 
 		/// <summary>
 		/// Invoked when the parent net ID of this object's RegisterTile changes. Updates the parent net ID of the player / items

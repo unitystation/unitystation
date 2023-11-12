@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1223838958160137227, guid: c80393b4412660b41937e05425ceb921,
@@ -37,6 +38,11 @@ PrefabInstance:
         type: 3}
       propertyPath: isInitiallyNotPushable
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145725722567961701, guid: c80393b4412660b41937e05425ceb921,
+        type: 3}
+      propertyPath: _assetId
+      value: 1249019536
       objectReference: {fileID: 0}
     - target: {fileID: 3145725722567961701, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
@@ -142,6 +148,17 @@ PrefabInstance:
     - {fileID: 8808186602529976540, guid: c80393b4412660b41937e05425ceb921, type: 3}
     - {fileID: 787922446905566612, guid: c80393b4412660b41937e05425ceb921, type: 3}
     - {fileID: 1589379618128903529, guid: c80393b4412660b41937e05425ceb921, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6807768264998672647, guid: c80393b4412660b41937e05425ceb921,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 716434476605239090}
+    - targetCorrespondingSourceObject: {fileID: 6807768264998672647, guid: c80393b4412660b41937e05425ceb921,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 719445762011912364}
   m_SourcePrefab: {fileID: 100100000, guid: c80393b4412660b41937e05425ceb921, type: 3}
 --- !u!210 &4650834945695449492 stripped
 SortingGroup:
@@ -167,6 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9e51e431ef59f64ea946349935e5148, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   layerTile: {fileID: 11400000, guid: 89c3b362ccb4f2247920d71193c1a876, type: 2}
@@ -211,6 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Logs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEditor;
@@ -23,11 +24,6 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 
 	public void OnPreprocessBuild(BuildTarget target, string path)
 	{
-
-
-		AddressableAssetSettings.CleanPlayerContent(AddressableAssetSettingsDefaultObject.Settings.ActivePlayerDataBuilder);
-		AddressableAssetSettings.BuildPlayerContent();
-
 		var Gamedata = AssetDatabase.LoadAssetAtPath<GameObject>(
 			"Assets/Prefabs/SceneConstruction/NestedManagers/GameData.prefab");
 		if (Gamedata.GetComponent<GameData>().DevBuild == false)
@@ -64,7 +60,7 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 				{
 					if (FoundFile != "")
 					{
-						Logger.LogError("two catalogues present please only ensure one", Category.Addressables);
+						Loggy.LogError("two catalogues present please only ensure one", Category.Addressables);
 					}
 
 					FoundFile = File;
@@ -92,10 +88,10 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 			{
 				var newID = IDs[i].ToString();
 				newID = newID.Replace("AddressablePackingProjects/" + flip.Directory.Parent.Name + "/ServerData/",
-					"unitystation_Data/StreamingAssets/AddressableCatalogues/"+  flip.Directory.Parent.Name + "/");
+					"StreamingAssets/AddressableCatalogues/"+  flip.Directory.Parent.Name + "/");
 
 				newID = newID.Replace(@"AddressablePackingProjects\" + flip.Directory.Parent.Name + @"\ServerData\",
-					"unitystation_Data/StreamingAssets/AddressableCatalogues/"+  flip.Directory.Parent.Name + "/");
+					"StreamingAssets/AddressableCatalogues/"+  flip.Directory.Parent.Name + "/");
 				//Assets < Editor, build > unitystation_Data
 				//Check cache in app data if changes aren't applying
 				IDs[i] = newID;
@@ -122,7 +118,7 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 		var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
 		//path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData"; //Make OS agnostic
 		path = path + "/AddressablePackingProjects";
-		Logger.Log(path, Category.Addressables);
+		Loggy.Log(path, Category.Addressables);
 		var Directories = System.IO.Directory.GetDirectories(path);
 		var FoundFiles = new List<string>();
 		foreach (var Directori in Directories)
@@ -140,7 +136,7 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 					{
 						if (FoundFile != "")
 						{
-							Logger.LogError("two catalogues present please only ensure one", Category.Addressables);
+							Loggy.LogError("two catalogues present please only ensure one", Category.Addressables);
 						}
 
 						FoundFile = File;
@@ -149,7 +145,7 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 
 				if (FoundFile == "")
 				{
-					Logger.LogWarning("missing json file", Category.Addressables);
+					Loggy.LogWarning("missing json file", Category.Addressables);
 				}
 				else
 				{
@@ -165,7 +161,7 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 	[PostProcessBuild]
 	public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
 	{
-		Logger.LogWarning("Cleaning Streaming assets of AddressableCatalogues", Category.Addressables);
+		Loggy.LogWarning("Cleaning Streaming assets of AddressableCatalogues", Category.Addressables);
 		System.IO.DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/AddressableCatalogues/");
 
 		foreach (FileInfo file in di.GetFiles("*", SearchOption.AllDirectories))

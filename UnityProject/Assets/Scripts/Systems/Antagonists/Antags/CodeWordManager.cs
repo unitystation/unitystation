@@ -1,7 +1,10 @@
-using System.IO;
+
 using UnityEngine;
 using Mirror;
 using System.Linq;
+using SecureStuff;
+using System.Collections.Generic;
+using Logs;
 
 namespace Antagonists
 {
@@ -9,6 +12,8 @@ namespace Antagonists
 	{
 		public readonly SyncList<string> Words = new SyncList<string>();
 		public readonly SyncList<string> Responses = new SyncList<string>();
+
+		[field: SerializeField] public List<JobType> CodeWordRoles { get; private set; } = new List<JobType>();
 
 		public const int WORD_COUNT = 3;
 
@@ -25,12 +30,12 @@ namespace Antagonists
 
 		private void OnEnable()
 		{
-			EventManager.AddHandler(Event.RoundStarted, ChooseCodeWords);
+			EventManager.AddHandler(Event.ScenesLoadedServer, ChooseCodeWords);
 		}
 
 		private void OnDisable()
 		{
-			EventManager.RemoveHandler(Event.RoundStarted, ChooseCodeWords);
+			EventManager.RemoveHandler(Event.ScenesLoadedServer, ChooseCodeWords);
 		}
 
 		[Server]
@@ -41,16 +46,16 @@ namespace Antagonists
 			Words.Clear();
 			Responses.Clear();
 
-			string filePath = Path.Combine(Application.streamingAssetsPath, "TraitorCodeWords.txt");
+			string filePath =  "TraitorCodeWords.txt";
 
-			if(File.Exists(filePath) == false)
+			if(AccessFile.Exists(filePath) == false)
 			{
-				Logger.LogError($"Traitor Code Words: Could not find text file to read at: {filePath}");
+				Loggy.LogError($"Traitor Code Words: Could not find text file to read at: {filePath}");
 				return;
 			}
 
-			
-			string[] allWords = File.ReadAllLines(filePath);
+			string[] allWords = AccessFile.ReadAllLines(filePath);
+
 			allWords = allWords.Shuffle().ToArray();
 
 			for (int i = 0; i < WORD_COUNT; i++)
@@ -58,7 +63,7 @@ namespace Antagonists
 				Words.Add(allWords[i]);
 				Responses.Add(allWords[WORD_COUNT + i]);
 			}
-			
+
 			netIdentity.isDirty = true;
 		}
 	}

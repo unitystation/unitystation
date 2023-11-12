@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1350012800835400869, guid: f366188e22a01984c8789be3304661c9,
@@ -15,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 2724076720427551468, guid: f366188e22a01984c8789be3304661c9,
         type: 3}
       propertyPath: m_Name
-      value: JungleBushB
+      value: JungleBrushB
       objectReference: {fileID: 0}
     - target: {fileID: 2727044552519519286, guid: f366188e22a01984c8789be3304661c9,
         type: 3}
@@ -96,21 +97,24 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7466173818893852726, guid: f366188e22a01984c8789be3304661c9,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 22c898d8ae13e2748a8209bc2185e448,
         type: 2}
     - target: {fileID: 7466173818893852726, guid: f366188e22a01984c8789be3304661c9,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 2b3cd93b428904b41864017ba956390a,
         type: 2}
     - target: {fileID: 7466173818893852726, guid: f366188e22a01984c8789be3304661c9,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: f27a405135e5fc24ab93d44fa1e335f7,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f366188e22a01984c8789be3304661c9, type: 3}

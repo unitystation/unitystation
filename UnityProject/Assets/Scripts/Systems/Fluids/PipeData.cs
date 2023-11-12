@@ -6,6 +6,7 @@ using Chemistry.Components;
 using Systems.Atmospherics;
 using Objects.Atmospherics;
 using Items.Atmospherics;
+using Logs;
 using Tiles.Pipes;
 
 namespace Systems.Pipes
@@ -59,7 +60,7 @@ namespace Systems.Pipes
 					return (MonoPipe.MatrixPos);
 				}
 
-				Logger.Log("Vector3Int null!!", Category.Pipes);
+				Loggy.Log("Vector3Int null!!", Category.Pipes);
 				return (Vector3Int.zero);
 			}
 		}
@@ -77,7 +78,7 @@ namespace Systems.Pipes
 					return (MonoPipe.Matrix);
 				}
 
-				Logger.Log("Matrix null!!", Category.Pipes);
+				Loggy.Log("Matrix null!!", Category.Pipes);
 				return (null);
 			}
 		}
@@ -174,7 +175,7 @@ namespace Systems.Pipes
 
 						// this one probably require more work than just null check
 						if(Pipe.OnNet == null)
-							Logger.LogWarning("Pipe.OnNet == null", Category.Pipes);
+							Loggy.LogWarning("Pipe.OnNet == null", Category.Pipes);
 						else
 							Pipe.OnNet.RemoveEqualiseWith(this);
 					}
@@ -340,9 +341,9 @@ namespace Systems.Pipes
 			if (MonoPipe == null)
 			{
 				Matrix4x4 matrix = Matrix.MetaTileMap.GetMatrix4x4(pipeNode.NodeLocation, LayerType.Pipe, true).GetValueOrDefault(Matrix4x4.identity);
-				var pipe = Spawn.ServerPrefab(
-						pipeNode.RelatedTile.SpawnOnDeconstruct,
-						MatrixManager.LocalToWorld(pipeNode.NodeLocation, this.Matrix), localRotation: PipeDeconstruction.QuaternionFromMatrix(matrix)).GameObject;
+				var pipe = Spawn.ServerPrefab(pipeNode.RelatedTile.SpawnOnDeconstruct,
+											MatrixManager.LocalToWorld(pipeNode.NodeLocation, this.Matrix).To2().To3(),
+											localRotation: PipeDeconstruction.QuaternionFromMatrix(matrix)).GameObject;
 
 				var itempipe = pipe.GetComponent<PipeItemTile>();
 				itempipe.Colour = Matrix.MetaTileMap.GetColour(pipeNode.NodeLocation, LayerType.Pipe, true).GetValueOrDefault(Color.white);

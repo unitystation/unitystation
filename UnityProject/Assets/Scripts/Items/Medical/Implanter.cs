@@ -142,7 +142,7 @@ public class Implanter : NetworkBehaviour, ICheckedInteractable<HandApply>, IChe
 		primed = isPrimed;
 		var index = primed == true ? 1 : 0;
 
-		spriteHandler.ChangeSprite(index);
+		spriteHandler.SetCatalogueIndexSprite(index);
 	}
 
 

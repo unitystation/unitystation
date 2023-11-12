@@ -5,11 +5,12 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 441705632711067785, guid: 00d992124da9752419c592def689f69c,
         type: 3}
-      propertyPath: Gases.Array.data[0]
+      propertyPath: 'Gases.Array.data[0]'
       value: 29.1155
       objectReference: {fileID: 0}
     - target: {fileID: 1647710949482686311, guid: 00d992124da9752419c592def689f69c,
@@ -79,8 +80,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5761040831305373374, guid: 00d992124da9752419c592def689f69c,
         type: 3}
+      propertyPath: _assetId
+      value: 4143344346
+      objectReference: {fileID: 0}
+    - target: {fileID: 5761040831305373374, guid: 00d992124da9752419c592def689f69c,
+        type: 3}
       propertyPath: m_AssetId
       value: 683b7d0ade0cdde4999edb854557f2c6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00d992124da9752419c592def689f69c, type: 3}

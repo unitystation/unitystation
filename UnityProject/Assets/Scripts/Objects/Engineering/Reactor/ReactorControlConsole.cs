@@ -4,6 +4,7 @@ using Communications;
 using InGameEvents;
 using Objects.Machines.ServerMachines.Communications;
 using System.Collections.Generic;
+using SecureStuff;
 using Shared.Systems.ObjectConnection;
 using Systems.Communications;
 using Systems.Electricity;
@@ -62,34 +63,50 @@ namespace Objects.Engineering.Reactor
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}
 
+		private float SecondSinceLastUpdate = -1;
+		private float UpdatePeriodic = 300;
+
+
 		private void UpdateMe()
 		{
 			if (ReactorChambers is null) return;
 			if (ReactorChambers.MeltedDown == false || ReactorChambers.PresentNeutrons < 200) return;
 
-			StringBuilder state = new StringBuilder();
-			state.Append("Warning, Reactor Meltdown/Catastrophe imminent.").AppendLine();
-			if (ReactorChambers.CurrentPressure >= ReactorChambers.MaxPressure / (decimal)1.35f)
+			if (SecondSinceLastUpdate != -1)
 			{
-				state.Append("Pressure: ").Append(
-					Math.Round((ReactorChambers.CurrentPressure /
-					            ReactorChambers.MaxPressure) * 100))
-					.Append(".");
+				SecondSinceLastUpdate += Time.deltaTime;
 			}
 
-			if (ReactorChambers.Temperature >= ReactorChambers.RodMeltingTemperatureK)
+			if (SecondSinceLastUpdate == -1 || SecondSinceLastUpdate > UpdatePeriodic)
 			{
-				state.Append(" Temperature: ").Append(ReactorChambers.GetTemperature()).Append(".");
+				SecondSinceLastUpdate = 0;
+				StringBuilder state = new StringBuilder();
+				state.AppendFormat("Warning, Reactor Meltdown/Catastrophe imminent.");
+				if (ReactorChambers.CurrentPressure >= ReactorChambers.MaxPressure / (decimal)1.35f)
+				{
+					state.AppendFormat("Pressure: ").AppendFormat(
+							(Math.Round((ReactorChambers.CurrentPressure /
+							            ReactorChambers.MaxPressure) * 100)).ToString())
+						.Append(".");
+				}
+
+				if (ReactorChambers.Temperature >= ReactorChambers.RodMeltingTemperatureK)
+				{
+					state.AppendFormat(" Temperature: ").AppendFormat(ReactorChambers.GetTemperature().ToString()).AppendFormat(".");
+				}
+
+				// magic number copied from GUI_ReactorController
+				if (ReactorChambers.PresentNeutrons >= 200)
+				{
+					state.AppendFormat(" Neutron levels Unstable. ");
+				}
+
+				chatEvent.message = state.ToString();
+				InfluenceChat(chatEvent);
+
 			}
 
-			// magic number copied from GUI_ReactorController
-			if (ReactorChambers.PresentNeutrons >= 200)
-			{
-				state.Append(" Neutron levels Unstable. ");
-			}
 
-			chatEvent.message = state.ToString();
-			InfluenceChat(chatEvent);
 		}
 
 		#region Multitool Interaction

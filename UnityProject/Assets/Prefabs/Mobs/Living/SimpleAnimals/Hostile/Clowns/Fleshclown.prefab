@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 139661388466755808, guid: de019589c1767b24aa99c1250eee4a4d,
@@ -15,7 +16,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 139661388466755808, guid: de019589c1767b24aa99c1250eee4a4d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: ae3f0f0835003b44a9fb0fe14f591502,
         type: 2}
@@ -67,16 +68,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6539198103259740453, guid: de019589c1767b24aa99c1250eee4a4d,
         type: 3}
-      propertyPath: lootDrop.Array.data[0]
+      propertyPath: 'lootDrop.Array.data[0]'
       value: 
       objectReference: {fileID: 7785875528613525472, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
     - target: {fileID: 6539198103259740453, guid: de019589c1767b24aa99c1250eee4a4d,
         type: 3}
-      propertyPath: lootDrop.Array.data[1]
+      propertyPath: 'lootDrop.Array.data[1]'
       value: 
       objectReference: {fileID: 6404652678407139925, guid: abed35e9cfa734a00815cf8cda62687a,
         type: 3}
+    - target: {fileID: 6828477350653662225, guid: de019589c1767b24aa99c1250eee4a4d,
+        type: 3}
+      propertyPath: _assetId
+      value: 1260336322
+      objectReference: {fileID: 0}
     - target: {fileID: 6828477350653662225, guid: de019589c1767b24aa99c1250eee4a4d,
         type: 3}
       propertyPath: m_AssetId
@@ -123,4 +129,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de019589c1767b24aa99c1250eee4a4d, type: 3}

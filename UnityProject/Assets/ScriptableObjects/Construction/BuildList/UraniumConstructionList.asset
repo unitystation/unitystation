@@ -20,6 +20,7 @@ MonoBehaviour:
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Nuke Statue
     prefab: {fileID: 2729732955928449703, guid: 4b6970e47eeec6444b5c8f1e4e3c943c,
       type: 3}
@@ -27,6 +28,7 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Engineer Statue
     prefab: {fileID: 2729732955928449703, guid: 91d328844576060428a328730d6cbd0c,
       type: 3}
@@ -34,9 +36,11 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Uranium Airlock Assembly
     prefab: {fileID: 225183582623893453, guid: 5e2b19e29477a1840b3c3005671a0eb0, type: 3}
     cost: 4
     buildTime: 5
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0

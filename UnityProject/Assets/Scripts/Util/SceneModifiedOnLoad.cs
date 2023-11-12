@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR
 using System.Collections.Generic;
+using Logs;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -29,7 +30,7 @@ namespace Util
 
 			if (ModifiedScenes.Count == 0) EditorSceneManager.sceneOpened -= SaveAfterLoaded;
 
-			Logger.Log($"{scene.name}: Scene was modified while loading and saved.", Category.Editor);
+			Loggy.Log($"{scene.name}: Scene was modified while loading and saved.", Category.Editor);
 			EditorSceneManager.SaveScene(scene);
 		}
 	}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 533570137807616035, guid: 39da184d881f73c48b25ae5921795c55,
@@ -105,7 +106,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4623851299524474988, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: b297c259c012907a19324e8aee4d063e,
         type: 2}
@@ -123,6 +124,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialCrawlPassable
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5323037765139105522, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: _assetId
+      value: 1736917880
       objectReference: {fileID: 0}
     - target: {fileID: 5323037765139105522, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}
@@ -146,6 +152,17 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 63c7b8c098253c1449956a1711ebb3ce,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4324277455529423760, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6758756573708813509}
+    - targetCorrespondingSourceObject: {fileID: 4324277455529423760, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3827477849361982231}
   m_SourcePrefab: {fileID: 100100000, guid: 39da184d881f73c48b25ae5921795c55, type: 3}
 --- !u!1 &4126737456912587005 stripped
 GameObject:
@@ -177,6 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   MethodRotation: 0

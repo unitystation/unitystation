@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 459137905406169173, guid: b52e9566ba635f944a7a656928335414,
@@ -26,10 +27,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 700425905060650895, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 61e7d45035078ea4d8f41ae55e387252,
         type: 2}
+    - target: {fileID: 1706320983422357412, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: _assetId
+      value: 88428657
+      objectReference: {fileID: 0}
     - target: {fileID: 1706320983422357412, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: m_AssetId
@@ -131,4 +137,7 @@ PrefabInstance:
       value: AirlockAssemblySilver
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b52e9566ba635f944a7a656928335414, type: 3}

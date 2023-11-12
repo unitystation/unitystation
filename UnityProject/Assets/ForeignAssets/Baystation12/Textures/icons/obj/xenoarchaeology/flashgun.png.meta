@@ -33,7 +33,7 @@ TextureImporter:
       213: -4559410392641338487
     second: flashgun_9
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -50,11 +50,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -93,6 +94,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -108,6 +111,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -343,18 +358,17 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       flashgun_0: 5526999211091256122
-      flashgun_4: -5318926607789689177
-      flashgun_8: 5915813194554273407
-      flashgun_3: -8443658721302379996
-      flashgun_9: -4559410392641338487
-      flashgun_2: -7901265423201986967
-      flashgun_6: -8423438371926060595
-      flashgun_5: -3253012367404487437
-      flashgun_7: 863356590024828220
       flashgun_1: 1728301657409130591
-  spritePackingTag: 
+      flashgun_2: -7901265423201986967
+      flashgun_3: -8443658721302379996
+      flashgun_4: -5318926607789689177
+      flashgun_5: -3253012367404487437
+      flashgun_6: -8423438371926060595
+      flashgun_7: 863356590024828220
+      flashgun_8: 5915813194554273407
+      flashgun_9: -4559410392641338487
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

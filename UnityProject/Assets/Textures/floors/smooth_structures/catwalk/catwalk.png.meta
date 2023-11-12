@@ -147,7 +147,7 @@ TextureImporter:
       213: 21300094
     second: catwalk_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -246,6 +249,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1278,57 +1293,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      catwalk_35: 21300070
-      catwalk_47: 21300094
-      catwalk_1: 21300002
-      catwalk_15: 21300030
-      catwalk_4: 21300008
-      catwalk_25: 21300050
-      catwalk_8: 21300016
-      catwalk_6: 21300012
-      catwalk_33: 21300066
-      catwalk_39: 21300078
-      catwalk_26: 21300052
-      catwalk_31: 21300062
-      catwalk_22: 21300044
-      catwalk_42: 21300084
-      catwalk_12: 21300024
-      catwalk_30: 21300060
-      catwalk_28: 21300056
-      catwalk_44: 21300088
-      catwalk_46: 21300092
-      catwalk_37: 21300074
-      catwalk_11: 21300022
-      catwalk_16: 21300032
-      catwalk_19: 21300038
-      catwalk_20: 21300040
-      catwalk_29: 21300058
-      catwalk_18: 21300036
-      catwalk_10: 21300020
-      catwalk_13: 21300026
-      catwalk_36: 21300072
-      catwalk_45: 21300090
-      catwalk_23: 21300046
-      catwalk_38: 21300076
-      catwalk_32: 21300064
-      catwalk_40: 21300080
-      catwalk_34: 21300068
-      catwalk_5: 21300010
-      catwalk_17: 21300034
-      catwalk_24: 21300048
-      catwalk_43: 21300086
-      catwalk_41: 21300082
-      catwalk_21: 21300042
       catwalk_0: 21300000
+      catwalk_1: 21300002
+      catwalk_10: 21300020
+      catwalk_11: 21300022
+      catwalk_12: 21300024
+      catwalk_13: 21300026
       catwalk_14: 21300028
+      catwalk_15: 21300030
+      catwalk_16: 21300032
+      catwalk_17: 21300034
+      catwalk_18: 21300036
+      catwalk_19: 21300038
       catwalk_2: 21300004
+      catwalk_20: 21300040
+      catwalk_21: 21300042
+      catwalk_22: 21300044
+      catwalk_23: 21300046
+      catwalk_24: 21300048
+      catwalk_25: 21300050
+      catwalk_26: 21300052
       catwalk_27: 21300054
+      catwalk_28: 21300056
+      catwalk_29: 21300058
       catwalk_3: 21300006
+      catwalk_30: 21300060
+      catwalk_31: 21300062
+      catwalk_32: 21300064
+      catwalk_33: 21300066
+      catwalk_34: 21300068
+      catwalk_35: 21300070
+      catwalk_36: 21300072
+      catwalk_37: 21300074
+      catwalk_38: 21300076
+      catwalk_39: 21300078
+      catwalk_4: 21300008
+      catwalk_40: 21300080
+      catwalk_41: 21300082
+      catwalk_42: 21300084
+      catwalk_43: 21300086
+      catwalk_44: 21300088
+      catwalk_45: 21300090
+      catwalk_46: 21300092
+      catwalk_47: 21300094
+      catwalk_5: 21300010
+      catwalk_6: 21300012
       catwalk_7: 21300014
+      catwalk_8: 21300016
       catwalk_9: 21300018
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

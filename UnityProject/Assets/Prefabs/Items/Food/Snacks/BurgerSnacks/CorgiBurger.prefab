@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4608460023768847701, guid: 4bf8c38cb85116e4babedf03228412de,
@@ -21,6 +22,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: You monster.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411242208336094348, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: _assetId
+      value: 1522079757
       objectReference: {fileID: 0}
     - target: {fileID: 7411242208336094348, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
@@ -88,4 +94,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bf8c38cb85116e4babedf03228412de, type: 3}

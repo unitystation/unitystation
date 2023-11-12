@@ -6,6 +6,7 @@ using HealthV2;
 using Systems.Ai;
 using Systems.Interaction;
 using Items;
+using Logs;
 using Objects.Wallmounts;
 using ScriptableObjects;
 using Tiles;
@@ -59,6 +60,7 @@ public static class Validations
 	/// <returns></returns>
 	public static bool HasItemTrait(GameObject toCheck, ItemTrait expectedTrait)
 	{
+		if (expectedTrait == null) return true;
 		if (toCheck == null) return false;
 		var attrs = toCheck.GetComponent<ItemAttributesV2>();
 		if (attrs == null) return false;
@@ -71,7 +73,7 @@ public static class Validations
 	/// <param name="interaction"></param>
 	/// <param name="expectedTrait"></param>
 	/// <returns></returns>
-	public static bool HasUsedItemTrait(Interaction interaction, ItemTrait expectedTrait)
+	public static bool HasItemTrait(Interaction interaction, ItemTrait expectedTrait)
 	{
 		return HasItemTrait(interaction.UsedObject, expectedTrait);
 	}
@@ -279,7 +281,7 @@ public static class Validations
 			}
 		}
 
-		if (result == false && side == NetworkSide.Server && Logger.LogLevel >= LogLevel.Trace)
+		if (result == false && side == NetworkSide.Server && Loggy.LogLevel >= LogLevel.Trace)
 		{
 			Vector3 worldPosition = Vector3.zero;
 			bool isFloating = false;
@@ -301,7 +303,7 @@ public static class Validations
 				}
 			}
 
-			Logger.LogTraceFormat($"Not in reach! Target: {targetName} server pos:{worldPosition} "+
+			Loggy.LogTraceFormat($"Not in reach! Target: {targetName} server pos:{worldPosition} "+
 				                  $"Player Name: {playerScript.playerName} Player pos:{playerScript.RegisterPlayer.WorldPositionServer} " +
 								  $"(floating={isFloating})", Category.Exploits);
 		}
@@ -654,17 +656,17 @@ public static class Validations
 	{
 		if (toCheck == null)
 		{
-			Logger.LogError("Cannot put item to slot because the item is null playerScript > " +  playerScript + " itemSlot > " + itemSlot, Category.Inventory);
+			Loggy.LogError("Cannot put item to slot because the item is null playerScript > " +  playerScript + " itemSlot > " + itemSlot, Category.Inventory);
 			return false;
 		}
 		if (CanInteract(playerScript, side, true) == false)
 		{
-			Logger.LogTrace("Cannot put item to slot because the player cannot interact", Category.Inventory);
+			Loggy.LogTrace("Cannot put item to slot because the player cannot interact", Category.Inventory);
 			return false;
 		}
 		if (CanFit(itemSlot, toCheck, side, ignoreOccupied, examineRecipient) == false)
 		{
-			Logger.LogTraceFormat("Cannot put item to slot because the item {0} doesn't fit in the slot {1}", Category.Inventory,
+			Loggy.LogTraceFormat("Cannot put item to slot because the item {0} doesn't fit in the slot {1}", Category.Inventory,
 				toCheck.name, itemSlot);
 			return false;
 		}

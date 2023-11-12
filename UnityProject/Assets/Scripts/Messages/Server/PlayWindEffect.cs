@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Logs;
 using Mirror;
 using Shuttles;
 using Systems.Atmospherics;
@@ -45,7 +46,7 @@ namespace Messages.Server
 
 				if (windEffect.Successful == false)
 				{
-					Logger.LogWarning("Failed to spawn wind effect!", Category.Particles);
+					Loggy.LogWarning("Failed to spawn wind effect!", Category.Particles);
 					return;
 				}
 

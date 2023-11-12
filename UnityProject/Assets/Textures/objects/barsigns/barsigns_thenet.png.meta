@@ -183,7 +183,7 @@ TextureImporter:
       213: 21300118
     second: thenet_59
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -200,11 +200,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -243,6 +244,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -258,6 +261,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1542,69 +1557,68 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      thenet_9: 21300018
+      thenet_0: 21300000
+      thenet_1: 21300002
+      thenet_10: 21300020
+      thenet_11: 21300022
+      thenet_12: 21300024
+      thenet_13: 21300026
+      thenet_14: 21300028
+      thenet_15: 21300030
+      thenet_16: 21300032
+      thenet_17: 21300034
+      thenet_18: 21300036
+      thenet_19: 21300038
+      thenet_2: 21300004
       thenet_20: 21300040
+      thenet_21: 21300042
+      thenet_22: 21300044
+      thenet_23: 21300046
+      thenet_24: 21300048
+      thenet_25: 21300050
+      thenet_26: 21300052
+      thenet_27: 21300054
       thenet_28: 21300056
+      thenet_29: 21300058
+      thenet_3: 21300006
+      thenet_30: 21300060
+      thenet_31: 21300062
+      thenet_32: 21300064
+      thenet_33: 21300066
+      thenet_34: 21300068
+      thenet_35: 21300070
+      thenet_36: 21300072
+      thenet_37: 21300074
+      thenet_38: 21300076
+      thenet_39: 21300078
+      thenet_4: 21300008
+      thenet_40: 21300080
+      thenet_41: 21300082
+      thenet_42: 21300084
+      thenet_43: 21300086
+      thenet_44: 21300088
+      thenet_45: 21300090
+      thenet_46: 21300092
+      thenet_47: 21300094
+      thenet_48: 21300096
+      thenet_49: 21300098
+      thenet_5: 21300010
+      thenet_50: 21300100
+      thenet_51: 21300102
+      thenet_52: 21300104
+      thenet_53: 21300106
+      thenet_54: 21300108
+      thenet_55: 21300110
       thenet_56: 21300112
       thenet_57: 21300114
-      thenet_47: 21300094
-      thenet_42: 21300084
-      thenet_44: 21300088
-      thenet_26: 21300052
-      thenet_4: 21300008
-      thenet_18: 21300036
-      thenet_16: 21300032
-      thenet_36: 21300072
-      thenet_15: 21300030
-      thenet_3: 21300006
-      thenet_27: 21300054
-      thenet_54: 21300108
-      thenet_13: 21300026
-      thenet_34: 21300068
-      thenet_25: 21300050
+      thenet_58: 21300116
       thenet_59: 21300118
-      thenet_53: 21300106
-      thenet_12: 21300024
-      thenet_24: 21300048
-      thenet_55: 21300110
-      thenet_0: 21300000
-      thenet_50: 21300100
-      thenet_2: 21300004
-      thenet_14: 21300028
-      thenet_46: 21300092
-      thenet_38: 21300076
-      thenet_8: 21300016
-      thenet_41: 21300082
-      thenet_5: 21300010
-      thenet_11: 21300022
-      thenet_52: 21300104
       thenet_6: 21300012
       thenet_7: 21300014
-      thenet_17: 21300034
-      thenet_37: 21300074
-      thenet_21: 21300042
-      thenet_35: 21300070
-      thenet_33: 21300066
-      thenet_49: 21300098
-      thenet_43: 21300086
-      thenet_29: 21300058
-      thenet_32: 21300064
-      thenet_30: 21300060
-      thenet_39: 21300078
-      thenet_40: 21300080
-      thenet_48: 21300096
-      thenet_58: 21300116
-      thenet_1: 21300002
-      thenet_45: 21300090
-      thenet_51: 21300102
-      thenet_19: 21300038
-      thenet_31: 21300062
-      thenet_22: 21300044
-      thenet_10: 21300020
-      thenet_23: 21300046
-  spritePackingTag: 
+      thenet_8: 21300016
+      thenet_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

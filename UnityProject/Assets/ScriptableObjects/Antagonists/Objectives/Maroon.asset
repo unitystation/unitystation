@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a0a47b252cc2ff42b1575b29b3b55de, type: 3}
   m_Name: Maroon
   m_EditorClassIdentifier: 
+  attributes:
+  - name: Who?
+    index: -1
+    type: 0
+    playerID: 
+    number: 0
+    itemID: 
+    itemTraitIndex: 0
+  isEndRoundObjective: 0
   objectiveName: Maroon
   IsUnique: 0
   description: Prevent person leaving the station.

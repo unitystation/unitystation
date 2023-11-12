@@ -99,7 +99,7 @@ TextureImporter:
       213: 8417045666698822594
     second: candyon_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      candyon_14: -8039408101334643881
-      candyon_12: 3764347298357209921
-      candyon_19: 841527301703712106
-      candyon_23: -8989307304128727495
-      candyon_22: 2566520963900314185
-      candyon_25: 4240414606568168229
-      candyon_31: 8417045666698822594
-      candyon_16: -5973959001111754243
-      candyon_6: 5392009605959200376
-      candyon_18: -7322289092541138327
-      candyon_3: 6483377790443901095
-      candyon_15: 2295683037832250449
-      candyon_17: 1400350342503527191
-      candyon_27: -7213084828594682715
-      candyon_24: 6614511559516292464
-      candyon_29: -6792449650507359820
-      candyon_10: 7050834184446720330
-      candyon_20: -8724839078210076637
-      candyon_21: 1912107186640086106
-      candyon_4: -8450468858253359429
-      candyon_2: 2017778225651520738
-      candyon_8: 5323112039790613053
-      candyon_5: -1036578993010174390
-      candyon_9: -122606527140537621
-      candyon_7: 4472013596362277469
-      candyon_13: 7050284692848197739
-      candyon_26: -4403390943114745908
-      candyon_28: -3724710993048635343
       candyon_0: -750583694876826310
       candyon_1: -8868853374480848284
-      candyon_30: 3917132787883497952
+      candyon_10: 7050834184446720330
       candyon_11: 8792613112153128078
-  spritePackingTag: 
+      candyon_12: 3764347298357209921
+      candyon_13: 7050284692848197739
+      candyon_14: -8039408101334643881
+      candyon_15: 2295683037832250449
+      candyon_16: -5973959001111754243
+      candyon_17: 1400350342503527191
+      candyon_18: -7322289092541138327
+      candyon_19: 841527301703712106
+      candyon_2: 2017778225651520738
+      candyon_20: -8724839078210076637
+      candyon_21: 1912107186640086106
+      candyon_22: 2566520963900314185
+      candyon_23: -8989307304128727495
+      candyon_24: 6614511559516292464
+      candyon_25: 4240414606568168229
+      candyon_26: -4403390943114745908
+      candyon_27: -7213084828594682715
+      candyon_28: -3724710993048635343
+      candyon_29: -6792449650507359820
+      candyon_3: 6483377790443901095
+      candyon_30: 3917132787883497952
+      candyon_31: 8417045666698822594
+      candyon_4: -8450468858253359429
+      candyon_5: -1036578993010174390
+      candyon_6: 5392009605959200376
+      candyon_7: 4472013596362277469
+      candyon_8: 5323112039790613053
+      candyon_9: -122606527140537621
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

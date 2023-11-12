@@ -69,7 +69,7 @@ TextureImporter:
       213: 21300042
     second: ai-banned_21
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -86,11 +86,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -129,6 +130,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -144,6 +147,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -630,31 +645,30 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ai-banned_20: 21300040
-      ai-banned_3: 21300006
-      ai-banned_18: 21300036
+      ai-banned_0: 21300000
+      ai-banned_1: 21300002
+      ai-banned_10: 21300020
       ai-banned_11: 21300022
       ai-banned_12: 21300024
-      ai-banned_8: 21300016
-      ai-banned_21: 21300042
-      ai-banned_1: 21300002
-      ai-banned_16: 21300032
       ai-banned_13: 21300026
+      ai-banned_14: 21300028
       ai-banned_15: 21300030
+      ai-banned_16: 21300032
+      ai-banned_17: 21300034
+      ai-banned_18: 21300036
       ai-banned_19: 21300038
       ai-banned_2: 21300004
-      ai-banned_6: 21300012
-      ai-banned_0: 21300000
+      ai-banned_20: 21300040
+      ai-banned_21: 21300042
+      ai-banned_3: 21300006
       ai-banned_4: 21300008
-      ai-banned_9: 21300018
-      ai-banned_7: 21300014
-      ai-banned_10: 21300020
       ai-banned_5: 21300010
-      ai-banned_17: 21300034
-      ai-banned_14: 21300028
-  spritePackingTag: 
+      ai-banned_6: 21300012
+      ai-banned_7: 21300014
+      ai-banned_8: 21300016
+      ai-banned_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

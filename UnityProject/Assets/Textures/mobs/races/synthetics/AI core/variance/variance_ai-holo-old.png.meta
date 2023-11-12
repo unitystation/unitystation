@@ -183,7 +183,7 @@ TextureImporter:
       213: 21300118
     second: ai-holo-old_59
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -200,11 +200,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -243,6 +244,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -258,6 +261,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1542,69 +1557,68 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ai-holo-old_6: 21300012
-      ai-holo-old_26: 21300052
-      ai-holo-old_28: 21300056
-      ai-holo-old_4: 21300008
-      ai-holo-old_53: 21300106
-      ai-holo-old_13: 21300026
-      ai-holo-old_46: 21300092
-      ai-holo-old_24: 21300048
-      ai-holo-old_49: 21300098
-      ai-holo-old_16: 21300032
-      ai-holo-old_22: 21300044
-      ai-holo-old_27: 21300054
-      ai-holo-old_54: 21300108
-      ai-holo-old_18: 21300036
-      ai-holo-old_5: 21300010
-      ai-holo-old_8: 21300016
-      ai-holo-old_23: 21300046
-      ai-holo-old_38: 21300076
-      ai-holo-old_44: 21300088
-      ai-holo-old_7: 21300014
-      ai-holo-old_35: 21300070
-      ai-holo-old_41: 21300082
-      ai-holo-old_57: 21300114
-      ai-holo-old_2: 21300004
-      ai-holo-old_32: 21300064
-      ai-holo-old_1: 21300002
-      ai-holo-old_14: 21300028
-      ai-holo-old_48: 21300096
       ai-holo-old_0: 21300000
-      ai-holo-old_43: 21300086
-      ai-holo-old_52: 21300104
-      ai-holo-old_50: 21300100
-      ai-holo-old_56: 21300112
-      ai-holo-old_51: 21300102
+      ai-holo-old_1: 21300002
       ai-holo-old_10: 21300020
-      ai-holo-old_55: 21300110
-      ai-holo-old_30: 21300060
-      ai-holo-old_45: 21300090
-      ai-holo-old_15: 21300030
-      ai-holo-old_19: 21300038
-      ai-holo-old_17: 21300034
-      ai-holo-old_31: 21300062
-      ai-holo-old_37: 21300074
-      ai-holo-old_21: 21300042
-      ai-holo-old_58: 21300116
-      ai-holo-old_12: 21300024
-      ai-holo-old_3: 21300006
-      ai-holo-old_34: 21300068
-      ai-holo-old_29: 21300058
       ai-holo-old_11: 21300022
-      ai-holo-old_9: 21300018
-      ai-holo-old_40: 21300080
+      ai-holo-old_12: 21300024
+      ai-holo-old_13: 21300026
+      ai-holo-old_14: 21300028
+      ai-holo-old_15: 21300030
+      ai-holo-old_16: 21300032
+      ai-holo-old_17: 21300034
+      ai-holo-old_18: 21300036
+      ai-holo-old_19: 21300038
+      ai-holo-old_2: 21300004
       ai-holo-old_20: 21300040
+      ai-holo-old_21: 21300042
+      ai-holo-old_22: 21300044
+      ai-holo-old_23: 21300046
+      ai-holo-old_24: 21300048
       ai-holo-old_25: 21300050
-      ai-holo-old_42: 21300084
-      ai-holo-old_36: 21300072
-      ai-holo-old_39: 21300078
-      ai-holo-old_59: 21300118
+      ai-holo-old_26: 21300052
+      ai-holo-old_27: 21300054
+      ai-holo-old_28: 21300056
+      ai-holo-old_29: 21300058
+      ai-holo-old_3: 21300006
+      ai-holo-old_30: 21300060
+      ai-holo-old_31: 21300062
+      ai-holo-old_32: 21300064
       ai-holo-old_33: 21300066
+      ai-holo-old_34: 21300068
+      ai-holo-old_35: 21300070
+      ai-holo-old_36: 21300072
+      ai-holo-old_37: 21300074
+      ai-holo-old_38: 21300076
+      ai-holo-old_39: 21300078
+      ai-holo-old_4: 21300008
+      ai-holo-old_40: 21300080
+      ai-holo-old_41: 21300082
+      ai-holo-old_42: 21300084
+      ai-holo-old_43: 21300086
+      ai-holo-old_44: 21300088
+      ai-holo-old_45: 21300090
+      ai-holo-old_46: 21300092
       ai-holo-old_47: 21300094
-  spritePackingTag: 
+      ai-holo-old_48: 21300096
+      ai-holo-old_49: 21300098
+      ai-holo-old_5: 21300010
+      ai-holo-old_50: 21300100
+      ai-holo-old_51: 21300102
+      ai-holo-old_52: 21300104
+      ai-holo-old_53: 21300106
+      ai-holo-old_54: 21300108
+      ai-holo-old_55: 21300110
+      ai-holo-old_56: 21300112
+      ai-holo-old_57: 21300114
+      ai-holo-old_58: 21300116
+      ai-holo-old_59: 21300118
+      ai-holo-old_6: 21300012
+      ai-holo-old_7: 21300014
+      ai-holo-old_8: 21300016
+      ai-holo-old_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

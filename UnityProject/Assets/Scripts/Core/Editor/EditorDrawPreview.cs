@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR
 using System.Collections.Generic;
+using Logs;
 using UnityEditor;
 using UnityEngine;
 
@@ -102,6 +103,7 @@ public class EditorDrawPreview
 
 	private static void DrawProjectItem(string guid, Rect selectionRect)
 	{
+		if (EditorPrefs.GetBool("editorPreviewsDisable", false)) return;
 		if (TryGetSpriteData(guid, out var spriteData) == false) return;
 
 		var sprite = spriteData.CurrentSprite;
@@ -112,7 +114,7 @@ public class EditorDrawPreview
 
 		if (texture.isReadable == false)
 		{
-			Logger.LogError($"Sprite \"{sprite.name}\" is not read/write enabled. Please enable " +
+			Loggy.LogError($"Sprite \"{sprite.name}\" is not read/write enabled. Please enable " +
 		                  "Read/Write in the texture's import settings.", Category.Editor);
 			return;
 		}
@@ -160,7 +162,7 @@ public class EditorDrawPreview
 		{
 			// An empty entry will be added so we don't get spammed with the same message.
 			entry = SpriteDataEntry.Empty;
-			Logger.LogWarning($"Could not load {nameof(SpriteDataSO)} at \"{assetPath}\". " +
+			Loggy.LogWarning($"Could not load {nameof(SpriteDataSO)} at \"{assetPath}\". " +
 				"Unable to render the sprite in the asset viewer.", Category.Editor);
 		}
 		else
@@ -195,6 +197,12 @@ public class EditorDrawPreview
 		}
 
 		return new Rect(x, y, width, height);
+	}
+
+	[MenuItem("Tools/DisableEnableEditorSpritePreviews #&]")]
+	public static void CompiledDammit()
+	{
+		EditorPrefs.SetBool("editorPreviewsDisable", !EditorPrefs.GetBool("editorPreviewsDisable", false));
 	}
 }
 #endif

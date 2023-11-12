@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Logs;
 using Managers;
 using UnityEngine;
 using Objects.Wallmounts;
@@ -29,10 +30,10 @@ public partial class GameManager
 			var shuttles = FindObjectsOfType<EscapeShuttle>();
 			if (shuttles.Length != 1)
 			{
-				Logger.LogError("Primary escape shuttle is missing from GameManager!", Category.Round);
+				Loggy.LogError("Primary escape shuttle is missing from GameManager!", Category.Round);
 				return;
 			}
-			Logger.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene", Category.Round);
+			Loggy.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene", Category.Round);
 			primaryEscapeShuttle = shuttles[0];
 		}
 	}
@@ -48,10 +49,10 @@ public partial class GameManager
 			var shuttles = FindObjectsOfType<EscapeShuttle>();
 			if (shuttles.Length < 1)
 			{
-				Logger.LogWarning("Primary escape shuttle is missing from GameManager!", Category.Round);
+				Loggy.LogWarning("Primary escape shuttle is missing from GameManager!", Category.Round);
 				return;
 			}
-			Logger.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene", Category.Round);
+			Loggy.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene", Category.Round);
 			primaryEscapeShuttle = shuttles[0];
 		}
 
@@ -59,7 +60,7 @@ public partial class GameManager
 
 		if (primaryEscapeShuttle.MatrixInfo == null)
 		{
-			Logger.LogError("Primary escape shuttle has no associated matrix!", Category.Round);
+			Loggy.LogError("Primary escape shuttle has no associated matrix!", Category.Round);
 			return;
 		}
 
@@ -86,7 +87,7 @@ public partial class GameManager
 
 		if (LandingZoneManager.Instance.centcomDocking == null)
 		{
-			Logger.LogError("Centcom docking point is null, this should only happen if theres no centcom scene");
+			Loggy.LogError("Centcom docking point is null, this should only happen if theres no centcom scene");
 			return;
 		}
 
@@ -117,7 +118,7 @@ public partial class GameManager
 	{
 		if (status == EscapeShuttleStatus.DockedCentcom && beenToStation)
 		{
-			Logger.Log("Shuttle arrived at Centcom", Category.Round);
+			Loggy.Log("Shuttle arrived at Centcom", Category.Round);
 			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has docked at Centcomm! Round will restart in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute.</color>"), MatrixManager.MainStationMatrix);
 			StartCoroutine(WaitForRoundEnd());
 		}
@@ -140,7 +141,7 @@ public partial class GameManager
 
 	private IEnumerator WaitForRoundEnd()
 	{
-		Logger.Log($"Shuttle docked to Centcom, Round will end in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute", Category.Round);
+		Loggy.Log($"Shuttle docked to Centcom, Round will end in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute", Category.Round);
 		yield return WaitFor.Seconds(1f);
 		EndRound();
 	}

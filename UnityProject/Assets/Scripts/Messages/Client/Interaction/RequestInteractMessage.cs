@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Logs;
 using Systems.Interaction;
 using Mirror;
 using Shuttles;
@@ -288,7 +289,7 @@ namespace Messages.Client.Interaction
 				}
 				catch (NullReferenceException exception)
 				{
-					Logger.LogError($"Caught a NRE in RequestInteractMessage.Process(): {exception.Message} \n {exception.StackTrace}", Category.Interaction);
+					Loggy.LogError($"Caught a NRE in RequestInteractMessage.Process(): {exception.Message} \n {exception.StackTrace}", Category.Interaction);
 				}
 			}
 			else if (InteractionType == typeof(TileMouseDrop))
@@ -354,20 +355,20 @@ namespace Messages.Client.Interaction
 			{
 				if (processorObj == null)
 				{
-					Logger.LogWarning("processorObj is null, action will not be performed.", Category.Interaction);
+					Loggy.LogWarning("processorObj is null, action will not be performed.", Category.Interaction);
 					return;
 				}
 				var component = processorObj.GetComponent(ComponentType);
 				if (component == null)
 				{
-					Logger.LogWarningFormat("No component found of requested type {0} on {1}," +
+					Loggy.LogWarningFormat("No component found of requested type {0} on {1}," +
 					                        " action will not be performed.",
 						Category.Interaction, ComponentType.Name, processorObj.name);
 					return;
 				}
 				if (!(component is IInteractable<T>))
 				{
-					Logger.LogWarningFormat("Component of type {0} doesn't implement IInteractable" +
+					Loggy.LogWarningFormat("Component of type {0} doesn't implement IInteractable" +
 					                        " for interaction type {1} on {2}," +
 					                        " action will not be performed.",
 						Category.Interaction, ComponentType.Name, typeof(T).Name, processorObj.name);
@@ -401,7 +402,7 @@ namespace Messages.Client.Interaction
 				{
 					var interactables = interaction.UsedObject.GetComponents<IInteractable<T>>()
 						.Where(c => c != null && (c as MonoBehaviour).enabled);
-					Logger.LogTraceFormat("Server checking which component to trigger for {0} on object {1}", Category.Interaction,
+					Loggy.LogTraceFormat("Server checking which component to trigger for {0} on object {1}", Category.Interaction,
 						typeof(T).Name, interaction.UsedObject.name);
 					if (ServerCheckAndTrigger(interaction, interactables))
 					{
@@ -414,7 +415,7 @@ namespace Messages.Client.Interaction
 					if(targetedInteraction.TargetObject == null) return;
 					var interactables = targetedInteraction.TargetObject.GetComponents<IInteractable<T>>()
 						.Where(c => c != null && (c as MonoBehaviour)?.enabled == true);
-					Logger.LogTraceFormat("Server checking which component to trigger for {0} on object {1}", Category.Interaction,
+					Loggy.LogTraceFormat("Server checking which component to trigger for {0} on object {1}", Category.Interaction,
 						typeof(T).Name, targetedInteraction.TargetObject.name);
 					if (ServerCheckAndTrigger(interaction, interactables))
 					{
@@ -471,13 +472,13 @@ namespace Messages.Client.Interaction
 		{
 			if (typeof(T) == typeof(TileApply))
 			{
-				Logger.LogError("Cannot use Send with TileApply, please use SendTileApply instead.", Category.Interaction);
+				Loggy.LogError("Cannot use Send with TileApply, please use SendTileApply instead.", Category.Interaction);
 				return;
 			}
 			//never send anything for client-side-only interactions
 			if (interactableComponent is IClientInteractable<T> && !(interactableComponent is IInteractable<T>))
 			{
-				Logger.LogWarningFormat("Interaction request {0} will not be sent because interactable component {1} is" +
+				Loggy.LogWarningFormat("Interaction request {0} will not be sent because interactable component {1} is" +
 				                        " IClientInteractable only (client-side only).", Category.Interaction, interaction, interactableComponent);
 				return;
 			}
@@ -485,12 +486,12 @@ namespace Messages.Client.Interaction
 			//Note that client prediction is not triggered for server player.
 			if (!CustomNetworkManager.IsServer && interactableComponent is IPredictedInteractable<T> predictedInteractable)
 			{
-				Logger.LogTraceFormat("Predicting {0} interaction for {1} on {2}", Category.Interaction, typeof(T).Name, interactableComponent.GetType().Name, ((Component) interactableComponent).gameObject.name);
+				Loggy.LogTraceFormat("Predicting {0} interaction for {1} on {2}", Category.Interaction, typeof(T).Name, interactableComponent.GetType().Name, ((Component) interactableComponent).gameObject.name);
 				predictedInteractable.ClientPredictInteraction(interaction);
 			}
 			if (!interaction.Performer.Equals(PlayerManager.LocalPlayerObject))
 			{
-				Logger.LogError("Client attempting to perform an interaction on behalf of another player." +
+				Loggy.LogError("Client attempting to perform an interaction on behalf of another player." +
 				                " This is not allowed. Client can only perform an interaction as themselves. Message" +
 				                " will not be sent.", Category.Exploits);
 				return;
@@ -498,7 +499,7 @@ namespace Messages.Client.Interaction
 
 			if (interactableComponent != null && !(interactableComponent is Component))
 			{
-				Logger.LogError("interactableComponent must be a component, but isn't. The message will not be sent.",
+				Loggy.LogError("interactableComponent must be a component, but isn't. The message will not be sent.",
 					Category.Exploits);
 				return;
 			}
@@ -598,12 +599,12 @@ namespace Messages.Client.Interaction
 			//Note that client prediction is not triggered for server player.
 			if (!CustomNetworkManager.IsServer)
 			{
-				Logger.LogTraceFormat("Predicting TileApply interaction {0}", Category.Interaction, tileApply);
+				Loggy.LogTraceFormat("Predicting TileApply interaction {0}", Category.Interaction, tileApply);
 				tileInteraction.ClientPredictInteraction(tileApply);
 			}
 			if (!tileApply.Performer.Equals(PlayerManager.LocalPlayerObject))
 			{
-				Logger.LogError("Client attempting to perform an interaction on behalf of another player." +
+				Loggy.LogError("Client attempting to perform an interaction on behalf of another player." +
 				                " This is not allowed. Client can only perform an interaction as themselves. Message" +
 				                " will not be sent.", Category.Exploits);
 				return;
@@ -624,7 +625,7 @@ namespace Messages.Client.Interaction
 		{
 			if (!mouseDrop.Performer.Equals(PlayerManager.LocalPlayerObject))
 			{
-				Logger.LogError("Client attempting to perform an interaction on behalf of another player." +
+				Loggy.LogError("Client attempting to perform an interaction on behalf of another player." +
 				                " This is not allowed. Client can only perform an interaction as themselves. Message" +
 				                " will not be sent.", Category.Exploits);
 				return;
@@ -668,7 +669,7 @@ namespace Messages.Client.Interaction
 				return netMatrix.MatrixSync.netId;
 			}
 
-			Logger.LogError($"Failed to find netId for {objectNetIdWanted.name}");
+			Loggy.LogError($"Failed to find netId for {objectNetIdWanted.name}");
 
 			return NetId.Invalid;
 		}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
@@ -26,25 +27,25 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 7bfccf7a82ac1604180f47aee8ba2f72,
         type: 2}
     - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 304f770a57d3e6445b0087223f524420,
         type: 2}
     - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 5b1346dd1cb06174e8a09472aee12fcc,
         type: 2}
     - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[3]
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 00f622bf199875642a0647b300abd60b,
         type: 2}
@@ -63,6 +64,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: They're seeds that grow into mimana trees. When grown, keep away from
         mime
+      objectReference: {fileID: 0}
+    - target: {fileID: 4379662516609680101, guid: 20a3d1857d5f66c4aa945129302471a7,
+        type: 3}
+      propertyPath: _assetId
+      value: 1129351516
       objectReference: {fileID: 0}
     - target: {fileID: 4379662516609680101, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
@@ -147,4 +153,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 939186a77bb8e3f4bba1083b02794192,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20a3d1857d5f66c4aa945129302471a7, type: 3}

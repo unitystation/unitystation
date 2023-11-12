@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4098173642811505657, guid: 7cef0e2714d9c8c4587deef900a0b670,
@@ -74,6 +75,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7057474091270294048, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
+      propertyPath: _assetId
+      value: 4020292488
+      objectReference: {fileID: 0}
+    - target: {fileID: 7057474091270294048, guid: 7cef0e2714d9c8c4587deef900a0b670,
+        type: 3}
       propertyPath: m_AssetId
       value: b126018ed6cbabc45b3276c4962e3431
       objectReference: {fileID: 0}
@@ -89,17 +95,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7463286768668721107, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
-      propertyPath: manuallyAddedAccess.Array.data[0]
+      propertyPath: 'manuallyAddedAccess.Array.data[0]'
       value: 49
       objectReference: {fileID: 0}
     - target: {fileID: 7463286768668721107, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
-      propertyPath: manuallyAddedAccess.Array.data[1]
+      propertyPath: 'manuallyAddedAccess.Array.data[1]'
       value: 71
       objectReference: {fileID: 0}
     - target: {fileID: 7463286768668721107, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
-      propertyPath: manuallyAddedAccess.Array.data[2]
+      propertyPath: 'manuallyAddedAccess.Array.data[2]'
       value: 71
       objectReference: {fileID: 0}
     - target: {fileID: 7463286768668721107, guid: 7cef0e2714d9c8c4587deef900a0b670,
@@ -109,13 +115,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7463286768668721107, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
-      propertyPath: manuallyAddedClearance.Array.data[0]
+      propertyPath: 'manuallyAddedClearance.Array.data[0]'
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7463286768668721107, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
-      propertyPath: manuallyAddedClearance.Array.data[1]
+      propertyPath: 'manuallyAddedClearance.Array.data[1]'
       value: 73
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7cef0e2714d9c8c4587deef900a0b670, type: 3}

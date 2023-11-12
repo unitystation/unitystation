@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using GameModes;
+using Logs;
 
 [CreateAssetMenu(menuName="ScriptableObjects/GameModeData")]
 public class GameModeData : ScriptableObject
@@ -44,7 +45,7 @@ public class GameModeData : ScriptableObject
 				return Instantiate(gm);
 			}
 		}
-		Logger.Log($"Unable to get gamemode {gmName}, returning default: {DefaultGameMode.Name}", Category.GameMode);
+		Loggy.Log($"Unable to get gamemode {gmName}, returning default: {DefaultGameMode.Name}", Category.GameMode);
 		return GetDefaultGameMode();
 	}
 

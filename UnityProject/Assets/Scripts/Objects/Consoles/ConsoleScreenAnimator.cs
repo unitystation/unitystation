@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using Systems.Electricity;
 using Objects.Construction;
@@ -32,7 +33,7 @@ namespace Objects
 			{
 				if (SpriteHandlerHere == null)
 				{
-					Logger.Log($"{nameof(SpriteHandler)} is missing on {gameObject}.", Category.Sprites);
+					Loggy.Log($"{nameof(SpriteHandler)} is missing on {gameObject}.", Category.Sprites);
 					return;
 				}
 				SpriteHandlerHere.PushTexture();

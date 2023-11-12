@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using UI.Core.NetUI;
 using Objects.Machines;
@@ -67,7 +68,7 @@ namespace UI.Objects
 				currentProducts.Add(product);
 				UpdateQueue();
 			}
-			else Logger.Log("Tried to add to Autolathe queue, but queue was full", Category.Machines);
+			else Loggy.Log("Tried to add to Autolathe queue, but queue was full", Category.Machines);
 		}
 
 		public void UpdateQueue()

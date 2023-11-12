@@ -5,10 +5,11 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4290517960940578, guid: cf31a682867c234409b80f763fc9a1b9, type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: b8fa0aaa96df8b3439f52ad9cdde9ca2,
         type: 2}
@@ -85,6 +86,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6477919160917602835, guid: cf31a682867c234409b80f763fc9a1b9,
         type: 3}
+      propertyPath: _assetId
+      value: 4125943569
+      objectReference: {fileID: 0}
+    - target: {fileID: 6477919160917602835, guid: cf31a682867c234409b80f763fc9a1b9,
+        type: 3}
       propertyPath: m_AssetId
       value: ab0705a6171e689409ab984ca05ee77a
       objectReference: {fileID: 0}
@@ -106,4 +112,7 @@ PrefabInstance:
         Transfers tactical kidnapping knowledge into the user via nanochips.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf31a682867c234409b80f763fc9a1b9, type: 3}

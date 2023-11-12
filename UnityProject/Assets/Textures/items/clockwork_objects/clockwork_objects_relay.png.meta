@@ -84,7 +84,7 @@ TextureImporter:
       213: 21300052
     second: relay_26
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -101,11 +101,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -144,6 +145,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -159,6 +162,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -750,36 +765,35 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      relay_21: 21300042
-      relay_1: 21300002
-      relay_8: 21300016
-      relay_12: 21300024
-      relay_2: 21300004
-      relay_11: 21300022
-      relay_20: 21300040
-      relay_15: 21300030
       relay_0: 21300000
-      relay_14: 21300028
+      relay_1: 21300002
       relay_10: 21300020
-      relay_5: 21300010
-      relay_6: 21300012
-      relay_18: 21300036
-      relay_24: 21300048
-      relay_4: 21300008
+      relay_11: 21300022
+      relay_12: 21300024
+      relay_13: 21300026
+      relay_14: 21300028
+      relay_15: 21300030
       relay_16: 21300032
-      relay_7: 21300014
+      relay_17: 21300034
+      relay_18: 21300036
       relay_19: 21300038
+      relay_2: 21300004
+      relay_20: 21300040
+      relay_21: 21300042
       relay_22: 21300044
+      relay_23: 21300046
+      relay_24: 21300048
+      relay_25: 21300050
       relay_26: 21300052
       relay_3: 21300006
-      relay_13: 21300026
-      relay_25: 21300050
-      relay_17: 21300034
-      relay_23: 21300046
+      relay_4: 21300008
+      relay_5: 21300010
+      relay_6: 21300012
+      relay_7: 21300014
+      relay_8: 21300016
       relay_9: 21300018
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

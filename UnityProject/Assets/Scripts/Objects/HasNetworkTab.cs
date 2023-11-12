@@ -1,7 +1,6 @@
 using System;
 using UI.Core.Net;
 using UnityEngine;
-using Core.Editor.Attributes;
 using Messages.Server;
 using Mirror;
 using Systems.Interaction;
@@ -20,11 +19,11 @@ namespace Objects
 		[NonSerialized]
 		private GameObject playerInteracted;
 
-		[PrefabModeOnly]
+
 		[Tooltip("Network tab to display.")]
 		public NetTabType NetTabType = NetTabType.None;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		private bool aiInteractable = true;
 
 		public event Action<GameObject> OnShowUI;

@@ -26,14 +26,14 @@ namespace UI.Core.Animations
 
 		public void OnPointerEnter(PointerEventData eventData)
 		{
-			spriteHandler.ChangeSprite(hoverSpriteIndex, false);
-			spriteHandler.ChangeSpriteVariant(hoverSpriteVariant, false);
+			spriteHandler.SetCatalogueIndexSprite(hoverSpriteIndex, false);
+			spriteHandler.SetSpriteVariant(hoverSpriteVariant, false);
 		}
 
 		public void OnPointerExit(PointerEventData eventData)
 		{
-			spriteHandler.ChangeSprite(noHoverSpriteIndex, false);
-			spriteHandler.ChangeSpriteVariant(noHoverSpriteVariant, false);
+			spriteHandler.SetCatalogueIndexSprite(noHoverSpriteIndex, false);
+			spriteHandler.SetSpriteVariant(noHoverSpriteVariant, false);
 		}
 	}
 }

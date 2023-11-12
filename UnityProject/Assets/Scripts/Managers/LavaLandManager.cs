@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Objects.Science;
 using ScriptableObjects;
 using Shared.Managers;
@@ -78,7 +79,7 @@ namespace Systems.Scenes
 
 			if (MatrixManager.Instance.lavaLandMatrix == null)
 			{
-				Logger.LogError("LavaLandMatrix not found!");
+				Loggy.LogError("LavaLandMatrix not found!");
 				return;
 			}
 
@@ -103,7 +104,7 @@ namespace Systems.Scenes
 
 			SetQuantumPads();
 
-			Logger.Log("Finished generating LavaLand", Category.Round);
+			Loggy.Log("Finished generating LavaLand", Category.Round);
 
 			yield break;
 		}

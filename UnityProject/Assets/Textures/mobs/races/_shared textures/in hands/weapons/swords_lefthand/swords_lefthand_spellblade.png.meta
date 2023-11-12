@@ -87,7 +87,7 @@ TextureImporter:
       213: 21300054
     second: spellblade_27
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,6 +148,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -162,6 +165,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -774,37 +789,36 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      spellblade_10: 21300020
-      spellblade_23: 21300046
+      spellblade_0: 21300000
       spellblade_1: 21300002
-      spellblade_25: 21300050
+      spellblade_10: 21300020
+      spellblade_11: 21300022
+      spellblade_12: 21300024
+      spellblade_13: 21300026
+      spellblade_14: 21300028
+      spellblade_15: 21300030
+      spellblade_16: 21300032
+      spellblade_17: 21300034
+      spellblade_18: 21300036
+      spellblade_19: 21300038
       spellblade_2: 21300004
+      spellblade_20: 21300040
+      spellblade_21: 21300042
+      spellblade_22: 21300044
+      spellblade_23: 21300046
+      spellblade_24: 21300048
+      spellblade_25: 21300050
+      spellblade_26: 21300052
+      spellblade_27: 21300054
+      spellblade_3: 21300006
+      spellblade_4: 21300008
       spellblade_5: 21300010
+      spellblade_6: 21300012
       spellblade_7: 21300014
       spellblade_8: 21300016
-      spellblade_18: 21300036
-      spellblade_11: 21300022
-      spellblade_3: 21300006
-      spellblade_20: 21300040
-      spellblade_14: 21300028
-      spellblade_4: 21300008
-      spellblade_15: 21300030
-      spellblade_13: 21300026
-      spellblade_22: 21300044
-      spellblade_12: 21300024
-      spellblade_17: 21300034
-      spellblade_19: 21300038
-      spellblade_26: 21300052
-      spellblade_0: 21300000
-      spellblade_6: 21300012
-      spellblade_16: 21300032
       spellblade_9: 21300018
-      spellblade_27: 21300054
-      spellblade_24: 21300048
-      spellblade_21: 21300042
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

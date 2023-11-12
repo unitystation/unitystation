@@ -110,6 +110,12 @@ namespace Objects
 
 		private void RegisterEarlyShuttleLaunch(IDCard card, PlayerScript performer)
 		{
+			if (GameManager.Instance.PrimaryEscapeShuttle.hostileEnvironment)
+			{
+				Chat.AddExamineMsg(performer.gameObject, "There is a hostile environment on the station, you're not permitted to leave");
+				return;
+			}
+			
 			if (GameManager.Instance.ShuttleSent)
 			{
 				Chat.AddExamineMsg(performer.gameObject, "The shuttle is already moving!");

@@ -3,6 +3,7 @@ using UnityEngine;
 using Items;
 using Random = UnityEngine.Random;
 using AddressableReferences;
+using HealthV2;
 using Messages.Server.SoundMessages;
 
 
@@ -186,6 +187,7 @@ public static class ToolUtils
 			ProgressBar bar;
 			if (welder != null)
 			{
+				performer.GetComponent<LivingHealthMasterBase>()?.TryFlash(seconds);
 				bar = StandardProgressAction.CreateForWelder(ProgressConfig, progressCompleteAction, welder)
 					.ServerStartProgress(actionTarget, seconds, performer);
 			}

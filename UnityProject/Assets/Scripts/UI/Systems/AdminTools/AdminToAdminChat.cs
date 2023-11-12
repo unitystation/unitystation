@@ -6,6 +6,7 @@ using Mirror;
 using DatabaseAPI;
 using Messages.Client.Admin;
 using Messages.Server.AdminTools;
+using Newtonsoft.Json;
 
 
 namespace AdminTools
@@ -86,7 +87,7 @@ namespace AdminTools
 		{
 			if (string.IsNullOrEmpty(unreadMessagesJson)) return;
 
-			var update = JsonUtility.FromJson<AdminChatUpdate>(unreadMessagesJson);
+			var update = JsonConvert.DeserializeObject<AdminChatUpdate>(unreadMessagesJson);
 			clientAdminChatLogs.AddRange(update.messages);
 
 			chatScroll.AppendChatEntries(update.messages.Cast<ChatEntryData>().ToList());

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using Logs;
 using UnityEngine;
 using UI.Core.NetUI;
 using Systems.Research;
@@ -36,7 +37,7 @@ namespace UI.Objects
 		{
 			if (product == null)
 			{
-				Logger.Log("Machine Product not found", Category.Machines);
+				Loggy.Log("Machine Product not found", Category.Machines);
 				return;
 			}
 			foreach (var element in Elements)

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 18569659928267973, guid: b9ea9931e8b07a140ab790d555cace98,
@@ -25,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 971331376723076295, guid: b9ea9931e8b07a140ab790d555cace98,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: b7411baaa7aa3fc428e578231af4350c,
         type: 2}
@@ -43,6 +44,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A green suitskirt and yellow necktie. Exemplifies authority.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094447466852338422, guid: b9ea9931e8b07a140ab790d555cace98,
+        type: 3}
+      propertyPath: _assetId
+      value: 3100274880
       objectReference: {fileID: 0}
     - target: {fileID: 6094447466852338422, guid: b9ea9931e8b07a140ab790d555cace98,
         type: 3}
@@ -121,4 +127,7 @@ PrefabInstance:
       value: 240
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9ea9931e8b07a140ab790d555cace98, type: 3}

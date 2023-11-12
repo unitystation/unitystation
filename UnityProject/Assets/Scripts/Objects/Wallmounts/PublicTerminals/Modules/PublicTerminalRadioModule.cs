@@ -1,4 +1,5 @@
 using InGameEvents;
+using Logs;
 using Objects.Machines.ServerMachines.Communications;
 using ScriptableObjects.Communications;
 using Systems.Communications;
@@ -21,7 +22,7 @@ namespace Objects.Wallmounts.PublicTerminals.Modules
 			if (IsActive == false) return false;
 			if (poweredDevice == null || integrity == null)
 			{
-				Logger.LogError("[PublicTerminals/Modules] - Missing components detected on a terminal.");
+				Loggy.LogError("[PublicTerminals/Modules] - Missing components detected on a terminal.");
 				return false;
 			}
 			// Don't send anything if this terminal has no power

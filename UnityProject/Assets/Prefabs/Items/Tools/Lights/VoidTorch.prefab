@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 859153990715057728, guid: d05e6959c655a704783a7df68cd10435,
@@ -30,19 +31,19 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1666505115895660852, guid: d05e6959c655a704783a7df68cd10435,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: bae856632891643429b6b852dc05e1e8,
         type: 2}
     - target: {fileID: 1666505115895660852, guid: d05e6959c655a704783a7df68cd10435,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: a53497d0b78777b449dde714f9f04ff5,
         type: 2}
     - target: {fileID: 1666505115895660852, guid: d05e6959c655a704783a7df68cd10435,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 02e61e0cfc6b5ba4092b6bb805ffd9e4,
         type: 2}
@@ -129,6 +130,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4896177219586066183, guid: d05e6959c655a704783a7df68cd10435,
         type: 3}
+      propertyPath: _assetId
+      value: 6991282
+      objectReference: {fileID: 0}
+    - target: {fileID: 4896177219586066183, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
       propertyPath: m_AssetId
       value: e61cd1e78677d984988f8655ba75746a
       objectReference: {fileID: 0}
@@ -205,5 +211,23 @@ PrefabInstance:
       propertyPath: Colour.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5185865969733433047, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: colour.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5185865969733433047, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: colour.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5185865969733433047, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: colour.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d05e6959c655a704783a7df68cd10435, type: 3}

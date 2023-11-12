@@ -183,7 +183,7 @@ TextureImporter:
       213: 21300118
     second: holocarp_59
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -200,11 +200,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -243,6 +244,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -258,6 +261,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1542,69 +1557,68 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      holocarp_11: 21300022
-      holocarp_46: 21300092
-      holocarp_45: 21300090
-      holocarp_41: 21300082
-      holocarp_31: 21300062
-      holocarp_52: 21300104
-      holocarp_12: 21300024
-      holocarp_4: 21300008
-      holocarp_27: 21300054
-      holocarp_55: 21300110
-      holocarp_3: 21300006
-      holocarp_36: 21300072
-      holocarp_35: 21300070
-      holocarp_32: 21300064
-      holocarp_57: 21300114
-      holocarp_6: 21300012
-      holocarp_7: 21300014
-      holocarp_40: 21300080
-      holocarp_16: 21300032
-      holocarp_28: 21300056
-      holocarp_19: 21300038
-      holocarp_47: 21300094
-      holocarp_24: 21300048
-      holocarp_25: 21300050
-      holocarp_43: 21300086
-      holocarp_53: 21300106
-      holocarp_54: 21300108
-      holocarp_30: 21300060
-      holocarp_13: 21300026
-      holocarp_50: 21300100
-      holocarp_9: 21300018
-      holocarp_15: 21300030
-      holocarp_20: 21300040
-      holocarp_44: 21300088
-      holocarp_33: 21300066
-      holocarp_58: 21300116
-      holocarp_23: 21300046
-      holocarp_10: 21300020
-      holocarp_59: 21300118
-      holocarp_56: 21300112
-      holocarp_5: 21300010
-      holocarp_42: 21300084
-      holocarp_14: 21300028
+      holocarp_0: 21300000
       holocarp_1: 21300002
+      holocarp_10: 21300020
+      holocarp_11: 21300022
+      holocarp_12: 21300024
+      holocarp_13: 21300026
+      holocarp_14: 21300028
+      holocarp_15: 21300030
+      holocarp_16: 21300032
       holocarp_17: 21300034
-      holocarp_26: 21300052
-      holocarp_39: 21300078
-      holocarp_38: 21300076
+      holocarp_18: 21300036
+      holocarp_19: 21300038
       holocarp_2: 21300004
+      holocarp_20: 21300040
       holocarp_21: 21300042
       holocarp_22: 21300044
-      holocarp_48: 21300096
-      holocarp_51: 21300102
-      holocarp_37: 21300074
-      holocarp_0: 21300000
-      holocarp_34: 21300068
-      holocarp_8: 21300016
+      holocarp_23: 21300046
+      holocarp_24: 21300048
+      holocarp_25: 21300050
+      holocarp_26: 21300052
+      holocarp_27: 21300054
+      holocarp_28: 21300056
       holocarp_29: 21300058
+      holocarp_3: 21300006
+      holocarp_30: 21300060
+      holocarp_31: 21300062
+      holocarp_32: 21300064
+      holocarp_33: 21300066
+      holocarp_34: 21300068
+      holocarp_35: 21300070
+      holocarp_36: 21300072
+      holocarp_37: 21300074
+      holocarp_38: 21300076
+      holocarp_39: 21300078
+      holocarp_4: 21300008
+      holocarp_40: 21300080
+      holocarp_41: 21300082
+      holocarp_42: 21300084
+      holocarp_43: 21300086
+      holocarp_44: 21300088
+      holocarp_45: 21300090
+      holocarp_46: 21300092
+      holocarp_47: 21300094
+      holocarp_48: 21300096
       holocarp_49: 21300098
-      holocarp_18: 21300036
-  spritePackingTag: 
+      holocarp_5: 21300010
+      holocarp_50: 21300100
+      holocarp_51: 21300102
+      holocarp_52: 21300104
+      holocarp_53: 21300106
+      holocarp_54: 21300108
+      holocarp_55: 21300110
+      holocarp_56: 21300112
+      holocarp_57: 21300114
+      holocarp_58: 21300116
+      holocarp_59: 21300118
+      holocarp_6: 21300012
+      holocarp_7: 21300014
+      holocarp_8: 21300016
+      holocarp_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

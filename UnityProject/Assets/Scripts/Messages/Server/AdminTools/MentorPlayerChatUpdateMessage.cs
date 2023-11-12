@@ -1,5 +1,6 @@
 ﻿using AdminTools;
 using Mirror;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Messages.Server.AdminTools
@@ -24,7 +25,7 @@ namespace Messages.Server.AdminTools
 
 			NetMessage  msg = new NetMessage
 			{
-				JsonData = JsonUtility.ToJson(update),
+				JsonData = JsonConvert.SerializeObject(update),
 				PlayerId = playerId
 			};
 
@@ -36,7 +37,7 @@ namespace Messages.Server.AdminTools
 		{
 			NetMessage msg = new NetMessage
 			{
-				JsonData = JsonUtility.ToJson(update),
+				JsonData = JsonConvert.SerializeObject(update),
 				PlayerId = playerId
 			};
 

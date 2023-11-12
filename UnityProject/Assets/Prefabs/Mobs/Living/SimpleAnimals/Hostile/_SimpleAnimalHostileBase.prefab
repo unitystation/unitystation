@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1374483540581099544, guid: 64d782023543d4542b89ce3f9402b084,
@@ -59,6 +60,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7607258964611336719, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
+      propertyPath: _assetId
+      value: 2893846701
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607258964611336719, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
       propertyPath: m_AssetId
       value: cf769d410d94f0e47bab5eee03a3b07d
       objectReference: {fileID: 0}
@@ -80,6 +86,17 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6494159132825836884, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
     - {fileID: 2166651219293684434, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7494601431046934675, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 811126669682120101}
+    - targetCorrespondingSourceObject: {fileID: 7494601431046934675, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9122004212597972209}
   m_SourcePrefab: {fileID: 100100000, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
 --- !u!1 &3786279822138338372 stripped
 GameObject:
@@ -99,6 +116,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 243a3c078e195af4dadbc9f673627997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: =
   registerObject: {fileID: 0}
   deathSounds: []
@@ -107,6 +127,7 @@ MonoBehaviour:
   randomSoundProbability: 0
   searchTickRate: 0.5
   currentStatus: 0
+  ScoreForKilling: 5
 --- !u!114 &9122004212597972209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,7 +140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 857bf8f3709511b4fb9178b76caed382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UniversalObjectPhysics: {fileID: 0}
   AllowDead: 0
   AllowUnconscious: 0
   Priority: 0

@@ -7,6 +7,7 @@ using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 namespace Items.Implants.Organs
@@ -15,24 +16,23 @@ namespace Items.Implants.Organs
 	{
 
 		public IPlayerPossessable Itself => this as IPlayerPossessable;
-		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect) this;
+		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect)this;
 
 		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
 		[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
 
-		public Pickupable Pickupable;
-
-		[SerializeField] private Reagent DrunkReagent;
+		[FormerlySerializedAs("DrunkReagent")] [SerializeField] private Reagent drunkReagent;
+		public Reagent DrunkReagent => drunkReagent;
 		[SerializeField] public float MaxDrunkAtPercentage = 0.06f;
 
 		public uint OnPlayerID => OnBodyID;
 		public uint PossessingID => possessingID;
 
-		[FormerlySerializedAs("hasInbuiltSite")] [SerializeField] private bool hasInbuiltSight = false;
+		[FormerlySerializedAs("hasInbuiltSite")][SerializeField] private bool hasInbuiltSight = false;
 		[SerializeField] private bool hasInbuiltHearing = false;
 
 
-		[SerializeField] private bool CannotSpeak  = false;
+		[SerializeField] private bool CannotSpeak = false;
 
 
 		[SerializeField] private bool hasInbuiltSpeech = false;
@@ -42,7 +42,9 @@ namespace Items.Implants.Organs
 
 		[SyncVar(hook = nameof(SyncTelekinesis))] private bool hasTelekinesis = false;
 
-		[SyncVar(hook = nameof(SyncDrunkenness))] private float DrunkAmount = 0;
+		[SyncVar(hook = nameof(SyncDrunkenness))] private float drunkAmount = 0;
+
+		public float DrunkAmount => drunkAmount;
 
 		public bool HasTelekinesis => hasTelekinesis;
 
@@ -50,10 +52,20 @@ namespace Items.Implants.Organs
 
 		public ReagentCirculatedComponent ReagentCirculatedComponent;
 
+		public UnityEvent OnDeath = new UnityEvent();
+		public UnityEvent OnRevival = new UnityEvent();
+
 		[RightClickMethod]
 		public void Possess()
 		{
-			PlayerManager.LocalMindScript.SetPossessingObject(this.gameObject);
+			if (isServer)
+			{
+				PlayerManager.LocalMindScript.SetPossessingObject(this.gameObject);
+			}
+			else
+			{
+				PlayerManager.LocalMindScript.CmdRequestPossess(this.gameObject.NetId());
+			}
 		}
 
 
@@ -78,13 +90,14 @@ namespace Items.Implants.Organs
 		public void OnDestroy()
 		{
 			Itself.PreImplementedOnDestroy();
+			OnDeath.RemoveAllListeners();
+			OnRevival.RemoveAllListeners();
 		}
 
 		//Ensure removal of brain
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
-
 			livingHealth.SetBrain(this);
 			Itself.SetPossessingObject(livingHealth.gameObject);
 
@@ -100,11 +113,19 @@ namespace Items.Implants.Organs
 			}
 
 			UpdateChatModifier(true);
+			livingHealth.OnDeath += DeathEvent;
+			livingHealth.OnRevive.AddListener(ReviveEvent);
 		}
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			livingHealth.SetBrain(null);
+			livingHealth.OnDeath -= DeathEvent;
+			livingHealth.OnRevive.RemoveListener(ReviveEvent);
+			if (livingHealth.brain == this)
+			{
+				livingHealth.SetBrain(null);
+			}
+
 			livingHealth.IsMute.RemovePosition(this);
 			Itself.SetPossessingObject(null);
 			UpdateChatModifier(false);
@@ -117,18 +138,19 @@ namespace Items.Implants.Organs
 
 		public void SyncDrunkenness(float Oldvalue, float NewValue)
 		{
-			DrunkAmount = NewValue;
+			drunkAmount = NewValue;
 			if (Preimplemented.IsOnLocalPlayer)
 			{
-				ApplyChangesDrunkenness(DrunkAmount);
+				ApplyChangesDrunkenness(drunkAmount);
 			}
-
 		}
 
 		public void ApplyChangesDrunkenness(float newState)
 		{
 			Camera.main.GetComponent<CameraEffectControlScript>().drunkCamera.SetDrunkStrength(newState);
 		}
+
+		public UnityEvent OnBodyUnPossesedByPlayer { get; set; }
 
 		public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
 		{
@@ -149,32 +171,29 @@ namespace Items.Implants.Organs
 
 		public override void ImplantPeriodicUpdate()
 		{
-			if (ReagentCirculatedComponent.OrNull()?.AssociatedSystem != null && ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(DrunkReagent))
+			if (ReagentCirculatedComponent.OrNull()?.AssociatedSystem != null && ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(drunkReagent))
 			{
-				float DrunkPercentage  = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(DrunkReagent);
+				float DrunkPercentage = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(drunkReagent);
 				if (DrunkPercentage > 0)
 				{
 					if (DrunkPercentage > MaxDrunkAtPercentage)
 					{
 						DrunkPercentage = MaxDrunkAtPercentage;
 					}
-					var  percentage = DrunkPercentage / MaxDrunkAtPercentage;
+					var percentage = DrunkPercentage / MaxDrunkAtPercentage;
 
 					if (percentage > 0.05f)
 					{
-						SyncDrunkenness(DrunkAmount, percentage);
+						SyncDrunkenness(drunkAmount, percentage);
 					}
 					else
 					{
-						SyncDrunkenness(DrunkAmount, 0);
+						SyncDrunkenness(drunkAmount, 0);
 					}
 				}
 				else
 				{
-					if (DrunkAmount != 0)
-					{
-						DrunkAmount = 0;
-					}
+					drunkAmount = 0;
 				}
 			}
 		}
@@ -194,7 +213,7 @@ namespace Items.Implants.Organs
 		{
 			ApplyChangesBlindness(Default ? false : true);
 			ApplyDeafness(Default ? 0 : 1);
-			ApplyChangesDrunkenness(Default ? 0 : DrunkAmount);
+			ApplyChangesDrunkenness(Default ? 0 : drunkAmount);
 		}
 
 		public void ApplyDeafness(float Value)
@@ -248,7 +267,7 @@ namespace Items.Implants.Organs
 
 		public void UpdateChatModifier(bool add)
 		{
-			if (RelatedPart.HealthMaster == null)  return;
+			if (RelatedPart.HealthMaster == null) return;
 			if (add)
 			{
 				RelatedPart.HealthMaster.BodyChatModifier |= BodyChatModifier;
@@ -257,6 +276,16 @@ namespace Items.Implants.Organs
 			{
 				RelatedPart.HealthMaster.BodyChatModifier &= ~BodyChatModifier;
 			}
+		}
+
+		private void DeathEvent()
+		{
+			OnDeath?.Invoke();
+		}
+
+		private void ReviveEvent()
+		{
+			OnRevival?.Invoke();
 		}
 
 		#region Mind_stuff
@@ -276,12 +305,13 @@ namespace Items.Implants.Organs
 		public Action OnActionControlPlayer { get; set; }
 
 		public Action OnActionPossess { get; set; }
+		public UnityEvent OnBodyPossesedByPlayer { get; set; }
 
 		public RegisterPlayer CurrentlyOn { get; set; }
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-		public void OnControlPlayer( Mind mind) { }
-		public void OnPossessPlayer(Mind mind, IPlayerPossessable parent) {}
+		public void OnControlPlayer(Mind mind) { }
+		public void OnPossessPlayer(Mind mind, IPlayerPossessable parent) { }
 		#endregion
 	}
 }

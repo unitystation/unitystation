@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Core.Directionals;
+using Logs;
 using Systems.Atmospherics;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
@@ -14,7 +14,7 @@ using Tiles;
 /// <summary>
 /// Subsystem behavior which manages updating the MetaDataNodes and simulation that affects them for a given matrix.
 /// </summary>
-public class MetaDataSystem : SubsystemBehaviour
+public class MetaDataSystem : MatrixSystemBehaviour
 {
 	// for Conditional updating
 	public override SystemType SubsystemType =>SystemType.MetaDataSystem;
@@ -44,7 +44,6 @@ public class MetaDataSystem : SubsystemBehaviour
 	public override void Awake()
 	{
 		base.Awake();
-
 		matrix = GetComponentInChildren<Matrix>(true);
 		externalNodes = new ConcurrentDictionary<MetaDataNode, MetaDataNode>();
 		atmosSystem = GetComponent<AtmosSystem>();
@@ -79,12 +78,11 @@ public class MetaDataSystem : SubsystemBehaviour
 			Dsw.Start();
 			matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
 			Dsw.Stop();
-			Logger.Log($"Initialise {gameObject.name} Utilities (Power cables, Atmos pipes): " + Dsw.ElapsedMilliseconds + " ms", Category.Matrix);
+			Loggy.Log($"Initialise {gameObject.name} Utilities (Power cables, Atmos pipes): " + Dsw.ElapsedMilliseconds + " ms", Category.Matrix);
 		}
 
 		sw.Stop();
-
-		Logger.Log($"{gameObject.name} MetaData init: " + sw.ElapsedMilliseconds + " ms", Category.Matrix);
+		Loggy.Log($"{gameObject.name} MetaData init: " + sw.ElapsedMilliseconds + " ms", Category.Matrix);
 	}
 
 	public override void UpdateAt(Vector3Int localPosition)
@@ -161,7 +159,7 @@ public class MetaDataSystem : SubsystemBehaviour
 		var positions = bounds.allPositionsWithin();
 		tested = new HashSet<Vector3Int>(positions.Count);
 
-		Logger.LogFormat($"{matrixName}: {positions.Count} tiles need to be set up for atmos.", Category.TileMaps);
+		Loggy.LogFormat($"{matrixName}: {positions.Count} tiles need to be set up for atmos.", Category.TileMaps);
 
 		frameWatch.Start();
 
@@ -173,7 +171,7 @@ public class MetaDataSystem : SubsystemBehaviour
 			//Every 1000 tiles wait till next frame to continue
 			if (count % 1000 == 0)
 			{
-				Logger.LogFormat($"{matrixName}: Created some rooms in {frameWatch.ElapsedMilliseconds}ms", Category.TileMaps);
+				Loggy.LogFormat($"{matrixName}: Created some rooms in {frameWatch.ElapsedMilliseconds}ms", Category.TileMaps);
 
 				frameWatch.Reset();
 				yield return WaitFor.EndOfFrame;
@@ -185,13 +183,13 @@ public class MetaDataSystem : SubsystemBehaviour
 
 		setUpDone = true;
 
-		Logger.LogFormat($"{matrixName}: Created rooms in a total of {overallWatch.ElapsedMilliseconds}ms", Category.TileMaps);
+		Loggy.LogFormat($"{matrixName}: Created rooms in a total of {overallWatch.ElapsedMilliseconds}ms", Category.TileMaps);
 		overallWatch.Reset();
 		overallWatch.Restart();
 
 		atmosSystem.FillRoomGas();
 
-		Logger.LogFormat($"{matrixName}: Filled rooms with gas in {overallWatch.ElapsedMilliseconds}ms", Category.TileMaps);
+		Loggy.LogFormat($"{matrixName}: Filled rooms with gas in {overallWatch.ElapsedMilliseconds}ms", Category.TileMaps);
 	}
 
 	private void FindRoomAt(Vector3Int position)

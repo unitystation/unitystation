@@ -243,7 +243,7 @@ TextureImporter:
       213: 21300158
     second: crew_79
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -260,11 +260,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -303,6 +304,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -326,6 +329,18 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
@@ -2022,89 +2037,88 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      crew_39: 21300078
-      crew_67: 21300134
-      crew_69: 21300138
-      crew_42: 21300084
-      crew_79: 21300158
-      crew_15: 21300030
-      crew_49: 21300098
-      crew_17: 21300034
-      crew_23: 21300046
-      crew_44: 21300088
-      crew_36: 21300072
-      crew_56: 21300112
-      crew_11: 21300022
-      crew_73: 21300146
-      crew_64: 21300128
-      crew_55: 21300110
-      crew_8: 21300016
-      crew_47: 21300094
-      crew_61: 21300122
-      crew_65: 21300130
-      crew_28: 21300056
-      crew_40: 21300080
-      crew_21: 21300042
-      crew_38: 21300076
-      crew_66: 21300132
-      crew_72: 21300144
-      crew_75: 21300150
-      crew_50: 21300100
-      crew_4: 21300008
-      crew_59: 21300118
-      crew_27: 21300054
       crew_0: 21300000
-      crew_29: 21300058
-      crew_12: 21300024
-      crew_70: 21300140
-      crew_34: 21300068
-      crew_24: 21300048
-      crew_2: 21300004
-      crew_41: 21300082
-      crew_30: 21300060
-      crew_57: 21300114
-      crew_6: 21300012
-      crew_13: 21300026
-      crew_35: 21300070
-      crew_5: 21300010
-      crew_76: 21300152
-      crew_37: 21300074
-      crew_45: 21300090
-      crew_68: 21300136
-      crew_53: 21300106
-      crew_14: 21300028
-      crew_7: 21300014
-      crew_16: 21300032
-      crew_43: 21300086
-      crew_9: 21300018
-      crew_22: 21300044
-      crew_60: 21300120
-      crew_62: 21300124
-      crew_74: 21300148
-      crew_3: 21300006
-      crew_25: 21300050
-      crew_78: 21300156
-      crew_26: 21300052
-      crew_32: 21300064
       crew_1: 21300002
-      crew_51: 21300102
-      crew_48: 21300096
-      crew_33: 21300066
-      crew_54: 21300108
-      crew_77: 21300154
-      crew_52: 21300104
-      crew_58: 21300116
-      crew_46: 21300092
-      crew_71: 21300142
-      crew_63: 21300126
-      crew_19: 21300038
-      crew_20: 21300040
       crew_10: 21300020
+      crew_11: 21300022
+      crew_12: 21300024
+      crew_13: 21300026
+      crew_14: 21300028
+      crew_15: 21300030
+      crew_16: 21300032
+      crew_17: 21300034
       crew_18: 21300036
+      crew_19: 21300038
+      crew_2: 21300004
+      crew_20: 21300040
+      crew_21: 21300042
+      crew_22: 21300044
+      crew_23: 21300046
+      crew_24: 21300048
+      crew_25: 21300050
+      crew_26: 21300052
+      crew_27: 21300054
+      crew_28: 21300056
+      crew_29: 21300058
+      crew_3: 21300006
+      crew_30: 21300060
       crew_31: 21300062
-  spritePackingTag: 
+      crew_32: 21300064
+      crew_33: 21300066
+      crew_34: 21300068
+      crew_35: 21300070
+      crew_36: 21300072
+      crew_37: 21300074
+      crew_38: 21300076
+      crew_39: 21300078
+      crew_4: 21300008
+      crew_40: 21300080
+      crew_41: 21300082
+      crew_42: 21300084
+      crew_43: 21300086
+      crew_44: 21300088
+      crew_45: 21300090
+      crew_46: 21300092
+      crew_47: 21300094
+      crew_48: 21300096
+      crew_49: 21300098
+      crew_5: 21300010
+      crew_50: 21300100
+      crew_51: 21300102
+      crew_52: 21300104
+      crew_53: 21300106
+      crew_54: 21300108
+      crew_55: 21300110
+      crew_56: 21300112
+      crew_57: 21300114
+      crew_58: 21300116
+      crew_59: 21300118
+      crew_6: 21300012
+      crew_60: 21300120
+      crew_61: 21300122
+      crew_62: 21300124
+      crew_63: 21300126
+      crew_64: 21300128
+      crew_65: 21300130
+      crew_66: 21300132
+      crew_67: 21300134
+      crew_68: 21300136
+      crew_69: 21300138
+      crew_7: 21300014
+      crew_70: 21300140
+      crew_71: 21300142
+      crew_72: 21300144
+      crew_73: 21300146
+      crew_74: 21300148
+      crew_75: 21300150
+      crew_76: 21300152
+      crew_77: 21300154
+      crew_78: 21300156
+      crew_79: 21300158
+      crew_8: 21300016
+      crew_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

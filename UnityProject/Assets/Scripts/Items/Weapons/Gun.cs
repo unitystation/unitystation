@@ -8,6 +8,7 @@ using Mirror;
 using Items;
 using AddressableReferences;
 using HealthV2;
+using Logs;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using Weapons.Projectiles;
@@ -211,7 +212,7 @@ namespace Weapons
 			registerTile = GetComponent<RegisterTile>();
 			if (pinSlot == null || magSlot == null || itemStorage == null)
 			{
-				Logger.LogWarning($"{gameObject.name} missing components, may cause issues", Category.Firearms);
+				Loggy.LogWarning($"{gameObject.name} missing components, may cause issues", Category.Firearms);
 			}
 		}
 
@@ -239,18 +240,18 @@ namespace Weapons
 
 			if (ammoPrefab == null)
 			{
-				Logger.LogError($"{gameObject.name} magazine prefab was null, cannot auto-populate.",
+				Loggy.LogError($"{gameObject.name} magazine prefab was null, cannot auto-populate.",
 					Category.Firearms);
 				return;
 			}
 
 			//populate with a full external mag on spawn
-			Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Firearms, name);
+			Loggy.LogTraceFormat("Auto-populate external magazine for {0}", Category.Firearms, name);
 			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 
 			if (pinPrefab == null)
 			{
-				Logger.LogError($"{gameObject.name} firing pin prefab was null, cannot auto-populate.",
+				Loggy.LogError($"{gameObject.name} firing pin prefab was null, cannot auto-populate.",
 					Category.Firearms);
 				return;
 			}
@@ -379,7 +380,7 @@ namespace Weapons
 				PlayEmptySfx();
 				if (side == NetworkSide.Server)
 				{
-					Logger.LogTrace("Server rejected shot - No magazine being loaded", Category.Firearms);
+					Loggy.LogTrace("Server rejected shot - No magazine being loaded", Category.Firearms);
 				}
 
 				return false;
@@ -393,39 +394,22 @@ namespace Weapons
 					                           "'s trigger is locked. It doesn't have a firing pin installed!");
 				}
 
-				Logger.LogTrace("Rejected shot - no firing pin", Category.Firearms);
+				Loggy.LogTrace("Rejected shot - no firing pin", Category.Firearms);
 				return false;
 			}
 
 
 			if (FireOnCooldowne == false)
 			{
-				if (CurrentMagazine.ClientAmmoRemains <= 0)
-				{
-					if (SmartGun && allowMagazineRemoval) // smartGun is forced off when using an internal magazine
-					{
-						ServerHandleUnloadRequest();
-						OutOfAmmoSfx();
-					}
-					else
-					{
-						PlayEmptySfx();
-					}
-					StartCoroutine(DelayGun());
-					return false;
-				}
 
-				if (CurrentMagazine.containedBullets[0] != null)
+				if (interaction.MouseButtonState == MouseButtonState.PRESS)
 				{
-					if (interaction.MouseButtonState == MouseButtonState.PRESS)
-					{
-						return true;
-					}
-					else
-					{
-						//being held, only can shoot if this is an automatic
-						return WeaponType == WeaponType.FullyAutomatic;
-					}
+					return true;
+				}
+				else
+				{
+					//being held, only can shoot if this is an automatic
+					return WeaponType == WeaponType.FullyAutomatic;
 				}
 			}
 
@@ -441,6 +425,22 @@ namespace Weapons
 
 		public virtual void ServerPerformInteraction(AimApply interaction)
 		{
+			if (CurrentMagazine.ServerAmmoRemains <= 0)
+			{
+				if (SmartGun && allowMagazineRemoval) // smartGun is forced off when using an internal magazine
+				{
+					ServerHandleUnloadRequest();
+					OutOfAmmoSfx();
+				}
+				else
+				{
+					PlayEmptySfx();
+				}
+
+				StartCoroutine(DelayGun());
+				return;
+			}
+
 			//do we need to check if this is a suicide (want to avoid the check because it involves a raycast).
 			//case 1 - we are beginning a new shot, need to see if we are shooting ourselves
 			//case 2 - we are firing an automatic and are currently shooting ourselves, need to see if we moused off
@@ -578,12 +578,11 @@ namespace Weapons
 		public void ServerShoot(GameObject shotBy, Vector2 target,
 			BodyPartType damageZone, bool isSuicideShot)
 		{
-
 			//don't enqueue the shot if the player is no longer able to shoot
 			PlayerScript shooter = shotBy.GetComponent<PlayerScript>();
 			if (!Validations.CanInteract(shooter, NetworkSide.Server))
 			{
-				Logger.LogTrace("Server rejected shot: shooter cannot interact", Category.Firearms);
+				Loggy.LogTrace("Server rejected shot: shooter cannot interact", Category.Firearms);
 				return;
 			}
 
@@ -605,26 +604,25 @@ namespace Weapons
 			PlayerScript shooterScript = shotBy.GetComponent<PlayerScript>();
 			if (shooter.AllowInput == false || shooterScript.IsNormal == false)
 			{
-				Logger.Log("A player tried to shoot when not allowed or when they were a ghost.", Category.Exploits);
-				Logger.LogWarning("A shot was attempted when shooter is a ghost or is not allowed to shoot.",
+				Loggy.Log("A player tried to shoot when not allowed or when they were a ghost.", Category.Exploits);
+				Loggy.LogWarning("A shot was attempted when shooter is a ghost or is not allowed to shoot.",
 					Category.Firearms);
 				return;
 			}
 
 
-
 			if (CurrentMagazine == null || CurrentMagazine.ServerAmmoRemains <= 0 ||
 			    CurrentMagazine.containedBullets[0] == null)
 			{
-				Logger.LogTrace("Player tried to shoot when there was no ammo.", Category.Exploits);
-				Logger.LogWarning("A shot was attempted when there is no ammo.", Category.Firearms);
+				Loggy.LogTrace("Player tried to shoot when there was no ammo.", Category.Exploits);
+				Loggy.LogWarning("A shot was attempted when there is no ammo.", Category.Firearms);
 				return;
 			}
 
 			if (FireOnCooldowne)
 			{
-				Logger.LogTrace("Player tried to shoot too fast.", Category.Exploits);
-				Logger.LogWarning("Shot was attempted to be dequeued when the fire count down is not yet at 0.",
+				Loggy.LogTrace("Player tried to shoot too fast.", Category.Exploits);
+				Loggy.LogWarning("Shot was attempted to be dequeued when the fire count down is not yet at 0.",
 					Category.Exploits);
 				return;
 			}
@@ -634,7 +632,7 @@ namespace Weapons
 
 			if (toShoot == null)
 			{
-				Logger.LogError("Shot was attempted but no projectile or quantity was found to use", Category.Firearms);
+				Loggy.LogError("Shot was attempted but no projectile or quantity was found to use", Category.Firearms);
 				return;
 			}
 
@@ -655,8 +653,8 @@ namespace Weapons
 					$"{serverHolder.ExpensiveName()} fires their {gameObject.ExpensiveName()}");
 			}
 
-				//kickback
-				shooterScript.ObjectPhysics.NewtonianPush((-finalDirection).NormalizeToInt(), 1);
+			//kickback
+			shooterScript.ObjectPhysics.NewtonianPush((-finalDirection).NormalizeToInt(), 1);
 
 			if (SpawnsCasing)
 			{
@@ -696,7 +694,7 @@ namespace Weapons
 				{
 					if (isServer)
 					{
-						Logger.LogTrace("Server rejected shot - out of ammo", Category.Firearms);
+						Loggy.LogTrace("Server rejected shot - out of ammo", Category.Firearms);
 					}
 
 					return;
@@ -710,8 +708,6 @@ namespace Weapons
 
 			//add additional recoil after shooting for the next round
 			AppendRecoil();
-
-
 
 
 			if (isSuicideShot)
@@ -750,7 +746,8 @@ namespace Weapons
 				{
 					Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
 				}
-				RPCShowRecoil(identity.connectionToClient , finalDirection);
+
+				RPCShowRecoil(identity.connectionToClient, finalDirection);
 			}
 		}
 
@@ -803,8 +800,9 @@ namespace Weapons
 		{
 			if (CurrentMagazine == null)
 			{
-				Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this}?", Category.Firearms);
+				Loggy.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this}?", Category.Firearms);
 			}
+
 			if (MagInternal)
 			{
 				var clip = mag;
@@ -825,7 +823,6 @@ namespace Weapons
 		/// Invoked when server recieves a request to unload the current magazine. Queues up the unload to occur
 		/// when the shot queue is empty.
 		/// </summary>
-
 		public void ServerHandleUnloadRequest()
 		{
 			ItemSlot hand = GetComponent<Pickupable>()?.ItemSlot?.Player.OrNull()?.GetComponent<DynamicItemStorage>()?
@@ -835,16 +832,10 @@ namespace Weapons
 			{
 				return;
 			}
-			if (hand != null)
-			{
-				UnloadMagSound();
-				Inventory.ServerTransfer(magSlot, hand);
-			}
-			else
-			{
-				UnloadMagSound();
-				Inventory.ServerDrop(magSlot);
-			}
+
+
+			UnloadMagSound();
+			Inventory.ServerDrop(magSlot);
 		}
 
 		#endregion
@@ -878,11 +869,12 @@ namespace Weapons
 		{
 			isSuppressed = newValue;
 		}
-	public void UnloadMagSound()
-	{
-		SoundManager.PlayNetworkedAtPos(unloadMagSound, transform.position,
-			sourceObj: serverHolder);
-	}
+
+		public void UnloadMagSound()
+		{
+			SoundManager.PlayNetworkedAtPos(unloadMagSound, transform.position,
+				sourceObj: serverHolder);
+		}
 
 		/// <summary>
 		/// Syncs the recoil config.
@@ -901,7 +893,7 @@ namespace Weapons
 		{
 			float angle = Mathf.Atan2(target.y, target.x) * Mathf.Rad2Deg;
 			float angleVariance = MagSyncedRandomFloat(-CurrentRecoilVariance, CurrentRecoilVariance);
-			Logger.LogTraceFormat("angleVariance {0}", Category.Firearms, angleVariance);
+			Loggy.LogTraceFormat("angleVariance {0}", Category.Firearms, angleVariance);
 			float newAngle = angle * Mathf.Deg2Rad + angleVariance;
 			Vector2 vec2 = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle)).normalized;
 			return vec2;
@@ -918,7 +910,7 @@ namespace Weapons
 			{
 				//get a random recoil
 				float randRecoil = MagSyncedRandomFloat(CurrentRecoilVariance, MaxRecoilVariance);
-				Logger.LogTraceFormat("randRecoil {0}", Category.Firearms, randRecoil);
+				Loggy.LogTraceFormat("randRecoil {0}", Category.Firearms, randRecoil);
 				CurrentRecoilVariance += randRecoil;
 				//make sure the recoil is not too high
 				if (CurrentRecoilVariance > MaxRecoilVariance)
@@ -947,7 +939,8 @@ namespace Weapons
 		/// </summary>
 		protected virtual IEnumerator SuicideAction(GameObject performer)
 		{
-			DequeueAndProcessServerShot(performer, performer.RegisterTile().LocalPosition.ToLocal(), BodyPartType.Head, true);
+			DequeueAndProcessServerShot(performer, performer.RegisterTile().LocalPosition.ToLocal(), BodyPartType.Head,
+				true);
 			var health = performer.GetComponent<LivingHealthMasterBase>();
 			health.ApplyDamageAll(performer, health.MaxHealth / 2, AttackType.Bullet, DamageType.Brute);
 			yield return null;

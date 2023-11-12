@@ -147,7 +147,7 @@ TextureImporter:
       213: 21300094
     second: vent_out-starting_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      vent_out-starting_42: 21300084
-      vent_out-starting_46: 21300092
+      vent_out-starting_0: 21300000
+      vent_out-starting_1: 21300002
+      vent_out-starting_10: 21300020
+      vent_out-starting_11: 21300022
+      vent_out-starting_12: 21300024
+      vent_out-starting_13: 21300026
+      vent_out-starting_14: 21300028
+      vent_out-starting_15: 21300030
+      vent_out-starting_16: 21300032
+      vent_out-starting_17: 21300034
+      vent_out-starting_18: 21300036
       vent_out-starting_19: 21300038
-      vent_out-starting_32: 21300064
-      vent_out-starting_47: 21300094
+      vent_out-starting_2: 21300004
+      vent_out-starting_20: 21300040
+      vent_out-starting_21: 21300042
+      vent_out-starting_22: 21300044
+      vent_out-starting_23: 21300046
+      vent_out-starting_24: 21300048
+      vent_out-starting_25: 21300050
       vent_out-starting_26: 21300052
+      vent_out-starting_27: 21300054
+      vent_out-starting_28: 21300056
+      vent_out-starting_29: 21300058
       vent_out-starting_3: 21300006
       vent_out-starting_30: 21300060
-      vent_out-starting_8: 21300016
-      vent_out-starting_37: 21300074
-      vent_out-starting_14: 21300028
       vent_out-starting_31: 21300062
-      vent_out-starting_35: 21300070
-      vent_out-starting_7: 21300014
-      vent_out-starting_22: 21300044
-      vent_out-starting_39: 21300078
-      vent_out-starting_38: 21300076
-      vent_out-starting_28: 21300056
-      vent_out-starting_40: 21300080
-      vent_out-starting_11: 21300022
-      vent_out-starting_4: 21300008
-      vent_out-starting_5: 21300010
-      vent_out-starting_21: 21300042
-      vent_out-starting_36: 21300072
-      vent_out-starting_1: 21300002
-      vent_out-starting_13: 21300026
-      vent_out-starting_43: 21300086
-      vent_out-starting_6: 21300012
-      vent_out-starting_16: 21300032
-      vent_out-starting_24: 21300048
-      vent_out-starting_10: 21300020
-      vent_out-starting_45: 21300090
-      vent_out-starting_12: 21300024
-      vent_out-starting_9: 21300018
-      vent_out-starting_25: 21300050
-      vent_out-starting_44: 21300088
-      vent_out-starting_18: 21300036
-      vent_out-starting_15: 21300030
-      vent_out-starting_0: 21300000
+      vent_out-starting_32: 21300064
       vent_out-starting_33: 21300066
       vent_out-starting_34: 21300068
-      vent_out-starting_27: 21300054
-      vent_out-starting_2: 21300004
+      vent_out-starting_35: 21300070
+      vent_out-starting_36: 21300072
+      vent_out-starting_37: 21300074
+      vent_out-starting_38: 21300076
+      vent_out-starting_39: 21300078
+      vent_out-starting_4: 21300008
+      vent_out-starting_40: 21300080
       vent_out-starting_41: 21300082
-      vent_out-starting_20: 21300040
-      vent_out-starting_29: 21300058
-      vent_out-starting_23: 21300046
-      vent_out-starting_17: 21300034
-  spritePackingTag: 
+      vent_out-starting_42: 21300084
+      vent_out-starting_43: 21300086
+      vent_out-starting_44: 21300088
+      vent_out-starting_45: 21300090
+      vent_out-starting_46: 21300092
+      vent_out-starting_47: 21300094
+      vent_out-starting_5: 21300010
+      vent_out-starting_6: 21300012
+      vent_out-starting_7: 21300014
+      vent_out-starting_8: 21300016
+      vent_out-starting_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

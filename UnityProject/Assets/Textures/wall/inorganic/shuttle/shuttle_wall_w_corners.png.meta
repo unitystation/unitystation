@@ -147,7 +147,7 @@ TextureImporter:
       213: 21300094
     second: shuttle_wall_w_corners_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -270,6 +273,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1302,57 +1317,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      shuttle_wall_w_corners_8: 21300016
-      shuttle_wall_w_corners_13: 21300026
-      shuttle_wall_w_corners_7: 21300014
-      shuttle_wall_w_corners_19: 21300038
-      shuttle_wall_w_corners_1: 21300002
-      shuttle_wall_w_corners_24: 21300048
-      shuttle_wall_w_corners_26: 21300052
-      shuttle_wall_w_corners_16: 21300032
-      shuttle_wall_w_corners_34: 21300068
-      shuttle_wall_w_corners_20: 21300040
-      shuttle_wall_w_corners_38: 21300076
       shuttle_wall_w_corners_0: 21300000
-      shuttle_wall_w_corners_2: 21300004
-      shuttle_wall_w_corners_31: 21300062
-      shuttle_wall_w_corners_23: 21300046
-      shuttle_wall_w_corners_41: 21300082
-      shuttle_wall_w_corners_46: 21300092
-      shuttle_wall_w_corners_21: 21300042
-      shuttle_wall_w_corners_14: 21300028
-      shuttle_wall_w_corners_32: 21300064
-      shuttle_wall_w_corners_25: 21300050
-      shuttle_wall_w_corners_4: 21300008
-      shuttle_wall_w_corners_27: 21300054
+      shuttle_wall_w_corners_1: 21300002
       shuttle_wall_w_corners_10: 21300020
-      shuttle_wall_w_corners_36: 21300072
-      shuttle_wall_w_corners_22: 21300044
-      shuttle_wall_w_corners_42: 21300084
-      shuttle_wall_w_corners_12: 21300024
-      shuttle_wall_w_corners_33: 21300066
-      shuttle_wall_w_corners_35: 21300070
       shuttle_wall_w_corners_11: 21300022
-      shuttle_wall_w_corners_40: 21300080
-      shuttle_wall_w_corners_29: 21300058
-      shuttle_wall_w_corners_30: 21300060
-      shuttle_wall_w_corners_5: 21300010
-      shuttle_wall_w_corners_37: 21300074
-      shuttle_wall_w_corners_9: 21300018
-      shuttle_wall_w_corners_39: 21300078
-      shuttle_wall_w_corners_18: 21300036
-      shuttle_wall_w_corners_6: 21300012
+      shuttle_wall_w_corners_12: 21300024
+      shuttle_wall_w_corners_13: 21300026
+      shuttle_wall_w_corners_14: 21300028
       shuttle_wall_w_corners_15: 21300030
+      shuttle_wall_w_corners_16: 21300032
       shuttle_wall_w_corners_17: 21300034
+      shuttle_wall_w_corners_18: 21300036
+      shuttle_wall_w_corners_19: 21300038
+      shuttle_wall_w_corners_2: 21300004
+      shuttle_wall_w_corners_20: 21300040
+      shuttle_wall_w_corners_21: 21300042
+      shuttle_wall_w_corners_22: 21300044
+      shuttle_wall_w_corners_23: 21300046
+      shuttle_wall_w_corners_24: 21300048
+      shuttle_wall_w_corners_25: 21300050
+      shuttle_wall_w_corners_26: 21300052
+      shuttle_wall_w_corners_27: 21300054
       shuttle_wall_w_corners_28: 21300056
-      shuttle_wall_w_corners_47: 21300094
-      shuttle_wall_w_corners_45: 21300090
+      shuttle_wall_w_corners_29: 21300058
       shuttle_wall_w_corners_3: 21300006
+      shuttle_wall_w_corners_30: 21300060
+      shuttle_wall_w_corners_31: 21300062
+      shuttle_wall_w_corners_32: 21300064
+      shuttle_wall_w_corners_33: 21300066
+      shuttle_wall_w_corners_34: 21300068
+      shuttle_wall_w_corners_35: 21300070
+      shuttle_wall_w_corners_36: 21300072
+      shuttle_wall_w_corners_37: 21300074
+      shuttle_wall_w_corners_38: 21300076
+      shuttle_wall_w_corners_39: 21300078
+      shuttle_wall_w_corners_4: 21300008
+      shuttle_wall_w_corners_40: 21300080
+      shuttle_wall_w_corners_41: 21300082
+      shuttle_wall_w_corners_42: 21300084
       shuttle_wall_w_corners_43: 21300086
       shuttle_wall_w_corners_44: 21300088
-  spritePackingTag: 
+      shuttle_wall_w_corners_45: 21300090
+      shuttle_wall_w_corners_46: 21300092
+      shuttle_wall_w_corners_47: 21300094
+      shuttle_wall_w_corners_5: 21300010
+      shuttle_wall_w_corners_6: 21300012
+      shuttle_wall_w_corners_7: 21300014
+      shuttle_wall_w_corners_8: 21300016
+      shuttle_wall_w_corners_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

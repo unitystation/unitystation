@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using AddressableReferences;
+using Logs;
 using Messages.Server.SoundMessages;
 using Random = UnityEngine.Random;
 
@@ -90,7 +91,7 @@ namespace Objects.Drawers
 			SpawnResult traySpawn = Spawn.ServerPrefab(trayPrefab, DrawerWorldPosition);
 			if (!traySpawn.Successful)
 			{
-				Logger.LogError($"Failed to spawn tray! Is {name} prefab missing reference to {nameof(traySpawn)} prefab?",
+				Loggy.LogError($"Failed to spawn tray! Is {name} prefab missing reference to {nameof(traySpawn)} prefab?",
 					Category.Machines);
 				return;
 			}
@@ -142,17 +143,17 @@ namespace Objects.Drawers
 
 		private void UpdateSpriteState()
 		{
-			drawerSpriteHandler.ChangeSprite((int)drawerState);
+			drawerSpriteHandler.SetCatalogueIndexSprite((int)drawerState);
 		}
 
 		private void UpdateSpriteOrientation()
 		{
 			int spriteVariant = (int)GetSpriteDirection();
-			drawerSpriteHandler.ChangeSpriteVariant(spriteVariant);
+			drawerSpriteHandler.SetSpriteVariant(spriteVariant);
 
 			if (traySpriteHandler != null)
 			{
-				traySpriteHandler.ChangeSpriteVariant(spriteVariant);
+				traySpriteHandler.SetSpriteVariant(spriteVariant);
 			}
 		}
 

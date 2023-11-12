@@ -17,12 +17,27 @@ namespace Clothing
 		private float walkingSpeedDebuff = 0.5f;
 
 
-		public float RunningSpeedModifier => -runningSpeedDebuff;
+		public float RunningSpeedModifier
+		{
+			get
+			{
+				if (SpeedDebuffRemoved) return 0;
+				return -runningSpeedDebuff;
+			}
+		}
 
-		public float WalkingSpeedModifier => -walkingSpeedDebuff;
+		public float WalkingSpeedModifier
+		{
+			get
+			{
+				if (SpeedDebuffRemoved) return 0;
+				return -walkingSpeedDebuff;
+			}
+		}
 
 		public float CrawlingSpeedModifier => 0;
 
+		public bool SpeedDebuffRemoved = false;
 
 		[SerializeField]
 		[Tooltip("In what slot should this debuff take place")]

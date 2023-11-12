@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 40806201850553861, guid: eb8e5acb0bfcf7a42b21358943d2e1e3,
@@ -106,6 +107,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6466735282065168348, guid: eb8e5acb0bfcf7a42b21358943d2e1e3,
         type: 3}
+      propertyPath: _assetId
+      value: 2827214867
+      objectReference: {fileID: 0}
+    - target: {fileID: 6466735282065168348, guid: eb8e5acb0bfcf7a42b21358943d2e1e3,
+        type: 3}
       propertyPath: m_AssetId
       value: 59c2e5c1793a5694d8f68943308a5ce4
       objectReference: {fileID: 0}
@@ -127,4 +133,7 @@ PrefabInstance:
         that produces a thick syrup that Tizirans use for desserts.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb8e5acb0bfcf7a42b21358943d2e1e3, type: 3}

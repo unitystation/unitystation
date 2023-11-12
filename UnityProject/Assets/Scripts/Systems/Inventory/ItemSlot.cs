@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Items;
+using Logs;
 using Messages.Server;
 using Mirror;
 using UnityEngine;
@@ -324,7 +325,7 @@ public class ItemSlot
 			{
 				if (interactiveStorage.denyStorageOfStorageItems.HasFlag(storeIdentifier.StorageItemName))
 				{
-					Logger.LogTrace($"Cannot fit {toStore} in slot {ToString()}, item was blacklisted.", Category.Inventory);
+					Loggy.LogTrace($"Cannot fit {toStore} in slot {ToString()}, item was blacklisted.", Category.Inventory);
 					if (examineRecipient)
 					{
 						Chat.AddExamineMsg(examineRecipient,
@@ -343,7 +344,7 @@ public class ItemSlot
 		{
 			if (storageToCheck.gameObject == toStore.gameObject)
 			{
-				Logger.LogTraceFormat(
+				Loggy.LogTraceFormat(
 					"Cannot fit {0} in slot {1}, this would create an inventory hierarchy loop (putting the" +
 					" storage inside itself)", Category.Inventory, toStore, ToString());
 				if (examineRecipient)
@@ -366,7 +367,7 @@ public class ItemSlot
 			count++;
 			if (count > 5)
 			{
-				Logger.LogTraceFormat(
+				Loggy.LogTraceFormat(
 					"Something went wrong when adding {0} in slot {1}, aborting!", Category.Inventory, toStore, ToString());
 				return false;
 			}
@@ -374,7 +375,7 @@ public class ItemSlot
 
 		//if the slot already has an item, it's allowed to stack only if the item to add can stack with
 		//the existing item.
-		if (!ignoreOccupied && item != null)
+		if (ignoreOccupied == false && item != null)
 		{
 			var thisStackable = item.GetComponent<Stackable>();
 			var otherStackable = toStore.GetComponent<Stackable>();
@@ -382,12 +383,12 @@ public class ItemSlot
 								thisStackable.CanAccommodate(otherStackable);
 			if (!stackResult)
 			{
-				Logger.LogTraceFormat(
+				Loggy.LogTraceFormat(
 					"Cannot stack {0} in slot {1}", Category.Inventory, toStore, ToString());
 			}
 			else
 			{
-				Logger.LogTraceFormat(
+				Loggy.LogTraceFormat(
 					"Can stack {0} in slot {1}", Category.Inventory, toStore, ToString());
 			}
 			return stackResult;
@@ -428,7 +429,7 @@ public class ItemSlot
 		var pu = pickupable.GetComponent<Pickupable>();
 		if (pu == null)
 		{
-			Logger.LogWarningFormat("{0} has no pickupable, thus can't fit anywhere. It's probably a bug that" +
+			Loggy.LogWarningFormat("{0} has no pickupable, thus can't fit anywhere. It's probably a bug that" +
 								  " this was even attempted.", Category.Inventory, pickupable.name);
 			return false;
 		}

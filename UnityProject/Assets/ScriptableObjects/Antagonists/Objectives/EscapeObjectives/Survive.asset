@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b855cde65d53fbf4aaf31f638640d59f, type: 3}
   m_Name: Survive
   m_EditorClassIdentifier: 
+  attributes: []
+  isEndRoundObjective: 1
   objectiveName: Survive
   IsUnique: 1
   description: Stay alive until the end!
   aiCanHave: 1
+  references:
+    version: 2
+    RefIds: []

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Cargonian
   m_EditorClassIdentifier: 
   antagName: Rebel
+  team: {fileID: 11400000, guid: 2141a211de715694b9dbb3be5903112a, type: 2}
+  addTeamAtInit: 1
   antagJobType: 49
   playSound: 0
   spawnSound:
@@ -31,6 +33,9 @@ MonoBehaviour:
   chanceForGimmickObjective: 0
   coreObjectives:
   - {fileID: 11400000, guid: b9c3d945f4d15ac439a8b8bfa9b90cd7, type: 2}
-  - {fileID: 11400000, guid: d36bfb794a534d0408e0f60a2f31cf8f, type: 2}
   antagOccupation: {fileID: 0}
   showInPreferences: 0
+  randomizeCharacterForGhostRole: 0
+  ghostRoleOccupation: {fileID: 0}
+  <BlackListedObjectives>k__BackingField: []
+  <AlwaysStartWithObjectives>k__BackingField: []

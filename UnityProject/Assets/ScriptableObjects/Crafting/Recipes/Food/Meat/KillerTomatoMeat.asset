@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: KillerTomatoMeat
+  m_EditorClassIdentifier: 
+  category: 10
+  craftingTime: 0.5
+  recipeName: Killer Tomato Meat
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 2272378677264978311, guid: 0c894a9b739c8444e994c33d43e20db6,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits:
+  - {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af, type: 2}
+  result:
+  - {fileID: 7663314236832102793, guid: 27a1dae7ee94b8742a294ac718be745e, type: 3}
+  - {fileID: 7663314236832102793, guid: 27a1dae7ee94b8742a294ac718be745e, type: 3}
+  resultHandlers: []
+  isSimple: 1
+  indexInSingleton: 445

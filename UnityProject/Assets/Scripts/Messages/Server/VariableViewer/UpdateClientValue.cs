@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
+using System.Transactions;
 using Mirror;
+using SecureStuff;
 using UnityEngine;
 
 namespace Messages.Server.VariableViewer
@@ -12,37 +14,21 @@ namespace Messages.Server.VariableViewer
 			public string ValueName;
 			public string MonoBehaviourName;
 			public uint GameObject;
+			public bool IsInvokeFunction;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-
 			if (CustomNetworkManager.Instance._isServer) return;
 			LoadNetworkObject(msg.GameObject);
 			if (NetworkObject != null)
 			{
-				var workObject = NetworkObject.GetComponent(msg.MonoBehaviourName.Substring(msg.MonoBehaviourName.LastIndexOf('.') + 1));
-				var Worktype = workObject.GetType();
-
-				var infoField = Worktype.GetField(msg.ValueName);
-
-				if (infoField != null)
-				{
-					infoField.SetValue(workObject,  Librarian.Page.DeSerialiseValue(workObject, msg.Newvalue, infoField.FieldType));
-					return;
-				}
-
-				var infoProperty = Worktype.GetProperty(msg.ValueName);
-				if(infoProperty != null)
-				{
-					infoProperty.SetValue(workObject,  Librarian.Page.DeSerialiseValue(workObject, msg.Newvalue, infoProperty.PropertyType));
-					return;
-				}
+				AllowedReflection.ChangeVariableClient(NetworkObject, msg.MonoBehaviourName, msg.ValueName, msg.Newvalue, msg.IsInvokeFunction);
 			}
 		}
 
 		public static NetMessage Send(string InNewvalue, string InValueName, string InMonoBehaviourName,
-			GameObject InObject)
+			GameObject InObject, bool IsInvokeFunction)
 		{
 			uint netID = NetId.Empty;
 			if (InObject != null)
@@ -54,7 +40,8 @@ namespace Messages.Server.VariableViewer
 				Newvalue = InNewvalue,
 				ValueName = InValueName,
 				MonoBehaviourName = InMonoBehaviourName,
-				GameObject = netID
+				GameObject = netID,
+				IsInvokeFunction = IsInvokeFunction
 			};
 
 			SendToAll(msg, 3);

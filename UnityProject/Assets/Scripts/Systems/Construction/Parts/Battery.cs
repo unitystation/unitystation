@@ -1,35 +1,71 @@
 ﻿using Items;
 using Systems.Explosions;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Systems.Construction.Parts
 {
 	public class Battery : MonoBehaviour, IEmpAble, IExaminable, IChargeable
 	{
-		public int Watts = 9000;
+		[FormerlySerializedAs("Watts")] [SerializeField]
+		private int watts = 9000;
+
+		public int Watts
+		{
+			get => watts;
+			set
+			{
+				if (SelfCharging)
+				{
+					if (MaxWatts >= value)
+					{
+						UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, SelfCharge);
+					}
+					else
+					{
+						UpdateManager.Add(SelfCharge, 1);
+					}
+				}
+
+				watts = value;
+			}
+		}
+
 		public int MaxWatts = 9000;
 
 		public int InternalResistance = 240;
 
 		public bool isBroken = false;
 
-		public bool IsFullyCharged =>  Watts >= MaxWatts;
+		public bool SelfCharging = false;
+
+		public int SelfChargeWatts = 0;
+
+		public bool IsFullyCharged =>  watts >= MaxWatts;
+
+		public void SelfCharge()
+		{
+			if (SelfCharging)
+			{
+				Watts += SelfChargeWatts;
+			}
+		}
 
 		public void ChargeBy(float watts)
 		{
-			if(this.Watts + watts > MaxWatts)
+			if(this.watts + watts > MaxWatts)
 			{
-				this.Watts = MaxWatts;
+				this.watts = MaxWatts;
 				return;
 			}
-			this.Watts += (int)watts;
+			this.watts += (int)watts;
 			return;
 		}
 
 		public void OnEmp(int EmpStrength)
 		{
-			Watts -= EmpStrength * 100;
-			Mathf.Clamp(Watts, 0, MaxWatts);
+			watts -= EmpStrength * 100;
+			Mathf.Clamp(watts, 0, MaxWatts);
 
 			if(EmpStrength > 50 && DMMath.Prob(25))
 			{
@@ -44,7 +80,7 @@ namespace Systems.Construction.Parts
 			{
 				status = $"<color=red>It appears to be broken.";
 			}
-			return $"{gameObject.GetComponent<ItemAttributesV2>().InitialDescription}. Charge indicator shows a {Watts/MaxWatts*100} percent charge." +
+			return $"{gameObject.GetComponent<ItemAttributesV2>().InitialDescription}. Charge indicator shows a {watts/MaxWatts*100} percent charge." +
 			       status;
 		}
 	}

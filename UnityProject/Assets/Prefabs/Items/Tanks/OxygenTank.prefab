@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1214260697378847585, guid: 34ecf2817a168de479d040f2ad8b9473,
@@ -37,7 +38,7 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1551160093752787680, guid: 34ecf2817a168de479d040f2ad8b9473,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 49fd66f37305f6c41a059c6a06068f58,
         type: 2}
@@ -103,6 +104,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1702436008630954423, guid: 34ecf2817a168de479d040f2ad8b9473,
         type: 3}
+      propertyPath: _assetId
+      value: 563844195
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702436008630954423, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
       propertyPath: m_AssetId
       value: 5f8f71237e56b5244a4119555cda299e
       objectReference: {fileID: 0}
@@ -124,7 +130,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6805590453308241792, guid: 34ecf2817a168de479d040f2ad8b9473,
         type: 3}
-      propertyPath: Gases.Array.data[1]
+      propertyPath: 'Gases.Array.data[1]'
       value: 174.6928
       objectReference: {fileID: 0}
     - target: {fileID: 6805590453308241792, guid: 34ecf2817a168de479d040f2ad8b9473,
@@ -134,7 +140,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6805590453308241792, guid: 34ecf2817a168de479d040f2ad8b9473,
         type: 3}
+      propertyPath: StoredGasMix.pressure
+      value: 6612.204
+      objectReference: {fileID: 0}
+    - target: {fileID: 6805590453308241792, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
       propertyPath: StoredGasMix.Temperature
+      value: 293.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6805590453308241792, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: StoredGasMix.temperature
       value: 293.15
       objectReference: {fileID: 0}
     - target: {fileID: 6805590453308241792, guid: 34ecf2817a168de479d040f2ad8b9473,
@@ -153,5 +169,13 @@ PrefabInstance:
       propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
       value: 190
       objectReference: {fileID: 0}
+    - target: {fileID: 6805590453308241792, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].moles
+      value: 190
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34ecf2817a168de479d040f2ad8b9473, type: 3}

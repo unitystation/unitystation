@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using SecureStuff;
 using UnityEngine;
 
 namespace HealthV2.Living.PolymorphicSystems.Bodypart
@@ -15,7 +16,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 
 	public abstract class BodyPartComponentBase<T> : BodyPartFunctionality, IBodyPartComponentBase  where T : HealthSystemBase, new()
 	{
-		[HideInInspector]
+		[NonSerialized]
 		public T AssociatedSystem;
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
@@ -36,6 +37,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 				sys.InIt();
 				livingHealth.ActiveSystems.Add(sys);
 				SetSystem(sys, false);
+				sys.BodyPartAdded(this.RelatedPart);
 			}
 
 			foreach (var sys in livingHealth.ActiveSystems)
@@ -51,7 +53,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 
 		public HealthSystemBase GenSystem()
 		{
-			return new T();
+			return AllowedReflection.CreateInstance<T>();
 		}
 
 		public void SetSystem(HealthSystemBase healthSystemBase, bool removing)

@@ -201,7 +201,7 @@ TextureImporter:
       213: 21300130
     second: halo_static_65
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -218,11 +218,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -261,6 +262,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -276,6 +279,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1686,75 +1701,74 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      halo_static_9: 21300018
-      halo_static_11: 21300022
-      halo_static_23: 21300046
-      halo_static_28: 21300056
-      halo_static_40: 21300080
-      halo_static_39: 21300078
-      halo_static_37: 21300074
-      halo_static_14: 21300028
-      halo_static_51: 21300102
-      halo_static_61: 21300122
-      halo_static_52: 21300104
-      halo_static_7: 21300014
-      halo_static_46: 21300092
-      halo_static_6: 21300012
-      halo_static_33: 21300066
-      halo_static_3: 21300006
-      halo_static_21: 21300042
-      halo_static_35: 21300070
-      halo_static_53: 21300106
-      halo_static_29: 21300058
-      halo_static_44: 21300088
-      halo_static_16: 21300032
-      halo_static_8: 21300016
-      halo_static_15: 21300030
-      halo_static_63: 21300126
-      halo_static_42: 21300084
-      halo_static_18: 21300036
-      halo_static_12: 21300024
-      halo_static_25: 21300050
-      halo_static_13: 21300026
-      halo_static_2: 21300004
-      halo_static_27: 21300054
-      halo_static_65: 21300130
-      halo_static_58: 21300116
-      halo_static_62: 21300124
-      halo_static_54: 21300108
-      halo_static_30: 21300060
-      halo_static_5: 21300010
-      halo_static_59: 21300118
-      halo_static_32: 21300064
       halo_static_0: 21300000
-      halo_static_34: 21300068
-      halo_static_48: 21300096
-      halo_static_36: 21300072
-      halo_static_50: 21300100
-      halo_static_64: 21300128
-      halo_static_26: 21300052
-      halo_static_20: 21300040
       halo_static_1: 21300002
-      halo_static_17: 21300034
-      halo_static_47: 21300094
-      halo_static_56: 21300112
-      halo_static_55: 21300110
-      halo_static_57: 21300114
-      halo_static_4: 21300008
       halo_static_10: 21300020
-      halo_static_41: 21300082
-      halo_static_60: 21300120
+      halo_static_11: 21300022
+      halo_static_12: 21300024
+      halo_static_13: 21300026
+      halo_static_14: 21300028
+      halo_static_15: 21300030
+      halo_static_16: 21300032
+      halo_static_17: 21300034
+      halo_static_18: 21300036
       halo_static_19: 21300038
-      halo_static_38: 21300076
-      halo_static_31: 21300062
-      halo_static_45: 21300090
-      halo_static_43: 21300086
-      halo_static_49: 21300098
-      halo_static_24: 21300048
+      halo_static_2: 21300004
+      halo_static_20: 21300040
+      halo_static_21: 21300042
       halo_static_22: 21300044
-  spritePackingTag: 
+      halo_static_23: 21300046
+      halo_static_24: 21300048
+      halo_static_25: 21300050
+      halo_static_26: 21300052
+      halo_static_27: 21300054
+      halo_static_28: 21300056
+      halo_static_29: 21300058
+      halo_static_3: 21300006
+      halo_static_30: 21300060
+      halo_static_31: 21300062
+      halo_static_32: 21300064
+      halo_static_33: 21300066
+      halo_static_34: 21300068
+      halo_static_35: 21300070
+      halo_static_36: 21300072
+      halo_static_37: 21300074
+      halo_static_38: 21300076
+      halo_static_39: 21300078
+      halo_static_4: 21300008
+      halo_static_40: 21300080
+      halo_static_41: 21300082
+      halo_static_42: 21300084
+      halo_static_43: 21300086
+      halo_static_44: 21300088
+      halo_static_45: 21300090
+      halo_static_46: 21300092
+      halo_static_47: 21300094
+      halo_static_48: 21300096
+      halo_static_49: 21300098
+      halo_static_5: 21300010
+      halo_static_50: 21300100
+      halo_static_51: 21300102
+      halo_static_52: 21300104
+      halo_static_53: 21300106
+      halo_static_54: 21300108
+      halo_static_55: 21300110
+      halo_static_56: 21300112
+      halo_static_57: 21300114
+      halo_static_58: 21300116
+      halo_static_59: 21300118
+      halo_static_6: 21300012
+      halo_static_60: 21300120
+      halo_static_61: 21300122
+      halo_static_62: 21300124
+      halo_static_63: 21300126
+      halo_static_64: 21300128
+      halo_static_65: 21300130
+      halo_static_7: 21300014
+      halo_static_8: 21300016
+      halo_static_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

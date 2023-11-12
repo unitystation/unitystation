@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 using NaughtyAttributes;
 using Systems.Storage;
 using Items;
+using Logs;
 
 /// <summary>
 /// Allows an object to store items.
@@ -61,6 +62,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// Cached for quick lookup of what slots are actually available in this storage.
 	/// </summary>
 	private HashSet<SlotIdentifier> definedSlots;
+	public HashSet<SlotIdentifier> DefinedSlots => new(definedSlots);
 
 	//note this will be null if this is not a player's own top-level inventory
 	private PlayerNetworkActions playerNetworkActions;
@@ -268,7 +270,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 					}
 					catch (Exception e)
 					{
-						Logger.LogError(e.ToString());
+						Loggy.LogError(e.ToString());
 					}
 				}
 			}
@@ -327,7 +329,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 		catch (NullReferenceException exception)
 		{
-			Logger.LogError($"Caught NRE in ItemStorage: {exception.Message} \n {exception.StackTrace}",
+			Loggy.LogError($"Caught NRE in ItemStorage: {exception.Message} \n {exception.StackTrace}",
 				Category.Inventory);
 			return null;
 		}
@@ -355,7 +357,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 		catch (NullReferenceException exception)
 		{
-			Logger.LogError($"Caught NRE in ItemStorage: {exception.Message} \n {exception.StackTrace}",
+			Loggy.LogError($"Caught NRE in ItemStorage: {exception.Message} \n {exception.StackTrace}",
 				Category.Inventory);
 			return null;
 		}
@@ -386,7 +388,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		if (itemStorageStructure == null)
 		{
-			Logger.LogErrorFormat(
+			Loggy.LogErrorFormat(
 				"{0} has ItemStorage but no defined ItemStorageStructure. Item storage will not work." +
 				" Please define an ItemStorageStructure for this prefab.", Category.Inventory, name);
 			return;
@@ -536,6 +538,12 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 			.Where(its => its.SlotIdentifier.SlotIdentifierType == SlotIdentifierType.Indexed);
 	}
 
+	public IEnumerable<ItemSlot> GetNamedItemSlots()
+	{
+		return GetItemSlots()
+			.Where(its => its.SlotIdentifier.SlotIdentifierType == SlotIdentifierType.Named);
+	}
+
 	/// <summary>
 	/// Gets the next free indexed slot. Null if none.
 	/// </summary>
@@ -544,6 +552,16 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		return GetIndexedSlots().FirstOrDefault(its => its.Item == null);
 	}
+
+	/// <summary>
+	/// Gets the next free indexed slot. Null if none.
+	/// </summary>
+	/// <returns></returns>
+	public ItemSlot GetNextFreeNamedSlot()
+	{
+		return GetNamedItemSlots().FirstOrDefault(its => its.Item == null);
+	}
+
 
 	/// <summary>
 	/// Returns the best slot (according to BestSlotForTrait) that is capable of holding

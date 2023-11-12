@@ -19,6 +19,7 @@ MonoBehaviour:
     buildTime: 5
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Runed Girder
     prefab: {fileID: 3733706751204004733, guid: d760e0fcfa0535245bea9a39244b4210,
       type: 3}
@@ -26,6 +27,7 @@ MonoBehaviour:
     buildTime: 5
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Pylon
     prefab: {fileID: 8973887449486638031, guid: 4000b9460c768244c91fee899720293f,
       type: 3}
@@ -33,6 +35,7 @@ MonoBehaviour:
     buildTime: 4
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Forge
     prefab: {fileID: 4152182764570230992, guid: 209ccda1626249f4a8a724ac4922fbb7,
       type: 3}
@@ -40,12 +43,14 @@ MonoBehaviour:
     buildTime: 4
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Archives
     prefab: {fileID: 45329126984908406, guid: d210dc6ada78bfb448c2eb772cd3fa0a, type: 3}
     cost: 3
     buildTime: 4
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Altar
     prefab: {fileID: 3568273056229157115, guid: 4261b39e3bba4af40bfcb13655f19322,
       type: 3}
@@ -53,6 +58,7 @@ MonoBehaviour:
     buildTime: 4
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Engraved Floor
     prefab: {fileID: 6778811612999190005, guid: 43e09ddafe3576c43bccb2c5c0c31445,
       type: 3}
@@ -60,3 +66,4 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 4
     onePerTile: 0
+    facePlayerDirectionOnConstruction: 0

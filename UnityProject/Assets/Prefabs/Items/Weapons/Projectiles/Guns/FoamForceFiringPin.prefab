@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -1823804660457631684, guid: 0c0328cbf94ffe648a0903cfc375ab91,
@@ -21,6 +22,11 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: 12279ffb7a1786457b2cb1622619a80c
+      objectReference: {fileID: 0}
+    - target: {fileID: 5962885801523618065, guid: 0c0328cbf94ffe648a0903cfc375ab91,
+        type: 3}
+      propertyPath: _assetId
+      value: 4202418353
       objectReference: {fileID: 0}
     - target: {fileID: 5962885801523618065, guid: 0c0328cbf94ffe648a0903cfc375ab91,
         type: 3}
@@ -93,4 +99,7 @@ PrefabInstance:
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c0328cbf94ffe648a0903cfc375ab91, type: 3}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3469993313826393559, guid: f59ae305481bbc4419d66c692d312e36,
@@ -28,6 +29,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A potent alcoholic beverage, almost makes you forget the ash in your
         lungs.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274947440120613860, guid: f59ae305481bbc4419d66c692d312e36,
+        type: 3}
+      propertyPath: _assetId
+      value: 844131258
       objectReference: {fileID: 0}
     - target: {fileID: 7274947440120613860, guid: f59ae305481bbc4419d66c692d312e36,
         type: 3}
@@ -101,4 +107,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 4bbc8ad6eedc48942a4d9f957a4df363,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f59ae305481bbc4419d66c692d312e36, type: 3}

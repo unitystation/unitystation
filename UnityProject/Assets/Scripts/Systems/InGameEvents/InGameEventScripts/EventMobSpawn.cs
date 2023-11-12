@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using Managers;
 using Strings;
@@ -42,7 +43,7 @@ namespace InGameEvents
 
 			if (spawnPoints.Count < 1)
 			{
-				Logger.LogError($"No spawn points found for {spawnPointCategory} in " +
+				Loggy.LogError($"No spawn points found for {spawnPointCategory} in " +
 					$"{SubSceneManager.ServerChosenMainStation}! Cannot start {this}.", Category.Event);
 				return false;
 			}

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using Objects.Lighting;
 
@@ -30,7 +31,7 @@ namespace Core.Lighting
 				}
 				else
 				{
-					Logger.LogError("No LightSource component found!", Category.Lighting);
+					Loggy.LogError("No LightSource component found!", Category.Lighting);
 				}
 			}
 		}

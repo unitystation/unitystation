@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: larva2_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      larva2_0: 21300000
+      larva2_1: 21300002
+      larva2_10: 21300020
+      larva2_11: 21300022
       larva2_12: 21300024
+      larva2_13: 21300026
       larva2_14: 21300028
-      larva2_8: 21300016
+      larva2_15: 21300030
+      larva2_16: 21300032
       larva2_17: 21300034
+      larva2_18: 21300036
+      larva2_19: 21300038
+      larva2_2: 21300004
+      larva2_20: 21300040
+      larva2_21: 21300042
+      larva2_22: 21300044
+      larva2_23: 21300046
+      larva2_3: 21300006
       larva2_4: 21300008
       larva2_5: 21300010
-      larva2_21: 21300042
-      larva2_11: 21300022
-      larva2_22: 21300044
-      larva2_16: 21300032
-      larva2_15: 21300030
-      larva2_10: 21300020
       larva2_6: 21300012
-      larva2_0: 21300000
-      larva2_13: 21300026
-      larva2_18: 21300036
-      larva2_3: 21300006
-      larva2_1: 21300002
-      larva2_2: 21300004
-      larva2_23: 21300046
-      larva2_9: 21300018
       larva2_7: 21300014
-      larva2_19: 21300038
-      larva2_20: 21300040
-  spritePackingTag: 
+      larva2_8: 21300016
+      larva2_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

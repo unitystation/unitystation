@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1821887108050511433, guid: c0e96760c016b6140ba8c3979e9213f7,
@@ -14,7 +15,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: Gases.Array.data[6]
+      propertyPath: 'Gases.Array.data[6]'
       value: 1846.242
       objectReference: {fileID: 0}
     - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
@@ -141,6 +142,11 @@ PrefabInstance:
       objectReference: {fileID: 3357798193354529799}
     - target: {fileID: 6621590264234028386, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
+      propertyPath: _assetId
+      value: 3220583495
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621590264234028386, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
       propertyPath: m_AssetId
       value: c3b1e85e5c3e2e740bb058b62c306be4
       objectReference: {fileID: 0}
@@ -187,17 +193,20 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7811982109262590682, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 4372b4fc9d2d9d346bce9455dcfc83b1,
         type: 2}
     - target: {fileID: 7811982109262590682, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: bec56e2ac8e4a3c43b3757a13679c26e,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0e96760c016b6140ba8c3979e9213f7, type: 3}
 --- !u!210 &3357798193354529799 stripped
 SortingGroup:

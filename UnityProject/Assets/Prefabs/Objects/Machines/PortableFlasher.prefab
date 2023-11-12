@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 645485206403255763, guid: 3e02bb6440df3c34f88a1add858dfac8,
@@ -38,6 +39,11 @@ PrefabInstance:
         type: 3}
       propertyPath: isInitiallyNotPushable
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573432315052069483, guid: 3e02bb6440df3c34f88a1add858dfac8,
+        type: 3}
+      propertyPath: _assetId
+      value: 2599753425
       objectReference: {fileID: 0}
     - target: {fileID: 4573432315052069483, guid: 3e02bb6440df3c34f88a1add858dfac8,
         type: 3}
@@ -83,17 +89,17 @@ PrefabInstance:
     - target: {fileID: 5381938399320334803, guid: 3e02bb6440df3c34f88a1add858dfac8,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5381938399320334803, guid: 3e02bb6440df3c34f88a1add858dfac8,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5381938399320334803, guid: 3e02bb6440df3c34f88a1add858dfac8,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5381938399320334803, guid: 3e02bb6440df3c34f88a1add858dfac8,
         type: 3}
@@ -133,6 +139,13 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6990654033406033745, guid: 3e02bb6440df3c34f88a1add858dfac8, type: 3}
     - {fileID: 8954267026484833717, guid: 3e02bb6440df3c34f88a1add858dfac8, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5378927155846326025, guid: 3e02bb6440df3c34f88a1add858dfac8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7076398014117559573}
   m_SourcePrefab: {fileID: 100100000, guid: 3e02bb6440df3c34f88a1add858dfac8, type: 3}
 --- !u!1 &1185562140364895280 stripped
 GameObject:
@@ -152,10 +165,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab2c21a9da2642fda56e3a8b7edf5679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  maximumDistance: 12
   flashRadius: 12
-  flashTime: 12
+  flashTime: 5
+  weakDuration: 12
   stunExtraTime: 3
   flashCooldown: 16
   sunglassesTrait: {fileID: 11400000, guid: 4f5b7ce1cca0a644cba934af14ea4b2c, type: 2}

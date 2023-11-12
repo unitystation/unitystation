@@ -6,6 +6,7 @@ using Messages.Server;
 using Systems.Electricity;
 using Systems.Interaction;
 using CustomInspectors;
+using Logs;
 using UI.Core.Net;
 using Objects.Other;
 using Shared.Systems.ObjectConnection;
@@ -52,13 +53,13 @@ namespace Objects.Wallmounts.Switches
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			apcPoweredDevice.OnStateChangeEvent.AddListener(OnPowerStatusChange);
+			apcPoweredDevice.OnStateChangeEvent += OnPowerStatusChange;
 			ChangeTurretStates();
 		}
 
 		private void OnDisable()
 		{
-			apcPoweredDevice.OnStateChangeEvent.RemoveListener(OnPowerStatusChange);
+			apcPoweredDevice.OnStateChangeEvent -= OnPowerStatusChange;
 		}
 
 		public void AddTurretToSwitch(Turret turret)
@@ -126,7 +127,7 @@ namespace Objects.Wallmounts.Switches
 				return;
 			}
 
-			spriteHandler.ChangeSprite(0);
+			spriteHandler.SetCatalogueIndexSprite(0);
 		}
 
 		public void ChangeOnState(bool newState)
@@ -144,7 +145,7 @@ namespace Objects.Wallmounts.Switches
 				return;
 			}
 
-			spriteHandler.ChangeSprite(1);
+			spriteHandler.SetCatalogueIndexSprite(1);
 
 			ChangeTurretStates();
 		}
@@ -159,7 +160,7 @@ namespace Objects.Wallmounts.Switches
 			if (hasPower == false || isOn == false) return;
 
 			// 2 = stun, 3 = lethal
-			spriteHandler.ChangeSprite(newState ? 2 : 3);
+			spriteHandler.SetCatalogueIndexSprite(newState ? 2 : 3);
 
 			ChangeTurretStates();
 		}
@@ -170,7 +171,7 @@ namespace Objects.Wallmounts.Switches
 			{
 				if (turret == null)
 				{
-					Logger.LogError($"null turrets in Turret switch at {this.transform.localPosition}");
+					Loggy.LogError($"null turrets in Turret switch at {this.transform.localPosition}");
 					continue;
 				}
 
@@ -184,9 +185,9 @@ namespace Objects.Wallmounts.Switches
 			}
 		}
 
-		private void OnPowerStatusChange(Tuple<PowerState, PowerState> newStates)
+		private void OnPowerStatusChange(PowerState old , PowerState newStates)
 		{
-			ChangePowerState(newStates.Item2 != PowerState.Off);
+			ChangePowerState(newStates != PowerState.Off);
 		}
 
 		//Called when player wants to open nettab, so we can validate access

@@ -139,7 +139,7 @@ namespace Objects
 
 		private void SetSprite(SpriteState newState)
 		{
-			spriteHandler.ChangeSprite((int)newState);
+			spriteHandler.SetCatalogueIndexSprite((int)newState);
 		}
 
 		public void PowerNetworkUpdate(float voltage)

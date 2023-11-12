@@ -184,10 +184,10 @@ namespace Objects
 			if (newState == doorState) return;
 
 			doorState = newState;
-			doorSpriteHandler.ChangeSprite((int) doorState);
+			doorSpriteHandler.SetCatalogueIndexSprite((int) doorState);
 			if (hideLockWhenOpened && lockState != Lock.NoLock)
 			{
-				lockSpritehandler.ChangeSprite((int) (IsOpen ? Lock.NoLock : lockState));
+				lockSpritehandler.SetCatalogueIndexSprite((int) (IsOpen ? Lock.NoLock : lockState));
 			}
 
 			SoundManager.PlayNetworkedAtPos(IsOpen ? soundOnOpen : soundOnClose, registerObject.WorldPositionServer, sourceObj: gameObject);
@@ -209,7 +209,7 @@ namespace Objects
 			if (isLockable == false) return;
 
 			lockState = newState;
-			lockSpritehandler.ChangeSprite((int) lockState);
+			lockSpritehandler.SetCatalogueIndexSprite((int) lockState);
 		}
 
 		public void SetWeld(Weld newState)
@@ -223,7 +223,7 @@ namespace Objects
 				UpdateGasContainer();
 			}
 
-			weldSpriteHandler.ChangeSprite((int) weldState);
+			weldSpriteHandler.SetCatalogueIndexSprite((int) weldState);
 		}
 
 		private void UpdateGasContainer()
@@ -239,7 +239,7 @@ namespace Objects
 		{
 			isLockable = false;
 			lockState = Lock.Broken;
-			lockSpritehandler.ChangeSprite((int) lockState);
+			lockSpritehandler.SetCatalogueIndexSprite((int) lockState);
 		}
 
 		public virtual void CollectObjects()

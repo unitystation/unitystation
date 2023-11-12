@@ -27,7 +27,7 @@ TextureImporter:
       213: 265329573999201682
     second: talk_slime0_7
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -44,11 +44,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -87,6 +88,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -102,6 +105,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -294,17 +309,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      talk_slime0_7: 265329573999201682
-      talk_slime0_6: -5868593964363655871
-      talk_slime0_2: 7650476007504161683
-      talk_slime0_1: -6278353423511130363
-      talk_slime0_3: -1685733843228824721
-      talk_slime0_5: -7593472953631090399
-      talk_slime0_4: 4065455486930746172
       talk_slime0_0: -3698303607542400785
-  spritePackingTag: 
+      talk_slime0_1: -6278353423511130363
+      talk_slime0_2: 7650476007504161683
+      talk_slime0_3: -1685733843228824721
+      talk_slime0_4: 4065455486930746172
+      talk_slime0_5: -7593472953631090399
+      talk_slime0_6: -5868593964363655871
+      talk_slime0_7: 265329573999201682
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

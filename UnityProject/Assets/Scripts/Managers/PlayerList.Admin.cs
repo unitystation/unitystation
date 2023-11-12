@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+using System.Threading;
+using SecureStuff;
 using DatabaseAPI;
 using Mirror;
 using UnityEngine;
 using DiscordWebhook;
 using Lobby;
+using Logs;
 using Messages.Client;
 using Messages.Server;
 using Messages.Server.AdminTools;
@@ -23,9 +24,6 @@ using UI;
 /// </summary>
 public partial class PlayerList
 {
-	private FileSystemWatcher adminListWatcher;
-	private FileSystemWatcher mentorListWatcher;
-	private FileSystemWatcher WhiteListWatcher;
 	private HashSet<string> serverAdmins = new HashSet<string>();
 
 	public  HashSet<string> ServerAdmins => serverAdmins;
@@ -54,57 +52,26 @@ public partial class PlayerList
 	[Server]
 	void InitAdminController()
 	{
-		adminsPath = Path.Combine(Application.streamingAssetsPath, "admin", "admins.txt");
-		mentorsPath = Path.Combine(Application.streamingAssetsPath, "admin", "mentors.txt");
-		banPath = Path.Combine(Application.streamingAssetsPath, "admin", "banlist.json");
-		whiteListPath = Path.Combine(Application.streamingAssetsPath, "admin", "whitelist.txt");
-		jobBanPath = Path.Combine(Application.streamingAssetsPath, "admin", "jobBanlist.json");
+		adminsPath = Path.Combine( AccessFile.AdminFolder, "admins.txt");
+		mentorsPath = Path.Combine( AccessFile.AdminFolder, "mentors.txt");
+		banPath = Path.Combine( AccessFile.AdminFolder, "banlist.json");
+		whiteListPath = Path.Combine( AccessFile.AdminFolder, "whitelist.txt");
+		jobBanPath = Path.Combine( AccessFile.AdminFolder, "jobBanlist.json");
 
-		if (!File.Exists(adminsPath))
+		if (AccessFile.Exists(banPath)  == false)
 		{
-			File.CreateText(adminsPath).Close();
+			AccessFile.Save(banPath, JsonConvert.SerializeObject(new BanList()));
 		}
 
-		if (!File.Exists(mentorsPath))
+		if (AccessFile.Exists(jobBanPath) == false)
 		{
-			File.CreateText(mentorsPath).Close();
+			AccessFile.Save(jobBanPath, JsonConvert.SerializeObject(new JobBanList()));
 		}
 
-		if (!File.Exists(banPath))
-		{
-			File.WriteAllText(banPath, JsonUtility.ToJson(new BanList()));
-		}
+		AccessFile.Watch(adminsPath, ThreadLoadCurrentAdmins);
+		AccessFile.Watch(mentorsPath, ThreadLoadCurrentMentors);
+		AccessFile.Watch(whiteListPath, ThreadLoadWhiteList);
 
-		if (!File.Exists(whiteListPath))
-		{
-			File.CreateText(whiteListPath).Close();
-		}
-
-		if (!File.Exists(jobBanPath))
-		{
-			File.WriteAllText(jobBanPath, JsonUtility.ToJson(new JobBanList()));
-		}
-
-		adminListWatcher = new FileSystemWatcher();
-		adminListWatcher.Path = Path.GetDirectoryName(adminsPath);
-		adminListWatcher.Filter = Path.GetFileName(adminsPath);
-		adminListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
-		adminListWatcher.Changed += LoadCurrentAdmins;
-		adminListWatcher.EnableRaisingEvents = true;
-
-		mentorListWatcher = new FileSystemWatcher();
-		mentorListWatcher.Path = Path.GetDirectoryName(mentorsPath);
-		mentorListWatcher.Filter = Path.GetFileName(mentorsPath);
-		mentorListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
-		mentorListWatcher.Changed += LoadCurrentMentors;
-		mentorListWatcher.EnableRaisingEvents = true;
-
-		WhiteListWatcher = new FileSystemWatcher();
-		WhiteListWatcher.Path = Path.GetDirectoryName(whiteListPath);
-		WhiteListWatcher.Filter = Path.GetFileName(whiteListPath);
-		WhiteListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
-		WhiteListWatcher.Changed += LoadWhiteList;
-		WhiteListWatcher.EnableRaisingEvents = true;
 
 		LoadBanList();
 		LoadCurrentAdmins();
@@ -117,34 +84,45 @@ public partial class PlayerList
 	{
 		Instance.StartCoroutine(LoadBans());
 	}
-	static void LoadWhiteList(object source, FileSystemEventArgs e)
-	{
-		LoadWhiteList();
-	}
+
 
 	static void LoadWhiteList()
 	{
 		Instance.StartCoroutine(LoadWhiteListed());
 	}
 
-	static void LoadCurrentAdmins(object source, FileSystemEventArgs e)
+	static void ThreadLoadWhiteList()
 	{
-		LoadCurrentAdmins();
+		Thread.Sleep(100);
+		Instance.whiteListUsers.Clear();
+		Instance.whiteListUsers = new List<string>(AccessFile.ReadAllLines(Instance.whiteListPath));
 	}
+
 
 	static void LoadCurrentAdmins()
 	{
 		Instance.StartCoroutine(LoadAdmins());
 	}
 
-	static void LoadCurrentMentors(object source, FileSystemEventArgs e)
+	static void ThreadLoadCurrentAdmins()
 	{
-		LoadCurrentMentors();
+		Thread.Sleep(100);
+		Instance.serverAdmins.Clear();
+		Instance.serverAdmins = new HashSet<string>(AccessFile.ReadAllLines(Instance.adminsPath));
 	}
+
 
 	static void LoadCurrentMentors()
 	{
+
 		Instance.StartCoroutine(LoadMentors());
+	}
+
+	static void ThreadLoadCurrentMentors()
+	{
+		Thread.Sleep(100);
+		Instance.mentorUsers.Clear();
+		Instance.mentorUsers = new HashSet<string>(AccessFile.ReadAllLines(Instance.mentorsPath));
 	}
 
 	static void LoadJobBanList()
@@ -156,14 +134,14 @@ public partial class PlayerList
 	{
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
-		Instance.jobBanList = JsonUtility.FromJson<JobBanList>(File.ReadAllText(Instance.jobBanPath));
+		Instance.jobBanList = JsonConvert.DeserializeObject<JobBanList>(AccessFile.Load(Instance.jobBanPath));
 	}
 
 	static IEnumerator LoadBans()
 	{
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
-		Instance.banList = JsonUtility.FromJson<BanList>(File.ReadAllText(Instance.banPath));
+		Instance.banList = JsonConvert.DeserializeObject<BanList>(AccessFile.Load(Instance.banPath));
 	}
 
 	static IEnumerator LoadWhiteListed()
@@ -171,7 +149,7 @@ public partial class PlayerList
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
 		Instance.whiteListUsers.Clear();
-		Instance.whiteListUsers = new List<string>(File.ReadAllLines(Instance.whiteListPath));
+		Instance.whiteListUsers = new List<string>(AccessFile.ReadAllLines(Instance.whiteListPath));
 	}
 
 	static IEnumerator LoadAdmins()
@@ -179,7 +157,7 @@ public partial class PlayerList
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
 		Instance.serverAdmins.Clear();
-		Instance.serverAdmins = new HashSet<string>(File.ReadAllLines(Instance.adminsPath));
+		Instance.serverAdmins = new HashSet<string>(AccessFile.ReadAllLines(Instance.adminsPath));
 	}
 
 	static IEnumerator LoadMentors()
@@ -187,7 +165,7 @@ public partial class PlayerList
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
 		Instance.mentorUsers.Clear();
-		Instance.mentorUsers = new HashSet<string>(File.ReadAllLines(Instance.mentorsPath));
+		Instance.mentorUsers = new HashSet<string>(AccessFile.ReadAllLines(Instance.mentorsPath));
 	}
 
 	[Server]
@@ -201,10 +179,10 @@ public partial class PlayerList
 			{
 				return PlayerManager.LocalPlayerObject;
 			}
-			Logger.LogError("The User ID for Admin is null!", Category.Admin);
+			Loggy.LogError("The User ID for Admin is null!", Category.Admin);
 			if (string.IsNullOrEmpty(token))
 			{
-				Logger.LogError("The AdminToken value is null!", Category.Admin);
+				Loggy.LogError("The AdminToken value is null!", Category.Admin);
 			}
 
 			return null;
@@ -250,10 +228,10 @@ public partial class PlayerList
 			{
 				return PlayerManager.LocalPlayerObject;
 			}
-			Logger.LogError("The User ID for Mentor is null!", Category.Mentor);
+			Loggy.LogError("The User ID for Mentor is null!", Category.Mentor);
 			if (string.IsNullOrEmpty(token))
 			{
-				Logger.LogError("The AdminToken value is null!", Category.Mentor);
+				Loggy.LogError("The AdminToken value is null!", Category.Mentor);
 			}
 
 			return null;
@@ -303,12 +281,12 @@ public partial class PlayerList
 		if (addToFile == false) return;
 
 		//Read file to see if already in file
-		var fileContents = File.ReadAllLines(mentorsPath);
+		var fileContents = AccessFile.ReadAllLines(mentorsPath);
 		if(fileContents.Contains(userID)) return;
 
 		//Write to file if not
-		var newContents = fileContents.Append(userID);
-		File.WriteAllLines(mentorsPath, newContents);
+		var newContents = fileContents.Append(userID).ToArray();
+		AccessFile.WriteAllLines(mentorsPath, newContents);
 	}
 
 	[Server]
@@ -326,12 +304,12 @@ public partial class PlayerList
 		}
 
 		//Read file to see if already in file
-		var fileContents = File.ReadAllLines(mentorsPath);
+		var fileContents = AccessFile.ReadAllLines(mentorsPath);
 		if(fileContents.Contains(userID) == false) return;
 
 		//Remove from file if they are in there
-		var newContents = fileContents.Where(line => line != userID);
-		File.WriteAllLines(mentorsPath, newContents);
+		var newContents = fileContents.Where(line => line != userID).ToArray();
+		AccessFile.WriteAllLines(mentorsPath, newContents);
 	}
 
 	[TargetRpc]
@@ -350,14 +328,14 @@ public partial class PlayerList
 		if (ValidatePlayerAdminStatus(player))
 		{
 			CheckAdminState(player);
-			Logger.Log($"Admin {player.Username} (user ID '{player.UserId}') logged in successfully.", Category.Admin);
+			Loggy.Log($"Admin {player.Username} (user ID '{player.UserId}') logged in successfully.", Category.Admin);
 			return true;
 		}
 
 		if (CanRegularPlayerJoin(player) == false) return false;
 		if (ValidateMultikeying(player) == false) return false;
 
-		Logger.Log($"{player.Username} (user ID '{player.UserId}') logged in successfully.", Category.Admin);
+		Loggy.Log($"{player.Username} (user ID '{player.UserId}') logged in successfully.", Category.Admin);
 		return true;
 	}
 
@@ -372,7 +350,7 @@ public partial class PlayerList
 		// Players are always admins if in offline mode, for testing
 		if (GameData.Instance.OfflineMode)
 		{
-			Logger.Log($"{player.Username} logged in successfully in offline mode. userid: {player.UserId}", Category.Admin);
+			Loggy.Log($"{player.Username} logged in successfully in offline mode. userid: {player.UserId}", Category.Admin);
 			serverAdmins.Add(player.UserId);
 		}
 
@@ -389,18 +367,18 @@ public partial class PlayerList
 		if (ConnectionCount > GameManager.Instance.PlayerLimit && roundPlayers.Contains(player) == false)
 		{
 			ServerKickPlayer(player, $"Server Error: The server is full, player limit: {playerLimit}.");
-			Logger.Log($"{player.Username} tried to log in but PlayerLimit ({playerLimit}) was reached. IP: {player.ConnectionIP}", Category.Admin);
+			Loggy.Log($"{player.Username} tried to log in but PlayerLimit ({playerLimit}) was reached. IP: {player.ConnectionIP}", Category.Admin);
 			return false;
 		}
 
 		//Whitelist checking:
 		//Checks whether the userid is in either the Admins or whitelist AND that the whitelist file has something in it.
 		//Whitelist only activates if whitelist is populated.
-		var lines = File.ReadAllLines(whiteListPath);
+		var lines = AccessFile.ReadAllLines(whiteListPath);
 		if (lines.Length > 0 && !whiteListUsers.Contains(player.UserId))
 		{
 			ServerKickPlayer(player, $"This server uses a whitelist. This account is not whitelisted.");
-			Logger.Log($"{player.Username} tried to log in but the account is not whitelisted. IP: {player.ConnectionIP}", Category.Admin);
+			Loggy.Log($"{player.Username} tried to log in but the account is not whitelisted. IP: {player.ConnectionIP}", Category.Admin);
 			return false;
 		}
 
@@ -415,14 +393,14 @@ public partial class PlayerList
 				//Old ban, remove it
 				banList.banEntries.Remove(banEntry);
 				SaveBanList();
-				Logger.Log($"{player.Username} ban has expired and the user has logged back in.", Category.Admin);
+				Loggy.Log($"{player.Username} ban has expired and the user has logged back in.", Category.Admin);
 			}
 			else
 			{
 				//User is still banned:
 				ServerKickPlayer(player, $"This account is banned. You were banned for {banEntry.reason}."
 						+ $"This ban has {banEntry.minutes - totalMins} minutes remaining.");
-				Logger.Log($"{player.Username} tried to log back in but the account is banned. IP: {player.ConnectionIP}", Category.Admin);
+				Loggy.Log($"{player.Username} tried to log back in but the account is banned. IP: {player.ConnectionIP}", Category.Admin);
 				return false;
 			}
 		}
@@ -446,7 +424,7 @@ public partial class PlayerList
 					"You were already logged in from another client. That client has been logged out.", "Multikeying");
 
 			ServerKickPlayer(existingPlayer, $"You have logged in from another client. This old client has been disconnected.", announce: false);
-			Logger.Log($"A user tried to connect with another client while already logged in \r\n" +
+			Loggy.Log($"A user tried to connect with another client while already logged in \r\n" +
 						$"Details: Username: {player.Username}, ClientID: {player.ClientId}, IP: {player.ConnectionIP}",
 				Category.Admin);
 		}
@@ -455,7 +433,7 @@ public partial class PlayerList
 		if (existingPlayer != null)
 		{
 			ServerKickPlayer(player, $"Server Error: You already have an existing connection with the server!");
-			Logger.LogWarning($"Warning 2 simultaneous connections from same IP detected\r\n" +
+			Loggy.LogWarning($"Warning 2 simultaneous connections from same IP detected\r\n" +
 						$"Details: Unverified Username: {player.Username}, Unverified ClientID: {player.ClientId}, IP: {player.ConnectionIP}",
 				Category.Admin);
 			return false;
@@ -468,7 +446,7 @@ public partial class PlayerList
 
 	private void SaveBanList()
 	{
-		File.WriteAllText(banPath, JsonUtility.ToJson(banList));
+		AccessFile.Save(banPath, JsonConvert.SerializeObject(banList));
 	}
 
 	#region JobBans
@@ -534,7 +512,7 @@ public partial class PlayerList
 			if (!serverSideCheck) return jobBanEntry;
 
 			//User is still banned and has bypassed join data client check!!!!:
-			Logger.Log($"{connPlayer.Username} has bypassed the client side check for ban entry, possible hack attempt. " + $"IP: {connPlayer.ConnectionIP}", Category.Admin);
+			Loggy.Log($"{connPlayer.Username} has bypassed the client side check for ban entry, possible hack attempt. " + $"IP: {connPlayer.ConnectionIP}", Category.Admin);
 			return jobBanEntry;
 		}
 
@@ -551,7 +529,7 @@ public partial class PlayerList
 	{
 		if (connPlayer.Equals(PlayerInfo.Invalid))
 		{
-			Logger.LogError($"Attempted to check job-ban for invalid player.", Category.Jobs);
+			Loggy.LogError($"Attempted to check job-ban for invalid player.", Category.Jobs);
 			return default;
 		}
 
@@ -623,12 +601,12 @@ public partial class PlayerList
 		//Old ban, remove it
 		jobBanList.jobBanEntries[index].jobBanEntry.Remove(jobBanEntry);
 		SaveJobBanList();
-		Logger.Log($"{connPlayer.Username} job ban for {jobBanEntry.job} has expired.", Category.Admin);
+		Loggy.Log($"{connPlayer.Username} job ban for {jobBanEntry.job} has expired.", Category.Admin);
 	}
 
 	void SaveJobBanList()
 	{
-		File.WriteAllText(jobBanPath, JsonUtility.ToJson(jobBanList));
+		AccessFile.Save(jobBanPath, JsonConvert.SerializeObject(jobBanList));
 	}
 
 	/// <summary>
@@ -757,7 +735,7 @@ public partial class PlayerList
 
 			if (PlayerList.Instance.TryGetByUserID(msg.PlayerID, out var player) == false)
 			{
-				Logger.LogError($"Player with user ID '{msg.PlayerID}' not found. Unable to job-ban from {msg.JobType}.", Category.Admin);
+				Loggy.LogError($"Player with user ID '{msg.PlayerID}' not found. Unable to job-ban from {msg.JobType}.", Category.Admin);
 				return;
 			}
 
@@ -795,7 +773,7 @@ public partial class PlayerList
 		if (serverAdmins.Contains(player.UserId) || (GameData.Instance.OfflineMode && player.GameObject == PlayerManager.LocalViewerScript.gameObject) || Application.isEditor)
 		{
 			//This is an admin, send admin notify to the users client
-			Logger.Log($"{player.Username} logged in as Admin. IP: {player.ConnectionIP}", Category.Admin);
+			Loggy.Log($"{player.Username} logged in as Admin. IP: {player.ConnectionIP}", Category.Admin);
 			var newToken = Guid.NewGuid().ToString();
 			loggedInAdmins[player.UserId] = newToken;
 			player.PlayerRoles |= PlayerRole.Admin;
@@ -807,7 +785,7 @@ public partial class PlayerList
 	{
 		if (mentorUsers.Contains(userid) && !serverAdmins.Contains(userid))
 		{
-			Logger.Log($"{playerConn.Username} logged in as Mentor. IP: {playerConn.ConnectionIP}", Category.Admin);
+			Loggy.Log($"{playerConn.Username} logged in as Mentor. IP: {playerConn.ConnectionIP}", Category.Admin);
 			var newToken = System.Guid.NewGuid().ToString();
 			if (!loggedInMentors.ContainsKey(userid))
 			{
@@ -822,7 +800,7 @@ public partial class PlayerList
 	{
 		if (loggedInAdmins.ContainsKey(userid) == false) return;
 
-		Logger.Log($"Admin {userName} logged off.", Category.Admin);
+		Loggy.Log($"Admin {userName} logged off.", Category.Admin);
 		loggedInAdmins.Remove(userid);
 	}
 
@@ -830,7 +808,7 @@ public partial class PlayerList
 	{
 		if (loggedInMentors.ContainsKey(userid) == false) return;
 
-		Logger.Log($"Mentor {userName} logged off.", Category.Admin);
+		Loggy.Log($"Mentor {userName} logged off.", Category.Admin);
 		loggedInMentors.Remove(userid);
 	}
 
@@ -839,13 +817,13 @@ public partial class PlayerList
 		AdminToken = _adminToken;
 		IsClientAdmin = true;
 		ControlTabs.Instance.ToggleOnAdminTab();
-		Logger.Log("You have logged in as an admin. Admin tools are now available.", Category.Admin);
+		Loggy.Log("You have logged in as an admin. Admin tools are now available.", Category.Admin);
 	}
 
 	public void SetClientAsMentor(string _mentorToken)
 	{
 		MentorToken = _mentorToken;
-		Logger.Log("You have logged in as a mentor. Mentor tools are now available.", Category.Admin);
+		Loggy.Log("You have logged in as a mentor. Mentor tools are now available.", Category.Admin);
 	}
 
 	public void ProcessAdminEnableRequest(string admin, string userToPromote)
@@ -853,13 +831,10 @@ public partial class PlayerList
 		if (!serverAdmins.Contains(admin)) return;
 		if (serverAdmins.Contains(userToPromote)) return;
 
-		Logger.Log(
+		Loggy.Log(
 			$"{admin} has promoted {userToPromote} to admin. Time: {DateTime.Now}", Category.Admin);
 
-		File.AppendAllLines(adminsPath, new string[]
-		{
-			"\r\n" + userToPromote
-		});
+		AccessFile.AppendAllText(adminsPath, "\r\n" + userToPromote);
 
 		serverAdmins.Add(userToPromote);
 		if (TryGetOnlineByUserID(userToPromote, out var user) == false) return;
@@ -879,7 +854,7 @@ public partial class PlayerList
 	{
 		string message = $"A kick is being processed by the server. " +
 				$"Username: {player.Username}. Character name: {player.Name}. Processed at: {DateTime.Now}.";
-		Logger.Log(message, Category.Admin);
+		Loggy.Log(message, Category.Admin);
 
 		StartCoroutine(KickOrBanPlayer(player, reason, false));
 
@@ -897,7 +872,7 @@ public partial class PlayerList
 	{
 		string message = $"A ban is being processed by the server. " +
 				$"Username: {player.Username}. Character name: {player.Name}. Duration: {minutes} minutes. Processed at: {DateTime.Now}.";
-		Logger.Log(message, Category.Admin);
+		Loggy.Log(message, Category.Admin);
 
 		StartCoroutine(KickOrBanPlayer(player, reason, true, minutes));
 
@@ -914,7 +889,7 @@ public partial class PlayerList
 	IEnumerator KickOrBanPlayer(PlayerInfo connPlayer, string reason,
 		bool ban = false, int banLengthInMinutes = 0, PlayerInfo adminPlayer = null)
 	{
-		Logger.Log("Processing KickPlayer/ban for " + "\n"
+		Loggy.Log("Processing KickPlayer/ban for " + "\n"
 				   + "UserId " + connPlayer?.UserId + "\n"
 				   + "Username " + connPlayer?.Username + "\n"
 				   + "address " + connPlayer?.Connection?.address + "\n"
@@ -930,7 +905,7 @@ public partial class PlayerList
 			int index = banList.banEntries.FindIndex(x => x.userId == connPlayer.UserId);
 			if (index != -1)
 			{
-				Logger.Log("removing pre-existing ban entry for userId of" + connPlayer.UserId, Category.Admin);
+				Loggy.Log("removing pre-existing ban entry for userId of" + connPlayer.UserId, Category.Admin);
 				banList.banEntries.RemoveAt(index);
 			}
 
@@ -950,7 +925,7 @@ public partial class PlayerList
 			SaveBanList();
 			if (banList.banEntries.Count != 0)
 			{
-				Logger.Log(banList.banEntries[banList.banEntries.Count - 1].ToString(), Category.Admin);
+				Loggy.Log(banList.banEntries[banList.banEntries.Count - 1].ToString(), Category.Admin);
 			}
 		}
 		else
@@ -963,16 +938,16 @@ public partial class PlayerList
 
 		if (connPlayer.Connection == null)
 		{
-			Logger.Log($"Not kicking, already disconnected: {connPlayer.Name}", Category.Admin);
+			Loggy.Log($"Not kicking, already disconnected: {connPlayer.Name}", Category.Admin);
 			yield break;
 		}
 
-		Logger.Log($"Kicking client {connPlayer.Username} : {message}", Category.Admin);
+		Loggy.Log($"Kicking client {connPlayer.Username} : {message}", Category.Admin);
 		InfoWindowMessage.Send(connPlayer.GameObject, message, "Disconnected");
 
 		yield return WaitFor.Seconds(1f);
 
-		Logger.LogError($"Disconnecting client {connPlayer.Username} : Via admin KickOrBanPlayer {message}", Category.Admin);
+		Loggy.LogError($"Disconnecting client {connPlayer.Username} : Via admin KickOrBanPlayer {message}", Category.Admin);
 		connPlayer.Connection.Disconnect();
 
 		while (!loggedOff.Contains(connPlayer))
@@ -998,7 +973,7 @@ public partial class PlayerList
 			message = $"A job ban has been processed by {admin.Username}: Username: {player.Username} Player: {player.Name} Job: {jobType} BanMinutes: {banMinutes} Time: {DateTime.Now}";
 		}
 
-		Logger.Log(message, Category.Admin);
+		Loggy.Log(message, Category.Admin);
 
 		StartCoroutine(JobBanPlayer(player, reason, isPerma, banMinutes, jobType, admin));
 
@@ -1031,11 +1006,11 @@ public partial class PlayerList
 	{
 		if (jobBanList == null)
 		{
-			Logger.LogError("The job ban list loaded from the json was null, cant add new ban to it.", Category.Admin);
+			Loggy.LogError("The job ban list loaded from the json was null, cant add new ban to it.", Category.Admin);
 			yield break;
 		}
 
-		Logger.Log("Processing job ban for " + "\n"
+		Loggy.Log("Processing job ban for " + "\n"
 													+ "UserId " + connPlayer?.UserId + "\n"
 													+ "Username " + connPlayer?.Username + "\n"
 													+ "address " + connPlayer?.Connection?.address + "\n"
@@ -1066,7 +1041,7 @@ public partial class PlayerList
 
 		if (jobBanPlayerEntry.Value.Item1 == null)
 		{
-			Logger.LogError("New job ban list was null even though new one was generated", Category.Admin);
+			Loggy.LogError("New job ban list was null even though new one was generated", Category.Admin);
 			yield break;
 		}
 

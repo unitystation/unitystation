@@ -47,7 +47,7 @@ namespace AdminTools
 			AppendAdminMentorStatus(displayData, playerEntryData);
 			AppendPersonalInformation(displayData, playerEntryData, isForMentor);
 			displayName.text = displayData.ToString();
-			displayName.color = isForMentor ? antagTextColor : Color.white;
+			displayName.color = playerEntryData.isAntag ? antagTextColor : Color.white;
 			offlineNot.SetActive(string.IsNullOrEmpty(PlayerData.ipAddress));
 
 			if (disableInteract)
@@ -97,6 +97,11 @@ namespace AdminTools
 			builder.Append(playerEntryData.ipAddress);
 			builder.Append(" UUID ");
 			builder.Append(playerEntryData.uid);
+		}
+
+		public void OnEnable()
+		{
+			RefreshNotification();
 		}
 
 		public void RefreshNotification()

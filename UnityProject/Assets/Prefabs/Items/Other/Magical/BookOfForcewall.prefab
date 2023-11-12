@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3579279403042536298, guid: f9b48c194efec7840b9dea9662005173,
@@ -25,38 +26,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
         type: 3}
-      propertyPath: remarks.Array.data[0]
+      propertyPath: 'remarks.Array.data[0]'
       value: I can go through the wall! Neat.
       objectReference: {fileID: 0}
     - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
         type: 3}
-      propertyPath: remarks.Array.data[1]
+      propertyPath: 'remarks.Array.data[1]'
       value: Why are there so many mime references...?
       objectReference: {fileID: 0}
     - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
         type: 3}
-      propertyPath: remarks.Array.data[2]
+      propertyPath: 'remarks.Array.data[2]'
       value: This would cause much grief in a hallway...
       objectReference: {fileID: 0}
     - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
         type: 3}
-      propertyPath: remarks.Array.data[3]
+      propertyPath: 'remarks.Array.data[3]'
       value: This is some surprisingly strong magic to create a wall nobody can pass
         through...
       objectReference: {fileID: 0}
     - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
         type: 3}
-      propertyPath: remarks.Array.data[4]
+      propertyPath: 'remarks.Array.data[4]'
       value: Why the dumb stance? It's just a flick of the hand...
       objectReference: {fileID: 0}
     - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
         type: 3}
-      propertyPath: remarks.Array.data[5]
+      propertyPath: 'remarks.Array.data[5]'
       value: Why are the pages so hard to turn, is this even paper?
       objectReference: {fileID: 0}
     - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
         type: 3}
-      propertyPath: remarks.Array.data[6]
+      propertyPath: 'remarks.Array.data[6]'
       value: I can't mo - oh no, I'm fine...
       objectReference: {fileID: 0}
     - target: {fileID: 4346115978777709696, guid: f9b48c194efec7840b9dea9662005173,
@@ -65,6 +66,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c34bb95571f341e4284fb1bcda8a2011,
         type: 2}
+    - target: {fileID: 7530770484140264115, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: _assetId
+      value: 3614024951
+      objectReference: {fileID: 0}
     - target: {fileID: 7530770484140264115, guid: f9b48c194efec7840b9dea9662005173,
         type: 3}
       propertyPath: m_AssetId
@@ -113,6 +119,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2738974027241478211, guid: f9b48c194efec7840b9dea9662005173, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7572413834478188295, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2394440578103426355}
   m_SourcePrefab: {fileID: 100100000, guid: f9b48c194efec7840b9dea9662005173, type: 3}
 --- !u!1 &776659237916025105 stripped
 GameObject:

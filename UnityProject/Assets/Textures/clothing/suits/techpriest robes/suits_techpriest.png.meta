@@ -75,7 +75,7 @@ TextureImporter:
       213: -3068762355459263887
     second: techpriest_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      techpriest_5: 5486744924139601626
-      techpriest_2: 2306531279378811473
-      techpriest_11: -3919437425658668048
-      techpriest_13: -4718755668915546339
-      techpriest_15: -3904724531864374349
-      techpriest_19: -7277739479719873125
-      techpriest_18: -8755883302944526657
-      techpriest_21: 8810344821272579594
-      techpriest_3: 5428559364554448020
-      techpriest_1: -6206453959816464360
-      techpriest_8: 2899669665127309501
-      techpriest_6: 4647958732951709522
-      techpriest_4: -5014666107340629012
       techpriest_0: -8153003461406285960
-      techpriest_20: 5405845451882393555
+      techpriest_1: -6206453959816464360
       techpriest_10: -8708501499745560538
-      techpriest_7: 807912055730732225
-      techpriest_17: -1391264993206274444
-      techpriest_22: 2182988764602094550
-      techpriest_14: -6859586247308576359
+      techpriest_11: -3919437425658668048
       techpriest_12: 7145787177462374423
-      techpriest_9: 8448430314716113467
+      techpriest_13: -4718755668915546339
+      techpriest_14: -6859586247308576359
+      techpriest_15: -3904724531864374349
       techpriest_16: -7101403254530001738
+      techpriest_17: -1391264993206274444
+      techpriest_18: -8755883302944526657
+      techpriest_19: -7277739479719873125
+      techpriest_2: 2306531279378811473
+      techpriest_20: 5405845451882393555
+      techpriest_21: 8810344821272579594
+      techpriest_22: 2182988764602094550
       techpriest_23: -3068762355459263887
-  spritePackingTag: 
+      techpriest_3: 5428559364554448020
+      techpriest_4: -5014666107340629012
+      techpriest_5: 5486744924139601626
+      techpriest_6: 4647958732951709522
+      techpriest_7: 807912055730732225
+      techpriest_8: 2899669665127309501
+      techpriest_9: 8448430314716113467
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

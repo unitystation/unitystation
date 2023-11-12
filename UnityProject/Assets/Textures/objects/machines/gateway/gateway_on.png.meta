@@ -147,7 +147,7 @@ TextureImporter:
       213: 2406569387873696523
     second: gateway_on_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -750,33 +765,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      gateway_on_1: 4658743146477972809
-      gateway_on_15: -3854481458074962008
-      gateway_on_21: -4265915785230019508
-      gateway_on_16: 3454874570557112167
-      gateway_on_17: 8529519465339451256
-      gateway_on_6: 3293299140940688845
-      gateway_on_22: -2343485927427446691
-      gateway_on_7: -1184879654540406518
-      gateway_on_10: -1096724635817820967
-      gateway_on_18: 8565178299809125529
-      gateway_on_23: 2406569387873696523
-      gateway_on_5: 8033078337819609105
-      gateway_on_19: 5669096516661141675
-      gateway_on_2: 7761410002650570052
-      gateway_on_3: -8676475718867505300
-      gateway_on_14: -3759734072277731860
-      gateway_on_8: -7024911900179350291
       gateway_on_0: -5053537777833272925
-      gateway_on_20: -5131059599873687833
+      gateway_on_1: 4658743146477972809
+      gateway_on_10: -1096724635817820967
+      gateway_on_11: 4627018816357850036
       gateway_on_12: -5677500155137286045
       gateway_on_13: -7764010903818025374
+      gateway_on_14: -3759734072277731860
+      gateway_on_15: -3854481458074962008
+      gateway_on_16: 3454874570557112167
+      gateway_on_17: 8529519465339451256
+      gateway_on_18: 8565178299809125529
+      gateway_on_19: 5669096516661141675
+      gateway_on_2: 7761410002650570052
+      gateway_on_20: -5131059599873687833
+      gateway_on_21: -4265915785230019508
+      gateway_on_22: -2343485927427446691
+      gateway_on_23: 2406569387873696523
+      gateway_on_3: -8676475718867505300
       gateway_on_4: 3479196352367776281
-      gateway_on_11: 4627018816357850036
+      gateway_on_5: 8033078337819609105
+      gateway_on_6: 3293299140940688845
+      gateway_on_7: -1184879654540406518
+      gateway_on_8: -7024911900179350291
       gateway_on_9: 6179071142914040871
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

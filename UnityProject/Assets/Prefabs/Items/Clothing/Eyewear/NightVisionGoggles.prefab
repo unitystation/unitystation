@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2546418124722880301, guid: 28c72054b1f484ed4a6253c4feee3eb4,
@@ -32,6 +33,11 @@ PrefabInstance:
         type: 3}
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2607336686439034363, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: _assetId
+      value: 2947863460
       objectReference: {fileID: 0}
     - target: {fileID: 2607336686439034363, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
@@ -142,11 +148,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9062951044728521674, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 9432e762f9381444081eba2dbcd3dc8b,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2718814624466391119, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1783808887656716621}
+    - targetCorrespondingSourceObject: {fileID: 2718814624466391119, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5423030938923709996}
   m_SourcePrefab: {fileID: 100100000, guid: 28c72054b1f484ed4a6253c4feee3eb4, type: 3}
 --- !u!1 &3431291279286482953 stripped
 GameObject:
@@ -166,6 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1360d2b65a03cdf449035cd3c4cd0153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   actionData: {fileID: 11400000, guid: a5f5824fd6f60514bae4cfbecbb9e44c, type: 2}
@@ -184,10 +202,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e8deecf3238eac4597c33d91991c2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  visibilityAnimationSpeed: 0.75
   OnBodyID: 0
+  isOn: 0
 --- !u!114 &8851959254138389390 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8141721191079898056, guid: 28c72054b1f484ed4a6253c4feee3eb4,

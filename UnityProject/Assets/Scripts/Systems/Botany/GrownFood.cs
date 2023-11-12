@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Mirror;
 using Chemistry.Components;
-using Systems.Botany;
 using Chemistry;
 using Objects.Botany;
-using Items;
 using Items.Botany;
 using Items.Food;
+using Scripts.Core.Transform;
 
 namespace Systems.Botany
 {
@@ -35,10 +33,19 @@ namespace Systems.Botany
 		[SyncVar(hook = nameof(SyncSize))]
 		public float sizeScale = 1;
 
+		[SerializeField] private ScaleSync scaleSync;
+
 		public void SyncSize(float oldScale, float newScale)
 		{
-			sizeScale = newScale;
-			SpriteSizeAdjustment.transform.localScale = new Vector3((sizeScale), (sizeScale), (sizeScale));
+			if (scaleSync is not null)
+			{
+				scaleSync.SetScale(new Vector3(sizeScale, sizeScale, sizeScale));
+			}
+			else
+			{
+				sizeScale = newScale;
+				SpriteSizeAdjustment.transform.localScale = new Vector3((sizeScale), (sizeScale), (sizeScale));
+			}
 		}
 
 		public PlantData GetPlantData()
@@ -55,19 +62,6 @@ namespace Systems.Botany
 
 			return _plantData;
 		}
-
-		/*private void Awake()
-		{
-			if (SpriteSizeAdjustment.sprite.texture == null)
-			{
-				Debug.LogError("Attempted awake on food, failed to find texture", this);
-				return;
-			}
-			var spritesheet = new SpriteSheetAndData { Texture = SpriteSizeAdjustment.sprite.texture };
-			spritesheet.setSprites();
-			Sprite.spriteData = SpriteFunctions.SetupSingleSprite(spritesheet);
-			Sprite.PushTexture();
-		}*/
 
 		public void Start()
 		{

@@ -1,3 +1,4 @@
+using Logs;
 using UnityEngine;
 using Systems.DisposalPipes;
 
@@ -89,7 +90,7 @@ namespace Objects.Disposals
 			}
 			if(disPipeNode == null)
 			{
-				Logger.LogError($"Impossible to deconstruct the disposal pipe at {interaction.TargetCellPos} in {matrix.gameObject.scene.name} - {matrix.name}. Disposal pipe node wasn't found",
+				Loggy.LogError($"Impossible to deconstruct the disposal pipe at {interaction.TargetCellPos} in {matrix.gameObject.scene.name} - {matrix.name}. Disposal pipe node wasn't found",
 					Category.Pipes);
 				return;
 			}

@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Systems.Explosions;
 using HealthV2;
@@ -16,8 +18,18 @@ namespace Chemistry.Effects
 		[Tooltip("Explosion type")]
 		[SerializeField] private ExplosionTypes.ExplosionType explosionType = ExplosionTypes.ExplosionType.Regular;
 
+		public float Delay = 0;
+
 		public override void Apply(MonoBehaviour sender, float amount)
 		{
+
+			sender.StartCoroutine(NowExplosion(sender,amount ));
+		}
+
+		public IEnumerator NowExplosion(MonoBehaviour sender, float amount)
+		{
+			yield return WaitFor.Seconds(Delay);
+
 			// Following function uses the code from the Explosions file.
 
 			// Get data from container before despawning
@@ -52,6 +64,8 @@ namespace Chemistry.Effects
 				}
 			}
 
+
+
 			if (strength > 0)
 			{
 				//Check if this is happening inside of an Object first (machines, closets?)
@@ -77,7 +91,7 @@ namespace Chemistry.Effects
 			// If sender is a pickupable item not inside the body, destroy it.
 			if (picked != null && !insideBody)
 			{
-				Despawn.ServerSingle(sender.gameObject);
+				_ = Despawn.ServerSingle(sender.gameObject);
 			}
 		}
 	}

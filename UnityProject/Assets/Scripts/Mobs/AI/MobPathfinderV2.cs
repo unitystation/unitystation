@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Doors;
 using HealthV2;
+using Logs;
 using PathFinding;
 using Systems.MobAIs;
 using UnityEngine;
@@ -141,7 +142,7 @@ namespace Mobs.AI
 				{
 					isComplete = true;
 					//This could be because you are trying to use a goal node that is inside a wall or the path was blocked
-					Logger.Log(
+					Loggy.Log(
 						$"Pathing finding could not find a path where one was expected to be found. StartNode {startNode.position} GoalNode {goalNode.position}",
 						Category.Movement);
 					return null;
@@ -278,7 +279,7 @@ namespace Mobs.AI
 		{
 			if (health.IsDead || health.IsCrit)
 			{
-				Logger.Log("You are trying to follow a path when living thing is dead or in crit", Category.Movement);
+				Loggy.Log("You are trying to follow a path when living thing is dead or in crit", Category.Movement);
 				return;
 			}
 
@@ -288,6 +289,11 @@ namespace Mobs.AI
 
 		IEnumerator PerformFollowPath(List<Node> path)
 		{
+			if (path == null || path.Count == 0)
+			{
+				Loggy.LogError("Path is empty or null");
+				yield break;
+			}
 			int node = 1;
 
 			while (node < path.Count)
@@ -319,7 +325,7 @@ namespace Mobs.AI
 						{
 							ResetMovingValues();
 							FollowCompleted();
-							Logger.Log("Path following timed out. Something must be in the way", Category.Movement);
+							Loggy.Log("Path following timed out. Something must be in the way", Category.Movement);
 							yield break;
 						}
 					}
@@ -349,7 +355,7 @@ namespace Mobs.AI
 						if (timeOut > 5f)
 						{
 							ResetMovingValues();
-							Logger.Log("Path following timed out. Something must be in the way", Category.Movement);
+							Loggy.Log("Path following timed out. Something must be in the way", Category.Movement);
 							FollowCompleted();
 							yield break;
 						}

@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: conveyor-1_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      conveyor-1_31: 21300062
+      conveyor-1_0: 21300000
       conveyor-1_1: 21300002
-      conveyor-1_13: 21300026
       conveyor-1_10: 21300020
-      conveyor-1_24: 21300048
-      conveyor-1_9: 21300018
-      conveyor-1_18: 21300036
-      conveyor-1_17: 21300034
-      conveyor-1_21: 21300042
-      conveyor-1_20: 21300040
+      conveyor-1_11: 21300022
+      conveyor-1_12: 21300024
+      conveyor-1_13: 21300026
+      conveyor-1_14: 21300028
       conveyor-1_15: 21300030
+      conveyor-1_16: 21300032
+      conveyor-1_17: 21300034
+      conveyor-1_18: 21300036
+      conveyor-1_19: 21300038
+      conveyor-1_2: 21300004
+      conveyor-1_20: 21300040
+      conveyor-1_21: 21300042
       conveyor-1_22: 21300044
-      conveyor-1_30: 21300060
+      conveyor-1_23: 21300046
+      conveyor-1_24: 21300048
+      conveyor-1_25: 21300050
+      conveyor-1_26: 21300052
       conveyor-1_27: 21300054
       conveyor-1_28: 21300056
-      conveyor-1_26: 21300052
-      conveyor-1_0: 21300000
+      conveyor-1_29: 21300058
+      conveyor-1_3: 21300006
+      conveyor-1_30: 21300060
+      conveyor-1_31: 21300062
       conveyor-1_4: 21300008
       conveyor-1_5: 21300010
-      conveyor-1_11: 21300022
-      conveyor-1_2: 21300004
       conveyor-1_6: 21300012
       conveyor-1_7: 21300014
-      conveyor-1_14: 21300028
       conveyor-1_8: 21300016
-      conveyor-1_12: 21300024
-      conveyor-1_29: 21300058
-      conveyor-1_25: 21300050
-      conveyor-1_3: 21300006
-      conveyor-1_16: 21300032
-      conveyor-1_23: 21300046
-      conveyor-1_19: 21300038
-  spritePackingTag: 
+      conveyor-1_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

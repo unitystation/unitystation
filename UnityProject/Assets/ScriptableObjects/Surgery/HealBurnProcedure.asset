@@ -17,15 +17,14 @@ MonoBehaviour:
   SurgerySteps:
   - RequiredTrait: {fileID: 11400000, guid: 1232c715563602f4fb215b7c2c0b076c, type: 2}
     Time: 3
-    SuccessChance: 100
+    FailChance: 0
     StartSelf: WIP
     StartOther: WIP
     SuccessSelf: WIP
     SuccessOther: WIP
     FailSelf: WIP
     FailOther: WIP
-  RequiredTrait: {fileID: 11400000, guid: 1232c715563602f4fb215b7c2c0b076c, type: 2}
   Affects: 1
   HeelStrength: 15
+  ConsumeItem: 0
   FailAttackType: 0
-  UseUpItem: 1

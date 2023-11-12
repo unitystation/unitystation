@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: scrub_purge_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      scrub_purge_31: 21300062
-      scrub_purge_5: 21300010
-      scrub_purge_7: 21300014
-      scrub_purge_14: 21300028
-      scrub_purge_29: 21300058
-      scrub_purge_19: 21300038
-      scrub_purge_18: 21300036
+      scrub_purge_0: 21300000
+      scrub_purge_1: 21300002
       scrub_purge_10: 21300020
+      scrub_purge_11: 21300022
+      scrub_purge_12: 21300024
+      scrub_purge_13: 21300026
+      scrub_purge_14: 21300028
+      scrub_purge_15: 21300030
+      scrub_purge_16: 21300032
       scrub_purge_17: 21300034
+      scrub_purge_18: 21300036
+      scrub_purge_19: 21300038
+      scrub_purge_2: 21300004
       scrub_purge_20: 21300040
+      scrub_purge_21: 21300042
+      scrub_purge_22: 21300044
       scrub_purge_23: 21300046
       scrub_purge_24: 21300048
-      scrub_purge_21: 21300042
-      scrub_purge_2: 21300004
-      scrub_purge_28: 21300056
-      scrub_purge_1: 21300002
-      scrub_purge_22: 21300044
-      scrub_purge_3: 21300006
-      scrub_purge_16: 21300032
-      scrub_purge_0: 21300000
-      scrub_purge_4: 21300008
-      scrub_purge_27: 21300054
-      scrub_purge_8: 21300016
-      scrub_purge_6: 21300012
-      scrub_purge_12: 21300024
       scrub_purge_25: 21300050
-      scrub_purge_9: 21300018
-      scrub_purge_13: 21300026
       scrub_purge_26: 21300052
+      scrub_purge_27: 21300054
+      scrub_purge_28: 21300056
+      scrub_purge_29: 21300058
+      scrub_purge_3: 21300006
       scrub_purge_30: 21300060
-      scrub_purge_15: 21300030
-      scrub_purge_11: 21300022
-  spritePackingTag: 
+      scrub_purge_31: 21300062
+      scrub_purge_4: 21300008
+      scrub_purge_5: 21300010
+      scrub_purge_6: 21300012
+      scrub_purge_7: 21300014
+      scrub_purge_8: 21300016
+      scrub_purge_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

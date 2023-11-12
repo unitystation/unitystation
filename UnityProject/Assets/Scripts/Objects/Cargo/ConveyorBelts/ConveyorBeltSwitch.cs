@@ -70,12 +70,12 @@ namespace Construction.Conveyors
 			if (!Validations.IsTarget(gameObject, interaction)) return false;
 
 			return interaction.HandObject == null ||
-					Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench);
+					Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench))
 			{
 				//deconsruct
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -161,7 +161,7 @@ namespace Construction.Conveyors
 		private void SetState(SwitchState newState)
 		{
 			CurrentState = newState;
-			spriteHandler.ChangeSprite((int)CurrentState);
+			spriteHandler.SetCatalogueIndexSprite((int)CurrentState);
 
 			if (CurrentState != SwitchState.Off)
 			{

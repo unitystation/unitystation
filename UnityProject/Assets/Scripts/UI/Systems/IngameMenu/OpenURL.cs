@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Logs;
+using SecureStuff;
+using UnityEngine;
 
 namespace UI.Systems.IngameMenu
 {
@@ -10,10 +12,11 @@ namespace UI.Systems.IngameMenu
 		[Tooltip("URL to open.")]
 		public string url = "https://discordapp.com/invite/fhhQcV9";
 
+		[NaughtyAttributes.Button()]
 		public void Open()
 		{
-			Logger.LogTrace($"Opening '{url}' in the user's internet browser...");
-			Application.OpenURL(url);
+			Loggy.LogTrace($"Opening '{url}' in the user's internet browser...");
+			SafeURL.Open(url);
 		}
 	}
 }

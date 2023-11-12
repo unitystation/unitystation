@@ -93,7 +93,7 @@ TextureImporter:
       213: 21300058
     second: diamond_29
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -110,11 +110,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -153,6 +154,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -192,6 +195,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -846,39 +861,38 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      diamond_19: 21300038
-      diamond_15: 21300030
-      diamond_17: 21300034
-      diamond_13: 21300026
-      diamond_12: 21300024
-      diamond_2: 21300004
-      diamond_3: 21300006
-      diamond_6: 21300012
-      diamond_4: 21300008
+      diamond_0: 21300000
+      diamond_1: 21300002
       diamond_10: 21300020
-      diamond_29: 21300058
+      diamond_11: 21300022
+      diamond_12: 21300024
+      diamond_13: 21300026
+      diamond_14: 21300028
+      diamond_15: 21300030
+      diamond_16: 21300032
+      diamond_17: 21300034
+      diamond_18: 21300036
+      diamond_19: 21300038
+      diamond_2: 21300004
+      diamond_20: 21300040
       diamond_21: 21300042
+      diamond_22: 21300044
+      diamond_23: 21300046
+      diamond_24: 21300048
       diamond_25: 21300050
-      diamond_8: 21300016
       diamond_26: 21300052
       diamond_27: 21300054
-      diamond_7: 21300014
-      diamond_20: 21300040
-      diamond_5: 21300010
-      diamond_22: 21300044
-      diamond_0: 21300000
-      diamond_18: 21300036
-      diamond_24: 21300048
-      diamond_14: 21300028
-      diamond_23: 21300046
-      diamond_1: 21300002
-      diamond_9: 21300018
-      diamond_16: 21300032
       diamond_28: 21300056
-      diamond_11: 21300022
-  spritePackingTag: 
+      diamond_29: 21300058
+      diamond_3: 21300006
+      diamond_4: 21300008
+      diamond_5: 21300010
+      diamond_6: 21300012
+      diamond_7: 21300014
+      diamond_8: 21300016
+      diamond_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -87,7 +87,7 @@ TextureImporter:
       213: 21300054
     second: glass_closing_27
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,6 +148,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -162,6 +165,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -774,37 +789,36 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      glass_closing_22: 21300044
-      glass_closing_14: 21300028
-      glass_closing_12: 21300024
-      glass_closing_1: 21300002
-      glass_closing_2: 21300004
-      glass_closing_23: 21300046
-      glass_closing_5: 21300010
-      glass_closing_10: 21300020
-      glass_closing_16: 21300032
-      glass_closing_15: 21300030
-      glass_closing_20: 21300040
-      glass_closing_19: 21300038
-      glass_closing_17: 21300034
-      glass_closing_4: 21300008
-      glass_closing_11: 21300022
       glass_closing_0: 21300000
-      glass_closing_3: 21300006
-      glass_closing_9: 21300018
-      glass_closing_25: 21300050
-      glass_closing_6: 21300012
-      glass_closing_8: 21300016
-      glass_closing_24: 21300048
+      glass_closing_1: 21300002
+      glass_closing_10: 21300020
+      glass_closing_11: 21300022
+      glass_closing_12: 21300024
       glass_closing_13: 21300026
+      glass_closing_14: 21300028
+      glass_closing_15: 21300030
+      glass_closing_16: 21300032
+      glass_closing_17: 21300034
       glass_closing_18: 21300036
-      glass_closing_27: 21300054
-      glass_closing_26: 21300052
-      glass_closing_7: 21300014
+      glass_closing_19: 21300038
+      glass_closing_2: 21300004
+      glass_closing_20: 21300040
       glass_closing_21: 21300042
-  spritePackingTag: 
+      glass_closing_22: 21300044
+      glass_closing_23: 21300046
+      glass_closing_24: 21300048
+      glass_closing_25: 21300050
+      glass_closing_26: 21300052
+      glass_closing_27: 21300054
+      glass_closing_3: 21300006
+      glass_closing_4: 21300008
+      glass_closing_5: 21300010
+      glass_closing_6: 21300012
+      glass_closing_7: 21300014
+      glass_closing_8: 21300016
+      glass_closing_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

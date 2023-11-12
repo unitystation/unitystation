@@ -183,7 +183,7 @@ TextureImporter:
       213: -7452730135641147226
     second: window_plasma_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -200,11 +200,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -243,6 +244,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -262,6 +265,18 @@ TextureImporter:
     resizeAlgorithm: 0
     textureFormat: 4
     textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -1290,57 +1305,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      window_plasma_8: -2661919970533589962
+      window_plasma_0: 6530179738444782934
       window_plasma_1: 613435604629981061
-      window_plasma_7: -5581956015464806101
+      window_plasma_10: 3216594195550930655
+      window_plasma_11: -3701851516310602662
+      window_plasma_12: 5893540339403691780
+      window_plasma_13: -1254599994303000284
+      window_plasma_14: 1949730731670058941
+      window_plasma_15: -3627854407871609761
+      window_plasma_16: -1888837539432032468
+      window_plasma_17: -1796502737815246115
       window_plasma_18: 8636805145482191278
-      window_plasma_47: 5126698597468343190
-      window_plasma_26: 3504542958272820299
+      window_plasma_19: -2218698658706304759
+      window_plasma_2: -3656531271222932061
+      window_plasma_20: 2562169664635839239
+      window_plasma_21: -4946619765975422720
+      window_plasma_22: 2281915828476810391
       window_plasma_23: -1460219255197261928
       window_plasma_24: -272350928928935694
-      window_plasma_39: 2096794751010941262
-      window_plasma_35: -5679681372999991991
-      window_plasma_43: -4294464135343857242
+      window_plasma_25: 3647273195039021549
+      window_plasma_26: 3504542958272820299
+      window_plasma_27: 6202079318447832090
+      window_plasma_28: 6217686846738184359
       window_plasma_29: -3807297515833748856
-      window_plasma_12: 5893540339403691780
-      window_plasma_16: -1888837539432032468
-      window_plasma_19: -2218698658706304759
+      window_plasma_3: 3930011312167392660
+      window_plasma_30: 4372381551759688375
+      window_plasma_31: -8302254863492273045
+      window_plasma_32: -863169582964885348
+      window_plasma_33: -832198905909771304
       window_plasma_34: 662046916731068474
+      window_plasma_35: -5679681372999991991
       window_plasma_36: -4666756510880264869
       window_plasma_37: -3986187285796142972
       window_plasma_38: -9218115008462819005
-      window_plasma_44: 5182346603733836655
-      window_plasma_5: -7054820123952135176
-      window_plasma_2: -3656531271222932061
-      window_plasma_3: 3930011312167392660
-      window_plasma_31: -8302254863492273045
-      window_plasma_33: -832198905909771304
-      window_plasma_0: 6530179738444782934
-      window_plasma_25: 3647273195039021549
-      window_plasma_11: -3701851516310602662
-      window_plasma_30: 4372381551759688375
+      window_plasma_39: 2096794751010941262
       window_plasma_4: -96796154962138083
-      window_plasma_9: 3038985000587531000
-      window_plasma_22: 2281915828476810391
-      window_plasma_32: -863169582964885348
-      window_plasma_14: 1949730731670058941
-      window_plasma_46: 3752806198092373919
-      window_plasma_17: -1796502737815246115
       window_plasma_40: -7936603521824548063
-      window_plasma_6: 4530623484691778272
-      window_plasma_20: 2562169664635839239
       window_plasma_41: -8175751224450135963
-      window_plasma_45: -1308681137950721158
-      window_plasma_27: 6202079318447832090
-      window_plasma_13: -1254599994303000284
-      window_plasma_15: -3627854407871609761
       window_plasma_42: 759806175588820344
-      window_plasma_21: -4946619765975422720
-      window_plasma_28: 6217686846738184359
-      window_plasma_10: 3216594195550930655
-  spritePackingTag: 
+      window_plasma_43: -4294464135343857242
+      window_plasma_44: 5182346603733836655
+      window_plasma_45: -1308681137950721158
+      window_plasma_46: 3752806198092373919
+      window_plasma_47: 5126698597468343190
+      window_plasma_5: -7054820123952135176
+      window_plasma_6: 4530623484691778272
+      window_plasma_7: -5581956015464806101
+      window_plasma_8: -2661919970533589962
+      window_plasma_9: 3038985000587531000
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

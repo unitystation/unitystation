@@ -147,7 +147,7 @@ TextureImporter:
       213: 3817559199738220383
     second: false_wall_open_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,9 +208,35 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -1242,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      false_wall_open_9: -8685877604359583608
-      false_wall_open_3: 3733811208504007779
-      false_wall_open_19: 804572810820864346
-      false_wall_open_29: -7420737103589622038
-      false_wall_open_41: 3199298561455016249
-      false_wall_open_23: -2756592335937183343
-      false_wall_open_37: 5247185738325325498
-      false_wall_open_43: -8792489268650569185
       false_wall_open_0: -3177920699545328707
-      false_wall_open_12: -7300247568349616631
       false_wall_open_1: 4325721672774102460
-      false_wall_open_15: -7561947831813473966
-      false_wall_open_8: 1814306979989711919
-      false_wall_open_35: 3297732648468774768
+      false_wall_open_10: 2300254427350129617
       false_wall_open_11: 8539895412314230854
+      false_wall_open_12: -7300247568349616631
+      false_wall_open_13: -3993776800510769380
+      false_wall_open_14: 4584715576223625387
+      false_wall_open_15: -7561947831813473966
+      false_wall_open_16: -5564004105671504415
       false_wall_open_17: 2616059863458869819
+      false_wall_open_18: 8404101719931559571
+      false_wall_open_19: 804572810820864346
+      false_wall_open_2: 599206670460013158
       false_wall_open_20: -8530253152685756320
       false_wall_open_21: 5442905230574227823
-      false_wall_open_33: -5612226862282111641
-      false_wall_open_38: 4529920623512978911
       false_wall_open_22: 7882696848271146262
-      false_wall_open_5: 6864461307460361533
-      false_wall_open_28: 8519503274927108509
-      false_wall_open_25: -7231055692134728300
-      false_wall_open_32: 756152766067387006
-      false_wall_open_39: 4093138301875906710
-      false_wall_open_2: 599206670460013158
-      false_wall_open_6: 4492387367026778344
-      false_wall_open_26: -1638560797035348053
-      false_wall_open_44: 2312659033052754036
-      false_wall_open_40: 1144769106490790231
-      false_wall_open_18: 8404101719931559571
-      false_wall_open_45: 6052692241260550565
-      false_wall_open_30: -6102730046903187059
-      false_wall_open_16: -5564004105671504415
-      false_wall_open_42: 525777531937470490
-      false_wall_open_46: -1155240871197990164
-      false_wall_open_4: -5528211628757914027
-      false_wall_open_36: -3680765740081937770
-      false_wall_open_13: -3993776800510769380
-      false_wall_open_34: -6443938916042349691
+      false_wall_open_23: -2756592335937183343
       false_wall_open_24: -2165451758591989347
-      false_wall_open_14: 4584715576223625387
-      false_wall_open_10: 2300254427350129617
-      false_wall_open_31: -4746928563788685873
+      false_wall_open_25: -7231055692134728300
+      false_wall_open_26: -1638560797035348053
       false_wall_open_27: 7079140933354583953
-      false_wall_open_7: 7523587320915228890
+      false_wall_open_28: 8519503274927108509
+      false_wall_open_29: -7420737103589622038
+      false_wall_open_3: 3733811208504007779
+      false_wall_open_30: -6102730046903187059
+      false_wall_open_31: -4746928563788685873
+      false_wall_open_32: 756152766067387006
+      false_wall_open_33: -5612226862282111641
+      false_wall_open_34: -6443938916042349691
+      false_wall_open_35: 3297732648468774768
+      false_wall_open_36: -3680765740081937770
+      false_wall_open_37: 5247185738325325498
+      false_wall_open_38: 4529920623512978911
+      false_wall_open_39: 4093138301875906710
+      false_wall_open_4: -5528211628757914027
+      false_wall_open_40: 1144769106490790231
+      false_wall_open_41: 3199298561455016249
+      false_wall_open_42: 525777531937470490
+      false_wall_open_43: -8792489268650569185
+      false_wall_open_44: 2312659033052754036
+      false_wall_open_45: 6052692241260550565
+      false_wall_open_46: -1155240871197990164
       false_wall_open_47: 3817559199738220383
-  spritePackingTag: 
+      false_wall_open_5: 6864461307460361533
+      false_wall_open_6: 4492387367026778344
+      false_wall_open_7: 7523587320915228890
+      false_wall_open_8: 1814306979989711919
+      false_wall_open_9: -8685877604359583608
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

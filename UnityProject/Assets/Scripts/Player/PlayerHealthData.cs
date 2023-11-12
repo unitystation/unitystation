@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
-using System.IO;
 using System;
 using Chemistry;
 using Core.Editor.Attributes;
@@ -33,15 +32,13 @@ public class RaceHealthData
 	public ObjectList ArmLeft;
 	public ObjectList LegRight;
 	public ObjectList LegLeft;
+	public bool allowedToChangeling = false;
 
 	public List<CustomisationAllowedSetting> CustomisationSettings = new List<CustomisationAllowedSetting>();
 
 	public BodyTypeSettings bodyTypeSettings = new BodyTypeSettings();
 
 	public List<Color> SkinColours = new List<Color>();
-
-
-	public BloodType BloodType;
 
 	public ImplantProcedure RootImplantProcedure;
 

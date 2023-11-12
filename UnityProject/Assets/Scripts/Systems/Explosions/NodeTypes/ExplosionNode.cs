@@ -8,6 +8,7 @@ using Systems.Pipes;
 using Items;
 using TileManagement;
 using AddressableReferences;
+using Player;
 
 
 namespace Systems.Explosions
@@ -120,11 +121,8 @@ namespace Systems.Explosions
 
 			foreach (var player in matrix.Get<LivingHealthMasterBase>(v3int, ObjectType.Player, true))
 			{
-
 				// do damage
-				player.GetComponent<LivingHealthMasterBase>()
-					.ApplyDamageAll(null, DamageDealt, AttackType.Bomb, DamageType.Brute, default, TraumaticDamageTypes.NONE, 75);
-
+				player.ApplyDamageAll(null, DamageDealt, AttackType.Bomb, DamageType.Brute, default, TraumaticDamageTypes.NONE, 75);
 			}
 			return EnergyExpended;
 		}
@@ -164,14 +162,18 @@ namespace Systems.Explosions
 			}
 		}
 
-		public async Task TimedEffect(Vector3Int position, float time, string effectName, OverlayType effectOverlayType, TileChangeManager tileChangeManager)
+		public void TimedEffect(Vector3Int position, float time, string effectName, OverlayType effectOverlayType, TileChangeManager tileChangeManager)
 		{
 			//Dont add effect if it is already there
 			if (tileChangeManager.MetaTileMap.HasOverlay(position, TileType.Effects, effectName)) return;
-
 			tileChangeManager.MetaTileMap.AddOverlay(position, TileType.Effects, effectName);
-			await Task.Delay((int)time);
-			tileChangeManager.MetaTileMap.RemoveOverlaysOfType(position, LayerType.Effects, effectOverlayType);
+			ExplosionManager.CleanupEffectLater(time * 0.001f, tileChangeManager.MetaTileMap,
+				position, effectOverlayType);
+		}
+
+		public virtual ExplosionNode GenInstance()
+		{
+			return new ExplosionNode();
 		}
 	}
 }

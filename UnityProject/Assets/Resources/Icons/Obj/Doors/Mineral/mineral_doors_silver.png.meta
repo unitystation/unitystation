@@ -27,7 +27,7 @@ TextureImporter:
       213: 7601254696451705150
     second: mineral_doors_silver_7
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -44,11 +44,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -87,6 +88,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -126,6 +129,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -318,17 +333,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      mineral_doors_silver_7: 7601254696451705150
-      mineral_doors_silver_3: 7540458815368069411
-      mineral_doors_silver_6: -1261665778822014587
-      mineral_doors_silver_4: -7136887570327379186
-      mineral_doors_silver_1: -3160928136828550416
-      mineral_doors_silver_5: -3519144944929942939
       mineral_doors_silver_0: -5867070480737408068
+      mineral_doors_silver_1: -3160928136828550416
       mineral_doors_silver_2: 6639849516739683753
-  spritePackingTag: 
+      mineral_doors_silver_3: 7540458815368069411
+      mineral_doors_silver_4: -7136887570327379186
+      mineral_doors_silver_5: -3519144944929942939
+      mineral_doors_silver_6: -1261665778822014587
+      mineral_doors_silver_7: 7601254696451705150
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

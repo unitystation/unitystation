@@ -5,11 +5,17 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6881874909172061398, guid: 66aad43ea1945ac458990cb6d4169cde,
+        type: 3}
+      propertyPath: _assetId
+      value: 615092716
+      objectReference: {fileID: 0}
     - target: {fileID: 1069497300762596, guid: 66aad43ea1945ac458990cb6d4169cde, type: 3}
       propertyPath: m_Name
-      value: _FloorDecalBase
+      value: Delivery area decal
       objectReference: {fileID: 0}
     - target: {fileID: 4726396450817676, guid: 66aad43ea1945ac458990cb6d4169cde, type: 3}
       propertyPath: m_RootOrder
@@ -56,4 +62,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66aad43ea1945ac458990cb6d4169cde, type: 3}

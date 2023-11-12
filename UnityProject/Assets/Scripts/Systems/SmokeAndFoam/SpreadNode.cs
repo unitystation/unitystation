@@ -61,7 +61,7 @@ public class SpreadNode
 
 
 
-	public virtual void DistributeToTile(SourceReservoir sourceReservoir)
+	public virtual void DistributeToTile(SpreadNode SpreadingFrom, SourceReservoir sourceReservoir)
 	{
 		IsActive = true;
 		sourceReservoir.StacksLeft--;
@@ -121,8 +121,11 @@ public class SourceReservoir
 			ToSpreadNode.SourceReservoir.RemoveTile(ToSpreadNode);
 		}
 
-		ToSpreadNode.DistributeToTile(this);
-
+		ToSpreadNode.DistributeToTile(SpreadingFrom, this);
+		if (SpreadingFrom != null) //So it doesn't try adding itself to Splat it came from bugging out the reaction
+		{
+			GainTileInherit(ToSpreadNode);
+		}
 
 
 		if (SpreadingFrom != null)
@@ -156,6 +159,11 @@ public class SourceReservoir
 	}
 
 	public virtual void RemoveTileInherit()
+	{
+
+	}
+
+	public virtual void GainTileInherit(SpreadNode ToSpreadNode)
 	{
 
 	}

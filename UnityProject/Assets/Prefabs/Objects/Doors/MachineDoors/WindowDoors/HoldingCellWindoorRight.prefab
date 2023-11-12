@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 166655404968254249, guid: 42bd613ccf161f942963c8c5dca69e0f,
+        type: 3}
+      propertyPath: _assetId
+      value: 3274968553
+      objectReference: {fileID: 0}
     - target: {fileID: 166655404968254249, guid: 42bd613ccf161f942963c8c5dca69e0f,
         type: 3}
       propertyPath: m_AssetId
@@ -29,32 +35,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3083157627457298465, guid: 42bd613ccf161f942963c8c5dca69e0f,
         type: 3}
-      propertyPath: WanimFrames.Array.data[0]
+      propertyPath: 'WanimFrames.Array.data[0]'
       value: 392
       objectReference: {fileID: 0}
     - target: {fileID: 3083157627457298465, guid: 42bd613ccf161f942963c8c5dca69e0f,
         type: 3}
-      propertyPath: WanimFrames.Array.data[1]
+      propertyPath: 'WanimFrames.Array.data[1]'
       value: 396
       objectReference: {fileID: 0}
     - target: {fileID: 3083157627457298465, guid: 42bd613ccf161f942963c8c5dca69e0f,
         type: 3}
-      propertyPath: WanimFrames.Array.data[2]
+      propertyPath: 'WanimFrames.Array.data[2]'
       value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 3083157627457298465, guid: 42bd613ccf161f942963c8c5dca69e0f,
         type: 3}
-      propertyPath: WanimFrames.Array.data[3]
+      propertyPath: 'WanimFrames.Array.data[3]'
       value: 404
       objectReference: {fileID: 0}
     - target: {fileID: 3083157627457298465, guid: 42bd613ccf161f942963c8c5dca69e0f,
         type: 3}
-      propertyPath: WanimFrames.Array.data[4]
+      propertyPath: 'WanimFrames.Array.data[4]'
       value: 408
       objectReference: {fileID: 0}
     - target: {fileID: 3083157627457298465, guid: 42bd613ccf161f942963c8c5dca69e0f,
         type: 3}
-      propertyPath: WanimFrames.Array.data[5]
+      propertyPath: 'WanimFrames.Array.data[5]'
       value: 412
       objectReference: {fileID: 0}
     - target: {fileID: 4682668127000219650, guid: 42bd613ccf161f942963c8c5dca69e0f,
@@ -115,4 +121,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42bd613ccf161f942963c8c5dca69e0f, type: 3}

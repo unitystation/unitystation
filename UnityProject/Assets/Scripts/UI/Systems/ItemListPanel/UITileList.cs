@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Objects.Disposals;
 using Objects.Other;
 using TileManagement;
@@ -54,10 +55,15 @@ namespace UI
 
 			var registerTiles = matrix.Get<RegisterTile>(tilePosition, false);
 
-			var result = registerTiles.Select(x => x.gameObject).ToList();
-			foreach (var possibleGhost in result)
+			var result = registerTiles.Select(x => x.gameObject).Distinct().ToList();
+			var Count = result.Count;
+
+			for (int i = 0; i < Count; i++)
 			{
-				if (possibleGhost.HasComponent<GhostMove>() 
+				if (result.Count >= i) continue;
+
+				var possibleGhost = result[i];
+				if (possibleGhost.HasComponent<GhostMove>()
 				    || possibleGhost.HasComponent<DisposalVirtualContainer>()
 				    || possibleGhost.HasComponent<CrawlingVirtualContainer>()) result.Remove(possibleGhost);
 			}
@@ -220,7 +226,7 @@ namespace UI
 		{
 			if (!Instance.listedObjects.Contains(tileListItemObject))
 			{
-				Logger.LogError("Attempted to remove tileListItem not on list", Category.NetUI);
+				Loggy.LogError("Attempted to remove tileListItem not on list", Category.NetUI);
 				return;
 			}
 

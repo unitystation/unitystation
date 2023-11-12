@@ -3,6 +3,7 @@ using System.Text;
 using Chemistry;
 using Chemistry.Components;
 using Items;
+using Logs;
 using TMPro;
 using UI.Core.NetUI;
 using UnityEngine;
@@ -67,6 +68,9 @@ namespace UI.Objects.Medical
 		private GameObject inputFieldBackgroundText;
 		[SerializeField]
 		private int customProductNameCharacterLimit;
+
+		public NetUIChildActive PillSelectionArea;
+
 		#endregion
 
 		#region Initialization
@@ -94,6 +98,7 @@ namespace UI.Objects.Medical
 			productMaxAmount.MasterSetValue("");
 			productNameInputField.characterLimit = customProductNameCharacterLimit;
 			UpdateProductOptions();
+			PillSelectionArea.MasterNetSetActive(false);
 		}
 		#endregion
 
@@ -168,17 +173,25 @@ namespace UI.Objects.Medical
 		#endregion
 
 		#region Product Logistics
-		private int productChoice = -1;
+		private GameObject productChoice = null;
+		private int PillproductChoice = 0;
 
-		public void SelectProduct(int choice)
+		public void PillChosen(int PillIndex)
 		{
+			SelectProduct(0, ChemMaster.ChemMasterProducts[0], PillIndex);
+		}
+
+
+		public void SelectProduct(int ChoiceIndex, GameObject choice, int Pillchoice)
+		{
+			PillproductChoice = Pillchoice;
 			productChoice = choice;
-			GameObject product = ChemMaster.ChemMasterProducts[choice];
-			productTypeChoice.MasterSetValue($"{product.GetComponent<ItemAttributesV2>().InitialName}s");
-			productMaxAmount.MasterSetValue($"Max {product.GetComponent<ReagentContainer>().MaxCapacity}u");
+
+			productTypeChoice.MasterSetValue($"{choice.GetComponent<ItemAttributesV2>().InitialName}s");
+			productMaxAmount.MasterSetValue($"Max {choice.GetComponent<ReagentContainer>().MaxCapacity}u");
 			foreach(var entry in productList.Entries)
 			{
-				if (entry.transform.GetSiblingIndex() == choice)
+				if (entry.transform.GetSiblingIndex() == ChoiceIndex)
 				{
 					entry.GetComponentInChildren<NetButton>().MasterSetValue($"false");
 				}
@@ -223,9 +236,9 @@ namespace UI.Objects.Medical
 
 		public void DispenseProduct(string newName)
 		{
-			if (productChoice > -1)
+			if (productChoice != null)
 			{
-				ChemMaster.DispenseProduct(productChoice, productDispenseAmount,newName);
+				ChemMaster.DispenseProduct(productChoice, productDispenseAmount,newName, PillproductChoice);
 			}
 			productDispenseAmount=1;
 			productAmountToDispense.MasterSetValue($"{productDispenseAmount}");
@@ -379,6 +392,7 @@ namespace UI.Objects.Medical
 		private void UpdateProductOptions()
 		{
 			productList.Clear();
+
 			foreach (GameObject listItemin in ChemMaster.ChemMasterProducts)
 			{
 				if (listItemin == null)
@@ -386,7 +400,7 @@ namespace UI.Objects.Medical
 					continue;
 				}
 				var thing = productList.AddItem().GetComponent<GUI_ChemProductEntry>();
-				thing.ReInit(this);
+				thing.ReInit(this, listItemin);
 			}
 		}
 
@@ -436,7 +450,7 @@ namespace UI.Objects.Medical
 			}
 			else
 			{
-				Logger.LogWarning("Attempted to eject from a ChemMaster without container", Category.Interaction);
+				Loggy.LogWarning("Attempted to eject from a ChemMaster without container", Category.Interaction);
 			}
 		}
 

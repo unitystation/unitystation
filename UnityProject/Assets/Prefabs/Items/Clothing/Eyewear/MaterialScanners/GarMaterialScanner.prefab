@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2337180801186032005, guid: 2d2fc37c5598dcf428d140e8774aad83,
@@ -69,6 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2448656471470134321, guid: 2d2fc37c5598dcf428d140e8774aad83,
         type: 3}
+      propertyPath: _assetId
+      value: 1597505018
+      objectReference: {fileID: 0}
+    - target: {fileID: 2448656471470134321, guid: 2d2fc37c5598dcf428d140e8774aad83,
+        type: 3}
       propertyPath: m_AssetId
       value: 207a0a073256fcc4a91fef3c02da66bf
       objectReference: {fileID: 0}
@@ -125,12 +131,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
         type: 3}
-      propertyPath: attackVerbs.Array.data[0]
+      propertyPath: 'attackVerbs.Array.data[0]'
       value: sliced
       objectReference: {fileID: 0}
     - target: {fileID: 2775008169607530215, guid: 2d2fc37c5598dcf428d140e8774aad83,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af,
         type: 2}
@@ -157,7 +163,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8652099904052017664, guid: 2d2fc37c5598dcf428d140e8774aad83,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: a63d21b8173a0c844aaee5b2461ca7cb,
         type: 2}
@@ -167,6 +173,13 @@ PrefabInstance:
       value: 207a0a073256fcc4a91fef3c02da66bf
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2337180801186032005, guid: 2d2fc37c5598dcf428d140e8774aad83,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2617901234148657211}
   m_SourcePrefab: {fileID: 100100000, guid: 2d2fc37c5598dcf428d140e8774aad83, type: 3}
 --- !u!1 &5627461764865144141 stripped
 GameObject:

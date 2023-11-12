@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Logs;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UI.Core.Events;

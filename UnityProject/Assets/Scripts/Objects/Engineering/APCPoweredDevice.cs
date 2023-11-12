@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Mirror;
 using Core.Editor.Attributes;
+using Logs;
 using Shared.Systems.ObjectConnection;
 using Systems.Explosions;
 using ScriptableObjects;
@@ -20,19 +21,19 @@ namespace Systems.Electricity
 	[ExecuteInEditMode]
 	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, IEmpAble, IMultitoolSlaveable
 	{
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[FormerlySerializedAs("MinimumWorkingVoltage")]
 		private float minimumWorkingVoltage = 190;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[FormerlySerializedAs("ExpectedRunningVoltage")]
 		private float expectedRunningVoltage = 240;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[FormerlySerializedAs("MaximumWorkingVoltage")]
 		private float maximumWorkingVoltage = 300;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Category of this powered device. " +
 				"Different categories work like a set of breakers, so you can turn off lights and keep machines working.")]
 		private DeviceType deviceType = DeviceType.None;
@@ -43,7 +44,7 @@ namespace Systems.Electricity
 
 		public bool IsSelfPowered => isSelfPowered;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[Tooltip("Watts consumed per update when running at 240v")]
 		private float wattusage = 0.01f;
 
@@ -57,7 +58,7 @@ namespace Systems.Electricity
 			}
 		}
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		[FormerlySerializedAs("Resistance")]
 		[FormerlySerializedAs("resistance")]
 		private float InitialResistance = 99999999;
@@ -68,10 +69,10 @@ namespace Systems.Electricity
 		[HideInInspector] public APC RelatedAPC;
 		private IAPCPowerable Powered;
 
-		[PrefabModeOnly]
+
 		public bool AdvancedControlToScript;
 
-		[PrefabModeOnly]
+
 		public bool StateUpdateOnClient = true;
 
 		[SyncVar(hook = nameof(UpdateSynchronisedState))]
@@ -82,8 +83,7 @@ namespace Systems.Electricity
 		/// <summary>
 		/// 1 PowerState is the old state, 2 PowerState is the new state
 		/// </summary>
-		[NonSerialized]
-		public UnityEvent<Tuple<PowerState, PowerState>> OnStateChangeEvent = new UnityEvent<Tuple<PowerState, PowerState>>();
+		public event Action<PowerState, PowerState> OnStateChangeEvent;
 
 		[SyncVar(hook = nameof(UpdateSynchronisedVoltage))]
 		private float recordedVoltage = 0;
@@ -177,7 +177,7 @@ namespace Systems.Electricity
 			else
 			{
 				UpdateSynchronisedState(state, state);
-				OnStateChangeEvent.Invoke(new Tuple<PowerState, PowerState>(PowerState.Off, state));
+				OnStateChangeEvent?.Invoke(PowerState.Off, state);
 			}
 		}
 
@@ -258,7 +258,7 @@ namespace Systems.Electricity
 
 				if (newState == state) return;
 
-				OnStateChangeEvent.Invoke(new Tuple<PowerState, PowerState>(state, newState));
+				OnStateChangeEvent?.Invoke(state, newState);
 
 				state = newState;
 				Powered?.StateUpdate(state);
@@ -270,7 +270,7 @@ namespace Systems.Electricity
 			EnsureInit();
 			if (oldVoltage != newVoltage)
 			{
-				Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.RoundTo2Int(), oldVoltage, newVoltage);
+				Loggy.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.RoundTo2Int(), oldVoltage, newVoltage);
 			}
 
 			recordedVoltage = newVoltage;
@@ -299,7 +299,7 @@ namespace Systems.Electricity
 			{
 				if (newState != state)
 				{
-					Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.RoundTo2Int(), this.state, newState);
+					Loggy.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.RoundTo2Int(), this.state, newState);
 				}
 
 				state = newState;

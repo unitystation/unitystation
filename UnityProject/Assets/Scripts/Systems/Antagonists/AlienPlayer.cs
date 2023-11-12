@@ -7,6 +7,7 @@ using HealthV2;
 using HealthV2.Limbs;
 using Initialisation;
 using Items.Others;
+using Logs;
 using Managers;
 using Messages.Server.LocalGuiMessages;
 using Mirror;
@@ -420,7 +421,7 @@ namespace Systems.Antagonists
 			if (typeFound.Length <= 0)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, $"Unable to evolve to {newAlien.ToString()}");
-				Logger.LogError($"Could not find alien type: {newAlien.ToString()} in data list!");
+				Loggy.LogError($"Could not find alien type: {newAlien.ToString()} in data list!");
 				return;
 			}
 
@@ -454,7 +455,7 @@ namespace Systems.Antagonists
 			}
 			catch (Exception e)
 			{
-				Logger.LogError(e.ToString());
+				Loggy.LogError(e.ToString());
 			}
 
 			_ = Despawn.ServerSingle(gameObject);
@@ -529,7 +530,7 @@ namespace Systems.Antagonists
 			if (typeFound.Length <= 0)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, $"Unable to evolve to {newType.ToString()}");
-				Logger.LogError($"Could not find alien type: {newType.ToString()} in data list!");
+				Loggy.LogError($"Could not find alien type: {newType.ToString()} in data list!");
 				return;
 			}
 
@@ -934,7 +935,7 @@ namespace Systems.Antagonists
 					SetSpriteSO(alienType.Front, true);
 					return;
 				default:
-					Logger.LogError($"Unexpected case: {newSprite.ToString()}");
+					Loggy.LogError($"Unexpected case: {newSprite.ToString()}");
 					return;
 			}
 		}
@@ -973,12 +974,12 @@ namespace Systems.Antagonists
 					spriteVariant = 3;
 					break;
 				default:
-					Logger.LogError($"Unexpected case: {newRotation.ToString()}");
+					Loggy.LogError($"Unexpected case: {newRotation.ToString()}");
 					return;
 			}
 
-			mainSpriteHandler.ChangeSpriteVariant(spriteVariant, false);
-			mainBackSpriteHandler.ChangeSpriteVariant(spriteVariant, false);
+			mainSpriteHandler.SetSpriteVariant(spriteVariant, false);
+			mainBackSpriteHandler.SetSpriteVariant(spriteVariant, false);
 		}
 
 		#endregion

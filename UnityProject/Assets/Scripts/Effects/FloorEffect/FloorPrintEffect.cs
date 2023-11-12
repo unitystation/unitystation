@@ -1,4 +1,5 @@
 using Chemistry.Components;
+using Logs;
 using UnityEngine;
 
 namespace Effects.FloorEffect
@@ -22,7 +23,7 @@ namespace Effects.FloorEffect
 		{
 			if (localOrientation == OrientationEnum.Default)
 			{
-				Logger.LogError("Tried to pass OrientationEnum.Default to Footprints what are you thinking you numpty,  Defaulting to up");
+				Loggy.LogError("Tried to pass OrientationEnum.Default to Footprints what are you thinking you numpty,  Defaulting to up");
 				localOrientation = OrientationEnum.Up_By0;
 			}
 			var colour = ReagentMix.CurrentReagentMix.MixColor;
@@ -36,7 +37,7 @@ namespace Effects.FloorEffect
 		{
 			if (localOrientation == OrientationEnum.Default)
 			{
-				Logger.LogError("Tried to pass OrientationEnum.Default to Footprints what are you thinking you numpty,  Defaulting to up");
+				Loggy.LogError("Tried to pass OrientationEnum.Default to Footprints what are you thinking you numpty,  Defaulting to up");
 				localOrientation = OrientationEnum.Up_By0;
 			}
 

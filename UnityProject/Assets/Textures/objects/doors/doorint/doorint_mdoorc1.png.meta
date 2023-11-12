@@ -183,7 +183,7 @@ TextureImporter:
       213: 21300118
     second: mdoorc1_59
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -200,11 +200,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -243,6 +244,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -258,6 +261,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1542,69 +1557,68 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      mdoorc1_43: 21300086
-      mdoorc1_30: 21300060
-      mdoorc1_42: 21300084
-      mdoorc1_51: 21300102
-      mdoorc1_4: 21300008
-      mdoorc1_24: 21300048
-      mdoorc1_8: 21300016
-      mdoorc1_58: 21300116
-      mdoorc1_59: 21300118
+      mdoorc1_0: 21300000
+      mdoorc1_1: 21300002
+      mdoorc1_10: 21300020
+      mdoorc1_11: 21300022
+      mdoorc1_12: 21300024
+      mdoorc1_13: 21300026
+      mdoorc1_14: 21300028
+      mdoorc1_15: 21300030
+      mdoorc1_16: 21300032
+      mdoorc1_17: 21300034
+      mdoorc1_18: 21300036
+      mdoorc1_19: 21300038
+      mdoorc1_2: 21300004
+      mdoorc1_20: 21300040
       mdoorc1_21: 21300042
       mdoorc1_22: 21300044
-      mdoorc1_26: 21300052
-      mdoorc1_1: 21300002
-      mdoorc1_14: 21300028
-      mdoorc1_25: 21300050
-      mdoorc1_35: 21300070
-      mdoorc1_37: 21300074
-      mdoorc1_10: 21300020
-      mdoorc1_36: 21300072
-      mdoorc1_47: 21300094
-      mdoorc1_53: 21300106
-      mdoorc1_0: 21300000
-      mdoorc1_28: 21300056
-      mdoorc1_11: 21300022
-      mdoorc1_41: 21300082
-      mdoorc1_57: 21300114
-      mdoorc1_17: 21300034
-      mdoorc1_50: 21300100
-      mdoorc1_39: 21300078
-      mdoorc1_32: 21300064
-      mdoorc1_9: 21300018
-      mdoorc1_19: 21300038
-      mdoorc1_38: 21300076
-      mdoorc1_3: 21300006
-      mdoorc1_20: 21300040
-      mdoorc1_29: 21300058
-      mdoorc1_27: 21300054
-      mdoorc1_48: 21300096
-      mdoorc1_31: 21300062
-      mdoorc1_55: 21300110
-      mdoorc1_13: 21300026
       mdoorc1_23: 21300046
-      mdoorc1_40: 21300080
-      mdoorc1_12: 21300024
-      mdoorc1_45: 21300090
-      mdoorc1_16: 21300032
-      mdoorc1_56: 21300112
+      mdoorc1_24: 21300048
+      mdoorc1_25: 21300050
+      mdoorc1_26: 21300052
+      mdoorc1_27: 21300054
+      mdoorc1_28: 21300056
+      mdoorc1_29: 21300058
+      mdoorc1_3: 21300006
+      mdoorc1_30: 21300060
+      mdoorc1_31: 21300062
+      mdoorc1_32: 21300064
       mdoorc1_33: 21300066
-      mdoorc1_15: 21300030
-      mdoorc1_6: 21300012
-      mdoorc1_52: 21300104
-      mdoorc1_46: 21300092
-      mdoorc1_7: 21300014
-      mdoorc1_44: 21300088
-      mdoorc1_49: 21300098
-      mdoorc1_54: 21300108
-      mdoorc1_5: 21300010
       mdoorc1_34: 21300068
-      mdoorc1_2: 21300004
-      mdoorc1_18: 21300036
-  spritePackingTag: 
+      mdoorc1_35: 21300070
+      mdoorc1_36: 21300072
+      mdoorc1_37: 21300074
+      mdoorc1_38: 21300076
+      mdoorc1_39: 21300078
+      mdoorc1_4: 21300008
+      mdoorc1_40: 21300080
+      mdoorc1_41: 21300082
+      mdoorc1_42: 21300084
+      mdoorc1_43: 21300086
+      mdoorc1_44: 21300088
+      mdoorc1_45: 21300090
+      mdoorc1_46: 21300092
+      mdoorc1_47: 21300094
+      mdoorc1_48: 21300096
+      mdoorc1_49: 21300098
+      mdoorc1_5: 21300010
+      mdoorc1_50: 21300100
+      mdoorc1_51: 21300102
+      mdoorc1_52: 21300104
+      mdoorc1_53: 21300106
+      mdoorc1_54: 21300108
+      mdoorc1_55: 21300110
+      mdoorc1_56: 21300112
+      mdoorc1_57: 21300114
+      mdoorc1_58: 21300116
+      mdoorc1_59: 21300118
+      mdoorc1_6: 21300012
+      mdoorc1_7: 21300014
+      mdoorc1_8: 21300016
+      mdoorc1_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

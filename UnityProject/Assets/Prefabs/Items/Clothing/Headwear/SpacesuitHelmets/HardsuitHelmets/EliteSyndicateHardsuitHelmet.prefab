@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2547526994949762289, guid: b05f31cc06e66ee43a22ce2771dba99d,
@@ -29,13 +30,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2566243792841683737, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: f71a3a7326ec5f647982bbda93ee21de,
         type: 2}
     - target: {fileID: 2566243792841683737, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: c29b6e2c097f7c74aa1208ac67f04cab,
         type: 2}
@@ -52,13 +53,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3361379250480077595, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 60b17d02c770f1841bfae94918054ddf,
         type: 2}
     - target: {fileID: 3361379250480077595, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 44c3ab49f7517ba48920f4078180eaaf,
         type: 2}
@@ -227,12 +228,27 @@ PrefabInstance:
       propertyPath: Colour.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8351188953273862774, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: colour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8351188953273862774, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: colour.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8724015864702849984, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 721e418a14f220a42b9b77760287cf35,
         type: 3}
+    - target: {fileID: 8823728361263553832, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: _assetId
+      value: 3150767963
+      objectReference: {fileID: 0}
     - target: {fileID: 8823728361263553832, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
       propertyPath: m_AssetId
@@ -326,17 +342,17 @@ PrefabInstance:
     - target: {fileID: 8931651303084203496, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8931651303084203496, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8931651303084203496, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8931651303084203496, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
@@ -364,17 +380,31 @@ PrefabInstance:
       value: An elite version of the syndicate helmet, with improved armour and fireproofing.
         It is in EVA mode. Property of Gorlex Marauders.
       objectReference: {fileID: 0}
+    - target: {fileID: 9011000394600714238, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011000394600714238, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f5b7ce1cca0a644cba934af14ea4b2c,
+        type: 2}
     - target: {fileID: 9014358831195836223, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
-      propertyPath: toggleSprites.Array.data[0]
+      propertyPath: 'toggleSprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: f2d7dc130be41cd4882fbeeba0bb664f,
         type: 3}
     - target: {fileID: 9014358831195836223, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
-      propertyPath: toggleSprites.Array.data[1]
+      propertyPath: 'toggleSprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300000, guid: 721e418a14f220a42b9b77760287cf35,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b05f31cc06e66ee43a22ce2771dba99d, type: 3}

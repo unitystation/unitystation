@@ -147,7 +147,7 @@ TextureImporter:
       213: 21300094
     second: plasma_wall_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -258,6 +261,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1290,57 +1305,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      plasma_wall_10: 21300020
-      plasma_wall_27: 21300054
-      plasma_wall_15: 21300030
-      plasma_wall_17: 21300034
-      plasma_wall_4: 21300008
-      plasma_wall_22: 21300044
-      plasma_wall_13: 21300026
-      plasma_wall_30: 21300060
-      plasma_wall_47: 21300094
-      plasma_wall_6: 21300012
-      plasma_wall_44: 21300088
-      plasma_wall_34: 21300068
-      plasma_wall_9: 21300018
-      plasma_wall_35: 21300070
-      plasma_wall_37: 21300074
-      plasma_wall_43: 21300086
-      plasma_wall_16: 21300032
-      plasma_wall_5: 21300010
-      plasma_wall_3: 21300006
-      plasma_wall_40: 21300080
-      plasma_wall_32: 21300064
-      plasma_wall_45: 21300090
-      plasma_wall_8: 21300016
-      plasma_wall_39: 21300078
-      plasma_wall_2: 21300004
-      plasma_wall_23: 21300046
-      plasma_wall_42: 21300084
-      plasma_wall_7: 21300014
-      plasma_wall_21: 21300042
-      plasma_wall_11: 21300022
-      plasma_wall_38: 21300076
-      plasma_wall_29: 21300058
-      plasma_wall_26: 21300052
-      plasma_wall_41: 21300082
-      plasma_wall_12: 21300024
       plasma_wall_0: 21300000
-      plasma_wall_19: 21300038
-      plasma_wall_18: 21300036
-      plasma_wall_25: 21300050
-      plasma_wall_31: 21300062
-      plasma_wall_33: 21300066
-      plasma_wall_24: 21300048
-      plasma_wall_46: 21300092
-      plasma_wall_28: 21300056
-      plasma_wall_36: 21300072
-      plasma_wall_14: 21300028
       plasma_wall_1: 21300002
+      plasma_wall_10: 21300020
+      plasma_wall_11: 21300022
+      plasma_wall_12: 21300024
+      plasma_wall_13: 21300026
+      plasma_wall_14: 21300028
+      plasma_wall_15: 21300030
+      plasma_wall_16: 21300032
+      plasma_wall_17: 21300034
+      plasma_wall_18: 21300036
+      plasma_wall_19: 21300038
+      plasma_wall_2: 21300004
       plasma_wall_20: 21300040
-  spritePackingTag: 
+      plasma_wall_21: 21300042
+      plasma_wall_22: 21300044
+      plasma_wall_23: 21300046
+      plasma_wall_24: 21300048
+      plasma_wall_25: 21300050
+      plasma_wall_26: 21300052
+      plasma_wall_27: 21300054
+      plasma_wall_28: 21300056
+      plasma_wall_29: 21300058
+      plasma_wall_3: 21300006
+      plasma_wall_30: 21300060
+      plasma_wall_31: 21300062
+      plasma_wall_32: 21300064
+      plasma_wall_33: 21300066
+      plasma_wall_34: 21300068
+      plasma_wall_35: 21300070
+      plasma_wall_36: 21300072
+      plasma_wall_37: 21300074
+      plasma_wall_38: 21300076
+      plasma_wall_39: 21300078
+      plasma_wall_4: 21300008
+      plasma_wall_40: 21300080
+      plasma_wall_41: 21300082
+      plasma_wall_42: 21300084
+      plasma_wall_43: 21300086
+      plasma_wall_44: 21300088
+      plasma_wall_45: 21300090
+      plasma_wall_46: 21300092
+      plasma_wall_47: 21300094
+      plasma_wall_5: 21300010
+      plasma_wall_6: 21300012
+      plasma_wall_7: 21300014
+      plasma_wall_8: 21300016
+      plasma_wall_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

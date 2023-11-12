@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1820882015763345326, guid: faeb065acf677894a9699942fdc1b49c,
@@ -41,6 +42,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 3913025278900815178, guid: faeb065acf677894a9699942fdc1b49c,
+        type: 3}
+      propertyPath: _assetId
+      value: 175349798
       objectReference: {fileID: 0}
     - target: {fileID: 3913025278900815178, guid: faeb065acf677894a9699942fdc1b49c,
         type: 3}
@@ -135,25 +141,25 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5810107983770695353, guid: faeb065acf677894a9699942fdc1b49c,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 7eda7e35bfdda724e8f52ed7c59a76cf,
         type: 2}
     - target: {fileID: 5810107983770695353, guid: faeb065acf677894a9699942fdc1b49c,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: e6ca29355f3dbd947b93eedee7488149,
         type: 2}
     - target: {fileID: 5810107983770695353, guid: faeb065acf677894a9699942fdc1b49c,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 2d3fa5250d735ba4f90475d064cc586d,
         type: 2}
     - target: {fileID: 5810107983770695353, guid: faeb065acf677894a9699942fdc1b49c,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[3]
+      propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 5d034bd6f78279f498ef9f9bff135702,
         type: 2}
@@ -175,8 +181,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9160027917835192778, guid: faeb065acf677894a9699942fdc1b49c,
         type: 3}
-      propertyPath: requiredClearance.Array.data[0]
+      propertyPath: 'requiredClearance.Array.data[0]'
       value: 23
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faeb065acf677894a9699942fdc1b49c, type: 3}

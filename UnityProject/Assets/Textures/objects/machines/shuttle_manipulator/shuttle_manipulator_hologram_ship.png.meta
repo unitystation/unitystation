@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: hologram_ship_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      hologram_ship_29: 21300058
-      hologram_ship_22: 21300044
-      hologram_ship_1: 21300002
-      hologram_ship_26: 21300052
-      hologram_ship_12: 21300024
-      hologram_ship_8: 21300016
-      hologram_ship_9: 21300018
-      hologram_ship_18: 21300036
-      hologram_ship_24: 21300048
-      hologram_ship_27: 21300054
-      hologram_ship_19: 21300038
-      hologram_ship_30: 21300060
-      hologram_ship_14: 21300028
-      hologram_ship_11: 21300022
-      hologram_ship_23: 21300046
-      hologram_ship_3: 21300006
-      hologram_ship_31: 21300062
-      hologram_ship_2: 21300004
-      hologram_ship_17: 21300034
       hologram_ship_0: 21300000
-      hologram_ship_21: 21300042
-      hologram_ship_13: 21300026
+      hologram_ship_1: 21300002
       hologram_ship_10: 21300020
-      hologram_ship_28: 21300056
-      hologram_ship_20: 21300040
+      hologram_ship_11: 21300022
+      hologram_ship_12: 21300024
+      hologram_ship_13: 21300026
+      hologram_ship_14: 21300028
       hologram_ship_15: 21300030
-      hologram_ship_7: 21300014
       hologram_ship_16: 21300032
+      hologram_ship_17: 21300034
+      hologram_ship_18: 21300036
+      hologram_ship_19: 21300038
+      hologram_ship_2: 21300004
+      hologram_ship_20: 21300040
+      hologram_ship_21: 21300042
+      hologram_ship_22: 21300044
+      hologram_ship_23: 21300046
+      hologram_ship_24: 21300048
       hologram_ship_25: 21300050
+      hologram_ship_26: 21300052
+      hologram_ship_27: 21300054
+      hologram_ship_28: 21300056
+      hologram_ship_29: 21300058
+      hologram_ship_3: 21300006
+      hologram_ship_30: 21300060
+      hologram_ship_31: 21300062
+      hologram_ship_4: 21300008
       hologram_ship_5: 21300010
       hologram_ship_6: 21300012
-      hologram_ship_4: 21300008
-  spritePackingTag: 
+      hologram_ship_7: 21300014
+      hologram_ship_8: 21300016
+      hologram_ship_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

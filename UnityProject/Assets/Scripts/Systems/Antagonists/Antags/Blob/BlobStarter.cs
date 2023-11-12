@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Antagonists;
 using HealthV2;
+using Logs;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -130,7 +131,7 @@ namespace Blob
 					EndState();
 					break;
 				default:
-					Logger.LogError("Unused state", Category.Blob);
+					Loggy.LogError("Unused state", Category.Blob);
 					break;
 			}
 		}
@@ -276,7 +277,7 @@ namespace Blob
 
 			if (spawnResult.Successful == false)
 			{
-				Logger.LogError("Failed to spawn blob!", Category.Blob);
+				Loggy.LogError("Failed to spawn blob!", Category.Blob);
 				Destroy(this);
 				return;
 			}
@@ -289,15 +290,10 @@ namespace Blob
 				return;
 			}
 
-			var connection = GetComponent<NetworkIdentity>().connectionToClient;
-
-
-
-
+			var mind = playerScript.Mind;
 			playerScript.Mind.SetPossessingObject(spawnResult.GameObject);
-			playerScript.Mind.StopGhosting();
 			//Start the blob control script
-			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart(playerScript.Mind);
+			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart(mind);
 
 
 			Chat.AddActionMsgToChat(spawnResult.GameObject, $"<color=#FF151F>You explode from your {bodyPart}, a new being has been born.</color>",

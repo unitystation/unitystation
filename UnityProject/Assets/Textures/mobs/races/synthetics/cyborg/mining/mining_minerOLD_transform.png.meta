@@ -90,7 +90,7 @@ TextureImporter:
       213: 21300056
     second: minerOLD_transform_28
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -107,11 +107,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -150,6 +151,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -165,6 +168,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -798,38 +813,37 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      minerOLD_transform_3: 21300006
-      minerOLD_transform_13: 21300026
-      minerOLD_transform_5: 21300010
+      minerOLD_transform_0: 21300000
       minerOLD_transform_1: 21300002
-      minerOLD_transform_2: 21300004
-      minerOLD_transform_8: 21300016
-      minerOLD_transform_20: 21300040
-      minerOLD_transform_25: 21300050
       minerOLD_transform_10: 21300020
-      minerOLD_transform_15: 21300030
-      minerOLD_transform_12: 21300024
-      minerOLD_transform_17: 21300034
-      minerOLD_transform_9: 21300018
-      minerOLD_transform_23: 21300046
       minerOLD_transform_11: 21300022
+      minerOLD_transform_12: 21300024
+      minerOLD_transform_13: 21300026
+      minerOLD_transform_14: 21300028
+      minerOLD_transform_15: 21300030
+      minerOLD_transform_16: 21300032
+      minerOLD_transform_17: 21300034
       minerOLD_transform_18: 21300036
       minerOLD_transform_19: 21300038
-      minerOLD_transform_0: 21300000
-      minerOLD_transform_7: 21300014
+      minerOLD_transform_2: 21300004
+      minerOLD_transform_20: 21300040
       minerOLD_transform_21: 21300042
-      minerOLD_transform_16: 21300032
-      minerOLD_transform_24: 21300048
-      minerOLD_transform_27: 21300054
-      minerOLD_transform_4: 21300008
-      minerOLD_transform_14: 21300028
       minerOLD_transform_22: 21300044
+      minerOLD_transform_23: 21300046
+      minerOLD_transform_24: 21300048
+      minerOLD_transform_25: 21300050
       minerOLD_transform_26: 21300052
-      minerOLD_transform_6: 21300012
+      minerOLD_transform_27: 21300054
       minerOLD_transform_28: 21300056
-  spritePackingTag: 
+      minerOLD_transform_3: 21300006
+      minerOLD_transform_4: 21300008
+      minerOLD_transform_5: 21300010
+      minerOLD_transform_6: 21300012
+      minerOLD_transform_7: 21300014
+      minerOLD_transform_8: 21300016
+      minerOLD_transform_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

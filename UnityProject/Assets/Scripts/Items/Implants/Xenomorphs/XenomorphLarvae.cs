@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Logs;
 using Messages.Server;
 using Mirror;
 using Systems.Antagonists;
@@ -106,7 +107,7 @@ namespace HealthV2
 			}
 			catch (Exception e)
 			{
-				Logger.LogError(e.ToString());
+				Loggy.LogError(e.ToString());
 			}
 
 			_ = Despawn.ServerSingle(gameObject);

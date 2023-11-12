@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using SecureStuff;
 using UnityEngine;
 
 namespace Messages.Server.VariableViewer
@@ -12,7 +13,7 @@ namespace Messages.Server.VariableViewer
 
 		public override void Process(NetMessage msg)
 		{
-			UIManager.Instance.UI_BooksInBookshelf.ValueSetUp( msg.BookShelf);
+			UIManager.Instance.UI_BooksInBookshelf.ValueSetUp(msg.BookShelf);
 		}
 
 		public static NetMessage Send(Librarian.Library.LibraryBookShelf _BookShelf, GameObject ToWho)

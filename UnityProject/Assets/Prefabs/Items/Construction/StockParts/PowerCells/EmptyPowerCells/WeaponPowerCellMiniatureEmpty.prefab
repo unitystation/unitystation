@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 821293735609805829, guid: bd3d8231022e86e498568076ae000883,
@@ -16,6 +17,16 @@ PrefabInstance:
         type: 3}
       propertyPath: Watts
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004265289773802437, guid: bd3d8231022e86e498568076ae000883,
+        type: 3}
+      propertyPath: watts
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5929936899536002524, guid: bd3d8231022e86e498568076ae000883,
+        type: 3}
+      propertyPath: _assetId
+      value: 3368567415
       objectReference: {fileID: 0}
     - target: {fileID: 5929936899536002524, guid: bd3d8231022e86e498568076ae000883,
         type: 3}
@@ -83,4 +94,7 @@ PrefabInstance:
       value: WeaponPowerCellMiniatureEmpty
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd3d8231022e86e498568076ae000883, type: 3}

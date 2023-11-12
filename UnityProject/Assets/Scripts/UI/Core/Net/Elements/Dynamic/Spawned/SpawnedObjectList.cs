@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 
 namespace UI.Core.NetUI
@@ -43,7 +44,7 @@ namespace UI.Core.NetUI
 				SpawnedObjectEntry newEntry = Add() as SpawnedObjectEntry;
 				if (!newEntry)
 				{
-					Logger.LogWarning($"SpawnedObjectList: Added {newEntry} is not an SpawnedObjectEntry!", Category.NetUI);
+					Loggy.LogWarning($"SpawnedObjectList: Added {newEntry} is not an SpawnedObjectEntry!", Category.NetUI);
 					return false;
 				}
 

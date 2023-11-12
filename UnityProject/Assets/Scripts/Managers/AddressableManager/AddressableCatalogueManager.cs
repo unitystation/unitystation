@@ -6,11 +6,13 @@ using System.Linq;
 using System.Net.Http;
 using DatabaseAPI;
 using Initialisation;
+using Logs;
 using Messages.Client.Addressable;
 using Messages.Server.Addressable;
 using Mirror;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using SecureStuff;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
@@ -39,7 +41,9 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 		var cool = new List<string>();
 		if (Application.isEditor)
 		{
+#if UNITY_EDITOR
 			cool.AddRange(GetCataloguePath());
+#endif
 		}
 		else if (GameData.Instance.DevBuild)
 		{
@@ -92,8 +96,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 
 			if (Catalogue.Contains("http"))
 			{
-				HttpClient client = new HttpClient();
-				string result = await client.GetStringAsync(Catalogue);
+				string result = await SafeHttpRequest.GetStringAsync(Catalogue);
 				var Task = Addressables.LoadContentCatalogAsync(result);
 				await Task.Task;
 				Instance.AssetBundleDownloadDependencies(Task, RegisterComplete);
@@ -108,8 +111,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 		}
 	}
 
-	public void AssetBundleDownloadDependencies(AsyncOperationHandle<IResourceLocator> Content, bool RegisterComplete =
-		true)
+	public void AssetBundleDownloadDependencies(AsyncOperationHandle<IResourceLocator> Content, bool RegisterComplete = true)
 	{
 		ResourceLocationMap locMap = Content.Result as ResourceLocationMap;
 
@@ -194,7 +196,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 //Can add some checks here
 		LoadCatalogue(toLoad);
 	}
-
+#if UNITY_EDITOR
 	public static List<string> GetCataloguePath()
 	{
 		var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
@@ -218,7 +220,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 					{
 						if (FoundFile != "")
 						{
-							Logger.LogError("two catalogues present please only ensure one", Category.Addressables);
+							Loggy.LogError("two catalogues present please only ensure one", Category.Addressables);
 						}
 
 						FoundFile = File;
@@ -227,7 +229,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 
 				if (FoundFile == "")
 				{
-					Logger.LogWarning("missing json file", Category.Addressables);
+					Loggy.LogWarning("missing json file", Category.Addressables);
 				}
 				else
 				{
@@ -238,26 +240,23 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 
 		return FoundFiles;
 	}
-
+#endif
 
 	public static List<string> GetCataloguePathStreamingAssets()
 	{
-		var pathss = Application.streamingAssetsPath + "/AddressableCatalogues";
-		var directories = System.IO.Directory.GetDirectories(pathss);
 		var catalogues = new List<string>();
 		var multiCatalogues = new List<string>();
-		foreach (var directory in directories)
+		foreach (var directory in AccessFile.DirectoriesOrFilesIn("", FolderType.AddressableCatalogues, files: false))
 		{
-			var newPath = directory.Replace(@"\", "/");
-			var newDirectories = System.IO.Directory.GetFiles(newPath);
+
+			var newDirectories = AccessFile.DirectoriesOrFilesIn(directory, FolderType.AddressableCatalogues);
 
 			foreach (var pathST in newDirectories)
 			{
 				if (pathST.Contains(".json"))
 				{
-					multiCatalogues.Add(pathST);
+					multiCatalogues.Add( Application.streamingAssetsPath +  "/AddressableCatalogues/" + directory + "\\" + pathST);
 				}
-
 			}
 
 

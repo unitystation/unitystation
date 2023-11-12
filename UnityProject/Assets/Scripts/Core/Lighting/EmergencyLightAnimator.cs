@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -55,7 +56,7 @@ namespace Objects.Lighting
 
 				if (this != null && gameObject != null)
 				{
-					Logger.LogError($"{gameObject.name} had something null");
+					Loggy.LogError($"{gameObject.name} had something null");
 				}
 
 				return;

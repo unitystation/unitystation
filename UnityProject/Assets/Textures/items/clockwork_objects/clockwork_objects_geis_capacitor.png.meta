@@ -57,7 +57,7 @@ TextureImporter:
       213: 21300034
     second: geis_capacitor_17
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -74,11 +74,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -117,6 +118,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -132,6 +135,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -535,26 +550,25 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       geis_capacitor_0: 21300000
-      geis_capacitor_4: 21300008
-      geis_capacitor_16: 21300032
-      geis_capacitor_8: 21300016
-      geis_capacitor_12: 21300024
-      geis_capacitor_14: 21300028
-      geis_capacitor_2: 21300004
-      geis_capacitor_6: 21300012
-      geis_capacitor_3: 21300006
-      geis_capacitor_13: 21300026
-      geis_capacitor_7: 21300014
-      geis_capacitor_17: 21300034
-      geis_capacitor_11: 21300022
-      geis_capacitor_10: 21300020
-      geis_capacitor_15: 21300030
       geis_capacitor_1: 21300002
+      geis_capacitor_10: 21300020
+      geis_capacitor_11: 21300022
+      geis_capacitor_12: 21300024
+      geis_capacitor_13: 21300026
+      geis_capacitor_14: 21300028
+      geis_capacitor_15: 21300030
+      geis_capacitor_16: 21300032
+      geis_capacitor_17: 21300034
+      geis_capacitor_2: 21300004
+      geis_capacitor_3: 21300006
+      geis_capacitor_4: 21300008
       geis_capacitor_5: 21300010
+      geis_capacitor_6: 21300012
+      geis_capacitor_7: 21300014
+      geis_capacitor_8: 21300016
       geis_capacitor_9: 21300018
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

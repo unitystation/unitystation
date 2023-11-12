@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Logs;
 using UI.Core.Action;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -35,7 +33,7 @@ namespace UI.Action
 			actionData = action.ActionData;
 			if (actionData == null)
 			{
-				Logger.LogWarningFormat("UIAction {0}: action data is null!", Category.UserInput, iAction);
+				Loggy.LogWarningFormat("UIAction {0}: action data is null!", Category.UserInput, iAction);
 				return;
 			}
 
@@ -60,7 +58,7 @@ namespace UI.Action
 			actionData = newActionData;
 			if (actionData == null)
 			{
-				Logger.LogWarningFormat("UIAction {0}: action data is null!", Category.UserInput, iAction);
+				Loggy.LogWarningFormat("UIAction {0}: action data is null!", Category.UserInput, iAction);
 				return;
 			}
 

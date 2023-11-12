@@ -1,4 +1,5 @@
 ﻿using Blob;
+using Logs;
 using UnityEngine;
 
 namespace Systems.MobAIs
@@ -15,7 +16,7 @@ namespace Systems.MobAIs
 		[ContextMenu("Log world target")]
 		public void LogTarget()
 		{
-			Logger.LogError(worldTargetPosition.ToString());
+			Loggy.LogError(worldTargetPosition.ToString());
 		}
 
 		protected override void Awake()

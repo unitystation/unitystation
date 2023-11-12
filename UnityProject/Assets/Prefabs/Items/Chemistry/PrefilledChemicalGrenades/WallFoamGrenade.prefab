@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8621783202277134263
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 567686365576349274, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: UesAddlistPopulater
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 567686365576349274, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 567686365576349274, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[0].Prefab
+      value: 
+      objectReference: {fileID: 5619786765471460495, guid: bfc9ea9e8e9f0ed4f8a74bf3128ba6e4,
+        type: 3}
+    - target: {fileID: 567686365576349274, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[1].Prefab
+      value: 
+      objectReference: {fileID: 2577924204756068329, guid: 652a69ebb9c8fea45bba4ff9940dab2e,
+        type: 3}
+    - target: {fileID: 2993980390126668361, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: InitiallyScrewed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3467836099988159797, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3467836099988159797, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3467836099988159797, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3467836099988159797, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3467836099988159797, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3467836099988159797, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3467836099988159797, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3467836099988159797, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3467836099988159797, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3467836099988159797, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3467836099988159797, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3473322799948726337, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: m_Name
+      value: WallFoamGrenade
+      objectReference: {fileID: 0}
+    - target: {fileID: 3577983697158913525, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: _assetId
+      value: 1964712759
+      objectReference: {fileID: 0}
+    - target: {fileID: 3657570732852949789, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9e33c5ac9bd9b5841ae5ab45b683b6ee,
+        type: 3}
+    - target: {fileID: 3657570732852949789, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3953635022807265059, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: initialName
+      value: Wall Foam Grenade
+      objectReference: {fileID: 0}
+    - target: {fileID: 3953635022807265059, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: initialDescription
+      value: 'A small metal casing able to be filled with reagent containers to be
+        mixed once triggered.
+
+        comes pre-filled for the application of Wall
+        Foam'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7310933843577879494, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6fc4547c2b620f84486e7dac49b114d5,
+        type: 2}
+    - target: {fileID: 7532553273444535340, guid: dba4afe66472bda4999773fdac6810f1,
+        type: 3}
+      propertyPath: foreverID
+      value: d94ac0dbe8be8904781817222a134207
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dba4afe66472bda4999773fdac6810f1, type: 3}

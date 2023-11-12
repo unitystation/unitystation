@@ -3,6 +3,7 @@ using UnityEngine;
 using Mirror;
 using AddressableReferences;
 using Items.Atmospherics;
+using Logs;
 using Objects.Construction;
 
 
@@ -51,11 +52,11 @@ namespace Objects.Atmospherics
 		{
 			if (MachineOperating)
 			{
-				spriteHandler.ChangeSprite((int)SpriteState.Operating);
+				spriteHandler.SetCatalogueIndexSprite((int)SpriteState.Operating);
 			}
 			else
 			{
-				spriteHandler.ChangeSprite((int)SpriteState.Idle);
+				spriteHandler.SetCatalogueIndexSprite((int)SpriteState.Idle);
 			}
 		}
 
@@ -67,7 +68,7 @@ namespace Objects.Atmospherics
 			SpawnResult spawnResult = Spawn.ServerPrefab(objectPrefab, objectPhysics.registerTile.WorldPosition);
 			if (spawnResult.Successful == false)
 			{
-				Logger.LogError(
+				Loggy.LogError(
 						$"Failed to spawn an object from {name}! " +
 						$"Is {nameof(UI.Objects.Atmospherics.GUI_PipeDispenser)} missing reference to object prefab?",
 						Category.Pipes);

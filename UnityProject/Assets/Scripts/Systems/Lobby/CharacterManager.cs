@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
+using SecureStuff;
 using Newtonsoft.Json;
 using UnityEngine;
 using DatabaseAPI;
+using Logs;
 
 namespace Systems.Character
 {
@@ -23,7 +26,7 @@ namespace Systems.Character
 		/// <summary>Get the active character (the character the rest of the game should use).</summary>
 		public CharacterSheet ActiveCharacter => Get(ActiveCharacterKey);
 
-		private string OfflineStoragePath => $"{Application.persistentDataPath}characters.json";
+		private string OfflineStoragePath => $"characters.json";
 
 		public void Init()
 		{
@@ -51,7 +54,7 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Logger.LogError("An attempt was made to set the active character with a key that doesn't exist. Ignoring.");
+				Loggy.LogError("An attempt was made to set the active character with a key that doesn't exist. Ignoring.");
 				return;
 			}
 
@@ -81,7 +84,7 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Logger.LogError("An attempt was made to set the active character with a key that doesn't exist. Ignoring.");
+				Loggy.LogError("An attempt was made to set the active character with a key that doesn't exist. Ignoring.");
 				return;
 			}
 
@@ -96,7 +99,7 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Logger.LogWarning($"An attempt was made to fetch a character with an invalid key \"{key}\". Ignoring.");
+				Loggy.LogWarning($"An attempt was made to fetch a character with an invalid key \"{key}\". Ignoring.");
 				return default;
 			}
 
@@ -110,7 +113,7 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Logger.LogWarning($"An attempt was made to set a character with an invalid key \"{key}\". Ignoring.");
+				Loggy.LogWarning($"An attempt was made to set a character with an invalid key \"{key}\". Ignoring.");
 				return;
 			}
 
@@ -123,7 +126,7 @@ namespace Systems.Character
 		{
 			if (ValidateCharacterSheet(character) == false)
 			{
-				Logger.LogError("An attempt was made to add a character but character validation failed. Ignoring.");
+				Loggy.LogError("An attempt was made to add a character but character validation failed. Ignoring.");
 				return;
 			}
 
@@ -136,13 +139,13 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Logger.LogWarning($"An attempt was made to remove a character with an invalid key \"{key}\". Ignoring.");
+				Loggy.LogWarning($"An attempt was made to remove a character with an invalid key \"{key}\". Ignoring.");
 				return;
 			}
 
 			if (key < Characters.Count - 1)
 			{
-				Logger.LogWarning($"An attempt was made to remove the last character with key \"{key}\". Ignoring as there should be at least one character.");
+				Loggy.LogWarning($"An attempt was made to remove the last character with key \"{key}\". Ignoring as there should be at least one character.");
 				return;
 			}
 
@@ -161,14 +164,20 @@ namespace Systems.Character
 			throw new NotImplementedException();
 		}
 
+		private string OLDOfflineStoragePath => $"{Application.persistentDataPath}characters.json";
+
+
 		/// <summary>Load characters that are saved to Unity's persistent data folder.</summary>
 		public void LoadOfflineCharacters()
 		{
+
 			Characters.Clear();
+			if (AccessFile.Exists(OfflineStoragePath, userPersistent: true) == false)
+			{
+				return;
+			}
 
-			if (File.Exists(OfflineStoragePath) == false) return;
-
-			string json = File.ReadAllText(OfflineStoragePath);
+			string json = AccessFile.Load(OfflineStoragePath, userPersistent: true);
 
 			var characters = JsonConvert.DeserializeObject<List<CharacterSheet>>(json);
 
@@ -209,12 +218,12 @@ namespace Systems.Character
 					? ""
 					: JsonConvert.SerializeObject(Characters, settings);
 
-			if (File.Exists(OfflineStoragePath))
+			if (AccessFile.Exists(OfflineStoragePath, userPersistent: true))
 			{
-				File.Delete(OfflineStoragePath);
+				AccessFile.Delete(OfflineStoragePath, userPersistent: true);
 			}
 
-			File.WriteAllText(OfflineStoragePath, json);
+			AccessFile.Save(OfflineStoragePath, json, userPersistent: true);
 		}
 
 		public bool ValidateCharacterSheet(CharacterSheet character)

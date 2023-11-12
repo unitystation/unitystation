@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2887071320556311358, guid: 086407f2a016834408c533b2c8cfefe5,
@@ -86,6 +87,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7047280150442047608, guid: 086407f2a016834408c533b2c8cfefe5,
         type: 3}
+      propertyPath: _assetId
+      value: 3471582592
+      objectReference: {fileID: 0}
+    - target: {fileID: 7047280150442047608, guid: 086407f2a016834408c533b2c8cfefe5,
+        type: 3}
       propertyPath: m_AssetId
       value: bb018450ceda0b24d83c74bfd253bdc1
       objectReference: {fileID: 0}
@@ -128,7 +134,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7400919253822581422, guid: 086407f2a016834408c533b2c8cfefe5,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: e3c06d233d4623549bc9ec895f304ff5,
         type: 2}
@@ -139,6 +145,13 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 30b5613d3b6e2b840a0f561c7757b456,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6942512601141888460, guid: 086407f2a016834408c533b2c8cfefe5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6745869943638027713}
   m_SourcePrefab: {fileID: 100100000, guid: 086407f2a016834408c533b2c8cfefe5, type: 3}
 --- !u!1 &1241979378841723491 stripped
 GameObject:
@@ -161,6 +174,7 @@ MonoBehaviour:
   brokenItem: {fileID: 8012353638308087684, guid: b25ecfd0ff025024995ceff3a9bb6be7,
     type: 3}
   chanceToBreak: 100
+  RequiredImpactSpeed: 3
   useCustomSound: 1
   customSound:
     SetLoadSetting: 0

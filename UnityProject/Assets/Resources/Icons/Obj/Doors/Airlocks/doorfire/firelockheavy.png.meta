@@ -54,7 +54,7 @@ TextureImporter:
       213: -824661517296571313
     second: firelockheavy_16
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -71,11 +71,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -114,6 +115,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -163,6 +166,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -534,26 +549,25 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      firelockheavy_12: 1900575259631007888
-      firelockheavy_3: 2402888974297436001
-      firelockheavy_11: 2097312367184281378
       firelockheavy_0: -6393261082532978857
+      firelockheavy_1: -7280496723652166934
+      firelockheavy_10: 6654476331935143017
+      firelockheavy_11: 2097312367184281378
+      firelockheavy_12: 1900575259631007888
       firelockheavy_13: 8120828012102087710
       firelockheavy_14: -2238049551008995562
-      firelockheavy_1: -7280496723652166934
-      firelockheavy_5: -2392457335522650834
-      firelockheavy_8: -6468895172863039431
-      firelockheavy_16: -824661517296571313
-      firelockheavy_4: 9181489922951506221
-      firelockheavy_6: -3383187937850178407
       firelockheavy_15: 549077090071828903
-      firelockheavy_10: 6654476331935143017
+      firelockheavy_16: -824661517296571313
       firelockheavy_2: -909783955742214856
+      firelockheavy_3: 2402888974297436001
+      firelockheavy_4: 9181489922951506221
+      firelockheavy_5: -2392457335522650834
+      firelockheavy_6: -3383187937850178407
       firelockheavy_7: 899230704860380201
+      firelockheavy_8: -6468895172863039431
       firelockheavy_9: 4570043393943208815
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

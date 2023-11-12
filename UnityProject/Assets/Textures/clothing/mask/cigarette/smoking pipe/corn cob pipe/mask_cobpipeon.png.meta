@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: cobpipeon_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      cobpipeon_0: 21300000
       cobpipeon_1: 21300002
+      cobpipeon_10: 21300020
+      cobpipeon_11: 21300022
+      cobpipeon_12: 21300024
+      cobpipeon_13: 21300026
+      cobpipeon_14: 21300028
+      cobpipeon_15: 21300030
+      cobpipeon_16: 21300032
       cobpipeon_17: 21300034
-      cobpipeon_4: 21300008
-      cobpipeon_31: 21300062
+      cobpipeon_18: 21300036
+      cobpipeon_19: 21300038
       cobpipeon_2: 21300004
+      cobpipeon_20: 21300040
+      cobpipeon_21: 21300042
+      cobpipeon_22: 21300044
+      cobpipeon_23: 21300046
+      cobpipeon_24: 21300048
       cobpipeon_25: 21300050
+      cobpipeon_26: 21300052
+      cobpipeon_27: 21300054
+      cobpipeon_28: 21300056
+      cobpipeon_29: 21300058
+      cobpipeon_3: 21300006
+      cobpipeon_30: 21300060
+      cobpipeon_31: 21300062
+      cobpipeon_4: 21300008
       cobpipeon_5: 21300010
       cobpipeon_6: 21300012
-      cobpipeon_22: 21300044
-      cobpipeon_12: 21300024
-      cobpipeon_14: 21300028
-      cobpipeon_0: 21300000
-      cobpipeon_23: 21300046
-      cobpipeon_3: 21300006
-      cobpipeon_21: 21300042
-      cobpipeon_24: 21300048
-      cobpipeon_19: 21300038
-      cobpipeon_9: 21300018
-      cobpipeon_30: 21300060
-      cobpipeon_28: 21300056
-      cobpipeon_10: 21300020
       cobpipeon_7: 21300014
-      cobpipeon_15: 21300030
-      cobpipeon_26: 21300052
-      cobpipeon_16: 21300032
       cobpipeon_8: 21300016
-      cobpipeon_27: 21300054
-      cobpipeon_29: 21300058
-      cobpipeon_13: 21300026
-      cobpipeon_18: 21300036
-      cobpipeon_20: 21300040
-      cobpipeon_11: 21300022
-  spritePackingTag: 
+      cobpipeon_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

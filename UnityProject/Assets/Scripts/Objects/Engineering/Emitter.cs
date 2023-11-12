@@ -134,7 +134,7 @@ namespace Objects.Engineering
 
 			if (voltage < minVoltage && alwaysShoot == false)
 			{
-				spriteHandler.ChangeSprite(2);
+				spriteHandler.SetCatalogueIndexSprite(2);
 				return false;
 			}
 
@@ -250,12 +250,12 @@ namespace Objects.Engineering
 			if (newIsOn)
 			{
 				isOn = true;
-				spriteHandler.ChangeSprite(1);
+				spriteHandler.SetCatalogueIndexSprite(1);
 			}
 			else
 			{
 				isOn = false;
-				spriteHandler.ChangeSprite(0);
+				spriteHandler.SetCatalogueIndexSprite(0);
 			}
 		}
 

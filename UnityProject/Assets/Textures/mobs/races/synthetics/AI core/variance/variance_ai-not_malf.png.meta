@@ -183,7 +183,7 @@ TextureImporter:
       213: 21300118
     second: ai-not_malf_59
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -200,11 +200,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -243,6 +244,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -258,6 +261,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1542,69 +1557,68 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ai-not_malf_14: 21300028
-      ai-not_malf_25: 21300050
-      ai-not_malf_28: 21300056
-      ai-not_malf_17: 21300034
-      ai-not_malf_39: 21300078
-      ai-not_malf_49: 21300098
-      ai-not_malf_7: 21300014
-      ai-not_malf_29: 21300058
-      ai-not_malf_22: 21300044
-      ai-not_malf_3: 21300006
-      ai-not_malf_45: 21300090
-      ai-not_malf_23: 21300046
-      ai-not_malf_10: 21300020
-      ai-not_malf_42: 21300084
-      ai-not_malf_37: 21300074
-      ai-not_malf_21: 21300042
-      ai-not_malf_55: 21300110
-      ai-not_malf_16: 21300032
-      ai-not_malf_2: 21300004
-      ai-not_malf_26: 21300052
-      ai-not_malf_6: 21300012
-      ai-not_malf_43: 21300086
-      ai-not_malf_20: 21300040
-      ai-not_malf_31: 21300062
-      ai-not_malf_44: 21300088
-      ai-not_malf_51: 21300102
-      ai-not_malf_56: 21300112
-      ai-not_malf_47: 21300094
-      ai-not_malf_36: 21300072
-      ai-not_malf_46: 21300092
-      ai-not_malf_40: 21300080
-      ai-not_malf_53: 21300106
-      ai-not_malf_30: 21300060
-      ai-not_malf_1: 21300002
-      ai-not_malf_52: 21300104
-      ai-not_malf_24: 21300048
-      ai-not_malf_15: 21300030
-      ai-not_malf_50: 21300100
-      ai-not_malf_54: 21300108
       ai-not_malf_0: 21300000
-      ai-not_malf_19: 21300038
-      ai-not_malf_59: 21300118
-      ai-not_malf_32: 21300064
-      ai-not_malf_57: 21300114
-      ai-not_malf_33: 21300066
-      ai-not_malf_35: 21300070
-      ai-not_malf_5: 21300010
-      ai-not_malf_8: 21300016
-      ai-not_malf_38: 21300076
-      ai-not_malf_13: 21300026
-      ai-not_malf_41: 21300082
-      ai-not_malf_27: 21300054
-      ai-not_malf_4: 21300008
-      ai-not_malf_9: 21300018
-      ai-not_malf_48: 21300096
-      ai-not_malf_18: 21300036
-      ai-not_malf_12: 21300024
-      ai-not_malf_58: 21300116
-      ai-not_malf_34: 21300068
+      ai-not_malf_1: 21300002
+      ai-not_malf_10: 21300020
       ai-not_malf_11: 21300022
-  spritePackingTag: 
+      ai-not_malf_12: 21300024
+      ai-not_malf_13: 21300026
+      ai-not_malf_14: 21300028
+      ai-not_malf_15: 21300030
+      ai-not_malf_16: 21300032
+      ai-not_malf_17: 21300034
+      ai-not_malf_18: 21300036
+      ai-not_malf_19: 21300038
+      ai-not_malf_2: 21300004
+      ai-not_malf_20: 21300040
+      ai-not_malf_21: 21300042
+      ai-not_malf_22: 21300044
+      ai-not_malf_23: 21300046
+      ai-not_malf_24: 21300048
+      ai-not_malf_25: 21300050
+      ai-not_malf_26: 21300052
+      ai-not_malf_27: 21300054
+      ai-not_malf_28: 21300056
+      ai-not_malf_29: 21300058
+      ai-not_malf_3: 21300006
+      ai-not_malf_30: 21300060
+      ai-not_malf_31: 21300062
+      ai-not_malf_32: 21300064
+      ai-not_malf_33: 21300066
+      ai-not_malf_34: 21300068
+      ai-not_malf_35: 21300070
+      ai-not_malf_36: 21300072
+      ai-not_malf_37: 21300074
+      ai-not_malf_38: 21300076
+      ai-not_malf_39: 21300078
+      ai-not_malf_4: 21300008
+      ai-not_malf_40: 21300080
+      ai-not_malf_41: 21300082
+      ai-not_malf_42: 21300084
+      ai-not_malf_43: 21300086
+      ai-not_malf_44: 21300088
+      ai-not_malf_45: 21300090
+      ai-not_malf_46: 21300092
+      ai-not_malf_47: 21300094
+      ai-not_malf_48: 21300096
+      ai-not_malf_49: 21300098
+      ai-not_malf_5: 21300010
+      ai-not_malf_50: 21300100
+      ai-not_malf_51: 21300102
+      ai-not_malf_52: 21300104
+      ai-not_malf_53: 21300106
+      ai-not_malf_54: 21300108
+      ai-not_malf_55: 21300110
+      ai-not_malf_56: 21300112
+      ai-not_malf_57: 21300114
+      ai-not_malf_58: 21300116
+      ai-not_malf_59: 21300118
+      ai-not_malf_6: 21300012
+      ai-not_malf_7: 21300014
+      ai-not_malf_8: 21300016
+      ai-not_malf_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

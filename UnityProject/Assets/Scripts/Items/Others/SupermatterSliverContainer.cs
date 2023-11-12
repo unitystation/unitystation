@@ -67,7 +67,7 @@ namespace Items
 					{
 						newSpriteID = SEALED_SPRITE;
 					}
-					handler.ChangeSprite(newSpriteID);
+					handler.SetCatalogueIndexSprite(newSpriteID);
 				}
 			}
 		}

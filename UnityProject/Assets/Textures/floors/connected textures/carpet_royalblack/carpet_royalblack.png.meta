@@ -147,7 +147,7 @@ TextureImporter:
       213: -5836972287317542215
     second: carpet_royalblack_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      carpet_royalblack_4: -7345195753937415092
-      carpet_royalblack_22: 6138474571054334460
-      carpet_royalblack_44: -2174860704815467302
-      carpet_royalblack_31: 7352922865521725883
-      carpet_royalblack_41: 8028108286881549076
-      carpet_royalblack_20: -2846468747321650048
-      carpet_royalblack_38: 1207823614293792307
-      carpet_royalblack_33: -5734919212506893995
-      carpet_royalblack_3: -2416267334982442797
-      carpet_royalblack_40: 846148518494870630
-      carpet_royalblack_18: -6327694019962687824
-      carpet_royalblack_21: -6882135833110963729
-      carpet_royalblack_26: -3278163224474149787
-      carpet_royalblack_39: 8745507039528711825
-      carpet_royalblack_46: 7413932383698450121
-      carpet_royalblack_13: 5120395431350576537
-      carpet_royalblack_24: -192319367080370574
-      carpet_royalblack_27: 3661310597861559607
-      carpet_royalblack_29: -1437302092436962907
-      carpet_royalblack_47: -5836972287317542215
-      carpet_royalblack_15: 8798100408748704911
-      carpet_royalblack_34: 1639662349933233155
-      carpet_royalblack_6: 7182803777610449708
-      carpet_royalblack_32: -5485691894144603276
-      carpet_royalblack_19: 1207905702875294673
-      carpet_royalblack_30: -3115559970536486984
-      carpet_royalblack_35: -7113123284532907899
-      carpet_royalblack_17: -1087795336541599027
-      carpet_royalblack_25: 7894362653745886515
-      carpet_royalblack_45: -5381289586521370388
-      carpet_royalblack_10: -2165593188856718826
-      carpet_royalblack_16: -8509081755686910607
-      carpet_royalblack_9: 2771749719253835254
-      carpet_royalblack_1: 6768010954971900939
-      carpet_royalblack_8: -3339141740285526515
-      carpet_royalblack_2: -9216448261554309004
-      carpet_royalblack_43: 7872518090114981978
-      carpet_royalblack_5: -9000494809727506283
-      carpet_royalblack_12: 4275511422236725238
-      carpet_royalblack_42: 4034890218307011190
-      carpet_royalblack_37: 6889707354655120576
-      carpet_royalblack_23: 8200024786700143864
-      carpet_royalblack_36: 5521420829616197821
       carpet_royalblack_0: -1716053776188167358
+      carpet_royalblack_1: 6768010954971900939
+      carpet_royalblack_10: -2165593188856718826
       carpet_royalblack_11: 699628647353029575
-      carpet_royalblack_28: 1641900907787865200
-      carpet_royalblack_7: -1292487368402026816
+      carpet_royalblack_12: 4275511422236725238
+      carpet_royalblack_13: 5120395431350576537
       carpet_royalblack_14: -7382740459648185414
-  spritePackingTag: 
+      carpet_royalblack_15: 8798100408748704911
+      carpet_royalblack_16: -8509081755686910607
+      carpet_royalblack_17: -1087795336541599027
+      carpet_royalblack_18: -6327694019962687824
+      carpet_royalblack_19: 1207905702875294673
+      carpet_royalblack_2: -9216448261554309004
+      carpet_royalblack_20: -2846468747321650048
+      carpet_royalblack_21: -6882135833110963729
+      carpet_royalblack_22: 6138474571054334460
+      carpet_royalblack_23: 8200024786700143864
+      carpet_royalblack_24: -192319367080370574
+      carpet_royalblack_25: 7894362653745886515
+      carpet_royalblack_26: -3278163224474149787
+      carpet_royalblack_27: 3661310597861559607
+      carpet_royalblack_28: 1641900907787865200
+      carpet_royalblack_29: -1437302092436962907
+      carpet_royalblack_3: -2416267334982442797
+      carpet_royalblack_30: -3115559970536486984
+      carpet_royalblack_31: 7352922865521725883
+      carpet_royalblack_32: -5485691894144603276
+      carpet_royalblack_33: -5734919212506893995
+      carpet_royalblack_34: 1639662349933233155
+      carpet_royalblack_35: -7113123284532907899
+      carpet_royalblack_36: 5521420829616197821
+      carpet_royalblack_37: 6889707354655120576
+      carpet_royalblack_38: 1207823614293792307
+      carpet_royalblack_39: 8745507039528711825
+      carpet_royalblack_4: -7345195753937415092
+      carpet_royalblack_40: 846148518494870630
+      carpet_royalblack_41: 8028108286881549076
+      carpet_royalblack_42: 4034890218307011190
+      carpet_royalblack_43: 7872518090114981978
+      carpet_royalblack_44: -2174860704815467302
+      carpet_royalblack_45: -5381289586521370388
+      carpet_royalblack_46: 7413932383698450121
+      carpet_royalblack_47: -5836972287317542215
+      carpet_royalblack_5: -9000494809727506283
+      carpet_royalblack_6: 7182803777610449708
+      carpet_royalblack_7: -1292487368402026816
+      carpet_royalblack_8: -3339141740285526515
+      carpet_royalblack_9: 2771749719253835254
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

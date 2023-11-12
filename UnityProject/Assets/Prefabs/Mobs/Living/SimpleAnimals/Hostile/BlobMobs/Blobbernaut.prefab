@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 147193977330753524, guid: 22a414437f29f374c9a192acc5e18af4,
@@ -56,13 +57,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1636293841100618028, guid: 22a414437f29f374c9a192acc5e18af4,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: fe4388665051a9840a66b8743647fcab,
         type: 2}
     - target: {fileID: 1636293841100618028, guid: 22a414437f29f374c9a192acc5e18af4,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 19f382a6133d1364ba5ce0412a62bc99,
         type: 2}
@@ -128,6 +129,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5298197054778193373, guid: 22a414437f29f374c9a192acc5e18af4,
         type: 3}
+      propertyPath: _assetId
+      value: 3516031829
+      objectReference: {fileID: 0}
+    - target: {fileID: 5298197054778193373, guid: 22a414437f29f374c9a192acc5e18af4,
+        type: 3}
       propertyPath: m_AssetId
       value: b3833afa120a4744e8b106894dfa53ac
       objectReference: {fileID: 0}
@@ -137,4 +143,7 @@ PrefabInstance:
       value: blobbernaut
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22a414437f29f374c9a192acc5e18af4, type: 3}

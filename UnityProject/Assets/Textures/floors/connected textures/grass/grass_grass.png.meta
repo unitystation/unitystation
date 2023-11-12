@@ -147,7 +147,7 @@ TextureImporter:
       213: 7413462642177198619
     second: grass_grass_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      grass_grass_20: 8774881171444087604
-      grass_grass_33: -8824036541074624092
-      grass_grass_14: 5871874388652474636
-      grass_grass_41: -9080094362979272468
-      grass_grass_25: 5977941330133458998
-      grass_grass_24: 4797710096586615239
-      grass_grass_6: 7749265398821968843
-      grass_grass_32: 6488237775688792537
-      grass_grass_4: 4503245210587290100
-      grass_grass_7: -686788775282526815
-      grass_grass_15: -7601499573180584660
-      grass_grass_19: -1820139460411990405
-      grass_grass_46: -1637312080404154258
-      grass_grass_3: -6025658658922985066
-      grass_grass_45: -7509093766839547917
       grass_grass_0: -1658139298768868689
-      grass_grass_42: 4884022665147256351
-      grass_grass_13: -8528460693679712099
-      grass_grass_31: 2671430398511628471
-      grass_grass_21: -8169966209539313646
-      grass_grass_35: 1459571408790818220
-      grass_grass_12: -1574607086566846066
-      grass_grass_2: -1592832949810820864
-      grass_grass_28: 3425738534198445469
-      grass_grass_38: -1090234997819655762
-      grass_grass_29: -3179432534391376247
-      grass_grass_39: 4985614606012635353
       grass_grass_1: 8290612457064922933
-      grass_grass_22: 1110539103802411026
-      grass_grass_34: 4299776408932741462
-      grass_grass_44: -8087939862917443840
-      grass_grass_5: 6065101769961919159
-      grass_grass_40: 4589596906576747197
+      grass_grass_10: -3373600766643423477
       grass_grass_11: 6073917317288874308
+      grass_grass_12: -1574607086566846066
+      grass_grass_13: -8528460693679712099
+      grass_grass_14: 5871874388652474636
+      grass_grass_15: -7601499573180584660
+      grass_grass_16: -6119682478060260041
+      grass_grass_17: -652950771502243942
+      grass_grass_18: -5549641167471176018
+      grass_grass_19: -1820139460411990405
+      grass_grass_2: -1592832949810820864
+      grass_grass_20: 8774881171444087604
+      grass_grass_21: -8169966209539313646
+      grass_grass_22: 1110539103802411026
+      grass_grass_23: -3116482214739136152
+      grass_grass_24: 4797710096586615239
+      grass_grass_25: 5977941330133458998
+      grass_grass_26: 9008120265447699855
+      grass_grass_27: 8512509151165747353
+      grass_grass_28: 3425738534198445469
+      grass_grass_29: -3179432534391376247
+      grass_grass_3: -6025658658922985066
+      grass_grass_30: 5983046884616140002
+      grass_grass_31: 2671430398511628471
+      grass_grass_32: 6488237775688792537
+      grass_grass_33: -8824036541074624092
+      grass_grass_34: 4299776408932741462
+      grass_grass_35: 1459571408790818220
       grass_grass_36: -2132201077431468014
       grass_grass_37: 9035419473127341798
-      grass_grass_17: -652950771502243942
-      grass_grass_27: 8512509151165747353
-      grass_grass_26: 9008120265447699855
-      grass_grass_30: 5983046884616140002
-      grass_grass_10: -3373600766643423477
-      grass_grass_9: -643059876769521065
-      grass_grass_16: -6119682478060260041
-      grass_grass_8: -4746502528662134740
+      grass_grass_38: -1090234997819655762
+      grass_grass_39: 4985614606012635353
+      grass_grass_4: 4503245210587290100
+      grass_grass_40: 4589596906576747197
+      grass_grass_41: -9080094362979272468
+      grass_grass_42: 4884022665147256351
       grass_grass_43: 1121145308137263782
+      grass_grass_44: -8087939862917443840
+      grass_grass_45: -7509093766839547917
+      grass_grass_46: -1637312080404154258
       grass_grass_47: 7413462642177198619
-      grass_grass_18: -5549641167471176018
-      grass_grass_23: -3116482214739136152
-  spritePackingTag: 
+      grass_grass_5: 6065101769961919159
+      grass_grass_6: 7749265398821968843
+      grass_grass_7: -686788775282526815
+      grass_grass_8: -4746502528662134740
+      grass_grass_9: -643059876769521065
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

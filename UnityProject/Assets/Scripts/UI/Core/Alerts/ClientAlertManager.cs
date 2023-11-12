@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Shared.Managers;
 using UnityEngine;
 
@@ -54,7 +55,7 @@ public class ClientAlertManager : MonoBehaviour
 
 		if (AlertUIElement == null)
 		{
-			Logger.LogError($"you can find any actions associated with {AlertSO.name}");
+			Loggy.LogError($"you can find any actions associated with {AlertSO.name}");
 			return;
 		}
 

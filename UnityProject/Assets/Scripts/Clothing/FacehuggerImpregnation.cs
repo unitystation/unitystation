@@ -55,7 +55,7 @@ namespace Clothing
 		public void KillHugger()
 		{
 			isAlive = false;
-			spriteHandler.ChangeSprite(1);
+			spriteHandler.SetCatalogueIndexSprite(1);
 			clothingV2.ChangeSprite(1);
 			itemAttributesV2.ServerSetArticleDescription("It is not moving anymore.");
 		}
@@ -167,12 +167,12 @@ namespace Clothing
 			if (info.ClientInventoryMoveType == ClientInventoryMoveType.Added
 				&& playerScript.DynamicItemStorage.InventoryHasObjectInCategory(gameObject, NamedSlot.mask))
 			{
-				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.crit);
+				OverlayCrits.Instance.SetState(OverlayState.crit);
 			}
 			else if (info.ClientInventoryMoveType == ClientInventoryMoveType.Removed
 				&& playerScript.DynamicItemStorage.InventoryHasObjectInCategory(gameObject, NamedSlot.mask) == false)
 			{
-				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.normal);
+				OverlayCrits.Instance.SetState(OverlayState.normal);
 			}
 		}
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using HealthV2;
+using Player;
 using Systems.Score;
 using UnityEngine;
 
@@ -123,7 +125,7 @@ namespace Systems.Explosions
 			{
 				if (IsAnyMatchingType(NodePoint.ExplosionNodes, NodeType) == false)
 				{
-					ExplosionNode expNode = (ExplosionNode)Activator.CreateInstance(NodeType.GetType());
+					ExplosionNode expNode = NodeType.GenInstance();
 					int fnull = FirstNullValue(NodePoint.ExplosionNodes);
 					if (fnull >= 0) NodePoint.ExplosionNodes[fnull] = expNode;
 					expNode.Initialise(Local, Matrix.Matrix);
@@ -178,7 +180,7 @@ namespace Systems.Explosions
 		}
 
 		public static void StartExplosion(Vector3Int WorldPOS, float strength, ExplosionNode nodeType = null,
-			int fixedRadius = -1, int fixedShakingStrength = -1, List<ItemTrait> damageIgnoreAttributes = null)
+			int fixedRadius = -1, int fixedShakingStrength = -1, List<ItemTrait> damageIgnoreAttributes = null, bool stunNearbyPlayers = false)
 		{
 			if (nodeType == null)
 			{
@@ -237,7 +239,30 @@ namespace Systems.Explosions
 				Line.Step();
 			}
 
+			if (stunNearbyPlayers)
+			{
+				StunAndFlashPlayers(WorldPOS.To2Int());
+			}
+
+
 			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_EXPLOSION);
+		}
+
+		private static void StunAndFlashPlayers(Vector2Int startingPos)
+		{
+			var s = Physics2D.OverlapCircleAll(startingPos, 5, LayerMask.GetMask("Players"));
+			Debug.Log(s.Length);
+			foreach (Collider2D obj in s)
+			{
+				var result = MatrixManager.Linecast(
+					startingPos.To3Int(), LayerTypeSelection.Walls, null,
+					obj.gameObject.AssumedWorldPosServer(), true);
+				if (result.ItHit) continue;
+				if (obj.gameObject.TryGetComponentCustom<LivingHealthMasterBase>(out var livingHealthMasterBase) == false) continue;
+				//TODO Stun , result.Distance <= 3, 9
+				//GameObject client, float flashDuration, bool checkForProtectiveCloth, bool stunPlayer = true, float stunDuration = 4f
+				livingHealthMasterBase.TryFlash(5, true);
+			}
 		}
 
 

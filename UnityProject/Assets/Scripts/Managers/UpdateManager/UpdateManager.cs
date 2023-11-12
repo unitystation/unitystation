@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.Profiling;
 using System.Linq;
 using System.Text;
+using Logs;
 
 /// <summary>
 ///     Handles the update methods for in game objects
@@ -28,6 +29,8 @@ public class UpdateManager : MonoBehaviour
 	private List<Action> fixedUpdateActions = new List<Action>();
 	private List<Action> lateUpdateActions = new List<Action>();
 	private List<TimedUpdate> periodicUpdateActions = new List<TimedUpdate>();
+	private List<Action> postCameraUpdateActions = new List<Action>();
+
 
 	private Queue<Tuple<CallbackType, Action>> threadSafeAddQueue = new Queue<Tuple<CallbackType, Action>>();
 	private Queue<Tuple<Action, float>> threadSafeAddPeriodicQueue = new Queue<Tuple<Action, float>>();
@@ -42,6 +45,8 @@ public class UpdateManager : MonoBehaviour
 
 	public bool MidInvokeCalls {get; private set;}
 	public Action LastInvokedAction {get; private set;}
+
+	public static int CurrentFrameCashed = 0;
 
 	private class NamedAction
 	{
@@ -79,6 +84,9 @@ public class UpdateManager : MonoBehaviour
 		Debug.Log("removed " + CleanupUtil.RidListOfSoonToBeDeadElements(lateUpdateActions, u => u.Target as MonoBehaviour) + " messed up events in UpdateManager.lateUpdateActions");
 		Debug.Log("removed " + CleanupUtil.RidListOfSoonToBeDeadElements(periodicUpdateActions, u => u.Action.Target as MonoBehaviour) + " messed up events in UpdateManager.periodicUpdateActions");
 		Debug.Log("removed " + (CleanupUtil.RidListOfSoonToBeDeadElements(pooledTimedUpdates, u => u?.Action?.Target as MonoBehaviour) + CleanupUtil.RidListOfDeadElements(pooledTimedUpdates, u => (MonoBehaviour)u?.Action?.Target)) + " messed up events in UpdateManager.pooledTimedUpdates");
+		Debug.Log("removed " + CleanupUtil.RidListOfSoonToBeDeadElements(postCameraUpdateActions, u => u.Target as MonoBehaviour) + " messed up events in UpdateManager.postCameraUpdateActions");
+
+
 	}
 
 	private void Awake()
@@ -188,6 +196,12 @@ public class UpdateManager : MonoBehaviour
 
 			return;
 		}
+
+		if (type == CallbackType.POST_CAMERA_UPDATE)
+		{
+			Instance.postCameraUpdateActions.Remove(action);
+			return;
+		}
 	}
 
 	public static void Remove(ManagedNetworkBehaviour networkBehaviour)
@@ -246,7 +260,7 @@ public class UpdateManager : MonoBehaviour
 		callbackList.RemoveRange(count, startCount - count);
 	}
 
-	private void AddCallbackInternal(CallbackType type, Action action)
+	private void AddCallbackInternal(CallbackType type, Action action, int priority = 0)
 	{
 		if (type == CallbackType.UPDATE)
 		{
@@ -265,6 +279,12 @@ public class UpdateManager : MonoBehaviour
 			Instance.lateUpdateActions.Add(action);
 			return;
 		}
+
+		if (type == CallbackType.POST_CAMERA_UPDATE)
+		{
+			Instance.postCameraUpdateActions.Add(action);
+			return;
+		}
 	}
 
 	private void RemoveCallbackInternal(CallbackCollection collection, Action callback)
@@ -279,6 +299,7 @@ public class UpdateManager : MonoBehaviour
 
 	private void Update()
 	{
+		CurrentFrameCashed = Time.frameCount;
 		if (threadSafeAddQueue.Count > 0)
 		{
 			for (int i = 0; i < threadSafeAddQueue.Count; i++)
@@ -312,19 +333,20 @@ public class UpdateManager : MonoBehaviour
 		{
 			if (i < updateActions.Count)
 			{
+				var callingAction = updateActions[i];
 				if (Profile)
 				{
-					Profiler.BeginSample(updateActions[i]?.Method?.ReflectedType?.FullName);
+					Profiler.BeginSample(callingAction.Method?.ReflectedType?.FullName);
 				}
 
-				LastInvokedAction = updateActions[i];
+				LastInvokedAction = callingAction;
 				try
 				{
-					updateActions[i].Invoke();
+					callingAction.Invoke();
 				}
 				catch (Exception e)
 				{
-					Logger.LogError(e.ToString());
+					Loggy.LogError(e.ToString());
 				}
 
 				if (Profile)
@@ -335,6 +357,7 @@ public class UpdateManager : MonoBehaviour
 		}
 		MidInvokeCalls = false;
 
+
 		if (Profile)
 		{
 			Profiler.BeginSample(" Periodic update Process ");
@@ -342,29 +365,38 @@ public class UpdateManager : MonoBehaviour
 
 		ProcessDelayUpdate();
 
+
 		if (Profile)
 		{
 			Profiler.EndSample();
 		}
 	}
 
+	public void PostCameraRemove()
+	{
+
+	}
+
+
 	/// <summary>
 	///  Used to do increment the Time on Periodic updates to know when to Call them
 	/// </summary>
 	private void ProcessDelayUpdate()
 	{
+		MidInvokeCalls = true;
 		for (int i = 0; i < periodicUpdateActions.Count; i++)
 		{
-			periodicUpdateActions[i].TimeTitleNext -= CashedDeltaTime;
-			if (periodicUpdateActions[i].TimeTitleNext <= 0)
+			var periodicCall = periodicUpdateActions[i];
+			periodicCall.TimeTitleNext -= CashedDeltaTime;
+			if (periodicCall.TimeTitleNext <= 0)
 			{
-				LastInvokedAction = periodicUpdateActions[i].Action;
-				periodicUpdateActions[i].TimeTitleNext = periodicUpdateActions[i].TimeDelayPreUpdate + periodicUpdateActions[i].TimeTitleNext;
-				periodicUpdateActions[i].Action();
+				LastInvokedAction = periodicCall.Action;
+				periodicCall.TimeTitleNext = periodicCall.TimeDelayPreUpdate + periodicCall.TimeTitleNext;
+				periodicCall.Action();
 			}
 		}
+		MidInvokeCalls = false;
 	}
-
 
 	private void FixedUpdate()
 	{
@@ -380,7 +412,29 @@ public class UpdateManager : MonoBehaviour
 				}
 				catch (Exception e)
 				{
-					Logger.LogError(e.ToString());
+					Loggy.LogError(e.ToString());
+				}
+			}
+		}
+		MidInvokeCalls = false;
+	}
+
+
+	public void OnPostCameraUpdate()
+	{
+		MidInvokeCalls = true;
+		for (int i = postCameraUpdateActions.Count; i >= 0; i--)
+		{
+			if (i < postCameraUpdateActions.Count)
+			{
+				LastInvokedAction = postCameraUpdateActions[i];
+				try
+				{
+					postCameraUpdateActions[i].Invoke();
+				}
+				catch (Exception e)
+				{
+					Loggy.LogError(e.ToString());
 				}
 			}
 		}
@@ -401,7 +455,7 @@ public class UpdateManager : MonoBehaviour
 				}
 				catch (Exception e)
 				{
-					Logger.LogError(e.ToString());
+					Loggy.LogError(e.ToString());
 				}
 			}
 		}
@@ -504,6 +558,7 @@ public enum CallbackType : byte
 	FIXED_UPDATE,
 	LATE_UPDATE,
 	PERIODIC_UPDATE,
+	POST_CAMERA_UPDATE
 }
 
 /// <summary>

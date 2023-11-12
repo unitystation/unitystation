@@ -354,12 +354,12 @@ namespace Objects.Kitchen
 
 		public void DirtyMicrowave()
 		{
-			spriteHandler.ChangeSpriteVariant(1);
+			spriteHandler.SetSpriteVariant(1);
 		}
 
 		public void CleanMicrowave()
 		{
-			spriteHandler.ChangeSpriteVariant(0);
+			spriteHandler.SetSpriteVariant(0);
 		}
 
 		private void OnSyncPlayAudioLoop(bool oldState, bool newState)
@@ -467,7 +467,7 @@ namespace Objects.Kitchen
 			{
 				this.microwave = microwave;
 				StateMsgForExamine = "idle";
-				microwave.spriteHandler.ChangeSprite((int) SpriteState.Idle);
+				microwave.spriteHandler.SetCatalogueIndexSprite((int) SpriteState.Idle);
 				microwave.OnSyncScreenGlow(microwave.screenGlowEnabled, true);
 				microwave.OnSyncOvenGlow(microwave.ovenGlowEnabled, false);
 				microwave.HaltMicrowave();
@@ -506,7 +506,7 @@ namespace Objects.Kitchen
 			{
 				this.microwave = microwave;
 				StateMsgForExamine = "open";
-				microwave.spriteHandler.ChangeSprite((int) SpriteState.Open);
+				microwave.spriteHandler.SetCatalogueIndexSprite((int) SpriteState.Open);
 				microwave.OnSyncScreenGlow(microwave.screenGlowEnabled, true);
 				microwave.OnSyncOvenGlow(microwave.ovenGlowEnabled, true);
 				microwave.HaltMicrowave();
@@ -545,7 +545,7 @@ namespace Objects.Kitchen
 				StateMsgForExamine = "running";
 				microwave.OnSyncScreenGlow(microwave.screenGlowEnabled, true);
 				microwave.OnSyncOvenGlow(microwave.ovenGlowEnabled, true);
-				microwave.spriteHandler.ChangeSprite((int) SpriteState.Running);
+				microwave.spriteHandler.SetCatalogueIndexSprite((int) SpriteState.Running);
 				microwave.SetWattage(microwave.circuitWattage + microwave.ovenBulbWattage + microwave.magnetronWattage);
 			}
 
@@ -580,7 +580,7 @@ namespace Objects.Kitchen
 			{
 				this.microwave = microwave;
 				StateMsgForExamine = "unpowered";
-				microwave.spriteHandler.ChangeSprite((int) SpriteState.Unpowered);
+				microwave.spriteHandler.SetCatalogueIndexSprite((int) SpriteState.Unpowered);
 				microwave.OnSyncScreenGlow(microwave.screenGlowEnabled, false);
 				microwave.OnSyncOvenGlow(microwave.ovenGlowEnabled, false);
 				microwave.HaltMicrowave();
@@ -612,7 +612,7 @@ namespace Objects.Kitchen
 			{
 				this.microwave = microwave;
 				StateMsgForExamine = "unpowered and open";
-				microwave.spriteHandler.ChangeSprite((int) SpriteState.UnpoweredOpen);
+				microwave.spriteHandler.SetCatalogueIndexSprite((int) SpriteState.UnpoweredOpen);
 				microwave.OnSyncScreenGlow(microwave.screenGlowEnabled, false);
 				microwave.OnSyncOvenGlow(microwave.ovenGlowEnabled, false);
 				microwave.HaltMicrowave();
@@ -647,7 +647,7 @@ namespace Objects.Kitchen
 			{
 				this.microwave = microwave;
 				StateMsgForExamine = "broken";
-				microwave.spriteHandler.ChangeSprite((int) SpriteState.Broken);
+				microwave.spriteHandler.SetCatalogueIndexSprite((int) SpriteState.Broken);
 				microwave.OnSyncScreenGlow(microwave.screenGlowEnabled, false);
 				microwave.OnSyncOvenGlow(microwave.ovenGlowEnabled, false);
 				microwave.HaltMicrowave();
@@ -673,7 +673,7 @@ namespace Objects.Kitchen
 			{
 				this.microwave = microwave;
 				StateMsgForExamine = "broken and open";
-				microwave.spriteHandler.ChangeSprite((int) SpriteState.BrokenOpen);
+				microwave.spriteHandler.SetCatalogueIndexSprite((int) SpriteState.BrokenOpen);
 				microwave.OnSyncScreenGlow(microwave.screenGlowEnabled, false);
 				microwave.OnSyncOvenGlow(microwave.ovenGlowEnabled, false);
 				microwave.HaltMicrowave();

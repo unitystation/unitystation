@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: cultin_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      cultin_1: 21300002
-      cultin_3: 21300006
-      cultin_27: 21300054
-      cultin_30: 21300060
-      cultin_2: 21300004
-      cultin_7: 21300014
-      cultin_10: 21300020
-      cultin_25: 21300050
-      cultin_9: 21300018
-      cultin_12: 21300024
       cultin_0: 21300000
-      cultin_4: 21300008
-      cultin_31: 21300062
-      cultin_6: 21300012
+      cultin_1: 21300002
+      cultin_10: 21300020
       cultin_11: 21300022
-      cultin_22: 21300044
-      cultin_16: 21300032
-      cultin_23: 21300046
-      cultin_15: 21300030
-      cultin_19: 21300038
-      cultin_24: 21300048
-      cultin_21: 21300042
+      cultin_12: 21300024
       cultin_13: 21300026
+      cultin_14: 21300028
+      cultin_15: 21300030
+      cultin_16: 21300032
+      cultin_17: 21300034
+      cultin_18: 21300036
+      cultin_19: 21300038
+      cultin_2: 21300004
+      cultin_20: 21300040
+      cultin_21: 21300042
+      cultin_22: 21300044
+      cultin_23: 21300046
+      cultin_24: 21300048
+      cultin_25: 21300050
+      cultin_26: 21300052
+      cultin_27: 21300054
       cultin_28: 21300056
       cultin_29: 21300058
-      cultin_18: 21300036
-      cultin_20: 21300040
+      cultin_3: 21300006
+      cultin_30: 21300060
+      cultin_31: 21300062
+      cultin_4: 21300008
       cultin_5: 21300010
-      cultin_17: 21300034
+      cultin_6: 21300012
+      cultin_7: 21300014
       cultin_8: 21300016
-      cultin_26: 21300052
-      cultin_14: 21300028
-  spritePackingTag: 
+      cultin_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

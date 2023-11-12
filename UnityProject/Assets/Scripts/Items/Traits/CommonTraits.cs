@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using NaughtyAttributes;
 using ScriptableObjects;
 using UnityEngine;
@@ -86,6 +87,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	[BoxGroup("Clothing")] public ItemTrait GasMask;
 	[BoxGroup("Clothing")] public ItemTrait BlackGloves;
 	[BoxGroup("Clothing")] public ItemTrait WizardGarb;
+	[BoxGroup("Clothing")] public ItemTrait Sunglasses;
 
 	public ItemTrait LightTube;
 	public ItemTrait LightBulb;
@@ -102,9 +104,22 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 
 	public ItemTrait CoreBodyPart;
 
+	public ItemTrait Pill;
+	public ItemTrait ItemBag;
+
+
 	/// <summary>
 	/// Do not use this list to get references to traits, locally reference them in your scripts instead!
 	/// </summary>
-	[Obsolete]
 	public List<ItemTrait> everyTraitOutThere = new List<ItemTrait>();
+
+	public ItemTrait GetFromIndex(short index)
+	{
+		return everyTraitOutThere.ElementAt(index);
+	}
+
+	public short GetIndex(ItemTrait trait)
+	{
+		return (short)everyTraitOutThere.IndexOf(trait);
+	}
 }

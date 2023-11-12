@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Objects;
 using Tilemaps.Utils;
 using Tiles;
@@ -97,7 +98,7 @@ public class ObjectLayer : Layer
 	{
 		if (o.ObjectPhysics.HasComponent == false)
 		{
-			Logger.LogError(o.name + " Is missing UniversalObjectPhysics");
+			Loggy.LogError(o.name + " Is missing UniversalObjectPhysics");
 		}
 		if (PushObjectSet == false)
 		{
@@ -255,8 +256,9 @@ public class ObjectLayer : Layer
 			}
 
 			if (o.IsPassableFromOutside(origin, isServer, context.OrNull().gameObject) == false
-			    && (context == null || o.OrNull()?.gameObject != context.OrNull()?.gameObject))
+			    && (context == null || o.OrNull()?.gameObject != context.OrNull()?.gameObject)  )
 			{
+
 				var PushDirection = (o.transform.localPosition - (originalFrom ?? origin)).RoundTo2Int();
 				if (PushDirection == Vector2Int.zero)
 				{
@@ -268,6 +270,19 @@ public class ObjectLayer : Layer
 				if (PushingCalculation(o, originalFrom ?? origin,(theOriginal + (Vector3Int) PushDirection) , Pushings, Bumps, ref PushObjectSet,
 					    ref CanPushObjects, context, Hits))
 				{
+					if (o is RegisterPlayer) //yay Swapping Is Dumb
+						//This is because the player can't be pushed into a wall However the swap is still initiated but the move is not, Meaning that server doesn't receive message for move
+					{
+						var Movement = (o.ObjectPhysics.Component as MovementSynchronisation);
+						if (Movement.CanSwap(context.gameObject, out var move))
+						{
+							if (Pushings.Contains(o.ObjectPhysics.Component) == false)
+							{
+								Pushings.Add(o.ObjectPhysics.Component);
+							}
+							return true;
+						}
+					}
 					return false;
 				}
 			}

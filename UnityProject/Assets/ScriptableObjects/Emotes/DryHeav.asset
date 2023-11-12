@@ -1,0 +1,368 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8a39a0a24444ba8a1cbb2f4d0a72796, type: 3}
+  m_Name: DryHeav
+  m_EditorClassIdentifier: 
+  emoteName: Dry Heav
+  EmoteIcon: {fileID: 21300000, guid: ba91f1e025afa7d4c8fc3d912d6b6eb7, type: 3}
+  requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  isAudibleEmote: 0
+  allowEmoteWhileCrawling: 1
+  viewText: dry heavs
+  youText: You try to vomit by there's nothing in your stomach!
+  failText: You were unable to preform this action!
+  mouthBlockedText: You are unable to make a sound!
+  critViewText: lets out a lot of moans while dry heaving.
+  soundsAreTyped: 1
+  defaultSounds:
+  - SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  TypedSounds:
+  - VoiceRace: {fileID: 11400000, guid: f8cc40dce57da8d4aa283decb92b4507, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Female/Gag 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Female/Gag 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+  - VoiceRace: {fileID: 11400000, guid: f0deb843b714e8f4590d893251718804, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Female/Gag 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Female/Gag 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+  - VoiceRace: {fileID: 11400000, guid: 078513666ca7a3540bf3c90b08eb66da, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Female/Gag 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Female/Gag 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+  - VoiceRace: {fileID: 11400000, guid: 9964159d746866b47bbdaf9fea2045ff, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Female/Gag 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Female/Gag 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+  - VoiceRace: {fileID: 11400000, guid: 8bc1d65392e05ec4095bddde7a8b1324, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Female/Gag 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Female/Gag 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+  - VoiceRace: {fileID: 11400000, guid: 31250f329a28a20458b0f76c1f157a7f, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Female/Gag 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Female/Gag 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+  pitchRange: {x: 0.7, y: 1}
+  allowedPlayerTypes: 1
+  stunDuration: 8

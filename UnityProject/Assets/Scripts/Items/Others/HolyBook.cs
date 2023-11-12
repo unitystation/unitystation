@@ -1,18 +1,27 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using HealthV2;
+using Logs;
+using Systems.Faith;
 
 namespace Items
 {
 	/// <summary>
 	/// Component which allows this object to heal or cause brain damage if used by the Chaplain.
 	/// </summary>
-	public class HolyBook : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>, ISuicide
+	public class HolyBook : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>, ICheckedInteractable<HandActivate>, ISuicide
 	{
+		[SerializeField] private HasNetworkTabItem bibleTab;
+		[SerializeField] private LastTouch lastTouch;
+		public PlayerFaith lastTouchedBy => lastTouch.LastTouchedBy.Script.PlayerFaith;
+
 		//The amount a single thwack heals or damages.
 		public int healthModifier = 10;
+
+		private void Awake()
+		{
+			lastTouch ??= GetComponent<LastTouch>();
+		}
 
 		//Using the holy book is considered a melee attack.
 		public void ClientPredictInteraction(PositionalHandApply interaction)
@@ -121,6 +130,69 @@ namespace Items
 			yield return WaitFor.FixedUpdate;
 			Chat.AddActionMsgToChat(performer, $"{performer.ExpensiveName()} farts on the holy book.");
 			performer.Player().Script.playerHealth.OnGib();
+		}
+
+		public bool WillInteract(HandActivate interaction, NetworkSide side)
+		{
+			if (side is NetworkSide.Server)
+			{
+				if (interaction.PerformerPlayerScript.Mind is null)
+				{
+					Loggy.LogError("[HolyBook/HandActivate/WillInteract()] - player has no mind? what?");
+					return false;
+				}
+
+				if (interaction.PerformerPlayerScript.Mind.occupation is null)
+				{
+					return false;
+				}
+			}
+
+			return DefaultWillInteract.Default(interaction, side);
+		}
+
+		public void ServerPerformInteraction(HandActivate interaction)
+		{
+			lastTouch.LastTouchedBy = interaction.PerformerPlayerScript.PlayerInfo;
+			if (interaction.PerformerPlayerScript.Mind.occupation.DisplayName != "Chaplain")
+			{
+				Chat.AddExamineMsg(interaction.Performer, "The text is too hard to decipher for most people.. " +
+				                                          "You need an experienced chaplain to properly make sense of this book.");
+				return;
+			}
+			if (interaction.PerformerPlayerScript.PlayerFaith.CurrentFaith == null)
+			{
+				interaction.PerformerPlayerScript.PlayerFaith.RpcShowFaithSelectScreen(interaction.PerformerPlayerScript.netIdentity.connectionToClient);
+			}
+			else
+			{
+				AccessItemShop(interaction);
+			}
+		}
+
+		private void AccessItemShop(HandActivate interaction)
+		{
+			Faith interactorFaith = null;
+			foreach (var faith in FaithManager.Instance.CurrentFaiths)
+			{
+				if (faith.FaithMembers.Contains(interaction.PerformerPlayerScript) == false) continue;
+				interactorFaith = faith.Faith;
+			}
+
+			if (interactorFaith == null || interactorFaith.FaithMiracles.Count == 0)
+			{
+				Loggy.Log($"{interactorFaith == null}");
+				Chat.AddExamineMsg(interaction.Performer, "There doesn't appear to be anything you can pray for using your faith.");
+				return;
+			}
+
+			if (bibleTab == null)
+			{
+				Loggy.LogError("[HolyBook] - the nettab component is missing on this, cannot access item shop.");
+				return;
+			}
+
+			bibleTab.ServerPerformInteraction(interaction);
 		}
 	}
 }

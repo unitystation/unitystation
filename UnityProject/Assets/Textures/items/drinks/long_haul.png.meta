@@ -39,7 +39,7 @@ TextureImporter:
       213: -2555192517879600390
     second: long_haul_11
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -56,11 +56,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -99,6 +100,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -114,6 +117,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -390,21 +405,20 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      long_haul_7: 592999238442834792
-      long_haul_9: 5961472830525850087
-      long_haul_5: -7934049242557138121
-      long_haul_3: -1215571191164185626
+      long_haul_0: 1900476018564926704
       long_haul_1: 2948283081748249428
-      long_haul_2: 3130473916509388469
-      long_haul_8: 4557797936053839680
-      long_haul_6: -51644172413387014
       long_haul_10: -2771607498654500414
       long_haul_11: -2555192517879600390
+      long_haul_2: 3130473916509388469
+      long_haul_3: -1215571191164185626
       long_haul_4: -2895233031498239532
-      long_haul_0: 1900476018564926704
-  spritePackingTag: 
+      long_haul_5: -7934049242557138121
+      long_haul_6: -51644172413387014
+      long_haul_7: 592999238442834792
+      long_haul_8: 4557797936053839680
+      long_haul_9: 5961472830525850087
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

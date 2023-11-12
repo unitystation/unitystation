@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 984815bc633e9734491af9822686a019, type: 3}
+  m_Name: Emergency Response Team
+  m_EditorClassIdentifier: 
+  teamName: Death Squad
+  canBeAddedNewMembers: 1
+  canBeAddedNewObjectives: 1
+  needToBeShownAtRoundEnd: 1
+  alwaysSpawnOnRoundStart: 0
+  isStationTeam: 0
+  coreObjectives: []

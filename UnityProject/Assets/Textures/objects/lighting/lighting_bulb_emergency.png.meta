@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: bulb_emergency_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      bulb_emergency_23: 21300046
-      bulb_emergency_3: 21300006
-      bulb_emergency_24: 21300048
-      bulb_emergency_4: 21300008
-      bulb_emergency_28: 21300056
-      bulb_emergency_12: 21300024
-      bulb_emergency_27: 21300054
-      bulb_emergency_21: 21300042
-      bulb_emergency_17: 21300034
-      bulb_emergency_14: 21300028
-      bulb_emergency_5: 21300010
-      bulb_emergency_10: 21300020
-      bulb_emergency_29: 21300058
-      bulb_emergency_20: 21300040
-      bulb_emergency_22: 21300044
       bulb_emergency_0: 21300000
-      bulb_emergency_30: 21300060
-      bulb_emergency_6: 21300012
-      bulb_emergency_8: 21300016
-      bulb_emergency_15: 21300030
-      bulb_emergency_25: 21300050
-      bulb_emergency_11: 21300022
-      bulb_emergency_16: 21300032
-      bulb_emergency_7: 21300014
-      bulb_emergency_18: 21300036
-      bulb_emergency_31: 21300062
       bulb_emergency_1: 21300002
-      bulb_emergency_2: 21300004
-      bulb_emergency_9: 21300018
+      bulb_emergency_10: 21300020
+      bulb_emergency_11: 21300022
+      bulb_emergency_12: 21300024
       bulb_emergency_13: 21300026
+      bulb_emergency_14: 21300028
+      bulb_emergency_15: 21300030
+      bulb_emergency_16: 21300032
+      bulb_emergency_17: 21300034
+      bulb_emergency_18: 21300036
       bulb_emergency_19: 21300038
+      bulb_emergency_2: 21300004
+      bulb_emergency_20: 21300040
+      bulb_emergency_21: 21300042
+      bulb_emergency_22: 21300044
+      bulb_emergency_23: 21300046
+      bulb_emergency_24: 21300048
+      bulb_emergency_25: 21300050
       bulb_emergency_26: 21300052
-  spritePackingTag: 
+      bulb_emergency_27: 21300054
+      bulb_emergency_28: 21300056
+      bulb_emergency_29: 21300058
+      bulb_emergency_3: 21300006
+      bulb_emergency_30: 21300060
+      bulb_emergency_31: 21300062
+      bulb_emergency_4: 21300008
+      bulb_emergency_5: 21300010
+      bulb_emergency_6: 21300012
+      bulb_emergency_7: 21300014
+      bulb_emergency_8: 21300016
+      bulb_emergency_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

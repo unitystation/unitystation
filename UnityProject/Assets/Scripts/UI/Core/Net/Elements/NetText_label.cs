@@ -1,4 +1,5 @@
 using System;
+using Logs;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -33,7 +34,7 @@ namespace UI.Core.NetUI
 				}
 				else
 				{
-					Logger.LogError($"Both Text and TMPText were null on {gameObject.name}, check stacktrace to see exact location");
+					Loggy.LogError($"Both Text and TMPText were null on {gameObject.name}, check stacktrace to see exact location");
 				}
 
 				externalChange = false;

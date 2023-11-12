@@ -4,6 +4,7 @@ using Systems.MobAIs;
 using UnityEngine.EventSystems;
 using UnityEngine;
 using HealthV2;
+using Logs;
 
 
 namespace Objects.Other
@@ -27,7 +28,7 @@ namespace Objects.Other
 
 			if (trapPreview == null)
 			{
-				Logger.LogError($"{gameObject} spawned with a null trapPreview. We can't get it on awake due to the existence of two SpriteHandlers!");
+				Loggy.LogError($"{gameObject} spawned with a null trapPreview. We can't get it on awake due to the existence of two SpriteHandlers!");
 			}
 		}
 

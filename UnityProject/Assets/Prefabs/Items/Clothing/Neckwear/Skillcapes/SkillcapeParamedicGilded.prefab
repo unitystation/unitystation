@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2406007664187506571, guid: 55b2e6d253322c24485dd8ec8524993a,
@@ -19,7 +20,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2406007664187506571, guid: 55b2e6d253322c24485dd8ec8524993a,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: f47a97c3e55376d4895d031278739029,
         type: 2}
@@ -34,6 +35,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 516ec31d0e56edd4998951ffe31d2752,
         type: 2}
+    - target: {fileID: 8685988111916011962, guid: 55b2e6d253322c24485dd8ec8524993a,
+        type: 3}
+      propertyPath: _assetId
+      value: 2754481007
+      objectReference: {fileID: 0}
     - target: {fileID: 8685988111916011962, guid: 55b2e6d253322c24485dd8ec8524993a,
         type: 3}
       propertyPath: m_AssetId
@@ -111,4 +117,7 @@ PrefabInstance:
       value: paramedic's gilded skillcape
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55b2e6d253322c24485dd8ec8524993a, type: 3}

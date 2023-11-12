@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using Mirror;
 using Objects;
+using Objects.Engineering;
+using Shared.Systems.ObjectConnection;
+using Systems.Electricity;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -9,6 +13,8 @@ namespace Items
 {
 	public class RandomItemSpot : NetworkBehaviour, IServerSpawn
 	{
+		public APCPoweredDevice APCtoSet;
+
 		[Tooltip("Amount of items we could get from this pool")] [SerializeField]
 		private int lootCount = 1;
 		[Tooltip("Should we spread the items in the tile once spawned?")][SerializeField]
@@ -26,6 +32,7 @@ namespace Items
 		public void OnSpawnServer(SpawnInfo info)
 		{
 
+			APCtoSet = this.GetComponent<APCPoweredDevice>();
 			RollRandomPool(true);
 
 		}
@@ -91,12 +98,10 @@ namespace Items
 				}
 
 
-
+				APCtoSet.OrNull()?.RemoveFromAPC();
 				RegisterTile.Matrix.MetaDataLayer.InitialObjects[this.gameObject] = this.transform.localPosition;
 				this.GetComponent<UniversalObjectPhysics>()?.DisappearFromWorld();
 				this.GetComponent<RegisterTile>().UpdatePositionServer();
-
-
 			}
 		}
 
@@ -108,7 +113,7 @@ namespace Items
 
             if (itemPool == null)
 			{
-				Logger.LogError($"Item pool was null in {gameObject.name}", Category.ItemSpawn);
+				Loggy.LogError($"Item pool was null in {gameObject.name}", Category.ItemSpawn);
 				return;
 			}
 
@@ -127,7 +132,15 @@ namespace Items
 
 			var worldPos = gameObject.AssumedWorldPosServer();
 			var pushPull = GetComponent<UniversalObjectPhysics>();
-			Spawn.ServerPrefab(item.Prefab, worldPos, count: maxAmt, scatterRadius: spread, sharePosition: pushPull);
+			var Newobjt = Spawn.ServerPrefab(item.Prefab, worldPos, count: maxAmt, scatterRadius: spread, sharePosition: pushPull).GameObject;
+			if (APCtoSet != null && APCtoSet.RelatedAPC != null)
+			{
+				var newAPCtoSet = Newobjt.GetComponent<APCPoweredDevice>();
+				if (newAPCtoSet != null)
+				{
+					((IMultitoolSlaveable) newAPCtoSet).TrySetMaster(null, APCtoSet.RelatedAPC);
+				}
+			}
 		}
 	}
 

@@ -2,6 +2,8 @@ using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 using HealthV2;
+using Messages.Server;
+using Objects.Research;
 
 namespace Systems.Research
 {
@@ -21,19 +23,24 @@ namespace Systems.Research
 		{
 			var objCenter = centeredAround.AssumedWorldPosServer().RoundToInt();
 			var players = Physics2D.OverlapCircleAll(objCenter.To2(), AuraRadius, LayerMask.NameToLayer("Player"));
-			
+
 			foreach (var player in players)
 			{
 				if (player.TryGetComponent<PlayerScript>(out var playerScript))
 				{
 					if (playerScript.IsDeadOrGhost == false)
 					{
+						bool successful = false;
+
 						//What is this? Particuarly powerful artifacts can rip players apart if they are not careful,
 						//if an artifact tries to teleport the head, but the body is resistant to teleporting,
 						//it might rip the head off the body. Be careful when enabling body splitting.
 						//This can also be used to make artifacts indivdually effect body parts.
-						if (AllowBodySplitting) TryEffectParts(playerScript);
-						else TryEffectPlayer(playerScript);
+						if (AllowBodySplitting) successful = TryEffectParts(playerScript);
+						else successful = TryEffectPlayer(playerScript);
+
+						centeredAround.TryGetComponent<Artifact>(out var artifact);
+						if (artifact != null) artifact.SpawnClientEffect(playerScript.connectionToClient, successful, playerScript.AssumedWorldPos.To3());
 					}
 				}
 			}
@@ -79,7 +86,7 @@ namespace Systems.Research
 				}
 
 				totalAnomalyArmour += Mathf.Clamp(bodyPartTotalArmour, 0, 100);
-				partCount++;					
+				partCount++;
 			}
 
 			if(partCount != 0) totalAnomalyArmour /= partCount;

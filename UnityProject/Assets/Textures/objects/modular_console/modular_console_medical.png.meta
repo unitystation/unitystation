@@ -183,7 +183,7 @@ TextureImporter:
       213: 21300118
     second: medical_59
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -200,11 +200,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -243,6 +244,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -258,6 +261,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1542,69 +1557,68 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      medical_23: 21300046
+      medical_0: 21300000
+      medical_1: 21300002
+      medical_10: 21300020
       medical_11: 21300022
-      medical_59: 21300118
+      medical_12: 21300024
+      medical_13: 21300026
+      medical_14: 21300028
+      medical_15: 21300030
+      medical_16: 21300032
+      medical_17: 21300034
+      medical_18: 21300036
       medical_19: 21300038
-      medical_51: 21300102
-      medical_40: 21300080
-      medical_47: 21300094
+      medical_2: 21300004
+      medical_20: 21300040
+      medical_21: 21300042
+      medical_22: 21300044
+      medical_23: 21300046
+      medical_24: 21300048
+      medical_25: 21300050
+      medical_26: 21300052
+      medical_27: 21300054
+      medical_28: 21300056
+      medical_29: 21300058
+      medical_3: 21300006
+      medical_30: 21300060
+      medical_31: 21300062
       medical_32: 21300064
+      medical_33: 21300066
+      medical_34: 21300068
+      medical_35: 21300070
       medical_36: 21300072
-      medical_6: 21300012
+      medical_37: 21300074
+      medical_38: 21300076
+      medical_39: 21300078
+      medical_4: 21300008
+      medical_40: 21300080
       medical_41: 21300082
       medical_42: 21300084
-      medical_16: 21300032
-      medical_24: 21300048
-      medical_35: 21300070
-      medical_22: 21300044
-      medical_13: 21300026
-      medical_4: 21300008
-      medical_50: 21300100
-      medical_38: 21300076
-      medical_46: 21300092
-      medical_18: 21300036
-      medical_28: 21300056
-      medical_9: 21300018
-      medical_49: 21300098
-      medical_34: 21300068
-      medical_1: 21300002
-      medical_48: 21300096
-      medical_12: 21300024
-      medical_33: 21300066
-      medical_54: 21300108
-      medical_20: 21300040
-      medical_26: 21300052
-      medical_2: 21300004
-      medical_58: 21300116
-      medical_53: 21300106
-      medical_37: 21300074
-      medical_10: 21300020
-      medical_52: 21300104
-      medical_5: 21300010
-      medical_14: 21300028
-      medical_17: 21300034
-      medical_25: 21300050
-      medical_39: 21300078
-      medical_56: 21300112
-      medical_30: 21300060
       medical_43: 21300086
-      medical_8: 21300016
-      medical_0: 21300000
-      medical_55: 21300110
-      medical_3: 21300006
-      medical_27: 21300054
-      medical_29: 21300058
-      medical_15: 21300030
-      medical_21: 21300042
       medical_44: 21300088
-      medical_31: 21300062
-      medical_7: 21300014
-      medical_57: 21300114
       medical_45: 21300090
-  spritePackingTag: 
+      medical_46: 21300092
+      medical_47: 21300094
+      medical_48: 21300096
+      medical_49: 21300098
+      medical_5: 21300010
+      medical_50: 21300100
+      medical_51: 21300102
+      medical_52: 21300104
+      medical_53: 21300106
+      medical_54: 21300108
+      medical_55: 21300110
+      medical_56: 21300112
+      medical_57: 21300114
+      medical_58: 21300116
+      medical_59: 21300118
+      medical_6: 21300012
+      medical_7: 21300014
+      medical_8: 21300016
+      medical_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -87,7 +87,7 @@ TextureImporter:
       213: 21300054
     second: awoken_27
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,6 +148,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -162,6 +165,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -774,37 +789,36 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      awoken_24: 21300048
-      awoken_13: 21300026
-      awoken_20: 21300040
-      awoken_21: 21300042
-      awoken_6: 21300012
-      awoken_22: 21300044
-      awoken_16: 21300032
-      awoken_9: 21300018
-      awoken_11: 21300022
-      awoken_19: 21300038
-      awoken_3: 21300006
-      awoken_27: 21300054
-      awoken_25: 21300050
-      awoken_2: 21300004
-      awoken_12: 21300024
+      awoken_0: 21300000
       awoken_1: 21300002
       awoken_10: 21300020
-      awoken_8: 21300016
+      awoken_11: 21300022
+      awoken_12: 21300024
+      awoken_13: 21300026
+      awoken_14: 21300028
+      awoken_15: 21300030
+      awoken_16: 21300032
       awoken_17: 21300034
+      awoken_18: 21300036
+      awoken_19: 21300038
+      awoken_2: 21300004
+      awoken_20: 21300040
+      awoken_21: 21300042
+      awoken_22: 21300044
+      awoken_23: 21300046
+      awoken_24: 21300048
+      awoken_25: 21300050
+      awoken_26: 21300052
+      awoken_27: 21300054
+      awoken_3: 21300006
       awoken_4: 21300008
       awoken_5: 21300010
-      awoken_18: 21300036
-      awoken_14: 21300028
-      awoken_26: 21300052
+      awoken_6: 21300012
       awoken_7: 21300014
-      awoken_0: 21300000
-      awoken_23: 21300046
-      awoken_15: 21300030
-  spritePackingTag: 
+      awoken_8: 21300016
+      awoken_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

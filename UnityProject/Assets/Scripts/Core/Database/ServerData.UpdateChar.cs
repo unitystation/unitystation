@@ -3,7 +3,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Firebase.Auth;
+using Logs;
 using Newtonsoft.Json;
+using SecureStuff;
 using UnityEngine;
 using Systems.Character;
 
@@ -15,7 +17,7 @@ namespace DatabaseAPI
 		{
 			if (FirebaseAuth.DefaultInstance.CurrentUser == null)
 			{
-				Logger.LogWarning("User is not logged in! Skipping character upload.", Category.DatabaseAPI);
+				Loggy.LogWarning("User is not logged in! Skipping character upload.", Category.DatabaseAPI);
 				return false;
 			}
 			var jsonSettings = JsonConvert.SerializeObject(updateSettings);
@@ -27,6 +29,7 @@ namespace DatabaseAPI
 				}
 			});
 
+
 			HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Put,
 				UserFirestoreURL + "/?updateMask.fieldPaths=character");
 			r.Method = new HttpMethod("PATCH");
@@ -36,11 +39,11 @@ namespace DatabaseAPI
 
 			try
 			{
-				await HttpClient.SendAsync(r);
+				await SafeHttpRequest.SendAsync(r);
 			}
 			catch (Exception e)
 			{
-				Logger.LogError($"Error occured when uploading character: {e.Message}", Category.DatabaseAPI);
+				Loggy.LogError($"Error occured when uploading character: {e.Message}", Category.DatabaseAPI);
 				return false;
 			}
 

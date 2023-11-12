@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using Logs;
 using Messages.Server;
 using UnityEngine;
 using UnityEngine.Profiling;
@@ -209,13 +210,17 @@ namespace Systems.Atmospherics
 
 				if (pushable.CanBeWindPushed)
 				{
-					pushable.NewtonianPush(registerTile.transform.rotation * (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce),  spinFactor: Random.Range(1, 150));
+					pushable.NewtonianPush( (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce),  spinFactor: Random.Range(1, 150));
 				}
 
 
 				if (pushable.stickyMovement && windyNode.WindForce > (int)WindStrength.STRONG && pushable.CanBeWindPushed )
 				{
-					pushable.TryTilePush((transform.rotation * (Vector2)windyNode.WindDirection).RoundTo2Int(), null);
+					if (windyNode.WindForce * 0.15f > 0.25f)
+					{
+						pushable.NewtonianPush(windyNode.WindDirection, windyNode.WindForce * 0.05f,
+							windyNode.WindForce * 0.05f, spinFactor: Random.Range(20, 150));
+					}
 				}
 			}
 
@@ -381,7 +386,7 @@ namespace Systems.Atmospherics
 			}
 			catch (Exception e)
 			{
-				Logger.LogError(e.ToString());
+				Loggy.LogError(e.ToString());
 			}
 		}
 
@@ -391,7 +396,7 @@ namespace Systems.Atmospherics
 
 			if (hotspots.ContainsKey(hotspotPosition) == false)
 			{
-				Logger.LogError("Hotspot position key was not found in the hotspots dictionary", Category.Atmos);
+				Loggy.LogError("Hotspot position key was not found in the hotspots dictionary", Category.Atmos);
 				return;
 			}
 

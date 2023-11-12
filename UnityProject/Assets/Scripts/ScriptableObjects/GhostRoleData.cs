@@ -2,6 +2,7 @@
 using UnityEngine;
 using NaughtyAttributes;
 using Antagonists;
+using System.Linq;
 
 namespace ScriptableObjects
 {
@@ -13,6 +14,8 @@ namespace ScriptableObjects
 	{
 		[SerializeField] private new string name = default;
 		[SerializeField] [TextArea(10, 20)] private string description = default;
+		[Tooltip("Description for admin menu")]
+		[SerializeField] [TextArea(5, 10)] private string descriptionAdmin = default;
 		[SerializeField] private SpriteDataSO sprite = default;
 
 		[Tooltip("If custom, then whatever creates the ghost role must decide the respawning logic.")]
@@ -24,12 +27,31 @@ namespace ScriptableObjects
 		[SerializeField, Range(1, 16)] private int maxPlayers = 1;
 		[InfoBox("Set to -1 for no timeout.", EInfoBoxType.Normal)]
 		[SerializeField, Range(-1, 120)] private float timeout = 30;
+		[SerializeField]
+		private bool canBeAddedByAdmin = true;
+		public bool CanBeAddedByAdmin => canBeAddedByAdmin;
+
+		[Tooltip("The team of the ghost type")]
+		[SerializeField]
+		private TeamData team;
+		public TeamData Team => team;
 
 		[Tooltip("What player counts the player should see on this ghost role entry - min/max possible players, current players.")]
 		[SerializeField] private GhostRolePlayerCountType playerCountType = GhostRolePlayerCountType.ShowCurrentAndMaxCounts;
 
 		public string Name => name;
 		public string Description => description;
+		public string DescriptionAdmin
+		{
+			get
+			{
+				if (descriptionAdmin != null && descriptionAdmin.Count() > 0)
+				{
+					return descriptionAdmin;
+				}
+				return description;
+			}
+		}
 		public SpriteDataSO Sprite => sprite;
 
 		public GhostRoleSpawnType RespawnType => respawnType;

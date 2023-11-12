@@ -63,7 +63,7 @@ TextureImporter:
       213: 1934837682719911300
     second: rottenmeat_19
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -80,11 +80,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -123,6 +124,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -138,6 +141,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -582,29 +597,28 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      rottenmeat_19: 1934837682719911300
-      rottenmeat_3: 1900195015765703913
-      rottenmeat_8: -4595964244074796998
-      rottenmeat_6: 5458346632947538115
-      rottenmeat_4: -867059218590618077
+      rottenmeat_0: -8571311720253138035
+      rottenmeat_1: 3726906521973692289
+      rottenmeat_10: -4475978972169572299
       rottenmeat_11: -7196150580531354937
       rottenmeat_12: 907651544695069249
-      rottenmeat_9: -2316472458191976725
       rottenmeat_13: 4828403580336771435
-      rottenmeat_7: 115760651515549499
-      rottenmeat_5: 4580706002961686978
-      rottenmeat_1: 3726906521973692289
-      rottenmeat_2: -7700084839564514644
-      rottenmeat_0: -8571311720253138035
-      rottenmeat_16: -2034075731406368883
       rottenmeat_14: -8309243398009079309
       rottenmeat_15: 2204207178486889014
+      rottenmeat_16: -2034075731406368883
       rottenmeat_17: -2215051313849509660
-      rottenmeat_10: -4475978972169572299
       rottenmeat_18: 4270100668890586535
-  spritePackingTag: 
+      rottenmeat_19: 1934837682719911300
+      rottenmeat_2: -7700084839564514644
+      rottenmeat_3: 1900195015765703913
+      rottenmeat_4: -867059218590618077
+      rottenmeat_5: 4580706002961686978
+      rottenmeat_6: 5458346632947538115
+      rottenmeat_7: 115760651515549499
+      rottenmeat_8: -4595964244074796998
+      rottenmeat_9: -2316472458191976725
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

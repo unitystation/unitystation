@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: windooropening_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      windooropening_29: 21300058
-      windooropening_21: 21300042
-      windooropening_6: 21300012
-      windooropening_27: 21300054
-      windooropening_8: 21300016
-      windooropening_5: 21300010
-      windooropening_3: 21300006
+      windooropening_0: 21300000
+      windooropening_1: 21300002
       windooropening_10: 21300020
+      windooropening_11: 21300022
+      windooropening_12: 21300024
+      windooropening_13: 21300026
       windooropening_14: 21300028
       windooropening_15: 21300030
       windooropening_16: 21300032
-      windooropening_26: 21300052
-      windooropening_30: 21300060
-      windooropening_1: 21300002
-      windooropening_11: 21300022
       windooropening_17: 21300034
-      windooropening_31: 21300062
-      windooropening_4: 21300008
-      windooropening_19: 21300038
       windooropening_18: 21300036
-      windooropening_0: 21300000
-      windooropening_20: 21300040
-      windooropening_22: 21300044
-      windooropening_12: 21300024
-      windooropening_7: 21300014
-      windooropening_9: 21300018
-      windooropening_23: 21300046
-      windooropening_28: 21300056
+      windooropening_19: 21300038
       windooropening_2: 21300004
+      windooropening_20: 21300040
+      windooropening_21: 21300042
+      windooropening_22: 21300044
+      windooropening_23: 21300046
       windooropening_24: 21300048
       windooropening_25: 21300050
-      windooropening_13: 21300026
-  spritePackingTag: 
+      windooropening_26: 21300052
+      windooropening_27: 21300054
+      windooropening_28: 21300056
+      windooropening_29: 21300058
+      windooropening_3: 21300006
+      windooropening_30: 21300060
+      windooropening_31: 21300062
+      windooropening_4: 21300008
+      windooropening_5: 21300010
+      windooropening_6: 21300012
+      windooropening_7: 21300014
+      windooropening_8: 21300016
+      windooropening_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using UnityEngine.Events;
 using UI;
@@ -7,7 +9,11 @@ using UI;
 /// This component allows the game object to be disabled with the escape key automatically
 /// It pushes the object to the escape key target stack when it's enabled, and pops it when it's disabled.
 /// </summary>
-public class EscapeKeyTarget : MonoBehaviour {
+public class EscapeKeyTarget : MonoBehaviour
+{
+
+	public NetTab NetTab;
+
 	[SerializeField]
 	[Tooltip("What to invoke when this component receives the escape command, other than disabling if DisableOnEscape is true.")]
 	private UnityEvent OnEscapeKey = new UnityEvent();
@@ -30,11 +36,7 @@ public class EscapeKeyTarget : MonoBehaviour {
 		{
 			EscapeKeyTarget escapeKeyTarget = Targets.Last.Value;
 			escapeKeyTarget.OnEscapeKey.Invoke();
-			if (escapeKeyTarget.DisableOnEscape)
-			{
-				// Close the escape key target at the top of the stack
-				GUI_IngameMenu.Instance.CloseMenuPanel(escapeKeyTarget.gameObject);
-			}
+			escapeKeyTarget.ExtraLogic();
 		}
 		else if (GameData.IsInGame)
 		{
@@ -43,16 +45,36 @@ public class EscapeKeyTarget : MonoBehaviour {
 		}
 	}
 
+	public void Awake()
+	{
+		NetTab = this.GetComponent<NetTab>();
+	}
+
+	public void ExtraLogic()
+	{
+		if (NetTab != null)
+		{
+			NetTab.CloseTab();
+			Targets.Remove(this);
+		}
+
+		if (DisableOnEscape)
+		{
+			// Close the escape key target at the top of the stack
+			GUI_IngameMenu.Instance.CloseMenuPanel(gameObject);
+		}
+	}
+
 	void OnEnable()
 	{
 		// Add this object to the top of the stack so Esc will close it next
-		Logger.Log("Adding escape key target: " + this.name, Category.UserInput);
+		Loggy.Log("Adding escape key target: " + this.name, Category.UserInput);
 		Targets.AddLast(this);
 	}
 	void OnDisable()
 	{
 		// Remove the escape key target
-		Logger.Log("Removing escape key target: " + this.name, Category.UserInput);
+		Loggy.Log("Removing escape key target: " + this.name, Category.UserInput);
 		Targets.Remove(this);
 	}
 }

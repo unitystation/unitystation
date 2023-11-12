@@ -66,7 +66,7 @@ TextureImporter:
       213: 21300040
     second: glass_pipe_20
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -83,11 +83,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -126,6 +127,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -141,6 +144,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -606,30 +621,29 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      glass_pipe_15: 21300030
-      glass_pipe_8: 21300016
       glass_pipe_0: 21300000
-      glass_pipe_18: 21300036
+      glass_pipe_1: 21300002
+      glass_pipe_10: 21300020
+      glass_pipe_11: 21300022
+      glass_pipe_12: 21300024
+      glass_pipe_13: 21300026
+      glass_pipe_14: 21300028
+      glass_pipe_15: 21300030
+      glass_pipe_16: 21300032
       glass_pipe_17: 21300034
+      glass_pipe_18: 21300036
+      glass_pipe_19: 21300038
       glass_pipe_2: 21300004
+      glass_pipe_20: 21300040
+      glass_pipe_3: 21300006
+      glass_pipe_4: 21300008
+      glass_pipe_5: 21300010
       glass_pipe_6: 21300012
       glass_pipe_7: 21300014
-      glass_pipe_10: 21300020
-      glass_pipe_14: 21300028
+      glass_pipe_8: 21300016
       glass_pipe_9: 21300018
-      glass_pipe_19: 21300038
-      glass_pipe_12: 21300024
-      glass_pipe_3: 21300006
-      glass_pipe_20: 21300040
-      glass_pipe_11: 21300022
-      glass_pipe_4: 21300008
-      glass_pipe_16: 21300032
-      glass_pipe_5: 21300010
-      glass_pipe_13: 21300026
-      glass_pipe_1: 21300002
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

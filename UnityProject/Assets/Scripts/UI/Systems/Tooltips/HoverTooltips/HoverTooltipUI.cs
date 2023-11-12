@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Learning;
+using Logs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -115,6 +116,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		private void UpdateDetailedView(GameObject target)
 		{
 			var tips = target.GetComponents<IHoverTooltip>();
+			descText.text = "";
 			foreach (var data in tips)
 			{
 				if (String.IsNullOrEmpty(data.CustomTitle()) == false) nameText.text = data.CustomTitle();
@@ -154,11 +156,10 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private void ResetTool()
 		{
-			nameText.text = string.Empty;
-			descText.text = string.Empty;
-			iconTarget.sprite = errorIconSprite;
+
 			ResetInteractionsList();
 			showing = false;
+
 			StartCoroutine(AnimateBackground());
 		}
 
@@ -199,6 +200,12 @@ namespace UI.Systems.Tooltips.HoverTooltips
 				content.alpha = Mathf.Clamp(content.alpha, 0f, FULLY_VISIBLE_ALPHA);
 			}
 			animating = false;
+			if (showing == false)
+			{
+				iconTarget.sprite = errorIconSprite;
+				nameText.text = string.Empty;
+				descText.text = string.Empty;
+			}
 		}
 
 		private IEnumerator QueueTip(GameObject queuedObject, bool noWait = false)

@@ -91,7 +91,7 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 	public virtual void InjectBehavior(LivingHealthMasterBase LHB, RegisterPlayer performer)
 	{
 		used = true;
-		if (LocalContainer.ReagentMixTotal > 0)
+		if (LocalContainer.SyringePulling == false)
 		{
 			if (LHB.reagentPoolSystem != null)
 				LHB.reagentPoolSystem.BloodPool.Add(LocalContainer.TakeReagents(TransferAmount));
@@ -99,7 +99,7 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			Chat.AddCombatMsgToChat(performer.gameObject, $"You Inject The {this.name} into {LHB.gameObject.ExpensiveName()}",
 				$"{performer.PlayerScript.visibleName} injects a {this.name} into {LHB.gameObject.ExpensiveName()}");
 			if(SicknessesInSyringe.Count > 0) LHB.AddSickness(SicknessesInSyringe.PickRandom().Sickness);
-			if (ChangesSprite) SpriteHandler.ChangeSprite(SpiteEmptyIndex);
+			if (ChangesSprite) SpriteHandler.SetCatalogueIndexSprite(SpiteEmptyIndex);
 
 		}
 		else
@@ -107,7 +107,7 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			if (LHB.reagentPoolSystem != null)
 				LocalContainer.Add(LHB.reagentPoolSystem.BloodPool.Take(LocalContainer.MaxCapacity));
 			LocalContainer.ReagentsChanged();
-			if (ChangesSprite) SpriteHandler.ChangeSprite(SpiteFullIndex);
+			if (ChangesSprite) SpriteHandler.SetCatalogueIndexSprite(SpiteFullIndex);
 			Chat.AddCombatMsgToChat(performer.gameObject, $"You pull the blood from {LHB.gameObject.ExpensiveName()}",
 				$"{performer.PlayerScript.visibleName} pulls the blood from {LHB.gameObject.ExpensiveName()}");
 			if(LHB.mobSickness.sicknessAfflictions.Count > 0) SicknessesInSyringe.AddRange(LHB.mobSickness.sicknessAfflictions);

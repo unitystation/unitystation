@@ -64,7 +64,7 @@ public class DNAConsole : MonoBehaviour
 	[NaughtyAttributes.Button()]
 	public void Inject()
 	{
-		DNAScanner.occupant.InjectDNA(Injecting);
+		DNAScanner.occupant.InjectDna(Injecting);
 	}
 
 
@@ -80,11 +80,6 @@ public class DNAConsole : MonoBehaviour
 
 	public bool AddAmber()
 	{
-		if (CurrentDNACharge >= RequiredDNASamples)
-		{
-			return false;
-		}
-
 		CurrentDNACharge++;
 
 		if (ActiveGUI_DNAConsole != null)

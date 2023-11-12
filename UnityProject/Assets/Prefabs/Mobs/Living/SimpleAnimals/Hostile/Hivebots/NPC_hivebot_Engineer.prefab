@@ -5,12 +5,33 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 177601834584445262, guid: d4a3f41d96f2c4143b8556508db41c57,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 177601834584445262, guid: d4a3f41d96f2c4143b8556508db41c57,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 177601834584445262, guid: d4a3f41d96f2c4143b8556508db41c57,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 298721744298734940, guid: d4a3f41d96f2c4143b8556508db41c57,
         type: 3}
       propertyPath: mobName
       value: Hivebot Engineer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215125423003293217, guid: d4a3f41d96f2c4143b8556508db41c57,
+        type: 3}
+      propertyPath: _assetId
+      value: 2969235181
       objectReference: {fileID: 0}
     - target: {fileID: 4215125423003293217, guid: d4a3f41d96f2c4143b8556508db41c57,
         type: 3}
@@ -120,7 +141,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7299368040237456080, guid: d4a3f41d96f2c4143b8556508db41c57,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: beea9646602eeb941ba0d3b8a812197f,
         type: 2}
@@ -141,4 +162,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4a3f41d96f2c4143b8556508db41c57, type: 3}

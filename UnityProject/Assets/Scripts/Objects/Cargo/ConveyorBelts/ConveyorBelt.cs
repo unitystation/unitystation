@@ -168,19 +168,19 @@ namespace Construction.Conveyors
 		{
 			if (Application.isPlaying) return;
 			if (this == null) return;
-			spriteHandler.ChangeSprite((int)CurrentStatus);
+			spriteHandler.SetCatalogueIndexSprite((int)CurrentStatus);
 			var variant = (int)CurrentDirection;
 
-			spriteHandler.ChangeSpriteVariant(variant);
+			spriteHandler.SetSpriteVariant(variant);
 		}
 
 		private void RefreshSprites()
 		{
 			if (this == null) return;
-			spriteHandler.ChangeSprite((int)CurrentStatus);
+			spriteHandler.SetCatalogueIndexSprite((int)CurrentStatus);
 			var variant = (int)CurrentDirection;
 
-			spriteHandler.ChangeSpriteVariant(variant);
+			spriteHandler.SetSpriteVariant(variant);
 		}
 
 		private void GetPositionOffset()
@@ -231,13 +231,13 @@ namespace Construction.Conveyors
 			if (!Validations.IsTarget(gameObject, interaction)) return false;
 
 			// Deconstruct (crowbar) and change direction (screwdriver)
-			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) ||
-					Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver);
+			return Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar) ||
+					Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench))
 			{
 				//deconsruct
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -248,7 +248,7 @@ namespace Construction.Conveyors
 					DeconstructBelt);
 			}
 
-			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver)) //change direction
+			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver)) //change direction
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 1f,
 					"You start redirecting the conveyor belt...",
@@ -276,7 +276,7 @@ namespace Construction.Conveyors
 
 			CurrentDirection = (ConveyorDirection)count;
 
-			spriteHandler.ChangeSpriteVariant(count);
+			spriteHandler.SetSpriteVariant(count);
 		}
 
 		#endregion Interaction

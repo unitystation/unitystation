@@ -4,9 +4,10 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Firebase.Auth;
+using Logs;
 using Newtonsoft.Json;
+using SecureStuff;
 using UnityEngine;
-using UnityEngine.Networking;
 using Systems.Character;
 
 namespace DatabaseAPI
@@ -33,17 +34,17 @@ namespace DatabaseAPI
 			HttpResponseMessage response;
 			try
 			{
-				response = await ServerData.HttpClient.SendAsync(req, cancellationToken);
+				response = await SafeHttpRequest.SendAsync(req, cancellationToken);
 			}
 			catch (Exception e)
 			{
-				Logger.LogError($"Error Accessing Firestore: {e.Message}", Category.DatabaseAPI);
+				Loggy.LogError($"Error Accessing Firestore: {e.Message}", Category.DatabaseAPI);
 				errorAction?.Invoke($"Error accessing Firestore. Check your console (F5)");
 				return false;
 			}
 
 			string content = await response.Content.ReadAsStringAsync();
-			FireStoreResponse fr = JsonUtility.FromJson<FireStoreResponse>(content);
+			FireStoreResponse fr = JsonConvert.DeserializeObject<FireStoreResponse>(content);
 			FireStoreCharacter fireStoreChar = fr.fields.character;
 
 			CharacterSheet characterSettings;
@@ -57,14 +58,14 @@ namespace DatabaseAPI
 			else
 			{
 				string unescapedJson = Regex.Unescape(fireStoreChar.stringValue);
-				Logger.Log(unescapedJson);
+				Loggy.Log(unescapedJson);
 				try
 				{
 					characterSettings = JsonConvert.DeserializeObject<CharacterSheet>(unescapedJson);
 				}
 				catch
 				{
-					Logger.LogWarning($"Couldn't deserialise saved character settings.");
+					Loggy.LogWarning($"Couldn't deserialise saved character settings.");
 					characterSettings = CharacterSheet.GenerateRandomCharacter();
 				}
 
@@ -78,7 +79,7 @@ namespace DatabaseAPI
 				bool updateSuccess = await UpdateCharacterProfile(characterSettings);
 				if (!updateSuccess)
 				{
-					Logger.LogError($"Error when updating character", Category.DatabaseAPI);
+					Loggy.LogError($"Error when updating character", Category.DatabaseAPI);
 					errorAction?.Invoke("Error when updating character");
 					return false;
 				}
@@ -100,28 +101,28 @@ namespace DatabaseAPI
 			}
 
 			HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get,
-				url + UnityWebRequest.EscapeURL(JsonUtility.ToJson(refreshToken)));
+				url + Uri.EscapeDataString(JsonConvert.SerializeObject(refreshToken)));
 
 			CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
 
 			HttpResponseMessage res;
 			try
 			{
-				res = await HttpClient.SendAsync(r, cancellationToken);
+				res = await SafeHttpRequest.SendAsync(r, cancellationToken);
 			}
 			catch (Exception e)
 			{
 				//fail silently for local offline testing
 				if (!GameData.Instance.OfflineMode)
 				{
-					Logger.Log($"Something went wrong with token validation {e.Message}", Category.DatabaseAPI);
+					Loggy.Log($"Something went wrong with token validation {e.Message}", Category.DatabaseAPI);
 				}
 
 				return null;
 			}
 
 			string msg = await res.Content.ReadAsStringAsync();
-			return JsonUtility.FromJson<ApiResponse>(msg);
+			return JsonConvert.DeserializeObject<ApiResponse>(msg);
 		}
 	}
 }

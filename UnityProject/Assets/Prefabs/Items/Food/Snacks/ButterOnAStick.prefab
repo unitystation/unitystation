@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 11645635070427223, guid: 77894e6657f8aa940a79a759ddf0fe40,
@@ -80,6 +81,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6415329121154052494, guid: 77894e6657f8aa940a79a759ddf0fe40,
         type: 3}
+      propertyPath: _assetId
+      value: 955843074
+      objectReference: {fileID: 0}
+    - target: {fileID: 6415329121154052494, guid: 77894e6657f8aa940a79a759ddf0fe40,
+        type: 3}
       propertyPath: m_AssetId
       value: 99014d5b3b098f34a8693a14f81df63a
       objectReference: {fileID: 0}
@@ -100,4 +106,7 @@ PrefabInstance:
       value: Delicious, golden, fatty goodness on a stick.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77894e6657f8aa940a79a759ddf0fe40, type: 3}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 226526901835897784, guid: 4870238ed625c0e45839e280fab63823,
@@ -19,13 +20,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 226526901835897784, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: ecc2bcc8eb719fa4da0cad7960f928c3,
         type: 2}
     - target: {fileID: 226526901835897784, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: d61804e346ba1414ab6c53b13833118f,
         type: 2}
@@ -42,13 +43,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1017792316374873018, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 94dda8bbe96daf14ba6bb4b4067824fc,
         type: 2}
     - target: {fileID: 1017792316374873018, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 3e6bc48b0449de64b8077d4ab3b61d20,
         type: 2}
@@ -58,6 +59,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 1bb2215885879394595d4c0b24a40360,
         type: 3}
+    - target: {fileID: 6543103638195795337, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: _assetId
+      value: 3345577008
+      objectReference: {fileID: 0}
     - target: {fileID: 6543103638195795337, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
       propertyPath: m_AssetId
@@ -168,4 +174,7 @@ PrefabInstance:
     - {fileID: 6962848488984513411, guid: 4870238ed625c0e45839e280fab63823, type: 3}
     - {fileID: 6006827997880951511, guid: 4870238ed625c0e45839e280fab63823, type: 3}
     - {fileID: 2736999525369415242, guid: 4870238ed625c0e45839e280fab63823, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4870238ed625c0e45839e280fab63823, type: 3}

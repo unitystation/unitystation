@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using NaughtyAttributes;
 using Util;
@@ -159,7 +160,7 @@ namespace Core.Directionals
 					AtmosPassable = true;
 					break;
 				default:
-					Logger.LogWarning("Unknown DirectionalPassable PassType. Doing nothing.", Category.Directionals);
+					Loggy.LogWarning("Unknown DirectionalPassable PassType. Doing nothing.", Category.Directionals);
 					break;
 			}
 		}
@@ -184,7 +185,7 @@ namespace Core.Directionals
 					AtmosPassable = false;
 					break;
 				default:
-					Logger.LogWarning("Unknown DirectionalPassable PassType. Doing nothing.", Category.Directionals);
+					Loggy.LogWarning("Unknown DirectionalPassable PassType. Doing nothing.", Category.Directionals);
 					break;
 			}
 		}
@@ -209,7 +210,7 @@ namespace Core.Directionals
 					AtmosPassable = true;
 					break;
 				default:
-					Logger.LogWarning("Unknown DirectionalPassable PassType. Doing nothing.", Category.Directionals);
+					Loggy.LogWarning("Unknown DirectionalPassable PassType. Doing nothing.", Category.Directionals);
 					break;
 			}
 		}
@@ -224,7 +225,7 @@ namespace Core.Directionals
 			EnsureInit();
 			if (rotatableChecked.HasComponent == false)
 			{
-				Logger.LogError($"No {nameof(Rotatable)} component found on {this}?", Category.Directionals);
+				Loggy.LogError($"No {nameof(Rotatable)} component found on {this}?", Category.Directionals);
 				return false;
 			}
 
@@ -258,7 +259,7 @@ namespace Core.Directionals
 					else if (sideToCross == Vector2Int.right) return sides.Down;
 					break;
 				default:
-					Logger.LogWarning("Unknown orientation. Returning false.", Category.Directionals);
+					Loggy.LogWarning("Unknown orientation. Returning false.", Category.Directionals);
 					break;
 			}
 
@@ -270,7 +271,7 @@ namespace Core.Directionals
 			EnsureInit();
 			if (rotatableChecked.HasComponent == false)
 			{
-				Logger.LogError($"No {nameof(Rotatable)} component found on {this}?", Category.Directionals);
+				Loggy.LogError($"No {nameof(Rotatable)} component found on {this}?", Category.Directionals);
 				return Enumerable.Empty<OrientationEnum>();
 			}
 
@@ -304,7 +305,7 @@ namespace Core.Directionals
 					if (sides.Down == false) enums.Add(OrientationEnum.Right_By270);
 					break;
 				default:
-					Logger.LogWarning("Unknown orientation. Returning false.", Category.Directionals);
+					Loggy.LogWarning("Unknown orientation. Returning false.", Category.Directionals);
 					break;
 			}
 

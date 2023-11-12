@@ -5,12 +5,18 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 702159867320030847, guid: 623189688b8953843aa87c899f5b0c31,
         type: 3}
       propertyPath: initialName
       value: stechkin pistol magazine (9mm hollow-point)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064887464572126377, guid: 623189688b8953843aa87c899f5b0c31,
+        type: 3}
+      propertyPath: _assetId
+      value: 1309637097
       objectReference: {fileID: 0}
     - target: {fileID: 1064887464572126377, guid: 623189688b8953843aa87c899f5b0c31,
         type: 3}
@@ -83,4 +89,7 @@ PrefabInstance:
       value: cc645811c71dcdc4d94420953ca28fda
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 623189688b8953843aa87c899f5b0c31, type: 3}

@@ -49,7 +49,7 @@ namespace Items
 				if (handler)
 				{
 					int newSpriteID = sliverSlot.ItemObject == null ? NOT_LOADED_SPRITE : LOADED_SPRITE;
-					handler.ChangeSprite(newSpriteID);
+					handler.SetCatalogueIndexSprite(newSpriteID);
 				}
 			}
 		}

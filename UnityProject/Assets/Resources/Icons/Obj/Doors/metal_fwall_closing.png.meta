@@ -165,7 +165,7 @@ TextureImporter:
       213: 6422264932967668362
     second: metal_fwall_closing_53
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -182,11 +182,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -225,6 +226,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -274,6 +277,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -1422,63 +1437,62 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      metal_fwall_closing_45: -4764367517495306974
-      metal_fwall_closing_13: -357523295675138203
-      metal_fwall_closing_50: -3811823717226852361
-      metal_fwall_closing_27: 4781617211358415324
       metal_fwall_closing_0: -2110864004724914001
-      metal_fwall_closing_37: 103800125499517525
-      metal_fwall_closing_39: 746051822277750933
-      metal_fwall_closing_22: 5544304153987206486
-      metal_fwall_closing_49: 7536205569163054883
-      metal_fwall_closing_42: -7145537368322135259
-      metal_fwall_closing_17: -3560318840318722374
-      metal_fwall_closing_46: -8037267625878894033
       metal_fwall_closing_1: 3642476281619244465
-      metal_fwall_closing_28: 2146742530495388172
-      metal_fwall_closing_34: -6989928709730385212
-      metal_fwall_closing_40: 4829548153176072527
-      metal_fwall_closing_23: 1974882705656091038
-      metal_fwall_closing_11: -4685248965641706506
-      metal_fwall_closing_30: -4700002275324602845
-      metal_fwall_closing_5: 4430408308632913980
-      metal_fwall_closing_9: -3209494791467493009
-      metal_fwall_closing_36: 2888067431318796072
-      metal_fwall_closing_35: -5986916152596766454
-      metal_fwall_closing_19: -3030418146900807636
-      metal_fwall_closing_25: -8405787168266453936
-      metal_fwall_closing_2: -1076016236250593920
-      metal_fwall_closing_6: -8554439799034846317
-      metal_fwall_closing_31: 1107259848822807990
-      metal_fwall_closing_26: -2068877702548129445
-      metal_fwall_closing_7: -1623218220575584798
-      metal_fwall_closing_47: -360179478780239664
-      metal_fwall_closing_4: 7030497514837304595
-      metal_fwall_closing_33: 454658754041704368
-      metal_fwall_closing_21: 2880583382781254390
-      metal_fwall_closing_24: -2855125108502039026
-      metal_fwall_closing_51: 8917379082602133007
-      metal_fwall_closing_8: -8309778675428647642
-      metal_fwall_closing_15: 2763601194266909813
-      metal_fwall_closing_32: -400343399221406559
-      metal_fwall_closing_20: 4094368257751314076
-      metal_fwall_closing_44: 5167620185347391789
-      metal_fwall_closing_53: 6422264932967668362
-      metal_fwall_closing_12: -6808807140126788598
-      metal_fwall_closing_3: 7436239156367370095
-      metal_fwall_closing_52: 105890494668461046
-      metal_fwall_closing_48: -4024504016318360271
-      metal_fwall_closing_38: 3836124435464655820
-      metal_fwall_closing_18: -3408901945890534747
       metal_fwall_closing_10: 2646710323764985287
-      metal_fwall_closing_43: 1279717507514756217
-      metal_fwall_closing_41: 6059093427003497061
-      metal_fwall_closing_16: -2899752689307814197
-      metal_fwall_closing_29: -4296020135665368675
+      metal_fwall_closing_11: -4685248965641706506
+      metal_fwall_closing_12: -6808807140126788598
+      metal_fwall_closing_13: -357523295675138203
       metal_fwall_closing_14: 7552107348771132098
-  spritePackingTag: 
+      metal_fwall_closing_15: 2763601194266909813
+      metal_fwall_closing_16: -2899752689307814197
+      metal_fwall_closing_17: -3560318840318722374
+      metal_fwall_closing_18: -3408901945890534747
+      metal_fwall_closing_19: -3030418146900807636
+      metal_fwall_closing_2: -1076016236250593920
+      metal_fwall_closing_20: 4094368257751314076
+      metal_fwall_closing_21: 2880583382781254390
+      metal_fwall_closing_22: 5544304153987206486
+      metal_fwall_closing_23: 1974882705656091038
+      metal_fwall_closing_24: -2855125108502039026
+      metal_fwall_closing_25: -8405787168266453936
+      metal_fwall_closing_26: -2068877702548129445
+      metal_fwall_closing_27: 4781617211358415324
+      metal_fwall_closing_28: 2146742530495388172
+      metal_fwall_closing_29: -4296020135665368675
+      metal_fwall_closing_3: 7436239156367370095
+      metal_fwall_closing_30: -4700002275324602845
+      metal_fwall_closing_31: 1107259848822807990
+      metal_fwall_closing_32: -400343399221406559
+      metal_fwall_closing_33: 454658754041704368
+      metal_fwall_closing_34: -6989928709730385212
+      metal_fwall_closing_35: -5986916152596766454
+      metal_fwall_closing_36: 2888067431318796072
+      metal_fwall_closing_37: 103800125499517525
+      metal_fwall_closing_38: 3836124435464655820
+      metal_fwall_closing_39: 746051822277750933
+      metal_fwall_closing_4: 7030497514837304595
+      metal_fwall_closing_40: 4829548153176072527
+      metal_fwall_closing_41: 6059093427003497061
+      metal_fwall_closing_42: -7145537368322135259
+      metal_fwall_closing_43: 1279717507514756217
+      metal_fwall_closing_44: 5167620185347391789
+      metal_fwall_closing_45: -4764367517495306974
+      metal_fwall_closing_46: -8037267625878894033
+      metal_fwall_closing_47: -360179478780239664
+      metal_fwall_closing_48: -4024504016318360271
+      metal_fwall_closing_49: 7536205569163054883
+      metal_fwall_closing_5: 4430408308632913980
+      metal_fwall_closing_50: -3811823717226852361
+      metal_fwall_closing_51: 8917379082602133007
+      metal_fwall_closing_52: 105890494668461046
+      metal_fwall_closing_53: 6422264932967668362
+      metal_fwall_closing_6: -8554439799034846317
+      metal_fwall_closing_7: -1623218220575584798
+      metal_fwall_closing_8: -8309778675428647642
+      metal_fwall_closing_9: -3209494791467493009
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

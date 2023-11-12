@@ -48,7 +48,7 @@ TextureImporter:
       213: 21300028
     second: fabricator_ani_14
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -65,11 +65,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -108,6 +109,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -123,6 +126,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -462,24 +477,23 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      fabricator_ani_1: 21300002
-      fabricator_ani_2: 21300004
-      fabricator_ani_11: 21300022
-      fabricator_ani_13: 21300026
-      fabricator_ani_3: 21300006
-      fabricator_ani_8: 21300016
-      fabricator_ani_12: 21300024
-      fabricator_ani_5: 21300010
-      fabricator_ani_7: 21300014
-      fabricator_ani_10: 21300020
-      fabricator_ani_6: 21300012
       fabricator_ani_0: 21300000
-      fabricator_ani_9: 21300018
-      fabricator_ani_4: 21300008
+      fabricator_ani_1: 21300002
+      fabricator_ani_10: 21300020
+      fabricator_ani_11: 21300022
+      fabricator_ani_12: 21300024
+      fabricator_ani_13: 21300026
       fabricator_ani_14: 21300028
-  spritePackingTag: 
+      fabricator_ani_2: 21300004
+      fabricator_ani_3: 21300006
+      fabricator_ani_4: 21300008
+      fabricator_ani_5: 21300010
+      fabricator_ani_6: 21300012
+      fabricator_ani_7: 21300014
+      fabricator_ani_8: 21300016
+      fabricator_ani_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
+using Logs;
 using UnityEngine;
 using UI.Action;
 using UI.Core.Action;
@@ -62,7 +63,7 @@ namespace UI.Items
 
 			if (GameObjectReference == null)
 			{
-				Logger.LogError($"{thisPlayerScript.playerName} cuffed but no GameObjectReference to the cuffs, so uncuffing time set to 30");
+				Loggy.LogError($"{thisPlayerScript.playerName} cuffed but no GameObjectReference to the cuffs, so uncuffing time set to 30");
 
 				//Default to 30 seconds
 				resistTime = 30;

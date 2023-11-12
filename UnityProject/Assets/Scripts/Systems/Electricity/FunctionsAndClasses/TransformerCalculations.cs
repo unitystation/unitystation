@@ -120,7 +120,7 @@ namespace Systems.Electricity.NodeModules
 				double V2 = Voltage / TurnRatio;
 				double R2 = V2 / ((Voltage / V2) * (Voltage / ResistanceModified));
 				//Logger.Log(R2 + " < R2 " + V2 + " < V2 " + ResistanceModified + " < ResistanceModified" + TurnRatio + " < TurnRatio " + Voltage + " < Voltage ");
-				if (!(TransformInformation.VoltageLimiting == 0))
+				if (TransformInformation.VoltageLimiting != 0)
 				{ //if Total Voltage greater than that then  Push some of it to ground  to == VoltageLimitedTo And then everything after it to ground/
 				  //float VVoltage = ElectricityFunctions.WorkOutVoltage(TransformInformation.ControllingNode.Node);
 					if (V2 + inVoltage > TransformInformation.VoltageLimiting)

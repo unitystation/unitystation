@@ -4,10 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using _3D;
+using Logs;
 using Messages.Server;
 using Objects;
 using Objects.Atmospherics;
 using ScriptableObjects;
+using SecureStuff;
 using Tiles;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -842,7 +844,7 @@ namespace TileManagement
 
 						if (found == false)
 						{
-							Logger.LogError(
+							Loggy.LogError(
 								$"Tile has reached maximum Meta data system depth {MaxDepth}, This could be from accidental placing of multiple tiles",
 								Category.Editor);
 						}
@@ -926,7 +928,7 @@ namespace TileManagement
 
 		private void LogMissingLayer(Vector3Int position, LayerType layerType)
 		{
-			Logger.LogErrorFormat("Modifying tile at cellPos {0} for layer type {1} failed because matrix {2} " +
+			Loggy.LogErrorFormat("Modifying tile at cellPos {0} for layer type {1} failed because matrix {2} " +
 			                      "has no layer of that type. Please add this layer to this matrix in" +
 			                      " the scene.", Category.TileMaps, position, layerType, name);
 		}
@@ -1443,7 +1445,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Logger.LogError("Please use get objects instead of get tile", Category.TileMaps);
+				Loggy.LogError("Please use get objects instead of get tile", Category.TileMaps);
 				return false;
 			}
 
@@ -1488,7 +1490,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Logger.LogError("Please use get objects instead of get tile");
+				Loggy.LogError("Please use get objects instead of get tile");
 				return null;
 			}
 
@@ -1536,7 +1538,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Logger.LogError("Please use get objects instead of get tile");
+				Loggy.LogError("Please use get objects instead of get tile");
 				return null;
 			}
 
@@ -1589,7 +1591,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Logger.LogError("Please use get objects instead of get tile");
+				Loggy.LogError("Please use get objects instead of get tile");
 				return null;
 			}
 
@@ -1643,7 +1645,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Logger.LogError("Please use get objects instead of get tile");
+				Loggy.LogError("Please use get objects instead of get tile");
 				return null;
 			}
 
@@ -1692,7 +1694,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Logger.LogError("Please use get objects instead of get tile");
+				Loggy.LogError("Please use get objects instead of get tile");
 				return false;
 			}
 
@@ -1740,7 +1742,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Logger.LogError("Please use get objects instead of get tile");
+				Loggy.LogError("Please use get objects instead of get tile");
 				return false;
 			}
 
@@ -1791,6 +1793,7 @@ namespace TileManagement
 
 				if (Application.isPlaying == false)
 				{
+					if (layer.gameObject.activeInHierarchy == false) continue;
 					if (layer.LayerType.IsUnderFloor())
 					{
 						//TODO Tile map upgrade , xyz z = is the z The level so We need one more xyzw w = what w Coordinate on the z Coordinate on the layer the tile is
@@ -1961,7 +1964,7 @@ namespace TileManagement
 
 			if (localToWorldMatrix == null)
 			{
-				Logger.LogError(
+				Loggy.LogError(
 					"humm, localToWorldMatrix  tried to be excess before being set humm, Setting to identity matrix, Please fix this ");
 				localToWorldMatrix = Matrix4x4.identity;
 			}
@@ -2014,7 +2017,7 @@ namespace TileManagement
 
 			if (Layers.ContainsKey(tile.LayerType) == false)
 			{
-				Logger.LogErrorFormat($"LAYER TYPE: {0} not found!", Category.TileMaps, tile.LayerType);
+				Loggy.LogErrorFormat($"LAYER TYPE: {0} not found!", Category.TileMaps, tile.LayerType);
 				return;
 			}
 
@@ -2305,7 +2308,7 @@ namespace TileManagement
 											if (PipeDirCheck[d])
 											{
 												canInitializePipe = false;
-												Logger.LogWarning(
+												Loggy.LogWarning(
 													$"A pipe is overlapping its connection at ({n}, {p}) in {layer.Matrix.gameObject.scene.name} - {layer.Matrix.name} with another pipe, removing one",
 													Category.Pipes);
 												layer.Tilemap.SetTile(localPlace, null);

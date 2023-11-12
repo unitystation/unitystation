@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 37180172643282144, guid: 119a19b7af9f24a4eae413817fdef76d,
@@ -30,7 +31,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 990566071399204066, guid: 119a19b7af9f24a4eae413817fdef76d,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: ddfe5111b6eb3424db048903e68d531d,
         type: 2}
@@ -43,6 +44,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A formal black suitskirt and red tie, intended for the station's finest.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077112385209608915, guid: 119a19b7af9f24a4eae413817fdef76d,
+        type: 3}
+      propertyPath: _assetId
+      value: 29133995
       objectReference: {fileID: 0}
     - target: {fileID: 6077112385209608915, guid: 119a19b7af9f24a4eae413817fdef76d,
         type: 3}
@@ -136,4 +142,7 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 119a19b7af9f24a4eae413817fdef76d, type: 3}

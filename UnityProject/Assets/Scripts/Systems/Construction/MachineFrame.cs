@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Items;
+using Logs;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects;
@@ -133,25 +134,25 @@ namespace Objects.Construction
 			if (CurrentState == initialState)
 			{
 				//Add 5 cables or deconstruct
-				return (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) && Validations.HasUsedAtLeast(interaction, 5)) ||
+				return (Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) && Validations.HasUsedAtLeast(interaction, 5)) ||
 					Validations.HasUsedActiveWelder(interaction);
 			}
 			else if (CurrentState == cablesAddedState)
 			{
 				//cut cables or wrench frame
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter) ||
-					  Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench);
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter) ||
+					  Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench);
 			}
 			else if (CurrentState == wrenchedState)
 			{
 				//Unwrench or add circuit board
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) ||
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench) ||
 					Validations.HasUsedComponent<MachineCircuitBoard>(interaction);
 			}
 			else if (CurrentState == circuitAddedState)
 			{
 				//remove circuit board, also removes all parts that have been added
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
+				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar))
 				{
 					return true;
 				}
@@ -159,7 +160,7 @@ namespace Objects.Construction
 				//check part item traits, if in scriptableObject of the machine then return true.
 				foreach (var part in listOfAllowedTraits)
 				{
-					if (Validations.HasUsedItemTrait(interaction, part.AllowedTrait))
+					if (Validations.HasItemTrait(interaction, part.AllowedTrait))
 					{
 						return true;
 					}
@@ -169,8 +170,8 @@ namespace Objects.Construction
 			else if (CurrentState == partsAddedState)
 			{
 				//screw in parts or crowbar out circuit board which removes all parts
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
-					   Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+					   Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar);
 			}
 
 			return false;
@@ -210,7 +211,7 @@ namespace Objects.Construction
 		/// <param name="interaction"></param>
 		private void InitialStateInteraction(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) &&
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) &&
 									 Validations.HasUsedAtLeast(interaction, 5))
 			{
 				//add 5 cables
@@ -224,7 +225,7 @@ namespace Objects.Construction
 						Inventory.ServerConsume(interaction.HandSlot, 5);
 						stateful.ServerChangeState(cablesAddedState);
 
-						spriteHandler.ChangeSprite((int) SpriteStates.BoxCable);
+						spriteHandler.SetCatalogueIndexSprite((int) SpriteStates.BoxCable);
 					});
 			}
 			else if (Validations.HasUsedActiveWelder(interaction))
@@ -249,7 +250,7 @@ namespace Objects.Construction
 		/// <param name="interaction"></param>
 		private void CablesAddedStateInteraction(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter))
 			{
 				//cut out cables
 				Chat.AddActionMsgToChat(interaction, $"You remove the cables.",
@@ -258,9 +259,9 @@ namespace Objects.Construction
 				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
 				stateful.ServerChangeState(initialState);
 
-				spriteHandler.ChangeSprite((int)SpriteStates.Box);
+				spriteHandler.SetCatalogueIndexSprite((int)SpriteStates.Box);
 			}
-			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench))
 			{
 				if (!ServerValidations.IsAnchorBlocked(interaction))
 				{
@@ -315,9 +316,9 @@ namespace Objects.Construction
 				stateful.ServerChangeState(circuitAddedState);
 				putBoardInManually = true;
 
-				spriteHandler.ChangeSprite((int)SpriteStates.BoxCircuit);
+				spriteHandler.SetCatalogueIndexSprite((int)SpriteStates.BoxCircuit);
 			}
-			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench))
 			{
 				//unwrench
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -336,7 +337,7 @@ namespace Objects.Construction
 		/// <param name="interaction"></param>
 		private void CircuitAddedStateInteraction(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
 			{
 				//wrench out the circuit board, when it only has some of the parts
 				Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
@@ -377,13 +378,13 @@ namespace Objects.Construction
 		private void PartsAddedStateInteraction(HandApply interaction)
 		{
 			//Complete construction, spawn new machine and send data over to it.
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 			{
 				var spawnedObject = Spawn.ServerPrefab(machineParts.machine, SpawnDestination.At(gameObject)).GameObject.GetComponent<Machine>();
 
 				if (spawnedObject == null)
 				{
-					Logger.LogWarning(machineParts.machine + " is missing the machine script!", Category.Construction);
+					Loggy.LogWarning(machineParts.machine + " is missing the machine script!", Category.Construction);
 					return;
 				}
 
@@ -406,7 +407,7 @@ namespace Objects.Construction
 				//Despawn frame
 				_ = Despawn.ServerSingle(gameObject);
 			}
-			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
+			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
 			{
 				//wrench out the circuit board, when it has all the parts in.
 				Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
@@ -453,11 +454,15 @@ namespace Objects.Construction
 			//Main logic for tallying up and moving parts to hidden pos
 			if (basicPartsUsed.ContainsKey(itemTrait) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the itemTrait already exists, and its stackable and some of it is needed.
 			{
+				var StackingItem = usedObject.GetComponent<Stackable>();
+				var oldAmount = StackingItem.Amount;
+				var addNew = StackingItem.ServerRemoveOne();
+				addNew.GetComponent<Stackable>().ServerSetAmount(needed);
+
+				StackingItem.ServerSetAmount(oldAmount -needed);
+
 				basicPartsUsed[itemTrait] = machinePartsList.amountOfThisPart;
-
-				Inventory.ServerDrop(interaction.HandSlot);
-
-				AddItemToDict(usedObject, needed, interaction);
+				AddItemToDict(addNew, needed, interaction);
 			}
 			else if (basicPartsUsed.ContainsKey(itemTrait) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount < needed)//if the itemTrait already exists, and its stackable and all of its needed.
 			{
@@ -471,11 +476,15 @@ namespace Objects.Construction
 			}
 			else if (usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the itemTrait doesnt exists, and its stackable and some of it is needed.
 			{
+				var StackingItem = usedObject.GetComponent<Stackable>();
+				var oldAmount = StackingItem.Amount;
+				var addNew = StackingItem.ServerRemoveOne();
+				addNew.GetComponent<Stackable>().ServerSetAmount(needed);
+
+				StackingItem.ServerSetAmount(oldAmount -needed );
 				basicPartsUsed.Add(itemTrait, needed);
 
-				Inventory.ServerDrop(interaction.HandSlot);
-
-				AddItemToDict(usedObject, needed, interaction);
+				AddItemToDict(addNew, needed, interaction);
 
 			}
 			else if (usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount < needed)//if the itemTrait doesnt exists, and its stackable and all of its needed.
@@ -569,7 +578,7 @@ namespace Objects.Construction
 		{
 			foreach (var part in machineParts.machineParts)
 			{
-				if (Validations.HasUsedItemTrait(interaction, part.itemTrait) && (!basicPartsUsed.ContainsKey(part.itemTrait) || basicPartsUsed[part.itemTrait] != part.amountOfThisPart)) // Has items trait and we dont have enough yet
+				if (Validations.HasItemTrait(interaction, part.itemTrait) && (!basicPartsUsed.ContainsKey(part.itemTrait) || basicPartsUsed[part.itemTrait] != part.amountOfThisPart)) // Has items trait and we dont have enough yet
 				{
 					return true;
 				}
@@ -651,14 +660,14 @@ namespace Objects.Construction
 		/// <param name="machine"></param>
 		public void ServerInitFromComputer(Machine machine)
 		{
-			spriteHandler.ChangeSprite((int) SpriteStates.BoxCircuit);
+			spriteHandler.SetCatalogueIndexSprite((int) SpriteStates.BoxCircuit);
 
 			// Create the circuit board
 			var board = Spawn.ServerPrefab(machine.MachineBoardPrefab).GameObject;
 
 			if (board == null)
 			{
-				Logger.LogWarning("MachineBoardPrefab was null", Category.Construction);
+				Loggy.LogWarning("MachineBoardPrefab was null", Category.Construction);
 				return;
 			}
 
@@ -687,7 +696,7 @@ namespace Objects.Construction
 
 			if (machineParts == null || machineParts.machineParts == null)
 			{
-				Logger.LogError($"Failed to find machine parts for {machineParts.OrNull()?.name ?? board.ExpensiveName()}");
+				Loggy.LogError($"Failed to find machine parts for {machineParts.OrNull()?.name ?? board.ExpensiveName()}");
 			}
 			else
 			{
@@ -784,7 +793,7 @@ namespace Objects.Construction
 			}
 
 			putBoardInManually = false;
-			spriteHandler.ChangeSprite((int) SpriteStates.BoxCable);
+			spriteHandler.SetCatalogueIndexSprite((int) SpriteStates.BoxCable);
 
 			//Reset data
 			partsInFrame.Clear();

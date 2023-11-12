@@ -165,7 +165,7 @@ TextureImporter:
       213: -2402071394968025566
     second: window_plastitanium_5
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -182,11 +182,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -225,6 +226,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -240,6 +243,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1272,57 +1287,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      window_plastitanium_11: -5778034745173872678
-      window_plastitanium_2: -1072390242456395133
-      window_plastitanium_15: 8258934151242425456
-      window_plastitanium_13: 7607999488932893697
-      window_plastitanium_18: 3116951913514835499
-      window_plastitanium_39: 4167756058514293442
-      window_plastitanium_22: 6370680953384207630
-      window_plastitanium_21: 7704670883223005128
-      window_plastitanium_36: -3053687810481415209
-      window_plastitanium_33: -4154021966097630109
-      window_plastitanium_27: 8870078760620263316
-      window_plastitanium_9: -8108525515600822214
-      window_plastitanium_40: 5854429756378874921
-      window_plastitanium_14: 1397283247289568373
-      window_plastitanium_41: 5896458685502104779
+      window_plastitanium_0: -8867055189563445288
       window_plastitanium_1: 5046508452451233759
-      window_plastitanium_4: -7912559750963844340
-      window_plastitanium_42: 4791061416493681910
-      window_plastitanium_5: -278314666232131318
-      window_plastitanium_37: 5331697898862603025
-      window_plastitanium_28: -2906105453355631731
       window_plastitanium_10: 7531882304442279066
+      window_plastitanium_11: -5778034745173872678
+      window_plastitanium_12: 4985288024565579289
+      window_plastitanium_13: 7607999488932893697
+      window_plastitanium_14: 1397283247289568373
+      window_plastitanium_15: 8258934151242425456
+      window_plastitanium_16: -3393479497183616016
       window_plastitanium_17: -6146069264073678850
+      window_plastitanium_18: 3116951913514835499
+      window_plastitanium_19: 4301293152268136496
+      window_plastitanium_2: -1072390242456395133
+      window_plastitanium_20: -3698170512361751116
+      window_plastitanium_21: 7704670883223005128
+      window_plastitanium_22: 6370680953384207630
+      window_plastitanium_23: 4737036582645304758
+      window_plastitanium_24: -9007487333453502542
+      window_plastitanium_25: 2328158423756394351
       window_plastitanium_26: -9187466927837081844
-      window_plastitanium_32: 9218175563245646996
+      window_plastitanium_27: 8870078760620263316
+      window_plastitanium_28: -2906105453355631731
+      window_plastitanium_29: 2261833811114741147
       window_plastitanium_3: 3196294792163662400
       window_plastitanium_30: -2136102715921212678
-      window_plastitanium_23: 4737036582645304758
-      window_plastitanium_45: 7301928554511008425
-      window_plastitanium_38: -5528687766843547563
-      window_plastitanium_43: -8684799511376457343
-      window_plastitanium_34: 1584867591930356886
-      window_plastitanium_20: -3698170512361751116
-      window_plastitanium_8: 3084385247106617380
-      window_plastitanium_47: -505419035486264478
-      window_plastitanium_46: -8819863698858986736
-      window_plastitanium_24: -9007487333453502542
-      window_plastitanium_16: -3393479497183616016
-      window_plastitanium_29: 2261833811114741147
-      window_plastitanium_44: 2905136463560408135
-      window_plastitanium_25: 2328158423756394351
-      window_plastitanium_0: -8867055189563445288
-      window_plastitanium_6: -1528118665403014503
       window_plastitanium_31: 3223241621178492856
+      window_plastitanium_32: 9218175563245646996
+      window_plastitanium_33: -4154021966097630109
+      window_plastitanium_34: 1584867591930356886
       window_plastitanium_35: -4955913371497951891
-      window_plastitanium_19: 4301293152268136496
-      window_plastitanium_12: 4985288024565579289
+      window_plastitanium_36: -3053687810481415209
+      window_plastitanium_37: 5331697898862603025
+      window_plastitanium_38: -5528687766843547563
+      window_plastitanium_39: 4167756058514293442
+      window_plastitanium_4: -7912559750963844340
+      window_plastitanium_40: 5854429756378874921
+      window_plastitanium_41: 5896458685502104779
+      window_plastitanium_42: 4791061416493681910
+      window_plastitanium_43: -8684799511376457343
+      window_plastitanium_44: 2905136463560408135
+      window_plastitanium_45: 7301928554511008425
+      window_plastitanium_46: -8819863698858986736
+      window_plastitanium_47: -505419035486264478
+      window_plastitanium_5: -278314666232131318
+      window_plastitanium_6: -1528118665403014503
       window_plastitanium_7: -3392457668526736566
-  spritePackingTag: 
+      window_plastitanium_8: 3084385247106617380
+      window_plastitanium_9: -8108525515600822214
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

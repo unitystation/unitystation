@@ -18,6 +18,8 @@ using Tilemaps.Behaviours.Meta;
 using Unitystation.Options;
 using WebSocketSharp;
 using Antagonists;
+using Logs;
+using SecureStuff;
 using Random = UnityEngine.Random;
 
 public partial class Chat
@@ -143,13 +145,6 @@ public partial class Chat
 
 			chatModifiers |= ChatModifier.Emote;
 		}
-		// Whisper
-		else if (message.StartsWith("#") || message.StartsWith("/w ", true, CultureInfo.CurrentCulture))
-		{
-			message = message.Replace("/w", "");
-			message = message.Substring(1);
-			chatModifiers |= ChatModifier.Whisper;
-		}
 		// Sing
 		else if (message.StartsWith("%") || message.StartsWith("/s ", true, CultureInfo.CurrentCulture))
 		{
@@ -213,7 +208,7 @@ public partial class Chat
 	/// </summary>
 	/// <returns>The chat message, formatted to suit the chat log.</returns>
 	public static string ProcessMessageFurther(string message, string speaker, ChatChannel channels,
-		ChatModifier modifiers, Loudness loudness, uint originatorUint = 0, bool stripTags = true)
+		ChatModifier modifiers, Loudness loudness, bool isWhispering, uint originatorUint = 0, bool stripTags = true)
 	{
 		playedSound = false;
 		//Highlight in game name by bolding and underlining if possible
@@ -236,7 +231,8 @@ public partial class Chat
 		//without a speaker (which is used by machines)
 		if (channels.HasFlag(ChatChannel.Examine) ||
 		    channels.HasFlag(ChatChannel.Action) ||
-		    channels.HasFlag(ChatChannel.Local) && string.IsNullOrEmpty(speaker))
+		    channels.HasFlag(ChatChannel.Local)
+		    && string.IsNullOrEmpty(speaker))
 		{
 			return AddMsgColor(channels, $"<i>{message}</i>");
 		}
@@ -298,10 +294,11 @@ public partial class Chat
 			return "";
 		}
 
-		if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper)
+		if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper || isWhispering)
 		{
 			verb = "whispers,";
 			message = $"<i>{message}</i>";
+			loudness = Loudness.QUIET;
 		}
 		else if ((modifiers & ChatModifier.Sing) == ChatModifier.Sing)
 		{
@@ -364,7 +361,7 @@ public partial class Chat
 		return AddMsgColor(channels,
 			$"{chan}<b>{speaker}</b> {verb}" // [cmd]  Username says,
 			+ "  " // Two hair spaces. This triggers Text-to-Speech.
-			+ $"<size={textSize}>" + "\"" +  message + "\"" + "</size>"); // "This text will be spoken by TTS!"
+			+ $"<size={textSize + PlayerPrefs.GetInt(ChatOptions.FONTSCALE_KEY, 1)}>" + "\"" +  message + "\"" + "</size>"); // "This text will be spoken by TTS!"
 	}
 
 	private static string StripAll(string input)
@@ -416,14 +413,14 @@ public partial class Chat
 
 	private static string HighLightCodeWords(string input)
 	{
-		if (ThemeManager.ChatHighlight == false || PlayerManager.LocalPlayerScript == null) return input;
-		if (PlayerManager.LocalPlayerScript.PossessingMind == null) return input;
-		if (PlayerManager.LocalPlayerScript.PossessingMind.IsAntag == false) return input;
 
-		SpawnedAntag antag = PlayerManager.LocalMindScript.GetAntag();
+		if (PlayerManager.LocalPlayerScript == null) return input;
 
-		if (antag == null) return input;
-		if(antag.Antagonist.AntagJobType != JobType.TRAITOR && antag.Antagonist.AntagJobType != JobType.SYNDICATE) return input;
+		if (PlayerManager.LocalMindScript == null) return input;
+
+		if (PlayerManager.LocalMindScript.IsAntag == false) return input;
+
+		if (CodeWordManager.Instance.CodeWordRoles.Contains(PlayerManager.LocalMindScript.NetworkedAntagJob) == false) return input;
 
 		string[] coloredText = input.Split(' '); //Split at each Word
 
@@ -575,7 +572,7 @@ public partial class Chat
 	/// </summary>
 	public static void ProcessUpdateChatMessage(uint recipientUint, uint originatorUint, string message,
 		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, GameObject recipient,
-		Loudness loudness, bool stripTags = true, ushort languageId = 0)
+		Loudness loudness, bool stripTags = true, ushort languageId = 0, bool isWhispering = false)
 	{
 
 		var isOriginator = true;
@@ -600,8 +597,8 @@ public partial class Chat
 			speaker = "<color=red>Unknown</color>";
 		}
 
-		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, loudness, originatorUint, stripTags);
-		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness, modifiers, languageId);
+		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, loudness, isWhispering, originatorUint, stripTags);
+		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness, modifiers, languageId, isWhispering);
 	}
 
 	private static bool GhostValidationRejection(uint originator, ChatChannel channels)
@@ -646,7 +643,7 @@ public partial class Chat
 	{
 		if (!CustomNetworkManager.Instance._isServer)
 		{
-			Logger.LogError("A server only method was called on a client in chat.cs", Category.Chat);
+			Loggy.LogError("A server only method was called on a client in chat.cs", Category.Chat);
 			return false;
 		}
 
@@ -766,7 +763,7 @@ public partial class Chat
 					}
 					else
 					{
-						Logger.LogWarning("Chat context is null - can't resolve :h tag", Category.Chat);
+						Loggy.LogWarning("Chat context is null - can't resolve :h tag", Category.Chat);
 						extractedChanel = ChatChannel.None;
 					}
 

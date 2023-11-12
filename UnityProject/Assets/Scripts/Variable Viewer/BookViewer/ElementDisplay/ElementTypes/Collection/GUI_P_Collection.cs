@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using Logs;
 using Newtonsoft.Json;
 using TMPro;
 
@@ -80,7 +81,7 @@ public class GUI_P_Collection : PageElement
 		else {
 			if (Iskey)
 			{
-				Logger.LogError("WHAT?, GenericType Dictionary key?", Category.VariableViewer);
+				Loggy.LogError("WHAT?, GenericType Dictionary key?", Category.VariableViewer);
 			}
 			else {
 				Data = Sentence;

@@ -93,7 +93,7 @@ TextureImporter:
       213: 21300058
     second: maintenance_29
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -110,11 +110,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -153,6 +154,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -204,6 +207,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -858,39 +873,38 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      maintenance_17: 21300034
+      maintenance_0: 21300000
       maintenance_1: 21300002
-      maintenance_26: 21300052
-      maintenance_27: 21300054
-      maintenance_29: 21300058
-      maintenance_16: 21300032
-      maintenance_5: 21300010
-      maintenance_6: 21300012
-      maintenance_24: 21300048
-      maintenance_4: 21300008
-      maintenance_22: 21300044
+      maintenance_10: 21300020
       maintenance_11: 21300022
-      maintenance_28: 21300056
-      maintenance_20: 21300040
-      maintenance_7: 21300014
-      maintenance_19: 21300038
       maintenance_12: 21300024
       maintenance_13: 21300026
-      maintenance_8: 21300016
-      maintenance_3: 21300006
-      maintenance_23: 21300046
-      maintenance_9: 21300018
-      maintenance_21: 21300042
-      maintenance_10: 21300020
-      maintenance_18: 21300036
-      maintenance_15: 21300030
-      maintenance_0: 21300000
-      maintenance_2: 21300004
       maintenance_14: 21300028
+      maintenance_15: 21300030
+      maintenance_16: 21300032
+      maintenance_17: 21300034
+      maintenance_18: 21300036
+      maintenance_19: 21300038
+      maintenance_2: 21300004
+      maintenance_20: 21300040
+      maintenance_21: 21300042
+      maintenance_22: 21300044
+      maintenance_23: 21300046
+      maintenance_24: 21300048
       maintenance_25: 21300050
-  spritePackingTag: 
+      maintenance_26: 21300052
+      maintenance_27: 21300054
+      maintenance_28: 21300056
+      maintenance_29: 21300058
+      maintenance_3: 21300006
+      maintenance_4: 21300008
+      maintenance_5: 21300010
+      maintenance_6: 21300012
+      maintenance_7: 21300014
+      maintenance_8: 21300016
+      maintenance_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

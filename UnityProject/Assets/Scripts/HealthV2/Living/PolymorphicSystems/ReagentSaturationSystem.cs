@@ -75,6 +75,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			foreach (var bodyPart in BodyParts)
 			{
 				if (bodyPart.isNotBloodReagentConsumed) continue;
+				if (bodyPart.bloodType == null) continue;
 				if (SaturationToConsume.ContainsKey(bodyPart.bloodType) == false)
 				{
 					SaturationToConsume[bodyPart.bloodType] =
@@ -218,7 +219,17 @@ namespace HealthV2.Living.PolymorphicSystems
 					foreach (var bodyPart in KVP.Value.RelatedBodyParts)
 					{
 						bodyPart.currentBloodSaturation = bloodSaturation;
-						bodyPart.RelatedPart.TakeDamage(null, damage, AttackType.Internal, DamageType.Oxy, DamageSubOrgans: false);
+						if (damage <= 0)
+						{
+							if (bodyPart.RelatedPart.Oxy  > 0)
+							{
+								bodyPart.RelatedPart.TakeDamage(null, damage, AttackType.Internal, DamageType.Oxy, DamageSubOrgans: false);
+							}
+						}
+						else
+						{
+							bodyPart.RelatedPart.TakeDamage(null, damage, AttackType.Internal, DamageType.Oxy, DamageSubOrgans: false);
+						}
 					}
 				}
 			}

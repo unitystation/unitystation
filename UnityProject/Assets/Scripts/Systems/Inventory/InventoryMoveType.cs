@@ -1,4 +1,5 @@
 
+using Logs;
 using UnityEngine;
 
 /// <summary>
@@ -131,13 +132,13 @@ public class InventoryMove
 	{
 		if (addedObject == null)
 		{
-			Logger.LogErrorFormat("Attempted to create inventory move to slot {0} for null object", Category.Inventory, toSlot);
+			Loggy.LogErrorFormat("Attempted to create inventory move to slot {0} for null object", Category.Inventory, toSlot);
 			return null;
 		}
 		var pu = addedObject.GetComponent<Pickupable>();
 		if (pu == null)
 		{
-			Logger.LogErrorFormat("{0} has no pickupable, thus cannot be added to inventory", Category.Inventory, addedObject);
+			Loggy.LogErrorFormat("{0} has no pickupable, thus cannot be added to inventory", Category.Inventory, addedObject);
 		}
 		return new InventoryMove(InventoryMoveType.Add, pu, null, toSlot, replacementStrategy: replacementStrategy, ignoreRestraints:IgnoreRestraints);
 	}

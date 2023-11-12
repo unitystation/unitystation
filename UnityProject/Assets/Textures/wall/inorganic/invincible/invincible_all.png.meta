@@ -144,7 +144,7 @@ TextureImporter:
       213: -777427268503452788
     second: invincible_all_46
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -161,11 +161,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -204,6 +205,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -219,6 +222,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1230,56 +1245,55 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      invincible_all_5: 8682069696918668920
-      invincible_all_10: 9037868943542226635
-      invincible_all_7: 8183302954149754964
-      invincible_all_45: 4819801583280532814
-      invincible_all_13: -7069339055944622271
-      invincible_all_15: -7141392217584325130
-      invincible_all_34: 8051924220717220431
-      invincible_all_37: -8816817194962461764
-      invincible_all_38: -5077938375308763877
-      invincible_all_35: -6951950939317831748
-      invincible_all_17: -907896969790811466
-      invincible_all_28: 4345155885984432333
-      invincible_all_29: 4527580128080978406
-      invincible_all_44: -5726235612859802117
-      invincible_all_25: -9074390975498746159
-      invincible_all_9: -5405107377496798787
-      invincible_all_36: 9205380353470289994
-      invincible_all_1: -249091688779445979
-      invincible_all_42: -4174966557838164698
-      invincible_all_6: 8191597475378182320
-      invincible_all_41: -546997226412038511
-      invincible_all_31: 1851072477044896518
-      invincible_all_12: -8493821814492059554
-      invincible_all_26: 2144200125127710075
-      invincible_all_46: -777427268503452788
-      invincible_all_43: 3526997638507537636
-      invincible_all_8: 7372052687959489056
-      invincible_all_32: -2017338818925157166
       invincible_all_0: -969665879435059751
-      invincible_all_40: 6673842017396266422
-      invincible_all_21: 1426078540201827769
-      invincible_all_24: -3685846202883862899
-      invincible_all_4: 2273811428025228720
-      invincible_all_2: 3751401541816562574
-      invincible_all_3: -3070376767768024572
-      invincible_all_16: -4647807508153346321
+      invincible_all_1: -249091688779445979
+      invincible_all_10: 9037868943542226635
       invincible_all_11: 8474428548714952921
+      invincible_all_12: -8493821814492059554
+      invincible_all_13: -7069339055944622271
+      invincible_all_14: 540980979138196133
+      invincible_all_15: -7141392217584325130
+      invincible_all_16: -4647807508153346321
+      invincible_all_17: -907896969790811466
       invincible_all_18: 5673927749663468443
+      invincible_all_19: 5460299068934898010
+      invincible_all_2: 3751401541816562574
+      invincible_all_20: -6833815332315337119
+      invincible_all_21: 1426078540201827769
       invincible_all_22: -5518450792434510669
       invincible_all_23: 8404160533335797443
-      invincible_all_14: 540980979138196133
-      invincible_all_33: -7536970598750053334
-      invincible_all_39: -4900196081276616255
-      invincible_all_20: -6833815332315337119
-      invincible_all_30: -5205371595556867456
+      invincible_all_24: -3685846202883862899
+      invincible_all_25: -9074390975498746159
+      invincible_all_26: 2144200125127710075
       invincible_all_27: 1864031337306129943
-      invincible_all_19: 5460299068934898010
-  spritePackingTag: 
+      invincible_all_28: 4345155885984432333
+      invincible_all_29: 4527580128080978406
+      invincible_all_3: -3070376767768024572
+      invincible_all_30: -5205371595556867456
+      invincible_all_31: 1851072477044896518
+      invincible_all_32: -2017338818925157166
+      invincible_all_33: -7536970598750053334
+      invincible_all_34: 8051924220717220431
+      invincible_all_35: -6951950939317831748
+      invincible_all_36: 9205380353470289994
+      invincible_all_37: -8816817194962461764
+      invincible_all_38: -5077938375308763877
+      invincible_all_39: -4900196081276616255
+      invincible_all_4: 2273811428025228720
+      invincible_all_40: 6673842017396266422
+      invincible_all_41: -546997226412038511
+      invincible_all_42: -4174966557838164698
+      invincible_all_43: 3526997638507537636
+      invincible_all_44: -5726235612859802117
+      invincible_all_45: 4819801583280532814
+      invincible_all_46: -777427268503452788
+      invincible_all_5: 8682069696918668920
+      invincible_all_6: 8191597475378182320
+      invincible_all_7: 8183302954149754964
+      invincible_all_8: 7372052687959489056
+      invincible_all_9: -5405107377496798787
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

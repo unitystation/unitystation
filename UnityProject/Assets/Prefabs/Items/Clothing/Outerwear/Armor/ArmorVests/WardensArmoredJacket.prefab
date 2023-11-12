@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2650173520273386127, guid: 259354123db311145a0ccc3922005d0f,
@@ -35,7 +36,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3025411225682985613, guid: 259354123db311145a0ccc3922005d0f,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 53c40fcd46ac452429ddf4b336897f07,
         type: 2}
@@ -58,6 +59,11 @@ PrefabInstance:
         type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armor.StunImmunity
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076471909809007804, guid: 259354123db311145a0ccc3922005d0f,
+        type: 3}
+      propertyPath: _assetId
+      value: 71597534
       objectReference: {fileID: 0}
     - target: {fileID: 8076471909809007804, guid: 259354123db311145a0ccc3922005d0f,
         type: 3}
@@ -141,4 +147,7 @@ PrefabInstance:
       value: A red jacket with silver rank pips and body armor strapped on top.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 259354123db311145a0ccc3922005d0f, type: 3}

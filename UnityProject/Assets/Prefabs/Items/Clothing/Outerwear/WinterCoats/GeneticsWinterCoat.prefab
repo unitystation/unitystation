@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3825346111126973168, guid: 06088292fadbbdd40a0d7dce08102a37,
@@ -14,13 +15,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3878126403630593304, guid: 06088292fadbbdd40a0d7dce08102a37,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 016f1e6ccb7d2d84ca3835032c8cfac0,
         type: 2}
     - target: {fileID: 3878126403630593304, guid: 06088292fadbbdd40a0d7dce08102a37,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 6270f76f4f8bec046b8fe6b4ae852190,
         type: 2}
@@ -39,6 +40,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A white winter coat with a DNA helix for the zipper tab.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7798211974825810729, guid: 06088292fadbbdd40a0d7dce08102a37,
+        type: 3}
+      propertyPath: _assetId
+      value: 2933924379
       objectReference: {fileID: 0}
     - target: {fileID: 7798211974825810729, guid: 06088292fadbbdd40a0d7dce08102a37,
         type: 3}
@@ -112,4 +118,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 0dc3d2ac2371b964d8957d86a28f6452,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06088292fadbbdd40a0d7dce08102a37, type: 3}

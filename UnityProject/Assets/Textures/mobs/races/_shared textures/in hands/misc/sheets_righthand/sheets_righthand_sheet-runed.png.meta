@@ -135,7 +135,7 @@ TextureImporter:
       213: -8905131378135676785
     second: sheet-runed_43
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -152,11 +152,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -195,6 +196,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -210,6 +213,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1158,53 +1173,52 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      sheet-runed_2: 7028933109620347168
-      sheet-runed_13: -6546132395628482961
-      sheet-runed_27: -9050918933277111008
-      sheet-runed_21: -8033850062152921068
-      sheet-runed_18: 3655582998599900789
-      sheet-runed_6: -2619089703606593248
-      sheet-runed_19: 6441472389857116244
-      sheet-runed_33: 7177855610166815849
-      sheet-runed_14: 7685802130627879028
-      sheet-runed_38: -7574894207481249070
-      sheet-runed_10: 4594135294358777250
-      sheet-runed_43: -8905131378135676785
       sheet-runed_0: 2016878011819736246
-      sheet-runed_37: 8885463961382935004
-      sheet-runed_24: -3671278255223587725
-      sheet-runed_39: -5573451212710265473
-      sheet-runed_9: 7935486432035251753
-      sheet-runed_42: -8081138387143793474
-      sheet-runed_35: 1298851011514907307
+      sheet-runed_1: 1978425854769313874
+      sheet-runed_10: 4594135294358777250
       sheet-runed_11: -758797644119439488
+      sheet-runed_12: 7657160887120216199
+      sheet-runed_13: -6546132395628482961
+      sheet-runed_14: 7685802130627879028
+      sheet-runed_15: -190175605547685229
       sheet-runed_16: 114903449349997240
       sheet-runed_17: -2173030730555934884
+      sheet-runed_18: 3655582998599900789
+      sheet-runed_19: 6441472389857116244
+      sheet-runed_2: 7028933109620347168
+      sheet-runed_20: -7718206281759071469
+      sheet-runed_21: -8033850062152921068
+      sheet-runed_22: 4430669114875265976
+      sheet-runed_23: -1346246157445764776
+      sheet-runed_24: -3671278255223587725
+      sheet-runed_25: 683150698872444396
       sheet-runed_26: 5050665740867901424
-      sheet-runed_5: 5688748246442799862
-      sheet-runed_29: -8494022221342198340
+      sheet-runed_27: -9050918933277111008
       sheet-runed_28: 6855091935443522199
-      sheet-runed_12: 7657160887120216199
+      sheet-runed_29: -8494022221342198340
+      sheet-runed_3: 6019764399180005135
       sheet-runed_30: -4509259671968959585
       sheet-runed_31: 2694433626676724265
-      sheet-runed_34: -4647483218485578663
-      sheet-runed_23: -1346246157445764776
-      sheet-runed_1: 1978425854769313874
-      sheet-runed_3: 6019764399180005135
-      sheet-runed_40: 5260067946875552633
-      sheet-runed_22: 4430669114875265976
-      sheet-runed_7: -1046285060388252175
-      sheet-runed_20: -7718206281759071469
-      sheet-runed_15: -190175605547685229
-      sheet-runed_25: 683150698872444396
       sheet-runed_32: 1386658163751115359
-      sheet-runed_41: 6197123919930628122
-      sheet-runed_4: -3587341426281895383
-      sheet-runed_8: -4487536700650692407
+      sheet-runed_33: 7177855610166815849
+      sheet-runed_34: -4647483218485578663
+      sheet-runed_35: 1298851011514907307
       sheet-runed_36: 610315241636365639
-  spritePackingTag: 
+      sheet-runed_37: 8885463961382935004
+      sheet-runed_38: -7574894207481249070
+      sheet-runed_39: -5573451212710265473
+      sheet-runed_4: -3587341426281895383
+      sheet-runed_40: 5260067946875552633
+      sheet-runed_41: 6197123919930628122
+      sheet-runed_42: -8081138387143793474
+      sheet-runed_43: -8905131378135676785
+      sheet-runed_5: 5688748246442799862
+      sheet-runed_6: -2619089703606593248
+      sheet-runed_7: -1046285060388252175
+      sheet-runed_8: -4487536700650692407
+      sheet-runed_9: 7935486432035251753
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

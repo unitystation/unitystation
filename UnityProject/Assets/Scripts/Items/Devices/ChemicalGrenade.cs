@@ -31,6 +31,8 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 
 	private ReagentContainer mixedReagentContainer;
 
+	[SerializeField] private bool InitiallyScrewed = false;
+
 	[field: SyncVar] public bool ScrewedClosed { get; private set; } = false;
 
 	public bool IsFullContainers
@@ -76,8 +78,11 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 		containerStorage = GetComponent<ItemStorage>();
 		pickupable = GetComponent<Pickupable>();
 
+		ScrewedClosed = InitiallyScrewed;
+
 		// Set grenade to unlocked state by default
-		UpdateSprite(UNLOCKED_SPRITE);
+		if (ScrewedClosed) UpdateSprite(LOCKED_SPRITE);
+		else UpdateSprite(UNLOCKED_SPRITE);
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
@@ -148,7 +153,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 			if (timerRunning)
 			{
 				timerRunning = false;
-				MixReagents();		
+				MixReagents();
 			}
 		}
 	}
@@ -176,7 +181,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 			var worldPos = objectPhysics.registerTile.WorldPosition;
 
 			BlastData blastData = new BlastData();
-		
+
 			ReagentContainer1.TransferTo(ReagentContainer1.ReagentMixTotal, mixedReagentContainer, false); //We use false to ensure the reagents do not react before we can obtain our blast data
 			ReagentContainer2.TransferTo(ReagentContainer2.ReagentMixTotal, mixedReagentContainer, false);
 
@@ -191,8 +196,8 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 			mixedReagentContainer.ReagentsChanged(true);
 			mixedReagentContainer.OnReagentMixChanged?.Invoke(); //We disabled this during the transfer to obtain blast data, we must now call the reagent updates manually.
 
-			spriteHandler.ChangeSprite(LOCKED_SPRITE);
-			spriteHandler.ChangeSpriteVariant(EMPTY_VARIANT);
+			spriteHandler.SetCatalogueIndexSprite(LOCKED_SPRITE);
+			spriteHandler.SetSpriteVariant(EMPTY_VARIANT);
 			mixedReagentContainer.Spill(objectPhysics.OfficialPosition.CutToInt(), DETONATE_SPILL_AMOUNT);
 		}
 	}
@@ -221,7 +226,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 		if (interaction.TargetSlot.Item.OrNull()?.gameObject != gameObject) return false;
 		if (IsFullContainers && interaction.UsedObject != null)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) == false) return false;
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) == false) return false;
 			return true;
 		}
 		else if (ScrewedClosed == false)
@@ -280,16 +285,16 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 
 	private void UpdateSprite(int index)
 	{
-		spriteHandler?.ChangeSprite(index);
+		spriteHandler?.SetCatalogueIndexSprite(index);
 
 		switch (index)
 		{
 			case ARMED_SPRITE:
-				spriteHandler?.ChangeSpriteVariant(EMPTY_VARIANT);
+				spriteHandler?.SetSpriteVariant(EMPTY_VARIANT);
 				break;
 
 			case LOCKED_SPRITE:
-				spriteHandler?.ChangeSpriteVariant(EMPTY_VARIANT);
+				spriteHandler?.SetSpriteVariant(EMPTY_VARIANT);
 				break;
 
 			case UNLOCKED_SPRITE:
@@ -297,7 +302,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 				if (containerStorage.GetIndexedItemSlot(0).Item != null) containers++;
 				if (containerStorage.GetIndexedItemSlot(1).Item != null) containers++;
 
-				spriteHandler?.ChangeSpriteVariant(containers);
+				spriteHandler?.SetSpriteVariant(containers);
 
 				break;
 		}

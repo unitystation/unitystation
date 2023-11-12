@@ -63,7 +63,7 @@ TextureImporter:
       213: 21300038
     second: defibcompact_19
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -80,11 +80,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -123,6 +124,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -138,6 +141,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -582,29 +597,28 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      defibcompact_14: 21300028
-      defibcompact_16: 21300032
-      defibcompact_2: 21300004
-      defibcompact_10: 21300020
-      defibcompact_13: 21300026
-      defibcompact_12: 21300024
-      defibcompact_3: 21300006
-      defibcompact_17: 21300034
-      defibcompact_5: 21300010
-      defibcompact_1: 21300002
-      defibcompact_19: 21300038
-      defibcompact_8: 21300016
       defibcompact_0: 21300000
-      defibcompact_6: 21300012
-      defibcompact_9: 21300018
-      defibcompact_7: 21300014
+      defibcompact_1: 21300002
+      defibcompact_10: 21300020
       defibcompact_11: 21300022
-      defibcompact_18: 21300036
-      defibcompact_4: 21300008
+      defibcompact_12: 21300024
+      defibcompact_13: 21300026
+      defibcompact_14: 21300028
       defibcompact_15: 21300030
-  spritePackingTag: 
+      defibcompact_16: 21300032
+      defibcompact_17: 21300034
+      defibcompact_18: 21300036
+      defibcompact_19: 21300038
+      defibcompact_2: 21300004
+      defibcompact_3: 21300006
+      defibcompact_4: 21300008
+      defibcompact_5: 21300010
+      defibcompact_6: 21300012
+      defibcompact_7: 21300014
+      defibcompact_8: 21300016
+      defibcompact_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

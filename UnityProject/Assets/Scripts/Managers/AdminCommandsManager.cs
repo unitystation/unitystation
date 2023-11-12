@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using AddressableReferences;
 using UnityEngine;
@@ -18,15 +17,20 @@ using Audio.Containers;
 using DatabaseAPI;
 using Doors;
 using Doors.Modules;
+using IngameDebugConsole;
+using Logs;
+using Messages.Server.SoundMessages;
 using Objects;
 using Objects.Atmospherics;
 using Objects.Disposals;
 using Objects.Lighting;
 using Objects.Wallmounts;
 using ScriptableObjects;
+using SecureStuff;
 using Systems.Atmospherics;
 using Systems.Cargo;
 using Systems.Electricity;
+using Systems.Faith;
 using Systems.Pipes;
 using TileManagement;
 using Tiles;
@@ -84,7 +88,7 @@ namespace AdminCommands
 					var message =
 						$"Failed Admin check with id: {player?.ClientId}, associated player with that id (null if not valid id): {player?.Username}," +
 						$"Possible hacked client with ip address: {sender?.identity?.connectionToClient?.address}, netIdentity object name: {sender?.identity.OrNull()?.name}]";
-					Logger.LogError(message, Category.Exploits);
+					Loggy.LogError(message, Category.Exploits);
 					LogAdminAction(message);
 				}
 
@@ -219,7 +223,7 @@ namespace AdminCommands
 
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound && GameManager.Instance.waitForStart)
 			{
-				if (SubsystemBehaviourQueueInit.InitializedAll == false || SubSceneManager.Instance.InitialLoadingComplete == false)
+				if (SubsystemMatrixQueueInit.InitializedAll == false || SubSceneManager.Instance.ServerInitialLoadingComplete == false)
 				{
 					Chat.AddGameWideSystemMsgToChat($"<color={AdminActionChatColor}> An Admin tried to start the game early but the server wasn't ready. **insert Walter White Breaks Down meme here** </color>");
 					return;
@@ -397,7 +401,7 @@ namespace AdminCommands
 
 			if (PlayerList.Instance.TryGetByUserID(userToSmite, out var player) == false)
 			{
-				Logger.LogError($"{admin.Username} tried to smite a player with user ID '{userToSmite}' but they couldn't be found.");
+				Loggy.LogError($"{admin.Username} tried to smite a player with user ID '{userToSmite}' but they couldn't be found.");
 				return;
 			}
 
@@ -422,7 +426,7 @@ namespace AdminCommands
 
 			if (PlayerList.Instance.TryGetByUserID(userToHeal, out var player) == false)
 			{
-				Logger.LogError($"Could not find player with user ID '{userToHeal}'. Unable to heal.", Category.Admin);
+				Loggy.LogError($"Could not find player with user ID '{userToHeal}'. Unable to heal.", Category.Admin);
 				return;
 			}
 
@@ -456,7 +460,7 @@ namespace AdminCommands
 
 			if (PlayerList.Instance.TryGetByUserID(userToMute, out var player) == false)
 			{
-				Logger.LogError($"Could not find player with user ID '{userToMute}'. Unable to OOC mute.", Category.Admin);
+				Loggy.LogError($"Could not find player with user ID '{userToMute}'. Unable to OOC mute.", Category.Admin);
 				return;
 			}
 
@@ -478,13 +482,13 @@ namespace AdminCommands
 
 			if (PlayerList.Instance.TryGetByUserID(userToGiveItem, out var player) == false)
 			{
-				Logger.LogError($"Could not find player with user ID '{userToGiveItem}'. Unable to give item.", Category.Admin);
+				Loggy.LogError($"Could not find player with user ID '{userToGiveItem}'. Unable to give item.", Category.Admin);
 				return;
 			}
 
 			if (player.Script.OrNull()?.DynamicItemStorage == null)
 			{
-				Logger.LogError($"No DynamicItemStorage on '{player.Name}'. Unable to give item.", Category.Admin);
+				Loggy.LogError($"No DynamicItemStorage on '{player.Name}'. Unable to give item.", Category.Admin);
 				return;
 			}
 
@@ -520,12 +524,23 @@ namespace AdminCommands
 		//FIXME: DISABLED UNTIL JUSTIN RETURNS WORK ON THIS AND WEAVER ISSUES GET FIXED
 
 		[Command(requiresAuthority = false)]
-		public void CmdPlaySound(string addressableAudioSource, NetworkConnectionToClient sender = null)
+		public void CmdPlaySound(string addressableAudioSource, AudioSourceParameters parameters,
+			bool poloyphonic, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 			AddressableAudioSource sound = new AddressableAudioSource();
 			sound.AssetAddress = addressableAudioSource;
-			SoundManager.PlayNetworked(sound);
+			SoundManager.PlayNetworked(sound, parameters);
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdPlaySoundAtAdminGhost(string addressableAudioSource, AudioSourceParameters parameters, bool poloyphonic, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			AddressableAudioSource sound = new AddressableAudioSource();
+			sound.AssetAddress = addressableAudioSource;
+			GameObject location = admin.Mind.isGhosting ? admin.Mind.ghost.gameObject : admin.Mind.Body.gameObject;
+			SoundManager.PlayNetworkedAtPos(sound,  location.AssumedWorldPosServer(), parameters, poloyphonic);
 		}
 
 
@@ -551,7 +566,7 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out _) == false) return;
 
-			ProfileManager.Instance.StartProfile(frameCount);
+			SafeProfileManager.Instance.StartProfile(frameCount);
 		}
 
 		[Command(requiresAuthority = false)]
@@ -567,13 +582,9 @@ namespace AdminCommands
 		public void CmdDeleteProfile(string profileName, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out _) == false) return;
-			if (ProfileManager.runningProfile || ProfileManager.runningMemoryProfile) return;
+			if (SafeProfileManager.runningProfile || SafeProfileManager.runningMemoryProfile) return;
 
-			string path = Directory.GetCurrentDirectory() + "/Profiles/" + profileName;
-			if (File.Exists(path))
-			{
-				File.Delete(path);
-			}
+			SafeProfileManager.Instance.RemoveProfile(profileName);
 
 			ProfileMessage.SendToApplicable();
 		}
@@ -583,7 +594,7 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out _) == false) return;
 
-			ProfileManager.Instance.RunMemoryProfile(full);
+			SafeProfileManager.Instance.RunMemoryProfile(full);
 		}
 
 		#endregion
@@ -626,7 +637,7 @@ namespace AdminCommands
 
 			if (PlayerList.Instance.TryGetByUserID(userToUpgrade, out var player) == false)
 			{
-				Logger.LogWarning($"{admin.Username} has set user with ID '{userToUpgrade}' "
+				Loggy.LogWarning($"{admin.Username} has set user with ID '{userToUpgrade}' "
 						+ "as mentor but they could not be found!", Category.Admin);
 				return;
 			}
@@ -643,7 +654,7 @@ namespace AdminCommands
 
 			if (PlayerList.Instance.TryGetByUserID(userToDowngrade, out var player) == false)
 			{
-				Logger.LogWarning($"{admin.Username} has unset user with ID '{userToDowngrade}' "
+				Loggy.LogWarning($"{admin.Username} has unset user with ID '{userToDowngrade}' "
 						+ "as mentor but they could not be found!", Category.Admin);
 				return;
 			}
@@ -660,7 +671,7 @@ namespace AdminCommands
 			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(msg, null);
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
 				userName);
-			Logger.Log(msg, Category.Admin);
+			Loggy.Log(msg, Category.Admin);
 		}
 
 		#endregion
@@ -1296,6 +1307,17 @@ namespace AdminCommands
 			Chat.AddSystemMsgToChat(
 				"<color=red>Emergency Lights active.</color>",
 				MatrixManager.MainStationMatrix);
+		}
+
+		[ConsoleMethod("free-faith-points", "Awards 500 free faith points."), Command(requiresAuthority = false)]
+		public void CmdFreeFaithPoints(NetworkConnectionToClient conn = null)
+		{
+			if (IsAdmin(conn, out var player) == false) return;
+			foreach (var faith in FaithManager.Instance.CurrentFaiths)
+			{
+				FaithManager.AwardPoints(500, faith.Faith.FaithName);
+				Chat.AddGameWideSystemMsgToChat($"<color=blue>An admin has given the '{faith.Faith.FaithName}' faith 500 points</color>");
+			}
 		}
 
 		#endregion

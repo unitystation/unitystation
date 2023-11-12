@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Logs;
 using UnityEngine;
 
 namespace Light2D
@@ -94,10 +95,17 @@ namespace Light2D
                 _meshFilter = gameObject.AddComponent<MeshFilter>();
 
 #if UNITY_EDITOR
-            if (Material == null)
-            {
-                Material = Resources.GetBuiltinResource<Material>("Sprites-Default.mat");
-            }
+	        try
+	        {
+		        if (Material == null)
+		        {
+			        Material = Resources.GetBuiltinResource<Material>("Sprites-Default.mat");
+		        }
+	        }
+	        catch (Exception e)
+	        {
+		        Loggy.LogError(e.ToString());
+	        }
 #endif
 
             TryReleaseMesh();

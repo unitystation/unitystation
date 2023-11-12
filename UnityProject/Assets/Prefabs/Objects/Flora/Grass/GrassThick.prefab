@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4234270414537558637}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 9051683190382505958}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8454037385101544592
 SpriteRenderer:
@@ -106,11 +106,15 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &5247733581753757860
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 155908463860164561, guid: 00173e5de3306664c90ceda936ce817f,
@@ -176,7 +180,7 @@ PrefabInstance:
     - target: {fileID: 3843837462726334872, guid: 00173e5de3306664c90ceda936ce817f,
         type: 3}
       propertyPath: m_Name
-      value: xJungleGrassAx
+      value: GrassThick
       objectReference: {fileID: 0}
     - target: {fileID: 3906926717121101199, guid: 00173e5de3306664c90ceda936ce817f,
         type: 3}
@@ -222,35 +226,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8577383740918461250, guid: 00173e5de3306664c90ceda936ce817f,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 62ffef2fdfb9670439b948440433f526,
         type: 2}
     - target: {fileID: 8577383740918461250, guid: 00173e5de3306664c90ceda936ce817f,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 66803bce673c25d4e8dba9b0a75a4554,
         type: 2}
     - target: {fileID: 8577383740918461250, guid: 00173e5de3306664c90ceda936ce817f,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 3ba51215c11dbcb4c9e8d35a980d362c,
         type: 2}
     - target: {fileID: 8577383740918461250, guid: 00173e5de3306664c90ceda936ce817f,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[3]
+      propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 34060c07b5f0c5b47bbf28ff1188d2b5,
         type: 2}
     - target: {fileID: 8577383740918461250, guid: 00173e5de3306664c90ceda936ce817f,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[4]
+      propertyPath: 'SubCatalogue.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: 3c94e6ee94926544c8982a59ad8f16cc,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3840928387997474626, guid: 00173e5de3306664c90ceda936ce817f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3156862581751553345}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00173e5de3306664c90ceda936ce817f, type: 3}
 --- !u!4 &9051683190382505958 stripped
 Transform:

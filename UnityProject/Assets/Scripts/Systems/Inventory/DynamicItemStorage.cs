@@ -6,6 +6,7 @@ using Clothing;
 using HealthV2;
 using Initialisation;
 using Items.Implants.Organs;
+using Logs;
 using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -486,7 +487,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		}
 		catch (NullReferenceException exception)
 		{
-			Logger.LogError($"Caught NRE in DynamicItemStorage.Remove: {exception.Message} \n {exception.StackTrace}",
+			Loggy.LogError($"Caught NRE in DynamicItemStorage.Remove: {exception.Message} \n {exception.StackTrace}",
 				Category.Inventory);
 			return;
 		}
@@ -538,7 +539,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 			}
 			else
 			{
-				Logger.LogWarning("Key was not found for Body Part UI Slot Object", Category.Inventory);
+				Loggy.LogWarning("Key was not found for Body Part UI Slot Object", Category.Inventory);
 				continue;
 			}
 
@@ -782,7 +783,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 				{
 					if (Tries > 10)
 					{
-						Logger.LogError($"Failed to find object in spawned objects, might have not spawned yet? netId: {IntIn}");
+						Loggy.LogError($"Failed to find object in spawned objects, might have not spawned yet? netId: {IntIn}");
 						continue;
 					}
 					WeakReference<DynamicItemStorage> wptr = new WeakReference<DynamicItemStorage>(this);
@@ -845,7 +846,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 			{
 				if (spawnedList.TryGetValue(addInt.ID, out var spawned) == false) //TODO Cash!
 				{
-					Logger.LogError(
+					Loggy.LogError(
 						$"Failed to find object in spawned objects, might have not spawned yet? netId: {addInt}");
 					continue;
 				}
@@ -869,7 +870,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		{
 			if (spawnedList.TryGetValue(addInt.ID, out var spawned) == false)
 			{
-				Logger.LogError(
+				Loggy.LogError(
 					$"Failed to find object in spawned objects, might have not spawned yet? netId: {addInt}");
 				continue;
 			}
@@ -1018,7 +1019,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		if (occupation == null)
 		{
 			//TODO: Disable this warning after attributes has completely replaced occupations.
-			Logger.LogWarning($"[DynamicInventory] - Attempted to use a null occupation!");
+			Loggy.LogWarning($"[DynamicInventory] - Attempted to use a null occupation!");
 			return;
 		}
 
@@ -1195,7 +1196,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		{
 			if (objt == null)
 			{
-				Logger.LogError($"ServerObjectToSlots had null key on {gameObject.ExpensiveName()}");
+				Loggy.LogError($"ServerObjectToSlots had null key on {gameObject.ExpensiveName()}");
 				continue;
 			}
 

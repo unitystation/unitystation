@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 
 namespace HealthV2
@@ -12,7 +13,7 @@ namespace HealthV2
 		private void Start()
 		{
 			if (RelatedPart != null) return;
-			Logger.LogError($"No component found on parent. Make sure to put this component on a child of the bodyPart");
+			Loggy.LogError($"No component found on parent. Make sure to put this component on a child of the bodyPart");
 		}
 
 		private void OnDestroy()
@@ -26,7 +27,7 @@ namespace HealthV2
 			var creatureTraumaAPI = livingHealth.GetComponent<CreatureTraumaManager>();
 			if (creatureTraumaAPI == null)
 			{
-				Logger.LogWarning($"[BodyPartTrauma/OnAddBodyPart] - No high level trauma manager detected on creature." +
+				Loggy.LogWarning($"[BodyPartTrauma/OnAddBodyPart] - No high level trauma manager detected on creature." +
 				                  $"Functionalities like trauma healing may not be available for this body part.");
 				return;
 			}
@@ -43,8 +44,11 @@ namespace HealthV2
 
 		public override void OnTakeDamage(BodyPartDamageData data)
 		{
+			if (data == null) return;
+			if (data.DamageAmount < 0) return;
 			foreach (var logic in traumaTypesOnBodyPart)
 			{
+				if (logic == null) continue;
 				if (data.TramuticDamageType.HasFlag(logic.traumaTypes)) logic.OnTakeDamage(data);
 			}
 		}

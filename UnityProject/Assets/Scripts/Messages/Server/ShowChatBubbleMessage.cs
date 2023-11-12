@@ -48,7 +48,7 @@ namespace Messages.Server
 
 		public static void SendToNearby(GameObject followTransform, string message, LanguageSO language)
 		{
-
+			if (followTransform == null) return;
 			var visiblePlayers = OtherUtil.GetVisiblePlayers(followTransform.transform.position);
 
 			foreach (var player in visiblePlayers)
@@ -56,11 +56,11 @@ namespace Messages.Server
 				//See if we need to scramble the message
 				var copiedString = LanguageManager.Scramble(language, player.Script, string.Copy(message));
 
-				SendTo(player.Connection, followTransform, copiedString);
+				SendTo(player.GameObject, followTransform, copiedString);
 			}
 		}
 
-		public static NetMessage SendTo(NetworkConnectionToClient conn, GameObject followTransform, string message, bool isPlayerChatBubble = false,
+		public static NetMessage SendTo(GameObject obj, GameObject followTransform, string message, bool isPlayerChatBubble = false,
 			ChatModifier chatModifier = ChatModifier.None, bool allowTags = false)
 		{
 			NetMessage msg = new NetMessage
@@ -72,7 +72,7 @@ namespace Messages.Server
 				AllowTags = allowTags
 			};
 
-			SendTo(conn, msg);
+			SendTo(obj, msg);
 			return msg;
 		}
 	}

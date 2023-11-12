@@ -50,9 +50,14 @@ MonoBehaviour:
     Acid: 100
     Magic: 0
     Bio: 100
+    Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
   tileInteractions: []
+  <OnTileStartMining>k__BackingField: []
+  <OnTileFinishMining>k__BackingField: []
   tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
@@ -71,5 +76,4 @@ MonoBehaviour:
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: a653ff1e7612b394ab33a576db374bd1, type: 3}
   CanBeHighlightedThroughScanners: 0
-  AssoicatedSpawnedObjects: []
   HighlightObject: {fileID: 0}

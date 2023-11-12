@@ -17,10 +17,10 @@ MonoBehaviour:
   lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: 32366ae8deadc49b19966a38033bd6a3, type: 2}
   useStandardPopulator: 1
+  useCharacterSettings: 1
+  CustomSpeciesOverwrite: {fileID: 0}
   limit: 1
   priority: 99
-  allowedAccess: 220000001a0000004c00000034000000
-  allowedLowPopAccess: 
   issuedClearance: 0d0000001f000000290000005b000000
   issuedLowPopClearance: 0d0000001f000000290000005b000000
   spells:
@@ -46,6 +46,7 @@ MonoBehaviour:
     m_keys:
     - vowOfSilence
     m_values: 01
+  BetterCustomProperties: []
   isTargeteable: 1
   playSound: 1
   spawnSound:
@@ -59,3 +60,6 @@ MonoBehaviour:
   textColor: {r: 0.86666673, g: 0.86666673, b: 0.86666673, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
   specialPlayerPrefab: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []

@@ -1,8 +1,10 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using Logs;
+using SecureStuff;
 using UnityEngine;
 using NaughtyAttributes;
+using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
 
 [CreateAssetMenu(fileName = "MainStationListSO", menuName = "ScriptableObjects/MainStationList", order = 1)]
@@ -16,13 +18,11 @@ public class MainStationListSO : ScriptableObject
 
 	public string GetRandomMainStation()
 	{
-		var mapConfigPath = Path.Combine(Application.streamingAssetsPath, "maps.json");
+		var mapConfigPath = "maps.json";
 
-		if (File.Exists(mapConfigPath))
+		if (AccessFile.Exists(mapConfigPath))
 		{
-			var maps = JsonUtility.FromJson<MapList>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
-				"maps.json")));
-
+			var maps = JsonConvert.DeserializeObject<MapList>(AccessFile.Load("maps.json"));
 			return maps.GetRandomMap();
 		}
 
@@ -31,7 +31,7 @@ public class MainStationListSO : ScriptableObject
 
 		if (mapSoList.Count == 0)
 		{
-			Logger.LogError("No valid maps found! Make sure theres a map inside the MainStationList that is also in the build settings");
+			Loggy.LogError("No valid maps found! Make sure theres a map inside the MainStationList that is also in the build settings");
 		}
 
 		return mapSoList.PickRandom();
@@ -39,12 +39,11 @@ public class MainStationListSO : ScriptableObject
 
 	public List<string> GetMaps()
 	{
-		var mapConfigPath = Path.Combine(Application.streamingAssetsPath, "maps.json");
+		var mapConfigPath =  "maps.json";
 
-		if (File.Exists(mapConfigPath))
+		if (AccessFile.Exists(mapConfigPath))
 		{
-			var maps = JsonUtility.FromJson<MapList>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
-				"maps.json")));
+			var maps = JsonConvert.DeserializeObject<MapList>(AccessFile.Load(mapConfigPath));
 
 			return maps.highPopMaps.Union(maps.medPopMaps).Union(maps.lowPopMaps).ToList();
 		}

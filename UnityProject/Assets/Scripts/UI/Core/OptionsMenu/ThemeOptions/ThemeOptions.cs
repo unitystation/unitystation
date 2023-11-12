@@ -1,7 +1,12 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Core.Utils;
+using Logs;
 using Managers.SettingsManager;
 using TMPro;
+using UI;
+using UI.Chat_UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -55,6 +60,16 @@ namespace Unitystation.Options
 		[SerializeField]
 		private Text hoverTooltipDelaySliderValueText;
 
+		[SerializeField]
+		private Dropdown fontDropdown = null;
+
+		[SerializeField]
+		private Dropdown RightClickropdown = null;
+
+
+		[SerializeField]
+		private Toggle ThrowPreferenceToggle = null;
+
 		void OnEnable()
 		{
 			Refresh();
@@ -65,7 +80,15 @@ namespace Unitystation.Options
 		{
 			//Reload all the themes as there might be
 			//updates
-			ThemeManager.Instance.LoadAllThemes();
+			try
+			{
+				ThemeManager.Instance.LoadAllThemes();
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError($"[ThemeOptions/Refresh()] - Failed to Load themes.\n {e}");
+			}
+
 			HighlightToggle.isOn = Highlight.HighlightEnabled;
 			chatHighlightToggle.isOn = ThemeManager.ChatHighlight;
 			mentionSoundToggle.isOn = ThemeManager.MentionSound;
@@ -76,16 +99,55 @@ namespace Unitystation.Options
 			chatBubbleAdditionalTimeSlider.value = DisplaySettings.Instance.ChatBubbleAdditionalTime;
 			chatBubbleClownColourToggle.isOn = DisplaySettings.Instance.ChatBubbleClownColour == 1;
 
-			var newOptions = new List<TMP_Dropdown.OptionData>();
-
-			foreach (var sound in ThemeManager.Instance.MentionSounds)
+			try
 			{
-				newOptions.Add(new TMP_Dropdown.OptionData(sound.AudioSource.name));
+				var newOptions = new List<TMP_Dropdown.OptionData>();
+				foreach (var sound in ThemeManager.Instance.MentionSounds)
+				{
+					newOptions.Add(new TMP_Dropdown.OptionData(sound.AudioSource.name));
+				}
+				mentionSoundDropdown.options = newOptions;
+				mentionSoundDropdown.value = ThemeManager.MentionSoundIndex;
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
 			}
 
-			mentionSoundDropdown.options = newOptions;
+			try
+			{
+				fontDropdown.ClearOptions();
+				var fontNames = ChatUI.Instance.Fonts.Select(font => font.name).ToList();
+				fontDropdown.AddOptions(fontNames);
 
-			mentionSoundDropdown.value = ThemeManager.MentionSoundIndex;
+
+
+				var value = PlayerPrefs.GetString("fontPref", "LiberationSans SDF");
+				fontDropdown.SetValueByName(value);
+			}
+			catch (Exception e)
+			{
+				var chatUIHasNoFonts = ChatUI.Instance.Fonts?.Count == 0;
+				Loggy.LogError($"[ThemeOptions/Refresh()] - Failed to setup font options. " +
+				                $"\n chat has no fonts: {chatUIHasNoFonts} \n {e}");
+			}
+
+			try
+			{
+				RightClickropdown.ClearOptions();
+
+				var Options = RightClickManager.AvailableRightClickOptions.Keys.ToList();
+
+				RightClickropdown.AddOptions(Options);
+				var value = RightClickManager.GetRightClickPreference();
+				RightClickropdown.SetValueByName(value);
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError($"[ThemeOptions/Refresh()] - Failed to setup RightClick options. " );
+			}
+
+			ThrowPreferenceToggle.isOn = ControlAction.GetHoldThrowPreference();
 
 			chatAlphaFadeMinimum.value = UI.Chat_UI.ChatUI.Instance.GetPreferenceChatBackground();
 			chatContentAlphaFadeMinimum.value =  UI.Chat_UI.ChatUI.Instance.GetPreferenceChatContent();
@@ -114,7 +176,7 @@ namespace Unitystation.Options
 			else
 			{
 				chatBubbleDropDown.interactable = false;
-				Logger.LogError("No Options found for ChatBubbles", Category.Themes);
+				Loggy.LogError("No Options found for ChatBubbles", Category.Themes);
 			}
 		}
 
@@ -190,6 +252,22 @@ namespace Unitystation.Options
 			PlayerPrefs.SetFloat(PlayerPrefKeys.HoverTooltipDelayKey, hoverTooltipDelaySlider.value);
 			PlayerPrefs.Save();
 			Refresh();
+		}
+
+		public void OnFontPreferenceChange()
+		{
+			ChatUI.Instance.FontIndexToUse = fontDropdown.value;
+			PlayerPrefs.SetString("fontPref", fontDropdown.GetValueName());
+		}
+
+		public void OnRightClickPreferenceChange()
+		{
+			RightClickManager.SetRightClickPreference(RightClickropdown.GetValueName());
+		}
+
+		public void OnThrowHoldPreferenceChange()
+		{
+			ControlAction.SetPreferenceThrowHoldPreference(ThrowPreferenceToggle.isOn);
 		}
 	}
 }

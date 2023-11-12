@@ -32,7 +32,7 @@ namespace Objects.Science
 		public string messageOnTravelToThis;
 
 		private RegisterTile registerTile;
-		[SerializeField] private float maintRoomChanceModifier = 0.01f; //Squarestation quantum pads are less likely to teleport to maintrooms due to their nessasity.
+		[SerializeField] private float maintRoomChanceModifier = 0.1f; //Squarestation quantum pads are less likely to teleport to maintrooms due to their nessasity.
 
 		private Matrix Matrix => registerTile.Matrix;
 
@@ -99,7 +99,7 @@ namespace Objects.Science
 				LavaLandManager.Instance.LavaLandBase2Connector = this;
 			}
 
-			spriteHandler.ChangeSprite(0);
+			spriteHandler.SetCatalogueIndexSprite(0);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -221,9 +221,9 @@ namespace Objects.Science
 
 		public IEnumerator ServerAnimation()
 		{
-			spriteHandler.ChangeSprite(1);
+			spriteHandler.SetCatalogueIndexSprite(1);
 			yield return WaitFor.Seconds(1f);
-			spriteHandler.ChangeSprite(0);
+			spriteHandler.SetCatalogueIndexSprite(0);
 			ServerSync(false);
 		}
 

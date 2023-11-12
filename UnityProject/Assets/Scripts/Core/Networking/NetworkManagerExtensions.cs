@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Core.Networking;
 using Mirror;
 using Messages;
 using Messages.Client;
 using Messages.Server;
+using SecureStuff;
 
 public static class NetworkManagerExtensions
 {
@@ -14,14 +16,16 @@ public static class NetworkManagerExtensions
 	/// </summary>
 	public static void RegisterServerHandlers()
 	{
-		IEnumerable<Type> types = GetDerivedTypes(typeof(ClientMessage<>));
-		MethodInfo mi = GetHandlerInfo();
+		AllowedReflection.RegisterNetworkMessages(typeof(ClientMessage<>), typeof(NetworkManagerExtensions), nameof(RegisterHandler), true);
 
-		foreach (var type in types)
-		{
-			MethodInfo method = mi.MakeGenericMethod(type, type.BaseType?.GenericTypeArguments[0]);
-			method.Invoke(null, new object[] {true});
-		}
+		// IEnumerable<Type> types = GetDerivedTypes(typeof(ClientMessage<>)); //so get all Implementations of ClientMessage Needed 100%
+		// MethodInfo mi = GetHandlerInfo(); //
+		//
+		// foreach (var type in types)
+		// {
+		// 	MethodInfo method = mi.MakeGenericMethod(type, type.BaseType?.GenericTypeArguments[0]);
+		// 	method.Invoke(null, new object[] {true});
+		// }
 	}
 
 	/// <summary>
@@ -29,21 +33,22 @@ public static class NetworkManagerExtensions
 	/// </summary>
 	public static void RegisterClientHandlers()
 	{
-		IEnumerable<Type> types = GetDerivedTypes(typeof(ServerMessage<>));
-		MethodInfo mi = GetHandlerInfo();
+		AllowedReflection.RegisterNetworkMessages(typeof(ServerMessage<>), typeof(NetworkManagerExtensions), nameof(RegisterHandler), false);
 
-		foreach (var type in types)
-		{
-			MethodInfo method = mi.MakeGenericMethod(type, type.BaseType?.GenericTypeArguments[0]);
-			method.Invoke(null, new object[] {false});
-		}
+		// IEnumerable<Type> types = GetDerivedTypes(typeof(ServerMessage<>));
+		// MethodInfo mi = GetHandlerInfo();
+		//
+		// foreach (var type in types)
+		// {
+		// 	MethodInfo method = mi.MakeGenericMethod(type, type.BaseType?.GenericTypeArguments[0]);
+		// 	method.Invoke(null, new object[] {false});
+		// }
 	}
 
-	public static void RegisterHandler<T, U>(bool isServer) where T : GameMessageBase<U>
+	[Base]
+	public static void RegisterHandler<T, U>(bool isServer,T message ) where T : GameMessageBase<U>
 		, new() where U : struct, NetworkMessage
 	{
-		var message = Activator.CreateInstance<T>();
-
 		if (!isServer)
 		{
 			NetworkClient.RegisterHandler(new Action<NetworkConnection, U>(message.PreProcess));
@@ -52,38 +57,5 @@ public static class NetworkManagerExtensions
 		{
 			NetworkServer.RegisterHandler(new Action<NetworkConnection, U>(message.PreProcess));
 		}
-	}
-
-	/// <summary>
-	///     Gets the method info for the RegisterHandler method above.
-	/// </summary>
-	private static MethodInfo GetHandlerInfo()
-	{
-		return typeof(NetworkManagerExtensions).GetMethod(nameof(RegisterHandler), BindingFlags.Static | BindingFlags.Public);
-	}
-
-	/// <summary>
-	///     Finds all types that derive from the given type.
-	/// </summary>
-	private static IEnumerable<Type> GetDerivedTypes(Type baseType)
-	{
-		return Assembly.GetExecutingAssembly().GetTypes().Where(t => !t.IsAbstract && t.IsSubclassOfOpen(baseType))
-			.ToArray();
-	}
-
-	// https://stackoverflow.com/questions/457676/check-if-a-class-is-derived-from-a-generic-class
-	private static bool IsSubclassOfOpen(this Type t, Type baseType)
-	{
-		while (t != null && t != typeof(object))
-		{
-			Type cur = t.IsGenericType ? t.GetGenericTypeDefinition() : t;
-			if (baseType == cur)
-			{
-				return true;
-			}
-			t = t.BaseType;
-		}
-
-		return false;
 	}
 }

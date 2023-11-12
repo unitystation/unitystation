@@ -348,7 +348,7 @@ TextureImporter:
       213: 21300228
     second: smoothrocks_114
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -365,11 +365,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -408,6 +409,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -462,6 +465,18 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
     textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
@@ -2898,124 +2913,123 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      smoothrocks_40: 21300080
+      smoothrocks_0: 21300000
+      smoothrocks_1: 21300002
+      smoothrocks_10: 21300020
+      smoothrocks_100: 21300200
+      smoothrocks_101: 21300202
+      smoothrocks_102: 21300204
+      smoothrocks_103: 21300206
+      smoothrocks_104: 21300208
+      smoothrocks_105: 21300210
+      smoothrocks_106: 21300212
+      smoothrocks_107: 21300214
+      smoothrocks_108: 21300216
+      smoothrocks_109: 21300218
+      smoothrocks_11: 21300022
+      smoothrocks_110: 21300220
+      smoothrocks_111: 21300222
+      smoothrocks_112: 21300224
+      smoothrocks_113: 21300226
+      smoothrocks_114: 21300228
+      smoothrocks_12: 21300024
+      smoothrocks_13: 21300026
+      smoothrocks_14: 21300028
+      smoothrocks_15: 21300030
+      smoothrocks_16: 21300032
+      smoothrocks_17: 21300034
+      smoothrocks_18: 21300036
+      smoothrocks_19: 21300038
+      smoothrocks_2: 21300004
+      smoothrocks_20: 21300040
+      smoothrocks_21: 21300042
+      smoothrocks_22: 21300044
+      smoothrocks_23: 21300046
+      smoothrocks_24: 21300048
+      smoothrocks_25: 21300050
+      smoothrocks_26: 21300052
+      smoothrocks_27: 21300054
+      smoothrocks_28: 21300056
+      smoothrocks_29: 21300058
+      smoothrocks_3: 21300006
+      smoothrocks_30: 21300060
+      smoothrocks_31: 21300062
+      smoothrocks_32: 21300064
+      smoothrocks_33: 21300066
+      smoothrocks_34: 21300068
       smoothrocks_35: 21300070
       smoothrocks_36: 21300072
-      smoothrocks_66: 21300132
-      smoothrocks_59: 21300118
-      smoothrocks_74: 21300148
-      smoothrocks_3: 21300006
-      smoothrocks_49: 21300098
-      smoothrocks_87: 21300174
-      smoothrocks_9: 21300018
-      smoothrocks_97: 21300194
-      smoothrocks_17: 21300034
-      smoothrocks_76: 21300152
-      smoothrocks_105: 21300210
-      smoothrocks_47: 21300094
-      smoothrocks_53: 21300106
-      smoothrocks_56: 21300112
-      smoothrocks_93: 21300186
-      smoothrocks_42: 21300084
-      smoothrocks_55: 21300110
-      smoothrocks_19: 21300038
-      smoothrocks_26: 21300052
-      smoothrocks_13: 21300026
-      smoothrocks_112: 21300224
-      smoothrocks_10: 21300020
-      smoothrocks_46: 21300092
-      smoothrocks_67: 21300134
-      smoothrocks_106: 21300212
-      smoothrocks_114: 21300228
-      smoothrocks_77: 21300154
-      smoothrocks_109: 21300218
-      smoothrocks_91: 21300182
-      smoothrocks_104: 21300208
-      smoothrocks_0: 21300000
-      smoothrocks_73: 21300146
-      smoothrocks_50: 21300100
-      smoothrocks_8: 21300016
-      smoothrocks_78: 21300156
-      smoothrocks_14: 21300028
-      smoothrocks_32: 21300064
-      smoothrocks_89: 21300178
-      smoothrocks_21: 21300042
-      smoothrocks_24: 21300048
-      smoothrocks_20: 21300040
-      smoothrocks_90: 21300180
-      smoothrocks_70: 21300140
-      smoothrocks_95: 21300190
-      smoothrocks_68: 21300136
-      smoothrocks_81: 21300162
-      smoothrocks_99: 21300198
-      smoothrocks_82: 21300164
-      smoothrocks_75: 21300150
-      smoothrocks_41: 21300082
-      smoothrocks_4: 21300008
-      smoothrocks_34: 21300068
-      smoothrocks_63: 21300126
-      smoothrocks_98: 21300196
-      smoothrocks_79: 21300158
-      smoothrocks_22: 21300044
-      smoothrocks_6: 21300012
-      smoothrocks_58: 21300116
-      smoothrocks_18: 21300036
-      smoothrocks_27: 21300054
-      smoothrocks_103: 21300206
-      smoothrocks_71: 21300142
-      smoothrocks_15: 21300030
-      smoothrocks_80: 21300160
-      smoothrocks_62: 21300124
-      smoothrocks_45: 21300090
-      smoothrocks_72: 21300144
-      smoothrocks_16: 21300032
-      smoothrocks_94: 21300188
-      smoothrocks_51: 21300102
-      smoothrocks_61: 21300122
-      smoothrocks_92: 21300184
-      smoothrocks_48: 21300096
-      smoothrocks_5: 21300010
-      smoothrocks_12: 21300024
-      smoothrocks_39: 21300078
-      smoothrocks_25: 21300050
-      smoothrocks_111: 21300222
-      smoothrocks_110: 21300220
-      smoothrocks_33: 21300066
-      smoothrocks_107: 21300214
-      smoothrocks_86: 21300172
       smoothrocks_37: 21300074
-      smoothrocks_108: 21300216
-      smoothrocks_83: 21300166
-      smoothrocks_69: 21300138
-      smoothrocks_88: 21300176
-      smoothrocks_11: 21300022
-      smoothrocks_84: 21300168
-      smoothrocks_2: 21300004
-      smoothrocks_52: 21300104
-      smoothrocks_64: 21300128
-      smoothrocks_54: 21300108
-      smoothrocks_65: 21300130
-      smoothrocks_85: 21300170
-      smoothrocks_23: 21300046
-      smoothrocks_44: 21300088
-      smoothrocks_7: 21300014
-      smoothrocks_43: 21300086
-      smoothrocks_57: 21300114
-      smoothrocks_60: 21300120
-      smoothrocks_100: 21300200
-      smoothrocks_102: 21300204
-      smoothrocks_31: 21300062
-      smoothrocks_30: 21300060
-      smoothrocks_96: 21300192
-      smoothrocks_28: 21300056
       smoothrocks_38: 21300076
-      smoothrocks_101: 21300202
-      smoothrocks_1: 21300002
-      smoothrocks_113: 21300226
-      smoothrocks_29: 21300058
-  spritePackingTag: 
+      smoothrocks_39: 21300078
+      smoothrocks_4: 21300008
+      smoothrocks_40: 21300080
+      smoothrocks_41: 21300082
+      smoothrocks_42: 21300084
+      smoothrocks_43: 21300086
+      smoothrocks_44: 21300088
+      smoothrocks_45: 21300090
+      smoothrocks_46: 21300092
+      smoothrocks_47: 21300094
+      smoothrocks_48: 21300096
+      smoothrocks_49: 21300098
+      smoothrocks_5: 21300010
+      smoothrocks_50: 21300100
+      smoothrocks_51: 21300102
+      smoothrocks_52: 21300104
+      smoothrocks_53: 21300106
+      smoothrocks_54: 21300108
+      smoothrocks_55: 21300110
+      smoothrocks_56: 21300112
+      smoothrocks_57: 21300114
+      smoothrocks_58: 21300116
+      smoothrocks_59: 21300118
+      smoothrocks_6: 21300012
+      smoothrocks_60: 21300120
+      smoothrocks_61: 21300122
+      smoothrocks_62: 21300124
+      smoothrocks_63: 21300126
+      smoothrocks_64: 21300128
+      smoothrocks_65: 21300130
+      smoothrocks_66: 21300132
+      smoothrocks_67: 21300134
+      smoothrocks_68: 21300136
+      smoothrocks_69: 21300138
+      smoothrocks_7: 21300014
+      smoothrocks_70: 21300140
+      smoothrocks_71: 21300142
+      smoothrocks_72: 21300144
+      smoothrocks_73: 21300146
+      smoothrocks_74: 21300148
+      smoothrocks_75: 21300150
+      smoothrocks_76: 21300152
+      smoothrocks_77: 21300154
+      smoothrocks_78: 21300156
+      smoothrocks_79: 21300158
+      smoothrocks_8: 21300016
+      smoothrocks_80: 21300160
+      smoothrocks_81: 21300162
+      smoothrocks_82: 21300164
+      smoothrocks_83: 21300166
+      smoothrocks_84: 21300168
+      smoothrocks_85: 21300170
+      smoothrocks_86: 21300172
+      smoothrocks_87: 21300174
+      smoothrocks_88: 21300176
+      smoothrocks_89: 21300178
+      smoothrocks_9: 21300018
+      smoothrocks_90: 21300180
+      smoothrocks_91: 21300182
+      smoothrocks_92: 21300184
+      smoothrocks_93: 21300186
+      smoothrocks_94: 21300188
+      smoothrocks_95: 21300190
+      smoothrocks_96: 21300192
+      smoothrocks_97: 21300194
+      smoothrocks_98: 21300196
+      smoothrocks_99: 21300198
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

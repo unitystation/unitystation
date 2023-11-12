@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1403183851549088339, guid: 23a0b694284152342b2ec0817fade0d6,
+        type: 3}
+      propertyPath: radio
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2400272013911209609, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -41,7 +47,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8279022589428523628, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 1d0eccef0fd2e408caaf04bfbc98e888,
         type: 2}
@@ -107,6 +113,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8475018044423385274, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}
+      propertyPath: _assetId
+      value: 3411302831
+      objectReference: {fileID: 0}
+    - target: {fileID: 8475018044423385274, guid: 23a0b694284152342b2ec0817fade0d6,
+        type: 3}
       propertyPath: m_AssetId
       value: 6c06d764ea0ea9e4f9dff0e83cbb46e6
       objectReference: {fileID: 0}
@@ -120,6 +131,17 @@ PrefabInstance:
     - {fileID: 166801742205184598, guid: 23a0b694284152342b2ec0817fade0d6, type: 3}
     - {fileID: 5110815081077416878, guid: 23a0b694284152342b2ec0817fade0d6, type: 3}
     - {fileID: 1587260748569161296, guid: 23a0b694284152342b2ec0817fade0d6, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8361325896675593486, guid: 23a0b694284152342b2ec0817fade0d6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1954267061334375369}
+    - targetCorrespondingSourceObject: {fileID: 8361325896675593486, guid: 23a0b694284152342b2ec0817fade0d6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2818888289589057109}
   m_SourcePrefab: {fileID: 100100000, guid: 23a0b694284152342b2ec0817fade0d6, type: 3}
 --- !u!1 &2720625993976664686 stripped
 GameObject:
@@ -139,6 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   allClothingData:
@@ -161,6 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dc5bf41c2d60a74dbc6d60ff537eb85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   emmitableSignalData:
@@ -170,6 +194,7 @@ MonoBehaviour:
   requiresPower: 0
   isPowered: 1
   canExamineFrequency: 0
+  minimumDamageBeforeObfuscation: 12
   EncryptionKey: 1
   LoudSpeakOn: 0
   isEMPed: 0

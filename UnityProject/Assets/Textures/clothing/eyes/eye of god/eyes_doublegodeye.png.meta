@@ -195,7 +195,7 @@ TextureImporter:
       213: 21300126
     second: doublegodeye_63
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -212,11 +212,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -255,6 +256,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -270,6 +273,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1638,73 +1653,72 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      doublegodeye_24: 21300048
-      doublegodeye_56: 21300112
-      doublegodeye_35: 21300070
-      doublegodeye_54: 21300108
-      doublegodeye_10: 21300020
-      doublegodeye_52: 21300104
-      doublegodeye_62: 21300124
-      doublegodeye_11: 21300022
-      doublegodeye_31: 21300062
-      doublegodeye_46: 21300092
-      doublegodeye_59: 21300118
-      doublegodeye_23: 21300046
-      doublegodeye_39: 21300078
-      doublegodeye_57: 21300114
-      doublegodeye_32: 21300064
-      doublegodeye_44: 21300088
-      doublegodeye_40: 21300080
-      doublegodeye_34: 21300068
-      doublegodeye_9: 21300018
-      doublegodeye_51: 21300102
-      doublegodeye_14: 21300028
-      doublegodeye_29: 21300058
-      doublegodeye_15: 21300030
-      doublegodeye_3: 21300006
-      doublegodeye_18: 21300036
-      doublegodeye_36: 21300072
-      doublegodeye_30: 21300060
-      doublegodeye_41: 21300082
-      doublegodeye_38: 21300076
-      doublegodeye_37: 21300074
-      doublegodeye_8: 21300016
-      doublegodeye_60: 21300120
-      doublegodeye_4: 21300008
-      doublegodeye_21: 21300042
-      doublegodeye_49: 21300098
-      doublegodeye_26: 21300052
-      doublegodeye_33: 21300066
-      doublegodeye_58: 21300116
-      doublegodeye_53: 21300106
       doublegodeye_0: 21300000
-      doublegodeye_42: 21300084
-      doublegodeye_5: 21300010
-      doublegodeye_7: 21300014
-      doublegodeye_16: 21300032
-      doublegodeye_6: 21300012
-      doublegodeye_28: 21300056
-      doublegodeye_13: 21300026
-      doublegodeye_48: 21300096
-      doublegodeye_50: 21300100
-      doublegodeye_55: 21300110
       doublegodeye_1: 21300002
-      doublegodeye_2: 21300004
-      doublegodeye_22: 21300044
-      doublegodeye_17: 21300034
-      doublegodeye_19: 21300038
-      doublegodeye_43: 21300086
+      doublegodeye_10: 21300020
+      doublegodeye_11: 21300022
       doublegodeye_12: 21300024
+      doublegodeye_13: 21300026
+      doublegodeye_14: 21300028
+      doublegodeye_15: 21300030
+      doublegodeye_16: 21300032
+      doublegodeye_17: 21300034
+      doublegodeye_18: 21300036
+      doublegodeye_19: 21300038
+      doublegodeye_2: 21300004
       doublegodeye_20: 21300040
-      doublegodeye_45: 21300090
+      doublegodeye_21: 21300042
+      doublegodeye_22: 21300044
+      doublegodeye_23: 21300046
+      doublegodeye_24: 21300048
       doublegodeye_25: 21300050
-      doublegodeye_61: 21300122
-      doublegodeye_63: 21300126
+      doublegodeye_26: 21300052
       doublegodeye_27: 21300054
+      doublegodeye_28: 21300056
+      doublegodeye_29: 21300058
+      doublegodeye_3: 21300006
+      doublegodeye_30: 21300060
+      doublegodeye_31: 21300062
+      doublegodeye_32: 21300064
+      doublegodeye_33: 21300066
+      doublegodeye_34: 21300068
+      doublegodeye_35: 21300070
+      doublegodeye_36: 21300072
+      doublegodeye_37: 21300074
+      doublegodeye_38: 21300076
+      doublegodeye_39: 21300078
+      doublegodeye_4: 21300008
+      doublegodeye_40: 21300080
+      doublegodeye_41: 21300082
+      doublegodeye_42: 21300084
+      doublegodeye_43: 21300086
+      doublegodeye_44: 21300088
+      doublegodeye_45: 21300090
+      doublegodeye_46: 21300092
       doublegodeye_47: 21300094
-  spritePackingTag: 
+      doublegodeye_48: 21300096
+      doublegodeye_49: 21300098
+      doublegodeye_5: 21300010
+      doublegodeye_50: 21300100
+      doublegodeye_51: 21300102
+      doublegodeye_52: 21300104
+      doublegodeye_53: 21300106
+      doublegodeye_54: 21300108
+      doublegodeye_55: 21300110
+      doublegodeye_56: 21300112
+      doublegodeye_57: 21300114
+      doublegodeye_58: 21300116
+      doublegodeye_59: 21300118
+      doublegodeye_6: 21300012
+      doublegodeye_60: 21300120
+      doublegodeye_61: 21300122
+      doublegodeye_62: 21300124
+      doublegodeye_63: 21300126
+      doublegodeye_7: 21300014
+      doublegodeye_8: 21300016
+      doublegodeye_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

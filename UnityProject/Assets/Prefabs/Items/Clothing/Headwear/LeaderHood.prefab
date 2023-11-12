@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3549479581640830887, guid: dc3081345b70d284788d7ad8823dbd96,
@@ -24,7 +25,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: dc3081345b70d284788d7ad8823dbd96,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 9c0336a5359f1c541ba4fffc8a639d88,
         type: 2}
@@ -34,6 +35,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a49c24cc4af2f444aaaf1eebb4ffc0d8,
         type: 2}
+    - target: {fileID: 7524605284256423550, guid: dc3081345b70d284788d7ad8823dbd96,
+        type: 3}
+      propertyPath: _assetId
+      value: 1120046383
+      objectReference: {fileID: 0}
     - target: {fileID: 7524605284256423550, guid: dc3081345b70d284788d7ad8823dbd96,
         type: 3}
       propertyPath: m_AssetId
@@ -116,4 +122,7 @@ PrefabInstance:
       value: Now you're ready for some 50 dollar bling water.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc3081345b70d284788d7ad8823dbd96, type: 3}

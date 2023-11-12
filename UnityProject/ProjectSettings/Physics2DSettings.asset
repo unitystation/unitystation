@@ -3,12 +3,12 @@
 --- !u!19 &1
 Physics2DSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 5
+  serializedVersion: 6
   m_Gravity: {x: 0, y: 0}
   m_DefaultMaterial: {fileID: 0}
   m_VelocityIterations: 8
   m_PositionIterations: 3
-  m_VelocityThreshold: 1
+  m_BounceThreshold: 1
   m_MaxLinearCorrection: 0.2
   m_MaxAngularCorrection: 8
   m_MaxTranslationSpeed: 100
@@ -39,18 +39,17 @@ Physics2DSettings:
     m_IslandSolverBodiesPerJob: 50
     m_IslandSolverContactsPerJob: 50
   m_SimulationMode: 0
+  m_SimulationLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxSubStepCount: 4
+  m_MinSubStepFPS: 30
+  m_UseSubStepping: 0
+  m_UseSubStepContacts: 0
   m_QueriesHitTriggers: 1
   m_QueriesStartInColliders: 1
   m_CallbacksOnDisable: 1
   m_ReuseCollisionCallbacks: 0
   m_AutoSyncTransforms: 1
-  m_AlwaysShowColliders: 0
-  m_ShowColliderSleep: 1
-  m_ShowColliderContacts: 1
-  m_ShowColliderAABB: 0
-  m_ContactArrowScale: 0.2
-  m_ColliderAwakeColor: {r: 0.5686275, g: 0.95686275, b: 0.54509807, a: 0.7529412}
-  m_ColliderAsleepColor: {r: 0.5686275, g: 0.95686275, b: 0.54509807, a: 0.36078432}
-  m_ColliderContactColor: {r: 1, g: 0, b: 1, a: 0.6862745}
-  m_ColliderAABBColor: {r: 1, g: 1, b: 0, a: 0.2509804}
+  m_GizmoOptions: 26
   m_LayerCollisionMatrix: c800005cc800005cc800005cffffffffc800005cc800005cffffffffffffffffc880005ec880005cc800005cc880005cc880005cc800005cc880005cc85b1e3cc800005cc880005cc880005cc880005cc880005cc800005cc800005cc80080fdc800805cc801005cffffffffffffffffffffffffc880805cff7fffffc800805c

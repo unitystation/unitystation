@@ -87,7 +87,7 @@ TextureImporter:
       213: 21300054
     second: rightsecureopening_27
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,6 +148,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -162,6 +165,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -774,37 +789,36 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      rightsecureopening_2: 21300004
-      rightsecureopening_19: 21300038
-      rightsecureopening_1: 21300002
-      rightsecureopening_4: 21300008
-      rightsecureopening_15: 21300030
-      rightsecureopening_26: 21300052
       rightsecureopening_0: 21300000
-      rightsecureopening_23: 21300046
-      rightsecureopening_11: 21300022
-      rightsecureopening_13: 21300026
-      rightsecureopening_20: 21300040
-      rightsecureopening_3: 21300006
-      rightsecureopening_8: 21300016
+      rightsecureopening_1: 21300002
       rightsecureopening_10: 21300020
-      rightsecureopening_6: 21300012
-      rightsecureopening_9: 21300018
-      rightsecureopening_5: 21300010
+      rightsecureopening_11: 21300022
+      rightsecureopening_12: 21300024
+      rightsecureopening_13: 21300026
+      rightsecureopening_14: 21300028
+      rightsecureopening_15: 21300030
+      rightsecureopening_16: 21300032
       rightsecureopening_17: 21300034
       rightsecureopening_18: 21300036
-      rightsecureopening_24: 21300048
-      rightsecureopening_27: 21300054
-      rightsecureopening_22: 21300044
-      rightsecureopening_7: 21300014
-      rightsecureopening_16: 21300032
-      rightsecureopening_14: 21300028
-      rightsecureopening_25: 21300050
+      rightsecureopening_19: 21300038
+      rightsecureopening_2: 21300004
+      rightsecureopening_20: 21300040
       rightsecureopening_21: 21300042
-      rightsecureopening_12: 21300024
-  spritePackingTag: 
+      rightsecureopening_22: 21300044
+      rightsecureopening_23: 21300046
+      rightsecureopening_24: 21300048
+      rightsecureopening_25: 21300050
+      rightsecureopening_26: 21300052
+      rightsecureopening_27: 21300054
+      rightsecureopening_3: 21300006
+      rightsecureopening_4: 21300008
+      rightsecureopening_5: 21300010
+      rightsecureopening_6: 21300012
+      rightsecureopening_7: 21300014
+      rightsecureopening_8: 21300016
+      rightsecureopening_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

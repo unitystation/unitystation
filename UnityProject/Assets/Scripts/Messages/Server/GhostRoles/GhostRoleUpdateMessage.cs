@@ -1,4 +1,5 @@
 ﻿using System.Net.Configuration;
+using Logs;
 using Systems.GhostRoles;
 using Mirror;
 
@@ -30,15 +31,15 @@ namespace Messages.Server.GhostRoles
 		}
 
 		/// <summary>
-		/// Sends a message to all dead, informing them about a new ghost role that has become available.
+		/// Sends a message to all clients, informing them about a new ghost role that has become available.
 		/// </summary>
-		public static NetMessage SendToDead(uint key)
+		public static NetMessage SendToClients(uint key)
 		{
 			if (GhostRoleManager.Instance != null)
 			{
 				if (GhostRoleManager.Instance.serverAvailableRoles.TryGetValue(key, out var role) == false)
 				{
-					Logger.LogError($"Failed to find ghost role key: {key}");
+					Loggy.LogError($"Failed to find ghost role key: {key}");
 					return new NetMessage();
 				}
 
@@ -46,11 +47,9 @@ namespace Messages.Server.GhostRoles
 				{
 					if (player?.Script == null)
 					{
-						Logger.LogError("SendToDead, player?.Script == null", Category.Ghosts);
+						Loggy.LogError("SendToClients, player?.Script == null", Category.Ghosts);
 						continue;
 					}
-
-					if (player.Script.IsDeadOrGhost == false) continue;
 
 					SendTo(player, key, role);
 				}
@@ -58,7 +57,7 @@ namespace Messages.Server.GhostRoles
 			}
 			else
 			{
-				Logger.LogError("SendToDead, GhostRoleManager.Instance == null", Category.Ghosts);
+				Loggy.LogError("SendToClients, GhostRoleManager.Instance == null", Category.Ghosts);
 			}
 
 			return new NetMessage();

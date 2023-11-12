@@ -16,15 +16,17 @@ using Items;
 using Items.Tool;
 using Messages.Server;
 using Objects.Other;
-using Player.Movement;
 using Shuttles;
 using UI.Core;
 using UI.Items;
 using Doors;
+using IngameDebugConsole;
+using Logs;
 using Managers;
 using Objects;
 using Player.Language;
 using Systems.Ai;
+using Systems.Faith;
 using Tiles;
 using Util;
 using Random = UnityEngine.Random;
@@ -98,7 +100,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (playerScript.OrNull()?.playerMove == null)
 		{
-			Logger.LogError($"null playerScript/playerMove in {this.name} ");
+			Loggy.LogError($"null playerScript/playerMove in {this.name} ");
 			return;
 		}
 		playerScript.playerMove.intent = intent;
@@ -239,7 +241,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var pushPull = playerScript.ObjectPhysics.Pulling.Component;
 		Vector3Int origin = pushPull.registerTile.WorldPositionServer;
 		Vector2Int dir = (Vector2Int)(destination - origin);
-		pushPull.TryTilePush(dir, null, overridePull: true);
+		pushPull.TryTilePush(dir, null, speed: playerScript.ObjectPhysics.CurrentTileMoveSpeed, overridePull: true);
 	}
 
 	/// <summary>
@@ -419,11 +421,24 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 			playerMove.StopPulling(false);
 
-			//TODO speedloss  / friction
 			var speed = 8;
+			var airtime = 0f;
+			if (pulling.stickyMovement)
+			{
+				//When they got no airtime they stick instantly
+				airtime = (distance / speed );
+			}
+			else
+			{
+				var timeTakenIfallThrow = (distance / speed);
+				airtime = timeTakenIfallThrow - ((Mathf.Pow(speed, 2) / (2 * UniversalObjectPhysics.DEFAULT_Friction)) / speed);
+			}
+
+
+
 
 			pulling.NewtonianPush( targetVector,speed,
-				(distance / speed ) - ((Mathf.Pow(speed, 2) / (2*UniversalObjectPhysics.DEFAULT_Friction)) / speed),
+				airtime,
 				Single.NaN, (BodyPartType) aim, this.gameObject, Random.Range(25, 150));
 		}
 
@@ -603,7 +618,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			//See if we need to scramble the message
 			var copiedString = LanguageManager.Scramble(language, player.Script, string.Copy(message));
 
-			ShowChatBubbleMessage.SendTo(player.Connection, gameObject, copiedString, true);
+			ShowChatBubbleMessage.SendTo(player.GameObject, gameObject, copiedString, true);
 		}
 	}
 
@@ -677,7 +692,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
-		Logger.LogWarning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!", Category.Antags);
+		Loggy.LogWarning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!", Category.Antags);
 	}
 
 	[Command]
@@ -870,6 +885,52 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
+	public void CmdRequestChangelingAbilites(int abilityIndex, Vector3 clickPosition)
+	{
+		if (playerScript.Changeling == null)
+			return;
+		foreach (var ability in playerScript.Changeling.ChangelingAbilities)
+		{
+			if (ability.AbilityData.Index == abilityIndex)
+			{
+				ability.CallActionServer(PlayerList.Instance.GetOnline(gameObject), clickPosition);
+				return;
+			}
+		}
+	}
+
+
+	[Command]
+	public void CmdRequestChangelingAbilitesWithParam(int abilityIndex, string param)
+	{
+		if (playerScript.Changeling == null)
+			return;
+		foreach (var ability in playerScript.Changeling.AbilitiesNow)
+		{
+			if (ability.AbilityData.Index == abilityIndex)
+			{
+				ability.CallActionServerWithParam(PlayerList.Instance.GetOnline(gameObject), param);
+				return;
+			}
+		}
+	}
+
+	[Command]
+	public void CmdRequestChangelingAbilitesToggle(int abilityIndex, bool toggle)
+	{
+		if (playerScript.Changeling == null)
+			return;
+		foreach (var ability in playerScript.Changeling.AbilitiesNow)
+		{
+			if (ability.AbilityData.Index == abilityIndex)
+			{
+				ability.CallActionServerToggle(PlayerList.Instance.GetOnline(gameObject), toggle);
+				return;
+			}
+		}
+	}
+
+	[Command]
 	public void CmdSetCrayon(GameObject crayon, uint category, uint index, uint colourIndex, OrientationEnum direction)
 	{
 		if(crayon == null || crayon.TryGetComponent<CrayonSprayCan>(out var crayonScript) ==  false) return;
@@ -966,7 +1027,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var health = playerScript.playerHealth;
 		if (health.IsDead)
 		{
-			Logger.LogError("[PlayerNetworkActions/HardSuicide()] - Player is already dead!");
+			Loggy.LogError("[PlayerNetworkActions/HardSuicide()] - Player is already dead!");
 			return;
 		}
 		health.ApplyDamageAll(playerScript.gameObject,

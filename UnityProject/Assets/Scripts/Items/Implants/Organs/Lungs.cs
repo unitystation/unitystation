@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Chemistry;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
+using Logs;
 using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;
 using Systems.Atmospherics;
@@ -256,7 +257,7 @@ namespace Items.Implants.Organs
 
 			if (breathGasMix.Moles != 0)
 			{
-				percentageCanTake = LungSize / breathGasMix.Moles;
+				percentageCanTake = (LungSize * efficiency) / breathGasMix.Moles;
 			}
 
 			if (percentageCanTake > 1)
@@ -304,7 +305,7 @@ namespace Items.Implants.Organs
 				}
 			}
 
-			RelatedPart.HealthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale, LungSize);
+			RelatedPart.HealthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale, (LungSize * efficiency));
 
 
 			bool suffocating = false;

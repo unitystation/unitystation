@@ -147,7 +147,7 @@ TextureImporter:
       213: 21300094
     second: smooth_wall_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -258,6 +261,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1290,57 +1305,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      smooth_wall_28: 21300056
-      smooth_wall_7: 21300014
-      smooth_wall_12: 21300024
-      smooth_wall_14: 21300028
-      smooth_wall_46: 21300092
-      smooth_wall_8: 21300016
-      smooth_wall_37: 21300074
-      smooth_wall_47: 21300094
-      smooth_wall_11: 21300022
-      smooth_wall_27: 21300054
-      smooth_wall_19: 21300038
-      smooth_wall_6: 21300012
-      smooth_wall_24: 21300048
-      smooth_wall_32: 21300064
-      smooth_wall_17: 21300034
-      smooth_wall_41: 21300082
-      smooth_wall_45: 21300090
-      smooth_wall_43: 21300086
-      smooth_wall_15: 21300030
-      smooth_wall_3: 21300006
-      smooth_wall_29: 21300058
-      smooth_wall_39: 21300078
-      smooth_wall_21: 21300042
-      smooth_wall_30: 21300060
-      smooth_wall_33: 21300066
-      smooth_wall_35: 21300070
-      smooth_wall_40: 21300080
-      smooth_wall_42: 21300084
-      smooth_wall_5: 21300010
-      smooth_wall_26: 21300052
-      smooth_wall_16: 21300032
-      smooth_wall_4: 21300008
-      smooth_wall_9: 21300018
-      smooth_wall_2: 21300004
-      smooth_wall_20: 21300040
-      smooth_wall_38: 21300076
-      smooth_wall_10: 21300020
-      smooth_wall_22: 21300044
-      smooth_wall_13: 21300026
-      smooth_wall_25: 21300050
-      smooth_wall_44: 21300088
       smooth_wall_0: 21300000
       smooth_wall_1: 21300002
-      smooth_wall_34: 21300068
+      smooth_wall_10: 21300020
+      smooth_wall_11: 21300022
+      smooth_wall_12: 21300024
+      smooth_wall_13: 21300026
+      smooth_wall_14: 21300028
+      smooth_wall_15: 21300030
+      smooth_wall_16: 21300032
+      smooth_wall_17: 21300034
       smooth_wall_18: 21300036
-      smooth_wall_31: 21300062
-      smooth_wall_36: 21300072
+      smooth_wall_19: 21300038
+      smooth_wall_2: 21300004
+      smooth_wall_20: 21300040
+      smooth_wall_21: 21300042
+      smooth_wall_22: 21300044
       smooth_wall_23: 21300046
-  spritePackingTag: 
+      smooth_wall_24: 21300048
+      smooth_wall_25: 21300050
+      smooth_wall_26: 21300052
+      smooth_wall_27: 21300054
+      smooth_wall_28: 21300056
+      smooth_wall_29: 21300058
+      smooth_wall_3: 21300006
+      smooth_wall_30: 21300060
+      smooth_wall_31: 21300062
+      smooth_wall_32: 21300064
+      smooth_wall_33: 21300066
+      smooth_wall_34: 21300068
+      smooth_wall_35: 21300070
+      smooth_wall_36: 21300072
+      smooth_wall_37: 21300074
+      smooth_wall_38: 21300076
+      smooth_wall_39: 21300078
+      smooth_wall_4: 21300008
+      smooth_wall_40: 21300080
+      smooth_wall_41: 21300082
+      smooth_wall_42: 21300084
+      smooth_wall_43: 21300086
+      smooth_wall_44: 21300088
+      smooth_wall_45: 21300090
+      smooth_wall_46: 21300092
+      smooth_wall_47: 21300094
+      smooth_wall_5: 21300010
+      smooth_wall_6: 21300012
+      smooth_wall_7: 21300014
+      smooth_wall_8: 21300016
+      smooth_wall_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

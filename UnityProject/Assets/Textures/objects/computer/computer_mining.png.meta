@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: mining_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      mining_25: 21300050
-      mining_20: 21300040
-      mining_6: 21300012
-      mining_14: 21300028
-      mining_2: 21300004
-      mining_8: 21300016
-      mining_16: 21300032
-      mining_15: 21300030
-      mining_31: 21300062
-      mining_13: 21300026
-      mining_26: 21300052
-      mining_9: 21300018
-      mining_18: 21300036
-      mining_11: 21300022
-      mining_17: 21300034
-      mining_19: 21300038
-      mining_10: 21300020
-      mining_22: 21300044
-      mining_3: 21300006
-      mining_24: 21300048
-      mining_28: 21300056
-      mining_27: 21300054
-      mining_29: 21300058
-      mining_7: 21300014
-      mining_1: 21300002
-      mining_12: 21300024
-      mining_21: 21300042
       mining_0: 21300000
+      mining_1: 21300002
+      mining_10: 21300020
+      mining_11: 21300022
+      mining_12: 21300024
+      mining_13: 21300026
+      mining_14: 21300028
+      mining_15: 21300030
+      mining_16: 21300032
+      mining_17: 21300034
+      mining_18: 21300036
+      mining_19: 21300038
+      mining_2: 21300004
+      mining_20: 21300040
+      mining_21: 21300042
+      mining_22: 21300044
+      mining_23: 21300046
+      mining_24: 21300048
+      mining_25: 21300050
+      mining_26: 21300052
+      mining_27: 21300054
+      mining_28: 21300056
+      mining_29: 21300058
+      mining_3: 21300006
+      mining_30: 21300060
+      mining_31: 21300062
       mining_4: 21300008
       mining_5: 21300010
-      mining_23: 21300046
-      mining_30: 21300060
-  spritePackingTag: 
+      mining_6: 21300012
+      mining_7: 21300014
+      mining_8: 21300016
+      mining_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -219,7 +219,7 @@ TextureImporter:
       213: 21300142
     second: power_cond_blue_71
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -236,11 +236,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -279,6 +280,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -333,6 +336,18 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
     textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
@@ -1866,81 +1881,80 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      power_cond_blue_63: 21300126
-      power_cond_blue_2: 21300004
-      power_cond_blue_26: 21300052
-      power_cond_blue_67: 21300134
-      power_cond_blue_49: 21300098
-      power_cond_blue_46: 21300092
-      power_cond_blue_1: 21300002
-      power_cond_blue_24: 21300048
-      power_cond_blue_69: 21300138
-      power_cond_blue_42: 21300084
-      power_cond_blue_41: 21300082
-      power_cond_blue_21: 21300042
-      power_cond_blue_30: 21300060
-      power_cond_blue_27: 21300054
-      power_cond_blue_45: 21300090
-      power_cond_blue_54: 21300108
-      power_cond_blue_15: 21300030
-      power_cond_blue_65: 21300130
-      power_cond_blue_16: 21300032
-      power_cond_blue_60: 21300120
-      power_cond_blue_48: 21300096
-      power_cond_blue_18: 21300036
-      power_cond_blue_68: 21300136
-      power_cond_blue_57: 21300114
-      power_cond_blue_7: 21300014
-      power_cond_blue_37: 21300074
-      power_cond_blue_53: 21300106
-      power_cond_blue_22: 21300044
-      power_cond_blue_32: 21300064
-      power_cond_blue_5: 21300010
-      power_cond_blue_35: 21300070
       power_cond_blue_0: 21300000
-      power_cond_blue_59: 21300118
-      power_cond_blue_11: 21300022
-      power_cond_blue_51: 21300102
-      power_cond_blue_34: 21300068
-      power_cond_blue_4: 21300008
-      power_cond_blue_44: 21300088
-      power_cond_blue_3: 21300006
-      power_cond_blue_8: 21300016
-      power_cond_blue_14: 21300028
-      power_cond_blue_13: 21300026
-      power_cond_blue_19: 21300038
-      power_cond_blue_62: 21300124
-      power_cond_blue_52: 21300104
-      power_cond_blue_66: 21300132
-      power_cond_blue_33: 21300066
+      power_cond_blue_1: 21300002
       power_cond_blue_10: 21300020
+      power_cond_blue_11: 21300022
       power_cond_blue_12: 21300024
-      power_cond_blue_31: 21300062
+      power_cond_blue_13: 21300026
+      power_cond_blue_14: 21300028
+      power_cond_blue_15: 21300030
+      power_cond_blue_16: 21300032
       power_cond_blue_17: 21300034
+      power_cond_blue_18: 21300036
+      power_cond_blue_19: 21300038
+      power_cond_blue_2: 21300004
       power_cond_blue_20: 21300040
-      power_cond_blue_6: 21300012
-      power_cond_blue_25: 21300050
-      power_cond_blue_38: 21300076
-      power_cond_blue_58: 21300116
-      power_cond_blue_47: 21300094
-      power_cond_blue_39: 21300078
-      power_cond_blue_9: 21300018
+      power_cond_blue_21: 21300042
+      power_cond_blue_22: 21300044
       power_cond_blue_23: 21300046
-      power_cond_blue_71: 21300142
-      power_cond_blue_61: 21300122
+      power_cond_blue_24: 21300048
+      power_cond_blue_25: 21300050
+      power_cond_blue_26: 21300052
+      power_cond_blue_27: 21300054
       power_cond_blue_28: 21300056
-      power_cond_blue_50: 21300100
-      power_cond_blue_56: 21300112
-      power_cond_blue_70: 21300140
-      power_cond_blue_43: 21300086
-      power_cond_blue_55: 21300110
-      power_cond_blue_36: 21300072
       power_cond_blue_29: 21300058
-      power_cond_blue_64: 21300128
+      power_cond_blue_3: 21300006
+      power_cond_blue_30: 21300060
+      power_cond_blue_31: 21300062
+      power_cond_blue_32: 21300064
+      power_cond_blue_33: 21300066
+      power_cond_blue_34: 21300068
+      power_cond_blue_35: 21300070
+      power_cond_blue_36: 21300072
+      power_cond_blue_37: 21300074
+      power_cond_blue_38: 21300076
+      power_cond_blue_39: 21300078
+      power_cond_blue_4: 21300008
       power_cond_blue_40: 21300080
-  spritePackingTag: 
+      power_cond_blue_41: 21300082
+      power_cond_blue_42: 21300084
+      power_cond_blue_43: 21300086
+      power_cond_blue_44: 21300088
+      power_cond_blue_45: 21300090
+      power_cond_blue_46: 21300092
+      power_cond_blue_47: 21300094
+      power_cond_blue_48: 21300096
+      power_cond_blue_49: 21300098
+      power_cond_blue_5: 21300010
+      power_cond_blue_50: 21300100
+      power_cond_blue_51: 21300102
+      power_cond_blue_52: 21300104
+      power_cond_blue_53: 21300106
+      power_cond_blue_54: 21300108
+      power_cond_blue_55: 21300110
+      power_cond_blue_56: 21300112
+      power_cond_blue_57: 21300114
+      power_cond_blue_58: 21300116
+      power_cond_blue_59: 21300118
+      power_cond_blue_6: 21300012
+      power_cond_blue_60: 21300120
+      power_cond_blue_61: 21300122
+      power_cond_blue_62: 21300124
+      power_cond_blue_63: 21300126
+      power_cond_blue_64: 21300128
+      power_cond_blue_65: 21300130
+      power_cond_blue_66: 21300132
+      power_cond_blue_67: 21300134
+      power_cond_blue_68: 21300136
+      power_cond_blue_69: 21300138
+      power_cond_blue_7: 21300014
+      power_cond_blue_70: 21300140
+      power_cond_blue_71: 21300142
+      power_cond_blue_8: 21300016
+      power_cond_blue_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

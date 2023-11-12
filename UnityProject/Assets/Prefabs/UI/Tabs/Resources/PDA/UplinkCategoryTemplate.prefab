@@ -31,7 +31,6 @@ RectTransform:
   m_Children:
   - {fileID: 522821059072184244}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -50,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78ef3eb5277eb3babf3b7a7fc141001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Poolble: 1
   categoryName: {fileID: 6024757498576864010}
 --- !u!1 &3743331207840473419
 GameObject:
@@ -85,7 +85,6 @@ RectTransform:
   m_Children:
   - {fileID: 7606620501566089470}
   m_Father: {fileID: 2840940925901137853}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -175,6 +174,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!222 &3765774478406102659
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -245,7 +250,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 522821059072184244}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

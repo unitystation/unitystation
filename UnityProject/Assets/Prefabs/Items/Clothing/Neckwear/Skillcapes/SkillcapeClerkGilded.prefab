@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1384702343147335855, guid: 7f41642d89844764ab6834399f274c81,
@@ -24,7 +25,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1436912293444153159, guid: 7f41642d89844764ab6834399f274c81,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 4f63f19ebf82898468adc97d1187dd60,
         type: 2}
@@ -40,6 +41,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -4119530309938916290, guid: 0611f946bf2075747a109b8990d3566f,
         type: 3}
+    - target: {fileID: 5339579268297326966, guid: 7f41642d89844764ab6834399f274c81,
+        type: 3}
+      propertyPath: _assetId
+      value: 2932239903
+      objectReference: {fileID: 0}
     - target: {fileID: 5339579268297326966, guid: 7f41642d89844764ab6834399f274c81,
         type: 3}
       propertyPath: m_AssetId
@@ -111,4 +117,7 @@ PrefabInstance:
       value: clerk's gilded skillcape
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f41642d89844764ab6834399f274c81, type: 3}

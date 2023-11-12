@@ -1,6 +1,8 @@
 
 using System;
 using System.Reflection;
+using Logs;
+using SecureStuff;
 using UnityEngine;
 
 /// <summary>
@@ -10,7 +12,7 @@ using UnityEngine;
 /// from the right click menu for any objects that component is attached to. Can be useful for debugging.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]
-public class RightClickMethod : Attribute
+public class RightClickMethod : BaseAttribute
 {
 	public readonly string label;
 	public readonly string bgColorHex;
@@ -51,14 +53,14 @@ public class RightClickMethod : Attribute
 		}
 		else
 		{
-			Logger.LogWarningFormat("Unable to parse hex color string {0} in RightClickMethod. Please ensure this is a" +
+			Loggy.LogWarningFormat("Unable to parse hex color string {0} in RightClickMethod. Please ensure this is a" +
 			                        " valid hex color string like #223344. Defaulting to gray.", Category.UserInput, bgColorHex);
 		}
 
 		var sprite = Resources.Load<Sprite>(spritePath);
 		if (sprite == null)
 		{
-			Logger.LogWarningFormat("Unable to load sprite at path {0} in RightClickMethod. Please ensure this is a" +
+			Loggy.LogWarningFormat("Unable to load sprite at path {0} in RightClickMethod. Please ensure this is a" +
 			                        " valid path to a sprite. Defaulting to question mark.", Category.UserInput, spritePath);
 			sprite = Resources.Load<Sprite>("UI/RightClickButtonIcon/question_mark.png");
 		}
@@ -69,12 +71,13 @@ public class RightClickMethod : Attribute
 			bgSprite = Resources.Load<Sprite>(bgSpritePath);
 			if (bgSprite == null)
 			{
-				Logger.LogWarningFormat(
+				Loggy.LogWarningFormat(
 					"Unable to load bgSprite at path {0} in RightClickMethod. Please ensure this is a" +
 					" valid path to a sprite. Defaulting to question no background.", Category.UserInput, bgSpritePath);
 			}
 		}
 
-		return RightClickMenuItem.CreateSubMenuItem(colorToUse, sprite, bgSprite, labelToUse, (Action) Delegate.CreateDelegate(typeof(Action), forComponent, attributedMethod));
+		return RightClickMenuItem.CreateSubMenuItem(colorToUse, sprite, bgSprite, labelToUse,
+			() => { _ = AllowedReflection.InvokeFunction(attributedMethod, forComponent, null); });
 	}
 }

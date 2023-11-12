@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 21396104557255652, guid: b786c064039c17e4aa61dd51c6b59646,
@@ -78,6 +79,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 89514fde7c137dd43aa764f47c4249dd
       objectReference: {fileID: 0}
+    - target: {fileID: 1430629966515987311, guid: b786c064039c17e4aa61dd51c6b59646,
+        type: 3}
+      propertyPath: _assetId
+      value: 3718829707
+      objectReference: {fileID: 0}
     - target: {fileID: 1787099076609564029, guid: b786c064039c17e4aa61dd51c6b59646,
         type: 3}
       propertyPath: damageData
@@ -97,6 +103,13 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents:
     - {fileID: 7844420906247114988, guid: b786c064039c17e4aa61dd51c6b59646, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 21396104557255652, guid: b786c064039c17e4aa61dd51c6b59646,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1693377533809980323}
   m_SourcePrefab: {fileID: 100100000, guid: b786c064039c17e4aa61dd51c6b59646, type: 3}
 --- !u!1 &7449957587207192396 stripped
 GameObject:
@@ -117,5 +130,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stunTime: 8
+  passThroughStunImmunity: 1
   willDisarm: 1
   doMsg: 0

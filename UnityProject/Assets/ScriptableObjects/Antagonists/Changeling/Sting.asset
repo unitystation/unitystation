@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abfb14f1cea001644adf00377caccd0a, type: 3}
+  m_Name: Sting
+  m_EditorClassIdentifier: 
+  actionType: 1
+  activeSpriteIndex: 0
+  callOnClient: 0
+  callOnServer: 0
+  actionName: Extract DNA Sting
+  description: Extracts body DNA.
+  Sprites:
+  - {fileID: 11400000, guid: f505ac6e5ac606044b49e377d6c8a7ca, type: 2}
+  Backgrounds:
+  - {fileID: 11400000, guid: 8b8f8d4ab92854b4cbeb74ec8ec117df, type: 2}
+  PreventBeingControlledBy: 
+  DisableOnEvent: 
+  isAimable: 1
+  useCustomCursor: 1
+  cursorTexture: {fileID: 2800000, guid: a98858de92927fd4c844f441140f55fe, type: 3}
+  cursorOffsetType: 1
+  cursorOffset: {x: 0, y: 0}
+  cooldown: 1
+  abilityEPCost: 0
+  abilityChemCost: 25
+  abilityImplementation: {fileID: 1515064019581797830, guid: 5722bf93b0593b44caafd2931b25840d,
+    type: 3}
+  descriptionStore: A starter ability. The changeling can sting a target to extract
+    their genetic information. They can then use the DNA like they just absorbed
+    it. Helps the changeling reach their genome objective.
+  canBeUsedWhileInCrit: 0
+  isLocal: 0
+  startAbility: 1
+  showInStore: 1
+  showInActions: 1
+  stingTime: 4

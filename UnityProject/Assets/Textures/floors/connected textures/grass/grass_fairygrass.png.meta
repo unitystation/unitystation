@@ -147,7 +147,7 @@ TextureImporter:
       213: -2575474155250040614
     second: grass_fairygrass_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      grass_fairygrass_37: 8109437304812054177
-      grass_fairygrass_10: 3947991169580413472
-      grass_fairygrass_5: -8192186810508476041
-      grass_fairygrass_35: -6151304819335763636
-      grass_fairygrass_17: -4954879167233466006
-      grass_fairygrass_11: 9095984989257687297
-      grass_fairygrass_26: -5256866616317896032
-      grass_fairygrass_39: -1527288061256003318
-      grass_fairygrass_2: 563419066312833328
-      grass_fairygrass_32: -4619618401186724092
-      grass_fairygrass_22: -8467853837416141629
-      grass_fairygrass_25: 8782742887696548937
-      grass_fairygrass_34: -6709036643010293272
-      grass_fairygrass_3: 2817005034336095893
-      grass_fairygrass_18: -7253561800360208202
-      grass_fairygrass_36: -5303604550908800488
-      grass_fairygrass_12: 5498083530513693621
-      grass_fairygrass_41: -5139653332768634765
-      grass_fairygrass_43: -1664280479421346128
-      grass_fairygrass_42: -7833457437150803800
-      grass_fairygrass_46: -4207796816450994406
-      grass_fairygrass_21: -7652374318257597788
-      grass_fairygrass_16: -6105150074311346978
-      grass_fairygrass_15: 2810665222275893145
-      grass_fairygrass_33: -3666683347208784437
-      grass_fairygrass_27: -8582924731744283209
-      grass_fairygrass_19: 2197207588035013655
-      grass_fairygrass_23: -7949465631869826346
-      grass_fairygrass_28: -1755021250163610391
-      grass_fairygrass_1: 1784256082376244978
-      grass_fairygrass_31: 6430000728565295236
-      grass_fairygrass_29: -2247187052668021521
-      grass_fairygrass_20: -2416811168412647031
-      grass_fairygrass_40: -789016976730210902
-      grass_fairygrass_9: 6880503325818375695
-      grass_fairygrass_24: -6690202223335100631
-      grass_fairygrass_47: -2575474155250040614
       grass_fairygrass_0: 7642874881134765524
-      grass_fairygrass_30: 8522607490682465532
-      grass_fairygrass_4: 5784406286125862610
-      grass_fairygrass_7: 5772727449624162404
-      grass_fairygrass_44: 6640969107073178808
+      grass_fairygrass_1: 1784256082376244978
+      grass_fairygrass_10: 3947991169580413472
+      grass_fairygrass_11: 9095984989257687297
+      grass_fairygrass_12: 5498083530513693621
       grass_fairygrass_13: 5324278695717932793
-      grass_fairygrass_45: 6731148505863391044
-      grass_fairygrass_6: -8291950453714440073
-      grass_fairygrass_38: -2585319424207659331
       grass_fairygrass_14: -690332361702023803
+      grass_fairygrass_15: 2810665222275893145
+      grass_fairygrass_16: -6105150074311346978
+      grass_fairygrass_17: -4954879167233466006
+      grass_fairygrass_18: -7253561800360208202
+      grass_fairygrass_19: 2197207588035013655
+      grass_fairygrass_2: 563419066312833328
+      grass_fairygrass_20: -2416811168412647031
+      grass_fairygrass_21: -7652374318257597788
+      grass_fairygrass_22: -8467853837416141629
+      grass_fairygrass_23: -7949465631869826346
+      grass_fairygrass_24: -6690202223335100631
+      grass_fairygrass_25: 8782742887696548937
+      grass_fairygrass_26: -5256866616317896032
+      grass_fairygrass_27: -8582924731744283209
+      grass_fairygrass_28: -1755021250163610391
+      grass_fairygrass_29: -2247187052668021521
+      grass_fairygrass_3: 2817005034336095893
+      grass_fairygrass_30: 8522607490682465532
+      grass_fairygrass_31: 6430000728565295236
+      grass_fairygrass_32: -4619618401186724092
+      grass_fairygrass_33: -3666683347208784437
+      grass_fairygrass_34: -6709036643010293272
+      grass_fairygrass_35: -6151304819335763636
+      grass_fairygrass_36: -5303604550908800488
+      grass_fairygrass_37: 8109437304812054177
+      grass_fairygrass_38: -2585319424207659331
+      grass_fairygrass_39: -1527288061256003318
+      grass_fairygrass_4: 5784406286125862610
+      grass_fairygrass_40: -789016976730210902
+      grass_fairygrass_41: -5139653332768634765
+      grass_fairygrass_42: -7833457437150803800
+      grass_fairygrass_43: -1664280479421346128
+      grass_fairygrass_44: 6640969107073178808
+      grass_fairygrass_45: 6731148505863391044
+      grass_fairygrass_46: -4207796816450994406
+      grass_fairygrass_47: -2575474155250040614
+      grass_fairygrass_5: -8192186810508476041
+      grass_fairygrass_6: -8291950453714440073
+      grass_fairygrass_7: 5772727449624162404
       grass_fairygrass_8: 1562783157377571679
-  spritePackingTag: 
+      grass_fairygrass_9: 6880503325818375695
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

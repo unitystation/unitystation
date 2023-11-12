@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 975572777817596840, guid: d8a238d784db4594c9fef5a84fa22c0d,
@@ -20,19 +21,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 975572777817596840, guid: d8a238d784db4594c9fef5a84fa22c0d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 149152d0e5f81c34ab3b208a92543df9,
         type: 2}
     - target: {fileID: 975572777817596840, guid: d8a238d784db4594c9fef5a84fa22c0d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: efe29dd5be1bc0745904186c8ebadebc,
         type: 2}
     - target: {fileID: 975572777817596840, guid: d8a238d784db4594c9fef5a84fa22c0d,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 6edd8344a3bf7cf44b047d0cd51854e3,
         type: 2}
@@ -125,7 +126,7 @@ PrefabInstance:
     - target: {fileID: 5753663645814376818, guid: d8a238d784db4594c9fef5a84fa22c0d,
         type: 3}
       propertyPath: m_Name
-      value: PineTree
+      value: xPineTreex
       objectReference: {fileID: 0}
     - target: {fileID: 8694470382786230075, guid: d8a238d784db4594c9fef5a84fa22c0d,
         type: 3}
@@ -133,4 +134,7 @@ PrefabInstance:
       value: 2995d6d8e44f22b438ab7b65cc62994a
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8a238d784db4594c9fef5a84fa22c0d, type: 3}

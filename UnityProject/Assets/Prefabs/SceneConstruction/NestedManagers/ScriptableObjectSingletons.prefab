@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5669476246233476200}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1789378532851246166
 MonoBehaviour:
@@ -69,12 +69,12 @@ MonoBehaviour:
   AdminJobsList: {fileID: 11400000, guid: 6b15d1e22706d4c4fb81d921267e1910, type: 2}
   SpellList: {fileID: 11400000, guid: 1a77d18920c4141fe90f87d8344a3ce1, type: 2}
   SpeechModManager: {fileID: 11400000, guid: 2f02c52b1b323a142abd56f9f7c805c1, type: 2}
-  SpriteCatalogue: {fileID: 11400000, guid: f592904d182d90741972e3001e15cab3, type: 2}
+  SpriteCatalogue: {fileID: 11400000, guid: 72b82a4d2c8990a4eb12779a10605055, type: 2}
   SurgeryProcedureBaseSingleton: {fileID: 11400000, guid: 36b40fc6ef0b0f24080bd1ba2d961fa8,
     type: 2}
   UIActionSOSingleton: {fileID: 11400000, guid: d38d84ecfca1745468564bd1c98c6f4c,
     type: 2}
   UplinkCategoryList: {fileID: 11400000, guid: 3e118927af58f5f41aaac7d4af0f0081, type: 2}
   UplinkPasswordList: {fileID: 11400000, guid: bc84517cba08ceeaeac746f3f0cea751, type: 2}
-  PlayerStatesSingleton: {fileID: 11400000, guid: 343c35137632a8c4bbfe0dac97cf6cf7,
+  playerTypeSingleton: {fileID: 11400000, guid: 343c35137632a8c4bbfe0dac97cf6cf7,
     type: 2}

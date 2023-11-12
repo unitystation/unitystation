@@ -74,7 +74,7 @@ namespace Objects.Engineering
 			registerTile = GetComponent<RegisterTile>();
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 
-			damageData = DamageData.CreateInstance<DamageData>();
+			damageData = ScriptableObject.CreateInstance<DamageData>();
 			damageData.SetAttackType(AttackType.Rad);
 			damageData.SetDamageType(DamageType.Clone);
 		}

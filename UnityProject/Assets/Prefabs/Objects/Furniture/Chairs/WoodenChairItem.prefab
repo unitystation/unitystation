@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 542775556866826484, guid: c8af057edecfa6c4f877ae1b042d6ead,
@@ -52,6 +53,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 17ea2628ddb9ec647a43984ca5fa0371,
         type: 3}
+    - target: {fileID: 6820383887292256557, guid: c8af057edecfa6c4f877ae1b042d6ead,
+        type: 3}
+      propertyPath: _assetId
+      value: 351625582
+      objectReference: {fileID: 0}
     - target: {fileID: 6820383887292256557, guid: c8af057edecfa6c4f877ae1b042d6ead,
         type: 3}
       propertyPath: m_AssetId
@@ -128,4 +134,7 @@ PrefabInstance:
       value: WoodenChairItem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8af057edecfa6c4f877ae1b042d6ead, type: 3}

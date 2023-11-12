@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: clockwork_marauder_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      clockwork_marauder_24: 21300048
-      clockwork_marauder_29: 21300058
-      clockwork_marauder_27: 21300054
+      clockwork_marauder_0: 21300000
+      clockwork_marauder_1: 21300002
+      clockwork_marauder_10: 21300020
+      clockwork_marauder_11: 21300022
+      clockwork_marauder_12: 21300024
+      clockwork_marauder_13: 21300026
+      clockwork_marauder_14: 21300028
       clockwork_marauder_15: 21300030
       clockwork_marauder_16: 21300032
-      clockwork_marauder_1: 21300002
       clockwork_marauder_17: 21300034
-      clockwork_marauder_11: 21300022
-      clockwork_marauder_26: 21300052
-      clockwork_marauder_14: 21300028
-      clockwork_marauder_5: 21300010
       clockwork_marauder_18: 21300036
-      clockwork_marauder_25: 21300050
-      clockwork_marauder_23: 21300046
-      clockwork_marauder_8: 21300016
       clockwork_marauder_19: 21300038
-      clockwork_marauder_3: 21300006
-      clockwork_marauder_22: 21300044
-      clockwork_marauder_12: 21300024
-      clockwork_marauder_9: 21300018
-      clockwork_marauder_0: 21300000
-      clockwork_marauder_4: 21300008
-      clockwork_marauder_20: 21300040
-      clockwork_marauder_7: 21300014
-      clockwork_marauder_30: 21300060
-      clockwork_marauder_6: 21300012
-      clockwork_marauder_13: 21300026
-      clockwork_marauder_28: 21300056
-      clockwork_marauder_21: 21300042
       clockwork_marauder_2: 21300004
-      clockwork_marauder_10: 21300020
+      clockwork_marauder_20: 21300040
+      clockwork_marauder_21: 21300042
+      clockwork_marauder_22: 21300044
+      clockwork_marauder_23: 21300046
+      clockwork_marauder_24: 21300048
+      clockwork_marauder_25: 21300050
+      clockwork_marauder_26: 21300052
+      clockwork_marauder_27: 21300054
+      clockwork_marauder_28: 21300056
+      clockwork_marauder_29: 21300058
+      clockwork_marauder_3: 21300006
+      clockwork_marauder_30: 21300060
       clockwork_marauder_31: 21300062
-  spritePackingTag: 
+      clockwork_marauder_4: 21300008
+      clockwork_marauder_5: 21300010
+      clockwork_marauder_6: 21300012
+      clockwork_marauder_7: 21300014
+      clockwork_marauder_8: 21300016
+      clockwork_marauder_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

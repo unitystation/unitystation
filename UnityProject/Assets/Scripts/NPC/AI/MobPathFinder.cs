@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using PathFinding;
 using Doors;
+using Logs;
 
 
 namespace Systems.MobAIs
@@ -161,7 +162,7 @@ namespace Systems.MobAIs
 				{
 					isComplete = true;
 					//This could be because you are trying to use a goal node that is inside a wall or the path was blocked
-					Logger.Log(
+					Loggy.Log(
 						$"Pathing finding could not find a path where one was expected to be found. StartNode {startNode.position} GoalNode {goalNode.position}",
 						Category.Movement);
 					return null;
@@ -299,7 +300,7 @@ namespace Systems.MobAIs
 		{
 			if (health.IsDead || health.IsCrit)
 			{
-				Logger.Log("You are trying to follow a path when living thing is dead or in crit", Category.Movement);
+				Loggy.Log("You are trying to follow a path when living thing is dead or in crit", Category.Movement);
 				status = Status.idle;
 				return;
 			}
@@ -342,7 +343,7 @@ namespace Systems.MobAIs
 						{
 							ResetMovingValues();
 							FollowCompleted();
-							Logger.Log("Path following timed out. Something must be in the way", Category.Movement);
+							Loggy.Log("Path following timed out. Something must be in the way", Category.Movement);
 							yield break;
 						}
 					}
@@ -372,7 +373,7 @@ namespace Systems.MobAIs
 						if (timeOut > 5f)
 						{
 							ResetMovingValues();
-							Logger.Log("Path following timed out. Something must be in the way", Category.Movement);
+							Loggy.Log("Path following timed out. Something must be in the way", Category.Movement);
 							FollowCompleted();
 							yield break;
 						}

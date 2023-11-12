@@ -16,8 +16,11 @@ using ScriptableObjects;
 using Systems.Character;
 using Systems.StatusesAndEffects;
 using UI.Systems.Tooltips.HoverTooltips;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
-
+using Changeling;
+using Logs;
+using Systems.Faith;
 
 public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlayerPossessable, IHoverTooltip
 {
@@ -28,45 +31,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	public MindNIPossessingEvent OnPossessedBy { get; set; } = new MindNIPossessingEvent();
 
 	[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
-	public Action OnActionControlPlayer { get; set; }
-
-	public Action OnActionPossess { get; set; }
 
 	public IPlayerPossessable Itself => this as IPlayerPossessable;
-
-
-	public void OnPossessPlayer(Mind mind, IPlayerPossessable parent)
-	{
-		if (mind == null) return;
-		if (IsNormal && parent == null &&  playerTypeSettings.PlayerType != PlayerTypes.Ghost)//Can't be possessed directly
-		{
-			mind.SetPossessingObject(playerHealth.OrNull()?.brain.OrNull()?.gameObject);
-			mind.StopGhosting();
-			return;
-		}
-		else
-		{
-			InitPossess(mind);
-		}
-
-	}
-
-	public void OnControlPlayer(Mind mind)
-	{
-		if (mind == null) return;
-		Init(mind);
-	}
-
-	public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
-	{
-		possessingID = currentlyPossessing;
-		Itself.PreImplementedSyncPossessingID(previouslyPossessing, currentlyPossessing);
-	}
-
-	/// maximum distance the player needs to be to an object to interact with it
-	public const float INTERACTION_DISTANCE = 1.5f;
-
-	public const float INTERACTION_DISTANCE_EXTENDED = 1.75f;
 
 	public Mind Mind => PossessingMind;
 	public PlayerInfo PlayerInfo;
@@ -131,13 +97,13 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	public StatusEffectManager StatusEffectManager { get; private set; }
 
+	[field: SerializeField] public PlayerFaith PlayerFaith { get; private set; }
+
 	/// <summary>
 	/// Serverside world position.
 	/// Outputs correct world position even if you're hidden (e.g. in a locker)
 	/// </summary>
 	public Vector3Int AssumedWorldPos => ObjectPhysics.registerTile.WorldPosition;
-
-	[SyncVar] public Vector3Int SyncedWorldPos = new Vector3Int(0, 0, 0);
 
 	/// <summary>
 	/// World position of the player.
@@ -154,17 +120,10 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	private static ulong SteamID;
 
 	public float RTT;
+	private float waitTimeForRTTUpdate = 0f;
 
 	[HideInInspector] public bool RcsMode;
 	[HideInInspector] public MatrixMove RcsMatrixMove;
-
-	private bool isUpdateRTT;
-	private float waitTimeForRTTUpdate = 0f;
-
-	/// <summary>
-	/// Whether a player is connected in the game object this script is on, valid serverside only
-	/// </summary>
-	public bool HasSoul => connectionToClient != null;
 
 	//The object the player will receive chat and send chat from.
 	//E.g. usually same object as this script but for Ai it will be their core object
@@ -175,11 +134,52 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	[SerializeField]
 	//TODO move this to somewhere else?
 	private bool canVentCrawl = false;
-
 	public bool CanVentCrawl => canVentCrawl;
+	/// <summary>
+	/// Whether a player is connected in the game object this script is on, valid serverside only
+	/// </summary>
+	public bool HasSoul => connectionToClient != null;
+	private bool isUpdateRTT;
 
+	public Action OnActionControlPlayer { get; set; }
+	public Action OnActionPossess { get; set; }
+	[field: SerializeField] public UnityEvent OnBodyPossesedByPlayer { get; set; }
+	[field: SerializeField] public UnityEvent OnBodyUnPossesedByPlayer { get; set; }
 	public Action<Intent> OnIntentChange;
 	public Action OnLayDown;
+
+	private System.Random RNG = new System.Random();
+	public int ClueHandsImprintInverseChance = 55;
+	public int ClueUniformImprintInverseChance = 65;
+	public int ClueSpeciesImprintInverseChance = 85;
+
+	public event Action OnVisibleNameChange;
+
+	/// maximum distance the player needs to be to an object to interact with it
+	public const float INTERACTION_DISTANCE = 1.5f;
+	public const float INTERACTION_DISTANCE_EXTENDED = 1.75f;
+
+	private ChangelingMain changeling = null;
+	public ChangelingMain Changeling
+	{
+		get
+		{
+			if (changeling == null)
+			{
+				if (CustomNetworkManager.IsServer)
+				{
+					if (playerHealth != null && playerHealth.brain != null && playerHealth.brain.gameObject.TryGetComponent<ChangelingMain>(out var change))
+						changeling = change;
+				} else
+				{
+					changeling = UIManager.Instance.displayControl.hudChangeling.ChangelingMain;
+				}
+			}
+			return changeling;
+		}
+	}
+
+
 
 	#region Lifecycle
 
@@ -202,6 +202,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		PlayerSync = GetComponent<MovementSynchronisation>();
 		StatusEffectManager = GetComponent<StatusEffectManager>();
 		MobLanguages = GetComponent<MobLanguages>();
+		PlayerFaith ??= GetComponent<PlayerFaith>();
 	}
 
 	public override void OnStartClient()
@@ -272,7 +273,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 				// stop the crit notification and change overlay to ghost mode
 				SoundManager.Stop("Critstate");
-				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
+				OverlayCrits.Instance.SetState(OverlayState.death);
 				// show ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask |= 1 << LayerMask.NameToLayer("Ghosts");
@@ -296,7 +297,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 			{
 				// stop the crit notification and change overlay to ghost mode
 				SoundManager.Stop("Critstate");
-				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
+				OverlayCrits.Instance.SetState(OverlayState.death);
 				// hide ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
@@ -306,6 +307,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 			EventManager.Broadcast(Event.UpdateChatChannels);
 			UpdateStatusTabUI();
+
+			AmbientSoundArea.TriggerRefresh();
 
 			waitTimeForRTTUpdate = 0f;
 
@@ -373,18 +376,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		}
 	}
 
-	[Command(requiresAuthority = false)]
-	public void UpdateLastSyncedPosition()
-	{
-		SetLastRecordedPosition();
-	}
-
-	[Server]
-	private void SetLastRecordedPosition()
-	{
-		SyncedWorldPos = gameObject.AssumedWorldPosServer().CutToInt();
-	}
-
 	/// <summary>
 	/// Sets the game object for where the player can receive and send chat message from
 	/// </summary>
@@ -405,7 +396,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		var lighting = Camera.main.GetComponent<LightingSystem>();
 		if (!lighting)
 		{
-			Logger.LogWarning("Local Player can't find lighting system on Camera.main", Category.Lighting);
+			Loggy.LogWarning("Local Player can't find lighting system on Camera.main", Category.Lighting);
 			return;
 		}
 
@@ -414,14 +405,15 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	private void OnPlayerReturnedToBody()
 	{
-		Logger.Log("Local player become Ghost", Category.Ghosts);
+		Loggy.Log("Local player become Ghost", Category.Ghosts);
 		EnableLighting(true);
 	}
 
 	private void OnPlayerBecomeGhost()
 	{
-		Logger.Log("Local player returned to the body", Category.Ghosts);
+		Loggy.Log("Local player returned to the body", Category.Ghosts);
 		EnableLighting(false);
+		OnBodyUnPossesedByPlayer?.Invoke();
 	}
 
 	public void SyncPlayerName(string oldValue, string value)
@@ -579,6 +571,15 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	public void SyncVisibleName(string oldValue, string value)
 	{
 		visibleName = value;
+		try
+		{
+			OnVisibleNameChange?.Invoke();
+		}
+		catch (Exception e)
+		{
+			Loggy.LogError(e.ToString());
+		}
+
 	}
 
 	// Update visible name.
@@ -597,6 +598,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		}
 
 		SyncVisibleName(newVisibleName, newVisibleName);
+
 	}
 
 	// Tooltips inspector bar
@@ -613,13 +615,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		UIManager.SetToolTip = "";
 		UIManager.SetHoverToolTip = null;
 	}
-
-	private System.Random RNG = new System.Random();
-
-	public int ClueHandsImprintInverseChance = 55;
-	public int ClueUniformImprintInverseChance = 65;
-	public int ClueSpeciesImprintInverseChance = 85;
-
 
 	public void OnInteract(TargetedInteraction interaction, Component interactable)
 	{
@@ -749,6 +744,33 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		Itself.PreImplementedOnDestroy();
 	}
 
+	public void OnPossessPlayer(Mind mind, IPlayerPossessable parent)
+	{
+		if (mind == null) return;
+		if (IsNormal && parent == null &&  playerTypeSettings.PlayerType != PlayerTypes.Ghost)//Can't be possessed directly
+		{
+			mind.SetPossessingObject(playerHealth.OrNull()?.brain.OrNull()?.gameObject);
+			mind.StopGhosting();
+			return;
+		}
+		else
+		{
+			InitPossess(mind);
+		}
+		OnBodyPossesedByPlayer?.Invoke();
+	}
+
+	public void OnControlPlayer(Mind mind)
+	{
+		if (mind == null) return;
+		Init(mind);
+	}
+
+	public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
+	{
+		possessingID = currentlyPossessing;
+		Itself.PreImplementedSyncPossessingID(previouslyPossessing, currentlyPossessing);
+	}
 
 	#region TOOLTIPDATA
 
@@ -758,6 +780,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		if (characterSettings == null) return finalText.ToString();
 		finalText.Append($"A {characterSettings.Species}.");
 		finalText.Append($" {characterSettings.TheyPronoun(this)}/{characterSettings.TheirPronoun(this)}.");
+		finalText.AppendLine($"\n{PlayerFaith.ToleranceCheckForReligion()}");
 		return finalText.ToString();
 	}
 
@@ -797,7 +820,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	}
 
 	#endregion
-
 }
 
 [Flags]

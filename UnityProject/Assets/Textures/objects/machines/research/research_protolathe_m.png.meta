@@ -30,7 +30,7 @@ TextureImporter:
       213: -156505894599014461
     second: research_protolathe_m_8
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -47,11 +47,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -90,6 +91,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -105,6 +108,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -318,18 +333,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      research_protolathe_m_8: -156505894599014461
+      research_protolathe_m_0: 6202742127332999404
+      research_protolathe_m_1: 8424539439413526129
+      research_protolathe_m_2: -1644622625615953253
+      research_protolathe_m_3: -6567081437830198491
       research_protolathe_m_4: -3302991386977554517
       research_protolathe_m_5: 7659719883601063510
-      research_protolathe_m_7: -8706675271401879566
       research_protolathe_m_6: 3909484710597134966
-      research_protolathe_m_3: -6567081437830198491
-      research_protolathe_m_2: -1644622625615953253
-      research_protolathe_m_1: 8424539439413526129
-      research_protolathe_m_0: 6202742127332999404
-  spritePackingTag: 
+      research_protolathe_m_7: -8706675271401879566
+      research_protolathe_m_8: -156505894599014461
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

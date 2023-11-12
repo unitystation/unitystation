@@ -147,7 +147,7 @@ TextureImporter:
       213: 8029636788357892167
     second: pilot_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1255,56 +1270,55 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       pilot_0: 6654473845117689798
-      pilot_20: -7290989308720313396
-      pilot_2: -8146266284196144530
-      pilot_16: 997111295061431791
-      pilot_11: -1493621579403526231
-      pilot_35: -6082664227668892283
-      pilot_25: -7943282986860241058
-      pilot_21: -3351771441799076453
-      pilot_24: -6289223738501230507
-      pilot_45: -406823875658016698
-      pilot_3: 8188296601760865173
-      pilot_9: -5232682538367860372
-      pilot_36: 6518861972485803628
-      pilot_5: -1458271303101162809
-      pilot_47: 8029636788357892167
-      pilot_8: -8084113955194252400
-      pilot_32: -5925701077548658629
-      pilot_39: 8471068994670388185
-      pilot_33: -5003063216005840092
-      pilot_15: -4956280506258078713
-      pilot_23: -3079412945604009252
-      pilot_31: -3007885150072198251
-      pilot_27: 5624477607000489420
-      pilot_4: -1434341674025762813
-      pilot_19: 8768812377960551861
-      pilot_42: -6555212984925001169
-      pilot_46: 6899748519368323273
-      pilot_13: -3578546051584841559
-      pilot_38: -6888495806631680471
       pilot_1: -3346457536326233935
-      pilot_40: 562812298913931049
-      pilot_26: -6767876836712469083
-      pilot_44: -4506334355365225994
-      pilot_7: -1408724150152770286
-      pilot_43: -5445653660368404052
+      pilot_10: 4972698361389569493
+      pilot_11: -1493621579403526231
+      pilot_12: 4762744041314467410
+      pilot_13: -3578546051584841559
       pilot_14: 1984913335479507116
+      pilot_15: -4956280506258078713
+      pilot_16: 997111295061431791
       pilot_17: -9137657597600614781
       pilot_18: -2280362532182058033
-      pilot_6: 2519453442450078035
-      pilot_28: 7901487500395883482
-      pilot_10: 4972698361389569493
+      pilot_19: 8768812377960551861
+      pilot_2: -8146266284196144530
+      pilot_20: -7290989308720313396
+      pilot_21: -3351771441799076453
       pilot_22: 1941939400487012923
-      pilot_37: 5136623500552211438
-      pilot_34: 3454509919411990730
-      pilot_12: 4762744041314467410
+      pilot_23: -3079412945604009252
+      pilot_24: -6289223738501230507
+      pilot_25: -7943282986860241058
+      pilot_26: -6767876836712469083
+      pilot_27: 5624477607000489420
+      pilot_28: 7901487500395883482
       pilot_29: -5837785619830699371
-      pilot_41: -8049923334912796805
+      pilot_3: 8188296601760865173
       pilot_30: 7570004685466590085
-  spritePackingTag: 
+      pilot_31: -3007885150072198251
+      pilot_32: -5925701077548658629
+      pilot_33: -5003063216005840092
+      pilot_34: 3454509919411990730
+      pilot_35: -6082664227668892283
+      pilot_36: 6518861972485803628
+      pilot_37: 5136623500552211438
+      pilot_38: -6888495806631680471
+      pilot_39: 8471068994670388185
+      pilot_4: -1434341674025762813
+      pilot_40: 562812298913931049
+      pilot_41: -8049923334912796805
+      pilot_42: -6555212984925001169
+      pilot_43: -5445653660368404052
+      pilot_44: -4506334355365225994
+      pilot_45: -406823875658016698
+      pilot_46: 6899748519368323273
+      pilot_47: 8029636788357892167
+      pilot_5: -1458271303101162809
+      pilot_6: 2519453442450078035
+      pilot_7: -1408724150152770286
+      pilot_8: -8084113955194252400
+      pilot_9: -5232682538367860372
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

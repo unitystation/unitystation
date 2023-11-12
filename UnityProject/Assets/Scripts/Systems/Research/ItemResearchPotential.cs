@@ -24,7 +24,7 @@ public class ItemResearchPotential : MonoBehaviour
 
 
   	[NonSerialized] public int CurrentPurity = 0;
-	public List<TechnologyAndBeams> TechWebDesigns;
+    [NonSerialized] public List<TechnologyAndBeams> TechWebDesigns;
 
 
 	public void Awake()
@@ -62,8 +62,8 @@ public class ItemResearchPotential : MonoBehaviour
 		System.Random random = new System.Random();
 		if (random.NextDouble() < 0.15)
 		{
-			int min = 25;
-			int max = 75;
+			int min = 20;
+			int max = 35;
 			toReturn.AddedPurity = Random.Range(min, max + 1);
 		}
 		else
@@ -74,13 +74,15 @@ public class ItemResearchPotential : MonoBehaviour
 		}
 
 
-		var rng = Random.Range(0, 3000);
-		if (rng > 2990)
+		if (BasePurity + toReturn.AddedPurity > 25)
 		{
-			toReturn.AddedPurity += 100;
-			toReturn.IsTooPure = true;
+			var rng = Random.Range(0, 1000);
+			if (rng > 950) //5% now
+			{
+				toReturn.AddedPurity += 100;
+				toReturn.IsTooPure = true;
+			}
 		}
-
 
 		if (BasePurity + toReturn.AddedPurity > 50)
 		{
@@ -111,7 +113,7 @@ public class ItemResearchPotential : MonoBehaviour
 
 			for (int j = 0; j < InNumberOfBeams; j++)
 			{
-				data.Beams.Add(Random.Range(25, 335 + 1));
+				data.Beams.Add(Random.Range(35, 325 + 1));
 			}
 			toReturn.TechWebDesigns.Add(data);
 		}

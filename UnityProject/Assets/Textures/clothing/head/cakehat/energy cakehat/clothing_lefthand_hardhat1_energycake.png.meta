@@ -27,7 +27,7 @@ TextureImporter:
       213: 1742180820686895741
     second: hardhat1_energycake_7
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -44,11 +44,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -87,6 +88,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -102,6 +105,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -294,17 +309,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      hardhat1_energycake_7: 1742180820686895741
-      hardhat1_energycake_2: 3957850526254312939
+      hardhat1_energycake_0: 1072223885011127804
       hardhat1_energycake_1: -6097061896513754179
+      hardhat1_energycake_2: 3957850526254312939
+      hardhat1_energycake_3: -2769512278622268761
+      hardhat1_energycake_4: -855618669099688740
       hardhat1_energycake_5: 2746343959016975
       hardhat1_energycake_6: -3668336321542723049
-      hardhat1_energycake_0: 1072223885011127804
-      hardhat1_energycake_4: -855618669099688740
-      hardhat1_energycake_3: -2769512278622268761
-  spritePackingTag: 
+      hardhat1_energycake_7: 1742180820686895741
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

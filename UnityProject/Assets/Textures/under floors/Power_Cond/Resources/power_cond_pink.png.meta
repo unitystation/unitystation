@@ -219,7 +219,7 @@ TextureImporter:
       213: 21300142
     second: power_cond_pink_71
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -236,11 +236,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -279,6 +280,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -333,6 +336,18 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
     textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
@@ -1866,81 +1881,80 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      power_cond_pink_0: 21300000
+      power_cond_pink_1: 21300002
+      power_cond_pink_10: 21300020
+      power_cond_pink_11: 21300022
+      power_cond_pink_12: 21300024
+      power_cond_pink_13: 21300026
+      power_cond_pink_14: 21300028
+      power_cond_pink_15: 21300030
+      power_cond_pink_16: 21300032
+      power_cond_pink_17: 21300034
+      power_cond_pink_18: 21300036
+      power_cond_pink_19: 21300038
+      power_cond_pink_2: 21300004
+      power_cond_pink_20: 21300040
+      power_cond_pink_21: 21300042
+      power_cond_pink_22: 21300044
+      power_cond_pink_23: 21300046
+      power_cond_pink_24: 21300048
+      power_cond_pink_25: 21300050
       power_cond_pink_26: 21300052
       power_cond_pink_27: 21300054
-      power_cond_pink_17: 21300034
-      power_cond_pink_21: 21300042
+      power_cond_pink_28: 21300056
+      power_cond_pink_29: 21300058
+      power_cond_pink_3: 21300006
+      power_cond_pink_30: 21300060
       power_cond_pink_31: 21300062
+      power_cond_pink_32: 21300064
+      power_cond_pink_33: 21300066
+      power_cond_pink_34: 21300068
+      power_cond_pink_35: 21300070
+      power_cond_pink_36: 21300072
+      power_cond_pink_37: 21300074
+      power_cond_pink_38: 21300076
+      power_cond_pink_39: 21300078
+      power_cond_pink_4: 21300008
+      power_cond_pink_40: 21300080
+      power_cond_pink_41: 21300082
+      power_cond_pink_42: 21300084
+      power_cond_pink_43: 21300086
+      power_cond_pink_44: 21300088
+      power_cond_pink_45: 21300090
+      power_cond_pink_46: 21300092
+      power_cond_pink_47: 21300094
+      power_cond_pink_48: 21300096
+      power_cond_pink_49: 21300098
+      power_cond_pink_5: 21300010
+      power_cond_pink_50: 21300100
+      power_cond_pink_51: 21300102
+      power_cond_pink_52: 21300104
+      power_cond_pink_53: 21300106
+      power_cond_pink_54: 21300108
+      power_cond_pink_55: 21300110
+      power_cond_pink_56: 21300112
+      power_cond_pink_57: 21300114
+      power_cond_pink_58: 21300116
+      power_cond_pink_59: 21300118
+      power_cond_pink_6: 21300012
+      power_cond_pink_60: 21300120
+      power_cond_pink_61: 21300122
+      power_cond_pink_62: 21300124
+      power_cond_pink_63: 21300126
+      power_cond_pink_64: 21300128
+      power_cond_pink_65: 21300130
+      power_cond_pink_66: 21300132
+      power_cond_pink_67: 21300134
+      power_cond_pink_68: 21300136
+      power_cond_pink_69: 21300138
+      power_cond_pink_7: 21300014
+      power_cond_pink_70: 21300140
+      power_cond_pink_71: 21300142
       power_cond_pink_8: 21300016
       power_cond_pink_9: 21300018
-      power_cond_pink_46: 21300092
-      power_cond_pink_55: 21300110
-      power_cond_pink_43: 21300086
-      power_cond_pink_59: 21300118
-      power_cond_pink_68: 21300136
-      power_cond_pink_35: 21300070
-      power_cond_pink_62: 21300124
-      power_cond_pink_64: 21300128
-      power_cond_pink_37: 21300074
-      power_cond_pink_39: 21300078
-      power_cond_pink_53: 21300106
-      power_cond_pink_44: 21300088
-      power_cond_pink_16: 21300032
-      power_cond_pink_25: 21300050
-      power_cond_pink_40: 21300080
-      power_cond_pink_0: 21300000
-      power_cond_pink_54: 21300108
-      power_cond_pink_49: 21300098
-      power_cond_pink_61: 21300122
-      power_cond_pink_2: 21300004
-      power_cond_pink_3: 21300006
-      power_cond_pink_36: 21300072
-      power_cond_pink_69: 21300138
-      power_cond_pink_50: 21300100
-      power_cond_pink_63: 21300126
-      power_cond_pink_11: 21300022
-      power_cond_pink_23: 21300046
-      power_cond_pink_30: 21300060
-      power_cond_pink_14: 21300028
-      power_cond_pink_71: 21300142
-      power_cond_pink_57: 21300114
-      power_cond_pink_38: 21300076
-      power_cond_pink_4: 21300008
-      power_cond_pink_42: 21300084
-      power_cond_pink_18: 21300036
-      power_cond_pink_12: 21300024
-      power_cond_pink_7: 21300014
-      power_cond_pink_5: 21300010
-      power_cond_pink_70: 21300140
-      power_cond_pink_10: 21300020
-      power_cond_pink_13: 21300026
-      power_cond_pink_20: 21300040
-      power_cond_pink_15: 21300030
-      power_cond_pink_33: 21300066
-      power_cond_pink_41: 21300082
-      power_cond_pink_45: 21300090
-      power_cond_pink_6: 21300012
-      power_cond_pink_58: 21300116
-      power_cond_pink_66: 21300132
-      power_cond_pink_47: 21300094
-      power_cond_pink_34: 21300068
-      power_cond_pink_48: 21300096
-      power_cond_pink_67: 21300134
-      power_cond_pink_22: 21300044
-      power_cond_pink_24: 21300048
-      power_cond_pink_52: 21300104
-      power_cond_pink_28: 21300056
-      power_cond_pink_1: 21300002
-      power_cond_pink_32: 21300064
-      power_cond_pink_60: 21300120
-      power_cond_pink_29: 21300058
-      power_cond_pink_19: 21300038
-      power_cond_pink_56: 21300112
-      power_cond_pink_51: 21300102
-      power_cond_pink_65: 21300130
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

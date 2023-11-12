@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 895038671439699511, guid: 6fc3f5d1fccaf1e4ba804d5962702e96,
@@ -61,17 +62,17 @@ PrefabInstance:
     - target: {fileID: 1089406907482340602, guid: 6fc3f5d1fccaf1e4ba804d5962702e96,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1089406907482340602, guid: 6fc3f5d1fccaf1e4ba804d5962702e96,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1089406907482340602, guid: 6fc3f5d1fccaf1e4ba804d5962702e96,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1089406907482340602, guid: 6fc3f5d1fccaf1e4ba804d5962702e96,
         type: 3}
@@ -116,8 +117,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7759158946298537232, guid: 6fc3f5d1fccaf1e4ba804d5962702e96,
         type: 3}
+      propertyPath: exportCost
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7759158946298537232, guid: 6fc3f5d1fccaf1e4ba804d5962702e96,
+        type: 3}
       propertyPath: initialName
       value: statue of the AI core
+      objectReference: {fileID: 0}
+    - target: {fileID: 8851330078926835522, guid: 6fc3f5d1fccaf1e4ba804d5962702e96,
+        type: 3}
+      propertyPath: _assetId
+      value: 3661949087
       objectReference: {fileID: 0}
     - target: {fileID: 8851330078926835522, guid: 6fc3f5d1fccaf1e4ba804d5962702e96,
         type: 3}
@@ -125,4 +136,7 @@ PrefabInstance:
       value: 3ae072a4c6caca94cae75f843bbb6fae
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fc3f5d1fccaf1e4ba804d5962702e96, type: 3}

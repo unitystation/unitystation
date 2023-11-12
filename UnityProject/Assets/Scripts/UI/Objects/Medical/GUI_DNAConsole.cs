@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Newtonsoft.Json;
 using UI.Core.Net.Elements.Dynamic.Spawned;
 using UI.Core.NetUI;
@@ -99,7 +100,7 @@ namespace UI.Objects.Medical
 
 			if (available.Count == 0)
 			{
-				Logger.LogError("no mutations available for egg");
+				Loggy.LogError("no mutations available for egg");
 			}
 
 			var RNGamount = Random.Range(4, 6);
@@ -179,7 +180,6 @@ namespace UI.Objects.Medical
 			var MutationElement =  MutationChoice.AddItem() as MutationChooseElement;
 			MutationElement.SetValues(Mutation, this);
 			LoadedMutationSO[Mutation] = MutationElement;
-
 		}
 
 

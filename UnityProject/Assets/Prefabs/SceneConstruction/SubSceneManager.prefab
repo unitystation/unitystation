@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 181880006293602591}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8559198482325750450
 MonoBehaviour:
@@ -46,13 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88cdce62f5f5af74fa58c874b74efc0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
+  clientIsLoadingSubscene: 0
   awayWorldList: {fileID: 11400000, guid: 9336c6ca9dac2d94eb90f703a23a7484, type: 2}
   mainStationList: {fileID: 11400000, guid: 9b0018951af67314ca9e85705e0d2ce4, type: 2}
   asteroidList: {fileID: 11400000, guid: b1d9059b8db83ab479c9dffdc939b281, type: 2}
   additionalSceneList: {fileID: 11400000, guid: 6370dfaa39db5574aa7cc451537de4f1,
     type: 2}
+  SubSceneManagerNetworked: {fileID: 0}
 --- !u!114 &181880006293602576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,10 +66,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 760764542
   serverOnly: 0
-  DontDisableOnPrepareSceneObject: 0
   visible: 2
-  m_AssetId: 
   hasSpawned: 0
 --- !u!114 &181880006293602577
 MonoBehaviour:

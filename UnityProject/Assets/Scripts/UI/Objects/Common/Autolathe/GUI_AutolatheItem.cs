@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using Logs;
 using UnityEngine;
 using UI.Core.NetUI;
 using Objects.Machines;
@@ -35,7 +36,7 @@ namespace UI.Objects
 		{
 			if (product == null)
 			{
-				Logger.Log("ExoFab Product not found", Category.Machines);
+				Loggy.Log("ExoFab Product not found", Category.Machines);
 				return;
 			}
 

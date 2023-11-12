@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1800839840428714, guid: 85791fbcb6be942d1b318907cb2edec3, type: 3}
@@ -57,6 +58,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114145799171838922, guid: 85791fbcb6be942d1b318907cb2edec3,
         type: 3}
+      propertyPath: _assetId
+      value: 2315053489
+      objectReference: {fileID: 0}
+    - target: {fileID: 114145799171838922, guid: 85791fbcb6be942d1b318907cb2edec3,
+        type: 3}
       propertyPath: m_AssetId
       value: a9bb1c419d48721408c99e53b0a1cd01
       objectReference: {fileID: 0}
@@ -64,7 +70,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 1164698779781791848}
+      objectReference: {fileID: 0}
     - target: {fileID: 212326510480741832, guid: 85791fbcb6be942d1b318907cb2edec3,
         type: 3}
       propertyPath: m_Sprite
@@ -78,13 +84,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5969397313784283653, guid: 85791fbcb6be942d1b318907cb2edec3,
         type: 3}
-      propertyPath: ChemMasterProducts.Array.data[0]
+      propertyPath: 'ChemMasterProducts.Array.data[0]'
       value: 
       objectReference: {fileID: 8437426176302514975, guid: 32a48818544878d4c8e14ac2fd2b195a,
         type: 3}
     - target: {fileID: 5969397313784283653, guid: 85791fbcb6be942d1b318907cb2edec3,
         type: 3}
-      propertyPath: ChemMasterProducts.Array.data[1]
+      propertyPath: 'ChemMasterProducts.Array.data[1]'
       value: 
       objectReference: {fileID: 8794281008087571349, guid: 2b02e24d0d03e6241a36792d168e4bb7,
         type: 3}
@@ -94,16 +100,7 @@ PrefabInstance:
       value: 39
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85791fbcb6be942d1b318907cb2edec3, type: 3}
---- !u!114 &1164698779781791848 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114313734620562136, guid: 85791fbcb6be942d1b318907cb2edec3,
-    type: 3}
-  m_PrefabInstance: {fileID: 1278961696047121072}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

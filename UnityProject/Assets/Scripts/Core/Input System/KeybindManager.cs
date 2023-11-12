@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using System.Linq;
+using Logs;
 
 /// <summary>
 /// Describes all possible actions which can be mapped to a key
@@ -82,7 +83,8 @@ public enum KeyAction
 	RadialScrollBackward,
 	RadialScrollForward,
 
-	HideUi
+	HideUi,
+	PreventRadialQuickSelectOpen
 }
 
 /// <summary>
@@ -380,7 +382,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.RadialScrollBackward, new KeybindMetadata("Radial Scroll Backward", ActionType.UI)},
 		{ KeyAction.EmoteWindowUI,	new KeybindMetadata("Open Emote Window.", ActionType.UI)},
 		{ KeyAction.HideUi, new KeybindMetadata("Hide UI", ActionType.UI) },
-
+		{ KeyAction.PreventRadialQuickSelectOpen, new KeybindMetadata("Prevent Quick Radial Open", ActionType.UI) },
 	};
 
 	private readonly KeybindDict defaultKeybinds = new KeybindDict
@@ -445,6 +447,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.RadialScrollBackward,	new DualKeyCombo(new KeyCombo(KeyCode.Q, KeyCode.LeftShift), null)},
 		{ KeyAction.EmoteWindowUI,	new DualKeyCombo(new KeyCombo(KeyCode.Backslash), null)},
 		{ KeyAction.HideUi, new DualKeyCombo(new KeyCombo(KeyCode.F11), null) },
+		{ KeyAction.PreventRadialQuickSelectOpen, new DualKeyCombo(new KeyCombo(KeyCode.LeftShift), null) },
 
 	};
 	public KeybindDict userKeybinds = new KeybindDict();
@@ -472,7 +475,7 @@ public class KeybindManager : MonoBehaviour {
 
 		public void Set(KeyAction keyAction, KeyCombo keyCombo, bool isPrimary)
 		{
-			Logger.Log("Setting " + (isPrimary ? "primary" : "secondary") + "keybind for " + keyAction + " to " + keyCombo, Category.Keybindings);
+			Loggy.Log("Setting " + (isPrimary ? "primary" : "secondary") + "keybind for " + keyAction + " to " + keyCombo, Category.Keybindings);
 			if (isPrimary)
 			{
 				this[keyAction].PrimaryCombo = keyCombo;
@@ -486,7 +489,7 @@ public class KeybindManager : MonoBehaviour {
 		}
 		public void Remove(KeyAction keyAction, bool isPrimary)
 		{
-			Logger.Log("Removing " + (isPrimary ? "primary" : "secondary") + " keybind from " + keyAction, Category.Keybindings);
+			Loggy.Log("Removing " + (isPrimary ? "primary" : "secondary") + " keybind from " + keyAction, Category.Keybindings);
 			if (isPrimary)
 			{
 				this[keyAction].PrimaryCombo = KeyCombo.None;
@@ -503,13 +506,13 @@ public class KeybindManager : MonoBehaviour {
 				if (keyCombo == entry.Value.PrimaryCombo)
 				{
 					isPrimary = true;
-					Logger.Log("Conflict found with primary key for " + entry.Key, Category.Keybindings);
+					Loggy.Log("Conflict found with primary key for " + entry.Key, Category.Keybindings);
 					return entry;
 				}
 				else if (keyCombo == entry.Value.SecondaryCombo)
 				{
 					isPrimary = false;
-					Logger.Log("Conflict found with secondary key for " + entry.Key, Category.Keybindings);
+					Loggy.Log("Conflict found with secondary key for " + entry.Key, Category.Keybindings);
 					return entry;
 				}
 			}
@@ -592,7 +595,7 @@ public class KeybindManager : MonoBehaviour {
 
 	public void SaveKeybinds(KeybindDict newKeybinds)
 	{
-		Logger.Log("Saving user keybinds", Category.Keybindings);
+		Loggy.Log("Saving user keybinds", Category.Keybindings);
 		// Make userKeybinds reference the new keybinds (since KeybindDict is reference type)
 		userKeybinds = newKeybinds;
 		// Turn the user's keybinds into JSON
@@ -604,13 +607,13 @@ public class KeybindManager : MonoBehaviour {
 
 	public void ResetKeybinds()
 	{
-		Logger.Log("Resetting user keybinds", Category.Keybindings);
+		Loggy.Log("Resetting user keybinds", Category.Keybindings);
 		// Save a copy of the default keybinds as the user's keybinds
 		SaveKeybinds(defaultKeybinds.Clone());
 	}
 	public void LoadKeybinds()
 	{
-		Logger.Log("Loading user keybinds", Category.Keybindings);
+		Loggy.Log("Loading user keybinds", Category.Keybindings);
 		// Get the user's saved keybinds from PlayerPrefs
 		string jsonKeybinds = PlayerPrefs.GetString("userKeybinds");
 		if (jsonKeybinds != "")
@@ -628,7 +631,7 @@ public class KeybindManager : MonoBehaviour {
 			}
 			catch (Exception e)
 			{
-				Logger.LogError("Couldn't deserialize userKeybind JSON: " + e, Category.Keybindings);
+				Loggy.LogError("Couldn't deserialize userKeybind JSON: " + e, Category.Keybindings);
 				ResetKeybinds();
 				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
 			}
@@ -643,7 +646,7 @@ public class KeybindManager : MonoBehaviour {
 			}
 			catch (Exception e)
 			{
-				Logger.LogError("Unable to add new keybind entries" + e, Category.Keybindings);
+				Loggy.LogError("Unable to add new keybind entries" + e, Category.Keybindings);
 				ResetKeybinds();
 				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
 			}
@@ -653,7 +656,7 @@ public class KeybindManager : MonoBehaviour {
 			}
 			catch (Exception e)
 			{
-				Logger.LogError("Unable to remove old keybind entries" + e, Category.Keybindings);
+				Loggy.LogError("Unable to remove old keybind entries" + e, Category.Keybindings);
 				ResetKeybinds();
 				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
 			}
@@ -662,7 +665,7 @@ public class KeybindManager : MonoBehaviour {
 		else
 		{
 			// Make a new copy of defaultKeybinds and make userKeybinds reference it
-			Logger.Log("No saved keybinds found. Using default.", Category.Keybindings);
+			Loggy.Log("No saved keybinds found. Using default.", Category.Keybindings);
 			ResetKeybinds();
 		}
 	}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
@@ -29,32 +30,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: animFrames.Array.data[0]
+      propertyPath: 'animFrames.Array.data[0]'
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: animFrames.Array.data[1]
+      propertyPath: 'animFrames.Array.data[1]'
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: animFrames.Array.data[2]
+      propertyPath: 'animFrames.Array.data[2]'
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: animFrames.Array.data[3]
+      propertyPath: 'animFrames.Array.data[3]'
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: animFrames.Array.data[4]
+      propertyPath: 'animFrames.Array.data[4]'
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: animFrames.Array.data[5]
+      propertyPath: 'animFrames.Array.data[5]'
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
@@ -142,6 +143,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A heavy duty blast door that opens mechanically.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3968779613111739762, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: _assetId
+      value: 1419487694
       objectReference: {fileID: 0}
     - target: {fileID: 3968779613111739762, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
@@ -296,6 +302,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4986678559899695466, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
 --- !u!114 &7880321078131954941 stripped
 MonoBehaviour:

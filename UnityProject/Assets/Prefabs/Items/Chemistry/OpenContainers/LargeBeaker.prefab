@@ -5,41 +5,42 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: fillIcons.Array.data[0]
+      propertyPath: 'fillIcons.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 700296db9270a0542a75cee3ef59a494,
         type: 3}
     - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: fillIcons.Array.data[1]
+      propertyPath: 'fillIcons.Array.data[1]'
       value: 
       objectReference: {fileID: 21300000, guid: ce20037b0e5936a4790d71a12ae67d3d,
         type: 3}
     - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: fillIcons.Array.data[2]
+      propertyPath: 'fillIcons.Array.data[2]'
       value: 
       objectReference: {fileID: 21300000, guid: b9c9a02b97f3ab743a1519b27b5e69a4,
         type: 3}
     - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: fillIcons.Array.data[3]
+      propertyPath: 'fillIcons.Array.data[3]'
       value: 
       objectReference: {fileID: 21300000, guid: df43a5eb2976b364083e8ab8adfc4055,
         type: 3}
     - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: fillIcons.Array.data[4]
+      propertyPath: 'fillIcons.Array.data[4]'
       value: 
       objectReference: {fileID: 21300000, guid: ffa7083a53ee5d54a90d4949b76b2249,
         type: 3}
     - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: fillIcons.Array.data[5]
+      propertyPath: 'fillIcons.Array.data[5]'
       value: 
       objectReference: {fileID: 21300000, guid: e60116090e0583940a6041f869f8fd46,
         type: 3}
@@ -71,7 +72,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[7]
+      propertyPath: 'possibleTransferAmounts.Array.data[7]'
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7672760112814096758, guid: 8fee22e722a3782408324281846ebd02,
@@ -141,6 +142,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8782379728963083573, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
+      propertyPath: _assetId
+      value: 1041658548
+      objectReference: {fileID: 0}
+    - target: {fileID: 8782379728963083573, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
       propertyPath: m_AssetId
       value: 63a58edd1e5377040a9ea82e307c1f04
       objectReference: {fileID: 0}
@@ -166,4 +172,7 @@ PrefabInstance:
       value: A large beaker. Can hold up to 100 units.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fee22e722a3782408324281846ebd02, type: 3}

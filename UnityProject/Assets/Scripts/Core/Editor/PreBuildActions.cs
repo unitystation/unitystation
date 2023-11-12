@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using Logs;
+using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEditor.SceneManagement;
@@ -31,13 +32,13 @@ namespace Util
 
 			if (SpawnListBuild() == false)
 			{
-				Logger.LogError("Could not cache prefabs for SpawnList. Unknown Error", Category.Editor);
+				Loggy.LogError("Could not cache prefabs for SpawnList. Unknown Error", Category.Editor);
 				return;
 			}
 
 			if (CacheTiles() == false)
 			{
-				Logger.LogError("Could not cache tiles for TileManager. Unknown Error", Category.Editor);
+				Loggy.LogError("Could not cache tiles for TileManager. Unknown Error", Category.Editor);
 				return;
 			}
 

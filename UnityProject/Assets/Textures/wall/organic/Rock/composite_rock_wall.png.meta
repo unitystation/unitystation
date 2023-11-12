@@ -3,7 +3,7 @@ guid: c9dec44dc5961dd4180adc11f31b42ba
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -1122,57 +1125,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      composite_rock_wall_9: -1330799885
-      composite_rock_wall_12: -2063759523
-      composite_rock_wall_21: 1248514302
-      composite_rock_wall_25: 531696086
-      composite_rock_wall_46: 1191628673
-      composite_rock_wall_28: -936519023
-      composite_rock_wall_27: 1939777482
-      composite_rock_wall_4: -836935922
-      composite_rock_wall_42: 1877875480
-      composite_rock_wall_33: -1227849176
-      composite_rock_wall_29: 1326487313
-      composite_rock_wall_36: -1364423923
-      composite_rock_wall_40: -182305703
-      composite_rock_wall_43: -1909543244
-      composite_rock_wall_11: 185221091
-      composite_rock_wall_8: 1724641490
-      composite_rock_wall_34: 131948140
-      composite_rock_wall_16: -1437140043
-      composite_rock_wall_30: 2077644255
-      composite_rock_wall_45: 933092483
-      composite_rock_wall_10: 359000981
-      composite_rock_wall_20: -170072923
-      composite_rock_wall_35: 1212910763
-      composite_rock_wall_1: 2012299769
-      composite_rock_wall_24: -615737878
-      composite_rock_wall_15: 1914717120
-      composite_rock_wall_22: 194880123
-      composite_rock_wall_19: 1754844944
-      composite_rock_wall_23: -1999919780
-      composite_rock_wall_18: 1606118135
-      composite_rock_wall_38: 711337135
-      composite_rock_wall_14: -486404299
-      composite_rock_wall_47: 464121524
-      composite_rock_wall_17: 147277050
-      composite_rock_wall_5: 969935417
-      composite_rock_wall_39: -1056986833
-      composite_rock_wall_44: -2064880245
-      composite_rock_wall_37: -801947067
-      composite_rock_wall_32: -1592281088
-      composite_rock_wall_7: 1767581044
-      composite_rock_wall_41: 1627681179
-      composite_rock_wall_3: 604107365
-      composite_rock_wall_6: 416509261
-      composite_rock_wall_26: -361695291
-      composite_rock_wall_13: -640253219
       composite_rock_wall_0: -575416105
-      composite_rock_wall_31: -25669355
+      composite_rock_wall_1: 2012299769
+      composite_rock_wall_10: 359000981
+      composite_rock_wall_11: 185221091
+      composite_rock_wall_12: -2063759523
+      composite_rock_wall_13: -640253219
+      composite_rock_wall_14: -486404299
+      composite_rock_wall_15: 1914717120
+      composite_rock_wall_16: -1437140043
+      composite_rock_wall_17: 147277050
+      composite_rock_wall_18: 1606118135
+      composite_rock_wall_19: 1754844944
       composite_rock_wall_2: -516113650
-  spritePackingTag: 
+      composite_rock_wall_20: -170072923
+      composite_rock_wall_21: 1248514302
+      composite_rock_wall_22: 194880123
+      composite_rock_wall_23: -1999919780
+      composite_rock_wall_24: -615737878
+      composite_rock_wall_25: 531696086
+      composite_rock_wall_26: -361695291
+      composite_rock_wall_27: 1939777482
+      composite_rock_wall_28: -936519023
+      composite_rock_wall_29: 1326487313
+      composite_rock_wall_3: 604107365
+      composite_rock_wall_30: 2077644255
+      composite_rock_wall_31: -25669355
+      composite_rock_wall_32: -1592281088
+      composite_rock_wall_33: -1227849176
+      composite_rock_wall_34: 131948140
+      composite_rock_wall_35: 1212910763
+      composite_rock_wall_36: -1364423923
+      composite_rock_wall_37: -801947067
+      composite_rock_wall_38: 711337135
+      composite_rock_wall_39: -1056986833
+      composite_rock_wall_4: -836935922
+      composite_rock_wall_40: -182305703
+      composite_rock_wall_41: 1627681179
+      composite_rock_wall_42: 1877875480
+      composite_rock_wall_43: -1909543244
+      composite_rock_wall_44: -2064880245
+      composite_rock_wall_45: 933092483
+      composite_rock_wall_46: 1191628673
+      composite_rock_wall_47: 464121524
+      composite_rock_wall_5: 969935417
+      composite_rock_wall_6: 416509261
+      composite_rock_wall_7: 1767581044
+      composite_rock_wall_8: 1724641490
+      composite_rock_wall_9: -1330799885
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

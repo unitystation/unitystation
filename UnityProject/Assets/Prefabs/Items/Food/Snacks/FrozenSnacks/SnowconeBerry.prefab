@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 203609217757205374, guid: d2ef9e5590dc00048833d43a568feb07,
@@ -30,19 +31,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5097874087588536401, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
         type: 2}
     - target: {fileID: 5097874087588536401, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: f404090add8a06a26a3739a097558b8f,
         type: 2}
     - target: {fileID: 5097874087588536401, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[1]'
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5870679619967289243, guid: d2ef9e5590dc00048833d43a568feb07,
@@ -61,6 +62,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 3c25a569e485bec4f80b7a0084d5e074,
         type: 3}
+    - target: {fileID: 6197365604022048077, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
+      propertyPath: _assetId
+      value: 1508640391
+      objectReference: {fileID: 0}
     - target: {fileID: 6197365604022048077, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
       propertyPath: m_AssetId
@@ -127,4 +133,7 @@ PrefabInstance:
       value: SnowconeBerry
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2ef9e5590dc00048833d43a568feb07, type: 3}

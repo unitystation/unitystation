@@ -78,7 +78,7 @@ TextureImporter:
       213: 21300048
     second: virology_24
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -95,11 +95,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -138,6 +139,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -189,6 +192,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -738,34 +753,33 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      virology_1: 21300002
-      virology_23: 21300046
-      virology_13: 21300026
-      virology_10: 21300020
-      virology_17: 21300034
-      virology_3: 21300006
-      virology_24: 21300048
-      virology_9: 21300018
-      virology_21: 21300042
-      virology_8: 21300016
       virology_0: 21300000
+      virology_1: 21300002
+      virology_10: 21300020
+      virology_11: 21300022
       virology_12: 21300024
+      virology_13: 21300026
+      virology_14: 21300028
+      virology_15: 21300030
+      virology_16: 21300032
+      virology_17: 21300034
+      virology_18: 21300036
+      virology_19: 21300038
+      virology_2: 21300004
+      virology_20: 21300040
+      virology_21: 21300042
+      virology_22: 21300044
+      virology_23: 21300046
+      virology_24: 21300048
+      virology_3: 21300006
+      virology_4: 21300008
       virology_5: 21300010
       virology_6: 21300012
       virology_7: 21300014
-      virology_2: 21300004
-      virology_11: 21300022
-      virology_18: 21300036
-      virology_15: 21300030
-      virology_14: 21300028
-      virology_16: 21300032
-      virology_20: 21300040
-      virology_22: 21300044
-      virology_19: 21300038
-      virology_4: 21300008
-  spritePackingTag: 
+      virology_8: 21300016
+      virology_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

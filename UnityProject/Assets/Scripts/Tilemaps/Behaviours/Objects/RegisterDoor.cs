@@ -11,8 +11,8 @@ using Util;
 	[ExecuteInEditMode]
 	public class RegisterDoor : RegisterTile
 	{
-		private SubsystemManager subsystemManager;
-		private SubsystemManager SubsystemManager => subsystemManager ? subsystemManager : subsystemManager = GetComponentInParent<SubsystemManager>();
+		private MatrixSystemManager subsystemManager;
+		private MatrixSystemManager SubsystemManager => subsystemManager ? subsystemManager : subsystemManager = GetComponentInParent<MatrixSystemManager>();
 
 		private TileChangeManager tileChangeManager;
 
@@ -22,7 +22,7 @@ using Util;
 		[NonSerialized]
 		public InteractableDoor InteractableDoor;
 
-		[PrefabModeOnly]
+
 		public bool OneDirectionRestricted;
 
 		[SerializeField]

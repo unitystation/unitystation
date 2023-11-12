@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: comm_logs_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      comm_logs_3: 21300006
-      comm_logs_2: 21300004
-      comm_logs_7: 21300014
-      comm_logs_9: 21300018
-      comm_logs_17: 21300034
-      comm_logs_13: 21300026
       comm_logs_0: 21300000
-      comm_logs_20: 21300040
-      comm_logs_26: 21300052
+      comm_logs_1: 21300002
       comm_logs_10: 21300020
-      comm_logs_14: 21300028
-      comm_logs_23: 21300046
-      comm_logs_22: 21300044
-      comm_logs_12: 21300024
       comm_logs_11: 21300022
-      comm_logs_28: 21300056
-      comm_logs_25: 21300050
-      comm_logs_24: 21300048
-      comm_logs_30: 21300060
-      comm_logs_18: 21300036
-      comm_logs_21: 21300042
-      comm_logs_8: 21300016
-      comm_logs_29: 21300058
-      comm_logs_19: 21300038
-      comm_logs_5: 21300010
-      comm_logs_27: 21300054
-      comm_logs_6: 21300012
+      comm_logs_12: 21300024
+      comm_logs_13: 21300026
+      comm_logs_14: 21300028
       comm_logs_15: 21300030
       comm_logs_16: 21300032
-      comm_logs_1: 21300002
-      comm_logs_4: 21300008
+      comm_logs_17: 21300034
+      comm_logs_18: 21300036
+      comm_logs_19: 21300038
+      comm_logs_2: 21300004
+      comm_logs_20: 21300040
+      comm_logs_21: 21300042
+      comm_logs_22: 21300044
+      comm_logs_23: 21300046
+      comm_logs_24: 21300048
+      comm_logs_25: 21300050
+      comm_logs_26: 21300052
+      comm_logs_27: 21300054
+      comm_logs_28: 21300056
+      comm_logs_29: 21300058
+      comm_logs_3: 21300006
+      comm_logs_30: 21300060
       comm_logs_31: 21300062
-  spritePackingTag: 
+      comm_logs_4: 21300008
+      comm_logs_5: 21300010
+      comm_logs_6: 21300012
+      comm_logs_7: 21300014
+      comm_logs_8: 21300016
+      comm_logs_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3117172067951294432, guid: b735ab74dab174a4f90c79558cd51e43,
@@ -37,49 +38,49 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4591132913751966026, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: flameSprites.Array.data[0]
+      propertyPath: 'flameSprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 25f30ff13ffd4bc4baa30c458db84645,
         type: 3}
     - target: {fileID: 4591132913751966026, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: flameSprites.Array.data[1]
+      propertyPath: 'flameSprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: 25f30ff13ffd4bc4baa30c458db84645,
         type: 3}
     - target: {fileID: 4591132913751966026, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: flameSprites.Array.data[2]
+      propertyPath: 'flameSprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300002, guid: f175aa412ddb40348947e79bcdb5004d,
         type: 3}
     - target: {fileID: 4591132913751966026, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: welderSprites.Array.data[0]
+      propertyPath: 'welderSprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: 67c396b10bf6d854d963f743c38bfefb,
         type: 3}
     - target: {fileID: 4591132913751966026, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: welderSprites.Array.data[1]
+      propertyPath: 'welderSprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300000, guid: 116c33f48198c5046ab09d2a13f798f6,
         type: 3}
     - target: {fileID: 4591132913751966026, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: welderSprites.Array.data[2]
+      propertyPath: 'welderSprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300000, guid: 65914fa7f80e6794e901931658713bcf,
         type: 3}
     - target: {fileID: 4591132913751966026, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: welderSprites.Array.data[3]
+      propertyPath: 'welderSprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300000, guid: ebdb249ae754f6341bd77dc0290f6dd3,
         type: 3}
     - target: {fileID: 4591132913751966026, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: welderSprites.Array.data[4]
+      propertyPath: 'welderSprites.Array.data[4]'
       value: 
       objectReference: {fileID: 21300000, guid: 835784e282cb9714d8fbba95f60e44f9,
         type: 3}
@@ -151,6 +152,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7019565730922564163, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
+      propertyPath: _assetId
+      value: 3631338135
+      objectReference: {fileID: 0}
+    - target: {fileID: 7019565730922564163, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
       propertyPath: m_AssetId
       value: 4ee49ace2bcf58745816b129ce7550e7
       objectReference: {fileID: 0}
@@ -187,7 +193,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9051842671118403817, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 9182518269629492315, guid: b735ab74dab174a4f90c79558cd51e43,
@@ -197,4 +203,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 51199df954245e34b83528f859f50f4f,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b735ab74dab174a4f90c79558cd51e43, type: 3}

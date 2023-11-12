@@ -87,7 +87,7 @@ namespace Objects.Disposals
 		public bool BinReady => binState == BinState.Ready;
 		public bool BinFlushing => binState == BinState.Flushing;
 		public bool BinCharging => binState == BinState.Recharging;
-		public override bool MachineWeldable => base.MachineWeldable && PowerDisconnected;
+
 		/// <summary>
 		/// If the bin is already connected to power, it is only screwdriverable if it is set to off.
 		/// This allows the screwdriver to be disposed of during normal operations.
@@ -113,7 +113,7 @@ namespace Objects.Disposals
 			PoweredDevice = GetComponent<APCPoweredDevice>();
 			if (PoweredDevice.RelatedAPC == null)
 			{
-				SetBinState(BinState.Off);
+				SetBinState(BinState.Disconnected);
 			}
 		}
 
@@ -172,7 +172,7 @@ namespace Objects.Disposals
 		{
 			if (MachineUnattached)
 			{
-				baseSpriteHandler.ChangeSprite((int) BinSprite.Sideways);
+				baseSpriteHandler.SetCatalogueIndexSprite((int) BinSprite.Sideways);
 				overlaysSpriteHandler.PushClear();
 				return;
 			}
@@ -185,8 +185,8 @@ namespace Objects.Disposals
 				_ => BinOverlaySprite.Ready,
 			};
 
-			baseSpriteHandler.ChangeSprite((int)baseSprite);
-			overlaysSpriteHandler.ChangeSprite((int)overlaySprite);
+			baseSpriteHandler.SetCatalogueIndexSprite((int)baseSprite);
+			overlaysSpriteHandler.SetCatalogueIndexSprite((int)overlaySprite);
 			overlaysSpriteHandler.PushTexture();
 
 			BinStateUpdated?.Invoke();
@@ -213,7 +213,7 @@ namespace Objects.Disposals
 		{
 			currentInteraction = interaction;
 
-			if (interaction.HandObject != null && interaction.HandObject.TryGetComponent<InteractableStorage>(out var storage))
+			if (interaction.HandObject != null && interaction.HandObject.TryGetComponent<InteractableStorage>(out var storage) && interaction.Intent != Intent.Harm)
 			{
 				storage.ItemStorage.ServerDropAllAtWorld(gameObject.AssumedWorldPosServer());
 				objectContainer.GatherObjects();
@@ -221,7 +221,7 @@ namespace Objects.Disposals
 				return;
 			}
 
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) && MachineWrenchable)
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench) && MachineWrenchable)
 			{
 				TryUseWrench();
 			}
@@ -229,11 +229,11 @@ namespace Objects.Disposals
 			{
 				TryUseWelder();
 			}
-			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) && Screwdriverable)
+			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) && Screwdriverable)
 			{
 				TryUseScrewdriver();
 			}
-			else if (MachineSecured)
+			else if (MachineSecured &&  interaction.Intent != Intent.Harm)
 			{
 				Inventory.ServerDrop(interaction.HandSlot, interaction.TargetVector);
 				StoreItem(interaction.UsedObject);
@@ -430,7 +430,7 @@ namespace Objects.Disposals
 			}
 			else
 			{
-				overlaysSpriteHandler.ChangeSprite(0);
+				overlaysSpriteHandler.SetCatalogueIndexSprite(0);
 				overlaysSpriteHandler.PushTexture();
 			}
 		}

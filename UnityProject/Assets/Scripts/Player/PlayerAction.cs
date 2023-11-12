@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using UnityEngine;
 
 /// <summary>
@@ -34,6 +35,13 @@ public struct PlayerAction
 		return direction;
 	}
 
+
+	public MovementSynchronisation.PlayerMoveDirection ToPlayerMoveDirection(Vector2Int InDirection)
+	{
+		InDirection = TransformMove(InDirection);
+
+		return MovementSynchronisation.VectorToPlayerMoveDirection(InDirection);
+	}
 
 
 	public MovementSynchronisation.PlayerMoveDirection ToPlayerMoveDirection()
@@ -82,7 +90,7 @@ public struct PlayerAction
 		//TODO: Refactor diagonality into an extension
 		if (Math.Abs(direction.x) + Math.Abs(direction.y) >= 2)
 		{
-			Logger.LogErrorFormat("MoveAction.GetMoveAction invoked on an invalid, non-cardinal direction {0}." +
+			Loggy.LogErrorFormat("MoveAction.GetMoveAction invoked on an invalid, non-cardinal direction {0}." +
 			                      " This will cause undefined behavior. Please fix the code to only pass a valid cardinal direction.",
 				Category.Movement, direction);
 		}

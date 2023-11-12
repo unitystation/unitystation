@@ -147,7 +147,7 @@ TextureImporter:
       213: 21300094
     second: chain_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      chain_44: 21300088
-      chain_33: 21300066
-      chain_25: 21300050
-      chain_20: 21300040
-      chain_9: 21300018
-      chain_21: 21300042
-      chain_28: 21300056
-      chain_10: 21300020
       chain_0: 21300000
-      chain_18: 21300036
-      chain_27: 21300054
-      chain_22: 21300044
-      chain_6: 21300012
+      chain_1: 21300002
+      chain_10: 21300020
+      chain_11: 21300022
       chain_12: 21300024
-      chain_37: 21300074
-      chain_16: 21300032
       chain_13: 21300026
-      chain_47: 21300094
-      chain_30: 21300060
-      chain_43: 21300086
-      chain_29: 21300058
+      chain_14: 21300028
+      chain_15: 21300030
+      chain_16: 21300032
+      chain_17: 21300034
+      chain_18: 21300036
+      chain_19: 21300038
+      chain_2: 21300004
+      chain_20: 21300040
+      chain_21: 21300042
+      chain_22: 21300044
+      chain_23: 21300046
       chain_24: 21300048
+      chain_25: 21300050
+      chain_26: 21300052
+      chain_27: 21300054
+      chain_28: 21300056
+      chain_29: 21300058
       chain_3: 21300006
+      chain_30: 21300060
+      chain_31: 21300062
+      chain_32: 21300064
+      chain_33: 21300066
       chain_34: 21300068
-      chain_8: 21300016
+      chain_35: 21300070
+      chain_36: 21300072
+      chain_37: 21300074
+      chain_38: 21300076
       chain_39: 21300078
+      chain_4: 21300008
       chain_40: 21300080
       chain_41: 21300082
       chain_42: 21300084
-      chain_1: 21300002
-      chain_23: 21300046
-      chain_5: 21300010
-      chain_11: 21300022
-      chain_46: 21300092
-      chain_26: 21300052
-      chain_2: 21300004
-      chain_4: 21300008
+      chain_43: 21300086
+      chain_44: 21300088
       chain_45: 21300090
+      chain_46: 21300092
+      chain_47: 21300094
+      chain_5: 21300010
+      chain_6: 21300012
       chain_7: 21300014
-      chain_15: 21300030
-      chain_32: 21300064
-      chain_31: 21300062
-      chain_36: 21300072
-      chain_19: 21300038
-      chain_17: 21300034
-      chain_38: 21300076
-      chain_14: 21300028
-      chain_35: 21300070
-  spritePackingTag: 
+      chain_8: 21300016
+      chain_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

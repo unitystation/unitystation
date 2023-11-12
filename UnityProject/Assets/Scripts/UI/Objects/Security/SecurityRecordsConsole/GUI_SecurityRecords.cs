@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using Systems.Character;
 using UI.Core.NetUI;
 using Objects.Security;
+using Systems;
 
 namespace UI.Objects.Security
 {
@@ -129,14 +132,46 @@ namespace Objects.Security
 	[System.Serializable]
 	public class SecurityRecord
 	{
-		public string EntryName;
+		public static event Action OnWantedLevelChange;
+
+		private string entryName;
+
+		public string EntryName
+		{
+			get => entryName;
+			set
+			{
+				CrewManifestManager.Instance.OrNull()?.UpdateNameSecurityRecord(this, value);
+				entryName = value;
+			}
+		}
+
 		public string ID;
 		public string Sex;
 		public string Age;
 		public string Species;
 		public string Rank;
 		public string Fingerprints;
-		public SecurityStatus Status;
+
+
+		public SecurityStatus status;
+
+		public SecurityStatus Status
+		{
+			get => status;
+			set
+			{
+				bool diff = status != value;
+
+				status = value;
+				if (diff)
+				{
+					IdentityChangeOrWantedLevel();
+				}
+			}
+		}
+
+
 		public List<SecurityRecordCrime> Crimes;
 		public Occupation Occupation;
 		public CharacterSheet characterSettings;
@@ -152,6 +187,19 @@ namespace Objects.Security
 			Fingerprints = "-";
 			Status = SecurityStatus.None;
 			Crimes = new List<SecurityRecordCrime>();
+		}
+
+		public void IdentityChangeOrWantedLevel()
+		{
+			try
+			{
+				OnWantedLevelChange?.Invoke();
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+
+			}
 		}
 	}
 }

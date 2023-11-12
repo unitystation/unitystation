@@ -8,6 +8,7 @@ using Systems.Clothing;
 using Light2D;
 using Effects.Overlays;
 using HealthV2;
+using Logs;
 using Messages.Server;
 using Mobs;
 using Newtonsoft.Json;
@@ -97,6 +98,8 @@ namespace Player
 		public List<IntName> InternalNetIDs = new List<IntName>();
 
 		public bool RootBodyPartsLoaded;
+
+		public bool IsOldCustomPrefab;
 
 		[SerializeField]
 		private GameObject OverlaySprites;
@@ -199,7 +202,7 @@ namespace Player
 					}
 					else
 					{
-						Logger.Log($"[PlayerSprites] - Could not find {Body_Part.name}'s characterCustomization script. Returns -> {Body_Part.OrNull()?.LobbyCustomisation.OrNull()?.characterCustomization}", Category.Character);
+						Loggy.Log($"[PlayerSprites] - Could not find {Body_Part.name}'s characterCustomization script. Returns -> {Body_Part.OrNull()?.LobbyCustomisation.OrNull()?.characterCustomization}", Category.Character);
 					}
 				}
 			}
@@ -344,6 +347,16 @@ namespace Player
 			}
 		}
 
+		public void SetSurfaceColour(Color CurrentSurfaceColour)
+		{
+			CurrentSurfaceColour.a = 1;
+
+			foreach (var sp in SurfaceSprite)
+			{
+				sp.baseSpriteHandler.SetColor(CurrentSurfaceColour);
+			}
+		}
+
 		private void OnClientFireStacksChange(float newStacks)
 		{
 			UpdateBurningOverlays(newStacks, directional.CurrentDirection);
@@ -357,9 +370,20 @@ namespace Player
 				clothingItem.Direction = direction;
 			}
 
+			var toRemove = new List<SpriteHandlerNorder>();
 			foreach (var sprite in OpenSprites)
 			{
+				if (sprite == null)
+				{
+					toRemove.Add(sprite);
+					continue;
+				}
 				sprite.OnDirectionChange(direction);
+			}
+
+			foreach (var toRem in toRemove)
+			{
+				OpenSprites.Remove(toRem);
 			}
 
 			foreach (var bodypart in Addedbodypart)
@@ -433,6 +457,7 @@ namespace Player
 
 		public void OnCharacterSettingsChange(CharacterSheet characterSettings)
 		{
+			if (IsOldCustomPrefab) return;
 			if (RootBodyPartsLoaded) return;
 			RootBodyPartsLoaded = true;
 			var overrideSheet = string.IsNullOrEmpty(RaceOverride) == false;
@@ -451,7 +476,7 @@ namespace Player
 
 			if (RaceBodyparts == null)
 			{
-				Logger.LogError($"Failed to find race for {gameObject.ExpensiveName()} with race: {characterSettings.Species}");
+				Loggy.LogError($"Failed to find race for {gameObject.ExpensiveName()} with race: {characterSettings.Species}");
 			}
 
 			livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);

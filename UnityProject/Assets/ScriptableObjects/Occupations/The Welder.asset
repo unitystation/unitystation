@@ -18,6 +18,7 @@ MonoBehaviour:
   inventoryPopulator: {fileID: 11400000, guid: 72e97a2b3bfe9c24085da89ceb001601, type: 2}
   useStandardPopulator: 1
   useCharacterSettings: 1
+  CustomSpeciesOverwrite: {fileID: 0}
   limit: 99
   priority: 99
   issuedClearance: 1f0000000d0000000c000000
@@ -35,6 +36,7 @@ MonoBehaviour:
   customProperties:
     m_keys: []
     m_values: 
+  BetterCustomProperties: []
   isTargeteable: 0
   playSound: 1
   spawnSound:
@@ -49,3 +51,6 @@ MonoBehaviour:
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
   specialPlayerPrefab: {fileID: 5271859453604985937, guid: 5d4f616253d0fb440bb462cd2e449d73,
     type: 3}
+  references:
+    version: 2
+    RefIds: []

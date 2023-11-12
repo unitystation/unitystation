@@ -69,7 +69,7 @@ TextureImporter:
       213: 21300042
     second: monkey2h_21
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -86,11 +86,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -129,6 +130,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -144,6 +147,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -630,31 +645,30 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      monkey2h_14: 21300028
-      monkey2h_17: 21300034
-      monkey2h_8: 21300016
-      monkey2h_3: 21300006
-      monkey2h_16: 21300032
-      monkey2h_13: 21300026
-      monkey2h_1: 21300002
-      monkey2h_15: 21300030
-      monkey2h_20: 21300040
-      monkey2h_6: 21300012
-      monkey2h_5: 21300010
-      monkey2h_4: 21300008
-      monkey2h_21: 21300042
       monkey2h_0: 21300000
-      monkey2h_19: 21300038
-      monkey2h_7: 21300014
-      monkey2h_9: 21300018
+      monkey2h_1: 21300002
       monkey2h_10: 21300020
-      monkey2h_12: 21300024
-      monkey2h_18: 21300036
-      monkey2h_2: 21300004
       monkey2h_11: 21300022
-  spritePackingTag: 
+      monkey2h_12: 21300024
+      monkey2h_13: 21300026
+      monkey2h_14: 21300028
+      monkey2h_15: 21300030
+      monkey2h_16: 21300032
+      monkey2h_17: 21300034
+      monkey2h_18: 21300036
+      monkey2h_19: 21300038
+      monkey2h_2: 21300004
+      monkey2h_20: 21300040
+      monkey2h_21: 21300042
+      monkey2h_3: 21300006
+      monkey2h_4: 21300008
+      monkey2h_5: 21300010
+      monkey2h_6: 21300012
+      monkey2h_7: 21300014
+      monkey2h_8: 21300016
+      monkey2h_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

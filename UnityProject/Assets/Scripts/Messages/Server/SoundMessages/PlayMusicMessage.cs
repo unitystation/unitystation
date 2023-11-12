@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using AddressableReferences;
+using Logs;
 using Mirror;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -31,7 +32,7 @@ namespace Messages.Server.SoundMessages
 		{
 			if (string.IsNullOrEmpty(msg.MusicAddressablePath))
 			{
-				Logger.LogError(ToString() + " has no Addressable Path!", Category.Audio);
+				Loggy.LogError(ToString() + " has no Addressable Path!", Category.Audio);
 				return;
 			}
 

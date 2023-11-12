@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4026156895558446062, guid: 3b29d0e990dce2842b1432340480ec5a,
@@ -16,6 +17,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: Departmental Techfab (Machine Board)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994245723222022711, guid: 3b29d0e990dce2842b1432340480ec5a,
+        type: 3}
+      propertyPath: _assetId
+      value: 2515335104
       objectReference: {fileID: 0}
     - target: {fileID: 7994245723222022711, guid: 3b29d0e990dce2842b1432340480ec5a,
         type: 3}
@@ -89,4 +95,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 674b3e05609a3f645acb8552bc3a1573,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b29d0e990dce2842b1432340480ec5a, type: 3}

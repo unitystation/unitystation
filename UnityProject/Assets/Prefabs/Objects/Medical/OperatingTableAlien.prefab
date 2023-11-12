@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 320638787586529093, guid: c4c1a5e556c58314eb690ee3272fb1cf,
@@ -16,6 +17,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Used for alien medical procedures. The surface is covered in tiny spines.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1516322723155918103, guid: c4c1a5e556c58314eb690ee3272fb1cf,
+        type: 3}
+      propertyPath: _assetId
+      value: 479122748
       objectReference: {fileID: 0}
     - target: {fileID: 1516322723155918103, guid: c4c1a5e556c58314eb690ee3272fb1cf,
         type: 3}
@@ -100,4 +106,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 1a62e0c6450a6fa4384439cb521b55fc,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4c1a5e556c58314eb690ee3272fb1cf, type: 3}

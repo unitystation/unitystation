@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 using System.Text;
 using System.Threading.Tasks;
 using Items;
+using Logs;
 using Messages.Server;
 
 public static class SweetExtensions
@@ -162,8 +163,26 @@ public static class SweetExtensions
 	/// Creates garbage! Use very sparsely!
 	public static Vector3 AssumedWorldPosServer(this GameObject go)
 	{
+		if (go == null)
+		{
+			Loggy.LogError("Null object passed into AssumedWorldPosServer");
+			return TransformState.HiddenPos;
+		}
+
 		return GetRootGameObject(go).transform.position;
 	}
+
+
+	public static Matrix GetMatrixRoot(this GameObject go)
+	{
+		if (ComponentManager.TryGetUniversalObjectPhysics(GetRootGameObject(go), out var UOP))
+		{
+			return UOP.registerTile.Matrix;
+		}
+
+		return null;
+	}
+
 
 	/// Creates garbage! Use very sparsely!
 	public static GameObject GetRootGameObject(this GameObject go)
@@ -207,6 +226,21 @@ public static class SweetExtensions
 
 
 	//New better system for Get component That cashs results
+	public static UniversalObjectPhysics GetUniversalObjectPhysics(this GameObject go)
+	{
+		if (ComponentManager.TryGetUniversalObjectPhysics(go, out  var commonComponent))
+		{
+			return commonComponent;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+
+
+	//New better system for Get component That cashs results
 	public static T GetComponentCustom<T>(this GameObject go)  where T : Component
 	{
 		if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
@@ -218,6 +252,34 @@ public static class SweetExtensions
 			return null;
 		}
 	}
+
+
+	public static bool TryGetComponentCustom<T>(this Component go, out T component) where T : Component
+	{
+		if (ComponentManager.TryGetCommonComponent(go.gameObject, out  var commonComponent))
+		{
+			return commonComponent.TrySafeGetComponent<T>(out component);
+		}
+		else
+		{
+			component = null;
+			return false;
+		}
+	}
+
+	public static bool TryGetComponentCustom<T>(this GameObject go, out T component)  where T : Component
+	{
+		if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
+		{
+			return commonComponent.TrySafeGetComponent<T>(out component);
+		}
+		else
+		{
+			component = null;
+			return false;
+		}
+	}
+
 
 	/// <summary>
 	/// Returns true for adjacent coordinates
@@ -297,7 +359,7 @@ public static class SweetExtensions
 		float boost = (distance - NO_BOOST_THRESHOLD) * 2;
 		if (boost > 0)
 		{
-			Logger.LogTraceFormat("Lerp speed boost exceeded by {0}", Category.Movement, boost);
+			Loggy.LogTraceFormat("Lerp speed boost exceeded by {0}", Category.Movement, boost);
 		}
 		return 1 + boost;
 	}
@@ -351,7 +413,7 @@ public static class SweetExtensions
 		{
 			return new Vector2(x, y);
 		}
-		Logger.LogWarning($"Vector parse failed: what the hell is '{stringifiedVector}'?", Category.Unknown);
+		Loggy.LogWarning($"Vector parse failed: what the hell is '{stringifiedVector}'?", Category.Unknown);
 		return TransformState.HiddenPos;
 	}
 
@@ -676,7 +738,7 @@ public static class SweetExtensions
 			e = e.InnerException;
 		}
 
-		Logger.LogError(e?.ToString(), category);
+		Loggy.LogError(e?.ToString(), category);
 	}
 
 	/// <summary>

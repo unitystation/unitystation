@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Logs;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -88,7 +89,7 @@ namespace UI.CharacterCreator
 			}
 			else
 			{
-				Logger.LogWarning($"Unable to find index of {currentSetting}! Using default", Category.Character);
+				Loggy.LogWarning($"Unable to find index of {currentSetting}! Using default", Category.Character);
 				Dropdown.value = 0;
 			}
 
@@ -137,7 +138,7 @@ namespace UI.CharacterCreator
 
 		public void SetRotation(int newValue)
 		{
-			RelatedSpriteRenderer.ChangeSpriteVariant(newValue);
+			RelatedSpriteRenderer.SetSpriteVariant(newValue);
 		}
 
 		public void ItemChange(int newValue)

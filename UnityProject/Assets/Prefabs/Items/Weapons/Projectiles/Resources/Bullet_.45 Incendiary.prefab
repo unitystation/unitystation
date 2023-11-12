@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2775853673395737925, guid: 9287d438528b5ee41a03791cf9fcebb0,
+        type: 3}
+      propertyPath: _assetId
+      value: 3358160238
+      objectReference: {fileID: 0}
     - target: {fileID: 3283761084346690391, guid: 9287d438528b5ee41a03791cf9fcebb0,
         type: 3}
       propertyPath: damageData
@@ -91,6 +97,13 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 40c2bccbadbe4f24c8b91ed1f461d95d,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3824486057130847694, guid: 9287d438528b5ee41a03791cf9fcebb0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6352230342885000988}
   m_SourcePrefab: {fileID: 100100000, guid: 9287d438528b5ee41a03791cf9fcebb0, type: 3}
 --- !u!1 &508509301497134489 stripped
 GameObject:

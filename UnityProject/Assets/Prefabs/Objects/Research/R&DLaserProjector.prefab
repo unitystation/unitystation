@@ -1,0 +1,280 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1263365644671893203
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -7926788470919046243, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7926788470919046243, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: 'requiredClearance.Array.data[0]'
+      value: 42
+      objectReference: {fileID: 0}
+    - target: {fileID: 94685940376484999, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 956161840745613693, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: foreverID
+      value: 0d2a097efdcb88644898d858b77b4e94
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362956364068856906, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: connected
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391099956464558305, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: startOn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391099956464558305, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: startSetUp
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391099956464558305, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: DoesNotShoot
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1511291056692446084, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1771482854461073481, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 87dd48325b796714196129183220d3ce,
+        type: 2}
+    - target: {fileID: 1771482854461073481, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 1882972145890981261, guid: 619daff98b6a6fa49a0a6ae2567ee8dd,
+        type: 3}
+    - target: {fileID: 3879102292432146991, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: CurrentDirection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4097308122355289166, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: isNotPushable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4131257631443374883, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2077213800, guid: 72bbcba859787e3438db8d3452b11aca,
+        type: 3}
+    - target: {fileID: 4188529965739553262, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4188529965739553262, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4188529965739553262, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4188529965739553262, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4188529965739553262, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4188529965739553262, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4188529965739553262, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4188529965739553262, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4188529965739553262, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4188529965739553262, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4188529965739553262, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194276244320548660, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: m_Name
+      value: R&DLaserProjector
+      objectReference: {fileID: 0}
+    - target: {fileID: 5758065222195692118, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: _assetId
+      value: 1238898506
+      objectReference: {fileID: 0}
+    - target: {fileID: 6814207865071364100, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: exportName
+      value: research laser
+      objectReference: {fileID: 0}
+    - target: {fileID: 6814207865071364100, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: initialName
+      value: R&D laser projector
+      objectReference: {fileID: 0}
+    - target: {fileID: 6814207865071364100, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: initialDescription
+      value: A high intensity laser projector able to emit controlled bursts of energy
+        to obtain research data surrounding various objects. A staple of any high-energy
+        lab.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675587485970357742, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 03d29d58e5d4c4c4bb483849e52d6b1b,
+        type: 2}
+    - target: {fileID: 8675587485970357742, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675587485970357742, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675587485970357742, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 03d29d58e5d4c4c4bb483849e52d6b1b,
+        type: 2}
+    - target: {fileID: 8675587485970357742, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c546a0822b5a2e445b89906af1ade8bc,
+        type: 2}
+    - target: {fileID: 8675587485970357742, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d1ea0d9a95e98d643bdf09400061158e,
+        type: 2}
+    m_RemovedComponents:
+    - {fileID: 1391099956464558305, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f, type: 3}
+    - {fileID: -7926788470919046243, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4194276244320548660, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1090558377515816039}
+    - targetCorrespondingSourceObject: {fileID: 4194276244320548660, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1951002309018821911}
+    - targetCorrespondingSourceObject: {fileID: 4194276244320548660, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2116856896879531024}
+  m_SourcePrefab: {fileID: 100100000, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f, type: 3}
+--- !u!1 &3151798844342946279 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4194276244320548660, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1263365644671893203}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1090558377515816039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3151798844342946279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f8c2e6a42cdb334aa4603bafce5df8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  researchServer: {fileID: 0}
+  PoweredState: 2
+  minVoltage: 1500
+  startSetUp: 1
+  LaserProjectilePrefab: {fileID: 3256196131092598179, guid: c588338f2b0ee5e4196afedb7f1ace30,
+    type: 3}
+  LaserProjectionprefab: {fileID: 8894798934946660141, guid: 904aaa4fb5f91c94a811f5daa6d6b935,
+    type: 3}
+  coolDownTimer: 5
+--- !u!114 &1951002309018821911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3151798844342946279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c3a19b2c2f7b08479faf3e491537fe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsMultiMaster: 0
+  SetMaxDistance: 20
+  SetConType: 13
+--- !u!114 &2116856896879531024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3151798844342946279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  NetTabType: 60
+  aiInteractable: 1

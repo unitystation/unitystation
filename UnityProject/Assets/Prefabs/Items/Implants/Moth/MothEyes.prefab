@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3531439301631965842, guid: 5c61c3c9e64efa740accb280f8923222,
@@ -30,7 +31,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6088606689303362185, guid: 5c61c3c9e64efa740accb280f8923222,
         type: 3}
-      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: ef2cb2fa9e55f174b98148d48f7b081d,
         type: 2}
@@ -107,6 +108,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7336394554284506273, guid: 5c61c3c9e64efa740accb280f8923222,
         type: 3}
+      propertyPath: _assetId
+      value: 2634093519
+      objectReference: {fileID: 0}
+    - target: {fileID: 7336394554284506273, guid: 5c61c3c9e64efa740accb280f8923222,
+        type: 3}
       propertyPath: m_AssetId
       value: b27700b657d00694b858d97a111c3b53
       objectReference: {fileID: 0}
@@ -116,5 +122,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: b4f0b605db2a5ef418b23260b0a919e2,
         type: 3}
+    - target: {fileID: 7604428631157282216, guid: 5c61c3c9e64efa740accb280f8923222,
+        type: 3}
+      propertyPath: FlashMultiplier
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c61c3c9e64efa740accb280f8923222, type: 3}

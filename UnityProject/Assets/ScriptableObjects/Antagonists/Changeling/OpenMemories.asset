@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cf0df011a89c4846b42d00833f60588, type: 3}
+  m_Name: OpenMemories
+  m_EditorClassIdentifier: 
+  actionType: 0
+  activeSpriteIndex: 1
+  callOnClient: 0
+  callOnServer: 0
+  actionName: Memories
+  description: Absorbed memories of victims.
+  Sprites:
+  - {fileID: 11400000, guid: 316d7d38b7286794998bf14c521bf2c4, type: 2}
+  Backgrounds:
+  - {fileID: 11400000, guid: 8b8f8d4ab92854b4cbeb74ec8ec117df, type: 2}
+  PreventBeingControlledBy: 
+  DisableOnEvent: 
+  isAimable: 0
+  useCustomCursor: 0
+  cursorTexture: {fileID: 0}
+  cursorOffsetType: 0
+  cursorOffset: {x: 0, y: 0}
+  cooldown: 1
+  abilityEPCost: 0
+  abilityChemCost: 0
+  abilityImplementation: {fileID: 1515064019581797830, guid: 5722bf93b0593b44caafd2931b25840d,
+    type: 3}
+  descriptionStore: 
+  canBeUsedWhileInCrit: 0
+  isLocal: 1
+  startAbility: 1
+  showInStore: 0
+  showInActions: 1

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3486338153467046959, guid: e46ba34aab52d654787ef10d896b0874,
@@ -87,6 +88,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BoxMime
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676122640429376199, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: _assetId
+      value: 4263339622
       objectReference: {fileID: 0}
     - target: {fileID: 3676122640429376199, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
@@ -192,6 +198,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3676074921659133965, guid: e46ba34aab52d654787ef10d896b0874, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3643415983708594035, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4475860596054929552}
+    - targetCorrespondingSourceObject: {fileID: 3643415983708594035, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7428690068708387878}
+    - targetCorrespondingSourceObject: {fileID: 3643415983708594035, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8388977633140008013}
   m_SourcePrefab: {fileID: 100100000, guid: e46ba34aab52d654787ef10d896b0874, type: 3}
 --- !u!212 &8441880568126201350 stripped
 SpriteRenderer:
@@ -199,18 +220,6 @@ SpriteRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 4991786853530350121}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8521883043285352586 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3676534646001562275, guid: e46ba34aab52d654787ef10d896b0874,
-    type: 3}
-  m_PrefabInstance: {fileID: 4991786853530350121}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8635195139948178778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8635195139948178778 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3643415983708594035, guid: e46ba34aab52d654787ef10d896b0874,
@@ -242,6 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aefd7c28c7594dfea70e14d8bcc5c696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   spriteToColor: {fileID: 8441880568126201350}
@@ -260,9 +270,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 212cb157043d4fc5ab199f0fdcbaeb50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   pickupAnimSpeed: 0.2
   ItemAttributesV2: {fileID: 0}
+  OnMoveToPlayerInventory:
+    m_PersistentCalls:
+      m_Calls: []
+  OnInventoryMoveServerEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDrop:
+    m_PersistentCalls:
+      m_Calls: []
+  OnThrow:
+    m_PersistentCalls:
+      m_Calls: []
+  lastTouch: {fileID: 0}
   boxSpriteColor: {fileID: 7428690068708387878}
-  netTransform: {fileID: 8521883043285352586}
+  ObjectPhysics: {fileID: 0}

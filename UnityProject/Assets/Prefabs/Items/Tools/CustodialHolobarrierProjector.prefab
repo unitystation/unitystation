@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 433040487140416842, guid: 0d452d035c46dad46a96790f0c346d17,
@@ -19,7 +20,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 433040487140416842, guid: 0d452d035c46dad46a96790f0c346d17,
         type: 3}
-      propertyPath: holosignPrefabs.Array.data[0]
+      propertyPath: 'holosignPrefabs.Array.data[0]'
       value: 
       objectReference: {fileID: 438935671533005145, guid: 44be6b4167e81ea4fba91aa111db48e7,
         type: 3}
@@ -107,6 +108,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8302388595661083720, guid: 0d452d035c46dad46a96790f0c346d17,
         type: 3}
+      propertyPath: _assetId
+      value: 2104427394
+      objectReference: {fileID: 0}
+    - target: {fileID: 8302388595661083720, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
       propertyPath: m_AssetId
       value: 6ba57b26778c591438460ae11049d4ae
       objectReference: {fileID: 0}
@@ -121,4 +127,7 @@ PrefabInstance:
       value: A holographic projector that creates hard light wet floor barriers.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d452d035c46dad46a96790f0c346d17, type: 3}

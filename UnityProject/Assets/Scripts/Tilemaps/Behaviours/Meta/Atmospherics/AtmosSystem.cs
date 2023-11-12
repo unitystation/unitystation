@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using ScriptableObjects.Atmospherics;
 using UnityEngine;
 using Mirror;
@@ -7,7 +8,7 @@ using Tiles;
 
 namespace Systems.Atmospherics
 {
-	public class AtmosSystem : SubsystemBehaviour
+	public class AtmosSystem : MatrixSystemBehaviour
 	{
 		public override SystemType SubsystemType => SystemType.AtmosSystem;
 
@@ -47,7 +48,7 @@ namespace Systems.Atmospherics
 				}
 				catch (Exception e)
 				{
-					Logger.LogError(e.ToString());
+					Loggy.LogError(e.ToString());
 				}
 			}
 
@@ -132,7 +133,7 @@ namespace Systems.Atmospherics
 		{
 			if (toSetRoom.ContainsKey(room))
 			{
-				Logger.LogError($"Room number: {room} was already added, cant add {toAdd.gameObject.ExpensiveName()}, localPos: {toAdd.RegisterTile.LocalPosition}, matrix: {toAdd.RegisterTile.Matrix}");
+				Loggy.LogError($"Room number: {room} was already added, cant add {toAdd.gameObject.ExpensiveName()}, localPos: {toAdd.RegisterTile.LocalPosition}, matrix: {toAdd.RegisterTile.Matrix}");
 				return;
 			}
 
@@ -143,7 +144,7 @@ namespace Systems.Atmospherics
 		{
 			if (toSetOccupied.ContainsKey(localPos))
 			{
-				Logger.LogError($"Local pos: {localPos} was already added, cant add {toAdd.gameObject.ExpensiveName()}");
+				Loggy.LogError($"Local pos: {localPos} was already added, cant add {toAdd.gameObject.ExpensiveName()}");
 				return;
 			}
 

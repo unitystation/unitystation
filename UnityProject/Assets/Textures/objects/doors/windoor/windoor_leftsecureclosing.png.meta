@@ -87,7 +87,7 @@ TextureImporter:
       213: 21300054
     second: leftsecureclosing_27
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,6 +148,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -162,6 +165,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -774,37 +789,36 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      leftsecureclosing_17: 21300034
-      leftsecureclosing_6: 21300012
-      leftsecureclosing_22: 21300044
-      leftsecureclosing_3: 21300006
-      leftsecureclosing_14: 21300028
-      leftsecureclosing_21: 21300042
-      leftsecureclosing_20: 21300040
-      leftsecureclosing_16: 21300032
-      leftsecureclosing_4: 21300008
+      leftsecureclosing_0: 21300000
+      leftsecureclosing_1: 21300002
+      leftsecureclosing_10: 21300020
+      leftsecureclosing_11: 21300022
       leftsecureclosing_12: 21300024
       leftsecureclosing_13: 21300026
-      leftsecureclosing_5: 21300010
-      leftsecureclosing_24: 21300048
-      leftsecureclosing_23: 21300046
-      leftsecureclosing_18: 21300036
-      leftsecureclosing_26: 21300052
-      leftsecureclosing_1: 21300002
-      leftsecureclosing_0: 21300000
-      leftsecureclosing_9: 21300018
-      leftsecureclosing_10: 21300020
+      leftsecureclosing_14: 21300028
       leftsecureclosing_15: 21300030
-      leftsecureclosing_11: 21300022
-      leftsecureclosing_27: 21300054
+      leftsecureclosing_16: 21300032
+      leftsecureclosing_17: 21300034
+      leftsecureclosing_18: 21300036
       leftsecureclosing_19: 21300038
-      leftsecureclosing_8: 21300016
-      leftsecureclosing_7: 21300014
-      leftsecureclosing_25: 21300050
       leftsecureclosing_2: 21300004
-  spritePackingTag: 
+      leftsecureclosing_20: 21300040
+      leftsecureclosing_21: 21300042
+      leftsecureclosing_22: 21300044
+      leftsecureclosing_23: 21300046
+      leftsecureclosing_24: 21300048
+      leftsecureclosing_25: 21300050
+      leftsecureclosing_26: 21300052
+      leftsecureclosing_27: 21300054
+      leftsecureclosing_3: 21300006
+      leftsecureclosing_4: 21300008
+      leftsecureclosing_5: 21300010
+      leftsecureclosing_6: 21300012
+      leftsecureclosing_7: 21300014
+      leftsecureclosing_8: 21300016
+      leftsecureclosing_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -2,16 +2,15 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Mirror;
-using Core.Editor.Attributes;
 using Core.Highlight;
 using Detective;
 using Items;
 using Managers;
 using Messages.Client.Interaction;
 using NaughtyAttributes;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Integrity))]
 public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServerSpawn, IHighlightable
@@ -38,11 +37,11 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	private string initialDescription = null;
 
 	[Tooltip("Will this item highlight on mouseover?")]
-	[SerializeField, PrefabModeOnly]
+	[SerializeField ]
 	private bool willHighlight = true;
 
 	[Tooltip("How much does one of these sell for when shipped on the cargo shuttle?")]
-	[SerializeField, BoxGroup("Cargo"), PrefabModeOnly]
+	[SerializeField, BoxGroup("Cargo") ]
 	private int exportCost = 0;
 
 	public class ExportEvent : UnityEvent<string, string> { }
@@ -72,15 +71,21 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	public bool CanBeSoldInCargo = true;
 
 	[Tooltip("Should an alternate name be used when displaying this in the cargo console report?")]
-	[SerializeField, BoxGroup("Cargo"), PrefabModeOnly]
+	[SerializeField, BoxGroup("Cargo") ]
 	private string exportName = "";
 	public string ExportName => exportName;
 
 	[Tooltip("Additional message to display in the cargo console report.")]
-	[SerializeField, BoxGroup("Cargo"), PrefabModeOnly]
+	[SerializeField, BoxGroup("Cargo") ]
 	[TextArea(3,5)]
 	private string exportMessage = null;
 	public string ExportMessage => exportMessage;
+
+
+	[FormerlySerializedAs("noItemHighlight")] [SerializeField]
+	private bool noMouseHighlight = false;
+	public bool NoMouseHighlight => noMouseHighlight;
+
 
 	[Server]
 	public void SetExportCost(int value)

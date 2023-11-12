@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: lights_denied_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      lights_denied_21: 21300042
+      lights_denied_0: 21300000
       lights_denied_1: 21300002
-      lights_denied_2: 21300004
-      lights_denied_22: 21300044
-      lights_denied_6: 21300012
-      lights_denied_16: 21300032
-      lights_denied_3: 21300006
-      lights_denied_5: 21300010
-      lights_denied_15: 21300030
-      lights_denied_9: 21300018
-      lights_denied_23: 21300046
-      lights_denied_7: 21300014
+      lights_denied_10: 21300020
+      lights_denied_11: 21300022
       lights_denied_12: 21300024
       lights_denied_13: 21300026
-      lights_denied_10: 21300020
+      lights_denied_14: 21300028
+      lights_denied_15: 21300030
+      lights_denied_16: 21300032
       lights_denied_17: 21300034
       lights_denied_18: 21300036
-      lights_denied_4: 21300008
-      lights_denied_20: 21300040
-      lights_denied_14: 21300028
       lights_denied_19: 21300038
-      lights_denied_0: 21300000
-      lights_denied_11: 21300022
+      lights_denied_2: 21300004
+      lights_denied_20: 21300040
+      lights_denied_21: 21300042
+      lights_denied_22: 21300044
+      lights_denied_23: 21300046
+      lights_denied_3: 21300006
+      lights_denied_4: 21300008
+      lights_denied_5: 21300010
+      lights_denied_6: 21300012
+      lights_denied_7: 21300014
       lights_denied_8: 21300016
-  spritePackingTag: 
+      lights_denied_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Systems.Antagonists.Antags;
 using UnityEngine;
 using Systems.GhostRoles;
@@ -60,9 +61,27 @@ namespace Antagonists
 			description = $"Assassinate {Target.name}, the {Target.occupation.DisplayName}";
 		}
 
+		protected override void SetupInGame()
+		{
+			Target = PlayerList.Instance.InGamePlayers.Where(pl => pl.UserId == attributes[0].PlayerID).ElementAt(0).Mind;
+
+			if (Target == null || Target.occupation == null)
+			{
+				FreeObjective();
+				return;
+			}
+			AntagManager.Instance.TargetedPlayers.Add(Target);
+			description = $"Assassinate {Target.name}, the {Target.occupation.DisplayName}";
+		}
+
+		public override string GetDescription()
+		{
+			return $"Assassinate";
+		}
+
 		private void FreeObjective()
 		{
-			Logger.LogWarning("Unable to find any suitable assassination targets! Giving free objective", Category.Antags);
+			Loggy.LogWarning("Unable to find any suitable assassination targets! Giving free objective", Category.Antags);
 			description = "Free objective";
 			Complete = true;
 		}

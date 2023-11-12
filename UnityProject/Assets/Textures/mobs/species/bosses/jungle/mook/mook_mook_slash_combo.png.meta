@@ -87,7 +87,7 @@ TextureImporter:
       213: 21300054
     second: mook_slash_combo_27
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,6 +148,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -162,6 +165,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -774,37 +789,36 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      mook_slash_combo_7: 21300014
-      mook_slash_combo_17: 21300034
-      mook_slash_combo_2: 21300004
-      mook_slash_combo_16: 21300032
-      mook_slash_combo_21: 21300042
-      mook_slash_combo_13: 21300026
-      mook_slash_combo_11: 21300022
-      mook_slash_combo_24: 21300048
-      mook_slash_combo_5: 21300010
-      mook_slash_combo_22: 21300044
-      mook_slash_combo_25: 21300050
       mook_slash_combo_0: 21300000
-      mook_slash_combo_20: 21300040
-      mook_slash_combo_6: 21300012
-      mook_slash_combo_8: 21300016
-      mook_slash_combo_26: 21300052
-      mook_slash_combo_12: 21300024
-      mook_slash_combo_10: 21300020
-      mook_slash_combo_15: 21300030
-      mook_slash_combo_23: 21300046
-      mook_slash_combo_18: 21300036
-      mook_slash_combo_3: 21300006
-      mook_slash_combo_9: 21300018
-      mook_slash_combo_4: 21300008
-      mook_slash_combo_19: 21300038
-      mook_slash_combo_27: 21300054
       mook_slash_combo_1: 21300002
+      mook_slash_combo_10: 21300020
+      mook_slash_combo_11: 21300022
+      mook_slash_combo_12: 21300024
+      mook_slash_combo_13: 21300026
       mook_slash_combo_14: 21300028
-  spritePackingTag: 
+      mook_slash_combo_15: 21300030
+      mook_slash_combo_16: 21300032
+      mook_slash_combo_17: 21300034
+      mook_slash_combo_18: 21300036
+      mook_slash_combo_19: 21300038
+      mook_slash_combo_2: 21300004
+      mook_slash_combo_20: 21300040
+      mook_slash_combo_21: 21300042
+      mook_slash_combo_22: 21300044
+      mook_slash_combo_23: 21300046
+      mook_slash_combo_24: 21300048
+      mook_slash_combo_25: 21300050
+      mook_slash_combo_26: 21300052
+      mook_slash_combo_27: 21300054
+      mook_slash_combo_3: 21300006
+      mook_slash_combo_4: 21300008
+      mook_slash_combo_5: 21300010
+      mook_slash_combo_6: 21300012
+      mook_slash_combo_7: 21300014
+      mook_slash_combo_8: 21300016
+      mook_slash_combo_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

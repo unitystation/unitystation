@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Logs;
 using Mirror;
 using UI.Systems.AdminTools.DevTools.Search;
 using UnityEngine;
@@ -42,7 +43,7 @@ public class SpawnerSearch
 		{
 			if (prefab.GetComponent<NetworkIdentity>() == null)
 			{
-				Logger.LogTraceFormat("{0} omitted from dev spawner because it has no network identity. Only" +
+				Loggy.LogTraceFormat("{0} omitted from dev spawner because it has no network identity. Only" +
 				                      " networked prefabs can be spawned.", Category.Admin);
 				continue;
 			}

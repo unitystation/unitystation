@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -570452349356288929, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
@@ -19,7 +20,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3444414882150781575, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
         type: 3}
-      propertyPath: requiredClearance.Array.data[0]
+      propertyPath: 'requiredClearance.Array.data[0]'
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3933894558199293636, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
@@ -101,6 +102,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5725908286051291451, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
         type: 3}
+      propertyPath: _assetId
+      value: 1672104215
+      objectReference: {fileID: 0}
+    - target: {fileID: 5725908286051291451, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
+        type: 3}
       propertyPath: m_AssetId
       value: eac40cb2657a67f408c63700d7e6adee
       objectReference: {fileID: 0}
@@ -122,15 +128,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8717739805835431555, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: cb1ecb88cbf9c78409fdfbf5409d0b46,
         type: 2}
     - target: {fileID: 8717739805835431555, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 6154b51f99f71b64896c3c51bafe307a,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9f5c9b81c30b4742b7859c8d2b045c3, type: 3}

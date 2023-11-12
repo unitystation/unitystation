@@ -93,7 +93,7 @@ TextureImporter:
       213: 21300058
     second: maintenanceexternal_29
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -110,11 +110,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -153,6 +154,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -192,6 +195,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -846,39 +861,38 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      maintenanceexternal_27: 21300054
-      maintenanceexternal_17: 21300034
-      maintenanceexternal_19: 21300038
-      maintenanceexternal_25: 21300050
-      maintenanceexternal_20: 21300040
-      maintenanceexternal_29: 21300058
-      maintenanceexternal_5: 21300010
-      maintenanceexternal_13: 21300026
-      maintenanceexternal_15: 21300030
-      maintenanceexternal_4: 21300008
-      maintenanceexternal_3: 21300006
-      maintenanceexternal_7: 21300014
-      maintenanceexternal_16: 21300032
-      maintenanceexternal_18: 21300036
-      maintenanceexternal_8: 21300016
-      maintenanceexternal_22: 21300044
-      maintenanceexternal_28: 21300056
-      maintenanceexternal_6: 21300012
-      maintenanceexternal_12: 21300024
-      maintenanceexternal_21: 21300042
-      maintenanceexternal_14: 21300028
-      maintenanceexternal_23: 21300046
-      maintenanceexternal_26: 21300052
-      maintenanceexternal_1: 21300002
-      maintenanceexternal_11: 21300022
-      maintenanceexternal_10: 21300020
       maintenanceexternal_0: 21300000
-      maintenanceexternal_9: 21300018
+      maintenanceexternal_1: 21300002
+      maintenanceexternal_10: 21300020
+      maintenanceexternal_11: 21300022
+      maintenanceexternal_12: 21300024
+      maintenanceexternal_13: 21300026
+      maintenanceexternal_14: 21300028
+      maintenanceexternal_15: 21300030
+      maintenanceexternal_16: 21300032
+      maintenanceexternal_17: 21300034
+      maintenanceexternal_18: 21300036
+      maintenanceexternal_19: 21300038
       maintenanceexternal_2: 21300004
+      maintenanceexternal_20: 21300040
+      maintenanceexternal_21: 21300042
+      maintenanceexternal_22: 21300044
+      maintenanceexternal_23: 21300046
       maintenanceexternal_24: 21300048
-  spritePackingTag: 
+      maintenanceexternal_25: 21300050
+      maintenanceexternal_26: 21300052
+      maintenanceexternal_27: 21300054
+      maintenanceexternal_28: 21300056
+      maintenanceexternal_29: 21300058
+      maintenanceexternal_3: 21300006
+      maintenanceexternal_4: 21300008
+      maintenanceexternal_5: 21300010
+      maintenanceexternal_6: 21300012
+      maintenanceexternal_7: 21300014
+      maintenanceexternal_8: 21300016
+      maintenanceexternal_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

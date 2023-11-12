@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: rightspark_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      rightspark_21: 21300042
       rightspark_0: 21300000
-      rightspark_9: 21300018
-      rightspark_3: 21300006
-      rightspark_11: 21300022
-      rightspark_14: 21300028
-      rightspark_2: 21300004
-      rightspark_10: 21300020
-      rightspark_18: 21300036
-      rightspark_23: 21300046
-      rightspark_8: 21300016
-      rightspark_16: 21300032
-      rightspark_20: 21300040
-      rightspark_5: 21300010
-      rightspark_19: 21300038
-      rightspark_7: 21300014
-      rightspark_4: 21300008
-      rightspark_17: 21300034
-      rightspark_6: 21300012
-      rightspark_15: 21300030
       rightspark_1: 21300002
+      rightspark_10: 21300020
+      rightspark_11: 21300022
       rightspark_12: 21300024
       rightspark_13: 21300026
+      rightspark_14: 21300028
+      rightspark_15: 21300030
+      rightspark_16: 21300032
+      rightspark_17: 21300034
+      rightspark_18: 21300036
+      rightspark_19: 21300038
+      rightspark_2: 21300004
+      rightspark_20: 21300040
+      rightspark_21: 21300042
       rightspark_22: 21300044
-  spritePackingTag: 
+      rightspark_23: 21300046
+      rightspark_3: 21300006
+      rightspark_4: 21300008
+      rightspark_5: 21300010
+      rightspark_6: 21300012
+      rightspark_7: 21300014
+      rightspark_8: 21300016
+      rightspark_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

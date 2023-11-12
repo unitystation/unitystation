@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -48,19 +49,13 @@ namespace HealthV2
 		private bool isSuffocating;
 		public bool IsSuffocating => isSuffocating;
 
-		[SyncVar] private TemperatureAlert temperature = TemperatureAlert.None;
-		public TemperatureAlert Temperature => temperature;
-
-		[SyncVar]
-		private PressureAlert pressure = PressureAlert.None;
-		public PressureAlert Pressure => pressure;
-
 		private HealthDollStorage CurrentHealthDollStorage = new HealthDollStorage();
 
 		[SyncVar(hook = nameof(SyncHealthDoll))]
 		private string healthDollData;
 		public event Action<ConsciousState> ConsciousEvent;
-		public event Action<float> OverallHealthEvent;
+
+		public event Action<float> ServerOverallHealthChange;
 
 		private bool DollDataChanged = false;
 
@@ -107,9 +102,11 @@ namespace HealthV2
 		[Server]
 		public void SetOverallHealth(float newHealth)
 		{
-			overallHealthSync = newHealth;
-			if (connectionToClient == null) return;
-			InvokeClientOverallHealthEvent(newHealth);
+			if (newHealth != overallHealthSync)
+			{
+				overallHealthSync = newHealth;
+				ServerOverallHealthChange?.Invoke(newHealth);
+			}
 		}
 
 		[Server]
@@ -121,7 +118,7 @@ namespace HealthV2
 		[Server]
 		public void SetDNA(DNAandBloodType newDNA)
 		{
-			DNABloodTypeJSONSync = JsonUtility.ToJson(newDNA);
+			DNABloodTypeJSONSync = JsonConvert.SerializeObject(newDNA);
 			DNABloodType = newDNA;
 		}
 
@@ -133,7 +130,6 @@ namespace HealthV2
 			{
 				InvokeClientConsciousStateEvent(newConsciousState);
 			}
-
 		}
 
 		[Server]
@@ -172,7 +168,7 @@ namespace HealthV2
 		private void SyncDNABloodTypeJSON(string oldDNABloodTypeJSON, string newDNABloodTypeJSON)
 		{
 			DNABloodTypeJSONSync = newDNABloodTypeJSON;
-			DNABloodType = JsonUtility.FromJson<DNAandBloodType>(newDNABloodTypeJSON);
+			DNABloodType = JsonConvert.DeserializeObject<DNAandBloodType>(newDNABloodTypeJSON);
 		}
 
 		[Client]
@@ -194,7 +190,7 @@ namespace HealthV2
 			}
 			catch (Exception e)
 			{
-				Logger.LogError(e.ToString()); //some weird ass serialisation error
+				Loggy.LogError(e.ToString()); //some weird ass serialisation error
 				return;
 			}
 
@@ -203,12 +199,6 @@ namespace HealthV2
 				UIManager.PlayerHealthUI.bodyPartListeners[i].SetDamageColor(CurrentHealthDollStorage.DollStates[i].damageColor.UncompresseToColour());
 				UIManager.PlayerHealthUI.bodyPartListeners[i].SetBodyPartColor(CurrentHealthDollStorage.DollStates[i].bodyPartColor.UncompresseToColour());
 			}
-		}
-
-		[TargetRpc]
-		private void InvokeClientOverallHealthEvent(float state)
-		{
-			OverallHealthEvent?.Invoke(state);
 		}
 
 		[TargetRpc]

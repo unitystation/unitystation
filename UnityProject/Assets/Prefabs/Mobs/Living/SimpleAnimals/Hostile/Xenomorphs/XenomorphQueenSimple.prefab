@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 932420383064505029, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: _assetId
+      value: 826103214
+      objectReference: {fileID: 0}
     - target: {fileID: 932420383064505029, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
       propertyPath: m_AssetId
@@ -79,49 +85,49 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5522932471367266001, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
-      propertyPath: butcherResults.Array.data[4]
+      propertyPath: 'butcherResults.Array.data[4]'
       value: 
       objectReference: {fileID: 2434222561616808047, guid: ec415b83dd52aba48a8c3eb34564b8dc,
         type: 3}
     - target: {fileID: 5522932471367266001, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
-      propertyPath: butcherResults.Array.data[5]
+      propertyPath: 'butcherResults.Array.data[5]'
       value: 
       objectReference: {fileID: 2434222561616808047, guid: ec415b83dd52aba48a8c3eb34564b8dc,
         type: 3}
     - target: {fileID: 5522932471367266001, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
-      propertyPath: butcherResults.Array.data[6]
+      propertyPath: 'butcherResults.Array.data[6]'
       value: 
       objectReference: {fileID: 2434222561616808047, guid: ec415b83dd52aba48a8c3eb34564b8dc,
         type: 3}
     - target: {fileID: 5522932471367266001, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
-      propertyPath: butcherResults.Array.data[7]
+      propertyPath: 'butcherResults.Array.data[7]'
       value: 
       objectReference: {fileID: 2434222561616808047, guid: ec415b83dd52aba48a8c3eb34564b8dc,
         type: 3}
     - target: {fileID: 5522932471367266001, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
-      propertyPath: butcherResults.Array.data[8]
+      propertyPath: 'butcherResults.Array.data[8]'
       value: 
       objectReference: {fileID: 2434222561616808047, guid: ec415b83dd52aba48a8c3eb34564b8dc,
         type: 3}
     - target: {fileID: 5522932471367266001, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
-      propertyPath: butcherResults.Array.data[9]
+      propertyPath: 'butcherResults.Array.data[9]'
       value: 
       objectReference: {fileID: 2434222561616808047, guid: ec415b83dd52aba48a8c3eb34564b8dc,
         type: 3}
     - target: {fileID: 5522932471367266001, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
-      propertyPath: butcherResults.Array.data[10]
+      propertyPath: 'butcherResults.Array.data[10]'
       value: 
       objectReference: {fileID: 7186820348635746022, guid: 8cd3dcf86127057478c50a027e9ac1ea,
         type: 3}
     - target: {fileID: 5522932471367266001, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
-      propertyPath: butcherResults.Array.data[11]
+      propertyPath: 'butcherResults.Array.data[11]'
       value: 
       objectReference: {fileID: 7186820348635746022, guid: 8cd3dcf86127057478c50a027e9ac1ea,
         type: 3}
@@ -139,19 +145,19 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6035718330051049012, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 887dcdfd6df7edc4490c6f047ad3c8b7,
         type: 2}
     - target: {fileID: 6035718330051049012, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 69ab4592eaf82ca47902b08e156411e9,
         type: 2}
     - target: {fileID: 6035718330051049012, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[2]
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 95b47db093e33d3448c2951ed087b77d,
         type: 2}
@@ -231,4 +237,7 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2937fbb42f33c07428faabfd58578633, type: 3}

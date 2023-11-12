@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ using TMPro;
 using AdminTools;
 using Core.Chat;
 using Items;
+using Logs;
 using Shared.Managers;
 using UnityEngine.Serialization;
 
@@ -16,6 +18,8 @@ namespace UI.Chat_UI
 {
 	public class ChatUI : SingletonManager<ChatUI>
 	{
+
+
 		public GameObject chatInputWindow = default;
 		public Transform content = default;
 		public GameObject chatEntryPrefab = default;
@@ -112,6 +116,10 @@ namespace UI.Chat_UI
 
 		[BoxGroup("Animation"), Range(0,1)] public float ChatContentMinimumAlpha = 0f;
 
+		[field: SerializeField] public List<TMP_FontAsset> Fonts = new List<TMP_FontAsset>();
+		public int FontIndexToUse = -1;
+
+
 
 		public void SetPreferenceChatContent(float preference)
 		{
@@ -119,7 +127,6 @@ namespace UI.Chat_UI
 			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatContentMinimumAlpha, preference);
 			PlayerPrefs.Save();
 		}
-
 
 		public float GetPreferenceChatContent()
 		{
@@ -133,7 +140,6 @@ namespace UI.Chat_UI
 				PlayerPrefs.Save();
 				return 0f;
 			}
-
 		}
 
 		public void SetPreferenceChatBackground(float preference)
@@ -155,7 +161,6 @@ namespace UI.Chat_UI
 				PlayerPrefs.Save();
 				return 0f;
 			}
-
 		}
 
 
@@ -164,6 +169,17 @@ namespace UI.Chat_UI
 			base.Awake();
 			ChatMinimumBackgroundAlpha = GetPreferenceChatBackground();
 			ChatContentMinimumAlpha = GetPreferenceChatContent();
+
+			var Option =PlayerPrefs.GetString("fontPref", "LiberationSans SDF");
+
+			for (int i = 0; i < Fonts.Count; i++)
+			{
+				if (Fonts[i].name == Option)
+				{
+					FontIndexToUse = i;
+					break;
+				}
+			}
 		}
 
 		/// <summary>
@@ -270,7 +286,7 @@ namespace UI.Chat_UI
 			// TODO add events to inventory slot changes to trigger channel refresh
 			if (chatInputWindow.activeInHierarchy && !isChannelListUpToDate())
 			{
-				Logger.Log("Channel list is outdated!", Category.Chat);
+				Loggy.Log("Channel list is outdated!", Category.Chat);
 				RefreshChannelPanel();
 			}
 
@@ -316,7 +332,7 @@ namespace UI.Chat_UI
 			GameObject entry = entryPool.GetChatEntry();
 			var chatEntry = entry.GetComponent<ChatEntry>();
 			chatEntry.ViewportTransform = viewportTransform;
-			chatEntry.SetText(message, languageSprite);
+			chatEntry.SetText(message, languageSprite, FontIndexToUse != -1 ? Fonts[FontIndexToUse] : null);
 			allEntries.Add(chatEntry);
 			SetEntryTransform(entry);
 			CheckLengthOfChatLog();
@@ -589,8 +605,8 @@ namespace UI.Chat_UI
 		/// </summary>
 		private void RefreshChannelPanel()
 		{
-			Logger.LogTrace("Refreshing channel panel!", Category.Chat);
-			Logger.Log("Selected channels: " + ListChannels(SelectedChannels), Category.Chat);
+			Loggy.LogTrace("Refreshing channel panel!", Category.Chat);
+			Loggy.Log("Selected channels: " + ListChannels(SelectedChannels), Category.Chat);
 			RefreshToggles();
 			UpdateInputLabel();
 		}
@@ -647,7 +663,7 @@ namespace UI.Chat_UI
 			// Check a channel toggle doesn't already exist
 			if (ChannelToggles.ContainsKey(channel))
 			{
-				Logger.LogWarning($"Channel toggle already exists for {channel}!", Category.Chat);
+				Loggy.LogWarning($"Channel toggle already exists for {channel}!", Category.Chat);
 				return;
 			}
 
@@ -736,18 +752,39 @@ namespace UI.Chat_UI
 		/// </summary>
 		private void UpdateInputLabel()
 		{
+			var localStatus = selectedChannels.GetFlags().Any(x => RadioChannels.Contains((ChatChannel)x))
+				? $"{SpeakRadioText()}" : "to nearby characters";
 			if ((SelectedChannels & ChatChannel.OOC) == ChatChannel.OOC)
 			{
-				chatInputLabel.text = "OOC:";
+				chatInputLabel.text = "Speaking Out Of Character (OOC):";
 			}
 			else if ((SelectedChannels & ChatChannel.Ghost) == ChatChannel.Ghost)
 			{
-				chatInputLabel.text = "Ghost:";
+				chatInputLabel.text = "Speaking as a Ghost:";
 			}
 			else
 			{
-				chatInputLabel.text = "Say:";
+				chatInputLabel.text = PlayerManager.
+					LocalPlayerScript != null ?
+					$"Say as {PlayerManager.LocalPlayerScript.visibleName} {localStatus}:"
+					: "Say:";
 			}
+		}
+
+		private string SpeakRadioText()
+		{
+			if (selectedChannels.GetFlags().Count() > 3) return "to multiple channels.";
+			var speakTo = "to ";
+			int count = selectedChannels.GetFlags().Count() - 1;
+			int index = -1;
+			foreach (var channel in selectedChannels.GetFlags())
+			{
+				index++;
+				if (channel.ToString() == "None") continue;
+				speakTo += index != count ? $"{channel.ToString()}, " : $"and {channel.ToString()} ";
+			}
+
+			return speakTo + "channels";
 		}
 
 		/// <summary>
@@ -775,7 +812,7 @@ namespace UI.Chat_UI
 		/// </summary>
 		public void EnableChannel(ChatChannel channel)
 		{
-			Logger.Log($"Enabling {channel}", Category.Chat);
+			Loggy.Log($"Enabling {channel}", Category.Chat);
 
 			if (ChannelToggles.ContainsKey(channel))
 			{
@@ -783,7 +820,7 @@ namespace UI.Chat_UI
 			}
 			else
 			{
-				Logger.LogWarning($"Can't enable {channel} because it isn't in ChannelToggles!", Category.Chat);
+				Loggy.LogWarning($"Can't enable {channel} because it isn't in ChannelToggles!", Category.Chat);
 			}
 
 			//Deselect all other channels in UI if it's a main channel
@@ -833,7 +870,7 @@ namespace UI.Chat_UI
 		/// </summary>
 		public void DisableChannel(ChatChannel channel)
 		{
-			Logger.Log($"Disabling {channel}", Category.Chat);
+			Loggy.Log($"Disabling {channel}", Category.Chat);
 
 			// Special behaviour for main channels
 			if (MainChannels.Contains(channel))
@@ -895,7 +932,7 @@ namespace UI.Chat_UI
 				else
 				{
 					// TODO: need some addition UX indication that channel is not avaliable
-					Logger.Log($"Player trying to write message to channel {inputChannel}, but there are only {availChannels} avaliable;", Category.Chat);
+					Loggy.Log($"Player trying to write message to channel {inputChannel}, but there are only {availChannels} avaliable;", Category.Chat);
 				}
 
 				// delete all tags from input

@@ -147,7 +147,7 @@ TextureImporter:
       213: -2822566467129003176
     second: fancy_table_cyan_fancy_table_cyan_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      fancy_table_cyan_fancy_table_cyan_38: -1992586899339675423
-      fancy_table_cyan_fancy_table_cyan_9: 3483212415453225477
-      fancy_table_cyan_fancy_table_cyan_35: 6441154479898649022
-      fancy_table_cyan_fancy_table_cyan_23: 912920102957807593
-      fancy_table_cyan_fancy_table_cyan_3: 3627755337896229091
-      fancy_table_cyan_fancy_table_cyan_25: -6713978249793874541
-      fancy_table_cyan_fancy_table_cyan_43: 3644673497947700197
-      fancy_table_cyan_fancy_table_cyan_28: -6945890319290386192
-      fancy_table_cyan_fancy_table_cyan_24: -7004486894446792713
-      fancy_table_cyan_fancy_table_cyan_17: 2464045333438825715
-      fancy_table_cyan_fancy_table_cyan_6: -640667442693402661
-      fancy_table_cyan_fancy_table_cyan_40: -3483422174703336724
-      fancy_table_cyan_fancy_table_cyan_27: -5305994582489840908
-      fancy_table_cyan_fancy_table_cyan_41: 8264771135272751127
-      fancy_table_cyan_fancy_table_cyan_16: -7672650177975166298
-      fancy_table_cyan_fancy_table_cyan_33: -1331050110005424645
-      fancy_table_cyan_fancy_table_cyan_15: 4190998550015571414
-      fancy_table_cyan_fancy_table_cyan_22: -4131075117390237508
-      fancy_table_cyan_fancy_table_cyan_1: 6792865498587089613
-      fancy_table_cyan_fancy_table_cyan_2: -6076697273816561294
-      fancy_table_cyan_fancy_table_cyan_42: -9030135279912206745
-      fancy_table_cyan_fancy_table_cyan_14: 4509194336883570156
-      fancy_table_cyan_fancy_table_cyan_10: 8396264541070586625
-      fancy_table_cyan_fancy_table_cyan_44: -22505446726683907
-      fancy_table_cyan_fancy_table_cyan_11: -4674790410577783040
-      fancy_table_cyan_fancy_table_cyan_37: 5895539582934377214
-      fancy_table_cyan_fancy_table_cyan_46: -7530912840917649311
-      fancy_table_cyan_fancy_table_cyan_34: -4399895271215481358
-      fancy_table_cyan_fancy_table_cyan_20: 1422733487176793624
-      fancy_table_cyan_fancy_table_cyan_5: -6797360235915501528
-      fancy_table_cyan_fancy_table_cyan_4: -718421965478123000
-      fancy_table_cyan_fancy_table_cyan_45: -2522179756798769122
-      fancy_table_cyan_fancy_table_cyan_47: -2822566467129003176
-      fancy_table_cyan_fancy_table_cyan_8: 5782240137120115031
       fancy_table_cyan_fancy_table_cyan_0: 2200830650597261200
-      fancy_table_cyan_fancy_table_cyan_32: 7470804467722965480
-      fancy_table_cyan_fancy_table_cyan_18: -1282019172620170146
-      fancy_table_cyan_fancy_table_cyan_26: 8851103840156121805
+      fancy_table_cyan_fancy_table_cyan_1: 6792865498587089613
+      fancy_table_cyan_fancy_table_cyan_10: 8396264541070586625
+      fancy_table_cyan_fancy_table_cyan_11: -4674790410577783040
       fancy_table_cyan_fancy_table_cyan_12: 2926416874416556713
-      fancy_table_cyan_fancy_table_cyan_36: 4187213782504052175
+      fancy_table_cyan_fancy_table_cyan_13: -8557036363241731566
+      fancy_table_cyan_fancy_table_cyan_14: 4509194336883570156
+      fancy_table_cyan_fancy_table_cyan_15: 4190998550015571414
+      fancy_table_cyan_fancy_table_cyan_16: -7672650177975166298
+      fancy_table_cyan_fancy_table_cyan_17: 2464045333438825715
+      fancy_table_cyan_fancy_table_cyan_18: -1282019172620170146
+      fancy_table_cyan_fancy_table_cyan_19: 5290199080671972964
+      fancy_table_cyan_fancy_table_cyan_2: -6076697273816561294
+      fancy_table_cyan_fancy_table_cyan_20: 1422733487176793624
       fancy_table_cyan_fancy_table_cyan_21: -6796834365554000116
+      fancy_table_cyan_fancy_table_cyan_22: -4131075117390237508
+      fancy_table_cyan_fancy_table_cyan_23: 912920102957807593
+      fancy_table_cyan_fancy_table_cyan_24: -7004486894446792713
+      fancy_table_cyan_fancy_table_cyan_25: -6713978249793874541
+      fancy_table_cyan_fancy_table_cyan_26: 8851103840156121805
+      fancy_table_cyan_fancy_table_cyan_27: -5305994582489840908
+      fancy_table_cyan_fancy_table_cyan_28: -6945890319290386192
+      fancy_table_cyan_fancy_table_cyan_29: -6388868850879878861
+      fancy_table_cyan_fancy_table_cyan_3: 3627755337896229091
       fancy_table_cyan_fancy_table_cyan_30: -8800484146845882120
       fancy_table_cyan_fancy_table_cyan_31: -3530046741746850191
+      fancy_table_cyan_fancy_table_cyan_32: 7470804467722965480
+      fancy_table_cyan_fancy_table_cyan_33: -1331050110005424645
+      fancy_table_cyan_fancy_table_cyan_34: -4399895271215481358
+      fancy_table_cyan_fancy_table_cyan_35: 6441154479898649022
+      fancy_table_cyan_fancy_table_cyan_36: 4187213782504052175
+      fancy_table_cyan_fancy_table_cyan_37: 5895539582934377214
+      fancy_table_cyan_fancy_table_cyan_38: -1992586899339675423
       fancy_table_cyan_fancy_table_cyan_39: -1886943758903819174
-      fancy_table_cyan_fancy_table_cyan_29: -6388868850879878861
-      fancy_table_cyan_fancy_table_cyan_13: -8557036363241731566
-      fancy_table_cyan_fancy_table_cyan_19: 5290199080671972964
+      fancy_table_cyan_fancy_table_cyan_4: -718421965478123000
+      fancy_table_cyan_fancy_table_cyan_40: -3483422174703336724
+      fancy_table_cyan_fancy_table_cyan_41: 8264771135272751127
+      fancy_table_cyan_fancy_table_cyan_42: -9030135279912206745
+      fancy_table_cyan_fancy_table_cyan_43: 3644673497947700197
+      fancy_table_cyan_fancy_table_cyan_44: -22505446726683907
+      fancy_table_cyan_fancy_table_cyan_45: -2522179756798769122
+      fancy_table_cyan_fancy_table_cyan_46: -7530912840917649311
+      fancy_table_cyan_fancy_table_cyan_47: -2822566467129003176
+      fancy_table_cyan_fancy_table_cyan_5: -6797360235915501528
+      fancy_table_cyan_fancy_table_cyan_6: -640667442693402661
       fancy_table_cyan_fancy_table_cyan_7: -1853808727744133287
-  spritePackingTag: 
+      fancy_table_cyan_fancy_table_cyan_8: 5782240137120115031
+      fancy_table_cyan_fancy_table_cyan_9: 3483212415453225477
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

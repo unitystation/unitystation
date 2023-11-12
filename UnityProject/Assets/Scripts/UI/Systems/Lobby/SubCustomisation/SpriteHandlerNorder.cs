@@ -29,7 +29,13 @@ public class SpriteHandlerNorder : MonoBehaviour
 
 	public void UpdateData(string InNew)
 	{
-		if (InNew == null) return;
+		if (InNew == null)
+		{
+			SpriteHandler.ClearPresentSpriteSet();
+			spriteRenderer.sprite = null;
+			return;
+		}
+
 		Data = InNew;
 		if (CustomNetworkManager.Instance._isServer) return;
 		spriteOrder = JsonConvert.DeserializeObject<SpriteOrder>(Data);
@@ -38,7 +44,7 @@ public class SpriteHandlerNorder : MonoBehaviour
 
 	public void ChangeSpriteVariant(int number)
 	{
-		SpriteHandler.ChangeSpriteVariant(number);
+		SpriteHandler.SetSpriteVariant(number);
 	}
 
 	public virtual void OnDirectionChange(OrientationEnum direction)
@@ -76,7 +82,7 @@ public class SpriteHandlerNorder : MonoBehaviour
 		//Not networked so don't run sprite change on headless
 		if (CustomNetworkManager.IsHeadless) return;
 
-		SpriteHandler.ChangeSpriteVariant(referenceOffset, false);
+		SpriteHandler.SetSpriteVariant(referenceOffset, false);
 	}
 
 }

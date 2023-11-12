@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Logs;
 using MiniGames;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -31,7 +32,7 @@ namespace Objects.Closets
 			if (miniGameTracker == null) return;
 			if (miniGameModules.Count == 0)
 			{
-				Logger.LogError("[MiniGames/AbandonedCrates] - Found MiniGame tracker but no minigames found!");
+				Loggy.LogError("[MiniGames/AbandonedCrates] - Found MiniGame tracker but no minigames found!");
 				return;
 			}
 
@@ -62,7 +63,7 @@ namespace Objects.Closets
 			if (miniGameTracker == null || control == null ||control.IsOpen) return false;
 			if (currentMiniGameIndex == -1)
 			{
-				Logger.LogError("[MiniGames/AbandonedCrates] - Found MiniGameTracker but no minigame is assigned!");
+				Loggy.LogError("[MiniGames/AbandonedCrates] - Found MiniGameTracker but no minigame is assigned!");
 				return false;
 			}
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;

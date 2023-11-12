@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
@@ -95,6 +96,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
+      propertyPath: CanBeSoldInCargo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
       propertyPath: initialDescription
       value: A device that mimics the structure of the brains of living creatures.
         The latest in artificial intelligence.
@@ -106,7 +112,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 5e9ac88966a35d34a9fd90c34e1ddaa0,
         type: 2}
@@ -122,7 +128,62 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: c7732c011efa7184ea05c5014b33e414,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 679895852257327104}
+    - targetCorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2762082600333388020}
+    - targetCorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5156403850238146881}
+    - targetCorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5682458813885905232}
+    - targetCorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5943829571643913580}
+    - targetCorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6443272019431194843}
+    - targetCorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6633108373680287949}
+    - targetCorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7747582576144492454}
+    - targetCorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8371901789900691858}
+    - targetCorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9155728420169415678}
   m_SourcePrefab: {fileID: 100100000, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8, type: 3}
+--- !u!114 &1324909553908066933 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1938539118400460514}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2474793813072843241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2474793813072843241 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
@@ -172,6 +233,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 873b362aa82d0274eb311c8003a29a2b, type: 2}
   - {fileID: 11400000, guid: 47efbe39a7009d9419eb48769a2409c3, type: 2}
   - {fileID: 11400000, guid: 94628fa641ba01342a5db9ad420c45e6, type: 2}
+--- !u!114 &5156403850238146881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2474793813072843241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 728aeea5e17840b4aaf4a7be649c0553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathEmote: {fileID: 11400000, guid: 1373d87dc734e134b964210f4db16042, type: 2}
+  revivalEmote: {fileID: 11400000, guid: c44812a15f6a97e44900fbd6fa532ecc, type: 2}
+  relatedBodyPart: {fileID: 1324909553908066933}
 --- !u!114 &5682458813885905232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,7 +296,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   OnBodyID: 0
-  Pickupable: {fileID: 0}
   DrunkReagent: {fileID: 0}
   MaxDrunkAtPercentage: 0.06
   hasInbuiltSight: 1
@@ -229,6 +304,38 @@ MonoBehaviour:
   hasInbuiltSpeech: 1
   BodyChatModifier: 0
   ReagentCirculatedComponent: {fileID: 0}
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5156403850238146881}
+        m_TargetAssemblyTypeName: Items.Implants.Organs.DeathRevival.DoEmoteOnDeathRevival,
+          Assets
+        m_MethodName: Death
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnRevival:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5156403850238146881}
+        m_TargetAssemblyTypeName: Items.Implants.Organs.DeathRevival.DoEmoteOnDeathRevival,
+          Assets
+        m_MethodName: Revive
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6633108373680287949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,8 +371,8 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  clearance: 2f0000003a000000240000002d0000003e00000008000000290000001000000016000000350000000100000028000000370000001c000000070000002a00000033000000260000003d0000003c0000003b000000060000002e0000002b0000005b000000380000000500000057000000580000005500000056000000590000000c0000002c000000220000001b000000190000002100000032000000310000001200000009000000360000000d000000110000000b0000000a0000001a000000270000001f000000250000005a000000300000001e0000001300000002000000180000003f0000001700000003000000140000000f000000
-  lowPopClearance: 2f0000003a000000240000002d0000003e00000008000000290000001000000016000000350000000100000028000000370000001c000000070000002a00000033000000260000003d0000003c0000003b000000060000002e0000002b0000005b000000380000000500000057000000580000005500000056000000590000000c0000002c000000220000001b000000190000002100000032000000310000001200000009000000360000000d000000110000000b0000000a0000001a000000270000001f000000250000005a000000300000001e0000001300000002000000180000003f0000001700000003000000140000000f000000
+  clearance: 2f0000003a000000240000002d0000003e00000008000000290000001000000016000000350000000100000028000000370000001c000000070000002a00000033000000260000003d0000003c0000003b000000060000002e0000002b0000005b000000380000000500000057000000580000005500000056000000590000000c0000002c000000220000001b000000190000002100000032000000310000001200000009000000360000000d000000110000000b0000000a0000001a000000270000001f000000250000005a000000300000001e0000001300000002000000180000003f0000001700000003000000140000000f0000002300000020000000
+  lowPopClearance: 2f0000003a000000240000002d0000003e00000008000000290000001000000016000000350000000100000028000000370000001c000000070000002a00000033000000260000003d0000003c0000003b000000060000002e0000002b0000005b000000380000000500000057000000580000005500000056000000590000000c0000002c000000220000001b000000190000002100000032000000310000001200000009000000360000000d000000110000000b0000000a0000001a000000270000001f000000250000005a000000300000001e0000001300000002000000180000003f0000001700000003000000140000000f0000002300000020000000
   ClearanceDisabled: 0
 --- !u!114 &8371901789900691858
 MonoBehaviour:
@@ -289,6 +396,7 @@ MonoBehaviour:
   requiresPower: 0
   isPowered: 1
   canExamineFrequency: 0
+  minimumDamageBeforeObfuscation: 12
   EncryptionKey: 0
   LoudSpeakOn: 0
   isEMPed: 0

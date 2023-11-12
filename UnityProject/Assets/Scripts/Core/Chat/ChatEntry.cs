@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Managers.SettingsManager;
 using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
 using TMPro;
+using Unitystation.Options;
 
 namespace UI.Chat_UI
 {
@@ -147,12 +149,15 @@ namespace UI.Chat_UI
 
 		#endregion
 
-		public void SetText(string message, TMP_SpriteAsset languageSprite)
+		public void SetText(string message, TMP_SpriteAsset languageSprite, TMP_FontAsset font)
 		{
+			if (font != null) messageText.font = font;
 			if (languageSprite != null)
 			{
 				message = $"<sprite=\"{languageSprite.name}\" index=0>{message}";
 			}
+
+			message = $"<size=+{PlayerPrefs.GetInt(ChatOptions.FONTSCALE_KEY, ChatOptions.FONTSCALE_KEY_DEFAULT)}>{message}</size>";
 
 			messageText.text = message;
 			ToggleUIElements(true);

@@ -33,7 +33,6 @@ RectTransform:
   m_Children:
   - {fileID: 6909659577742650499}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -92,6 +91,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   label: {fileID: 1346146208675451898}
   background: {fileID: 7783384139074298781}
+  nofticationSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
 --- !u!1 &8330904379469047425
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,7 +130,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6456713247848213890}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

@@ -5,6 +5,7 @@ using UnityEngine;
 using UI.Core.NetUI;
 using UI.Objects.Shuttles;
 using HealthV2;
+using Logs;
 
 namespace UI
 {
@@ -193,7 +194,7 @@ namespace UI
 			{
 				return entryCatalog[index] as ItemEntry;
 			}
-			Logger.LogErrorFormat("'{0}' spawner tab: item with index {1} not found in the list, might be hidden/destroyed", Category.NetUI, gameObject.name, index);
+			Loggy.LogErrorFormat("'{0}' spawner tab: item with index {1} not found in the list, might be hidden/destroyed", Category.NetUI, gameObject.name, index);
 			return null;
 		}
 

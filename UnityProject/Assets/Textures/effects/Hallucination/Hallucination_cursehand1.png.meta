@@ -183,7 +183,7 @@ TextureImporter:
       213: 21300118
     second: cursehand1_59
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -200,11 +200,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -243,6 +244,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -258,6 +261,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1542,69 +1557,68 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      cursehand1_21: 21300042
-      cursehand1_4: 21300008
-      cursehand1_30: 21300060
-      cursehand1_45: 21300090
-      cursehand1_52: 21300104
       cursehand1_0: 21300000
-      cursehand1_9: 21300018
-      cursehand1_19: 21300038
-      cursehand1_28: 21300056
-      cursehand1_26: 21300052
-      cursehand1_54: 21300108
-      cursehand1_17: 21300034
-      cursehand1_15: 21300030
-      cursehand1_55: 21300110
       cursehand1_1: 21300002
-      cursehand1_31: 21300062
-      cursehand1_5: 21300010
-      cursehand1_24: 21300048
-      cursehand1_34: 21300068
-      cursehand1_47: 21300094
-      cursehand1_23: 21300046
-      cursehand1_14: 21300028
-      cursehand1_36: 21300072
-      cursehand1_32: 21300064
-      cursehand1_40: 21300080
-      cursehand1_13: 21300026
-      cursehand1_7: 21300014
-      cursehand1_43: 21300086
-      cursehand1_38: 21300076
-      cursehand1_25: 21300050
       cursehand1_10: 21300020
-      cursehand1_41: 21300082
-      cursehand1_18: 21300036
-      cursehand1_58: 21300116
-      cursehand1_22: 21300044
-      cursehand1_27: 21300054
-      cursehand1_35: 21300070
-      cursehand1_39: 21300078
-      cursehand1_46: 21300092
-      cursehand1_50: 21300100
-      cursehand1_49: 21300098
       cursehand1_11: 21300022
-      cursehand1_33: 21300066
-      cursehand1_29: 21300058
-      cursehand1_37: 21300074
-      cursehand1_42: 21300084
-      cursehand1_56: 21300112
       cursehand1_12: 21300024
-      cursehand1_48: 21300096
-      cursehand1_6: 21300012
-      cursehand1_8: 21300016
-      cursehand1_2: 21300004
+      cursehand1_13: 21300026
+      cursehand1_14: 21300028
+      cursehand1_15: 21300030
       cursehand1_16: 21300032
-      cursehand1_51: 21300102
-      cursehand1_57: 21300114
-      cursehand1_3: 21300006
+      cursehand1_17: 21300034
+      cursehand1_18: 21300036
+      cursehand1_19: 21300038
+      cursehand1_2: 21300004
       cursehand1_20: 21300040
+      cursehand1_21: 21300042
+      cursehand1_22: 21300044
+      cursehand1_23: 21300046
+      cursehand1_24: 21300048
+      cursehand1_25: 21300050
+      cursehand1_26: 21300052
+      cursehand1_27: 21300054
+      cursehand1_28: 21300056
+      cursehand1_29: 21300058
+      cursehand1_3: 21300006
+      cursehand1_30: 21300060
+      cursehand1_31: 21300062
+      cursehand1_32: 21300064
+      cursehand1_33: 21300066
+      cursehand1_34: 21300068
+      cursehand1_35: 21300070
+      cursehand1_36: 21300072
+      cursehand1_37: 21300074
+      cursehand1_38: 21300076
+      cursehand1_39: 21300078
+      cursehand1_4: 21300008
+      cursehand1_40: 21300080
+      cursehand1_41: 21300082
+      cursehand1_42: 21300084
+      cursehand1_43: 21300086
       cursehand1_44: 21300088
+      cursehand1_45: 21300090
+      cursehand1_46: 21300092
+      cursehand1_47: 21300094
+      cursehand1_48: 21300096
+      cursehand1_49: 21300098
+      cursehand1_5: 21300010
+      cursehand1_50: 21300100
+      cursehand1_51: 21300102
+      cursehand1_52: 21300104
       cursehand1_53: 21300106
+      cursehand1_54: 21300108
+      cursehand1_55: 21300110
+      cursehand1_56: 21300112
+      cursehand1_57: 21300114
+      cursehand1_58: 21300116
       cursehand1_59: 21300118
-  spritePackingTag: 
+      cursehand1_6: 21300012
+      cursehand1_7: 21300014
+      cursehand1_8: 21300016
+      cursehand1_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -111,7 +111,7 @@ TextureImporter:
       213: 3716223582249044445
     second: swords_righthand_cultblade_15
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -128,11 +128,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -171,6 +172,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -186,6 +189,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -546,25 +561,24 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      swords_righthand_cultblade_5: 7021791985587492734
+      swords_righthand_cultblade_0: -1153246963276765414
+      swords_righthand_cultblade_1: 999492158127521571
+      swords_righthand_cultblade_10: -2885553934175603181
       swords_righthand_cultblade_11: 835094364385220130
+      swords_righthand_cultblade_12: -6086967969877628917
+      swords_righthand_cultblade_13: 6106594185340154544
+      swords_righthand_cultblade_14: -5093103880952770781
+      swords_righthand_cultblade_15: 3716223582249044445
       swords_righthand_cultblade_2: -2991258144143474544
       swords_righthand_cultblade_3: 1375126947761803779
-      swords_righthand_cultblade_1: 999492158127521571
-      swords_righthand_cultblade_13: 6106594185340154544
-      swords_righthand_cultblade_9: 5766072743819205781
-      swords_righthand_cultblade_10: -2885553934175603181
+      swords_righthand_cultblade_4: -6228875165243796857
+      swords_righthand_cultblade_5: 7021791985587492734
+      swords_righthand_cultblade_6: -9011727734876165845
       swords_righthand_cultblade_7: 8435834513578090965
       swords_righthand_cultblade_8: 6477230503924987956
-      swords_righthand_cultblade_6: -9011727734876165845
-      swords_righthand_cultblade_0: -1153246963276765414
-      swords_righthand_cultblade_12: -6086967969877628917
-      swords_righthand_cultblade_14: -5093103880952770781
-      swords_righthand_cultblade_4: -6228875165243796857
-      swords_righthand_cultblade_15: 3716223582249044445
-  spritePackingTag: 
+      swords_righthand_cultblade_9: 5766072743819205781
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

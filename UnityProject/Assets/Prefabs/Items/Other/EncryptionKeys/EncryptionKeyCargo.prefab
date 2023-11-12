@@ -5,12 +5,18 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3685518439402342249, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
       propertyPath: initialName
       value: cargo radio encryption key
+      objectReference: {fileID: 0}
+    - target: {fileID: 3772952514296108479, guid: 4fc25c61215094048b41943837cf2e3f,
+        type: 3}
+      propertyPath: _assetId
+      value: 1639306696
       objectReference: {fileID: 0}
     - target: {fileID: 3772952514296108479, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
@@ -95,4 +101,7 @@ PrefabInstance:
       value: 1b9962a438e20db4c8f5f456467a6c21
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fc25c61215094048b41943837cf2e3f, type: 3}

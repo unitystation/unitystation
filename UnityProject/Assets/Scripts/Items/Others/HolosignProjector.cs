@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Objects.Other;
 using UnityEngine;
 using Util;
@@ -152,7 +153,7 @@ namespace Items.Others
 			var newHolosign = Spawn.ServerPrefab(holosignPrefabs[index], interaction.WorldPositionTarget.RoundToInt());
 			if (newHolosign.Successful == false)
 			{
-				Logger.LogError("Failed to spawn holosign!");
+				Loggy.LogError("Failed to spawn holosign!");
 				return;
 			}
 

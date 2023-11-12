@@ -203,7 +203,7 @@ namespace Objects.Other
 
 			UpdateManager.Add(UpdateLoop, UpdateTimer);
 			integrity.OnWillDestroyServer.AddListener(OnTurretDestroy);
-			apcPoweredDevice.OnStateChangeEvent.AddListener(OnPowerStateChange);
+			apcPoweredDevice.OnStateChangeEvent += (OnPowerStateChange);
 
 			SetUpBullet();
 		}
@@ -212,7 +212,7 @@ namespace Objects.Other
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateLoop);
 			integrity.OnWillDestroyServer.RemoveListener(OnTurretDestroy);
-			apcPoweredDevice.OnStateChangeEvent.RemoveListener(OnPowerStateChange);
+			apcPoweredDevice.OnStateChangeEvent -= OnPowerStateChange;
 			apcPoweredDevice.LockApcLinking(unlocked == false);
 
 			if (connectedSwitch is TurretSwitch generalSwitch)
@@ -449,9 +449,9 @@ namespace Objects.Other
 		}
 
 		//Called when ApcPoweredDevice changes state
-		private void OnPowerStateChange(Tuple<PowerState, PowerState> newStates)
+		private void OnPowerStateChange(PowerState old,  PowerState newStates)
 		{
-			SetPower(newStates.Item2 != PowerState.Off);
+			SetPower(newStates != PowerState.Off);
 
 			//Allow for instant shoot
 			shootingTimer = shootSpeed;
@@ -480,7 +480,7 @@ namespace Objects.Other
 			//No power or off set sprite to off state
 			if (hasPower == false || newState == TurretState.Off)
 			{
-				gunSprite.ChangeSprite(0);
+				gunSprite.SetCatalogueIndexSprite(0);
 				return;
 			}
 
@@ -488,7 +488,7 @@ namespace Objects.Other
 			SetUpBullet();
 
 			//Stun or lethal
-			gunSprite.ChangeSprite(newState == TurretState.Stun ? 1 : 2);
+			gunSprite.SetCatalogueIndexSprite(newState == TurretState.Stun ? 1 : 2);
 		}
 
 		private void SetUpBullet()
@@ -601,15 +601,15 @@ namespace Objects.Other
 
 			if (!Validations.IsTarget(gameObject, interaction)) return false;
 
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Id)) return true;
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Id)) return true;
 
-			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
+			return Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			//If Id try unlock
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Id))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Id))
 			{
 				if (restricted.HasClearance(interaction.HandObject) == false)
 				{

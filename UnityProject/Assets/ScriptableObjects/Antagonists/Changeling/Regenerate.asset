@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35f7eb38660e32549a2ec6defccd9ce9, type: 3}
+  m_Name: Regenerate
+  m_EditorClassIdentifier: 
+  actionType: 0
+  activeSpriteIndex: 1
+  callOnClient: 0
+  callOnServer: 0
+  actionName: Regenerate
+  description: Regenerate your body from damage.
+  Sprites:
+  - {fileID: 11400000, guid: c2259a64e16036a4bb24eb21f9c91aa0, type: 2}
+  Backgrounds:
+  - {fileID: 11400000, guid: 8b8f8d4ab92854b4cbeb74ec8ec117df, type: 2}
+  PreventBeingControlledBy: 
+  DisableOnEvent: 
+  isAimable: 0
+  useCustomCursor: 0
+  cursorTexture: {fileID: 0}
+  cursorOffsetType: 0
+  cursorOffset: {x: 0, y: 0}
+  cooldown: 1
+  abilityEPCost: 0
+  abilityChemCost: 10
+  abilityImplementation: {fileID: 1515064019581797830, guid: 5722bf93b0593b44caafd2931b25840d,
+    type: 3}
+  descriptionStore: A starter ability. Allows the changeling to regrow and restore
+    missing external limbs and vital internal organs, as well as removing shrapnel,
+    healing major wounds, and restoring blood volume. Restoring limbs will make a
+    lot of noise which may alarm nearby crew.
+  canBeUsedWhileInCrit: 0
+  isLocal: 0
+  startAbility: 1
+  showInStore: 1
+  showInActions: 1

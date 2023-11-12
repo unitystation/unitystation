@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2351900420543073871, guid: f25010d606133144e891ff583654cfe2,
@@ -83,6 +84,11 @@ PrefabInstance:
       propertyPath: visibleName
       value: foam dart
       objectReference: {fileID: 0}
+    - target: {fileID: 3683955221274983416, guid: f25010d606133144e891ff583654cfe2,
+        type: 3}
+      propertyPath: _assetId
+      value: 1772716248
+      objectReference: {fileID: 0}
     - target: {fileID: 4520368254274666827, guid: f25010d606133144e891ff583654cfe2,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -105,4 +111,7 @@ PrefabInstance:
     - {fileID: 2435721976088929001, guid: f25010d606133144e891ff583654cfe2, type: 3}
     - {fileID: 5786433029046459716, guid: f25010d606133144e891ff583654cfe2, type: 3}
     - {fileID: 4050876517591369194, guid: f25010d606133144e891ff583654cfe2, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f25010d606133144e891ff583654cfe2, type: 3}

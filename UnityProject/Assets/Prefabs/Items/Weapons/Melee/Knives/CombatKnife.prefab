@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3695110123352835740, guid: 229f1c93e0e4ada439cfe4b781f65997,
@@ -24,6 +25,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: df969c7057c65464295b62b03e01479f,
         type: 3}
+    - target: {fileID: 7667703169655306053, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: _assetId
+      value: 486302699
+      objectReference: {fileID: 0}
     - target: {fileID: 7667703169655306053, guid: 229f1c93e0e4ada439cfe4b781f65997,
         type: 3}
       propertyPath: m_AssetId
@@ -110,4 +116,7 @@ PrefabInstance:
       value: A military combat utility survival knife.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 229f1c93e0e4ada439cfe4b781f65997, type: 3}

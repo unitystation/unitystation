@@ -147,7 +147,7 @@ TextureImporter:
       213: 8326913834607985341
     second: grass_junglegrass_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      grass_junglegrass_43: 8764479741734827083
-      grass_junglegrass_12: 64732084875937987
-      grass_junglegrass_11: -2360278953122270504
-      grass_junglegrass_30: 3878047636958986229
-      grass_junglegrass_44: -1871864992282947351
-      grass_junglegrass_36: 711964930277986624
-      grass_junglegrass_40: 8090750968441219826
-      grass_junglegrass_42: 8832508666796510527
-      grass_junglegrass_2: -7485213361923963048
-      grass_junglegrass_9: -1915061578910039821
-      grass_junglegrass_37: -5456498116877170127
-      grass_junglegrass_14: -6078790105814316473
-      grass_junglegrass_13: -2292819073202902200
       grass_junglegrass_0: 1672806136484284378
-      grass_junglegrass_29: 6651279571152664244
-      grass_junglegrass_41: -7168821278734612724
-      grass_junglegrass_31: -9018334615424818612
-      grass_junglegrass_26: 4934945137003705636
-      grass_junglegrass_39: 804806558635318513
-      grass_junglegrass_5: 7472138512527377865
-      grass_junglegrass_20: 621876960577293032
-      grass_junglegrass_17: -6814280838508100147
       grass_junglegrass_1: 8657639853006885235
-      grass_junglegrass_6: 8659960296425046401
-      grass_junglegrass_22: 386963491171173952
-      grass_junglegrass_4: -9008376121572924066
-      grass_junglegrass_18: -3020849719760616793
-      grass_junglegrass_8: 6059054066289189351
-      grass_junglegrass_3: -5961166327963338600
-      grass_junglegrass_24: 1716760846804308216
-      grass_junglegrass_34: -3546674348542311518
-      grass_junglegrass_16: -7536056021883805097
-      grass_junglegrass_32: -8793580841705599906
-      grass_junglegrass_45: -2759733224408976367
-      grass_junglegrass_25: 1947795335574875909
-      grass_junglegrass_23: 8042462605527431009
-      grass_junglegrass_27: 6558373613158192055
-      grass_junglegrass_38: 5736255837463666582
-      grass_junglegrass_15: -9125699740398799762
-      grass_junglegrass_7: 7561133761627209153
-      grass_junglegrass_21: -4336246430472677698
-      grass_junglegrass_35: -6802932313746562309
-      grass_junglegrass_33: -2006443095467857967
       grass_junglegrass_10: 2168365023926222065
+      grass_junglegrass_11: -2360278953122270504
+      grass_junglegrass_12: 64732084875937987
+      grass_junglegrass_13: -2292819073202902200
+      grass_junglegrass_14: -6078790105814316473
+      grass_junglegrass_15: -9125699740398799762
+      grass_junglegrass_16: -7536056021883805097
+      grass_junglegrass_17: -6814280838508100147
+      grass_junglegrass_18: -3020849719760616793
       grass_junglegrass_19: -6672006731935624118
-      grass_junglegrass_46: 1551867252618222939
+      grass_junglegrass_2: -7485213361923963048
+      grass_junglegrass_20: 621876960577293032
+      grass_junglegrass_21: -4336246430472677698
+      grass_junglegrass_22: 386963491171173952
+      grass_junglegrass_23: 8042462605527431009
+      grass_junglegrass_24: 1716760846804308216
+      grass_junglegrass_25: 1947795335574875909
+      grass_junglegrass_26: 4934945137003705636
+      grass_junglegrass_27: 6558373613158192055
       grass_junglegrass_28: -1075827848836098814
+      grass_junglegrass_29: 6651279571152664244
+      grass_junglegrass_3: -5961166327963338600
+      grass_junglegrass_30: 3878047636958986229
+      grass_junglegrass_31: -9018334615424818612
+      grass_junglegrass_32: -8793580841705599906
+      grass_junglegrass_33: -2006443095467857967
+      grass_junglegrass_34: -3546674348542311518
+      grass_junglegrass_35: -6802932313746562309
+      grass_junglegrass_36: 711964930277986624
+      grass_junglegrass_37: -5456498116877170127
+      grass_junglegrass_38: 5736255837463666582
+      grass_junglegrass_39: 804806558635318513
+      grass_junglegrass_4: -9008376121572924066
+      grass_junglegrass_40: 8090750968441219826
+      grass_junglegrass_41: -7168821278734612724
+      grass_junglegrass_42: 8832508666796510527
+      grass_junglegrass_43: 8764479741734827083
+      grass_junglegrass_44: -1871864992282947351
+      grass_junglegrass_45: -2759733224408976367
+      grass_junglegrass_46: 1551867252618222939
       grass_junglegrass_47: 8326913834607985341
-  spritePackingTag: 
+      grass_junglegrass_5: 7472138512527377865
+      grass_junglegrass_6: 8659960296425046401
+      grass_junglegrass_7: 7561133761627209153
+      grass_junglegrass_8: 6059054066289189351
+      grass_junglegrass_9: -1915061578910039821
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

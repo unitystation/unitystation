@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e74228224b048e0a493c1c09c2563df, type: 3}
   m_Name: Prevent Everyone From Escaping
   m_EditorClassIdentifier: 
+  attributes: []
+  isEndRoundObjective: 1
   objectiveName: Prevent Everyone From Escaping
   IsUnique: 0
   description: Prevent all crew members from escaping via an escape shuttle.
   aiCanHave: 0
+  references:
+    version: 2
+    RefIds: []

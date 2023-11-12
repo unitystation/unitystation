@@ -5,6 +5,9 @@ using UnityEditor;
 using System;
 using UI.Action;
 using Audio.Containers;
+using Logs;
+using Objects.Security;
+using Systems;
 
 public static class CleanupUtil
 {
@@ -74,7 +77,7 @@ public static class CleanupUtil
 				{
 					try
 					{
-						Logger.Log("Name of leaked object : " + target.name, Category.MemoryCleanup);
+						Loggy.Log("Name of leaked object : " + target.name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -83,7 +86,7 @@ public static class CleanupUtil
 
 					try
 					{
-						Logger.Log("Typename of leaked object : " + target.GetType().Name, Category.MemoryCleanup);
+						Loggy.Log("Typename of leaked object : " + target.GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -130,7 +133,7 @@ public static class CleanupUtil
 				{
 					try
 					{
-						Logger.Log("Name of leaked object : " + (listInQuestion[i].Target as MonoBehaviour).name, Category.MemoryCleanup);
+						Loggy.Log("Name of leaked object : " + (listInQuestion[i].Target as MonoBehaviour).name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -139,7 +142,7 @@ public static class CleanupUtil
 
 					try
 					{
-						Logger.Log("Typename of leaked object : " + listInQuestion[i].Target.GetType().Name, Category.MemoryCleanup);
+						Loggy.Log("Typename of leaked object : " + listInQuestion[i].Target.GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -185,7 +188,7 @@ public static class CleanupUtil
 				{
 					try
 					{
-						Logger.Log("Name of leaked object : " + listInQuestion[i].name, Category.MemoryCleanup);
+						Loggy.Log("Name of leaked object : " + listInQuestion[i].name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -194,7 +197,7 @@ public static class CleanupUtil
 
 					try
 					{
-						Logger.Log("Typename of leaked object : " + listInQuestion[i].GetType().Name, Category.MemoryCleanup);
+						Loggy.Log("Typename of leaked object : " + listInQuestion[i].GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -243,7 +246,7 @@ public static class CleanupUtil
 				{
 					try
 					{
-						Logger.Log("Typename of (possibly) leaked object : " + keyValuePair.Key.GetType().Name, Category.MemoryCleanup);
+						Loggy.Log("Typename of (possibly) leaked object : " + keyValuePair.Key.GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -252,7 +255,7 @@ public static class CleanupUtil
 
 					try
 					{
-						Logger.Log("Typename of (possibly) leaked object : " + keyValuePair.Value.GetType().Name, Category.MemoryCleanup);
+						Loggy.Log("Typename of (possibly) leaked object : " + keyValuePair.Value.GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -298,7 +301,7 @@ public static class CleanupUtil
 				{
 					try
 					{
-						Logger.Log("Typename of (possibly) leaked object : " + keyValuePair.Key.GetType().Name, Category.MemoryCleanup);
+						Loggy.Log("Typename of (possibly) leaked object : " + keyValuePair.Key.GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -307,7 +310,7 @@ public static class CleanupUtil
 
 					try
 					{
-						Logger.Log("Typename of (possibly) leaked object : " + keyValuePair.Value.GetType().Name, Category.MemoryCleanup);
+						Loggy.Log("Typename of (possibly) leaked object : " + keyValuePair.Value.GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -360,12 +363,17 @@ public static class CleanupUtil
 		{
 			a.Image.ClearAll();
 		}
-		
+
 		foreach (var a in GameObject.FindObjectsOfType<UI_SlotManager>(true))
 		{
 			a.OpenSlots.Clear();
 		}
 		UI_ItemImage.ImageAndHandler.ClearAll();
+		HUDHandler.Categorys.Clear();
+		HUDHandler.CategoryEnabled.Clear();
+		CrewManifestManager.Instance.OnRoundRestart();
+
+
 	}
 
 	/// <summary>
@@ -397,7 +405,7 @@ public static class CleanupUtil
 				UnityEngine.GameObject.Destroy(a.gameObject);
 			}
 		}
-		
+
 		ComponentManager.ObjectToPhysics.Clear();
 		Spawn.Clean();
 		MatrixManager.Instance.PostRoundStartCleanup();
@@ -409,11 +417,12 @@ public static class CleanupUtil
 		CleanupUtil.RidListOfDeadElements(GameManager.Instance.SpaceBodies);
 		UI.Core.Action.UIActionManager.Instance.Clear();//maybe it'l work second time?
 		SpriteHandlerManager.Instance.Clean();
-		Dictionary<UInt64, Mirror.NetworkIdentity > dict = (Dictionary < UInt64, Mirror.NetworkIdentity > )typeof(Mirror.NetworkIdentity).GetField("sceneIds", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).GetValue(null);
+		Dictionary<UInt64, Mirror.NetworkIdentity > dict = Mirror.NetworkIdentity.sceneIds;
 		Debug.Log("removed " + RidDictionaryOfDeadElements(dict, (u, k) => k != null) + " dead elements from Mirror.NetworkIdentity.sceneIds");
 		RidDictionaryOfDeadElements(LandingZoneManager.Instance.landingZones, (u, k) => u != null);
 		SpriteHandlerManager.Instance.Clean();
 		Debug.Log("removed " + RidDictionaryOfDeadElements(SoundManager.Instance.NonplayingSounds, (u, k) => k != null) + " dead elements from SoundManager.Instance.NonplayingSounds");
 		RidDictionaryOfDeadElements(SpriteHandlerManager.PresentSprites, (u, k) => u != null && k != null);
+		Debug.Log("Finished RoundStartCleanup!");
 	}
 }

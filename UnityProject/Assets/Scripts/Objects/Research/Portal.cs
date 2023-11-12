@@ -25,13 +25,16 @@ namespace Objects.Research
 		private SpriteHandler spriteHandler;
 		private LightSprite lightSprite;
 
-		private bool isOnCooldown = false;
-		private readonly float cooldownTime = 1.45f;
+		private bool isOnCooldown => Time.time - lastActivationTime <= cooldownTime;
+		private float lastActivationTime = 0.0f;
+
+		[SerializeField] private float cooldownTime = 0.65f;
 
 		protected override void Awake()
 		{
 			base.Awake();
 
+			lastActivationTime = Time.time;
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			lightSprite = GetComponentInChildren<LightSprite>();
 		}
@@ -51,14 +54,14 @@ namespace Objects.Research
 
 		public void SetBlue()
 		{
-			spriteHandler.ChangeSprite(0);
+			spriteHandler.SetCatalogueIndexSprite(0);
 			ColorUtility.TryParseHtmlString("#0099FF", out var color);
 			lightSprite.Color = color;
 		}
 
 		public void SetOrange()
 		{
-			spriteHandler.ChangeSprite(1);
+			spriteHandler.SetCatalogueIndexSprite(1);
 			ColorUtility.TryParseHtmlString("#CC3300", out var color);
 			lightSprite.Color = color;
 		}
@@ -116,15 +119,14 @@ namespace Objects.Research
 		private async Task Teleport(GameObject eventData)
 		{
 			if (connectedPortal == null || isOnCooldown) return;
-			if (eventData.HasComponent<PlayerScript>() == false
-			    || eventData.HasComponent<SparkEffect>()
-			    || eventData.TryGetComponent<UniversalObjectPhysics>(out var uop) == false) return;
-			connectedPortal.isOnCooldown = true;
-			isOnCooldown = true;
-			TransportUtility.TransportObject(uop, connectedPortal.ObjectPhysics.OfficialPosition, false, 0.01f);
-			await Task.Delay(650);
-			isOnCooldown = false;
-			connectedPortal.isOnCooldown = false;
+
+			if (eventData.HasComponent<SparkEffect>()) return;
+			if(eventData.TryGetComponent<UniversalObjectPhysics>(out var uop) == false) return;
+
+			lastActivationTime = Time.time;
+			connectedPortal.lastActivationTime = Time.time;
+
+			TransportUtility.TransportObject(uop, connectedPortal.ObjectPhysics.OfficialPosition, false);
 		}
 
 

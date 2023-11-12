@@ -4,6 +4,7 @@ using Core.Editor.Attributes;
 using Systems.Interaction;
 using Systems.Pipes;
 using Items.Atmospherics;
+using Logs;
 using Objects.Other;
 using Systems.Atmospherics;
 using Systems.Disposals;
@@ -13,11 +14,11 @@ namespace Objects.Atmospherics
 {
 	public class MonoPipe : MonoBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>
 	{
-		[PrefabModeOnly]
+
 		public SpriteHandler spritehandler;
-		[PrefabModeOnly]
+
 		public GameObject SpawnOnDeconstruct;
-		[PrefabModeOnly]
+
 		public RegisterTile registerTile;
 		public PipeData pipeData;
 		public Matrix Matrix => registerTile.Matrix;
@@ -138,7 +139,7 @@ namespace Objects.Atmospherics
 		{
 			if (SpawnOnDeconstruct == null)
 			{
-				Logger.LogError($"{this} is missing reference to {nameof(SpawnOnDeconstruct)}!", Category.Interaction);
+				Loggy.LogError($"{this} is missing reference to {nameof(SpawnOnDeconstruct)}!", Category.Interaction);
 				return;
 			}
 
@@ -202,13 +203,13 @@ namespace Objects.Atmospherics
 			var container = Spawn.ServerPrefab(DisposalsManager.Instance.CrawlingVirtualContainerPrefab, registerTile.ObjectPhysics.Component.OfficialPosition);
 			if (container.Successful == false)
 			{
-				Logger.LogError("Failed to spawn crawling container!");
+				Loggy.LogError("Failed to spawn crawling container!");
 				return;
 			}
 
 			if (container.GameObject.TryGetComponent<CrawlingVirtualContainer>(out var virtualContainer) == false)
 			{
-				Logger.LogError("Failed to find CrawlingVirtualContainer script!");
+				Loggy.LogError("Failed to find CrawlingVirtualContainer script!");
 				return;
 			}
 

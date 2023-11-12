@@ -15,6 +15,16 @@ namespace Antagonists
 		[SerializeField]
 		private string antagName = "New Antag";
 
+		[Tooltip("The team of the antagonist type")]
+		[SerializeField]
+		private TeamData team = null;
+		public TeamData Team => team;
+
+		[Tooltip("Is team will be added to antag when antag is initiated")]
+		[SerializeField]
+		private bool addTeamAtInit;
+		public bool AddTeamAtInit => addTeamAtInit;
+
 		[Tooltip("The antag jobType")]
 		[SerializeField]
 		private JobType antagJobType = default;
@@ -108,6 +118,22 @@ namespace Antagonists
 		/// Should this antag show up as an option in the antag preferences?
 		/// </summary>
 		public bool ShowInPreferences => showInPreferences;
+
+		[Tooltip("Randomizes this antag's character when it is a ghost role")]
+		[SerializeField]
+		private bool randomizeCharacterForGhostRole = false;
+		/// <summary>
+		/// Randomizes this antags character when it is a ghost role
+		/// </summary>
+		public bool RandomizeCharacterForGhostRole => randomizeCharacterForGhostRole;
+
+		[Tooltip("Changes the occupation of a player if they get this antag as a ghost role, only matters if they don't already have a job type")]
+		[SerializeField]
+		private Occupation ghostRoleOccupation = null;
+		/// <summary>
+		/// changes the occupation for a player if they get this antag as a ghost role, only matters if they don't already have an Antag Occupation
+		/// </summary>
+		public Occupation GhostRoleOccupation => ghostRoleOccupation;
 
 		[field: SerializeField] public List<Objective> BlackListedObjectives { get; set; } = new List<Objective>();
 		[field: SerializeField] public List<Objective> AlwaysStartWithObjectives { get; set; } = new List<Objective>();

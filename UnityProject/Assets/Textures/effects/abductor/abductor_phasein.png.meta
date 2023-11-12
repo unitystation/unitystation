@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: phasein_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      phasein_16: 21300032
-      phasein_7: 21300014
       phasein_0: 21300000
-      phasein_5: 21300010
-      phasein_23: 21300046
-      phasein_26: 21300052
-      phasein_31: 21300062
-      phasein_18: 21300036
-      phasein_24: 21300048
-      phasein_9: 21300018
-      phasein_10: 21300020
-      phasein_15: 21300030
-      phasein_2: 21300004
-      phasein_14: 21300028
-      phasein_22: 21300044
-      phasein_30: 21300060
-      phasein_19: 21300038
-      phasein_12: 21300024
-      phasein_21: 21300042
       phasein_1: 21300002
-      phasein_29: 21300058
-      phasein_25: 21300050
-      phasein_27: 21300054
-      phasein_17: 21300034
-      phasein_20: 21300040
-      phasein_6: 21300012
+      phasein_10: 21300020
       phasein_11: 21300022
+      phasein_12: 21300024
       phasein_13: 21300026
+      phasein_14: 21300028
+      phasein_15: 21300030
+      phasein_16: 21300032
+      phasein_17: 21300034
+      phasein_18: 21300036
+      phasein_19: 21300038
+      phasein_2: 21300004
+      phasein_20: 21300040
+      phasein_21: 21300042
+      phasein_22: 21300044
+      phasein_23: 21300046
+      phasein_24: 21300048
+      phasein_25: 21300050
+      phasein_26: 21300052
+      phasein_27: 21300054
       phasein_28: 21300056
-      phasein_4: 21300008
+      phasein_29: 21300058
       phasein_3: 21300006
+      phasein_30: 21300060
+      phasein_31: 21300062
+      phasein_4: 21300008
+      phasein_5: 21300010
+      phasein_6: 21300012
+      phasein_7: 21300014
       phasein_8: 21300016
-  spritePackingTag: 
+      phasein_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

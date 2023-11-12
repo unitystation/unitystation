@@ -99,7 +99,7 @@ TextureImporter:
       213: -9080586817265019779
     second: stationobjs_jukebox-broken_26
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -765,36 +780,35 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      stationobjs_jukebox-broken_23: 7109316711635432918
-      stationobjs_jukebox-broken_10: 2358919748879309572
       stationobjs_jukebox-broken_0: -839559311228594174
-      stationobjs_jukebox-broken_12: 814125250191875112
-      stationobjs_jukebox-broken_3: 742148846597657918
-      stationobjs_jukebox-broken_13: -3523709929963298496
-      stationobjs_jukebox-broken_5: 4115880921066523282
-      stationobjs_jukebox-broken_15: 5352545419442042960
-      stationobjs_jukebox-broken_11: 5007709374365817319
-      stationobjs_jukebox-broken_24: -2244336618519780803
-      stationobjs_jukebox-broken_8: -290087070302251883
-      stationobjs_jukebox-broken_22: -5241243270272484432
-      stationobjs_jukebox-broken_20: 3312343671443846311
-      stationobjs_jukebox-broken_16: -5010349561009101306
-      stationobjs_jukebox-broken_2: -8441524907307275202
-      stationobjs_jukebox-broken_17: 6616343144199301745
-      stationobjs_jukebox-broken_7: 8378529029745870721
-      stationobjs_jukebox-broken_9: -1855300206552456994
-      stationobjs_jukebox-broken_25: 3511086815911693869
-      stationobjs_jukebox-broken_4: 4878500768898079607
-      stationobjs_jukebox-broken_14: -4302223399061536594
-      stationobjs_jukebox-broken_6: -2530577217946437861
-      stationobjs_jukebox-broken_26: -9080586817265019779
       stationobjs_jukebox-broken_1: 5123460956585380145
-      stationobjs_jukebox-broken_19: 5693058099664727835
-      stationobjs_jukebox-broken_21: -976848108600542827
+      stationobjs_jukebox-broken_10: 2358919748879309572
+      stationobjs_jukebox-broken_11: 5007709374365817319
+      stationobjs_jukebox-broken_12: 814125250191875112
+      stationobjs_jukebox-broken_13: -3523709929963298496
+      stationobjs_jukebox-broken_14: -4302223399061536594
+      stationobjs_jukebox-broken_15: 5352545419442042960
+      stationobjs_jukebox-broken_16: -5010349561009101306
+      stationobjs_jukebox-broken_17: 6616343144199301745
       stationobjs_jukebox-broken_18: -6704989728501833668
-  spritePackingTag: 
+      stationobjs_jukebox-broken_19: 5693058099664727835
+      stationobjs_jukebox-broken_2: -8441524907307275202
+      stationobjs_jukebox-broken_20: 3312343671443846311
+      stationobjs_jukebox-broken_21: -976848108600542827
+      stationobjs_jukebox-broken_22: -5241243270272484432
+      stationobjs_jukebox-broken_23: 7109316711635432918
+      stationobjs_jukebox-broken_24: -2244336618519780803
+      stationobjs_jukebox-broken_25: 3511086815911693869
+      stationobjs_jukebox-broken_26: -9080586817265019779
+      stationobjs_jukebox-broken_3: 742148846597657918
+      stationobjs_jukebox-broken_4: 4878500768898079607
+      stationobjs_jukebox-broken_5: 4115880921066523282
+      stationobjs_jukebox-broken_6: -2530577217946437861
+      stationobjs_jukebox-broken_7: 8378529029745870721
+      stationobjs_jukebox-broken_8: -290087070302251883
+      stationobjs_jukebox-broken_9: -1855300206552456994
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

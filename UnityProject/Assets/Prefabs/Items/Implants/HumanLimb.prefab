@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
@@ -30,13 +31,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2447550672866220013, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
-      propertyPath: CapableMutations.Array.data[21]
+      propertyPath: 'CapableMutations.Array.data[21]'
       value: 
       objectReference: {fileID: 11400000, guid: 7d30a8633ee38fd49b6dd72e35a0dc0c,
         type: 2}
     - target: {fileID: 2447550672866220013, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
-      propertyPath: CapableMutations.Array.data[22]
+      propertyPath: 'CapableMutations.Array.data[22]'
       value: 
       objectReference: {fileID: 11400000, guid: 690f18a2fa4bec141971d6f5c7753177,
         type: 2}
@@ -45,6 +46,11 @@ PrefabInstance:
       propertyPath: CurrentsortingGroup
       value: 
       objectReference: {fileID: 4462362987750973}
+    - target: {fileID: 2780246240171570206, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: _assetId
+      value: 3990711206
+      objectReference: {fileID: 0}
     - target: {fileID: 2780246240171570206, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: m_AssetId
@@ -126,6 +132,17 @@ PrefabInstance:
       value: 6a1a4888888e8994187da2ccb8d6f1c2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2810631690420259242, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8674756814998932604}
+    - targetCorrespondingSourceObject: {fileID: 2810631690420259242, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3959904421835429671}
   m_SourcePrefab: {fileID: 100100000, guid: e241039a7933eb347bd1a9bb67a9078a, type: 3}
 --- !u!210 &4462362987750973 stripped
 SortingGroup:
@@ -180,7 +197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac414987522b024e895aac3e21193d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  isEMPVunerable: 0
-  EMPResistance: 2

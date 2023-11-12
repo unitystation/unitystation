@@ -5,6 +5,7 @@ using Firebase.Extensions;
 using Initialisation;
 using UnityEngine;
 using Firebase.Auth;
+using Logs;
 using Shared.Util;
 using Util;
 
@@ -42,9 +43,6 @@ namespace DatabaseAPI
 		private bool fetchingToken = false;
 		public string idToken;
 		public static string IdToken => Instance.idToken;
-		private readonly HttpClient httpClient = new HttpClient();
-
-		public static HttpClient HttpClient => Instance.httpClient;
 
 		public InitialisationSystems Subsystem => InitialisationSystems.ServerData;
 
@@ -100,7 +98,7 @@ namespace DatabaseAPI
 			{
 				if (task.IsFaulted)
 				{
-					Logger.LogError("Error with profile reload", Category.DatabaseAPI);
+					Loggy.LogError("Error with profile reload", Category.DatabaseAPI);
 					return;
 				}
 			});
@@ -116,7 +114,7 @@ namespace DatabaseAPI
 				bool signedIn = user != senderAuth.CurrentUser && senderAuth.CurrentUser != null;
 				if (!signedIn && user != null)
 				{
-					Logger.Log("Signed out ", Category.DatabaseAPI);
+					Loggy.Log("Signed out ", Category.DatabaseAPI);
 				}
 
 				user = senderAuth.CurrentUser;

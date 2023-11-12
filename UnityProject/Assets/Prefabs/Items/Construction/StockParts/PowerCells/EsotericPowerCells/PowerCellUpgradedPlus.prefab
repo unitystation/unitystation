@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 20195573776928961, guid: dae318bdee00c5846830de6a3761fe2c,
@@ -74,6 +75,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6442737608422842648, guid: dae318bdee00c5846830de6a3761fe2c,
         type: 3}
+      propertyPath: _assetId
+      value: 2019404610
+      objectReference: {fileID: 0}
+    - target: {fileID: 6442737608422842648, guid: dae318bdee00c5846830de6a3761fe2c,
+        type: 3}
       propertyPath: m_AssetId
       value: ae9f2f15a4053fc41a35b6974815b07e
       objectReference: {fileID: 0}
@@ -88,4 +94,7 @@ PrefabInstance:
       value: A power cell with an even higher capacity than the base model!
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dae318bdee00c5846830de6a3761fe2c, type: 3}

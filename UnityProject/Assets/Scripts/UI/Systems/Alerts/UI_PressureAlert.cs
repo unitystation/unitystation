@@ -44,7 +44,7 @@
 		}
 
 		activeImageIndex = index;
-		spriteHandler.ChangeSprite(index, false);
+		spriteHandler.SetCatalogueIndexSprite(index, false);
 	}
 }
 

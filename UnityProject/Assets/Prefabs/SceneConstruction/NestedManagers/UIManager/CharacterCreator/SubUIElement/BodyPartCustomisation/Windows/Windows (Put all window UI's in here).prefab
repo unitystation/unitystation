@@ -35,7 +35,6 @@ RectTransform:
   - {fileID: 7889464995967173604}
   - {fileID: 8968005824156894495}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -47,6 +46,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8530432162611861968}
     m_Modifications:
     - target: {fileID: 3871863593565473735, guid: c80ad1e93ff745a4f994f60952d2ea83,
@@ -195,6 +195,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c80ad1e93ff745a4f994f60952d2ea83, type: 3}
 --- !u!224 &7404838094945529990 stripped
 RectTransform:
@@ -207,6 +210,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8530432162611861968}
     m_Modifications:
     - target: {fileID: 84339834764187374, guid: de15db5128add9046b50db3ea278b6d9,
@@ -670,6 +674,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de15db5128add9046b50db3ea278b6d9, type: 3}
 --- !u!224 &8968005824156894495 stripped
 RectTransform:
@@ -682,6 +689,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8530432162611861968}
     m_Modifications:
     - target: {fileID: 137869261513794785, guid: 098fd9f7991adba4da07b27b78428eb8,
@@ -1106,6 +1114,9 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 098fd9f7991adba4da07b27b78428eb8, type: 3}
 --- !u!224 &8980146822108390584 stripped
 RectTransform:
@@ -1118,6 +1129,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8530432162611861968}
     m_Modifications:
     - target: {fileID: 6089278550164671750, guid: 943d8283a42dab84681f3a077c644d15,
@@ -1231,6 +1243,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 943d8283a42dab84681f3a077c644d15, type: 3}
 --- !u!224 &8530562246598747092 stripped
 RectTransform:
@@ -1243,6 +1258,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8530432162611861968}
     m_Modifications:
     - target: {fileID: 5886092065743555992, guid: 72e86c998d465414ea7efe8240b4af9b,
@@ -1356,6 +1372,9 @@ PrefabInstance:
       value: NukeOpsvsNanoTrasen
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72e86c998d465414ea7efe8240b4af9b, type: 3}
 --- !u!224 &8530830130350325408 stripped
 RectTransform:
@@ -1368,6 +1387,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8530432162611861968}
     m_Modifications:
     - target: {fileID: 186836750014242688, guid: 464eef54ebfa2cd47918181c9a33e358,
@@ -1491,6 +1511,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 464eef54ebfa2cd47918181c9a33e358, type: 3}
 --- !u!114 &1880255425821559879 stripped
 MonoBehaviour:

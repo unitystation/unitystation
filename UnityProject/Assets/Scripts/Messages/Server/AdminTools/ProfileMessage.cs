@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using AdminTools;
+using SecureStuff;
 using Mirror;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Messages.Server.AdminTools
@@ -17,16 +18,16 @@ namespace Messages.Server.AdminTools
 		public override void Process(NetMessage msg)
 		{
 			LoadNetworkObject(msg.Recipient);
-			var listData = JsonUtility.FromJson<ProfileEntryDataList>(msg.JsonData);
+			var listData = JsonConvert.DeserializeObject<SafeProfileManager.ProfileEntryDataList>(msg.JsonData);
 			UIManager.Instance.profileScrollView.RefreshProfileList(listData);
 
 		}
 
 		public static NetMessage Send(GameObject recipient)
 		{
-			var profileList = new ProfileEntryDataList();
+			var profileList = new SafeProfileManager.ProfileEntryDataList();
 			profileList.Profiles = GetAllProfiles();
-			var data = JsonUtility.ToJson(profileList);
+			var data = JsonConvert.SerializeObject(profileList);
 
 
 			NetMessage msg = new NetMessage {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};
@@ -44,24 +45,9 @@ namespace Messages.Server.AdminTools
 			}
 		}
 
-		private static List<ProfileEntryData> GetAllProfiles()
+		private static List<SafeProfileManager.ProfileEntryData> GetAllProfiles()
 		{
-			var profileList = new List<ProfileEntryData>();
-			var info = new DirectoryInfo("Profiles");
-
-			if (!info.Exists)
-				return profileList;
-
-			var fileInfo = info.GetFiles();
-			foreach (var file in fileInfo)
-			{
-				var entry = new ProfileEntryData();
-				entry.Name = file.Name;
-				var size = (float)file.Length / 1048576; // 1048576 = 1024 * 1024
-				entry.Size = System.Math.Round(size, 2) + " MB";
-				profileList.Add(entry);
-			}
-			return profileList;
+			return SafeProfileManager.Instance.GetCurrentProfiles();
 		}
 
 

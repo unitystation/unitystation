@@ -3,7 +3,7 @@ guid: 3fbb536e1aa316e4d8ffac9ab66b7ac0
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -1122,57 +1125,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      igneous_rock_wall_32: -737705247
-      igneous_rock_wall_35: -265222650
-      igneous_rock_wall_30: -402223577
-      igneous_rock_wall_46: 1067626160
-      igneous_rock_wall_41: 1418980672
-      igneous_rock_wall_18: 6344740
-      igneous_rock_wall_47: 997483826
-      igneous_rock_wall_9: 594281720
-      igneous_rock_wall_37: 1358674663
-      igneous_rock_wall_29: -1199591958
-      igneous_rock_wall_8: -1432251901
+      igneous_rock_wall_0: -1227172787
+      igneous_rock_wall_1: 1534211642
       igneous_rock_wall_10: 284547245
+      igneous_rock_wall_11: -1158616083
+      igneous_rock_wall_12: 859611236
+      igneous_rock_wall_13: 353739533
+      igneous_rock_wall_14: -2035282133
+      igneous_rock_wall_15: 1307274525
+      igneous_rock_wall_16: -542829286
+      igneous_rock_wall_17: -774004568
+      igneous_rock_wall_18: 6344740
+      igneous_rock_wall_19: 1706033463
+      igneous_rock_wall_2: -2439475
+      igneous_rock_wall_20: -659312873
+      igneous_rock_wall_21: 845661138
+      igneous_rock_wall_22: 1953945875
+      igneous_rock_wall_23: -436479169
+      igneous_rock_wall_24: 1559113800
+      igneous_rock_wall_25: -737226191
+      igneous_rock_wall_26: -524095815
+      igneous_rock_wall_27: 866933062
       igneous_rock_wall_28: -786561526
+      igneous_rock_wall_29: -1199591958
+      igneous_rock_wall_3: -111408361
+      igneous_rock_wall_30: -402223577
+      igneous_rock_wall_31: -483598516
+      igneous_rock_wall_32: -737705247
+      igneous_rock_wall_33: -1751945100
+      igneous_rock_wall_34: 1439042495
+      igneous_rock_wall_35: -265222650
+      igneous_rock_wall_36: 2035454595
+      igneous_rock_wall_37: 1358674663
+      igneous_rock_wall_38: -1598690647
+      igneous_rock_wall_39: 67890983
       igneous_rock_wall_4: 1580366876
       igneous_rock_wall_40: -1077536724
-      igneous_rock_wall_38: -1598690647
-      igneous_rock_wall_13: 353739533
-      igneous_rock_wall_45: 1187694511
-      igneous_rock_wall_34: 1439042495
-      igneous_rock_wall_24: 1559113800
-      igneous_rock_wall_39: 67890983
-      igneous_rock_wall_2: -2439475
-      igneous_rock_wall_15: 1307274525
+      igneous_rock_wall_41: 1418980672
       igneous_rock_wall_42: -1687621640
-      igneous_rock_wall_20: -659312873
-      igneous_rock_wall_12: 859611236
-      igneous_rock_wall_22: 1953945875
-      igneous_rock_wall_6: -353896010
-      igneous_rock_wall_31: -483598516
-      igneous_rock_wall_25: -737226191
-      igneous_rock_wall_21: 845661138
-      igneous_rock_wall_0: -1227172787
-      igneous_rock_wall_17: -774004568
-      igneous_rock_wall_5: 354151630
-      igneous_rock_wall_1: 1534211642
-      igneous_rock_wall_33: -1751945100
-      igneous_rock_wall_23: -436479169
-      igneous_rock_wall_36: 2035454595
       igneous_rock_wall_43: 161181356
       igneous_rock_wall_44: -586998767
-      igneous_rock_wall_19: 1706033463
-      igneous_rock_wall_14: -2035282133
-      igneous_rock_wall_27: 866933062
-      igneous_rock_wall_11: -1158616083
+      igneous_rock_wall_45: 1187694511
+      igneous_rock_wall_46: 1067626160
+      igneous_rock_wall_47: 997483826
+      igneous_rock_wall_5: 354151630
+      igneous_rock_wall_6: -353896010
       igneous_rock_wall_7: -863695453
-      igneous_rock_wall_26: -524095815
-      igneous_rock_wall_3: -111408361
-      igneous_rock_wall_16: -542829286
-  spritePackingTag: 
+      igneous_rock_wall_8: -1432251901
+      igneous_rock_wall_9: 594281720
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

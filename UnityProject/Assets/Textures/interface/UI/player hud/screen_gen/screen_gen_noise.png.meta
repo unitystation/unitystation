@@ -123,7 +123,7 @@ TextureImporter:
       213: 21300078
     second: noise_39
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -140,11 +140,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -183,6 +184,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -198,6 +201,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1062,49 +1077,48 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      noise_31: 21300062
-      noise_15: 21300030
-      noise_35: 21300070
-      noise_4: 21300008
-      noise_9: 21300018
-      noise_5: 21300010
-      noise_11: 21300022
-      noise_1: 21300002
       noise_0: 21300000
-      noise_8: 21300016
-      noise_2: 21300004
-      noise_29: 21300058
-      noise_36: 21300072
-      noise_14: 21300028
-      noise_20: 21300040
-      noise_24: 21300048
-      noise_33: 21300066
-      noise_38: 21300076
-      noise_13: 21300026
-      noise_17: 21300034
-      noise_34: 21300068
-      noise_30: 21300060
-      noise_21: 21300042
-      noise_16: 21300032
-      noise_3: 21300006
-      noise_37: 21300074
-      noise_26: 21300052
-      noise_32: 21300064
-      noise_7: 21300014
-      noise_28: 21300056
-      noise_27: 21300054
-      noise_39: 21300078
-      noise_6: 21300012
-      noise_12: 21300024
-      noise_22: 21300044
-      noise_19: 21300038
-      noise_23: 21300046
+      noise_1: 21300002
       noise_10: 21300020
-      noise_25: 21300050
+      noise_11: 21300022
+      noise_12: 21300024
+      noise_13: 21300026
+      noise_14: 21300028
+      noise_15: 21300030
+      noise_16: 21300032
+      noise_17: 21300034
       noise_18: 21300036
-  spritePackingTag: 
+      noise_19: 21300038
+      noise_2: 21300004
+      noise_20: 21300040
+      noise_21: 21300042
+      noise_22: 21300044
+      noise_23: 21300046
+      noise_24: 21300048
+      noise_25: 21300050
+      noise_26: 21300052
+      noise_27: 21300054
+      noise_28: 21300056
+      noise_29: 21300058
+      noise_3: 21300006
+      noise_30: 21300060
+      noise_31: 21300062
+      noise_32: 21300064
+      noise_33: 21300066
+      noise_34: 21300068
+      noise_35: 21300070
+      noise_36: 21300072
+      noise_37: 21300074
+      noise_38: 21300076
+      noise_39: 21300078
+      noise_4: 21300008
+      noise_5: 21300010
+      noise_6: 21300012
+      noise_7: 21300014
+      noise_8: 21300016
+      noise_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

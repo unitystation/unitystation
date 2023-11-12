@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2751940291048041550, guid: acc71df94cbb60a4abe979bc8d32a4d2,
@@ -30,6 +31,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: dad33bcb12cdd7c49b53579066b11b19,
         type: 3}
+    - target: {fileID: 8278444815903648381, guid: acc71df94cbb60a4abe979bc8d32a4d2,
+        type: 3}
+      propertyPath: _assetId
+      value: 678094029
+      objectReference: {fileID: 0}
     - target: {fileID: 8278444815903648381, guid: acc71df94cbb60a4abe979bc8d32a4d2,
         type: 3}
       propertyPath: m_AssetId
@@ -106,4 +112,7 @@ PrefabInstance:
       value: Slices of neatly cut potato.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acc71df94cbb60a4abe979bc8d32a4d2, type: 3}

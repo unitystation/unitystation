@@ -78,7 +78,7 @@ TextureImporter:
       213: 21300048
     second: bananium_24
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -95,11 +95,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -138,6 +139,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -189,6 +192,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -738,34 +753,33 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      bananium_0: 21300000
+      bananium_1: 21300002
+      bananium_10: 21300020
+      bananium_11: 21300022
       bananium_12: 21300024
-      bananium_2: 21300004
-      bananium_24: 21300048
       bananium_13: 21300026
-      bananium_7: 21300014
+      bananium_14: 21300028
+      bananium_15: 21300030
+      bananium_16: 21300032
       bananium_17: 21300034
       bananium_18: 21300036
-      bananium_22: 21300044
-      bananium_0: 21300000
-      bananium_11: 21300022
-      bananium_5: 21300010
-      bananium_14: 21300028
-      bananium_21: 21300042
       bananium_19: 21300038
-      bananium_3: 21300006
-      bananium_15: 21300030
-      bananium_10: 21300020
-      bananium_4: 21300008
-      bananium_6: 21300012
+      bananium_2: 21300004
       bananium_20: 21300040
+      bananium_21: 21300042
+      bananium_22: 21300044
       bananium_23: 21300046
-      bananium_1: 21300002
+      bananium_24: 21300048
+      bananium_3: 21300006
+      bananium_4: 21300008
+      bananium_5: 21300010
+      bananium_6: 21300012
+      bananium_7: 21300014
       bananium_8: 21300016
       bananium_9: 21300018
-      bananium_16: 21300032
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

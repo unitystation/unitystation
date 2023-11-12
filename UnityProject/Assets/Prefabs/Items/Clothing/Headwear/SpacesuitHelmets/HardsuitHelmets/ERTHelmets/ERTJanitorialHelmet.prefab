@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 226526901835897784, guid: 4870238ed625c0e45839e280fab63823,
@@ -19,13 +20,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 226526901835897784, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: da70da2a9dc538547a949ea6f9fe3d38,
         type: 2}
     - target: {fileID: 226526901835897784, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 4c697af41da76bb4c8484905b3563e80,
         type: 2}
@@ -42,13 +43,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1017792316374873018, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: eb8f31806d02d154e97eddc27eaf3c45,
         type: 2}
     - target: {fileID: 1017792316374873018, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 719457d499f98314994c46327b08fc63,
         type: 2}
@@ -58,6 +59,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: b261c01719b9b454d87b4f716ff48bfc,
         type: 3}
+    - target: {fileID: 6543103638195795337, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: _assetId
+      value: 1298759970
+      objectReference: {fileID: 0}
     - target: {fileID: 6543103638195795337, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
       propertyPath: m_AssetId
@@ -125,13 +131,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6746541494595479454, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
-      propertyPath: toggleSprites.Array.data[0]
+      propertyPath: 'toggleSprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: c75d1ff8a9689e447af7769346cfe437,
         type: 3}
     - target: {fileID: 6746541494595479454, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
-      propertyPath: toggleSprites.Array.data[1]
+      propertyPath: 'toggleSprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300000, guid: b261c01719b9b454d87b4f716ff48bfc,
         type: 3}
@@ -146,4 +152,7 @@ PrefabInstance:
       value: The integrated helmet of an ERT hardsuit, this one has purple highlights.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4870238ed625c0e45839e280fab63823, type: 3}

@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5930261726235808409
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3566709824206482160, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: initialName
+      value: Abyss pass
+      objectReference: {fileID: 0}
+    - target: {fileID: 3566709824206482160, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: initialDescription
+      value: A card used to provide identification and access to secure electronics.
+        This one looks quite evil.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846936755111589582, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f64a58c9e57087149a35423dffda1f4e,
+        type: 3}
+    - target: {fileID: 3846936755111589582, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846936755111589582, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846936755111589582, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893028296476784678, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: sceneId
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893028296476784678, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: _assetId
+      value: 4088713472
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999591348504148198, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999591348504148198, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 103.00037
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999591348504148198, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -72.92377
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999591348504148198, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999591348504148198, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999591348504148198, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999591348504148198, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999591348504148198, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999591348504148198, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999591348504148198, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999591348504148198, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4004514824438728082, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: m_Name
+      value: IDCard Abyss Pass
+      objectReference: {fileID: 0}
+    - target: {fileID: 7121592010877074965, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b124fa714fc03ac409e793c096845bd7,
+        type: 2}
+    - target: {fileID: 7516219903116646523, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: clearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516219903116646523, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: 'clearance.Array.data[0]'
+      value: 83
+      objectReference: {fileID: 0}
+    - target: {fileID: 8009754055395985919, guid: 68e52345b8e8eba4aa27e110b598b023,
+        type: 3}
+      propertyPath: foreverID
+      value: 604650204fcc2de47b0dc15897c3d7e6
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 68e52345b8e8eba4aa27e110b598b023, type: 3}

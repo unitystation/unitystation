@@ -126,7 +126,7 @@ TextureImporter:
       213: 21300080
     second: tele1-old_40
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -143,11 +143,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -186,6 +187,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -201,6 +204,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1086,50 +1101,49 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      tele1-old_36: 21300072
-      tele1-old_4: 21300008
-      tele1-old_6: 21300012
-      tele1-old_35: 21300070
-      tele1-old_11: 21300022
-      tele1-old_23: 21300046
-      tele1-old_27: 21300054
-      tele1-old_14: 21300028
       tele1-old_0: 21300000
-      tele1-old_30: 21300060
-      tele1-old_21: 21300042
-      tele1-old_20: 21300040
-      tele1-old_26: 21300052
       tele1-old_1: 21300002
-      tele1-old_12: 21300024
-      tele1-old_18: 21300036
-      tele1-old_5: 21300010
-      tele1-old_16: 21300032
-      tele1-old_40: 21300080
-      tele1-old_17: 21300034
-      tele1-old_2: 21300004
-      tele1-old_3: 21300006
-      tele1-old_8: 21300016
-      tele1-old_39: 21300078
-      tele1-old_31: 21300062
-      tele1-old_38: 21300076
-      tele1-old_22: 21300044
-      tele1-old_7: 21300014
-      tele1-old_19: 21300038
-      tele1-old_13: 21300026
-      tele1-old_33: 21300066
-      tele1-old_37: 21300074
-      tele1-old_28: 21300056
-      tele1-old_32: 21300064
       tele1-old_10: 21300020
-      tele1-old_25: 21300050
-      tele1-old_9: 21300018
+      tele1-old_11: 21300022
+      tele1-old_12: 21300024
+      tele1-old_13: 21300026
+      tele1-old_14: 21300028
       tele1-old_15: 21300030
+      tele1-old_16: 21300032
+      tele1-old_17: 21300034
+      tele1-old_18: 21300036
+      tele1-old_19: 21300038
+      tele1-old_2: 21300004
+      tele1-old_20: 21300040
+      tele1-old_21: 21300042
+      tele1-old_22: 21300044
+      tele1-old_23: 21300046
       tele1-old_24: 21300048
-      tele1-old_34: 21300068
+      tele1-old_25: 21300050
+      tele1-old_26: 21300052
+      tele1-old_27: 21300054
+      tele1-old_28: 21300056
       tele1-old_29: 21300058
-  spritePackingTag: 
+      tele1-old_3: 21300006
+      tele1-old_30: 21300060
+      tele1-old_31: 21300062
+      tele1-old_32: 21300064
+      tele1-old_33: 21300066
+      tele1-old_34: 21300068
+      tele1-old_35: 21300070
+      tele1-old_36: 21300072
+      tele1-old_37: 21300074
+      tele1-old_38: 21300076
+      tele1-old_39: 21300078
+      tele1-old_4: 21300008
+      tele1-old_40: 21300080
+      tele1-old_5: 21300010
+      tele1-old_6: 21300012
+      tele1-old_7: 21300014
+      tele1-old_8: 21300016
+      tele1-old_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

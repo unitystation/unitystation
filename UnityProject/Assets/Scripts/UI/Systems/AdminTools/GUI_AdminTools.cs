@@ -22,7 +22,10 @@ namespace AdminTools
 		[SerializeField] private GameObject roundManagerPage = null;
 		[SerializeField] private GameObject devToolsPage = null;
 		[SerializeField] private GameObject serverSettingsPage = null;
+		[SerializeField] private TeamObjectiveAdminPage teamObjectivePage = null;
+		[SerializeField] private GhostRoleAdminPage ghostRolesPage = null;
 		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
+		[SerializeField] private PlayerObjectiveManagerPage antagManagerPage = default;
 		[SerializeField] private Slider transparencySlider;
 		[SerializeField] private Image backgroundImage;
 		public AdminGiveItem giveItemPage;
@@ -134,11 +137,36 @@ namespace AdminTools
 			windowTitle.text = "SERVER SETTINGS";
 		}
 
+		public void ShowTeamObjectivePage()
+		{
+			DisableAllPages();
+			teamObjectivePage.gameObject.SetActive(true);
+			teamObjectivePage.Init(this);
+			windowTitle.text = "TEAM OBJECTIVES";
+			retrievingDataScreen.SetActive(true);
+		}
+
+		public void ShowGhostRolesPage()
+		{
+			DisableAllPages();
+			ghostRolesPage.gameObject.SetActive(true);
+			ghostRolesPage.Init();
+			windowTitle.text = "GHOST ROLES";
+			retrievingDataScreen.SetActive(true);
+		}
+
 		public void ShowRespawnPage()
 		{
 			DisableAllPages();
 			adminRespawnPage.gameObject.SetActive(true);
 			windowTitle.text = "RESPAWN A PLAYER";
+		}
+
+		public void ShowAntagManagerPage()
+		{
+			DisableAllPages();
+			antagManagerPage.gameObject.SetActive(true);
+			windowTitle.text = "ANTAGONIST MANAGER";
 		}
 
 		public void ShowGiveItemPagePage()
@@ -164,7 +192,10 @@ namespace AdminTools
 			kickBanEntryPage.gameObject.SetActive(false);
 			areYouSurePage.gameObject.SetActive(false);
 			adminRespawnPage.gameObject.SetActive(false);
+			antagManagerPage.gameObject.SetActive(false);
 			serverSettingsPage.gameObject.SetActive(false);
+			teamObjectivePage.gameObject.SetActive(false);
+			ghostRolesPage.gameObject.SetActive(false);
 			giveItemPage.SetActive(false);
 		}
 

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4030319348547672731, guid: a6ac0281d1a8192478248d8f86c2d784,
@@ -86,6 +87,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7150793407664610472, guid: a6ac0281d1a8192478248d8f86c2d784,
         type: 3}
+      propertyPath: _assetId
+      value: 3201799920
+      objectReference: {fileID: 0}
+    - target: {fileID: 7150793407664610472, guid: a6ac0281d1a8192478248d8f86c2d784,
+        type: 3}
       propertyPath: m_AssetId
       value: e9e2178f036230e48ad3864597515722
       objectReference: {fileID: 0}
@@ -100,4 +106,7 @@ PrefabInstance:
       value: A data cartridge for portable microcomputers. It smells vaguely of bananas.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6ac0281d1a8192478248d8f86c2d784, type: 3}

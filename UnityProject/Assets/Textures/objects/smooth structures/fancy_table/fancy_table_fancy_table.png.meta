@@ -147,7 +147,7 @@ TextureImporter:
       213: 7678511033445985369
     second: fancy_table_fancy_table_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      fancy_table_fancy_table_8: -4741626225022898509
-      fancy_table_fancy_table_29: 4192649204981489395
-      fancy_table_fancy_table_27: -7008068041696576947
-      fancy_table_fancy_table_24: 1344749691209137680
-      fancy_table_fancy_table_45: -249205913831246977
-      fancy_table_fancy_table_17: 6526301493210554259
-      fancy_table_fancy_table_5: 3056916187123711044
-      fancy_table_fancy_table_13: -3808439959708702368
-      fancy_table_fancy_table_28: -1407934483289678051
       fancy_table_fancy_table_0: -3216365804049919308
+      fancy_table_fancy_table_1: -2364126120445546505
+      fancy_table_fancy_table_10: 4684444882102656689
+      fancy_table_fancy_table_11: 5970593785387463380
+      fancy_table_fancy_table_12: 6186053002597440742
+      fancy_table_fancy_table_13: -3808439959708702368
+      fancy_table_fancy_table_14: -1646189257064804049
       fancy_table_fancy_table_15: -2452454202439979153
-      fancy_table_fancy_table_36: 143689510795124873
-      fancy_table_fancy_table_38: -8939759915620656352
-      fancy_table_fancy_table_44: 3127580968865893282
-      fancy_table_fancy_table_39: -6977633637177790482
       fancy_table_fancy_table_16: 5172315808731011264
-      fancy_table_fancy_table_19: 6444333194536202110
-      fancy_table_fancy_table_42: -5702726392510561764
-      fancy_table_fancy_table_46: 436830639765446138
-      fancy_table_fancy_table_35: 7795976056974340391
-      fancy_table_fancy_table_4: -5149736455822123543
-      fancy_table_fancy_table_22: -2926550525714075851
+      fancy_table_fancy_table_17: 6526301493210554259
       fancy_table_fancy_table_18: 279362840833814656
+      fancy_table_fancy_table_19: 6444333194536202110
+      fancy_table_fancy_table_2: 3901905035668278776
+      fancy_table_fancy_table_20: -1797313667292623594
+      fancy_table_fancy_table_21: 5307556265321041018
+      fancy_table_fancy_table_22: -2926550525714075851
+      fancy_table_fancy_table_23: -6118144528829930552
+      fancy_table_fancy_table_24: 1344749691209137680
+      fancy_table_fancy_table_25: 283135377216439580
+      fancy_table_fancy_table_26: 4607248925829570779
+      fancy_table_fancy_table_27: -7008068041696576947
+      fancy_table_fancy_table_28: -1407934483289678051
+      fancy_table_fancy_table_29: 4192649204981489395
+      fancy_table_fancy_table_3: -864110114830846882
+      fancy_table_fancy_table_30: -6130539806113629555
+      fancy_table_fancy_table_31: 4965904144308512843
       fancy_table_fancy_table_32: -8365358547204664513
       fancy_table_fancy_table_33: -2659254673802359957
-      fancy_table_fancy_table_30: -6130539806113629555
-      fancy_table_fancy_table_6: -8526772844100599661
-      fancy_table_fancy_table_26: 4607248925829570779
-      fancy_table_fancy_table_2: 3901905035668278776
-      fancy_table_fancy_table_9: 5213517600049051466
-      fancy_table_fancy_table_3: -864110114830846882
-      fancy_table_fancy_table_10: 4684444882102656689
-      fancy_table_fancy_table_37: -319304518378813293
-      fancy_table_fancy_table_1: -2364126120445546505
       fancy_table_fancy_table_34: -1891957381146861703
-      fancy_table_fancy_table_41: -7987200720313205557
-      fancy_table_fancy_table_20: -1797313667292623594
-      fancy_table_fancy_table_31: 4965904144308512843
+      fancy_table_fancy_table_35: 7795976056974340391
+      fancy_table_fancy_table_36: 143689510795124873
+      fancy_table_fancy_table_37: -319304518378813293
+      fancy_table_fancy_table_38: -8939759915620656352
+      fancy_table_fancy_table_39: -6977633637177790482
+      fancy_table_fancy_table_4: -5149736455822123543
       fancy_table_fancy_table_40: 5402174405526206200
-      fancy_table_fancy_table_7: 1043610576771634847
-      fancy_table_fancy_table_23: -6118144528829930552
-      fancy_table_fancy_table_47: 7678511033445985369
+      fancy_table_fancy_table_41: -7987200720313205557
+      fancy_table_fancy_table_42: -5702726392510561764
       fancy_table_fancy_table_43: -376425349523290830
-      fancy_table_fancy_table_12: 6186053002597440742
-      fancy_table_fancy_table_14: -1646189257064804049
-      fancy_table_fancy_table_25: 283135377216439580
-      fancy_table_fancy_table_11: 5970593785387463380
-      fancy_table_fancy_table_21: 5307556265321041018
-  spritePackingTag: 
+      fancy_table_fancy_table_44: 3127580968865893282
+      fancy_table_fancy_table_45: -249205913831246977
+      fancy_table_fancy_table_46: 436830639765446138
+      fancy_table_fancy_table_47: 7678511033445985369
+      fancy_table_fancy_table_5: 3056916187123711044
+      fancy_table_fancy_table_6: -8526772844100599661
+      fancy_table_fancy_table_7: 1043610576771634847
+      fancy_table_fancy_table_8: -4741626225022898509
+      fancy_table_fancy_table_9: 5213517600049051466
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

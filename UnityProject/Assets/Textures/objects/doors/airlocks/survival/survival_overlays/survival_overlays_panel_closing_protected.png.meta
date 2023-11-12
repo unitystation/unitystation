@@ -87,7 +87,7 @@ TextureImporter:
       213: 21300054
     second: panel_closing_protected_27
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,6 +148,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -162,6 +165,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -774,37 +789,36 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      panel_closing_protected_7: 21300014
       panel_closing_protected_0: 21300000
       panel_closing_protected_1: 21300002
       panel_closing_protected_10: 21300020
-      panel_closing_protected_4: 21300008
-      panel_closing_protected_14: 21300028
-      panel_closing_protected_27: 21300054
-      panel_closing_protected_22: 21300044
-      panel_closing_protected_23: 21300046
-      panel_closing_protected_5: 21300010
-      panel_closing_protected_21: 21300042
-      panel_closing_protected_26: 21300052
-      panel_closing_protected_25: 21300050
-      panel_closing_protected_2: 21300004
-      panel_closing_protected_6: 21300012
-      panel_closing_protected_8: 21300016
-      panel_closing_protected_20: 21300040
-      panel_closing_protected_19: 21300038
-      panel_closing_protected_24: 21300048
-      panel_closing_protected_18: 21300036
       panel_closing_protected_11: 21300022
-      panel_closing_protected_9: 21300018
-      panel_closing_protected_13: 21300026
       panel_closing_protected_12: 21300024
+      panel_closing_protected_13: 21300026
+      panel_closing_protected_14: 21300028
       panel_closing_protected_15: 21300030
       panel_closing_protected_16: 21300032
       panel_closing_protected_17: 21300034
+      panel_closing_protected_18: 21300036
+      panel_closing_protected_19: 21300038
+      panel_closing_protected_2: 21300004
+      panel_closing_protected_20: 21300040
+      panel_closing_protected_21: 21300042
+      panel_closing_protected_22: 21300044
+      panel_closing_protected_23: 21300046
+      panel_closing_protected_24: 21300048
+      panel_closing_protected_25: 21300050
+      panel_closing_protected_26: 21300052
+      panel_closing_protected_27: 21300054
       panel_closing_protected_3: 21300006
-  spritePackingTag: 
+      panel_closing_protected_4: 21300008
+      panel_closing_protected_5: 21300010
+      panel_closing_protected_6: 21300012
+      panel_closing_protected_7: 21300014
+      panel_closing_protected_8: 21300016
+      panel_closing_protected_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

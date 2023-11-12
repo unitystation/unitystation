@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 194690359122840740, guid: b39d85aa9080f014b9956cb59d760674,
@@ -35,6 +36,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 6eaf73e950d370e4cb247bc25b8a0cdb,
         type: 3}
+    - target: {fileID: 6224405101200099991, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: _assetId
+      value: 128587134
+      objectReference: {fileID: 0}
     - target: {fileID: 6224405101200099991, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
       propertyPath: m_AssetId
@@ -101,4 +107,7 @@ PrefabInstance:
       value: SyringeGunRapid
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b39d85aa9080f014b9956cb59d760674, type: 3}

@@ -113,7 +113,7 @@ namespace Objects.Atmospherics
 
 			Sprite sprite = operatingMode == Mode.Injecting ? Sprite.Injecting : Sprite.On;
 			sprite = isOperating ? sprite : Sprite.Off;
-			spritehandler.ChangeSprite((int)sprite);
+			spritehandler.SetCatalogueIndexSprite((int)sprite);
 		}
 
 		private void CheckGasAndNode()

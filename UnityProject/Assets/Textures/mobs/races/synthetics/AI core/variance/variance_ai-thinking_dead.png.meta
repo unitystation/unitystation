@@ -111,7 +111,7 @@ TextureImporter:
       213: 21300070
     second: ai-thinking_dead_35
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -128,11 +128,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -171,6 +172,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -186,6 +189,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -966,45 +981,44 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ai-thinking_dead_5: 21300010
-      ai-thinking_dead_29: 21300058
-      ai-thinking_dead_11: 21300022
-      ai-thinking_dead_3: 21300006
-      ai-thinking_dead_6: 21300012
-      ai-thinking_dead_9: 21300018
-      ai-thinking_dead_10: 21300020
-      ai-thinking_dead_14: 21300028
-      ai-thinking_dead_19: 21300038
       ai-thinking_dead_0: 21300000
-      ai-thinking_dead_26: 21300052
-      ai-thinking_dead_34: 21300068
-      ai-thinking_dead_20: 21300040
-      ai-thinking_dead_16: 21300032
-      ai-thinking_dead_12: 21300024
-      ai-thinking_dead_28: 21300056
-      ai-thinking_dead_7: 21300014
-      ai-thinking_dead_24: 21300048
-      ai-thinking_dead_17: 21300034
-      ai-thinking_dead_23: 21300046
-      ai-thinking_dead_25: 21300050
-      ai-thinking_dead_21: 21300042
-      ai-thinking_dead_32: 21300064
-      ai-thinking_dead_2: 21300004
-      ai-thinking_dead_22: 21300044
-      ai-thinking_dead_33: 21300066
-      ai-thinking_dead_30: 21300060
-      ai-thinking_dead_8: 21300016
-      ai-thinking_dead_13: 21300026
-      ai-thinking_dead_18: 21300036
-      ai-thinking_dead_4: 21300008
-      ai-thinking_dead_35: 21300070
-      ai-thinking_dead_27: 21300054
       ai-thinking_dead_1: 21300002
+      ai-thinking_dead_10: 21300020
+      ai-thinking_dead_11: 21300022
+      ai-thinking_dead_12: 21300024
+      ai-thinking_dead_13: 21300026
+      ai-thinking_dead_14: 21300028
       ai-thinking_dead_15: 21300030
+      ai-thinking_dead_16: 21300032
+      ai-thinking_dead_17: 21300034
+      ai-thinking_dead_18: 21300036
+      ai-thinking_dead_19: 21300038
+      ai-thinking_dead_2: 21300004
+      ai-thinking_dead_20: 21300040
+      ai-thinking_dead_21: 21300042
+      ai-thinking_dead_22: 21300044
+      ai-thinking_dead_23: 21300046
+      ai-thinking_dead_24: 21300048
+      ai-thinking_dead_25: 21300050
+      ai-thinking_dead_26: 21300052
+      ai-thinking_dead_27: 21300054
+      ai-thinking_dead_28: 21300056
+      ai-thinking_dead_29: 21300058
+      ai-thinking_dead_3: 21300006
+      ai-thinking_dead_30: 21300060
       ai-thinking_dead_31: 21300062
-  spritePackingTag: 
+      ai-thinking_dead_32: 21300064
+      ai-thinking_dead_33: 21300066
+      ai-thinking_dead_34: 21300068
+      ai-thinking_dead_35: 21300070
+      ai-thinking_dead_4: 21300008
+      ai-thinking_dead_5: 21300010
+      ai-thinking_dead_6: 21300012
+      ai-thinking_dead_7: 21300014
+      ai-thinking_dead_8: 21300016
+      ai-thinking_dead_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

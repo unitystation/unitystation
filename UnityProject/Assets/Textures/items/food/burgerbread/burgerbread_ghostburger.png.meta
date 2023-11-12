@@ -57,7 +57,7 @@ TextureImporter:
       213: -5342305523456464813
     second: ghostburger_17
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -74,11 +74,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -117,6 +118,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -132,6 +135,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -534,27 +549,26 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ghostburger_9: 5845366754471510925
-      ghostburger_4: 3159793472163925277
-      ghostburger_6: -5870909337898855305
-      ghostburger_2: 9010866658556434370
-      ghostburger_8: 6442298480524647574
+      ghostburger_0: 775337875885125894
+      ghostburger_1: -7091312403381007044
+      ghostburger_10: -2352142370689224254
       ghostburger_11: -7033552203794998938
-      ghostburger_7: -2242255148010785386
+      ghostburger_12: 5283787343417170455
       ghostburger_13: 7995695641052151686
+      ghostburger_14: 1094993031477069519
       ghostburger_15: -3967570955949917034
-      ghostburger_3: -1304064359463944472
       ghostburger_16: -6006643859280914883
       ghostburger_17: -5342305523456464813
-      ghostburger_12: 5283787343417170455
-      ghostburger_14: 1094993031477069519
-      ghostburger_0: 775337875885125894
+      ghostburger_2: 9010866658556434370
+      ghostburger_3: -1304064359463944472
+      ghostburger_4: 3159793472163925277
       ghostburger_5: 2333171290197681376
-      ghostburger_10: -2352142370689224254
-      ghostburger_1: -7091312403381007044
-  spritePackingTag: 
+      ghostburger_6: -5870909337898855305
+      ghostburger_7: -2242255148010785386
+      ghostburger_8: 6442298480524647574
+      ghostburger_9: 5845366754471510925
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

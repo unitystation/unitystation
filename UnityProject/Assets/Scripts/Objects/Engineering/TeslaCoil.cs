@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using Systems.Explosions;
 using Objects.Construction;
 using UnityEngine;
@@ -107,7 +108,7 @@ namespace Objects.Engineering
 
 				if (hitRecently == false)
 				{
-					spriteHandler.ChangeSprite(1);
+					spriteHandler.SetCatalogueIndexSprite(1);
 				}
 			}
 			else
@@ -117,7 +118,7 @@ namespace Objects.Engineering
 
 				if (hitRecently == false)
 				{
-					spriteHandler.ChangeSprite(3);
+					spriteHandler.SetCatalogueIndexSprite(3);
 				}
 			}
 		}
@@ -137,17 +138,17 @@ namespace Objects.Engineering
 
 			if (CurrentState == TeslaCoilState.Grounding && spriteHandler.CurrentSpriteIndex != 2)
 			{
-				spriteHandler.ChangeSprite(2);
+				spriteHandler.SetCatalogueIndexSprite(2);
 				return;
 			}
 
 			if (spriteHandler.CurrentSpriteIndex < 2)
 			{
-				spriteHandler.ChangeSprite(2);
+				spriteHandler.SetCatalogueIndexSprite(2);
 			}
 			else if(spriteHandler.CurrentSpriteIndex != 2 && spriteHandler.CurrentSpriteIndex < 5)
 			{
-				spriteHandler.ChangeSprite(5);
+				spriteHandler.SetCatalogueIndexSprite(5);
 			}
 		}
 
@@ -201,16 +202,16 @@ namespace Objects.Engineering
 			switch (CurrentState)
 			{
 				case TeslaCoilState.Power:
-					spriteHandler.ChangeSprite(IsWrenched ? 1 : 0);
+					spriteHandler.SetCatalogueIndexSprite(IsWrenched ? 1 : 0);
 					break;
 				case TeslaCoilState.Research:
-					spriteHandler.ChangeSprite(IsWrenched ? 4 : 3);
+					spriteHandler.SetCatalogueIndexSprite(IsWrenched ? 4 : 3);
 					break;
 				case TeslaCoilState.Grounding:
-					spriteHandler.ChangeSprite(IsWrenched ? 1 : 0);
+					spriteHandler.SetCatalogueIndexSprite(IsWrenched ? 1 : 0);
 					break;
 				default:
-					Logger.LogError("Tried to wrench Tesla Coil, but switch case was out of bounds", Category.Machines);
+					Loggy.LogError("Tried to wrench Tesla Coil, but switch case was out of bounds", Category.Machines);
 					break;
 			}
 		}

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using Mirror;
 using Messages.Client;
@@ -33,7 +34,7 @@ namespace Systems.Electricity
 			}
 			if (registerTile == null)
 			{
-				Logger.LogError("Confused screaming! > " + this.name, Category.Electrical);
+				Loggy.LogError("Confused screaming! > " + this.name, Category.Electrical);
 			}
 			else
 			{
@@ -91,7 +92,7 @@ namespace Systems.Electricity
 		{
 			if (Logall)
 			{
-				Logger.Log("this > " + this + "DirectionInput SourceInstance > " + SourceInstance + " ComingFrom > " + ComingFrom + "  PassOn > " + PassOn, Category.Electrical);
+				Loggy.Log("this > " + this + "DirectionInput SourceInstance > " + SourceInstance + " ComingFrom > " + ComingFrom + "  PassOn > " + PassOn, Category.Electrical);
 			}
 			InputOutputFunctions.DirectionInput(SourceInstance, ComingFrom, InData);
 		}
@@ -107,7 +108,7 @@ namespace Systems.Electricity
 		{
 			if (Logall)
 			{
-				Logger.Log("this > " + this
+				Loggy.Log("this > " + this
 						   + "ResistanceInput, Resistance > " + Resistance
 						   + " SourceInstance  > " + SourceInstance
 						   + " ComingFrom > " + ComingFrom, Category.Electrical);
@@ -122,7 +123,7 @@ namespace Systems.Electricity
 		{
 			if (Logall)
 			{
-				Logger.Log("this > " + this
+				Loggy.Log("this > " + this
 						   + "ResistancyOutput, Resistance > " + Resistance
 						   + " SourceInstance  > " + SourceInstance, Category.Electrical);
 			}
@@ -138,7 +139,7 @@ namespace Systems.Electricity
 		{
 			if (Logall)
 			{
-				Logger.Log("this > " + this
+				Loggy.Log("this > " + this
 						   + "ElectricityInput, Current > " + Current
 						   + " SourceInstance  > " + SourceInstance
 						   + " ComingFrom > " + ComingFrom, Category.Electrical);
@@ -154,7 +155,7 @@ namespace Systems.Electricity
 		{
 			if (Logall)
 			{
-				Logger.Log("this > " + this
+				Loggy.Log("this > " + this
 						   + "ElectricityOutput, Current > " + Current
 						   + " SourceInstance  > " + SourceInstance, Category.Electrical);
 			}
@@ -211,7 +212,7 @@ namespace Systems.Electricity
 		{
 			if (!InData.DestroyQueueing || !InData.DestroyAuthorised)
 			{
-				Logger.Log("REEEEEEEEEEEEEE Wait your turn to destroy, Electrical thread is busy!!", Category.Electrical);
+				Loggy.Log("REEEEEEEEEEEEEE Wait your turn to destroy, Electrical thread is busy!!", Category.Electrical);
 				DestroyThisPlease();
 				var yy = InData.ConnectionReaction[PowerTypeCategory.Transformer];
 			}

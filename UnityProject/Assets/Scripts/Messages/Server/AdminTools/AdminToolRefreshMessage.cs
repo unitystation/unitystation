@@ -4,6 +4,7 @@ using AdminTools;
 using DatabaseAPI;
 using InGameEvents;
 using Mirror;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Messages.Server.AdminTools
@@ -22,7 +23,7 @@ namespace Messages.Server.AdminTools
 		public override void Process(NetMessage msg)
 		{
 			LoadNetworkObject(msg.Recipient);
-			var adminPageData = JsonUtility.FromJson<AdminPageRefreshData>(msg.JsonData);
+			var adminPageData = JsonConvert.DeserializeObject<AdminPageRefreshData>(msg.JsonData);
 
 			var pages = GameObject.FindObjectsOfType<AdminPage>();
 			foreach (var g in pages)
@@ -63,7 +64,7 @@ namespace Messages.Server.AdminTools
 			pageData.maxFrameRate = Application.targetFrameRate;
 			pageData.serverPassword = ServerData.ServerConfig.ConnectionPassword;
 
-			var data = JsonUtility.ToJson(pageData);
+			var data = JsonConvert.SerializeObject(pageData);
 
 			NetMessage  msg =
 				new NetMessage  {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};

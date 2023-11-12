@@ -39,7 +39,7 @@ TextureImporter:
       213: 1620038344213695343
     second: crates_necrocrateopen_11
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -56,11 +56,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -99,6 +100,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -114,6 +117,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -390,21 +405,20 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      crates_necrocrateopen_7: 1563765884629315388
+      crates_necrocrateopen_0: -6538622549608520316
+      crates_necrocrateopen_1: -2302654730948612026
       crates_necrocrateopen_10: -618733613888787001
       crates_necrocrateopen_11: 1620038344213695343
-      crates_necrocrateopen_0: -6538622549608520316
-      crates_necrocrateopen_8: -3654357765637786631
       crates_necrocrateopen_2: 3522322133019079826
-      crates_necrocrateopen_4: -8994996705845246535
-      crates_necrocrateopen_6: 511403449371661529
-      crates_necrocrateopen_1: -2302654730948612026
-      crates_necrocrateopen_9: 386010842938203462
       crates_necrocrateopen_3: -7569508736917708582
+      crates_necrocrateopen_4: -8994996705845246535
       crates_necrocrateopen_5: -744741513167946100
-  spritePackingTag: 
+      crates_necrocrateopen_6: 511403449371661529
+      crates_necrocrateopen_7: 1563765884629315388
+      crates_necrocrateopen_8: -3654357765637786631
+      crates_necrocrateopen_9: 386010842938203462
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

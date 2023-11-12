@@ -87,7 +87,7 @@ TextureImporter:
       213: -7564888386839175479
     second: canister_proto_13
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,6 +148,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -162,6 +165,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -480,23 +495,22 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      canister_proto_13: -7564888386839175479
-      canister_proto_12: -4760996779923956762
-      canister_proto_10: -6361208920937220985
-      canister_proto_2: 6406982793583641173
-      canister_proto_1: 8896407851970510587
-      canister_proto_11: -6870432067920941770
-      canister_proto_3: 1545632503488521706
-      canister_proto_9: 1495694618233817201
-      canister_proto_4: -670326301272185979
       canister_proto_0: 7876554277758141920
-      canister_proto_8: 7153599749023025570
-      canister_proto_7: 1975065577012182102
-      canister_proto_6: -8188855613737932679
+      canister_proto_1: 8896407851970510587
+      canister_proto_10: -6361208920937220985
+      canister_proto_11: -6870432067920941770
+      canister_proto_12: -4760996779923956762
+      canister_proto_13: -7564888386839175479
+      canister_proto_2: 6406982793583641173
+      canister_proto_3: 1545632503488521706
+      canister_proto_4: -670326301272185979
       canister_proto_5: -8571107066223495401
-  spritePackingTag: 
+      canister_proto_6: -8188855613737932679
+      canister_proto_7: 1975065577012182102
+      canister_proto_8: 7153599749023025570
+      canister_proto_9: 1495694618233817201
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 472406101345535324, guid: dc0638b6b1226b44689e06631521524c,
@@ -15,13 +16,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 472406101345535324, guid: dc0638b6b1226b44689e06631521524c,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: e74c4d7e77bcfd4438ebe6319bda23d8,
         type: 2}
     - target: {fileID: 472406101345535324, guid: dc0638b6b1226b44689e06631521524c,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 7fc461fa91be76044affe0719f4e299f,
         type: 2}
@@ -41,6 +42,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: shotgun lethal rounds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531793857798380260, guid: dc0638b6b1226b44689e06631521524c,
+        type: 3}
+      propertyPath: _assetId
+      value: 1970910806
       objectReference: {fileID: 0}
     - target: {fileID: 3531793857798380260, guid: dc0638b6b1226b44689e06631521524c,
         type: 3}
@@ -124,4 +130,7 @@ PrefabInstance:
       value: cc5081cbf32acf54aa04cea11dc0b3d7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc0638b6b1226b44689e06631521524c, type: 3}

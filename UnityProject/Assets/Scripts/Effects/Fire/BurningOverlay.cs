@@ -32,7 +32,7 @@ namespace Effects.Overlays
 				spriteHandler = GetComponent<SpriteHandler>();
 			}
 
-			spriteHandler.ChangeSprite(0); // Load SO into SpriteRenderer
+			spriteHandler.SetCatalogueIndexSprite(0); // Load SO into SpriteRenderer
 			spriteHandler.PushTexture();
 		}
 

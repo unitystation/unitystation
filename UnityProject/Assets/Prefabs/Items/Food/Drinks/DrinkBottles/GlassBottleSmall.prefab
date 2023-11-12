@@ -5,65 +5,66 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -4574035966832214439, guid: f984960cf940f5242bd90a33f3c8c35a,
         type: 3}
-      propertyPath: fillIcons.Array.data[0]
+      propertyPath: 'fillIcons.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: bcde365ede75ba14899a0b2bec7fbb7b,
         type: 3}
     - target: {fileID: -4574035966832214439, guid: f984960cf940f5242bd90a33f3c8c35a,
         type: 3}
-      propertyPath: fillIcons.Array.data[1]
+      propertyPath: 'fillIcons.Array.data[1]'
       value: 
       objectReference: {fileID: 21300000, guid: aab4d896ec4b9b94491f2ddf1bdd5c4c,
         type: 3}
     - target: {fileID: -4574035966832214439, guid: f984960cf940f5242bd90a33f3c8c35a,
         type: 3}
-      propertyPath: fillIcons.Array.data[2]
+      propertyPath: 'fillIcons.Array.data[2]'
       value: 
       objectReference: {fileID: 21300000, guid: be650bfbe8b1d764f916a0ce778e3d72,
         type: 3}
     - target: {fileID: -4574035966832214439, guid: f984960cf940f5242bd90a33f3c8c35a,
         type: 3}
-      propertyPath: fillIcons.Array.data[3]
+      propertyPath: 'fillIcons.Array.data[3]'
       value: 
       objectReference: {fileID: 21300000, guid: 40aab59d0b14f8f43ac803b5df426181,
         type: 3}
     - target: {fileID: -4574035966832214439, guid: f984960cf940f5242bd90a33f3c8c35a,
         type: 3}
-      propertyPath: fillIcons.Array.data[4]
+      propertyPath: 'fillIcons.Array.data[4]'
       value: 
       objectReference: {fileID: 21300000, guid: 8d726aaf4884f0e4c8a86d92aa043c4f,
         type: 3}
     - target: {fileID: -4574035966832214439, guid: f984960cf940f5242bd90a33f3c8c35a,
         type: 3}
-      propertyPath: fillIcons.Array.data[5]
+      propertyPath: 'fillIcons.Array.data[5]'
       value: 
       objectReference: {fileID: 21300000, guid: 62f74efac3aeb564cac8b2cde4ef520e,
         type: 3}
     - target: {fileID: -4574035966832214439, guid: f984960cf940f5242bd90a33f3c8c35a,
         type: 3}
-      propertyPath: fillIcons.Array.data[6]
+      propertyPath: 'fillIcons.Array.data[6]'
       value: 
       objectReference: {fileID: 21300000, guid: ac9a242b19ecea24d94acdec8cdc6165,
         type: 3}
     - target: {fileID: -4574035966832214439, guid: f984960cf940f5242bd90a33f3c8c35a,
         type: 3}
-      propertyPath: fillIcons.Array.data[7]
+      propertyPath: 'fillIcons.Array.data[7]'
       value: 
       objectReference: {fileID: 21300000, guid: 81c1ddc7c326a8441a3a7e2ae0f7b0c4,
         type: 3}
     - target: {fileID: -4574035966832214439, guid: f984960cf940f5242bd90a33f3c8c35a,
         type: 3}
-      propertyPath: fillIcons.Array.data[8]
+      propertyPath: 'fillIcons.Array.data[8]'
       value: 
       objectReference: {fileID: 21300000, guid: 70faf6afc5eb73c4ebf417b706806906,
         type: 3}
     - target: {fileID: -4574035966832214439, guid: f984960cf940f5242bd90a33f3c8c35a,
         type: 3}
-      propertyPath: fillIcons.Array.data[9]
+      propertyPath: 'fillIcons.Array.data[9]'
       value: 
       objectReference: {fileID: 21300000, guid: 2bdcd5cca7d0c974b9e6e1561e77e19c,
         type: 3}
@@ -93,6 +94,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: small glass bottle
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084751528140988235, guid: f984960cf940f5242bd90a33f3c8c35a,
+        type: 3}
+      propertyPath: _assetId
+      value: 3708973442
       objectReference: {fileID: 0}
     - target: {fileID: 2084751528140988235, guid: f984960cf940f5242bd90a33f3c8c35a,
         type: 3}
@@ -183,4 +189,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 6afd38fd4ddf06346a5a742c2587c073,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f984960cf940f5242bd90a33f3c8c35a, type: 3}

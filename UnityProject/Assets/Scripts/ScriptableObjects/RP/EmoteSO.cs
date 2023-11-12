@@ -110,16 +110,13 @@ namespace ScriptableObjects.RP
 
 		protected void PlayAudio(List<AddressableAudioSource> audio, GameObject player)
 		{
-			//If there is no audio in the audio list, exit out of this function.
-			if (audio.Count == 0)
-			{
-				Logger.LogWarning("[EmoteSO/" + $"{name}] - " + "No audio files detected!.");
-				return;
-			}
+			if (audio.Count == 0) return;
 
 			var audioSourceParameters = new AudioSourceParameters(Random.Range(pitchRange.x, pitchRange.y), 100f);
+			var audioSource = audio.PickRandom();
 
-			_ = SoundManager.PlayNetworkedAtPosAsync(audio.PickRandom(), player.AssumedWorldPosServer(), audioSourceParameters);
+			_ = SoundManager.PlayNetworkedAtPosAsync(audioSource, player.AssumedWorldPosServer(),
+				audioSourceParameters, sourceObj: player, attachToSource: true);
 		}
 
 		/// <summary>
@@ -202,7 +199,7 @@ namespace ScriptableObjects.RP
 		{
 			//TODO : This sort of thing should be checked on the player script when reworking telecomms and adding a proper silencing system
 			if(player.TryGetComponent<PlayerScript>(out var script) == false) return false;
-			if (script.Mind?.occupation != null && script.Mind.occupation.JobType == JobType.MIME) return true; //FIXME : Find a way to check if vow of silence is broken
+			if (script.Mind.OrNull()?.occupation != null && script.Mind.occupation.JobType == JobType.MIME) return true; //FIXME : Find a way to check if vow of silence is broken
 			foreach (var slot in script.Equipment.ItemStorage.GetItemSlots())
 			{
 				if(slot.IsEmpty) continue;
@@ -217,6 +214,11 @@ namespace ScriptableObjects.RP
 			    && allowedPlayerTypes.HasFlag(playerScript.PlayerType) == false)
 			{
 				FailText(player, FailType.Normal);
+				return false;
+			}
+
+			if (playerScript.playerHealth.IsDead)
+			{
 				return false;
 			}
 

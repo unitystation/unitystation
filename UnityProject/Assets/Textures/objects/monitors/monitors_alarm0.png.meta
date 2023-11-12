@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: alarm0_23
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -92,11 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,6 +136,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,6 +153,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -678,33 +693,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      alarm0_9: 21300018
-      alarm0_21: 21300042
-      alarm0_16: 21300032
-      alarm0_15: 21300030
-      alarm0_5: 21300010
-      alarm0_20: 21300040
+      alarm0_0: 21300000
       alarm0_1: 21300002
-      alarm0_8: 21300016
-      alarm0_23: 21300046
+      alarm0_10: 21300020
+      alarm0_11: 21300022
+      alarm0_12: 21300024
+      alarm0_13: 21300026
+      alarm0_14: 21300028
+      alarm0_15: 21300030
+      alarm0_16: 21300032
       alarm0_17: 21300034
       alarm0_18: 21300036
-      alarm0_13: 21300026
-      alarm0_2: 21300004
-      alarm0_11: 21300022
-      alarm0_0: 21300000
-      alarm0_14: 21300028
-      alarm0_12: 21300024
-      alarm0_10: 21300020
       alarm0_19: 21300038
-      alarm0_7: 21300014
+      alarm0_2: 21300004
+      alarm0_20: 21300040
+      alarm0_21: 21300042
       alarm0_22: 21300044
+      alarm0_23: 21300046
       alarm0_3: 21300006
-      alarm0_6: 21300012
       alarm0_4: 21300008
-  spritePackingTag: 
+      alarm0_5: 21300010
+      alarm0_6: 21300012
+      alarm0_7: 21300014
+      alarm0_8: 21300016
+      alarm0_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

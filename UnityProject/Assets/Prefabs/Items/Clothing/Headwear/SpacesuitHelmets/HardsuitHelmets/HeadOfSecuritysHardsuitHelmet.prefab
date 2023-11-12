@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 974012143178466493, guid: 8fa1a57df0a4596419aa720f9f79f1de,
@@ -99,13 +100,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3523893521537234427, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
-      propertyPath: toggleSprites.Array.data[0]
+      propertyPath: 'toggleSprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: bb51cc8f70676c14fafde68b2b1ea624,
         type: 3}
     - target: {fileID: 3523893521537234427, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
-      propertyPath: toggleSprites.Array.data[1]
+      propertyPath: 'toggleSprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300000, guid: b24dc9ed5ac17904cafe8ce7d9897288,
         type: 3}
@@ -120,6 +121,17 @@ PrefabInstance:
       value: A special bulky helmet designed for work in a hazardous, low pressure
         environment. Has an additional layer of armor.
       objectReference: {fileID: 0}
+    - target: {fileID: 3527317937822577978, guid: 8fa1a57df0a4596419aa720f9f79f1de,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3527317937822577978, guid: 8fa1a57df0a4596419aa720f9f79f1de,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: fe33f4bf42dd236b39e97b3cdcbc7515,
+        type: 2}
     - target: {fileID: 3814517896272406788, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
       propertyPath: m_Sprite
@@ -154,17 +166,17 @@ PrefabInstance:
     - target: {fileID: 3894932452026525484, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3894932452026525484, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3894932452026525484, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3894932452026525484, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
@@ -218,6 +230,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4002050619919886316, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
+      propertyPath: _assetId
+      value: 959995320
+      objectReference: {fileID: 0}
+    - target: {fileID: 4002050619919886316, guid: 8fa1a57df0a4596419aa720f9f79f1de,
+        type: 3}
       propertyPath: m_AssetId
       value: 99120ee93af124244bc0bea6eba9b022
       objectReference: {fileID: 0}
@@ -234,13 +251,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7158482029291004383, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 90021ccc1041b7d4c89f2d2c235af818,
         type: 2}
     - target: {fileID: 7158482029291004383, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: abbdb1f7fedd945469422e6bbc73f9e0,
         type: 2}
@@ -261,13 +278,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7954250596011379165, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
-      propertyPath: allClothingData.Array.data[0]
+      propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: fb15666c322c1d44d914daf10e2de5a8,
         type: 2}
     - target: {fileID: 7954250596011379165, guid: 8fa1a57df0a4596419aa720f9f79f1de,
         type: 3}
-      propertyPath: allClothingData.Array.data[1]
+      propertyPath: 'allClothingData.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 13f4b6efc4bb40b4c81f1cdb0f017d88,
         type: 2}
@@ -277,4 +294,7 @@ PrefabInstance:
       value: 99120ee93af124244bc0bea6eba9b022
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fa1a57df0a4596419aa720f9f79f1de, type: 3}

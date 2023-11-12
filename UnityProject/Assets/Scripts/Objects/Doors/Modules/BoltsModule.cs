@@ -119,6 +119,11 @@ namespace Doors.Modules
 				}
 			}
 
+			if (PulsePreventBoltsFall())
+			{
+				SetBoltsState(true); //so Preveving all cables
+			}
+
 			if (boltsDown)
 			{
 				States.Add(DoorProcessingStates.PhysicallyPrevented);

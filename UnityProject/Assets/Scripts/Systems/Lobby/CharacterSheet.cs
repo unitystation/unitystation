@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Logs;
 using Newtonsoft.Json;
 using UnityEngine;
 using UI.CharacterCreator;
@@ -13,6 +14,7 @@ namespace Systems.Character
 /// Class containing all character preferences for a player
 /// Includes appearance, job preferences etc...
 /// </summary>
+[System.Serializable]
 public class CharacterSheet : ICloneable
 {
 	// TODO: all of the in-game appearance variables should probably be refactored into a separate class which can
@@ -293,7 +295,7 @@ public class CharacterSheet : ICloneable
 		var toReturn = RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == Species);
 		if (toReturn == null)
 		{
-			Logger.LogError("[GetRaceSONoValidation] No race found for " + Species);
+			Loggy.LogError("[GetRaceSONoValidation] No race found for " + Species);
 			return  RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == "Human");
 		}
 		return toReturn;
@@ -310,11 +312,16 @@ public class CharacterSheet : ICloneable
 	/// <summary>Generate a random character.</summary>
 	/// <remarks>not safe to use in Awake().</remarks>
 	/// <returns>a random character.</returns>
-	public static CharacterSheet GenerateRandomCharacter()
+	public static CharacterSheet GenerateRandomCharacter(List<PlayerHealthData> speciesToChooseFrom = null)
 	{
 		CharacterSheet character = new CharacterSheet();
 
-		PlayerHealthData race = RaceSOSingleton.Instance.Races.PickRandom();
+
+		if (speciesToChooseFrom == null)
+		{
+			speciesToChooseFrom = RaceSOSingleton.Instance.Races;
+		}
+		PlayerHealthData race = speciesToChooseFrom.PickRandom();
 
 		character.Species = race.name;
 		if (race.Base.bodyTypeSettings.AvailableBodyTypes.Count != 0)

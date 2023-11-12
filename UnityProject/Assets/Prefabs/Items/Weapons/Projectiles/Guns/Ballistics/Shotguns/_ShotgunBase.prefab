@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2745377269052413757, guid: b17740819c0bf4b44a53be1e477dc4d5,
@@ -137,13 +138,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
         type: 2}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: initialTraits.Array.data[2]
+      propertyPath: 'initialTraits.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: df0bff890a4657e459e7f19e84e47f5d,
         type: 2}
@@ -221,10 +222,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9166802612737582820, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
+      propertyPath: _assetId
+      value: 376099528
+      objectReference: {fileID: 0}
+    - target: {fileID: 9166802612737582820, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
       propertyPath: m_AssetId
       value: 3da1d244806a96340a48e959ecc816e4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9125194378051492688, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 502150733691229820}
   m_SourcePrefab: {fileID: 100100000, guid: b17740819c0bf4b44a53be1e477dc4d5, type: 3}
 --- !u!1 &3396079434555916715 stripped
 GameObject:
@@ -244,6 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   allClothingData:

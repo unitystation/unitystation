@@ -5,6 +5,7 @@ using UnityEngine;
 using AddressableReferences;
 using Audio.Containers;
 using Initialisation;
+using Logs;
 using Messages.Server.SoundMessages;
 using Shared.Util;
 using Util;
@@ -57,9 +58,9 @@ namespace Audio.Managers
 
 		public static void PlayAudio(string assetAddress)
 		{
-			if(string.IsNullOrEmpty(assetAddress)) 
+			if(string.IsNullOrEmpty(assetAddress))
 			{
-				Logger.LogError("Cannot play ambient noise because asset address is empty or null");
+				Loggy.LogError("Cannot play ambient noise because asset address is empty or null");
 				return;
 			}
 			var audioSource = new AddressableAudioSource(assetAddress);
@@ -105,9 +106,13 @@ namespace Audio.Managers
 
 		public static void StopAudio(AddressableAudioSource audioSource)
 		{
-			if (audioSource == null || Instance.playingSource.ContainsKey(audioSource) == false) return;
+			if (audioSource == null  || Instance.playingSource.ContainsKey(audioSource) == false) return;
 
-			audioSource.AudioSource.loop = false;
+			if (audioSource.AudioSource != null)
+			{
+				audioSource.AudioSource.loop = false;
+			}
+
 			SoundManager.Stop(Instance.playingSource[audioSource]);
 		}
 

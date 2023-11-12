@@ -10,7 +10,7 @@ namespace Objects.Electrical
 {
 	public class MachineConnectorSpriteHandler : MonoBehaviour, IServerSpawn
 	{
-		[SerializeField, PrefabModeOnly]
+		[SerializeField ]
 		public List<PowerTypeCategory> connectables = new List<PowerTypeCategory>();
 
 		[SerializeField, BoxGroup("Sprite Handlers")]
@@ -70,7 +70,7 @@ namespace Objects.Electrical
 				{
 					if (spriteHandler.CurrentSpriteIndex == -1)
 					{
-						spriteHandler.ChangeSprite(0);
+						spriteHandler.SetCatalogueIndexSprite(0);
 					}
 					else
 					{

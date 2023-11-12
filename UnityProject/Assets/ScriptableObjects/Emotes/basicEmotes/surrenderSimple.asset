@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: surrenderSimple
   m_EditorClassIdentifier: 
   emoteName: surrenderAlt
+  EmoteIcon: {fileID: 0}
   requiresHands: 1
   allowEmoteWhileInCrit: 1
   isAudibleEmote: 0
@@ -26,3 +27,4 @@ MonoBehaviour:
   defaultSounds: []
   TypedSounds: []
   pitchRange: {x: 0.7, y: 1}
+  allowedPlayerTypes: 1

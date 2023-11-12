@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using Systems.Explosions;
 using Managers;
@@ -30,7 +31,7 @@ namespace InGameEvents
 		{
 			if (stationMatrix != null) return false;
 
-			Logger.LogError($"Unable to start \"{nameof(EventImmovableRod)}\". Main station may not be initialized yet.", Category.Event);
+			Loggy.LogError($"Unable to start \"{nameof(EventImmovableRod)}\". Main station may not be initialized yet.", Category.Event);
 			return true;
 		}
 

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -4343989174440723700, guid: b46887a995abc224aab70e21b9e53697,
@@ -30,25 +31,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.data[0]
+      propertyPath: 'onSprites.Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: b73daaeb95716f846ac34192923f4ca6,
         type: 3}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.data[1]
+      propertyPath: 'onSprites.Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: b73daaeb95716f846ac34192923f4ca6,
         type: 3}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.data[2]
+      propertyPath: 'onSprites.Sprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300004, guid: b73daaeb95716f846ac34192923f4ca6,
         type: 3}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.data[3]
+      propertyPath: 'onSprites.Sprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300006, guid: b73daaeb95716f846ac34192923f4ca6,
         type: 3}
@@ -72,6 +73,11 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: _assetId
+      value: 4240075442
       objectReference: {fileID: 0}
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -206,25 +212,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.data[0]
+      propertyPath: 'onSprites.Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: b73daaeb95716f846ac34192923f4ca6,
         type: 3}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.data[1]
+      propertyPath: 'onSprites.Sprites.Array.data[1]'
       value: 
       objectReference: {fileID: 21300002, guid: b73daaeb95716f846ac34192923f4ca6,
         type: 3}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.data[2]
+      propertyPath: 'onSprites.Sprites.Array.data[2]'
       value: 
       objectReference: {fileID: 21300004, guid: b73daaeb95716f846ac34192923f4ca6,
         type: 3}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.data[3]
+      propertyPath: 'onSprites.Sprites.Array.data[3]'
       value: 
       objectReference: {fileID: 21300006, guid: b73daaeb95716f846ac34192923f4ca6,
         type: 3}
@@ -246,6 +252,17 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 731e7e4e3deb58b48b499298e1b4fc1e,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2832537527261000937}
+    - targetCorrespondingSourceObject: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6830909595332144673}
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}
 --- !u!1 &9063439616851718856 stripped
 GameObject:
@@ -265,12 +282,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 064528c52a5b48c7f8912a3b6914eb79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   CorrectID: 0
   Emagged: 0
   cargoGUI: {fileID: 0}
-  allowedTypes: 0000000006000000070000001600000001000000100000001d000000
   creditArrivalSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/UI/Select.prefab

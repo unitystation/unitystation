@@ -87,7 +87,7 @@ TextureImporter:
       213: 21300054
     second: holdingpack_27
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,6 +148,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -162,6 +165,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -774,37 +789,36 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      holdingpack_22: 21300044
-      holdingpack_3: 21300006
-      holdingpack_9: 21300018
-      holdingpack_8: 21300016
-      holdingpack_6: 21300012
+      holdingpack_0: 21300000
       holdingpack_1: 21300002
+      holdingpack_10: 21300020
+      holdingpack_11: 21300022
       holdingpack_12: 21300024
-      holdingpack_14: 21300028
       holdingpack_13: 21300026
-      holdingpack_18: 21300036
-      holdingpack_25: 21300050
-      holdingpack_27: 21300054
-      holdingpack_26: 21300052
+      holdingpack_14: 21300028
       holdingpack_15: 21300030
       holdingpack_16: 21300032
       holdingpack_17: 21300034
-      holdingpack_23: 21300046
-      holdingpack_10: 21300020
-      holdingpack_7: 21300014
-      holdingpack_20: 21300040
-      holdingpack_4: 21300008
-      holdingpack_21: 21300042
-      holdingpack_11: 21300022
-      holdingpack_0: 21300000
-      holdingpack_2: 21300004
+      holdingpack_18: 21300036
       holdingpack_19: 21300038
+      holdingpack_2: 21300004
+      holdingpack_20: 21300040
+      holdingpack_21: 21300042
+      holdingpack_22: 21300044
+      holdingpack_23: 21300046
       holdingpack_24: 21300048
+      holdingpack_25: 21300050
+      holdingpack_26: 21300052
+      holdingpack_27: 21300054
+      holdingpack_3: 21300006
+      holdingpack_4: 21300008
       holdingpack_5: 21300010
-  spritePackingTag: 
+      holdingpack_6: 21300012
+      holdingpack_7: 21300014
+      holdingpack_8: 21300016
+      holdingpack_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

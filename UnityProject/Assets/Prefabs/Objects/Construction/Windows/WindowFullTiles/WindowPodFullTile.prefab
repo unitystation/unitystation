@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1422045320610588645, guid: 2687df960de8f3f4aa407993936cf69a,
@@ -110,6 +111,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6702688015537166644, guid: 2687df960de8f3f4aa407993936cf69a,
         type: 3}
+      propertyPath: _assetId
+      value: 76402377
+      objectReference: {fileID: 0}
+    - target: {fileID: 6702688015537166644, guid: 2687df960de8f3f4aa407993936cf69a,
+        type: 3}
       propertyPath: m_AssetId
       value: d198da07e4877fa4ab86eba8e2765a02
       objectReference: {fileID: 0}
@@ -142,6 +148,17 @@ PrefabInstance:
     - {fileID: 909604874776462733, guid: 2687df960de8f3f4aa407993936cf69a, type: 3}
     - {fileID: 8956573985973752005, guid: 2687df960de8f3f4aa407993936cf69a, type: 3}
     - {fileID: 6966500773567203384, guid: 2687df960de8f3f4aa407993936cf69a, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2943501438879853654, guid: 2687df960de8f3f4aa407993936cf69a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1619771110824145079}
+    - targetCorrespondingSourceObject: {fileID: 2943501438879853654, guid: 2687df960de8f3f4aa407993936cf69a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5869293705316556465}
   m_SourcePrefab: {fileID: 100100000, guid: 2687df960de8f3f4aa407993936cf69a, type: 3}
 --- !u!1 &6267626164826213306 stripped
 GameObject:
@@ -161,6 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9e51e431ef59f64ea946349935e5148, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   layerTile: {fileID: 11400000, guid: 385da750306d82d4bae8dc29a63b0a53, type: 2}
@@ -200,6 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0

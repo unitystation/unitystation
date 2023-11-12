@@ -30,6 +30,7 @@ public class WindowDrag : MonoBehaviour
 	private void OnEnable()
 	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		UIManager.PreventChatInput = true;
 	}
 
 	public void UpdateMe()
@@ -54,6 +55,7 @@ public class WindowDrag : MonoBehaviour
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 
 		transform.localPosition = startPositon;
+		UIManager.PreventChatInput = false;
 	}
 
 	/// <summary>

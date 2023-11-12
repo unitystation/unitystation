@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using Items;
+using Logs;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
@@ -143,7 +144,7 @@ namespace Systems.CraftingV2.GUI
 					initiatedCategoryButtonGameObject.GetComponent<CategoryButtonScript>();
 				if (GetRecipesInCategory(categoryButtonScript.CategoryAndIcon.RecipeCategory) != null)
 				{
-					Logger.LogError("An attempt to create two same categories in a crafting menu. " +
+					Loggy.LogError("An attempt to create two same categories in a crafting menu. " +
 					                $"The duplicated category: {categoryButtonScript.CategoryAndIcon.RecipeCategory}");
 					continue;
 				}
@@ -162,7 +163,7 @@ namespace Systems.CraftingV2.GUI
 			{
 				if (recipesInCategories[i] == null)
 				{
-					Logger.LogError($"The crafting menu is missing the category: {(RecipeCategory) i}.");
+					Loggy.LogError($"The crafting menu is missing the category: {(RecipeCategory) i}.");
 				}
 			}
 		}

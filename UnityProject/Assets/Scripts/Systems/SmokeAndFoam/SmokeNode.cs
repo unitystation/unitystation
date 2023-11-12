@@ -63,9 +63,9 @@ public class SmokeNode : SpreadNode
 		return node;
 	}
 
-	public override void DistributeToTile(SourceReservoir sourceReservoir)
+	public override void DistributeToTile(SpreadNode SpreadingFrom,SourceReservoir sourceReservoir)
 	{
-		base.DistributeToTile(sourceReservoir);
+		base.DistributeToTile(SpreadingFrom, sourceReservoir);
 		var Colour = Present.MixColor;
 		if (Present.MixColor == Color.clear)
 		{
@@ -74,6 +74,10 @@ public class SmokeNode : SpreadNode
 
 		OnMetaDataNode.PositionMatrix.MetaTileMap.AddOverlay(OnMetaDataNode.LocalPosition, SmokeAndFoamManager.Instance.OverlayTileSmoke, Matrix4x4.identity, Colour);
 
+		if (SpreadingFrom != null) //So it doesn't try adding itself to Splat it came from bugging out the reaction
+		{
+			MatrixManager.ReagentReact(Present, OnMetaDataNode.WorldPosition);
+		}
 	}
 
 	public override void Update()
@@ -92,12 +96,3 @@ public class SmokeNode : SpreadNode
 	}
 
 }
-
-public class SmokeSourceReservoir : SourceReservoir
-{
-	public override void RemoveTileInherit()
-	{
-		SmokeAndFoamManager.Instance.ActiveNodes.Remove(this);
-	}
-}
-

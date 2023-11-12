@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3828910587391036435, guid: 7cef0e2714d9c8c4587deef900a0b670,
@@ -80,6 +81,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7057474091270294048, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
+      propertyPath: _assetId
+      value: 2953847986
+      objectReference: {fileID: 0}
+    - target: {fileID: 7057474091270294048, guid: 7cef0e2714d9c8c4587deef900a0b670,
+        type: 3}
       propertyPath: m_AssetId
       value: 68e52345b8e8eba4aa27e110b598b023
       objectReference: {fileID: 0}
@@ -87,7 +93,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 3893162061064857666}
+      objectReference: {fileID: 0}
     - target: {fileID: 7103565639086458056, guid: 7cef0e2714d9c8c4587deef900a0b670,
         type: 3}
       propertyPath: m_Sprite
@@ -106,16 +112,7 @@ PrefabInstance:
         This one looks quite old and worn out.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7cef0e2714d9c8c4587deef900a0b670, type: 3}
---- !u!114 &3893162061064857666 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7057340262065297988, guid: 7cef0e2714d9c8c4587deef900a0b670,
-    type: 3}
-  m_PrefabInstance: {fileID: 6338816300331741702}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

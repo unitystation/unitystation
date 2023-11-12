@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Strings;
+using UnityEngine;
 
 namespace Antagonists
 {
@@ -10,43 +12,77 @@ namespace Antagonists
 	/// immutable and server merely as the definition of a particular kind of antag and this
 	/// can server as an actual INSTANCE of that antag in a given round.
 	/// </summary>
-	public class SpawnedAntag
+	public class SpawnedAntag : MonoBehaviour
 	{
 
 		/// <summary>
 		/// Antagonist this player spawned as.
 		/// </summary>
-		public readonly Antagonist Antagonist;
+		private Antagonist curAntagonist;
+		public Antagonist Antagonist => curAntagonist;
+
+		private Team curTeam = null;
+		public Team CurTeam
+		{
+			get
+			{
+				return curTeam;
+			}
+			set
+			{
+				curTeam?.RemoveTeamMember(Owner);
+				value?.AddTeamMember(Owner);
+				curTeam = value;
+			}
+		}
+		/// <summary>
+		/// Allows player to get info about status of objectives. Server side.
+		/// </summary>
+		public bool IsAntagCanSeeObjectivesStatus { get; set; } = false;
 
 		/// <summary>
 		/// Player controlling this antag.
 		/// </summary>
-		public readonly Mind Owner;
+		private Mind curOwner;
+		public Mind Owner
+		{
+			get
+			{
+				if (curOwner == null)
+					curOwner = gameObject.GetComponent<Mind>();
+				return curOwner;
+			}
+		}
 
 		/// <summary>
 		/// The objectives this antag has been given
 		/// </summary>
-		public IEnumerable<Objective> Objectives;
-
-		private SpawnedAntag(Antagonist antagonist, Mind owner, IEnumerable<Objective> objectives)
-		{
-			Antagonist = antagonist;
-			Owner = owner;
-			Objectives = objectives;
-		}
+		public IEnumerable<Objective> Objectives = new List<Objective>();
 
 		/// <summary>
-		/// Create a spawned antag of the indicated antag type for the indicated mind with the given objectives.
+		/// Returns a spawned antag of the indicated antag type for the indicated mind with the given objectives.
 		/// </summary>
 		/// <param name="antagonist"></param>
 		/// <param name="owner"></param>
 		/// <param name="objectives"></param>
 		/// <returns></returns>
-		public static SpawnedAntag Create(Antagonist antagonist, Mind owner, IEnumerable<Objective> objectives)
+		public SpawnedAntag Init(Antagonist antagonist, Mind mind, IEnumerable<Objective> objectives)
 		{
-			return new SpawnedAntag(antagonist, owner, objectives);
+			curAntagonist = antagonist;
+			curOwner = mind;
+			Objectives = objectives;
+			return this;
 		}
 
+		/// <summary>
+		/// Clears antag objectives and other stuff
+		/// </summary>
+		public void Clear()
+		{
+			Objectives = new List<Objective>();
+			IsAntagCanSeeObjectivesStatus = false;
+			curAntagonist = null;
+		}
 
 		/// <summary>
 		/// Returns a string with just the objectives for logging
@@ -67,12 +103,40 @@ namespace Antagonists
 		/// </summary>
 		public string GetObjectivesForPlayer()
 		{
-			StringBuilder objSB = new StringBuilder($"</i><size={ChatTemplates.VeryLargeText}><color=red>You are a <b>{Antagonist.AntagName}</b>!</color></size>\n", 200);
+			StringBuilder objSB = new StringBuilder("", 200);
+			if (Antagonist != null)
+			{
+				objSB.Append($"</i><size={ChatTemplates.VeryLargeText}><color=red>You are a <b>{Antagonist.AntagName}</b>!</color></size>\n");
+			} else
+			{
+				objSB.Append($"</i><size={ChatTemplates.VeryLargeText}><color=red>You have objectives!</color></size>\n");
+			}
 			var objectiveList = Objectives.ToList();
 			objSB.AppendLine("Your objectives are:");
 			for (int i = 0; i < objectiveList.Count; i++)
 			{
-				objSB.AppendLine($"{i+1}. {objectiveList[i].Description}");
+				if (IsAntagCanSeeObjectivesStatus == true)
+				{
+					objSB.AppendLine($"{i + 1}. {objectiveList[i].Description}:");
+					objSB.AppendLine(objectiveList[i].IsComplete() ? "<color=green>Completed\n" : "In progress/Failed");
+				} else
+				{
+					objSB.AppendLine($"{i + 1}. {objectiveList[i].Description}");
+				}
+			}
+			if (CurTeam != null)
+			{
+				objSB.AppendLine($"You are member of {CurTeam.GetTeamName()}.");
+				if (CurTeam.TeamObjectives.Count > 0)
+				{
+					objSB.AppendLine($"And {CurTeam.GetTeamName()} objectives are:");
+				}
+				for (int i = 0; i < CurTeam.TeamObjectives.Count; i++)
+				{
+					var obj = CurTeam.TeamObjectives[i];
+
+					objSB.AppendLine($"{i + 1}. {obj.Description}");
+				}
 			}
 			// Adding back italic tag so rich text doesn't break
 			objSB.AppendLine("<i>");
@@ -114,6 +178,12 @@ namespace Antagonists
 				message += $"{i + 1}. {objectiveList[i].Description}: ";
 				message += objectiveList[i].IsComplete() ? "Completed\n" : "Failed\n";
 			}
+			return message;
+		}
+
+		public string GetPlayerName()
+		{
+			var message = $"{Owner.OrNull()?.Body.OrNull()?.playerName}, {Owner.OrNull()?.occupation.OrNull()?.DisplayName}\n";
 			return message;
 		}
 	}

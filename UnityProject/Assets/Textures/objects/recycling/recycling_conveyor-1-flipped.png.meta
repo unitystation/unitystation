@@ -99,7 +99,7 @@ TextureImporter:
       213: 6541193532519433809
     second: conveyor-1-flipped_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -116,11 +116,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -159,6 +160,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +177,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -870,41 +885,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      conveyor-1-flipped_26: -1316531375289800225
-      conveyor-1-flipped_8: -6885399071622340072
-      conveyor-1-flipped_13: 4034750637910682079
-      conveyor-1-flipped_11: -2731798264845972139
-      conveyor-1-flipped_22: -5937692352460597021
-      conveyor-1-flipped_28: -2348618230781685497
-      conveyor-1-flipped_5: -2849172995559277928
-      conveyor-1-flipped_2: -8906473745042437513
-      conveyor-1-flipped_31: 6541193532519433809
-      conveyor-1-flipped_18: 3821127651789625699
-      conveyor-1-flipped_1: -1305601956517626037
-      conveyor-1-flipped_6: -3874988605224729236
-      conveyor-1-flipped_14: 3153159017747833345
-      conveyor-1-flipped_20: 7529601421967801422
-      conveyor-1-flipped_24: 5528756792765666565
-      conveyor-1-flipped_30: -5756875667546824323
-      conveyor-1-flipped_25: -3931217150771816799
-      conveyor-1-flipped_27: 2001916064917457371
-      conveyor-1-flipped_9: 5551225816530073037
-      conveyor-1-flipped_23: -994022371523119987
-      conveyor-1-flipped_4: 3214902644896181856
-      conveyor-1-flipped_16: -6201799254965219298
-      conveyor-1-flipped_19: -3798065220947357026
-      conveyor-1-flipped_7: -5721101295326888666
-      conveyor-1-flipped_3: -244775479110569869
-      conveyor-1-flipped_29: 1660246538931211939
-      conveyor-1-flipped_12: -5635325811514045405
-      conveyor-1-flipped_15: -5226783243700351775
       conveyor-1-flipped_0: 458106605480110710
-      conveyor-1-flipped_21: -693781536357742441
+      conveyor-1-flipped_1: -1305601956517626037
       conveyor-1-flipped_10: -5182809061071735213
+      conveyor-1-flipped_11: -2731798264845972139
+      conveyor-1-flipped_12: -5635325811514045405
+      conveyor-1-flipped_13: 4034750637910682079
+      conveyor-1-flipped_14: 3153159017747833345
+      conveyor-1-flipped_15: -5226783243700351775
+      conveyor-1-flipped_16: -6201799254965219298
       conveyor-1-flipped_17: 3801786576336335834
-  spritePackingTag: 
+      conveyor-1-flipped_18: 3821127651789625699
+      conveyor-1-flipped_19: -3798065220947357026
+      conveyor-1-flipped_2: -8906473745042437513
+      conveyor-1-flipped_20: 7529601421967801422
+      conveyor-1-flipped_21: -693781536357742441
+      conveyor-1-flipped_22: -5937692352460597021
+      conveyor-1-flipped_23: -994022371523119987
+      conveyor-1-flipped_24: 5528756792765666565
+      conveyor-1-flipped_25: -3931217150771816799
+      conveyor-1-flipped_26: -1316531375289800225
+      conveyor-1-flipped_27: 2001916064917457371
+      conveyor-1-flipped_28: -2348618230781685497
+      conveyor-1-flipped_29: 1660246538931211939
+      conveyor-1-flipped_3: -244775479110569869
+      conveyor-1-flipped_30: -5756875667546824323
+      conveyor-1-flipped_31: 6541193532519433809
+      conveyor-1-flipped_4: 3214902644896181856
+      conveyor-1-flipped_5: -2849172995559277928
+      conveyor-1-flipped_6: -3874988605224729236
+      conveyor-1-flipped_7: -5721101295326888666
+      conveyor-1-flipped_8: -6885399071622340072
+      conveyor-1-flipped_9: 5551225816530073037
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

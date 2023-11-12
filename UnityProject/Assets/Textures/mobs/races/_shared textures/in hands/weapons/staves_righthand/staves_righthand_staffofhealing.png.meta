@@ -147,7 +147,7 @@ TextureImporter:
       213: 21300094
     second: staffofhealing_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -164,11 +164,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -207,6 +208,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +225,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1254,57 +1269,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      staffofhealing_17: 21300034
-      staffofhealing_35: 21300070
-      staffofhealing_19: 21300038
-      staffofhealing_21: 21300042
+      staffofhealing_0: 21300000
       staffofhealing_1: 21300002
-      staffofhealing_26: 21300052
+      staffofhealing_10: 21300020
+      staffofhealing_11: 21300022
+      staffofhealing_12: 21300024
+      staffofhealing_13: 21300026
+      staffofhealing_14: 21300028
+      staffofhealing_15: 21300030
+      staffofhealing_16: 21300032
+      staffofhealing_17: 21300034
+      staffofhealing_18: 21300036
+      staffofhealing_19: 21300038
+      staffofhealing_2: 21300004
+      staffofhealing_20: 21300040
+      staffofhealing_21: 21300042
       staffofhealing_22: 21300044
       staffofhealing_23: 21300046
-      staffofhealing_8: 21300016
-      staffofhealing_15: 21300030
-      staffofhealing_45: 21300090
-      staffofhealing_11: 21300022
-      staffofhealing_33: 21300066
-      staffofhealing_25: 21300050
-      staffofhealing_47: 21300094
       staffofhealing_24: 21300048
-      staffofhealing_7: 21300014
-      staffofhealing_42: 21300084
-      staffofhealing_32: 21300064
-      staffofhealing_43: 21300086
-      staffofhealing_41: 21300082
-      staffofhealing_13: 21300026
-      staffofhealing_0: 21300000
-      staffofhealing_36: 21300072
-      staffofhealing_30: 21300060
-      staffofhealing_9: 21300018
-      staffofhealing_16: 21300032
-      staffofhealing_31: 21300062
-      staffofhealing_12: 21300024
-      staffofhealing_34: 21300068
-      staffofhealing_44: 21300088
-      staffofhealing_3: 21300006
-      staffofhealing_2: 21300004
-      staffofhealing_29: 21300058
-      staffofhealing_6: 21300012
-      staffofhealing_10: 21300020
-      staffofhealing_4: 21300008
-      staffofhealing_28: 21300056
-      staffofhealing_39: 21300078
-      staffofhealing_5: 21300010
-      staffofhealing_38: 21300076
-      staffofhealing_18: 21300036
-      staffofhealing_37: 21300074
-      staffofhealing_14: 21300028
+      staffofhealing_25: 21300050
+      staffofhealing_26: 21300052
       staffofhealing_27: 21300054
-      staffofhealing_20: 21300040
-      staffofhealing_46: 21300092
+      staffofhealing_28: 21300056
+      staffofhealing_29: 21300058
+      staffofhealing_3: 21300006
+      staffofhealing_30: 21300060
+      staffofhealing_31: 21300062
+      staffofhealing_32: 21300064
+      staffofhealing_33: 21300066
+      staffofhealing_34: 21300068
+      staffofhealing_35: 21300070
+      staffofhealing_36: 21300072
+      staffofhealing_37: 21300074
+      staffofhealing_38: 21300076
+      staffofhealing_39: 21300078
+      staffofhealing_4: 21300008
       staffofhealing_40: 21300080
-  spritePackingTag: 
+      staffofhealing_41: 21300082
+      staffofhealing_42: 21300084
+      staffofhealing_43: 21300086
+      staffofhealing_44: 21300088
+      staffofhealing_45: 21300090
+      staffofhealing_46: 21300092
+      staffofhealing_47: 21300094
+      staffofhealing_5: 21300010
+      staffofhealing_6: 21300012
+      staffofhealing_7: 21300014
+      staffofhealing_8: 21300016
+      staffofhealing_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

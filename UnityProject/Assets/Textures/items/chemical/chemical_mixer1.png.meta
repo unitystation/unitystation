@@ -102,7 +102,7 @@ TextureImporter:
       213: 21300064
     second: mixer1_32
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -119,11 +119,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -162,6 +163,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -177,6 +180,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -895,41 +910,40 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       mixer1_0: 21300000
-      mixer1_9: 21300018
-      mixer1_19: 21300038
-      mixer1_26: 21300052
-      mixer1_15: 21300030
-      mixer1_20: 21300040
-      mixer1_25: 21300050
-      mixer1_11: 21300022
-      mixer1_3: 21300006
-      mixer1_4: 21300008
-      mixer1_12: 21300024
-      mixer1_23: 21300046
+      mixer1_1: 21300002
       mixer1_10: 21300020
-      mixer1_5: 21300010
-      mixer1_6: 21300012
-      mixer1_8: 21300016
-      mixer1_29: 21300058
-      mixer1_24: 21300048
+      mixer1_11: 21300022
+      mixer1_12: 21300024
+      mixer1_13: 21300026
+      mixer1_14: 21300028
+      mixer1_15: 21300030
+      mixer1_16: 21300032
       mixer1_17: 21300034
-      mixer1_28: 21300056
+      mixer1_18: 21300036
+      mixer1_19: 21300038
+      mixer1_2: 21300004
+      mixer1_20: 21300040
       mixer1_21: 21300042
       mixer1_22: 21300044
-      mixer1_1: 21300002
-      mixer1_30: 21300060
-      mixer1_2: 21300004
-      mixer1_7: 21300014
+      mixer1_23: 21300046
+      mixer1_24: 21300048
+      mixer1_25: 21300050
+      mixer1_26: 21300052
       mixer1_27: 21300054
-      mixer1_13: 21300026
-      mixer1_18: 21300036
-      mixer1_16: 21300032
+      mixer1_28: 21300056
+      mixer1_29: 21300058
+      mixer1_3: 21300006
+      mixer1_30: 21300060
       mixer1_31: 21300062
       mixer1_32: 21300064
-      mixer1_14: 21300028
-  spritePackingTag: 
+      mixer1_4: 21300008
+      mixer1_5: 21300010
+      mixer1_6: 21300012
+      mixer1_7: 21300014
+      mixer1_8: 21300016
+      mixer1_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

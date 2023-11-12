@@ -1,7 +1,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
+using Logs;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -62,7 +62,7 @@ public class RightClickableElement
 		}
 		else
 		{
-			Logger.LogWarningFormat("Unable to find right click option with name {0}. Ensure" +
+			Loggy.LogWarningFormat("Unable to find right click option with name {0}. Ensure" +
 			                      " the RightClickOption scriptable object exists in the singleton folder." +
 			                      " A default option will be displayed instead with the same name.",
 									Category.UserInput, optionName);

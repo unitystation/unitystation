@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
@@ -14,43 +15,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: fillIcons.Array.data[0]
+      propertyPath: 'fillIcons.Array.data[0]'
       value: 
       objectReference: {fileID: 21300000, guid: e2c0138bb7e13c24987649f57503675e,
         type: 3}
     - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: fillIcons.Array.data[1]
+      propertyPath: 'fillIcons.Array.data[1]'
       value: 
       objectReference: {fileID: 21300000, guid: d758e32fde2b7d648b501b196bb9850b,
         type: 3}
     - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: fillIcons.Array.data[2]
+      propertyPath: 'fillIcons.Array.data[2]'
       value: 
       objectReference: {fileID: 21300000, guid: 427e9dcad3c7fbe48bd7dc336afba1fa,
         type: 3}
     - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: fillIcons.Array.data[3]
+      propertyPath: 'fillIcons.Array.data[3]'
       value: 
       objectReference: {fileID: 21300000, guid: 74214c404a18b0c478ae287bccd5244e,
         type: 3}
     - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: fillIcons.Array.data[4]
+      propertyPath: 'fillIcons.Array.data[4]'
       value: 
       objectReference: {fileID: 21300000, guid: 30678314c4158464c8679356ba59dcc3,
         type: 3}
     - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: fillIcons.Array.data[5]
+      propertyPath: 'fillIcons.Array.data[5]'
       value: 
       objectReference: {fileID: 21300000, guid: fdc34f556f0d832439871518b85b5aa6,
         type: 3}
     - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: fillIcons.Array.data[6]
+      propertyPath: 'fillIcons.Array.data[6]'
       value: 
       objectReference: {fileID: 21300000, guid: 5b0bad829c6302040b1a853b857c3db2,
         type: 3}
@@ -82,12 +83,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[6]
+      propertyPath: 'possibleTransferAmounts.Array.data[6]'
       value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[7]
+      propertyPath: 'possibleTransferAmounts.Array.data[7]'
       value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 7672760112814096758, guid: 8fee22e722a3782408324281846ebd02,
@@ -157,6 +158,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8782379728963083573, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
+      propertyPath: _assetId
+      value: 877907278
+      objectReference: {fileID: 0}
+    - target: {fileID: 8782379728963083573, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
       propertyPath: m_AssetId
       value: 790a543a09ecd4442acbf99db25be404
       objectReference: {fileID: 0}
@@ -182,4 +188,7 @@ PrefabInstance:
       value: An extra-large beaker. Can hold up to 120 units.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fee22e722a3782408324281846ebd02, type: 3}

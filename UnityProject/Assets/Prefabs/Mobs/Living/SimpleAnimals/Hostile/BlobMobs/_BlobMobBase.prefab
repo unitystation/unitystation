@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
@@ -69,6 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3826885964139575000, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
+      propertyPath: _assetId
+      value: 2311596902
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826885964139575000, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
       propertyPath: m_AssetId
       value: 22a414437f29f374c9a192acc5e18af4
       objectReference: {fileID: 0}
@@ -95,6 +101,25 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 7017895921186973579, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
     - {fileID: 811126669682120101, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3786279822138338372, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 313349335644084946}
+    - targetCorrespondingSourceObject: {fileID: 3786279822138338372, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6844387211904348062}
+    - targetCorrespondingSourceObject: {fileID: 3786279822138338372, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7798120091269379986}
+    - targetCorrespondingSourceObject: {fileID: 3786279822138338372, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7962185598990548661}
   m_SourcePrefab: {fileID: 100100000, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
 --- !u!1 &5194550138725232449 stripped
 GameObject:
@@ -125,6 +150,7 @@ MonoBehaviour:
   randomSoundProbability: 20
   searchTickRate: 0.5
   currentStatus: 0
+  ScoreForKilling: 5
 --- !u!114 &6844387211904348062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,38 +168,7 @@ MonoBehaviour:
   spriteHandler: {fileID: 0}
   activeSprite: {fileID: 0}
   inactiveSprite: {fileID: 0}
-  integrity: {fileID: 0}
-  expandCoords: []
-  healthPulseCoords: []
-  nodeDepleted: 0
-  location: {x: 0, y: 0, z: 0}
   overmindName: 
-  initialArmor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
-    DismembermentProtectionChance: 0
-    StunImmunity: 0
-  initialResistances:
-    LavaProof: 0
-    FireProof: 0
-    Flammable: 0
-    UnAcidable: 0
-    AcidProof: 0
-    Indestructable: 0
-    FreezeProof: 0
-    LightningDamageProof: 0
-  connectedToBlobNet: 0
-  connectedNode: {fileID: 0}
-  connectedPath: []
-  lineRenderer: {fileID: 0}
 --- !u!114 &7798120091269379986
 MonoBehaviour:
   m_ObjectHideFlags: 0

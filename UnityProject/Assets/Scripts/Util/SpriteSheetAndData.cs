@@ -40,25 +40,4 @@ public class SpriteSheetAndData
 		}
 	}
 
-
-	public SpriteData Data
-	{
-		get
-		{
-			/*if (data.List.Count == 0)
-			{
-				if (Texture != null)
-				{
-					data.List.Add(SpriteFunctions.CompleteSpriteSetup(this));
-				}
-			}*/
-			return data;
-		}
-		set
-		{
-			data = value;
-		}
-	}
-
-	private SpriteData data = new SpriteData();
 }

@@ -6,7 +6,6 @@ namespace UI.Objects.Cargo
 {
 	public class GUI_CargoPage : NetPage
 	{
-		public string DirectoryName = "/.../available_supplies";
 		public GUI_Cargo cargoGUI;
 
 		/// <summary>
