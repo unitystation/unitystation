@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Util
+namespace Core.Editor.Tools
 {
 	public static class AddFocusWrapperToAllComponents
 	{
