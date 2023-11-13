@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Util
 {
-	public class AddFocusWrapperToAllComponents
+	public static class AddFocusWrapperToAllComponents
 	{
 		[MenuItem("Tools/UI/AddFocusWrapperToAllInputFields")]
 		public static void UpdateAllGameObjects()
