@@ -87,6 +87,17 @@ static class BuildScript
 
 	public static void BuildProject()
 	{
+
+		var Defines = PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone);
+		Defines = Defines.Replace(";DEV_DEBUG", ""); //the ; is at the beginning If it's at the end of the list
+		PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Standalone, Defines);
+
+		//This is because unity team is lazy and doesn't give you an option to recompile
+		EditorApplication.delayCall += AfterDomainReload;
+	}
+
+	private static void AfterDomainReload()
+	{
 		// Gather values from args
 		var options = GetValidatedOptions();
 
@@ -101,13 +112,9 @@ static class BuildScript
 
 		var target = (BuildTarget) Enum.Parse(typeof(BuildTarget), buildTarget);
 
-		var Defines = PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone);
-		Defines.Replace(";DEV_DEBUG", ""); //the ; is at the beginning If it's at the end of the list
-		PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Standalone, Defines);
-
-
 		// Define BuildPlayer Options
-		var buildOptions = new BuildPlayerOptions {
+		var buildOptions = new BuildPlayerOptions
+		{
 			scenes = scenes,
 			locationPathName = locationPathName,
 			target = target,

@@ -184,7 +184,7 @@ namespace SecureStuff
 				if (trustedMode == null)
 				{
 					string[] commandLineArgs = Environment.GetCommandLineArgs();
-					trustedMode = commandLineArgs.Any(x => x == "--trusted");
+					trustedMode = commandLineArgs.Any(x => x == "-trusted");
 				}
 
 				return trustedMode.Value;
