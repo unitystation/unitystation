@@ -92,12 +92,6 @@ static class BuildScript
 		Defines = Defines.Replace(";DEV_DEBUG", ""); //the ; is at the beginning If it's at the end of the list
 		PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Standalone, Defines);
 
-		//This is because unity team is lazy and doesn't give you an option to recompile
-		EditorApplication.delayCall += AfterDomainReload;
-	}
-
-	private static void AfterDomainReload()
-	{
 		// Gather values from args
 		var options = GetValidatedOptions();
 
@@ -140,6 +134,8 @@ static class BuildScript
 		BuildResult result = summary.result;
 		ExitWithResult(result);
 	}
+
+
 
 	private static void ReportOptions(BuildPlayerOptions options)
 	{
