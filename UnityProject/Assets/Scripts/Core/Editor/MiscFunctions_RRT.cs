@@ -462,10 +462,17 @@ namespace Util
 		[MenuItem("Tools/------------ Debug function -----------")]
 		public static void Generate()
 		{
-			 AssetDatabase.StartAssetEditing();
-			                     			AssetDatabase.ForceReserializeAssets();
-			                     		AssetDatabase.StopAssetEditing();
-			                             			AssetDatabase.SaveAssets();
+			string aa = @"0​
+UnityEngine";
+			string Text = "0\u200b";
+			Loggy.LogError("Text > " + Text);
+			var nub = float.Parse(Text);
+
+			Loggy.LogError("nub > " + nub);
+			 // AssetDatabase.StartAssetEditing();
+			 //                     			AssetDatabase.ForceReserializeAssets();
+			 //                     		AssetDatabase.StopAssetEditing();
+			 //                             			AssetDatabase.SaveAssets();
 
 
 			// Get the type (class) that contains the method
