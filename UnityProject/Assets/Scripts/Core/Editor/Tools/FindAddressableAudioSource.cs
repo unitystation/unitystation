@@ -24,7 +24,7 @@ namespace Assets.Scripts.Editor.Tools
 		private bool nullOnly = false;
 		private Vector2 scrollPosition;
 
-		[MenuItem("Tools/Find AddressableAudioSource")]
+		[MenuItem("Tools/Audio/Find AddressableAudioSource")]
 		private static void Init()
 		{
 			// Get existing open window or if none, make a new one:
@@ -88,7 +88,7 @@ namespace Assets.Scripts.Editor.Tools
 			EditorGUILayout.Separator();
 
 			nullOnly = EditorGUILayout.Toggle("Search for null values only", nullOnly);
-			
+
 			EditorGUILayout.Separator();
 
 			if (GUILayout.Button("Find"))

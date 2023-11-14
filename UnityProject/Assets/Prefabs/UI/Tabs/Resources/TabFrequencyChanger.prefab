@@ -317,6 +317,7 @@ GameObject:
   - component: {fileID: 7276524173429247799}
   - component: {fileID: 4737123495008601157}
   - component: {fileID: 6242177477219099651}
+  - component: {fileID: 3496944497946492122}
   m_Layer: 5
   m_Name: FreqTextInput
   m_TagString: Untagged
@@ -465,6 +466,18 @@ MonoBehaviour:
   m_isRichTextEditingAllowed: 0
   m_LineLimit: 0
   m_InputValidator: {fileID: 0}
+--- !u!114 &3496944497946492122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473014961565763794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5efb2a982d806d04cbe8f95e93da2290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1724005273143931381
 GameObject:
   m_ObjectHideFlags: 0
@@ -1820,6 +1833,7 @@ GameObject:
   - component: {fileID: 2415199087324405613}
   - component: {fileID: 5218399408957741606}
   - component: {fileID: 4476574951183497066}
+  - component: {fileID: -4541539085248599943}
   m_Layer: 5
   m_Name: CodeTextInput (1)
   m_TagString: Untagged
@@ -1965,6 +1979,18 @@ MonoBehaviour:
   m_isRichTextEditingAllowed: 0
   m_LineLimit: 0
   m_InputValidator: {fileID: 0}
+--- !u!114 &-4541539085248599943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5611788399403651487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5efb2a982d806d04cbe8f95e93da2290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6455880088137642055
 GameObject:
   m_ObjectHideFlags: 0
@@ -2528,6 +2554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NetTab: {fileID: 0}
   OnEscapeKey:
     m_PersistentCalls:
       m_Calls: []
