@@ -39,6 +39,7 @@ namespace Systems.Faith
 			currentFaith = newFaith;
 			FaithName = currentFaith.FaithName;
 			FaithManager.JoinFaith(newFaith, player);
+			Chat.AddExamineMsg(gameObject, $"You've joined the {FaithName} faith.");
 		}
 
 		[Command]
@@ -103,10 +104,16 @@ namespace Systems.Faith
 		public RightClickableResult GenerateRightClickOptions()
 		{
 			RightClickableResult result = new RightClickableResult();
-			if (FaithName != "None")
+			if (FaithName == "None")
 			{
 				result.AddElement("Join Faith",
 					() => PlayerManager.LocalPlayerScript.PlayerFaith.JoinReligion(FaithName));
+			}
+
+			if (gameObject == PlayerManager.LocalPlayerObject && FaithName is not "None")
+			{
+				result.AddElement("Leave Faith",
+					() => PlayerManager.LocalPlayerScript.PlayerFaith.LeaveReligion());
 			}
 
 			return result;

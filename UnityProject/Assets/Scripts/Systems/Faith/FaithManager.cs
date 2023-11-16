@@ -21,9 +21,15 @@ namespace Systems.Faith
 		{
 			base.Awake();
 			EventManager.AddHandler(Event.RoundEnded, ResetReligion);
+			EventManager.AddHandler(Event.RoundStarted, SetupUpdates);
+			Loggy.Log("[FaithManager/Awake] - Setting stuff.");
+		}
+
+		private void SetupUpdates()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
 			UpdateManager.Add(LongUpdate, FaithEventsCheckTimeInSeconds);
 			UpdateManager.Add(PeriodicUpdate, FaithPerodicCheckTimeInSeconds);
-			Loggy.Log("[FaithManager/Awake] - Setting stuff.");
 		}
 
 		private void ResetReligion()
@@ -39,12 +45,13 @@ namespace Systems.Faith
 			CurrentFaiths.Add(defaultFaith);
 			FaithPropertiesConstantUpdate.Clear();
 			FaithPropertiesEventUpdate.Clear();
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, LongUpdate);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		}
 
 		private void LongUpdate()
 		{
-			if (CustomNetworkManager.IsServer == false) return;
-
+			Loggy.Log($"[FaithManager/LongUpdate] - {FaithPropertiesEventUpdate.Count} events will be invoked in FaithPropertiesEventUpdate.");
 			foreach (var update in FaithPropertiesEventUpdate)
 			{
 				update?.Invoke();
@@ -55,14 +62,13 @@ namespace Systems.Faith
 			{
 				if (faith.FaithMembers.Count == 0) continue;
 				if (faith.Faith.FaithProperties.Count == 0) continue;
-				if (faith.Points.IsBetween(-250, 250)) continue;
+				if (faith.Points.IsBetween(-75, 75)) continue;
 				faith.Faith.FaithProperties.PickRandom()?.RandomEvent();
 			}
 		}
 
 		private void PeriodicUpdate()
 		{
-			if (CustomNetworkManager.IsServer == false) return;
 			foreach (var property in FaithPropertiesConstantUpdate)
 			{
 				property?.Invoke();
@@ -96,7 +102,11 @@ namespace Systems.Faith
 
 		public void AddFaithToActiveList(Faith faith)
 		{
-			if (CustomNetworkManager.IsServer == false) return;
+			if (CustomNetworkManager.IsServer == false)
+			{
+				Loggy.LogError("[FaithManager/AddFaithToActiveList] - Attempted to call a server function on the client.");
+				return;
+			}
 			FaithData data = new FaithData()
 			{
 				Faith = faith,
@@ -105,10 +115,7 @@ namespace Systems.Faith
 				FaithMembers = new List<PlayerScript>(),
 			};
 			CurrentFaiths.Add(data);
-			foreach (var property in faith.FaithProperties)
-			{
-				property.Setup(data);
-			}
+			data.SetupFaith();
 		}
 
 		public static void JoinFaith(Faith faith, PlayerScript player)
@@ -124,6 +131,9 @@ namespace Systems.Faith
 			foreach (var faith in Instance.CurrentFaiths.Where(faith => faith.FaithMembers.Contains(playerScript)))
 			{
 				faith.RemoveMember(playerScript);
+				if (faith.FaithLeaders.Count != 0) continue;
+				faith.RemoveAllMembers();
+				Instance.CurrentFaiths.Remove(faith);
 			}
 		}
 
