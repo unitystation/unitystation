@@ -445,7 +445,9 @@ public class Matrix : MonoBehaviour
 		{
 			foreach (var electricalMetaData in MetaDataLayer.Get(localPosition).ElectricalData)
 			{
-				list.List.Add(electricalMetaData.InData);
+				var inData = electricalMetaData?.InData;
+				if (inData == null) continue;
+				list.List.Add(inData);
 			}
 		}
 

@@ -10,8 +10,12 @@ using UnityEngine.Tilemaps;
 
 namespace Systems.FilthGenerator
 {
-	public class FilthGenerator : MatrixSystemBehaviour
+	public class FilthGenerator : ItemMatrixSystemInit
 	{
+		public override int Priority => 99;
+
+
+
 		private static readonly System.Random Random = new System.Random();
 		private Tilemap floorTilemap;
 		private TileChangeManager tileChangeManager;
@@ -27,12 +31,6 @@ namespace Systems.FilthGenerator
 		private int filthGenerated = 0;
 		public int FilthCleanGoal { get; private set; } = 0;
 
-		public override void Awake()
-		{
-			RegisteredToLegacySubsystemManager = false;
-			base.Awake();
-		}
-
 		public override void Initialize()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
@@ -44,14 +42,9 @@ namespace Systems.FilthGenerator
 			Chat.AddGameWideSystemMsgToChat($"<color=yellow>Initialised {gameObject.name} FilthGen: " + sw.ElapsedMilliseconds + " ms</color>");
 		}
 
-		public override void UpdateAt(Vector3Int localPosition)
+		public override void OnDestroy()
 		{
-			// No Updates Needed.
-		}
-
-		private void OnDestroy()
-		{
-			metaTileMap = null;
+			base.OnDestroy();
 			floorTilemap = null;
 			tileChangeManager = null;
 		}
@@ -60,9 +53,8 @@ namespace Systems.FilthGenerator
 		public void RunFilthGenerator()
 		{
 			if (generateFilthReagent == false && filthDecalsAndObjects.Count == 0) return;
-			metaTileMap = GetComponentInChildren<MetaTileMap>();
-			floorTilemap = metaTileMap.Layers[LayerType.Floors].GetComponent<Tilemap>();
-			tileChangeManager = GetComponent<TileChangeManager>();
+			floorTilemap = MetaTileMap.Layers[LayerType.Floors].GetComponent<Tilemap>();
+			tileChangeManager = GetComponentInParent<TileChangeManager>();
 
 			BoundsInt bounds = floorTilemap.cellBounds;
 			List<Vector3Int> EmptyTiled = new List<Vector3Int>();
@@ -73,9 +65,9 @@ namespace Systems.FilthGenerator
 				{
 					Vector3Int localPlace = (new Vector3Int(n, p, 0));
 
-					if (metaTileMap.HasTile(localPlace))
+					if (MetaTileMap.HasTile(localPlace))
 					{
-						BasicTile tile = metaTileMap.GetTile(localPlace, LayerType.Floors) as BasicTile;
+						BasicTile tile = MetaTileMap.GetTile(localPlace, LayerType.Floors) as BasicTile;
 						if (tile != null) EmptyTiled.Add(localPlace);
 					}
 				}

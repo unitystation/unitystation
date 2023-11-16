@@ -96,12 +96,18 @@ namespace Items
 						}
 					}
 				}
-
-
 				APCtoSet.OrNull()?.RemoveFromAPC();
-				RegisterTile.Matrix.MetaDataLayer.InitialObjects[this.gameObject] = this.transform.localPosition;
-				this.GetComponent<UniversalObjectPhysics>()?.DisappearFromWorld();
-				this.GetComponent<RegisterTile>().UpdatePositionServer();
+
+				if (this.GetComponent<EtherealThing>())
+				{
+					return;
+				}
+				else
+				{
+					RegisterTile.Matrix.MetaDataLayer.InitialObjects[this.gameObject] = this.transform.localPosition;
+					this.GetComponent<UniversalObjectPhysics>()?.DisappearFromWorld();
+					this.GetComponent<RegisterTile>().UpdatePositionServer();
+				}
 			}
 		}
 
