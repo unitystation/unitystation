@@ -247,8 +247,15 @@ namespace Chemistry.Components
 				}
 			}
 
-			if (applyChange == true) ReactionSet.Apply(this, CurrentReagentMix, possibleReactions);
-			//ReactionSet.Apply(this, CurrentReagentMix,AdditionalReactions);
+			if (applyChange == true)
+			{
+				var Changed =  ReactionSet.Apply(this, CurrentReagentMix, possibleReactions);
+
+				if (Changed)
+				{
+					SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bubbles, gameObject.AssumedWorldPosServer());
+				}
+			}
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
