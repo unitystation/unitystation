@@ -104,7 +104,7 @@ namespace Systems.Faith
 		public RightClickableResult GenerateRightClickOptions()
 		{
 			RightClickableResult result = new RightClickableResult();
-			if (FaithName == "None")
+			if (FaithName != "None")
 			{
 				result.AddElement("Join Faith",
 					() => PlayerManager.LocalPlayerScript.PlayerFaith.JoinReligion(FaithName));
