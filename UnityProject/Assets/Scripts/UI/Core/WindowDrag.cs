@@ -39,7 +39,7 @@ public class WindowDrag : MonoBehaviour
 			return;
 		}
 
-		if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ResetWindowPosition))
+		if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ResetWindowPosition) && UIManager.IsInputFocus == false)
 		{
 			this.transform.localPosition = Vector3.zero;
 		}
