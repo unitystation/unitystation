@@ -426,8 +426,17 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	[RightClickMethod]
 	public void Possess()
 	{
-		PlayerManager.LocalMindScript.SetPossessingObject(this.gameObject);
+		if (PlayerList.Instance.IsClientAdmin)
+		{
+			PlayerManager.LocalMindScript.SetPossessingObject(this.gameObject);
+			if (isServer == false)
+			{
+
+				PlayerManager.LocalMindScript.CmdRequestPossess(this.gameObject.NetId());
+			}
+		}
 	}
+
 
 	public bool IsHidden => PlayerSync.IsVisible == false;
 

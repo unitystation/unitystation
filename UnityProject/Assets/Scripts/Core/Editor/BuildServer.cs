@@ -90,6 +90,7 @@ static class BuildScript
 
 		var Defines = PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone);
 		Defines = Defines.Replace(";DEV_DEBUG", ""); //the ; is at the beginning If it's at the end of the list
+		Defines = Defines.Replace("DEV_DEBUG;", "");
 		PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Standalone, Defines);
 
 		// Gather values from args

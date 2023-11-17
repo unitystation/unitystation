@@ -58,13 +58,14 @@ namespace Items.Implants.Organs
 		[RightClickMethod]
 		public void Possess()
 		{
-			if (isServer)
+			if (PlayerList.Instance.IsClientAdmin)
 			{
 				PlayerManager.LocalMindScript.SetPossessingObject(this.gameObject);
-			}
-			else
-			{
-				PlayerManager.LocalMindScript.CmdRequestPossess(this.gameObject.NetId());
+				if (isServer == false)
+				{
+
+					PlayerManager.LocalMindScript.CmdRequestPossess(this.gameObject.NetId());
+				}
 			}
 		}
 

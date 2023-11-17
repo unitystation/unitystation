@@ -113,4 +113,6 @@ public class CommonSounds : SingletonScriptableObject<CommonSounds>
 
 
    public AddressableAudioSource Crawl1 = null;
+
+   public AddressableAudioSource Bubbles = null;
 }
