@@ -27,5 +27,21 @@ namespace Systems.Faith
 				property.OnLeaveFaith(member);
 			}
 		}
+
+		public void RemoveAllMembers()
+		{
+			foreach (var member in FaithMembers)
+			{
+				RemoveMember(member);
+			}
+		}
+
+		public void SetupFaith()
+		{
+			foreach (var property in Faith.FaithProperties)
+			{
+				property.Setup(this);
+			}
+		}
 	}
 }

@@ -105,6 +105,7 @@ namespace Systems.Faith.UI
 					Loggy.LogError("No such page exists");
 					break;
 			}
+			Refresh();
 		}
 	}
 }

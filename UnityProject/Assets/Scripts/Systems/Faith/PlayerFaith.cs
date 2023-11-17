@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using Logs;
-using Messages.Server;
 using Mirror;
 using Systems.Faith.UI;
 using UI.Core.Action;
@@ -39,6 +38,7 @@ namespace Systems.Faith
 			currentFaith = newFaith;
 			FaithName = currentFaith.FaithName;
 			FaithManager.JoinFaith(newFaith, player);
+			Chat.AddExamineMsg(gameObject, $"You've joined the {FaithName} faith.");
 		}
 
 		[Command]
@@ -107,6 +107,12 @@ namespace Systems.Faith
 			{
 				result.AddElement("Join Faith",
 					() => PlayerManager.LocalPlayerScript.PlayerFaith.JoinReligion(FaithName));
+			}
+
+			if (gameObject == PlayerManager.LocalPlayerObject && FaithName is not "None")
+			{
+				result.AddElement("Leave Faith",
+					() => PlayerManager.LocalPlayerScript.PlayerFaith.LeaveReligion());
 			}
 
 			return result;
