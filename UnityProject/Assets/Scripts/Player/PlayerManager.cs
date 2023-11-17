@@ -65,8 +65,6 @@ public class PlayerManager : SingletonManager<PlayerManager>
 		base.Awake();
 
 		account = new Account();
-
-		CharacterManager.Init();
 	}
 
 	private void OnEnable()

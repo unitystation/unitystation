@@ -32,11 +32,6 @@ namespace Core.Accounts
 		/// Some servers might allow unverified or offline accounts.</summary>
 		public bool IsVerified { get; private set; }
 
-		/// <summary>The conclusive list of of the account's characters, including characters considered not compatible with this version.</summary>
-		/// <remarks>This extra string layer doesn't do much aside from allow room for a different set of characters,
-		/// e.g. for a different fork with different content.</remarks>
-		public Dictionary<string, Dictionary<string, CharacterSheet>> AllCharacters { get; private set; } = new();
-
 		/// <summary>A dictionary of the account's supported characters. The characters are keyed by a uint for identification.</summary>
 		public Dictionary<string, CharacterSheet> Characters { get; private set; } = new();
 
@@ -70,7 +65,7 @@ namespace Core.Accounts
 			var registerResponse = await AccountServer.Register(userId, emailAddress, username, password);
 
 			Token = registerResponse.token;
-			Id = registerResponse.account.account_identifier;
+			Id = registerResponse.account.unique_identifier;
 			Username = registerResponse.account.username;
 
 			return this; // set IsAvailable true?
@@ -117,45 +112,27 @@ namespace Core.Accounts
 			return character;
 		}
 
-		// characterId optional, assign to update existing character
-		public async Task SaveCharacters( List<CharacterSheet> characters)
-		{
-			// Fetch latest account data (we may have saved a character on another session during this session).
-			await FetchAccount();
-			Characters.Clear();
-			foreach (var character in characters)
-			{
-				// Collision risk should be low enough for the consequence
-				string key = RandomUtils.GetRandomString(8);
-				Characters.Add(key, character);
-			}
 
-			AllCharacters[CharacterManager.CharacterSheetVersion] = Characters;
-
-			await AccountServer.UpdateCharacters(Token, AllCharacters);
-		}
-
-
-		// characterId optional, assign to update existing character
-		public async Task<string> SetCharacter(CharacterSheet character, string key = "")
-		{
-			// Fetch latest account data (we may have saved a character on another session during this session).
-			await FetchAccount();
-
-			// Generate a random character ID
-			if (string.IsNullOrEmpty(key))
-			{
-				// Collision risk should be low enough for the consequence
-				key = RandomUtils.GetRandomString(8);
-			}
-
-			Characters.Add(key, character);
-			AllCharacters[CharacterManager.CharacterSheetVersion] = Characters;
-
-			await AccountServer.UpdateCharacters(Token, AllCharacters);
-
-			return key;
-		}
+		// // characterId optional, assign to update existing character
+		// public async Task<string> SetCharacter(CharacterSheet character, string key = "")
+		// {
+		// 	// Fetch latest account data (we may have saved a character on another session during this session).
+		// 	await FetchAccount();
+		//
+		// 	// Generate a random character ID
+		// 	if (string.IsNullOrEmpty(key))
+		// 	{
+		// 		// Collision risk should be low enough for the consequence
+		// 		key = RandomUtils.GetRandomString(8);
+		// 	}
+		//
+		// 	Characters.Add(key, character);
+		// 	AllCharacters[CharacterManager.CharacterSheetVersion] = Characters;
+		//
+		// 	await AccountServer.UpdateCharacters(Token, AllCharacters);
+		//
+		// 	return key;
+		// }
 
 		public async void Logout(bool destroyAllSessions = false)
 		{
@@ -171,99 +148,16 @@ namespace Core.Accounts
 			UpdateAccountCache();
 
 			IsAvailable = true;
-			if (PlayerManager.CharacterManager.Characters.Count == 0) //= No Local characters
-			{
-				var sortedCharacterList = Characters
-					.OrderBy(pair => pair.Key)
-					.Select(pair => pair.Value)
-					.ToList();
-
-				PlayerManager.CharacterManager.Characters.AddRange(sortedCharacterList);
-				PlayerManager.CharacterManager.SaveCharactersOffline();
-			}
-
 
 		}
 
 		private Account PopulateAccount(AccountGetResponse accountResponse)
 		{
-			Id = accountResponse.account_identifier;
+			Id = accountResponse.unique_identifier;
 			Username = accountResponse.username;
 			IsVerified = accountResponse.is_verified;
 
-			//Magic get Character data
-
-			JObject characters_data = JObject.Parse(@"{""cool"" : [ {""mmm"" :""lllll"" } ]}");
-
-
-
-			AllCharacters = new Dictionary<string, Dictionary<string, CharacterSheet>>();
-
-			bool Error = false;
-
-			foreach (var outerKeyValue in characters_data)
-			{
-				string outerKey = outerKeyValue.Key;
-				if (AllCharacters.ContainsKey(outerKey))
-				{
-					AllCharacters[outerKey] = new Dictionary<string, CharacterSheet>();
-				}
-				JObject innerDictionary = outerKeyValue.Value as JObject;
-
-				if (innerDictionary != null)
-				{
-					foreach (var innerKeyValue in innerDictionary)
-					{
-						string innerKey = innerKeyValue.Key;
-						JObject characterSheetObject = innerKeyValue.Value as JObject;
-
-						if (characterSheetObject != null)
-						{
-							// Now you can access the properties of the CharacterSheet object.
-							try
-							{
-								CharacterSheet characterSheet = characterSheetObject.ToObject<CharacterSheet>();
-								AllCharacters[outerKey][innerKey] = characterSheet;
-							}
-							catch (Exception e)
-							{
-								Loggy.LogError(e.ToString());
-								Error = true;
-								continue;
-							}
-						}
-						else
-						{
-							Error = true;
-							continue;
-						}
-					}
-				}
-				else
-				{
-					Error = true;
-					continue;
-				}
-
-			}
-
-
-			if (Error)
-			{
-				AccessFile.Save("LostCharacterSettings.json", characters_data.ToString(),
-					FolderType.Config, true);
-
-			}
-
-			// May be null if AccountGetResponse schema is out of date with the API (TODO: affects all responses, so handle them)
-			AllCharacters ??= new();
-			if (AllCharacters.ContainsKey(CharacterManager.CharacterSheetVersion) == false)
-			{
-				AllCharacters[CharacterManager.CharacterSheetVersion] = new Dictionary<string, CharacterSheet>();
-			}
-
-			Characters = AllCharacters[CharacterManager.CharacterSheetVersion];
-
+			PlayerManager.CharacterManager.Init();
 			return this;
 		}
 

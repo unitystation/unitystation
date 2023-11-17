@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using Core.Database;
 using SecureStuff;
 using Newtonsoft.Json;
 using UnityEngine;
 using DatabaseAPI;
 using Logs;
+using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 
 namespace Systems.Character
 {
@@ -15,13 +18,16 @@ namespace Systems.Character
 	public class CharacterManager
 	{
 		/// <summary>Character sheets not under this version will be ignored.</summary>
-		public static readonly string CharacterSheetVersion = "unitystation-v1"; // TODO: this place is arbitrary.
+		public static readonly string CharacterSheetVersion = "1.0.0";
+
+		public static readonly string CharacterSheetForkCompatibility = "Unitystation";
+
 
 		/// <summary>
 		/// A list of the player's loaded characters.
 		/// Please consider using <see cref="CharacterManager"/>'s methods to manipulate the list instead of directly.
 		/// </summary>
-		public List<CharacterSheet> Characters { get; } = new();
+		public List<SubAccountGetCharacterSheet> Characters { get; } = new();
 
 		/// <summary>Get the key associated with the active character (the character the rest of the game should use).</summary>
 		public int ActiveCharacterKey { get; private set; } = 0;
@@ -31,10 +37,10 @@ namespace Systems.Character
 
 		private string OfflineStoragePath => $"characters.json";
 
+
 		public void Init()
 		{
-			LoadOfflineCharacters();
-			DetermineActiveCharacter();
+			LoadCharacters();
 		}
 
 		private void DetermineActiveCharacter()
@@ -57,7 +63,8 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Loggy.LogError("An attempt was made to set the active character with a key that doesn't exist. Ignoring.");
+				Loggy.LogError(
+					"An attempt was made to set the active character with a key that doesn't exist. Ignoring.");
 				return;
 			}
 
@@ -87,7 +94,8 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Loggy.LogError("An attempt was made to set the active character with a key that doesn't exist. Ignoring.");
+				Loggy.LogError(
+					"An attempt was made to set the active character with a key that doesn't exist. Ignoring.");
 				return;
 			}
 
@@ -106,7 +114,9 @@ namespace Systems.Character
 				return default;
 			}
 
-			return Characters[key];
+			var Character = Characters[key];
+			Character.data.SetOnlineID(Character.id);
+			return Character.data;
 		}
 
 		/// <summary>Set the <see cref="CharacterSheet"/> associated with the given key.</summary>
@@ -120,8 +130,21 @@ namespace Systems.Character
 				return;
 			}
 
-			Characters[key] = character;
+			Characters[key].data = character;
+
+			_ = AccountServer.PutAccountsCharacterByID(Characters[key].id, Characters[key], PlayerManager.Account.Token);
+			Task.Run(() => UpdateCharacterOnline(Characters[key]));
+			SaveCharacters(false);
 		}
+
+		public async Task UpdateCharacterOnline(SubAccountGetCharacterSheet character)
+		{
+			var newCharacterData = await AccountServer.PutAccountsCharacterByID(character.id, character, PlayerManager.Account.Token);
+
+			character.last_updated = newCharacterData.last_updated;
+			SaveCharacters(false);
+		}
+
 
 		/// <summary>Add a new <see cref="CharacterSheet"/>.</summary>
 		/// <param name="character"><see cref="CharacterSheet"/> to add.</param>
@@ -133,7 +156,44 @@ namespace Systems.Character
 				return;
 			}
 
+			var SubAccountGetcharacter = new SubAccountGetCharacterSheet()
+			{
+				account = PlayerManager.Account.Id,
+				fork_compatibility = CharacterSheetForkCompatibility,
+				character_sheet_version = CharacterSheetVersion,
+				data = character
+			};
+			Characters.Add(SubAccountGetcharacter);
+			Task.Run(() => SaveNewCharacterTask(SubAccountGetcharacter));
+			SaveCharacters(false);
+		}
+
+
+		public void Add(SubAccountGetCharacterSheet character, bool AddOnline = true)
+		{
+			if (ValidateCharacterSheet(character.data) == false)
+			{
+				Loggy.LogError("An attempt was made to add a character but character validation failed. Ignoring.");
+				return;
+			}
+
+
 			Characters.Add(character);
+			if (AddOnline)
+			{
+				Task.Run(() => SaveNewCharacterTask(character));
+			}
+
+			SaveCharacters(false);
+		}
+
+
+		public async Task SaveNewCharacterTask(SubAccountGetCharacterSheet character)
+		{
+			var data = await AccountServer.PostMakeAccountsCharacter(character, PlayerManager.Account.Token);
+			character.data.SetOnlineID(data.id);
+			character.id = data.id;
+			SaveCharacters(false);
 		}
 
 		/// <summary>Remove a <see cref="CharacterSheet"/> associated with the given key.</summary>
@@ -148,7 +208,8 @@ namespace Systems.Character
 
 			if (key < Characters.Count - 1)
 			{
-				Loggy.LogWarning($"An attempt was made to remove the last character with key \"{key}\". Ignoring as there should be at least one character.");
+				Loggy.LogWarning(
+					$"An attempt was made to remove the last character with key \"{key}\". Ignoring as there should be at least one character.");
 				return;
 			}
 
@@ -158,42 +219,218 @@ namespace Systems.Character
 				SetLastCharacterKey(key - 1);
 			}
 
+			var CharacterRemove = Characters[key];
 			Characters.RemoveAt(key);
+
+			_ = AccountServer.DeleteAccountsCharacterByID(CharacterRemove.id, PlayerManager.Account.Token);
+			SaveCharacters(false);
 		}
 
-		/// <summary>Load characters that are saved to Unity's persistent data folder.</summary>
-		public void LoadOfflineCharacters()
+		public async Task LoadOnlineCharacters()
 		{
+			try
+			{
+				var accountResponse =
+					await AccountServer.GetAccountsCharacters(CharacterSheetForkCompatibility, CharacterSheetVersion, PlayerManager.Account.Token);
+				Characters.AddRange(accountResponse.results);
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+			}
 
+			SaveCharacters(false);
+		}
+
+
+		/// <summary>Load characters that are saved to Unity's persistent data folder.</summary>
+		public async Task LoadCharacters()
+		{
 			Characters.Clear();
 			if (AccessFile.Exists(OfflineStoragePath, userPersistent: true) == false)
 			{
-				return;
+				await LoadOnlineCharacters();
 			}
-
-			string json = AccessFile.Load(OfflineStoragePath, userPersistent: true);
-
-			var characters = JsonConvert.DeserializeObject<List<CharacterSheet>>(json);
-
-			if (characters == null) return;
-
-			foreach (var character in characters)
+			else
 			{
-				Add(character);
+				string json = AccessFile.Load(OfflineStoragePath, userPersistent: true);
+				var old = false;
+				List<SubAccountGetCharacterSheet> characters = new List<SubAccountGetCharacterSheet>();
+				try
+				{
+					characters = JsonConvert.DeserializeObject<List<SubAccountGetCharacterSheet>>(json);
+					if (characters.Count == 0 || characters[0].data == null)
+					{
+						old = true;
+						characters.Clear();
+					}
+				}
+				catch (Exception e)
+				{
+					Loggy.LogError("OLD Characters detected porting");
+					old = true;
+				}
+
+
+				if (old)
+				{
+					var OLDCharacters = JsonConvert.DeserializeObject<List<CharacterSheet>>(json);
+
+					foreach (var OLDCharacter in OLDCharacters)
+					{
+						characters.Add(new SubAccountGetCharacterSheet()
+						{
+							account = PlayerManager.Account.Id,
+							fork_compatibility = CharacterSheetForkCompatibility,
+							character_sheet_version = CharacterSheetVersion,
+							data = OLDCharacter
+						});
+					}
+
+				}
+				else
+				{
+					characters = JsonConvert.DeserializeObject<List<SubAccountGetCharacterSheet>>(json);
+				}
+
+
+				if (characters != null)
+				{
+					foreach (var character in characters)
+					{
+						Add(character, false);
+					}
+
+					AccountGetCharacterSheets accountResponse = null;
+
+
+					try
+					{
+						accountResponse = await AccountServer.GetAccountsCharacters(CharacterSheetForkCompatibility, CharacterSheetVersion, PlayerManager.Account.Token);
+					}
+					catch (Exception e)
+					{
+						Loggy.LogError(e.ToString());
+					}
+
+
+
+					if (accountResponse != null)
+					{
+						List<SubAccountGetCharacterSheet> MissingOnline = new List<SubAccountGetCharacterSheet>();
+						List<SubAccountGetCharacterSheet> MissingLocal = new List<SubAccountGetCharacterSheet>();
+
+						List<SubAccountGetCharacterSheet> UpdateOnline = new List<SubAccountGetCharacterSheet>();
+						List<ToUpdateLocal> UpdateLocal = new List<ToUpdateLocal>();
+
+						foreach (var LocalCharacter in Characters)
+						{
+							bool OnlineHasNotLocal = true;
+							foreach (var OnlineCharacter in accountResponse.results)
+							{
+								if (OnlineCharacter.id == LocalCharacter.id)
+								{
+									OnlineHasNotLocal = false;
+
+									if (OnlineCharacter.last_updated > LocalCharacter.last_updated)
+									{
+										UpdateLocal.Add(new ToUpdateLocal()
+										{
+											local =  LocalCharacter,
+											online = OnlineCharacter
+										});
+									}
+									if (OnlineCharacter.last_updated < LocalCharacter.last_updated)
+									{
+										UpdateOnline.Add(LocalCharacter);
+									}
+								}
+							}
+
+							if (OnlineHasNotLocal)
+							{
+								MissingOnline.Add(LocalCharacter);
+							}
+						}
+
+						foreach (var OnlineCharacter in accountResponse.results)
+						{
+							bool LocalHasNotOnline = true;
+							foreach (var LocalCharacter in Characters)
+							{
+								if (OnlineCharacter.id == LocalCharacter.id)
+								{
+									LocalHasNotOnline = false;
+									//TODO is Missing date modified field
+								}
+							}
+
+							if (LocalHasNotOnline)
+							{
+								MissingLocal.Add(OnlineCharacter);
+							}
+						}
+
+
+
+						foreach (var character in MissingLocal)
+						{
+							Add(character, false);
+						}
+
+						foreach (var character in MissingOnline)
+						{
+							await SaveNewCharacterTask(character);
+						}
+
+						foreach (var character in UpdateOnline)
+						{
+							await AccountServer.PutAccountsCharacterByID(character.id, character, PlayerManager.Account.Token);
+						}
+
+						foreach (var character in UpdateLocal)
+						{
+							character.local.data = character.online.data;
+							character.local.fork_compatibility = character.online.fork_compatibility;
+							character.local.account = character.online.account;
+							character.local.id = character.online.id;
+							character.local.character_sheet_version = character.online.character_sheet_version;
+							character.local.last_updated = character.online.last_updated;
+						}
+						SaveCharacters(false);
+					}
+				}
 			}
+
+			DetermineActiveCharacter();
+		}
+
+		public struct ToUpdateLocal
+		{
+			public SubAccountGetCharacterSheet online;
+			public SubAccountGetCharacterSheet local;
+
 		}
 
 		/// <summary>Save characters to both the cloud and offline storage.</summary>
-		public void SaveCharacters()
+		public void SaveCharacters(bool Online = true)
 		{
 			SaveCharactersOffline();
-			SaveCharactersOnline();
+			if (Online)
+			{
+				SaveCharactersOnline();
+			}
 		}
 
 		/// <summary>Save characters to the cloud.</summary>
 		public void SaveCharactersOnline()
 		{
-			_ = PlayerManager.Account.SaveCharacters(Characters);
+			//TODO
+			// foreach (var Character in Characters)
+			// {
+			//
+			// 	_ = PlayerManager.Account.SaveCharacters(Characters);
+			// }
 		}
 
 		/// <summary>Save characters to Unity's persistent data folder.</summary>
@@ -208,8 +445,8 @@ namespace Systems.Character
 			};
 
 			string json = Characters.Count == 0
-					? ""
-					: JsonConvert.SerializeObject(Characters, settings);
+				? ""
+				: JsonConvert.SerializeObject(Characters, settings);
 
 			if (AccessFile.Exists(OfflineStoragePath, userPersistent: true))
 			{

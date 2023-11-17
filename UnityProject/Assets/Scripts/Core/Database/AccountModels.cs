@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Systems.Character;
+using UnityEngine.Serialization;
 
 namespace Core.Database
 {
@@ -10,7 +11,7 @@ namespace Core.Database
 	[Serializable]
 	public class AccountRegister : JsonObject
 	{
-		public string account_identifier; // unique
+		public string unique_identifier; // unique
 		public string email;
 		public string username; // non-unique, public-facing
 		public string password;
@@ -21,6 +22,13 @@ namespace Core.Database
 	{
 		public string email;
 		public string password;
+	}
+
+	[Serializable]
+	public class GetAccountsCharacters : JsonObject
+	{
+		public string fork_compatibility;
+		public string character_sheet_version;
 	}
 
 	[Serializable]
@@ -54,7 +62,7 @@ namespace Core.Database
 	[Serializable]
 	public class AccountValidate : JsonObject
 	{
-		public string account_identifier;
+		public string unique_identifier;
 		public string verification_token;
 	}
 
@@ -62,10 +70,31 @@ namespace Core.Database
 
 	#region Responses
 
+
+	[Serializable]
+	public class AccountGetCharacterSheets : JsonObject
+	{
+		public int count;
+		public List<SubAccountGetCharacterSheet> results;
+	}
+
+	[Serializable]
+	public class SubAccountGetCharacterSheet : JsonObject
+	{
+		public int id;
+		public string account;
+		public string fork_compatibility;
+		public string character_sheet_version;
+		public CharacterSheet data;
+		public DateTime last_updated;
+	}
+
+
+
 	[Serializable]
 	public class AccountGetResponse : JsonObject
 	{
-		public string account_identifier;
+		public string unique_identifier;
 		public string username;
 		public bool is_verified;
 	}
@@ -80,7 +109,7 @@ namespace Core.Database
 	[Serializable]
 	public class AccountRegisterDetails : JsonObject
 	{
-		public string account_identifier;
+		public string unique_identifier;
 		public string email;
 		public string username;
 	}

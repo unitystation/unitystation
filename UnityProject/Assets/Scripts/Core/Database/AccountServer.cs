@@ -16,19 +16,32 @@ namespace Core.Database
 		public static string Host = "dev-api.unitystation.org"; // TODO: expose to config
 		public static UriBuilder UriBuilder = new("https", Host);
 
-		public static Uri GetUri(string endpoint)
+		public static Uri GetUri(string endpoint, string queries = null, bool NOaccounts = false)
 		{
-			UriBuilder.Path = $"/accounts/{endpoint}";
+			if (NOaccounts == false)
+			{
+				UriBuilder.Path = $"/accounts/{endpoint}";
+			}
+			else
+			{
+				UriBuilder.Path = $"/{endpoint}";
+			}
+
+			if (string.IsNullOrEmpty(queries) == false)
+			{
+				UriBuilder.Query = queries;
+			}
+
 			return UriBuilder.Uri;
 		}
 
 		public static async Task<AccountRegisterResponse> Register(
-				string account_identifier, string emailAddress, string username, string password)
+				string unique_identifier, string emailAddress, string username, string password)
 		{
 			var requestBody = new AccountRegister
 			{
 				email = emailAddress,
-				account_identifier = account_identifier,
+				unique_identifier = unique_identifier,
 				username = username,
 				password = password,
 			};
@@ -88,22 +101,56 @@ namespace Core.Database
 			return response;
 		}
 
-		public static async Task<JsonObject> UpdateCharacters(string token, Dictionary<string, Dictionary<string, CharacterSheet>> characters)
-		{
-			var requestBody = new AccountUpdateCharacters
-			{
-				Token = token,
-				characters = characters,
-			};
-
-			var response = await ApiServer.Post<JsonObject>(GetUri("update-characters"), requestBody);
-
-			return response;
-		}
 
 		public static async Task<AccountGetResponse> GetAccountInfo(string accountIdentifier)
 		{
 			var response = await ApiServer.Get<AccountGetResponse>(GetUri($"users/{accountIdentifier}"));
+
+			return response;
+		}
+
+
+		public static async Task<SubAccountGetCharacterSheet> PutAccountsCharacterByID(int ID, SubAccountGetCharacterSheet subAccountGetCharacterSheet, string token)
+		{
+			var response = await ApiServer.Put<SubAccountGetCharacterSheet>(
+				GetUri($"persistence/characters/{ID}/update", null, true),
+				subAccountGetCharacterSheet, token
+				);
+			return response;
+		}
+
+
+
+		public static async Task<string> DeleteAccountsCharacterByID(int ID, string token)
+		{
+			var response = await ApiServer.Delete(GetUri($"persistence/characters/{ID}/delete", null,true),token );
+			return response;
+		}
+
+		public static async Task<SubAccountGetCharacterSheet> PostMakeAccountsCharacter(SubAccountGetCharacterSheet subAccountGetCharacterSheet, string token)
+		{
+			var response = await ApiServer.Post<SubAccountGetCharacterSheet>(GetUri($"persistence/characters/create", null,true), subAccountGetCharacterSheet, token);
+
+			return response;
+		}
+
+		public static async Task<SubAccountGetCharacterSheet> GetAccountsCharacter(int ID, string token)
+		{
+			var response = await ApiServer.Get<SubAccountGetCharacterSheet>(GetUri($"persistence/characters/{ID}", null,true),
+				token);
+
+			return response;
+		}
+
+
+		public static async Task<AccountGetCharacterSheets> GetAccountsCharacters(
+			string fork_compatibility,
+			string characterSheetVersion,
+			string token)
+		{
+			var response = await ApiServer.Get<AccountGetCharacterSheets>(
+				GetUri($"persistence/characters/compatible", $"?fork_compatibility={fork_compatibility}&character_sheet_version={characterSheetVersion}",true)
+				,token);
 
 			return response;
 		}
@@ -121,7 +168,7 @@ namespace Core.Database
 		{
 			var requestBody = new AccountValidate
 			{
-				account_identifier = accountId,
+				unique_identifier = accountId,
 				verification_token = token,
 			};
 

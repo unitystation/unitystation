@@ -26,11 +26,26 @@ namespace Core.Database
 			return JsonConvert.DeserializeObject<T>(responseBody);
 		}
 
-		internal static async Task<T> Post<T>(Uri uri, JsonObject body) where T : JsonObject
+		internal static async Task<T> Post<T>(Uri uri, JsonObject body, string token = default) where T : JsonObject
 		{
 			try
 			{
-				var responseBody = await Post(uri, body);
+				var responseBody = await Post(uri, body, token);
+				var response = JsonConvert.DeserializeObject<T>(responseBody);
+				return response;
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+				return null;
+			}
+		}
+
+		internal static async Task<T> Put<T>(Uri uri, JsonObject body, string token = default) where T : JsonObject
+		{
+			try
+			{
+				var responseBody = await Put(uri, body, token);
 				var response = JsonConvert.DeserializeObject<T>(responseBody);
 				return response;
 			}
@@ -54,7 +69,37 @@ namespace Core.Database
 			return await Send(request);
 		}
 
-		internal static async Task<string> Post(Uri uri, JsonObject body)
+		internal static async Task<string> Put(Uri uri, JsonObject body, string token = default)
+		{
+			try
+			{
+				var request = new HttpRequestMessage(HttpMethod.Put, uri);
+
+				if (body is ITokenAuthable authable)
+				{
+					request.Headers.Authorization = new AuthenticationHeaderValue("Token", authable.Token);
+				}
+
+				if (token != default)
+				{
+					request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
+				}
+
+				var sss = JsonConvert.SerializeObject(body);
+				request.Content = new StringContent(sss, Encoding.UTF8, "application/json");
+				//request.Content = body.ToStringContent();
+				Loggy.Log("await Send(request);");
+				return await Send(request);
+
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+				return null;
+			}
+		}
+
+		internal static async Task<string> Post(Uri uri, JsonObject body, string token = default)
 		{
 			try
 			{
@@ -65,12 +110,38 @@ namespace Core.Database
 					request.Headers.Authorization = new AuthenticationHeaderValue("Token", authable.Token);
 				}
 
+				if (token != default)
+				{
+					request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
+				}
+
 				var sss = JsonConvert.SerializeObject(body);
 				request.Content = new StringContent(sss, Encoding.UTF8, "application/json");
 				//request.Content = body.ToStringContent();
 				Loggy.Log("await Send(request);");
 				return await Send(request);
 
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+				return null;
+			}
+		}
+
+
+		internal static async Task<string> Delete(Uri uri, string token = default)
+		{
+			try
+			{
+				var request = new HttpRequestMessage(HttpMethod.Delete, uri);
+
+				if (token != default)
+				{
+					request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
+				}
+
+				return await Send(request);
 			}
 			catch (Exception e)
 			{
