@@ -115,7 +115,6 @@ namespace Systems.Character
 			}
 
 			var Character = Characters[key];
-			Character.data.SetOnlineID(Character.id);
 			return Character.data;
 		}
 
@@ -191,7 +190,6 @@ namespace Systems.Character
 		public async Task SaveNewCharacterTask(SubAccountGetCharacterSheet character)
 		{
 			var data = await AccountServer.PostMakeAccountsCharacter(character, PlayerManager.Account.Token);
-			character.data.SetOnlineID(data.id);
 			character.id = data.id;
 			SaveCharacters(false);
 		}

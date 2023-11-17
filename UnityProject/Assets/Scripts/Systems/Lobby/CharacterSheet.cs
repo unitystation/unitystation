@@ -47,6 +47,7 @@ public class CharacterSheet : ICloneable
 		public string Colour = "#ffffff";
 	}
 
+
 	public override string ToString()
 	{
 		var sb = new StringBuilder($"{Name}'s character sheet:\n", 300);
