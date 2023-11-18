@@ -14,6 +14,8 @@ using Player.Movement;
 using ScriptableObjects;
 using ScriptableObjects.Audio;
 using Systems.Character;
+using Systems.Explosions;
+using Systems.Scenes;
 using Systems.Teleport;
 using Tiles;
 using UI;
@@ -1379,10 +1381,23 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			if (crossedItem.HasTrait(CommonTraits.Instance.BluespaceActivity))
 			{
+				bool CanTeleport = true;
+				foreach(TeleportInhibitor inhib in TeleportInhibitor.Inhibitors)
+				{
+					var inhibPosition = inhib.GetComponent<UniversalObjectPhysics>().OfficialPosition.RoundToInt();
+					if(Vector3.Distance(inhibPosition, this.gameObject.AssumedWorldPosServer()) <= inhib.Range)
+					{
+						SparkUtil.TrySpark(this.gameObject.AssumedWorldPosServer(), expose: false);
+						CanTeleport = false;
+					}
+				}
 				// (Max): There's better ways to do this but due to how movement code is designed
 				// you can't extend functionality that easily without bloating the code more than it already is.
 				// TODO: Rework movement to be open for extension and closed for modifications.
-				TeleportUtils.ServerTeleportRandom(playerScript.gameObject);
+				if (CanTeleport)
+				{
+					TeleportUtils.ServerTeleportRandom(playerScript.gameObject);
+				}
 			}
 
 			if (crossedItem.HasTrait(CommonTraits.Instance.Slippery))

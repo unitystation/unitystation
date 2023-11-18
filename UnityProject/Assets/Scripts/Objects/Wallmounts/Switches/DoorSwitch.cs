@@ -101,20 +101,20 @@ namespace Objects.Wallmounts
 				return;
 			}
 
+			if (thisAPCPoweredDevice != null)
+			{
+				if (APCPoweredDevice.IsOn(thisAPCPoweredDevice.State) == false)
+				{
+					return;
+				}
+			}
+
 			RpcPlayButtonAnim(true);
 
 			foreach (var door in doorControllers)
 			{
 				// Door doesn't exist anymore - shuttle crash, admin smash, etc.
 				if (door == null) continue;
-
-				if (thisAPCPoweredDevice != null)
-				{
-					if (APCPoweredDevice.IsOn(thisAPCPoweredDevice.State) == false)
-					{
-						continue;
-					}
-				}
 
 				if (door.IsClosed)
 				{
