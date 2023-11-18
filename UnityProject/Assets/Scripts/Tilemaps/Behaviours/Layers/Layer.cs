@@ -36,11 +36,6 @@ public class Layer : MonoBehaviour
 
 	public TilemapDamage TilemapDamage { get; private set; }
 
-	public BoundsInt Bounds => boundsCache;
-	private BoundsInt boundsCache;
-
-	private Coroutine recalculateBoundsHandle;
-
 	/// <summary>
 	/// Current offset from our initially mapped orientation. This is used by tiles within the tilemap
 	/// to determine what sprite to display. This could be retrieved directly from MatrixMove but
@@ -73,24 +68,6 @@ public class Layer : MonoBehaviour
 		tilemap = GetComponent<Tilemap>();
 		TilemapDamage = GetComponent<TilemapDamage>();
 		SubsystemManager = GetComponentInParent<MatrixSystemManager>();
-		RecalculateBounds();
-	}
-
-	/// <summary>
-	/// In case there are lots of sudden changes, recalculate bounds once a frame
-	/// instead of doing it for every changed tile
-	/// </summary>
-	private IEnumerator RecalculateBoundsNextFrame()
-	{
-		//apparently waiting for next frame doesn't work when looking at Scene view! //TODO use editor routines for this functionality
-		yield return WaitFor.Seconds(0.015f);
-		RecalculateBounds();
-	}
-
-	public virtual void RecalculateBounds()
-	{
-		boundsCache = tilemap.cellBounds;
-		this.TryStopCoroutine(ref recalculateBoundsHandle);
 	}
 
 	private void Start()
@@ -173,7 +150,8 @@ public class Layer : MonoBehaviour
 	public bool RemoveTile(Vector3Int position)
 	{
 		var tileRemoved = false;
-		tileRemoved = InternalSetTile(position, null);
+		tileRemoved = tilemap.HasTile(position);
+		tilemap.SetTile(position, null);
 		onTileMapChanges.Invoke();
 		return tileRemoved;
 	}
@@ -181,15 +159,9 @@ public class Layer : MonoBehaviour
 	/// <summary>
 	/// Set tile and invoke tile changed event.
 	/// </summary>
-	protected bool InternalSetTile(Vector3Int position, GenericTile tile)
+	protected void InternalSetTile(Vector3Int position, GenericTile tile)
 	{
-		var hasTile = tilemap.HasTile(position);
 		tilemap.SetTile(position, tile);
-		if (recalculateBoundsHandle == null)
-		{
-			this.RestartCoroutine(RecalculateBoundsNextFrame(), ref recalculateBoundsHandle);
-		}
-		return hasTile;
 	}
 
 	public LayerTile GetTile(Vector3Int position)

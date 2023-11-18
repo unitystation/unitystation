@@ -172,11 +172,6 @@ public class Matrix : MonoBehaviour
 		{
 			tilemap.CompressBounds();
 		}
-
-		foreach (var layer in MetaTileMap.LayersValues)
-		{
-			layer.RecalculateBounds();
-		}
 	}
 
 	public void ConfigureMatrixInfo(MatrixInfo matrixInfo)
