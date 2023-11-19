@@ -205,6 +205,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 	}
 
+	public bool IsSliding => slideTime > 0;
+	public bool IsInAir => airTime > 0;
+
 	[PlayModeOnly] public bool FramePushDecision = true;
 
 	public bool stickyMovement = false;
@@ -1562,7 +1565,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		var intNewPosition = newPosition.RoundToInt();
 
 		rotationTarget.Rotate(new Vector3(0, 0, spinMagnitude * NewtonianMovement.magnitude * Time.deltaTime));
-
+		var movetoMatrix = MatrixManager.AtPoint(newPosition.RoundToInt(), isServer).Matrix;
 		if (intPosition != intNewPosition)
 		{
 			if ((position - newPosition).magnitude > 1.25f)
@@ -1702,11 +1705,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					}
 				}
 			}
+
+			var localPosition = newPosition.ToLocal(movetoMatrix);
+
+			InternalTriggerOnLocalTileReached(localPosition.RoundToInt());
 		}
 
 		if (isVisible == false) return;
-
-		var movetoMatrix = MatrixManager.AtPoint(newPosition.RoundToInt(), isServer).Matrix;
 
 		var cachedPosition = this.transform.position;
 
@@ -1716,10 +1721,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			SetMatrix(movetoMatrix);
 		}
-
-		var localPosition = newPosition.ToLocal(movetoMatrix);
-
-		InternalTriggerOnLocalTileReached(localPosition.RoundToInt());
 
 		if (isServer)
 		{
@@ -1734,7 +1735,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (NewtonianMovement.magnitude < 0.01f) //Has slowed down enough
 		{
-			localPosition = transform.localPosition;
+			var localPosition = transform.localPosition;
 			SetLocalTarget = new Vector3WithData()
 			{
 				Vector3 = localPosition,
@@ -1742,15 +1743,16 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				Matrix = movetoMatrix.Id
 			};
 
-			InternalTriggerOnLocalTileReached(localPosition);
+			InternalTriggerOnLocalTileReached(localPosition.RoundToInt());
+			
 			if (onStationMovementsRound)
 			{
-				doNotApplyMomentumOnTarget = true;
-				if (Animating == false)
-				{
-					Animating = true;
-					UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
-				}
+				// doNotApplyMomentumOnTarget = true;
+				// if (Animating == false)
+				// {
+				// 	Animating = true;
+				// 	UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
+				// }
 			}
 			else if (ResetClientPositionReachTile)
 			{

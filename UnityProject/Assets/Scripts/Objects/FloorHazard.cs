@@ -6,6 +6,7 @@ using Systems.MobAIs;
 using AddressableReferences;
 using HealthV2;
 using HealthV2.Limbs;
+using Logs;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -34,6 +35,8 @@ namespace Objects
 
 		public override void OnPlayerStep(PlayerScript playerScript)
 		{
+			if (playerScript.GetComponent<UniversalObjectPhysics>().IsInAir) return;
+			Loggy.LogError(this.gameObject.AssumedWorldPosServer().ToString());
 			if(objectPhysics.registerTile.LocalPosition == TransformState.HiddenPos) return;
 			var health = playerScript.playerHealth;
 
