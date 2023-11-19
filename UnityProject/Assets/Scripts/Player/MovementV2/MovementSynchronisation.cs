@@ -499,10 +499,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public bool CanSwap(GameObject bumpedBy, out MovementSynchronisation move)
 	{
 		move = null;
-		if (intent != Intent.Help) return false;
 		if (bumpedBy.TryGetComponent<MovementSynchronisation>(out move))
 		{
-			if (move.intent != Intent.Help || move.CurrentMovementType == MovementType.Crawling ||
+
+			if ((move.intent != Intent.Help && intent != Intent.Help) || move.CurrentMovementType == MovementType.Crawling ||
 			    move.Pulling.HasComponent != false) return false;
 			return true;
 

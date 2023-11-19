@@ -1973,7 +1973,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (PulledBy.HasComponent && PulledBy.Component == initiator)
 		{
 			//already pulled by us, but we can stop pulling
-			options.AddElement("StopPull", TryTogglePull);
+			options.AddElement("StopPull", ClientTryTogglePull);
 		}
 		else
 		{
@@ -1982,7 +1982,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				    context: gameObject) &&
 			    isNotPushable == false && initiator != this)
 			{
-				options.AddElement("Pull", TryTogglePull);
+				options.AddElement("Pull", ClientTryTogglePull);
 			}
 		}
 
@@ -2015,14 +2015,23 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	}
 
 
-	public void TryTogglePull()
+	public void ClientTryTogglePull()
 	{
 		var initiator = PlayerManager.LocalPlayerScript.GetComponent<UniversalObjectPhysics>();
 		float interactDist = PlayerScript.INTERACTION_DISTANCE;
+		var reachRange = ReachRange.Standard;
 		if (PlayerManager.LocalPlayerScript.playerHealth.brain != null &&
 		    PlayerManager.LocalPlayerScript.playerHealth.brain.HasTelekinesis) //Has telekinesis
 		{
 			interactDist = Validations.TELEKINESIS_INTERACTION_DISTANCE;
+			reachRange = ReachRange.Telekinesis;
+		}
+
+
+		if (Validations.CanApply(PlayerManager.LocalPlayerScript, gameObject, NetworkSide.Client
+			    , apt: Validations.CheckState(x => x.CanPull), reachRange: reachRange) == false)
+		{
+			return;
 		}
 
 		//client pre-validation

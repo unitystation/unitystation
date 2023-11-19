@@ -288,7 +288,7 @@ public class MouseInputController : MonoBehaviour
 
 			if (pushPull != null)
 			{
-				pushPull.TryTogglePull();
+				pushPull.ClientTryTogglePull();
 			}
 		}
 	}
