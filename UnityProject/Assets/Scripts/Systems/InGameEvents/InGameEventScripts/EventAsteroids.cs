@@ -45,6 +45,9 @@ namespace InGameEvents
 
 		private int Processed = 0;
 
+		[Tooltip("Explosion type")]
+		[SerializeField] private ExplosionTypes.ExplosionType explosionType = ExplosionTypes.ExplosionType.Regular;
+
 		private bool IsMatrixInvalid()
 		{
 			if (stationMatrix != null) return false;
@@ -140,7 +143,7 @@ namespace InGameEvents
 
 				var strength = UnityEngine.Random.Range(minStrength * multiplier, maxStrength * multiplier);
 
-				Explosion.StartExplosion(impactCoords.Dequeue().RoundToInt(), strength);
+				Explosion.StartExplosion(impactCoords.Dequeue().RoundToInt(), strength, ExplosionTypes.NodeTypes[explosionType]);
 				Processed++;
 				if (Processed > ProcessNPerupdate)
 				{
