@@ -95,7 +95,7 @@ namespace Systems.Faith
 		}
 
 		[TargetRpc]
-		public void RpcUpdateInfoScreenDataForPlayer(NetworkConnectionToClient target, FaithInfoUI.FaithUIInfo data)
+		public void RpcUpdateInfoScreenDataForPlayer(NetworkConnection target, FaithInfoUI.FaithUIInfo data)
 		{
 			UIManager.Instance.FaithInfo.UpdateData(data);
 		}
