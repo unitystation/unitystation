@@ -283,7 +283,7 @@ namespace Objects.Engineering
 				{
 					if (GasNode.GasMix.WholeHeatCapacity != 0)
 					{
-						GasNode.GasMix.InternalEnergy += ExtraEnergyGained * 0.00001f;
+						GasNode.GasMix.InternalEnergy += ExtraEnergyGained * 0.000001f;
 						if (GasNode.GasMix.Temperature > 5000)
 						{
 							GasNode.GasMix.Temperature = 5000;
