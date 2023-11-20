@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EtherealThing : MonoBehaviour, IServerSpawn
 {
+	public Vector3 SavedLocalPosition;
+
 	public void OnSpawnServer(SpawnInfo info)
 	{
 
@@ -13,9 +15,10 @@ public class EtherealThing : MonoBehaviour, IServerSpawn
 	{
 		yield return null;
 		var RegisterTile = this.GetComponent<RegisterTile>();
-		RegisterTile.Matrix.MetaDataLayer.InitialObjects[this.gameObject] = this.transform.localPosition;
+		var localPosition = this.transform.localPosition;
+		SavedLocalPosition = localPosition;
+		RegisterTile.Matrix.MetaDataLayer.EtherealThings.Add(this);
 		this.GetComponent<UniversalObjectPhysics>()?.DisappearFromWorld();
-		this.GetComponent<RegisterTile>().UpdatePositionServer();
 	}
 
 

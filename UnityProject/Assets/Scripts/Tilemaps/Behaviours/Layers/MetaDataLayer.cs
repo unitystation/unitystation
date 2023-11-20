@@ -43,7 +43,7 @@ public class MetaDataLayer : MonoBehaviour
 
 	public Dictionary<GameObject, Vector3> InitialObjects = new Dictionary<GameObject, Vector3>();
 
-
+	public List<EtherealThing> EtherealThings = new List<EtherealThing>();
 	public void OnEnable()
 	{
 		if (CustomNetworkManager.IsServer)
