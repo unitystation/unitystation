@@ -235,7 +235,7 @@ namespace Items
 				}
 				else
 				{
-					Chat.AddExamineMsg(PlayerManager.LocalPlayerObject, $"Changed sensors to {Mode}");
+					Chat.AddExamineMsg(interaction.Performer, $"Changed sensors to {Mode}");
 				}
 			}
 		}
