@@ -2,6 +2,7 @@ using UnityEngine;
 using Objects.Research;
 using Systems.Explosions;
 using Items;
+using Systems.Scenes;
 
 namespace Systems.Research
 {
@@ -35,7 +36,7 @@ namespace Systems.Research
 			worldPosEntrance += new Vector3Int(Random.Range(-1,1), Random.Range(-1, 1), Random.Range(-1, 1));
 			worldPosExit += new Vector3(x, y, 0);
 
-			SpawnPortals(worldPosEntrance, worldPosExit);		
+			SpawnPortals(worldPosEntrance, worldPosExit);
 		}
 
 		protected override void WrongEffect(HandApply interaction)
@@ -75,6 +76,26 @@ namespace Systems.Research
 				SparkUtil.TrySpark(worldPosExit, expose: false);
 			}
 
+
+			bool CanTeleport = true;
+			foreach(TeleportInhibitor inhib in TeleportInhibitor.Inhibitors)
+			{
+				var inhibPosition = inhib.GetComponent<UniversalObjectPhysics>().OfficialPosition.RoundToInt();
+				if(Vector3.Distance(inhibPosition, worldPosEntrance) <= inhib.Range)
+				{
+					SparkUtil.TrySpark(worldPosEntrance, expose: false);
+					CanTeleport = false;
+				}
+
+				if(Vector3.Distance(inhibPosition, worldPosExit) <= inhib.Range)
+				{
+					SparkUtil.TrySpark(worldPosExit, expose: false);
+					CanTeleport = false;
+				}
+			}
+
+			if (CanTeleport == false) return;
+			
 			var entrance = Spawn.ServerPrefab(portalPrefab, worldPosEntrance);
 			if (entrance.Successful == false) return;
 
