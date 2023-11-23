@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AdminCommands;
 using Core.Editor.Attributes;
 using HealthV2;
@@ -222,8 +223,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public bool IsSliding => slideTime > 0;
 	public bool IsInAir => airTime > 0;
-
-	[PlayModeOnly] public bool FramePushDecision = true;
 
 	public bool stickyMovement = false;
 
@@ -985,15 +984,43 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		return true;
 	}
 
+	private List<DirectionAndDecision> TriedDirectionsFrame = new List<DirectionAndDecision>();
+
+	public struct DirectionAndDecision
+	{
+
+		public Vector2Int worldDirection;
+		public bool Decision;
+	}
+
+	private DirectionAndDecision? GetDecision(Vector2Int worldDirection)
+	{
+		var Count = TriedDirectionsFrame.Count;
+		for (int i = 0; i < Count; i++)
+		{
+			if (TriedDirectionsFrame[i].worldDirection == worldDirection)
+			{
+				return TriedDirectionsFrame[i];
+			}
+		}
+
+		return null;
+	}
+
 	public bool CanPush(Vector2Int worldDirection)
 	{
 		if (worldDirection == Vector2Int.zero) return true;
 		if (CanMove == false) return false;
 		if (PushedFrame == Time.frameCount)
 		{
-			return FramePushDecision;
+			var Direction = GetDecision(worldDirection);
+			if (Direction != null)
+			{
+				return Direction.Value.Decision;
+			}
 		}
-		else if (TryPushedFrame == Time.frameCount)
+
+		if (TryPushedFrame == Time.frameCount)
 		{
 			return false;
 		}
@@ -1014,14 +1041,31 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (MatrixManager.IsPassableAtAllMatricesV2(from, from + worldDirection.To3Int(), SetMatrixCache, this, Pushing,
 			    Bumps)) //Validate
 		{
-			PushedFrame = Time.frameCount;
-			FramePushDecision = true;
+			if (PushedFrame != Time.frameCount)
+			{
+				TriedDirectionsFrame.Clear();
+				PushedFrame = Time.frameCount;
+			}
+
+			TriedDirectionsFrame.Add(new DirectionAndDecision()
+			{
+				worldDirection = worldDirection,
+				Decision = true
+			});
 			return true;
 		}
 		else
 		{
-			PushedFrame = Time.frameCount;
-			FramePushDecision = false;
+			if (PushedFrame != Time.frameCount)
+			{
+				TriedDirectionsFrame.Clear();
+				PushedFrame = Time.frameCount;
+			}
+			TriedDirectionsFrame.Add(new DirectionAndDecision()
+			{
+				worldDirection = worldDirection,
+				Decision = false
+			});
 			return false;
 		}
 	}
@@ -1079,12 +1123,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					pushedBy = this;
 				}
 
-				var pushDirection = -1 * (this.transform.position - push.transform.position).RoundTo2Int();
-				if (pushDirection == Vector2Int.zero)
-				{
-					pushDirection = worldDirection;
-				}
-
+				var pushDirection = worldDirection;
 				push.TryTilePush(pushDirection, byClient, speed, pushedBy);
 			}
 		}
