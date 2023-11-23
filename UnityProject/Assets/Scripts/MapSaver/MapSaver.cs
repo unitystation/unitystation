@@ -841,6 +841,20 @@ namespace MapSaver
 				ProcessIndividualObject(Compact,Object.gameObject, compactObjectMapData, UseInstance: UseInstance);
 			}
 
+			foreach (var EtherealThing in MetaTileMap.matrix.MetaDataLayer.EtherealThings)
+			{
+				if (UseBoundary)
+				{
+					if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value, EtherealThing.SavedLocalPosition) ==
+					    false)
+					{
+						continue;
+					}
+				}
+
+				ProcessIndividualObject(Compact, EtherealThing.gameObject, compactObjectMapData, EtherealThing.SavedLocalPosition, UseInstance);
+			}
+
 			foreach (var ObjectCoordinate in MetaTileMap.matrix.MetaDataLayer.InitialObjects)
 			{
 				if (UseBoundary)

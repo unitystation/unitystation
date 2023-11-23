@@ -4,18 +4,40 @@ using UnityEngine;
 
 public class EtherealThing : MonoBehaviour, IServerSpawn
 {
+
+	public Pickupable Pickupable;
+
+	public Vector3 SavedLocalPosition;
+
+
 	public void OnSpawnServer(SpawnInfo info)
 	{
+		Pickupable = this.GetComponent<Pickupable>();
+		if (this.GetComponent<RuntimeSpawned>() == null)
+		{
+			StartCoroutine(WaitingFrame());
+		}
+		else
+		{
+			Destroy(this.gameObject);
+		}
 
-		StartCoroutine(WaitingFrame());
 	}
 	private IEnumerator WaitingFrame()
 	{
 		yield return null;
+
+
+		if (Pickupable != null && Pickupable.ItemSlot != null)
+		{
+			Inventory.ServerDrop(Pickupable.ItemSlot); //TOOD Handle inventory sometime
+		}
+
 		var RegisterTile = this.GetComponent<RegisterTile>();
-		RegisterTile.Matrix.MetaDataLayer.InitialObjects[this.gameObject] = this.transform.localPosition;
+		var localPosition = this.transform.localPosition;
+		SavedLocalPosition = localPosition;
+		RegisterTile.Matrix.MetaDataLayer.EtherealThings.Add(this);
 		this.GetComponent<UniversalObjectPhysics>()?.DisappearFromWorld();
-		this.GetComponent<RegisterTile>().UpdatePositionServer();
 	}
 
 

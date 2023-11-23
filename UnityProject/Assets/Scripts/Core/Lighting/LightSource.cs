@@ -24,7 +24,7 @@ namespace Objects.Lighting
 	public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowerable, IServerLifecycle,
 		IMultitoolSlaveable
 	{
-		[SyncVar(hook = nameof(SetAnimation)), SerializeField, FormerlySerializedAs("ONColour")]
+		[SyncVar(hook = nameof(SetColourAndAnimation)), SerializeField, FormerlySerializedAs("ONColour")]
 		public Color CurrentOnColor;
 
 		public Color EmergencyColour;
@@ -212,7 +212,7 @@ namespace Objects.Lighting
 			MountState = newState;
 			ChangeCurrentState(newState);
 			SetSprites();
-			SetAnimation(CurrentOnColor, CurrentOnColor);
+			SetColourAndAnimation(CurrentOnColor, CurrentOnColor);
 		}
 
 		private void ChangeCurrentState(LightMountState newState)
@@ -268,7 +268,7 @@ namespace Objects.Lighting
 			RefreshBoxCollider();
 		}
 
-		public void SetAnimation(Color oldState, Color newState)
+		public void SetColourAndAnimation(Color oldState, Color newState)
 		{
 		    CurrentOnColor = newState;
 			lightSprite.Color = newState;
@@ -391,6 +391,14 @@ namespace Objects.Lighting
 				}
 
 				var spawnedItem = Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer()).GameObject;
+
+				var lightTubeData = spawnedItem.GetComponent<LightTubeData>();
+				if (lightTubeData != null)
+				{
+					lightTubeData.RegularColour = CurrentOnColor;
+					lightTubeData.EmergencyColour = EmergencyColour;
+				}
+
 				ItemSlot bestHand = interaction.PerformerPlayerScript.DynamicItemStorage.GetBestHand();
 				if (bestHand != null && spawnedItem != null)
 				{
@@ -410,6 +418,13 @@ namespace Objects.Lighting
 		private void TryAddBulb(HandApply interaction)
 		{
 			if (MountState != LightMountState.MissingBulb) return;
+			var lightTubeData = interaction.HandObject.GetComponent<LightTubeData>();
+			if (lightTubeData != null)
+			{
+				SetColourAndAnimation(CurrentOnColor, lightTubeData.RegularColour);
+				EmergencyColour = lightTubeData.EmergencyColour; //TODO net work some time
+			}
+
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Broken))
 			{

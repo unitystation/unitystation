@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6943237300451850614
+--- !u!1001 &699352788335916318
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
-      value: _LightItemBase
+      value: PeriodicGasSetter
       objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
+    - target: {fileID: 1344926539164060, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+      propertyPath: m_Layer
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
@@ -59,43 +59,39 @@ PrefabInstance:
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: _assetId
-      value: 3707546916
+      value: 2155567000
       objectReference: {fileID: 0}
-    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: m_AssetId
-      value: 086407f2a016834408c533b2c8cfefe5
-      objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: hitDamage
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: initialSize
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: throwDamage
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: 'initialTraits.Array.data[0]'
+      propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 11400000, guid: 86782de91b339c1438d9f4e310d321f4,
+      objectReference: {fileID: 21300000, guid: 364c1cd83c365114a86efc4ee1e68c72,
+        type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialName
+      value: PeriodicGasSetter
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialDescription
+      value: hummm? how did you get this
+      objectReference: {fileID: 0}
+    - target: {fileID: 5414819541850508356, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: Intangible
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8aa82bcb75f294f49b445bff03de4a07,
         type: 2}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: foreverID
-      value: 086407f2a016834408c533b2c8cfefe5
+      value: dbc281854a15eac4ba6d371fb2f14aae
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -104,73 +100,30 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2887071320556311358}
-    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6870383015332927665}
-    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 9191268136490659972}
+      addedObject: {fileID: 5894812348247773149}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
---- !u!1 &6942512601141888460 stripped
+--- !u!1 &700043948313282980 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
     type: 3}
-  m_PrefabInstance: {fileID: 6943237300451850614}
+  m_PrefabInstance: {fileID: 699352788335916318}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2887071320556311358
+--- !u!114 &5894812348247773149
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6942512601141888460}
+  m_GameObject: {fileID: 700043948313282980}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86dfe01930f829343b3058bf90fb18f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 6828297ae27c5884bbb7577948fc0cd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageOnHit: 15
-  integrityHealth: 50
-  brokenItem: {fileID: 0}
-  soundOnBreak:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/GlassStep.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
---- !u!114 &6870383015332927665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6942512601141888460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundReagents:
-    m_keys:
-    - {fileID: 11400000, guid: 0dbe4ccb54c65da5e88a73f36441a195, type: 2}
-    - {fileID: 11400000, guid: 23b1fd9d2d60ffd0a8879d7745f1a7fb, type: 2}
-    m_values: 050000000a000000
---- !u!114 &9191268136490659972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6942512601141888460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81093b1a0b847f248b74750cc8ccc184, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RegularColour: {r: 1, g: 0.9882353, b: 0.84313726, a: 0.65882355}
-  EmergencyColour: {r: 1, g: 0, b: 0, a: 0.33333334}
+  UpdateNSeconds: 10
+  GasMix:
+    GasData:
+      GasesArray: []
+    pressure: 0
+    Volume: 0
+    temperature: 0
