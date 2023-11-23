@@ -104,7 +104,7 @@ namespace DatabaseAPI
 			if (updateWait >= 10f)
 			{
 				updateWait = 0f;
-				_=Instance.SendServerStatus();
+				Task.Run(() => Instance.SendServerStatus());
 			}
 		}
 
