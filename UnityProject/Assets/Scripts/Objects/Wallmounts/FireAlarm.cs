@@ -10,6 +10,7 @@ using Shared.Systems.ObjectConnection;
 using CustomInspectors;
 using Doors;
 using Logs;
+using Objects.Lighting;
 
 
 namespace Objects.Wallmounts
@@ -18,6 +19,7 @@ namespace Objects.Wallmounts
 		ICheckedInteractable<HandApply>, IMultitoolMasterable, ICheckedInteractable<AiActivate>
 	{
 		public List<FireLock> FireLockList = new List<FireLock>();
+		[SerializeField] private List<LightSource> lightSourcesForAlarm = new List<LightSource>();
 		private MetaDataNode metaNode;
 		public bool activated = false;
 		public float coolDownTime = 1.0f;
@@ -64,6 +66,12 @@ namespace Objects.Wallmounts
 			{
 				if (firelock == null) continue;
 				firelock.ReceiveAlert();
+			}
+
+			foreach (var lightSource in lightSourcesForAlarm)
+			{
+				if (lightSource == null) continue;
+				lightSource.Animator.PlayAnimNetworked(0);
 			}
 		}
 
@@ -204,6 +212,11 @@ namespace Objects.Wallmounts
 					var controller = firelock.DoorMasterController;
 
 					controller.TryOpen(null);
+				}
+				foreach (var lightSource in lightSourcesForAlarm)
+				{
+					if (lightSource == null) continue;
+					lightSource.Animator.StopAnims();
 				}
 			}
 			else

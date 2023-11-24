@@ -11,6 +11,7 @@ using Systems.Electricity.NodeModules;
 using Objects.Lighting;
 using Objects.Construction;
 using Core.Editor.Attributes;
+using Core.Lighting;
 using CustomInspectors;
 using HealthV2;
 using Logs;

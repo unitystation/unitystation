@@ -1,28 +1,40 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Logs;
-using Mirror;
+﻿using Logs;
+using Objects.Lighting;
 using UnityEngine;
 
-namespace Objects.Lighting
+namespace Core.Lighting
 {
-	public class EmergencyLightAnimator : NetworkBehaviour
+	public class EmergencyLightAnimator : MonoBehaviour, ILightAnimation
 	{
-		public Sprite[] sprites;
-
-		public float animateTime = 0.4f;
-		private float timeElapsedSprite = 0;
-		private int currentSprite = 0;
 		public float rotateSpeed = 40f;
+		public Color EmergencyColour = Color.red;
+		public Color previouseColour = Color.white;
+		[SerializeField] private SpriteHandler spriteHandler;
+		[SerializeField] private LightSource source;
+		[SerializeField] private float speedVariation = 0.25f;
+		public Sprite emergancySprite;
+		private Sprite previousSprite;
+		private bool previouslySet = false;
+		private float currentSpeed = 0f;
 
-		private SpriteRenderer spriteRenderer;
-		private LightSource lightSource;
+		SpriteHandler ILightAnimation.SpriteHandler
+		{
+			get => spriteHandler;
+			set => spriteHandler = value;
+		}
+
+		LightSource ILightAnimation.Source
+		{
+			get => source;
+			set => source = value;
+		}
+
+		[field: SerializeField] public int ID { get; set; } = 0;
 
 		private void OnEnable()
 		{
-			lightSource = GetComponent<LightSource>();
-			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+			source ??= GetComponent<LightSource>();
+			spriteHandler ??= GetComponentInChildren<SpriteHandler>();
 		}
 
 		private void OnDisable()
@@ -32,14 +44,24 @@ namespace Objects.Lighting
 
 		public void StartAnimation()
 		{
-			if(CustomNetworkManager.IsHeadless) return;
-
+			previouseColour = source.CurrentOnColor;
+			source.CurrentOnColor = EmergencyColour;
+			previousSprite = source.lightSprite.Sprite;
+			source.lightSprite.Sprite = emergancySprite;
+			currentSpeed = rotateSpeed + Random.Range(0, speedVariation);
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			previouslySet = true;
 		}
 
 		public void StopAnimation()
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			if (previousSprite)
+			{
+				source.CurrentOnColor = previouseColour;
+				source.lightSprite.Sprite = previousSprite;
+				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			}
+			previouslySet = false;
 		}
 
 		protected virtual void UpdateMe()
@@ -47,10 +69,9 @@ namespace Objects.Lighting
 			AnimateLight();
 		}
 
-		private void AnimateLight()
+		public void AnimateLight()
 		{
-			if (lightSource == null || lightSource.mLightRendererObject == null ||
-			    lightSource.mLightRendererObject.transform == null)
+			if (source == null || source.mLightRendererObject == null)
 			{
 				StopAnimation();
 
@@ -61,27 +82,7 @@ namespace Objects.Lighting
 
 				return;
 			}
-
-			lightSource.mLightRendererObject.transform.Rotate(0f, 0f, rotateSpeed * Time.deltaTime, Space.World);
-		}
-
-		private void AnimateSprite()
-		{
-			timeElapsedSprite += Time.deltaTime;
-			if (timeElapsedSprite >= animateTime)
-			{
-				spriteRenderer.sprite = sprites[currentSprite];
-				if (sprites.Length == currentSprite)
-				{
-					currentSprite = 0;
-				}
-				else
-				{
-					currentSprite++;
-				}
-
-				timeElapsedSprite = 0;
-			}
+			source.mLightRendererObject.transform.Rotate(0f, 0f, currentSpeed * Time.deltaTime);
 		}
 	}
 }

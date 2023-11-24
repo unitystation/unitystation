@@ -108,6 +108,183 @@ MonoBehaviour:
   OnSpriteUpdated:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &8582599332015320669
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1479057278422013483}
+  - component: {fileID: 709485821612682040}
+  - component: {fileID: 5883286720057947207}
+  m_Layer: 19
+  m_Name: Anims
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1479057278422013483
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8582599332015320669}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8016220542479582908}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &709485821612682040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8582599332015320669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ee25e15c851c447bd342aa75f7ca2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateSpeed: 40
+  EmergencyColour: {r: 1, g: 0, b: 0, a: 0.5137255}
+  previouseColour: {r: 0.4811321, g: 0.41670677, b: 0.22014064, a: 0.44705883}
+  spriteHandler: {fileID: 1952478272362544665}
+  source: {fileID: 6947158127070171075}
+  speedVariation: 0.25
+  emergancySprite: {fileID: -408650866274889813, guid: f7b2b1e0dbffbad41a9063bddef32fdd,
+    type: 3}
+  <ID>k__BackingField: 0
+--- !u!114 &5883286720057947207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8582599332015320669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32b699129d94dbe860b890f3da9efe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteHandler: {fileID: 1952478272362544665}
+  source: {fileID: 6947158127070171075}
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 33.441345
+      outSlope: 33.441345
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.031002387
+      value: 1.0367615
+      inSlope: 10.479383
+      outSlope: 10.479383
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.111976735
+      value: 0.0259929
+      inSlope: -9.335748
+      outSlope: -9.335748
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.22070986
+      value: -0.6469474
+      inSlope: -0.38862014
+      outSlope: -0.38862014
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.33601475
+      value: -0.022954643
+      inSlope: 9.548412
+      outSlope: 9.548412
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.41377878
+      value: 1.0412577
+      inSlope: -7.9993954
+      outSlope: -7.9993954
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.15450549
+    - serializedVersion: 3
+      time: 0.5382526
+      value: 0.49711266
+      inSlope: -3.098172
+      outSlope: -3.098172
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.04908933
+    - serializedVersion: 3
+      time: 0.6301594
+      value: -0.6256293
+      inSlope: -5.9541097
+      outSlope: -5.9541097
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.03468619
+    - serializedVersion: 3
+      time: 0.7459881
+      value: 1.1108068
+      inSlope: 0.35812333
+      outSlope: 0.35812333
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.610226
+    - serializedVersion: 3
+      time: 0.91753477
+      value: -0.62226355
+      inSlope: 2.498588
+      outSlope: 2.498588
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 19.67209
+      outSlope: 19.67209
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  duration: 18
+  defaultStateOnUpdateEnd: {r: 1, g: 1, b: 1, a: 1}
+  colorToAnimateTowards: {r: 1, g: 0.802147, b: 0, a: 0.11372549}
+  <ID>k__BackingField: 1
 --- !u!1001 &7428089721754950040
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -494,6 +671,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5489867060344412088}
+    - targetCorrespondingSourceObject: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1479057278422013483}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -510,15 +691,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5109516359681254002}
-    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 6946348802393932263}
     - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6947158127070171075}
+    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4710465001683396220}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
 --- !u!114 &1496935572177014779 stripped
 MonoBehaviour:
@@ -636,24 +817,6 @@ MonoBehaviour:
   SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
---- !u!114 &5109516359681254002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8010465399013802086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ee25e15c851c447bd342aa75f7ca2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  sprites: []
-  animateTime: 0.4
-  rotateSpeed: 30
 --- !u!114 &6946348802393932263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -682,14 +845,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   CurrentOnColor: {r: 1, g: 0.9899574, b: 0.8443396, a: 0.65882355}
-  EmergencyColour: {r: 1, g: 0, b: 0, a: 0.33333334}
   relatedLightSwitch: {fileID: 0}
   InitialState: 1
   mLightRendererObject: {fileID: 0}
   isWithoutSwitch: 0
+  <Animator>k__BackingField: {fileID: 4710465001683396220}
   spriteHandler: {fileID: 3276952608748939964}
   spriteRendererLightOn: {fileID: 1689274832931870787}
-  emergencyLightAnimator: {fileID: 5109516359681254002}
   integrity: {fileID: 1496935572177014779}
   directional: {fileID: 2883810215281542680}
   boxColl: {fileID: 3662677150203288956}
@@ -710,6 +872,23 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+--- !u!114 &4710465001683396220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8010465399013802086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96ab09b2c7d45d09b16b6ad8a382f5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  animationsHolder: {fileID: 8582599332015320669}
+  activeAnimationID: -1
 --- !u!4 &8016220542479582908 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
