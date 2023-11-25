@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: MagicWallGlow
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 21300000, guid: 4e7be71c5d99b7c42bff7ffe2a2cb744, type: 3}
+      secondDelay: 0.4
+    - sprite: {fileID: 21300000, guid: 35741a3ab2f512f4d9fd48c6e352fabb, type: 3}
+      secondDelay: 0.4
+    - sprite: {fileID: 21300000, guid: c7f0e88f171ed114cafa5d07a3beb7e4, type: 3}
+      secondDelay: 0.4
+    - sprite: {fileID: 21300000, guid: fc1034cec0ff53747a2da42f6430bae0, type: 3}
+      secondDelay: 0.4
+    - sprite: {fileID: 21300000, guid: 5284257535482f34b9c8eefcbf35ea3b, type: 3}
+      secondDelay: 0.4
+    - sprite: {fileID: 21300000, guid: fc1034cec0ff53747a2da42f6430bae0, type: 3}
+      secondDelay: 0.4
+    - sprite: {fileID: 21300000, guid: c7f0e88f171ed114cafa5d07a3beb7e4, type: 3}
+      secondDelay: 0.4
+    - sprite: {fileID: 21300000, guid: 35741a3ab2f512f4d9fd48c6e352fabb, type: 3}
+      secondDelay: 0.4
+    - sprite: {fileID: 21300000, guid: 4e7be71c5d99b7c42bff7ffe2a2cb744, type: 3}
+      secondDelay: 0.4
+    - sprite: {fileID: 21300000, guid: 8b482f33f911feb4ea6d0c9f178aab80, type: 3}
+      secondDelay: 0.4
+  IsPalette: 0
+  DisplayName: 
