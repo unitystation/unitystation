@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 1479057278422013483}
   - component: {fileID: 709485821612682040}
   - component: {fileID: 5883286720057947207}
+  - component: {fileID: 367415101094660415}
   m_Layer: 19
   m_Name: Anims
   m_TagString: Untagged
@@ -285,6 +286,23 @@ MonoBehaviour:
   defaultStateOnUpdateEnd: {r: 1, g: 1, b: 1, a: 1}
   colorToAnimateTowards: {r: 1, g: 0.802147, b: 0, a: 0.11372549}
   <ID>k__BackingField: 1
+--- !u!114 &367415101094660415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8582599332015320669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c646a30a81947b792a9a2e56816f25d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteHandler: {fileID: 1952478272362544665}
+  source: {fileID: 6947158127070171075}
+  sprites: []
+  animSpeed: 0.2
+  <ID>k__BackingField: 2
 --- !u!1001 &7428089721754950040
 PrefabInstance:
   m_ObjectHideFlags: 0
