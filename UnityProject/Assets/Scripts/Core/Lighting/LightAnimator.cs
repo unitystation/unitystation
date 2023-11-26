@@ -7,10 +7,13 @@ namespace Core.Lighting
 {
 	public class LightAnimator : NetworkBehaviour, IRightClickable
 	{
-		[SerializeField] private GameObject animationsHolder;
-		[SyncVar, SerializeField] private int activeAnimationID = -1;
 		private List<ILightAnimation> animations = new List<ILightAnimation>();
 		public ILightAnimation ActiveAnimation { get; private set; } = null;
+
+		[SyncVar(hook = nameof(OnChangeActiveAnimationID)), SerializeField]
+		private int activeAnimationID = -1;
+		[SerializeField]
+		private GameObject animationsHolder;
 
 		private void Awake()
 		{
@@ -65,6 +68,23 @@ namespace Core.Lighting
 		public void StopAnims()
 		{
 			StopAnim();
+		}
+
+		private void OnChangeActiveAnimationID(int oldState, int newState)
+		{
+			if (oldState == newState || activeAnimationID == newState) return;
+			if (newState == -1)
+			{
+				StopAnim();
+				return;
+			}
+
+			foreach (var anim in animations)
+			{
+				if (anim.ID != newState) continue;
+				PlayAnim(anim);
+				break;
+			}
 		}
 
 		public RightClickableResult GenerateRightClickOptions()
