@@ -7,6 +7,7 @@ using Chemistry.Components;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Items.Implants.Organs;
+using Logs;
 using Systems.Character;
 using UI.CharacterCreator;
 using UnityEngine;
@@ -139,46 +140,42 @@ public class SlimeCore : BodyPartFunctionality
 
 	public void SlimesSplit()
 	{
-
-		if (CanSlimesSplit())
+		if (CanSlimesSplit() == false) return;
+		// Loop four times to create four offspring
+		for (int i = 0; i < 4; i++)
 		{
+			// Generate a random number between 0 and 100
+			int randomNumber = Random.Range(0, 100);
 
-			// Loop four times to create four offspring
-			for (int i = 0; i < 4; i++)
+			// Find the index of the chosen prefab based on the percentage chances
+			int chosenIndex = GetChosenIndex(randomNumber);
+
+			SlimeCore NewCore = CanSplitInto[chosenIndex].CoreMutateTo;
+
+			if (CanSplitInto[chosenIndex].CoreMutateTo == null)
 			{
-				// Generate a random number between 0 and 100
-				int randomNumber = Random.Range(0, 100);
-
-				// Find the index of the chosen prefab based on the percentage chances
-				int chosenIndex = GetChosenIndex(randomNumber);
-
-				SlimeCore NewCore = CanSplitInto[chosenIndex].CoreMutateTo;
-
-				if (CanSplitInto[chosenIndex].CoreMutateTo == null)
-				{
-					//is it Self
-					NewCore = this;
-				}
-
-				// Instantiate a new offspring based on the chosen prefab
-				var Mind = PlayerSpawn.NewSpawnCharacterV2(null, NewCore.ForCore, true);
-				Mind.Body.ObjectPhysics.AppearAtWorldPositionServer(RelatedPart.HealthMaster.gameObject.AssumedWorldPosServer());
-
-				var core = Mind.Body.GetComponent<LivingHealthMasterBase>().brain.GetComponent<SlimeCore>();
-				core.InitialiseBabySlime();
-
-				var GoodPlayers = core.GetComponent<BrainSlime>();
-				GoodPlayers.GoodPlayers = GoodPlayers.GoodPlayers.Union(this.GetComponent<BrainSlime>().GoodPlayers).ToDictionary(s => s.Key, s => s.Value);
-
-				core.Stabilised = this.Stabilised;
-
+				//is it Self
+				NewCore = this;
 			}
 
+			// Instantiate a new offspring based on the chosen prefab
+			var Mind = PlayerSpawn.NewSpawnCharacterV2(null, NewCore.ForCore, true);
+			Mind.Body.ObjectPhysics.AppearAtWorldPositionServer(RelatedPart.HealthMaster.gameObject.AssumedWorldPosServer());
 
-			_ = Despawn.ServerSingle(RelatedPart.HealthMaster.gameObject);
+			var core = Mind.Body.GetComponent<LivingHealthMasterBase>().brain.GetComponent<SlimeCore>();
+			if (core == null)
+			{
+				Loggy.LogError("[SlimeCore/SlimeSplit()] - No core found!");
+				continue;
+			}
+			core.InitialiseBabySlime();
+
+			var GoodPlayers = core.GetComponent<BrainSlime>();
+			GoodPlayers.GoodPlayers = GoodPlayers.GoodPlayers.Union(this.GetComponent<BrainSlime>().GoodPlayers).ToDictionary(s => s.Key, s => s.Value);
+
+			core.Stabilised = this.Stabilised;
 		}
-
-
+		_ = Despawn.ServerSingle(RelatedPart.HealthMaster.gameObject);
 	}
 
 	// Helper method to get the index of the chosen prefab based on the percentage chances
