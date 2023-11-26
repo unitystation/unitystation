@@ -51,7 +51,6 @@ namespace Core.Lighting
 			}
 		}
 
-		[ClientRpc]
 		public void PlayAnimNetworked(int animID)
 		{
 			foreach (var anim in animations)
@@ -63,8 +62,7 @@ namespace Core.Lighting
 			}
 			Loggy.LogError($"[PlayAnimNetworked] - animation with {animID} id not found.");
 		}
-
-		[ClientRpc]
+		
 		public void StopAnims()
 		{
 			StopAnim();
