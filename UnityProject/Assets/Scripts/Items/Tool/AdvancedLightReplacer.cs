@@ -105,7 +105,7 @@ namespace Items.Tool
 
 		private void SetLightColors(LightSource source)
 		{
-			source.SetColourAndAnimation(source.CurrentOnColor, currentColor);
+			source.SetColor(source.CurrentOnColor, currentColor);
 			source.CurrentOnColor = currentColor;
 		}
 

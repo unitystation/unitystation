@@ -1273,7 +1273,7 @@ namespace AdminCommands
 					currentIndex = 0;
 					yield return WaitFor.EndOfFrame;
 				}
-				stationObject.ServerChangeLightState(LightMountState.Emergency);
+				stationObject.Animator.PlayAnimNetworked(0);
 				currentIndex++;
 			}
 		}

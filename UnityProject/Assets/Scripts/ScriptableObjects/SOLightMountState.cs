@@ -9,7 +9,6 @@ namespace ScriptableObjects
 		Off,
 		MissingBulb,
 		Broken,
-		Emergency,
 		BurnedOut
 	}
 	[CreateAssetMenu(fileName = "SOLightMountState", menuName = "ScriptableObjects/States/SOLightMountState", order = 0)]

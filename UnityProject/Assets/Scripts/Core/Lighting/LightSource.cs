@@ -1,15 +1,13 @@
 using System;
 using AddressableReferences;
-using Audio.Containers;
 using Core;
-using Items.Implants.Organs;
+using Core.Lighting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Mirror;
 using ScriptableObjects;
 using Light2D;
 using Logs;
-using Messages.Server.SoundMessages;
 using Systems.Electricity;
 using Shared.Systems.ObjectConnection;
 using Objects.Construction;
@@ -24,14 +22,13 @@ namespace Objects.Lighting
 	public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowerable, IServerLifecycle,
 		IMultitoolSlaveable
 	{
-		[SyncVar(hook = nameof(SetColourAndAnimation)), SerializeField, FormerlySerializedAs("ONColour")]
+		[SyncVar(hook = nameof(SetColor)), SerializeField, FormerlySerializedAs("ONColour")]
 		public Color CurrentOnColor;
-
-		public Color EmergencyColour;
 
 		public LightSwitchV2 relatedLightSwitch;
 
-		[SerializeField] private LightMountState InitialState = LightMountState.On;
+		[SerializeField]
+		private LightMountState InitialState = LightMountState.On;
 
 		[field: SyncVar(hook = nameof(SyncLightState))]
 		public LightMountState MountState { get; private set; }
@@ -44,14 +41,12 @@ namespace Objects.Lighting
 		private bool switchState = true;
 		private PowerState powerState;
 
+		[field: SerializeField] public LightAnimator Animator { get; private set; }
 		[SerializeField] private SpriteHandler spriteHandler;
 		[SerializeField] private SpriteRenderer spriteRendererLightOn;
-		private LightSprite lightSprite;
-		[SerializeField] private EmergencyLightAnimator emergencyLightAnimator = default;
 		[SerializeField] private Integrity integrity = default;
 		public Integrity Integrity => integrity;
 		[SerializeField] private Rotatable directional;
-
 		[SerializeField] private BoxCollider2D boxColl = null;
 		[SerializeField] private Vector4 collDownSetting = Vector4.zero;
 		[SerializeField] private Vector4 collRightSetting = Vector4.zero;
@@ -70,6 +65,7 @@ namespace Objects.Lighting
 		private ItemTrait traitRequired;
 		public ItemTrait TraitRequired => traitRequired;
 		private GameObject itemInMount;
+		public LightSprite lightSprite { get; private set; }
 
 		public float integrityThreshBar { get; private set; }
 
@@ -212,7 +208,17 @@ namespace Objects.Lighting
 			MountState = newState;
 			ChangeCurrentState(newState);
 			SetSprites();
-			SetColourAndAnimation(CurrentOnColor, CurrentOnColor);
+			SetColor(CurrentOnColor, CurrentOnColor);
+			mLightRendererObject.SetActive(newState is LightMountState.On or LightMountState.BurnedOut);
+			mLightRendererObject.gameObject.SetActive(newState is LightMountState.On or LightMountState.BurnedOut);
+			if (newState == LightMountState.BurnedOut)
+			{
+				Animator.PlayAnim(1);
+			}
+			else if (Animator.ActiveAnimation is { ID: 1 })
+			{
+				Animator.StopAnims();
+			}
 		}
 
 		private void ChangeCurrentState(LightMountState newState)
@@ -268,41 +274,10 @@ namespace Objects.Lighting
 			RefreshBoxCollider();
 		}
 
-		public void SetColourAndAnimation(Color oldState, Color newState)
+		public void SetColor(Color oldState, Color newState)
 		{
 		    CurrentOnColor = newState;
 			lightSprite.Color = newState;
-			switch (MountState)
-			{
-				case LightMountState.Emergency:
-					lightSprite.Color = EmergencyColour;
-					mLightRendererObject.transform.localScale = Vector3.one * 3.0f;
-					mLightRendererObject.SetActive(true);
-					if (emergencyLightAnimator != null)
-					{
-						emergencyLightAnimator.StartAnimation();
-					}
-					break;
-				case LightMountState.On:
-					if (emergencyLightAnimator != null)
-					{
-						emergencyLightAnimator.StopAnimation();
-					}
-
-					lightSprite.Color = newState;
-					mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
-					mLightRendererObject.SetActive(true);
-
-					break;
-				default:
-					if (emergencyLightAnimator != null)
-					{
-						emergencyLightAnimator.StopAnimation();
-					}
-					mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
-					mLightRendererObject.SetActive(false);
-					break;
-			}
 			CheckAudioState();
 		}
 
@@ -391,14 +366,6 @@ namespace Objects.Lighting
 				}
 
 				var spawnedItem = Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer()).GameObject;
-
-				var lightTubeData = spawnedItem.GetComponent<LightTubeData>();
-				if (lightTubeData != null)
-				{
-					lightTubeData.RegularColour = CurrentOnColor;
-					lightTubeData.EmergencyColour = EmergencyColour;
-				}
-
 				ItemSlot bestHand = interaction.PerformerPlayerScript.DynamicItemStorage.GetBestHand();
 				if (bestHand != null && spawnedItem != null)
 				{
@@ -418,13 +385,6 @@ namespace Objects.Lighting
 		private void TryAddBulb(HandApply interaction)
 		{
 			if (MountState != LightMountState.MissingBulb) return;
-			var lightTubeData = interaction.HandObject.GetComponent<LightTubeData>();
-			if (lightTubeData != null)
-			{
-				SetColourAndAnimation(CurrentOnColor, lightTubeData.RegularColour);
-				EmergencyColour = lightTubeData.EmergencyColour; //TODO net work some time
-			}
-
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Broken))
 			{
@@ -434,10 +394,7 @@ namespace Objects.Lighting
 			{
 				ServerChangeLightState(
 					(switchState && (powerState == PowerState.On))
-						? LightMountState.On
-						: (powerState != PowerState.OverVoltage)
-							? LightMountState.Emergency
-							: LightMountState.Off);
+						? LightMountState.On : LightMountState.Off);
 			}
 
 			_ = Despawn.ServerSingle(interaction.HandObject);
@@ -456,9 +413,7 @@ namespace Objects.Lighting
 				ServerChangeLightState(
 					(switchState && (powerState == PowerState.On))
 						? LightMountState.On
-						: (powerState != PowerState.OverVoltage)
-							? LightMountState.Emergency
-							: LightMountState.Off);
+						: LightMountState.Off);
 			}
 
 			_ = Despawn.ServerSingle(lightBulb);
@@ -492,14 +447,8 @@ namespace Objects.Lighting
 				case PowerState.On:
 					ServerChangeLightState(LightMountState.On);
 					return;
-				case PowerState.LowVoltage:
-					ServerChangeLightState(LightMountState.Emergency);
-					return;
 				case PowerState.OverVoltage:
 					ServerChangeLightState(LightMountState.BurnedOut);
-					return;
-				case PowerState.Off:
-					ServerChangeLightState(LightMountState.Emergency);
 					return;
 			}
 		}
