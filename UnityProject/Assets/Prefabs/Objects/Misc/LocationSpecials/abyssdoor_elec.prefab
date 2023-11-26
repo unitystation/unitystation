@@ -98,14 +98,14 @@ PrefabInstance:
       propertyPath: isSelfPowered
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4907819241027763160, guid: b391ea9af3d3916459ecde08f0a53487,
-        type: 3}
-      propertyPath: SubCatalogue.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5473495308977180150, guid: b391ea9af3d3916459ecde08f0a53487,
         type: 3}
       propertyPath: enablePressureWarning
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474807610012323035, guid: b391ea9af3d3916459ecde08f0a53487,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7030852276262810568, guid: b391ea9af3d3916459ecde08f0a53487,

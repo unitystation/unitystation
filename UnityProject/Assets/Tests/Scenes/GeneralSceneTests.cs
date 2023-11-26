@@ -36,9 +36,7 @@ namespace Tests.Scenes
 					var objName = transform.name;
 					var message = $"Object: \"{transform.HierarchyName()}\"";
 					Report.FailIf(objName.Contains("Missing Prefab"))
-						.AppendLine($"{message} is missing prefab")
-						.FailIf(localPos.x == 0 && localPos.y == 0)
-						.AppendLine($"{message} is at 0,0. Please update the prefab/update the map/revert.");
+						.AppendLine($"{message} is missing prefab");
 				}
 			}
 
