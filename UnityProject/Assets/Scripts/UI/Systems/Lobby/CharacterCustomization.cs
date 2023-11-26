@@ -12,6 +12,7 @@ using SecureStuff;
 using Systems.Character;
 using TMPro;
 using UI.Character;
+using UI.Systems.Lobby;
 
 namespace UI.CharacterCreator
 {
@@ -40,8 +41,6 @@ namespace UI.CharacterCreator
 		[SerializeField] private InputField characterAiNameField;
 		[SerializeField] private InputField ageField;
 		[SerializeField] private Text errorLabel;
-		[SerializeField] private Text clothingText;
-		[SerializeField] private Text backpackText;
 		[SerializeField] private InputField SerialiseData;
 		[SerializeField] private BodyPartDropDownOrgans AdditionalOrgan;
 		[SerializeField] private BodyPartDropDownReplaceOrgan ReplacementOrgan;
@@ -50,7 +49,11 @@ namespace UI.CharacterCreator
 		[SerializeField] private TMP_Dropdown accentChoice;
 		[SerializeField] private TMP_Dropdown pronounChoice;
 		[SerializeField] private TMP_Dropdown skinColorChoice;
+		[SerializeField] private TMP_Dropdown backpackChoice;
+		[SerializeField] private TMP_Dropdown clothChoice;
 		[SerializeField] private Button skinColorPicker;
+		[SerializeField] private BagStyleIcons iconsForBags;
+		[SerializeField] private ClothingSyleIcons iconsForCloth;
 
 		[Header("Play Mode Only")]
 
@@ -559,6 +562,8 @@ namespace UI.CharacterCreator
 			genderChoice.ClearOptions();
 			speciesChoice.ClearOptions();
 			accentChoice.ClearOptions();
+			backpackChoice.ClearOptions();
+			clothChoice.ClearOptions();
 			foreach (var bodyType in ThisSetRace.Base.bodyTypeSettings.AvailableBodyTypes)
 			{
 				TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
@@ -587,6 +592,35 @@ namespace UI.CharacterCreator
 				TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
 				data.text = pronoun.Replace("_", "/");;
 				pronounChoice.options.Add(data);
+			}
+
+			foreach (var style in Enum.GetNames(typeof(BagStyle)))
+			{
+				TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
+				foreach (var iconData in iconsForBags.Icons)
+				{
+					if (iconData.Style.ToString() == style)
+					{
+						data.image = iconData.Icon;
+						data.text = style;
+					}
+				}
+				backpackChoice.options.Add(data);
+			}
+
+			foreach (var style in Enum.GetNames(typeof(ClothingStyle)))
+			{
+				TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
+				foreach (var iconData in iconsForCloth.Icons)
+				{
+					if (iconData.Style.ToString() == "None") continue;
+					if (iconData.Style.ToString() == style)
+					{
+						data.image = iconData.Icon;
+						data.text = style;
+					}
+				}
+				clothChoice.options.Add(data);
 			}
 		}
 
@@ -1020,7 +1054,16 @@ namespace UI.CharacterCreator
 
 		private void RefreshBodyType()
 		{
+			errorLabel.text = "";
+			if (AvailableBodyTypes[SelectedBodyType] == null || genderChoice.options.Count < SelectedBodyType)
+			{
+				errorLabel.text = "BodyType out of bounds.";
+			}
 			genderChoice.SetValueWithoutNotify(SelectedBodyType);
+			if (SelectedBodyType == 0)
+			{
+				genderChoice.captionText.text = AvailableBodyTypes[SelectedBodyType].Name;
+			}
 		}
 
 		#endregion
@@ -1075,20 +1118,14 @@ namespace UI.CharacterCreator
 
 		public void OnClothingChange()
 		{
-			int clothing = (int) currentCharacter.ClothingStyle;
-			clothing++;
-			if (clothing == (int) ClothingStyle.None)
-			{
-				clothing = 0;
-			}
-
-			currentCharacter.ClothingStyle = (ClothingStyle) clothing;
+			currentCharacter.ClothingStyle = (ClothingStyle) clothChoice.value;
 			RefreshClothing();
 		}
 
 		private void RefreshClothing()
 		{
-			clothingText.text = currentCharacter.ClothingStyle.ToString();
+			clothChoice.SetValueWithoutNotify((int) currentCharacter.ClothingStyle);
+			clothChoice.captionImage.sprite = clothChoice.options[clothChoice.value].image;
 		}
 
 		#endregion
@@ -1097,20 +1134,14 @@ namespace UI.CharacterCreator
 
 		public void OnBackpackChange()
 		{
-			int backpack = (int) currentCharacter.BagStyle;
-			backpack++;
-			if (backpack == (int) BagStyle.None)
-			{
-				backpack = 0;
-			}
-
-			currentCharacter.BagStyle = (BagStyle) backpack;
+			currentCharacter.BagStyle = (BagStyle) backpackChoice.value;
 			RefreshBackpack();
 		}
 
 		private void RefreshBackpack()
 		{
-			backpackText.text = currentCharacter.BagStyle.ToString();
+			backpackChoice.SetValueWithoutNotify((int) currentCharacter.BagStyle);
+			backpackChoice.captionImage.sprite = backpackChoice.options[backpackChoice.value].image;
 		}
 
 		#endregion
@@ -1131,6 +1162,10 @@ namespace UI.CharacterCreator
 		private void RefreshPronoun()
 		{
 			pronounChoice.SetValueWithoutNotify((int) currentCharacter.PlayerPronoun);
+			if (pronounChoice.value == 0)
+			{
+				pronounChoice.captionText.text = pronounChoice.options[0].text;
+			}
 		}
 
 		#endregion
@@ -1156,6 +1191,10 @@ namespace UI.CharacterCreator
 		private void RefreshAccent()
 		{
 			accentChoice.SetValueWithoutNotify((int) currentCharacter.Speech);
+			if (accentChoice.value == 0)
+			{
+				accentChoice.captionText.text = accentChoice.options[0].text;
+			}
 		}
 
 		#endregion
@@ -1168,7 +1207,10 @@ namespace UI.CharacterCreator
 
 		public void OnSurfaceColourDropdown()
 		{
-			SkinColourChange(skinColorChoice.itemImage.color);
+			if (ColorUtility.TryParseHtmlString("#" + skinColorChoice.options[skinColorChoice.value].text, out var newColor))
+			{
+				SkinColourChange(newColor);
+			}
 		}
 
 		public void SkinColourChange(Color color)
@@ -1209,6 +1251,10 @@ namespace UI.CharacterCreator
 		{
 			ThisSetRace = currentCharacter.GetRaceSo();
 			speciesChoice.SetValueWithoutNotify(SelectedSpecies);
+			if (speciesChoice.value == 0)
+			{
+				speciesChoice.captionText.text = speciesChoice.options[0].text;
+			}
 		}
 
 		#endregion

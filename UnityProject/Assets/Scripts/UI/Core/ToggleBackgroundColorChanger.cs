@@ -21,7 +21,7 @@ namespace UI.Core
 			Color color;
 			if (ColorUtility.TryParseHtmlString("#" + label.text, out color))
 			{
-				label.text = "";
+				label.fontSize = 0;
 				backgrounToggle.image.color = color;
 			}
 			else
