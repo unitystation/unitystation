@@ -20,11 +20,6 @@ namespace Core.Lighting
 			animations.AddRange(animationsHolder.GetComponents<ILightAnimation>());
 		}
 
-		public override void OnStartClient()
-		{
-			base.OnStartClient();
-			if (activeAnimationID != -1) PlayAnim(activeAnimationID);
-		}
 
 		private void StopAnim()
 		{
