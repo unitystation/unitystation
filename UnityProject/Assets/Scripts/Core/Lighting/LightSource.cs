@@ -25,10 +25,12 @@ namespace Objects.Lighting
 		[SyncVar(hook = nameof(SetColor)), SerializeField, FormerlySerializedAs("ONColour")]
 		public Color CurrentOnColor;
 
+		[SyncVar(hook = nameof(SyncEmergencyColour))]
+		public Color EmergencyColour;
+
 		public LightSwitchV2 relatedLightSwitch;
 
-		[SerializeField]
-		private LightMountState InitialState = LightMountState.On;
+		[SerializeField] private LightMountState InitialState = LightMountState.On;
 
 		[field: SyncVar(hook = nameof(SyncLightState))]
 		public LightMountState MountState { get; private set; }
@@ -41,6 +43,7 @@ namespace Objects.Lighting
 		private bool switchState = true;
 		private PowerState powerState;
 
+		private EmergencyLightAnimator EmergencyLightAnimator;
 		[field: SerializeField] public LightAnimator Animator { get; private set; }
 		[SerializeField] private SpriteHandler spriteHandler;
 		[SerializeField] private SpriteRenderer spriteRendererLightOn;
@@ -71,14 +74,14 @@ namespace Objects.Lighting
 
 		private bool sparking = false;
 
-		[Header("Audio")]
-		[SerializeField] private AddressableAudioSource ambientSoundWhileOn;
+		[Header("Audio")] [SerializeField] private AddressableAudioSource ambientSoundWhileOn;
 		private string loopKey;
 
 		#region Lifecycle
 
 		private void Awake()
 		{
+			EmergencyLightAnimator = this.GetComponent<EmergencyLightAnimator>();
 			objectPhysics = GetComponent<UniversalObjectPhysics>();
 			construction = GetComponent<LightFixtureConstruction>();
 			if (mLightRendererObject == null)
@@ -180,7 +183,7 @@ namespace Objects.Lighting
 		[Server]
 		public void ServerChangeLightState(LightMountState newState)
 		{
-			MountState = newState;
+			SyncLightState(MountState, newState);
 
 			if (newState == LightMountState.Broken)
 			{
@@ -213,11 +216,11 @@ namespace Objects.Lighting
 			mLightRendererObject.gameObject.SetActive(newState is LightMountState.On or LightMountState.BurnedOut);
 			if (newState == LightMountState.BurnedOut)
 			{
-				Animator.PlayAnim(1);
+				Animator.ServerPlayAnim(1);
 			}
-			else if (Animator.ActiveAnimation is { ID: 1 })
+			else if (Animator.ActiveAnimation is {ID: 1})
 			{
-				Animator.StopAnims();
+				Animator.ServerStopAnim();
 			}
 		}
 
@@ -274,23 +277,41 @@ namespace Objects.Lighting
 			RefreshBoxCollider();
 		}
 
+
+		public void SyncEmergencyColour(Color oldState, Color newState)
+		{
+			EmergencyColour = newState;
+			if (EmergencyLightAnimator != null)
+			{
+				EmergencyLightAnimator.EmergencyColour = newState;
+			}
+		}
+
 		public void SetColor(Color oldState, Color newState)
 		{
-		    CurrentOnColor = newState;
+			CurrentOnColor = newState;
+			if (EmergencyLightAnimator != null)
+			{
+				EmergencyLightAnimator.LightSourceColour = newState;
+			}
+
 			lightSprite.Color = newState;
 			CheckAudioState();
 		}
 
 		private void CheckAudioState()
 		{
-			if (MountState == LightMountState.On)
+			if (isServer)
 			{
-				SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,
-					gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
-			}
-			else
-			{
-				SoundManager.StopNetworked(loopKey);
+				if (MountState == LightMountState.On)
+				{
+					SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,
+						gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
+				}
+				else
+				{
+					SoundManager.StopNetworked(loopKey);
+				}
 			}
 		}
 
@@ -340,9 +361,11 @@ namespace Objects.Lighting
 						if (interaction.PerformerPlayerScript.playerHealth.brain != null &&
 						    interaction.PerformerPlayerScript.playerHealth.brain.HasTelekinesis)
 						{
-							Chat.AddExamineMsg(interaction.Performer, "You instinctively use your telekinetic power to protect your hand from getting burnt.");
+							Chat.AddExamineMsg(interaction.Performer,
+								"You instinctively use your telekinetic power to protect your hand from getting burnt.");
 							return true;
 						}
+
 						if (slot.IsEmpty) continue;
 						if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.BlackGloves)) return true;
 					}
@@ -365,7 +388,16 @@ namespace Objects.Lighting
 					return;
 				}
 
-				var spawnedItem = Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer()).GameObject;
+				var spawnedItem = Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer())
+					.GameObject;
+
+				var lightTubeData = spawnedItem.GetComponent<LightTubeData>();
+				if (lightTubeData != null)
+				{
+					lightTubeData.RegularColour = CurrentOnColor;
+					lightTubeData.EmergencyColour = EmergencyColour;
+				}
+
 				ItemSlot bestHand = interaction.PerformerPlayerScript.DynamicItemStorage.GetBestHand();
 				if (bestHand != null && spawnedItem != null)
 				{
@@ -386,6 +418,13 @@ namespace Objects.Lighting
 		{
 			if (MountState != LightMountState.MissingBulb) return;
 
+			var lightTubeData = interaction.HandObject.GetComponent<LightTubeData>();
+			if (lightTubeData != null)
+			{
+				SetColor(CurrentOnColor, lightTubeData.RegularColour);
+				SyncEmergencyColour(EmergencyColour, lightTubeData.EmergencyColour);
+			}
+
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Broken))
 			{
 				ServerChangeLightState(LightMountState.Broken);
@@ -394,13 +433,14 @@ namespace Objects.Lighting
 			{
 				ServerChangeLightState(
 					(switchState && (powerState == PowerState.On))
-						? LightMountState.On : LightMountState.Off);
+						? LightMountState.On
+						: LightMountState.Off);
 			}
 
 			_ = Despawn.ServerSingle(interaction.HandObject);
 		}
 
-		public void TryAddBulb(GameObject lightBulb)
+		public void TryAddBulb(GameObject lightBulb) //NOTE Only used by Advanced light Replacer so Colour is inherited from  Advanced light Replacer
 		{
 			if (MountState != LightMountState.MissingBulb) return;
 
@@ -433,6 +473,9 @@ namespace Objects.Lighting
 
 		public void PowerNetworkUpdate(float voltage)
 		{
+
+
+
 		}
 
 		public void StateUpdate(PowerState newPowerState)
@@ -441,14 +484,18 @@ namespace Objects.Lighting
 			powerState = newPowerState;
 			if (MountState == LightMountState.Broken
 			    || MountState == LightMountState.MissingBulb) return;
-
 			switch (newPowerState)
 			{
+				case PowerState.LowVoltage:
+					Animator.ServerPlayAnim(0);
+					return;
 				case PowerState.On:
 					ServerChangeLightState(LightMountState.On);
+					Animator.ServerStopAnim();
 					return;
 				case PowerState.OverVoltage:
 					ServerChangeLightState(LightMountState.BurnedOut);
+					Animator.ServerStopAnim();
 					return;
 			}
 		}
@@ -497,7 +544,7 @@ namespace Objects.Lighting
 			chanceToSpark = Mathf.Clamp(chanceToSpark, 1, 100);
 
 			//E.g will have 25% chance to not spark when chanceToSpark = 75
-			if(DMMath.Prob(100 - chanceToSpark)) return;
+			if (DMMath.Prob(100 - chanceToSpark)) return;
 
 			//Try start fire if possible
 			var reactionManager = objectPhysics.registerTile.Matrix.ReactionManager;

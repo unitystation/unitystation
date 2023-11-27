@@ -1,4 +1,5 @@
 ﻿using Logs;
+using Mirror;
 using Objects.Lighting;
 using UnityEngine;
 
@@ -7,8 +8,11 @@ namespace Core.Lighting
 	public class EmergencyLightAnimator : MonoBehaviour, ILightAnimation
 	{
 		public float rotateSpeed = 40f;
+
 		public Color EmergencyColour = Color.red;
-		public Color previouseColour = Color.white;
+
+		public Color LightSourceColour = Color.white;
+
 		[SerializeField] private SpriteHandler spriteHandler;
 		[SerializeField] private LightSource source;
 		[SerializeField] private float speedVariation = 0.25f;
@@ -44,7 +48,7 @@ namespace Core.Lighting
 
 		public void StartAnimation()
 		{
-			previouseColour = source.CurrentOnColor;
+			LightSourceColour = source.CurrentOnColor;
 			source.CurrentOnColor = EmergencyColour;
 			previousSprite = source.lightSprite.Sprite;
 			source.lightSprite.Sprite = emergancySprite;
@@ -57,7 +61,7 @@ namespace Core.Lighting
 		{
 			if (previousSprite)
 			{
-				source.CurrentOnColor = previouseColour;
+				source.CurrentOnColor = LightSourceColour;
 				source.lightSprite.Sprite = previousSprite;
 				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			}

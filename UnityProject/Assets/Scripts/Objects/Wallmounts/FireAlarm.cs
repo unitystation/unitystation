@@ -215,7 +215,7 @@ namespace Objects.Wallmounts
 				foreach (var lightSource in lightSourcesForAlarm)
 				{
 					if (lightSource == null) continue;
-					lightSource.Animator.StopAnims();
+					lightSource.Animator.ServerStopAnim();
 				}
 			}
 			else
