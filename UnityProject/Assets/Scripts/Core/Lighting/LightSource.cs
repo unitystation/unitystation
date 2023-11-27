@@ -473,6 +473,9 @@ namespace Objects.Lighting
 
 		public void PowerNetworkUpdate(float voltage)
 		{
+
+
+
 		}
 
 		public void StateUpdate(PowerState newPowerState)
@@ -481,13 +484,8 @@ namespace Objects.Lighting
 			powerState = newPowerState;
 			if (MountState == LightMountState.Broken
 			    || MountState == LightMountState.MissingBulb) return;
-
-
 			switch (newPowerState)
 			{
-				case PowerState.Off:
-					Animator.ServerPlayAnim(0);
-					return;
 				case PowerState.LowVoltage:
 					Animator.ServerPlayAnim(0);
 					return;
