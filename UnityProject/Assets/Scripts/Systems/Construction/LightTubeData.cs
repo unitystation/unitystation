@@ -5,6 +5,6 @@ using UnityEngine;
 public class LightTubeData : MonoBehaviour
 {
 	public Color RegularColour;
-	public Color EmergencyColour; //TODO net work some time
+	public Color EmergencyColour;
 
 }

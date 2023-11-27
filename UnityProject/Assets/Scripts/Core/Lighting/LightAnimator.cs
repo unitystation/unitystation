@@ -10,7 +10,7 @@ namespace Core.Lighting
 		private List<ILightAnimation> animations = new List<ILightAnimation>();
 		public ILightAnimation ActiveAnimation { get; private set; } = null;
 
-		[SyncVar(hook = nameof(OnChangeActiveAnimationID)), SerializeField]
+		[SyncVar(hook = nameof(SyncActiveAnimationID)), SerializeField]
 		private int activeAnimationID = -1;
 		[SerializeField]
 		private GameObject animationsHolder;
@@ -26,7 +26,7 @@ namespace Core.Lighting
 			if (activeAnimationID != -1) PlayAnim(activeAnimationID);
 		}
 
-		public void StopAnim()
+		private void StopAnim()
 		{
 			if (ActiveAnimation == null) return;
 			ActiveAnimation.StopAnimation();
@@ -34,13 +34,24 @@ namespace Core.Lighting
 			activeAnimationID = -1;
 		}
 
-		[Client]
-		public void PlayAnim(ILightAnimation anim)
+		private void PlayAnim(ILightAnimation anim)
 		{
 			StopAnim();
 			ActiveAnimation = anim;
 			ActiveAnimation.StartAnimation();
 		}
+
+		public void ServerPlayAnim(int animID)
+		{
+			SyncActiveAnimationID(activeAnimationID, animID);
+		}
+
+		public void ServerStopAnim()
+		{
+			SyncActiveAnimationID(activeAnimationID, -1);
+		}
+
+
 
 		public void PlayAnim(int animID)
 		{
@@ -68,9 +79,9 @@ namespace Core.Lighting
 			StopAnim();
 		}
 
-		private void OnChangeActiveAnimationID(int oldState, int newState)
+		private void SyncActiveAnimationID(int oldState, int newState)
 		{
-			if (oldState == newState || activeAnimationID == newState) return;
+			activeAnimationID = newState;
 			if (newState == -1)
 			{
 				StopAnim();

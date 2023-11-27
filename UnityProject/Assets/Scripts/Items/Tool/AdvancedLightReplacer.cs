@@ -78,7 +78,7 @@ namespace Items.Tool
 		private void AddLightToFixture(ItemSlot target, LightSource source, HandApply interaction)
 		{
 			target.ItemStorage.ServerTryRemove(target.ItemObject, false, interaction.PerformerPlayerScript.AssumedWorldPos);
-			source.TryAddBulb(target.ItemObject);
+			source.TryAddBulb(target.ItemObject); //NOTE Only used by Advanced light Replacer so Colour is inherited from  Advanced light Replacer
 		}
 
 		[TargetRpc]
