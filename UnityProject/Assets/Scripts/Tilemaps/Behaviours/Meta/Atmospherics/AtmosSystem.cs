@@ -22,9 +22,17 @@ namespace Systems.Atmospherics
 
 		private Dictionary<Vector3Int, RoomGasSetter> toSetOccupied = new Dictionary<Vector3Int, RoomGasSetter>();
 
+		[SerializeField] private bool autoInitialisePolicy = false;
+		[SerializeField] private bool autoInitialisePolicyInEditorOnly = true;
+
 		public override void Initialize()
 		{
 			//FillRoomGas not called from here as the room setting up is now a coroutine
+			if (autoInitialisePolicyInEditorOnly && Application.isEditor == false) return;
+			if (autoInitialisePolicy)
+			{
+				FillRoomGas();
+			}
 		}
 
 		[Server]

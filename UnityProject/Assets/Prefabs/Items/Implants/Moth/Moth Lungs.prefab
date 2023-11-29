@@ -1,0 +1,179 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3630366234689574953
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: coughEmote
+      value: 
+      objectReference: {fileID: 11400000, guid: 10fbc8c0eb861c54199481242aef33a6,
+        type: 2}
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: toxicGases.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: toxicGases.Array.data[2].GasType
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c560e9309af47c46a259a76cae6e7c2,
+        type: 2}
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: toxicGases.Array.data[3].GasType
+      value: 
+      objectReference: {fileID: 11400000, guid: c8a6070e2fed0ac43a0bb73c019af97f,
+        type: 2}
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: toxicGases.Array.data[4].GasType
+      value: 
+      objectReference: {fileID: 11400000, guid: c8a6070e2fed0ac43a0bb73c019af97f,
+        type: 2}
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: coughChanceWhenInternallyBleeding
+      value: 80.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: toxicGases.Array.data[2].PressureSafeMax
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: toxicGases.Array.data[3].PressureSafeMax
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: toxicGases.Array.data[4].PressureSafeMax
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: toxicGases.Array.data[3].UnsafeLevelDamage
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: toxicGases.Array.data[4].UnsafeLevelDamage
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: toxicGases.Array.data[4].UnsafeLevelDamageType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 953508599766752465, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: foreverID
+      value: oqu8f0OXTagr0uxu2QGR
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011364686225145822, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: initialName
+      value: Flyborn lungs
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011364686225145822, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: initialSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011364686225145822, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: initialDescription
+      value: A pair of flyborn lungs. Rather spongey, weak and frail.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6058757090799070472, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: _assetId
+      value: 1109820967
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060298024876638536, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: initialIntegrity
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6161261707722952892, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_Name
+      value: Moth Lungs
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6300755222414107616, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.33490568
+      objectReference: {fileID: 0}
+    - target: {fileID: 6300755222414107616, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.6506069
+      objectReference: {fileID: 0}
+    - target: {fileID: 6300755222414107616, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cfda4a920ce328d449993498e023ddfc, type: 3}

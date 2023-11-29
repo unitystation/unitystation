@@ -236,6 +236,10 @@ MonoBehaviour:
     PressureSafeMax: 0.8
     UnsafeLevelDamage: 0.2
     UnsafeLevelDamageType: 2
+  - GasType: {fileID: 11400000, guid: 5c560e9309af47c46a259a76cae6e7c2, type: 2}
+    PressureSafeMax: 0.4
+    UnsafeLevelDamage: 0.14
+    UnsafeLevelDamageType: 2
   requiredGas: {fileID: 11400000, guid: d7d4e6085864f9f4e83593f63d102d08, type: 2}
   LungSize: 0.3
   coughChanceWhenInternallyBleeding: 35
@@ -247,3 +251,5 @@ MonoBehaviour:
   hasToxinsCash: 0
   ToxinAlert: {fileID: 11400000, guid: 2c812669f183287449afa3e620bfcef6, type: 2}
   SuffocatingAlert: {fileID: 11400000, guid: a242a18320bcd0345b83fe02838d0460, type: 2}
+  coughEmote: {fileID: 11400000, guid: 5d61ca3eb68b81946b8226b482703158, type: 2}
+  coughCooldown: 6

@@ -106,6 +106,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8365410886487118088, guid: 45119eb22af0c884593e070c8edbdaf5,
         type: 3}
+    - target: {fileID: 5634484993905305047, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[28].Prefab
+      value: 
+      objectReference: {fileID: 7485145558562474133, guid: 390a2873be3a9af4a92a5bc1c73a8320,
+        type: 3}
     - target: {fileID: 8743880023469781445, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_Sprite
@@ -155,17 +161,17 @@ PrefabInstance:
     - target: {fileID: 8915710202864320493, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8915710202864320493, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8915710202864320493, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8915710202864320493, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}

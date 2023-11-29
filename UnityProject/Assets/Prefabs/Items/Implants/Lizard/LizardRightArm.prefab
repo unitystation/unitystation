@@ -53,6 +53,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
+      propertyPath: SelfArmor.TemperatureProtectionInK.y
+      value: 370
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
       propertyPath: SubOrganBodyPartArmour.DismembermentProtectionChance
       value: 35
       objectReference: {fileID: 0}
@@ -133,17 +138,17 @@ PrefabInstance:
     - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
