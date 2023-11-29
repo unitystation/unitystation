@@ -18,6 +18,7 @@ namespace Core.Lighting
 		private void Awake()
 		{
 			animations.AddRange(animationsHolder.GetComponents<ILightAnimation>());
+			if (activeAnimationID != -1) PlayAnim(activeAnimationID);
 		}
 
 		public override void OnStartClient()

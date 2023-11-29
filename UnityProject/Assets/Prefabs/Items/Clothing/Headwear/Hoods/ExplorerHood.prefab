@@ -116,17 +116,17 @@ PrefabInstance:
     - target: {fileID: 990261663173473474, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 990261663173473474, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 990261663173473474, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 990261663173473474, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
@@ -193,6 +193,11 @@ PrefabInstance:
         type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armor.Energy
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3906849808695629651, guid: 3bc560c485f5ecb4491bce031cde1635,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.TemperatureProtectionInK.y
+      value: 340
       objectReference: {fileID: 0}
     - target: {fileID: 6131411715875374555, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}

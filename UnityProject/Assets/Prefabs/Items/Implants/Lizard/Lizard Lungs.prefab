@@ -1,0 +1,161 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1854345594916453790
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: LungSize
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: toxicGases.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: toxicGases.Array.data[1].GasType
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d3c38fe76e3df249ade18fd6fdac274,
+        type: 2}
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: toxicGases.Array.data[1].PressureSafeMax
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: toxicGases.Array.data[1].UnsafeLevelDamage
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: toxicGases.Array.data[1].UnsafeLevelDamageType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 953508599766752465, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: foreverID
+      value: ed56aaa76fc723f46a2bbf039fa85cf7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011364686225145822, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: hitDamage
+      value: 6.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011364686225145822, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: throwRange
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011364686225145822, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: initialName
+      value: Reptilian Lungs
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011364686225145822, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: throwDamage
+      value: 13.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011364686225145822, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: initialDescription
+      value: A pair of Reptilian lungs. They feel quite heavy and hard.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011364686225145822, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011364686225145822, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6058757090799070472, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: _assetId
+      value: 977356437
+      objectReference: {fileID: 0}
+    - target: {fileID: 6161261707722952892, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_Name
+      value: Lizard Lungs
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166185183858879944, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6300755222414107616, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.36320752
+      objectReference: {fileID: 0}
+    - target: {fileID: 6300755222414107616, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6300755222414107616, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6440079
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cfda4a920ce328d449993498e023ddfc, type: 3}

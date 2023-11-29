@@ -165,17 +165,17 @@ PrefabInstance:
     - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6875835893149827623, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
@@ -506,6 +506,66 @@ PrefabInstance:
         type: 3}
       propertyPath: armoredBodyParts.Array.data[5].armoringBodyPartType
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7130330670077660204, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.TemperatureProtectionInK.x
+      value: 260
+      objectReference: {fileID: 0}
+    - target: {fileID: 7130330670077660204, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.TemperatureProtectionInK.y
+      value: 340
+      objectReference: {fileID: 0}
+    - target: {fileID: 7130330670077660204, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.TemperatureProtectionInK.x
+      value: 260
+      objectReference: {fileID: 0}
+    - target: {fileID: 7130330670077660204, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.TemperatureProtectionInK.y
+      value: 340
+      objectReference: {fileID: 0}
+    - target: {fileID: 7130330670077660204, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.TemperatureProtectionInK.x
+      value: 260
+      objectReference: {fileID: 0}
+    - target: {fileID: 7130330670077660204, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.TemperatureProtectionInK.y
+      value: 340
+      objectReference: {fileID: 0}
+    - target: {fileID: 7130330670077660204, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.TemperatureProtectionInK.x
+      value: 260
+      objectReference: {fileID: 0}
+    - target: {fileID: 7130330670077660204, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.TemperatureProtectionInK.y
+      value: 340
+      objectReference: {fileID: 0}
+    - target: {fileID: 7130330670077660204, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armor.TemperatureProtectionInK.x
+      value: 260
+      objectReference: {fileID: 0}
+    - target: {fileID: 7130330670077660204, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armor.TemperatureProtectionInK.y
+      value: 340
+      objectReference: {fileID: 0}
+    - target: {fileID: 7130330670077660204, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[5].armor.TemperatureProtectionInK.x
+      value: 260
+      objectReference: {fileID: 0}
+    - target: {fileID: 7130330670077660204, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[5].armor.TemperatureProtectionInK.y
+      value: 340
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -8,7 +8,6 @@ public abstract class MatrixSystemBehaviour : MonoBehaviour
 
 		//public bool Initialized { get; protected set; } = false;
 		[field: SerializeField] public virtual int Priority { get; protected set; } = 0;
-		[field: SerializeField] public virtual bool RegisteredToLegacySubsystemManager { get; protected set; } = true;
 		protected MetaDataLayer metaDataLayer;
 		protected MetaTileMap metaTileMap;
 		protected MatrixSystemManager subsystemManager;
