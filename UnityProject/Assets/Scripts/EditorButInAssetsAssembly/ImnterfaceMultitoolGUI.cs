@@ -16,6 +16,7 @@ namespace CustomInspectors
 	public class ImnterfaceMultitoolGUI : NetworkBehaviour
 	{
 #if UNITY_EDITOR
+		[HideInInspector]
 		public List<InterfaceEditor> runningInterfaces = new List<InterfaceEditor>();
 #endif
 		public virtual void OnEnable()
