@@ -10,6 +10,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}
+      propertyPath: coughEmote
+      value: 
+      objectReference: {fileID: 11400000, guid: 10fbc8c0eb861c54199481242aef33a6,
+        type: 2}
+    - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
       propertyPath: toxicGases.Array.size
       value: 4
       objectReference: {fileID: 0}
