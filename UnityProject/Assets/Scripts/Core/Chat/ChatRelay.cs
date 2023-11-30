@@ -275,10 +275,10 @@ public class ChatRelay : NetworkBehaviour
 
 		UpdateChatMessage.Send(playerToSend, channel, chatEvent.modifiers, copiedString, chatEvent.VoiceLevel,
 			chatEvent.messageOthers, chatEvent.originator, chatEvent.speaker, chatEvent.stripTags, languageId, chatEvent.IsWhispering);
-		ShowChatBubbleToPlayer( playerToSend, ref chatEvent);
+		ShowChatBubbleToPlayer( playerToSend, ref chatEvent, copiedString);
 	}
 
-	public static void ShowChatBubbleToPlayer(GameObject toShowTo, ref ChatEvent chatEvent)
+	public static void ShowChatBubbleToPlayer(GameObject toShowTo, ref ChatEvent chatEvent, string msg)
 	{
 		if (chatEvent.originator == null) return;
 
@@ -286,7 +286,6 @@ public class ChatRelay : NetworkBehaviour
 
 		if (chatEvent.modifiers.HasFlag(ChatModifier.Emote)) return;
 
-		var msg = "";
 		if (chatEvent.IsWhispering)
 		{
 			if ((toShowTo.transform.position - chatEvent.originator.transform.position).magnitude > 1.5f)

@@ -2061,13 +2061,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 	}
 
-	public float ASpeed = 900f;
-
-	public void pingUP()
-	{
-		NewtonianPush(Vector2.up, ASpeed, 10);
-	}
-
 	public virtual RightClickableResult GenerateRightClickOptions()
 	{
 		var options = RightClickableResult.Create();
@@ -2077,7 +2070,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			    KeyboardInputManager.KeyEventType.Hold))
 		{
 			options.AddAdminElement("Teleport To", AdminTeleport)
-				.AddAdminElement("Toggle Pushable", AdminTogglePushable).AddAdminElement("Ping up", pingUP);
+				.AddAdminElement("Toggle Pushable", AdminTogglePushable);
 		}
 
 		//check if our local player can reach this
