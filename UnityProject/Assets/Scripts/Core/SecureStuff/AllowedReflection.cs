@@ -279,12 +279,6 @@ namespace SecureStuff
 		public static Dictionary<Type, List<MethodsAndAttributee<T>>> GetFunctionsWithAttribute<T>()
 			where T : BaseAttribute
 		{
-			if (typeof(T) == typeof(ObsoleteAttribute))
-			{
-				Loggy.LogError("hey no, no obsolete stuff");
-				return null;
-			}
-
 			var result = new Dictionary<Type, List<MethodsAndAttributee<T>>>();
 
 			var allComponentTypes = AppDomain.CurrentDomain.GetAssemblies()

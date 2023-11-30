@@ -338,7 +338,6 @@ namespace SecureStuff
 			var List = new List<object>();
 			try
 			{
-				bool loop = true;
 				if (IEnumerable.MoveNext() == false)
 				{
 					return List;
