@@ -303,15 +303,15 @@ namespace Objects.Lighting
 		{
 			if (isServer)
 			{
-				if (MountState == LightMountState.On)
-				{
-					SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,
-						gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
-				}
-				else
-				{
-					SoundManager.StopNetworked(loopKey);
-				}
+				// if (MountState == LightMountState.On)
+				// {
+				// 	SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,
+				// 		gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
+				// }
+				// else
+				// {
+				// 	SoundManager.StopNetworked(loopKey);
+				// }
 			}
 		}
 
@@ -486,8 +486,13 @@ namespace Objects.Lighting
 			    || MountState == LightMountState.MissingBulb) return;
 			switch (newPowerState)
 			{
+				case PowerState.Off:
+					Animator.ServerStopAnim();
+					ServerChangeLightState(LightMountState.Off);
+					return;
 				case PowerState.LowVoltage:
 					Animator.ServerPlayAnim(0);
+					ServerChangeLightState(LightMountState.Off);
 					return;
 				case PowerState.On:
 					ServerChangeLightState(LightMountState.On);
