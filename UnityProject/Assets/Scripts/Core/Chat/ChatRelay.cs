@@ -290,17 +290,8 @@ public class ChatRelay : NetworkBehaviour
 		{
 			if ((toShowTo.transform.position - chatEvent.originator.transform.position).magnitude > 1.5f)
 			{
-				msg = HideWhisperedText(ref chatEvent.message);
+				msg = HideWhisperedText(ref msg);
 			}
-			else
-			{
-				msg = chatEvent.message;
-			}
-
-		}
-		else
-		{
-			msg = chatEvent.message;
 		}
 
 		ShowChatBubbleMessage.SendTo(toShowTo,  chatEvent.originator, msg, chatEvent.language);
