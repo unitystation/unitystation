@@ -6,6 +6,8 @@ namespace Core.Lighting.Animations
 {
 	public class MultiFrameSpriteAnimation : MonoBehaviour, ILightAnimation
 	{
+		public bool AnimationActive { get; set; } = false;
+
 		[SerializeField] private SpriteHandler spriteHandler;
 		[SerializeField] private LightSource source;
 		[SerializeField] private List<Sprite> sprites = new List<Sprite>();
@@ -37,16 +39,21 @@ namespace Core.Lighting.Animations
 
 		public void StopAnimation()
 		{
+			if (AnimationActive == false) return;
 			source.lightSprite.Sprite = sprites[0];
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, AnimateLight);
 			if (resetToDefaultSpriteOnAnimStop)
 			{
 				source.lightSprite.Sprite = defaultSprite;
 			}
+
+			AnimationActive = false;
 		}
 
 		public void StartAnimation()
 		{
+			if (AnimationActive) return;
+			AnimationActive = true;
 			defaultSprite = source.lightSprite.Sprite;
 			UpdateManager.Add(AnimateLight, animSpeed);
 		}

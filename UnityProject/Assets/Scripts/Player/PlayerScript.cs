@@ -272,7 +272,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 				}
 
 				// stop the crit notification and change overlay to ghost mode
-				SoundManager.Stop("Critstate");
+				SoundManager.ClientStop("Critstate", true);
 				OverlayCrits.Instance.SetState(OverlayState.death);
 				// show ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
@@ -296,7 +296,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 			else
 			{
 				// stop the crit notification and change overlay to ghost mode
-				SoundManager.Stop("Critstate");
+				SoundManager.ClientStop("Critstate", true);
 				OverlayCrits.Instance.SetState(OverlayState.death);
 				// hide ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;

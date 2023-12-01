@@ -202,7 +202,7 @@ namespace Objects.Kitchen
 			{
 				if (string.IsNullOrEmpty(audioLoopGUID) == false)
 				{
-					SoundManager.Stop(audioLoopGUID);
+					SoundManager.ClientStop(audioLoopGUID, true);
 					audioLoopGUID = string.Empty;
 				}
 
@@ -210,7 +210,7 @@ namespace Objects.Kitchen
 			}
 			else
 			{
-				SoundManager.Stop(audioLoopGUID);
+				SoundManager.ClientStop(audioLoopGUID, true);
 				audioLoopGUID = string.Empty;
 			}
 

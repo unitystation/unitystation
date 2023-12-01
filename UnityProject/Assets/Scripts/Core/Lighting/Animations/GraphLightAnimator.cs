@@ -6,6 +6,8 @@ namespace Core.Lighting
 {
 	public class GraphLightAnimator : MonoBehaviour, ILightAnimation
 	{
+		public bool AnimationActive { get; set; } = false;
+
 		[SerializeField] private SpriteHandler spriteHandler;
 		[SerializeField] private LightSource source;
 		[SerializeField] private AnimationCurve curve;
@@ -43,15 +45,19 @@ namespace Core.Lighting
 
 		public void StopAnimation()
 		{
+			if (AnimationActive == false) return;
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			source.lightSprite.Color = defaultStateOnUpdateEnd;
+			AnimationActive = false;
 		}
 
 		public void StartAnimation()
 		{
+			if (AnimationActive) return;
 			defaultStateOnUpdateEnd = source.CurrentOnColor;
 			timeSinceAnimStart = DateTime.Now;
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			AnimationActive = true;
 		}
 
 		public void UpdateMe()

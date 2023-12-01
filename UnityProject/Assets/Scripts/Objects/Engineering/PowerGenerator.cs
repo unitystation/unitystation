@@ -117,7 +117,7 @@ namespace Objects.Engineering
 			}
 			else
 			{
-				SoundManager.Stop(runLoopGUID);
+				SoundManager.ClientStop(runLoopGUID, true);
 				smokeParticles.Stop();
 				_ = SoundManager.PlayAtPosition(generatorEndSfx, registerTile.WorldPosition, gameObject);
 			}

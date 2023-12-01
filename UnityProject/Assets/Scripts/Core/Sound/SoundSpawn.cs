@@ -68,22 +68,28 @@ public class SoundSpawn: MonoBehaviour
 	{
 		if (!monitor || AudioSource == null) return;
 
-		if (!AudioSource.isPlaying)
+		if (AudioSource.isPlaying == false)
 		{
-			IsPlaying = false;
-			monitor = false;
-
-			if (Token != string.Empty)
-			{
-				SoundManager.Instance.SoundSpawns.Remove(Token);
-			}
-
-			if (SoundManager.Instance.NonplayingSounds.ContainsKey(assetAddress) == false)
-			{
-				SoundManager.Instance.NonplayingSounds[assetAddress] = new List<SoundSpawn>();
-			}
-			SoundManager.Instance.NonplayingSounds[assetAddress].Add(this);
+			Pool();
 		}
+	}
+
+	public void Pool()
+	{
+		IsPlaying = false;
+		monitor = false;
+		AudioSource.Stop();
+		if (Token != string.Empty)
+		{
+			SoundManager.Instance.SoundSpawns.Remove(Token);
+		}
+
+		if (SoundManager.Instance.NonplayingSounds.ContainsKey(assetAddress) == false)
+		{
+			SoundManager.Instance.NonplayingSounds[assetAddress] = new List<SoundSpawn>();
+		}
+		SoundManager.Instance.NonplayingSounds[assetAddress].Add(this);
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 	}
 
 	public void SetAudioSource(AudioSource sourceToCopy)

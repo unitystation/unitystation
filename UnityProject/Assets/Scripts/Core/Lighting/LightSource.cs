@@ -77,6 +77,8 @@ namespace Objects.Lighting
 		[Header("Audio")] [SerializeField] private AddressableAudioSource ambientSoundWhileOn;
 		private string loopKey;
 
+		private bool SoundInit = false;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -222,6 +224,7 @@ namespace Objects.Lighting
 			{
 				Animator.ServerStopAnim();
 			}
+			CheckAudioState();
 		}
 
 		private void ChangeCurrentState(LightMountState newState)
@@ -281,37 +284,36 @@ namespace Objects.Lighting
 		public void SyncEmergencyColour(Color oldState, Color newState)
 		{
 			EmergencyColour = newState;
-			if (EmergencyLightAnimator != null)
-			{
-				EmergencyLightAnimator.EmergencyColour = newState;
-			}
 		}
 
 		public void SetColor(Color oldState, Color newState)
 		{
 			CurrentOnColor = newState;
-			if (EmergencyLightAnimator != null)
-			{
-				EmergencyLightAnimator.LightSourceColour = newState;
-			}
-
 			lightSprite.Color = newState;
-			CheckAudioState();
 		}
 
 		private void CheckAudioState()
 		{
 			if (isServer)
 			{
-				// if (MountState == LightMountState.On)
-				// {
-				// 	SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,
-				// 		gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
-				// }
-				// else
-				// {
-				// 	SoundManager.StopNetworked(loopKey);
-				// }
+				if (MountState == LightMountState.On)
+				{
+					if (SoundInit)
+					{
+						SoundManager.TokenPlayNetworked(loopKey);
+					}
+					else
+					{
+						SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,
+							gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
+						SoundInit = true;
+					}
+
+				}
+				else
+				{
+					SoundManager.StopNetworked(loopKey, false);
+				}
 			}
 		}
 
