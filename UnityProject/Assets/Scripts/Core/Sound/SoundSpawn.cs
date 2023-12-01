@@ -16,6 +16,8 @@ public class SoundSpawn: MonoBehaviour
 	public bool IsPlaying = false;
 	private bool monitor = false;
 
+	public bool Paused = false;
+
 	public string assetAddress = "";
 
 	/// <summary>
@@ -83,6 +85,7 @@ public class SoundSpawn: MonoBehaviour
 
 	void UpdateMe()
 	{
+		if (Paused) return;
 		if (!monitor || AudioSource == null) return;
 
 		if (AudioSource.isPlaying == false)

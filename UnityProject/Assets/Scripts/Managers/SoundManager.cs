@@ -668,15 +668,20 @@ public class SoundManager : MonoBehaviour
 	{
 		if (Instance.SoundSpawns.ContainsKey(soundSpawnToken))
 		{
-			if (OneShot)
+			var Sound = Instance.SoundSpawns[soundSpawnToken];
+			if (Sound != null)
 			{
-				Instance.SoundSpawns[soundSpawnToken]?.PlayOneShot();
+				if (OneShot)
+				{
+					Sound.Paused = false;
+					Sound.PlayOneShot();
+				}
+				else
+				{
+					Sound.Paused = false;
+					Sound.PlayNormally();
+				}
 			}
-			else
-			{
-				Instance.SoundSpawns[soundSpawnToken]?.PlayNormally();
-			}
-
 		}
 
 	}
@@ -695,7 +700,13 @@ public class SoundManager : MonoBehaviour
 			}
 			else
 			{
-				Instance.SoundSpawns[soundSpawnToken]?.AudioSource.Stop();
+				var Sound = Instance.SoundSpawns[soundSpawnToken];
+				if (Sound != null)
+				{
+					Sound.Paused = true;
+					Sound.AudioSource.Stop();
+				}
+
 			}
 		}
 
