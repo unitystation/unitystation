@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Initialisation;
 using UnityEngine;
 
 /// <summary>
@@ -33,16 +34,29 @@ public class SoundSpawn: MonoBehaviour
 
 	public void PlayOneShot()
 	{
+		LoadManager.DoInMainThread(PlayOneShotMainThread);
+	}
+
+	public void PlayOneShotMainThread()
+	{
 		if (AudioSource == null) return;
 		AudioSource.PlayOneShot(AudioSource.clip);
 		WaitForPlayToFinish();
+		gameObject.SetActive(true);
 	}
+
 
 
 	[NaughtyAttributes.Button("PlayNormally")]
 	public void PlayNormally()
 	{
+		LoadManager.DoInMainThread(PlayNormallyMainThread);
+	}
+
+	public void PlayNormallyMainThread()
+	{
 		if (AudioSource == null) return;
+		gameObject.SetActive(true);
 		AudioSource.Play();
 		WaitForPlayToFinish();
 	}
@@ -60,7 +74,10 @@ public class SoundSpawn: MonoBehaviour
 	private void OnDisable()
 	{
 		if (SoundManager.Instance == null) return;
-		SoundManager.Instance.SoundSpawns.Remove(Token);
+		if (Token != string.Empty)
+		{
+			SoundManager.Instance.SoundSpawns.Remove(Token);
+		}
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 	}
 
@@ -89,7 +106,7 @@ public class SoundSpawn: MonoBehaviour
 			SoundManager.Instance.NonplayingSounds[assetAddress] = new List<SoundSpawn>();
 		}
 		SoundManager.Instance.NonplayingSounds[assetAddress].Add(this);
-		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+		gameObject.SetActive(false);
 	}
 
 	public void SetAudioSource(AudioSource sourceToCopy)
