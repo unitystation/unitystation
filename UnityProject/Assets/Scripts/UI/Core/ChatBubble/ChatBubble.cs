@@ -10,6 +10,11 @@ using UnityEngine;
 
 public class ChatBubble : MonoBehaviour, IDisposable
 {
+
+	public Transform content;
+	public Transform Pool;
+
+
 	[SerializeField] private Transform target;
 	public Transform Target => target;
 	private Camera cam;
@@ -20,17 +25,14 @@ public class ChatBubble : MonoBehaviour, IDisposable
 	[SerializeField] [Tooltip("The font used when the player is an abominable clown.")]
 	private TMP_FontAsset fontClown = null;
 
-	[SerializeField] private TextMeshProUGUI bubbleText = null;
 
 	[SerializeField]
 	[Tooltip(
 		"The maximum length of text inside a single text bubble. Longer texts will display multiple bubbles sequentially.")]
 	[Range(1, 200)]
-	private int maxMessageLength = 70;
+	private int maxMessageLength = 65;
 
-	[SerializeField] private GameObject chatBubble = null;
-
-	class BubbleMsg
+	public class BubbleMsg
 	{
 		public float maxTime;
 		public string msg;
@@ -109,6 +111,12 @@ public class ChatBubble : MonoBehaviour, IDisposable
 	private float bubbleSizeWhisper = 0.5f;
 
 	private CancellationTokenSource cancelSource;
+
+
+	public SubChatBubble BubblePrefab;
+
+	public List<SubChatBubble> ActiveBubbles = new List<SubChatBubble>();
+	public List<SubChatBubble> PooledBubbles = new List<SubChatBubble>();
 
 	/// <summary>
 	/// Calculates the time required to display the message queue.
@@ -213,67 +221,63 @@ public class ChatBubble : MonoBehaviour, IDisposable
 		displayTimeMultiplier = 1 + TimeToShow(msgQueue) * displayTimeMultiplierPerSecond;
 	}
 
-	IEnumerator ShowDialogue(CancellationToken cancelToken)
+
+
+
+
+	private IEnumerator ShowDialogue(CancellationToken cancelToken)
 	{
 		showingDialogue = true;
+
 		if (msgQueue.Count == 0)
 		{
 			yield return WaitFor.EndOfFrame;
 			yield break;
 		}
 
-		DoBubble:
-
-		BubbleMsg msg = msgQueue.Dequeue();
-
-		//Sets the chat text to instant from player prefs, 1 == true
-		msg.instantText = PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleInstant) == 1;
-
-		bubbleSize = PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleSize);
-
-		if (msg.instantText)
+		while (msgQueue.Count > 0 || ActiveBubbles.Count > 0)
 		{
-			SetBubbleParameters(msg.msg, msg.modifier);
-		}
-		else
-		{
-			//Sets the chat character pop in speed from player prefs
-			msg.characterPopInSpeed = PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubblePopInSpeed);
-
-			//See if the show time needs updating for speed
-			CheckShowTime(msg);
-		}
-
-		while (showingDialogue)
-		{
-			if (cancelToken.IsCancellationRequested)
+			while (msgQueue.Count == 0 && ActiveBubbles.Count > 0)
 			{
-				yield break;
+				yield return null;
 			}
 
-			yield return WaitFor.EndOfFrame;
-
-			msg.elapsedTime += Time.deltaTime;
-
-			if (msg.instantText == false)
+			var NumberMaxShow = PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleNumber, 2);
+			while (ActiveBubbles.Count >= NumberMaxShow)
 			{
-				ShowCharacter(msg);
+				yield return null;
 			}
 
-			if (msg.elapsedTime * displayTimeMultiplier >= msg.maxTime && msg.elapsedTime >= displayTimeMin)
+			if (msgQueue.Count > 0)
 			{
-				if (msgQueue.Count == 0)
-				{
-					ReturnToPool();
-				}
-				else
-				{
-					goto DoBubble;
-				}
+				BubbleMsg msg = msgQueue.Dequeue();
+
+				var Bubble = GetSubChatBubble();
+				Bubble.transform.SetParent(content);
+				Bubble.transform.SetSiblingIndex(Bubble.transform.parent.childCount -1);
+				Bubble.DoShowDialogue(cancelToken, msg);
+				ActiveBubbles.Add(Bubble);
 			}
 		}
 
-		yield return WaitFor.EndOfFrame;
+		showingDialogue = false;
+		ReturnToPool();
+	}
+
+
+	public SubChatBubble GetSubChatBubble()
+	{
+		if (PooledBubbles.Count > 0)
+		{
+			var bubble = PooledBubbles[0];
+			PooledBubbles.RemoveAt(0);
+			bubble.gameObject.SetActive(true);
+			return bubble;
+		}
+
+		var bubble2 = Instantiate(BubblePrefab, this.gameObject.transform);
+		bubble2.ChatBubble = this;
+		return bubble2;
 	}
 
 	/// <summary>
@@ -380,43 +384,43 @@ public class ChatBubble : MonoBehaviour, IDisposable
     private void SetBubbleParameters(string msg, ChatModifier modifiers)
     {
 	    bubbleSize = PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleSize);
-	    bubbleText.fontStyle = FontStyles.Normal;
-	    bubbleText.font = fontDefault;
+	    //bubbleText.fontStyle = FontStyles.Normal;
+	   // bubbleText.font = fontDefault;
 
 	    // Determine type
 	    if ((modifiers & ChatModifier.Emote) == ChatModifier.Emote)
 	    {
-		    bubbleText.fontStyle = FontStyles.Italic;
+		    //bubbleText.fontStyle = FontStyles.Italic;
 		    // TODO Differentiate emoting from whispering (e.g. rectangular box instead of speech bubble)
 	    }
 	    else if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper)
 	    {
 		    bubbleSize = bubbleSize * bubbleSizeWhisper;
-		    bubbleText.fontStyle = FontStyles.Italic;
+		    //bubbleText.fontStyle = FontStyles.Italic;
 		    // TODO Differentiate emoting from whispering (e.g. dotted line around text)
 
 	    }
 	    else if((modifiers & ChatModifier.Sing) == ChatModifier.Sing)
 	    {
 		    bubbleSize = bubbleSize * bubbleSizeCaps;
-		    bubbleText.fontStyle = FontStyles.Italic;
+		    //bubbleText.fontStyle = FontStyles.Italic;
 	    }
 	    else if ((modifiers & ChatModifier.Yell) == ChatModifier.Yell)
 	    {
 		    bubbleSize = bubbleSize * bubbleSizeCaps;
-		    bubbleText.fontStyle = FontStyles.Bold;
+		    //bubbleText.fontStyle = FontStyles.Bold;
 	    }
 
 	    if ((modifiers & ChatModifier.Clown) == ChatModifier.Clown)
 	    {
-		    bubbleText.font = fontClown;
-		    bubbleText.UpdateFontAsset();
+		    //bubbleText.font = fontClown;
+		   // bubbleText.UpdateFontAsset();
 	    }
 
 	    // Apply values
 	    UpdateChatBubbleSize();
-	    bubbleText.text = msg;
-	    chatBubble.SetActive(true);
+	    //bubbleText.text = msg;
+	    //chatBubble.SetActive(true);
     }
 
     /// <summary>
@@ -431,8 +435,8 @@ public class ChatBubble : MonoBehaviour, IDisposable
     {
 	    if(cancelSource != null) cancelSource.Cancel();
 
-	    bubbleText.text = "";
-	    chatBubble.SetActive(false);
+	    //bubbleText.text = "";
+	    //chatBubble.SetActive(false);
 	    gameObject.SetActive(false);
 	    showingDialogue = false;
 	    target = null;
