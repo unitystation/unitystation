@@ -364,8 +364,7 @@ public class SoundManager : MonoBehaviour
 			Loggy.LogError("Cannot play sound! Sound is null!");
 			return;
 		}
-		SoundSpawn soundSpawn =
-			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
+		SoundSpawn soundSpawn = Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
 		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
 		Instance.PlaySource(soundSpawn, polyphonic, true);
 	}
@@ -646,19 +645,71 @@ public class SoundManager : MonoBehaviour
 	/// Tell all clients to stop playing a sound
 	/// </summary>
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the sound to be stopped</returns>
-	public static void StopNetworked(string soundSpawnToken)
+	public static void StopNetworked(string soundSpawnToken, bool Pool = true)
 	{
-		StopSoundMessage.SendToAll(soundSpawnToken);
+		StopSoundMessage.SendToAll(soundSpawnToken, Pool, false, false);
+	}
+
+	/// <summary>
+	/// Tell all clients to Start playing a sound If it's already been generated
+	/// </summary>
+	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the sound to be stopped</returns>
+	public static void TokenPlayNetworked(string soundSpawnToken, bool PlayOneShot = false)
+	{
+		StopSoundMessage.SendToAll(soundSpawnToken, false, true,PlayOneShot);
+	}
+
+
+	/// <summary>
+	/// Plays a given sound from playing locally.
+	/// </summary>
+	/// <param name="soundSpawnToken">The Token of the soundSpawn to play</param>
+	public static void ClientTokenPlay(string soundSpawnToken, bool OneShot)
+	{
+		if (Instance.SoundSpawns.ContainsKey(soundSpawnToken))
+		{
+			var Sound = Instance.SoundSpawns[soundSpawnToken];
+			if (Sound != null)
+			{
+				if (OneShot)
+				{
+					Sound.Paused = false;
+					Sound.PlayOneShot();
+				}
+				else
+				{
+					Sound.Paused = false;
+					Sound.PlayNormally();
+				}
+			}
+		}
+
 	}
 
 	/// <summary>
 	/// Stops a given sound from playing locally.
 	/// </summary>
 	/// <param name="soundSpawnToken">The Token of the soundSpawn to stop</param>
-	public static void Stop(string soundSpawnToken)
+	public static void ClientStop(string soundSpawnToken, bool ReturnToPool)
 	{
 		if (Instance.SoundSpawns.ContainsKey(soundSpawnToken))
-			Instance.SoundSpawns[soundSpawnToken]?.AudioSource.Stop();
+		{
+			if (ReturnToPool)
+			{
+				Instance.SoundSpawns[soundSpawnToken].Pool();
+			}
+			else
+			{
+				var Sound = Instance.SoundSpawns[soundSpawnToken];
+				if (Sound != null)
+				{
+					Sound.Paused = true;
+					Sound.AudioSource.Stop();
+				}
+
+			}
+		}
+
 	}
 
 	/// <summary>

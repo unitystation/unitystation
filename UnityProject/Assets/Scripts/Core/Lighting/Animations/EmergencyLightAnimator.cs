@@ -7,11 +7,9 @@ namespace Core.Lighting
 {
 	public class EmergencyLightAnimator : MonoBehaviour, ILightAnimation
 	{
+		public bool AnimationActive  { get; set; } = false;
+
 		public float rotateSpeed = 40f;
-
-		public Color EmergencyColour = Color.red;
-
-		public Color LightSourceColour = Color.white;
 
 		[SerializeField] private SpriteHandler spriteHandler;
 		[SerializeField] private LightSource source;
@@ -48,24 +46,29 @@ namespace Core.Lighting
 
 		public void StartAnimation()
 		{
-			LightSourceColour = source.CurrentOnColor;
-			source.CurrentOnColor = EmergencyColour;
+			source.lightSprite.Color = source.EmergencyColour;
+
 			previousSprite = source.lightSprite.Sprite;
 			source.lightSprite.Sprite = emergancySprite;
+
 			currentSpeed = rotateSpeed + Random.Range(0, speedVariation);
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			previouslySet = true;
+			AnimationActive = true;
 		}
 
 		public void StopAnimation()
 		{
+			if (AnimationActive == false) return;
 			if (previousSprite)
 			{
-				source.CurrentOnColor = LightSourceColour;
+				source.lightSprite.Color = source.CurrentOnColor;
 				source.lightSprite.Sprite = previousSprite;
 				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			}
 			previouslySet = false;
+			AnimationActive = false;
+
 		}
 
 		protected virtual void UpdateMe()
@@ -75,6 +78,7 @@ namespace Core.Lighting
 
 		public void AnimateLight()
 		{
+			if (AnimationActive) return;
 			if (source == null || source.mLightRendererObject == null)
 			{
 				StopAnimation();

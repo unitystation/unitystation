@@ -337,7 +337,7 @@ namespace Objects.Engineering
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, SuperMatterUpdate);
-			SoundManager.Stop(loopingSoundGuid);
+			SoundManager.ClientStop(loopingSoundGuid, true);
 		}
 
 		[Client]
@@ -346,7 +346,7 @@ namespace Objects.Engineering
 			if (newVar)
 			{
 				//Delam state
-				SoundManager.Stop(loopingSoundGuid);
+				SoundManager.ClientStop(loopingSoundGuid, true);
 				loopingSoundGuid = Guid.NewGuid().ToString();
 				_ = SoundManager.PlayAtPosition(delamLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
 
@@ -356,7 +356,7 @@ namespace Objects.Engineering
 			else
 			{
 				//Normal state
-				SoundManager.Stop(loopingSoundGuid);
+				SoundManager.ClientStop(loopingSoundGuid, true);
 				loopingSoundGuid = Guid.NewGuid().ToString();
 				_ = SoundManager.PlayAtPosition(normalLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
 

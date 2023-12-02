@@ -192,9 +192,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1342098051280551072}
   - component: {fileID: 214071118580391992}
-  - component: {fileID: 7551716605499578924}
+  - component: {fileID: 4227700034336113266}
+  - component: {fileID: 367029503947756816}
   m_Layer: 5
-  m_Name: ChatBubble
+  m_Name: SUBChatBubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -209,7 +210,7 @@ RectTransform:
   m_GameObject: {fileID: 4267109952729068407}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6432192662655669166}
@@ -218,7 +219,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 170, y: 80}
+  m_SizeDelta: {x: 170, y: 0}
   m_Pivot: {x: 0.5176318, y: -0.0000003091991}
 --- !u!114 &214071118580391992
 MonoBehaviour:
@@ -246,7 +247,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &7551716605499578924
+--- !u!114 &4227700034336113266
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -255,17 +256,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 4267109952729068407}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 014af8d0909893649a06570e7a455c71, type: 3}
+  m_Script: {fileID: 11500000, guid: a8bf98db409751d4d9ce0cf5ad1bc81e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  ChatBubble: {fileID: 0}
+  TrailImage: {fileID: 3749039231383564167}
+  bubbleSizeCaps: 1.5
+  bubbleText: {fileID: 2471407915345677278}
   fontDefault: {fileID: 11400000, guid: 211daea8d9a1f484db6be9d5fbc00de5, type: 2}
   fontClown: {fileID: 11400000, guid: daf1ee826722b634d9d700cc29877e9a, type: 2}
-  bubbleText: {fileID: 2471407915345677278}
-  maxMessageLength: 108
-  chatBubble: {fileID: 4021505214324037093}
-  bubbleSizeCaps: 1.5
   bubbleSizeWhisper: 0.5
+--- !u!114 &367029503947756816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4267109952729068407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &6350156109002559141
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,15 +430,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0

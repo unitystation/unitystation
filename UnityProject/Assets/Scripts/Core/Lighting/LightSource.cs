@@ -77,6 +77,8 @@ namespace Objects.Lighting
 		[Header("Audio")] [SerializeField] private AddressableAudioSource ambientSoundWhileOn;
 		private string loopKey;
 
+		private bool SoundInit = false;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -222,6 +224,7 @@ namespace Objects.Lighting
 			{
 				Animator.ServerStopAnim();
 			}
+			CheckAudioState();
 		}
 
 		private void ChangeCurrentState(LightMountState newState)
@@ -281,22 +284,12 @@ namespace Objects.Lighting
 		public void SyncEmergencyColour(Color oldState, Color newState)
 		{
 			EmergencyColour = newState;
-			if (EmergencyLightAnimator != null)
-			{
-				EmergencyLightAnimator.EmergencyColour = newState;
-			}
 		}
 
 		public void SetColor(Color oldState, Color newState)
 		{
 			CurrentOnColor = newState;
-			if (EmergencyLightAnimator != null)
-			{
-				EmergencyLightAnimator.LightSourceColour = newState;
-			}
-
 			lightSprite.Color = newState;
-			CheckAudioState();
 		}
 
 		private void CheckAudioState()
@@ -305,12 +298,21 @@ namespace Objects.Lighting
 			{
 				if (MountState == LightMountState.On)
 				{
-					SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,
-						gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
+					if (SoundInit)
+					{
+						SoundManager.TokenPlayNetworked(loopKey);
+					}
+					else
+					{
+						SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,
+							gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
+						SoundInit = true;
+					}
+
 				}
 				else
 				{
-					SoundManager.StopNetworked(loopKey);
+					SoundManager.StopNetworked(loopKey, false);
 				}
 			}
 		}
@@ -486,8 +488,13 @@ namespace Objects.Lighting
 			    || MountState == LightMountState.MissingBulb) return;
 			switch (newPowerState)
 			{
+				case PowerState.Off:
+					Animator.ServerStopAnim();
+					ServerChangeLightState(LightMountState.Off);
+					return;
 				case PowerState.LowVoltage:
 					Animator.ServerPlayAnim(0);
+					ServerChangeLightState(LightMountState.Off);
 					return;
 				case PowerState.On:
 					ServerChangeLightState(LightMountState.On);

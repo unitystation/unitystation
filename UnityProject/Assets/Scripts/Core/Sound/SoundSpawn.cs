@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Initialisation;
 using UnityEngine;
 
 /// <summary>
@@ -14,6 +15,8 @@ public class SoundSpawn: MonoBehaviour
 	//We need to handle this manually to prevent multiple requests grabbing sound pool items in the same frame
 	public bool IsPlaying = false;
 	private bool monitor = false;
+
+	public bool Paused = false;
 
 	public string assetAddress = "";
 
@@ -33,16 +36,30 @@ public class SoundSpawn: MonoBehaviour
 
 	public void PlayOneShot()
 	{
+		LoadManager.DoInMainThread(PlayOneShotMainThread);
+	}
+
+	public void PlayOneShotMainThread()
+	{
 		if (AudioSource == null) return;
+		gameObject.SetActive(true);
 		AudioSource.PlayOneShot(AudioSource.clip);
 		WaitForPlayToFinish();
+
 	}
+
 
 
 	[NaughtyAttributes.Button("PlayNormally")]
 	public void PlayNormally()
 	{
+		LoadManager.DoInMainThread(PlayNormallyMainThread);
+	}
+
+	public void PlayNormallyMainThread()
+	{
 		if (AudioSource == null) return;
+		gameObject.SetActive(true);
 		AudioSource.Play();
 		WaitForPlayToFinish();
 	}
@@ -60,30 +77,40 @@ public class SoundSpawn: MonoBehaviour
 	private void OnDisable()
 	{
 		if (SoundManager.Instance == null) return;
-		SoundManager.Instance.SoundSpawns.Remove(Token);
+		if (Token != string.Empty)
+		{
+			SoundManager.Instance.SoundSpawns.Remove(Token);
+		}
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 	}
 
 	void UpdateMe()
 	{
+		if (Paused) return;
 		if (!monitor || AudioSource == null) return;
 
-		if (!AudioSource.isPlaying)
+		if (AudioSource.isPlaying == false)
 		{
-			IsPlaying = false;
-			monitor = false;
-
-			if (Token != string.Empty)
-			{
-				SoundManager.Instance.SoundSpawns.Remove(Token);
-			}
-
-			if (SoundManager.Instance.NonplayingSounds.ContainsKey(assetAddress) == false)
-			{
-				SoundManager.Instance.NonplayingSounds[assetAddress] = new List<SoundSpawn>();
-			}
-			SoundManager.Instance.NonplayingSounds[assetAddress].Add(this);
+			Pool();
 		}
+	}
+
+	public void Pool()
+	{
+		IsPlaying = false;
+		monitor = false;
+		AudioSource.Stop();
+		if (Token != string.Empty)
+		{
+			SoundManager.Instance.SoundSpawns.Remove(Token);
+		}
+
+		if (SoundManager.Instance.NonplayingSounds.ContainsKey(assetAddress) == false)
+		{
+			SoundManager.Instance.NonplayingSounds[assetAddress] = new List<SoundSpawn>();
+		}
+		SoundManager.Instance.NonplayingSounds[assetAddress].Add(this);
+		gameObject.SetActive(false);
 	}
 
 	public void SetAudioSource(AudioSource sourceToCopy)
