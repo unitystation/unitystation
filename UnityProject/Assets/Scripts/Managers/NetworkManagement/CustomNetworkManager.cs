@@ -58,11 +58,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			{
 				if (allSpawnablePrefabs.Count > currentLocation + i)
 				{
-
 					if (allSpawnablePrefabs[currentLocation + i] == null) continue;
 					if (allSpawnablePrefabs[currentLocation + i].TryGetComponent<PrefabTracker>(out var PrefabTracker))
 					{
-						ForeverIDLookupSpawnablePrefabs[PrefabTracker.ForeverID] = allSpawnablePrefabs[currentLocation + i];
+						ForeverIDLookupSpawnablePrefabs[PrefabTracker.ForeverID] =
+							allSpawnablePrefabs[currentLocation + i];
 					}
 				}
 			}
@@ -113,6 +113,16 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 	}
 
+	public void SetUpSpawnablePrefabsForEverIDManual()
+	{
+		for (int i = 0; i < allSpawnablePrefabs.Count; i++)
+		{
+			if (allSpawnablePrefabs[i] == null) continue;
+			var prefabTracker = allSpawnablePrefabs[i].GetComponent<PrefabTracker>();
+			if (prefabTracker == null) continue;
+			ForeverIDLookupSpawnablePrefabs[prefabTracker.ForeverID] = allSpawnablePrefabs[i];
+		}
+	}
 
 	public InitialisationSystems Subsystem => InitialisationSystems.CustomNetworkManager;
 
