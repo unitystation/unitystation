@@ -865,7 +865,7 @@ namespace MapSaver
 				Objects = MetaTileMap.GetComponentsInChildren<RegisterTile>(true);
 #if UNITY_EDITOR
 				CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.ForeverIDLookupSpawnablePrefabs.Clear();
-				CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.SetUpSpawnablePrefabsForEverID();
+				CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.SetUpSpawnablePrefabsForEverIDManual();
 				CustomNetworkManager.Instance = CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab;
 #endif
 			}
