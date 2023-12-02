@@ -86,29 +86,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 	}
 
-	private int currentLocation = 0;
-
-	public void UpdateMe()
-	{
-		if (allSpawnablePrefabs.Count > currentLocation)
-		{
-			for (int i = 0; i < 50; i++)
-			{
-				if (allSpawnablePrefabs.Count > currentLocation + i)
-				{
-					if (allSpawnablePrefabs[currentLocation + i] == null) continue;
-					if (allSpawnablePrefabs[currentLocation + i].TryGetComponent<PrefabTracker>(out var PrefabTracker))
-					{
-						ForeverIDLookupSpawnablePrefabs[PrefabTracker.ForeverID] =
-							allSpawnablePrefabs[currentLocation + i];
-					}
-				}
-			}
-
-			currentLocation = currentLocation + 50;
-		}
-	}
-
 	public void SetUpSpawnablePrefabsIndex()
 	{
 		for (int i = 0; i < allSpawnablePrefabs.Count; i++)
@@ -121,7 +98,10 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		for (int i = 0; i < allSpawnablePrefabs.Count; i++)
 		{
-			ForeverIDLookupSpawnablePrefabs[allSpawnablePrefabs[i].GetComponent<PrefabTracker>().ForeverID] = allSpawnablePrefabs[i];
+			if (allSpawnablePrefabs[i] == null) continue;
+			var prefabTracker = allSpawnablePrefabs[i].GetComponent<PrefabTracker>();
+			if (prefabTracker == null) continue;
+			ForeverIDLookupSpawnablePrefabs[prefabTracker.ForeverID] = allSpawnablePrefabs[i];
 		}
 	}
 
@@ -286,13 +266,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	public override void OnStartServer()

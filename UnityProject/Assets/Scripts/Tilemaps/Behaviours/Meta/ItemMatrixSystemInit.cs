@@ -11,6 +11,7 @@ public abstract class ItemMatrixSystemInit : MonoBehaviour, IInitialiseSystem
 
 	public virtual void Initialize() { }
 
+	[NonSerialized]
 	public MetaTileMap MetaTileMap;
 
 	public MatrixSystemManager subsystemManager;
