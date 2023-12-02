@@ -30,7 +30,7 @@ public class ChatBubble : MonoBehaviour, IDisposable
 	[Tooltip(
 		"The maximum length of text inside a single text bubble. Longer texts will display multiple bubbles sequentially.")]
 	[Range(1, 200)]
-	private int maxMessageLength = 65;
+	private int maxMessageLength = 64;
 
 	public class BubbleMsg
 	{
@@ -91,24 +91,7 @@ public class ChatBubble : MonoBehaviour, IDisposable
 	/// </summary>
 	private static float displayTimeMultiplierPerSecond = 0.09f;
 
-	/// <summary>
-	/// Multiplies the elapse of display time. A value of 1.5 would make time elapse 1.5 times as fast. 1 is normal speed.
-	/// </summary>
-	private float displayTimeMultiplier;
 
-	/// <summary>
-	/// The current size of the chat bubble determined by vocalization. Will be scaled by the zoomMultiplier.
-	/// </summary>
-	private float bubbleSize = 2;
-
-	[SerializeField]
-	[Tooltip(
-		"The size multiplier of the chat bubble when the player has typed in all caps or ends the sentence with !!.")]
-	[Range(1, 100)]
-	private float bubbleSizeCaps = 1.2f;
-
-	[SerializeField] [Tooltip("The size multipler of the chat bubble when starts the sentence with #.")] [Range(1, 100)]
-	private float bubbleSizeWhisper = 0.5f;
 
 	private CancellationTokenSource cancelSource;
 
@@ -217,11 +200,7 @@ public class ChatBubble : MonoBehaviour, IDisposable
 			msgQueue.Enqueue(new BubbleMsg {maxTime = TimeToShow(msg.Length), msg = msg, modifier = chatModifier});
 		}
 
-		// Progress quickly through the queue if there is a lot of text left.
-		displayTimeMultiplier = 1 + TimeToShow(msgQueue) * displayTimeMultiplierPerSecond;
 	}
-
-
 
 
 
@@ -280,68 +259,6 @@ public class ChatBubble : MonoBehaviour, IDisposable
 		return bubble2;
 	}
 
-	/// <summary>
-	/// Pops in characters from the message over time
-	/// </summary>
-	private void ShowCharacter(BubbleMsg msg)
-	{
-		while (msg.elapsedTime > 0f)
-		{
-			if (msg.characterIndex > msg.msg.Length - 1) break;
-
-			msg.elapsedTime -= msg.characterPopInSpeed;
-			var currentCharacter = msg.msg[msg.characterIndex];
-
-			if (char.IsWhiteSpace(currentCharacter))
-			{
-				msg.elapsedTime -= msg.characterPopInSpeed * 2f;
-			}
-			else if (char.IsPunctuation(currentCharacter))
-			{
-				msg.elapsedTime -= msg.characterPopInSpeed * 3f;
-			}
-
-			var text = msg.msg.Substring(0, msg.characterIndex + 1);
-			var newText = new StringBuilder();
-
-			//God Save Our Eyes
-			if ((msg.modifier & ChatModifier.Clown) == ChatModifier.Clown &&
-			    PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleClownColour) == 1)
-			{
-				for (int i = 0; i < text.Length; i++)
-				{
-					newText.Append($"<color=#{RandomUtils.CreateRandomBrightColorString()}>{text[i]}</color>");
-				}
-			}
-			else
-			{
-				newText.Append(text);
-			}
-
-			if (msg.buffered && msg.characterIndex < msg.msg.Length - 1)
-			{
-				//Add the rest of the character but invisible to make bubble correct size
-				//and keep the characters in the same place (helps reading)
-				newText.Append($"<color=#00000000>{msg.msg.Substring(msg.characterIndex + 1)}</color>");
-			}
-
-			SetBubbleParameters(newText.ToString(), msg.modifier);
-
-			msg.characterIndex++;
-		}
-	}
-
-	private void CheckShowTime(BubbleMsg msg)
-	{
-		var timeLeft = msg.maxTime - (msg.msg.Length * msg.characterPopInSpeed);
-		var additionalTime = PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleAdditionalTime);
-
-		if (timeLeft >= additionalTime) return;
-
-		//Set max time to the needed amount
-		msg.maxTime = additionalTime - timeLeft;
-	}
-
 	void UpdateMe()
     {
 	    if (target != null)
@@ -377,60 +294,6 @@ public class ChatBubble : MonoBehaviour, IDisposable
 		}
 	}
 
-    /// <summary>
-    /// Sets the text, style and size of the bubble to match the message's modifier.
-    /// </summary>
-    /// <param name="msg"> Player's chat message </param>
-    private void SetBubbleParameters(string msg, ChatModifier modifiers)
-    {
-	    bubbleSize = PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleSize);
-	    //bubbleText.fontStyle = FontStyles.Normal;
-	   // bubbleText.font = fontDefault;
-
-	    // Determine type
-	    if ((modifiers & ChatModifier.Emote) == ChatModifier.Emote)
-	    {
-		    //bubbleText.fontStyle = FontStyles.Italic;
-		    // TODO Differentiate emoting from whispering (e.g. rectangular box instead of speech bubble)
-	    }
-	    else if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper)
-	    {
-		    bubbleSize = bubbleSize * bubbleSizeWhisper;
-		    //bubbleText.fontStyle = FontStyles.Italic;
-		    // TODO Differentiate emoting from whispering (e.g. dotted line around text)
-
-	    }
-	    else if((modifiers & ChatModifier.Sing) == ChatModifier.Sing)
-	    {
-		    bubbleSize = bubbleSize * bubbleSizeCaps;
-		    //bubbleText.fontStyle = FontStyles.Italic;
-	    }
-	    else if ((modifiers & ChatModifier.Yell) == ChatModifier.Yell)
-	    {
-		    bubbleSize = bubbleSize * bubbleSizeCaps;
-		    //bubbleText.fontStyle = FontStyles.Bold;
-	    }
-
-	    if ((modifiers & ChatModifier.Clown) == ChatModifier.Clown)
-	    {
-		    //bubbleText.font = fontClown;
-		   // bubbleText.UpdateFontAsset();
-	    }
-
-	    // Apply values
-	    UpdateChatBubbleSize();
-	    //bubbleText.text = msg;
-	    //chatBubble.SetActive(true);
-    }
-
-    /// <summary>
-    /// Updates the scale of the chat bubble
-    /// </summary>
-    private void UpdateChatBubbleSize()
-    {
-	    transform.localScale = new Vector3(bubbleSize, bubbleSize, 1);
-    }
-
     public void ReturnToPool()
     {
 	    if(cancelSource != null) cancelSource.Cancel();
@@ -445,5 +308,15 @@ public class ChatBubble : MonoBehaviour, IDisposable
     public void Dispose()
     {
 	    cancelSource?.Dispose();
+    }
+
+    public static void SetPreferenceNummberBubbles(int NummberBubbles)
+    {
+	    PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleNumber, NummberBubbles);
+    }
+
+    public static int GetPreferenceNummberBubbles()
+    {
+	    return PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleNumber, 3);
     }
 }

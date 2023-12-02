@@ -70,6 +70,9 @@ namespace Unitystation.Options
 		[SerializeField]
 		private Toggle ThrowPreferenceToggle = null;
 
+		[SerializeField]
+		private Slider NumberOfBubblesSlider;
+
 		void OnEnable()
 		{
 			Refresh();
@@ -98,7 +101,7 @@ namespace Unitystation.Options
 			chatBubblePopInSpeedSlider.value = DisplaySettings.Instance.ChatBubblePopInSpeed;
 			chatBubbleAdditionalTimeSlider.value = DisplaySettings.Instance.ChatBubbleAdditionalTime;
 			chatBubbleClownColourToggle.isOn = DisplaySettings.Instance.ChatBubbleClownColour == 1;
-
+			NumberOfBubblesSlider.value = ChatBubble.GetPreferenceNummberBubbles();
 			try
 			{
 				var newOptions = new List<TMP_Dropdown.OptionData>();
@@ -268,6 +271,12 @@ namespace Unitystation.Options
 		public void OnThrowHoldPreferenceChange()
 		{
 			ControlAction.SetPreferenceThrowHoldPreference(ThrowPreferenceToggle.isOn);
+		}
+
+
+		public void OnChatBubbleNumber()
+		{
+			ChatBubble.SetPreferenceNummberBubbles(Mathf.RoundToInt(NumberOfBubblesSlider.value));
 		}
 	}
 }
