@@ -48,6 +48,29 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public static Dictionary<uint, NetworkIdentity> Spawned => IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 
+	private int currentLocation = 0;
+
+	public void UpdateMe()
+	{
+		if (allSpawnablePrefabs.Count > currentLocation)
+		{
+			for (int i = 0; i < 50; i++)
+			{
+				if (allSpawnablePrefabs.Count > currentLocation + i)
+				{
+					if (allSpawnablePrefabs[currentLocation + i] == null) continue;
+					if (allSpawnablePrefabs[currentLocation + i].TryGetComponent<PrefabTracker>(out var PrefabTracker))
+					{
+						ForeverIDLookupSpawnablePrefabs[PrefabTracker.ForeverID] =
+							allSpawnablePrefabs[currentLocation + i];
+					}
+				}
+			}
+
+			currentLocation = currentLocation + 50;
+		}
+	}
+
 
 	public void Clear()
 	{
@@ -71,10 +94,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			new Task(SetUpSpawnablePrefabsIndex).Start();
 		}
-		if (ForeverIDLookupSpawnablePrefabs.Count == 0)
-		{
-			new Task(SetUpSpawnablePrefabsForEverID).Start();
-		}
 
 		if (Instance == null)
 		{
@@ -94,7 +113,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 	}
 
-	public void SetUpSpawnablePrefabsForEverID()
+	public void SetUpSpawnablePrefabsForEverIDManual()
 	{
 		for (int i = 0; i < allSpawnablePrefabs.Count; i++)
 		{
@@ -266,13 +285,14 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
-
 	public override void OnStartServer()
 	{
 		_isServer = true;
