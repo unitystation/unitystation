@@ -42,9 +42,10 @@ public class SoundSpawn: MonoBehaviour
 	public void PlayOneShotMainThread()
 	{
 		if (AudioSource == null) return;
+		gameObject.SetActive(true);
 		AudioSource.PlayOneShot(AudioSource.clip);
 		WaitForPlayToFinish();
-		gameObject.SetActive(true);
+
 	}
 
 
