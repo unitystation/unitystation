@@ -183,7 +183,7 @@ namespace Clothing
 				float averageFreeze = (sumFreeze / heatProtectionValues.Count) - 273.15f;
 				float averageHeat = (sumHeat / heatProtectionValues.Count) - 273.15f;
 
-				text.AppendLine($"\nThis has an average heat protection of <color=red>{averageHeat.ToString("F" + 2)}°C</color> and freeze protection of <color=#5fcfdd>{averageFreeze.ToString("F" + 2)}°C</color>");
+				text.AppendLine($"\nThis has an average heat resistance of <color=red>{averageHeat.ToString("F" + 2)}°C</color> and freeze resistance of <color=#5fcfdd>{averageFreeze.ToString("F" + 2)}°C</color>");
 			}
 			return text.ToString();
 		}
