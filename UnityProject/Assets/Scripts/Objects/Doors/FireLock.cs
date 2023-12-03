@@ -12,7 +12,7 @@ namespace Doors
 
 		private DoorMasterController doorMasterController;
 		public DoorMasterController DoorMasterController => doorMasterController;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		private void Awake()
 		{
 			doorMasterController = GetComponent<DoorMasterController>();

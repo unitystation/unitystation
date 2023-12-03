@@ -9,7 +9,7 @@ namespace Objects.Engineering
 		public bool State = false;
 		public ReactorBoiler ReactorBoiler = null;
 		public ReactorTurbine ReactorTurbine = null;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		[RightClickMethod]
 		public void ChangeState()
 		{

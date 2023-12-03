@@ -285,14 +285,17 @@ namespace Shared.Editor
 
 			SortMastersToPosition(slave.gameObject.transform.position);
 
+			IMultitoolMasterable master = null;
+			IMultitoolMasterable oldmaster = null;
 			float distance = Vector3.Distance(slave.gameObject.transform.position, Masters[0].gameObject.transform.position);
+			if (Masters[0].IgnoreMaxDistanceMapper == false)
+			{
+				master = distance > Masters[0].MaxDistance ? null : Masters[0];
 
-			var master = distance > Masters[0].MaxDistance ? null : Masters[0];
-
-			var oldmaster = slave.Master;
+				oldmaster = slave.Master;
+			}
 
 			slave.SetMasterEditor(master);
-
 
 			if (Masters.Count > 0)
 			{

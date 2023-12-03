@@ -41,7 +41,8 @@ namespace Construction.Conveyors
 		private Matrix _lastUpdateMatrix;
 		private Vector3Int _lastLocalUpdatePosition;
 		private float _LastSpeed = 0;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		#region Lifecycle
 
 		private void Awake()

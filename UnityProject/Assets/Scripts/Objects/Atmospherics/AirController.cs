@@ -128,7 +128,8 @@ namespace Objects.Atmospherics
 		}
 
 		#endregion
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		private void PeriodicUpdate()
 		{
 			UpdateAtmosphericAverage();

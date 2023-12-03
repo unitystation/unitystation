@@ -134,6 +134,8 @@ namespace Doors
 		private float delayStartTime = 0;
 		private float delayStartTimeTryOpen = 0;
 
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+
 		private void Awake()
 		{
 			EnsureInit();
@@ -372,7 +374,7 @@ namespace Doors
 			}
 			IsClosed = false;
 			OnDoorOpen?.Invoke();
-			
+
 			if (enableDisabledCollider)
 			{
 				this.GetComponent<Collider2D>().enabled = false;

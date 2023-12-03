@@ -26,6 +26,8 @@ namespace Shared.Systems.ObjectConnection
 		MultitoolConnectionType ConType { get; }
 
 		GameObject gameObject { get; }
+
+		bool CanRelink { get; }
 	}
 
 	/// <summary>
@@ -41,6 +43,9 @@ namespace Shared.Systems.ObjectConnection
 		/// <remarks>We limit the distance for gameplay reasons and to ensure reasonable distribution of master controllers.</remarks>
 		/// </summary>
 		int MaxDistance { get; }
+
+		bool IgnoreMaxDistanceMapper { get; }
+
 	}
 
 	/// <summary>

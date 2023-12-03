@@ -54,7 +54,8 @@ namespace Objects.Wallmounts
 
 		[SerializeField] private Color normalTextColor;
 		[SerializeField] private Color redAlertTextColor = Color.red;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		public enum MountedMonitorState
 		{
 			StatusText,
