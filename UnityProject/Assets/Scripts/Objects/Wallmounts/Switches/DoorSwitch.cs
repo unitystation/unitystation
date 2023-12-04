@@ -36,7 +36,8 @@ namespace Objects.Wallmounts
 		private ClearanceRestricted clearanceRestricted;
 
 		private APCPoweredDevice thisAPCPoweredDevice;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		public void OnSpawnServer(SpawnInfo info)
 		{
 		}

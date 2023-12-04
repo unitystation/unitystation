@@ -26,7 +26,7 @@ namespace Objects.Engineering.Reactor
 		private const ChatChannel ChatChannels = ChatChannel.Engineering;
 
 		[SerializeField] private float chatAnnouncementCheckTime = 8f;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		private void Awake()
 		{
 			poweredDevice = GetComponent<APCPoweredDevice>();

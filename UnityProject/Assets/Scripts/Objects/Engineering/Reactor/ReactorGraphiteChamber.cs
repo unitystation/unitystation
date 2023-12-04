@@ -66,7 +66,8 @@ namespace Objects.Engineering
 		public decimal MaxPressure = 120000;
 
 		public GameObject Corium;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		public decimal KFactor
 		{
 			get { return (CalculateKFactor()); }

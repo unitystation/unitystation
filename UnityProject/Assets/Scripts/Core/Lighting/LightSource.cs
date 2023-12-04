@@ -42,7 +42,7 @@ namespace Objects.Lighting
 		public bool IsWithoutSwitch => isWithoutSwitch;
 		private bool switchState = true;
 		private PowerState powerState;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		private EmergencyLightAnimator EmergencyLightAnimator;
 		[field: SerializeField] public LightAnimator Animator { get; private set; }
 		[SerializeField] private SpriteHandler spriteHandler;

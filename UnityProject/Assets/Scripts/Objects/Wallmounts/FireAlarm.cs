@@ -34,7 +34,8 @@ namespace Objects.Wallmounts
 		[SerializeField] private RegisterTile registerTile;
 		[SerializeField] private Integrity integrity;
 		[SerializeField] private AddressableAudioSource FireAlarmSFX = null;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		public enum FireAlarmState
 		{
 			TopLightSpriteAlert,

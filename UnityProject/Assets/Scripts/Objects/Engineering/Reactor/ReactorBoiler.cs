@@ -22,7 +22,8 @@ namespace Objects.Engineering
 
 		public List<ReactorGraphiteChamber> Chambers;
 		// Start is called before the first frame update
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		#region Lifecycle
 
 		public void Awake()

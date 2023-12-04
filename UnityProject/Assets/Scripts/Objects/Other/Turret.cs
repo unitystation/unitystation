@@ -164,6 +164,8 @@ namespace Objects.Other
 		private string bulletName;
 		private AddressableAudioSource bulletSound;
 
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+
 		#region Lifecycle
 
 		private void Awake()

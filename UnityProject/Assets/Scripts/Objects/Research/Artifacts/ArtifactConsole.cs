@@ -24,7 +24,7 @@ namespace Objects.Research
 		[SerializeField] ItemTrait ArtifactDiskTrait = null;
 
 		public Action StateChange;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		private void Awake()
 		{
 			itemStorage = GetComponent<ItemStorage>();
