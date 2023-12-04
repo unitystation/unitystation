@@ -472,6 +472,7 @@ public class SpriteHandler : MonoBehaviour
 		if (SpriteHandlerManager.Instance == null) return;
 		if (networkIdentity == null)
 		{
+			if (this == null) return;
 			if (this?.gameObject == null) return;
 			var NetID = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(this.gameObject);
 			if (NetID == null)
