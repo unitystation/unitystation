@@ -35,6 +35,14 @@ namespace Items.Engineering
 					{
 						if (multitoolBase is IMultitoolMasterable master)
 						{
+							if (multitoolBase.CanRelink == false)
+							{
+								Chat.AddExamineMsgFromServer(
+									interaction.Performer,
+									"This device seems to be encryptedly locked");
+								continue;
+							}
+
 							configurationBuffer = master.ConType;
 							buffers.Add(master);
 							isMultipleMaster = master.MultiMaster;
@@ -60,6 +68,13 @@ namespace Items.Engineering
 					switch (multitoolBase)
 					{
 						case IMultitoolSlaveable slave:
+							if (slave.CanRelink == false)
+							{
+								Chat.AddExamineMsgFromServer(
+									interaction.Performer,
+									"This device seems to be encryptedly locked");
+								return;
+							}
 							if (slave.TrySetMaster(interaction.Performer, Buffer))
 							{
 								Chat.AddExamineMsgFromServer(
@@ -69,6 +84,13 @@ namespace Items.Engineering
 							}
 							return;
 						case IMultitoolMultiMasterSlaveable slaveMultiMaster:
+							if (slaveMultiMaster.CanRelink == false)
+							{
+								Chat.AddExamineMsgFromServer(
+									interaction.Performer,
+									"This device seems to be encryptedly locked");
+								return;
+							}
 							slaveMultiMaster.SetMasters(buffers);
 							Chat.AddExamineMsgFromServer(
 								interaction.Performer,

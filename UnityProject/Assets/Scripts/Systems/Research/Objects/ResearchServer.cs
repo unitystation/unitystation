@@ -46,7 +46,8 @@ namespace Systems.Research.Objects
 		/// </summary>
 		public Action<int> ResearchPointsChanged;
 
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		private void Awake()
 		{
 			registerTile ??= GetComponent<RegisterTile>();

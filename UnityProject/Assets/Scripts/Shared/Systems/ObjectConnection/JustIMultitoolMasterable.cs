@@ -21,4 +21,8 @@ public class JustIMultitoolMasterable : MonoBehaviour, IMultitoolMasterable
 	public MultitoolConnectionType SetConType;
 
 	public MultitoolConnectionType ConType => SetConType;
+
+	[field: SerializeField] public bool CanRelink { get; set; } = true;
+	[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
+
 }

@@ -101,6 +101,8 @@ namespace Systems.Electricity
 		public UnityEvent OnDeviceLinked = new UnityEvent();
 		public UnityEvent OnDeviceUnLinked = new UnityEvent();
 
+
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		#region Lifecycle
 
 		private void Awake()

@@ -41,6 +41,8 @@ namespace Objects.Wallmounts.Switches
 		[SerializeField]
 		private bool isStun = true;
 		public bool IsStun => isStun;
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 
 		private void Awake()
 		{

@@ -27,6 +27,9 @@ namespace Construction.Conveyors
 
 		private SwitchState prevMoveState;
 
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
+
 		#region Lifecycle
 
 		private void Awake()

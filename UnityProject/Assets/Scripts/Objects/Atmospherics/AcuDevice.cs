@@ -29,7 +29,7 @@ namespace Objects.Atmospherics
 		public AirController Controller;
 
 		private IAcuControllable device;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		private void Awake()
 		{
 			device = GetComponent<IAcuControllable>();

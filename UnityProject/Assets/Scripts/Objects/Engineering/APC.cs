@@ -67,7 +67,8 @@ namespace Objects.Engineering
 		/// </summary>
 		public List<DepartmentBattery> DepartmentBatteries => departmentBatteries;
 		private List<DepartmentBattery> departmentBatteries = new List<DepartmentBattery>();
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		/// <summary>
 		/// Function for setting the voltage via the property. Used for the voltage SyncVar hook.
 		/// </summary>
