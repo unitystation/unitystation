@@ -89,7 +89,7 @@ namespace Systems.Explosions
 			foreach (var integrity in matrix.Get<Integrity>(v3int, true))
 			{
 				//Throw items and Objects
-				integrity.GetComponent<UniversalObjectPhysics>()?.NewtonianNewtonPush(AngleAndIntensity.Rotate90(), AngleAndIntensity.magnitude , 1, 3,
+				integrity.GetComponent<UniversalObjectPhysics>()?.NewtonianNewtonPush(AngleAndIntensity.Rotate90(), AngleAndIntensity.magnitude * 0.1f , 1, 3,
 					BodyPartType.Chest, integrity.gameObject, 15);
 
 				if (integrity.TryGetComponent<ItemAttributesV2>(out var traits))

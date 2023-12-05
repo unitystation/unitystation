@@ -52,6 +52,11 @@ namespace Systems.DynamicAmbience
 			isEnabled = false;
 		}
 
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+		}
+
 		private void UpdateMe()
 		{
 			var roomSize = SoundPhysics.CalculateRoomSize(gameObject, debug);
