@@ -1,25 +1,21 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-namespace Util
+public class SOTracker : ScriptableObject, IHaveForeverID
 {
-	public class PrefabTracker : MonoBehaviour, IHaveForeverID
-	{
 		public string ForeverID {
 			get {
 #if UNITY_EDITOR
 				if (string.IsNullOrEmpty(foreverID))
 				{
 					ReassignID();
-					try
-					{
-						PrefabUtility.SavePrefabAsset(this.gameObject);
-					}
-					catch (Exception) { }
+					EditorUtility.SetDirty(this);
 				}
 #endif
 				return foreverID;
@@ -28,15 +24,11 @@ namespace Util
 		}
 
 		[SerializeField] private string foreverID;
-		[field:SerializeField] public string AlternativePrefabName { get; private set; }
-		[field: SerializeField] public bool CanBeSpawnedByAdmin { get; private set; } = true;
 
 		public void ReassignID() //Assuming it's a prefab Variant
 		{
 #if UNITY_EDITOR
-			foreverID =
-				AssetDatabase.AssetPathToGUID(
-					AssetDatabase.GetAssetPath(gameObject)); //Can possibly change over time so need some prevention
+			foreverID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(this)); //Can possibly change over time so need some prevention
 			if (string.IsNullOrEmpty(foreverID))
 			{
 				foreverID = CreateString(20);
@@ -49,27 +41,27 @@ namespace Util
 		{
 #if UNITY_EDITOR
 			// Can possibly change over time so need some prevention
-			foreverID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(gameObject));
+			foreverID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(this));
 			if (string.IsNullOrEmpty(foreverID))
 			{
 				foreverID = CreateString(20);
 			}
 
-			EditorUtility.SetDirty(gameObject);
+			EditorUtility.SetDirty(this);
 #endif
 		}
 
 		internal static string CreateString(int stringLength)
 		{
+			var RNG = new System.Random();
 			const string allowedChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!@$?_-";
 			char[] chars = new char[stringLength];
 
 			for (int i = 0; i < stringLength; i++)
 			{
-				chars[i] = allowedChars.PickRandom();
+				chars[i] = allowedChars[RNG.Next(0, 65)];
 			}
 
 			return new string(chars);
 		}
-	}
 }
