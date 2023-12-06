@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ccfe138752d4b66bcb7c56a0c9769c7, type: 3}
   m_Name: SpillOnThrow
   m_EditorClassIdentifier: 
+  foreverID: 55917bb83c64bdc41acf0a60f284366c
   traitDescription: Items with this trait that also have a ReagentContainer component
     will spill all of their reagents onto whatever object they hit when they're thrown,
     such as a person or the ground.
