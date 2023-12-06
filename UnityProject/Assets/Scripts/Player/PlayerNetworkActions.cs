@@ -477,6 +477,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
+	public void CmdInitiateAwaysiteVote()
+	{
+		if (VotingManager.Instance == null) return;
+		VotingManager.Instance.TryInitiateNextAwaysiteVote(gameObject, connectionToClient);
+	}
+
+	[Command]
 	public void CmdInitiateMapVote()
 	{
 		if (VotingManager.Instance == null) return;
