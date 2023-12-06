@@ -2,7 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IHaveForeverID
+namespace SecureStuff
 {
-	public string ForeverID { get; }
+	public interface IHaveForeverID
+	{
+		public string ForeverID { get; }
+	}
 }
+
