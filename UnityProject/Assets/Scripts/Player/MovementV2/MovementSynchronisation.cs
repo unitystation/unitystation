@@ -83,6 +83,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[SyncVar(hook = nameof(SyncMovementType))]
 	private MovementType currentMovementType;
 
+	public MovementType ClientRequestedType = MovementType.Running;
+
 	public MovementType CurrentMovementType
 	{
 		set
@@ -445,6 +447,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[Command]
 	public void CmdChangeCurrentWalkMode(bool isRunning)
 	{
+		ClientRequestedType = isRunning ? MovementType.Running : MovementType.Walking;
 		if (CurrentMovementType == MovementType.Crawling) return;
 		CurrentMovementType = isRunning ? MovementType.Running : MovementType.Walking;
 		MovementStateEventServer?.Invoke(isRunning);
