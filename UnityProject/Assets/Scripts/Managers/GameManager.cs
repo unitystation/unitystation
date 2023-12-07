@@ -218,6 +218,25 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			QuickLoad = editorLoadPref;
 			Loggy.Log($"Currently using editor pref for quick-load checkup. Current value is {editorLoadPref}. To change this, please head to tools -> Enable QuickLoad.");
 #endif
+			var args = Environment.GetCommandLineArgs();
+			if (args.Length > 1)
+			{
+				for (int i = 0; i < args.Length; i++)
+				{
+					if (args[i] == "-map" && i + 1 < args.Length)
+					{
+						string mapType = args[i + 1];
+						if (mapType == "" || SubSceneManager.Instance.MainStationList.GetMaps().Contains(mapType) ==
+						    false)
+						{
+							Loggy.LogError("[GameManager] -- Attempted to load in a map that does not exist.");
+							break;
+						}
+						SubSceneManager.AdminForcedMainStation = mapType;
+						break;
+					}
+				}
+			}
 		}
 		else
 		{
