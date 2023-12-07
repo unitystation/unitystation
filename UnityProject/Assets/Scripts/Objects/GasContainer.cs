@@ -68,8 +68,7 @@ namespace Objects.Atmospherics
 		[Tooltip("If true : Cargo will accept gases found within this container and can be sold.")]
 		public bool CargoSealApproved = false;
 
-		[FormerlySerializedAs("exploadOnTooMuchDamage")] [SerializeField]
-		private bool explodeOnTooMuchDamage = true;
+		[SerializeField] private bool explodeOnTooMuchDamage = true;
 
 		#region Lifecycle
 
