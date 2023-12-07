@@ -68,7 +68,8 @@ namespace Objects.Atmospherics
 		[Tooltip("If true : Cargo will accept gases found within this container and can be sold.")]
 		public bool CargoSealApproved = false;
 
-		[SerializeField] private bool exploadOnTooMuchDamage = true;
+		[FormerlySerializedAs("exploadOnTooMuchDamage")] [SerializeField]
+		private bool explodeOnTooMuchDamage = true;
 
 		#region Lifecycle
 
@@ -105,7 +106,7 @@ namespace Objects.Atmospherics
 
 		private void OnServerDamage(DamageInfo info)
 		{
-			if (integrity.integrity - info.Damage <= 0 && exploadOnTooMuchDamage)
+			if (integrity.integrity - info.Damage <= 0 && explodeOnTooMuchDamage)
 			{
 				ExplodeContainer();
 				integrity.RestoreIntegrity(integrity.initialIntegrity);
