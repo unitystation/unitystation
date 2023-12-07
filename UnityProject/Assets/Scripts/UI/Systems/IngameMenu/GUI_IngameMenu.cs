@@ -161,6 +161,18 @@ namespace UI
 			CloseMenuPanel();
 		}
 
+		public void InitiateAwaysiteVote()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+
+			if (PlayerManager.LocalPlayerScript == null) return;
+			if (PlayerManager.LocalPlayerScript.PlayerNetworkActions == null) return;
+
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdInitiateAwaysiteVote();
+
+			CloseMenuPanel();
+		}
+
 		public void ShowVoteOptions()
 		{
 			HideAllMenus();
