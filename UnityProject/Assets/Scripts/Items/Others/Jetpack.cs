@@ -1,5 +1,4 @@
 using Objects.Atmospherics;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +11,7 @@ namespace Items.Others
 	public class Jetpack : MonoBehaviour, IInteractable<InventoryApply>, IServerInventoryMove
 	{
 		[SerializeField] private float gasReleaseOnUse = 0.2f;
+		[SerializeField] private GameObject releaseVisual;
 		private Pickupable pickupable;
 		private GasContainer gasContainer;
 
@@ -67,6 +67,10 @@ namespace Items.Others
 			if (player.PlayerSync.IsPressedServer)//Is movement pressed?
 			{
 				PushPlayerInFacedDirection(player, gasContainer, gasReleaseOnUse);
+				if (releaseVisual != null)
+				{
+					Spawn.ServerPrefab(releaseVisual, gameObject.AssumedWorldPosServer());
+				}
 			}
 		}
 
