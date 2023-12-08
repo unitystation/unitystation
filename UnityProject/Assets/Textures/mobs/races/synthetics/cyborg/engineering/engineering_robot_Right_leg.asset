@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: engineering_robot_Right_leg
+  m_EditorClassIdentifier: 
+  foreverID: c8160cd9b02fa904f8b8a5669d2caf8e
+  Variance:
+  - Frames:
+    - sprite: {fileID: 5086923689610677041, guid: b4d1a9913fe4f8b4796bcb96b950b319,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 9203517255345310723, guid: b4d1a9913fe4f8b4796bcb96b950b319,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 2454832778411498635, guid: b4d1a9913fe4f8b4796bcb96b950b319,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -6418125886330183465, guid: b4d1a9913fe4f8b4796bcb96b950b319,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 
