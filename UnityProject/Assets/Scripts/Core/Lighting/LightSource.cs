@@ -124,6 +124,12 @@ namespace Objects.Lighting
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, TrySpark);
 		}
 
+		public override void OnStartClient()
+		{
+			base.OnStartClient();
+			SyncLightState(MountState, MountState);
+		}
+
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			if (info.SpawnItems == false)
@@ -235,19 +241,6 @@ namespace Objects.Lighting
 			}
 		}
 
-		public void EditorDirectionChange()
-		{
-			directional = GetComponent<Rotatable>();
-			spriteRendererLightOn = GetComponentsInChildren<SpriteRenderer>().Length > 1
-				? GetComponentsInChildren<SpriteRenderer>()[1]
-				: GetComponentsInChildren<SpriteRenderer>()[0];
-			var state = mountStatesMachine.LightMountStates[LightMountState.On];
-
-			spriteHandler.SetSpriteSO(state.SpriteData, null);
-			spriteRendererLightOn.sprite = spritesStateOnEffect.sprites[0];
-			RefreshBoxCollider();
-		}
-
 		public void RefreshBoxCollider()
 		{
 			directional = GetComponent<Rotatable>();
@@ -333,7 +326,7 @@ namespace Objects.Lighting
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (interaction.HandObject == null)
+			if (interaction.HandObject == null && MountState is not LightMountState.MissingBulb or LightMountState.None)
 			{
 				TryRemoveBulb(interaction);
 			}
@@ -349,6 +342,7 @@ namespace Objects.Lighting
 
 		private void TryRemoveBulb(HandApply interaction)
 		{
+			if (MountState is LightMountState.None or LightMountState.MissingBulb) return;
 			try
 			{
 				//(Gilles)  : the hand that we use to interact and hold items isn't the same entity as the slot where you wear gloves.
@@ -375,7 +369,7 @@ namespace Objects.Lighting
 					return false;
 				}
 
-				if (MountState == LightMountState.On && HasGlove() == false)
+				if (MountState is LightMountState.On && HasGlove() == false)
 				{
 					float damage = Random.Range(0, maximumDamageOnTouch);
 					var playerHealth = interaction.PerformerPlayerScript.playerHealth;
@@ -389,7 +383,6 @@ namespace Objects.Lighting
 						"<color=red>You burn your hand on the bulb while attempting to remove it!</color>");
 					return;
 				}
-
 				var spawnedItem = Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer())
 					.GameObject;
 
@@ -475,8 +468,6 @@ namespace Objects.Lighting
 
 		public void PowerNetworkUpdate(float voltage)
 		{
-
-
 
 		}
 
