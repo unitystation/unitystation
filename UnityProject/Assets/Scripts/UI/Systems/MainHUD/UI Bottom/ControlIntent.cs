@@ -1,4 +1,5 @@
 ﻿using Logs;
+using Player.Movement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -83,8 +84,7 @@ namespace UI
 		{
 			Loggy.Log("OnClickRunWalk", Category.UserInput);
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			if(PlayerManager.LocalPlayerScript.playerMove.CurrentMovementType == Player.Movement.MovementType.Crawling
-				|| PlayerManager.LocalPlayerScript.playerHealth.IsSoftCrit)
+			if(PlayerManager.LocalPlayerScript.playerHealth.IsSoftCrit)
 			{
 				Chat.AddExamineMsg(PlayerManager.LocalPlayerObject, "You struggle to change how fast you move!");
 				return;
@@ -92,6 +92,7 @@ namespace UI
 
 			Running = !Running;
 			runWalkBorder.SetActive(Running);
+			PlayerManager.LocalPlayerScript.playerMove.ClientRequestedType = Running ? MovementType.Running : MovementType.Walking;
 			PlayerManager.LocalPlayerScript.playerMove.CmdChangeCurrentWalkMode(Running);
 
 			Chat.AddExamineMsgToClient(Running ? startRunningMessage : startWalkingMessage);

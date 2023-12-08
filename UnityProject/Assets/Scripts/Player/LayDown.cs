@@ -111,7 +111,7 @@ namespace Player
 			if (playerScript == null || playerScript.PlayerSync == null) return;
 			if (CustomNetworkManager.IsServer == false) return;
 			playerDirectional.LockDirectionTo(false, playerDirectional.CurrentDirection);
-			playerScript.PlayerSync.CurrentMovementType = MovementType.Running;
+			playerScript.PlayerSync.CurrentMovementType = playerScript.PlayerSync.ClientRequestedType;
 		}
 
 		private IEnumerator HandleGetupAnimation(bool getUp)
