@@ -88,13 +88,12 @@ namespace Systems.Explosions
 
 			foreach (var integrity in matrix.Get<Integrity>(v3int, true))
 			{
-				//Throw items
+				//Throw items and Objects
+				integrity.GetComponent<UniversalObjectPhysics>()?.NewtonianNewtonPush(AngleAndIntensity.Rotate90(), AngleAndIntensity.magnitude * 0.1f , 1, 3,
+					BodyPartType.Chest, integrity.gameObject, 15);
+
 				if (integrity.TryGetComponent<ItemAttributesV2>(out var traits))
 				{
-					integrity.GetComponent<UniversalObjectPhysics>()?
-						.NewtonianPush(AngleAndIntensity.Rotate90(),
-							9,  1,3 ,
-							BodyPartType.Chest,integrity.gameObject, 15);
 					if (IgnoreAttributes != null && traits.HasAnyTrait(IgnoreAttributes)) continue;
 				}
 
@@ -104,6 +103,8 @@ namespace Systems.Explosions
 
 			foreach (var player in matrix.Get<LivingHealthMasterBase>(v3int, ObjectType.Player, true))
 			{
+				player.GetComponent<UniversalObjectPhysics>()?.NewtonianPush(AngleAndIntensity.Rotate90(), 7, 1, 3,
+                					BodyPartType.Chest, player.gameObject, 15);
 				// do damage
 				player.ApplyDamageAll(null, damageDealt, AttackType.Bomb, DamageType.Brute, default, TraumaticDamageTypes.NONE, 75);
 			}

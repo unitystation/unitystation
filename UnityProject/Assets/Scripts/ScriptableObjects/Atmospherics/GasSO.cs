@@ -7,7 +7,7 @@ using UnityEngine;
 namespace ScriptableObjects.Atmospherics
 {
 	[CreateAssetMenu(fileName = "GasSO", menuName = "ScriptableObjects/Atmos/GasSO")]
-	public class GasSO : ScriptableObject
+	public class GasSO : SOTracker
 	{
 		//This is how many Joules are needed to raise 1 mole of the gas 1 degree Kelvin: J/K/mol
 		public float MolarHeatCapacity = 20;

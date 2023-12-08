@@ -18,7 +18,7 @@ namespace MapSaver
 	{
 		//TODO s
 		//TODO matrix move all Matrix,
-		//TODO Support for SO Customisation
+		//TODO Referencing other game objects?
 
 		//TODO Cross matrix references check
 		//TODO escape shuttle, shuttle  fuel, cargo shuttle , Make into Ethereal items
@@ -26,12 +26,6 @@ namespace MapSaver
 
 
 		//TODO ####### data output #######
-		//TODO ReagentContainer, transferSound
-		//TODO RandomItemSpot, poolList
-		//TODO SO comparison
-
-		//TODO If needed
-		//TODO EventRouter Monobehaviour (That would function with, specifying the event and the function to trigger )
 
 		public static readonly char Matrix4x4Char = '#';
 		public static readonly char TileIDChar = '§';

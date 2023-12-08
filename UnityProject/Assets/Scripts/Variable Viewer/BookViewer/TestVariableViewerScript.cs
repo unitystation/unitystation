@@ -8,6 +8,32 @@ using Random = UnityEngine.Random;
 
 public class TestVariableViewerScript : MonoBehaviour
 {
+
+	public List<SpriteDataSO> Sprites = new List<SpriteDataSO>();
+
+
+	public SpriteDataSO Sprite;
+	public ItemTrait ItemTrait;
+
+
+	public List<GameObject> PrefabReferences = new List<GameObject>();
+
+	public List<Tool> PrefabComponentReferences = new List<Tool>();
+
+	public List<Tool> ComponentReferences = new List<Tool>();
+
+	public List<GameObject> GameObjectReferences = new List<GameObject>();
+
+
+	public GameObject PrefabReference;
+
+	public Tool PrefabComponentReference;
+
+	public Tool ComponentReference;
+
+	public GameObject GameObjectReference;
+
+
 	[VVNote(VVHighlight.SafeToModify)] public bool Pbool = true;
 
 	[VVNote(VVHighlight.UnsafeToModify)] public int Pint = 55;
