@@ -247,7 +247,13 @@ namespace HealthV2
 			livingHealth.AddingBodyPart(this);
 
 			SetHealthMaster(livingHealth);
-			ServerCreateSprite();
+			BodyType bodyType = BodyType.NonBinary;
+			if (playerSprites.ThisCharacter != null)
+			{
+				bodyType = playerSprites.ThisCharacter.BodyType;
+			}
+
+			ServerCreateSprite(bodyType);
 
 			foreach (var organ in OrganList)
 			{

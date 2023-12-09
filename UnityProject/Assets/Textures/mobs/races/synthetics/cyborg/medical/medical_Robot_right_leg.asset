@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: medical_Robot_right_leg
+  m_EditorClassIdentifier: 
+  foreverID: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -1644608990050758924, guid: db17690c791099e4e89dfc113d7ab1e8,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 8624841996846494406, guid: db17690c791099e4e89dfc113d7ab1e8,
+        type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: -4397582436687371976, guid: db17690c791099e4e89dfc113d7ab1e8,
+        type: 3}
+      secondDelay: 0.1
+  - Frames:
+    - sprite: {fileID: 9184305343430236613, guid: db17690c791099e4e89dfc113d7ab1e8,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 1386329053406294343, guid: db17690c791099e4e89dfc113d7ab1e8,
+        type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: -2046233611335011674, guid: db17690c791099e4e89dfc113d7ab1e8,
+        type: 3}
+      secondDelay: 0.1
+  - Frames:
+    - sprite: {fileID: -8451896235370364870, guid: db17690c791099e4e89dfc113d7ab1e8,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -4326294081974029590, guid: db17690c791099e4e89dfc113d7ab1e8,
+        type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: 4586011349244782079, guid: db17690c791099e4e89dfc113d7ab1e8,
+        type: 3}
+      secondDelay: 0.1
+  - Frames:
+    - sprite: {fileID: -8959153569777404381, guid: db17690c791099e4e89dfc113d7ab1e8,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 6385903583871496135, guid: db17690c791099e4e89dfc113d7ab1e8,
+        type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: -7292269565053835849, guid: db17690c791099e4e89dfc113d7ab1e8,
+        type: 3}
+      secondDelay: 0.1
+  IsPalette: 0
+  DisplayName: 

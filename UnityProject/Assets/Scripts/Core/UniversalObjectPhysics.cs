@@ -687,7 +687,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public void DisappearFromWorld()
 	{
-		SynchroniseVisibility(isVisible, false);
+		if (CustomNetworkManager.IsServer)
+		{
+			SynchroniseVisibility(isVisible, false);
+		}
 	}
 
 	public void ForceSetLocalPosition(Vector3 resetToLocal, Vector2 momentum, bool smooth, int matrixID,
