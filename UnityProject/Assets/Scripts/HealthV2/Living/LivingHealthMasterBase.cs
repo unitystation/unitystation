@@ -85,11 +85,6 @@ namespace HealthV2
 		public bool IsSoftCrit => ConsciousState == ConsciousState.BARELY_CONSCIOUS;
 
 		/// <summary>
-		/// The current body type of the creature
-		/// </summary>
-		public BodyType BodyType = BodyType.NonBinary;
-
-		/// <summary>
 		/// The difference between network time and player time for the entity if its a player
 		/// Used to calculate amount of time to delay health changes if client is behind server
 		/// </summary>

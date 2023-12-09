@@ -69,12 +69,11 @@ namespace HealthV2
 		/// <summary>
 		/// Sets up the sprite of a specified body part and adds its Net ID to InternalNetIDs
 		/// </summary>
-		public void ServerCreateSprite()
+		public void ServerCreateSprite(BodyType bodyType, bool ReinitialiseBodyType = false) //note This will cause funnies if  SetCustomisationData Has anybody type stuff
 		{
-			BodyType bodyType = BodyType.NonBinary;
-			if (playerSprites.ThisCharacter != null)
+			if (ReinitialiseBodyType)
 			{
-				bodyType = playerSprites.ThisCharacter.BodyType;
+				RemoveAllSprites();
 			}
 
 			var sprites = this.GetBodyTypeSprites(bodyType); //TODO maybe make Sprite generation as part of customisation OnPlayerBodyDeserialise Idk
@@ -84,6 +83,7 @@ namespace HealthV2
 			}
 
 			HealthMaster.rootBodyPartController.UpdateClients();
+
 
 			if (SetCustomisationData != "")
 			{
@@ -115,23 +115,26 @@ namespace HealthV2
 			}
 		}
 
-		public BodyPartSprites RegisterNewSprite(GameObject SpritePrefab, SpriteOrder SpriteOrder,  SpriteDataSO sprite, bool UpdateMaster = true)
+		public BodyPartSprites RegisterNewSprite(GameObject SpritePrefab, SpriteOrder SpriteOrder, SpriteDataSO sprite,
+			bool UpdateMaster = true)
 		{
 			bool isSurfaceSprite = IsSurface || BodyPartItemInheritsSkinColor;
 
-			var newSprite = Spawn.ServerPrefab(SpritePrefab, Vector3.zero, playerSprites.BodySprites.transform).GameObject.GetComponent<BodyPartSprites>();
+			var newSprite = Spawn.ServerPrefab(SpritePrefab, Vector3.zero, playerSprites.BodySprites.transform)
+				.GameObject.GetComponent<BodyPartSprites>();
 
 			newSprite.transform.localPosition = Vector3.zero;
 			playerSprites.Addedbodypart.Add(newSprite);
 
 			var newOrder = new SpriteOrder(SpriteOrder);
-			newOrder.Add(this.RelatedPresentSprites.Count * 3); // ???????????????????????? for Sprite order clashes, for example hands not rendering over jumpsuit
+			newOrder.Add(this.RelatedPresentSprites.Count *
+			             3); // ???????????????????????? for Sprite order clashes, for example hands not rendering over jumpsuit
 
 			this.RelatedPresentSprites.Add(newSprite);
 
 			var ClientData = new IntName();
 
-			ClientData.Name = name + "_" + newSprite.GetInstanceID() ; //is Fine because name is being Networked
+			ClientData.Name = name + "_" + newSprite.GetInstanceID(); //is Fine because name is being Networked
 			newSprite.SetName(ClientData.Name);
 			ClientData.Int = CustomNetworkManager.Instance.IndexLookupSpawnablePrefabs[SpritePrefab.gameObject];
 			ClientData.Data = JsonConvert.SerializeObject(newOrder);
@@ -142,7 +145,8 @@ namespace HealthV2
 
 			newSprite.baseSpriteHandler.NetworkThis = true;
 
-			SpriteHandlerManager.RegisterHandler(playerSprites.GetComponent<NetworkIdentity>(), newSprite.baseSpriteHandler);
+			SpriteHandlerManager.RegisterHandler(playerSprites.GetComponent<NetworkIdentity>(),
+				newSprite.baseSpriteHandler);
 
 			newSprite.UpdateSpritesForImplant(this, this.ClothingHide, sprite, newOrder);
 			if (isSurfaceSprite)
@@ -204,8 +208,6 @@ namespace HealthV2
 			newSprite.baseSpriteHandler.SetColor(CurrentSurfaceColour);
 			Tone = CurrentSurfaceColour;
 			BodyPartItemSprite.SetColor(CurrentSurfaceColour);
-
-
 		}
 
 		public void SetCustomisationString(string data)

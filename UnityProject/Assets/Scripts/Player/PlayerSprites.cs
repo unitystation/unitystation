@@ -54,6 +54,8 @@ namespace Player
 		[FormerlySerializedAs("raceOverride")] [Tooltip("Override the race of the character sheet")]
 		public string RaceOverride = "";
 
+		public bool CharacterSheetOverride = false;
+
 		#endregion Inspector fields
 
 		public LivingHealthMasterBase livingHealthMasterBase;
@@ -218,6 +220,16 @@ namespace Player
 			for (int i = 0; i < Body_Part.ContainBodyParts.Count; i++)
 			{
 				SubSetBodyPart(Body_Part.ContainBodyParts[i], path, Randomised);
+			}
+
+		}
+
+		public void SetAllBodyType( BodyType bodyType)
+		{
+			ThisCharacter.BodyType = bodyType;
+			foreach (var Bp in livingHealthMasterBase.BodyPartList)
+			{
+				Bp.ServerCreateSprite(bodyType, true);
 			}
 
 		}
@@ -460,13 +472,13 @@ namespace Player
 			if (IsOldCustomPrefab) return;
 			if (RootBodyPartsLoaded) return;
 			RootBodyPartsLoaded = true;
-			var overrideSheet = string.IsNullOrEmpty(RaceOverride) == false;
-			if (characterSettings == null || overrideSheet)
+
+			if (characterSettings == null || CharacterSheetOverride)
 			{
 				characterSettings = new CharacterSheet();
 			}
 
-			if (overrideSheet)
+			if (string.IsNullOrEmpty(RaceOverride) == false)
 			{
 				characterSettings.Species = RaceOverride;
 			}

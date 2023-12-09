@@ -130,12 +130,7 @@ namespace UI.CharacterCreator
 				Loggy.LogError("UNABLE TO GRAB ALL SPECIES!! CHARACTER CREATION SCREEN IS SURELY GOING TO BE BROKEN!!!");
 				return;
 			}
-			allSpecies = RaceSOSingleton.Instance.Races;
-			var queueRemoval = allSpecies.Where(alien => alien.Base.CanBePlayerChosen == false).ToList();
-			foreach (var blacklistedItem in queueRemoval)
-			{
-				allSpecies.Remove(blacklistedItem);
-			}
+			allSpecies = RaceSOSingleton.Instance.Races.Where(alien => alien.Base.CanBePlayerChosen).ToList();
 		}
 
 		private void OnEnable()
@@ -573,6 +568,7 @@ namespace UI.CharacterCreator
 
 			foreach (var specie in RaceSOSingleton.Instance.Races)
 			{
+				if (specie.Base.CanBePlayerChosen == false) continue;
 				TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
 				data.text = specie.name;
 				speciesChoice.options.Add(data);
