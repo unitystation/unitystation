@@ -30,6 +30,9 @@ namespace Chemistry.Components
 			All = ~None
 		}
 
+		[Tooltip("Does this container generate reaction sounds")]
+		public bool ReactionSounds = true;
+
 		[Header("Container Parameters")] [Tooltip("Max container capacity in units")] [SerializeField]
 		private float maxCapacity = 100;
 
@@ -251,7 +254,7 @@ namespace Chemistry.Components
 			{
 				var Changed =  ReactionSet.Apply(this, CurrentReagentMix, possibleReactions);
 
-				if (Changed)
+				if (Changed && ReactionSounds)
 				{
 					SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bubbles, gameObject.AssumedWorldPosServer());
 				}
