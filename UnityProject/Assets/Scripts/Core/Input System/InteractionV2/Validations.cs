@@ -232,7 +232,7 @@ public static class Validations
 
 		// Check if target is in player's inventory.
 		// This was added so NetTabs (NetTab.ValidatePeepers()) can be used on items in an inventory.
-		if (target != null && target.TryGetComponent(out Pickupable pickupable) && pickupable.ItemSlot != null)
+		if (target != null && target.TryGetComponent(out Pickupable pickupable) && pickupable.ItemSlot != null &&  pickupable.ItemSlot.ItemStorage.OrNull() != null)
 		{
 			if (pickupable.ItemSlot.RootPlayer().OrNull()?.gameObject == playerScript.gameObject)
 			{
