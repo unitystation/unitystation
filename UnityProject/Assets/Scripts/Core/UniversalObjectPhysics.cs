@@ -1077,6 +1077,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		UniversalObjectPhysics pushedBy = null, bool overridePull = false, UniversalObjectPhysics pulledBy = null,
 		bool useWorld = false)
 	{
+		if (isFlyingSliding) return;
 		if (isVisible == false) return;
 		if (pushedBy == this) return;
 		if (CanPush(worldDirection))
@@ -1096,6 +1097,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		UniversalObjectPhysics pushedBy = null, bool overridePull = false, UniversalObjectPhysics pulledBy = null,
 		bool SendWorld = false)
 	{
+		if (isFlyingSliding) return;
 		if (isVisible == false) return;
 		if (ForcedPushedFrame == Time.frameCount) return;
 
