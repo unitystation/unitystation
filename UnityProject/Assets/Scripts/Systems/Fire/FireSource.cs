@@ -78,14 +78,14 @@ public class FireSource : MonoBehaviour, IServerSpawn
 	private void CreateHotspot()
 	{
 		// send some heat on firesource position
-		var position = objectPhysics.registerTile.WorldPosition;
+		var position = transform.localPosition;
 		if (position != TransformState.HiddenPos)
 		{
 			var registerTile = objectPhysics.registerTile;
 			if (registerTile)
 			{
 				var reactionManager = registerTile.Matrix.ReactionManager;
-				reactionManager.ExposeHotspotWorldPosition(position.To2Int(), hotspotTemperature, changeGasMixTemp);
+				reactionManager.ExposeHotspot(position.RoundToInt(), hotspotTemperature, changeGasMixTemp);
 			}
 		}
 	}

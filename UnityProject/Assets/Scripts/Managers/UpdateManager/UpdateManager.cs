@@ -28,9 +28,11 @@ public class UpdateManager : MonoBehaviour
 	private List<Action> updateActions = new List<Action>();
 	private List<Action> fixedUpdateActions = new List<Action>();
 	private List<Action> lateUpdateActions = new List<Action>();
-	private List<TimedUpdate> periodicUpdateActions = new List<TimedUpdate>();
+
 	private List<Action> postCameraUpdateActions = new List<Action>();
 
+	private List<TimedUpdate> periodicUpdateActions = new List<TimedUpdate>();
+	private List<TimedUpdate> soundUpdates = new List<TimedUpdate>();
 
 	private Queue<Tuple<CallbackType, Action>> threadSafeAddQueue = new Queue<Tuple<CallbackType, Action>>();
 	private Queue<Tuple<Action, float>> threadSafeAddPeriodicQueue = new Queue<Tuple<Action, float>>();
@@ -85,6 +87,7 @@ public class UpdateManager : MonoBehaviour
 		Debug.Log("removed " + CleanupUtil.RidListOfSoonToBeDeadElements(periodicUpdateActions, u => u.Action.Target as MonoBehaviour) + " messed up events in UpdateManager.periodicUpdateActions");
 		Debug.Log("removed " + (CleanupUtil.RidListOfSoonToBeDeadElements(pooledTimedUpdates, u => u?.Action?.Target as MonoBehaviour) + CleanupUtil.RidListOfDeadElements(pooledTimedUpdates, u => (MonoBehaviour)u?.Action?.Target)) + " messed up events in UpdateManager.pooledTimedUpdates");
 		Debug.Log("removed " + CleanupUtil.RidListOfSoonToBeDeadElements(postCameraUpdateActions, u => u.Target as MonoBehaviour) + " messed up events in UpdateManager.postCameraUpdateActions");
+		Debug.Log("removed " + (CleanupUtil.RidListOfSoonToBeDeadElements(soundUpdates, u => u?.Action?.Target as MonoBehaviour) + CleanupUtil.RidListOfDeadElements(soundUpdates, u => (MonoBehaviour)u?.Action?.Target)) + " messed up events in UpdateManager.soundUpdates");
 
 
 	}
@@ -117,18 +120,32 @@ public class UpdateManager : MonoBehaviour
 		instance.threadSafeAddQueue.Enqueue(new Tuple<CallbackType, Action>(type, action));
 	}
 
-	public static void Add(Action action, float timeInterval, bool offsetUpdate = true)
+	public static void Add(Action action, float timeInterval, bool offsetUpdate = true, CallbackType CallbackType = CallbackType.PERIODIC_UPDATE)
 	{
-		if (Instance.periodicUpdateActions.Any(x => x.Action == action)) return;
-		TimedUpdate timedUpdate = Instance.GetTimedUpdates();
-		timedUpdate.SetUp(action, timeInterval);
-		if (offsetUpdate)
+		if (CallbackType == CallbackType.PERIODIC_UPDATE)
 		{
-			timedUpdate.TimeTitleNext += NumberOfUpdatesAdded * 0.01f;
+			if (Instance.periodicUpdateActions.Any(x => x.Action == action)) return;
+			TimedUpdate timedUpdate = Instance.GetTimedUpdates();
+			timedUpdate.SetUp(action, timeInterval);
+			if (offsetUpdate)
+			{
+				timedUpdate.TimeTitleNext += NumberOfUpdatesAdded * 0.01f;
+			}
+
+			Instance.periodicUpdateActions.Add(timedUpdate);
 		}
+		else
+		{
+			if (Instance.soundUpdates.Any(x => x.Action == action)) return;
+			TimedUpdate timedUpdate = Instance.GetTimedUpdates();
+			timedUpdate.SetUp(action, timeInterval);
+			if (offsetUpdate)
+			{
+				timedUpdate.TimeTitleNext += NumberOfUpdatesAdded * 0.01f;
+			}
 
-		Instance.periodicUpdateActions.Add(timedUpdate);
-
+			Instance.soundUpdates.Add(timedUpdate);
+		}
 		NumberOfUpdatesAdded++;
 		if (NumberOfUpdatesAdded > 500)
 		{
@@ -197,11 +214,32 @@ public class UpdateManager : MonoBehaviour
 			return;
 		}
 
+		if (type == CallbackType.SOUND_UPDATE)
+		{
+			TimedUpdate RemovingAction = null;
+			foreach (var periodicUpdateAction in Instance.soundUpdates)
+			{
+				if (periodicUpdateAction.Action == action)
+				{
+					RemovingAction = periodicUpdateAction;
+				}
+			}
+			if (RemovingAction != null)
+			{
+				RemovingAction.Pool();
+				Instance.soundUpdates.Remove(RemovingAction);
+
+			}
+			return;
+		}
+
 		if (type == CallbackType.POST_CAMERA_UPDATE)
 		{
 			Instance.postCameraUpdateActions.Remove(action);
 			return;
 		}
+
+
 	}
 
 	public static void Remove(ManagedNetworkBehaviour networkBehaviour)
@@ -216,48 +254,6 @@ public class UpdateManager : MonoBehaviour
 		Remove(CallbackType.UPDATE, managedBehaviour.UpdateMe);
 		Remove(CallbackType.FIXED_UPDATE, managedBehaviour.FixedUpdateMe);
 		Remove(CallbackType.LATE_UPDATE, managedBehaviour.LateUpdateMe);
-	}
-
-	private void ProcessCallbacks(CallbackCollection collection)
-	{
-		List<NamedAction> callbackList = collection.ActionList;
-
-		// Iterate backwards so we can remove at O(1) while still iterating the rest.
-		int startCount = callbackList.Count;
-		int count = startCount;
-		for (int i = count - 1; i >= 0; --i)
-		{
-			NamedAction namedAction = callbackList[i];
-			Action callback = namedAction.Action;
-
-			if (namedAction.WaitingForRemove)
-			{
-				// When removing from a list, everything else will shift to fill in the gaps.
-				// To avoid this, we swap this item to the back of the list.
-				// At the end of iteration, we remove the items marked for removal from the back (can be multiple) so no other memory has to shift.
-				NamedAction last = callbackList[count - 1];
-				callbackList[count - 1] = namedAction;
-				callbackList[i] = last;
-				count--;
-				continue;
-			}
-
-			try
-			{
-				callback?.Invoke();
-			}
-			catch (Exception e)
-			{
-				// Catch the exception so it does not break flow of all callbacks
-				// But still log it to Unity console so we know something happened
-				Debug.LogException(e);
-
-				// Get rid of it.
-				RemoveCallbackInternal(collection, callback);
-			}
-		}
-
-		callbackList.RemoveRange(count, startCount - count);
 	}
 
 	private void AddCallbackInternal(CallbackType type, Action action, int priority = 0)
@@ -384,15 +380,46 @@ public class UpdateManager : MonoBehaviour
 	private void ProcessDelayUpdate()
 	{
 		MidInvokeCalls = true;
+		int n = 0;
 		for (int i = 0; i < periodicUpdateActions.Count; i++)
 		{
 			var periodicCall = periodicUpdateActions[i];
 			periodicCall.TimeTitleNext -= CashedDeltaTime;
 			if (periodicCall.TimeTitleNext <= 0)
 			{
+				n++;
 				LastInvokedAction = periodicCall.Action;
-				periodicCall.TimeTitleNext = periodicCall.TimeDelayPreUpdate + periodicCall.TimeTitleNext;
-				periodicCall.Action();
+				periodicCall.TimeTitleNext = periodicCall.TimeDelayPreUpdate + periodicCall.TimeTitleNext + (0.0001f *n);
+				try
+				{
+					periodicCall.Action();
+				}
+				catch (Exception e)
+				{
+					Loggy.LogError(e.ToString());
+				}
+			}
+		}
+		MidInvokeCalls = false;
+		MidInvokeCalls = true;
+		n = 0;
+		for (int i = 0; i < soundUpdates.Count; i++)
+		{
+			var periodicCall = soundUpdates[i];
+			periodicCall.TimeTitleNext -= CashedDeltaTime;
+			if (periodicCall.TimeTitleNext <= 0)
+			{
+				n++;
+				LastInvokedAction = periodicCall.Action;
+				periodicCall.TimeTitleNext = periodicCall.TimeDelayPreUpdate + periodicCall.TimeTitleNext+ (0.0001f *n);
+				try
+				{
+					periodicCall.Action();
+				}
+				catch (Exception e)
+				{
+					Loggy.LogError(e.ToString());
+				}
 			}
 		}
 		MidInvokeCalls = false;
@@ -496,6 +523,7 @@ public class UpdateManager : MonoBehaviour
 		DebugLog(updateActions);
 		DebugLog(fixedUpdateActions);
 		DebugLog(lateUpdateActions);
+		DebugLog(postCameraUpdateActions);
 
 		void DebugLog(List<Action> type)
 		{
@@ -539,6 +567,19 @@ public class UpdateManager : MonoBehaviour
 			}
 		}
 
+		foreach (var update in soundUpdates)
+		{
+			if (periodicUpdate.ContainsKey($"S {update.Action.Method.DeclaringType?.Name} {update.Action.Method.Name}") == false)
+			{
+				periodicUpdate.Add($"S  {update.Action.Method.DeclaringType?.Name} {update.Action.Method.Name}", 1);
+			}
+			else
+			{
+				periodicUpdate[$"S {update.Action.Method.DeclaringType?.Name} {update.Action.Method.Name}"]++;
+			}
+		}
+
+
 		var stringBuilder = new StringBuilder();
 
 		stringBuilder.AppendLine(nameof(periodicUpdateActions));
@@ -558,7 +599,8 @@ public enum CallbackType : byte
 	FIXED_UPDATE,
 	LATE_UPDATE,
 	PERIODIC_UPDATE,
-	POST_CAMERA_UPDATE
+	POST_CAMERA_UPDATE,
+	SOUND_UPDATE
 }
 
 /// <summary>

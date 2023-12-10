@@ -164,6 +164,7 @@ public class ChatRelay : NetworkBehaviour
 				foreach (Collider2D coll in npcs)
 				{
 					var npcPosition = coll.gameObject.AssumedWorldPosServer();
+					if ((npcPosition - chatEvent.position).magnitude > 16) continue;
 					if (MatrixManager.Linecast(chatEvent.position, LayerTypeSelection.Walls,
 						layerMask, npcPosition).ItHit == false)
 					{

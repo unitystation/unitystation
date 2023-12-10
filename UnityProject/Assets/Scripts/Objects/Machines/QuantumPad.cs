@@ -99,7 +99,7 @@ namespace Objects.Science
 				LavaLandManager.Instance.LavaLandBase2Connector = this;
 			}
 
-			spriteHandler.SetCatalogueIndexSprite(0);
+			spriteHandler.OrNull()?.SetCatalogueIndexSprite(0);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)

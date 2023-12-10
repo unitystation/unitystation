@@ -44,6 +44,22 @@ namespace Systems.MobAIs
 		{
 			if (RegisterTile.Matrix.PresentPlayers.Count == 0) return;
 
+			if (RegisterTile.Matrix.IsMainStation == false)
+			{
+				var Position = this.transform.localPosition;
+				bool PlayerNearby = false;
+				foreach (var Player in RegisterTile.Matrix.PresentPlayers)
+				{
+					if ((Player.transform.localPosition - Position).magnitude < 20f)
+					{
+						PlayerNearby = true;
+						break;
+					}
+				}
+
+				if (PlayerNearby == false) return;
+			}
+
 			foreach (var _MobObjective in MobObjectives)
 			{
 				_MobObjective.ContemplatePriority();

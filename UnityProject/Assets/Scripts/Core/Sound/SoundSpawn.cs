@@ -71,7 +71,7 @@ public class SoundSpawn: MonoBehaviour
 
 	private void OnEnable()
 	{
-		UpdateManager.Add(UpdateMe, 0.2f);
+		UpdateManager.Add(UpdateMe, 0.2f, CallbackType:CallbackType.SOUND_UPDATE);
 	}
 
 	private void OnDisable()
@@ -81,7 +81,7 @@ public class SoundSpawn: MonoBehaviour
 		{
 			SoundManager.Instance.SoundSpawns.Remove(Token);
 		}
-		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+		UpdateManager.Remove(CallbackType.SOUND_UPDATE, UpdateMe);
 	}
 
 	void UpdateMe()

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Logs;
 using Mirror;
 using UnityEngine;
@@ -18,6 +19,10 @@ namespace Core.Lighting
 		private void Awake()
 		{
 			animations.AddRange(animationsHolder.GetComponents<ILightAnimation>());
+		}
+
+		public void Start()
+		{
 			if (activeAnimationID != -1) PlayAnim(activeAnimationID);
 		}
 

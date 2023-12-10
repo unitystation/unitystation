@@ -246,6 +246,10 @@ namespace Objects.Atmospherics
 
 		private IEnumerator AnimateSprite(Sprite desiredFinalSprite)
 		{
+			if (spritehandler == null)
+			{
+				yield break;
+			}
 			Sprite currentSprite = (Sprite)spritehandler.CataloguePage;
 
 			if (desiredFinalSprite == currentSprite) yield break;
