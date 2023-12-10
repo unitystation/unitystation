@@ -289,8 +289,11 @@ namespace Objects.Atmospherics
 				sprite = Sprite.Welded;
 			}
 
-			if ((int)sprite == spritehandler.CataloguePage) return;
-			spritehandler.SetCatalogueIndexSprite((int)sprite);
+			if (spritehandler != null)
+			{
+				if ((int)sprite == spritehandler.CataloguePage) return;
+				spritehandler.SetCatalogueIndexSprite((int)sprite);
+			}
 		}
 
 		#region IAPCPowerable

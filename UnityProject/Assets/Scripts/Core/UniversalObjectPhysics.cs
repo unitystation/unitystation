@@ -633,6 +633,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		isVisible = newVisibility;
 		OnVisibilityChange?.Invoke();
+
 		if (isVisible)
 		{
 			var sprites = GetComponentsInChildren<SpriteRenderer>();
@@ -1584,6 +1585,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			return;
 		}
 
+
 		if (IsMoving) return;
 
 		isFlyingSliding = true;
@@ -1660,6 +1662,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		// {
 		// NewtonianMovement *= 0;
 		// }
+
+		if (newPosition.z == -100)
+		{
+			DisappearFromWorld();
+		}
 
 		var intPosition = position.RoundToInt();
 		var intNewPosition = newPosition.RoundToInt();

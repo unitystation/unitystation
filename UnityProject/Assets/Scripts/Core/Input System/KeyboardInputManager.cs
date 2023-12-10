@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Chat;
 using UnityEngine;
 using UI.Chat_UI;
 using static KeybindManager;
@@ -258,5 +259,6 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.PocketTwo, 		() => { PlayerManager.LocalPlayerScript.DynamicItemStorage.TryItemInteract(NamedSlot.storage02);}},
 		{ KeyAction.PocketThree, 	() => { PlayerManager.LocalPlayerScript.DynamicItemStorage.TryItemInteract(NamedSlot.suitStorage); }},
 		{ KeyAction.HideUi,         () => { UIManager.Instance.ToggleUiVisibility(); }},
+		{ KeyAction.EmoteWindowUI,         () => { EmoteActionManager.Instance.CheckForInputForEmoteWindow(); }},
 	};
 }

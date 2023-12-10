@@ -104,6 +104,7 @@ namespace Systems.Scenes
 
 			foreach (var itemSpot in itemSpots)
 			{
+				if (itemSpot == null) continue;
 				if(itemSpot.TryGetComponent<RandomItemSpot>(out var spot) == false) continue;
 
 				var tile = spot.GetComponent<RegisterTile>();
