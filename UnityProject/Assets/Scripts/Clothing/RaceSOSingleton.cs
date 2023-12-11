@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using ScriptableObjects;
 
@@ -25,11 +26,6 @@ public class RaceSOSingleton : SingletonScriptableObject<RaceSOSingleton>
 
 	public static List<PlayerHealthData> GetPlayerRaces()
 	{
-		var list = new List<PlayerHealthData>();
-		foreach (var race in Instance.Races)
-		{
-			if(race.Base.CanBePlayerChosen) list.Add(race);
-		}
-		return list;
+		return Instance.Races.Where(specie => specie.Base.CanBePlayerChosen).ToList();
 	}
 }

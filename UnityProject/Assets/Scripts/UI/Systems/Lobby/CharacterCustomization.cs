@@ -1007,7 +1007,7 @@ namespace UI.CharacterCreator
 			{
 				return proposedName.Substring(0, CharacterSheet.MAX_NAME_LENGTH);
 			}
-			return proposedName.ToUpperFirstLetter();
+			return proposedName.Capitalize();
 		}
 
 		#endregion
