@@ -24,7 +24,7 @@ public class RaceSOSingleton : SingletonScriptableObject<RaceSOSingleton>
 		return false;
 	}
 
-	public static List<PlayerHealthData> GetPlayerRaces()
+	public static List<PlayerHealthData> GetPlayerSpecies()
 	{
 		return Instance.Races.Where(specie => specie.Base.CanBePlayerChosen).ToList();
 	}

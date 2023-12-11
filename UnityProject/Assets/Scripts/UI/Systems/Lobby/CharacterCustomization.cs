@@ -131,7 +131,7 @@ namespace UI.CharacterCreator
 				Loggy.LogError("UNABLE TO GRAB ALL SPECIES!! CHARACTER CREATION SCREEN IS SURELY GOING TO BE BROKEN!!!");
 				return;
 			}
-			allSpecies = RaceSOSingleton.GetPlayerRaces();
+			allSpecies = RaceSOSingleton.GetPlayerSpecies();
 		}
 
 		private void OnEnable()
