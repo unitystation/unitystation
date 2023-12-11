@@ -107,7 +107,7 @@ namespace Systems.FilthGenerator
 			}
 			else
 			{
-				Spawn.ServerPrefab(filthDecalsAndObjects.PickRandom(), chosenLocation);
+				Spawn.ServerPrefab(filthDecalsAndObjects.PickRandom(), chosenLocation.ToWorld(tileChangeManager.MetaTileMap.matrix));
 			}
 		}
 	}

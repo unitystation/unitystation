@@ -80,8 +80,8 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			if (slot.IsEmpty) continue;
 			time *= armourMultiplier;
 		}
-		Chat.AddCombatMsgToChat(performer.gameObject, $"You try to Inject The {this.name} into {healthTarget.gameObject.ExpensiveName()}",
-			$"{performer.PlayerScript.visibleName} Tries to inject a {this.name} into {healthTarget.gameObject.ExpensiveName()}");
+		Chat.AddCombatMsgToChat(performer.gameObject, $"You try to stick the {this.name} into {healthTarget.gameObject.ExpensiveName()}",
+			$"{performer.PlayerScript.visibleName} Tries to stick a {this.name} into {healthTarget.gameObject.ExpensiveName()}");
 
 		StandardProgressAction.Create(injectProgressBar,
 				() => InjectBehavior(healthTarget, performer))
