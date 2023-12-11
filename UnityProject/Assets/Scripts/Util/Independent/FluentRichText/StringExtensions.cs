@@ -38,5 +38,17 @@ namespace Util.Independent.FluentRichText
 		public static string Superscript(this string text) => new SuperscriptStrategy().ApplyStyle(text);
 		public static string VerticalOffset(this string text, string amount) => new VerticalOffsetStrategy(amount).ApplyStyle(text);
 		public static string Width(this string text, string amount) => new WidthStrategy(amount).ApplyStyle(text);
+
+		public static string ToUpperFirstLetter(this string source)
+		{
+			if (string.IsNullOrEmpty(source))
+				return string.Empty;
+			// convert to char array of the string
+			char[] letters = source.ToCharArray();
+			// upper case the first char
+			letters[0] = char.ToUpper(letters[0]);
+			// return the array made of the new char array
+			return new string(letters);
+		}
 	}
 }

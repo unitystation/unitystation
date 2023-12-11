@@ -13,6 +13,7 @@ using Systems.Character;
 using TMPro;
 using UI.Character;
 using UI.Systems.Lobby;
+using Util.Independent.FluentRichText;
 
 namespace UI.CharacterCreator
 {
@@ -130,7 +131,7 @@ namespace UI.CharacterCreator
 				Loggy.LogError("UNABLE TO GRAB ALL SPECIES!! CHARACTER CREATION SCREEN IS SURELY GOING TO BE BROKEN!!!");
 				return;
 			}
-			allSpecies = RaceSOSingleton.Instance.Races.Where(alien => alien.Base.CanBePlayerChosen).ToList();
+			allSpecies = RaceSOSingleton.GetPlayerRaces();
 		}
 
 		private void OnEnable()
@@ -511,7 +512,7 @@ namespace UI.CharacterCreator
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
-			currentCharacter = CharacterSheet.GenerateRandomCharacter();
+			currentCharacter = CharacterSheet.GenerateRandomCharacter(allSpecies);
 
 			//Refresh the player character's sheet so they can see their new changes.
 			InitiateFresh(currentCharacter.GetRaceSo());
@@ -1002,13 +1003,11 @@ namespace UI.CharacterCreator
 
 		private string TruncateName(string proposedName)
 		{
-			proposedName = textInfo.ToTitleCase(proposedName.ToLower());
 			if (proposedName.Length >= CharacterSheet.MAX_NAME_LENGTH)
 			{
 				return proposedName.Substring(0, CharacterSheet.MAX_NAME_LENGTH);
 			}
-
-			return proposedName;
+			return proposedName.ToUpperFirstLetter();
 		}
 
 		#endregion

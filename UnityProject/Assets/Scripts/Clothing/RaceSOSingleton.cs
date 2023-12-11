@@ -22,4 +22,14 @@ public class RaceSOSingleton : SingletonScriptableObject<RaceSOSingleton>
 		race = null;
 		return false;
 	}
+
+	public static List<PlayerHealthData> GetPlayerRaces()
+	{
+		var list = new List<PlayerHealthData>();
+		foreach (var race in Instance.Races)
+		{
+			if(race.Base.CanBePlayerChosen) list.Add(race);
+		}
+		return list;
+	}
 }
