@@ -67,7 +67,7 @@ namespace Player
 			if(hasAuthority == false || mind.IsGhosting == false) return;
 
 
-			if (Input.GetMouseButtonDown(0) && (UIManager.IsMouseInteractionDisabled))
+			if (Input.GetMouseButtonDown(0) && (UIManager.IsMouseInteractionDisabled == false))
 			{
 				if (hasClicked == false)
 				{
