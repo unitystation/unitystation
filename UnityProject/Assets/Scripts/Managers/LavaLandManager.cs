@@ -100,7 +100,7 @@ namespace Systems.Scenes
 
 			GenerateStructures();
 			yield return WaitFor.Seconds(1f);
-			MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<OreGenerator>().RunOreGenerator();
+			MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponentInChildren<OreGenerator>().RunOreGenerator();
 
 			SetQuantumPads();
 

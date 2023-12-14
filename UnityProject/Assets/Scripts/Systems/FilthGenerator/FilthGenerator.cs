@@ -12,13 +12,13 @@ namespace Systems.FilthGenerator
 {
 	public class FilthGenerator : ItemMatrixSystemInit
 	{
-		public override int Priority => 99;
+		public override int Priority => priority;
 
-
+		public int priority = 99;
 
 		private static readonly System.Random Random = new System.Random();
 		private Tilemap floorTilemap;
-		private TileChangeManager tileChangeManager;
+
 
 		[SerializeField] private bool generateFilthReagent = true;
 		[SerializeField, Range(0f,100f)]
@@ -46,7 +46,7 @@ namespace Systems.FilthGenerator
 		{
 			base.OnDestroy();
 			floorTilemap = null;
-			tileChangeManager = null;
+
 		}
 
 		[Button]
@@ -54,7 +54,6 @@ namespace Systems.FilthGenerator
 		{
 			if (generateFilthReagent == false && filthDecalsAndObjects.Count == 0) return;
 			floorTilemap = MetaTileMap.Layers[LayerType.Floors].GetComponent<Tilemap>();
-			tileChangeManager = GetComponentInParent<TileChangeManager>();
 
 			BoundsInt bounds = floorTilemap.cellBounds;
 			List<Vector3Int> EmptyTiled = new List<Vector3Int>();
