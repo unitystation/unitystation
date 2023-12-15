@@ -93,6 +93,7 @@ namespace Tiles
 		{
 			// Check if the floor plating is exposed.
 			if (metaTileMap.HasTile(targetCellPos, LayerType.Floors)) return 0;
+			if (metaTileMap.HasTile(targetCellPos, LayerType.Windows) && metaTileMap.HasTile(targetCellPos, LayerType.Grills)) return 0;
 
 			// Check for cables underneath the grille.
 			var eConns = matrix.GetElectricalConnections(targetCellPos);
