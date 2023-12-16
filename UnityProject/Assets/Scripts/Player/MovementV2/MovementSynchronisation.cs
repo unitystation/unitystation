@@ -1353,6 +1353,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		return false;
 	}
 
+	[Command]
 	private void CheckForBumpableInteractionsOnWalls(Vector2Int direction)
 	{
 		var metaTilemap = MatrixManager.AtPoint(gameObject.AssumedWorldPosServer(), true).MetaTileMap;
