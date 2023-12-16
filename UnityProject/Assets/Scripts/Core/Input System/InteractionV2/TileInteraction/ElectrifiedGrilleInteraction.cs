@@ -108,7 +108,6 @@ namespace Tiles
 			}
 
 			// All checks passed, electrocute the performer!
-			Debug.Log($"sending {voltage}");
 			return voltage;
 		}
 
