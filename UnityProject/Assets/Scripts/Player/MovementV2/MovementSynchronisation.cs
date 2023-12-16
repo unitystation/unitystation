@@ -1360,7 +1360,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (metaTilemap == null) return;
 		var tile = metaTilemap.GetTile((Vector3Int)(gameObject.TileLocalPosition() + direction), tileBumpables);
 		if (tile == null || tile is not BasicTile t) return;
-		if (Cooldowns.TryStartClient(playerScript, moveCooldown) == false) return;
+		if (Cooldowns.TryStartServer(playerScript, moveCooldown) == false) return;
 		foreach (var interaction in t.TileInteractions)
 		{
 			if (interaction is IBumpableObject bump)
