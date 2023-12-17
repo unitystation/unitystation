@@ -447,7 +447,6 @@ namespace UI
 				GameObject tabObject = tab.gameObject;
 
 				// putting into the right place
-				tabObject.transform.localScale = Vector3.one;
 				var rect = tabObject.GetComponent<RectTransform>();
 
 				if (isPopOut == false)
