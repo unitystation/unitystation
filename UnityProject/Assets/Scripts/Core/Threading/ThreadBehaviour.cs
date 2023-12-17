@@ -55,6 +55,11 @@ namespace Core.Threading
 		{
 			if(running && threadMode == ThreadMode.MainThread && midTick == false)
 			{
+				if (Application.isPlaying == false )
+				{
+					Thread.Sleep(1000);
+					return;
+				}
 				if (mainThreadTimer.Elapsed.Milliseconds < tickDelay)
 				{
 					return;

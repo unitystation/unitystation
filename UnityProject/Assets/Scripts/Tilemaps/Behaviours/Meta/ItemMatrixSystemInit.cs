@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TileManagement;
+using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 
 public abstract class ItemMatrixSystemInit : MonoBehaviour, IInitialiseSystem
@@ -11,21 +12,25 @@ public abstract class ItemMatrixSystemInit : MonoBehaviour, IInitialiseSystem
 
 	public virtual void Initialize() { }
 
-	[NonSerialized]
-	public MetaTileMap MetaTileMap;
-
-	public MatrixSystemManager subsystemManager;
-
+	[NonSerialized] protected MetaTileMap MetaTileMap;
+	[NonSerialized] protected MatrixSystemManager subsystemManager;
+	[NonSerialized] protected TileChangeManager tileChangeManager;
+	[NonSerialized] protected NetworkedMatrix NetworkedMatrix;
 	public void Awake()
 	{
 		MetaTileMap = GetComponentInParent<MetaTileMap>();
-
+		tileChangeManager = GetComponentInParent<TileChangeManager>();
 		subsystemManager = GetComponentInParent<MatrixSystemManager>();
+		NetworkedMatrix = GetComponentInParent<NetworkedMatrix>();
 		subsystemManager.Register(this);
 	}
 
 	public virtual void OnDestroy()
 	{
 		MetaTileMap = null;
+		tileChangeManager = null;
+		NetworkedMatrix = null;
+		subsystemManager = null;
+
 	}
 }

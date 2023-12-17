@@ -70,7 +70,6 @@ namespace Map
 			}
 			SpawnNearStation();
 			RandomRotation();
-			oreGenerator.RunOreGenerator();
 		}
 
 	}
