@@ -38,12 +38,15 @@ public class PeriodicGasSetter : MonoBehaviour
 
 	public void UpdateLoop()
 	{
-		var node =  RegisterTile.Matrix.MetaDataLayer.Get(transform.localPosition.RoundToInt());
+		var node = RegisterTile.Matrix.MetaDataLayer.Get(transform.localPosition.RoundToInt());
+		var nodeGasMix =  node.GasMix;
 
-		GasMix.GasData.CopyTo(node.GasMix.GasData);
-		node.GasMix.Temperature = GasMix.Temperature;
-		node.GasMix.Temperature = GasMix.Pressure;
-		node.GasMix.Volume = GasMix.Volume;
+		var gas = GasMix.GasData.CopyTo(nodeGasMix.GasData);
+		nodeGasMix.GasData = gas;
+		nodeGasMix.Temperature = GasMix.Temperature;
+		nodeGasMix.Temperature = GasMix.Pressure;
+		nodeGasMix.Volume = GasMix.Volume;
+		node.GasMix = nodeGasMix;
 	}
 
 
@@ -52,6 +55,7 @@ public class PeriodicGasSetter : MonoBehaviour
 		UpdateLoop();
 	}
 
+	[NaughtyAttributes.Button]
 	public void StartLoop()
 	{
 		UpdateManager.Add(UpdateLoop,UpdateNSeconds);

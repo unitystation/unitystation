@@ -22,7 +22,9 @@ namespace Objects.Other
 		private bool hasClicked = false;
 
 		private List<string> giftedPlayers = new List<string>();
-		private bool canPickUpGifts;
+
+		[SyncVar]
+		public bool canPickUpGifts;
 
 		private SpriteHandler spriteHandler;
 
