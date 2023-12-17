@@ -79,12 +79,12 @@ namespace UI.AdminTools
 
 		private void DisableAllGUI()
 		{
-			adminTools.gameObject.SetActive(false);
-			devSpawner.gameObject.SetActive(false);
-			devCloner.gameObject.SetActive(false);
-			devDestroyer.gameObject.SetActive(false);
-			devSelectTile.gameObject.SetActive(false);
-			tileChanger.Close();
+			//adminTools.gameObject.SetActive(false);
+			//devSpawner.gameObject.SetActive(false);
+			//devCloner.gameObject.SetActive(false);
+			//devDestroyer.gameObject.SetActive(false);
+			//devSelectTile.gameObject.SetActive(false);
+			//tileChanger.Close();
 		}
 	}
 }
