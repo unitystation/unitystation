@@ -35,11 +35,14 @@ public class Electrocution
 	/// <summary> Used by notification messages - tell the player(s) what shocked them. </summary>
 	public readonly string ShockSourceName;
 
-	public Electrocution(float voltage, Vector3 shockSourcePos, string shockSourceName = null)
+	public readonly bool IgnoreProtection = false;
+
+	public Electrocution(float voltage, Vector3 shockSourcePos, string shockSourceName = null, bool ignoreProtection = false)
 	{
 		Voltage = voltage;
 		ShockSourcePos = shockSourcePos;
 		ShockSourceName = shockSourceName;
+		IgnoreProtection = ignoreProtection;
 	}
 
 	/// <summary>

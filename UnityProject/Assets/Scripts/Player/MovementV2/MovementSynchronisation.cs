@@ -17,6 +17,7 @@ using Systems.Character;
 using Systems.Explosions;
 using Systems.Scenes;
 using Systems.Teleport;
+using TileManagement;
 using Tiles;
 using UI;
 using UI.Core.Action;
@@ -109,6 +110,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	private CooldownInstance moveCooldown = new CooldownInstance(0.1f);
 
 	private const float MINIMUM_MOVEMENT_SPEED = 0.6f;
+
+	private LayerType tileBumpables = LayerType.Grills | LayerType.Walls;
 
 	/// <summary>
 	/// Event which fires when movement type changes (run/walk)
@@ -1334,6 +1337,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					//if (isServer) Logger.LogError("failed is obstructed");
 
 					rotatable.SetFaceDirectionLocalVector(moveAction.GlobalMoveDirection.ToVector());
+					CheckForBumpableInteractionsOnWalls(moveAction.GlobalMoveDirection.ToVector());
 				}
 			}
 			else
@@ -1347,6 +1351,22 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		willPushObjects.Clear();
 		pushesOff = null;
 		return false;
+	}
+
+	private void CheckForBumpableInteractionsOnWalls(Vector2Int direction)
+	{
+		var metaTilemap = MatrixManager.AtPoint(gameObject.AssumedWorldPosServer(), true).MetaTileMap;
+		if (metaTilemap == null) return;
+		var tile = metaTilemap.GetTile((Vector3Int)(gameObject.TileLocalPosition() + direction), tileBumpables);
+		if (tile == null || tile is not BasicTile t) return;
+		if (Cooldowns.TryStartClient(playerScript, moveCooldown) == false) return;
+		foreach (var interaction in t.TileInteractions)
+		{
+			if (interaction is IBumpableObject bump)
+			{
+				bump.OnBump(gameObject, gameObject);
+			}
+		}
 	}
 
 	private bool DoesSlip(MoveData moveAction, out ItemAttributesV2 slippedOn)

@@ -1820,7 +1820,7 @@ namespace HealthV2
 		/// <returns>Returns an ElectrocutionSeverity for when the following logic depends on the elctrocution severity.</returns>
 		public virtual LivingShockResponse Electrocute(Electrocution electrocution)
 		{
-			float resistance = ApproximateElectricalResistance(electrocution.Voltage);
+			float resistance = ApproximateElectricalResistance(electrocution);
 			float shockPower = Electrocution.CalculateShockPower(electrocution.Voltage, resistance);
 			var severity = GetElectrocutionSeverity(shockPower);
 
@@ -1837,6 +1837,11 @@ namespace HealthV2
 				case LivingShockResponse.Lethal:
 					LethalElectrocution(electrocution, shockPower);
 					break;
+			}
+
+			if (severity is LivingShockResponse.Painful or LivingShockResponse.Lethal)
+			{
+				EmoteActionManager.DoEmote(screamEmote, playerScript.gameObject);
 			}
 
 			return severity;
@@ -1860,7 +1865,7 @@ namespace HealthV2
 		}
 
 		// Overrideable for custom electrical resistance calculations.
-		protected virtual float ApproximateElectricalResistance(float voltage)
+		protected virtual float ApproximateElectricalResistance(Electrocution electrocution)
 		{
 			// TODO: Approximate mob's electrical resistance based on mob size.
 			return 500;
