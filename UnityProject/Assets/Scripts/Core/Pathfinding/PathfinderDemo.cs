@@ -2,38 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Core.Pathfinding;
+using UnityEngine.Tilemaps;
 
 public class PathfinderDemo : MonoBehaviour
 {
-	public Grid TileGrid;
-    public Pathfinder pathFinder;
+	public Tilemap Walls;
 
-    private void Start()
+	private void Update()
     {
-	    pathFinder = new Pathfinder(TileGrid, LayerType.Walls, LayerType.Underfloor);
+	    if (Input.GetKey(KeyCode.F) || Input.GetMouseButtonDown(1))
+	    {
+		    Debug.Log("clicked, testing.");
+		    PathfindTest();
+	    }
     }
 
-    private void Update()
+    public void PathfindTest()
     {
-	    if (Input.GetKey(KeyCode.F) == false) return;
-	    Vector3 mousePos = MouseUtils.MouseToWorldPos();
-	    Vector3Int endPoint = TileGrid.WorldToCell(mousePos);
+	    Vector3Int endPoint = MouseUtils.MouseToWorldPos().CutToInt();
 	    Vector3Int startPoint = PlayerManager.LocalPlayerObject.AssumedWorldPosServer().CutToInt();
 
-	    if (pathFinder == null)
-	    {
-		    pathFinder = new Pathfinder(TileGrid, LayerType.Walls, LayerType.Underfloor);
-	    }
+	    List<Vector3Int> path = AStar.FindPath(Walls, startPoint, endPoint);
 
-	    List<Vector3Int> path = pathFinder.FindPath(startPoint, endPoint);
-
-	    if (path != null)
+	    if (path != null && path.Count != 0)
 	    {
 		    for (int i = 0; i < path.Count - 1; i++)
 		    {
 			    Debug.DrawLine(new Vector3(path[i].x, path[i].y), new Vector3(path[i + 1].x, path[i + 1].y), Color.blue,
-				    1000f);
+				    5f);
 		    }
+		    PlayerManager.LocalPlayerObject.transform.position = path[^1];
 	    }
 	    else
 	    {
