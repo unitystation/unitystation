@@ -1337,12 +1337,15 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					//if (isServer) Logger.LogError("failed is obstructed");
 
 					rotatable.SetFaceDirectionLocalVector(moveAction.GlobalMoveDirection.ToVector());
-					CheckForBumpableInteractionsOnWalls(moveAction.GlobalMoveDirection.ToVector());
+					if (CheckForBumpableInteractionsOnWalls(moveAction.GlobalMoveDirection.ToVector()))
+					{
+						slippedOn = null;
+						causesSlipClient = false;
+						willPushObjects.Clear();
+						pushesOff = null;
+						return false;
+					};
 				}
-			}
-			else
-			{
-				//if (isServer) Logger.LogError("failed is floating");
 			}
 		}
 
@@ -1353,14 +1356,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		return false;
 	}
 
-	[Command]
-	private void CheckForBumpableInteractionsOnWalls(Vector2Int direction)
+	private bool CheckForBumpableInteractionsOnWalls(Vector2Int direction)
 	{
 		var metaTilemap = MatrixManager.AtPoint(gameObject.AssumedWorldPosServer(), true).MetaTileMap;
-		if (metaTilemap == null) return;
+		if (metaTilemap == null) return false;
 		var tile = metaTilemap.GetTile((Vector3Int)(gameObject.TileLocalPosition() + direction), tileBumpables);
-		if (tile == null || tile is not BasicTile t) return;
-		if (Cooldowns.TryStartServer(playerScript, moveCooldown) == false) return;
+		if (tile == null || tile is not BasicTile t) return false;
+		if (Cooldowns.TryStartServer(playerScript, moveCooldown) == false) return false;
 		foreach (var interaction in t.TileInteractions)
 		{
 			if (interaction is IBumpableObject bump)
@@ -1368,6 +1370,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				bump.OnBump(gameObject, gameObject);
 			}
 		}
+		return true;
 	}
 
 	private bool DoesSlip(MoveData moveAction, out ItemAttributesV2 slippedOn)
