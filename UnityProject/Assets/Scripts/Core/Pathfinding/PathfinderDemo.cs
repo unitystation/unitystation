@@ -12,7 +12,6 @@ public class PathfinderDemo : MonoBehaviour
     {
 	    if (Input.GetKey(KeyCode.F) || Input.GetMouseButtonDown(1))
 	    {
-		    Debug.Log("clicked, testing.");
 		    PathfindTest();
 	    }
     }
@@ -28,10 +27,9 @@ public class PathfinderDemo : MonoBehaviour
 	    {
 		    for (int i = 0; i < path.Count - 1; i++)
 		    {
-			    Debug.DrawLine(new Vector3(path[i].x, path[i].y), new Vector3(path[i + 1].x, path[i + 1].y), Color.blue,
-				    5f);
+			    GameGizmomanager.AddNewLineStatic(null, new Vector3(path[i].x, path[i].y),
+				    null, new Vector3(path[i + 1].x, path[i + 1].y), Color.blue, 0.046f);
 		    }
-		    StopCoroutine(nameof(MovePath));
 		    StartCoroutine(MovePath(path));
 	    }
 	    else
@@ -43,11 +41,17 @@ public class PathfinderDemo : MonoBehaviour
     private IEnumerator MovePath(List<Vector3Int> path)
     {
 	    if(path == null) yield break;
-	    foreach (var dir in path)
+	    while (path.Count != 0)
 	    {
-		    var direction = dir - PlayerManager.LocalPlayerObject.AssumedWorldPosServer();
-		    PlayerManager.LocalPlayerScript.playerMove.ForceTilePush(direction.CutToInt().To2Int(), new List<UniversalObjectPhysics>(), null);
-		    yield return WaitFor.Seconds(1);
+		    yield return WaitFor.Seconds(0.25f);
+		    var dir = path[0];
+		    var direction = (dir - PlayerManager.LocalPlayerObject.AssumedWorldPosServer()).normalized;
+		    PlayerManager.LocalPlayerScript.playerMove.ForceTilePush(direction.CutToInt().To2Int().Normalize(), new List<UniversalObjectPhysics>(), null);
+		    Debug.Log($"moving in direction {direction.normalized} to {dir} from {PlayerManager.LocalPlayerObject.AssumedWorldPosServer()} remaining {path.Count}");
+		    if (PlayerManager.LocalPlayerObject.AssumedWorldPosServer() == path[0])
+		    {
+			    path.RemoveAt(0);
+		    }
 	    }
     }
 }
