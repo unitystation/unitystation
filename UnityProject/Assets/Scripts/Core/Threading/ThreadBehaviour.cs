@@ -31,6 +31,7 @@ namespace Core.Threading
 
 		public string threadName;
 
+
 		private void Awake()
 		{
 			threadName = GetType().Name;
@@ -83,10 +84,13 @@ namespace Core.Threading
 			Profiler.BeginThreadProfiling("Unitystation", threadName);
 			while (running && threadMode == ThreadMode.Threaded && midTick == false)
 			{
-				if (Application.isPlaying == false && threadMode == ThreadMode.Threaded)
+#if UNITY_EDITOR
+				if (PauseStateChangedEditor.IsPaused && threadMode == ThreadMode.Threaded)
 				{
-					Thread.Sleep(1000);
+					Thread.Sleep(5000);
 				}
+#endif
+
 
 				try
 				{
