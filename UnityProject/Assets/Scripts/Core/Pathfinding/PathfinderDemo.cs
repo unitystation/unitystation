@@ -31,11 +31,23 @@ public class PathfinderDemo : MonoBehaviour
 			    Debug.DrawLine(new Vector3(path[i].x, path[i].y), new Vector3(path[i + 1].x, path[i + 1].y), Color.blue,
 				    5f);
 		    }
-		    PlayerManager.LocalPlayerObject.transform.position = path[^1];
+		    StopCoroutine(nameof(MovePath));
+		    StartCoroutine(MovePath(path));
 	    }
 	    else
 	    {
 		    Debug.Log("no path??");
+	    }
+    }
+
+    private IEnumerator MovePath(List<Vector3Int> path)
+    {
+	    if(path == null) yield break;
+	    foreach (var dir in path)
+	    {
+		    var direction = dir - PlayerManager.LocalPlayerObject.AssumedWorldPosServer();
+		    PlayerManager.LocalPlayerScript.playerMove.ForceTilePush(direction.CutToInt().To2Int(), new List<UniversalObjectPhysics>(), null);
+		    yield return WaitFor.Seconds(1);
 	    }
     }
 }
