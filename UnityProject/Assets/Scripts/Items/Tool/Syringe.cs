@@ -116,6 +116,7 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 				$"{performer.PlayerScript.visibleName} pulls the blood from {LHB.gameObject.ExpensiveName()}");
 			if(LHB.mobSickness.sicknessAfflictions.Count > 0) SicknessesInSyringe.AddRange(LHB.mobSickness.sicknessAfflictions);
 
+
 			if (LocalContainer.ReagentMixTotal == LocalContainer.MaxCapacity)
 			{
 				LocalContainer.SyringePulling = false;
