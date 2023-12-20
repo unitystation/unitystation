@@ -43,6 +43,13 @@ public struct PlayerAction
 		return MovementSynchronisation.VectorToPlayerMoveDirection(InDirection);
 	}
 
+	public static MovementSynchronisation.PlayerMoveDirection ToPlayerMoveDirectionStatic(Vector2Int InDirection)
+	{
+		InDirection = TransformMove(InDirection);
+
+		return MovementSynchronisation.VectorToPlayerMoveDirection(InDirection);
+	}
+
 
 	public MovementSynchronisation.PlayerMoveDirection ToPlayerMoveDirection()
 	{
@@ -53,7 +60,7 @@ public struct PlayerAction
 	}
 
 
-	public Vector2Int TransformMove(Vector2Int moveDirection) {
+	public static Vector2Int TransformMove(Vector2Int moveDirection) {
 
 		// Create the move vector based on the input axis
 		Vector3 moveVector = new Vector3(moveDirection.x, 0, moveDirection.y);
@@ -70,7 +77,7 @@ public struct PlayerAction
 	}
 
 	// Rounds the vector to the nearest move step based on the move step size
-	private Vector3 RoundToMoveStep(Vector3 vector) {
+	private static Vector3 RoundToMoveStep(Vector3 vector) {
 		float moveAngle = 45f;
 		float angle = Mathf.Atan2(vector.z, vector.x) * Mathf.Rad2Deg;
 		float roundedAngle = Mathf.Round(angle / moveAngle) * moveAngle;

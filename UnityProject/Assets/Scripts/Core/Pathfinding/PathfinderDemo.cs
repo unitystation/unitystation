@@ -8,6 +8,8 @@ public class PathfinderDemo : MonoBehaviour
 {
 	public Tilemap Walls;
 
+	private List<Vector3Int> path = new List<Vector3Int>();
+
 	private void Update()
     {
 	    if (Input.GetKey(KeyCode.F) || Input.GetMouseButtonDown(1))
@@ -21,16 +23,16 @@ public class PathfinderDemo : MonoBehaviour
 	    Vector3Int endPoint = MouseUtils.MouseToWorldPos().CutToInt();
 	    Vector3Int startPoint = PlayerManager.LocalPlayerObject.AssumedWorldPosServer().CutToInt();
 
-	    List<Vector3Int> path = AStar.FindPath(Walls, startPoint, endPoint);
+	    path = AStar.FindPathClosest(Walls, startPoint, endPoint);
 
 	    if (path != null && path.Count != 0)
 	    {
 		    for (int i = 0; i < path.Count - 1; i++)
 		    {
 			    GameGizmomanager.AddNewLineStatic(null, new Vector3(path[i].x, path[i].y),
-				    null, new Vector3(path[i + 1].x, path[i + 1].y), Color.blue, 0.046f);
+				    null, new Vector3(path[i + 1].x, path[i + 1].y), Color.blue, 0.031f);
 		    }
-		    StartCoroutine(MovePath(path));
+		    StartCoroutine(MovePath());
 	    }
 	    else
 	    {
@@ -38,19 +40,28 @@ public class PathfinderDemo : MonoBehaviour
 	    }
     }
 
-    private IEnumerator MovePath(List<Vector3Int> path)
+    private IEnumerator MovePath()
     {
 	    if(path == null) yield break;
+	    var script = PlayerManager.LocalPlayerScript;
+	    var tries = 0;
 	    while (path.Count != 0)
 	    {
-		    yield return WaitFor.Seconds(0.25f);
+		    tries++;
+		    yield return WaitFor.Seconds(0.35f);
+		    if (path.Count == 0) break;
 		    var dir = path[0];
-		    var direction = (dir - PlayerManager.LocalPlayerObject.AssumedWorldPosServer()).normalized;
-		    PlayerManager.LocalPlayerScript.playerMove.ForceTilePush(direction.CutToInt().To2Int().Normalize(), new List<UniversalObjectPhysics>(), null);
-		    Debug.Log($"moving in direction {direction.normalized} to {dir} from {PlayerManager.LocalPlayerObject.AssumedWorldPosServer()} remaining {path.Count}");
-		    if (PlayerManager.LocalPlayerObject.AssumedWorldPosServer() == path[0])
+		    var direction = (dir - script.gameObject.AssumedWorldPosServer()).normalized;
+		    var move = script.playerMove.NewMoveData(direction.CutToInt().To2Int());
+		    script.playerMove.TryMove(ref move, script.gameObject, true, out var slip);
+		    Debug.Log($"moving in direction {direction.normalized}/{move.GlobalMoveDirection} to " +
+		              $"{dir} from {script.gameObject.AssumedWorldPosServer()} remaining {path.Count} " +
+		              $"with distance {Vector3.Distance(PlayerManager.LocalPlayerObject.AssumedWorldPosServer(), path[0])} - {tries}/55");
+		    if (tries >= 55 || slip) break;
+		    if (Vector3.Distance(PlayerManager.LocalPlayerObject.AssumedWorldPosServer(), path[0]) <= 1.15f)
 		    {
 			    path.RemoveAt(0);
+			    tries = 0;
 		    }
 	    }
     }

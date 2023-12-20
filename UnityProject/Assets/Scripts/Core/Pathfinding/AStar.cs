@@ -52,7 +52,7 @@ namespace Core.Pathfinding
         /// </summary>
         public static List<Vector3Int> FindPathClosest(Tilemap map, Vector3Int start, Vector3Int goal)
         {
-            if (!map.IsCellEmpty(goal) && goal != start)
+            if (map.IsCellEmpty(goal) == false && goal != start)
             {
                 goal = ClosestCell(OpenCells(map, start, goal), start, goal);
             }

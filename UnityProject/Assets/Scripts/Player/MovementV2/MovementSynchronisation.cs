@@ -1062,9 +1062,22 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			CMDTryEscapeContainer(PlayerAction.GetMoveAction(moveActions.Direction()));
 			return;
 		}
+	}
 
-
-
+	public MoveData NewMoveData(Vector2Int direction)
+	{
+		return new MoveData()
+		{
+			LocalPosition = transform.localPosition,
+			Timestamp = NetworkTime.time,
+			MatrixID = registerTile.Matrix.Id,
+			GlobalMoveDirection = PlayerAction.ToPlayerMoveDirectionStatic(direction),
+			CausesSlip = false,
+			Bump = false,
+			LastPushID = SetTimestampID,
+			Pulling = Pulling.Component.OrNull()?.netId ?? NetId.Empty,
+			LastResetID = SetLastResetID
+		};
 	}
 
 	[Command]
