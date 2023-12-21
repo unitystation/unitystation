@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using TMPro;
-using UnityEngine.Events;
 
 namespace UI.Items
 {

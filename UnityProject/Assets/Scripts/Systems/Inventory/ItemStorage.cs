@@ -451,6 +451,12 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return definedSlots.Select(GetItemSlot);
 	}
 
+	public List<T> GetItemsWithComponent<T>() where T : Component
+	{
+		var slots =  GetItemSlots().Where(slot => slot.Item != null && slot.ItemObject.HasComponent<T>()).ToList();
+		return slots.Select(slot => slot.ItemObject.GetComponent<T>()).ToList();
+	}
+
 	/// <summary>
 	///
 	/// </summary>
