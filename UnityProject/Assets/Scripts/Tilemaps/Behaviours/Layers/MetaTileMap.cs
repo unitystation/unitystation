@@ -455,19 +455,19 @@ namespace TileManagement
 			return (damage - RemainingDamage);
 		}
 
-		public bool IsPassableAtOneTileMapV2(Vector3Int origin, Vector3Int to, CollisionType colliderType)
+		public bool IsPassableAtOneTileMapV2(Vector3Int origin, Vector3Int to, CollisionType colliderType,  List<IBumpableObject> Bumps)
 		{
 			// Simple case: orthogonal travel
 			if (origin.x == to.x || origin.y == to.y)
 			{
-				return IsPassableAtOrthogonalTileV2(origin, to, colliderType);
+				return IsPassableAtOrthogonalTileV2(origin, to, colliderType, Bumps);
 			}
 			else // diagonal travel
 			{
 				Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 
 
-				bool isPassableIfHorizontalFirst = IsPassableTileMapHorizontal(origin, to, colliderType);
+				bool isPassableIfHorizontalFirst = IsPassableTileMapHorizontal(origin, to, colliderType, Bumps);
 
 				if (isPassableIfHorizontalFirst)
 				{
@@ -475,7 +475,7 @@ namespace TileManagement
 				}
 
 
-				bool isPassableIfVerticalFirst = IsPassableTileMapVertical(origin, to, colliderType);
+				bool isPassableIfVerticalFirst = IsPassableTileMapVertical(origin, to, colliderType, Bumps);
 
 				if (isPassableIfVerticalFirst)
 				{
@@ -529,20 +529,20 @@ namespace TileManagement
 			       IsPassableAtOrthogonalObjectsV2(toY, to, context, Pushings, Bumps, origin, to, Hits);
 		}
 
-		public bool IsPassableTileMapHorizontal(Vector3Int origin, Vector3Int to, CollisionType colliderType)
+		public bool IsPassableTileMapHorizontal(Vector3Int origin, Vector3Int to, CollisionType colliderType, List<IBumpableObject> Bumps)
 		{
 			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
-			bool isPassableIfHorizontalFirst = IsPassableAtOrthogonalTileV2(origin, toX, colliderType) &&
-			                                   IsPassableAtOrthogonalTileV2(toX, to, colliderType);
+			bool isPassableIfHorizontalFirst = IsPassableAtOrthogonalTileV2(origin, toX, colliderType, Bumps) &&
+			                                   IsPassableAtOrthogonalTileV2(toX, to, colliderType, Bumps);
 
 			return isPassableIfHorizontalFirst;
 		}
 
-		public bool IsPassableTileMapVertical(Vector3Int origin, Vector3Int to, CollisionType colliderType)
+		public bool IsPassableTileMapVertical(Vector3Int origin, Vector3Int to, CollisionType colliderType, List<IBumpableObject> Bumps)
 		{
 			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
-			return IsPassableAtOrthogonalTileV2(origin, toY, colliderType) &&
-			       IsPassableAtOrthogonalTileV2(toY, to, colliderType);
+			return IsPassableAtOrthogonalTileV2(origin, toY, colliderType, Bumps) &&
+			       IsPassableAtOrthogonalTileV2(toY, to, colliderType, Bumps);
 		}
 
 
@@ -592,7 +592,7 @@ namespace TileManagement
 		}
 
 
-		private bool IsPassableAtOrthogonalTileV2(Vector3Int origin, Vector3Int to, CollisionType colliderType)
+		private bool IsPassableAtOrthogonalTileV2(Vector3Int origin, Vector3Int to, CollisionType colliderType, List<IBumpableObject> Bumps)
 		{
 			TileLocation tileLocation = null;
 			for (var i = 0; i < SolidLayersValues.Length; i++)
@@ -606,6 +606,16 @@ namespace TileManagement
 
 				if (tile.IsPassable(colliderType, origin, this) == false)
 				{
+					foreach (var interaction in tile.TileInteractions)
+					{
+						if (interaction is IBumpableObject bump)
+						{
+							if (Bumps.Contains(bump) == false)
+							{
+								Bumps.Add(bump);
+							}
+						}
+					}
 					return false;
 				}
 			}

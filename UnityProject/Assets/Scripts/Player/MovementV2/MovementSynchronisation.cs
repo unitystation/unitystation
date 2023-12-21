@@ -1337,12 +1337,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					//if (isServer) Logger.LogError("failed is obstructed");
 
 					rotatable.SetFaceDirectionLocalVector(moveAction.GlobalMoveDirection.ToVector());
-					CheckForBumpableInteractionsOnWalls(moveAction.GlobalMoveDirection.ToVector());
 				}
-			}
-			else
-			{
-				//if (isServer) Logger.LogError("failed is floating");
 			}
 		}
 
@@ -1351,22 +1346,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		willPushObjects.Clear();
 		pushesOff = null;
 		return false;
-	}
-
-	private void CheckForBumpableInteractionsOnWalls(Vector2Int direction)
-	{
-		var metaTilemap = MatrixManager.AtPoint(gameObject.AssumedWorldPosServer(), true).MetaTileMap;
-		if (metaTilemap == null) return;
-		var tile = metaTilemap.GetTile((Vector3Int)(gameObject.TileLocalPosition() + direction), tileBumpables);
-		if (tile == null || tile is not BasicTile t) return;
-		if (Cooldowns.TryStartClient(playerScript, moveCooldown) == false) return;
-		foreach (var interaction in t.TileInteractions)
-		{
-			if (interaction is IBumpableObject bump)
-			{
-				bump.OnBump(gameObject, gameObject);
-			}
-		}
 	}
 
 	private bool DoesSlip(MoveData moveAction, out ItemAttributesV2 slippedOn)
