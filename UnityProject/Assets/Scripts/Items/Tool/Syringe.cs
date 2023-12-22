@@ -101,6 +101,10 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			if(SicknessesInSyringe.Count > 0) LHB.AddSickness(SicknessesInSyringe.PickRandom().Sickness);
 			if (ChangesSprite) SpriteHandler.SetCatalogueIndexSprite(SpiteEmptyIndex);
 
+			if (LocalContainer.ReagentMixTotal == 0)
+			{
+				LocalContainer.SyringePulling = true;
+			}
 		}
 		else
 		{
@@ -111,6 +115,12 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			Chat.AddCombatMsgToChat(performer.gameObject, $"You pull the blood from {LHB.gameObject.ExpensiveName()}",
 				$"{performer.PlayerScript.visibleName} pulls the blood from {LHB.gameObject.ExpensiveName()}");
 			if(LHB.mobSickness.sicknessAfflictions.Count > 0) SicknessesInSyringe.AddRange(LHB.mobSickness.sicknessAfflictions);
+
+
+			if (LocalContainer.ReagentMixTotal == LocalContainer.MaxCapacity)
+			{
+				LocalContainer.SyringePulling = false;
+			}
 		}
 	}
 }

@@ -31,6 +31,7 @@ namespace Core.Threading
 
 		public string threadName;
 
+
 		private void Awake()
 		{
 			threadName = GetType().Name;
@@ -55,11 +56,6 @@ namespace Core.Threading
 		{
 			if(running && threadMode == ThreadMode.MainThread && midTick == false)
 			{
-				if (Application.isPlaying == false )
-				{
-					Thread.Sleep(1000);
-					return;
-				}
 				if (mainThreadTimer.Elapsed.Milliseconds < tickDelay)
 				{
 					return;
@@ -72,7 +68,7 @@ namespace Core.Threading
 				catch (Exception e)
 				{
 					Loggy.LogError(e.ToString(), Category.Threading);
-					throw;
+					midTick = false;
 				}
 
 				ticker++;
@@ -88,6 +84,14 @@ namespace Core.Threading
 			Profiler.BeginThreadProfiling("Unitystation", threadName);
 			while (running && threadMode == ThreadMode.Threaded && midTick == false)
 			{
+#if UNITY_EDITOR
+				if (PauseStateChangedEditor.IsPaused && threadMode == ThreadMode.Threaded)
+				{
+					Thread.Sleep(5000);
+				}
+#endif
+
+
 				try
 				{
 					RunTick();
@@ -95,6 +99,11 @@ namespace Core.Threading
 				catch (Exception e)
 				{
 					ThreadLoggy.AddLog(e.ToString(), Category.Threading);
+					midTick = false;
+					if (threadMode == ThreadMode.Threaded)
+					{
+						Thread.Sleep(10000); //Resume after a 10s
+					}
 				}
 
 				Thread.Sleep(tickDelay);

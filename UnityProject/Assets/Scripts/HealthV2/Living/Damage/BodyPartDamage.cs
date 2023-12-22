@@ -388,19 +388,6 @@ namespace HealthV2
 								double traumaDamageChance = 100, TraumaticDamageTypes tramuticDamageType = TraumaticDamageTypes.NONE, bool invokeOnDamageEvent = true)
 		{
 			if (damage == 0) return;
-			LastDamageData = new BodyPartDamageData()
-			{
-				DamageAmount = damage,
-				DamagedBy = damagedBy,
-				AttackType = attackType,
-				DamageType = damageType,
-				OrganDamageSplit = organDamageSplit,
-				DamageSubOrgans = DamageSubOrgans,
-				ArmorPenetration = armorPenetration,
-				TramuticDamageType = tramuticDamageType,
-				TraumaDamageChance = traumaDamageChance,
-				InvokeOnDamageEvent = invokeOnDamageEvent
-			};
 			float damageToLimb = Armor.GetTotalDamage(
 				SelfArmor.GetDamage(damage, attackType, armorPenetration),
 				attackType,
@@ -411,6 +398,20 @@ namespace HealthV2
 			{
 				damageToLimb = damageWeaknesses.CalculateAppliedDamage(damageToLimb, damageType);
 			}
+
+			LastDamageData = new BodyPartDamageData()
+			{
+				DamageAmount = damageToLimb,
+				DamagedBy = damagedBy,
+				AttackType = attackType,
+				DamageType = damageType,
+				OrganDamageSplit = organDamageSplit,
+				DamageSubOrgans = DamageSubOrgans,
+				ArmorPenetration = armorPenetration,
+				TramuticDamageType = tramuticDamageType,
+				TraumaDamageChance = traumaDamageChance,
+				InvokeOnDamageEvent = invokeOnDamageEvent
+			};
 
 			AffectDamage(damageToLimb, (int) damageType);
 			if (invokeOnDamageEvent) OnDamageTaken?.Invoke(LastDamageData);

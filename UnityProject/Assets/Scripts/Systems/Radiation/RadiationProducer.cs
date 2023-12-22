@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Core.Sprite_Handler;
 using Light2D;
 using Logs;
 using Mirror;
@@ -11,12 +12,8 @@ namespace Systems.Radiation
 	{
 		public float OutPuttingRadiation = 0;
 		public Color color = new Color(93f / 255f, 202 / 255f, 49 / 255f, 0);
-		private GameObject mLightRendererObject;
-		private UniversalObjectPhysics objectBehaviour;
-		private RegisterObject registerObject;
 		[NonSerialized] public int ObjectID = 0;
-		private LightSprite lightSprite;
-		public Sprite DotSprite;
+		public LightSpriteHandler lightSprite;
 
 
 		[SyncVar(hook = nameof(SynchStrength))]
@@ -37,15 +34,10 @@ namespace Systems.Radiation
 			//yeah dam Unity initial Conditions  is not updating
 			color = new Color(93f / 255f, 202 / 255f, 49 / 255f, 0);
 
-			objectBehaviour = this.GetComponent<UniversalObjectPhysics>();
 			ObjectID = this.GetInstanceID();
 
-			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, color, 7);
-			mLightRendererObject.SetActive(true);
 
-			lightSprite = mLightRendererObject.GetComponent<LightSprite>();
-			lightSprite.Sprite = DotSprite;
-			registerObject = this.GetComponent<RegisterObject>();
+			lightSprite.SetColor(color);
 		}
 
 
@@ -90,13 +82,16 @@ namespace Systems.Radiation
 
 			OutPuttingRadiation = Invalue;
 			float LightPower = OutPuttingRadiation / 24000;
+			float LightSize = OutPuttingRadiation / 40000;
 			if (LightPower > 1)
 			{
-				mLightRendererObject.transform.localScale = Vector3.one * (7 * LightPower);
+				lightSprite.transform.localScale = Vector3.one * (7 * LightSize);
 				LightPower = 1;
 			}
 
-			lightSprite.Color.a = LightPower;
+			var Colour = lightSprite.GetColor();
+			Colour.a = LightPower;
+			lightSprite.SetColor(Colour);
 		}
 
 		private void RequestPulse()
