@@ -11,7 +11,7 @@ namespace Items.Others
 	public class Jetpack : MonoBehaviour, IInteractable<InventoryApply>, ICheckedInteractable<HandActivate>, IServerInventoryMove
 	{
 		[SerializeField] private float gasReleaseOnUse = 0.2f;
-		private float moveQueueBuildUp = 0.15f;
+		private float moveQueueBuildUp = 0.1f;
 		private bool isOn;
 		private bool compatibleSlot = false;
 		private OrientationEnum lastRotation = OrientationEnum.Default;
@@ -19,6 +19,8 @@ namespace Items.Others
 		private PlayerScript player;
 
 		private const string PARTICLE_ID = "JetpackTrail";
+		private const float MINIMUM_FLIGHT_BUILDUP_SPEED = 0.1f;
+		private const float MAX_FLIGHT_BUILDUP_SPEED = 2f;
 
 		public readonly HashSet<NamedSlot> CompatibleSlots = new HashSet<NamedSlot>() {
 			NamedSlot.leftHand,
@@ -67,11 +69,12 @@ namespace Items.Others
 			{
 				PushPlayerInFacedDirection(player, gasContainer, gasReleaseOnUse, moveQueueBuildUp);
 				moveQueueBuildUp += 0.1f;
-				moveQueueBuildUp = Mathf.Clamp(moveQueueBuildUp, 0.1f, 2f);
+				moveQueueBuildUp = Mathf.Clamp(moveQueueBuildUp, MINIMUM_FLIGHT_BUILDUP_SPEED, MAX_FLIGHT_BUILDUP_SPEED);
 			}
 			else
 			{
-				moveQueueBuildUp = 0.25f;
+				moveQueueBuildUp -= 0.25f;
+				moveQueueBuildUp = Mathf.Clamp(moveQueueBuildUp, MINIMUM_FLIGHT_BUILDUP_SPEED, MAX_FLIGHT_BUILDUP_SPEED);
 			}
 		}
 
@@ -115,6 +118,7 @@ namespace Items.Others
 		private void OffState()
 		{
 			isOn = false;
+			moveQueueBuildUp = 0.1f;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PushUpdate);
 			if (player == null) return;
 			player.PlayerDirectional.OnRotationChange.RemoveListener(OnPlayerRotationChange);
@@ -125,7 +129,7 @@ namespace Items.Others
 		private void OnPlayerRotationChange(OrientationEnum rot)
 		{
 			if (isOn == false || lastRotation == rot) return;
-			PushPlayerInFacedDirection(player, gasContainer, gasReleaseOnUse, 1.5f * moveQueueBuildUp);
+			PushPlayerInFacedDirection(player, gasContainer, gasReleaseOnUse, 1.5f * (moveQueueBuildUp * 2.5f));
 		}
 
 		public static void PushPlayerInFacedDirection(PlayerScript playerScript, GasContainer gasContainer, float gasRelease = 5, float speed = 1f)
