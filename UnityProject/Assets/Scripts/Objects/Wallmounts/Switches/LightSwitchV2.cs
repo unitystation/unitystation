@@ -163,7 +163,7 @@ namespace Objects.Lighting
 		private MultitoolConnectionType conType = MultitoolConnectionType.LightSwitch;
 		public MultitoolConnectionType ConType => conType;
 
-		public bool MultiMaster => true;
+		public bool MultiMaster => true; //TODO
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion

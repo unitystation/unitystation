@@ -35,9 +35,6 @@ namespace Shared.Systems.ObjectConnection
 	/// </summary>
 	public interface IMultitoolMasterable : IMultitoolLinkable
 	{
-		/// <summary>Whether this connection type supports multiple masters (e.g. two light switches, one light).</summary>
-		bool MultiMaster { get; }
-
 		/// <summary>
 		/// <para>The maximum distance between a slave and its master allowed for a connection.</para>
 		/// <remarks>We limit the distance for gameplay reasons and to ensure reasonable distribution of master controllers.</remarks>
@@ -76,8 +73,11 @@ namespace Shared.Systems.ObjectConnection
 	/// <summary>
 	/// Allows a slave device to connect to multiple master devices.
 	/// </summary>
-	public interface IMultitoolMultiMasterSlaveable : IMultitoolLinkable
+	public interface IMultitoolSlaveableMultiMaster : IMultitoolSlaveable
 	{
-		void SetMasters(List<IMultitoolMasterable> iMasters);
+		List<IMultitoolMasterable> Masters { get; }
+
+		/// <summary>Whether this connection type supports multiple masters (e.g. two light switches, one light).</summary>
+		bool MultiMaster { get; }
 	}
 }

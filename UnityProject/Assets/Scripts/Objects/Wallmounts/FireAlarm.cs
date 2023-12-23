@@ -314,7 +314,7 @@ namespace Objects.Wallmounts
 		#region Multitool Interaction
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.FireAlarm;
-		public bool MultiMaster => true;
+		public bool MultiMaster => true; //TODO
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion

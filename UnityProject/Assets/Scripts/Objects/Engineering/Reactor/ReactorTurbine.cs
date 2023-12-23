@@ -102,7 +102,6 @@ namespace Objects.Engineering
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.BoilerTurbine;
 
 		// Master connection
-		bool IMultitoolMasterable.MultiMaster => false;
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		// Slave connection

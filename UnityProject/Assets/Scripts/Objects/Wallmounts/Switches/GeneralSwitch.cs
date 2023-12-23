@@ -139,7 +139,7 @@ namespace Objects.Wallmounts
 		private MultitoolConnectionType conType = MultitoolConnectionType.GeneralSwitch;
 		public MultitoolConnectionType ConType => conType;
 
-		public bool MultiMaster => true;
+		public bool MultiMaster => true; //TODO
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion

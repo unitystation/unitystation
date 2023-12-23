@@ -235,7 +235,7 @@ namespace Objects.Wallmounts.Switches
 		#region Multitool Interaction
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.Turret;
-		public bool MultiMaster => true;
+		public bool MultiMaster => true; //TODO
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion

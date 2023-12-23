@@ -15,9 +15,17 @@ public class DebugGameGizmo : MonoBehaviour
 	public Vector3 LineEnd;
 
 
+	public string Text = "hEy ccccoollll?";
+
 	[NaughtyAttributes.Button]
 	public void AddLine()
 	{
 		GameGizmomanager.AddNewLineStatic(TrackingFrom, LineStart, TrackingTo, LineEnd, Colour, Thickness);
+	}
+
+	[NaughtyAttributes.Button]
+	public void AddText()
+	{
+		GameGizmomanager.AddNewTextStatic(TrackingFrom, LineStart,Text , Colour);
 	}
 }

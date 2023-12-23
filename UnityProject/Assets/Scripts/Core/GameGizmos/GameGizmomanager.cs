@@ -18,7 +18,7 @@ public class GameGizmomanager : SingletonManager<GameGizmomanager>
 	public List<GameGizmo> ActiveGizmos = new List<GameGizmo>();
 
 
-	public static GameGizmoLine AddNewLineStatic(GameObject TrackingFrom, Vector3 From,   GameObject TrackingTo, Vector3 To, Color color, float LineThickness)
+	public static GameGizmoLine AddNewLineStatic(GameObject TrackingFrom, Vector3 From,   GameObject TrackingTo, Vector3 To, Color color, float LineThickness =  0.03125f)
 	{
 		return Instance.AddNewLine(TrackingFrom, From,TrackingTo, To, color, LineThickness);
 	}
@@ -33,7 +33,7 @@ public class GameGizmomanager : SingletonManager<GameGizmomanager>
 		return Instance.AddNewText(Tracking, position,Text,Colour, TextSize);
 	}
 
-	public static GameGizmoSquare AddNewSquareStatic(GameObject TrackingFrom, Vector3 Position, Color Colour, float LineThickness , float BoxSize = 1)
+	public static GameGizmoSquare AddNewSquareStatic(GameObject TrackingFrom, Vector3 Position, Color Colour, float LineThickness  =  0.03125f, float BoxSize = 1)
 	{
 		return Instance.AddNewSquare(TrackingFrom, Position,Colour,LineThickness, BoxSize);
 	}
