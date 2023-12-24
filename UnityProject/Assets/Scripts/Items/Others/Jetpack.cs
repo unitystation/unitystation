@@ -107,7 +107,7 @@ namespace Items.Others
 				player = interaction.PerformerPlayerScript;
 				player.PlayerDirectional.OnRotationChange.AddListener(OnPlayerRotationChange);
 				UpdateManager.Add(PushUpdate, 0.25f);
-				player.Particles.ToggleParticle(PARTICLE_ID, true);
+				player.Particles.ServerToggleParticle(PARTICLE_ID, true);
 			}
 			else
 			{
@@ -122,7 +122,7 @@ namespace Items.Others
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PushUpdate);
 			if (player == null) return;
 			player.PlayerDirectional.OnRotationChange.RemoveListener(OnPlayerRotationChange);
-			player.Particles.ToggleParticle(PARTICLE_ID, false);
+			player.Particles.ServerToggleParticle(PARTICLE_ID, false);
 			player = null;
 		}
 
