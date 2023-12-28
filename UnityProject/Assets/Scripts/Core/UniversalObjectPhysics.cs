@@ -2295,11 +2295,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			ObjectIsBuckling.BuckledToObject = this;
 			ObjectIsBuckling.BuckleToChange(this);
-			var directionalObject = this.GetComponent<Rotatable>();
+			var directionalObject = GetComponent<Rotatable>();
 			if (directionalObject != null)
 			{
 				directionalObject.OnRotationChange.AddListener(newBuckledTo.OnBuckledObjectDirectionChange);
-				rotatable.OrNull()?.FaceDirection(directionalObject.CurrentDirection);
+			}
+			var directionalBuckledObject = ObjectIsBuckling.GetComponent<Rotatable>();
+			if (directionalBuckledObject != null)
+			{
+				directionalBuckledObject.FaceDirection(rotatable.CurrentDirection);
 			}
 		}
 	}
