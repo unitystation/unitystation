@@ -8,7 +8,7 @@ namespace Player
 	public class PlayerParticle : NetworkBehaviour
 	{
 		[SerializeField] private Transform particleHolder;
-		[SyncVar(hook = nameof(OnActiveIdListChange))] private List<string> activeIDs = new List<string>();
+		[SyncVar(hook = nameof(OnActiveIdListChange))] private SyncList<string> activeIDs = new SyncList<string>();
 		private List<PlayerParticleObject> particles = new List<PlayerParticleObject>();
 
 		private void Awake()
@@ -47,16 +47,18 @@ namespace Player
 				}
 				return;
 			}
+			netIdentity.isDirty = true;
 			Loggy.LogError($"[PlayerParticle/ToggleParticle] - no such object named {id}.");
 		}
 
-		public void OnActiveIdListChange(List<string> oldState, List<string> newState)
+		public void OnActiveIdListChange(SyncList<string> oldState, SyncList<string> newState)
 		{
 			if (particles == null || particles.Count == 0) return;
 			foreach (var particle in particles)
 			{
 				particle.Reference.SetActive(newState.Contains(particle.ID));
 			}
+			netIdentity.isDirty = true;
 		}
 	}
 
