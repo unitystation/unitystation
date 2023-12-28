@@ -2299,6 +2299,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			if (directionalObject != null)
 			{
 				directionalObject.OnRotationChange.AddListener(newBuckledTo.OnBuckledObjectDirectionChange);
+				rotatable.OrNull()?.FaceDirection(directionalObject.CurrentDirection);
 			}
 		}
 	}
