@@ -254,7 +254,7 @@ namespace Objects.Kitchen
 			}
 			else
 			{
-				contaminantModifier += 0.02f;
+				contaminantModifier += 0.002f;
 			}
 
 			Chat.AddActionMsgToChat(
