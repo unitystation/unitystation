@@ -7,8 +7,25 @@ using UnityEngine;
 /// Marks an item as a rolling pin, letting it flatten items on the players other hand based on the recipe list in CraftingManager.Roll.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class RollingPin : MonoBehaviour, ICheckedInteractable<InventoryApply>
+public class RollingPin : MonoBehaviour, ICheckedInteractable<InventoryApply>,  ICheckedInteractable<HandApply>
 {
+
+
+
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		//can the player act at all?
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+		//if the item isn't a butcher knife, no go.
+		if (!Validations.HasItemTrait(interaction, CommonTraits.Instance.RollingPin)) return false;
+
+		if (interaction.TargetObject == null) return false;
+
+		return true;
+
+	}
+
 	//check if item is being applied to offhand with rollable object on it.
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
@@ -51,4 +68,29 @@ public class RollingPin : MonoBehaviour, ICheckedInteractable<InventoryApply>
 			Chat.AddExamineMsgFromServer(interaction.Performer, "You can't roll this out.");
 		}
 	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		//is the target item cuttable?
+		ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
+		Ingredient ingredient = new Ingredient(attr.ArticleName);
+		GameObject roll = CraftingManager.Roll.FindRecipe(new List<Ingredient> { ingredient });
+
+		if (roll != null)
+		{
+			SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.Roll.FindOutputMeal(roll.name),
+				SpawnDestination.At(), 1);
+
+			if (spwn.Successful)
+			{
+				Spawn.ServerPrefab(spwn.GameObject, interaction.TargetObject.transform.position);
+			}
+			_ = Despawn.ServerSingle(interaction.TargetObject);
+		}
+		else
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer, "You can't roll this out.");
+		}
+	}
+
 }
