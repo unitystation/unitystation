@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Logs;
+using Messages.Client.DeviceLinkMessage;
 using Messages.Client.DevSpawner;
+using Mirror;
 using Shared.Managers;
 using Shared.Systems.ObjectConnection;
 using UnityEngine;
@@ -21,7 +24,7 @@ public class InGameDeviceLinker : SingletonManager<InGameDeviceLinker>
 	public DeviceLinkerCursor cursorPrefab;
 
 	// sprite under cursor for showing what will be spawned
-	private DeviceLinkerCursor cursorObject;
+	public DeviceLinkerCursor cursorObject;
 
 
 	// so we can escape while drawing - enabled while drawing, disabled when done
@@ -38,11 +41,14 @@ public class InGameDeviceLinker : SingletonManager<InGameDeviceLinker>
 			new Dictionary<MultitoolConnectionType, Dictionary<IMultitoolMasterable, List<IMultitoolSlaveable>>>();
 
 
-	public Dictionary<IMultitoolSlaveable, GameGizmoLine> LinkGizmo = new Dictionary<IMultitoolSlaveable,GameGizmoLine>();
+	public Dictionary<IMultitoolSlaveable, GameGizmoLine> LinkGizmo =
+		new Dictionary<IMultitoolSlaveable, GameGizmoLine>();
+
 	public GameGizmoSquare MasterOrigin;
 	public GameGizmoLine CursorLine;
 
 	public bool Updating = false;
+
 	private void OnEnable()
 	{
 		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
@@ -62,7 +68,6 @@ public class InGameDeviceLinker : SingletonManager<InGameDeviceLinker>
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			Updating = false;
 		}
-
 	}
 
 
@@ -97,7 +102,22 @@ public class InGameDeviceLinker : SingletonManager<InGameDeviceLinker>
 				//TODO Handle multi-master
 				if (aSlave.Master != null)
 				{
-					MastersData[aSlave.Master.ConType][aSlave.Master].Add(aSlave);
+					if (aSlave.Master is not IMultitoolMasterable)
+					{
+						Loggy.LogError(
+							$"{aSlave.Master} Doesn't inherit from IMultitoolMasterable Please fix this or relink");
+						continue;
+					}
+
+					try
+					{
+						MastersData[((IMultitoolMasterable) aSlave.Master).ConType][
+							(IMultitoolMasterable) aSlave.Master].Add(aSlave);
+					}
+					catch (Exception e)
+					{
+						Loggy.LogError(e.ToString());
+					}
 				}
 			}
 		}
@@ -113,7 +133,8 @@ public class InGameDeviceLinker : SingletonManager<InGameDeviceLinker>
 		{
 			if (Device is IMultitoolSlaveableMultiMaster MultimasterDevice) //TODO?
 			{
-				LinkGizmo[Device] = GameGizmomanager.AddNewLineStatic(Device.gameObject, Vector3.zero, ShowFor.gameObject,
+				LinkGizmo[Device] = GameGizmomanager.AddNewLineStatic(Device.gameObject, Vector3.zero,
+					ShowFor.gameObject,
 					Vector3.zero, Color.blue);
 				// foreach (var Master in MultimasterDevice.Masters)
 				// {
@@ -123,7 +144,8 @@ public class InGameDeviceLinker : SingletonManager<InGameDeviceLinker>
 			else
 			{
 				if (Device.Master == null) continue; //TODO Gizmo for not connected
-				LinkGizmo[Device] = GameGizmomanager.AddNewLineStatic(Device.gameObject, Vector3.zero, ShowFor.gameObject,
+				LinkGizmo[Device] = GameGizmomanager.AddNewLineStatic(Device.gameObject, Vector3.zero,
+					ShowFor.gameObject,
 					Vector3.zero, Color.green);
 			}
 		}
@@ -161,8 +183,9 @@ public class InGameDeviceLinker : SingletonManager<InGameDeviceLinker>
 
 		Destroy(cursorObject);
 		UIManager.IsMouseInteractionDisabled = false;
+		if (escapeKeyTarget == null) return;
 		escapeKeyTarget.enabled = false;
-		if (Camera.main.GetComponent<LightingSystem>() != null)
+		if (Camera.main.OrNull()?.GetComponent<LightingSystem>() != null)
 		{
 			Camera.main.GetComponent<LightingSystem>().enabled = cachedLightingState;
 		}
@@ -177,6 +200,7 @@ public class InGameDeviceLinker : SingletonManager<InGameDeviceLinker>
 		{
 			Gizmo.Value.Remove();
 		}
+
 		LinkGizmo.Clear();
 
 		if (MasterOrigin != null)
@@ -211,6 +235,26 @@ public class InGameDeviceLinker : SingletonManager<InGameDeviceLinker>
 		}
 	}
 
+	public void TrySelect(GameObject HitGameObject, bool Select)
+	{
+		cursorObject.SelectedMaster = HitGameObject.GetComponent<IMultitoolMasterable>();
+		if (cursorObject.SelectedMaster != null)
+		{
+			if (Select)
+			{
+				SetupGizmosFor(cursorObject.SelectedMaster);
+				CursorLine = GameGizmomanager.AddNewLineStatic(cursorObject.SelectedMaster.gameObject, Vector3.zero,
+					cursorObject.gameObject,
+					Vector3.zero, new Color(1f, 0f, 1f, 1f));
+			}
+
+			else
+			{
+				DeviceLinkMessage.Send(HitGameObject, cursorObject.SelectedMaster.ConType, null);
+			}
+		}
+	}
+
 	/// <summary>
 	/// Tries to spawn at the specified position. Lets you spawn anywhere, even impassable places. Go hog wild!
 	/// </summary>
@@ -219,89 +263,92 @@ public class InGameDeviceLinker : SingletonManager<InGameDeviceLinker>
 		Vector3Int position = cursorObject.transform.position.RoundToInt();
 		var hit = MouseUtils.GetOrderedObjectsUnderMouse()?.FirstOrDefault();
 		if (hit == null) return;
-		if (CustomNetworkManager.IsServer)
+
+		if (cursorObject.SelectedMaster != null)
 		{
-			if (cursorObject.SelectedMaster != null) //TODO multiple masters on one object "and maybe displaying the name of the class in the UI"
+			if (hit.gameObject == cursorObject.SelectedMaster.gameObject)
 			{
-				if (hit.gameObject == cursorObject.SelectedMaster.gameObject)
+				// bool Found = false;
+				bool NewMaster = false;
+				// var Masters = HitGameObject.GetComponents<IMultitoolMasterable>();
+				// foreach (var Master in Masters)
+				// {
+				// 	if (Master == cursorObject.SelectedMaster)
+				// 	{
+				// 		Found = true;
+				// 		continue;
+				// 	}
+				//
+				// 	if (Found)
+				// 	{
+				// 		NewMaster = true;
+				// 		CleanupGizmos();
+				// 		cursorObject.SelectedMaster = HitGameObject.GetComponent<IMultitoolMasterable>();
+				// 		if (cursorObject.SelectedMaster != null)
+				// 		{
+				// 			SetupGizmosFor(cursorObject.SelectedMaster);
+				// 			CursorLine = GameGizmomanager.AddNewLineStatic(cursorObject.SelectedMaster.gameObject, Vector3.zero, cursorObject.gameObject,
+				// 				Vector3.zero,new Color(1f,0f,1f,1f));
+				// 		}
+				// 	}
+				// }
+
+				if (NewMaster == false)
 				{
-					bool Found = false;
-					bool NewMaster = false;
-					var Masters = hit.GetComponents<IMultitoolMasterable>();
-					foreach (var Master in Masters)
-					{
-						if (Master == cursorObject.SelectedMaster)
-						{
-							Found = true;
-							continue;
-						}
-
-						if (Found)
-						{
-							NewMaster = true;
-							CleanupGizmos();
-							cursorObject.SelectedMaster = hit.GetComponent<IMultitoolMasterable>();
-							if (cursorObject.SelectedMaster != null)
-							{
-								SetupGizmosFor(cursorObject.SelectedMaster);
-								CursorLine = GameGizmomanager.AddNewLineStatic(cursorObject.SelectedMaster.gameObject, Vector3.zero, cursorObject.gameObject,
-									Vector3.zero,new Color(1f,0f,1f,1f));
-							}
-						}
-					}
-
-					if (NewMaster == false)
-					{
-						cursorObject.SelectedMaster = null;
-						CleanupGizmos();
-					}
-				}
-				else
-				{
-					var Slaves = hit.GetComponents<IMultitoolSlaveable>();
-					foreach (var Slave in Slaves)
-					{
-						if (Slave != null)
-						{
-							if (Slave.ConType != cursorObject.SelectedMaster.ConType) continue;
-							if (Slave.Master == cursorObject.SelectedMaster) //un select
-							{
-								MastersData[Slave.Master.ConType][Slave.Master].Remove(Slave);
-								LinkGizmo[Slave].Remove();
-								LinkGizmo.Remove(Slave);
-								Slave.SetMasterEditor(null);
-
-							}
-							else if (Slave.Master != cursorObject.SelectedMaster || Slave.Master == null)
-							{
-								Slave.SetMasterEditor(cursorObject.SelectedMaster);
-								LinkGizmo[Slave] = GameGizmomanager.AddNewLineStatic(Slave.gameObject, Vector3.zero, Slave.Master.gameObject,
-									Vector3.zero, Color.green);
-								MastersData[Slave.Master.ConType][Slave.Master].Add(Slave);
-							}
-						}
-					}
+					cursorObject.SelectedMaster = null;
+					CleanupGizmos();
 				}
 			}
 			else
 			{
-				cursorObject.SelectedMaster = hit.GetComponent<IMultitoolMasterable>();
-				if (cursorObject.SelectedMaster != null)
+				var Slaves = hit.GetComponents<IMultitoolSlaveable>();
+				foreach (var Slave in Slaves)
 				{
-					SetupGizmosFor(cursorObject.SelectedMaster);
-					CursorLine = GameGizmomanager.AddNewLineStatic(cursorObject.SelectedMaster.gameObject, Vector3.zero, cursorObject.gameObject,
-						Vector3.zero,new Color(1f,0f,1f,1f));
+					if (Slave != null)
+					{
+						if (Slave.ConType != cursorObject.SelectedMaster.ConType) continue;
+						if (Slave.Master == cursorObject.SelectedMaster) //un select
+						{
+							if (CustomNetworkManager.IsServer)
+							{
+								MastersData[((IMultitoolMasterable) cursorObject.SelectedMaster).ConType][
+									(IMultitoolMasterable) cursorObject.SelectedMaster].Remove(Slave);
+							}
+
+							LinkGizmo[Slave].Remove();
+							LinkGizmo.Remove(Slave);
+							Slave.SetMasterEditor(null);
+							DeviceLinkMessage.Send(null, cursorObject.SelectedMaster.ConType,
+								(Slave as Component)?.gameObject);
+						}
+						else if (Slave.Master != cursorObject.SelectedMaster || Slave.Master == null)
+						{
+							Slave.SetMasterEditor(cursorObject.SelectedMaster);
+							LinkGizmo[Slave] = GameGizmomanager.AddNewLineStatic(Slave.gameObject, Vector3.zero,
+								cursorObject.SelectedMaster.gameObject,
+								Vector3.zero, Color.green);
+
+							if (CustomNetworkManager.IsServer)
+							{
+								MastersData[((IMultitoolMasterable) cursorObject.SelectedMaster).ConType][
+									(IMultitoolMasterable) cursorObject.SelectedMaster].Add(Slave);
+							}
+
+							DeviceLinkMessage.Send((cursorObject.SelectedMaster as Component)?.gameObject,
+								cursorObject.SelectedMaster.ConType, (Slave as Component)?.gameObject);
+						}
+					}
 				}
 			}
-
-
-			//var player = PlayerManager.LocalPlayerObject.Player();
-			//UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord( //TODO
-			//	$"{player.Username} spawned a {prefab.name} at {position}", player.UserId);
 		}
 		else
 		{
-			//DevSpawnMessage.Send(prefab, (Vector3) position, GUI_DevSpawner.Instance.StackAmount);
+			TrySelect(hit.gameObject, CustomNetworkManager.IsServer);
 		}
+
+
+		//var player = PlayerManager.LocalPlayerObject.Player();
+		//UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord( //TODO
+		//	$"{player.Username} spawned a {prefab.name} at {position}", player.UserId);
 	}
 }

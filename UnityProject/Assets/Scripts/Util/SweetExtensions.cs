@@ -160,6 +160,25 @@ public static class SweetExtensions
 		}
 	}
 
+	public static NetworkIdentity NetworkIdentity(this uint go)
+	{
+		if (go is global::NetId.Empty or global::NetId.Invalid)
+		{
+			return null;
+		}
+
+		if (CustomNetworkManager.Spawned.TryGetValue(go, out var Returning))
+		{
+			return Returning;
+		}
+		else
+		{
+			return null;
+		}
+
+	}
+
+
 	/// Creates garbage! Use very sparsely!
 	public static Vector3 AssumedWorldPosServer(this GameObject go, bool IsInGameItem = true)
 	{

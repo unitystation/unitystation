@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using Mirror;
+using Shared.Systems.ObjectConnection;
 using UnityEngine;
+
 
 namespace Shared.Systems.ObjectConnection
 {
@@ -42,7 +45,6 @@ namespace Shared.Systems.ObjectConnection
 		int MaxDistance { get; }
 
 		bool IgnoreMaxDistanceMapper { get; }
-
 	}
 
 	/// <summary>
@@ -68,6 +70,8 @@ namespace Shared.Systems.ObjectConnection
 		void SetMasterEditor(IMultitoolMasterable master);
 
 		bool RequireLink { get; }
+
+
 	}
 
 	/// <summary>
@@ -75,6 +79,8 @@ namespace Shared.Systems.ObjectConnection
 	/// </summary>
 	public interface IMultitoolSlaveableMultiMaster : IMultitoolSlaveable
 	{
+		//TODO Networking
+
 		List<IMultitoolMasterable> Masters { get; }
 
 		/// <summary>Whether this connection type supports multiple masters (e.g. two light switches, one light).</summary>
