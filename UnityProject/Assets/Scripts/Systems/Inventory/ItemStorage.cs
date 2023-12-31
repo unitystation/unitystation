@@ -612,7 +612,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public List<ItemSlot> GetOccupiedSlots()
 	{
 		var result = new List<ItemSlot>();
-		foreach (var slot in GetIndexedSlots())
+		foreach (var slot in GetItemSlots())
 		{
 			if (slot.IsOccupied) result.Add(slot);
 		}
