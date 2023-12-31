@@ -60,6 +60,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	//Reduced friction during this time, if stickyMovement Just has normal friction vs just grabbing
 	[PlayModeOnly] public GameObject thrownBy;
+	[PlayModeOnly] public GameObject thrownProtection;
 	[PlayModeOnly] public BodyPartType aim;
 	[PlayModeOnly] public int ForcedPushedFrame = 0;
 	[PlayModeOnly] public int TryPushedFrame = 0;
@@ -1377,7 +1378,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		aim = inAim;
 		thrownBy = inThrownBy;
-
+		thrownProtection = thrownBy;
 		if (Random.Range(0, 2) == 1)
 		{
 			spinMagnitude = spinFactor * 1;
@@ -1677,6 +1678,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		var movetoMatrix = MatrixManager.AtPoint(newPosition.RoundToInt(), isServer).Matrix;
 		if (intPosition != intNewPosition)
 		{
+			bool RemoveThrowProtection = false;
 			Hits.Clear();
 			if ((position - newPosition).magnitude > 0.90f)
 			{
@@ -1742,7 +1744,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 						foreach (var push in Pushing)
 						{
 							if (push == this) continue;
-
+							if (push.gameObject == thrownProtection) continue;
 							push.NewtonianNewtonPush(NewtonianMovement, (NewtonianMovement.magnitude * GetWeight()),
 								Single.NaN, Single.NaN, aim, thrownBy, spinMagnitude);
 						}
@@ -1774,11 +1776,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 					foreach (var hit in Hits)
 					{
+
 						//Integrity
 						//LivingHealthMasterBase
 						//TODO DamageTile( goal,Matrix.Matrix.TilemapsDamage);
-
-						if (hit.gameObject == thrownBy) continue;
+						if (hit.gameObject == thrownProtection) continue;
+						RemoveThrowProtection = true;
 						if (NewtonianMovement.magnitude > IAV2.ThrowSpeed * 0.75f)
 						{
 							//Remove cast to int when moving health values to float
@@ -1794,7 +1797,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 							var randomHitZone = aim.Randomize();
 							if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase) &&
-							    isServer)
+							    isServer) //TODO Catching
 							{
 								livingHealthMasterBase.ApplyDamageToBodyPart(thrownBy, damage, AttackType.Melee,
 									DamageType.Brute,
@@ -1821,6 +1824,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 						}
 					}
 				}
+			}
+
+			if (RemoveThrowProtection)
+			{
+				thrownProtection = null;
 			}
 
 			var localPosition = newPosition.ToLocal(movetoMatrix);
@@ -1883,6 +1891,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			airTime = 0;
 			slideTime = 0;
 			OnThrowEnd.Invoke(this);
+			thrownProtection = null;
 			//maybe
 
 			if (OnThrowEndResetRotation)
