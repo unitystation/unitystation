@@ -121,7 +121,6 @@ public class InGameDeviceLinker : SingletonManager<InGameDeviceLinker>
 				}
 			}
 		}
-		//SetupGizmosFor(MultitoolConnectionType.APC);
 	}
 
 	public void SetupGizmosFor(IMultitoolMasterable ShowFor)
@@ -136,10 +135,6 @@ public class InGameDeviceLinker : SingletonManager<InGameDeviceLinker>
 				LinkGizmo[Device] = GameGizmomanager.AddNewLineStatic(Device.gameObject, Vector3.zero,
 					ShowFor.gameObject,
 					Vector3.zero, Color.blue);
-				// foreach (var Master in MultimasterDevice.Masters)
-				// {
-				//
-				// }
 			}
 			else
 			{
@@ -268,36 +263,8 @@ public class InGameDeviceLinker : SingletonManager<InGameDeviceLinker>
 		{
 			if (hit.gameObject == cursorObject.SelectedMaster.gameObject)
 			{
-				// bool Found = false;
-				bool NewMaster = false;
-				// var Masters = HitGameObject.GetComponents<IMultitoolMasterable>();
-				// foreach (var Master in Masters)
-				// {
-				// 	if (Master == cursorObject.SelectedMaster)
-				// 	{
-				// 		Found = true;
-				// 		continue;
-				// 	}
-				//
-				// 	if (Found)
-				// 	{
-				// 		NewMaster = true;
-				// 		CleanupGizmos();
-				// 		cursorObject.SelectedMaster = HitGameObject.GetComponent<IMultitoolMasterable>();
-				// 		if (cursorObject.SelectedMaster != null)
-				// 		{
-				// 			SetupGizmosFor(cursorObject.SelectedMaster);
-				// 			CursorLine = GameGizmomanager.AddNewLineStatic(cursorObject.SelectedMaster.gameObject, Vector3.zero, cursorObject.gameObject,
-				// 				Vector3.zero,new Color(1f,0f,1f,1f));
-				// 		}
-				// 	}
-				// }
-
-				if (NewMaster == false)
-				{
-					cursorObject.SelectedMaster = null;
-					CleanupGizmos();
-				}
+				cursorObject.SelectedMaster = null;
+				CleanupGizmos();
 			}
 			else
 			{
