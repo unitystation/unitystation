@@ -21,7 +21,7 @@ jobs:
         echo "Branch Name: ${{ github.event.pull_request.head.ref }}"
         base_sha=$(git rev-parse ${{ github.base_ref }})
         misplaced_variables=$(
-            git diff --name-only $base_sha ${github.sha} |
+            git diff --name-only $base_sha ${{ github.sha }} |
             grep '\.cs$' |
             xargs sh -c 'cat >&2 && cat {} | sed -ne "/^/$/q; /class/{flag=1}; /^}/{flag=0}; /([a-zA-Z][^;\{]*=[^;\{]; flag/{ print }; p' | 
             tee /dev/stderr |
