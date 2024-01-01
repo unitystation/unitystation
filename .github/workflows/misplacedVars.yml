@@ -28,7 +28,8 @@ jobs:
             grep -v '^\s*//' |
             grep -v 'get' |
             grep -v 'set' |
-            awk '{if (match($0, /^[ \t]+([a-zA-Z][^:\{\}]+):/) {var_name=$1}} /^[ \t]+([a-zA-Z][^;\{]*)=(.*);/ {if (length(var_name)>0) print var_name ": " $0}' || echo "")
+            awk '/class/ { flag = 1 } /^\}/{ flag = 0 } flag && /^[ \t]+([a-zA-Z][^:\{\}]+):/ { var_name = $1 } flag && /^[ \t]+([a-zA-Z][^;\{]*)=(.*);/ { if (length(var_name) > 0) print var_name ": " $0 }'
+            || echo "")
     
         if [ -n "$misplaced_variables" ]; then
           echo "Misplaced variables found:"
