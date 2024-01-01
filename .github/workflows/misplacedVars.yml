@@ -20,7 +20,14 @@ jobs:
       run: |
         echo "Branch Name: ${{ github.event.pull_request.head.ref }}"
         base_sha=$(git rev-parse ${{ github.base_ref }})
-        misplaced_variables=$(git diff --name-only $base_sha ${{ github.sha }} | grep '\.cs$' | xargs grep -n -P '^\s*(public|private|protected|internal|static)?\s+(\w+\s+)?\w+\s*=\s*[^{]*\{' | grep -v '^\s*//' | grep -v '^\s*}$' | grep -v -E 'get|set')
+        misplaced_variables=""
+        grepResult = $(git diff --name-only $base_sha ${{ github.sha }} | grep '\.cs$' | xargs grep -n -P '^\s*(public|private|protected|internal|static)?\s+(\w+\s+)?\w+\s*=\s*[^{]*\{' | grep -v '^\s*//' | grep -v '^\s*}$' | grep -v -E 'get|set')
+        if [ -z "$grepResult" ]; then
+          echo "No misplaced variables found. grepresult is null or unset."
+          exit 0
+        else
+          misplaced_variables=$grepResult
+        fi
 
         echo "result of grep:"
         echo "$misplaced_variables"
