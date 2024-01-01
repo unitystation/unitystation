@@ -15,7 +15,7 @@ jobs:
 
     - name: Check Variable Placement
       run: |
-        misplaced_variables=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '\.cs$' | xargs grep -n -P '^\s*(public|private|protected|internal|static)?\s+(\w+\s+)?\w+\s*=\s*' | grep -v '^\s*//' | grep -v '^\s*}$' | grep -v -E 'get|set')
+        misplaced_variables=$(git diff --name-only origin/${{ github.base_ref }}...${{ github.head_ref }} | grep '\.cs$' | xargs grep -n -P '^\s*(public|private|protected|internal|static)?\s+(\w+\s+)?\w+\s*=\s*' | grep -v '^\s*//' | grep -v '^\s*}$' | grep -v -E 'get|set')
 
         if [ -n "$misplaced_variables" ]; then
           echo "Misplaced variables found:"
