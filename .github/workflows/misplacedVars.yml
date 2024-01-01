@@ -20,8 +20,7 @@ jobs:
       run: |
         echo "Branch Name: ${{ github.event.pull_request.head.ref }}"
         base_sha=$(git rev-parse ${{ github.base_ref }})
-        misplaced_variables=$(git diff --name-only $base_sha ${{ github.sha }} | xargs grep -n -P -A1 -B1 '^\s*void\s+\w+\s*\(.*\)\s*{' | grep '\.cs$' | xargs grep -n -P '^\s*(public|private|protected|internal|static)?\s+(\w+\s+)?\w+\s*=\s*[^{]*;(\s*|(?=\s*}))' | grep -v '^\s*//' | grep -v -E 'get|set' | sed -n '/^\s*}.*{$/{N;N;p;}' || echo "")    
-        
+        misplaced_variables=$(git diff --name-only $base_sha ${{ github.sha }} | xargs grep -n -P '^\s*(public|private|protected|internal|static)?\s+(\w+\s+)?\w+\s*=\s*[^{]*;(\s*|(?=\s*}))' | grep '\.cs$' | grep -v '^\s*//' | grep -v -E 'get|set' | grep -n -P '^\s*\w+\s*=\s*[^{]*;' | grep -v 'void' || echo "")        
         echo "misplaced_variables passed"
     
         if [ -n "$misplaced_variables" ]; then
