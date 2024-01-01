@@ -20,7 +20,7 @@ public class TestScript : MonoBehaviour
     {
 
     }
-    
+
 
     // Update is called once per frame
     void Update()
@@ -37,6 +37,7 @@ public class TestScript : MonoBehaviour
 
     public void TestFunc()
     {
-
+	    var cowainter = 44f;
+	    string cowmangler = "big gay balls";
     }
 }
