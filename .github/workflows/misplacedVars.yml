@@ -20,7 +20,7 @@ jobs:
       run: |
         echo "Branch Name: ${{ github.event.pull_request.head.ref }}"
         base_sha=$(git rev-parse ${{ github.base_ref }})
-        misplaced_variables=$(git diff --name-only $base_sha ${{ github.sha }} | grep '\.cs$' | xargs grep -n -P '^\s*(public|private|protected|internal|static)?\s+(\w+\s+)?\w+\s*=\s*' | grep -v '^\s*//' | grep -v '^\s*}$' | grep -v -E 'get|set')
+        misplaced_variables=$(git diff --name-only $base_sha ${{ github.sha }} | grep '\.cs$' | xargs grep -n -P '^\s*(public|private|protected|internal|static)?\s+(\w+\s+)?\w+\s*=\s*' | grep -E '^\s*(public|private|protected|internal|static)?\s+(\w+\s+)?\w+\s*=\s*' | grep -v '^\s*(public|private|protected|internal|static)?\s+(\w+\s+)?\w+\s*=\s*[^{]*\{' | grep -v '^\s*//' | grep -v '^\s*}$' | grep -v -E 'get|set')
 
         if [ -n "$misplaced_variables" ]; then
           echo "Misplaced variables found:"
