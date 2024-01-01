@@ -29,4 +29,5 @@ jobs:
           exit 1
         else
           echo "No misplaced variables found."
+          exit 0
         fi
