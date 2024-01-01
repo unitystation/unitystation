@@ -18,21 +18,14 @@ jobs:
 
     - name: Check Variable Placement
       run: |
+        set -x
         echo "Branch Name: ${{ github.event.pull_request.head.ref }}"
         base_sha=$(git rev-parse ${{ github.base_ref }})
-        misplaced_variables=""
-        grepResult=$(git diff --name-only $base_sha ${{ github.sha }} | grep '\.cs$' | xargs grep -n -P '^\s*(public|private|protected|internal|static)?\s+(\w+\s+)?\w+\s*=\s*[^{]*\{' | grep -v '^\s*//' | grep -v '^\s*}$' | grep -v -E 'get|set')
-        if [ -z "$grepResult" ]; then
-          echo "No misplaced variables found. grepresult is null or unset."
-          exit 0
-        else
-          misplaced_variables=$grepResult
-        fi
-
-        echo "result of grep:"
-        echo "$misplaced_variables"
-
-        if [ -n "${misplaced_variables}" ] && [ -n "$misplaced_variables" ]; then
+        misplaced_variables=$(git diff --name-only $base_sha ${{ github.sha }} | grep '\.cs$' | xargs grep -n -P '^\s*(public|private|protected|internal|static)?\s+(\w+\s+)?\w+\s*=\s*[^{]*\{' | grep -v '^\s*//' | grep -v '^\s*}$' | grep -v -E 'get|set')
+    
+        echo "misplaced_variables passed"
+    
+        if [ -n "$misplaced_variables" ]; then
           echo "Misplaced variables found:"
           echo "$misplaced_variables"
           exit 1
@@ -40,3 +33,4 @@ jobs:
           echo "No misplaced variables found."
           exit 0
         fi
+    
