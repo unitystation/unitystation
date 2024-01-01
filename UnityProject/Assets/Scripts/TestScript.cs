@@ -21,8 +21,6 @@ public class TestScript : MonoBehaviour
 
     }
 
-    private Action test4 = () => { };
-
     // Update is called once per frame
     void Update()
     {
