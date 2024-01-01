@@ -1,0 +1,26 @@
+name: Check Variable Placement
+
+on:
+  pull_request:
+    paths:
+      - '**/*.cs'
+
+jobs:
+  check-variables:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Check Variable Placement
+      run: |
+        misplaced_variables=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '\.cs$' | xargs grep -n -P '^\s*(public|private|protected|internal|static)?\s+(\w+\s+)?\w+\s*=\s*' | grep -v '^\s*//' | grep -v '^\s*}$' | grep -v -E 'get|set')
+
+        if [ -n "$misplaced_variables" ]; then
+          echo "Misplaced variables found:"
+          echo "$misplaced_variables"
+          exit 1
+        else
+          echo "No misplaced variables found."
+        fi
