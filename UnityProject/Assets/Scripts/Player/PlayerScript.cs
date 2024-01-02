@@ -98,6 +98,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	public StatusEffectManager StatusEffectManager { get; private set; }
 
 	[field: SerializeField] public PlayerFaith PlayerFaith { get; private set; }
+	[field: SerializeField] public PlayerParticle Particles { get; private set; }
 
 	/// <summary>
 	/// Serverside world position.
@@ -179,8 +180,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		}
 	}
 
-
-
 	#region Lifecycle
 
 	protected virtual void Awake()
@@ -203,6 +202,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		StatusEffectManager = GetComponent<StatusEffectManager>();
 		MobLanguages = GetComponent<MobLanguages>();
 		PlayerFaith ??= GetComponent<PlayerFaith>();
+		Particles ??= GetComponent<PlayerParticle>();
 	}
 
 	public override void OnStartClient()
