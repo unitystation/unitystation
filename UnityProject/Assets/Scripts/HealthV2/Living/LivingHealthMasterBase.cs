@@ -2163,32 +2163,30 @@ namespace HealthV2
 			HealDamageOnAll(null, fastRegenHeal, DamageType.Brute);
 		}
 
-		public void SetUpCharacter(PlayerHealthData RaceBodyparts)
+		public void SetUpCharacter(PlayerHealthData raceBodyparts)
 		{
-			if (CustomNetworkManager.Instance._isServer)
-			{
-				InstantiateAndSetUp(RaceBodyparts.Base.Head);
-				InstantiateAndSetUp(RaceBodyparts.Base.Torso);
-				InstantiateAndSetUp(RaceBodyparts.Base.ArmLeft);
-				InstantiateAndSetUp(RaceBodyparts.Base.ArmRight);
-				InstantiateAndSetUp(RaceBodyparts.Base.LegLeft);
-				InstantiateAndSetUp(RaceBodyparts.Base.LegRight);
-			}
+			if (CustomNetworkManager.Instance._isServer == false) return;
+			InstantiateAndSetUp(raceBodyparts.Base.Head);
+			InstantiateAndSetUp(raceBodyparts.Base.Torso);
+			InstantiateAndSetUp(raceBodyparts.Base.ArmLeft);
+			InstantiateAndSetUp(raceBodyparts.Base.ArmRight);
+			InstantiateAndSetUp(raceBodyparts.Base.LegLeft);
+			InstantiateAndSetUp(raceBodyparts.Base.LegRight);
 		}
 
-		public void InitialiseFromRaceData(PlayerHealthData RaceBodyparts)
+		public void InitialiseFromRaceData(PlayerHealthData raceBodyparts)
 		{
-			InitialSpecies = RaceBodyparts;
-			foreach (var System in RaceBodyparts.Base.SystemSettings)
+			InitialSpecies = raceBodyparts;
+			foreach (var system in raceBodyparts.Base.SystemSettings)
 			{
-				var newsys = System.CloneThisSystem();
+				var newsys = system.CloneThisSystem();
 				newsys.Base = this;
 				newsys.InIt();
 				ActiveSystems.Add(newsys);
 			}
 
-			meatProduce = RaceBodyparts.Base.MeatProduce;
-			skinProduce = RaceBodyparts.Base.SkinProduce;
+			meatProduce = raceBodyparts.Base.MeatProduce;
+			skinProduce = raceBodyparts.Base.SkinProduce;
 		}
 
 		public void StartFresh()

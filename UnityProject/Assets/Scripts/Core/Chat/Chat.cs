@@ -44,11 +44,16 @@ public partial class Chat : MonoBehaviour
 
 	public static void InvokeChatEvent(ChatEvent chatEvent)
 	{
+		if (chatEvent == null)
+		{
+			Loggy.LogError("[Chat/InvokeChatEvent()] - Attempted to invoke a null event.");
+			return;
+		}
 		var channels = chatEvent.channels;
 		StringBuilder discordMessageBuilder = new StringBuilder();
 
 		chatEvent.allChannels = channels;
-		PlayerScript playerScript = chatEvent.originator.GetComponent<PlayerScript>();
+		PlayerScript playerScript = chatEvent.originator.OrNull()?.GetComponent<PlayerScript>();
 		AiPlayer aiPlayer = null;
 		if (playerScript != null)
 		{
@@ -270,8 +275,7 @@ public partial class Chat : MonoBehaviour
 			{
 				if (player.IsDeadOrGhost == false && player.Mind.IsMute && !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
 				{
-					AddWarningMsgFromServer(sentByPlayer.GameObject, "You can't talk"); // because you made a vow of silence.
-					//TODO Explain why you can't talk
+					AddWarningMsgFromServer(sentByPlayer.GameObject, $"You can't talk {CannotSpeakReason(player, processedMessage.chatModifiers)}");
 					return;
 				}
 
@@ -307,6 +311,29 @@ public partial class Chat : MonoBehaviour
 		}
 
 		InvokeChatEvent(chatEvent);
+	}
+
+	public static string CannotSpeakReason(PlayerScript playerScript, ChatModifier processedMessage)
+	{
+		var reason = "";
+		if (playerScript.Mind.IsMute)
+		{
+			reason = "because you are mute.";
+		}
+		if (processedMessage.HasFlag(ChatModifier.Emote))
+		{
+			reason = "because you made a vow of silence that is yet to be broken.";
+		}
+
+		if (playerScript.playerHealth.ConsciousState is ConsciousState.UNCONSCIOUS or ConsciousState.BARELY_CONSCIOUS)
+		{
+			reason = "because you're not conscious or lack the energy to speak.";
+		}
+		if (playerScript.IsDeadOrGhost)
+		{
+			reason = "because you are dead.";
+		}
+		return reason;
 	}
 
 	private static bool TryGetLanguage(ushort languageId, PlayerScript player, out LanguageSO languageToUse)

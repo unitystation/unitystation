@@ -183,7 +183,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	#region Lifecycle
 
-	private void Awake()
+	protected virtual void Awake()
 	{
 		playerSprites = GetComponent<PlayerSprites>();
 		PlayerNetworkActions = GetComponent<PlayerNetworkActions>();
@@ -207,6 +207,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	public override void OnStartClient()
 	{
+		base.OnStartClient();
 		SyncPlayerName(name, name);
 	}
 
@@ -253,7 +254,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		}
 
 
-		if (hasAuthority)
+		if (isOwned)
 		{
 			EnableLighting(true);
 			UIManager.ResetAllUI();

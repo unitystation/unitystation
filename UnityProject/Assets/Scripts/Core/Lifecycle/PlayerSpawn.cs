@@ -371,10 +371,6 @@ public static class PlayerSpawn
 
 				}
 
-
-
-
-
 				playerSprites.OnCharacterSettingsChange(toUseCharacterSettings);
 			}
 		}

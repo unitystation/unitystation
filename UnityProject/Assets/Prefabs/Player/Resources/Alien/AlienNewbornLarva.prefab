@@ -462,7 +462,6 @@ GameObject:
   - component: {fileID: 91908198791635565}
   - component: {fileID: 3160124018402396833}
   - component: {fileID: 4951365732200208794}
-  - component: {fileID: 7153920685726011974}
   - component: {fileID: 7265610720913237329}
   - component: {fileID: 3901833431230868314}
   - component: {fileID: 3087290366095840219}
@@ -471,7 +470,7 @@ GameObject:
   - component: {fileID: 8305622356435420699}
   - component: {fileID: 3151898299137416185}
   - component: {fileID: 6367134133324094652}
-  - component: {fileID: -3608664027944320605}
+  - component: {fileID: 2152363011452460872}
   m_Layer: 8
   m_Name: AlienNewbornLarva
   m_TagString: Untagged
@@ -579,7 +578,7 @@ MonoBehaviour:
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
-  SyncedWorldPos: {x: 0, y: 0, z: 0}
+  <PlayerFaith>k__BackingField: {fileID: 0}
   RTT: 0
   RcsMode: 0
   RcsMatrixMove: {fileID: 0}
@@ -632,6 +631,7 @@ MonoBehaviour:
   infectedSpriteHandler: {fileID: 0}
   muzzleFlash: {fileID: 114824170203619628}
   RaceOverride: Alien
+  CharacterSheetOverride: 0
   livingHealthMasterBase: {fileID: 1354417930896543338}
   characterSprites: []
   ThisCharacter:
@@ -652,7 +652,7 @@ MonoBehaviour:
   CustomisationSprites: {fileID: 975496025995574624}
   BodySprites: {fileID: 193028258071297994}
   RootBodyPartsLoaded: 0
-  IsOldCustomPrefab: 1
+  IsOldCustomPrefab: 0
   OverlaySprites: {fileID: 9164488584065593561}
 --- !u!114 &114390575568471296
 MonoBehaviour:
@@ -706,6 +706,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
+  LiesFlat3D: 0
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   <LayDownBehavior>k__BackingField: {fileID: 6367134133324094652}
@@ -966,7 +967,6 @@ MonoBehaviour:
   syncInterval: 0.1
   DoesNotRequireBrain: 1
   tickRate: 1
-  BodyType: 0
   RTT: 0
   BodyPartList: []
   SurfaceBodyParts: []
@@ -978,10 +978,10 @@ MonoBehaviour:
   screamEmote: {fileID: 11400000, guid: c167f7374cdcf604a82efb440115efe4, type: 2}
   fastRegenHeal: 12
   fastRegenThreshold: 85
-  rootBodyPartController: {fileID: 0}
+  rootBodyPartController: {fileID: 1334142152360663673}
   BodyChatModifier: 0
   BodyPartSurfaceVolume: 5
-  playerScript: {fileID: 0}
+  playerScript: {fileID: 114617133355526680}
   OnRevive:
     m_PersistentCalls:
       m_Calls: []
@@ -1250,14 +1250,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: 617470ff1ed069e4e907b2cde0f52203,
+  itemStorageStructure: {fileID: 11400000, guid: 441bbe778728cb24ea74e1aa6e32b1e8,
     type: 2}
   itemStorageCapacity: {fileID: 11400000, guid: 85a98e52d37b73846953062eec2127ff,
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 1
   ManuallySpawnContent: 0
-  dropItemsOnDespawn: 0
+  dropItemsOnDespawn: 1
   UesAddlistPopulater: 1
   Populater:
     SlotContents: []
@@ -1280,30 +1280,6 @@ MonoBehaviour:
   foreverID: ZkF10G_?cnxzRpsYtRAm
   <AlternativePrefabName>k__BackingField: 
   <CanBeSpawnedByAdmin>k__BackingField: 1
---- !u!114 &7153920685726011974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab91260447fa445e936d59ba0abdc464, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TipSO: {fileID: 11400000, guid: eb646ca04872733468148685a9a74fc0, type: 2}
-  triggerOnce: 0
-  removeAfterRemembering: 1
-  showEvenAfterDeath: 1
-  tipCooldown: 35
-  highlightableObjectNames: []
-  SearchRadius: 8
-  SearchCooldown: 6
-  MaskToCheck:
-    serializedVersion: 2
-    m_Bits: 537418752
-  tile: {fileID: 0}
 --- !u!114 &7265610720913237329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1342,7 +1318,6 @@ MonoBehaviour:
   isNotPushable: 0
   CanBeWindPushed: 1
   rotationTarget: {fileID: 0}
-  FramePushDecision: 1
   stickyMovement: 1
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 10
@@ -1371,6 +1346,9 @@ MonoBehaviour:
   CrawlSpeed: 2
   needsWalking: {fileID: 11400000, guid: 06d78d19774fe204489d635ddb501f83, type: 2}
   needsRunning: {fileID: 11400000, guid: 79263d379ff044244a9baa143471a268, type: 2}
+  CachedPreviousMove: {x: 0, y: 0}
+  CachedMove: {x: 0, y: 0}
+  ClientRequestedType: 0
   actionData: {fileID: 11400000, guid: 967a13d2ea206e9448f6c6e2af11a3cf, type: 2}
   IsBumping: 0
 --- !u!114 &3901833431230868314
@@ -1458,12 +1436,14 @@ MonoBehaviour:
   MaxClickDuration: 1
   MouseDragDeadzone: 0.2
   AimApplyInterval: 0.01
-  examineCursor: {fileID: 0}
-  grabbingCursor: {fileID: 0}
-  altInteractionCursor: {fileID: 0}
-  HarmCursor: {fileID: 0}
-  GrabCursor: {fileID: 0}
-  DisarmCursor: {fileID: 0}
+  examineCursor: {fileID: 11400000, guid: cfca37c32850f304889c7a8d039a8047, type: 2}
+  grabbingCursor: {fileID: 11400000, guid: fce8b05a7bd8cb647bd741fe69adb581, type: 2}
+  altInteractionCursor: {fileID: 11400000, guid: d138d7ef96ec75844bf436749791353c,
+    type: 2}
+  HarmCursor: {fileID: 11400000, guid: da3c73fa7af4d204d980268095802847, type: 2}
+  GrabCursor: {fileID: 11400000, guid: 8f2a43425b956ec45be31b0470f347a9, type: 2}
+  DisarmCursor: {fileID: 11400000, guid: 9e0272263f7878141806be75b6fca7e5, type: 2}
+  ThrowCursor: {fileID: 11400000, guid: 73a9c3e7adba5314db42d7ac9aeed22c, type: 2}
 --- !u!114 &2690378354521890256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1524,14 +1504,14 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  sprites: {fileID: 0}
-  health: {fileID: 0}
-  playerDirectional: {fileID: 0}
-  playerScript: {fileID: 0}
-  networkedLean: {fileID: 0}
+  sprites: {fileID: 4962232741225816}
+  health: {fileID: 1354417930896543338}
+  playerDirectional: {fileID: 114449635359748350}
+  playerScript: {fileID: 114617133355526680}
+  networkedLean: {fileID: -8106636780342977062}
   disabled: 0
-  IsLayingDown: 0
---- !u!114 &-3608664027944320605
+  clientAutoCorrectInterval: 1.35
+--- !u!114 &2152363011452460872
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1540,52 +1520,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1133514949248654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  LocalDifferenceNeeded: {x: 0, y: 0}
-  LocalTargetPosition: {x: 0, y: 0, z: 0}
-  CorrectingCourse: 0
-  Animating: 0
-  SetIgnoreSticky: 0
-  airTime: 0
-  slideTime: 0
-  spinMagnitude: 0
-  thrownBy: {fileID: 0}
-  aim: 0
-  ForcedPushedFrame: 0
-  TryPushedFrame: 0
-  PushedFrame: 0
-  ChangesDirectionPush: 0
-  Intangible: 0
-  SnapToGridOnStart: 0
-  IsPlayer: 0
-  DEBUG: 0
-  tileMoveSpeed: 1
-  HasOwnGravity: 0
-  isNotPushable: 0
-  CanBeWindPushed: 1
-  rotationTarget: {fileID: 0}
-  FramePushDecision: 1
-  stickyMovement: 0
-  OnThrowEndResetRotation: 0
-  maximumStickSpeed: 1.5
-  onStationMovementsRound: 0
-  registerTile: {fileID: 0}
-  ContextGameObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  IsCurrentlyFloating: 0
-  Pushing: []
-  Hits: []
-  isFlyingSliding: 0
-  IsMoving: 0
-  MoveIsWalking: 0
-  LastUpdateClientFlying: 0
-  BuckledToObject: {fileID: 0}
+  spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
+  RotateParent: {fileID: 1051931730128558}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
