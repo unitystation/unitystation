@@ -1637,6 +1637,7 @@ namespace Systems.Antagonists
 			SetNewPlayer();
 			AddNewActions(mind.ControlledBy);
 			playerScript.playerName = $"{alienType.Name} {nameNumber}";
+			//TODO: Temporary fix until we find the problem that's causing body parts to not have their systems setup when added to the player.
 			livingHealthMasterBase.IsMute.InterestedParties.Clear();
 			livingHealthMasterBase.IsMute.RecordPosition(this, false);
 
