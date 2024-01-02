@@ -120,6 +120,7 @@ namespace Items.Others
 			isOn = false;
 			moveQueueBuildUp = 0.1f;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PushUpdate);
+			Chat.AddLocalMsgToChat($"The safety mechanism on the valve makes a pop as it securely shuts off the {gameObject.ExpensiveName()}.", gameObject);
 			if (player == null) return;
 			player.PlayerDirectional.OnRotationChange.RemoveListener(OnPlayerRotationChange);
 			player.Particles.ServerToggleParticle(PARTICLE_ID, false);
