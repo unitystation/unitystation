@@ -7,7 +7,7 @@ namespace HealthV2
 	public class BodyPartFunctionality : NetworkBehaviour, IEmpAble
 	{
 
-		[NonSerialized] public BodyPart RelatedPart;
+		public BodyPart RelatedPart;
 		protected LivingHealthMasterBase LivingHealthMaster => RelatedPart.HealthMaster;
 
 

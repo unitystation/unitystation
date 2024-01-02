@@ -187,6 +187,14 @@ namespace Systems.Antagonists
 
 		private bool firstTimeSetup;
 
+		[SyncVar]
+		private int growth;
+
+		private bool didMessage;
+
+		[SyncVar(hook = nameof(SyncopenedEvolveMenu))]
+		private bool openedEvolveMenu;
+
 
 		#region LifeCycle
 
@@ -231,7 +239,7 @@ namespace Systems.Antagonists
 
 		public void PlayerEnterBody()
 		{
-			if(hasAuthority == false) return;
+			if(isOwned == false) return;
 
 			UIManager.Instance.panelHudBottomController.AlienUI.SetActive(true);
 			UIManager.Instance.panelHudBottomController.AlienUI.SetUp(this);
@@ -318,17 +326,9 @@ namespace Systems.Antagonists
 
 		#region Growth
 
-		[SyncVar]
-		private int growth;
-
-		private bool didMessage;
-
-		[SyncVar(hook = nameof(SyncopenedEvolveMenu))]
-		private bool openedEvolveMenu;
-
 		private void GrowthUpdate()
 		{
-			if(currentPlasma <= 0) return;
+			if (currentPlasma <= 0) return;
 
 			if (growth < alienType.MaxGrowth)
 			{
@@ -353,7 +353,7 @@ namespace Systems.Antagonists
 
 			if (CurrentAlienType != AlienTypes.Larva3 || connectionToClient == null) return;
 
-			if(openedEvolveMenu) return;
+			if (openedEvolveMenu) return;
 
 			SyncopenedEvolveMenu(openedEvolveMenu, true);
 		}
@@ -364,12 +364,12 @@ namespace Systems.Antagonists
 		{
 			openedEvolveMenu = bnew;
 
-			LoadManager.RegisterActionDelayed(showUI, 300);
+			LoadManager.RegisterActionDelayed(ShowUI, 300);
 		}
 
-		public void showUI()
+		private void ShowUI()
 		{
-			if (openedEvolveMenu && hasAuthority)
+			if (openedEvolveMenu && isOwned)
 			{
 				UIManager.Instance.panelHudBottomController.AlienUI.OpenEvolveMenu();
 			}
@@ -1637,10 +1637,12 @@ namespace Systems.Antagonists
 			SetNewPlayer();
 			AddNewActions(mind.ControlledBy);
 			playerScript.playerName = $"{alienType.Name} {nameNumber}";
+			livingHealthMasterBase.IsMute.InterestedParties.Clear();
+			livingHealthMasterBase.IsMute.RecordPosition(this, false);
 
 			//Block role remove if this transfered player was the one how got the ghost role
 			//OnPlayerTransfer is still needed due to admin A ghosting which should remove the role on transfer
-			if(playerTookOver != null && playerTookOver == playerScript.PlayerInfo) return;
+			if (playerTookOver != null && playerTookOver == playerScript.PlayerInfo) return;
 
 			RemoveGhostRole();
 		}
