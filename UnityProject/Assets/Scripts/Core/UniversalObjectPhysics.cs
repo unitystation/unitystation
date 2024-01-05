@@ -60,6 +60,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	//Reduced friction during this time, if stickyMovement Just has normal friction vs just grabbing
 	[PlayModeOnly] public GameObject thrownBy;
+	[PlayModeOnly] public GameObject thrownProtection;
 	[PlayModeOnly] public BodyPartType aim;
 	[PlayModeOnly] public int ForcedPushedFrame = 0;
 	[PlayModeOnly] public int TryPushedFrame = 0;
@@ -313,13 +314,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 
 	// netid of the game object we are buckled to, NetId.Empty if not buckled
-	[field: SyncVar(hook = nameof(SyncBuckledToObject))]
-	public UniversalObjectPhysics ObjectIsBuckling { get; protected set; }
+	[field: SyncVar(hook = nameof(SyncObjectIsBuckling))]
+	public UniversalObjectPhysics ObjectIsBuckling { get; protected set; }  //If your chair the person buckled to you
 
-	public CheckedComponent<UniversalObjectPhysics> ObjectIsBucklingChecked =
-		new CheckedComponent<UniversalObjectPhysics>();
-
-	public UniversalObjectPhysics BuckledToObject;
+	public UniversalObjectPhysics BuckledToObject; //If you're a person the chair you are buckle to
 
 	public bool IsBuckled => BuckledToObject != null;
 
@@ -540,11 +538,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		PullSet(null, false); //Presume you can't Pulling stuff inside container
 		//TODO Handle non-disappearing containers like Cart riding
 
-		if (ObjectIsBucklingChecked.HasComponent)
-		{
-			ObjectIsBucklingChecked.Component.Unbuckle();
-		}
-
 
 		parentContainer = newParent == null ? NetId.Empty : newParent.registerTile.netId;
 
@@ -656,6 +649,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			SetTransform(TransformState.HiddenPos, false);
 			InternalTriggerOnLocalTileReached(TransformState.HiddenPos);
 			ResetEverything();
+
+			if (BuckledToObject != null)
+			{
+				BuckledToObject.Unbuckle();
+			}
 		}
 	}
 
@@ -863,9 +861,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			Pulling.Component.ResetLocationOnClients(smooth, ignoreForClient);
 		}
 
-		if (ObjectIsBucklingChecked.HasComponent && ObjectIsBucklingChecked.Component.Pulling.HasComponent)
+		if (ObjectIsBuckling != null && ObjectIsBuckling.Pulling.HasComponent)
 		{
-			ObjectIsBucklingChecked.Component.Pulling.Component.ResetLocationOnClients(smooth, ignoreForClient);
+			ObjectIsBuckling.Pulling.Component.ResetLocationOnClients(smooth, ignoreForClient);
 		}
 		//Update client to server state
 	}
@@ -1209,24 +1207,24 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 		}
 
-		if (ObjectIsBucklingChecked.HasComponent && ObjectIsBucklingChecked.Component.Pulling.HasComponent)
+		if (ObjectIsBuckling != null && ObjectIsBuckling.Pulling.HasComponent)
 		{
 			var inDirection = cachedPosition;
 			if (inDirection.magnitude > 2f && (isServer || isOwned))
 			{
-				ObjectIsBucklingChecked.Component.PullSet(null, false); //TODO maybe remove
-				if (ObjectIsBucklingChecked.Component.isOwned && isServer == false)
+				ObjectIsBuckling.PullSet(null, false); //TODO maybe remove
+				if (ObjectIsBuckling.isOwned && isServer == false)
 				{
-					ObjectIsBucklingChecked.Component.CmdStopPulling();
+					ObjectIsBuckling.CmdStopPulling();
 				}
 			}
 			else
 			{
-				ObjectIsBucklingChecked.Component.Pulling.Component.SetMatrixCache.ResetNewPosition(
-					ObjectIsBucklingChecked.Component.Pulling.Component.transform.position);
-				ObjectIsBucklingChecked.Component.Pulling.Component.Pushing.Clear();
-				ObjectIsBucklingChecked.Component.Pulling.Component.ForceTilePush(inDirection.NormalizeTo2Int(),
-					ObjectIsBucklingChecked.Component.Pulling.Component.Pushing, byClient, speed, pulledBy: this);
+				ObjectIsBuckling.Pulling.Component.SetMatrixCache.ResetNewPosition(
+					ObjectIsBuckling.Pulling.Component.transform.position);
+				ObjectIsBuckling.Pulling.Component.Pushing.Clear();
+				ObjectIsBuckling.Pulling.Component.ForceTilePush(inDirection.NormalizeTo2Int(),
+					ObjectIsBuckling.Pulling.Component.Pushing, byClient, speed, pulledBy: this);
 			}
 		}
 	}
@@ -1377,7 +1375,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		aim = inAim;
 		thrownBy = inThrownBy;
-
+		thrownProtection = thrownBy;
 		if (Random.Range(0, 2) == 1)
 		{
 			spinMagnitude = spinFactor * 1;
@@ -1540,9 +1538,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			transform.localPosition = position;
 		}
 
-		if (ObjectIsBucklingChecked.HasComponent)
+		if (ObjectIsBuckling != null)
 		{
-			ObjectIsBucklingChecked.Component.SetTransform(position, world);
+			ObjectIsBuckling.SetTransform(position, world);
 		}
 	}
 
@@ -1550,9 +1548,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		registerTile.ServerSetLocalPosition(localPosition);
 		registerTile.ClientSetLocalPosition(localPosition);
-		if (ObjectIsBucklingChecked.HasComponent)
+		if (ObjectIsBuckling != null)
 		{
-			ObjectIsBucklingChecked.Component.SetRegisterTileLocation(localPosition);
+			ObjectIsBuckling.SetRegisterTileLocation(localPosition);
 		}
 	}
 
@@ -1677,6 +1675,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		var movetoMatrix = MatrixManager.AtPoint(newPosition.RoundToInt(), isServer).Matrix;
 		if (intPosition != intNewPosition)
 		{
+			bool RemoveThrowProtection = false;
 			Hits.Clear();
 			if ((position - newPosition).magnitude > 0.90f)
 			{
@@ -1742,7 +1741,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 						foreach (var push in Pushing)
 						{
 							if (push == this) continue;
-
+							if (push.gameObject == thrownProtection) continue;
 							push.NewtonianNewtonPush(NewtonianMovement, (NewtonianMovement.magnitude * GetWeight()),
 								Single.NaN, Single.NaN, aim, thrownBy, spinMagnitude);
 						}
@@ -1774,11 +1773,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 					foreach (var hit in Hits)
 					{
+
 						//Integrity
 						//LivingHealthMasterBase
 						//TODO DamageTile( goal,Matrix.Matrix.TilemapsDamage);
-
-						if (hit.gameObject == thrownBy) continue;
+						if (hit.gameObject == thrownProtection) continue;
+						RemoveThrowProtection = true;
 						if (NewtonianMovement.magnitude > IAV2.ThrowSpeed * 0.75f)
 						{
 							//Remove cast to int when moving health values to float
@@ -1794,7 +1794,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 							var randomHitZone = aim.Randomize();
 							if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase) &&
-							    isServer)
+							    isServer) //TODO Catching
 							{
 								livingHealthMasterBase.ApplyDamageToBodyPart(thrownBy, damage, AttackType.Melee,
 									DamageType.Brute,
@@ -1821,6 +1821,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 						}
 					}
 				}
+			}
+
+			if (RemoveThrowProtection)
+			{
+				thrownProtection = null;
 			}
 
 			var localPosition = newPosition.ToLocal(movetoMatrix);
@@ -1883,6 +1888,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			airTime = 0;
 			slideTime = 0;
 			OnThrowEnd.Invoke(this);
+			thrownProtection = null;
 			//maybe
 
 			if (OnThrowEndResetRotation)
@@ -1909,18 +1915,18 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 		}
 
-		if (ObjectIsBucklingChecked.HasComponent && ObjectIsBucklingChecked.Component.Pulling.HasComponent)
+		if (ObjectIsBuckling != null && ObjectIsBuckling.Pulling.HasComponent)
 		{
-			var inDirection = cachedPosition - ObjectIsBucklingChecked.Component.Pulling.Component.transform.position;
+			var inDirection = cachedPosition - ObjectIsBuckling.Pulling.Component.transform.position;
 			if (inDirection.magnitude > 2f && (isServer || isOwned))
 			{
-				ObjectIsBucklingChecked.Component.PullSet(null, false); //TODO maybe remove
-				if (ObjectIsBucklingChecked.Component.isOwned && isServer == false)
-					ObjectIsBucklingChecked.Component.CmdStopPulling();
+				ObjectIsBuckling.PullSet(null, false); //TODO maybe remove
+				if (ObjectIsBuckling.isOwned && isServer == false)
+					ObjectIsBuckling.CmdStopPulling();
 			}
 			else
 			{
-				ObjectIsBucklingChecked.Component.Pulling.Component.ProcessNewtonianPull(NewtonianMovement,
+				ObjectIsBuckling.Pulling.Component.ProcessNewtonianPull(NewtonianMovement,
 					newPosition);
 			}
 		}
@@ -1975,9 +1981,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, newPosition);
 		}
 
-		if (ObjectIsBucklingChecked.HasComponent && ObjectIsBucklingChecked.Component.Pulling.HasComponent)
+		if (ObjectIsBuckling != null && ObjectIsBuckling.Pulling.HasComponent)
 		{
-			ObjectIsBucklingChecked.Component.Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, newPosition);
+			ObjectIsBuckling.Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, newPosition);
 		}
 	}
 
@@ -2134,7 +2140,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (CorrectingCourse) UpdateManager.Remove(CallbackType.UPDATE, FloatingCourseCorrection);
 		if (BuckledToObject != null) Unbuckle();
-		if (ObjectIsBucklingChecked.HasComponent) ObjectIsBucklingChecked.Component.Unbuckle();
+		if (ObjectIsBuckling != null) ObjectIsBuckling.Unbuckle();
 	}
 
 
@@ -2271,7 +2277,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	#region Buckling
 
 	// syncvar hook invoked client side when the buckledTo changes
-	private void SyncBuckledToObject(UniversalObjectPhysics oldBuckledTo, UniversalObjectPhysics newBuckledTo)
+	private void SyncObjectIsBuckling(UniversalObjectPhysics oldBuckledTo, UniversalObjectPhysics newBuckledTo)
 	{
 		// unsub if we are subbed
 		if (oldBuckledTo != null)
@@ -2286,8 +2292,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			oldBuckledTo.BuckledToObject = null;
 		}
 
-
-		ObjectIsBucklingChecked.DirectSetComponent(newBuckledTo);
 		ObjectIsBuckling = newBuckledTo;
 
 		// sub
@@ -2324,13 +2328,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		rotatable.OrNull()?.FaceDirection(newDir);
 	}
 
+	// ReSharper disable Unity.PerformanceAnalysis
 	/// <summary>
 	/// Server side logic for unbuckling a player
 	/// </summary>
 	[Server]
 	public void Unbuckle()
 	{
-		SyncBuckledToObject(ObjectIsBuckling, null);
+		SyncObjectIsBuckling(ObjectIsBuckling, null);
 		BuckleToChange(ObjectIsBuckling);
 	}
 
@@ -2346,7 +2351,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			return;
 		}
 
-		SyncBuckledToObject(ObjectIsBuckling, newBuckledTo);
+		SyncObjectIsBuckling(ObjectIsBuckling, newBuckledTo);
 		BuckleToChange(ObjectIsBuckling);
 		ObjectIsBuckling.AppearAtWorldPositionServer(transform.position);
 	}

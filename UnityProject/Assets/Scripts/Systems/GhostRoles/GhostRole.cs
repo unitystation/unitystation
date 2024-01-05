@@ -262,7 +262,7 @@ namespace Systems.GhostRoles
 	/// An instantiated representation of a ghost role for the client.
 	/// Inherits from <see cref="GhostRole"/>.
 	/// </summary>
-	public class GhostRoleClient : GhostRole
+	public sealed class GhostRoleClient : GhostRole
 	{
 		/// <summary>
 		/// The amount of players this client is known to have for this role.

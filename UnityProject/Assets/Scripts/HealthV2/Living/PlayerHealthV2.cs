@@ -78,7 +78,7 @@ namespace HealthV2
 							Inventory.ServerDrop(itemSlot);
 						}
 						playerMove.ServerAllowInput.RemovePosition(this);
-						playerMove.CurrentMovementType = MovementType.Running;
+						playerMove.CurrentMovementType = MovementType.Crawling;
 						if (oldState == ConsciousState.CONSCIOUS)
 						{
 							//only play the sound if we are falling

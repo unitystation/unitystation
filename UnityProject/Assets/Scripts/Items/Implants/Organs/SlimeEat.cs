@@ -9,9 +9,11 @@ using UnityEngine;
 [RequireComponent( typeof(ReagentCirculatedComponent))]
 public class SlimeEat : BodyPartFunctionality
 {
-	public GameObject CurrentlyEating;
-	public Edible EdibleCurrentlyEating;
-	public LivingHealthMasterBase LivingHealthMasterBaseCurrentlyEating;
+	public bool CurrentlyEating => EdibleCurrentlyEating || CurrentlyBuckledToObject;
+	public UniversalObjectPhysics EdibleCurrentlyEating => RelatedPart.HealthMaster.OrNull()?.ObjectBehaviour.OrNull()?.ObjectIsBuckling;
+	public LivingHealthMasterBase LivingHealthMasterBaseCurrentlyEating => CurrentlyBuckledToObject.OrNull()?.GetComponent<LivingHealthMasterBase>();
+
+	private UniversalObjectPhysics CurrentlyBuckledToObject => RelatedPart.HealthMaster.OrNull()?.ObjectBehaviour.OrNull()?.BuckledToObject;
 
 	public GameObject DUBUGCurrentlyEating;
 
@@ -36,18 +38,18 @@ public class SlimeEat : BodyPartFunctionality
 
 	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 	{
-		if (CurrentlyEating != null)
+		if (CurrentlyEating)
 		{
-			var Physics = livingHealth.ObjectBehaviour;
-			var EatingPhysics = CurrentlyEating.GetComponent<UniversalObjectPhysics>();
-			if (Physics.BuckledToObject == EatingPhysics)
+
+			if (LivingHealthMasterBaseCurrentlyEating)
 			{
-				Physics.Unbuckle();
+				LivingHealthMasterBaseCurrentlyEating.ObjectBehaviour.Unbuckle();
 			}
 
-			if (Physics.ObjectIsBucklingChecked.Component == EatingPhysics)
+
+			if (EdibleCurrentlyEating)
 			{
-				EatingPhysics.Unbuckle();
+				livingHealth.ObjectBehaviour.Unbuckle();
 			}
 		}
 	}
@@ -61,7 +63,7 @@ public class SlimeEat : BodyPartFunctionality
 			return;
 		}
 
-		if ( RelatedPart.HealthMaster.ObjectBehaviour.BuckledToObject != null || RelatedPart.HealthMaster.ObjectBehaviour.ObjectIsBucklingChecked.HasComponent ) return;
+		if ( RelatedPart.HealthMaster.ObjectBehaviour.BuckledToObject != null || RelatedPart.HealthMaster.ObjectBehaviour.ObjectIsBuckling != null ) return;
 
 
 		var Edible = ToEat.GetComponent<Edible>();
@@ -69,8 +71,6 @@ public class SlimeEat : BodyPartFunctionality
 		if (Edible != null)
 		{
 			//Assume is an item
-			EdibleCurrentlyEating = Edible;
-			CurrentlyEating = ToEat;
 			RelatedPart.HealthMaster.ObjectBehaviour.BuckleTo(ToEat.GetComponent<UniversalObjectPhysics>());
 			return;
 		}
@@ -79,7 +79,7 @@ public class SlimeEat : BodyPartFunctionality
 
 		if (Health != null)
 		{
-			if (Health.ObjectBehaviour.BuckledToObject != null || Health.ObjectBehaviour.ObjectIsBucklingChecked.HasComponent ) return; //just buckle yourself to a chair lol
+			if (Health.ObjectBehaviour.BuckledToObject != null || Health.ObjectBehaviour.ObjectIsBuckling != null ) return; //just buckle yourself to a chair lol
 
 			if (Health.IsDead)
 			{
@@ -87,8 +87,6 @@ public class SlimeEat : BodyPartFunctionality
 			}
 
 			//Player/mob
-			LivingHealthMasterBaseCurrentlyEating = Health;
-			CurrentlyEating = ToEat;
 			ToEat.GetComponent<UniversalObjectPhysics>().BuckleTo( RelatedPart.HealthMaster.ObjectBehaviour);
 			return;
 		}
@@ -103,16 +101,11 @@ public class SlimeEat : BodyPartFunctionality
 			{
 				RelatedPart.HealthMaster.ObjectBehaviour.BuckledToObject.Unbuckle();
 			}
-
-			LivingHealthMasterBaseCurrentlyEating = null;
-			CurrentlyEating = null;
 		}
 
 		if (EdibleCurrentlyEating != null)
 		{
 			RelatedPart.HealthMaster.ObjectBehaviour.Unbuckle();
-			LivingHealthMasterBaseCurrentlyEating = null;
-			EdibleCurrentlyEating = null;
 		}
 
 	}
@@ -127,12 +120,15 @@ public class SlimeEat : BodyPartFunctionality
 	{
 		if (RelatedPart.HealthMaster.ObjectBehaviour.IsVisible == false) return;
 
+		if (CurrentlyEating == false) return;
+
+
 		//TODO check buckling instead of this!!!
 		//Problem is determining intent, Since you can be riding something without eating it, So you have to set here
 		//Also the get component for edible and Living health , Could be fixed by common component reference in universal object physics
-		if (EdibleCurrentlyEating != null)
+		if (EdibleCurrentlyEating != null && EdibleCurrentlyEating.GetComponent<Edible>() != null)
 		{
-			var food = EdibleCurrentlyEating.GetMixForBite(null);
+			var food = EdibleCurrentlyEating.GetComponent<Edible>().GetMixForBite(null);
 			var Nutriments =  food[Nutriment];
 			food.Remove(Nutriment, Nutriments);
 			food.Add(SlimeJelly,Nutriments);

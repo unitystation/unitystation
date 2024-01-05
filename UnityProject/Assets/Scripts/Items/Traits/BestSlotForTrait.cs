@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +13,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BestSlotForTraitSingleton", menuName = "Singleton/Traits/BestSlotForTrait")]
 public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 {
-
 	[Serializable]
 	public class TraitSlotMapping
 	{
 		[Tooltip("Trait of the item to match on. Leave empty to match all items regardless of their traits.")]
 		public ItemTrait Trait;
+
 		public NamedSlot Slot;
 	}
 
@@ -29,13 +28,15 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 	         " list for other possible matches. If no matches are found, it will" +
 	         " be placed in an arbitrary available slot.")]
 	[ArrayElementTitle("Trait", "Any")]
-	[SerializeField] private List<TraitSlotMapping> BestSlots = null;
+	[SerializeField]
+	private List<TraitSlotMapping> BestSlots = null;
 
 
 	/// <summary>
 	/// This Named Slots can't be best slots. GetBestSlot will ignore them
 	/// </summary>
-	private static NamedSlot[] BlackListSlots = new NamedSlot[]{
+	private static NamedSlot[] BlackListSlots = new NamedSlot[]
+	{
 		NamedSlot.leftHand,
 		NamedSlot.rightHand
 	};
@@ -66,7 +67,7 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 		if (itemAttrs == null)
 		{
 			Loggy.LogTraceFormat("Item {0} has no ItemAttributes, thus it will be put in the" +
-			                      " first available slot.", Category.PlayerInventory, toCheck);
+			                     " first available slot.", Category.PlayerInventory, toCheck);
 		}
 		else
 		{
@@ -79,14 +80,15 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 		}
 
 		Loggy.LogTraceFormat("Item {0} did not fit in any BestSlots, thus will" +
-		                      " be placed in first available slot.", Category.PlayerInventory, toCheck);
+		                     " be placed in first available slot.", Category.PlayerInventory, toCheck);
 
 		// Get all slots
 		var allSlots = storage.GetItemSlots();
 
 		// Filter blaclisted named slots
 		var allowedSlots = allSlots.Where((slot) => !slot.NamedSlot.HasValue ||
-		(slot.NamedSlot.HasValue && !BlackListSlots.Contains(slot.NamedSlot.Value))).ToArray();
+		                                            (slot.NamedSlot.HasValue &&
+		                                             !BlackListSlots.Contains(slot.NamedSlot.Value))).ToArray();
 
 		// Select first avaliable
 		return allowedSlots.FirstOrDefault(slot =>
@@ -114,7 +116,7 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 		if (itemAttrs == null)
 		{
 			Loggy.LogTraceFormat("Item {0} has no ItemAttributes, thus it will be put in the" +
-			                      " first available slot.", Category.PlayerInventory, toCheck);
+			                     " first available slot.", Category.PlayerInventory, toCheck);
 		}
 		else
 		{
@@ -145,6 +147,7 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 						pass = true;
 					}
 				}
+
 				if (pass == false) continue;
 
 				if (tsm.Trait != null)
@@ -152,24 +155,56 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 					bool thisitemAttrs = itemAttrs.HasTrait(tsm.Trait);
 					if (thisitemAttrs == false) continue;
 				}
+
 				return best;
 			}
 		}
 
 		Loggy.LogTraceFormat("Item {0} did not fit in any BestSlots, thus will" +
-		                      " be placed in first available slot.", Category.PlayerInventory, toCheck);
+		                     " be placed in first available slot.", Category.PlayerInventory, toCheck);
 
 		// Get all slots
 		var allSlots = storage.GetItemSlots();
 
 		// Filter blaclisted named slots
 		var allowedSlots = allSlots.Where((slot) => !slot.NamedSlot.HasValue ||
-		                                            (slot.NamedSlot.HasValue && !BlackListSlots.Contains(slot.NamedSlot.Value))).ToArray();
+		                                            (slot.NamedSlot.HasValue &&
+		                                             !BlackListSlots.Contains(slot.NamedSlot.Value))).ToArray();
 
 		// Select first avaliable
-		return allowedSlots.FirstOrDefault(slot =>
+		var TraditionalSlot = allowedSlots.FirstOrDefault(slot =>
 			(!mustHaveUISlot || slot.LocalUISlot != null) &&
 			Validations.CanFit(slot, toCheck, side));
-	}
+		if (TraditionalSlot != null)
+		{
+			return TraditionalSlot;
+		}
 
+		var Slots = storage.GetNamedItemSlots(NamedSlot.leftHand);
+		var ActiveHand = storage.GetActiveHandSlot();
+		var AvailableSlot = Slots.FirstOrDefault(slot =>
+			ActiveHand != slot && slot.Item != null && slot.Item.TryGetComponent<ItemStorage>(out var Storage) &&
+			Storage.GetBestSlotFor(toCheck) != null);
+		if (AvailableSlot != null)
+		{
+			return AvailableSlot?.Item.OrNull()?.GetComponent<ItemStorage>().OrNull()?.GetBestSlotFor(toCheck);
+		}
+
+		Slots = storage.GetNamedItemSlots(NamedSlot.rightHand);
+		AvailableSlot = Slots.FirstOrDefault(slot =>
+			ActiveHand != slot && slot.Item != null && slot.Item.TryGetComponent<ItemStorage>(out var Storage) &&
+			Storage.GetBestSlotFor(toCheck) != null);
+
+		if (AvailableSlot != null)
+		{
+			return AvailableSlot?.Item.OrNull()?.GetComponent<ItemStorage>().OrNull()?.GetBestSlotFor(toCheck);;
+		}
+
+		Slots = storage.GetNamedItemSlots(NamedSlot.back);
+		AvailableSlot = Slots.FirstOrDefault(slot =>
+			slot.Item != null && slot.Item.TryGetComponent<ItemStorage>(out var Storage) &&
+			Storage.GetBestSlotFor(toCheck) != null);
+
+		return AvailableSlot?.Item.OrNull()?.GetComponent<ItemStorage>().OrNull()?.GetBestSlotFor(toCheck);
+	}
 }

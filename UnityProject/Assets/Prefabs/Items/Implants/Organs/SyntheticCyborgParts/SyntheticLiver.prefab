@@ -44,7 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ReactionSounds: 1
   maxCapacity: 100
+  DEBUGReagent: {fileID: 0}
+  DEBUGAmount: 0
   reactionSet: {fileID: 11400000, guid: d867504583cfacb479e53eb0b14eba94, type: 2}
   AdditionalReactions: []
   initialReagentMix:
@@ -139,17 +142,17 @@ PrefabInstance:
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -281,8 +284,24 @@ PrefabInstance:
       propertyPath: MinMaxInternalBleedingValues.y
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'SurgeryProcedureBase.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5028ec94fac773247837534dd8c3b513,
+        type: 2}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'SurgeryProcedureBase.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 01aad575537f3114d806563d1f3df18e,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 8095853447068111044, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+    - {fileID: 8844008940256618145, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+    - {fileID: 8705967904398053582, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+    - {fileID: 4793242988825983749, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+    - {fileID: 3585042287024462177, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,

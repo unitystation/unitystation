@@ -56,6 +56,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
+      propertyPath: SurgeryProcedureBase.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: 'SurgeryProcedureBase.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5028ec94fac773247837534dd8c3b513,
+        type: 2}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: 'SurgeryProcedureBase.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 01aad575537f3114d806563d1f3df18e,
+        type: 2}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
       propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 72e01521f4418884fb0b4aa7791dfd6d,
@@ -131,17 +148,17 @@ PrefabInstance:
     - target: {fileID: 8915710202864320493, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8915710202864320493, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8915710202864320493, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8915710202864320493, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
