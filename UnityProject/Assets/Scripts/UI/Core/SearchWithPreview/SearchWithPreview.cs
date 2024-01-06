@@ -64,8 +64,8 @@ namespace UISearchWithPreview
 				Destroy(child.gameObject);
 			}
 
-
-			var ToUse = SearchOptions.Where(x => x.Name.Contains(StringySearch));
+			StringySearch = StringySearch.ToLower();
+			var ToUse = SearchOptions.Where(x => x.Name.ToLower().Contains(StringySearch)).Take(1000);
 
 
 			foreach (var Item in ToUse)
