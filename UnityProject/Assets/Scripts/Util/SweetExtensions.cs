@@ -150,7 +150,7 @@ public static class SweetExtensions
 	public static uint NetId(this GameObject go)
 	{
 		var net = NetWorkIdentity(go);
-		if (go)
+		if (net)
 		{
 			return net.netId;
 		}

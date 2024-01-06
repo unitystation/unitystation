@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Logs;
 using UnityEngine;
 using Mirror;
+using SecureStuff;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 #if UNITY_EDITOR
@@ -403,6 +404,14 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
+	//Used for VV So VV can trigger sprites
+	[VVNote(VVHighlight.SafeToModify100)]
+	public void PushTextureWithNetworking()
+	{
+		PushTexture(true);
+	}
+
+	//Used to set the sprite of the sprite renderer/Image
 	public void PushTexture(bool networked = true)
 	{
 		if (PresentSpriteSet != null && PresentSpriteSet.Variance.Count > 0)
