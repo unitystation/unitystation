@@ -354,7 +354,6 @@ namespace Objects.Atmospherics
 		#region Multitool
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.Acu;
-		bool IMultitoolMasterable.MultiMaster => false;
 		int IMultitoolMasterable.MaxDistance => 30;
 
 		public void AddSlave(IAcuControllable device)

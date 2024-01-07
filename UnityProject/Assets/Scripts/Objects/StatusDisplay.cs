@@ -73,8 +73,8 @@ namespace Objects.Wallmounts
 		[SerializeField] private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
 		public MultitoolConnectionType ConType => conType;
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
-		private bool multiMaster = true;
-		public bool MultiMaster => multiMaster;
+		private bool multiMaster = true; //TODO
+		public bool MultiMaster => multiMaster; //TODO
 
 		[SerializeField] private AccessRestrictions accessRestrictions;
 

@@ -292,7 +292,7 @@ namespace Shared.Editor
 			{
 				master = distance > Masters[0].MaxDistance ? null : Masters[0];
 
-				oldmaster = slave.Master;
+				oldmaster = (IMultitoolMasterable)slave.Master;
 			}
 
 			slave.SetMasterEditor(master);
@@ -329,7 +329,7 @@ namespace Shared.Editor
 
 			SortMastersToPosition(slave.gameObject.transform.position);
 
-			var index = slave.Master == null ? 0 : Masters.IndexOf(slave.Master);
+			var index = slave.Master == null ? 0 : Masters.IndexOf((IMultitoolMasterable)slave.Master);
 			index = Mathf.Clamp(index + direction, 0, Masters.Count - 1);
 			var master = Masters[index];
 			var distance = Vector3.Distance(slave.gameObject.transform.position, master.gameObject.transform.position);

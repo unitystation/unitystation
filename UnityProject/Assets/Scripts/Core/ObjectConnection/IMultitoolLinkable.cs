@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using Mirror;
+using Shared.Systems.ObjectConnection;
 using UnityEngine;
+
 
 namespace Shared.Systems.ObjectConnection
 {
@@ -35,9 +38,6 @@ namespace Shared.Systems.ObjectConnection
 	/// </summary>
 	public interface IMultitoolMasterable : IMultitoolLinkable
 	{
-		/// <summary>Whether this connection type supports multiple masters (e.g. two light switches, one light).</summary>
-		bool MultiMaster { get; }
-
 		/// <summary>
 		/// <para>The maximum distance between a slave and its master allowed for a connection.</para>
 		/// <remarks>We limit the distance for gameplay reasons and to ensure reasonable distribution of master controllers.</remarks>
@@ -45,7 +45,6 @@ namespace Shared.Systems.ObjectConnection
 		int MaxDistance { get; }
 
 		bool IgnoreMaxDistanceMapper { get; }
-
 	}
 
 	/// <summary>
@@ -71,13 +70,7 @@ namespace Shared.Systems.ObjectConnection
 		void SetMasterEditor(IMultitoolMasterable master);
 
 		bool RequireLink { get; }
-	}
 
-	/// <summary>
-	/// Allows a slave device to connect to multiple master devices.
-	/// </summary>
-	public interface IMultitoolMultiMasterSlaveable : IMultitoolLinkable
-	{
-		void SetMasters(List<IMultitoolMasterable> iMasters);
+
 	}
 }

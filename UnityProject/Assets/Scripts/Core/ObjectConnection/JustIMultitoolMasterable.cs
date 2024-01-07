@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using Shared.Systems.ObjectConnection;
 using UnityEngine;
 
-public class JustIMultitoolMasterable : MonoBehaviour, IMultitoolMasterable
+public class JustIMultitoolMasterable : NetworkBehaviour, IMultitoolMasterable
 {
 	public bool IsMultiMaster;
 
@@ -24,5 +25,7 @@ public class JustIMultitoolMasterable : MonoBehaviour, IMultitoolMasterable
 
 	[field: SerializeField] public bool CanRelink { get; set; } = true;
 	[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
+
+	public NetworkBehaviour ThisBehaviour => this;
 
 }

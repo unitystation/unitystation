@@ -448,7 +448,7 @@ namespace Objects.Engineering
 		public MultitoolConnectionType ConType => MultitoolConnectionType.APC;
 
 		[SerializeField]
-		private bool multiMaster = true;
+		private bool multiMaster = true; //TODO
 		public bool MultiMaster => multiMaster;
 
 		int IMultitoolMasterable.MaxDistance => 30;

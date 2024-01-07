@@ -25,7 +25,7 @@ namespace UI.AdminTools
 		private GUI_VariableViewer vv = null;
 		[SerializeField]
 		private GUI_DevTileChanger tileChanger = null;
-		
+
 		public void BtnAdminPanel()
 		{
 			adminTools.gameObject.SetActive(true);
@@ -63,6 +63,11 @@ namespace UI.AdminTools
 		{
 			devSelectTile.gameObject.SetActive(true);
 			devSelectTile.Open();
+		}
+
+		public void BtnOpenLinker()
+		{
+			InGameDeviceLinker.Instance.gameObject.SetActive(true);
 		}
 	}
 }
