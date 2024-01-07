@@ -130,19 +130,19 @@ public class InGameDeviceLinker : SingletonManager<InGameDeviceLinker>
 
 		foreach (var Device in MastersData[ShowFor.ConType][ShowFor])
 		{
-			if (Device is IMultitoolSlaveableMultiMaster MultimasterDevice) //TODO?
-			{
-				LinkGizmo[Device] = GameGizmomanager.AddNewLineStatic(Device.gameObject, Vector3.zero,
-					ShowFor.gameObject,
-					Vector3.zero, Color.blue);
-			}
-			else
-			{
+			// if (Device is IMultitoolSlaveableMultiMaster MultimasterDevice) //TODO?
+			// {
+			// 	LinkGizmo[Device] = GameGizmomanager.AddNewLineStatic(Device.gameObject, Vector3.zero,
+			// 		ShowFor.gameObject,
+			// 		Vector3.zero, Color.blue);
+			// }
+			// else
+			// {
 				if (Device.Master == null) continue; //TODO Gizmo for not connected
 				LinkGizmo[Device] = GameGizmomanager.AddNewLineStatic(Device.gameObject, Vector3.zero,
 					ShowFor.gameObject,
 					Vector3.zero, Color.green);
-			}
+			//}
 		}
 	}
 

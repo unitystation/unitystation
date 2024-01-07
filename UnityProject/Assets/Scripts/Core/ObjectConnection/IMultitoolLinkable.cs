@@ -73,17 +73,4 @@ namespace Shared.Systems.ObjectConnection
 
 
 	}
-
-	/// <summary>
-	/// Allows a slave device to connect to multiple master devices.
-	/// </summary>
-	public interface IMultitoolSlaveableMultiMaster : IMultitoolSlaveable
-	{
-		//TODO Networking
-
-		List<IMultitoolMasterable> Masters { get; }
-
-		/// <summary>Whether this connection type supports multiple masters (e.g. two light switches, one light).</summary>
-		bool MultiMaster { get; }
-	}
 }
