@@ -2,6 +2,7 @@
 using HealthV2;
 using UnityEngine;
 using Items;
+using Util.Independent.FluentRichText;
 
 /// <summary>
 /// Component which allows this object to be applied to a living thing, healing it.
@@ -77,6 +78,10 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	private void ServerApplyHeal(LivingHealthMasterBase livingHealth, HandApply interaction)
 	{
+		Chat.AddActionMsgToChat(interaction,
+			$"You apply the {this.gameObject.ExpensiveName()} to {livingHealth.gameObject.ExpensiveName()} Healing them.".Color(Color.green),
+			$"{interaction.Performer.gameObject.ExpensiveName()} applies the {this.gameObject.ExpensiveName()} to {livingHealth.gameObject.ExpensiveName()}, Healing them.".Color(Color.green)
+		);
 		livingHealth.HealDamage(null, 40, healType, interaction.TargetBodyPart, true);
 		if (StopsExternalBleeding)
 		{
@@ -89,6 +94,10 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		void ProgressComplete()
 		{
+			Chat.AddActionMsgToChat(originator,
+				$"You apply the {this.gameObject.ExpensiveName()} to yourself, healing yourself.".Color(Color.green),
+				$"{originator.gameObject.ExpensiveName()} applies the {this.gameObject.ExpensiveName()} to themselves, healing them self.".Color(Color.green)
+				);
 			ServerApplyHeal(livingHealth, interaction);
 		}
 
