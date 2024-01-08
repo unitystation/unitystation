@@ -14,6 +14,8 @@ public class SubChatBubble : MonoBehaviour
 	public Image TrailImage;
 
 
+	public bool FinishedDisplaying = false;
+
 	/// <summary>
 	/// Minimum time a bubble's text will be visible on-screen.
 	/// </summary>
@@ -53,11 +55,13 @@ public class SubChatBubble : MonoBehaviour
 
 	public void DoShowDialogue(CancellationToken cancelToken, ChatBubble.BubbleMsg msg)
 	{
+		FinishedDisplaying = false;
 		StartCoroutine(ShowDialogue(cancelToken, msg));
 	}
 
 	IEnumerator ShowDialogue(CancellationToken cancelToken, ChatBubble.BubbleMsg msg)
 	{
+
 		//Sets the chat text to instant from player prefs, 1 == true
 		msg.instantText = PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleInstant) == 1;
 
@@ -66,6 +70,7 @@ public class SubChatBubble : MonoBehaviour
 		if (msg.instantText)
 		{
 			SetBubbleParameters(msg.msg, msg.modifier);
+			FinishedDisplaying = true;
 		}
 		else
 		{
@@ -190,7 +195,15 @@ public class SubChatBubble : MonoBehaviour
 	{
 		while (msg.elapsedTime > 0f)
 		{
-			if (msg.characterIndex > msg.msg.Length - 1) break;
+			if (msg.characterIndex > msg.msg.Length - 1)
+			{
+				FinishedDisplaying = true;
+				break;
+			}
+			else
+			{
+				FinishedDisplaying = false;
+			}
 
 			msg.elapsedTime -= msg.characterPopInSpeed;
 			var currentCharacter = msg.msg[msg.characterIndex];
