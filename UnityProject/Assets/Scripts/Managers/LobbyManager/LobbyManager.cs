@@ -189,8 +189,10 @@ namespace Lobby
 
 		public async Task<bool> TryAutoLogin(bool autoJoin)
 		{
+			Loggy.Log($"TryAutoLogin");
 			try
 			{
+				var timeout = TimeSpan.FromSeconds(8);
 				if (FirebaseAuth.DefaultInstance.CurrentUser == null)
 				{
 					Loggy.Log("[LobbyManager/TryAutoLogin()] - FirebaseAuth.DefaultInstance.CurrentUser is null. Attempting to send user to first time panel.");
@@ -204,7 +206,8 @@ namespace Lobby
 				LoginTimer();
 				bool isLoginSuccess = false;
 				Loggy.Log("[LobbyManager/TryAutoLogin()] - Executing  FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread().");
-				await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(task => {
+
+				var  TokenTask = FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(task => {
 					if (task.IsCanceled)
 					{
 						Loggy.LogWarning($"Auto sign in cancelled.");
@@ -219,8 +222,23 @@ namespace Lobby
 						return;
 					}
 					isLoginSuccess = true;
+
 				});
-				Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread().");
+
+				var completedTask = await Task.WhenAny(TokenTask, Task.Delay(timeout));
+
+				// Check which task completed
+				if (completedTask == TokenTask)
+				{
+					Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread().");
+
+				}
+				else
+				{
+					Loggy.Log("[LobbyManager/TryAutoLogin()] - Failed  awaited FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread().");
+					LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
+					return false;
+				}
 
 				if (isLoginSuccess == false)
 				{
@@ -233,10 +251,9 @@ namespace Lobby
 				Loggy.Log("[LobbyManager/TryAutoLogin()] - Executing awaited ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, lobbyDialogue.ShowLoginError)");
 
 				var longRunningTask = ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, lobbyDialogue.ShowLoginError);
-				var timeout = TimeSpan.FromSeconds(5);
 
 				// Use Task.WhenAny to wait for either the long-running task to complete or the timeout to occur
-				var completedTask = await Task.WhenAny(longRunningTask, Task.Delay(timeout));
+				completedTask = await Task.WhenAny(longRunningTask, Task.Delay(timeout));
 
 				// Check which task completed
 				if (completedTask == longRunningTask)
@@ -389,10 +406,18 @@ namespace Lobby
 		{
 			await Task.Delay(14000);
 			if (cancelTimer) return;
-			lobbyDialogue.ShowLoadingPanel("This is taking longer than it should..\n\n If it continues, try disabling your VPNs and installing the game in full English path.");
+			LoadManager.DoInMainThread(() =>
+			{
+				lobbyDialogue.ShowLoadingPanel("This is taking longer than it should..\n\n If it continues, try disabling your VPNs and installing the game in full English path.");
+			} );
+
 			await Task.Delay(30500);
 			if (cancelTimer) return;
-			lobbyDialogue.ShowLoginError($"Unexpected error. Check your console (F5)");
+			LoadManager.DoInMainThread(() =>
+			{
+				lobbyDialogue.ShowLoginError($"Unexpected error. Check your console (F5)");
+			} );
+
 		}
 
 		#region Server History
