@@ -548,8 +548,6 @@ namespace Systems.CraftingV2
 				resultHandler.OnCraftingCompleted(spawnedResult, usedIngredients);
 			}
 
-
-			//TODO PosOfoneIngredients hidden POS???
 			if (usedIngredients.Count == 1 && PosOfoneIngredients != TransformState.HiddenPos)
 				//NOTE Local position is used for  TransformState.HiddenPos so, World won't match,
 				//so UseIngredients Uses HiddenPosTo indicate that it is hidden /invalid
