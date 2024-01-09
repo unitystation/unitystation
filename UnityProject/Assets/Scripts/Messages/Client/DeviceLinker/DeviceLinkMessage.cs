@@ -51,7 +51,7 @@ namespace Messages.Client.DeviceLinkMessage
 					var MasterObjectName = MasterObject == null ? "null" : MasterObject.OrNull()?.name;
 
 					UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-						$"{SentByPlayer.Username} Set the master of {ImultitoolSlaveable as MonoBehaviour} at {(ImultitoolSlaveable as MonoBehaviour).transform.position} to {MasterObjectName}", SentByPlayer.UserId);
+						$"{SentByPlayer.Username} Set the master of {ImultitoolSlaveable as MonoBehaviour} at {(ImultitoolSlaveable as MonoBehaviour).transform.position} to {MasterObjectName}", SentByPlayer.AccountId);
 				}
 			}
 		}
