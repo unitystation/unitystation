@@ -6,6 +6,8 @@ using Mirror;
 using AddressableReferences;
 using Core;
 using Systems.Clothing;
+using UI.Systems.Tooltips.HoverTooltips;
+using Util.Independent.FluentRichText;
 
 namespace Items
 {
@@ -16,7 +18,7 @@ namespace Items
 	/// </summary>
 	[RequireComponent(typeof(Pickupable))] //Inventory interaction
 	[RequireComponent(typeof(RegisterItem))] //Registry with subsistence
-	public class ItemAttributesV2 : Attributes
+	public class ItemAttributesV2 : Attributes, IHoverTooltip
 	{
 		[Header("Item Info")]
 
@@ -314,6 +316,77 @@ namespace Items
 		{
 			ClothingV2 clothing = GetComponent<ClothingV2>();
 			if (clothing != null) clothing.AssignPaletteToSprites(this.ItemSprites.Palette);
+		}
+
+		private string GetInfo()
+		{
+			string returnS = "";
+			switch (hitDamage)
+			{
+				case < 1:
+					returnS =  "no hit damage";
+					break;
+				case < 4:
+					returnS =  "measly hit damage";
+					break;
+				case < 7:
+					returnS =  "ok hit damage";
+					break;
+				case < 11:
+					returnS =  "decent hit damage";
+					break;
+				case < 13:
+					returnS =  "robust hit damage";
+					break;
+				case < 21:
+					returnS =  "strong hit damage";
+					break;
+				case < 31:
+					returnS =  "powerful hit damage";
+					break;
+				case < 41:
+					returnS =  "crazy hit damage";
+					break;
+				case < 51:
+					returnS =  "insane hit damage";
+					break;
+				case < 101:
+					returnS =  "One shot bs hit damage";
+					break;
+				case < 201:
+					returnS =  "ok they are dead now you don't need any more damage!!!";
+					break;
+				default:
+					returnS =  "what type of damages this!?!?! AAAAAA";
+					break;
+			}
+
+			return returnS.Color("#D4D4D4").FontSize("85%");
+		}
+
+		public string HoverTip()
+		{
+			return GetInfo();
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			return null;
 		}
 
 
