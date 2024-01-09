@@ -775,6 +775,7 @@ namespace SecureStuff
 			public Book BindedTo;
 			public PropertyInfo PInfo;
 			public bool PCanWrite => PInfo.CanWrite;
+			public bool FCanWrite => Info.IsLiteral == false;
 
 			public FieldInfo Info;
 
@@ -874,6 +875,7 @@ namespace SecureStuff
 				{
 					Variable = "null";
 				}
+
 
 				//GenerateSentenceValuesforSentence
 				if (Sentences.Sentences != null)

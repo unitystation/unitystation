@@ -160,7 +160,11 @@ public class ChatBubble : MonoBehaviour, IDisposable
 		QueueMessages(msg, chatModifier);
 
 		cancelSource = new CancellationTokenSource();
-		if (!showingDialogue) StartCoroutine(ShowDialogue(cancelSource.Token));
+		if (showingDialogue == false)
+		{
+			showingDialogue = true;
+			StartCoroutine(ShowDialogue(cancelSource.Token));
+		}
 	}
 
 	private void QueueMessages(string msg, ChatModifier chatModifier = ChatModifier.None)
@@ -223,6 +227,13 @@ public class ChatBubble : MonoBehaviour, IDisposable
 
 			var NumberMaxShow = PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleNumber, 2);
 			while (ActiveBubbles.Count >= NumberMaxShow)
+			{
+				yield return null;
+			}
+
+
+
+			while (ActiveBubbles.Count > 0 && ActiveBubbles[^1].FinishedDisplaying == false)
 			{
 				yield return null;
 			}

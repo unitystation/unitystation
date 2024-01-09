@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Items;
 using UnityEngine;
 
+//TODO No longer used
+
 /// <summary>
 /// Marks an item as a rolling pin, letting it flatten items on the players other hand based on the recipe list in CraftingManager.Roll.
 /// </summary>

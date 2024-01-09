@@ -296,6 +296,10 @@ public class VariableViewerNetworking : MonoBehaviour
 				Page.CanWrite = bob.PCanWrite;
 			}
 
+			if (bob.Info != null)
+			{
+				Page.CanWrite = bob.FCanWrite;
+			}
 
 
 			if (Librarian.UEGetType(Page.FullVariableType) == null)
