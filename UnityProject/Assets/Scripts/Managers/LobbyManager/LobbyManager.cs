@@ -139,10 +139,9 @@ namespace Lobby
 			var username = PlayerPrefs.GetString(PlayerPrefKeys.AccountName);
 
 			lobbyDialogue.ShowLoadingPanel("Welcome back! Signing you in...");
-			LoginTimer();
-
 			var randomGreeting = string.Format(greetings.PickRandom(), username);
 			lobbyDialogue.ShowLoadingPanel($"{randomGreeting}\n\nSigning you in...");
+
 
 
 			// It's weird that we use the PlayerManager.Account to log in, but then we go and update that same object w/ the result...
@@ -469,24 +468,6 @@ namespace Lobby
 					lobbyDialogue.transform.localScale *= 0.9f;
 				}
 			}
-		}
-
-		private async void LoginTimer()
-		{
-			await Task.Delay(14000);
-			if (cancelTimer) return;
-			LoadManager.DoInMainThread(() =>
-			{
-				lobbyDialogue.ShowLoadingPanel("This is taking longer than it should..\n\n If it continues, try disabling your VPNs and installing the game in full English path.");
-			} );
-
-			await Task.Delay(30500);
-			if (cancelTimer) return;
-			LoadManager.DoInMainThread(() =>
-			{
-				lobbyDialogue.ShowLoginError($"Unexpected error. Check your console (F5)");
-			} );
-
 		}
 
 		#region Server History
