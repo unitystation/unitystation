@@ -69,6 +69,21 @@ namespace Objects
 			InvokeEventOnClient(interaction.PerformerPlayerScript.connectionToClient, interaction.Performer);
 		}
 
+		public void ServerPerformInteraction(HandActivate interaction)
+		{
+			foreach (var validateNetTab in GetComponents<ICanOpenNetTab>())
+			{
+				if(validateNetTab.CanOpenNetTab(interaction.Performer, NetTabType)) continue;
+
+				//If false block net tab opening
+				return;
+			}
+
+			playerInteracted = interaction.Performer;
+			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
+			InvokeEventOnClient(interaction.PerformerPlayerScript.connectionToClient, interaction.Performer);
+		}
+
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
 			foreach (var validateNetTab in GetComponents<ICanOpenNetTab>())

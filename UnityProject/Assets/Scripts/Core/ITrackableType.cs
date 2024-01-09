@@ -7,9 +7,9 @@ namespace Core
 {
 	public static class ComponentsTracker<T>
 	{
-		public static List<T> Instances { get; } = new List<T>();
+		public static HashSet<T> Instances { get; } = new HashSet<T>();
 
-		public static List<T> GetAllNearbyTypesToTarget(GameObject target, float maximumDistance)
+		public static List<T> GetAllNearbyTypesToTarget(GameObject target, float maximumDistance, bool bypassInventories = true)
 		{
 			if (Instances == null || Instances.Count == 0)
 			{
@@ -24,6 +24,10 @@ namespace Core
 			foreach (var stationObject in Instances)
 			{
 				var obj = stationObject as Component;
+				if (bypassInventories == false && obj.gameObject.IsAtHiddenPos())
+				{
+					continue;
+				}
 				if (Vector3.Distance(obj.gameObject.AssumedWorldPosServer(), target.AssumedWorldPosServer()) > maximumDistance)
 				{
 					continue;

@@ -121,7 +121,8 @@ public class GameData : MonoBehaviour
 
 		string testServerEnv = AllowedEnvironmentVariables.GetTEST_SERVER();
 		if (!string.IsNullOrEmpty(testServerEnv))
-		{
+		{		_ = LobbyManager.Instance.TryAutoLogin(false);
+
 			testServer = Convert.ToBoolean(testServerEnv);
 		}
 
@@ -218,6 +219,7 @@ public class GameData : MonoBehaviour
 
 	private async Task<bool> HubToServerConnect(string ip, ushort port, string uid, string token)
 	{
+		Loggy.Log($"HubToServerConnect Connecting to IP {ip}, port {port}, with uid {uid}");
 		await Task.Delay(TimeSpan.FromSeconds(0.1));
 
 		if (string.IsNullOrEmpty(token) == false)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
@@ -10,8 +9,8 @@ namespace Mobs.BrainAI
 {
 	public class BrainMobAI : BodyPartFunctionality
 	{
-		[field: ReadOnly] public List<BrainMobState> CurrentActiveStates { get; private set; } = new List<BrainMobState>();
-		[field: ReadOnly] public List<BrainMobState> MobStates { get; private set; } = new List<BrainMobState>();
+		[field: ReadOnly, SerializeField] public List<BrainMobState> CurrentActiveStates { get; private set; } = new List<BrainMobState>();
+		[field: SerializeField] public List<BrainMobState> MobStates { get; private set; } = new List<BrainMobState>();
 		[SerializeField] private BrainMobState thinkingState;
 
 

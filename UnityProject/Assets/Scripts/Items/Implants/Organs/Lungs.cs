@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
+using Core.Chat;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Logs;
 using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;
+using ScriptableObjects.RP;
 using Systems.Atmospherics;
 using UnityEngine;
 
@@ -66,6 +69,10 @@ namespace Items.Implants.Organs
 
 		public AlertSO ToxinAlert;
 		public AlertSO SuffocatingAlert;
+
+		[SerializeField] private EmoteSO coughEmote;
+		[SerializeField] private float coughCooldown = 6;
+		private bool coughIsOnCooldown = false;
 
 		public override void Awake()
 		{
@@ -380,12 +387,25 @@ namespace Items.Implants.Organs
 					BodyPartAlerts.RemoveAlert(ToxinAlert);
 				}
 			}
+
+			if (hasToxins && coughIsOnCooldown == false)
+			{
+				StartCoroutine(Cough());
+			}
 		}
 
 		private IEnumerator<WaitForSeconds> CooldownTick()
 		{
 			yield return new WaitForSeconds(internalBleedingCooldown);
 			onCooldown = false;
+		}
+
+		private IEnumerator Cough()
+		{
+			coughIsOnCooldown = true;
+			EmoteActionManager.DoEmote(coughEmote, LivingHealthMaster.playerScript.gameObject);
+			yield return WaitFor.Seconds(coughCooldown);
+			coughIsOnCooldown = false;
 		}
 
 		[Serializable]

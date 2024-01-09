@@ -115,7 +115,7 @@ public class BrainSlime : BrainMobState
 			return;
 		}
 
-		if (SlimeEat.CurrentlyEating != null)
+		if (SlimeEat.CurrentlyEating)
 		{
 			return;
 		}

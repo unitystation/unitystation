@@ -28,9 +28,9 @@ namespace Systems.Faith.Miracles
 		}
 
 		public int MiracleCost { get; set; } = 300;
-		public void DoMiracle()
+		public void DoMiracle(FaithData associatedFaith, PlayerScript invoker = null)
 		{
-			foreach (var member in FaithManager.Instance.FaithMembers)
+			foreach (var member in associatedFaith.FaithLeaders)
 			{
 				Chat.AddLocalMsgToChat($"A red tether appears from {member.visibleName} to nearby objects..", member.gameObject);
 				var overlapBox =

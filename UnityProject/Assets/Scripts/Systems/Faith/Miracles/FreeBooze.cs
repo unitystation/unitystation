@@ -33,7 +33,7 @@ namespace Systems.Faith.Miracles
 
 		public int MiracleCost { get; set; } = 150;
 
-		public void DoMiracle()
+		public void DoMiracle(FaithData associatedFaith, PlayerScript invoker = null)
 		{
 			string msg = new RichText().Color(RichTextColor.Yellow).Italic().Add("You hear bottles of glass fall..");
 			Chat.AddGameWideSystemMsgToChat(msg);

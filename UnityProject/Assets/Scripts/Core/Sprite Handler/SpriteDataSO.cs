@@ -8,8 +8,10 @@ using UnityEditor;
 using NaughtyAttributes;
 
 [CreateAssetMenu(fileName = "SpriteData", menuName = "ScriptableObjects/SpriteData")]
-public class SpriteDataSO : ScriptableObject
+public class SpriteDataSO : SOTracker
 {
+	public override SpriteDataSO Sprite => this;
+
 	public List<Variant> Variance = new List<Variant>();
 	public bool IsPalette = false;
 

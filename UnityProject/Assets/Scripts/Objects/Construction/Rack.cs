@@ -57,11 +57,7 @@ namespace Objects.Construction
 
 			// drop it right in the middle of the rack. IN order to do that we have to calculate
 			// that position as an offset from the performer
-			// TODO: Make it less awkward by adding a serverdrop method that accepts absolute position instead of vector.
-			var targetTileWorldPosition = gameObject.TileWorldPosition();
-			var targetTileVector =
-				(Vector3Int)targetTileWorldPosition - interaction.PerformerPlayerScript.RegisterPlayer.WorldPositionServer;
-			Inventory.ServerDrop(interaction.HandSlot, targetTileVector.To2Int());
+			Inventory.ServerDropAtWorld(interaction.HandSlot, interaction.WorldPositionTarget);
 		}
 	}
 }

@@ -172,11 +172,6 @@ public class Matrix : MonoBehaviour
 		{
 			tilemap.CompressBounds();
 		}
-
-		foreach (var layer in MetaTileMap.LayersValues)
-		{
-			layer.RecalculateBounds();
-		}
 	}
 
 	public void ConfigureMatrixInfo(MatrixInfo matrixInfo)
@@ -445,7 +440,9 @@ public class Matrix : MonoBehaviour
 		{
 			foreach (var electricalMetaData in MetaDataLayer.Get(localPosition).ElectricalData)
 			{
-				list.List.Add(electricalMetaData.InData);
+				var inData = electricalMetaData?.InData;
+				if (inData == null) continue;
+				list.List.Add(inData);
 			}
 		}
 

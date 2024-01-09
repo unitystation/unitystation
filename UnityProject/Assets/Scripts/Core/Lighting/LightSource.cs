@@ -1,15 +1,13 @@
 using System;
 using AddressableReferences;
-using Audio.Containers;
 using Core;
-using Items.Implants.Organs;
+using Core.Lighting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Mirror;
 using ScriptableObjects;
 using Light2D;
 using Logs;
-using Messages.Server.SoundMessages;
 using Systems.Electricity;
 using Shared.Systems.ObjectConnection;
 using Objects.Construction;
@@ -24,9 +22,10 @@ namespace Objects.Lighting
 	public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowerable, IServerLifecycle,
 		IMultitoolSlaveable
 	{
-		[SyncVar(hook = nameof(SetAnimation)), SerializeField, FormerlySerializedAs("ONColour")]
+		[SyncVar(hook = nameof(SetColor)), SerializeField, FormerlySerializedAs("ONColour")]
 		public Color CurrentOnColor;
 
+		[SyncVar(hook = nameof(SyncEmergencyColour))]
 		public Color EmergencyColour;
 
 		public LightSwitchV2 relatedLightSwitch;
@@ -43,15 +42,14 @@ namespace Objects.Lighting
 		public bool IsWithoutSwitch => isWithoutSwitch;
 		private bool switchState = true;
 		private PowerState powerState;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		private EmergencyLightAnimator EmergencyLightAnimator;
+		[field: SerializeField] public LightAnimator Animator { get; private set; }
 		[SerializeField] private SpriteHandler spriteHandler;
 		[SerializeField] private SpriteRenderer spriteRendererLightOn;
-		private LightSprite lightSprite;
-		[SerializeField] private EmergencyLightAnimator emergencyLightAnimator = default;
 		[SerializeField] private Integrity integrity = default;
 		public Integrity Integrity => integrity;
 		[SerializeField] private Rotatable directional;
-
 		[SerializeField] private BoxCollider2D boxColl = null;
 		[SerializeField] private Vector4 collDownSetting = Vector4.zero;
 		[SerializeField] private Vector4 collRightSetting = Vector4.zero;
@@ -70,19 +68,22 @@ namespace Objects.Lighting
 		private ItemTrait traitRequired;
 		public ItemTrait TraitRequired => traitRequired;
 		private GameObject itemInMount;
+		public LightSprite lightSprite { get; private set; }
 
 		public float integrityThreshBar { get; private set; }
 
 		private bool sparking = false;
 
-		[Header("Audio")]
-		[SerializeField] private AddressableAudioSource ambientSoundWhileOn;
+		[Header("Audio")] [SerializeField] private AddressableAudioSource ambientSoundWhileOn;
 		private string loopKey;
+
+		private bool SoundInit = false;
 
 		#region Lifecycle
 
 		private void Awake()
 		{
+			EmergencyLightAnimator = this.GetComponent<EmergencyLightAnimator>();
 			objectPhysics = GetComponent<UniversalObjectPhysics>();
 			construction = GetComponent<LightFixtureConstruction>();
 			if (mLightRendererObject == null)
@@ -121,6 +122,12 @@ namespace Objects.Lighting
 			if (integrity != null) integrity.OnApplyDamage.RemoveListener(OnDamageReceived);
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, TrySpark);
+		}
+
+		public override void OnStartClient()
+		{
+			base.OnStartClient();
+			SyncLightState(MountState, MountState);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -184,7 +191,7 @@ namespace Objects.Lighting
 		[Server]
 		public void ServerChangeLightState(LightMountState newState)
 		{
-			MountState = newState;
+			SyncLightState(MountState, newState);
 
 			if (newState == LightMountState.Broken)
 			{
@@ -212,7 +219,18 @@ namespace Objects.Lighting
 			MountState = newState;
 			ChangeCurrentState(newState);
 			SetSprites();
-			SetAnimation(CurrentOnColor, CurrentOnColor);
+			SetColor(CurrentOnColor, CurrentOnColor);
+			mLightRendererObject.SetActive(newState is LightMountState.On or LightMountState.BurnedOut);
+			mLightRendererObject.gameObject.SetActive(newState is LightMountState.On or LightMountState.BurnedOut);
+			if (newState == LightMountState.BurnedOut)
+			{
+				Animator.ServerPlayAnim(1);
+			}
+			else if (Animator.ActiveAnimation is {ID: 1})
+			{
+				Animator.ServerStopAnim();
+			}
+			CheckAudioState();
 		}
 
 		private void ChangeCurrentState(LightMountState newState)
@@ -221,19 +239,6 @@ namespace Objects.Lighting
 			{
 				currentState = mountStatesMachine.LightMountStates[newState];
 			}
-		}
-
-		public void EditorDirectionChange()
-		{
-			directional = GetComponent<Rotatable>();
-			spriteRendererLightOn = GetComponentsInChildren<SpriteRenderer>().Length > 1
-				? GetComponentsInChildren<SpriteRenderer>()[1]
-				: GetComponentsInChildren<SpriteRenderer>()[0];
-			var state = mountStatesMachine.LightMountStates[LightMountState.On];
-
-			spriteHandler.SetSpriteSO(state.SpriteData, null);
-			spriteRendererLightOn.sprite = spritesStateOnEffect.sprites[0];
-			RefreshBoxCollider();
 		}
 
 		public void RefreshBoxCollider()
@@ -268,54 +273,40 @@ namespace Objects.Lighting
 			RefreshBoxCollider();
 		}
 
-		public void SetAnimation(Color oldState, Color newState)
+
+		public void SyncEmergencyColour(Color oldState, Color newState)
 		{
-		    CurrentOnColor = newState;
+			EmergencyColour = newState;
+		}
+
+		public void SetColor(Color oldState, Color newState)
+		{
+			CurrentOnColor = newState;
 			lightSprite.Color = newState;
-			switch (MountState)
-			{
-				case LightMountState.Emergency:
-					lightSprite.Color = EmergencyColour;
-					mLightRendererObject.transform.localScale = Vector3.one * 3.0f;
-					mLightRendererObject.SetActive(true);
-					if (emergencyLightAnimator != null)
-					{
-						emergencyLightAnimator.StartAnimation();
-					}
-					break;
-				case LightMountState.On:
-					if (emergencyLightAnimator != null)
-					{
-						emergencyLightAnimator.StopAnimation();
-					}
-
-					lightSprite.Color = newState;
-					mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
-					mLightRendererObject.SetActive(true);
-
-					break;
-				default:
-					if (emergencyLightAnimator != null)
-					{
-						emergencyLightAnimator.StopAnimation();
-					}
-					mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
-					mLightRendererObject.SetActive(false);
-					break;
-			}
-			CheckAudioState();
 		}
 
 		private void CheckAudioState()
 		{
-			if (MountState == LightMountState.On)
+			if (isServer)
 			{
-				SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,
-					gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
-			}
-			else
-			{
-				SoundManager.StopNetworked(loopKey);
+				if (MountState == LightMountState.On)
+				{
+					if (SoundInit)
+					{
+						SoundManager.TokenPlayNetworked(loopKey);
+					}
+					else
+					{
+						SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,
+							gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
+						SoundInit = true;
+					}
+
+				}
+				else
+				{
+					SoundManager.StopNetworked(loopKey, false);
+				}
 			}
 		}
 
@@ -335,7 +326,7 @@ namespace Objects.Lighting
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (interaction.HandObject == null)
+			if (interaction.HandObject == null && MountState is not LightMountState.MissingBulb or LightMountState.None)
 			{
 				TryRemoveBulb(interaction);
 			}
@@ -351,6 +342,7 @@ namespace Objects.Lighting
 
 		private void TryRemoveBulb(HandApply interaction)
 		{
+			if (MountState is LightMountState.None or LightMountState.MissingBulb) return;
 			try
 			{
 				//(Gilles)  : the hand that we use to interact and hold items isn't the same entity as the slot where you wear gloves.
@@ -365,9 +357,11 @@ namespace Objects.Lighting
 						if (interaction.PerformerPlayerScript.playerHealth.brain != null &&
 						    interaction.PerformerPlayerScript.playerHealth.brain.HasTelekinesis)
 						{
-							Chat.AddExamineMsg(interaction.Performer, "You instinctively use your telekinetic power to protect your hand from getting burnt.");
+							Chat.AddExamineMsg(interaction.Performer,
+								"You instinctively use your telekinetic power to protect your hand from getting burnt.");
 							return true;
 						}
+
 						if (slot.IsEmpty) continue;
 						if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.BlackGloves)) return true;
 					}
@@ -375,7 +369,7 @@ namespace Objects.Lighting
 					return false;
 				}
 
-				if (MountState == LightMountState.On && HasGlove() == false)
+				if (MountState is LightMountState.On && HasGlove() == false)
 				{
 					float damage = Random.Range(0, maximumDamageOnTouch);
 					var playerHealth = interaction.PerformerPlayerScript.playerHealth;
@@ -389,8 +383,16 @@ namespace Objects.Lighting
 						"<color=red>You burn your hand on the bulb while attempting to remove it!</color>");
 					return;
 				}
+				var spawnedItem = Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer())
+					.GameObject;
 
-				var spawnedItem = Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer()).GameObject;
+				var lightTubeData = spawnedItem.GetComponent<LightTubeData>();
+				if (lightTubeData != null)
+				{
+					lightTubeData.RegularColour = CurrentOnColor;
+					lightTubeData.EmergencyColour = EmergencyColour;
+				}
+
 				ItemSlot bestHand = interaction.PerformerPlayerScript.DynamicItemStorage.GetBestHand();
 				if (bestHand != null && spawnedItem != null)
 				{
@@ -411,6 +413,13 @@ namespace Objects.Lighting
 		{
 			if (MountState != LightMountState.MissingBulb) return;
 
+			var lightTubeData = interaction.HandObject.GetComponent<LightTubeData>();
+			if (lightTubeData != null)
+			{
+				SetColor(CurrentOnColor, lightTubeData.RegularColour);
+				SyncEmergencyColour(EmergencyColour, lightTubeData.EmergencyColour);
+			}
+
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Broken))
 			{
 				ServerChangeLightState(LightMountState.Broken);
@@ -420,15 +429,13 @@ namespace Objects.Lighting
 				ServerChangeLightState(
 					(switchState && (powerState == PowerState.On))
 						? LightMountState.On
-						: (powerState != PowerState.OverVoltage)
-							? LightMountState.Emergency
-							: LightMountState.Off);
+						: LightMountState.Off);
 			}
 
 			_ = Despawn.ServerSingle(interaction.HandObject);
 		}
 
-		public void TryAddBulb(GameObject lightBulb)
+		public void TryAddBulb(GameObject lightBulb) //NOTE Only used by Advanced light Replacer so Colour is inherited from  Advanced light Replacer
 		{
 			if (MountState != LightMountState.MissingBulb) return;
 
@@ -441,9 +448,7 @@ namespace Objects.Lighting
 				ServerChangeLightState(
 					(switchState && (powerState == PowerState.On))
 						? LightMountState.On
-						: (powerState != PowerState.OverVoltage)
-							? LightMountState.Emergency
-							: LightMountState.Off);
+						: LightMountState.Off);
 			}
 
 			_ = Despawn.ServerSingle(lightBulb);
@@ -463,6 +468,7 @@ namespace Objects.Lighting
 
 		public void PowerNetworkUpdate(float voltage)
 		{
+
 		}
 
 		public void StateUpdate(PowerState newPowerState)
@@ -471,20 +477,23 @@ namespace Objects.Lighting
 			powerState = newPowerState;
 			if (MountState == LightMountState.Broken
 			    || MountState == LightMountState.MissingBulb) return;
-
 			switch (newPowerState)
 			{
-				case PowerState.On:
-					ServerChangeLightState(LightMountState.On);
+				case PowerState.Off:
+					Animator.ServerStopAnim();
+					ServerChangeLightState(LightMountState.Off);
 					return;
 				case PowerState.LowVoltage:
-					ServerChangeLightState(LightMountState.Emergency);
+					Animator.ServerPlayAnim(0);
+					ServerChangeLightState(LightMountState.Off);
+					return;
+				case PowerState.On:
+					ServerChangeLightState(LightMountState.On);
+					Animator.ServerStopAnim();
 					return;
 				case PowerState.OverVoltage:
 					ServerChangeLightState(LightMountState.BurnedOut);
-					return;
-				case PowerState.Off:
-					ServerChangeLightState(LightMountState.Emergency);
+					Animator.ServerStopAnim();
 					return;
 			}
 		}
@@ -533,7 +542,7 @@ namespace Objects.Lighting
 			chanceToSpark = Mathf.Clamp(chanceToSpark, 1, 100);
 
 			//E.g will have 25% chance to not spark when chanceToSpark = 75
-			if(DMMath.Prob(100 - chanceToSpark)) return;
+			if (DMMath.Prob(100 - chanceToSpark)) return;
 
 			//Try start fire if possible
 			var reactionManager = objectPhysics.registerTile.Matrix.ReactionManager;

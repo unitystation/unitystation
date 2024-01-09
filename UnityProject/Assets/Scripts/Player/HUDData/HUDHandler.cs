@@ -39,7 +39,10 @@ public class HUDHandler : MonoBehaviour
 		Huds.Remove(HUD);
 		Destroy( HUD.InstantiatedGameObject);
 		var type = HUD.GetType();
-		Categorys[type].Remove(HUD);
+		if (Categorys.ContainsKey(type))
+		{
+			Categorys[type].Remove(HUD);
+		}
 	}
 
 

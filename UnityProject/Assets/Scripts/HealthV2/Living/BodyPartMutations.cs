@@ -91,6 +91,11 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	public void MutateCustomisation(string InCustomisationTarget, string CustomisationReplaceWith)
 	{
+		if (string.IsNullOrEmpty(InCustomisationTarget))
+		{
+			RelatedPart.SetCustomisationString(RelatedPart.SetCustomisationData);
+			return;
+		}
 		if (RelatedPart.SetCustomisationData.Contains(InCustomisationTarget))
 		{
 			//Loggy.LogError($"{bodyPart.name} has {InCustomisationTarget} in SetCustomisationData");

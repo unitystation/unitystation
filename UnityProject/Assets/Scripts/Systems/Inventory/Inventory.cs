@@ -127,6 +127,12 @@ public static class Inventory
 		return ServerPerform(InventoryMove.Drop(fromSlot, worldTargetVector));
 	}
 
+
+	public static bool ServerDropAtWorld(ItemSlot fromSlot, Vector3 WorldVector)
+	{
+		return ServerPerform(InventoryMove.Drop(fromSlot,  WorldVector-fromSlot.GetRootStorageOrPlayer().AssumedWorldPosServer() ));
+	}
+
 	/// <summary>
 	/// If you're too lazy to get the ItemSlot This will do it for you or Return false if it can't find ItemSlot it is in
 	/// </summary>
@@ -530,7 +536,6 @@ public static class Inventory
 
 				//speedloss  / friction
 				 airtime = timeTakenIfallThrow- ((Mathf.Pow(IA2.ThrowSpeed, 2) / (2 * UniversalObjectPhysics.DEFAULT_Friction)) / IA2.ThrowSpeed);
-
 			}
 
 			UOP.NewtonianPush(WorldTrajectory, ((ItemAttributesV2) UOP.attributes.Component).ThrowSpeed

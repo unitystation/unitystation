@@ -217,7 +217,6 @@ namespace Lobby
 
 		public async Task<bool> TryAutoLogin(bool autoJoin)
 		{
-
 			Loggy.Log("Attempting automatic login by token...");
 
 			if (PlayerPrefs.GetInt(PlayerPrefKeys.AccountAutoLogin) == 1 && PlayerPrefs.HasKey(PlayerPrefKeys.AccountToken))
@@ -228,82 +227,8 @@ namespace Lobby
 			Loggy.Log("Couldn't log in via PlayerPrefs token: automatic login not enabled or no token.");
 
 			return false;
-			//
-			// try
-			// {
-			// 	if (FirebaseAuth.DefaultInstance.CurrentUser == null)
-			// 	{
-			// 		Loggy.Log("[LobbyManager/TryAutoLogin()] - FirebaseAuth.DefaultInstance.CurrentUser is null. Attempting to send user to first time panel.");
-			// 		// We haven't seen this user before.
-			// 		lobbyDialogue.ShowAlphaPanel();
-			// 		return false;
-			// 	}
-			//
-			// 	var randomGreeting = string.Format(greetings.PickRandom(), FirebaseAuth.DefaultInstance.CurrentUser.DisplayName);
-			// 	lobbyDialogue.ShowLoadingPanel($"{randomGreeting}\n\nSigning you in...");
-			// 	LoginTimer();
-			// 	bool isLoginSuccess = false;
-			// 	Loggy.Log("[LobbyManager/TryAutoLogin()] - Executing  FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread().");
-			// 	await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(task => {
-			// 		if (task.IsCanceled)
-			// 		{
-			// 			Loggy.LogWarning($"Auto sign in cancelled.");
-			// 			LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
-			// 			return;
-			// 		}
-			// 		else if (task.IsFaulted)
-			// 		{
-			// 			Loggy.LogError($"Auto sign in failed: {task.Exception?.Message}");
-			// 			lobbyDialogue.ShowLoginError("Unexpected error encountered. Check your console (F5)");
-			// 			LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
-			// 			return;
-			// 		}
-			// 		isLoginSuccess = true;
-			// 	});
-			// 	Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread().");
-			//
-			// 	if (isLoginSuccess == false)
-			// 	{
-			// 		Loggy.Log("[LobbyManager/TryAutoLogin()] - isLoginSuccess is false.");
-			// 		LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
-			// 		return false;
-			// 	}
-			// 	cancelTimer = true;
-			//
-			// 	Loggy.Log("[LobbyManager/TryAutoLogin()] - Executing awaited ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, lobbyDialogue.ShowLoginError)");
-			//
-			// 	var longRunningTask = ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, lobbyDialogue.ShowLoginError);
-			// 	var timeout = TimeSpan.FromSeconds(5);
-			//
-			// 	// Use Task.WhenAny to wait for either the long-running task to complete or the timeout to occur
-			// 	var completedTask = await Task.WhenAny(longRunningTask, Task.Delay(timeout));
-			//
-			// 	// Check which task completed
-			// 	if (completedTask == longRunningTask)
-			// 	{
-			// 		if (autoJoin == false)
-			// 		{
-			// 			LoadManager.DoInMainThread(() => { lobbyDialogue.ShowMainPanel(); });
-			// 		}
-			//
-			// 		Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited ServerData.ValidateUser(~~~) and showing main panel.");
-			// 		return true;
-			// 	}
-			// 	else
-			// 	{
-			// 		Loggy.Log("[LobbyManager/TryAutoLogin()] - Finished awaited ServerData.ValidateUser(~~~) with false result.");
-			// 		LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
-			// 		return false;
-			// 	}
-			// }
-			// catch (Exception e)
-			// {
-			// 	Loggy.LogError(e.ToString());
-			// 	LoadManager.DoInMainThread(() => { lobbyDialogue.ShowLoginPanel(); });
-			//
-			// 	return false;
-			// }
 		}
+
 
 		private void HandleLoginTask(Task<Account> task)
 		{
@@ -550,10 +475,18 @@ namespace Lobby
 		{
 			await Task.Delay(14000);
 			if (cancelTimer) return;
-			lobbyDialogue.ShowLoadingPanel("This is taking longer than it should..\n\n If it continues, try disabling your VPNs and installing the game in full English path.");
+			LoadManager.DoInMainThread(() =>
+			{
+				lobbyDialogue.ShowLoadingPanel("This is taking longer than it should..\n\n If it continues, try disabling your VPNs and installing the game in full English path.");
+			} );
+
 			await Task.Delay(30500);
 			if (cancelTimer) return;
-			lobbyDialogue.ShowLoginError($"Unexpected error. Check your console (F5)");
+			LoadManager.DoInMainThread(() =>
+			{
+				lobbyDialogue.ShowLoginError($"Unexpected error. Check your console (F5)");
+			} );
+
 		}
 
 		#region Server History

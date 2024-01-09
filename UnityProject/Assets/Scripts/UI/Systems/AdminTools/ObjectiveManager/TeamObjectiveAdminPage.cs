@@ -105,7 +105,7 @@ public class TeamObjectiveAdminPage : AdminPage
 	public void DisplayTeamInfo(TeamEntry entry)
 	{
 		if (currentTeam != null)
-			entry.UpdateTeamInfo(entryObjs, entryMembers);
+			currentTeam.UpdateTeamInfo(entryObjs, entryMembers);
 
 		foreach (var x in entryObjs)
 		{
@@ -124,8 +124,6 @@ public class TeamObjectiveAdminPage : AdminPage
 			return;
 
 		currentTeam = entry;
-		RefreshPlayers(entry);
-		RefreshObjectives(entry);
 
 		teamName.text = entry.TeamInfo.Name;
 		foreach (var x in entry.TeamInfo.ObjsInfo)
@@ -159,6 +157,9 @@ public class TeamObjectiveAdminPage : AdminPage
 
 		playersAddEntry.transform.SetAsLastSibling();
 		objectiveAddEntry.transform.SetAsLastSibling();
+
+		RefreshPlayers(entry);
+		RefreshObjectives(entry);
 	}
 
 	/// <summary>
@@ -227,14 +228,23 @@ public class TeamObjectiveAdminPage : AdminPage
 		{
 			AdminPlayerEntry x = playerList[i];
 			bool playerInTeam = false;
-			foreach (var member in entryMembers)
+			foreach (var member in entry.TeamInfo.MembersInfo)
 			{
-				if (member.AdminInfo.PlayerData.uid == x.PlayerData.uid)
+				if (member.Id == x.PlayerData.uid)
 				{
 					playerInTeam = true;
 					break;
 				}
 			}
+			foreach (var eM in entryMembers)
+			{
+				if (eM.AdminInfo.PlayerData.uid == x.PlayerData.uid)
+				{
+					playerInTeam = true;
+					break;
+				}
+			}
+
 			if (playerInTeam == true)
 				continue;
 			players.Add(new Dropdown.OptionData(x.PlayerData.name));
@@ -435,7 +445,7 @@ public class TeamObjectiveAdminPage : AdminPage
 	/// <param name="member"></param>
 	private static void RemoveMember(Team serverTeam, PlayerInfo member)
 	{
-		serverTeam.RemoveTeamMember(member.Mind);
+		member.Mind.AntagPublic.CurTeam = null;
 	}
 
 	/// <summary>
@@ -445,7 +455,7 @@ public class TeamObjectiveAdminPage : AdminPage
 	/// <param name="member"></param>
 	private static void AddMember(Team serverTeam, PlayerInfo member)
 	{
-		serverTeam.AddTeamMember(member.Mind);
+		member.Mind.AntagPublic.CurTeam = serverTeam;
 	}
 
 	/// <summary>

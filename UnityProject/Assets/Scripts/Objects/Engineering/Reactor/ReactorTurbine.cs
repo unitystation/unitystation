@@ -11,7 +11,8 @@ namespace Objects.Engineering
 		[SerializeField]
 		private int droppedMaterialAmount = 25;
 		public ReactorBoiler Boiler;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		#region Lifecycle
 
 		private void Start()
@@ -101,7 +102,6 @@ namespace Objects.Engineering
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.BoilerTurbine;
 
 		// Master connection
-		bool IMultitoolMasterable.MultiMaster => false;
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		// Slave connection

@@ -94,6 +94,7 @@ public class GUI_DevSpawner : MonoBehaviour
 	    isFocused = true;
 	    UIManager.IsInputFocus = true;
 	    UIManager.PreventChatInput = true;
+	    UIManager.IsMouseInteractionDisabled = true;
     }
 
     private void InputUnfocus()
@@ -102,7 +103,7 @@ public class GUI_DevSpawner : MonoBehaviour
 	    isFocused = false;
 	    UIManager.IsInputFocus = false;
 	    UIManager.PreventChatInput = false;
-
+	    UIManager.IsMouseInteractionDisabled = false;
 	    //Note: this is what stops the chat box from opening when pressing enter
 	    ChatUI.Instance.StartWindowCooldown();
     }

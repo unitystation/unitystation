@@ -52,6 +52,7 @@ public class VotingManager : NetworkBehaviour
 	private Coroutine cooldown;
 
 	private List<string> MapList = new List<string>();
+	private List<string> awaySiteList = new List<string>();
 	private List<string> GameModeList = new List<string>();
 	private List<string> yesNoList = new List<string>();
 
@@ -61,7 +62,8 @@ public class VotingManager : NetworkBehaviour
 	{
 		RestartRound,
 		NextGameMode,
-		NextMap
+		NextMap,
+		NextAwaySite
 	}
 
 	private void Awake()
@@ -79,6 +81,7 @@ public class VotingManager : NetworkBehaviour
 	private void Start()
 	{
 		MapList = SubSceneManager.Instance.MainStationList.GetMaps();
+		awaySiteList = SubSceneManager.Instance.awayWorldList.AwayWorlds;
 		GameModeList = GameManager.Instance.GetAvailableGameModeNames();
 		yesNoList.Add("Yes");
 		yesNoList.Add("No");
@@ -125,6 +128,12 @@ public class VotingManager : NetworkBehaviour
 	}
 
 	[Server]
+	public void TryInitiateNextAwaysiteVote(GameObject instigator, NetworkConnection sender = null)
+	{
+		SetupVote(VoteType.NextAwaySite, VotePolicy.MajorityRules, 30, instigator, sender);
+	}
+
+	[Server]
 	public void TryInitiateNextMapVote(GameObject instigator, NetworkConnection sender = null)
 	{
 		SetupVote(VoteType.NextMap, VotePolicy.MajorityRules, 30, instigator, sender);
@@ -160,6 +169,10 @@ public class VotingManager : NetworkBehaviour
 			case VoteType.NextMap:
 				possibleVotes.AddRange(MapList);
 				RpcOpenVoteWindow("Voting for next map initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), MapList);
+				break;
+			case VoteType.NextAwaySite:
+				possibleVotes.AddRange(awaySiteList);
+				RpcOpenVoteWindow("Voting for next away site/world initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), awaySiteList);
 				break;
 		}
 
@@ -283,6 +296,10 @@ public class VotingManager : NetworkBehaviour
 				case VoteType.NextMap:
 					Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next map will be {winner}</color>");
 					SubSceneManager.AdminForcedMainStation = winner;
+					break;
+				case VoteType.NextAwaySite:
+					Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next away site will be {winner}</color>");
+					SubSceneManager.AdminForcedAwaySite = winner;
 					break;
 			}
 

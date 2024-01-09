@@ -8,12 +8,14 @@ public class ExplosionTypes
 	public enum ExplosionType //add your explosion type here
 	{
 		Regular,
-		EMP
+		EMP,
+		PlayerFriendly
 	}
 
 	public static readonly Dictionary<ExplosionType, ExplosionNode> NodeTypes = new Dictionary<ExplosionType, ExplosionNode>() //add your node type here
 	{
 			{ExplosionType.Regular, new ExplosionNode()},
-			{ExplosionType.EMP, new ExplosionEmpNode()}
+			{ExplosionType.EMP, new ExplosionEmpNode()},
+			{ExplosionType.PlayerFriendly, new PlayerFriendlyExplosionNode()}
 	};
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WindowDrag : MonoBehaviour
 {
@@ -30,7 +29,6 @@ public class WindowDrag : MonoBehaviour
 	private void OnEnable()
 	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		UIManager.PreventChatInput = true;
 	}
 
 	public void UpdateMe()
@@ -41,7 +39,7 @@ public class WindowDrag : MonoBehaviour
 			return;
 		}
 
-		if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ResetWindowPosition))
+		if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ResetWindowPosition) && UIManager.IsInputFocus == false)
 		{
 			this.transform.localPosition = Vector3.zero;
 		}
@@ -55,7 +53,6 @@ public class WindowDrag : MonoBehaviour
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 
 		transform.localPosition = startPositon;
-		UIManager.PreventChatInput = false;
 	}
 
 	/// <summary>

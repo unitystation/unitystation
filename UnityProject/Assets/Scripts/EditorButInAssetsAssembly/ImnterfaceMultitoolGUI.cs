@@ -16,6 +16,7 @@ namespace CustomInspectors
 	public class ImnterfaceMultitoolGUI : NetworkBehaviour
 	{
 #if UNITY_EDITOR
+		[HideInInspector]
 		public List<InterfaceEditor> runningInterfaces = new List<InterfaceEditor>();
 #endif
 		public virtual void OnEnable()
@@ -77,7 +78,10 @@ namespace CustomInspectors
 		[DrawGizmo(GizmoType.Selected | GizmoType.Active)]
 		private static void DrawGizmoConnection(IMultitoolMasterable device, GizmoType type)
 		{
-			foreach (var interfaceEntry in device.gameObject.GetComponent<ImnterfaceMultitoolGUI>().runningInterfaces)
+			if (device?.gameObject == null) return;
+			var Interface = device.gameObject.GetComponent<ImnterfaceMultitoolGUI>();
+			if (Interface?.runningInterfaces == null) return;
+			foreach (var interfaceEntry in Interface.runningInterfaces)
 			{
 				interfaceEntry.DrawGizmoConnectionInEditor(device, type);
 			}

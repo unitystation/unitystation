@@ -152,7 +152,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 2
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 8192
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: 1682706735454543596}
   - component: {fileID: 1395986156385524389}
   - component: {fileID: 1459765387367585592}
+  - component: {fileID: -6135957142291871466}
   m_Layer: 5
   m_Name: Z
   m_TagString: Untagged
@@ -395,6 +396,18 @@ MonoBehaviour:
   m_LineLimit: 0
   m_InputValidator: {fileID: 0}
   ExitButton: 27
+--- !u!114 &-6135957142291871466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026177282048791233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5efb2a982d806d04cbe8f95e93da2290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2394612824337476604
 GameObject:
   m_ObjectHideFlags: 0
@@ -407,6 +420,7 @@ GameObject:
   - component: {fileID: 8965994599527939567}
   - component: {fileID: 2809697692148917189}
   - component: {fileID: 3629015354739546141}
+  - component: {fileID: 4434135796438648331}
   m_Layer: 5
   m_Name: Y
   m_TagString: Untagged
@@ -583,6 +597,18 @@ MonoBehaviour:
   m_LineLimit: 0
   m_InputValidator: {fileID: 0}
   ExitButton: 27
+--- !u!114 &4434135796438648331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2394612824337476604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5efb2a982d806d04cbe8f95e93da2290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2954793120354038636
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,7 +708,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -817,7 +843,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 2
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 8192
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -971,7 +997,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1105,7 +1131,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1768,7 +1794,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 2
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 8192
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2021,6 +2047,7 @@ GameObject:
   - component: {fileID: 5306990084078264461}
   - component: {fileID: 203746890430056425}
   - component: {fileID: 6649653837028280034}
+  - component: {fileID: -6369875215536212822}
   m_Layer: 5
   m_Name: X
   m_TagString: Untagged
@@ -2197,6 +2224,18 @@ MonoBehaviour:
   m_LineLimit: 0
   m_InputValidator: {fileID: 0}
   ExitButton: 27
+--- !u!114 &-6369875215536212822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8415651365286122608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5efb2a982d806d04cbe8f95e93da2290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8435366236381438256
 GameObject:
   m_ObjectHideFlags: 0

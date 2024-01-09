@@ -31,14 +31,17 @@ namespace Systems.Faith.FaithProperties
 			set => propertyIcon = value;
 		}
 
-		public void Setup()
+		public FaithData AssociatedFaith { get; set; }
+
+		public void Setup(FaithData associatedFaith)
 		{
 			FaithManager.Instance.FaithPropertiesEventUpdate.Add(CheckNearbyLights);
+			AssociatedFaith = associatedFaith;
 		}
 
 		private void CheckNearbyLights()
 		{
-			foreach (var member in FaithManager.Instance.FaithMembers)
+			foreach (var member in AssociatedFaith.FaithMembers)
 			{
 				if (member.IsDeadOrGhost) continue;
 				var overlapBox = Physics2D.OverlapBoxAll(member.gameObject.AssumedWorldPosServer(), new Vector2(6, 6), 0);
@@ -52,18 +55,18 @@ namespace Systems.Faith.FaithProperties
 					{
 						if (lightSource.CurrentOnColor.a <= minimumAlphaForDarkness)
 						{
-							FaithManager.AwardPoints(15);
+							FaithManager.AwardPoints(15, AssociatedFaith.Faith.FaithName);
 							if(Application.isEditor) Loggy.Log("Awarded points for having low darkness value.");
 							continue;
 						}
 						else
 						{
-							FaithManager.TakePoints(25);
+							FaithManager.TakePoints(25, AssociatedFaith.Faith.FaithName);
 							Chat.AddExamineMsg(member.GameObject, $"The nearby {collider.gameObject.ExpensiveName()} is too bright..");
 							continue;
 						}
 					}
-					FaithManager.AwardPoints(25);
+					FaithManager.AwardPoints(25, AssociatedFaith.Faith.FaithName);
 				}
 			}
 		}

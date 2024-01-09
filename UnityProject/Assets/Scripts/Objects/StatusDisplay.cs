@@ -54,7 +54,8 @@ namespace Objects.Wallmounts
 
 		[SerializeField] private Color normalTextColor;
 		[SerializeField] private Color redAlertTextColor = Color.red;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		public enum MountedMonitorState
 		{
 			StatusText,
@@ -72,8 +73,8 @@ namespace Objects.Wallmounts
 		[SerializeField] private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
 		public MultitoolConnectionType ConType => conType;
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
-		private bool multiMaster = true;
-		public bool MultiMaster => multiMaster;
+		private bool multiMaster = true; //TODO
+		public bool MultiMaster => multiMaster; //TODO
 
 		[SerializeField] private AccessRestrictions accessRestrictions;
 

@@ -19,6 +19,7 @@ namespace Objects.Research
 
 		public ResearchLaserProjector AssociatedResearchLaserProjector;
 
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		public void Awake()
 		{
 			Rotatable = this.GetComponent<Rotatable>();

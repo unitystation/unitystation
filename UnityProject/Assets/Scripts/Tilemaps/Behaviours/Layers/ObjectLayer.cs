@@ -354,8 +354,4 @@ public class ObjectLayer : Layer
 
 		return true;
 	}
-
-	public override void RecalculateBounds()
-	{
-	}
 }

@@ -15,29 +15,32 @@ namespace Systems.Faith.FaithProperties
 			get => propertyIcon;
 			set => propertyIcon = value;
 		}
+		FaithData IFaithProperty.AssociatedFaith { get; set; }
+		private FaithData Faith => ((IFaithProperty)this).AssociatedFaith;
 
 		[SerializeField] private int nonMemberTakePoints = 10;
 		[SerializeField] private int memberGivePoints = 15;
 
-		public void Setup()
+		public void Setup(FaithData associatedFaith)
 		{
 			FaithManager.Instance.FaithPropertiesEventUpdate.Add(CheckForMemberRaces);
+			((IFaithProperty)this).AssociatedFaith = associatedFaith;
 		}
 
 		private void CheckForMemberRaces()
 		{
-			if (FaithManager.Instance.FaithLeaders.Count == 0) return;
-			var leaderRaces = FaithManager.Instance.FaithLeaders.Select(leader => leader.characterSettings.GetRaceSo().name).ToList();
-			foreach (var member in FaithManager.Instance.FaithMembers)
+			if (Faith.FaithLeaders.Count == 0) return;
+			var leaderRaces = Faith.FaithLeaders.Select(leader => leader.characterSettings.GetRaceSo().name).ToList();
+			foreach (var member in Faith.FaithMembers)
 			{
-				if(member.IsDeadOrGhost) continue;
+				if (member.IsDeadOrGhost) continue;
 				if (leaderRaces.Contains(member.characterSettings.GetRaceSo().name) == false)
 				{
-					FaithManager.TakePoints(nonMemberTakePoints);
+					FaithManager.TakePoints(nonMemberTakePoints, Faith.Faith.FaithName);
 					Chat.AddExamineMsg(member.gameObject, "<i>You feel like you don't belong here..</i>");
 					continue;
 				}
-				FaithManager.AwardPoints(memberGivePoints);
+				FaithManager.AwardPoints(memberGivePoints, Faith.Faith.FaithName);
 			}
 		}
 

@@ -64,8 +64,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// <returns>the gameobject item in the player's active hand, null if nothing in active hand</returns>
 	public GameObject GetActiveHandItem()
 	{
-		var pu = itemStorage.GetActiveHandSlot().ItemObject;
-		return pu?.gameObject;
+		if (itemStorage == null) return null;
+		var pu = itemStorage.GetActiveHandSlot()?.ItemObject;
+		return pu == null ? null : pu.gameObject;
 	}
 
 	/// Checks if player has this item in any of his slots
@@ -474,6 +475,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (VotingManager.Instance == null) return;
 		VotingManager.Instance.TryInitiateNextGameModeVote(gameObject, connectionToClient);
+	}
+
+	[Command]
+	public void CmdInitiateAwaysiteVote()
+	{
+		if (VotingManager.Instance == null) return;
+		VotingManager.Instance.TryInitiateNextAwaysiteVote(gameObject, connectionToClient);
 	}
 
 	[Command]
@@ -1048,26 +1056,5 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		playerScript.playerMove.ResetEverything();
 		playerScript.playerMove.ResetLocationOnClients();
-	}
-
-	[Command]
-	public void CmdJoinFaith(string faith)
-	{
-		playerScript.JoinReligion(faith);
-	}
-
-	[Command]
-	public void CmdSetMainFaith()
-	{
-		if (FaithManager.Instance.FaithLeaders.Contains(playerScript) == false) return;
-		FaithManager.Instance.SetMainFaith(playerScript.CurrentFaith);
-		FaithManager.Instance.FaithMembers.Add(playerScript);
-	}
-
-	
-	[TargetRpc]
-	public void RpcShowFaithSelectScreen(NetworkConnection target)
-	{
-		UIManager.Instance.ChaplainFirstTimeSelectScreen.gameObject.SetActive(true);
 	}
 }

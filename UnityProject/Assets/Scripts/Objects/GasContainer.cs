@@ -5,13 +5,17 @@ using UnityEditor;
 using NaughtyAttributes;
 using Systems.Atmospherics;
 using Systems.Explosions;
-
+using UnityEngine.Events;
+using UnityEngine.Serialization;
+using ScriptableObjects.Atmospherics;
 namespace Objects.Atmospherics
 {
 	public class GasContainer : NetworkBehaviour, IGasMixContainer, IServerSpawn, IServerInventoryMove
 	{
 		//max pressure for determining explosion effects - effects will be maximum at this contained pressure
 		private static readonly float MAX_EXPLOSION_EFFECT_PRESSURE = 148517f;
+
+		public GasSO GasSO;
 
 		/// <summary>
 		/// If the container is not <see cref="IsSealed"/>, then the container is assumed to be mixed with the tile,
@@ -66,6 +70,8 @@ namespace Objects.Atmospherics
 		[Tooltip("If true : Cargo will accept gases found within this container and can be sold.")]
 		public bool CargoSealApproved = false;
 
+		[SerializeField] private bool explodeOnTooMuchDamage = true;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -101,7 +107,7 @@ namespace Objects.Atmospherics
 
 		private void OnServerDamage(DamageInfo info)
 		{
-			if (integrity.integrity - info.Damage <= 0)
+			if (integrity.integrity - info.Damage <= 0 && explodeOnTooMuchDamage)
 			{
 				ExplodeContainer();
 				integrity.RestoreIntegrity(integrity.initialIntegrity);
@@ -138,7 +144,7 @@ namespace Objects.Atmospherics
 		}
 
 		[Server]
-		private void ExplodeContainer()
+		public void ExplodeContainer()
 		{
 			var shakeIntensity = (byte) Mathf.Lerp(
 				byte.MinValue, byte.MaxValue / 2, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);

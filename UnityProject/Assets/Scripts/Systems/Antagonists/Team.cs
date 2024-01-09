@@ -1,11 +1,6 @@
 using System.Collections.Generic;
-using NaughtyAttributes;
-using AddressableReferences;
-using Player;
-using Systems.GhostRoles;
 using System.Text;
 using System.Linq;
-using System;
 using StationObjectives;
 
 namespace Antagonists
@@ -16,14 +11,29 @@ namespace Antagonists
 	public class Team
 	{
 		private List<SpawnedAntag> teamMembers = new List<SpawnedAntag>();
-		public List<SpawnedAntag> TeamMembers => new(teamMembers);
+		public List<SpawnedAntag> TeamMembers
+		{
+			get
+			{
+				var checkedTeamMembers = new List<SpawnedAntag>();
+				foreach (var x in teamMembers)
+				{
+					if (x != null && x.CurTeam == this)
+					{
+						checkedTeamMembers.Add(x);
+					}
+				}
+				teamMembers = checkedTeamMembers;
+				return new(checkedTeamMembers);
+			}
+		}
 
 		private List<Objective> teamObjectives = new List<Objective>();
 		public List<Objective> TeamObjectives
 		{
 			get
 			{
-				if (data.IsStationTeam)
+				if (data.IsStationTeam == true)
 				{
 					return new List<Objective>(StationObjectiveManager.Instance.ActiveObjective);
 				} else
@@ -78,20 +88,27 @@ namespace Antagonists
 
 		public void AddTeamMember(Mind playerToAdd)
 		{
-			playerToAdd.AntagPublic.CurTeam = this;
-			teamMembers.Add(playerToAdd.AntagPublic);
+			if (teamMembers.Contains(playerToAdd.AntagPublic) == false)
+			{
+				teamMembers.Add(playerToAdd.AntagPublic);
+				if (playerToAdd.AntagPublic.CurTeam != this)
+					playerToAdd.AntagPublic.CurTeam = this;
+			}
 		}
 
 		public void RemoveTeamMember(Mind playerToAdd)
 		{
-			playerToAdd.AntagPublic.CurTeam = null;
-			if (teamMembers.Contains(playerToAdd.AntagPublic))
+			if (teamMembers.Contains(playerToAdd.AntagPublic) == true)
+			{
 				teamMembers.Remove(playerToAdd.AntagPublic);
+				if (playerToAdd.AntagPublic.CurTeam != null)
+					playerToAdd.AntagPublic.CurTeam = null;
+			}
 		}
 
 		public void AddTeamObjective(Objective objectiveToAdd)
 		{
-			if (data.IsStationTeam && objectiveToAdd is StationObjective stObj)
+			if (data.IsStationTeam == true && objectiveToAdd is StationObjective stObj)
 			{
 				StationObjectiveManager.Instance.AddObjective(stObj);
 			} else
@@ -119,7 +136,7 @@ namespace Antagonists
 				if (teamPlayer.Owner != null && teamPlayer.Owner.Body != null)
 				{
 					message.AppendLine($"(Current status {(teamPlayer.Owner.Body.IsDeadOrGhost ? "<color=red>Dead</color>" : "<color=green>Alive</color>")})");
-					message.AppendLine($"had following objectives: {teamPlayer.GetObjectiveStatusNonRich()}");
+					message.AppendLine($"had following objectives: {teamPlayer.GetObjectiveStatus()}");
 				} else
 				{
 					message.AppendLine($"(Current status unknown)");
@@ -136,6 +153,42 @@ namespace Antagonists
 			{
 				message.AppendLine($"{i + 1}. {objectiveList[i].Description}: ");
 				message.AppendLine(objectiveList[i].IsComplete() ? "<color=green><b>Completed</b></color>" : "<color=red><b>Failed</b></color>");
+			}
+			return message.ToString();
+		}
+
+		public virtual string GetObjectiveStatusNonRich()
+		{
+			var message = new StringBuilder($"\nThe {GetTeamName()} were: ");
+			var objectiveList = teamObjectives.ToList();
+			bool noPlayerShown = true;
+			foreach (var teamPlayer in teamMembers)
+			{
+				if (teamPlayer.CurTeam != this)
+					continue;
+				noPlayerShown = false;
+				message.AppendLine($"Team member was {teamPlayer.GetPlayerName()}");
+				if (teamPlayer.Owner != null && teamPlayer.Owner.Body != null)
+				{
+					message.AppendLine($"(Current status {(teamPlayer.Owner.Body.IsDeadOrGhost ? "Dead" : "Alive")})");
+					message.AppendLine($"had following objectives: {teamPlayer.GetObjectiveStatusNonRich()}");
+				}
+				else
+				{
+					message.AppendLine($"(Current status unknown)");
+				}
+			}
+			if (noPlayerShown == true)
+			{
+				message.AppendLine($"Current team members status unknown");
+			}
+
+			if (objectiveList.Count > 0)
+				message.AppendLine($"{GetTeamName()} had following objectives: ");
+			for (int i = 0; i < objectiveList.Count; i++)
+			{
+				message.AppendLine($"{i + 1}. {objectiveList[i].Description}: ");
+				message.AppendLine(objectiveList[i].IsComplete() ? "Completed" : "Failed");
 			}
 			return message.ToString();
 		}
@@ -161,7 +214,7 @@ namespace Antagonists
 
 		public void RemoveTeamObjective(TeamObjective obj)
 		{
-			if (data.IsStationTeam && obj is StationObjective stObj)
+			if (data.IsStationTeam == true && obj is StationObjective stObj)
 			{
 				StationObjectiveManager.Instance.RemoveStationObjective(stObj);
 				return;

@@ -36,17 +36,17 @@ PrefabInstance:
     - target: {fileID: 1787191563519386812, guid: d27d06b68d77a3d49b21cce589f699da,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1787191563519386812, guid: d27d06b68d77a3d49b21cce589f699da,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1787191563519386812, guid: d27d06b68d77a3d49b21cce589f699da,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1787191563519386812, guid: d27d06b68d77a3d49b21cce589f699da,
         type: 3}
@@ -185,6 +185,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gasReleaseOnUse: 0.1
+  releaseVisual: {fileID: 5723503134307942014, guid: 703862b62c5d7e949809214c9263ecf3,
+    type: 3}
 --- !u!114 &4398748733116209864
 MonoBehaviour:
   m_ObjectHideFlags: 0

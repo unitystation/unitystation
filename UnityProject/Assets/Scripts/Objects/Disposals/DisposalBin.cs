@@ -149,7 +149,7 @@ namespace Objects.Disposals
 			}
 			else
 			{
-				SoundManager.Stop(runLoopGUID);
+				SoundManager.ClientStop(runLoopGUID, true);
 			}
 		}
 

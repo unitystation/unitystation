@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: janitor_ janitor_left_arm
+  m_EditorClassIdentifier: 
+  foreverID: a42e643b09540164ba37e0a1fa151ed0
+  Variance:
+  - Frames:
+    - sprite: {fileID: 8889643229491685760, guid: dc28e37d2259d0349bc658b052698c4c,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 6611796204074033013, guid: dc28e37d2259d0349bc658b052698c4c,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 21300000, guid: 3f34ad64db1de3947b2d8e070993afec, type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 214149179000924906, guid: dc28e37d2259d0349bc658b052698c4c,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

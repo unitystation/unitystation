@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
 using AddressableReferences;
+using Core;
 using Systems.Clothing;
 
 namespace Items
@@ -190,6 +192,12 @@ namespace Items
 		private void Awake()
 		{
 			EnsureInit();
+			ComponentsTracker<ItemAttributesV2>.Instances.Add(this);
+		}
+
+		private void OnDestroy()
+		{
+			ComponentsTracker<ItemAttributesV2>.Instances.Remove(this);
 		}
 
 		private void EnsureInit()

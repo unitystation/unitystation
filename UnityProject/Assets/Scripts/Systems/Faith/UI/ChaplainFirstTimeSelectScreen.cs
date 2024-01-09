@@ -6,9 +6,8 @@ using UnityEngine.UI;
 
 namespace Systems.Faith.UI
 {
-	public class ChaplainFirstTimeSelectScreen : MonoBehaviour
+	public class ChaplainFirstTimeSelectScreen : MonoBehaviour, IFaithPropertyUISetter
 	{
-		public string UnfocusedDescText { get; private set; }
 		[SerializeField] private TMP_Text FaithName;
 		[SerializeField] private TMP_Text FaithDesc;
 		[SerializeField] private Image FaithIcon;
@@ -28,6 +27,8 @@ namespace Systems.Faith.UI
 			SetFaith(FaithManager.Instance.AllFaiths[0].Faith);
 		}
 
+		public string UnfocusedText { get; set; }
+
 		public void SetDesc(string text)
 		{
 			FaithDesc.text = text;
@@ -39,7 +40,7 @@ namespace Systems.Faith.UI
 			FaithName.text = faith.FaithName;
 			FaithDesc.text = faith.FaithDesc;
 			FaithIcon.sprite = faith.FaithIcon;
-			UnfocusedDescText = faith.FaithDesc;
+			UnfocusedText = faith.FaithDesc;
 			for (int i = 0; i < PropertiesGrid.childCount; i++)
 			{
 				Destroy(PropertiesGrid.GetChild(i).gameObject);
@@ -54,8 +55,9 @@ namespace Systems.Faith.UI
 		public void OnChooseFaith()
 		{
 			gameObject.SetActive(false);
-			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdJoinFaith(currentSelectedFaith.FaithName);
-			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSetMainFaith();
+			PlayerManager.LocalPlayerScript.PlayerFaith.CreateNewFaith(currentSelectedFaith.FaithName);
+			PlayerManager.LocalPlayerScript.PlayerFaith.JoinReligion(currentSelectedFaith.FaithName);
+			PlayerManager.LocalPlayerScript.PlayerFaith.AddNewFaithLeader();
 		}
 	}
 }

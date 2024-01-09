@@ -30,39 +30,42 @@ namespace Systems.Faith.FaithProperties
 			set => propertyIcon = value;
 		}
 
+		public FaithData AssociatedFaith { get; set; }
+
 		[SerializeField] private Sickness starvationSickness;
 		[SerializeField] private Sprite propertyIcon;
 
-		public void Setup()
+		public void Setup(FaithData associatedFaith)
 		{
 			FaithManager.Instance.FaithPropertiesEventUpdate.Add(CheckHungerLevels);
+			AssociatedFaith = associatedFaith;
 		}
 
 		private void CheckHungerLevels()
 		{
-			foreach (var member in FaithManager.Instance.FaithMembers)
+			foreach (var member in AssociatedFaith.FaithMembers)
 			{
 				if (member.playerHealth.TryGetSystem<HungerSystem>(out var hungerSystem) == false) return;
 				switch (hungerSystem.CashedHungerState)
 				{
 					case HungerState.Full:
 						Chat.AddExamineMsg(member.gameObject, "<color=green>My belly is full! I'm quite happy.</color>");
-						FaithManager.AwardPoints(25);
+						FaithManager.AwardPoints(25, AssociatedFaith.Faith.FaithName);
 						break;
 					case HungerState.Normal:
 						Chat.AddExamineMsg(member.gameObject, "I feel like I can grab a bite or two..");
 						break;
 					case HungerState.Hungry:
 						Chat.AddExamineMsg(member.gameObject, "<i><color=yellow>I haven't ate anything in a while! I need to find something with high fat!</color></i>");
-						FaithManager.TakePoints(10);
+						FaithManager.TakePoints(10, AssociatedFaith.Faith.FaithName);
 						break;
 					case HungerState.Malnourished:
 						Chat.AddExamineMsg(member.gameObject, "<i><color=yellow><size+=9>I must consume something! Anything!</size></color></i>");
-						FaithManager.TakePoints(25);
+						FaithManager.TakePoints(25, AssociatedFaith.Faith.FaithName);
 						break;
 					case HungerState.Starving:
 						Chat.AddExamineMsg(member.gameObject, "<i><color=red><size+=12>I'M STARVING, THIS IS UNACCEPTABLE.</size></color></i>");
-						FaithManager.TakePoints(45);
+						FaithManager.TakePoints(45, AssociatedFaith.Faith.FaithName);
 						StarvationProblem(member);
 						break;
 					default:

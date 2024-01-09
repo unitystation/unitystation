@@ -1,5 +1,66 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &384404809432169957
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2585767505861105128}
+  - component: {fileID: 1303176563614207836}
+  m_Layer: 0
+  m_Name: ArialVisit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2585767505861105128
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384404809432169957}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1303176563614207836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384404809432169957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55bc4a1673bff30469e9922bd4c98776, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Arial Visit
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 4
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  CanRandomlyTrigger: 1
+  mobPrefabs:
+  - {fileID: 1442587577699311094, guid: 846fc8740603d7c46ad4818d2f831d08, type: 3}
+  rareMobPrefabs:
+  - {fileID: 1442587577699311094, guid: 846fc8740603d7c46ad4818d2f831d08, type: 3}
+  spawnPointCategory: 31
+  spawnCount: {x: 1, y: 1}
+  rareMobChance: 2
 --- !u!1 &464558627155228391
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,7 +246,7 @@ MonoBehaviour:
   parametersPageType: 1
   FakeEvent: 0
   AnnounceEvent: 1
-  CanRandomlyTrigger: 1
+  CanRandomlyTrigger: 0
 --- !u!1 &1092207170390034217
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,6 +675,7 @@ GameObject:
   - component: {fileID: 6635215241995570004}
   - component: {fileID: 5120446799834176700}
   - component: {fileID: 8823218235621581495}
+  - component: {fileID: 3613769834921090609}
   m_Layer: 0
   m_Name: MeteorEvents
   m_TagString: Untagged
@@ -666,6 +728,7 @@ MonoBehaviour:
   minTimeBetweenMeteors: 1
   maxTimeBetweenMeteors: 10
   ProcessNPerupdate: 1
+  explosionType: 0
 --- !u!114 &6635215241995570004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -696,6 +759,7 @@ MonoBehaviour:
   minTimeBetweenMeteors: 1
   maxTimeBetweenMeteors: 10
   ProcessNPerupdate: 1
+  explosionType: 0
 --- !u!114 &5120446799834176700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -726,6 +790,7 @@ MonoBehaviour:
   minTimeBetweenMeteors: 1
   maxTimeBetweenMeteors: 10
   ProcessNPerupdate: 1
+  explosionType: 0
 --- !u!114 &8823218235621581495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -756,6 +821,38 @@ MonoBehaviour:
   minTimeBetweenMeteors: 1
   maxTimeBetweenMeteors: 2
   ProcessNPerupdate: 10
+  explosionType: 0
+--- !u!114 &3613769834921090609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2929328024764174348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64e1a86f3a835204698dda37a5c88d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Fast Explosions Player Safe
+  StartTimer: 3
+  EndTimer: 0
+  EventType: 2
+  ChanceToHappen: 100
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  CanRandomlyTrigger: 0
+  asteroidEventLevels: 0
+  minMeteorAmount: 300
+  maxMeteorAmount: 300
+  minStrength: 300
+  maxStrength: 400
+  minTimeBetweenMeteors: 1
+  maxTimeBetweenMeteors: 2
+  ProcessNPerupdate: 10
+  explosionType: 2
 --- !u!1 &2961505858790993329
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,6 +979,7 @@ Transform:
   - {fileID: 698688857389952623}
   - {fileID: 6740344816744190755}
   - {fileID: 7841778169424424584}
+  - {fileID: 2585767505861105128}
   - {fileID: 1368603534518432520}
   - {fileID: 1590283313530423313}
   - {fileID: 4130085576290714883}
@@ -1805,7 +1903,7 @@ MonoBehaviour:
   CanRandomlyTrigger: 0
   EventsToTrigger:
   - {fileID: 2542341523975680431}
-  - {fileID: 8823218235621581495}
+  - {fileID: 3613769834921090609}
   AnnouncementText: Resonance cascade detected ON your station. Brace for impact!!!!
 --- !u!1 &8370716410027618602
 GameObject:

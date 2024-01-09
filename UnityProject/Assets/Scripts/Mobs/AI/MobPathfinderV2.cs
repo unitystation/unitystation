@@ -289,6 +289,11 @@ namespace Mobs.AI
 
 		IEnumerator PerformFollowPath(List<Node> path)
 		{
+			if (path == null || path.Count == 0)
+			{
+				Loggy.LogError("Path is empty or null");
+				yield break;
+			}
 			int node = 1;
 
 			while (node < path.Count)

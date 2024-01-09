@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 using Mirror;
 using Core.Editor.Attributes;
 using Logs;
+using NaughtyAttributes;
 using Shared.Systems.ObjectConnection;
 using Systems.Explosions;
 using ScriptableObjects;
@@ -19,7 +20,7 @@ using UnityEditor;
 namespace Systems.Electricity
 {
 	[ExecuteInEditMode]
-	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, IEmpAble, IMultitoolSlaveable
+	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, IEmpAble, IMultitoolSlaveable, IRightClickable
 	{
 		[SerializeField ]
 		[FormerlySerializedAs("MinimumWorkingVoltage")]
@@ -100,6 +101,8 @@ namespace Systems.Electricity
 		public UnityEvent OnDeviceLinked = new UnityEvent();
 		public UnityEvent OnDeviceUnLinked = new UnityEvent();
 
+
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		#region Lifecycle
 
 		private void Awake()
@@ -408,6 +411,13 @@ namespace Systems.Electricity
 			isSelfPowered = true;
 			SelfPoweredUpdate();
 			UpdateSynchronisedState(state, DMMath.Prob(5) ? PowerState.OverVoltage : PowerState.On);
+		}
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			var result = new RightClickableResult();
+			result.AddAdminElement("[Debug] - Set to overvolt", () => { UpdateSynchronisedState(state, PowerState.OverVoltage); });
+			return result;
 		}
 	}
 

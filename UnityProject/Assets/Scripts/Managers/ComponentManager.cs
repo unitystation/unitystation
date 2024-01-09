@@ -32,11 +32,11 @@ public class ComponentManager : SingletonManager<ComponentManager>
 		return true;
 	}
 
-	public static bool TryGetUniversalObjectPhysics(GameObject gameObject, out UniversalObjectPhysics UOP)
+	public static bool TryGetUniversalObjectPhysics(GameObject gameObject, out UniversalObjectPhysics UOP, bool IsInGameItem = true)
 	{
 		if (ObjectToPhysics.TryGetValue(gameObject, out UOP))
 		{
-			return true;
+			return UOP;
 		}
 
 		if (gameObject.TryGetComponent<UniversalObjectPhysics>(out UOP))
@@ -46,16 +46,34 @@ public class ComponentManager : SingletonManager<ComponentManager>
 		else
 		{
 			//Don't need to search if ghost as they dont have UOP
-			if(gameObject.TryGetComponent<GhostMove>(out _)) return false;
+			if (gameObject.TryGetComponent<GhostMove>(out _))
+			{
+				ObjectToPhysics[gameObject] = null;
+				return false;
+			}
 
 			//Don't need to search if NetworkedMatrix as they dont have UOP
-			if(gameObject.TryGetComponent<NetworkedMatrix>(out _)) return false;
+			if (gameObject.TryGetComponent<NetworkedMatrix>(out _))
+			{
+				ObjectToPhysics[gameObject] = null;
+				return false;
+			}
 
 			UOP = gameObject.GetComponentInParent<UniversalObjectPhysics>(); //No try get components in parent : ( : P
+
 			if (UOP == null)
 			{
-				Loggy.LogError($"Unable to find UniversalObjectPhysics on {gameObject.name}");
-				return false;
+				if (IsInGameItem)
+				{
+					Loggy.LogError($"Unable to find UniversalObjectPhysics on {gameObject.name}");
+					return false;
+				}
+				else
+				{
+					ObjectToPhysics[gameObject] = null;
+					return false;
+				}
+
 			}
 		}
 

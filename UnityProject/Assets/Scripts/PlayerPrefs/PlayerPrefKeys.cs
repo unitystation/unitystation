@@ -135,6 +135,12 @@
 	/// </summary>
 	public static readonly string ChatBubbleClownColour = "ChatBubbleClownColour";
 
+
+	/// <summary>
+	/// Sets the normal chat bubble size preference
+	/// </summary>
+	public static readonly string ChatBubbleNumber = "ChatBubbleNumber";
+
 	#endregion
 
 	/// <summary>

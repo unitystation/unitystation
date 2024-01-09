@@ -30,9 +30,9 @@ namespace Systems.Faith.Miracles
 		}
 
 		public int MiracleCost { get; set; } = 375;
-		public void DoMiracle()
+		public void DoMiracle(FaithData associatedFaith, PlayerScript invoker = null)
 		{
-			foreach (var farmer in FaithManager.Instance.FaithMembers)
+			foreach (var farmer in associatedFaith.FaithMembers)
 			{
 				Chat.AddLocalMsgToChat($"{farmer.visibleName}'s eyes become white as they start chanting some words loudly while small vines ever so slowly wrap around them..", farmer.gameObject);
 				Chat.AddChatMsgToChatServer(farmer.PlayerInfo, "..Banana... ro-TA-te..", ChatChannel.Local, Loudness.LOUD);

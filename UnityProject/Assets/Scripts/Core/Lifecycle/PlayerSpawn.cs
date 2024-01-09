@@ -309,6 +309,7 @@ public static class PlayerSpawn
 			parentTransform.rotation,
 			parentTransform);
 
+		player.AddComponent<RuntimeSpawned>();
 		//fire all hooks
 		var info = SpawnInfo.Ghost(null, bodyPrefab,
 			SpawnDestination.At(Vector3.zero, parentTransform));
@@ -359,11 +360,16 @@ public static class PlayerSpawn
 						character.Species = requestedOccupation.CustomSpeciesOverwrite.name;
 						playerSprites.RaceOverride = requestedOccupation.CustomSpeciesOverwrite.name;
 					}
+
+					if (requestedOccupation != null)
+					{
+						if (requestedOccupation.UseCharacterSettings == false)
+						{
+							playerSprites.CharacterSheetOverride = requestedOccupation.UseCharacterSettings;
+						}
+					}
+
 				}
-
-
-
-
 
 				playerSprites.OnCharacterSettingsChange(toUseCharacterSettings);
 			}

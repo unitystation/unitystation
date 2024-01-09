@@ -53,6 +53,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public DamagedEvent OnApplyDamage = new DamagedEvent();
 
 	public UnityEvent OnDamaged = new UnityEvent();
+	public UnityEvent OnDestruction = new UnityEvent();
 
 	/// <summary>
 	/// event for hotspots
@@ -322,6 +323,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	{
 		if (!destroyed && integrity <= 0)
 		{
+			OnDestruction?.Invoke();
 			var destructInfo = new DestructionInfo(lastDamageType, this);
 			OnWillDestroyServer.Invoke(destructInfo);
 

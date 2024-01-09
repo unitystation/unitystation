@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: medical_Robot_head
+  m_EditorClassIdentifier: 
+  foreverID: bbf729dfedac83045b0fe0b1d74bbf4c
+  Variance:
+  - Frames:
+    - sprite: {fileID: -4854343379085865161, guid: 5c67cd6ee77faac45b8fc3eac5865964,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -894284793458915846, guid: 5c67cd6ee77faac45b8fc3eac5865964,
+        type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: 2161496292571211664, guid: 5c67cd6ee77faac45b8fc3eac5865964,
+        type: 3}
+      secondDelay: 0.1
+  - Frames:
+    - sprite: {fileID: -8901308221890255490, guid: 5c67cd6ee77faac45b8fc3eac5865964,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -164174615207904421, guid: 5c67cd6ee77faac45b8fc3eac5865964,
+        type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: -2362787966804474243, guid: 5c67cd6ee77faac45b8fc3eac5865964,
+        type: 3}
+      secondDelay: 0.1
+  - Frames:
+    - sprite: {fileID: 6479807009706572024, guid: 5c67cd6ee77faac45b8fc3eac5865964,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 493052122499395909, guid: 5c67cd6ee77faac45b8fc3eac5865964,
+        type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: -8177343559714096173, guid: 5c67cd6ee77faac45b8fc3eac5865964,
+        type: 3}
+      secondDelay: 0.1
+  - Frames:
+    - sprite: {fileID: -2380517109667763908, guid: 5c67cd6ee77faac45b8fc3eac5865964,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -8012235628285476853, guid: 5c67cd6ee77faac45b8fc3eac5865964,
+        type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: 3415599047179177086, guid: 5c67cd6ee77faac45b8fc3eac5865964,
+        type: 3}
+      secondDelay: 0.1
+  IsPalette: 0
+  DisplayName: 

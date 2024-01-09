@@ -44,7 +44,7 @@ namespace Util
 		// var localRotation = serializedObject.FindProperty("m_LocalRotation");
 		// PrefabUtility.RevertPropertyOverride(localRotation, InteractionMode.AutomatedAction);
 
-		[MenuItem("Tools/Refresh Sound Catalogue")]
+		[MenuItem("Tools/Audio/Refresh Sound Catalogue")]
 		public static void RefreshSoundCatalogue()
 		{
 			AddressablePicker.Refresh();
@@ -352,7 +352,7 @@ namespace Util
 			}
 		}
 
-		[MenuItem("Tools/Get Music keys")]
+		[MenuItem("Tools/Audio/Get Music keys")]
 		public static void GetMusicKeys()
 		{
 			var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
@@ -396,7 +396,7 @@ namespace Util
 			AssetDatabase.StartAssetEditing();
 		}
 
-		[MenuItem("Tools/Convert Json Sprites")]
+		[MenuItem("Tools/Sprites/Convert Json Sprites")]
 		public static void ConvertJsonSprites()
 		{
 			spriteCatalogue =
@@ -424,7 +424,7 @@ namespace Util
 			AssetDatabase.SaveAssets();
 		}
 
-		[MenuItem("Tools/Reset SO index")]
+		[MenuItem("Tools/Sprites/Reset SO index")]
 		public static void Reset()
 		{
 			AssetDatabase.StartAssetEditing();
@@ -446,12 +446,7 @@ namespace Util
 			AssetDatabase.SaveAssets();
 		}
 
-		[MenuItem("Tools/||||||||||||||||||||Debug function||||||||||||||||")]
-		public static void ResetPipe()
-		{
-			//HubValidation.ResetPipe();
-		}
-
+		[MenuItem("Tools/Debug/CheckURLHubValidation")]
 		public static async Task Dothing()
 		{
 			var data = await HubValidation.RequestOpenURL(new Uri("https://old.reddit.com"), " because lol ", false);
@@ -468,10 +463,9 @@ namespace Util
 
 
 
-		[MenuItem("Tools/------------ Debug function -----------")]
+		[MenuItem("Tools/Debug/------------ Debug function -----------")]
 		public static void Generate()
 		{
-
 			var url = new Uri( "https://dev-api.unitystation.org/accounts/login-credentials");
 			var coiol = new HttpClient();
 			var ree = new HttpRequestMessage();
@@ -490,6 +484,19 @@ namespace Util
 			                     			// AssetDatabase.ForceReserializeAssets();
 			                     		// AssetDatabase.StopAssetEditing();
 			                             			// AssetDatabase.SaveAssets();
+
+			string aa = @"0​
+UnityEngine";
+			string Text = "0\u200b";
+			Loggy.LogError("Text > " + Text);
+			var nub = float.Parse(Text);
+
+			Loggy.LogError("nub > " + nub);
+			 // AssetDatabase.StartAssetEditing();
+			 //                     			AssetDatabase.ForceReserializeAssets();
+			 //                     		AssetDatabase.StopAssetEditing();
+			 //                             			AssetDatabase.SaveAssets();
+
 
 
 			// Get the type (class) that contains the method
@@ -970,6 +977,7 @@ namespace Util
 				//Loggy.Log(f);
 			}
 
+			
 			foreach (string d in Directory.GetDirectories(sDir))
 			{
 				DirSearch_ex3(d);

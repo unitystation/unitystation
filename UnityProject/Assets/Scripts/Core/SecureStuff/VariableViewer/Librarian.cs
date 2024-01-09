@@ -56,7 +56,18 @@ namespace SecureStuff
 						foreach (var type in types)
 						{
 							// Create an instance of the type (assuming it has a parameterless constructor)
-							vvUIElementHandler = Activator.CreateInstance(type) as ICustomSerialisationSystem;
+							try
+							{
+								vvUIElementHandler = Activator.CreateInstance(type) as ICustomSerialisationSystem;
+							}
+							catch (Exception e)
+							{
+								Loggy.LogError(e.ToString());
+							}
+							if (vvUIElementHandler != null)
+							{
+								break;
+							}
 						}
 					}
 				}
@@ -775,6 +786,7 @@ namespace SecureStuff
 			public Book BindedTo;
 			public PropertyInfo PInfo;
 			public bool PCanWrite => PInfo.CanWrite;
+			public bool FCanWrite => Info.IsLiteral == false;
 
 			public FieldInfo Info;
 
@@ -874,6 +886,7 @@ namespace SecureStuff
 				{
 					Variable = "null";
 				}
+
 
 				//GenerateSentenceValuesforSentence
 				if (Sentences.Sentences != null)

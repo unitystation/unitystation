@@ -32,7 +32,7 @@ namespace Systems.Faith.Miracles
 		}
 
 		public int MiracleCost { get; set; } = 690;
-		public void DoMiracle()
+		public void DoMiracle(FaithData associatedFaith, PlayerScript invoker = null)
 		{
 			string msg = new RichText().Color(RichTextColor.Yellow).Italic().Add("You feel... Power..");
 			foreach (var dong in PlayerList.Instance.GetAlivePlayers())

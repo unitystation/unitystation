@@ -36,7 +36,8 @@ namespace Objects.Wallmounts
 		private ClearanceRestricted clearanceRestricted;
 
 		private APCPoweredDevice thisAPCPoweredDevice;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		public void OnSpawnServer(SpawnInfo info)
 		{
 		}
@@ -101,20 +102,20 @@ namespace Objects.Wallmounts
 				return;
 			}
 
+			if (thisAPCPoweredDevice != null)
+			{
+				if (APCPoweredDevice.IsOn(thisAPCPoweredDevice.State) == false)
+				{
+					return;
+				}
+			}
+
 			RpcPlayButtonAnim(true);
 
 			foreach (var door in doorControllers)
 			{
 				// Door doesn't exist anymore - shuttle crash, admin smash, etc.
 				if (door == null) continue;
-
-				if (thisAPCPoweredDevice != null)
-				{
-					if (APCPoweredDevice.IsOn(thisAPCPoweredDevice.State) == false)
-					{
-						continue;
-					}
-				}
 
 				if (door.IsClosed)
 				{
@@ -304,7 +305,7 @@ namespace Objects.Wallmounts
 		[SerializeField] private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
 		public MultitoolConnectionType ConType => conType;
 
-		public bool MultiMaster => true;
+		public bool MultiMaster => true; //TODO
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Logs;
+﻿using Logs;
 using UI.Core.Action;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -80,6 +77,7 @@ namespace UI.Action
 			IconBackground.Empty(true, false);
 			IconFront.Empty(true, false);
 			IconBackground.SetSpriteSO(DefaultIconBackground, networked: false);
+			if (this == null) return;
 			gameObject.SetActive(false);
 		}
 

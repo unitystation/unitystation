@@ -104,7 +104,7 @@ namespace DatabaseAPI
 			if (updateWait >= 10f)
 			{
 				updateWait = 0f;
-				_=Instance.SendServerStatus();
+				Task.Run(() => Instance.SendServerStatus());
 			}
 		}
 
@@ -161,7 +161,6 @@ namespace DatabaseAPI
 
 				status.fps = (int)FPSMonitor.Instance.Current;
 				requestData = JsonConvert.SerializeObject(loginRequest);
-
 			}
 			catch (Exception e)
 			{
@@ -182,7 +181,6 @@ namespace DatabaseAPI
 
 	                if (apiResponse.errorCode == 0)
 	                {
-
 	                    string cookieHeader = response.Headers.GetValues("set-cookie")?.FirstOrDefault();
 	                    if (!string.IsNullOrEmpty(cookieHeader))
 	                    {

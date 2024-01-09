@@ -10,7 +10,7 @@ namespace Systems.CraftingV2
 	/// 	This MonoBehaviour marks GameObject as a crafting ingredient
 	/// 	and contains some fields associated with recipes.
 	/// </summary>
-	public class CraftingIngredient : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class CraftingIngredient : MonoBehaviour, ICheckedInteractable<HandApply>,  ICheckedInteractable<InventoryApply>
 	{
 
 		[SerializeField, ReadOnly] [Tooltip("Automated field - don't try to change it manually. " +
@@ -31,17 +31,9 @@ namespace Systems.CraftingV2
 		/// </summary>
 		public bool HasSimpleRelatedRecipe => hasSimpleRelatedRecipe;
 
-		// will a player start to craft something?
-		public bool WillInteract(HandApply interaction, NetworkSide side)
-		{
-			if (HasSimpleRelatedRecipe == false
-			    || interaction.HandObject == null
-			    || DefaultWillInteract.Default(interaction, side) == false
-			)
-			{
-				return false;
-			}
 
+		public bool NeutralWillInteract(TargetedInteraction interaction, NetworkSide side)
+		{
 			// we should check related recipes in WillInteract() because otherwise
 			// other interactions will be blocked because of an interaction cooldown
 
@@ -49,7 +41,7 @@ namespace Systems.CraftingV2
 
 			possibleIngredients.Add(this);
 
-			if (interaction.HandObject.TryGetComponent(out CraftingIngredient otherPossibleIngredient))
+			if (interaction.UsedObject.TryGetComponent(out CraftingIngredient otherPossibleIngredient))
 			{
 				possibleIngredients.Add(otherPossibleIngredient);
 			}
@@ -61,7 +53,7 @@ namespace Systems.CraftingV2
 				possibleTools.Add(selfPossibleTool);
 			}
 
-			if (interaction.HandObject.TryGetComponent(out ItemAttributesV2 otherPossibleTool))
+			if (interaction.UsedObject.TryGetComponent(out ItemAttributesV2 otherPossibleTool))
 			{
 				possibleTools.Add(otherPossibleTool);
 			}
@@ -75,11 +67,11 @@ namespace Systems.CraftingV2
 				if (side == NetworkSide.Client)
 				{
 					if (interaction.PerformerPlayerScript.PlayerCrafting.CanClientCraft(
-						relatedRecipe.Recipe,
-						possibleIngredients,
-						possibleTools
-						) == CraftingStatus.AllGood
-					)
+						    relatedRecipe.Recipe,
+						    possibleIngredients,
+						    possibleTools
+					    ) == CraftingStatus.AllGood
+					   )
 					{
 						return true;
 					}
@@ -87,12 +79,12 @@ namespace Systems.CraftingV2
 				else if (side == NetworkSide.Server)
 				{
 					if (interaction.PerformerPlayerScript.PlayerCrafting.CanCraft(
-						relatedRecipe.Recipe,
-						possibleIngredients,
-						possibleTools,
-						new List<ReagentContainer>()
-						) == CraftingStatus.AllGood
-					)
+						    relatedRecipe.Recipe,
+						    possibleIngredients,
+						    possibleTools,
+						    new List<ReagentContainer>()
+					    ) == CraftingStatus.AllGood
+					   )
 					{
 						return true;
 					}
@@ -102,15 +94,43 @@ namespace Systems.CraftingV2
 			return false;
 		}
 
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		{
+			if (HasSimpleRelatedRecipe == false) return false;
+			if (interaction.UsedObject == null) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			return NeutralWillInteract(interaction, side);
+		}
+
+		// will a player start to craft something?
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (HasSimpleRelatedRecipe == false) return false;
+			if (interaction.UsedObject == null) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			return NeutralWillInteract(interaction, side);
+		}
+
 		// tries to start a crafting action.
 		// Sadly we have to check related recipes again because we can't pass any other args to this method
 		public void ServerPerformInteraction(HandApply interaction)
+		{
+			NeutralServerPerformInteraction(interaction);
+		}
+
+		public void ServerPerformInteraction(InventoryApply interaction)
+		{
+			NeutralServerPerformInteraction(interaction);
+		}
+
+		public void NeutralServerPerformInteraction(TargetedInteraction interaction)
 		{
 			List<CraftingIngredient> possibleIngredients = new List<CraftingIngredient>();
 
 			possibleIngredients.Add(this);
 
-			if (interaction.HandObject.TryGetComponent(out CraftingIngredient otherPossibleIngredient))
+			if (interaction.UsedObject.TryGetComponent(out CraftingIngredient otherPossibleIngredient))
 			{
 				possibleIngredients.Add(otherPossibleIngredient);
 			}
@@ -122,7 +142,7 @@ namespace Systems.CraftingV2
 				possibleTools.Add(selfPossibleTool);
 			}
 
-			if (interaction.HandObject.TryGetComponent(out ItemAttributesV2 otherPossibleTool))
+			if (interaction.UsedObject.TryGetComponent(out ItemAttributesV2 otherPossibleTool))
 			{
 				possibleTools.Add(otherPossibleTool);
 			}

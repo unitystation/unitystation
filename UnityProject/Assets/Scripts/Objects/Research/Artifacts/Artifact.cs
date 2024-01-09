@@ -77,6 +77,8 @@ namespace Objects.Research
 		private DamageEffectBase forceWallDamageEffectSO = null;
 		private bool forceWallDamageEffect = false;
 
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 
 
 		[SyncVar] public string ID = "T376";

@@ -31,6 +31,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
+      propertyPath: maxHealth
+      value: 125
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
       propertyPath: DamageThreshold
       value: 30
       objectReference: {fileID: 0}
@@ -58,6 +63,11 @@ PrefabInstance:
         type: 3}
       propertyPath: bodyPartAshesAboveThisDamage
       value: 145
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: SelfArmor.TemperatureProtectionInK.y
+      value: 370
       objectReference: {fileID: 0}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
@@ -111,12 +121,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2803962419735060703, guid: f145adb7bc76bfc4a86a8612714230d1,
         type: 3}
+    - target: {fileID: 5634484993905305047, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[28].Prefab
+      value: 
+      objectReference: {fileID: 5492922182499904802, guid: ed56aaa76fc723f46a2bbf039fa85cf7,
+        type: 3}
     - target: {fileID: 8743880023469781445, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: d81ee360e0f6abe47b4c32c4b41166bc,
         type: 3}
+    - target: {fileID: 8805319031942075245, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8805319031942075245, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: Armor.TemperatureProtectionInK.x
+      value: 268.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8805319031942075245, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: Armor.TemperatureProtectionInK.y
+      value: 370
+      objectReference: {fileID: 0}
     - target: {fileID: 8808267403971002157, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: _assetId
@@ -160,17 +191,17 @@ PrefabInstance:
     - target: {fileID: 8915710202864320493, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8915710202864320493, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8915710202864320493, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8915710202864320493, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}

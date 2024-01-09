@@ -41,9 +41,7 @@ public class MetaDataLayer : MonoBehaviour
 	public Matrix Matrix => matrix;
 	private FloorDecal existingSplat;
 
-	public Dictionary<GameObject, Vector3> InitialObjects = new Dictionary<GameObject, Vector3>();
-
-
+	public List<EtherealThing> EtherealThings = new List<EtherealThing>();
 	public void OnEnable()
 	{
 		if (CustomNetworkManager.IsServer)

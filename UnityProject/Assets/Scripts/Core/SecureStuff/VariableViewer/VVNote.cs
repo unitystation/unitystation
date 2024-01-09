@@ -5,6 +5,11 @@ using UnityEngine;
 
 namespace SecureStuff
 {
+	/// <summary>
+	/// Hides the inspector field When not in play mode
+	/// </summary>
+	public class PlayModeOnlyAttribute : PropertyAttribute { }
+
 	public class VVNote : Attribute
 	{
 

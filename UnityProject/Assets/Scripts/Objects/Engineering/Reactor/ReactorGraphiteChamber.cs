@@ -66,7 +66,8 @@ namespace Objects.Engineering
 		public decimal MaxPressure = 120000;
 
 		public GameObject Corium;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		public decimal KFactor
 		{
 			get { return (CalculateKFactor()); }
@@ -283,7 +284,7 @@ namespace Objects.Engineering
 				{
 					if (GasNode.GasMix.WholeHeatCapacity != 0)
 					{
-						GasNode.GasMix.InternalEnergy += ExtraEnergyGained * 0.00001f;
+						GasNode.GasMix.InternalEnergy += ExtraEnergyGained * 0.000001f;
 						if (GasNode.GasMix.Temperature > 5000)
 						{
 							GasNode.GasMix.Temperature = 5000;

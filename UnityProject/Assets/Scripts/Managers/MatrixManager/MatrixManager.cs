@@ -954,7 +954,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		if (intlocalPosOrigin.x == intlocalPosTarget.x || intlocalPosOrigin.y == intlocalPosTarget.y)
 		{
 			if (isSpace || matrixTarget.Matrix.MetaTileMap.IsPassableAtOneTileMapV2(intlocalPosOrigin, intlocalPosTarget,
-				    CollisionType))
+				    CollisionType, Bumps))
 			{
 				if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(intlocalPosOrigin, intlocalPosTarget,
 					    Context,
@@ -967,7 +967,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		else
 		{
 			if (isSpace || matrixTarget.Matrix.MetaTileMap.IsPassableTileMapHorizontal(intlocalPosOrigin, intlocalPosTarget,
-				    CollisionType))
+				    CollisionType, Bumps))
 			{
 				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsHorizontal(intlocalPosOrigin,
 					    intlocalPosTarget, Context,
@@ -982,7 +982,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			PushIng.Clear();
 
 			if (isSpace || matrixTarget.Matrix.MetaTileMap.IsPassableTileMapVertical(intlocalPosOrigin, intlocalPosTarget,
-				    CollisionType))
+				    CollisionType, Bumps))
 			{
 				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsVertical(intlocalPosOrigin, intlocalPosTarget,
 					    Context,

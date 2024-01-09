@@ -130,7 +130,7 @@ namespace Objects.Atmospherics
 
 		//public bool IsExpandedRange
 		/// <summary>Updates the scrubber's power consumption when the collection is modified.</summary>
-		public ObservableCollection<GasSO> FilteredGases;
+		[NonSerialized] public ObservableCollection<GasSO> FilteredGases;
 
 		private float Effectiveness => voltageMultiplier;
 		public float nominalMolesTransferCap = 50;
@@ -289,8 +289,11 @@ namespace Objects.Atmospherics
 				sprite = Sprite.Welded;
 			}
 
-			if ((int)sprite == spritehandler.CataloguePage) return;
-			spritehandler.SetCatalogueIndexSprite((int)sprite);
+			if (spritehandler != null)
+			{
+				if ((int)sprite == spritehandler.CataloguePage) return;
+				spritehandler.SetCatalogueIndexSprite((int)sprite);
+			}
 		}
 
 		#region IAPCPowerable

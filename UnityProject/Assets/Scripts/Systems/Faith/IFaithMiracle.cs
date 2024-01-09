@@ -9,6 +9,6 @@ namespace Systems.Faith
 		public SpriteDataSO MiracleIcon { get; protected set; }
 
 		public int MiracleCost { get; set; }
-		public void DoMiracle();
+		public void DoMiracle(FaithData associatedFaith, PlayerScript invoker = null);
 	}
 }

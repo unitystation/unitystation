@@ -219,8 +219,7 @@ namespace UI.Objects.Engineering
 						break;
 					}
 				}
-
-				Loggy.LogError("FoundClown >" + FoundClown );
+				
 				Clown.SetState(FoundClown);
 
 

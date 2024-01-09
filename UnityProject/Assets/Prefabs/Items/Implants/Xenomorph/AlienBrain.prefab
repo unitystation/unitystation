@@ -72,17 +72,17 @@ PrefabInstance:
     - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
@@ -108,6 +108,11 @@ PrefabInstance:
         type: 3}
       propertyPath: hasInbuiltSight
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4959976547195528774, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: BodyChatModifier
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4959976547195528774, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}

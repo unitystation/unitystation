@@ -21,6 +21,13 @@ public class LightingSystem : MonoBehaviour
 
 	private static Func<Vector3, Vector3, Vector2, Vector2> HandlePPPositionRequest;
 
+
+	public Camera UICamera;
+
+	public bool DoUICamera = true;
+
+	public bool DoOtherBit = true;
+
 	private Camera mMainCamera;
 	private OcclusionMaskRenderer mOcclusionRenderer;
 	private LightMaskRenderer mLightMaskRenderer;
@@ -32,6 +39,8 @@ public class LightingSystem : MonoBehaviour
 	private PixelPerfectRT mObstacleLightMask;
 	private PixelPerfectRT mOcclusionPPRT;
 	private PixelPerfectRT mlightPPRT;
+	private PixelPerfectRT mUILayer;
+
 	private bool mDoubleFrameRendererSwitch;
 	private bool mMatrixRotationMode;
 	private float mMatrixRotationModeBlend;
@@ -86,6 +95,31 @@ public class LightingSystem : MonoBehaviour
 			mGlobalOcclusionMask = value;
 
 			Shader.SetGlobalTexture("_ObjectFovMask", value.renderTexture);
+		}
+	}
+
+
+	/// <summary>
+	/// Used to hold the UI layer
+	/// </summary>
+	private PixelPerfectRT UILayer
+	{
+		get
+		{
+			return mUILayer;
+		}
+
+		set
+		{
+			if (mUILayer == value)
+				return;
+
+			if (mUILayer != null)
+			{
+				mUILayer.Release();
+			}
+
+			mUILayer = value;
 		}
 	}
 
@@ -401,6 +435,8 @@ public class LightingSystem : MonoBehaviour
 		wallFloorOcclusionMask = new PixelPerfectRT(operationParameters.fovPPRTParameter);
 		mTex2DWallFloorOcclusionMask = new Texture2D(wallFloorOcclusionMask.renderTexture.width, wallFloorOcclusionMask.renderTexture.height, TextureFormat.RGB24, false);
 
+		UILayer = new PixelPerfectRT(operationParameters.UICameraPPRTParameter);
+
 		objectOcclusionMask = new PixelPerfectRT(operationParameters.lightPPRTParameter);
 
 		obstacleLightMask = new PixelPerfectRT(operationParameters.obstacleLightPPRTParameter);
@@ -650,5 +686,35 @@ public class LightingSystem : MonoBehaviour
 
 			Graphics.Blit(iSource, iDestination, _blitMaterial);
 		}
+
+
+		RenderTexture uiRenderTexture = RenderTexture.GetTemporary(Screen.width, Screen.height, 0, RenderTextureFormat.ARGB32);
+		using (new DisposableProfiler("10. Render UI Layer"))
+		{
+			if (DoUICamera)
+			{
+				// Perform rendering for objects with the UI layer here.
+				UICamera.targetTexture = uiRenderTexture;
+				UICamera.Render();
+				UICamera.targetTexture = null;
+			}
+		}
+
+		if (DoOtherBit)
+		{
+			using (new DisposableProfiler("11. Blit Scene with UI"))
+			{
+				//TODO optimist
+				// Combine the UI render texture with the existing output.
+				var uiBlitMaterial = materialContainer.uiBlitMaterial;
+				uiBlitMaterial.SetTexture("_UITexture", uiRenderTexture);
+				uiBlitMaterial.SetTexture("_MainTex", iSource);
+
+				// Perform the blending operation.
+				Graphics.Blit(iSource, iDestination, uiBlitMaterial);
+			}
+		}
+
+		RenderTexture.ReleaseTemporary(uiRenderTexture);
 	}
 }

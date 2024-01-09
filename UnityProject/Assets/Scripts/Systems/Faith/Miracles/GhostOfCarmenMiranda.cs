@@ -42,7 +42,7 @@ namespace Systems.Faith.Miracles
 		}
 
 		public int MiracleCost { get; set; } = 200;
-		public void DoMiracle()
+		public void DoMiracle(FaithData associatedFaith, PlayerScript invoker = null)
 		{
 			GameManager.Instance.StartCoroutine(SongEvents());
 		}

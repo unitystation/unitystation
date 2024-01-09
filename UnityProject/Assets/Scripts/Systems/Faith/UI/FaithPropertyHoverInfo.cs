@@ -8,11 +8,11 @@ namespace Systems.Faith.UI
 	public class FaithPropertyHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
 		private IFaithProperty property;
-		private ChaplainFirstTimeSelectScreen father;
+		private IFaithPropertyUISetter father;
 		[SerializeField] private Image icon;
 		[SerializeField] private TMP_Text propertyName;
 
-		public void Setup(IFaithProperty newProperty, ChaplainFirstTimeSelectScreen screen)
+		public void Setup(IFaithProperty newProperty, IFaithPropertyUISetter screen)
 		{
 			property = newProperty;
 			father = screen;
@@ -27,7 +27,7 @@ namespace Systems.Faith.UI
 
 		public void OnPointerExit(PointerEventData eventData)
 		{
-			father.SetDesc(father.UnfocusedDescText);
+			father.SetDesc(father.UnfocusedText);
 		}
 	}
 }

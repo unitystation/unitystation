@@ -2,6 +2,7 @@
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 
 static class BuildScript
@@ -86,6 +87,12 @@ static class BuildScript
 
 	public static void BuildProject()
 	{
+
+		var Defines = PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone);
+		Defines = Defines.Replace(";DEV_DEBUG", ""); //the ; is at the beginning If it's at the end of the list
+		Defines = Defines.Replace("DEV_DEBUG;", "");
+		PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Standalone, Defines);
+
 		// Gather values from args
 		var options = GetValidatedOptions();
 
@@ -101,7 +108,8 @@ static class BuildScript
 		var target = (BuildTarget) Enum.Parse(typeof(BuildTarget), buildTarget);
 
 		// Define BuildPlayer Options
-		var buildOptions = new BuildPlayerOptions {
+		var buildOptions = new BuildPlayerOptions
+		{
 			scenes = scenes,
 			locationPathName = locationPathName,
 			target = target,
@@ -127,6 +135,8 @@ static class BuildScript
 		BuildResult result = summary.result;
 		ExitWithResult(result);
 	}
+
+
 
 	private static void ReportOptions(BuildPlayerOptions options)
 	{

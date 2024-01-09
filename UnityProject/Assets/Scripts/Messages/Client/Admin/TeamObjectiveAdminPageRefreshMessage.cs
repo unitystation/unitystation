@@ -29,10 +29,12 @@ namespace Messages.Client.Admin
 
 			foreach (var team in AntagManager.Instance.Teams)
 			{
-				TeamInfo teamInfo = new TeamInfo();
-				teamInfo.Index = AntagData.Instance.GetTeamIndex(team.Value.Data);
-				teamInfo.Name = team.Value.GetTeamName();
-				teamInfo.ID = team.Key;
+				TeamInfo teamInfo = new TeamInfo
+				{
+					Index = AntagData.Instance.GetTeamIndex(team.Value.Data),
+					Name = team.Value.GetTeamName(),
+					ID = team.Key
+				};
 
 				foreach (var teamMember in team.Value.TeamMembers)
 				{

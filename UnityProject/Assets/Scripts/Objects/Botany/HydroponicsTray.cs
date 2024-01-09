@@ -510,13 +510,21 @@ namespace Objects.Botany
 				{
 					if (HasPlant)
 					{
-						Chat.AddActionMsgToChat(interaction.Performer,
+						ToolUtils.ServerUseToolWithActionMessages(
+							interaction, 3,
+							$"You start digging up {gameObject.ExpensiveName()}'s plants!",
+							$"{interaction.Performer.ExpensiveName()} Starts to dig out {gameObject.ExpensiveName()}'s plants!",
 							$"You dig out all of the {gameObject.ExpensiveName()}'s plants!",
-							$"{interaction.Performer.name} digs out the plants in the {gameObject.ExpensiveName()}!");
-						CropDeath();
+							$"{interaction.Performer.name} digs out the plants in the {gameObject.ExpensiveName()}!",
+							DigUp
+						);
+					}
+					else
+					{
+						UpdatePlantStage(plantCurrentStage, PlantSpriteStage.None);
 					}
 
-					UpdatePlantStage(plantCurrentStage, PlantSpriteStage.None);
+
 					return;
 				}
 			}
@@ -598,7 +606,15 @@ namespace Objects.Botany
 				UpdatePlantStage(plantCurrentStage, PlantSpriteStage.None);
 			}*/
 		}
+
+		public void DigUp()
+		{
+			CropDeath();
+			UpdatePlantStage(plantCurrentStage, PlantSpriteStage.None);
+		}
 	}
+
+
 
 	public enum PlantSpriteStage
 	{

@@ -12,7 +12,7 @@ namespace Construction.Conveyors
 {
 	[SelectionBase]
 	[ExecuteInEditMode]
-	public class ConveyorBelt : MonoBehaviour, ICheckedInteractable<HandApply>, IMultitoolMasterable
+	public class ConveyorBelt : MonoBehaviour, ICheckedInteractable<HandApply>, IMultitoolSlaveable
 	{
 		private readonly Vector2Int[] searchDirs =
 		{
@@ -41,7 +41,8 @@ namespace Construction.Conveyors
 		private Matrix _lastUpdateMatrix;
 		private Vector3Int _lastLocalUpdatePosition;
 		private float _LastSpeed = 0;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		#region Lifecycle
 
 		private void Awake()
@@ -120,7 +121,7 @@ namespace Construction.Conveyors
 				{
 					if (conveyorBelt.AssignedSwitch != null)
 					{
-						conveyorBelt.AssignedSwitch.AddConveyorBelt(new List<ConveyorBelt> { this });
+						conveyorBelt.AssignedSwitch.AddConveyorBelt(this);
 						conveyorBelt.SetState(conveyorBelt.CurrentStatus);
 						break;
 					}
@@ -141,6 +142,11 @@ namespace Construction.Conveyors
 		[Server]
 		public void UpdateState()
 		{
+			if (AssignedSwitch == null)
+			{
+				SetState(ConveyorStatus.Off);
+				return;
+			}
 			switch (AssignedSwitch.CurrentState)
 			{
 				case ConveyorBeltSwitch.SwitchState.Off:
@@ -284,8 +290,29 @@ namespace Construction.Conveyors
 		#region Multitool Interaction
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.Conveyor;
-		public bool MultiMaster => true;
-		int IMultitoolMasterable.MaxDistance => int.MaxValue;
+
+		public IMultitoolMasterable Master { get; set; }
+
+		[field: SerializeField] public bool RequireLink { get; set; } = true;
+
+		public bool TrySetMaster(GameObject performer, IMultitoolMasterable Inmaster)
+		{
+			var SwitchOLd = (Master as ConveyorBeltSwitch);
+			SwitchOLd.RemoveConveyorBelt(this);
+
+			Master = Inmaster;
+
+
+			var SwitchNew = (Master as ConveyorBeltSwitch);
+			SwitchNew.AddConveyorBelt(this);
+			return true;
+		}
+
+		public void SetMasterEditor(IMultitoolMasterable master)
+		{
+			TrySetMaster(null, master);
+		}
+
 
 		#endregion Multitool Interaction
 	}

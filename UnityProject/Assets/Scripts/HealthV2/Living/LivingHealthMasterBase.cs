@@ -85,11 +85,6 @@ namespace HealthV2
 		public bool IsSoftCrit => ConsciousState == ConsciousState.BARELY_CONSCIOUS;
 
 		/// <summary>
-		/// The current body type of the creature
-		/// </summary>
-		public BodyType BodyType = BodyType.NonBinary;
-
-		/// <summary>
 		/// The difference between network time and player time for the entity if its a player
 		/// Used to calculate amount of time to delay health changes if client is behind server
 		/// </summary>
@@ -1825,7 +1820,7 @@ namespace HealthV2
 		/// <returns>Returns an ElectrocutionSeverity for when the following logic depends on the elctrocution severity.</returns>
 		public virtual LivingShockResponse Electrocute(Electrocution electrocution)
 		{
-			float resistance = ApproximateElectricalResistance(electrocution.Voltage);
+			float resistance = ApproximateElectricalResistance(electrocution);
 			float shockPower = Electrocution.CalculateShockPower(electrocution.Voltage, resistance);
 			var severity = GetElectrocutionSeverity(shockPower);
 
@@ -1842,6 +1837,11 @@ namespace HealthV2
 				case LivingShockResponse.Lethal:
 					LethalElectrocution(electrocution, shockPower);
 					break;
+			}
+
+			if (severity is LivingShockResponse.Painful or LivingShockResponse.Lethal)
+			{
+				EmoteActionManager.DoEmote(screamEmote, playerScript.gameObject);
 			}
 
 			return severity;
@@ -1865,7 +1865,7 @@ namespace HealthV2
 		}
 
 		// Overrideable for custom electrical resistance calculations.
-		protected virtual float ApproximateElectricalResistance(float voltage)
+		protected virtual float ApproximateElectricalResistance(Electrocution electrocution)
 		{
 			// TODO: Approximate mob's electrical resistance based on mob size.
 			return 500;
@@ -2163,32 +2163,30 @@ namespace HealthV2
 			HealDamageOnAll(null, fastRegenHeal, DamageType.Brute);
 		}
 
-		public void SetUpCharacter(PlayerHealthData RaceBodyparts)
+		public void SetUpCharacter(PlayerHealthData raceBodyparts)
 		{
-			if (CustomNetworkManager.Instance._isServer)
-			{
-				InstantiateAndSetUp(RaceBodyparts.Base.Head);
-				InstantiateAndSetUp(RaceBodyparts.Base.Torso);
-				InstantiateAndSetUp(RaceBodyparts.Base.ArmLeft);
-				InstantiateAndSetUp(RaceBodyparts.Base.ArmRight);
-				InstantiateAndSetUp(RaceBodyparts.Base.LegLeft);
-				InstantiateAndSetUp(RaceBodyparts.Base.LegRight);
-			}
+			if (CustomNetworkManager.Instance._isServer == false) return;
+			InstantiateAndSetUp(raceBodyparts.Base.Head);
+			InstantiateAndSetUp(raceBodyparts.Base.Torso);
+			InstantiateAndSetUp(raceBodyparts.Base.ArmLeft);
+			InstantiateAndSetUp(raceBodyparts.Base.ArmRight);
+			InstantiateAndSetUp(raceBodyparts.Base.LegLeft);
+			InstantiateAndSetUp(raceBodyparts.Base.LegRight);
 		}
 
-		public void InitialiseFromRaceData(PlayerHealthData RaceBodyparts)
+		public void InitialiseFromRaceData(PlayerHealthData raceBodyparts)
 		{
-			InitialSpecies = RaceBodyparts;
-			foreach (var System in RaceBodyparts.Base.SystemSettings)
+			InitialSpecies = raceBodyparts;
+			foreach (var system in raceBodyparts.Base.SystemSettings)
 			{
-				var newsys = System.CloneThisSystem();
+				var newsys = system.CloneThisSystem();
 				newsys.Base = this;
 				newsys.InIt();
 				ActiveSystems.Add(newsys);
 			}
 
-			meatProduce = RaceBodyparts.Base.MeatProduce;
-			skinProduce = RaceBodyparts.Base.SkinProduce;
+			meatProduce = raceBodyparts.Base.MeatProduce;
+			skinProduce = raceBodyparts.Base.SkinProduce;
 		}
 
 		public void StartFresh()

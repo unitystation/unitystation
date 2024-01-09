@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using HealthV2;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 
 namespace Clothing
@@ -10,7 +12,7 @@ namespace Clothing
 	/// allows clothing to add its armor values to the creature wearing it
 	/// </summary>
 	[RequireComponent(typeof(Integrity))]
-	public class WearableArmor : MonoBehaviour, IServerInventoryMove
+	public class WearableArmor : MonoBehaviour, IServerInventoryMove, IHoverTooltip, IExaminable
 	{
 		[SerializeField] [Tooltip("When wore in this slot, the armor values will be applied to player.")]
 		private NamedSlot slot = NamedSlot.outerwear;
@@ -108,6 +110,113 @@ namespace Clothing
 				bodyPart.ClothingArmors.AddFirst(armoredBodyPart.Armor);
 				armoredBodyPart.RelatedBodyParts.AddFirst(bodyPart);
 			}
+		}
+
+		private string GetInfo()
+		{
+			StringBuilder text = new StringBuilder();
+			var protectedParts = new List<string>();
+			foreach (var part in armoredBodyParts)
+			{
+				if (part.Armor.StunImmunity == false) continue;
+				text.AppendLine("This has stun immunity.");
+				break;
+			}
+
+			foreach (var part in armoredBodyParts)
+			{
+				protectedParts.Add(part.ArmoringBodyPartType.ToString());
+			}
+
+			if (protectedParts.Count != 0)
+			{
+				if (protectedParts.Count == 1)
+				{
+					text.AppendLine($"\nThis protects the {protectedParts[0]}.");
+				}
+				else
+				{
+					StringBuilder protectedPartsText = new StringBuilder();
+					var index = -1;
+					foreach (var partText in protectedParts)
+					{
+						index++;
+						if (index == 0)
+						{
+							protectedPartsText.Append(protectedParts.Count == 1 ? $"the {partText}." : $"the {partText},");
+						}
+						else if (index == protectedParts.Count - 1)
+						{
+							protectedPartsText.Append($" and {partText}.");
+							break;
+						}
+						else
+						{
+							protectedPartsText.Append($" {partText},");
+						}
+					}
+					text.AppendLine($"\nThis protects the {protectedPartsText}");
+				}
+			}
+
+			var heatProtectionValues = new List<Vector2>();
+			foreach (var hPart in armoredBodyParts)
+			{
+				if (hPart.Armor.TemperatureProtectionInK != Vector2.zero)
+				{
+					heatProtectionValues.Add(hPart.Armor.TemperatureProtectionInK);
+				}
+			}
+
+			if (heatProtectionValues.Count != 0)
+			{
+				float sumFreeze = 0;
+				foreach (var number in heatProtectionValues)
+				{
+					sumFreeze += number.x;
+				}
+				float sumHeat = 0;
+				foreach (var number in heatProtectionValues)
+				{
+					sumHeat += number.y;
+				}
+				float averageFreeze = (sumFreeze / heatProtectionValues.Count) - 273.15f;
+				float averageHeat = (sumHeat / heatProtectionValues.Count) - 273.15f;
+
+				text.AppendLine($"\nThis has an average heat resistance of <color=red>{averageHeat.ToString("F" + 2)}°C</color> and freeze resistance of <color=#5fcfdd>{averageFreeze.ToString("F" + 2)}°C</color>");
+			}
+			return text.ToString();
+		}
+
+		public string HoverTip()
+		{
+			if (armoredBodyParts.Count == 0) return null;
+			return GetInfo();
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			return null;
+		}
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			return armoredBodyParts.Count == 0 ? null : GetInfo();
 		}
 	}
 }

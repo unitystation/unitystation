@@ -111,7 +111,14 @@ namespace Systems.Character
 			if (IsCharacterKeyValid(key) == false)
 			{
 				Loggy.LogWarning($"An attempt was made to fetch a character with an invalid key \"{key}\". Ignoring.");
-				return default;
+				if (Characters.Count > 0)
+				{
+					return default;
+				}
+				else
+				{
+					return new CharacterSheet();
+				}
 			}
 
 			var Character = Characters[key];
