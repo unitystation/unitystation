@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using ScriptableObjects;
+using ScriptableObjects.Atmospherics;
 using UnityEditor;
+using UnityEngine;
 #if UNITY_EDITOR
 using UnityEngine;
 #endif
@@ -16,7 +18,10 @@ public class SOListTracker : SingletonScriptableObject<SOListTracker>
 	[NaughtyAttributes.Button]
 	public void FindAllSOTrackers()
 	{
-		SOTrackers = FindAssetsByType<SOTracker>();
+		SOTrackers = new List<SOTracker>();
+		SOTrackers.AddRange(FindAssetsByType<SpriteDataSO>());
+		SOTrackers.AddRange(FindAssetsByType<ItemTrait>());
+		SOTrackers.AddRange(FindAssetsByType<GasSO>());
 	}
 
 	public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object

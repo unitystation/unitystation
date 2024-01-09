@@ -7,13 +7,15 @@ using Systems.Atmospherics;
 using Systems.Explosions;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
-
+using ScriptableObjects.Atmospherics;
 namespace Objects.Atmospherics
 {
 	public class GasContainer : NetworkBehaviour, IGasMixContainer, IServerSpawn, IServerInventoryMove
 	{
 		//max pressure for determining explosion effects - effects will be maximum at this contained pressure
 		private static readonly float MAX_EXPLOSION_EFFECT_PRESSURE = 148517f;
+
+		public GasSO GasSO;
 
 		/// <summary>
 		/// If the container is not <see cref="IsSealed"/>, then the container is assumed to be mixed with the tile,

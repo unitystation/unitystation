@@ -56,7 +56,18 @@ namespace SecureStuff
 						foreach (var type in types)
 						{
 							// Create an instance of the type (assuming it has a parameterless constructor)
-							vvUIElementHandler = Activator.CreateInstance(type) as ICustomSerialisationSystem;
+							try
+							{
+								vvUIElementHandler = Activator.CreateInstance(type) as ICustomSerialisationSystem;
+							}
+							catch (Exception e)
+							{
+								Loggy.LogError(e.ToString());
+							}
+							if (vvUIElementHandler != null)
+							{
+								break;
+							}
 						}
 					}
 				}
