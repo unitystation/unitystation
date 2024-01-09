@@ -96,26 +96,19 @@ namespace Systems.CraftingV2
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
-			if (HasSimpleRelatedRecipe == false
-			    || interaction.UsedObject == null
-			    || DefaultWillInteract.Default(interaction, side) == false
-			   )
-			{
-				return false;
-			}
+			if (HasSimpleRelatedRecipe == false) return false;
+			if (interaction.UsedObject == null) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			return NeutralWillInteract(interaction, side);
 		}
 
 		// will a player start to craft something?
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (HasSimpleRelatedRecipe == false
-			    || interaction.UsedObject == null
-			    || DefaultWillInteract.Default(interaction, side) == false
-			   )
-			{
-				return false;
-			}
+			if (HasSimpleRelatedRecipe == false) return false;
+			if (interaction.UsedObject == null) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
 			return NeutralWillInteract(interaction, side);
 		}
 

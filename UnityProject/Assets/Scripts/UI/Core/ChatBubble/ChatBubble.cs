@@ -160,7 +160,7 @@ public class ChatBubble : MonoBehaviour, IDisposable
 		QueueMessages(msg, chatModifier);
 
 		cancelSource = new CancellationTokenSource();
-		if (!showingDialogue)
+		if (showingDialogue == false)
 		{
 			showingDialogue = true;
 			StartCoroutine(ShowDialogue(cancelSource.Token));
