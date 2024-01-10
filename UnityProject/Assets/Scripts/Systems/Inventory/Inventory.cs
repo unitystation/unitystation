@@ -127,6 +127,12 @@ public static class Inventory
 		return ServerPerform(InventoryMove.Drop(fromSlot, worldTargetVector));
 	}
 
+
+	public static bool ServerDropAtWorld(ItemSlot fromSlot, Vector3 WorldVector)
+	{
+		return ServerPerform(InventoryMove.Drop(fromSlot,  WorldVector-fromSlot.GetRootStorageOrPlayer().AssumedWorldPosServer() ));
+	}
+
 	/// <summary>
 	/// If you're too lazy to get the ItemSlot This will do it for you or Return false if it can't find ItemSlot it is in
 	/// </summary>

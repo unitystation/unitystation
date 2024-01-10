@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: isInitiallyNotPushable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 643326484729671418, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: isNotPushable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_Sprite
@@ -62,17 +67,17 @@ PrefabInstance:
     - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -337,6 +342,7 @@ MonoBehaviour:
   OnDeviceUnLinked:
     m_PersistentCalls:
       m_Calls: []
+  <CanRelink>k__BackingField: 1
 --- !u!114 &7812584158791827984
 MonoBehaviour:
   m_ObjectHideFlags: 0

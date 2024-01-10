@@ -126,8 +126,7 @@ namespace Lobby
 		public async Task<bool> TryTokenLogin(string uid, string token)
 		{
 			lobbyDialogue.ShowLoadingPanel("Welcome back! Signing you in...");
-			LoginTimer();
-
+			
 			var refreshToken = new RefreshToken();
 			refreshToken.refreshToken = token;
 			refreshToken.userID = uid;
@@ -203,7 +202,6 @@ namespace Lobby
 
 				var randomGreeting = string.Format(greetings.PickRandom(), FirebaseAuth.DefaultInstance.CurrentUser.DisplayName);
 				lobbyDialogue.ShowLoadingPanel($"{randomGreeting}\n\nSigning you in...");
-				LoginTimer();
 				bool isLoginSuccess = false;
 				Loggy.Log("[LobbyManager/TryAutoLogin()] - Executing  FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread().");
 
@@ -400,24 +398,6 @@ namespace Lobby
 					lobbyDialogue.transform.localScale *= 0.9f;
 				}
 			}
-		}
-
-		private async void LoginTimer()
-		{
-			await Task.Delay(14000);
-			if (cancelTimer) return;
-			LoadManager.DoInMainThread(() =>
-			{
-				lobbyDialogue.ShowLoadingPanel("This is taking longer than it should..\n\n If it continues, try disabling your VPNs and installing the game in full English path.");
-			} );
-
-			await Task.Delay(30500);
-			if (cancelTimer) return;
-			LoadManager.DoInMainThread(() =>
-			{
-				lobbyDialogue.ShowLoginError($"Unexpected error. Check your console (F5)");
-			} );
-
 		}
 
 		#region Server History

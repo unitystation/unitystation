@@ -8,8 +8,12 @@ using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class SOTracker : ScriptableObject, IHaveForeverID
+public class SOTracker : ScriptableObject, IHaveForeverID, ISearchSpritePreview
 {
+		public virtual SpriteDataSO Sprite => null;
+
+		public string Name => name;
+
 		public string ForeverID {
 			get {
 #if UNITY_EDITOR

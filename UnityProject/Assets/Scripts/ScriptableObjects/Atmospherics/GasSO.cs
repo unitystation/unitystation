@@ -9,6 +9,10 @@ namespace ScriptableObjects.Atmospherics
 	[CreateAssetMenu(fileName = "GasSO", menuName = "ScriptableObjects/Atmos/GasSO")]
 	public class GasSO : SOTracker
 	{
+		public override SpriteDataSO Sprite => PreviewSprite;
+
+		public SpriteDataSO PreviewSprite;
+
 		//This is how many Joules are needed to raise 1 mole of the gas 1 degree Kelvin: J/K/mol
 		public float MolarHeatCapacity = 20;
 
