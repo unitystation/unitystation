@@ -35,6 +35,10 @@ namespace Items
 		[SerializeField]
 		private float hitDamage = 0;
 
+
+		[Tooltip(" Says roughly how much damage it does when examining ")]
+		public bool ShowHitDamage = true;
+
 		/// <summary>
 		/// Damage when we click someone with harm intent, tracked server side only.
 		/// </summary>
@@ -320,44 +324,54 @@ namespace Items
 
 		private string GetInfo()
 		{
+			if (ShowHitDamage == false) return "";
+
 			string returnS = "";
 			switch (hitDamage)
 			{
 				case < 1:
-					returnS =  "no hit damage";
+					returnS =  "This item is seemingly harmless";
 					break;
 				case < 4:
-					returnS =  "measly hit damage";
+					returnS =  "would do some damage";
 					break;
 				case < 7:
-					returnS =  "ok hit damage";
+					returnS =  "an okay damage";
 					break;
 				case < 11:
-					returnS =  "decent hit damage";
+					returnS =  "a decent damage";
 					break;
 				case < 13:
-					returnS =  "robust hit damage";
+					returnS =  "robust damage.";
 					break;
 				case < 21:
-					returnS =  "strong hit damage";
+					returnS =  "strong damage.";
 					break;
 				case < 31:
-					returnS =  "powerful hit damage";
+					returnS =  "powerful damage.";
 					break;
 				case < 41:
-					returnS =  "crazy hit damage";
+					returnS =  "crazy damage.";
 					break;
 				case < 51:
-					returnS =  "insane hit damage";
+					returnS =  "insane damage.";
 					break;
 				case < 101:
-					returnS =  "One shot bs hit damage";
+					if (UnityEngine.Random.Range(0, 2) == 1)
+					{
+						returnS =  "One shot bs hit damage.";
+					}
+					else
+					{
+						returnS =  "This item is too lethal and deadly.";
+					}
+
 					break;
-				case < 201:
+				case > 101:
 					returnS =  "ok they are dead now you don't need any more damage!!!";
 					break;
 				default:
-					returnS =  "what type of damages this!?!?! AAAAAA";
+					returnS =  "You can't tell how harmful this item is as a weapon.";
 					break;
 			}
 
