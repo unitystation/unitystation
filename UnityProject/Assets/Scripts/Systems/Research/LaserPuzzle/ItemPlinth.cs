@@ -69,9 +69,12 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 		}
 		else
 		{
-			//if (interaction.HandSlot.Item == null) return;
+			if (interaction.HandObject == null) return;
 
-			if (blackListedItemNames.Contains(interaction.HandObject.Item().InitialName)) Chat.AddExamineMsg(interaction.Performer, $"The light on the pinth blinks red, refusing storage of the {interaction.HandObject.ExpensiveName()}");
+			if (blackListedItemNames.Contains(interaction.HandObject.Item().InitialName))
+			{
+				Chat.AddExamineMsg(interaction.Performer, $"The light on the pinth blinks red, refusing storage of the {interaction.HandObject.ExpensiveName()}");
+			}
 			else
 			{
 				DisplayedItem = interaction.HandSlot.Item;
