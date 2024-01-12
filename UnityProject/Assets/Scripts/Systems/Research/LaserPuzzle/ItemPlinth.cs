@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using InGameEvents;
+using Items;
 using Logs;
 using Mirror;
 using Systems.Explosions;
@@ -22,10 +24,21 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 
 	public bool HasItem => itemStorage.GetIndexedItemSlot(0).IsOccupied;
 
+
+	[SerializeField, Tooltip("Certain items that should not be allowed to be destroyed for gamplay reasons, includes nuclear disk, captains hat etc.")]
+	private List<GameObject> blackListedItems = new List<GameObject>();
+
+	private IEnumerable<string> blackListedItemNames;
+
 	public void Awake()
 	{
 		itemStorage = this.GetComponentCustom<ItemStorage>();
 		OnItemChange += UpdateItemDisplay;
+
+		if (CustomNetworkManager.IsServer == false) return;
+
+		blackListedItemNames = blackListedItems.Select(a => a.Item().InitialName);
+
 	}
 
 	#region Interaction
@@ -41,16 +54,6 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 
 		if (interaction.IsAltClick) return false;
 
-		if (HasItem)
-		{
-			if (interaction.HandSlot.Item != null) return false;
-		}
-		else
-		{
-			if (interaction.HandSlot.Item == null) return false;
-		}
-
-
 		return true;
 	}
 
@@ -58,15 +61,26 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 	{
 		if (HasItem)
 		{
+			if (interaction.HandSlot.Item != null) return;
+
 			Inventory.ServerTransfer(itemStorage.GetIndexedItemSlot(0), interaction.HandSlot);
 			DisplayedItem = null;
-			OnItemChange?.Invoke();
+			OnItemChange?.Invoke();					
 		}
 		else
 		{
-			DisplayedItem = interaction.HandSlot.Item;
-			Inventory.ServerTransfer(interaction.HandSlot, itemStorage.GetNextEmptySlot());
-			OnItemChange?.Invoke();
+			if (interaction.HandObject == null) return;
+
+			if (blackListedItemNames.Contains(interaction.HandObject.Item().InitialName))
+			{
+				Chat.AddExamineMsg(interaction.Performer, $"The light on the pinth blinks red, refusing storage of the {interaction.HandObject.ExpensiveName()}");
+			}
+			else
+			{
+				DisplayedItem = interaction.HandSlot.Item;
+				Inventory.ServerTransfer(interaction.HandSlot, itemStorage.GetNextEmptySlot());
+				OnItemChange?.Invoke();
+			}		
 		}
 
 	}

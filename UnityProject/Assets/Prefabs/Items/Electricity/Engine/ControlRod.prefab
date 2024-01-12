@@ -118,6 +118,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a83bf55c94468e545ab67c06fd7b2469,
         type: 2}
+    - target: {fileID: 3652986707257552662, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: BasePurity
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -156,5 +161,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42785ebe266fe90499263ea81e986e61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentlyInstalledIn: {fileID: 0}
   rodType: 1
   color: {r: 1, g: 0, b: 0, a: 1}

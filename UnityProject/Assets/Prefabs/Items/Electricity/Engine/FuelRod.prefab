@@ -118,6 +118,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a83bf55c94468e545ab67c06fd7b2469,
         type: 2}
+    - target: {fileID: 3652986707257552662, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: BasePurity
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -195,7 +200,6 @@ MonoBehaviour:
   OutPuttingRadiation: 0
   color: {r: 0, g: 1, b: 0.5635319, a: 0}
   lightSprite: {fileID: 5420316433963440423}
-  DotSprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
   SynchroniseStrength: 0
 --- !u!1001 &6622453691755398997
 PrefabInstance:
