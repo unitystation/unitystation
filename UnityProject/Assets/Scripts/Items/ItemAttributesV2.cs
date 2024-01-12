@@ -6,6 +6,8 @@ using Mirror;
 using AddressableReferences;
 using Core;
 using Systems.Clothing;
+using UI.Systems.Tooltips.HoverTooltips;
+using Util.Independent.FluentRichText;
 
 namespace Items
 {
@@ -16,7 +18,7 @@ namespace Items
 	/// </summary>
 	[RequireComponent(typeof(Pickupable))] //Inventory interaction
 	[RequireComponent(typeof(RegisterItem))] //Registry with subsistence
-	public class ItemAttributesV2 : Attributes
+	public class ItemAttributesV2 : Attributes, IHoverTooltip
 	{
 		[Header("Item Info")]
 
@@ -32,6 +34,10 @@ namespace Items
 		[Range(0, 100)]
 		[SerializeField]
 		private float hitDamage = 0;
+
+
+		[Tooltip(" Says roughly how much damage it does when examining ")]
+		public bool ShowHitDamage = true;
 
 		/// <summary>
 		/// Damage when we click someone with harm intent, tracked server side only.
@@ -314,6 +320,87 @@ namespace Items
 		{
 			ClothingV2 clothing = GetComponent<ClothingV2>();
 			if (clothing != null) clothing.AssignPaletteToSprites(this.ItemSprites.Palette);
+		}
+
+		private string GetInfo()
+		{
+			if (ShowHitDamage == false) return "";
+
+			string returnS = "";
+			switch (hitDamage)
+			{
+				case < 1:
+					returnS =  "This item is seemingly harmless";
+					break;
+				case < 4:
+					returnS =  "would do some damage";
+					break;
+				case < 7:
+					returnS =  "an okay damage";
+					break;
+				case < 11:
+					returnS =  "a decent damage";
+					break;
+				case < 13:
+					returnS =  "robust damage.";
+					break;
+				case < 21:
+					returnS =  "strong damage.";
+					break;
+				case < 31:
+					returnS =  "powerful damage.";
+					break;
+				case < 41:
+					returnS =  "crazy damage.";
+					break;
+				case < 51:
+					returnS =  "insane damage.";
+					break;
+				case < 101:
+					if (UnityEngine.Random.Range(0, 2) == 1)
+					{
+						returnS =  "One shot bs hit damage.";
+					}
+					else
+					{
+						returnS =  "This item is too lethal and deadly.";
+					}
+
+					break;
+				case > 101:
+					returnS =  "ok they are dead now you don't need any more damage!!!";
+					break;
+				default:
+					returnS =  "You can't tell how harmful this item is as a weapon.";
+					break;
+			}
+
+			return returnS.Color("#D4D4D4").FontSize("85%");
+		}
+
+		public string HoverTip()
+		{
+			return GetInfo();
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			return null;
 		}
 
 
