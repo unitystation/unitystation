@@ -712,8 +712,16 @@ namespace TextToTMPNamespace
 				return null;
 
 			List<TMP_Dropdown.OptionData> result = new List<TMP_Dropdown.OptionData>( options.Count );
-			for( int i = 0; i < options.Count; i++ )
-				result.Add( new TMP_Dropdown.OptionData( options[i].text, options[i].image ) );
+			for (int i = 0; i < options.Count; i++)
+			{
+				TMP_Dropdown.OptionData newOption = new TMP_Dropdown.OptionData()
+				{
+					text = options[i].text,
+					image = options[i].image,
+					color = Color.white, //FIXME: This will override colors during the updating process.
+				};
+				result.Add( newOption );
+			}
 
 			return result;
 		}
