@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using AdminCommands;
 using Core.Editor.Attributes;
@@ -93,8 +94,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	private float localTileMoveSpeedOverride = 0;
 
 	[SyncVar]
-	private float
-		networkedTileMoveSpeedOverride = 0; //TODO Potential Desynchronisation issues, Probably should have a who caused
+	private float networkedTileMoveSpeedOverride = 0; //TODO Potential Desynchronisation issues, Probably should have a who caused
 
 	[SyncVar] public float tileMoveSpeed = 1;
 	[SyncVar] private uint parentContainer;
@@ -312,6 +312,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[PlayModeOnly] public double LastUpdateClientFlying = 0; //NetworkTime.time
 
+	public float TimeSpentFlying = 0;
 
 	// netid of the game object we are buckled to, NetId.Empty if not buckled
 	[field: SyncVar(hook = nameof(SyncObjectIsBuckling))]
@@ -580,24 +581,51 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[ClientRpc]
 	public void UpdateClientMomentum(Vector3 resetToLocal, Vector2 newMomentum, float inairTime, float inslideTime,
-		int matrixID, float inSpinFactor, bool forceOverride, uint doNotUpdateThisClient)
+		int matrixID, float inSpinFactor, bool forceOverride, uint doNotUpdateThisClient, float TimeSent)
 	{
 		if (isServer) return;
 
 		if (IDIsLocalPlayerObject(doNotUpdateThisClient)) return;
 
-		//if (isLocalPlayer) return; //We are updating other Objects than the player on the client //TODO Also block if being pulled by local player //Why we need this?
-		NewtonianMovement = newMomentum;
-		airTime = inairTime;
-		slideTime = inslideTime;
-		spinMagnitude = inSpinFactor;
-		SetMatrix(MatrixManager.Get(matrixID).Matrix);
+		if (IsFlyingSliding && 0 > (TimeSpentFlying - TimeSent))
+		{
+			return; //Invalid check request, In between landing and push off
+		}
 
-		InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
+
+		//if (isLocalPlayer) return; //We are updating other Objects than the player on the client //TODO Also block if being pulled by local player //Why we need this?
+		Vector2? OldMomentum = null;
+		if (NewtonianMovement != newMomentum)
+		{
+			OldMomentum = NewtonianMovement;
+			NewtonianMovement = newMomentum;
+			airTime = inairTime;
+			slideTime = inslideTime;
+			spinMagnitude = inSpinFactor;
+			SetMatrix(MatrixManager.Get(matrixID).Matrix);
+
+		}
+
+
+
+
 
 		if (IsFlyingSliding) //If we flying try and smooth it
 		{
+			if (isOwned && this is MovementSynchronisation) //The client is technically ahead of the server
+			{
+				var TimeDifference = (TimeSpentFlying - TimeSent);
+				Loggy.LogError(TimeDifference.ToString());
+				var ToResetToPosition =  resetToLocal + (newMomentum * TimeDifference).To3();
+				//Loggy.LogError("diff Sent in " + (resetToLocal - ToResetToPosition).ToString() );
+				Loggy.LogError("diff Sent in Compared actual " + (resetToLocal - transform.localPosition).ToString() );
+				Loggy.LogError("diff Calculated Compared actual " + (ToResetToPosition - transform.localPosition).ToString() );
+				resetToLocal = ToResetToPosition;
+			}
+
 			LocalDifferenceNeeded = resetToLocal - transform.localPosition;
+
+
 			if (CorrectingCourse == false)
 			{
 				CorrectingCourse = true;
@@ -615,10 +643,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			SetTransform(resetToLocal, false);
 		}
 
+		InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
+
 		if (Animating == false && IsFlyingSliding == false)
 		{
-			IsFlyingSliding = true;
-			UpdateManager.Add(CallbackType.UPDATE, FlyingUpdateMe);
+			StartFlyingUpdateMe();
 		}
 	}
 
@@ -852,6 +881,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		if (isServer == false) return;
 		SetLastResetID = Time.frameCount;
+		Loggy.LogError("ResetLocationOnClients");
 		RPCForceSetPosition(transform.localPosition, NewtonianMovement, LocalTargetPosition, smooth,
 			registerTile.Matrix.Id,
 			rotationTarget.localRotation.eulerAngles.z, SetLastResetID, ignoreForClient);
@@ -893,6 +923,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			UpdateManager.Remove(CallbackType.UPDATE, FloatingCourseCorrection);
 			return;
 		}
+
+		var dd = NetworkTime.time;
 
 		CorrectingCourse = true;
 		var position = transform.localPosition;
@@ -985,6 +1017,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		return true;
 	}
+
 
 	private List<DirectionAndDecision> TriedDirectionsFrame = new List<DirectionAndDecision>();
 
@@ -1415,19 +1448,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		OnThrowStart.Invoke(this);
 		if (NewtonianMovement.magnitude > 0.01f)
 		{
-			//It's moving add to update manager
-			if (IsFlyingSliding == false)
-			{
-				IsFlyingSliding = true;
-				UpdateManager.Add(CallbackType.UPDATE, FlyingUpdateMe);
-			}
+			StartFlyingUpdateMe();
 		}
 
 		if (isServer)
 		{
 			LastUpdateClientFlying = NetworkTime.time;
 			UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, this.slideTime,
-				registerTile.Matrix.Id, spinFactor, true, doNotUpdateThisClient.NetId());
+				registerTile.Matrix.Id, spinFactor, true, doNotUpdateThisClient.NetId(), TimeSpentFlying);
 		}
 	}
 
@@ -1515,14 +1543,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			if (NewtonianMovement.magnitude > 0.01f)
 			{
 				//It's moving add to update manager
-				if (IsFlyingSliding == false)
-				{
-					IsFlyingSliding = true;
-					UpdateManager.Add(CallbackType.UPDATE, FlyingUpdateMe);
-					if (isServer)
-						UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, slideTime,
-							registerTile.Matrix.Id, spinMagnitude, false, NetId.Empty);
-				}
+				StartFlyingUpdateMe();
 			}
 		}
 	}
@@ -1574,6 +1595,18 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	}
 
 
+	public void StartFlyingUpdateMe()
+	{
+		//It's moving add to update manager
+		if (IsFlyingSliding == false)
+		{
+			IsFlyingSliding = true;
+			TimeSpentFlying = 0;
+			LastUpdateClientFlying = NetworkTime.time;
+			UpdateManager.Add(CallbackType.UPDATE, FlyingUpdateMe);
+		}
+	}
+
 	public void FlyingUpdateMe()
 	{
 		if (isVisible == false)
@@ -1590,6 +1623,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		isFlyingSliding = true;
 		MoveIsWalking = false;
+		TimeSpentFlying += Time.deltaTime;
 
 		if (this == null)
 		{
@@ -1844,13 +1878,26 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			SetMatrix(movetoMatrix);
 		}
 
-		if (isServer)
+		if (isServer) //We only need correction for that item
 		{
 			if (NetworkTime.time - LastUpdateClientFlying > 2)
 			{
 				LastUpdateClientFlying = NetworkTime.time;
 				UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, slideTime,
-					registerTile.Matrix.Id, spinMagnitude, true, NetId.Empty);
+					registerTile.Matrix.Id, spinMagnitude, true, NetId.Empty, TimeSpentFlying);
+			}
+		}
+
+		if (slideTime <= 0 && airTime <= 0 && IsStickyMovement)
+		{
+			var floating = IsFloating();
+			if (floating == false)
+			{
+				if (NewtonianMovement.magnitude <= maximumStickSpeed) //Too fast to grab onto anything
+				{
+					//Stuck
+					NewtonianMovement *= 0;
+				}
 			}
 		}
 
@@ -1869,12 +1916,20 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 			if (onStationMovementsRound)
 			{
-				// doNotApplyMomentumOnTarget = true;
-				// if (Animating == false)
-				// {
-				// 	Animating = true;
-				// 	UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
-				// }
+				if (this is not MovementSynchronisation)
+				{
+					doNotApplyMomentumOnTarget = true;
+				}
+
+
+				if (Animating == false)
+				{
+					LocalTargetPosition = transform.localPosition.RoundToInt();
+					Animating = true;
+					MoveIsWalking = true;
+					IsMoving = true;
+					UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
+				}
 			}
 			else if (ResetClientPositionReachTile)
 			{
