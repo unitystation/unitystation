@@ -125,6 +125,11 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6609969044137842044, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: isNotPushable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7077309542080996789, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -234,6 +239,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  LiesFlat3D: 0
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 7417356192938935352}
   AtmosPassable: 1
