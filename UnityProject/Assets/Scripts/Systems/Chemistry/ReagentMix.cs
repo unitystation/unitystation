@@ -309,7 +309,6 @@ namespace Chemistry
 
 			if (float.IsNormal(amount) == false)
 			{
-				Loggy.LogError($"Trying to add {amount} amount of {reagent}", Category.Chemistry);
 				return;
 			}
 

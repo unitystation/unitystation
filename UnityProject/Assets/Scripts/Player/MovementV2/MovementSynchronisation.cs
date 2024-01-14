@@ -113,6 +113,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	private LayerType tileBumpables = LayerType.Grills | LayerType.Walls;
 
+	public float FudgeThresholdFlyingSliding = 0.5f;
+
 	/// <summary>
 	/// Event which fires when movement type changes (run/walk)
 	/// </summary>
@@ -520,6 +522,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public struct MoveData
 	{
+		//TODO Send over momentum as well? Before move
+
 		public Vector3 LocalPosition;
 
 		//The current location of the player (  just in case they are desynchronised )
@@ -666,9 +670,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		resetSmooth = false;
 		if (IsFlyingSliding)
 		{
-			if ((transform.position - entry.LocalPosition.ToWorld(MatrixManager.Get(entry.MatrixID)))
-			    .magnitude <
-			    0.24f) //TODO Maybe not needed if needed can be used is when Move request comes in before player has quite reached tile in space flight
+			var PositionDifference = (transform.position - entry.LocalPosition.ToWorld(MatrixManager.Get(entry.MatrixID))).magnitude;
+ 			if (PositionDifference < FudgeThresholdFlyingSliding)
+			    //TODO Maybe not needed if needed can be used is when Move request comes in before player has quite reached tile in space flight
+				//TODO it Can be manipulated
 			{
 				stored = transform.localPosition;
 				transform.localPosition = entry.LocalPosition;
@@ -677,9 +682,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				SetMatrixCache.ResetNewPosition(transform.position, registerTile);
 				fudged = true;
 			}
-			else
+			else if (entry.IsNotMove == false)
 			{
-				//Logger.LogError(" Fail the Range floating check ");
+				//Loggy.LogError($" Fail the Range floating check with Distance {PositionDifference}");
 				ResetLocationOnClients();
 				MoveQueue.Clear();
 				return;
@@ -907,7 +912,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 
 
-						//Logger.LogError("Failed TryMove");
+						// //Logger.LogError("Failed TryMove");
 						if (fudged)
 						{
 							transform.localPosition = stored;
