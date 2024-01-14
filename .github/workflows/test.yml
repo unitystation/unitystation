@@ -74,6 +74,7 @@ jobs:
           customParameters: "-nographics"
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
+          customImage: 'unityci/editor:ubuntu-2023.2.5f1-base-3.0.1'
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}
           testMode: editmode
       
