@@ -94,7 +94,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	private float localTileMoveSpeedOverride = 0;
 
 	[SyncVar]
-	private float networkedTileMoveSpeedOverride = 0; //TODO Potential Desynchronisation issues, Probably should have a who caused
+	private float
+		networkedTileMoveSpeedOverride = 0; //TODO Potential Desynchronisation issues, Probably should have a who caused
 
 	[SyncVar] public float tileMoveSpeed = 1;
 	[SyncVar] private uint parentContainer;
@@ -316,7 +317,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	// netid of the game object we are buckled to, NetId.Empty if not buckled
 	[field: SyncVar(hook = nameof(SyncObjectIsBuckling))]
-	public UniversalObjectPhysics ObjectIsBuckling { get; protected set; }  //If your chair the person buckled to you
+	public UniversalObjectPhysics ObjectIsBuckling { get; protected set; } //If your chair the person buckled to you
 
 	public UniversalObjectPhysics BuckledToObject; //If you're a person the chair you are buckle to
 
@@ -581,13 +582,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[ClientRpc]
 	public void UpdateClientMomentum(Vector3 resetToLocal, Vector2 newMomentum, float inairTime, float inslideTime,
-		int matrixID, float inSpinFactor, bool forceOverride, uint doNotUpdateThisClient, float TimeSent)
+		int matrixID, float inSpinFactor, bool forceOverride, uint doNotUpdateThisClient, float timeSent)
 	{
 		if (isServer) return;
 
 		if (IDIsLocalPlayerObject(doNotUpdateThisClient)) return;
 
-		if (IsFlyingSliding && 0 > (TimeSpentFlying - TimeSent))
+		if (IsFlyingSliding && (TimeSpentFlying - timeSent) < 0)
 		{
 			return; //Invalid check request, In between landing and push off
 		}
@@ -603,23 +604,16 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			slideTime = inslideTime;
 			spinMagnitude = inSpinFactor;
 			SetMatrix(MatrixManager.Get(matrixID).Matrix);
-
 		}
-
-
-
 
 
 		if (IsFlyingSliding) //If we flying try and smooth it
 		{
 			if (isOwned && this is MovementSynchronisation) //The client is technically ahead of the server
 			{
-				var TimeDifference = (TimeSpentFlying - TimeSent);
-				Loggy.LogError(TimeDifference.ToString());
-				var ToResetToPosition =  resetToLocal + (newMomentum * TimeDifference).To3();
-				//Loggy.LogError("diff Sent in " + (resetToLocal - ToResetToPosition).ToString() );
-				Loggy.LogError("diff Sent in Compared actual " + (resetToLocal - transform.localPosition).ToString() );
-				Loggy.LogError("diff Calculated Compared actual " + (ToResetToPosition - transform.localPosition).ToString() );
+				var TimeDifference = (TimeSpentFlying - timeSent);
+				var ToResetToPosition = resetToLocal + (newMomentum * TimeDifference).To3();
+				;
 				resetToLocal = ToResetToPosition;
 			}
 
@@ -924,8 +918,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			return;
 		}
 
-		var dd = NetworkTime.time;
-
 		CorrectingCourse = true;
 		var position = transform.localPosition;
 		var newPosition = this.MoveTowards(position, (position + LocalDifferenceNeeded.To3()),
@@ -1023,7 +1015,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public struct DirectionAndDecision
 	{
-
 		public Vector2Int worldDirection;
 		public bool Decision;
 	}
@@ -1096,6 +1087,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				TriedDirectionsFrame.Clear();
 				PushedFrame = Time.frameCount;
 			}
+
 			TriedDirectionsFrame.Add(new DirectionAndDecision()
 			{
 				worldDirection = worldDirection,
@@ -1807,7 +1799,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 					foreach (var hit in Hits)
 					{
-
 						//Integrity
 						//LivingHealthMasterBase
 						//TODO DamageTile( goal,Matrix.Matrix.TilemapsDamage);
@@ -1890,14 +1881,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (slideTime <= 0 && airTime <= 0 && IsStickyMovement)
 		{
-			var floating = IsFloating();
-			if (floating == false)
+			if (IsFloating() == false && NewtonianMovement.magnitude <= maximumStickSpeed)
 			{
-				if (NewtonianMovement.magnitude <= maximumStickSpeed) //Too fast to grab onto anything
-				{
-					//Stuck
-					NewtonianMovement *= 0;
-				}
+				//Too fast to grab onto anything
+				//Stuck
+				NewtonianMovement *= 0;
 			}
 		}
 
@@ -2359,6 +2347,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				directionalObject.OnRotationChange.AddListener(newBuckledTo.OnBuckledObjectDirectionChange);
 			}
+
 			var directionalBuckledObject = ObjectIsBuckling.GetComponent<Rotatable>();
 			if (directionalBuckledObject != null)
 			{

@@ -113,6 +113,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	private LayerType tileBumpables = LayerType.Grills | LayerType.Walls;
 
+	public float FudgeThresholdFlyingSliding = 0.5f;
+
 	/// <summary>
 	/// Event which fires when movement type changes (run/walk)
 	/// </summary>
@@ -669,7 +671,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (IsFlyingSliding)
 		{
 			var PositionDifference = (transform.position - entry.LocalPosition.ToWorld(MatrixManager.Get(entry.MatrixID))).magnitude;
- 			if (PositionDifference < 0.50f)
+ 			if (PositionDifference < FudgeThresholdFlyingSliding)
 			    //TODO Maybe not needed if needed can be used is when Move request comes in before player has quite reached tile in space flight
 				//TODO it Can be manipulated
 			{
