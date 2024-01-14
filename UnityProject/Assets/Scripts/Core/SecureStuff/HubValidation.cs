@@ -93,7 +93,7 @@ namespace SecureStuff
 				writer = new StreamWriter(clientPipe);
 				return true;
 			} else {
-				HubNotConnectedPopUp.Instance.SetUp(OnFailText, URLClipboard);
+				SecureSideHubNotConnectedPopUp.Instance.SetUp(OnFailText, URLClipboard);
 				return false;
 			}
 

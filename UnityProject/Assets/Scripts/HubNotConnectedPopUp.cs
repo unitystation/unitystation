@@ -5,9 +5,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HubNotConnectedPopUp : MonoBehaviour
+public class HubNotConnectedPopUp : MonoBehaviour, IHubNotConnectedPopUp
 {
-	public static HubNotConnectedPopUp Instance;
+
 
 	public TMP_Text Text;
 	public string ToPutOnClipboard;
@@ -16,7 +16,6 @@ public class HubNotConnectedPopUp : MonoBehaviour
 
 	public void Start()
 	{
-		Instance = this;
 		Close();
 	}
 
