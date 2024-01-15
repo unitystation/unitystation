@@ -75,6 +75,40 @@ public static class ConverterExtensions
 		return MatrixManager.LocalToWorldInt(worldPos, MatrixManager.Get(matrix));
 	}
 
+
+	public static MatrixInfo GetMatrixAtWorld(this Vector3 World)
+	{
+		return MatrixManager.AtPoint(Vector3Int.RoundToInt(World), CustomNetworkManager.Instance._isServer);
+	}
+
+
+	public static OrientationEnum ToOrientationEnum(this Vector3 vector)
+	{
+		float angle = Mathf.Atan2(vector.y, vector.x) * Mathf.Rad2Deg;
+
+		if (angle < 0)
+		{
+			angle += 360;
+		}
+
+		if (angle >= 45 && angle < 135)
+		{
+			return OrientationEnum.Up_By0;
+		}
+		else if (angle >= 135 && angle < 225)
+		{
+			return OrientationEnum.Left_By90;
+		}
+		else if (angle >= 225 && angle < 315)
+		{
+			return OrientationEnum.Down_By180;
+		}
+		else
+		{
+			return OrientationEnum.Right_By270;
+		}
+	}
+
 	public static bool IsDiagonal(this PlayerMoveDirection direction) =>
 		direction switch
 		{
