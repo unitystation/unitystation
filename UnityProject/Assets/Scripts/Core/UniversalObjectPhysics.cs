@@ -875,7 +875,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		if (isServer == false) return;
 		SetLastResetID = Time.frameCount;
-		Loggy.LogError("ResetLocationOnClients");
 		RPCForceSetPosition(transform.localPosition, NewtonianMovement, LocalTargetPosition, smooth,
 			registerTile.Matrix.Id,
 			rotationTarget.localRotation.eulerAngles.z, SetLastResetID, ignoreForClient);
