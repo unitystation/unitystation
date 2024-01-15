@@ -209,7 +209,7 @@ namespace UnitystationLauncher.ContentScanning
 
 			info.Invoke($"Inheritance... {fullStopwatch.ElapsedMilliseconds}ms");
 
-			CheckNoUnmanagedMethodDefs(reader, errors);
+			CheckNoUnmanagedMethodDefs(reader, errors, asmName);
 
 			info.Invoke($"Unmanaged methods... {fullStopwatch.ElapsedMilliseconds}ms");
 
@@ -330,7 +330,7 @@ namespace UnitystationLauncher.ContentScanning
 		}
 
 		[SuppressMessage("ReSharper", "BitwiseOperatorOnEnumWithoutFlags")]
-		private static void CheckNoUnmanagedMethodDefs(MetadataReader reader, ConcurrentBag<SandboxError> errors)
+		private static void CheckNoUnmanagedMethodDefs(MetadataReader reader, ConcurrentBag<SandboxError> errors, string AssemblyName)
 		{
 			foreach (var methodDefHandle in reader.MethodDefinitions)
 			{
@@ -342,13 +342,13 @@ namespace UnitystationLauncher.ContentScanning
 				    (implAttr & MethodImplAttributes.CodeTypeMask) is not (MethodImplAttributes.IL
 				    or MethodImplAttributes.Runtime))
 				{
-					var err = $"Method has illegal MethodImplAttributes: {FormatMethodName(reader, methodDef)}";
+					var err = $"Method has illegal MethodImplAttributes: {FormatMethodName(reader, methodDef)} in Assembly {AssemblyName} ";
 					errors.Add(new SandboxError(err));
 				}
 
 				if ((attr & (MethodAttributes.PinvokeImpl | MethodAttributes.UnmanagedExport)) != 0)
 				{
-					var err = $"Method has illegal MethodAttributes: {FormatMethodName(reader, methodDef)}";
+					var err = $"Method has illegal MethodAttributes: {FormatMethodName(reader, methodDef)} in Assembly {AssemblyName} ";
 					errors.Add(new SandboxError(err));
 				}
 			}
