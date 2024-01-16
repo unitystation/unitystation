@@ -5,12 +5,13 @@ using UnityEngine;
 using Mirror;
 using System.Linq;
 using Gateway;
+using Shared.Systems.ObjectConnection;
 using Systems.Scenes;
 
 namespace Objects.Science
 {
 
-	public class QuantumPad : NetworkBehaviour, IServerSpawn, ICheckedInteractable<HandApply>
+	public class QuantumPad : NetworkBehaviour, IServerSpawn, ICheckedInteractable<HandApply>,IMultitoolMasterable, IMultitoolSlaveable
 	{
 		public QuantumPad connectedPad;
 
@@ -62,6 +63,35 @@ namespace Objects.Science
 		/// Temp until shuttle landings possible
 		/// </summary>
 		public bool IsLavaLandBase2Connector;
+
+		[field: SerializeField] public bool CanRelink { get; set; } = false;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = true;
+		[field: SerializeField] public int MaxDistance { get; set; } = 60;
+
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.QuantumPad;
+
+		GameObject IMultitoolLinkable.gameObject => gameObject;
+
+		IMultitoolMasterable IMultitoolSlaveable.Master => connectedPad;
+
+		[field: SerializeField] public bool RequireLink { get; set; } = true;
+
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
+		{
+			SetMaster(master);
+			return true;
+		}
+
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
+		}
+
+		private void SetMaster(IMultitoolMasterable master)
+		{
+			connectedPad = (QuantumPad) master;
+		}
+
 
 		[Server]
 		private void ServerSync(bool newVar)
