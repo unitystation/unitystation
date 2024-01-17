@@ -545,7 +545,23 @@ namespace SecureStuff
 				public List<Book> HeldBooks = new List<Book>();
 
 				public ulong ID;
-				public string ShelfName;
+				public string ShelfName
+				{
+					get
+					{
+						if (Shelf != null)
+						{
+							return Shelf.name;
+						}
+						else
+						{
+							//TODO Remove from list
+							return "Destroyed";
+						}
+
+					}
+				}
+
 				public bool IsEnabled;
 				public GameObject Shelf;
 
@@ -588,7 +604,6 @@ namespace SecureStuff
 					}
 
 					var libraryBookShelf = new LibraryBookShelf();
-					libraryBookShelf.ShelfName = _Transform.gameObject.name;
 					libraryBookShelf.ID = BookShelfAID;
 					BookShelfAID++;
 					libraryBookShelf.Shelf = _Transform.gameObject;

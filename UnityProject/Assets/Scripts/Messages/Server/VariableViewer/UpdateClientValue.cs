@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Transactions;
 using Logs;
@@ -14,6 +15,8 @@ namespace Messages.Server.VariableViewer
 {
 	public class UpdateClientValue : ServerMessage<UpdateClientValue.NetMessage>
 	{
+		//TODO NetworkedObject = TraversePath(UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects()[msg.OnlineStartPath], msg.Path)
+
 		public struct NetMessage : NetworkMessage
 		{
 			public string Path;
@@ -22,8 +25,16 @@ namespace Messages.Server.VariableViewer
 			public string ValueName;
 			public string MonoBehaviourName;
 			public uint GameObject;
-			public bool IsInvokeFunction;
 			public PathMethod PathMethod;
+			public Modifying Modifying;
+		}
+
+
+		public enum Modifying
+		{
+			ModifyingVariable,
+			InvokingFunction,
+			RenamingGameObject
 		}
 
 		public enum PathMethod
@@ -54,8 +65,29 @@ namespace Messages.Server.VariableViewer
 					NetworkedObject = TraversePath(UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects()[msg.OnlineStartPath], msg.Path);
 					break;
 			}
-			AllowedReflection.ChangeVariableClient(NetworkedObject, msg.MonoBehaviourName, msg.ValueName,
-				msg.Newvalue, msg.IsInvokeFunction);
+
+			if (msg.Modifying is Modifying.InvokingFunction or Modifying.ModifyingVariable)
+			{
+				AllowedReflection.ChangeVariableClient(NetworkedObject, msg.MonoBehaviourName, msg.ValueName,
+					msg.Newvalue, msg.Modifying == Modifying.InvokingFunction);
+			}
+			else if (msg.Modifying is Modifying.RenamingGameObject)
+			{
+				NetworkIdentity NetID = null;
+				var Handler = NetworkedObject.GetComponent<SpriteHandler>();
+				if (Handler != null && Handler.NetworkThis)
+				{
+					NetID = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(NetworkedObject);
+					SpriteHandlerManager.UnRegisterHandler(NetID, Handler);
+				}
+
+				NetworkedObject.name = msg.Newvalue;
+
+				if (Handler != null && Handler.NetworkThis)
+				{
+					SpriteHandlerManager.RegisterHandler(NetID, Handler);
+				}
+			}
 		}
 
 
@@ -73,7 +105,7 @@ namespace Messages.Server.VariableViewer
 		}
 
 		public static NetMessage Send(string InNewvalue, string InValueName, string InMonoBehaviourName,
-			GameObject InObject, bool IsInvokeFunction)
+			GameObject InObject, Modifying Modifying)
 		{
 
 			NetMessage msg = new NetMessage()
@@ -81,7 +113,7 @@ namespace Messages.Server.VariableViewer
 				Newvalue = InNewvalue,
 				ValueName = InValueName,
 				MonoBehaviourName = InMonoBehaviourName,
-				IsInvokeFunction = IsInvokeFunction
+				Modifying = Modifying
 			};
 			GetPathForMessage(ref msg, InObject);
 			SendToAll(msg, 3);
@@ -92,7 +124,12 @@ namespace Messages.Server.VariableViewer
 		public static void GetPathForMessage(ref NetMessage Message, GameObject InObject)
 		{
 			//Network object itself
-			Message.GameObject = InObject.NetId();
+			var NetworkIdentity = InObject.GetComponent<NetworkIdentity>();
+			if (NetworkIdentity != null)
+			{
+				Message.GameObject = NetworkIdentity.netId;
+			}
+
 			Message.PathMethod = PathMethod.ID;
 			if (Message.GameObject is not (NetId.Empty or NetId.Invalid)) return;
 
@@ -121,19 +158,34 @@ namespace Messages.Server.VariableViewer
 
 			Path.Clear();
 			Message.Path = "";
-			while (ExploringObject.parent != null)
+
+			if (ExploringObject.parent != null)
 			{
-				Path.Add(ExploringObject.GetSiblingIndex());
-				ExploringObject = ExploringObject.transform.parent;
+				while (ExploringObject.parent != null)
+				{
+					Path.Add(ExploringObject.GetSiblingIndex());
+					ExploringObject = ExploringObject.transform.parent;
+					var Net = ExploringObject.GetComponent<NetworkedMatrix>();
+					if (Net != null)
+					{
+						Message.Path = JsonConvert.SerializeObject(Path);
+						Message.PathMethod = PathMethod.MatrixID_SubPath;
+						Message.GameObject = Net.MatrixSync.netId;
+						break;
+					}
+				}
+			}
+			else
+			{
 				var Net = ExploringObject.GetComponent<NetworkedMatrix>();
 				if (Net != null)
 				{
 					Message.Path = JsonConvert.SerializeObject(Path);
 					Message.PathMethod = PathMethod.MatrixID_SubPath;
 					Message.GameObject = Net.MatrixSync.netId;
-					break;
 				}
 			}
+
 			Message.Path = JsonConvert.SerializeObject(Path);
 
 			if (Message.GameObject is not (NetId.Empty or NetId.Invalid)) return;
@@ -146,7 +198,9 @@ namespace Messages.Server.VariableViewer
 				Path.Add(ExploringObject.GetSiblingIndex());
 				ExploringObject = ExploringObject.transform.parent;
 			}
-			Message.OnlineStartPath = ExploringObject.GetSiblingIndex();
+
+			var Rootobjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects().ToList();
+			Message.OnlineStartPath = Rootobjects.FindIndex(a => a == ExploringObject.gameObject);
 			Message.Path = JsonConvert.SerializeObject(Path);
 			Message.PathMethod = PathMethod.OnlineScene_SubPath;
 		}

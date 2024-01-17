@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Messages.Client.Admin;
 using UnityEngine;
 using TMPro;
 
@@ -8,7 +9,8 @@ namespace AdminTools.VariableViewer
 {
 	public class UI_BooksInBookshelf : MonoBehaviour
 	{
-		public TMP_Text ShelfInformation;
+		public TMP_InputField ShelfInformation;
+
 		public uint maxBooks = 11;
 		public HeldBook UIHeldBook;
 		public GameObject booksPanel;
@@ -21,6 +23,21 @@ namespace AdminTools.VariableViewer
 		private VariableViewerNetworking.NetFriendlyBookShelf _BookShelfView;
 
 		public VariableViewerNetworking.NetFriendlyBookShelf BookShelfView => _BookShelfView;
+
+		public void Awake()
+		{
+			ShelfInformation.onEndEdit.AddListener(RenameObject);
+
+		}
+
+		public void RenameObject(string NewName)
+		{
+			if (_BookShelfView != null)
+			{
+				RequestRenameVVObject.Send(_BookShelfView.ID, NewName, UISendToClientToggle.toggle);
+			}
+		}
+
 
 		private void OnEnable()
 		{
@@ -48,7 +65,6 @@ namespace AdminTools.VariableViewer
 			UIManager.Instance.LibraryUI.Refresh();
 			PoolBooks();
 			ShelfInformation.text = _BookShelfView.SN;
-
 			for (int i = 0; i < _BookShelfView.HB.Length; i++)
 			{
 				HeldBook SingleBookEntry;
