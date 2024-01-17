@@ -101,7 +101,7 @@ namespace Effects.FloorEffect
 				{
 
 					var reagents = spillContents.TakeReagents(
-						useAll ? spillContents.ReagentMixTotal : spillContents.ReagentMixTotal * 0.25f); //Use all use everything in the container if not only 10%
+						useAll ? spillContents.ReagentMixTotal : spillContents.ReagentMixTotal * 0.55f); //Use all use everything in the container if not only 10%
 
 					var decals = MatrixManager.GetAt<FloorPrintEffect>(currentPosition, isServer: true);
 					if (decals.Any())
@@ -110,8 +110,8 @@ namespace Effects.FloorEffect
 							gameObject.AssumedWorldPosServer().RoundToInt(), null, false, me.CurrentDirection);
 
 						var floorPrintEffect = decals.First();
-						var Change = currentPosition.ToLocal(me.RegisterPlayer.Matrix) - oldPosition.ToLocal(me.RegisterPlayer.Matrix);
-						floorPrintEffect.RegisterEnter(	Orientation.FromAsEnum(Change));
+						var change = currentPosition.ToLocal(me.RegisterPlayer.Matrix) - oldPosition.ToLocal(me.RegisterPlayer.Matrix);
+						floorPrintEffect.RegisterEnter(	Orientation.FromAsEnum(change) );
 					}
 					else
 					{
