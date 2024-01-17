@@ -20,7 +20,7 @@ namespace Messages.Server.VariableViewer
 		public struct NetMessage : NetworkMessage
 		{
 			public string Path;
-			public int OnlineStartPath;
+			public string OnlineStartPath;
 			public string Newvalue;
 			public string ValueName;
 			public string MonoBehaviourName;
@@ -62,7 +62,7 @@ namespace Messages.Server.VariableViewer
 					NetworkedObject = TraversePath(msg.GameObject.NetIdToGameObject().GetComponent<MatrixSync>().NetworkedMatrix.gameObject, msg.Path);
 					break;
 				case PathMethod.OnlineScene_SubPath:
-					NetworkedObject = TraversePath(UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects()[msg.OnlineStartPath], msg.Path);
+					NetworkedObject = TraversePath(UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects().FirstOrDefault(x => x.name == msg.OnlineStartPath), msg.Path);
 					break;
 			}
 
@@ -199,8 +199,17 @@ namespace Messages.Server.VariableViewer
 				ExploringObject = ExploringObject.transform.parent;
 			}
 
-			var Rootobjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects().ToList();
-			Message.OnlineStartPath = Rootobjects.FindIndex(a => a == ExploringObject.gameObject);
+
+			if (Message.Modifying == Modifying.RenamingGameObject && InObject.transform == ExploringObject)
+			{
+				Message.OnlineStartPath = Message.ValueName;
+			}
+			else
+			{
+				Message.OnlineStartPath = ExploringObject.name;
+			}
+			
+
 			Message.Path = JsonConvert.SerializeObject(Path);
 			Message.PathMethod = PathMethod.OnlineScene_SubPath;
 		}

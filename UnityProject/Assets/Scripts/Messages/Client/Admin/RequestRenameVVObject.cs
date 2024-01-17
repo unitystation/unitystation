@@ -40,6 +40,8 @@ namespace Messages.Client.Admin
 						SpriteHandlerManager.UnRegisterHandler(NetID, Handler);
 					}
 
+					var oldName = shelf.Shelf.name;
+
 					shelf.Shelf.name = msg.NewName;
 
 					if (Handler != null && Handler.NetworkThis)
@@ -50,7 +52,7 @@ namespace Messages.Client.Admin
 
 					if (msg.NetworkToClients)
 					{
-						UpdateClientValue.Send( msg.NewName, "",
+						UpdateClientValue.Send( msg.NewName, oldName,
 							"",
 							shelf.Shelf, UpdateClientValue.Modifying.RenamingGameObject);
 					}
