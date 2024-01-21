@@ -66,7 +66,7 @@ public class ChatRelay : NetworkBehaviour
 
 	private void WhisperCheck(ChatEvent chatEvent)
 	{
-		var willWhisper = whisperPrefix.Any(prefix => chatEvent.message.Contains(prefix));
+		var willWhisper = whisperPrefix.Any(prefix => chatEvent.message.StartsWith(prefix));
 		chatEvent.IsWhispering = willWhisper;
 	}
 
@@ -268,7 +268,20 @@ public class ChatRelay : NetworkBehaviour
 		{
 			foreach (var prefix in whisperPrefix)
 			{
-				copiedString = copiedString.Replace(prefix, "");
+				if (copiedString.StartsWith(prefix))
+				{
+					// Find the index of the first occurrence
+					int indexOfFirstOccurrence = copiedString.IndexOf(prefix, StringComparison.Ordinal);
+
+					// Check if the substring was found
+					if (indexOfFirstOccurrence != -1)
+					{
+						// Replace only the first occurrence
+						copiedString = copiedString.Substring(0, indexOfFirstOccurrence) + copiedString.Substring(indexOfFirstOccurrence + prefix.Length);
+
+					}
+				}
+
 			}
 		}
 

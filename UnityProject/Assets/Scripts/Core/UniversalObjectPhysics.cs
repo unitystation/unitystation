@@ -2348,7 +2348,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 
 			var directionalBuckledObject = ObjectIsBuckling.GetComponent<Rotatable>();
-			if (directionalBuckledObject != null)
+			if (directionalBuckledObject != null && rotatable != null)
 			{
 				directionalBuckledObject.FaceDirection(rotatable.CurrentDirection);
 			}
