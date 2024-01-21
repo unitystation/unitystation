@@ -31,7 +31,7 @@ public class ChatRelay : NetworkBehaviour
 	[SerializeField] private float radioCheckRadius = 4f;
 	private float whisperFalloffDistance = 2.5f;
 
-	private static readonly List<string> whisperPrefix = new List<string> { "w!", "#", "/w" };
+	private static readonly List<string> whisperPrefix = new List<string> { "w!", "/w" };
 
 	private RconManager rconManager;
 
@@ -66,7 +66,7 @@ public class ChatRelay : NetworkBehaviour
 
 	private void WhisperCheck(ChatEvent chatEvent)
 	{
-		var willWhisper = whisperPrefix.Any(prefix => chatEvent.message.StartsWith(prefix));
+		var willWhisper = whisperPrefix.Any(prefix => chatEvent.message.Contains(prefix));
 		chatEvent.IsWhispering = willWhisper;
 	}
 
@@ -268,20 +268,7 @@ public class ChatRelay : NetworkBehaviour
 		{
 			foreach (var prefix in whisperPrefix)
 			{
-				if (copiedString.StartsWith(prefix))
-				{
-					// Find the index of the first occurrence
-					int indexOfFirstOccurrence = copiedString.IndexOf(prefix, StringComparison.Ordinal);
-
-					// Check if the substring was found
-					if (indexOfFirstOccurrence != -1)
-					{
-						// Replace only the first occurrence
-						copiedString = copiedString.Substring(0, indexOfFirstOccurrence) + copiedString.Substring(indexOfFirstOccurrence + prefix.Length);
-
-					}
-				}
-
+				copiedString = copiedString.Replace(prefix, "");
 			}
 		}
 
