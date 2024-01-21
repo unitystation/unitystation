@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Items;
 using Messages.Client.DevSpawner;
+using Objects.Atmospherics;
+using Systems.Pipes;
 using UI.Systems.AdminTools.DevTools.Search;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -116,7 +118,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 				GameGizmoLine.UpdateMe();
 			}
 
-			if (CommonInput.GetMouseButtonUp(0) && HasRotatable)
+			if (CommonInput.GetMouseButtonUp(0) && HasRotatable && StartPressPosition != null)
 			{
 				GameGizmoLine.OrNull()?.Remove();
 				GameGizmoLine = null;
@@ -231,6 +233,10 @@ public class DevSpawnerListItemController : MonoBehaviour
 			if (game.TryGetComponent<Rotatable>(out var Rotatable) && OrientationEnum != null)
 			{
 				Rotatable.FaceDirection(OrientationEnum.Value);
+				if (game.TryGetComponent<MonoPipe>(out var MonoPipe))
+				{
+					MonoPipe.RotatePipe(OrientationEnum.Value.ToPipeRotate(), false);
+				}
 			}
 
 			var player = PlayerManager.LocalPlayerObject.Player();

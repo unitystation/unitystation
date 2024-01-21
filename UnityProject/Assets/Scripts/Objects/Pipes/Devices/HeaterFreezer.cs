@@ -222,11 +222,7 @@ namespace Objects.Atmospherics
 					$"{interaction.Performer.ExpensiveName()} rotates the {gameObject.ExpensiveName()}.",
 					() =>
 					{
-						pipeData.OnDisable();
-
-						directional.RotateBy(1);
-
-						SetUpPipes();
+						RotatePipe(1);
 					});
 
 				return;
@@ -247,6 +243,12 @@ namespace Objects.Atmospherics
 					machine.ServerPerformInteraction(interaction);
 				}
 
+				return;
+			}
+
+			if (apcPoweredDevice.State == PowerState.Off)
+			{
+				Chat.AddExamineMsg(interaction.Performer, " looks like it's not powered or Connected to an APC");
 				return;
 			}
 
