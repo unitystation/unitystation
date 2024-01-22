@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using Messages.Client.Admin;
 using UnityEngine;
 using TMPro;
@@ -11,10 +12,14 @@ namespace AdminTools.VariableViewer
 	{
 		public TMP_InputField ShelfInformation;
 
-		public uint maxBooks = 11;
+		public uint maxBooks = 24;
 		public HeldBook UIHeldBook;
 		public GameObject booksPanel;
 		public uint CurrentlyVisible = 0;
+
+
+		public GameObject ButtonLeft;
+		public GameObject ButtonRight;
 
 		public List<HeldBook> VisibleBooks = new List<HeldBook>();
 		public List<List<HeldBook>> TotalBooks = new List<List<HeldBook>>();
@@ -84,10 +89,10 @@ namespace AdminTools.VariableViewer
 
 				SingleBookEntry.IDANName = _BookShelfView.HB[i];
 				SingleBookEntry.IMG.color = UnityEngine.Random.ColorHSV(0, 1, 0, 1, 0.8f, 1);
-				if (i > maxBooks)
+				if (i >= maxBooks)
 				{
 					SingleBookEntry.gameObject.SetActive(false);
-					int bookSetNumber = (int)Math.Floor((decimal)(i / maxBooks));
+					int bookSetNumber = (int)Math.Floor((decimal)((float)i / maxBooks));
 					if ((TotalBooks.Count - 1) != bookSetNumber)
 					{
 						TotalBooks.Add(new List<HeldBook>());
@@ -103,6 +108,16 @@ namespace AdminTools.VariableViewer
 
 			VisibleBooks = TotalBooks[0];
 			CurrentlyVisible = 0;
+
+			if (TotalBooks.Count > 0)
+			{
+				ButtonRight.SetActive(true);
+			}
+			else
+			{
+				ButtonRight.SetActive(false);
+			}
+			ButtonLeft.SetActive(false);
 		}
 
 		public void BooksLeft()
@@ -110,7 +125,7 @@ namespace AdminTools.VariableViewer
 			int tint = (int)CurrentlyVisible;
 			if ((tint - 1) >= 0)
 			{
-				CurrentlyVisible = CurrentlyVisible - 1;
+				CurrentlyVisible--;
 				foreach (var book in VisibleBooks)
 				{
 					book.gameObject.SetActive(false);
@@ -119,6 +134,24 @@ namespace AdminTools.VariableViewer
 				foreach (var book in VisibleBooks)
 				{
 					book.gameObject.SetActive(true);
+				}
+
+				if (CurrentlyVisible == 0)
+				{
+					ButtonLeft.SetActive(false);
+				}
+				else
+				{
+					ButtonLeft.SetActive(true);
+				}
+
+				if (CurrentlyVisible < (TotalBooks.Count - 1))
+				{
+					ButtonRight.SetActive(true);
+				}
+				else
+				{
+					ButtonRight.SetActive(false);
 				}
 			}
 		}
@@ -137,6 +170,24 @@ namespace AdminTools.VariableViewer
 				foreach (var book in VisibleBooks)
 				{
 					book.gameObject.SetActive(true);
+				}
+
+				if (CurrentlyVisible < (TotalBooks.Count - 1))
+				{
+					ButtonRight.SetActive(true);
+				}
+				else
+				{
+					ButtonRight.SetActive(false);
+				}
+
+				if (CurrentlyVisible == 0)
+				{
+					ButtonLeft.SetActive(false);
+				}
+				else
+				{
+					ButtonLeft.SetActive(true);
 				}
 			}
 		}
