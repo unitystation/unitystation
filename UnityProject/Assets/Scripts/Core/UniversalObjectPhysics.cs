@@ -1801,6 +1801,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 						//Integrity
 						//LivingHealthMasterBase
 						//TODO DamageTile( goal,Matrix.Matrix.TilemapsDamage);
+						if (hit == null) continue;
 						if (hit.gameObject == thrownProtection) continue;
 						RemoveThrowProtection = true;
 						if (NewtonianMovement.magnitude > IAV2.ThrowSpeed * 0.75f)
