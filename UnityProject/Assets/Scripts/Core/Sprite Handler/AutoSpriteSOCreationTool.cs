@@ -6,7 +6,7 @@ namespace Core.Sprite_Handler
 {
 	public class AutoSpriteSOCreationTool : UnityEditor.Editor
 	{
-		[MenuItem("Tools/Create SpriteSO from selected textures", false, 10)]
+		[MenuItem("Tools/Sprites/Create SpriteSO from selected textures", false)]
 		public static void CheckForSelectedObjects()
 		{
 			if (Selection.objects != null && Selection.objects.Length > 0)
