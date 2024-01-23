@@ -9,7 +9,6 @@ namespace Systems.Faith
 {
 	public class FaithManager : SingletonManager<FaithManager>
 	{
-		public Faith DefaultFaith;
 		public List<FaithData> CurrentFaiths { get; private set; } = new List<FaithData>();
 		public float FaithEventsCheckTimeInSeconds = 390f;
 		public float FaithPerodicCheckTimeInSeconds = 12f;
@@ -35,23 +34,27 @@ namespace Systems.Faith
 		private void ResetReligion()
 		{
 			Loggy.Log("[FaithManager/ResetReligion] - Resetting faiths.");
-			var defaultFaith = new FaithData()
-			{
-				Faith = DefaultFaith,
-				Points = 0,
-				FaithLeaders = new List<PlayerScript>(),
-				FaithMembers = new List<PlayerScript>(),
-			};
-			CurrentFaiths.Add(defaultFaith);
+			CurrentFaiths.Clear();
 			FaithPropertiesConstantUpdate.Clear();
 			FaithPropertiesEventUpdate.Clear();
+			foreach (var faith in AllFaiths)
+			{
+				FaithData data = new FaithData()
+				{
+					Faith = faith.Faith,
+					Points = 0,
+					FaithLeaders = new List<PlayerScript>(),
+					FaithMembers = new List<PlayerScript>(),
+				};
+				CurrentFaiths.Add(data);
+			}
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, LongUpdate);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		}
 
 		private void LongUpdate()
 		{
-			Loggy.Log($"[FaithManager/LongUpdate] - {FaithPropertiesEventUpdate.Count} events will be invoked in FaithPropertiesEventUpdate.");
+			Loggy.Log($"[FaithManager/LongUpdate] - Events check.");
 			foreach (var update in FaithPropertiesEventUpdate)
 			{
 				update?.Invoke();
@@ -60,7 +63,6 @@ namespace Systems.Faith
 			if (DMMath.Prob(35) == false) return;
 			foreach (var faith in CurrentFaiths)
 			{
-				if (faith.FaithMembers.Count == 0) continue;
 				if (faith.Faith.FaithProperties.Count == 0) continue;
 				if (faith.Points.IsBetween(-75, 75)) continue;
 				faith.Faith.FaithProperties.PickRandom()?.RandomEvent();
@@ -131,9 +133,6 @@ namespace Systems.Faith
 			foreach (var faith in Instance.CurrentFaiths.Where(faith => faith.FaithMembers.Contains(playerScript)))
 			{
 				faith.RemoveMember(playerScript);
-				if (faith.FaithLeaders.Count != 0) continue;
-				faith.RemoveAllMembers();
-				Instance.CurrentFaiths.Remove(faith);
 			}
 		}
 
