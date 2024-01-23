@@ -25,7 +25,7 @@ namespace Core.Sprite_Handler
 			Debug.Log(selectedObjects.Length);
 			if (selectedObjects.Length == 0)
 			{
-				Debug.LogError("No sprites detected. Select the sprites themselves, not the texture2D files.");
+				Debug.LogError("Nothing is selected, duh.");
 				return;
 			}
 			SpriteDataSO textureProperties = ScriptableObject.CreateInstance<SpriteDataSO>();
@@ -47,6 +47,12 @@ namespace Core.Sprite_Handler
 						secondDelay = 0.09f,
 					});
 				}
+			}
+
+			if (variance[0].Frames.Count == 0)
+			{
+				Debug.LogError("No sprites detected. Select the sprites themselves, not the texture2D files.");
+				return;
 			}
 
 			textureProperties.ForceSetID();
