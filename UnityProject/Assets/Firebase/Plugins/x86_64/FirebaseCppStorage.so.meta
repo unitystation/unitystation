@@ -21,7 +21,10 @@ PluginImporter:
       enabled: 0
       settings:
         Exclude Editor: 0
+        Exclude Linux64: 0
+        Exclude OSXUniversal: 1
         Exclude Win: 1
+        Exclude Win64: 1
   - first:
       : Linux
     second:
@@ -65,7 +68,7 @@ PluginImporter:
   - first:
       Any: 
     second:
-      enabled: 0
+      enabled: 1
       settings: {}
   - first:
       Editor: Editor
