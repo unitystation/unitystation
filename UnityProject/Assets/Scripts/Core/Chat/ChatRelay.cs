@@ -31,7 +31,7 @@ public class ChatRelay : NetworkBehaviour
 	[SerializeField] private float radioCheckRadius = 4f;
 	private float whisperFalloffDistance = 2.5f;
 
-	private static readonly List<string> whisperPrefix = new List<string> { "w!", "#", "/w" };
+	private static readonly List<string> whisperPrefix = new List<string> { "w!", "/w" };
 
 	private RconManager rconManager;
 

@@ -285,6 +285,21 @@ public static class ConverterExtensions
 		return ToLocalVector3(@in).RoundTo2Int();
 	}
 
+
+	/// <summary>
+	/// Takes an <see cref="OrientationEnum"/> and returns a unit <see cref="Vector3"/> direction.
+	/// </summary>
+	public static byte ToPipeRotate(this OrientationEnum @in) =>
+		@in switch
+		{
+			OrientationEnum.Up_By0 => 0,
+			OrientationEnum.Right_By270 => 3,
+			OrientationEnum.Down_By180 => 2,
+			OrientationEnum.Left_By90 => 1,
+			_ => 0
+		};
+
+
 	/// <summary>
 	/// Takes an <see cref="OrientationEnum"/> and returns a unit <see cref="Vector3"/> direction.
 	/// </summary>

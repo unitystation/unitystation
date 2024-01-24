@@ -94,7 +94,7 @@ public class DeviceRotator : SingletonManager<DeviceRotator>
 		{
 			CursorLine.OrNull()?.Remove();
 			CursorLine = null;
-			DeviceRotateMessage.Send(PressedObject.gameObject, (MouseUtils.MouseToWorldPos() - PressedObject.transform.position).ToOrientationEnum());
+			DeviceRotateMessage.Send(PressedObject.gameObject, (MouseUtils.MouseToWorldPos() - PressedObject.transform.position).ToOrientationEnum(), OriginalDirection);
 			PressedObject = null;
 			OriginalDirection = OrientationEnum.Default;
 		}

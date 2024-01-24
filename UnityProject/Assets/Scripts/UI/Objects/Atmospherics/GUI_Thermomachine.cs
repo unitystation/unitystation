@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Logs;
 using UnityEngine;
 using UI.Core.NetUI;
 using Systems.Electricity;
@@ -30,7 +31,6 @@ namespace UI.Objects.Atmospherics
 			stringBuilder.AppendLine($"Max Temp: {HeaterFreezer.MaxTemperature}");
 
 			temperatureData.MasterSetValue(stringBuilder.ToString());
-
 			onOffSwitch.MasterSetValue( (HeaterFreezer.IsOn ? 1 * 100 : 0).ToString());
 		}
 

@@ -2,6 +2,7 @@
 using Logs;
 using UnityEngine;
 using Mirror;
+using Objects.Atmospherics;
 
 
 namespace Messages.Client.DevSpawner
@@ -59,6 +60,10 @@ namespace Messages.Client.DevSpawner
 				if (game.TryGetComponent<Rotatable>(out var Rotatable) && msg.HasOrientationEnum)
 				{
 					Rotatable.FaceDirection(msg.OrientationEnum);
+					if (game.TryGetComponent<MonoPipe>(out var MonoPipe))
+					{
+						MonoPipe.RotatePipe(msg.OrientationEnum.ToPipeRotate(), false);
+					}
 				}
 
 				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(

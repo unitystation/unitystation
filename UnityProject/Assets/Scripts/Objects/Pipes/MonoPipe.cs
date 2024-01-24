@@ -49,7 +49,7 @@ namespace Objects.Atmospherics
 			SetUpPipes(spawnedFromItem && info.SpawnType != SpawnType.Mapped);
 		}
 
-		public void SetUpPipes(bool DoNotSetRotation = false)
+		public void SetUpPipes(bool DoNotSetRotation = false, int? RotateOverride = null) //Warning this should only Called once!!! Since you get double rotations
 		{
 			if (pipeData.PipeAction == null)
 			{
@@ -60,13 +60,40 @@ namespace Objects.Atmospherics
 			if (DoNotSetRotation == false)
 			{
 				int Offset = PipeFunctions.GetOffsetAngle(transform.localRotation.eulerAngles.z);
-				pipeData.Connections.Rotate(Offset);
+				if (RotateOverride != null)
+				{
+					pipeData.Connections.PipeOffset(RotateOverride.Value);
+				}
+				else
+				{
+					pipeData.Connections.Rotate(Offset);
+				}
+
+
 			}
 
 
 			pipeData.OnEnable();
 			spritehandler.OrNull()?.gameObject.OrNull()?.SetActive( true);
 			spritehandler.OrNull()?.SetColor(Colour);
+		}
+
+		public virtual void RotatePipe(byte Offset, bool RotateDirectional = true)
+		{
+			if (Offset > 4)
+			{
+				Loggy.LogError($"Larger than expected number put into RotatePipe {Offset}");
+				return;
+			}
+
+
+
+			pipeData.OnDisable();
+			if (RotateDirectional)
+			{
+				directional.RotateBy(Offset);
+			}
+			SetUpPipes(false, (-Offset + 4));
 		}
 
 		/// <summary>

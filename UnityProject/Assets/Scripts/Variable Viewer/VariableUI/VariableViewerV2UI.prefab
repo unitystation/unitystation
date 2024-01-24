@@ -5855,11 +5855,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShelfInformation: {fileID: 8333799313856640159}
-  maxBooks: 23
+  maxBooks: 24
   UIHeldBook: {fileID: 4149269714957225141, guid: 2f48cb248a3a2fb48b2541f1b85059bb,
     type: 3}
   booksPanel: {fileID: 8121902515277161766}
   CurrentlyVisible: 0
+  ButtonLeft: {fileID: 5253888452377652208}
+  ButtonRight: {fileID: 4391750639630724142}
   VisibleBooks: []
   PooledBooks: []
 --- !u!1 &8427569391475282077

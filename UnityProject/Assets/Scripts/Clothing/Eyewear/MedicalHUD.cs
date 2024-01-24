@@ -33,7 +33,7 @@ public class MedicalHUD : NetworkBehaviour, IHUD
 		PlayerScript =  this.GetComponentCustom<PlayerScript>();
 		HealthStateController = this.GetComponentCustom<HealthStateController>();
 		HUDHandler = this.GetComponentCustom<HUDHandler>();
-		if (isServer)
+		if (CustomNetworkManager.IsServer)
 		{
 			HealthStateController.ServerOverallHealthChange += SetNewHealthServer;
 		}

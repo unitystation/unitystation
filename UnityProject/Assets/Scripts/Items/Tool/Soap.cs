@@ -43,7 +43,7 @@ namespace Items
 
             // Check if there is an object in the way of scrubbing the tile
 			var atPosition = MatrixManager.GetAt<FloorDecal>(positionInt, side == NetworkSide.Server) as List<FloorDecal>;
-            if(atPosition.Count == 0) return false;
+            if(atPosition == null || atPosition.Count == 0) return false;
 
             return true;
 		}
