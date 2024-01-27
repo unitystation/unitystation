@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Systems.Clearance;
 using UnityEngine;
@@ -24,15 +25,7 @@ namespace UI.Objects.Command
         [SerializeField]
         private Clearance clearance = Clearance.MaintTunnels;
 
-		[Tooltip("Color settings to apply when it's on")]
-		[SerializeField]
-		[Header("On Colors")]
-		private ColorBlock onColors = ColorBlock.defaultColorBlock;
-
-		[Tooltip("Color settings to use when it's off")]
-		[SerializeField]
-		[Header("Off Colors")]
-		private ColorBlock offColors = ColorBlock.defaultColorBlock;
+        public Color ButtonColour = new Color(0.1981132f, 0.1981132f,0.1981132f, 1 );
 
 		//parent ID console tab this lives in
 		private GUI_IDConsole console;
@@ -56,23 +49,93 @@ namespace UI.Objects.Command
 		public Occupation Occupation => occupation;
 
 
-		private Toggle toggle;
+		private ColorBlock onColors = ColorBlock.defaultColorBlock;
+		private ColorBlock offColors = ColorBlock.defaultColorBlock;
+
+		public Toggle toggle;
+		public Image backgroundImage;
 		private NetToggle netToggle;
+
+		public bool InvertSelectionColours;
 
 		private void Awake()
 		{
 			console = GetComponentInParent<GUI_IDConsole>();
-			toggle = GetComponentInChildren<Toggle>();
 			netToggle = GetComponentInChildren<NetToggle>();
+			ValidateColours();
+
 			//annoyingly, the built in Toggle has no way to just change color when it is selected, so we have
 			//to add custom logic to do this
 			toggle.onValueChanged.AddListener(OnToggleValueChanged);
 			OnToggleValueChanged(toggle.isOn);
 		}
 
+		public void ValidateColours()
+		{
+			backgroundImage.color = ButtonColour;
+			var Colours = toggle.colors;
+			Colours.normalColor = ButtonColour;
+			var HC = ButtonColour * 0.9607843f;
+			HC.a = 1;
+			Colours.highlightedColor = HC;
+
+			var PC = ButtonColour * 0.7843137f;;
+			PC.a = 1;
+			Colours.pressedColor = PC;
+
+			Colours.selectedColor = ButtonColour;
+
+			var CopyColour = ButtonColour;
+			CopyColour.a = 0.5019608f;
+			Colours.disabledColor = CopyColour;
+
+			toggle.colors = Colours;
+			if (InvertSelectionColours)
+			{
+				offColors = Colours;
+			}
+			else
+			{
+				onColors = Colours;
+			}
+
+			HC *= 0.5f;
+			HC.a = 1;
+			PC *= 0.5f;
+			PC.a = 1;
+			CopyColour *= 0.5f;
+			CopyColour.a = 0.5019608f;
+
+			Colours.highlightedColor = HC;
+			Colours.pressedColor = PC;
+
+			Colours.disabledColor = CopyColour;
+			CopyColour.a = 1;
+			Colours.normalColor = CopyColour;
+			Colours.selectedColor = CopyColour;
+			if (InvertSelectionColours)
+			{
+				onColors = Colours;
+			}
+			else
+			{
+				offColors = Colours;
+			}
+
+
+		}
+
+
+		public void OnValidate()
+		{
+			ValidateColours();
+		}
+
+
 		private void OnToggleValueChanged(bool isOn)
 		{
 			toggle.colors = isOn ? onColors : offColors;
+			backgroundImage.color = toggle.colors.normalColor;
 			//occupations which are on are not clickable
 			if (IsOccupation)
 			{

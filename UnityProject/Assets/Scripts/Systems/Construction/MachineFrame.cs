@@ -454,6 +454,11 @@ namespace Objects.Construction
 			//Main logic for tallying up and moving parts to hidden pos
 			if (basicPartsUsed.ContainsKey(itemTrait) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the itemTrait already exists, and its stackable and some of it is needed.
 			{
+				if (usedObject.GetComponent<Stackable>().Amount == needed)
+				{
+					Inventory.ServerDrop(interaction.HandSlot);
+				}
+
 				var StackingItem = usedObject.GetComponent<Stackable>();
 				var oldAmount = StackingItem.Amount;
 				var addNew = StackingItem.ServerRemoveOne();
@@ -476,6 +481,11 @@ namespace Objects.Construction
 			}
 			else if (usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the itemTrait doesnt exists, and its stackable and some of it is needed.
 			{
+				if (usedObject.GetComponent<Stackable>().Amount == needed)
+				{
+					Inventory.ServerDrop(interaction.HandSlot);
+				}
+
 				var StackingItem = usedObject.GetComponent<Stackable>();
 				var oldAmount = StackingItem.Amount;
 				var addNew = StackingItem.ServerRemoveOne();

@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using Mirror;
 using NaughtyAttributes;
 
@@ -43,7 +44,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	}
 
 	[SyncVar(hook = nameof(SyncServerDirection))]
-	private OrientationEnum SynchroniseCurrentDirection;
+	public OrientationEnum SynchroniseCurrentDirection;
 
 	[SyncVar(hook = nameof(SyncServerLockAndDirection))]
 	private LockAndDirection SynchroniseCurrentLockAndDirection;
@@ -125,11 +126,13 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	public void ValidateLate()
 	{
+
 		// ValidateLate might be called after this object is already destroyed.
 		if (this == null || Application.isPlaying) return;
 		Awake();
 		CurrentDirection = CurrentDirection;
 		RotateObject(CurrentDirection);
+		SynchroniseCurrentDirection = CurrentDirection;
 		ResitOthers();
 	}
 
