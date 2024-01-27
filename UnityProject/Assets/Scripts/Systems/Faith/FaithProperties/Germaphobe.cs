@@ -11,8 +11,10 @@ namespace Systems.Faith.FaithProperties
 		[SerializeField] private string faithPropertyDesc = "People of this faith cannot stand filth and trash.";
 		[SerializeField] private Sprite propertyIcon;
 		[SerializeField] private ItemTrait filthTrait;
+		[SerializeField] private ItemTrait breadLoafTrait;
 		[SerializeField] private List<GameObject> antHills = new List<GameObject>();
 		[SerializeField] private List<GameObject> spores = new List<GameObject>();
+		[SerializeField] private List<GameObject> KillerBread = new List<GameObject>();
 
 		string IFaithProperty.FaithPropertyName
 		{
@@ -94,7 +96,22 @@ namespace Systems.Faith.FaithProperties
 					Spawn.ServerPrefab(antHills.PickRandom(), spot.gameObject.AssumedWorldPosServer());
 				}
 			}
-			else if (FilthScore > 350)
+			if (FilthScore > 300)
+			{
+				var bread =
+					ComponentsTracker<Attributes>.Instances.Where(x
+						=> x.InitialTraits.Contains(breadLoafTrait) &&
+						   x.gameObject.RegisterTile().Matrix == MatrixManager.MainStationMatrix.Matrix).ToList();
+				if (bread.Count != 0)
+				{
+					foreach (var breadItem in bread)
+					{
+						Spawn.ServerPrefab(KillerBread.PickRandom(), breadItem.gameObject.AssumedWorldPosServer());
+						_ = Despawn.ServerSingle(breadItem.gameObject);
+					}
+				}
+			}
+			if (FilthScore >= 550)
 			{
 				var spotsToPick = filth.PickRandom(3);
 				foreach (var spot in spotsToPick)
