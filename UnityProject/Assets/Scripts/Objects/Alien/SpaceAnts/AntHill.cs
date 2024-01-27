@@ -5,6 +5,7 @@ using Core;
 using HealthV2;
 using Items.Food;
 using UnityEngine;
+using Util.Independent.FluentRichText;
 using Random = UnityEngine.Random;
 
 namespace Objects.Alien.SpaceAnts
@@ -106,18 +107,18 @@ namespace Objects.Alien.SpaceAnts
 			var edibles = ComponentsTracker<Attributes>.GetAllNearbyTypesToTarget(gameObject, 32, eatsYourLiver);
 			foreach (var edible in edibles.Where(x => x.InitialTraits.Contains(filthTrait)).Reverse())
 			{
-				if (DMMath.Prob(55))
+				if (DMMath.Prob(5))
 				{
 					Spawn.ServerClone(antMultiplyPrefabs.PickRandom(), edible.gameObject.AssumedWorldPosServer());
 				}
 				AntEat(edible.gameObject);
-				if(DMMath.Prob(75)) return;
+				if (DMMath.Prob(75)) return;
 			}
 		}
 
 		private void AntEat(GameObject objectToEat)
 		{
-			Chat.AddLocalMsgToChat($"A couple of ants appear and eat all of the {objectToEat.ExpensiveName()}", objectToEat);
+			Chat.AddLocalMsgToChat($"An army of ants appears and eats all of the {objectToEat.ExpensiveName()}".Color(Color.red), objectToEat);
 			_ = Despawn.ServerSingle(objectToEat);
 			if (state is AntHillState.Swarm) return;
 			IncreaseState();

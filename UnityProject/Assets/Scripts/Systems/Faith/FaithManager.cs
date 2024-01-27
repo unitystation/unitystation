@@ -4,6 +4,7 @@ using System.Linq;
 using Logs;
 using Shared.Managers;
 using UnityEngine;
+using Util.Independent.FluentRichText;
 
 namespace Systems.Faith
 {
@@ -11,7 +12,7 @@ namespace Systems.Faith
 	{
 		public List<FaithData> CurrentFaiths { get; private set; } = new List<FaithData>();
 		public float FaithEventsCheckTimeInSeconds = 390f;
-		public float FaithPerodicCheckTimeInSeconds = 12f;
+		public float FaithPerodicCheckTimeInSeconds = 24f;
 		public List<Action> FaithPropertiesEventUpdate { get; set; } = new List<Action>();
 		public List<Action> FaithPropertiesConstantUpdate { get; set; } = new List<Action>();
 		[field: SerializeField] public List<FaithSO> AllFaiths { get; private set; } = new List<FaithSO>();
@@ -20,15 +21,21 @@ namespace Systems.Faith
 		{
 			base.Awake();
 			EventManager.AddHandler(Event.RoundEnded, ResetReligion);
-			EventManager.AddHandler(Event.RoundStarted, SetupUpdates);
+			EventManager.AddHandler(Event.RoundStarted, SetupFaiths);
 			Loggy.Log("[FaithManager/Awake] - Setting stuff.");
 		}
 
-		private void SetupUpdates()
+		private void SetupFaiths()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
+			foreach (var faith in AllFaiths)
+			{
+				AddFaithToActiveList(faith.Faith);
+			}
 			UpdateManager.Add(LongUpdate, FaithEventsCheckTimeInSeconds);
 			UpdateManager.Add(PeriodicUpdate, FaithPerodicCheckTimeInSeconds);
+			Chat.AddGameWideSystemMsgToChat(
+				$"Faiths have been setup successfully! {CurrentFaiths.Count} faiths are now active.".Color(Color.green));
 		}
 
 		private void ResetReligion()
@@ -37,19 +44,9 @@ namespace Systems.Faith
 			CurrentFaiths.Clear();
 			FaithPropertiesConstantUpdate.Clear();
 			FaithPropertiesEventUpdate.Clear();
-			foreach (var faith in AllFaiths)
-			{
-				FaithData data = new FaithData()
-				{
-					Faith = faith.Faith,
-					Points = 0,
-					FaithLeaders = new List<PlayerScript>(),
-					FaithMembers = new List<PlayerScript>(),
-				};
-				CurrentFaiths.Add(data);
-			}
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, LongUpdate);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
+			Chat.AddGameWideSystemMsgToChat($"Faiths have been reset. Awaiting new round.".Color(Color.blue));
 		}
 
 		private void LongUpdate()
