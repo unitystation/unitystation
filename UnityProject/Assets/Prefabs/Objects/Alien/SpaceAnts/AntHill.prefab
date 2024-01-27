@@ -132,6 +132,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3590429716675606269}
+    - targetCorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8331985004565394025}
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!1 &2163303937581648023 stripped
 GameObject:
@@ -219,7 +223,34 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   antMultiplyPrefabs:
   - {fileID: 2163303937581648023}
+  - {fileID: 1934986541857315875, guid: b6026266e870c694398eb844e25b921c, type: 3}
   eatsYourLiver: 0
+--- !u!114 &8331985004565394025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2163303937581648023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d25f701f64474544993c1372b83c1b0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Ant Hill
+  initialDescription: These creatures have survived worse. Space ants are slightly
+    more deadly than their earthling counterpart, so keep your hands to yourself.
+  willHighlight: 1
+  exportCost: -500
+  CanBeSoldInCargo: 1
+  exportName: Ant Colony
+  exportMessage: What kind of !@#$ing prank is this? Do you want us to get killed?
+  noMouseHighlight: 0
+  initialTraits: []
+  initialSize: 3
 --- !u!114 &6653340194705613389 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,

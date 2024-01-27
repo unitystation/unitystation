@@ -12,7 +12,7 @@ namespace Systems.Faith
 	{
 		public List<FaithData> CurrentFaiths { get; private set; } = new List<FaithData>();
 		public float FaithEventsCheckTimeInSeconds = 390f;
-		public float FaithPerodicCheckTimeInSeconds = 24f;
+		public float FaithPerodicCheckTimeInSeconds = 12f;
 		public List<Action> FaithPropertiesEventUpdate { get; set; } = new List<Action>();
 		public List<Action> FaithPropertiesConstantUpdate { get; set; } = new List<Action>();
 		[field: SerializeField] public List<FaithSO> AllFaiths { get; private set; } = new List<FaithSO>();

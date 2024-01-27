@@ -38,7 +38,7 @@ namespace Systems.Faith.FaithProperties
 
 		public void Setup(FaithData data)
 		{
-			FaithManager.Instance.FaithPropertiesConstantUpdate.Add(CheckFilthLevels);
+			FaithManager.Instance.FaithPropertiesEventUpdate.Add(CheckFilthLevels);
 			CheckFilthLevels();
 			AssociatedFaith = data;
 		}

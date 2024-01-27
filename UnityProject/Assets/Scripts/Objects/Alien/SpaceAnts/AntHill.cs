@@ -19,6 +19,7 @@ namespace Objects.Alien.SpaceAnts
 		[SerializeField] private DamageType damageType = DamageType.Brute;
 		[SerializeField] private AntHillState state = AntHillState.Single;
 		[SerializeField] private ItemTrait filthTrait;
+		[SerializeField] private ItemTrait flySwatterTrait;
 		[SerializeField] private List<SpriteDataSO> stateSprites = new List<SpriteDataSO>();
 		[SerializeField] private SpriteHandler stateSpritesHandler;
 		[SerializeField] private List<AddressableAudioSource> onStepSounds = new List<AddressableAudioSource>();
@@ -52,6 +53,16 @@ namespace Objects.Alien.SpaceAnts
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (interaction.HandObject != null &&
+			    interaction.HandObject.TryGetComponent<Attributes>(out var attributes))
+			{
+				if (attributes.InitialTraits.Contains(flySwatterTrait))
+				{
+					Chat.AddExamineMsg(interaction.Performer, "You smack the ant hill so hard, all of its occupants turn into mush.");
+					_ = Despawn.ServerSingle(gameObject);
+					return;
+				}
+			}
 			Chat.AddExamineMsg(interaction.Performer, "You reach your hand towards the ant hill.. and a swarm of ants attack you! Ouch!");
 			InflictMob(interaction.Performer);
 			PlayStepAudio();
@@ -135,6 +146,12 @@ namespace Objects.Alien.SpaceAnts
 			if(onStepSounds.Count == 0) return;
 			SoundManager.PlayNetworkedAtPos(onStepSounds.PickRandom(),
 				target == null ? gameObject.AssumedWorldPosServer() : target.AssumedWorldPosServer());
+		}
+
+		public void AddFireStackToMob(GameObject mob)
+		{
+			if (mob.TryGetComponent<LivingHealthMasterBase>(out var health) == false) return;
+			health.ChangeFireStacks(health.FireStacks + 1);
 		}
 	}
 }
