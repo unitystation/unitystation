@@ -56,6 +56,6 @@ public class EtherealThing : MonoBehaviour, IServerSpawn
 		var localPosition = this.transform.localPosition;
 		SavedLocalPosition = localPosition;
 		RegisterTile.Matrix.MetaDataLayer.EtherealThings.Add(this);
-		this.GetComponent<UniversalObjectPhysics>()?.DisappearFromWorld();
+		//this.GetComponent<UniversalObjectPhysics>()?.DisappearFromWorld();
 	}
 }
