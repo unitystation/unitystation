@@ -54,74 +54,89 @@ public class DeviceMover : SingletonManager<DeviceMover>
 	{
 		if (CommonInput.GetMouseButtonDown(0) && PressedObject == null)
 		{
-			//Ignore spawn if pointer is hovering over GUI
-			if (EventSystem.current.IsPointerOverGameObject()) return;
-
-
-			PressedObject = MouseUtils.GetOrderedObjectsUnderMouse(  useMappedItems : DevCameraControls.Instance.MappingItemState).FirstOrDefault();
-			if (KeyboardInputManager.IsAltActionKeyPressed() == false &&  PressedObject.TryGetComponent<UniversalObjectPhysics>(out var Physics) == false)
-			{
-				PressedObject = null;
-				return;
-			}
-
-
-			if (PressedObject == null) return;
-
-
-			StartPositionWorld = MouseUtils.MouseToWorldPos();
-			ColorUtility.TryParseHtmlString("#1E00FF", out var Colour);
-			CursorLine = GameGizmomanager.AddNewLineStatic(null, MouseUtils.MouseToWorldPos(),null ,
-					MouseUtils.MouseToWorldPos(),Colour );
+			OnMouseDown();
 		}
 
 		if (CursorLine != null && PressedObject != null)
+		{
+			OnMousePositionUpdate();
+		}
+
+		if (CommonInput.GetMouseButtonUp(0) && PressedObject != null)
+		{
+			OnMouseButtonUp();
+		}
+	}
+
+	public void OnMouseDown()
+	{
+		//Ignore spawn if pointer is hovering over GUI
+		if (EventSystem.current.IsPointerOverGameObject()) return;
+
+
+		PressedObject = MouseUtils.GetOrderedObjectsUnderMouse(  useMappedItems : DevCameraControls.Instance.MappingItemState).FirstOrDefault();
+		if (KeyboardInputManager.IsAltActionKeyPressed() == false &&  PressedObject.TryGetComponent<UniversalObjectPhysics>(out var Physics) == false)
+		{
+			PressedObject = null;
+			return;
+		}
+
+
+		if (PressedObject == null) return;
+
+
+		StartPositionWorld = MouseUtils.MouseToWorldPos();
+		ColorUtility.TryParseHtmlString("#1E00FF", out var Colour);
+		CursorLine = GameGizmomanager.AddNewLineStatic(null, MouseUtils.MouseToWorldPos(), null,
+			MouseUtils.MouseToWorldPos(), Colour);
+	}
+
+	public void OnMousePositionUpdate()
+	{
+		if (RoundToggle.isOn)
+		{
+			var WorldPosition = MouseUtils.MouseToWorldPos();
+			var Matrix = WorldPosition.GetMatrixAtWorld();
+			CursorLine.To = (WorldPosition.ToLocal(Matrix).RoundToInt().ToWorld(Matrix));
+		}
+		else
+		{
+			CursorLine.To = (MouseUtils.MouseToWorldPos());
+		}
+
+		CursorLine.UpdateMe();
+
+	}
+
+	public void OnMouseButtonUp()
+	{
+		CursorLine.OrNull()?.Remove();
+		CursorLine = null;
+
+
+		var ObjectPhysics = PressedObject.GetComponent<UniversalObjectPhysics>();
+		if (ObjectPhysics != null)
 		{
 			if (RoundToggle.isOn)
 			{
 				var WorldPosition = MouseUtils.MouseToWorldPos();
 				var Matrix = WorldPosition.GetMatrixAtWorld();
-				CursorLine.To = (WorldPosition.ToLocal(Matrix).RoundToInt().ToWorld(Matrix));
+				DeviceMoverMessage.Send(ObjectPhysics.gameObject, WorldPosition.ToLocal(Matrix).RoundToInt().ToWorld(Matrix), null, Vector3.zero);
 			}
 			else
 			{
-				CursorLine.To = (MouseUtils.MouseToWorldPos());
+				DeviceMoverMessage.Send(ObjectPhysics.gameObject, MouseUtils.MouseToWorldPos(), null, Vector3.zero);
 			}
-
-
-
-			CursorLine.UpdateMe();
 		}
-
-		if (CommonInput.GetMouseButtonUp(0) && PressedObject != null)
+		else
 		{
-			CursorLine.OrNull()?.Remove();
-			CursorLine = null;
-
-
-			var ObjectPhysics = PressedObject.GetComponent<UniversalObjectPhysics>();
-			if (ObjectPhysics != null)
-			{
-				if (RoundToggle.isOn)
-				{
-					var WorldPosition = MouseUtils.MouseToWorldPos();
-					var Matrix = WorldPosition.GetMatrixAtWorld();
-					DeviceMoverMessage.Send(ObjectPhysics.gameObject, WorldPosition.ToLocal(Matrix).RoundToInt().ToWorld(Matrix), null, Vector3.zero);
-				}
-				else
-				{
-					DeviceMoverMessage.Send(ObjectPhysics.gameObject, MouseUtils.MouseToWorldPos(), null, Vector3.zero);
-				}
-			}
-			else
-			{
-				DeviceMoverMessage.Send(null, Vector3.zero, PressedObject, (MouseUtils.MouseToWorldPos().RoundToInt() -StartPositionWorld.RoundToInt() ));
-			}
-
-
-			PressedObject = null;
+			DeviceMoverMessage.Send(null, Vector3.zero, PressedObject, (MouseUtils.MouseToWorldPos().RoundToInt() -StartPositionWorld.RoundToInt() ));
 		}
+
+
+		PressedObject = null;
 	}
+
 
 	public void CloseButton()
 	{
