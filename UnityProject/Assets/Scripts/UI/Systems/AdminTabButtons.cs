@@ -74,5 +74,15 @@ namespace UI.AdminTools
 		{
 			DeviceRotator.Instance.gameObject.SetActive(true);
 		}
+
+		public void BtnOpenCameraControls()
+		{
+			DevCameraControls.Instance.gameObject.SetActive(true);
+		}
+
+		public void BtnOpenDeviceMover()
+		{
+			DeviceMover.Instance.gameObject.SetActive(true);
+		}
 	}
 }

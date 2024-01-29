@@ -68,6 +68,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	[PlayModeOnly] public int PushedFrame = 0;
 	public bool ChangesDirectionPush = false;
 	public bool Intangible = false;
+
+	public bool MappingIntangible = false;
+
 	public bool SnapToGridOnStart = false;
 	public bool IsPlayer = false;
 
@@ -248,13 +251,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[PlayModeOnly] public bool IsCurrentlyFloating;
 
-	private bool
-		ResetClientPositionReachTile =
-			false; //this is needed to fix issues with pull getting out of sync for Other players, Properly should fix the root cause, Of sending Delta pushes
+	private bool ResetClientPositionReachTile = false; //this is needed to fix issues with pull getting out of sync for Other players, Properly should fix the root cause, Of sending Delta pushes
 
-	private uint
-		SpecifiedClientPositionReachTile =
-			0; //This is so when the client walks back into its own container it was pulling it doesn't bug out
+	private uint SpecifiedClientPositionReachTile = 0; //This is so when the client walks back into its own container it was pulling it doesn't bug out
 
 	//Pulling.Component.ResetLocationOnClients();
 
@@ -1558,8 +1557,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public void SetRegisterTileLocation(Vector3Int localPosition)
 	{
-		registerTile.ServerSetLocalPosition(localPosition);
-		registerTile.ClientSetLocalPosition(localPosition);
+		if (MappingIntangible == false)
+		{
+			registerTile.ServerSetLocalPosition(localPosition);
+			registerTile.ClientSetLocalPosition(localPosition);
+		}
+
 		if (ObjectIsBuckling != null)
 		{
 			ObjectIsBuckling.SetRegisterTileLocation(localPosition);

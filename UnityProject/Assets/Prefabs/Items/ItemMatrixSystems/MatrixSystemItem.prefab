@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4556520481471461753}
   - component: {fileID: 717017699282204641}
   - component: {fileID: 3465797894728902041}
-  m_Layer: 10
+  m_Layer: 28
   m_Name: Sprite (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -119,6 +121,14 @@ PrefabInstance:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
       value: MatrixSystemItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 1344926539164060, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+      propertyPath: m_Layer
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
@@ -205,6 +215,16 @@ PrefabInstance:
         type: 3}
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/AccessDenied.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 5414819541850508356, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: Intangible
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5414819541850508356, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: MappingIntangible
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}

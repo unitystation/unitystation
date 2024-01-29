@@ -337,6 +337,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public void ServerSetLocalPosition(Vector3Int value, bool overRideCheck = false)
 	{
+		if (objectPhysics.HasComponent && objectPhysics.Component.MappingIntangible) return;
 		if (LocalPositionServer == value && overRideCheck == false) return;
 
 		if (objectLayer)
@@ -356,6 +357,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public void ClientSetLocalPosition(Vector3Int value, bool overRideCheck = false)
 	{
+		if (objectPhysics.HasComponent && objectPhysics.Component.MappingIntangible) return;
 		if (LocalPositionClient == value && overRideCheck == false)
 			return;
 		bool appeared = LocalPositionClient == TransformState.HiddenPos && value != TransformState.HiddenPos;

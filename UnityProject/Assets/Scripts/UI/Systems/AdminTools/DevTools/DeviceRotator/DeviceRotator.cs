@@ -71,10 +71,12 @@ public class DeviceRotator : SingletonManager<DeviceRotator>
 			{
 				return;
 			}
+			ColorUtility.TryParseHtmlString("#00F9FF", out var Colour);
+
 
 			OriginalDirection = PressedObject.CurrentDirection;
 			CursorLine = GameGizmomanager.AddNewLineStatic(PressedObject.gameObject, Vector3.zero,null ,
-				MouseUtils.MouseToWorldPos(), Color.green);
+				MouseUtils.MouseToWorldPos(), Colour);
 		}
 
 		if (CursorLine != null && PressedObject != null)
