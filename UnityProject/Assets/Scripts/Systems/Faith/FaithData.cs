@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Logs;
 
 namespace Systems.Faith
 {
@@ -38,6 +39,7 @@ namespace Systems.Faith
 
 		public void SetupFaith()
 		{
+			Loggy.Log("[FaithData/SetupFaith] Setting up faith data for " + Faith.FaithName);
 			foreach (var property in Faith.FaithProperties)
 			{
 				property.Setup(this);

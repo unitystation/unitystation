@@ -4,12 +4,12 @@ using System.Linq;
 using Logs;
 using Shared.Managers;
 using UnityEngine;
+using Util.Independent.FluentRichText;
 
 namespace Systems.Faith
 {
 	public class FaithManager : SingletonManager<FaithManager>
 	{
-		public Faith DefaultFaith;
 		public List<FaithData> CurrentFaiths { get; private set; } = new List<FaithData>();
 		public float FaithEventsCheckTimeInSeconds = 390f;
 		public float FaithPerodicCheckTimeInSeconds = 12f;
@@ -21,37 +21,37 @@ namespace Systems.Faith
 		{
 			base.Awake();
 			EventManager.AddHandler(Event.RoundEnded, ResetReligion);
-			EventManager.AddHandler(Event.RoundStarted, SetupUpdates);
+			EventManager.AddHandler(Event.RoundStarted, SetupFaiths);
 			Loggy.Log("[FaithManager/Awake] - Setting stuff.");
 		}
 
-		private void SetupUpdates()
+		private void SetupFaiths()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
+			foreach (var faith in AllFaiths)
+			{
+				AddFaithToActiveList(faith.Faith);
+			}
 			UpdateManager.Add(LongUpdate, FaithEventsCheckTimeInSeconds);
 			UpdateManager.Add(PeriodicUpdate, FaithPerodicCheckTimeInSeconds);
+			Chat.AddGameWideSystemMsgToChat(
+				$"Faiths have been setup successfully! {CurrentFaiths.Count} faiths are now active.".Color(Color.green));
 		}
 
 		private void ResetReligion()
 		{
 			Loggy.Log("[FaithManager/ResetReligion] - Resetting faiths.");
-			var defaultFaith = new FaithData()
-			{
-				Faith = DefaultFaith,
-				Points = 0,
-				FaithLeaders = new List<PlayerScript>(),
-				FaithMembers = new List<PlayerScript>(),
-			};
-			CurrentFaiths.Add(defaultFaith);
+			CurrentFaiths.Clear();
 			FaithPropertiesConstantUpdate.Clear();
 			FaithPropertiesEventUpdate.Clear();
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, LongUpdate);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
+			Chat.AddGameWideSystemMsgToChat($"Faiths have been reset. Awaiting new round.".Color(Color.blue));
 		}
 
 		private void LongUpdate()
 		{
-			Loggy.Log($"[FaithManager/LongUpdate] - {FaithPropertiesEventUpdate.Count} events will be invoked in FaithPropertiesEventUpdate.");
+			Loggy.Log($"[FaithManager/LongUpdate] - Events check.");
 			foreach (var update in FaithPropertiesEventUpdate)
 			{
 				update?.Invoke();
@@ -60,7 +60,6 @@ namespace Systems.Faith
 			if (DMMath.Prob(35) == false) return;
 			foreach (var faith in CurrentFaiths)
 			{
-				if (faith.FaithMembers.Count == 0) continue;
 				if (faith.Faith.FaithProperties.Count == 0) continue;
 				if (faith.Points.IsBetween(-75, 75)) continue;
 				faith.Faith.FaithProperties.PickRandom()?.RandomEvent();
@@ -131,9 +130,6 @@ namespace Systems.Faith
 			foreach (var faith in Instance.CurrentFaiths.Where(faith => faith.FaithMembers.Contains(playerScript)))
 			{
 				faith.RemoveMember(playerScript);
-				if (faith.FaithLeaders.Count != 0) continue;
-				faith.RemoveAllMembers();
-				Instance.CurrentFaiths.Remove(faith);
 			}
 		}
 

@@ -72,6 +72,7 @@ namespace UI.Objects.Command
 
 		public void ValidateColours()
 		{
+			if (backgroundImage == null) return;
 			backgroundImage.color = ButtonColour;
 			var Colours = toggle.colors;
 			Colours.normalColor = ButtonColour;
