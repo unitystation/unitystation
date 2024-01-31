@@ -9,6 +9,8 @@ public class SubSceneManagerNetworked : NetworkBehaviour
 
 	public SubSceneManager SubSceneManager;
 
+	//Note: This is the first thing ever that gets called on the server.
+	//This is where life blooms.
 	public override void OnStartServer()
 	{
 		NetworkServer.observerSceneList.Clear();
