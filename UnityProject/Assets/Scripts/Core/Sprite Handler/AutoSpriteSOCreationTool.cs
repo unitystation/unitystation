@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Core.Sprite_Handler
 {
+#if UNITY_EDITOR
 	public class AutoSpriteSOCreationTool : UnityEditor.Editor
 	{
 		[MenuItem("Tools/Sprites/Create SpriteSO from selected textures", false)]
@@ -64,4 +65,5 @@ namespace Core.Sprite_Handler
 			AssetDatabase.Refresh();
 		}
 	}
+#endif
 }
