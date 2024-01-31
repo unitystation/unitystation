@@ -571,8 +571,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Loggy.LogError("Failed to log Players antagonist preferences" + e.ToString());
 		}
 
-		ChooseGameMode();
-
 		try
 		{
 			// Game mode specific setup
