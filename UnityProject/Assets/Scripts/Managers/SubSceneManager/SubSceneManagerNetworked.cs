@@ -9,7 +9,7 @@ public class SubSceneManagerNetworked : NetworkBehaviour
 
 	public SubSceneManager SubSceneManager;
 
-	//Note: This is the first thing ever that gets called on the server.
+	//Note: This is the first thing ever that gets called on the server after managers finish setting up.
 	//This is where life blooms.
 	public override void OnStartServer()
 	{
