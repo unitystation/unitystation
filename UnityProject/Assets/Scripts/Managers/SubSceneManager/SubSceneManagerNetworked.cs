@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using Mirror;
-using UnityEngine;
 
 public class SubSceneManagerNetworked : NetworkBehaviour
 {
@@ -16,6 +13,7 @@ public class SubSceneManagerNetworked : NetworkBehaviour
 	{
 		NetworkServer.observerSceneList.Clear();
 		// Determine a Main station subscene and away site
+		GameManager.Instance.ChooseGameMode();
 		StartCoroutine(SubSceneManager.RoundStartServerLoadSequence());
 		base.OnStartServer();
 	}
