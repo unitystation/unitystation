@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 namespace Systems.MobAIs
 {
+	[Obsolete]
 	public class MobController : MonoBehaviour
 	{
 		public RegisterTile RegisterTile;
@@ -42,7 +43,7 @@ namespace Systems.MobAIs
 
 		public void UpdateMe()
 		{
-			if (RegisterTile.Matrix.PresentPlayers.Count == 0) return;
+			if (RegisterTile.Matrix.PresentPlayers.Count == 0 && DMMath.Prob(75)) return;
 
 			if (RegisterTile.Matrix.IsMainStation == false)
 			{
