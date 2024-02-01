@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using TileManagement;
 using UnityEngine.Tilemaps;
 
 namespace Core.Pathfinding
@@ -18,7 +19,7 @@ namespace Core.Pathfinding
     /// </summary>
     public class FourDirectionGraph : IGraph
     {
-        Tilemap map;
+        MetaTileMap map;
 
         /// <summary>
         /// Creates a new FourDirectionalGraph using the tilemap's cell bounds
@@ -26,7 +27,7 @@ namespace Core.Pathfinding
         /// intended boundary then the graph bounds could be smaller than it
         /// should be.
         /// </summary>
-        public FourDirectionGraph(Tilemap map)
+        public FourDirectionGraph(MetaTileMap map)
         {
             this.map = map;
         }
@@ -37,7 +38,7 @@ namespace Core.Pathfinding
             {
                 Vector3Int next = v + dir;
 
-                if (map.IsCellEmpty(next))
+                if (map.IsEmptyAt(next, CustomNetworkManager.IsServer))
                 {
                     yield return next;
                 }
@@ -56,9 +57,9 @@ namespace Core.Pathfinding
     /// </summary>
     public class MoveGraph : IGraph
     {
-        Tilemap map;
+	    MetaTileMap map;
 
-        public MoveGraph(Tilemap map)
+        public MoveGraph(MetaTileMap map)
         {
             this.map = map;
         }
@@ -69,7 +70,7 @@ namespace Core.Pathfinding
             {
                 Vector3Int next = v + dir;
 
-                if (map.IsCellEmpty(next))
+                if (map.IsEmptyAt(next, CustomNetworkManager.IsServer))
                 {
                     yield return next;
                 }
@@ -79,12 +80,12 @@ namespace Core.Pathfinding
             {
                 Vector3Int next = v + dir;
 
-                if (map.IsCellEmpty(next))
+                if (map.IsEmptyAt(next, CustomNetworkManager.IsServer))
                 {
                     Vector3Int adjacent1 = v + new Vector3Int(dir.x, 0, 0);
                     Vector3Int adjacent2 = v + new Vector3Int(0, dir.y, 0);
 
-                    if (map.IsCellEmpty(adjacent1) && map.IsCellEmpty(adjacent2))
+                    if (map.IsEmptyAt(adjacent1, CustomNetworkManager.IsServer) && map.IsEmptyAt(adjacent2, CustomNetworkManager.IsServer))
                     {
                         yield return next;
                     }

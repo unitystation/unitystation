@@ -9,7 +9,7 @@ namespace Core.Pathfinding
     [System.Serializable]
     public class LinePath
     {
-        public Vector3[] nodes;
+        public Vector3Int[] nodes;
 
         public float MaxDist { get; private set; }
 
@@ -17,7 +17,7 @@ namespace Core.Pathfinding
         public float[] distances;
 
         /* Indexer declaration. */
-        public Vector3 this[int i]
+        public Vector3Int this[int i]
         {
             get
             {
@@ -46,14 +46,14 @@ namespace Core.Pathfinding
             }
         }
 
-        public LinePath(Vector3[] nodes)
+        public LinePath(Vector3Int[] nodes)
         {
             this.nodes = nodes;
 
             CalcDistances();
         }
 
-        public LinePath(List<Vector3> nodes)
+        public LinePath(List<Vector3Int> nodes)
         {
             this.nodes = nodes.ToArray();
 
@@ -219,7 +219,7 @@ namespace Core.Pathfinding
 
         public void RemoveNode(int i)
         {
-            Vector3[] newNodes = new Vector3[nodes.Length - 1];
+	        Vector3Int[] newNodes = new Vector3Int[nodes.Length - 1];
 
             int newNodesIndex = 0;
             for (int j = 0; j < newNodes.Length; j++)

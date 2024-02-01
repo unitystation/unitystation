@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using System;
+using TileManagement;
 
 namespace Core.Pathfinding
 {
@@ -18,13 +19,13 @@ namespace Core.Pathfinding
         /// Find a path to the goal or the closest open cell to the goal.
         /// If the self tile is encountered the cell be considered open.
         /// </summary>
-        public static LinePath FindLinePathClosest(Tilemap map, Vector3 start, Vector3 goal)
+        public static LinePath FindLinePathClosest(MetaTileMap map, Vector3 start, Vector3 goal)
         {
-            List<Vector3> path = FindPathClosest(map, start, goal);
+            List<Vector3Int> path = FindPathClosest(map, start, goal);
             return ToLinePath(path);
         }
 
-        static LinePath ToLinePath(List<Vector3> path)
+        static LinePath ToLinePath(List<Vector3Int> path)
         {
             LinePath lp = null;
 
@@ -40,19 +41,19 @@ namespace Core.Pathfinding
         /// Find a path to the goal or the closest open cell to the goal.
         /// If the self tile is encountered the cell be considered open.
         /// </summary>
-        public static List<Vector3> FindPathClosest(Tilemap map, Vector3 start, Vector3 goal)
+        public static List<Vector3Int> FindPathClosest(MetaTileMap map, Vector3 start, Vector3 goal)
         {
             List<Vector3Int> path = FindPathClosest(map, map.WorldToCell(start), map.WorldToCell(goal));
-            return map.GetCellCenterWorld(path);
+            return path;
         }
 
         /// <summary>
         /// Find a path to the goal or the closest open cell to the goal.
         /// If the self tile is encountered the cell be considered open.
         /// </summary>
-        public static List<Vector3Int> FindPathClosest(Tilemap map, Vector3Int start, Vector3Int goal)
+        public static List<Vector3Int> FindPathClosest(MetaTileMap map, Vector3Int start, Vector3Int goal)
         {
-            if (map.IsCellEmpty(goal) == false && goal != start)
+            if (map.IsEmptyAt(goal, CustomNetworkManager.IsServer) == false && goal != start)
             {
                 goal = ClosestCell(OpenCells(map, start, goal), start, goal);
             }
@@ -60,7 +61,7 @@ namespace Core.Pathfinding
             return AStar.FindPath(new MoveGraph(map), start, goal, Vector3Int.Distance);
         }
 
-        static HashSet<Vector3Int> OpenCells(Tilemap map, Vector3Int start, Vector3Int goal)
+        static HashSet<Vector3Int> OpenCells(MetaTileMap map, Vector3Int start, Vector3Int goal)
         {
             Dictionary<Vector3Int, int> counts = new Dictionary<Vector3Int, int>();
             counts.Add(goal, 0);
@@ -76,7 +77,7 @@ namespace Core.Pathfinding
                 int count = counts[current] + 1;
                 counts[next] = count;
 
-                if ((map.IsCellEmpty(next) || next == start) && dist <= minDist)
+                if ((map.IsEmptyAt(next, CustomNetworkManager.IsServer) || next == start) && dist <= minDist)
                 {
                     minDist = dist;
                     minCount = count;
@@ -111,25 +112,25 @@ namespace Core.Pathfinding
         /// <summary>
         /// Finds a path in the tilemap using world coordinates.
         /// </summary>
-        public static LinePath FindLinePath(Tilemap map, Vector3 start, Vector3 goal)
+        public static LinePath FindLinePath(MetaTileMap map, Vector3 start, Vector3 goal)
         {
-            List<Vector3> path = FindPath(map, start, goal);
+            List<Vector3Int> path = FindPath(map, start, goal);
             return ToLinePath(path);
         }
 
         /// <summary>
         /// Finds a path in the tilemap using world coordinates.
         /// </summary>
-        public static List<Vector3> FindPath(Tilemap map, Vector3 start, Vector3 goal)
+        public static List<Vector3Int> FindPath(MetaTileMap map, Vector3 start, Vector3 goal)
         {
             List<Vector3Int> path = FindPath(map, map.WorldToCell(start), map.WorldToCell(goal));
-            return map.GetCellCenterWorld(path);
+            return path;
         }
 
         /// <summary>
         /// Finds a path in the tilemap using cell coordinates.
         /// </summary>
-        public static List<Vector3Int> FindPath(Tilemap map, Vector3Int start, Vector3Int goal)
+        public static List<Vector3Int> FindPath(MetaTileMap map, Vector3Int start, Vector3Int goal)
         {
             return FindPath(new MoveGraph(map), start, goal, Vector3Int.Distance);
         }

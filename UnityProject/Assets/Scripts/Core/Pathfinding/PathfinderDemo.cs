@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Core.Pathfinding;
+using TileManagement;
 using UnityEngine.Tilemaps;
 
 public class PathfinderDemo : MonoBehaviour
 {
-	public Tilemap Walls;
+	public MetaTileMap Walls;
 
 	private List<Vector3Int> path = new List<Vector3Int>();
 
