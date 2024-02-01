@@ -116,7 +116,7 @@ namespace Core.Pathfinding
             return result;
         }
 
-        public static Vector3? ClosestEmptyCell(this Tilemap tilemap, Vector3 position, Vector3Int[] directions)
+        public static Vector3? ClosestEmptyCell(this MetaTileMap tilemap, Vector3 position, Vector3Int[] directions)
         {
             return tilemap.BreadthFirstSearch(
                 position,
