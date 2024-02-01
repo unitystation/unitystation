@@ -58,7 +58,7 @@ namespace Systems.MobAIs
 					}
 				}
 
-				if (playerNearby == false && DMMath.Prob(75)) return;
+				if (playerNearby == false && DMMath.Prob(90)) return;
 			}
 
 			foreach (var _MobObjective in MobObjectives)
