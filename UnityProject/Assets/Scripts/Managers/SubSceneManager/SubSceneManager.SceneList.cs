@@ -119,7 +119,7 @@ public partial class SubSceneManager
 		}
 		else
 		{
-			serverChosenMainStation = mainStationList.GetRandomMainStation();
+			serverChosenMainStation = GameManager.Instance.GameMode.mainStations.GetRandomMainStation();
 		}
 
 		//Reset map selector
