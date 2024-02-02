@@ -2011,6 +2011,11 @@ namespace TileManagement
 			return LayersValues[0].WorldToCell(worldPosition);
 		}
 
+		public Vector3Int WorldToCell(Vector3Int worldPosition)
+		{
+			return LayersValues[0].WorldToCell(worldPosition);
+		}
+
 
 #if UNITY_EDITOR
 		public void SetPreviewTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)

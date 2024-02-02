@@ -77,7 +77,7 @@ namespace Core.Pathfinding
 
             if (resultInt.HasValue)
             {
-                result = tilemap.GetCellCenterWorld(resultInt.Value);
+                result = tilemap.WorldToCell(resultInt.Value);
             }
 
             return result;
@@ -110,7 +110,7 @@ namespace Core.Pathfinding
 
             if (resultInt.HasValue)
             {
-                result = tilemap.GetCellCenterWorld(resultInt.Value);
+                result = tilemap.WorldToCell(resultInt.Value);
             }
 
             return result;
@@ -172,22 +172,11 @@ namespace Core.Pathfinding
         /// <param name="isConnected">A function to decide if the next node is connected to the current node</param>
         public static List<Vector3Int> BreadthFirstTraversal(this MetaTileMap tilemap, Vector3Int position, Vector3Int[] directions, Func<Vector3Int, Vector3Int, bool> isConnected)
         {
-            return BreadthFirstTraversal(position, directions, isConnected);
-        }
+	        Vector3Int start = tilemap.WorldToCell(position);
 
-        /// <summary>
-        /// A Breadth First Traversal of nodes in a grid.
-        /// </summary>
-        /// <param name="position">Starting position of the traversal</param>
-        /// <param name="directions">The directions the traversal can go to find connected nodes</param>
-        /// <param name="isConnected">A function to decide if the next node is connected to the current node</param>
-        public static List<Vector3> BreadthFirstTraversal(this MetaTileMap tilemap, Vector3 position, Vector3Int[] directions, Func<Vector3Int, Vector3Int, bool> isConnected)
-        {
-            Vector3Int start = tilemap.WorldToCell(position);
+	        List<Vector3Int> positions = BreadthFirstTraversal(start, directions, isConnected);
 
-            List<Vector3Int> positions = BreadthFirstTraversal(start, directions, isConnected);
-
-            return positions.Select(p => tilemap.GetCellCenterWorld(p)).ToList();
+	        return positions.Select(p => tilemap.WorldToCell(p)).ToList();
         }
 
         /// <summary>
@@ -198,16 +187,6 @@ namespace Core.Pathfinding
         public static List<Vector3Int> BreadthFirstTraversal(this MetaTileMap tilemap, Vector3Int position, Func<Vector3Int, Vector3Int, bool> isConnected)
         {
             return BreadthFirstTraversal(position, Utils.FourDirections, isConnected);
-        }
-
-        /// <summary>
-        /// A Breadth First Traversal of nodes in a grid.
-        /// </summary>
-        /// <param name="position">Starting position of the traversal</param>
-        /// <param name="isConnected">A function to decide if the next node is connected to the current node</param>
-        public static List<Vector3> BreadthFirstTraversal(this MetaTileMap tilemap, Vector3 position, Func<Vector3Int, Vector3Int, bool> isConnected)
-        {
-            return tilemap.BreadthFirstTraversal(position, Utils.FourDirections, isConnected);
         }
     }
 }

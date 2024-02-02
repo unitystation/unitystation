@@ -13,21 +13,15 @@ namespace Core.Pathfinding
             return tilemap.GetTile(pos);
         }
 
-        public static void CopyBounds(this MetaTileMap tilemap, Tilemap other)
-        {
-            tilemap.origin = other.origin;
-            tilemap.size = other.size;
-        }
-
         public static bool IsInBounds(this MetaTileMap tilemap, Vector3Int position)
         {
-            return tilemap.cellBounds.Contains(position);
+            return tilemap.GlobalCachedBounds.GetValueOrDefault().Contains(position);
         }
 
         public static bool IsInBounds(this MetaTileMap tilemap, Vector3 position)
         {
             Vector3Int pos = tilemap.WorldToCell(position);
-            return tilemap.cellBounds.Contains(pos);
+            return tilemap.GlobalCachedBounds.GetValueOrDefault().Contains(pos);
         }
 
         /// <summary>
@@ -54,30 +48,8 @@ namespace Core.Pathfinding
 
         public static T GetComponentAtCell<T>(this MetaTileMap tilemap, Vector3Int position)
         {
-            Vector3 worldPos = tilemap.GetCellCenterWorld(position);
+            Vector3 worldPos = tilemap.WorldToCell(position);
             return Utils.GetComponentAtPosition2D<T>(worldPos);
-        }
-
-        public static void DebugDraw(this MetaTileMap tilemap, float size, Color color = default(Color), float duration = 0.0f, bool depthTest = true)
-        {
-            BoundsInt bounds = tilemap.cellBounds;
-            TileBase[] allTiles = tilemap.GetTilesBlock(bounds);
-
-            for (int x = 0; x < bounds.size.x; x++)
-            {
-                for (int y = 0; y < bounds.size.y; y++)
-                {
-                    TileBase tile = allTiles[x + y * bounds.size.x];
-
-                    if (tile != null)
-                    {
-                        Vector3Int cell = new Vector3Int(bounds.x + x, bounds.y + y, bounds.z);
-                        Vector3 pos = tilemap.GetCellCenterWorld(cell);
-
-                        Utils.DebugDrawCross(pos, size, color, duration, depthTest);
-                    }
-                }
-            }
         }
     }
 }

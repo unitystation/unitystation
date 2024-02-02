@@ -23,6 +23,7 @@ public class PathfinderDemo : MonoBehaviour
     {
 	    Vector3Int endPoint = MouseUtils.MouseToWorldPos().CutToInt();
 	    Vector3Int startPoint = PlayerManager.LocalPlayerObject.AssumedWorldPosServer().CutToInt();
+	    GameGizmomanager.AddNewLineStatic(null, startPoint, null, endPoint, Color.green, 0.031f);
 
 	    path = AStar.FindPathClosest(Walls, startPoint, endPoint);
 
