@@ -21,7 +21,7 @@ public class PathfinderDemo : MonoBehaviour
 
     public void PathfindTest()
     {
-	    Vector3Int endPoint = MouseUtils.MouseToWorldPos().CutToInt();
+	    Vector3Int endPoint = Walls.MousePositionToCell();
 	    Vector3Int startPoint = PlayerManager.LocalPlayerObject.AssumedWorldPosServer().CutToInt();
 	    GameGizmomanager.AddNewLineStatic(null, startPoint, null, endPoint, Color.green, 0.031f);
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using System;
+using Logs;
 using TileManagement;
 
 namespace Core.Pathfinding
@@ -55,10 +56,12 @@ namespace Core.Pathfinding
         {
             if (map.IsEmptyAt(goal, CustomNetworkManager.IsServer) == false && goal != start)
             {
+	            Loggy.Log("Cell is empty at goal: " + goal);
                 goal = ClosestCell(OpenCells(map, start, goal), start, goal);
+                Loggy.Log("Goal closest cell: " + goal);
             }
 
-            return AStar.FindPath(new MoveGraph(map), start, goal, Vector3Int.Distance);
+            return AStar.FindPath(new FourDirectionGraph(map), start, goal, Vector3Int.Distance);
         }
 
         static HashSet<Vector3Int> OpenCells(MetaTileMap map, Vector3Int start, Vector3Int goal)

@@ -69,7 +69,7 @@ namespace Core.Pathfinding
         /// <param name="isConnected">A function to decide if the next node is connected to the current node</param>
         public static Vector3? BreadthFirstSearch(this MetaTileMap tilemap, Vector3 position, Vector3Int[] directions, Func<Vector3Int, bool> isGoal, Func<Vector3Int, Vector3Int, bool> isConnected)
         {
-            Vector3Int start = tilemap.WorldToCell(position);
+            Vector3Int start = tilemap.WorldToCell(position) + new Vector3Int(1, 1);
 
             Vector3Int? resultInt = BreadthFirstSearch(start, directions, isGoal, isConnected);
 
@@ -77,7 +77,7 @@ namespace Core.Pathfinding
 
             if (resultInt.HasValue)
             {
-                result = tilemap.WorldToCell(resultInt.Value);
+                result = tilemap.WorldToCell(resultInt.Value) + new Vector3Int(1, 1);
             }
 
             return result;
@@ -102,7 +102,7 @@ namespace Core.Pathfinding
         /// <param name="isConnected">A function to decide if the next node is connected to the current node</param>
         public static Vector3? BreadthFirstSearch(this MetaTileMap tilemap, Vector3 position, Func<Vector3Int, bool> isGoal, Func<Vector3Int, Vector3Int, bool> isConnected)
         {
-            Vector3Int start = tilemap.WorldToCell(position);
+            Vector3Int start = tilemap.WorldToCell(position) + new Vector3Int(1, 1);
 
             Vector3Int? resultInt = BreadthFirstSearch(start, Utils.FourDirections, isGoal, isConnected);
 
@@ -110,7 +110,7 @@ namespace Core.Pathfinding
 
             if (resultInt.HasValue)
             {
-                result = tilemap.WorldToCell(resultInt.Value);
+                result = tilemap.WorldToCell(resultInt.Value) + new Vector3Int(1, 1);
             }
 
             return result;
@@ -172,11 +172,11 @@ namespace Core.Pathfinding
         /// <param name="isConnected">A function to decide if the next node is connected to the current node</param>
         public static List<Vector3Int> BreadthFirstTraversal(this MetaTileMap tilemap, Vector3Int position, Vector3Int[] directions, Func<Vector3Int, Vector3Int, bool> isConnected)
         {
-	        Vector3Int start = tilemap.WorldToCell(position);
+	        Vector3Int start = tilemap.WorldToCell(position) + new Vector3Int(1, 1);
 
 	        List<Vector3Int> positions = BreadthFirstTraversal(start, directions, isConnected);
 
-	        return positions.Select(p => tilemap.WorldToCell(p)).ToList();
+	        return positions.Select(p => tilemap.WorldToCell(p)+ new Vector3Int(1, 1)).ToList();
         }
 
         /// <summary>
