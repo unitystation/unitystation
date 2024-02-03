@@ -88,37 +88,49 @@ namespace Systems.Faith.FaithProperties
 
 		private void SpawnStuff(ref List<Attributes> filth)
 		{
-			if (FilthScore > 150)
+			if (FilthScore > 175)
 			{
-				var spotsToPick = filth.PickRandom(2);
-				foreach (var spot in spotsToPick)
-				{
-					Spawn.ServerPrefab(antHills.PickRandom(), spot.gameObject.AssumedWorldPosServer());
-				}
+				SpawnAnts(ref filth);
 			}
-			if (FilthScore > 300)
+			if (FilthScore > 400)
 			{
-				var bread =
-					ComponentsTracker<Attributes>.Instances.Where(x
-						=> x.InitialTraits.Contains(breadLoafTrait) &&
-						   x.gameObject.RegisterTile().Matrix == MatrixManager.MainStationMatrix.Matrix).ToList();
-				if (bread.Count != 0)
-				{
-					foreach (var breadItem in bread)
-					{
-						Spawn.ServerPrefab(KillerBread.PickRandom(), breadItem.gameObject.AssumedWorldPosServer());
-						_ = Despawn.ServerSingle(breadItem.gameObject);
-					}
-				}
+				MoldBread();
 			}
-			if (FilthScore >= 550)
+			if (FilthScore >= 650)
 			{
-				var spotsToPick = filth.PickRandom(3);
-				foreach (var spot in spotsToPick)
-				{
-					Spawn.ServerPrefab(spores.PickRandom(), spot.gameObject.AssumedWorldPosServer());
-				}
+				SpawnSpores(ref filth);
 			}
 		}
+
+		private void SpawnAnts(ref List<Attributes> filth)
+		{
+			var spotsToPick = filth.PickRandom(2);
+			foreach (var spot in spotsToPick)
+			{
+				Spawn.ServerPrefab(antHills.PickRandom(), spot.gameObject.AssumedWorldPosServer());
+			}
+		}
+
+		private void SpawnSpores(ref List<Attributes> filth)
+		{
+			var spotsToPick = filth.PickRandom(3);
+			foreach (var spot in spotsToPick)
+			{
+				Spawn.ServerPrefab(spores.PickRandom(), spot.gameObject.AssumedWorldPosServer());
+			}
+		}
+
+		private void MoldBread()
+		{
+			var bread =
+				ComponentsTracker<Attributes>.Instances.Where(x => x.InitialTraits.Contains(breadLoafTrait)).ToList();
+			if (bread.Count == 0) return;
+			foreach (var breadItem in bread)
+			{
+				Spawn.ServerPrefab(KillerBread.PickRandom(), breadItem.gameObject.AssumedWorldPosServer());
+				_ = Despawn.ServerSingle(breadItem.gameObject);
+			}
+		}
+
 	}
 }
