@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 
 public class MatrixCash
@@ -95,8 +96,10 @@ public class MatrixCash
 			Positions[i] = null;
 		}
 
-		Positions[6] = Inon.Matrix.MatrixInfo;
-
+		if (Positions != null && Inon.OrNull()?.Matrix.OrNull()?.MatrixInfo is not null)
+		{
+			Positions[6] = Inon.Matrix.MatrixInfo;
+		}
 	}
 
 	public void ResetNewPosition(Vector3 Centrepoint)
