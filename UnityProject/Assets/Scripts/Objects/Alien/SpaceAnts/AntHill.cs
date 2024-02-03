@@ -91,7 +91,7 @@ namespace Objects.Alien.SpaceAnts
 				mob.ApplyDamageAll(gameObject, damage, biteType, damageType);
 				Chat.AddExamineMsg(mob.gameObject, "you feel itchy all over yourself.");
 				PlayStepAudio(mob.gameObject);
-				if (DMMath.Prob(50)) mobsToDispel.Add(mob);
+				if (DMMath.Prob(90)) mobsToDispel.Add(mob);
 			}
 			foreach (var mobToRemove in mobsToDispel)
 			{
