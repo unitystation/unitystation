@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 
 public class MatrixCash
@@ -98,6 +99,13 @@ public class MatrixCash
 		if (Positions != null && Inon.OrNull()?.Matrix.OrNull()?.MatrixInfo is not null)
 		{
 			Positions[6] = Inon.Matrix.MatrixInfo;
+		}
+		else
+		{
+			Loggy.LogError($"[MatrixCash/ResetNewPosition] - A property has been detected as null when attempting to reset positions. " +
+			               $"This usually happens when the game is first loading for clients, but if it persists; something has gone wrong.\n" +
+			               $"Positions Null: {Positions is null}\n" +
+			               $"Inon Null: {Inon is null}\n");
 		}
 	}
 
