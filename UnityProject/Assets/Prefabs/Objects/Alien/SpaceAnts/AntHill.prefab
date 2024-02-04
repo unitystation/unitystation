@@ -202,11 +202,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   routineDelay: 30
-  minMaxAntDamage: {x: 2, y: 7}
+  minMaxAntDamage: {x: 2, y: 4}
   biteType: 0
   damageType: 0
   state: 0
   filthTrait: {fileID: 11400000, guid: 4c7b190bc2ad57c459127fbcb49ff7e3, type: 2}
+  flySwatterTrait: {fileID: 11400000, guid: 748d6170e42aa074f8d475e4713f573f, type: 2}
   stateSprites:
   - {fileID: 11400000, guid: 5f6799e004291954ca50cd72085d20cd, type: 2}
   - {fileID: 11400000, guid: b29614733ffd58d45afbdd006ea5ba5a, type: 2}
