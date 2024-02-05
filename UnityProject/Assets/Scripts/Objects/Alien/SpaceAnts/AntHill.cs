@@ -120,7 +120,7 @@ namespace Objects.Alien.SpaceAnts
 			var edibles = ComponentsTracker<Attributes>.GetAllNearbyTypesToTarget(gameObject, 32, eatsYourLiver);
 			if(edibles.Count == 0) return;
 			var edible = edibles.PickRandom();
-			if (DMMath.Prob(5))
+			if (DMMath.Prob(5) && state is AntHillState.Large or AntHillState.Swarm)
 			{
 				Spawn.ServerClone(antMultiplyPrefabs.PickRandom(), edible.gameObject.AssumedWorldPosServer());
 			}
