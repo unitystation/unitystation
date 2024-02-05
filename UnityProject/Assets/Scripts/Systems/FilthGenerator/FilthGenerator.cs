@@ -46,7 +46,6 @@ namespace Systems.FilthGenerator
 		{
 			base.OnDestroy();
 			floorTilemap = null;
-
 		}
 
 		[Button]
@@ -100,7 +99,7 @@ namespace Systems.FilthGenerator
 				return;
 			}
 
-			if (generateFilthReagent && DMMath.Prob(filthReagentChance))
+			if (generateFilthReagent && DMMath.Prob(filthReagentChance) && PlayerList.Instance.AllPlayers.Count >= 6)
 			{
 				ReagentSpawn();
 			}
