@@ -84,7 +84,7 @@ namespace Objects.Alien.SpaceAnts
 
 		private void BiteInflictedMobs()
 		{
-			var damage = state is AntHillState.Small ? 1 : Random.Range(minMaxAntDamage.x, minMaxAntDamage.y);
+			var damage = state is AntHillState.Swarm ? Random.Range(minMaxAntDamage.x, minMaxAntDamage.y) : 1;
 			var mobsToDispel = new List<LivingHealthMasterBase>();
 			foreach (var mob in inflictedMobs)
 			{
