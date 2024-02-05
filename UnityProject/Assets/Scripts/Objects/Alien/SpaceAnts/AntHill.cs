@@ -89,7 +89,7 @@ namespace Objects.Alien.SpaceAnts
 			foreach (var mob in inflictedMobs)
 			{
 				if (mob == null) continue;
-				mob.ApplyDamageAll(gameObject, damage, biteType, damageType, damageSplit: true);
+				mob.ApplyDamageToRandomBodyPart(gameObject, damage, biteType, damageType, damageSplit: true);
 				Chat.AddExamineMsg(mob.gameObject, "you feel itchy all over yourself.");
 				PlayStepAudio(mob.gameObject);
 				if (DMMath.Prob(90)) mobsToDispel.Add(mob);
