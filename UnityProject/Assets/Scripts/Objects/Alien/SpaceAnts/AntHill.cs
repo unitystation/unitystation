@@ -70,6 +70,7 @@ namespace Objects.Alien.SpaceAnts
 
 		public void InflictMob(GameObject mob)
 		{
+			if (state is not AntHillState.Swarm) return;
 			if (DMMath.Prob(75) || mob.TryGetComponent<LivingHealthMasterBase>(out var health) == false) return;
 			inflictedMobs.Add(health);
 		}
