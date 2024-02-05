@@ -117,15 +117,13 @@ namespace Objects.Alien.SpaceAnts
 		private void LookForFilth()
 		{
 			var edibles = ComponentsTracker<Attributes>.GetAllNearbyTypesToTarget(gameObject, 32, eatsYourLiver);
-			foreach (var edible in edibles.Where(x => x.InitialTraits.Contains(filthTrait)).Reverse())
+			if(edibles.Count == 0) return;
+			var edible = edibles.PickRandom();
+			if (DMMath.Prob(5))
 			{
-				if (DMMath.Prob(5))
-				{
-					Spawn.ServerClone(antMultiplyPrefabs.PickRandom(), edible.gameObject.AssumedWorldPosServer());
-				}
-				AntEat(edible.gameObject);
-				if (DMMath.Prob(75)) return;
+				Spawn.ServerClone(antMultiplyPrefabs.PickRandom(), edible.gameObject.AssumedWorldPosServer());
 			}
+			AntEat(edible.gameObject);
 		}
 
 		private void AntEat(GameObject objectToEat)
