@@ -79,7 +79,6 @@ namespace Core.Lighting
 		{
 			if (Lights.Contains(data) == false)
 			{
-				Loggy.LogError("Could not find correct light source to remove.");
 				ClearHeldLights();
 				UpdateLights();
 				return;

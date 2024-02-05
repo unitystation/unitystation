@@ -169,7 +169,7 @@ namespace UI.Core.Action
 			{
 				if (ActivePlayerActions[Body].Contains(iActionGUI) == false)
 				{
-					Loggy.LogError($"iActionGUI {iActionGUI?.ActionData.OrNull()?.Name}, not present on mind");
+					Loggy.LogError($"iActionGUI {iActionGUI?.ActionData.OrNull()?.Name}, not present on mind", Category.UI);
 					return;
 				}
 
