@@ -3,13 +3,15 @@ using AddressableReferences;
 using Core;
 using HealthV2;
 using Items.Food;
+using NUnit.Framework;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 using Util.Independent.FluentRichText;
 using Random = UnityEngine.Random;
 
 namespace Objects.Alien.SpaceAnts
 {
-	public class AntHill : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class AntHill : MonoBehaviour, ICheckedInteractable<HandApply>, IHoverTooltip
 	{
 		private List<LivingHealthMasterBase> inflictedMobs = new List<LivingHealthMasterBase>();
 		[SerializeField] private float routineDelay = 30f;
@@ -150,6 +152,48 @@ namespace Objects.Alien.SpaceAnts
 		{
 			if (mob.TryGetComponent<LivingHealthMasterBase>(out var health) == false) return;
 			health.ChangeFireStacks(health.FireStacks + 1);
+		}
+
+
+		public string HoverTip()
+		{
+			var searchRadius = state switch
+			{
+				AntHillState.Single => "A Seemingly Empty Ant Hill",
+				AntHillState.Small => "This is a Small Ant Hill",
+				AntHillState.Large => "This Ant Hill is fairly decent sized.",
+				AntHillState.Swarm => "A swarm of ants live within this ant hill.",
+				_ => "An ant hill"
+			};
+			return searchRadius;
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			List<TextColor> strings = new List<TextColor>()
+			{
+				new TextColor()
+				{
+					Color = Color.green,
+					Text = "Destroy with a Fly Swatter"
+				}
+			};
+			return strings;
 		}
 	}
 }
