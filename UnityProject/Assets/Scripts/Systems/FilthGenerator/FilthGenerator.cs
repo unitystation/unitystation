@@ -7,6 +7,7 @@ using TileManagement;
 using Tiles;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Debug = UnityEngine.Debug;
 
 namespace Systems.FilthGenerator
 {
@@ -71,7 +72,11 @@ namespace Systems.FilthGenerator
 				}
 			}
 
-			int numberOfTiles = (int) ((EmptyTiled.Count / 100f) * filthDensityPercentage);
+			int numberOfPlayers = PlayerList.Instance.AllPlayers.Count;
+			float densityPercentagePerPlayer = 1f / 2f; // 1% per 2 players
+
+			float scaledDensityPercentage = filthDensityPercentage + (numberOfPlayers / 2) * densityPercentagePerPlayer;
+			int numberOfTiles = (int)((EmptyTiled.Count / 100f) * scaledDensityPercentage);
 
 			for (int i = 0; i < numberOfTiles; i++)
 			{
@@ -99,7 +104,7 @@ namespace Systems.FilthGenerator
 				return;
 			}
 
-			if (generateFilthReagent && DMMath.Prob(filthReagentChance) && PlayerList.Instance.AllPlayers.Count >= 6)
+			if (generateFilthReagent && DMMath.Prob(filthReagentChance))
 			{
 				ReagentSpawn();
 			}
