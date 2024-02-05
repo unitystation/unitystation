@@ -104,16 +104,14 @@ namespace Systems.Faith.FaithProperties
 
 		private void SpawnAnts(ref List<Attributes> filth)
 		{
-			var spotsToPick = filth.PickRandom(2);
-			foreach (var spot in spotsToPick)
-			{
-				Spawn.ServerPrefab(antHills.PickRandom(), spot.gameObject.AssumedWorldPosServer());
-			}
+			var spotToPick = filth.PickRandom();
+			if (spotToPick is null) return;
+			Spawn.ServerPrefab(antHills.PickRandom(), spotToPick.gameObject.AssumedWorldPosServer());
 		}
 
 		private void SpawnSpores(ref List<Attributes> filth)
 		{
-			var spotsToPick = filth.PickRandom(3);
+			var spotsToPick = filth.PickRandom(2);
 			foreach (var spot in spotsToPick)
 			{
 				Spawn.ServerPrefab(spores.PickRandom(), spot.gameObject.AssumedWorldPosServer());
@@ -124,7 +122,8 @@ namespace Systems.Faith.FaithProperties
 		{
 			var bread =
 				ComponentsTracker<Attributes>.Instances.Where(x => x.InitialTraits.Contains(breadLoafTrait)).ToList();
-			if (bread.Count == 0) return;
+			if (bread.Count < 5) return;
+			bread = bread.PickRandom(2).ToList();
 			foreach (var breadItem in bread)
 			{
 				Spawn.ServerPrefab(KillerBread.PickRandom(), breadItem.gameObject.AssumedWorldPosServer());
