@@ -25,6 +25,8 @@ namespace Systems.FilthGenerator
 		private float filthDensityPercentage = 4f;
 		[SerializeField, Range(0f,100f)]
 		private float filthReagentChance = 35f;
+		[SerializeField, Range(0f,100f)]
+		private float maxFilthPercentageForMatrix = 35f;
 
 		[SerializeField] private List<GameObject> filthDecalsAndObjects = new List<GameObject>();
 
@@ -75,7 +77,7 @@ namespace Systems.FilthGenerator
 		private void SpawnOnTiles(ref List<Vector3Int> emptyTiled)
 		{
 			float scaledDensityPercentage = filthDensityPercentage / (PlayerList.Instance.AllPlayers.Count) / 4f;
-			int numberOfTiles = (int)(emptyTiled.Count * 0.01f * scaledDensityPercentage);
+			int numberOfTiles = (int)Mathf.Clamp(emptyTiled.Count * 0.01f * scaledDensityPercentage, 0.5f, maxFilthPercentageForMatrix);
 
 			for (int i = 0; i < numberOfTiles; i++)
 			{
