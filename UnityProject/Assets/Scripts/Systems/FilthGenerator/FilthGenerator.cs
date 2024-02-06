@@ -82,7 +82,6 @@ namespace Systems.FilthGenerator
 				var chosenLocation = emptyTiled[Random.Next(emptyTiled.Count)];
 				DetermineFilthToSpawn(chosenLocation);
 			}
-			Loggy.Log($"Floor Tiles{emptyTiled.Count} -> {numberOfTiles} to cover with {scaledDensityPercentage}% from {PlayerList.Instance.AllPlayers.Count} players.");
 		}
 
 		private void DetermineFilthToSpawn(Vector3Int chosenLocation)
