@@ -3,11 +3,9 @@ using System.Diagnostics;
 using Chemistry;
 using NaughtyAttributes;
 using ScriptableObjects;
-using TileManagement;
 using Tiles;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Debug = UnityEngine.Debug;
 
 namespace Systems.FilthGenerator
 {
@@ -65,28 +63,29 @@ namespace Systems.FilthGenerator
 				for (int p = bounds.yMin; p < bounds.yMax; p++)
 				{
 					Vector3Int localPlace = (new Vector3Int(n, p, 0));
-
-					if (MetaTileMap.HasTile(localPlace))
-					{
-						BasicTile tile = MetaTileMap.GetTile(localPlace, LayerType.Floors) as BasicTile;
-						if (tile != null) EmptyTiled.Add(localPlace);
-					}
+					if (MetaTileMap.HasTile(localPlace) == false) continue;
+					if (MetaTileMap.GetTile(localPlace, LayerType.Floors) is BasicTile) EmptyTiled.Add(localPlace);
 				}
 			}
 
+			SpawnOnTiles(ref EmptyTiled);
+
+			FilthCleanGoal = filthGenerated / Random.Next(3, 8);
+		}
+
+		private void SpawnOnTiles(ref List<Vector3Int> emptyTiled)
+		{
 			int numberOfPlayers = PlayerList.Instance.AllPlayers.Count;
 			float densityPercentagePerPlayer = 0.5f;
 
 			float scaledDensityPercentage = Mathf.Clamp(filthDensityPercentage + ((numberOfPlayers) / 4) * densityPercentagePerPlayer, 1f, filthDensityMax);
-			int numberOfTiles = (int)((EmptyTiled.Count / 100f) * scaledDensityPercentage);
+			int numberOfTiles = (int)((emptyTiled.Count / 100f) * scaledDensityPercentage);
 
 			for (int i = 0; i < numberOfTiles; i++)
 			{
-				var chosenLocation = EmptyTiled[Random.Next(EmptyTiled.Count)];
+				var chosenLocation = emptyTiled[Random.Next(emptyTiled.Count)];
 				DetermineFilthToSpawn(chosenLocation);
 			}
-
-			FilthCleanGoal = filthGenerated / Random.Next(3, 8);
 		}
 
 		private void DetermineFilthToSpawn(Vector3Int chosenLocation)
