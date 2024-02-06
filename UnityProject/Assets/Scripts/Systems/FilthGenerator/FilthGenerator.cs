@@ -26,8 +26,10 @@ namespace Systems.FilthGenerator
 		private float filthDensityPercentage = 4f;
 		[SerializeField, Range(0f,100f)]
 		private float filthReagentChance = 35f;
+		[SerializeField, Range(0f,100f)]
+        private float filthDensityMax = 35f;
 
-		[SerializeField] private List<GameObject> filthDecalsAndObjects = new List<GameObject>();
+        [SerializeField] private List<GameObject> filthDecalsAndObjects = new List<GameObject>();
 
 		private int filthGenerated = 0;
 		public int FilthCleanGoal { get; private set; } = 0;
@@ -75,7 +77,7 @@ namespace Systems.FilthGenerator
 			int numberOfPlayers = PlayerList.Instance.AllPlayers.Count;
 			float densityPercentagePerPlayer = 1f / 2f; // 1% per 2 players
 
-			float scaledDensityPercentage = filthDensityPercentage + ((numberOfPlayers) / 4) * densityPercentagePerPlayer;
+			float scaledDensityPercentage = Mathf.Clamp(filthDensityPercentage + ((numberOfPlayers) / 4) * densityPercentagePerPlayer, 1f, filthDensityMax);
 			int numberOfTiles = (int)((EmptyTiled.Count / 100f) * scaledDensityPercentage);
 
 			for (int i = 0; i < numberOfTiles; i++)
@@ -83,8 +85,6 @@ namespace Systems.FilthGenerator
 				var chosenLocation = EmptyTiled[Random.Next(EmptyTiled.Count)];
 				DetermineFilthToSpawn(chosenLocation);
 			}
-
-			Debug.Log(numberOfTiles);
 
 			FilthCleanGoal = filthGenerated / Random.Next(3, 8);
 		}
