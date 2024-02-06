@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Chemistry;
+using Logs;
 using NaughtyAttributes;
 using ScriptableObjects;
 using Tiles;
@@ -24,10 +25,8 @@ namespace Systems.FilthGenerator
 		private float filthDensityPercentage = 4f;
 		[SerializeField, Range(0f,100f)]
 		private float filthReagentChance = 35f;
-		[SerializeField, Range(0f,100f)]
-        private float filthDensityMax = 35f;
 
-        [SerializeField] private List<GameObject> filthDecalsAndObjects = new List<GameObject>();
+		[SerializeField] private List<GameObject> filthDecalsAndObjects = new List<GameObject>();
 
 		private int filthGenerated = 0;
 		public int FilthCleanGoal { get; private set; } = 0;
@@ -75,17 +74,15 @@ namespace Systems.FilthGenerator
 
 		private void SpawnOnTiles(ref List<Vector3Int> emptyTiled)
 		{
-			int numberOfPlayers = PlayerList.Instance.AllPlayers.Count;
-			float densityPercentagePerPlayer = 0.5f;
-
-			float scaledDensityPercentage = Mathf.Clamp(filthDensityPercentage + ((numberOfPlayers) / 4) * densityPercentagePerPlayer, 1f, filthDensityMax);
-			int numberOfTiles = (int)((emptyTiled.Count / 100f) * scaledDensityPercentage);
+			float scaledDensityPercentage = filthDensityPercentage / (PlayerList.Instance.AllPlayers.Count) / 4f;
+			int numberOfTiles = (int)(emptyTiled.Count * 0.01f * scaledDensityPercentage);
 
 			for (int i = 0; i < numberOfTiles; i++)
 			{
 				var chosenLocation = emptyTiled[Random.Next(emptyTiled.Count)];
 				DetermineFilthToSpawn(chosenLocation);
 			}
+			Loggy.Log($"Floor Tiles{emptyTiled.Count} -> {numberOfTiles} to cover with {scaledDensityPercentage}% from {PlayerList.Instance.AllPlayers.Count} players.");
 		}
 
 		private void DetermineFilthToSpawn(Vector3Int chosenLocation)
