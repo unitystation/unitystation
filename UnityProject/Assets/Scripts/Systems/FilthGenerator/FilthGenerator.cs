@@ -75,9 +75,8 @@ namespace Systems.FilthGenerator
 			}
 
 			int numberOfPlayers = PlayerList.Instance.AllPlayers.Count;
-			float densityPercentagePerPlayer = 1f / 2f; // 1% per 2 players
 
-			float scaledDensityPercentage = Mathf.Clamp(filthDensityPercentage + ((numberOfPlayers) / 4) * densityPercentagePerPlayer, 1f, filthDensityMax);
+			float scaledDensityPercentage = Mathf.Clamp(filthDensityPercentage + ((numberOfPlayers) / 4) * 1.5f, 1f, filthDensityMax);
 			int numberOfTiles = (int)((EmptyTiled.Count / 100f) * scaledDensityPercentage);
 
 			for (int i = 0; i < numberOfTiles; i++)
