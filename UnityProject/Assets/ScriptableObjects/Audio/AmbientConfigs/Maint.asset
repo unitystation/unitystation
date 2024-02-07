@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41958a15a8674c8eb976a28a07763fe6, type: 3}
   m_Name: Maint
   m_EditorClassIdentifier: 
-  triggerTraits: []
+  triggerTraits:
+  - {fileID: 11400000, guid: 6e46c3fa979e00940a50dbb3c0a4ac0c, type: 2}
+  - {fileID: 11400000, guid: 4c7b190bc2ad57c459127fbcb49ff7e3, type: 2}
   ambientClips:
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/maint/ambimaint.prefab
@@ -58,3 +60,4 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   requiredTiles: []
   needsUnderFloorsNotCovered: 1
+  priority: 8
