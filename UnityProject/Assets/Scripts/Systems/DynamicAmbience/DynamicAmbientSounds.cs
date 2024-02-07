@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Core;
 using UnityEngine;
 
@@ -21,11 +21,15 @@ namespace Systems.DynamicAmbience
 			if (root.Mind.NonImportantMind) return;
 			var traitsNearby = ComponentsTracker<Attributes>.GetNearbyTraits(root.gameObject, 6f, false);
 			var configsToPlay = new List<AmbientClipsConfigSO>();
+			var highestPriority = ambinceConfigs.First();
 			foreach (var config in ambinceConfigs)
 			{
-				if(config.CanTrigger(traitsNearby)) configsToPlay.Add(config);
+				if (config.CanTrigger(traitsNearby, root.gameObject) == false) continue;
+				configsToPlay.Add(config);
+				if (config.priority > highestPriority.priority) highestPriority = config;
 			}
-			configsToPlay.PickRandom()?.PlayRandomClipLocally();
+			var configChoosen = DMMath.Prob(80) ? highestPriority : configsToPlay.PickRandom();
+			configChoosen.OrNull()?.PlayRandomClipLocally();
 		}
 	}
 }
