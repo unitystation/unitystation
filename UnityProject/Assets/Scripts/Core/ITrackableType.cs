@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Logs;
 using UnityEngine;
 
@@ -43,6 +44,17 @@ namespace Core
 			Loggy.Log($"[GameObject/FindAllComponentsNearestToTarget<T>()] - Operation took {stopwatch.Elapsed.Milliseconds}ms");
 #endif
 			return components;
+		}
+
+		public static List<ItemTrait> GetNearbyTraits(GameObject target, float searchRadius, bool bypassInventories = true)
+		{
+			var items = ComponentsTracker<Attributes>.GetAllNearbyTypesToTarget(target, searchRadius, bypassInventories);
+			var traits = new List<ItemTrait>();
+			foreach (var item in items)
+			{
+				traits.AddRange(item.InitialTraits);
+			}
+			return traits.Distinct().ToList();
 		}
 	}
 }
