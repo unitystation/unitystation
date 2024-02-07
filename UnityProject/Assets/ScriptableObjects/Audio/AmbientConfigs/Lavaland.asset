@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41958a15a8674c8eb976a28a07763fe6, type: 3}
   m_Name: Lavaland
   m_EditorClassIdentifier: 
-  triggerTraits: []
+  triggerTraits:
+  - {fileID: 11400000, guid: 3c430c1e9384ac647a81057064b1d664, type: 2}
   ambientClips:
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/lavaland/ambilava1.prefab
@@ -35,6 +36,62 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  requiredTiles: []
+  requiredTiles:
+  - {fileID: 11400000, guid: 80986a662b899ef4199140d318511f08, type: 2}
+  - {fileID: 11400000, guid: 7f63e5c2bb219bf468f50301834d8880, type: 2}
+  - {fileID: 11400000, guid: 26898b997a0de5c4d8e7b9a33b7d6f45, type: 2}
+  - {fileID: 11400000, guid: 21683232701a60a49ac8c100e97b1405, type: 2}
+  - {fileID: 11400000, guid: 5f44d5bb5f1fde3469b860c723e58f27, type: 2}
+  - {fileID: 11400000, guid: 5a2ccb93baee6584fb23d2b3e0cacfa0, type: 2}
+  - {fileID: 11400000, guid: 2287166d748b56d4886eb06ee6e8e746, type: 2}
+  - {fileID: 11400000, guid: 260633b2eeee61447970ebfae51c9d28, type: 2}
+  - {fileID: 11400000, guid: 95be060c6fc42cb4ca3981b91cd9a747, type: 2}
+  - {fileID: 11400000, guid: d3ba33de8ef37b64f991d12607c7eb4a, type: 2}
+  - {fileID: 11400000, guid: 38f6e5b1408ac0f4b8b2c26b5da21f7a, type: 2}
+  - {fileID: 11400000, guid: a1a12980c3280b544adfb80b2724a7bf, type: 2}
+  - {fileID: 11400000, guid: 1c8ef2bcce51e244ca9eba86f26be9ef, type: 2}
+  - {fileID: 11400000, guid: 0dbc05343f6e8b241a4fb730f420d884, type: 2}
+  - {fileID: 11400000, guid: 2ba847836baad694495518ad7626264e, type: 2}
+  - {fileID: 11400000, guid: 3596ab552b1b54d4b949635ff1ac6ce7, type: 2}
+  - {fileID: 11400000, guid: e4f313d3a8dd7c148b716dd993b51104, type: 2}
+  - {fileID: 11400000, guid: f30f435be70f05d41894e497ce7aaeab, type: 2}
+  - {fileID: 11400000, guid: 4cd7ab4304707544aae097066a3f9dac, type: 2}
+  - {fileID: 11400000, guid: dc041c91915a5774ba98fc61509fec50, type: 2}
+  - {fileID: 11400000, guid: ccbbfe531228d8f42b301f15460ed8fd, type: 2}
+  - {fileID: 11400000, guid: ea04f70a50d7991489cae515b81bfc45, type: 2}
+  - {fileID: 11400000, guid: 4e8d3df7bc390ea4296e70345a7265fb, type: 2}
+  - {fileID: 11400000, guid: 8bf72af0112c26140833b42e7956f489, type: 2}
+  - {fileID: 11400000, guid: 9263a4ffa0e71cb40b04f64292649584, type: 2}
+  - {fileID: 11400000, guid: b01007667a056e84a85d10c673389743, type: 2}
+  - {fileID: 11400000, guid: fe939f165177964458ffb808c578c1f2, type: 2}
+  - {fileID: 11400000, guid: d18ec0982c652404aa76930a8f780495, type: 2}
+  - {fileID: 11400000, guid: fd310401c7c7298458ee46d2f27a4be1, type: 2}
+  - {fileID: 11400000, guid: e8db53ed47834684194df8462953ae84, type: 2}
+  - {fileID: 11400000, guid: 35e24fa957e3b9946b06de02f223b352, type: 2}
+  - {fileID: 11400000, guid: 4145d963392731949b5733633923d525, type: 2}
+  - {fileID: 11400000, guid: 291e2624e69bc4a4283654540d7c2329, type: 2}
+  - {fileID: 11400000, guid: 663779589904bb642b78e9f26123f482, type: 2}
+  - {fileID: 11400000, guid: 4034ac159c2e00f42bb45defdb622943, type: 2}
+  - {fileID: 11400000, guid: cb4b24c0767632d4f8eac759cc6f9bc1, type: 2}
+  - {fileID: 11400000, guid: 4a8f35fe1926a7e4ea47c978601a19e9, type: 2}
+  - {fileID: 11400000, guid: 2863cc54b46838a46905c516831db0e9, type: 2}
+  - {fileID: 11400000, guid: c48d9dc9abf00684eb0c05413d0dd3fb, type: 2}
+  - {fileID: 11400000, guid: 1291694fb062cba4dabd77de47a31b27, type: 2}
+  - {fileID: 11400000, guid: 1291694fb062cba4dabd77de47a31b27, type: 2}
+  - {fileID: 11400000, guid: 1988c837ed6924e4a8b16bb29f1e7bbd, type: 2}
+  - {fileID: 11400000, guid: 697bf2425b967104ab3beaa873edd40a, type: 2}
+  - {fileID: 11400000, guid: 9df4e12298fa4e849a9123c8707c5208, type: 2}
+  - {fileID: 11400000, guid: d7bba1e77f496684391c83cb7babe6d0, type: 2}
+  - {fileID: 11400000, guid: beec3f4bd4d111e4e9cc60aaee03d2be, type: 2}
+  - {fileID: 11400000, guid: 479fd5884e748a44aa18a3d2982acdfb, type: 2}
+  - {fileID: 11400000, guid: fe1c6331840ae114fa51230bba72e860, type: 2}
+  - {fileID: 11400000, guid: bd0f463fc13b19d4bbf97a19ba2b4c66, type: 2}
+  - {fileID: 11400000, guid: 459df714229555043a9c33a1625946e3, type: 2}
+  - {fileID: 11400000, guid: 159ea19702c41804b901e1d9b0b93402, type: 2}
+  - {fileID: 11400000, guid: 298e6e67bdf94894b8e635bc230a39e7, type: 2}
+  - {fileID: 11400000, guid: 974e623bf4500fe4b945cdb46a9131db, type: 2}
+  - {fileID: 11400000, guid: 9c39c24b3d87c17439e00936630eccf7, type: 2}
   needsUnderFloorsNotCovered: 0
+  onlyWorksOnMainStation: 0
+  onlyUsesTileChecks: 1
   priority: 5
