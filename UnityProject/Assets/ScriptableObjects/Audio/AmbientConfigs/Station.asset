@@ -12,10 +12,95 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41958a15a8674c8eb976a28a07763fe6, type: 3}
   m_Name: Station
   m_EditorClassIdentifier: 
-  triggerTraits: []
+  triggerTraits:
+  - {fileID: 11400000, guid: f9a760a0a4fcd784999416fc7d519f16, type: 2}
   ambientClips:
   - SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/mainStation/mainStationambidanger.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/mainStation/mainStationambigen2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/mainStation/mainStationambigen1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/mainStation/mainStationambigen3.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/mainStation/mainStationambigen4.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/mainStation/mainStationambigen5.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/mainStation/mainStationambigen6.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/mainStation/mainStationambigen7.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/mainStation/mainStationambigen8.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/mainStation/mainStationambigen9.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/mainStation/mainStationambigen10.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/mainStation/mainStationambigen11.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/mainStation/mainStationambigen12.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 

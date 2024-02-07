@@ -28,6 +28,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A warning sign which reads 'EXTERNAL AIRLOCK'.
       objectReference: {fileID: 0}
+    - target: {fileID: 4200071373192947112, guid: 297efd05bc2dad44dab93e5ac2fafbd9,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4200071373192947112, guid: 297efd05bc2dad44dab93e5ac2fafbd9,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cd98e1bc8bcab7e40a694886dbae5973,
+        type: 2}
     - target: {fileID: 6839942400361003672, guid: 297efd05bc2dad44dab93e5ac2fafbd9,
         type: 3}
       propertyPath: m_Name

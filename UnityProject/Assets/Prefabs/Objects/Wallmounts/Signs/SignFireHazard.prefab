@@ -18,6 +18,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: 'A warning sign which reads ''DANGER: FIRE''.'
       objectReference: {fileID: 0}
+    - target: {fileID: 779667991303328757, guid: 1f61548e395dbe8449f041a728c5af66,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 779667991303328757, guid: 1f61548e395dbe8449f041a728c5af66,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d868d0175c2ad014bb5c3cc4fb361248,
+        type: 2}
     - target: {fileID: 1556239071749227352, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
       propertyPath: Resistances.FireProof
