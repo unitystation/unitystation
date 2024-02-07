@@ -25,7 +25,7 @@ namespace Core
 			foreach (var stationObject in Instances)
 			{
 				var obj = stationObject as Component;
-				if (obj == null) continue;
+				if (obj == null || obj.gameObject == null || obj.gameObject.OrNull() == null) continue;
 				if (bypassInventories == false && obj.gameObject.IsAtHiddenPos())
 				{
 					continue;

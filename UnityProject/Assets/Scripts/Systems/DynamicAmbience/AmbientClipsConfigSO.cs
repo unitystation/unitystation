@@ -21,6 +21,7 @@ namespace Systems.DynamicAmbience
 		public void PlayRandomClipLocally()
 		{
 			_ = SoundManager.Play(ambientClips.PickRandom(), new Guid().ToString());
+			Debug.Log("Playing from config: " + name);
 		}
 	}
 }

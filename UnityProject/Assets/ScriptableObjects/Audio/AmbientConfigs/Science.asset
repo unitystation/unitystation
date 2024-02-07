@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41958a15a8674c8eb976a28a07763fe6, type: 3}
   m_Name: Science
   m_EditorClassIdentifier: 
-  triggerTraits: []
+  triggerTraits:
+  - {fileID: 11400000, guid: 876aa5faa4e1f394daafac6ec31c20ef, type: 2}
   ambientClips:
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/science/signal.prefab

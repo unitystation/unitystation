@@ -13641,7 +13641,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -14135,8 +14135,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 249cbfad3be8406187a168682bec8705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  root: {fileID: 1133514949248654}
-  ambinceConfigs: []
+  root: {fileID: 114617133355526680}
+  ambinceConfigs:
+  - {fileID: 11400000, guid: a23f71aa6a0a0214bbeec134508bff97, type: 2}
+  - {fileID: 11400000, guid: 834a1f81b69c23447a8d59d7a4a73c89, type: 2}
+  - {fileID: 11400000, guid: 5e6cf56e407117e4faa5cbed4663a515, type: 2}
+  - {fileID: 11400000, guid: 8edd9df57e0eca742973f14d8e27ff52, type: 2}
+  - {fileID: 11400000, guid: ddf681d078c0be44eaa104e2c182b78a, type: 2}
+  - {fileID: 11400000, guid: 6b7c70e276cbb0e468b1c63465a52918, type: 2}
 --- !u!1 &7706745016017648645
 GameObject:
   m_ObjectHideFlags: 0

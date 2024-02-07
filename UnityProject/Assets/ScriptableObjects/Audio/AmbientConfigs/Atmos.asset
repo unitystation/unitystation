@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41958a15a8674c8eb976a28a07763fe6, type: 3}
   m_Name: Atmos
   m_EditorClassIdentifier: 
-  triggerTraits: []
+  triggerTraits:
+  - {fileID: 11400000, guid: d868d0175c2ad014bb5c3cc4fb361248, type: 2}
   ambientClips:
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/atmos/ambiatmos.prefab
