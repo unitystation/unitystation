@@ -1160,11 +1160,26 @@ namespace HealthV2
 					default, default, traumaChance, traumaticDamageTypes);
 			}
 
-			if (damageType == DamageType.Brute)
+			IndicatePain(damage);
+			OnTakeDamageType?.Invoke(damageType, damagedBy, damage);
+		}
+
+
+		[Server]
+		public void ApplyDamageToRandomBodyPart(GameObject damagedBy, float damage, AttackType attackType, DamageType damageType,
+			bool damageSplit = true, TraumaticDamageTypes traumaticDamageTypes = TraumaticDamageTypes.NONE,
+			double traumaChance = 50)
+		{
+			if (damageSplit)
 			{
-				//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
-				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+				float bodyParts = SurfaceBodyParts.Count;
+				damage /= bodyParts;
 			}
+
+			var bodyPartToTakeDamage = SurfaceBodyParts.PickRandom();
+			if (bodyPartToTakeDamage is null) return;
+			bodyPartToTakeDamage.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit,
+				default, default, traumaChance, traumaticDamageTypes);
 
 			IndicatePain(damage);
 			OnTakeDamageType?.Invoke(damageType, damagedBy, damage);
