@@ -63,7 +63,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 
 	/// <summary>
-	/// Reports if this mind belongs to an NPC if true.
+	/// True if this minds belong to an NPC
 	/// </summary>
 	public bool NonImportantMind
 	{
