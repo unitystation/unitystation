@@ -74,6 +74,17 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: cdd75698355b0a14fb404e6041b9f9b3
       objectReference: {fileID: 0}
+    - target: {fileID: 6647745734724133845, guid: bbf692512c85d5b4fb921065f82e14c3,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6647745734724133845, guid: bbf692512c85d5b4fb921065f82e14c3,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 876aa5faa4e1f394daafac6ec31c20ef,
+        type: 2}
     - target: {fileID: 8841837856043275839, guid: bbf692512c85d5b4fb921065f82e14c3,
         type: 3}
       propertyPath: PresentSpriteSet

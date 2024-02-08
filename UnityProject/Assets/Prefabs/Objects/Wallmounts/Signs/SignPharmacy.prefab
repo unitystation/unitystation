@@ -34,6 +34,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A sign labelling an area containing pharmacy equipment.
       objectReference: {fileID: 0}
+    - target: {fileID: 4521387043382614529, guid: 981e18e068e58b64c9ef2be13e1f50bd,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521387043382614529, guid: 981e18e068e58b64c9ef2be13e1f50bd,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 876aa5faa4e1f394daafac6ec31c20ef,
+        type: 2}
     - target: {fileID: 6447730325825151270, guid: 981e18e068e58b64c9ef2be13e1f50bd,
         type: 3}
       propertyPath: m_Sprite

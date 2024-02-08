@@ -40,6 +40,17 @@ PrefabInstance:
       value: This most blessed and holy machine vends clothing only suitable for
         chaplains to gaze upon.
       objectReference: {fileID: 0}
+    - target: {fileID: 3341919125893587911, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3341919125893587911, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ee3e9d21034d2334898508c5ddcb9d26,
+        type: 2}
     - target: {fileID: 3583758493968387084, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: PresentSpriteSet

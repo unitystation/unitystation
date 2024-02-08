@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41958a15a8674c8eb976a28a07763fe6, type: 3}
+  m_Name: Holy
+  m_EditorClassIdentifier: 
+  triggerTraits:
+  - {fileID: 11400000, guid: ee3e9d21034d2334898508c5ddcb9d26, type: 2}
+  ambientClips:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/faith/ambicha1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/faith/ambicha2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/faith/ambicha3.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/faith/ambicha4.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  requiredTiles:
+  - {fileID: 11400000, guid: ebcbe32514fff8046bcd1548fc80765d, type: 2}
+  - {fileID: 11400000, guid: 5de74eba409ce304db147489df73e01b, type: 2}
+  - {fileID: 11400000, guid: 8fb1b2d3dd624a94e9ffc159924f0e0e, type: 2}
+  - {fileID: 11400000, guid: a4b5b30f43e2e9c468f3b00b3f2c26e5, type: 2}
+  - {fileID: 11400000, guid: a4b5b30f43e2e9c468f3b00b3f2c26e5, type: 2}
+  - {fileID: 11400000, guid: 171d9dafc1d3a484695255008cb89c62, type: 2}
+  - {fileID: 11400000, guid: bb515e28ba995cf40b9280efc4ff8228, type: 2}
+  - {fileID: 11400000, guid: 194264941126e554e9faa45951b6f313, type: 2}
+  - {fileID: 11400000, guid: a70faafd0bb005147a1ede67f3417aac, type: 2}
+  - {fileID: 11400000, guid: afc7bcfde5950984d849ae6250bf1eca, type: 2}
+  - {fileID: 11400000, guid: 46fbbaebca007a14ab2cf58309651979, type: 2}
+  - {fileID: 11400000, guid: 3547bca3050bb5e4186ec93ce25e94a0, type: 2}
+  - {fileID: 11400000, guid: 65b69d0201e47cb489bbd8c2364bf105, type: 2}
+  - {fileID: 11400000, guid: 328c7d76623d9004eb169316e1761ee7, type: 2}
+  - {fileID: 11400000, guid: 328c7d76623d9004eb169316e1761ee7, type: 2}
+  - {fileID: 11400000, guid: a9b3adcebdf63a14c94feb45e419ce3b, type: 2}
+  - {fileID: 11400000, guid: df14efc3f4bd7bf4593246df347a1aed, type: 2}
+  - {fileID: 11400000, guid: c664a2bf96101fb49844faa6af9e99b0, type: 2}
+  - {fileID: 11400000, guid: 3bdf1d839a5321e4c86cfe2aab66399e, type: 2}
+  - {fileID: 11400000, guid: 950dede7b19513f40b0e1061f6833309, type: 2}
+  - {fileID: 11400000, guid: a4d13ed8452fa504caa97bbb15979e85, type: 2}
+  - {fileID: 11400000, guid: 7316c9ee4a013ea479dc931c9c3ccc05, type: 2}
+  - {fileID: 11400000, guid: 950c2c4bf32acd04a8e1cff5c91864bb, type: 2}
+  - {fileID: 11400000, guid: de96bea916d828748be1f2d56b38b813, type: 2}
+  - {fileID: 11400000, guid: d580d06f67df45a4eb48ddb36d14ba4d, type: 2}
+  needsUnderFloorsNotCovered: 0
+  priority: 3

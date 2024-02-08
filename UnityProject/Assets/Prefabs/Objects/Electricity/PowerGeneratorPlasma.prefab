@@ -5125,6 +5125,9 @@ MonoBehaviour:
   OnDamaged:
     m_PersistentCalls:
       m_Calls: []
+  OnDestruction:
+    m_PersistentCalls:
+      m_Calls: []
   initialIntegrity: 300
   soundOnHit:
     SetLoadSetting: 0
@@ -5186,6 +5189,8 @@ MonoBehaviour:
   exportName: 
   exportMessage: 
   noMouseHighlight: 0
+  initialTraits:
+  - {fileID: 11400000, guid: 6e46c3fa979e00940a50dbb3c0a4ac0c, type: 2}
   initialSize: 3
 --- !u!114 &-3599987768168059985
 MonoBehaviour:
@@ -5421,12 +5426,14 @@ MonoBehaviour:
   slideTime: 0
   spinMagnitude: 0
   thrownBy: {fileID: 0}
+  thrownProtection: {fileID: 0}
   aim: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
   ChangesDirectionPush: 0
   Intangible: 0
+  MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
   DEBUG: 0
@@ -5450,4 +5457,5 @@ MonoBehaviour:
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  TimeSpentFlying: 0
   BuckledToObject: {fileID: 0}
