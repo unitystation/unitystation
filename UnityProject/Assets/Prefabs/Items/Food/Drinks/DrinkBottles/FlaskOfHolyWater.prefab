@@ -50,6 +50,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A flask of the chaplain's holy water.
       objectReference: {fileID: 0}
+    - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ee3e9d21034d2334898508c5ddcb9d26,
+        type: 2}
     - target: {fileID: 6085549112089319455, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: _assetId

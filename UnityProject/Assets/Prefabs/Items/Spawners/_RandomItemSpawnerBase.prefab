@@ -12,6 +12,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: _RandomItemSpawnerBase
       objectReference: {fileID: 0}
+    - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 1344926539164060, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -92,6 +100,16 @@ PrefabInstance:
       propertyPath: inventoryRemoveSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
+    - target: {fileID: 5414819541850508356, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: Intangible
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5414819541850508356, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: MappingIntangible
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -155,3 +173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05b7295e6a7b3f34b883bf5def034f35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pickupable: {fileID: 0}
+  SavedLocalPosition: {x: 0, y: 0, z: 0}
+  InIted: 0

@@ -1,7 +1,16 @@
 fileFormatVersion: 2
-guid: e644f6e0651a5c94abbcac5838da6bd9
+guid: ee2979479ab75bf41aea61c1ba73aa3d
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 6137575155302640690
+    second: research_laser_collector_new_0
+  - first:
+      213: -4125187070278050636
+    second: research_laser_collector_new_1
+  - first:
+      213: -5966247273545443874
+    second: research_laser_collector_new_2
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -91,23 +100,11 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Server
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: research_laser_collector_0
+      name: research_laser_collector_new_0
       rect:
         serializedVersion: 2
         x: 0
@@ -119,16 +116,16 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 365bb7d00d6de0b4894c8e7423edd375
-      internalID: -858837403
+      spriteID: 23ca312e51c0d2550800000000000000
+      internalID: 6137575155302640690
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: research_laser_collector_1
+      name: research_laser_collector_new_1
       rect:
         serializedVersion: 2
         x: 32
@@ -140,16 +137,16 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 715e459b54dc5174ca59980410220e46
-      internalID: 905008499
+      spriteID: 4bcda0c373460c6c0800000000000000
+      internalID: -4125187070278050636
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: research_laser_collector_2
+      name: research_laser_collector_new_2
       rect:
         serializedVersion: 2
         x: 64
@@ -161,16 +158,16 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 7fd3140f06f8c974ca888ce89c01744c
-      internalID: -491991250
+      spriteID: ed55e2a17b1a33da0800000000000000
+      internalID: -5966247273545443874
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: research_laser_collector_3
+      name: research_laser_collector_new_3
       rect:
         serializedVersion: 2
         x: 96
@@ -184,8 +181,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7cc08919c65bde4a88d003fa641e630
-      internalID: -1901502066
+      spriteID: 0b3ccd7f24ef4e4429ad45d5df22dad9
+      internalID: 1736474693
       vertices: []
       indices: 
       edges: []
@@ -193,7 +190,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 43d2ac4f6b9245b4688a0edb3fbb9726
     internalID: 0
     vertices: []
     indices: 
@@ -201,10 +198,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      research_laser_collector_0: -858837403
-      research_laser_collector_1: 905008499
-      research_laser_collector_2: -491991250
-      research_laser_collector_3: -1901502066
+      research_laser_collector_new_0: 6137575155302640690
+      research_laser_collector_new_1: -4125187070278050636
+      research_laser_collector_new_2: -5966247273545443874
+      research_laser_collector_new_3: 1736474693
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

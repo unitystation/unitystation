@@ -240,7 +240,6 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	{
 		if (consumed > amount)
 		{
-			Loggy.LogErrorFormat($"Consumed amount {consumed} is greater than amount in this stack {amount}, will not consume.", Category.Objects);
 			return false;
 		}
 		SyncAmount(amount, amount - consumed);

@@ -18,6 +18,23 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: beddb1591c4895c4b90b9f3232dc2f12
       objectReference: {fileID: 0}
+    - target: {fileID: 2206171781143391258, guid: 5516fc74bd367c64baa5a82dff0e929c,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2206171781143391258, guid: 5516fc74bd367c64baa5a82dff0e929c,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c14f499d1f637549ab676b957740686,
+        type: 2}
+    - target: {fileID: 2206171781143391258, guid: 5516fc74bd367c64baa5a82dff0e929c,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c14f499d1f637549ab676b957740686,
+        type: 2}
     - target: {fileID: 2845234847224642880, guid: 5516fc74bd367c64baa5a82dff0e929c,
         type: 3}
       propertyPath: WopenFrame

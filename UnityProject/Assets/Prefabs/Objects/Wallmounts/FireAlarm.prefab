@@ -51,6 +51,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -179,6 +181,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -513,6 +517,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: '"Pull this in case of emergency." Thus, keep pulling it forever.'
       objectReference: {fileID: 0}
+    - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cd98e1bc8bcab7e40a694886dbae5973,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
     m_RemovedGameObjects: []
@@ -593,6 +608,7 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 0
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
@@ -615,6 +631,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   FireLockList: []
+  lightSourcesForAlarm: []
   activated: 0
   coolDownTime: 1
   isInCooldown: 0
@@ -633,6 +650,8 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  <CanRelink>k__BackingField: 1
+  <IgnoreMaxDistanceMapper>k__BackingField: 0
 --- !u!1 &5529437522813867580 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7354635586586802054, guid: b69bfc56f39849d4ba9139d2d51bedb6,

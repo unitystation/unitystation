@@ -25,7 +25,7 @@ MonoBehaviour:
   issuedLowPopClearance: 150000001a0000001f0000000d00000029000000
   spells: []
   progress: 75
-  choiceColor: {r: 0.8666667, g: 0.8666667, b: 0.8666667, a: 1}
+  choiceColor: {r: 0.57254905, g: 0.86274517, b: 0.7294118, a: 1}
   previewSprite: {fileID: 21300000, guid: b4fbec6f38a0b884fb4631c8396da640, type: 3}
   displayName: Chaplain
   difficulty: 2
@@ -64,6 +64,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 2708802425784369156
       type: {class: ChaplainShowFaithScreenOnSpawn, ns: Systems.Faith.Jobs, asm: Assets}
-      data: 

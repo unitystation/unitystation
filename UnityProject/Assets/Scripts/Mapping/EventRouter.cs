@@ -8,6 +8,7 @@ using UnityEngine.Events;
 
 public class EventRouter : MonoBehaviour
 {
+	//TODO Add custom equality compare EventConnection, And with some interface be able to use that?? for the list stuff
 	//TODO Specifying data sometime
 	//why Singular, gets complicated if you add multiple since you have to do a Equality of the elements of the list
 	public EventConnection Connection1 = new EventConnection();

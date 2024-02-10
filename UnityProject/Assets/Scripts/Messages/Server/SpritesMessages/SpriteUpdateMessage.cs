@@ -492,10 +492,11 @@ namespace Messages.Server.SpritesMessages
 						else
 						{
 							UnprocessedData.call.Add(SpriteUpdateMessage.SpriteOperation.SetColour);
-							UnprocessedData.arg.Add(Convert.ToChar(Mathf.RoundToInt(TheColour.r * 255)));
-							UnprocessedData.arg.Add(Convert.ToChar(Mathf.RoundToInt(TheColour.g * 255)));
-							UnprocessedData.arg.Add(Convert.ToChar(Mathf.RoundToInt(TheColour.b * 255)));
-							UnprocessedData.arg.Add(Convert.ToChar(Mathf.RoundToInt(TheColour.a * 255)));
+							//TODO Review HDR colours?
+							UnprocessedData.arg.Add(Convert.ToChar(Mathf.RoundToInt( Mathf.Clamp( TheColour.r, 0f, 1f) * 255)));
+							UnprocessedData.arg.Add(Convert.ToChar(Mathf.RoundToInt( Mathf.Clamp( TheColour.g, 0f, 1f) * 255)));
+							UnprocessedData.arg.Add(Convert.ToChar(Mathf.RoundToInt( Mathf.Clamp( TheColour.b, 0f, 1f)  * 255)));
+							UnprocessedData.arg.Add(Convert.ToChar(Mathf.RoundToInt( Mathf.Clamp( TheColour.a, 0f, 1f) * 255)));
 						}
 					}
 

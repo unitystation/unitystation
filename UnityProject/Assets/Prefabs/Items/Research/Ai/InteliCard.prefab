@@ -103,6 +103,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4166a0f908942d840b767de9c1f43597,
         type: 2}
+    - target: {fileID: 3652986707257552662, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: BasePurity
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -187,6 +192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetTabType: 41
   requiresAltClick: 0
+  disabled: 0
 --- !u!210 &7538300945010233267 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 6104600676241079028, guid: a7abba22164ce49f0bf9b9b219f39298,

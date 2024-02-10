@@ -115,6 +115,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d868d0175c2ad014bb5c3cc4fb361248,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: inventoryMoveSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
@@ -483,6 +494,7 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 1
+  SynchroniseCurrentDirection: 1
   IgnoreServerUpdatesIfLocalPlayer: 0
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 1

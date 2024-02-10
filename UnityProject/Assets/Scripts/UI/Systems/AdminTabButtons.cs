@@ -69,5 +69,20 @@ namespace UI.AdminTools
 		{
 			InGameDeviceLinker.Instance.gameObject.SetActive(true);
 		}
+
+		public void BtnOpenRotator()
+		{
+			DeviceRotator.Instance.gameObject.SetActive(true);
+		}
+
+		public void BtnOpenCameraControls()
+		{
+			DevCameraControls.Instance.gameObject.SetActive(true);
+		}
+
+		public void BtnOpenDeviceMover()
+		{
+			DeviceMover.Instance.gameObject.SetActive(true);
+		}
 	}
 }

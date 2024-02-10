@@ -54,6 +54,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A small glass and wire assembly for windoors.
       objectReference: {fileID: 0}
+    - target: {fileID: 492649207374439926, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 492649207374439926, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c14f499d1f637549ab676b957740686,
+        type: 2}
     - target: {fileID: 700425905060650895, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: PresentSpriteSet

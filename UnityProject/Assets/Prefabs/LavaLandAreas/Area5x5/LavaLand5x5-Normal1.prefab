@@ -369,9 +369,9 @@ Tilemap:
   - m_RefCount: 23
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   - m_RefCount: 2
-    m_Data: {r: 0.85709816, g: 0.4849228, b: 0.5560099, a: 1}
+    m_Data: {r: 0.9597649, g: 0.6626693, b: 0.7455446, a: 1}
   - m_RefCount: 0
-    m_Data: {r: 9.09967e-40, g: 9.09967e-40, b: 9.09967e-40, a: 9.09967e-40}
+    m_Data: {r: 4.01853e-40, g: 4.01853e-40, b: 4.01853e-40, a: 4.01853e-40}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -413,6 +413,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -581,9 +583,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Priority>k__BackingField: 0
-  <RegisteredToLegacySubsystemManager>k__BackingField: 1
   defaultRoomGasMixOverride: {fileID: 0}
   overriderTileSpawnWithNoAir: 0
+  autoInitialisePolicy: 0
+  autoInitialisePolicyInEditorOnly: 1
 --- !u!114 &4157967761526586364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -624,7 +627,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Priority>k__BackingField: 0
-  <RegisteredToLegacySubsystemManager>k__BackingField: 1
 --- !u!114 &89771313378461795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -771,6 +773,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -991,6 +995,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1178,6 +1184,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1358,6 +1366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5178f8d25db401cac26064575ba1c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EtherealThings: []
 --- !u!114 &1209427004438633129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1492,6 +1501,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1679,6 +1690,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1902,6 +1915,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -2122,6 +2137,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

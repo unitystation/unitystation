@@ -21,7 +21,8 @@ namespace Shared.Systems.ObjectConnection
 		Acu,
 		ResearchServer,
 		Artifact,
-		ResearchLaser
+		ResearchLaser,
+		QuantumPad
 	}
 
 	public interface IMultitoolLinkable

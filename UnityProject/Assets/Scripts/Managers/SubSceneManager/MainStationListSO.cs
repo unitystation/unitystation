@@ -16,13 +16,13 @@ public class MainStationListSO : ScriptableObject
 	[Scene]
 	public List<string> MainStations = new();
 
+	public string mapsConfig = "maps.json";
+
 	public string GetRandomMainStation()
 	{
-		var mapConfigPath = "maps.json";
-
-		if (AccessFile.Exists(mapConfigPath))
+		if (AccessFile.Exists(mapsConfig))
 		{
-			var maps = JsonConvert.DeserializeObject<MapList>(AccessFile.Load("maps.json"));
+			var maps = JsonConvert.DeserializeObject<MapList>(AccessFile.Load(mapsConfig));
 			return maps.GetRandomMap();
 		}
 
@@ -39,11 +39,9 @@ public class MainStationListSO : ScriptableObject
 
 	public List<string> GetMaps()
 	{
-		var mapConfigPath =  "maps.json";
-
-		if (AccessFile.Exists(mapConfigPath))
+		if (AccessFile.Exists(mapsConfig))
 		{
-			var maps = JsonConvert.DeserializeObject<MapList>(AccessFile.Load(mapConfigPath));
+			var maps = JsonConvert.DeserializeObject<MapList>(AccessFile.Load(mapsConfig));
 
 			return maps.highPopMaps.Union(maps.medPopMaps).Union(maps.lowPopMaps).ToList();
 		}

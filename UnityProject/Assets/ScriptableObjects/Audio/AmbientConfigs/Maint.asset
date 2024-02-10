@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41958a15a8674c8eb976a28a07763fe6, type: 3}
+  m_Name: Maint
+  m_EditorClassIdentifier: 
+  triggerTraits:
+  - {fileID: 11400000, guid: 6e46c3fa979e00940a50dbb3c0a4ac0c, type: 2}
+  - {fileID: 11400000, guid: 4c7b190bc2ad57c459127fbcb49ff7e3, type: 2}
+  ambientClips:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/maint/ambimaint.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/maint/ambimaint1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/maint/ambimaint2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/maint/ambimaint3.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/maint/ambimaint4.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/AmbienceClips/maint/ambimaint5.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  requiredTiles: []
+  needsUnderFloorsNotCovered: 1
+  priority: 8

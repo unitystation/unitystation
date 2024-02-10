@@ -12,11 +12,8 @@ namespace Learning.ProtipObjectTypes
 		[FormerlySerializedAs("ProtipsForTraits"), SerializeField]
 		private SerializableDictionary<ItemTrait, ProtipSO> protipsForTraits = new SerializableDictionary<ItemTrait, ProtipSO>();
 
-		private IEnumerator OnEnable()
+		private void OnEnable()
 		{
-			//(Max): For some reason, the spawning times will become inconsistent between frames.
-			//To play it say, we intentionally await 2 full seconds until everything has run its course.
-			yield return WaitFor.Seconds(2f);
 			StartCoroutine(SetupEvents());
 		}
 
@@ -45,8 +42,10 @@ namespace Learning.ProtipObjectTypes
 
 		private IEnumerator SetupEvents()
 		{
+			//(Max): For some reason, the spawning times will become inconsistent between frames.
+			//To play it say, we intentionally await 2 full seconds until everything has run its course.
 			// Await a frame for everything to be initialised properly
-			yield return WaitFor.EndOfFrame;
+			yield return WaitFor.Seconds(2f);
 			if (PlayerManager.LocalPlayerScript == null)
 			{
 				Loggy.LogError("[Protips] - Something went wrong accessing the player's local player script.. Are you sure everything is setup correctly?", Category.Character);

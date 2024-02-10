@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using Items;
 using Messages.Client.DevSpawner;
+using Objects.Atmospherics;
+using Systems.Pipes;
 using UI.Systems.AdminTools.DevTools.Search;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Image = UnityEngine.UI.Image;
 
@@ -34,6 +37,12 @@ public class DevSpawnerListItemController : MonoBehaviour
 	private EscapeKeyTarget escapeKeyTarget;
 
 	private bool cachedLightingState;
+
+	public Vector3? StartPressPosition = null;
+
+	public GameGizmoLine GameGizmoLine;
+
+	public bool HasRotatable = false;
 
 	private void Awake()
 	{
@@ -70,6 +79,9 @@ public class DevSpawnerListItemController : MonoBehaviour
 		detailText.text = "Prefab";
 
 		titleText.text = resultDoc.Prefab.name;
+
+		HasRotatable = prefab.GetComponent<Rotatable>();
+
 	}
 
 	private void UpdateMe()
@@ -77,6 +89,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 		if (selectedItem == this)
 		{
 			cursorObject.transform.position = MouseUtils.MouseToWorldPos();
+
 			if (CommonInput.GetMouseButtonDown(0))
 			{
 				//Ignore spawn if pointer is hovering over GUI
@@ -84,7 +97,34 @@ public class DevSpawnerListItemController : MonoBehaviour
 				{
 					return;
 				}
-				TrySpawn();
+
+				if (HasRotatable == false)
+				{
+					TrySpawn(null);
+				}
+				else
+				{
+					StartPressPosition = cursorObject.transform.position;
+
+					GameGizmoLine = GameGizmomanager.AddNewLineStatic(null, StartPressPosition.Value.RoundToInt() , null,StartPressPosition.Value  , Color.green);
+				}
+			}
+
+			if (GameGizmoLine != null && StartPressPosition != null)
+			{
+				GameGizmoLine.To = StartPressPosition.Value.RoundToInt()+ ((cursorObject.transform.position - StartPressPosition).Value.ToOrientationEnum()
+					.ToLocalVector3());
+
+				GameGizmoLine.UpdateMe();
+			}
+
+			if (CommonInput.GetMouseButtonUp(0) && HasRotatable && StartPressPosition != null)
+			{
+				GameGizmoLine.OrNull()?.Remove();
+				GameGizmoLine = null;
+				cursorObject.transform.position = StartPressPosition.Value;
+				TrySpawn( ( MouseUtils.MouseToWorldPos() - StartPressPosition).Value.ToOrientationEnum());
+				StartPressPosition = null;
 			}
 		}
 	}
@@ -177,7 +217,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 	/// <summary>
 	/// Tries to spawn at the specified position. Lets you spawn anywhere, even impassable places. Go hog wild!
 	/// </summary>
-	private void TrySpawn()
+	private void TrySpawn(OrientationEnum? OrientationEnum)
 	{
 		Vector3Int position = cursorObject.transform.position.RoundToInt();
 
@@ -190,7 +230,14 @@ public class DevSpawnerListItemController : MonoBehaviour
 				Stackable.ServerSetAmount(GUI_DevSpawner.Instance.StackAmount);
 			}
 
-
+			if (game.TryGetComponent<Rotatable>(out var Rotatable) && OrientationEnum != null)
+			{
+				Rotatable.FaceDirection(OrientationEnum.Value);
+				if (game.TryGetComponent<MonoPipe>(out var MonoPipe))
+				{
+					MonoPipe.RotatePipe(OrientationEnum.Value.ToPipeRotate(), false);
+				}
+			}
 
 			var player = PlayerManager.LocalPlayerObject.Player();
 			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
@@ -198,7 +245,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 		}
 		else
 		{
-			DevSpawnMessage.Send(prefab, (Vector3) position, GUI_DevSpawner.Instance.StackAmount);
+			DevSpawnMessage.Send(prefab, (Vector3) position, GUI_DevSpawner.Instance.StackAmount, OrientationEnum);
 		}
 	}
 }

@@ -240,7 +240,7 @@ public static class VariableViewer
 				var monoBehaviour = (Librarian.IDToPage[PageID].BindedTo.BookClass as Component);
 				UpdateClientValue.Send(ChangeTo, Librarian.IDToPage[PageID].VariableName,
 					TypeDescriptor.GetClassName(monoBehaviour),
-					monoBehaviour.gameObject, false);
+					monoBehaviour.gameObject, UpdateClientValue.Modifying.ModifyingVariable );
 			}
 		}
 		else
@@ -263,7 +263,7 @@ public static class VariableViewer
 				var monoBehaviour = (Librarian.IDToPage[PageID].BindedTo.BookClass as Component);
 				UpdateClientValue.Send("", Librarian.IDToPage[PageID].VariableName,
 					TypeDescriptor.GetClassName(monoBehaviour),
-					monoBehaviour.gameObject, true);
+					monoBehaviour.gameObject, UpdateClientValue.Modifying.InvokingFunction);
 			}
 		}
 		else

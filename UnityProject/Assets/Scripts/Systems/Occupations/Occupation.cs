@@ -101,7 +101,7 @@ public class Occupation : ScriptableObject
 	[FormerlySerializedAs("ChoiceColor")]
 	[SerializeField]
 	[Tooltip("Color of this occupation's button in the occupation chooser")]
-	private Color choiceColor = Color.white;
+	public Color choiceColor = Color.white;
 	public Color ChoiceColor => choiceColor;
 
 	[SerializeField]

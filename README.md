@@ -24,7 +24,7 @@ Please join us on Discord:
 ## Feel like getting involved?
 Read our Quick Start guide [here](https://unitystation.github.io/unitystation/contribution-guides/Starting-contribution/)
 1. [Get Unity Hub](https://unity3d.com/get-unity/download)
-2. Install editor version **2023.1.9f1**
+2. Install editor version **2023.2.5f1**
 3. Fork the repo
 4. Add your changes
 5. Read the contribution guidelines

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: telescience_pad_jar
+  m_EditorClassIdentifier: 
+  foreverID: e22882de83a5aa9449bf560a411777b0
+  Variance:
+  - Frames:
+    - sprite: {fileID: 21300000, guid: e1be4c657d88d6b4b89449b960ac29b3, type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: Teleportation Jar
