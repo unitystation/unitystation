@@ -61,8 +61,9 @@ namespace Tests
 			var report = new TestReport();
 
 
-			ExecutablePath =
-				ExecutablePath.Replace("UnityProject", @"Tools/CodeScanning/CodeScan/CodeScan/bin/Debug/net7.0");
+			//only removes the /UnityProject part at the very end of the string without touching any other instance of "UnityProject"
+			ExecutablePath = ExecutablePath.Substring(0, ExecutablePath.Length - 12);
+			ExecutablePath += @"Tools/CodeScanning/CodeScan/CodeScan/bin/Debug/net7.0";
 
 
 			var ExtractionPath = ExecutablePath;
