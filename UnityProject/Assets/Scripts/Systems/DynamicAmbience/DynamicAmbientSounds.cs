@@ -26,13 +26,21 @@ namespace Systems.DynamicAmbience
 
 		private void CheckForAmbienceToPlay()
 		{
+			if (root.OrNull()?.Mind is null) return;
 			if (root.Mind.NonImportantMind || root.isOwned == false) return;
 			var traitsNearby = ComponentsTracker<Attributes>.GetNearbyTraits(root.gameObject, 6f, false);
-			var configsToPlay = new List<AmbientClipsConfigSO>();
 			AmbientClipsConfigSO highestPriority = null;
-			foreach (var config in ambinceConfigs)
+			var configsToPlay = GetConfigsToPlay(traitsNearby, ref highestPriority);
+			if (configsToPlay.Count == 0) return;
+			var configChosen = DMMath.Prob(80) && highestPriority is not null ? highestPriority : configsToPlay.PickRandom();
+			configChosen.PlayRandomClipLocally();
+		}
+
+		private List<AmbientClipsConfigSO> GetConfigsToPlay(List<ItemTrait> traitsNearby, ref AmbientClipsConfigSO highestPriority)
+		{
+			var configsToPlay = new List<AmbientClipsConfigSO>();
+			foreach (var config in ambinceConfigs.Where(config => config.CanTrigger(traitsNearby, root.gameObject)))
 			{
-				if (config.CanTrigger(traitsNearby, root.gameObject) == false) continue;
 				configsToPlay.Add(config);
 				if (highestPriority is null)
 				{
@@ -41,8 +49,7 @@ namespace Systems.DynamicAmbience
 				}
 				if (config.priority > highestPriority.priority) highestPriority = config;
 			}
-			var configChoosen = DMMath.Prob(80) && highestPriority is not null ? highestPriority : configsToPlay.PickRandom();
-			configChoosen.OrNull()?.PlayRandomClipLocally();
+			return configsToPlay;
 		}
 	}
 }
