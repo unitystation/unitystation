@@ -62,7 +62,7 @@ namespace Tests
 
 
 			//only removes the /UnityProject part at the very end of the string without touching any other instance of "UnityProject"
-			ExecutablePath = ExecutablePath.Substring(0, ExecutablePath.Length - 12);
+			ExecutablePath = ExecutablePath.Substring(0, ExecutablePath.Length - "UnityProject".Length);
 			ExecutablePath += @"Tools/CodeScanning/CodeScan/CodeScan/bin/Debug/net7.0";
 
 
