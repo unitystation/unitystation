@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AddressableReferences;
 using Core;
 using HealthV2;
@@ -117,8 +118,9 @@ namespace Objects.Alien.SpaceAnts
 
 		private void LookForFilth()
 		{
-			var edibles = ComponentsTracker<Attributes>.GetAllNearbyTypesToTarget(gameObject, 32, eatsYourLiver);
-			if(edibles.Count == 0) return;
+			var edibles = ComponentsTracker<Attributes>.GetAllNearbyTypesToTarget(gameObject, 32, eatsYourLiver)
+				.Where(x => x.InitialTraits.Contains(filthTrait)).ToList();
+			if (edibles.Count == 0) return;
 			var edible = edibles.PickRandom();
 			if (DMMath.Prob(5) && state is AntHillState.Large or AntHillState.Swarm)
 			{
