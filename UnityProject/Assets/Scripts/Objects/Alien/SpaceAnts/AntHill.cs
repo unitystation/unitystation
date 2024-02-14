@@ -16,7 +16,7 @@ namespace Objects.Alien.SpaceAnts
 	{
 		private List<LivingHealthMasterBase> inflictedMobs = new List<LivingHealthMasterBase>();
 		[SerializeField] private float routineDelay = 30f;
-		[SerializeField] private Vector2 minMaxAntDamage = new Vector2(2, 7);
+		[SerializeField] private Vector2 minMaxAntDamage = new Vector2(1, 5);
 		[SerializeField] private AttackType biteType = AttackType.Melee;
 		[SerializeField] private DamageType damageType = DamageType.Brute;
 		[SerializeField] private AntHillState state = AntHillState.Single;
@@ -91,6 +91,7 @@ namespace Objects.Alien.SpaceAnts
 			foreach (var mob in inflictedMobs)
 			{
 				if (mob == null) continue;
+				if (( mob.MaxHealth - mob.OverallHealth) >  minMaxAntDamage.y) continue;
 				mob.ApplyDamageToRandomBodyPart(gameObject, damage, biteType, damageType, damageSplit: true);
 				Chat.AddExamineMsg(mob.gameObject, "you feel itchy all over yourself.");
 				PlayStepAudio(mob.gameObject);

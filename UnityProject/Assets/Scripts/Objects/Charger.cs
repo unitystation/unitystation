@@ -6,7 +6,7 @@ using Weapons;
 
 namespace Objects
 {
-	public class Charger : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable
+	public class Charger : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable, IExaminable
 	{
 		private ItemStorage itemStorage;
 		private ItemSlot ChargingSlot;
@@ -152,5 +152,20 @@ namespace Objects
 		}
 
 		public void StateUpdate(PowerState state) { }
+
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			if (battery == null)
+			{
+				return "The display on the charges state That there is no battery connected";
+			}
+			else
+			{
+
+				return $"The display on the charges state battery is at {100 * ((float)battery.Watts / (float)battery.MaxWatts)} and charging at {ChargingWatts}W";
+			}
+
+		}
 	}
 }
