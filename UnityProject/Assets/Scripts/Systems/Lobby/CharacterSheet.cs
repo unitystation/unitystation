@@ -110,11 +110,16 @@ public class CharacterSheet : ICloneable
 
 	public void ValidateSpeciesCanBePlayerChosen()
 	{
+		var speciesToPick = RaceSOSingleton.GetPlayerSpecies();
 		if (GetRaceSo(true) == null)
 		{
-			Species = RaceSOSingleton.Instance.Races.Where(x => x.Base.CanBePlayerChosen).PickRandom().name;
+			Species = speciesToPick.PickRandom().name;
 		}
-
+		if (speciesToPick.Any(x => x.name == Species) == false)
+		{
+			Species = speciesToPick.PickRandom().name;
+			Loggy.LogWarning("[CharacterSheet/ValidateSpeciesCanBePlayerChosen] Species not valid, using " + Species + " instead.");
+		}
 	}
 
 
@@ -281,13 +286,9 @@ public class CharacterSheet : ICloneable
 
 	public PlayerHealthData GetRaceSo(bool onlyCharacterCurator = false)
 	{
-		var ToReturn = RaceSOSingleton.Instance.Races.FirstOrDefault(x =>
+		var toReturn = RaceSOSingleton.Instance.Races.FirstOrDefault(x =>
 			x.name == Species && (onlyCharacterCurator == false || x.Base.CanBePlayerChosen));
-		if (ToReturn == null)
-		{
-			return  null;
-		}
-		return ToReturn;
+		return toReturn == null ? null : toReturn;
 	}
 
 	public PlayerHealthData GetRaceSoNoValidation()

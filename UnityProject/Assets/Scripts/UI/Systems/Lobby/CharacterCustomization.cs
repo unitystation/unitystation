@@ -96,7 +96,7 @@ namespace UI.CharacterCreator
 		private List<ExternalCustomisation> ExternalCustomisationStorage = new();
 		private Dictionary<string, BodyPartCustomisationBase> OpenBodyCustomisation = new();
 
-		private List<PlayerHealthData> allSpecies;
+		public List<PlayerHealthData> AllSpecies;
 		private int SelectedSpecies;
 
 		private List<Color> availableSkinColors;
@@ -131,7 +131,7 @@ namespace UI.CharacterCreator
 				Loggy.LogError("UNABLE TO GRAB ALL SPECIES!! CHARACTER CREATION SCREEN IS SURELY GOING TO BE BROKEN!!!");
 				return;
 			}
-			allSpecies = RaceSOSingleton.GetPlayerSpecies();
+			AllSpecies = RaceSOSingleton.GetPlayerSpecies();
 		}
 
 		private void OnEnable()
@@ -198,7 +198,7 @@ namespace UI.CharacterCreator
 
 			if (SetRace == null)
 			{
-				SetRace = allSpecies.First();
+				SetRace = AllSpecies.First();
 			}
 
 			InitiateFresh(SetRace);
@@ -210,7 +210,7 @@ namespace UI.CharacterCreator
 			Cleanup();
 			//SelectedSpecies
 			SelectedSpecies = 0;
-			foreach (var species in allSpecies.TakeWhile(species => species != setRace))
+			foreach (var species in AllSpecies.TakeWhile(species => species != setRace))
 			{
 				SelectedSpecies++;
 			}
@@ -512,7 +512,7 @@ namespace UI.CharacterCreator
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
-			currentCharacter = CharacterSheet.GenerateRandomCharacter(allSpecies);
+			currentCharacter = CharacterSheet.GenerateRandomCharacter(AllSpecies);
 
 			//Refresh the player character's sheet so they can see their new changes.
 			InitiateFresh(currentCharacter.GetRaceSo());
@@ -949,6 +949,7 @@ namespace UI.CharacterCreator
 				currentCharacter.Name = TruncateName(currentCharacter.Name);
 				currentCharacter.AiName = TruncateName(currentCharacter.AiName);
 				currentCharacter.ValidateSettings();
+				currentCharacter.ValidateSpeciesCanBePlayerChosen();
 			}
 			catch (InvalidOperationException e)
 			{
@@ -1235,10 +1236,11 @@ namespace UI.CharacterCreator
 		public void OnRaceChange()
 		{
 			SelectedSpecies = speciesChoice.value;
-			currentCharacter.Species = allSpecies[SelectedSpecies].name;
+			currentCharacter.Species = AllSpecies[SelectedSpecies].name;
 			Cleanup();
-			var SetRace = allSpecies[SelectedSpecies];
-			InitiateFresh(SetRace);
+			var setRace = AllSpecies[SelectedSpecies];
+			currentCharacter.ValidateSpeciesCanBePlayerChosen();
+			InitiateFresh(setRace);
 			RefreshRace();
 		}
 
