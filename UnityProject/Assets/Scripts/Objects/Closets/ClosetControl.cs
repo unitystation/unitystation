@@ -165,8 +165,6 @@ namespace Objects
 			{
 				CollectObjects();
 			}
-
-			if (gasContainer != null) gasContainer.EqualiseWithTile();
 		}
 
 		private void OnWillDestroyServer(DestructionInfo arg0)
