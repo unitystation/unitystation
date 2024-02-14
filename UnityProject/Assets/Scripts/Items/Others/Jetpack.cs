@@ -64,7 +64,7 @@ namespace Items.Others
 		private void PushUpdate()
 		{
 			if (isOn == false || compatibleSlot == false) return;
-			if (gasContainer.GasMix.Moles <= 0) return;
+			if (gasContainer.GasMixLocal.Moles <= 0) return;
 			if (player.PlayerSync.IsPressedServer) //Is a movement key pressed?
 			{
 				PushPlayerInFacedDirection(player, gasContainer, gasReleaseOnUse, moveQueueBuildUp);
@@ -137,8 +137,8 @@ namespace Items.Others
 		{
 			if (playerScript.ObjectPhysics.CanPush(playerScript.CurrentDirection.ToLocalVector2Int()) == false) return;
 			playerScript.ObjectPhysics.NewtonianPush(playerScript.CurrentDirection.ToLocalVector2Int(), speed);
-			var domGas = gasContainer.GasMix.GetBiggestGasSOInMix();
-			if (domGas != null) gasContainer.GasMix.RemoveGas(domGas, gasRelease);
+			var domGas = gasContainer.GasMixLocal.GetBiggestGasSOInMix();
+			if (domGas != null) gasContainer.GasMixLocal.RemoveGas(domGas, gasRelease);
 		}
 	}
 }

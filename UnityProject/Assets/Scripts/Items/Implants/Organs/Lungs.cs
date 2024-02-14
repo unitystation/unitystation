@@ -157,7 +157,7 @@ namespace Items.Implants.Organs
 
 			// Try to get internal breathing if possible, otherwise get from the surroundings
 			IGasMixContainer container = RelatedPart.HealthMaster.RespiratorySystem.GetInternalGasMix();
-			var gasMixSink = node.GasMix; // Where to dump lung exhaust
+			var gasMixSink = node.GasMixLocal; // Where to dump lung exhaust
 			if (container == null)
 			{
 				// Could be in a container that has an internal gas mix, else use the tile's gas mix.
@@ -165,7 +165,7 @@ namespace Items.Implants.Organs
 				if (parentContainer != null && parentContainer.TryGetComponent<GasContainer>(out var gasContainer))
 				{
 					container = gasContainer;
-					gasMixSink = container.GasMix;
+					gasMixSink = container.GasMixLocal;
 				}
 				else
 				{
@@ -188,7 +188,7 @@ namespace Items.Implants.Organs
 			}
 
 			bool tryExhale = BreatheOut(gasMixSink, availableBlood);
-			bool tryInhale = BreatheIn(container.GasMix, availableBlood, efficiency);
+			bool tryInhale = BreatheIn(container.GasMixLocal, availableBlood, efficiency);
 			ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(availableBlood);
 			return tryExhale || tryInhale;
 		}

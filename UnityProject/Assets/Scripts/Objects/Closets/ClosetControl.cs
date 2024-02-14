@@ -165,6 +165,8 @@ namespace Objects
 			{
 				CollectObjects();
 			}
+
+			if (gasContainer != null) gasContainer.EqualiseWithTile();
 		}
 
 		private void OnWillDestroyServer(DestructionInfo arg0)
@@ -228,11 +230,9 @@ namespace Objects
 
 		private void UpdateGasContainer()
 		{
-			if (gasContainer != null)
-			{
-				gasContainer.IsSealed = IsOpen == false && (isOnlySealedWhenWelded == false || IsWelded);
-				gasContainer.EqualiseWithTile();
-			}
+			if (gasContainer == null) return;
+			gasContainer.IsSealed = IsOpen == false && (isOnlySealedWhenWelded == false || IsWelded);
+			gasContainer.EqualiseWithTile();
 		}
 
 		public void BreakLock()

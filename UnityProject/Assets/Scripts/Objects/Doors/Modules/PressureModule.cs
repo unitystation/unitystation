@@ -96,11 +96,11 @@ namespace Doors.Modules
 			var horzPressureDiff = 0.0;
 			if (!upMetaNode.IsOccupied || !downMetaNode.IsOccupied)
 			{
-				vertPressureDiff = Math.Abs(upMetaNode.GasMix.Pressure - downMetaNode.GasMix.Pressure);
+				vertPressureDiff = Math.Abs(upMetaNode.GasMixLocal.Pressure - downMetaNode.GasMixLocal.Pressure);
 			}
 			if (!leftMetaNode.IsOccupied || !rightMetaNode.IsOccupied)
 			{
-				horzPressureDiff = Math.Abs(leftMetaNode.GasMix.Pressure - rightMetaNode.GasMix.Pressure);
+				horzPressureDiff = Math.Abs(leftMetaNode.GasMixLocal.Pressure - rightMetaNode.GasMixLocal.Pressure);
 			}
 
 			// Set pressureLevel according to the pressure difference found.

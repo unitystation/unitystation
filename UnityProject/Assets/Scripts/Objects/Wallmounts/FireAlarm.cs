@@ -107,7 +107,7 @@ namespace Objects.Wallmounts
 
 			if(metaNode.MetaDataSystem.SetUpDone == false) return;
 
-			if (metaNode.GasMix.Pressure < AtmosConstants.WARNING_LOW_PRESSURE || metaNode.GasMix.Pressure > AtmosConstants.WARNING_HIGH_PRESSURE)
+			if (metaNode.GasMixLocal.Pressure < AtmosConstants.WARNING_LOW_PRESSURE || metaNode.GasMixLocal.Pressure > AtmosConstants.WARNING_HIGH_PRESSURE)
 			{
 				SendCloseAlerts();
 			}

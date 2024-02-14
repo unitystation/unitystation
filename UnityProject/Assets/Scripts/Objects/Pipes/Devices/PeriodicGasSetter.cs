@@ -39,14 +39,14 @@ public class PeriodicGasSetter : MonoBehaviour
 	public void UpdateLoop()
 	{
 		var node = RegisterTile.Matrix.MetaDataLayer.Get(transform.localPosition.RoundToInt());
-		var nodeGasMix =  node.GasMix;
+		var nodeGasMix =  node.GasMixLocal;
 
 		var gas = GasMix.GasData.CopyTo(nodeGasMix.GasData);
 		nodeGasMix.GasData = gas;
 		nodeGasMix.Temperature = GasMix.Temperature;
 		nodeGasMix.Temperature = GasMix.Pressure;
 		nodeGasMix.Volume = GasMix.Volume;
-		node.GasMix = nodeGasMix;
+		node.GasMixLocal = nodeGasMix;
 	}
 
 

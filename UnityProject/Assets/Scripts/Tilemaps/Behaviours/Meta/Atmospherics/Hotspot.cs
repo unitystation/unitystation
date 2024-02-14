@@ -88,7 +88,7 @@ namespace Systems.Atmospherics
 			if(timer < 7) return;
 			timer = 0;
 
-			var temperature = node.GasMix.Temperature;
+			var temperature = node.GasMixLocal.Temperature;
 			var temp2Colour = Temp2Colour(temperature);
 			var heatR = temp2Colour.r * 255;
 			var heatG = temp2Colour.g * 255;

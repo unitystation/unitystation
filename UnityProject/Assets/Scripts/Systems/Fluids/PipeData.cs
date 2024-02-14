@@ -226,11 +226,11 @@ namespace Systems.Pipes
 			MetaDataLayer metaDataLayer = matrixInfo.MetaDataLayer;
 			if (pipeNode != null)
 			{
-				GasMix.TransferGas(pipeNode.IsOn.GasMix, ToSpill.Item2, ToSpill.Item2.Moles);
+				GasMix.TransferGas(pipeNode.IsOn.GasMixLocal, ToSpill.Item2, ToSpill.Item2.Moles);
 			}
 			else
 			{
-				GasMix.TransferGas(Matrix.GetMetaDataNode(ZeroedLocation).GasMix, ToSpill.Item2, ToSpill.Item2.Moles);
+				GasMix.TransferGas(Matrix.GetMetaDataNode(ZeroedLocation).GasMixLocal, ToSpill.Item2, ToSpill.Item2.Moles);
 			}
 			metaDataLayer.UpdateSystemsAt(ZeroedLocation, SystemType.AtmosSystem);
 		}

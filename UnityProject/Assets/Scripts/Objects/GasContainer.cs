@@ -5,8 +5,6 @@ using UnityEditor;
 using NaughtyAttributes;
 using Systems.Atmospherics;
 using Systems.Explosions;
-using UnityEngine.Events;
-using UnityEngine.Serialization;
 using ScriptableObjects.Atmospherics;
 namespace Objects.Atmospherics
 {
@@ -21,7 +19,7 @@ namespace Objects.Atmospherics
 		/// If the container is not <see cref="IsSealed"/>, then the container is assumed to be mixed with the tile,
 		/// so the tile's gas mix is returned instead.
 		/// </summary>
-		public GasMix GasMix
+		public GasMix GasMixLocal
 		{
 			get => IsSealed ? internalGasMix : TileMix;
 			set => internalGasMix = value;
@@ -36,7 +34,7 @@ namespace Objects.Atmospherics
 
 		/// <summary>
 		/// If the gas container is not sealed, then the container is assumed to be mixed with the tile,
-		/// so <see cref="GasMix"/> will return the tile's mix.
+		/// so <see cref="GasMixLocal"/> will return the tile's mix.
 		/// </summary>
 		public bool IsSealed { get; set; } = true;
 
@@ -51,9 +49,9 @@ namespace Objects.Atmospherics
 
 		public Action ServerContainerExplode;
 
-		public float ServerInternalPressure => GasMix.Pressure;
+		public float ServerInternalPressure => GasMixLocal.Pressure;
 
-		private GasMix TileMix => registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionServer).GasMix;
+		private GasMix TileMix => registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionServer).GasMixLocal;
 
 		private bool gasIsInitialised = false;
 
@@ -65,7 +63,7 @@ namespace Objects.Atmospherics
 		public float FullPercentageClient => fullPercentageClient;
 
 		//Valid serverside only
-		public float FullPercentage => GasMix.Moles / MaximumMoles;
+		public float FullPercentage => GasMixLocal.Moles / MaximumMoles;
 
 		[Tooltip("If true : Cargo will accept gases found within this container and can be sold.")]
 		public bool CargoSealApproved = false;
@@ -118,7 +116,7 @@ namespace Objects.Atmospherics
 
 		public void EqualiseWithTile()
 		{
-			GasMix.MergeGasMix(TileMix);
+			GasMixLocal.MergeGasMix(TileMix);
 			registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPosition, SystemType.AtmosSystem);
 		}
 
@@ -147,8 +145,8 @@ namespace Objects.Atmospherics
 		public void ExplodeContainer()
 		{
 			var shakeIntensity = (byte) Mathf.Lerp(
-				byte.MinValue, byte.MaxValue / 2, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
-			var shakeDistance = Mathf.Lerp(1, 64, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
+				byte.MinValue, byte.MaxValue / 2, GasMixLocal.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
+			var shakeDistance = Mathf.Lerp(1, 64, GasMixLocal.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
 
 			//release all of our gases at once when destroyed
 			ReleaseContentsInstantly();
@@ -166,7 +164,14 @@ namespace Objects.Atmospherics
 			MetaDataLayer metaDataLayer = registerTile.Matrix.MetaDataLayer;
 			MetaDataNode node = metaDataLayer.Get(registerTile.LocalPositionServer, false);
 
-			GasMix.TransferGas(node.GasMix, GasMix, GasMix.Moles);
+			if (node.GasMixLocal == GasMixLocal)
+			{
+				node.GasMixLocal.MergeGasMix(GasMixLocal);
+			}
+			else
+			{
+				GasMix.TransferGas(node.GasMixLocal, GasMixLocal, GasMixLocal.Moles);
+			}
 			metaDataLayer.UpdateSystemsAt(registerTile.LocalPositionServer, SystemType.AtmosSystem);
 		}
 
@@ -178,28 +183,24 @@ namespace Objects.Atmospherics
 			Vector3Int localPosition = transform.localPosition.RoundToInt();
 			MetaDataNode node = metaDataLayer.Get(localPosition, false);
 
-			float deltaPressure = Mathf.Min(GasMix.Pressure, ReleasePressure) - node.GasMix.Pressure;
+			float deltaPressure = Mathf.Min(GasMixLocal.Pressure, ReleasePressure) - node.GasMixLocal.Pressure;
 
 			if (deltaPressure > 0)
 			{
 				float ratio = deltaPressure * Time.deltaTime;
 
-				GasMix.TransferGas(node.GasMix, GasMix, ratio);
+				GasMix.TransferGas(node.GasMixLocal, GasMixLocal, ratio);
 
 				metaDataLayer.UpdateSystemsAt(localPosition, SystemType.AtmosSystem);
 
-				var List = AtmosUtils.CopyGasArray(GasMix.GasData);
+				var List = AtmosUtils.CopyGasArray(GasMixLocal.GasData);
 
 				for (int i = List.List.Count - 1; i >= 0; i--)
 				{
-					var gas = GasMix.GasesArray[i];
+					var gas = GasMixLocal.GasesArray[i];
 					StoredGasMix.GasData.SetMoles(gas.GasSO, gas.Moles);
 				}
-
 				List.Pool();
-
-
-
 			}
 		}
 #if UNITY_EDITOR
@@ -208,13 +209,13 @@ namespace Objects.Atmospherics
 		private void Validate()
 		{
 			Undo.RecordObject(gameObject, "Gas Change");
-			StoredGasMix =   GasMix.FromTemperatureAndPressure(StoredGasMix.GasData, StoredGasMix.Temperature, StoredGasMix.Pressure, StoredGasMix.Volume );
+			StoredGasMix = GasMix.FromTemperatureAndPressure(StoredGasMix.GasData, StoredGasMix.Temperature, StoredGasMix.Pressure, StoredGasMix.Volume );
 		}
 #endif
 		public void UpdateGasMix()
 		{
 			gasIsInitialised = true;
-			GasMix = GasMix.FromTemperature(StoredGasMix.GasData, StoredGasMix.Temperature, StoredGasMix.Volume);
+			GasMixLocal = GasMix.FromTemperature(StoredGasMix.GasData, StoredGasMix.Temperature, StoredGasMix.Volume);
 		}
 	}
 }
