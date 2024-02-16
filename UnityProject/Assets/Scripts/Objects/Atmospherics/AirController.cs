@@ -158,7 +158,7 @@ namespace Objects.Atmospherics
 
 			if (acuSamplesAir)
 			{
-				acuSample.FromGasMix(facingMetaNode.GasMix);
+				acuSample.FromGasMix(facingMetaNode.GasMixLocal);
 				AtmosphericAverage.AddSample(acuSample);
 			}
 		}

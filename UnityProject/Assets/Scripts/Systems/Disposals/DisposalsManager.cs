@@ -108,15 +108,15 @@ namespace Systems.Disposals
 			}
 			if (sourceObject.TryGetComponent<GasContainer>(out var gasContainer))
 			{
-				GasMix.TransferGas(disposalContainer.GetComponent<GasContainer>().GasMix, gasContainer.GasMix, gasContainer.GasMix.Moles);
+				GasMix.TransferGas(disposalContainer.GetComponent<GasContainer>().GasMixLocal, gasContainer.GasMixLocal, gasContainer.GasMixLocal.Moles);
 			}
 			else
 			{
 				var tile = sourceObject.RegisterTile();
-				var gasMix = tile.Matrix.MetaDataLayer.Get(tile.LocalPositionServer)?.GasMix;
+				var gasMix = tile.Matrix.MetaDataLayer.Get(tile.LocalPositionServer)?.GasMixLocal;
 				if (gasMix != null)
 				{
-					GasMix.TransferGas(disposalContainer.GetComponent<GasContainer>().GasMix, gasMix, gasMix.Moles);
+					GasMix.TransferGas(disposalContainer.GetComponent<GasContainer>().GasMixLocal, gasMix, gasMix.Moles);
 				}
 			}
 

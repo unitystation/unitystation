@@ -8,7 +8,7 @@ namespace Objects.Atmospherics
 	/// </summary>
 	public class AcuSensor : MonoBehaviour, IServerSpawn, IAcuControllable
 	{
-		public AcuSample AtmosphericSample => atmosphericSample.FromGasMix(metaNode.GasMix);
+		public AcuSample AtmosphericSample => atmosphericSample.FromGasMix(metaNode.GasMixLocal);
 
 		private readonly AcuSample atmosphericSample = new AcuSample();
 		private MetaDataNode metaNode;

@@ -163,7 +163,7 @@ namespace Objects.Engineering
 		{
 			if (PoppedPipes)
 			{
-				return (registerObject.Matrix.GetMetaDataNode(this.registerObject.LocalPosition).GasMix.Temperature);
+				return (registerObject.Matrix.GetMetaDataNode(this.registerObject.LocalPosition).GasMixLocal.Temperature);
 			}
 			else
 			{
@@ -280,19 +280,19 @@ namespace Objects.Engineering
 			if (PoppedPipes)
 			{
 				var GasNode = registerObject.Matrix.GetMetaDataNode(this.registerObject.LocalPosition);
-				if (GasNode.GasMix.Temperature < 5000)
+				if (GasNode.GasMixLocal.Temperature < 5000)
 				{
-					if (GasNode.GasMix.WholeHeatCapacity != 0)
+					if (GasNode.GasMixLocal.WholeHeatCapacity != 0)
 					{
-						GasNode.GasMix.InternalEnergy += ExtraEnergyGained * 0.000001f;
-						if (GasNode.GasMix.Temperature > 5000)
+						GasNode.GasMixLocal.InternalEnergy += ExtraEnergyGained * 0.000001f;
+						if (GasNode.GasMixLocal.Temperature > 5000)
 						{
-							GasNode.GasMix.Temperature = 5000;
+							GasNode.GasMixLocal.Temperature = 5000;
 						}
 					}
 				}
 
-				CurrentPressure = (decimal) GasNode.GasMix.Pressure;
+				CurrentPressure = (decimal) GasNode.GasMixLocal.Pressure;
 			}
 			else
 			{

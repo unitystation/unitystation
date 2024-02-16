@@ -413,7 +413,7 @@ namespace Objects.Research
 
 			Matrix matrix = integrity.RegisterTile.Matrix;
 			Vector3Int localPosition = MatrixManager.WorldToLocalInt(objectPhysics.registerTile.WorldPosition, matrix);
-			GasMix ambientGasMix = matrix.MetaDataLayer.Get(localPosition).GasMix;
+			GasMix ambientGasMix = matrix.MetaDataLayer.Get(localPosition).GasMixLocal;
 
 			ambientGasMix.GasData.GetGasMoles(gastype, out var moles);
 

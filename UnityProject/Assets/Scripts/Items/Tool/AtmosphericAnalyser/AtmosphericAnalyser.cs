@@ -25,7 +25,7 @@ namespace Items.Atmospherics
 				    .TryGetComponent<GasContainer>(
 					    out var container))
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMix));
+				Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMixLocal));
 				return;
 			}
 
@@ -35,7 +35,7 @@ namespace Items.Atmospherics
 				var node = metaDataLayer.Get(interaction.Performer.transform.localPosition.RoundToInt());
 				if (node != null)
 				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(node.GasMix));
+					Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(node.GasMixLocal));
 				}
 			}
 		}
@@ -55,7 +55,7 @@ namespace Items.Atmospherics
 			{
 				if (interaction.TargetObject.TryGetComponent(out GasContainer container))
 				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMix));
+					Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMixLocal));
 					return;
 				}
 
@@ -99,7 +99,7 @@ namespace Items.Atmospherics
 		{
 			if (interaction.TargetObject.TryGetComponent<GasContainer>(out var container) == false) return;
 
-			Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMix));
+			Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMixLocal));
 		}
 
 

@@ -21,11 +21,11 @@ namespace Chemistry.Effects
 			
 			var	metaNode = Matrix.MetaDataLayer.Get(onObject.gameObject.AssumedWorldPosServer().ToLocalInt(Matrix));
 
-			lock (metaNode.GasMix.GasesArray) //no Double lock
+			lock (metaNode.GasMixLocal.GasesArray) //no Double lock
 			{
 				var mix = new GasMix(2.5f, TemperatureK);
 				mix.AddGas(ToRelease,AmountToRelease );
-				GasMix.TransferGas(metaNode.GasMix,mix, mix.Moles );
+				GasMix.TransferGas(metaNode.GasMixLocal,mix, mix.Moles );
 			}
 		}
 	}
