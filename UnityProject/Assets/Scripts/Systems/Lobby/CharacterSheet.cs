@@ -316,22 +316,15 @@ public class CharacterSheet : ICloneable
 	{
 		CharacterSheet character = new CharacterSheet();
 
-
-		if (speciesToChooseFrom == null)
+		if (speciesToChooseFrom == null || speciesToChooseFrom.Count == 0)
 		{
 			speciesToChooseFrom = RaceSOSingleton.Instance.Races;
 		}
 		PlayerHealthData race = speciesToChooseFrom.PickRandom();
 
 		character.Species = race.name;
-		if (race.Base.bodyTypeSettings.AvailableBodyTypes.Count != 0)
-		{
-			character.BodyType = race.Base.bodyTypeSettings.AvailableBodyTypes.PickRandom().bodyType;
-		}
-		else
-		{
-			character.BodyType = BodyType.NonBinary;
-		}
+		character.BodyType = race.Base.bodyTypeSettings.AvailableBodyTypes.Count != 0
+			? race.Base.bodyTypeSettings.AvailableBodyTypes.PickRandom().bodyType : BodyType.NonBinary;
 
 		character.Age = Random.Range(19, 84); // TODO should be a race characteristic, literally 1984
 		character.SkinTone = GetRandomSkinTone(race);
