@@ -96,7 +96,24 @@ namespace UI.CharacterCreator
 		private List<ExternalCustomisation> ExternalCustomisationStorage = new();
 		private Dictionary<string, BodyPartCustomisationBase> OpenBodyCustomisation = new();
 
-		public List<PlayerHealthData> AllSpecies;
+		private List<PlayerHealthData> allSpecies = new List<PlayerHealthData>();
+
+		public List<PlayerHealthData> AllSpecies
+		{
+			get
+			{
+				if (allSpecies.Count == 0)
+				{
+					if (RaceSOSingleton.Instance == null || RaceSOSingleton.Instance.Races.Count == 0)
+					{
+						Loggy.LogError("UNABLE TO GRAB ALL SPECIES!! CHARACTER CREATION SCREEN IS SURELY GOING TO BE BROKEN!!!");
+						return null;
+					}
+					allSpecies = RaceSOSingleton.GetPlayerSpecies();
+				}
+				return allSpecies;
+			}
+		}
 		private int SelectedSpecies;
 
 		private List<Color> availableSkinColors;
@@ -112,27 +129,6 @@ namespace UI.CharacterCreator
 		private System.Action onCloseAction;
 
 		#region Lifecycle
-
-		private void Awake()
-		{
-			EnsureInit();
-		}
-
-		// Separate EnsureEnit as we use parts of this script while the gameobject is disabled (the character sprite previewer - for now).
-		private void EnsureInit()
-		{
-			GrabAllSpecies();
-		}
-
-		private void GrabAllSpecies()
-		{
-			if (RaceSOSingleton.Instance == null || RaceSOSingleton.Instance.Races.Count == 0)
-			{
-				Loggy.LogError("UNABLE TO GRAB ALL SPECIES!! CHARACTER CREATION SCREEN IS SURELY GOING TO BE BROKEN!!!");
-				return;
-			}
-			AllSpecies = RaceSOSingleton.GetPlayerSpecies();
-		}
 
 		private void OnEnable()
 		{
@@ -190,7 +186,6 @@ namespace UI.CharacterCreator
 
 		public void LoadCharacter(CharacterSheet inCharacterSettings)
 		{
-			EnsureInit();
 			Cleanup();
 			currentCharacter = inCharacterSettings;
 
