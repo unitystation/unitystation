@@ -7,13 +7,13 @@ namespace Core.Database
 	/// <summary>
 	/// Error class for any usage-specific API errors as returned by the API server.
 	/// </summary>
-	public class ApiRequestException : Exception
+	public class ApiRequestException : ApiHttpException
 	{
 		/// <summary>A list of all error messages returned by the API server.</summary>
 		/// <remarks>You can use <c>Message</c> to get the first one.</remarks>
 		public List<string> Messages { get; set; }
 
-		public ApiRequestException(string message) : base(message)
+		public ApiRequestException(string message, HttpStatusCode statusCode) : base(message, statusCode)
 		{
 			Messages = new List<string>();
 		}

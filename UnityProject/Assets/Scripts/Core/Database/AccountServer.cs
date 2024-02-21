@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Systems.Character;
 
 namespace Core.Database
 {
@@ -16,16 +14,10 @@ namespace Core.Database
 		public static string Host = "dev-api.unitystation.org"; // TODO: expose to config
 		public static UriBuilder UriBuilder = new("https", Host);
 
-		public static Uri GetUri(string endpoint, string queries = null, bool NOaccounts = false)
+		public static Uri GetUri(string endpoint, string queries = null, bool uglyPatch = false)
 		{
-			if (NOaccounts == false)
-			{
-				UriBuilder.Path = $"/accounts/{endpoint}";
-			}
-			else
-			{
-				UriBuilder.Path = $"/{endpoint}";
-			}
+
+			UriBuilder.Path = $"/accounts/{endpoint}";
 
 			if (string.IsNullOrEmpty(queries) == false)
 			{
@@ -35,48 +27,65 @@ namespace Core.Database
 			return UriBuilder.Uri;
 		}
 
-		public static async Task<AccountRegisterResponse> Register(
-				string unique_identifier, string emailAddress, string username, string password)
+		public static async Task<ApiResult<AccountRegisterResponse>> Register(
+			string uniqueIdentifier, string emailAddress, string username, string password)
 		{
 			var requestBody = new AccountRegister
 			{
 				email = emailAddress,
-				unique_identifier = unique_identifier,
+				unique_identifier = uniqueIdentifier,
 				username = username,
 				password = password,
 			};
 
-			return await ApiServer.Post<AccountRegisterResponse>(GetUri("register"), requestBody);
+			var response = await ApiServer.Post<AccountRegisterResponse>(GetUri("register"), requestBody);
+
+			if (!response.IsSuccess)
+			{
+				throw response.Exception!;
+			}
+
+			return response;
 		}
 
-		public static async Task<AccountLoginResponse> Login(string emailAddress, string password)
+		public static async Task<ApiResult<AccountLoginResponse>> Login(string emailAddress, string password)
 		{
-			var requestBody = new AccountLoginCredentials
+			AccountLoginCredentials requestBody = new()
 			{
 				email = emailAddress,
 				password = password,
 			};
 
-			var response = await ApiServer.Post<AccountLoginResponse>(GetUri("login-credentials"), requestBody);
+			ApiResult<AccountLoginResponse> response = await ApiServer.Post<AccountLoginResponse>(GetUri("login-credentials"), requestBody);
+
+			if (!response.IsSuccess)
+			{
+				throw response.Exception!;
+			}
 
 			return response;
 		}
 
-		public static async Task<AccountTokenLoginResponse> Login(string token)
+		public static async Task<ApiResult<AccountTokenLoginResponse>> Login(string token)
 		{
-			var requestBody = new AccountLoginToken
+			AccountLoginToken requestBody = new()
 			{
 				Token = token,
 			};
 
-			var response = await ApiServer.Post<AccountTokenLoginResponse>(GetUri("login-token"), requestBody);
+			ApiResult<AccountTokenLoginResponse> response = await ApiServer.Post<AccountTokenLoginResponse>(GetUri("login-token"), requestBody);
+
+			if (!response.IsSuccess)
+			{
+				throw response.Exception!;
+			}
 
 			return response;
 		}
 
 		public static async Task<JsonObject> Logout(string token, bool destroyAllSessions = false) // TODO: but no response?
 		{
-			var requestBody = new AccountLogout
+			AccountLogout requestBody = new()
 			{
 				Token = token,
 			};
@@ -86,9 +95,9 @@ namespace Core.Database
 			return response;
 		}
 
-		public static async Task<AccountUpdateResponse> UpdateAccount(string token, string emailAddress, string username, string password)
+		public static async Task<ApiResult<AccountUpdateResponse>> UpdateAccount(string token, string emailAddress, string username, string password)
 		{
-			var requestBody = new AccountUpdate
+			AccountUpdate requestBody = new()
 			{
 				Token = token,
 				email = emailAddress,
@@ -102,71 +111,25 @@ namespace Core.Database
 		}
 
 
-		public static async Task<AccountGetResponse> GetAccountInfo(string accountIdentifier)
+		public static async Task<ApiResult<AccountGetResponse>> GetAccountInfo(string accountIdentifier)
 		{
-			var response = await ApiServer.Get<AccountGetResponse>(GetUri($"users/{accountIdentifier}"));
-
-			return response;
-		}
-
-
-		public static async Task<SubAccountGetCharacterSheet> PutAccountsCharacterByID(int ID, SubAccountGetCharacterSheet subAccountGetCharacterSheet, string token)
-		{
-			var response = await ApiServer.Put<SubAccountGetCharacterSheet>(
-				GetUri($"persistence/characters/{ID}/update", null, true),
-				subAccountGetCharacterSheet, token
-				);
-			return response;
-		}
-
-
-
-		public static async Task<string> DeleteAccountsCharacterByID(int ID, string token)
-		{
-			var response = await ApiServer.Delete(GetUri($"persistence/characters/{ID}/delete", null,true),token );
-			return response;
-		}
-
-		public static async Task<SubAccountGetCharacterSheet> PostMakeAccountsCharacter(SubAccountGetCharacterSheet subAccountGetCharacterSheet, string token)
-		{
-			var response = await ApiServer.Post<SubAccountGetCharacterSheet>(GetUri($"persistence/characters/create", null,true), subAccountGetCharacterSheet, token);
-
-			return response;
-		}
-
-		public static async Task<SubAccountGetCharacterSheet> GetAccountsCharacter(int ID, string token)
-		{
-			var response = await ApiServer.Get<SubAccountGetCharacterSheet>(GetUri($"persistence/characters/{ID}", null,true),
-				token);
-
-			return response;
-		}
-
-
-		public static async Task<AccountGetCharacterSheets> GetAccountsCharacters(
-			string fork_compatibility,
-			string characterSheetVersion,
-			string token)
-		{
-			var response = await ApiServer.Get<AccountGetCharacterSheets>(
-				GetUri($"persistence/characters/compatible", $"?fork_compatibility={fork_compatibility}&character_sheet_version={characterSheetVersion}",true)
-				,token);
+			ApiResult<AccountGetResponse> response = await ApiServer.Get<AccountGetResponse>(GetUri($"users/{accountIdentifier}"));
 
 			return response;
 		}
 
 		// Verification token is what is used by the game server to validate account on the account server.
 		// This is a separate token to account token, which is to authorize account-related operations
-		public static async Task<AccountVerificationTokenResponse> GetVerificationToken(string accountToken)
+		public static async Task<ApiResult<AccountVerificationTokenResponse>> GetVerificationToken(string accountToken)
 		{
-			var response = await ApiServer.Get<AccountVerificationTokenResponse>(GetUri("request-verification-token"), accountToken);
+			ApiResult<AccountVerificationTokenResponse> response = await ApiServer.Get<AccountVerificationTokenResponse>(GetUri("request-verification-token"), accountToken);
 
 			return response;
 		}
 
-		public static async Task<AccountGetResponse> VerifyAccount(string accountId, string token)
+		public static async Task<ApiResult<AccountGetResponse>> VerifyAccount(string accountId, string token)
 		{
-			var requestBody = new AccountValidate
+			AccountValidate requestBody = new()
 			{
 				unique_identifier = accountId,
 				verification_token = token,
@@ -174,6 +137,17 @@ namespace Core.Database
 
 			var response = await ApiServer.Post<AccountGetResponse>(GetUri("verify-account"), requestBody);
 
+			return response;
+		}
+
+		public static async Task<ApiResult<JsonObject>> ResendEmailConfirmation(string email)
+		{
+			AccountResendEmailConfirmationRequest requestBody = new()
+			{
+				Email = email,
+			};
+
+			var response = await ApiServer.Post<JsonObject>(GetUri("resend-account-confirmation"), requestBody);
 			return response;
 		}
 	}
