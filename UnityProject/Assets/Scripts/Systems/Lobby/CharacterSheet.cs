@@ -14,7 +14,7 @@ namespace Systems.Character
 /// Class containing all character preferences for a player
 /// Includes appearance, job preferences etc...
 /// </summary>
-[System.Serializable]
+[Serializable]
 public class CharacterSheet : ICloneable
 {
 	// TODO: all of the in-game appearance variables should probably be refactored into a separate class which can
@@ -40,6 +40,8 @@ public class CharacterSheet : ICloneable
 	public JobPrefsDict JobPreferences = new JobPrefsDict();
 	public AntagPrefsDict AntagPreferences = new AntagPrefsDict();
 
+	public string SheetID = "";
+
 	[Serializable]
 	public class CustomisationClass
 	{
@@ -47,6 +49,10 @@ public class CharacterSheet : ICloneable
 		public string Colour = "#ffffff";
 	}
 
+	public void MakeSureIDIsSet()
+	{
+		if (SheetID == string.Empty) SheetID = Guid.NewGuid().ToString();
+	}
 
 	public override string ToString()
 	{
@@ -61,6 +67,7 @@ public class CharacterSheet : ICloneable
 		sb.AppendLine($"SkinTone: {SkinTone}");
 		sb.AppendLine($"JobPreferences: \n\t{string.Join("\n\t", JobPreferences)}");
 		sb.AppendLine($"AntagPreferences: \n\t{string.Join("\n\t", AntagPreferences)}");
+		sb.AppendLine($"SheetID: \n\t{string.Join("\n\t", SheetID)}");
 		return sb.ToString();
 	}
 
@@ -73,6 +80,7 @@ public class CharacterSheet : ICloneable
 		ValidateName();
 		ValidateAiName();
 		ValidateJobPreferences();
+		MakeSureIDIsSet();
 	}
 
 	/// <summary>
@@ -340,6 +348,7 @@ public class CharacterSheet : ICloneable
 
 		character.SerialisedBodyPartCustom = new List<CustomisationStorage>(); // things like beards etc, TODO ask bod
 		character.SerialisedExternalCustom = GetRandomUnderwear(race); // socks, t-shirts etc
+		character.MakeSureIDIsSet();
 
 		return character;
 	}

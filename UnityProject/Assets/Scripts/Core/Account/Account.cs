@@ -158,35 +158,8 @@ namespace Core.Accounts
 
 			// else fetch character
 			await FetchAccount();
-			if (Characters.TryGetValue(key, out character))
-			{
-				return character;
-			}
-
-			return character;
+			return Characters.TryGetValue(key, out character) ? character : null;
 		}
-
-
-		// // characterId optional, assign to update existing character
-		// public async Task<string> SetCharacter(CharacterSheet character, string key = "")
-		// {
-		// 	// Fetch latest account data (we may have saved a character on another session during this session).
-		// 	await FetchAccount();
-		//
-		// 	// Generate a random character ID
-		// 	if (string.IsNullOrEmpty(key))
-		// 	{
-		// 		// Collision risk should be low enough for the consequence
-		// 		key = RandomUtils.GetRandomString(8);
-		// 	}
-		//
-		// 	Characters.Add(key, character);
-		// 	AllCharacters[CharacterManager.CharacterSheetVersion] = Characters;
-		//
-		// 	await AccountServer.UpdateCharacters(Token, AllCharacters);
-		//
-		// 	return key;
-		// }
 
 		public async void Logout(bool destroyAllSessions = false)
 		{

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Core.Database;
 using SecureStuff;
@@ -193,7 +194,7 @@ namespace Systems.Character
 			}
 
 
-			Characters.Add(character);
+			AddIfNotDuplicate(character);
 			if (AddOnline)
 			{
 				Task.Run(() => SaveNewCharacterTask(character));
@@ -302,7 +303,6 @@ namespace Systems.Character
 					old = true;
 				}
 
-
 				if (old)
 				{
 					var OLDCharacters = JsonConvert.DeserializeObject<List<CharacterSheet>>(json);
@@ -402,8 +402,6 @@ namespace Systems.Character
 							}
 						}
 
-
-
 						foreach (var character in MissingLocal)
 						{
 							Add(character, false);
@@ -434,6 +432,18 @@ namespace Systems.Character
 			}
 
 			DetermineActiveCharacter();
+		}
+
+		private void AddIfNotDuplicate(SubAccountGetCharacterSheet character)
+		{
+			if (Characters.All(c => c.data.SheetID != character.data.SheetID))
+			{
+				Characters.Add(character);
+			}
+			else
+			{
+				Loggy.LogWarning($"Duplicate character sheet found: {character.data.SheetID}");
+			}
 		}
 
 		public struct ToUpdateLocal
