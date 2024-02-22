@@ -40,7 +40,7 @@ public class CharacterSheet : ICloneable
 	public JobPrefsDict JobPreferences = new JobPrefsDict();
 	public AntagPrefsDict AntagPreferences = new AntagPrefsDict();
 
-	public string SheetID = "";
+	public string InternalSheetID = "";
 
 	[Serializable]
 	public class CustomisationClass
@@ -51,7 +51,7 @@ public class CharacterSheet : ICloneable
 
 	public void MakeSureIDIsSet()
 	{
-		if (SheetID == string.Empty) SheetID = Guid.NewGuid().ToString();
+		if (InternalSheetID == string.Empty) InternalSheetID = Guid.NewGuid().ToString();
 	}
 
 	public override string ToString()
@@ -67,7 +67,7 @@ public class CharacterSheet : ICloneable
 		sb.AppendLine($"SkinTone: {SkinTone}");
 		sb.AppendLine($"JobPreferences: \n\t{string.Join("\n\t", JobPreferences)}");
 		sb.AppendLine($"AntagPreferences: \n\t{string.Join("\n\t", AntagPreferences)}");
-		sb.AppendLine($"SheetID: \n\t{string.Join("\n\t", SheetID)}");
+		sb.AppendLine($"SheetID: \n\t{string.Join("\n\t", InternalSheetID)}");
 		return sb.ToString();
 	}
 

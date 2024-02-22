@@ -436,13 +436,13 @@ namespace Systems.Character
 
 		private void AddIfNotDuplicate(SubAccountGetCharacterSheet character)
 		{
-			if (Characters.All(c => c.data.SheetID != character.data.SheetID))
+			if (Characters.All(c => c.data.InternalSheetID != character.data.InternalSheetID))
 			{
 				Characters.Add(character);
 			}
 			else
 			{
-				Loggy.LogWarning($"Duplicate character sheet found: {character.data.SheetID}");
+				Loggy.LogWarning($"Duplicate character sheet found: {character.data.InternalSheetID}");
 			}
 		}
 
