@@ -100,7 +100,7 @@ namespace Items.Implants.Organs
 			var pressure =
 				RelatedPart.HealthMaster.playerScript.playerMove.GetRootObject.RegisterTile()
 					.Matrix.GetMetaDataNode(localPosition)
-					.GasMix.Pressure;
+					.GasMixLocal.Pressure;
 
 			if (pressure > 80)
 			{

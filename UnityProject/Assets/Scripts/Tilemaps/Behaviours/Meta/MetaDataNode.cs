@@ -99,7 +99,7 @@ public class MetaDataNode : IGasMixContainer
 	/// <summary>
 	/// The mixture of gases currently on this node.
 	/// </summary>
-	public GasMix GasMix
+	public GasMix GasMixLocal
 	{
 		get
 		{
@@ -399,7 +399,7 @@ public class MetaDataNode : IGasMixContainer
 	{
 		AtmosSimulation.RemovalAllGasOverlays(this);
 
-		GasMix = newGasMix;
+		GasMixLocal = newGasMix;
 
 		AtmosSimulation.GasVisualEffects(this);
 	}

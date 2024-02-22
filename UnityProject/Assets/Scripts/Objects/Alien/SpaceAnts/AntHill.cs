@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AddressableReferences;
 using Core;
 using HealthV2;
@@ -15,7 +16,7 @@ namespace Objects.Alien.SpaceAnts
 	{
 		private List<LivingHealthMasterBase> inflictedMobs = new List<LivingHealthMasterBase>();
 		[SerializeField] private float routineDelay = 30f;
-		[SerializeField] private Vector2 minMaxAntDamage = new Vector2(2, 7);
+		[SerializeField] private Vector2 minMaxAntDamage = new Vector2(1, 5);
 		[SerializeField] private AttackType biteType = AttackType.Melee;
 		[SerializeField] private DamageType damageType = DamageType.Brute;
 		[SerializeField] private AntHillState state = AntHillState.Single;
@@ -90,6 +91,7 @@ namespace Objects.Alien.SpaceAnts
 			foreach (var mob in inflictedMobs)
 			{
 				if (mob == null) continue;
+				if (( mob.MaxHealth - mob.OverallHealth) >  minMaxAntDamage.y) continue;
 				mob.ApplyDamageToRandomBodyPart(gameObject, damage, biteType, damageType, damageSplit: true);
 				Chat.AddExamineMsg(mob.gameObject, "you feel itchy all over yourself.");
 				PlayStepAudio(mob.gameObject);
@@ -117,8 +119,9 @@ namespace Objects.Alien.SpaceAnts
 
 		private void LookForFilth()
 		{
-			var edibles = ComponentsTracker<Attributes>.GetAllNearbyTypesToTarget(gameObject, 32, eatsYourLiver);
-			if(edibles.Count == 0) return;
+			var edibles = ComponentsTracker<Attributes>.GetAllNearbyTypesToTarget(gameObject, 32, eatsYourLiver)
+				.Where(x => x.InitialTraits.Contains(filthTrait)).ToList();
+			if (edibles.Count == 0) return;
 			var edible = edibles.PickRandom();
 			if (DMMath.Prob(5) && state is AntHillState.Large or AntHillState.Swarm)
 			{

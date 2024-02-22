@@ -17,8 +17,8 @@ namespace Objects.Atmospherics
 			base.TickUpdate();
 			if (canister != null && canister.ValveIsOpen)
 			{
-				pipeData.mixAndVolume.GetGasMix().MergeGasMix(canister.GasContainer.GasMix);
-				canister.GasContainer.GasMix = pipeData.mixAndVolume.EqualiseWithExternal(canister.GasContainer.GasMix);
+				pipeData.mixAndVolume.GetGasMix().MergeGasMix(canister.GasContainer.GasMixLocal);
+				canister.GasContainer.GasMixLocal = pipeData.mixAndVolume.EqualiseWithExternal(canister.GasContainer.GasMixLocal);
 			}
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
 		}

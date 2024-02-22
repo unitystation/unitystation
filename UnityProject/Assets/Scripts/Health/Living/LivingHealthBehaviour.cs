@@ -467,7 +467,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			SyncFireStacks(fireStacks, fireStacks - 0.1f);
 			//instantly stop burning if there's no oxygen at this location
 			MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
-			if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
+			if (node.GasMixLocal.GetMoles(Gas.Oxygen) < 1)
 			{
 				SyncFireStacks(fireStacks, 0);
 			}
@@ -630,12 +630,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
 
 		//Space or below -10 degrees celsius is safe from miasma creation
-		if (node.IsSpace || node.GasMix.Temperature <= Reactions.KOffsetC - 10) return;
+		if (node.IsSpace || node.GasMixLocal.Temperature <= Reactions.KOffsetC - 10) return;
 
 		//If we are in a container then don't produce miasma
 		if (objectBehaviour.ContainedInObjectContainer != null) return;
 
-		node.GasMix.AddGas(Gas.Miasma, AtmosDefines.MIASMA_CORPSE_MOLES);
+		node.GasMixLocal.AddGas(Gas.Miasma, AtmosDefines.MIASMA_CORPSE_MOLES);
 	}
 
 	private bool NotSuitableForDeath()

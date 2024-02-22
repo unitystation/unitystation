@@ -91,9 +91,9 @@ namespace Unitystation.Options
 
 		void Refresh()
 		{
-			musicSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolumeKey);
-			soundFXSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.SoundFXVolumeKey);
-			ambientSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey);
+			musicSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolumeKey, 0.75f);
+			soundFXSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.SoundFXVolumeKey, 1f);
+			ambientSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey, 0.35f);
 			TTSSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.TtsVolumeKey);
 			ttsToggle.isOn = PlayerPrefs.GetInt(PlayerPrefKeys.TTSToggleKey) == 1;
 			audioReflectionsToggle.isOn = !PlayerPrefs.HasKey(PlayerPrefKeys.AudioReflectionsToggleKey) || PlayerPrefs.GetInt(PlayerPrefKeys.AudioReflectionsToggleKey) == 1;

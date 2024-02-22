@@ -134,7 +134,7 @@ public class PortableScrubber : MonoBehaviour, ICheckedInteractable<HandApply>
 			return;
 		}
 
-		var gasMix = canister.GasContainer.GasMix;
+		var gasMix = canister.GasContainer.GasMixLocal;
 		if (gasMix.Pressure > 15000)
 		{
 			Toggle(false);
@@ -148,13 +148,13 @@ public class PortableScrubber : MonoBehaviour, ICheckedInteractable<HandApply>
 		foreach (var offsetPosition in RelativePositionsToScrub)
 		{
 			var tile = UniversalObjectPhysics.registerTile.Matrix.MetaDataLayer.Get(localPosition + offsetPosition);
-			var moles = tile.GasMix.GetMoles(TargetGas) * ScrubberEfficiency;
+			var moles = tile.GasMixLocal.GetMoles(TargetGas) * ScrubberEfficiency;
 			moles = moles.Clamp(0, 10); //max 25 Presumes it's only one
 			if (moles == 0)
 			{
 				continue;
 			}
-			energyTotal += tile.GasMix.TakeGasReturnEnergy(TargetGas, moles);
+			energyTotal += tile.GasMixLocal.TakeGasReturnEnergy(TargetGas, moles);
 			totalMoles += moles;
 		}
 

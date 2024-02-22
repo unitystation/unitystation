@@ -134,11 +134,11 @@ namespace Systems.Atmospherics
 				//If its not space then share otherwise it is space so set to empty
 				if (node.IsSpace == false)
 				{
-					node.GasMix.CopyFrom(meanGasMix);
+					node.GasMixLocal.CopyFrom(meanGasMix);
 				}
 				else
 				{
-					node.GasMix.SetToEmpty();
+					node.GasMixLocal.SetToEmpty();
 				}
 			}
 		}
@@ -163,8 +163,8 @@ namespace Systems.Atmospherics
 				//Block transfer if wall / closed door or windoor / directional passable
 				if(doEqualise)
 				{
-					meanGasMix.Volume += node.GasMix.Volume;
-					GasMix.TransferGas(meanGasMix, node.GasMix, node.GasMix.Moles, true);
+					meanGasMix.Volume += node.GasMixLocal.Volume;
+					GasMix.TransferGas(meanGasMix, node.GasMixLocal, node.GasMixLocal.Moles, true);
 					targetCount++;
 				}
 				else if(node.IsOccupied && node.IsIsolatedNode == false)
@@ -207,7 +207,7 @@ namespace Systems.Atmospherics
 				//Block pressure check if wall / closed door or windoor / directional passable
 				if(doEqualise == false) continue;
 
-				float pressureDifference = node.GasMix.Pressure - neighbor.GasMix.Pressure;
+				float pressureDifference = node.GasMixLocal.Pressure - neighbor.GasMixLocal.Pressure;
 				float absoluteDifference = Mathf.Abs(pressureDifference);
 
 				//Check to see if theres a large pressure difference
@@ -248,13 +248,13 @@ namespace Systems.Atmospherics
 				//Only need to check if false
 				if (result == false)
 				{
-					lock (neighbor.GasMix.GasesArray) //no Double lock
+					lock (neighbor.GasMixLocal.GasesArray) //no Double lock
 					{
-						for (int j = node.GasMix.GasesArray.Count - 1; j >= 0; j--)
+						for (int j = node.GasMixLocal.GasesArray.Count - 1; j >= 0; j--)
 						{
-							var gas = node.GasMix.GasesArray[j];
-							float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
-							float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
+							var gas = node.GasMixLocal.GasesArray[j];
+							float moles = node.GasMixLocal.GasData.GetGasMoles(gas.GasSO);
+							float molesNeighbor = neighbor.GasMixLocal.GasData.GetGasMoles(gas.GasSO);
 
 							if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
 							{
@@ -271,12 +271,12 @@ namespace Systems.Atmospherics
 				//Only need to check if false
 				if (result == false)
 				{
-					lock (neighbor.GasMix.GasesArray) //no Double lock
+					lock (neighbor.GasMixLocal.GasesArray) //no Double lock
 					{
-						foreach (var gas in neighbor.GasMix.GasesArray) //doesn't appear to modify list while iterating
+						foreach (var gas in neighbor.GasMixLocal.GasesArray) //doesn't appear to modify list while iterating
 						{
-							float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
-							float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
+							float moles = node.GasMixLocal.GasData.GetGasMoles(gas.GasSO);
+							float molesNeighbor = neighbor.GasMixLocal.GasData.GetGasMoles(gas.GasSO);
 
 							if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
 							{
@@ -461,12 +461,12 @@ namespace Systems.Atmospherics
 		//If needed, sends them to a queue in ReactionManager so that main thread will apply them
 		public static void GasVisualEffects(MetaDataNode node)
 		{
-			foreach (var gasData in node.GasMix.GasesArray) //doesn't appear to modify list while iterating
+			foreach (var gasData in node.GasMixLocal.GasesArray) //doesn't appear to modify list while iterating
 			{
 				var gas = gasData.GasSO;
 				if(gas.HasOverlay == false) continue;
 
-				var gasAmount = node.GasMix.GetMoles(gas);
+				var gasAmount = node.GasMixLocal.GetMoles(gas);
 
 				if(gasAmount > gas.MinMolesToSee)
 				{
@@ -525,7 +525,7 @@ namespace Systems.Atmospherics
 				return;
 			}
 
-			var gasMix = node.GasMix;
+			var gasMix = node.GasMixLocal;
 
 			foreach (var gasReaction in GasReactions.All)
 			{

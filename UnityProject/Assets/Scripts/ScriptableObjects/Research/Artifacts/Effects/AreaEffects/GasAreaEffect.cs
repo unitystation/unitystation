@@ -28,11 +28,11 @@ namespace Systems.Research
 
 			MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
-			if(RemoveGas) node.GasMix.RemoveGas(GasToRemove, MolesToRemove);
+			if(RemoveGas) node.GasMixLocal.RemoveGas(GasToRemove, MolesToRemove);
 
-			if(ChangeTemperature) node.GasMix.ChangeTemperature(TemperatureChange);
+			if(ChangeTemperature) node.GasMixLocal.ChangeTemperature(TemperatureChange);
 
-			if(AddGas) node.GasMix.AddGas(GasToAdd, MolesToAdd);
+			if(AddGas) node.GasMixLocal.AddGas(GasToAdd, MolesToAdd);
 		}
 	}
 }

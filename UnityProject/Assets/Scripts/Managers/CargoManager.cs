@@ -399,9 +399,9 @@ namespace Systems.Cargo
 			{
 				var stringBuilder = new StringBuilder(export.ExportMessage);
 
-				lock (gasContainer.GasMix.GasesArray) //no Double lock
+				lock (gasContainer.GasMixLocal.GasesArray) //no Double lock
 				{
-					foreach (var gas in gasContainer.GasMix.GasesArray)  //doesn't appear to modify list while iterating
+					foreach (var gas in gasContainer.GasMixLocal.GasesArray)  //doesn't appear to modify list while iterating
 					{
 						int gasValue = (int)gas.Moles * gas.GasSO.ExportPrice;
 						stringBuilder.AppendLine($"Exported {gas.Moles} moles of {gas.GasSO.Name} for {gasValue} credits");
