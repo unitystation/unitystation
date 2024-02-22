@@ -40,18 +40,11 @@ public class CharacterSheet : ICloneable
 	public JobPrefsDict JobPreferences = new JobPrefsDict();
 	public AntagPrefsDict AntagPreferences = new AntagPrefsDict();
 
-	public string InternalSheetID = "";
-
 	[Serializable]
 	public class CustomisationClass
 	{
 		public string SelectedName = "None";
 		public string Colour = "#ffffff";
-	}
-
-	public void MakeSureIDIsSet()
-	{
-		if (InternalSheetID == string.Empty) InternalSheetID = Guid.NewGuid().ToString();
 	}
 
 	public override string ToString()
@@ -67,7 +60,6 @@ public class CharacterSheet : ICloneable
 		sb.AppendLine($"SkinTone: {SkinTone}");
 		sb.AppendLine($"JobPreferences: \n\t{string.Join("\n\t", JobPreferences)}");
 		sb.AppendLine($"AntagPreferences: \n\t{string.Join("\n\t", AntagPreferences)}");
-		sb.AppendLine($"SheetID: \n\t{string.Join("\n\t", InternalSheetID)}");
 		return sb.ToString();
 	}
 
@@ -80,7 +72,6 @@ public class CharacterSheet : ICloneable
 		ValidateName();
 		ValidateAiName();
 		ValidateJobPreferences();
-		MakeSureIDIsSet();
 	}
 
 	/// <summary>
@@ -348,7 +339,6 @@ public class CharacterSheet : ICloneable
 
 		character.SerialisedBodyPartCustom = new List<CustomisationStorage>(); // things like beards etc, TODO ask bod
 		character.SerialisedExternalCustom = GetRandomUnderwear(race); // socks, t-shirts etc
-		character.MakeSureIDIsSet();
 
 		return character;
 	}

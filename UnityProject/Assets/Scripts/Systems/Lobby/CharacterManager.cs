@@ -193,8 +193,7 @@ namespace Systems.Character
 				return;
 			}
 
-
-			AddIfNotDuplicate(character);
+			Characters.Add(character);
 			if (AddOnline)
 			{
 				Task.Run(() => SaveNewCharacterTask(character));
@@ -432,18 +431,6 @@ namespace Systems.Character
 			}
 
 			DetermineActiveCharacter();
-		}
-
-		private void AddIfNotDuplicate(SubAccountGetCharacterSheet character)
-		{
-			if (Characters.All(c => c.data.InternalSheetID != character.data.InternalSheetID))
-			{
-				Characters.Add(character);
-			}
-			else
-			{
-				Loggy.LogWarning($"Duplicate character sheet found: {character.data.InternalSheetID}");
-			}
 		}
 
 		public struct ToUpdateLocal
