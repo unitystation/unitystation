@@ -138,16 +138,25 @@ namespace Systems.Character
 
 			Characters[key].data = character;
 
-			_ = AccountServer.PutAccountsCharacterByID(Characters[key].id, Characters[key], PlayerManager.Account.Token);
+			_ = PersistenceServer.PutAccountsCharacterByID(Characters[key].id, Characters[key], PlayerManager.Account.Token);
 			Task.Run(() => UpdateCharacterOnline(Characters[key]));
 			SaveCharacters(false);
 		}
 
 		public async Task UpdateCharacterOnline(SubAccountGetCharacterSheet character)
 		{
-			var newCharacterData = await AccountServer.PutAccountsCharacterByID(character.id, character, PlayerManager.Account.Token);
+			ApiResult<SubAccountGetCharacterSheet> response = await PersistenceServer.PutAccountsCharacterByID(character.id, character, PlayerManager.Account.Token);
 
-			character.last_updated = newCharacterData.last_updated;
+			if (!response.IsSuccess)
+			{
+				Loggy.LogError($"Failed to update character online. because: {response.Exception!.Message}");
+				//TODO: feedback to user
+				return;
+			}
+
+			SubAccountGetCharacterSheet characters = response.Data;
+
+			character.last_updated = characters!.last_updated;
 			SaveCharacters(false);
 		}
 
@@ -196,8 +205,16 @@ namespace Systems.Character
 
 		public async Task SaveNewCharacterTask(SubAccountGetCharacterSheet character)
 		{
-			var data = await AccountServer.PostMakeAccountsCharacter(character, PlayerManager.Account.Token);
-			character.id = data.id;
+			ApiResult<SubAccountGetCharacterSheet> response = await PersistenceServer.PostMakeAccountsCharacter(character, PlayerManager.Account.Token);
+			if (response.IsSuccess == false)
+			{
+				Loggy.LogError($"Failed to save new character online. because: {response.Exception!.Message}");
+				return;
+			}
+
+			SubAccountGetCharacterSheet characterSheet = response.Data;
+
+			character.id = characterSheet!.id;
 			SaveCharacters(false);
 		}
 
@@ -227,7 +244,7 @@ namespace Systems.Character
 			var CharacterRemove = Characters[key];
 			Characters.RemoveAt(key);
 
-			_ = AccountServer.DeleteAccountsCharacterByID(CharacterRemove.id, PlayerManager.Account.Token);
+			_ = PersistenceServer.DeleteAccountsCharacterByID(CharacterRemove.id, PlayerManager.Account.Token);
 			SaveCharacters(false);
 		}
 
@@ -235,9 +252,18 @@ namespace Systems.Character
 		{
 			try
 			{
-				var accountResponse =
-					await AccountServer.GetAccountsCharacters(CharacterSheetForkCompatibility, CharacterSheetVersion, PlayerManager.Account.Token);
-				Characters.AddRange(accountResponse.results);
+				ApiResult<AccountGetCharacterSheets> accountResponse =
+					await PersistenceServer.GetAccountsCharacters(CharacterSheetForkCompatibility, CharacterSheetVersion, PlayerManager.Account.Token);
+
+				if (!accountResponse.IsSuccess)
+				{
+					Loggy.LogError($"Failed to load characters online. because: {accountResponse.Exception!.Message}");
+					throw accountResponse.Exception;
+				}
+
+				AccountGetCharacterSheets characters = accountResponse.Data;
+
+				Characters.AddRange(characters!.results);
 			}
 			catch (Exception e)
 			{
@@ -306,12 +332,12 @@ namespace Systems.Character
 						Add(character, false);
 					}
 
-					AccountGetCharacterSheets accountResponse = null;
+					ApiResult<AccountGetCharacterSheets> accountResponse = null;
 
 
 					try
 					{
-						accountResponse = await AccountServer.GetAccountsCharacters(CharacterSheetForkCompatibility, CharacterSheetVersion, PlayerManager.Account.Token);
+						accountResponse = await PersistenceServer.GetAccountsCharacters(CharacterSheetForkCompatibility, CharacterSheetVersion, PlayerManager.Account.Token);
 					}
 					catch (Exception e)
 					{
@@ -331,7 +357,7 @@ namespace Systems.Character
 						foreach (var LocalCharacter in Characters)
 						{
 							bool OnlineHasNotLocal = true;
-							foreach (var OnlineCharacter in accountResponse.results)
+							foreach (var OnlineCharacter in accountResponse.Data.results)
 							{
 								if (OnlineCharacter.id == LocalCharacter.id)
 								{
@@ -358,7 +384,7 @@ namespace Systems.Character
 							}
 						}
 
-						foreach (var OnlineCharacter in accountResponse.results)
+						foreach (var OnlineCharacter in accountResponse.Data.results)
 						{
 							bool LocalHasNotOnline = true;
 							foreach (var LocalCharacter in Characters)
@@ -390,7 +416,7 @@ namespace Systems.Character
 
 						foreach (var character in UpdateOnline)
 						{
-							await AccountServer.PutAccountsCharacterByID(character.id, character, PlayerManager.Account.Token);
+							await PersistenceServer.PutAccountsCharacterByID(character.id, character, PlayerManager.Account.Token);
 						}
 
 						foreach (var character in UpdateLocal)

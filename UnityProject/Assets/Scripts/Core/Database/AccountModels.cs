@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Systems.Character;
 using UnityEngine.Serialization;
@@ -103,7 +104,6 @@ namespace Core.Database
 	public class AccountRegisterResponse : JsonObject
 	{
 		public AccountRegisterDetails account;
-		public string token;
 	}
 
 	[Serializable]
@@ -145,6 +145,13 @@ namespace Core.Database
 	public class AccountVerificationTokenResponse : JsonObject
 	{
 		public string verification_token;
+	}
+
+	[Serializable]
+	public class AccountResendEmailConfirmationRequest : JsonObject
+	{
+		[JsonProperty("email")]
+		public string Email { get; init; }
 	}
 
 	#endregion

@@ -57,9 +57,9 @@ namespace Tests.Database
 			task.Wait();
 			var response = task.Result;
 
-			Assert.AreEqual(mockResponse.receive_string, response.receive_string);
-			Assert.AreEqual(mockResponse.receive_integer, response.receive_integer);
-			Assert.AreEqual(mockResponse.receive_object.nested_field, response.receive_object.nested_field);
+			Assert.AreEqual(mockResponse.receive_string, response.Data?.receive_string);
+			Assert.AreEqual(mockResponse.receive_integer, response.Data?.receive_integer);
+			Assert.AreEqual(mockResponse.receive_object.nested_field, response.Data.receive_object.nested_field);
 			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 		}
 
@@ -172,9 +172,9 @@ namespace Tests.Database
 			task.Wait();
 			var response = task.Result;
 
-			Assert.AreEqual(mockResponse.receive_string, response.receive_string);
-			Assert.AreEqual(mockResponse.receive_integer, response.receive_integer);
-			Assert.AreEqual(mockResponse.receive_object.nested_field, response.receive_object.nested_field);
+			Assert.AreEqual(mockResponse.receive_string, response.Data?.receive_string);
+			Assert.AreEqual(mockResponse.receive_integer, response.Data?.receive_integer);
+			Assert.AreEqual(mockResponse.receive_object.nested_field, response.Data.receive_object.nested_field);
 			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 		}
 

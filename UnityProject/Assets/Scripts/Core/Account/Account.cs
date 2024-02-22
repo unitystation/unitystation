@@ -12,7 +12,6 @@ using Systems.Character;
 
 namespace Core.Accounts
 {
-	// TODO: what add check to see if account is disabled (e.g. cuz user not verified)
 	/// <summary>The object representation of a player's Unitystation account.</summary>
 	public class Account
 	{
@@ -28,8 +27,7 @@ namespace Core.Accounts
 		/// game server to authenticate a Unitystation account.</remarks>
 		public string Token { get; private set; }
 
-		/// <summary>Determine if this account has been verified (i.e. registration email confirmed).
-		/// Some servers might allow unverified or offline accounts.</summary>
+		/// <summary>Determine if this account has been verified (i.e. is someone of importance in the scene, like twitter verified ticks).</summary>
 		public bool IsVerified { get; private set; }
 
 		/// <summary>A dictionary of the account's supported characters. The characters are keyed by a uint for identification.</summary>
@@ -38,61 +36,117 @@ namespace Core.Accounts
 		// TODO if the object instance exists, isn't that enough to consider the account available?
 		public bool IsAvailable { get; private set; } = false;
 
+		public bool IsLoggedIn { get; private set; }
+
 		public static Account FromAccountGetResponse(AccountGetResponse accountResponse)
 		{
-			return new Account().PopulateAccount(accountResponse);
+			Account account = new Account().PopulateAccount(accountResponse);
+			account.IsLoggedIn = true;
+			return account;
 		}
 
 		public async Task<Account> Login(string emailAddress, string password)
 		{
-			var loginResponse = await AccountServer.Login(emailAddress, password);
-			//Get account
-			PostLogin(loginResponse.token, loginResponse.account);
+			ApiResult<AccountLoginResponse> loginResponse = await AccountServer.Login(emailAddress, password);
+
+			if (!loginResponse.IsSuccess)
+			{
+				IsAvailable = false;
+				IsLoggedIn = false;
+				return this;
+			}
+
+			AccountLoginResponse account = loginResponse.Data;
+
+			PostLogin(account!.token, account.account);
 
 			return this;
 		}
 
 		public async Task<Account> Login(string token)
 		{
-			var loginResponse = await AccountServer.Login(token);
-			PostLogin(loginResponse.token, loginResponse.user);
+			ApiResult<AccountTokenLoginResponse> loginResponse = await AccountServer.Login(token);
+
+			if (!loginResponse.IsSuccess)
+			{
+				IsAvailable = false;
+				IsLoggedIn = false;
+				return this;
+			}
+
+			AccountTokenLoginResponse account = loginResponse.Data;
+
+			PostLogin(account!.token, account.user);
 
 			return this;
 		}
 
 		public async Task<Account> Register(string userId, string emailAddress, string username, string password)
 		{
-			var registerResponse = await AccountServer.Register(userId, emailAddress, username, password);
+			ApiResult<AccountRegisterResponse> registerResponse = await AccountServer.Register(userId, emailAddress, username, password);
 
-			Token = registerResponse.token;
-			Id = registerResponse.account.unique_identifier;
-			Username = registerResponse.account.username;
+			if (!registerResponse.IsSuccess)
+			{
+				IsAvailable = false;
+				IsLoggedIn = false;
+
+				//TODO: communicate the error to the user?!
+				return this;
+			}
+
+			AccountRegisterResponse account = registerResponse.Data;
+
+			Id = account!.account.unique_identifier;
+			Username = account.account.username;
 
 			return this; // set IsAvailable true?
 		}
 
-		public async Task<Account> RequestNewVerifyEmail()
+		public async Task<Account> ResendMailConfirmation(string email)
 		{
-			// TODO
-			//AccountServer.RequestVerifyEmail(Token);
+			ApiResult<JsonObject> response = await AccountServer.ResendEmailConfirmation(email);
 
-			throw new System.NotImplementedException();
+			if (!response.IsSuccess)
+			{
+				IsAvailable = false;
+				IsLoggedIn = false;
+				throw response.Exception!;
+			}
+
+			return this;
 		}
 
 		// get latest info for this account
 		public async Task<Account> FetchAccount()
 		{
-			var accountResponse = await AccountServer.GetAccountInfo(Id);
-			PopulateAccount(accountResponse);
+			ApiResult<AccountGetResponse> accountResponse = await AccountServer.GetAccountInfo(Id);
+
+			if (!accountResponse.IsSuccess)
+			{
+				IsAvailable = false;
+				IsLoggedIn = false;
+				return this;
+			}
+
+			AccountGetResponse account = accountResponse.Data;
+
+			PopulateAccount(account);
 
 			return this;
 		}
 
 		public async Task<string> GetPlayerToken()
 		{
-			var response = await AccountServer.GetVerificationToken(Token);
+			ApiResult<AccountVerificationTokenResponse> response = await AccountServer.GetVerificationToken(Token);
 
-			return response.verification_token;
+			if (!response.IsSuccess)
+			{
+				IsAvailable = false;
+				IsLoggedIn = false;
+				return "";
+			}
+
+			return response.Data!.verification_token;
 		}
 
 		public async Task<CharacterSheet> GetCharacter(string key)
@@ -148,7 +202,7 @@ namespace Core.Accounts
 			UpdateAccountCache();
 
 			IsAvailable = true;
-
+			IsLoggedIn = true;
 		}
 
 		private Account PopulateAccount(AccountGetResponse accountResponse)

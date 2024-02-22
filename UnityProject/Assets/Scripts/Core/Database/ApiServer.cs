@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
@@ -8,8 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using UnityEngine;
-using Core.Networking;
+using JetBrains.Annotations;
 using Logs;
 
 [assembly: InternalsVisibleTo("Tests")]
@@ -20,158 +19,90 @@ namespace Core.Database
 	/// </summary>
 	public static class ApiServer
 	{
-		internal static async Task<T> Get<T>(Uri uri, string token = default) where T : JsonObject
+		internal static async Task<ApiResult<T>> Get<T>(Uri uri, string token = default) where T : JsonObject
 		{
-			var responseBody = await Get(uri, token);
-			return JsonConvert.DeserializeObject<T>(responseBody);
-		}
-
-		internal static async Task<T> Post<T>(Uri uri, JsonObject body, string token = default) where T : JsonObject
-		{
-			try
-			{
-				var responseBody = await Post(uri, body, token);
-				var response = JsonConvert.DeserializeObject<T>(responseBody);
-				return response;
-			}
-			catch (Exception e)
-			{
-				Loggy.LogError(e.ToString());
-				return null;
-			}
-		}
-
-		internal static async Task<T> Put<T>(Uri uri, JsonObject body, string token = default) where T : JsonObject
-		{
-			try
-			{
-				var responseBody = await Put(uri, body, token);
-				var response = JsonConvert.DeserializeObject<T>(responseBody);
-				return response;
-			}
-			catch (Exception e)
-			{
-				Loggy.LogError(e.ToString());
-				return null;
-			}
-		}
-
-
-		internal static async Task<string> Get(Uri uri, string token = default)
-		{
-			var request = new HttpRequestMessage(HttpMethod.Get, uri);
+			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, uri);
 
 			if (token != default)
 			{
 				request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
 			}
 
-			return await Send(request);
+			return await Send<T>(request);
 		}
 
-		internal static async Task<string> Put(Uri uri, JsonObject body, string token = default)
+		internal static async Task<ApiResult<T>> Post<T>(Uri uri, JsonObject body, string token = default) where T : JsonObject
 		{
-			try
+			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, uri);
+
+			if (body is ITokenAuthable authable)
 			{
-				var request = new HttpRequestMessage(HttpMethod.Put, uri);
-
-				if (body is ITokenAuthable authable)
-				{
-					request.Headers.Authorization = new AuthenticationHeaderValue("Token", authable.Token);
-				}
-
-				if (token != default)
-				{
-					request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
-				}
-
-				var sss = JsonConvert.SerializeObject(body);
-				request.Content = new StringContent(sss, Encoding.UTF8, "application/json");
-				//request.Content = body.ToStringContent();
-				Loggy.Log("await Send(request);");
-				return await Send(request);
-
+				request.Headers.Authorization = new AuthenticationHeaderValue("Token", authable.Token);
 			}
-			catch (Exception e)
+
+			if (token != default)
 			{
-				Loggy.LogError(e.ToString());
-				return null;
+				request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
 			}
+
+			string sss = JsonConvert.SerializeObject(body);
+			request.Content = new StringContent(sss, Encoding.UTF8, "application/json");
+			return await Send<T>(request);
 		}
 
-		internal static async Task<string> Post(Uri uri, JsonObject body, string token = default)
+		internal static async Task<ApiResult<T>> Put<T>(Uri uri, JsonObject body, string token = default) where T : JsonObject
 		{
-			try
+			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, uri);
+
+			if (body is ITokenAuthable authable)
 			{
-				var request = new HttpRequestMessage(HttpMethod.Post, uri);
-
-				if (body is ITokenAuthable authable)
-				{
-					request.Headers.Authorization = new AuthenticationHeaderValue("Token", authable.Token);
-				}
-
-				if (token != default)
-				{
-					request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
-				}
-
-				var sss = JsonConvert.SerializeObject(body);
-				request.Content = new StringContent(sss, Encoding.UTF8, "application/json");
-				//request.Content = body.ToStringContent();
-				Loggy.Log("await Send(request);");
-				return await Send(request);
-
+				request.Headers.Authorization = new AuthenticationHeaderValue("Token", authable.Token);
 			}
-			catch (Exception e)
+
+			if (token != default)
 			{
-				Loggy.LogError(e.ToString());
-				return null;
+				request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
 			}
+
+			var sss = JsonConvert.SerializeObject(body);
+			request.Content = new StringContent(sss, Encoding.UTF8, "application/json");
+			//request.Content = body.ToStringContent();
+			Loggy.Log("await Send(request);");
+			return await Send<T>(request);
 		}
 
-
-		internal static async Task<string> Delete(Uri uri, string token = default)
+		internal static async Task<ApiResult<T>> Delete<T>(Uri uri, string token = default) where T : JsonObject
 		{
-			try
-			{
-				var request = new HttpRequestMessage(HttpMethod.Delete, uri);
+			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, uri);
 
-				if (token != default)
-				{
-					request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
-				}
-
-				return await Send(request);
-			}
-			catch (Exception e)
+			if (token != default)
 			{
-				Loggy.LogError(e.ToString());
-				return null;
+				request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
 			}
+
+			return await Send<T>(request);
 		}
 
 
-		private static async Task<string> Send(HttpRequestMessage request)
+		private static async Task<ApiResult<T>> Send<T>(HttpRequestMessage request) where T : JsonObject
 		{
 			request.Headers.Add("Accept", "application/json");
-			Loggy.Log("SecureStuff.SafeHttpRequest.SendAsync");
 			HttpResponseMessage response = await SecureStuff.SafeHttpRequest.SendAsync(request);
-			var responseBody = await response.Content.ReadAsStringAsync();
+			string responseBody = await response.Content.ReadAsStringAsync();
 
 			Loggy.Log(responseBody);
 			if (response.IsSuccessStatusCode == false)
 			{
-				if (TryGetApiRequestException(responseBody, out var requestException))
+				if (TryGetApiRequestException(responseBody, response.StatusCode, out ApiRequestException requestException))
 				{
-					throw requestException;
+					return ApiResult<T>.Failure(response.StatusCode, null, requestException);
 				}
-				else
-				{
-					throw new ApiHttpException(response.ReasonPhrase, response.StatusCode);
-				}
+
+				return ApiResult<T>.Failure(response.StatusCode, null,
+					new ApiHttpException(response.ReasonPhrase, response.StatusCode));
 			}
 
-			return responseBody;
+			return ApiResult<T>.Success(response.StatusCode, JsonConvert.DeserializeObject<T>(responseBody));
 		}
 
 		/// <summary>
@@ -179,74 +110,44 @@ namespace Core.Database
 		/// provides an unthrown <see cref="ApiRequestException"/> instance if any are found.
 		/// </summary>
 		/// <param name="response">Response body to test</param>
+		/// <param name="statusCode"></param>
 		/// <param name="requestException">An <see cref="ApiRequestException"/>  or null</param>
 		/// <returns>True if an API error found</returns>
-		private static bool TryGetApiRequestException(string response, out ApiRequestException requestException)
+		private static bool TryGetApiRequestException(string response, HttpStatusCode statusCode, [CanBeNull] out ApiRequestException requestException)
 		{
+			dynamic errorResponse = JsonConvert.DeserializeObject<dynamic>(response);
+			ApiRequestException tempException = new("An error occurred", statusCode);
 			requestException = null;
 
-			// First check for odd response (malformed JSON of a Detail error from the server?)
-			if (TryParseMalformedApiDetailResponse(response, out var message))
+			switch (errorResponse.error)
 			{
-				requestException = new ApiRequestException(message);
-				requestException.Messages.Add(message);
-				return true;
+				case JValue:
+					HandleSimpleError(tempException, errorResponse);
+					requestException = tempException;
+					break;
+				case JObject:
+					HandleComplexError(tempException, errorResponse);
+					requestException = tempException;
+					break;
 			}
 
-			// Else try get an API detail response.
-			var detailResponse = JsonConvert.DeserializeObject<ApiDetailResponse>(response);
-			if (string.IsNullOrEmpty(detailResponse?.detail) == false)
-			{
-				requestException = new ApiRequestException(detailResponse.detail);
-				requestException.Messages.Add(detailResponse.detail);
-				return true;
-			}
+			return requestException is not null && requestException.Messages.Any();
+		}
 
-			// Else try get an API error response.
-			if (TryGetApiErrorResponse(response, out var errorCollections))
+		private static void HandleComplexError(ApiRequestException requestException, dynamic errorResponse)
+		{
+			foreach (var prop in errorResponse.error)
 			{
-				requestException = new ApiRequestException(errorCollections?.Values.First().First());
-
-				foreach (string[] errors in errorCollections?.Values)
+				foreach (var message in prop.Value)
 				{
-					requestException.Messages.Concat(errors);
+					requestException.Messages.Add(message.ToString());
 				}
-				return true;
 			}
-
-			return false;
 		}
 
-		private static bool TryParseMalformedApiDetailResponse(string response, out string message)
+		private static void HandleSimpleError(ApiRequestException requestException, dynamic errorResponse)
 		{
-			message = string.Empty;
-
-			var startMarker = "[ErrorDetail(string=\'";
-
-			int from = response.IndexOf(startMarker) + startMarker.Length;
-			if (from <= startMarker.Length) return false;
-
-			int to = response.IndexOf("\'", from);
-			if (to < 0) return false;
-
-			message = response[from..to];
-
-			return true;
-		}
-
-		private static bool TryGetApiErrorResponse(string response, out Dictionary<string, string[]> errorCollections)
-		{
-			errorCollections = default;
-
-			// This parser is slower but Unity doesn't want to deserialize nested collections.
-			var jObject = JsonConvert.DeserializeObject<JObject>(response);
-			if (jObject != null && jObject.TryGetValue("error", out JToken jErrors))
-			{
-				errorCollections = jErrors.ToObject<Dictionary<string, string[]>>();
-				return true;
-			}
-
-			return false;
+			requestException.Messages.Add(errorResponse.error.ToString());
 		}
 	}
 }

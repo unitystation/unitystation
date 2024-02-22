@@ -111,8 +111,8 @@ namespace Core.Networking
 		public async void OnAuthRequest(NetworkConnectionToClient conn, AuthRequestMessage msg)
 		{
 			Loggy.LogTrace($"A client is requesting authentication. " +
-					$"Address: {conn.address}. Client Version: {msg.ClientVersion}. Account ID: {msg.AccountId}.",
-					Category.Connections);
+			               $"Address: {conn.address}. Client Version: {msg.ClientVersion}. Account ID: {msg.AccountId}.",
+				Category.Connections);
 
 			// Before proceeding, check for connection spam.
 			if (IsSpamming(conn))
@@ -175,7 +175,7 @@ namespace Core.Networking
 				if (logSecondsElapsed > MinCooldown)
 				{
 					Loggy.LogError($"Connection spam alert. Address {conn.address} is trying to spam connections.",
-							Category.Connections);
+						Category.Connections);
 				}
 
 				return true;
@@ -225,9 +225,9 @@ namespace Core.Networking
 			if (clientVersion != GameData.BuildNumber)
 			{
 				Loggy.LogTrace($"A client tried to connect with a different client version. Version: {clientVersion}.",
-						Category.Connections);
+					Category.Connections);
 				DisconnectClient(conn, ResponseCode.InvalidClientVersion,
-						$"Invalid Client Version! You need version {GameData.BuildNumber}. This can be acquired through the station hub.");
+					$"Invalid Client Version! You need version {GameData.BuildNumber}. This can be acquired through the station hub.");
 				return false;
 			}
 
@@ -240,11 +240,11 @@ namespace Core.Networking
 			if (string.IsNullOrEmpty(accountId) || string.IsNullOrEmpty(playerToken))
 			{
 				Loggy.LogError(
-						"A user tried to connect with an invalid account ID and/or token."
-						+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
-						Category.Connections);
+					"A user tried to connect with an invalid account ID and/or token."
+					+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
+					Category.Connections);
 				DisconnectClient(conn, ResponseCode.InvalidAccountDetails,
-						"Account has invalid token. Try restarting the game and relogging into your account.");
+					"Account has invalid token. Try restarting the game and relogging into your account.");
 
 				return false;
 			}
@@ -255,24 +255,28 @@ namespace Core.Networking
 		private async Task<Account> TryGetPlayerAccount(NetworkConnectionToClient conn, string accountId, string playerToken)
 		{
 			// Validate the provided token against the account details and get the account
-			AccountGetResponse accountResponse;
+			ApiResult<AccountGetResponse> accountResponse;
 			try
 			{
 				accountResponse = await AccountServer.VerifyAccount(accountId, playerToken);
+				if (!accountResponse.IsSuccess)
+				{
+					throw (ApiRequestException)accountResponse.Exception!;
+				}
 			}
 			catch (ApiRequestException e)
 			{
 				Loggy.Log(
-						$"The API server rejected the verification request for account with "
-						+ $"ID '{accountId}' at address '{conn.address}'. Error: {e.Message}",
-						Category.Connections);
+					$"The API server rejected the verification request for account with "
+					+ $"ID '{accountId}' at address '{conn.address}'. Error: {e.Message}",
+					Category.Connections);
 
 				// TODO check which particular error message corresponds with the log below, if we have one.
 				//Loggy.Log("A user tried to authenticate with a bad token. Possible spoof attempt."
 				//		+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
 				//		Category.Connections);
 				DisconnectClient(conn, ResponseCode.AccountValidationFailed,
-						"Account token validation failed. Try restarting the game and relogging into your account.");
+					"Account token validation failed. Try restarting the game and relogging into your account.");
 
 				return default;
 			}
@@ -280,26 +284,24 @@ namespace Core.Networking
 			{
 				Loggy.LogError($"Http error when validating user account token. Error: {e.Message} - "
 				               + $"Account ID: '{accountId}'. IP: '{conn.address}'.",
-						Category.Connections);
+					Category.Connections);
 				DisconnectClient(conn, ResponseCode.AccountValidationError,
-						"Server Error: unknown problem encountered when attempting to validate your account token.");
+					"Server Error: unknown problem encountered when attempting to validate your account token.");
 
 				return default;
 			}
 
-			return Account.FromAccountGetResponse(accountResponse);
+			return Account.FromAccountGetResponse(accountResponse.Data);
 		}
 
 		private bool ValidatePlayerAccount(NetworkConnectionToClient conn, Account account)
 		{
-			var isVerifiedOnlyServer = true; // TODO add option to server config
-			if (isVerifiedOnlyServer && account.IsVerified == false)
+			if (account.IsLoggedIn == false)
 			{
-				Loggy.LogError($"A user tried to authenticate with an unverified account, " +
-						$"but this server only accepts verified accounts. Username: '{account.Username}'. IP: '{conn.address}'.",
-						Category.Connections);
+				Loggy.LogErrorFormat("log in attempt failed for account with ID {0} at address {1}.",
+					Category.Connections, account.Id, conn.address);
 				DisconnectClient(conn, ResponseCode.AccountNotVerified,
-						"Account is not verified. Please verify your account before attempting to log in.");
+					"Could not log in with these credentials. Make sure you typed them correctly and you have confirmed your email.");
 
 				return false;
 			}

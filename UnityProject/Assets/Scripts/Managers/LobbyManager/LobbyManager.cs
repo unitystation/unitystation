@@ -238,7 +238,11 @@ namespace Lobby
 			}
 			else if (task.IsFaulted)
 			{
-				if (task.Exception?.GetBaseException() is ApiRequestException apiException)
+				if (task.Exception?.GetBaseException() is ApiRequestException apiRequestException)
+				{
+					lobbyDialogue.ShowLoginError(string.Join("\n", apiRequestException.Messages));
+				}
+				else if (task.Exception?.GetBaseException() is ApiHttpException apiException)
 				{
 					lobbyDialogue.ShowLoginError(apiException.Message);
 				}
@@ -280,9 +284,9 @@ namespace Lobby
 				{
 					var message = "Couldn't create your account. Check the console (F5).";
 
-					if (task.Exception.InnerException is ApiRequestException apiException)
+					if (task.Exception?.InnerException is ApiRequestException apiException)
 					{
-						message = $"Couldn't create your account. {apiException.Message}";
+						message = $"Couldn't create your account.\n\n{string.Join("\n\n", apiException.Messages)}";
 					}
 					else
 					{
@@ -307,7 +311,7 @@ namespace Lobby
 					{
 						Heading = "Account Created",
 						Text = $"Success! An email will be sent to\n<b>{email}</b>\n\n" +
-								$"Please click the link in the email to verify your account before signing in.",
+						       $"Please click the link in the email to verify your account before signing in.",
 						LeftButtonLabel = "Back",
 						LeftButtonCallback = lobbyDialogue.ShowLoginPanel,
 						RightButtonLabel = "Resend Email",
@@ -328,7 +332,7 @@ namespace Lobby
 		public void ResendVerifyEmail()
 		{
 			var email = PlayerPrefs.GetString(PlayerPrefKeys.AccountEmail);
-			PlayerManager.Account.RequestNewVerifyEmail().Then(task =>
+			PlayerManager.Account.ResendMailConfirmation(email).Then(task =>
 			{
 				if (task.IsCanceled)
 				{
