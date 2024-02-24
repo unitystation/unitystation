@@ -11,7 +11,7 @@ namespace Core.Database
 
 	public static class AccountServer
 	{
-		public static string Host = "dev-api.unitystation.org"; // TODO: expose to config
+		public static string Host => GameManager.Instance.AccountAPIHost;
 		public static UriBuilder UriBuilder = new("https", Host);
 
 		public static Uri GetUri(string endpoint, string queries = null, bool uglyPatch = false)

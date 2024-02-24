@@ -76,7 +76,7 @@ public class GameData : MonoBehaviour
 
 	public async void APITest()
 	{
-		var url = "https://api.unitystation.org/validatetoken?data=";
+		var url = $"{GameManager.Instance.AccountAPIHost}/validatetoken?data=";
 
 		HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get,
 			url + JsonConvert.SerializeObject(""));
@@ -88,7 +88,7 @@ public class GameData : MonoBehaviour
 		{
 			res = await SafeHttpRequest.SendAsync(r, cancellationToken);
 		}
-		catch (System.Net.Http.HttpRequestException e)
+		catch (HttpRequestException e)
 		{
 			Loggy.LogError(" APITest Failed setting to off-line mode  " +e.ToString());
 			forceOfflineMode = true;
