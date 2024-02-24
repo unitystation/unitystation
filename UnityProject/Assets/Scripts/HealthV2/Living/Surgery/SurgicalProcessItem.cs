@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using HealthV2;
 using TMPro;
 using UnityEngine;
