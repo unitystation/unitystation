@@ -53,10 +53,6 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 	//TODO Safety sensors force shuttle movement When in range of station
 
-	//TODO Momentum/Velocity bending When in spinney mode??
-	//TODO Bigger Dead zone for steering
-
-
 	//TODO shuttle movement,
 	//constant momentum/speed?? nah
 	//No drag loss when crashing

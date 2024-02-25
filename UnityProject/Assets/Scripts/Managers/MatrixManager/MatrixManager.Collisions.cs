@@ -217,7 +217,6 @@ public partial class MatrixManager
 
 	private void CheckTileCollisions( MatrixIntersection i )
 	{
-		return;
 		if (i.Matrix1 == null || i.Matrix2 == null) return;
 
 		byte collisions = 0;
