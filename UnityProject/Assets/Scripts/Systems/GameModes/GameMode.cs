@@ -169,6 +169,9 @@ namespace GameModes
 		/// </summary>
 		public List<JobType> NonAntagJobTypes => nonAntagJobTypes;
 
+
+		public MainStationListSO mainStations;
+
 		#endregion
 
 		#region Game Mode Methods

@@ -125,13 +125,19 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: 'initialTraits.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: a83bf55c94468e545ab67c06fd7b2469,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d868d0175c2ad014bb5c3cc4fb361248,
         type: 2}
     - target: {fileID: 3652986707257552662, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -176,6 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb88e6a8bf68c16448cb2f8ca500e1ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentlyInstalledIn: {fileID: 0}
   rodType: 0
   color: {r: 0, g: 1, b: 0.97092485, a: 1}
   NeutronGenerationPerSecond: 4

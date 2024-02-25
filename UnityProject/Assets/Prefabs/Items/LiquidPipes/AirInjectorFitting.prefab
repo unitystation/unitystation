@@ -30,6 +30,17 @@ PrefabInstance:
       propertyPath: initialName
       value: air injector fitting
       objectReference: {fileID: 0}
+    - target: {fileID: 6986793253136492712, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986793253136492712, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d868d0175c2ad014bb5c3cc4fb361248,
+        type: 2}
     - target: {fileID: 7271761278176277654, guid: c7c6619435930be4e91730eea5485a29,
         type: 3}
       propertyPath: m_Sprite

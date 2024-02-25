@@ -47,7 +47,7 @@ public class Matrix : MonoBehaviour
 
 
 	public int Id { get; set; } = 0;
-	public Vector3Int InitialOffset { get; private set; }
+	public Vector3Int InitialOffset { get; set; }
 	public ReactionManager ReactionManager { get; private set; }
 	public MetaDataLayer MetaDataLayer { get; private set; }
 	public UnderFloorLayer UnderFloorLayer { get; private set; }

@@ -121,7 +121,7 @@ namespace UI.Character
 
 		private void CreateCharacter()
 		{
-			var character = CharacterSheet.GenerateRandomCharacter();
+			var character = CharacterSheet.GenerateRandomCharacter(characterCustomization.AllSpecies);
 			CharacterManager.Add(character);
 			CharacterManager.SaveCharacters();
 

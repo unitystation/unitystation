@@ -45,7 +45,7 @@ namespace UI.AdminTools
 			if (CommonInput.GetMouseButtonDown(0))
 			{
 				var hits = MouseUtils.GetOrderedObjectsUnderMouse(layerMask,
-					go => go.GetComponent<UniversalObjectPhysics>() != null);
+					go => go.GetComponent<UniversalObjectPhysics>() != null, useMappedItems : DevCameraControls.Instance.MappingItemState);
 				if (hits.Any())
 				{
 					if (CustomNetworkManager.IsServer)

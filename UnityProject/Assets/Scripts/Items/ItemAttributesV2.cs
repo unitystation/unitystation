@@ -22,12 +22,6 @@ namespace Items
 	{
 		[Header("Item Info")]
 
-		[SerializeField]
-		[Tooltip("Initial traits of this item on spawn.")]
-		private List<ItemTrait> initialTraits = null;
-		public List<ItemTrait> InitialTraits => initialTraits;
-
-
 		[Header("Item Damage")]
 
 		[Tooltip("Damage when we click someone with harm intent")]

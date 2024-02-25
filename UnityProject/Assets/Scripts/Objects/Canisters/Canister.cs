@@ -340,7 +340,7 @@ namespace Objects.Atmospherics
 		{
 			if (canisterTier > 0)
 			{
-				GasContainer.GasMix.MultiplyGas(Mathf.Pow(10, canisterTier));
+				GasContainer.GasMixLocal.MultiplyGas(Mathf.Pow(10, canisterTier));
 				canisterTierOverlay.SetCatalogueIndexSprite(canisterTier - 1); // Tier 0 has no overlay.
 			}
 		}
@@ -361,10 +361,10 @@ namespace Objects.Atmospherics
 
 			GasContainer canisterTank = GetComponent<GasContainer>();
 			GasContainer externalTank = InsertedContainer.GetComponent<GasContainer>();
-			GasMix canisterGas = canisterTank.GasMix;
-			GasMix tankGas = externalTank.GasMix;
-			canisterTank.GasMix = tankGas.MergeGasMix(canisterGas);
-			externalTank.GasMix = tankGas;
+			GasMix canisterGas = canisterTank.GasMixLocal;
+			GasMix tankGas = externalTank.GasMixLocal;
+			canisterTank.GasMixLocal = tankGas.MergeGasMix(canisterGas);
+			externalTank.GasMixLocal = tankGas;
 		}
 
 		public void RefreshPressureIndicator()

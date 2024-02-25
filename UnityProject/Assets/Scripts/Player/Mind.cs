@@ -61,6 +61,10 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 	[SyncVar] private bool nonImportantMind = false;
 
+
+	/// <summary>
+	/// True if this minds belong to an NPC
+	/// </summary>
 	public bool NonImportantMind
 	{
 		get

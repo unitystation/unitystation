@@ -93,7 +93,7 @@ namespace Objects.Other
 			if(pipeToMove == null) return;
 
 			//Equalise our gasmix on move
-			pipeToMove.GetMixAndVolume.EqualiseWithExternal(gasContainer.GasMix);
+			pipeToMove.GetMixAndVolume.EqualiseWithExternal(gasContainer.GasMixLocal);
 
 			objectContainer.registerTile.
 				ObjectPhysics.Component

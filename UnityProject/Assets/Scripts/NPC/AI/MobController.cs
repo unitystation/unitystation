@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 namespace Systems.MobAIs
 {
+	[Obsolete]
 	public class MobController : MonoBehaviour
 	{
 		public RegisterTile RegisterTile;
@@ -44,20 +45,20 @@ namespace Systems.MobAIs
 		{
 			if (RegisterTile.Matrix.PresentPlayers.Count == 0) return;
 
+			var position = transform.localPosition;
 			if (RegisterTile.Matrix.IsMainStation == false)
 			{
-				var Position = this.transform.localPosition;
-				bool PlayerNearby = false;
-				foreach (var Player in RegisterTile.Matrix.PresentPlayers)
+				bool playerNearby = false;
+				foreach (var player in RegisterTile.Matrix.PresentPlayers)
 				{
-					if ((Player.transform.localPosition - Position).magnitude < 20f)
+					if ((player.transform.localPosition - position).magnitude < 20f)
 					{
-						PlayerNearby = true;
+						playerNearby = true;
 						break;
 					}
 				}
 
-				if (PlayerNearby == false) return;
+				if (playerNearby == false && DMMath.Prob(90)) return;
 			}
 
 			foreach (var _MobObjective in MobObjectives)

@@ -14,6 +14,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a743fa3fb9e109c4a9ad1833005a8936,
         type: 2}
+    - target: {fileID: 3275661519313506328, guid: e50d651765b304f44977db3f52109e8a,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3275661519313506328, guid: e50d651765b304f44977db3f52109e8a,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cd98e1bc8bcab7e40a694886dbae5973,
+        type: 2}
     - target: {fileID: 4327203839747308106, guid: e50d651765b304f44977db3f52109e8a,
         type: 3}
       propertyPath: _assetId

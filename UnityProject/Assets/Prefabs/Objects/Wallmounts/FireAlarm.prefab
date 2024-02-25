@@ -368,11 +368,6 @@ PrefabInstance:
       propertyPath: foreverID
       value: e6e7f915b6b6fc14c981a592369d47f8
       objectReference: {fileID: 0}
-    - target: {fileID: 3285997587728660326, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-        type: 3}
-      propertyPath: spriteMatrixRotationBehavior
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -522,6 +517,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: '"Pull this in case of emergency." Thus, keep pulling it forever.'
       objectReference: {fileID: 0}
+    - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cd98e1bc8bcab7e40a694886dbae5973,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
     m_RemovedGameObjects: []
@@ -604,7 +610,6 @@ MonoBehaviour:
   CurrentDirection: 3
   SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 0
-  MatrixRotateUpdate: 1
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &7882156339634519424
@@ -635,8 +640,8 @@ MonoBehaviour:
   bottomLightSpriteHandler: {fileID: 6366995917858756332}
   coverOpen: 0
   hasCables: 1
-  registerTile: {fileID: 4966197239815423054}
-  integrity: {fileID: 5177482785941875611}
+  registerTile: {fileID: 0}
+  integrity: {fileID: 0}
   FireAlarmSFX:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/FireAlarm.prefab
@@ -647,30 +652,6 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   <CanRelink>k__BackingField: 1
   <IgnoreMaxDistanceMapper>k__BackingField: 0
---- !u!114 &4966197239815423054 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7946340047006197236, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-    type: 3}
-  m_PrefabInstance: {fileID: 3074947235549192634}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4338884022056035334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5177482785941875611 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7887620515462466081, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-    type: 3}
-  m_PrefabInstance: {fileID: 3074947235549192634}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4338884022056035334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5529437522813867580 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7354635586586802054, guid: b69bfc56f39849d4ba9139d2d51bedb6,

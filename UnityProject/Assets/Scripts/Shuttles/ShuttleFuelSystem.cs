@@ -62,7 +62,7 @@ namespace Systems.Shuttles
 				{
 					//MatrixMove.IsFueled = true;
 				}
-				FuelLevel = Connector.canister.GasContainer.GasMix.GetMoles(Gas.Plasma) / Connector.canister.GasContainer.MaximumMoles;
+				FuelLevel = Connector.canister.GasContainer.GasMixLocal.GetMoles(Gas.Plasma) / Connector.canister.GasContainer.MaximumMoles;
 			}
 			else
 			{
@@ -82,8 +82,8 @@ namespace Systems.Shuttles
 
 		bool IsFuelledOptimum()
 		{
-			var Plasma = Connector.canister.GasContainer.GasMix.GetMoles(Gas.Plasma);
-			var Oxygen = Connector.canister.GasContainer.GasMix.GetMoles(Gas.Oxygen);
+			var Plasma = Connector.canister.GasContainer.GasMixLocal.GetMoles(Gas.Plasma);
+			var Oxygen = Connector.canister.GasContainer.GasMixLocal.GetMoles(Gas.Oxygen);
 			var Ratio = ((Plasma / Oxygen) / (7f / 3f));
 			//Logger.Log("Ratio > " + Ratio);
 			Ratio = Ratio * 2f;
@@ -125,13 +125,13 @@ namespace Systems.Shuttles
 			if (IsFuelledOptimum())
 			{
 				//Logger.Log("CalculatedMassConsumption > " + CalculatedMassConsumption*MassConsumption);
-				Connector.canister.GasContainer.GasMix.RemoveGas(Gas.Plasma, CalculatedMassConsumption * MassConsumption * (0.7f));
-				Connector.canister.GasContainer.GasMix.RemoveGas(Gas.Oxygen, CalculatedMassConsumption * MassConsumption * (0.3f));
+				Connector.canister.GasContainer.GasMixLocal.RemoveGas(Gas.Plasma, CalculatedMassConsumption * MassConsumption * (0.7f));
+				Connector.canister.GasContainer.GasMixLocal.RemoveGas(Gas.Oxygen, CalculatedMassConsumption * MassConsumption * (0.3f));
 			}
-			else if (Connector.canister.GasContainer.GasMix.GetMoles(Gas.Plasma) > MassConsumption * FuelConsumption)
+			else if (Connector.canister.GasContainer.GasMixLocal.GetMoles(Gas.Plasma) > MassConsumption * FuelConsumption)
 			{
 				//Logger.Log("Full-back > " + (FuelConsumption * MassConsumption));
-				Connector.canister.GasContainer.GasMix.RemoveGas(Gas.Plasma, (MassConsumption * FuelConsumption));
+				Connector.canister.GasContainer.GasMixLocal.RemoveGas(Gas.Plasma, (MassConsumption * FuelConsumption));
 			}
 			else
 			{
@@ -147,7 +147,7 @@ namespace Systems.Shuttles
 			{
 				return (true);
 			}
-			else if (Connector.canister.GasContainer.GasMix.GetMoles(Gas.Plasma) > MassConsumption * FuelConsumption)
+			else if (Connector.canister.GasContainer.GasMixLocal.GetMoles(Gas.Plasma) > MassConsumption * FuelConsumption)
 			{
 				return (true);
 			}

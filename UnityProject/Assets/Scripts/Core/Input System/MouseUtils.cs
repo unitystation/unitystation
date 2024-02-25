@@ -67,7 +67,7 @@ public static class MouseUtils
 	/// be the "root" of the gameobject this renderer lives on.</param>
 	/// <returns>the ordered game objects that were under the mouse, top first</returns>
 	public static IEnumerable<GameObject> GetOrderedObjectsAtPoint(Vector3 worldPoint, LayerMask? layerMask = null,
-		Func<GameObject, bool> gameObjectFilter = null)
+		Func<GameObject, bool> gameObjectFilter = null, bool useMappedItems = false)
 	{
 		var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPoint), CustomNetworkManager.Instance._isServer)
 			.Matrix;
@@ -96,6 +96,13 @@ public static class MouseUtils
 		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition + Vector3Int.down + Vector3Int.left, false)
 			.ToList());
 
+
+		if (useMappedItems)
+		{
+			resultRegisterTile.AddRange(matrix.MetaDataLayer.EtherealThings
+				.Where( x => (x.transform.localPosition -  tilePosition).magnitude < 2)
+				.Select(x => x.Pickupable.UniversalObjectPhysics.registerTile));
+		}
 
 		var result = resultRegisterTile.Select(x => x.gameObject);
 		var IInteractableTiles = matrix.GetComponentInParent<InteractableTiles>().gameObject;
@@ -149,7 +156,7 @@ public static class MouseUtils
 	/// be the "root" of the gameobject this renderer lives on.</param>
 	/// <returns>the ordered game objects that were under the mouse, top first</returns>
 	public static IEnumerable<GameObject> GetOrderedObjectsUnderMouse(LayerMask? layerMask = null,
-		Func<GameObject, bool> gameObjectFilter = null)
+		Func<GameObject, bool> gameObjectFilter = null, bool useMappedItems = false)
 	{
 
 		var WorldPos = MouseToWorldPos();
@@ -161,7 +168,7 @@ public static class MouseUtils
 		}
 
 		return GetOrderedObjectsAtPoint(WorldPos, layerMask,
-			gameObjectFilter);
+			gameObjectFilter,useMappedItems);
 	}
 
 	/// <summary>

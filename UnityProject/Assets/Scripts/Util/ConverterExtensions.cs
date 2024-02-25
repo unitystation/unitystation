@@ -40,6 +40,12 @@ public static class ConverterExtensions
 		return MatrixManager.LocalToWorld(localPos, MatrixManager.Get(matrix));
 	}
 
+	public static Vector3 ToWorld(this Vector3Int localPos, MatrixInfo matrix)
+	{
+		return MatrixManager.LocalToWorld(localPos, matrix);
+	}
+
+
 	public static Vector3Int ToLocalInt(this Vector3 worldPos, Matrix matrix)
 	{
 		return MatrixManager.WorldToLocalInt(worldPos, MatrixManager.Get(matrix));

@@ -359,9 +359,7 @@ namespace Core.Utils
 			Behaviour = inRegisterBehaviour;
 			SetFloatBehaviour  = InSetFloatBehaviour;
 		}
-
 	}
-
 }
 
 

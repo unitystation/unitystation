@@ -83,6 +83,23 @@ PrefabInstance:
       propertyPath: m_Name
       value: SingleHighCableCoil
       objectReference: {fileID: 0}
+    - target: {fileID: 1527742535114383235, guid: 288980126acf5f441841169958c31630,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527742535114383235, guid: 288980126acf5f441841169958c31630,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e46c3fa979e00940a50dbb3c0a4ac0c,
+        type: 2}
+    - target: {fileID: 1527742535114383235, guid: 288980126acf5f441841169958c31630,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e39c048ec864b47a495a40f9c76af764,
+        type: 2}
     - target: {fileID: 3377645697590253390, guid: 288980126acf5f441841169958c31630,
         type: 3}
       propertyPath: initialAmount

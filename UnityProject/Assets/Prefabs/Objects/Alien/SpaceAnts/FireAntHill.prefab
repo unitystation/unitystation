@@ -1,0 +1,238 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &351260405077841076
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 524966957786153906, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: attackType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 524966957786153906, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: damageType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 524966957786153906, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: OnStepEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 524966957786153906, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: OnStepEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 524966957786153906, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: OnStepEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 3822476053329715785}
+    - target: {fileID: 524966957786153906, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: OnStepEvent.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 524966957786153906, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: OnStepEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: AddFireStackToMob
+      objectReference: {fileID: 0}
+    - target: {fileID: 524966957786153906, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: OnStepEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Objects.Alien.SpaceAnts.AntHill, Assets
+      objectReference: {fileID: 0}
+    - target: {fileID: 524966957786153906, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: OnStepEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2118281241829190784, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: abc17a93efe4d784487db9a3b3694287,
+        type: 3}
+    - target: {fileID: 2163303937581648023, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: m_Name
+      value: FireAntHill
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166280565771980365, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166280565771980365, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166280565771980365, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166280565771980365, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166280565771980365, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166280565771980365, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166280565771980365, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166280565771980365, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166280565771980365, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166280565771980365, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2987137098260870878, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: foreverID
+      value: fE_LbeMZ3EJFST4?$2en
+      objectReference: {fileID: 0}
+    - target: {fileID: 3590429716675606269, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: minMaxAntDamage.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3590429716675606269, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: 'stateSprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: fe3f0a527dd09384586e6493c310209f,
+        type: 2}
+    - target: {fileID: 3590429716675606269, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: 'stateSprites.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: fe3f0a527dd09384586e6493c310209f,
+        type: 2}
+    - target: {fileID: 3590429716675606269, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: 'stateSprites.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: fe3f0a527dd09384586e6493c310209f,
+        type: 2}
+    - target: {fileID: 3590429716675606269, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: 'stateSprites.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: fe3f0a527dd09384586e6493c310209f,
+        type: 2}
+    - target: {fileID: 3590429716675606269, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: 'antMultiplyPrefabs.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1934986541857315875}
+    - target: {fileID: 6653340194705613389, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fe3f0a527dd09384586e6493c310209f,
+        type: 2}
+    - target: {fileID: 7343493396323190538, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7343493396323190538, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: Resistances.LavaProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7343493396323190538, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: Armor.TemperatureProtectionInK.y
+      value: 3549.8035
+      objectReference: {fileID: 0}
+    - target: {fileID: 7771041088362954229, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: _assetId
+      value: 683433933
+      objectReference: {fileID: 0}
+    - target: {fileID: 8331985004565394025, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: exportCost
+      value: -1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 8331985004565394025, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: exportName
+      value: Fire Ant Colony
+      objectReference: {fileID: 0}
+    - target: {fileID: 8331985004565394025, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      propertyPath: initialDescription
+      value: Fire ants are no joke. Keep flameable items and reagents away from this.
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2163303937581648023, guid: bd08fbb960393264dada821cd5f5484f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9015512026050186429}
+  m_SourcePrefab: {fileID: 100100000, guid: bd08fbb960393264dada821cd5f5484f, type: 3}
+--- !u!1 &1934986541857315875 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2163303937581648023, guid: bd08fbb960393264dada821cd5f5484f,
+    type: 3}
+  m_PrefabInstance: {fileID: 351260405077841076}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9015512026050186429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934986541857315875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d408cfa84b1b6714c90e9c97d3f1733c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBurningOnSpawn: 1
+  hotspotTemperature: 700
+  changeGasMixTemp: 1
+--- !u!114 &3822476053329715785 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3590429716675606269, guid: bd08fbb960393264dada821cd5f5484f,
+    type: 3}
+  m_PrefabInstance: {fileID: 351260405077841076}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934986541857315875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4630f5a942fe4742a512c0a662991db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

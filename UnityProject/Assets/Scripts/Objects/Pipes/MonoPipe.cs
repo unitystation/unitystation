@@ -249,7 +249,7 @@ namespace Objects.Atmospherics
 			}
 			if (container.GameObject.TryGetComponent<GasContainer>(out var gasContainer))
 			{
-				GasMix.TransferGas(gasContainer.GasMix, pipeMix, pipeMix.Moles);
+				GasMix.TransferGas(gasContainer.GasMixLocal, pipeMix, pipeMix.Moles);
 			}
 
 			Chat.AddActionMsgToChat(gameObject, $"You enter the {gameObject.ExpensiveName()}",

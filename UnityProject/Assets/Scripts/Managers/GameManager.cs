@@ -571,22 +571,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Loggy.LogError("Failed to log Players antagonist preferences" + e.ToString());
 		}
 
-
-		if (string.IsNullOrEmpty(NextGameMode) || NextGameMode == "Random")
-		{
-			SetRandomGameMode();
-		}
-		else
-		{
-			//Set game mode to the selected game mode
-			SetGameMode(NextGameMode);
-			//Then reset it to the default game mode set in the config for next round.
-			NextGameMode = InitialGameMode;
-		}
-
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL,
-			$"{GameMode.Name} chosen", "[GameMode]");
-
 		try
 		{
 			// Game mode specific setup
@@ -610,6 +594,23 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		UpdateCountdownMessage.Send(true, 0);
 		EventManager.Broadcast(Event.PostRoundStarted, true);
 		CleanupUtil.RoundStartCleanup();
+	}
+
+	public void ChooseGameMode()
+	{
+		if (string.IsNullOrEmpty(NextGameMode) || NextGameMode == "Random")
+		{
+			SetRandomGameMode();
+		}
+		else
+		{
+			//Set game mode to the selected game mode
+			SetGameMode(NextGameMode);
+			//Then reset it to the default game mode set in the config for next round.
+			NextGameMode = InitialGameMode;
+		}
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL,
+			$"{GameMode.Name} chosen", "[GameMode]");
 	}
 
 	/// <summary>

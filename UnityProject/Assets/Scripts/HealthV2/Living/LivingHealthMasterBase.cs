@@ -892,7 +892,7 @@ namespace HealthV2
 			MetaDataNode
 				node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile
 					.LocalPositionClient); //TODO Account for containers
-			if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
+			if (node.GasMixLocal.GetMoles(Gas.Oxygen) < 1)
 			{
 				fireStacks = 0;
 				return;
@@ -1160,11 +1160,26 @@ namespace HealthV2
 					default, default, traumaChance, traumaticDamageTypes);
 			}
 
-			if (damageType == DamageType.Brute)
+			IndicatePain(damage);
+			OnTakeDamageType?.Invoke(damageType, damagedBy, damage);
+		}
+
+
+		[Server]
+		public void ApplyDamageToRandomBodyPart(GameObject damagedBy, float damage, AttackType attackType, DamageType damageType,
+			bool damageSplit = true, TraumaticDamageTypes traumaticDamageTypes = TraumaticDamageTypes.NONE,
+			double traumaChance = 50)
+		{
+			if (damageSplit)
 			{
-				//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
-				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+				float bodyParts = SurfaceBodyParts.Count;
+				damage /= bodyParts;
 			}
+
+			var bodyPartToTakeDamage = SurfaceBodyParts.PickRandom();
+			if (bodyPartToTakeDamage is null) return;
+			bodyPartToTakeDamage.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit,
+				default, default, traumaChance, traumaticDamageTypes);
 
 			IndicatePain(damage);
 			OnTakeDamageType?.Invoke(damageType, damagedBy, damage);
@@ -1651,7 +1666,7 @@ namespace HealthV2
 			MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient);
 
 			//Space or below -10 degrees celsius is safe from miasma creation
-			if (node.IsSpace || node.GasMix.Temperature <= Reactions.KOffsetC - 10) return;
+			if (node.IsSpace || node.GasMixLocal.Temperature <= Reactions.KOffsetC - 10) return;
 
 			//If we are in a container then don't produce miasma
 			//TODO: make this only happen with coffins, body bags and other body containers (morgue, etc)
@@ -1660,9 +1675,9 @@ namespace HealthV2
 			//TODO: check for formaldehyde in body, prevent if more than 15u
 
 			//Don't continuously produce miasma, only produce max 4 moles on the tile
-			if (node.GasMix.GetMoles(Gas.Miasma) > 4) return;
+			if (node.GasMixLocal.GetMoles(Gas.Miasma) > 4) return;
 
-			node.GasMix.AddGas(Gas.Miasma, AtmosDefines.MIASMA_CORPSE_MOLES);
+			node.GasMixLocal.AddGas(Gas.Miasma, AtmosDefines.MIASMA_CORPSE_MOLES);
 		}
 
 		#region Examine
