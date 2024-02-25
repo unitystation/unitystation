@@ -32,9 +32,9 @@ public class ShipThruster : MonoBehaviour
 		{
 			return;
 		}
-		shipMatrixMove.MatrixMoveEvents.OnStartMovementClient.RemoveListener(UpdateEngineState);
-		shipMatrixMove.MatrixMoveEvents.OnStopMovementClient.RemoveListener(UpdateEngineState);
-		shipMatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(RotateFX);
+		// shipMatrixMove.MatrixMoveEvents.OnStartMovementClient.RemoveListener(UpdateEngineState);
+		// shipMatrixMove.MatrixMoveEvents.OnStopMovementClient.RemoveListener(UpdateEngineState);
+		// shipMatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(RotateFX);
 	}
 
 	private void OnDestroy()
@@ -43,9 +43,9 @@ public class ShipThruster : MonoBehaviour
 		{
 			return;
 		}
-		shipMatrixMove.MatrixMoveEvents.OnStartMovementClient.RemoveListener(UpdateEngineState);
-		shipMatrixMove.MatrixMoveEvents.OnStopMovementClient.RemoveListener(UpdateEngineState);
-		shipMatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(RotateFX);
+		// shipMatrixMove.MatrixMoveEvents.OnStartMovementClient.RemoveListener(UpdateEngineState);
+		// shipMatrixMove.MatrixMoveEvents.OnStopMovementClient.RemoveListener(UpdateEngineState);
+		// shipMatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(RotateFX);
 	}
 
 	IEnumerator Init()
@@ -63,11 +63,11 @@ public class ShipThruster : MonoBehaviour
 
 		}
 		yield return WaitFor.EndOfFrame;
-		shipMatrixMove.MatrixMoveEvents.OnStartMovementClient.AddListener(UpdateEngineState);
-		shipMatrixMove.MatrixMoveEvents.OnStopMovementClient.AddListener(UpdateEngineState);
-		//TODO: Refactor to use Directional
-		shipMatrixMove.MatrixMoveEvents.OnRotate.AddListener(RotateFX);
-		shipMatrixMove.MatrixMoveEvents.OnSpeedChange.AddListener(SpeedChange);
+		// shipMatrixMove.MatrixMoveEvents.OnStartMovementClient.AddListener(UpdateEngineState);
+		// shipMatrixMove.MatrixMoveEvents.OnStopMovementClient.AddListener(UpdateEngineState);
+		// //TODO: Refactor to use Directional
+		// shipMatrixMove.MatrixMoveEvents.OnRotate.AddListener(RotateFX);
+		// shipMatrixMove.MatrixMoveEvents.OnSpeedChange.AddListener(SpeedChange);
 	}
 
 	public void UpdateEngineState()
@@ -75,17 +75,18 @@ public class ShipThruster : MonoBehaviour
 		var emissionFX = particleFX.emission;
 
 		// don't enable FX if movement is caused by RCS
-		if(shipMatrixMove.rcsModeActive)
-		{
-			var colour = lightSprite.Color;
-			colour.a = 0;
-			lightSprite.Color = colour;
-			emissionFX.enabled = false;
-		}
-		else if (EngineStatus())
+		// if(shipMatrixMove.rcsModeActive)
+		// {
+		// 	var colour = lightSprite.Color;
+		// 	colour.a = 0;
+		// 	lightSprite.Color = colour;
+		// 	emissionFX.enabled = false;
+		// }
+		//else
+		if (EngineStatus())
 		{
 			emissionFX.enabled = true;
-			SpeedChange(0, shipMatrixMove.ClientState.Speed); //Set particle speed on engine updates, used for setting speed at beginning of flight.
+			//SpeedChange(0, shipMatrixMove.ClientState.Speed); //Set particle speed on engine updates, used for setting speed at beginning of flight.
 		}
 		else
 		{
@@ -120,7 +121,7 @@ public class ShipThruster : MonoBehaviour
 	{
 		if (shipMatrixMove != null)
 		{
-			return shipMatrixMove.ClientState.IsMoving;
+			//return shipMatrixMove.ClientState.IsMoving;
 		}
 
 		return false;

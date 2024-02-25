@@ -31,7 +31,7 @@ namespace Messages.Server
 			if (NetworkObject != null)
 			{
 				var matrixMove = NetworkObject.GetComponent<MatrixSync>().MatrixMove;
-				matrixMove.UpdateClientState(msg.State);
+				//matrixMove.UpdateClientState(msg.State);
 			}
 		}
 

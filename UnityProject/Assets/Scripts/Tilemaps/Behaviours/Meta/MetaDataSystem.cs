@@ -472,12 +472,12 @@ public class MetaDataSystem : MatrixSystemBehaviour
 
 	private void ServerUpdateMe()
 	{
-		if (matrix.MatrixMove != null && matrix.MatrixMove.IsMovingServer)
-		{
-			foreach (MetaDataNode node in externalNodes.Keys)
-			{
-				subsystemManager.UpdateAt(node.LocalPosition);
-			}
-		}
+		// if (matrix.MatrixMove != null && matrix.MatrixMove.IsMovingServer)
+		// {
+		// 	foreach (MetaDataNode node in externalNodes.Keys)
+		// 	{
+		// 		subsystemManager.UpdateAt(node.LocalPosition);
+		// 	}
+		// }
 	}
 }

@@ -29,6 +29,8 @@ public class UpdateManager : MonoBehaviour
 	private List<Action> fixedUpdateActions = new List<Action>();
 	private List<Action> lateUpdateActions = new List<Action>();
 
+	private Action cameraFollowUpate = null;
+
 	private List<Action> postCameraUpdateActions = new List<Action>();
 
 	private List<TimedUpdate> periodicUpdateActions = new List<TimedUpdate>();
@@ -153,6 +155,14 @@ public class UpdateManager : MonoBehaviour
 		}
 	}
 
+	public static void SetCameraUpdate(Action CameraFollowUpate)
+	{
+		if (instance != null)
+		{
+			instance.cameraFollowUpate = CameraFollowUpate;
+		}
+	}
+
 	public static void SafeAdd(Action action, float timeInterval)
 	{
 		instance.threadSafeAddPeriodicQueue.Enqueue(new Tuple<Action, float>(action, timeInterval));
@@ -233,7 +243,7 @@ public class UpdateManager : MonoBehaviour
 			return;
 		}
 
-		if (type == CallbackType.POST_CAMERA_UPDATE)
+		if (type == CallbackType.POST_FOLLOW_CAMERA_UPDATE)
 		{
 			Instance.postCameraUpdateActions.Remove(action);
 			return;
@@ -276,7 +286,7 @@ public class UpdateManager : MonoBehaviour
 			return;
 		}
 
-		if (type == CallbackType.POST_CAMERA_UPDATE)
+		if (type == CallbackType.POST_FOLLOW_CAMERA_UPDATE)
 		{
 			Instance.postCameraUpdateActions.Add(action);
 			return;
@@ -486,6 +496,8 @@ public class UpdateManager : MonoBehaviour
 				}
 			}
 		}
+		LastInvokedAction = cameraFollowUpate;
+		cameraFollowUpate?.Invoke();
 		MidInvokeCalls = false;
 	}
 
@@ -599,7 +611,7 @@ public enum CallbackType : byte
 	FIXED_UPDATE,
 	LATE_UPDATE,
 	PERIODIC_UPDATE,
-	POST_CAMERA_UPDATE,
+	POST_FOLLOW_CAMERA_UPDATE,
 	SOUND_UPDATE
 }
 

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3194600400839006163}
   - component: {fileID: 792027007906254727}
   - component: {fileID: 5805040026845563395}
+  - component: {fileID: 7629088633371058288}
   m_Layer: 0
   m_Name: MatrixSync
   m_TagString: Untagged
@@ -79,3 +80,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7629088633371058288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3131909417713665038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 487c0aa989e8d4d7cb70ffa12c1794cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  SynchronisedPosition: {x: 0, y: 0, z: 0}
+  SynchronisedRotation: {x: 0, y: 0, z: 0}
+  SynchronisedSpin: 0
+  SynchronisedMass: 0
+  SynchronisedVelocity: {x: 0, y: 0, z: 0}
+  SynchronisedPivotPoint: {x: 0, y: 0, z: 0}
+  TargetTransform: {fileID: 0}
+  ConnectedThrusters: []
+  ConnectedShuttleConnectors: []
+  Drag: 0.2
+  DragTorque: 0.5
+  TileAlignmentSpeed: 0.75
+  LowSpeedDrag: 2
+  LowSpeedDragThreshold: 1
+  HighSpeedDrag: 0.5
+  HighSpeedDragMinimumThreshold: 20
+  HighSpeedDrag100Threshold: 50
+  SpinneyTurnVelocityBent: 0.5
+  SpinneyThreshold: 20
+  WorldCurrentVelocity: {x: 0, y: 0, z: 0}
+  CurrentTorque: 0
+  currentLocalPivot: {x: 0, y: 0, z: 0}
+  ObjectLayer: {fileID: 0}
+  MetaTileMap: {fileID: 0}
+  X: {fileID: 11400000, guid: 05d429583933b8143837956dceed7768, type: 2}
+  GameGizmoSprite: {fileID: 0}
+  rotationSpeed: 30
+  ShuttleNonSpinneyModeRounding: 30
+  TargetOrientation: -1
+  IsMoving: 0
+  RCSModeActive: 0
+  playerControllingRcs: {fileID: 0}
+  UpdateHandled: 0
+  TheReusingConnectedThrusters: []
+  ShuttleConsuls: []

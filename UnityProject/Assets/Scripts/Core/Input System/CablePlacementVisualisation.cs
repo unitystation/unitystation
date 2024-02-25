@@ -96,8 +96,8 @@ public class CablePlacementVisualisation : MonoBehaviour
 
 		if (PlayerManager.LocalPlayerObject.RegisterTile().Matrix.IsMovable)
 		{
-			cablePlacementVisualisation.transform.localRotation = PlayerManager.LocalPlayerObject.RegisterTile().Matrix.MatrixMove
-				.FacingOffsetFromInitial.Quaternion;
+			// cablePlacementVisualisation.transform.localRotation = PlayerManager.LocalPlayerObject.RegisterTile().Matrix.MatrixMove
+			// 	.FacingOffsetFromInitial.Quaternion;
 		}
 		else
 		{
@@ -173,8 +173,8 @@ public class CablePlacementVisualisation : MonoBehaviour
 		}
 		else
 		{
-			var InQuaternion = Register.Matrix.MatrixMove.FacingOffsetFromInitial.Quaternion;
-			Position = cablePlacementVisualisation.transform.position + (InQuaternion * new Vector3(0.5f, 0.5f, 0));
+			// var InQuaternion = Register.Matrix.MatrixMove.FacingOffsetFromInitial.Quaternion;
+			// Position = cablePlacementVisualisation.transform.position + (InQuaternion * new Vector3(0.5f, 0.5f, 0));
 		}
 
 
@@ -354,11 +354,11 @@ public class CablePlacementVisualisation : MonoBehaviour
 					}
 					else
 					{
-						var InQuaternion = RegisterTile.Matrix.MatrixMove
-							.FacingOffsetFromInitial.Quaternion;
-
-						cablePlacementVisualisation.transform.position = mousePosition - (InQuaternion * (new Vector3(0.5f, 0.5f, 0))) ;
-						cablePlacementVisualisation.SetActive(true);
+						// var InQuaternion = RegisterTile.Matrix.MatrixMove
+						// 	.FacingOffsetFromInitial.Quaternion;
+						//
+						// cablePlacementVisualisation.transform.position = mousePosition - (InQuaternion * (new Vector3(0.5f, 0.5f, 0))) ;
+						// cablePlacementVisualisation.SetActive(true);
 					}
 
 

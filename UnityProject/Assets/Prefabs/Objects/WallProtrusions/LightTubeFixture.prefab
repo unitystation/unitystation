@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -155,8 +157,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 40
-  EmergencyColour: {r: 1, g: 0, b: 0, a: 0.5137255}
-  previouseColour: {r: 0.4811321, g: 0.41670677, b: 0.22014064, a: 0.44705883}
   spriteHandler: {fileID: 1952478272362544665}
   source: {fileID: 6947158127070171075}
   speedVariation: 0.25
@@ -301,6 +301,7 @@ MonoBehaviour:
   spriteHandler: {fileID: 1952478272362544665}
   source: {fileID: 6947158127070171075}
   sprites: []
+  resetToDefaultSpriteOnAnimStop: 0
   animSpeed: 0.2
   <ID>k__BackingField: 2
 --- !u!1001 &7428089721754950040
@@ -802,7 +803,9 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 1
+  SynchroniseCurrentDirection: 1
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 0
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &4982059446412124837
@@ -863,10 +866,12 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   CurrentOnColor: {r: 1, g: 0.9899574, b: 0.8443396, a: 0.65882355}
+  EmergencyColour: {r: 0, g: 0, b: 0, a: 0}
   relatedLightSwitch: {fileID: 0}
   InitialState: 1
   mLightRendererObject: {fileID: 0}
   isWithoutSwitch: 0
+  <CanRelink>k__BackingField: 1
   <Animator>k__BackingField: {fileID: 4710465001683396220}
   spriteHandler: {fileID: 3276952608748939964}
   spriteRendererLightOn: {fileID: 1689274832931870787}
@@ -905,8 +910,8 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  animationsHolder: {fileID: 8582599332015320669}
   activeAnimationID: -1
+  animationsHolder: {fileID: 8582599332015320669}
 --- !u!4 &8016220542479582908 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,

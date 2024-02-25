@@ -17,7 +17,9 @@ namespace Messages.Client.DevSpawner
 			// asset ID of the prefab to spawn
 			public uint PrefabAssetID;
 			// position to spawn at.
-			public Vector2 WorldPosition;
+			public Vector3 LocalPosition;
+
+			public int MatrixID;
 
 			//If a stackable item how many Should be in the stack
 			public int SpawnStackAmount;
@@ -30,11 +32,11 @@ namespace Messages.Client.DevSpawner
 			{
 				if (HasOrientationEnum)
 				{
-					return $"[DevSpawnMessage PrefabAssetID={PrefabAssetID} WorldPosition={WorldPosition} Amount={SpawnStackAmount} Orientation={OrientationEnum}]";
+					return $"[DevSpawnMessage PrefabAssetID={PrefabAssetID} LocalPosition={LocalPosition} MatrixID={MatrixID} Amount={SpawnStackAmount} Orientation={OrientationEnum}]";
 				}
 				else
 				{
-					return $"[DevSpawnMessage PrefabAssetID={PrefabAssetID} WorldPosition={WorldPosition} Amount={SpawnStackAmount}]";
+					return $"[DevSpawnMessage PrefabAssetID={PrefabAssetID} LocalPosition={LocalPosition} MatrixID={MatrixID} Amount={SpawnStackAmount}]";
 				}
 			}
 		}
@@ -51,7 +53,9 @@ namespace Messages.Client.DevSpawner
 			//no longer checks impassability, spawn anywhere, go hog wild.
 			if (NetworkClient.prefabs.TryGetValue(msg.PrefabAssetID, out var prefab))
 			{
-				var game = Spawn.ServerPrefab(prefab, msg.WorldPosition).GameObject;
+				var Matrix = MatrixManager.Get(msg.MatrixID);
+				var worldPosition = msg.LocalPosition.ToWorld(Matrix);
+				var game = Spawn.ServerPrefab(prefab, worldPosition).GameObject;
 				if (game.TryGetComponent<Stackable>(out var Stackable) && msg.SpawnStackAmount != -1)
 				{
 					Stackable.ServerSetAmount(msg.SpawnStackAmount);
@@ -67,7 +71,7 @@ namespace Messages.Client.DevSpawner
 				}
 
 				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					$"{SentByPlayer.Username} spawned a {prefab.name} at {msg.WorldPosition}", SentByPlayer.UserId);
+					$"{SentByPlayer.Username} spawned a {prefab.name} at {worldPosition}", SentByPlayer.UserId);
 			}
 			else
 			{
@@ -85,14 +89,15 @@ namespace Messages.Client.DevSpawner
 		/// <param name="adminId">user id of the admin trying to perform this action</param>
 		/// <param name="adminToken">token of the admin trying to perform this action</param>
 		/// <returns></returns>
-		public static void Send(GameObject prefab, Vector2 worldPosition, int InSpawnStackAmount,OrientationEnum? OrientationEnum )
+		public static void Send(GameObject prefab, Vector3 worldPosition, int InSpawnStackAmount,OrientationEnum? OrientationEnum )
 		{
 			if (prefab.TryGetComponent<NetworkIdentity>(out var networkIdentity))
 			{
 				NetMessage msg = new NetMessage
 				{
 					PrefabAssetID = networkIdentity.assetId,
-					WorldPosition = worldPosition,
+					LocalPosition = worldPosition.ToLocal(),
+					MatrixID = worldPosition.GetMatrixAtWorld().Id,
 					SpawnStackAmount = InSpawnStackAmount,
 					HasOrientationEnum = OrientationEnum != null
 				};

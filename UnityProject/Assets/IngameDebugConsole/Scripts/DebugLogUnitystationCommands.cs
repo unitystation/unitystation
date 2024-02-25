@@ -431,14 +431,14 @@ namespace IngameDebugConsole
 					}
 
 					usedMatrices.Add( movableMatrix );
-					lastUsedMatrix = new Tuple<MatrixInfo, Vector3>(movableMatrix, movableMatrix.MatrixMove.ServerState.Position);
+					//lastUsedMatrix = new Tuple<MatrixInfo, Vector3>(movableMatrix, movableMatrix.MatrixMove.ServerState.Position);
 					var mm = movableMatrix.MatrixMove;
-					mm.SetPosition( appearPos );
-					mm.RequiresFuel = false;
-					mm.SafetyProtocolsOn = false;
-					mm.SteerTo( Orientation.Right );
-					mm.SetSpeed( 15 );
-					mm.StartMovement();
+					// mm.SetPosition( appearPos );
+					// mm.RequiresFuel = false;
+					// mm.SafetyProtocolsOn = false;
+					// mm.SteerTo( Orientation.Right );
+					// mm.SetSpeed( 15 );
+					// mm.StartMovement();
 
 					break;
 				}
@@ -459,8 +459,8 @@ namespace IngameDebugConsole
 			{
 				if ( lastUsedMatrix != null )
 				{
-					lastUsedMatrix.Item1.MatrixMove.StopMovement();
-					lastUsedMatrix.Item1.MatrixMove.SetPosition( lastUsedMatrix.Item2 );
+					// lastUsedMatrix.Item1.MatrixMove.StopMovement();
+					// lastUsedMatrix.Item1.MatrixMove.SetPosition( lastUsedMatrix.Item2 );
 					lastUsedMatrix = null;
 				}
 			}

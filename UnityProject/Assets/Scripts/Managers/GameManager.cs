@@ -314,12 +314,12 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	///</summary>
 	public void ServerSetSpaceBody(MatrixMove mm)
 	{
-		if (mm.ServerState.Position == TransformState.HiddenPos)
-		{
-			Loggy.LogError("Matrix Move is not initialized! Wait for it to be" +
-			                "ready before calling ServerSetSpaceBody ", Category.Server);
-			return;
-		}
+		// if (mm.ServerState.Position == TransformState.HiddenPos)
+		// {
+		// 	Loggy.LogError("Matrix Move is not initialized! Wait for it to be" +
+		// 	                "ready before calling ServerSetSpaceBody ", Category.Server);
+		// 	return;
+		// }
 
 		PendingSpaceBodies.Enqueue(mm);
 	}
@@ -374,7 +374,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			if (!failedChecks)
 			{
 				validPos = true;
-				mm.SetPosition(proposedPosition);
+				//mm.SetPosition(proposedPosition);
 				SpaceBodies.Add(mm);
 			}
 

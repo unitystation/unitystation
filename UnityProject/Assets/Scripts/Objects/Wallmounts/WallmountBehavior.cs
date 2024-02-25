@@ -22,12 +22,15 @@ namespace Objects.Wallmounts
 		private Transform child;
 		private Vector3 upVectorForRotation;
 
+		private RegisterTile RegisterTile;
+
 		private void Awake()
 		{
 			upVectorForRotation = transform.up;
 			child = transform.GetChild(0);
 			directional = GetComponent<Rotatable>();
 			spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+			RegisterTile = GetComponent<RegisterTile>();
 		}
 
 		private void Start()
@@ -92,7 +95,7 @@ namespace Objects.Wallmounts
 			//when a matrix is static, Directional can be used to determine facing, but when it is rotating,
 			//directional always points in a cardinal direction which doesn't match the actual facing.
 			//so we use the offset from its up direction prior to rotation to determine the offset
-			return Quaternion.Euler(0, 0, Vector2.SignedAngle(upVectorForRotation, transform.up)) * directional.CurrentDirection.ToLocalVector3();
+			return directional.CurrentDirection.ToLocalVector3().DirectionLocalToWorld(RegisterTile.Matrix);
 		}
 
 		/// <summary>
@@ -115,13 +118,9 @@ namespace Objects.Wallmounts
 			return true;
 		}
 
-		public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
+		public void OnMatrixRotate()
 		{
-			if (rotationInfo.IsClientside)
-			{
-				//cache the upwards direction so we can use it to determine angle offset during a matrix rotation
-				upVectorForRotation = transform.up;
-			}
+
 		}
 	}
 }

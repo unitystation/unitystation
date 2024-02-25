@@ -242,15 +242,15 @@ public class StandardProgressAction : IProgressAction
 		{
 			if (startProgressInfo.Target.TargetMatrixInfo.IsMovable)
 			{
-				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer, OnMatrixStartMove);
-				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate, OnMatrixRotate);
+				// eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer, OnMatrixStartMove);
+				// eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate, OnMatrixRotate);
 			}
 
 			var performerMatrix = playerScript.RegisterPlayer.Matrix;
 			if (performerMatrix.IsMovable)
 			{
-				eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnStartMovementServer, OnMatrixStartMove);
-				eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnRotate, OnMatrixRotate);
+				// eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnStartMovementServer, OnMatrixStartMove);
+				// eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnRotate, OnMatrixRotate);
 			}
 		}
 	}

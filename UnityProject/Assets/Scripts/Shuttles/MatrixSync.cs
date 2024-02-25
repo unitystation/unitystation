@@ -58,7 +58,7 @@ namespace Shuttles
 
 			if (matrixMove != null)
 			{
-				matrixMove.OnStartClient();
+				//matrixMove.OnStartClient();
 			}
 		}
 
@@ -73,7 +73,7 @@ namespace Shuttles
 
 			if (matrixMove != null)
 			{
-				matrixMove.OnStartServer();
+				//matrixMove.OnStartServer();
 			}
 		}
 
@@ -82,13 +82,13 @@ namespace Shuttles
 			public void SyncInitialPosition(Vector3 oldPos, Vector3 newPos)
 			{
 				initialPosition = newPos;
-				matrixMove.initialPosition = newPos.RoundToInt();
+				//matrixMove.initialPosition = newPos.RoundToInt();
 			}
 
 			public void SyncPivot(Vector3 oldPivot, Vector3 newPivot)
 			{
 				pivot = newPivot;
-				matrixMove.pivot = pivot.RoundToInt();
+				//matrixMove.pivot = pivot.RoundToInt();
 			}
 
 			public void SyncMatrixID(int oldID, int newID)

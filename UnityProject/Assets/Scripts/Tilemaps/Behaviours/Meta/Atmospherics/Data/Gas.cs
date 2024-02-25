@@ -95,9 +95,19 @@ namespace Systems.Atmospherics
 
 				if (float.IsNormal(value) == false && value != 0)
 				{
-					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Moles Invalid number!!!! {value}");
+					if (float.IsInfinity(value) || float.IsNaN(value))
+					{
+						Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Moles Invalid number!!!! {value}");
+					}
+
 					return;
 				}
+
+				if (float.IsNormal(value) == false && value != 0)
+				{
+					return;
+				}
+
 
 				moles = value;
 

@@ -296,7 +296,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			objectLayer.ClientObjects.Remove(LocalPositionClient, this);
 		}
 
-		Matrix?.MatrixMove?.MatrixMoveEvents?.OnRotate?.RemoveListener(OnRotate);
+		//Matrix?.MatrixMove?.MatrixMoveEvents?.OnRotate?.RemoveListener(OnRotate);
 	}
 
 	public virtual void OnDespawnServer(DespawnInfo info)
@@ -464,26 +464,19 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		MatrixChange(Matrix, value);
 		if (value)
 		{
-			//LogMatrixDebug($"Matrix set from {matrix} to {value}");
-			if (Matrix != null && Matrix.IsMovable)
-			{
-				Matrix.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnRotate);
-			}
+			// LogMatrixDebug($"Matrix set from {matrix} to {value}");
+			 if (Matrix != null && Matrix.IsMovable)
+			 {
+				Matrix.MatrixMove.NetworkedMatrixMove.OnRotate.RemoveListener(OnRotate);
+			 }
 
-			Matrix = value;
-			if (Matrix != null && Matrix.IsMovable)
-			{
-				//LogMatrixDebug($"Registered OnRotate to {matrix}");
-				Matrix.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
-				if (isServer)
-				{
-					OnRotate(new MatrixRotationInfo(Matrix.MatrixMove, Matrix.MatrixMove.FacingOffsetFromInitial,
-						NetworkSide.Server, RotationEvent.Register));
-				}
-
-				OnRotate(new MatrixRotationInfo(Matrix.MatrixMove, Matrix.MatrixMove.FacingOffsetFromInitial,
-					NetworkSide.Client, RotationEvent.Register));
-			}
+			 Matrix = value;
+			 if (Matrix != null && Matrix.IsMovable)
+			 {
+			 	//LogMatrixDebug($"Registered OnRotate to {matrix}");
+			 	Matrix.MatrixMove.NetworkedMatrixMove.OnRotate.AddListener(OnRotate);
+			 	OnRotate();
+			 }
 
 
 			//setting objects in storage to the same matrix
@@ -531,13 +524,13 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		ServerSetLocalPosition(TransformState.HiddenPos);
 	}
 
-	private void OnRotate(MatrixRotationInfo info)
+	private void OnRotate()
 	{
 		if (matrixRotationHooks == null) return;
 		//pass rotation event on to our children
 		foreach (var matrixRotationHook in matrixRotationHooks)
 		{
-			matrixRotationHook.OnMatrixRotate(info);
+			matrixRotationHook.OnMatrixRotate();
 		}
 	}
 

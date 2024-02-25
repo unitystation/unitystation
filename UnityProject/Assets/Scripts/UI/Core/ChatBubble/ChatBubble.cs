@@ -132,12 +132,12 @@ public class ChatBubble : MonoBehaviour, IDisposable
 	private void OnEnable()
 	{
 		cam = Camera.main;
-		UpdateManager.Add(CallbackType.POST_CAMERA_UPDATE, UpdateMe);
+		UpdateManager.Add(CallbackType.POST_FOLLOW_CAMERA_UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.POST_CAMERA_UPDATE, UpdateMe);
+		UpdateManager.Remove(CallbackType.POST_FOLLOW_CAMERA_UPDATE, UpdateMe);
 	}
 
 	public void AppendToBubble(string newMessage, ChatModifier chatModifier = ChatModifier.None)

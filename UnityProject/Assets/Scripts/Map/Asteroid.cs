@@ -19,7 +19,7 @@ namespace Map
 
 		void OnEnable()
 		{
-			if (mm == null) mm = GetComponent<MatrixMove>();
+			//if (mm == null) mm = GetComponent<MatrixMove>(); TODO!!
 
 			if(oreGenerator == null) oreGenerator = GetComponent<OreGenerator>();
 		}
@@ -44,30 +44,31 @@ namespace Map
 		{
 			int rand = Random.Range(0, 4);
 
-			switch (rand)
-			{
-				case 0:
-					mm.SteerTo(Orientation.Up);
-					break;
-				case 1:
-					mm.SteerTo(Orientation.Down);
-					break;
-				case 2:
-					mm.SteerTo(Orientation.Right);
-					break;
-				case 3:
-					mm.SteerTo(Orientation.Left);
-					break;
-			}
+			// switch (rand)
+			// {
+			// 	case 0:
+			// 		mm.SteerTo(Orientation.Up);
+			// 		break;
+			// 	case 1:
+			// 		mm.SteerTo(Orientation.Down);
+			// 		break;
+			// 	case 2:
+			// 		mm.SteerTo(Orientation.Right);
+			// 		break;
+			// 	case 3:
+			// 		mm.SteerTo(Orientation.Left);
+			// 		break;
+			// }
 		}
 
 		//Wait for MatrixMove init on the server:
 		IEnumerator Init()
 		{
-			while (mm.ServerState.Position == TransformState.HiddenPos)
-			{
-				yield return WaitFor.EndOfFrame;
-			}
+			yield return WaitFor.EndOfFrame;
+			// while (mm.ServerState.Position == TransformState.HiddenPos)
+			// {
+			//
+			// }
 			SpawnNearStation();
 			RandomRotation();
 		}

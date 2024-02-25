@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 using Core.Editor.Attributes;
+using Logs;
 
 
 /// <summary>
@@ -117,34 +118,64 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 		}
 	}
 
-	public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
+	public void OnMatrixRotate()
 	{
-		//this component is clientside only
-		if (rotationInfo.IsClientside)
+		if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RotateUprightAtEndOfMatrixRotation)
 		{
-			if (rotationInfo.IsStarting)
+			if (RotateParent == null)
 			{
-				if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
-				{
-					UpdateManager.Add(CallbackType.UPDATE, SetSpritesUpright);
-				}
+				if (spriteRenderers == null) return;
 			}
-			else if (rotationInfo.IsEnding)
-			{
-				if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
-				{
-					//stop reorienting to face upright
-					UpdateManager.Remove(CallbackType.UPDATE, SetSpritesUpright);
-				}
 
-				SetSpritesUpright();
-			}
-			else if (rotationInfo.IsObjectBeingRegistered)
+			//if the object has rotation (due to spinning), don't set sprites upright, this
+			//avoids it suddenly flicking upright when it crosses a matrix or matrix rotates
+			//note only uopS can have spin rotation
+			if (uop != null && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5) return;
+
+			var up = new Vector3(0, 1, 0)
+				.DirectionLocalToWorld(registerTile.Matrix).ToOrientationEnum();
+
+			var outQuaternion = new Quaternion();
+			switch (up)
 			{
-				//failsafe to ensure we go upright regardless of what happened during init.
-				SetSpritesUpright();
+				case OrientationEnum.Up_By0:
+					outQuaternion.eulerAngles = new Vector3(0, 0, 0f);
+					break;
+				case OrientationEnum.Right_By270:
+					outQuaternion.eulerAngles = new Vector3(0, 0, -270f  );
+					break;
+				case OrientationEnum.Down_By180:
+					outQuaternion.eulerAngles = new Vector3(0, 0, -180f);
+					break;
+				case OrientationEnum.Left_By90:
+					outQuaternion.eulerAngles = new Vector3(0, 0, -90f);
+					break;
+			}
+
+			if (RotateParent != null)
+			{
+				RotateParent.transform.localRotation = outQuaternion;
+				return;
+			}
+
+			foreach (var rend in spriteRenderers)
+			{
+				if (rend == null) continue;
+				rend.transform.localRotation = outQuaternion;
+			}
+
+			foreach (var rend in ignoreExtraRotation)
+			{
+				if (rend == null) continue;
+
+				rend.transform.localRotation = Quaternion.identity;
 			}
 		}
+		else
+		{
+			SetSpritesUpright();
+		}
+		
 	}
 }
 

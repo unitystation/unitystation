@@ -30,7 +30,14 @@ namespace UI.Core.NetUI
 		private WindowDrag windowDrag;
 		private Shadow shadow;
 		// degrees of rotation
-		private float degrees;
+		public float degrees;
+
+		public bool SendUpdatesWhileDragging = false;
+
+		[NaughtyAttributes.ShowIf(nameof(SendUpdatesWhileDragging))]
+		public float UpdateWhileDraggingPollingSpeed = 0.1f;
+
+		private float PeriodsPastUpdateWhileDraggingPollingSpeed = 0;
 
 		protected override void Awake()
 		{
@@ -59,16 +66,16 @@ namespace UI.Core.NetUI
 			newRotation = Mathf.Clamp(newRotation, 0, MaxValue / KPAPerDegree);
 
 			var newQuaternion = Quaternion.Euler(0, 0, newRotation);
-			transform.rotation = newQuaternion;
+			transform.localRotation = newQuaternion;
 			foreach (var upright in UprightSprites)
 			{
-				upright.transform.rotation = Quaternion.identity;
+				upright.transform.localRotation = Quaternion.identity;
 			}
 
 			shadow.effectDistance = Quaternion.Euler(0, 0, -newRotation + 215) * Vector2.up * 10f;
 
 			degrees = newRotation;
-			ReleasePressureDial.DisplaySpinTo(Mathf.RoundToInt(KPA));
+			ReleasePressureDial.OrNull()?.DisplaySpinTo(Mathf.RoundToInt(KPA));
 		}
 
 		public override void OnPointerDown(PointerEventData eventData)
@@ -76,7 +83,11 @@ namespace UI.Core.NetUI
 			base.OnPointerDown(eventData);
 			previousDrag = ((eventData.pressPosition - (Vector2)((RectTransform)transform).position) / UIManager.Instance.transform.localScale.x).normalized;
 			// client prediction on the dial
-			ReleasePressureDial.IgnoreServerUpdates = true;
+			if (ReleasePressureDial != null)
+			{
+				ReleasePressureDial.IgnoreServerUpdates = true;
+			}
+
 			// disable window dragging until done with rotation
 			windowDrag.disableDrag = true;
 		}
@@ -94,12 +105,27 @@ namespace UI.Core.NetUI
 
 				previousDrag = newDrag;
 
+
 				if (CommonInput.GetMouseButtonUp(0))
 				{
 					previousDrag = null;
-					ReleasePressureDial.IgnoreServerUpdates = false;
+					if (ReleasePressureDial != null)
+					{
+						ReleasePressureDial.IgnoreServerUpdates = false;
+					}
+
 					OnAdjustmentComplete.Invoke(KPA);
 					windowDrag.disableDrag = false;
+				}
+				else if (SendUpdatesWhileDragging)
+				{
+					PeriodsPastUpdateWhileDraggingPollingSpeed -= Time.deltaTime;
+					if (PeriodsPastUpdateWhileDraggingPollingSpeed < 0)
+					{
+						OnAdjustmentComplete.Invoke(KPA);
+						PeriodsPastUpdateWhileDraggingPollingSpeed = UpdateWhileDraggingPollingSpeed;
+					}
+
 				}
 			}
 		}

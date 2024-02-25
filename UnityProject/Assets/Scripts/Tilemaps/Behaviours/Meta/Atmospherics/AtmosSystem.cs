@@ -35,7 +35,7 @@ namespace Systems.Atmospherics
 			}
 		}
 
-		[Server]
+		[Server, NaughtyAttributes.Button]
 		public void FillRoomGas()
 		{
 			//We have bool to stop null checks on every pos

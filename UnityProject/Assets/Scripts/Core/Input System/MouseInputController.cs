@@ -59,7 +59,7 @@ public class MouseInputController : MonoBehaviour
 
 	public static readonly Vector3 sz = new Vector3(0.05f, 0.05f, 0.05f);
 
-	public static Vector3 MouseWorldPosition => Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+	public static Vector3 MouseWorldPosition => CommonInput.CashedMouseWorldPosition;
 
 	/// <summary>
 	/// currently triggering aimapply interactable - when mouse is clicked down this is set to the
@@ -108,7 +108,19 @@ public class MouseInputController : MonoBehaviour
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 	}
 
-	private void LateUpdate()
+	public void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.POST_FOLLOW_CAMERA_UPDATE,MeLateUpdate);
+	}
+
+
+	public void OnDestroy()
+	{
+		UpdateManager.Remove(CallbackType.POST_FOLLOW_CAMERA_UPDATE,MeLateUpdate);
+	}
+
+
+	private void MeLateUpdate()
 	{
 		if (PlayerManager.LocalPlayerObject != this.gameObject) return;
 

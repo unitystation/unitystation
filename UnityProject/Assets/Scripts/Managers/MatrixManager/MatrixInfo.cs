@@ -40,7 +40,7 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 
 	public Color Color => IsMovable ? Matrix.Color : Color.red;
 
-	public float Speed => IsMovable ? MatrixMove.ServerState.Speed : 0f;
+	public float Speed => 0f;
 
 	public string Name => Matrix.gameObject.name;
 
@@ -49,7 +49,7 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 
 	public bool IsMovable => Matrix.IsMovable;
 
-	public Vector2Int MovementVector => ( IsMovable && MatrixMove.IsMovingServer ) ? MatrixMove.ServerState.FlyingDirection.LocalVectorInt : Vector2Int.zero;
+	public Vector2Int MovementVector =>  Vector2Int.zero;
 
 	public Vector3Int InitialOffset
 	{
@@ -71,14 +71,14 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 
 		if (state.Equals(default(MatrixState)))
 		{
-			state = MatrixMove.ClientState;
+			// state = MatrixMove.ClientState;
 		}
 
 		if (cachedPosition != state.Position)
 		{
 			//if we moved, update cached offset
 			cachedPosition = state.Position;
-			CachedOffset = initialOffset + (state.Position.RoundToInt() - MatrixMove.InitialPosition);
+			// CachedOffset = initialOffset + (state.Position.RoundToInt() - MatrixMove.InitialPosition);
 		}
 
 		return CachedOffset;
@@ -122,8 +122,8 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 			string state = "state";
 			if(IsMovable)
 			{
-				pivot = MatrixMove.Pivot.ToString();
-				state = MatrixMove.ServerState.ToString();
+				// pivot = MatrixMove.Pivot.ToString();
+				// state = MatrixMove.ServerState.ToString();
 			}
 
 			return $"[({Id}){objectName},offset={Offset},pivot={pivot},state={state},netId={NetID}]";

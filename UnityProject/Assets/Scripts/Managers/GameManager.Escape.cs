@@ -70,18 +70,18 @@ public partial class GameManager
 			if (primaryEscapeShuttle.MatrixInfo == null) return;
 			if (primaryEscapeShuttle.MatrixInfo.IsMovable == false) return;
 		}
-
-		var orientation = primaryEscapeShuttle.MatrixInfo.MatrixMove.InitialFacing;
-		float width;
-
-		if (orientation == Orientation.Up || orientation == Orientation.Down)
-		{
-			width = PrimaryEscapeShuttle.MatrixInfo.LocalBounds.size.x;
-		}
-		else
-		{
-			width = PrimaryEscapeShuttle.MatrixInfo.LocalBounds.size.y;
-		}
+		//
+		// var orientation = primaryEscapeShuttle.MatrixInfo.MatrixMove.InitialFacing;
+		// float width;
+		//
+		// if (orientation == Orientation.Up || orientation == Orientation.Down)
+		// {
+		// 	width = PrimaryEscapeShuttle.MatrixInfo.LocalBounds.size.x;
+		// }
+		// else
+		// {
+		// 	width = PrimaryEscapeShuttle.MatrixInfo.LocalBounds.size.y;
+		// }
 
 		Vector3 newPos;
 
@@ -91,25 +91,25 @@ public partial class GameManager
 			return;
 		}
 
-		switch (LandingZoneManager.Instance.centcomDocking.orientation)
-		{
-			case OrientationEnum.Right_By270:
-				newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x + Mathf.Ceil(width/2f),LandingZoneManager.Instance.centcomDockingPos.y, 0);
-				break;
-			case OrientationEnum.Up_By0:
-				newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x ,LandingZoneManager.Instance.centcomDockingPos.y + Mathf.Ceil(width/2f), 0);
-				break;
-			case OrientationEnum.Left_By90:
-				newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x - Mathf.Ceil(width/2f),LandingZoneManager.Instance.centcomDockingPos.y, 0);
-				break;
-			default:
-				newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x ,LandingZoneManager.Instance.centcomDockingPos.y - Mathf.Ceil(width/2f), 0);
-				break;
-		}
+		// switch (LandingZoneManager.Instance.centcomDocking.orientation)
+		// {
+		// 	case OrientationEnum.Right_By270:
+		// 		newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x + Mathf.Ceil(width/2f),LandingZoneManager.Instance.centcomDockingPos.y, 0);
+		// 		break;
+		// 	case OrientationEnum.Up_By0:
+		// 		newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x ,LandingZoneManager.Instance.centcomDockingPos.y + Mathf.Ceil(width/2f), 0);
+		// 		break;
+		// 	case OrientationEnum.Left_By90:
+		// 		newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x - Mathf.Ceil(width/2f),LandingZoneManager.Instance.centcomDockingPos.y, 0);
+		// 		break;
+		// 	default:
+		// 		newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x ,LandingZoneManager.Instance.centcomDockingPos.y - Mathf.Ceil(width/2f), 0);
+		// 		break;
+		// }
 
-		PrimaryEscapeShuttle.MatrixInfo.MatrixMove.ChangeFacingDirection(Orientation.FromEnum(PrimaryEscapeShuttle.orientationForDockingAtCentcom));
-		PrimaryEscapeShuttle.MatrixInfo.MatrixMove.SetPosition(newPos);
-		primaryEscapeShuttle.InitDestination(newPos);
+		// PrimaryEscapeShuttle.MatrixInfo.MatrixMove.ChangeFacingDirection(Orientation.FromEnum(PrimaryEscapeShuttle.orientationForDockingAtCentcom));
+		// PrimaryEscapeShuttle.MatrixInfo.MatrixMove.SetPosition(newPos);
+		//primaryEscapeShuttle.InitDestination(newPos);
 
 		beenToStation = false;
 	}

@@ -700,20 +700,20 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		}
 	}
 
-	public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
+	public void OnMatrixRotate()
 	{
 		//We need to handle lighting stuff for matrix rotations for local player:
-		if (PlayerManager.LocalPlayerObject == gameObject && rotationInfo.IsClientside)
-		{
-			if (rotationInfo.IsStarting)
-			{
-				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = true;
-			}
-			else if (rotationInfo.IsEnding)
-			{
-				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = false;
-			}
-		}
+		// if (PlayerManager.LocalPlayerObject == gameObject && rotationInfo.IsClientside)
+		// {
+		// 	if (rotationInfo.IsStarting)
+		// 	{
+		// 		Camera2DFollow.followControl.lightingSystem.matrixRotationMode = true;
+		// 	}
+		// 	else if (rotationInfo.IsEnding)
+		// 	{
+		// 		Camera2DFollow.followControl.lightingSystem.matrixRotationMode = false;
+		// 	}
+		// }
 	}
 
 	public string AdminInfoString()

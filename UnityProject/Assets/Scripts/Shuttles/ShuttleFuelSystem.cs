@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Shuttles;
 using UnityEngine;
 using Systems.Atmospherics;
+using Tilemaps.Behaviours.Layers;
 
 
 namespace Systems.Shuttles
@@ -29,7 +31,7 @@ namespace Systems.Shuttles
 
 		protected void OnEnable()
 		{
-			if(MatrixMove.ShuttleFuelSystem == null) MatrixMove.RegisterShuttleFuelSystem(this); //For constructable shuttles.
+			//if(MatrixMove.ShuttleFuelSystem == null) MatrixMove.RegisterShuttleFuelSystem(this); //For constructable shuttles.
 			if(CustomNetworkManager.IsServer == false) return;
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
@@ -51,25 +53,25 @@ namespace Systems.Shuttles
 
 			if (Connector.canister != null)
 			{
-				FuelConsumption = MatrixMove.ServerState.Speed / 25f;
-				if (MatrixMove.IsMovingServer && MatrixMove.RequiresFuel)
-				{
-					FuelCalculations();
-				}
+				// FuelConsumption = MatrixMove.ServerState.Speed / 25f;
+				// if (MatrixMove.IsMovingServer && MatrixMove.RequiresFuel)
+				// {
+				// 	FuelCalculations();
+				// }
 				if (IsFuelled())
 				{
-					MatrixMove.IsFueled = true;
+					//MatrixMove.IsFueled = true;
 				}
 				FuelLevel = Connector.canister.GasContainer.GasMix.GetMoles(Gas.Plasma) / Connector.canister.GasContainer.MaximumMoles;
 			}
 			else
 			{
 				FuelLevel = 0f;
-				MatrixMove.IsFueled = false;
-				if (MatrixMove.IsMovingServer && MatrixMove.RequiresFuel)
-				{
-					MatrixMove.StopMovement();
-				}
+				// MatrixMove.IsFueled = false;
+				// if (MatrixMove.IsMovingServer && MatrixMove.RequiresFuel)
+				// {
+				// 	MatrixMove.StopMovement();
+				// }
 			}
 			if (FuelLevel > 1)
 			{
@@ -133,8 +135,8 @@ namespace Systems.Shuttles
 			}
 			else
 			{
-				MatrixMove.IsFueled = false;
-				MatrixMove.StopMovement();
+				// MatrixMove.IsFueled = false;
+				// MatrixMove.StopMovement();
 			}
 
 		}

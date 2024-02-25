@@ -47,6 +47,7 @@ namespace ScriptableObjects
 		public UIActionSOSingleton UIActionSOSingleton;
 		public UplinkCategoryList UplinkCategoryList;
 		public UplinkPasswordList UplinkPasswordList;
+		public ThrusterFuelReactions ThrusterFuelReactions;
 
 		[FormerlySerializedAs("PlayerStatesSingleton")]
 		public PlayerTypeSingleton playerTypeSingleton;
@@ -84,6 +85,7 @@ namespace ScriptableObjects
 				{ typeof(UplinkCategoryList), UplinkCategoryList },
 				{ typeof(UplinkPasswordList), UplinkPasswordList },
 				{ typeof(PlayerTypeSingleton), playerTypeSingleton },
+				{ typeof(ThrusterFuelReactions), ThrusterFuelReactions },
 			};
 		}
 

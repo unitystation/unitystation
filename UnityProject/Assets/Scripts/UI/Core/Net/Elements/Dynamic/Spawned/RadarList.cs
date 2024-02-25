@@ -27,7 +27,7 @@ namespace UI.Objects.Shuttles
 
 		public void RefreshTrackedPos(bool update = true)
 		{
-			Vector2 originPos = Origin.ServerState.Position;
+			Vector2 originPos = Vector2.zero; //TODO
 
 			// Refreshing positions of every item
 			var entryArray = Entries.ToArray();

@@ -43,7 +43,7 @@ public partial class MatrixManager
 
 		if (matrixInfo!= null && matrixInfo.IsMovable)
 		{
-			matrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener( () =>
+			matrixInfo.MatrixMove.NetworkedMatrixMove.OnStartMovement.AddListener( () =>
 			{
 				if ( !movingMatrices.Contains( matrixInfo ) )
 				{
@@ -51,12 +51,13 @@ public partial class MatrixManager
 				}
 			} );
 
-			matrixInfo.MatrixMove.MatrixMoveEvents.OnStopMovementServer.AddListener( () =>
+			matrixInfo.MatrixMove.NetworkedMatrixMove.OnStopMovement.AddListener( () =>
 			{
 				if ( movingMatrices.Contains( matrixInfo ) )
 				{
 					var participatingIntersections = trackedIntersections.FindAll( intersection => intersection.Matrix1 == matrixInfo );
-					matrixInfo.MatrixMove.MatrixMoveEvents.OnFullStopClient.AddListener( CollideBeforeStop( matrixInfo, participatingIntersections ) );
+					//matrixInfo.MatrixMove.MatrixMoveEvents.OnFullStopClient.AddListener( CollideBeforeStop( matrixInfo, participatingIntersections ) );
+					//TODO!!!
 					movingMatrices.Remove( matrixInfo );
 					trackedIntersections.RemoveAll( intersection => intersection.Matrix1 == matrixInfo );
 				}
@@ -216,6 +217,7 @@ public partial class MatrixManager
 
 	private void CheckTileCollisions( MatrixIntersection i )
 	{
+		return;
 		if (i.Matrix1 == null || i.Matrix2 == null) return;
 
 		byte collisions = 0;
@@ -224,13 +226,17 @@ public partial class MatrixManager
 
 			Vector3Int cellPos1 = i.Matrix1.MetaTileMap.WorldToCell( worldPos );
 
-			if ( !i.Matrix1.Matrix.HasTile( cellPos1, true) )
+			var Meta1 = i.Matrix1.Matrix.MetaTileMap;
+			if ( Meta1.HasTile( cellPos1, LayerType.Base ) == false
+			     &&  Meta1.HasTile( cellPos1, LayerType.Walls ) == false)
 			{
 				continue;
 			}
 
 			Vector3Int cellPos2 = i.Matrix2.MetaTileMap.WorldToCell( worldPos );
-			if ( !i.Matrix2.Matrix.HasTile( cellPos2, true) )
+			var Meta2 = i.Matrix2.Matrix.MetaTileMap;
+			if ( Meta2.HasTile( cellPos2, LayerType.Base ) == false
+			     &&  Meta2.HasTile( cellPos2, LayerType.Walls ) == false)
 			{
 				continue;
 			}
@@ -306,19 +312,19 @@ public partial class MatrixManager
 			ApplyWireDamage( i.Matrix2, cellPos2 );
 
 			//Heat shit up
-			i.Matrix1.ReactionManager.ExposeHotspot( cellPos1, 500);
-			i.Matrix2.ReactionManager.ExposeHotspot( cellPos2, 500);
+			//i.Matrix1.ReactionManager.ExposeHotspot( cellPos1, 500);
+			//i.Matrix2.ReactionManager.ExposeHotspot( cellPos2, 500);
 
 			//Other
 			foreach ( var layer in layersToRemove )
 			{
-				i.Matrix1.TileChangeManager.MetaTileMap.RemoveTileWithlayer( cellPos1, layer );
-				i.Matrix2.TileChangeManager.MetaTileMap.RemoveTileWithlayer( cellPos2, layer );
+				//i.Matrix1.TileChangeManager.MetaTileMap.RemoveTileWithlayer( cellPos1, layer );
+				//i.Matrix2.TileChangeManager.MetaTileMap.RemoveTileWithlayer( cellPos2, layer );
 			}
 			foreach ( var layer in effectsToRemove )
 			{
-				i.Matrix1.TileChangeManager.MetaTileMap.RemoveAllOverlays( cellPos1, layer );
-				i.Matrix2.TileChangeManager.MetaTileMap.RemoveAllOverlays( cellPos2, layer );
+				//i.Matrix1.TileChangeManager.MetaTileMap.RemoveAllOverlays( cellPos1, layer ); //TODO laggy?
+				//i.Matrix2.TileChangeManager.MetaTileMap.RemoveAllOverlays( cellPos2, layer );
 			}
 		}
 
@@ -473,14 +479,14 @@ public partial class MatrixManager
 
 	private void SlowDown( MatrixIntersection i, int collisions )
 	{
-		if ( i.Matrix1.IsMovable && i.Matrix1.MatrixMove.IsMovingServer )
-		{
-			InternalSlowDown( i.Matrix1 );
-		}
-		if ( i.Matrix2.IsMovable && i.Matrix2.MatrixMove.IsMovingServer )
-		{
-			InternalSlowDown( i.Matrix2 );
-		}
+		// if ( i.Matrix1.IsMovable && i.Matrix1.MatrixMove.IsMovingServer )
+		// {
+		// 	InternalSlowDown( i.Matrix1 );
+		// }
+		// if ( i.Matrix2.IsMovable && i.Matrix2.MatrixMove.IsMovingServer )
+		// {
+		// 	InternalSlowDown( i.Matrix2 );
+		// }
 
 		void InternalSlowDown( MatrixInfo info )
 		{
@@ -489,14 +495,14 @@ public partial class MatrixManager
 				0.1f,
 				0.95f
 				);
-			float speed = ( info.MatrixMove.ServerState.Speed * slowdownFactor ) - 0.07f;
-			if ( speed <= 1f )
-			{
-				info.MatrixMove.StopMovement();
-			} else
-			{
-				info.MatrixMove.SetSpeed( speed );
-			}
+			// float speed = ( info.MatrixMove.ServerState.Speed * slowdownFactor ) - 0.07f;
+			// if ( speed <= 1f )
+			// {
+			// 	info.MatrixMove.StopMovement();
+			// } else
+			// {
+			// 	info.MatrixMove.SetSpeed( speed );
+			// }
 		}
 	}
 

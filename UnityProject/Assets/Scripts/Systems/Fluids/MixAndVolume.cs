@@ -142,6 +142,18 @@ namespace Systems.Pipes
 			this.InternalEnergy = internalEnergy;
 		}
 
+		public void Remove(Vector2 Amount)
+		{
+			mix.Take(Amount.x);
+			if (gasMix.Moles != 0)
+			{
+				var Percentage = -(Mathf.Min(Amount.y, gasMix.Moles) / gasMix.Moles);
+
+				gasMix.MultiplyGas(Percentage+1 );
+			}
+
+		}
+
 		public Tuple<ReagentMix, GasMix> Take(MixAndVolume inMixAndVolume, bool removeVolume = true)
 		{
 			if (MathUtils.IsEqual(Volume, 0))
@@ -478,6 +490,26 @@ namespace Systems.Pipes
 			}
 
 			return $"Volume > {Volume} Mix > {mix} gasMix > {gasMix.ToString()} gases > " + Returnstring;
+		}
+
+		public float this[GasOrReagent index]
+		{
+			get
+			{
+				if (index.Gas != null)
+				{
+					return gasMix.GetMoles(index.Gas);
+				}
+				else if (index.Reagent != null)
+				{
+					return mix[index.Reagent];
+				}
+				else
+				{
+					Loggy.LogError("You tried passing in GasOrReagent With no Gas Or Reagent, silly Billy");
+					return 0;
+				}
+			}
 		}
 	}
 }

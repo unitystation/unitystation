@@ -21,7 +21,7 @@ public class GameGizmoTracked : GameGizmo
 
 		if (TrackingObject != null)
 		{
-			transform.position = TrackingObject.AssumedWorldPosServer(false) + Position;
+			transform.position = TrackingObject.transform.TransformPoint(Position);
 		}
 		else
 		{
@@ -52,6 +52,10 @@ public class GameGizmoTracked : GameGizmo
 
 	public void UpdateMe()
 	{
-		transform.position = TrackingObject.AssumedWorldPosServer(false) + Position;
+		if (TrackingObject != null)
+		{
+			transform.position =  TrackingObject.transform.TransformPoint(Position);
+		}
+
 	}
 }

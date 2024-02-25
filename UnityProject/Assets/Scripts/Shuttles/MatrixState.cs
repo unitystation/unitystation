@@ -25,15 +25,6 @@ public struct MatrixState
 	/// </summary>
 	public Orientation FlyingDirection;
 
-	/// <summary>
-	/// Gets the rotation offset this state represents from the matrix move's initial mapped
-	/// facing.
-	/// </summary>
-	/// <param name="matrixMove"></param>
-	public RotationOffset FacingOffsetFromInitial(MatrixMove matrixMove)
-	{
-		return matrixMove.InitialFacing.OffsetTo(FacingDirection);
-	}
 
 	public static readonly MatrixState Invalid = new MatrixState {Position = TransformState.HiddenPos};
 

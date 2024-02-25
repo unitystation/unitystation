@@ -101,30 +101,30 @@ public class Layer : MonoBehaviour
 		if (matrixMove != null)
 		{
 			Loggy.LogTraceFormat("{0} layer initializing from matrix", Category.Matrix, matrixMove);
-			matrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
-			//initialize from current rotation
-			OnRotate(MatrixRotationInfo.FromInitialRotation(matrixMove, NetworkSide.Client, RotationEvent.Register));
+			// matrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
+			// //initialize from current rotation
+			// OnRotate(MatrixRotationInfo.FromInitialRotation(matrixMove, NetworkSide.Client, RotationEvent.Register));
 		}
 	}
 
 	private void OnDestroy()
 	{
 		{
-			matrixMove?.MatrixMoveEvents?.OnRotate?.RemoveListener(OnRotate);
+			//matrixMove?.MatrixMoveEvents?.OnRotate?.RemoveListener(OnRotate);
 		}
 	}
 	private void OnRotate(MatrixRotationInfo info)
 	{
-		if (info.IsEnding || info.IsObjectBeingRegistered)
-		{
-			RotationOffset = info.RotationOffsetFromInitial;
-			Loggy.LogTraceFormat("{0} layer redrawing with offset {1}", Category.Matrix, info.MatrixMove,
-				RotationOffset);
-			if (tilemap != null)
-			{
-				tilemap.RefreshAllTiles();
-			}
-		}
+		// if (info.IsEnding || info.IsObjectBeingRegistered)
+		// {
+		// 	RotationOffset = info.RotationOffsetFromInitial;
+		// 	Loggy.LogTraceFormat("{0} layer redrawing with offset {1}", Category.Matrix, info.MatrixMove,
+		// 		RotationOffset);
+		// 	if (tilemap != null)
+		// 	{
+		// 		tilemap.RefreshAllTiles();
+		// 	}
+		// }
 	}
 
 	public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix, Color color)

@@ -37,7 +37,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4197940402254186057}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -125,6 +125,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  LiesFlat3D: 0
   prefabTracker: {fileID: 951381747229521920}
   CurrentsortingGroup: {fileID: 1481169419180323577}
   AtmosPassable: 1
@@ -160,6 +161,12 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDestruction:
+    m_PersistentCalls:
+      m_Calls: []
   initialIntegrity: 100
   soundOnHit:
     SetLoadSetting: 0
@@ -246,7 +253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteMatrixRotationBehavior: 1
+  spriteMatrixRotationBehavior: 0
   ignoreExtraRotation: []
   RotateParent: {fileID: 0}
 --- !u!210 &1481169419180323577
@@ -300,6 +307,7 @@ MonoBehaviour:
   slideTime: 0
   spinMagnitude: 0
   thrownBy: {fileID: 0}
+  thrownProtection: {fileID: 0}
   aim: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
@@ -314,7 +322,6 @@ MonoBehaviour:
   isNotPushable: 1
   CanBeWindPushed: 1
   rotationTarget: {fileID: 0}
-  FramePushDecision: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 1
   maximumStickSpeed: 1.5
@@ -330,6 +337,7 @@ MonoBehaviour:
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  TimeSpentFlying: 0
   BuckledToObject: {fileID: 0}
 --- !u!114 &7995357239597924047
 MonoBehaviour:
@@ -405,6 +413,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -429,15 +439,15 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: b5191cf54f9e01d4d9ac14dc228024e6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.64, y: 0.64}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &8652228875761003667
@@ -454,7 +464,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: 531dea593ef508f4abc5b76a73fd82a8, type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1

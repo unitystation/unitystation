@@ -56,8 +56,7 @@ namespace Systems.Cargo
 				Destroy(this);
 			}
 
-			mm = GetComponent<MatrixMove>();
-			mm.SetAccuracy(2);
+
 
 			shuttleZoneWidth = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal((shuttleWidth - 1) / 2)));
 			shuttleZoneHeight = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal((shuttleHeight - 1) / 2)));
@@ -83,7 +82,7 @@ namespace Systems.Cargo
 		/// </summary>
 		public void MoveToStation()
 		{
-			mm.ChangeFlyingDirection(Orientation.FromEnum(stationTravelDirection));
+			//mm.ChangeFlyingDirection(Orientation.FromEnum(stationTravelDirection));
 			MoveTo(StationDest);
 		}
 
@@ -93,7 +92,7 @@ namespace Systems.Cargo
 		/// </summary>
 		public void MoveToCentcom()
 		{
-			mm.ChangeFlyingDirection(Orientation.FromEnum(centcommTravelDirection));
+			//mm.ChangeFlyingDirection(Orientation.FromEnum(centcommTravelDirection));
 			MoveTo(CentcomDest);
 		}
 
@@ -101,8 +100,8 @@ namespace Systems.Cargo
 		{
 			moving = true;
 			destination = pos;
-			mm.SetSpeed(shuttleSpeed);
-			mm.AutopilotTo(destination);
+			//mm.SetSpeed(shuttleSpeed);
+			//mm.AutopilotTo(destination);
 		}
 
 		//Server Side Only
@@ -111,13 +110,13 @@ namespace Systems.Cargo
 			if (moving && Vector2.Distance(transform.position, destination) < 2)    //arrived to dest
 			{
 				moving = false;
-				mm.SetPosition(destination);
-				mm.StopMovement();
-				mm.SteerTo(Orientation.FromEnum(centcommTravelDirection));
+				//mm.SetPosition(destination);
+				// mm.StopMovement();
+				// mm.SteerTo(Orientation.FromEnum(centcommTravelDirection));
 
 				if (CargoManager.Instance.ShuttleStatus == ShuttleStatus.OnRouteStation)
 				{
-					mm.ChangeFlyingDirection(Orientation.FromEnum(stationTravelDirection));
+					//mm.ChangeFlyingDirection(Orientation.FromEnum(stationTravelDirection));
 					StartCoroutine(ReverseIntoStation());
 				}
 			}
@@ -132,14 +131,14 @@ namespace Systems.Cargo
 		{
 			if (ChangeDirectionAtOffset)
 			{
-				mm.SteerTo(Orientation.FromEnum(stationTravelDirection));
-				mm.ChangeFlyingDirection(Orientation.FromEnum(centcommTravelDirection));
+				throw new NotImplementedException();
+				//mm.ChangeFlyingDirection(Orientation.FromEnum(centcommTravelDirection));
 			}
 
 			if (dockOffset != 0)
 			{
 				yield return new WaitForSeconds(3f);
-				mm.MoveFor(dockOffset);
+				throw new NotImplementedException();
 				yield return new WaitForSeconds(2f);
 			}
 			CargoManager.Instance.OnShuttleArrival();
@@ -154,8 +153,9 @@ namespace Systems.Cargo
 			//note: This scan also seems to find objects contained inside closets only if the object was placed
 			//into the crate after the crate was already on the cargo shuttle. Hence we are using alreadySold
 			//to avoid duplicate selling in lieu of a more thorough fix to closet held items logic.
-			Transform ObjectHolder = mm.MatrixInfo.Objects;
-			return ObjectHolder;
+			//Transform ObjectHolder = mm.MatrixInfo.Objects;
+			throw new NotImplementedException();
+			return null;
 		}
 
 		/// <summary>
@@ -325,14 +325,16 @@ namespace Systems.Cargo
 			{
 				for (int j = -shuttleZoneWidth; j <= shuttleZoneWidth; j++)
 				{
-					pos = mm.ServerState.Position.RoundToInt();
-					//i + 1 because cargo shuttle center is offseted by 1
-					pos += new Vector3Int(j, i + x, 0);
-					if ((MatrixManager.Instance.GetFirst<ClosetControl>(pos, true) == null) &&
-						MatrixManager.IsFloorAt(pos, true))
-					{
-						availableSpawnSlots.Add(pos);
-					}
+					throw new NotImplementedException();
+					//TODO !!!!
+					// pos = mm.ServerState.Position.RoundToInt();
+					// //i + 1 because cargo shuttle center is offseted by 1
+					// pos += new Vector3Int(j, i + x, 0);
+					// if ((MatrixManager.Instance.GetFirst<ClosetControl>(pos, true) == null) &&
+					// 	MatrixManager.IsFloorAt(pos, true))
+					// {
+					// 	availableSpawnSlots.Add(pos);
+					// }
 				}
 			}
 		}

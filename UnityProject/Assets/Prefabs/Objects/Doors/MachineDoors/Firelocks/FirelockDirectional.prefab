@@ -118,6 +118,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 641204170890391275, guid: a075086024d70074e8747c26b57dfa7f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 641204170890391275, guid: a075086024d70074e8747c26b57dfa7f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -178,6 +183,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2505791363575256497, guid: a075086024d70074e8747c26b57dfa7f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2505791363575256497, guid: a075086024d70074e8747c26b57dfa7f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -197,6 +207,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 188507053193642329, guid: 1866e5505c53466409052a6c9dd2d9d2,
         type: 3}
+    - target: {fileID: 4219239643307209699, guid: a075086024d70074e8747c26b57dfa7f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4219239643307209699, guid: a075086024d70074e8747c26b57dfa7f,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -246,6 +261,11 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: 844c95371c26bb741abb855f5676b2a6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6220661731906027613, guid: a075086024d70074e8747c26b57dfa7f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6220661731906027613, guid: a075086024d70074e8747c26b57dfa7f,
         type: 3}
@@ -371,6 +391,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7915659804939095932, guid: a075086024d70074e8747c26b57dfa7f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7915659804939095932, guid: a075086024d70074e8747c26b57dfa7f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -383,6 +408,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8145406458561890577, guid: a075086024d70074e8747c26b57dfa7f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8145406458561890577, guid: a075086024d70074e8747c26b57dfa7f,
         type: 3}
@@ -450,6 +480,8 @@ MonoBehaviour:
   ChangeSprites: 1
   isChangingSO: 0
   CurrentDirection: 3
+  SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0

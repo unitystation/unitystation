@@ -20,6 +20,8 @@ namespace Objects.Shuttles
 	/// </summary>
 	public class ShuttleConsole : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 	{
+		//TODO Swapping matrix
+
 		public MatrixMove ShuttleMatrixMove;
 
 		[NonSerialized] public RegisterTile registerTile;
@@ -30,10 +32,24 @@ namespace Objects.Shuttles
 
 		public ShuttleConsoleState shuttleConsoleState;
 
+		public Rotatable Rotatable;
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
 			hasNetworkTab = GetComponent<HasNetworkTab>();
+			Rotatable = this.GetComponentCustom<Rotatable>();
+			ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
+		}
+
+		public void OnDisable()
+		{
+			ShuttleMatrixMove.NetworkedMatrixMove.ShuttleConsuls.Remove(this);
+		}
+
+		public void OnEnable()
+		{
+			ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
+			ShuttleMatrixMove.NetworkedMatrixMove.ShuttleConsuls.Add(this);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -55,15 +71,15 @@ namespace Objects.Shuttles
 						Category.Shuttles);
 				}
 			}
-
-			if (ShuttleMatrixMove.IsNotPilotable)
-			{
-				hasNetworkTab.enabled = false;
-			}
-			else
-			{
-				hasNetworkTab.enabled = true;
-			}
+			//
+			// if (ShuttleMatrixMove.IsNotPilotable)
+			// {
+			// 	hasNetworkTab.enabled = false;
+			// }
+			// else
+			// {
+			// 	hasNetworkTab.enabled = true;
+			// }
 		}
 
 		public void PlayRadarDetectionSound()
@@ -110,13 +126,6 @@ namespace Objects.Shuttles
 				$"{time} : {prep.PerformerPlayerScript.playerName} emmaged {gameObject}.");
 		}
 
-		public void ClientTryMove(Orientation GlobalMoveDirection)
-		{
-			var move = registerTile.Matrix.MatrixMove;
-			if (move.CanClientUseRcs == false || move.ClientState.IsMoving == false || move.IsForceStopped || (move.IsFueled == false && move.RequiresFuel))
-				return;
-			CmdMove(GlobalMoveDirection);
-		}
 
 
 		[Command(requiresAuthority = false)]
@@ -124,7 +133,7 @@ namespace Objects.Shuttles
 		{
 			if (sender == null) return;
 			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
-			registerTile.Matrix.MatrixMove.RcsMoveServer(GlobalMoveDirection);
+			registerTile.Matrix.MatrixMove.NetworkedMatrixMove.RcsMove(GlobalMoveDirection);
 		}
 
 
@@ -140,8 +149,8 @@ namespace Objects.Shuttles
 				playerScript.RcsMode = true;
 				playerScript.RcsMatrixMove = matrixMove;
 				PlayerManager.ShuttleConsole = this;
-				matrixMove.playerControllingRcs = playerScript;
-				matrixMove.rcsModeActive = true;
+				matrixMove.NetworkedMatrixMove.playerControllingRcs = playerScript;
+				matrixMove.NetworkedMatrixMove.RCSModeActive = true;
 			}
 			else
 			{
@@ -152,11 +161,11 @@ namespace Objects.Shuttles
 					playerScript.RcsMatrixMove = null;
 				}
 
-				matrixMove.playerControllingRcs = null;
-				matrixMove.rcsModeActive = false;
+				matrixMove.NetworkedMatrixMove.playerControllingRcs = null;
+				matrixMove.NetworkedMatrixMove.RCSModeActive = false;
 			}
 
-			matrixMove.CacheRcs();
+			//matrixMove.CacheRcs();
 
 			if (isServer)
 			{

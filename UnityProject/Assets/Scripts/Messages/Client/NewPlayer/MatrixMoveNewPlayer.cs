@@ -15,8 +15,8 @@ namespace Messages.Client.NewPlayer
 			// LoadNetworkObject returns bool, so it can be used to check if object is loaded correctly
 			if (LoadNetworkObject(msg.MatrixSyncNetId))
 			{
-				NetworkObject.GetComponent<MatrixSync>().OrNull()?.MatrixMove.OrNull()?.UpdateNewPlayer(
-					SentByPlayer.Connection);
+				// NetworkObject.GetComponent<MatrixSync>().OrNull()?.MatrixMove.OrNull()?.UpdateNewPlayer(
+				// 	SentByPlayer.Connection);
 			}
 		}
 

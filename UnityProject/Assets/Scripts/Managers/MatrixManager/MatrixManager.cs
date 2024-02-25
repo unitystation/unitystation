@@ -135,8 +135,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	public IEnumerator RegisterWhenReady(Matrix matrix)
 	{
-		while (matrix.NetworkedMatrix.Initialized == false ||
-		       (matrix.MatrixMove && matrix.MatrixMove.Initialized == false))
+		while (matrix.NetworkedMatrix.Initialized == false)
 		{
 			yield return null;
 		}
@@ -1049,29 +1048,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return value;
 	}
 
-	/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlockedByRegisterTile(Vector3Int, bool, RegisterTile)"/>
-	public static bool HasAnyDepartureBlockedAt(Vector3Int worldPos, bool isServer, RegisterTile context)
-	{
-		var matrixInfo = AtPoint(worldPos, isServer);
-		var localPos = WorldToLocalInt(worldPos, matrixInfo);
-		var value = matrixInfo.Matrix.HasAnyDepartureBlockedOneMatrix(localPos, isServer, context);
-		return value;
-	}
-
-	public static bool IsNonStickyAt(Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix = null)
-	{
-		foreach (Vector3Int pos in worldPos.BoundsAround().allPositionsWithin)
-		{
-			var matrixInfo = AtPoint(pos, isServer, possibleMatrix);
-			var localPos = WorldToLocalInt(pos, matrixInfo);
-			if (matrixInfo.MetaTileMap.IsNoGravityAt(localPos, isServer) == false)
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsNoGravityAt"/>
 	///<inheritdoc cref="Matrix.IsNoGravityAt"/>
@@ -1081,21 +1057,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		var localPos = WorldToLocalInt(worldPos, matrixInfo);
 		var value = matrixInfo.Matrix.IsNoGravityAt(localPos, isServer);
 		return value;
-	}
-
-	/// <summary>
-	/// Server only.
-	/// Returns true if it's slippery or no gravity at provided position.
-	/// </summary>
-	[Server]
-	public static bool IsSlipperyOrNoGravityAt(Vector3Int worldPos, MatrixInfo possibleMatrix)
-	{
-		return IsSlipperyAt(worldPos, possibleMatrix) || IsNoGravityAt(worldPos, true, possibleMatrix);
-	}
-
-	public static bool IsFloatingAt(GameObject context, Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix)
-	{
-		return IsFloatingAt(new[] {context}, worldPos, isServer, possibleMatrix);
 	}
 
 	public static bool IsFloatingAt(GameObject[] context, Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix)
@@ -1293,7 +1254,18 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return LocalToWorld(localPos, matrix?.MatrixInfo);
 	}
 
-	/// <inheritdoc cref="LocalToWorld(Vector3, Matrix)"/>
+	public static Vector3 DirectionLocalToWorld(Vector3 directionLocal, MatrixInfo matrix) //Only used if you want a different rotation from the current rotation
+	{
+		//Invalid matrix info provided
+		if (matrix == null || matrix.Equals(MatrixInfo.Invalid) || directionLocal == Vector3.zero)
+		{
+			return directionLocal;
+		}
+
+		return matrix.MetaTileMap.localToWorldMatrix.Value.MultiplyVector(directionLocal);
+	}
+
+		/// <inheritdoc cref="LocalToWorld(Vector3, Matrix)"/>
 	public static Vector3 LocalToWorld(Vector3 localPos, MatrixInfo matrix, MatrixState? state = null) //Only used if you want a different rotation from the current rotation
 	{
 		//Invalid matrix info provided
@@ -1309,30 +1281,20 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			return localPos + matrix.Offset;
 		}
 
-		if (state == null && matrix.MetaTileMap.localToWorldMatrix != null)
+	
+		return matrix.MetaTileMap.localToWorldMatrix.Value.MultiplyPoint(localPos);
+	}
+
+
+	public static Vector3 DirectionWorldToLocal(Vector3 directionWorld, MatrixInfo matrix) //Only used if you want a different rotation from the current rotation
+	{
+		//Invalid matrix info provided
+		if (matrix == null || matrix.Equals(MatrixInfo.Invalid) || directionWorld == Vector3.zero)
 		{
-			return matrix.MetaTileMap.localToWorldMatrix.Value.MultiplyPoint(localPos);
+			return directionWorld;
 		}
 
-		var Setstate = default(MatrixState);
-		if (state != null)
-		{
-			Setstate = state.Value;
-		}
-
-		if (Setstate.Equals(default(MatrixState)))
-		{
-			Setstate = matrix.MatrixMove.ClientState;
-		}
-
-		Vector3 unpivotedPos = localPos - matrix.MatrixMove.Pivot; //localPos - localPivot
-		Vector3 rotatedPos =
-			Setstate.FacingOffsetFromInitial(matrix.MatrixMove).Quaternion *
-			unpivotedPos; //unpivotedPos rotated by N degrees
-		Vector3 rotatedPivoted =
-			rotatedPos + matrix.MatrixMove.Pivot +
-			matrix.GetOffset(Setstate); //adding back localPivot and applying localToWorldOffset
-		return rotatedPivoted;
+		return matrix.MetaTileMap.worldToLocalMatrix.Value.MultiplyVector(directionWorld);
 	}
 
 	/// <inheritdoc cref="WorldToLocal(Vector3, Matrix)"/>
@@ -1356,11 +1318,12 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 
 
-		var state = matrix.MatrixMove.ClientState;
-		var pivot = matrix.MatrixMove.Pivot.To3();
-
-		return (state.FacingOffsetFromInitial(matrix.MatrixMove).QuaternionInverted *
-		        (worldPos - pivot - matrix.GetOffset(state))) + pivot;
+		throw new NotImplementedException();
+		// var state = matrix.MatrixMove.ClientState;
+		// var pivot = matrix.MatrixMove.Pivot.To3();
+		//
+		// return (state.FacingOffsetFromInitial(matrix.MatrixMove).QuaternionInverted *
+		//         (worldPos - pivot - matrix.GetOffset(state))) + pivot;
 	}
 
 	/// <summary>

@@ -35,16 +35,16 @@ public class ShuttleStartAutoMove : MonoBehaviour
 
 	IEnumerator TryAutoMove(MatrixMove matrixMove)
 	{
-		while (!matrixMove.Initialized)
-		{
-			yield return WaitFor.EndOfFrame;
-		}
+		// while (!matrixMove.Initialized)
+		// {
+		// 	yield return WaitFor.EndOfFrame;
+		// }
 
 		yield return WaitFor.Seconds(RoundStartDelay);
 
-		matrixMove.SetSpeed(SetInitialSpeed);
-		matrixMove.SafetyProtocolsOn = ShuttleSafetyEnabled;
-		matrixMove.RequiresFuel = false;
-		matrixMove.StartMovement();
+		// matrixMove.SetSpeed(SetInitialSpeed);
+		// matrixMove.SafetyProtocolsOn = ShuttleSafetyEnabled;
+		// matrixMove.RequiresFuel = false;
+		// matrixMove.StartMovement();
 	}
 }

@@ -53,13 +53,13 @@ public class DevSpawnerListItemController : MonoBehaviour
 	private void OnEnable()
 	{
 		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Add(CallbackType.POST_FOLLOW_CAMERA_UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		OnEscape();
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Remove(CallbackType.POST_FOLLOW_CAMERA_UPDATE, UpdateMe);
 	}
 
 	/// <summary>
@@ -219,7 +219,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 	/// </summary>
 	private void TrySpawn(OrientationEnum? OrientationEnum)
 	{
-		Vector3Int position = cursorObject.transform.position.RoundToInt();
+		Vector3 position = MouseUtils.MouseToWorldPos();
 
 		if (CustomNetworkManager.IsServer)
 		{

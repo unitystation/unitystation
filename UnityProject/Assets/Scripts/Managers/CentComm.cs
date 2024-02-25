@@ -112,7 +112,7 @@ namespace Managers
 			{
 				if (body.TryGetComponent<Asteroid>(out _))
 				{
-					asteroidLocations.Add(body.ServerState.Position);
+					//asteroidLocations.Add(body.ServerState.Position);
 				}
 			}
 

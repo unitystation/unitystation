@@ -27,8 +27,11 @@ public static class SpawnSafeThread
 				if (result.Successful && data.AmountIfStackable > 1 &&
 				    result.GameObject.TryGetComponent<Stackable>(out var stackable))
 				{
-					// -1 as we are adding, eg if we want 10 in stack, item already starts at 1 so we add 9
-					stackable.ServerIncrease(data.AmountIfStackable - 1);
+					if (data.AmountIfStackable + stackable.InitialAmount <= stackable.MaxAmount)
+					{
+						// stackable.InitialAmount as we are adding, eg if we want 10 in stack, item already starts at 1 so we add 9
+						stackable.ServerIncrease(data.AmountIfStackable - stackable.InitialAmount);
+					}
 				}
 			}
 		}

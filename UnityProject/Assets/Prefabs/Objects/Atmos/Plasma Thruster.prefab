@@ -1,0 +1,223 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1780268378526666351
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 774114496202381458, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f14b95e131d73894da43dee1b93a3cf2,
+        type: 2}
+    - target: {fileID: 3473242624798872064, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: initialPassable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409890578738218794, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: _assetId
+      value: 1085270892
+      objectReference: {fileID: 0}
+    - target: {fileID: 5255355345183453768, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: m_Name
+      value: Plasma Thruster
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258920263574484114, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258920263574484114, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258920263574484114, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258920263574484114, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.00000004371139
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258920263574484114, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258920263574484114, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258920263574484114, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258920263574484114, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258920263574484114, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258920263574484114, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444563050315388511, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 17ad462c7d95db54aab529369354e2bb,
+        type: 3}
+    - target: {fileID: 8325943561578412539, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.00000004371139
+      objectReference: {fileID: 0}
+    - target: {fileID: 8325943561578412539, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8325943561578412539, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8325943561578412539, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9196119485141273601, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: foreverID
+      value: 9bda2d5647088c74392285230ba38474
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8771971882506116196, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5255355345183453768, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5160355158865406143}
+    - targetCorrespondingSourceObject: {fileID: 5255355345183453768, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4385658394677474732}
+  m_SourcePrefab: {fileID: 100100000, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
+--- !u!1 &5789955113622535207 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5255355345183453768, guid: 8e4c205a853b5d44bb1b793530feaefe,
+    type: 3}
+  m_PrefabInstance: {fileID: 1780268378526666351}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5160355158865406143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5789955113622535207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9369312e825edf84eb01671b569d86c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spritehandler: {fileID: 0}
+  SpawnOnDeconstruct: {fileID: 0}
+  registerTile: {fileID: 0}
+  pipeData:
+    PipeLayer: 1
+    Connections:
+      Directions:
+      - Bool: 0
+        MappedNeeded: 0
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+      - Bool: 0
+        MappedNeeded: 0
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+      - Bool: 1
+        MappedNeeded: 1
+        pipeType: 1
+        PortType: 3
+        flagLogic: 0
+      - Bool: 0
+        MappedNeeded: 0
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+    CustomLogic: 0
+    NetCompatible: 0
+    mixAndVolume:
+      mix:
+        temperature: 273.15
+        reagents:
+          m_keys: []
+          m_values: []
+        reagentKeys: []
+      gasMix:
+        GasData:
+          GasesArray: []
+        pressure: 0
+        Volume: 2.5
+        temperature: 293.15
+    MonoPipe: {fileID: 0}
+  Colour: {r: 1, g: 1, b: 1, a: 1}
+  spawnedFromItem: 0
+  directional: {fileID: 4385658394677474732}
+  RelatedMove: {fileID: 0}
+  Rotatable: {fileID: 4385658394677474732}
+  DEBUGForwardsThruster: 0
+  DEBUGRightThruster: 0
+  DEBUGLeftThruster: 0
+  MaxMolesUseda: 1
+  TargetMolesUsed: 0
+  ThrusterMultiplier: 100
+  AThrusterUseMultiplier: 0.072975
+  ThrustPower: 0
+--- !u!114 &4385658394677474732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5789955113622535207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  MethodRotation: 1
+  ChangeSprites: 0
+  isChangingSO: 0
+  CurrentDirection: 3
+  SynchroniseCurrentDirection: 3
+  IgnoreServerUpdatesIfLocalPlayer: 0
+  IsAtmosphericDevice: 1
+  doNotResetOtherSpriteOptions: 0

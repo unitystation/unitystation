@@ -11,7 +11,15 @@ using Objects.Wallmounts;
 
 public class EscapeShuttle : MonoBehaviour
 {
-	public MatrixInfo MatrixInfo => matrixMove.MatrixInfo;
+	public MatrixInfo MatrixInfo
+	{
+		get
+		{
+			throw new NotImplementedException();
+			//return matrixMove.GetComponent<>();
+		}
+	}
+
 	private MatrixMove matrixMove;
 
 	private CentComm centComm;
@@ -68,7 +76,7 @@ public class EscapeShuttle : MonoBehaviour
 	// Indicate if the shuttle really started moving toward station (It really starts moving in the StartMovingAtCount remaining seconds)
 	private bool startedMovingToStation;
 
-	public float DistanceToDestination => Vector2.Distance( matrixMove.ServerState.Position, currentDestination.Position );
+	//public float DistanceToDestination => Vector2.Distance( matrixMove.ServerState.Position, currentDestination.Position );
 
 	/// <summary>
 	/// used for convenient control with our coroutine extensions
@@ -261,81 +269,81 @@ public class EscapeShuttle : MonoBehaviour
 		if (currentDestination == Destination.Invalid ) return;
 
 		//arrived to destination
-		if ( matrixMove.ServerState.IsMoving )
-		{
-
-			if (DistanceToDestination < 200)
-			{
-				matrixMove.SetSpeed(80);
-			}
-
-			if ( DistanceToDestination < 2 )
-			{
-				matrixMove.SetPosition( currentDestination.Position );
-				matrixMove.StopMovement();
-
-				//centcom docked state is set manually instead, as we should usually pretend that flight is longer than it is
-				if ( Status == EscapeShuttleStatus.OnRouteStation )
-				{
-					Status = EscapeShuttleStatus.DockedStation;
-					HasShuttleDockedToStation = true;
-				}
-				else if(Status == EscapeShuttleStatus.OnRouteToStationTeleport)
-				{
-					Status = EscapeShuttleStatus.OnRouteToCentCom;
-
-					TeleportToCentTeleport();
-				}
-				else if(Status == EscapeShuttleStatus.OnRouteToCentCom)
-				{
-					Status = EscapeShuttleStatus.DockedCentcom;
-					if (Status == EscapeShuttleStatus.DockedCentcom && HasShuttleDockedToStation == true)
-					{
-						SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.HyperSpaceEnd, transform.position, sourceObj: gameObject);
-					}
-				}
-			}
-
-			else if ( DistanceToDestination < reverseDockOffset && Status == EscapeShuttleStatus.OnRouteStation)
-			{
-				TryPark();
-			}
-		}
+		// if ( matrixMove.ServerState.IsMoving )
+		// {
+		//
+		// 	if (DistanceToDestination < 200)
+		// 	{
+		// 		// matrixMove.SetSpeed(80);
+		// 	}
+		//
+		// 	if ( DistanceToDestination < 2 )
+		// 	{
+		// 		// matrixMove.SetPosition( currentDestination.Position );
+		// 		// matrixMove.StopMovement();
+		//
+		// 		//centcom docked state is set manually instead, as we should usually pretend that flight is longer than it is
+		// 		if ( Status == EscapeShuttleStatus.OnRouteStation )
+		// 		{
+		// 			Status = EscapeShuttleStatus.DockedStation;
+		// 			HasShuttleDockedToStation = true;
+		// 		}
+		// 		else if(Status == EscapeShuttleStatus.OnRouteToStationTeleport)
+		// 		{
+		// 			Status = EscapeShuttleStatus.OnRouteToCentCom;
+		//
+		// 			TeleportToCentTeleport();
+		// 		}
+		// 		else if(Status == EscapeShuttleStatus.OnRouteToCentCom)
+		// 		{
+		// 			Status = EscapeShuttleStatus.DockedCentcom;
+		// 			if (Status == EscapeShuttleStatus.DockedCentcom && HasShuttleDockedToStation == true)
+		// 			{
+		// 				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.HyperSpaceEnd, transform.position, sourceObj: gameObject);
+		// 			}
+		// 		}
+		// 	}
+		//
+		// 	else if ( DistanceToDestination < reverseDockOffset && Status == EscapeShuttleStatus.OnRouteStation)
+		// 	{
+		// 		TryPark();
+		// 	}
+		// }
 
 		//check if we're trying to move but are unable to
 		if (!isBlocked)
 		{
 			if (Status != EscapeShuttleStatus.DockedCentcom && Status != EscapeShuttleStatus.DockedStation)
 			{
-				if ((!matrixMove.ServerState.IsMoving || matrixMove.ServerState.Speed < 1f) && startedMovingToStation)
-				{
-					Loggy.LogTrace("Escape shuttle is blocked.", Category.Shuttles);
-					isBlocked = true;
-					escapeBlockedTime = 0f;
-				}
+				// if ((!matrixMove.ServerState.IsMoving || matrixMove.ServerState.Speed < 1f) && startedMovingToStation)
+				// {
+				// 	Loggy.LogTrace("Escape shuttle is blocked.", Category.Shuttles);
+				// 	isBlocked = true;
+				// 	escapeBlockedTime = 0f;
+				// }
 			}
 		}
 		else
 		{
-			//currently blocked, check if we are unblocked
-			if (Status == EscapeShuttleStatus.DockedCentcom || Status == EscapeShuttleStatus.DockedStation ||
-			    (matrixMove.ServerState.IsMoving && matrixMove.ServerState.Speed >= 1f))
-			{
-				Loggy.LogTrace("Escape shuttle is unblocked.", Category.Shuttles);
-				isBlocked = false;
-				escapeBlockedTime = 0f;
-			}
-			else
-			{
-				//continue being blocked
-				escapeBlockedTime += Time.deltaTime;
-				if (escapeBlockedTime > escapeBlockTimeLimit)
-				{
-					Loggy.LogTraceFormat("Escape shuttle blocked for more than {0} seconds, stranded ending playing.", Category.Shuttles, escapeBlockTimeLimit);
-					//can't escape
-					ServerStartStrandedEnd();
-				}
-			}
+			// //currently blocked, check if we are unblocked
+			// if (Status == EscapeShuttleStatus.DockedCentcom || Status == EscapeShuttleStatus.DockedStation ||
+			//     (matrixMove.ServerState.IsMoving && matrixMove.ServerState.Speed >= 1f))
+			// {
+			// 	Loggy.LogTrace("Escape shuttle is unblocked.", Category.Shuttles);
+			// 	isBlocked = false;
+			// 	escapeBlockedTime = 0f;
+			// }
+			// else
+			// {
+			// 	//continue being blocked
+			// 	escapeBlockedTime += Time.deltaTime;
+			// 	if (escapeBlockedTime > escapeBlockTimeLimit)
+			// 	{
+			// 		Loggy.LogTraceFormat("Escape shuttle blocked for more than {0} seconds, stranded ending playing.", Category.Shuttles, escapeBlockTimeLimit);
+			// 		//can't escape
+			// 		ServerStartStrandedEnd();
+			// 	}
+			// }
 		}
 	}
 
@@ -348,13 +356,13 @@ public class EscapeShuttle : MonoBehaviour
 		if ( !parkingMode )
 		{
 			parkingMode = true;
-			matrixMove.SetSpeed( 2 );
+			//matrixMove.SetSpeed( 2 );
 		}
 
 		if ( !isReverse )
 		{
 			isReverse = true;
-			matrixMove.ChangeFacingDirection(matrixMove.ServerState.FacingDirection.Rotate(2));
+			//matrixMove.ChangeFacingDirection(matrixMove.ServerState.FacingDirection.Rotate(2));
 			/*
 			if (Status == ShuttleStatus.DockedStation)
 			{
@@ -370,7 +378,7 @@ public class EscapeShuttle : MonoBehaviour
 	{
 		if ( parkingMode )
 		{
-			matrixMove.ChangeFlyingDirection(matrixMove.ServerState.FacingDirection);
+			//matrixMove.ChangeFlyingDirection(matrixMove.ServerState.FacingDirection);
 			isReverse = false;
 		}
 
@@ -430,7 +438,7 @@ public class EscapeShuttle : MonoBehaviour
 		}
 
 		CurrentTimerSeconds = InitialTimerSeconds;
-		matrixMove.StopMovement();
+		//matrixMove.StopMovement();
 		Status = EscapeShuttleStatus.OnRouteStation;
 
 		//start ticking timer
@@ -465,13 +473,13 @@ public class EscapeShuttle : MonoBehaviour
 		this.TryStopCoroutine( ref timerHandle );
 		this.StartCoroutine( TickTimer(false), ref timerHandle );
 
-		matrixMove.StopMovement();
+		//matrixMove.StopMovement();
 		Status = EscapeShuttleStatus.OnRouteToCentCom;
 
 		HasShuttleDockedToStation = false;
 
-		matrixMove.SetPosition( CentTeleportToCentDock.Position + centComTeleportPosOffset);
-		matrixMove.SetSpeed( 90 );
+		// matrixMove.SetPosition( CentTeleportToCentDock.Position + centComTeleportPosOffset);
+		// matrixMove.SetSpeed( 90 );
 		MoveTo(CentTeleportToCentDock);
 
 		callResult = "Shuttle has been recalled.";
@@ -498,16 +506,16 @@ public class EscapeShuttle : MonoBehaviour
 
 		Status = EscapeShuttleStatus.OnRouteToStationTeleport;
 
-		matrixMove.SetSpeed(100f);
-		matrixMove.StartMovement();
-		matrixMove.MaxSpeed = 100f;
+		// matrixMove.SetSpeed(100f);
+		// matrixMove.StartMovement();
+		// matrixMove.MaxSpeed = 100f;
 		MoveTo( CentcomDest );
 	}
 
 	public void TeleportToCentTeleport()
 	{
-		matrixMove.StopMovement();
-		matrixMove.SetPosition(CentTeleportToCentDock.Position + centComTeleportPosOffset);
+		// matrixMove.StopMovement();
+		// matrixMove.SetPosition(CentTeleportToCentDock.Position + centComTeleportPosOffset);
 		MoveTo(CentTeleportToCentDock);
 	}
 
@@ -521,13 +529,13 @@ public class EscapeShuttle : MonoBehaviour
 			{
 				AddToTime(-1);
 				//Time = Distance/Speed
-				if (startedMovingToStation == false && CurrentTimerSeconds <= Vector2.Distance(stationTeleportLocation, stationDockingLocation) / matrixMove.MaxSpeed + 10f)
-				{
-					startedMovingToStation = true;
-					matrixMove.SetPosition(stationTeleportLocation);
-					matrixMove.SetSpeed(matrixMove.MaxSpeed);
-					MoveTo(StationDest);
-				}
+				// if (startedMovingToStation == false && CurrentTimerSeconds <= Vector2.Distance(stationTeleportLocation, stationDockingLocation) / matrixMove.MaxSpeed + 10f)
+				// {
+				// 	startedMovingToStation = true;
+				// 	// matrixMove.SetPosition(stationTeleportLocation);
+				// 	// matrixMove.SetSpeed(matrixMove.MaxSpeed);
+				// 	MoveTo(StationDest);
+				// }
 				if (CurrentTimerSeconds <= 0)
 				{
 					centComm.UpdateStatusDisplay(StatusDisplayChannel.CachedChannel, null);
@@ -558,7 +566,7 @@ public class EscapeShuttle : MonoBehaviour
 	private void MoveTo( Destination dest )
 	{
 		currentDestination = dest;
-		matrixMove.AutopilotTo( currentDestination.Position );
+		//matrixMove.AutopilotTo( currentDestination.Position );
 	}
 
 	public void SetHostileEnvironment(bool activateHostileEnviro)

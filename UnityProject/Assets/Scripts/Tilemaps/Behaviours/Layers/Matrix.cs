@@ -72,7 +72,7 @@ public class Matrix : MonoBehaviour
 	/// <summary>
 	/// Does this have a matrix move and is that matrix move moving?
 	/// </summary>
-	public bool IsMovingServer => checkedMatrixMove.HasComponent && MatrixMove.IsMovingServer;
+	public bool IsMovingServer => false;
 
 	/// <summary>
 	/// Matrix info that is provided via MatrixManager
@@ -233,12 +233,6 @@ public class Matrix : MonoBehaviour
 			onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination);
 	}
 
-
-	/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlockedByRegisterTile(Vector3Int, bool, RegisterTile)"/>
-	public bool HasAnyDepartureBlockedOneMatrix(Vector3Int to, bool isServer, RegisterTile context)
-	{
-		return MetaTileMap.ObjectLayer.HasAnyDepartureBlockedByRegisterTile(to, isServer, context);
-	}
 
 	public bool IsAtmosPassableAt(Vector3Int position, bool isServer)
 	{
@@ -554,19 +548,6 @@ public class Matrix : MonoBehaviour
 			return (Node.RadiationNode.RadiationLevel);
 		}
 		return (0);
-	}
-
-	/// <summary>
-	/// Retrieves the world position from an object's highest root.
-	/// Helpful when checking for positions in a moving container.
-	/// </summary>
-	/// <param name="physics">the object's physics.</param>
-	/// <returns>The local position the object is on. Will return Vector3Int.ZERO if there's no RegisterTile assigned.</returns>
-	public static Vector3Int GetWorldPositionFromRootObject(UniversalObjectPhysics physics)
-	{
-		if (physics.GetRootObject.RegisterTile() != null) return physics.GetRootObject.RegisterTile().WorldPosition;
-		Loggy.LogError("[Matrix/GetLocalPosFromWorldPos] - Could not find RegisterTile.");
-		return Vector3Int.zero;
 	}
 
 	/// <summary>

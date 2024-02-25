@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -15,6 +16,7 @@ using Items.Botany;
 using Logs;
 using SecureStuff;
 using Debug = UnityEngine.Debug;
+using Random = System.Random;
 
 namespace Util
 {
@@ -452,18 +454,66 @@ namespace Util
 			Loggy.LogError(data.ToString());
 		}
 
+		public class coolClass
+		{
+			public int val = 0;
+		}
 
 
 		[MenuItem("Tools/Debug/------------ Debug function -----------")]
 		public static void Generate()
 		{
-			string aa = @"0​
-UnityEngine";
-			string Text = "0\u200b";
-			Loggy.LogError("Text > " + Text);
-			var nub = float.Parse(Text);
+			var ChunkedTileMap = new ChunkedTileMap<coolClass>();
 
-			Loggy.LogError("nub > " + nub);
+			var OldTileMap = new Dictionary<Vector3, coolClass>();
+
+			for (int i = 0; i < 1000; i++)
+			{
+				for (int j = 0; j < 1000; j++)
+				{
+
+					var TheValue = new coolClass()
+					{
+						val = j
+					};
+
+					ChunkedTileMap[new Vector3Int(i, j)] = TheValue;
+					OldTileMap[new Vector3Int(i, j)] = TheValue;
+				}
+			}
+
+			var RNG = new Random();
+
+			var Stopwatch = new Stopwatch();
+			Stopwatch.Start();
+			for (int i = 0; i < 1000; i++)
+			{
+				for (int j = 0; j < 1000; j++)
+				{
+
+					var cool = ChunkedTileMap[new Vector3Int(RNG.Next(0,1000), RNG.Next(0,1000))];
+				}
+			}
+			Stopwatch.Stop();
+			Loggy.LogError("ChunkedTileMap > " + Stopwatch.ElapsedTicks);
+			Stopwatch.Reset();
+			Stopwatch.Start();
+			for (int i = 0; i < 1000; i++)
+			{
+				for (int j = 0; j < 1000; j++)
+				{
+					var cool = OldTileMap[new Vector3Int(RNG.Next(0,1000), RNG.Next(0,1000))];
+
+				}
+			}
+			Stopwatch.Stop();
+
+			Loggy.LogError("OldTileMap > " + Stopwatch.ElapsedTicks);
+
+			return;
+			//
+			//
+			//Loggy.LogError("nub > " + nub);
 			 // AssetDatabase.StartAssetEditing();
 			 //                     			AssetDatabase.ForceReserializeAssets();
 			 //                     		AssetDatabase.StopAssetEditing();
@@ -948,7 +998,7 @@ UnityEngine";
 				//Logger.Log(f);
 			}
 
-			
+
 			foreach (string d in Directory.GetDirectories(sDir))
 			{
 				DirSearch_ex3(d);

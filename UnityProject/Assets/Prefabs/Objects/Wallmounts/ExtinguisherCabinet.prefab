@@ -103,6 +103,11 @@ PrefabInstance:
       propertyPath: foreverID
       value: ca7d7da17781bf046abd652ffb41a611
       objectReference: {fileID: 0}
+    - target: {fileID: 5708373433851472640, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: spriteMatrixRotationBehavior
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5718954047647765097, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -335,7 +340,9 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!210 &3001811145825185215 stripped
