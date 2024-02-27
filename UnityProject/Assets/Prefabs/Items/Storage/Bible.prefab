@@ -42,7 +42,7 @@ PrefabInstance:
     - target: {fileID: 7160488065456827048, guid: 3d19628d41d177c469a643ad9c65a0a0,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7160488065456827048, guid: 3d19628d41d177c469a643ad9c65a0a0,
         type: 3}
@@ -55,6 +55,12 @@ PrefabInstance:
       propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 64957c85b4ba5a1429d18378d62ed905,
+        type: 2}
+    - target: {fileID: 7160488065456827048, guid: 3d19628d41d177c469a643ad9c65a0a0,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ee3e9d21034d2334898508c5ddcb9d26,
         type: 2}
     - target: {fileID: 7160488065456827048, guid: 3d19628d41d177c469a643ad9c65a0a0,
         type: 3}
@@ -170,6 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bibleTab: {fileID: 6778052710423646392}
+  lastTouch: {fileID: 0}
   healthModifier: 30
 --- !u!114 &6778052710423646392
 MonoBehaviour:

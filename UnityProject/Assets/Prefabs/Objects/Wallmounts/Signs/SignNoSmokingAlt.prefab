@@ -24,6 +24,17 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 268d61a972ad09041995340aae4e93d2
       objectReference: {fileID: 0}
+    - target: {fileID: 4318893239655227061, guid: 88936f2a4a1dafc42a390cb82d55df21,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318893239655227061, guid: 88936f2a4a1dafc42a390cb82d55df21,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d868d0175c2ad014bb5c3cc4fb361248,
+        type: 2}
     - target: {fileID: 6641133358828086674, guid: 88936f2a4a1dafc42a390cb82d55df21,
         type: 3}
       propertyPath: m_Sprite

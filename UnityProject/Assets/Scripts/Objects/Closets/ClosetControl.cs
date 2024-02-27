@@ -15,7 +15,7 @@ namespace Objects
 	/// Allows closet to be opened / closed / locked
 	/// </summary>
 	public class ClosetControl : NetworkBehaviour, IServerSpawn, ICheckedInteractable<PositionalHandApply>,
-		IRightClickable, IExaminable, IEscapable, IHoverTooltip
+		IRightClickable, IExaminable, IEscapable, IHoverTooltip, ICheckedInteractable<MouseDrop>
 	{
 		// These sprite enums coincide with the sprite SOs set in SpriteHandler.
 		public enum Door
@@ -228,11 +228,9 @@ namespace Objects
 
 		private void UpdateGasContainer()
 		{
-			if (gasContainer != null)
-			{
-				gasContainer.IsSealed = IsOpen == false && (isOnlySealedWhenWelded == false || IsWelded);
-				gasContainer.EqualiseWithTile();
-			}
+			if (gasContainer == null) return;
+			gasContainer.IsSealed = IsOpen == false && (isOnlySealedWhenWelded == false || IsWelded);
+			gasContainer.EqualiseWithTile();
 		}
 
 		public void BreakLock()
@@ -325,6 +323,28 @@ namespace Objects
 		}
 
 		#region Interaction
+
+		public bool WillInteract(MouseDrop interaction, NetworkSide side)
+		{
+			if (CannotBeInteractedWithWhenClosed && lockState == Lock.Locked) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (IsOpen == false) return false;
+			//only allow interactions targeting this closet
+			return interaction.TargetObject == gameObject;
+		}
+
+		public void ServerPerformInteraction(MouseDrop interaction)
+		{
+			interaction.DroppedObject.GetUniversalObjectPhysics().AppearAtWorldPositionServer(gameObject.AssumedWorldPosServer());
+			if (objectContainer.IsAnotherContainerNear())
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You cannot close {closetName} with another container in the way!");
+			}
+			else
+			{
+				SetDoor(Door.Closed);
+			}
+		}
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{

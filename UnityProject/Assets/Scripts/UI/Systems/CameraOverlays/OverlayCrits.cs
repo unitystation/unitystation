@@ -111,6 +111,7 @@ using System.Collections;
 				PercentagePower = Mathf.Clamp(PercentagePower, 0, 1);
 				// )
 				TargetshroudColor.a = Mathf.Lerp(0.60f , 0.0f, Mathf.Pow(PercentagePower, (float)Math.E * Epow));
+				TargetshroudColor.a = Mathf.Clamp(TargetshroudColor.a, 0, 0.65f);
 			}
 			else
 			{

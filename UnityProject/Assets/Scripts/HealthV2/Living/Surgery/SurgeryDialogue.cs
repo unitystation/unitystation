@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using HealthV2;
 using Player;
@@ -17,14 +16,13 @@ namespace UI
 
 		public List<SurgicalProcessItem> OpenItems = new List<SurgicalProcessItem>();
 
+		private Dissectible dissectible;
+		private List<BodyPart> bodyParts;
+		private bool TopLayer = false;
+
 		public void OnEnable()
 		{
 			Instant = this;
-		}
-
-		public void Awake()
-		{
-			//this.SetActive(false);
 		}
 
 		public void CloseDialogue()
@@ -32,68 +30,39 @@ namespace UI
 			this.SetActive(false);
 		}
 
-		public void ShowDialogue(Dissectible Dissectible, List<BodyPart> BodyParts, bool TopLayer = false)
+		public void ShowDialogue(Dissectible dissectible, List<BodyPart> BodyParts, bool TopLayer = false)
 		{
-			this.transform.localPosition = Vector3.zero;
+			transform.localPosition = Vector3.zero;
 			this.SetActive(true);
-			Clear();
-			foreach (var bodyPart in BodyParts)
-			{
-				var newItem = Instantiate(ListItem, ScrollList.transform);
-				newItem.BodyToChoose(bodyPart, () => { ShowDialogue(Dissectible, bodyPart); }, PickSprite, "Pick");
-				OpenItems.Add(newItem);
-			}
-
-			if (TopLayer == false)
-			{
-				foreach (var Procedure in Dissectible.BodyPartIsOn.SurgeryProcedureBase)
-				{
-					if (Procedure is CloseProcedure || Procedure is ImplantProcedure)
-					{
-						var newItem = Instantiate(ListItem, ScrollList.transform);
-						newItem.ProcedureToChoose(Dissectible.currentlyOn, () => { StartProcedure(Dissectible, Dissectible.BodyPartIsOn, Procedure); },
-							Procedure.ProcedureSprite, Procedure.ProcedureName);
-						OpenItems.Add(newItem);
-					}
-				}
-			}
-			else
-			{
-				var Procedure = Dissectible.GetComponent<PlayerSprites>().RaceBodyparts.Base.RootImplantProcedure;
-				var newItem = Instantiate(ListItem, ScrollList.transform);
-				newItem.ProcedureToChoose(Dissectible.gameObject, () => { StartProcedure(Dissectible, Dissectible.BodyPartIsOn, Procedure); },
-					Procedure.ProcedureSprite, Procedure.ProcedureName);
-				OpenItems.Add(newItem);
-
-			}
+			this.dissectible = dissectible;
+			this.bodyParts = BodyParts;
+			this.TopLayer = TopLayer;
+			Refresh();
 		}
 
-		public void ShowDialogue(Dissectible Dissectible, BodyPart BodyPart)
+		private void ShowDialogue(Dissectible Dissectible, BodyPart BodyPart)
 		{
 			this.transform.localPosition = Vector3.zero;
 			Clear();
 			this.SetActive(true);
-			foreach (var Procedure in BodyPart.SurgeryProcedureBase)
+			foreach (var procedure in BodyPart.SurgeryProcedureBase)
 			{
-				if (Procedure is CloseProcedure || Procedure is ImplantProcedure) continue;
+				if (procedure is CloseProcedure || procedure is ImplantProcedure) continue;
 				var newItem = Instantiate(ListItem, ScrollList.transform);
-				newItem.ProcedureToChoose(BodyPart.gameObject, () => { StartProcedure(Dissectible, BodyPart, Procedure); },
-					Procedure.ProcedureSprite, Procedure.ProcedureName);
+				newItem.ProcedureToChoose(BodyPart.gameObject, () => { StartProcedure(Dissectible, BodyPart, procedure); },
+					procedure.ProcedureSprite, procedure.ProcedureName);
 				OpenItems.Add(newItem);
 			}
 		}
 
-		public void StartProcedure(Dissectible Dissectible, BodyPart bodyPart, SurgeryProcedureBase SurgeryProcedureBase)
+		private void StartProcedure(Dissectible Dissectible, BodyPart bodyPart, SurgeryProcedureBase SurgeryProcedureBase)
 		{
 			Clear();
+			RequestSurgery.Send(bodyPart.OrNull()?.gameObject, Dissectible.gameObject, SurgeryProcedureBase);
 			this.SetActive(false);
-			RequestSurgery.Send(bodyPart?.gameObject, Dissectible.gameObject, SurgeryProcedureBase);
-			// send message to server
-			// Dissectible.currentlyOn = bodyPart;
-			// Dissectible.ThisPresentProcedure.SetupProcedure(Dissectible, bodyPart, SurgeryProcedureBase);
 		}
 
-		public void Clear()
+		private void Clear()
 		{
 			foreach (var item in OpenItems)
 			{
@@ -101,6 +70,38 @@ namespace UI
 			}
 
 			OpenItems.Clear();
+		}
+
+		private void Refresh()
+		{
+			Clear();
+			if (dissectible.ProcedureInProgress) TopLayer = true;
+			foreach (var bodyPart in bodyParts)
+			{
+				var newItem = Instantiate(ListItem, ScrollList.transform);
+				newItem.BodyToChoose(bodyPart, () => { ShowDialogue(dissectible, bodyPart); }, PickSprite, "Pick");
+				OpenItems.Add(newItem);
+			}
+
+			if (TopLayer == false)
+			{
+				foreach (var procedure in dissectible.BodyPartIsOn.SurgeryProcedureBase)
+				{
+					if (procedure is not (CloseProcedure or ImplantProcedure)) continue;
+					var newItem = Instantiate(ListItem, ScrollList.transform);
+					newItem.ProcedureToChoose(dissectible.currentlyOn, () => { StartProcedure(dissectible, dissectible.BodyPartIsOn, procedure); },
+						procedure.ProcedureSprite, procedure.ProcedureName);
+					OpenItems.Add(newItem);
+				}
+			}
+			else
+			{
+				var procedure = dissectible.GetComponent<PlayerSprites>().RaceBodyparts.Base.RootImplantProcedure;
+				var newItem = Instantiate(ListItem, ScrollList.transform);
+				newItem.ProcedureToChoose(dissectible.gameObject, () => { StartProcedure(dissectible, dissectible.BodyPartIsOn, procedure); },
+					procedure.ProcedureSprite, procedure.ProcedureName);
+				OpenItems.Add(newItem);
+			}
 		}
 	}
 }

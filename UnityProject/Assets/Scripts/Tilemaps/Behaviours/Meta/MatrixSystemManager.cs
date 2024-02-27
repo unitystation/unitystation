@@ -11,6 +11,7 @@ public class MatrixSystemManager : MonoBehaviour
 	private List<MatrixSystemBehaviour> systems = new List<MatrixSystemBehaviour>();
 	private bool initialized;
 
+	private List<IInitialiseSystem> InitSystems = new List<IInitialiseSystem>();
 
 	public void SelfInitialize()
 	{
@@ -30,7 +31,23 @@ public class MatrixSystemManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				Chat.AddGameWideSystemMsgToChat($"<color=red>Error when initialising  {nameof(system)} on {this.name} Weird stuff might happen, check logs for error..</color>");
+				Chat.AddGameWideSystemMsgToChat($"<color=red>Error when initialising  {nameof(system)} on {this.name}. Weird stuff might happen, check logs for error..</color>");
+				Loggy.LogError(e.ToString());
+			}
+
+			yield return null;
+		}
+
+		InitSystems = InitSystems.OrderByDescending(s => s.Priority).ToList();
+		foreach (var system in InitSystems)
+		{
+			try
+			{
+				system.Initialize();
+			}
+			catch (Exception e)
+			{
+				Chat.AddGameWideSystemMsgToChat($"<color=red>Error when initialising {nameof(system)} on {this.name}. Weird stuff might happen, check logs for error..</color>");
 				Loggy.LogError(e.ToString());
 			}
 
@@ -42,6 +59,11 @@ public class MatrixSystemManager : MonoBehaviour
 	public void Register(MatrixSystemBehaviour system)
 	{
 		systems.Add(system);
+	}
+
+	public void Register(IInitialiseSystem system)
+	{
+		InitSystems.Add(system);
 	}
 
 	public void UpdateAt(Vector3Int localPosition, SystemType ToUpDate = SystemType.All)

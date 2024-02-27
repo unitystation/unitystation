@@ -100,7 +100,7 @@ namespace Systems.Scenes
 
 			GenerateStructures();
 			yield return WaitFor.Seconds(1f);
-			MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<OreGenerator>().RunOreGenerator();
+			MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponentInChildren<OreGenerator>().RunOreGenerator();
 
 			SetQuantumPads();
 
@@ -203,7 +203,7 @@ namespace Systems.Scenes
 
 			for (var i = 0; i < layers.Length; i++)
 			{
-				BoundsInt layerBounds = layers[i].Bounds;
+				BoundsInt layerBounds = layers[i].Tilemap.cellBounds;
 				if (layerBounds.x == 0 && layerBounds.y == 0)
 				{
 					continue; // Has no tiles

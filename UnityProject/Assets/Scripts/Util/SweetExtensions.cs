@@ -150,7 +150,7 @@ public static class SweetExtensions
 	public static uint NetId(this GameObject go)
 	{
 		var net = NetWorkIdentity(go);
-		if (go)
+		if (net)
 		{
 			return net.netId;
 		}
@@ -160,8 +160,27 @@ public static class SweetExtensions
 		}
 	}
 
+	public static NetworkIdentity NetworkIdentity(this uint go)
+	{
+		if (go is global::NetId.Empty or global::NetId.Invalid)
+		{
+			return null;
+		}
+
+		if (CustomNetworkManager.Spawned.TryGetValue(go, out var Returning))
+		{
+			return Returning;
+		}
+		else
+		{
+			return null;
+		}
+
+	}
+
+
 	/// Creates garbage! Use very sparsely!
-	public static Vector3 AssumedWorldPosServer(this GameObject go)
+	public static Vector3 AssumedWorldPosServer(this GameObject go, bool IsInGameItem = true)
 	{
 		if (go == null)
 		{
@@ -169,7 +188,7 @@ public static class SweetExtensions
 			return TransformState.HiddenPos;
 		}
 
-		return GetRootGameObject(go).transform.position;
+		return GetRootGameObject(go, IsInGameItem).transform.position;
 	}
 
 
@@ -185,9 +204,9 @@ public static class SweetExtensions
 
 
 	/// Creates garbage! Use very sparsely!
-	public static GameObject GetRootGameObject(this GameObject go)
+	public static GameObject GetRootGameObject(this GameObject go, bool IsInGameItem = true)
 	{
-		if (ComponentManager.TryGetUniversalObjectPhysics(go, out  var UOP))
+		if (ComponentManager.TryGetUniversalObjectPhysics(go, out  var UOP, IsInGameItem))
 		{
 			return UOP.GetRootObject;
 		}

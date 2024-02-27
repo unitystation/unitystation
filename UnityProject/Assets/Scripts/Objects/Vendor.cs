@@ -60,6 +60,8 @@ namespace Objects
 		[SerializeField] private AddressableAudioSource ambientSoundWhileOn;
 		private string loopKey;
 
+		private bool InitSound = false;
+
 		[Header("Power")]
 		[SerializeField] private LightSprite lightSprite;
 		[SyncVar(hook = nameof(SetLightState))] private bool isLightOn = true;
@@ -307,12 +309,21 @@ namespace Objects
 		{
 			if (ActualCurrentPowerState is PowerState.On or PowerState.OverVoltage or PowerState.LowVoltage)
 			{
-				SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,
-					gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
+				if (InitSound)
+				{
+					SoundManager.TokenPlayNetworked(loopKey);
+				}
+				else
+				{
+					SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,
+						gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
+					InitSound = true;
+				}
+
 			}
 			else
 			{
-				SoundManager.StopNetworked(loopKey);
+				SoundManager.StopNetworked(loopKey, false);
 			}
 		}
 

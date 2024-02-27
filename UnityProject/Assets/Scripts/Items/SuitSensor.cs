@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Items
 {
-	public class SuitSensor : NetworkBehaviour, IRightClickable, IItemInOutMovedPlayer
+	public class SuitSensor : NetworkBehaviour, IItemInOutMovedPlayer, ICheckedInteractable<HandActivate>
 	{
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
@@ -184,7 +184,7 @@ namespace Items
 			return null;
 		}
 
-		[Command(requiresAuthority = false)]
+
 		private void SwitchMode(PlayerScript player)
 		{
 			if (Vector3.Distance(gameObject.AssumedWorldPosServer(), player.AssumedWorldPos) > 3.5)
@@ -201,66 +201,43 @@ namespace Items
 				SensorMode.FULL => SensorMode.VITALS,
 				_ => throw new ArgumentOutOfRangeException()
 			};
-			Chat.AddExamineMsg(PlayerManager.LocalPlayerObject, $"Changed sensors to {Mode}");
+
 		}
 
-		[Command(requiresAuthority = false)]
-		private void TurnOnSuitSensor(PlayerScript player)
+
+		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
-			if (Vector3.Distance(gameObject.AssumedWorldPosServer(), player.AssumedWorldPos) > 3.5)
-			{
-				Loggy.LogWarning($"[MedicalTerminal/TurnOnSuitSensor] - Prevented possible cheating from player {player.playerName} who is far away from this option.");
-				return;
-			}
-			Mode = SensorMode.VITALS;
-			if (WornAndActiveSensors.Contains(this) == false)
-			{
-				WornAndActiveSensors.Add(this);
-			}
-			Chat.AddExamineMsg(player.gameObject, $"Turned on the {gameObject.ExpensiveName()}'s suit sensors.");
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			return true;
 		}
 
-		[Command(requiresAuthority = false)]
-		private void TurnOffSuitSensor(PlayerScript player)
+		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			if (Vector3.Distance(gameObject.AssumedWorldPosServer(), player.AssumedWorldPos) > 3.5)
-			{
-				Loggy.LogWarning($"[MedicalTerminal/TurnOffSuitSensor] - Prevented possible cheating from player {player.playerName} who is far away from this option.");
-				return;
-			}
-			Mode = SensorMode.OFF;
-			if (WornAndActiveSensors.Contains(this))
-			{
-				WornAndActiveSensors.Remove(this);
-			}
-			Chat.AddExamineMsg(player.gameObject, $"Turned off the {gameObject.ExpensiveName()}'s suit sensors.");
-		}
+			Chat.AddExamineMsgFromServer(interaction.Performer,
+				$"The {gameObject.ExpensiveName()} does not recognise you as its owner and refuses to open!");
 
-		public RightClickableResult GenerateRightClickOptions()
-		{
-			if (Vector3.Distance(PlayerManager.LocalPlayerObject.AssumedWorldPosServer(),
-				    gameObject.AssumedWorldPosServer()) > 2.5f)
-			{
-				//To avoid players remotely accessing these commands.
-				return null;
-			}
 
-			RightClickableResult result = new RightClickableResult();
-			if (Mode is not SensorMode.OFF)
+			if (Mode == SensorMode.FULL)
 			{
-				result.AddElement("Turn off sensor", () => TurnOffSuitSensor(PlayerManager.LocalPlayerScript));
-				result.AddElement("Change vitals tracking mode", () => SwitchMode(PlayerManager.LocalPlayerScript));
+				Mode = SensorMode.OFF;
+				Chat.AddExamineMsg(interaction.Performer, $"Turned off the {gameObject.ExpensiveName()}'s suit sensors.");
 			}
 			else
 			{
-				result.AddElement("Turn on sensor", () => TurnOnSuitSensor(PlayerManager.LocalPlayerScript));
-			}
+				var intmode = (int) Mode;
+				intmode++;
+				Mode = (SensorMode) intmode;
 
-			if (Input.GetKeyDown(KeyCode.LeftControl))
-			{
-				result.AddElement("[Debug]", () => Chat.AddExamineMsg(PlayerManager.LocalPlayerObject, $"{GetInfo()} \n {Mode}"), Color.red);
+				if (Mode == SensorMode.LOCATION)
+				{
+					Chat.AddExamineMsg(interaction.Performer, $"Turned on the {gameObject.ExpensiveName()}'s suit sensors.");
+				}
+				else
+				{
+					Chat.AddExamineMsg(interaction.Performer, $"Changed sensors to {Mode}");
+				}
 			}
-			return result;
 		}
 	}
 }

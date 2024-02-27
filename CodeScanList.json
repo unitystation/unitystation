@@ -720,7 +720,11 @@
                     "bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)",
                 ]
 			},
-			"FieldInfo" : {},
+			"FieldInfo" : {
+				"Methods": [
+                    "bool op_Inequality(System.Reflection.FieldInfo, System.Reflection.FieldInfo)",
+                ]
+			},
 			"ParameterInfo" : {
 				"Methods": [
                     "System.Type get_ParameterType()",
@@ -3321,6 +3325,12 @@
 				"Fields" : [
 					"SecureStuff.SpriteMetadata Default()"
 				]
+			},
+			"EventConnection" : {
+				"All": true
+			},
+			"IHaveForeverID" : {
+				"All": true
 			}
 		},
 		"Newtonsoft.Json" : {

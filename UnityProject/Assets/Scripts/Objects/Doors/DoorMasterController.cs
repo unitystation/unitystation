@@ -112,7 +112,7 @@ namespace Doors
 		public ConstructibleDoor ConstructibleDoor;
 
 		private bool isFireLock;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		private void Awake()
 		{
 			if (isWindowedDoor == false)

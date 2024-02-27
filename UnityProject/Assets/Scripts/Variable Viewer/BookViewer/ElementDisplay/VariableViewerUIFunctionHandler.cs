@@ -17,6 +17,8 @@ public static class VVUIElementHandler
 	public static List<PageElement> ToDestroy = new List<PageElement>();
 	public static Dictionary<Type, PageElement> Type2Element = new Dictionary<Type, PageElement>();
 
+	public static HashSet<Type> TestedTypes = new HashSet<Type>();
+
 	public static void ReSet()
 	{
 		PoolDictionary.Clear();
@@ -30,6 +32,21 @@ public static class VVUIElementHandler
 	{
 		public bool CanDeSerialiseValue(Type InType)
 		{
+			var Found = Type2Element.ContainsKey(InType);
+			if (Found) return true;
+
+			if (TestedTypes.Contains(InType) == false)
+			{
+				TestedTypes.Add(InType);
+				foreach (PageElementEnum _Enum in Enum.GetValues(typeof(PageElementEnum)))
+				{
+					if (AvailableElements[_Enum].IsThisType(InType))
+					{
+						Type2Element[InType] = AvailableElements[_Enum];
+						break;
+					}
+				}
+			}
 			return Type2Element.ContainsKey(InType);
 		}
 
@@ -75,6 +92,7 @@ public static class VVUIElementHandler
 			{
 				if (AvailableElements[_Enum].IsThisType(ValueType))
 				{
+					VVUIElementHandler.Type2Element[ValueType] = AvailableElements[_Enum];
 					_PageElement = InitialisePageElement(AvailableElements[_Enum]);
 					break;
 				}
@@ -177,6 +195,19 @@ public static class VVUIElementHandler
 			return (Type2Element[TypeOf].Serialise(InObject));
 		}
 
+		if (TypeOf != null && TestedTypes.Contains(TypeOf) == false)
+		{
+			TestedTypes.Add(TypeOf);
+			foreach (PageElementEnum _Enum in Enum.GetValues(typeof(PageElementEnum)))
+			{
+				if (AvailableElements[_Enum].IsThisType(TypeOf))
+				{
+					Type2Element[TypeOf] = AvailableElements[_Enum];
+					return (Type2Element[TypeOf].Serialise(InObject));
+				}
+			}
+		}
+
 		return (InObject.ToString());
 	}
 }
@@ -189,6 +220,7 @@ public enum PageElementEnum
 	Bool,
 	Collection,
 	Enum,
+	ScriptableObject,
 	Class,
 	InputField, //This has to be the last option
 }

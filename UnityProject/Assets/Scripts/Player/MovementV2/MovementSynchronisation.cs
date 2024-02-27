@@ -14,7 +14,10 @@ using Player.Movement;
 using ScriptableObjects;
 using ScriptableObjects.Audio;
 using Systems.Character;
+using Systems.Explosions;
+using Systems.Scenes;
 using Systems.Teleport;
+using TileManagement;
 using Tiles;
 using UI;
 using UI.Core.Action;
@@ -81,6 +84,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[SyncVar(hook = nameof(SyncMovementType))]
 	private MovementType currentMovementType;
 
+	public MovementType ClientRequestedType = MovementType.Running;
+
 	public MovementType CurrentMovementType
 	{
 		set
@@ -105,6 +110,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	private CooldownInstance moveCooldown = new CooldownInstance(0.1f);
 
 	private const float MINIMUM_MOVEMENT_SPEED = 0.6f;
+
+	private LayerType tileBumpables = LayerType.Grills | LayerType.Walls;
+
+	public float FudgeThresholdFlyingSliding = 0.5f;
 
 	/// <summary>
 	/// Event which fires when movement type changes (run/walk)
@@ -443,6 +452,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[Command]
 	public void CmdChangeCurrentWalkMode(bool isRunning)
 	{
+		ClientRequestedType = isRunning ? MovementType.Running : MovementType.Walking;
 		if (CurrentMovementType == MovementType.Crawling) return;
 		CurrentMovementType = isRunning ? MovementType.Running : MovementType.Walking;
 		MovementStateEventServer?.Invoke(isRunning);
@@ -497,10 +507,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public bool CanSwap(GameObject bumpedBy, out MovementSynchronisation move)
 	{
 		move = null;
-		if (intent != Intent.Help) return false;
 		if (bumpedBy.TryGetComponent<MovementSynchronisation>(out move))
 		{
-			if (move.intent != Intent.Help || move.CurrentMovementType == MovementType.Crawling ||
+
+			if ((move.intent != Intent.Help && intent != Intent.Help) || move.CurrentMovementType == MovementType.Crawling ||
 			    move.Pulling.HasComponent != false) return false;
 			return true;
 
@@ -512,6 +522,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public struct MoveData
 	{
+		//TODO Send over momentum as well? Before move
+
 		public Vector3 LocalPosition;
 
 		//The current location of the player (  just in case they are desynchronised )
@@ -658,9 +670,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		resetSmooth = false;
 		if (IsFlyingSliding)
 		{
-			if ((transform.position - entry.LocalPosition.ToWorld(MatrixManager.Get(entry.MatrixID)))
-			    .magnitude <
-			    0.24f) //TODO Maybe not needed if needed can be used is when Move request comes in before player has quite reached tile in space flight
+			var PositionDifference = (transform.position - entry.LocalPosition.ToWorld(MatrixManager.Get(entry.MatrixID))).magnitude;
+ 			if (PositionDifference < FudgeThresholdFlyingSliding)
+			    //TODO Maybe not needed if needed can be used is when Move request comes in before player has quite reached tile in space flight
+				//TODO it Can be manipulated
 			{
 				stored = transform.localPosition;
 				transform.localPosition = entry.LocalPosition;
@@ -669,9 +682,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				SetMatrixCache.ResetNewPosition(transform.position, registerTile);
 				fudged = true;
 			}
-			else
+			else if (entry.IsNotMove == false)
 			{
-				//Logger.LogError(" Fail the Range floating check ");
+				//Loggy.LogError($" Fail the Range floating check with Distance {PositionDifference}");
 				ResetLocationOnClients();
 				MoveQueue.Clear();
 				return;
@@ -899,7 +912,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 
 
-						//Logger.LogError("Failed TryMove");
+						// //Logger.LogError("Failed TryMove");
 						if (fudged)
 						{
 							transform.localPosition = stored;
@@ -1331,10 +1344,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					rotatable.SetFaceDirectionLocalVector(moveAction.GlobalMoveDirection.ToVector());
 				}
 			}
-			else
-			{
-				//if (isServer) Logger.LogError("failed is floating");
-			}
 		}
 
 		slippedOn = null;
@@ -1379,10 +1388,23 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			if (crossedItem.HasTrait(CommonTraits.Instance.BluespaceActivity))
 			{
+				bool CanTeleport = true;
+				foreach(TeleportInhibitor inhib in TeleportInhibitor.Inhibitors)
+				{
+					var inhibPosition = inhib.GetComponent<UniversalObjectPhysics>().OfficialPosition.RoundToInt();
+					if(Vector3.Distance(inhibPosition, this.gameObject.AssumedWorldPosServer()) <= inhib.Range)
+					{
+						SparkUtil.TrySpark(this.gameObject.AssumedWorldPosServer(), expose: false);
+						CanTeleport = false;
+					}
+				}
 				// (Max): There's better ways to do this but due to how movement code is designed
 				// you can't extend functionality that easily without bloating the code more than it already is.
 				// TODO: Rework movement to be open for extension and closed for modifications.
-				TeleportUtils.ServerTeleportRandom(playerScript.gameObject);
+				if (CanTeleport)
+				{
+					TeleportUtils.ServerTeleportRandom(playerScript.gameObject);
+				}
 			}
 
 			if (crossedItem.HasTrait(CommonTraits.Instance.Slippery))

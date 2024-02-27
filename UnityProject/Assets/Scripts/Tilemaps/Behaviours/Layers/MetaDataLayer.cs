@@ -39,11 +39,8 @@ public class MetaDataLayer : MonoBehaviour
 	private ReactionManager reactionManager;
 	private Matrix matrix;
 	public Matrix Matrix => matrix;
-	private FloorDecal existingSplat;
 
-	public Dictionary<GameObject, Vector3> InitialObjects = new Dictionary<GameObject, Vector3>();
-
-
+	public List<EtherealThing> EtherealThings = new List<EtherealThing>();
 	public void OnEnable()
 	{
 		if (CustomNetworkManager.IsServer)
@@ -214,16 +211,21 @@ public class MetaDataLayer : MonoBehaviour
 		bool paintBlood = false;
 
 		//Find all reagents on this tile (including current reagent)
-		var reagentContainer = MatrixManager.GetAt<ReagentContainer>(worldPosInt, true);
+		var reagentContainer = MatrixManager.GetAt<ReagentContainer>(worldPosInt, true).Where(x => x.ExamineAmount == ReagentContainer.ExamineAmountMode.UNKNOWN_AMOUNT);
 		var existingSplats = MatrixManager.GetAt<FloorDecal>(worldPosInt, true);
+
+		bool existingSplat = false;
 
 		foreach (var _existingSplat in existingSplats)
 		{
 			if (_existingSplat.GetComponent<ReagentContainer>())
 			{
-				existingSplat = _existingSplat;
+				existingSplat = true;
 			}
 		}
+
+		var ReagentClone = reagents.Clone();
+		ReagentClone.Divide(reagentContainer.Count());
 
 		//Loop though all reagent containers and add the passed in reagents
 		foreach (ReagentContainer chem in reagentContainer)
@@ -231,7 +233,8 @@ public class MetaDataLayer : MonoBehaviour
 			//If the reagent tile already has a pool/puddle/splat
 			if (chem.ExamineAmount == ReagentContainer.ExamineAmountMode.UNKNOWN_AMOUNT)
 			{
-				chem.Add(reagents);; //TODO Duplication glitch
+				chem.Add(ReagentClone); //TODO Duplication glitch
+				existingSplat = true;
 			}
 			//TODO: could allow you to add this to other container types like beakers but would need some balance and perhaps knocking over the beaker
 		}
@@ -279,7 +282,7 @@ public class MetaDataLayer : MonoBehaviour
 				}
 			}
 
-			if (spawnPrefabEffect)
+			if (spawnPrefabEffect && existingSplat == false)
 			{
 				if (didSplat == false)
 				{

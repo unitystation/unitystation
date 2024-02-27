@@ -104,10 +104,10 @@ namespace Objects.Atmospherics
 		private void Operate()
 		{
 			GasMix sourceGasMix = pipeMix;
-			GasMix targetGasMix = metaNode.GasMix;
+			GasMix targetGasMix = metaNode.GasMixLocal;
 			if (OperatingMode == Mode.In)
 			{
-				sourceGasMix = metaNode.GasMix;
+				sourceGasMix = metaNode.GasMixLocal;
 				targetGasMix = pipeMix;
 			}
 
@@ -143,9 +143,9 @@ namespace Objects.Atmospherics
 
 			// Evaluate External pressure regulator - want to match pressure in the tile to the regulator value
 			float externalMolLimit = maxTransfer;
-			if (ExternalEnabled && metaNode.GasMix.Pressure.Approx(0) == false)
+			if (ExternalEnabled && metaNode.GasMixLocal.Pressure.Approx(0) == false)
 			{
-				externalMolLimit = sourceMix.Moles - (sourceMix.Moles * (ExternalTarget / metaNode.GasMix.Pressure));
+				externalMolLimit = sourceMix.Moles - (sourceMix.Moles * (ExternalTarget / metaNode.GasMixLocal.Pressure));
 				externalMolLimit *= -direction;
 			}
 
@@ -246,6 +246,10 @@ namespace Objects.Atmospherics
 
 		private IEnumerator AnimateSprite(Sprite desiredFinalSprite)
 		{
+			if (spritehandler == null)
+			{
+				yield break;
+			}
 			Sprite currentSprite = (Sprite)spritehandler.CataloguePage;
 
 			if (desiredFinalSprite == currentSprite) yield break;
@@ -329,7 +333,7 @@ namespace Objects.Atmospherics
 		#region IAcuControllable
 
 		private readonly AcuSample atmosphericSample = new AcuSample();
-		AcuSample IAcuControllable.AtmosphericSample => atmosphericSample.FromGasMix(metaNode.GasMix);
+		AcuSample IAcuControllable.AtmosphericSample => atmosphericSample.FromGasMix(metaNode.GasMixLocal);
 
 		public void SetOperatingMode(AcuMode mode)
 		{

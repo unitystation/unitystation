@@ -184,7 +184,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 
 		// crit state has 2 sprite sets (blinking)
 		if (CurrentSpriteSet != 4 && CurrentSpriteSet != 5)
-			SoundManager.Stop("Critstate");
+			SoundManager.ClientStop("Critstate", true);
 
 		pulseImg.sprite = StatesSprites[CurrentSpriteSet].SP[currentSprite];
 		bgImage.sprite = statesBgImages[CurrentSpriteSet];

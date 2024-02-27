@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using Mirror;
-using UnityEngine;
 
 public class SubSceneManagerNetworked : NetworkBehaviour
 {
@@ -12,10 +9,13 @@ public class SubSceneManagerNetworked : NetworkBehaviour
 
 	public SubSceneManager SubSceneManager;
 
+	//Note: This is the first thing ever that gets called on the server after managers finish setting up.
+	//This is where life blooms.
 	public override void OnStartServer()
 	{
 		NetworkServer.observerSceneList.Clear();
 		// Determine a Main station subscene and away site
+		GameManager.Instance.ChooseGameMode();
 		StartCoroutine(SubSceneManager.RoundStartServerLoadSequence());
 		base.OnStartServer();
 	}

@@ -48,31 +48,21 @@ namespace Managers
 
 		public static IEnumerator InitAllSystems()
 		{
-
-			Chat.AddGameWideSystemMsgToChat($"<color=blue>Initialising {Instance.Matrixs.Count} Matrixes..</color>");
-
 			int ElapseMilliseconds = 0;
-
 			int Matrixint = 0;
 			var watch2 = new Stopwatch();
-
+			watch2.Start();
+			Chat.AddGameWideSystemMsgToChat($"<color=#008b8b>Initialising {Instance.Matrixs.Count} Matrices..</color>");
 			foreach (var behaviour in Instance.Matrixs)
 			{
-
-				Chat.AddGameWideSystemMsgToChat($"<color=blue>Initialising {Matrixint} Matrix..</color>");
-				watch2.Reset();
-				watch2.Start();
 				yield return behaviour.MatrixInitialization();
-				watch2.Stop();
-				Chat.AddGameWideSystemMsgToChat($"<color=blue>Matrix Initialised! Only took {watch2.Elapsed.Milliseconds}ms</color>");
 				ElapseMilliseconds += watch2.Elapsed.Milliseconds;
 				Matrixint++;
 				yield return null;
 			}
-
-
+			watch2.Stop();
 			Chat.AddGameWideSystemMsgToChat(
-				$"<color=green>Matrixes Subsystems loaded! Only took {ElapseMilliseconds}ms</color>");
+				$"<color=green>Matrix Subsystems loaded! Only took {ElapseMilliseconds}ms</color>");
 			InitializedAll = true;
 		}
 	}

@@ -1,5 +1,4 @@
-﻿using System;
-using Audio.Containers;
+﻿using Audio.Containers;
 using Core.Sound;
 using Logs;
 using UnityEngine;
@@ -50,6 +49,11 @@ namespace Systems.DynamicAmbience
 			AudioManager.Instance.GameplayMixer.audioMixer.ClearFloat(AUDIOMIXER_REVERB_KEY);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 			isEnabled = false;
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}
 
 		private void UpdateMe()

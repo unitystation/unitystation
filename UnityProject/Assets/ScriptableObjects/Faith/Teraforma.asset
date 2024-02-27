@@ -31,6 +31,7 @@ MonoBehaviour:
     FaithProperties:
     - rid: 2708802213016240155
     - rid: 2708802213016240158
+    - rid: 2595586925840039995
     FaithMiracles:
     - rid: 6780799869738287107
     - rid: 6780799869738287109
@@ -43,6 +44,22 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 2595586925840039995
+      type: {class: Germaphobe, ns: Systems.Faith.FaithProperties, asm: Assets}
+      data:
+        faithPropertyName: Germaphobe
+        faithPropertyDesc: People of this faith cannot stand filth and trash.
+        propertyIcon: {fileID: 21300000, guid: f1ecb29570cc0aa41840db1c520691b9, type: 3}
+        filthTrait: {fileID: 11400000, guid: 4c7b190bc2ad57c459127fbcb49ff7e3, type: 2}
+        breadLoafTrait: {fileID: 11400000, guid: c3d4d535a3d0c5948a29bc462aeb55fb,
+          type: 2}
+        antHills:
+        - {fileID: 2163303937581648023, guid: bd08fbb960393264dada821cd5f5484f, type: 3}
+        spores:
+        - {fileID: 2294721212438765695, guid: e0a3f4f7264307d48957eda160953eef, type: 3}
+        - {fileID: 685440780607627713, guid: 5c16e41229e91cd46902a3a0b8edcd09, type: 3}
+        KillerBread:
+        - {fileID: 7211410574268338187, guid: 55dca02dfb005cf4e8bc3686c0229b90, type: 3}
     - rid: 2708802213016240155
       type: {class: RockAndStone, ns: Systems.Faith.FaithProperties, asm: Assets}
       data:

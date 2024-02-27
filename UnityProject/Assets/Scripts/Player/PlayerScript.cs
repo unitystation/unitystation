@@ -98,6 +98,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	public StatusEffectManager StatusEffectManager { get; private set; }
 
 	[field: SerializeField] public PlayerFaith PlayerFaith { get; private set; }
+	[field: SerializeField] public PlayerParticle Particles { get; private set; }
 
 	/// <summary>
 	/// Serverside world position.
@@ -179,11 +180,9 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		}
 	}
 
-
-
 	#region Lifecycle
 
-	private void Awake()
+	protected virtual void Awake()
 	{
 		playerSprites = GetComponent<PlayerSprites>();
 		PlayerNetworkActions = GetComponent<PlayerNetworkActions>();
@@ -203,10 +202,12 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		StatusEffectManager = GetComponent<StatusEffectManager>();
 		MobLanguages = GetComponent<MobLanguages>();
 		PlayerFaith ??= GetComponent<PlayerFaith>();
+		Particles ??= GetComponent<PlayerParticle>();
 	}
 
 	public override void OnStartClient()
 	{
+		base.OnStartClient();
 		SyncPlayerName(name, name);
 	}
 
@@ -253,7 +254,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		}
 
 
-		if (hasAuthority)
+		if (isOwned)
 		{
 			EnableLighting(true);
 			UIManager.ResetAllUI();
@@ -272,7 +273,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 				}
 
 				// stop the crit notification and change overlay to ghost mode
-				SoundManager.Stop("Critstate");
+				SoundManager.ClientStop("Critstate", true);
 				OverlayCrits.Instance.SetState(OverlayState.death);
 				// show ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
@@ -296,7 +297,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 			else
 			{
 				// stop the crit notification and change overlay to ghost mode
-				SoundManager.Stop("Critstate");
+				SoundManager.ClientStop("Critstate", true);
 				OverlayCrits.Instance.SetState(OverlayState.death);
 				// hide ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
@@ -426,8 +427,17 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	[RightClickMethod]
 	public void Possess()
 	{
-		PlayerManager.LocalMindScript.SetPossessingObject(this.gameObject);
+		if (PlayerList.Instance.IsClientAdmin)
+		{
+			PlayerManager.LocalMindScript.SetPossessingObject(this.gameObject);
+			if (isServer == false)
+			{
+
+				PlayerManager.LocalMindScript.CmdRequestPossess(this.gameObject.NetId());
+			}
+		}
 	}
+
 
 	public bool IsHidden => PlayerSync.IsVisible == false;
 

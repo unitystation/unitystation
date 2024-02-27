@@ -337,7 +337,7 @@ namespace Objects.Engineering
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, SuperMatterUpdate);
-			SoundManager.Stop(loopingSoundGuid);
+			SoundManager.ClientStop(loopingSoundGuid, true);
 		}
 
 		[Client]
@@ -346,7 +346,7 @@ namespace Objects.Engineering
 			if (newVar)
 			{
 				//Delam state
-				SoundManager.Stop(loopingSoundGuid);
+				SoundManager.ClientStop(loopingSoundGuid, true);
 				loopingSoundGuid = Guid.NewGuid().ToString();
 				_ = SoundManager.PlayAtPosition(delamLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
 
@@ -356,7 +356,7 @@ namespace Objects.Engineering
 			else
 			{
 				//Normal state
-				SoundManager.Stop(loopingSoundGuid);
+				SoundManager.ClientStop(loopingSoundGuid, true);
 				loopingSoundGuid = Guid.NewGuid().ToString();
 				_ = SoundManager.PlayAtPosition(normalLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
 
@@ -391,7 +391,7 @@ namespace Objects.Engineering
 			var gasNode = registerTile.Matrix.GetMetaDataNode(registerTile.LocalPositionServer, false);
 			if(gasNode == null) return;
 
-			var gasMix = gasNode.GasMix;
+			var gasMix = gasNode.GasMixLocal;
 
 			GasMix.TransferGas(removeMix, gasMix, 0.15f * gasMix.Moles);
 
@@ -1287,7 +1287,7 @@ namespace Objects.Engineering
 
 			if (node == null) return SuperMatterStatus.Error;
 
-			var gas = node.GasMix;
+			var gas = node.GasMixLocal;
 
 			var integrityPercentage = GetIntegrityPercentage();
 

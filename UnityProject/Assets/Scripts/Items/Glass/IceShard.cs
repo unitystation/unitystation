@@ -80,12 +80,12 @@ namespace Items
 
 			if (metaDataNode == null) return;
 
-			if (isHotIce == false && metaDataNode.GasMix.Temperature > AtmosDefines.WATER_VAPOR_FREEZE)
+			if (isHotIce == false && metaDataNode.GasMixLocal.Temperature > AtmosDefines.WATER_VAPOR_FREEZE)
 			{
 				MeltIce(metaDataNode);
 			}
 
-			if (isHotIce && metaDataNode.GasMix.Temperature > 373.15)
+			if (isHotIce && metaDataNode.GasMixLocal.Temperature > 373.15)
 			{
 				MeltHotIce(metaDataNode);
 			}
@@ -95,7 +95,7 @@ namespace Items
 
 		private void MeltIce(MetaDataNode node)
 		{
-			node.GasMix.AddGas(Gas.WaterVapor, stackable.Amount * 2f);
+			node.GasMixLocal.AddGas(Gas.WaterVapor, stackable.Amount * 2f);
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
@@ -103,8 +103,8 @@ namespace Items
 		{
 			if (node == null) return;
 
-			node.GasMix.AddGas(Gas.Plasma, stackable.Amount * 150);
-			node.GasMix.ChangeTemperature(stackable.Amount * 20 + 300);
+			node.GasMixLocal.AddGas(Gas.Plasma, stackable.Amount * 150);
+			node.GasMixLocal.ChangeTemperature(stackable.Amount * 20 + 300);
 			_ = Despawn.ServerSingle(gameObject);
 		}
 

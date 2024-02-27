@@ -48,44 +48,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public static Dictionary<uint, NetworkIdentity> Spawned => IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 
-
-	public void Clear()
-	{
-		Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(IndexLookupSpawnablePrefabs, (u, k) => u != null) + " dead elements from CustomNetworkManager.IndexLookupSpawnablePrefabs");
-
-		foreach (var a in IndexLookupSpawnablePrefabs)
-		{
-			TileManager tm = a.Key.GetComponent<TileManager>();
-
-			if (tm != null)
-			{
-				tm.DeepCleanupTiles();
-			}
-		}
-	}
-
-
-	public override void Awake()
-	{
-		if (IndexLookupSpawnablePrefabs.Count == 0)
-		{
-			new Task(SetUpSpawnablePrefabsIndex).Start();
-		}
-		if (ForeverIDLookupSpawnablePrefabs.Count == 0)
-		{
-			new Task(SetUpSpawnablePrefabsForEverID).Start();
-		}
-
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
-	}
-
 	private int currentLocation = 0;
 
 	public void UpdateMe()
@@ -109,6 +71,40 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 	}
 
+
+	public void Clear()
+	{
+		Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(IndexLookupSpawnablePrefabs, (u, k) => u != null) + " dead elements from CustomNetworkManager.IndexLookupSpawnablePrefabs");
+
+		foreach (var a in IndexLookupSpawnablePrefabs)
+		{
+			TileManager tm = a.Key.GetComponent<TileManager>();
+
+			if (tm != null)
+			{
+				tm.DeepCleanupTiles();
+			}
+		}
+	}
+
+
+	public override void Awake()
+	{
+		if (IndexLookupSpawnablePrefabs.Count == 0)
+		{
+			new Task(SetUpSpawnablePrefabsIndex).Start();
+		}
+
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+	}
+
 	public void SetUpSpawnablePrefabsIndex()
 	{
 		for (int i = 0; i < allSpawnablePrefabs.Count; i++)
@@ -117,11 +113,14 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 	}
 
-	public void SetUpSpawnablePrefabsForEverID()
+	public void SetUpSpawnablePrefabsForEverIDManual()
 	{
 		for (int i = 0; i < allSpawnablePrefabs.Count; i++)
 		{
-			ForeverIDLookupSpawnablePrefabs[allSpawnablePrefabs[i].GetComponent<PrefabTracker>().ForeverID] = allSpawnablePrefabs[i];
+			if (allSpawnablePrefabs[i] == null) continue;
+			var prefabTracker = allSpawnablePrefabs[i].GetComponent<PrefabTracker>();
+			if (prefabTracker == null) continue;
+			ForeverIDLookupSpawnablePrefabs[prefabTracker.ForeverID] = allSpawnablePrefabs[i];
 		}
 	}
 
@@ -294,7 +293,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
-
 	public override void OnStartServer()
 	{
 		_isServer = true;

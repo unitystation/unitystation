@@ -31,7 +31,7 @@ public class ChatRelay : NetworkBehaviour
 	[SerializeField] private float radioCheckRadius = 4f;
 	private float whisperFalloffDistance = 2.5f;
 
-	private static readonly List<string> whisperPrefix = new List<string> { "w!", "#", "/w" };
+	private static readonly List<string> whisperPrefix = new List<string> { "w!", "/w" };
 
 	private RconManager rconManager;
 
@@ -164,6 +164,7 @@ public class ChatRelay : NetworkBehaviour
 				foreach (Collider2D coll in npcs)
 				{
 					var npcPosition = coll.gameObject.AssumedWorldPosServer();
+					if ((npcPosition - chatEvent.position).magnitude > 16) continue;
 					if (MatrixManager.Linecast(chatEvent.position, LayerTypeSelection.Walls,
 						layerMask, npcPosition).ItHit == false)
 					{
@@ -275,10 +276,10 @@ public class ChatRelay : NetworkBehaviour
 
 		UpdateChatMessage.Send(playerToSend, channel, chatEvent.modifiers, copiedString, chatEvent.VoiceLevel,
 			chatEvent.messageOthers, chatEvent.originator, chatEvent.speaker, chatEvent.stripTags, languageId, chatEvent.IsWhispering);
-		ShowChatBubbleToPlayer( playerToSend, ref chatEvent);
+		ShowChatBubbleToPlayer( playerToSend, ref chatEvent, copiedString);
 	}
 
-	public static void ShowChatBubbleToPlayer(GameObject toShowTo, ref ChatEvent chatEvent)
+	public static void ShowChatBubbleToPlayer(GameObject toShowTo, ref ChatEvent chatEvent, string msg)
 	{
 		if (chatEvent.originator == null) return;
 
@@ -286,22 +287,12 @@ public class ChatRelay : NetworkBehaviour
 
 		if (chatEvent.modifiers.HasFlag(ChatModifier.Emote)) return;
 
-		var msg = "";
 		if (chatEvent.IsWhispering)
 		{
 			if ((toShowTo.transform.position - chatEvent.originator.transform.position).magnitude > 1.5f)
 			{
-				msg = HideWhisperedText(ref chatEvent.message);
+				msg = HideWhisperedText(ref msg);
 			}
-			else
-			{
-				msg = chatEvent.message;
-			}
-
-		}
-		else
-		{
-			msg = chatEvent.message;
 		}
 
 		ShowChatBubbleMessage.SendTo(toShowTo,  chatEvent.originator, msg, chatEvent.language);

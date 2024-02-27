@@ -24,7 +24,8 @@ namespace Objects.Wallmounts
 		private ClearanceRestricted clearanceRestricted;
 
 		private APCPoweredDevice APCPoweredDevice;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		private void Start()
 		{
 			//This is needed because you can no longer apply shutterSwitch prefabs (it will move all of the child sprite positions)
@@ -138,7 +139,7 @@ namespace Objects.Wallmounts
 		private MultitoolConnectionType conType = MultitoolConnectionType.GeneralSwitch;
 		public MultitoolConnectionType ConType => conType;
 
-		public bool MultiMaster => true;
+		public bool MultiMaster => true; //TODO
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion

@@ -14,7 +14,7 @@ using Tiles;
 /// <summary>
 /// Component which should go on a Matrix and which generates ore tiles in any mineable tiles of that matrix.
 /// </summary>
-public class OreGenerator : MonoBehaviour
+public class OreGenerator : ItemMatrixSystemInit
 {
 	private static readonly List<Vector3Int> DIRECTIONS = new List<Vector3Int>() {
 		Vector3Int.up,
@@ -30,29 +30,36 @@ public class OreGenerator : MonoBehaviour
 	[FormerlySerializedAs("Data")] [SerializeField]
 	private OreGeneratorConfig config = null;
 
+	public override int Priority => priority;
 
+	public int priority = 98;
 	private static readonly System.Random RANDOM = new System.Random();
 
 	private Tilemap wallTilemap;
-	private MetaTileMap metaTileMap;
-	private TileChangeManager tileChangeManager;
-
 	private HashSet<Vector3> GeneratedLocations = new HashSet<Vector3>();
+
+	public bool RunAutomatic = true;
+
+	public override void Initialize()
+	{
+		if (RunAutomatic)
+		{
+			RunOreGenerator();
+		}
+	}
 
 	public void RunOreGenerator()
 	{
 		GeneratedLocations.Clear();
-		metaTileMap = GetComponentInChildren<MetaTileMap>();
-		wallTilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
-		tileChangeManager = GetComponent<TileChangeManager>();
+		wallTilemap = MetaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
 
-		if (TryGetComponent<NetworkedMatrix>(out var net) && net.MatrixSync == null)
+		if (NetworkedMatrix.MatrixSync == null)
 		{
-			net.BackUpSetMatrixSync();
+			NetworkedMatrix.BackUpSetMatrixSync();
 
-			if (net.MatrixSync.netId == 0)
+			if (NetworkedMatrix.MatrixSync.netId == 0)
 			{
-				StartCoroutine(WaitForNetId(net.MatrixSync));
+				StartCoroutine(WaitForNetId(NetworkedMatrix.MatrixSync));
 				return;
 			}
 		}
@@ -73,9 +80,9 @@ public class OreGenerator : MonoBehaviour
 			{
 				Vector3Int localPlace = (new Vector3Int(n, p, 0));
 
-				if (metaTileMap.HasTile(localPlace))
+				if (MetaTileMap.HasTile(localPlace))
 				{
-					BasicTile tile = metaTileMap.GetTile(localPlace, LayerType.Walls) as BasicTile;
+					BasicTile tile = MetaTileMap.GetTile(localPlace, LayerType.Walls) as BasicTile;
 					if(tile != null && tile.Mineable) miningTiles.Add(localPlace);
 				}
 			}
@@ -109,7 +116,7 @@ public class OreGenerator : MonoBehaviour
 		{
 			var chosenLocation = locations[RANDOM.Next(locations.Count)];
 			var ranLocation = chosenLocation + DIRECTIONS[RANDOM.Next(DIRECTIONS.Count)];
-			var tile = metaTileMap.GetTile(ranLocation);
+			var tile = MetaTileMap.GetTile(ranLocation);
 			if (tile != null && ((BasicTile) tile).Mineable && GeneratedLocations.Contains(ranLocation) == false)
 			{
 				GeneratedLocations.Add(ranLocation);

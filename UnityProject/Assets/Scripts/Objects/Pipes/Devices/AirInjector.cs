@@ -130,10 +130,10 @@ namespace Objects.Atmospherics
 				default:
 				case Mode.Injecting:
 					sourceMix = pipeMix;
-					targetMix = metaNode.GasMix;
+					targetMix = metaNode.GasMixLocal;
 					break;
 				case Mode.Extracting:
-					sourceMix = metaNode.GasMix;
+					sourceMix = metaNode.GasMixLocal;
 					targetMix = pipeMix;
 					break;
 			}

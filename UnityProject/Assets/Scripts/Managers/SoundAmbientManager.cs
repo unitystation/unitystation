@@ -67,8 +67,7 @@ namespace Audio.Managers
 
 			if (Instance.playingSource.ContainsKey(audioSource))
 			{
-				SoundManager.Stop(Instance.playingSource[audioSource]);
-				Instance.playingSource.Remove(audioSource);
+				SoundManager.ClientStop(Instance.playingSource[audioSource], true);
 			}
 
 			var guid = Guid.NewGuid().ToString();
@@ -85,7 +84,7 @@ namespace Audio.Managers
 
 			if (Instance.playingSource.ContainsKey(source))
 			{
-				SoundManager.Stop(Instance.playingSource[source]);
+				SoundManager.ClientStop(Instance.playingSource[source], true);
 				Instance.playingSource.Remove(source);
 			}
 
@@ -101,7 +100,7 @@ namespace Audio.Managers
 			if (Instance.playingSource.ContainsKey(audioSource) == false) return;
 
 			audioSource.AudioSource.loop = false;
-			SoundManager.Stop(Instance.playingSource[audioSource]);
+			SoundManager.ClientStop(Instance.playingSource[audioSource], true);
 		}
 
 		public static void StopAudio(AddressableAudioSource audioSource)
@@ -113,7 +112,7 @@ namespace Audio.Managers
 				audioSource.AudioSource.loop = false;
 			}
 
-			SoundManager.Stop(Instance.playingSource[audioSource]);
+			SoundManager.ClientStop(Instance.playingSource[audioSource], true);
 		}
 
 		/// <summary>
@@ -123,7 +122,7 @@ namespace Audio.Managers
 		{
 			foreach (var audioSource in Instance.playingSource)
 			{
-				SoundManager.Stop(audioSource.Value);
+				SoundManager.ClientStop(audioSource.Value, true);
 			}
 		}
 	}

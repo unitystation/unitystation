@@ -35,7 +35,7 @@ public class GUI_Notification : MonoBehaviour
 			notifications[key] = 0;
 		}
 
-		if (nofticationSound != null)
+		if (nofticationSound != null && nofticationSound.AssetAddress == "null")
 		{
 			SoundManager.Play(nofticationSound);
 		}

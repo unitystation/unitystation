@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 using System.Collections.Generic;
+using Core;
 using Mirror;
 using Core.Highlight;
 using Detective;
@@ -86,6 +87,11 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	private bool noMouseHighlight = false;
 	public bool NoMouseHighlight => noMouseHighlight;
 
+	[SerializeField]
+	[Tooltip("Initial traits of this item on spawn.")]
+	protected List<ItemTrait> initialTraits = null;
+	public List<ItemTrait> InitialTraits => initialTraits;
+
 
 	[Server]
 	public void SetExportCost(int value)
@@ -155,6 +161,16 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 		SyncArticleName(articleName, initialName);
 		SyncArticleDescription(articleDescription, initialDescription);
 		base.OnStartServer();
+	}
+
+	private void Start()
+	{
+		ComponentsTracker<Attributes>.Instances.Add(this);
+	}
+
+	private void OnDestroy()
+	{
+		ComponentsTracker<Attributes>.Instances.Remove(this);
 	}
 
 	private void SyncSize(Size oldSize, Size newSize)

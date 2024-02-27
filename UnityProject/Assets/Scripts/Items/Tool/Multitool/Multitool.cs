@@ -9,7 +9,6 @@ namespace Items.Engineering
 {
 	public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IInteractable<HandActivate>
 	{
-		private bool isMultipleMaster = false;
 		private MultitoolConnectionType configurationBuffer = MultitoolConnectionType.Empty;
 
 		private readonly List<IMultitoolMasterable> buffers = new List<IMultitoolMasterable>();
@@ -31,13 +30,20 @@ namespace Items.Engineering
 				var multitoolBases = interaction.TargetObject.GetComponents<IMultitoolLinkable>();
 				foreach (var multitoolBase in multitoolBases)
 				{
-					if (Buffer == null || isMultipleMaster)
+					if (Buffer == null)
 					{
 						if (multitoolBase is IMultitoolMasterable master)
 						{
+							if (multitoolBase.CanRelink == false)
+							{
+								Chat.AddExamineMsgFromServer(
+									interaction.Performer,
+									"This device seems to be encryptedly locked");
+								continue;
+							}
+
 							configurationBuffer = master.ConType;
 							buffers.Add(master);
-							isMultipleMaster = master.MultiMaster;
 							Chat.AddExamineMsgFromServer(
 								interaction.Performer,
 								$"You add the <b>{interaction.TargetObject.ExpensiveName()}</b> to the multitool's master buffer.");
@@ -60,6 +66,13 @@ namespace Items.Engineering
 					switch (multitoolBase)
 					{
 						case IMultitoolSlaveable slave:
+							if (slave.CanRelink == false)
+							{
+								Chat.AddExamineMsgFromServer(
+									interaction.Performer,
+									"This device seems to be encryptedly locked");
+								return;
+							}
 							if (slave.TrySetMaster(interaction.Performer, Buffer))
 							{
 								Chat.AddExamineMsgFromServer(
@@ -67,12 +80,6 @@ namespace Items.Engineering
 								$"You connect the <b>{interaction.TargetObject.ExpensiveName()}</b> " +
 								$"to the master device <b>{slaveComponent.gameObject.ExpensiveName()}</b>.");
 							}
-							return;
-						case IMultitoolMultiMasterSlaveable slaveMultiMaster:
-							slaveMultiMaster.SetMasters(buffers);
-							Chat.AddExamineMsgFromServer(
-								interaction.Performer,
-								$"You connect the <b>{interaction.TargetObject.ExpensiveName()}</b> to the master devices in the buffer.");
 							return;
 						default:
 							Chat.AddExamineMsgFromServer(
@@ -126,7 +133,6 @@ namespace Items.Engineering
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "You clear the multitool's internal buffer.");
 			buffers.Clear();
-			isMultipleMaster = false;
 			configurationBuffer = MultitoolConnectionType.Empty;
 		}
 	}

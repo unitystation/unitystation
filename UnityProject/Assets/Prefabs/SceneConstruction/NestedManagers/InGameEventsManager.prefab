@@ -246,7 +246,7 @@ MonoBehaviour:
   parametersPageType: 1
   FakeEvent: 0
   AnnounceEvent: 1
-  CanRandomlyTrigger: 1
+  CanRandomlyTrigger: 0
 --- !u!1 &1092207170390034217
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,6 +675,7 @@ GameObject:
   - component: {fileID: 6635215241995570004}
   - component: {fileID: 5120446799834176700}
   - component: {fileID: 8823218235621581495}
+  - component: {fileID: 3613769834921090609}
   m_Layer: 0
   m_Name: MeteorEvents
   m_TagString: Untagged
@@ -727,6 +728,7 @@ MonoBehaviour:
   minTimeBetweenMeteors: 1
   maxTimeBetweenMeteors: 10
   ProcessNPerupdate: 1
+  explosionType: 0
 --- !u!114 &6635215241995570004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -757,6 +759,7 @@ MonoBehaviour:
   minTimeBetweenMeteors: 1
   maxTimeBetweenMeteors: 10
   ProcessNPerupdate: 1
+  explosionType: 0
 --- !u!114 &5120446799834176700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -787,6 +790,7 @@ MonoBehaviour:
   minTimeBetweenMeteors: 1
   maxTimeBetweenMeteors: 10
   ProcessNPerupdate: 1
+  explosionType: 0
 --- !u!114 &8823218235621581495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -817,6 +821,38 @@ MonoBehaviour:
   minTimeBetweenMeteors: 1
   maxTimeBetweenMeteors: 2
   ProcessNPerupdate: 10
+  explosionType: 0
+--- !u!114 &3613769834921090609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2929328024764174348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64e1a86f3a835204698dda37a5c88d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Fast Explosions Player Safe
+  StartTimer: 3
+  EndTimer: 0
+  EventType: 2
+  ChanceToHappen: 100
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  CanRandomlyTrigger: 0
+  asteroidEventLevels: 0
+  minMeteorAmount: 300
+  maxMeteorAmount: 300
+  minStrength: 300
+  maxStrength: 400
+  minTimeBetweenMeteors: 1
+  maxTimeBetweenMeteors: 2
+  ProcessNPerupdate: 10
+  explosionType: 2
 --- !u!1 &2961505858790993329
 GameObject:
   m_ObjectHideFlags: 0
@@ -1867,7 +1903,7 @@ MonoBehaviour:
   CanRandomlyTrigger: 0
   EventsToTrigger:
   - {fileID: 2542341523975680431}
-  - {fileID: 8823218235621581495}
+  - {fileID: 3613769834921090609}
   AnnouncementText: Resonance cascade detected ON your station. Brace for impact!!!!
 --- !u!1 &8370716410027618602
 GameObject:

@@ -12,7 +12,7 @@ namespace Util.Independent.FluentRichText
 		public static string Color(this string text, RichTextColor namedRichTextColor) => new ColorStrategy(namedRichTextColor).ApplyStyle(text);
 		public static string Color(this string text, string hexColor) => new ColorStrategy(hexColor).ApplyStyle(text);
 
-		public static string Color(this string text, Color unityColour) => new ColorStrategy(ColorUtility.ToHtmlStringRGBA(unityColour)).ApplyStyle(text);
+		public static string Color(this string text, Color unityColour) => new ColorStrategy("#" +  ColorUtility.ToHtmlStringRGBA(unityColour)).ApplyStyle(text);
 		public static string Font(this string text, string fontName) => new FontStrategy(fontName).ApplyStyle(text);
 		public static string Indent(this string text, string amount) => new IndentStrategy(amount).ApplyStyle(text);
 		public static string LineHeight(this string text, string amount) => new LineHeightStrategy(amount).ApplyStyle(text);
@@ -25,7 +25,7 @@ namespace Util.Independent.FluentRichText
 		public static string NoParse(this string text) => new NoParseStrategy().ApplyStyle(text);
 		public static string NonBreakingSpaces(this string text) => new NonBreakingSpacesStrategy().ApplyStyle(text);
 		public static string HorizontalPosition(this string text, string position) => new HorizontalPositionStrategy(position).ApplyStyle(text);
-		public static string FontSize(this string text, string size) => new FontStrategy(size).ApplyStyle(text);
+		public static string FontSize(this string text, string size) => new FontSizeStrategy(size).ApplyStyle(text);
 		public static string Space(this string text, string amount) => new SpaceStrategy(amount).ApplyStyle(text);
 		public static string Sprite(this string text, int index) => new SpriteStrategy(index).ApplyStyle(text);
 		public static string Sprite(this string text, string name) => new SpriteStrategy(name).ApplyStyle(text);

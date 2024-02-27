@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
+using Core.Chat;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Logs;
 using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;
+using ScriptableObjects.RP;
 using Systems.Atmospherics;
 using UnityEngine;
 
@@ -66,6 +69,10 @@ namespace Items.Implants.Organs
 
 		public AlertSO ToxinAlert;
 		public AlertSO SuffocatingAlert;
+
+		[SerializeField] private EmoteSO coughEmote;
+		[SerializeField] private float coughCooldown = 6;
+		private bool coughIsOnCooldown = false;
 
 		public override void Awake()
 		{
@@ -150,7 +157,7 @@ namespace Items.Implants.Organs
 
 			// Try to get internal breathing if possible, otherwise get from the surroundings
 			IGasMixContainer container = RelatedPart.HealthMaster.RespiratorySystem.GetInternalGasMix();
-			var gasMixSink = node.GasMix; // Where to dump lung exhaust
+			var gasMixSink = node.GasMixLocal; // Where to dump lung exhaust
 			if (container == null)
 			{
 				// Could be in a container that has an internal gas mix, else use the tile's gas mix.
@@ -158,7 +165,7 @@ namespace Items.Implants.Organs
 				if (parentContainer != null && parentContainer.TryGetComponent<GasContainer>(out var gasContainer))
 				{
 					container = gasContainer;
-					gasMixSink = container.GasMix;
+					gasMixSink = container.GasMixLocal;
 				}
 				else
 				{
@@ -181,7 +188,7 @@ namespace Items.Implants.Organs
 			}
 
 			bool tryExhale = BreatheOut(gasMixSink, availableBlood);
-			bool tryInhale = BreatheIn(container.GasMix, availableBlood, efficiency);
+			bool tryInhale = BreatheIn(container.GasMixLocal, availableBlood, efficiency);
 			ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(availableBlood);
 			return tryExhale || tryInhale;
 		}
@@ -380,12 +387,25 @@ namespace Items.Implants.Organs
 					BodyPartAlerts.RemoveAlert(ToxinAlert);
 				}
 			}
+
+			if (hasToxins && coughIsOnCooldown == false)
+			{
+				StartCoroutine(Cough());
+			}
 		}
 
 		private IEnumerator<WaitForSeconds> CooldownTick()
 		{
 			yield return new WaitForSeconds(internalBleedingCooldown);
 			onCooldown = false;
+		}
+
+		private IEnumerator Cough()
+		{
+			coughIsOnCooldown = true;
+			EmoteActionManager.DoEmote(coughEmote, LivingHealthMaster.playerScript.gameObject);
+			yield return WaitFor.Seconds(coughCooldown);
+			coughIsOnCooldown = false;
 		}
 
 		[Serializable]

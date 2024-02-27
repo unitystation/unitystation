@@ -47,14 +47,14 @@ namespace Objects.Atmospherics
 				return;
 			}
 
-			if (gasContainer.GasMix.Pressure >= maxPressure)
+			if (gasContainer.GasMixLocal.Pressure >= maxPressure)
 			{
 				Chat.AddExamineMsg(interaction.Performer, " The gas canister is too high pressure for you to fit the plasma into ");
 				return;
 			}
 
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(1);
-			gasContainer.GasMix.AddGasWithTemperature(Gas.Plasma, molesAdded, temperatureKelvin);
+			gasContainer.GasMixLocal.AddGasWithTemperature(Gas.Plasma, molesAdded, temperatureKelvin);
 		}
 
 		public RightClickableResult GenerateRightClickOptions()

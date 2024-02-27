@@ -94,6 +94,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A sign labelling an area where cargo ships dock.
       objectReference: {fileID: 0}
+    - target: {fileID: 5940182428169200276, guid: a1b40c924340847478c3f6926388d3e7,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5940182428169200276, guid: a1b40c924340847478c3f6926388d3e7,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cd98e1bc8bcab7e40a694886dbae5973,
+        type: 2}
     - target: {fileID: 8402249449444530046, guid: a1b40c924340847478c3f6926388d3e7,
         type: 3}
       propertyPath: PresentSpriteSet

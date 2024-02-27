@@ -6,10 +6,13 @@ using System.Reflection;
 using Logs;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace SecureStuff
 {
-	public class BaseAttribute : Attribute { }
+	public class BaseAttribute : Attribute
+	{
+	}
 
 	public struct MethodsAndAttributee<T> where T : BaseAttribute
 	{
@@ -17,33 +20,49 @@ namespace SecureStuff
 		public T Attribute;
 	}
 
-	public interface IAllowedReflection{}
+	public interface IAllowedReflection
+	{
+	}
+
+	[System.Serializable]
+	public class EventConnection
+	{
+		public Component TargetComponent;
+		public string TargetFunction;
+
+		public Component SourceComponent;
+		public string SourceEvent;
+	}
+
 
 	public static class AllowedReflection
 	{
-
-		public static void RegisterNetworkMessages(Type messagebaseType, Type networkManagerExtensions, string registerMethodName, bool IsServer)
+		public static void RegisterNetworkMessages(Type messagebaseType, Type networkManagerExtensions,
+			string registerMethodName, bool IsServer)
 		{
 			if (messagebaseType.GetInterfaces().Contains(typeof(IAllowedReflection)) == false)
-            {
-            	Loggy.LogError("RegisterNetworkMessages Got a message type that didn't Implement IAllowedReflection Interface");
-            	return;
-
+			{
+				Loggy.LogError(
+					"RegisterNetworkMessages Got a message type that didn't Implement IAllowedReflection Interface");
+				return;
 			}
 
-			var methodInfo = networkManagerExtensions.GetMethod(registerMethodName, BindingFlags.Static | BindingFlags.Public);
+			var methodInfo =
+				networkManagerExtensions.GetMethod(registerMethodName, BindingFlags.Static | BindingFlags.Public);
 
 			if (methodInfo.GetCustomAttribute<BaseAttribute>(true) == null)
 			{
 				var VVNote = methodInfo.GetCustomAttribute<VVNote>(true);
 				if (VVNote is not {variableHighlightl: VVHighlight.SafeToModify100})
 				{
-					Loggy.LogError("registerMethod Wasn't marked with VVNote VVHighlight.SafeToModify100 or BaseAttribute Presumed unsafe");
+					Loggy.LogError(
+						"registerMethod Wasn't marked with VVNote VVHighlight.SafeToModify100 or BaseAttribute Presumed unsafe");
 					return;
 				}
 			}
 
-			IEnumerable<Type> types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes().Where(t => !t.IsAbstract && t.IsSubclassOfOpen(messagebaseType))).ToArray();
+			IEnumerable<Type> types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x =>
+				x.GetTypes().Where(t => !t.IsAbstract && t.IsSubclassOfOpen(messagebaseType))).ToArray();
 
 			foreach (var type in types)
 			{
@@ -63,37 +82,148 @@ namespace SecureStuff
 				{
 					return true;
 				}
+
 				t = t.BaseType;
 			}
 
 			return false;
 		}
 
-		public static object InvokeFunction(MethodInfo methodInfo, object instance , object[] parameters)
+		public static object InvokeFunction(MethodInfo methodInfo, object instance, object[] parameters)
 		{
-			if (methodInfo.GetCustomAttribute<BaseAttribute>(true) == null)
+			if (ValidateMethodInfo(methodInfo))
 			{
-				var VVNote = methodInfo.GetCustomAttribute<VVNote>(true);
+				return methodInfo.Invoke(instance, parameters);
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		public static T CreateInstance<T>() where T : IAllowedReflection, new()
+		{
+			return new T();
+		}
+
+		public static MethodInfo GetMethodInfo(Component NetworkObject, string MethodName)
+		{
+			var methodInfo = NetworkObject.GetType().GetMethod(MethodName);
+
+			if (ValidateMethodInfo(methodInfo))
+			{
+				return methodInfo;
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+
+		public static EventInfo GetEventInfo(Component NetworkObject, string EventName)
+		{
+			var EventInfo = NetworkObject.GetType().GetEvent(EventName);
+
+			if (EventInfo.GetCustomAttribute<BaseAttribute>(true) == null)
+			{
+				var VVNote = EventInfo.GetCustomAttribute<VVNote>(true);
 				if (VVNote is not {variableHighlightl: VVHighlight.SafeToModify100})
 				{
-					if (methodInfo.IsStatic) return null;
-					if (methodInfo.IsPrivate) return null;
+					Type declaringType = EventInfo.DeclaringType;
 
-					Type declaringType = methodInfo.DeclaringType;
-
-					if (declaringType == null || declaringType.IsSubclassOf(typeof(MonoBehaviour)) == false)
+					if (declaringType == null || declaringType.IsSubclassOf(typeof(Component)) == false)
 					{
 						return null;
 					}
 				}
 			}
 
-			return methodInfo.Invoke(instance, parameters);;
+			return EventInfo;
 		}
 
-		public static T CreateInstance<T>() where T : IAllowedReflection, new()
+
+		public static void PopulateEventRouter(EventConnection Connection)
 		{
-			return new T();
+			if (string.IsNullOrEmpty(Connection.TargetFunction)) return;
+			if (string.IsNullOrEmpty(Connection.SourceEvent)) return;
+			if (Connection.SourceComponent == null) return;
+			if (Connection.TargetComponent == null) return;
+
+			var method = AllowedReflection.GetMethodInfo(Connection.TargetComponent, Connection.TargetFunction);
+			if (method == null) return;
+
+			var ActionListenerField = Connection.SourceComponent.GetType().GetField(Connection.SourceEvent);
+
+			if (ActionListenerField != null)
+			{
+				if (ActionListenerField.GetCustomAttribute<BaseAttribute>(true) == null)
+				{
+					var VVNote = ActionListenerField.GetCustomAttribute<VVNote>(true);
+					if (VVNote is not {variableHighlightl: VVHighlight.SafeToModify100})
+					{
+						if (ActionListenerField.IsStatic) return;
+						if (ActionListenerField.IsPrivate) return;
+
+						Type declaringType = ActionListenerField.DeclaringType;
+
+						if (declaringType == null || declaringType.IsSubclassOf(typeof(Component)) == false)
+						{
+							return;
+						}
+					}
+				}
+
+
+				var ActionListenerObject = ActionListenerField.GetValue(Connection.SourceComponent);
+				if (ActionListenerObject is UnityEvent UnityEvent)
+				{
+					var UnityAction =
+						(UnityAction) Delegate.CreateDelegate(typeof(UnityAction), Connection.TargetComponent, method);
+					UnityEvent.AddListener(UnityAction);
+					return;
+				}
+			}
+			else
+			{
+				var eventInfo = AllowedReflection.GetEventInfo(Connection.SourceComponent, Connection.SourceEvent);
+
+				// Creating a new action for the method you want to add
+				var Action = (Action) Delegate.CreateDelegate(typeof(Action), Connection.TargetComponent, method);
+
+
+				// Getting the existing actions
+				var existingDelegate = (Action) eventInfo.GetAddMethod(true)
+					.Invoke(Connection.SourceComponent, new object[] {null});
+
+				// Combining the existing actions with the new action
+				Action combinedAction = (Action) Delegate.Combine(existingDelegate, Action);
+
+				// Setting the event to the combined action
+				eventInfo.GetAddMethod(true).Invoke(Connection.SourceComponent, new object[] {combinedAction});
+			}
+		}
+
+		private static bool ValidateMethodInfo(MethodInfo methodInfo)
+		{
+			if (methodInfo.GetCustomAttribute<BaseAttribute>(true) == null)
+			{
+				var VVNote = methodInfo.GetCustomAttribute<VVNote>(true);
+				if (VVNote is not {variableHighlightl: VVHighlight.SafeToModify100})
+				{
+					if (methodInfo.IsStatic) return false;
+					if (methodInfo.IsPrivate) return false;
+
+					Type declaringType = methodInfo.DeclaringType;
+
+					if (declaringType == null || declaringType.IsSubclassOf(typeof(Component)) == false)
+					{
+						return false;
+					}
+				}
+			}
+
+			return true;
 		}
 
 
@@ -146,15 +276,10 @@ namespace SecureStuff
 		}
 
 
-		public static Dictionary<Type,List<MethodsAndAttributee<T>>> GetFunctionsWithAttribute<T>() where T : BaseAttribute
+		public static Dictionary<Type, List<MethodsAndAttributee<T>>> GetFunctionsWithAttribute<T>()
+			where T : BaseAttribute
 		{
-			if (typeof(T) == typeof(ObsoleteAttribute))
-			{
-				Loggy.LogError("hey no, no obsolete stuff");
-				return null;
-			}
-
-			var result = new Dictionary<Type,List<MethodsAndAttributee<T>>>();
+			var result = new Dictionary<Type, List<MethodsAndAttributee<T>>>();
 
 			var allComponentTypes = AppDomain.CurrentDomain.GetAssemblies()
 				.SelectMany(s => s.GetTypes())
@@ -173,6 +298,7 @@ namespace SecureStuff
 					{
 						result[componentType] = new List<MethodsAndAttributee<T>>();
 					}
+
 					result[componentType].Add(new MethodsAndAttributee<T>()
 					{
 						MethodInfo = Method,
@@ -191,10 +317,13 @@ namespace SecureStuff
 			{
 				return null;
 			}
+
 			System.ComponentModel.DescriptionAttribute descriptionAttribute =
-				fieldInfo.GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false).FirstOrDefault() as System.ComponentModel.DescriptionAttribute;
+				fieldInfo.GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false)
+					.FirstOrDefault() as System.ComponentModel.DescriptionAttribute;
 			return descriptionAttribute == null ? value.ToString() : descriptionAttribute.Description;
 		}
+
 		public static int GetOrder(this Enum value)
 		{
 			FieldInfo fieldInfo = value.GetType().GetField(value.ToString());
@@ -202,8 +331,5 @@ namespace SecureStuff
 				fieldInfo.GetCustomAttributes(typeof(OrderAttribute), false).FirstOrDefault() as OrderAttribute;
 			return attribute == null ? -1 : attribute.Order;
 		}
-
 	}
 }
-
-

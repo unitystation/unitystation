@@ -19,6 +19,17 @@ PrefabInstance:
       value: A sign reminding you to remain behind the firing line, and to wear ear
         protection.
       objectReference: {fileID: 0}
+    - target: {fileID: 779667991303328757, guid: 1f61548e395dbe8449f041a728c5af66,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 779667991303328757, guid: 1f61548e395dbe8449f041a728c5af66,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cd98e1bc8bcab7e40a694886dbae5973,
+        type: 2}
     - target: {fileID: 1993339627899042215, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
       propertyPath: _assetId

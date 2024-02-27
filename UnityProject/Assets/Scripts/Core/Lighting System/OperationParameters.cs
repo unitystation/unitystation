@@ -9,7 +9,9 @@ public struct OperationParameters : IEquatable<OperationParameters>
 	public readonly PixelPerfectRTParameter occlusionPPRTParameter;
 	public readonly PixelPerfectRTParameter fovPPRTParameter;
 	public readonly PixelPerfectRTParameter lightPPRTParameter;
+	public readonly PixelPerfectRTParameter UICameraPPRTParameter;
 	public readonly PixelPerfectRTParameter obstacleLightPPRTParameter;
+
 	private readonly Vector2Int cameraViewportUnitsCeiled;
 	private readonly Vector3 cameraViewportUnits;
 
@@ -38,7 +40,7 @@ public struct OperationParameters : IEquatable<OperationParameters>
 		fovPPRTParameter = new PixelPerfectRTParameter(occlusionPPRTParameter.units, _initialSampleDetail);
 		lightPPRTParameter = new PixelPerfectRTParameter(cameraViewportUnitsCeiled, _initialSampleDetail * (int)iRenderSettings.lightResample);
 		obstacleLightPPRTParameter = new PixelPerfectRTParameter(lightPPRTParameter.units, Mathf.Clamp(_initialSampleDetail, 2, int.MaxValue));
-
+		UICameraPPRTParameter = new PixelPerfectRTParameter(occlusionPPRTParameter.units, _initialSampleDetail);
 		pixelsPerUnit = _occlusionDetail;
 	}
 

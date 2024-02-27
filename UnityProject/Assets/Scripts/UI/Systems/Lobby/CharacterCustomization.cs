@@ -6,12 +6,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
 using NaughtyAttributes;
-using Core.Editor.Attributes;
 using HealthV2;
 using Logs;
 using SecureStuff;
 using Systems.Character;
+using TMPro;
 using UI.Character;
+using UI.Systems.Lobby;
+using Util.Independent.FluentRichText;
 
 namespace UI.CharacterCreator
 {
@@ -32,21 +34,27 @@ namespace UI.CharacterCreator
 
 		[SerializeField] private GameObject ScrollList;
 		[SerializeField] private GameObject ScrollListBody;
+		[SerializeField] private Transform infoPage;
+		[SerializeField] private Transform appearancePage;
 		[SerializeField] private SpriteHandlerNorder BodyPartSprite;
 		[SerializeField] private ColorPicker colorPicker;
 		[SerializeField] private InputField characterNameField;
 		[SerializeField] private InputField characterAiNameField;
 		[SerializeField] private InputField ageField;
 		[SerializeField] private Text errorLabel;
-		[SerializeField] private Text genderText;
-		[SerializeField] private Text clothingText;
-		[SerializeField] private Text backpackText;
-		[SerializeField] private Text accentText;
-		[SerializeField] private Text raceText;
-		[SerializeField] private Text pronounText;
 		[SerializeField] private InputField SerialiseData;
 		[SerializeField] private BodyPartDropDownOrgans AdditionalOrgan;
 		[SerializeField] private BodyPartDropDownReplaceOrgan ReplacementOrgan;
+		[SerializeField] private TMP_Dropdown genderChoice;
+		[SerializeField] private TMP_Dropdown speciesChoice;
+		[SerializeField] private TMP_Dropdown accentChoice;
+		[SerializeField] private TMP_Dropdown pronounChoice;
+		[SerializeField] private TMP_Dropdown skinColorChoice;
+		[SerializeField] private TMP_Dropdown backpackChoice;
+		[SerializeField] private TMP_Dropdown clothChoice;
+		[SerializeField] private Button skinColorPicker;
+		[SerializeField] private BagStyleIcons iconsForBags;
+		[SerializeField] private ClothingSyleIcons iconsForCloth;
 
 		[Header("Play Mode Only")]
 
@@ -88,7 +96,24 @@ namespace UI.CharacterCreator
 		private List<ExternalCustomisation> ExternalCustomisationStorage = new();
 		private Dictionary<string, BodyPartCustomisationBase> OpenBodyCustomisation = new();
 
-		private List<PlayerHealthData> allSpecies;
+		private List<PlayerHealthData> allSpecies = new List<PlayerHealthData>();
+
+		public List<PlayerHealthData> AllSpecies
+		{
+			get
+			{
+				if (allSpecies.Count == 0)
+				{
+					if (RaceSOSingleton.Instance == null || RaceSOSingleton.Instance.Races.Count == 0)
+					{
+						Loggy.LogError("UNABLE TO GRAB ALL SPECIES!! CHARACTER CREATION SCREEN IS SURELY GOING TO BE BROKEN!!!");
+						return null;
+					}
+					allSpecies = RaceSOSingleton.GetPlayerSpecies();
+				}
+				return allSpecies;
+			}
+		}
 		private int SelectedSpecies;
 
 		private List<Color> availableSkinColors;
@@ -104,32 +129,6 @@ namespace UI.CharacterCreator
 		private System.Action onCloseAction;
 
 		#region Lifecycle
-
-		private void Awake()
-		{
-			EnsureInit();
-		}
-
-		// Separate EnsureEnit as we use parts of this script while the gameobject is disabled (the character sprite previewer - for now).
-		private void EnsureInit()
-		{
-			GrabAllSpecies();
-		}
-
-		private void GrabAllSpecies()
-		{
-			if (RaceSOSingleton.Instance == null || RaceSOSingleton.Instance.Races.Count == 0)
-			{
-				Loggy.LogError("UNABLE TO GRAB ALL SPECIES!! CHARACTER CREATION SCREEN IS SURELY GOING TO BE BROKEN!!!");
-				return;
-			}
-			allSpecies = RaceSOSingleton.Instance.Races;
-			var queueRemoval = allSpecies.Where(alien => alien.Base.CanBePlayerChosen == false).ToList();
-			foreach (var blacklistedItem in queueRemoval)
-			{
-				allSpecies.Remove(blacklistedItem);
-			}
-		}
 
 		private void OnEnable()
 		{
@@ -187,7 +186,6 @@ namespace UI.CharacterCreator
 
 		public void LoadCharacter(CharacterSheet inCharacterSettings)
 		{
-			EnsureInit();
 			Cleanup();
 			currentCharacter = inCharacterSettings;
 
@@ -195,7 +193,7 @@ namespace UI.CharacterCreator
 
 			if (SetRace == null)
 			{
-				SetRace = allSpecies.First();
+				SetRace = AllSpecies.First();
 			}
 
 			InitiateFresh(SetRace);
@@ -207,7 +205,7 @@ namespace UI.CharacterCreator
 			Cleanup();
 			//SelectedSpecies
 			SelectedSpecies = 0;
-			foreach (var species in allSpecies.TakeWhile(species => species != setRace))
+			foreach (var species in AllSpecies.TakeWhile(species => species != setRace))
 			{
 				SelectedSpecies++;
 			}
@@ -436,6 +434,8 @@ namespace UI.CharacterCreator
 		{
 			if (ThisSetRace.Base.SkinColours.Count > 0)
 			{
+				skinColorChoice.gameObject.SetActive(true);
+				skinColorPicker.gameObject.SetActive(false);
 				ColorUtility.TryParseHtmlString(currentCharacter.SkinTone, out CurrentSurfaceColour);
 
 				bool match = false;
@@ -454,10 +454,20 @@ namespace UI.CharacterCreator
 				{
 					CurrentSurfaceColour = ThisSetRace.Base.SkinColours[0];
 				}
+
+				skinColorChoice.ClearOptions();
+				foreach (var colorToAdd in ThisSetRace.Base.SkinColours)
+				{
+					TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
+					data.text = ColorUtility.ToHtmlStringRGBA(colorToAdd);
+					skinColorChoice.options.Add(data);
+				}
 			}
 			else
 			{
 				ColorUtility.TryParseHtmlString(currentCharacter.SkinTone, out CurrentSurfaceColour);
+				skinColorChoice.gameObject.SetActive(false);
+				skinColorPicker.gameObject.SetActive(true);
 			}
 
 			SkinColourChange(CurrentSurfaceColour);
@@ -497,13 +507,13 @@ namespace UI.CharacterCreator
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
-			currentCharacter = CharacterSheet.GenerateRandomCharacter();
+			currentCharacter = CharacterSheet.GenerateRandomCharacter(AllSpecies);
+
+			//Refresh the player character's sheet so they can see their new changes.
+			InitiateFresh(currentCharacter.GetRaceSo());
 
 			//Randomises character clothes, cat ears, moth wings, etc.
 			randomizeAppearance();
-
-			//Refresh the player character's sheet so they can see their new changes.
-			RefreshAll();
 		}
 
 		private void randomizeAppearance()
@@ -533,6 +543,76 @@ namespace UI.CharacterCreator
 				OpenCustomisation.Add(Customisation);
 				Customisation.Setup(customisation.CustomisationGroup, this,
 					customisation.CustomisationGroup.SpriteOrder);
+			}
+
+			UpdateAllInfoDropdowns();
+		}
+
+		private void UpdateAllInfoDropdowns()
+		{
+			genderChoice.ClearOptions();
+			speciesChoice.ClearOptions();
+			accentChoice.ClearOptions();
+			backpackChoice.ClearOptions();
+			clothChoice.ClearOptions();
+			foreach (var bodyType in ThisSetRace.Base.bodyTypeSettings.AvailableBodyTypes)
+			{
+				TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
+				data.text = bodyType.bodyType.ToString();
+				genderChoice.options.Add(data);
+			}
+
+			foreach (var specie in RaceSOSingleton.Instance.Races)
+			{
+				if (specie.Base.CanBePlayerChosen == false) continue;
+				TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
+				data.text = specie.name;
+				speciesChoice.options.Add(data);
+			}
+
+			foreach (var accent in Enum.GetNames(typeof(Speech)))
+			{
+				TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
+				data.text = accent;
+				accentChoice.options.Add(data);
+			}
+
+			pronounChoice.ClearOptions();
+			foreach (var pronoun in Enum.GetNames(typeof(PlayerPronoun)))
+			{
+				if (pronoun == "None") continue;
+				TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
+				data.text = pronoun.Replace("_", "/");;
+				pronounChoice.options.Add(data);
+			}
+
+			foreach (var style in Enum.GetNames(typeof(BagStyle)))
+			{
+				TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
+				foreach (var iconData in iconsForBags.Icons)
+				{
+					if (iconData.Style.ToString() == style)
+					{
+						data.image = iconData.Icon;
+						data.text = style;
+					}
+				}
+				backpackChoice.options.Add(data);
+			}
+
+			foreach (var style in Enum.GetNames(typeof(ClothingStyle)))
+			{
+				TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
+				foreach (var iconData in iconsForCloth.Icons)
+				{
+					if (iconData.Style.ToString() == "None") continue;
+					if (iconData.Style.ToString() == style)
+					{
+						data.image = iconData.Icon;
+						data.text = style;
+					}
+				}
+				clothChoice.options.Add(data);
 			}
 		}
 
@@ -864,6 +944,7 @@ namespace UI.CharacterCreator
 				currentCharacter.Name = TruncateName(currentCharacter.Name);
 				currentCharacter.AiName = TruncateName(currentCharacter.AiName);
 				currentCharacter.ValidateSettings();
+				currentCharacter.ValidateSpeciesCanBePlayerChosen();
 			}
 			catch (InvalidOperationException e)
 			{
@@ -918,13 +999,11 @@ namespace UI.CharacterCreator
 
 		private string TruncateName(string proposedName)
 		{
-			proposedName = textInfo.ToTitleCase(proposedName.ToLower());
 			if (proposedName.Length >= CharacterSheet.MAX_NAME_LENGTH)
 			{
 				return proposedName.Substring(0, CharacterSheet.MAX_NAME_LENGTH);
 			}
-
-			return proposedName;
+			return proposedName.Capitalize();
 		}
 
 		#endregion
@@ -935,12 +1014,7 @@ namespace UI.CharacterCreator
 		{
 			// ThisBodyType
 			// AvailableBodyTypes
-			SelectedBodyType++;
-			if (SelectedBodyType >= AvailableBodyTypes.Count)
-			{
-				SelectedBodyType = 0;
-			}
-
+			SelectedBodyType = genderChoice.value;
 			SurfaceSprite.Clear();
 			var Copy = new Dictionary<BodyPart, List<SpriteHandlerNorder>>(OpenBodySprites);
 			foreach (var KVP in Copy)
@@ -971,7 +1045,16 @@ namespace UI.CharacterCreator
 
 		private void RefreshBodyType()
 		{
-			genderText.text = ThisBodyType.Name;
+			errorLabel.text = "";
+			if (AvailableBodyTypes[SelectedBodyType] == null || genderChoice.options.Count < SelectedBodyType)
+			{
+				errorLabel.text = "BodyType out of bounds.";
+			}
+			genderChoice.SetValueWithoutNotify(SelectedBodyType);
+			if (SelectedBodyType == 0)
+			{
+				genderChoice.captionText.text = AvailableBodyTypes[SelectedBodyType].Name;
+			}
 		}
 
 		#endregion
@@ -1026,20 +1109,14 @@ namespace UI.CharacterCreator
 
 		public void OnClothingChange()
 		{
-			int clothing = (int) currentCharacter.ClothingStyle;
-			clothing++;
-			if (clothing == (int) ClothingStyle.None)
-			{
-				clothing = 0;
-			}
-
-			currentCharacter.ClothingStyle = (ClothingStyle) clothing;
+			currentCharacter.ClothingStyle = (ClothingStyle) clothChoice.value;
 			RefreshClothing();
 		}
 
 		private void RefreshClothing()
 		{
-			clothingText.text = currentCharacter.ClothingStyle.ToString();
+			clothChoice.SetValueWithoutNotify((int) currentCharacter.ClothingStyle);
+			clothChoice.captionImage.sprite = clothChoice.options[clothChoice.value].image;
 		}
 
 		#endregion
@@ -1048,20 +1125,14 @@ namespace UI.CharacterCreator
 
 		public void OnBackpackChange()
 		{
-			int backpack = (int) currentCharacter.BagStyle;
-			backpack++;
-			if (backpack == (int) BagStyle.None)
-			{
-				backpack = 0;
-			}
-
-			currentCharacter.BagStyle = (BagStyle) backpack;
+			currentCharacter.BagStyle = (BagStyle) backpackChoice.value;
 			RefreshBackpack();
 		}
 
 		private void RefreshBackpack()
 		{
-			backpackText.text = currentCharacter.BagStyle.ToString();
+			backpackChoice.SetValueWithoutNotify((int) currentCharacter.BagStyle);
+			backpackChoice.captionImage.sprite = backpackChoice.options[backpackChoice.value].image;
 		}
 
 		#endregion
@@ -1070,20 +1141,22 @@ namespace UI.CharacterCreator
 
 		public void OnPronounChange()
 		{
-			int pronoun = (int) currentCharacter.PlayerPronoun;
-			pronoun++;
+			int pronoun = pronounChoice.value;
 			if (pronoun == (int) PlayerPronoun.None)
 			{
 				pronoun = 0;
 			}
-
 			currentCharacter.PlayerPronoun = (PlayerPronoun) pronoun;
 			RefreshPronoun();
 		}
 
 		private void RefreshPronoun()
 		{
-			pronounText.text = currentCharacter.PlayerPronoun.ToString().Replace("_", "/");
+			pronounChoice.SetValueWithoutNotify((int) currentCharacter.PlayerPronoun);
+			if (pronounChoice.value == 0)
+			{
+				pronounChoice.captionText.text = pronounChoice.options[0].text;
+			}
 		}
 
 		#endregion
@@ -1094,43 +1167,41 @@ namespace UI.CharacterCreator
 
 		public void OnAccentChange()
 		{
-			int accent = (int) currentCharacter.Speech;
-			accent++;
-			if (accent == (int) Speech.Unintelligible)
+			var index = accentChoice.value;
+			var accent = (Speech)index;
+			Loggy.Log($"accent is {accent} on index {index}");
+			if (accent == Speech.Unintelligible)
 			{
-				accent = 0;
+				accent = Speech.None;
 			}
 
-			currentCharacter.Speech = (Speech) accent;
+			currentCharacter.Speech = accent;
 			RefreshAccent();
 		}
 
 		private void RefreshAccent()
 		{
-			accentText.text = currentCharacter.Speech.ToString();
+			accentChoice.SetValueWithoutNotify((int) currentCharacter.Speech);
+			if (accentChoice.value == 0)
+			{
+				accentChoice.captionText.text = accentChoice.options[0].text;
+			}
 		}
 
 		#endregion
 
 		public void OnSurfaceColourChange()
 		{
-			if (availableSkinColors.Count > 0)
-			{
-				CurrentSurfaceInt++;
-				if (CurrentSurfaceInt >= availableSkinColors.Count)
-				{
-					CurrentSurfaceInt = 0;
-				}
-
-				CurrentSurfaceColour = availableSkinColors[CurrentSurfaceInt];
-			}
-
-			else
-			{
-				OpenColorPicker(CurrentSurfaceColour, SkinColourChange, 32f);
-			}
-
+			OpenColorPicker(CurrentSurfaceColour, SkinColourChange, 32f);
 			SkinColourChange(CurrentSurfaceColour);
+		}
+
+		public void OnSurfaceColourDropdown()
+		{
+			if (ColorUtility.TryParseHtmlString("#" + skinColorChoice.options[skinColorChoice.value].text, out var newColor))
+			{
+				SkinColourChange(newColor);
+			}
 		}
 
 		public void SkinColourChange(Color color)
@@ -1140,8 +1211,9 @@ namespace UI.CharacterCreator
 			{
 				SP.SpriteHandler.SetColor(CurrentSurfaceColour);
 			}
-
 			currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGB(CurrentSurfaceColour);
+			skinColorChoice.image.color = color;
+			skinColorPicker.image.color = color;
 		}
 
 		private void RefreshAllSkinSharedSkinColoredBodyParts()
@@ -1158,24 +1230,23 @@ namespace UI.CharacterCreator
 
 		public void OnRaceChange()
 		{
-			SelectedSpecies++;
-			if (SelectedSpecies >= allSpecies.Count)
-			{
-				SelectedSpecies = 0;
-			}
-
-			currentCharacter.Species = allSpecies[SelectedSpecies].name;
-
+			SelectedSpecies = speciesChoice.value;
+			currentCharacter.Species = AllSpecies[SelectedSpecies].name;
 			Cleanup();
-			var SetRace = allSpecies[SelectedSpecies];
-			InitiateFresh(SetRace);
+			var setRace = AllSpecies[SelectedSpecies];
+			currentCharacter.ValidateSpeciesCanBePlayerChosen();
+			InitiateFresh(setRace);
 			RefreshRace();
 		}
 
 		private void RefreshRace()
 		{
-			raceText.text = currentCharacter.Species.ToString();
 			ThisSetRace = currentCharacter.GetRaceSo();
+			speciesChoice.SetValueWithoutNotify(SelectedSpecies);
+			if (speciesChoice.value == 0)
+			{
+				speciesChoice.captionText.text = speciesChoice.options[0].text;
+			}
 		}
 
 		#endregion
@@ -1210,6 +1281,18 @@ namespace UI.CharacterCreator
 
 			Cleanup();
 			LoadCharacter(inCharacter);
+		}
+
+		public void ShowInfoPage()
+		{
+			infoPage.gameObject.SetActive(true);
+			appearancePage.gameObject.SetActive(false);
+		}
+
+		public void ShowAppearancePage()
+		{
+			infoPage.gameObject.SetActive(false);
+			appearancePage.gameObject.SetActive(true);
 		}
 
 		public enum CharacterDir

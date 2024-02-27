@@ -1,7 +1,8 @@
 
  using Mirror;
+ using UnityEngine.Serialization;
 
-namespace Messages.Server.SoundMessages
+ namespace Messages.Server.SoundMessages
 {
 	/// <summary>
 	///     Message that tells client to stop playing a sound
@@ -11,11 +12,22 @@ namespace Messages.Server.SoundMessages
 		public struct NetMessage : NetworkMessage
 		{
 			public string SoundSpawnToken;
+			public bool Pool;
+			public bool Play;
+			public bool PlayOneShot;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			SoundManager.Stop(msg.SoundSpawnToken);
+			if (msg.Play)
+			{
+				SoundManager.ClientTokenPlay(msg.SoundSpawnToken, msg.PlayOneShot);
+			}
+			else
+			{
+				SoundManager.ClientStop(msg.SoundSpawnToken, msg.Pool);
+			}
+
 		}
 
 		/// <summary>
@@ -23,11 +35,14 @@ namespace Messages.Server.SoundMessages
 		/// </summary>
 		/// <param name="name">The SoundSpawn Token that identifies the sound instance to stop.</param>
 		/// <returns>The sent message</returns>
-		public static NetMessage SendToAll(string soundSpawnToken)
+		public static NetMessage SendToAll(string soundSpawnToken, bool Pool, bool Play, bool PlayOneShot)
 		{
 			NetMessage msg = new NetMessage
 			{
-				SoundSpawnToken = soundSpawnToken
+				SoundSpawnToken = soundSpawnToken,
+				Pool = Pool,
+				Play = Play,
+				PlayOneShot =  PlayOneShot
 			};
 
 			SendToAll(msg);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Logs;
 
 namespace Systems.Faith
 {
@@ -25,6 +26,23 @@ namespace Systems.Faith
 			foreach (var property in Faith.FaithProperties)
 			{
 				property.OnLeaveFaith(member);
+			}
+		}
+
+		public void RemoveAllMembers()
+		{
+			foreach (var member in FaithMembers)
+			{
+				RemoveMember(member);
+			}
+		}
+
+		public void SetupFaith()
+		{
+			Loggy.Log("[FaithData/SetupFaith] Setting up faith data for " + Faith.FaithName);
+			foreach (var property in Faith.FaithProperties)
+			{
+				property.Setup(this);
 			}
 		}
 	}

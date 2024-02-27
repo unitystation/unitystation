@@ -288,7 +288,7 @@ namespace Objects.Kitchen
 			}
 			else
 			{
-				SoundManager.Stop(runLoopGUID);
+				SoundManager.ClientStop(runLoopGUID, true);
 				particles.Stop();
 			}
 		}

@@ -134,6 +134,8 @@ namespace Doors
 		private float delayStartTime = 0;
 		private float delayStartTimeTryOpen = 0;
 
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+
 		private void Awake()
 		{
 			EnsureInit();
@@ -372,7 +374,7 @@ namespace Doors
 			}
 			IsClosed = false;
 			OnDoorOpen?.Invoke();
-			
+
 			if (enableDisabledCollider)
 			{
 				this.GetComponent<Collider2D>().enabled = false;
@@ -497,11 +499,11 @@ namespace Doors
 			var horzPressureDiff = 0.0;
 			if (upMetaNode.IsOccupied == false || downMetaNode.IsOccupied == false)
 			{
-				vertPressureDiff = Math.Abs(upMetaNode.GasMix.Pressure - downMetaNode.GasMix.Pressure);
+				vertPressureDiff = Math.Abs(upMetaNode.GasMixLocal.Pressure - downMetaNode.GasMixLocal.Pressure);
 			}
 			if (leftMetaNode.IsOccupied == false || rightMetaNode.IsOccupied == false)
 			{
-				horzPressureDiff = Math.Abs(leftMetaNode.GasMix.Pressure - rightMetaNode.GasMix.Pressure);
+				horzPressureDiff = Math.Abs(leftMetaNode.GasMixLocal.Pressure - rightMetaNode.GasMixLocal.Pressure);
 			}
 
 			// Set pressureLevel according to the pressure difference found.

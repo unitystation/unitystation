@@ -1,4 +1,6 @@
 using HealthV2;
+using Systems.Explosions;
+using Systems.Scenes;
 using Systems.Teleport;
 using UnityEngine;
 
@@ -19,15 +21,30 @@ namespace Systems.Research
 
 		public override void OnEffect(PlayerScript player, BodyPart part = null)
 		{
-			if (part != null)
+			bool CanTeleport = true;
+			foreach(TeleportInhibitor inhib in TeleportInhibitor.Inhibitors)
 			{
-				player.playerHealth.DismemberBodyPart(part);
-				TeleportUtils.ServerTeleportRandom(part.gameObject, MinDistance, MaxDistance, AvoidSpace, AvoidImpassable);
+				var inhibPosition = inhib.GetComponent<UniversalObjectPhysics>().OfficialPosition.RoundToInt();
+				if(Vector3.Distance(inhibPosition, player.gameObject.AssumedWorldPosServer()) <= inhib.Range)
+				{
+					SparkUtil.TrySpark(player.gameObject.AssumedWorldPosServer(), expose: false);
+					CanTeleport = false;
+				}
 			}
-			else
+
+			if (CanTeleport)
 			{
-				TeleportUtils.ServerTeleportRandom(player.gameObject, MinDistance, MaxDistance, AvoidSpace, AvoidImpassable);
+				if (part != null)
+				{
+					player.playerHealth.DismemberBodyPart(part);
+					TeleportUtils.ServerTeleportRandom(part.gameObject, MinDistance, MaxDistance, AvoidSpace, AvoidImpassable);
+				}
+				else
+				{
+					TeleportUtils.ServerTeleportRandom(player.gameObject, MinDistance, MaxDistance, AvoidSpace, AvoidImpassable);
+				}
 			}
+
 		}
 	}
 }

@@ -360,11 +360,16 @@ public static class PlayerSpawn
 						character.Species = requestedOccupation.CustomSpeciesOverwrite.name;
 						playerSprites.RaceOverride = requestedOccupation.CustomSpeciesOverwrite.name;
 					}
+
+					if (requestedOccupation != null)
+					{
+						if (requestedOccupation.UseCharacterSettings == false)
+						{
+							playerSprites.CharacterSheetOverride = requestedOccupation.UseCharacterSettings;
+						}
+					}
+
 				}
-
-
-
-
 
 				playerSprites.OnCharacterSettingsChange(toUseCharacterSettings);
 			}

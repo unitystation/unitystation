@@ -77,6 +77,7 @@ namespace UI.Action
 			IconBackground.Empty(true, false);
 			IconFront.Empty(true, false);
 			IconBackground.SetSpriteSO(DefaultIconBackground, networked: false);
+			if (this == null) return;
 			gameObject.SetActive(false);
 		}
 

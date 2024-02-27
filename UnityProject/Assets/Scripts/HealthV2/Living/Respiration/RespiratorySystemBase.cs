@@ -128,7 +128,7 @@ namespace HealthV2
 				if(implant.isEMPed)
 				{
 					GasContainer gasContainer = new GasContainer();
-					gasContainer.GasMix = new GasMix();
+					gasContainer.GasMixLocal = new GasMix();
 					return gasContainer;
 				}
 			}

@@ -56,7 +56,18 @@ namespace SecureStuff
 						foreach (var type in types)
 						{
 							// Create an instance of the type (assuming it has a parameterless constructor)
-							vvUIElementHandler = Activator.CreateInstance(type) as ICustomSerialisationSystem;
+							try
+							{
+								vvUIElementHandler = Activator.CreateInstance(type) as ICustomSerialisationSystem;
+							}
+							catch (Exception e)
+							{
+								Loggy.LogError(e.ToString());
+							}
+							if (vvUIElementHandler != null)
+							{
+								break;
+							}
 						}
 					}
 				}
@@ -534,7 +545,23 @@ namespace SecureStuff
 				public List<Book> HeldBooks = new List<Book>();
 
 				public ulong ID;
-				public string ShelfName;
+				public string ShelfName
+				{
+					get
+					{
+						if (Shelf != null)
+						{
+							return Shelf.name;
+						}
+						else
+						{
+							//TODO Remove from list
+							return "Destroyed";
+						}
+
+					}
+				}
+
 				public bool IsEnabled;
 				public GameObject Shelf;
 
@@ -577,7 +604,6 @@ namespace SecureStuff
 					}
 
 					var libraryBookShelf = new LibraryBookShelf();
-					libraryBookShelf.ShelfName = _Transform.gameObject.name;
 					libraryBookShelf.ID = BookShelfAID;
 					BookShelfAID++;
 					libraryBookShelf.Shelf = _Transform.gameObject;
@@ -775,6 +801,7 @@ namespace SecureStuff
 			public Book BindedTo;
 			public PropertyInfo PInfo;
 			public bool PCanWrite => PInfo.CanWrite;
+			public bool FCanWrite => Info.IsLiteral == false;
 
 			public FieldInfo Info;
 
@@ -874,6 +901,7 @@ namespace SecureStuff
 				{
 					Variable = "null";
 				}
+
 
 				//GenerateSentenceValuesforSentence
 				if (Sentences.Sentences != null)

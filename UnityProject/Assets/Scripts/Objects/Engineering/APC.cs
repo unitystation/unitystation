@@ -11,6 +11,7 @@ using Systems.Electricity.NodeModules;
 using Objects.Lighting;
 using Objects.Construction;
 using Core.Editor.Attributes;
+using Core.Lighting;
 using CustomInspectors;
 using HealthV2;
 using Logs;
@@ -66,7 +67,8 @@ namespace Objects.Engineering
 		/// </summary>
 		public List<DepartmentBattery> DepartmentBatteries => departmentBatteries;
 		private List<DepartmentBattery> departmentBatteries = new List<DepartmentBattery>();
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		/// <summary>
 		/// Function for setting the voltage via the property. Used for the voltage SyncVar hook.
 		/// </summary>
@@ -446,7 +448,7 @@ namespace Objects.Engineering
 		public MultitoolConnectionType ConType => MultitoolConnectionType.APC;
 
 		[SerializeField]
-		private bool multiMaster = true;
+		private bool multiMaster = true; //TODO
 		public bool MultiMaster => multiMaster;
 
 		int IMultitoolMasterable.MaxDistance => 30;

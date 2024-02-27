@@ -77,6 +77,8 @@ namespace Objects.Research
 		private DamageEffectBase forceWallDamageEffectSO = null;
 		private bool forceWallDamageEffect = false;
 
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 
 
 		[SyncVar] public string ID = "T376";
@@ -411,7 +413,7 @@ namespace Objects.Research
 
 			Matrix matrix = integrity.RegisterTile.Matrix;
 			Vector3Int localPosition = MatrixManager.WorldToLocalInt(objectPhysics.registerTile.WorldPosition, matrix);
-			GasMix ambientGasMix = matrix.MetaDataLayer.Get(localPosition).GasMix;
+			GasMix ambientGasMix = matrix.MetaDataLayer.Get(localPosition).GasMixLocal;
 
 			ambientGasMix.GasData.GetGasMoles(gastype, out var moles);
 

@@ -128,7 +128,8 @@ namespace Objects.Atmospherics
 		}
 
 		#endregion
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		private void PeriodicUpdate()
 		{
 			UpdateAtmosphericAverage();
@@ -157,7 +158,7 @@ namespace Objects.Atmospherics
 
 			if (acuSamplesAir)
 			{
-				acuSample.FromGasMix(facingMetaNode.GasMix);
+				acuSample.FromGasMix(facingMetaNode.GasMixLocal);
 				AtmosphericAverage.AddSample(acuSample);
 			}
 		}
@@ -353,7 +354,6 @@ namespace Objects.Atmospherics
 		#region Multitool
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.Acu;
-		bool IMultitoolMasterable.MultiMaster => false;
 		int IMultitoolMasterable.MaxDistance => 30;
 
 		public void AddSlave(IAcuControllable device)

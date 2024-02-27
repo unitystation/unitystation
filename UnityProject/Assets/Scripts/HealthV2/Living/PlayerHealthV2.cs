@@ -78,7 +78,7 @@ namespace HealthV2
 							Inventory.ServerDrop(itemSlot);
 						}
 						playerMove.ServerAllowInput.RemovePosition(this);
-						playerMove.CurrentMovementType = MovementType.Running;
+						playerMove.CurrentMovementType = MovementType.Crawling;
 						if (oldState == ConsciousState.CONSCIOUS)
 						{
 							//only play the sound if we are falling
@@ -275,24 +275,25 @@ namespace HealthV2
 		/// </summary>
 		/// <param name="voltage">The potential difference across the player</param>
 		/// <returns>float resistance</returns>
-		protected override float ApproximateElectricalResistance(float voltage)
+		protected override float ApproximateElectricalResistance(Electrocution electrocution)
 		{
 			// Assume the player is a humanoid
-			float resistance = GetNakedHumanoidElectricalResistance(voltage);
+			float resistance = GetNakedHumanoidElectricalResistance(electrocution.Voltage);
 
-			// Give the humanoid extra/less electrical resistance based on what they're holding/wearing
-			foreach (var itemSlot in dynamicItemStorage.GetNamedItemSlots(NamedSlot.hands))
+			if (electrocution.IgnoreProtection == false)
 			{
-				resistance += Electrocution.GetItemElectricalResistance(itemSlot.ItemObject);
+				// Give the humanoid extra/less electrical resistance based on what they're holding/wearing
+				foreach (var itemSlot in dynamicItemStorage.GetNamedItemSlots(NamedSlot.hands))
+				{
+					resistance += Electrocution.GetItemElectricalResistance(itemSlot.ItemObject);
+				}
+				foreach (var itemSlot in dynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))
+				{
+					resistance += Electrocution.GetItemElectricalResistance(itemSlot.ItemObject);
+				}
+				// A solid grip on a conductive item will reduce resistance - assuming it is conductive.
+				if (dynamicItemStorage.GetActiveHandSlot().Item != null) resistance -= 300;
 			}
-
-			foreach (var itemSlot in dynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))
-			{
-				resistance += Electrocution.GetItemElectricalResistance(itemSlot.ItemObject);
-			}
-
-			// A solid grip on a conductive item will reduce resistance - assuming it is conductive.
-			if (dynamicItemStorage.GetActiveHandSlot().Item != null) resistance -= 300;
 
 			// Broken skin reduces electrical resistance - arbitrarily chosen at 4 to 1.
 			resistance -= 4 * GetTotalBruteDamage();

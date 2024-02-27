@@ -164,6 +164,8 @@ namespace Objects.Other
 		private string bulletName;
 		private AddressableAudioSource bulletSound;
 
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -531,7 +533,10 @@ namespace Objects.Other
 			else
 			{
 				bulletName = laserBullet.name;
-				bulletSound = spawnGun.GetComponent<Gun>().FiringSoundA;
+				if (spawnGun != null)
+				{
+					bulletSound = spawnGun.GetComponent<Gun>().FiringSoundA;
+				}
 			}
 
 			shootSpeedMultiplier = Mathf.Clamp(shootSpeedMultiplier, 0.1f, 10f);

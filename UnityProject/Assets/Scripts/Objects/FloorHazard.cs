@@ -6,8 +6,10 @@ using Systems.MobAIs;
 using AddressableReferences;
 using HealthV2;
 using HealthV2.Limbs;
+using Logs;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace Objects
@@ -26,6 +28,7 @@ namespace Objects
 		[SerializeField] private bool canCauseTrauma;
 		[SerializeField, HideIf("ignoresFootwear")] private List<ItemTrait> protectiveItemTraits;
 		[SerializeField] private List<BodyPartType> limbsToHurt;
+		[SerializeField] private UnityEvent<GameObject> OnStepEvent = new UnityEvent<GameObject>();
 
 		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
@@ -34,6 +37,7 @@ namespace Objects
 
 		public override void OnPlayerStep(PlayerScript playerScript)
 		{
+			if (playerScript.GetComponent<UniversalObjectPhysics>().IsInAir) return;
 			if(objectPhysics.registerTile.LocalPosition == TransformState.HiddenPos) return;
 			var health = playerScript.playerHealth;
 
@@ -42,6 +46,7 @@ namespace Objects
 			Chat.AddActionMsgToChat(gameObject, $"You step on the {gameObject.ExpensiveName()}!",
 				$"{health.playerScript.visibleName} steps on the {gameObject.ExpensiveName()}!");
 			PlayStepAudio();
+			OnStepEvent?.Invoke(playerScript.gameObject);
 		}
 
 		public override bool WillAffectObject(GameObject eventData)
@@ -53,7 +58,7 @@ namespace Objects
 		public override void OnObjectEnter(GameObject eventData)
 		{
 			//Old health
-			eventData.GetComponent<LivingHealthBehaviour>().ApplyDamageToBodyPart(
+			eventData.GetComponent<LivingHealthBehaviour>()?.ApplyDamageToBodyPart(
 				gameObject, damageToGive, attackType, damageType);
 		}
 

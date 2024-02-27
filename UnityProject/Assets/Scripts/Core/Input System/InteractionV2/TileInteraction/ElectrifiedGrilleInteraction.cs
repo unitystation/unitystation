@@ -1,7 +1,9 @@
 using HealthV2;
+using Objects;
 using TileManagement;
 using UnityEngine;
 using Systems.Electricity;
+using Systems.Explosions;
 
 namespace Tiles
 {
@@ -11,7 +13,7 @@ namespace Tiles
 	/// </summary>
 	[CreateAssetMenu(fileName = "ElectrifiedGrilleInteraction",
 		menuName = "Interaction/TileInteraction/ElectrifiedGrilleInteraction")]
-	public class ElectrifiedGrilleInteraction : TileInteraction
+	public class ElectrifiedGrilleInteraction : TileInteraction, IBumpableObject
 	{
 		TileApply interaction;
 
@@ -51,10 +53,11 @@ namespace Tiles
 						matrix.transform.parent.gameObject, interaction.TargetVector, BodyPartType.None, interaction.BasicTile.LayerType);
 			}
 
-			return Electrocute(ServerGetGrilleVoltage());
+			var metaTileMap = interaction.TileChangeManager.MetaTileMap;
+			return Electrocute(ServerGetGrilleVoltage(interaction.TargetCellPos, interaction.TileChangeManager.MetaTileMap, metaTileMap.Layers[LayerType.Electrical].Matrix));
 		}
 
-		bool Electrocute(float voltage)
+		private bool Electrocute(float voltage)
 		{
 			var performerLHB = interaction.Performer.GetComponent<LivingHealthMasterBase>();
 			var electrocutionExposure = new Electrocution(voltage, interaction.WorldPositionTarget, interaction.BasicTile.DisplayName);
@@ -66,53 +69,52 @@ namespace Tiles
 			return false;
 		}
 
+		private void Electrocute(LivingHealthMasterBase target)
+		{
+			var electrocutionExposure = new Electrocution
+			(ServerGetGrilleVoltage(
+				target.gameObject.TileLocalPosition().To3Int() + target.playerScript.CurrentDirection.ToLocalVector3Int(),
+				target.RegisterTile.TileChangeManager.MetaTileMap,
+				target.RegisterTile.Matrix
+			), target.gameObject.AssumedWorldPosServer(), ignoreProtection: true); //since you're running head first into this, we skip the protection check on equipment.
+			var severity = target.Electrocute(electrocutionExposure);
+
+			// If the electrocution was painful, return true to stop other interactions.
+			if (severity >= LivingShockResponse.Painful) SparkUtil.TrySpark(target.gameObject.AssumedWorldPosServer());
+		}
+
 		/// <summary>
 		/// Checks if the grille's location has exposed floor plating,
 		/// that a cable overlap exists there,
 		/// and returns the highest voltage detected (for now).
 		/// </summary>
 		/// <returns>The voltage found on the cable</returns>
-		private float ServerGetGrilleVoltage()
+		private float ServerGetGrilleVoltage(Vector3Int targetCellPos, MetaTileMap metaTileMap, Matrix matrix)
 		{
-			Vector3Int targetCellPos = interaction.TargetCellPos;
-			MetaTileMap metaTileMap = interaction.TileChangeManager.MetaTileMap;
-			Matrix matrix = metaTileMap.Layers[LayerType.Electrical].Matrix;
-
 			// Check if the floor plating is exposed.
 			if (metaTileMap.HasTile(targetCellPos, LayerType.Floors)) return 0;
+			if (metaTileMap.HasTile(targetCellPos, LayerType.Windows) && metaTileMap.HasTile(targetCellPos, LayerType.Grills)) return 0;
 
 			// Check for cables underneath the grille.
 			var eConns = matrix.GetElectricalConnections(targetCellPos);
 			if (eConns == null) return 0;
 
-			// Get the highest voltage and whether there is a connection overlap.
-			// The current powernet implementation means the cable
-			// will only report a voltage if there is current flow, it seems.
-			// That's why we cannot simply the overlap connection's voltage,
-			// and both ends of the cable need to be connected to the powernet.
-			//
-			// One possible workaround is to allow a Connection.Overlap to draw
-			// a small amount of current, so that it registers a voltage.
-			// Then, we don't need to check for the highest voltage and not worry
-			// about whether the overlap is actually connected to a live cable.
-			bool overlapExists = false;
+			// Get the highest voltage
 			float voltage = 0;
 			foreach (var conn in eConns.List)
 			{
-				if (conn.WireEndA == Connection.Overlap || conn.WireEndB == Connection.Overlap)
-				{
-					overlapExists = true;
-				}
-
 				ElectricityFunctions.WorkOutActualNumbers(conn);
 				if (conn.Data.ActualVoltage > voltage) voltage = conn.Data.ActualVoltage;
 			}
 
-			// Check that there is a cable overlap.
-			if (!overlapExists) return 0;
-
 			// All checks passed, electrocute the performer!
 			return voltage;
+		}
+
+		public void OnBump(GameObject bumpedBy, GameObject client)
+		{
+			if (bumpedBy == null || bumpedBy.TryGetComponent<LivingHealthMasterBase>(out var health) == false) return;
+			Electrocute(health);
 		}
 	}
 }

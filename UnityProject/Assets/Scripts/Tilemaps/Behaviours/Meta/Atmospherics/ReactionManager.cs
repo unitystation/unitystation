@@ -320,9 +320,9 @@ namespace Systems.Atmospherics
 			}
 
 			//If we are already a hotspot try to increase temperature if allowed to
-			if (changeTemp && hotspot.GasMix.Temperature < exposeTemperature)
+			if (changeTemp && hotspot.GasMixLocal.Temperature < exposeTemperature)
 			{
-				hotspot.GasMix.SetTemperature(exposeTemperature);
+				hotspot.GasMixLocal.SetTemperature(exposeTemperature);
 			}
 
 			//Only do expose if allowed, prevents thread errors when being called off of main thread
@@ -355,7 +355,7 @@ namespace Systems.Atmospherics
 			//Only need to check stuff which has nodes as we are checking gas contents afterwards
 			if(node == null) return false;
 
-			GasMix gasMix = node.GasMix;
+			GasMix gasMix = node.GasMixLocal;
 
 			if (exposeTemperature < 0)
 			{

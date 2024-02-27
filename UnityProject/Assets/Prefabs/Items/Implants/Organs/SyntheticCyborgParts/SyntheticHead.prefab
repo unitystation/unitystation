@@ -61,6 +61,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
+      propertyPath: SurgeryProcedureBase.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: 'SurgeryProcedureBase.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5028ec94fac773247837534dd8c3b513,
+        type: 2}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: 'SurgeryProcedureBase.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 01aad575537f3114d806563d1f3df18e,
+        type: 2}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: CanNotBeHealedByExternalHealingPack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
       propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 63cc05f0d7c00bc48b7a1af2dd5f3075,
@@ -126,17 +148,17 @@ PrefabInstance:
     - target: {fileID: 7756956197327459049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7756956197327459049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7756956197327459049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7756956197327459049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
@@ -186,7 +208,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 51ca87009f5327b44b59092dea2460c5,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3537855011528907625, guid: 78253771c2047f94c9ae40161a6be7ee, type: 3}
+    - {fileID: 3360951904519179111, guid: 78253771c2047f94c9ae40161a6be7ee, type: 3}
+    - {fileID: 1382652296884314549, guid: 78253771c2047f94c9ae40161a6be7ee, type: 3}
+    - {fileID: 7040547277947086690, guid: 78253771c2047f94c9ae40161a6be7ee, type: 3}
+    - {fileID: 6553711478145708074, guid: 78253771c2047f94c9ae40161a6be7ee, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

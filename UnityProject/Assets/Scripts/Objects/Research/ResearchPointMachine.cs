@@ -8,7 +8,7 @@ namespace Systems.Research.Objects
 	public class ResearchPointMachine : NetworkBehaviour, IAPCPowerable, IMultitoolSlaveable, IExaminable
 	{
 		public ResearchServer researchServer;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		/// <summary>
 		/// Add points based on difference beyond the tracked total of a given source, as per AddResearchPointsDifference on the ResearchServer.
 		/// </summary>

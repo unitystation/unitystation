@@ -32,7 +32,8 @@ namespace Objects.Lighting
 		private SpriteRenderer spriteRenderer = null;
 
 		private PowerState powerState = PowerState.On;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		#region Lifecycle
 
 		private void Awake()
@@ -162,7 +163,7 @@ namespace Objects.Lighting
 		private MultitoolConnectionType conType = MultitoolConnectionType.LightSwitch;
 		public MultitoolConnectionType ConType => conType;
 
-		public bool MultiMaster => true;
+		public bool MultiMaster => true; //TODO
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion

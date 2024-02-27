@@ -60,7 +60,7 @@ namespace Systems.Research.Objects
 		static CustomNetworkManager networkManager;
 
 		[SerializeField] private DesignProductionData designProductionData;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		public enum RDProState
 		{
 			Idle,

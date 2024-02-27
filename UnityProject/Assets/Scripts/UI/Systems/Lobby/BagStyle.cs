@@ -1,4 +1,7 @@
-﻿public enum BagStyle
+﻿using System;
+
+[Serializable]
+public enum BagStyle
 {
 	Backpack,
 	Duffle,

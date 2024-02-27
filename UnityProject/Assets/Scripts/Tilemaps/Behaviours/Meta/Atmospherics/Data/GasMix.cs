@@ -552,13 +552,13 @@ namespace Systems.Atmospherics
 			if (gameObject.ContainedInObjectContainer != null && //Make generic function
 			    gameObject.ContainedInObjectContainer.TryGetComponent<GasContainer>(out var gasContainer))
 			{
-				ambientGasMix = gasContainer.GasMix;
+				ambientGasMix = gasContainer.GasMixLocal;
 			}
 			else
 			{
 				var matrix = gameObject.registerTile.Matrix;
 				Vector3Int localPosition = MatrixManager.WorldToLocalInt(gameObject.OfficialPosition, matrix);
-				ambientGasMix = matrix.MetaDataLayer.Get(localPosition).GasMix;
+				ambientGasMix = matrix.MetaDataLayer.Get(localPosition).GasMixLocal;
 			}
 
 			return ambientGasMix;

@@ -1,37 +1,37 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Chemistry;
+using Logs;
 using NaughtyAttributes;
 using ScriptableObjects;
-using TileManagement;
 using Tiles;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace Systems.FilthGenerator
 {
-	public class FilthGenerator : MatrixSystemBehaviour
+	public class FilthGenerator : ItemMatrixSystemInit
 	{
+		public override int Priority => priority;
+
+		public int priority = 99;
+
 		private static readonly System.Random Random = new System.Random();
 		private Tilemap floorTilemap;
-		private TileChangeManager tileChangeManager;
+
 
 		[SerializeField] private bool generateFilthReagent = true;
 		[SerializeField, Range(0f,100f)]
 		private float filthDensityPercentage = 4f;
 		[SerializeField, Range(0f,100f)]
 		private float filthReagentChance = 35f;
+		[SerializeField, Range(0f,100f)]
+		private float maxFilthPercentageForMatrix = 35f;
 
 		[SerializeField] private List<GameObject> filthDecalsAndObjects = new List<GameObject>();
 
 		private int filthGenerated = 0;
 		public int FilthCleanGoal { get; private set; } = 0;
-
-		public override void Awake()
-		{
-			RegisteredToLegacySubsystemManager = false;
-			base.Awake();
-		}
 
 		public override void Initialize()
 		{
@@ -44,25 +44,17 @@ namespace Systems.FilthGenerator
 			Chat.AddGameWideSystemMsgToChat($"<color=yellow>Initialised {gameObject.name} FilthGen: " + sw.ElapsedMilliseconds + " ms</color>");
 		}
 
-		public override void UpdateAt(Vector3Int localPosition)
+		public override void OnDestroy()
 		{
-			// No Updates Needed.
-		}
-
-		private void OnDestroy()
-		{
-			metaTileMap = null;
+			base.OnDestroy();
 			floorTilemap = null;
-			tileChangeManager = null;
 		}
 
 		[Button]
 		public void RunFilthGenerator()
 		{
 			if (generateFilthReagent == false && filthDecalsAndObjects.Count == 0) return;
-			metaTileMap = GetComponentInChildren<MetaTileMap>();
-			floorTilemap = metaTileMap.Layers[LayerType.Floors].GetComponent<Tilemap>();
-			tileChangeManager = GetComponent<TileChangeManager>();
+			floorTilemap = MetaTileMap.Layers[LayerType.Floors].GetComponent<Tilemap>();
 
 			BoundsInt bounds = floorTilemap.cellBounds;
 			List<Vector3Int> EmptyTiled = new List<Vector3Int>();
@@ -72,24 +64,27 @@ namespace Systems.FilthGenerator
 				for (int p = bounds.yMin; p < bounds.yMax; p++)
 				{
 					Vector3Int localPlace = (new Vector3Int(n, p, 0));
-
-					if (metaTileMap.HasTile(localPlace))
-					{
-						BasicTile tile = metaTileMap.GetTile(localPlace, LayerType.Floors) as BasicTile;
-						if (tile != null) EmptyTiled.Add(localPlace);
-					}
+					if (MetaTileMap.HasTile(localPlace) == false) continue;
+					if (MetaTileMap.GetTile(localPlace, LayerType.Floors) is BasicTile) EmptyTiled.Add(localPlace);
 				}
 			}
 
-			int numberOfTiles = (int) ((EmptyTiled.Count / 100f) * filthDensityPercentage);
+			SpawnOnTiles(ref EmptyTiled);
+
+			FilthCleanGoal = filthGenerated / Random.Next(3, 8);
+		}
+
+		private void SpawnOnTiles(ref List<Vector3Int> emptyTiled)
+		{
+			int numberOfPlayers = PlayerList.Instance.AllPlayers.Count;
+			float scaledDensityPercentage = filthDensityPercentage / (numberOfPlayers == 0 ? 1 : numberOfPlayers) / 4f;
+			int numberOfTiles = (int)Mathf.Clamp(emptyTiled.Count * 0.01f * scaledDensityPercentage, 0.5f, maxFilthPercentageForMatrix);
 
 			for (int i = 0; i < numberOfTiles; i++)
 			{
-				var chosenLocation = EmptyTiled[Random.Next(EmptyTiled.Count)];
+				var chosenLocation = emptyTiled[Random.Next(emptyTiled.Count)];
 				DetermineFilthToSpawn(chosenLocation);
 			}
-
-			FilthCleanGoal = filthGenerated / Random.Next(3, 8);
 		}
 
 		private void DetermineFilthToSpawn(Vector3Int chosenLocation)
@@ -115,7 +110,7 @@ namespace Systems.FilthGenerator
 			}
 			else
 			{
-				Spawn.ServerPrefab(filthDecalsAndObjects.PickRandom(), chosenLocation);
+				Spawn.ServerPrefab(filthDecalsAndObjects.PickRandom(), chosenLocation.ToWorld(tileChangeManager.MetaTileMap.matrix));
 			}
 		}
 	}

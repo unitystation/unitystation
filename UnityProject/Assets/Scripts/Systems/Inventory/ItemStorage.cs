@@ -451,6 +451,12 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return definedSlots.Select(GetItemSlot);
 	}
 
+	public List<T> GetItemsWithComponent<T>() where T : Component
+	{
+		var slots =  GetItemSlots().Where(slot => slot.Item != null && slot.ItemObject.HasComponent<T>()).ToList();
+		return slots.Select(slot => slot.ItemObject.GetComponent<T>()).ToList();
+	}
+
 	/// <summary>
 	///
 	/// </summary>
@@ -606,7 +612,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public List<ItemSlot> GetOccupiedSlots()
 	{
 		var result = new List<ItemSlot>();
-		foreach (var slot in GetIndexedSlots())
+		foreach (var slot in GetItemSlots())
 		{
 			if (slot.IsOccupied) result.Add(slot);
 		}

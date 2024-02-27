@@ -78,53 +78,64 @@ namespace Systems.Explosions
 		}
 
 		//method that, surprise, does damage to stuff on node's tile. override for custom behaviour. must return EnergyExpended value
-		public virtual float DoDamage(Matrix matrix, float DamageDealt, Vector3Int v3int)
+		public virtual float DoDamage(Matrix matrix, float damageDealt, Vector3Int v3int)
 		{
 			var metaTileMap = matrix.MetaTileMap;
-			float EnergyExpended = metaTileMap.ApplyDamage(v3int, DamageDealt,
+			float energyExpended = metaTileMap.ApplyDamage(v3int, damageDealt,
 			MatrixManager.LocalToWorldInt(v3int, matrix.MatrixInfo), AttackType.Bomb);
 
-			if (DamageDealt > 100)
-			{
-				var Node = matrix.GetMetaDataNode(v3int);
-				if (Node != null)
-				{
-					foreach (var electricalData in Node.ElectricalData)
-					{
-						electricalData.InData.DestroyThisPlease();
-					}
-
-					SavedPipes.Clear();
-					SavedPipes.AddRange(Node.PipeData);
-					foreach (var Pipe in SavedPipes)
-					{
-						Pipe.pipeData.DestroyThis();
-					}
-				}
-			}
+			DamageLayers(damageDealt, v3int);
 
 			foreach (var integrity in matrix.Get<Integrity>(v3int, true))
 			{
-				//Throw items
+				//Throw items and Objects
+				integrity.GetComponent<UniversalObjectPhysics>()?.NewtonianNewtonPush(AngleAndIntensity.Rotate90(), AngleAndIntensity.magnitude * 0.1f , 1, 3,
+					BodyPartType.Chest, integrity.gameObject, 15);
+
 				if (integrity.TryGetComponent<ItemAttributesV2>(out var traits))
 				{
-					integrity.GetComponent<UniversalObjectPhysics>()?
-						.NewtonianPush(AngleAndIntensity.Rotate90(),
-							9,  1,3 ,
-							BodyPartType.Chest,integrity.gameObject, 15);
 					if (IgnoreAttributes != null && traits.HasAnyTrait(IgnoreAttributes)) continue;
 				}
 
 				//And do damage to objects
-				integrity.ApplyDamage(DamageDealt, AttackType.Bomb, DamageType.Brute);
+				integrity.ApplyDamage(damageDealt, AttackType.Bomb, DamageType.Brute);
 			}
 
 			foreach (var player in matrix.Get<LivingHealthMasterBase>(v3int, ObjectType.Player, true))
 			{
+				player.GetComponent<UniversalObjectPhysics>()?.NewtonianPush(AngleAndIntensity.Rotate90(), 7, 1, 3,
+                					BodyPartType.Chest, player.gameObject, 15);
 				// do damage
-				player.ApplyDamageAll(null, DamageDealt, AttackType.Bomb, DamageType.Brute, default, TraumaticDamageTypes.NONE, 75);
+				player.ApplyDamageAll(null, damageDealt, AttackType.Bomb, DamageType.Brute, default, TraumaticDamageTypes.NONE, 75);
 			}
-			return EnergyExpended;
+			return energyExpended;
+		}
+
+		protected void DamageLayers(float damageDealt, Vector3Int v3int)
+		{
+			if (damageDealt < 100) return;
+			var node = matrix.GetMetaDataNode(v3int);
+			if (node == null) return;
+			foreach (var electricalData in node.ElectricalData)
+			{
+				electricalData.InData.DestroyThisPlease();
+			}
+			if (damageDealt > 135)
+			{
+				foreach (var disposalPipe in node.DisposalPipeData)
+				{
+					matrix.TileChangeManager.MetaTileMap.RemoveTileWithlayer(disposalPipe.NodeLocation, LayerType.Disposals);
+				}
+			}
+			if (damageDealt > 200)
+			{
+				SavedPipes.Clear();
+				SavedPipes.AddRange(node.PipeData);
+				foreach (var Pipe in SavedPipes)
+				{
+					Pipe.pipeData.DestroyThis();
+				}
+			}
 		}
 
 		//triggered by ChemExplosion, this method says what to do when explosion is inside body

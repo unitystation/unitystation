@@ -50,9 +50,13 @@ public class SecurityHUD : NetworkBehaviour, IHUD
 	{
 		PlayerScript = this.GetComponentCustom<PlayerScript>();
 		HUDHandler = this.GetComponentCustom<HUDHandler>();
-		PlayerScript.OnVisibleNameChange += JobChange; //TODO Is not the best place
-		PlayerScript.OnVisibleNameChange += IdentityChange;
-		SecurityRecord.OnWantedLevelChange += IdentityChange; //TODO This could be a bit better as well
+		if (CustomNetworkManager.IsServer)
+		{
+			PlayerScript.OnVisibleNameChange += JobChange; //TODO Is not the best place
+			PlayerScript.OnVisibleNameChange += IdentityChange;
+			SecurityRecord.OnWantedLevelChange += IdentityChange; //TODO This could be a bit better as well
+		}
+
 		HUDHandler.AddNewHud(this);
 	}
 

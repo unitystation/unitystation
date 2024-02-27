@@ -8,9 +8,7 @@ namespace HealthV2
 	public class SurgeryProcedureBase : ScriptableObject
 	{
 		public string ProcedureName;
-
 		public SpriteDataSO ProcedureSprite;
-
 		public List<SurgeryStep> SurgerySteps = new List<SurgeryStep>();
 
 		public virtual void FinnishSurgeryProcedure(BodyPart OnBodyPart, HandApply interaction,
@@ -22,8 +20,5 @@ namespace HealthV2
 			Dissectible.PresentProcedure PresentProcedure)
 		{
 		}
-
-
-
 	}
 }

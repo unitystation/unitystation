@@ -17,7 +17,7 @@ namespace Systems.Explosions
 
 		public float Strength = 9000;
 
-		[RightClickMethod]
+		[RightClickMethod, NaughtyAttributes.Button]
 		void StartExplosion()
 		{
 			if (registerObject == null)

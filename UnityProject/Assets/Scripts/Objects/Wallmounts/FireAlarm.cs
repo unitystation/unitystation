@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 using AddressableReferences;
 using ScriptableObjects;
 using Systems.Interaction;
@@ -10,6 +9,7 @@ using Shared.Systems.ObjectConnection;
 using CustomInspectors;
 using Doors;
 using Logs;
+using Objects.Lighting;
 
 
 namespace Objects.Wallmounts
@@ -18,6 +18,7 @@ namespace Objects.Wallmounts
 		ICheckedInteractable<HandApply>, IMultitoolMasterable, ICheckedInteractable<AiActivate>
 	{
 		public List<FireLock> FireLockList = new List<FireLock>();
+		[SerializeField] private List<LightSource> lightSourcesForAlarm = new List<LightSource>();
 		private MetaDataNode metaNode;
 		public bool activated = false;
 		public float coolDownTime = 1.0f;
@@ -33,7 +34,8 @@ namespace Objects.Wallmounts
 		[SerializeField] private RegisterTile registerTile;
 		[SerializeField] private Integrity integrity;
 		[SerializeField] private AddressableAudioSource FireAlarmSFX = null;
-
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		public enum FireAlarmState
 		{
 			TopLightSpriteAlert,
@@ -64,6 +66,12 @@ namespace Objects.Wallmounts
 			{
 				if (firelock == null) continue;
 				firelock.ReceiveAlert();
+			}
+
+			foreach (var lightSource in lightSourcesForAlarm)
+			{
+				if (lightSource == null) continue;
+				lightSource.Animator.PlayAnimNetworked(0);
 			}
 		}
 
@@ -99,7 +107,7 @@ namespace Objects.Wallmounts
 
 			if(metaNode.MetaDataSystem.SetUpDone == false) return;
 
-			if (metaNode.GasMix.Pressure < AtmosConstants.WARNING_LOW_PRESSURE || metaNode.GasMix.Pressure > AtmosConstants.WARNING_HIGH_PRESSURE)
+			if (metaNode.GasMixLocal.Pressure < AtmosConstants.WARNING_LOW_PRESSURE || metaNode.GasMixLocal.Pressure > AtmosConstants.WARNING_HIGH_PRESSURE)
 			{
 				SendCloseAlerts();
 			}
@@ -205,6 +213,11 @@ namespace Objects.Wallmounts
 
 					controller.TryOpen(null);
 				}
+				foreach (var lightSource in lightSourcesForAlarm)
+				{
+					if (lightSource == null) continue;
+					lightSource.Animator.ServerStopAnim();
+				}
 			}
 			else
 			{
@@ -301,7 +314,7 @@ namespace Objects.Wallmounts
 		#region Multitool Interaction
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.FireAlarm;
-		public bool MultiMaster => true;
+		public bool MultiMaster => true; //TODO
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion

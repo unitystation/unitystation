@@ -141,7 +141,7 @@ namespace Objects.Atmospherics
 		private bool CanTransfer()
 		{
 			// No external gas to take
-			if (metaNode.GasMix.Pressure.Approx(0)) return false;
+			if (metaNode.GasMixLocal.Pressure.Approx(0)) return false;
 			if (selfSufficient == false)
 			{
 				// No room in internal pipe to push to
@@ -160,9 +160,9 @@ namespace Objects.Atmospherics
 
 			float scrubbableMolesAvailable = 0;
 
-			lock (metaNode.GasMix.GasesArray) //no Double lock
+			lock (metaNode.GasMixLocal.GasesArray) //no Double lock
 			{
-				foreach (GasValues gas in metaNode.GasMix.GasesArray) //doesn't appear to modify list while iterating
+				foreach (GasValues gas in metaNode.GasMixLocal.GasesArray) //doesn't appear to modify list while iterating
 				{
 					if (FilteredGases.Contains(gas.GasSO))
 					{
@@ -186,7 +186,7 @@ namespace Objects.Atmospherics
 				float transferAmount = scrubbingGasMoles[i] * ratio;
 				if (transferAmount.Approx(0)) continue;
 
-				metaNode.GasMix.RemoveGas(gas, transferAmount);
+				metaNode.GasMixLocal.RemoveGas(gas, transferAmount);
 				if (selfSufficient == false)
 				{
 					pipeMix.AddGas(gas, transferAmount);
@@ -198,12 +198,12 @@ namespace Objects.Atmospherics
 
 		private void ModeSiphon()
 		{
-			float moles = metaNode.GasMix.Moles * (IsExpandedRange ? ExpandedRangeNumber : NormalRangeNumber ) * Effectiveness * SiphonMultiplier; // siphon a portion
+			float moles = metaNode.GasMixLocal.Moles * (IsExpandedRange ? ExpandedRangeNumber : NormalRangeNumber ) * Effectiveness * SiphonMultiplier; // siphon a portion
 			moles = moles.Clamp(0, nominalMolesTransferCap);
 
 			if (moles.Approx(0)) return;
 
-			GasMix.TransferGas(pipeMix, metaNode.GasMix, moles);
+			GasMix.TransferGas(pipeMix, metaNode.GasMixLocal, moles);
 		}
 
 		#endregion
@@ -289,8 +289,11 @@ namespace Objects.Atmospherics
 				sprite = Sprite.Welded;
 			}
 
-			if ((int)sprite == spritehandler.CataloguePage) return;
-			spritehandler.SetCatalogueIndexSprite((int)sprite);
+			if (spritehandler != null)
+			{
+				if ((int)sprite == spritehandler.CataloguePage) return;
+				spritehandler.SetCatalogueIndexSprite((int)sprite);
+			}
 		}
 
 		#region IAPCPowerable
@@ -344,7 +347,7 @@ namespace Objects.Atmospherics
 		};
 
 		private AcuSample atmosphericSample = new AcuSample();
-		AcuSample IAcuControllable.AtmosphericSample => atmosphericSample.FromGasMix(metaNode.GasMix);
+		AcuSample IAcuControllable.AtmosphericSample => atmosphericSample.FromGasMix(metaNode.GasMixLocal);
 
 		public void SetOperatingMode(AcuMode mode)
 		{

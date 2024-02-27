@@ -406,7 +406,9 @@ namespace Systems.CraftingV2
 		)
 		{
 			UseReagents(possibleIngredients);
-			CompleteCrafting(crafterPlayerScript, UseIngredients(possibleIngredients));
+			var UsedIngredients = UseIngredients(possibleIngredients, out var PosOfoneIngredients);
+
+			CompleteCrafting(crafterPlayerScript, UsedIngredients, PosOfoneIngredients);
 		}
 
 		/// <summary>
@@ -414,8 +416,9 @@ namespace Systems.CraftingV2
 		/// </summary>
 		/// <param name="possibleIngredients">The ingredients that might be used for crafting.</param>
 		/// <returns>Used ingredients.</returns>
-		private List<CraftingIngredient> UseIngredients(List<CraftingIngredient> possibleIngredients)
+		private List<CraftingIngredient> UseIngredients(List<CraftingIngredient> possibleIngredients, out  Vector3 PosOfoneIngredients)
 		{
+			PosOfoneIngredients = TransformState.HiddenPos;
 			List<CraftingIngredient> usedIngredients = new List<CraftingIngredient>();
 			for (int reqIngIndex = 0; reqIngIndex < RequiredIngredients.Count; reqIngIndex++)
 			{
@@ -437,6 +440,13 @@ namespace Systems.CraftingV2
 						}
 
 						// okay, this is what we're looking for. We use this ingredient
+						if (possibleIngredient.gameObject.GetUniversalObjectPhysics().registerTile
+							    .LocalPositionServer != TransformState.HiddenPos)
+						{
+							PosOfoneIngredients = possibleIngredient.gameObject.AssumedWorldPosServer();
+						}
+
+
 						usedIngredientsCounter = UseIngredient(reqIngIndex, possibleIngredient, usedIngredientsCounter);
 						usedIngredients.Add(possibleIngredient);
 						break;
@@ -520,7 +530,7 @@ namespace Systems.CraftingV2
 		/// <param name="usedIngredients">
 		/// 	The ingredients that were used to fulfil the requirements for the recipe.
 		/// </param>
-		private void CompleteCrafting(PlayerScript crafterPlayerScript, List<CraftingIngredient> usedIngredients)
+		private void CompleteCrafting(PlayerScript crafterPlayerScript, List<CraftingIngredient> usedIngredients, Vector3 PosOfoneIngredients)
 		{
 			List<GameObject> spawnedResult = new List<GameObject>();
 			foreach (GameObject resultedGameObject in Result)
@@ -538,9 +548,21 @@ namespace Systems.CraftingV2
 				resultHandler.OnCraftingCompleted(spawnedResult, usedIngredients);
 			}
 
-			if (spawnedResult.Count == 1)
+			if (usedIngredients.Count == 1 && PosOfoneIngredients != TransformState.HiddenPos)
+				//NOTE Local position is used for  TransformState.HiddenPos so, World won't match,
+				//so UseIngredients Uses HiddenPosTo indicate that it is hidden /invalid
 			{
-				Inventory.ServerAdd(spawnedResult[0], crafterPlayerScript.DynamicItemStorage.GetBestHand());
+				foreach (var spawnedResultOne in spawnedResult)
+				{
+					spawnedResultOne.gameObject.GetUniversalObjectPhysics().AppearAtWorldPositionServer(PosOfoneIngredients);
+				}
+			}
+			else
+			{
+				if (spawnedResult.Count == 1)
+				{
+					Inventory.ServerAdd(spawnedResult[0], crafterPlayerScript.DynamicItemStorage.GetBestHand());
+				}
 			}
 		}
 	}

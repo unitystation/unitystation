@@ -1,10 +1,6 @@
-using System;
 using System.Collections;
-using Core.Factories;
 using Logs;
-using Mirror;
 using UnityEngine;
-using Util;
 
 namespace Core.Lighting
 {
@@ -40,7 +36,7 @@ namespace Core.Lighting
 			HighlightScanManager.Instance.OrNull()?.HighlightScans.Remove(this);
 		}
 
-		public void Setup(Sprite sprite)
+		public void Setup(Sprite sprite, bool disableAlphaChangeOnAwake = false)
 		{
 			if (sprite == null)
 			{
@@ -48,6 +44,14 @@ namespace Core.Lighting
 				return;
 			}
 			spriteRenderer.sprite = sprite;
+			if (disableAlphaChangeOnAwake)
+			{
+				Color alpha = spriteRenderer.color;
+				alpha.a = 0.65f;
+				spriteRenderer.color = alpha;
+				gameObject.layer = 10;
+				spriteRenderer.gameObject.layer = 10;
+			}
 		}
 
 		public IEnumerator Highlight()

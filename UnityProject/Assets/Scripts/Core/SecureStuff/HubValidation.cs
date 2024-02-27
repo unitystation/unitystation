@@ -173,7 +173,10 @@ namespace SecureStuff
 		{
 			get
 			{
+#if DEV_DEBUG
 				return true;
+#endif
+
 #if UNITY_EDITOR
 				return true;
 #endif
@@ -181,7 +184,7 @@ namespace SecureStuff
 				if (trustedMode == null)
 				{
 					string[] commandLineArgs = Environment.GetCommandLineArgs();
-					trustedMode = commandLineArgs.Any(x => x == "--trusted");
+					trustedMode = commandLineArgs.Any(x => x == "-trusted");
 				}
 
 				return trustedMode.Value;

@@ -13,22 +13,9 @@ namespace Core.Chat
 		public EmoteListSO EmoteList => emoteList;
 
 
-		public override void Start()
-		{
-			base.Start();
-			UpdateManager.Add(CallbackType.UPDATE, CheckForInputForEmoteWindow);
-		}
-
-		public override void OnDestroy()
-		{
-			UpdateManager.Remove(CallbackType.UPDATE, CheckForInputForEmoteWindow);
-			base.OnDestroy();
-		}
-
-		private void CheckForInputForEmoteWindow()
+		public void CheckForInputForEmoteWindow()
 		{
 			if (PlayerManager.LocalPlayerObject == null) return;
-			if (IsPressingEmoteWindowInput() == false) return;
 			var choices = new List<DynamicUIChoiceEntryData>();
 			foreach (var emote in emoteList.Emotes)
 			{
@@ -41,13 +28,7 @@ namespace Core.Chat
 			}
 			DynamicChoiceUI.ClientDisplayChoicesNotNetworked("Emotes", "Choose an emote you'd like to perform.", choices, true);
 		}
-
-		private bool IsPressingEmoteWindowInput()
-		{
-			return KeybindManager.Instance.CaptureKeyCombo() ==
-			       KeybindManager.Instance.userKeybinds[KeyAction.EmoteWindowUI].PrimaryCombo;
-		}
-
+		
 		public static bool HasEmote(string emote)
 		{
 			string[] emoteArray = emote.Split(' ');

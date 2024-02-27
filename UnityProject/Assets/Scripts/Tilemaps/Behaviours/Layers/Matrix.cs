@@ -47,7 +47,7 @@ public class Matrix : MonoBehaviour
 
 
 	public int Id { get; set; } = 0;
-	public Vector3Int InitialOffset { get; private set; }
+	public Vector3Int InitialOffset { get; set; }
 	public ReactionManager ReactionManager { get; private set; }
 	public MetaDataLayer MetaDataLayer { get; private set; }
 	public UnderFloorLayer UnderFloorLayer { get; private set; }
@@ -171,11 +171,6 @@ public class Matrix : MonoBehaviour
 		foreach (var tilemap in GetComponentsInChildren<Tilemap>())
 		{
 			tilemap.CompressBounds();
-		}
-
-		foreach (var layer in MetaTileMap.LayersValues)
-		{
-			layer.RecalculateBounds();
 		}
 	}
 
@@ -445,7 +440,9 @@ public class Matrix : MonoBehaviour
 		{
 			foreach (var electricalMetaData in MetaDataLayer.Get(localPosition).ElectricalData)
 			{
-				list.List.Add(electricalMetaData.InData);
+				var inData = electricalMetaData?.InData;
+				if (inData == null) continue;
+				list.List.Add(inData);
 			}
 		}
 

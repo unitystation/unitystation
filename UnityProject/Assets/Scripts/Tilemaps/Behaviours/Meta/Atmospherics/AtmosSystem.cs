@@ -22,9 +22,17 @@ namespace Systems.Atmospherics
 
 		private Dictionary<Vector3Int, RoomGasSetter> toSetOccupied = new Dictionary<Vector3Int, RoomGasSetter>();
 
+		[SerializeField] private bool autoInitialisePolicy = false;
+		[SerializeField] private bool autoInitialisePolicyInEditorOnly = true;
+
 		public override void Initialize()
 		{
 			//FillRoomGas not called from here as the room setting up is now a coroutine
+			if (autoInitialisePolicyInEditorOnly && Application.isEditor == false) return;
+			if (autoInitialisePolicy)
+			{
+				FillRoomGas();
+			}
 		}
 
 		[Server]
@@ -88,7 +96,7 @@ namespace Systems.Atmospherics
 					//node.ChangeGasMix(GasMix.NewGasMix(gasSetter.GasMixToSpawn));
 
 					//TODO: above commented out due to performance on load for lavaland, remove line below if solution is found
-					node.GasMix = GasMix.NewGasMix(roomGasSetter.GasMixToSpawn);
+					node.GasMixLocal = GasMix.NewGasMix(roomGasSetter.GasMixToSpawn);
 				}
 				//Check to see if theres a special occupied mix
 				else if (node.IsOccupied && toSetOccupied.Count > 0 &&
@@ -99,7 +107,7 @@ namespace Systems.Atmospherics
 					//node.ChangeGasMix(GasMix.NewGasMix(gasSetter.GasMixToSpawn));
 
 					//TODO: above commented out due to performance on load for lavaland, remove line below if solution is found
-					node.GasMix = GasMix.NewGasMix(occupiedGasSetter.GasMixToSpawn);
+					node.GasMixLocal = GasMix.NewGasMix(occupiedGasSetter.GasMixToSpawn);
 				}
 				//See if the whole matrix has a custom mix
 				else if (hasCustomMix)
@@ -108,17 +116,17 @@ namespace Systems.Atmospherics
 					//node.ChangeGasMix(GasMix.NewGasMix(defaultRoomGasMixOverride.BaseGasMix));
 
 					//TODO: above commented out due to performance on load for lavaland, remove line below if solution is found
-					node.GasMix = GasMix.NewGasMix(defaultRoomGasMixOverride.BaseGasMix);
+					node.GasMixLocal = GasMix.NewGasMix(defaultRoomGasMixOverride.BaseGasMix);
 				}
 				//Default to air mix otherwise
 				else
 				{
-					node.GasMix = GasMix.NewGasMix(GasMixes.BaseAirMix);
+					node.GasMixLocal = GasMix.NewGasMix(GasMixes.BaseAirMix);
 				}
 			}
 			else
 			{
-				node.GasMix = GasMix.NewGasMix(GasMixes.BaseSpaceMix);
+				node.GasMixLocal = GasMix.NewGasMix(GasMixes.BaseSpaceMix);
 			}
 		}
 

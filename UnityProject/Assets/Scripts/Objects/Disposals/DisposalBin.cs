@@ -149,7 +149,7 @@ namespace Objects.Disposals
 			}
 			else
 			{
-				SoundManager.Stop(runLoopGUID);
+				SoundManager.ClientStop(runLoopGUID, true);
 			}
 		}
 
@@ -495,15 +495,15 @@ namespace Objects.Disposals
 		private void OperateAirPump()
 		{
 			MetaDataLayer metadata = registerObject.Matrix.MetaDataLayer;
-			GasMix tileMix = metadata.Get(registerObject.LocalPositionServer, false).GasMix;
+			GasMix tileMix = metadata.Get(registerObject.LocalPositionServer, false).GasMixLocal;
 
-			var molesToTransfer = (tileMix.Moles - (tileMix.Moles * (CHARGED_PRESSURE / gasContainer.GasMix.Pressure))) * -1;
+			var molesToTransfer = (tileMix.Moles - (tileMix.Moles * (CHARGED_PRESSURE / gasContainer.GasMixLocal.Pressure))) * -1;
 			molesToTransfer *= 0.5f;
 
-			GasMix.TransferGas(gasContainer.GasMix, tileMix, molesToTransfer.Clamp(0, 8));
+			GasMix.TransferGas(gasContainer.GasMixLocal, tileMix, molesToTransfer.Clamp(0, 8));
 			metadata.UpdateSystemsAt(registerObject.LocalPositionServer, SystemType.AtmosSystem);
 
-			chargePressure = gasContainer.GasMix.Pressure;
+			chargePressure = gasContainer.GasMixLocal.Pressure;
 		}
 
 		private IEnumerator RunFlushSequence()
