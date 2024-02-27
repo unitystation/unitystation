@@ -77,13 +77,21 @@ public partial class Chat : MonoBehaviour
 				};
 				chatEvent.channels = channel;
 
+				if (chatEvent.originator == null) //This chat has no object attached to it, so it's a server message
+				{
+					ChatRelay.Instance.PropagateChatToClients(chatEvent);
+					discordMessageBuilder.Append($"[{channel}] ");
+					discordMessageBuilder.Append($"{(chatEvent.language != null ? $"[{chatEvent.language.LanguageName}]" : "")}\n```css\n{chatEvent.speaker}: {chatEvent.message}\n```\n");
+					continue;
+				}
+
 				if (playerScript == null) continue;
 
 				//this should be in its own static function, but unity keeps fucking breaking when extracting this same logic into something else for no apparent reason
 				//also, if you try to make this cleaner by using TryGetComponent(), i hope you love having aneurysms and prepare to check yourself into a mental asylum
 				if (aiPlayer != null)
 				{
-					GameObject vessle = aiPlayer.VesselObject;;
+					GameObject vessle = aiPlayer.VesselObject; ;
 					var storage = vessle.GetComponent<ItemStorage>();
 					if (storage == null) continue;
 					foreach (var item in storage.GetItemSlots())
@@ -93,6 +101,7 @@ public partial class Chat : MonoBehaviour
 					}
 					continue;
 				}
+
 				//There are some cases where the player might not have a dynamic item storage (like the AI)
 				if (playerScript.DynamicItemStorage == null)
 				{
@@ -134,7 +143,7 @@ public partial class Chat : MonoBehaviour
 
 	private static bool ItemStorageInventoryChatInfulencerSearch(PlayerScript playerScript, ChatEvent chatEvent)
 	{
-		GameObject vessle = playerScript.GameObject;;
+		GameObject vessle = playerScript.GameObject; ;
 		var storage = vessle.GetComponent<ItemStorage>();
 		if (storage == null) return false;
 		foreach (var item in storage.GetItemSlots())
@@ -150,23 +159,23 @@ public partial class Chat : MonoBehaviour
 		return true;
 	}
 
-	private static void DynamicInventoryRadioSignal(PlayerScript playerScript,CommsServer.RadioMessageData radioMessageData)
+	private static void DynamicInventoryRadioSignal(PlayerScript playerScript, CommsServer.RadioMessageData radioMessageData)
 	{
 		foreach (var slot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear)
-			         .Where(slot => slot.IsEmpty == false))
+					 .Where(slot => slot.IsEmpty == false))
 		{
-			if(slot.ItemObject.TryGetComponent<Headset>(out var headset) == false) continue;
+			if (slot.ItemObject.TryGetComponent<Headset>(out var headset) == false) continue;
 			//The headset is responsible for sending this chatEvent to an in-game server that
 			//relays this chatEvent to other players
 			headset.TrySendSignal(null, radioMessageData);
 		}
 	}
 
-	private static void BodyPartInventoryRadioSignal(PlayerScript playerScript,CommsServer.RadioMessageData radioMessageData)
+	private static void BodyPartInventoryRadioSignal(PlayerScript playerScript, CommsServer.RadioMessageData radioMessageData)
 	{
 		foreach (var BodyPart in playerScript.playerHealth.BodyPartList)
 		{
-			if(BodyPart.TryGetComponent<SignalEmitter>(out var Emitter) == false) continue;
+			if (BodyPart.TryGetComponent<SignalEmitter>(out var Emitter) == false) continue;
 			//The headset is responsible for sending this chatEvent to an in-game server that
 			//relays this chatEvent to other players
 			Emitter.TrySendSignal(null, radioMessageData);
@@ -198,11 +207,13 @@ public partial class Chat : MonoBehaviour
 		{
 			channels &= player.GetAvailableChannelsMask(true);
 		}
-		else if(sentByPlayer.UserId != "rcon") //Rcon can send on all channels, and wouldn't have a player script
+		else if (sentByPlayer.UserId != "rcon") //Rcon can send on all channels, and wouldn't have a player script
 		{
 			//If player is null, must be in lobby therefore lock to OOC
 			channels = ChatChannel.OOC;
 		}
+
+
 
 		if (channels == ChatChannel.None) return;
 
@@ -300,7 +311,7 @@ public partial class Chat : MonoBehaviour
 						{
 							if (slot.IsEmpty) continue;
 							if (slot.Item.TryGetComponent<IChatInfluencer>(out var listener)
-							    && listener.WillInfluenceChat() == true)
+								&& listener.WillInfluenceChat() == true)
 							{
 								chatEvent = listener.InfluenceChat(chatEvent);
 							}
@@ -338,6 +349,12 @@ public partial class Chat : MonoBehaviour
 
 	private static bool TryGetLanguage(ushort languageId, PlayerScript player, out LanguageSO languageToUse)
 	{
+		if (player == null)
+		{
+			languageToUse = LanguageManager.Common;
+			return true;
+		}
+
 		var playerLanguages = player.MobLanguages.OrNull();
 
 		//If the player sent a custom language in chat use that if allowed, or default to the current set language
@@ -487,10 +504,10 @@ public partial class Chat : MonoBehaviour
 	private static bool IsOnCorrectChannels(ChatChannel channels)
 	{
 		if (channels.HasFlag(ChatChannel.Common) ||
-		    channels.HasFlag(ChatChannel.Command) || channels.HasFlag(ChatChannel.Security)
-		    || channels.HasFlag(ChatChannel.Engineering) || channels.HasFlag(ChatChannel.Medical)
-		    || channels.HasFlag(ChatChannel.Science)
-		    || channels.HasFlag(ChatChannel.Syndicate) || channels.HasFlag(ChatChannel.Supply))
+			channels.HasFlag(ChatChannel.Command) || channels.HasFlag(ChatChannel.Security)
+			|| channels.HasFlag(ChatChannel.Engineering) || channels.HasFlag(ChatChannel.Medical)
+			|| channels.HasFlag(ChatChannel.Science)
+			|| channels.HasFlag(ChatChannel.Syndicate) || channels.HasFlag(ChatChannel.Supply))
 		{
 			return true;
 		}
@@ -899,7 +916,7 @@ public partial class Chat : MonoBehaviour
 	/// <param name="side">side this is being called from</param>
 	public static void AddExamineMsg(GameObject recipient, string message, NetworkSide side)
 	{
-		switch(side)
+		switch (side)
 		{
 			case NetworkSide.Client:
 				AddExamineMsgToClient(message);
