@@ -270,7 +270,7 @@ public class RconManager : SingletonManager<RconManager>
 						return;
 					}
 
-					if(message.Reason = null){
+					if(message.Reason == null){
 						message.Reason = "No reason specified.";
 					}
 
@@ -290,7 +290,7 @@ public class RconManager : SingletonManager<RconManager>
 								SendToSocket(e.SocketID, "moderateplayerfail:Missing Datafield Duration");
 								return;
 							}
-							var duration = message.Permanent ? 2147483646 : int.Parse(message.Duration);
+							var duration = message.Permanent ? 2147483646 : message.Duration;
 
 							PlayerList.Instance.ServerBanPlayer(player, message.Reason, true, duration);
 							break;
@@ -492,7 +492,7 @@ public class RconManager : SingletonManager<RconManager>
 		string log = String.Join("\n", ServerLog);
 		if (log.Length > 5000)
 		{
-			log = log.Substring(4000);
+			log = log.Substring(4000); //TODO? "full" log implies we want everything, consider removing this?
 		}
 		return log;
 	}
@@ -508,7 +508,7 @@ public class RconManager : SingletonManager<RconManager>
 
 		if (log.Length > 10000)
 		{
-			log = log.Substring(9000);
+			log = log.Substring(9000); //TODO? "full" log implies we want everything, consider removing this?
 		}
 		return log;
 	}
@@ -624,7 +624,7 @@ public class RconMessage
 	public string SocketID;
 }
 
-protected class RconModerationMessage
+public class RconModerationMessage
 {
 	[JsonProperty]
 	public string Type;
