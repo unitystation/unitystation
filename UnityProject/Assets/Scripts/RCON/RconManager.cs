@@ -175,7 +175,7 @@ public class RconManager : SingletonManager<RconManager>
 					ExecuteCommand(command);
 					UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 						$"RCON executed server command {command}", "rcon");
-					Logger.Log($"RCON command from {e.Username}: {e.Data}", Category.Rcon);
+					Loggy.Log($"RCON command from {e.Username}: {e.Data}", Category.Rcon);
 					return;
 				}
 
@@ -208,8 +208,14 @@ public class RconManager : SingletonManager<RconManager>
 						ConnectionIP = e.IpAddress,
 						PlayerRoles = PlayerRole.Admin
 					};
+
+					// ChatEvent chatEvent = new ChatEvent();
+					// chatEvent.message = msg;
+					// chatEvent.channels = channels;
+					// chatEvent.
+
 					Chat.AddChatMsgToChatServer(pseudoPlayerInfo, msg, channels);
-					Logger.Log($"RCON chat from {e.Username}: {e.Data}", Category.Rcon);
+					Loggy.Log($"RCON chat from {e.Username}: {e.Data}", Category.Rcon);
 					SendToSocket(e.SocketID, "chatsendok");
 					return;
 				}
