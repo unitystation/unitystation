@@ -180,7 +180,6 @@ public class Camera2DFollow : MonoBehaviour
 
 
 		CommonInput.CashedMouseWorldPosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
-		UpdateManager.Instance.OnPostCameraUpdate();
 	}
 
 	public void SetXOffset(float offset)

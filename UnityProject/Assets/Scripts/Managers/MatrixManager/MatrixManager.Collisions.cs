@@ -217,6 +217,7 @@ public partial class MatrixManager
 
 	private void CheckTileCollisions( MatrixIntersection i )
 	{
+		return;
 		if (i.Matrix1 == null || i.Matrix2 == null) return;
 
 		byte collisions = 0;
@@ -226,16 +227,14 @@ public partial class MatrixManager
 			Vector3Int cellPos1 = i.Matrix1.MetaTileMap.WorldToCell( worldPos );
 
 			var Meta1 = i.Matrix1.Matrix.MetaTileMap;
-			if ( Meta1.HasTile( cellPos1, LayerType.Base ) == false
-			     &&  Meta1.HasTile( cellPos1, LayerType.Walls ) == false)
+			if ( Meta1.HasTile( cellPos1, LayerType.Base ) == false)
 			{
 				continue;
 			}
 
 			Vector3Int cellPos2 = i.Matrix2.MetaTileMap.WorldToCell( worldPos );
 			var Meta2 = i.Matrix2.Matrix.MetaTileMap;
-			if ( Meta2.HasTile( cellPos2, LayerType.Base ) == false
-			     &&  Meta2.HasTile( cellPos2, LayerType.Walls ) == false)
+			if ( Meta2.HasTile( cellPos2, LayerType.Base ) == false)
 			{
 				continue;
 			}

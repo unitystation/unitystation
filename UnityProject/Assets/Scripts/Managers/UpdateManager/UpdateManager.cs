@@ -25,13 +25,14 @@ public class UpdateManager : MonoBehaviour
 
 	private Dictionary<CallbackType, CallbackCollection> collections;
 
+	private List<Action> preCameraUpdateActions = new List<Action>();
 	private List<Action> updateActions = new List<Action>();
 	private List<Action> fixedUpdateActions = new List<Action>();
 	private List<Action> lateUpdateActions = new List<Action>();
 
 	private Action cameraFollowUpate = null;
 
-	private List<Action> postCameraUpdateActions = new List<Action>();
+
 
 	private List<TimedUpdate> periodicUpdateActions = new List<TimedUpdate>();
 	private List<TimedUpdate> soundUpdates = new List<TimedUpdate>();
@@ -88,7 +89,7 @@ public class UpdateManager : MonoBehaviour
 		Debug.Log("removed " + CleanupUtil.RidListOfSoonToBeDeadElements(lateUpdateActions, u => u.Target as MonoBehaviour) + " messed up events in UpdateManager.lateUpdateActions");
 		Debug.Log("removed " + CleanupUtil.RidListOfSoonToBeDeadElements(periodicUpdateActions, u => u.Action.Target as MonoBehaviour) + " messed up events in UpdateManager.periodicUpdateActions");
 		Debug.Log("removed " + (CleanupUtil.RidListOfSoonToBeDeadElements(pooledTimedUpdates, u => u?.Action?.Target as MonoBehaviour) + CleanupUtil.RidListOfDeadElements(pooledTimedUpdates, u => (MonoBehaviour)u?.Action?.Target)) + " messed up events in UpdateManager.pooledTimedUpdates");
-		Debug.Log("removed " + CleanupUtil.RidListOfSoonToBeDeadElements(postCameraUpdateActions, u => u.Target as MonoBehaviour) + " messed up events in UpdateManager.postCameraUpdateActions");
+		Debug.Log("removed " + CleanupUtil.RidListOfSoonToBeDeadElements(preCameraUpdateActions, u => u.Target as MonoBehaviour) + " messed up events in UpdateManager.postCameraUpdateActions");
 		Debug.Log("removed " + (CleanupUtil.RidListOfSoonToBeDeadElements(soundUpdates, u => u?.Action?.Target as MonoBehaviour) + CleanupUtil.RidListOfDeadElements(soundUpdates, u => (MonoBehaviour)u?.Action?.Target)) + " messed up events in UpdateManager.soundUpdates");
 
 
@@ -243,9 +244,9 @@ public class UpdateManager : MonoBehaviour
 			return;
 		}
 
-		if (type == CallbackType.POST_FOLLOW_CAMERA_UPDATE)
+		if (type == CallbackType.EARLY_UPDATE)
 		{
-			Instance.postCameraUpdateActions.Remove(action);
+			Instance.preCameraUpdateActions.Remove(action);
 			return;
 		}
 
@@ -286,9 +287,9 @@ public class UpdateManager : MonoBehaviour
 			return;
 		}
 
-		if (type == CallbackType.POST_FOLLOW_CAMERA_UPDATE)
+		if (type == CallbackType.EARLY_UPDATE)
 		{
-			Instance.postCameraUpdateActions.Add(action);
+			Instance.preCameraUpdateActions.Add(action);
 			return;
 		}
 	}
@@ -306,6 +307,8 @@ public class UpdateManager : MonoBehaviour
 	private void Update()
 	{
 		CurrentFrameCashed = Time.frameCount;
+
+
 		if (threadSafeAddQueue.Count > 0)
 		{
 			for (int i = 0; i < threadSafeAddQueue.Count; i++)
@@ -335,6 +338,37 @@ public class UpdateManager : MonoBehaviour
 
 		CashedDeltaTime = Time.deltaTime;
 		MidInvokeCalls = true;
+
+		for (int i = preCameraUpdateActions.Count; i >= 0; i--)
+		{
+			if (i < preCameraUpdateActions.Count)
+			{
+				var callingAction = preCameraUpdateActions[i];
+				if (Profile)
+				{
+					Profiler.BeginSample(callingAction.Method?.ReflectedType?.FullName);
+				}
+
+				LastInvokedAction = callingAction;
+				try
+				{
+					callingAction.Invoke();
+				}
+				catch (Exception e)
+				{
+					Loggy.LogError(e.ToString());
+				}
+
+				if (Profile)
+				{
+					Profiler.EndSample();
+				}
+			}
+		}
+
+		LastInvokedAction = cameraFollowUpate;
+		cameraFollowUpate?.Invoke();
+
 		for (int i = updateActions.Count; i >= 0; i--)
 		{
 			if (i < updateActions.Count)
@@ -456,28 +490,6 @@ public class UpdateManager : MonoBehaviour
 		MidInvokeCalls = false;
 	}
 
-
-	public void OnPostCameraUpdate()
-	{
-		MidInvokeCalls = true;
-		for (int i = postCameraUpdateActions.Count; i >= 0; i--)
-		{
-			if (i < postCameraUpdateActions.Count)
-			{
-				LastInvokedAction = postCameraUpdateActions[i];
-				try
-				{
-					postCameraUpdateActions[i].Invoke();
-				}
-				catch (Exception e)
-				{
-					Loggy.LogError(e.ToString());
-				}
-			}
-		}
-		MidInvokeCalls = false;
-	}
-
 	private void LateUpdate()
 	{
 		MidInvokeCalls = true;
@@ -496,8 +508,7 @@ public class UpdateManager : MonoBehaviour
 				}
 			}
 		}
-		LastInvokedAction = cameraFollowUpate;
-		cameraFollowUpate?.Invoke();
+
 		MidInvokeCalls = false;
 	}
 
@@ -535,7 +546,7 @@ public class UpdateManager : MonoBehaviour
 		DebugLog(updateActions);
 		DebugLog(fixedUpdateActions);
 		DebugLog(lateUpdateActions);
-		DebugLog(postCameraUpdateActions);
+		DebugLog(preCameraUpdateActions);
 
 		void DebugLog(List<Action> type)
 		{
@@ -611,8 +622,8 @@ public enum CallbackType : byte
 	FIXED_UPDATE,
 	LATE_UPDATE,
 	PERIODIC_UPDATE,
-	POST_FOLLOW_CAMERA_UPDATE,
-	SOUND_UPDATE
+	SOUND_UPDATE,
+	EARLY_UPDATE
 }
 
 /// <summary>

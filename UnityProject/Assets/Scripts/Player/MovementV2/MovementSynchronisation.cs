@@ -463,11 +463,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		base.OnEnable();
 		if (isServer == false)
 		{
-			UpdateManager.Add(CallbackType.UPDATE, ClientCheckLocationFlight);
+			UpdateManager.Add(CallbackType.EARLY_UPDATE, ClientCheckLocationFlight);
 			return;
 		}
 
-		UpdateManager.Add(CallbackType.UPDATE, ServerCheckQueueingAndMove);
+		UpdateManager.Add(CallbackType.EARLY_UPDATE, ServerCheckQueueingAndMove);
 	}
 
 	public override void OnDisable()
@@ -475,17 +475,17 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		base.OnDisable();
 		if (isServer == false)
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, ClientCheckLocationFlight);
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, ClientCheckLocationFlight);
 			return;
 		}
 
-		UpdateManager.Remove(CallbackType.UPDATE, ServerCheckQueueingAndMove);
+		UpdateManager.Remove(CallbackType.EARLY_UPDATE, ServerCheckQueueingAndMove);
 	}
 
 	public override void OnDestroy()
 	{
 		base.OnDestroy();
-		UpdateManager.Remove(CallbackType.UPDATE, ClientCheckLocationFlight);
+		UpdateManager.Remove(CallbackType.EARLY_UPDATE, ClientCheckLocationFlight);
 	}
 
 

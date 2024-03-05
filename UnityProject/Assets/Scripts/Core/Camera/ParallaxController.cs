@@ -55,12 +55,12 @@ public class ParallaxController : MonoBehaviour
 
 	private void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.POST_FOLLOW_CAMERA_UPDATE, UpdateMe);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.POST_FOLLOW_CAMERA_UPDATE, UpdateMe);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void RealignTiles(bool? UpdateX = null)

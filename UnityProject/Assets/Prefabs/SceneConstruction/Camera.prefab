@@ -666,6 +666,7 @@ MonoBehaviour:
   renderCamera: {fileID: 1854015410501528370}
   renderTexture: {fileID: 8400000, guid: 62d512a5379014c4d80fecb3ad271e2b, type: 2}
   materialRadarGreen: {fileID: 2100000, guid: b3af4e7c0a684cf4c99f967197c69e40, type: 2}
+  AroundVector: {x: 1, y: 0, z: 0}
 --- !u!1 &1588444935751324
 GameObject:
   m_ObjectHideFlags: 0
@@ -1802,8 +1803,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PrefabParallax: {fileID: 8196886477039623091, guid: 3792ac196b7f74a44ba8e8e66266515b,
     type: 3}
-  Columns: 5
-  Rows: 5
+  Columns: 9
+  Rows: 9
   backgroundTiles: []
   PrePlaced: []
   tileBounds: {x: 15, y: 15}

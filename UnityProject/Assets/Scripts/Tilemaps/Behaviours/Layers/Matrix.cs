@@ -67,12 +67,14 @@ public class Matrix : MonoBehaviour
 	private TileChangeManager tileChangeManager;
 	public TileChangeManager TileChangeManager => tileChangeManager;
 
+	public bool AIShuttleShouldAvoid = false;
+
 	public Color Color => colors.Wrap(Id).WithAlpha(0.7f);
 
 	/// <summary>
 	/// Does this have a matrix move and is that matrix move moving?
 	/// </summary>
-	public bool IsMovingServer => false;
+	public bool IsMovingServer => MatrixMove.NetworkedMatrixMove.IsMoving;
 
 	/// <summary>
 	/// Matrix info that is provided via MatrixManager

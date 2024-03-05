@@ -33,6 +33,8 @@ namespace Objects.Shuttles
 		public ShuttleConsoleState shuttleConsoleState;
 
 		public Rotatable Rotatable;
+
+
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
@@ -133,6 +135,7 @@ namespace Objects.Shuttles
 		{
 			if (sender == null) return;
 			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
+			if (GUItab.StartButton.Value == "0") return;
 			registerTile.Matrix.MatrixMove.NetworkedMatrixMove.RcsMove(GlobalMoveDirection);
 		}
 
@@ -146,8 +149,6 @@ namespace Objects.Shuttles
 
 			if (newState)
 			{
-				playerScript.RcsMode = true;
-				playerScript.RcsMatrixMove = matrixMove;
 				PlayerManager.ShuttleConsole = this;
 				matrixMove.NetworkedMatrixMove.playerControllingRcs = playerScript;
 				matrixMove.NetworkedMatrixMove.RCSModeActive = true;
@@ -155,12 +156,6 @@ namespace Objects.Shuttles
 			else
 			{
 				PlayerManager.ShuttleConsole = null;
-				if (playerScript)
-				{
-					playerScript.RcsMode = false;
-					playerScript.RcsMatrixMove = null;
-				}
-
 				matrixMove.NetworkedMatrixMove.playerControllingRcs = null;
 				matrixMove.NetworkedMatrixMove.RCSModeActive = false;
 			}

@@ -141,11 +141,7 @@ public class ProgressBar : MonoBehaviour
 		transform.rotation = Quaternion.identity;
 		done = false;
 		//common logic used between client / server progress start logic
-		//matrixMove = GetComponentInParent<MatrixMove>();
-		// if (matrixMove != null)
-		// {
-		// 	matrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotationEnd);
-		// }
+		matrixMove = GetComponentInParent<MatrixMove>();
 
 		anim = 0f;
 		if (Random.value < 0.02f)
@@ -160,14 +156,6 @@ public class ProgressBar : MonoBehaviour
 		}
 	}
 
-	private void OnRotationEnd(MatrixRotationInfo info)
-	{
-		// if (info.IsClientside && info.IsEnding)
-		// {
-		// 	//reset orientation to upright
-		// 	transform.rotation = Quaternion.identity;
-		// }
-	}
 
 	private void DestroyProgressBar()
 	{

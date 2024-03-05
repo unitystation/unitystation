@@ -14,12 +14,6 @@ public class Thruster : MonoPipe
 	public Rotatable Rotatable;
 	//TODO Swapping matrices
 
-	public bool DEBUGForwardsThruster = false;
-
-	public bool DEBUGRightThruster = false;
-
-	public bool DEBUGLeftThruster = false;
-
 	public ThrusterDirectionClassification ThisThrusterDirectionClassification;
 
 	public float MaxMolesUseda = 1;

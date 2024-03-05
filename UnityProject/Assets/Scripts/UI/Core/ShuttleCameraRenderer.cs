@@ -13,12 +13,12 @@ public class ShuttleCameraRenderer : MonoBehaviour
 	public static Texture2D texture;
 	public static Sprite UISprite;
 
-	public Vector3 AroundVector = new Vector3(1, 0, 0);
+	public static ShuttleCameraRenderer instance;
 
 	void Start()
 	{
 
-
+		instance = this;
 		// Set the Render Texture to the camera
 		renderCamera.targetTexture = renderTexture;
 		// Force the camera to render into the Render Texture
@@ -53,8 +53,6 @@ public class ShuttleCameraRenderer : MonoBehaviour
 			var MatrixMove = PlayerManager.LocalPlayerObject.GetComponentInParent<MatrixMove>();
 			if (MatrixMove != null)
 			{
-
-
 				float angleInRadians = Mathf.Atan2(MatrixMove.NetworkedMatrixMove.ForwardsDirection.y, MatrixMove.NetworkedMatrixMove.ForwardsDirection.x);
 				float angleInDegrees = angleInRadians * Mathf.Rad2Deg;
 				//Loggy.LogError("eulerAngles > " + angleInDegrees);

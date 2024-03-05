@@ -74,6 +74,11 @@ PrefabInstance:
       propertyPath: foreverID
       value: f7fc46cd9fc472a4b96ad181a215ccfa
       objectReference: {fileID: 0}
+    - target: {fileID: 3285997587728660326, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: spriteMatrixRotationBehavior
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -85,7 +90,8 @@ PrefabInstance:
       propertyPath: _assetId
       value: 4265977362
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

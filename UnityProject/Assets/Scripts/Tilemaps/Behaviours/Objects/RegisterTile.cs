@@ -297,7 +297,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			objectLayer.ClientObjects.Remove(LocalPositionClient, this);
 		}
 
-		//Matrix?.MatrixMove?.MatrixMoveEvents?.OnRotate?.RemoveListener(OnRotate);
+		Matrix.OrNull()?.MatrixMove.OrNull()?.NetworkedMatrixMove.OrNull()?.OnRotate?.RemoveListener(OnRotate);
 	}
 
 	public virtual void OnDespawnServer(DespawnInfo info)

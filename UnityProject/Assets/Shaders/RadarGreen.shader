@@ -48,7 +48,7 @@ Shader "Custom/RadarGreen" {
 
                 //return  OldFrameColour;
                 //return color 
-                return (color + (OldFrameColour * 0.90)) * newColor;
+                return (color + (OldFrameColour * 0.80)) * newColor;
             }
             ENDCG
         }

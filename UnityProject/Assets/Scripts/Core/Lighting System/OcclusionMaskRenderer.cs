@@ -42,22 +42,18 @@ public class OcclusionMaskRenderer : MonoBehaviour
 		// Arrange.
 		Vector2 _renderPosition;
 
-		if (iMatrixRotationMode == false)
-		{
-			_renderPosition = iPPRTParameter.GetFilteredRendererPosition(iCameraToMatch.transform.position, mPreviousCameraPosition, mPreviousFilteredPosition);
-		}
-		else
-		{
-			// Note: Do not apply PixelPerfect position when matrix is rotating.
-			_renderPosition = iCameraToMatch.transform.position;
-		}
+
+		// Note: Do not apply PixelPerfect position when matrix is rotating.
+		_renderPosition = iCameraToMatch.transform.position;
+
 
 		mPreviousCameraPosition = iCameraToMatch.transform.position;
 		mPreviousFilteredPosition = _renderPosition;
 
 		mMaskCamera.enabled = false;
 		mMaskCamera.backgroundColor = new Color(0, 0, 0, 0);
-		mMaskCamera.transform.position = _renderPosition;
+
+		//mMaskCamera.transform.position = _renderPosition;
 		mMaskCamera.orthographicSize = iPPRTParameter.orthographicSize;
 
 		if (mPPRenderTexture == null)

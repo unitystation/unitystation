@@ -123,9 +123,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	public float RTT;
 	private float waitTimeForRTTUpdate = 0f;
 
-	[HideInInspector] public bool RcsMode;
-	[HideInInspector] public MatrixMove RcsMatrixMove;
-
 	//The object the player will receive chat and send chat from.
 	//E.g. usually same object as this script but for Ai it will be their core object
 	//Serverside only

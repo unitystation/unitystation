@@ -242,15 +242,15 @@ public class StandardProgressAction : IProgressAction
 		{
 			if (startProgressInfo.Target.TargetMatrixInfo.IsMovable)
 			{
-				// eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer, OnMatrixStartMove);
-				// eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate, OnMatrixRotate);
+				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.NetworkedMatrixMove.OnStartMovement, OnMatrixStartMove);
+				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.NetworkedMatrixMove.OnRotate, OnMatrixRotate);
 			}
 
 			var performerMatrix = playerScript.RegisterPlayer.Matrix;
 			if (performerMatrix.IsMovable)
 			{
-				// eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnStartMovementServer, OnMatrixStartMove);
-				// eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnRotate, OnMatrixRotate);
+				eventRegistry.Register(performerMatrix.MatrixMove.NetworkedMatrixMove.OnStartMovement, OnMatrixStartMove);
+				eventRegistry.Register(performerMatrix.MatrixMove.NetworkedMatrixMove.OnRotate, OnMatrixRotate);
 			}
 		}
 	}
@@ -304,7 +304,7 @@ public class StandardProgressAction : IProgressAction
 		onInterruption?.Invoke(interruptionType);
 	}
 
-	private void OnMatrixRotate(MatrixRotationInfo arg0)
+	private void OnMatrixRotate()
 	{
 		if(progressActionConfig.AllowMovement == true) return;
 		InterruptProgress("cross-matrix and target or performer matrix rotated", ActionInterruptionType.MatrixRotation);

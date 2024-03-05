@@ -27,7 +27,7 @@ namespace UI.Objects.Shuttles
 
 		public void RefreshTrackedPos(bool update = true)
 		{
-			Vector2 originPos = Vector2.zero; //TODO
+			Vector2 originPos = Origin.NetworkedMatrixMove.TargetTransform.position;
 
 			// Refreshing positions of every item
 			var entryArray = Entries.ToArray();

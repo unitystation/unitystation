@@ -25,6 +25,9 @@ namespace Managers
 
 		public StatusDisplayUpdateEvent OnStatusDisplayUpdate = new StatusDisplayUpdateEvent();
 		public event Action OnAlertLevelChange;
+
+		public GuidanceBuoy CentCommGuidanceBuoy;
+
 		[NonSerialized] public string CommandStatusString = string.Empty;
 		[NonSerialized] public string EscapeShuttleTimeString = string.Empty;
 

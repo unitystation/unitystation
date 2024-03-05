@@ -624,6 +624,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5864802992622181888}
+    - targetCorrespondingSourceObject: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8308869931353257596}
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}
 --- !u!1 &3650686735825012231 stripped
 GameObject:
@@ -659,3 +663,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToHack: 20
   chanceToFailHack: 25
+--- !u!114 &8308869931353257596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3650686735825012231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85758d063dd552648b5969833f83da2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentTarget: {fileID: 0}
+  mm: {fileID: 0}
+  ShuttlesMainConnector: {fileID: 0}
+  MoveDirectionIn: 0
+  MovedToAfterFinishingChain: {fileID: 0}
+  StartOfChain: {fileID: 0}
+  StationStartBuoy: {fileID: 0}
+  TargetDestinationBuoy: {fileID: 0}
+  escapeBlockTimeLimit: 10
+  initialTimerSeconds: 120
+  internalStatus: 4
+  blockCall: 0
+  blockRecall: 0

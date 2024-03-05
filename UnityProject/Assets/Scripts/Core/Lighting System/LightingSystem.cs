@@ -396,7 +396,9 @@ public class LightingSystem : MonoBehaviour
 		}
 	}
 
-	private void Update()
+
+
+	private void LateUpdate()
 	{
 		// Don't run lighting system on headless.
 		if (GameInfo.IsHeadlessServer)

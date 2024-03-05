@@ -110,13 +110,13 @@ public class MouseInputController : MonoBehaviour
 
 	public void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.POST_FOLLOW_CAMERA_UPDATE,MeLateUpdate);
+		UpdateManager.Add(CallbackType.UPDATE,MeLateUpdate);
 	}
 
 
 	public void OnDestroy()
 	{
-		UpdateManager.Remove(CallbackType.POST_FOLLOW_CAMERA_UPDATE,MeLateUpdate);
+		UpdateManager.Remove(CallbackType.UPDATE,MeLateUpdate);
 	}
 
 

@@ -426,9 +426,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public virtual void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
-		UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
-		UpdateManager.Remove(CallbackType.UPDATE, FloatingCourseCorrection);
+		UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
+		UpdateManager.Remove(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
+		UpdateManager.Remove(CallbackType.EARLY_UPDATE, FloatingCourseCorrection);
 	}
 
 	public struct PullData : IEquatable<PullData>
@@ -514,13 +514,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			IsFlyingSliding = false;
 			airTime = 0;
 			slideTime = 0;
-			UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
 		}
 
 		if (Animating == false && transform.localPosition != newLocalTarget.Vector3)
 		{
 			Animating = true;
-			UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
+			UpdateManager.Add(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
 		}
 	}
 
@@ -622,7 +622,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			if (CorrectingCourse == false)
 			{
 				CorrectingCourse = true;
-				UpdateManager.Add(CallbackType.UPDATE, FloatingCourseCorrection);
+				UpdateManager.Add(CallbackType.EARLY_UPDATE, FloatingCourseCorrection);
 			}
 		}
 		else //We are walking around somewhere
@@ -769,7 +769,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				if (CorrectingCourse == false)
 				{
 					CorrectingCourse = true;
-					UpdateManager.Add(CallbackType.UPDATE, FloatingCourseCorrection);
+					UpdateManager.Add(CallbackType.EARLY_UPDATE, FloatingCourseCorrection);
 				}
 			}
 			else
@@ -793,7 +793,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				if (Animating == false)
 				{
 					Animating = true;
-					UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
+					UpdateManager.Add(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
 				}
 			}
 		}
@@ -827,7 +827,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				if (Animating == false)
 				{
 					Animating = true;
-					UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
+					UpdateManager.Add(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
 				}
 			}
 		}
@@ -912,7 +912,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		if (this == null)
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, FloatingCourseCorrection);
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FloatingCourseCorrection);
 			return;
 		}
 
@@ -926,7 +926,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (LocalDifferenceNeeded.magnitude < 0.01f)
 		{
 			CorrectingCourse = false;
-			UpdateManager.Remove(CallbackType.UPDATE, FloatingCourseCorrection);
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FloatingCourseCorrection);
 		}
 	}
 
@@ -1191,7 +1191,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (Animating == false)
 		{
 			Animating = true;
-			UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
+			UpdateManager.Add(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
 			localTileMoveSpeedOverride = speed;
 			if (isServer)
 			{
@@ -1256,19 +1256,19 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		if (IsFlyingSliding)
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
 			IsFlyingSliding = false;
 		}
 
 		if (Animating)
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
 			Animating = false;
 		}
 
 		if (CorrectingCourse)
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, FloatingCourseCorrection);
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FloatingCourseCorrection);
 			CorrectingCourse = false;
 		}
 
@@ -1474,7 +1474,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			MoveIsWalking = false;
 			IsMoving = false;
 			Animating = false;
-			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
 			return;
 		}
 
@@ -1483,7 +1483,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			MoveIsWalking = false;
 			IsMoving = false;
 			Animating = false;
-			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
 		}
 
 		Animating = true;
@@ -1519,7 +1519,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 			doNotApplyMomentumOnTarget = false;
 
-			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
 
 			if (ResetClientPositionReachTile)
 			{
@@ -1597,7 +1597,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			IsFlyingSliding = true;
 			TimeSpentFlying = 0;
 			LastUpdateClientFlying = NetworkTime.time;
-			UpdateManager.Add(CallbackType.UPDATE, FlyingUpdateMe);
+			UpdateManager.Add(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
 		}
 	}
 
@@ -1608,7 +1608,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			IsFlyingSliding = false;
 			airTime = 0;
 			slideTime = 0;
-			UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
 			return;
 		}
 
@@ -1624,7 +1624,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			IsFlyingSliding = false;
 			airTime = 0;
 			slideTime = 0;
-			UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
 		}
 
 		if (IsPlayer == false)
@@ -1919,7 +1919,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					Animating = true;
 					MoveIsWalking = true;
 					IsMoving = true;
-					UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
+					UpdateManager.Add(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
 				}
 			}
 			else if (ResetClientPositionReachTile)
@@ -1944,7 +1944,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					c.playerScript.RegisterPlayer.LayDownBehavior.EnsureCorrectState();
 			}
 
-			UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
 		}
 
 
@@ -1992,7 +1992,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			Animating = false;
 			MoveIsWalking = false;
 			IsMoving = false;
-			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
 		}
 
 		var position = this.transform.position;
@@ -2178,13 +2178,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			PulledBy.Component.PullSet(null, false);
 		}
 
-		if (Animating) UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
+		if (Animating) UpdateManager.Remove(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
 		if (IsFlyingSliding)
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
 		}
 
-		if (CorrectingCourse) UpdateManager.Remove(CallbackType.UPDATE, FloatingCourseCorrection);
+		if (CorrectingCourse) UpdateManager.Remove(CallbackType.EARLY_UPDATE, FloatingCourseCorrection);
 		if (BuckledToObject != null) Unbuckle();
 		if (ObjectIsBuckling != null) ObjectIsBuckling.Unbuckle();
 	}

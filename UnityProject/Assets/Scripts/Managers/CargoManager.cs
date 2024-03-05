@@ -97,7 +97,7 @@ namespace Systems.Cargo
 		bool CheckLifeforms()
 		{
 			LayerMask layersToCheck = LayerMask.GetMask("Players", "NPC");
-			Transform ObjectHolder = CargoShuttle.Instance.SearchForObjectsOnShuttle();
+			Transform ObjectHolder = AutopilotShipCargo.Instance.SearchForObjectsOnShuttle();
 			foreach (Transform child in ObjectHolder)
 			{
 				if (((1 << child.gameObject.layer) & layersToCheck) == 0)
@@ -178,6 +178,7 @@ namespace Systems.Cargo
 				SpawnOrder();
 				ShuttleStatus = ShuttleStatus.OnRouteStation;
 				CentcomMessage += "Shuttle is sent back with goods." + "\n";
+				AutopilotShipCargo.Instance.MoveToStation();
 				StartCoroutine(Timer(true));
 			}
 
@@ -199,7 +200,7 @@ namespace Systems.Cargo
 				}
 				else
 				{
-					CargoShuttle.Instance.MoveToCentcom();
+					AutopilotShipCargo.Instance.MoveToCentcom();
 					ShuttleStatus = ShuttleStatus.OnRouteCentcom;
 					CentcomMessage = string.Empty;
 					exportedItems.Clear();
@@ -222,7 +223,7 @@ namespace Systems.Cargo
 			CurrentFlyTime = 0f;
 			if (launchToStation)
 			{
-				CargoShuttle.Instance.MoveToStation();
+				AutopilotShipCargo.Instance.MoveToStation();
 			}
 		}
 
@@ -357,10 +358,12 @@ namespace Systems.Cargo
 				exportedItems.Add(exportName, export);
 			}
 
-			Credits += credits;
-			OnCreditsUpdate.Invoke();
+
 
 			var count = obj.TryGetComponent<Stackable>(out var stackable) ? stackable.Amount : 1;
+
+			Credits += credits;
+			OnCreditsUpdate.Invoke();
 
 			export.Count += count;
 			export.TotalValue += credits;
@@ -471,10 +474,10 @@ namespace Systems.Cargo
 
 		private void SpawnOrder()
 		{
-			CargoShuttle.Instance.PrepareSpawnOrders();
+			AutopilotShipCargo.Instance.PrepareSpawnOrders();
 			for (int i = 0; i < CurrentOrders.Count; i++)
 			{
-				if (CargoShuttle.Instance.SpawnOrder(CurrentOrders[i]))
+				if (AutopilotShipCargo.Instance.SpawnOrder(CurrentOrders[i]))
 				{
 					CurrentOrders.RemoveAt(i);
 					i--;

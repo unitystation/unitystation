@@ -81,7 +81,7 @@ public class MouseDraggable : MonoBehaviour
 	private void OnEnable()
 	{
 		if(CustomNetworkManager.IsHeadless) return;
-		UpdateManager.Add(CallbackType.POST_FOLLOW_CAMERA_UPDATE, MeLateUpdate);
+		UpdateManager.Add(CallbackType.UPDATE, MeLateUpdate);
 	}
 
 
@@ -167,6 +167,6 @@ public class MouseDraggable : MonoBehaviour
 			OnDragEnd();
 		}
 		if(CustomNetworkManager.IsHeadless) return;
-		UpdateManager.Remove(CallbackType.POST_FOLLOW_CAMERA_UPDATE, MeLateUpdate);
+		UpdateManager.Remove(CallbackType.UPDATE, MeLateUpdate);
 	}
 }
