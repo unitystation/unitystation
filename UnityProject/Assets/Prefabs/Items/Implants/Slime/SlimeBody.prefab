@@ -81,6 +81,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
+      propertyPath: exportCost
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
       propertyPath: initialTraits.Array.size
       value: 6
       objectReference: {fileID: 0}
@@ -246,6 +251,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   Throughput: 0
   bloodReagent: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5, type: 2}
 --- !u!114 &2992292589787974618
@@ -263,6 +269,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   Nutriment: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5, type: 2}
   HealingNutrimentMultiplier: 2
   HungerState: 1
@@ -282,6 +289,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   SlimeJelly: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5, type: 2}
   AdultThreshold: 50
 --- !u!114 &4338165651726550389
@@ -299,6 +307,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   ScanningFor: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5, type: 2}
   TriggerHungerAtLevel: 55
 --- !u!114 &5062934451910240119
@@ -316,6 +325,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   walkingSpeed: 2
   runningSpeed: 5
   legEfficiency: 1
@@ -334,6 +344,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   ReagentMetabolism: 0.2
   reagentCirculatedComponent: {fileID: 0}
   saturationComponent: {fileID: 0}
@@ -352,9 +363,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  CurrentlyEating: {fileID: 0}
-  EdibleCurrentlyEating: {fileID: 0}
-  LivingHealthMasterBaseCurrentlyEating: {fileID: 0}
+  RelatedPart: {fileID: 0}
   DUBUGCurrentlyEating: {fileID: 0}
   SlimeJelly: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5, type: 2}
   Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
@@ -373,6 +382,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   CanHaveHeartAttack: 0
   EfficiencyLinksToModifiers: 0
   HeartAttack: 0
@@ -398,3 +408,5 @@ MonoBehaviour:
   ForcedBeats: 0
   isEMPVunerable: 0
   EMPResistance: 2
+  BeatFrameCash: 0
+  BeatStrength: 0

@@ -156,6 +156,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 576dd718b6d10de4ebe4e61fa9080ef2,
         type: 2}
+    - target: {fileID: 2417010878588539618, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: CanBeSoldInCargo
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2806690048445349940, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: _assetId

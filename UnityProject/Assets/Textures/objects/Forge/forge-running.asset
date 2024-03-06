@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: forge-running
+  m_EditorClassIdentifier: 
+  foreverID: wE?oL4BSxzqvYyVzVGeo
+  Variance:
+  - Frames:
+    - sprite: {fileID: 6326523126498296770, guid: f3c55e928f2366b49b65078e9326a45a,
+        type: 3}
+      secondDelay: 0.09
+    - sprite: {fileID: 1599058056897636168, guid: e4f91279b8a977f4185a8b4ba3beca36,
+        type: 3}
+      secondDelay: 0.09
+    - sprite: {fileID: 5765137192103129984, guid: 2446afb6b16a38a41add7af48d9ea80f,
+        type: 3}
+      secondDelay: 0.09
+  IsPalette: 0
+  DisplayName: 

@@ -35,6 +35,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 8682264754020610549, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: CanBeSoldInCargo
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9116272316079367139, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -130,6 +135,7 @@ MonoBehaviour:
   generateFilthReagent: 1
   filthDensityPercentage: 2
   filthReagentChance: 10
+  maxFilthPercentageForMatrix: 35
   filthDecalsAndObjects:
   - {fileID: 5018465924633598080, guid: 3c33de6530042374eaf54a98d52d5745, type: 3}
   - {fileID: 5018465924633598080, guid: 3c33de6530042374eaf54a98d52d5745, type: 3}

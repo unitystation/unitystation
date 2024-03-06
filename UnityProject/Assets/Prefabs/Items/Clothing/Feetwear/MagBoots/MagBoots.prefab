@@ -61,17 +61,17 @@ PrefabInstance:
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -96,8 +96,19 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
+      propertyPath: exportCost
+      value: 95
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
       propertyPath: initialName
       value: magboots
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: exportMessage
+      value: It's too bad that some engineers 100 years ago or so didn't live long
+        enough to use one of these so they don't fly off into space.
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -211,6 +222,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   actionData: {fileID: 11400000, guid: a9f264c5391b47441beaa8c56ebbf935, type: 2}
   allowedSlots: 8
   useSpriteHandler: 1

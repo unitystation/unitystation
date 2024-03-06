@@ -69,6 +69,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: exportCost
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: initialTraits.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -205,11 +210,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72c43885acb654c59b452e7069cb64f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   denyStorageOfStorageItems: 88
   itemStorage: {fileID: 0}
   canClickPickup: 0
+  showUIAction: 1
   canQuickEmpty: 0
   TopLevelAlt: 0
+  NoInteractionIfInventoryFull: 0
   actionData: {fileID: 0}
   DoNotShowInventoryOnUI: 0
 --- !u!114 &6654710712513969006

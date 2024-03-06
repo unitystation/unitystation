@@ -102,6 +102,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: exportCost
+      value: 1325
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: initialName
       value: Xenomorph Embryo
       objectReference: {fileID: 0}
@@ -172,6 +177,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   xenomorphLarvaeOccupation: {fileID: 11400000, guid: aafe8bd761e215b4d8af3394211f6db2,
     type: 2}
   incubationTime: 180

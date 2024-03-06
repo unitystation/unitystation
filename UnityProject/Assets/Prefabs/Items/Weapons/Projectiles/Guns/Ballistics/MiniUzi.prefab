@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -250,6 +252,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: Mini Uzi
+      objectReference: {fileID: 0}
+    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: exportMessage
+      value: Now how did this get off Earth? No one makes these anymore in space.
       objectReference: {fileID: 0}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}

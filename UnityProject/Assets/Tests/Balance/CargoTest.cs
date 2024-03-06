@@ -1,6 +1,9 @@
 ﻿using System.Linq;
+using Items;
+using Logs;
 using NUnit.Framework;
 using Systems.Cargo;
+using UnityEngine;
 
 namespace Tests.Balance
 {
@@ -51,6 +54,25 @@ namespace Tests.Balance
 						.ExploitHeader(category, order)
 						.ExploitFooter(order, value);
 				}
+			}
+
+			report.Log().AssertPassed();
+		}
+
+		[Test]
+		public void NoCostTest()
+		{
+			var report = new TestReport();
+			var items = Resources.FindObjectsOfTypeAll<ItemAttributesV2>();
+			report.Clean();
+
+			foreach (var item in items)
+			{
+				if (item.IsFakeItem || item.CanBeSoldInCargo == false) continue;
+				if (item.name.StartsWith("_") || item.name.Contains("Item") ||
+				    item.name.Contains("Base") || item.name.Contains("Trash") ||
+				    item.name.Contains("Random") || item.name.Contains("spawner") || item.name.Contains("Admin")) continue;
+				report.FailIf(item.ExportCost == 0).AppendLine($"{item} has no export cost despite it being marked as an object that can be sold, please fix.");
 			}
 
 			report.Log().AssertPassed();

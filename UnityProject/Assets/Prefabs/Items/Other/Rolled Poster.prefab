@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -214,6 +216,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
+  LiesFlat3D: 0
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
 --- !u!114 &3287447661704391586
@@ -310,6 +313,12 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDestruction:
+    m_PersistentCalls:
+      m_Calls: []
   initialIntegrity: 100
   soundOnHit:
     SetLoadSetting: 0
@@ -383,14 +392,15 @@ MonoBehaviour:
   initialName: Poster
   initialDescription: A large piece of space-resistant printed paper.
   willHighlight: 1
-  exportCost: 0
+  exportCost: 3
   CanBeSoldInCargo: 1
   exportName: 
   exportMessage: 
   noMouseHighlight: 0
-  initialSize: 2
   initialTraits: []
+  initialSize: 2
   hitDamage: 0
+  ShowHitDamage: 1
   damageType: 0
   throwDamage: 0
   traumaDamageChance: 0
@@ -477,12 +487,14 @@ MonoBehaviour:
   slideTime: 0
   spinMagnitude: 0
   thrownBy: {fileID: 0}
+  thrownProtection: {fileID: 0}
   aim: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
   ChangesDirectionPush: 0
   Intangible: 0
+  MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
   DEBUG: 0
@@ -491,7 +503,6 @@ MonoBehaviour:
   isNotPushable: 0
   CanBeWindPushed: 1
   rotationTarget: {fileID: 0}
-  FramePushDecision: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -507,4 +518,5 @@ MonoBehaviour:
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  TimeSpentFlying: 0
   BuckledToObject: {fileID: 0}

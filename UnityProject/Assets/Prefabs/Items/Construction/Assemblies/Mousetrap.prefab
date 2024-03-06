@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -116,6 +118,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: exportCost
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: initialName
@@ -383,6 +390,9 @@ MonoBehaviour:
   protectiveItemTraits:
   - {fileID: 11400000, guid: 9dd6c830eadb94ceb8578c8ac94dde66, type: 2}
   limbsToHurt: 0b0000000c0000000500000004000000
+  OnStepEvent:
+    m_PersistentCalls:
+      m_Calls: []
   isArmed: 0
   ignoresHandwear: 0
   trapTrait: {fileID: 11400000, guid: a9ac8cfeac7f9cc409369a06ea01aa79, type: 2}

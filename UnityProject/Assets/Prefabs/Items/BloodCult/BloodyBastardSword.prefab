@@ -70,6 +70,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -210,6 +212,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
+      propertyPath: exportCost
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
       propertyPath: throwRange
       value: 3
       objectReference: {fileID: 0}
@@ -340,6 +347,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 4425414661908067713, guid: 64e430f828cfc465ea88b8d6e6fecda4,
     type: 3}

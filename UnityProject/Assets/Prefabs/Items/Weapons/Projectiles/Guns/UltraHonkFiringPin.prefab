@@ -90,6 +90,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6086956822628213986, guid: 16a3e68b2c9dcaf58928506e05687f16,
         type: 3}
+      propertyPath: CanBeSoldInCargo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6086956822628213986, guid: 16a3e68b2c9dcaf58928506e05687f16,
+        type: 3}
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
