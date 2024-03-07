@@ -17,6 +17,10 @@ on:
       - "UnityProject/**"
       - ".github/workflows/**"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   # Perform unit testing
   performTest:
