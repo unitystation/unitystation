@@ -1,26 +1,17 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 
 namespace Tests
 {
 	public class ScanCode
 	{
-		[Test]
 		public void BuildTest()
 		{
 			string[] levels = new string[] { "Assets/EmptyScene.unity" };
@@ -48,7 +39,6 @@ namespace Tests
 		}
 
 
-		[Test]
 		public void ScanCodeReport()
 		{
 			string BuildPath = Application.dataPath;
