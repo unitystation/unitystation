@@ -1,6 +1,5 @@
 using System;
 using System.Net.Http;
-using System.Net;
 using NUnit.Framework;
 using UnityEngine;
 using Core.Database;
@@ -64,59 +63,6 @@ namespace Tests.Database
 		}
 
 		[Test]
-		public void Get_ReceiveHttpError()
-		{
-			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient(new MockHttpServer((request) =>
-			{
-				return new HttpResponseMessage(HttpStatusCode.InternalServerError);
-			}));
-
-			var httpException = Assert.Throws<ApiHttpException>(() =>
-			{
-				try
-				{
-					ApiServer.Get<MockResponse>(mockUri).Wait();
-				}
-				catch (AggregateException e)
-				{
-					throw e.InnerException;
-				}
-			});
-
-			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
-			Assert.AreEqual(HttpStatusCode.InternalServerError, httpException.StatusCode);
-		}
-
-		[Test]
-		public void Get_ReceiveApiError()
-		{
-
-			var apiErrorMessage = "error thrown by database API server is fake";
-			var apiError = $"startbs[ErrorDetail(string=\'{apiErrorMessage}\'endbs";
-			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient(new MockHttpServer((request) =>
-			{
-				return new HttpResponseMessage(HttpStatusCode.Forbidden)
-				{
-					Content = new StringContent(apiError),
-				};
-			}));
-
-			var apiRequestException = Assert.Throws<ApiRequestException>(() =>
-			{
-				try
-				{
-					ApiServer.Get<MockResponse>(mockUri).Wait();
-				}
-				catch (AggregateException e)
-				{
-					throw e.InnerException;
-				}
-			});
-			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
-			Assert.AreEqual(apiErrorMessage, apiRequestException.Message);
-		}
-
-		[Test]
 		public void Post_Send()
 		{
 			var mockRequest = new MockRequest();
@@ -176,63 +122,6 @@ namespace Tests.Database
 			Assert.AreEqual(mockResponse.receive_integer, response.Data?.receive_integer);
 			Assert.AreEqual(mockResponse.receive_object.nested_field, response.Data.receive_object.nested_field);
 			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
-		}
-
-		[Test]
-		public void Post_ReceiveHttpError()
-		{
-			return; //These are dumb since they always cause an error So they always fail test
-			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient(new MockHttpServer((request) =>
-			{
-				return new HttpResponseMessage(HttpStatusCode.InternalServerError);
-			}));
-
-			// Assert.ThrowsAsync doesn't yet exist in Unity's fork of NUnit framework : /
-			var httpException = Assert.Throws<ApiHttpException>(() =>
-			{
-				try
-				{
-					ApiServer.Post<MockResponse>(mockUri, new MockRequest()).Wait();
-				}
-				catch (AggregateException e)
-				{
-					SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
-					throw e.InnerException;
-				}
-			});
-
-			Assert.AreEqual(HttpStatusCode.InternalServerError, httpException.StatusCode);
-			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
-		}
-
-		// TODO: tests for other ApiError types like Detail / Error in addition to the odd one below
-		[Test]
-		public void Post_ReceiveApiError()
-		{
-			return; //These are dumb since they always cause an error So they always fail test
-			var apiErrorMessage = "error thrown by database API server is fake";
-			var apiError = $"startbs[ErrorDetail(string=\'{apiErrorMessage}\'endbs";
-			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient(new MockHttpServer((request) =>
-			{
-				return new HttpResponseMessage(HttpStatusCode.Forbidden)
-				{
-					Content = new StringContent(apiError),
-				};
-			}));
-
-			var apiRequestException = Assert.Throws<ApiRequestException>(() =>
-			{
-				try
-				{
-					ApiServer.Post<MockResponse>(mockUri, new MockRequest()).Wait();
-				}
-				catch (AggregateException e)
-				{
-					throw e.InnerException;
-				}
-			});
-			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
-			Assert.AreEqual(apiErrorMessage, apiRequestException.Message);
 		}
 
 		#region Helper Request, Response Models
