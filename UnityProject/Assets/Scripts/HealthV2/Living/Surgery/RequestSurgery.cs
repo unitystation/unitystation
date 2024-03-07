@@ -20,14 +20,14 @@ public class RequestSurgery : ClientMessage<RequestSurgery.NetMessage>
 		LoadMultipleObjects(new uint[]{msg.BeingPerformedOn,msg.BodyPart} );
 		if (msg.SurgeryProcedureBase >= SurgeryProcedureBaseSingleton.Instance.StoredReferences.Count) return;
 		if (Validations.CanApply(SentByPlayer.Script, NetworkObjects[0], NetworkSide.Server) == false) return;
-		var Dissectible = NetworkObjects[0].GetComponent<Dissectible>();
-		if (Dissectible == null) return;
+		var dissectible = NetworkObjects[0].GetComponent<Dissectible>();
+		if (dissectible == null) return;
 
 		var EBodyPart = NetworkObjects[1]?.GetComponent<BodyPart>();
 
 
-		var InSurgeryProcedureBase = SurgeryProcedureBaseSingleton.Instance.StoredReferences[msg.SurgeryProcedureBase];
-		Dissectible.ServerCheck(InSurgeryProcedureBase ,EBodyPart);
+		var inSurgeryProcedureBase = SurgeryProcedureBaseSingleton.Instance.StoredReferences[msg.SurgeryProcedureBase];
+		dissectible.ServerCheck(inSurgeryProcedureBase ,EBodyPart);
 	}
 
 	public static NetMessage Send(GameObject bodyPart, GameObject InBeingPerformedOn,

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Mirror;
 using Player;
@@ -10,10 +11,8 @@ namespace HealthV2
 	{
 		public LivingHealthMasterBase LivingHealthMasterBase;
 
-		//needs set Surgery procedure
-
 		[SyncVar(hook = nameof(SetProcedureInProgress))]
-		private bool ProcedureInProgress = false;
+		public bool ProcedureInProgress = false;
 
 		private GameObject InternalcurrentlyOn = null;
 
@@ -53,18 +52,17 @@ namespace HealthV2
 
 		public PresentProcedure ThisPresentProcedure = new PresentProcedure();
 
-		public List<ItemTrait>
-			InitiateSurgeryItemTraits = new List<ItemTrait>(); //Make sure to include implantable stuff
+		public List<ItemTrait> InitiateSurgeryItemTraits = new List<ItemTrait>(); //Make sure to include implantable stuff
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (interaction.Intent != Intent.Help) return false; //TODO problem with surgery in Progress and Trying to use something on help content on them
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (ProcedureInProgress == false) return false;
-			var RegisterPlayer = interaction.TargetObject.GetComponent<RegisterPlayer>();
+			var registerPlayer = interaction.TargetObject.GetComponent<RegisterPlayer>();
 
-			if (RegisterPlayer == null) return false; //Player script changes needed
-			if (RegisterPlayer.IsLayingDown == false) return false;
+			if (registerPlayer == null) return false; //Player script changes needed
+			if (registerPlayer.IsLayingDown == false) return false;
 			return (true);
 		}
 
@@ -82,12 +80,8 @@ namespace HealthV2
 			//**Client**
 			if (Validations.HasComponent<Dissectible>(interaction.TargetObject) == false) return false;
 
-			var RegisterPlayer = interaction.TargetObject.GetComponent<RegisterPlayer>();
-
-			if (RegisterPlayer == null) return false; //Player script changes needed
-
-
-			if (RegisterPlayer.IsLayingDown == false) return false;
+			var registerPlayer = interaction.TargetObject.GetComponent<RegisterPlayer>();
+			if (registerPlayer == null || registerPlayer.IsLayingDown == false) return false; //Player script changes needed
 
 			if (ProcedureInProgress == false)
 			{
@@ -117,8 +111,6 @@ namespace HealthV2
 				{
 					if (BodyPartIsopen)
 					{
-						// var Options = currentlyOn.ContainBodyParts;
-						// UIManager.Instance.SurgeryDialogue.ShowDialogue(this, Options);
 						RequestBodyParts.Send(this.gameObject);
 						return true;
 						//Show dialogue for  Pick organ and Procedure set it
@@ -134,8 +126,6 @@ namespace HealthV2
 				}
 				else
 				{
-					// var Options = LivingHealthMasterBase.GetBodyPartsInZone(interaction.TargetBodyPart);
-					// UIManager.Instance.SurgeryDialogue.ShowDialogue(this, Options, true);
 					RequestBodyParts.Send(this.gameObject, interaction.TargetBodyPart);
 					return true;
 					//showDialogue box, For which body part
@@ -164,98 +154,106 @@ namespace HealthV2
 			BodyPartID = newState;
 		}
 
-		public void ServerCheck(SurgeryProcedureBase SurgeryProcedureBase, BodyPart ONBodyPart)
+		public void ServerCheck(SurgeryProcedureBase surgeryProcedureBase, BodyPart onBodyPart)
 		{
-			if (ProcedureInProgress)
-				return; //Defer to server
+		    if (ProcedureInProgress) return; // Defer to server
+		    // Check if a body part is currently being operated on
+		    if (BodyPartIsOn != null)
+		    {
+		        // If the body part is open
+		        if (BodyPartIsopen)
+		        {
+		            // Check if the surgery requires setup and perform it if needed
+		            if (CheckAndSetupProcedure(onBodyPart, surgeryProcedureBase)) return;
+		            // If the surgery does not require setup, check if the correct body part is being operated on
+		            if (currentlyOn != onBodyPart.gameObject) return;
+		            // If the correct body part is being operated on, setup the surgery procedure
+		            SetupSurgeryProcedure(surgeryProcedureBase, BodyPartIsOn);
+		        }
+		        else
+		        {
+		            // If the body part is closed, check if the correct body part is being operated on
+		            if (onBodyPart.gameObject != currentlyOn) return;
+		            // If the correct body part is being operated on, setup the surgery procedure
+		            SetupSurgeryProcedureWithoutSetup(surgeryProcedureBase, BodyPartIsOn);
+		        }
+		    }
+		    else
+		    {
+		        // If no body part is currently being operated on, check available body parts
+		        CheckAvailableBodyParts(surgeryProcedureBase, onBodyPart);
+		    }
+		}
 
-			if (BodyPartIsOn != null)
-			{
-				if (BodyPartIsopen)
-				{
-					foreach (var organBodyPart in BodyPartIsOn.ContainBodyParts)
-					{
-						if (organBodyPart == ONBodyPart)
-						{
-							foreach (var Procedure in organBodyPart.SurgeryProcedureBase)
-							{
-								if (Procedure is CloseProcedure || Procedure is ImplantProcedure) continue;
-								if (SurgeryProcedureBase == Procedure)
-								{
-									this.currentlyOn = organBodyPart.gameObject;
-									this.ThisPresentProcedure.SetupProcedure(this, organBodyPart, Procedure);
-									return;
-								}
-							}
+		// Check if the surgery requires setup and perform it if needed
+		private bool CheckAndSetupProcedure(BodyPart onBodyPart, SurgeryProcedureBase surgeryProcedureBase)
+		{
+		    foreach (var organBodyPart in BodyPartIsOn.ContainBodyParts.Where(organBodyPart => organBodyPart == onBodyPart))
+		    {
+		        foreach (var procedure in organBodyPart.SurgeryProcedureBase
+		                     .Where(procedure => procedure is not (CloseProcedure or ImplantProcedure))
+		                     .Where(procedure => surgeryProcedureBase == procedure))
+		        {
+		            currentlyOn = organBodyPart.gameObject;
+		            ThisPresentProcedure.SetupProcedure(this, organBodyPart, procedure);
+		            return true;
+		        }
+		        return true;
+		    }
+		    return false;
+		}
 
-							return;
-						}
-					}
+		/// <summary>
+		/// Setup the surgery procedure when the body part is open
+		/// </summary>
+		/// <param name="surgeryProcedureBase"></param>
+		/// <param name="bodyPart"></param>
+		private void SetupSurgeryProcedure(SurgeryProcedureBase surgeryProcedureBase, BodyPart bodyPart)
+		{
+		    foreach (var Procedure in bodyPart.SurgeryProcedureBase
+		                 .Where(procedure => procedure is CloseProcedure or ImplantProcedure)
+		                 .Where(procedure => surgeryProcedureBase == procedure))
+		    {
+		        this.currentlyOn = currentlyOn;
+		        ThisPresentProcedure.SetupProcedure(this, BodyPartIsOn, Procedure);
+		        return;
+		    }
+		}
 
-					if (currentlyOn == ONBodyPart.gameObject)
-					{
-						foreach (var Procedure in BodyPartIsOn.SurgeryProcedureBase)
-						{
-							if (Procedure is CloseProcedure || Procedure is ImplantProcedure)
-							{
-								if (SurgeryProcedureBase == Procedure)
-								{
-									this.currentlyOn = currentlyOn;
-									this.ThisPresentProcedure.SetupProcedure(this, BodyPartIsOn, Procedure);
-									return;
-								}
-							}
-						}
+		// Setup the surgery procedure when the body part is closed
+		private void SetupSurgeryProcedureWithoutSetup(SurgeryProcedureBase surgeryProcedureBase, BodyPart bodyPart)
+		{
+		    foreach (var procedure in bodyPart.SurgeryProcedureBase)
+		    {
+		        if (procedure is CloseProcedure or ImplantProcedure) continue;
+		        if (surgeryProcedureBase != procedure) continue;
+		        this.currentlyOn = currentlyOn;
+		        this.ThisPresentProcedure.SetupProcedure(this, BodyPartIsOn, procedure);
+		        return;
+		    }
+		}
 
-						return;
-					}
-				}
-				else
-				{
-					if (ONBodyPart.gameObject == currentlyOn)
-					{
-						foreach (var Procedure in BodyPartIsOn.SurgeryProcedureBase)
-						{
-							if (Procedure is CloseProcedure || Procedure is ImplantProcedure) continue;
-							if (SurgeryProcedureBase == Procedure)
-							{
-								this.currentlyOn = currentlyOn;
-								this.ThisPresentProcedure.SetupProcedure(this, BodyPartIsOn, Procedure);
-								return;
-							}
-						}
+		// Check available body parts for surgery
+		private void CheckAvailableBodyParts(SurgeryProcedureBase surgeryProcedureBase, BodyPart onBodyPart)
+		{
+		    foreach (var bodyPart in LivingHealthMasterBase.BodyPartList)
+		    {
+			    if (bodyPart != onBodyPart) continue;
+			    foreach (var Procedure in bodyPart.SurgeryProcedureBase
+				             .Where(procedure => procedure is not (CloseProcedure or ImplantProcedure))
+				             .Where(procedure => surgeryProcedureBase == procedure))
+			    {
+				    this.currentlyOn = bodyPart.gameObject;
+				    this.ThisPresentProcedure.SetupProcedure(this, bodyPart, Procedure);
+				    return;
+			    }
+		    }
 
-						return;
-					}
-				}
-			}
-			else
-			{
-				foreach (var bodyPart in LivingHealthMasterBase.BodyPartList)
-				{
-					if (bodyPart == ONBodyPart)
-					{
-						foreach (var Procedure in bodyPart.SurgeryProcedureBase)
-						{
-							if (Procedure is CloseProcedure || Procedure is ImplantProcedure) continue;
-							if (SurgeryProcedureBase == Procedure)
-							{
-								this.currentlyOn = bodyPart.gameObject;
-								this.ThisPresentProcedure.SetupProcedure(this, bodyPart, Procedure);
-								return;
-							}
-						}
-					}
-				}
-
-				if (LivingHealthMasterBase.GetComponent<PlayerSprites>().RaceBodyparts.Base.RootImplantProcedure ==
-				    SurgeryProcedureBase)
-				{
-					this.currentlyOn = LivingHealthMasterBase.gameObject;
-					this.ThisPresentProcedure.SetupProcedure(this, null, SurgeryProcedureBase);
-				}
-			}
-
+		    // If no matching body part is found, check for root implant procedure
+		    if (LivingHealthMasterBase.GetComponent<PlayerSprites>().RaceBodyparts.Base.RootImplantProcedure !=
+		        surgeryProcedureBase) return;
+		    this.currentlyOn = LivingHealthMasterBase.gameObject;
+		    this.ThisPresentProcedure.SetupProcedure(this, null, surgeryProcedureBase);
 		}
 
 		public void SendClientBodyParts(PlayerInfo SentByPlayer, BodyPartType inTargetBodyPart = BodyPartType.None)
@@ -458,13 +456,6 @@ namespace HealthV2
 
 				return toReplace;
 			}
-		}
-
-
-		public enum ProcedureType
-		{
-			Close,
-			Custom
 		}
 	}
 }
