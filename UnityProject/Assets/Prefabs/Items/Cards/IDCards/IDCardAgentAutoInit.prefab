@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2486709458756448678, guid: b126018ed6cbabc45b3276c4962e3431,
+        type: 3}
+      propertyPath: CanBeSoldInCargo
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2565075634201335427, guid: b126018ed6cbabc45b3276c4962e3431,
         type: 3}
       propertyPath: autoInitOnPickup

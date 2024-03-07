@@ -88,6 +88,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: exportCost
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: throwRange
       value: 4
       objectReference: {fileID: 0}
@@ -163,6 +168,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  GasSO: {fileID: 0}
   StoredGasMix:
     GasData:
       GasesArray: []
@@ -172,3 +178,4 @@ MonoBehaviour:
   MaximumMoles: 100
   ReleasePressure: 101.325
   CargoSealApproved: 0
+  explodeOnTooMuchDamage: 1
