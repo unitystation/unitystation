@@ -111,11 +111,10 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.multiplayer.playmode": {
-      "version": "0.1.1",
+      "version": "0.6.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "nuget.moq": "1.0.0",
         "com.unity.nuget.newtonsoft-json": "2.0.2"
       },
       "url": "https://packages.unity.com"
@@ -212,22 +211,6 @@
         "com.unity.modules.unitywebrequest": "1.0.0",
         "com.unity.modules.unitywebrequesttexture": "1.0.0",
         "com.unity.modules.unitywebrequestwww": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "nuget.castle-core": {
-      "version": "2.0.0",
-      "depth": 2,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
-    "nuget.moq": {
-      "version": "2.0.0",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {
-        "nuget.castle-core": "2.0.0"
       },
       "url": "https://packages.unity.com"
     },
