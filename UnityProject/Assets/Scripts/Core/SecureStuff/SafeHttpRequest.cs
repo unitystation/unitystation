@@ -18,12 +18,18 @@ namespace SecureStuff
 	{
 		//TODO
 		//Build -> Hub Indication for pop-ups unknown request Hosts
+		private static HttpClient Client = new HttpClient();
 
+#if UNITY_EDITOR
+		public static HttpClient EditorOnlySet
+		{
+			set => Client = value;
+		}
+#endif
 
 		public static async Task<HttpResponseMessage> PostAsync(string URLstring, StringContent StringContent, bool addAsTrusted = true, string JustificationReason = "")
 		{
 			var URL = new Uri(URLstring);
-			var Client = new HttpClient();
 			if (await IsValid(URL, addAsTrusted, JustificationReason) == false)
 			{
 				return null;
@@ -38,7 +44,6 @@ namespace SecureStuff
 		public static async Task<HttpResponseMessage> GetAsync(string URLstring, bool addAsTrusted = true, string JustificationReason = "")
 		{
 			var URL = new Uri(URLstring);
-			var Client = new HttpClient();
 			if (await IsValid(URL, addAsTrusted, JustificationReason) == false)
 			{
 				return null;
@@ -51,7 +56,6 @@ namespace SecureStuff
 		public static async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
 			CancellationToken? cancellationToken = null, bool addAsTrusted = true, string JustificationReason = "")
 		{
-			using var client = new HttpClient();
 			if (await IsValid(request.RequestUri, addAsTrusted, JustificationReason) == false)
 			{
 				return null;
@@ -59,11 +63,11 @@ namespace SecureStuff
 
 			if (cancellationToken == null)
 			{
-				return await client.SendAsync(request);
+				return await Client.SendAsync(request);
 			}
 			else
 			{
-				return await client.SendAsync(request, cancellationToken.Value);
+				return await Client.SendAsync(request, cancellationToken.Value);
 			}
 		}
 
@@ -71,7 +75,6 @@ namespace SecureStuff
 		public static async Task<string> GetStringAsync(string requestUri, bool addAsTrusted = true, string JustificationReason = "")
 		{
 			var URL = new System.Uri(requestUri);
-			var Client = new HttpClient();
 			if (await IsValid(URL, addAsTrusted, JustificationReason) == false)
 			{
 				return null;

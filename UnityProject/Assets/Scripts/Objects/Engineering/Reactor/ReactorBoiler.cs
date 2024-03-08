@@ -68,11 +68,11 @@ namespace Objects.Engineering
 
 			if (CurrentPressureInput > 0)
 			{
-				//Logger.Log("CurrentPressureInput " + CurrentPressureInput);
+				//Loggy.Log("CurrentPressureInput " + CurrentPressureInput);
 				// if (CurrentPressureInput > MaxPressureInput)
 				// {
 				// 	CurrentPressureInput = MaxPressureInput;
-				// 	//Logger.LogError(" ReactorBoiler !!!booommmm!!", Category.Editor);
+				// 	//Loggy.LogError(" ReactorBoiler !!!booommmm!!", Category.Editor);
 				// 	//Explosions.Explosion.StartExplosion(registerObject.LocalPosition, 800, registerObject.Matrix);
 				// }
 

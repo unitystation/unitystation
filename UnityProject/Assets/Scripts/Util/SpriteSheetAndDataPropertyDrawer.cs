@@ -66,20 +66,20 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 		Depth++;
 		//if (Depth <= 10)
 		//{
-		//Logger.Log("1");
+		//Loggy.Log("1");
 		Type monoType = Script.GetType();
 		foreach (FieldInfo Field in monoType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
 		{
-			//Logger.Log("2");
+			//Loggy.Log("2");
 			if (Field.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
 			{
-				//Logger.Log("3 " + Field.FieldType);
+				//Loggy.Log("3 " + Field.FieldType);
 				if (Field.FieldType == typeof(SpriteSheetAndData))
 				{
-					//Logger.Log("4");
+					//Loggy.Log("4");
 					(Field.GetValue(Script) as SpriteSheetAndData).setSprites();
 				}
-				//Logger.Log("5");
+				//Loggy.Log("5");
 
 				ReflectionSpriteSheetAndData(Field.FieldType, Script, Info: Field, Depth: Depth);
 			}
@@ -135,7 +135,7 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 					{
 						if (method.GetValue(Script) != null)
 						{
-							//Logger.Log(method.ToString());
+							//Loggy.Log(method.ToString());
 							GetAttributes(method.GetValue(Script), Depth);
 						}
 					}

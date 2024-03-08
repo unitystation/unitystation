@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Security.Policy;
+using System.Text;
 using System.Threading.Tasks;
 using Doors;
 using UnityEditor;
@@ -36,7 +39,7 @@ namespace Util
 
 		// foreach (var ob in serializedObject.GetIterator())
 		// {
-		// 	Logger.LogError(ob.ToString()); // You can use this to reset every property on a scene object/Prefab object
+		// 	Loggy.LogError(ob.ToString()); // You can use this to reset every property on a scene object/Prefab object
 		// }
 		// var localRotation = serializedObject.FindProperty("m_LocalRotation");
 		// PrefabUtility.RevertPropertyOverride(localRotation, InteractionMode.AutomatedAction);
@@ -320,11 +323,36 @@ namespace Util
 			Loggy.LogError(data.ToString());
 		}
 
+		class LoginBody
+		{
+			public string email { get; set; }
+			public string password { get; set; }
+		}
+
 
 
 		[MenuItem("Tools/Debug/------------ Debug function -----------")]
 		public static void Generate()
 		{
+			var url = new Uri( "https://dev-api.unitystation.org/accounts/login-credentials");
+			var coiol = new HttpClient();
+			var ree = new HttpRequestMessage();
+			ree.Content = new StringContent(JsonConvert.SerializeObject(new LoginBody()
+			{
+				email = "AAA",
+				password = "bbbbb"
+			}), Encoding.UTF8, "application/json");
+
+			ree.Method = HttpMethod.Post;
+			ree.RequestUri = url;
+			ree.Headers.Add("Accept", "application/json");
+		 	var tt = coiol.SendAsync(ree);
+		    var data = tt.Result.Content.ReadAsStringAsync().Result;
+			// AssetDatabase.StartAssetEditing();
+			                     			// AssetDatabase.ForceReserializeAssets();
+			                     		// AssetDatabase.StopAssetEditing();
+			                             			// AssetDatabase.SaveAssets();
+
 			string aa = @"0​
 UnityEngine";
 			string Text = "0\u200b";
@@ -336,6 +364,7 @@ UnityEngine";
 			 //                     			AssetDatabase.ForceReserializeAssets();
 			 //                     		AssetDatabase.StopAssetEditing();
 			 //                             			AssetDatabase.SaveAssets();
+
 
 
 			// Get the type (class) that contains the method
@@ -353,7 +382,7 @@ UnityEngine";
 			EditorPrefs.SetInt("kAutoRefresh", 1); //older unity versions
 			//var SGen = new SudokuGenerator();
 
-			//Logger.LogError(SGen.generate("hard"));
+			//Loggy.LogError(SGen.generate("hard"));
 			return;
 			AssetDatabase.StartAssetEditing();
 			AssetDatabase.ForceReserializeAssets();
@@ -715,7 +744,7 @@ UnityEngine";
 		{
 			//Console.WriteLine("DirSearch..(" + sDir + ")");
 
-			//Logger.Log(sDir);
+			//Loggy.Log(sDir);
 			var aDDll = LoadAllPrefabsOfType<ItemAttributesV2>(sDir);
 			foreach (var f in aDDll)
 			{
@@ -728,7 +757,7 @@ UnityEngine";
 				//f.ItemSprites.SpriteRightHand =
 				//	PullOutSO(f.ItemSprites.RightHand.Texture);
 				PrefabUtility.SavePrefabAsset(f.gameObject);
-				//Logger.Log(f);
+				//Loggy.Log(f);
 			}
 		}
 
@@ -777,7 +806,7 @@ UnityEngine";
 		{
 			//Console.WriteLine("DirSearch..(" + sDir + ")");
 
-			//Logger.Log(sDir);
+			//Loggy.Log(sDir);
 
 			var Files = Directory.GetFiles(sDir);
 			foreach (string f in Files)
@@ -813,7 +842,7 @@ UnityEngine";
 					//https://forum.unity.com/threads/editor-changing-an-items-icon-in-the-project-window.272061/
 				}
 
-				//Logger.Log(f);
+				//Loggy.Log(f);
 			}
 
 

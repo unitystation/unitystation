@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
-using Firebase.Auth;
 using Core.Utils;
-using DatabaseAPI;
 
 namespace Lobby
 {
@@ -19,6 +18,9 @@ namespace Lobby
 		private InputField usernameControl = default;
 		[SerializeField]
 		private InputField passwordControl = default;
+
+		[SerializeField]
+		private InputField UniqueIdentifierControl = default;
 
 		[SerializeField]
 		private Text errorControl = default;
@@ -38,6 +40,10 @@ namespace Lobby
 
 			usernameControl.onValueChanged.AddListener((_) => ClearError());
 			usernameControl.onEndEdit.AddListener((_) => ValidateUsername());
+
+			UniqueIdentifierControl.onValueChanged.AddListener((_) => ClearError());
+			UniqueIdentifierControl.onEndEdit.AddListener((_) => ValidateUniqueUsername());
+
 
 			backButton.onClick.AddListener(OnBackBtn);
 			submitButton.onClick.AddListener(OnSubmitBtn);
@@ -90,6 +96,26 @@ namespace Lobby
 			return true;
 		}
 
+		private bool ValidateUniqueUsername()
+		{
+			var errorStrings = new Dictionary<ValidationUtils.ValidationError, string>
+			{
+				{ ValidationUtils.ValidationError.NullOrWhitespace, "Unique Username is required." },
+				{ ValidationUtils.ValidationError.TooShort, "Unique Username is too short." },
+				{ ValidationUtils.ValidationError.Invalid, "Unique Username is invalid." },
+			};
+
+			if (ValidationUtils.TryValidateUniqueUsername(usernameControl.text, out var failReason) == false)
+			{
+				SetError(errorStrings[failReason]);
+				return false;
+			}
+
+			ClearError();
+			return true;
+		}
+
+
 		private bool ValidateUsername()
 		{
 			var errorStrings = new Dictionary<ValidationUtils.ValidationError, string>
@@ -134,7 +160,7 @@ namespace Lobby
 
 		#endregion
 
-		private void CreateAccount()
+		private async Task CreateAccount()
 		{
 			if (ValidateInputs() == false) return;
 
@@ -145,50 +171,10 @@ namespace Lobby
 				RightButtonCallback = () => throw new NotImplementedException(),
 			});
 
-			ServerData.TryCreateAccount(usernameControl.text, passwordControl.text, emailControl.text,
-					ShowInfoPanelSuccess,
-					ShowInfoPanelFail);
-		}
-
-		private void ResendEmail(string email)
-		{
-			FirebaseAuth.DefaultInstance.CurrentUser.SendEmailVerificationAsync();
-			FirebaseAuth.DefaultInstance.SignOut();
-
-			LobbyManager.UI.ShowEmailResendPanel(email);
-		}
-
-		private void ShowInfoPanelSuccess(FirebaseUser account)
-		{
-			LobbyManager.UI.ShowInfoPanel(new InfoPanelArgs
+			if (await LobbyManager.Instance.CreateAccount(usernameControl.text, emailControl.text, UniqueIdentifierControl.text, passwordControl.text))
 			{
-				Heading = "Account Created",
-				Text = $"Success! An email will be sent to\n<b>{account.Email}</b>\n\n" +
-					$"Please click the link in the email to verify your account before signing in.",
-				LeftButtonLabel = "Back",
-				LeftButtonCallback = LobbyManager.UI.ShowLoginPanel,
-				RightButtonLabel = "Resend Email",
-				RightButtonCallback = () => ResendEmail(account.Email),
-			});
-
-			PlayerPrefs.SetString(PlayerPrefKeys.AccountEmail, emailControl.text);
-			PlayerPrefs.Save();
-
-			Reset();
-		}
-
-		private void ShowInfoPanelFail(string errorText)
-		{
-			LobbyManager.UI.ShowInfoPanel(new InfoPanelArgs
-			{
-				Heading = "Account Creation Failed",
-				Text = errorText,
-				IsError = true,
-				LeftButtonLabel = "Back",
-				LeftButtonCallback = LobbyManager.UI.ShowAccountCreatePanel,
-				RightButtonLabel = "Retry",
-				RightButtonCallback = CreateAccount,
-			});
+				Reset();
+			}
 		}
 
 		#region Button Handlers
@@ -204,7 +190,7 @@ namespace Lobby
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			if (ValidateInputs())
 			{
-				CreateAccount();
+				_ = CreateAccount();
 			}
 		}
 

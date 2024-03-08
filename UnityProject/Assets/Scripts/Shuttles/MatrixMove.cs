@@ -696,7 +696,7 @@ public class MatrixMove : ManagedBehaviour
 		}
 		else
 		{
-			//			Logger.LogTrace( "Stopping due to safety protocols!",Category.Shuttles );
+			//			Loggy.LogTrace( "Stopping due to safety protocols!",Category.Shuttles );
 			StopMovement();
 			TryNotifyPlayers();
 		}
@@ -721,7 +721,7 @@ public class MatrixMove : ManagedBehaviour
 			}
 		}
 
-		//		Logger.LogTrace( $"Passing {serverTargetState.Position}->{serverTargetState.Position+dir} ", Category.Shuttles );
+		//		Loggy.LogTrace( $"Passing {serverTargetState.Position}->{serverTargetState.Position+dir} ", Category.Shuttles );
 		return true;
 	}
 

@@ -11,7 +11,7 @@ namespace UI
 		//Will allow the material label to be updated after the NetTab is opened.
 		public override void AfterInit()
 		{
-			//Logger.Log("MaterialNetLabel: Updating " + Value);
+			//Loggy.Log("MaterialNetLabel: Updating " + Value);
 			//UpdatePeepers();
 		}
 	}

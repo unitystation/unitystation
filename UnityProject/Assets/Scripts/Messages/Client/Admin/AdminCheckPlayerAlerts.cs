@@ -12,7 +12,7 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			UIManager.Instance.playerAlerts.ServerRequestEntries(SentByPlayer.UserId, msg.CurrentCount, SentByPlayer.Connection);
+			UIManager.Instance.playerAlerts.ServerRequestEntries(SentByPlayer.AccountId, msg.CurrentCount, SentByPlayer.Connection);
 		}
 
 		public static NetMessage Send(int currentCount)

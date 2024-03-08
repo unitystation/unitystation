@@ -12,7 +12,7 @@ namespace Systems.Electricity.NodeModules
 		{
 
 
-			//Logger.Log(TransformInformation.TurnRatio + " < TurnRatio " + TransformInformation.VoltageLimiting + " < VoltageLimiting " + TransformInformation.VoltageLimitedTo + " < VoltageLimitedTo ");
+			//Loggy.Log(TransformInformation.TurnRatio + " < TurnRatio " + TransformInformation.VoltageLimiting + " < VoltageLimiting " + TransformInformation.VoltageLimitedTo + " < VoltageLimitedTo ");
 			if (!(ResistanceToModify == 0))
 			{
 				//float R2 = ResistanceToModify;
@@ -38,7 +38,7 @@ namespace Systems.Electricity.NodeModules
 				if (!(TransformInformation.VoltageLimiting == 0))
 				{ //if Total Voltage greater than that then  Push some of it to ground  to == VoltageLimitedTo And then everything after it to ground/
 				  //float VVoltage = ElectricityFunctions.WorkOutVoltage(TransformInformation.ControllingNode.Node);
-				  //Logger.Log("V2 > " + V2 + " VoltageLimitedTo > " + TransformInformation.VoltageLimitedTo, Category.Electrical);
+				  //Loggy.Log("V2 > " + V2 + " VoltageLimitedTo > " + TransformInformation.VoltageLimitedTo, Category.Electrical);
 					if (V2 > TransformInformation.VoltageLimiting)
 					{
 						offcut = ((V2) - TransformInformation.VoltageLimitedTo);
@@ -65,13 +65,13 @@ namespace Systems.Electricity.NodeModules
 				bool FromHighSide = false)
 		{
 
-			//Logger.Log("TransformInformation!!!!!!!!!" + TransformInformation.gameObject);
+			//Loggy.Log("TransformInformation!!!!!!!!!" + TransformInformation.gameObject);
 			float TurnRatio = TransformInformation.TurnRatio;
 			if (FromHighSide) //Since is travelling different directions
 			{
 				TurnRatio = 1 / TransformInformation.TurnRatio;
 			}
-			//Logger.Log(TransformInformation.TurnRatio + " < TurnRatio " + TransformInformation.VoltageLimiting + " < VoltageLimiting " + TransformInformation.VoltageLimitedTo + " < VoltageLimitedTo ");
+			//Loggy.Log(TransformInformation.TurnRatio + " < TurnRatio " + TransformInformation.VoltageLimiting + " < VoltageLimiting " + TransformInformation.VoltageLimitedTo + " < VoltageLimitedTo ");
 
 			//float R2 = ResistanceToModify;
 			//float I2 = 1/ResistanceToModify;
@@ -82,12 +82,12 @@ namespace Systems.Electricity.NodeModules
 			//float V1 = (V2*Turn_ratio);
 			//float I1 = (V2/V1)*I2;
 			//float R1 = V1/I1;
-			//Logger.Log(((Math.Pow(TurnRatio, 2.0))) + " (Math.Pow(TurnRatio, 2.0))");
-			//Logger.Log(ResistanceToModify.ToString() + " HHHHHH");
+			//Loggy.Log(((Math.Pow(TurnRatio, 2.0))) + " (Math.Pow(TurnRatio, 2.0))");
+			//Loggy.Log(ResistanceToModify.ToString() + " HHHHHH");
 			var VIRResistances = ElectricalPool.GetResistanceWrap();
 			VIRResistances.SetUp(ResistanceToModify);
 			VIRResistances.Multiply((float)Math.Pow(TurnRatio, 2.0));
-			//Logger.Log(VIRResistances.ToString() + " HHHHHH");
+			//Loggy.Log(VIRResistances.ToString() + " HHHHHH");
 			return (VIRResistances);
 
 		}
@@ -106,9 +106,9 @@ namespace Systems.Electricity.NodeModules
 			}
 
 			double Voltage = (Current.Current() * ResistanceModified);
-			//Logger.Log("Current.Current() > " + Current.Current() + " ResistanceModified > " + ResistanceModified);
+			//Loggy.Log("Current.Current() > " + Current.Current() + " ResistanceModified > " + ResistanceModified);
 
-			//Logger.Log(TransformInformation.TurnRatio + " < TurnRatio " + TransformInformation.VoltageLimiting + " < VoltageLimiting " + TransformInformation.VoltageLimitedTo + " < VoltageLimitedTo ");
+			//Loggy.Log(TransformInformation.TurnRatio + " < TurnRatio " + TransformInformation.VoltageLimiting + " < VoltageLimiting " + TransformInformation.VoltageLimitedTo + " < VoltageLimitedTo ");
 			if (Voltage != 0)
 			{
 				double offcut = 0;
@@ -119,7 +119,7 @@ namespace Systems.Electricity.NodeModules
 
 				double V2 = Voltage / TurnRatio;
 				double R2 = V2 / ((Voltage / V2) * (Voltage / ResistanceModified));
-				//Logger.Log(R2 + " < R2 " + V2 + " < V2 " + ResistanceModified + " < ResistanceModified" + TurnRatio + " < TurnRatio " + Voltage + " < Voltage ");
+				//Loggy.Log(R2 + " < R2 " + V2 + " < V2 " + ResistanceModified + " < ResistanceModified" + TurnRatio + " < TurnRatio " + Voltage + " < Voltage ");
 				if (TransformInformation.VoltageLimiting != 0)
 				{ //if Total Voltage greater than that then  Push some of it to ground  to == VoltageLimitedTo And then everything after it to ground/
 				  //float VVoltage = ElectricityFunctions.WorkOutVoltage(TransformInformation.ControllingNode.Node);
@@ -137,11 +137,11 @@ namespace Systems.Electricity.NodeModules
 				//inVoltage
 				TurnRatio = TurnRatio * (V2 / (Voltage / TurnRatio));
 
-				//Logger.Log("V2 " + V2.ToString());
-				//Logger.Log("I2 " + I2.ToString());
-				//Logger.Log("Current.Current() " + Current.Current().ToString());
+				//Loggy.Log("V2 " + V2.ToString());
+				//Loggy.Log("I2 " + I2.ToString());
+				//Loggy.Log("Current.Current() " + Current.Current().ToString());
 				var ReturnCurrent = Current.SplitCurrent((float)TurnRatio);
-				//Logger.Log("ReturnCurrent " + ReturnCurrent.Current().ToString());
+				//Loggy.Log("ReturnCurrent " + ReturnCurrent.Current().ToString());
 				return (ReturnCurrent);
 			}
 			return (Current);

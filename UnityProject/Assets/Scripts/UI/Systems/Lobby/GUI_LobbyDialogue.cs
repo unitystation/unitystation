@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Firebase.Auth;
 using Systems.Character;
 
 namespace Lobby
@@ -145,17 +144,6 @@ namespace Lobby
 			});
 		}
 
-		public void ShowEmailResendPanel(string email)
-		{
-			LobbyManager.UI.ShowInfoPanel(new InfoPanelArgs
-			{
-				Heading = "Email Resend",
-				Text = $"A new verification email will be sent to \n<b>{email}</b>",
-				LeftButtonLabel = "Back",
-				LeftButtonCallback = LobbyManager.UI.ShowLoginPanel,
-			});
-		}
-
 		public void ShowLoginError(string msg)
 		{
 			var infoArgs = new InfoPanelArgs
@@ -170,7 +158,7 @@ namespace Lobby
 			if (msg.Contains("Email Not Verified"))
 			{
 				infoArgs.RightButtonLabel = "Resend Email";
-				infoArgs.RightButtonCallback = LobbyManager.Instance.ResendEmail;
+				infoArgs.RightButtonCallback = LobbyManager.Instance.ResendVerifyEmail;
 			}
 
 			ShowInfoPanel(infoArgs);
@@ -196,7 +184,7 @@ namespace Lobby
 		{
 			HideAllPanels();
 
-			if (FirebaseAuth.DefaultInstance.CurrentUser == null)
+			if (PlayerManager.Account.IsAvailable == false)
 			{
 				ShowAlphaPanel();
 			}

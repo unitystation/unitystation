@@ -208,7 +208,7 @@ public class WavUtility {
 			//	"wav" );
 			//Directory.CreateDirectory( Path.GetDirectoryName( filepath ) );
 			AccessFile.Write(bytes, $"{dirname}/{DateTime.UtcNow.ToString( "yyMMdd-HHmmss-fff" )}wav", FolderType.Data );
-			//Logger.Log ("Auto-saved .wav file: " + filepath, Category.Audio);
+			//Loggy.Log ("Auto-saved .wav file: " + filepath, Category.Audio);
 		}
 
 		stream.Dispose();

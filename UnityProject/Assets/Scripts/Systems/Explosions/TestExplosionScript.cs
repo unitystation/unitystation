@@ -28,7 +28,7 @@ namespace Systems.Explosions
 			{
 				Explosion.StartExplosion(registerObject.WorldPositionServer, Strength);
 			}
-			//Logger.Log("RequestPulse!!" + Time.time);
+			//Loggy.Log("RequestPulse!!" + Time.time);
 		}
 	}
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -87,7 +88,7 @@ namespace UI.Character
 		{
 			characterPreviewDropdown.onValueChanged.RemoveListener(OnDropdownChanged);
 			characterPreviewDropdown.ClearOptions();
-			var itemOptions = CharacterManager.Characters.Select(pcd => pcd.Name).ToList();
+			var itemOptions = CharacterManager.Characters.Select(pcd => pcd.data.Name).ToList();
 			characterPreviewDropdown.AddOptions(itemOptions);
 			characterPreviewDropdown.onValueChanged.AddListener(OnDropdownChanged);
 		}
@@ -123,7 +124,6 @@ namespace UI.Character
 		{
 			var character = CharacterSheet.GenerateRandomCharacter(characterCustomization.AllSpecies);
 			CharacterManager.Add(character);
-			CharacterManager.SaveCharacters();
 
 			UpdateCharactersDropDown();
 
@@ -136,8 +136,6 @@ namespace UI.Character
 		private void DeletePreviewedCharacter()
 		{
 			CharacterManager.Remove(previewedCharacterKey);
-			CharacterManager.SaveCharacters();
-
 			previewedCharacterKey -= 1;
 
 			UpdateCharactersDropDown();

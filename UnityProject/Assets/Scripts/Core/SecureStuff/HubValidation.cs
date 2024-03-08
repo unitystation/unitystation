@@ -112,7 +112,7 @@ namespace SecureStuff
 				File.WriteAllText(path, @"
 {
     ""SavedAllowedOpenHosts"": [],
-    ""SavedAllowedAPIHosts"": [""api.unitystation.org"", ""firestore.googleapis.com"", ""play.unitystation.org""],
+    ""SavedAllowedAPIHosts"": [""api.unitystation.org"", ""https://dev-api.unitystation.org/"", ""https://prod-api.unitystation.org/"", ""firestore.googleapis.com"", ""play.unitystation.org""],
     ""SavedAllowedGithubRepositories"": [""unitystation/unitystation/develop""]
 }");
 			}

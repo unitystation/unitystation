@@ -83,7 +83,6 @@ namespace UI.Character
 		public void SaveCharacter(CharacterSheet character)
 		{
 			CharacterManager.Set(editedCharacterKey, character);
-			CharacterManager.SaveCharacters();
 		}
 
 		private void ShowCharacterPreviewOnCharacterSelector()

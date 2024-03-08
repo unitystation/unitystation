@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Objects.Shuttles;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Core.Accounts;
+using Objects.Shuttles;
 using Player;
 using Shared.Util;
 using Systems.Character;
+using Shared.Managers;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : SingletonManager<PlayerManager>
 {
+	private Account account;
+	/// <summary>The Unitystation account associated with the currently logged-in entity on this client or server.</summary>
+	public static Account Account => Instance.OrNull()?.account;
+
 	private static PlayerManager playerManager;
 
 	public static IPlayerControllable MovementControllable { get; private set; }
@@ -54,9 +60,11 @@ public class PlayerManager : MonoBehaviour
 
 	public static PlayerManager Instance => FindUtils.LazyFindObject(ref playerManager);
 
-	private void Start()
+	public override void Awake()
 	{
-		CharacterManager.Init();
+		base.Awake();
+
+		account = new Account();
 	}
 
 	private void OnEnable()
@@ -132,11 +140,12 @@ public class PlayerManager : MonoBehaviour
 		EventManager.Broadcast(Event.DisableInternals);
 	}
 
-
 	public void OnDestroy()
 	{
 		HasSpawned = false;
 	}
+
+	public void SetAccount(Account newAccount) => account = newAccount;
 
 	public static void SetViewerForControl(JoinedViewer viewer)
 	{
