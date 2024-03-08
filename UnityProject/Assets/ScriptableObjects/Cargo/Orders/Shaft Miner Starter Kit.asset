@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Shaft Miner Starter Kit
   m_EditorClassIdentifier: 
   OrderName: Shaft Miner Starter Kit
-  CreditCost: 800
+  CreditCost: 1200
   Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}
   Items:
   - {fileID: 7117549204377160164, guid: 95a01097dc5810b45840fca81b8a1e6e, type: 3}
   - {fileID: 6032624691665936685, guid: 351d85b68a3a62f4c841f26a61d8b3aa, type: 3}
   - {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4, type: 3}
-  ContentSellPrice: 500
   EmagOnly: 0
+  SuggestedCargoPrice: 1200
+  ContentSellPrice: 1000
+  WillFailUnitTests: 0

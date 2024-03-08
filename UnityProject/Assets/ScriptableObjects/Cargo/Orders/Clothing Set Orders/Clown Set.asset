@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Clown Set
   m_EditorClassIdentifier: 
   OrderName: Clown Set
-  CreditCost: 600
+  CreditCost: 725
   Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}
   Items:
   - {fileID: 3145692860339046607, guid: f5f82171dfc8a15d4a9d4db66e775ee9, type: 3}
@@ -21,5 +21,7 @@ MonoBehaviour:
   - {fileID: 7106618204054676533, guid: 026678bf2f4d34e7a8aa23aab0a96c64, type: 3}
   - {fileID: 6404652678407139925, guid: abed35e9cfa734a00815cf8cda62687a, type: 3}
   - {fileID: 3011710637427380133, guid: a08b3d5119d894fcb917204c9c820035, type: 3}
-  ContentSellPrice: 505
   EmagOnly: 0
+  SuggestedCargoPrice: 726
+  ContentSellPrice: 605
+  WillFailUnitTests: 0
