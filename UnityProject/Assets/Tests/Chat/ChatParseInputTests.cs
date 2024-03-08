@@ -49,7 +49,7 @@ namespace Tests
 			Assert.AreEqual(parsedInfo.ClearMessage, clearMsg);
 		}
 
-
+		[Test]
 		public void TestAllChannelsTag()
 		{
 			foreach (var pair in Chat.ChannelsTags)
