@@ -10,7 +10,7 @@ namespace Tests.Chemistry
 	[Category(nameof(Chemistry))]
 	public class ReactionTests
 	{
-		[Test]
+
 		[TestCaseSource(nameof(ReactionTestData))]
 		public void SimpleReaction(ReagentMix mix, Reaction reaction, ReagentMix result)
 		{
