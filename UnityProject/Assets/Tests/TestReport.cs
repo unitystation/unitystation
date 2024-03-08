@@ -142,10 +142,8 @@ namespace Tests
 	{
 		private TestReport Report { get; set; }
 
-		[SetUp]
 		public void SetupReport() => Report = new TestReport();
 
-		[Test]
 		public void CannotAddLineAfterMarkingDirty()
 		{
 			Report.Fail()
@@ -155,7 +153,6 @@ namespace Tests
 			Assert.That(Report.AssertPassed, Throws.TypeOf<AssertionException>().With.Message.Not.Contains("Next"));
 		}
 
-		[Test]
 		public void CanAddLineAfterFailingAndCleaning()
 		{
 			Report.Fail()
@@ -167,19 +164,14 @@ namespace Tests
 			Assert.That(Report.AssertPassed, Throws.TypeOf<AssertionException>().With.Message.Contains("Next"));
 		}
 
-		[Test]
 		public void ThrowsAfterFail() => AssertThrows(() => Report.Fail());
 
-		[Test]
 		public void ThrowsAfterFailIf() => AssertThrows(() => Report.FailIf(true));
 
-		[Test]
 		public void ThrowsAfterFailIfNot() => AssertThrows(() => Report.FailIfNot(false));
 
-		[Test]
 		public void ThrowsAfterFailIfConstrained() => AssertThrows(() => Report.FailIf(true, Is.True));
 
-		[Test]
 		public void ThrowsAfterFailIfNotConstrained() => AssertThrows(() => Report.FailIfNot(false, Is.True));
 
 		private void AssertThrows(Func<TestReport> action) =>
