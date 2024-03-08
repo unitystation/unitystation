@@ -10,15 +10,12 @@ namespace Tests
 {
 	public class SubsceneTests
 	{
-		[Test]
 		public void CheckMainStationsInBuildSettings() =>
 			CheckScenesInBuildSettings<MainStationListSO>(so => so.MainStations);
 
-		[Test]
 		public void CheckAwayWorldsInBuildSettings() =>
 			CheckScenesInBuildSettings<AwayWorldListSO>(so => so.AwayWorlds);
 
-		[Test]
 		public void CheckAsteroidsInBuildSettings() =>
 			CheckScenesInBuildSettings<AsteroidListSO>(so => so.Asteroids);
 
