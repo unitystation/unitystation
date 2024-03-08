@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bulk Carpeting Crate
   m_EditorClassIdentifier: 
   OrderName: Bulk Carpeting Crate
-  CreditCost: 800
+  CreditCost: 1080
   Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}
   Items:
   - {fileID: 7602444472548548205, guid: bae9e1730d4424fbfa160f045597a604, type: 3}
@@ -216,5 +216,7 @@ MonoBehaviour:
   - {fileID: 3061888992995513543, guid: 3b74130becf8e1e42bfcb5768f119546, type: 3}
   - {fileID: 3061888992995513543, guid: 3b74130becf8e1e42bfcb5768f119546, type: 3}
   - {fileID: 3061888992995513543, guid: 3b74130becf8e1e42bfcb5768f119546, type: 3}
-  ContentSellPrice: 500
   EmagOnly: 0
+  SuggestedCargoPrice: 1080
+  ContentSellPrice: 900
+  WillFailUnitTests: 0

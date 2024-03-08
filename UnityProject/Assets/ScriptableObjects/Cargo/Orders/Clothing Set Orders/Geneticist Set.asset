@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Geneticist Set
   m_EditorClassIdentifier: 
   OrderName: Geneticist Set
-  CreditCost: 600
+  CreditCost: 730
   Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}
   Items:
   - {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
@@ -21,5 +21,7 @@ MonoBehaviour:
   - {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
   - {fileID: 3897939628877172860, guid: b8dfc33d8571c5a4381cdbdbd51a40ad, type: 3}
   - {fileID: 3011710637427380133, guid: 05d3054c3617b467ea8e086e2969e172, type: 3}
-  ContentSellPrice: 505
   EmagOnly: 0
+  SuggestedCargoPrice: 732
+  ContentSellPrice: 610
+  WillFailUnitTests: 0
