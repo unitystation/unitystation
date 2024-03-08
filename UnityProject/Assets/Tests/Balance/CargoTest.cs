@@ -48,6 +48,7 @@ namespace Tests.Balance
 
 					if (value > order.CreditCost * 0.9f)
 					{
+						//DON'T USE LOGGY OR TESTS. THIS BREAKS THE REF.
 						Debug.Log($"Failure at <a href=\"{AssetDatabase.GetAssetPath(order)}\">{order.OrderName}</a> " +
 						          $"| Current Value: {value} - Current CreditCost: {order.CreditCost} - Suggested Price: {order.CreditCost * 1.05f}/{order.CreditCost * 1.10f}");
 					}
