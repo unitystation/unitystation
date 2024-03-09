@@ -9,7 +9,7 @@ namespace Tests.Asset
 	[Category(nameof(Asset))]
 	public class SOTrackerTest
 	{
-
+		[Test]
 		public void SOTrackerInList()
 		{
 			bool Fail = false;
