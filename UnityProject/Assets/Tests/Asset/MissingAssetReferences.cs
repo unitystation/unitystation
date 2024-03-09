@@ -23,7 +23,14 @@ namespace Tests.Asset
 		{
 			var report = new TestReport();
 
-			foreach (var prefab in Utils.FindPrefabs(false))
+			var prefabs = Utils.FindPrefabs(false).ToList();
+
+			if (prefabs.Count == 0)
+			{
+				Debug.LogWarning("[MissingAssetReferences/CheckMissingComponentOnPrefabs()] - No prefabs found.");
+			}
+
+			foreach (var prefab in prefabs)
 			{
 				var hasNullComponents = prefab.GetComponentsInChildren<Component>(true).Any(c => c == null);
 
