@@ -34,7 +34,6 @@ namespace Tests.Chemistry
 			}
 		}
 
-		[TestCaseSource(nameof(AdditionTestData))]
 		private static IEnumerable AdditionTestData()
 		{
 			var a = ScriptableObject.CreateInstance<Reagent>();
@@ -115,6 +114,7 @@ namespace Tests.Chemistry
 			};
 		}
 
+		[TestCaseSource(nameof(AdditionTestData))]
 		public void AdditionTest(
 			int capacity,
 			ReagentMix initial,
@@ -126,7 +126,6 @@ namespace Tests.Chemistry
 			AssertContainerContentsEqualTo(container, final);
 		}
 
-		[TestCaseSource(nameof(RemovalTestData))]
 		private static IEnumerable RemovalTestData()
 		{
 			var a = ScriptableObject.CreateInstance<Reagent>();
@@ -232,6 +231,7 @@ namespace Tests.Chemistry
 			};
 		}
 
+		[TestCaseSource(nameof(RemovalTestData))]
 		public void RemovalTest(
 			int capacity,
 			ReagentMix initial,
