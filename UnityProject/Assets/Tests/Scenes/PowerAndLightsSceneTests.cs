@@ -20,7 +20,7 @@ namespace Tests.Scenes
 		/// if there are null values in the list
 		/// if device is not assigned to this APC
 		/// </summary>
-
+		[Test]
 		public void APCPoweredDevicesHaveRelatedAPC()
 		{
 			foreach (var device in RootObjects.ComponentsInChildren<APCPoweredDevice>().NotNull())
@@ -52,7 +52,7 @@ namespace Tests.Scenes
 		/// if there are null values in the list
 		/// if device is not assigned to this APC
 		/// </summary>
-
+		[Test]
 		public void APCsConnectedDevicesContainsValidReferences()
 		{
 			var sceneName = Scene.name;
@@ -94,7 +94,7 @@ namespace Tests.Scenes
 			Report.AssertPassed();
 		}
 
-
+		[Test]
 		public void StatusDisplaysDoNotHaveNullDoors()
 		{
 			foreach (var display in RootObjects.ComponentsInChildren<StatusDisplay>().NotNull())
@@ -110,7 +110,7 @@ namespace Tests.Scenes
 			Report.AssertPassed();
 		}
 
-
+		[Test]
 		public void LightSourcesDoNotHaveMissingSwitch()
 		{
 			foreach (var lightSource in RootObjects.ComponentsInChildren<LightSource>().NotNull())
@@ -125,7 +125,7 @@ namespace Tests.Scenes
 			Report.AssertPassed();
 		}
 
-
+		[Test]
 		public void LightSwitchesHaveLightSources()
 		{
 			foreach (var lightSwitch in RootObjects.ComponentsInChildren<LightSwitchV2>().NotNull())

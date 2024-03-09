@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Objects.Atmospherics;
+using Systems.Electricity;
 using Systems.Pipes;
 using UnityEngine;
 using PipeLayer = Tilemaps.Behaviours.Layers.PipeLayer;
@@ -15,7 +17,7 @@ namespace Tests.Scenes
 		/// <summary>
 		/// Checks to make sure all monopipes (vents, scrubbers, etc...) are connected to pipes
 		/// </summary>
-
+		[Test]
 		public void MonoPipeConnectedToNet()
 		{
 			var monoPipes = RootObjects.ComponentsInChildren<MonoPipe>().NotNull().ToList();

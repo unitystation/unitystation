@@ -25,7 +25,7 @@ namespace Tests.Scenes
 		/// <summary>
 		/// Checks scenes for prefabs that have gone to 0,0 and another check for missing prefabs since the other component doesn't seem to work too well
 		/// </summary>
-
+		[Test]
 		public void PrefabsAreNotAt00()
 		{
 			foreach (var layer in RootObjects.ComponentsInChildren<ObjectLayer>().NotNull())
@@ -46,7 +46,7 @@ namespace Tests.Scenes
 		/// <summary>
 		/// Checks to make sure all matrices have a matrix sync
 		/// </summary>
-
+		[Test]
 		public void MatrixHasMatrixSyncAndIsCorrectParent()
 		{
 			using var pool = ListPool<MatrixSync>.Get(out var matrixSyncs);
@@ -77,7 +77,7 @@ namespace Tests.Scenes
 		}
 
 
-
+		[Test]
 		public void OffSetIsPresent0Dot5()
 		{
 			foreach (var RootObject in RootObjects)
@@ -97,7 +97,7 @@ namespace Tests.Scenes
 			Report.AssertPassed();
 		}
 
-
+		[Test]
 		public void LayersHaveCorrectParentAndAreNotDuplicated()
 		{
 			using var pool = HashSetPool<LayerType>.Get(out var layers);
@@ -133,7 +133,7 @@ namespace Tests.Scenes
 			Report.AssertPassed();
 		}
 
-
+		[Test]
 		public void MatrixHasAllLayers()
 		{
 			using var pool = HashSetPool<LayerType>.Get(out var layers);
@@ -167,7 +167,7 @@ namespace Tests.Scenes
 			Report.AssertPassed();
 		}
 
-
+		[Test]
 		public void ItemStorageHasForcesSpawn()
 		{
 			foreach (var storage in RootObjects.ComponentsInChildren<ItemStorage>().NotNull())
@@ -193,7 +193,7 @@ namespace Tests.Scenes
 		/// <summary>
 		/// Checks for duplicated Pipes or cables
 		/// </summary>
-
+		[Test]
 		public void PipesAndCablesAreNotOverlappingOrDuplicate()
 		{
 			CheckPipesAndCablesForLayer<UnderFloorLayer>();
@@ -295,7 +295,7 @@ namespace Tests.Scenes
 			tilemap.SetTransformMatrix(localPos, Matrix4x4.identity);
 		}
 
-
+		[Test]
 		public void GameObjectsDoNotHaveMissingReferences()
 		{
 			var serializedObjectFieldsMap = new SerializedObjectFieldsMap();
