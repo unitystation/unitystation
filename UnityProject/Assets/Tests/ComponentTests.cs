@@ -6,6 +6,7 @@ namespace Tests
 {
 	public class ComponentTests
 	{
+		//do not fucking put [test] under this again.
 		public void PrefabsDoNotHaveNullItemTrait()
 		{
 			var report = new TestReport();
