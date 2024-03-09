@@ -112,7 +112,7 @@ namespace SecureStuff
 				File.WriteAllText(path, @"
 {
     ""SavedAllowedOpenHosts"": [],
-    ""SavedAllowedAPIHosts"": [""api.unitystation.org"", ""https://dev-api.unitystation.org/"", ""https://prod-api.unitystation.org/"", ""firestore.googleapis.com"", ""play.unitystation.org""],
+    ""SavedAllowedAPIHosts"": [""api.unitystation.org"", ""dev-api.unitystation.org"", ""prod-api.unitystation.org"", ""play.unitystation.org""],
     ""SavedAllowedGithubRepositories"": [""unitystation/unitystation/develop""]
 }");
 			}
@@ -120,8 +120,7 @@ namespace SecureStuff
 
 			var SavedAllowedAPIHosts = new List<string>()
 			{
-				"api.unitystation.org", "https://dev-api.unitystation.org/", "https://prod-api.unitystation.org/",
-				"firestore.googleapis.com", "play.unitystation.org"
+				"api.unitystation.org", "dev-api.unitystation.org", "prod-api.unitystation.org", "play.unitystation.org",
 			};
 
 			var data = JsonConvert.DeserializeObject<URLData>(File.ReadAllText(path));
