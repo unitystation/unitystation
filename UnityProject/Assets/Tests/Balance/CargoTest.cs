@@ -22,6 +22,7 @@ namespace Tests.Balance
 	public class CargoTest
 	{
 
+		[Test]
 		public void CargoOrdersHaveACrate()
 		{
 			var report = new TestReport();
@@ -35,6 +36,7 @@ namespace Tests.Balance
 		}
 
 
+		[Test]
 		public void StonksTest()
 		{
 			var report = new TestReport();
@@ -67,6 +69,7 @@ namespace Tests.Balance
 		}
 
 
+		[Test]
 		public void NoCostTest()
 		{
 			var report = new TestReport();
