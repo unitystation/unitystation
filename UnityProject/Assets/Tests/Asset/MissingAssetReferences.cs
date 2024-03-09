@@ -22,6 +22,7 @@ namespace Tests.Asset
 		{
 			var report = new TestReport();
 
+			Debug.Log("Searching for missing components on prefabs...");
 			var prefabs = Utils.FindPrefabs(false).ToList();
 
 			if (prefabs.Count == 0)
