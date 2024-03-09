@@ -1,0 +1,96 @@
+name: Tests2
+
+on: workflow_dispatch
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Perform unit testing
+  performTest:
+    name: Unit testing on ${{ matrix.unityVersion }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        projectPath:
+          - UnityProject
+        targetPlatform:
+          - StandaloneWindows64
+            
+    steps:  
+      # Checkout repository (required to test local actions)
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Cache the library directory to speed up builds
+      - name: Cache library directory
+        uses: actions/cache@v2
+        with:
+          path: ${{ matrix.projectPath }}/Library
+          key: Library2-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+          restore-keys: |
+            Library2-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+            Library2-${{ matrix.projectPath }}-
+            Library2-
+
+      # Set the UNITY_LICENSE environment variable with contents of $LICENSE_FILE_PATH
+      - name: Setup license
+        env:
+          LICENSE_FILE_PATH: ./Tools/UnityLicense.ulf
+        run: |
+          echo 'UNITY_LICENSE<<LICENSE-EOF' >> "$GITHUB_ENV"
+          cat "$LICENSE_FILE_PATH" >> "$GITHUB_ENV"
+          printf "\nLICENSE-EOF" >> "$GITHUB_ENV"
+
+      - name: Installs dotnet and restores packages
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0.x'
+      - run: dotnet tool install --global NuGetForUnity.Cli
+      - run: nugetforunity restore ${{ matrix.projectPath }}
+      - name: Set Swap Space
+        uses: pierotofy/set-swap-space@master
+        with:
+          swap-size-gb: 8
+      # Run tests - only edit mode supported
+      # Note: exits with non-zero on legitimate test fails, "if: always()" is needed for reporting
+      - name: Run tests
+        id: tests
+        uses: game-ci/unity-test-runner@v4.0.0
+
+        with:
+          customParameters: "-nographics"
+          projectPath: ${{ matrix.projectPath }}
+          unityVersion: ${{ matrix.unityVersion }}
+          customImage: 'unityci/editor:ubuntu-2023.2.5f1-base-3.0.1'
+          artifactsPath: ./testReports/${{ matrix.targetPlatform }}
+          testMode: editmode
+      
+      - name: Upload Raw Test Results
+        if: always() && steps.tests.outcome != 'success'
+        uses: actions/upload-artifact@v2
+        with:
+          name: Raw Test Results
+          path: testReports/${{ matrix.targetPlatform }}/editmode-results.xml
+
+      # Install dotnet
+      - name: Installing dotnet
+        if: always()
+        uses: actions/setup-dotnet@v1.9.1
+        with:
+          dotnet-version: "5.0.405"
+
+      # Do the report magic
+      - name: Generate .html report
+        if: always()
+        run: sudo dotnet ./Tools/ExtentReports/ExtentReportsDotNetCLI.dll -i=testReports/${{ matrix.targetPlatform }}/editmode-results.xml -o testReports/${{ matrix.targetPlatform }}/
+
+      # Upload test results
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: Test results
+          path: ./testReports/${{ matrix.targetPlatform }}
