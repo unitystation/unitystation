@@ -14,7 +14,10 @@ namespace Tests.Scenes
 		// This allows the tests to show the name of the scene rather than the file location
 		public override string ToString() => Path.GetFileNameWithoutExtension(File);
 	}
-	
+
+	[Ignore("For scene testing subclasses")]
+	[Category(nameof(Scenes))]
+	[TestFixtureSource(typeof(SceneTest), nameof(Scenes))]
 	public abstract class SceneTest
 	{
 		public static IEnumerable<SceneTestData> Scenes => Utils.NonDevScenes.Select(scene => new SceneTestData(scene));
@@ -31,6 +34,7 @@ namespace Tests.Scenes
 
 		protected SceneTest(SceneTestData data) => Data = data;
 
+		[OneTimeSetUp]
 		public void Setup()
 		{
 			Scene = EditorSceneManager.OpenScene(Data.File);
@@ -39,12 +43,14 @@ namespace Tests.Scenes
 			rootObjects = objectsList;
 		}
 
+		[OneTimeTearDown]
 		public void TearDown()
 		{
 			ListPool<GameObject>.Release(rootObjects);
 			rootObjects = null;
 		}
 
+		[SetUp]
 		public void SetupReport() => Report = new TestReport();
 	}
 }
