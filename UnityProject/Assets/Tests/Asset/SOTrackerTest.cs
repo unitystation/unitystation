@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -13,15 +14,14 @@ namespace Tests.Asset
 		{
 			bool Fail = false;
 			var report = new TestReport();
-			var trackers = Utils.FindAssetsByType<SOTracker>();
+			var trackers = Utils.FindAssetsByType<SOTracker>().ToList();
 
 			foreach (var tracker in trackers)
 			{
-				if (SOListTracker.Instance.SOTrackers.Contains(tracker) == false)
-				{
-					Fail = true;
-					report.AppendLine($" Tracker {tracker.name} is not in SOListTracker");
-				}
+				if (tracker == null) continue;
+				if (SOListTracker.Instance.SOTrackers.Contains(tracker) != false) continue;
+				Fail = true;
+				report.AppendLine($" Tracker {tracker.name} is not in SOListTracker");
 			}
 
 			if (Fail)
@@ -39,19 +39,19 @@ namespace Tests.Asset
 		{
 			bool Fail = false;
 			var report = new TestReport();
-			var trackers = Utils.FindAssetsByType<SOTracker>();
+			var trackers = Utils.FindAssetsByType<SOTracker>().ToList();
 
 			HashSet<string> PreviousTakenIDs = new HashSet<string>();
 
 			foreach (var tracker in trackers)
 			{
+				if (tracker == null) continue;
 				if (string.IsNullOrEmpty(tracker.ForeverID) || PreviousTakenIDs.Contains(tracker.ForeverID))
 				{
 					Fail = true;
 					report.AppendLine($" Tracker {tracker.name} Has been updated with a new ID, Please commit");
 					tracker.ForceSetID();
 				}
-
 				PreviousTakenIDs.Add(tracker.ForeverID);
 			}
 
