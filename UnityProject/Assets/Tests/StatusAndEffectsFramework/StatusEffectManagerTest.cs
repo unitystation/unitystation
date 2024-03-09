@@ -9,12 +9,14 @@ namespace Tests.StatusAndEffectsFramework
 	{
 		private StatusEffectManager manager;
 
+		[SetUp]
 		public void Setup()
 		{
 			var mockEntity = new GameObject();
 			manager = mockEntity.AddComponent<StatusEffectManager>();
 		}
 
+		[Test]
 		public void WhenAddingAnewStatusToManagerStatusIsAdded()
 		{
 			var basicStatus = ScriptableObject.CreateInstance<MockStatus>();
@@ -23,6 +25,7 @@ namespace Tests.StatusAndEffectsFramework
 			Assert.AreEqual(1, manager.Statuses.Count);
 		}
 
+		[Test]
 		public void WhenAddingExistingStatusToManagerNewStatusIsNotAdded()
 		{
 			var basicStatus = ScriptableObject.CreateInstance<MockStatus>();
@@ -32,6 +35,7 @@ namespace Tests.StatusAndEffectsFramework
 			Assert.AreEqual(1, manager.Statuses.Count);
 		}
 
+		[Test]
 		public void WhenAddingExistingStatusFromDifferentSourcesOnlyFirstIsAdded()
 		{
 			var basicStatus = ScriptableObject.CreateInstance<MockStatus>();
@@ -45,6 +49,7 @@ namespace Tests.StatusAndEffectsFramework
 			Assert.AreEqual(1, manager.Statuses.Count);
 		}
 
+		[Test]
 		public void WhenAddingDifferentStatusesBothAreAdded()
 		{
 			var basicStatus = ScriptableObject.CreateInstance<MockStatus>();
@@ -58,6 +63,7 @@ namespace Tests.StatusAndEffectsFramework
 			Assert.AreEqual(2, manager.Statuses.Count);
 		}
 
+		[Test]
 		public void WhenAddingImmediateStatusEffectIsImmediate()
 		{
 			var immediate = ScriptableObject.CreateInstance<ImmediateStatusEffect>();
@@ -65,7 +71,8 @@ namespace Tests.StatusAndEffectsFramework
 			Assert.True(manager.HasStatus(immediate));
 			Assert.True(immediate.DidEffect);
 		}
-		
+
+		[Test]
 		public void WhenAddingStackableToAlreadyExistingEffectStackIsIncremented()
 		{
 			var stackable = ScriptableObject.CreateInstance<StackableStatusEffect>();
