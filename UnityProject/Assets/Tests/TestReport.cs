@@ -4,6 +4,7 @@ using System.Text;
 using Logs;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
+using UnityEngine;
 
 namespace Tests
 {
@@ -133,7 +134,7 @@ namespace Tests
 		/// </summary>
 		public TestReport Log()
 		{
-			if (Failed && Builder.Length > 1) Loggy.Log(Builder.ToString(), Category.Tests);
+			if (Failed && Builder.Length > 1) Debug.Log(Builder.ToString());
 			return this;
 		}
 	}

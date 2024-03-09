@@ -5,7 +5,6 @@ using UnityEditor;
 using System.Text;
 using System.Linq;
 using System.IO;
-using Logs;
 
 namespace Tests.Asset
 {
@@ -53,7 +52,7 @@ namespace Tests.Asset
 			var prefabs = Utils.FindPrefabs(false).ToList();
 			if (prefabs.Count == 0)
 			{
-				Loggy.LogWarning("[MissingAssetReferences/CheckMissingReferenceFieldsOnPrefabs()] - No prefabs found.");
+				Debug.LogWarning("[MissingAssetReferences/CheckMissingReferenceFieldsOnPrefabs()] - No prefabs found.");
 			}
 			foreach (var prefab in prefabs)
 			{
@@ -102,7 +101,7 @@ namespace Tests.Asset
 			{
 				var fileName = Path.GetFileName(brokenAssetFilePath);
 				var msg = $"Can't load asset {fileName}. Maybe linked ScriptableObject script is missing?";
-				Loggy.Log(msg, Category.Tests);
+				Debug.Log(msg);
 				report.AppendLine(msg);
 			}
 
