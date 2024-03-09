@@ -9,9 +9,10 @@ using UnityEngine;
 
 namespace Tests.Chemistry
 {
+	[TestFixture]
+	[Category(nameof(Chemistry))]
 	public class ReferenceTests
 	{
-
 		public void CheckIndexOnReagents()
 		{
 			var List = ChemistryReagentsSO.Instance.AllChemistryReagents;

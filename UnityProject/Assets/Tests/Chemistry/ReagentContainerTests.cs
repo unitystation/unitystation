@@ -8,6 +8,7 @@ using Chemistry.Components;
 
 namespace Tests.Chemistry
 {
+	[Category(nameof(Chemistry))]
 	public class ReagentContainerTests
 	{
 		private static ReagentContainer GetContainer(int maxCapacity, ReagentMix contents)
@@ -33,6 +34,7 @@ namespace Tests.Chemistry
 			}
 		}
 
+		[TestCaseSource(nameof(AdditionTestData))]
 		private static IEnumerable AdditionTestData()
 		{
 			var a = ScriptableObject.CreateInstance<Reagent>();
@@ -124,6 +126,7 @@ namespace Tests.Chemistry
 			AssertContainerContentsEqualTo(container, final);
 		}
 
+		[TestCaseSource(nameof(RemovalTestData))]
 		private static IEnumerable RemovalTestData()
 		{
 			var a = ScriptableObject.CreateInstance<Reagent>();
