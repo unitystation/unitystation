@@ -40,7 +40,12 @@ namespace Tests.Asset
 			var report = new TestReport();
 			var serializedObjectFieldsMap = new SerializedObjectFieldsMap();
 
-			foreach (var prefab in Utils.FindPrefabs(false))
+			var prefabs = Utils.FindPrefabs(false).ToList();
+			if (prefabs.Count == 0)
+			{
+				Loggy.LogWarning("[MissingAssetReferences/CheckMissingReferenceFieldsOnPrefabs()] - No prefabs found.");
+			}
+			foreach (var prefab in prefabs)
 			{
 				foreach (var component in prefab.GetComponentsInChildren<Component>(true).NotNull())
 				{

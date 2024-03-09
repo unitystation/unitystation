@@ -40,8 +40,9 @@ namespace Tests
 			bool onlyPrefabsFolder = true,
 			Predicate<string> pathFilter = null)
 		{
-			return GUIDsToAssets<GameObject>(
+			var prefabs = GUIDsToAssets<GameObject>(
 				FindGUIDsOfType("prefab", onlyPrefabsFolder ? "Prefabs" : null), pathFilter);
+			return prefabs ?? new List<GameObject>();
 		}
 
 		/// <summary>
