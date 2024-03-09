@@ -65,7 +65,7 @@ namespace Tests.StatusAndEffectsFramework
 			Assert.True(manager.HasStatus(immediate));
 			Assert.True(immediate.DidEffect);
 		}
-		
+
 		public void WhenAddingStackableToAlreadyExistingEffectStackIsIncremented()
 		{
 			var stackable = ScriptableObject.CreateInstance<StackableStatusEffect>();
