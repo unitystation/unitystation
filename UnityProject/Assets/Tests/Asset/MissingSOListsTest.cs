@@ -1,6 +1,8 @@
+using System.Linq;
 using HealthV2;
 using NUnit.Framework;
 using ScriptableObjects.Systems.Spells;
+using UnityEngine;
 
 namespace Tests.Asset
 {
@@ -11,8 +13,8 @@ namespace Tests.Asset
 		{
 			var report = new TestReport();
 
+			Debug.Log("[MissingSOListsTest] SpellListHasAllSpells");
 			var AllSpells = Utils.FindAssetsByType<SpellData>();
-
 
 			foreach (var Spell in AllSpells)
 			{
@@ -27,7 +29,8 @@ namespace Tests.Asset
 		{
 			var report = new TestReport();
 
-			var AllSpells = Utils.FindAssetsByType<AlertSO>();
+			Debug.Log("[MissingSOListsTest] AlertSOsListHasAllAlertSOs");
+			var AllSpells = Utils.FindAssetsByType<AlertSO>().ToList();
 
 			foreach (var AlertSO in AllSpells)
 			{
@@ -47,6 +50,7 @@ namespace Tests.Asset
 		{
 			var report = new TestReport();
 
+			Debug.Log("[MissingSOListsTest] SurgerySOsListHasAllSurgerySOs");
 			var SurgeryProcedureBases = Utils.FindAssetsByType<SurgeryProcedureBase>();
 
 			foreach (var SurgeryProcedureBase in SurgeryProcedureBases)

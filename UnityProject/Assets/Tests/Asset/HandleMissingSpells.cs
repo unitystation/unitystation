@@ -1,5 +1,7 @@
+using System.Linq;
 using NUnit.Framework;
 using ScriptableObjects.Systems.Spells;
+using UnityEngine;
 
 namespace Tests.Asset
 {
@@ -12,7 +14,15 @@ namespace Tests.Asset
 			var report = new TestReport();
 			var spellImplName = $"{nameof(SpellData)}.{nameof(SpellData.SpellImplementation)}";
 
-			foreach (var spellData in Utils.FindAssetsByType<SpellData>())
+			Debug.Log("[SpellData] Check if all spells have a {spellImplName} implementation.");
+
+			var spells = Utils.FindAssetsByType<SpellData>().ToList();
+			if (spells.Count == 0)
+			{
+				Debug.Log("piss");
+			}
+
+			foreach (var spellData in spells)
 			{
 				if (spellData.SpellImplementation != null) continue;
 				report.Fail()

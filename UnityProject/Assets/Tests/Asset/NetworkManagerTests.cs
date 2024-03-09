@@ -22,6 +22,7 @@ namespace Tests.Asset
 			using var idsPool = DictionaryPool<string, PrefabTracker>.Get(out var storedIDs);
 			using var prefabPool = ListPool<GameObject>.Get(out var prefabs);
 
+			Debug.Log("[NetworkManagerTests] Checking for prefabs in spawnPrefabs and allSpawnablePrefabs lists");
 			prefabs.AddRange(Utils.FindPrefabs(pathFilter: s => s.Contains("NestedManagers") == false));
 
 			foreach (var prefab in prefabs)

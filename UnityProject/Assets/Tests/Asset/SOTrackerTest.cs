@@ -14,6 +14,7 @@ namespace Tests.Asset
 		{
 			bool Fail = false;
 			var report = new TestReport();
+			Debug.Log("	SOTrackerInList");
 			var trackers = Utils.FindAssetsByType<SOTracker>().ToList();
 
 			foreach (var tracker in trackers)
@@ -39,6 +40,7 @@ namespace Tests.Asset
 		{
 			bool Fail = false;
 			var report = new TestReport();
+			Debug.Log("	SOTrackerTestHaveID");
 			var trackers = Utils.FindAssetsByType<SOTracker>().ToList();
 
 			HashSet<string> PreviousTakenIDs = new HashSet<string>();
