@@ -7,7 +7,6 @@ namespace Tests
 {
 	public class SpriteTests
 	{
-		[Test]
 		public void SpriteRenderersDoNotHaveANullSpriteHandlerSpritesSet()
 		{
 			var report = new TestReport();

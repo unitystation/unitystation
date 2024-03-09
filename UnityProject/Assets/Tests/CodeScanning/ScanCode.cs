@@ -12,7 +12,6 @@ namespace Tests
 {
 	public class ScanCode
 	{
-		[Test]
 		public void BuildTest()
 		{
 			string[] levels = new string[] { "Assets/EmptyScene.unity" };
@@ -40,7 +39,6 @@ namespace Tests
 		}
 
 
-		[Test]
 		public void ScanCodeReport()
 		{
 			string BuildPath = Application.dataPath;

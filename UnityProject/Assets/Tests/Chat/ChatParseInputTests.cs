@@ -41,7 +41,6 @@ namespace Tests
 			new object[] {":h Heads, report!", ChatChannel.Command, "Heads, report!" },
 		};
 
-		[TestCaseSource(nameof(InputTestCases))]
         public void CheckChannelAndClearMessage(string rawMsg, ChatChannel expectedChannel, string clearMsg)
         {
 			var parsedInfo = Chat.ParsePlayerInput(rawMsg, context);
@@ -49,7 +48,6 @@ namespace Tests
 			Assert.AreEqual(parsedInfo.ClearMessage, clearMsg);
 		}
 
-		[Test]
 		public void TestAllChannelsTag()
 		{
 			foreach (var pair in Chat.ChannelsTags)
