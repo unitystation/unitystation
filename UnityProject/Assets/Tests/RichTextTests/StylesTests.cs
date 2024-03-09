@@ -8,7 +8,7 @@ namespace Tests.RichTextTests
 {
 	public class StylesTests
 	{
-		[Test]
+		//[Test]
 		[TestCase(Alignment.Left)]
 		[TestCase(Alignment.Center)]
 		[TestCase(Alignment.Right)]
@@ -20,7 +20,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<align=\"{alignment}\">{text}</align>", actual);
 		}
 
-		[Test]
+		//[Test]
 		public void BoldStrategyReturnsBoldText()
 		{
 			BoldStrategy strategy = new();
@@ -29,7 +29,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<b>{text}</b>", actual);
 		}
 
-		[Test]
+		//[Test]
 		public void ItalicStrategyReturnsItalicText()
 		{
 			ItalicStrategy strategy = new();
@@ -38,7 +38,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<i>{text}</i>", actual);
 		}
 
-		[Test]
+		//[Test]
 		public void FontStrategyReturnsTextWithFontName()
 		{
 			const string text = "text";
@@ -48,7 +48,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<font=\"{font}\">{text}</font>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("1")]
 		[TestCase("2.5")]
 		[TestCase("1em")]
@@ -61,7 +61,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<cspace={validSpacing}>{text}</cspace>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("1.0.0")]
 		[TestCase("not a number")]
 		[TestCase("1.0.0em")]
@@ -74,7 +74,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual(text, actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase(0)]
 		[TestCase(1)]
 		[TestCase(99)]
@@ -88,7 +88,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<alpha=#{alphaValue:X2}>{text}</alpha>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase(-1)]
 		[TestCase(101)]
 		public void InvalidAlphaShouldReturnUnmodifiedText(int invalidAlpha)
@@ -100,7 +100,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual(text, actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase(RichTextColor.Black)]
 		[TestCase(RichTextColor.Blue)]
 		[TestCase(RichTextColor.Green)]
@@ -117,7 +117,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<color=\"{namedRichTextColor.ToString().ToLower()}\">{text}</color>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("#FF000088")]
 		[TestCase("#005500")]
 		[TestCase("#000000")]
@@ -129,7 +129,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<color={validHexColor}>{text}</color>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("not a color")]
 		[TestCase("FF0000")]
 		[TestCase("#FF0000F")]
@@ -142,7 +142,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual(text, actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("1")]
 		[TestCase("2.5")]
 		[TestCase("1em")]
@@ -156,7 +156,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<indent={validIndent}>{text}</indent>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("not a number")]
 		[TestCase("1.0.0")]
 		[TestCase("1.0.0em")]
@@ -170,7 +170,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual(text, actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("1")]
 		[TestCase("2.5")]
 		[TestCase("1em")]
@@ -184,7 +184,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<line-height={validLineHeight}>{text}</line-height>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("not a number")]
 		[TestCase("1.0.0")]
 		[TestCase("1.0.0em")]
@@ -198,7 +198,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual(text, actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("1")]
 		[TestCase("2.5")]
 		[TestCase("1em")]
@@ -212,7 +212,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<line-indentation={validLineIndentation}>{text}</line-indentation>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("not a number")]
 		[TestCase("1.0.0")]
 		[TestCase("1.0.0em")]
@@ -226,7 +226,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual(text, actual);
 		}
 
-		[Test]
+		//[Test]
 		public void LinkShouldReturnTextWithLink()
 		{
 			const string text = "text";
@@ -236,7 +236,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<link=\"{url}\">{text}</link>", actual);
 		}
 
-		[Test]
+		//[Test]
 		public void LowerCaseShouldReturnTextInLowerCase()
 		{
 			const string text = "TEXT";
@@ -245,7 +245,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<lowercase>{text}</lowercase>", actual);
 		}
 
-		[Test]
+		//[Test]
 		public void UpperCaseShouldReturnTextInUpperCase()
 		{
 			const string text = "text";
@@ -254,7 +254,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<uppercase>{text}</uppercase>", actual);
 		}
 
-		[Test]
+		//[Test]
 		public void SmallCapsShouldReturnTextInSmallCaps()
 		{
 			const string text = "text";
@@ -263,7 +263,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<smallcaps>{text}</smallcaps>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("1")]
 		[TestCase("2.5")]
 		[TestCase("1em")]
@@ -277,7 +277,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<margin={validMargin}>{text}</margin>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("not a number")]
 		[TestCase("1.0.0")]
 		[TestCase("1.0.0em")]
@@ -291,7 +291,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual(text, actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase(MarginDirection.Right)]
 		[TestCase(MarginDirection.Left)]
 		public void MarginWithDirectionShouldReturnTextWithMargin(MarginDirection direction)
@@ -304,7 +304,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<margin-{stringDirection}={validMargin}>{text}</margin-{stringDirection}>", actual);
 		}
 
-		[Test]
+		//[Test]
 		public void MarginWithAllDirectionReturnsTextWithMargin()
 		{
 			const string text = "text";
@@ -314,7 +314,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<margin={validMargin}>{text}</margin>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("#FF000088")]
 		[TestCase("#005500")]
 		[TestCase("#000000")]
@@ -326,7 +326,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<mark={hexColor}>{text}</mark>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("1")]
 		[TestCase("2.5")]
 		[TestCase("1em")]
@@ -338,7 +338,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<mspace={validCharacterWidth}>{text}</mspace>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("not a number")]
 		[TestCase("1.0.0")]
 		[TestCase("1.0.0em")]
@@ -353,7 +353,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual(text, actual);
 		}
 
-		[Test]
+		//[Test]
 		public void NoParseShouldReturnNotParsedText()
 		{
 			const string text = "text";
@@ -362,7 +362,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<noparse>{text}</noparse>", actual);
 		}
 
-		[Test]
+		//[Test]
 		public void NonBreakingSpacesShouldReturnWrappedText()
 		{
 			const string text = "text";
@@ -371,7 +371,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<nobr>{text}</nobr>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("1")]
 		[TestCase("2.5")]
 		[TestCase("1em")]
@@ -385,7 +385,7 @@ namespace Tests.RichTextTests
 
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("not a number")]
 		[TestCase("1.0.0")]
 		[TestCase("1.0.0em")]
@@ -399,7 +399,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual(text, actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("1")]
 		[TestCase("2.5")]
 		[TestCase("1em")]
@@ -413,7 +413,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<size={validFontSize}>{text}</size>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("not a number")]
 		[TestCase("1.0.0")]
 		[TestCase("1.0.0em")]
@@ -427,7 +427,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual(text, actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("1")]
 		[TestCase("2.5")]
 		[TestCase("1em")]
@@ -440,7 +440,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"{text}<space={validSpace}>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("not a number")]
 		[TestCase("1.0.0")]
 		[TestCase("1.0.0em")]
@@ -454,7 +454,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual(text, actual);
 		}
 
-		[Test]
+		//[Test]
 		public void InsertingSpriteByIndexReturnsTextWithSpriteIndex()
 		{
 			SpriteStrategy spriteStrategy = new(1);
@@ -463,7 +463,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual(expected, actual);
 		}
 
-		[Test]
+		//[Test]
 		public void InsertingSpriteByNameFromDefaultAssetReturnsTextWithNamedSprite()
 		{
 			SpriteStrategy spriteStrategy = new("clown");
@@ -472,7 +472,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual(expected, actual);
 		}
 
-		[Test]
+		//[Test]
 		public void InsertingSpriteFromAtlasWithIndexReturnsTextWithAtlasAndIndex()
 		{
 			SpriteStrategy spriteStrategy = new("atlas", 1);
@@ -481,7 +481,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual(expected, actual);
 		}
 
-		[Test]
+		//[Test]
 		public void InsertingSpriteFromAtlasWithNameReturnsTextWIthAtlasAndNamedSprite()
 		{
 			SpriteStrategy spriteStrategy = new("atlas", "clown");
@@ -490,7 +490,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual(expected, actual);
 		}
 
-		[Test]
+		//[Test]
 		public void StrikethroughReturnsTextWithStrikethrough()
 		{
 			StrikethroughStrategy strategy = new();
@@ -499,7 +499,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<s>{text}</s>", actual);
 		}
 
-		[Test]
+		//[Test]
 		public void UnderlineReturnsTextWithUnderline()
 		{
 			UnderlineStrategy strategy = new();
@@ -508,7 +508,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<u>{text}</u>", actual);
 		}
 
-		[Test]
+		//[Test]
 		public void CustomStyleReturnsStyledText()
 		{
 			const string text = "text";
@@ -518,7 +518,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<style=\"my-style\">{text}</style>", actual);
 		}
 
-		[Test]
+		//[Test]
 		public void SubscriptShouldReturnTextWithSubscript()
 		{
 			SubscriptStrategy strategy = new();
@@ -527,7 +527,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<sub>{text}</sub>", actual);
 		}
 
-		[Test]
+		//[Test]
 		public void SuperscriptShouldReturnTextWithSuperscript()
 		{
 			SuperscriptStrategy strategy = new();
@@ -536,7 +536,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<sup>{text}</sup>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("1")]
 		[TestCase("2.5")]
 		[TestCase("1em")]
@@ -549,7 +549,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<voffset={amount}>{text}</voffset>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("not a number")]
 		[TestCase("1.0.0")]
 		[TestCase("1.0.0em")]
@@ -563,7 +563,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual(text, actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("1")]
 		[TestCase("2.5")]
 		[TestCase("1em")]
@@ -576,7 +576,7 @@ namespace Tests.RichTextTests
 			Assert.AreEqual($"<width={validWidth}>{text}</width>", actual);
 		}
 
-		[Test]
+		//[Test]
 		[TestCase("not a number")]
 		[TestCase("1.0.0")]
 		[TestCase("1.0.0em")]

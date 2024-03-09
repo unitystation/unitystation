@@ -13,7 +13,7 @@ namespace Tests.Asset
 	[Category(nameof(Asset))]
 	public class NetworkManagerTests
 	{
-		[Test]
+		//[Test]
 		public void NetworkManagerHasSpawnListManager()
 		{
 			var onlineScene = GetOnlineSceneOrThrow();

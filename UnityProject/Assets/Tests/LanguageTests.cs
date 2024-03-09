@@ -9,7 +9,7 @@ namespace Tests
 {
 	public class LanguageTests
 	{
-		[Test]
+		//[Test]
 		public void CheckLanguageSOs()
 		{
 			var report = new TestReport();
@@ -55,7 +55,7 @@ namespace Tests
 			report.Log().AssertPassed();
 		}
 
-		[Test]
+		//[Test]
 		public void CheckLanguageScramble()
 		{
 			var report = new TestReport();

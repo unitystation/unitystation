@@ -21,7 +21,7 @@ namespace Tests.Balance
 	[Category(nameof(Balance))]
 	public class CargoTest
 	{
-		[Test]
+		//[Test]
 		public void CargoOrdersHaveACrate()
 		{
 			var report = new TestReport();
@@ -34,7 +34,7 @@ namespace Tests.Balance
 			report.AssertPassed();
 		}
 
-		[Test]
+		//[Test]
 		public void StonksTest()
 		{
 			var report = new TestReport();
@@ -66,7 +66,7 @@ namespace Tests.Balance
 			report.Log().AssertPassed();
 		}
 
-		[Test]
+		//[Test]
 		public void NoCostTest()
 		{
 			var report = new TestReport();

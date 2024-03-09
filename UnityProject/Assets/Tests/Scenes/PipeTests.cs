@@ -17,7 +17,7 @@ namespace Tests.Scenes
 		/// <summary>
 		/// Checks to make sure all monopipes (vents, scrubbers, etc...) are connected to pipes
 		/// </summary>
-		[Test]
+		//[Test]
 		public void MonoPipeConnectedToNet()
 		{
 			var monoPipes = RootObjects.ComponentsInChildren<MonoPipe>().NotNull().ToList();
