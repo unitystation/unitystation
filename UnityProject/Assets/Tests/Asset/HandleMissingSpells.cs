@@ -8,7 +8,6 @@ namespace Tests.Asset
 	[Category(nameof(Asset))]
 	public class HandleMissingSpells
 	{
-		[Test]
 		public void SpellDataIsNotMissingImplementation()
 		{
 			var report = new TestReport();

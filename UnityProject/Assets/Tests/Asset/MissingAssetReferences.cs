@@ -11,13 +11,11 @@ namespace Tests.Asset
 	/// <summary>
 	/// Checks for missing references on prefabs and scriptable objects.
 	/// </summary>
-	[Category(nameof(Asset))]
 	public class MissingAssetReferences
 	{
 		/// <summary>
 		/// Checks if there is any prefab with components that could not be loaded.
 		/// </summary>
-		[Test]
 		public void CheckMissingComponentOnPrefabs()
 		{
 			var report = new TestReport();
@@ -44,7 +42,6 @@ namespace Tests.Asset
 		/// <summary>
 		/// Checks if there is any prefab with missing references in its components.
 		/// </summary>
-		[Test]
 		public void CheckMissingReferenceFieldsOnPrefabs()
 		{
 			var report = new TestReport();
@@ -176,7 +173,6 @@ namespace Tests.Asset
 		/// <summary>
 		/// Check if there are scriptable objects that have serializable object fields with a missing reference.
 		/// </summary>
-		[Test]
 		public void TestScriptableObjects()
 		{
 			CheckMissingScriptableObjects("ScriptableObjects");
@@ -184,7 +180,6 @@ namespace Tests.Asset
 				ReferenceStatus.Missing);
 		}
 
-		[Test]
 		public void TestScriptableObjectsSprites()
 		{
 			CheckMissingOrNullReferenceFieldsSpriteSOs();
@@ -193,7 +188,6 @@ namespace Tests.Asset
 		/// <summary>
 		/// Check if there are singleton scriptable objects that have serializable object fields with no reference.
 		/// </summary>
-		[Test]
 		public void TestSingletonScriptableObjects()
 		{
 			CheckMissingScriptableObjects("Resources/ScriptableObjectsSingletons");

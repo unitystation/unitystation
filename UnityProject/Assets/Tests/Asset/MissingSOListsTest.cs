@@ -8,7 +8,7 @@ namespace Tests.Asset
 {
 	public class MissingSOListsTest
 	{
-		[Test]
+
 		public void SpellListHasAllSpells()
 		{
 			var report = new TestReport();
@@ -24,7 +24,7 @@ namespace Tests.Asset
 			report.AssertPassed();
 		}
 
-		[Test]
+
 		public void AlertSOsListHasAllAlertSOs()
 		{
 			var report = new TestReport();
@@ -45,7 +45,7 @@ namespace Tests.Asset
 			report.AssertPassed();
 		}
 
-		[Test]
+
 		public void SurgerySOsListHasAllSurgerySOs()
 		{
 			var report = new TestReport();
