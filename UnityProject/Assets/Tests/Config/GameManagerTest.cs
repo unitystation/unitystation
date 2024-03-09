@@ -9,6 +9,7 @@ namespace Tests.Config
 	{
 		private const string GAMEMANAGER_PATH = "Assets/Prefabs/SceneConstruction/NestedManagers";
 
+		[Test]
 		public void CheckQuickLoad()
 		{
 			var gameManagerPrefabGUID = AssetDatabase.FindAssets("GameManager t:prefab", new string[] {GAMEMANAGER_PATH});

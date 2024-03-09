@@ -9,6 +9,7 @@ namespace Tests
 {
 	public class BundleTest
 	{
+		[Test]
 		public void CheckBundleDuplication()
 		{
 			var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
