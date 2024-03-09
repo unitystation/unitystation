@@ -8,7 +8,8 @@ namespace Tests.Chemistry
 {
 	public class ReactionTests
 	{
-
+		[Test]
+		[TestCaseSource(nameof(ReactionTestData))]
 		public void SimpleReaction(ReagentMix mix, Reaction reaction, ReagentMix result)
 		{
 			reaction.Apply(null, mix);
