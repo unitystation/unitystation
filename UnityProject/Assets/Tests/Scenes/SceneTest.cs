@@ -14,7 +14,7 @@ namespace Tests.Scenes
 		// This allows the tests to show the name of the scene rather than the file location
 		public override string ToString() => Path.GetFileNameWithoutExtension(File);
 	}
-
+	
 	public abstract class SceneTest
 	{
 		public static IEnumerable<SceneTestData> Scenes => Utils.NonDevScenes.Select(scene => new SceneTestData(scene));
