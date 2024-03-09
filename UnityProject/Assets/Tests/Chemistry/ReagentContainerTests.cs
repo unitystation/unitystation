@@ -8,7 +8,6 @@ using Chemistry.Components;
 
 namespace Tests.Chemistry
 {
-	[Category(nameof(Chemistry))]
 	public class ReagentContainerTests
 	{
 		private static ReagentContainer GetContainer(int maxCapacity, ReagentMix contents)
@@ -114,7 +113,6 @@ namespace Tests.Chemistry
 			};
 		}
 
-		[TestCaseSource(nameof(AdditionTestData))]
 		public void AdditionTest(
 			int capacity,
 			ReagentMix initial,
@@ -231,7 +229,6 @@ namespace Tests.Chemistry
 			};
 		}
 
-		[TestCaseSource(nameof(RemovalTestData))]
 		public void RemovalTest(
 			int capacity,
 			ReagentMix initial,
