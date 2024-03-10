@@ -20,6 +20,8 @@ public partial class GameManager
 
 	public bool ShuttleSent => shuttleSent;
 
+	public int GiveUpTime { get; private set; } = 200;
+
 	private bool beenToStation;
 
 	private void InitEscapeShuttle()
@@ -182,8 +184,17 @@ public partial class GameManager
 			CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, StatusDisplay.FormatTime(i, "CENTCOM\nETA: ") );
 			yield return WaitFor.Seconds(1);
 		}
-
 		CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, string.Empty);
+
+		GiveUpTime = 200;
+		while (GiveUpTime > 0)
+		{
+			GiveUpTime--;
+			yield return WaitFor.Seconds(1);
+		}
+
+		Loggy.LogError("OH SHITTTT Shuttle got stuck on the Way to Centralcommand AAAAAAAAAAAAAAAAAAAAAAAAAAAA emergency end round");
+		EndRound();
 	}
 
 	private IEnumerator WaitToInitEscape()

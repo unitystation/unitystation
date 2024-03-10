@@ -78,6 +78,8 @@ public class EscapeShuttle : AutopilotShipMachine
 	/// </summary>
 	public int CurrentTimerSeconds { get; private set; }
 
+	public int GiveUpTime { get; private set; } = 200;
+
 	/// <summary>
 	/// Current "flight" time
 	/// </summary>
@@ -173,7 +175,6 @@ public class EscapeShuttle : AutopilotShipMachine
 		matrixMove = GetComponentInParent<MatrixMove>();
 		networkedMatrix = GetComponentInParent<NetworkedMatrix>();
 
-		//TODO
 		thrusters = GetComponentsInChildren<ShipThruster>().ToList();
 		foreach (var thruster in thrusters)
 		{
@@ -442,8 +443,10 @@ public class EscapeShuttle : AutopilotShipMachine
 					MoveToTargetBuoy( StationStartBuoy );
 					Status = EscapeShuttleStatus.OnRouteStation;
 				}
-				if (CurrentTimerSeconds <= 0 && UnderflowFunnies.Count <= UnderflowIndex)
+				if (CurrentTimerSeconds <= 0 && UnderflowFunnies.Count <= UnderflowIndex && GiveUpTime < 0)
 				{
+					Loggy.LogError("OH SHITTTT Shuttle got stuck on the Way to station AAAAAAAAAAAAAAAAAAAAAAAAAAAA emergency end round");
+					GameManager.Instance.EndRound();
 					centComm.UpdateStatusDisplay(StatusDisplayChannel.CachedChannel, null);
 					yield break;
 				}
