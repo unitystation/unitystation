@@ -1,13 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using Core.Database;
-using Logs;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using SecureStuff;
 using Systems.Character;
 
 namespace Core.Accounts
@@ -65,7 +59,7 @@ namespace Core.Accounts
 
 		public async Task<Account> Login(string token)
 		{
-			ApiResult<AccountTokenLoginResponse> loginResponse = await AccountServer.Login(token);
+			ApiResult<AccountLoginResponse> loginResponse = await AccountServer.Login(token);
 
 			if (!loginResponse.IsSuccess)
 			{
@@ -74,9 +68,9 @@ namespace Core.Accounts
 				return this;
 			}
 
-			AccountTokenLoginResponse account = loginResponse.Data;
+			AccountLoginResponse account = loginResponse.Data;
 
-			PostLogin(account!.token, account.user);
+			PostLogin(account!.token, account.account);
 
 			return this;
 		}
