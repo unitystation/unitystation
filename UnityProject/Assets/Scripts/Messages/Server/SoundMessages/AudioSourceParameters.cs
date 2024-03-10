@@ -55,13 +55,16 @@ namespace Messages.Server.SoundMessages
 		// We need this because structs always initilize with with all variables equal to 0.
 		public bool IsMute;
 
+		// If the audio source should loop forever
+		public bool Loops;
+
 		/// <Summary>
 		/// Constructor for the AudioSourceParameters Struct
 		/// </Summary>
 		public AudioSourceParameters(float pitch = 0, float volume = 0, float time = 0, float pan = 0,
 			float spatialBlend = 0, float spread = 0, float minDistance = 0, float maxDistance = 0,
 			MixerType mixerType = MixerType.Master, VolumeRolloffType volumeRolloffType = VolumeRolloffType.Linear,
-			bool isMute = false)
+			bool isMute = false, bool loops = false)
 		{
 			Pitch = pitch;
 			Volume = volume;
@@ -74,6 +77,7 @@ namespace Messages.Server.SoundMessages
 			MixerType = mixerType;
 			VolumeRolloffType = volumeRolloffType;
 			IsMute = isMute;
+			Loops = loops;
 		}
 
 		public override string ToString()

@@ -101,8 +101,9 @@ public class Layer : MonoBehaviour
 		if (matrixMove != null)
 		{
 			Loggy.LogTraceFormat("{0} layer initializing from matrix", Category.Matrix, matrixMove);
+			//TODO?
 			// matrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
-			// //initialize from current rotation
+			 //initialize from current rotation
 			// OnRotate(MatrixRotationInfo.FromInitialRotation(matrixMove, NetworkSide.Client, RotationEvent.Register));
 		}
 	}
@@ -115,6 +116,8 @@ public class Layer : MonoBehaviour
 	}
 	private void OnRotate(MatrixRotationInfo info)
 	{
+
+		//TODO
 		// if (info.IsEnding || info.IsObjectBeingRegistered)
 		// {
 		// 	RotationOffset = info.RotationOffsetFromInitial;

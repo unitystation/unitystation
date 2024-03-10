@@ -1233,17 +1233,15 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	}
 
 	/// <inheritdoc cref="LocalToWorldInt(Vector3, Matrix)"/>
-	public static Vector3Int LocalToWorldInt(Vector3 localPos, MatrixInfo matrix,
-		MatrixState? state = null)
+	public static Vector3Int LocalToWorldInt(Vector3 localPos, MatrixInfo matrix)
 	{
-		return Vector3Int.RoundToInt(LocalToWorld(localPos, matrix, state));
+		return Vector3Int.RoundToInt(LocalToWorld(localPos, matrix));
 	}
 
 	/// <inheritdoc cref="LocalToWorldInt(Vector3, Matrix)"/>
-	public static Vector3Int LocalToWorldInt(Vector3Int localPos, MatrixInfo matrix,
-		MatrixState? state = null)
+	public static Vector3Int LocalToWorldInt(Vector3Int localPos, MatrixInfo matrix)
 	{
-		return Vector3Int.RoundToInt(LocalToWorld(localPos, matrix, state));
+		return Vector3Int.RoundToInt(LocalToWorld(localPos, matrix));
 	}
 
 	/// <summary>
@@ -1266,7 +1264,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	}
 
 		/// <inheritdoc cref="LocalToWorld(Vector3, Matrix)"/>
-	public static Vector3 LocalToWorld(Vector3 localPos, MatrixInfo matrix, MatrixState? state = null) //Only used if you want a different rotation from the current rotation
+	public static Vector3 LocalToWorld(Vector3 localPos, MatrixInfo matrix) //Only used if you want a different rotation from the current rotation
 	{
 		//Invalid matrix info provided
 		if (matrix == null || matrix.Equals(MatrixInfo.Invalid) || localPos == TransformState.HiddenPos)
@@ -1274,14 +1272,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			return TransformState.HiddenPos;
 		}
 
-//		return matrix.MetaTileMap.LocalToWorld( localPos );
-
-		if (matrix.IsMovable == false)
-		{
-			return localPos + matrix.Offset;
-		}
-
-	
 		return matrix.MetaTileMap.localToWorldMatrix.Value.MultiplyPoint(localPos);
 	}
 
@@ -1306,24 +1296,8 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			return TransformState.HiddenPos;
 		}
 
-		if (matrix.IsMovable == false)
-		{
-			return worldPos - matrix.Offset;
-		}
 
-		if (matrix.MetaTileMap.worldToLocalMatrix !=
-		    null) //TODO After fixing Shuttle offset and Change movement to local
-		{
-			return matrix.MetaTileMap.worldToLocalMatrix.Value.MultiplyPoint(worldPos);
-		}
-
-
-		throw new NotImplementedException();
-		// var state = matrix.MatrixMove.ClientState;
-		// var pivot = matrix.MatrixMove.Pivot.To3();
-		//
-		// return (state.FacingOffsetFromInitial(matrix.MatrixMove).QuaternionInverted *
-		//         (worldPos - pivot - matrix.GetOffset(state))) + pivot;
+		return matrix.MetaTileMap.worldToLocalMatrix.Value.MultiplyPoint(worldPos);
 	}
 
 	/// <summary>

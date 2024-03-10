@@ -159,6 +159,7 @@ public class Camera2DFollow : MonoBehaviour
 			// ReSharper disable once HONK1002
 			transform.position = newPos + (Vector3)recoilOffset;
 
+			//Used to fix World mouse Position jitter
 			Vector3 cameraPosition = _camera.transform.position;
 			Vector3 roundedCameraPosition = PixelPerfectCamera.RoundToPixel(cameraPosition);
 			Vector3 offset = roundedCameraPosition - cameraPosition;

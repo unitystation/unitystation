@@ -271,8 +271,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		EventManager.AddHandler(Event.CleanupEnd, ClientCleanupEndRoundCleanups);
 		EventManager.AddHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
 		EventManager.AddHandler(Event.RoundEnded, ClientAndServerEndCleanup);
-
-
 	}
 
 	private void OnDisable()
@@ -313,13 +311,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	///</summary>
 	public void ServerSetSpaceBody(MatrixMove mm)
 	{
-		// if (mm.ServerState.Position == TransformState.HiddenPos)
-		// {
-		// 	Loggy.LogError("Matrix Move is not initialized! Wait for it to be" +
-		// 	                "ready before calling ServerSetSpaceBody ", Category.Server);
-		// 	return;
-		// }
-
 		PendingSpaceBodies.Enqueue(mm);
 	}
 
@@ -364,7 +355,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			if (!failedChecks)
 			{
 				validPos = true;
-				//mm.SetPosition(proposedPosition);
+				mm.NetworkedMatrixMove.TargetTransform.position = (proposedPosition);
 				SpaceBodies.Add(mm);
 			}
 
@@ -574,6 +565,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			//Then reset it to the default game mode set in the config for next round.
 			NextGameMode = InitialGameMode;
 		}
+
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL,
 			$"{GameMode.Name} chosen", "[GameMode]");
 	}
@@ -626,7 +618,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void EndRound()
 	{
-
 		if (CustomNetworkManager.Instance._isServer == false) return;
 
 		if (CurrentRoundState != RoundState.Started &&
@@ -670,7 +661,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			if (RoundEndTime > 10)
 			{
-				VotingManager.Instance.SetupVote(VotingManager.VoteType.NextMap, VotingManager.VotePolicy.MajorityRules,  Mathf.FloorToInt(RoundEndTime-1) , this.gameObject, null);
+				VotingManager.Instance.SetupVote(VotingManager.VoteType.NextMap, VotingManager.VotePolicy.MajorityRules,
+					Mathf.FloorToInt(RoundEndTime - 1), this.gameObject, null);
 			}
 		}
 		catch (Exception e)
@@ -978,7 +970,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		else
 		{
 			Loggy.LogError("Server is rebooting now. If you don't have a way to automatically restart the " +
-			                "Unitystation process such as systemctl the server won't be able to restart!",
+			               "Unitystation process such as systemctl the server won't be able to restart!",
 				Category.Round);
 			Chat.AddGameWideSystemMsgToChat("<size=72><b>The server is now restarting!</b></size>");
 			yield return WaitFor.Seconds(4f);

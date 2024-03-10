@@ -104,6 +104,7 @@ MonoBehaviour:
   TargetTransform: {fileID: 0}
   ConnectedThrusters: []
   ConnectedShuttleConnectors: []
+  Safety: 0
   Drag: 0.2
   DragTorque: 0.5
   TileAlignmentSpeed: 0.75
@@ -113,6 +114,7 @@ MonoBehaviour:
   HighSpeedDragMinimumThreshold: 20
   HighSpeedDrag100Threshold: 50
   SpinneyTurnVelocityBent: 0.5
+  IsNotPilotable: 0
   SpinneyThreshold: 20
   WorldCurrentVelocity: {x: 0, y: 0, z: 0}
   CurrentTorque: 0
@@ -129,6 +131,7 @@ MonoBehaviour:
   playerControllingRcs: {fileID: 0}
   UpdateHandled: 0
   TheReusingConnectedThrusters: []
+  RCSRequiresThrusters: 1
   ShuttleConsuls: []
   AITravelSpeed: 10
   TravelToWorldPOS: {x: 0, y: 0, z: 0}
@@ -137,5 +140,9 @@ MonoBehaviour:
   TargetFaceDirectionOverride: -1
   FullAISpeed: 0
   isMovingAroundMatrix: 0
-  IsMovingTowardsTarget: 0
+  IsMovingTowardsTargetX: 0
+  IsMovingTowardsTargetY: 0
+  HasGoneRoundACorner: 0
+  TravelPointIsWithinMatrix: 0
+  IgnorePotentialCollisions: 0
   CentreObjectOverride: {fileID: 0}

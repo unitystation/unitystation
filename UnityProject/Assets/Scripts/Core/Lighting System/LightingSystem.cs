@@ -398,7 +398,7 @@ public class LightingSystem : MonoBehaviour
 
 
 
-	private void LateUpdate()
+	public void Update()
 	{
 		// Don't run lighting system on headless.
 		if (GameInfo.IsHeadlessServer)
@@ -410,7 +410,6 @@ public class LightingSystem : MonoBehaviour
 		var _newParameters = new OperationParameters(mMainCamera, renderSettings, matrixRotationMode);
 
 		bool _shouldReinitializeTextures = _newParameters != operationParameters;
-
 		if (_shouldReinitializeTextures)
 		{
 			operationParameters = _newParameters;
@@ -495,7 +494,13 @@ public class LightingSystem : MonoBehaviour
 			Vector3 _fovCenterOffsetInViewSpace = mMainCamera.WorldToViewportPoint(_fovCenterInWorldSpace) - new Vector3(0.5f, 0.5f, 0);
 			Vector3 _fovCenterOffsetInExtendedViewSpace = _fovCenterOffsetInViewSpace * (float)operationParameters.cameraOrthographicSize / mOcclusionPPRT.orthographicSize;
 
-			mPostProcessingStack.GenerateFovMask(mOcclusionPPRT, floorOcclusionMask, wallFloorOcclusionMask, renderSettings, _fovCenterOffsetInExtendedViewSpace, fovDistance, operationParameters);
+			mPostProcessingStack.GenerateFovMask(mOcclusionPPRT,
+				floorOcclusionMask,
+				wallFloorOcclusionMask,
+				renderSettings,
+				_fovCenterOffsetInExtendedViewSpace,
+				fovDistance,
+				operationParameters);
 
 			if (!renderSettings.disableAsyncGPUReadback && SystemInfo.supportsAsyncGPUReadback)
 			{

@@ -60,29 +60,6 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 		}
 	}
 
-	public Vector3Int Offset => GetOffset();
-
-	public Vector3Int GetOffset(MatrixState state = default(MatrixState))
-	{
-		if (IsMovable == false)
-		{
-			return InitialOffset;
-		}
-
-		if (state.Equals(default(MatrixState)))
-		{
-			// state = MatrixMove.ClientState;
-		}
-
-		if (cachedPosition != state.Position)
-		{
-			//if we moved, update cached offset
-			cachedPosition = state.Position;
-			// CachedOffset = initialOffset + (state.Position.RoundToInt() - MatrixMove.InitialPosition);
-		}
-
-		return CachedOffset;
-	}
 
 	public uint NetID
 	{
@@ -120,13 +97,7 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 
 			string pivot = "pivot";
 			string state = "state";
-			if(IsMovable)
-			{
-				// pivot = MatrixMove.Pivot.ToString();
-				// state = MatrixMove.ServerState.ToString();
-			}
-
-			return $"[({Id}){objectName},offset={Offset},pivot={pivot},state={state},netId={NetID}]";
+			return $"[({Id}){objectName},pivot={pivot},state={state},netId={NetID}]";
 		}
 	}
 

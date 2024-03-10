@@ -11,6 +11,8 @@ public class ShipThruster : MonoBehaviour
 	private LightSprite lightSprite;
 
 
+
+
 	public float particleRateMultiplier = 4f;
 	public float engineLightIntensityMultiplier = 0.04f;
 	void Awake()
@@ -19,6 +21,7 @@ public class ShipThruster : MonoBehaviour
 		shipMatrixMove = transform.root.gameObject.GetComponent<MatrixMove>();
 		particleFX = GetComponentInChildren<ParticleSystem>();
 		lightSprite = GetComponentInChildren<LightSprite>();
+
 	}
 
 	private void OnEnable()
@@ -114,7 +117,6 @@ public class ShipThruster : MonoBehaviour
 		var colour = lightSprite.Color;
 		colour.a = Mathf.Clamp(newSpeed * engineLightIntensityMultiplier, 0, 1);
 		lightSprite.Color = colour;
-
 	}
 
 	bool EngineStatus() // Returns if engines are "on" (if ship is moving)

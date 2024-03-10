@@ -15,6 +15,8 @@ public class ShuttleCameraRenderer : MonoBehaviour
 
 	public static ShuttleCameraRenderer instance;
 
+	public LightingSystem LightingSystem;
+
 	void Start()
 	{
 
@@ -45,8 +47,34 @@ public class ShuttleCameraRenderer : MonoBehaviour
 
 	}
 
-	void Update()
+	public void Update()
 	{
+		if (CustomNetworkManager.IsHeadless) return;
+
+		if (PlayerManager.LocalPlayerObject != null)
+		{
+			var MatrixMove = PlayerManager.LocalPlayerObject.GetComponentInParent<MatrixMove>();
+			if (MatrixMove != null)
+			{
+				if (MatrixMove.NetworkedMatrixMove.TargetOrientation != OrientationEnum.Default
+				    || MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity.magnitude > 0
+				    || MatrixMove.NetworkedMatrixMove.CurrentTorque > 0)
+				{
+					LightingSystem.matrixRotationMode = true;
+				}
+				else
+				{
+					LightingSystem.matrixRotationMode = false;
+				}
+
+
+			}
+		}
+	}
+
+	public void UpdateME()
+	{
+		if (CustomNetworkManager.IsHeadless) return;
 
 		if (PlayerManager.LocalPlayerObject != null)
 		{

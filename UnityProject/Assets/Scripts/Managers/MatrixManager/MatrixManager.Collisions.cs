@@ -7,6 +7,7 @@ using Systems.Electricity.Inheritance;
 using Systems.Electricity.NodeModules;
 using Systems.Explosions;
 using HealthV2;
+using Logs;
 using Random = UnityEngine.Random;
 using Objects.Electrical;
 using Objects.Engineering;
@@ -217,7 +218,6 @@ public partial class MatrixManager
 
 	private void CheckTileCollisions( MatrixIntersection i )
 	{
-		return;
 		if (i.Matrix1 == null || i.Matrix2 == null) return;
 
 		byte collisions = 0;
@@ -251,7 +251,74 @@ public partial class MatrixManager
 				continue;
 			}
 
+
+			if (i.Matrix1.MatrixMove.NetworkedMatrixMove.Safety)
+			{
+
+
+				if (i.Matrix1.MatrixMove.NetworkedMatrixMove.TargetOrientation != OrientationEnum.Default)
+				{
+					var StartOrientation =i.Matrix1.MatrixMove.NetworkedMatrixMove.StartOrientation;
+					i.Matrix1.MatrixMove.NetworkedMatrixMove.TargetOrientation = i.Matrix1.MatrixMove.NetworkedMatrixMove.StartOrientation;
+					i.Matrix1.MatrixMove.NetworkedMatrixMove.StartOrientation = StartOrientation;
+				}
+
+
+				var addmove =  i.Matrix1.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity.normalized * -1;
+				i.Matrix1.MatrixMove.NetworkedMatrixMove.TargetTransform.position += addmove;
+
+				i.Matrix1.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity *= 0;
+				i.Matrix1.MatrixMove.NetworkedMatrixMove.MoveCoolDown = 3;
+
+
+				foreach (var Thruster in i.Matrix1.MatrixMove.NetworkedMatrixMove.ConnectedThrusters)
+				{
+					Thruster.TargetMolesUsed = 0;
+				}
+				return;
+			}
+
+			if (i.Matrix2.MatrixMove.NetworkedMatrixMove.Safety)
+			{
+				if (i.Matrix2.MatrixMove.NetworkedMatrixMove.TargetOrientation != OrientationEnum.Default)
+				{
+					var StartOrientation = i.Matrix2.MatrixMove.NetworkedMatrixMove.StartOrientation;
+					i.Matrix2.MatrixMove.NetworkedMatrixMove.TargetOrientation =
+						i.Matrix2.MatrixMove.NetworkedMatrixMove.StartOrientation;
+					i.Matrix2.MatrixMove.NetworkedMatrixMove.StartOrientation = StartOrientation;
+				}
+
+				var addmove =  i.Matrix2.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity.normalized * -1;
+				i.Matrix2.MatrixMove.NetworkedMatrixMove.TargetTransform.position += addmove;
+
+				i.Matrix2.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity *= 0;
+				i.Matrix2.MatrixMove.NetworkedMatrixMove.MoveCoolDown = 3;
+				foreach (var Thruster in i.Matrix2.MatrixMove.NetworkedMatrixMove.ConnectedThrusters)
+				{
+					Thruster.TargetMolesUsed = 0;
+				}
+
+
+				return;
+			}
+
+
+			if (i.Matrix2.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity.magnitude < 4
+			    && i.Matrix1.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity.magnitude < 4)
+			{
+				if (i.Matrix1.MatrixMove.NetworkedMatrixMove.DragSpinneyCoolDown > 0 == false &&
+				    i.Matrix2.MatrixMove.NetworkedMatrixMove.DragSpinneyCoolDown > 0 == false)
+				{
+					i.Matrix2.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity *= -1;
+					i.Matrix1.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity *= -1;
+				}
+			}
+
+			i.Matrix2.MatrixMove.NetworkedMatrixMove.DragSpinneyCoolDown = 3;
+			i.Matrix1.MatrixMove.NetworkedMatrixMove.DragSpinneyCoolDown = 3;
 			collisionLocations.Add( worldPos );
+
+
 
 			//
 			// ******** DESTROY STUFF!!! ********
@@ -336,7 +403,6 @@ public partial class MatrixManager
 				(byte) Mathf.Clamp(collisions*12, 16, byte.MaxValue),
 				Mathf.Clamp(collisions*8, 15, 127)
 				);
-			SlowDown( i, collisions );
 
 			if ( collisions > 6 && Mathf.Max( i.Matrix1.Speed, i.Matrix2.Speed ) > 6 )
 			{
@@ -472,35 +538,6 @@ public partial class MatrixManager
 			{
 				wire.ToDestroy();
 			}
-		}
-	}
-
-	private void SlowDown( MatrixIntersection i, int collisions )
-	{
-		// if ( i.Matrix1.IsMovable && i.Matrix1.MatrixMove.IsMovingServer )
-		// {
-		// 	InternalSlowDown( i.Matrix1 );
-		// }
-		// if ( i.Matrix2.IsMovable && i.Matrix2.MatrixMove.IsMovingServer )
-		// {
-		// 	InternalSlowDown( i.Matrix2 );
-		// }
-
-		void InternalSlowDown( MatrixInfo info )
-		{
-			float slowdownFactor = Mathf.Clamp(
-				1f - ( Mathf.Clamp( collisions, 1, 50 ) / 100f ) + info.Mass,
-				0.1f,
-				0.95f
-				);
-			// float speed = ( info.MatrixMove.ServerState.Speed * slowdownFactor ) - 0.07f;
-			// if ( speed <= 1f )
-			// {
-			// 	info.MatrixMove.StopMovement();
-			// } else
-			// {
-			// 	info.MatrixMove.SetSpeed( speed );
-			// }
 		}
 	}
 

@@ -265,37 +265,37 @@ public class EscapeShuttle : AutopilotShipMachine
 		//check if we're trying to move but are unable to
 		if (!isBlocked)
 		{
-			// if (Status != EscapeShuttleStatus.DockedCentcom && Status != EscapeShuttleStatus.DockedStation)
-			// {
-			// 	if ((!matrixMove.ServerState.IsMoving || matrixMove.ServerState.Speed < 1f) && startedMovingToStation)
-			// 	{
-			// 		Loggy.LogTrace("Escape shuttle is blocked.", Category.Shuttles);
-			// 		isBlocked = true;
-			// 		escapeBlockedTime = 0f;
-			// 	}
-			// }
+			if (Status != EscapeShuttleStatus.DockedCentcom && Status != EscapeShuttleStatus.DockedStation)
+			{
+				if ((matrixMove.NetworkedMatrixMove.IsMoving == false) && startedMovingToStation)
+				{
+					Loggy.LogTrace("Escape shuttle is blocked.", Category.Shuttles);
+					isBlocked = true;
+					escapeBlockedTime = 0f;
+				}
+			}
 		}
 		else
 		{
-			// //currently blocked, check if we are unblocked
-			// if (Status == EscapeShuttleStatus.DockedCentcom || Status == EscapeShuttleStatus.DockedStation ||
-			//     (matrixMove.ServerState.IsMoving && matrixMove.ServerState.Speed >= 1f))
-			// {
-			// 	Loggy.LogTrace("Escape shuttle is unblocked.", Category.Shuttles);
-			// 	isBlocked = false;
-			// 	escapeBlockedTime = 0f;
-			// }
-			// else
-			// {
-			// 	//continue being blocked
-			// 	escapeBlockedTime += Time.deltaTime;
-			// 	if (escapeBlockedTime > escapeBlockTimeLimit)
-			// 	{
-			// 		Loggy.LogTraceFormat("Escape shuttle blocked for more than {0} seconds, stranded ending playing.", Category.Shuttles, escapeBlockTimeLimit);
-			// 		//can't escape
-			// 		ServerStartStrandedEnd();
-			// 	}
-			// }
+			//currently blocked, check if we are unblocked
+			if (Status == EscapeShuttleStatus.DockedCentcom || Status == EscapeShuttleStatus.DockedStation ||
+			    (matrixMove.NetworkedMatrixMove.IsMoving))
+			{
+				Loggy.LogTrace("Escape shuttle is unblocked.", Category.Shuttles);
+				isBlocked = false;
+				escapeBlockedTime = 0f;
+			}
+			else
+			{
+				//continue being blocked
+				escapeBlockedTime += Time.deltaTime;
+				if (escapeBlockedTime > escapeBlockTimeLimit)
+				{
+					Loggy.LogTraceFormat("Escape shuttle blocked for more than {0} seconds, stranded ending playing.", Category.Shuttles, escapeBlockTimeLimit);
+					//can't escape
+					ServerStartStrandedEnd();
+				}
+			}
 		}
 
 	}

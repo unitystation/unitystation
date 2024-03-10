@@ -315,7 +315,7 @@ namespace Objects
 				}
 				else
 				{
-					SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,
+					SoundManager.ClientPlayAtPositionAttached(ambientSoundWhileOn,
 						gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
 					InitSound = true;
 				}

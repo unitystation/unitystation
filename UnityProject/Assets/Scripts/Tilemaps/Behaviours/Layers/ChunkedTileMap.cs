@@ -15,6 +15,11 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 	public List<List<T[,]>> chunksnXY = new List<List<T[,]>>();
 
 
+	public bool ContainsKey(Vector3Int position)
+	{
+		return GetTile(position) != null;
+	}
+
 	public bool TryGetValue(Vector3Int position, out T Value )
 	{
 		Value = GetTile(position);
@@ -223,5 +228,13 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 	IEnumerator IEnumerable.GetEnumerator()
 	{
 		return GetEnumerator();
+	}
+
+	public void Clear()
+	{
+		chunksXY.Clear();
+		chunksXnY.Clear();
+		chunksnXnY.Clear();
+		chunksnXY.Clear();
 	}
 }

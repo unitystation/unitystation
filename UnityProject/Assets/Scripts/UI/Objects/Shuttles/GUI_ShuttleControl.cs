@@ -100,13 +100,16 @@ namespace UI.Objects.Shuttles
 			{
 				ShuttleCameraRenderer.instance.renderCamera.orthographicSize = 25f;
 			}
+
+			ShuttleCameraRenderer.instance.UpdateME();
 		}
 
 		private void UpdateMe()
 		{
-			CoordReadout.SetCoords(shuttleConsole.registerTile.Matrix.MatrixMove.transform.position);
+			CoordReadout.SetCoords(shuttleConsole.transform.position);
 
 			var fuelGauge = (NetUIElement<string>) this["FuelGauge"];
+			//TODO
 			// if (shuttleFuelSystem == null)
 			// {
 			// 	if (fuelGauge.Value != "0")
@@ -303,13 +306,13 @@ namespace UI.Objects.Shuttles
 			if (StartButton.Value == "0") return;
 			if (ReverseButton.Value == "1")
 			{
-				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Backwards ,speedMultiplier);
-				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Forwards ,0);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Down ,speedMultiplier);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Up ,0);
 			}
 			else
 			{
-				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Forwards ,speedMultiplier);
-				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Backwards ,0);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Up ,speedMultiplier);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Down ,0);
 			}
 
 		}

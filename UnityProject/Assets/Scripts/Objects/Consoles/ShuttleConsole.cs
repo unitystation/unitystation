@@ -73,15 +73,15 @@ namespace Objects.Shuttles
 						Category.Shuttles);
 				}
 			}
-			//
-			// if (ShuttleMatrixMove.IsNotPilotable)
-			// {
-			// 	hasNetworkTab.enabled = false;
-			// }
-			// else
-			// {
-			// 	hasNetworkTab.enabled = true;
-			// }
+
+			if (ShuttleMatrixMove.NetworkedMatrixMove.IsNotPilotable)
+			{
+				hasNetworkTab.enabled = false;
+			}
+			else
+			{
+				hasNetworkTab.enabled = true;
+			}
 		}
 
 		public void PlayRadarDetectionSound()
