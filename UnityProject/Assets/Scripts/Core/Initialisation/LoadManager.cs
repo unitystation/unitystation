@@ -226,7 +226,8 @@ namespace Initialisation
 		ServerInfoUI,
 		CustomNetworkManager,
 		ServerInfoUILobby,
-		Addressables
+		Addressables,
+		GameData
 	}
 
 	public interface IInitialise
