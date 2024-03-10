@@ -85,6 +85,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2176217005245101738, guid: d27d06b68d77a3d49b21cce589f699da,
         type: 3}
+      propertyPath: exportCost
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 2176217005245101738, guid: d27d06b68d77a3d49b21cce589f699da,
+        type: 3}
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/smash.prefab
       objectReference: {fileID: 0}

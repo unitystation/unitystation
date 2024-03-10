@@ -653,7 +653,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		var bodyPart = FindBodyPart(bodyPartType);
 		if (bodyPart != null)
 		{
-			//	Logger.Log($"Update stats for {gameObject.name} body part {bodyPartType.ToString()} BruteDmg: {bruteDamage} BurnDamage: {burnDamage}", Category.Health);
+			//	Loggy.Log($"Update stats for {gameObject.name} body part {bodyPartType.ToString()} BruteDmg: {bruteDamage} BurnDamage: {burnDamage}", Category.Health);
 
 			bodyPart.UpdateClientBodyPartStat(bruteDamage, burnDamage);
 		}

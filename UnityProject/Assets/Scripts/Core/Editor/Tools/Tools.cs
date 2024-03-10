@@ -485,7 +485,7 @@ namespace Core.Editor.Tools
 					if (currentComponent == null)
 					{
 						Missing = true;
-						//Logger.LogError(o.name);
+						//Loggy.LogError(o.name);
 					}
 				}
 
@@ -503,7 +503,7 @@ namespace Core.Editor.Tools
 				// 	// Edit: use undo record object, since undo destroy wont work with missing
 				// 	// Undo.RegisterCompleteObjectUndo(go, "Remove missing scripts");
 				// 	// GameObjectUtility.RemoveMonoBehavioursWithMissingScript(go);
-				// 	Logger.LogError(o.name);
+				// 	Loggy.LogError(o.name);
 				// 	compCount += count;
 				// 	goCount++;
 				// }

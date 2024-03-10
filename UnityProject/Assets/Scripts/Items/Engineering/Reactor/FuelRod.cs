@@ -35,16 +35,16 @@ namespace Items.Engineering
 
 		public virtual (decimal newEnergy, decimal newNeutrons, bool Break)  ProcessRodHit(decimal AbsorbedNeutrons)
 		{
-			//Logger.Log(Time.time + "," + this.name + ", " + "PresentAtomsfuel , " + PresentAtomsfuel);
-			//Logger.Log(Time.time + "," + this.name + ", " + "PresentAtomsDecayProducts , " + PresentAtomsDecayProducts);
-			//Logger.Log(Time.time + "," + this.name + ", " + "PresentAtomsXenon , " + PresentAtomsXenon);
-			//Logger.Log(Time.time + "," + this.name + ", " + "AbsorbedNeutrons , " + AbsorbedNeutrons);
+			//Loggy.Log(Time.time + "," + this.name + ", " + "PresentAtomsfuel , " + PresentAtomsfuel);
+			//Loggy.Log(Time.time + "," + this.name + ", " + "PresentAtomsDecayProducts , " + PresentAtomsDecayProducts);
+			//Loggy.Log(Time.time + "," + this.name + ", " + "PresentAtomsXenon , " + PresentAtomsXenon);
+			//Loggy.Log(Time.time + "," + this.name + ", " + "AbsorbedNeutrons , " + AbsorbedNeutrons);
 
 
 			PresentAtomsXenon *= XenonOneSecondDecay;
 			decimal DestroyedFuelAtoms = (PresentAtomsfuel / (PresentAtoms + (PresentAtomsXenon * XenonAbsorptionPower))) *
 										 AbsorbedNeutrons;
-			//Logger.Log(Time.time + "," + this.name + ", " + "DestroyedFuelAtoms , " + DestroyedFuelAtoms);
+			//Loggy.Log(Time.time + "," + this.name + ", " + "DestroyedFuelAtoms , " + DestroyedFuelAtoms);
 			PresentAtomsXenon -= ((PresentAtomsXenon * XenonAbsorptionPower) / PresentAtoms) * AbsorbedNeutrons;
 			if (PresentAtomsXenon < 0)
 			{
@@ -63,8 +63,8 @@ namespace Items.Engineering
 				(DestroyedFuelAtoms * fuelNeutronGeneration);
 
 			PresentAtomsDecayProducts = CurrentAtomsDecayedProducts;
-			//Logger.Log(Time.time + "," + this.name + ", " + "GeneratedNeutrons , " + GeneratedNeutrons);
-			//Logger.Log(Time.time + "," + this.name + ", " + "Energy generated , " + (DestroyedFuelAtoms * energyPerAtom));
+			//Loggy.Log(Time.time + "," + this.name + ", " + "GeneratedNeutrons , " + GeneratedNeutrons);
+			//Loggy.Log(Time.time + "," + this.name + ", " + "Energy generated , " + (DestroyedFuelAtoms * energyPerAtom));
 			SetEditerVariables(DestroyedFuelAtoms * energyPerAtom);
 			return ((DestroyedFuelAtoms * energyPerAtom), GeneratedNeutrons, false);
 		}

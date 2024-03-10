@@ -37,7 +37,7 @@ namespace Messages.Server
 		{
 			//Performance issue with string.Join doing this at high player count
 			//If this is necessary in the future cache it when players leave/join?
-			//Logger.LogFormat("This server informing all clients of the new PlayerList state: {0}", Category.Connections,
+			//Loggy.LogFormat("This server informing all clients of the new PlayerList state: {0}", Category.Connections,
 			//	string.Join(",", PlayerList.Instance.AllPlayers));
 
 			var prepareConnectedPlayers = new List<ClientConnectedPlayer>();
@@ -46,11 +46,11 @@ namespace Messages.Server
 			{
 				var tag = "";
 
-				if (PlayerList.Instance.IsAdmin(c.UserId))
+				if (PlayerList.Instance.IsAdmin(c.AccountId))
 				{
 					tag = "<color=red>[Admin]</color>";
 				}
-				else if (PlayerList.Instance.IsMentor(c.UserId))
+				else if (PlayerList.Instance.IsMentor(c.AccountId))
 				{
 					tag = "<color=#6400ff>[Mentor]</color>";
 				}

@@ -47,7 +47,7 @@ namespace Tiles
 				{
 
 					_sprites = spriteSheet.Sprites;
-					//Logger.Log(texturePath + "/" + spriteSheet.name);
+					//Loggy.Log(texturePath + "/" + spriteSheet.name);
 				}
 				return _sprites;
 			}

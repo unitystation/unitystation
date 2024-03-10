@@ -94,7 +94,7 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: exportCost
-      value: 5
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -275,6 +275,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   <TriggerOnDeath>k__BackingField: 0
   <OverrideDeathCountDown>k__BackingField: -1
   isEMPVunerable: 1
@@ -320,6 +321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetTabType: 46
   requiresAltClick: 1
+  disabled: 0
 --- !u!114 &5153915510540276908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,7 +350,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed226d36f0fdcd40a51a7bfbf8fb6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ReactionSounds: 1
   maxCapacity: 30
+  DEBUGReagent: {fileID: 0}
+  DEBUGAmount: 0
   reactionSet: {fileID: 11400000, guid: 9635f48a9fe17f742aee13832a4ed6c2, type: 2}
   AdditionalReactions: []
   initialReagentMix:
@@ -451,6 +456,10 @@ MonoBehaviour:
       Orders: 00000000000000000000000000000000
     BodyTypes: []
   RelatedPresentSprites: []
+  DeathOnRemoval: 0
+  ClothingHide: 0
+  SetCustomisationData: 
+  ItemAttributes: {fileID: 2925014835611581738}
   SpritePrefab: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   BodyPartItemSprite: {fileID: 56063919708023611, guid: cfda4a920ce328d449993498e023ddfc,
@@ -460,10 +469,6 @@ MonoBehaviour:
   optionalOrgans: []
   OptionalReplacementOrgan: []
   IsSurface: 0
-  DeathOnRemoval: 0
-  ClothingHide: 0
-  SetCustomisationData: 
-  ItemAttributes: {fileID: 2925014835611581738}
   TotalModified: 1
   SurgeryProcedureBase:
   - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}

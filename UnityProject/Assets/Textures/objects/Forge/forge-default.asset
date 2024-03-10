@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: forge-default
+  m_EditorClassIdentifier: 
+  foreverID: 8e6f8c9117c723741873a9470d067723
+  Variance:
+  - Frames:
+    - sprite: {fileID: -1662332944369893461, guid: 330304652424e2749b25fe2d5900fe64,
+        type: 3}
+      secondDelay: 0.09
+    - sprite: {fileID: -3735486733890479025, guid: 8872a4a9be341e649abc789bbac952e0,
+        type: 3}
+      secondDelay: 0.09
+    - sprite: {fileID: -8052000848862416126, guid: ee2417513b3e63d4d8978b39fb632194,
+        type: 3}
+      secondDelay: 0.09
+  IsPalette: 0
+  DisplayName: 

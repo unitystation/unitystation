@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Net.Http;
 using System.Threading;
@@ -13,6 +13,12 @@ using Shared.Util;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using Core.Database;
+using Core.Networking;
+using DatabaseAPI;
+using Lobby;
+using Managers;
+using Shared.Util;
 
 public class GameData : MonoBehaviour
 {
@@ -70,7 +76,7 @@ public class GameData : MonoBehaviour
 
 	public async void APITest()
 	{
-		var url = "https://api.unitystation.org/validatetoken?data=";
+		var url = $"{GameManager.Instance.AccountAPIHost}/validatetoken?data=";
 
 		HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get,
 			url + JsonConvert.SerializeObject(""));
@@ -82,7 +88,7 @@ public class GameData : MonoBehaviour
 		{
 			res = await SafeHttpRequest.SendAsync(r, cancellationToken);
 		}
-		catch (System.Net.Http.HttpRequestException e)
+		catch (HttpRequestException e)
 		{
 			Loggy.LogError(" APITest Failed setting to off-line mode  " +e.ToString());
 			forceOfflineMode = true;
@@ -174,7 +180,7 @@ public class GameData : MonoBehaviour
 		{
 			//			float calcFrameRate = 1f / Time.deltaTime;
 			//			Application.targetFrameRate = (int) calcFrameRate;
-			//			Logger.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}",
+			//			Loggy.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}",
 			//				Category.Server);
 
 			Loggy.Log($"FrameRate limiting has been disabled on Headless Server",
@@ -219,7 +225,7 @@ public class GameData : MonoBehaviour
 		if (string.IsNullOrEmpty(token) == false)
 		{
 			Loggy.Log("Logging in via hub account...");
-			if (await LobbyManager.Instance.TryTokenLogin(uid, token))
+			if (await LobbyManager.Instance.TryTokenLogin(token)) // TODO uid not needed anymore?
 			{
 				LobbyManager.Instance.JoinServer(ip, port);
 				return true;

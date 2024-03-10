@@ -106,7 +106,7 @@ namespace Messages.Client
 			EncryptionKeyType encryptionKeyTypeOfKey = encryptionkey.GetComponent<EncryptionKey>().Type;
 			if ( encryptionKeyTypeOfHeadset != EncryptionKeyType.None || encryptionKeyTypeOfKey == EncryptionKeyType.None )
 			{
-//			Logger.LogWarning($"Failed to validate update of {headset.name} {encryptionkey.name} ({ToString()})");
+//			Loggy.LogWarning($"Failed to validate update of {headset.name} {encryptionkey.name} ({ToString()})");
 				return false;
 			}
 
@@ -119,7 +119,7 @@ namespace Messages.Client
 			EncryptionKeyType encryptionKeyType = headset.GetComponent<Headset>().EncryptionKey;
 			if ( encryptionKeyType == EncryptionKeyType.None )
 			{
-//			Logger.LogWarning($"Failed to validate removal of encryption key from {headset.name} ({ToString()})");
+//			Loggy.LogWarning($"Failed to validate removal of encryption key from {headset.name} ({ToString()})");
 				return false;
 			}
 

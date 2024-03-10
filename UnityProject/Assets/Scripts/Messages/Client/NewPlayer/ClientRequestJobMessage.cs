@@ -17,7 +17,6 @@ namespace Messages.Client.NewPlayer
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public string PlayerID;
 			public JobType JobType;
 			public string JsonCharSettings;
 		}
@@ -31,13 +30,12 @@ namespace Messages.Client.NewPlayer
 			}
 		}
 
-		public static NetMessage Send(JobType jobType, string jsonCharSettings, string playerID)
+		public static NetMessage Send(JobType jobType, string jsonCharSettings)
 		{
 			NetMessage msg = new NetMessage
 			{
 				JobType = jobType,
 				JsonCharSettings = jsonCharSettings,
-				PlayerID = playerID
 			};
 
 			Send(msg);
@@ -52,16 +50,9 @@ namespace Messages.Client.NewPlayer
 				return false;
 			}
 
-			if (SentByPlayer.UserId == null)
+			if (SentByPlayer.AccountId == null)
 			{
-				NotifyError(JobRequestError.InvalidUserID, $"{nameof(SentByPlayer.UserId)} is null");
-				return false;
-			}
-
-			if (SentByPlayer.UserId != msg.PlayerID)
-			{
-				NotifyError(JobRequestError.InvalidPlayerID, $"{nameof(msg.PlayerID)} does not match {nameof(SentByPlayer.UserId)}");
-				return false;
+				NotifyError(JobRequestError.InvalidUserID, $"{nameof(SentByPlayer.AccountId)} is null");
 			}
 
 			return true;
@@ -75,7 +66,7 @@ namespace Messages.Client.NewPlayer
 				return false;
 			}
 
-			if (PlayerList.Instance.FindPlayerJobBanEntryServer(msg.PlayerID, msg.JobType, true) != null)
+			if (PlayerList.Instance.FindPlayerJobBanEntryServer(SentByPlayer.AccountId, msg.JobType, true) != null)
 			{
 				NotifyRequestRejected(JobRequestError.JobBanned, $"player was job-banned from {msg.JobType}");
 				return false;
@@ -97,15 +88,15 @@ namespace Messages.Client.NewPlayer
 
 		private void AcceptRequest(NetMessage msg)
 		{
+			var character = JsonConvert.DeserializeObject<CharacterSheet>(msg.JsonCharSettings);
+
 			if (msg.JobType == JobType.NULL)
 			{
-				var character = JsonConvert.DeserializeObject<CharacterSheet>(msg.JsonCharSettings);
 				character.ValidateSpeciesCanBePlayerChosen();
 				PlayerSpawn.NewSpawnPlayerV2(SentByPlayer, OccupationList.Instance.AllOcccupations.First(x => x.name == "Spectator") , character);
 			}
 			else
 			{
-				var character = JsonConvert.DeserializeObject<CharacterSheet>(msg.JsonCharSettings);
 				var spawnRequest = new PlayerSpawnRequest(SentByPlayer, GameManager.Instance.GetRandomFreeOccupation(msg.JobType), character);
 				character.ValidateSpeciesCanBePlayerChosen();
 				if (GameManager.Instance.TrySpawnPlayer(spawnRequest) == false)
@@ -113,7 +104,6 @@ namespace Messages.Client.NewPlayer
 					SendClientLogMessage.SendErrorToClient(SentByPlayer, "Server couldn't spawn you.");
 				}
 			}
-
 		}
 
 		private void NotifyError(JobRequestError error, string message)

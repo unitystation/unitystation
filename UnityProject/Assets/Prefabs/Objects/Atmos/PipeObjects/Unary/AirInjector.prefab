@@ -125,6 +125,11 @@ PrefabInstance:
       propertyPath: CurrentDirection
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5075775655067238256, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -163,6 +168,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 410303ae7958d7e4f992e056a0cbca76
+      objectReference: {fileID: 0}
+    - target: {fileID: 8163608160046166977, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: exportCost
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 8163608160046166977, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}

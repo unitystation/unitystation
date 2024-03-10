@@ -62,9 +62,9 @@ namespace Items.Implants.Organs
 
 			isFreshBlood = true;
 			base.ImplantPeriodicUpdate();
-			// Logger.Log("Absorbing >" + Absorbing);
+			// Loggy.Log("Absorbing >" + Absorbing);
 			float NutrimentPercentage = (ReagentCirculatedComponent.AssociatedSystem.BloodPool[HungerComponent.Nutriment] / ReagentCirculatedComponent.AssociatedSystem.BloodPool.Total);
-			//Logger.Log("NutrimentPercentage >" + NutrimentPercentage);
+			//Loggy.Log("NutrimentPercentage >" + NutrimentPercentage);
 			if (NutrimentPercentage < ReleaseNutrimentPercentage)
 			{
 				float ToRelease = ReleaseAmount;
@@ -76,7 +76,7 @@ namespace Items.Implants.Organs
 				ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(HungerComponent.Nutriment, ToRelease);
 				AbsorbedAmount -= ToRelease;
 				isFreshBlood = false;
-				// Logger.Log("ToRelease >" + ToRelease);
+				// Loggy.Log("ToRelease >" + ToRelease);
 			}
 			else if (isFreshBlood && NutrimentPercentage > AbsorbNutrimentPercentage && AbsorbedAmount < MinuteStoreMaxAmount)
 			{
@@ -88,15 +88,15 @@ namespace Items.Implants.Organs
 
 				float Absorbing = ReagentCirculatedComponent.AssociatedSystem.BloodPool.Remove(HungerComponent.Nutriment, ToAbsorb);
 				AbsorbedAmount += Absorbing;
-				// Logger.Log("Absorbing >" + Absorbing);
+				// Loggy.Log("Absorbing >" + Absorbing);
 			}
 
-			//Logger.Log("AbsorbedAmount >" + AbsorbedAmount);
+			//Loggy.Log("AbsorbedAmount >" + AbsorbedAmount);
 			//TODOH Proby doesn't need to be updated so often
 			if (DDebuffInPoint < AbsorbedAmount)
 			{
 				float DeBuffMultiplier = (AbsorbedAmount - DDebuffInPoint) / (MinuteStoreMaxAmount - DDebuffInPoint);
-				// Logger.Log("DeBuffMultiplier >" + DeBuffMultiplier);
+				// Loggy.Log("DeBuffMultiplier >" + DeBuffMultiplier);
 				RunningSpeedModifier = maxRunSpeedDebuff * DeBuffMultiplier;
 				WalkingSpeedModifier = maxWalkingDebuff * DeBuffMultiplier;
 				CrawlingSpeedModifier = maxCrawlDebuff * DeBuffMultiplier;

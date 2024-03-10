@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using Player;
 using Messages.Server;
+using Core.Accounts;
 using Systems.Character;
 
 /// <summary>
@@ -15,20 +16,25 @@ public class PlayerInfo
 	/// Name that is used if the client's character name is empty
 	/// </summary>
 	private const string DEFAULT_NAME = "Anonymous Spessman";
-	public static readonly PlayerInfo Invalid = new PlayerInfo
+	public static readonly PlayerInfo Invalid = new()
 	{
 		Connection = null,
 		gameObject = null,
-		Username = null,
+		Account = null,
 		name = "Invalid Player",
 		job = JobType.NULL,
 		ClientId = "",
-		UserId = "",
 		ConnectionIP = ""
 	};
 
-	/// <summary>Username for the player's account.</summary>
-	public string Username { get; set; }
+	/// <inheritdoc cref="Core.Accounts.Account"/>
+	public Account Account { get; set; }
+
+	/// <inheritdoc cref="Account.Id"/>
+	public string AccountId => Account?.Id;
+
+	/// <inheritdoc cref="Account.Username"/>
+	public string Username => Account?.Username;
 
 	/// <summary>The player script for the player while in the game.</summary>
 	public PlayerScript Script => GameObject.OrNull()?.GetComponent<PlayerScript>();
@@ -38,7 +44,6 @@ public class PlayerInfo
 	public Mind Mind { get; private set; }
 
 	public string ClientId { get; set; }
-	public string UserId { get; set; }
 	public NetworkConnectionToClient Connection { get; set; }
 
 	public string ConnectionIP { get; set; }
@@ -159,7 +164,7 @@ public class PlayerInfo
 			return;
 		}
 
-		string uniqueName = GetUniqueName(playerName, UserId);
+		string uniqueName = GetUniqueName(playerName, AccountId);
 		name = uniqueName;
 	}
 
@@ -225,7 +230,7 @@ public class PlayerInfo
 			return "Invalid player";
 		}
 		return $"ConnectedPlayer {nameof(Username)}: {Username}, {nameof(ClientId)}: {ClientId}, " +
-		       $"{nameof(UserId)}: {UserId}, {nameof(Connection)}: {Connection}, {nameof(Name)}: {Name}, {nameof(Job)}: {Job}";
+		       $"{nameof(AccountId)}: {AccountId}, {nameof(Connection)}: {Connection}, {nameof(Name)}: {Name}, {nameof(Job)}: {Job}";
 	}
 }
 

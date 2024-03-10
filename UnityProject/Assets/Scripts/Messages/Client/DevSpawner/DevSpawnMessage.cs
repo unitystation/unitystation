@@ -67,7 +67,7 @@ namespace Messages.Client.DevSpawner
 				}
 
 				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					$"{SentByPlayer.Username} spawned a {prefab.name} at {msg.WorldPosition}", SentByPlayer.UserId);
+					$"{SentByPlayer.Username} spawned a {prefab.name} at {msg.WorldPosition}", SentByPlayer.AccountId);
 			}
 			else
 			{

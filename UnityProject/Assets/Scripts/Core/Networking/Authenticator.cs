@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
-using UnityEngine;
 using Mirror;
+using Core.Accounts;
+using Core.Database;
 using DatabaseAPI;
 using GameConfig;
 using Lobby;
@@ -17,10 +18,8 @@ namespace Core.Networking
 	{
 		/// <summary>The identifier for the game client.</summary>
 		public string ClientId;
-		/// <summary>The identifier for the player's Unitystation account.</summary>
-		public string AccountId;
-		/// <summary>Human-friendly public-facing username of the player's account.</summary>
-		public string Username;
+		/// <summary>The player's Unitystation account information.</summary>
+		public Account Account;
 	}
 
 	/// <summary>
@@ -37,9 +36,8 @@ namespace Core.Networking
 			public int ClientVersion;
 			public string ClientId;
 			public string AccountId;
-			public string Username;
-			public string Token;
-			public string Password;
+			public string PlayerToken;
+			public string LobbyPassword;
 		}
 
 		public struct AuthResponseMessage : NetworkMessage
@@ -58,8 +56,9 @@ namespace Core.Networking
 			InvalidAccountDetails,
 			AccountValidationError,
 			AccountValidationFailed,
+			AccountNotVerified,
 			RequestPassword,
-			IncorrectPassword
+			IncorrectPassword,
 		}
 
 		#endregion
@@ -89,6 +88,8 @@ namespace Core.Networking
 
 		public void OnServerClientAuthRequest(NetworkConnectionToClient conn, ServerClientAuthRequestMessage msg)
 		{
+			// A special authentication request for the server's local client.
+
 			// Before proceeding, check for connection spam.
 			if (IsSpamming(conn))
 			{
@@ -110,8 +111,8 @@ namespace Core.Networking
 		public async void OnAuthRequest(NetworkConnectionToClient conn, AuthRequestMessage msg)
 		{
 			Loggy.LogTrace($"A client is requesting authentication. " +
-					$"Address: {conn.address}. Client Version: {msg.ClientVersion}. Account ID: {msg.AccountId}.",
-					Category.Connections);
+			               $"Address: {conn.address}. Client Version: {msg.ClientVersion}. Account ID: {msg.AccountId}.",
+				Category.Connections);
 
 			// Before proceeding, check for connection spam.
 			if (IsSpamming(conn))
@@ -120,16 +121,31 @@ namespace Core.Networking
 				return;
 			}
 
-			if (ValidatePlayerClient(conn, msg.ClientVersion) == false) return;
-			if (ValidatePassword(conn, msg) == false) return;
-			if (await ValidatePlayerAccount(conn, msg) == false) return;
+			Account account;
+
+			// Allow local offline testing
+			if (GameData.Instance.OfflineMode)
+			{
+				account = new Account(); // TODO probably need to populate w/ dummy values
+			}
+			else
+			{
+				if (ValidateRequest(conn, msg.AccountId, msg.PlayerToken) == false) return;
+				if (ValidatePlayerClient(conn, msg.ClientVersion) == false) return;
+
+				account = await TryGetPlayerAccount(conn, msg.AccountId, msg.PlayerToken);
+				if (account == null) return;
+
+				if (ValidatePlayerAccount(conn, account) == false) return;
+			}
+
+			//if (ValidateLobbyPassword(conn, msg) == false) return; TODO!!!
 
 			// Accept the successful authentication
 			conn.authenticationData = new AuthData
 			{
 				ClientId = msg.ClientId,
-				AccountId = msg.AccountId,
-				Username = msg.Username,
+				Account = account,
 			};
 
 			conn.Send(new AuthResponseMessage
@@ -159,7 +175,7 @@ namespace Core.Networking
 				if (logSecondsElapsed > MinCooldown)
 				{
 					Loggy.LogError($"Connection spam alert. Address {conn.address} is trying to spam connections.",
-							Category.Connections);
+						Category.Connections);
 				}
 
 				return true;
@@ -209,64 +225,90 @@ namespace Core.Networking
 			if (clientVersion != GameData.BuildNumber)
 			{
 				Loggy.LogTrace($"A client tried to connect with a different client version. Version: {clientVersion}.",
-						Category.Connections);
+					Category.Connections);
 				DisconnectClient(conn, ResponseCode.InvalidClientVersion,
-						$"Invalid Client Version! You need version {GameData.BuildNumber}. This can be acquired through the station hub.");
+					$"Invalid Client Version! You need version {GameData.BuildNumber}. This can be acquired through the station hub.");
 				return false;
 			}
 
 			return true;
 		}
 
-		private async Task<bool> ValidatePlayerAccount(NetworkConnectionToClient conn, AuthRequestMessage msg)
+		private bool ValidateRequest(NetworkConnectionToClient conn, string accountId, string playerToken)
 		{
-			// Allow local offline testing
-			if (GameData.Instance.OfflineMode) return true;
-
-			var accountId = msg.AccountId;
-			var accountToken = msg.Token;
-
-			// Must have account ID and token
-			if (string.IsNullOrEmpty(accountId) || string.IsNullOrEmpty(accountToken))
+			// Must have account ID and player token
+			if (string.IsNullOrEmpty(accountId) || string.IsNullOrEmpty(playerToken))
 			{
 				Loggy.LogError(
-						"A user tried to connect with an invalid account ID and/or token."
-						+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
-						Category.Connections);
+					"A user tried to connect with an invalid account ID and/or token."
+					+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
+					Category.Connections);
 				DisconnectClient(conn, ResponseCode.InvalidAccountDetails,
-						"Account has invalid token. Try restarting the game and relogging into your account.");
-
-				return false;
-			}
-
-			// Validate the provided token against the account details
-			var refresh = new RefreshToken { userID = accountId, refreshToken = accountToken };
-			var response = await ServerData.ValidateToken(refresh, true);
-			if (response == null)
-			{
-				Loggy.LogError($"Server error when validating user account token."
-						+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
-						Category.Connections);
-				DisconnectClient(conn, ResponseCode.AccountValidationError,
-						"Server Error: unknown problem encountered when attempting to validate your account token.");
-
-				return false;
-			}
-
-
-			if (response.errorCode == 1)
-			{
-				Loggy.LogError("A user tried to authenticate with a bad token. Possible spoof attempt."
-				                + $" Account ID: '{accountId}'. IP: '{conn.address}'.",
-						Category.Connections);
-				DisconnectClient(conn, ResponseCode.AccountValidationFailed,
-						"Account token validation failed. Try restarting the game and relogging into your account.");
+					"Account has invalid token. Try restarting the game and relogging into your account.");
 
 				return false;
 			}
 
 			return true;
 		}
+
+		private async Task<Account> TryGetPlayerAccount(NetworkConnectionToClient conn, string accountId, string playerToken)
+		{
+			// Validate the provided token against the account details and get the account
+			ApiResult<AccountGetResponse> accountResponse;
+			try
+			{
+				accountResponse = await AccountServer.VerifyAccount(accountId, playerToken);
+				if (!accountResponse.IsSuccess)
+				{
+					throw (ApiRequestException)accountResponse.Exception!;
+				}
+			}
+			catch (ApiRequestException e)
+			{
+				Loggy.Log(
+					$"The API server rejected the verification request for account with "
+					+ $"ID '{accountId}' at address '{conn.address}'. Error: {e.Message}",
+					Category.Connections);
+
+				// TODO check which particular error message corresponds with the log below, if we have one.
+				//Loggy.Log("A user tried to authenticate with a bad token. Possible spoof attempt."
+				//		+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
+				//		Category.Connections);
+				DisconnectClient(conn, ResponseCode.AccountValidationFailed,
+					"Account token validation failed. Try restarting the game and relogging into your account.");
+
+				return default;
+			}
+			catch (ApiHttpException e)
+			{
+				Loggy.LogError($"Http error when validating user account token. Error: {e.Message} - "
+				               + $"Account ID: '{accountId}'. IP: '{conn.address}'.",
+					Category.Connections);
+				DisconnectClient(conn, ResponseCode.AccountValidationError,
+					"Server Error: unknown problem encountered when attempting to validate your account token.");
+
+				return default;
+			}
+
+			return Account.FromAccountGetResponse(accountResponse.Data);
+		}
+
+		private bool ValidatePlayerAccount(NetworkConnectionToClient conn, Account account)
+		{
+			if (account.IsLoggedIn == false)
+			{
+				Loggy.LogErrorFormat("log in attempt failed for account with ID {0} at address {1}.",
+					Category.Connections, account.Id, conn.address);
+				DisconnectClient(conn, ResponseCode.AccountNotVerified,
+					"Could not log in with these credentials. Make sure you typed them correctly and you have confirmed your email.");
+
+				return false;
+			}
+
+			return true;
+		}
+
 
 		private bool ValidatePassword(NetworkConnectionToClient conn, AuthRequestMessage msg)
 		{
@@ -276,10 +318,10 @@ namespace Core.Networking
 			if (string.IsNullOrEmpty(ServerData.ServerConfig.ConnectionPassword)) return true;
 
 			//Client has sent password deny if wrong
-			if (msg.Password != PasswordField)
+			if (msg.LobbyPassword != PasswordField)
 			{
 				//If password correct let through
-				if (msg.Password == ServerData.ServerConfig.ConnectionPassword)
+				if (msg.LobbyPassword == ServerData.ServerConfig.ConnectionPassword)
 				{
 					//Remove from password timer
 					connectionPasswordRequestTime.Remove(conn.address);
@@ -287,11 +329,11 @@ namespace Core.Networking
 				}
 
 				Loggy.LogError(
-					$"A user tried to connect with an invalid password: {msg.Password}."
+					$"A user tried to connect with an invalid lobby password: {msg.LobbyPassword}."
 					+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
 					Category.Connections);
 
-				DisconnectClient(conn, ResponseCode.IncorrectPassword, "Invalid Password!");
+				DisconnectClient(conn, ResponseCode.IncorrectPassword, "Invalid lobby password!");
 
 				return false;
 			}
@@ -325,7 +367,7 @@ namespace Core.Networking
 
 			// Force disconnect after giving time for message receipt,
 			// if the client hasn't already disconnected gracefully
-			yield return new WaitForSeconds(1f);
+			yield return WaitFor.Seconds(1f);
 
 			ServerReject(conn);
 		}
@@ -341,7 +383,7 @@ namespace Core.Networking
 			NetworkClient.RegisterHandler<ServerClientAuthResponseMessage>(OnServerClientAuthResponse, false);
 		}
 
-		public override void OnClientAuthenticate()
+		public override async void OnClientAuthenticate()
 		{
 			if (CustomNetworkManager.IsHeadless || GameData.Instance.testServer)
 			{
@@ -353,10 +395,9 @@ namespace Core.Networking
 			{
 				ClientVersion = GameData.BuildNumber,
 				ClientId = GetPhysicalAddress(),
-				AccountId = ServerData.UserID,
-				Username = ServerData.Auth?.CurrentUser?.DisplayName,
-				Token = ServerData.IdToken,
-				Password = PasswordField
+				AccountId = PlayerManager.Account.Id,
+				PlayerToken = await PlayerManager.Account.GetPlayerToken(), // TODO error handling
+				LobbyPassword = PasswordField,
 			};
 
 			NetworkClient.Send(msg);
@@ -445,16 +486,15 @@ namespace Core.Networking
 			return "";
 		}
 
-		public void ClientSendPassword(string password)
+		public async void ClientSendLobbyPassword(string password)
 		{
 			AuthRequestMessage msg = new()
 			{
 				ClientVersion = GameData.BuildNumber,
 				ClientId = GetPhysicalAddress(),
-				AccountId = ServerData.UserID,
-				Username = ServerData.Auth?.CurrentUser?.DisplayName,
-				Token = ServerData.IdToken,
-				Password = password
+				AccountId = PlayerManager.Account.Id,
+				PlayerToken = await PlayerManager.Account.GetPlayerToken(), // TODO error handling
+				LobbyPassword = password,
 			};
 
 			NetworkClient.Send(msg);

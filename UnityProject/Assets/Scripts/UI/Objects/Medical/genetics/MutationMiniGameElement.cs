@@ -92,7 +92,7 @@ public class MutationMiniGameElement : DynamicEntry
 	public void MainSliderChangeMaster(float value )
 	{
 
-		//Logger.LogWarning(" Target >  " +SliderParameters.TargetLever + "  Actual value >  " + Value.ToString()); //Useful for debugging
+		//Loggy.LogWarning(" Target >  " +SliderParameters.TargetLever + "  Actual value >  " + Value.ToString()); //Useful for debugging
 		AccumulatedForces[this] = value;
 
 

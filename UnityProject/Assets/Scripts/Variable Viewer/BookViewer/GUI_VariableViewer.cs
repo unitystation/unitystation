@@ -226,7 +226,7 @@ namespace AdminTools.VariableViewer
 				}
 
 				PageEntry.Page = page;
-				//Logger.Log(JsonConvert.SerializeObject(page));
+				//Loggy.Log(JsonConvert.SerializeObject(page));
 				if (PresentPagesCount > MaximumPerTwoPages)
 				{
 					PageEntry.gameObject.SetActive(false);

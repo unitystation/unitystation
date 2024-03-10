@@ -37,7 +37,7 @@ public class GeneratePlantSOs : EditorWindow
 			EditorUtility.DisplayProgressBar("Step 1/3 Setting Sprites", "Loading plant: " + plat["name"], progressbarState);
 			//\\foreach (var Datapiece in plat)
 			//\\{
-			//\\	Logger.Log(Datapiece.Key);
+			//\\	Loggy.Log(Datapiece.Key);
 			//\\}
 
 			var plantdata = PlantData.CreateNewPlant((PlantData)null);
@@ -319,7 +319,7 @@ public class GeneratePlantSOs : EditorWindow
 
 
 			//\\ Creates the file in the folder path
-			Logger.Log(plantdata.Name + " < PlantDictionary");
+			Loggy.Log(plantdata.Name + " < PlantDictionary");
 			PlantDictionary[plantdata.Name] = DefaultPlantData;
 
 			if (plat.ContainsKey("mutates_into"))
@@ -328,7 +328,7 @@ public class GeneratePlantSOs : EditorWindow
 			}
 
 
-			//\\Logger.Log(plantdata.GrowthSprites.Count.ToString());
+			//\\Loggy.Log(plantdata.GrowthSprites.Count.ToString());
 
 		}
 

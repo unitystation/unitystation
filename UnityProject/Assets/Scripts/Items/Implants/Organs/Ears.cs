@@ -55,7 +55,7 @@ namespace Items.Implants.Organs
 			if (RelatedPart.HealthMaster == null) return false;
 
 
-			//Logger.LogError("IsValidSetup");
+			//Loggy.LogError("IsValidSetup");
 			return true;
 		}
 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Mime Set
   m_EditorClassIdentifier: 
   OrderName: Mime Set
-  CreditCost: 700
+  CreditCost: 875
   Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}
   Items:
   - {fileID: 1393604165951937989, guid: 55e43c3f69415c540bcd3de664a3a52d, type: 3}
@@ -22,5 +22,7 @@ MonoBehaviour:
   - {fileID: 6404652678407139925, guid: 82493ba3850304e50a7d25606a4f59f1, type: 3}
   - {fileID: 3921521694364753778, guid: 625759ec27e444592b12922a179ac340, type: 3}
   - {fileID: 3011710637427380133, guid: 57b4739d8947544f387d028cd2dd59b9, type: 3}
-  ContentSellPrice: 505
   EmagOnly: 0
+  SuggestedCargoPrice: 876
+  ContentSellPrice: 730
+  WillFailUnitTests: 0

@@ -48,14 +48,14 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 
 			Directory.CreateDirectory(newendpath);
 			CopyFilesRecursively(DD, newDD);
-			//Logger.Log(newendpath);
+			//Loggy.Log(newendpath);
 
 
 			var Files = System.IO.Directory.GetFiles(flip.Directory.ToString());
 			string FoundFile = "";
 			foreach (var File in Files)
 			{
-				//Logger.Log(File);
+				//Loggy.Log(File);
 				if (File.EndsWith(".json"))
 				{
 					if (FoundFile != "")
@@ -131,7 +131,7 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 				string FoundFile = "";
 				foreach (var File in Files)
 				{
-					//Logger.Log(File);
+					//Loggy.Log(File);
 					if (File.EndsWith(".json"))
 					{
 						if (FoundFile != "")
@@ -166,7 +166,7 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 
 		foreach (FileInfo file in di.GetFiles("*", SearchOption.AllDirectories))
 		{
-			//Logger.Log(file.ToString());
+			//Loggy.Log(file.ToString());
 			file.Delete();
 		}
 	}

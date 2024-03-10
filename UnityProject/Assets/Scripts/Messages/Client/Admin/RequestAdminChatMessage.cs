@@ -12,20 +12,15 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			VerifyAdminStatus(msg);
-		}
-
-		private void VerifyAdminStatus(NetMessage msg)
-		{
 			if (IsFromAdmin())
 			{
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg.Message, SentByPlayer.UserId);
+				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg.Message, SentByPlayer);
 			}
 		}
 
 		public static NetMessage Send(string message)
 		{
-			NetMessage msg = new NetMessage
+			NetMessage msg = new()
 			{
 				Message = message
 			};

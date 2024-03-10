@@ -15,7 +15,7 @@ namespace Messages.Client.Admin
 		{
 			if (IsFromAdmin())
 			{
-				AdminToolRefreshMessage.Send(SentByPlayer.GameObject, SentByPlayer.UserId);
+				AdminToolRefreshMessage.Send(SentByPlayer.GameObject, SentByPlayer.AccountId);
 			}
 		}
 

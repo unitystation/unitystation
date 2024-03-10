@@ -240,7 +240,7 @@ namespace UI
 		{
 			if (tab.Hidden)
 			{
-				//				Logger.LogWarning( $"Tab {tab} is hidden, no header will be provided" );
+				//				Loggy.LogWarning( $"Tab {tab} is hidden, no header will be provided" );
 				return null;
 			}
 
@@ -253,7 +253,7 @@ namespace UI
 					return header;
 				}
 			}
-			//			Logger.LogError( $"No headers found for {tab}, wtf?" );
+			//			Loggy.LogError( $"No headers found for {tab}, wtf?" );
 			return null;
 		}
 
@@ -287,7 +287,7 @@ namespace UI
 		/// This one is called when tab header is clicked on
 		public void SelectTab(int index, bool click = true)
 		{
-			//			Logger.Log( $"Selecting tab #{index}" );
+			//			Loggy.Log( $"Selecting tab #{index}" );
 			UnselectAll();
 			Tab tab = TabStorage.GetChild(index)?.GetComponent<Tab>();
 

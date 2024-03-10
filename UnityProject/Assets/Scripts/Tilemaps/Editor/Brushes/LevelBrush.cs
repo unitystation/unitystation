@@ -25,10 +25,10 @@ public class LevelBrush : GridBrush
 		{
 			recordedChimpEvent.time = DateTime.Now;
 			recordedChimpEvent.loc = position;
-			//Logger.Log("successful chimp event");
+			//Loggy.Log("successful chimp event");
 			return false;
 		}
-		//Logger.Log("no chimp event");
+		//Loggy.Log("no chimp event");
 		return true;
 	}
 

@@ -149,10 +149,10 @@ public class VariableViewerNetworking : MonoBehaviour
 			Dictionary<uint, NetFriendlySentence> DictionaryStore = new Dictionary<uint, NetFriendlySentence>();
 			if (Sentences.Length > 0)
 			{
-				//Logger.Log("YOOOOO");
+				//Loggy.Log("YOOOOO");
 				NetFriendlySentence TOPClientFriendlySentence = Sentences[0];
 				DictionaryStore[Sentences[0].SentenceID] = TOPClientFriendlySentence;
-				//Logger.LogError(JsonConvert.SerializeObject(Sentences));
+				//Loggy.LogError(JsonConvert.SerializeObject(Sentences));
 				foreach (var bob in Sentences)
 				{
 					bob.SetSentences(new List<NetFriendlySentence>());
@@ -164,7 +164,7 @@ public class VariableViewerNetworking : MonoBehaviour
 					{
 						if (DictionaryStore.ContainsKey(bob.HeldBySentenceID))
 						{
-							//Logger.LogError("added" + bob.ValueVariable);
+							//Loggy.LogError("added" + bob.ValueVariable);
 							DictionaryStore[bob.HeldBySentenceID].GetSentences().Add(bob);
 						}
 					}
@@ -174,8 +174,8 @@ public class VariableViewerNetworking : MonoBehaviour
 				TOPClientFriendlySentence
 				};
 				Sentences = _bob;
-				//Logger.Log("TT > " + JsonConvert.SerializeObject(Sentences));
-				//Logger.Log(JsonConvert.SerializeObject(Sentences[0].GetSentences()));
+				//Loggy.Log("TT > " + JsonConvert.SerializeObject(Sentences));
+				//Loggy.Log(JsonConvert.SerializeObject(Sentences[0].GetSentences()));
 			}
 		}
 

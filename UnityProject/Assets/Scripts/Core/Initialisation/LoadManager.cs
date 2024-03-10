@@ -120,7 +120,7 @@ namespace Initialisation
 			{
 				IsExecuting = true;
 				IsExecutingGeneric = true;
-				//Logger.Log(QueueInitialise.Count.ToString() + " < in queue ");
+				//Loggy.Log(QueueInitialise.Count.ToString() + " < in queue ");
 				stopwatch.Start();
 
 				int i = 0;
@@ -156,14 +156,14 @@ namespace Initialisation
 				stopwatch.Reset();
 				IsExecuting = false;
 				IsExecutingGeneric = false;
-				//Logger.Log(stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds ");
+				//Loggy.Log(stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds ");
 			}
 
 			if (QueueInitialise.Count > 0)
 			{
 				lock (QueueInitialise)
 				{
-					//Logger.Log(QueueInitialise.Count.ToString() + " < in queue ");
+					//Loggy.Log(QueueInitialise.Count.ToString() + " < in queue ");
 					stopwatch.Start();
 					IsExecuting = true;
 					Action QueueAction = null;
@@ -192,7 +192,7 @@ namespace Initialisation
 					stopwatch.Reset();
 					IsExecuting = false;
 					IsExecutingGeneric = false;
-					//Logger.Log(stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds ");
+					//Loggy.Log(stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds ");
 				}
 			}
 

@@ -112,15 +112,33 @@ namespace SecureStuff
 				File.WriteAllText(path, @"
 {
     ""SavedAllowedOpenHosts"": [],
-    ""SavedAllowedAPIHosts"": [""api.unitystation.org"", ""firestore.googleapis.com"", ""play.unitystation.org""],
+    ""SavedAllowedAPIHosts"": [""api.unitystation.org"", ""dev-api.unitystation.org"", ""prod-api.unitystation.org"", ""play.unitystation.org""],
     ""SavedAllowedGithubRepositories"": [""unitystation/unitystation/develop""]
 }");
 			}
 
+
+			var SavedAllowedAPIHosts = new List<string>()
+			{
+				"api.unitystation.org", "dev-api.unitystation.org", "prod-api.unitystation.org", "play.unitystation.org",
+			};
+
 			var data = JsonConvert.DeserializeObject<URLData>(File.ReadAllText(path));
+
+
+			foreach (var SavedAllowedAPIHost in SavedAllowedAPIHosts)
+			{
+				if (data.SavedAllowedAPIHosts.Contains(SavedAllowedAPIHost) == false)
+				{
+					data.SavedAllowedAPIHosts.Add(SavedAllowedAPIHost);
+				}
+			}
+
+
 			allowedOpenHosts = data.SavedAllowedOpenHosts;
 			allowedAPIHosts = data.SavedAllowedAPIHosts;
 			allowedGithubRepositories = data.SavedAllowedGithubRepositories;
+			SaveCashedURLConfiguration(data);
 		}
 
 		private static void SaveCashedURLConfiguration(URLData URLData)

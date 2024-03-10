@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Seeds Crate
   m_EditorClassIdentifier: 
   OrderName: Seeds Crate
-  CreditCost: 1000
+  CreditCost: 1440
   Crate: {fileID: 6021181062730950660, guid: 871c3d9267933674894b9bfb2f956c56, type: 3}
   Items:
   - {fileID: 7872250047666169019, guid: a8b053482da561b4eba3bd81d8fe51ab, type: 3}
@@ -46,5 +46,7 @@ MonoBehaviour:
   - {fileID: 3655365403910077050, guid: b35a262356250504fbfa735d183f9998, type: 3}
   - {fileID: 1841225579218662542, guid: 397461e981e81df4c8983f127dbabae6, type: 3}
   - {fileID: 1841225579218662542, guid: 397461e981e81df4c8983f127dbabae6, type: 3}
-  ContentSellPrice: 500
   EmagOnly: 0
+  SuggestedCargoPrice: 1440
+  ContentSellPrice: 1200
+  WillFailUnitTests: 0

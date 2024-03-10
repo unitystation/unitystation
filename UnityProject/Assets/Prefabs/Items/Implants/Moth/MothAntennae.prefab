@@ -67,6 +67,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2988332360848176654, guid: 2cdfee5611d505240ab3835c94a38fa8,
         type: 3}
+      propertyPath: exportCost
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 2988332360848176654, guid: 2cdfee5611d505240ab3835c94a38fa8,
+        type: 3}
       propertyPath: initialName
       value: moth antennae
       objectReference: {fileID: 0}
@@ -208,6 +213,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   DefaultHearing: 1
   PressureMultiplier: 1
   MutationMultiplier: 1

@@ -9,6 +9,7 @@ using SecureStuff;
 using DatabaseAPI;
 using Mirror;
 using UnityEngine;
+using Core.Accounts;
 using DiscordWebhook;
 using Lobby;
 using Logs;
@@ -328,33 +329,33 @@ public partial class PlayerList
 		if (ValidatePlayerAdminStatus(player))
 		{
 			CheckAdminState(player);
-			Loggy.Log($"Admin {player.Username} (user ID '{player.UserId}') logged in successfully.", Category.Admin);
+			Loggy.Log($"Admin {player.Username} (user ID '{player.AccountId}') logged in successfully.", Category.Admin);
 			return true;
 		}
 
 		if (CanRegularPlayerJoin(player) == false) return false;
 		if (ValidateMultikeying(player) == false) return false;
 
-		Loggy.Log($"{player.Username} (user ID '{player.UserId}') logged in successfully.", Category.Admin);
+		Loggy.Log($"{player.Username} (user ID '{player.AccountId}') logged in successfully.", Category.Admin);
 		return true;
 	}
 
 	private bool ValidatePlayerAdminStatus(PlayerInfo player)
 	{
 		// Server host instances are always admins
-		if (player.UserId == ServerData.UserID)
+		if (player.AccountId == PlayerManager.Account.Id)
 		{
-			serverAdmins.Add(player.UserId);
+			serverAdmins.Add(player.AccountId);
 		}
 
 		// Players are always admins if in offline mode, for testing
 		if (GameData.Instance.OfflineMode)
 		{
-			Loggy.Log($"{player.Username} logged in successfully in offline mode. userid: {player.UserId}", Category.Admin);
-			serverAdmins.Add(player.UserId);
+			Loggy.Log($"{player.Username} logged in successfully in offline mode. userid: {player.AccountId}", Category.Admin);
+			serverAdmins.Add(player.AccountId);
 		}
 
-		return serverAdmins.Contains(player.UserId);
+		return serverAdmins.Contains(player.AccountId);
 	}
 
 	private bool CanRegularPlayerJoin(PlayerInfo player)
@@ -375,7 +376,7 @@ public partial class PlayerList
 		//Checks whether the userid is in either the Admins or whitelist AND that the whitelist file has something in it.
 		//Whitelist only activates if whitelist is populated.
 		var lines = AccessFile.ReadAllLines(whiteListPath);
-		if (lines.Length > 0 && !whiteListUsers.Contains(player.UserId))
+		if (lines.Length > 0 && !whiteListUsers.Contains(player.AccountId))
 		{
 			ServerKickPlayer(player, $"This server uses a whitelist. This account is not whitelisted.");
 			Loggy.Log($"{player.Username} tried to log in but the account is not whitelisted. IP: {player.ConnectionIP}", Category.Admin);
@@ -383,7 +384,7 @@ public partial class PlayerList
 		}
 
 		//Banlist checking:
-		var banEntry = banList?.CheckForEntry(player.UserId, player.ConnectionIP, player.ClientId);
+		var banEntry = banList?.CheckForEntry(player.AccountId, player.ConnectionIP, player.ClientId);
 		if (banEntry != null)
 		{
 			var entryTime = DateTime.ParseExact(banEntry.dateTimeOfBan, "O", CultureInfo.InvariantCulture);
@@ -417,7 +418,7 @@ public partial class PlayerList
 		//Check if they are already logged in, skip this check if offline mode is enable or if not a release build.
 		if (BuildPreferences.isForRelease == false) return true;
 
-		if (TryGetOnlineByUserID(player.UserId, out var existingPlayer)
+		if (TryGetOnlineByUserID(player.AccountId, out var existingPlayer)
 				&& existingPlayer.Connection != player.Connection)
 		{
 			InfoWindowMessage.Send(player.GameObject,
@@ -479,7 +480,7 @@ public partial class PlayerList
 	public JobBanEntry FindPlayerJobBanEntry(PlayerInfo connPlayer, JobType jobType, bool serverSideCheck)
 	{
 		//jobbanlist checking:
-		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.ConnectionIP, connPlayer.ClientId);
+		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.AccountId, connPlayer.ConnectionIP, connPlayer.ClientId);
 
 		if (jobBanPlayerEntry.Value.Item1 == null)
 		{
@@ -533,7 +534,7 @@ public partial class PlayerList
 			return default;
 		}
 
-		string playerUserID = connPlayer.UserId;
+		string playerUserID = connPlayer.AccountId;
 		string playerAddress = connPlayer.ConnectionIP;
 		string playerClientID = connPlayer.ClientId;
 
@@ -564,11 +565,11 @@ public partial class PlayerList
 				JobBanExpireCheck(jobBan, jobBanPlayerEntry.Value.Item2, connPlayer);
 			}
 
-			if (jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.ConnectionIP, connPlayer.ClientId).Item1.jobBanEntry.Count == 0) break;
+			if (jobBanList?.CheckForEntry(connPlayer.AccountId, connPlayer.ConnectionIP, connPlayer.ClientId).Item1.jobBanEntry.Count == 0) break;
 		}
 
 		var newJobBanPlayerEntry = jobBanList
-			?.CheckForEntry(connPlayer.UserId, connPlayer.ConnectionIP, connPlayer.ClientId).Item1.jobBanEntry;
+			?.CheckForEntry(connPlayer.AccountId, connPlayer.ConnectionIP, connPlayer.ClientId).Item1.jobBanEntry;
 
 		if (newJobBanPlayerEntry == null)
 		{
@@ -770,12 +771,12 @@ public partial class PlayerList
 	public void CheckAdminState(PlayerInfo player)
 	{
 		//full admin privs for local offline testing for host player
-		if (serverAdmins.Contains(player.UserId) || (GameData.Instance.OfflineMode && player.GameObject == PlayerManager.LocalViewerScript.gameObject) || Application.isEditor)
+		if (serverAdmins.Contains(player.AccountId) || (GameData.Instance.OfflineMode && player.GameObject == PlayerManager.LocalViewerScript.gameObject) || Application.isEditor)
 		{
 			//This is an admin, send admin notify to the users client
 			Loggy.Log($"{player.Username} logged in as Admin. IP: {player.ConnectionIP}", Category.Admin);
 			var newToken = Guid.NewGuid().ToString();
-			loggedInAdmins[player.UserId] = newToken;
+			loggedInAdmins[player.AccountId] = newToken;
 			player.PlayerRoles |= PlayerRole.Admin;
 			AdminEnableMessage.SendMessage(player, newToken);
 		}
@@ -890,7 +891,7 @@ public partial class PlayerList
 		bool ban = false, int banLengthInMinutes = 0, PlayerInfo adminPlayer = null)
 	{
 		Loggy.Log("Processing KickPlayer/ban for " + "\n"
-				   + "UserId " + connPlayer?.UserId + "\n"
+				   + "UserId " + connPlayer?.AccountId + "\n"
 				   + "Username " + connPlayer?.Username + "\n"
 				   + "address " + connPlayer?.Connection?.address + "\n"
 				   + "clientId " + connPlayer?.ClientId + "\n",
@@ -902,23 +903,23 @@ public partial class PlayerList
 			message = $"You have been banned for {banLengthInMinutes}" +
 					  $" minutes. Reason: {reason}";
 
-			int index = banList.banEntries.FindIndex(x => x.userId == connPlayer.UserId);
+			int index = banList.banEntries.FindIndex(x => x.userId == connPlayer.AccountId);
 			if (index != -1)
 			{
-				Loggy.Log("removing pre-existing ban entry for userId of" + connPlayer.UserId, Category.Admin);
+				Loggy.Log("removing pre-existing ban entry for userId of" + connPlayer.AccountId, Category.Admin);
 				banList.banEntries.RemoveAt(index);
 			}
 
 			banList.banEntries.Add(new BanEntry
 			{
-				userId = connPlayer?.UserId,
+				userId = connPlayer?.AccountId,
 				userName = connPlayer?.Username,
 				minutes = banLengthInMinutes,
 				reason = reason,
 				dateTimeOfBan = DateTime.Now.ToString("O"),
 				ipAddress = connPlayer?.Connection?.address,
 				clientId = connPlayer?.ClientId,
-				adminId = adminPlayer?.UserId,
+				adminId = adminPlayer?.AccountId,
 				adminName = adminPlayer?.Username
 			});
 
@@ -945,7 +946,7 @@ public partial class PlayerList
 		Loggy.Log($"Kicking client {connPlayer.Username} : {message}", Category.Admin);
 		InfoWindowMessage.Send(connPlayer.GameObject, message, "Disconnected");
 
-		yield return WaitFor.Seconds(1f);
+		yield return WaitFor.Seconds(1f);  // Wait a bit to ensure our message reaches client before disconnect message (I assume)
 
 		Loggy.LogError($"Disconnecting client {connPlayer.Username} : Via admin KickOrBanPlayer {message}", Category.Admin);
 		connPlayer.Connection.Disconnect();
@@ -1011,7 +1012,7 @@ public partial class PlayerList
 		}
 
 		Loggy.Log("Processing job ban for " + "\n"
-													+ "UserId " + connPlayer?.UserId + "\n"
+													+ "UserId " + connPlayer?.AccountId + "\n"
 													+ "Username " + connPlayer?.Username + "\n"
 													+ "address " + connPlayer?.Connection?.address + "\n"
 													+ "clientId " + connPlayer?.ClientId + "\n"
@@ -1019,7 +1020,7 @@ public partial class PlayerList
 		);
 
 		//jobbanlist checking:
-		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.ConnectionIP, connPlayer.ClientId);
+		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.AccountId, connPlayer.ConnectionIP, connPlayer.ClientId);
 
 		if (jobBanPlayerEntry.Value.Item1 == null)
 		{
@@ -1027,16 +1028,16 @@ public partial class PlayerList
 
 			jobBanList.jobBanEntries.Add(new JobBanPlayerEntry
 			{
-				userId = connPlayer?.UserId,
+				userId = connPlayer?.AccountId,
 				userName = connPlayer?.Username,
 				ipAddress = connPlayer?.ConnectionIP,
 				clientId = connPlayer?.ClientId,
 				jobBanEntry = new List<JobBanEntry>(),
-				adminId = admin?.UserId,
+				adminId = admin?.AccountId,
 				adminName = admin?.Username
 			});
 
-			jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.ConnectionIP, connPlayer.ClientId);
+			jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.AccountId, connPlayer.ConnectionIP, connPlayer.ClientId);
 		}
 
 		if (jobBanPlayerEntry.Value.Item1 == null)

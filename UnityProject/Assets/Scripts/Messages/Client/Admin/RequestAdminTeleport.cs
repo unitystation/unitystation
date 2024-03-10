@@ -41,7 +41,7 @@ namespace Messages.Client.Admin
 
 			foreach (var player in PlayerList.Instance.AllPlayers)
 			{
-				if (player.UserId == msg.UserToTeleport)
+				if (player.AccountId == msg.UserToTeleport)
 				{
 					userToTeleport = player.Script;
 
@@ -63,7 +63,7 @@ namespace Messages.Client.Admin
 			}
 
 			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					$"{SentByPlayer.Username} teleported {userToTeleport.playerName} to themselves", SentByPlayer.UserId);
+					$"{SentByPlayer.Username} teleported {userToTeleport.playerName} to themselves", SentByPlayer.AccountId);
 		}
 
 		private void DoAdminToPlayerTeleport(NetMessage msg)
@@ -74,7 +74,7 @@ namespace Messages.Client.Admin
 
 			foreach (var player in PlayerList.Instance.AllPlayers)
 			{
-				if (player.UserId == msg.UserToTeleportTo)
+				if (player.AccountId == msg.UserToTeleportTo)
 				{
 					userToTeleportTo = player.Script;
 
@@ -108,7 +108,7 @@ namespace Messages.Client.Admin
 				message = $"{SentByPlayer.Username} teleported to {userToTeleportTo.playerName} as a player";
 			}
 
-			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(message, SentByPlayer.UserId);
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(message, SentByPlayer.AccountId);
 		}
 
 		private void DoAllPlayersToPlayerTeleport(NetMessage msg)
@@ -119,7 +119,7 @@ namespace Messages.Client.Admin
 
 			foreach (var player in PlayerList.Instance.AllPlayers)
 			{
-				if (player.UserId == msg.UserToTeleportTo)
+				if (player.AccountId == msg.UserToTeleportTo)
 				{
 					destinationPlayer = player.Script;
 
@@ -156,7 +156,7 @@ namespace Messages.Client.Admin
 
 			var stringMsg = $"{SentByPlayer.Username} teleported all players to {destinationPlayer.playerName}";
 
-			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(stringMsg, SentByPlayer.UserId);
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(stringMsg, SentByPlayer.AccountId);
 		}
 
 		public static NetMessage Send(string userToTeleport, string userToTelportTo, OpperationList opperation, bool isAghost, Vector3 Coord)

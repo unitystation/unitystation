@@ -21,7 +21,7 @@ namespace Messages.Client.VariableViewer
 		{
 			if (IsFromAdmin() == false) return;
 
-			global::VariableViewer.RequestInvokeFunction(msg.PageID,msg.SendToClient , SentByPlayer.GameObject, SentByPlayer.UserId);
+			global::VariableViewer.RequestInvokeFunction(msg.PageID,msg.SendToClient ,  SentByPlayer.GameObject, SentByPlayer.AccountId);
 		}
 
 		public static NetMessage Send(ulong _PageID, bool InSendToClient)
