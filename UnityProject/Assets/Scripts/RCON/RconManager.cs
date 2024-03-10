@@ -210,7 +210,7 @@ public class RconManager : SingletonManager<RconManager>
 						Username = speaker,
 						Name = speaker,
 						ClientId = e.Username,
-						UserId = "rcon",
+						AccountId = "rcon",
 						ConnectionIP = e.IpAddress,
 						PlayerRoles = PlayerRole.Admin
 					};
@@ -342,7 +342,7 @@ public class RconManager : SingletonManager<RconManager>
 								Username = e.Username,
 								Name = e.Username,
 								ClientId = e.Username,
-								UserId = "rcon",
+								AccountId = "rcon",
 								ConnectionIP = e.IpAddress,
 								PlayerRoles = PlayerRole.Admin
 							};
@@ -463,7 +463,7 @@ public class RconManager : SingletonManager<RconManager>
 						return;
 					}
 
-					PlayerInfo player = PlayerList.Instance.InGamePlayers.FirstOrDefault(x => x.UserId == message.UserID);
+					PlayerInfo player = PlayerList.Instance.InGamePlayers.FirstOrDefault(x => x.AccountId == message.UserID);
 					if (player == null)
 					{
 						SendToSocket(e.SocketID, "sendhelpfail:Player does not exist");
@@ -476,7 +476,7 @@ public class RconManager : SingletonManager<RconManager>
 						Username = "[RCON]" + e.Username,
 						Name = "[RCON]" + e.Username,
 						ClientId = "",
-						UserId = "rcon",
+						AccountId = "rcon",
 						ConnectionIP = e.IpAddress,
 						PlayerRoles = PlayerRole.Admin
 					};
@@ -486,15 +486,15 @@ public class RconManager : SingletonManager<RconManager>
 					switch (message.Type)
 					{
 						case "admin":
-							AdminBwoinkMessage.Send(player.GameObject, pseudoPlayerInfo.UserId, $"<color=red>{pseudoPlayerInfo.Username}: {GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " + msg}</color>");
+							AdminBwoinkMessage.Send(player.GameObject, pseudoPlayerInfo.AccountId, $"<color=red>{pseudoPlayerInfo.Username}: {GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " + msg}</color>");
 							UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(msg, player, pseudoPlayerInfo);
 							break;
 						case "mentor":
-							MentorBwoinkMessage.Send(player.GameObject, pseudoPlayerInfo.UserId, $"<color=#6400FF>{pseudoPlayerInfo.Username}: {GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " + msg}</color>");
+							MentorBwoinkMessage.Send(player.GameObject, pseudoPlayerInfo.AccountId, $"<color=#6400FF>{pseudoPlayerInfo.Username}: {GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " + msg}</color>");
 							UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(msg, player, pseudoPlayerInfo);
 							break;
 						case "prayer":
-							PrayerBwoinkMessage.Send(player.GameObject, pseudoPlayerInfo.UserId, $"<i><color=yellow>{msg}</color></i>");
+							PrayerBwoinkMessage.Send(player.GameObject, pseudoPlayerInfo.AccountId, $"<i><color=yellow>{msg}</color></i>");
 							UIManager.Instance.adminChatWindows.playerPrayerWindow.ServerAddChatRecord(msg, player, pseudoPlayerInfo);
 							break;
 						case "internal":
@@ -698,10 +698,10 @@ public class Players
 			var player = PlayerList.Instance.InGamePlayers[i];
 			var playerEntry = new PlayerDetails()
 			{
-				playerName = player.Name + $" {player.Job} : Acc: {player.Username} {player.UserId} {player.ConnectionIP} ",
+				playerName = player.Name + $" {player.Job} : Acc: {player.Username} {player.AccountId} {player.ConnectionIP} ",
 				characterName = player.Name,
 				username = player.Username,
-				userID = player.UserId,
+				userID = player.AccountId,
 				connectionIP = player.ConnectionIP,
 				job = player.Job.ToString()
 			};
