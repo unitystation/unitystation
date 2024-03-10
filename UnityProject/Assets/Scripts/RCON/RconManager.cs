@@ -16,7 +16,9 @@ using WebSocketSharp.Server;
 using Newtonsoft.Json;
 using AdminTools;
 using Messages.Server.AdminTools;
+using HealthV2;
 using System.Collections.Concurrent;
+using SecureStuff;
 
 public class RconManager : SingletonManager<RconManager>
 {
@@ -175,11 +177,11 @@ public class RconManager : SingletonManager<RconManager>
 
 				if (e.Data.StartsWith("concmd"))
 				{
-					string command = e.Data[6..];
+					string command = e.Data[6..].Split('�')[0].Trim();
 					ExecuteCommand(command);
 					UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 						$"RCON executed server command {command}", "rcon");
-					Loggy.Log($"RCON command from {e.Username}: {e.Data}", Category.Rcon);
+					Loggy.Log($"RCON command from {e.Username}: {command}", Category.Rcon);
 					return;
 				}
 
@@ -231,6 +233,18 @@ public class RconManager : SingletonManager<RconManager>
 					return;
 				}
 
+				if (e.Data == "listoccupations")
+				{
+					var occupations = OccupationList.Instance.Occupations;
+					var occupationList = new List<string>();
+					foreach (var occupation in occupations)
+					{
+						occupationList.Add(occupation.JobType.ToString());
+					}
+					SendToSocket(e.SocketID, "listoccupations" + JsonConvert.SerializeObject(occupationList));
+					return;
+				}
+
 				if (e.Data == "chatfull")
 				{
 					SendToSocket(e.SocketID, "chatfull" + RconManager.GetFullChatLog());
@@ -250,6 +264,29 @@ public class RconManager : SingletonManager<RconManager>
 					}
 				}
 
+				if (e.Data.StartsWith("startprofilestd"))
+				{
+					var data = e.Data[15..];
+
+					int frameCount = int.Parse(data);
+					SendToSocket(e.SocketID, "startprofileok");
+
+					SafeProfileManager.Instance.StartProfile(frameCount);
+					return;
+				}
+
+				if (e.Data.StartsWith("startprofilemem"))
+				{
+					var data = e.Data[15..];
+
+					bool full = data == "full";
+					SendToSocket(e.SocketID, "startprofileok");
+
+					SafeProfileManager.Instance.RunMemoryProfile(full);
+					return;
+
+				}
+
 				if (e.Data.StartsWith("moderateplayer"))
 				{
 					var data = e.Data[14..];
@@ -265,17 +302,18 @@ public class RconManager : SingletonManager<RconManager>
 						return;
 					}
 
-					if(message.UserID == null || message.Type == null){
+					if (message.UserID == null || message.Type == null)
+					{
 						SendToSocket(e.SocketID, "moderateplayerfail:Missing Datafield UserID or Type");
 						return;
 					}
 
-					if(message.Reason == null){
+					if (message.Reason == null)
+					{
 						message.Reason = "No reason specified.";
 					}
 
-					PlayerInfo player = PlayerList.Instance.InGamePlayers.FirstOrDefault(x => x.UserId == message.UserID);
-					if (player == null && message.Type != "unban")
+					if (PlayerList.Instance.TryGetByUserID(message.UserID, out var player) == false && message.Type != "unban")
 					{
 						SendToSocket(e.SocketID, "moderateplayerfail:Player does not exist");
 						return;
@@ -284,38 +322,106 @@ public class RconManager : SingletonManager<RconManager>
 					UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 						$"[RCON] {e.Username} is moderating [{message.UserID}]: Action [{message.Type}] with reason [{message.Reason}]", "rcon");
 
-					switch(message.Type){
+					switch (message.Type)
+					{
 						case "ban":
-							if(message.Duration == null && !message.Permanent){
+							if (message.Duration == null && !message.Permanent)
+							{
 								SendToSocket(e.SocketID, "moderateplayerfail:Missing Datafield Duration");
 								return;
 							}
 							var duration = message.Permanent ? 2147483646 : message.Duration;
 
 							PlayerList.Instance.ServerBanPlayer(player, message.Reason, true, duration);
+							SendToSocket(e.SocketID, "moderateplayerok");
 							break;
 						case "jobban":
-							//TODO
-							SendToSocket(e.SocketID, "moderateplayerfail:Jobban not implemented yet");
+							PlayerInfo pseudoPlayerInfo = new PlayerInfo
+							{
+								Connection = null,
+								Username = e.Username,
+								Name = e.Username,
+								ClientId = e.Username,
+								UserId = "rcon",
+								ConnectionIP = e.IpAddress,
+								PlayerRoles = PlayerRole.Admin
+							};
+
+							JobType jobType = (JobType)Enum.Parse(typeof(JobType), message.Job);
+							bool kickAfter = message.HandleTypes.Contains("kick");
+							bool ghostAfter = message.HandleTypes.Contains("ghost");
+
+							PlayerList.Instance.ProcessJobBanRequest(pseudoPlayerInfo, player, message.Reason, message.Permanent, message.Duration, jobType, kickAfter, ghostAfter);
 							break;
 						case "kick":
 							PlayerList.Instance.ServerKickPlayer(player, message.Reason);
+							SendToSocket(e.SocketID, "moderateplayerok");
 							break;
 						case "smite":
-							//TODO
-							SendToSocket(e.SocketID, "moderateplayerfail:Smite not implemented yet");
+							// ? This section was copied from AdminCommandsManager.cs, Consider refactoring to a shared method
+							if (player?.Script == null || player.Script.IsGhost) return;
+
+							player.Script.GetComponent<IGib>()?.OnGib();
+
+							Chat.AddExamineMsgFromServer(player.Script.gameObject, "You are struck down by a mysterious force!");
+							SendToSocket(e.SocketID, "moderateplayerok");
 							break;
 						case "respawn":
-							//TODO
-							SendToSocket(e.SocketID, "moderateplayerfail:Respawn not implemented yet");
+							if (player.Script == null)
+							{
+								SendToSocket(e.SocketID, "moderateplayerfail:Player has no script");
+								return;
+							}
+
+							JobType job = (JobType)Enum.Parse(typeof(JobType), message.Job);
+							Occupation occupation = OccupationList.Instance.Get(job);
+
+							if (occupation == null)
+							{
+								SendToSocket(e.SocketID, "moderateplayerfail:Invalid occupation");
+								return;
+							}
+
+							player.Script.PlayerNetworkActions.ServerRespawnPlayer(occupation.name);
+							SendToSocket(e.SocketID, "moderateplayerok");
+							break;
+						case "quickrespawn":
+							if (player.Script == null)
+							{
+								SendToSocket(e.SocketID, "moderateplayerfail:Player has no script");
+								return;
+							}
+							Occupation spawnOcc = player.Script.Mind.occupation;
+
+							if (spawnOcc == null)
+							{
+								SendToSocket(e.SocketID, "moderateplayerfail:Player has no occupation. Cannot quick respawn.");
+								return;
+							}
+							player.Script.PlayerNetworkActions.ServerRespawnPlayer(spawnOcc.name);
+							SendToSocket(e.SocketID, "moderateplayerok");
 							break;
 						case "heal":
-							//TODO
-							SendToSocket(e.SocketID, "moderateplayerfail:Heal not implemented yet");
+							// ? This section was copied from AdminCommandsManager.cs, Consider refactoring to a shared method
+							PlayerScript playerScript = player.Script;
+							Mind playerMind = playerScript.Mind;
+							var playerBody = playerMind.Body;
+
+							if (playerBody != null && playerBody.TryGetComponent<IFullyHealable>(out var healable))
+							{
+								healable.FullyHeal();
+								SendToSocket(e.SocketID, "moderateplayerok");
+								break;
+							}
+							else
+							{
+								SendToSocket(e.SocketID, "moderateplayerfail:Player cannot be healed");
+								break;
+							}
 							break;
 						case "ooc_mute":
-							//TODO
-							SendToSocket(e.SocketID, "moderateplayerfail:OOC Mute not implemented yet");
+							player.IsOOCMuted = true;
+							SendToSocket(e.SocketID, "moderateplayerok");
 							break;
 
 						case "unban":
@@ -327,8 +433,8 @@ public class RconManager : SingletonManager<RconManager>
 							SendToSocket(e.SocketID, "moderateplayerfail:Unjobban not implemented yet");
 							break;
 						case "ooc_unmute":
-							//TODO
-							SendToSocket(e.SocketID, "moderateplayerfail:OOC Unmute not implemented yet");
+							player.IsOOCMuted = false;
+							SendToSocket(e.SocketID, "moderateplayerok");
 							break;
 						default:
 							SendToSocket(e.SocketID, "moderateplayerfail:Invalid Type");
@@ -351,7 +457,8 @@ public class RconManager : SingletonManager<RconManager>
 						return;
 					}
 
-					if(message.UserID == null || message.Type == null || message.Reason == null){
+					if (message.UserID == null || message.Type == null || message.Reason == null)
+					{
 						SendToSocket(e.SocketID, "sendhelpfail:Missing Datafield UserID, Type, or Reason");
 						return;
 					}
@@ -637,10 +744,8 @@ public class RconModerationMessage
 	[JsonProperty]
 	public bool Permanent;
 	[JsonProperty]
-	public string HandleType; // For job bans, NONE/FORCE_GHOST/KICK
+	public string[] HandleTypes; // For job bans, NONE/FORCE_GHOST/KICK
 	[JsonProperty]
 	public string Job; //Doubles for both non-quick respawn and jobbans
-	[JsonProperty]
-	public bool QuickRespawn;
 
 }
