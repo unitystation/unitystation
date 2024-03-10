@@ -142,10 +142,8 @@ namespace Lobby
 			var randomGreeting = string.Format(greetings.PickRandom(), username);
 			lobbyDialogue.ShowLoadingPanel($"{randomGreeting}\n\nSigning you in...");
 
-
-
 			// It's weird that we use the PlayerManager.Account to log in, but then we go and update that same object w/ the result...
-			var loginTask = PlayerManager.Account.Login(token);
+			Task<Account> loginTask = PlayerManager.Account.Login(token);
 			try
 			{
 				await loginTask;
@@ -157,64 +155,9 @@ namespace Lobby
 			}
 
 			return PlayerManager.Account.IsAvailable;
-			//
-			// Loggy.Log("[LobbyManager/TryTokenLogin()] - Executing ServerData.ValidateToken()");
-			// var response = await ServerData.ValidateToken(refreshToken);
-			// Loggy.Log("[LobbyManager/TryTokenLogin()] - Finished ServerData.ValidateToken() after awaiting.");
-			//
-			// if (response == null)
-			// {
-			// 	lobbyDialogue.ShowLoginError($"Unknown server error. Check your console (F5)");
-			// 	Loggy.Log("[LobbyManager/TryTokenLogin()] - Response is null.");
-			// 	cancelTimer = true;
-			// 	return false;
-			// }
-			//
-			// try
-			// {
-			// 	Loggy.Log($"[LobbyManager/TryTokenLogin()] - ResponseData:\n {response.message}\n {response.errorMsg}\n {response.errorCode}.");
-			// }
-			// catch (Exception e)
-			// {
-			// 	Loggy.Log($"[LobbyManager/TryTokenLogin()] - Failed Attempting to get some data from response:\n {e.ToString()}.");
-			// }
-			//
-			// if (string.IsNullOrEmpty(response.errorMsg) == false)
-			// {
-			// 	Loggy.LogError($"Something went wrong with hub token validation: {response.errorMsg}");
-			// 	lobbyDialogue.ShowLoginError($"Could not verify your details. {response.errorMsg}");
-			// 	cancelTimer = true;
-			// 	return false;
-			// }
-			//
-			// bool isLoginSuccess = false;
-			// Loggy.Log("[LobbyManager/TryTokenLogin()] - Executing FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync()");
-			// await FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync(response.message)
-			// 		.ContinueWithOnMainThread(async task =>
-			// {
-			// 	if (task.IsCanceled)
-			// 	{
-			// 		Loggy.LogError("Custom token sign in was canceled.");
-			// 		lobbyDialogue.ShowLoginError($"Sign in was cancelled.");
-			// 	}
-			// 	else if (task.IsFaulted)
-			// 	{
-			// 		Loggy.LogError($"Token login task faulted: {task.Exception}");
-			// 		lobbyDialogue.ShowLoginError($"Unexpected error encountered. Check your console (F5)");
-			// 	}
-			// 	else if (await ServerData.ValidateUser(task.Result, lobbyDialogue.ShowLoginError))
-			// 	{
-			// 		Loggy.Log("Sign in with token successful.");
-			// 		isLoginSuccess = true;
-			// 	}
-			// });
-			// Loggy.Log("[LobbyManager/TryTokenLogin()] - Finished FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync() after awaiting it.");
-			// cancelTimer = true;
-			// return isLoginSuccess;
-
 		}
 
-		public async Task<bool> TryAutoLogin(bool autoJoin)
+		public async Task<bool> TryAutoLogin()
 		{
 			Loggy.Log("Attempting automatic login by token...");
 
