@@ -478,8 +478,16 @@ public class EscapeShuttle : AutopilotShipMachine
 		{
 			if (value < 0)
 			{
-				centComm.UpdateStatusDisplay(StatusDisplayChannel.EscapeShuttle, "STATION\nETA: " + UnderflowFunnies[UnderflowIndex]);
-				UnderflowIndex++;
+				if (UnderflowFunnies.Count <= UnderflowIndex)
+				{
+					GiveUpTime--;
+				}
+				else
+				{
+					centComm.UpdateStatusDisplay(StatusDisplayChannel.EscapeShuttle, "STATION\nETA: " + UnderflowFunnies[UnderflowIndex]);
+					UnderflowIndex++;
+				}
+
 			}
 		}
 	}
