@@ -90,7 +90,6 @@ namespace Core.Database
 			HttpResponseMessage response = await SecureStuff.SafeHttpRequest.SendAsync(request);
 			string responseBody = await response.Content.ReadAsStringAsync();
 
-			Loggy.Log(responseBody);
 			if (response.IsSuccessStatusCode == false)
 			{
 				if (TryGetApiRequestException(responseBody, response.StatusCode, out ApiRequestException requestException))

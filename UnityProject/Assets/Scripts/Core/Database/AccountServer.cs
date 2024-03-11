@@ -3,18 +3,12 @@ using System.Threading.Tasks;
 
 namespace Core.Database
 {
-	internal static class Endpoints
-	{
-		//public static Uri asdf = new Uri("") { };
-	}
-
-
 	public static class AccountServer
 	{
 		public static string Host => GameManager.Instance.AccountAPIHost;
 		public static UriBuilder UriBuilder = new("https", Host);
 
-		public static Uri GetUri(string endpoint, string queries = null, bool uglyPatch = false)
+		public static Uri GetUri(string endpoint, string queries = null)
 		{
 
 			UriBuilder.Path = $"/accounts/{endpoint}";
@@ -66,14 +60,14 @@ namespace Core.Database
 			return response;
 		}
 
-		public static async Task<ApiResult<AccountTokenLoginResponse>> Login(string token)
+		public static async Task<ApiResult<AccountLoginResponse>> Login(string token)
 		{
 			AccountLoginToken requestBody = new()
 			{
 				Token = token,
 			};
 
-			ApiResult<AccountTokenLoginResponse> response = await ApiServer.Post<AccountTokenLoginResponse>(GetUri("login-token"), requestBody);
+			ApiResult<AccountLoginResponse> response = await ApiServer.Post<AccountLoginResponse>(GetUri("login-token"), requestBody);
 
 			if (!response.IsSuccess)
 			{

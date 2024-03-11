@@ -122,13 +122,6 @@ namespace Core.Database
 	}
 
 	[Serializable]
-	public class AccountTokenLoginResponse : JsonObject
-	{
-		public string token;
-		public AccountGetResponse user;
-	}
-
-	[Serializable]
 	public class AccountUpdateResponse : JsonObject
 	{
 		public string email;

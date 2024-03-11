@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using SecureStuff;
 using DatabaseAPI;
+using Initialisation;
 using Lobby;
 using Logs;
 using Managers;
@@ -13,14 +14,8 @@ using Shared.Util;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using Core.Database;
-using Core.Networking;
-using DatabaseAPI;
-using Lobby;
-using Managers;
-using Shared.Util;
 
-public class GameData : MonoBehaviour
+public class GameData : MonoBehaviour, IInitialise
 {
 	private static GameData gameData;
 
@@ -69,11 +64,6 @@ public class GameData : MonoBehaviour
 
 	#region Lifecycle
 
-	private void Start()
-	{
-		_ = Init();
-	}
-
 	public async void APITest()
 	{
 		var url = $"{GameManager.Instance.AccountAPIHost}/validatetoken?data=";
@@ -121,13 +111,13 @@ public class GameData : MonoBehaviour
 
 		string testServerEnv = AllowedEnvironmentVariables.GetTEST_SERVER();
 		if (!string.IsNullOrEmpty(testServerEnv))
-		{		_ = LobbyManager.Instance.TryAutoLogin(false);
+		{		_ = LobbyManager.Instance.TryAutoLogin();
 
 			testServer = Convert.ToBoolean(testServerEnv);
 		}
 
 		if (await TryJoinViaCmdArgs()) return;
-		_ = LobbyManager.Instance.TryAutoLogin(false);
+		_ = LobbyManager.Instance.TryAutoLogin();
 	}
 
 	private void OnEnable()
@@ -233,7 +223,7 @@ public class GameData : MonoBehaviour
 			Loggy.LogWarning("Logging in via hub account (via command line args) failed.");
 		}
 
-		if (await LobbyManager.Instance.TryAutoLogin(true))
+		if (await LobbyManager.Instance.TryAutoLogin())
 		{
 			LobbyManager.Instance.JoinServer(ip, port);
 			return true;
@@ -271,4 +261,10 @@ public class GameData : MonoBehaviour
 	}
 
 	#endregion
+
+	public InitialisationSystems Subsystem => InitialisationSystems.GameData;
+	public void Initialise()
+	{
+		_ = Init();
+	}
 }
