@@ -134,11 +134,14 @@ namespace SecureStuff
 				}
 			}
 
-			var ToRemove = data.SavedAllowedAPIHosts.Where(x => x.Contains("http"));
-
-			foreach (var Remove in ToRemove)
+			if (data.SavedAllowedAPIHosts.Any(x => x.Contains("http")))
 			{
-				data.SavedAllowedAPIHosts.Remove(Remove);
+				var ToRemove = data.SavedAllowedAPIHosts.Where(x => x.Contains("http"));
+
+				foreach (var Remove in ToRemove)
+				{
+					data.SavedAllowedAPIHosts.Remove(Remove);
+				}
 			}
 
 			allowedOpenHosts = data.SavedAllowedOpenHosts;
