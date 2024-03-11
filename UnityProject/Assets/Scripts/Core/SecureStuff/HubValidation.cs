@@ -132,8 +132,6 @@ namespace SecureStuff
 				{
 					data.SavedAllowedAPIHosts.Add(SavedAllowedAPIHost);
 				}
-
-
 			}
 
 			var ToRemove = data.SavedAllowedAPIHosts.Where(x => x.Contains("http"));
