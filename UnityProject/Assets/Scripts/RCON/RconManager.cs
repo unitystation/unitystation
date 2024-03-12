@@ -64,6 +64,7 @@ public class RconManager : SingletonManager<RconManager>
 
 	private void OnServerDataLoaded()
 	{
+		if (gameObject == null) return;
 		ServerData.serverDataLoaded -= OnServerDataLoaded;
 		if (ServerData.ServerConfig == null)
 		{
