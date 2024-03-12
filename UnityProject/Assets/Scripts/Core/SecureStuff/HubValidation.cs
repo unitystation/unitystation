@@ -136,7 +136,7 @@ namespace SecureStuff
 
 			if (data.SavedAllowedAPIHosts.Any(x => x.Contains("http")))
 			{
-				var ToRemove = data.SavedAllowedAPIHosts.Where(x => x.Contains("http"));
+				var ToRemove = data.SavedAllowedAPIHosts.Where(x => x.Contains("http")).ToList();
 
 				foreach (var Remove in ToRemove)
 				{
