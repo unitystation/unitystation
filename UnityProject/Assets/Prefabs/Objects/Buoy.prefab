@@ -28,6 +28,16 @@ PrefabInstance:
       propertyPath: foreverID
       value: 69ffc1053dc39a24fb870b2248780be4
       objectReference: {fileID: 0}
+    - target: {fileID: 4083520829584162099, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Intangible
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083520829584162099, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: MappingIntangible
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Sprite
@@ -88,6 +98,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialPassable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialCrawlPassable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

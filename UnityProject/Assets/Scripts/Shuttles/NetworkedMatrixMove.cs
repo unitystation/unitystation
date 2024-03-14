@@ -41,11 +41,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	public Transform TargetTransform;
 
 
-	//TODO Mapping ;n; <<<<<< 7
-
 	//TODO Look at Commented out code <<<<<8
-
-	//TODO Shuttle should try to dodge Asteroids <<< 6
 
 	//---------------- Not so important -------------------
 
