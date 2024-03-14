@@ -56,7 +56,7 @@ MonoBehaviour:
   minDistanceBetweenSpaceBodies: 200
   solarSystemRadius: 600
   CentComm: {fileID: 5244294626086762232}
-  QuickLoad: 1
+  QuickLoad: 0
   QuickJoinLoad: 0
   endOfRoundSounds: {fileID: 11400000, guid: 3505a71866d7e9e43a6cdc336306b41f, type: 2}
   LowPopCheckTimeAfterRoundStart: 300
@@ -64,6 +64,7 @@ MonoBehaviour:
   CommsServers: []
   roundJoinAttributes: {fileID: 11400000, guid: d27b2285cd54a724d8134c1f1277d62b,
     type: 2}
+  AccountAPIHost: dev-api.unitystation.org
   primaryEscapeShuttle: {fileID: 0}
   GameModeData: {fileID: 11400000, guid: 050782fd4c93a164e8100c4c7183d5b3, type: 2}
   SecretGameMode: 1

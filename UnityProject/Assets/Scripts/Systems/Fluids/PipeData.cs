@@ -21,6 +21,8 @@ namespace Systems.Pipes
 		[HideInInspector] public PipeActions PipeAction;
 		public bool NetCompatible = true;
 
+		public bool SelfSufficient = false;
+
 		[HideInInspector] public MixAndVolume mixAndVolume = new MixAndVolume();
 
 		public MixAndVolume GetMixAndVolume

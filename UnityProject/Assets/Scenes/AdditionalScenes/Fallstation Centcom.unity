@@ -16607,18 +16607,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 324624778}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &339283598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a18ed50c2381e55498365c3cf9b34433, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &343473591
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18785,6 +18773,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 465336674}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &467195359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1f2bad5f99f9f54da626bf73a043ac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &469317508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23431,6 +23431,11 @@ PrefabInstance:
       propertyPath: SelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: pipeData.SelfSufficient
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -25602,6 +25607,11 @@ PrefabInstance:
       propertyPath: SelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: pipeData.SelfSufficient
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -26079,18 +26089,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 727547738}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &730955893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1f2bad5f99f9f54da626bf73a043ac5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &736203523
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35259,6 +35257,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
+      propertyPath: pipeData.SelfSufficient
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
       propertyPath: ThisThrusterDirectionClassification
       value: 1
       objectReference: {fileID: 0}
@@ -35457,6 +35460,11 @@ PrefabInstance:
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
       propertyPath: SelfPowered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: pipeData.SelfSufficient
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
@@ -36947,6 +36955,11 @@ PrefabInstance:
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
       propertyPath: SelfPowered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: pipeData.SelfSufficient
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
@@ -43360,6 +43373,11 @@ PrefabInstance:
       propertyPath: SelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: pipeData.SelfSufficient
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -43714,6 +43732,11 @@ PrefabInstance:
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
       propertyPath: SelfPowered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: pipeData.SelfSufficient
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
@@ -48115,6 +48138,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
+      propertyPath: pipeData.SelfSufficient
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
       propertyPath: ThisThrusterDirectionClassification
       value: 2
       objectReference: {fileID: 0}
@@ -48914,6 +48942,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1684461690}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1688445032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a18ed50c2381e55498365c3cf9b34433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1689171749
 PrefabInstance:
   m_ObjectHideFlags: 0

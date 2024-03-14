@@ -159,7 +159,7 @@ public class Thruster : MonoPipe
 	    }
 	    pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
 
-	    if (SelfPowered)
+	    if (pipeData.SelfSufficient)
 	    {
 		    ThrustPower = TargetMolesUsed  * ThrusterMultiplier;
 		    AtmosphericsSetUsage(TargetMolesUsed);
