@@ -328,7 +328,7 @@ public class QuickSelectRadial : MonoBehaviour, IRightClickMenu
 					LastSelected = CurrentOptions [MenuItem];
 					LastSelectedset = true;
 					LastSelectedTime = Time.time;
-					//Logger.Log (LastSelectedTime.ToString (), Category.RightClick);
+					//Loggy.Log (LastSelectedTime.ToString (), Category.RightClick);
 				}
 				if (LastSelectedset) {
 
@@ -349,7 +349,7 @@ public class QuickSelectRadial : MonoBehaviour, IRightClickMenu
 				}
 			} else {
 				if ((Time.time - LastInRangeSubMenu) > 0.1f && (CurrentMenuDepth > 100)){ //How long it takes to exit a menu
-					//Logger.Log ("yo am Destroying", Category.UI);
+					//Loggy.Log ("yo am Destroying", Category.UI);
 
 					if (ResetDepthOnDestroy.ContainsKey (CurrentMenuDepth))  {
 						if (ResetDepthOnDestroy [CurrentMenuDepth].ShouldHideLabel)
@@ -391,7 +391,7 @@ public class QuickSelectRadial : MonoBehaviour, IRightClickMenu
 			if (Selected)
 			{
 				Selected.Action?.Invoke();
-				//Logger.Log ("yo this "+Selected.title.text , Category.RightClick);
+				//Loggy.Log ("yo this "+Selected.title.text , Category.RightClick);
 			}
 			LastSelectedset = false;
 			Selected = null;

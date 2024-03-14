@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -244,6 +246,11 @@ PrefabInstance:
         type: 3}
       propertyPath: hitDamage
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3249280436497271540, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
+        type: 3}
+      propertyPath: exportCost
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3249280436497271540, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
         type: 3}

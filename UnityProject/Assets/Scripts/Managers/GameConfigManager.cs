@@ -58,5 +58,6 @@ namespace GameConfig
 		public int LowPopLimit;
 		public int LowPopCheckTimeAfterRoundStart;
 		public int RebootOnAverageFPSOrLower;
+		public string AccountAPIHost;
 	}
 }

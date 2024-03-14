@@ -268,12 +268,12 @@ namespace Systems.Pipes
 			{
 				EnergyChange += EnergyTransfered;
 			}
-			//Logger.Log("EnergyChange > " + EnergyChange);
+			//Loggy.Log("EnergyChange > " + EnergyChange);
 			var gas = Node.GasMix;
 			gas.InternalEnergy = gas.InternalEnergy + (-EnergyChange);
 			if (gas.InternalEnergy < 0)
 			{
-				Logger.LogWarning("OHHHH", Category.Atmos);
+				Loggy.LogWarning("OHHHH", Category.Atmos);
 				gas.InternalEnergy = 1;
 			}
 			Node.GasMix = gas;

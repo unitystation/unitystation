@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using DatabaseAPI;
 
 namespace Lobby
 {
@@ -40,10 +39,11 @@ namespace Lobby
 
 		private void SetSignedInText()
 		{
-			// Probably the main menu panel GameObject was set active in the prefab
-			if (ServerData.Auth?.CurrentUser == null) return;
-
-			signedInAsText.text = $"Logged in as {ServerData.Auth.CurrentUser.DisplayName}";
+			// If false, the main menu panel GameObject was probably set active in the prefab
+			if (PlayerManager.Account.IsAvailable)
+			{
+				signedInAsText.text = $"Logged in as {PlayerManager.Account.Username}";
+			}
 		}
 
 		private void OnJoinBtn()

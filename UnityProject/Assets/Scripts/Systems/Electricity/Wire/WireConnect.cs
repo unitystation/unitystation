@@ -17,7 +17,7 @@ namespace Systems.Electricity
 		{
 			if (Logall)
 			{
-				Logger.Log("this > " + this + "ElectricityOutput, Current > " + Current + " SourceInstance  > " + SourceInstance, Category.Electrical);
+				Loggy.Log("this > " + this + "ElectricityOutput, Current > " + Current + " SourceInstance  > " + SourceInstance, Category.Electrical);
 			}
 			InputOutputFunctions.ElectricityOutput(Current, SourceInstance, ComingFrom, this, Path);
 
@@ -34,7 +34,7 @@ namespace Systems.Electricity
 		//	{
 		//		FindPossibleConnections();
 		//	}
-		//	//Logger.Log("LineExplore > " + InData.Categorytype);
+		//	//Loggy.Log("LineExplore > " + InData.Categorytype);
 		//	if (Data.connections.Count < 3)
 		//	{
 		//		if (this.InData != PassOn.TheStart)
@@ -57,7 +57,7 @@ namespace Systems.Electricity
 		//		foreach (var OutConnectionIndata in Data.connections)
 		//		{
 		//			var OutConnection = OutConnectionIndata.Present;
-		//			//Logger.Log("Data.connections >" + OutConnection.InData.Categorytype);
+		//			//Loggy.Log("Data.connections >" + OutConnection.InData.Categorytype);
 		//			if (!VisitedSteps.Contains(OutConnection.InData)
 		//				&& !PassOn.Covering.Contains(OutConnection.InData)
 		//				&& OutConnection.InData != PassOn.TheStart)

@@ -1,6 +1,10 @@
 ﻿using System.Linq;
+using Items;
+using Logs;
 using NUnit.Framework;
 using Systems.Cargo;
+using UnityEditor;
+using UnityEngine;
 
 namespace Tests.Balance
 {
@@ -39,18 +43,43 @@ namespace Tests.Balance
 			{
 				foreach (var order in category.Orders)
 				{
+					order.OnValidate();
 					var value = order.ContentSellPrice;
 
+					if (value > order.CreditCost * 0.9f)
+					{
+						//DON'T USE LOGGY OR TESTS. THIS BREAKS THE REF.
+						Debug.Log($"Failure at <a href=\"{AssetDatabase.GetAssetPath(order)}\">{order.OrderName}</a> " +
+						          $"| Current Value: {value} - Current CreditCost: {order.CreditCost} - Suggested Price: {order.CreditCost * 1.05f}/{order.CreditCost * 1.10f}");
+					}
 					report.Clean()
-						.FailIf(value >= order.CreditCost * 0.9f)
+						.FailIf(value > order.CreditCost * 0.9f)
 						.ExploitHeader(category, order)
-						.AppendLine("The export cost is within 10% of the sell price, the items might be too cheap!")
+						.AppendLine("The export cost in is within 10% of the sell price, the items might be too cheap!")
 						.ExploitFooter(order, value)
 						.MarkDirtyIfFailed()
-						.FailIf(value >= order.CreditCost)
+						.FailIf(value > order.CreditCost)
 						.ExploitHeader(category, order)
 						.ExploitFooter(order, value);
 				}
+			}
+			report.Log().AssertPassed();
+		}
+
+		[Test]
+		public void NoCostTest()
+		{
+			var report = new TestReport();
+			var items = Resources.FindObjectsOfTypeAll<ItemAttributesV2>();
+			report.Clean();
+
+			foreach (var item in items)
+			{
+				if (item.IsFakeItem || item.CanBeSoldInCargo == false) continue;
+				if (item.name.StartsWith("_") || item.name.Contains("Item") ||
+				    item.name.Contains("Base") || item.name.Contains("Trash") ||
+				    item.name.Contains("Random") || item.name.Contains("spawner") || item.name.Contains("Admin")) continue;
+				report.FailIf(item.ExportCost == 0).AppendLine($"{item} has no export cost despite it being marked as an object that can be sold, please fix.");
 			}
 
 			report.Log().AssertPassed();

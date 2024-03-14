@@ -88,7 +88,7 @@ public class CommonInput
 			bool mouseButtonDown = GetNonGamePadTouch()?.phase == TouchPhase.Began;
 			if ( mouseButtonDown )
 			{
-				Logger.LogTraceFormat( "Touch Mouse button {0} has Begun", Category.UserInput, buttonNumber );
+				Loggy.LogTraceFormat( "Touch Mouse button {0} has Begun", Category.UserInput, buttonNumber );
 			}
 			return mouseButtonDown;
 		}
@@ -104,7 +104,7 @@ public class CommonInput
 			bool mouseButtonUp = GetNonGamePadTouch()?.phase == TouchPhase.Ended;
 			if ( mouseButtonUp )
 			{
-				Logger.LogTraceFormat( "Touch Mouse button {0} has Ended", Category.UserInput, buttonNumber );
+				Loggy.LogTraceFormat( "Touch Mouse button {0} has Ended", Category.UserInput, buttonNumber );
 			}
 			return mouseButtonUp;
 		}
@@ -117,7 +117,7 @@ public class CommonInput
 #if UNITY_IOS || UNITY_ANDROID
 		if ( IsTouchscreen && Input.touchCount > 0 && buttonNumber == 0 )
 		{
-//			Logger.LogTraceFormat( "Touch Mouse button {0} is pressed", Category.UserInput, buttonNumber );
+//			Loggy.LogTraceFormat( "Touch Mouse button {0} is pressed", Category.UserInput, buttonNumber );
 			return GetNonGamePadTouch()?.phase < (TouchPhase?) 3; //(Began/Moved/Stationary)
 		}
 #endif

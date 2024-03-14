@@ -96,6 +96,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2176217005245101738, guid: d27d06b68d77a3d49b21cce589f699da,
         type: 3}
+      propertyPath: exportCost
+      value: 255
+      objectReference: {fileID: 0}
+    - target: {fileID: 2176217005245101738, guid: d27d06b68d77a3d49b21cce589f699da,
+        type: 3}
       propertyPath: initialName
       value: jetpack (empty)
       objectReference: {fileID: 0}
@@ -103,6 +108,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialSize
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2176217005245101738, guid: d27d06b68d77a3d49b21cce589f699da,
+        type: 3}
+      propertyPath: exportMessage
+      value: You better have not used these for any space racing.
       objectReference: {fileID: 0}
     - target: {fileID: 2176217005245101738, guid: d27d06b68d77a3d49b21cce589f699da,
         type: 3}
@@ -185,8 +195,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gasReleaseOnUse: 0.1
-  releaseVisual: {fileID: 5723503134307942014, guid: 703862b62c5d7e949809214c9263ecf3,
-    type: 3}
 --- !u!114 &4398748733116209864
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -23,7 +23,7 @@ namespace Messages.Server.VariableViewer
 		public override void Process(NetMessage msg)
 		{
 			//JsonConvert.DeserializeObject<VariableViewerNetworking.NetFriendlyBookShelfView>()
-			//Logger.Log(JsonConvert.SerializeObject(data));
+			//Loggy.Log(JsonConvert.SerializeObject(data));
 			// UIManager.Instance.BookshelfViewer.BookShelfView = msg.data
 			CompressedHierarchy.AddRange(JsonConvert.DeserializeObject<List<VariableViewerNetworking.NetFriendlyHierarchyBookShelf>>(msg.data));
 			Arrived++;

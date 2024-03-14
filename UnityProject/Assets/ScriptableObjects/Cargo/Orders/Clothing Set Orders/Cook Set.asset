@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cook Set
   m_EditorClassIdentifier: 
   OrderName: Cook Set
-  CreditCost: 650
+  CreditCost: 715
   Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}
   Items:
   - {fileID: 4257228480532492980, guid: c564124daeebb4d479474858c16e6e3d, type: 3}
@@ -21,5 +21,7 @@ MonoBehaviour:
   - {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
   - {fileID: 7636118406116123594, guid: c1986e2665f9a413694ce37f09e0f17e, type: 3}
   - {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
-  ContentSellPrice: 505
   EmagOnly: 0
+  SuggestedCargoPrice: 726
+  ContentSellPrice: 605
+  WillFailUnitTests: 0

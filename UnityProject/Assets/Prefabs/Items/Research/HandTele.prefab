@@ -114,6 +114,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: exportCost
+      value: 233
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: initialName
       value: Hand Tele
       objectReference: {fileID: 0}
@@ -167,6 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetTabType: 54
   requiresAltClick: 1
+  disabled: 0
 --- !u!114 &4933656907707707143
 MonoBehaviour:
   m_ObjectHideFlags: 0

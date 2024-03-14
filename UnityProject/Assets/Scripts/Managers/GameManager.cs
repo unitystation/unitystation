@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using _3D;
 using Systems;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,15 +21,10 @@ using Objects.Machines.ServerMachines.Communications;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine.Profiling;
 using Player;
-using ScriptableObjects;
 using Systems.Cargo;
 using ScriptableObjects.Characters;
-using TileManagement;
-using UI.Core;
 using UnityEditor;
 using UnityEngine.Serialization;
-using UnityEngine.Tilemaps;
-using Random = System.Random;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {
@@ -192,6 +186,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	[SerializeField] private RoundJoinAttributes roundJoinAttributes;
 	public RoundJoinAttributes RoundJoinAttributes => roundJoinAttributes;
 
+	public string AccountAPIHost = "dev-api.unitystation.org";
+
 	void IInitialise.Initialise()
 	{
 		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
@@ -253,6 +249,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		LowPopLimit = GameConfigManager.GameConfig.LowPopLimit;
 		LowPopCheckTimeAfterRoundStart = GameConfigManager.GameConfig.LowPopCheckTimeAfterRoundStart;
 		RebootOnAverageFPSOrLower = GameConfigManager.GameConfig.RebootOnAverageFPSOrLower;
+		AccountAPIHost = GameConfigManager.GameConfig.AccountAPIHost;
 
 		Physics.autoSimulation = false;
 		Physics2D.simulationMode = SimulationMode2D.Update;

@@ -18,7 +18,7 @@ namespace Messages.Client.Admin
 
 			if (PlayerList.Instance.TryGetByUserID(msg.UserToBwoink, out var recipient) == false) return;
 
-			PrayerBwoinkMessage.Send(recipient.GameObject, SentByPlayer.UserId, $"<i><color=yellow>{msg.Message}</color></i>");
+			PrayerBwoinkMessage.Send(recipient.GameObject, SentByPlayer.AccountId, $"<i><color=yellow>{msg.Message}</color></i>");
 			UIManager.Instance.adminChatWindows.playerPrayerWindow.ServerAddChatRecord(msg.Message, recipient, SentByPlayer);
 		}
 

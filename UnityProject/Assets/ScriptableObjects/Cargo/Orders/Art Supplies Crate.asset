@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Art Supplies Crate
   m_EditorClassIdentifier: 
   OrderName: Art Supplies Crate
-  CreditCost: 600
+  CreditCost: 727
   Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}
   Items:
   - {fileID: 9154479224526578033, guid: 3e16004dbf7f0e44bb12728d0a565ef1, type: 3}
@@ -22,5 +22,7 @@ MonoBehaviour:
   - {fileID: 1033360046748222760, guid: 24f02ae48d5dd364f83f44531d8fe4e8, type: 3}
   - {fileID: 3822385846368546560, guid: 14acfc978afadcc4ba7aeee378564d02, type: 3}
   - {fileID: 2014946774592491256, guid: 4eef56ab532f51146aa11b1b05e56c10, type: 3}
-  ContentSellPrice: 500
   EmagOnly: 0
+  SuggestedCargoPrice: 727
+  ContentSellPrice: 606
+  WillFailUnitTests: 0

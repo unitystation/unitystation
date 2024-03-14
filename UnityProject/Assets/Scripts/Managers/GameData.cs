@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using SecureStuff;
 using DatabaseAPI;
+using Initialisation;
 using Lobby;
 using Logs;
 using Managers;
@@ -14,7 +15,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
-public class GameData : MonoBehaviour
+public class GameData : MonoBehaviour, IInitialise
 {
 	private static GameData gameData;
 
@@ -63,14 +64,9 @@ public class GameData : MonoBehaviour
 
 	#region Lifecycle
 
-	private void Start()
-	{
-		_ = Init();
-	}
-
 	public async void APITest()
 	{
-		var url = "https://api.unitystation.org/validatetoken?data=";
+		var url = $"{GameManager.Instance.AccountAPIHost}/validatetoken?data=";
 
 		HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get,
 			url + JsonConvert.SerializeObject(""));
@@ -82,7 +78,7 @@ public class GameData : MonoBehaviour
 		{
 			res = await SafeHttpRequest.SendAsync(r, cancellationToken);
 		}
-		catch (System.Net.Http.HttpRequestException e)
+		catch (HttpRequestException e)
 		{
 			Loggy.LogError(" APITest Failed setting to off-line mode  " +e.ToString());
 			forceOfflineMode = true;
@@ -115,13 +111,13 @@ public class GameData : MonoBehaviour
 
 		string testServerEnv = AllowedEnvironmentVariables.GetTEST_SERVER();
 		if (!string.IsNullOrEmpty(testServerEnv))
-		{		_ = LobbyManager.Instance.TryAutoLogin(false);
+		{		_ = LobbyManager.Instance.TryAutoLogin();
 
 			testServer = Convert.ToBoolean(testServerEnv);
 		}
 
 		if (await TryJoinViaCmdArgs()) return;
-		_ = LobbyManager.Instance.TryAutoLogin(false);
+		_ = LobbyManager.Instance.TryAutoLogin();
 	}
 
 	private void OnEnable()
@@ -174,7 +170,7 @@ public class GameData : MonoBehaviour
 		{
 			//			float calcFrameRate = 1f / Time.deltaTime;
 			//			Application.targetFrameRate = (int) calcFrameRate;
-			//			Logger.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}",
+			//			Loggy.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}",
 			//				Category.Server);
 
 			Loggy.Log($"FrameRate limiting has been disabled on Headless Server",
@@ -219,7 +215,7 @@ public class GameData : MonoBehaviour
 		if (string.IsNullOrEmpty(token) == false)
 		{
 			Loggy.Log("Logging in via hub account...");
-			if (await LobbyManager.Instance.TryTokenLogin(uid, token))
+			if (await LobbyManager.Instance.TryTokenLogin(token)) // TODO uid not needed anymore?
 			{
 				LobbyManager.Instance.JoinServer(ip, port);
 				return true;
@@ -227,7 +223,7 @@ public class GameData : MonoBehaviour
 			Loggy.LogWarning("Logging in via hub account (via command line args) failed.");
 		}
 
-		if (await LobbyManager.Instance.TryAutoLogin(true))
+		if (await LobbyManager.Instance.TryAutoLogin())
 		{
 			LobbyManager.Instance.JoinServer(ip, port);
 			return true;
@@ -265,4 +261,10 @@ public class GameData : MonoBehaviour
 	}
 
 	#endregion
+
+	public InitialisationSystems Subsystem => InitialisationSystems.GameData;
+	public void Initialise()
+	{
+		_ = Init();
+	}
 }

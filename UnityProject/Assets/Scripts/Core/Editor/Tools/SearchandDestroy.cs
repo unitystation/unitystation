@@ -131,10 +131,10 @@ public class SearchAndDestroy : EditorWindow
 						{
 							if (dependedAsset == targetPath)
 							{
-								//			Logger.Log ("dependend: " + dependedAsset);
-								//			Logger.Log ("prefab: " + prefab);
-								//			Logger.Log ("target:" + componentName);
-								//			Logger.Log ("DETROYED");
+								//			Loggy.Log ("dependend: " + dependedAsset);
+								//			Loggy.Log ("prefab: " + prefab);
+								//			Loggy.Log ("target:" + componentName);
+								//			Loggy.Log ("DETROYED");
 								//			var castPrefab = AssetDatabase.LoadAssetAtPath(prefab, (typeof(GameObject))) as GameObject;
 								//			var cast = AssetDatabase.LoadAssetAtPath(prefab, (typeof(GameObject))) as GameObject;
 								GameObject cast = PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath(prefab, typeof(GameObject))) as GameObject;
@@ -142,7 +142,7 @@ public class SearchAndDestroy : EditorWindow
 								//			EditorUtility.SetDirty (castGO);
 								Component component = cast.GetComponent(componentName);
 								DestroyImmediate(component, true);
-								//Logger.Log
+								//Loggy.Log
 								//			PrefabUtility.ReplacePrefab(castGO, castPrefab, ReplacePrefabOptions.Default);
 								PrefabUtility.ReplacePrefab(cast, PrefabUtility.GetCorrespondingObjectFromSource(cast), ReplacePrefabOptions.ConnectToPrefab);
 								DestroyImmediate(cast, true);

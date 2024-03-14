@@ -19,21 +19,38 @@ namespace Systems.Cargo
 		[Tooltip("All the items that this order contains.")]
 		public List<GameObject> Items = new List<GameObject>();
 
-		[ReadOnly]
-		[Tooltip("Making some quick maffs, this is what the order content might be worth.")]
-		public int ContentSellPrice = 0;
-
 		[Tooltip("This will only appear on emagged consoles.")]
 		public bool EmagOnly;
 
-		private void OnValidate()
+		[BoxGroup("Balance Info")]
+		[ReadOnly]
+		public int SuggestedCargoPrice = 0;
+		[ReadOnly]
+		[BoxGroup("Balance Info")]
+		[Tooltip("Making some quick maffs, this is what the order content might be worth.")]
+		public int ContentSellPrice = 0;
+		[ReadOnly]
+		[BoxGroup("Balance Info")]
+		public bool WillFailUnitTests = false;
+
+		private float unitTestPassPercentage = 1.20f;
+
+		public void OnValidate()
+		{
+			var value = GetValue();
+			ContentSellPrice = value;
+			SuggestedCargoPrice = (int)(value * unitTestPassPercentage);
+			WillFailUnitTests = value > CreditCost * 0.9f;
+		}
+
+		public int GetValue()
 		{
 			var value = 0;
 			foreach (var item in Items)
 			{
 				if (item == null)
 				{
-					return;
+					continue;
 				}
 				if (item.TryGetComponent<Attributes>(out var attributes))
 				{
@@ -48,9 +65,14 @@ namespace Systems.Cargo
 					value += crateAtt.ExportCost;
 				}
 			}
+			return value;
+		}
 
-
-			ContentSellPrice = value;
+		[Button]
+		public void AutoFixBalance()
+		{
+			CreditCost = (int)(GetValue() * unitTestPassPercentage);
+			OnValidate();
 		}
 	}
 }

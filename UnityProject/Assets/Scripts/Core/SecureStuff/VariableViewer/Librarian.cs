@@ -821,9 +821,9 @@ namespace SecureStuff
 			public void SetValue(string Value)
 			{
 				if (HubValidation.TrustedMode == false) return;
-				//Logger.Log(this.ToString());
-				//Logger.Log(ID.ToString());
-				//Logger.Log(Variable.GetType().ToString());
+				//Loggy.Log(this.ToString());
+				//Loggy.Log(ID.ToString());
+				//Loggy.Log(Variable.GetType().ToString());
 				try
 				{
 					if (PInfo != null)

@@ -33,7 +33,7 @@ namespace Messages.Client
 
 			if (msg.IsGhost)
 			{
-				if (playerScript.IsGhost && PlayerList.Instance.IsAdmin(playerScript.PlayerInfo.UserId))
+				if (playerScript.IsGhost && PlayerList.Instance.IsAdmin(playerScript.PlayerInfo.AccountId))
 				{
 					FinishTransfer();
 				}

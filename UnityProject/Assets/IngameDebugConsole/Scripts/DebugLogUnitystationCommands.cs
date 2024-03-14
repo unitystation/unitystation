@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEditor;
 using Systems.Atmospherics;
 using Random = UnityEngine.Random;
-using DatabaseAPI;
+using Core.Accounts;
 using HealthV2;
 using Learning;
 using Logs;
@@ -123,13 +123,13 @@ namespace IngameDebugConsole
 		[ConsoleMethod("myid", "Prints your uuid for your player account")]
 		public static void RunPrintUID()
 		{
-			Loggy.Log($"{ServerData.UserID}", Category.DebugConsole);
+			Loggy.Log($"{PlayerManager.Account.Id}", Category.DebugConsole);
 		}
 
 		[ConsoleMethod("copyid", "Copies your uuid to your clipboard.")]
 		public static void CopyUserID()
 		{
-			TextUtils.CopyTextToClipboard($"{ServerData.UserID}");
+			TextUtils.CopyTextToClipboard($"{PlayerManager.Account.Id}");
 			Loggy.Log($"UUID Copied to clipboard.", Category.DebugConsole);
 		}
 
@@ -688,7 +688,7 @@ namespace IngameDebugConsole
 			if (isSpamming == false) yield break;
 
 			var fakePlayer = PlayerInfo.Invalid;
-			fakePlayer.Username = "Huehuehuehue";
+			fakePlayer.Account = PlayerManager.Account;
 
 			yield return WaitFor.Seconds(Random.Range(0.00001f, 0.01f));
 			switch (Random.Range(1,4))
@@ -717,7 +717,7 @@ namespace IngameDebugConsole
 				return;
 			}
 
-			PlayerList.Instance.ProcessAdminEnableRequest(ServerData.UserID, userIDToPromote);
+			PlayerList.Instance.ProcessAdminEnableRequest(PlayerManager.Account.Id, userIDToPromote);
 		}
 
 		[ConsoleMethod("destroy-all-lights", "destroys all lights on the main station.")]

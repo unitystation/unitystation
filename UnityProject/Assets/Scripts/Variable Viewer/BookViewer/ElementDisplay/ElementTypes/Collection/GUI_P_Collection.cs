@@ -35,17 +35,17 @@ public class GUI_P_Collection : PageElement
 	{
 		if (_Sentence != null && _Sentence.GetSentences() != null)
 		{
-			//Logger.LogError("yo1");
-			//Logger.Log(JsonConvert.SerializeObject(_Sentence.GetSentences()));
+			//Loggy.LogError("yo1");
+			//Loggy.Log(JsonConvert.SerializeObject(_Sentence.GetSentences()));
 			foreach (var bob in _Sentence.GetSentences())
 			{
-				//Logger.LogError("yo2");
-				//Logger.Log("bob" + bob.SentenceID);
+				//Loggy.LogError("yo2");
+				//Loggy.Log("bob" + bob.SentenceID);
 				SUB_ElementHandler ValueEntry = Instantiate(ElementHandler) as SUB_ElementHandler;
 				ValueEntry.transform.SetParent(DynamicSizePanel.transform, false);
 				ValueEntry.transform.localScale = Vector3.one;
 				ValueEntry.Sentence = bob; //.GetSentences()
-										   //Logger.Log(JsonConvert.SerializeObject(bob));
+										   //Loggy.Log(JsonConvert.SerializeObject(bob));
 				ValueEntry.ValueSetUp();
 			}
 		}
@@ -65,14 +65,14 @@ public class GUI_P_Collection : PageElement
 	public override void SetUpValues(Type ValueType, VariableViewerNetworking.NetFriendlyPage Page = null, VariableViewerNetworking.NetFriendlySentence Sentence = null, bool Iskey = false)
 	{
 		VariableViewerNetworking.NetFriendlySentence Data = new VariableViewerNetworking.NetFriendlySentence();
-		//Logger.Log("A");
+		//Loggy.Log("A");
 
 		TText.text = ValueType.ToString();
 		if (Page != null)
 		{
-			//Logger.Log("B");
+			//Loggy.Log("B");
 			Page.ProcessSentences();
-			//Logger.Log(JsonConvert.SerializeObject(Page));
+			//Loggy.Log(JsonConvert.SerializeObject(Page));
 			if (Page.Sentences.Length > 0)
 			{
 				Data = Page.Sentences[0];

@@ -580,7 +580,7 @@ public class SpriteHandler : MonoBehaviour
 
 		if (networkIdentity.netId == 0)
 		{
-			//Logger.Log("ID hasn't been set for " + this.transform.parent);
+			//Loggy.Log("ID hasn't been set for " + this.transform.parent);
 			StartCoroutine(WaitForNetInitialisation(spriteChange));
 		}
 		else

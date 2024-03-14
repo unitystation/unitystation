@@ -105,7 +105,7 @@ namespace Systems.Radiation
 
 			UpdateValues(OutPuttingRadiation);
 
-			//Logger.Log("RequestPulse!!" + Time.time);
+			//Loggy.Log("RequestPulse!!" + Time.time);
 		}
 	}
 }

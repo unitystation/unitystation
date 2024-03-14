@@ -78,6 +78,11 @@ PrefabInstance:
       objectReference: {fileID: 4940620596253206870}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: exportCost
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: initialTraits.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -148,6 +153,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
 --- !u!114 &1644590815055589727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,11 +169,13 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   CapableMutations:
   - {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b, type: 2}
   - {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c, type: 2}
   - {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618, type: 2}
   - {fileID: 11400000, guid: 4ee12f11044a2b742867f1431ca8bf77, type: 2}
+  ActiveMutationsSO: []
   Stability: 0
   SecondsForSpeciesMutation: 150
   PlayerHealthData: {fileID: 0}
@@ -198,6 +206,10 @@ MonoBehaviour:
       Orders: 00000000000000000000000000000000
     BodyTypes: []
   RelatedPresentSprites: []
+  DeathOnRemoval: 0
+  ClothingHide: 0
+  SetCustomisationData: 
+  ItemAttributes: {fileID: 0}
   SpritePrefab: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   BodyPartItemSprite: {fileID: 4999823976648774815}
@@ -206,10 +218,6 @@ MonoBehaviour:
   optionalOrgans: []
   OptionalReplacementOrgan: []
   IsSurface: 0
-  DeathOnRemoval: 0
-  ClothingHide: 0
-  SetCustomisationData: 
-  ItemAttributes: {fileID: 0}
   TotalModified: 1
   SurgeryProcedureBase:
   - {fileID: 11400000, guid: b6fd9e69eadae4148bbd6a85d785f16a, type: 2}
@@ -291,7 +299,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed226d36f0fdcd40a51a7bfbf8fb6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ReactionSounds: 1
   maxCapacity: 30
+  DEBUGReagent: {fileID: 0}
+  DEBUGAmount: 0
   reactionSet: {fileID: 11400000, guid: 9635f48a9fe17f742aee13832a4ed6c2, type: 2}
   AdditionalReactions: []
   initialReagentMix:

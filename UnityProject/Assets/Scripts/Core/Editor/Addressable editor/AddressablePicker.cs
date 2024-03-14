@@ -58,7 +58,7 @@ public class AddressablePicker : EditorWindow
 				string FoundFile = "";
 				foreach (var File in Files)
 				{
-					//Logger.Log(File);
+					//Loggy.Log(File);
 					if (File.EndsWith(".json"))
 					{
 						if (FoundFile != "")

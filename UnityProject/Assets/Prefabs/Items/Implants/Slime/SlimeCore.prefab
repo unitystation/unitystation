@@ -152,6 +152,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2966326797250985115, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
+      propertyPath: exportCost
+      value: 350
+      objectReference: {fileID: 0}
+    - target: {fileID: 2966326797250985115, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
       propertyPath: initialName
       value: Grey - SlimeCore
       objectReference: {fileID: 0}
@@ -332,6 +337,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   DropDownIndex: -1
   AdultSprite: {fileID: 11400000, guid: 7f7189ad0070b714b9c3b5f85fd0d2a3, type: 2}
   BabySprite: {fileID: 11400000, guid: f5b13374767a9b847b94a896b116d7c5, type: 2}
@@ -373,6 +379,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   <Blacklist>k__BackingField: []
   <UpdateType>k__BackingField: 3
   <PeriodicUpdateInterval>k__BackingField: 1
@@ -401,7 +408,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ReactionSounds: 1
   maxCapacity: 10
+  DEBUGReagent: {fileID: 0}
+  DEBUGAmount: 0
   reactionSet: {fileID: 0}
   AdditionalReactions:
   - {fileID: 11400000, guid: ac514e1fc62066145b0575f764fd0733, type: 2}
@@ -442,6 +452,9 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
+  <CurrentActiveStates>k__BackingField: []
+  <MobStates>k__BackingField: []
   thinkingState: {fileID: 3350947404595399408}
   Brain: {fileID: 5814085553101229679}
   DEBUGoverride: 0

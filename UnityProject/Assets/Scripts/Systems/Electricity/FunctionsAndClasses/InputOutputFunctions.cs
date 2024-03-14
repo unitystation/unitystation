@@ -12,8 +12,8 @@ namespace Systems.Electricity
 			IntrinsicElectronicData Thiswire)
 		{
 
-			//Logger.Log("4 > " + Current);
-			//Logger.Log("poke > " + SourceInstance.InData.Data.SupplyDependent[SourceInstance].ToString());
+			//Loggy.Log("4 > " + Current);
+			//Loggy.Log("poke > " + SourceInstance.InData.Data.SupplyDependent[SourceInstance].ToString());
 			var OutputSupplyingUsingData = Thiswire.Data.SupplyDependent[SourceInstance];
 
 			VIRCurrent SupplyingCurrent = null;

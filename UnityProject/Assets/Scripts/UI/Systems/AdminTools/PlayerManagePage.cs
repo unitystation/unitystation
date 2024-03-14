@@ -1,11 +1,16 @@
-﻿using AdminCommands;
+using AdminCommands;
 using DatabaseAPI;
 using Logs;
 using Messages.Client.Admin;
 using UI.AdminTools;
 using UI.Systems.AdminTools;
+
 using UnityEngine;
 using UnityEngine.UI;
+using Core.Accounts;
+using AdminCommands;
+using Messages.Client.Admin;
+using UI.AdminTools;
 
 
 namespace AdminTools
@@ -78,7 +83,7 @@ namespace AdminTools
 				Occupation spawnOcc = new Occupation();
 				foreach (var connectedPlayer in PlayerList.Instance.AllPlayers)
 				{
-					if(connectedPlayer.UserId != PlayerEntry.PlayerData.uid) continue;
+					if(connectedPlayer.AccountId != PlayerEntry.PlayerData.uid) continue;
 					spawnOcc = connectedPlayer.Script.Mind.occupation;
 				}
 				if (spawnOcc == null)
@@ -189,7 +194,7 @@ namespace AdminTools
 
 			bool isAghost;
 
-			if (PlayerManager.LocalPlayerScript.IsGhost && PlayerEntry.PlayerData.uid == ServerData.UserID)
+			if (PlayerManager.LocalPlayerScript.IsGhost && PlayerEntry.PlayerData.uid == PlayerManager.Account.Id)
 			{
 				coord = PlayerManager.LocalPlayerScript.PlayerSync.registerTile.WorldPosition;
 				isAghost = true;
@@ -201,12 +206,11 @@ namespace AdminTools
 			}
 
 			RequestAdminTeleport.Send(
-				null,
-				PlayerEntry.PlayerData.uid,
-				RequestAdminTeleport.OpperationList.AllPlayersToPlayer,
-				isAghost,
-				coord
-				);
+					null,
+					PlayerEntry.PlayerData.uid,
+					RequestAdminTeleport.OpperationList.AllPlayersToPlayer,
+					isAghost,
+					coord);
 		}
 
 		public void GiveItemToPlayerButton()

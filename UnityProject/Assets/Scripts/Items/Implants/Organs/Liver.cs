@@ -73,7 +73,7 @@ namespace Items.Implants.Organs
 			Processing();
 			ReturnReagentsToBlood();
 
-			//Logger.Log(debug.ToString(), Category.Health);
+			//Loggy.Log(debug.ToString(), Category.Health);
 		}
 
 		private void BloodToLiver(ReagentMix blood)

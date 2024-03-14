@@ -102,14 +102,41 @@ namespace Core.Utils
 				return false;
 			}
 
-			// TODO: consider determining actual minimum length.
-			if (username.Length < 3)
+			var regex = new Regex(@"^[a-zA-Z0-9\.\-_](?!.* {2})[ \w.-_]{2,}$");
+
+
+			if (regex.IsMatch(username) == false)
 			{
-				failReason = ValidationError.TooShort;
+				failReason = ValidationError.Invalid;
 				return false;
 			}
 
-			// TODO: consider a regex test to ensure legal characters only.
+			failReason = ValidationError.None;
+			return true;
+		}
+
+
+		/// <summary>
+		/// Determine whether the given Unitystation Unique account username string is considered a valid username.
+		/// </summary>
+		/// <param name="username">the username to validate</param>
+		/// <returns>true if valid</returns>
+		public static bool TryValidateUniqueUsername(string username, out ValidationError failReason)
+		{
+			if (string.IsNullOrWhiteSpace(username))
+			{
+				failReason = ValidationError.NullOrWhitespace;
+				return false;
+			}
+
+			var regex = new Regex(@"^[a-zA-Z0-9_\-]{3,}$");
+
+
+			if (regex.IsMatch(username) == false)
+			{
+				failReason = ValidationError.Invalid;
+				return false;
+			}
 
 			failReason = ValidationError.None;
 			return true;

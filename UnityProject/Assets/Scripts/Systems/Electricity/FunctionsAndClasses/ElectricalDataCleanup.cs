@@ -8,7 +8,7 @@ namespace Systems.Electricity
 	{
 		public static void CleanConnectedDevices(ElectricalOIinheritance Thiswire)
 		{
-			//Logger.Log ("CleanConnectedDevices" + Thiswire, Category.Electrical);
+			//Loggy.Log ("CleanConnectedDevices" + Thiswire, Category.Electrical);
 			foreach (var IsConnectedTo in Thiswire.InData.Data.ResistanceToConnectedDevices)
 			{
 				IsConnectedTo.Key.Data.connectedDevices.Remove(Thiswire.InData);
@@ -19,7 +19,7 @@ namespace Systems.Electricity
 
 		public static void CleanConnectedDevicesFromPower(ElectricalOIinheritance Thiswire)
 		{
-			//Logger.Log ("CleanConnectedDevicesFromPower" + Thiswire, Category.Electrical);
+			//Loggy.Log ("CleanConnectedDevicesFromPower" + Thiswire, Category.Electrical);
 			foreach (var IsConnectedTo in Thiswire.connectedDevices)
 			{
 				SupplyBool supplyBool = null;

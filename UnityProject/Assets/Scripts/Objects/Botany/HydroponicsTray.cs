@@ -155,7 +155,7 @@ namespace Objects.Botany
 				if (weedLevel > 9.5f && !plantData.PlantTrays.Contains(PlantTrays.Weed_Adaptation))
 				{
 					plantData.Health += (((plantData.WeedResistance - 110f) / 100f) * (weedLevel / 10f) * 5);
-					//Logger.Log("plantData.weed > " + plantData.PlantHealth);
+					//Loggy.Log("plantData.weed > " + plantData.PlantHealth);
 				}
 
 				//Water Checks
@@ -208,7 +208,7 @@ namespace Objects.Botany
 						else
 						{
 							plantData.Health += (((plantData.Endurance - 101f) / 100f) * 5);
-							//Logger.Log("plantData.Nutriment > " + plantData.PlantHealth);
+							//Loggy.Log("plantData.Nutriment > " + plantData.PlantHealth);
 						}
 					}
 				}
