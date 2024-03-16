@@ -110,15 +110,6 @@ namespace Managers
 
 			yield return WaitFor.Seconds(60f);
 
-			//Gather asteroid locations:
-			foreach (var body in gameManager.SpaceBodies)
-			{
-				if (body.TryGetComponent<Asteroid>(out _))
-				{
-					//asteroidLocations.Add(body.ServerState.Position);
-				}
-			}
-
 			//Add in random positions
 			int randomPosCount = Random.Range(1, 5);
 			for (int i = 0; i <= randomPosCount; i++)

@@ -163,10 +163,6 @@ public class ProgressBar : MonoBehaviour
 		spriteRenderer.transform.parent.localRotation = Quaternion.identity;
 		spriteRenderer.enabled = false;
 
-		if (matrixMove != null)
-		{
-			//matrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnRotationEnd);
-		}
 		UIManager.DestroyProgressBar(id);
 	}
 

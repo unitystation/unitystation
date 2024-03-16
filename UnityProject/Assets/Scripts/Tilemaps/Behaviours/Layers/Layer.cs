@@ -110,9 +110,7 @@ public class Layer : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		{
-			//matrixMove?.MatrixMoveEvents?.OnRotate?.RemoveListener(OnRotate);
-		}
+		//matrixMove?.MatrixMoveEvents?.OnRotate?.RemoveListener(OnRotate);
 	}
 	private void OnRotate(MatrixRotationInfo info)
 	{

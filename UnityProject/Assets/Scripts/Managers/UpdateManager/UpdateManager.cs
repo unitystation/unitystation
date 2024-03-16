@@ -25,10 +25,10 @@ public class UpdateManager : MonoBehaviour
 
 	private Dictionary<CallbackType, CallbackCollection> collections;
 
-	private List<Action> preCameraUpdateActions = new List<Action>();
-	private List<Action> updateActions = new List<Action>();
-	private List<Action> fixedUpdateActions = new List<Action>();
-	private List<Action> lateUpdateActions = new List<Action>();
+	private readonly List<Action> preCameraUpdateActions = new List<Action>();
+	private readonly List<Action> updateActions = new List<Action>();
+	private readonly List<Action> fixedUpdateActions = new List<Action>();
+	private readonly List<Action> lateUpdateActions = new List<Action>();
 
 	private Action cameraFollowUpate = null;
 
@@ -339,32 +339,30 @@ public class UpdateManager : MonoBehaviour
 		CashedDeltaTime = Time.deltaTime;
 		MidInvokeCalls = true;
 
-		for (int i = preCameraUpdateActions.Count; i >= 0; i--)
-		{
-			if (i < preCameraUpdateActions.Count)
-			{
-				var callingAction = preCameraUpdateActions[i];
-				if (Profile)
-				{
-					Profiler.BeginSample(callingAction.Method?.ReflectedType?.FullName);
-				}
+		for (int i = preCameraUpdateActions.Count - 1; i >= 0; i--)
+        {
+            if (i >= preCameraUpdateActions.Count) continue;
+            var callingAction = preCameraUpdateActions[i];
+            if (Profile)
+            {
+                Profiler.BeginSample(callingAction.Method?.ReflectedType?.FullName);
+            }
 
-				LastInvokedAction = callingAction;
-				try
-				{
-					callingAction.Invoke();
-				}
-				catch (Exception e)
-				{
-					Loggy.LogError(e.ToString());
-				}
+            LastInvokedAction = callingAction;
+            try
+            {
+                callingAction.Invoke();
+            }
+            catch (Exception e)
+            {
+                Loggy.LogError(e.ToString());
+            }
 
-				if (Profile)
-				{
-					Profiler.EndSample();
-				}
-			}
-		}
+            if (Profile)
+            {
+                Profiler.EndSample();
+            }
+        }
 
 		LastInvokedAction = cameraFollowUpate;
 		cameraFollowUpate?.Invoke();

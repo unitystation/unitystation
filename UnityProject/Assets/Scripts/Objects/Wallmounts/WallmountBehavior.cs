@@ -14,7 +14,7 @@ namespace Objects.Wallmounts
 	/// there. See <see cref="WallmountSpriteBehavior"/>
 	/// </summary>
 	//[RequireComponent(typeof(Directional))]
-	public class WallmountBehavior : MonoBehaviour, IMatrixRotation
+	public class WallmountBehavior : MonoBehaviour
 	{
 		//cached spriteRenderers of this gameobject
 		private SpriteRenderer[] spriteRenderers;
@@ -116,11 +116,6 @@ namespace Objects.Wallmounts
 
 			//there were no renderers or all of them were transparent, it's hidden
 			return true;
-		}
-
-		public void OnMatrixRotate()
-		{
-
 		}
 	}
 }

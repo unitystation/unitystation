@@ -42,8 +42,6 @@ public class ShuttleStartAutoMove : MonoBehaviour
 		matrixMove.NetworkedMatrixMove.TileAlignmentSpeed = 0;
 		matrixMove.NetworkedMatrixMove.LowSpeedDrag = 0;
 		matrixMove.NetworkedMatrixMove.SpinneyThreshold = 0;
-		matrixMove.NetworkedMatrixMove.WorldCurrentVelocity =
-			matrixMove.NetworkedMatrixMove.ForwardsDirection * SetInitialSpeed;
-		//TODO matrixMove.SafetyProtocolsOn = ShuttleSafetyEnabled;
+		matrixMove.NetworkedMatrixMove.WorldCurrentVelocity = matrixMove.NetworkedMatrixMove.ForwardsDirection * SetInitialSpeed;
 	}
 }

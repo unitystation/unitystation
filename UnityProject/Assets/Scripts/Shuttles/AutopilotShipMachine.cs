@@ -126,15 +126,12 @@ public class AutopilotShipMachine : MonoBehaviour
 
 				if (PreviouslyReached == pos) return;
 				PreviouslyReached = pos;
-				//public ShuttleConnector ConnectTo;
-				Loggy.LogError("End of line!!");
 
 				var Backup = CurrentTarget;
 				CurrentTarget = null;
 				mm.NetworkedMatrixMove.TargetFaceDirectionOverride = OrientationEnum.Default;
 				mm.NetworkedMatrixMove.HasMoveToTarget = false;
 				MoveDirectionIn = true;
-				//mm.NetworkedMatrixMove.IgnoreMatrix = null;
 				mm.NetworkedMatrixMove.IgnorePotentialCollisions = false;
 				if (MovedToAfterFinishingChain != null)
 				{

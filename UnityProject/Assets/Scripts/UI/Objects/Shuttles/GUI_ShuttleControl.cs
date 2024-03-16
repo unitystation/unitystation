@@ -152,7 +152,6 @@ namespace UI.Objects.Shuttles
 			}
 
 			UpdateManager.Add(UpdateMe, 1f);
-			//OffOverlay.MasterSetValue(Color.clear);
 		}
 
 		private void ClearScreen()
@@ -184,7 +183,7 @@ namespace UI.Objects.Shuttles
 
 		private void SetSafetyProtocols(bool state)
 		{
-			//matrixMove.SafetyProtocolsOn = state;
+			matrixMove.NetworkedMatrixMove.Safety = state;
 			SafetyText.MasterSetValue(state ? "ON" : "OFF");
 		}
 
@@ -201,15 +200,6 @@ namespace UI.Objects.Shuttles
 		public void ToggleAutopilot(bool on)
 		{
 			Autopilot = on;
-			if (on)
-			{
-				//touchscreen on
-			}
-			else
-			{
-				//touchscreen off, hide waypoint, invalidate MM target
-				//matrixMove.DisableAutopilotTarget();
-			}
 		}
 
 		public void ToggleRcsButton(PlayerInfo connectedPlayer)

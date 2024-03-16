@@ -82,8 +82,7 @@ public class ShuttleCameraRenderer : MonoBehaviour
 			if (MatrixMove != null)
 			{
 				float angleInRadians = Mathf.Atan2(MatrixMove.NetworkedMatrixMove.ForwardsDirection.y, MatrixMove.NetworkedMatrixMove.ForwardsDirection.x);
-				float angleInDegrees = angleInRadians * Mathf.Rad2Deg;
-				//Loggy.LogError("eulerAngles > " + angleInDegrees);
+				float angleInDegrees = angleInRadians * Mathf.Rad2Deg; ;
 				renderCamera.transform.localRotation = Quaternion.Euler(new Vector3(0,0, angleInDegrees-90));
 			}
 
@@ -108,6 +107,5 @@ public class ShuttleCameraRenderer : MonoBehaviour
 		texture.Apply();
 
 		RenderTexture.active = null;
-		//UISprite.rect = new Rect(0, 0, texture.width, texture.height);
 	}
 }

@@ -57,8 +57,8 @@ public partial class MatrixManager
 				if ( movingMatrices.Contains( matrixInfo ) )
 				{
 					var participatingIntersections = trackedIntersections.FindAll( intersection => intersection.Matrix1 == matrixInfo );
-					//matrixInfo.MatrixMove.MatrixMoveEvents.OnFullStopClient.AddListener( CollideBeforeStop( matrixInfo, participatingIntersections ) );
-					//TODO!!!
+					matrixInfo.MatrixMove.NetworkedMatrixMove.OnStopMovement.AddListener( CollideBeforeStop( matrixInfo, participatingIntersections ) );
+
 					movingMatrices.Remove( matrixInfo );
 					trackedIntersections.RemoveAll( intersection => intersection.Matrix1 == matrixInfo );
 				}
@@ -214,7 +214,52 @@ public partial class MatrixManager
 		}
 	}
 
+	private static void MatrixSafetyCheck(MatrixInfo Matrix1)
+	{
+		if (Matrix1.MatrixMove.NetworkedMatrixMove.Safety)
+		{
+
+			if (Matrix1.MatrixMove.NetworkedMatrixMove.TargetOrientation != OrientationEnum.Default)
+			{
+				var StartOrientation = Matrix1.MatrixMove.NetworkedMatrixMove.StartOrientation;
+				Matrix1.MatrixMove.NetworkedMatrixMove.TargetOrientation = Matrix1.MatrixMove.NetworkedMatrixMove.StartOrientation;
+				Matrix1.MatrixMove.NetworkedMatrixMove.StartOrientation = StartOrientation;
+			}
+
+
+			var addmove =  Matrix1.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity.normalized * -1;
+			Matrix1.MatrixMove.NetworkedMatrixMove.TargetTransform.position += addmove;
+
+			Matrix1.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity *= 0;
+			Matrix1.MatrixMove.NetworkedMatrixMove.MoveCoolDown = 3;
+
+
+			foreach (var Thruster in Matrix1.MatrixMove.NetworkedMatrixMove.ConnectedThrusters)
+			{
+				Thruster.TargetMolesUsed = 0;
+			}
+			return;
+		}
+	}
+
+
+	private static void MatrixSpeedCheck(MatrixInfo Matrix1, MatrixInfo Matrix2)
+	{
+		if (Matrix2.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity.magnitude < 4
+		    && Matrix1.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity.magnitude < 4)
+		{
+			if (Matrix1.MatrixMove.NetworkedMatrixMove.DragSpinneyCoolDown > 0 == false &&
+			    Matrix2.MatrixMove.NetworkedMatrixMove.DragSpinneyCoolDown > 0 == false)
+			{
+				Matrix2.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity *= -1;
+				Matrix1.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity *= -1;
+			}
+		}
+
+	}
+
 	private static List<Vector3Int> collisionLocations = new List<Vector3Int>();
+
 
 	private void CheckTileCollisions( MatrixIntersection i )
 	{
@@ -252,73 +297,15 @@ public partial class MatrixManager
 			}
 
 
-			if (i.Matrix1.MatrixMove.NetworkedMatrixMove.Safety)
-			{
+			MatrixSafetyCheck(i.Matrix1);
 
+			MatrixSafetyCheck(i.Matrix2);
 
-				if (i.Matrix1.MatrixMove.NetworkedMatrixMove.TargetOrientation != OrientationEnum.Default)
-				{
-					var StartOrientation =i.Matrix1.MatrixMove.NetworkedMatrixMove.StartOrientation;
-					i.Matrix1.MatrixMove.NetworkedMatrixMove.TargetOrientation = i.Matrix1.MatrixMove.NetworkedMatrixMove.StartOrientation;
-					i.Matrix1.MatrixMove.NetworkedMatrixMove.StartOrientation = StartOrientation;
-				}
-
-
-				var addmove =  i.Matrix1.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity.normalized * -1;
-				i.Matrix1.MatrixMove.NetworkedMatrixMove.TargetTransform.position += addmove;
-
-				i.Matrix1.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity *= 0;
-				i.Matrix1.MatrixMove.NetworkedMatrixMove.MoveCoolDown = 3;
-
-
-				foreach (var Thruster in i.Matrix1.MatrixMove.NetworkedMatrixMove.ConnectedThrusters)
-				{
-					Thruster.TargetMolesUsed = 0;
-				}
-				return;
-			}
-
-			if (i.Matrix2.MatrixMove.NetworkedMatrixMove.Safety)
-			{
-				if (i.Matrix2.MatrixMove.NetworkedMatrixMove.TargetOrientation != OrientationEnum.Default)
-				{
-					var StartOrientation = i.Matrix2.MatrixMove.NetworkedMatrixMove.StartOrientation;
-					i.Matrix2.MatrixMove.NetworkedMatrixMove.TargetOrientation =
-						i.Matrix2.MatrixMove.NetworkedMatrixMove.StartOrientation;
-					i.Matrix2.MatrixMove.NetworkedMatrixMove.StartOrientation = StartOrientation;
-				}
-
-				var addmove =  i.Matrix2.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity.normalized * -1;
-				i.Matrix2.MatrixMove.NetworkedMatrixMove.TargetTransform.position += addmove;
-
-				i.Matrix2.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity *= 0;
-				i.Matrix2.MatrixMove.NetworkedMatrixMove.MoveCoolDown = 3;
-				foreach (var Thruster in i.Matrix2.MatrixMove.NetworkedMatrixMove.ConnectedThrusters)
-				{
-					Thruster.TargetMolesUsed = 0;
-				}
-
-
-				return;
-			}
-
-
-			if (i.Matrix2.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity.magnitude < 4
-			    && i.Matrix1.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity.magnitude < 4)
-			{
-				if (i.Matrix1.MatrixMove.NetworkedMatrixMove.DragSpinneyCoolDown > 0 == false &&
-				    i.Matrix2.MatrixMove.NetworkedMatrixMove.DragSpinneyCoolDown > 0 == false)
-				{
-					i.Matrix2.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity *= -1;
-					i.Matrix1.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity *= -1;
-				}
-			}
+			MatrixSpeedCheck(i.Matrix1, i.Matrix2);
 
 			i.Matrix2.MatrixMove.NetworkedMatrixMove.DragSpinneyCoolDown = 3;
 			i.Matrix1.MatrixMove.NetworkedMatrixMove.DragSpinneyCoolDown = 3;
 			collisionLocations.Add( worldPos );
-
-
 
 			//
 			// ******** DESTROY STUFF!!! ********
@@ -376,21 +363,6 @@ public partial class MatrixManager
 			ApplyWireDamage( i.Matrix1, cellPos1 );
 			ApplyWireDamage( i.Matrix2, cellPos2 );
 
-			//Heat shit up
-			//i.Matrix1.ReactionManager.ExposeHotspot( cellPos1, 500);
-			//i.Matrix2.ReactionManager.ExposeHotspot( cellPos2, 500);
-
-			//Other
-			foreach ( var layer in layersToRemove )
-			{
-				//i.Matrix1.TileChangeManager.MetaTileMap.RemoveTileWithlayer( cellPos1, layer );
-				//i.Matrix2.TileChangeManager.MetaTileMap.RemoveTileWithlayer( cellPos2, layer );
-			}
-			foreach ( var layer in effectsToRemove )
-			{
-				//i.Matrix1.TileChangeManager.MetaTileMap.RemoveAllOverlays( cellPos1, layer ); //TODO laggy?
-				//i.Matrix2.TileChangeManager.MetaTileMap.RemoveAllOverlays( cellPos2, layer );
-			}
 		}
 
 		if ( collisions > 0 )

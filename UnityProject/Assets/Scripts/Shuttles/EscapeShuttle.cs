@@ -49,7 +49,6 @@ public class EscapeShuttle : AutopilotShipMachine
 
 	private bool Initialised = false;
 
-	//public float DistanceToDestination => Vector2.Distance( matrixMove.ServerState.Position, currentDestination.Position );
 
 	/// <summary>
 	/// used for convenient control with our coroutine extensions
@@ -257,11 +256,6 @@ public class EscapeShuttle : AutopilotShipMachine
 				MoveToTargetBuoy(TargetDestinationBuoy);
 			}
 		}
-		// Status = EscapeShuttleStatus.OnRouteToCentCom;
-		//
-		// TeleportToCentTeleport();
-
-
 
 		//check if we're trying to move but are unable to
 		if (!isBlocked)
@@ -352,7 +346,6 @@ public class EscapeShuttle : AutopilotShipMachine
 		}
 
 		CurrentTimerSeconds = InitialTimerSeconds;
-		//matrixMove.StopMovement();
 		Status = EscapeShuttleStatus.OnRouteStation;
 
 		//start ticking timer
@@ -445,7 +438,7 @@ public class EscapeShuttle : AutopilotShipMachine
 				}
 				if (CurrentTimerSeconds <= 0 && UnderflowFunnies.Count <= UnderflowIndex && GiveUpTime < 0)
 				{
-					Loggy.LogError("OH SHITTTT Shuttle got stuck on the Way to station AAAAAAAAAAAAAAAAAAAAAAAAAAAA emergency end round");
+					Loggy.LogError("[GameManager.Escape/TickTimer()] - OH SHITTTT Shuttle got stuck on the Way to station AAAAAAAAAAAAAAAAAAAAAAAAAAAA emergency end round");
 					GameManager.Instance.EndRound();
 					centComm.UpdateStatusDisplay(StatusDisplayChannel.CachedChannel, null);
 					yield break;

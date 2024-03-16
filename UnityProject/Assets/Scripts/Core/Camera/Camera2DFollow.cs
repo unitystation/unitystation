@@ -169,8 +169,6 @@ public class Camera2DFollow : MonoBehaviour
 			_camera.worldToCameraMatrix = offsetMatrix * _camera.transform.worldToLocalMatrix;
 
 
-			//starsBackground.position = newPos;
-
 			if (stencilMask != null && stencilMask.transform.parent != target)
 			{
 				stencilMask.transform.parent = target;

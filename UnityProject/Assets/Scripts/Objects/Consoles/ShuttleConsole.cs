@@ -94,7 +94,7 @@ namespace Objects.Shuttles
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			//can only be interacted with an emag (normal click behavior is in HasNetTab)
-			if (!Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Emag)) return false;
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Emag) == false) return false;
 			return true;
 		}
 

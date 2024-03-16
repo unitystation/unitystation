@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class GuidanceBuoy : NetworkBehaviour
 {
-	public MoveStep Out;
-	public MoveStep In;
+	public GuidanceBuoyMoveStep Out;
+	public GuidanceBuoyMoveStep In;
 	public RegisterTile RegisterTile;
 
 	public void Awake()
@@ -16,18 +16,4 @@ public class GuidanceBuoy : NetworkBehaviour
 	}
 }
 
-
-[System.Serializable]
-public class MoveStep
-{
-	//On set
-	public bool UseConnectorAsCentreOfShuttle;
-	public OrientationEnum DesiredFaceDirection = OrientationEnum.Default;
-
-
-	//On Reach
-	public ShuttleConnector ConnectTo;
-	public GuidanceBuoy NextInLine;
-	public bool IsEnd = false;
-}
 

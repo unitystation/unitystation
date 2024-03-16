@@ -43,6 +43,9 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 	//TODO Look at Commented out code <<<<<8
 
+	//TODO 90► snap updates For layer and rotatable
+	//TODO  fuelGauge??
+
 	//---------------- Not so important -------------------
 
 	//TODO Cable placement can't handle moving matrices

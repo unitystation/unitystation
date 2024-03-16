@@ -18,12 +18,12 @@ public class ShuttleConnector : NetworkBehaviour, ICheckedInteractable<HandApply
 	public SpriteHandler SpriteHandler;
 
 
-	public List<Vector2> Directions = new List<Vector2>(){
-
-		new Vector2(1,0),
-		new Vector2(-1,0),
-		new Vector2(0,1),
-		new Vector2(0,-1),
+	public List<Vector2> Directions = new List<Vector2>()
+	{
+		new Vector2(1, 0),
+		new Vector2(-1, 0),
+		new Vector2(0, 1),
+		new Vector2(0, -1),
 	};
 
 	public void OnDestroy()
@@ -32,45 +32,44 @@ public class ShuttleConnector : NetworkBehaviour, ICheckedInteractable<HandApply
 		{
 			RelatedMove.NetworkedMatrixMove.RemoveConnector(this);
 		}
+
 		if (ConnectedToConnector != null)
 		{
 			ConnectedToConnector.ConnectedToConnector = null;
 		}
-
 	}
 
 
 	// Start is called before the first frame update
-    void Start()
-    {
-	    Reregister();
+	void Start()
+	{
+		Reregister();
 		RegisterTile = this.GetComponent<RegisterTile>();
 		RegisterTile.OnParentChangeComplete.AddListener(Reregister);
 		var WrenchSecurable = this.GetComponent<WrenchSecurable>();
 		WrenchSecurable.OnAnchoredChange.AddListener(Disconnect);
-    }
+	}
 
 
-    public void Reregister()
-    {
-	    Disconnect();
-	    var NewRelatedMove = this.GetComponentInParent<MatrixMove>();
-	    if (RelatedMove != null)
-	    {
-		    RelatedMove.NetworkedMatrixMove.RemoveConnector(this);
-	    }
+	public void Reregister()
+	{
+		Disconnect();
+		var NewRelatedMove = this.GetComponentInParent<MatrixMove>();
+		if (RelatedMove != null)
+		{
+			RelatedMove.NetworkedMatrixMove.RemoveConnector(this);
+		}
 
-	    if (NewRelatedMove != null)
-	    {
-		    RelatedMove = NewRelatedMove;
-		    NewRelatedMove.NetworkedMatrixMove.AddConnector(this);
-	    }
-    }
+		if (NewRelatedMove != null)
+		{
+			RelatedMove = NewRelatedMove;
+			NewRelatedMove.NetworkedMatrixMove.AddConnector(this);
+		}
+	}
+
 	[NaughtyAttributes.Button]
-
 	public void Disconnect()
 	{
-
 		if (ConnectedToConnector != null)
 		{
 			SpriteHandler.SetCatalogueIndexSprite(0);
@@ -85,18 +84,22 @@ public class ShuttleConnector : NetworkBehaviour, ICheckedInteractable<HandApply
 	[NaughtyAttributes.Button]
 	public void TryConnectAdjacent()
 	{
-		foreach( var  Direction in Directions){
+		foreach (var Direction in Directions)
+		{
 			var lookat = this.transform.position + Direction.To3();
-			var  Matrix = MatrixManager.AtPoint(lookat,true);
+			var Matrix = MatrixManager.AtPoint(lookat, true);
 
-			if (RegisterTile.Matrix.MatrixInfo == Matrix || MatrixManager.Instance.spaceMatrix.MatrixInfo == Matrix){
+			if (RegisterTile.Matrix.MatrixInfo == Matrix || MatrixManager.Instance.spaceMatrix.MatrixInfo == Matrix)
+			{
 				continue;
 			}
+
 			var LocalLookAt = lookat.ToLocalInt(Matrix);
-			var Connector =  Matrix.Matrix.GetFirst<ShuttleConnector>(LocalLookAt, true);
+			var Connector = Matrix.Matrix.GetFirst<ShuttleConnector>(LocalLookAt, true);
 			if (Connector != null)
 			{
-				if (Connector.RelatedMove.NetworkedMatrixMove.ConnectedShuttleConnectors.Any(x => x.ConnectedToConnector != null)) continue;
+				if (Connector.RelatedMove.NetworkedMatrixMove.ConnectedShuttleConnectors.Any(x =>
+					    x.ConnectedToConnector != null)) continue;
 
 				SpriteHandler.SetCatalogueIndexSprite(1);
 				ConnectedToConnector = Connector;

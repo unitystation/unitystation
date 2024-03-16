@@ -17,12 +17,6 @@ namespace Shuttles
 
 		#region MatrixMove SyncVars
 
-			[SyncVar(hook = nameof(SyncInitialPosition))]
-			private Vector3 initialPosition;
-
-			[SyncVar(hook = nameof(SyncPivot))]
-			private Vector3 pivot;
-
 			[SyncVar(hook = nameof(SyncMatrixID))]
 			[HideInInspector]
 			public int matrixID;
@@ -55,11 +49,6 @@ namespace Shuttles
 			base.OnStartClient();
 
 			networkedMatrix.OnStartClient();
-
-			if (matrixMove != null)
-			{
-				//matrixMove.OnStartClient();
-			}
 		}
 
 		public override void OnStartServer()
@@ -70,26 +59,10 @@ namespace Shuttles
 			matrixIDcounter++;
 
 			networkedMatrix.OnStartServer();
-
-			if (matrixMove != null)
-			{
-				//matrixMove.OnStartServer();
-			}
 		}
 
 		#region MatrixMove Hooks
 
-			public void SyncInitialPosition(Vector3 oldPos, Vector3 newPos)
-			{
-				initialPosition = newPos;
-				//matrixMove.initialPosition = newPos.RoundToInt();
-			}
-
-			public void SyncPivot(Vector3 oldPivot, Vector3 newPivot)
-			{
-				pivot = newPivot;
-				//matrixMove.pivot = pivot.RoundToInt();
-			}
 
 			public void SyncMatrixID(int oldID, int newID)
 			{
