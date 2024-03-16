@@ -48,6 +48,8 @@ public class Thruster : MonoPipe
 
 	private string audioLoopGUID = string.Empty;
 
+	public float InletPressure = 0;
+
 	public Vector3 WorldThrustDirectionAndMagnitude
 	{
 		get
@@ -211,7 +213,9 @@ public class Thruster : MonoPipe
 	    ThrustPower = TargetMolesUsed * ThrustMultiplier * ThrusterMultiplier;
 	    var UsedMoles = TargetMolesUsed* MoreConsumptionMultiplier * AThrusterUseMultiplier;
 	    AtmosphericsSetUsage(UsedMoles);
+	    InletPressure = Mix.GetGasMix().Pressure;
 	    Mix.Remove(new Vector2(UsedMoles, UsedMoles));
+
     }
 
     public void SetEffects(float CurrentUsage)

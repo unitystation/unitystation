@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
-public class Rotatable : NetworkBehaviour, IMatrixRotation
+public class Rotatable : NetworkBehaviour, IMatrixRotation90
 {
 	public enum RotationMethod
 	{
@@ -413,7 +413,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 #endif
 	}
 
-	public void OnMatrixRotate()
+	public void OnMatrixRotate90()
 	{
 		if (MatrixRotateUpdate == false) return;
 		var NewRotation =  SynchroniseCurrentDirection.ToLocalVector3().DirectionLocalToWorld(RegisterTile.Matrix).ToOrientationEnum();

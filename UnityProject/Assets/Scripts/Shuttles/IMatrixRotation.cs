@@ -17,3 +17,18 @@ public interface IMatrixRotation
 	/// </summary>
 	void OnMatrixRotate();
 }
+
+//A bit more optimal so if you only need to rotate in 90° increments
+public interface IMatrixRotation90
+{
+	/// <summary>
+	/// Invoked when matrix rotation starts, ends, or the object is being newly registered
+	/// as being on a particular metrix.
+	/// Called on client and server side (and both when it's
+	/// server player's game).
+	/// Use rotationInfo.NetworkSide to distinguish between client / server logic.
+	/// Can use rotationInfo.IsStart, IsEnd, IsObjectBeingRegistered to distinguish between different kinds of
+	/// rotation events.
+	/// </summary>
+	void OnMatrixRotate90();
+}

@@ -167,7 +167,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	[NonSerialized] public readonly Vector3IntEvent OnLocalPositionChangedServer = new Vector3IntEvent();
 
 	private IMatrixRotation[] matrixRotationHooks;
-
+	private IMatrixRotation90[] matrixRotation90Hooks;
 	//cached for fast fire exposure without gc
 	private IFireExposable[] fireExposables;
 
@@ -203,6 +203,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 		objectPhysics.ResetComponent(this);
 		matrixRotationHooks = GetComponents<IMatrixRotation>();
+		matrixRotation90Hooks = GetComponents<IMatrixRotation90>();
 		fireExposables = GetComponents<IFireExposable>();
 		CurrentsortingGroup = GetComponent<SortingGroup>();
 
@@ -289,7 +290,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		}
 	}
 
-	public void OnDestroy()
+	public virtual void OnDestroy()
 	{
 		if (objectLayer)
 		{
@@ -298,6 +299,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		}
 
 		Matrix.OrNull()?.MatrixMove.OrNull()?.NetworkedMatrixMove.OrNull()?.OnRotate?.RemoveListener(OnRotate);
+		Matrix.OrNull()?.MatrixMove.OrNull()?.NetworkedMatrixMove.OrNull()?.OnRotate90?.RemoveListener(OnRotate90);
+
 	}
 
 	public virtual void OnDespawnServer(DespawnInfo info)
@@ -474,6 +477,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			if (Matrix != null && Matrix.IsMovable)
 			{
 				Matrix.MatrixMove.NetworkedMatrixMove.OnRotate.RemoveListener(OnRotate);
+				Matrix.MatrixMove.NetworkedMatrixMove.OnRotate90.RemoveListener(OnRotate90);
+
 			}
 
 			Matrix = value;
@@ -481,7 +486,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			{
 				//LogMatrixDebug($"Registered OnRotate to {matrix}");
 				Matrix.MatrixMove.NetworkedMatrixMove.OnRotate.AddListener(OnRotate);
+				Matrix.MatrixMove.NetworkedMatrixMove.OnRotate90.AddListener(OnRotate90);
 				OnRotate();
+				OnRotate90();
 			}
 
 
@@ -531,14 +538,28 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private void OnRotate()
 	{
-		if (matrixRotationHooks == null) return;
-		//pass rotation event on to our children
-		foreach (var matrixRotationHook in matrixRotationHooks)
+		if (matrixRotationHooks != null)
 		{
-			matrixRotationHook.OnMatrixRotate();
+			//pass rotation event on to our children
+			foreach (var matrixRotationHook in matrixRotationHooks)
+			{
+				matrixRotationHook.OnMatrixRotate();
+			}
 		}
 	}
 
+	private void OnRotate90()
+	{
+		if (matrixRotation90Hooks != null)
+		{
+			//pass rotation event on to our children
+			foreach (var matrixRotationHook in matrixRotation90Hooks)
+			{
+				matrixRotationHook.OnMatrixRotate90();
+			}
+
+		}
+	}
 	public void UpdatePositionServer()
 	{
 		var prevPosition = LocalPositionServer;

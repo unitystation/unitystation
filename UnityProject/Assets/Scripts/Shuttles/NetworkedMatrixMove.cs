@@ -192,6 +192,8 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 	public readonly UnityEvent OnRotate = new UnityEvent();
 
+	public readonly UnityEvent OnRotate90 = new UnityEvent();
+
 
 	public bool RCSModeActive = false; //TODO Check With other stuff
 
@@ -249,6 +251,9 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 	public GameObject CentreObjectOverride;
 
+	//Used to tell if rotatable need an update
+	private OrientationEnum PreviousDirectionFacing;
+
 	public void Start()
 	{
 		if (this.GetComponent<MatrixSync>() == null)
@@ -273,6 +278,12 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		ElapsedTimeSinceLastUpdate.Reset();
 		ElapsedTimeSinceLastUpdate.Start();
 		OnRotate.Invoke();
+		var FacedDirection = ForwardsDirection.ToOrientationEnum();
+		if (PreviousDirectionFacing != FacedDirection)
+		{
+			PreviousDirectionFacing = FacedDirection;
+			OnRotate90.Invoke();
+		}
 	}
 
 
@@ -604,8 +615,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 				//TODO Balance the WorldCurrentVelocity added Because it doesn't seem to be strong enough whenTwo shuttle split apart meybe 2x Faster?
 
-				WorldCurrentVelocity += (new Vector3(-PivotDifference.y, PivotDifference.x, 0).normalized *
-				                         (ScalerMomentumStrength) * (MomentumStrength / AllMass));
+				WorldCurrentVelocity += (new Vector3(-PivotDifference.y, PivotDifference.x, 0).normalized * ((ScalerMomentumStrength) * (MomentumStrength / AllMass)));
 			}
 		}
 		else
@@ -1010,6 +1020,13 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			OnRotate.Invoke();
 		}
 
+		var FacedDirection = ForwardsDirection.ToOrientationEnum();
+		if (PreviousDirectionFacing != FacedDirection)
+		{
+			PreviousDirectionFacing = FacedDirection;
+			OnRotate90.Invoke();
+		}
+
 		if (UpdateConversion)
 		{
 			UpdateLocalAndWorldConversion();
@@ -1045,6 +1062,14 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		{
 			OnRotate.Invoke();
 		}
+
+		var FacedDirection = ForwardsDirection.ToOrientationEnum();
+		if (PreviousDirectionFacing != FacedDirection)
+		{
+			PreviousDirectionFacing = FacedDirection;
+			OnRotate90.Invoke();
+		}
+
 
 		if (UpdateConversion)
 		{

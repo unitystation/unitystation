@@ -206,6 +206,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		return true;
 	}
 
+	public override void OnDestroy()
+	{
+		base.OnDestroy();
+		MatrixChange(Matrix, null);
+	}
+
 	public override void MatrixChange(Matrix MatrixOld, Matrix MatrixNew)
 	{
 		if (MatrixOld != null && MatrixOld.PresentPlayers.Contains(this))

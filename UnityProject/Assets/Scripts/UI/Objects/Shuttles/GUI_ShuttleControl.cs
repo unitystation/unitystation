@@ -109,19 +109,23 @@ namespace UI.Objects.Shuttles
 			CoordReadout.SetCoords(shuttleConsole.transform.position);
 
 			var fuelGauge = (NetUIElement<string>) this["FuelGauge"];
-			//TODO
-			// if (shuttleFuelSystem == null)
-			// {
-			// 	if (fuelGauge.Value != "0")
-			// 	{
-			// 		fuelGauge.MasterSetValue((0).ToString());
-			// 	}
-			// }
-			// else if (shuttleFuelSystem.Connector?.canister?.GasContainer != null)
-			// {
-			// 	var value = $"{(shuttleFuelSystem.FuelLevel * 100f)}";
-			// 	fuelGauge.MasterSetValue(value);
-			// }
+
+			if (matrixMove.NetworkedMatrixMove.ConnectedThrusters.Count > 0)
+			{
+				if (matrixMove.NetworkedMatrixMove.ConnectedThrusters[0].pipeData.SelfSufficient)
+				{
+					var value = $"{(1 * 100f)}";
+					fuelGauge.MasterSetValue(value);
+				}
+				else
+				{
+					var value = $"{( Math.Min((matrixMove.NetworkedMatrixMove.ConnectedThrusters[0].InletPressure / 2500f), 1) * 100f)}";
+					fuelGauge.MasterSetValue(value);
+				}
+
+			}
+
+
 
 			if (matrixMove.NetworkedMatrixMove.RCSModeActive)
 			{
