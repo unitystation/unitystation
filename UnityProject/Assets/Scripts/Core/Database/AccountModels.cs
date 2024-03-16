@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Systems.Character;
-using UnityEngine.Serialization;
 
 namespace Core.Database
 {
@@ -12,24 +10,37 @@ namespace Core.Database
 	[Serializable]
 	public class AccountRegister : JsonObject
 	{
-		public string unique_identifier; // unique
-		public string email;
-		public string username; // non-unique, public-facing
-		public string password;
+		[JsonProperty("unique_identifier")]
+		public string UniqueIdentifier { get; set; }
+
+		[JsonProperty("email")]
+		public string Email {get; set;}
+
+		[JsonProperty("username")]
+		public string Username {get; set;}
+
+		[JsonProperty("password")]
+		public string Password {get; set;}
 	}
 
 	[Serializable]
 	public class AccountLoginCredentials : JsonObject
 	{
-		public string email;
-		public string password;
+		[JsonProperty("email")]
+		public string Email {get; set;}
+
+		[JsonProperty("password")]
+		public string Password {get; set;}
 	}
 
 	[Serializable]
 	public class GetAccountsCharacters : JsonObject
 	{
-		public string fork_compatibility;
-		public string character_sheet_version;
+		[JsonProperty("fork_compatibility")]
+		public string ForkCompatibility {get; set;}
+
+		[JsonProperty("character_sheet_version")]
+		public string CharacterSheetVersion {get; set;}
 	}
 
 	[Serializable]
@@ -48,23 +59,33 @@ namespace Core.Database
 	public class AccountUpdate : JsonObject, ITokenAuthable
 	{
 		public string Token { get; set; }
-		public string email;
-		public string username;
-		public string password;
+		[JsonProperty("email")]
+		public string Email {get; set;}
+
+		[JsonProperty("username")]
+		public string Username {get; set;}
+
+		[JsonProperty("password")]
+		public string Password {get; set;}
 	}
 
 	[Serializable]
 	public class AccountUpdateCharacters : JsonObject, ITokenAuthable
 	{
 		public string Token { get; set; }
-		public Dictionary<string, Dictionary<string, CharacterSheet>> characters;
+
+		[JsonProperty("characters")]
+		public Dictionary<string, Dictionary<string, CharacterSheet>> Characters { get; set; }
 	}
 
 	[Serializable]
 	public class AccountValidate : JsonObject
 	{
-		public string unique_identifier;
-		public string verification_token;
+		[JsonProperty("unique_identifier")]
+		public string UniqueIdentifier {get; set;}
+
+		[JsonProperty("verification_token")]
+		public string VerificationToken {get; set;}
 	}
 
 	#endregion
@@ -75,57 +96,86 @@ namespace Core.Database
 	[Serializable]
 	public class AccountGetCharacterSheets : JsonObject
 	{
-		public int count;
-		public List<SubAccountGetCharacterSheet> results;
+		[JsonProperty("count")]
+		public int Count {get; set;}
+
+		[JsonProperty("results")]
+		public List<SubAccountGetCharacterSheet> Results {get; set;}
 	}
 
 	[Serializable]
 	public class SubAccountGetCharacterSheet : JsonObject
 	{
-		public int id;
-		public string account;
-		public string fork_compatibility;
-		public string character_sheet_version;
-		public CharacterSheet data;
-		public DateTime last_updated;
+		[JsonProperty("id")]
+		public int Id {get; set;}
+
+		[JsonProperty("account")]
+		public string Account {get; set;}
+
+		[JsonProperty("fork_compatibility")]
+		public string ForkCompatibility {get; set;}
+
+		[JsonProperty("character_sheet_version")]
+		public string CharacterSheetVersion {get; set;}
+
+		[JsonProperty("data")]
+		public CharacterSheet Data {get; set;}
+
+		[JsonProperty("last_updated")]
+		public DateTime LastUpdated {get; set;}
 	}
-
-
 
 	[Serializable]
 	public class AccountGetResponse : JsonObject
 	{
-		public string unique_identifier;
-		public string username;
-		public bool is_verified;
+		[JsonProperty("unique_identifier")]
+		public string UniqueIdentifier {get; set;}
+
+		[JsonProperty("username")]
+		public string Username {get; set;}
+
+		[JsonProperty("is_verified")]
+		public bool IsVerified {get; set;}
 	}
 
 	[Serializable]
 	public class AccountRegisterResponse : JsonObject
 	{
-		public AccountRegisterDetails account;
+		[JsonProperty("account")]
+		public AccountRegisterDetails Account { get; set; }
 	}
 
 	[Serializable]
 	public class AccountRegisterDetails : JsonObject
 	{
-		public string unique_identifier;
-		public string email;
-		public string username;
+		[JsonProperty("unique_identifier")]
+		public string UniqueIdentifier {get; set;}
+
+		[JsonProperty("email")]
+		public string Email {get; set;}
+
+		[JsonProperty("username")]
+		public string Username {get; set;}
 	}
 
 	[Serializable]
 	public class AccountLoginResponse : JsonObject
 	{
-		public string token;
-		public AccountGetResponse account;
+		[JsonProperty("token")]
+		public string Token {get; set;}
+
+		[JsonProperty("account")]
+		public AccountGetResponse Account {get; set;}
 	}
 
 	[Serializable]
 	public class AccountUpdateResponse : JsonObject
 	{
-		public string email;
-		public string username;
+		[JsonProperty("email")]
+		public string Email {get; set;}
+
+		[JsonProperty("username")]
+		public string Username {get; set;}
 	}
 
 	[Serializable]
@@ -137,7 +187,8 @@ namespace Core.Database
 	[Serializable]
 	public class AccountVerificationTokenResponse : JsonObject
 	{
-		public string verification_token;
+		[JsonProperty("verification_token")]
+		public string VerificationToken { get; set; }
 	}
 
 	[Serializable]
