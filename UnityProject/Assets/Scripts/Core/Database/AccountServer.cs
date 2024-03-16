@@ -26,10 +26,10 @@ namespace Core.Database
 		{
 			var requestBody = new AccountRegister
 			{
-				email = emailAddress,
-				unique_identifier = uniqueIdentifier,
-				username = username,
-				password = password,
+				Email = emailAddress,
+				UniqueIdentifier = uniqueIdentifier,
+				Username = username,
+				Password = password,
 			};
 
 			var response = await ApiServer.Post<AccountRegisterResponse>(GetUri("register"), requestBody);
@@ -46,8 +46,8 @@ namespace Core.Database
 		{
 			AccountLoginCredentials requestBody = new()
 			{
-				email = emailAddress,
-				password = password,
+				Email = emailAddress,
+				Password = password,
 			};
 
 			ApiResult<AccountLoginResponse> response = await ApiServer.Post<AccountLoginResponse>(GetUri("login-credentials"), requestBody);
@@ -94,9 +94,9 @@ namespace Core.Database
 			AccountUpdate requestBody = new()
 			{
 				Token = token,
-				email = emailAddress,
-				username = username,
-				password = password,
+				Email = emailAddress,
+				Username = username,
+				Password = password,
 			};
 
 			var response = await ApiServer.Post<AccountUpdateResponse>(GetUri("update-account"), requestBody);
@@ -125,8 +125,8 @@ namespace Core.Database
 		{
 			AccountValidate requestBody = new()
 			{
-				unique_identifier = accountId,
-				verification_token = token,
+				UniqueIdentifier = accountId,
+				VerificationToken = token,
 			};
 
 			var response = await ApiServer.Post<AccountGetResponse>(GetUri("verify-account"), requestBody);

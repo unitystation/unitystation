@@ -88,7 +88,7 @@ namespace UI.Character
 		{
 			characterPreviewDropdown.onValueChanged.RemoveListener(OnDropdownChanged);
 			characterPreviewDropdown.ClearOptions();
-			var itemOptions = CharacterManager.Characters.Select(pcd => pcd.data.Name).ToList();
+			var itemOptions = CharacterManager.Characters.Select(pcd => pcd.Data.Name).ToList();
 			characterPreviewDropdown.AddOptions(itemOptions);
 			characterPreviewDropdown.onValueChanged.AddListener(OnDropdownChanged);
 		}

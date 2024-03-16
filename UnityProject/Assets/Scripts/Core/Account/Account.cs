@@ -52,7 +52,7 @@ namespace Core.Accounts
 
 			AccountLoginResponse account = loginResponse.Data;
 
-			PostLogin(account!.token, account.account);
+			PostLogin(account!.Token, account.Account);
 
 			return this;
 		}
@@ -70,7 +70,7 @@ namespace Core.Accounts
 
 			AccountLoginResponse account = loginResponse.Data;
 
-			PostLogin(account!.token, account.account);
+			PostLogin(account!.Token, account.Account);
 
 			return this;
 		}
@@ -90,8 +90,8 @@ namespace Core.Accounts
 
 			AccountRegisterResponse account = registerResponse.Data;
 
-			Id = account!.account.unique_identifier;
-			Username = account.account.username;
+			Id = account!.Account.UniqueIdentifier;
+			Username = account.Account.Username;
 
 			return this; // set IsAvailable true?
 		}
@@ -140,7 +140,7 @@ namespace Core.Accounts
 				return "";
 			}
 
-			return response.Data!.verification_token;
+			return response.Data!.VerificationToken;
 		}
 
 		public async Task<CharacterSheet> GetCharacter(string key)
@@ -174,9 +174,9 @@ namespace Core.Accounts
 
 		private Account PopulateAccount(AccountGetResponse accountResponse)
 		{
-			Id = accountResponse.unique_identifier;
-			Username = accountResponse.username;
-			IsVerified = accountResponse.is_verified;
+			Id = accountResponse.UniqueIdentifier;
+			Username = accountResponse.Username;
+			IsVerified = accountResponse.IsVerified;
 
 			PlayerManager.CharacterManager.Init();
 			return this;

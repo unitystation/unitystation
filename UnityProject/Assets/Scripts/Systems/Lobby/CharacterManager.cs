@@ -123,7 +123,7 @@ namespace Systems.Character
 			}
 
 			var Character = Characters[key];
-			return Character.data;
+			return Character.Data;
 		}
 
 		/// <summary>Set the <see cref="CharacterSheet"/> associated with the given key.</summary>
@@ -137,16 +137,16 @@ namespace Systems.Character
 				return;
 			}
 
-			Characters[key].data = character;
+			Characters[key].Data = character;
 
-			_ = PersistenceServer.PutAccountsCharacterByID(Characters[key].id, Characters[key], PlayerManager.Account.Token);
+			_ = PersistenceServer.PutAccountsCharacterByID(Characters[key].Id, Characters[key], PlayerManager.Account.Token);
 			Task.Run(() => UpdateCharacterOnline(Characters[key]));
 			SaveCharacters(false);
 		}
 
 		public async Task UpdateCharacterOnline(SubAccountGetCharacterSheet character)
 		{
-			ApiResult<SubAccountGetCharacterSheet> response = await PersistenceServer.PutAccountsCharacterByID(character.id, character, PlayerManager.Account.Token);
+			ApiResult<SubAccountGetCharacterSheet> response = await PersistenceServer.PutAccountsCharacterByID(character.Id, character, PlayerManager.Account.Token);
 
 			if (!response.IsSuccess)
 			{
@@ -157,7 +157,7 @@ namespace Systems.Character
 
 			SubAccountGetCharacterSheet characters = response.Data;
 
-			character.last_updated = characters!.last_updated;
+			character.LastUpdated = characters!.LastUpdated;
 			SaveCharacters(false);
 		}
 
@@ -174,10 +174,10 @@ namespace Systems.Character
 
 			var SubAccountGetcharacter = new SubAccountGetCharacterSheet()
 			{
-				account = PlayerManager.Account.Id,
-				fork_compatibility = CharacterSheetForkCompatibility,
-				character_sheet_version = CharacterSheetVersion,
-				data = character
+				Account = PlayerManager.Account.Id,
+				ForkCompatibility = CharacterSheetForkCompatibility,
+				CharacterSheetVersion = CharacterSheetVersion,
+				Data = character
 			};
 			Characters.Add(SubAccountGetcharacter);
 			Task.Run(() => SaveNewCharacterTask(SubAccountGetcharacter));
@@ -187,7 +187,7 @@ namespace Systems.Character
 
 		public void Add(SubAccountGetCharacterSheet character, bool AddOnline = true)
 		{
-			if (ValidateCharacterSheet(character.data) == false)
+			if (ValidateCharacterSheet(character.Data) == false)
 			{
 				Loggy.LogError("An attempt was made to add a character but character validation failed. Ignoring.");
 				return;
@@ -214,7 +214,7 @@ namespace Systems.Character
 
 			SubAccountGetCharacterSheet characterSheet = response.Data;
 
-			character.id = characterSheet!.id;
+			character.Id = characterSheet!.Id;
 			SaveCharacters(false);
 		}
 
@@ -244,7 +244,7 @@ namespace Systems.Character
 			var CharacterRemove = Characters[key];
 			Characters.RemoveAt(key);
 
-			_ = PersistenceServer.DeleteAccountsCharacterByID(CharacterRemove.id, PlayerManager.Account.Token);
+			_ = PersistenceServer.DeleteAccountsCharacterByID(CharacterRemove.Id, PlayerManager.Account.Token);
 			SaveCharacters(false);
 		}
 
@@ -263,7 +263,7 @@ namespace Systems.Character
 
 				AccountGetCharacterSheets characters = accountResponse.Data;
 
-				Characters.AddRange(characters!.results);
+				Characters.AddRange(characters!.Results);
 			}
 			catch (Exception e)
 			{
@@ -290,7 +290,7 @@ namespace Systems.Character
 				try
 				{
 					characters = JsonConvert.DeserializeObject<List<SubAccountGetCharacterSheet>>(json);
-					if (characters.Count == 0 || characters[0].data == null)
+					if (characters.Count == 0 || characters[0].Data == null)
 					{
 						old = true;
 						characters.Clear();
@@ -310,10 +310,10 @@ namespace Systems.Character
 					{
 						characters.Add(new SubAccountGetCharacterSheet()
 						{
-							account = PlayerManager.Account.Id,
-							fork_compatibility = CharacterSheetForkCompatibility,
-							character_sheet_version = CharacterSheetVersion,
-							data = OLDCharacter
+							Account = PlayerManager.Account.Id,
+							ForkCompatibility = CharacterSheetForkCompatibility,
+							CharacterSheetVersion = CharacterSheetVersion,
+							Data = OLDCharacter
 						});
 					}
 
@@ -356,13 +356,13 @@ namespace Systems.Character
 						foreach (var LocalCharacter in Characters)
 						{
 							bool OnlineHasNotLocal = true;
-							foreach (var OnlineCharacter in accountResponse.Data.results)
+							foreach (var OnlineCharacter in accountResponse.Data.Results)
 							{
-								if (OnlineCharacter.id == LocalCharacter.id)
+								if (OnlineCharacter.Id == LocalCharacter.Id)
 								{
 									OnlineHasNotLocal = false;
 
-									if (OnlineCharacter.last_updated > LocalCharacter.last_updated)
+									if (OnlineCharacter.LastUpdated > LocalCharacter.LastUpdated)
 									{
 										UpdateLocal.Add(new ToUpdateLocal()
 										{
@@ -370,7 +370,7 @@ namespace Systems.Character
 											online = OnlineCharacter
 										});
 									}
-									if (OnlineCharacter.last_updated < LocalCharacter.last_updated)
+									if (OnlineCharacter.LastUpdated < LocalCharacter.LastUpdated)
 									{
 										UpdateOnline.Add(LocalCharacter);
 									}
@@ -383,12 +383,12 @@ namespace Systems.Character
 							}
 						}
 
-						foreach (var OnlineCharacter in accountResponse.Data.results)
+						foreach (var OnlineCharacter in accountResponse.Data.Results)
 						{
 							bool LocalHasNotOnline = true;
 							foreach (var LocalCharacter in Characters)
 							{
-								if (OnlineCharacter.id == LocalCharacter.id)
+								if (OnlineCharacter.Id == LocalCharacter.Id)
 								{
 									LocalHasNotOnline = false;
 									//TODO is Missing date modified field
@@ -413,17 +413,17 @@ namespace Systems.Character
 
 						foreach (var character in UpdateOnline)
 						{
-							await PersistenceServer.PutAccountsCharacterByID(character.id, character, PlayerManager.Account.Token);
+							await PersistenceServer.PutAccountsCharacterByID(character.Id, character, PlayerManager.Account.Token);
 						}
 
 						foreach (var character in UpdateLocal)
 						{
-							character.local.data = character.online.data;
-							character.local.fork_compatibility = character.online.fork_compatibility;
-							character.local.account = character.online.account;
-							character.local.id = character.online.id;
-							character.local.character_sheet_version = character.online.character_sheet_version;
-							character.local.last_updated = character.online.last_updated;
+							character.local.Data = character.online.Data;
+							character.local.ForkCompatibility = character.online.ForkCompatibility;
+							character.local.Account = character.online.Account;
+							character.local.Id = character.online.Id;
+							character.local.CharacterSheetVersion = character.online.CharacterSheetVersion;
+							character.local.LastUpdated = character.online.LastUpdated;
 						}
 						SaveCharacters(false);
 					}
