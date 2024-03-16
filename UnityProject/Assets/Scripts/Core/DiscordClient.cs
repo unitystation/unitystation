@@ -1,8 +1,6 @@
 using System;
-using DatabaseAPI;
 using Discord;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Core
 {
@@ -10,16 +8,20 @@ namespace Core
     {
 	    public Discord.Discord Client { get; private set; } = null;
 	    public ActivityManager Activity { get; private set; } = null;
-
 	    private const long CLIENT_ID = 1218638802143416502;
+
+	    private static ActivityAssets UnityStationActivityAssets = new ActivityAssets()
+	    {
+		    LargeText = "unitystation", LargeImage = "unitystation-logo",
+		    SmallImage = "unitystation-logo", SmallText = "unitystation"
+	    };
 
 	    private Activity defaultActivity = new Activity
 	    {
 		    Name = "Unitystation",
 		    Type = ActivityType.Playing,
 		    Details = "Loading game..",
-		    Assets = new ActivityAssets(){ LargeText = "unitystation", LargeImage = "unitystation-logo",
-			    SmallImage = "unitystation-logo", SmallText = "unitystation"},
+		    Assets = UnityStationActivityAssets,
 	    };
 
 	    private ActivityTimestamps timestamps = new ActivityTimestamps();
@@ -39,17 +41,7 @@ namespace Core
 
 	    private void UpdateActivity(Activity activity)
 	    {
-		    Activity.UpdateActivity(activity, (result) =>
-		    {
-			    if (result != Discord.Result.Ok)
-			    {
-				    Debug.LogError("Failed to set activity: " + result);
-			    }
-			    else
-			    {
-				    Debug.Log("Activity set successfully!");
-			    }
-		    });
+		    Activity.UpdateActivity(activity, (result) => { });
 	    }
 
 	    private void UpdateActivity()
@@ -67,8 +59,7 @@ namespace Core
 			    Name = "Unitystation",
 			    Type = ActivityType.Playing,
 			    Details = details,
-			    Assets = new ActivityAssets(){ LargeText = "unitystation", LargeImage = "unitystation-logo",
-				    SmallImage = "unitystation-logo", SmallText = "unitystation"},
+			    Assets = UnityStationActivityAssets,
 			    Timestamps = timestamps,
 		    };
 		    UpdateActivity(newActivity);
