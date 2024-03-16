@@ -12,6 +12,8 @@ namespace UI.Systems.ServerInfoPanel
 		private OpenURL discordButtonLink;
 		private bool hasContent;
 
+		public string ServerName => serverName.text;
+
 		private void Awake()
 		{
 			discordButtonLink = discordButtonGo.GetComponent<OpenURL>();
