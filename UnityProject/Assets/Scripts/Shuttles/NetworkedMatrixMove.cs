@@ -156,6 +156,8 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 	public GameGizmoSprite GameGizmoSprite;
 
+	public bool Debug = false;
+
 	public float rotationSpeed = 30f; //TODO Range depending on mass of shuttle? Adjust the rotation speed as needed
 
 	public float ShuttleNonSpinneyModeRounding = 30f;
@@ -254,6 +256,14 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	//Used to tell if rotatable need an update
 	private OrientationEnum PreviousDirectionFacing;
 
+	public void Awake()
+	{
+		if (TargetTransform == null)
+		{
+			TargetTransform = transform.parent;
+		}
+	}
+
 	public void Start()
 	{
 		if (this.GetComponent<MatrixSync>() == null)
@@ -271,8 +281,8 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 		MetaTileMap = TargetTransform.GetComponentInChildren<MetaTileMap>();
 		ObjectLayer = TargetTransform.GetComponentInChildren<ObjectLayer>();
-		GameGizmoSprite =
-			GameGizmomanager.AddNewSpriteStatic(ObjectLayer.gameObject, currentLocalPivot, Color.green, X);
+
+
 
 		UpdateManager.Add(CallbackType.EARLY_UPDATE, UpdateLoop);
 		ElapsedTimeSinceLastUpdate.Reset();
@@ -284,6 +294,8 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			PreviousDirectionFacing = FacedDirection;
 			OnRotate90.Invoke();
 		}
+		SetGizmoPosition(currentLocalPivot);
+
 	}
 
 
@@ -306,6 +318,25 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	{
 		UpdateManager.Remove(CallbackType.EARLY_UPDATE, UpdateLoop);
 		ElapsedTimeSinceLastUpdate.Stop();
+	}
+
+	public void SetGizmoPosition(Vector3 Position)
+	{
+		if (Debug)
+		{
+			if (GameGizmoSprite == null)
+			{
+
+				GameGizmoSprite =
+					GameGizmomanager.AddNewSpriteStatic(ObjectLayer.gameObject, Position, Color.green, X);
+			}
+			GameGizmoSprite.Position = Position;
+		}
+		else if (GameGizmoSprite != null)
+		{
+			GameGizmoSprite.Remove();
+			GameGizmoSprite = null;
+		}
 	}
 
 
@@ -877,8 +908,8 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			Matrixe.WorldCurrentVelocity = WorldCurrentVelocity;
 			Matrixe.CurrentTorque = CurrentTorque;
 			Matrixe.UpdateSyncVars();
-			Matrixe.GameGizmoSprite.Position =
-				currentLocalPivot.ToWorld(MetaTileMap.matrix).ToLocal(Matrixe.MetaTileMap.matrix);
+			Matrixe.SetGizmoPosition(currentLocalPivot.ToWorld(MetaTileMap.matrix).ToLocal(Matrixe.MetaTileMap.matrix));
+
 			if (Matrixe != this)
 			{
 				Matrixe.UpdateHandled = true;

@@ -27,7 +27,7 @@ public class Thruster : MonoPipe
 
 	public float AThrusterUseMultiplier = 0.072975f;
 
-
+	[SyncVar]
 	public float ThrustPower;
 
 	public bool SelfPowered = false;
@@ -111,7 +111,7 @@ public class Thruster : MonoPipe
 	    ReregisterThruster();
 	    Rotatable = this.GetComponentCustom<Rotatable>();
 	    RegisterTile = this.GetComponent<RegisterTile>();
-	    particleFX = GetComponentInChildren<ParticleSystem>();
+
 	    lightSprite = GetComponentInChildren<LightSpriteHandler>();
 	    RegisterTile.OnParentChangeComplete.AddListener(ReregisterThruster);
     }
@@ -231,6 +231,11 @@ public class Thruster : MonoPipe
     public void SynchronisePreviousUsageAffects(float old, float newv)
     {
 	    PreviousUsage = newv;
+	    if (particleFX == null)
+	    {
+		    particleFX = GetComponentInChildren<ParticleSystem>();
+	    }
+
 	    var emissionFX = particleFX.emission;
 	    if (old != newv)
 	    {

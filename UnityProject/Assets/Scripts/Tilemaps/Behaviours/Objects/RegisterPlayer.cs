@@ -217,7 +217,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		if (MatrixOld != null && MatrixOld.PresentPlayers.Contains(this))
 		{
 			MatrixOld.PresentPlayers.Remove(this);
-			MatrixNew.UpdatedPlayerFrame = Time.frameCount;
+			MatrixOld.UpdatedPlayerFrame = Time.frameCount;
 		}
 
 		if (MatrixNew != null && MatrixNew.PresentPlayers.Contains(this) == false)

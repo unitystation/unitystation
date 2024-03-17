@@ -192,7 +192,7 @@ namespace Objects.Doors
 			var tilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
 			Vector3Int position = Vector3Int.RoundToInt(transform.localPosition);
 			var layer = tilemap.GetComponent<Layer>();
-			Quaternion rotation = layer.RotationOffset.QuaternionInverted;
+			Quaternion rotation =  Quaternion.Inverse(layer.RotationOffset);
 			int mask = (HasWall(position, Vector3Int.up, rotation, tilemap) ? 1 : 0) + (HasWall(position, Vector3Int.right, rotation, tilemap) ? 2 : 0) +
 				   (HasWall(position, Vector3Int.down, rotation, tilemap) ? 4 : 0) + (HasWall(position, Vector3Int.left, rotation, tilemap) ? 8 : 0);
 			if ((mask & 3) == 3)

@@ -120,6 +120,7 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 
 	public void OnMatrixRotate()
 	{
+		if (Application.isBatchMode) return;
 		if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RotateUprightAtEndOfMatrixRotation)
 		{
 			if (RotateParent == null)
@@ -175,7 +176,7 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 		{
 			SetSpritesUpright();
 		}
-		
+
 	}
 }
 

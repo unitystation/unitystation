@@ -59,10 +59,9 @@ public class Matrix : MonoBehaviour
 	public bool IsMainStation;
 	public bool IsLavaLand;
 
-	private CheckedComponent<MatrixMove> checkedMatrixMove;
-	public bool IsMovable => checkedMatrixMove?.HasComponent ?? false;
+	public bool IsMovable => true;
 
-	public MatrixMove MatrixMove => checkedMatrixMove.Component;
+	public MatrixMove MatrixMove;
 
 	private TileChangeManager tileChangeManager;
 	public TileChangeManager TileChangeManager => tileChangeManager;
@@ -123,8 +122,9 @@ public class Matrix : MonoBehaviour
 		InitialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
 		ReactionManager = GetComponent<ReactionManager>();
 		MetaDataLayer = GetComponent<MetaDataLayer>();
-		checkedMatrixMove = new CheckedComponent<MatrixMove>(GetComponentInParent<MatrixMove>());
+		MatrixMove = GetComponentInParent<MatrixMove>();
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
+
 		UnderFloorLayer = GetComponentInChildren<UnderFloorLayer>();
 		ElectricalLayer = GetComponentInChildren<ElectricalLayer>();
 		PipeLayer = GetComponentInChildren<PipeLayer>();
