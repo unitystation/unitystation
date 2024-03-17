@@ -135,7 +135,7 @@ MonoBehaviour:
   - {fileID: 479421428125856662}
   - {fileID: 6037790498396745269}
   - {fileID: 2543956738668432755}
-  - {fileID: 2543956738668432755}
+  - {fileID: 114158622432940366}
   TotalTargetMSprefFrame: 50
   IsExecuting: 0
   IsExecutingGeneric: 0
@@ -21303,6 +21303,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8930062453518966146}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &114158622432940366 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8824916536560241868, guid: 623bbbcb8287a854b9a87f11b8749ae2,
+    type: 3}
+  m_PrefabInstance: {fileID: 8930062453518966146}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cb0db86702743f1b557d9417e9e1d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8934832369779807793
 PrefabInstance:
   m_ObjectHideFlags: 0
