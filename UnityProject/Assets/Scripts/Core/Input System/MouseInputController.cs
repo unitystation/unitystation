@@ -110,12 +110,14 @@ public class MouseInputController : MonoBehaviour
 
 	public void OnEnable()
 	{
+		if (CustomNetworkManager.IsHeadless) return;
 		UpdateManager.Add(CallbackType.UPDATE,MeLateUpdate);
 	}
 
 
 	public void OnDestroy()
 	{
+		if (CustomNetworkManager.IsHeadless) return;
 		UpdateManager.Remove(CallbackType.UPDATE,MeLateUpdate);
 	}
 
