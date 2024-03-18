@@ -56,10 +56,9 @@ public class GUI_Thruster : NetTab
 
 	public void SetMassUse(float Value)
 	{
-		Thruster.MaxMolesUseda = Value / 10f;
+		Thruster.MaxMolesUseda = Value * 10f;
 		RefreshValues(false);
 	}
-
 
 	public void RefreshValues(bool UpdateSlider =true)
 	{

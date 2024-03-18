@@ -155,6 +155,9 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	public SpriteDataSO X;
 
 	public GameGizmoSprite GameGizmoSprite;
+	public GameGizmoSprite AIGameGizmoSprite;
+
+	public List<GameGizmoSprite> MatrixBoundsGameGizmo = new List<GameGizmoSprite>();
 
 	public bool Debug = false;
 
@@ -1292,6 +1295,54 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		}
 	}
 
+	public void SetMatrixCorners(BetterBounds Bounds)
+	{
+		if (Debug)
+		{
+			if (MatrixBoundsGameGizmo.Count == 0)
+			{
+				foreach (var Corner in Bounds.Corners())
+				{
+					MatrixBoundsGameGizmo.Add(GameGizmomanager.AddNewSpriteStatic(null, Corner, Color.red, X));
+				}
+			}
+
+			var i = 0;
+			foreach (var Corner in Bounds.Corners())
+			{
+				MatrixBoundsGameGizmo[i].Position = Corner;
+				i++;
+			}
+		}
+		else if (MatrixBoundsGameGizmo.Count != 0)
+		{
+			foreach (var Corner in MatrixBoundsGameGizmo)
+			{
+				Corner.Remove();
+			}
+			MatrixBoundsGameGizmo.Clear();
+		}
+	}
+
+	public void SetAITravelToPosition(Vector3 Position)
+	{
+		TravelToWorldPOS = Position;
+		if (Debug)
+		{
+			if (AIGameGizmoSprite == null)
+			{
+
+				AIGameGizmoSprite = GameGizmomanager.AddNewSpriteStatic(null, Position, Color.blue, X);
+			}
+			AIGameGizmoSprite.Position = Position;
+		}
+		else if (AIGameGizmoSprite != null)
+		{
+			AIGameGizmoSprite.Remove();
+			AIGameGizmoSprite = null;
+		}
+	}
+
 	public void CheckMatrixRoute()
 	{
 		if (TargetOrientation != OrientationEnum.Default) return;
@@ -1315,6 +1366,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 				Position.z = 0;
 				HasGoneRoundACorner = true;
 				TravelToWorldPOS = Position;
+				SetAITravelToPosition(TravelToWorldPOS);
 				PreviousPosition = null;
 			}
 			else
@@ -1322,11 +1374,11 @@ public class NetworkedMatrixMove : NetworkBehaviour
 				if (HasGoneRoundACorner == false) return;
 				if (PreviousPosition == null)
 				{
-					PreviousPosition = TargetTransform.position;
+					PreviousPosition = CentreOfAIMovementWorld;
 				}
 				else
 				{
-					Vector3 currentPosition = TargetTransform.position;
+					Vector3 currentPosition = CentreOfAIMovementWorld;
 					// Calculate the distance to the target position
 					var distanceToTarget = (currentPosition - BackupTarget.Value);
 
@@ -1359,7 +1411,6 @@ public class NetworkedMatrixMove : NetworkBehaviour
 						Breakout = true;
 					}
 
-
 					if (Breakout)
 					{
 						IsMovingTowardsTargetX = false;
@@ -1367,6 +1418,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 						isMovingAroundMatrix = false;
 
 						TravelToWorldPOS = BackupTarget.Value;
+						SetAITravelToPosition(TravelToWorldPOS);
 						IgnoreMatrix = MovingAroundMatrix;
 						BackupTarget = null;
 						PreviousPosition = null;
@@ -1403,7 +1455,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 				if (Matrix.Value == MatrixManager.Instance.spaceMatrix.MatrixInfo) continue;
 				if (Matrix.Value == MetaTileMap.matrix.MatrixInfo) continue;
 				if (Matrix.Value == IgnoreMatrix) continue;
-				if (Matrix.Value.Matrix.AIShuttleShouldAvoid) continue;
+				if (Matrix.Value.Matrix.AIShuttleShouldAvoid == false) continue;
 
 
 				var OtherBigBound = Matrix.Value.WorldBounds.ExpandAllDirectionsBy(10);
@@ -1431,6 +1483,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 					//SO
 					//now How to pick a corner to go to
 					OtherBigBound = OtherBigBound.ExpandAllDirectionsBy(40);
+					SetMatrixCorners(OtherBigBound);
 					Vector3 Closest = OtherBigBound.Minimum;
 
 					float BestDistance = (CentreOfAIMovementWorld - Closest).magnitude;
@@ -1456,7 +1509,8 @@ public class NetworkedMatrixMove : NetworkBehaviour
 					}
 					else
 					{
-						TravelPointIsWithinMatrix = false;
+						TravelPointIsWithinMatrix = true;
+						PointIsWithinMatrixPerimeterPoint = OtherBigBound.GetClosestPerimeterPoint(TravelToWorldPOS);
 					}
 
 					if (BackupTarget != null)
@@ -1474,6 +1528,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 					var Position = Closest.RoundToInt();
 					Position.z = 0;
 					TravelToWorldPOS = Position;
+					SetAITravelToPosition(TravelToWorldPOS);
 					HasGoneRoundACorner = false;
 					isMovingAroundMatrix = true;
 				}

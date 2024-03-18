@@ -253,7 +253,18 @@ public partial class MatrixManager
 			{
 				Matrix2.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity *= -1;
 				Matrix1.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity *= -1;
+
+				foreach (var Thruster in Matrix2.MatrixMove.NetworkedMatrixMove.ConnectedThrusters)
+				{
+					Thruster.TargetMolesUsed = 0;
+				}
+
+				foreach (var Thruster in Matrix1.MatrixMove.NetworkedMatrixMove.ConnectedThrusters)
+				{
+					Thruster.TargetMolesUsed = 0;
+				}
 			}
+
 		}
 
 	}
