@@ -26,6 +26,7 @@ public class AutopilotShipMachine : MonoBehaviour
 
 	private GuidanceBuoy PreviouslyReached = null;
 
+	public OrientationEnum DirectionOverride = OrientationEnum.Default;
 	private void OnEnable()
 	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
@@ -76,7 +77,21 @@ public class AutopilotShipMachine : MonoBehaviour
 				mm.NetworkedMatrixMove.CentreObjectOverride = null;
 			}
 
-			mm.NetworkedMatrixMove.TargetFaceDirectionOverride = CurrentTarget.In.DesiredFaceDirection;
+			if (CurrentTarget.In.DesiredFaceDirection == OrientationEnum.Default)
+			{
+				mm.NetworkedMatrixMove.TargetFaceDirectionOverride = OrientationEnum.Default;
+			}
+			else
+			{
+				if (DirectionOverride == OrientationEnum.Default)
+				{
+					mm.NetworkedMatrixMove.TargetFaceDirectionOverride = CurrentTarget.In.DesiredFaceDirection;
+				}
+				else
+				{
+					mm.NetworkedMatrixMove.TargetFaceDirectionOverride = DirectionOverride;
+				}
+			}
 		}
 		else
 		{
@@ -89,7 +104,21 @@ public class AutopilotShipMachine : MonoBehaviour
 				mm.NetworkedMatrixMove.CentreObjectOverride = null;
 			}
 
-			mm.NetworkedMatrixMove.TargetFaceDirectionOverride = CurrentTarget.Out.DesiredFaceDirection;
+			if (CurrentTarget.Out.DesiredFaceDirection == OrientationEnum.Default)
+			{
+				mm.NetworkedMatrixMove.TargetFaceDirectionOverride = OrientationEnum.Default;
+			}
+			else
+			{
+				if (DirectionOverride == OrientationEnum.Default)
+				{
+					mm.NetworkedMatrixMove.TargetFaceDirectionOverride = CurrentTarget.Out.DesiredFaceDirection;
+				}
+				else
+				{
+					mm.NetworkedMatrixMove.TargetFaceDirectionOverride = DirectionOverride;
+				}
+			}
 		}
 
 		mm.NetworkedMatrixMove.HasMoveToTarget = true;
@@ -130,6 +159,7 @@ public class AutopilotShipMachine : MonoBehaviour
 				var Backup = CurrentTarget;
 				CurrentTarget = null;
 				mm.NetworkedMatrixMove.TargetFaceDirectionOverride = OrientationEnum.Default;
+				DirectionOverride = OrientationEnum.Default;
 				mm.NetworkedMatrixMove.HasMoveToTarget = false;
 				MoveDirectionIn = true;
 				mm.NetworkedMatrixMove.IgnorePotentialCollisions = false;

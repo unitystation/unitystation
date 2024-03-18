@@ -49,6 +49,8 @@ public class EscapeShuttle : AutopilotShipMachine
 
 	private bool Initialised = false;
 
+	public OrientationEnum CentralCommandOverrideDirection = OrientationEnum.Default;
+
 
 	/// <summary>
 	/// used for convenient control with our coroutine extensions
@@ -227,6 +229,14 @@ public class EscapeShuttle : AutopilotShipMachine
 		GameManager.Instance.EndRound();
 	}
 
+	public override void ReachedEndOfOutBuoyChain(GuidanceBuoy GuidanceBuoy)
+	{
+		if (StationStartBuoy == GuidanceBuoy)
+		{
+			DirectionOverride = CentralCommandOverrideDirection;
+		}
+	}
+
 
 	public override void ReachedEndOfInBuoyChain(GuidanceBuoy GuidanceBuoy, GuidanceBuoy StartOfChain)
 	{
@@ -253,6 +263,7 @@ public class EscapeShuttle : AutopilotShipMachine
 				Initialised = true;
 				MoveDirectionIn = true;
 				Status = EscapeShuttleStatus.OnRouteToCentCom;
+				DirectionOverride = CentralCommandOverrideDirection;
 				MoveToTargetBuoy(TargetDestinationBuoy);
 			}
 		}

@@ -1,18 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameGizmoTracked : GameGizmo
 {
 
-
-	public Vector3 Position;
+	public Vector3 Position
+	{
+		set
+		{
+			transform.position = value;
+			position = value;
+		}
+	}
+	protected Vector3 position;
 	public GameObject TrackingObject;
+
 
 
 	public void SetUp(Vector3 InPosition, GameObject InTrackingObject)
 	{
-		Position = InPosition;
+		position = InPosition;
 		TrackingObject = InTrackingObject;
 		if (TrackingObject != null)
 		{
@@ -21,11 +30,11 @@ public class GameGizmoTracked : GameGizmo
 
 		if (TrackingObject != null)
 		{
-			transform.position = TrackingObject.transform.TransformPoint(Position);
+			transform.position = TrackingObject.transform.TransformPoint(position);
 		}
 		else
 		{
-			transform.position = Position;
+			transform.position = position;
 		}
 
 	}
@@ -54,7 +63,7 @@ public class GameGizmoTracked : GameGizmo
 	{
 		if (TrackingObject != null)
 		{
-			transform.position =  TrackingObject.transform.TransformPoint(Position);
+			transform.position =  TrackingObject.transform.TransformPoint(position);
 		}
 
 	}

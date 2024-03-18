@@ -165,6 +165,7 @@ public class Thruster : MonoPipe
 
 	    if (TargetMolesUsed == 0)
 	    {
+		    ThrustPower = 0;
 		    AtmosphericsSetUsage(0);
 		    return;
 	    }
