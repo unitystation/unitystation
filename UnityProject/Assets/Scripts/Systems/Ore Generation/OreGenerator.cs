@@ -16,7 +16,8 @@ using Tiles;
 /// </summary>
 public class OreGenerator : ItemMatrixSystemInit
 {
-	private static readonly List<Vector3Int> DIRECTIONS = new List<Vector3Int>() {
+	private static readonly List<Vector3Int> DIRECTIONS = new List<Vector3Int>()
+	{
 		Vector3Int.up,
 		Vector3Int.down,
 		Vector3Int.right,
@@ -63,13 +64,16 @@ public class OreGenerator : ItemMatrixSystemInit
 				return;
 			}
 		}
+
 		List<OreProbability> weightedList = new List<OreProbability>();
-		foreach (var ores in config.OreProbabilities) {
+		foreach (var ores in config.OreProbabilities)
+		{
 			for (int i = 0; i < ores.SpawnChance; i++)
 			{
 				weightedList.Add(ores);
 			}
 		}
+
 		//TODO move BoundsInt bounds = wallTilemap.cellBounds to metaTileMap
 		BoundsInt bounds = wallTilemap.cellBounds;
 		List<Vector3Int> miningTiles = new List<Vector3Int>();
@@ -83,12 +87,12 @@ public class OreGenerator : ItemMatrixSystemInit
 				if (MetaTileMap.HasTile(localPlace))
 				{
 					BasicTile tile = MetaTileMap.GetTile(localPlace, LayerType.Walls) as BasicTile;
-					if(tile != null && tile.Mineable) miningTiles.Add(localPlace);
+					if (tile != null && tile.Mineable) miningTiles.Add(localPlace);
 				}
 			}
 		}
 
-		int numberOfTiles = (int)((miningTiles.Count / 100f) * config.Density);
+		int numberOfTiles = (int) ((miningTiles.Count / 100f) * config.Density);
 
 		for (int i = 0; i < numberOfTiles; i++)
 		{
@@ -108,15 +112,18 @@ public class OreGenerator : ItemMatrixSystemInit
 
 	private void NodeScatter(Vector3Int location, OreProbability materialSpecified)
 	{
-		var locations = new List<Vector3Int>() {
+		var locations = new List<Vector3Int>()
+		{
 			location,
 		};
-		var strength = materialSpecified.PossibleClusterSizes[RANDOM.Next(materialSpecified.PossibleClusterSizes.Count)];
+		var strength =
+			materialSpecified.PossibleClusterSizes[RANDOM.Next(materialSpecified.PossibleClusterSizes.Count)];
 		while (strength > 0)
 		{
 			var chosenLocation = locations[RANDOM.Next(locations.Count)];
 			var ranLocation = chosenLocation + DIRECTIONS[RANDOM.Next(DIRECTIONS.Count)];
-			var tile = MetaTileMap.GetTile(ranLocation);
+			var tile = MetaTileMap.GetTile(ranLocation, ignoreEffectsLayer: true);
+
 			if (tile != null && ((BasicTile) tile).Mineable && GeneratedLocations.Contains(ranLocation) == false)
 			{
 				GeneratedLocations.Add(ranLocation);
@@ -125,6 +132,8 @@ public class OreGenerator : ItemMatrixSystemInit
 				ranLocation.z = -1;
 				tileChangeManager.MetaTileMap.AddOverlay(ranLocation, materialSpecified.OverlayTile as OverlayTile);
 			}
+
+
 			strength--;
 		}
 	}
@@ -146,8 +155,7 @@ public class OreGenerator : ItemMatrixSystemInit
 [Serializable]
 public class OreProbability
 {
-	[Tooltip("Wall tile to use for this ore tile")]
-	[FormerlySerializedAs("Tile")]
+	[Tooltip("Wall tile to use for this ore tile")] [FormerlySerializedAs("Tile")]
 	public LayerTile WallTile;
 
 	[Tooltip("Overlay (Effects layer) tile to use for this ore tile")]
@@ -162,6 +170,6 @@ public class OreProbability
 	[Tooltip("Possible sizes of clusters this ore can spawn. An entry is randomly chosen from this list when" +
 	         " an ore cluster of this type is spawned, and the value determines roughly the number of ore tiles that will" +
 	         " spawn in this cluster.")]
-	[FormerlySerializedAs("NumberBlocks")] public List<int> PossibleClusterSizes = new List<int>();
-
+	[FormerlySerializedAs("NumberBlocks")]
+	public List<int> PossibleClusterSizes = new List<int>();
 }

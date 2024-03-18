@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: ShuttleConnector
+  m_EditorClassIdentifier: 
+  category: 3
+  craftingTime: 10
+  recipeName: Shuttle connector
+  recipeIconOverride: {fileID: 21300000, guid: 952bd23eb2328fb4d98fa7d067e19763, type: 3}
+  recipeDescription: Don't forget your shuttle
+  requiredIngredients:
+  - requiredAmount: 5
+    requiredItem: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
+      type: 3}
+  - requiredAmount: 15
+    requiredItem: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits:
+  - {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
+  - {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
+  result:
+  - {fileID: 7001901978159259728, guid: f7fc46cd9fc472a4b96ad181a215ccfa, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 448

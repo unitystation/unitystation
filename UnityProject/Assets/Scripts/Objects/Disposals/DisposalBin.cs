@@ -145,7 +145,7 @@ namespace Objects.Disposals
 			if (BinCharging)
 			{
 				runLoopGUID = Guid.NewGuid().ToString();
-				SoundManager.PlayAtPositionAttached(rechargeSFX, registerObject.WorldPosition, gameObject, runLoopGUID);
+				SoundManager.ClientPlayAtPositionAttached(rechargeSFX, registerObject.WorldPosition, gameObject, runLoopGUID);
 			}
 			else
 			{

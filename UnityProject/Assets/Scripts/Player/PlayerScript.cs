@@ -22,7 +22,7 @@ using Changeling;
 using Logs;
 using Systems.Faith;
 
-public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlayerPossessable, IHoverTooltip
+public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IHoverTooltip
 {
 	public GameObject GameObject => gameObject;
 	public uint PossessingID => possessingID;
@@ -122,9 +122,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	public float RTT;
 	private float waitTimeForRTTUpdate = 0f;
-
-	[HideInInspector] public bool RcsMode;
-	[HideInInspector] public MatrixMove RcsMatrixMove;
 
 	//The object the player will receive chat and send chat from.
 	//E.g. usually same object as this script but for Ai it will be their core object
@@ -697,22 +694,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 				Description = playerSprites.RaceBodyparts.Base.ClueString,
 				DetailType = DetailType.SpeciesIdentify
 			});
-		}
-	}
-
-	public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
-	{
-		//We need to handle lighting stuff for matrix rotations for local player:
-		if (PlayerManager.LocalPlayerObject == gameObject && rotationInfo.IsClientside)
-		{
-			if (rotationInfo.IsStarting)
-			{
-				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = true;
-			}
-			else if (rotationInfo.IsEnding)
-			{
-				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = false;
-			}
 		}
 	}
 

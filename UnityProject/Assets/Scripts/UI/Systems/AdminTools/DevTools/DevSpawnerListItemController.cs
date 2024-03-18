@@ -219,7 +219,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 	/// </summary>
 	private void TrySpawn(OrientationEnum? OrientationEnum)
 	{
-		Vector3Int position = cursorObject.transform.position.RoundToInt();
+		Vector3 position = MouseUtils.MouseToWorldPos();
 
 		if (CustomNetworkManager.IsServer)
 		{

@@ -38,6 +38,8 @@ namespace Tests.Scenes
 				var scrubber = device as Scrubber;
 				if (scrubber != null && scrubber.SelfSufficient) continue;
 
+				if (device.pipeData.SelfSufficient) continue;
+
 				var pipeLayer = device.transform.parent.OrNull()?.parent.OrNull()?.GetComponentInChildren<PipeLayer>();
 
 				if (pipeLayer == null)

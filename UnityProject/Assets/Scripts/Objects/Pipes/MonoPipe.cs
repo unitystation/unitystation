@@ -5,6 +5,7 @@ using Systems.Interaction;
 using Systems.Pipes;
 using Items.Atmospherics;
 using Logs;
+using Mirror;
 using Objects.Other;
 using Systems.Atmospherics;
 using Systems.Disposals;
@@ -12,7 +13,7 @@ using Systems.Disposals;
 
 namespace Objects.Atmospherics
 {
-	public class MonoPipe : MonoBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>
+	public class MonoPipe : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>
 	{
 
 		public SpriteHandler spritehandler;

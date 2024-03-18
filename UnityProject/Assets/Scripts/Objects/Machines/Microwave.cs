@@ -395,7 +395,7 @@ namespace Objects.Kitchen
 			if (playAudioLoop)
 			{
 				runLoopGUID = Guid.NewGuid().ToString();
-				SoundManager.PlayAtPositionAttached(RunningAudio, registerTile.WorldPosition, gameObject, runLoopGUID,
+				SoundManager.ClientPlayAtPositionAttached(RunningAudio, registerTile.WorldPosition, gameObject, runLoopGUID,
 						audioSourceParameters: new AudioSourceParameters(pitch: voltageModifier));
 			}
 		}

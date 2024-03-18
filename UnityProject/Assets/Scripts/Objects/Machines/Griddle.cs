@@ -227,7 +227,7 @@ namespace Objects.Kitchen
 			{
 				audioLoopGUID = Guid.NewGuid().ToString();
 
-				SoundManager.PlayAtPositionAttached(RunningAudio, registerTile.WorldPosition, gameObject, audioLoopGUID,
+				SoundManager.ClientPlayAtPositionAttached(RunningAudio, registerTile.WorldPosition, gameObject, audioLoopGUID,
 						audioSourceParameters: new AudioSourceParameters(pitch: voltageModifier, volume: 1));
 			}
 		}

@@ -129,15 +129,8 @@ namespace Doors
 			Vector3Int position = Vector3Int.RoundToInt(transform.localPosition);
 			var layer = tilemap.GetComponent<Layer>();
 			Quaternion rotation;
-			if (layer != null)
-			{
-				rotation = layer.RotationOffset.QuaternionInverted;
-			}
-			else
-			{
-				rotation = Quaternion.identity;
-			}
-			rotation = layer.RotationOffset.QuaternionInverted;
+
+			rotation = layer.RotationOffset;
 			int mask = (HasWall(position, Vector3Int.up, rotation, tilemap) ? 1 : 0) + (HasWall(position, Vector3Int.right, rotation, tilemap) ? 2 : 0) +
 				   (HasWall(position, Vector3Int.down, rotation, tilemap) ? 4 : 0) + (HasWall(position, Vector3Int.left, rotation, tilemap) ? 8 : 0);
 			if ((mask & 3) == 3)

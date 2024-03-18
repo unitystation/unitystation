@@ -415,11 +415,11 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	/// <param name="addressableAudioSources">Sound to be played.</param>
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
-	public static void PlayAtPositionAttached(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
+	public static void ClientPlayAtPositionAttached(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
 		GameObject gameObject, string soundSpawnToken,	bool polyphonic = false, bool isGlobal = false,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool networked = false)
 	{
-		PlayAtPositionAttached(new List<AddressableAudioSource> {addressableAudioSource}, worldPos, gameObject,
+		ClientPlayAtPositionAttached(new List<AddressableAudioSource> {addressableAudioSource}, worldPos, gameObject,
 			soundSpawnToken, polyphonic, isGlobal, audioSourceParameters);
 	}
 
@@ -432,7 +432,7 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	/// <param name="addressableAudioSources">Sound to be played.  If more than one is specified, one will be picked at random.</param>
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
-	public static void PlayAtPositionAttached(List<AddressableAudioSource> addressableAudioSources, Vector3 worldPos,
+	public static void ClientPlayAtPositionAttached(List<AddressableAudioSource> addressableAudioSources, Vector3 worldPos,
 		GameObject gameObject, string soundSpawnToken,	bool polyphonic = false, bool isGlobal = false,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 	{
@@ -571,6 +571,12 @@ public class SoundManager : MonoBehaviour
 			audioSource.spread = audioSourceParameters.Spread;
 
 		audioSource.outputAudioMixerGroup = Instance.CalcAudioMixerGroup(audioSourceParameters.MixerType);
+
+		if (audioSource.loop == false) //TODO This is for compatibility reasons, idk What else uses loop in the prefab but doesn't mention it when playing it
+		{
+			audioSource.loop = audioSourceParameters.Loops;
+		}
+
 
 		switch (audioSourceParameters.VolumeRolloffType)
 		{

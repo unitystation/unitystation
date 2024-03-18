@@ -25,6 +25,9 @@ namespace Managers
 
 		public StatusDisplayUpdateEvent OnStatusDisplayUpdate = new StatusDisplayUpdateEvent();
 		public event Action OnAlertLevelChange;
+
+		public GuidanceBuoy CentCommGuidanceBuoy;
+
 		[NonSerialized] public string CommandStatusString = string.Empty;
 		[NonSerialized] public string EscapeShuttleTimeString = string.Empty;
 
@@ -106,15 +109,6 @@ namespace Managers
 			_ = SoundManager.PlayNetworked(CommonSounds.Instance.AnnouncementWelcome);
 
 			yield return WaitFor.Seconds(60f);
-
-			//Gather asteroid locations:
-			foreach (var body in gameManager.SpaceBodies)
-			{
-				if (body.TryGetComponent<Asteroid>(out _))
-				{
-					asteroidLocations.Add(body.ServerState.Position);
-				}
-			}
 
 			//Add in random positions
 			int randomPosCount = Random.Range(1, 5);

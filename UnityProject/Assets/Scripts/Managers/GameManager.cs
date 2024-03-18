@@ -152,7 +152,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	private bool isProcessingSpaceBody = false;
 	public float minDistanceBetweenSpaceBodies;
 
-	private List<Vector3> ShuttlePaths = new List<Vector3>();
 	private bool ShuttlePathsGenerated = false;
 
 	[Header("Define the default size of all SolarSystems here:")]
@@ -269,8 +268,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		EventManager.AddHandler(Event.CleanupEnd, ClientCleanupEndRoundCleanups);
 		EventManager.AddHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
 		EventManager.AddHandler(Event.RoundEnded, ClientAndServerEndCleanup);
-
-
 	}
 
 	private void OnDisable()
@@ -311,13 +308,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	///</summary>
 	public void ServerSetSpaceBody(MatrixMove mm)
 	{
-		if (mm.ServerState.Position == TransformState.HiddenPos)
-		{
-			Loggy.LogError("Matrix Move is not initialized! Wait for it to be" +
-			                "ready before calling ServerSetSpaceBody ", Category.Server);
-			return;
-		}
-
 		PendingSpaceBodies.Enqueue(mm);
 	}
 
@@ -349,15 +339,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			//Make sure it is away from the middle of space matrix
 
 
-			//Checks whether position is near (100 distance) any of the shuttle path vectors
-			foreach (var vectors in ShuttlePaths)
-			{
-				if (Vector3.Distance(proposedPosition, vectors) < 100)
-				{
-					failedChecks = true;
-				}
-			}
-
 			//Checks whether the other spacebodies are near
 			for (int i = 0; i < SpaceBodies.Count; i++)
 			{
@@ -371,7 +352,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			if (!failedChecks)
 			{
 				validPos = true;
-				mm.SetPosition(proposedPosition);
+				mm.NetworkedMatrixMove.TargetTransform.position = (proposedPosition);
 				SpaceBodies.Add(mm);
 			}
 
@@ -392,35 +373,10 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			return;
 		}
 
-		if (CargoShuttle.Instance == null)
+		if (AutopilotShipCargo.Instance == null)
 		{
 			Loggy.LogWarning("Cannot generate cargo escape shuttle path. Shuttle not found.");
 			return;
-		}
-
-		var beginning = CargoShuttle.Instance.StationDest;
-		var target = CargoShuttle.Instance.CentcomDest;
-
-
-		var distance = (int) Vector2.Distance(beginning, target);
-
-		ShuttlePaths.Add(beginning); //Creates a list of Vectors along the cargo shuttles path.
-		for (int i = 0; i < (distance / 50); i++)
-		{
-			beginning = Vector2.MoveTowards(beginning, target, 50); //Vector 50 distance apart from prev vector
-			ShuttlePaths.Add(beginning);
-		}
-
-		beginning = GameManager.Instance.PrimaryEscapeShuttle.stationTeleportLocation; //Repeats for escape shuttle
-		target = GameManager.Instance.PrimaryEscapeShuttle.stationDockingLocation;
-
-		distance = (int) Vector2.Distance(beginning, target);
-
-		ShuttlePaths.Add(beginning);
-		for (int i = 0; i < (distance / 50); i++)
-		{
-			beginning = Vector2.MoveTowards(beginning, target, 50);
-			ShuttlePaths.Add(beginning);
 		}
 
 		ShuttlePathsGenerated = true;
@@ -606,6 +562,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			//Then reset it to the default game mode set in the config for next round.
 			NextGameMode = InitialGameMode;
 		}
+
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL,
 			$"{GameMode.Name} chosen", "[GameMode]");
 	}
@@ -658,7 +615,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void EndRound()
 	{
-
 		if (CustomNetworkManager.Instance._isServer == false) return;
 
 		if (CurrentRoundState != RoundState.Started &&
@@ -702,7 +658,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			if (RoundEndTime > 10)
 			{
-				VotingManager.Instance.SetupVote(VotingManager.VoteType.NextMap, VotingManager.VotePolicy.MajorityRules,  Mathf.FloorToInt(RoundEndTime-1) , this.gameObject, null);
+				VotingManager.Instance.SetupVote(VotingManager.VoteType.NextMap, VotingManager.VotePolicy.MajorityRules,
+					Mathf.FloorToInt(RoundEndTime - 1), this.gameObject, null);
 			}
 		}
 		catch (Exception e)
@@ -1010,7 +967,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		else
 		{
 			Loggy.LogError("Server is rebooting now. If you don't have a way to automatically restart the " +
-			                "Unitystation process such as systemctl the server won't be able to restart!",
+			               "Unitystation process such as systemctl the server won't be able to restart!",
 				Category.Round);
 			Chat.AddGameWideSystemMsgToChat("<size=72><b>The server is now restarting!</b></size>");
 			yield return WaitFor.Seconds(4f);

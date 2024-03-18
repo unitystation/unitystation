@@ -9,9 +9,20 @@ using UnityEngine;
 using UnityEngine.Events;
 using Objects.Wallmounts;
 
-public class EscapeShuttle : MonoBehaviour
+public class EscapeShuttle : AutopilotShipMachine
 {
-	public MatrixInfo MatrixInfo => matrixMove.MatrixInfo;
+	public MatrixInfo MatrixInfo
+	{
+		get
+		{
+			return matrixMove.NetworkedMatrixMove.MetaTileMap.matrix.MatrixInfo;
+		}
+	}
+
+	public GuidanceBuoy StationStartBuoy;
+
+	public GuidanceBuoy TargetDestinationBuoy => centComm.CentCommGuidanceBuoy;
+
 	private MatrixMove matrixMove;
 
 	private CentComm centComm;
@@ -20,38 +31,6 @@ public class EscapeShuttle : MonoBehaviour
 	public ShuttleTimerEvent OnTimerUpdate = new ShuttleTimerEvent();
 	public event Action OnShuttleCalled;
 
-	/// <summary>
-	/// Orientation for docking at station, eg Up if north to south.
-	/// </summary>
-	[Tooltip("Orientation for docking at station, eg Up if north to south.")]
-	public OrientationEnum orientationForDocking = OrientationEnum.Up_By0;
-
-	/// <summary>
-	/// Orientation for docking at CentCom, eg Up if south to north.
-	/// </summary>
-	[Tooltip("Orientation for docking at CentCom, eg Up if south to north.")]
-	public OrientationEnum orientationForDockingAtCentcom = OrientationEnum.Right_By270;
-
-	//Coord set in inspector
-	public Vector2 stationDockingLocation;
-	public Vector2 stationTeleportLocation;
-
-	public int reverseDockOffset = 50;
-
-	/// <summary>
-	/// How far to travel after teleport until it reaches centcom.
-	/// </summary>
-	public int centComDockingOffset = 1000;
-
-	//Destination Stuff
-	[HideInInspector]
-	public Destination CentcomDest;
-	private Destination StationDest;
-
-	[HideInInspector]
-	public Destination CentTeleportToCentDock;
-
-	private Destination currentDestination;
 
 	[Tooltip("If escape shuttle movement is blocked for longer than this amount of time, will end the round" +
 	         " with the escape impossible ending.")]
@@ -68,7 +47,8 @@ public class EscapeShuttle : MonoBehaviour
 	// Indicate if the shuttle really started moving toward station (It really starts moving in the StartMovingAtCount remaining seconds)
 	private bool startedMovingToStation;
 
-	public float DistanceToDestination => Vector2.Distance( matrixMove.ServerState.Position, currentDestination.Position );
+	private bool Initialised = false;
+
 
 	/// <summary>
 	/// used for convenient control with our coroutine extensions
@@ -96,6 +76,47 @@ public class EscapeShuttle : MonoBehaviour
 	/// Current "flight" time
 	/// </summary>
 	public int CurrentTimerSeconds { get; private set; }
+
+	public int GiveUpTime { get; private set; } = 200;
+
+	/// <summary>
+	/// Current "flight" time
+	/// </summary>
+	public int UnderflowIndex { get; private set; }
+
+	public List<string> UnderflowFunnies = new List<string>()
+	{
+		"FISH",
+		"25",
+		"222",
+		"1",
+		"2+2",
+		"=",
+		"4",
+		".-.",
+		"77",
+		"52",
+		"3.1459",
+		"UH",
+		"PI",
+		"69",
+		"-93",
+		"123",
+		"ABC",
+		"123",
+		"BABY",
+		"U",
+		"&",
+		"ME",
+		"<3",
+		"ASDFG",
+		"OK",
+		"HERE",
+		"WE",
+		"GO",
+		"0"
+	};
+
 
 	/// <summary>
 	/// Assign initial status via Editor
@@ -126,7 +147,6 @@ public class EscapeShuttle : MonoBehaviour
 
 	[SerializeField] private EscapeShuttleStatus internalStatus = EscapeShuttleStatus.DockedCentcom;
 
-	private Vector3 centComTeleportPosOffset = Vector3.zero;
 
 	[HideInInspector]
 	public bool blockCall;
@@ -140,67 +160,19 @@ public class EscapeShuttle : MonoBehaviour
 
 	private NetworkedMatrix networkedMatrix;
 
-	private bool parkingMode = false;
-	private bool isReverse = false;
-
 	private void Start()
 	{
-		switch (orientationForDocking)
-		{
-			case OrientationEnum.Right_By270:
-				CentcomDest = new Destination { Orientation = Orientation.Right, Position = stationTeleportLocation};
-				StationDest = new Destination { Orientation = Orientation.Right, Position = stationDockingLocation};
-				break;
-			case OrientationEnum.Up_By0:
-				CentcomDest = new Destination { Orientation = Orientation.Up, Position = stationTeleportLocation};
-				StationDest = new Destination { Orientation = Orientation.Up, Position = stationDockingLocation};
-				break;
-			case OrientationEnum.Left_By90:
-				CentcomDest = new Destination { Orientation = Orientation.Left, Position = stationTeleportLocation};
-				StationDest = new Destination { Orientation = Orientation.Left, Position = stationDockingLocation};
-				break;
-			case OrientationEnum.Down_By180:
-				CentcomDest = new Destination { Orientation = Orientation.Down, Position = stationTeleportLocation};
-				StationDest = new Destination { Orientation = Orientation.Down, Position = stationDockingLocation};
-				break;
-		}
-
+		base.Start();
 		centComm = GameManager.Instance.GetComponent<CentComm>();
 
 		initialTimerSecondsCache = initialTimerSeconds;
 	}
 
-	public void InitDestination(Vector3 newPos)
-	{
-		Orientation orientation = Orientation.Right;
-
-		switch (orientationForDockingAtCentcom)
-		{
-			case OrientationEnum.Up_By0:
-				centComTeleportPosOffset += new Vector3(0, -centComDockingOffset, 0);
-				orientation = Orientation.Up;
-				break;
-			case OrientationEnum.Down_By180:
-				centComTeleportPosOffset += new Vector3(0, centComDockingOffset, 0);
-				orientation = Orientation.Down;
-				break;
-			case OrientationEnum.Left_By90:
-				centComTeleportPosOffset += new Vector3(centComDockingOffset, 0, 0);
-				orientation = Orientation.Left;
-				break;
-			default:
-				centComTeleportPosOffset += new Vector3(-centComDockingOffset, 0, 0);
-				orientation = Orientation.Right;
-				break;
-		}
-
-		CentTeleportToCentDock = new Destination { Orientation = orientation, Position = newPos};
-	}
 
 	private void Awake()
 	{
-		matrixMove = GetComponent<MatrixMove>();
-		networkedMatrix = GetComponent<NetworkedMatrix>();
+		matrixMove = GetComponentInParent<MatrixMove>();
+		networkedMatrix = GetComponentInParent<NetworkedMatrix>();
 
 		thrusters = GetComponentsInChildren<ShipThruster>().ToList();
 		foreach (var thruster in thrusters)
@@ -241,7 +213,6 @@ public class EscapeShuttle : MonoBehaviour
 	private void ServerStartStrandedEnd()
 	{
 		//game over! escape shuttle has no thrusters so it's not possible to reach centcomm.
-		currentDestination = Destination.Invalid;
 		networkedMatrix.MatrixSync.RpcStrandedEnd();
 		StartCoroutine(WaitForGameOver());
 		GameManager.Instance.RespawnCurrentlyAllowed = false;
@@ -256,49 +227,33 @@ public class EscapeShuttle : MonoBehaviour
 		GameManager.Instance.EndRound();
 	}
 
-	private void UpdateMe()
+
+	public override void ReachedEndOfInBuoyChain(GuidanceBuoy GuidanceBuoy, GuidanceBuoy StartOfChain)
 	{
-		if (currentDestination == Destination.Invalid ) return;
-
-		//arrived to destination
-		if ( matrixMove.ServerState.IsMoving )
+		if (TargetDestinationBuoy == StartOfChain)
 		{
+			Status = EscapeShuttleStatus.DockedCentcom;
+		}
 
-			if (DistanceToDestination < 200)
+		if (StationStartBuoy == StartOfChain)
+		{
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.HyperSpaceEnd, transform.position, sourceObj: gameObject);
+			HasShuttleDockedToStation = true;
+			Status = EscapeShuttleStatus.DockedStation;
+		}
+	}
+
+	public override void UpdateMe()
+	{
+		base.UpdateMe();
+		if (Initialised == false)
+		{
+			if (TargetDestinationBuoy != null)
 			{
-				matrixMove.SetSpeed(80);
-			}
-
-			if ( DistanceToDestination < 2 )
-			{
-				matrixMove.SetPosition( currentDestination.Position );
-				matrixMove.StopMovement();
-
-				//centcom docked state is set manually instead, as we should usually pretend that flight is longer than it is
-				if ( Status == EscapeShuttleStatus.OnRouteStation )
-				{
-					Status = EscapeShuttleStatus.DockedStation;
-					HasShuttleDockedToStation = true;
-				}
-				else if(Status == EscapeShuttleStatus.OnRouteToStationTeleport)
-				{
-					Status = EscapeShuttleStatus.OnRouteToCentCom;
-
-					TeleportToCentTeleport();
-				}
-				else if(Status == EscapeShuttleStatus.OnRouteToCentCom)
-				{
-					Status = EscapeShuttleStatus.DockedCentcom;
-					if (Status == EscapeShuttleStatus.DockedCentcom && HasShuttleDockedToStation == true)
-					{
-						SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.HyperSpaceEnd, transform.position, sourceObj: gameObject);
-					}
-				}
-			}
-
-			else if ( DistanceToDestination < reverseDockOffset && Status == EscapeShuttleStatus.OnRouteStation)
-			{
-				TryPark();
+				Initialised = true;
+				MoveDirectionIn = true;
+				Status = EscapeShuttleStatus.OnRouteToCentCom;
+				MoveToTargetBuoy(TargetDestinationBuoy);
 			}
 		}
 
@@ -307,7 +262,7 @@ public class EscapeShuttle : MonoBehaviour
 		{
 			if (Status != EscapeShuttleStatus.DockedCentcom && Status != EscapeShuttleStatus.DockedStation)
 			{
-				if ((!matrixMove.ServerState.IsMoving || matrixMove.ServerState.Speed < 1f) && startedMovingToStation)
+				if ((matrixMove.NetworkedMatrixMove.IsMoving == false) && startedMovingToStation)
 				{
 					Loggy.LogTrace("Escape shuttle is blocked.", Category.Shuttles);
 					isBlocked = true;
@@ -319,7 +274,7 @@ public class EscapeShuttle : MonoBehaviour
 		{
 			//currently blocked, check if we are unblocked
 			if (Status == EscapeShuttleStatus.DockedCentcom || Status == EscapeShuttleStatus.DockedStation ||
-			    (matrixMove.ServerState.IsMoving && matrixMove.ServerState.Speed >= 1f))
+			    (matrixMove.NetworkedMatrixMove.IsMoving))
 			{
 				Loggy.LogTrace("Escape shuttle is unblocked.", Category.Shuttles);
 				isBlocked = false;
@@ -337,47 +292,8 @@ public class EscapeShuttle : MonoBehaviour
 				}
 			}
 		}
+
 	}
-
-	//sorry, not really clean, robust or universal
-	#region parking
-
-	private void TryPark()
-	{
-		//slowing down
-		if ( !parkingMode )
-		{
-			parkingMode = true;
-			matrixMove.SetSpeed( 2 );
-		}
-
-		if ( !isReverse )
-		{
-			isReverse = true;
-			matrixMove.ChangeFacingDirection(matrixMove.ServerState.FacingDirection.Rotate(2));
-			/*
-			if (Status == ShuttleStatus.DockedStation)
-			{
-				PlaySoundMessage.SendToAll("ShuttleDocked", Vector3.zero, 1f);
-			}
-			else {}
-			*/
-			HasShuttleDockedToStation = true;
-		}
-	}
-
-	private void RemovePark( ShuttleStatus unused )
-	{
-		if ( parkingMode )
-		{
-			matrixMove.ChangeFlyingDirection(matrixMove.ServerState.FacingDirection);
-			isReverse = false;
-		}
-
-		parkingMode = false;
-	}
-
-	#endregion
 
 	#region Moving To Station
 
@@ -430,7 +346,6 @@ public class EscapeShuttle : MonoBehaviour
 		}
 
 		CurrentTimerSeconds = InitialTimerSeconds;
-		matrixMove.StopMovement();
 		Status = EscapeShuttleStatus.OnRouteStation;
 
 		//start ticking timer
@@ -465,14 +380,12 @@ public class EscapeShuttle : MonoBehaviour
 		this.TryStopCoroutine( ref timerHandle );
 		this.StartCoroutine( TickTimer(false), ref timerHandle );
 
-		matrixMove.StopMovement();
 		Status = EscapeShuttleStatus.OnRouteToCentCom;
 
 		HasShuttleDockedToStation = false;
 
-		matrixMove.SetPosition( CentTeleportToCentDock.Position + centComTeleportPosOffset);
-		matrixMove.SetSpeed( 90 );
-		MoveTo(CentTeleportToCentDock);
+		matrixMove.NetworkedMatrixMove.AITravelSpeed = (90);
+		MoveToTargetBuoy(TargetDestinationBuoy);
 
 		callResult = "Shuttle has been recalled.";
 		return true;
@@ -498,38 +411,35 @@ public class EscapeShuttle : MonoBehaviour
 
 		Status = EscapeShuttleStatus.OnRouteToStationTeleport;
 
-		matrixMove.SetSpeed(100f);
-		matrixMove.StartMovement();
-		matrixMove.MaxSpeed = 100f;
-		MoveTo( CentcomDest );
-	}
+		matrixMove.NetworkedMatrixMove.AITravelSpeed = 100f;
 
-	public void TeleportToCentTeleport()
-	{
-		matrixMove.StopMovement();
-		matrixMove.SetPosition(CentTeleportToCentDock.Position + centComTeleportPosOffset);
-		MoveTo(CentTeleportToCentDock);
+		MoveToTargetBuoy( TargetDestinationBuoy );
 	}
 
 	#endregion
 
 	private IEnumerator TickTimer(bool headingToStation = true)
 	{
+		UnderflowIndex = 0;
+
+
 		while (true)
 		{
 			if (headingToStation)
 			{
 				AddToTime(-1);
 				//Time = Distance/Speed
-				if (startedMovingToStation == false && CurrentTimerSeconds <= Vector2.Distance(stationTeleportLocation, stationDockingLocation) / matrixMove.MaxSpeed + 10f)
+				if (startedMovingToStation == false && CurrentTimerSeconds <= Vector2.Distance(matrixMove.NetworkedMatrixMove.TargetTransform.position, StationStartBuoy.transform.position) / matrixMove.NetworkedMatrixMove.AITravelSpeed + 10f)
 				{
 					startedMovingToStation = true;
-					matrixMove.SetPosition(stationTeleportLocation);
-					matrixMove.SetSpeed(matrixMove.MaxSpeed);
-					MoveTo(StationDest);
+					matrixMove.NetworkedMatrixMove.AITravelSpeed = 100;
+					MoveToTargetBuoy( StationStartBuoy );
+					Status = EscapeShuttleStatus.OnRouteStation;
 				}
-				if (CurrentTimerSeconds <= 0)
+				if (CurrentTimerSeconds <= 0 && UnderflowFunnies.Count <= UnderflowIndex && GiveUpTime < 0)
 				{
+					Loggy.LogError("[GameManager.Escape/TickTimer()] - OH SHITTTT Shuttle got stuck on the Way to station AAAAAAAAAAAAAAAAAAAAAAAAAAAA emergency end round");
+					GameManager.Instance.EndRound();
 					centComm.UpdateStatusDisplay(StatusDisplayChannel.CachedChannel, null);
 					yield break;
 				}
@@ -550,16 +460,31 @@ public class EscapeShuttle : MonoBehaviour
 
 	private void AddToTime(int value)
 	{
-		CurrentTimerSeconds += value;
-		OnTimerUpdate.Invoke(CurrentTimerSeconds);
-		centComm.UpdateStatusDisplay(StatusDisplayChannel.EscapeShuttle, StatusDisplay.FormatTime( CurrentTimerSeconds, "STATION\nETA: "));
+		if (CurrentTimerSeconds > 0)
+		{
+			CurrentTimerSeconds += value;
+			OnTimerUpdate.Invoke(CurrentTimerSeconds);
+			centComm.UpdateStatusDisplay(StatusDisplayChannel.EscapeShuttle, StatusDisplay.FormatTime( CurrentTimerSeconds, "STATION\nETA: "));
+
+		}
+		else
+		{
+			if (value < 0)
+			{
+				if (UnderflowFunnies.Count <= UnderflowIndex)
+				{
+					GiveUpTime--;
+				}
+				else
+				{
+					centComm.UpdateStatusDisplay(StatusDisplayChannel.EscapeShuttle, "STATION\nETA: " + UnderflowFunnies[UnderflowIndex]);
+					UnderflowIndex++;
+				}
+
+			}
+		}
 	}
 
-	private void MoveTo( Destination dest )
-	{
-		currentDestination = dest;
-		matrixMove.AutopilotTo( currentDestination.Position );
-	}
 
 	public void SetHostileEnvironment(bool activateHostileEnviro)
 	{

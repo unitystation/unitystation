@@ -60,8 +60,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	public TileChangeManager TileChangeManager => Matrix ? Matrix.TileChangeManager : null;
 
-	[SerializeField, FormerlySerializedAs("ObjectType") ]
-	[Tooltip("The kind of object this is.")]
+	[SerializeField, FormerlySerializedAs("ObjectType")] [Tooltip("The kind of object this is.")]
 	private ObjectType objectType = ObjectType.Item;
 
 	/// <summary>
@@ -143,6 +142,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			{
 				objectPhysics.ResetComponent(gameObject);
 			}
+
 			return objectPhysics.Component.OfficialPosition.RoundToInt();
 		}
 	}
@@ -167,7 +167,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	[NonSerialized] public readonly Vector3IntEvent OnLocalPositionChangedServer = new Vector3IntEvent();
 
 	private IMatrixRotation[] matrixRotationHooks;
-
+	private IMatrixRotation90[] matrixRotation90Hooks;
 	//cached for fast fire exposure without gc
 	private IFireExposable[] fireExposables;
 
@@ -183,8 +183,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private CheckedComponent<UniversalObjectPhysics> objectPhysics = new CheckedComponent<UniversalObjectPhysics>();
 	public CheckedComponent<UniversalObjectPhysics> ObjectPhysics => objectPhysics;
 
-	[SerializeField ]
-	private SortingGroup CurrentsortingGroup;
+	[SerializeField] private SortingGroup CurrentsortingGroup;
 
 	private bool Initialized;
 
@@ -198,23 +197,25 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		LocalPositionClient = TransformState.HiddenPos;
 		if (transform.parent) //clients dont have this set yet
 		{
-			objectLayer = transform.parent.GetComponent<ObjectLayer>() ?? transform.parent.GetComponentInParent<ObjectLayer>();
+			objectLayer = transform.parent.GetComponent<ObjectLayer>() ??
+			              transform.parent.GetComponentInParent<ObjectLayer>();
 		}
+
 		objectPhysics.ResetComponent(this);
 		matrixRotationHooks = GetComponents<IMatrixRotation>();
+		matrixRotation90Hooks = GetComponents<IMatrixRotation90>();
 		fireExposables = GetComponents<IFireExposable>();
 		CurrentsortingGroup = GetComponent<SortingGroup>();
 
-		if (Manager3D.Is3D && GameData.IsHeadlessServer == false )
+		if (Manager3D.Is3D && GameData.IsHeadlessServer == false)
 		{
 			var convertTo3d = this.gameObject.GetComponent<ConvertTo3D>();
-			if (convertTo3d  == null)
+			if (convertTo3d == null)
 			{
-
 				convertTo3d = gameObject.AddComponent<ConvertTo3D>();
-
 			}
-			convertTo3d .DoConvertTo3D();
+
+			convertTo3d.DoConvertTo3D();
 		}
 		else
 		{
@@ -289,7 +290,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		}
 	}
 
-	public void OnDestroy()
+	public virtual void OnDestroy()
 	{
 		if (objectLayer)
 		{
@@ -297,7 +298,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			objectLayer.ClientObjects.Remove(LocalPositionClient, this);
 		}
 
-		Matrix?.MatrixMove?.MatrixMoveEvents?.OnRotate?.RemoveListener(OnRotate);
+		Matrix.OrNull()?.MatrixMove.OrNull()?.NetworkedMatrixMove.OrNull()?.OnRotate?.RemoveListener(OnRotate);
+		Matrix.OrNull()?.MatrixMove.OrNull()?.NetworkedMatrixMove.OrNull()?.OnRotate90?.RemoveListener(OnRotate90);
+
 	}
 
 	public virtual void OnDespawnServer(DespawnInfo info)
@@ -305,7 +308,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		//cancel all relationships
 		if (sameMatrixRelationships != null)
 		{
-			for (int i = sameMatrixRelationships.Count-1; i >= 0; i--)
+			for (int i = sameMatrixRelationships.Count - 1; i >= 0; i--)
 			{
 				var relationship = sameMatrixRelationships[i];
 				Loggy.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.",
@@ -392,10 +395,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	[Server]
 	public bool ServerSetNetworkedMatrixNetID(uint newNetworkedMatrixNetID)
 	{
-		if(networkedMatrixNetId == newNetworkedMatrixNetID)
+		if (networkedMatrixNetId == newNetworkedMatrixNetID)
 		{
 			return false;
 		}
+
 		LogMatrixDebug("ServerSetNetworkedMatrixNetID");
 		networkedMatrixNetId = newNetworkedMatrixNetID;
 		return true;
@@ -411,7 +415,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	{
 		networkedMatrixNetId = newNetworkedMatrixNetID;
 		if (hasAuthority && isServer == false) return;
-		NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId, FinishNetworkedMatrixRegistration); //note: we dont actually wait for init here anymore
+		NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId,
+			FinishNetworkedMatrixRegistration); //note: we dont actually wait for init here anymore
 	}
 
 	public void FinishNetworkedMatrixRegistration(NetworkedMatrix networkedMatrix)
@@ -430,6 +435,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				objectLayer.ServerObjects.Remove(LocalPositionServer, this);
 				objectLayer.ClientObjects.Remove(LocalPositionClient, this);
 			}
+
 			objectLayer = newObjectLayer;
 		}
 
@@ -453,7 +459,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 		if (objectPhysics.HasComponent)
 		{
-			transform.localPosition =  WorldCashed.ToLocal(objectLayer.Matrix);
+			transform.localPosition = WorldCashed.ToLocal(objectLayer.Matrix);
 		}
 
 		UpdatePositionClient();
@@ -467,25 +473,22 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		MatrixChange(Matrix, value);
 		if (value)
 		{
-			//LogMatrixDebug($"Matrix set from {matrix} to {value}");
+			// LogMatrixDebug($"Matrix set from {matrix} to {value}");
 			if (Matrix != null && Matrix.IsMovable)
 			{
-				Matrix.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnRotate);
+				Matrix.MatrixMove.NetworkedMatrixMove.OnRotate.RemoveListener(OnRotate);
+				Matrix.MatrixMove.NetworkedMatrixMove.OnRotate90.RemoveListener(OnRotate90);
+
 			}
 
 			Matrix = value;
 			if (Matrix != null && Matrix.IsMovable)
 			{
 				//LogMatrixDebug($"Registered OnRotate to {matrix}");
-				Matrix.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
-				if (isServer)
-				{
-					OnRotate(new MatrixRotationInfo(Matrix.MatrixMove, Matrix.MatrixMove.FacingOffsetFromInitial,
-						NetworkSide.Server, RotationEvent.Register));
-				}
-
-				OnRotate(new MatrixRotationInfo(Matrix.MatrixMove, Matrix.MatrixMove.FacingOffsetFromInitial,
-					NetworkSide.Client, RotationEvent.Register));
+				Matrix.MatrixMove.NetworkedMatrixMove.OnRotate.AddListener(OnRotate);
+				Matrix.MatrixMove.NetworkedMatrixMove.OnRotate90.AddListener(OnRotate90);
+				OnRotate();
+				OnRotate90();
 			}
 
 
@@ -521,7 +524,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public virtual void MatrixChange(Matrix MatrixOld, Matrix MatrixNew)
 	{
-
 	}
 
 	public void UnregisterClient()
@@ -534,16 +536,30 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		ServerSetLocalPosition(TransformState.HiddenPos);
 	}
 
-	private void OnRotate(MatrixRotationInfo info)
+	private void OnRotate()
 	{
-		if (matrixRotationHooks == null) return;
-		//pass rotation event on to our children
-		foreach (var matrixRotationHook in matrixRotationHooks)
+		if (matrixRotationHooks != null)
 		{
-			matrixRotationHook.OnMatrixRotate(info);
+			//pass rotation event on to our children
+			foreach (var matrixRotationHook in matrixRotationHooks)
+			{
+				matrixRotationHook.OnMatrixRotate();
+			}
 		}
 	}
 
+	private void OnRotate90()
+	{
+		if (matrixRotation90Hooks != null)
+		{
+			//pass rotation event on to our children
+			foreach (var matrixRotationHook in matrixRotation90Hooks)
+			{
+				matrixRotationHook.OnMatrixRotate90();
+			}
+
+		}
+	}
 	public void UpdatePositionServer()
 	{
 		var prevPosition = LocalPositionServer;
@@ -557,7 +573,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public void UpdatePositionClient()
 	{
-
 		ClientSetLocalPosition(transform.localPosition.RoundToInt(), true);
 
 		CheckSameMatrixRelationships();
@@ -634,7 +649,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				foreach (var cancelled in toCancel)
 				{
 					Loggy.LogTraceFormat("Cancelling spatial relationship {0} because OnRelationshipChanged" +
-					                      " returned true.", Category.SpatialRelationship, cancelled);
+					                     " returned true.", Category.SpatialRelationship, cancelled);
 					SpatialRelationship.ServerEnd(cancelled);
 				}
 			}
@@ -644,7 +659,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				foreach (var switched in toSwitch)
 				{
 					Loggy.LogTraceFormat("Switching spatial relationship {0} to cross matrix because" +
-					                      " objects moved to different matrices.", Category.SpatialRelationship,
+					                     " objects moved to different matrices.", Category.SpatialRelationship,
 						switched);
 					RemoveSameMatrixRelationship(switched);
 					AddCrossMatrixRelationship(switched);
@@ -756,7 +771,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				foreach (var cancelled in toCancel)
 				{
 					Loggy.LogTraceFormat("Cancelling spatial relationship {0} because OnRelationshipChanged" +
-					                      " returned true.", Category.SpatialRelationship, cancelled);
+					                     " returned true.", Category.SpatialRelationship, cancelled);
 					SpatialRelationship.ServerEnd(cancelled);
 				}
 			}
@@ -766,7 +781,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				foreach (var switched in toSwitch)
 				{
 					Loggy.LogTraceFormat("Switching spatial relationship {0} to same matrix because" +
-					                      " objects moved to the same matrix.", Category.SpatialRelationship, switched);
+					                     " objects moved to the same matrix.", Category.SpatialRelationship, switched);
 					RemoveCrossMatrixRelationship(switched);
 					AddSameMatrixRelationship(switched);
 				}
@@ -868,7 +883,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private void ReorderSorting()
 	{
 		objectLayer.ClientObjects.ReorderObjects(LocalPositionClient);
-		if(CustomNetworkManager.IsServer == false) return;
+		if (CustomNetworkManager.IsServer == false) return;
 		objectLayer.ServerObjects.ReorderObjects(LocalPositionServer);
 	}
 

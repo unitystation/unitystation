@@ -23,7 +23,7 @@ using Random = UnityEngine.Random;
 public class MetaDataLayer : MonoBehaviour
 {
 
-	private Dictionary<Vector3Int, MetaDataNode> nodes = new Dictionary<Vector3Int, MetaDataNode>();
+	private ChunkedTileMap<MetaDataNode> nodes = new ChunkedTileMap<MetaDataNode>();
 
 
 	/// <summary>

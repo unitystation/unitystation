@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Logs;
 using UnityEngine;
+using UnityEngine.U2D;
 using Random = UnityEngine.Random;
 
 public class Camera2DFollow : MonoBehaviour
@@ -59,6 +60,10 @@ public class Camera2DFollow : MonoBehaviour
 	[HideInInspector]
 	public Camera cam;
 
+
+	public PixelPerfectCamera PixelPerfectCamera;
+	private Camera _camera;
+
 	private void Awake()
 	{
 		if (followControl == null)
@@ -75,20 +80,23 @@ public class Camera2DFollow : MonoBehaviour
 
 	private void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.LATE_UPDATE, UpdateMe);
+		UpdateManager.SetCameraUpdate(UpdateMe);
+
 	}
 
 	private void Start()
 	{
+		_camera = UnityEngine.Camera.main;
 		lookAheadSave = lookAheadFactor;
 
 		transform.parent = null;
 		starsBackground.parent = null;
+		PixelPerfectCamera = this.GetComponent<PixelPerfectCamera>();
 	}
 
 	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
+		UpdateManager.SetCameraUpdate(null);
 	}
 
 	//idk I don't know probably should look into the sometime TODO look into this
@@ -139,6 +147,7 @@ public class Camera2DFollow : MonoBehaviour
 			// Disabled for now since it introduced errors in to pixel perfect light renderer.
 			//aheadTargetPos.x += xOffset;
 
+
 			Vector3 newPos = Vector3.SmoothDamp(transform.position, aheadTargetPos, ref currentVelocity, damping);
 
 			if (adjustPixel)
@@ -149,11 +158,16 @@ public class Camera2DFollow : MonoBehaviour
 
 			// ReSharper disable once HONK1002
 			transform.position = newPos + (Vector3)recoilOffset;
-			listenerObj.transform.position = target.gameObject.AssumedWorldPosServer();
 
+			//Used to fix World mouse Position jitter
+			Vector3 cameraPosition = _camera.transform.position;
+			Vector3 roundedCameraPosition = PixelPerfectCamera.RoundToPixel(cameraPosition);
+			Vector3 offset = roundedCameraPosition - cameraPosition;
+			offset.z = -offset.z;
+			Matrix4x4 offsetMatrix = Matrix4x4.TRS(-offset, Quaternion.identity, new Vector3(1.0f, 1.0f, -1.0f));
 
+			_camera.worldToCameraMatrix = offsetMatrix * _camera.transform.worldToLocalMatrix;
 
-			starsBackground.position = -newPos * starScroll;
 
 			if (stencilMask != null && stencilMask.transform.parent != target)
 			{
@@ -163,7 +177,8 @@ public class Camera2DFollow : MonoBehaviour
 
 		}
 
-		UpdateManager.Instance.OnPostCameraUpdate();
+
+		CommonInput.CashedMouseWorldPosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 	}
 
 	public void SetXOffset(float offset)

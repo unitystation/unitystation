@@ -8,41 +8,52 @@ using Objects.Command;
 using Systems.MobAIs;
 using Systems.Shuttles;
 using Map;
+using Logs;
+using UnityEngine.UI;
 
 namespace UI.Objects.Shuttles
 {
 	public class GUI_ShuttleControl : NetTab
 	{
-		private RadarList radarList;
 		public MatrixMove matrixMove { get; private set; }
 
-		[SerializeField]
-		private NetSpriteImage rcsLight = null;
+		[SerializeField] private NetSpriteImage rcsLight = null;
 
 		public GUI_CoordReadout CoordReadout;
 
-		private GameObject Waypoint;
-		private Color rulersColor;
-		private Color rayColor;
-		private Color crosshairColor;
-
-		private NetUIElement<string> SafetyText => (NetUIElement<string>)this[nameof(SafetyText)];
-		private NetUIElement<string> StartButton => (NetUIElement<string>)this[nameof(StartButton)];
-		private NetColorChanger Crosshair => (NetColorChanger)this[nameof(Crosshair)];
-		private NetColorChanger RadarScanRay => (NetColorChanger)this[nameof(RadarScanRay)];
-		private NetColorChanger OffOverlay => (NetColorChanger)this[nameof(OffOverlay)];
-		private NetColorChanger Rulers => (NetColorChanger)this[nameof(Rulers)];
-
-		private ShuttleFuelSystem shuttleFuelSystem;
+		private NetUIElement<string> SafetyText => (NetUIElement<string>) this[nameof(SafetyText)];
+		public NetUIElement<string> StartButton => (NetUIElement<string>) this[nameof(StartButton)];
+		private NetColorChanger OffOverlay => (NetColorChanger) this[nameof(OffOverlay)];
 
 		private ShuttleConsole shuttleConsole;
 
+		public NetSlider GoodZoomSlider;
+
+		public NetSlider EngineSlider;
+
 		private bool Autopilot = true;
+
+		public Image Preview;
+
+		public NetToggle ReverseButton;
 
 		public override void OnEnable()
 		{
 			base.OnEnable();
 			StartCoroutine(WaitForProvider());
+			if (this.IsMasterTab == false)
+			{
+				UpdateManager.Add(CallbackType.UPDATE, ClientNonMasterUpdate);
+			}
+		}
+
+
+		public void OnDisable()
+		{
+			if (this.IsMasterTab == false)
+			{
+				UpdateManager.Remove(CallbackType.UPDATE, ClientNonMasterUpdate);
+			}
 		}
 
 		public void OnDestroy()
@@ -57,63 +68,70 @@ namespace UI.Objects.Shuttles
 				yield return WaitFor.EndOfFrame;
 			}
 
+			Preview.sprite = ShuttleCameraRenderer.UISprite;
 			shuttleConsole = Provider.GetComponent<ShuttleConsole>();
 			matrixMove = shuttleConsole.ShuttleMatrixMove;
-			matrixMove.RegisterCoordReadoutScript(CoordReadout);
-			matrixMove.RegisterShuttleGuiScript(this);
-			shuttleFuelSystem = matrixMove.ShuttleFuelSystem;
-			radarList = this["EntryList"] as RadarList;
 			CoordReadout.SetCoords(shuttleConsole.registerTile.Matrix.MatrixMove.transform.position);
 			//Not doing this for clients
 			if (IsMasterTab)
 			{
 				shuttleConsole.GUItab = this;
 
-				radarList.Origin = matrixMove;
-				StartButton.MasterSetValue("1");
-
 				//Init listeners
-				matrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(OnStartMovementServer);
-				matrixMove.MatrixMoveEvents.OnStopMovementServer.AddListener(OnStopMovementServer);
-
-				if (!Waypoint)
-				{
-					Waypoint = new GameObject($"{matrixMove.gameObject.name}Waypoint");
-				}
-				HideWaypoint();
-
-				rulersColor = Rulers.Value;
-				rayColor = RadarScanRay.Value;
-				crosshairColor = Crosshair.Value;
-
+				matrixMove.NetworkedMatrixMove.OnStartMovement.AddListener(OnStartMovementServer); ;
 				OnStateChange(shuttleConsole.shuttleConsoleState);
 			}
 		}
 
+		private void ClientNonMasterUpdate()
+		{
+
+			var Value = GoodZoomSlider.Element.value;
+
+			if (Value > 0.33f == false)
+			{
+				ShuttleCameraRenderer.instance.renderCamera.orthographicSize = 100f;
+			}
+			else if (Value > 0.66f == false)
+			{
+				ShuttleCameraRenderer.instance.renderCamera.orthographicSize = 50f;
+			}
+			else
+			{
+				ShuttleCameraRenderer.instance.renderCamera.orthographicSize = 25f;
+			}
+
+			ShuttleCameraRenderer.instance.UpdateME();
+		}
+
 		private void UpdateMe()
 		{
-			radarList.RefreshTrackedPos();
-			CoordReadout.SetCoords(shuttleConsole.registerTile.Matrix.MatrixMove.transform.position);
+			CoordReadout.SetCoords(shuttleConsole.transform.position);
 
-			var fuelGauge = (NetUIElement<string>)this["FuelGauge"];
-			if (shuttleFuelSystem == null)
+			var fuelGauge = (NetUIElement<string>) this["FuelGauge"];
+
+			if (matrixMove.NetworkedMatrixMove.ConnectedThrusters.Count > 0)
 			{
-				if (fuelGauge.Value != "0")
+				if (matrixMove.NetworkedMatrixMove.ConnectedThrusters[0].pipeData.SelfSufficient)
 				{
-					fuelGauge.MasterSetValue((0).ToString());
+					var value = $"{(1 * 100f)}";
+					fuelGauge.MasterSetValue(value);
 				}
-			}
-			else if(shuttleFuelSystem.Connector?.canister?.GasContainer != null)
-			{
-				var value = $"{(shuttleFuelSystem.FuelLevel * 100f)}";
-				fuelGauge.MasterSetValue(value);
+				else
+				{
+					var value = $"{( Math.Min((matrixMove.NetworkedMatrixMove.ConnectedThrusters[0].InletPressure / 2500f), 1) * 100f)}";
+					fuelGauge.MasterSetValue(value);
+				}
+
 			}
 
-			if (matrixMove.rcsModeActive)
+
+
+			if (matrixMove.NetworkedMatrixMove.RCSModeActive)
 			{
-				if (Validations.CanApply(matrixMove.playerControllingRcs, Provider, NetworkSide.Server) == false)
+				if (Validations.CanApply(matrixMove.NetworkedMatrixMove.playerControllingRcs, Provider, NetworkSide.Server) == false)
 				{
-					shuttleConsole.ChangeRcsPlayer(false, matrixMove.playerControllingRcs);
+					shuttleConsole.ChangeRcsPlayer(false, matrixMove.NetworkedMatrixMove.playerControllingRcs);
 				}
 			}
 		}
@@ -127,56 +145,25 @@ namespace UI.Objects.Shuttles
 				ClearScreen();
 				return;
 			}
+
 			if (newState == ShuttleConsoleState.Normal)
 			{
-				AddRadarItems();
-				//Important: set values from server using SetValue and not Value
-				Rulers.MasterSetValue(rulersColor);
-				RadarScanRay.MasterSetValue(rayColor);
-				Crosshair.MasterSetValue(crosshairColor);
 				SetSafetyProtocols(true);
 			}
 			else if (newState == ShuttleConsoleState.Emagged)
 			{
-				AddRadarItems(true);
-				//Repaint radar to evil colours
-				Rulers.MasterSetValue(HSVUtil.ChangeColorHue(rulersColor, -80));
-				RadarScanRay.MasterSetValue(HSVUtil.ChangeColorHue(rayColor, -80));
-				Crosshair.MasterSetValue(HSVUtil.ChangeColorHue(crosshairColor, -80));
 				SetSafetyProtocols(false);
 			}
+
 			UpdateManager.Add(UpdateMe, 1f);
-			OffOverlay.MasterSetValue(Color.clear);
 		}
 
 		private void ClearScreen()
 		{
 			//Black screen overlay
-			OffOverlay.MasterSetValue(Color.black);
-			radarList.Clear();
+			//OffOverlay.MasterSetValue(Color.black);
 			ToggleEngine(false);
-			shuttleConsole.ChangeRcsPlayer(false, matrixMove.playerControllingRcs);
-		}
-
-		private void AddRadarItems(bool emagged = false)
-		{
-			radarList.AddItems(MapIconType.Ship, GetObjectsOf<MatrixMove>(
-				mm => mm != matrixMove //ignore current ship
-				      && (mm.HasWorkingThrusters || mm.gameObject.name.Equals("Escape Pod")) //until pod gets engines
-			));
-
-			radarList.AddItems(MapIconType.Asteroids, GetObjectsOf<Asteroid>());
-			var stationBounds = MatrixManager.MainStationMatrix.MetaTileMap.GetLocalBounds();
-			var stationRadius = (int) Mathf.Abs(stationBounds.center.x - stationBounds.xMin);
-			radarList.AddItems(MapIconType.Station, new List<GameObject>{MatrixManager.MainStationMatrix.GameObject} , stationRadius);
-			radarList.AddItems(MapIconType.Waypoint, new List<GameObject>(new[] {Waypoint}));
-
-			if (emagged)
-			{
-				radarList.AddItems(MapIconType.Human, GetObjectsOf<PlayerScript>(player => !player.IsDeadOrGhost));
-				radarList.AddItems(MapIconType.Ian, GetObjectsOf<CorgiAI>());
-				radarList.AddItems(MapIconType.Nuke, GetObjectsOf<Nuke>());
-			}
+			shuttleConsole.ChangeRcsPlayer(false, matrixMove.NetworkedMatrixMove.playerControllingRcs);
 		}
 
 		/// Get a list of positions for objects of given type within certain range from provided origin
@@ -191,54 +178,42 @@ namespace UI.Objects.Shuttles
 				{
 					continue;
 				}
+
 				foundObjects.Add(foundBehaviour.gameObject);
 			}
+
 			return foundObjects;
 		}
 
 		private void SetSafetyProtocols(bool state)
 		{
-			matrixMove.SafetyProtocolsOn = state;
+			matrixMove.NetworkedMatrixMove.Safety = state;
 			SafetyText.MasterSetValue(state ? "ON" : "OFF");
 		}
 
-		private void OnStopMovementServer()
-		{
-			StartButton.MasterSetValue("0");
-			HideWaypoint();
-		}
 
 		private void OnStartMovementServer()
 		{
-			// dont enable button when moving with RCS
-			if (!matrixMove.rcsModeActive)
+			 //dont enable button when moving with RCS
+			if (!matrixMove.NetworkedMatrixMove.RCSModeActive)
 			{
 				StartButton.MasterSetValue("1");
-			}
+			 }
 		}
 
 		public void ToggleAutopilot(bool on)
 		{
 			Autopilot = on;
-			if (on)
-			{
-				//touchscreen on
-			}
-			else
-			{
-				//touchscreen off, hide waypoint, invalidate MM target
-				HideWaypoint();
-				matrixMove.DisableAutopilotTarget();
-			}
 		}
 
 		public void ToggleRcsButton(PlayerInfo connectedPlayer)
 		{
-			if (matrixMove.playerControllingRcs != null && matrixMove.playerControllingRcs != connectedPlayer.Script)
+			if (matrixMove.NetworkedMatrixMove.playerControllingRcs != null && matrixMove.NetworkedMatrixMove.playerControllingRcs != connectedPlayer.Script)
 			{
-				shuttleConsole.ChangeRcsPlayer(false, matrixMove.playerControllingRcs);
+				shuttleConsole.ChangeRcsPlayer(false, matrixMove.NetworkedMatrixMove.playerControllingRcs);
 			}
-			var newState = !matrixMove.rcsModeActive;
+
+			var newState = !matrixMove.NetworkedMatrixMove.RCSModeActive;
 			shuttleConsole.ChangeRcsPlayer(newState, connectedPlayer.Script);
 		}
 
@@ -247,32 +222,12 @@ namespace UI.Objects.Shuttles
 			rcsLight.SetSprite(state ? 1 : 0);
 		}
 
-		public void SetWaypoint(string position)
+		public void ToggleReverse(bool Reverse)
 		{
-			if (!Autopilot) return;
-
-			Vector3 proposedPos = position.Vectorized();
-			if (proposedPos == TransformState.HiddenPos) return;
-
-			//Ignoring requests to set waypoint outside intended radar window
-			if (RadarList.ProjectionMagnitude(proposedPos) > radarList.Range) return;
-
-			//Mind the ship's actual position
-			Waypoint.transform.position = (Vector2)proposedPos + Vector2Int.RoundToInt(matrixMove.ServerState.Position);
-
-			radarList.UpdateExclusive(Waypoint);
-
-			matrixMove.AutopilotTo(Waypoint.transform.position);
+			SetSpeed(EngineSlider.Element.value);
 		}
 
-		private void HideWaypoint(bool updateImmediately = true)
-		{
-			Waypoint.transform.position = new Vector3(0, 999999, 0);
-			if (updateImmediately)
-			{
-				radarList.UpdateExclusive(Waypoint);
-			}
-		}
+
 
 		/// <summary>
 		/// Starts or stops the shuttle.
@@ -280,13 +235,13 @@ namespace UI.Objects.Shuttles
 		/// <param name="off">Toggle parameter</param>
 		public void ToggleEngine(bool engineState)
 		{
-			if (engineState && shuttleConsole.shuttleConsoleState != ShuttleConsoleState.Off && !matrixMove.rcsModeActive)
+			if (engineState && shuttleConsole.shuttleConsoleState != ShuttleConsoleState.Off && !matrixMove.NetworkedMatrixMove.RCSModeActive)
 			{
-				matrixMove.StartMovement();
+
 			}
 			else
 			{
-				matrixMove.StopMovement();
+				matrixMove.NetworkedMatrixMove.TurnOffAllThrusters();
 			}
 		}
 
@@ -297,7 +252,9 @@ namespace UI.Objects.Shuttles
 		{
 			if (shuttleConsole.shuttleConsoleState == ShuttleConsoleState.Off) return;
 
-			matrixMove.TryRotate(true);
+			if (StartButton.Value == "0") return;
+
+			matrixMove.NetworkedMatrixMove.SetThrusterStrength(Thruster.ThrusterDirectionClassification.Right ,1);
 		}
 
 		/// <summary>
@@ -306,9 +263,33 @@ namespace UI.Objects.Shuttles
 		public void TurnLeft()
 		{
 			if (shuttleConsole.shuttleConsoleState == ShuttleConsoleState.Off) return;
+			if (StartButton.Value == "0") return;
 
-			matrixMove.TryRotate(false);
+			matrixMove.NetworkedMatrixMove.SetThrusterStrength(Thruster.ThrusterDirectionClassification.Left ,1);
 		}
+
+		public void SetLeftAndRightThrusters(float LeftAndRightMultiplier)
+		{
+			if (StartButton.Value == "0") return;
+			if (LeftAndRightMultiplier is < 95 and > 85)
+			{
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Right,  0);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Left,  0);
+				return;
+			}
+			else if (LeftAndRightMultiplier > 95)
+			{
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Right,  0);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Left ,(LeftAndRightMultiplier - 90f) / 90f);
+			}
+			else
+			{
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Left,  0);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Right ,(90f - LeftAndRightMultiplier) / 90f);
+			}
+
+		}
+
 
 		/// <summary>
 		/// Sets shuttle speed.
@@ -316,8 +297,18 @@ namespace UI.Objects.Shuttles
 		/// <param name="speedMultiplier"></param>
 		public void SetSpeed(float speedMultiplier)
 		{
-			var speed = speedMultiplier * (matrixMove.MaxSpeed - 1) + 1;
-			matrixMove.SetSpeed(speed);
+			if (StartButton.Value == "0") return;
+			if (ReverseButton.Value == "1")
+			{
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Down ,speedMultiplier);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Up ,0);
+			}
+			else
+			{
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Up ,speedMultiplier);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Down ,0);
+			}
+
 		}
 
 		public void PlayRadarDetectionSound()

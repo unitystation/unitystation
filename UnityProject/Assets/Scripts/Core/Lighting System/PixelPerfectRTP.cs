@@ -227,6 +227,9 @@ public class PixelPerfectRT
 		Camera destinationCamera,
 		MaterialContainer materialContainer)
 	{
+
+
+
 		materialContainer.PPRTTransformMaterial.SetVector("_Transform", source.GetTransformation(destinationCamera));
 		materialContainer.PPRTTransformMaterial.SetTexture("_SourceTex", source.renderTexture);
 

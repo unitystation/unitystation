@@ -10,10 +10,10 @@ namespace Core.Accounts
 	public class Account
 	{
 		/// <summary>The identifier for the player's Unitystation account.</summary>
-		public string Id { get; private set; }
+		public string Id { get;  set; }
 
 		/// <summary>Human-friendly public-facing username of the player's account.</summary>
-		public string Username { get; private set; }
+		public string Username { get;  set; }
 
 		/// <summary>The token associated with the account for logging in, changing password, etc.</summary>
 		/// <remarks>Not to be confused with the game token or verification token

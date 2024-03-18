@@ -47,7 +47,7 @@ public class DeviceMoverMessage : ClientMessage<DeviceMoverMessage.NetMessage>
 
 			if (Matrix.MatrixMove != null)
 			{
-				Matrix.MatrixMove.SetPosition(Matrix.MatrixMove.CurrentState.Position + (msg.RelativeMovePosition ) );
+				Matrix.MatrixMove.NetworkedMatrixMove.SetTransformPosition(Matrix.MatrixMove.NetworkedMatrixMove.TargetTransform.position + (msg.RelativeMovePosition));
 			}
 			else
 			{

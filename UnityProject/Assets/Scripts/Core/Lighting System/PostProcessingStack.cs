@@ -178,6 +178,7 @@ public class PostProcessingStack
 			new Vector3(_adjustedDistance.x, _yUVScale, iRenderSettings.fovHorizonSmooth));
 
 		iRawOcclusionMask.renderTexture.filterMode = FilterMode.Bilinear;
+
 		PixelPerfectRT.Blit(iRawOcclusionMask, iFloorOcclusionMask, mMaterialContainer.floorFovMaterial);
 
 		//second pass to handle walls

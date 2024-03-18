@@ -462,42 +462,42 @@ namespace MapSaver
 			{
 				foreach (var Layer in PresentTiles)
 				{
-					foreach (var TileAndLocation in Layer.Value)
+					foreach (var TileAndLocation in Layer)
 					{
-						if (TileAndLocation.Value?.layerTile == null) continue;
+						if (TileAndLocation?.layerTile == null) continue;
 
 						if (UseBoundary)
 						{
-							if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value, TileAndLocation.Key) ==
+							if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value, TileAndLocation.LocalPosition) ==
 							    false)
 							{
 								continue;
 							}
 						}
 
-						string pos = VectorIntToGitFriendlyPosition(TileAndLocation.Key);
+						string pos = VectorIntToGitFriendlyPosition(TileAndLocation.LocalPosition);
 						if (XYs.ContainsKey(pos) == false)
 						{
 							XYs[pos] = new List<GitFriendlyIndividualTile>();
 						}
 
 						GitFriendlyIndividualTile Tile = new GitFriendlyIndividualTile();
-						if (TileAndLocation.Key.z != 0)
+						if (TileAndLocation.LocalPosition.z != 0)
 						{
-							Tile.Z = TileAndLocation.Key.z;
+							Tile.Z = TileAndLocation.LocalPosition.z;
 						}
 
-						Tile.Lay = (int) Layer.Key.LayerType;
+						Tile.Lay = (int) TileAndLocation.layer.LayerType;
 
-						Tile.Tel = TileToString(TileAndLocation.Value.layerTile);
+						Tile.Tel = TileToString(TileAndLocation.layerTile);
 
-						if (TileAndLocation.Value.Colour != Color.white)
+						if (TileAndLocation.Colour != Color.white)
 						{
-							Tile.Col = TileAndLocation.Value.Colour.ToHexString();
+							Tile.Col = TileAndLocation.Colour.ToHexString();
 						}
 
-						var matrix4X4 = TileAndLocation.Value.transformMatrix;
-						if (TileAndLocation.Value.transformMatrix != Matrix4x4.identity)
+						var matrix4X4 = TileAndLocation.transformMatrix;
+						if (TileAndLocation.transformMatrix != Matrix4x4.identity)
 						{
 							Tile.Tf = Matrix4X4ToString(matrix4X4, SB);
 						}
@@ -511,15 +511,15 @@ namespace MapSaver
 			{
 				foreach (var Layer in MultilayerPresentTiles)
 				{
-					foreach (var TileAndLocations in Layer.Value)
+					foreach (var TileAndLocations in Layer)
 					{
-						foreach (var TileAndLocation in TileAndLocations.Value)
+						foreach (var TileAndLocation in TileAndLocations)
 						{
 							if (TileAndLocation == null) continue;
 							if (UseBoundary)
 							{
 								if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value,
-									    TileAndLocation.position) ==
+									    TileAndLocation.LocalPosition) ==
 								    false)
 								{
 									continue;
@@ -527,7 +527,7 @@ namespace MapSaver
 							}
 
 
-							string pos = VectorIntToGitFriendlyPosition(TileAndLocation.position);
+							string pos = VectorIntToGitFriendlyPosition(TileAndLocation.LocalPosition);
 							if (XYs.ContainsKey(pos) == false)
 							{
 								XYs[pos] = new List<GitFriendlyIndividualTile>();
@@ -535,12 +535,12 @@ namespace MapSaver
 
 							GitFriendlyIndividualTile Tile = new GitFriendlyIndividualTile();
 							//TODO Tile map upgrade , Change to vector 4
-							if (TileAndLocation.position.z != 0)
+							if (TileAndLocation.LocalPosition.z != 0)
 							{
-								Tile.Z = TileAndLocation.position.z;
+								Tile.Z = TileAndLocation.LocalPosition.z;
 							}
 
-							Tile.Lay = (int) Layer.Key.LayerType;
+							Tile.Lay = (int) TileAndLocation.layer.LayerType;
 
 							Tile.Tel = TileToString(TileAndLocation.layerTile);
 
@@ -592,17 +592,29 @@ namespace MapSaver
 
 			var PresentTiles = metaTileMap.PresentTilesNeedsLock;
 
+
+			List<LayerType> NonUnderfloor = new List<LayerType>()
+			{
+				LayerType.Base,
+				LayerType.Grills,
+				LayerType.Effects,
+				LayerType.Floors,
+				LayerType.Tables,
+				LayerType.Walls,
+				LayerType.Windows
+			};
+
+
 			lock (PresentTiles)
 			{
 				foreach (var Layer in PresentTiles)
 				{
-					if (Layer.Key.LayerType.IsUnderFloor()) continue;
-
-					foreach (var TileAndLocation in Layer.Value)
+					foreach (var TileAndLocation in Layer)
 					{
+
 						if (UseBoundary)
 						{
-							if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value, TileAndLocation.Key) ==
+							if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value, TileAndLocation.LocalPosition) ==
 							    false)
 							{
 								continue;
@@ -610,34 +622,39 @@ namespace MapSaver
 						}
 
 
-						if (TileAndLocation.Value?.layerTile == null) continue;
+						if (TileAndLocation?.layerTile == null) continue;
 
-						if (CommonLayerTilesCount.ContainsKey(TileAndLocation.Value.layerTile))
+						if (TileAndLocation.layer.LayerType.IsUnderFloor())
 						{
-							CommonLayerTilesCount[TileAndLocation.Value.layerTile]++;
+							break;
+						}
+
+						if (CommonLayerTilesCount.ContainsKey(TileAndLocation.layerTile))
+						{
+							CommonLayerTilesCount[TileAndLocation.layerTile]++;
 						}
 						else
 						{
-							CommonLayerTilesCount[TileAndLocation.Value.layerTile] = 1;
+							CommonLayerTilesCount[TileAndLocation.layerTile] = 1;
 						}
 
-						if (CommonColoursCount.ContainsKey(TileAndLocation.Value.Colour))
+						if (CommonColoursCount.ContainsKey(TileAndLocation.Colour))
 						{
-							CommonColoursCount[TileAndLocation.Value.Colour]++;
+							CommonColoursCount[TileAndLocation.Colour]++;
 						}
 						else
 						{
-							CommonColoursCount[TileAndLocation.Value.Colour] = 1;
+							CommonColoursCount[TileAndLocation.Colour] = 1;
 						}
 
 
-						if (CommonMatrix4x4Count.ContainsKey(TileAndLocation.Value.transformMatrix))
+						if (CommonMatrix4x4Count.ContainsKey(TileAndLocation.transformMatrix))
 						{
-							CommonMatrix4x4Count[TileAndLocation.Value.transformMatrix]++;
+							CommonMatrix4x4Count[TileAndLocation.transformMatrix]++;
 						}
 						else
 						{
-							CommonMatrix4x4Count[TileAndLocation.Value.transformMatrix] = 1;
+							CommonMatrix4x4Count[TileAndLocation.transformMatrix] = 1;
 						}
 					}
 				}
@@ -650,15 +667,15 @@ namespace MapSaver
 			{
 				foreach (var Layer in MultilayerPresentTiles)
 				{
-					foreach (var TileAndLocations in Layer.Value)
+					foreach (var TileAndLocations in Layer)
 					{
-						foreach (var TileAndLocation in TileAndLocations.Value)
+						foreach (var TileAndLocation in TileAndLocations)
 						{
 							if (TileAndLocation == null) continue;
 							if (UseBoundary)
 							{
 								if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value,
-									    TileAndLocation.position) ==
+									    TileAndLocation.LocalPosition) ==
 								    false)
 								{
 									continue;
@@ -714,13 +731,13 @@ namespace MapSaver
 			{
 				foreach (var Layer in PresentTiles)
 				{
-					foreach (var TileAndLocation in Layer.Value)
+					foreach (var TileAndLocation in Layer)
 					{
-						if (TileAndLocation.Value?.layerTile == null) continue;
+						if (TileAndLocation?.layerTile == null) continue;
 
 						if (UseBoundary)
 						{
-							if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value, TileAndLocation.Key) ==
+							if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value, TileAndLocation.LocalPosition) ==
 							    false)
 							{
 								continue;
@@ -728,15 +745,15 @@ namespace MapSaver
 						}
 
 						SB.Append(LocationChar);
-						SB.Append(TileAndLocation.Key.x);
+						SB.Append(TileAndLocation.LocalPosition.x);
 						SB.Append(",");
-						SB.Append(TileAndLocation.Key.y);
+						SB.Append(TileAndLocation.LocalPosition.y);
 						SB.Append(",");
-						SB.Append(TileAndLocation.Key.z);
+						SB.Append(TileAndLocation.LocalPosition.z);
 						SB.Append(LayerChar);
-						SB.Append((int) Layer.Key.LayerType);
+						SB.Append((int) TileAndLocation.layer.LayerType);
 
-						int Index = CommonLayerTiles.IndexOf(TileAndLocation.Value.layerTile);
+						int Index = CommonLayerTiles.IndexOf(TileAndLocation.layerTile);
 
 
 						if (Index != 0)
@@ -745,14 +762,14 @@ namespace MapSaver
 							SB.Append(Index);
 						}
 
-						Index = CommonColours.IndexOf(TileAndLocation.Value.Colour);
+						Index = CommonColours.IndexOf(TileAndLocation.Colour);
 						if (Index != 0)
 						{
 							SB.Append(ColourChar);
 							SB.Append(Index);
 						}
 
-						Index = CommonMatrix4x4.IndexOf(TileAndLocation.Value.transformMatrix);
+						Index = CommonMatrix4x4.IndexOf(TileAndLocation.transformMatrix);
 						if (Index != 0)
 						{
 							SB.Append(Matrix4x4Char);
@@ -766,15 +783,15 @@ namespace MapSaver
 			{
 				foreach (var Layer in MultilayerPresentTiles)
 				{
-					foreach (var TileAndLocations in Layer.Value)
+					foreach (var TileAndLocations in Layer)
 					{
-						foreach (var TileAndLocation in TileAndLocations.Value)
+						foreach (var TileAndLocation in TileAndLocations)
 						{
 							if (TileAndLocation == null) continue;
 							if (UseBoundary)
 							{
 								if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value,
-									    TileAndLocation.position) ==
+									    TileAndLocation.LocalPosition) ==
 								    false)
 								{
 									continue;
@@ -783,13 +800,13 @@ namespace MapSaver
 
 							//TODO Tile map upgrade , Change to vector 4
 							SB.Append(LocationChar);
-							SB.Append(TileAndLocation.position.x);
+							SB.Append(TileAndLocation.LocalPosition.x);
 							SB.Append(",");
-							SB.Append(TileAndLocation.position.y);
+							SB.Append(TileAndLocation.LocalPosition.y);
 							SB.Append(",");
-							SB.Append(TileAndLocation.position.z);
+							SB.Append(TileAndLocation.LocalPosition.z);
 							SB.Append(LayerChar);
-							SB.Append((int) Layer.Key.LayerType);
+							SB.Append((int) TileAndLocation.layer.LayerType);
 
 							int Index = CommonLayerTiles.IndexOf(TileAndLocation.layerTile);
 

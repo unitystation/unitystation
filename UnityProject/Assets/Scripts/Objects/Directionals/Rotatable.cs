@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
-public class Rotatable : NetworkBehaviour, IMatrixRotation
+public class Rotatable : NetworkBehaviour, IMatrixRotation90
 {
 	public enum RotationMethod
 	{
@@ -33,13 +33,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	{
 		get
 		{
-			if (RegisterTile.Matrix.MatrixMove != null)
-			{
-				return CurrentDirection.ToLocalVector2Int()
-					.RotateVectorBy(RegisterTile.Matrix.MatrixMove.CurrentState.FacingDirection.LocalVector);
-			}
-
-			return CurrentDirection.ToLocalVector3();
+			return CurrentDirection.ToLocalVector3().DirectionLocalToWorld(RegisterTile.Matrix);
 		}
 	}
 
@@ -52,6 +46,12 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	[SerializeField]
 	[Tooltip("If active will Make it so only If this gameobject is Local player It won't get updates")]
 	private bool IgnoreServerUpdatesIfLocalPlayer= false;
+
+	[SerializeField]
+	[Tooltip("Should this rotate when Matrix rotate?")]
+	private bool MatrixRotateUpdate = true;
+
+
 
 	private SpriteRenderer[] spriteRenderers;
 	private SpriteHandler[] spriteHandlers;
@@ -413,8 +413,12 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 #endif
 	}
 
-	public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
+	public void OnMatrixRotate90()
 	{
+		if (Application.isBatchMode) return;
+		if (MatrixRotateUpdate == false) return;
+		var NewRotation =  SynchroniseCurrentDirection.ToLocalVector3().DirectionLocalToWorld(RegisterTile.Matrix).ToOrientationEnum();
+		RotateObject(NewRotation);
 	}
 
 	private void OnDrawGizmosSelected()

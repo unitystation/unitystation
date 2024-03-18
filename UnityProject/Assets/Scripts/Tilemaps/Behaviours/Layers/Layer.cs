@@ -41,7 +41,7 @@ public class Layer : MonoBehaviour
 	/// to determine what sprite to display. This could be retrieved directly from MatrixMove but
 	/// it's faster to cache it here and update when rotation happens.
 	/// </summary>
-	public RotationOffset RotationOffset { get; private set; }
+	public Quaternion RotationOffset { get; private set; }
 
 	/// <summary>
 	/// Cached matrixmove that we exist in, null if we don't have one
@@ -59,8 +59,7 @@ public class Layer : MonoBehaviour
 	//Used to make sure two overlays dont conflict before being set, cleared on the update
 	public HashSet<Vector3> overlayStore = new HashSet<Vector3>();
 
-	[NonSerialized]
-	public MetaTileMap metaTileMap;
+	[NonSerialized] public MetaTileMap metaTileMap;
 
 	public void Awake()
 	{
@@ -92,7 +91,7 @@ public class Layer : MonoBehaviour
 
 	public void InitFromMatrix()
 	{
-		RotationOffset = RotationOffset.Same;
+		RotationOffset = Quaternion.identity;
 
 		if (this == null) return;
 		matrixMove = transform?.root?.GetComponent<MatrixMove>();
@@ -101,30 +100,27 @@ public class Layer : MonoBehaviour
 		if (matrixMove != null)
 		{
 			Loggy.LogTraceFormat("{0} layer initializing from matrix", Category.Matrix, matrixMove);
-			matrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
+			matrixMove.NetworkedMatrixMove.OnRotate90.AddListener(OnRotate90);
 			//initialize from current rotation
-			OnRotate(MatrixRotationInfo.FromInitialRotation(matrixMove, NetworkSide.Client, RotationEvent.Register));
+			OnRotate90();
 		}
 	}
 
 	private void OnDestroy()
 	{
-		{
-			matrixMove?.MatrixMoveEvents?.OnRotate?.RemoveListener(OnRotate);
-		}
+		matrixMove.OrNull()?.NetworkedMatrixMove.OrNull()?.OnRotate90?.RemoveListener(OnRotate90);
 	}
-	private void OnRotate(MatrixRotationInfo info)
+
+	private void OnRotate90()
 	{
-		if (info.IsEnding || info.IsObjectBeingRegistered)
-		{
-			RotationOffset = info.RotationOffsetFromInitial;
-			Loggy.LogTraceFormat("{0} layer redrawing with offset {1}", Category.Matrix, info.MatrixMove,
-				RotationOffset);
-			if (tilemap != null)
-			{
-				tilemap.RefreshAllTiles();
-			}
-		}
+		return;
+		//TODO look in to why tables don't Rotate for properly, Otherwise this doesn't seem to do anything and costs performance
+		// if (Application.isBatchMode) return;
+		// RotationOffset = matrixMove.NetworkedMatrixMove.TargetTransform.rotation;
+		// if (tilemap != null)
+		// {
+		// 	tilemap.RefreshAllTiles();
+		// }
 	}
 
 	public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix, Color color)
@@ -136,14 +132,17 @@ public class Layer : MonoBehaviour
 		onTileMapChanges.Invoke();
 
 
-
 		//Client stuff, never spawn this on the server. (IsServer is technically a client in some cases so only return this on headless)
 		if (CustomNetworkManager.IsHeadless) return;
 		if (tile is not SimpleTile c) return; //Not a tile that has the data we need
-		if(c.CanBeHighlightedThroughScanners == false || c.HighlightObject == null) return;
-		var spawnHighlight = Spawn.ClientPrefab(c.HighlightObject, MatrixManager.LocalToWorld(position, Matrix), this.transform); //Spawn highlight object ontop of tile
-		if(spawnHighlight.Successful == false || spawnHighlight.GameObject.TryGetComponent<HighlightScan>(out var scan) == false) return; //If this fails for whatever reason, return
-		c.AssoicatedSpawnedObjects.Add(spawnHighlight.GameObject); //Add it to a list that the tile will keep track off for when OnDestroy() happens
+		if (c.CanBeHighlightedThroughScanners == false || c.HighlightObject == null) return;
+		var spawnHighlight = Spawn.ClientPrefab(c.HighlightObject, MatrixManager.LocalToWorld(position, Matrix),
+			this.transform); //Spawn highlight object ontop of tile
+		if (spawnHighlight.Successful == false ||
+		    spawnHighlight.GameObject.TryGetComponent<HighlightScan>(out var scan) == false)
+			return; //If this fails for whatever reason, return
+		c.AssoicatedSpawnedObjects.Add(spawnHighlight
+			.GameObject); //Add it to a list that the tile will keep track off for when OnDestroy() happens
 		scan.Setup(c.sprite); //setup the highlight sprite rendere
 	}
 
