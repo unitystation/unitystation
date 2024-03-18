@@ -17,6 +17,7 @@ using Messages.Client;
 using Messages.Server;
 using Messages.Server.AdminTools;
 using Newtonsoft.Json;
+using Systems.Character;
 using UI;
 
 
@@ -776,13 +777,6 @@ public partial class PlayerList
 			//This is an admin, send admin notify to the users client
 			Loggy.Log($"{player.Username} logged in as Admin. IP: {player.ConnectionIP}", Category.Admin);
 			var newToken = Guid.NewGuid().ToString();
-#if UNITY_EDITOR
-			if (string.IsNullOrEmpty(player.AccountId))
-			{
-				Loggy.LogError("Please go to lobby scene and login, I've made it work but it might be a bit buggy and admin controls don't work");
-				return;
-			}
-#endif
 			loggedInAdmins[player.AccountId] = newToken;
 			player.PlayerRoles |= PlayerRole.Admin;
 			AdminEnableMessage.SendMessage(player, newToken);

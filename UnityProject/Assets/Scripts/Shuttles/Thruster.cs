@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AddressableReferences;
 using Core.Sprite_Handler;
 using Light2D;
+using Logs;
 using Messages.Server.SoundMessages;
 using Mirror;
 using Objects.Atmospherics;
@@ -37,10 +38,10 @@ public class Thruster : MonoPipe
 
 	public float MaxEngineParticles = 70f;
 
-	[SyncVar(hook = nameof(SynchronisePreviousUsageAffects))]
-	public float PreviousUsage = float.NaN;
+	[SyncVar(hook = nameof(SynchroniseThrusterFraction))]
+	public float EffectFraction = 0;
 
-	public float SetUsage = float.NaN;
+	public float AtmosphericCurrentFraction = 0;
 
 	[SerializeField]
 	[Tooltip("The looped audio source to play while the griddle is running.")]
@@ -97,13 +98,16 @@ public class Thruster : MonoPipe
 
 	private void OnEnable()
 	{
+		if (CustomNetworkManager.IsServer == false) return;
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
+		if (CustomNetworkManager.IsServer == false) return;
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
+
 
 	// Start is called before the first frame update
     void Start()
@@ -114,6 +118,11 @@ public class Thruster : MonoPipe
 
 	    lightSprite = GetComponentInChildren<LightSpriteHandler>();
 	    RegisterTile.OnParentChangeComplete.AddListener(ReregisterThruster);
+	    if (CustomNetworkManager.IsServer)
+	    {
+		    EffectFraction = 0;
+		    SynchroniseThrusterFraction(1, 0);
+	    }
     }
 
     public void ReregisterThruster()
@@ -148,7 +157,7 @@ public class Thruster : MonoPipe
 
     public void UpdateMe()
     {
-	    SetEffects(SetUsage);
+	    SetEffects(AtmosphericCurrentFraction);
     }
 
     public override void TickUpdate()
@@ -156,7 +165,7 @@ public class Thruster : MonoPipe
 
 	    if (TargetMolesUsed == 0)
 	    {
-		    AtmosphericsSetUsage(TargetMolesUsed);
+		    AtmosphericsSetUsage(0);
 		    return;
 	    }
 	    pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
@@ -164,7 +173,7 @@ public class Thruster : MonoPipe
 	    if (pipeData.SelfSufficient)
 	    {
 		    ThrustPower = TargetMolesUsed  * ThrusterMultiplier;
-		    AtmosphericsSetUsage(TargetMolesUsed);
+		    AtmosphericsSetUsage(TargetMolesUsed/MaxMolesUseda);
 		    return;
 	    }
 
@@ -212,35 +221,35 @@ public class Thruster : MonoPipe
 	    // var Ratio = ((Plasma / Oxygen) / (7f / 3f));
 	    ThrustPower = TargetMolesUsed * ThrustMultiplier * ThrusterMultiplier;
 	    var UsedMoles = TargetMolesUsed* MoreConsumptionMultiplier * AThrusterUseMultiplier;
-	    AtmosphericsSetUsage(UsedMoles);
+	    AtmosphericsSetUsage((TargetMolesUsed* MoreConsumptionMultiplier) / MaxMolesUseda );
 	    InletPressure = Mix.GetGasMix().Pressure;
 	    Mix.Remove(new Vector2(UsedMoles, UsedMoles));
 
     }
 
-    public void SetEffects(float CurrentUsage)
+    public void SetEffects(float CurrentFraction)
     {
-	    SynchronisePreviousUsageAffects(PreviousUsage, CurrentUsage);
+	    SynchroniseThrusterFraction(EffectFraction, CurrentFraction);
     }
+
+
 
     public void AtmosphericsSetUsage(float CurrentUsage)
     {
-	    SetUsage = CurrentUsage;
+	    AtmosphericCurrentFraction = CurrentUsage;
     }
 
-    public void SynchronisePreviousUsageAffects(float old, float newv)
+    public void SynchroniseThrusterFraction(float old, float Fraction)
     {
-	    PreviousUsage = newv;
+	    EffectFraction = Fraction;
 	    if (particleFX == null)
 	    {
 		    particleFX = GetComponentInChildren<ParticleSystem>();
 	    }
 
 	    var emissionFX = particleFX.emission;
-	    if (old != newv)
+	    if (old != Fraction)
 	    {
-		    var Fraction = TargetMolesUsed / MaxMolesUseda;
-
 		    if (string.IsNullOrEmpty(audioLoopGUID) == false)
 		    {
 			    if (Fraction == 0)
@@ -263,12 +272,11 @@ public class Thruster : MonoPipe
 			    }
 		    }
 
-		    PreviousUsage = newv;
 		    var colour = lightSprite.CurrentColor;
 		    colour.a =  Fraction;
 		    lightSprite.SetColor(colour);
 
-		    if (newv == 0)
+		    if (Fraction == 0)
 		    {
 			    emissionFX.enabled = false;
 		    }
@@ -277,8 +285,6 @@ public class Thruster : MonoPipe
 			    emissionFX.enabled = true;
 			    emissionFX.rateOverTime = Mathf.Clamp(Fraction * MaxEngineParticles, 30f, 70f);
 		    }
-
-
 	    }
     }
 }

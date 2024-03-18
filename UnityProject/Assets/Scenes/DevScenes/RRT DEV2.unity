@@ -392,10 +392,15 @@ PrefabInstance:
       propertyPath: DEBUGForwardsThruster
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: pipeData.SelfSufficient
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.01
+      value: 28.07
       objectReference: {fileID: 0}
     - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
@@ -627,6 +632,7 @@ MonoBehaviour:
   IsSpaceMatrix: 0
   IsMainStation: 1
   IsLavaLand: 0
+  MatrixMove: {fileID: 0}
   AIShuttleShouldAvoid: 0
   PresentPlayers: []
   UpdatedPlayerFrame: 0
@@ -10109,6 +10115,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
+      propertyPath: pipeData.SelfSufficient
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
       propertyPath: ThisThrusterDirectionClassification
       value: 2
       objectReference: {fileID: 0}
@@ -10820,6 +10831,11 @@ PrefabInstance:
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
       propertyPath: DEBUGLeftThruster
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: pipeData.SelfSufficient
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
@@ -14048,6 +14064,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
+      propertyPath: pipeData.SelfSufficient
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
       propertyPath: ThisThrusterDirectionClassification
       value: 1
       objectReference: {fileID: 0}
@@ -14616,13 +14637,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2288eee7139e28942a7c0163c3e507f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FuelLevel: 0
-  Connector: {fileID: 0}
-  MatrixMove: {fileID: 0}
-  FuelConsumption: 0
-  MassConsumption: 0.1
-  CalculatedMassConsumption: 0
-  optimumMassConsumption: 0.05
 --- !u!114 &1047948885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14791,6 +14805,11 @@ PrefabInstance:
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
       propertyPath: DEBUGRightThruster
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: pipeData.SelfSufficient
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
@@ -15628,6 +15647,7 @@ MonoBehaviour:
   IsSpaceMatrix: 0
   IsMainStation: 0
   IsLavaLand: 0
+  MatrixMove: {fileID: 0}
   AIShuttleShouldAvoid: 0
   PresentPlayers: []
   UpdatedPlayerFrame: 0
@@ -21446,6 +21466,11 @@ PrefabInstance:
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
       propertyPath: DEBUGForwardsThruster
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: pipeData.SelfSufficient
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,

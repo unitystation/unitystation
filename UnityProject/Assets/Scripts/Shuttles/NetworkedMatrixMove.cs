@@ -262,10 +262,6 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		{
 			TargetTransform = transform.parent;
 		}
-	}
-
-	public void Start()
-	{
 		if (this.GetComponent<MatrixSync>() == null)
 		{
 			Loggy.LogError($"Please remove this {this.name}");
@@ -297,7 +293,6 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		SetGizmoPosition(currentLocalPivot);
 
 	}
-
 
 	public void OnDestroy()
 	{
