@@ -297,6 +297,38 @@ public static class ConverterExtensions
 		       GetRandomNumber(minimum, maximum); //the * Minus number will do the other side Making it full 360
 	}
 
+	public static OrientationEnum RemoveDirectionsTogether(this OrientationEnum This, OrientationEnum Other)
+	{
+		var NewValue = This.To360Z() - Other.To360Z();
+		if (NewValue >= 360)
+		{
+			NewValue -= 360;
+		}
+		else if (NewValue < 0)
+		{
+			NewValue += 360;
+		}
+
+		return NewValue.Angle360ToOrientationEnum();
+	}
+
+	public static OrientationEnum AddDirectionsTogether(this OrientationEnum This, OrientationEnum Other)
+	{
+		var NewValue = This.To360Z() + Other.To360Z();
+		if (NewValue >= 360)
+		{
+			NewValue -= 360;
+		}
+		else if (NewValue < 0)
+		{
+			NewValue += 360;
+		}
+
+		return NewValue.Angle360ToOrientationEnum();
+	}
+
+
+
 	public static Vector2Int ToLocalVector2Int(this OrientationEnum @in)
 	{
 		return ToLocalVector3(@in).RoundTo2Int();

@@ -6,6 +6,7 @@ using Systems.Pipes;
 using Items.Atmospherics;
 using Logs;
 using Mirror;
+using Objects.Construction;
 using Objects.Other;
 using Systems.Atmospherics;
 using Systems.Disposals;
@@ -33,6 +34,9 @@ namespace Objects.Atmospherics
 
 		public Rotatable directional;
 
+		private OrientationEnum PreviousOrientation = OrientationEnum.Default;
+
+
 		public static float MaxInternalPressure { get; } = AtmosConstants.ONE_ATMOSPHERE * 50;
 
 		#region Lifecycle
@@ -41,7 +45,20 @@ namespace Objects.Atmospherics
 		{
 			registerTile = GetComponent<RegisterTile>();
 			directional = GetComponent<Rotatable>();
+			if (directional != null)
+			{
+				PreviousOrientation = directional.CurrentDirection;
+				directional.OnRotationChange.AddListener(PipeRotated);
+			}
 		}
+
+		public void PipeRotated(OrientationEnum newDirection)
+		{
+
+			SetUpPipes(false, PreviousOrientation.RemoveDirectionsTogether(newDirection).ToPipeRotate());
+			PreviousOrientation = newDirection;
+		}
+
 
 		public virtual void OnSpawnServer(SpawnInfo info)
 		{

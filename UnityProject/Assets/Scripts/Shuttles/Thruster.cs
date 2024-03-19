@@ -8,6 +8,7 @@ using Logs;
 using Messages.Server.SoundMessages;
 using Mirror;
 using Objects.Atmospherics;
+using Objects.Construction;
 using Systems.Atmospherics;
 using Systems.Pipes;
 using Tilemaps.Behaviours.Layers;
