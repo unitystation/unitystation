@@ -167,6 +167,7 @@ public class AutopilotShipMachine : MonoBehaviour
 				mm.NetworkedMatrixMove.HasMoveToTarget = false;
 				MoveDirectionIn = true;
 				mm.NetworkedMatrixMove.IgnorePotentialCollisions = false;
+				mm.NetworkedMatrixMove.IgnoreMatrix = null;
 				if (MovedToAfterFinishingChain != null)
 				{
 					MoveToInternal(MovedToAfterFinishingChain);

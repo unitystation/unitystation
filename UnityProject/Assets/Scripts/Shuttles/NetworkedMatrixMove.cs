@@ -1399,17 +1399,12 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 					bool Breakout = false;
 
-					if (PointIsWithinMatrixPerimeterPoint != null &&
-					    (PointIsWithinMatrixPerimeterPoint.Value - currentPosition).magnitude < 7)
+					if ((PointIsWithinMatrixPerimeterPoint.Value - currentPosition).magnitude < 7)
 					{
 						Breakout = true;
 						IgnoreMatrix = MovingAroundMatrix;
 					}
-					else if ((IsMovingTowardsTargetX && IsMovingTowardsTargetY &&
-					          (isHeadingTowardsTargetx == false || isHeadingTowardsTargety == false)))
-					{
-						Breakout = true;
-					}
+
 
 					if (Breakout)
 					{

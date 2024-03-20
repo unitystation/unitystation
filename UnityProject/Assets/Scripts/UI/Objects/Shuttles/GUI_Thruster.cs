@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UI.Core.NetUI;
 using UnityEngine;
 
@@ -69,5 +70,10 @@ public class GUI_Thruster : NetTab
 
 		NameLabel.MasterSetValue(Thruster.gameObject.ExpensiveName());
 		DirectionLabel.MasterSetValue(Thruster.ThisThrusterDirectionClassification.ToString());
+	}
+
+	public void Close()
+	{
+		ControlTabs.CloseTab(Type, Provider);
 	}
 }
