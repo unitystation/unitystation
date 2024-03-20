@@ -42,6 +42,10 @@ public class AutopilotShipMachine : MonoBehaviour
 		mm = this.GetComponentInParent<MatrixMove>();
 		mm.NetworkedMatrixMove.RCSRequiresThrusters = false;
 		mm.NetworkedMatrixMove.SpinneyThreshold = 9999;
+		mm.NetworkedMatrixMove.rotationSpeed = 90;
+		mm.NetworkedMatrixMove.ShuttleNonSpinneyModeRounding = 90;
+
+
 	}
 
 
