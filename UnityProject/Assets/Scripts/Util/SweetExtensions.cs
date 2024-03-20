@@ -852,6 +852,31 @@ public static class SweetExtensions
 		return angle;
 	}
 
+
+	public static float To360Z(this OrientationEnum dir)
+	{
+		switch (dir)
+		{
+			case OrientationEnum.Default:
+				return 0;
+				break;
+			case OrientationEnum.Right_By270:
+				return 270;
+				break;
+			case OrientationEnum.Up_By0:
+				return 0;
+				break;
+			case OrientationEnum.Left_By90:
+				return 90;
+				break;
+			case OrientationEnum.Down_By180:
+				return 180;
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
+	}
+
 	public static float Rotate360By(this OrientationEnum dir, float finalAngle)
 	{
 		switch (dir)

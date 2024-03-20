@@ -5076,7 +5076,7 @@ PrefabInstance:
     - target: {fileID: 5258920263574484114, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.00000004371139
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5258920263574484114, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
@@ -5091,7 +5091,7 @@ PrefabInstance:
     - target: {fileID: 5258920263574484114, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5258920263574484114, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
@@ -5227,6 +5227,7 @@ MonoBehaviour:
         flagLogic: 0
     CustomLogic: 0
     NetCompatible: 0
+    SelfSufficient: 0
     mixAndVolume:
       mix:
         temperature: 273.15
@@ -5254,8 +5255,8 @@ MonoBehaviour:
   ThrustPower: 0
   SelfPowered: 0
   MaxEngineParticles: 70
-  PreviousUsage: NaN
-  SetUsage: NaN
+  EffectFraction: 0
+  AtmosphericCurrentFraction: 0
   RunningAudio:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/machinehum4.prefab
@@ -5264,6 +5265,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  InletPressure: 0
 --- !u!114 &4385658394677474732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5282,8 +5284,8 @@ MonoBehaviour:
   MethodRotation: 1
   ChangeSprites: 0
   isChangingSO: 0
-  CurrentDirection: 3
-  SynchroniseCurrentDirection: 3
+  CurrentDirection: 1
+  SynchroniseCurrentDirection: 1
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 0
   IsAtmosphericDevice: 1
