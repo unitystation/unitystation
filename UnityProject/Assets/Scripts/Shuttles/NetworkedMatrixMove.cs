@@ -1143,7 +1143,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		CheckMatrixRoute();
 
 		//Loggy.LogError("code here");
-		var Different = TravelToWorldPOS - CentreOfAIMovementWorld;
+		var Different = TravelToWorldPOS - CentreOfAIMovementWorld.RoundToInt();
 
 		if (Mathf.Abs(Different.x) < 1.5f && Mathf.Abs(Different.y) < 1.5f)
 		{
@@ -1351,7 +1351,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 		if (isMovingAroundMatrix)
 		{
-			var Difference = (CentreOfAIMovementWorld - TravelToWorldPOS).magnitude;
+			var Difference = (CentreOfAIMovementWorld.RoundToInt() - TravelToWorldPOS).magnitude;
 
 			if (Difference < 0.5f)
 			{
