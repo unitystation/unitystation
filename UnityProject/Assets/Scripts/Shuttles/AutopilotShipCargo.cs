@@ -37,6 +37,7 @@ public class AutopilotShipCargo : AutopilotShipMachine
 	public override void  Start()
 	{
 		base.Start();
+		MoveDirectionIn = true;
 
 	}
 

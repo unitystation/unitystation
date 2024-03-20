@@ -41,35 +41,97 @@ namespace TileManagement
 
 		public Vector3 GetClosestPerimeterPoint(Vector3 Point)
 		{
-			float? SmallestDistance = Mathf.Abs(Point.x - Minimum.x);
-			Vector3 EntryPoint = Vector3.zero;
+			float SmallestDistance = 99999999999;
+			Vector3 EntryPoint = Minimum;
 
-			if (SmallestDistance > Mathf.Abs(Point.x - Minimum.x))
+
+			if (Contains(Point))
 			{
-				SmallestDistance = Mathf.Abs(Point.x - Minimum.x);
-				EntryPoint = new Vector3(Minimum.x, Point.y);
+
+				var Vector = new Vector3(Minimum.x, Point.y);
+				var distance = (Vector - Point).magnitude;
+				if (SmallestDistance > distance)
+				{
+					SmallestDistance = distance;
+					EntryPoint = Vector;
+				}
+				
+				Vector = new Vector3(Point.x, Minimum.y);
+				distance = (Vector - Point).magnitude;
+				if (SmallestDistance > distance)
+				{
+					SmallestDistance = distance;
+					EntryPoint = Vector;
+				}
+
+				Vector = new Vector3(Maximum.x, Point.y);
+				distance = (new Vector3(Maximum.x, Point.y) - Point).magnitude;
+				if (SmallestDistance > distance)
+				{
+					SmallestDistance = distance;
+					EntryPoint = Vector;
+				}
+
+				Vector = new Vector3(Point.x, Maximum.y);
+				distance = (new Vector3(Point.x, Maximum.y) - Point).magnitude;
+				if (SmallestDistance > distance)
+				{
+					SmallestDistance = distance;
+					EntryPoint = Vector;
+				}
+
+				return EntryPoint;
+			}
+			else
+			{
+
+				var Vector = new Vector3(
+					Minimum.x,
+					Mathf.Min(Mathf.Max(Point.y, Minimum.y), Maximum.y));
+				var distance = (Vector - Point).magnitude;
+
+				if (SmallestDistance > distance)
+				{
+					SmallestDistance = distance;
+					EntryPoint = Vector;
+				}
+
+
+				Vector = new Vector3(
+					Mathf.Min(Mathf.Max(Point.x, Minimum.x), Maximum.x),
+					Minimum.y);
+				distance = (Vector - Point).magnitude;
+				if (SmallestDistance > distance)
+				{
+					SmallestDistance = distance;
+					EntryPoint = Vector;
+				}
+
+
+				Vector = new Vector3(
+					Maximum.x,
+					Mathf.Min(Mathf.Max(Point.y, Minimum.y), Maximum.y));
+				distance = (Vector - Point).magnitude;
+				if (SmallestDistance > distance)
+				{
+					SmallestDistance = distance;
+					EntryPoint = Vector;
+				}
+
+
+				Vector = new Vector3(
+					Mathf.Min(Mathf.Max(Point.x, Minimum.x),  Maximum.x),
+					Maximum.y);
+				distance = (new Vector3(Maximum.x, Point.y) - Point).magnitude;
+				if (SmallestDistance > distance)
+				{
+					SmallestDistance = distance;
+					EntryPoint = Vector;
+				}
+
+				return EntryPoint;
 			}
 
-
-			if (SmallestDistance > Mathf.Abs(Point.y - Minimum.y))
-			{
-				SmallestDistance = Mathf.Abs(Point.y - Minimum.y);
-				EntryPoint = new Vector3(Point.x,Minimum.y );
-			}
-
-			if (SmallestDistance > Mathf.Abs(Point.x - Maximum.x))
-			{
-				SmallestDistance = Mathf.Abs(Point.x - Maximum.x);
-				EntryPoint = new Vector3(Maximum.x, Point.y);
-			}
-
-			if (SmallestDistance > Mathf.Abs(Point.y - Maximum.y))
-			{
-				SmallestDistance = Mathf.Abs(Point.y - Maximum.y);
-				EntryPoint = new Vector3(Point.x,Maximum.y );
-			}
-
-			return EntryPoint;
 		}
 
 		public Vector3 GetCorner(int i)

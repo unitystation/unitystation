@@ -42,6 +42,10 @@ public class AutopilotShipMachine : MonoBehaviour
 		mm = this.GetComponentInParent<MatrixMove>();
 		mm.NetworkedMatrixMove.RCSRequiresThrusters = false;
 		mm.NetworkedMatrixMove.SpinneyThreshold = 9999;
+		mm.NetworkedMatrixMove.rotationSpeed = 90;
+		mm.NetworkedMatrixMove.ShuttleNonSpinneyModeRounding = 90;
+
+
 	}
 
 
@@ -163,6 +167,7 @@ public class AutopilotShipMachine : MonoBehaviour
 				mm.NetworkedMatrixMove.HasMoveToTarget = false;
 				MoveDirectionIn = true;
 				mm.NetworkedMatrixMove.IgnorePotentialCollisions = false;
+				mm.NetworkedMatrixMove.IgnoreMatrix = null;
 				if (MovedToAfterFinishingChain != null)
 				{
 					MoveToInternal(MovedToAfterFinishingChain);
@@ -210,7 +215,7 @@ public class AutopilotShipMachine : MonoBehaviour
 		else
 		{
 			if (CurrentTarget == null) return;
-			var Difference = (mm.NetworkedMatrixMove.CentreOfAIMovementWorld - CurrentTarget.transform.position).magnitude;
+			var Difference = (mm.NetworkedMatrixMove.CentreOfAIMovementWorld.RoundToInt() - CurrentTarget.transform.position).magnitude;
 
 			if (Difference < 0.5f)
 			{
