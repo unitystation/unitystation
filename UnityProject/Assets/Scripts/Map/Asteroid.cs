@@ -44,30 +44,27 @@ namespace Map
 		{
 			int rand = Random.Range(0, 4);
 
-			switch (rand)
-			{
-				case 0:
-					mm.SteerTo(Orientation.Up);
-					break;
-				case 1:
-					mm.SteerTo(Orientation.Down);
-					break;
-				case 2:
-					mm.SteerTo(Orientation.Right);
-					break;
-				case 3:
-					mm.SteerTo(Orientation.Left);
-					break;
-			}
+			 switch (rand)
+			 {
+			 	case 0:
+				    mm.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Up_By0;
+			 		break;
+			 	case 1:
+				    mm.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Down_By180;
+			 		break;
+			 	case 2:
+				    mm.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Right_By270;
+			 		break;
+			 	case 3:
+				    mm.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Left_By90;
+			 		break;
+			 }
 		}
 
 		//Wait for MatrixMove init on the server:
 		IEnumerator Init()
 		{
-			while (mm.ServerState.Position == TransformState.HiddenPos)
-			{
-				yield return WaitFor.EndOfFrame;
-			}
+			yield return WaitFor.EndOfFrame;
 			SpawnNearStation();
 			RandomRotation();
 		}

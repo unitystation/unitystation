@@ -1,13 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using Core.Database;
-using Logs;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using SecureStuff;
 using Systems.Character;
 
 namespace Core.Accounts
@@ -16,10 +10,10 @@ namespace Core.Accounts
 	public class Account
 	{
 		/// <summary>The identifier for the player's Unitystation account.</summary>
-		public string Id { get; private set; }
+		public string Id { get;  set; }
 
 		/// <summary>Human-friendly public-facing username of the player's account.</summary>
-		public string Username { get; private set; }
+		public string Username { get;  set; }
 
 		/// <summary>The token associated with the account for logging in, changing password, etc.</summary>
 		/// <remarks>Not to be confused with the game token or verification token
@@ -58,14 +52,14 @@ namespace Core.Accounts
 
 			AccountLoginResponse account = loginResponse.Data;
 
-			PostLogin(account!.token, account.account);
+			PostLogin(account!.Token, account.Account);
 
 			return this;
 		}
 
 		public async Task<Account> Login(string token)
 		{
-			ApiResult<AccountTokenLoginResponse> loginResponse = await AccountServer.Login(token);
+			ApiResult<AccountLoginResponse> loginResponse = await AccountServer.Login(token);
 
 			if (!loginResponse.IsSuccess)
 			{
@@ -74,9 +68,9 @@ namespace Core.Accounts
 				return this;
 			}
 
-			AccountTokenLoginResponse account = loginResponse.Data;
+			AccountLoginResponse account = loginResponse.Data;
 
-			PostLogin(account!.token, account.user);
+			PostLogin(account!.Token, account.Account);
 
 			return this;
 		}
@@ -96,8 +90,8 @@ namespace Core.Accounts
 
 			AccountRegisterResponse account = registerResponse.Data;
 
-			Id = account!.account.unique_identifier;
-			Username = account.account.username;
+			Id = account!.Account.UniqueIdentifier;
+			Username = account.Account.Username;
 
 			return this; // set IsAvailable true?
 		}
@@ -146,7 +140,7 @@ namespace Core.Accounts
 				return "";
 			}
 
-			return response.Data!.verification_token;
+			return response.Data!.VerificationToken;
 		}
 
 		public async Task<CharacterSheet> GetCharacter(string key)
@@ -180,9 +174,9 @@ namespace Core.Accounts
 
 		private Account PopulateAccount(AccountGetResponse accountResponse)
 		{
-			Id = accountResponse.unique_identifier;
-			Username = accountResponse.username;
-			IsVerified = accountResponse.is_verified;
+			Id = accountResponse.UniqueIdentifier;
+			Username = accountResponse.Username;
+			IsVerified = accountResponse.IsVerified;
 
 			PlayerManager.CharacterManager.Init();
 			return this;

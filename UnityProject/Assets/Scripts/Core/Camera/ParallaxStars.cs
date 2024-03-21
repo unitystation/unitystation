@@ -1,7 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class ParallaxStars : MonoBehaviour
 {
+	public List<Vector3> Rotations = new List<Vector3>();
+
 	/// <summary>
 	/// The space background objects for this parallax area.
 	/// Specify a target position for the object to be visible (a world space co-ord)
@@ -23,6 +27,12 @@ public class ParallaxStars : MonoBehaviour
 				spaceBgObjects[i].gameObject.SetActive(false);
 			}
 		}
+	}
+
+	public void Start()
+	{
+		if (Rotations.Count == 0) return;
+		this.transform.localRotation = Quaternion.Euler(Rotations.PickRandom());
 	}
 }
 

@@ -116,14 +116,6 @@ public class MetaTileMapView : BasicView
 	private class StickyClientCheck : Check<MatrixManager>
 	{
 		public override string Label { get; } = "Sticky";
-
-		public override void DrawGizmo(MatrixManager source, Vector3Int position)
-		{
-			if (!MatrixManager.IsNonStickyAt(position, false))
-			{
-				GizmoUtils.DrawCube(position, Color.yellow, false);
-			}
-		}
 	}
 
 	private class ShowLocalPositionsCheck : Check<MetaTileMap>

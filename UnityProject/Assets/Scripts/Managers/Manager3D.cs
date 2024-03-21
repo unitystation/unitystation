@@ -176,56 +176,57 @@ public class Manager3D : MonoBehaviour
 			{
 				lock (PresentTiles)
 				{
-					foreach (var Layer in PresentTiles)
+					foreach (var LayerV in map.Layers)
 					{
-						if (Layer.Key == null || Layer.Value == null) continue;
-						if (Layer.Key.LayerType == LayerType.Walls || Layer.Key.LayerType == LayerType.Windows)
+						var Layer = PresentTiles[(int)LayerV.Key];
+						if (Layer == null) continue;
+						if (LayerV.Value.LayerType == LayerType.Walls || LayerV.Value.LayerType == LayerType.Windows)
 						{
-							foreach (var TileInfo in Layer.Value)
+							foreach (var TileInfo in Layer)
 							{
 								var Sprite3D = Instantiate(CommonPrefabs.Instance.Cube3D,
-									TileInfo.Key + new Vector3(0.5f, 0.5f, 0), new Quaternion(),
-									Layer.Key.transform).GetComponent<SetCubeSprite>();
+									TileInfo.LocalPosition + new Vector3(0.5f, 0.5f, 0), new Quaternion(),
+									LayerV.Value.transform).GetComponent<SetCubeSprite>();
 
-								Sprite3D.gameObject.transform.localPosition = TileInfo.Key + new Vector3(0.5f, 0.5f, 0);
+								Sprite3D.gameObject.transform.localPosition = TileInfo.LocalPosition + new Vector3(0.5f, 0.5f, 0);
 
-								if (TileInfo.Value?.layerTile?.PreviewSprite != null)
+								if (TileInfo?.layerTile?.PreviewSprite != null)
 								{
-									Sprite3D.SetSprite(TileInfo.Value.layerTile.PreviewSprite);
+									Sprite3D.SetSprite(TileInfo.layerTile.PreviewSprite);
 								}
 
-								if (TileInfo.Value != null)
+								if (TileInfo != null)
 								{
-									TileInfo.Value.AssociatedSetCubeSprite = Sprite3D;
+									TileInfo.AssociatedSetCubeSprite = Sprite3D;
 								}
 								else
 								{
 									Destroy(Sprite3D.gameObject);
 								}
 							}
-							var Renderer = Layer.Key.GetComponent<TilemapRenderer>();
+							var Renderer = LayerV.Value.GetComponent<TilemapRenderer>();
 							if (Renderer != null)
 							{
 								Renderer.enabled = false;
 							}
 						}
-						else if (Layer.Key.LayerType == LayerType.Floors && addCeilings)
+						else if (LayerV.Value.LayerType == LayerType.Floors && addCeilings)
 						{
-							foreach (var TileInfo in Layer.Value)
+							foreach (var TileInfo in Layer)
 							{
 								var Sprite3D = Instantiate(CommonPrefabs.Instance.Cube3D,
-									TileInfo.Key + new Vector3(0.5f, 0.5f, -5), new Quaternion(),
-									Layer.Key.transform).GetComponent<SetCubeSprite>();
+									TileInfo.LocalPosition + new Vector3(0.5f, 0.5f, -5), new Quaternion(),
+									LayerV.Value.transform).GetComponent<SetCubeSprite>();
 
-								Sprite3D.gameObject.transform.localPosition = TileInfo.Key +  new Vector3(0.5f, 0.5f, -1.1f);
+								Sprite3D.gameObject.transform.localPosition = TileInfo.LocalPosition +  new Vector3(0.5f, 0.5f, -1.1f);
 
-								TileInfo.Value.AssociatedSetCubeSprite = Sprite3D;
-								Sprite3D.SetSprite(TileInfo.Value.layerTile.PreviewSprite);
+								TileInfo.AssociatedSetCubeSprite = Sprite3D;
+								Sprite3D.SetSprite(TileInfo.layerTile.PreviewSprite);
 							}
 						}
-						else if (Layer.Key.LayerType != LayerType.Objects)
+						else if (LayerV.Value.LayerType != LayerType.Objects)
 						{
-							Layer.Key.gameObject.transform.localPosition = new Vector3(0, 0, 0.5f);
+							LayerV.Value.gameObject.transform.localPosition = new Vector3(0, 0, 0.5f);
 						}
 					}
 				}
@@ -237,11 +238,13 @@ public class Manager3D : MonoBehaviour
 			{
 				lock (MultilayerPresentTiles)
 				{
-					foreach (var Layer in MultilayerPresentTiles)
+					foreach (var LayerV in map.Layers)
 					{
-						if (Layer.Key.LayerType != LayerType.Effects)
+						var Layer = MultilayerPresentTiles[(int)LayerV.Key];
+						if (Layer == null) continue;
+						if (LayerV.Value.LayerType != LayerType.Effects)
 						{
-							Layer.Key.gameObject.transform.localPosition = new Vector3(0, 0, 0.5f);
+							LayerV.Value.gameObject.transform.localPosition = new Vector3(0, 0, 0.5f);
 						}
 					}
 				}

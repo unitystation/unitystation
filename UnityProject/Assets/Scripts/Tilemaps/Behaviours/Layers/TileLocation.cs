@@ -16,7 +16,7 @@ namespace TileManagement
 		public SetCubeSprite AssociatedSetCubeSprite;
 
 		//TODO Tile map upgrade , Converts into Vector4Int For under floor tiles
-		public Vector3Int position = Vector3Int.zero;
+		public Vector3Int LocalPosition = Vector3Int.zero;
 
 		public bool InQueue = false;
 		public bool NewTile = false;
@@ -26,7 +26,7 @@ namespace TileManagement
 			NewTile = false;
 			metaTileMap = null;
 			layer = null;
-			position = Vector3Int.zero;
+			LocalPosition = Vector3Int.zero;
 			Colour = Color.white;
 			layerTile = null;
 			transformMatrix = Matrix4x4.identity;

@@ -17,7 +17,7 @@ using Tiles;
 public class MetaDataSystem : MatrixSystemBehaviour
 {
 	// for Conditional updating
-	public override SystemType SubsystemType =>SystemType.MetaDataSystem;
+	public override SystemType SubsystemType => SystemType.MetaDataSystem;
 
 	// Set higher priority to ensure that it is executed before other systems
 	public override int Priority => 100;
@@ -78,7 +78,9 @@ public class MetaDataSystem : MatrixSystemBehaviour
 			Dsw.Start();
 			matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
 			Dsw.Stop();
-			Loggy.Log($"Initialise {gameObject.name} Utilities (Power cables, Atmos pipes): " + Dsw.ElapsedMilliseconds + " ms", Category.Matrix);
+			Loggy.Log(
+				$"Initialise {gameObject.name} Utilities (Power cables, Atmos pipes): " + Dsw.ElapsedMilliseconds +
+				" ms", Category.Matrix);
 		}
 
 		sw.Stop();
@@ -103,7 +105,7 @@ public class MetaDataSystem : MatrixSystemBehaviour
 			if (node.Type == NodeType.Space)
 			{
 				node.ThermalConductivity = AtmosDefines.SPACE_THERMAL_CONDUCTIVITY;
-				node.HeatCapacity =  AtmosDefines.SPACE_HEAT_CAPACITY;
+				node.HeatCapacity = AtmosDefines.SPACE_HEAT_CAPACITY;
 			}
 			else
 			{
@@ -120,7 +122,7 @@ public class MetaDataSystem : MatrixSystemBehaviour
 
 				//TODO hard coded these values, might be better to put them in register door?
 				node.ThermalConductivity = 0.001f;
-				node.HeatCapacity =  10000f;
+				node.HeatCapacity = 10000f;
 			}
 		}
 
@@ -165,13 +167,14 @@ public class MetaDataSystem : MatrixSystemBehaviour
 
 		foreach (Vector3Int position in positions)
 		{
-			if(tested.Contains(position)) continue;
+			if (tested.Contains(position)) continue;
 			count++;
 
 			//Every 1000 tiles wait till next frame to continue
 			if (count % 1000 == 0)
 			{
-				Loggy.LogFormat($"{matrixName}: Created some rooms in {frameWatch.ElapsedMilliseconds}ms", Category.TileMaps);
+				Loggy.LogFormat($"{matrixName}: Created some rooms in {frameWatch.ElapsedMilliseconds}ms",
+					Category.TileMaps);
 
 				frameWatch.Reset();
 				yield return WaitFor.EndOfFrame;
@@ -183,13 +186,15 @@ public class MetaDataSystem : MatrixSystemBehaviour
 
 		setUpDone = true;
 
-		Loggy.LogFormat($"{matrixName}: Created rooms in a total of {overallWatch.ElapsedMilliseconds}ms", Category.TileMaps);
+		Loggy.LogFormat($"{matrixName}: Created rooms in a total of {overallWatch.ElapsedMilliseconds}ms",
+			Category.TileMaps);
 		overallWatch.Reset();
 		overallWatch.Restart();
 
 		atmosSystem.FillRoomGas();
 
-		Loggy.LogFormat($"{matrixName}: Filled rooms with gas in {overallWatch.ElapsedMilliseconds}ms", Category.TileMaps);
+		Loggy.LogFormat($"{matrixName}: Filled rooms with gas in {overallWatch.ElapsedMilliseconds}ms",
+			Category.TileMaps);
 	}
 
 	private void FindRoomAt(Vector3Int position)
@@ -206,7 +211,7 @@ public class MetaDataSystem : MatrixSystemBehaviour
 			{
 				node.OccupiedType = NodeOccupiedType.Full;
 				node.ThermalConductivity = 0.0001f;
-				node.HeatCapacity =  10000f;
+				node.HeatCapacity = 10000f;
 			}
 			else if (matrix.MetaTileMap.GetTile(position, true) is BasicTile tile && tile != null)
 			{
@@ -217,7 +222,8 @@ public class MetaDataSystem : MatrixSystemBehaviour
 			SetupNeighbors(node);
 		}
 		//Then we try to find the room at this position, if its not space or already in a room
-		else if (!metaTileMap.IsSpaceAt(position, true) && !metaDataLayer.IsRoomAt(position) && !metaDataLayer.IsSpaceAt(position))
+		else if (!metaTileMap.IsSpaceAt(position, true) && !metaDataLayer.IsRoomAt(position) &&
+		         !metaDataLayer.IsSpaceAt(position))
 		{
 			CreateRoom(position);
 		}
@@ -245,7 +251,7 @@ public class MetaDataSystem : MatrixSystemBehaviour
 			roomPositions.Add(position, DetectOccupiedType(position));
 
 			Vector3Int[] neighbors = MetaUtils.GetNeighbors(position, null);
-			if(neighbors.Length == 0) continue;
+			if (neighbors.Length == 0) continue;
 
 			for (var i = 0; i < neighbors.Length; i++)
 			{
@@ -331,10 +337,11 @@ public class MetaDataSystem : MatrixSystemBehaviour
 			if (directionalPassable.IsAtmosPassableOnAll) continue;
 
 			//Only allow atmos to be blocked by anchored objects
-			if(directionalPassable.ObjectPhysics.HasComponent
-			   && directionalPassable.ObjectPhysics.Component.isNotPushable == false) continue;
+			if (directionalPassable.ObjectPhysics.HasComponent
+			    && directionalPassable.ObjectPhysics.Component.isNotPushable == false) continue;
 
-			var blockedOrientations = directionalPassable.GetOrientationsBlocked(directionalPassable.AtmosphericPassableSides);
+			var blockedOrientations =
+				directionalPassable.GetOrientationsBlocked(directionalPassable.AtmosphericPassableSides);
 
 			foreach (var directionEnum in blockedOrientations)
 			{
@@ -358,7 +365,7 @@ public class MetaDataSystem : MatrixSystemBehaviour
 		foreach (var position in positions)
 		{
 			MetaDataNode node = metaDataLayer.Get(position.Key);
-			if(setUpDone == false) tested.Add(position.Key);
+			if (setUpDone == false) tested.Add(position.Key);
 
 			node.Type = nodeType;
 			node.OccupiedType = position.Value;
@@ -392,7 +399,8 @@ public class MetaDataSystem : MatrixSystemBehaviour
 			if (metaTileMap.IsSpaceAt(neighbor, true))
 			{
 				// if current node is a room, but the neighboring is a space tile, this node needs to be checked regularly for changes by other matrices
-				if (node.IsRoom && !externalNodes.ContainsKey(node) && metaTileMap.IsSpaceAt(node.LocalPosition, true) == false)
+				if (node.IsRoom && !externalNodes.ContainsKey(node) &&
+				    metaTileMap.IsSpaceAt(node.LocalPosition, true) == false)
 				{
 					externalNodes[node] = node;
 				}
@@ -400,7 +408,8 @@ public class MetaDataSystem : MatrixSystemBehaviour
 				// If the node is not space, check other matrices if it has a tile next to this node.
 				if (!node.IsSpace)
 				{
-					Vector3 neighborWorldPosition = MatrixManager.LocalToWorldInt(neighbor, MatrixManager.Get(matrix.Id));
+					Vector3 neighborWorldPosition =
+						MatrixManager.LocalToWorldInt(neighbor, MatrixManager.Get(matrix.Id));
 
 					// if matrixManager says, it's not space at the neighboring position, there must be a matrix with a non-space tile
 					if (!MatrixManager.IsSpaceAt(neighborWorldPosition.RoundToInt(), true, matrix.MatrixInfo))
@@ -411,7 +420,8 @@ public class MetaDataSystem : MatrixSystemBehaviour
 						if (matrixInfo != null && matrixInfo.MetaTileMap != metaTileMap)
 						{
 							// Check if atmos can pass to the neighboring position
-							Vector3Int neighborlocalPosition = MatrixManager.WorldToLocalInt(neighborWorldPosition, matrixInfo);
+							Vector3Int neighborlocalPosition =
+								MatrixManager.WorldToLocalInt(neighborWorldPosition, matrixInfo);
 
 							var oppositeNode = matrixInfo.MetaDataLayer.Get(neighborlocalPosition);
 
@@ -436,7 +446,9 @@ public class MetaDataSystem : MatrixSystemBehaviour
 							}
 
 							// if current node is a room, but the neighboring is a space tile, this node needs to be checked regularly for changes by other matrices
-							if (oppositeNode.IsRoom && !oppositeNode.MetaDataSystem.externalNodes.ContainsKey(node) && oppositeNode.MetaDataSystem.metaTileMap.IsSpaceAt(oppositeNode.LocalPosition, true) == false)
+							if (oppositeNode.IsRoom && !oppositeNode.MetaDataSystem.externalNodes.ContainsKey(node) &&
+							    oppositeNode.MetaDataSystem.metaTileMap.IsSpaceAt(oppositeNode.LocalPosition, true) ==
+							    false)
 							{
 								oppositeNode.MetaDataSystem.externalNodes[oppositeNode] = oppositeNode;
 							}
@@ -458,12 +470,12 @@ public class MetaDataSystem : MatrixSystemBehaviour
 			if (neighborNode.Type == NodeType.Space)
 			{
 				neighborNode.ThermalConductivity = 0.4f;
-				neighborNode.HeatCapacity =  700000f;
+				neighborNode.HeatCapacity = 700000f;
 			}
 			else if (neighborNode.Type == NodeType.Room)
 			{
 				neighborNode.ThermalConductivity = 0.04f;
-				neighborNode.HeatCapacity =  10000f;
+				neighborNode.HeatCapacity = 10000f;
 			}
 
 			node.AddNeighbor(neighborNode, dir);
@@ -472,7 +484,7 @@ public class MetaDataSystem : MatrixSystemBehaviour
 
 	private void ServerUpdateMe()
 	{
-		if (matrix.MatrixMove != null && matrix.MatrixMove.IsMovingServer)
+		if (matrix.MatrixMove != null && matrix.MatrixMove.NetworkedMatrixMove.IsMoving)
 		{
 			foreach (MetaDataNode node in externalNodes.Keys)
 			{

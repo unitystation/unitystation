@@ -32,17 +32,5 @@ public class DeviceRotateMessage : ClientMessage<DeviceRotateMessage.NetMessage>
 		if (IsFromAdmin() == false) return;
 		var Master = msg.ToRotate.NetworkIdentity().GetComponent<Rotatable>();
 		Master.FaceDirection(msg.RotateTo);
-		if (Master.TryGetComponent<MonoPipe>(out var MonoPipe))
-		{
-			var Difference = (int) msg.RotateTo.ToPipeRotate() - (int) msg.OriginalDirection.ToPipeRotate();
-			if (Difference < 0)
-			{
-				Difference += 4;
-			}
-			MonoPipe.RotatePipe((byte)Difference, false);
-		}
-
-		return;
-
 	}
 }

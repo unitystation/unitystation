@@ -41,10 +41,10 @@ namespace Objects.Research
 
 			if (registerTile.Matrix.MatrixMove != null)
 			{
-				ModifiedAngle = registerTile.Matrix.MatrixMove.CurrentState.FacingDirection.AsEnum().Rotate360By(ModifiedAngle);
+				ModifiedAngle = registerTile.Matrix.MatrixMove.NetworkedMatrixMove.ForwardsDirection.ToOrientationEnum().Rotate360By(ModifiedAngle);
 			}
-
 			// If the final angle is greater than or equal to 360 or less than 0, wrap it around.
+
 			if (ModifiedAngle >= 360)
 			{
 				ModifiedAngle -= 360;

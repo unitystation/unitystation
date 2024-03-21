@@ -14,17 +14,17 @@ public class ShuttleLanding : MonoBehaviour
 
 	public void LandShuttleOnGround(Vector3 teleportCoordinate)
 	{
-		matrixMove.IsForceStopped = true;
-		matrixMove.StopMovement();
-		//Maybe change collision type?
-		//matrixMove.matrixColliderType =
-		matrixMove.SetPosition(teleportCoordinate);
+		// matrixMove.IsForceStopped = true;
+		// matrixMove.StopMovement();
+		// //Maybe change collision type?
+		// //matrixMove.matrixColliderType =
+		// matrixMove.SetPosition(teleportCoordinate);
 	}
 
 	public void ShuttleMovedToSpace(Vector3 teleportCoordinate)
 	{
-		matrixMove.IsForceStopped = false;
-		matrixMove.SetPosition(teleportCoordinate);
+		// matrixMove.IsForceStopped = false;
+		// matrixMove.SetPosition(teleportCoordinate);
 	}
 }
 #if UNITY_EDITOR

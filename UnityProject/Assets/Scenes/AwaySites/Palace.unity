@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 10
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -44,7 +44,6 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 12
-  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -615,7 +614,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -874,7 +873,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -1478,7 +1477,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -1864,6 +1863,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2494,7 +2495,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -2659,7 +2660,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -2814,6 +2815,11 @@ PrefabInstance:
     - target: {fileID: 6825618156950141517, guid: 177ff6e5fbec9d84bbda485c726757e8,
         type: 3}
       propertyPath: InitialDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6825618156950141517, guid: 177ff6e5fbec9d84bbda485c726757e8,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8205724044562225919, guid: 177ff6e5fbec9d84bbda485c726757e8,
@@ -3216,7 +3222,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -3460,7 +3466,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -3625,7 +3631,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -3790,7 +3796,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -3955,7 +3961,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -5163,7 +5169,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -5548,6 +5554,11 @@ PrefabInstance:
       propertyPath: InitialDirection
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4700513680861423891, guid: 12b13a7906fa34c49a5d0b7250f3a875,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5881032582286716180, guid: 12b13a7906fa34c49a5d0b7250f3a875,
         type: 3}
       propertyPath: m_Sprite
@@ -5864,7 +5875,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -6144,6 +6155,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -6487,7 +6500,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -7340,6 +7353,7 @@ Material:
     - _Emission: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1001 &551117666
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7992,7 +8006,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -8157,7 +8171,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -8731,7 +8745,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -8896,7 +8910,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -9061,7 +9075,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -9506,7 +9520,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -10109,7 +10123,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -10442,7 +10456,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -11663,7 +11677,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -12957,7 +12971,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -13530,6 +13544,11 @@ PrefabInstance:
       propertyPath: InitialDirection
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6825618156950141517, guid: 177ff6e5fbec9d84bbda485c726757e8,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8205724044562225919, guid: 177ff6e5fbec9d84bbda485c726757e8,
         type: 3}
       propertyPath: m_Sprite
@@ -13618,7 +13637,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -13969,7 +13988,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -14134,7 +14153,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -14469,6 +14488,11 @@ PrefabInstance:
     - target: {fileID: 6825618156950141517, guid: 177ff6e5fbec9d84bbda485c726757e8,
         type: 3}
       propertyPath: InitialDirection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6825618156950141517, guid: 177ff6e5fbec9d84bbda485c726757e8,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8205724044562225919, guid: 177ff6e5fbec9d84bbda485c726757e8,
@@ -14874,7 +14898,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -15039,7 +15063,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -15680,7 +15704,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -15845,7 +15869,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -16425,7 +16449,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -17041,7 +17065,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -17255,6 +17279,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -17904,6 +17930,11 @@ PrefabInstance:
       propertyPath: InitialDirection
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6825618156950141517, guid: 177ff6e5fbec9d84bbda485c726757e8,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8205724044562225919, guid: 177ff6e5fbec9d84bbda485c726757e8,
         type: 3}
       propertyPath: m_Sprite
@@ -18506,7 +18537,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -18844,7 +18875,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -19220,7 +19251,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -19586,7 +19617,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -19946,7 +19977,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -20840,7 +20871,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -21005,7 +21036,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -21170,7 +21201,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -22063,6 +22094,11 @@ PrefabInstance:
       propertyPath: InitialDirection
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6825618156950141517, guid: 177ff6e5fbec9d84bbda485c726757e8,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8205724044562225919, guid: 177ff6e5fbec9d84bbda485c726757e8,
         type: 3}
       propertyPath: m_Sprite
@@ -22141,6 +22177,11 @@ PrefabInstance:
     - target: {fileID: 6825618156950141517, guid: 177ff6e5fbec9d84bbda485c726757e8,
         type: 3}
       propertyPath: InitialDirection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6825618156950141517, guid: 177ff6e5fbec9d84bbda485c726757e8,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8205724044562225919, guid: 177ff6e5fbec9d84bbda485c726757e8,
@@ -22722,7 +22763,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -23060,7 +23101,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -23332,7 +23373,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -23497,7 +23538,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -23964,7 +24005,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -24114,6 +24155,11 @@ PrefabInstance:
     - target: {fileID: -2475911631218339235, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
       propertyPath: InitialDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2475911631218339235, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 308434288503612314, guid: 1a00e842e154f7d43811c5d45328988c,
@@ -24449,7 +24495,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -24845,6 +24891,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -25308,7 +25356,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -25678,7 +25726,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -25955,7 +26003,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -26224,7 +26272,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -26575,7 +26623,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -26730,6 +26778,11 @@ PrefabInstance:
     - target: {fileID: 6825618156950141517, guid: 177ff6e5fbec9d84bbda485c726757e8,
         type: 3}
       propertyPath: InitialDirection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6825618156950141517, guid: 177ff6e5fbec9d84bbda485c726757e8,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8205724044562225919, guid: 177ff6e5fbec9d84bbda485c726757e8,
@@ -27000,7 +27053,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -27587,7 +27640,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -27752,7 +27805,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -28421,7 +28474,7 @@ Mesh:
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
-  m_isReadable: 1
+  m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
@@ -29721,6 +29774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5178f8d25db401cac26064575ba1c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EtherealThings: []
 --- !u!1001 &241136504525212324
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30381,9 +30435,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Priority>k__BackingField: 0
-  <RegisteredToLegacySubsystemManager>k__BackingField: 1
   defaultRoomGasMixOverride: {fileID: 0}
   overriderTileSpawnWithNoAir: 0
+  autoInitialisePolicy: 0
+  autoInitialisePolicyInEditorOnly: 1
 --- !u!1001 &439613384723856278
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30870,6 +30925,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -31788,6 +31845,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetMSpreFrame: 5
+  MassAndCentreLock: []
+  LocalCentreOfMass: {x: 0.039847773, y: 6.531229, z: 0}
+  LocalTotalMasslocations: {x: 178, y: 29175, z: 0}
+  Mass: 4467
   ffLayersValues: []
   matrix: {fileID: 2015811176123256548}
 --- !u!1001 &1469670312584233106
@@ -32237,6 +32298,7 @@ GameObject:
   - component: {fileID: 8118501207309799830}
   - component: {fileID: 275771677051157952}
   - component: {fileID: 2928174398330402150}
+  - component: {fileID: 8118501207309799831}
   m_Layer: 0
   m_Name: Palace
   m_TagString: Untagged
@@ -32383,6 +32445,7 @@ MonoBehaviour:
   IsSpaceMatrix: 0
   IsMainStation: 0
   IsLavaLand: 0
+  AIShuttleShouldAvoid: 1
   PresentPlayers: []
   UpdatedPlayerFrame: 0
   HasGravity: 1
@@ -32630,6 +32693,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -32765,7 +32830,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Priority>k__BackingField: 0
-  <RegisteredToLegacySubsystemManager>k__BackingField: 1
 --- !u!1001 &2918974279750280856
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43530,6 +43594,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -77339,6 +77405,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -78449,6 +78517,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -78593,6 +78663,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -79038,6 +79110,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -93217,6 +93291,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   performerStartActionMessage: 
   othersStartActionMessage: 
+--- !u!114 &8118501207309799831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1773240324465843808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e81c12f85d088ad488d2bddecc6a36a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8130432173312771787
 PrefabInstance:
   m_ObjectHideFlags: 0

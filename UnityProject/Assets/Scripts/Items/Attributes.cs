@@ -59,7 +59,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 		{
 			if (TryGetComponent<Stackable>(out var stackable))
 			{
-				int amount = Application.isEditor ? stackable.InitialAmount : stackable.Amount;
+				int amount = (Application.isEditor && Application.isPlaying == false) ? stackable.InitialAmount : stackable.Amount;
 				return exportCost * amount;
 			}
 

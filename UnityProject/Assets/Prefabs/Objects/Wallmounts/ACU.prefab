@@ -94,6 +94,11 @@ PrefabInstance:
       propertyPath: foreverID
       value: a50474d976314462a79602e20a762520
       objectReference: {fileID: 0}
+    - target: {fileID: 3285997587728660326, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: spriteMatrixRotationBehavior
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -329,7 +334,9 @@ MonoBehaviour:
   ChangeSprites: 1
   isChangingSO: 0
   CurrentDirection: 3
+  SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &3285148549768762821
@@ -464,3 +471,5 @@ MonoBehaviour:
         - 0.2
         - 0.5
   acuSamplesAir: 0
+  <CanRelink>k__BackingField: 1
+  <IgnoreMaxDistanceMapper>k__BackingField: 0

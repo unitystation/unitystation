@@ -48,7 +48,11 @@ namespace Systems.Scenes
 
 		private void OnDestroy()
 		{
-			LavaLandManager.Instance.randomGenScripts.Remove(this);
+			if (LavaLandManager.Instance != null)
+			{
+				LavaLandManager.Instance.randomGenScripts.Remove(this);
+			}
+
 			tileChangeManager = null;
 		}
 

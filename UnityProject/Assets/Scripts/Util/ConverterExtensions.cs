@@ -18,6 +18,17 @@ public static class ConverterExtensions
 			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.Instance._isServer));
 	}
 
+	public static Vector3 DirectionLocalToWorld(this Vector3 localDirection, Matrix matrix)
+	{
+		return MatrixManager.DirectionLocalToWorld(localDirection, MatrixManager.Get(matrix));
+	}
+
+
+	public static Vector3 DirectionWorldToLocal(this Vector3 worldDirection, Matrix matrix)
+	{
+		return MatrixManager.DirectionWorldToLocal(worldDirection, MatrixManager.Get(matrix));
+	}
+
 
 	public static Vector3 ToWorld(this Vector3 localPos, Matrix matrix)
 	{
@@ -286,6 +297,38 @@ public static class ConverterExtensions
 		       GetRandomNumber(minimum, maximum); //the * Minus number will do the other side Making it full 360
 	}
 
+	public static OrientationEnum RemoveDirectionsTogether(this OrientationEnum This, OrientationEnum Other)
+	{
+		var NewValue = This.To360Z() - Other.To360Z();
+		if (NewValue >= 360)
+		{
+			NewValue -= 360;
+		}
+		else if (NewValue < 0)
+		{
+			NewValue += 360;
+		}
+
+		return NewValue.Angle360ToOrientationEnum();
+	}
+
+	public static OrientationEnum AddDirectionsTogether(this OrientationEnum This, OrientationEnum Other)
+	{
+		var NewValue = This.To360Z() + Other.To360Z();
+		if (NewValue >= 360)
+		{
+			NewValue -= 360;
+		}
+		else if (NewValue < 0)
+		{
+			NewValue += 360;
+		}
+
+		return NewValue.Angle360ToOrientationEnum();
+	}
+
+
+
 	public static Vector2Int ToLocalVector2Int(this OrientationEnum @in)
 	{
 		return ToLocalVector3(@in).RoundTo2Int();
@@ -319,6 +362,55 @@ public static class ConverterExtensions
 			_ => Vector3.zero
 		};
 
+	public static OrientationEnum ToOpposite(this OrientationEnum @in) =>
+		@in switch
+		{
+			OrientationEnum.Up_By0 => OrientationEnum.Down_By180,
+			OrientationEnum.Right_By270 => OrientationEnum.Left_By90,
+			OrientationEnum.Down_By180 => OrientationEnum.Up_By0,
+			OrientationEnum.Left_By90 => OrientationEnum.Right_By270,
+			_ => OrientationEnum.Default
+		};
+
+
+	public static Quaternion ToQuaternion(this OrientationEnum dir)
+	{
+		var outQuaternion = new Quaternion();
+
+		switch (dir)
+		{
+			case OrientationEnum.Up_By0:
+				outQuaternion.eulerAngles = new Vector3(0, 0, 0f);
+				break;
+			case OrientationEnum.Right_By270:
+				outQuaternion.eulerAngles = new Vector3(0, 0, -90f);
+				break;
+			case OrientationEnum.Down_By180:
+				outQuaternion.eulerAngles = new Vector3(0, 0, -180f);
+				break;
+			case OrientationEnum.Left_By90:
+				outQuaternion.eulerAngles = new Vector3(0, 0, -270f);
+				break;
+		}
+
+		return outQuaternion;
+	}
+
+	public static OrientationEnum Angle360ToOrientationEnum(this float angle)
+	{
+		// Normalize the angle to be within the range [0, 360)
+		angle = (angle + 360) % 360;
+
+		// Define the ranges for each cardinal direction
+		if (angle >= 315 || angle < 45)
+			return OrientationEnum.Up_By0;
+		else if (angle >= 45 && angle < 135)
+			return OrientationEnum.Left_By90;
+		else if (angle >= 135 && angle < 225)
+			return OrientationEnum.Down_By180;
+		else
+			return OrientationEnum.Right_By270;
+	}
 
 
 	/// <summary>

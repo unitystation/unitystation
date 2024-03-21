@@ -78,7 +78,14 @@ public class MouseDraggable : MonoBehaviour
 		//shadowObject.transform.localScale -= new Vector3(0.5f,0.5f, 0);
 	}
 
-	private void LateUpdate()
+	private void OnEnable()
+	{
+		if(CustomNetworkManager.IsHeadless) return;
+		UpdateManager.Add(CallbackType.UPDATE, MeLateUpdate);
+	}
+
+
+	private void MeLateUpdate()
 	{
 		if(CustomNetworkManager.IsHeadless) return;
 
@@ -94,7 +101,7 @@ public class MouseDraggable : MonoBehaviour
 
 		if (shadowObject != null)
 		{
-			var transformPosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+			var transformPosition = CommonInput.CashedMouseWorldPosition;
 			transformPosition.z = 1;
 			shadowObject.transform.position = transformPosition;
 		}
@@ -159,5 +166,7 @@ public class MouseDraggable : MonoBehaviour
 		{
 			OnDragEnd();
 		}
+		if(CustomNetworkManager.IsHeadless) return;
+		UpdateManager.Remove(CallbackType.UPDATE, MeLateUpdate);
 	}
 }

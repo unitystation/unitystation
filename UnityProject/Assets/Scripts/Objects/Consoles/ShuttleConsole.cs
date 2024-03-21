@@ -20,6 +20,8 @@ namespace Objects.Shuttles
 	/// </summary>
 	public class ShuttleConsole : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 	{
+		//TODO Swapping matrix
+
 		public MatrixMove ShuttleMatrixMove;
 
 		[NonSerialized] public RegisterTile registerTile;
@@ -30,10 +32,26 @@ namespace Objects.Shuttles
 
 		public ShuttleConsoleState shuttleConsoleState;
 
+		public Rotatable Rotatable;
+
+
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
 			hasNetworkTab = GetComponent<HasNetworkTab>();
+			Rotatable = this.GetComponentCustom<Rotatable>();
+			ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
+		}
+
+		public void OnDisable()
+		{
+			ShuttleMatrixMove.NetworkedMatrixMove.ShuttleConsuls.Remove(this);
+		}
+
+		public void OnEnable()
+		{
+			ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
+			ShuttleMatrixMove.NetworkedMatrixMove.ShuttleConsuls.Add(this);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -56,7 +74,7 @@ namespace Objects.Shuttles
 				}
 			}
 
-			if (ShuttleMatrixMove.IsNotPilotable)
+			if (ShuttleMatrixMove.NetworkedMatrixMove.IsNotPilotable)
 			{
 				hasNetworkTab.enabled = false;
 			}
@@ -76,7 +94,7 @@ namespace Objects.Shuttles
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			//can only be interacted with an emag (normal click behavior is in HasNetTab)
-			if (!Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Emag)) return false;
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Emag) == false) return false;
 			return true;
 		}
 
@@ -110,13 +128,6 @@ namespace Objects.Shuttles
 				$"{time} : {prep.PerformerPlayerScript.playerName} emmaged {gameObject}.");
 		}
 
-		public void ClientTryMove(Orientation GlobalMoveDirection)
-		{
-			var move = registerTile.Matrix.MatrixMove;
-			if (move.CanClientUseRcs == false || move.ClientState.IsMoving == false || move.IsForceStopped || (move.IsFueled == false && move.RequiresFuel))
-				return;
-			CmdMove(GlobalMoveDirection);
-		}
 
 
 		[Command(requiresAuthority = false)]
@@ -124,7 +135,8 @@ namespace Objects.Shuttles
 		{
 			if (sender == null) return;
 			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
-			registerTile.Matrix.MatrixMove.RcsMoveServer(GlobalMoveDirection);
+			if (GUItab.StartButton.Value == "0") return;
+			registerTile.Matrix.MatrixMove.NetworkedMatrixMove.RcsMove(GlobalMoveDirection);
 		}
 
 
@@ -137,26 +149,18 @@ namespace Objects.Shuttles
 
 			if (newState)
 			{
-				playerScript.RcsMode = true;
-				playerScript.RcsMatrixMove = matrixMove;
 				PlayerManager.ShuttleConsole = this;
-				matrixMove.playerControllingRcs = playerScript;
-				matrixMove.rcsModeActive = true;
+				matrixMove.NetworkedMatrixMove.playerControllingRcs = playerScript;
+				matrixMove.NetworkedMatrixMove.RCSModeActive = true;
 			}
 			else
 			{
 				PlayerManager.ShuttleConsole = null;
-				if (playerScript)
-				{
-					playerScript.RcsMode = false;
-					playerScript.RcsMatrixMove = null;
-				}
-
-				matrixMove.playerControllingRcs = null;
-				matrixMove.rcsModeActive = false;
+				matrixMove.NetworkedMatrixMove.playerControllingRcs = null;
+				matrixMove.NetworkedMatrixMove.RCSModeActive = false;
 			}
 
-			matrixMove.CacheRcs();
+			//matrixMove.CacheRcs();
 
 			if (isServer)
 			{

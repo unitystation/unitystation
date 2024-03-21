@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 10
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -44,7 +44,6 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 12
-  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -160,6 +159,7 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1001 &228968836
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -519,6 +519,7 @@ Material:
     - _Emission: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1001 &689099397
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1020,6 +1021,7 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!114 &780268074 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114006731871561424, guid: 829f4ca992b848d6bb4d007fb9c112e1,
@@ -1216,6 +1218,7 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &964328729
 GameObject:
   m_ObjectHideFlags: 0
@@ -1323,6 +1326,7 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1001 &1138797072
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11934,6 +11938,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 114729471039765908, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
+      propertyPath: solarSystemRadius
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 114729471039765908, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
       propertyPath: minDistanceBetweenSpaceBodies
       value: 250
       objectReference: {fileID: 0}
@@ -15711,6 +15720,7 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1361293561 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1928090117516068, guid: 829f4ca992b848d6bb4d007fb9c112e1,

@@ -39,14 +39,16 @@ public static class MouseUtils
 	{
 		if (Manager3D.Is3D)
 		{
-			var worldPos3D = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			var worldPos3D = CommonInput.CashedMouseWorldPosition;
 
 			worldPos3D = worldPos3D+ Camera.main.transform.forward;
 			worldPos3D.z = 0;
 			return worldPos3D;
 		}
 
-		var worldPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+
+
+		var worldPos = 	CommonInput.CashedMouseWorldPosition;
 		worldPos.z = 0;
 		return worldPos;
 	}
@@ -204,7 +206,7 @@ public static class MouseUtils
 
 				if (pixelColor.a > 0)
 				{
-					var mousePos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+					var mousePos = CommonInput.CashedMouseWorldPosition;
 					if (recentTouches != null)
 					{
 						if (recentTouches.ContainsKey(mousePos))

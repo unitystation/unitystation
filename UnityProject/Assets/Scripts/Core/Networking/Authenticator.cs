@@ -11,6 +11,7 @@ using DatabaseAPI;
 using GameConfig;
 using Lobby;
 using Logs;
+using Systems.Character;
 
 namespace Core.Networking
 {
@@ -38,6 +39,7 @@ namespace Core.Networking
 			public string AccountId;
 			public string PlayerToken;
 			public string LobbyPassword;
+			public string OffLineName;
 		}
 
 		public struct AuthResponseMessage : NetworkMessage
@@ -126,7 +128,12 @@ namespace Core.Networking
 			// Allow local offline testing
 			if (GameData.Instance.OfflineMode)
 			{
-				account = new Account(); // TODO probably need to populate w/ dummy values
+				PlayerManager.CharacterManager.Init();
+				account = new Account
+				{
+					Id = "123456789",
+					Username = msg.OffLineName
+				};
 			}
 			else
 			{
@@ -398,6 +405,7 @@ namespace Core.Networking
 				AccountId = PlayerManager.Account.Id,
 				PlayerToken = await PlayerManager.Account.GetPlayerToken(), // TODO error handling
 				LobbyPassword = PasswordField,
+				OffLineName = GetPhysicalAddress()
 			};
 
 			NetworkClient.Send(msg);
@@ -495,6 +503,7 @@ namespace Core.Networking
 				AccountId = PlayerManager.Account.Id,
 				PlayerToken = await PlayerManager.Account.GetPlayerToken(), // TODO error handling
 				LobbyPassword = password,
+				OffLineName = GetPhysicalAddress()
 			};
 
 			NetworkClient.Send(msg);

@@ -57,7 +57,11 @@ public class OcclusionMaskRenderer : MonoBehaviour
 
 		mMaskCamera.enabled = false;
 		mMaskCamera.backgroundColor = new Color(0, 0, 0, 0);
-		mMaskCamera.transform.position = _renderPosition;
+		if (iMatrixRotationMode == false)
+		{
+			mMaskCamera.transform.position = _renderPosition;
+		}
+
 		mMaskCamera.orthographicSize = iPPRTParameter.orthographicSize;
 
 		if (mPPRenderTexture == null)

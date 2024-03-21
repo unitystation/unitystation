@@ -17,7 +17,8 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 21300000, guid: b5191cf54f9e01d4d9ac14dc228024e6,
+        type: 3}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_SortingLayer
@@ -31,7 +32,7 @@ PrefabInstance:
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -56,22 +57,22 @@ PrefabInstance:
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.00000004371139
       objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -102,6 +103,31 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: 1291a5cb15d008c41bf0a373403f56b2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285997587728660326, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: spriteMatrixRotationBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4485046902360527550, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -196,7 +222,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
     - {fileID: 7946340047006197236, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
-    - {fileID: 7918371756561495367, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -296,6 +322,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  LiesFlat3D: 0
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 7782817179362649248}
   OneDirectionRestricted: 0
@@ -354,6 +381,7 @@ MonoBehaviour:
   enablePressureWarning: 0
   DoorPressureSpriteOffset: 25
   openingDirection: 0
+  <CanRelink>k__BackingField: 1
   BlockAutoClose: 0
   conType: 7
 --- !u!114 &720260447592516819

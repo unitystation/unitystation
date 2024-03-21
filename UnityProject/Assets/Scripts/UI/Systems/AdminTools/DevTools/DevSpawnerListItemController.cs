@@ -100,7 +100,14 @@ public class DevSpawnerListItemController : MonoBehaviour
 
 				if (HasRotatable == false)
 				{
-					TrySpawn(null);
+					if (KeyboardInputManager.IsAltActionKeyPressed())
+					{
+						TrySpawn(null, MouseUtils.MouseToWorldPos());
+					}
+					else
+					{
+						TrySpawn(null, MouseUtils.MouseToWorldPos().RoundToInt());
+					}
 				}
 				else
 				{
@@ -123,7 +130,15 @@ public class DevSpawnerListItemController : MonoBehaviour
 				GameGizmoLine.OrNull()?.Remove();
 				GameGizmoLine = null;
 				cursorObject.transform.position = StartPressPosition.Value;
-				TrySpawn( ( MouseUtils.MouseToWorldPos() - StartPressPosition).Value.ToOrientationEnum());
+				if (KeyboardInputManager.IsAltActionKeyPressed())
+				{
+					TrySpawn( ( MouseUtils.MouseToWorldPos() - StartPressPosition).Value.ToOrientationEnum(), StartPressPosition);
+				}
+				else
+				{
+					TrySpawn( ( MouseUtils.MouseToWorldPos() - StartPressPosition).Value.ToOrientationEnum(), StartPressPosition.Value.RoundToInt());
+				}
+
 				StartPressPosition = null;
 			}
 		}
@@ -217,13 +232,16 @@ public class DevSpawnerListItemController : MonoBehaviour
 	/// <summary>
 	/// Tries to spawn at the specified position. Lets you spawn anywhere, even impassable places. Go hog wild!
 	/// </summary>
-	private void TrySpawn(OrientationEnum? OrientationEnum)
+	private void TrySpawn(OrientationEnum? OrientationEnum, Vector3? MousePosition = null)
 	{
-		Vector3Int position = cursorObject.transform.position.RoundToInt();
+		if (MousePosition == null)
+		{
+			MousePosition = MouseUtils.MouseToWorldPos();
+		}
 
 		if (CustomNetworkManager.IsServer)
 		{
-			var game = Spawn.ServerPrefab(prefab, position).GameObject;
+			var game = Spawn.ServerPrefab(prefab, MousePosition).GameObject;
 
 			if (game.TryGetComponent<Stackable>(out var Stackable) && GUI_DevSpawner.Instance.StackAmount != -1)
 			{
@@ -233,19 +251,15 @@ public class DevSpawnerListItemController : MonoBehaviour
 			if (game.TryGetComponent<Rotatable>(out var Rotatable) && OrientationEnum != null)
 			{
 				Rotatable.FaceDirection(OrientationEnum.Value);
-				if (game.TryGetComponent<MonoPipe>(out var MonoPipe))
-				{
-					MonoPipe.RotatePipe(OrientationEnum.Value.ToPipeRotate(), false);
-				}
 			}
 
 			var player = PlayerManager.LocalPlayerObject.Player();
 			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					$"{player.Username} spawned a {prefab.name} at {position}", player.AccountId);
+					$"{player.Username} spawned a {prefab.name} at {MousePosition}", player.AccountId);
 		}
 		else
 		{
-			DevSpawnMessage.Send(prefab, (Vector3) position, GUI_DevSpawner.Instance.StackAmount, OrientationEnum);
+			DevSpawnMessage.Send(prefab, (Vector3) MousePosition, GUI_DevSpawner.Instance.StackAmount, OrientationEnum);
 		}
 	}
 }

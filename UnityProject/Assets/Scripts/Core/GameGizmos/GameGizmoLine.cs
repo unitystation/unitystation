@@ -36,7 +36,7 @@ public class GameGizmoLine : GameGizmo
 
 		if (TrackingFrom != null)
 		{
-			Renderer.SetPosition(0, TrackingFrom.AssumedWorldPosServer(false));
+			Renderer.SetPosition(0, TrackingFrom.transform.localToWorldMatrix * From);
 		}
 		else
 		{
@@ -45,7 +45,7 @@ public class GameGizmoLine : GameGizmo
 
 		if (TrackingTo != null)
 		{
-			Renderer.SetPosition(1, TrackingTo.AssumedWorldPosServer(false));
+			Renderer.SetPosition(1, TrackingTo.transform.localToWorldMatrix *  To);
 		}
 		else
 		{
@@ -75,7 +75,7 @@ public class GameGizmoLine : GameGizmo
 	{
 		if (TrackingFrom != null)
 		{
-			Renderer.SetPosition(0, TrackingFrom.AssumedWorldPosServer(false) + From);
+			Renderer.SetPosition(0, TrackingFrom.transform.localToWorldMatrix * From);
 		}
 		else
 		{
@@ -84,7 +84,7 @@ public class GameGizmoLine : GameGizmo
 
 		if (TrackingTo != null)
 		{
-			Renderer.SetPosition(1, TrackingTo.AssumedWorldPosServer(false) + To);
+			Renderer.SetPosition(1, TrackingTo.transform.localToWorldMatrix *  To);
 		}
 		else
 		{

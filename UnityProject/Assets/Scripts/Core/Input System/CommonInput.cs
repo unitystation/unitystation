@@ -36,6 +36,14 @@ public class CommonInput
 		}
 	}
 
+	public static Vector3 mouseWorldPosition = Vector3.zero;
+
+	public static Vector3 CashedMouseWorldPosition
+	{
+		get => mouseWorldPosition;
+		set => mouseWorldPosition = value;
+	}
+
 	private static bool gameKeyDetected = false;
 	/// <summary>
 	/// Get first touch that's NOT a GameKey touch

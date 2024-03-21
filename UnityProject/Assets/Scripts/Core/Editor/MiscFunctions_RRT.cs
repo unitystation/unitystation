@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -18,6 +19,7 @@ using Items.Botany;
 using Logs;
 using SecureStuff;
 using Debug = UnityEngine.Debug;
+using Random = System.Random;
 
 namespace Util
 {
@@ -323,6 +325,11 @@ namespace Util
 			Loggy.LogError(data.ToString());
 		}
 
+		public class coolClass
+		{
+			public int val = 0;
+		}
+
 		class LoginBody
 		{
 			public string email { get; set; }
@@ -334,6 +341,8 @@ namespace Util
 		[MenuItem("Tools/Debug/------------ Debug function -----------")]
 		public static void Generate()
 		{
+
+			var ChunkedTileMap = new ChunkedTileMap<coolClass>();
 			var url = new Uri( "https://dev-api.unitystation.org/accounts/login-credentials");
 			var coiol = new HttpClient();
 			var ree = new HttpRequestMessage();
@@ -359,7 +368,55 @@ UnityEngine";
 			Loggy.LogError("Text > " + Text);
 			var nub = float.Parse(Text);
 
-			Loggy.LogError("nub > " + nub);
+			var OldTileMap = new Dictionary<Vector3, coolClass>();
+
+			for (int i = 0; i < 1000; i++)
+			{
+				for (int j = 0; j < 1000; j++)
+				{
+
+					var TheValue = new coolClass()
+					{
+						val = j
+					};
+
+					ChunkedTileMap[new Vector3Int(i, j)] = TheValue;
+					OldTileMap[new Vector3Int(i, j)] = TheValue;
+				}
+			}
+
+			var RNG = new Random();
+
+			var Stopwatch = new Stopwatch();
+			Stopwatch.Start();
+			for (int i = 0; i < 1000; i++)
+			{
+				for (int j = 0; j < 1000; j++)
+				{
+
+					var cool = ChunkedTileMap[new Vector3Int(RNG.Next(0,1000), RNG.Next(0,1000))];
+				}
+			}
+			Stopwatch.Stop();
+			Loggy.LogError("ChunkedTileMap > " + Stopwatch.ElapsedTicks);
+			Stopwatch.Reset();
+			Stopwatch.Start();
+			for (int i = 0; i < 1000; i++)
+			{
+				for (int j = 0; j < 1000; j++)
+				{
+					var cool = OldTileMap[new Vector3Int(RNG.Next(0,1000), RNG.Next(0,1000))];
+
+				}
+			}
+			Stopwatch.Stop();
+
+			Loggy.LogError("OldTileMap > " + Stopwatch.ElapsedTicks);
+
+			return;
+			//
+			//
+			//Loggy.LogError("nub > " + nub);
 			 // AssetDatabase.StartAssetEditing();
 			 //                     			AssetDatabase.ForceReserializeAssets();
 			 //                     		AssetDatabase.StopAssetEditing();

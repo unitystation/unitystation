@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Mirror.Discovery;
 using UnityEngine;
 
 namespace TileManagement
@@ -37,6 +38,147 @@ namespace TileManagement
 			return false;
 		}
 
+
+		public Vector3 GetClosestPerimeterPoint(Vector3 Point)
+		{
+			float SmallestDistance = 99999999999;
+			Vector3 EntryPoint = Minimum;
+
+
+			if (Contains(Point))
+			{
+
+				var Vector = new Vector3(Minimum.x, Point.y);
+				var distance = (Vector - Point).magnitude;
+				if (SmallestDistance > distance)
+				{
+					SmallestDistance = distance;
+					EntryPoint = Vector;
+				}
+				
+				Vector = new Vector3(Point.x, Minimum.y);
+				distance = (Vector - Point).magnitude;
+				if (SmallestDistance > distance)
+				{
+					SmallestDistance = distance;
+					EntryPoint = Vector;
+				}
+
+				Vector = new Vector3(Maximum.x, Point.y);
+				distance = (new Vector3(Maximum.x, Point.y) - Point).magnitude;
+				if (SmallestDistance > distance)
+				{
+					SmallestDistance = distance;
+					EntryPoint = Vector;
+				}
+
+				Vector = new Vector3(Point.x, Maximum.y);
+				distance = (new Vector3(Point.x, Maximum.y) - Point).magnitude;
+				if (SmallestDistance > distance)
+				{
+					SmallestDistance = distance;
+					EntryPoint = Vector;
+				}
+
+				return EntryPoint;
+			}
+			else
+			{
+
+				var Vector = new Vector3(
+					Minimum.x,
+					Mathf.Min(Mathf.Max(Point.y, Minimum.y), Maximum.y));
+				var distance = (Vector - Point).magnitude;
+
+				if (SmallestDistance > distance)
+				{
+					SmallestDistance = distance;
+					EntryPoint = Vector;
+				}
+
+
+				Vector = new Vector3(
+					Mathf.Min(Mathf.Max(Point.x, Minimum.x), Maximum.x),
+					Minimum.y);
+				distance = (Vector - Point).magnitude;
+				if (SmallestDistance > distance)
+				{
+					SmallestDistance = distance;
+					EntryPoint = Vector;
+				}
+
+
+				Vector = new Vector3(
+					Maximum.x,
+					Mathf.Min(Mathf.Max(Point.y, Minimum.y), Maximum.y));
+				distance = (Vector - Point).magnitude;
+				if (SmallestDistance > distance)
+				{
+					SmallestDistance = distance;
+					EntryPoint = Vector;
+				}
+
+
+				Vector = new Vector3(
+					Mathf.Min(Mathf.Max(Point.x, Minimum.x),  Maximum.x),
+					Maximum.y);
+				distance = (new Vector3(Maximum.x, Point.y) - Point).magnitude;
+				if (SmallestDistance > distance)
+				{
+					SmallestDistance = distance;
+					EntryPoint = Vector;
+				}
+
+				return EntryPoint;
+			}
+
+		}
+
+		public Vector3 GetCorner(int i)
+		{
+			if (i == 0)
+			{
+				return Minimum;
+			}
+			else if (i == 1)
+			{
+				return new Vector3(Minimum.x,Maximum.y,0);
+			}
+			else if (i == 2)
+			{
+				return Maximum;
+			}
+			else if (i == 3)
+			{
+				return new Vector3( Maximum.x,Minimum.y,0);
+			}
+
+			return Maximum;
+		}
+
+		public IEnumerable<Vector3> Corners()
+		{
+			int max = 4;
+			for (int i = 0; i < max; i++)
+			{
+				if (i == 0)
+				{
+					yield return GetCorner(i);
+				}
+				else if (i == 1)
+				{
+					yield return GetCorner(i);
+				}
+				else if (i == 2)
+				{
+					yield return GetCorner(i);
+				}
+				else if (i == 3)
+				{
+					yield return GetCorner(i);
+				}
+			}
+		}
 
 		public void ExpandToPoint2D(Vector3 Point)
 		{
@@ -95,6 +237,22 @@ namespace TileManagement
 		public bool Equals(BetterBounds other)
 		{
 			return Maximum == other.Maximum && Minimum == other.Minimum;
+		}
+
+
+		public BetterBounds ExpandAllDirectionsBy(float AddAmount)
+		{
+			var CustomMinimum = Minimum;
+			CustomMinimum -= new Vector3(AddAmount, AddAmount, 0);
+
+			var CustomMaximum = Maximum;
+			CustomMaximum += new Vector3(AddAmount, AddAmount, 0);
+
+			return new BetterBounds()
+			{
+				Minimum = CustomMinimum,
+				Maximum = CustomMaximum,
+			};
 		}
 	}
 }

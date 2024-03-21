@@ -63,6 +63,21 @@ PrefabInstance:
       propertyPath: foreverID
       value: 2d5ef1e4279414f4798d5cf1542d9388
       objectReference: {fileID: 0}
+    - target: {fileID: 5718954047647765097, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5718954047647765097, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5718954047647765097, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6554009657133641066, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_SortingLayer
@@ -118,6 +133,12 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 19
       objectReference: {fileID: 0}
+    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b5191cf54f9e01d4d9ac14dc228024e6,
+        type: 3}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_SortingLayer
@@ -185,6 +206,7 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 0
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
