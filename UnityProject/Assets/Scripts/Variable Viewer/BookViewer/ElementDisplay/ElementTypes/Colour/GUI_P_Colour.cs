@@ -49,7 +49,7 @@ namespace AdminTools.VariableViewer
 			}
 
 			var Data = VVUIElementHandler.ReturnCorrectString(Page, Sentence, Iskey);
-			DeSerialise(Data, true);
+			DeSerialise(Data,null, null, true);
 		}
 
 		public void UpdateColour()
@@ -94,13 +94,13 @@ namespace AdminTools.VariableViewer
 			return Data.ToString();
 		}
 
-		public override object DeSerialise(string Data, bool SetUI = false)
+		public override object DeSerialise(string StringVariable, Type InType, object InObject, bool SetUI = false)
 		{
 			Color TheColour = Color.white;
-			TheColour.r = Data[0] / 255f;
-			TheColour.g = Data[1] / 255f;
-			TheColour.b = Data[2] / 255f;
-			TheColour.a = Data[3] / 255f;
+			TheColour.r = StringVariable[0] / 255f;
+			TheColour.g = StringVariable[1] / 255f;
+			TheColour.b = StringVariable[2] / 255f;
+			TheColour.a = StringVariable[3] / 255f;
 			if (SetUI)
 			{
 				IgnoreUpdates = true;

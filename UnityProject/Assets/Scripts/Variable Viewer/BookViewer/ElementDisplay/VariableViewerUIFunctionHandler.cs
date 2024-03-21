@@ -50,9 +50,9 @@ public static class VVUIElementHandler
 			return Type2Element.ContainsKey(InType);
 		}
 
-		public object DeSerialiseValue(string StringData, Type InType)
+		public object DeSerialiseValue(object InObject, string StringData, Type InType)
 		{
-			return Type2Element[InType].DeSerialise(StringData);
+			return Type2Element[InType].DeSerialise(StringData, InType, InObject);
 		}
 	}
 

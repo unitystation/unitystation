@@ -9,7 +9,7 @@ namespace SecureStuff
 	{
 
 		public bool CanDeSerialiseValue(Type InType);
-		public object DeSerialiseValue(string StringData, Type InType);
+		public object DeSerialiseValue(object InObject, string StringData, Type InType);
 
 	}
 }
