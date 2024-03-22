@@ -828,11 +828,14 @@ namespace SecureStuff
 				{
 					if (PInfo != null)
 					{
-						PInfo.SetValue(BindedTo.BookClass, DeSerialiseValue(Variable, Value, Variable.GetType()));
+
+						object DeSerialised = DeSerialiseValue(Variable, Value, Variable.GetType());
+						PInfo.SetValue(BindedTo.BookClass,DeSerialised);
 					}
 					else if (Info != null)
 					{
-						Info.SetValue(BindedTo.BookClass, DeSerialiseValue(Variable, Value, Variable.GetType()));
+						object DeSerialised = DeSerialiseValue(Variable, Value, Variable.GetType());
+						Info.SetValue(BindedTo.BookClass, DeSerialised);
 					}
 
 					UpdatePage();
@@ -859,7 +862,7 @@ namespace SecureStuff
 			{
 				if (VVUIElementHandler.CanDeSerialiseValue(InType))
 				{
-					return VVUIElementHandler.DeSerialiseValue(StringVariable, InType);
+					return VVUIElementHandler.DeSerialiseValue(InObject, StringVariable, InType );
 				}
 				else
 				{
@@ -873,7 +876,7 @@ namespace SecureStuff
 						if (InType == null || InObject == null || InObject as IConvertible == null)
 						{
 							Loggy.Log($"Can't convert {StringVariable} to {InObject.GetType()}  " +
-							           $"[(InType == null) = {InType == null} || (InObject == null) == {InObject == null} || (InObject as IConvertible == null) = {InObject as IConvertible == null}]",
+							          $"[(InType == null) = {InType == null} || (InObject == null) == {InObject == null} || (InObject as IConvertible == null) = {InObject as IConvertible == null}]",
 								Category.VariableViewer);
 							return null;
 						}
@@ -881,6 +884,7 @@ namespace SecureStuff
 						return Convert.ChangeType(StringVariable, InObject.GetType());
 					}
 				}
+
 			}
 
 

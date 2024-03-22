@@ -143,9 +143,9 @@ namespace AdminTools.VariableViewer
 
 		}
 
-		public override object DeSerialise(string Data, bool SetUI = false)
+		public override object DeSerialise(string StringVariable, Type InType, object InObject, bool SetUI = false)
 		{
-			return SOListTracker.Instance.SOTrackers.FirstOrDefault(x=> x.ForeverID == Data);
+			return SOListTracker.Instance.SOTrackers.FirstOrDefault(x=> x.ForeverID == StringVariable);
 		}
 
 		public override void Pool()
