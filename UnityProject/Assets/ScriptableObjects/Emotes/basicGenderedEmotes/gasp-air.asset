@@ -16,7 +16,7 @@ MonoBehaviour:
   EmoteIcon: {fileID: 21300000, guid: 8ad16f43af2e8674bab07c631fd4e65b, type: 3}
   requiresHands: 0
   allowEmoteWhileInCrit: 1
-  isAudibleEmote: 0
+  isAudibleEmote: 1
   allowEmoteWhileCrawling: 1
   viewText: gasps!
   youText: You gasp for breath!
@@ -24,9 +24,679 @@ MonoBehaviour:
     lungs.
   mouthBlockedText: You are unable to make a sound!
   critViewText: have trouble breathing as they gasp for air!
-  soundsAreTyped: 0
+  soundsAreTyped: 1
   defaultSounds: []
-  TypedSounds: []
+  TypedSounds:
+  - VoiceRace: {fileID: 11400000, guid: f8cc40dce57da8d4aa283decb92b4507, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m6.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f6.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 0
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f6.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+  - VoiceRace: {fileID: 11400000, guid: 8bc1d65392e05ec4095bddde7a8b1324, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m6.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f6.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 0
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f6.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+  - VoiceRace: {fileID: 11400000, guid: f0deb843b714e8f4590d893251718804, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m6.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f6.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 0
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f6.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+  - VoiceRace: {fileID: 11400000, guid: 078513666ca7a3540bf3c90b08eb66da, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m6.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f6.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 0
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f6.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+  - VoiceRace: {fileID: 11400000, guid: 4c4d0af544e2b6847a3902db71f721fd, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/male/gasp_m6.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f6.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 0
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gasp/female/gasp_f6.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
   pitchRange: {x: 0.7, y: 1}
   allowedPlayerTypes: 1
   Behaviors:
