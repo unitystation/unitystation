@@ -47,8 +47,21 @@ public class PageElement : MonoBehaviour
 		return (Data.ToString());
 	}
 
-	public virtual object DeSerialise(string Data, bool SetUI = false)
+	public virtual object DeSerialise(string StringVariable, Type InType, object InObject, bool SetUI = false)
 	{
-		return (null);
+		if (InType.IsEnum)
+		{
+			return Enum.Parse(InObject.GetType(), StringVariable);
+		}
+		else
+		{
+			if (InType == null || InObject == null || InObject as IConvertible == null)
+			{
+
+				return null;
+			}
+
+			return Convert.ChangeType(StringVariable, InObject.GetType());
+		}
 	}
 }

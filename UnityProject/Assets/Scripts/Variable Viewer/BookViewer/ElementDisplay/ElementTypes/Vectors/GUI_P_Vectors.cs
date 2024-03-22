@@ -86,7 +86,7 @@ namespace AdminTools.VariableViewer
 					IsThisVector = Vector.Vector2;
 				}
 			}
-			DeSerialise(Data, true);
+			DeSerialise(Data,  null, null,true);
 		}
 
 		public void UpdateVector()
@@ -170,13 +170,13 @@ namespace AdminTools.VariableViewer
 			return (Data.ToString());
 		}
 
-		public override object DeSerialise(string Data, bool SetUI = false)
+		public override object DeSerialise(string StringVariable, Type InType, object InObject, bool SetUI = false)
 		{
-			if (CountStringOccurrences(Data, ",") > 1)
+			if (CountStringOccurrences(StringVariable, ",") > 1)
 			{
-				if (!Data.Contains("#"))
+				if (!StringVariable.Contains("#"))
 				{
-					var SplitData = Data.Split(',');
+					var SplitData = StringVariable.Split(',');
 
 					if (SetUI)
 					{
@@ -193,7 +193,7 @@ namespace AdminTools.VariableViewer
 				}
 				else
 				{
-					var SplitData = Data.Split(',');
+					var SplitData = StringVariable.Split(',');
 					if (SetUI)
 					{
 						INX.text = SplitData[0];
@@ -210,9 +210,9 @@ namespace AdminTools.VariableViewer
 			}
 			else
 			{
-				if (!Data.Contains("#"))
+				if (!StringVariable.Contains("#"))
 				{
-					var SplitData = Data.Split(',');
+					var SplitData = StringVariable.Split(',');
 					if (SetUI)
 					{
 						INX.text = SplitData[0];
@@ -226,7 +226,7 @@ namespace AdminTools.VariableViewer
 				}
 				else
 				{
-					var SplitData = Data.Split(',');
+					var SplitData = StringVariable.Split(',');
 					if (SetUI)
 					{
 						INX.text = SplitData[0];
