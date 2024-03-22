@@ -9,17 +9,17 @@ namespace Player.EmoteScripts
 	{
 		private RegisterPlayer registerPlayer;
 
-		public override void Do(GameObject player)
+		public override void Do(GameObject actor)
 		{
-			registerPlayer = player.GetComponent<RegisterPlayer>();
+			registerPlayer = actor.GetComponent<RegisterPlayer>();
 
 			if (registerPlayer == null)
 			{
 				Loggy.LogError("RegisterPlayer could not be found!");
-				Chat.AddActionMsgToChat(player, $"{failText}", "");
+				Chat.AddActionMsgToChat(actor, $"{failText}", "");
 				return;
 			}
-			SurrenderLogic(player);
+			SurrenderLogic(actor);
 		}
 
 		private void SurrenderLogic(GameObject player)

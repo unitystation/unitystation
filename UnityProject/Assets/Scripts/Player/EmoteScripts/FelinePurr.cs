@@ -13,9 +13,9 @@ namespace Player.EmoteScripts
 		[SerializeField] private float totalDamageBeforeIneffective = 15f;
 		private DamageType typeToHeal = DamageType.Brute;
 
-		public override void Do(GameObject player)
+		public override void Do(GameObject actor)
 		{
-			if (player.TryGetComponent<LivingHealthMasterBase>(out var health) == false) return;
+			if (actor.TryGetComponent<LivingHealthMasterBase>(out var health) == false) return;
 			if (health.GetTotalBruteDamage() < totalDamageBeforeIneffective)
 			{
 				Array partTypes = Enum.GetValues(typeof(BodyPartType));
@@ -23,7 +23,7 @@ namespace Player.EmoteScripts
 				var randomPart = (BodyPartType)partTypes.GetValue(random.Next(partTypes.Length));
 				health.HealDamage(null, healAmount, typeToHeal, randomPart);
 			}
-			base.Do(player);
+			base.Do(actor);
 		}
 	}
 }

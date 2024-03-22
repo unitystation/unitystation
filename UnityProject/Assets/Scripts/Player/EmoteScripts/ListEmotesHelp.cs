@@ -8,7 +8,7 @@ namespace Player.EmoteScripts
 	[CreateAssetMenu(fileName = "Emote", menuName = "ScriptableObjects/RP/Emotes/ListAllEmotes")]
 	public class ListEmotesHelp : EmoteSO
 	{
-		public override void Do(GameObject player)
+		public override void Do(GameObject actor)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			foreach (var emoteFound in EmoteActionManager.Instance.EmoteList.Emotes)
@@ -16,12 +16,12 @@ namespace Player.EmoteScripts
 				if (emoteFound is SpeciesSpecificEmote)
 				{
 					var n = (SpeciesSpecificEmote)emoteFound;
-					if(n.IsSameSpecies(player) == false) continue;
+					if(n.IsSameSpecies(actor) == false) continue;
 				}
 				stringBuilder.Append(emoteFound.EmoteName);
 				stringBuilder.Append(",");
 			}
-			Chat.AddExamineMsg(player, stringBuilder.ToString());
+			Chat.AddExamineMsg(actor, stringBuilder.ToString());
 		}
 	}
 }

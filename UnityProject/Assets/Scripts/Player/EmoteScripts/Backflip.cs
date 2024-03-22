@@ -6,17 +6,17 @@ namespace Player.EmoteScripts
 	[CreateAssetMenu(fileName = "Emote", menuName = "ScriptableObjects/RP/Emotes/Backflip")]
 	public class Backflip : EmoteSO
 	{
-		public override void Do(GameObject player)
+		public override void Do(GameObject actor)
 		{
-			if (CheckPlayerCritState(player) == false && CheckIfPlayerIsCrawling(player) == false)
+			if (CheckPlayerCritState(actor) == false && CheckIfPlayerIsCrawling(actor) == false)
 			{
-				var manager = player.GetComponent<PlayerEffectsManager>();
+				var manager = actor.GetComponent<PlayerEffectsManager>();
 				manager.RotatePlayer(1, 0.2f, 180, false);
-				base.Do(player);
+				base.Do(actor);
 			}
 			else
 			{
-				base.Do(player);
+				base.Do(actor);
 			}
 		}
 	}

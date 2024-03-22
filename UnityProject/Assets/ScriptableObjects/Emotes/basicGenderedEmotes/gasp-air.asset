@@ -10,30 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a1e9a7021acd5343ab7777f5bdc00ff, type: 3}
-  m_Name: inhale
+  m_Name: gasp-air
   m_EditorClassIdentifier: 
-  emoteName: inhale
-  EmoteIcon: {fileID: 0}
+  emoteName: gasp-air
+  EmoteIcon: {fileID: 21300000, guid: 8ad16f43af2e8674bab07c631fd4e65b, type: 3}
   requiresHands: 0
   allowEmoteWhileInCrit: 1
   isAudibleEmote: 0
   allowEmoteWhileCrawling: 1
-  viewText: inhales.
-  youText: You inhale.
-  failText: There is probably no air here.
+  viewText: gasps!
+  youText: You gasp for breath!
+  failText: Either you're in the black void of space or you don't have functioning
+    lungs.
   mouthBlockedText: You are unable to make a sound!
-  critViewText: has some troubles inhaling air!
+  critViewText: have trouble breathing as they gasp for air!
   soundsAreTyped: 0
   defaultSounds: []
   TypedSounds: []
   pitchRange: {x: 0.7, y: 1}
   allowedPlayerTypes: 1
   Behaviors:
-  - rid: 1202199920717332651
+  - rid: 1202199920717332649
   references:
     version: 2
     RefIds:
-    - rid: 1202199920717332651
+    - rid: 1202199920717332649
       type: {class: InhaleOnEmote, ns: ScriptableObjects.RP.EmoteBehaviors, asm: Assets}
       data:
-        Efficiency: 1.25
+        Efficiency: 3

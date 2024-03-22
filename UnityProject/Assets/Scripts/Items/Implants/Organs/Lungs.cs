@@ -42,12 +42,6 @@ namespace Items.Implants.Organs
 		private GasSO requiredGas;
 
 		/// <summary>
-		/// The base amount of blood that this attempts to process each single breath
-		/// </summary>
-		//[Tooltip("The base amount of blood in litres that this processes each breath")]
-		//public float LungProcessAmount = 1.5f;
-
-		/// <summary>
 		/// The volume of the lung in litres
 		/// </summary>
 		[Tooltip("The volume of the lung in litres")]
@@ -131,6 +125,8 @@ namespace Items.Implants.Organs
 		/// the desired blood reagent (ie oxygen)
 		/// </summary>
 		/// <param name="node">The gas node at this lung's position</param>
+		/// <param name="efficiency"></param>
+		/// <param name="OverrideCooldown"></param>
 		/// <returns>True if gas was exchanged</returns>
 		public bool TryBreathing(IGasMixContainer node, float efficiency, bool OverrideCooldown =false)
 		{
@@ -201,32 +197,35 @@ namespace Items.Implants.Organs
 		/// <param name="gasMix">The gas mix to breathe out into</param>
 		/// <param name="blood">The blood to pull gases from</param>
 		/// <returns> True if breathGasMix was changed </returns>
-		private bool BreatheOut(GasMix gasMix, ReagentMix blood)
+		public bool BreatheOut(GasMix gasMix, ReagentMix blood)
 		{
+			if (RelatedPart.HealthMaster.RespiratorySystem == null) return false;
 			SpecialCarrier.Clear();
 			var optimalBloodGasCapacity = 0f;
 			var bloodGasCapacity = 0f;
 
-			foreach (var Reagent in blood.reagents.m_dict)
+			foreach (var reagent in blood.reagents.m_dict)
 			{
-				var bloodType = Reagent.Key as BloodType;
-				if (bloodType != null)
-				{
-					optimalBloodGasCapacity += Reagent.Value * bloodType.BloodCapacityOf;
-					bloodGasCapacity += Reagent.Value * bloodType.BloodGasCapability;
-					SpecialCarrier.Add(bloodType.CirculatedReagent);
-					SpecialCarrier.Add(bloodType.WasteCarryReagent);
-				}
+				var bloodType = reagent.Key as BloodType;
+				if (bloodType == null) continue;
+				optimalBloodGasCapacity += reagent.Value * bloodType.BloodCapacityOf;
+				bloodGasCapacity += reagent.Value * bloodType.BloodGasCapability;
+				SpecialCarrier.Add(bloodType.CirculatedReagent);
+				SpecialCarrier.Add(bloodType.WasteCarryReagent);
 			}
+			var toExhale = GetReagentToExhale(blood, optimalBloodGasCapacity, bloodGasCapacity);
+			RelatedPart.HealthMaster.RespiratorySystem.GasExchangeFromBlood(gasMix, blood, toExhale);
+			return toExhale.Total > 0;
+		}
 
+		public ReagentMix GetReagentToExhale(ReagentMix blood, float optimalBloodGasCapacity, float bloodGasCapacity)
+		{
 			// This isn't exactly realistic, should also factor concentration of gases in the gasMix
 			ReagentMix toExhale = new ReagentMix();
 			foreach (var reagent in blood.reagents.m_dict)
 			{
 				if (Gas.ReagentToGas.ContainsKey(reagent.Key) == false) continue;
-
 				if (reagent.Value <= 0) continue;
-
 				if (SpecialCarrier.Contains(reagent.Key))
 				{
 					toExhale.Add(reagent.Key, (reagent.Value / optimalBloodGasCapacity) * LungSize);
@@ -236,10 +235,7 @@ namespace Items.Implants.Organs
 					toExhale.Add(reagent.Key, (reagent.Value / bloodGasCapacity) * LungSize);
 				}
 			}
-
-			RelatedPart.HealthMaster.RespiratorySystem.GasExchangeFromBlood(gasMix, blood, toExhale);
-			//Debug.Log("Gas exhaled: " + toExhale.Total);
-			return toExhale.Total > 0;
+			return toExhale;
 		}
 
 		/// <summary>
@@ -247,8 +243,9 @@ namespace Items.Implants.Organs
 		/// </summary>
 		/// <param name="breathGasMix">The gas mix to breathe in from</param>
 		/// <param name="blood">The blood to put gases into</param>
+		/// <param name="efficiency"></param>
 		/// <returns> True if breathGasMix was changed </returns>
-		protected virtual bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency)
+		public virtual bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency)
 		{
 			if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere)
 			{
@@ -330,8 +327,7 @@ namespace Items.Implants.Organs
 				suffocating = true;
 				if (DMMath.Prob(20))
 				{
-					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath!",
-						$"{RelatedPart.HealthMaster.playerScript.visibleName} gasps!");
+					EmoteActionManager.DoEmote("gasp-air", LivingHealthMaster.gameObject);
 				}
 			}
 
