@@ -129,6 +129,9 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 
 		// ValidateLate might be called after this object is already destroyed.
 		if (this == null || Application.isPlaying) return;
+#if UNITY_EDITOR
+		if (Selection.activeGameObject != this.gameObject) return;
+#endif
 		Awake();
 		CurrentDirection = CurrentDirection;
 		RotateObject(CurrentDirection);
