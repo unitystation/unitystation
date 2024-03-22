@@ -114,39 +114,47 @@ namespace Core.Database
 		/// <returns>True if an API error found</returns>
 		private static bool TryGetApiRequestException(string response, HttpStatusCode statusCode, [CanBeNull] out ApiRequestException requestException)
 		{
-			dynamic errorResponse = JsonConvert.DeserializeObject<dynamic>(response);
-			ApiRequestException tempException = new("An error occurred", statusCode);
+			ApiErrorResponse errorResponse = JsonConvert.DeserializeObject<ApiErrorResponse>(response);
+			ApiRequestException tempException = new ApiRequestException("An error occurred", statusCode);
 			requestException = null;
 
-			switch (errorResponse.error)
+			if (errorResponse.Error is JValue)
 			{
-				case JValue:
-					HandleSimpleError(tempException, errorResponse);
-					requestException = tempException;
-					break;
-				case JObject:
-					HandleComplexError(tempException, errorResponse);
-					requestException = tempException;
-					break;
+				HandleSimpleError(tempException, errorResponse);
+				requestException = tempException;
+			}
+			else if (errorResponse.Error is JObject)
+			{
+				HandleComplexError(tempException, errorResponse);
+				requestException = tempException;
 			}
 
-			return requestException is not null && requestException.Messages.Any();
+			return requestException != null && requestException.Messages.Any();
 		}
 
-		private static void HandleComplexError(ApiRequestException requestException, dynamic errorResponse)
+		public class ApiErrorResponse
 		{
-			foreach (var prop in errorResponse.error)
+			[JsonProperty("error")]
+			public JToken Error { get; set; }
+		}
+
+		private static void HandleComplexError(ApiRequestException requestException, ApiErrorResponse errorResponse)
+		{
+			if (errorResponse.Error is JObject errorObject)
 			{
-				foreach (var message in prop.Value)
+				foreach (var prop in errorObject.Properties())
 				{
-					requestException.Messages.Add(message.ToString());
+					foreach (var message in prop.Value)
+					{
+						requestException.Messages.Add(message.ToString());
+					}
 				}
 			}
 		}
 
-		private static void HandleSimpleError(ApiRequestException requestException, dynamic errorResponse)
+		private static void HandleSimpleError(ApiRequestException requestException, ApiErrorResponse errorResponse)
 		{
-			requestException.Messages.Add(errorResponse.error.ToString());
+			requestException.Messages.Add(errorResponse.Error.ToString());
 		}
 	}
 }
