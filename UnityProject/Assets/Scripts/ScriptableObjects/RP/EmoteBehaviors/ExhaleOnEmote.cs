@@ -20,6 +20,7 @@ namespace ScriptableObjects.RP.EmoteBehaviors
 			ReagentMix availableBlood = health.reagentPoolSystem.BloodPool
 				.Take((health.reagentPoolSystem.BloodPool.Total * efficiency) / 2f);
 			lungs.PickRandom()?.BreatheOut(gas, availableBlood);
+			health.reagentPoolSystem.RegenBloodPool.Add(availableBlood.Take(availableBlood.Total));
 		}
 
 		public static List<Lungs> GetLungs(LivingHealthMasterBase health)
