@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Chemistry;
 using HealthV2;
-using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Items.Implants.Organs;
 using Systems.Atmospherics;
 using UnityEngine;
@@ -23,15 +22,14 @@ namespace ScriptableObjects.RP.EmoteBehaviors
 			lungs.PickRandom()?.BreatheOut(gas, availableBlood);
 		}
 
-		private List<Lungs> GetLungs(LivingHealthMasterBase health)
+		public static List<Lungs> GetLungs(LivingHealthMasterBase health)
 		{
 			var result = new List<Lungs>();
 			foreach (var part in health.BodyPartList)
 			{
 				if (part.TryGetComponent<Lungs>(out var t))
 				{
-					if(t)
-					result.Add(t);
+					if(t) result.Add(t);
 				}
 			}
 			return result;

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Chemistry;
 using HealthV2;
 using Items.Implants.Organs;
 using Systems.Atmospherics;

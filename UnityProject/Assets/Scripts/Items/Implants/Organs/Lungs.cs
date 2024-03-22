@@ -68,6 +68,8 @@ namespace Items.Implants.Organs
 		[SerializeField] private float coughCooldown = 6;
 		private bool coughIsOnCooldown = false;
 
+		private readonly List<Reagent> specialCarrier = new List<Reagent>();
+
 		public override void Awake()
 		{
 			base.Awake();
@@ -189,8 +191,6 @@ namespace Items.Implants.Organs
 			return tryExhale || tryInhale;
 		}
 
-		private readonly List<Reagent> SpecialCarrier = new List<Reagent>();
-
 		/// <summary>
 		/// Expels unwanted gases from the blood stream into the given gas mix
 		/// </summary>
@@ -200,7 +200,7 @@ namespace Items.Implants.Organs
 		public bool BreatheOut(GasMix gasMix, ReagentMix blood)
 		{
 			if (RelatedPart.HealthMaster.RespiratorySystem == null) return false;
-			SpecialCarrier.Clear();
+			specialCarrier.Clear();
 			var optimalBloodGasCapacity = 0f;
 			var bloodGasCapacity = 0f;
 
@@ -210,8 +210,8 @@ namespace Items.Implants.Organs
 				if (bloodType == null) continue;
 				optimalBloodGasCapacity += reagent.Value * bloodType.BloodCapacityOf;
 				bloodGasCapacity += reagent.Value * bloodType.BloodGasCapability;
-				SpecialCarrier.Add(bloodType.CirculatedReagent);
-				SpecialCarrier.Add(bloodType.WasteCarryReagent);
+				specialCarrier.Add(bloodType.CirculatedReagent);
+				specialCarrier.Add(bloodType.WasteCarryReagent);
 			}
 			var toExhale = GetReagentToExhale(blood, optimalBloodGasCapacity, bloodGasCapacity);
 			RelatedPart.HealthMaster.RespiratorySystem.GasExchangeFromBlood(gasMix, blood, toExhale);
@@ -226,7 +226,7 @@ namespace Items.Implants.Organs
 			{
 				if (Gas.ReagentToGas.ContainsKey(reagent.Key) == false) continue;
 				if (reagent.Value <= 0) continue;
-				if (SpecialCarrier.Contains(reagent.Key))
+				if (specialCarrier.Contains(reagent.Key))
 				{
 					toExhale.Add(reagent.Key, (reagent.Value / optimalBloodGasCapacity) * LungSize);
 				}
@@ -247,7 +247,9 @@ namespace Items.Implants.Organs
 		/// <returns> True if breathGasMix was changed </returns>
 		public virtual bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency)
 		{
-			if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere)
+			var respiratorySystem = RelatedPart.HealthMaster.RespiratorySystem;
+			if (respiratorySystem == null) return false;
+			if (respiratorySystem.CanBreatheAnywhere)
 			{
 				blood.Add(SaturationComponent.requiredReagent, SaturationComponent.bloodType.GetSpareGasCapacity(blood));
 				return false;
@@ -276,7 +278,6 @@ namespace Items.Implants.Organs
 			}
 
 			var totalMoles = breathGasMix.Moles * percentageCanTake;
-
 
 			lock (breathGasMix.GasData.GasesArray) //no Double lock
 			{
@@ -308,15 +309,10 @@ namespace Items.Implants.Organs
 					}
 				}
 			}
-
-			RelatedPart.HealthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale, (LungSize * efficiency));
-
-
+			respiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale, (LungSize * efficiency));
 			bool suffocating = false;
 			// Counterintuitively, in humans respiration is stimulated by pressence of CO2 in the blood, not lack of oxygen
 			// May want to change this code to reflect that in the future so people don't hyperventilate when they are on nitrous oxide
-
-
 			if (SaturationComponent.CurrentBloodSaturation >= SaturationComponent.bloodType.BLOOD_REAGENT_SATURATION_OKAY)
 			{
 				currentBreatheCooldown = breatheCooldown; //Slow breathing, we're all good
@@ -330,7 +326,6 @@ namespace Items.Implants.Organs
 					EmoteActionManager.DoEmote("gasp-air", LivingHealthMaster.gameObject);
 				}
 			}
-
 			if (suffocatingCash != suffocating)
 			{
 				suffocatingCash = suffocating;
