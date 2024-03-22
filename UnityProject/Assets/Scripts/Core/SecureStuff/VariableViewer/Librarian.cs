@@ -64,6 +64,7 @@ namespace SecureStuff
 							{
 								Loggy.LogError(e.ToString());
 							}
+
 							if (vvUIElementHandler != null)
 							{
 								break;
@@ -545,6 +546,7 @@ namespace SecureStuff
 				public List<Book> HeldBooks = new List<Book>();
 
 				public ulong ID;
+
 				public string ShelfName
 				{
 					get
@@ -558,7 +560,6 @@ namespace SecureStuff
 							//TODO Remove from list
 							return "Destroyed";
 						}
-
 					}
 				}
 
@@ -828,9 +829,8 @@ namespace SecureStuff
 				{
 					if (PInfo != null)
 					{
-
 						object DeSerialised = DeSerialiseValue(Variable, Value, Variable.GetType());
-						PInfo.SetValue(BindedTo.BookClass,DeSerialised);
+						PInfo.SetValue(BindedTo.BookClass, DeSerialised);
 					}
 					else if (Info != null)
 					{
@@ -862,29 +862,30 @@ namespace SecureStuff
 			{
 				if (VVUIElementHandler.CanDeSerialiseValue(InType))
 				{
-					return VVUIElementHandler.DeSerialiseValue(InObject, StringVariable, InType );
+					var data = VVUIElementHandler.DeSerialiseValue(InObject, StringVariable, InType);
+					if (data != null || StringVariable.Length == 0)
+					{
+						return data;
+					}
+				}
+
+				if (InType.IsEnum)
+				{
+					//if ()
+					return Enum.Parse(InObject.GetType(), StringVariable);
 				}
 				else
 				{
-					if (InType.IsEnum)
+					if (InType == null || InObject == null || InObject as IConvertible == null)
 					{
-						//if ()
-						return Enum.Parse(InObject.GetType(), StringVariable);
+						Loggy.Log($"Can't convert {StringVariable} to {InObject.GetType()}  " +
+						          $"[(InType == null) = {InType == null} || (InObject == null) == {InObject == null} || (InObject as IConvertible == null) = {InObject as IConvertible == null}]",
+							Category.VariableViewer);
+						return null;
 					}
-					else
-					{
-						if (InType == null || InObject == null || InObject as IConvertible == null)
-						{
-							Loggy.Log($"Can't convert {StringVariable} to {InObject.GetType()}  " +
-							          $"[(InType == null) = {InType == null} || (InObject == null) == {InObject == null} || (InObject as IConvertible == null) = {InObject as IConvertible == null}]",
-								Category.VariableViewer);
-							return null;
-						}
 
-						return Convert.ChangeType(StringVariable, InObject.GetType());
-					}
+					return Convert.ChangeType(StringVariable, InObject.GetType());
 				}
-
 			}
 
 

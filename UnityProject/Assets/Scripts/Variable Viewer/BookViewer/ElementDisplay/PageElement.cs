@@ -61,7 +61,7 @@ public class PageElement : MonoBehaviour
 				return null;
 			}
 
-			return Convert.ChangeType(StringVariable, InObject.GetType());
+			return null;
 		}
 	}
 }
