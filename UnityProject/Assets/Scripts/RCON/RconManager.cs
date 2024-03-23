@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Text.RegularExpressions;
+using System.Linq;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using DatabaseAPI;
@@ -11,17 +13,20 @@ using UnityEngine;
 using WebSocketSharp;
 using WebSocketSharp.Net;
 using WebSocketSharp.Server;
+using Newtonsoft.Json;
+using AdminTools;
+using Messages.Server.AdminTools;
+using HealthV2;
+using System.Collections.Concurrent;
+using SecureStuff;
 
 public class RconManager : SingletonManager<RconManager>
 {
 	private HttpServer httpServer;
 
-	private WebSocketServiceHost consoleHost;
-	private WebSocketServiceHost monitorHost;
-	private WebSocketServiceHost chatHost;
-	private WebSocketServiceHost playerListHost;
-	private Queue<string> rconChatQueue = new Queue<string>();
-	private Queue<string> commandQueue = new Queue<string>();
+	private WebSocketServiceHost rconHost;
+
+	public static ConcurrentQueue<RconMessage> rconQueue = new();
 
 	private ServerConfig config;
 
@@ -104,21 +109,22 @@ public class RconManager : SingletonManager<RconManager>
 		}
 
 		httpServer = new HttpServer(config.RconPort, false);
+
+		//TODO https/wss support
 		//string certPath = Application.streamingAssetsPath + "/config/certificate.pfx";
 		//httpServer.SslConfiguration.ServerCertificate =
 		//	new X509Certificate2( certPath, config.certKey );
-		httpServer.AddWebSocketService<RconSocket>("/rconconsole");
-		httpServer.AddWebSocketService<RconMonitor>("/rconmonitor");
-		httpServer.AddWebSocketService<RconChat>("/rconchat");
-		httpServer.AddWebSocketService<RconPlayerList>("/rconplayerlist");
-		httpServer.AuthenticationSchemes = AuthenticationSchemes.Digest;
+
+		httpServer.AddWebSocketService<RconSocket>("/rcon");
+
+		httpServer.AuthenticationSchemes = AuthenticationSchemes.Basic;
 		httpServer.Realm = "Admins";
+
+		//TODO consider using user credentials and the admin permission system instead of a fixed password, for more access control (blocked on centcomm integration, #7179 )
 		httpServer.UserCredentialsFinder = id =>
 		{
 			var name = id.Name;
-			return name == config.RconPass ?
-				new NetworkCredential("admin", null, "admin") :
-				null;
+			return new NetworkCredential(name, config.RconPass, "admin");
 		};
 
 		//httpServer.SslConfiguration.ClientCertificateValidationCallback =
@@ -126,10 +132,8 @@ public class RconManager : SingletonManager<RconManager>
 		httpServer.Start();
 
 		//Get the service hosts:
-		Instance.httpServer.WebSocketServices.TryGetServiceHost("/rconconsole", out consoleHost);
-		Instance.httpServer.WebSocketServices.TryGetServiceHost("/rconmonitor", out monitorHost);
-		Instance.httpServer.WebSocketServices.TryGetServiceHost("/rconchat", out chatHost);
-		Instance.httpServer.WebSocketServices.TryGetServiceHost("/rconplayerlist", out playerListHost);
+		Instance.httpServer.WebSocketServices.TryGetServiceHost("/rcon", out rconHost);
+
 
 		if (httpServer.IsListening)
 		{
@@ -144,67 +148,406 @@ public class RconManager : SingletonManager<RconManager>
 		}
 	}
 
+	private void SendToSocket(string SocketID, string data, WebSocketServiceHost host = null)
+	{
+		if (host == null)
+		{
+			host = rconHost;
+		}
+		host.Sessions.SendToAsync(data, SocketID, null);
+	}
+
 	private void UpdateMe()
 	{
-		if (rconChatQueue.Count > 0)
+		if (rconQueue.Count > 0)
 		{
-			var msg = rconChatQueue.Dequeue();
-			msg = msg.Substring(1, msg.Length - 1);
-			Chat.AddGameWideSystemMsgToChat("[SERVER] " + msg);
+			while (rconQueue.TryDequeue(out RconMessage e))
+			{
+
+				if (e.Data == "lastlog")
+				{
+					SendToSocket(e.SocketID, "lastlog" + RconManager.GetLastLog());
+					return;
+				}
+
+				if (e.Data == "logfull")
+				{
+					SendToSocket(e.SocketID, $"logfull{RconManager.GetFullLog()}");
+					return;
+				}
+
+				if (e.Data.StartsWith("concmd"))
+				{
+					string command = e.Data[6..].Split('�')[0].Trim();
+					ExecuteCommand(command);
+					UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
+						$"RCON executed server command {command}", "rcon");
+					Loggy.Log($"RCON command from {e.Username}: {command}", Category.Rcon);
+					return;
+				}
+
+				if (e.Data.StartsWith("chatsend"))
+				{
+					string data = e.Data;
+					if (data.Length < 19)
+					{
+						SendToSocket(e.SocketID, "chatsendfail:not enough data");
+						return;
+					}
+					if (data.Contains("�") == false)
+					{
+						SendToSocket(e.SocketID, "chatsendfail:invalid request");
+						return;
+					}
+
+					data = data[8..];
+					string channel = data[0..8]; // bitmask in hex
+					ChatChannel channels = (ChatChannel)Convert.ToInt32(channel, 16);
+					string speaker = data[8..].Split('�')[0].Trim();
+					string msg = data[8..].Split('�')[1].Trim();
+					var pseudoPlayerInfo = new PlayerInfo
+					{
+						Connection = null,
+						Username = speaker,
+						Name = speaker,
+						ClientId = e.Username,
+						AccountId = "rcon",
+						ConnectionIP = e.IpAddress,
+						PlayerRoles = PlayerRole.Admin
+					};
+
+					Chat.AddChatMsgToChatServer(pseudoPlayerInfo, msg, channels);
+					Loggy.Log($"RCON chat from {e.Username}: {e.Data}", Category.Rcon);
+					SendToSocket(e.SocketID, "chatsendok");
+					return;
+				}
+
+				if (e.Data.StartsWith("listchannels"))
+				{
+					List<ChatChannel> channels = Enum.GetValues(typeof(ChatChannel)).Cast<ChatChannel>().ToList();
+					var channelList = new List<string>();
+					foreach (var channel in channels)
+					{
+						channelList.Add(channel.ToString() + "=" + ((int)channel).ToString("X8"));
+					}
+					SendToSocket(e.SocketID, "listchannels" + JsonConvert.SerializeObject(channelList));
+					return;
+				}
+
+				if (e.Data == "listoccupations")
+				{
+					var occupations = OccupationList.Instance.Occupations;
+					var occupationList = new List<string>();
+					foreach (var occupation in occupations)
+					{
+						occupationList.Add(occupation.JobType.ToString());
+					}
+					SendToSocket(e.SocketID, "listoccupations" + JsonConvert.SerializeObject(occupationList));
+					return;
+				}
+
+				if (e.Data == "chatfull")
+				{
+					SendToSocket(e.SocketID, "chatfull" + RconManager.GetFullChatLog());
+					return;
+				}
+
+				if (e.Data.StartsWith("players"))
+				{
+					string playerList = JsonUtility.ToJson(new Players());
+					if (!string.IsNullOrEmpty(playerList))
+					{
+						SendToSocket(e.SocketID, "players" + playerList);
+					}
+					else
+					{
+						SendToSocket(e.SocketID, "playersfail:No players found");
+					}
+				}
+
+				if (e.Data.StartsWith("startprofilestd"))
+				{
+					var data = e.Data[15..];
+
+					int frameCount = int.Parse(data);
+					SendToSocket(e.SocketID, "startprofileok");
+
+					SafeProfileManager.Instance.StartProfile(frameCount);
+					return;
+				}
+
+				if (e.Data.StartsWith("startprofilemem"))
+				{
+					var data = e.Data[15..];
+
+					bool full = data == "full";
+					SendToSocket(e.SocketID, "startprofileok");
+
+					SafeProfileManager.Instance.RunMemoryProfile(full);
+					return;
+
+				}
+
+				if (e.Data.StartsWith("moderateplayer"))
+				{
+					var data = e.Data[14..];
+
+					RconModerationMessage message;
+					try
+					{
+						message = JsonConvert.DeserializeObject<RconModerationMessage>(data);
+					}
+					catch (Exception ex)
+					{
+						SendToSocket(e.SocketID, "moderateplayerfail:Invalid JSON data");
+						return;
+					}
+
+					if (message.UserID == null || message.Type == null)
+					{
+						SendToSocket(e.SocketID, "moderateplayerfail:Missing Datafield UserID or Type");
+						return;
+					}
+
+					if (message.Reason == null)
+					{
+						message.Reason = "No reason specified.";
+					}
+
+					if (PlayerList.Instance.TryGetByUserID(message.UserID, out var player) == false && message.Type != "unban")
+					{
+						SendToSocket(e.SocketID, "moderateplayerfail:Player does not exist");
+						return;
+					}
+
+					UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
+						$"[RCON] {e.Username} is moderating [{message.UserID}]: Action [{message.Type}] with reason [{message.Reason}]", "rcon");
+
+					switch (message.Type)
+					{
+						case "ban":
+							if (message.Duration == null && !message.Permanent)
+							{
+								SendToSocket(e.SocketID, "moderateplayerfail:Missing Datafield Duration");
+								return;
+							}
+							var duration = message.Permanent ? 2147483646 : message.Duration;
+
+							PlayerList.Instance.ServerBanPlayer(player, message.Reason, true, duration);
+							SendToSocket(e.SocketID, "moderateplayerok");
+							break;
+						case "jobban":
+							PlayerInfo pseudoPlayerInfo = new PlayerInfo
+							{
+								Connection = null,
+								Username = e.Username,
+								Name = e.Username,
+								ClientId = e.Username,
+								AccountId = "rcon",
+								ConnectionIP = e.IpAddress,
+								PlayerRoles = PlayerRole.Admin
+							};
+
+							JobType jobType = (JobType)Enum.Parse(typeof(JobType), message.Job);
+							bool kickAfter = message.HandleTypes.Contains("kick");
+							bool ghostAfter = message.HandleTypes.Contains("ghost");
+
+							PlayerList.Instance.ProcessJobBanRequest(pseudoPlayerInfo, player, message.Reason, message.Permanent, message.Duration, jobType, kickAfter, ghostAfter);
+							break;
+						case "kick":
+							PlayerList.Instance.ServerKickPlayer(player, message.Reason);
+							SendToSocket(e.SocketID, "moderateplayerok");
+							break;
+						case "smite":
+							// ? This section was copied from AdminCommandsManager.cs, Consider refactoring to a shared method
+							if (player?.Script == null || player.Script.IsGhost) return;
+
+							player.Script.GetComponent<IGib>()?.OnGib();
+
+							Chat.AddExamineMsgFromServer(player.Script.gameObject, "You are struck down by a mysterious force!");
+							SendToSocket(e.SocketID, "moderateplayerok");
+							break;
+						case "respawn":
+							if (player.Script == null)
+							{
+								SendToSocket(e.SocketID, "moderateplayerfail:Player has no script");
+								return;
+							}
+
+							JobType job = (JobType)Enum.Parse(typeof(JobType), message.Job);
+							Occupation occupation = OccupationList.Instance.Get(job);
+
+							if (occupation == null)
+							{
+								SendToSocket(e.SocketID, "moderateplayerfail:Invalid occupation");
+								return;
+							}
+
+							player.Script.PlayerNetworkActions.ServerRespawnPlayer(occupation.name);
+							SendToSocket(e.SocketID, "moderateplayerok");
+							break;
+						case "quickrespawn":
+							if (player.Script == null)
+							{
+								SendToSocket(e.SocketID, "moderateplayerfail:Player has no script");
+								return;
+							}
+							Occupation spawnOcc = player.Script.Mind.occupation;
+
+							if (spawnOcc == null)
+							{
+								SendToSocket(e.SocketID, "moderateplayerfail:Player has no occupation. Cannot quick respawn.");
+								return;
+							}
+							player.Script.PlayerNetworkActions.ServerRespawnPlayer(spawnOcc.name);
+							SendToSocket(e.SocketID, "moderateplayerok");
+							break;
+						case "heal":
+							// ? This section was copied from AdminCommandsManager.cs, Consider refactoring to a shared method
+							PlayerScript playerScript = player.Script;
+							Mind playerMind = playerScript.Mind;
+							var playerBody = playerMind.Body;
+
+							if (playerBody != null && playerBody.TryGetComponent<IFullyHealable>(out var healable))
+							{
+								healable.FullyHeal();
+								SendToSocket(e.SocketID, "moderateplayerok");
+								break;
+							}
+							else
+							{
+								SendToSocket(e.SocketID, "moderateplayerfail:Player cannot be healed");
+								break;
+							}
+							break;
+						case "ooc_mute":
+							player.IsOOCMuted = true;
+							SendToSocket(e.SocketID, "moderateplayerok");
+							break;
+
+						case "unban":
+							//TODO
+							SendToSocket(e.SocketID, "moderateplayerfail:Unban not implemented yet");
+							break;
+						case "unjobban":
+							//TODO
+							SendToSocket(e.SocketID, "moderateplayerfail:Unjobban not implemented yet");
+							break;
+						case "ooc_unmute":
+							player.IsOOCMuted = false;
+							SendToSocket(e.SocketID, "moderateplayerok");
+							break;
+						default:
+							SendToSocket(e.SocketID, "moderateplayerfail:Invalid Type");
+							return;
+					}
+				}
+
+				if (e.Data.StartsWith("sendhelp"))
+				{
+					var data = e.Data[14..];
+
+					RconModerationMessage message;
+					try
+					{
+						message = JsonConvert.DeserializeObject<RconModerationMessage>(data);
+					}
+					catch (Exception ex)
+					{
+						SendToSocket(e.SocketID, "sendhelpfail:Invalid JSON data");
+						return;
+					}
+
+					if (message.UserID == null || message.Type == null || message.Reason == null)
+					{
+						SendToSocket(e.SocketID, "sendhelpfail:Missing Datafield UserID, Type, or Reason");
+						return;
+					}
+
+					PlayerInfo player = PlayerList.Instance.InGamePlayers.FirstOrDefault(x => x.AccountId == message.UserID);
+					if (player == null)
+					{
+						SendToSocket(e.SocketID, "sendhelpfail:Player does not exist");
+						return;
+					}
+
+					var pseudoPlayerInfo = new PlayerInfo
+					{
+						Connection = null,
+						Username = "[RCON]" + e.Username,
+						Name = "[RCON]" + e.Username,
+						ClientId = "",
+						AccountId = "rcon",
+						ConnectionIP = e.IpAddress,
+						PlayerRoles = PlayerRole.Admin
+					};
+
+					string msg = message.Reason;
+
+					switch (message.Type)
+					{
+						case "admin":
+							AdminBwoinkMessage.Send(player.GameObject, pseudoPlayerInfo.AccountId, $"<color=red>{pseudoPlayerInfo.Username}: {GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " + msg}</color>");
+							UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(msg, player, pseudoPlayerInfo);
+							break;
+						case "mentor":
+							MentorBwoinkMessage.Send(player.GameObject, pseudoPlayerInfo.AccountId, $"<color=#6400FF>{pseudoPlayerInfo.Username}: {GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " + msg}</color>");
+							UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(msg, player, pseudoPlayerInfo);
+							break;
+						case "prayer":
+							PrayerBwoinkMessage.Send(player.GameObject, pseudoPlayerInfo.AccountId, $"<i><color=yellow>{msg}</color></i>");
+							UIManager.Instance.adminChatWindows.playerPrayerWindow.ServerAddChatRecord(msg, player, pseudoPlayerInfo);
+							break;
+						case "internal":
+							UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"[RCON] {e.Username} : {msg}", "rcon");
+
+							break;
+						default:
+							SendToSocket(e.SocketID, "sendhelpfail:Invalid help type");
+							return;
+					}
+					SendToSocket(e.SocketID, "sendhelpok");
+					return;
+				}
+			}
 		}
 
-		if (commandQueue.Count > 0)
-		{
-			ExecuteCommand(commandQueue.Dequeue());
-		}
-
-		if (monitorHost != null)
+		if (rconHost != null)
 		{
 			monitorUpdate += Time.deltaTime;
 			if (monitorUpdate > 4f)
 			{
 				monitorUpdate = 0f;
-				BroadcastToSessions(GetMonitorReadOut(), monitorHost.Sessions.Sessions);
+				BroadcastToSessions("periodicmonitor" + GetMonitorReadOut(), rconHost.Sessions.Sessions);
 			}
 		}
 	}
 
 	public static void AddChatLog(string msg)
 	{
-		if(Instance.chatHost == null) return;
+		//TODO Isn't working anymore. Works fine if you sendchat, but players in game don't seem to ever trigger this anymore.
+		if (Instance.rconHost == null) return;
 
 		msg = $"{DateTime.UtcNow}:    {msg}<br>";
 		AmendChatLog(msg);
-		Instance.chatHost.Sessions.Broadcast(msg);
-		BroadcastToSessions(msg, Instance.chatHost.Sessions.Sessions);
+		BroadcastToSessions("chatupdate" + msg, Instance.rconHost.Sessions.Sessions);
 	}
 
 	public static void AddLog(string msg)
 	{
 		msg = $"{DateTime.UtcNow}:    {msg}<br>";
 		AmendLog(msg);
-		if (Instance.consoleHost != null)
+		if (Instance.rconHost != null)
 		{
-			BroadcastToSessions(msg, Instance.consoleHost.Sessions.Sessions);
+			BroadcastToSessions("logupdate" + msg, Instance.rconHost.Sessions.Sessions);
 		}
 	}
 
 	public static void UpdatePlayerListRcon()
 	{
-		if(Instance.playerListHost == null) return;
-		var json = JsonConvert.SerializeObject(new Players());
-		BroadcastToSessions(json, Instance.playerListHost.Sessions.Sessions);
-	}
-
-	//On worker thread from websocket:
-	public void ReceiveRconChat(string data)
-	{
-		rconChatQueue.Enqueue(data);
-	}
-
-	public void ReceiveRconCommand(string cmd)
-	{
-		commandQueue.Enqueue(cmd);
+		if (Instance.rconHost == null) return;
+		var json = JsonUtility.ToJson(new Players());
+		BroadcastToSessions("playerlistupdate" + json, Instance.rconHost.Sessions.Sessions);
 	}
 
 	private static void BroadcastToSessions(string msg, IEnumerable<IWebSocketSession> sessions)
@@ -231,7 +574,7 @@ public class RconManager : SingletonManager<RconManager>
 	public static string GetMonitorReadOut()
 	{
 		var connectedAdmins = 0;
-		foreach (var s in Instance.monitorHost.Sessions.Sessions)
+		foreach (var s in Instance.rconHost.Sessions.Sessions)
 		{
 			if (s.ConnectionState == WebSocketState.Open)
 			{
@@ -254,21 +597,17 @@ public class RconManager : SingletonManager<RconManager>
 
 	public static string GetFullLog()
 	{
-		var stringBuilder = new StringBuilder();
-		stringBuilder.Append(ServerLog);
-		var log = stringBuilder.ToString();
+		string log = String.Join("\n", ServerLog);
 		if (log.Length > 5000)
 		{
-			log = log.Substring(4000);
+			log = log.Substring(4000); //TODO? "full" log implies we want everything, consider removing this?
 		}
 		return log;
 	}
 
 	public static string GetFullChatLog()
 	{
-		var stringBuilder = new StringBuilder();
-		stringBuilder.Append(ChatLog);
-		var log = stringBuilder.ToString();
+		string log = String.Join("\n", ChatLog);
 
 		if (string.IsNullOrEmpty(log))
 		{
@@ -277,7 +616,7 @@ public class RconManager : SingletonManager<RconManager>
 
 		if (log.Length > 10000)
 		{
-			log = log.Substring(9000);
+			log = log.Substring(9000); //TODO? "full" log implies we want everything, consider removing this?
 		}
 		return log;
 	}
@@ -307,8 +646,13 @@ public class RconManager : SingletonManager<RconManager>
 
 	protected static void ExecuteCommand(string command)
 	{
-		command = command.Substring(1, command.Length - 1);
+		command = command[1..];
 		DebugLogConsole.ExecuteCommand(command);
+	}
+
+	internal void ReceiveRconMessage(RconMessage msg)
+	{
+		rconQueue.Enqueue(msg);
 	}
 
 	#endregion
@@ -316,78 +660,29 @@ public class RconManager : SingletonManager<RconManager>
 
 public class RconSocket : WebSocketBehavior
 {
-	protected override void OnMessage(MessageEventArgs e)
-	{
-		if (e.Data == "lastlog")
-		{
-			Send(RconManager.GetLastLog());
-		}
-
-		if (e.Data == "logfull")
-		{
-			Send(RconManager.GetFullLog());
-		}
-
-		if (e.Data[0].Equals('1'))
-		{
-			RconManager.Instance.ReceiveRconCommand(e.Data);
-		}
-	}
-}
-
-public class RconMonitor : WebSocketBehavior
-{
 	protected override void OnOpen()
 	{
 		if (Context.User.Identity.IsAuthenticated)
 		{
-			Loggy.Log("admin logged in", Category.Rcon);
+			Loggy.Log($"rcon logged in, {Context.User.Identity.Name} from {Context.UserEndPoint.Address}", Category.Rcon);
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
+				$"RCON login by {Context.User.Identity.Name} from {Context.UserEndPoint.Address}", "rcon");
 		}
 
 		base.OnOpen();
 	}
 
-	protected override void OnClose(CloseEventArgs e)
-	{
-		if (Context.User.Identity.IsAuthenticated)
-		{
-			Loggy.Log("admin closed. reason: " + e.Reason, Category.Rcon);
-		}
-
-		base.OnClose(e);
-	}
-}
-
-public class RconChat : WebSocketBehavior
-{
 	protected override void OnMessage(MessageEventArgs e)
 	{
-		if (e.Data == "chatfull")
+		RconMessage msg = new RconMessage
 		{
-			Send(RconManager.GetFullChatLog());
-		}
-
-		if (e.Data[0].Equals('1'))
-		{
-			RconManager.Instance.ReceiveRconChat(e.Data);
-		}
-	}
-}
-
-public class RconPlayerList : WebSocketBehavior
-{
-	protected override void OnMessage(MessageEventArgs e)
-	{
-		if (e == null) return;
-
-		if (e.Data == "players")
-		{
-			var playerList = JsonConvert.SerializeObject(new Players());
-			if (!string.IsNullOrEmpty(playerList))
-			{
-				Send(playerList);
-			}
-		}
+			Username = Context.User.Identity.Name,
+			Data = e.Data,
+			IpAddress = Context.UserEndPoint.Address.ToString(),
+			RequestUri = Context.RequestUri.ToString(),
+			SocketID = this.ID
+		};
+		RconManager.Instance.ReceiveRconMessage(msg);
 	}
 }
 
@@ -404,8 +699,12 @@ public class Players
 			var player = PlayerList.Instance.InGamePlayers[i];
 			var playerEntry = new PlayerDetails()
 			{
-				playerName = player.Name + $" {player.Job.ToString()} : Acc: {player.Username} {player.AccountId} {player.ConnectionIP} ",
-					job = player.Job.ToString()
+				playerName = player.Name + $" {player.Job} : Acc: {player.Username} {player.AccountId} {player.ConnectionIP} ",
+				characterName = player.Name,
+				username = player.Username,
+				userID = player.AccountId,
+				connectionIP = player.ConnectionIP,
+				job = player.Job.ToString()
 			};
 			players.Add(playerEntry);
 		}
@@ -416,6 +715,38 @@ public class Players
 public class PlayerDetails
 {
 	public string playerName;
-	public ulong steamID;
+	public string characterName;
+	public string username;
+	public string userID;
+	public string connectionIP;
 	public string job;
+	public ulong steamId;
+}
+
+public class RconMessage
+{
+	public string Username;
+	public string Data;
+	public string IpAddress;
+	public string RequestUri;
+	public string SocketID;
+}
+
+public class RconModerationMessage
+{
+	[JsonProperty]
+	public string Type;
+	[JsonProperty]
+	public string UserID;
+	[JsonProperty]
+	public string Reason;
+	[JsonProperty]
+	public int Duration;
+	[JsonProperty]
+	public bool Permanent;
+	[JsonProperty]
+	public string[] HandleTypes; // For job bans, NONE/FORCE_GHOST/KICK
+	[JsonProperty]
+	public string Job; //Doubles for both non-quick respawn and jobbans
+
 }

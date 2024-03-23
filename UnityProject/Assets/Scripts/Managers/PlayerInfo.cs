@@ -193,6 +193,7 @@ public class PlayerInfo
 	/// <returns></returns>
 	private static string GetUniqueName(string name, string userId, int sameNames = 0)
 	{
+		if(userId == "rcon") return name; // RCON is allowed to impersonate
 		while (true)
 		{
 			string proposedName = name;
