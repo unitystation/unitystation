@@ -391,7 +391,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	{
 		foreach (var Thruster in ConnectedThrusters)
 		{
-			Thruster.TargetMolesUsed = Thruster.MaxMolesUseda * 0;
+			Thruster.SetTargetMolesUsed( Thruster.MaxMolesUseda * 0);
 		}
 	}
 
@@ -404,7 +404,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			{
 				if (Thruster.ThisThrusterDirectionClassification == Direction)
 				{
-					Thruster.TargetMolesUsed = Thruster.MaxMolesUseda * Multiplier;
+					Thruster.SetTargetMolesUsed(  Thruster.MaxMolesUseda * Multiplier);
 				}
 			}
 		}
@@ -415,7 +415,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 				if (Thruster.ThisThrusterDirectionClassification != Thruster.ThrusterDirectionClassification.Up &&
 				    Thruster.ThisThrusterDirectionClassification != Thruster.ThrusterDirectionClassification.Down)
 				{
-					Thruster.TargetMolesUsed = Thruster.MaxMolesUseda * 0;
+					Thruster.SetTargetMolesUsed(Thruster.MaxMolesUseda * 0);
 				}
 			}
 

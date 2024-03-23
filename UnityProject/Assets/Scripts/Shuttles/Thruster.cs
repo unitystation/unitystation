@@ -23,7 +23,7 @@ public class Thruster : MonoPipe
 	public ThrusterDirectionClassification ThisThrusterDirectionClassification;
 
 	public float MaxMolesUseda = 1;
-	public float TargetMolesUsed = 0;
+	private float TargetMolesUsed = 0;
 
 	public float ThrusterMultiplier = 100;
 
@@ -87,6 +87,70 @@ public class Thruster : MonoPipe
 		Down
 	}
 
+
+	public void SetTargetMolesUsed(float NewTarget)
+	{
+		TargetMolesUsed = NewTarget;
+		if (TargetMolesUsed == 0)
+		{
+			ThrustPower = 0;
+			AtmosphericsSetUsage(0);
+			return;
+		}
+
+		if (pipeData.SelfSufficient)
+		{
+			ThrustPower = TargetMolesUsed  * ThrusterMultiplier;
+			AtmosphericsSetUsage(TargetMolesUsed/MaxMolesUseda);
+			return;
+		}
+
+
+		float MoreConsumptionMultiplier = 1;
+		float ThrustMultiplier = 0;
+
+		var Mix = pipeData.mixAndVolume;
+
+		var gasMix = pipeData.mixAndVolume.GetGasMix();
+		var ReagentMix = pipeData.mixAndVolume.GetReagentMix();
+		if ((gasMix.Pressure > 0 || ReagentMix.Total > 0) == false)
+		{
+			ThrustPower = 0;
+			AtmosphericsSetUsage(0);
+			return;
+		}
+
+		var Total = Mix.Total.x + Mix.Total.y;
+		foreach (var Reaction in ThrusterFuelReactions.Instance.ReactionMixes)
+		{
+			var PossibleMultiplier = GetReactionAmount(Mix, Reaction);
+
+			if (PossibleMultiplier == 0) continue;
+
+			var TotalChemicals = 0f;
+
+			var TotalFraction = 0f;
+			foreach (var gasOrReagent in Reaction.ChemicalMakeUp)
+			{
+				var Chemicals = Mix[gasOrReagent] * PossibleMultiplier;
+				TotalChemicals += Chemicals;
+			}
+
+			TotalFraction = TotalChemicals / Total;
+
+
+			if (TotalFraction > 0)
+			{
+				MoreConsumptionMultiplier += Reaction.ConsumptionMultiplierEffect;
+				ThrustMultiplier += Reaction.ThrustMultiplierEffect;
+			}
+		}
+
+		// var Ratio = ((Plasma / Oxygen) / (7f / 3f));
+		ThrustPower = TargetMolesUsed * ThrustMultiplier * ThrusterMultiplier;
+		AtmosphericsSetUsage((TargetMolesUsed* MoreConsumptionMultiplier) / MaxMolesUseda );
+		InletPressure = Mix.GetGasMix().Pressure;
+	}
 
 	public void OnDestroy()
 	{

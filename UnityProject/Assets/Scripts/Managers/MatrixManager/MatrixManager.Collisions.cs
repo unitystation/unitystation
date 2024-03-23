@@ -236,7 +236,7 @@ public partial class MatrixManager
 
 			foreach (var Thruster in Matrix1.MatrixMove.NetworkedMatrixMove.ConnectedThrusters)
 			{
-				Thruster.TargetMolesUsed = 0;
+				Thruster.SetTargetMolesUsed(0);
 			}
 			return;
 		}
@@ -256,12 +256,12 @@ public partial class MatrixManager
 
 				foreach (var Thruster in Matrix2.MatrixMove.NetworkedMatrixMove.ConnectedThrusters)
 				{
-					Thruster.TargetMolesUsed = 0;
+					Thruster.SetTargetMolesUsed(0);
 				}
 
 				foreach (var Thruster in Matrix1.MatrixMove.NetworkedMatrixMove.ConnectedThrusters)
 				{
-					Thruster.TargetMolesUsed = 0;
+					Thruster.SetTargetMolesUsed(0);
 				}
 			}
 
