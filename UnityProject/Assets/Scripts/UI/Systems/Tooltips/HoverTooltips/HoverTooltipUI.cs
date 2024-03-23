@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Learning;
-using Logs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,10 +32,12 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private bool animating = false;
 		private bool showing = false;
+		private RectTransform contentRect;
 
 		private void Awake()
 		{
 			HoverDelay = GetSavedTooltipDelay();
+			contentRect = content.GetComponent<RectTransform>();
 		}
 
 		public float GetSavedTooltipDelay()
@@ -53,9 +54,19 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private void UpdatePosition()
 		{
-			var newPosition = new Vector3(Input.mousePosition.x + MOUSE_OFFSET_X, Input.mousePosition.y + MOUSE_OFFSET_Y,
-				Input.mousePosition.z);
-			transform.position = newPosition;
+			Vector3 newPosition = new Vector3(
+				Input.mousePosition.x + MOUSE_OFFSET_X, Input.mousePosition.y + MOUSE_OFFSET_Y, Input.mousePosition.z);
+
+			float contentWidth = contentRect.rect.width * content.transform.localScale.x;
+			float contentHeight = contentRect.rect.height * content.transform.localScale.y;
+
+			float padding = 10f;
+
+			// makes sure that the tooltip doesn't go offscreen.
+			newPosition.x = Mathf.Clamp(newPosition.x, contentWidth / 2, Screen.width - contentWidth / 2);
+			newPosition.y = Mathf.Clamp(newPosition.y, contentHeight / 2, Screen.height - contentHeight / 2);
+
+			content.transform.position = newPosition;
 		}
 
 		private void CheckForInput()

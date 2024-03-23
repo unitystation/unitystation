@@ -1,23 +1,23 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Items;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
-using HealthV2;
 using Items.Implants.Organs;
 using Logs;
 using Managers;
 using UI;
+using UI.Systems.Tooltips.HoverTooltips;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// Represents an item slot rendered in the UI.
 /// </summary>
 [Serializable]
-public class UI_ItemSlot : TooltipMonoBehaviour
+public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 	[SerializeField]
 	[FormerlySerializedAs("NamedSlot")]
@@ -501,6 +501,24 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 				placeholderImage.color = new Color(1, 1, 1, 0);
 			}
 		}
+	}
+
+	public void OnPointerEnter(PointerEventData eventData)
+	{
+		if (ItemObject == null) return;
+		UIManager.SetHoverToolTip = ItemObject;
+		//thanks stack overflow!
+		Regex r = new Regex(@"
+                (?<=[A-Z])(?=[A-Z][a-z]) |
+                 (?<=[^A-Z])(?=[A-Z]) |
+                 (?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace);
+		UIManager.SetToolTip = r.Replace(ItemObject.ExpensiveName(), " ");
+	}
+
+	public void OnPointerExit(PointerEventData eventData)
+	{
+		UIManager.SetToolTip = "";
+		UIManager.SetHoverToolTip = null;
 	}
 }
 
