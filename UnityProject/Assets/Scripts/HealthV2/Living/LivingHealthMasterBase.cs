@@ -230,7 +230,7 @@ namespace HealthV2
 		public List<HealthSystemBase> ActiveSystems = new List<HealthSystemBase>();
 
 
-		private BodyAlertManager BodyAlertManager;
+		public BodyAlertManager BodyAlertManager { get; protected set; }
 
 
 		public BleedingState BleedingState => CalculateBleedingState();

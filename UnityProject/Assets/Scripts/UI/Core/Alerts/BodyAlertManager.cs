@@ -17,10 +17,14 @@ public class BodyAlertManager : NetworkBehaviour, IClientPlayerLeaveBody, IClien
 	}
 
 
-	public void RegisterAlert(AlertSO AlertSO)
+	public void RegisterAlert(AlertSO AlertSO, bool noDuplicates = true)
 	{
 		var List = JsonConvert.DeserializeObject<List<int>>(PresentAlertsJson); //TODO Make this more optimal sometime
-		List.Add(AlertSO.GetIndexed());
+		var alertToAdd = AlertSO.GetIndexed();
+		if (noDuplicates && List.Contains(alertToAdd) == false)
+		{
+			List.Add(AlertSO.GetIndexed());
+		}
 		SyncActiTheons(PresentAlertsJson, PresentAlertsJson = JsonConvert.SerializeObject(List));
 	}
 

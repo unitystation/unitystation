@@ -33,7 +33,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	public bool IsLayingDown => LayDownBehavior.IsLayingDown;
 
 	/// <summary>
-	/// True when the player is slipping
+	/// True when the player is slipping (or stunned)
 	/// </summary>
 	public bool IsSlippingServer { get; private set; }
 
@@ -66,6 +66,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	public bool IsBlockingServer => !playerScript.IsGhost && !IsLayingDown && !IsSlippingServer;
 	private Coroutine unstunHandle;
 
+	[SerializeField] private AlertSO stunAlert;
 
 	protected override void Awake()
 	{
@@ -344,8 +345,8 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			playerScript.playerMove.ServerAllowInput.RecordPosition(this, false);
 		}
 
-
 		this.RestartCoroutine(StunTimer(stunDuration), ref unstunHandle);
+		ServerUpdateStunStatus(true);
 	}
 	private IEnumerator StunTimer(float stunTime)
 	{
@@ -376,6 +377,20 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			 || playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
 		{
 			playerScript.playerMove.ServerAllowInput.RemovePosition(this);
+		}
+
+		ServerUpdateStunStatus(false);
+	}
+
+	public void ServerUpdateStunStatus(bool isStunned)
+	{
+		if (isStunned)
+		{
+			playerScript.playerHealth.BodyAlertManager.RegisterAlert(stunAlert);
+		}
+		else
+		{
+			playerScript.playerHealth.BodyAlertManager.UnRegisterAlert(stunAlert);
 		}
 	}
 

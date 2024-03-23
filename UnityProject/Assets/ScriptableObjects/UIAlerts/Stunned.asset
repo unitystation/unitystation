@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b1055f6767b8d254fb6634c7bbb32cda, type: 3}
-  m_Name: Suffocating
+  m_Name: Stunned
   m_EditorClassIdentifier: 
-  AssociatedSprite: {fileID: 11400000, guid: afa6fdd6b679c454ba8ab690ebab896c, type: 2}
-  HoverToolTip: Suffocation is caused by a lack of air or low blood saturation.
-  PlayerProtip: {fileID: 11400000, guid: 963f6a6de169c484bad0d08fbdf230ce, type: 2}
+  AssociatedSprite: {fileID: 11400000, guid: ca01c9b80e4811f47b252dbe3c68df3a, type: 2}
+  HoverToolTip: You're unable to move!
+  PlayerProtip: {fileID: 0}
   DoNotShowIfPresent: []
