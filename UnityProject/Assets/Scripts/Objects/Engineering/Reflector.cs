@@ -60,6 +60,7 @@ namespace Objects.Engineering
 		{
 			if (Application.isPlaying || this == null) return;
 #if UNITY_EDITOR
+			if (Selection.activeGameObject != this.gameObject) return;
 			EditorApplication.delayCall -= ValidateLate;
 			EditorApplication.delayCall += ValidateLate;
 #endif

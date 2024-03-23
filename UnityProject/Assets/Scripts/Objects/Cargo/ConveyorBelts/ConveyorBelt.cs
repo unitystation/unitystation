@@ -54,6 +54,9 @@ namespace Construction.Conveyors
 		{
 			if (Application.isPlaying) return;
 #if UNITY_EDITOR
+			if (Selection.activeGameObject != this.gameObject) return;
+#endif
+#if UNITY_EDITOR
 			EditorApplication.delayCall -= EditorRefreshSprites;
 			EditorApplication.delayCall += EditorRefreshSprites;
 #endif
@@ -174,6 +177,9 @@ namespace Construction.Conveyors
 		{
 			if (Application.isPlaying) return;
 			if (this == null) return;
+#if UNITY_EDITOR
+			if (Selection.activeGameObject != this.gameObject) return;
+#endif
 			spriteHandler.SetCatalogueIndexSprite((int)CurrentStatus);
 			var variant = (int)CurrentDirection;
 

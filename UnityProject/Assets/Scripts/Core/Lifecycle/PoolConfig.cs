@@ -34,11 +34,6 @@ public class PoolConfig : SingletonScriptableObject<PoolConfig>
 
 	private void Awake()
 	{
-		OnValidate();
-	}
-
-	public void OnValidate()
-	{
 		prefabToConfig = new Dictionary<GameObject, PrefabPoolConfig>();
 		foreach (var prefabConfig in prefabPools)
 		{
@@ -48,6 +43,7 @@ public class PoolConfig : SingletonScriptableObject<PoolConfig>
 			}
 		}
 	}
+
 
 	/// <summary>
 	/// Checks if instances of the indicated prefab can be pooled (regardless of

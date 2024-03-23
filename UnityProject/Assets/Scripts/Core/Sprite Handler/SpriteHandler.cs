@@ -1004,31 +1004,25 @@ public class SpriteHandler : MonoBehaviour
 	private void OnValidate()
 	{
 		if (Application.isPlaying) return;
-
-		var PrefabStage = PrefabStageUtility.GetCurrentPrefabStage(); //Only run Run this code for stuff that's being actively edited
-		if (PrefabStage == null) return;
-		var PrefabName = PrefabStage.assetPath.Substring(PrefabStage.assetPath.LastIndexOf("/") + 1);
-		var SubName = PrefabName.Substring(0, PrefabName.LastIndexOf("."));
-		if (transform.parent == null) return;
-		if (SubName != transform.parent.name) return;
-
-		if (PresentSpriteSet == null || this == null || this.gameObject == null)
+#if UNITY_EDITOR
+			if (Selection.activeGameObject != this.gameObject) return;
+#endif
+		if (PresentSpriteSet == null)
 		{
 			return;
 		}
-		if (this.gameObject.scene.path == null || this.gameObject.scene.path.Contains("Scenes") == false)
-		{
-#if UNITY_EDITOR
-			EditorApplication.delayCall -= ValidateLate;
-			EditorApplication.delayCall += ValidateLate;
-#endif
 
-		}
+#if UNITY_EDITOR
+		EditorApplication.delayCall -= ValidateLate;
+		EditorApplication.delayCall += ValidateLate;
+#endif
 	}
+
 	public void ValidateLate()
 	{
 		// ValidateLate might be called after this object is already destroyed.
 		if (this == null || Application.isPlaying) return;
+		if (Selection.activeGameObject != this.gameObject) return;
 		variantIndex = initialVariantIndex;
 		PushTexture();
 	}
