@@ -24,6 +24,11 @@ public partial class GameManager
 
 	private bool beenToStation;
 
+	public void ResetEscapeShuttle()
+	{
+		primaryEscapeShuttle = null;
+	}
+
 	private void InitEscapeShuttle()
 	{
 		//Primary escape shuttle lookup

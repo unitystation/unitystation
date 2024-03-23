@@ -54,7 +54,7 @@ namespace Objects.Atmospherics
 
 		public void PipeRotated(OrientationEnum newDirection)
 		{
-
+			if (Matrix == null) return;
 			SetUpPipes(false, PreviousOrientation.RemoveDirectionsTogether(newDirection).ToPipeRotate());
 			PreviousOrientation = newDirection;
 		}
@@ -104,7 +104,7 @@ namespace Objects.Atmospherics
 				return;
 			}
 
-
+			if (Matrix == null) return;
 
 			pipeData.OnDisable();
 			if (RotateDirectional)

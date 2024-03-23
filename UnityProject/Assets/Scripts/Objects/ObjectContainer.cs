@@ -6,6 +6,7 @@ using UnityEngine;
 using Messages.Server;
 using Mirror;
 using Objects;
+using UnityEngine.Events;
 
 namespace Objects
 {
@@ -83,6 +84,8 @@ namespace Objects
 
 		public int StoredObjectsCount => storedObjects.Count;
 
+		public event Action<GameObject> ObjectStored;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -138,7 +141,7 @@ namespace Objects
 		public void StoreObject(GameObject obj, Vector3 offset = new Vector3())
 		{
 			storedObjects.Add(obj, offset);
-
+			ObjectStored?.Invoke(obj);
 			if (obj.TryGetComponent<UniversalObjectPhysics>(out var objectPhysics))
 			{
 				objectPhysics.StoreTo(this);
@@ -244,7 +247,7 @@ namespace Objects
 			foreach (var kvp in objects)
 			{
 				if (kvp.Key == null) continue;
-
+				ObjectStored?.Invoke(kvp.Key);
 				storedObjects[kvp.Key] = kvp.Value;
 				kvp.Key.GetComponent<UniversalObjectPhysics>().StoreTo( this );
 			}

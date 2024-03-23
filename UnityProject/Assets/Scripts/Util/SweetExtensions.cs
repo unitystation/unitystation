@@ -269,7 +269,8 @@ public static class SweetExtensions
 		}
 		else
 		{
-			return null;
+			if (go == null) return null;
+			return go.GetComponent<T>();
 		}
 	}
 
