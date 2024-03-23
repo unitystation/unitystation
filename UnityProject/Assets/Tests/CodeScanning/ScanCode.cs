@@ -39,6 +39,7 @@ namespace Tests
 			}
 		}
 
+		[Test]
 		public void ScanCodeReport()
 		{
 			string BuildPath = Application.dataPath;
