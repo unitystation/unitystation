@@ -30,6 +30,8 @@ namespace Objects
 		[SerializeField] private List<BodyPartType> limbsToHurt;
 		[SerializeField] private UnityEvent<GameObject> OnStepEvent = new UnityEvent<GameObject>();
 
+		[SerializeField] private float MaxDamage = 0;
+
 		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
 			return playerScript.IsGhost == false;
@@ -113,6 +115,11 @@ namespace Objects
 
 		protected void ApplyDamageToPartyType(LivingHealthMasterBase health, BodyPartType type)
 		{
+			if (MaxDamage != 0)
+			{
+				if (( health.MaxHealth - health.OverallHealth) > MaxDamage) return;
+			}
+
 			health.ApplyDamageToBodyPart(gameObject, damageToGive, attackType, damageType, type, armorPentration, traumaChance, traumaType);
 		}
 

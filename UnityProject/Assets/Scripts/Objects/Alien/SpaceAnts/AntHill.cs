@@ -74,6 +74,7 @@ namespace Objects.Alien.SpaceAnts
 		{
 			if (state is not AntHillState.Swarm) return;
 			if (DMMath.Prob(75) || mob.TryGetComponent<LivingHealthMasterBase>(out var health) == false) return;
+			if (( health.MaxHealth - health.OverallHealth) >  minMaxAntDamage.y) return;
 			inflictedMobs.Add(health);
 		}
 

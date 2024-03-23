@@ -644,6 +644,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Loggy.LogError(e.ToString());
 		}
 
+
+
 		try
 		{
 			GameMode.EndRoundReport();
@@ -680,6 +682,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		Loggy.LogError($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
 		yield return WaitFor.Seconds(RoundEndTime);
 		RoundEndTime = DefaultRoundEndTime;
+
 		RestartRound();
 	}
 
@@ -901,7 +904,10 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			return;
 		}
 
+
+
 		CurrentRoundState = RoundState.Restarting;
+
 		StartCoroutine(ServerRoundRestart());
 	}
 
@@ -936,6 +942,12 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			// Notify all clients that the round has ended
 			EventManager.Broadcast(Event.RoundEnded, true);
 			EventManager.Broadcast(Event.SceneUnloading, true);
+
+			if (GameManager.Instance != null)
+			{
+				GameManager.Instance.ResetEscapeShuttle();
+			}
+
 			try
 			{
 				CleanupUtil.EndRoundCleanup();
