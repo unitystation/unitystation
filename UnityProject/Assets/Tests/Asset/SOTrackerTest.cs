@@ -8,7 +8,7 @@ namespace Tests.Asset
 	[Category(nameof(Asset))]
 	public class SOTrackerTest
 	{
-		//[Test]
+		[Test]
 		public void SOTrackerInList()
 		{
 			bool Fail = false;
@@ -34,7 +34,7 @@ namespace Tests.Asset
 			}
 		}
 
-		//[Test]
+		[Test]
 		public void SOTrackerTestHaveID()
 		{
 			bool Fail = false;

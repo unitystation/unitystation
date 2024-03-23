@@ -13,7 +13,7 @@ namespace Tests
 	{
 		private readonly string recipesPath = "ScriptableObjects/Crafting/Recipes";
 
-		//[Test]
+		[Test]
 		public void CheckCraftingIndex()
 		{
 			const string singletonName = nameof(CraftingRecipeSingleton);
@@ -46,7 +46,7 @@ namespace Tests
 			}
 		}
 
-		//[Test]
+		[Test]
 		public void CheckCraftingListTest()
 		{
 			var report = new TestReport();
@@ -78,7 +78,7 @@ namespace Tests
 		/// 	to the recipe. This test is supposed to find all ingredients that miss their link to the recipe
 		/// 	or have a wrong recipe index.
 		/// </summary>
-		//[Test]
+		[Test]
 		public void CheckIngredientCrossLinks()
 		{
 			var report = new TestReport();

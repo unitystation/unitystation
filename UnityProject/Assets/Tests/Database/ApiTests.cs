@@ -10,7 +10,7 @@ namespace Tests.Database
 	{
 		private static readonly Uri mockUri = new Uri("https://example.com/fake/uri");
 
-		//[Test]
+		[Test]
 		public void Get_Send()
 		{
 			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient(new MockHttpServer((request) =>
@@ -24,7 +24,7 @@ namespace Tests.Database
 			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 		}
 
-		//[Test]
+		[Test]
 		public void Get_SendAuth()
 		{
 			var mockToken = "asdf123faketokenhuehuehue";
@@ -40,7 +40,7 @@ namespace Tests.Database
 			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 		}
 
-		//[Test]
+		[Test]
 		public void Get_ReceiveSuccess()
 		{
 			var mockResponse = new MockResponse();
@@ -62,7 +62,7 @@ namespace Tests.Database
 			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 		}
 
-		//[Test]
+		[Test]
 		public void Post_Send()
 		{
 			var mockRequest = new MockRequest();
@@ -86,7 +86,7 @@ namespace Tests.Database
 			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 		}
 
-		//[Test]
+		[Test]
 		public void Post_SendAuth()
 		{
 			var mockRequest = new MockRequestAuth();
@@ -102,7 +102,7 @@ namespace Tests.Database
 			SecureStuff.SafeHttpRequest.EditorOnlySet = new HttpClient();
 		}
 
-		//[Test]
+		[Test]
 		public void Post_ReceiveSuccess()
 		{
 			var mockResponse = new MockResponse();

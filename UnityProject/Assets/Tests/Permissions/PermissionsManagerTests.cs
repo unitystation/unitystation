@@ -66,13 +66,13 @@ namespace Tests.Permissions
 			Object.DestroyImmediate(managerObject);
 		}
 
-		//[Test]
+		[Test]
 		public void GivenValidConfig_WhenLoadingConfig_ThenConfigIsLoaded()
 		{
 			Assert.NotNull(manager.Config);
 		}
 
-		//[Test]
+		[Test]
 		[TestCase("player_abc", "perm_a")]
 		[TestCase("player_abc", "perm_b")]
 		[TestCase("player_abc", "perm_c")]
@@ -84,7 +84,7 @@ namespace Tests.Permissions
 			Assert.True(manager.HasPermission(identifier, permission));
 		}
 
-		//[Test]
+		[Test]
 		[TestCase("player_abc", "perm_d")]
 		[TestCase("player_bcd", "perm_a")]
 		[TestCase("player_no_perms", "perm_a")]
@@ -97,7 +97,7 @@ namespace Tests.Permissions
 			Assert.False(manager.HasPermission(identifier, permission));
 		}
 
-		//[Test]
+		[Test]
 		[TestCase("player_god", "perm_a")]
 		[TestCase("player_god", "perm_b")]
 		[TestCase("player_god", "perm_c")]
@@ -108,7 +108,7 @@ namespace Tests.Permissions
 			Assert.True(manager.HasPermission(identifier, permission));
 		}
 
-		//[Test]
+		[Test]
 		public void GivenAUserThatDoesNotExist_WhenCheckingPermission_ThenPermissionIsNotGranted()
 		{
 			Assert.False(manager.HasPermission("nonexistentPlayer", "perm_a"));
