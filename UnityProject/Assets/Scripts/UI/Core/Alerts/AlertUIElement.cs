@@ -1,11 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Learning;
 using Learning.ProtipObjectTypes;
 using Logs;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class AlertUIElement : MonoBehaviour
+public class AlertUIElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IHoverTooltip
 {
 	public AlertSO AlertSO;
 	public SpriteHandler SpriteHandler;
@@ -118,5 +120,47 @@ public class AlertUIElement : MonoBehaviour
 	{
 		PlayerManager.LocalPlayerObject.OrNull()?.GetComponentInChildren<ProtipObjectOnHealthStateChange>()
 			?.StandardTrigger(protipSo);
+	}
+
+	public void OnPointerEnter(PointerEventData eventData)
+	{
+		UIManager.SetHoverToolTip = gameObject;
+		//thanks stack overflow!
+		Regex r = new Regex(@"
+                (?<=[A-Z])(?=[A-Z][a-z]) |
+                 (?<=[^A-Z])(?=[A-Z]) |
+                 (?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace);
+		UIManager.SetToolTip = r.Replace(AlertSO.name, " ");
+	}
+
+	public void OnPointerExit(PointerEventData eventData)
+	{
+		UIManager.SetToolTip = "";
+		UIManager.SetHoverToolTip = null;
+	}
+
+	public string HoverTip()
+	{
+		return AlertSO.HoverToolTip;
+	}
+
+	public string CustomTitle()
+	{
+		return AlertSO.name;
+	}
+
+	public Sprite CustomIcon()
+	{
+		return null;
+	}
+
+	public List<Sprite> IconIndicators()
+	{
+		return null;
+	}
+
+	public List<TextColor> InteractionsStrings()
+	{
+		return null;
 	}
 }

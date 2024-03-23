@@ -313,6 +313,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	private void SyncInput(bool oldInput, bool newInput)
 	{
 		allowInput = newInput;
+		playerScript.RegisterPlayer.ServerUpdateStunStatus(newInput == false);
 	}
 
 	private void SyncIntent(Intent oldIntent, Intent newIntent)

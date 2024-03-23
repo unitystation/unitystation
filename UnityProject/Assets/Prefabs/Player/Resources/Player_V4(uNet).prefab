@@ -604,8 +604,6 @@ MonoBehaviour:
   <PlayerFaith>k__BackingField: {fileID: 6182295504772674896}
   <Particles>k__BackingField: {fileID: 6835177244151955954}
   RTT: 0
-  RcsMode: 0
-  RcsMatrixMove: {fileID: 0}
   playerChatLocation: {fileID: 1133514949248654}
   canVentCrawl: 0
   <OnBodyPossesedByPlayer>k__BackingField:
@@ -812,6 +810,7 @@ MonoBehaviour:
   CurrentsortingGroup: {fileID: 0}
   <LayDownBehavior>k__BackingField: {fileID: 8176686349149668929}
   networkedLean: {fileID: -8106636780342977062}
+  stunAlert: {fileID: 11400000, guid: bb846b67e8fe7174a9259cac094036c9, type: 2}
 --- !u!114 &114449635359748350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -833,6 +832,7 @@ MonoBehaviour:
   CurrentDirection: 3
   SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 1
+  MatrixRotateUpdate: 1
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!50 &50851566022184656
@@ -1183,6 +1183,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   LivingHealthMasterBase: {fileID: 1354417930896543338}
+  ProcedureInProgress: 0
   InitiateSurgeryItemTraits:
   - {fileID: 11400000, guid: 30127bfedd67541a3afa2a5582daa98c, type: 2}
   - {fileID: 11400000, guid: 1e5559e895a286845ae6c1d616f3f26d, type: 2}
@@ -13641,7 +13642,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 8165807964432903219, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -14143,6 +14144,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5e6cf56e407117e4faa5cbed4663a515, type: 2}
   - {fileID: 11400000, guid: 8edd9df57e0eca742973f14d8e27ff52, type: 2}
   - {fileID: 11400000, guid: ddf681d078c0be44eaa104e2c182b78a, type: 2}
+  timeBetweenAmbience: 135
 --- !u!1 &7706745016017648645
 GameObject:
   m_ObjectHideFlags: 0
