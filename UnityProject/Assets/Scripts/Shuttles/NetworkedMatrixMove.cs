@@ -303,6 +303,13 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		ElapsedTimeSinceLastUpdate.Stop();
 	}
 
+	public bool IsConnectedToShuttle(NetworkedMatrixMove NetMove)
+	{
+		TheReusingSet.Clear();
+		var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet);
+		return Matrixes.Contains(NetMove);
+	}
+
 	[NaughtyAttributes.Button]
 	public void StartUpdating()
 	{
@@ -395,8 +402,9 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		}
 	}
 
-	public void SetThrusterStrength(Thruster.ThrusterDirectionClassification Direction, float Multiplier)
+	private void InternalSetThrusterStrength(Thruster.ThrusterDirectionClassification Direction, float Multiplier)
 	{
+
 		if (SpinneyMode || Direction == Thruster.ThrusterDirectionClassification.Up ||
 		    Direction == Thruster.ThrusterDirectionClassification.Down)
 		{
@@ -460,6 +468,18 @@ public class NetworkedMatrixMove : NetworkBehaviour
 				}
 			}
 		}
+	}
+
+	public void SetThrusterStrength(Thruster.ThrusterDirectionClassification Direction, float Multiplier)
+	{
+
+		TheReusingSet.Clear();
+		var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet);
+		foreach (var move in Matrixes)
+		{
+			move.InternalSetThrusterStrength(Direction, Multiplier);
+		}
+
 	}
 
 	public void AddConnector(ShuttleConnector ShuttleConnector)
@@ -1122,6 +1142,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			if ((Matrix.Value.WorldBounds.center - CentreOfAIMovementWorld).magnitude > 1000) continue;
 			if (Matrix.Value == MatrixManager.Instance.spaceMatrix.MatrixInfo) continue;
 			if (Matrix.Value == MetaTileMap.matrix.MatrixInfo) continue;
+			if (TheReusingSet.Contains(Matrix.Value.MatrixMove.NetworkedMatrixMove)) continue;
 
 			var OtherBigBound = Matrix.Value.WorldBounds.ExpandAllDirectionsBy(10);
 
