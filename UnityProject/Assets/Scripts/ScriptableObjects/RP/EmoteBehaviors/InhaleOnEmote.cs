@@ -19,11 +19,7 @@ namespace ScriptableObjects.RP.EmoteBehaviors
 			if (lungs == null || gas == null) return;
 			foreach (var lung in lungs)
 			{
-				ReagentMix availableBlood =
-					health.reagentPoolSystem.BloodPool.Take(
-						(health.reagentPoolSystem.BloodPool.Total * Efficiency) / 2f);
-				lung.BreatheIn(gas, availableBlood, Efficiency);
-				health.reagentPoolSystem.BloodPool.Add(availableBlood);
+				lung.BreatheIn(gas, Efficiency);
 			}
 		}
 

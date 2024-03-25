@@ -343,6 +343,15 @@ namespace Items.Implants.Organs
 			return toInhale.Total > 0;
 		}
 
+		public void BreatheIn(GasMix breathGasMix, float efficiency)
+		{
+			ReagentMix availableBlood =
+				LivingHealthMaster.reagentPoolSystem.BloodPool.Take(
+					(LivingHealthMaster.reagentPoolSystem.BloodPool.Total * efficiency) / 2f);
+			BreatheIn(breathGasMix, availableBlood, efficiency);
+			LivingHealthMaster.reagentPoolSystem.BloodPool.Add(availableBlood);
+		}
+
 		/// <summary>
 		/// Checks for toxic gases and if they excede their maximum range before they become deadly
 		/// </summary>
