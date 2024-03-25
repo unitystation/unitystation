@@ -343,6 +343,9 @@ namespace Items.Implants.Organs
 			return toInhale.Total > 0;
 		}
 
+		/// <summary>
+		/// Pulls in the desired gas, as well as others, from the specified gas mix and adds them to the blood stream related to the lung.
+		/// </summary>
 		public void BreatheIn(GasMix breathGasMix, float efficiency)
 		{
 			ReagentMix availableBlood =
