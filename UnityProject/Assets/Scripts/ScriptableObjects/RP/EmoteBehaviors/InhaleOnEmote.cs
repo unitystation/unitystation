@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Chemistry;
 using HealthV2;
 using Items.Implants.Organs;
 using Systems.Atmospherics;
@@ -18,7 +19,11 @@ namespace ScriptableObjects.RP.EmoteBehaviors
 			if (lungs == null || gas == null) return;
 			foreach (var lung in lungs)
 			{
-				lung.BreatheIn(gas, health.reagentPoolSystem.BloodPool, Efficiency);
+				ReagentMix availableBlood =
+					health.reagentPoolSystem.BloodPool.Take(
+						(health.reagentPoolSystem.BloodPool.Total * Efficiency) / 2f);
+				lung.BreatheIn(gas, availableBlood, Efficiency);
+				health.reagentPoolSystem.BloodPool.Add(availableBlood);
 			}
 		}
 
