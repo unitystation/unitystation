@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using Systems.Electricity;
@@ -236,7 +237,7 @@ public partial class MatrixManager
 
 			foreach (var Thruster in Matrix1.MatrixMove.NetworkedMatrixMove.ConnectedThrusters)
 			{
-				Thruster.TargetMolesUsed = 0;
+				Thruster.SetTargetMolesUsed(0);
 			}
 			return;
 		}
@@ -256,12 +257,12 @@ public partial class MatrixManager
 
 				foreach (var Thruster in Matrix2.MatrixMove.NetworkedMatrixMove.ConnectedThrusters)
 				{
-					Thruster.TargetMolesUsed = 0;
+					Thruster.SetTargetMolesUsed(0);
 				}
 
 				foreach (var Thruster in Matrix1.MatrixMove.NetworkedMatrixMove.ConnectedThrusters)
 				{
-					Thruster.TargetMolesUsed = 0;
+					Thruster.SetTargetMolesUsed(0);
 				}
 			}
 
@@ -275,6 +276,11 @@ public partial class MatrixManager
 	private void CheckTileCollisions( MatrixIntersection i )
 	{
 		if (i.Matrix1 == null || i.Matrix2 == null) return;
+		if (i.Matrix1.MatrixMove.NetworkedMatrixMove.IsConnectedToShuttle(i.Matrix2.MatrixMove.NetworkedMatrixMove))
+		{
+			return;
+		}
+
 
 		byte collisions = 0;
 		foreach ( var worldPos in i.Rect.allPositionsWithin() )
@@ -306,6 +312,7 @@ public partial class MatrixManager
 			{
 				continue;
 			}
+
 
 
 			MatrixSafetyCheck(i.Matrix1);
