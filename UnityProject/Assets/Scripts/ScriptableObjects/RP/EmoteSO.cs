@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AddressableReferences;
+using Core.Editor.Attributes;
 using HealthV2;
 using Messages.Server.SoundMessages;
 using NaughtyAttributes;
@@ -72,6 +73,10 @@ namespace ScriptableObjects.RP
 		[SerializeField]
 		private PlayerTypes allowedPlayerTypes = PlayerTypes.Normal;
 
+		[SerializeField, SerializeReference, SelectImplementation(typeof(IEmoteBehavior))]
+		[Tooltip("Behaviors that are initiated when emoting.")]
+		protected List<IEmoteBehavior> Behaviors = new List<IEmoteBehavior>();
+
 		protected enum FailType
 		{
 			Normal,
@@ -79,13 +84,21 @@ namespace ScriptableObjects.RP
 			MouthBlocked
 		}
 
-		public virtual void Do(GameObject player)
+		public virtual void Do(GameObject actor)
 		{
-			if (CheckAllBaseConditions(player) == false) return;
-			Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
-			PlayAudio(defaultSounds, player);
+			if (CheckAllBaseConditions(actor) == false) return;
+			Chat.AddActionMsgToChat(actor, $"{youText}", $"{actor.ExpensiveName()} {viewText}.");
+			PlayAudio(defaultSounds, actor);
+			RunBehaviors(actor);
 		}
 
+		protected void RunBehaviors(GameObject actor)
+		{
+			foreach (var behavior in Behaviors)
+			{
+				behavior.Behave(actor);
+			}
+		}
 
 		/// <summary>
 		/// Use this instead of rewriting Chat.AddActionMsgToChat() when adding text to a failed conditon.

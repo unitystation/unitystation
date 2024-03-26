@@ -25,7 +25,16 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		[HideInInspector] public List<Heart> PumpingDevices = new List<Heart>();
 
+		public ReagentMix RegenBloodPool = new ReagentMix();
+		public float RegenEfficiency = 0.15f;
 
+
+		public override void SystemUpdate()
+		{
+			base.SystemUpdate();
+			if (RegenBloodPool.Total <= 0) return;
+			BloodPool.Add(RegenBloodPool.Take(RegenBloodPool.Total * RegenEfficiency));
+		}
 
 
 		///<summary>
@@ -57,7 +66,6 @@ namespace HealthV2.Living.PolymorphicSystems
 		{
 			AddFreshBlood(BloodPool, StartingBlood);
 		}
-
 
 
 		public void Bleed(float amount, bool spawnReagentOnFloor = true)

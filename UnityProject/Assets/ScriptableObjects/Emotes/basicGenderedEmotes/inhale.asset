@@ -28,3 +28,12 @@ MonoBehaviour:
   TypedSounds: []
   pitchRange: {x: 0.7, y: 1}
   allowedPlayerTypes: 1
+  Behaviors:
+  - rid: 1202199920717332651
+  references:
+    version: 2
+    RefIds:
+    - rid: 1202199920717332651
+      type: {class: InhaleOnEmote, ns: ScriptableObjects.RP.EmoteBehaviors, asm: Assets}
+      data:
+        Efficiency: 1.25

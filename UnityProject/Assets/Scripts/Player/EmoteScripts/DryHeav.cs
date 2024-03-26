@@ -8,10 +8,10 @@ namespace Player.EmoteScripts
 	{
 		[SerializeField] private float stunDuration = 8f;
 
-		public override void Do(GameObject player)
+		public override void Do(GameObject actor)
 		{
-			base.Do(player);
-			var script = player.GetComponent<PlayerScript>();
+			base.Do(actor);
+			var script = actor.GetComponent<PlayerScript>();
 			script.RegisterPlayer.ServerStun(stunDuration);
 			script.RegisterPlayer.ServerLayDown();
 		}

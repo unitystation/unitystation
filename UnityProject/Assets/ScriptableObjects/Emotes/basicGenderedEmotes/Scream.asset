@@ -367,3 +367,12 @@ MonoBehaviour:
           m_EditorAssetChanged: 0
   pitchRange: {x: 0.7, y: 1}
   allowedPlayerTypes: 1
+  Behaviors:
+  - rid: 1202199920717332647
+  references:
+    version: 2
+    RefIds:
+    - rid: 1202199920717332647
+      type: {class: ExhaleOnEmote, ns: ScriptableObjects.RP.EmoteBehaviors, asm: Assets}
+      data:
+        efficiency: 0.65
