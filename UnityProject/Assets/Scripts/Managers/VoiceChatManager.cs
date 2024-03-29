@@ -21,9 +21,6 @@ public class VoiceChatManager : NetworkBehaviour, IInitialise
 {
 
 	//preferences
-	//TODO You are recording symbol!!
-	//TODO relog fix
-
 	//TODO Volume??
 	//TODO chat Icon when someone is speaking
 	//TODO Is alive Calculations
