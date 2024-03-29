@@ -236,9 +236,10 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.ChatLocal,		() => { ChatUI.Instance.OpenChatWindow(ChatChannel.Local); }},
 		{ KeyAction.ChatRadio,		() => { ChatUI.Instance.OpenChatWindow(ChatChannel.Common); }},
 		{ KeyAction.ChatOOC,		() => { ChatUI.Instance.OpenChatWindow(ChatChannel.OOC); }},
-		{ KeyAction.ToggleHelp,    () => { ChatUI.Instance.OnHelpButton(); }},
+		{ KeyAction.ToggleHelp,     () => { ChatUI.Instance.OnHelpButton(); }},
 		{ KeyAction.ToggleAHelp,    () => { ChatUI.Instance.OnAdminHelpButton(); }},
 		{ KeyAction.ToggleMHelp,    () => { ChatUI.Instance.OnMentorHelpButton(); }},
+		{ KeyAction.PushToTalk,     () => { VoiceChatManager.Instance.ClientPushToTalkPressed = !VoiceChatManager.Instance.ClientPushToTalkPressed; }},
 
 		// Body part selection
 		{ KeyAction.TargetHead,		() => { UIManager.ZoneSelector.CycleZones(BodyPartType.Head, BodyPartType.Eyes, BodyPartType.Mouth); }},
@@ -259,6 +260,6 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.PocketTwo, 		() => { PlayerManager.LocalPlayerScript.DynamicItemStorage.TryItemInteract(NamedSlot.storage02);}},
 		{ KeyAction.PocketThree, 	() => { PlayerManager.LocalPlayerScript.DynamicItemStorage.TryItemInteract(NamedSlot.suitStorage); }},
 		{ KeyAction.HideUi,         () => { UIManager.Instance.ToggleUiVisibility(); }},
-		{ KeyAction.EmoteWindowUI,         () => { EmoteActionManager.Instance.CheckForInputForEmoteWindow(); }},
+		{ KeyAction.EmoteWindowUI,  () => { EmoteActionManager.Instance.CheckForInputForEmoteWindow(); }},
 	};
 }

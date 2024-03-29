@@ -1,0 +1,29 @@
+{
+  "name": "com.adrenak.univoice.mirrornetwork",
+  "version": "1.0.0",
+  "displayName": "Adrenak.UniVoice.MirrorNetwork",
+  "description": "ChatroomNetwork implementation for UniVoice based on Mirror by vis2k.",
+  "unity": "2019.4",
+  "author": {
+    "name": "Vatsal Ambastha",
+    "email": "ambastha.vatsal@gmail.com",
+    "url": "http://www.vatsalambastha.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "Networking",
+    "Mirror",
+    "Voice Chat",
+    "voip",
+    "Unity",
+    "Unity3d"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "dependencies": {
+    "com.adrenak.univoice": "3.0.0",
+    "com.adrenak.brw": "1.0.1"
+  },
+  "type": "module"
+}

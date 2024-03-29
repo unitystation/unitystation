@@ -52,9 +52,13 @@ namespace Messages.Server.AdminTools
 			pageData.allowLavaLand = SubSceneManager.AdminAllowLavaland;
 			pageData.alertLevel = GameManager.Instance.CentComm.CurrentAlertLevel.ToString();
 
-			//Centcom
-			pageData.blockCall = GameManager.Instance.PrimaryEscapeShuttle.blockCall;
-			pageData.blockRecall = GameManager.Instance.PrimaryEscapeShuttle.blockRecall;
+			if (GameManager.Instance.PrimaryEscapeShuttle != null)
+			{
+				//Centcom
+				pageData.blockCall = GameManager.Instance.PrimaryEscapeShuttle.blockCall;
+				pageData.blockRecall = GameManager.Instance.PrimaryEscapeShuttle.blockRecall;
+			}
+
 
 			//Player list info:
 			pageData.players = GetAllPlayerStates(adminID);
