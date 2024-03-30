@@ -369,9 +369,9 @@ Tilemap:
   - m_RefCount: 23
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   - m_RefCount: 2
-    m_Data: {r: 0.9597649, g: 0.6626693, b: 0.7455446, a: 1}
+    m_Data: {r: 0.8523476, g: 0.46085498, b: 0.5625334, a: 1}
   - m_RefCount: 0
-    m_Data: {r: 4.01853e-40, g: 4.01853e-40, b: 4.01853e-40, a: 4.01853e-40}
+    m_Data: {r: 7.13272e-40, g: 7.13272e-40, b: 7.13272e-40, a: 7.13272e-40}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1334,6 +1334,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetMSpreFrame: 5
+  MassAndCentreLock: []
+  LocalCentreOfMass: {x: 0, y: 0, z: 0}
+  LocalTotalMasslocations: {x: 0, y: 0, z: 0}
+  Mass: 0
   ffLayersValues: []
   matrix: {fileID: 0}
 --- !u!114 &3571759774034552397
@@ -1351,6 +1355,8 @@ MonoBehaviour:
   IsSpaceMatrix: 0
   IsMainStation: 0
   IsLavaLand: 0
+  MatrixMove: {fileID: 0}
+  AIShuttleShouldAvoid: 0
   PresentPlayers: []
   UpdatedPlayerFrame: 0
   HasGravity: 1

@@ -83,14 +83,14 @@ namespace UI
 			// Connecting as server from a map scene
 			if (screen_PlayerName.activeInHierarchy && hostServer.isOn && GameData.IsInGame)
 			{
-				networkManager.StartHost();
+				networkManager.StartHostWrapper();
 				gameObject.SetActive(false);
 			}
 
 			// Connecting as server from the lobby
 			if (screen_PlayerName.activeInHierarchy && hostServer.isOn && !GameData.IsInGame)
 			{
-				networkManager.StartHost();
+				networkManager.StartHostWrapper();
 				gameObject.SetActive(false);
 			}
 		}

@@ -35,6 +35,12 @@ namespace Unitystation.Options
 		[SerializeField]
 		private Toggle CommonRadioToggle = null;
 
+		[SerializeField]
+		private Toggle VoiceChatToggle = null;
+
+		[SerializeField]
+		private Toggle PushToTalkToggle = null;
+
 		void OnEnable()
 		{
 			Refresh();
@@ -89,6 +95,21 @@ namespace Unitystation.Options
 			AudioManager.TtsVolume(TTSSlider.value);
 		}
 
+
+		public void OnPushToTalkChange()
+		{
+			VoiceChatManager.Instance.ClientPushToTalk = PushToTalkToggle.isOn;
+			PlayerPrefs.SetInt(PlayerPrefKeys.PushToTalkToggle, PushToTalkToggle.isOn ? 1 : 0);
+			PlayerPrefs.Save();
+		}
+
+		public void OnVoiceChatToggle()
+		{
+			VoiceChatManager.Instance.ClientEnabled = VoiceChatToggle.isOn;
+			PlayerPrefs.SetInt(PlayerPrefKeys.VoiceChatToggle, VoiceChatToggle.isOn ? 1 : 0);
+			PlayerPrefs.Save();
+		}
+
 		void Refresh()
 		{
 			musicSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolumeKey, 0.75f);
@@ -103,7 +124,11 @@ namespace Unitystation.Options
 			CommonRadioToggle.isOn = PlayerPrefs.GetInt(PlayerPrefKeys.CommonRadioToggleKey) == 1;
 			RadioSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.RadioVolumeKey);
 
+
+			VoiceChatToggle.isOn = PlayerPrefs.GetInt(PlayerPrefKeys.VoiceChatToggle, 1) == 1;
+			PushToTalkToggle.isOn = PlayerPrefs.GetInt(PlayerPrefKeys.PushToTalkToggle, 1) == 1;
 		}
+
 
 		public void ResetDefaults()
 		{

@@ -369,7 +369,7 @@ namespace Lobby
 		public void HostServer()
 		{
 			lobbyDialogue.ShowLoadingPanel("Hosting a game...");
-			LoadingScreenManager.LoadFromLobby(CustomNetworkManager.Instance.StartHost);
+			LoadingScreenManager.LoadFromLobby(CustomNetworkManager.Instance.StartHostWrapper);
 		}
 
 		public void Logout()

@@ -1,0 +1,37 @@
+{
+	"name": "com.adrenak.univoice.unimicinput",
+	"version": "3.0.0",
+	"displayName": "Adrenak.UniVoice.UniMicInput",
+	"description": "UniMic based UniVoice Audio Input implementation",
+	"unity": "2019.4",
+	"author": {
+		"name": "Vatsal Ambastha",
+		"email": "ambastha.vatsal@gmail.com",
+		"url": "http://www.vatsalambastha.com"
+	},
+	"license": "MIT",
+	"keywords": [
+		"Microphone",
+		"Unity",
+		"UniVoice",
+		"Audio"
+	],
+	"publishConfig": {
+		"registry": "https://registry.npmjs.org"
+	},
+	"scopedRegistries": [
+		{
+			"name": "npmjs",
+			"url": "https://registry.npmjs.org",
+			"scopes": [
+				"com.npmjs",
+				"com.adrenak.unimic",
+				"com.adrenak.univoice"
+			]
+		}
+	],
+	"dependencies": {
+		"com.adrenak.univoice": "3.0.0",
+		"com.adrenak.unimic": "1.1.0"
+	}
+}

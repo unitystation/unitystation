@@ -84,7 +84,8 @@ public enum KeyAction
 	RadialScrollForward,
 
 	HideUi,
-	PreventRadialQuickSelectOpen
+	PreventRadialQuickSelectOpen,
+	PushToTalk
 }
 
 /// <summary>
@@ -354,6 +355,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.ToggleHelp,	new KeybindMetadata("Toggle Help Window", ActionType.Chat)},
 		{ KeyAction.ToggleAHelp,	new KeybindMetadata("Toggle Admin Help", ActionType.Chat)},
 		{ KeyAction.ToggleMHelp,	new KeybindMetadata("Toggle Mentor Help", ActionType.Chat)},
+		{ KeyAction.PushToTalk,	new KeybindMetadata("Toggle Microphone", ActionType.Chat)},
 
 		// Body part selection
 		{ KeyAction.TargetHead,		new KeybindMetadata("Target Head, Eyes and Mouth", ActionType.Targeting)},
@@ -420,6 +422,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.ToggleHelp,    new DualKeyCombo(new KeyCombo(KeyCode.F1), null)},
 		{ KeyAction.ToggleAHelp,    new DualKeyCombo(new KeyCombo(KeyCode.F2), null)},
 		{ KeyAction.ToggleMHelp,    new DualKeyCombo(new KeyCombo(KeyCode.F3), null)},
+		{ KeyAction.PushToTalk,    new DualKeyCombo(new KeyCombo(KeyCode.N), null)},
 
 		// Body part selection
 		{ KeyAction.TargetHead, 	new DualKeyCombo(new KeyCombo(KeyCode.Keypad8), null)},

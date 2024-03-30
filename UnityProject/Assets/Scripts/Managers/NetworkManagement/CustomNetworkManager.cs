@@ -14,6 +14,7 @@ using Logs;
 using Messages.Server;
 using UnityEditor;
 using Util;
+using Object = UnityEngine.Object;
 
 public class CustomNetworkManager : NetworkManager, IInitialise
 {
@@ -24,6 +25,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	public static bool IsHeadless => Application.isBatchMode;
 
 	public static CustomNetworkManager Instance;
+
+	public List<GameObject> NetworkedManagersPrefabs;
 
 	[HideInInspector] public bool _isServer;
 	[HideInInspector] private ServerConfig config;
@@ -133,7 +136,26 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		var prevEditorScene = SubSceneManager.GetEditorPrevScene();
 		if (prevEditorScene != string.Empty && prevEditorScene != "StartUp" && prevEditorScene != "Lobby")
 		{
-			StartHost();
+			StartHostWrapper();
+		}
+	}
+
+	public void StartHostWrapper()
+	{
+		StartHost();
+		StartCoroutine(WaitForInit());
+	}
+
+	private IEnumerator WaitForInit()
+	{
+		Loggy.LogError("WaitForInit");
+		yield return WaitFor.Seconds(1f);
+		Loggy.LogError("yield return WaitFor.Seconds(1f);");
+		foreach (var NetworkedManagersPrefab in NetworkedManagersPrefabs)
+		{
+			Loggy.LogError("NetworkedManagersPrefab");
+			var spawnedObject = Object.Instantiate(NetworkedManagersPrefab, Vector3.zero, Quaternion.identity , this.gameObject.transform);
+			NetworkServer.Spawn(spawnedObject);
 		}
 	}
 

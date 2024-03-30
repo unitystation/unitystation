@@ -135,7 +135,7 @@ public class GameData : MonoBehaviour, IInitialise
 	private IEnumerator WaitToStartServer()
 	{
 		yield return WaitFor.Seconds(0.1f);
-		CustomNetworkManager.Instance.StartHost();
+		CustomNetworkManager.Instance.StartHostWrapper();
 	}
 
 	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
