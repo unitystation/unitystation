@@ -31,7 +31,7 @@ public class VoiceChatManager : NetworkBehaviour, IInitialise
 
 	private ChatroomAgent chatroomAgent;
 
-	private UniVoiceMirrorNetwork UniVoiceMirrorNetwork;
+	public UniVoiceMirrorNetwork UniVoiceMirrorNetwork;
 
 	[SyncVar(hook = nameof(SyncEnabled))]
 	public bool Enabled = false;

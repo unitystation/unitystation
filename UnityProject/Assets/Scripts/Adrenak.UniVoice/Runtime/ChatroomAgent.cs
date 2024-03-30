@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
-
+using Logs;
 using Debug = UnityEngine.Debug;
 
 namespace Adrenak.UniVoice {
@@ -56,7 +56,7 @@ namespace Adrenak.UniVoice {
                 if(_currentMode != value) {
                     _currentMode = value;
                     OnModeChanged?.Invoke(value);
-                    Debug.unityLogger.Log(TAG, "Current Mode set to " + value);
+                    Loggy.Log(TAG + "Current Mode set to " + value);
                 }
             }
         }
@@ -126,7 +126,7 @@ namespace Adrenak.UniVoice {
             PeerSettings = new Dictionary<short, ChatroomPeerSettings>();
             PeerOutputs = new Dictionary<short, IAudioOutput>();
 
-            Debug.unityLogger.Log(TAG, "Created");
+            Loggy.Log(TAG + "Created");
             SetupEventListeners();
         }
 
@@ -137,7 +137,7 @@ namespace Adrenak.UniVoice {
         /// instances and/or using them outside this instance.
         /// </summary>
         public void Dispose() {
-            Debug.unityLogger.Log(TAG, "Disposing");
+	        Loggy.Log(TAG +  "Disposing");
             AudioInput.Dispose();
 
             RemoveAllPeers();
@@ -145,7 +145,7 @@ namespace Adrenak.UniVoice {
             PeerOutputs.Clear();
 
             Network.Dispose();
-            Debug.unityLogger.Log(TAG, "Disposed");
+            Loggy.Log(TAG +"Disposed");
         }
         #endregion
 
@@ -153,33 +153,33 @@ namespace Adrenak.UniVoice {
         #region INTERNAL
         // ====================================================================
         void SetupEventListeners() {
-            Debug.unityLogger.Log(TAG, "Setting up events.");
+	        Loggy.Log(TAG + "Setting up events.");
 
             // Network events
             Network.OnCreatedChatroom += () => {
-                Debug.unityLogger.Log(TAG, "Chatroom created.");
+                Loggy.Log(TAG + "Chatroom created.");
                 CurrentMode = ChatroomAgentMode.Host;
             };
             Network.OnClosedChatroom += () => {
-                Debug.unityLogger.Log(TAG, "Chatroom closed.");
+                Loggy.Log(TAG +  "Chatroom closed.");
                 RemoveAllPeers();
                 CurrentMode = ChatroomAgentMode.Unconnected;
             };
             Network.OnJoinedChatroom += id => {
-                Debug.unityLogger.Log(TAG, "Joined chatroom.");
+                Loggy.Log(TAG +  "Joined chatroom.");
                 CurrentMode = ChatroomAgentMode.Guest;
             };
             Network.OnLeftChatroom += () => {
-                Debug.unityLogger.Log(TAG, "Left chatroom.");
+                Loggy.Log(TAG +  "Left chatroom.");
                 RemoveAllPeers();
                 CurrentMode = ChatroomAgentMode.Unconnected;
             };
             Network.OnPeerJoinedChatroom += id => {
-                Debug.unityLogger.Log(TAG, "New peer joined: " + id);
+                Loggy.Log(TAG +  "New peer joined: " + id);
                 AddPeer(id);
             };
             Network.OnPeerLeftChatroom += id => {
-                Debug.unityLogger.Log(TAG, "Peer left: " + id);
+                Loggy.Log(TAG +  "Peer left: " + id);
                 RemovePeer(id);
             };
 
@@ -198,20 +198,16 @@ namespace Adrenak.UniVoice {
                 // If we're muting ourselves to all, do nothing.
                 if (MuteSelf) return;
 
-                // Get all the recipients we haven't muted ourselves to
-                var recipients = Network.PeerIDs
-                    .Where(id => AllowOutgoingAudioToPeer(id));
-
                 // Send the audio segment to every deserving recipient
-                foreach (var recipient in recipients)
-                    Network.SendAudioSegment(recipient, new ChatroomAudioSegment {
-                        segmentIndex = index,
-                        frequency = AudioInput.Frequency,
-                        channelCount = AudioInput.ChannelCount,
-                        samples = samples
-                    });
+                Network.SendAudioSegment(0, new ChatroomAudioSegment {
+	                segmentIndex = index,
+	                frequency = AudioInput.Frequency,
+	                channelCount = AudioInput.ChannelCount,
+	                samples = samples
+                });
+
             };
-            Debug.unityLogger.Log(TAG, "Event setup completed.");
+            Loggy.Log(TAG + "Event setup completed.");
         }
 
         void AddPeer(short id) {
@@ -227,18 +223,18 @@ namespace Adrenak.UniVoice {
             );
             output.ID = id.ToString();
             PeerOutputs.Add(id, output);
-            Debug.unityLogger.Log(TAG, "Added peer " + id);
+            Loggy.Log(TAG +  "Added peer " + id);
         }
 
         void RemovePeer(short id) {
             if (PeerSettings.ContainsKey(id)) {
                 PeerSettings.Remove(id);
-                Debug.unityLogger.Log(TAG, "Removed peer settings for ID " + id);
+                Loggy.Log(TAG + "Removed peer settings for ID " + id);
             }
             if (PeerOutputs.ContainsKey(id)) {
                 PeerOutputs[id].Dispose();
                 PeerOutputs.Remove(id);
-                Debug.unityLogger.Log(TAG, "Removed peer output for ID " + id);
+                Loggy.Log(TAG + "Removed peer output for ID " + id);
             }
         }
 
@@ -251,7 +247,7 @@ namespace Adrenak.UniVoice {
         }
 
         void RemoveAllPeers() {
-            Debug.unityLogger.Log(TAG, "Removing all peers");
+            Loggy.Log(TAG +  "Removing all peers");
             foreach(var peer in Network.PeerIDs)
                 RemovePeer(peer);
         }

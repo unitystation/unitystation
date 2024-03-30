@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Adrenak.UniMic {
-    [ExecuteAlways]
     public class Mic : MonoBehaviour {
         // ================================================
         #region MEMBERS
@@ -76,7 +75,7 @@ namespace Adrenak.UniMic {
 
         /// <summary>
         /// Invoked everytime an audio frame is collected. Includes the frame count.
-        /// NOTE: There isn't much use for the index of a sample. Refer to 
+        /// NOTE: There isn't much use for the index of a sample. Refer to
         /// <see cref="OnTimestampedSampleReady"/> for an event that gives you the
         /// unix timestamp with a millisecond precision.
         /// </summary>
@@ -103,7 +102,7 @@ namespace Adrenak.UniMic {
             get {
                 if(m_Instance == null)
                     m_Instance = FindObjectOfType<Mic>();
-                if (m_Instance == null) 
+                if (m_Instance == null)
                     m_Instance = new GameObject("UniMic.Mic").AddComponent<Mic>();
                 return m_Instance;
             }
@@ -139,7 +138,7 @@ namespace Adrenak.UniMic {
         }
 
         /// <summary>
-        /// Resumes recording at the frequency and sample duration that was 
+        /// Resumes recording at the frequency and sample duration that was
         /// previously being used.
         /// </summary>
         public void ResumeRecording() {

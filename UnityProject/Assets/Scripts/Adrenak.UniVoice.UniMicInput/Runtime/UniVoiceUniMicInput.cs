@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Adrenak.UniMic;
-
+using Logs;
 using UnityEngine;
 
 namespace Adrenak.UniVoice.UniMicInput {
@@ -27,7 +27,7 @@ namespace Adrenak.UniVoice.UniMicInput {
 
             Mic.Instance.SetDeviceIndex(deviceIndex);
             Mic.Instance.StartRecording(frequency, sampleLen);
-            Debug.unityLogger.Log(TAG, "Start recording.");
+            Loggy.Log(TAG + "Start recording.");
             Mic.Instance.OnSampleReady += Mic_OnSampleReady;
         }
 

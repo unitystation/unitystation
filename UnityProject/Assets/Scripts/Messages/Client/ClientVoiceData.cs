@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Adrenak.UniVoice;
 using Mirror;
 using UnityEngine;
 
@@ -9,8 +10,10 @@ namespace Messages.Client
 	{
 		public struct UniVoiceMessage : NetworkMessage
 		{
+			public short audioSender;
+			public string Tag;
 			public short recipient;
-			public byte[] data;
+			public ChatroomAudioSegment data;
 		}
 
 		public override void Process(UniVoiceMessage msg)
@@ -23,5 +26,6 @@ namespace Messages.Client
 			NetworkClient.Send(msg, Mirror.Channels.Unreliable);
 			return msg;
 		}
+
 	}
 }

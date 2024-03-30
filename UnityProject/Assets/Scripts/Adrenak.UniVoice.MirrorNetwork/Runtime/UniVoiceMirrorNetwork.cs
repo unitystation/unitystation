@@ -12,6 +12,7 @@ using Mirror;
 
 using Adrenak.BRW;
 using Initialisation;
+using Logs;
 using Messages.Client;
 using Messages.Server;
 
@@ -84,64 +85,56 @@ namespace Adrenak.UniVoice.MirrorNetwork {
         public void SendAudioSegment(short recipientPeerId, ChatroomAudioSegment data) {
             if (IsOffline) return;
 
-            // We write a packet with this data:
-            // tag: string
-            // senderPeerID: short
-            // recipientPeerID: short
-            // audio data: byte[]
-            var packet = new BytesWriter()
-                .WriteString(AUDIO_SEGMENT)
-                .WriteShort(OwnID)
-                .WriteShort(recipientPeerId)
-                .WriteByteArray(ToByteArray(data));
-
             if (IsServerOrHost)
-                SendToClient(recipientPeerId, packet.Bytes);
+            {
+	            var Message = new ServerVoiceData.UniVoiceMessage()
+	            {
+		            Tag = AUDIO_SEGMENT,
+		            audioSender = OwnID,
+		            recipient = -1,
+		            data = data,
+		            Object = PlayerManager.LocalPlayerObject.NetId()
+	            };
+	            SendToClient(Message);
+            }
             else if(IsClient)
-                SendToServer(packet.Bytes);
+                SendToServer(new ClientVoiceData.UniVoiceMessage()
+                {
+	                Tag = AUDIO_SEGMENT,
+	                audioSender =  OwnID,
+	                recipient = -1,
+	                data= data
+                });
 
             OnAudioSent?.Invoke(recipientPeerId, data);
         }
 
-        async void SendToClient(short peerID, byte[] bytes, int delay = 0, uint netID = NetId.Empty) {
+        async void SendToClient(ServerVoiceData.UniVoiceMessage data) {
             if (IsServerOrHost) {
-	            if (delay != 0)
-	            {
-		            LoadManager.RegisterActionDelayed(() =>
-		            {
-			            ServerVoiceData.Send(new ServerVoiceData.UniVoiceMessage
-			            {
-				            recipient = peerID,
-				            data = bytes,
-				            Object = netID
-			            });
-		            }, delay);
-	            }
-	            else
-	            {
-		            ServerVoiceData.Send(new ServerVoiceData.UniVoiceMessage {
-			            recipient = peerID,
-			            data = bytes,
-			            Object = netID
-		            });
-	            }
-
-
+	            ServerVoiceData.Send(data);
             }
         }
 
-        void SendToServer(byte[] bytes)
+        void SendToClientSpecified(ServerVoiceData.UniVoiceMessage data, int delay, NetworkConnection Connection )
+        {
+	        if (IsServerOrHost)
+	        {
+		        LoadManager.RegisterActionDelayed(() => { ServerVoiceData.SendTo(Connection, data); }, delay);
+	        }
+        }
+
+
+        void SendToServer(ClientVoiceData.UniVoiceMessage data)
         {
 	        if (NetworkManager.singleton.mode == NetworkManagerMode.ClientOnly)
-		        ClientVoiceData.Send(new ClientVoiceData.UniVoiceMessage
-		        {
-			        recipient = -1,
-			        data = bytes
-		        });
+	        {
+		        data.recipient = -1;
+		        ClientVoiceData.Send(data);
+	        }
         }
 
         public void Client_OnConnected() {
-            Debug.Log("Client connected to server. Awaiting initialization from server. " +
+            Loggy.Log("Client connected to server. Awaiting initialization from server. " +
             "Connection ID : " + NetworkClient.connection.connectionId);
         }
 
@@ -196,26 +189,33 @@ namespace Adrenak.UniVoice.MirrorNetwork {
                     // for the newly joined client
                     existingPeersInitPacket.Add(0);
 
-                    var newClientPacket = new BytesWriter()
-                        .WriteString(NEW_CLIENT_INIT)
-                        .WriteInt(peerId)
-                        .WriteIntArray(existingPeersInitPacket.ToArray());
-
                     // Server_OnClientConnected gets invoked as soon as a client connects
                     // to the server. But we use NetworkServer.SendToAll to send our packets
                     // and it seems the new Mirror Connection ID is not added to the KcpTransport
                     // immediately, so we send this with an artificial delay of 100ms.
-                    SendToClient(-1, newClientPacket.Bytes, 1000);
+                    var meg = new ServerVoiceData.UniVoiceMessage()
+                    {
+	                    Tag = NEW_CLIENT_INIT,
+	                    PeerIDs = existingPeersInitPacket.Select(x=> (short)x).ToArray(),
+	                    audioSender = peerId,
+	                    recipient = peerId
+                    };
+
+                    SendToClientSpecified(meg, 750, PlayerList.Instance.loggedIn.FirstOrDefault(x => x.Connection.connectionId == connId)?.Connection);
 
                     string peerListString = string.Join(", ", existingPeersInitPacket);
-                    Debug.Log($"Initializing new client with ID {peerId} and peer list {peerListString}");
+                    Loggy.Log($"Initializing new client with ID {peerId} and peer list {peerListString}");
                 }
                 // To the already existing peers, we let them know a new peer has joined
                 else {
-                    var newPeerNotifyPacked = new BytesWriter()
-                        .WriteString(CLIENT_JOINED)
-                        .WriteInt(peerId);
-                    SendToClient(peer, newPeerNotifyPacked.Bytes);
+
+	                var meg = new ServerVoiceData.UniVoiceMessage()
+	                {
+		                Tag = CLIENT_JOINED,
+		                PeerIDs = new[] {peerId},
+		                recipient = peer
+	                };
+                    SendToClient(meg);
                 }
             }
             OnPeerJoinedChatroom?.Invoke(peerId);
@@ -237,10 +237,14 @@ namespace Adrenak.UniVoice.MirrorNetwork {
             // Notify all remaining peers that a peer has left
             // so they can update their peer lists
             foreach (var peerId in PeerIDs) {
-                var packet = new BytesWriter()
-                    .WriteString(CLIENT_LEFT)
-                    .WriteShort(leftPeerId);
-                SendToClient(peerId, packet.Bytes);
+                var meg = new ServerVoiceData.UniVoiceMessage()
+                {
+	                Tag = CLIENT_LEFT,
+	                PeerIDs = new[] {leftPeerId},
+	                recipient = peerId
+                };
+
+                SendToClient(meg);
             }
             OnPeerLeftChatroom?.Invoke(leftPeerId);
         }
@@ -253,34 +257,33 @@ namespace Adrenak.UniVoice.MirrorNetwork {
 
             // Unless we're the recipient of the message or the message is a broadcast
             // (recipient == -1), we don't process the message ahead.
-            if (message.recipient == -1 && message.recipient != OwnID) return;
+            if (message.recipient == -1 && message.audioSender == OwnID) return;
 
             try {
-                var bytes = message.data;
-                var packet = new BytesReader(bytes);
-                var tag = packet.ReadString();
 
+                var tag = message.Tag;
                 switch (tag) {
                     // New client initialization has the following data (in this order):
                     // The peers ID: int
                     // The existing peers in the chatroom: int[]
                     case NEW_CLIENT_INIT:
                         // Get self ID and fire that joined chatroom event
-                        OwnID = (short)packet.ReadInt();
+                        if (OwnID != -1) return;
+                        OwnID = message.audioSender;
                         OnJoinedChatroom?.Invoke(OwnID);
 
                         // Get the existing peer IDs from the message and fire
                         // the peer joined event for each of them
-                        PeerIDs = packet.ReadIntArray().Select(x => (short)x).ToList();
+                        PeerIDs = message.PeerIDs.ToList();
                         PeerIDs.ForEach(x => OnPeerJoinedChatroom?.Invoke(x));
 
-                        Debug.Log($"Initialized self with ID {OwnID} and peers {string.Join(", ", PeerIDs)}");
+                        Loggy.Log($"Initialized self with ID {OwnID} and peers {string.Join(", ", PeerIDs)}");
                         break;
 
                     // When a new peer joins, the existing peers add it to their state
                     // and fire the peer joined event
                     case CLIENT_JOINED:
-                        var joinedID = (short)packet.ReadInt();
+                        var joinedID = message.PeerIDs.First();
                         if (!PeerIDs.Contains(joinedID))
                             PeerIDs.Add(joinedID);
                         OnPeerJoinedChatroom?.Invoke(joinedID);
@@ -289,7 +292,7 @@ namespace Adrenak.UniVoice.MirrorNetwork {
                     // When a peer leaves, the existing peers remove it from their state
                     // and fire the peer left event
                     case CLIENT_LEFT:
-                        var leftID = (short)packet.ReadInt();
+                        var leftID = message.PeerIDs.First();
                         if (PeerIDs.Contains(leftID))
                             PeerIDs.Remove(leftID);
                         OnPeerLeftChatroom?.Invoke(leftID);
@@ -302,46 +305,57 @@ namespace Adrenak.UniVoice.MirrorNetwork {
                     // recipient: short
                     // audio: byte[]
                     case AUDIO_SEGMENT:
-                        var sender = packet.ReadShort();
-                        var recepient = packet.ReadShort();
-                        if (recepient == OwnID) {
-                            var segment = FromByteArray<ChatroomAudioSegment>(packet.ReadByteArray());
+                        var sender = message.audioSender;
+                        var recepient = message.recipient;
+                        if (recepient == OwnID || recepient == -1) {
+                            var segment = message.data;
                             OnAudioReceived?.Invoke(sender, segment, message.Object);
                         }
                         break;
                 }
             }
             catch (Exception e) {
-                Debug.LogError(e);
+                Loggy.LogError(e.ToString());
             }
         }
 
         public void Server_OnMessage(NetworkConnectionToClient connection, ClientVoiceData.UniVoiceMessage message) {
-            if (!IsServerOrHost) return;
 
-            var bytes = message.data;
-            var packet = new BytesReader(bytes);
-            var tag = packet.ReadString();
+            if (IsServerOrHost == false) return;
+
+            var tag = message.Tag;
 
             if (tag.Equals(AUDIO_SEGMENT)) {
-                var audioSender = packet.ReadShort();
-                var recipient = packet.ReadShort();
-                var segmentBytes = packet.ReadByteArray();
+                var audioSender = message.audioSender;
+                var recipient = message.recipient;
 
                 // If the audio is for the server, we invoke the audio received event.
-                if (recipient == OwnID) {
+                if (recipient == OwnID || recipient == -1) {
 	                var Info = PlayerList.Instance.GetOnline(connection);
-                    var segment = FromByteArray<ChatroomAudioSegment>(segmentBytes);
+                    var segment = message.data;
                     OnAudioReceived?.Invoke(audioSender, segment , Info.GameObject.NetId());
                 }
                 // If the message is meant for someone else,
                 // we forward it to the intended recipient.
-                else if (PeerIDs.Contains(recipient))
+	            if (PeerIDs.Contains(recipient) || recipient == -1)
                 {
 	                var Info = PlayerList.Instance.GetOnline(connection);
-	                SendToClient(recipient, bytes, netID : Info.GameObject.NetId());
+	                try
+	                {
+		                SendToClient( new ServerVoiceData.UniVoiceMessage()
+		                {
+			                audioSender = message.audioSender,
+			                Tag = AUDIO_SEGMENT,
+			                recipient = -1,
+			                data =  message.data,
+			                Object =  Info.GameObject.NetId()
+		                });
+	                }
+	                catch (Exception e)
+	                {
+		                Loggy.LogError(e.ToString());
+	                }
                 }
-
             }
         }
 
@@ -388,40 +402,21 @@ namespace Adrenak.UniVoice.MirrorNetwork {
         bool IsOffline =>
             NetworkManager.singleton.mode == NetworkManagerMode.Offline;
 
-        public byte[] ToByteArray<T>(T obj) {
-            if (obj == null)
-                return null;
-            BinaryFormatter bf = new BinaryFormatter();
-            using (MemoryStream ms = new MemoryStream()) {
-                bf.Serialize(ms, obj);
-                return ms.ToArray();
-            }
-        }
-
-        public T FromByteArray<T>(byte[] data) {
-            if (data == null)
-                return default;
-            BinaryFormatter bf = new BinaryFormatter();
-            using (MemoryStream ms = new MemoryStream(data)) {
-                object obj = bf.Deserialize(ms);
-                return (T)obj;
-            }
-        }
 
         public void HostChatroom(object data = null) {
-            Debug.Log("HostChatroom is not supported. To host a chatroom, start a Mirror server.");
+            Loggy.Log("HostChatroom is not supported. To host a chatroom, start a Mirror server.");
         }
 
         public void CloseChatroom(object data = null) {
-            Debug.Log("CloseChatroom is not supported. To close a chatroom, stop your Mirror server.");
+            Loggy.Log("CloseChatroom is not supported. To close a chatroom, stop your Mirror server.");
         }
 
         public void JoinChatroom(object data = null) {
-            Debug.Log("JoinChatroom is not supported. To join a  chatroom, connect to a Mirror server.");
+            Loggy.Log("JoinChatroom is not supported. To join a  chatroom, connect to a Mirror server.");
         }
 
         public void LeaveChatroom(object data = null) {
-            Debug.Log("LeaveChatroom is not supported. To leave the chatroom, disconnect from your Mirror server.");
+            Loggy.Log("LeaveChatroom is not supported. To leave the chatroom, disconnect from your Mirror server.");
         }
 
         public void Dispose() {

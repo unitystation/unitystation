@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
+using Logs;
 using UnityEngine;
 
 namespace Adrenak.UniVoice.AudioSourceOutput {
@@ -75,7 +75,7 @@ namespace Adrenak.UniVoice.AudioSourceOutput {
             ctd.circularAudioClip = buffer;
             ctd.AudioSource = source;
 
-            Debug.unityLogger.Log(TAG, $"Created with the following params:" +
+            Loggy.Log(TAG + $"Created with the following params:" +
             $"buffer SegCount: {buffer.SegCount}" +
             $"buffer SegDataLen: {buffer.SegDataLen}" +
             $"buffer MinSegCount: {ctd.MinSegCount}" +
