@@ -201,7 +201,7 @@ namespace Adrenak.UniVoice.MirrorNetwork {
 	                    recipient = peerId
                     };
 
-                    SendToClientSpecified(meg, 750, PlayerList.Instance.loggedIn.FirstOrDefault(x => x.Connection.connectionId == connId)?.Connection);
+                    SendToClientSpecified(meg, 500, NetworkServer.connections[connId]);
 
                     string peerListString = string.Join(", ", existingPeersInitPacket);
                     Loggy.Log($"Initializing new client with ID {peerId} and peer list {peerListString}");
