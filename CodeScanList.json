@@ -3125,7 +3125,11 @@
 			},
 			"Transport" :{
 				"Fields":[
-					"Mirror.Transport active"
+					"Mirror.Transport active",
+					"OnServerDisconnected System.Action`1<int>",
+					"OnServerConnected System.Action`1<int>",
+					"OnClientDisconnected System.Action",
+					"OnClientConnected System.Action"
 				],
 				"Methods" : [
 					"void Shutdown()",
@@ -3160,6 +3164,9 @@
 			"NetworkStartPosition" : {
 				"All": true
 			},
+			"NetworkManagerMode" : {
+				"All": true
+			}
         },
 		"IgnoranceTransport":{
 			"Ignorance" :{
