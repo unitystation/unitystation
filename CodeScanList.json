@@ -3126,10 +3126,10 @@
 			"Transport" :{
 				"Fields":[
 					"Mirror.Transport active",
-					"OnServerDisconnected System.Action`1<int>",
-					"OnServerConnected System.Action`1<int>",
-					"OnClientDisconnected System.Action",
-					"OnClientConnected System.Action"
+					"System.Action`1<int> OnServerDisconnected",
+					"System.Action`1<int> OnServerConnected",
+					"System.Action OnClientDisconnected",
+					"System.Action OnClientConnected"
 				],
 				"Methods" : [
 					"void Shutdown()",
