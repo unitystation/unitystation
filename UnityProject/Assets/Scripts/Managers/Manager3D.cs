@@ -50,11 +50,11 @@ public class Manager3D : MonoBehaviour
 		DynamicChoiceUI.ClientDisplayChoicesNotNetworked("Doom? **Hold !!!TAB to use mouse, will freeze for a few seconds", " would you like to activate DOOM mode?, is a WIP so is buggy will freeze for a few seconds *Hold !TAB! to use mouse!*, Would you also like music to accompany it? ",
 			new List<DynamicUIChoiceEntryData>()
 			{
-				new DynamicUIChoiceEntryData()
-				{
-					ChoiceAction =  Ceilings,
-					Text = " Give me DOOM with ceilings! ( Performance heavy )"
-				},
+				// new DynamicUIChoiceEntryData()
+				// {
+				// 	ChoiceAction =  Ceilings,
+				// 	Text = " Give me DOOM with ceilings! ( Performance heavy )"
+				// },
 				new DynamicUIChoiceEntryData()
 				{
 					ChoiceAction =  ConvertTo3DWithMusic,
@@ -185,7 +185,7 @@ public class Manager3D : MonoBehaviour
 							foreach (var TileInfo in Layer)
 							{
 								var Sprite3D = Instantiate(CommonPrefabs.Instance.Cube3D,
-									TileInfo.LocalPosition + new Vector3(0.5f, 0.5f, 0), new Quaternion(),
+									TileInfo.LocalPosition, new Quaternion(),
 									LayerV.Value.transform).GetComponent<SetCubeSprite>();
 
 								Sprite3D.gameObject.transform.localPosition = TileInfo.LocalPosition + new Vector3(0.5f, 0.5f, 0);
@@ -215,10 +215,10 @@ public class Manager3D : MonoBehaviour
 							foreach (var TileInfo in Layer)
 							{
 								var Sprite3D = Instantiate(CommonPrefabs.Instance.Cube3D,
-									TileInfo.LocalPosition + new Vector3(0.5f, 0.5f, -5), new Quaternion(),
+									TileInfo.LocalPosition , new Quaternion(),
 									LayerV.Value.transform).GetComponent<SetCubeSprite>();
 
-								Sprite3D.gameObject.transform.localPosition = TileInfo.LocalPosition +  new Vector3(0.5f, 0.5f, -1.1f);
+								Sprite3D.gameObject.transform.localPosition = TileInfo.LocalPosition +  new Vector3(0.5f, 0.5f, -1f);
 
 								TileInfo.AssociatedSetCubeSprite = Sprite3D;
 								Sprite3D.SetSprite(TileInfo.layerTile.PreviewSprite);
@@ -241,8 +241,9 @@ public class Manager3D : MonoBehaviour
 					foreach (var LayerV in map.Layers)
 					{
 						var Layer = MultilayerPresentTiles[(int)LayerV.Key];
-						if (Layer == null) continue;
-						if (LayerV.Value.LayerType != LayerType.Effects)
+						if (Layer == null || LayerV.Key.IsUnderFloor() == false) continue;
+
+						if (LayerV.Value.LayerType != LayerType.Objects )
 						{
 							LayerV.Value.gameObject.transform.localPosition = new Vector3(0, 0, 0.5f);
 						}
@@ -250,7 +251,6 @@ public class Manager3D : MonoBehaviour
 				}
 			}
 		}
-
 
 		var ParallaxControllers = FindObjectsOfType<ParallaxController>();
 

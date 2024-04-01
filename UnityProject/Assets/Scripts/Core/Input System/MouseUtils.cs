@@ -41,7 +41,7 @@ public static class MouseUtils
 		{
 			var worldPos3D = CommonInput.CashedMouseWorldPosition;
 
-			worldPos3D = worldPos3D+ Camera.main.transform.forward;
+			worldPos3D = worldPos3D+ (Camera.main.transform.forward  );
 			worldPos3D.z = 0;
 			return worldPos3D;
 		}

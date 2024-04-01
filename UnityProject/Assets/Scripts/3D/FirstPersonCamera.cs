@@ -1,9 +1,10 @@
+using Shared.Managers;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 namespace _3D
 {
-	public class FirstPersonCamera : MonoBehaviour
+	public class FirstPersonCamera : SingletonManager<FirstPersonCamera>
 	{
 		public float mouseSensitivity = 100f;
 
@@ -11,6 +12,7 @@ namespace _3D
 		private float xRotation = 0f;
 		private float yRotation = 0f;
 
+		public bool MouseActivated = false;
 
 		private LightingSystem LightingSystem;
 
@@ -24,7 +26,7 @@ namespace _3D
 		{
 			LightingSystem.enabled = false;
 
-			if (Input.GetKey(KeyCode.Tab) == false && Application.isFocused && UIManager.Instance.isInputFocus == false)
+			if (MouseActivated == false && Application.isFocused && UIManager.Instance.isInputFocus == false)
 			{
 
 				float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
@@ -47,7 +49,7 @@ namespace _3D
 				//playerBody.Rotate(Vector3.up * mouseX);
 
 				// Set the mouse position to the center of the screen
-        Cursor.lockState = CursorLockMode.Locked;
+				Cursor.lockState = CursorLockMode.Locked;
 				Cursor.visible = false;
 			}
 			else

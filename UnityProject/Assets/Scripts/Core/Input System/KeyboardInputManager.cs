@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using _3D;
 using Core.Chat;
 using UnityEngine;
 using UI.Chat_UI;
@@ -261,5 +262,6 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.PocketThree, 	() => { PlayerManager.LocalPlayerScript.DynamicItemStorage.TryItemInteract(NamedSlot.suitStorage); }},
 		{ KeyAction.HideUi,         () => { UIManager.Instance.ToggleUiVisibility(); }},
 		{ KeyAction.EmoteWindowUI,  () => { EmoteActionManager.Instance.CheckForInputForEmoteWindow(); }},
+		{ KeyAction.Mode3DKeyToggle, () => { if (FirstPersonCamera.Instance != null) { FirstPersonCamera.Instance.MouseActivated = !FirstPersonCamera.Instance.MouseActivated; } }},
 	};
 }

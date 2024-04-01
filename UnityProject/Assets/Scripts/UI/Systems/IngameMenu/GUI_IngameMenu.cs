@@ -90,8 +90,8 @@ namespace UI
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			Loggy.Log($"Opening {menuWindow.name} menu", Category.UI);
 			menuWindow.SetActive(true);
-			InfoPanelMessageClient.Send();
-			if (UIManager.Instance.ServerInfoPanelWindow != null) UIManager.Instance.ServerInfoPanelWindow.SetActive(true);
+			//InfoPanelMessageClient.Send();
+			//if (UIManager.Instance.ServerInfoPanelWindow != null) UIManager.Instance.ServerInfoPanelWindow.SetActive(true);
 		}
 
 		/// <summary>
