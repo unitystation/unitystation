@@ -343,6 +343,24 @@ public class Matrix : MonoBehaviour
 		return filtered;
 	}
 
+	public List<T> GetNoGC<T>(Vector3Int localPosition, bool isServer, List<T> ToUseList)
+	{
+		var objects = (isServer ? ServerObjects : ClientObjects).Get(localPosition);
+		if (objects.Count == 0)
+		{
+			return ToUseList;
+		}
+
+
+		foreach (RegisterTile t in objects)
+		{
+			if (t == null || t.TryGetComponent<T>(out var x) == false) continue;
+			ToUseList.Add(x);
+		}
+
+		return ToUseList;
+	}
+
 	public T GetFirst<T>(Vector3Int position, bool isServer) where T : MonoBehaviour
 	{
 		//This has been checked in the profiler. 0% CPU and 0kb garbage, so should be fine

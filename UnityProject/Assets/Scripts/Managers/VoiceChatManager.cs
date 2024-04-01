@@ -33,6 +33,8 @@ public class VoiceChatManager : NetworkBehaviour, IInitialise
 
 	public UniVoiceMirrorNetwork UniVoiceMirrorNetwork;
 
+	public UniVoiceUniMicInput UniVoiceUniMicInput;
+
 	[SyncVar(hook = nameof(SyncEnabled))]
 	public bool Enabled = false;
 
@@ -76,7 +78,11 @@ public class VoiceChatManager : NetworkBehaviour, IInitialise
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			chatroomAgent.Dispose();
 			chatroomAgent = null;
+			UniVoiceUniMicInput.Dispose();
+			UniVoiceUniMicInput = null;
+			UniVoiceMirrorNetwork = null;
 			OnEnabledChange?.Invoke();
+			MicrophoneIcon.Instance.gameObject.SetActive(false);
 		}
 
 	}
@@ -85,9 +91,11 @@ public class VoiceChatManager : NetworkBehaviour, IInitialise
 	{
 		UniVoiceMirrorNetwork = new UniVoiceMirrorNetwork();
 		SetUpUniVoiceMirrorNetwork();
+		UniVoiceUniMicInput = new UniVoiceUniMicInput(0, 8000, 27);
+
 		chatroomAgent = new ChatroomAgent (
 			UniVoiceMirrorNetwork,
-			new UniVoiceUniMicInput(0, 8000, 27),
+			UniVoiceUniMicInput,
 			new UniVoiceAudioSourceOutput.Factory(AudioPrefab)
 		);
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);

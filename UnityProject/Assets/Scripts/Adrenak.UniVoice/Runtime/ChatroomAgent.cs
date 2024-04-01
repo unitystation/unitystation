@@ -189,7 +189,10 @@ namespace Adrenak.UniVoice {
                 if (MuteOthers) return;
 
                 if (AllowIncomingAudioFromPeer(peerID))
-                    PeerOutputs[peerID].Feed(data,Object);
+                {
+	                PeerOutputs[peerID].Feed(data,Object);
+                }
+
             };
 
             AudioInput.OnSegmentReady += (index, samples) => {
