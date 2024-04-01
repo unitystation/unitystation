@@ -43,6 +43,9 @@ namespace Construction.Conveyors
 		private float _LastSpeed = 0;
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
+
+		private List<UniversalObjectPhysics> GCfreeList = new List<UniversalObjectPhysics>();
+
 		#region Lifecycle
 
 		private void Awake()
@@ -74,6 +77,7 @@ namespace Construction.Conveyors
 			MoveEntities(ConveyorBeltSpeed);
 		}
 
+
 		private void DetectItems()
 		{
 			if (CurrentStatus == ConveyorStatus.Off) return;
@@ -81,8 +85,8 @@ namespace Construction.Conveyors
 			GetPositionOffset();
 			if (!Matrix.IsPassableAtOneMatrix(registerTile.LocalPositionServer,
 				Vector3Int.RoundToInt(registerTile.LocalPositionServer + PushDirectionPosition), true)) return;
-
-			foreach (var item in Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, true))
+			GCfreeList.Clear();
+			foreach (var item in Matrix.GetNoGC(registerTile.LocalPositionServer, true, GCfreeList))
 			{
 				if (item.gameObject == gameObject || item.IsNotPushable || item.Intangible || item.IsMoving)  continue;
 				objectPhyicsCache.Enqueue(item);

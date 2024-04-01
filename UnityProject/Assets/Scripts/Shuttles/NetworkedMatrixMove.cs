@@ -214,7 +214,30 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 	public float AITravelSpeed = 10;
 
-	public Vector3 TravelToWorldPOS;
+	public Vector3 TravelToWorldPOS
+	{
+
+		get
+		{
+			if (travelToWorldPOSOverride != null)
+			{
+				return travelToWorldPOSOverride.Value;
+			}
+
+			if (TravelToObject != null)
+			{
+				return TravelToObject.transform.position;
+			}
+
+			return travelToWorldPOS;
+		}
+	}
+
+	public GameObject TravelToObject;
+
+	public Vector3? travelToWorldPOSOverride;
+
+	public Vector3 travelToWorldPOS;
 
 	public bool HasMoveToTarget = false;
 	public bool ISMovingX = false;
@@ -224,7 +247,6 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	public bool IsMovingTowardsTargetX = false;
 	public bool IsMovingTowardsTargetY = false;
 
-	public Vector3? BackupTarget;
 	public Vector3? PreviousPosition;
 
 	public Vector3? PointIsWithinMatrixPerimeterPoint;
@@ -911,7 +933,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		{
 			if (IsMoving == true)
 			{
-				foreach (var Matrixe in Matrixes)
+				foreach (var Matrixe in Matrixes.ToList())
 				{
 					Matrixe.OnStopMovement.Invoke();
 					Matrixe.IsMoving = false;
@@ -1345,9 +1367,11 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		}
 	}
 
-	public void SetAITravelToPosition(Vector3 Position)
+	public void SetAITravelToPosition(Vector3 Position, GameObject ObjectToTravelTo = null)
 	{
-		TravelToWorldPOS = Position;
+		travelToWorldPOSOverride = null;
+		travelToWorldPOS = Position;
+		TravelToObject = ObjectToTravelTo;
 		if (Debug)
 		{
 			if (AIGameGizmoSprite == null)
@@ -1386,8 +1410,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 					.GetCorner(MatrixMoveAroundCurrentTargetCorner.Value).RoundToInt();
 				Position.z = 0;
 				HasGoneRoundACorner = true;
-				TravelToWorldPOS = Position;
-				SetAITravelToPosition(TravelToWorldPOS);
+				travelToWorldPOSOverride = Position;
 				PreviousPosition = null;
 			}
 			else
@@ -1401,10 +1424,10 @@ public class NetworkedMatrixMove : NetworkBehaviour
 				{
 					Vector3 currentPosition = CentreOfAIMovementWorld;
 					// Calculate the distance to the target position
-					var distanceToTarget = (currentPosition - BackupTarget.Value);
+					var distanceToTarget = (currentPosition - travelToWorldPOS);
 
 					// Check if the object is heading towards or away from the target position
-					var distancePrevious = (PreviousPosition.Value - BackupTarget.Value);
+					var distancePrevious = (PreviousPosition.Value -travelToWorldPOS);
 					bool? isHeadingTowardsTargetx = null;
 					if (Mathf.Abs(WorldCurrentVelocity.x) > 1)
 					{
@@ -1432,11 +1455,8 @@ public class NetworkedMatrixMove : NetworkBehaviour
 						IsMovingTowardsTargetX = false;
 						IsMovingTowardsTargetY = false;
 						isMovingAroundMatrix = false;
-
-						TravelToWorldPOS = BackupTarget.Value;
-						SetAITravelToPosition(TravelToWorldPOS);
+						travelToWorldPOSOverride = null;
 						IgnoreMatrix = MovingAroundMatrix;
-						BackupTarget = null;
 						PreviousPosition = null;
 						MatrixMoveAroundCurrentTargetCorner = null;
 						MovingAroundMatrix = null;
@@ -1529,22 +1549,13 @@ public class NetworkedMatrixMove : NetworkBehaviour
 						PointIsWithinMatrixPerimeterPoint = OtherBigBound.GetClosestPerimeterPoint(TravelToWorldPOS);
 					}
 
-					if (BackupTarget != null)
-					{
-						Loggy.LogError("AAAAAAAAAAAA BackupTarget");
-					}
-					else
-					{
-						BackupTarget = TravelToWorldPOS;
-					}
 
 					MovingAroundMatrix = Matrix.Value;
 					IsMovingTowardsTargetX = false;
 					IsMovingTowardsTargetY = false;
 					var Position = Closest.RoundToInt();
 					Position.z = 0;
-					TravelToWorldPOS = Position;
-					SetAITravelToPosition(TravelToWorldPOS);
+					travelToWorldPOSOverride  =  Position;
 					HasGoneRoundACorner = false;
 					isMovingAroundMatrix = true;
 				}

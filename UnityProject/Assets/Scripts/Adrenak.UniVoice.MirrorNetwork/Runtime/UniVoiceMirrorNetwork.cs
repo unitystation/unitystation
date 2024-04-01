@@ -202,9 +202,6 @@ namespace Adrenak.UniVoice.MirrorNetwork {
                     };
 
                     SendToClientSpecified(meg, 500, NetworkServer.connections[connId]);
-
-                    string peerListString = string.Join(", ", existingPeersInitPacket);
-                    Loggy.Log($"Initializing new client with ID {peerId} and peer list {peerListString}");
                 }
                 // To the already existing peers, we let them know a new peer has joined
                 else {
