@@ -2314,7 +2314,7 @@ namespace TileManagement
 						if (tileLocation != null)
 						{
 							if (tileNamesToIgnore != null &&
-							    tileNamesToIgnore.Any(c => c.name == tileLocation?.layerTile.name)) continue;
+							    tileNamesToIgnore.Any(c => c != null && c.name == tileLocation?.layerTile?.name)) continue;
 
 							Vector2 normal;
 

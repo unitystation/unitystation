@@ -148,12 +148,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	private IEnumerator WaitForInit()
 	{
-		Loggy.LogError("WaitForInit");
 		yield return WaitFor.Seconds(1f);
-		Loggy.LogError("yield return WaitFor.Seconds(1f);");
 		foreach (var NetworkedManagersPrefab in NetworkedManagersPrefabs)
 		{
-			Loggy.LogError("NetworkedManagersPrefab");
 			var spawnedObject = Object.Instantiate(NetworkedManagersPrefab, Vector3.zero, Quaternion.identity , this.gameObject.transform);
 			NetworkServer.Spawn(spawnedObject);
 		}
