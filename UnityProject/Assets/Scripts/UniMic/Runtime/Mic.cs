@@ -3,6 +3,9 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Initialisation;
+using SecureStuff;
 
 namespace Adrenak.UniMic {
     public class Mic : MonoBehaviour {
@@ -44,7 +47,7 @@ namespace Adrenak.UniMic {
         /// <summary>
         /// List of all the available Mic devices
         /// </summary>
-        public List<string> Devices => Microphone.devices.ToList();
+        public List<string> Devices => MicrophoneAccess.GetDevices();
 
         /// <summary>
         /// Index of the current Mic device in m_Devices
@@ -56,7 +59,7 @@ namespace Adrenak.UniMic {
         /// </summary>
         public string CurrentDeviceName {
             get {
-                if (CurrentDeviceIndex < 0 || CurrentDeviceIndex >= Microphone.devices.Length)
+                if (CurrentDeviceIndex < 0 || CurrentDeviceIndex >= Devices.Count)
                     return string.Empty;
                 return Devices[CurrentDeviceIndex];
             }
@@ -131,7 +134,7 @@ namespace Adrenak.UniMic {
         /// </summary>
         /// <param name="index">The index of the Mic device. Refer to <see cref="Devices"/> for available devices</param>
         public void SetDeviceIndex(int index) {
-            Microphone.End(CurrentDeviceName);
+	        MicrophoneAccess.End(CurrentDeviceName);
             CurrentDeviceIndex = index;
             if (IsRecording)
                 StartRecording(Frequency, SampleDurationMS);
@@ -148,30 +151,40 @@ namespace Adrenak.UniMic {
         /// <summary>
         /// Starts to stream the input of the current Mic device
         /// </summary>
-        public void StartRecording(int frequency = 16000, int sampleDurationMS = 10) {
+        public async Task StartRecording(int frequency = 16000, int sampleDurationMS = 10) {
             StopRecording();
             IsRecording = true;
 
             Frequency = frequency;
             SampleDurationMS = sampleDurationMS;
 
-            AudioClip = Microphone.Start(CurrentDeviceName, true, 1, Frequency);
-            Sample = new float[Frequency / 1000 * SampleDurationMS * AudioClip.channels];
-
-            StartCoroutine(ReadRawAudio());
-
-            OnStartRecording?.Invoke();
+            AudioClip = await MicrophoneAccess.Start(CurrentDeviceName, true, 1, Frequency, " for voice chat ");
+            LoadManager.DoInMainThread(() =>
+            {
+	            StartRecordingMainThreadContinuation();
+            });
         }
+
+
+        public void StartRecordingMainThreadContinuation()
+        {
+	        Sample = new float[Frequency / 1000 * SampleDurationMS * AudioClip.channels];
+
+	        StartCoroutine(ReadRawAudio());
+
+	        OnStartRecording?.Invoke();
+        }
+
 
         /// <summary>
         /// Ends the Mic stream.
         /// </summary>
         public void StopRecording() {
-            if (!Microphone.IsRecording(CurrentDeviceName)) return;
+            if (!MicrophoneAccess.IsRecording(CurrentDeviceName)) return;
 
             IsRecording = false;
 
-            Microphone.End(CurrentDeviceName);
+            MicrophoneAccess.End(CurrentDeviceName);
             Destroy(AudioClip);
             AudioClip = null;
 
@@ -186,11 +199,11 @@ namespace Adrenak.UniMic {
             int prevPos = 0;
             float[] temp = new float[Sample.Length];
 
-            while (AudioClip != null && Microphone.IsRecording(CurrentDeviceName)) {
+            while (AudioClip != null && MicrophoneAccess.IsRecording(CurrentDeviceName)) {
                 bool isNewDataAvailable = true;
 
                 while (isNewDataAvailable) {
-                    int currPos = Microphone.GetPosition(CurrentDeviceName);
+                    int currPos = MicrophoneAccess.GetPosition(CurrentDeviceName);
                     if (currPos < prevPos)
                         loops++;
                     prevPos = currPos;
@@ -220,17 +233,5 @@ namespace Adrenak.UniMic {
             }
         }
         #endregion
-
-        [Obsolete("UpdateDevices method is no longer needed. Devices property is now always up to date")]
-        public void UpdateDevices() { }
-
-        /// <summary>
-        /// Changes to a Mic device for Recording
-        /// </summary>
-        /// <param name="index">The index of the Mic device. Refer to <see cref="Devices"/></param>
-        [Obsolete("ChangeDevice may go away in the future. Use SetDeviceIndex instead", false)]
-        public void ChangeDevice(int index) {
-            SetDeviceIndex(index);
-        }
     }
 }

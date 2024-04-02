@@ -73,6 +73,7 @@ namespace SecureStuff
 			URL = 1,
 			API_URL = 2,
 			Host_Trust_Mode = 3,
+			Microphone_Access = 4
 		}
 
 		private class URLData
@@ -346,6 +347,28 @@ namespace SecureStuff
 			}
 
 			return IsTrusted;
+		}
+
+		public static async Task<bool> RequestMicrophoneAccess(string JustificationReason)
+		{
+			if (TrustedMode) return true;
+			var AbleToConnect = true;
+			if (writer == null || (clientPipe != null && clientPipe.IsConnected == false))
+			{
+				AbleToConnect = await SetUp($" Wasn't able to connect the hub to validate microphone access " +
+				                            $" The hub is used as a secure method for getting user input ");
+			}
+
+			if (AbleToConnect == false)
+			{
+				return false;
+			}
+
+			await writer.WriteLineAsync($"{ClientRequest.Microphone_Access},{JustificationReason}");
+			await writer.FlushAsync();
+
+			bool MicrophoneAllow = bool.Parse(await reader.ReadLineAsync());
+			return MicrophoneAllow;
 		}
 	}
 }
