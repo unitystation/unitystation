@@ -28,7 +28,11 @@ namespace SecureStuff
 
 		public static int GetPosition(string deviceName)
 		{
-			if (MicEnabled == false) return 0;
+			if (MicEnabled == false)
+			{
+				//TODO TEMP
+				//return 0;
+			}
 			return Microphone.GetPosition(deviceName);
 		}
 
@@ -36,7 +40,11 @@ namespace SecureStuff
 			string JustificationReason)
 		{
 			MicEnabled = await HubValidation.RequestMicrophoneAccess(JustificationReason);
-			if (MicEnabled == false) return null;
+			if (MicEnabled == false)
+			{
+				//TODO TEMP
+				//return null;
+			}
 			return Microphone.Start(deviceName, loop, lengthSec, frequency);
 		}
 	}
