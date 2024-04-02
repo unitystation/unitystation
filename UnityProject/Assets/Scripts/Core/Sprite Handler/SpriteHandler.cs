@@ -93,7 +93,7 @@ public class SpriteHandler : MonoBehaviour
 	/// </summary>
 	public List<Action<Sprite>> OnSpriteChanged = new List<Action<Sprite>>();
 
-	public UnityEvent OnSpriteUpdated = new UnityEvent();
+	public event Action OnSpriteUpdated;
 
 	/// <summary>
 	/// Invokes when sprite data scriptable object is changed
@@ -663,7 +663,8 @@ public class SpriteHandler : MonoBehaviour
 			SpriteHandlerManager.Instance.QueueChanges.Remove(this);
 			SpriteHandlerManager.Instance.NewClientChanges.Remove(this);
 		}
-		OnSpriteUpdated?.RemoveAllListeners();
+
+		OnSpriteUpdated = null;
 	}
 
 	protected virtual void SetImageColor(Color value)

@@ -41,6 +41,7 @@ Material:
     - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,9 +54,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a92b25f83d49b9bc132d206b370281, type: 3}
   m_Name: language_beach
   m_EditorClassIdentifier: 
-  hashCode: -1836805472
-  material: {fileID: 2103686}
-  materialHashCode: 0
   m_Version: 1.1.0
   m_FaceInfo:
     m_FaceIndex: 0
@@ -79,16 +77,16 @@ MonoBehaviour:
     m_StrikethroughOffset: 0
     m_StrikethroughThickness: 0
     m_TabWidth: 0
+  m_Material: {fileID: 2103686}
   spriteSheet: {fileID: 2800000, guid: d678bc4766d281744aedb6b2104e2314, type: 3}
   m_SpriteCharacterTable:
   - m_ElementType: 2
     m_Unicode: 65534
-    m_GlyphIndex: 1
+    m_GlyphIndex: 0
     m_Scale: 0.75
     m_Name: language_beach
-    m_HashCode: 1057828864
-  m_SpriteGlyphTable:
-  - m_Index: 1
+  m_GlyphTable:
+  - m_Index: 0
     m_Metrics:
       m_Width: 16
       m_Height: 16
@@ -357,3 +355,4 @@ Material:
     m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
