@@ -85,7 +85,8 @@ public enum KeyAction
 
 	HideUi,
 	PreventRadialQuickSelectOpen,
-	PushToTalk
+	PushToTalk,
+	Mode3DKeyToggle
 }
 
 /// <summary>
@@ -340,6 +341,7 @@ public class KeybindManager : MonoBehaviour {
 		{  KeyAction.HandActivate,	new KeybindMetadata("Activate Item", ActionType.Hand)},
 		{  KeyAction.HandEquip, 	new KeybindMetadata("Equip Item", ActionType.Hand)},
 
+
 		// Intents
 		{ KeyAction.IntentLeft,		new KeybindMetadata("Cycle Intent Left", ActionType.Intent)},
 		{ KeyAction.IntentRight,	new KeybindMetadata("Cycle Intent Right", ActionType.Intent)},
@@ -385,6 +387,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.EmoteWindowUI,	new KeybindMetadata("Open Emote Window.", ActionType.UI)},
 		{ KeyAction.HideUi, new KeybindMetadata("Hide UI", ActionType.UI) },
 		{ KeyAction.PreventRadialQuickSelectOpen, new KeybindMetadata("Prevent Quick Radial Open", ActionType.UI) },
+		{ KeyAction.Mode3DKeyToggle,new KeybindMetadata("Toggles mouse in 3D mode", ActionType.UI)},
 	};
 
 	private readonly KeybindDict defaultKeybinds = new KeybindDict
@@ -401,6 +404,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.ActionDrop,		new DualKeyCombo(new KeyCombo(KeyCode.Q), 	new KeyCombo(KeyCode.Home))},
 		{ KeyAction.ActionResist,	new DualKeyCombo(new KeyCombo(KeyCode.V), 	null)},
 		{ KeyAction.ActionStopPull, new DualKeyCombo(new KeyCombo(KeyCode.H), new KeyCombo(KeyCode.Delete))},
+		{ KeyAction.Mode3DKeyToggle,new DualKeyCombo(new KeyCombo(KeyCode.Tab), null)},
 
 		{  KeyAction.Point,			new DualKeyCombo(new KeyCombo(KeyCode.Mouse2, KeyCode.LeftShift), null)},
 		{  KeyAction.HandSwap, 		new DualKeyCombo(new KeyCombo(KeyCode.X),	new KeyCombo(KeyCode.Mouse2))},
