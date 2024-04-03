@@ -19,7 +19,7 @@ using Logs;
 
 namespace Systems.Cargo
 {
-	public class CargoManager : MonoBehaviour
+	public partial class CargoManager : MonoBehaviour
 	{
 		public static CargoManager Instance;
 
@@ -61,8 +61,6 @@ namespace Systems.Cargo
 		[SerializeField, BoxGroup("Random Bounties")] private List<CargoBounty> randomBountiesList = new List<CargoBounty>();
 
 		private static readonly List<int> randomJunkPrices = new List<int> { 5, 10, 15 };
-
-		public static List<string> ResearchedArtifacts { get; private set; }
 
 		private void Awake()
 		{
@@ -333,6 +331,8 @@ namespace Systems.Cargo
 				}
 			}
 
+			if (Validations.HasItemTrait(obj, containsResearchDataTrait) == false) ParseResearchData(obj);
+
 			string exportName;
 			if (attributes != null)
 			{
@@ -538,17 +538,6 @@ namespace Systems.Cargo
 			}
 			OnCreditsUpdate.Invoke();
 			OnCartUpdate.Invoke();
-		}
-
-		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-		public static void ClearStatics()
-		{
-			ResearchedArtifacts = new List<string>();
-		}
-
-		public static void AddArtifactToList(string ID)
-		{
-			ResearchedArtifacts.Add(ID);
 		}
 
 		public int GetSellPrice(GameObject obj)
