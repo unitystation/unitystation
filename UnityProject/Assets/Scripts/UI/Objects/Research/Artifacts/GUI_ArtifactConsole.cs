@@ -94,26 +94,7 @@ namespace UI.Objects.Research
 		{
 			inputData = console.InputData;
 
-			if (console.ConnectedArtifact != null)
-			{
-				NameLabel.MasterSetValue(console.ConnectedArtifact.ID);
-				if(console.ConnectedArtifact.isDormant)
-				{
-					DormantPic.MasterSetValue(Color.white);
-					ActivePic.MasterSetValue(Color.gray);
-				}
-				else
-				{
-					DormantPic.MasterSetValue(Color.gray);
-					ActivePic.MasterSetValue(Color.white);
-				}
-			}
-			else
-			{
-				NameLabel.MasterSetValue("NULL");
-				DormantPic.MasterSetValue(Color.gray);
-				ActivePic.MasterSetValue(Color.gray);
-			}
+			UpdateArtifactInfo();
 
 
 			radInput.text = inputData.radiationlevel.ToString();
@@ -156,6 +137,32 @@ namespace UI.Objects.Research
 
 			console.SetInputDataServer(blankData);
 			console.UnSubscribeFromServerEvent();
+
+			UpdateArtifactInfo();
+		}
+
+		private void UpdateArtifactInfo()
+		{
+			if (console.ConnectedArtifact != null)
+			{
+				NameLabel.MasterSetValue(console.ConnectedArtifact.ID);
+				if (console.ConnectedArtifact.isDormant)
+				{
+					DormantPic.MasterSetValue(Color.white);
+					ActivePic.MasterSetValue(Color.gray);
+				}
+				else
+				{
+					DormantPic.MasterSetValue(Color.gray);
+					ActivePic.MasterSetValue(Color.white);
+				}
+			}
+			else
+			{
+				NameLabel.MasterSetValue("NULL");
+				DormantPic.MasterSetValue(Color.gray);
+				ActivePic.MasterSetValue(Color.gray);
+			}
 		}
 
 		public string GenerateReportText(ArtifactData data, string signee)

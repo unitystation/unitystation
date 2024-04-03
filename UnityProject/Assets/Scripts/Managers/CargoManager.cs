@@ -331,7 +331,7 @@ namespace Systems.Cargo
 				}
 			}
 
-			if (Validations.HasItemTrait(obj, containsResearchDataTrait) == false) ParseResearchData(obj);
+			if (obj.TryGetComponent<Paper>(out var paper)) ParseResearchData(paper);
 
 			string exportName;
 			if (attributes != null)

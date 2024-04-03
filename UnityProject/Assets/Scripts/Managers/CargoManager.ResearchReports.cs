@@ -14,9 +14,6 @@ namespace Systems.Cargo
 
 		private const int REPORT_SELL_PRICE = 10000; //The price a 100% accurate report sells for
 
-		[SerializeField]
-		private ItemTrait containsResearchDataTrait = null;
-
 		public static readonly string[] damageNames = { "Spontaneous Combustion", "Space Carp Materialisation", "Localised Stun", "Lightning", "Forcefield" };
 		public static readonly string[] areaNames = { "Localised Teleport", "Localised Stun", "Space Carp Materialisation", "Facehugger Materialisation", "Milk.", "Plasma Materialisation", "Paranoia", "Heating Effect", "Cooling Effect", "Plasma Gas Formation", "Oxygen Gas Formation", "Oxygen Syphon", "Artifact Sickness", "Forcefield", "Organic Terraform", "Xenomorph Terraform", "Magical Terraform", "Lavaland Terraform" };
 		public static readonly string[] interactNames = { "Metal to Gold", "Metal to Plasma", "Portal Materialisation" };
@@ -37,27 +34,20 @@ namespace Systems.Cargo
 
 		//If and when any more Research Report style items are added in future,
 		//use this to determine the type of report, and call the appropriate function to parse that report type.
-		private static void ParseResearchData(GameObject report)
+		private static void ParseResearchData(Paper report)
 		{
-			var paper = report.GetComponent<Paper>();
-			if (paper == null) return;
-
 			var reportAttributes = report.GetComponent<ItemAttributesV2>();
 			if(reportAttributes == null) return;
 
 			Regex regex = new Regex(@"==(\D+)=="); //Pattern recognises a sentence of characters bared by double equals '=='. Used to recognise report type.
-			Match firstMatch = regex.Match(paper.ServerString);
+			Match firstMatch = regex.Match(report.ServerString);
 
-			if(firstMatch.Success == false)
-			{
-				reportAttributes.ServerSetArticleName("Unable to determine report subject!");
-				return;
-			}
-
+			if(firstMatch.Success == false) return;
+		
 			switch(firstMatch.Groups[0].Value.ToLower())
 			{
 				case ANOMALY_REPORT_TITLE_STRING:
-					ParseArtifactReport(paper.ServerString, reportAttributes);
+					ParseArtifactReport(report.ServerString, reportAttributes);
 					break;
 				default:
 					break;
