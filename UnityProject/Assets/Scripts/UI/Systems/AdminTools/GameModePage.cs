@@ -16,6 +16,30 @@ namespace AdminTools
 		[SerializeField]
 		private Toggle isSecretToggle = null;
 
+		[SerializeField]
+		private Toggle isVoiceChat = null;
+		public override void OnEnable()
+		{
+			base.OnEnable();
+			isVoiceChat.isOn = VoiceChatManager.Instance.Enabled;
+			VoiceChatManager.Instance.OnEnabledChange += UpdateisVoiceChat;
+		}
+		public void OnDisable()
+		{
+			VoiceChatManager.Instance.OnEnabledChange -= UpdateisVoiceChat;
+
+		}
+
+		public void UpdateisVoiceChat()
+		{
+			isVoiceChat.isOn = VoiceChatManager.Instance.Enabled;
+		}
+
+		public void OnVoiceChatChange()
+		{
+			AdminRequestTurnOnVoiceChat.Send(isVoiceChat.isOn);
+		}
+
 		//Next GM change via drop down box
 		public void OnNextChange()
 		{

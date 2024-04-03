@@ -177,11 +177,27 @@
 	public static readonly string RadioVolumeKey = "RadioVolume";
 
 	/// <summary>
-	/// MuteMusic toggle
 	/// 0 = disabled
 	/// 1 = enabled
 	/// </summary>
 	public static readonly string CommonRadioToggleKey = "CommonRadioToggle";
+
+	/// <summary>
+	/// Whether or not voice chat is enabled
+	/// 0 = disabled
+	/// 1 = enabled
+	/// </summary>
+	public static readonly string VoiceChatToggle = "VoiceChatToggle";
+
+
+
+
+	/// <summary>
+	/// Push to talk
+	/// 0 = disabled
+	/// 1 = enabled
+	/// </summary>
+	public static readonly string PushToTalkToggle = "PushToTalkToggle";
 
 
 	/// <summary>

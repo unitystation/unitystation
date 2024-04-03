@@ -15,7 +15,7 @@ using UI.CharacterCreator;
 public partial class PlayerList : NetworkBehaviour
 {
 	//ConnectedPlayer list, server only
-	private List<PlayerInfo> loggedIn = new List<PlayerInfo>();
+	public List<PlayerInfo> loggedIn = new List<PlayerInfo>();
 	public List<PlayerInfo> loggedOff = new List<PlayerInfo>();
 
 	/// <summary>

@@ -3125,7 +3125,11 @@
 			},
 			"Transport" :{
 				"Fields":[
-					"Mirror.Transport active"
+					"Mirror.Transport active",
+					"System.Action`1<int> OnServerDisconnected",
+					"System.Action`1<int> OnServerConnected",
+					"System.Action OnClientDisconnected",
+					"System.Action OnClientConnected"
 				],
 				"Methods" : [
 					"void Shutdown()",
@@ -3160,6 +3164,9 @@
 			"NetworkStartPosition" : {
 				"All": true
 			},
+			"NetworkManagerMode" : {
+				"All": true
+			}
         },
 		"IgnoranceTransport":{
 			"Ignorance" :{
@@ -3330,6 +3337,9 @@
 				"All": true
 			},
 			"IHaveForeverID" : {
+				"All": true
+			},
+			"MicrophoneAccess" : {
 				"All": true
 			}
 		},

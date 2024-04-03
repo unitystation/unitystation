@@ -126,7 +126,7 @@ public class AutopilotShipMachine : MonoBehaviour
 		}
 
 		mm.NetworkedMatrixMove.HasMoveToTarget = true;
-		mm.NetworkedMatrixMove.TravelToWorldPOS = pos.transform.position.RoundToInt();
+		mm.NetworkedMatrixMove.SetAITravelToPosition(pos.transform.position.RoundToInt(), pos.gameObject);
 	}
 
 	protected void Reached(GuidanceBuoy pos)
