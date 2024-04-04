@@ -176,7 +176,7 @@ namespace UI.Objects.Research
 
 			sb.AppendLine($"\n[APP] Appearance: {data.Type}");
 
-			sb.AppendLine($"\n[RAL] Radioactivity: {data.radiationlevel}rad");
+			sb.AppendLine($"\n[RAL] Radiation Level: {data.radiationlevel}rad");
 			sb.AppendLine($"[BSA] Bluespace Signature: {data.bluespacesig}Gy");
 			sb.AppendLine($"[BSB] Bananium Signature: {data.bananiumsig}mClw");
 

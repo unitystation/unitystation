@@ -16,8 +16,8 @@ namespace Items.Bureaucracy
 		private Internal.Printer printer;
 		private Internal.Scanner scanner;
 
-		[SyncVar(hook = nameof(SyncPhotocopierState))]
-		private PhotocopierState photocopierState = PhotocopierState.Idle;
+		[field: SyncVar(hook = nameof(SyncPhotocopierState))]
+		public PhotocopierState photocopierState { get; private set; } = PhotocopierState.Idle;
 
 		[SerializeField] private GameObject paperPrefab = null;
 
@@ -79,7 +79,7 @@ namespace Items.Bureaucracy
 
 			if (interaction.UsedObject != null && interaction.UsedObject.Item().HasTrait(tonerTrait)) return true;
 
-			if (photocopierState == PhotocopierState.Idle && interaction.HandObject == null) return true;
+			if (photocopierState != PhotocopierState.Production && interaction.HandObject == null) return true;
 			else if ((photocopierState == PhotocopierState.TrayOpen || photocopierState == PhotocopierState.ScannerOpen) && interaction.HandObject != null) return interaction.HandObject.TryGetComponent<Paper>(out var paper);
 	
 			return false;

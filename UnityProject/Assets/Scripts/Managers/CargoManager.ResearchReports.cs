@@ -15,7 +15,7 @@ namespace Systems.Cargo
 		private const int REPORT_SELL_PRICE = 12500; //The price a 100% accurate report sells for
 
 		public static readonly string[] damageNames = { "Spontaneous Combustion", "Space Carp Materialisation", "Localised Stun", "Lightning", "Forcefield" };
-		public static readonly string[] areaNames = { "Localised Teleport", "Localised Stun", "Space Carp Materialisation", "Facehugger Materialisation", "Milk.", "Plasma Materialisation", "Paranoia", "Heating Effect", "Cooling Effect", "Plasma Gas Formation", "Oxygen Gas Formation", "Oxygen Syphon", "Artifact Sickness", "Forcefield", "Organic Terraform", "Xenomorph Terraform", "Magical Terraform", "Lavaland Terraform" };
+		public static readonly string[] areaNames = { "Localised Teleport", "Localised Stun", "Space Carp Materialisation", "Facehugger Materialisation", "Milk.", "Plasma Materialisation", "Paranoia", "Heating Effect", "Cooling Effect", "Plasma Gas Formation", "Oxygen Gas Formation", "Oxygen Syphon", "Artifact Sickness", "Forcefield", "Organic Terraform", "Xenomorph Infection", "Magical Terraform", "Lavaland Terraform" };
 		public static readonly string[] interactNames = { "Metal to Gold", "Metal to Plasma", "Portal Materialisation" };
 
 		public const string ANOMALY_REPORT_TITLE_STRING = "nanotrasen anomaly report";
@@ -36,7 +36,9 @@ namespace Systems.Cargo
 		//use this to determine the type of report, and call the appropriate function to parse that report type.
 		private static void ParseResearchData(Paper report)
 		{
-			var reportAttributes = report.GetComponent<ItemAttributesV2>();
+			if (report.ServerString == null) return;
+
+			var reportAttributes = report.gameObject.GetComponent<ItemAttributesV2>();
 			if(reportAttributes == null) return;
 
 			Regex regex = new Regex(@"==(\D+)=="); //Pattern recognises a sentence of characters bared by double equals '=='. Used to recognise report type.
@@ -44,7 +46,7 @@ namespace Systems.Cargo
 
 			if(firstMatch.Success == false) return;
 		
-			switch(firstMatch.Groups[0].Value.ToLower())
+			switch(firstMatch.Groups[1].Value.ToLower())
 			{
 				case ANOMALY_REPORT_TITLE_STRING:
 					ParseArtifactReport(report.ServerString, reportAttributes);
@@ -85,9 +87,9 @@ namespace Systems.Cargo
 			ArtifactData data = new ArtifactData();
 			//An Explanation of this Regex pattern for future developers: (And poor code reviewers)
 			//This pattern begins by looking for any three letter capital code enclosed in square brackets such as [OIL] => \[([A-Z]{3})\]
-			//This implies a data field has been found, this code is put into group 0 for future reference.
+			//This implies a data field has been found, this code is put into group 1 for future reference.
 			//It then looks for some string followed by a colon => [- \w]+:
-			//It does this so it knows where the field name ends and field value beings, it then parses the value into group 1. => \s*([- \w]+)
+			//It does this so it knows where the field name ends and field value beings, it then parses the value into group 2. => \s*([- \w]+)
 			//This pattern is very flexible, as long as there is a three letter bracket code, a colon and some string after the colon it will parse the values.
 			//Even if multiple values are on the same line. The bracket code is used to determine what artifact property the field applies too.
 			//The bracket code is used as its easier to type, replicate and less prone to typing and spelling errors if a player edits the fields, the three letter code is all that matters.
@@ -96,49 +98,49 @@ namespace Systems.Cargo
 			
 			foreach(Match match in regex.Matches(txt))
 			{
-				string bracketCode = match.Groups[0].Value;
+				string bracketCode = match.Groups[1].Value;
 				Regex unitRegex = new Regex(@"\d+"); //Gets the number out of strings, e.g.: 800mClw => 800
 				Match unitNum;
 
 				switch (bracketCode)
 				{
 					case "APP":
-						Enum.TryParse<ArtifactType>(match.Groups[1].Value, true, out var type);
+						Enum.TryParse<ArtifactType>(match.Groups[2].Value, true, out var type);
 						data.Type = type;
 						break;
 
 					case "AIN":
-						data.ID = match.Groups[1].Value;
+						data.ID = match.Groups[2].Value;
 						break;
 
 					case "RAL":
-						unitNum = unitRegex.Match(match.Groups[1].Value);
+						unitNum = unitRegex.Match(match.Groups[2].Value);
 						int.TryParse(unitNum.Value, out int rad);
 						data.radiationlevel = rad;
 						break;
 
 					case "BSA":
-						unitNum = unitRegex.Match(match.Groups[1].Value);
+						unitNum = unitRegex.Match(match.Groups[2].Value);
 						int.TryParse(unitNum.Value, out int bsa);
 						data.bluespacesig = bsa;
 						break;
 
 					case "BSB":
-						unitNum = unitRegex.Match(match.Groups[1].Value);
+						unitNum = unitRegex.Match(match.Groups[2].Value);
 						int.TryParse(unitNum.Value, out int bsb);
 						data.bluespacesig = bsb;
 						break;
 
 					case "PIF":
-						data.AreaEffectValue = Array.FindIndex(areaNames, str => str.Equals(match.Groups[1].Value, StringComparison.OrdinalIgnoreCase)); 
+						data.AreaEffectValue = Array.FindIndex(areaNames, str => str.Equals(match.Groups[2].Value, StringComparison.OrdinalIgnoreCase)); 
 						break;
 
 					case "ONT":
-						data.InteractEffectValue = Array.FindIndex(interactNames, str => str.Equals(match.Groups[1].Value, StringComparison.OrdinalIgnoreCase));
+						data.InteractEffectValue = Array.FindIndex(interactNames, str => str.Equals(match.Groups[2].Value, StringComparison.OrdinalIgnoreCase));
 						break;
 
 					case "OIL":
-						data.DamageEffectValue = Array.FindIndex(damageNames, str => str.Equals(match.Groups[1].Value, StringComparison.OrdinalIgnoreCase));
+						data.DamageEffectValue = Array.FindIndex(damageNames, str => str.Equals(match.Groups[2].Value, StringComparison.OrdinalIgnoreCase));
 						break;
 				}
 			}
