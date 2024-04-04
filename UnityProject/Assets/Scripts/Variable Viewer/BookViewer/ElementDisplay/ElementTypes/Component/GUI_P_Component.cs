@@ -10,6 +10,8 @@ using UnityEngine;
 
 public class GUI_P_Component : PageElement
 {
+	//TODO handle prefab references/setting prefab references
+
 	public static bool VVObjectComponentSelectionActive = false;
 
 	public static GUI_P_Component ActiveComponent;
@@ -20,8 +22,6 @@ public class GUI_P_Component : PageElement
 	public bool IsSentence;
 
 	public bool iskey;
-	//buttun to set
-	//ubtton to opne?
 
 	public struct EditData
 	{
@@ -52,7 +52,27 @@ public class GUI_P_Component : PageElement
 	{
 		base.SetUpValues(ValueType, Page, Sentence, Iskey);
 
-		Text.text = VVUIElementHandler.ReturnCorrectString(Page, Sentence, Iskey);
+		EditData data = JsonConvert.DeserializeObject<EditData>(VVUIElementHandler.ReturnCorrectString(Page, Sentence, Iskey));
+		var BracketAtring = "";
+		if (data.IDType == IDType.NULL)
+		{
+			BracketAtring = "(NULL)";
+		}
+		else
+		{
+			try
+			{
+				var NetworkedObject = ClientObjectPath.GetObjectMessage(data.ClientGameObject);
+				BracketAtring = $"({NetworkedObject.name})";
+			}
+			catch (Exception e)
+			{
+				BracketAtring = $"(Client UI error)";
+			}
+
+		}
+
+		Text.text = ValueType.ToString() + BracketAtring;
 		if (Page != null)
 		{
 			PageID = Page.ID;
@@ -153,22 +173,42 @@ public class GUI_P_Component : PageElement
 		var InType = Data.GetType();
 		if (InType == typeof(GameObject))
 		{
-			return JsonConvert.SerializeObject(new EditData()
+			try
 			{
-				IDType = IDType.Bookshelf,
-				ShelfID = Librarian.TransformToBookShelf[(Data as GameObject).transform].ID,
-				ClientGameObject = ClientObjectPath.GetPathForMessage(Data as GameObject)
-			});
+				return JsonConvert.SerializeObject(new EditData()
+				{
+					IDType = IDType.Bookshelf,
+					ShelfID = Librarian.Library.LibraryBookShelf.PartialGenerateLibraryBookShelf((Data as GameObject).transform).ID,
+					ClientGameObject = ClientObjectPath.GetPathForMessage(Data as GameObject)
+				});
+			}
+			catch (UnityEngine.UnassignedReferenceException e)
+			{
+				return JsonConvert.SerializeObject(new EditData()
+				{
+					IDType = IDType.NULL
+				});
+			}
+
 		}
 		else if (InType.IsSubclassOf(typeof(MonoBehaviour)))
 		{
-			return JsonConvert.SerializeObject(new EditData()
+			try
 			{
-				IDType = IDType.Bookshelf,
-				BookID = Librarian.Book.GenerateNonMonoBook((Data as MonoBehaviour)).ID,
-				ClientGameObject = ClientObjectPath.GetPathForMessage((Data as MonoBehaviour).gameObject)
-			});
-
+				return JsonConvert.SerializeObject(new EditData()
+				{
+					IDType = IDType.Bookshelf,
+					BookID = Librarian.Book.GenerateNonMonoBook((Data as MonoBehaviour)).ID,
+					ClientGameObject = ClientObjectPath.GetPathForMessage((Data as MonoBehaviour).gameObject)
+				});
+			}
+			catch (UnityEngine.UnassignedReferenceException e)
+			{
+				return JsonConvert.SerializeObject(new EditData()
+				{
+					IDType = IDType.NULL
+				});
+			}
 		}
 
 		return (Data.ToString());

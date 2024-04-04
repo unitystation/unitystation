@@ -802,7 +802,7 @@ namespace SecureStuff
 			public Book BindedTo;
 			public PropertyInfo PInfo;
 			public bool PCanWrite => PInfo.CanWrite;
-			public bool FCanWrite => Info.IsLiteral == false;
+			public bool FCanWrite => Info.IsLiteral == false && Info.IsInitOnly == false;
 
 			public FieldInfo Info;
 

@@ -8,6 +8,7 @@ using SecureStuff;
 using Shuttles;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine;
+using Util;
 
 public static class ClientObjectPath
 {
@@ -16,7 +17,10 @@ public static class ClientObjectPath
 		ID,
 		ID_SubPath,
 		MatrixID_SubPath,
-		OnlineScene_SubPath
+		OnlineScene_SubPath,
+		PrefabTrackID,
+		PrefabAllSpawnbleList,
+		NULL
 	}
 
 	public struct PathData
@@ -64,6 +68,15 @@ public static class ClientObjectPath
 						UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects()
 							.FirstOrDefault(x => x.name == msg.OnlineStartPath), msg.Path);
 				break;
+			case PathMethod.PrefabTrackID:
+				NetworkedObject = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[msg.OnlineStartPath];
+				break;
+			case PathMethod.PrefabAllSpawnbleList:
+				NetworkedObject = CustomNetworkManager.Instance.allSpawnablePrefabs[(int)(msg.GameObject)];
+				break;
+			case PathMethod.NULL:
+				NetworkedObject = null;
+				break;
 		}
 
 		return NetworkedObject;
@@ -73,6 +86,12 @@ public static class ClientObjectPath
 	public static PathData GetPathForMessage(GameObject InObject, string ValueName = null)
 	{
 		var Message = new PathData();
+
+		if (InObject == null)
+		{
+			Message.PathMethod = PathMethod.NULL;
+			return Message;
+		}
 
 		//Network object itself
 		var NetworkIdentity = InObject.GetComponent<NetworkIdentity>();
@@ -162,6 +181,34 @@ public static class ClientObjectPath
 
 		Message.Path = JsonConvert.SerializeObject(Path);
 		Message.PathMethod = PathMethod.OnlineScene_SubPath;
+		var Any = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects()
+			.FirstOrDefault(x => x.name == Message.OnlineStartPath);
+
+		if (Any != null)
+		{
+			return Message;
+		}
+
+		//is Prefab Most probably
+
+		var TrackingID = InObject.GetComponent<PrefabTracker>();
+		if (TrackingID != null)
+		{
+			Message.PathMethod = PathMethod.PrefabTrackID;
+			Message.OnlineStartPath = TrackingID.ForeverID;
+			return Message;
+		}
+
+
+		var Index = CustomNetworkManager.Instance.allSpawnablePrefabs.FindIndex(x => x == InObject);
+		if (Index != -1)
+		{
+			Message.PathMethod = PathMethod.PrefabAllSpawnbleList;
+			Message.GameObject = (uint) Index;
+			return Message;
+		}
+
+		Message.PathMethod = PathMethod.NULL;
 		return Message;
 	}
 }
