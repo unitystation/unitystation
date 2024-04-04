@@ -4,10 +4,11 @@ using Mirror;
 using System.Collections;
 using AddressableReferences;
 using Messages.Server;
+using static Items.Bureaucracy.Photocopier;
 
 namespace Items.Bureaucracy
 {
-	public class Photocopier : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IRightClickable
+	public class Photocopier : NetworkBehaviour, ICheckedInteractable<HandApply>, IRightClickable
 	{
 		public NetTabType NetTabType;
 		public int trayCapacity;
@@ -15,6 +16,7 @@ namespace Items.Bureaucracy
 		private Internal.Printer printer;
 		private Internal.Scanner scanner;
 
+		[SyncVar(hook = nameof(SyncPhotocopierState))]
 		private PhotocopierState photocopierState = PhotocopierState.Idle;
 
 		[SerializeField] private GameObject paperPrefab = null;
@@ -39,17 +41,21 @@ namespace Items.Bureaucracy
 
 		public enum PhotocopierState
 		{
-			Idle,
-			Production
+			Idle = 0,
+			TrayOpen = 1,
+			ScannerOpen = 2,
+			Production = 3
 		}
 
 		#region Sprite Sync
 
-		private void SyncPhotocopierState(PhotocopierState newState)
+		private void SyncPhotocopierState(PhotocopierState oldState, PhotocopierState newState)
 		{
 			photocopierState = newState;
 			switch (newState)
 			{
+				case PhotocopierState.ScannerOpen:
+				case PhotocopierState.TrayOpen:
 				case PhotocopierState.Idle:
 					spriteHandler.SetCatalogueIndexSprite(0);
 					break;
@@ -58,17 +64,6 @@ namespace Items.Bureaucracy
 					spriteHandler.SetCatalogueIndexSprite(1);
 					break;
 			}
-		}
-
-		public override void OnStartClient()
-		{
-			SyncPhotocopierState( photocopierState);
-			base.OnStartClient();
-		}
-
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			SyncPhotocopierState( photocopierState);
 		}
 
 		#endregion Sprite Sync
@@ -84,13 +79,9 @@ namespace Items.Bureaucracy
 
 			if (interaction.UsedObject != null && interaction.UsedObject.Item().HasTrait(tonerTrait)) return true;
 
-			if (photocopierState == PhotocopierState.Idle)
-			{
-				if (interaction.HandObject == null) return true;
-				if (printer.CanAddPageToTray(interaction.HandObject)) return true;
-				if (scanner.CanPlaceDocument(interaction.HandObject)) return true;
-			}
-
+			if (photocopierState == PhotocopierState.Idle && interaction.HandObject == null) return true;
+			else if ((photocopierState == PhotocopierState.TrayOpen || photocopierState == PhotocopierState.ScannerOpen) && interaction.HandObject != null) return interaction.HandObject.TryGetComponent<Paper>(out var paper);
+	
 			return false;
 		}
 
@@ -156,6 +147,8 @@ namespace Items.Bureaucracy
 		public void ToggleTray()
 		{
 			printer = printer.ToggleTray();
+			photocopierState = printer.TrayOpen ? PhotocopierState.TrayOpen : PhotocopierState.Idle;
+
 			OnGuiRenderRequired();
 		}
 
@@ -163,6 +156,8 @@ namespace Items.Bureaucracy
 		public void ToggleScannerLid()
 		{
 			scanner = scanner.ToggleScannerLid(gameObject, paperPrefab);
+			photocopierState = scanner.ScannerOpen ? PhotocopierState.ScannerOpen : PhotocopierState.Idle;
+
 			OnGuiRenderRequired();
 		}
 
@@ -171,7 +166,7 @@ namespace Items.Bureaucracy
 		[Server]
 		public void Print()
 		{
-			SyncPhotocopierState( PhotocopierState.Production);
+			photocopierState = PhotocopierState.Production;
 			SoundManager.PlayNetworkedAtPos(Copier, registerObject.WorldPosition);
 			StartCoroutine(WaitForPrint());
 		}
@@ -179,7 +174,7 @@ namespace Items.Bureaucracy
 		private IEnumerator WaitForPrint()
 		{
 			yield return WaitFor.Seconds(4f);
-			SyncPhotocopierState( PhotocopierState.Idle);
+			photocopierState = PhotocopierState.Idle;
 			printer = printer.Print(scanner.ScannedText, gameObject, photocopierState == PhotocopierState.Idle, paperPrefab);
 			OnGuiRenderRequired();
 		}
@@ -189,7 +184,7 @@ namespace Items.Bureaucracy
 		[Server]
 		public void Scan()
 		{
-			SyncPhotocopierState( PhotocopierState.Production);
+			photocopierState = PhotocopierState.Production;
 			InkCartadge.SpendInk();
 			StartCoroutine(WaitForScan());
 		}
@@ -197,7 +192,7 @@ namespace Items.Bureaucracy
 		private IEnumerator WaitForScan()
 		{
 			yield return WaitFor.Seconds(4f);
-			SyncPhotocopierState( PhotocopierState.Idle);
+			photocopierState = PhotocopierState.Idle;
 			scanner = scanner.Scan();
 			OnGuiRenderRequired();
 		}
