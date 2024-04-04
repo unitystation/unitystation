@@ -167,8 +167,9 @@ namespace UI.Objects.Research
 
 		public string GenerateReportText(ArtifactData data, string signee)
 		{
+			
 			StringBuilder sb = new StringBuilder();
-			sb.AppendLine($"<size=30><b>=={CargoManager.ANOMALY_REPORT_TITLE_STRING.Capitalize()}==</b></size>");
+			sb.AppendLine($"<size=30><b>=={CargoManager.ANOMALY_REPORT_TITLE_STRING.ToUpper()}==</b></size>");
 			sb.AppendLine($"\nReport conducted by {signee}");
 
 			sb.AppendLine($"\n[AIN] Anomaly Identification: {data.ID}");
@@ -183,7 +184,7 @@ namespace UI.Objects.Research
 			sb.AppendLine($"[ONT] On-Interaction: {CargoManager.interactNames[data.InteractEffectValue]}");
 			sb.AppendLine($"[OIL] On-Integrity Loss: {CargoManager.damageNames[data.DamageEffectValue]}");
 
-			sb.AppendLine($"\n<size=30><b>==End of Anomaly Report==</b></size>");
+			sb.AppendLine($"\n<size=30><b>==END OF ANOMALY REPORT==</b></size>");
 
 			return sb.ToString();
 		}

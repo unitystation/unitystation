@@ -12,13 +12,13 @@ namespace Systems.Cargo
 
 		public static readonly Dictionary<string, ArtifactData> CorrectData = new Dictionary<string, ArtifactData>();
 
-		private const int REPORT_SELL_PRICE = 10000; //The price a 100% accurate report sells for
+		private const int REPORT_SELL_PRICE = 12500; //The price a 100% accurate report sells for
 
 		public static readonly string[] damageNames = { "Spontaneous Combustion", "Space Carp Materialisation", "Localised Stun", "Lightning", "Forcefield" };
 		public static readonly string[] areaNames = { "Localised Teleport", "Localised Stun", "Space Carp Materialisation", "Facehugger Materialisation", "Milk.", "Plasma Materialisation", "Paranoia", "Heating Effect", "Cooling Effect", "Plasma Gas Formation", "Oxygen Gas Formation", "Oxygen Syphon", "Artifact Sickness", "Forcefield", "Organic Terraform", "Xenomorph Terraform", "Magical Terraform", "Lavaland Terraform" };
 		public static readonly string[] interactNames = { "Metal to Gold", "Metal to Plasma", "Portal Materialisation" };
 
-		public const string ANOMALY_REPORT_TITLE_STRING = "nanotrasen anomaly Report";
+		public const string ANOMALY_REPORT_TITLE_STRING = "nanotrasen anomaly report";
 
 
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -162,7 +162,7 @@ namespace Systems.Cargo
 				
 			if (inputData.Type == correctData.Type) cost += 1000;
 			
-			return cost *= (REPORT_SELL_PRICE / 10000); 
+			return (int)(cost *= REPORT_SELL_PRICE / 10000); 
 		}
 
 		#endregion
