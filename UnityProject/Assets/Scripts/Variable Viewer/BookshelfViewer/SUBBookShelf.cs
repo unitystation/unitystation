@@ -21,7 +21,14 @@ namespace AdminTools.VariableViewer
 
 		public void OpenBookshelf()
 		{
-			RequestBookshelfNetMessage.Send(_IDANName.ID, true);
+			if (GUI_P_Component.VVObjectComponentSelectionActive == false)
+			{
+				RequestBookshelfNetMessage.Send(_IDANName.ID, true, KeyboardInputManager.IsAltActionKeyPressed());
+			}
+			else
+			{
+				GUI_P_Component.ActiveComponent.SetBook(_IDANName.ID);
+			}
 		}
 	}
 }

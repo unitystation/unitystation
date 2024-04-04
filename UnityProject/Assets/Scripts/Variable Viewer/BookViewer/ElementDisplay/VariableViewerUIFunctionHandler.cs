@@ -221,6 +221,7 @@ public enum PageElementEnum
 	Collection,
 	Enum,
 	ScriptableObject,
+	Component,
 	Class,
 	InputField, //This has to be the last option
 }

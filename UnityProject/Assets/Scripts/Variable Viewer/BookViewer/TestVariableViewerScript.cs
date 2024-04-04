@@ -33,6 +33,7 @@ public class TestVariableViewerScript : MonoBehaviour
 
 	public GameObject GameObjectReference;
 
+	public UniversalObjectPhysics UniversalObjectPhysics;
 
 	[VVNote(VVHighlight.SafeToModify)] public bool Pbool = true;
 

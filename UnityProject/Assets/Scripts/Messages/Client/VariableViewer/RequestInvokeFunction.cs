@@ -29,7 +29,7 @@ namespace Messages.Client.VariableViewer
 			NetMessage msg = new NetMessage
 			{
 				PageID = _PageID,
-				SendToClient =  InSendToClient
+				SendToClient =  InSendToClient,
 			};
 
 			Send(msg);

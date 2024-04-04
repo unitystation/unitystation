@@ -19,6 +19,9 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
+			if (IsFromAdmin() == false) return;
+
+
 			switch (msg.OpperationNumber)
 			{
 				case OpperationList.AdminToPlayer:
@@ -30,13 +33,30 @@ namespace Messages.Client.Admin
 				case OpperationList.AllPlayersToPlayer:
 					DoAllPlayersToPlayerTeleport(msg);
 					return;
+				case OpperationList.TeleportAdmin:
+					AdminTeleport(msg);
+					return;
 			}
+		}
+
+		private void AdminTeleport(NetMessage msg)
+		{
+			var coord = new Vector3 {x = msg.vectorX, y = msg.vectorY, z = msg.vectorZ };
+
+			var Physics = SentByPlayer.GameObject.GetComponent<UniversalObjectPhysics>();
+			if (Physics!= null)
+			{
+				Physics.AppearAtWorldPositionServer(coord, false);
+			}
+			else if(SentByPlayer.GameObject.TryGetComponent<GhostMove>(out var ghostMove))
+			{
+				ghostMove.ForcePositionClient(coord, false, false);
+			}
+
 		}
 
 		private void DoPlayerToAdminTeleport(NetMessage msg)
 		{
-			if (IsFromAdmin() == false) return;
-
 			PlayerScript userToTeleport = null;
 
 			foreach (var player in PlayerList.Instance.AllPlayers)
@@ -180,7 +200,8 @@ namespace Messages.Client.Admin
 		{
 			AdminToPlayer = 1,
 			PlayerToAdmin = 2,
-			AllPlayersToPlayer = 3
+			AllPlayersToPlayer = 3,
+			TeleportAdmin  =4,
 		}
 	}
 }
