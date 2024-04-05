@@ -10,7 +10,7 @@ namespace Systems.Cargo
 	{
 		public static List<string> ResearchedArtifacts { get; private set; }
 
-		public static readonly Dictionary<string, ArtifactData> CorrectData = new Dictionary<string, ArtifactData>();
+		protected static readonly Dictionary<string, ArtifactData> correctData = new Dictionary<string, ArtifactData>();
 
 		private const int REPORT_SELL_PRICE = 12500; //The price a 100% accurate report sells for
 
@@ -32,6 +32,13 @@ namespace Systems.Cargo
 			ResearchedArtifacts.Add(ID);
 		}
 
+		public static void RegisterNewArtifact(ArtifactData newArtifact)
+		{
+			if (correctData.ContainsKey(newArtifact.ID)) return;
+
+			correctData.Add(newArtifact.ID, newArtifact);
+		}
+
 		//If and when any more Research Report style items are added in future,
 		//use this to determine the type of report, and call the appropriate function to parse that report type.
 		private static void ParseResearchData(Paper report)
@@ -41,8 +48,8 @@ namespace Systems.Cargo
 			var reportAttributes = report.gameObject.GetComponent<ItemAttributesV2>();
 			if(reportAttributes == null) return;
 
-			Regex regex = new Regex(@"==(\D+)=="); //Pattern recognises a sentence of characters bared by double equals '=='. Used to recognise report type.
-			Match firstMatch = regex.Match(report.ServerString);
+			//Pattern recognises a sentence of characters bared by double equals '=='. Used to recognise report type.
+			Match firstMatch = Regex.Match(report.ServerString, @"==(\D+)==");
 
 			if(firstMatch.Success == false) return;
 		
@@ -50,8 +57,6 @@ namespace Systems.Cargo
 			{
 				case ANOMALY_REPORT_TITLE_STRING:
 					ParseArtifactReport(report.ServerString, reportAttributes);
-					break;
-				default:
 					break;
 			}
 			
@@ -93,14 +98,12 @@ namespace Systems.Cargo
 			//This pattern is very flexible, as long as there is a three letter bracket code, a colon and some string after the colon it will parse the values.
 			//Even if multiple values are on the same line. The bracket code is used to determine what artifact property the field applies too.
 			//The bracket code is used as its easier to type, replicate and less prone to typing and spelling errors if a player edits the fields, the three letter code is all that matters.
-
-			Regex regex = new Regex(@"\[([A-Z]{3})\][- \w]+:\s*([- \w]+)");
-			
-			foreach(Match match in regex.Matches(txt))
+			foreach(Match match in Regex.Matches(txt, @"\[([A-Z]{3})\][- \w]+:\s*([- \w]+)", RegexOptions.None, TimeSpan.FromSeconds(0.5)))
 			{
 				string bracketCode = match.Groups[1].Value;
-				Regex unitRegex = new Regex(@"\d+"); //Gets the number out of strings, e.g.: 800mClw => 800
-				Match unitNum;
+
+				//Gets the number out of strings, e.g.: 800mClw => 800
+				Match unitNum = Regex.Match(match.Groups[2].Value, @"\d+");
 
 				switch (bracketCode)
 				{
@@ -114,19 +117,16 @@ namespace Systems.Cargo
 						break;
 
 					case "RAL":
-						unitNum = unitRegex.Match(match.Groups[2].Value);
 						int.TryParse(unitNum.Value, out int rad);
 						data.radiationlevel = rad;
 						break;
 
 					case "BSA":
-						unitNum = unitRegex.Match(match.Groups[2].Value);
 						int.TryParse(unitNum.Value, out int bsa);
 						data.bluespacesig = bsa;
 						break;
 
 					case "BSB":
-						unitNum = unitRegex.Match(match.Groups[2].Value);
 						int.TryParse(unitNum.Value, out int bsb);
 						data.bluespacesig = bsb;
 						break;
@@ -149,22 +149,24 @@ namespace Systems.Cargo
 
 		public static int CalculateAnomalyReportExportCost(ArtifactData inputData)
 		{
-			if (CorrectData.ContainsKey(inputData.ID) == false) return -1;
+			if (correctData.ContainsKey(inputData.ID) == false) return -1;
 
 			int cost = 0;
-			ArtifactData correctData = CorrectData[inputData.ID];
+			ArtifactData _correctData = correctData[inputData.ID];
 
-			cost += Mathf.Clamp(1000 - (2*Mathf.Abs(inputData.radiationlevel - correctData.radiationlevel)), 0, 1000);
-			cost += Mathf.Clamp(1000 - (20*Mathf.Abs(inputData.bluespacesig - correctData.bluespacesig)), 0, 1000);
-			cost += Mathf.Clamp(1000 - (5*Mathf.Abs(inputData.bananiumsig- correctData.bananiumsig)), 0, 1000);
+			cost += Mathf.Clamp(1000 - (2*Mathf.Abs(inputData.radiationlevel - _correctData.radiationlevel)), 0, 1000);
+			cost += Mathf.Clamp(1000 - (20*Mathf.Abs(inputData.bluespacesig - _correctData.bluespacesig)), 0, 1000);
+			cost += Mathf.Clamp(1000 - (5*Mathf.Abs(inputData.bananiumsig- _correctData.bananiumsig)), 0, 1000);
 
-			if (inputData.DamageEffectValue == correctData.DamageEffectValue) cost += 2000;
-			if (inputData.InteractEffectValue == correctData.InteractEffectValue) cost += 2000;
-			if (inputData.AreaEffectValue == correctData.AreaEffectValue) cost += 2000;
+			if (inputData.DamageEffectValue == _correctData.DamageEffectValue) cost += 2000;
+			if (inputData.InteractEffectValue == _correctData.InteractEffectValue) cost += 2000;
+			if (inputData.AreaEffectValue == _correctData.AreaEffectValue) cost += 2000;
 				
-			if (inputData.Type == correctData.Type) cost += 1000;
-			
-			return (int)(cost *= REPORT_SELL_PRICE / 10000); 
+			if (inputData.Type == _correctData.Type) cost += 1000;
+
+			cost *= REPORT_SELL_PRICE / 10000;
+
+			return cost;
 		}
 
 		#endregion
@@ -172,16 +174,16 @@ namespace Systems.Cargo
 
 	public struct ArtifactData //Artifact Data contains all properties of the artifact that will be transferred to samples and/or guessed by the research console, placed in a struct to make data transfer easier.
 	{
-		public ArtifactData(int radlvl = 0, int bluelvl = 0, int bnalvl = 0, int mss = 0, ArtifactType type = ArtifactType.Geological, int areaEffectValue = 0, int interactEffectValue = 0, int damageEffectValue = 0, string iD = "")
+		public ArtifactData(string iD = "", ArtifactType type = ArtifactType.Geological)
 		{
-			radiationlevel = radlvl;
-			bluespacesig = bluelvl;
-			bananiumsig = bnalvl;
-			mass = mss;
+			radiationlevel = 0;
+			bluespacesig = 0;
+			bananiumsig = 0;
+			mass = 0;
 			Type = type;
-			AreaEffectValue = areaEffectValue;
-			InteractEffectValue = interactEffectValue;
-			DamageEffectValue = damageEffectValue;
+			AreaEffectValue = 0;
+			InteractEffectValue = 0;
+			DamageEffectValue = 0;
 			ID = iD;
 		}
 

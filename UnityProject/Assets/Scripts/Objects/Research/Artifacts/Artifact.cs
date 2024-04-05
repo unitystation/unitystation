@@ -214,7 +214,7 @@ namespace Objects.Research
 				radiationProducer.SetLevel(artifactData.radiationlevel);
 			}
 
-			if (CargoManager.CorrectData.ContainsKey(ID) == false) CargoManager.CorrectData.Add(ID, artifactData);
+			CargoManager.RegisterNewArtifact(artifactData);
 
 			UpdateManager.Add(UpdateMe, AreaEffect.coolDown);
 		}

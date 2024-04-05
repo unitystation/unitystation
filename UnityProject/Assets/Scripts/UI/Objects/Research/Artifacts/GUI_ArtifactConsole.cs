@@ -147,6 +147,7 @@ namespace UI.Objects.Research
 			if (console.ConnectedArtifact != null)
 			{
 				inputData.ID = console.ConnectedArtifact.ID;
+				console.InputData.ID = console.ConnectedArtifact.ID;
 
 				NameLabel.MasterSetValue(inputData.ID);
 				if (console.ConnectedArtifact.isDormant)
