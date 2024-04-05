@@ -96,7 +96,6 @@ namespace UI.Objects.Research
 
 			UpdateArtifactInfo();
 
-
 			radInput.text = inputData.radiationlevel.ToString();
 			bluespaceInput.text = inputData.bluespacesig.ToString();
 			bananiumInput.text = inputData.bananiumsig.ToString();
@@ -143,9 +142,13 @@ namespace UI.Objects.Research
 
 		private void UpdateArtifactInfo()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			if (console.ConnectedArtifact != null)
 			{
-				NameLabel.MasterSetValue(console.ConnectedArtifact.ID);
+				inputData.ID = console.ConnectedArtifact.ID;
+
+				NameLabel.MasterSetValue(inputData.ID);
 				if (console.ConnectedArtifact.isDormant)
 				{
 					DormantPic.MasterSetValue(Color.white);
@@ -205,8 +208,6 @@ namespace UI.Objects.Research
 			inputData.AreaEffectValue = areaEffectDropdown.value;
 			inputData.DamageEffectValue = damageEffectDropdown.value;
 			inputData.InteractEffectValue = interactEffectDropdown.value;
-
-			if(console.ConnectedArtifact !=null) inputData.ID = console.ConnectedArtifact.ID;
 
 			if(CustomNetworkManager.Instance._isServer == false)
 			{

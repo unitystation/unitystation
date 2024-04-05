@@ -76,7 +76,7 @@ namespace Systems.Cargo
 			else
 			{
 				reportAttributes.ServerSetArticleName("Anomaly report already registered!");
-				sellCost = 0;
+				sellCost = 1;
 			}
 
 			reportAttributes.SetExportCost(sellCost);
