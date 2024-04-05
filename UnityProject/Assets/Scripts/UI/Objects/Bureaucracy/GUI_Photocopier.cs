@@ -102,19 +102,27 @@ namespace UI.Bureaucracy
 
 		public void OpenTray()
 		{
-			if (!Photocopier.TrayOpen)
+			if (!Photocopier.TrayOpen && this.Photocopier.photocopierState == Photocopier.PhotocopierState.Idle)
 			{
 				SoundManager.PlayNetworkedAtPos(Beep, registerObject.WorldPosition);
 				Photocopier.ToggleTray();
+			}
+			else if (this.Photocopier.photocopierState == Photocopier.PhotocopierState.TrayOpen)
+			{
+				TrayLabel.MasterSetValue("ERR: CLOSE SCANNER");
 			}
 		}
 
 		public void OpenScanner()
 		{
-			if (!Photocopier.ScannerOpen)
+			if (!Photocopier.ScannerOpen && this.Photocopier.photocopierState == Photocopier.PhotocopierState.Idle)
 			{
 				SoundManager.PlayNetworkedAtPos(Beep, registerObject.WorldPosition);
 				Photocopier.ToggleScannerLid();
+			}
+			else if(this.Photocopier.photocopierState == Photocopier.PhotocopierState.TrayOpen)
+			{
+				ScannerLabel.MasterSetValue("ERR: CLOSE TRAY");
 			}
 		}
 

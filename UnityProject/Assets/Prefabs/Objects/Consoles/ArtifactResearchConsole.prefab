@@ -62,12 +62,12 @@ PrefabInstance:
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: initialName
-      value: artifact research console
+      value: anomaly reporting console
       objectReference: {fileID: 0}
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: initialDescription
-      value: Used to record information about artifacts to create valuable datadisks
+      value: Used to record information about artifacts to print valuable reports
         that can be sold by cargo
       objectReference: {fileID: 0}
     - target: {fileID: 1401220419065593905, guid: b46887a995abc224aab70e21b9e53697,
@@ -101,6 +101,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ec0890ab3a47c9646b5214f012e934ff,
         type: 2}
+    - target: {fileID: 4212405279327074240, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4212405279327074240, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4212405279327074240, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 4571869433525098128, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
@@ -113,6 +128,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d9004351ded6e51498a5a702755ab112,
         type: 3}
+    - target: {fileID: 5821743376341986250, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821743376341986250, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821743376341986250, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 5903546303531293955, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_AssetId
@@ -264,6 +294,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 72fa1d63fa729ce42a23bec55fd8f698,
         type: 2}
+    - target: {fileID: 8289769482344225521, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289769482344225521, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289769482344225521, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -298,7 +343,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  ArtifactDiskTrait: {fileID: 11400000, guid: 7180e3c6d244846498d07cec4ed7108d, type: 2}
+  <CanRelink>k__BackingField: 1
 --- !u!114 &4087141291922530776
 MonoBehaviour:
   m_ObjectHideFlags: 0

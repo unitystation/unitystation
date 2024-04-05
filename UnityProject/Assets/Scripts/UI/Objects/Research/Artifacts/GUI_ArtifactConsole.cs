@@ -2,15 +2,19 @@ using System.Collections;
 using UnityEngine;
 using UI.Core.NetUI;
 using System;
-using Items.Science;
 using Objects.Research;
 using UnityEngine.UI;
+using System.Text;
+using Systems.Cargo;
 
 
 namespace UI.Objects.Research
 {
 	public class GUI_ArtifactConsole : NetTab
 	{
+		[SerializeField]
+		private GameObject anomalyReportPrefab = null;
+
 		[SerializeField]
 		private Dropdown appearanceDropdown;
 		[SerializeField]
@@ -29,21 +33,21 @@ namespace UI.Objects.Research
 
 		internal ArtifactData inputData = new ArtifactData();
 
-		private ConsoleState consoleState;
-
 		bool isUpdating;
 
 		private ArtifactConsole console;
 
 		[SerializeField]
 		private NetText_label NameLabel = null;
-		[SerializeField]
-		private NetText_label LogLabel = null;
+
 		[SerializeField]
 		private NetText_label OutputLabel = null;
 
 		[SerializeField]
-		private NetSpriteImage ImageObject = null;
+		private NetColorChanger DormantPic = null;
+		[SerializeField]
+		private NetColorChanger ActivePic = null;
+
 
 		public void Awake()
 		{
@@ -67,10 +71,7 @@ namespace UI.Objects.Research
 
 			UpdateGUI();
 
-			consoleState = ConsoleState.Idle;
-
 			OnTabOpened.AddListener(UpdateGUIForPeepers);
-
 		}
 
 		public void UpdateGUIForPeepers(PlayerInfo notUsed)
@@ -93,14 +94,7 @@ namespace UI.Objects.Research
 		{
 			inputData = console.InputData;
 
-			if (console.ConnectedArtifact != null) NameLabel.MasterSetValue(console.ConnectedArtifact.ID);
-			else NameLabel.MasterSetValue("NULL");
-
-			if(LogLabel.Value == "No disk in console!" && console.dataDisk != null)
-			{
-				LogLabel.MasterSetValue("Disk inserted!");
-				OutputLabel.MasterSetValue("");
-			}
+			UpdateArtifactInfo();
 
 			radInput.text = inputData.radiationlevel.ToString();
 			bluespaceInput.text = inputData.bluespacesig.ToString();
@@ -112,66 +106,91 @@ namespace UI.Objects.Research
 
 			appearanceDropdown.SetValueWithoutNotify((int)inputData.Type);
 
-			if (console.HasDisk) ImageObject.SetSprite(0);
-			else ImageObject.SetSprite(1);
-
 		}
 
-		public void WriteData()
+		public void PrintReport(PlayerInfo playerInfo)
 		{
-			consoleState = ConsoleState.Writing;
-
 			inputData = console.InputData;
 
-			if (console.dataDisk == null)
-			{
-				LogLabel.MasterSetValue("No disk in console!");
-				OutputLabel.MasterSetValue("Data write unsuccessful.");
-				return;
-			}
 			if (console.ConnectedArtifact == null)
 			{
-				LogLabel.MasterSetValue("No artifact connected to console!!");
 				OutputLabel.MasterSetValue("Data write unsuccessful.");
 				return;
 			}
 
-			LogLabel.MasterSetValue($"Disk sucessfully found in console" +
-				$"\n\nData for artifact {console.ConnectedArtifact.ID} already exists on disk... " +
-				$"overriding\n\nWriting data for artifact {console.ConnectedArtifact.ID}");
+			OutputLabel.MasterSetValue("Data write successful.\nPrinting Report...");
 
-			OutputLabel.MasterSetValue("Data write successful.");
-
-			foreach (ArtifactDataFile data in console.dataDisk.DataOnStorage)
-			{
-				data.inputData = inputData;
-				data.correctData = console.ConnectedArtifact.artifactData;
-			}
-
-			console.dataDisk.CalculateExportCost();
-
-			consoleState = ConsoleState.Idle;
+			var p = Spawn.ServerPrefab(anomalyReportPrefab, console.gameObject.RegisterTile().WorldPositionServer, console.transform.parent).GameObject;
+			var paper = p.GetComponent<Paper>();
+			paper.SetServerString(GenerateReportText(inputData, playerInfo.Name));
 
 			UpdateGUI();
 
 		}
 
-
-		public void EjectDisk()
+		public void EraseData(PlayerInfo playerInfo)
 		{
-			if (consoleState != ConsoleState.Idle) return;
-			if (console.dataDisk != null)
+			OutputLabel.MasterSetValue($"{playerInfo.Name} erased console data.");
+
+			ArtifactData blankData = new ArtifactData();
+
+			console.SetInputDataServer(blankData);
+			console.UnSubscribeFromServerEvent();
+
+			UpdateArtifactInfo();
+		}
+
+		private void UpdateArtifactInfo()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+
+			if (console.ConnectedArtifact != null)
 			{
-				console.DropDisk();
-				LogLabel.MasterSetValue($"Disk ejected from console.");
+				inputData.ID = console.ConnectedArtifact.ID;
+				console.InputData.ID = console.ConnectedArtifact.ID;
+
+				NameLabel.MasterSetValue(inputData.ID);
+				if (console.ConnectedArtifact.isDormant)
+				{
+					DormantPic.MasterSetValue(Color.white);
+					ActivePic.MasterSetValue(Color.gray);
+				}
+				else
+				{
+					DormantPic.MasterSetValue(Color.gray);
+					ActivePic.MasterSetValue(Color.white);
+				}
 			}
 			else
 			{
-				LogLabel.MasterSetValue($"No disk in console to eject.");
+				NameLabel.MasterSetValue("NULL");
+				DormantPic.MasterSetValue(Color.gray);
+				ActivePic.MasterSetValue(Color.gray);
 			}
+		}
 
-			OutputLabel.MasterSetValue("Please insert disk.");
-			UpdateGUI();
+		public string GenerateReportText(ArtifactData data, string signee)
+		{
+			
+			StringBuilder sb = new StringBuilder();
+			sb.AppendLine($"<size=30><b>=={CargoManager.ANOMALY_REPORT_TITLE_STRING.ToUpper()}==</b></size>");
+			sb.AppendLine($"\nReport conducted by {signee}");
+
+			sb.AppendLine($"\n[AIN] Anomaly Identification: {data.ID}");
+
+			sb.AppendLine($"\n[APP] Appearance: {data.Type}");
+
+			sb.AppendLine($"\n[RAL] Radiation Level: {data.radiationlevel}rad");
+			sb.AppendLine($"[BSA] Bluespace Signature: {data.bluespacesig}Gy");
+			sb.AppendLine($"[BSB] Bananium Signature: {data.bananiumsig}mClw");
+
+			sb.AppendLine($"\n[PIF] Passive Influence: {CargoManager.areaNames[data.AreaEffectValue]}");
+			sb.AppendLine($"[ONT] On-Interaction: {CargoManager.interactNames[data.InteractEffectValue]}");
+			sb.AppendLine($"[OIL] On-Integrity Loss: {CargoManager.damageNames[data.DamageEffectValue]}");
+
+			sb.AppendLine($"\n<size=30><b>==END OF ANOMALY REPORT==</b></size>");
+
+			return sb.ToString();
 		}
 
 		public void UpdateData()
