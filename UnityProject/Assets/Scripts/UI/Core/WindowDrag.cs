@@ -108,6 +108,18 @@ public class WindowDrag : MonoBehaviour
 			Mathf.Clamp(y,
 				windowHeight * heightScale * -0.4f,
 				Screen.height - windowHeight * heightScale * -0.4f));
+
+		// Check if the scroll wheel is being scrolled
+		float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+
+		if (scrollInput > 0f)
+		{
+			transform.localScale += Vector3.one*0.1f;
+		}
+		else if (scrollInput < 0f)
+		{
+			transform.localScale -= Vector3.one*0.1f;
+		}
 	}
 
 	/// <summary>

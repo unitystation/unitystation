@@ -802,7 +802,7 @@ namespace SecureStuff
 			public Book BindedTo;
 			public PropertyInfo PInfo;
 			public bool PCanWrite => PInfo.CanWrite;
-			public bool FCanWrite => Info.IsLiteral == false;
+			public bool FCanWrite => Info.IsLiteral == false && Info.IsInitOnly == false;
 
 			public FieldInfo Info;
 
@@ -829,12 +829,12 @@ namespace SecureStuff
 				{
 					if (PInfo != null)
 					{
-						object DeSerialised = DeSerialiseValue(Variable, Value, Variable.GetType());
+						object DeSerialised = DeSerialiseValue(Variable, Value, VariableType);
 						PInfo.SetValue(BindedTo.BookClass, DeSerialised);
 					}
 					else if (Info != null)
 					{
-						object DeSerialised = DeSerialiseValue(Variable, Value, Variable.GetType());
+						object DeSerialised = DeSerialiseValue(Variable, Value,VariableType);
 						Info.SetValue(BindedTo.BookClass, DeSerialised);
 					}
 

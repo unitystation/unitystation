@@ -355,7 +355,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			{
 
 				GameGizmoSprite =
-					GameGizmomanager.AddNewSpriteStatic(ObjectLayer.gameObject, Position, Color.green, X);
+					GameGizmomanager.AddNewSpriteStaticClient(ObjectLayer.gameObject, Position, Color.green, X);
 			}
 			GameGizmoSprite.Position = Position;
 		}
@@ -1346,7 +1346,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			{
 				foreach (var Corner in Bounds.Corners())
 				{
-					MatrixBoundsGameGizmo.Add(GameGizmomanager.AddNewSpriteStatic(null, Corner, Color.red, X));
+					MatrixBoundsGameGizmo.Add(GameGizmomanager.AddNewSpriteStaticClient(null, Corner, Color.red, X));
 				}
 			}
 
@@ -1377,7 +1377,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			if (AIGameGizmoSprite == null)
 			{
 
-				AIGameGizmoSprite = GameGizmomanager.AddNewSpriteStatic(null, Position, Color.blue, X);
+				AIGameGizmoSprite = GameGizmomanager.AddNewSpriteStaticClient(null, Position, Color.blue, X);
 			}
 			AIGameGizmoSprite.Position = Position;
 		}

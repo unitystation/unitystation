@@ -113,7 +113,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 				{
 					StartPressPosition = cursorObject.transform.position;
 
-					GameGizmoLine = GameGizmomanager.AddNewLineStatic(null, StartPressPosition.Value.RoundToInt() , null,StartPressPosition.Value  , Color.green);
+					GameGizmoLine = GameGizmomanager.AddNewLineStaticClient(null, StartPressPosition.Value.RoundToInt() , null,StartPressPosition.Value  , Color.green);
 				}
 			}
 

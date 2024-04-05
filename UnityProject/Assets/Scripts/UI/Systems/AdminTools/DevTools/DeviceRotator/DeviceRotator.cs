@@ -75,7 +75,7 @@ public class DeviceRotator : SingletonManager<DeviceRotator>
 
 
 			OriginalDirection = PressedObject.CurrentDirection;
-			CursorLine = GameGizmomanager.AddNewLineStatic(PressedObject.gameObject, Vector3.zero,null ,
+			CursorLine = GameGizmomanager.AddNewLineStaticClient(PressedObject.gameObject, Vector3.zero,null ,
 				MouseUtils.MouseToWorldPos(), Colour);
 		}
 

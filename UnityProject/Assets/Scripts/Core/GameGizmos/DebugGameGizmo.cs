@@ -20,12 +20,12 @@ public class DebugGameGizmo : MonoBehaviour
 	[NaughtyAttributes.Button]
 	public void AddLine()
 	{
-		GameGizmomanager.AddNewLineStatic(TrackingFrom, LineStart, TrackingTo, LineEnd, Colour, Thickness);
+		GameGizmomanager.AddNewLineStaticClient(TrackingFrom, LineStart, TrackingTo, LineEnd, Colour, Thickness);
 	}
 
 	[NaughtyAttributes.Button]
 	public void AddText()
 	{
-		GameGizmomanager.AddNewTextStatic(TrackingFrom, LineStart,Text , Colour);
+		GameGizmomanager.AddNewTextStaticClient(TrackingFrom, LineStart,Text , Colour);
 	}
 }

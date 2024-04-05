@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Logs;
 using Messages.Client.Admin;
+using Player;
 using UnityEngine;
 using TMPro;
 
@@ -25,9 +26,15 @@ namespace AdminTools.VariableViewer
 		public List<List<HeldBook>> TotalBooks = new List<List<HeldBook>>();
 		public List<HeldBook> PooledBooks = new List<HeldBook>();
 
+		public GameGizmoSquare GameGizmoSquare;
+
+		public GameObject CurrentlyTracking;
+
 		private VariableViewerNetworking.NetFriendlyBookShelf _BookShelfView;
 
 		public VariableViewerNetworking.NetFriendlyBookShelf BookShelfView => _BookShelfView;
+
+		public bool Inited = false;
 
 		public void Awake()
 		{
@@ -46,8 +53,34 @@ namespace AdminTools.VariableViewer
 
 		private void OnEnable()
 		{
-			EventManager.AddHandler(Event.RoundEnded, PoolBooks);
+			if (Inited == false)
+			{
+				Inited = true;
+				EventManager.AddHandler(Event.RoundEnded, PoolBooks);
+			}
+
+			if (CurrentlyTracking != null)
+			{
+				if (GameGizmoSquare == null)
+				{
+					GameGizmoSquare = GameGizmomanager.AddNewSquareStaticClient(CurrentlyTracking, Vector3.zero, Color.cyan);
+				}
+				else
+				{
+					GameGizmoSquare.TrackingObject = CurrentlyTracking;
+				}
+			}
+			else
+			{
+				GameGizmoSquare.OrNull()?.Remove();
+			}
 		}
+
+		private void OnDisable()
+		{
+			GameGizmoSquare.OrNull()?.Remove();
+		}
+
 
 		public void PoolBooks()
 		{
@@ -64,8 +97,49 @@ namespace AdminTools.VariableViewer
 			TotalBooks.Add(new List<HeldBook>());
 		}
 
-		public void ValueSetUp(VariableViewerNetworking.NetFriendlyBookShelf BookShelfView)
+		public void ValueSetUp(VariableViewerNetworking.NetFriendlyBookShelf BookShelfView, GameObject ObjectorMark, bool Teleport )
 		{
+			CurrentlyTracking = ObjectorMark;
+			if (ObjectorMark != null)
+			{
+				if (GameGizmoSquare == null)
+				{
+					GameGizmoSquare = GameGizmomanager.AddNewSquareStaticClient(ObjectorMark, Vector3.zero, Color.cyan);
+				}
+				else
+				{
+					GameGizmoSquare.TrackingObject = ObjectorMark;
+				}
+			}
+			else
+			{
+				GameGizmoSquare.OrNull()?.Remove();
+			}
+
+
+			if (Teleport && ObjectorMark != null)
+			{
+				var GhostMove = PlayerManager.LocalPlayerObject.GetComponent<GhostMove>();
+				if (GhostMove != null)
+				{
+					GhostMove.CMDSetServerPosition(ObjectorMark.AssumedWorldPosServer());
+					var Orbit = GhostMove.GetComponent<GhostOrbit>();
+					Orbit.CmdServerOrbit(ObjectorMark);
+				}
+				else
+				{
+					RequestAdminTeleport.Send(
+						null,
+						null,
+						RequestAdminTeleport.OpperationList.TeleportAdmin,
+						false,
+						ObjectorMark.AssumedWorldPosServer()
+					);
+				}
+			}
+
+
+
 			_BookShelfView = BookShelfView;
 			UIManager.Instance.LibraryUI.Refresh();
 			PoolBooks();

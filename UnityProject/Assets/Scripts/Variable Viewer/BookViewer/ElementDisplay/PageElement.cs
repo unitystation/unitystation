@@ -44,7 +44,15 @@ public class PageElement : MonoBehaviour
 
 	public virtual string Serialise(object Data)
 	{
-		return (Data.ToString());
+		if (Data == null)
+		{
+			return "null";
+		}
+		else
+		{
+			return (Data.ToString());
+		}
+
 	}
 
 	public virtual object DeSerialise(string StringVariable, Type InType, object InObject, bool SetUI = false)

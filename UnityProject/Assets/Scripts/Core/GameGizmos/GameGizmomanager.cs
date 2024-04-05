@@ -18,27 +18,27 @@ public class GameGizmomanager : SingletonManager<GameGizmomanager>
 	public List<GameGizmo> ActiveGizmos = new List<GameGizmo>();
 
 
-	public static GameGizmoLine AddNewLineStatic(GameObject TrackingFrom, Vector3 From,   GameObject TrackingTo, Vector3 To, Color color, float LineThickness =  0.03125f)
+	public static GameGizmoLine AddNewLineStaticClient(GameObject TrackingFrom, Vector3 From,   GameObject TrackingTo, Vector3 To, Color color, float LineThickness =  0.03125f)
 	{
 		return Instance.AddNewLine(TrackingFrom, From,TrackingTo, To, color, LineThickness);
 	}
 
-	public static GameGizmoSprite AddNewSpriteStatic(GameObject Tracking, Vector3 position,  Color color, SpriteDataSO Sprite)
+	public static GameGizmoSprite AddNewSpriteStaticClient(GameObject Tracking, Vector3 position,  Color color, SpriteDataSO Sprite)
 	{
 		return Instance.AddNewSprite(Tracking, position,color,Sprite);
 	}
 
-	public static GameGizmoText AddNewTextStatic(GameObject Tracking, Vector3 position, string Text,Color Colour, float TextSize = 3f)
+	public static GameGizmoText AddNewTextStaticClient(GameObject Tracking, Vector3 position, string Text,Color Colour, float TextSize = 3f)
 	{
 		return Instance.AddNewText(Tracking, position,Text,Colour, TextSize);
 	}
 
-	public static GameGizmoSquare AddNewSquareStatic(GameObject TrackingFrom, Vector3 Position, Color Colour, float LineThickness  =  0.03125f, float BoxSize = 1)
+	public static GameGizmoSquare AddNewSquareStaticClient(GameObject TrackingFrom, Vector3 Position, Color Colour, float LineThickness  =  0.03125f, float BoxSize = 1)
 	{
 		return Instance.AddNewSquare(TrackingFrom, Position,Colour,LineThickness, BoxSize);
 	}
 
-	public static GameGizmoBox AddNewBoxStatic(GameObject TrackingFrom, Vector3 Position, Color Colour , float BoxSize = 1)
+	public static GameGizmoBox AddNewBoxStaticClient(GameObject TrackingFrom, Vector3 Position, Color Colour , float BoxSize = 1)
 	{
 		return Instance.AddNewBox(TrackingFrom, Position,Colour, BoxSize);
 	}
