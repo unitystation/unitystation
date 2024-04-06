@@ -933,7 +933,10 @@
                     "void .ctor(string)",
                     "void .ctor(string, System.Text.RegularExpressions.RegexOptions)",
                     "void .ctor(string, System.Text.RegularExpressions.RegexOptions, System.TimeSpan)",
-					"System.Text.RegularExpressions.MatchCollection Matches(string, string)"
+                    "System.Text.RegularExpressions.MatchCollection Matches(string)",
+                    "System.Text.RegularExpressions.MatchCollection Matches(string, string)",
+                    "System.Text.RegularExpressions.MatchCollection Matches(string, string, System.Text.RegularExpressions.RegexOptions)",
+                    "System.Text.RegularExpressions.MatchCollection Matches(string, string, System.Text.RegularExpressions.RegexOptions, System.TimeSpan)"
                 ]
             },
             "RegexMatchTimeoutException": {
@@ -2597,6 +2600,9 @@
 				"All": true
 			},
 			"ISerializationCallbackReceiver" : {
+				"All": true
+			},
+			"UnassignedReferenceException" : {
 				"All": true
 			}
         },

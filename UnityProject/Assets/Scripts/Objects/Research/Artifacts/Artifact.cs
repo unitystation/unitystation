@@ -11,6 +11,7 @@ using Mirror;
 using Systems.Atmospherics;
 using ScriptableObjects.Atmospherics;
 using CustomInspectors;
+using Systems.Cargo;
 using Random = UnityEngine.Random;
 
 [System.Serializable]
@@ -63,7 +64,7 @@ namespace Objects.Research
 
 		private Coroutine animationCoroutine = null;
 
-		[SyncVar] internal ArtifactData artifactData = new ArtifactData();
+		[SyncVar] public ArtifactData artifactData = new ArtifactData();
 
 		public ArtifactDataSO ArtifactDataSO;
 
@@ -82,6 +83,7 @@ namespace Objects.Research
 
 
 		[SyncVar] public string ID = "T376";
+
 
 		public bool UnderTimeoutTouch
 		{
@@ -211,6 +213,8 @@ namespace Objects.Research
 				radiationProducer.NetSetActive(true);
 				radiationProducer.SetLevel(artifactData.radiationlevel);
 			}
+
+			CargoManager.RegisterNewArtifact(artifactData);
 
 			UpdateManager.Add(UpdateMe, AreaEffect.coolDown);
 		}
@@ -515,38 +519,4 @@ namespace Objects.Research
 
 		#endregion
 	}
-
-	public enum ArtifactType //This determines the sprites the artifact can use, what tool is used to take samples from it, what samples it gives, and what materials it gives when dismantled.
-	{
-		Geological = 0,
-		Mechanical = 1,
-		Organic = 2,
-	}
-
-	internal struct ArtifactData //Artifact Data contains all properties of the artifact that will be transferred to samples and/or guessed by the research console, placed in a struct to make data transfer easier.
-	{
-		public ArtifactData(int radlvl = 0, int bluelvl = 0, int bnalvl = 0, int mss = 0, ArtifactType type = ArtifactType.Geological, int areaEffectValue = 0, int interactEffectValue = 0, int damageEffectValue = 0, string iD = "")
-		{
-			radiationlevel = radlvl;
-			bluespacesig = bluelvl;
-			bananiumsig = bnalvl;
-			mass = mss;
-			Type = type;
-			AreaEffectValue = areaEffectValue;
-			InteractEffectValue = interactEffectValue;
-			DamageEffectValue = damageEffectValue;
-			ID = iD;
-		}
-
-		public ArtifactType Type;
-		public int radiationlevel;
-		public int bluespacesig;
-		public int bananiumsig;
-		public int mass;
-		public int AreaEffectValue;
-		public int InteractEffectValue;
-		public int DamageEffectValue;
-		public string ID;
-	}
-
 }

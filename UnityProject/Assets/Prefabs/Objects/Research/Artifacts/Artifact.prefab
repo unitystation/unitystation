@@ -13,6 +13,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Light2DSpriteHandler
       objectReference: {fileID: 0}
+    - target: {fileID: 2350732908105580628, guid: 008a771b03bf6b144b9afdbb0cc216c6,
+        type: 3}
+      propertyPath: Color.a
+      value: 0.5686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 2350732908105580628, guid: 008a771b03bf6b144b9afdbb0cc216c6,
+        type: 3}
+      propertyPath: Color.b
+      value: 0.19215687
+      objectReference: {fileID: 0}
+    - target: {fileID: 2350732908105580628, guid: 008a771b03bf6b144b9afdbb0cc216c6,
+        type: 3}
+      propertyPath: Color.g
+      value: 0.7921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 2350732908105580628, guid: 008a771b03bf6b144b9afdbb0cc216c6,
+        type: 3}
+      propertyPath: Color.r
+      value: 0.3647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 2350732908105580628, guid: 008a771b03bf6b144b9afdbb0cc216c6,
+        type: 3}
+      propertyPath: LightOrigin.z
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 4046581938413593085, guid: 008a771b03bf6b144b9afdbb0cc216c6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -192,6 +217,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -260,6 +290,11 @@ PrefabInstance:
         type: 3}
       propertyPath: palette.Array.data[1].r
       value: 0.5754717
+      objectReference: {fileID: 0}
+    - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: exportCost
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
