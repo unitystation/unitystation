@@ -1,25 +1,81 @@
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Mirror;
+using SecureStuff;
 
 namespace Systems.Spawns
 {
 	public class SpawnPoint : NetworkStartPosition
 	{
+		public SerializableDictionary<SpawnPointCategory, SpriteDataSO> Sprites =
+			new SerializableDictionary<SpawnPointCategory, SpriteDataSO>();
+
+
+		[VVNote(VVHighlight.SafeToModify100)]
+		public SpawnPointCategory Category
+		{
+			get
+			{
+				return category;
+			}
+			set
+			{
+				category = value;
+				if (SpriteHandler != null)
+				{
+					var Position = transform.position.RoundToInt();
+					this.name = category.ToString() + " at " + Position.x + " " + Position.y;
+					if (Sprites.ContainsKey(category))
+					{
+						SpriteHandler.SetSpriteSO(Sprites[category]);
+					}
+					else
+					{
+						Loggy.LogError("Was unable to find spawn Point Sprite for " + category);
+					}
+
+				}
+			}
+		}
+
 		[SerializeField, FormerlySerializedAs("Department")]
 		private SpawnPointCategory category = default;
 
 		[SerializeField]
-		private SpawnPointType type = SpawnPointType.Unlimited;
+		public SpawnPointType type = SpawnPointType.Unlimited;
 
 		[SerializeField]
 		[Range(0, 10)]
 		[Tooltip("Higher number means higher priority")]
-		private int priority = 0;
+		public int priority = 0;
 
 		private bool used;
+
+		public SpriteHandler SpriteHandler;
+
+
+		[NaughtyAttributes.Button]
+		public void UpdateData()
+		{
+			if (SpriteHandler != null)
+			{
+				var Position = transform.position.RoundToInt();
+				this.name = category.ToString() + " at " + Position.x + " " + Position.y;
+				if (Sprites.ContainsKey(category))
+				{
+					SpriteHandler.SetSpriteSO(Sprites[category]);
+				}
+				else
+				{
+					Loggy.LogError("Was unable to find spawn Point Sprite for " + category);
+				}
+
+			}
+		}
+
 
 		public static IEnumerable<Transform> GetPointsForCategory(SpawnPointCategory category)
 		{
@@ -90,13 +146,7 @@ namespace Systems.Spawns
 			return GetRandomPointForLateSpawn();
 		}
 
-		private const string DEFAULT_SPAWNPOINT_ICON = "Mapping/mapping_x2.png";
-		private string iconName => iconNames.ContainsKey(category) ? iconNames[category] : DEFAULT_SPAWNPOINT_ICON;
 
-		private void OnDrawGizmos()
-		{
-			Gizmos.DrawIcon(transform.position, iconName);
-		}
 
 		private static readonly Dictionary<JobType, SpawnPointCategory> categoryByJob = new Dictionary<JobType, SpawnPointCategory>
 		{
@@ -164,51 +214,6 @@ namespace Systems.Spawns
 			{ JobType.ASHWALKER, SpawnPointCategory.Ashwalker },
 			{ JobType.THEWELDER, SpawnPointCategory.MaintSpawns },
 		};
-
-		private static readonly Dictionary<SpawnPointCategory, string> iconNames = new Dictionary<SpawnPointCategory, string>()
-		{
-			{SpawnPointCategory.Assistant, "Mapping/mapping_assistant.png"},
-			{SpawnPointCategory.Medical, "Mapping/mapping_medical_doctor.png"},
-			{SpawnPointCategory.StationEngineer, "Mapping/mapping_station_engineer.png"},
-			{SpawnPointCategory.SecurityOfficer, "Mapping/mapping_security_officer.png"},
-			{SpawnPointCategory.Scientist, "Mapping/mapping_scientist.png"},
-			{SpawnPointCategory.ResearchDirector, "Mapping/mapping_research_director.png"},
-			{SpawnPointCategory.Roboticist, "Mapping/mapping_roboticist.png"},
-			{SpawnPointCategory.AI, "Mapping/mapping_AI.png"},
-			{SpawnPointCategory.ChiefEngineer, "Mapping/mapping_chief_engineer.png"},
-			{SpawnPointCategory.AtmosphericTechnician, "Mapping/mapping_atmospheric_technician.png"},
-			{SpawnPointCategory.Lawyer, "Mapping/mapping_lawyer.png"},
-			{SpawnPointCategory.Warden, "Mapping/mapping_warden.png"},
-			{SpawnPointCategory.Detective, "Mapping/mapping_detective.png"},
-			{SpawnPointCategory.HeadOfSecurity, "Mapping/mapping_head_of_security.png"},
-			{SpawnPointCategory.Cook, "Mapping/mapping_cook.png"},
-			{SpawnPointCategory.Bartender, "Mapping/mapping_bartender.png"},
-			{SpawnPointCategory.Curator, "Mapping/mapping_curator.png"},
-			{SpawnPointCategory.NuclearOperative, "Mapping/mapping_snukeop_spawn.png"},
-			{SpawnPointCategory.Captain, "Mapping/mapping_captain.png"},
-			{SpawnPointCategory.HeadOfPersonnel, "Mapping/mapping_head_of_personnel.png"},
-			{SpawnPointCategory.CargoTechnician, "Mapping/mapping_cargo_technician.png"},
-			{SpawnPointCategory.Quartermaster, "Mapping/mapping_quartermaster.png"},
-			{SpawnPointCategory.Janitor, "Mapping/mapping_janitor.png"},
-			{SpawnPointCategory.ShaftMiner, "Mapping/mapping_shaft_miner.png"},
-			{SpawnPointCategory.ChiefMedicalOfficer, "Mapping/mapping_chief_medical_officer.png"},
-			{SpawnPointCategory.Chemist, "Mapping/mapping_chemist.png"},
-			{SpawnPointCategory.Botanist, "Mapping/mapping_botanist.png"},
-			{SpawnPointCategory.Chaplain, "Mapping/mapping_chaplain.png"},
-			{SpawnPointCategory.Clown, "Mapping/mapping_clown.png"},
-			{SpawnPointCategory.Mime, "Mapping/mapping_mime.png"},
-			{SpawnPointCategory.GhostTeleportSites, "Mapping/mapping_observer_start.png"},
-			{SpawnPointCategory.CentCommCommander, "Mapping/mapping_ert_spawn.png"},
-			{SpawnPointCategory.CentComm, "Mapping/mapping_ert_spawn.png"},
-			{SpawnPointCategory.DeathSquad, "Mapping/mapping_ert_spawn.png"},
-			{SpawnPointCategory.EmergencyResponseTeam, "Mapping/mapping_ert_spawn.png"},
-			{SpawnPointCategory.MaintSpawns, "Mapping/mapping_mouse.png"},
-			{SpawnPointCategory.WizardFederation, "Mapping/mapping_wiznerd_spawn.png"},
-			{SpawnPointCategory.SpaceExterior, "Mapping/mapping_carp_spawn.png"},
-			{SpawnPointCategory.AncientEngineering, "Mapping/mapping_station_engineer.png"},
-			{SpawnPointCategory.Ashwalker, "Mapping/mapping_ashwalker.png"}
-		};
-
 	}
 
 
