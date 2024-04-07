@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Systems.Spawns;
 
 namespace Objects
 {
@@ -33,7 +34,13 @@ namespace Objects
 		/// <summary>
 		/// Gets the coordinates of the teleport target where things will be teleported to.
 		/// </summary>
-		public override Vector3 TeleportTargetCoord => StationGateway.GetComponent<RegisterTile>().WorldPosition;
+		public override Vector3 TeleportTargetCoord {
+			get
+			{
+				if (StationGateway != null && StationGateway.TryGetComponent<RegisterTile>(out var stationGateway) == true) return stationGateway.WorldPositionServer;
+				else return SpawnPoint.GetRandomPointForLateSpawn().position;
+			}
+		}
 
 		public override void OnStartServer()
 		{
