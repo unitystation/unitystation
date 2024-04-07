@@ -6,7 +6,6 @@ using Items.Storage.VirtualStorage;
 using Logs;
 using Mirror;
 using UnityEngine;
-using Systems.Research.Data;
 using Shared.Systems.ObjectConnection;
 using Systems.Score;
 using Random = UnityEngine.Random;
