@@ -79,7 +79,7 @@ half4 light2_fixed_frag (light2d_fixed_v2f i) : COLOR
 
 	half pos = 0;
 
-	for(int i = 0; i < PATH_TRACKING_SAMPLES; i++)
+	for(int j = 0; j < PATH_TRACKING_SAMPLES; j++)
 	{
 		pos += sub; 
 		half4 obstacle = tex2D(_FovExtendedMask, lerp(centerPos, thisPos, pos)); 
