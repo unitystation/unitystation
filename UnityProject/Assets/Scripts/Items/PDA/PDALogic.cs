@@ -103,6 +103,9 @@ namespace Items.PDA
 		private ItemSlot IDSlot = default;
 		private ItemSlot CartridgeSlot = default;
 
+		public IEnumerable<Clearance> IssuedClearance => IDCard.OrNull()?.ClearanceSource.IssuedClearance;
+		public IEnumerable<Clearance> LowPopIssuedClearance => IDCard.OrNull()?.ClearanceSource.LowPopIssuedClearance;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -544,8 +547,5 @@ namespace Items.PDA
 		}
 
 		#endregion IDAccess
-
-		public IEnumerable<Clearance> IssuedClearance => IDCard.OrNull()?.ClearanceSource.IssuedClearance;
-		public IEnumerable<Clearance> LowPopIssuedClearance => IDCard.OrNull()?.ClearanceSource.LowPopIssuedClearance;
 	}
 }

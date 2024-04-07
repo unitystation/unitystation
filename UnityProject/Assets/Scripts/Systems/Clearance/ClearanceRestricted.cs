@@ -41,10 +41,8 @@ namespace Systems.Clearance
 				return true;
 			}
 
-			if (clearanceSource == null) return false;
-
 			// If the player has null access, access is denied
-			if (clearanceSource.GetCurrentClearance == null)
+			if (clearanceSource?.GetCurrentClearance == null)
 			{
 				return false;
 			}
@@ -67,43 +65,9 @@ namespace Systems.Clearance
 		/// <returns>True if the entity has clearance</returns>
 		public bool HasClearance(GameObject entity)
 		{
-			if (entity == null)
-			{
-				return false;
-			}
-
-			// Is the entity an item or mob with clearance source at root?
-			if (entity.TryGetComponent<IClearanceSource>(out var clearanceSource))
-			{
-				if (HasClearance(clearanceSource)) return true;
-			}
-
-			// Is the entity a player with dynamic storage?
-			var playerStorage = entity.GetComponent<DynamicItemStorage>();
-			if (playerStorage == null)
-			{
-				return false;
-			}
-
-			// Check hand first
-			var activeHandObject = playerStorage.GetActiveHandSlot()?.ItemObject;
-			if (activeHandObject != null && activeHandObject.TryGetComponent<IClearanceSource>(out var handObject))
-			{
-				if (HasClearance(handObject)) return true;
-			}
-
-
-			// Try get object in ID slot
-			foreach (var slot in playerStorage.GetNamedItemSlots(NamedSlot.id))
-			{
-				if (slot.ItemObject != null && slot.ItemObject.TryGetComponent<IClearanceSource>(out var idObject))
-				{
-					return HasClearance(idObject);
-				}
-			}
-
-			return HasClearance(null as IClearanceSource);
-
+			if (entity == null) return false;
+			var clearanceSource = GrabClearance(entity);
+			return clearanceSource == null ? HasClearance(null as IClearanceSource) : HasClearance(GrabClearance(entity));
 		}
 
 		/// <summary>
@@ -138,6 +102,56 @@ namespace Systems.Clearance
 		public void SetCheckType(CheckType newType)
 		{
 			type = newType;
+		}
+
+		public static IClearanceSource GrabClearance(GameObject entity)
+		{
+			return GrabClearance(entity, true) as IClearanceSource;
+		}
+
+		public static GameObject GrabClearanceObject(GameObject entity)
+		{
+			return GrabClearance(entity, false) as GameObject;
+		}
+
+		private static object GrabClearance(GameObject entity, bool returnIClearanceSource)
+		{
+			if (entity == null)
+			{
+				return null;
+			}
+			var playerStorage = entity.GetComponent<DynamicItemStorage>();
+			if (playerStorage != null)
+			{
+				List<ItemSlot> slotsToSearch = new List<ItemSlot>();
+				slotsToSearch.Add(playerStorage.GetActiveHandSlot());
+				slotsToSearch.AddRange(playerStorage.GetNamedItemSlots(NamedSlot.id));
+				slotsToSearch.AddRange(playerStorage.GetNamedItemSlots(NamedSlot.belt));
+				slotsToSearch.AddRange(playerStorage.GetNamedItemSlots(NamedSlot.suitStorage));
+				return SearchItemSlotsForClearance(slotsToSearch, returnIClearanceSource);
+			}
+			var itemStorage = entity.GetComponent<ItemStorage>();
+			if (itemStorage != null)
+			{
+				return SearchItemSlotsForClearance(itemStorage.GetOccupiedSlots(), returnIClearanceSource);
+			}
+			if (entity.TryGetComponent<IClearanceSource>(out var clearanceSource))
+			{
+				return returnIClearanceSource ? clearanceSource : entity;
+			}
+			return null;
+		}
+
+		public static object SearchItemSlotsForClearance(List<ItemSlot> slots, bool returnIClearanceSource)
+		{
+			foreach (var slot in slots)
+			{
+				if (slot.ItemObject != null && slot.ItemObject.TryGetComponent<IClearanceSource>(out var idObject))
+				{
+					return returnIClearanceSource ? idObject : slot.ItemObject;
+				}
+			}
+			return null;
 		}
 	}
 }

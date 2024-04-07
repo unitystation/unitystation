@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Items;
+using Items.PDA;
 using UnityEngine;
 using Mirror;
 using Objects.Atmospherics;
 using Systems.Clothing;
 using Messages.Server;
+using Systems.Clearance;
 
 /// <summary>
 /// Component which manages all the equipment on a player.
@@ -169,35 +171,21 @@ public class Equipment : NetworkBehaviour
 	/// <returns>Unknown if an identity couldn't be found.</returns>
 	public string GetPlayerNameByEquipment()
 	{
-		if (IsOccupied(idSlot))
+		var clearanceObject = ClearanceRestricted.GrabClearanceObject(script.gameObject);
+		if (clearanceObject == null)
 		{
-			foreach (var itemSlot in idSlot)
-			{
-				if (itemSlot.Item.TryGetComponent<IDCard>(out var idCard))
-				{
-					if (string.IsNullOrEmpty(idCard.RegisteredName) == false)
-					{
-						return idCard.RegisteredName;
-					}
-				}
-			}
+			return "Unknown";
 		}
-
-		if (IsOccupied(idSlot))
+		var playerName = "Unknown";
+		if (clearanceObject.TryGetComponent<IDCard>(out var card))
 		{
-			foreach (var itemSlot in idSlot)
-			{
-				if (itemSlot.Item.TryGetComponent<Items.PDA.PDALogic>(out var pda))
-				{
-					if (string.IsNullOrEmpty(pda.RegisteredPlayerName) == false)
-					{
-						return pda.RegisteredPlayerName;
-					}
-				}
-			}
+			playerName = card.RegisteredName;
 		}
-
-		return "Unknown";
+		else if (clearanceObject.TryGetComponent<PDALogic>(out var pda))
+		{
+			playerName = pda.RegisteredPlayerName;
+		}
+		return playerName;
 	}
 
 	#endregion Identity
