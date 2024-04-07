@@ -49,6 +49,7 @@ namespace Core
 
 			var stringy = await response.Content.ReadAsStringAsync();
 
+
 			LoadManager.DoInMainThread(() =>
 			{
 				if (response.IsSuccessStatusCode == false || stringy == "")
