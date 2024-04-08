@@ -189,10 +189,16 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public bool Active { get; private set; } = true;
 
+	private ItemStorage ItemStorage;
+	private DynamicItemStorage DynamicItemStorage;
+
+
 	#region Lifecycle
 
 	protected virtual void Awake()
 	{
+		ItemStorage = this.GetComponentCustom<ItemStorage>();
+		DynamicItemStorage = this.GetComponentCustom<DynamicItemStorage>();
 		LocalPositionServer = TransformState.HiddenPos;
 		LocalPositionClient = TransformState.HiddenPos;
 		if (transform.parent) //clients dont have this set yet
@@ -298,8 +304,17 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			objectLayer.ClientObjects.Remove(LocalPositionClient, this);
 		}
 
-		Matrix.OrNull()?.MatrixMove.OrNull()?.NetworkedMatrixMove.OrNull()?.OnRotate?.RemoveListener(OnRotate);
-		Matrix.OrNull()?.MatrixMove.OrNull()?.NetworkedMatrixMove.OrNull()?.OnRotate90?.RemoveListener(OnRotate90);
+		if (Matrix.OrNull()?.MatrixMove.OrNull()?.NetworkedMatrixMove.OrNull() != null)
+		{
+			Matrix.MatrixMove.NetworkedMatrixMove.OnRotate -= (OnRotate);
+		}
+
+		if (Matrix.OrNull()?.MatrixMove.OrNull()?.NetworkedMatrixMove.OrNull() != null)
+		{
+			Matrix.MatrixMove.NetworkedMatrixMove.OnRotate90 -= (OnRotate90);
+		}
+
+
 
 	}
 
@@ -473,47 +488,64 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		MatrixChange(Matrix, value);
 		if (value)
 		{
-			// LogMatrixDebug($"Matrix set from {matrix} to {value}");
-			if (Matrix != null && Matrix.IsMovable)
-			{
-				Matrix.MatrixMove.NetworkedMatrixMove.OnRotate.RemoveListener(OnRotate);
-				Matrix.MatrixMove.NetworkedMatrixMove.OnRotate90.RemoveListener(OnRotate90);
 
-			}
-
-			Matrix = value;
-			if (Matrix != null && Matrix.IsMovable)
+			if (Matrix != value)
 			{
-				//LogMatrixDebug($"Registered OnRotate to {matrix}");
-				Matrix.MatrixMove.NetworkedMatrixMove.OnRotate.AddListener(OnRotate);
-				Matrix.MatrixMove.NetworkedMatrixMove.OnRotate90.AddListener(OnRotate90);
-				OnRotate();
-				OnRotate90();
+				// LogMatrixDebug($"Matrix set from {matrix} to {value}");
+				if (Matrix != null && Matrix.IsMovable)
+				{
+					if (matrixRotationHooks.Length > 0)
+					{
+						Matrix.MatrixMove.NetworkedMatrixMove.OnRotate -= (OnRotate);
+					}
+
+					if (matrixRotation90Hooks.Length > 0)
+					{
+						Matrix.MatrixMove.NetworkedMatrixMove.OnRotate90 -= (OnRotate90);
+					}
+				}
+
+				Matrix = value;
+				if (Matrix != null && Matrix.IsMovable)
+				{
+					if (matrixRotationHooks.Length > 0)
+					{
+						Matrix.MatrixMove.NetworkedMatrixMove.OnRotate += (OnRotate);
+						OnRotate();
+					}
+					//LogMatrixDebug($"Registered OnRotate to {matrix}");
+
+					if (matrixRotation90Hooks.Length > 0)
+					{
+						Matrix.MatrixMove.NetworkedMatrixMove.OnRotate90 += (OnRotate90);
+						OnRotate90();
+					}
+				}
 			}
 
 
 			//setting objects in storage to the same matrix
 			if (isServer)
 			{
-				if (TryGetComponent<ItemStorage>(out var itemStorage))
+				if (ItemStorage != null)
 				{
-					foreach (var itemSlot in itemStorage.GetItemSlots())
+					foreach (var itemSlot in ItemStorage.GetItemSlots())
 					{
 						if (itemSlot.Item)
 						{
-							var itemSlotRegisterItem = itemSlot.Item.GetComponent<RegisterItem>();
+							var itemSlotRegisterItem = itemSlot.Item.UniversalObjectPhysics.registerTile;
 							itemSlotRegisterItem.Matrix = Matrix;
 						}
 					}
 				}
 
-				if (TryGetComponent<DynamicItemStorage>(out var dynamicItemStorage))
+				if (DynamicItemStorage != null)
 				{
-					foreach (var itemSlot in dynamicItemStorage.GetItemSlots())
+					foreach (var itemSlot in DynamicItemStorage.GetItemSlots())
 					{
 						if (itemSlot.Item)
 						{
-							var itemSlotRegisterItem = itemSlot.Item.GetComponent<RegisterItem>();
+							var itemSlotRegisterItem = itemSlot.Item.UniversalObjectPhysics.registerTile;
 							itemSlotRegisterItem.Matrix = Matrix;
 						}
 					}

@@ -59,6 +59,10 @@ namespace UI.Objects.Shuttles
 		public void OnDestroy()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+			if (IsMasterTab)
+			{
+				matrixMove.NetworkedMatrixMove.OnStartMovement -= (OnStartMovementServer); ;
+			}
 		}
 
 		private IEnumerator WaitForProvider()
@@ -78,7 +82,7 @@ namespace UI.Objects.Shuttles
 				shuttleConsole.GUItab = this;
 
 				//Init listeners
-				matrixMove.NetworkedMatrixMove.OnStartMovement.AddListener(OnStartMovementServer); ;
+				matrixMove.NetworkedMatrixMove.OnStartMovement += (OnStartMovementServer); ;
 				OnStateChange(shuttleConsole.shuttleConsoleState);
 			}
 		}
