@@ -51,8 +51,6 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	//TODO Cable placement can't handle moving matrices
 
 
-
-
 	public List<Thruster> ConnectedThrusters = new List<Thruster>();
 	public List<ShuttleConnector> ConnectedShuttleConnectors = new List<ShuttleConnector>();
 
@@ -168,17 +166,12 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	//NOTE This is not in respect to the Orientation of the Front of the shuttle or the direction of the Shuttle consul, Just to do with the rotation of target transform
 	public OrientationEnum CurrentOrientation => TargetTransform.eulerAngles.z.Angle360ToOrientationEnum();
 
-	[SerializeField]
-	private OrientationEnum targetOrientation = OrientationEnum.Default;
+	[SerializeField] private OrientationEnum targetOrientation = OrientationEnum.Default;
 
 	//NOTE This is not in respect to the Orientation of the Front of the shuttle or the direction of the Shuttle consul, Just to do with the rotation of target transform
 	public OrientationEnum TargetOrientation
 	{
-		get
-		{
-			return targetOrientation;
-
-		}
+		get { return targetOrientation; }
 		set
 		{
 			if (MoveCoolDown > 0) return;
@@ -192,12 +185,10 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 	public bool IsMoving = false;
 
-	public readonly UnityEvent OnStartMovement = new UnityEvent();
-	public readonly UnityEvent OnStopMovement = new UnityEvent();
-
-	public readonly UnityEvent OnRotate = new UnityEvent();
-
-	public readonly UnityEvent OnRotate90 = new UnityEvent();
+	public event Action OnStartMovement;
+	public event Action OnStopMovement;
+	public event Action OnRotate;
+	public event Action OnRotate90;
 
 
 	public bool RCSModeActive = false; //TODO Check With other stuff
@@ -216,7 +207,6 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 	public Vector3 TravelToWorldPOS
 	{
-
 		get
 		{
 			if (travelToWorldPOSOverride != null)
@@ -244,18 +234,13 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	public OrientationEnum TargetFaceDirectionOverride;
 	public bool FullAISpeed = false;
 	public bool isMovingAroundMatrix = false;
-	public bool IsMovingTowardsTargetX = false;
-	public bool IsMovingTowardsTargetY = false;
 
-	public Vector3? PreviousPosition;
 
 	public Vector3? PointIsWithinMatrixPerimeterPoint;
 
 	public int? MatrixMoveAroundCurrentTargetCorner = null;
 
 	public MatrixInfo MovingAroundMatrix;
-	public bool HasGoneRoundACorner = false;
-	public bool TravelPointIsWithinMatrix = false;
 
 	public MatrixInfo IgnoreMatrix;
 	public bool IgnorePotentialCollisions;
@@ -287,6 +272,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		{
 			TargetTransform = transform.parent;
 		}
+
 		if (this.GetComponent<MatrixSync>() == null)
 		{
 			Loggy.LogError($"Please remove this {this.name}");
@@ -304,23 +290,26 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		ObjectLayer = TargetTransform.GetComponentInChildren<ObjectLayer>();
 
 
-
 		UpdateManager.Add(CallbackType.EARLY_UPDATE, UpdateLoop);
 		ElapsedTimeSinceLastUpdate.Reset();
 		ElapsedTimeSinceLastUpdate.Start();
-		OnRotate.Invoke();
+		OnRotate?.Invoke();
 		var FacedDirection = ForwardsDirection.ToOrientationEnum();
 		if (PreviousDirectionFacing != FacedDirection)
 		{
 			PreviousDirectionFacing = FacedDirection;
-			OnRotate90.Invoke();
+			OnRotate90?.Invoke();
 		}
-		SetGizmoPosition(currentLocalPivot);
 
+		SetGizmoPosition(currentLocalPivot);
 	}
 
 	public void OnDestroy()
 	{
+		OnRotate = null;
+		OnRotate90 = null;
+		OnStartMovement = null;
+		OnStopMovement = null;
 		UpdateManager.Remove(CallbackType.EARLY_UPDATE, UpdateLoop);
 		ElapsedTimeSinceLastUpdate.Stop();
 	}
@@ -353,10 +342,10 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		{
 			if (GameGizmoSprite == null)
 			{
-
 				GameGizmoSprite =
 					GameGizmomanager.AddNewSpriteStaticClient(ObjectLayer.gameObject, Position, Color.green, X);
 			}
+
 			GameGizmoSprite.Position = Position;
 		}
 		else if (GameGizmoSprite != null)
@@ -420,13 +409,12 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	{
 		foreach (var Thruster in ConnectedThrusters)
 		{
-			Thruster.SetTargetMolesUsed( Thruster.MaxMolesUseda * 0);
+			Thruster.SetTargetMolesUsed(Thruster.MaxMolesUseda * 0);
 		}
 	}
 
 	private void InternalSetThrusterStrength(Thruster.ThrusterDirectionClassification Direction, float Multiplier)
 	{
-
 		if (SpinneyMode || Direction == Thruster.ThrusterDirectionClassification.Up ||
 		    Direction == Thruster.ThrusterDirectionClassification.Down)
 		{
@@ -434,7 +422,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			{
 				if (Thruster.ThisThrusterDirectionClassification == Direction)
 				{
-					Thruster.SetTargetMolesUsed(  Thruster.MaxMolesUseda * Multiplier);
+					Thruster.SetTargetMolesUsed(Thruster.MaxMolesUseda * Multiplier);
 				}
 			}
 		}
@@ -494,14 +482,12 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 	public void SetThrusterStrength(Thruster.ThrusterDirectionClassification Direction, float Multiplier)
 	{
-
 		TheReusingSet.Clear();
 		var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet);
 		foreach (var move in Matrixes)
 		{
 			move.InternalSetThrusterStrength(Direction, Multiplier);
 		}
-
 	}
 
 	public void AddConnector(ShuttleConnector ShuttleConnector)
@@ -549,10 +535,12 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		if (IsMoving) return;
 
 		bool HasThrusterDirection = false;
-
+		TheReusingSet.Clear();
+		var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet);
+		var Thrusters = GetThrusters(Matrixes, TheReusingConnectedThrusters);
 		if (RCSRequiresThrusters)
 		{
-			foreach (var Thruster in ConnectedThrusters)
+			foreach (var Thruster in Thrusters)
 			{
 				if (((Vector3) Thruster.Rotatable.WorldDirection).ToOrientationEnum() ==
 				    GlobalMoveDirection.ToOpposite())
@@ -570,7 +558,12 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 		if (HasThrusterDirection)
 		{
-			WorldCurrentVelocity += GlobalMoveDirection.ToLocalVector3();
+
+
+			foreach (var Matrix in Matrixes)
+			{
+				Matrix.WorldCurrentVelocity += GlobalMoveDirection.ToLocalVector3();
+			}
 		}
 	}
 
@@ -600,8 +593,9 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 		if (AllMass == 0) return;
 
-
+		var AllRCSModeActive = Matrixes.Any(x => x.RCSModeActive);
 		Vector3 WorldPivot = Vector2.zero;
+
 
 		float sumThrust = 0;
 
@@ -686,7 +680,8 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 				//TODO Balance the WorldCurrentVelocity added Because it doesn't seem to be strong enough whenTwo shuttle split apart meybe 2x Faster?
 
-				WorldCurrentVelocity += (new Vector3(-PivotDifference.y, PivotDifference.x, 0).normalized * ((ScalerMomentumStrength) * (MomentumStrength / AllMass)));
+				WorldCurrentVelocity += (new Vector3(-PivotDifference.y, PivotDifference.x, 0).normalized *
+				                         ((ScalerMomentumStrength) * (MomentumStrength / AllMass)));
 			}
 		}
 		else
@@ -740,6 +735,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			DoUpdateLocalPosition = true;
 			WorldCurrentVelocity = ApplyDragTo(WorldCurrentVelocity, LowSpeedDrag, DeltaTimeSeconds);
 		}
+
 
 		if (Mathf.Abs(WorldCurrentVelocity.x) > HighSpeedDragMinimumThreshold && ApplyDrag)
 		{
@@ -807,7 +803,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			CurrentTorque = ApplyDragTo(CurrentTorque, DragTorque, DeltaTimeSeconds);
 		}
 
-		if (SpinneyMode == false && RCSModeActive == false && TargetFaceDirectionOverride == OrientationEnum.Default)
+		if (SpinneyMode == false && AllRCSModeActive == false && TargetFaceDirectionOverride == OrientationEnum.Default)
 		{
 			var dotProduct = Vector3.Dot(WorldCurrentVelocity.normalized, ForwardsDirection.normalized);
 			WorldCurrentVelocity = ForwardsDirection * (dotProduct * WorldCurrentVelocity.magnitude);
@@ -922,7 +918,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			{
 				foreach (var Matrixe in Matrixes)
 				{
-					Matrixe.OnStartMovement.Invoke();
+					Matrixe.OnStartMovement?.Invoke();
 					Matrixe.IsMoving = true;
 				}
 			}
@@ -935,7 +931,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			{
 				foreach (var Matrixe in Matrixes.ToList())
 				{
-					Matrixe.OnStopMovement.Invoke();
+					Matrixe.OnStopMovement?.Invoke();
 					Matrixe.IsMoving = false;
 				}
 			}
@@ -1088,14 +1084,14 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 		if (Mathf.Abs(By) > 0)
 		{
-			OnRotate.Invoke();
+			OnRotate?.Invoke();
 		}
 
 		var FacedDirection = ForwardsDirection.ToOrientationEnum();
 		if (PreviousDirectionFacing != FacedDirection)
 		{
 			PreviousDirectionFacing = FacedDirection;
-			OnRotate90.Invoke();
+			OnRotate90?.Invoke();
 		}
 
 		if (UpdateConversion)
@@ -1131,14 +1127,14 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 		if (Mathf.Abs(Difference) > 0)
 		{
-			OnRotate.Invoke();
+			OnRotate?.Invoke();
 		}
 
 		var FacedDirection = ForwardsDirection.ToOrientationEnum();
 		if (PreviousDirectionFacing != FacedDirection)
 		{
 			PreviousDirectionFacing = FacedDirection;
-			OnRotate90.Invoke();
+			OnRotate90?.Invoke();
 		}
 
 
@@ -1182,6 +1178,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	public void MonitorAutopilot()
 	{
 		if (HasMoveToTarget == false) return;
+
 
 		CheckMatrixRoute();
 
@@ -1363,6 +1360,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			{
 				Corner.Remove();
 			}
+
 			MatrixBoundsGameGizmo.Clear();
 		}
 	}
@@ -1376,9 +1374,9 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		{
 			if (AIGameGizmoSprite == null)
 			{
-
 				AIGameGizmoSprite = GameGizmomanager.AddNewSpriteStaticClient(null, Position, Color.blue, X);
 			}
+
 			AIGameGizmoSprite.Position = Position;
 		}
 		else if (AIGameGizmoSprite != null)
@@ -1409,75 +1407,32 @@ public class NetworkedMatrixMove : NetworkBehaviour
 				var Position = MovingAroundMatrix.Matrix.MatrixInfo.WorldBounds.ExpandAllDirectionsBy(50)
 					.GetCorner(MatrixMoveAroundCurrentTargetCorner.Value).RoundToInt();
 				Position.z = 0;
-				HasGoneRoundACorner = true;
 				travelToWorldPOSOverride = Position;
-				PreviousPosition = null;
 			}
 			else
 			{
-				if (HasGoneRoundACorner == false) return;
-				if (PreviousPosition == null)
+				Vector3 currentPosition = CentreOfAIMovementWorld;
+
+
+				bool Breakout = false;
+
+				if ((PointIsWithinMatrixPerimeterPoint.Value - currentPosition).magnitude < 7)
 				{
-					PreviousPosition = CentreOfAIMovementWorld;
+					Breakout = true;
+					IgnoreMatrix = MovingAroundMatrix;
 				}
-				else
+
+
+				if (Breakout)
 				{
-					Vector3 currentPosition = CentreOfAIMovementWorld;
-					// Calculate the distance to the target position
-					var distanceToTarget = (currentPosition - travelToWorldPOS);
+					isMovingAroundMatrix = false;
+					travelToWorldPOSOverride = null;
+					IgnoreMatrix = MovingAroundMatrix;
 
-					// Check if the object is heading towards or away from the target position
-					var distancePrevious = (PreviousPosition.Value -travelToWorldPOS);
-					bool? isHeadingTowardsTargetx = null;
-					if (Mathf.Abs(WorldCurrentVelocity.x) > 1)
-					{
-						isHeadingTowardsTargetx = Mathf.Abs(distanceToTarget.x) < Mathf.Abs(distancePrevious.x);
-					}
-
-
-					bool? isHeadingTowardsTargety = null;
-					if (Mathf.Abs(WorldCurrentVelocity.y) > 1)
-					{
-						isHeadingTowardsTargety = Mathf.Abs(distanceToTarget.y) < Mathf.Abs(distancePrevious.y);
-					}
-
-					bool Breakout = false;
-
-					if ((PointIsWithinMatrixPerimeterPoint.Value - currentPosition).magnitude < 7)
-					{
-						Breakout = true;
-						IgnoreMatrix = MovingAroundMatrix;
-					}
-
-
-					if (Breakout)
-					{
-						IsMovingTowardsTargetX = false;
-						IsMovingTowardsTargetY = false;
-						isMovingAroundMatrix = false;
-						travelToWorldPOSOverride = null;
-						IgnoreMatrix = MovingAroundMatrix;
-						PreviousPosition = null;
-						MatrixMoveAroundCurrentTargetCorner = null;
-						MovingAroundMatrix = null;
-						HasGoneRoundACorner = false;
-						PointIsWithinMatrixPerimeterPoint = null;
-						TravelPointIsWithinMatrix = false;
-
-						return;
-					}
-
-					if (isHeadingTowardsTargetx != null)
-					{
-						IsMovingTowardsTargetX = isHeadingTowardsTargetx.Value;
-					}
-
-					if (isHeadingTowardsTargety != null)
-					{
-						IsMovingTowardsTargetY = isHeadingTowardsTargety.Value;
-					}
-
-					PreviousPosition = currentPosition;
+					MatrixMoveAroundCurrentTargetCorner = null;
+					MovingAroundMatrix = null;
+					PointIsWithinMatrixPerimeterPoint = null;
+					return;
 				}
 			}
 		}
@@ -1498,24 +1453,6 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 				if (thisBigBound.Intersects(OtherBigBound, out var Overlap))
 				{
-					// if (MovingAroundIgnore != null && Matrix.Value == MovingAroundIgnore.Matrix.MatrixInfo)
-					// {
-					// 	HadMovingAroundIgnoreInPreviousUpdate = true;
-					// 	continue;
-					// }
-					// else
-					// {
-					// 	if (HadMovingAroundIgnoreInPreviousUpdate == false)
-					// 	{
-					// 		MovingAroundIgnore = null;
-					// 	}
-					// 	else
-					// 	{
-					// 		HadMovingAroundIgnoreInPreviousUpdate = false;
-					// 		continue;
-					// 	}
-					// }
-
 					//SO
 					//now How to pick a corner to go to
 					OtherBigBound = OtherBigBound.ExpandAllDirectionsBy(40);
@@ -1537,26 +1474,12 @@ public class NetworkedMatrixMove : NetworkBehaviour
 						MatrixMoveAroundCurrentTargetCorner++;
 					}
 
-
-					if (OtherBigBound.Contains(TravelToWorldPOS))
-					{
-						TravelPointIsWithinMatrix = true;
-						PointIsWithinMatrixPerimeterPoint = OtherBigBound.GetClosestPerimeterPoint(TravelToWorldPOS);
-					}
-					else
-					{
-						TravelPointIsWithinMatrix = true;
-						PointIsWithinMatrixPerimeterPoint = OtherBigBound.GetClosestPerimeterPoint(TravelToWorldPOS);
-					}
-
+					PointIsWithinMatrixPerimeterPoint = OtherBigBound.GetClosestPerimeterPoint(TravelToWorldPOS);
 
 					MovingAroundMatrix = Matrix.Value;
-					IsMovingTowardsTargetX = false;
-					IsMovingTowardsTargetY = false;
 					var Position = Closest.RoundToInt();
 					Position.z = 0;
-					travelToWorldPOSOverride  =  Position;
-					HasGoneRoundACorner = false;
+					travelToWorldPOSOverride = Position;
 					isMovingAroundMatrix = true;
 				}
 			}

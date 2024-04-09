@@ -45,7 +45,7 @@ public partial class MatrixManager
 
 		if (matrixInfo!= null && matrixInfo.IsMovable)
 		{
-			matrixInfo.MatrixMove.NetworkedMatrixMove.OnStartMovement.AddListener( () =>
+			matrixInfo.MatrixMove.NetworkedMatrixMove.OnStartMovement += ( () =>
 			{
 				if ( !movingMatrices.Contains( matrixInfo ) )
 				{
@@ -53,13 +53,12 @@ public partial class MatrixManager
 				}
 			} );
 
-			matrixInfo.MatrixMove.NetworkedMatrixMove.OnStopMovement.AddListener( () =>
+			matrixInfo.MatrixMove.NetworkedMatrixMove.OnStopMovement += ( () =>
 			{
 				if ( movingMatrices.Contains( matrixInfo ) )
 				{
 					var participatingIntersections = trackedIntersections.FindAll( intersection => intersection.Matrix1 == matrixInfo );
-					matrixInfo.MatrixMove.NetworkedMatrixMove.OnStopMovement.AddListener( CollideBeforeStop( matrixInfo, participatingIntersections ) );
-
+					CollideBeforeStop( matrixInfo, participatingIntersections );
 					movingMatrices.Remove( matrixInfo );
 					trackedIntersections.RemoveAll( intersection => intersection.Matrix1 == matrixInfo );
 				}

@@ -237,22 +237,6 @@ public class StandardProgressAction : IProgressAction
 		//interrupt if player turns away and turning is not allowed
 		eventRegistry.Register(playerScript.PlayerDirectional.OnRotationChange, OnDirectionChanged);
 		initialDirection = playerScript.PlayerDirectional.CurrentDirection;
-		//interrupt if tile is on different matrix and either matrix moves / rotates
-		if (crossMatrix)
-		{
-			if (startProgressInfo.Target.TargetMatrixInfo.IsMovable)
-			{
-				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.NetworkedMatrixMove.OnStartMovement, OnMatrixStartMove);
-				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.NetworkedMatrixMove.OnRotate, OnMatrixRotate);
-			}
-
-			var performerMatrix = playerScript.RegisterPlayer.Matrix;
-			if (performerMatrix.IsMovable)
-			{
-				eventRegistry.Register(performerMatrix.MatrixMove.NetworkedMatrixMove.OnStartMovement, OnMatrixStartMove);
-				eventRegistry.Register(performerMatrix.MatrixMove.NetworkedMatrixMove.OnRotate, OnMatrixRotate);
-			}
-		}
 	}
 
 	public bool OnServerContinueProgress(InProgressInfo info)
