@@ -267,6 +267,6 @@ public class Manager3D : MonoBehaviour
 
 		Camera.main.orthographic = false;
 		Camera.main.fieldOfView = 90;
-		Camera.main.nearClipPlane = 0.01f;
+		Camera.main.nearClipPlane = 0.1f;
 	}
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Logs;
@@ -93,7 +94,7 @@ namespace SecureStuff
 		{
 			if (ValidateMethodInfo(methodInfo))
 			{
-				return methodInfo.Invoke(instance, parameters);
+				return methodInfo.Invoke(instance, BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy, (Binder) null, parameters, (CultureInfo) null);
 			}
 			else
 			{
