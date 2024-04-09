@@ -138,7 +138,6 @@ public class Manager3D : MonoBehaviour
 
 		//Camera.main.GetComponent<LightingSystem>().enabled = false;
 
-		Camera.main.orthographic = false;
 
 
 		var Follow = Camera.main.GetComponent<Camera2DFollow>();
@@ -265,5 +264,9 @@ public class Manager3D : MonoBehaviour
 			}
 		}
 
+
+		Camera.main.orthographic = false;
+		Camera.main.fieldOfView = 90;
+		Camera.main.nearClipPlane = 0.01f;
 	}
 }
