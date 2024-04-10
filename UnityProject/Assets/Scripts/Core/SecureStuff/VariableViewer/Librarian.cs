@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -853,7 +854,15 @@ namespace SecureStuff
 				if (HubValidation.TrustedMode == false) return;
 				if (MInfo != null)
 				{
-					MInfo.Invoke(BindedTo.BookClass, null);
+					try
+					{
+						MInfo.Invoke(BindedTo.BookClass, BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy, (Binder) null, null, (CultureInfo) null);
+					}
+					catch (Exception e)
+					{
+						Loggy.LogError(e.ToString());
+					}
+
 				}
 			}
 

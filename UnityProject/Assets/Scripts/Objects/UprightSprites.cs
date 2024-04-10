@@ -86,8 +86,10 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 			UpdateManager.Remove(CallbackType.UPDATE, SetSpritesUpright);
 	}
 
+	[NaughtyAttributes.Button]
 	private void SetSpritesUpright()
 	{
+		if (Manager3D.Is3D) return;
 		if (RotateParent == null)
 		{
 			if (spriteRenderers == null) return;
