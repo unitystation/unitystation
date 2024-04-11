@@ -8,7 +8,7 @@ public class BackgroundRenderer : MonoBehaviour
 
 	private Camera mMaskCamera;
 	private RenderTexture mMask;
-	
+
 	private RenderTexture mask
 	{
 		get
@@ -53,7 +53,7 @@ public class BackgroundRenderer : MonoBehaviour
 	{
 		// Setup.
 		mMaskCamera.enabled = false;
-		mMaskCamera.cullingMask = iRenderSettings.backgroundLayers; 
+		mMaskCamera.cullingMask = iRenderSettings.backgroundLayers;
 		mMaskCamera.backgroundColor = Color.black;
 
 		mMaskCamera.Render();
@@ -101,8 +101,8 @@ public class BackgroundRenderer : MonoBehaviour
 		iSetupCamera.depth = 10;
 		iSetupCamera.allowHDR = false;
 		iSetupCamera.allowMSAA = false;
-		iSetupCamera.farClipPlane = 10;
-		iSetupCamera.nearClipPlane = -10;
+		iSetupCamera.farClipPlane = 100;
+		iSetupCamera.nearClipPlane = -100;
 
 		// Get or add processor component.
 		var _processor = iSetupCamera.gameObject.GetComponent<BackgroundRenderer>();
