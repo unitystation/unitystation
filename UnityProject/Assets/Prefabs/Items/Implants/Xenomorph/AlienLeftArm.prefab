@@ -8,6 +8,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1884730149666468228, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 138efc982f45730428c17206ecc50c77,
+        type: 2}
     - target: {fileID: 2270965261034941782, guid: 1f74ff76597345148a3687fa9467b3ab,
         type: 3}
       propertyPath: BodyPartType
@@ -23,6 +29,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2977637531942402472, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977637531942402472, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 57eb2d1faf36d2040ade08046da48bfa,
+        type: 2}
     - target: {fileID: 3326786436010601342, guid: 1f74ff76597345148a3687fa9467b3ab,
         type: 3}
       propertyPath: _assetId
@@ -136,6 +153,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   armEfficiency: 1
   crawlingSpeed: 0.3
 --- !u!114 &2288932229244256589

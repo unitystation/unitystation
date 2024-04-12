@@ -97,7 +97,7 @@ namespace HealthV2
 
 				var alienPlayer = alienMind.PossessingObject.GetComponent<AlienPlayer>();
 
-				alienPlayer.SetNewPlayer();
+				alienPlayer.SetNewPlayer(alienMind);
 				alienPlayer.DoConnectCheck();
 
 				//kill after transfer
