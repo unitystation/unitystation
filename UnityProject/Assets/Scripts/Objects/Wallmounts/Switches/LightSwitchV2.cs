@@ -7,6 +7,7 @@ using Systems.Electricity;
 using Systems.Interaction;
 using CustomInspectors;
 using Shared.Systems.ObjectConnection;
+using Random = UnityEngine.Random;
 
 
 namespace Objects.Lighting
@@ -34,6 +35,7 @@ namespace Objects.Lighting
 		private PowerState powerState = PowerState.On;
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -66,7 +68,16 @@ namespace Objects.Lighting
 		{
 			isOn = newState;
 			if (invokeEvent == false) return;
-			SwitchTriggerEvent?.Invoke(isOn);
+			StartCoroutine(SlowInvoke());
+		}
+
+		private IEnumerator SlowInvoke()
+		{
+			foreach (var thingToInvoke in SwitchTriggerEvent.GetInvocationList())
+			{
+				yield return WaitFor.Seconds(Random.Range(0.09f, 0.6f));
+				thingToInvoke.DynamicInvoke(isOn);
+			}
 		}
 
 		#region ICheckedInteractable<HandApply>
