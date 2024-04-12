@@ -506,6 +506,29 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	}
 
 	/// <summary>
+	/// Server-side only. Despawns this container and all items in its inventory. Repeats this method on any nested containers.
+	/// Should only be used on containers that drop their items on despawn and can not be changed otherwise.
+	/// </summary>
+	public void ServerDespawnOppressive()
+	{
+		foreach (var slot in GetItemSlots())
+		{
+			if (slot.Item != null)
+			{
+				if(slot.Item.TryGetComponent<ItemStorage>(out var subStorage) == true)
+				{
+					subStorage.ServerDespawnOppressive();
+					continue;
+				}
+
+				_ = Despawn.ServerSingle(slot.Item.gameObject);
+			}
+		}
+
+		_ = Despawn.ServerSingle(this.gameObject);
+	}
+
+	/// <summary>
 	/// Gets all item slots in this and all contained item storages. Basically
 	/// gets every single item slot that exists somewhere in the hierarchy of storage
 	/// contained in this storage.

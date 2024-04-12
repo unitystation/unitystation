@@ -118,13 +118,15 @@ namespace Player
 		{
 			if (getUp == false && networkedLean.Target.rotation.z > -90)
 			{
+				if (UprightSprites == null) yield break;
+
 				networkedLean.RotateGameObject(new Vector3(0, 0, -90), 0.15f, sprites.gameObject);
 				yield return WaitFor.Seconds(0.15f);
 				UprightSprites.ExtraRotation = Quaternion.Euler(new Vector3(0, 0, -90));
-
 			}
 			else if (getUp && networkedLean.Target.rotation.z < 90)
 			{
+				if (UprightSprites == null) yield break;
 
 				networkedLean.RotateGameObject(new Vector3(0, 0, 0), 0.19f, sprites.gameObject);
 				yield return WaitFor.Seconds(0.19f);

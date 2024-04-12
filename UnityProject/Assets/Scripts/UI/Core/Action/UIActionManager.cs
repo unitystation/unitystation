@@ -526,7 +526,7 @@ namespace UI.Core.Action
 			{
 				if (MultiActivePlayerActions[body][iActionGUIMulti].Contains(actionData))
 				{
-					Loggy.LogError($"ActionData: {actionData.OrNull()?.Name}, already present on mind");
+					Loggy.LogWarning($"ActionData: {actionData.OrNull()?.Name}, already present on mind");
 					return;
 				}
 
@@ -550,13 +550,13 @@ namespace UI.Core.Action
 			{
 				if (MultiActivePlayerActions[body].ContainsKey(iActionGUIMulti) == false)
 				{
-					Loggy.LogError("iActionGUIMulti Not present on mind");
+					Loggy.LogWarning("iActionGUIMulti Not present on mind");
 					return;
 				}
 
 				if (MultiActivePlayerActions[body][iActionGUIMulti].Contains(actionData) == false)
 				{
-					Loggy.LogError("actionData Not present on mind");
+					Loggy.LogWarning("actionData Not present on mind");
 					return;
 				}
 

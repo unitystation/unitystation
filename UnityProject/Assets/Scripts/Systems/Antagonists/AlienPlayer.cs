@@ -11,6 +11,7 @@ using Logs;
 using Managers;
 using Messages.Server.LocalGuiMessages;
 using Mirror;
+using NSubstitute.Extensions;
 using Objects;
 using Player.Language;
 using Player.Movement;
@@ -223,7 +224,7 @@ namespace Systems.Antagonists
 			livingHealthMasterBase.OnConsciousStateChangeServer.AddListener(OnConsciousHealthChange);
 			rotatable.OnRotationChange.AddListener(OnRotation);
 			playerScript.RegisterPlayer.OnLyingDownChangeEvent.AddListener(OnLyingDownChange);
-			playerScript.PlayerSync.MovementStateEventServer.AddListener(OnMovementTypeChange);
+			playerScript.PlayerSync.MovementStateEventServer.AddListener(OnMovementTypeChangeEvent);
 			EventManager.AddHandler(Event.RoundStarted, ClearStatics);
 		}
 
@@ -233,7 +234,7 @@ namespace Systems.Antagonists
 			livingHealthMasterBase.OnConsciousStateChangeServer.RemoveListener(OnConsciousHealthChange);
 			rotatable.OnRotationChange.RemoveListener(OnRotation);
 			playerScript.RegisterPlayer.OnLyingDownChangeEvent.RemoveListener(OnLyingDownChange);
-			playerScript.PlayerSync.MovementStateEventServer.RemoveListener(OnMovementTypeChange);
+			playerScript.PlayerSync.MovementStateEventServer.RemoveListener(OnMovementTypeChangeEvent);
 			EventManager.RemoveHandler(Event.RoundStarted, ClearStatics);
 		}
 
@@ -264,7 +265,7 @@ namespace Systems.Antagonists
 		#region Setup
 
 		[Server]
-		public void SetNewPlayer()
+		public void SetNewPlayer(Mind newMind)
 		{
 			if(isServer == false || firstTimeSetup) return;
 			firstTimeSetup = true;
@@ -281,7 +282,7 @@ namespace Systems.Antagonists
 				nameNumber = alienCount;
 			}
 
-			SetUpFromPrefab(null, alienType , true);
+			SetUpFromPrefab(newMind, null, alienType , true);
 
 			if (CurrentAlienType is AlienTypes.Larva1 or AlienTypes.Larva2 or AlienTypes.Larva3)
 			{
@@ -438,30 +439,32 @@ namespace Systems.Antagonists
 				Chat.AddActionMsgToChat(gameObject, "You begin to evolve!",
 					$"{playerScript.playerName} begins to twist and contort!");
 
-				var alienBody = PlayerSpawn.RespawnPlayerAt(playerScript.Mind, newAlienData.AlienOccupation, new CharacterSheet()
+				var alienCharacterSheet = new CharacterSheet()
 				{
-					Name = "Alien"
-				}, playerScript.ObjectPhysics.OfficialPosition);
+					Name = "Alien",
+				};
 
+				var alienBody = PlayerSpawn.RespawnPlayerAt(playerScript.PossessingMind, newAlienData.AlienOccupation, alienCharacterSheet, playerScript.ObjectPhysics.OfficialPosition);
 
 				Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {alienType.Name}!");
 
 				var newAlienPlayer = alienBody.GetComponent<AlienPlayer>();
 
-				newAlienPlayer.SetUpFromPrefab(alienType, newAlienData,changeName, nameNumber);
+				newAlienPlayer.SetUpFromPrefab(newAlienPlayer.playerScript.PossessingMind, alienType, newAlienData,changeName, nameNumber);
 
 				newAlienPlayer.DoConnectCheck();
-
 			}
 			catch (Exception e)
 			{
 				Loggy.LogError(e.ToString());
 			}
 
+			playerScript.playerHealth.BodyPartStorage.ServerDespawnOppressive();
+
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
-		private void SetUpFromPrefab(AlienTypeDataSO old, AlienTypeDataSO newone, bool changeName = false, int oldNameNumber = -1)
+		private void SetUpFromPrefab(Mind newMind, AlienTypeDataSO old, AlienTypeDataSO newone, bool changeName = false, int oldNameNumber = -1)
 		{
 			firstTimeSetup = true;
 			alienType = newone;
@@ -481,12 +484,12 @@ namespace Systems.Antagonists
 			playerScript.WeaponNetworkActions.SetNewDamageValues(alienType.AttackSpeed,
 				alienType.AttackDamage, alienType.DamageType, alienType.ChanceToHit);
 
-			SetName(changeName, old);
+			SetName(newMind, changeName, old);
 
 			QueenCheck();
 		}
 
-		private void SetName(bool changeName, AlienTypeDataSO old)
+		private void SetName(Mind mindToEffect, bool changeName, AlienTypeDataSO old)
 		{
 			if (changeName == false)
 			{
@@ -496,21 +499,24 @@ namespace Systems.Antagonists
 			//Set new name
 			if (alienType.AlienType == AlienTypes.Queen)
 			{
-				playerScript.playerName = $"{alienType.Name} {nameNumber}";
-				Chat.AddChatMsgToChatServer($"A new queen: {playerScript.playerName} has joined the hive, rejoice!",
+				mindToEffect.SetPermanentName($"{alienType.Name} {nameNumber:D3}");
+
+				Chat.AddChatMsgToChatServer($"A new queen: {alienType.Name} {nameNumber:D3} has joined the hive, rejoice!",
 					ChatChannel.Alien, alienLanguage, Loudness.SCREAMING);
 			}
 			else
 			{
 				if (changeName)
 				{
-					playerScript.playerName = $"{alienType.Name} {nameNumber:D3}";
-					Chat.AddChatMsgToChatServer($"{playerScript.playerName} has joined the hive, rejoice!",
+					mindToEffect.SetPermanentName($"{alienType.Name} {nameNumber:D3}");
+
+					Chat.AddChatMsgToChatServer($"{alienType.Name} {nameNumber:D3} has joined the hive, rejoice!",
 						ChatChannel.Alien, alienLanguage, Loudness.LOUD);
 				}
 				else
 				{
-					playerScript.playerName = $"{alienType.Name} {nameNumber:D3}";
+					mindToEffect.SetPermanentName($"{alienType.Name} {nameNumber:D3}");
+
 					Chat.AddChatMsgToChatServer($"{old.Name} {nameNumber:D3} has evolved into a {alienType.Name}!",
 						ChatChannel.Alien, alienLanguage, Loudness.LOUD);
 				}
@@ -812,20 +818,27 @@ namespace Systems.Antagonists
 				return;
 			}
 
-			OnMovementTypeChange(playerScript.PlayerSync.CurrentMovementType == MovementType.Running);
+			ChangeAlienMode(AlienMode.Normal);
+
+			OnMovementTypeChange(playerScript.PlayerSync.CurrentMovementType == MovementType.Running, isLyingDown);
 		}
 
 		#endregion
 
 		#region Movement
 
-		private void OnMovementTypeChange(bool isRunning)
+		private void OnMovementTypeChangeEvent(bool isRunning)
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			OnMovementTypeChange(isRunning, playerScript.RegisterPlayer.IsLayingDown);
+		}
 
-			if(livingHealthMasterBase.IsDead) return;
+		private void OnMovementTypeChange(bool isRunning, bool layingDown = false)
+		{
+			if (CustomNetworkManager.IsServer == false) return;
 
-			if (playerScript.RegisterPlayer.IsLayingDown) return;
+			if (layingDown) return;
+
+			if (livingHealthMasterBase.IsDead) return;
 
 			ChangeAlienMode(isRunning ? AlienMode.Running : AlienMode.Normal);
 		}
@@ -914,7 +927,7 @@ namespace Systems.Antagonists
 			switch (newSprite)
 			{
 				case AlienMode.Normal:
-					SetSpriteSO(alienType.Normal);
+					SetSpriteSO(alienType.Normal, reAffirmFacing: true);
 					return;
 				case AlienMode.Dead:
 					SetSpriteSO(alienType.Dead);
@@ -929,10 +942,10 @@ namespace Systems.Antagonists
 					SetSpriteSO(alienType.Unconscious);
 					return;
 				case AlienMode.Running:
-					SetSpriteSO(alienType.Running);
+					SetSpriteSO(alienType.Running, reAffirmFacing: true);
 					return;
 				case AlienMode.Crawling:
-					SetSpriteSO(alienType.Front, true);
+					SetSpriteSO(alienType.Front, true, true);
 					return;
 				default:
 					Loggy.LogError($"Unexpected case: {newSprite.ToString()}");
@@ -940,25 +953,28 @@ namespace Systems.Antagonists
 			}
 		}
 
-		private void SetSpriteSO(SpriteDataSO newSprite, bool doBack = false)
+		private void SetSpriteSO(SpriteDataSO newSprite, bool doBack = false, bool reAffirmFacing = false)
 		{
 			if (newSprite == null)
 			{
 				//Don't have custom sprite just use normal
 				mainSpriteHandler.SetSpriteSO(alienType.Normal);
+				if(reAffirmFacing) OnRotation(rotatable.CurrentDirection);
+	
 				return;
 			}
 
 			mainSpriteHandler.SetSpriteSO(newSprite);
+			if (reAffirmFacing) OnRotation(rotatable.CurrentDirection);
 
-			if(doBack == false) return;
+			if (doBack == false) return;
 
 			mainBackSpriteHandler.SetSpriteSO(alienType.Back);
 		}
 
 		private void OnRotation(OrientationEnum newRotation)
 		{
-			int spriteVariant = 0;
+			int spriteVariant;
 			switch (newRotation)
 			{
 				case OrientationEnum.Up_By0:
@@ -1634,9 +1650,8 @@ namespace Systems.Antagonists
 		public void OnServerPlayerPossess(Mind mind)
 		{
 			//This will call after an admin respawn to set up a new player
-			SetNewPlayer();
+			SetNewPlayer(mind);
 			AddNewActions(mind.ControlledBy);
-			playerScript.playerName = $"{alienType.Name} {nameNumber}";
 			//TODO: Temporary fix until we find the problem that's causing body parts to not have their systems setup when added to the player.
 			livingHealthMasterBase.IsMute.InterestedParties.Clear();
 			livingHealthMasterBase.IsMute.RecordPosition(this, false);
