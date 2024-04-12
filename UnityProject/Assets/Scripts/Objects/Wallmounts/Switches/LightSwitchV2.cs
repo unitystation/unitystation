@@ -75,8 +75,9 @@ namespace Objects.Lighting
 		{
 			foreach (var thingToInvoke in SwitchTriggerEvent.GetInvocationList())
 			{
-				yield return WaitFor.Seconds(Random.Range(0.09f, 0.6f));
-				thingToInvoke.DynamicInvoke(isOn);
+				yield return WaitFor.Seconds(Random.Range(0.09f, 0.5f));
+				var convertedThing = (Action<bool>)thingToInvoke;
+				convertedThing?.Invoke(isOn);
 			}
 		}
 
