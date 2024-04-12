@@ -32,7 +32,7 @@ namespace Core.Lighting.Animations
 
 		public void AnimateLight()
 		{
-			source.lightSprite.Sprite = sprites[currentIndex];
+			source.LightSpriteUsed.Sprite = sprites[currentIndex];
 			currentIndex++;
 			if (currentIndex >= sprites.Count - 1) currentIndex = 0;
 		}
@@ -40,11 +40,11 @@ namespace Core.Lighting.Animations
 		public void StopAnimation()
 		{
 			if (AnimationActive == false) return;
-			source.lightSprite.Sprite = sprites[0];
+			source.LightSpriteUsed.Sprite = sprites[0];
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, AnimateLight);
 			if (resetToDefaultSpriteOnAnimStop)
 			{
-				source.lightSprite.Sprite = defaultSprite;
+				source.LightSpriteUsed.Sprite = defaultSprite;
 			}
 
 			AnimationActive = false;
@@ -54,7 +54,7 @@ namespace Core.Lighting.Animations
 		{
 			if (AnimationActive) return;
 			AnimationActive = true;
-			defaultSprite = source.lightSprite.Sprite;
+			defaultSprite = source.LightSpriteUsed.Sprite;
 			UpdateManager.Add(AnimateLight, animSpeed);
 		}
 	}

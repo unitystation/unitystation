@@ -46,10 +46,10 @@ namespace Core.Lighting
 
 		public void StartAnimation()
 		{
-			source.lightSprite.Color = source.EmergencyColour;
+			source.LightSpriteUsed.Color = source.EmergencyColour;
 
-			previousSprite = source.lightSprite.Sprite;
-			source.lightSprite.Sprite = emergancySprite;
+			previousSprite = source.LightSpriteUsed.Sprite;
+			source.LightSpriteUsed.Sprite = emergancySprite;
 
 			currentSpeed = rotateSpeed + Random.Range(0, speedVariation);
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
@@ -62,8 +62,8 @@ namespace Core.Lighting
 			if (AnimationActive == false) return;
 			if (previousSprite)
 			{
-				source.lightSprite.Color = source.CurrentOnColor;
-				source.lightSprite.Sprite = previousSprite;
+				source.LightSpriteUsed.Color = source.CurrentOnColor;
+				source.LightSpriteUsed.Sprite = previousSprite;
 				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			}
 			previouslySet = false;
@@ -78,8 +78,7 @@ namespace Core.Lighting
 
 		public void AnimateLight()
 		{
-			if (AnimationActive) return;
-			if (source == null || source.mLightRendererObject == null)
+			if (source == null)
 			{
 				StopAnimation();
 
