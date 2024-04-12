@@ -62,13 +62,14 @@ namespace Objects.Lighting
 		[SerializeField] private GameObject sparkObject = null;
 
 		private SOLightMountState currentState;
+		public SOLightMountState CurrentState => currentState;
 		private UniversalObjectPhysics objectPhysics;
 		private LightFixtureConstruction construction;
 
 		private ItemTrait traitRequired;
 		public ItemTrait TraitRequired => traitRequired;
 		private GameObject itemInMount;
-		public LightSprite lightSprite { get; private set; }
+		public LightSprite LightSpriteUsed { get; private set; }
 
 		public float integrityThreshBar { get; private set; }
 
@@ -91,7 +92,7 @@ namespace Objects.Lighting
 				mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);
 			}
 
-			lightSprite = mLightRendererObject.GetComponent<LightSprite>();
+			LightSpriteUsed = mLightRendererObject.GetComponent<LightSprite>();
 			if (isWithoutSwitch == false)
 			{
 				switchState = InitialState == LightMountState.On;
@@ -106,7 +107,7 @@ namespace Objects.Lighting
 
 		private void Start()
 		{
-			lightSprite.Color = CurrentOnColor;
+			LightSpriteUsed.Color = CurrentOnColor;
 			CheckAudioState();
 		}
 
@@ -255,7 +256,7 @@ namespace Objects.Lighting
 			boxColl.size = size;
 		}
 
-		private void SetSprites()
+		public void SetSprites()
 		{
 			spriteHandler.SetSpriteSO(currentState.SpriteData, null);
 			spriteRendererLightOn.sprite = MountState == LightMountState.On
@@ -282,7 +283,7 @@ namespace Objects.Lighting
 		public void SetColor(Color oldState, Color newState)
 		{
 			CurrentOnColor = newState;
-			lightSprite.Color = newState;
+			LightSpriteUsed.Color = newState;
 		}
 
 		private void CheckAudioState()

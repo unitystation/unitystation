@@ -35,11 +35,11 @@ namespace Core.Lighting
 			float elapsedTime = (float)(DateTime.Now.Ticks - timeSinceAnimStart.Ticks) / TimeSpan.TicksPerSecond / duration;
 			float t = curve.Evaluate(elapsedTime);
 			Color lerpedColor = Color.Lerp(source.CurrentOnColor, colorToAnimateTowards, t);
-			source.lightSprite.Color = lerpedColor;
+			source.LightSpriteUsed.Color = lerpedColor;
 			if (t >= 1)
 			{
 				timeSinceAnimStart = DateTime.Now;
-				source.lightSprite.Color = defaultStateOnUpdateEnd;
+				source.LightSpriteUsed.Color = defaultStateOnUpdateEnd;
 			}
 		}
 
@@ -47,7 +47,7 @@ namespace Core.Lighting
 		{
 			if (AnimationActive == false) return;
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			source.lightSprite.Color = defaultStateOnUpdateEnd;
+			source.LightSpriteUsed.Color = defaultStateOnUpdateEnd;
 			AnimationActive = false;
 		}
 
