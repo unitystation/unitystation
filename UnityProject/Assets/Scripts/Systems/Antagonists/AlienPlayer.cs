@@ -11,7 +11,6 @@ using Logs;
 using Managers;
 using Messages.Server.LocalGuiMessages;
 using Mirror;
-using NSubstitute.Extensions;
 using Objects;
 using Player.Language;
 using Player.Movement;
