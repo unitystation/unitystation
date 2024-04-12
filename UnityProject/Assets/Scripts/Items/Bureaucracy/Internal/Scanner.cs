@@ -6,74 +6,85 @@ namespace Items.Bureaucracy.Internal
 	public class Scanner
 	{
 		public bool ScannerOpen { get; }
-		public bool ScannerEmpty { get; }
-		public string DocumentText { get; }
-		public string ScannedText { get; }
+		public bool ScannedText { get; }
 
-		public Scanner(bool scannerOpen, bool scannerEmpty, string documentText, string scannedText)
+		public ItemStorage Storage { get; }
+
+		public Scanner(bool scannerOpen, ItemStorage storage, bool scannedText)
 		{
 			ScannerOpen = scannerOpen;
-			ScannerEmpty = scannerEmpty;
-			DocumentText = documentText;
+			Storage = storage;
 			ScannedText = scannedText;
 		}
 
-		public Scanner ToggleScannerLid(GameObject scannerObj, GameObject paperPrefab)
+		public Scanner ToggleScannerLid()
 		{
 			if (ScannerOpen)
 			{
-				return new Scanner(false, ScannerEmpty, DocumentText, ScannedText);
+				Chat.AddLocalMsgToChat("The Scanner's lid closes, and no longer accepts any more new documents to scan.", Storage.gameObject);
+				return new Scanner(false, Storage, ScannedText);
 			}
 			else
 			{
-				//If we're opening the scanner and it aint empty spawn paper
-				if (!ScannerEmpty)
-				{
-					var result = Spawn.ServerPrefab(paperPrefab, SpawnDestination.At(scannerObj));
-					if (!result.Successful)
-						throw new InvalidOperationException("Spawn paper failed!");
-
-					var paperObj = result.GameObject;
-					var paper = paperObj.GetComponent<Paper>();
-					paper.SetServerString(DocumentText);
-					return new Scanner(true, true, null, ScannedText);
-				}
-				else
-				{
-					return new Scanner(true, ScannerEmpty, DocumentText, ScannedText);
-				}
+				DropAllContent();
+				return new Scanner(true, Storage, false);
 			}
 		}
 
-		public bool CanPlaceDocument(GameObject page) =>
-			page != null
-			&& page.GetComponent<Paper>() != null
-			&& ScannerOpen
-			&& ScannerEmpty;
-
-		public Scanner PlaceDocument(GameObject paperObj)
+		private void DropAllContent()
 		{
-			if (!CanPlaceDocument(paperObj))
-				throw new InvalidOperationException("Cannot place document in scanner");
-
-			var paper = paperObj.GetComponent<Paper>();
-			_ = Despawn.ServerSingle(paperObj);
-			return new Scanner(ScannerOpen, false, paper.ServerString, ScannedText);
+			Storage.ServerDropAll();
+			Chat.AddLocalMsgToChat("The Scanner spits out all the original documents.", Storage.gameObject);
 		}
 
-		public bool CanScan() => !ScannerOpen && !ScannerEmpty && DocumentText != null;
+		public bool CanPlaceDocument(GameObject page)
+		{
+			if (page == null) return false;
+			if (page.TryGetComponent<Paper>(out var _) == false) return false;
+			return ScannerOpen;
+		}
+
+		public void PlaceDocument(GameObject paperObj)
+		{
+			if (CanPlaceDocument(paperObj) == false)
+			{
+				throw new InvalidOperationException("Cannot place document in scanner");
+			}
+
+			var result = Storage.ServerTryTransferFrom(paperObj);
+			Chat.AddActionMsgToChat(Storage.gameObject, result ?
+				"The Scanner queues a document up for printing.." : "The Scanner refuses accepting the document..");
+		}
+
+		public bool CanScan()
+		{
+			if (ScannerOpen)
+			{
+				Chat.AddActionMsgToChat(Storage.gameObject, "The scanner blips 'Error: Scanner is open'");
+				return false;
+			}
+			if (Storage.GetOccupiedSlots().Count == 0)
+			{
+				Chat.AddActionMsgToChat(Storage.gameObject, "The scanner blips 'Error: Nothing to scan, scanner empty.'");
+				return false;
+			}
+			return true;
+		}
 
 		public Scanner Scan()
 		{
-			if (!CanScan())
-				throw new InvalidOperationException("Cannot scan document");
+			if (CanScan() == false)
+			{
+				return new Scanner(ScannerOpen, Storage, false);
+			}
 
-			return new Scanner(ScannerOpen, ScannerEmpty, DocumentText, DocumentText);
+			return new Scanner(ScannerOpen, Storage, true);
 		}
 
 		public Scanner ClearScannedText()
 		{
-			return new Scanner(ScannerOpen, ScannerEmpty, DocumentText, null);
+			DropAllContent();
+			return new Scanner(ScannerOpen, Storage, false);
 		}
 	}
 }

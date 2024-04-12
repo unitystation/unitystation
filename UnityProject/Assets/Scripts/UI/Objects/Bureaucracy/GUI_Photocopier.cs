@@ -62,13 +62,13 @@ namespace UI.Bureaucracy
 			{
 				StatusLabel.MasterSetValue("TRAY EMPTY");
 			}
-			else if (Photocopier.ScannedTextNull)
+			else if (Photocopier.ScannedTextNotEmpty)
 			{
-				StatusLabel.MasterSetValue("DOCUMENT NOT SCANNED");
+				StatusLabel.MasterSetValue("COPIER READY");
 			}
 			else
 			{
-				StatusLabel.MasterSetValue("COPIER READY");
+				StatusLabel.MasterSetValue("DOCUMENT NOT SCANNED");
 			}
 		}
 
@@ -78,11 +78,11 @@ namespace UI.Bureaucracy
 			{
 				ScannerLabel.MasterSetValue("ERR: SCANNER OPEN");
 			}
-			else if (!Photocopier.ScannedTextNull)
+			else if (Photocopier.ScannedTextNotEmpty)
 			{
 				ScannerLabel.MasterSetValue("DOCUMENT SCANNED");
 			}
-			else if (Photocopier.ScannedTextNull)
+			else if (Photocopier.ScannedTextNotEmpty == false)
 			{
 				ScannerLabel.MasterSetValue("DOCUMENT NOT SCANNED");
 			}
@@ -137,6 +137,10 @@ namespace UI.Bureaucracy
 			{
 				SoundManager.PlayNetworkedAtPos(Beep, registerObject.WorldPosition);
 				Photocopier.Print();
+			}
+			else
+			{
+				Chat.AddActionMsgToChat(registerObject.gameObject, "The Printer makes a beeping error.");
 			}
 		}
 
