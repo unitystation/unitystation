@@ -5,11 +5,20 @@ using UnityEngine;
 using Tiles;
 using System.Threading.Tasks;
 using Objects;
+using Shared.Systems.ObjectConnection;
 
 namespace Systems.Scenes
 {
-	public class MaintGenerator : MonoBehaviour
+	public class MaintGenerator : MonoBehaviour, IMultitoolMasterable
 	{
+
+		public MultitoolConnectionType ConType => MultitoolConnectionType.MaintGeneratorExclusionZone;
+
+		public int MaxDistance => 9999;
+
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = true;
+
 		private enum Direction
 		{
 			North = 1,
@@ -48,6 +57,9 @@ namespace Systems.Scenes
 
 		[SerializeField, Tooltip("Possible crates or lockers that items can spawn in")]
 		private List<ExclusionZone> exclusionZones = new List<ExclusionZone>();
+
+		[SerializeField, Tooltip("Possible crates or lockers that items can spawn in")]
+		public List<ExclusionZoneMono> exclusionZonesMono = new List<ExclusionZoneMono>();
 
 		private int[,] mazeArray;
 		private HashSet<Vector2Int> bordercells;
@@ -91,7 +103,7 @@ namespace Systems.Scenes
 			await CarveRooms();
 
 			await CarvePath(1, 1);
-		
+
 			MaintGeneratorManager.MaintGenerators.Add(this);
 
 		}

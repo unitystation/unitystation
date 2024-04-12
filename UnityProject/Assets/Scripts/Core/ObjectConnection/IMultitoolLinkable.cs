@@ -22,7 +22,8 @@ namespace Shared.Systems.ObjectConnection
 		ResearchServer,
 		Artifact,
 		ResearchLaser,
-		QuantumPad
+		QuantumPad,
+		MaintGeneratorExclusionZone
 	}
 
 	public interface IMultitoolLinkable
