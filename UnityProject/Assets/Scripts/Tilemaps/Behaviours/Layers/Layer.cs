@@ -100,7 +100,7 @@ public class Layer : MonoBehaviour
 		if (matrixMove != null)
 		{
 			Loggy.LogTraceFormat("{0} layer initializing from matrix", Category.Matrix, matrixMove);
-			matrixMove.NetworkedMatrixMove.OnRotate90.AddListener(OnRotate90);
+			matrixMove.NetworkedMatrixMove.OnRotate90 += (OnRotate90);
 			//initialize from current rotation
 			OnRotate90();
 		}
@@ -108,7 +108,11 @@ public class Layer : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		matrixMove.OrNull()?.NetworkedMatrixMove.OrNull()?.OnRotate90?.RemoveListener(OnRotate90);
+		if (matrixMove.OrNull()?.NetworkedMatrixMove.OrNull() != null)
+		{
+			matrixMove.NetworkedMatrixMove.OnRotate90 -= (OnRotate90);
+		}
+
 	}
 
 	private void OnRotate90()

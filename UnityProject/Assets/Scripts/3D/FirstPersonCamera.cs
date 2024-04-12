@@ -1,3 +1,4 @@
+using System;
 using Shared.Managers;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -22,12 +23,20 @@ namespace _3D
 			RandomiseSkybox();
 		}
 
+		public void OnDisable()
+		{
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
+		}
+
 		void Update()
 		{
 			LightingSystem.enabled = false;
 
 			if (MouseActivated == false && Application.isFocused && UIManager.Instance.isInputFocus == false)
 			{
+
+
 
 				float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
 				float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;

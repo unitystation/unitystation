@@ -24,6 +24,8 @@ public class ParallaxController : MonoBehaviour
 
 	public float moveMultiplier = 1;
 
+	public float zOffset = -1;
+
 	void Awake()
 	{
 		for (int i = 0; i < Columns; i++)
@@ -47,11 +49,24 @@ public class ParallaxController : MonoBehaviour
 		}
 
 		var rend = backgroundTiles[0].rows[0].GetComponent<SpriteRenderer>();
-		tileBounds = ((rend.sprite.bounds.size * rend.sprite.pixelsPerUnit) / 100f) * rend.transform.localScale.To2() ;
+		if (rend != null)
+		{
+			tileBounds = ((rend.sprite.bounds.size * rend.sprite.pixelsPerUnit) / 100f) * rend.transform.localScale.To2() ;
+		}
+		else
+		{
+			tileBounds = backgroundTiles[0].rows[0].transform.localScale.To2();
+		}
+
 		centerColumn = Columns / 2;
 		centerRow = Rows / 2;
 		RealignTiles();
 	}
+
+
+
+
+
 
 	private void OnEnable()
 	{
@@ -63,6 +78,41 @@ public class ParallaxController : MonoBehaviour
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
+	[NaughtyAttributes.Button]
+	public void Rescale()
+	{
+		for (int i = 0; i < backgroundTiles.Count; i++)
+		{
+			for (int j = 0; j < backgroundTiles[0].rows.Count; j++)
+			{
+				backgroundTiles[i].rows[j].transform.localScale = ObjectScale;
+			}
+		}
+
+		var rend = backgroundTiles[0].rows[0].GetComponent<SpriteRenderer>();
+		if (rend != null)
+		{
+			tileBounds = ((rend.sprite.bounds.size * rend.sprite.pixelsPerUnit) / 100f) * rend.transform.localScale.To2() ;
+		}
+		else
+		{
+			tileBounds = backgroundTiles[0].rows[0].transform.localScale.To2();
+		}
+
+		centerColumn = Columns / 2;
+		centerRow = Rows / 2;
+
+		RealignTilesEditor();
+	}
+
+
+	[NaughtyAttributes.Button]
+	public void RealignTilesEditor()
+	{
+		RealignTiles(true);
+		RealignTiles(false);
+	}
+
 	void RealignTiles(bool? UpdateX = null)
 	{
 		// this.transform.position = Camera.main.transform.position;
@@ -71,6 +121,7 @@ public class ParallaxController : MonoBehaviour
 			for (int j = 0; j < backgroundTiles[0].rows.Count; j++)
 			{
 				Vector3 newPos = Camera.main.transform.position;
+				newPos.z = zOffset;
 				if (UpdateX is true or null)
 				{
 					newPos.x = Camera.main.transform.position.x;

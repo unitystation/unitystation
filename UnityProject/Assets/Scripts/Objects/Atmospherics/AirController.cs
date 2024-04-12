@@ -262,7 +262,7 @@ namespace Objects.Atmospherics
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return Validations.HasItemTrait(interaction, CommonTraits.Instance.Id);
+			return interaction.HandObject != null;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)

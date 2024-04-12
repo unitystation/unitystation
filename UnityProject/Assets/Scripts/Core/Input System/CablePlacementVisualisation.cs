@@ -12,7 +12,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 	/// Prefab used to visualise cable placement
 	/// </summary>
 	[SerializeField] private GameObject cablePlacementVisualisationPrefab = null;
-	private GameObject cablePlacementVisualisation;
+	private static GameObject cablePlacementVisualisation;
 
 	/// <summary>
 	/// color of startPoint(point on which you press mouse button down)
@@ -39,16 +39,16 @@ public class CablePlacementVisualisation : MonoBehaviour
 	/// <summary>
 	/// grid of points
 	/// </summary>
-	private Dictionary<Connection, SpriteRenderer> connectionPointRenderers;
+	private static Dictionary<Connection, SpriteRenderer> connectionPointRenderers;
 	/// <summary>
 	/// lineRenderer used to render line between points
 	/// </summary>
-	private LineRenderer lineRenderer;
+	private static LineRenderer lineRenderer;
 
 	/// <summary>
 	/// variable used to restore default color after hover
 	/// </summary>
-	private Color defaultPointColor;
+	private static Color defaultPointColor;
 
 	/// <summary>
 	/// last mouse position used in OnHover() to determine if player hovers other tile
@@ -62,20 +62,22 @@ public class CablePlacementVisualisation : MonoBehaviour
 	private void Awake()
 	{
 		// instantiate prefab
-		cablePlacementVisualisation = Instantiate(cablePlacementVisualisationPrefab);
-		cablePlacementVisualisation.SetActive(false);
-
-		// init grid
-		connectionPointRenderers = new Dictionary<Connection, SpriteRenderer>();
-		for (int i = 0; i < 9; i++)
+		if (cablePlacementVisualisation == null)
 		{
-			connectionPointRenderers[(Connection)i + 1] = cablePlacementVisualisation.transform.GetChild(i).GetComponent<SpriteRenderer>();
-		}
+			cablePlacementVisualisation = Instantiate(cablePlacementVisualisationPrefab);
+			cablePlacementVisualisation.SetActive(false);
 
-		// get default color from first point
-		defaultPointColor = connectionPointRenderers[Connection.Overlap].color;
-		// get line renderer
-		lineRenderer = cablePlacementVisualisation.GetComponent<LineRenderer>();
+			// init grid
+			connectionPointRenderers = new Dictionary<Connection, SpriteRenderer>();
+			for (int i = 0; i < 9; i++)
+			{
+				connectionPointRenderers[(Connection)i + 1] = cablePlacementVisualisation.transform.GetChild(i).GetComponent<SpriteRenderer>();
+			}
+			// get default color from first point
+			defaultPointColor = connectionPointRenderers[Connection.Overlap].color;
+			// get line renderer
+			lineRenderer = cablePlacementVisualisation.GetComponent<LineRenderer>();
+		}
 	}
 
 	private void OnEnable()

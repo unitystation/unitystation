@@ -155,7 +155,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	private bool ShuttlePathsGenerated = false;
 
 	[Header("Define the default size of all SolarSystems here:")]
-	public float solarSystemRadius = 600f;
+	public float solarSystemRadius = 1500f;
+
+
+	[Header("Define the Minimum distance")]
+	public float minimumSolarSystemRadius = 500;
 	//---------------------------------
 
 	public CentComm CentComm;
@@ -384,7 +388,14 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	public Vector3 RandomPositionInSolarSystem()
 	{
-		return (UnityEngine.Random.insideUnitCircle * solarSystemRadius).RoundToInt();
+		//TODO This Probably should be calculate it from the middle of the station
+		var Position = Vector3.zero;
+		while (minimumSolarSystemRadius > Position.magnitude)
+		{
+			Position = UnityEngine.Random.insideUnitCircle * solarSystemRadius;
+		}
+
+		return Position.RoundToInt();
 	}
 
 	private void OnSceneChange(Scene oldScene, Scene newScene)

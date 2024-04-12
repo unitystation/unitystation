@@ -124,6 +124,9 @@ namespace Objects.Disposals
 				{
 					script.RegisterPlayer.ServerStun();
 					script.playerMove.ResetEverything();
+
+					if (script.RegisterPlayer == null) continue;
+					DoRpc(script.RegisterPlayer, false);
 				}
 
 				if (obj.TryGetComponent<UniversalObjectPhysics>(out var uop))

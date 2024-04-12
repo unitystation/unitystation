@@ -7,6 +7,7 @@ using NaughtyAttributes;
 using Systems.Storage;
 using Items;
 using Logs;
+using Systems;
 
 /// <summary>
 /// Allows an object to store items.
@@ -18,7 +19,7 @@ using Logs;
 /// Note that items stored in an ItemStorage can themselves have ItemStorage (for example, storing a backpack
 /// in a player's inventory)!
 /// </summary>
-public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove, IClientInventoryMove
+public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove, IClientInventoryMove, IUniversalInventoryAPI
 {
 	[SerializeField]
 	[FormerlySerializedAs("ItemStorageStructure")]
@@ -93,7 +94,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		player = registerPlayer;
 	}
-
 
 	[SerializeField] private GameObject ashPrefab;
 	public GameObject AshPrefab => ashPrefab;
@@ -749,5 +749,21 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 			worldDeltaTargetVector = DropAtWorld - gameObject.AssumedWorldPosServer();
 		}
 		ServerDropAll(worldDeltaTargetVector);
+	}
+
+	public void GrabObjects(List<GameObject> target, Action onGrab = null)
+	{
+		foreach (var item in target)
+		{
+			if (item == null) continue;
+			ServerTryTransferFrom(item);
+		}
+		onGrab?.Invoke();
+	}
+
+	public void DropObjects(Action onDrop = null)
+	{
+		ServerDropAll();
+		onDrop?.Invoke();
 	}
 }

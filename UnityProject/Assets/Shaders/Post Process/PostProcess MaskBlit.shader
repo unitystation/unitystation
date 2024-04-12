@@ -61,9 +61,15 @@
 				fixed4 occLightSample = tex2D(_ObstacleLightMask, i.lightUv);
 
 				float _obstacleMask = occlusionSample.r;
-				half4 mixedLight = lightSample;
+			
 				fixed4 screen = tex2D(_MainTex, i.uv);
+				
+				// Mix Background.
+				half4 background = tex2D(_BackgroundTex, i.uv);
 
+
+				
+				half4 mixedLight = lightSample;
 				//Times the light so it's a little bit brighter, this is from the reduced range we have 0 to 0.66 = normal light 0.66 to 1 blown out light
 				mixedLight = mixedLight *1.5;
 
@@ -86,16 +92,18 @@
 				//Adding the occlusion and wall stuff
 				BalanceLight = BalanceLight + (( occLightSample * 0.75 ) * (_obstacleMask));
 				
-	
+				//BalanceLight = BalanceLight + (invertedBackgroundColor);
 				
 				// Blend light with scene.
 				half4 screenLit =  fixed4( ((screen.rgb*BalanceLight+balancedMixLight)) , screen.a);
 				
-				// Mix Background.
-				half4 background = tex2D(_BackgroundTex, i.uv);
+		
 				float backgroundMask = clamp(occlusionSample.g-(screen.a * 2), 0, 1);
 				half4 screenLitBackground = background * backgroundMask + screenLit;
-
+				//fixed4 invertedBackgroundColor = 1-saturate((background)*10);
+				//return backgroundMask;
+				//return invertedBackgroundColor;
+				//return screen;
 				return screenLitBackground;
 			}
 			

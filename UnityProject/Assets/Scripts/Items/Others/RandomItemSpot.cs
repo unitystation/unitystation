@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Logs;
 using Mirror;
-using Objects;
-using Objects.Engineering;
+using NaughtyAttributes;
 using Shared.Systems.ObjectConnection;
+using Systems;
 using Systems.Electricity;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Items
 {
-	public class RandomItemSpot : NetworkBehaviour, IServerSpawn
+	public class RandomItemSpot : NetworkBehaviour, IServerSpawn, ICheckedInteractable<HandActivate>
 	{
 		public APCPoweredDevice APCtoSet;
 
-		[Tooltip("Amount of items we could get from this pool")] [SerializeField]
+		[Tooltip("Amount of items we could get from this pool"), MinValue(1)] [SerializeField]
 		private int lootCount = 1;
 
 		[Tooltip("Should we spread the items in the tile once spawned?")] [SerializeField]
@@ -29,6 +30,8 @@ namespace Items
 		private const int MaxAmountRolls = 5;
 
 		[SerializeField] private bool triggerManually = false;
+		[SerializeField] private bool automaticallyShoveIntoContainerBelowSpawnedItem = true;
+		[SerializeField] private bool deleteAfterUse = true;
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
@@ -39,68 +42,58 @@ namespace Items
 		public void RollRandomPool(bool UnrestrictedAndspawn, bool overrideTrigger = false)
 		{
 			if (overrideTrigger == false && triggerManually) return;
-
-			var RegisterTile = this.GetComponent<RegisterTile>();
-			for (int i = 0; i < lootCount; i++)
+			SpawnRandomItems(UnrestrictedAndspawn);
+			if (deleteAfterUse)
 			{
-				PoolData pool = null;
-				// Roll attempt is a safe check in the case the mapper did tables with low % and we can't find
-				// anything to spawn in 5 attempts
-				int rollAttempt = 0;
-
-				while (pool == null)
-				{
-					if (rollAttempt >= MaxAmountRolls)
-					{
-						break;
-					}
-
-					var tryPool = poolList.PickRandom();
-					if (DMMath.Prob(tryPool.Probability))
-					{
-						pool = tryPool;
-					}
-					else
-					{
-						rollAttempt++;
-					}
-				}
-
-				if (pool == null)
-				{
-					continue;
-				}
-
-				GenerateItem(pool, UnrestrictedAndspawn);
-				if (UnrestrictedAndspawn == false) return;
-			}
-
-			if (UnrestrictedAndspawn)
-			{
-				if (this.GetComponent<RuntimeSpawned>() != null)
-				{
-					_ = Despawn.ServerSingle(gameObject);
-					return;
-				}
-
-				if (RegisterTile.TryGetComponent<UniversalObjectPhysics>(out var ObjectBehaviour))
-				{
-					if (ObjectBehaviour.ContainedInObjectContainer != null)
-					{
-						//TODO Do item storage
-						if (ObjectBehaviour.ContainedInObjectContainer.TryGetComponent<ObjectContainer>(
-							    out var ObjectContainer))
-						{
-							ObjectContainer.RetrieveObject(this.gameObject);
-						}
-					}
-				}
-
-				APCtoSet.OrNull()?.RemoveFromAPC();
-
-
+				_ = Despawn.ServerSingle(gameObject);
 				return;
 			}
+			ShoveIntoStorage(gameObject);
+			APCtoSet.OrNull()?.RemoveFromAPC();
+		}
+
+		[Button]
+		public void SpawnRandomItems(bool unrestrictedAndSpawn = true)
+		{
+			var spawnAmount = 0;
+			for (int i = 0; i < lootCount; i++)
+			{
+				PoolData pool = GrabRandomPool();
+				if (pool == null) continue;
+				GenerateItem(pool, unrestrictedAndSpawn);
+				spawnAmount++;
+				if (unrestrictedAndSpawn == false) break; // what the fuck does UnrestrictedAndspawn mean? What's the point? terrible name
+			}
+			if (spawnAmount == 0)
+			{
+				Loggy.LogError($"[RandomItemSpot/SpawnRandomItems] - " +
+				               $"No items spawned, expected {lootCount} on {gameObject.name} items but received 0", Category.ItemSpawn);
+			}
+		}
+
+		private PoolData GrabRandomPool()
+		{
+			// Roll attempt is a safe check in the case the mapper did tables with low % and we can't find
+			// anything to spawn in 5 attempts
+			PoolData pool = null;
+			int rollAttempt = 0;
+			while (pool == null)
+			{
+				if (rollAttempt >= MaxAmountRolls)
+				{
+					break;
+				}
+				var tryPool = poolList.PickRandom();
+				if (DMMath.Prob(tryPool.Probability))
+				{
+					pool = tryPool;
+				}
+				else
+				{
+					rollAttempt++;
+				}
+			}
+			return pool;
 		}
 
 		private void GenerateItem(PoolData poolData, bool spawn)
@@ -132,6 +125,7 @@ namespace Items
 			var pushPull = GetComponent<UniversalObjectPhysics>();
 			var Newobjt = Spawn.ServerPrefab(item.Prefab, worldPos, count: maxAmt, scatterRadius: spread,
 				sharePosition: pushPull).GameObject;
+			ShoveIntoStorage(Newobjt);
 			if (APCtoSet != null && APCtoSet.RelatedAPC != null)
 			{
 				var newAPCtoSet = Newobjt.GetComponent<APCPoweredDevice>();
@@ -140,6 +134,31 @@ namespace Items
 					((IMultitoolSlaveable) newAPCtoSet).TrySetMaster(null, APCtoSet.RelatedAPC);
 				}
 			}
+		}
+
+		private void ShoveIntoStorage(GameObject obj)
+		{
+			if (automaticallyShoveIntoContainerBelowSpawnedItem == false) return;
+			if (obj.GetUniversalObjectPhysics().ContainedInObjectContainer != null) return;
+			var storages = MatrixManager.GetAt<IUniversalInventoryAPI>(gameObject.AssumedWorldPosServer().CutToInt(), true);
+			if (storages == null) return;
+			var storageList = storages.ToList();
+			if (storageList.Count == 0 || storageList[0] is null) return;
+			storageList[0].GrabObjects(new List<GameObject>{obj});
+		}
+
+		public bool WillInteract(HandActivate interaction, NetworkSide side)
+		{
+			return DefaultWillInteract.Default(interaction, side);
+		}
+
+		public void ServerPerformInteraction(HandActivate interaction)
+		{
+			var progress = StandardProgressAction.Create(
+				new StandardProgressActionConfig(StandardProgressActionType.Construction),
+				() => RollRandomPool(true, true));
+			progress.ServerStartProgress(interaction.PerformerPlayerScript.ObjectPhysics.registerTile, 1.25f,
+				interaction.Performer);
 		}
 	}
 

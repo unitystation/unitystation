@@ -326,8 +326,6 @@ public class LightingSystem : MonoBehaviour
 		if (mMainCamera == null)
 			throw new Exception("FovSystemManager require Camera component to operate.");
 
-		// Let's force camera to cull background light
-		mMainCamera.cullingMask &= ~renderSettings.backgroundLayers;
 		// Now validate other settings
 		ValidateMainCamera(mMainCamera, renderSettings);
 
@@ -385,9 +383,6 @@ public class LightingSystem : MonoBehaviour
 
 		HandlePPPositionRequest -= ProviderPPPosition;
 
-		// We can enable background layers again
-		if (mMainCamera)
-			mMainCamera.cullingMask |= renderSettings.backgroundLayers;
 
 		if (mTextureDataRequest != null)
 		{

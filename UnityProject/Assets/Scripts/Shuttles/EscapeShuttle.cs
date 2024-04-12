@@ -438,6 +438,11 @@ public class EscapeShuttle : AutopilotShipMachine
 		{
 			if (headingToStation)
 			{
+				if (Status == EscapeShuttleStatus.DockedStation)
+				{
+					centComm.UpdateStatusDisplay(StatusDisplayChannel.CachedChannel, null);
+					break;
+				}
 				AddToTime(-1);
 				//Time = Distance/Speed
 				if (startedMovingToStation == false && CurrentTimerSeconds <= Vector2.Distance(matrixMove.NetworkedMatrixMove.TargetTransform.position, StationStartBuoy.transform.position) / matrixMove.NetworkedMatrixMove.AITravelSpeed + 10f)
@@ -457,6 +462,11 @@ public class EscapeShuttle : AutopilotShipMachine
 			}
 			else
 			{
+				if (Status == EscapeShuttleStatus.DockedCentcom)
+				{
+					centComm.UpdateStatusDisplay(StatusDisplayChannel.CachedChannel, null);
+					break;
+				}
 				AddToTime(1);
 				if (CurrentTimerSeconds >= InitialTimerSeconds)
 				{

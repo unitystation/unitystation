@@ -11,6 +11,7 @@ using Mirror;
 using Objects.Atmospherics;
 using Objects.Wallmounts;
 using Shared.Util;
+using Systems.Spawns;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -101,6 +102,48 @@ namespace Core.Editor.Tools
 
 			Loggy.LogError(stringBuilder.ToString(), Category.Editor);
 		}
+
+		[MenuItem("Mapping/Convert old Spawn points to new")]
+		private static void SpawnPointUpdate()
+		{
+			var OnePoints = Object.FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None);
+
+			// The name of the prefab you want to find
+			string prefabName = "PlayerSpawnPoint";
+
+			// Search for the prefab in the project
+			string[] guids = AssetDatabase.FindAssets("t:Prefab " + prefabName);
+			// Get the path of the first prefab found
+			string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+
+			// Load the prefab at the given path
+			GameObject Touse = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+
+
+			foreach (var OnePoint in OnePoints)
+			{
+				var Sh = OnePoint.GetComponentInChildren<SpriteHandler>();
+				if (Sh == null)
+				{
+					var Parent = OnePoint.transform.parent;
+					if (Parent.name.Contains("SpawnPoints"))
+					{
+						Parent = Parent.parent;
+					}
+
+					var New = (GameObject) UnityEditor.PrefabUtility.InstantiatePrefab(Touse, Parent);
+
+					New.transform.position = OnePoint.transform.position;
+					New.transform.rotation = Quaternion.identity;
+					var newps = New.GetComponent<SpawnPoint>();
+					newps.Category = OnePoint.Category;
+					newps.priority = OnePoint.priority;
+					newps.type = OnePoint.type;
+					DestroyImmediate(OnePoint.gameObject);
+				}
+			}
+		}
+
 
 		[MenuItem("Networking/Find all network identities without visibility component (Scene Check)")]
 		private static void FindNetWithoutVis()
@@ -473,7 +516,6 @@ namespace Core.Editor.Tools
 
 			foreach (var o in LoadAllPrefabsOfType("Assets"))
 			{
-
 				bool Missing = false;
 				//Get all components on the GameObject, then loop through them
 				Component[] components = o.GetComponents<Component>();
@@ -508,6 +550,7 @@ namespace Core.Editor.Tools
 				// 	goCount++;
 				// }
 			}
+
 			AssetDatabase.SaveAssets();
 			Debug.Log($"Found and removed missing scripts from {goCount} GameObjects");
 		}

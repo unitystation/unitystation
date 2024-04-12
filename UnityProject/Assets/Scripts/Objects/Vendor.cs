@@ -221,7 +221,7 @@ namespace Objects
 					}
 				}
 
-				var  Hand = playerStorage.OrNull()?.GetActiveHandSlot();
+				var Hand = playerStorage.OrNull()?.GetActiveHandSlot();
 				if (Hand.ItemObject)
 				{
 					var idCard = AccessRestrictions.GetIDCard(Hand.ItemObject);
