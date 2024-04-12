@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 
 namespace Items.Bureaucracy.Internal
@@ -42,18 +43,43 @@ namespace Items.Bureaucracy.Internal
 			return new Printer(TrayCount + 1, TrayCapacity, TrayOpen, PrintBook);
 		}
 
-		public bool CanPrint(Scanner content, bool isAvailableForPrinting) =>
-			content != null
-			&& string.IsNullOrEmpty(content.ScannedText) != true
-			&& TrayOpen == false
-			&& TrayCount > 0
-			&& isAvailableForPrinting;
+		public bool CanPrint(Scanner content, bool isAvailableForPrinting)
+		{
+			if (content == null)
+			{
+				return false;
+			}
+			if (content.ScannedText == false)
+			{
+				Chat.AddActionMsgToChat(content.Storage.gameObject, "The Printer bleeps 'Error! No documents have been scanned yet to print!'");
+				return false;
+			}
+			if (TrayOpen)
+			{
+				Chat.AddActionMsgToChat(content.Storage.gameObject, "The Printer bleeps 'Error! Printer is open!'");
+				return false;
+			}
+			if (TrayCount == 0)
+			{
+				Chat.AddActionMsgToChat(content.Storage.gameObject, "The Printer bleeps 'Error! Tray is empty!'");
+				return false;
+			}
+			if (PrintBook && TrayCount < content.Storage.GetOccupiedSlots().Count)
+			{
+				Chat.AddActionMsgToChat(content.Storage.gameObject, "The Printer bleeps 'Error! Not enough pages to print a book!'");
+				return false;
+			}
+			return isAvailableForPrinting;
+		}
 
 		public Printer Print(Scanner content, GameObject printerObj, GameObject bookObk, bool isAvailableForPrinting, GameObject paperPrefab)
 		{
-			if (!CanPrint(content, isAvailableForPrinting)) throw new InvalidOperationException("Cannot print");
-
-			if (content.Storage.GetOccupiedSlots().Count > 1)
+			if (CanPrint(content, isAvailableForPrinting) == false)
+			{
+				return this;
+			}
+			var newTrayCount = TrayCount - content.Storage.GetOccupiedSlots().Count;;
+			if (PrintBook)
 			{
 				MakeBook(content, printerObj, bookObk);
 			}
@@ -61,7 +87,7 @@ namespace Items.Bureaucracy.Internal
 			{
 				MakePhotoCopy(content, printerObj, paperPrefab);
 			}
-			return new Printer(TrayCount - 1, TrayCapacity, TrayOpen, PrintBook);
+			return new Printer(newTrayCount, TrayCapacity, TrayOpen, PrintBook);
 		}
 
 		private void MakeBook(Scanner content, GameObject printerObj, GameObject bookPrefab)
@@ -83,15 +109,19 @@ namespace Items.Bureaucracy.Internal
 
 		private void MakePhotoCopy(Scanner content, GameObject printerObj, GameObject paperPrefab)
 		{
-			var result = Spawn.ServerPrefab(paperPrefab, SpawnDestination.At(printerObj));
-			content = content.Scan();
-			if (!result.Successful)
+			foreach (var copySlot in content.Storage.GetOccupiedSlots())
 			{
-				throw new InvalidOperationException("Spawn paper failed!");
+				if (copySlot.ItemObject.TryGetComponent<Paper>(out var ogPaper) == false) continue;
+				var result = Spawn.ServerPrefab(paperPrefab, SpawnDestination.At(printerObj));
+				if (result.Successful == false)
+				{
+					Loggy.LogError("[Photocopier/Printer/MakePhotoCopy()] - Spawn paper failed!");
+					continue;
+				}
+				var paperObj = result.GameObject;
+				var paper = paperObj.GetComponent<Paper>();
+				paper.SetServerString(ogPaper.ServerString);
 			}
-			var paperObj = result.GameObject;
-			var paper = paperObj.GetComponent<Paper>();
-			paper.SetServerString(content.ScannedText);
 		}
 	}
 }

@@ -41,7 +41,8 @@ namespace Items.Bureaucracy
 		public int TrayCapacity => printer.TrayCapacity;
 		public bool TrayOpen => printer.TrayOpen;
 		public bool ScannerOpen => scanner.ScannerOpen;
-		public bool ScannedTextNull => scanner.ScannedText == null;
+
+		public bool ScannedTextNotEmpty => scanner.ScannedText;
 
 		/// <summary>
 		/// GUI_Photocopier subscribes to this event when it is initialized.
@@ -62,8 +63,8 @@ namespace Items.Bureaucracy
 		{
 			photocopierState = PhotocopierState.Idle;
 			registerObject = gameObject.GetComponent<RegisterObject>();
-			printer = new Internal.Printer(0, trayCapacity, false, false);
-			scanner = new Internal.Scanner(false, true, "", paperStorage);
+			printer = new Printer(0, trayCapacity, false, false);
+			scanner = new Scanner(false, paperStorage, false);
 		}
 
 		#region Sprite Sync
@@ -164,8 +165,13 @@ namespace Items.Bureaucracy
 		[Server]
 		public void ToggleScannerLid()
 		{
-			scanner = scanner.ToggleScannerLid(gameObject, paperPrefab);
+			scanner = scanner.ToggleScannerLid();
 			photocopierState = scanner.ScannerOpen ? PhotocopierState.ScannerOpen : PhotocopierState.Idle;
+
+			if (photocopierState is PhotocopierState.ScannerOpen)
+			{
+				paperStorage.ServerDropAll();
+			}
 
 			OnGuiRenderRequired();
 		}
