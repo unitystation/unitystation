@@ -70,11 +70,13 @@ public class ParallaxController : MonoBehaviour
 
 	private void OnEnable()
 	{
+		if (CustomNetworkManager.IsHeadless) return;
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
+		if (CustomNetworkManager.IsHeadless) return;
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 

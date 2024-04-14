@@ -9,7 +9,7 @@ public static class ConverterExtensions
 {
 	public static Vector3 ToLocal(this Vector3 worldPos, Matrix matrix)
 	{
-		return MatrixManager.WorldToLocal(worldPos, MatrixManager.Get(matrix));
+		return MatrixManager.WorldToLocal(worldPos, matrix.MatrixInfo);
 	}
 
 	public static Vector3 ToLocal(this Vector3 worldPos)
@@ -20,24 +20,24 @@ public static class ConverterExtensions
 
 	public static Vector3 DirectionLocalToWorld(this Vector3 localDirection, Matrix matrix)
 	{
-		return MatrixManager.DirectionLocalToWorld(localDirection, MatrixManager.Get(matrix));
+		return MatrixManager.DirectionLocalToWorld(localDirection, matrix.MatrixInfo);
 	}
 
 
 	public static Vector3 DirectionWorldToLocal(this Vector3 worldDirection, Matrix matrix)
 	{
-		return MatrixManager.DirectionWorldToLocal(worldDirection, MatrixManager.Get(matrix));
+		return MatrixManager.DirectionWorldToLocal(worldDirection, matrix.MatrixInfo);
 	}
 
 
 	public static Vector3 ToWorld(this Vector3 localPos, Matrix matrix)
 	{
-		return MatrixManager.LocalToWorld(localPos, MatrixManager.Get(matrix));
+		return MatrixManager.LocalToWorld(localPos, matrix.MatrixInfo);
 	}
 
 	public static Vector3 ToWorld(this Vector3Int localPos, Matrix matrix)
 	{
-		return MatrixManager.LocalToWorld(localPos, MatrixManager.Get(matrix));
+		return MatrixManager.LocalToWorld(localPos, matrix.MatrixInfo);
 	}
 
 	public static Vector3 ToWorld(this Vector3Int localPos, MatrixInfo matrix)
@@ -48,12 +48,12 @@ public static class ConverterExtensions
 
 	public static Vector3Int ToLocalInt(this Vector3 worldPos, Matrix matrix)
 	{
-		return MatrixManager.WorldToLocalInt(worldPos, MatrixManager.Get(matrix));
+		return MatrixManager.WorldToLocalInt(worldPos, matrix.MatrixInfo);
 	}
 
 	public static Vector3Int ToWorldInt(this Vector3 localPos, Matrix matrix)
 	{
-		return MatrixManager.LocalToWorldInt(localPos, MatrixManager.Get(matrix));
+		return MatrixManager.LocalToWorldInt(localPos, matrix.MatrixInfo);
 	}
 
 	public static Vector3 ToLocal(this Vector3 worldPos, MatrixInfo matrixInfo)
@@ -78,7 +78,7 @@ public static class ConverterExtensions
 
 	public static Vector3 ToLocal(this Vector3Int worldPos, Matrix matrix)
 	{
-		return MatrixManager.WorldToLocal(worldPos, MatrixManager.Get(matrix));
+		return MatrixManager.WorldToLocal(worldPos, matrix.MatrixInfo);
 	}
 
 	public static Vector3 ToLocal(this Vector3Int worldPos)
@@ -89,7 +89,7 @@ public static class ConverterExtensions
 
 	public static Vector3Int ToWorldInt(this Vector3Int worldPos, Matrix matrix)
 	{
-		return MatrixManager.LocalToWorldInt(worldPos, MatrixManager.Get(matrix));
+		return MatrixManager.LocalToWorldInt(worldPos, matrix.MatrixInfo);
 	}
 
 
