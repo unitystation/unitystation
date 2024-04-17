@@ -14,26 +14,28 @@ _Unitystation has been active since late 2016_
 Visit us on Steam:  
 [<img src="https://user-images.githubusercontent.com/7613738/35184899-b6a0aa8e-fdfb-11e7-91a8-bad8f19937b4.jpg" width="300">](http://store.steampowered.com/app/801140/Unitystation/)
 
-See project updates on Patreon:  
+Support us on Patreon:  
 [<img src="https://vignette.wikia.nocookie.net/everyone-else-is-a-returnee/images/6/68/Patreon.png/revision/latest?cb=20161230133220&format=original" width="150">](https://www.patreon.com/unitystation)
 
-## Talk to us
-Please join us on Discord:  
-[<img src="https://www.seoclerk.com/pics/want57772-1PlHGI1515438378.png" width="75">](https://discord.gg/H6EunER)
+Also, Check our progress on our [blog](https://www.unitystation.org/blog) and [changelog page](https://www.unitystation.org/changelog).
+
+## Join the community
+Talk to us on Discord:  
+[<img src="https://img.shields.io/badge/Discord-5865F2?logo=discord&logoColor=fff&style=for-the-badge" width="128">](https://discord.gg/H6EunER)
 
 ## Feel like getting involved?
 Read our Quick Start guide [here](https://unitystation.github.io/unitystation/contribution-guides/Starting-contribution/)
 1. [Get Unity Hub](https://unity3d.com/get-unity/download)
-2. Install editor version **2023.2.5f1**
+2. Install editor version **2023.2.13f1**
 3. Fork the repo
 4. Add your changes
 5. Read the contribution guidelines
 6. Submit a pull request
 
-> **Warning**
+> [!WARNING] 
 > It is highly recommended to run the Unitystation project on an SSD in the editor.
 
-> **Note**
+> [!NOTE]
 > The first-time import process will take a while. Depending on your system configuration, This process could take up to 1 hour or 15 minutes. Subsequent launches of the project should take a maximum of a minute.
 
 ## LICENSE
