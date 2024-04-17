@@ -13,6 +13,7 @@ namespace Tests.Scenes
 	{
 		// This allows the tests to show the name of the scene rather than the file location
 		public override string ToString() => Path.GetFileNameWithoutExtension(File);
+		public string File { get; } = File;
 	}
 
 	[Ignore("For scene testing subclasses")]
