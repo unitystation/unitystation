@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 using Logs;
+using Messages.Client.VariableViewer;
 using Newtonsoft.Json;
 using TMPro;
 
@@ -20,6 +21,9 @@ public class GUI_P_Collection : PageElement
 	public ulong ID;
 
 	public SUB_ElementHandler ElementHandler;
+
+	public List<SUB_ElementHandler> LoadedElements = new List<SUB_ElementHandler>();
+
 
 	private VariableViewerNetworking.NetFriendlySentence _Sentence;
 	public VariableViewerNetworking.NetFriendlySentence Sentence
@@ -47,8 +51,15 @@ public class GUI_P_Collection : PageElement
 				ValueEntry.Sentence = bob; //.GetSentences()
 										   //Loggy.Log(JsonConvert.SerializeObject(bob));
 				ValueEntry.ValueSetUp();
+				LoadedElements.Add(ValueEntry);
 			}
 		}
+
+		foreach (var Element in LoadedElements)
+		{
+			Element.UpdateButtons();
+		}
+
 	}
 
 	public override bool IsThisType(Type TType)
@@ -77,6 +88,11 @@ public class GUI_P_Collection : PageElement
 			{
 				Data = Page.Sentences[0];
 			}
+			else
+			{
+				Data = new VariableViewerNetworking.NetFriendlySentence();
+			}
+			Data.OnPageID = Page.ID;
 		}
 		else {
 			if (Iskey)
@@ -87,6 +103,7 @@ public class GUI_P_Collection : PageElement
 				Data = Sentence;
 			}
 		}
+
 		this.Sentence = Data;
 	}
 
@@ -106,5 +123,11 @@ public class GUI_P_Collection : PageElement
 				Page.SetActive(false);
 			}
 		}
+	}
+
+	public void AddElement()
+	{
+		RequestChangeVariableNetMessage.Send(Sentence.OnPageID, "",
+			UISendToClientToggle.toggle, VariableViewer.ListModification.Add);
 	}
 }

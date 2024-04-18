@@ -75,8 +75,15 @@ namespace AdminTools.VariableViewer
 			//TODO Populate drop-down
 
 
-			var Found = SOListTracker.Instance.SOTrackers.FirstOrDefault(x => x.ForeverID == data);
-			SetupValues(Found);
+			if (data != null)
+			{
+				var Found = SOListTracker.Instance.SOTrackers.FirstOrDefault(x => x.ForeverID == data);
+				SetupValues(Found);
+			}
+			else
+			{
+				SetupValues(null);
+			}
 
 			ActiveList = IndividualDropDownOptions[ValueType];
 		}
@@ -133,6 +140,7 @@ namespace AdminTools.VariableViewer
 		{
 			foreach (var SO in SOListTracker.Instance.SOTrackers)
 			{
+				if (SO == null) continue;
 				var Type = ((object) SO).GetType();
 				if (IndividualDropDownOptions.ContainsKey(Type) == false)
 				{

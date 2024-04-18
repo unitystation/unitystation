@@ -76,10 +76,7 @@ public class VariableViewerNetworking : MonoBehaviour
 
 	public class NetFriendlySentence
 	{
-
 		public uint SentenceID;
-
-		public uint PagePosition;
 
 		public string KeyVariable;
 
@@ -116,7 +113,6 @@ public class VariableViewerNetworking : MonoBehaviour
 			// !	IMPORTANT	!
 			// remember to change this method content after modyfing data structure
 			return sizeof(uint)                             // SentenceID
-				+ sizeof(uint)                              // PagePosition
 				+ sizeof(char) * KeyVariable.Length         // KeyVariable
 				+ sizeof(char) * KeyVariableType.Length     // KeyVariableType
 				+ sizeof(char) * ValueVariable.Length       // ValueVariable
@@ -312,7 +308,7 @@ public class VariableViewerNetworking : MonoBehaviour
 				{
 					HeldBySentenceID = bob.Sentences.SentenceID
 				};
-				FriendlySentence.OnPageID = 8888888;
+				FriendlySentence.OnPageID = 8888888; //TODO?
 				Sentences.Add(FriendlySentence);
 				RecursiveSentencePopulate(bob.Sentences, Sentences);
 			}
@@ -344,7 +340,6 @@ public class VariableViewerNetworking : MonoBehaviour
 			{
 				NetFriendlySentence FriendlySentence = new NetFriendlySentence()
 				{
-					PagePosition = _Sentence.PagePosition,
 					SentenceID = _Sentence.SentenceID,
 
 					ValueVariable = VVUIElementHandler.Serialise(_Sentence.ValueVariable, _Sentence.ValueVariableType),
