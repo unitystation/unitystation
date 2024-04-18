@@ -861,7 +861,6 @@ namespace SecureStuff
 				Sentence _sentence = new Sentence();
 				_sentence.ValueVariable = Object;
 				_sentence.OnPageID = this.ID;
-				//_sentence.PagePosition = (uint) NewIndex;
 				_sentence.ValueVariableType = Ttype;
 				_sentence.SentenceID = this.ASentenceID;
 				this.ASentenceID++;
