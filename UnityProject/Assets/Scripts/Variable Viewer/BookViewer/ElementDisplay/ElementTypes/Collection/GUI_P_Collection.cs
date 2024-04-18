@@ -129,5 +129,14 @@ public class GUI_P_Collection : PageElement
 	{
 		RequestChangeVariableNetMessage.Send(Sentence.OnPageID, "",
 			UISendToClientToggle.toggle, VariableViewer.ListModification.Add);
+		StartCoroutine(Refresh());
 	}
+	private IEnumerator Refresh()
+	{
+		yield return null;
+		yield return null;
+		UIManager.Instance.VariableViewer.Refresh();
+	}
+
+
 }

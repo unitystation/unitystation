@@ -26,22 +26,27 @@ public class GUI_P_Component : PageElement
 	public struct EditData
 	{
 		public IDType IDType;
-		public ClientObjectPath.PathData ClientGameObject; //TODO Can't distinguish between multiple of the same component
+
+		public ClientObjectPath.PathData
+			ClientGameObject; //TODO Can't distinguish between multiple of the same component
+
 		public ulong BookID;
 		public ulong ShelfID;
+		public string PrefabForeverID;
 	}
 
 	public enum IDType
 	{
 		NULL,
 		Book,
-		Bookshelf
+		Bookshelf,
+		PrefabForeverID
 	}
 
 	public override PageElementEnum PageElementType => PageElementEnum.Component;
 
 	public override bool IsThisType(Type TType)
-	//TODO support coomponents in the future
+		//TODO support coomponents in the future
 	{
 		return TType.IsSubclassOf(typeof(MonoBehaviour)) || TType == typeof(GameObject);
 	}
@@ -52,7 +57,8 @@ public class GUI_P_Component : PageElement
 	{
 		base.SetUpValues(ValueType, Page, Sentence, Iskey);
 
-		EditData data = JsonConvert.DeserializeObject<EditData>(VVUIElementHandler.ReturnCorrectString(Page, Sentence, Iskey));
+		EditData data =
+			JsonConvert.DeserializeObject<EditData>(VVUIElementHandler.ReturnCorrectString(Page, Sentence, Iskey));
 		var BracketAtring = "";
 		if (data.IDType == IDType.NULL)
 		{
@@ -69,7 +75,6 @@ public class GUI_P_Component : PageElement
 			{
 				BracketAtring = $"(Client UI error)";
 			}
-
 		}
 
 		Text.text = ValueType.ToString() + BracketAtring;
@@ -106,7 +111,6 @@ public class GUI_P_Component : PageElement
 	}
 
 
-
 	public void Close()
 	{
 		VVObjectComponentSelectionActive = false;
@@ -119,6 +123,19 @@ public class GUI_P_Component : PageElement
 		OpenPageValueNetMessage.Send(PageID, SentenceID, IsSentence, iskey);
 	}
 
+
+	public void SetPrefab(string ForeverID)
+	{
+		RequestChangeVariableNetMessage.Send(PageID,
+			JsonConvert.SerializeObject(new EditData()
+			{
+				IDType = IDType.PrefabForeverID,
+				PrefabForeverID = ForeverID
+			}),
+			UISendToClientToggle.toggle);
+	}
+
+
 	public void SetBook(ulong BookID)
 	{
 		if (PageID != 0)
@@ -126,7 +143,7 @@ public class GUI_P_Component : PageElement
 			RequestChangeVariableNetMessage.Send(PageID,
 				JsonConvert.SerializeObject(new EditData()
 				{
-					IDType =  IDType.Book,
+					IDType = IDType.Book,
 					BookID = BookID
 				}),
 				UISendToClientToggle.toggle);
@@ -140,7 +157,7 @@ public class GUI_P_Component : PageElement
 			RequestChangeVariableNetMessage.Send(PageID,
 				JsonConvert.SerializeObject(new EditData()
 				{
-					IDType =  IDType.Bookshelf,
+					IDType = IDType.Bookshelf,
 					ShelfID = ShelfID
 				}),
 				UISendToClientToggle.toggle);
@@ -178,7 +195,8 @@ public class GUI_P_Component : PageElement
 				return JsonConvert.SerializeObject(new EditData()
 				{
 					IDType = IDType.Bookshelf,
-					ShelfID = Librarian.Library.LibraryBookShelf.PartialGenerateLibraryBookShelf((Data as GameObject).transform).ID,
+					ShelfID = Librarian.Library.LibraryBookShelf
+						.PartialGenerateLibraryBookShelf((Data as GameObject).transform).ID,
 					ClientGameObject = ClientObjectPath.GetPathForMessage(Data as GameObject)
 				});
 			}
@@ -189,7 +207,6 @@ public class GUI_P_Component : PageElement
 					IDType = IDType.NULL
 				});
 			}
-
 		}
 		else if (InType.IsSubclassOf(typeof(MonoBehaviour)))
 		{
@@ -221,6 +238,7 @@ public class GUI_P_Component : PageElement
 		{
 			return null;
 		}
+
 		if (CustomNetworkManager.IsServer)
 		{
 			if (InType == typeof(GameObject))
@@ -230,6 +248,12 @@ public class GUI_P_Component : PageElement
 					Loggy.LogError("reeeeee");
 					return null;
 				}
+
+				if (data.IDType == IDType.PrefabForeverID)
+				{
+					return CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[data.PrefabForeverID];
+				}
+
 
 				if (Librarian.IDToBookShelf.ContainsKey(data.ShelfID) == false)
 				{
@@ -248,7 +272,12 @@ public class GUI_P_Component : PageElement
 						Loggy.LogError("reeeeee");
 						return null;
 					}
+
 					return Librarian.IDToBookShelf[data.ShelfID].Shelf.GetComponent(InType);
+				}
+				else if (data.IDType == IDType.PrefabForeverID)
+				{
+					return CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[data.PrefabForeverID].GetComponent(InType);
 				}
 				else
 				{
@@ -257,28 +286,39 @@ public class GUI_P_Component : PageElement
 						Loggy.LogError("reeeeee");
 						return null;
 					}
+
 					return Librarian.IDToBook[data.BookID].BookClass;
 				}
 			}
 
 			return null;
-
 		}
 		else
 		{
+
+
 			if (InType == typeof(GameObject))
 			{
+				if (data.IDType == IDType.PrefabForeverID)
+				{
+					return CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[data.PrefabForeverID];
+				}
+
 				var NetworkedObject = ClientObjectPath.GetObjectMessage(data.ClientGameObject);
 				return NetworkedObject;
 			}
 			else if (InType.IsSubclassOf(typeof(MonoBehaviour)))
 			{
+				if (data.IDType == IDType.PrefabForeverID)
+				{
+					return CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[data.PrefabForeverID].GetComponent(InType);
+				}
+
 				var NetworkedObject = ClientObjectPath.GetObjectMessage(data.ClientGameObject);
 				return NetworkedObject.GetComponent(InType);
 			}
 
 			return null;
 		}
-
 	}
 }

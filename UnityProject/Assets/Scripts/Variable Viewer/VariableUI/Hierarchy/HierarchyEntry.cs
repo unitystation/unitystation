@@ -141,6 +141,7 @@ namespace AdminTools.VariableViewer
 			else
 			{
 				GUI_P_Component.ActiveComponent.SetBookShelf(Shelf.ID);
+				GUI_P_Component.ActiveComponent.Close();
 			}
 		}
 
