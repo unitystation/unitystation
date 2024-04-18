@@ -799,10 +799,9 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 						{
 							DIS.ProcessChangeClient(NewST, LocalTries);
 						}
-					}, 30);
+					}, 60);
 					return;
 				}
-
 
 				bool Contain = false;
 				foreach (var ID in ClientUIBodyPartsToSerialise)

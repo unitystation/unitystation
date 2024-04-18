@@ -605,7 +605,6 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		}
 
 		SyncVisibleName(newVisibleName, newVisibleName);
-
 	}
 
 	// Tooltips inspector bar
@@ -771,7 +770,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		if (characterSettings == null) return finalText.ToString();
 		finalText.Append($"A {characterSettings.Species}.");
 		finalText.Append($" {characterSettings.TheyPronoun(this)}/{characterSettings.TheirPronoun(this)}.");
-		finalText.AppendLine($"\n{PlayerFaith.ToleranceCheckForReligion()}");
+		finalText.AppendLine($"\n{PlayerFaith?.ToleranceCheckForReligion()}");
 		return finalText.ToString();
 	}
 

@@ -341,6 +341,13 @@ public class Mind : NetworkBehaviour, IActionGUI
 		{
 			CurrentCharacterSettings.Name = newName;
 		}
+		else
+		{
+			CurrentCharacterSettings = CharacterSheet.GenerateRandomCharacter();
+			CurrentCharacterSettings.PlayerPronoun = PlayerPronoun.They_them;
+			CurrentCharacterSettings.Species = ""; //(Max): This will cause some issues. Too bad!
+			CurrentCharacterSettings.Name = newName;
+		}
 
 		this.name = newName;
 	}

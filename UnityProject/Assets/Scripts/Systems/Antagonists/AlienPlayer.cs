@@ -281,7 +281,7 @@ namespace Systems.Antagonists
 				nameNumber = alienCount;
 			}
 
-			SetUpFromPrefab(newMind, null, alienType , true);
+			SetUpFromPrefab(null, alienType , true);
 
 			if (CurrentAlienType is AlienTypes.Larva1 or AlienTypes.Larva2 or AlienTypes.Larva3)
 			{
@@ -449,7 +449,7 @@ namespace Systems.Antagonists
 
 				var newAlienPlayer = alienBody.GetComponent<AlienPlayer>();
 
-				newAlienPlayer.SetUpFromPrefab(newAlienPlayer.playerScript.PossessingMind, alienType, newAlienData,changeName, nameNumber);
+				newAlienPlayer.SetUpFromPrefab( alienType, newAlienData,changeName, nameNumber);
 
 				newAlienPlayer.DoConnectCheck();
 			}
@@ -463,7 +463,7 @@ namespace Systems.Antagonists
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
-		private void SetUpFromPrefab(Mind newMind, AlienTypeDataSO old, AlienTypeDataSO newone, bool changeName = false, int oldNameNumber = -1)
+		private void SetUpFromPrefab(AlienTypeDataSO old, AlienTypeDataSO newone, bool changeName = false, int oldNameNumber = -1)
 		{
 			firstTimeSetup = true;
 			alienType = newone;
@@ -472,20 +472,24 @@ namespace Systems.Antagonists
 			{
 				nameNumber = oldNameNumber;
 			}
-
 			growth = 0;
 			currentPlasma = alienType.InitialPlasma;
 
-			SetUpNewHealthValues();
-
-			ChangeAlienMode(AlienMode.Normal);
-
-			playerScript.WeaponNetworkActions.SetNewDamageValues(alienType.AttackSpeed,
-				alienType.AttackDamage, alienType.DamageType, alienType.ChanceToHit);
-
-			SetName(newMind, changeName, old);
-
-			QueenCheck();
+			//(Max): TryCatches are slow, but we need to figure out all the stupid NREs that happen when aliens evolve,
+			// and make sure they don't accidently get ghosted into thin air because of how fucking shitty all of this is.
+			try
+			{
+				SetUpNewHealthValues();
+				ChangeAlienMode(AlienMode.Normal);
+				playerScript.WeaponNetworkActions.SetNewDamageValues(alienType.AttackSpeed,
+					alienType.AttackDamage, alienType.DamageType, alienType.ChanceToHit);
+				SetName(playerScript.Mind, changeName, old);
+				QueenCheck();
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError($"[AlienPlayer/SetUpFromPrefab] - Crital Error! Setting up an alien has failed:\n {e}");
+			}
 		}
 
 		private void SetName(Mind mindToEffect, bool changeName, AlienTypeDataSO old)
@@ -499,27 +503,37 @@ namespace Systems.Antagonists
 			if (alienType.AlienType == AlienTypes.Queen)
 			{
 				mindToEffect.SetPermanentName($"{alienType.Name} {nameNumber:D3}");
-
 				Chat.AddChatMsgToChatServer($"A new queen: {alienType.Name} {nameNumber:D3} has joined the hive, rejoice!",
 					ChatChannel.Alien, alienLanguage, Loudness.SCREAMING);
 			}
 			else
 			{
-				if (changeName)
-				{
-					mindToEffect.SetPermanentName($"{alienType.Name} {nameNumber:D3}");
-
-					Chat.AddChatMsgToChatServer($"{alienType.Name} {nameNumber:D3} has joined the hive, rejoice!",
-						ChatChannel.Alien, alienLanguage, Loudness.LOUD);
-				}
-				else
-				{
-					mindToEffect.SetPermanentName($"{alienType.Name} {nameNumber:D3}");
-
-					Chat.AddChatMsgToChatServer($"{old.Name} {nameNumber:D3} has evolved into a {alienType.Name}!",
-						ChatChannel.Alien, alienLanguage, Loudness.LOUD);
-				}
+				//we delay the name change so that `playerScript` actually decides to show up.
+				//Fuck you Unity, and your lack of proper ordering for component lifecycles.
+				LoadManager.RegisterActionDelayed(() => DelayedSetNameToMind($"{alienType.Name} {nameNumber:D3}", old?.Name) , 60);
 			}
+		}
+
+		private void DelayedSetNameToMind(string newName, string oldName)
+		{
+			if (string.IsNullOrWhiteSpace(newName))
+			{
+				Loggy.LogError($"[AlienPlayer/DelayedSetNameToMind] - Name is empty! Cannot set the alien's new name.");
+			}
+			if (playerScript != null && playerScript.Mind != null)
+			{
+				playerScript.Mind.SetPermanentName(newName);
+				playerScript.SyncPlayerName("", newName);
+			}
+			else
+			{
+				Loggy.LogError($"[AlienPlayer/DelayedSetNameToMind] - Mind is null on {gameObject.name}! Cannot set the alien's new name.\n playerScript null: {playerScript == null}\n mind null: {playerScript?.Mind == null}");
+			}
+			Chat.AddChatMsgToChatServer(
+				oldName != null
+					? $"{oldName} {nameNumber:D3} has evolved into a {alienType.Name}!"
+					: $"{newName} {nameNumber:D3} strengths the colony as a {alienType.Name}!",
+				ChatChannel.Alien, alienLanguage, Loudness.LOUD);
 		}
 
 		[Command]
@@ -959,7 +973,7 @@ namespace Systems.Antagonists
 				//Don't have custom sprite just use normal
 				mainSpriteHandler.SetSpriteSO(alienType.Normal);
 				if(reAffirmFacing) OnRotation(rotatable.CurrentDirection);
-	
+
 				return;
 			}
 
