@@ -140,18 +140,17 @@ namespace UI.Core.Action
 
 		private void InstantToggleServer(GameObject Body, IActionGUI iActionGUI, bool show)
 		{
-			if (CustomNetworkManager.IsServer == false) return;
+			if (CustomNetworkManager.IsServer == false || Body == null) return;
 			if (ActivePlayerActions.ContainsKey(Body) == false)
 			{
 				ActivePlayerActions[Body] = new List<IActionGUI>();
 			}
 
-
 			if (show)
 			{
 				if (ActivePlayerActions[Body].Contains(iActionGUI))
 				{
-					Loggy.LogError("iActionGUI Already present on mind");
+					Loggy.LogWarning($"[UIActionManager/InstantToggleServer()] - iActionGUI Already present on mind for {Body.name}");
 					return;
 				}
 
@@ -169,7 +168,7 @@ namespace UI.Core.Action
 			{
 				if (ActivePlayerActions[Body].Contains(iActionGUI) == false)
 				{
-					Loggy.LogError($"iActionGUI {iActionGUI?.ActionData.OrNull()?.Name}, not present on mind", Category.UI);
+					Loggy.LogWarning($"iActionGUI {iActionGUI?.ActionData.OrNull()?.Name}, not present on mind", Category.UI);
 					return;
 				}
 

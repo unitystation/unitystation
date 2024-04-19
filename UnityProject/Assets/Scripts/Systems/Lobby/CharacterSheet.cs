@@ -162,7 +162,8 @@ public class CharacterSheet : ICloneable
 	/// </summary>
 	public string TheyPronoun(PlayerScript script)
 	{
-		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
+		if (script == null) return "they";
+		if (script.Equipment != null && script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
 		{
 			return "they";
 		}
