@@ -131,7 +131,8 @@ public static class VVUIElementHandler
 	{
 		while (CurrentlyOpen.Count > 0)
 		{
-			if (CurrentlyOpen[0].IsPoolble)
+
+			if (CurrentlyOpen[0] != null && CurrentlyOpen[0].IsPoolble)
 			{
 				CurrentlyOpen[0].gameObject.SetActive(false);
 				PoolDictionary[CurrentlyOpen[0].PageElementType].Add(CurrentlyOpen[0]);

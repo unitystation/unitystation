@@ -24,12 +24,14 @@ namespace UI.Systems.AdminTools.DevTools.Search
 
 		private DevSpawnerDocument(GameObject prefab, bool _isDebug)
 		{
+			//TODO (Bod (Max made me say this because she has an addiction to refactoring everything in this project))
+			//TODO : this will get reworked by Max at some point because she wanted to update this menu to also be workable in creative mode.
 			IsDEBUG = _isDebug;
 			Prefab = prefab;
 			SearchableName = new List<string>();
 			SearchableName.Add(SpawnerSearch.Standardize(prefab.name));
 			if (prefab.TryGetComponent<PrefabTracker>(out var tracker) == false) return;
-			if (tracker.CanBeSpawnedByAdmin == false) return;
+			SearchableName.Add(tracker.ForeverID);
 			if (string.IsNullOrWhiteSpace(tracker.AlternativePrefabName) == false) SearchableName.Add(tracker.AlternativePrefabName);
 		}
 
@@ -40,9 +42,7 @@ namespace UI.Systems.AdminTools.DevTools.Search
 		public static DevSpawnerDocument? ForPrefab(GameObject prefab)
 		{
 			bool isDebug = false;
-
 			if (prefab.TryGetComponent<PrefabTracker>(out var tracker) && tracker.CanBeSpawnedByAdmin == false) isDebug = true;
-
 			return new DevSpawnerDocument(prefab, isDebug);
 		}
 	}

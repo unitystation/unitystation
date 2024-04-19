@@ -28,6 +28,7 @@ namespace AdminTools.VariableViewer
 			else
 			{
 				GUI_P_Component.ActiveComponent.SetBook(_IDANName.ID);
+				GUI_P_Component.ActiveComponent.Close();
 			}
 		}
 	}
