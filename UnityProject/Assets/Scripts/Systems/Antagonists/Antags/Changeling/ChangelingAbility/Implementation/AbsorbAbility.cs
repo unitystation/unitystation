@@ -1,8 +1,6 @@
 using HealthV2;
 using Items.Implants.Organs;
 using System;
-using System.Collections;
-using System.Security.Policy;
 using Logs;
 using UnityEngine;
 
