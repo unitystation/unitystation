@@ -124,7 +124,9 @@ namespace Systems.Clearance
 			if (playerStorage != null)
 			{
 				List<ItemSlot> slotsToSearch = new List<ItemSlot>();
-				slotsToSearch.AddRange(playerStorage.GetHandSlots());
+				// Only check the hand in use for a clearance item to avoid blocking other slots.
+				// That way players can still hold other PDAs in their hands without it blocking their access until they switch to that hand as their active.
+				slotsToSearch.Add(playerStorage.GetActiveHandSlot());
 				slotsToSearch.AddRange(playerStorage.GetNamedItemSlots(NamedSlot.id));
 				slotsToSearch.AddRange(playerStorage.GetNamedItemSlots(NamedSlot.belt));
 				slotsToSearch.AddRange(playerStorage.GetNamedItemSlots(NamedSlot.suitStorage));
