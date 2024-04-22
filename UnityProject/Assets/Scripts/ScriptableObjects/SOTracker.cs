@@ -8,9 +8,11 @@ using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class SOTracker : ScriptableObject, IHaveForeverID, ISearchSpritePreview
+public class SOTracker : ScriptableObject, ISOTracker
 {
 		public virtual SpriteDataSO Sprite => null;
+
+		public virtual Sprite OldSprite => null;
 
 		public string Name => name;
 

@@ -4,8 +4,18 @@ using UnityEngine;
 namespace Tiles
 {
 	[Serializable]
-	public class LayerTile : GenericTile
+	public class LayerTile : GenericTile, ISOTracker
 	{
+
+		[field: SerializeField]
+		public string ForeverID { get; set; }
+
+		public Sprite OldSprite => PreviewSprite;
+
+		public string Name => name;
+
+		public SpriteDataSO Sprite => null;
+
 		[SerializeField]
 		[Tooltip("Name to dispay to the player for this tile.")]
 		private string displayName = null;

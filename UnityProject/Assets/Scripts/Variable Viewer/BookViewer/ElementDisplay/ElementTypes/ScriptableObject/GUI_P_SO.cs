@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Messages.Client.VariableViewer;
 using SecureStuff;
+using Tiles;
 using TMPro;
 using UISearchWithPreview;
 using UnityEngine;
@@ -20,10 +21,10 @@ namespace AdminTools.VariableViewer
 	{
 		public override PageElementEnum PageElementType => PageElementEnum.ScriptableObject;
 
-		public static Dictionary<Type, List<SOTracker>> IndividualDropDownOptions =
-			new Dictionary<Type, List<SOTracker>>();
+		public static Dictionary<Type, List<ISOTracker>> IndividualDropDownOptions =
+			new Dictionary<Type, List<ISOTracker>>();
 
-		public List<SOTracker> ActiveList;
+		public List<ISOTracker> ActiveList;
 
 		public SearchWithPreview DropDownSearch;
 
@@ -42,7 +43,7 @@ namespace AdminTools.VariableViewer
 
 		public override bool IsThisType(Type TType)
 		{
-			return TType.IsSubclassOf(typeof(SOTracker));
+			return TType.IsSubclassOf(typeof(ISOTracker));
 		}
 
 		public override void SetUpValues(
@@ -75,7 +76,7 @@ namespace AdminTools.VariableViewer
 			//TODO Populate drop-down
 
 
-			var Found = SOListTracker.Instance.SOTrackers.FirstOrDefault(x => x.ForeverID == data);
+			var Found = IndividualDropDownOptions[ValueType].FirstOrDefault(x => x.ForeverID == data);
 			SetupValues(Found);
 
 			ActiveList = IndividualDropDownOptions[ValueType];
@@ -90,7 +91,15 @@ namespace AdminTools.VariableViewer
 			}
 			else
 			{
-				Preview.SetSpriteSO(ISearchSpritePreview.Sprite);
+				if (ISearchSpritePreview.Sprite == null)
+				{
+					Preview.SetSprite(ISearchSpritePreview.OldSprite);
+				}
+				else
+				{
+					Preview.SetSpriteSO(ISearchSpritePreview.Sprite);
+				}
+
 			}
 		}
 
@@ -136,16 +145,30 @@ namespace AdminTools.VariableViewer
 				var Type = ((object) SO).GetType();
 				if (IndividualDropDownOptions.ContainsKey(Type) == false)
 				{
-					IndividualDropDownOptions[Type] = new List<SOTracker>();
+					IndividualDropDownOptions[Type] = new List<ISOTracker>();
 				}
 				IndividualDropDownOptions[Type].Add(SO);
 			}
+
+			var TypeTile = typeof(LayerTile);
+			foreach (var TileType in 	TileManager.Instance.Tiles)
+			{
+				foreach (var Tile in TileType.Value)
+				{
+					if (IndividualDropDownOptions.ContainsKey(TypeTile) == false)
+					{
+						IndividualDropDownOptions[TypeTile] = new List<ISOTracker>();
+					}
+					IndividualDropDownOptions[TypeTile].Add(Tile.Value);
+				}
+			}
+
 
 		}
 
 		public override object DeSerialise(string StringVariable, Type InType, object InObject, bool SetUI = false)
 		{
-			return SOListTracker.Instance.SOTrackers.FirstOrDefault(x=> x.ForeverID == StringVariable);
+			return IndividualDropDownOptions[InType].FirstOrDefault(x => x.ForeverID == StringVariable);
 		}
 
 		public override void Pool()
