@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: JungleGrassBaseSmooth
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: 2597ff9a740874c47b5abaf76e84f92f
   displayName: jungle grass
   description: A patch of grass.
   LayerType: 4
   TileType: 7
   RequiredTiles: []
+  Mass: 1
   floorTileSounds: {fileID: 11400000, guid: e0953fbd8f90d9a4eaf2c871129716a6, type: 2}
   CanSoundOverride: 0
   atmosPassable: 1

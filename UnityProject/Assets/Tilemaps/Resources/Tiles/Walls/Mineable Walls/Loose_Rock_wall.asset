@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: Loose_Rock_wall
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: dfa1a52283e7c432f98f56d537f2dab6
   displayName: loose rock wall
   description: This looks exceptionally easy to mine through.
   LayerType: 0
   TileType: 1
   RequiredTiles: []
+  Mass: 1
   floorTileSounds: {fileID: 0}
   CanSoundOverride: 0
   atmosPassable: 0

@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: plastitanium_wall_corner
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: 26af559165d38064597b9f57bac4ff01
   displayName: plastitanium wall
   description: A durable wall made of an alloy of plasma and titanium.
   LayerType: 0
   TileType: 1
   RequiredTiles: []
+  Mass: 1
   floorTileSounds: {fileID: 0}
   CanSoundOverride: 0
   atmosPassable: 0

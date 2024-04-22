@@ -7,6 +7,8 @@ namespace SecureStuff
 	public interface IHaveForeverID
 	{
 		public string ForeverID { get; }
+
+		public void ForceSetID();
 	}
 }
 

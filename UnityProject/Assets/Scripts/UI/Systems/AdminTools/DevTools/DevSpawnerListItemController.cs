@@ -181,7 +181,11 @@ public class DevSpawnerListItemController : MonoBehaviour
 			SpriteRenderer curRend = cursorObject.GetComponent<SpriteRenderer>();
 			curRend.sprite = image.sprite;
 
-			curRend.material = prefab.GetComponentInChildren<SpriteRenderer>().sharedMaterial;
+			if (prefab.GetComponentInChildren<SpriteRenderer>() != null)
+			{
+				curRend.material = prefab.GetComponentInChildren<SpriteRenderer>().sharedMaterial;
+			}
+
 			MaterialPropertyBlock block = new MaterialPropertyBlock();
 			curRend.GetPropertyBlock(block);
 			if (isPaletted)

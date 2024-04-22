@@ -43,7 +43,7 @@ namespace AdminTools.VariableViewer
 
 		public override bool IsThisType(Type TType)
 		{
-			return TType.IsSubclassOf(typeof(ISOTracker));
+			return typeof(ISOTracker).IsAssignableFrom(TType);
 		}
 
 		public override void SetUpValues(
@@ -143,7 +143,7 @@ namespace AdminTools.VariableViewer
 				return null;
 			}
 
-			return ((SOTracker)Data)?.ForeverID;
+			return ((ISOTracker)Data)?.ForeverID;
 		}
 
 		public void InitialiseIndividualDropDownOptions()

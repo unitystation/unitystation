@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: Igneous_Rock_wall
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: 1a74887dbd5089445b4fe592063d2b12
   displayName: igneous rock wall
   description: The smooth, bubbly, tough surface looks durable.
   LayerType: 0
   TileType: 1
   RequiredTiles: []
+  Mass: 1
   floorTileSounds: {fileID: 0}
   CanSoundOverride: 0
   atmosPassable: 0

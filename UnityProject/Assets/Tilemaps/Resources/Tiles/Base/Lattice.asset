@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: Lattice
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: e8a2685c8a14b7043bf58bde4374c6b1
   displayName: lattice
   description: 
   LayerType: 4
   TileType: 7
   RequiredTiles: []
+  Mass: 1
   floorTileSounds: {fileID: 11400000, guid: 33b708d1a18305241a84871025e97c36, type: 2}
   CanSoundOverride: 0
   atmosPassable: 1

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
+using Tiles;
 using UnityEngine;
 
 namespace Tests.Asset
@@ -54,6 +55,21 @@ namespace Tests.Asset
 
 				PreviousTakenIDs.Add(tracker.ForeverID);
 			}
+
+			var LayerTiles = Utils.FindAssetsByType<LayerTile>();
+
+			foreach (var tracker in LayerTiles)
+			{
+				if (string.IsNullOrEmpty(tracker.ForeverID) || PreviousTakenIDs.Contains(tracker.ForeverID))
+				{
+					Fail = true;
+					report.AppendLine($" Tracker {tracker.name} Has been updated with a new ID, Please commit");
+					tracker.ForceSetID();
+				}
+
+				PreviousTakenIDs.Add(tracker.ForeverID);
+			}
+
 
 			if (Fail)
 			{

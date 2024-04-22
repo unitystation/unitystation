@@ -116,7 +116,7 @@ public class GameGizmomanager : SingletonManager<GameGizmomanager>
 	{
 		if (Instance.SelectedObject != null)
 		{
-			UnSelectObject(Object);
+			UnSelectObject(Instance.SelectedObject);
 		}
 
 		Instance.SelectedObject = Object;

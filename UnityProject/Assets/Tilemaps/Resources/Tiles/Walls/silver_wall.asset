@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: silver_wall
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: c16435ba549434abd91011c7aa63f34d
   displayName: solid silver wall
   description: A wall with silver plating. Shiny!
   LayerType: 0
   TileType: 1
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
+  Mass: 1
   floorTileSounds: {fileID: 0}
   CanSoundOverride: 0
   atmosPassable: 0

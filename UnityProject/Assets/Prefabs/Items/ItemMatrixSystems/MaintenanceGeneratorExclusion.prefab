@@ -14,6 +14,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 31363e120c6af0f438da104e27bf0c39,
         type: 3}
+    - target: {fileID: 2750215698149839610, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: foreverID
+      value: 13a3b216aba358f428f0c638c923594b
+      objectReference: {fileID: 0}
     - target: {fileID: 3465797894728902041, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -127,3 +132,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42645629604b3fe40ace5e6067c1a311, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  maintGenerator: {fileID: 0}
+  Offset: {x: 0, y: 0}
+  Size: {x: 0, y: 0}

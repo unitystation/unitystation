@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: cult_wall
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: b0c4be528083946458170fbfb697c4ba
   displayName: runed metal wall
   description: A cold metal wall engraved with indecipherable symbols. Studying them
     causes your head to pound.
@@ -19,6 +20,7 @@ MonoBehaviour:
   TileType: 1
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
+  Mass: 1
   floorTileSounds: {fileID: 0}
   CanSoundOverride: 0
   atmosPassable: 0

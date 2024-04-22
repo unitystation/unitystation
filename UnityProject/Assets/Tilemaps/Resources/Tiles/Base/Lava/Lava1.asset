@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1796e5cfb0bb4f9b81661d07e7794f1d, type: 3}
   m_Name: Lava1
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: 80986a662b899ef4199140d318511f08
   displayName: Lava
   description: 
   LayerType: 4
   TileType: 7
   RequiredTiles: []
+  Mass: 1
   floorTileSounds: {fileID: 11400000, guid: 484d1dd11cee5c244b6a30daa86b2921, type: 2}
   CanSoundOverride: 0
   atmosPassable: 1

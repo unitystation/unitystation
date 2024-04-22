@@ -82,6 +82,12 @@ namespace AdminTools.VariableViewer
 		private void OnDisable()
 		{
 			GameGizmoSquare.OrNull()?.Remove();
+
+			if (CurrentlyTracking != null)
+			{
+				GameGizmomanager.UnSelectObject(CurrentlyTracking);
+			}
+
 		}
 
 

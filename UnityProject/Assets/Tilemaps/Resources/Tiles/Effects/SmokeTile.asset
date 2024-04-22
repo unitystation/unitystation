@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b6827d717b949f79771ad7b0c57ad2b, type: 3}
   m_Name: SmokeTile
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: 9fbbdc198ac247d4ba10d8e90b13ab1b
   displayName: Smoke
   description: Smoke
   LayerType: 6
   TileType: 9
   RequiredTiles: []
+  Mass: 1
   overlayName: Smoke
   sprite: {fileID: 21300010, guid: 0766f2ce3917b9e4d8f700641d5a6fbf, type: 3}
   isCleanable: 0
