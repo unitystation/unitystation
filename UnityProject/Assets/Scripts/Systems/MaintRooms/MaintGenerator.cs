@@ -4,14 +4,14 @@ using System;
 using UnityEngine;
 using Tiles;
 using System.Threading.Tasks;
+using Mirror;
 using Objects;
 using Shared.Systems.ObjectConnection;
 
 namespace Systems.Scenes
 {
-	public class MaintGenerator : MonoBehaviour, IMultitoolMasterable
+	public class MaintGenerator : ItemMatrixSystemInit, IMultitoolMasterable, ISelectionGizmo
 	{
-
 		public MultitoolConnectionType ConType => MultitoolConnectionType.MaintGeneratorExclusionZone;
 
 		public int MaxDistance => 9999;
@@ -29,10 +29,10 @@ namespace Systems.Scenes
 
 		private readonly Dictionary<Direction, Vector2Int> DirectionVector = new Dictionary<Direction, Vector2Int>
 		{
-			{ Direction.North, new Vector2Int(0,1) },
-			{ Direction.South, new Vector2Int(0,-1) },
-			{ Direction.East, new Vector2Int(1,0) },
-			{ Direction.West, new Vector2Int(-1,0) }
+			{Direction.North, new Vector2Int(0, 1)},
+			{Direction.South, new Vector2Int(0, -1)},
+			{Direction.East, new Vector2Int(1, 0)},
+			{Direction.West, new Vector2Int(-1, 0)}
 		};
 
 		private const int MAX_DIMENSIONS = 50;
@@ -42,53 +42,51 @@ namespace Systems.Scenes
 
 		[SerializeField] private Vector2 offset = Vector2.zero;
 
-		[SerializeField, Range(1, MAX_DIMENSIONS)] private int width = 20;
-		[SerializeField, Range(1, MAX_DIMENSIONS)] private int height = 20;
+		[SerializeField, Range(1, MAX_DIMENSIONS)]
+		private int width = 20;
+
+		[SerializeField, Range(1, MAX_DIMENSIONS)]
+		private int height = 20;
+
 		[SerializeField] private LayerTile wallTile;
 
-		[SerializeField, Range(0,MAX_PERCENT)] private int objectChance = 50;
+		[SerializeField, Range(0, MAX_PERCENT)]
+		private int objectChance = 50;
 
 		[SerializeField] private Matrix matrix;
 
 		[SerializeField] private List<MaintObject> possibleSpawns = new List<MaintObject>();
 
-		[SerializeField,Tooltip("Possible crates or lockers that items can spawn in")]
+		[SerializeField, Tooltip("Possible crates or lockers that items can spawn in")]
 		private List<GameObject> containers = new List<GameObject>();
 
 		[SerializeField, Tooltip("Possible crates or lockers that items can spawn in")]
 		private List<ExclusionZone> exclusionZones = new List<ExclusionZone>();
 
 		[SerializeField, Tooltip("Possible crates or lockers that items can spawn in")]
-		public List<ExclusionZoneMono> exclusionZonesMono = new List<ExclusionZoneMono>();
+		private List<ExclusionZoneMono> exclusionZonesMono = new List<ExclusionZoneMono>();
 
 		private int[,] mazeArray;
 		private HashSet<Vector2Int> bordercells;
+
+		public GameGizmoSquare GameGizmoSquare;
+
+		public void AddExclusionZoneMono(ExclusionZoneMono ExclusionZoneMono)
+		{
+			exclusionZonesMono.Add(ExclusionZoneMono);
+		}
+
+		public void RemoveExclusionZoneMono(ExclusionZoneMono ExclusionZoneMono)
+		{
+			exclusionZonesMono.Remove(ExclusionZoneMono);
+		}
 
 		public void Start()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 
-			Task.Run(GenerateNewMaze);
-		}
 
-		private void OnDrawGizmos()
-		{
-			Gizmos.color = Color.red;
-			var size = new Vector2Int(width, height).To3();
 
-			Gizmos.DrawWireCube(transform.position + offset.To3() + size/WALL_GAP + GIZMO_OFFSET, size);
-
-			Gizmos.color = Color.cyan;
-			foreach(ExclusionZone zone in exclusionZones)
-			{
-				Gizmos.DrawWireCube(transform.position + offset.To3() + zone.Offset.To3() + zone.Size.To3()/WALL_GAP + GIZMO_OFFSET, zone.Size.To3());
-			}
-		}
-
-		#region Tiles
-
-		private async Task GenerateNewMaze()
-		{
 			mazeArray = new int[width, height];
 			bordercells = new HashSet<Vector2Int>();
 
@@ -100,12 +98,33 @@ namespace Systems.Scenes
 				}
 			}
 
-			await CarveRooms();
+			CarveRooms();
+			Task.Run(GenerateNewMaze);
+		}
 
+		private void OnDrawGizmos()
+		{
+			Gizmos.color = Color.red;
+			var size = new Vector2Int(width, height).To3();
+
+			Gizmos.DrawWireCube(transform.position + offset.To3() + size / WALL_GAP + GIZMO_OFFSET, size);
+
+			Gizmos.color = Color.cyan;
+			foreach (ExclusionZone zone in exclusionZones)
+			{
+				Gizmos.DrawWireCube(
+					transform.position + offset.To3() + zone.Offset.To3() + zone.Size.To3() / WALL_GAP + GIZMO_OFFSET,
+					zone.Size.To3());
+			}
+		}
+
+		#region Tiles
+
+		private async Task GenerateNewMaze()
+		{
 			await CarvePath(1, 1);
 
 			MaintGeneratorManager.MaintGenerators.Add(this);
-
 		}
 
 		private Task CarvePath(int x, int y)
@@ -126,7 +145,8 @@ namespace Systems.Scenes
 
 				if (IsOutOfBounds(newCell.x, newCell.y)) continue;
 
-				if (mazeArray[newCell.x, newCell.y] == 0) //If cell is already empty (has already been visited) remove the wall that speerates current cell to previous
+				if (mazeArray[newCell.x, newCell.y] ==
+				    0) //If cell is already empty (has already been visited) remove the wall that speerates current cell to previous
 				{
 					mazeArray[x + DirectionVector[direction].x, y + DirectionVector[direction].y] = 0;
 					break; //If a wall is removed, move onto next cell.
@@ -139,7 +159,9 @@ namespace Systems.Scenes
 
 				if (IsOutOfBounds(newCell.x, newCell.y)) continue;
 
-				if (mazeArray[newCell.x, newCell.y] == 1 && bordercells.Contains(new Vector2Int(newCell.x, newCell.y)) == false) //If cell is a wall and not current in border cells, add it to the border cells
+				if (mazeArray[newCell.x, newCell.y] == 1 &&
+				    bordercells.Contains(new Vector2Int(newCell.x, newCell.y)) ==
+				    false) //If cell is a wall and not current in border cells, add it to the border cells
 				{
 					bordercells.Add(new Vector2Int(newCell.x, newCell.y));
 				}
@@ -158,21 +180,23 @@ namespace Systems.Scenes
 			}
 		}
 
-		private Task CarveRooms()
+		private void CarveRooms()
 		{
-			foreach(ExclusionZone zone in exclusionZones)
+			foreach (ExclusionZoneMono zone in exclusionZonesMono)
 			{
 				for (int x = 0; x < zone.Size.x; x++)
 				{
-					for(int y = 0; y < zone.Size.y; y++)
+					for (int y = 0; y < zone.Size.y; y++)
 					{
-						var pos = zone.Offset + new Vector2Int(x, y);
+						var pos =
+							(zone.transform.localPosition - this.gameObject.transform.localPosition).RoundTo2Int() +
+							zone.Offset + new Vector2Int(x, y);
 
 						mazeArray[pos.x, pos.y] = WALL_GAP; //Not a wall but no objects can be spawn here either.
 					}
 				}
 			}
-			return Task.CompletedTask;
+
 		}
 
 		private bool IsOutOfBounds(int x, int y)
@@ -188,7 +212,6 @@ namespace Systems.Scenes
 
 		public void CreateTiles()
 		{
-
 			//Places tiles at mazeArray elements with value 1
 			for (int x = 0; x < width; x++)
 			{
@@ -206,6 +229,42 @@ namespace Systems.Scenes
 
 		#endregion
 
+		public void OnSelected()
+		{
+			var size = new Vector2Int(width, height).To3();
+			GameGizmoSquare.OrNull()?.Remove();
+			GameGizmoSquare = GameGizmomanager.AddNewSquareStaticClient(this.gameObject,
+				offset.To3() + size / WALL_GAP + GIZMO_OFFSET, Color.red, BoxSize: size);
+
+			foreach (var ExclusionMono in exclusionZonesMono)
+			{
+				ExclusionMono.OnSelected();
+			}
+		}
+
+		public void OnDeselect()
+		{
+			GameGizmoSquare.OrNull()?.Remove();
+			GameGizmoSquare = null;
+			foreach (var ExclusionMono in exclusionZonesMono)
+			{
+				ExclusionMono.OnDeselect();
+			}
+		}
+
+		public void UpdateGizmos()
+		{
+			var size = new Vector2Int(width, height).To3();
+
+			GameGizmoSquare.Position = offset.To3() + size / WALL_GAP + GIZMO_OFFSET;
+			GameGizmoSquare.transform.localScale = size;
+
+			foreach (var ExclusionMono in exclusionZonesMono)
+			{
+				ExclusionMono.UpdateGizmos();
+			}
+		}
+
 		#region Objects
 
 		public void PlaceObjects()
@@ -219,7 +278,7 @@ namespace Systems.Scenes
 					int h = UnityEngine.Random.Range(0, MAX_PERCENT);
 					if (h > objectChance) continue;
 
-					TrySpawnObject(i,j);
+					TrySpawnObject(i, j);
 				}
 			}
 		}
@@ -236,11 +295,12 @@ namespace Systems.Scenes
 				if (h > obj.ObjectChance || (obj.RequireOpposingWalls && CheckOpposites(i, j) == false)) continue;
 
 				Vector3 pos = new Vector3Int(i, j, 0) + transform.position.CutToInt() + offset.To3();
-				if(obj.ObjectToSpawn != null) Spawn.ServerPrefab(obj.ObjectToSpawn, SpawnDestination.At(pos));
+				if (obj.ObjectToSpawn != null) Spawn.ServerPrefab(obj.ObjectToSpawn, SpawnDestination.At(pos));
 
 				if (obj.SpawnLockerCrate)
 				{
-					GameObject container = Spawn.ServerPrefab(containers.PickRandom(), SpawnDestination.At(pos)).GameObject;
+					GameObject container = Spawn.ServerPrefab(containers.PickRandom(), SpawnDestination.At(pos))
+						.GameObject;
 					if (container.TryGetComponent<ClosetControl>(out var closet) == false) break;
 
 					closet.CollectObjects();
@@ -260,12 +320,14 @@ namespace Systems.Scenes
 			Vector2Int newCellA = new Vector2Int(x, y) + DirectionVector[Direction.East];
 			Vector2Int newCellB = new Vector2Int(x, y) + DirectionVector[Direction.West];
 			if (IsOutOfBounds(newCellB.x, newCellB.y) == false && IsOutOfBounds(newCellA.x, newCellA.y) == false
-				&& (mazeArray[newCellA.x, newCellA.y] == 1 && mazeArray[newCellB.x, newCellB.y] == 1)) return true;
+			                                                   && (mazeArray[newCellA.x, newCellA.y] == 1 &&
+			                                                       mazeArray[newCellB.x, newCellB.y] == 1)) return true;
 
 			newCellA = new Vector2Int(x, y) + DirectionVector[Direction.North];
 			newCellB = new Vector2Int(x, y) + DirectionVector[Direction.South];
 			if (IsOutOfBounds(newCellB.x, newCellB.y) == false && IsOutOfBounds(newCellA.x, newCellA.y) == false
-			&& (mazeArray[newCellA.x, newCellA.y] == 1 && mazeArray[newCellB.x, newCellB.y] == 1)) return true;
+			                                                   && (mazeArray[newCellA.x, newCellA.y] == 1 &&
+			                                                       mazeArray[newCellB.x, newCellB.y] == 1)) return true;
 
 			return false;
 		}
@@ -273,7 +335,7 @@ namespace Systems.Scenes
 		private int CountNeighbours(int x, int y)
 		{
 			int count = 0;
-			foreach(KeyValuePair<Direction, Vector2Int> direction in DirectionVector)
+			foreach (KeyValuePair<Direction, Vector2Int> direction in DirectionVector)
 			{
 				Vector2Int newCell = new Vector2Int(x, y) + direction.Value;
 
@@ -286,7 +348,6 @@ namespace Systems.Scenes
 		}
 
 		#endregion
-
 	}
 
 	[Serializable]
@@ -301,10 +362,13 @@ namespace Systems.Scenes
 		[field: SerializeField, Range(0, MAX_PERCENT), Tooltip("The chance that this object will spawn.")]
 		public int ObjectChance { get; private set; }
 
-		[field: SerializeField, Range(0, MAX_NEIGHBOURS), Tooltip("The required walls next to an object in order for it to spawn.")]
+		[field: SerializeField, Range(0, MAX_NEIGHBOURS),
+		        Tooltip("The required walls next to an object in order for it to spawn.")]
 		public int RequiredWalls { get; private set; }
 
-		[field: SerializeField, Tooltip("Used by doors and grills, requires walls to be on opposite sides of the object to be a valid spawn.")]
+		[field: SerializeField,
+		        Tooltip(
+			        "Used by doors and grills, requires walls to be on opposite sides of the object to be a valid spawn.")]
 		public bool RequireOpposingWalls { get; private set; }
 
 		[field: SerializeField, Tooltip("Will this object spawn in combination with a locker or crate?")]
@@ -317,10 +381,8 @@ namespace Systems.Scenes
 	[Serializable]
 	public class ExclusionZone
 	{
-		[field: SerializeField]
-		public Vector2Int Offset { get; private set; }
+		[field: SerializeField] public Vector2Int Offset { get; private set; }
 
-		[field: SerializeField]
-		public Vector2Int Size { get; private set; }
+		[field: SerializeField] public Vector2Int Size { get; private set; }
 	}
 }

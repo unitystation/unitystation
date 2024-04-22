@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using TileManagement;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 
-public abstract class ItemMatrixSystemInit : MonoBehaviour, IInitialiseSystem
+public abstract class ItemMatrixSystemInit : NetworkBehaviour, IInitialiseSystem
 {
 
 	public virtual int Priority => 0;
@@ -16,7 +17,7 @@ public abstract class ItemMatrixSystemInit : MonoBehaviour, IInitialiseSystem
 	[NonSerialized] protected MatrixSystemManager subsystemManager;
 	[NonSerialized] protected TileChangeManager tileChangeManager;
 	[NonSerialized] protected NetworkedMatrix NetworkedMatrix;
-	public void Awake()
+	public virtual void Awake()
 	{
 		MetaTileMap = GetComponentInParent<MetaTileMap>();
 		tileChangeManager = GetComponentInParent<TileChangeManager>();

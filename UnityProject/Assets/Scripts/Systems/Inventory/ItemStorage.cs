@@ -756,7 +756,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		foreach (var item in target)
 		{
 			if (item == null) continue;
-			ServerTryTransferFrom(item);
+			ServerTryAdd(item);
 		}
 		onGrab?.Invoke();
 	}

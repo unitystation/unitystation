@@ -75,6 +75,13 @@ namespace UI
 				result.Add(interactableTiles.gameObject);
 			}
 
+			if (DevCameraControls.Instance.MappingItemState)
+			{
+				result.AddRange(matrix.MetaDataLayer.EtherealThings
+					.Where( x => x != null && (x.transform.localPosition -  tilePosition).magnitude < 1.5f)
+					.Select(x => x.gameObject));
+			}
+
 			return result;
 		}
 

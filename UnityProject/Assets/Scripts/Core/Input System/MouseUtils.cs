@@ -97,10 +97,10 @@ public static class MouseUtils
 			.ToList());
 
 
-		if (useMappedItems)
+		if (useMappedItems || DevCameraControls.Instance.MappingItemState)
 		{
 			resultRegisterTile.AddRange(matrix.MetaDataLayer.EtherealThings
-				.Where( x => (x.transform.localPosition -  tilePosition).magnitude < 2)
+				.Where( x => x != null && (x.transform.localPosition -  tilePosition).magnitude < 2)
 				.Select(x => x.Pickupable.UniversalObjectPhysics.registerTile));
 		}
 
