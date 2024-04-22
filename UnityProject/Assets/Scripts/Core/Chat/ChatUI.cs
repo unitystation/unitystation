@@ -852,19 +852,6 @@ namespace UI.Chat_UI
 		}
 
 		/// <summary>
-		/// Disable all selected chanels except main channels
-		/// </summary>
-		private void DisableAllChanels()
-		{
-			/*var selectedEnumerable = SelectedChannels.GetFlags();
-			foreach (ChatChannel selected in selectedEnumerable)
-			{
-				if (!MainChannels.Contains(selected))
-					DisableChannel(selected);
-			}*/
-		}
-
-		/// <summary>
 		/// Disable a channel and perform all special logic for it.
 		/// Main channels can't be disabled, and radio channels can hide the active radio channel panel
 		/// </summary>
@@ -1009,9 +996,16 @@ namespace UI.Chat_UI
 
 		public void OnLanguageButton()
 		{
-			if(PlayerManager.LocalPlayerScript == null) return;
-
+			if (PlayerManager.LocalPlayerScript == null) return;
 			languagePanel.gameObject.SetActive(true);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+		}
+
+		public void OnEmoteButton()
+		{
+			if (PlayerManager.LocalPlayerScript == null) return;
+			EmoteActionManager.DisplayEmoteWindow();
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 	}
 }

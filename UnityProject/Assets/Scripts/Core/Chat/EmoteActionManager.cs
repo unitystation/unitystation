@@ -16,8 +16,13 @@ namespace Core.Chat
 		public void CheckForInputForEmoteWindow()
 		{
 			if (PlayerManager.LocalPlayerObject == null) return;
+			DisplayEmoteWindow();
+		}
+
+		public static void DisplayEmoteWindow()
+		{
 			var choices = new List<DynamicUIChoiceEntryData>();
-			foreach (var emote in emoteList.Emotes)
+			foreach (var emote in Instance.emoteList.Emotes)
 			{
 				var newChoice = new DynamicUIChoiceEntryData();
 				newChoice.Text = emote.EmoteName;
@@ -28,7 +33,7 @@ namespace Core.Chat
 			}
 			DynamicChoiceUI.ClientDisplayChoicesNotNetworked("Emotes", "Choose an emote you'd like to perform.", choices, true);
 		}
-		
+
 		public static bool HasEmote(string emote)
 		{
 			string[] emoteArray = emote.Split(' ');
