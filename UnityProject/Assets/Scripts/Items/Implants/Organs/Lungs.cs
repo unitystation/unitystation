@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
+using Chemistry.Components;
 using Core.Chat;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
-using Logs;
 using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;
 using ScriptableObjects.RP;
@@ -52,6 +52,7 @@ namespace Items.Implants.Organs
 		private bool onCooldown = false;
 
 		public ReagentCirculatedComponent ReagentCirculatedComponent;
+		public ReagentContainerBody ReagentContainerBody;
 		public SaturationComponent SaturationComponent;
 		public HungerComponent HungerComponent;
 
@@ -74,6 +75,7 @@ namespace Items.Implants.Organs
 		{
 			base.Awake();
 			ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
+			ReagentContainerBody = this.GetComponentCustom<ReagentContainerBody>();
 			SaturationComponent = this.GetComponentCustom<SaturationComponent>();
 			HungerComponent = this.GetComponentCustom<HungerComponent>();
 			BodyPartAlerts = this.GetComponentCustom<BodyPartAlerts>();
@@ -259,6 +261,7 @@ namespace Items.Implants.Organs
 			var available = SaturationComponent.bloodType.GetNormalGasCapacity(blood);
 
 			ToxinBreathinCheck(breathGasMix);
+			BreathInEffects(breathGasMix);
 			float percentageCanTake = 1;
 
 			if (breathGasMix.Moles != 0)
@@ -394,6 +397,16 @@ namespace Items.Implants.Organs
 			if (hasToxins && coughIsOnCooldown == false)
 			{
 				StartCoroutine(Cough());
+			}
+		}
+
+		private void BreathInEffects(GasMix mix)
+		{
+			var reagents = mix.GetReagentMix();
+			foreach (var reaction in ReagentContainerBody.ReactionSet.reactions)
+			{
+				if (reaction.IsReactionValid(reagents) == false) continue;
+				reaction.ForceApply(reagents, LivingHealthMaster.gameObject);
 			}
 		}
 

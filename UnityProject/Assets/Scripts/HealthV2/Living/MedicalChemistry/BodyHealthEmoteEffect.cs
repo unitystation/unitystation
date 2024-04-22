@@ -1,18 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
-using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 using ScriptableObjects.RP;
 
 [CreateAssetMenu(fileName = "BodyHealthEmoteEffect",
 	menuName = "ScriptableObjects/Chemistry/Reactions/BodyHealthEmoteEffect")]
 public class BodyHealthEmoteEffect : BodyHealthEffect
 {
-
 	public List<EmoteTypeAndChance> EmoteEffects = new List<EmoteTypeAndChance>();
 
 	[System.Serializable]
@@ -32,30 +28,40 @@ public class BodyHealthEmoteEffect : BodyHealthEffect
 	public override void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix,
 		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, out bool overdose) //limitedReactionAmountPercentage = 0 to 1
 	{
-
 		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed, out overdose);
 
 		foreach (EmoteTypeAndChance emote in EmoteEffects)
 		{
-					//Check if there are organs to act on
-					if (senders.Count == 0) { break; }
+			//Check if there are organs to act on
+			if (senders.Count == 0) { break; }
 			GameObject player = senders[0].RelatedPart.HealthMaster.gameObject;
 			if (emote.StopIfOverdosed == true && overdose == true) { continue; }
-
-			if (Random.Range(0, 100) <= emote.ChancePerTick)
-			{
-				if (emote.CustomEmote == true)
-				{
-					Chat.AddActionMsgToChat(player, "You " + emote.CustomEmoterMessage,
-						player.GetComponent<PlayerScript>().playerName + " " + emote.CustomShownMessage);
-					break;
-				}
-				else if (emote.Emote != null)
-				{
-					emote.Emote.Do(player);
-					break;
-				}
-			}
+			DoEmotes(emote, player);
 		}
+	}
+
+	private void DoEmotes(EmoteTypeAndChance emote, GameObject target)
+	{
+		if (Random.Range(0, 100) > emote.ChancePerTick) return;
+		if (emote.CustomEmote) // (Max): please don't do this. use Emote SOs.
+		{
+			Chat.AddActionMsgToChat(target, "You " + emote.CustomEmoterMessage,
+				target.GetComponent<PlayerScript>().playerName + " " + emote.CustomShownMessage);
+		}
+		else if (emote.Emote != null)
+		{
+			emote.Emote.Do(target);
+		}
+	}
+
+	public override void ForceApply(ReagentMix reagentMix, object sender = null)
+	{
+		if (sender == null || reagentMix == null) return;
+		if (sender is not GameObject g) return;
+		foreach (EmoteTypeAndChance emote in EmoteEffects)
+		{
+			DoEmotes(emote, g);
+		}
+		base.ForceApply(reagentMix, sender);
 	}
 }

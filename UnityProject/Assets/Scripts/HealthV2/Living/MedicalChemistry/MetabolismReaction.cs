@@ -84,7 +84,6 @@ public class MetabolismReaction : Reaction
 			{
 				effect.Apply(sender, reactionMultiple);
 			}
-
 		}
 	}
 }

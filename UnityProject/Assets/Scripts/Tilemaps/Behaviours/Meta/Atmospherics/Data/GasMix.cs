@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Chemistry;
 using Core.Utils;
 using Logs;
 using NaughtyAttributes;
@@ -624,6 +625,16 @@ namespace Systems.Atmospherics
 			Pressure = other.Pressure;
 			Temperature = other.Temperature;
 			Volume = other.Volume;
+		}
+
+		public ReagentMix GetReagentMix()
+		{
+			ReagentMix mix = new ReagentMix();
+			foreach (var gas in GasesArray)
+			{
+				mix.Add(gas.GasSO.AssociatedReagent, gas.Moles);
+			}
+			return mix;
 		}
 
 		public override string ToString()

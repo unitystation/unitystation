@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
-using System.Linq;
 
 namespace Chemistry
 {
@@ -37,6 +34,25 @@ namespace Chemistry
 			ApplyReaction(sender as MonoBehaviour, reagentMix);
 
 			return true;
+		}
+
+		public virtual void ForceApply(ReagentMix reagentMix, object sender = null)
+		{
+			var reactionMultiplier = GetReactionAmount(reagentMix);
+			foreach (var ingredient in ingredients.m_dict)
+			{
+				reagentMix.Subtract(ingredient.Key, reactionMultiplier * ingredient.Value);
+			}
+			foreach (var result in results.m_dict)
+			{
+				var reactionResult = reactionMultiplier * result.Value;
+				reagentMix.Add(result.Key, reactionResult);
+			}
+			if (sender is not MonoBehaviour c) return;
+			foreach (var effect in effects)
+			{
+				if (effect!= null) effect.Apply(c, reactionMultiplier);
+			}
 		}
 
 		public bool IsReactionValid(ReagentMix reagentMix)
