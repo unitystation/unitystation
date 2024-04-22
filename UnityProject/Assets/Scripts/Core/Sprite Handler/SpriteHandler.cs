@@ -909,7 +909,10 @@ public class SpriteHandler : MonoBehaviour
 
 		if (isAnimation == false)
 		{
-			UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
+			if (CustomNetworkManager.IsHeadless == false)
+			{
+				UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
+			}
 		}
 	}
 
@@ -917,7 +920,10 @@ public class SpriteHandler : MonoBehaviour
 	{
 		InternalChangeSprite(CataloguePage + 1 < SubCatalogue.Count ? CataloguePage + 1 : 0, false);
 		isAnimation = false;
-		UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsHeadless == false)
+		{
+			UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
+		}
 	}
 
 	private void SetSprite(SpriteDataSO.Frame frame)
@@ -988,12 +994,20 @@ public class SpriteHandler : MonoBehaviour
 
 		if (turnOn && isAnimation == false)
 		{
-			UpdateManager.Add(CallbackType.LATE_UPDATE, UpdateMe);
+			if (CustomNetworkManager.IsHeadless == false)
+			{
+				UpdateManager.Add(CallbackType.LATE_UPDATE, UpdateMe);
+			}
+
 			isAnimation = true;
 		}
 		else if (turnOn == false && isAnimation)
 		{
-			UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
+			if (CustomNetworkManager.IsHeadless == false)
+			{
+				UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
+			}
+
 			animationIndex = 0;
 			isAnimation = false;
 		}

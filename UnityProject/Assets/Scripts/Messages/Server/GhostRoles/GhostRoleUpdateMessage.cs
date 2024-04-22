@@ -1,5 +1,4 @@
-﻿using System.Net.Configuration;
-using Logs;
+﻿using Logs;
 using Systems.GhostRoles;
 using Mirror;
 

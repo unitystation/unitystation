@@ -75,9 +75,17 @@ namespace AdminTools.VariableViewer
 			var data = VVUIElementHandler.ReturnCorrectString(Page, Sentence, Iskey);
 			//TODO Populate drop-down
 
-
 			var Found = IndividualDropDownOptions[ValueType].FirstOrDefault(x => x.ForeverID == data);
 			SetupValues(Found);
+
+			if (data != null)
+			{
+				SetupValues(Found);
+			}
+			else
+			{
+				SetupValues(null);
+			}
 
 			ActiveList = IndividualDropDownOptions[ValueType];
 		}
@@ -142,6 +150,7 @@ namespace AdminTools.VariableViewer
 		{
 			foreach (var SO in SOListTracker.Instance.SOTrackers)
 			{
+				if (SO == null) continue;
 				var Type = ((object) SO).GetType();
 				if (IndividualDropDownOptions.ContainsKey(Type) == false)
 				{

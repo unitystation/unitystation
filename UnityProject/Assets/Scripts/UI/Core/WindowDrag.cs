@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Logs;
+using UnityEngine;
 
 public class WindowDrag : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class WindowDrag : MonoBehaviour
 	private Vector3 startPositon;
 	private RectTransform rectTransform;
 	private bool isReady = false;
+
+	private int UpdatedFrame = 0;
 
 	/// <summary>
 	/// Calculates and sets the initial window start position relative to the screen size.
@@ -42,6 +45,8 @@ public class WindowDrag : MonoBehaviour
 		if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ResetWindowPosition) && UIManager.IsInputFocus == false)
 		{
 			this.transform.localPosition = Vector3.zero;
+			this.transform.localScale = Vector3.one;
+
 		}
 	}
 
@@ -92,6 +97,8 @@ public class WindowDrag : MonoBehaviour
 	/// <param name="y">The window's Y coordinate world position to be clamped.</param>
 	private void ClampWindowPosition(float x, float y)
 	{
+		if (UpdatedFrame == Time.frameCount) return;
+		UpdatedFrame = Time.frameCount;
 		var windowSize = rectTransform.sizeDelta;
 		var windowScale = rectTransform.lossyScale;
 

@@ -5,9 +5,9 @@ namespace Core.Database
 {
 	public class ApiResult<T>: JsonObject where T : JsonObject
 	{
-		public HttpStatusCode StatusCode { get;  init; }
-		[CanBeNull] public T Data { get;  init; }
-		[CanBeNull] public ApiHttpException Exception { get;  init; }
+		public HttpStatusCode StatusCode { get;  set; }
+		[CanBeNull] public T Data { get;  set; }
+		[CanBeNull] public ApiHttpException Exception { get;  set; }
 
 		public bool IsSuccess => Exception == null;
 

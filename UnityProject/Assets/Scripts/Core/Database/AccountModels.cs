@@ -195,7 +195,7 @@ namespace Core.Database
 	public class AccountResendEmailConfirmationRequest : JsonObject
 	{
 		[JsonProperty("email")]
-		public string Email { get; init; }
+		public string Email { get; set; }
 	}
 
 	#endregion

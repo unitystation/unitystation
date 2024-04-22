@@ -275,7 +275,7 @@ namespace Chemistry
 		{
 			if (Total == 0 || b.Total == 0)
 			{
-				if (float.IsNormal(b.Temperature) || b.Temperature == 0)
+				if ((float.IsNaN(b.Temperature) == false && float.IsInfinity(b.Temperature) == false)  || b.Temperature == 0)
 				{
 					Temperature = b.Temperature;
 				}

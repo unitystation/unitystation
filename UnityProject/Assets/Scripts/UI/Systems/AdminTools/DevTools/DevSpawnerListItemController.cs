@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Util;
 using Image = UnityEngine.UI.Image;
 
 
@@ -167,6 +168,14 @@ public class DevSpawnerListItemController : MonoBehaviour
 				//tell the other selected one that it's time to stop
 				selectedItem.OnEscape();
 			}
+
+			if (GUI_P_Component.VVObjectComponentSelectionActive)
+			{
+				GUI_P_Component.ActiveComponent.SetPrefab(prefab.GetComponent<PrefabTracker>().ForeverID);
+				GUI_P_Component.ActiveComponent.Close();
+				return;
+			}
+
 			//just chosen to be spawned on the map. Put our object under the mouse cursor
 			cursorObject = Instantiate(cursorPrefab, transform.root);
 			SpriteRenderer curRend = cursorObject.GetComponent<SpriteRenderer>();
