@@ -124,7 +124,7 @@ namespace Systems.Clearance
 			if (playerStorage != null)
 			{
 				List<ItemSlot> slotsToSearch = new List<ItemSlot>();
-				slotsToSearch.AddRange(playerStorage.GetHandSlots());
+				slotsToSearch.Add(playerStorage.GetActiveHandSlot());
 				slotsToSearch.AddRange(playerStorage.GetNamedItemSlots(NamedSlot.id));
 				slotsToSearch.AddRange(playerStorage.GetNamedItemSlots(NamedSlot.belt));
 				slotsToSearch.AddRange(playerStorage.GetNamedItemSlots(NamedSlot.suitStorage));
