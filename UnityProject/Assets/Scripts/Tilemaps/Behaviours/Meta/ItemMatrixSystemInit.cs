@@ -6,32 +6,37 @@ using TileManagement;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 
-public abstract class ItemMatrixSystemInit : NetworkBehaviour, IInitialiseSystem
+namespace TileMap.Behaviours
 {
 
-	public virtual int Priority => 0;
-
-	public virtual void Initialize() { }
-
-	[NonSerialized] protected MetaTileMap MetaTileMap;
-	[NonSerialized] protected MatrixSystemManager subsystemManager;
-	[NonSerialized] protected TileChangeManager tileChangeManager;
-	[NonSerialized] protected NetworkedMatrix NetworkedMatrix;
-	public virtual void Awake()
+	public abstract class ItemMatrixSystemInit : NetworkBehaviour, IInitialiseSystem
 	{
-		MetaTileMap = GetComponentInParent<MetaTileMap>();
-		tileChangeManager = GetComponentInParent<TileChangeManager>();
-		subsystemManager = GetComponentInParent<MatrixSystemManager>();
-		NetworkedMatrix = GetComponentInParent<NetworkedMatrix>();
-		subsystemManager.Register(this);
+
+		public virtual int Priority => 0;
+
+		public virtual void Initialize() { }
+
+		[NonSerialized] protected MetaTileMap MetaTileMap;
+		[NonSerialized] protected MatrixSystemManager subsystemManager;
+		[NonSerialized] protected TileChangeManager tileChangeManager;
+		[NonSerialized] protected NetworkedMatrix NetworkedMatrix;
+		public virtual void Awake()
+		{
+			MetaTileMap = GetComponentInParent<MetaTileMap>();
+			tileChangeManager = GetComponentInParent<TileChangeManager>();
+			subsystemManager = GetComponentInParent<MatrixSystemManager>();
+			NetworkedMatrix = GetComponentInParent<NetworkedMatrix>();
+			subsystemManager.Register(this);
+		}
+
+		public virtual void OnDestroy()
+		{
+			MetaTileMap = null;
+			tileChangeManager = null;
+			NetworkedMatrix = null;
+			subsystemManager = null;
+
+		}
 	}
 
-	public virtual void OnDestroy()
-	{
-		MetaTileMap = null;
-		tileChangeManager = null;
-		NetworkedMatrix = null;
-		subsystemManager = null;
-
-	}
 }

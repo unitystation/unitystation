@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Messages.Client.VariableViewer;
+using ScriptableObjects;
 using SecureStuff;
 using Tiles;
 using TMPro;

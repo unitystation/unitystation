@@ -1,4 +1,5 @@
 ﻿using System;
+using ScriptableObjects;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

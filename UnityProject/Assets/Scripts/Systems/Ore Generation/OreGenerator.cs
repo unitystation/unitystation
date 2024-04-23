@@ -7,6 +7,7 @@ using Initialisation;
 using Mirror;
 using Shuttles;
 using TileManagement;
+using TileMap.Behaviours;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine.Serialization;
 using Tiles;

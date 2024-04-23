@@ -5,7 +5,9 @@ using System.Linq;
 using Shared.Managers;
 using UnityEngine;
 
-public class GameGizmomanager : SingletonManager<GameGizmomanager>
+namespace InGameGizmos
+{
+	public class GameGizmomanager : SingletonManager<GameGizmomanager>
 {
 	public GameGizmoLine PrefabLineRenderer;
 
@@ -150,3 +152,6 @@ public class GameGizmomanager : SingletonManager<GameGizmomanager>
 		}
 	}
 }
+
+}
+

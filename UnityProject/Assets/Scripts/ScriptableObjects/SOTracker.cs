@@ -8,16 +8,20 @@ using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class SOTracker : ScriptableObject, ISOTracker
+namespace ScriptableObjects
 {
+	public class SOTracker : ScriptableObject, ISOTracker
+	{
 		public virtual SpriteDataSO Sprite => null;
 
 		public virtual Sprite OldSprite => null;
 
 		public string Name => name;
 
-		public string ForeverID {
-			get {
+		public string ForeverID
+		{
+			get
+			{
 #if UNITY_EDITOR
 				if (string.IsNullOrEmpty(foreverID))
 				{
@@ -35,7 +39,9 @@ public class SOTracker : ScriptableObject, ISOTracker
 		public void ReassignID() //Assuming it's a prefab Variant
 		{
 #if UNITY_EDITOR
-			foreverID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(this)); //Can possibly change over time so need some prevention
+			foreverID =
+				AssetDatabase.AssetPathToGUID(
+					AssetDatabase.GetAssetPath(this)); //Can possibly change over time so need some prevention
 			if (string.IsNullOrEmpty(foreverID))
 			{
 				foreverID = CreateString(20);
@@ -71,4 +77,5 @@ public class SOTracker : ScriptableObject, ISOTracker
 
 			return new string(chars);
 		}
+	}
 }

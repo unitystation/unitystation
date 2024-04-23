@@ -1,113 +1,114 @@
 using System.Collections;
 using System.Collections.Generic;
+using InGameGizmos;
 using Mirror;
 using Shared.Systems.ObjectConnection;
 using Systems.Scenes;
 using UnityEngine;
 
-public class ExclusionZoneMono : NetworkBehaviour, IMultitoolSlaveable, ISelectionGizmo
+namespace MaintRooms
 {
-	public MultitoolConnectionType ConType => MultitoolConnectionType.MaintGeneratorExclusionZone;
-
-	public bool CanRelink => true;
-
-	[SerializeField, SyncVar(hook = nameof(SyncMaintGenerator))] private NetworkBehaviour maintGenerator;
-	private const int WALL_GAP = 2;
-	private readonly Vector3 GIZMO_OFFSET = new Vector3(-0.5f, -0.5f, 0);
-
-
-	public Vector2Int Offset;
-	public Vector2Int Size;
-
-	private GameGizmoSquare GameGizmoSquare;
-
-	public IMultitoolMasterable Master
+	public class ExclusionZoneMono : NetworkBehaviour, IMultitoolSlaveable, ISelectionGizmo
 	{
-		get =>  (MaintGenerator) maintGenerator;
-		set
+		public MultitoolConnectionType ConType => MultitoolConnectionType.MaintGeneratorExclusionZone;
+
+		public bool CanRelink => true;
+
+		[SerializeField, SyncVar(hook = nameof(SyncMaintGenerator))]
+		private NetworkBehaviour maintGenerator;
+
+		private const int WALL_GAP = 2;
+		private readonly Vector3 GIZMO_OFFSET = new Vector3(-0.5f, -0.5f, 0);
+
+
+		public Vector2Int Offset;
+		public Vector2Int Size;
+
+		private GameGizmoSquare GameGizmoSquare;
+
+		public IMultitoolMasterable Master
 		{
-			maintGenerator = (MaintGenerator) value;
+			get => (MaintGenerator) maintGenerator;
+			set { maintGenerator = (MaintGenerator) value; }
 		}
 
-	}
 
-
-	public void SyncMaintGenerator(NetworkBehaviour OldNB, NetworkBehaviour NewNB)
-	{
-
-		maintGenerator = NewNB;
-
-		if (OldNB != null)
+		public void SyncMaintGenerator(NetworkBehaviour OldNB, NetworkBehaviour NewNB)
 		{
-			if (GameGizmoSquare != null)
+			maintGenerator = NewNB;
+
+			if (OldNB != null)
 			{
-				this.OnDeselect();
+				if (GameGizmoSquare != null)
+				{
+					this.OnDeselect();
+				}
+
+				((MaintGenerator) OldNB).RemoveExclusionZoneMono(this);
 			}
 
-			((MaintGenerator) OldNB).RemoveExclusionZoneMono(this);
-		}
-
-		if (NewNB != null)
-		{
-			if (((MaintGenerator) NewNB).GameGizmoSquare != null)
+			if (NewNB != null)
 			{
-				this.OnSelected();
+				if (((MaintGenerator) NewNB).GameGizmoSquare != null)
+				{
+					this.OnSelected();
+				}
+
+				((MaintGenerator) NewNB).AddExclusionZoneMono(this);
 			}
-			((MaintGenerator) NewNB).AddExclusionZoneMono(this);
 		}
-	}
 
-	public bool RequireLink => true;
+		public bool RequireLink => true;
 
-	public bool TrySetMaster(GameObject performer, IMultitoolMasterable master)
-	{
-		Master = master;
-		return true;
-	}
-
-	public void SetMasterEditor(IMultitoolMasterable master)
-	{
-		if (Master != null)
+		public bool TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
-			var MaintGenerator = (Master as MaintGenerator);
-
-			MaintGenerator.RemoveExclusionZoneMono(this);
-
+			Master = master;
+			return true;
 		}
 
-		Master = master;
-		if (Master != null)
+		public void SetMasterEditor(IMultitoolMasterable master)
 		{
-			var MaintGenerator = (Master as MaintGenerator);
-			MaintGenerator.AddExclusionZoneMono(this);
+			if (Master != null)
+			{
+				var MaintGenerator = (Master as MaintGenerator);
+
+				MaintGenerator.RemoveExclusionZoneMono(this);
+			}
+
+			Master = master;
+			if (Master != null)
+			{
+				var MaintGenerator = (Master as MaintGenerator);
+				MaintGenerator.AddExclusionZoneMono(this);
+			}
 		}
-	}
 
 
+		private void OnDrawGizmos()
+		{
+			Gizmos.color = Color.cyan;
 
-	private void OnDrawGizmos()
-	{
-		Gizmos.color = Color.cyan;
-
-		Gizmos.DrawWireCube(transform.position + Offset.To3() + Size.To3()/WALL_GAP + GIZMO_OFFSET, Size.To3());
-	}
+			Gizmos.DrawWireCube(transform.position + Offset.To3() + Size.To3() / WALL_GAP + GIZMO_OFFSET, Size.To3());
+		}
 
 
-	public void OnSelected()
-	{
-		GameGizmoSquare.OrNull()?.Remove();
-		GameGizmoSquare = GameGizmomanager.AddNewSquareStaticClient(this.gameObject, Offset.To3() + Size.To3()/WALL_GAP + GIZMO_OFFSET, Color.cyan, BoxSize : Size);
-	}
+		public void OnSelected()
+		{
+			GameGizmoSquare.OrNull()?.Remove();
+			GameGizmoSquare = GameGizmomanager.AddNewSquareStaticClient(this.gameObject,
+				Offset.To3() + Size.To3() / WALL_GAP + GIZMO_OFFSET, Color.cyan, BoxSize: Size);
+		}
 
-	public void OnDeselect()
-	{
-		GameGizmoSquare.OrNull()?.Remove();
-		GameGizmoSquare = null;
-	}
+		public void OnDeselect()
+		{
+			GameGizmoSquare.OrNull()?.Remove();
+			GameGizmoSquare = null;
+		}
 
-	public void UpdateGizmos()
-	{
-		GameGizmoSquare.Position = Offset.To3() + Size.To3()/WALL_GAP + GIZMO_OFFSET;
-		GameGizmoSquare.transform.localScale = Size.To3();
+		public void UpdateGizmos()
+		{
+			GameGizmoSquare.Position = Offset.To3() + Size.To3() / WALL_GAP + GIZMO_OFFSET;
+			GameGizmoSquare.transform.localScale = Size.To3();
+		}
 	}
 }
