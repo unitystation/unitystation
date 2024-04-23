@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: shuttle_wall_corner
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: 6914ec94ffd209d458c2be9f26f7e631
   displayName: shuttle wall
   description: A light-weight titanium wall used in shuttles.
   LayerType: 0
   TileType: 1
   RequiredTiles: []
+  Mass: 1
   floorTileSounds: {fileID: 0}
   CanSoundOverride: 0
   atmosPassable: 0

@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: light_on-s_6
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: b920421e735687e4e984df0149dd79f3
   displayName: 
   description: 
   LayerType: 3
   TileType: 3
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
+  Mass: 1
   floorTileSounds: {fileID: 0}
   CanSoundOverride: 0
   atmosPassable: 1

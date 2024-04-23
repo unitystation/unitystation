@@ -48,6 +48,9 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 	public static int TilesLoaded => Instance.tilesLoaded;
 
 	private Dictionary<TileType, Dictionary<string, LayerTile>> tiles = new Dictionary<TileType, Dictionary<string, LayerTile>>();
+
+	public Dictionary<TileType, Dictionary<string, LayerTile>> Tiles => tiles;
+
 	private bool initialized;
 
 	[SerializeField] private List<TilePathEntry> layerTileCollections = new List<TilePathEntry>();

@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 178bd6d44a133a6458f56e4016f73bd6, type: 3}
   m_Name: DisposalPipeSplitterA-E
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: 5c23013843c80354fb9f6b1c7f113f9e
   displayName: disposal pipe splitter
   description: 
   LayerType: 12
   TileType: 13
   RequiredTiles: []
+  Mass: 1
   floorTileSounds: {fileID: 0}
   CanSoundOverride: 0
   atmosPassable: 1

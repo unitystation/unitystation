@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 178bd6d44a133a6458f56e4016f73bd6, type: 3}
   m_Name: DisposalPipeTerminal-N
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: 427c5e98379cf7d41adf7071402c678c
   displayName: disposal pipe terminal
   description: 
   LayerType: 12
   TileType: 13
   RequiredTiles: []
+  Mass: 1
   floorTileSounds: {fileID: 0}
   CanSoundOverride: 0
   atmosPassable: 1

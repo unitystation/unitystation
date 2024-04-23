@@ -58,6 +58,7 @@ public class MetaDataLayer : MonoBehaviour
 		nodes.Clear();
 		ChangedNodes.Clear();
 		nodesToUpdate.Clear();
+		EtherealThings.Clear();
 	}
 
 	private void Awake()

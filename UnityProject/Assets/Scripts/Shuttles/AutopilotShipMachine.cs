@@ -51,6 +51,7 @@ public class AutopilotShipMachine : MonoBehaviour
 
 	public void MoveToTargetBuoy(GuidanceBuoy Buoy)
 	{
+		PreviouslyReached = null;
 		StartOfChain = Buoy;
 		if (CurrentTarget != null)
 		{

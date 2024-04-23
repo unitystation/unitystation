@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: GrassFloor
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: fee448277305c9c44bc107a4f1d1f34b
   displayName: grass
   description: 
   LayerType: 3
   TileType: 3
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
+  Mass: 1
   floorTileSounds: {fileID: 11400000, guid: e0953fbd8f90d9a4eaf2c871129716a6, type: 2}
   CanSoundOverride: 0
   atmosPassable: 1

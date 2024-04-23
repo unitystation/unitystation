@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Shared.Managers;
 using UnityEngine;
 
-public class GameGizmomanager : SingletonManager<GameGizmomanager>
+namespace InGameGizmos
+{
+	public class GameGizmomanager : SingletonManager<GameGizmomanager>
 {
 	public GameGizmoLine PrefabLineRenderer;
 
@@ -17,6 +21,29 @@ public class GameGizmomanager : SingletonManager<GameGizmomanager>
 
 	public List<GameGizmo> ActiveGizmos = new List<GameGizmo>();
 
+	public List<ISelectionGizmo> ActiveSelection = new List<ISelectionGizmo>();
+
+	public GameObject SelectedObject;
+
+
+	public void OnEnable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+
+	public void OnDisable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	public void UpdateMe()
+	{
+		foreach (var ActiveSelection in ActiveSelection)
+		{
+			ActiveSelection.UpdateGizmos();
+		}
+	}
 
 	public static GameGizmoLine AddNewLineStaticClient(GameObject TrackingFrom, Vector3 From,   GameObject TrackingTo, Vector3 To, Color color, float LineThickness =  0.03125f)
 	{
@@ -33,17 +60,16 @@ public class GameGizmomanager : SingletonManager<GameGizmomanager>
 		return Instance.AddNewText(Tracking, position,Text,Colour, TextSize);
 	}
 
-	public static GameGizmoSquare AddNewSquareStaticClient(GameObject TrackingFrom, Vector3 Position, Color Colour, float LineThickness  =  0.03125f, float BoxSize = 1)
+	public static GameGizmoSquare AddNewSquareStaticClient(GameObject TrackingFrom, Vector3 Position, Color Colour, float LineThickness  =  0.03125f, Vector2? BoxSize = null)
 	{
-		return Instance.AddNewSquare(TrackingFrom, Position,Colour,LineThickness, BoxSize);
+		BoxSize ??= Vector2.one;
+		return Instance.AddNewSquare(TrackingFrom, Position,Colour,LineThickness, BoxSize.Value);
 	}
 
 	public static GameGizmoBox AddNewBoxStaticClient(GameObject TrackingFrom, Vector3 Position, Color Colour , float BoxSize = 1)
 	{
 		return Instance.AddNewBox(TrackingFrom, Position,Colour, BoxSize);
 	}
-
-
 
 
 	public GameGizmoLine AddNewLine(GameObject TrackingFrom, Vector3 From,   GameObject TrackingTo, Vector3 To, Color color, float LineThickness)
@@ -71,7 +97,7 @@ public class GameGizmomanager : SingletonManager<GameGizmomanager>
 		return GizmoText;
 	}
 
-	public GameGizmoSquare AddNewSquare(GameObject TrackingFrom, Vector3 Position, Color Colour, float LineThickness , float BoxSize = 1)
+	public GameGizmoSquare AddNewSquare(GameObject TrackingFrom, Vector3 Position, Color Colour, float LineThickness , Vector2 BoxSize)
 	{
 		var GizmoSquare =  Instantiate(PrefabSquare, Instance.transform);
 		ActiveGizmos.Add(GizmoSquare);
@@ -87,4 +113,45 @@ public class GameGizmomanager : SingletonManager<GameGizmomanager>
 		return GizmoBox;
 	}
 
+
+	public static void SelectObject(GameObject Object)
+	{
+		if (Instance.SelectedObject != null)
+		{
+			UnSelectObject(Instance.SelectedObject);
+		}
+
+		Instance.SelectedObject = Object;
+
+		var Gizmos = Object.GetComponents<ISelectionGizmo>().ToList();
+		foreach (var Gizmo in Gizmos)
+		{
+			Gizmo.OnSelected();
+		}
+
+		Instance.ActiveSelection.AddRange(Gizmos);
+	}
+	public static void UnSelectObject(GameObject Object)
+	{
+		if (Object == null)
+		{
+			foreach (var Gizmo in Instance.ActiveSelection)
+			{
+				Gizmo.OnDeselect();
+			}
+			Instance.ActiveSelection.Clear();
+		}
+		else
+		{
+			var Gizmos = Object.GetComponents<ISelectionGizmo>().ToList();
+			foreach (var Gizmo in Gizmos)
+			{
+				Gizmo.OnDeselect();
+				Instance.ActiveSelection.Remove(Gizmo);
+			}
+		}
+	}
 }
+
+}
+

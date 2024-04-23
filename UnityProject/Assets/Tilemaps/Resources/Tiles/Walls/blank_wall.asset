@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: blank_wall
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: 3dcd0ba6d54534f18ab6ba3cfacd1775
   displayName: wall
   description: 
   LayerType: 0
   TileType: 1
   RequiredTiles: []
+  Mass: 1
   floorTileSounds: {fileID: 0}
   CanSoundOverride: 0
   atmosPassable: 0

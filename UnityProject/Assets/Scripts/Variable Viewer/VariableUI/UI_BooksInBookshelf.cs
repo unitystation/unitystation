@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using InGameGizmos;
 using Logs;
 using Messages.Client.Admin;
 using Player;
@@ -64,21 +65,30 @@ namespace AdminTools.VariableViewer
 				if (GameGizmoSquare == null)
 				{
 					GameGizmoSquare = GameGizmomanager.AddNewSquareStaticClient(CurrentlyTracking, Vector3.zero, Color.cyan);
+					GameGizmomanager.SelectObject(CurrentlyTracking);
 				}
 				else
 				{
 					GameGizmoSquare.TrackingObject = CurrentlyTracking;
+					GameGizmomanager.SelectObject(CurrentlyTracking);
 				}
 			}
 			else
 			{
 				GameGizmoSquare.OrNull()?.Remove();
+				GameGizmomanager.UnSelectObject(CurrentlyTracking);
 			}
 		}
 
 		private void OnDisable()
 		{
 			GameGizmoSquare.OrNull()?.Remove();
+
+			if (CurrentlyTracking != null)
+			{
+				GameGizmomanager.UnSelectObject(CurrentlyTracking);
+			}
+
 		}
 
 
@@ -105,15 +115,18 @@ namespace AdminTools.VariableViewer
 				if (GameGizmoSquare == null)
 				{
 					GameGizmoSquare = GameGizmomanager.AddNewSquareStaticClient(ObjectorMark, Vector3.zero, Color.cyan);
+					GameGizmomanager.SelectObject(CurrentlyTracking);
 				}
 				else
 				{
 					GameGizmoSquare.TrackingObject = ObjectorMark;
+					GameGizmomanager.SelectObject(CurrentlyTracking);
 				}
 			}
 			else
 			{
 				GameGizmoSquare.OrNull()?.Remove();
+				GameGizmomanager.UnSelectObject(CurrentlyTracking);
 			}
 
 

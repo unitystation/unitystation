@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: CarpetOrange
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: a4d13ed8452fa504caa97bbb15979e85
   displayName: carpet
   description: 
   LayerType: 3
   TileType: 3
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
+  Mass: 1
   floorTileSounds: {fileID: 11400000, guid: 0ccefbe25500f8c4b8e8bae7fc1c693f, type: 2}
   CanSoundOverride: 0
   atmosPassable: 1

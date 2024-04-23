@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b1bfcb29a2677e48add641bd21c8ade, type: 3}
   m_Name: NW_SW-High_Voltage_Cable
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: b5762d5fda496014aac079d7061e234e
   displayName: high voltage cable
   description: 
   LayerType: 10
   TileType: 11
   RequiredTiles: []
+  Mass: 1
   floorTileSounds: {fileID: 0}
   CanSoundOverride: 0
   atmosPassable: 1

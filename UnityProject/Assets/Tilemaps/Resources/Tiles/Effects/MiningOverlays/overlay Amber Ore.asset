@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b6827d717b949f79771ad7b0c57ad2b, type: 3}
   m_Name: overlay Amber Ore
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: e49115e8be5921c48a4d193ec255266c
   displayName: amber ore overlay
   description: Amber ore
   LayerType: 6
   TileType: 9
   RequiredTiles: []
+  Mass: 1
   overlayName: AmberOreOverlay
   sprite: {fileID: 21300000, guid: 282e5bc743c25c0448479b21291558b0, type: 3}
   isCleanable: 0

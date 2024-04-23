@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: Composite_Rock_wall
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: 0bb4b77d320ccb442b334891ea3222c0
   displayName: composite rock wall
   description: This gritty, blended surface looks very tough. Nothing short of diamond
     will make much of a mark.
   LayerType: 0
   TileType: 1
   RequiredTiles: []
+  Mass: 1
   floorTileSounds: {fileID: 0}
   CanSoundOverride: 0
   atmosPassable: 0

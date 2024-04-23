@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: FoamBase
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: be81f0862c600cf4facb4c7084a85922
   displayName: Foam Base
   description: Flooring made of foam, let's hope it can hold space at bay
   LayerType: 4
   TileType: 7
   RequiredTiles: []
+  Mass: 1
   floorTileSounds: {fileID: 0}
   CanSoundOverride: 0
   atmosPassable: 1

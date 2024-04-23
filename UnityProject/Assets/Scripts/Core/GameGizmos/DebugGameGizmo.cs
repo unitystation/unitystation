@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using InGameGizmos;
 using UnityEngine;
 
 public class DebugGameGizmo : MonoBehaviour

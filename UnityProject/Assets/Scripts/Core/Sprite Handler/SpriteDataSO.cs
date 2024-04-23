@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 using NaughtyAttributes;
+using ScriptableObjects;
 
 [CreateAssetMenu(fileName = "SpriteData", menuName = "ScriptableObjects/SpriteData")]
 public class SpriteDataSO : SOTracker

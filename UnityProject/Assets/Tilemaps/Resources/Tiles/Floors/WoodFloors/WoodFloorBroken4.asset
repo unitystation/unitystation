@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: WoodFloorBroken4
   m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: 43d71f3b2996cab4180edaffcf909e5e
   displayName: wood floor
   description: 
   LayerType: 3
   TileType: 3
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
+  Mass: 1
   floorTileSounds: {fileID: 11400000, guid: cc521a53f87994d4ab10849949a1e4c5, type: 2}
   CanSoundOverride: 0
   atmosPassable: 1

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Gateway;
@@ -19,9 +20,18 @@ namespace Systems.Scenes
 			if (CustomNetworkManager.IsServer == false) return;
 			MaintGenerators.Clear();
 			possibleExits.Clear();
+		}
 
+		public void OnEnable()
+		{
 			EventManager.AddHandler(Event.ScenesLoadedServer, GenerateMaints);
 			EventManager.AddHandler(Event.RoundStarted, PostStart);
+		}
+
+		public void OnDisable()
+		{
+			EventManager.RemoveHandler(Event.ScenesLoadedServer, GenerateMaints);
+			EventManager.RemoveHandler(Event.RoundStarted, PostStart);
 		}
 
 		private void GenerateMaints()
@@ -36,6 +46,7 @@ namespace Systems.Scenes
 
 		private void PostStart()
 		{
+			if (this == null) return;
 			gateway.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(possibleExits.PickRandom().AssumedWorldPosServer()); //Randomise gateway position.
 
 			PlaceObjects();
