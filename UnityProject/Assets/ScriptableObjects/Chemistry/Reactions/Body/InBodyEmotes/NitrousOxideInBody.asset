@@ -33,7 +33,8 @@ MonoBehaviour:
     m_values: 
   effects: []
   ReagentMetabolismMultiplier: 4
-  InternalAllRequired: []
+  InternalAllRequired:
+  - {fileID: 11400000, guid: cf7011331adb47d4880a8f62edf3259d, type: 2}
   InternalBlacklist: []
   ExternalAllRequired: []
   ExternalBlacklist: []
