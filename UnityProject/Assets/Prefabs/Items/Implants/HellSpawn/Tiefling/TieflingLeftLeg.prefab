@@ -30,12 +30,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
       propertyPath: SubOrganBodyPartArmour.DismembermentProtectionChance
       value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[1].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[2].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
       propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7011999cadc4fa347881236a512a17ca,
+        type: 2}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[1].Sprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7011999cadc4fa347881236a512a17ca,
+        type: 2}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[2].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 7011999cadc4fa347881236a512a17ca,
         type: 2}
