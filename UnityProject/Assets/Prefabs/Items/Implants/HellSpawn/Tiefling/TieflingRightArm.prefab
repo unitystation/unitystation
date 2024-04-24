@@ -20,6 +20,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5637bd1d25250dc42ae7bd3bfd5af629,
         type: 2}
+    - target: {fileID: 2501135004884365284, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: 'traumaTypesOnBodyPart.Array.data[0]'
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3666507880365142169, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -170,7 +175,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7311775021426134078, guid: ba9a875c31908af4ab3749cd127a2edb, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

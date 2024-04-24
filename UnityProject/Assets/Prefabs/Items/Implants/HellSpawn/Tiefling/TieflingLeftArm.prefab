@@ -152,6 +152,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: bac67c282cdb5c4458e49730fdd658ed,
         type: 2}
+    - target: {fileID: 6742759608531677097, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: 'traumaTypesOnBodyPart.Array.data[0]'
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8848758621188635655, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
       propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
@@ -164,7 +169,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a25b3d89d5961e24da2e3fdc505c6f2b,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1900076553084161139, guid: 719377fefb0114b448fc6ca9f7a5a6df, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

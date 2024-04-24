@@ -131,6 +131,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8cda47cca77fdd844aff26e911f13f31,
         type: 2}
+    - target: {fileID: 6937090166139648968, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: 'traumaTypesOnBodyPart.Array.data[0]'
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8075695979122336949, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -142,7 +147,8 @@ PrefabInstance:
       propertyPath: foreverID
       value: 5cfb33daa98005f40ab7166bbbb9994e
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2848539327214606354, guid: 2e6f2ff9beb985749940d242877d84f0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

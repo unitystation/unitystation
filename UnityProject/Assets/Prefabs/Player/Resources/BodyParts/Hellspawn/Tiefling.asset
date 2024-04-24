@@ -58,7 +58,14 @@ MonoBehaviour:
     - {r: 0.8396226, g: 0.43169275, b: 0.7651311, a: 1}
     RootImplantProcedure: {fileID: 11400000, guid: 3de247ed9ca572941975e45430051197,
       type: 2}
-    BodyPartsThatShareTheSkinTone: []
+    BodyPartsThatShareTheSkinTone:
+    - {fileID: 7149504444649443968, guid: 29a3bff6ad011df469668a3ac56a429e, type: 3}
+    - {fileID: 1626338172373037688, guid: 7768b5a1b5660d54790a3fdf6b84255a, type: 3}
+    - {fileID: 7400946141479167036, guid: c7b86ca5de8e5f2469a418878a556531, type: 3}
+    - {fileID: 6433406988176884176, guid: 40eb784343c95614583c93dc7ede0889, type: 3}
+    - {fileID: 8487848357496905070, guid: 3294d0d73bb64154c837404102d35446, type: 3}
+    - {fileID: 1868023347821146421, guid: 787492af83742fc4d9d9421f81313e21, type: 3}
+    - {fileID: 1644536323247627075, guid: 54ef39fc2db4cdc4ea523c36e5d46dd8, type: 3}
     ClueString: a sickly sweet particle
     MeatProduce: {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5,
       type: 3}
