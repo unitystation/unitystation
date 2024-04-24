@@ -8,8 +8,6 @@ namespace AdminTools.VariableViewer
 {
 	public class GUI_P_Colour : PageElement
 	{
-		public ColorPicker ColorPicker;
-		public GameObject ColourPickerwindow;
 
 		public bool IsSentence;
 		public bool iskey;
@@ -52,12 +50,12 @@ namespace AdminTools.VariableViewer
 			DeSerialise(Data,null, null, true);
 		}
 
-		public void UpdateColour()
+		public void UpdateColour(Color Color)
 		{
 			if (IgnoreUpdates) return;
 			if (PageID != 0)
 			{
-				thisColor = ColorPicker.CurrentColor;
+				thisColor = UIManager.Instance.GlobalColorPicker.CurrentColor;
 				string Outstring = "" + Convert.ToChar(Mathf.RoundToInt(thisColor.r * 255));
 				Outstring += Convert.ToChar(Mathf.RoundToInt(thisColor.g * 255));
 				Outstring += Convert.ToChar(Mathf.RoundToInt(thisColor.b * 255));
@@ -69,7 +67,15 @@ namespace AdminTools.VariableViewer
 
 		public void ToggleObject()
 		{
-			ColourPickerwindow.SetActive(!ColourPickerwindow.activeSelf);
+			if (UIManager.Instance.GlobalColorPicker.gameObject.activeInHierarchy)
+			{
+				UIManager.Instance.GlobalColorPicker.OnCancelBtn();
+			}
+			else
+			{
+				UIManager.Instance.GlobalColorPicker.EnablePickerApply(UpdateColour);
+				UIManager.Instance.GlobalColorPicker.CurrentColor = thisColor;
+			}
 		}
 
 		public override void Pool()
@@ -105,7 +111,6 @@ namespace AdminTools.VariableViewer
 			{
 				IgnoreUpdates = true;
 				thisColor = TheColour;
-				ColorPicker.CurrentColor = TheColour;
 				IgnoreUpdates = false;
 			}
 

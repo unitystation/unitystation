@@ -1,6 +1,7 @@
 ﻿using System;
 using Assets.HSVPicker;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ColorPicker : MonoBehaviour
 {
@@ -209,9 +210,21 @@ public class ColorPicker : MonoBehaviour
 
     public void EnablePicker(Action<Color> onChange)
     {
+	    onColourApply.RemoveAllListeners();
+	    DynamicValueChangeEvent = null;
 	    DynamicValueChangeEvent += onChange;
 	    gameObject.SetActive(true);
     }
+
+    public void EnablePickerApply(UnityAction<Color> onChange)
+    {
+	    onColourApply.RemoveAllListeners();
+	    DynamicValueChangeEvent = null;
+	    onColourApply.AddListener(onChange);
+	    gameObject.SetActive(true);
+    }
+
+
 
     private void RGBChanged()
     {
