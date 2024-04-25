@@ -26,7 +26,7 @@ namespace Items.Implants.Organs
 				mobLanguages.LearnLanguage(language, true);
 			}
 			livingHealth.IsMute.RecordPosition(this, CannotSpeak);
-			LivingHealthMaster.playerScript.inventorySpeechModifiers |= speechModifiers;
+			LivingHealthMaster.playerScript.inventorySpeechModifiers = LivingHealthMaster.playerScript.inventorySpeechModifiers | speechModifiers;
 		}
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
@@ -43,7 +43,7 @@ namespace Items.Implants.Organs
 				//Can no longer speak, but can still understand
 				mobLanguages.RemoveLanguage(language);
 			}
-			LivingHealthMaster.playerScript.inventorySpeechModifiers &= ~speechModifiers;
+			LivingHealthMaster.playerScript.inventorySpeechModifiers = LivingHealthMaster.playerScript.inventorySpeechModifiers & ~speechModifiers;
 		}
 
 		public void SetCannotSpeak(bool inValue)

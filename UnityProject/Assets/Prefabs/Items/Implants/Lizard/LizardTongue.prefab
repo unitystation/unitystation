@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3113739160240451436, guid: 57bdc54d41899c34a897a26ef0a10933,
         type: 3}
+      propertyPath: speechModifiers
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3113739160240451436, guid: 57bdc54d41899c34a897a26ef0a10933,
+        type: 3}
       propertyPath: languages.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -84,17 +89,17 @@ PrefabInstance:
     - target: {fileID: 7437977440571919956, guid: 57bdc54d41899c34a897a26ef0a10933,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7437977440571919956, guid: 57bdc54d41899c34a897a26ef0a10933,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7437977440571919956, guid: 57bdc54d41899c34a897a26ef0a10933,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7437977440571919956, guid: 57bdc54d41899c34a897a26ef0a10933,
         type: 3}
