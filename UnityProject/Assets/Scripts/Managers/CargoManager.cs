@@ -81,11 +81,13 @@ namespace Systems.Cargo
 		private void OnEnable()
 		{
 			UpdateManager.Add(UpdateMe, checkForTimeCooldown);
+			EventManager.AddHandler(Event.PostRoundStarted, CallShuttle);
 		}
 
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+			EventManager.RemoveHandler(Event.PostRoundStarted,  CallShuttle);
 		}
 
 		/// <summary>
@@ -111,6 +113,8 @@ namespace Systems.Cargo
 		{
 			OnRoundRestart();
 		}
+
+
 
 		public void OnRoundRestart()
 		{
