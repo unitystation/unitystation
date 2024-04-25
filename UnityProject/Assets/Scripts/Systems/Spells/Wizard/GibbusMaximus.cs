@@ -1,4 +1,5 @@
 ﻿using HealthV2;
+using Random = UnityEngine.Random;
 
 namespace Systems.Spells.Wizard
 {
@@ -18,7 +19,16 @@ namespace Systems.Spells.Wizard
 				var creatures = MatrixManager.GetAdjacent<LivingHealthMasterBase>(caster.GameObject.AssumedWorldPosServer().CutToInt(), true);
 				foreach (var creature in creatures)
 				{
-					if (creature.IsDead) creature.OnGib();
+					if (creature.IsDead)
+					{
+						Spawn.ServerPrefab(creature.InitialSpecies.Base.MeatProduce,
+							creature.gameObject.AssumedWorldPosServer(), count: Random.Range(1, 3),
+							scatterRadius: 0.5f);
+						Spawn.ServerPrefab(creature.InitialSpecies.Base.SkinProduce,
+							creature.gameObject.AssumedWorldPosServer(), count: Random.Range(1, 3),
+							scatterRadius: 0.5f);
+						creature.OnGib();
+					}
 				}
 				Chat.AddChatMsgToChatServer(caster, "..GIBBUSS, MAXIMUS!!", ChatChannel.Local, Loudness.MEGAPHONE);
 			});
