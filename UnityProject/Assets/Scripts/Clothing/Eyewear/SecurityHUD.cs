@@ -50,8 +50,11 @@ public class SecurityHUD : NetworkBehaviour, IHUD
 	{
 		PlayerScript = this.GetComponentCustom<PlayerScript>();
 		HUDHandler = this.GetComponentCustom<HUDHandler>();
+
+
 		if (CustomNetworkManager.IsServer)
 		{
+			PlayerScript.DynamicItemStorage.OnContentsChangeServer.AddListener(JobChange);
 			PlayerScript.OnVisibleNameChange += JobChange; //TODO Is not the best place
 			PlayerScript.OnVisibleNameChange += IdentityChange;
 			SecurityRecord.OnWantedLevelChange += IdentityChange; //TODO This could be a bit better as well
