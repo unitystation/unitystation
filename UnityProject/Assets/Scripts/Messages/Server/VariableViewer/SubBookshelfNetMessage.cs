@@ -18,6 +18,8 @@ namespace Messages.Server.VariableViewer
 		{
 			var NetworkedObject = ClientObjectPath.GetObjectMessage(msg.PathData);
 			UIManager.Instance.UI_BooksInBookshelf.ValueSetUp(msg.BookShelf, NetworkedObject, msg.Teleport);
+			UIManager.Instance.VariableViewer.Open();
+
 		}
 
 		public static NetMessage Send(Librarian.Library.LibraryBookShelf _BookShelf, GameObject ToWho, bool RequestTeleport)

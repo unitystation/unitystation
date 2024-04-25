@@ -57,8 +57,16 @@ public class GUI_P_Component : PageElement
 	{
 		base.SetUpValues(ValueType, Page, Sentence, Iskey);
 
-		EditData data =
-			JsonConvert.DeserializeObject<EditData>(VVUIElementHandler.ReturnCorrectString(Page, Sentence, Iskey));
+		var StringData = VVUIElementHandler.ReturnCorrectString(Page, Sentence, Iskey);
+		EditData data = new EditData()
+		{
+			IDType = IDType.NULL
+		};
+		if (StringData != "null")
+		{
+			data = JsonConvert.DeserializeObject<EditData>(StringData);
+		}
+
 		var BracketAtring = "";
 		if (data.IDType == IDType.NULL)
 		{
