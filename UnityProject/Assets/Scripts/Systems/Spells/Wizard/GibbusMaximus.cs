@@ -21,12 +21,6 @@ namespace Systems.Spells.Wizard
 				{
 					if (creature.IsDead)
 					{
-						Spawn.ServerPrefab(creature.InitialSpecies.Base.MeatProduce,
-							creature.gameObject.AssumedWorldPosServer(), count: Random.Range(1, 3),
-							scatterRadius: 0.5f);
-						Spawn.ServerPrefab(creature.InitialSpecies.Base.SkinProduce,
-							creature.gameObject.AssumedWorldPosServer(), count: Random.Range(1, 3),
-							scatterRadius: 0.5f);
 						creature.OnGib();
 					}
 				}
