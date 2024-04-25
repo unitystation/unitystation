@@ -8,16 +8,22 @@ using Logs;
 using Managers;
 using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Objects
 {
 	public class AshwalkerNest : MonoBehaviour, IServerLifecycle, IExaminable
 	{
+		[FormerlySerializedAs("ghostRole")] [SerializeField]
+		private GhostRoleData ashwalkerGhostRole = null;
 		[SerializeField]
-		private GhostRoleData ghostRole = null;
+		private GhostRoleData priestGhostRole = null;
 
 		[SerializeField]
 		private PlayerHealthData ashwalkerRaceData = null;
+
+		[SerializeField]
+		private PlayerHealthData tieflingRaceData = null;
 
 		[SerializeField]
 		private CraftingRecipeList ashwalkerCraftingRecipesList = null;
@@ -41,7 +47,8 @@ namespace Objects
 
 		private int eatingTimer = 0;
 
-		private uint createdRoleKey;
+		private uint createdRoleKeyAshwalker;
+		private uint createdRoleKeyPriest;
 
 		private Integrity integrity;
 		private RegisterTile registerTile;
@@ -84,7 +91,7 @@ namespace Objects
 			EventManager.RemoveHandler(Event.LavalandFirstEntered, OnRoundRestart);
 
 			//Just in case remove the role here too
-			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
+			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKeyAshwalker);
 		}
 
 		#endregion
@@ -187,7 +194,7 @@ namespace Objects
 			//Increase eggs
 			ashwalkerEggs++;
 			SetSprite();
-			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKey, 1, ashwalkerEggs, -1);
+			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKeyAshwalker, 1, ashwalkerEggs, -1);
 
 			Chat.AddActionMsgToChat(gameObject, "One of the eggs swells to an unnatural size and tumbles free. It's ready to hatch!");
 		}
@@ -208,7 +215,7 @@ namespace Objects
 
 		public void OnDespawnServer(DespawnInfo info)
 		{
-			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
+			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKeyAshwalker);
 		}
 
 		//Would use only IServerSpawn, but that is called before the ghost role manager which wipes the list at RoundStart...
@@ -216,12 +223,16 @@ namespace Objects
 		{
 			SetSprite();
 
-			createdRoleKey = GhostRoleManager.Instance.ServerCreateRole(ghostRole);
-			var role = GhostRoleManager.Instance.serverAvailableRoles[createdRoleKey];
+			createdRoleKeyAshwalker = GhostRoleManager.Instance.ServerCreateRole(ashwalkerGhostRole);
+			createdRoleKeyPriest = GhostRoleManager.Instance.ServerCreateRole(priestGhostRole);
+			var role1 = GhostRoleManager.Instance.serverAvailableRoles[createdRoleKeyAshwalker];
+			var role2 = GhostRoleManager.Instance.serverAvailableRoles[createdRoleKeyPriest];
 
-			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKey, 1, ashwalkerEggs, -1);
+			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKeyAshwalker, 1, ashwalkerEggs, -1);
+			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKeyPriest, 1, 1, -1);
 
-			role.OnPlayerAdded += OnSpawnPlayer;
+			role2.OnPlayerAdded += OnSpawnPlayerPriest;
+			role1.OnPlayerAdded += OnSpawnPlayer;
 
 			EventManager.RemoveHandler(Event.LavalandFirstEntered, OnRoundRestart);
 		}
@@ -231,38 +242,65 @@ namespace Objects
 			SpawnAshwalker(player);
 		}
 
-		private void SpawnAshwalker(PlayerInfo player, bool costEgg = true)
+		private void OnSpawnPlayerPriest(PlayerInfo player)
 		{
-			//Since this is being called from an Action<> this could be null.
+			if (RemovePlayer(player) == false) return;
+			var characterSettings = GenerateWalkerSheet(ashwalkerRaceData);
+			var Ashwalker = PlayerSpawn.NewSpawnCharacterV2(
+				SOAdminJobsList.Instance.GetByName("Ashwalker Priest")
+				,characterSettings);
+			PlayerSpawn.TransferAccountToSpawnedMind(player,Ashwalker);
+			Ashwalker.Body.playerMove.AppearAtWorldPositionServer(registerTile.WorldPosition);
+			// Priests don't need their crafting recpies wiped.
+			var crafting = player.Mind.CurrentPlayScript.PlayerCrafting;
+			foreach (var recipe in ashwalkerCraftingRecipesList.CraftingRecipes)
+			{
+				crafting.LearnRecipe(recipe);
+			}
+			//Decrease the remaining roles
+			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKeyAshwalker, 1, ashwalkerEggs, -1);
+
+			//Remove the player so they can join again once they die
+			GhostRoleManager.Instance.ServerRemoveWaitingPlayer(createdRoleKeyPriest, player);
+
+			Chat.AddExamineMsg(player.GameObject, "You have been risen from the hell fires, with a new body and renewed purpose. Glory to the Necropolis!");
+
+			//Priests cant speak common, but can understand it.
+			player.Mind.CurrentPlayScript.MobLanguages.RemoveLanguage(LanguageManager.Common);
+		}
+
+		private bool RemovePlayer(PlayerInfo player)
+		{
 			if (this == null || gameObject == null)
 			{
 				//Remove the player from all roles (as createdRoleKey will Error)
 				GhostRoleManager.Instance.ServerRemoveWaitingPlayer(player);
 				Loggy.LogError("Ghost role spawn called on null ashwalker, was the role not removed on destruction?");
-				return;
+				return false;
 			}
+			return true;
+		}
 
-
+		private CharacterSheet GenerateWalkerSheet(PlayerHealthData race)
+		{
 			var characterSettings = CharacterSheet.GenerateRandomCharacter();
-
-			characterSettings.Species = ashwalkerRaceData.name;
+			characterSettings.Species = race.name;
 			characterSettings.SerialisedExternalCustom?.Clear();
-
-			characterSettings.SkinTone = CharacterSheet.GetRandomSkinTone(ashwalkerRaceData);
-
-			//Give random lizard name
+			characterSettings.SkinTone = CharacterSheet.GetRandomSkinTone(race);
 			characterSettings.Name = StringManager.GetRandomLizardName(characterSettings.GetGender());
+			return characterSettings;
+		}
 
-			//Respawn the player
-
+		private void SpawnAshwalker(PlayerInfo player, bool costEgg = true)
+		{
+			//Since this is being called from an Action<> this could be null.
+			if (RemovePlayer(player) == false) return;
+			var characterSettings = GenerateWalkerSheet(ashwalkerRaceData);
 			var Ashwalker = PlayerSpawn.NewSpawnCharacterV2(
 				SOAdminJobsList.Instance.GetByName("Ashwalker")
 				,characterSettings);
-
 			PlayerSpawn.TransferAccountToSpawnedMind(player,Ashwalker);
-
 			Ashwalker.Body.playerMove.AppearAtWorldPositionServer(registerTile.WorldPosition);
-
 
 			//Wipe crafting recipes and add Ashwalker ones
 			var crafting = player.Mind.CurrentPlayScript.PlayerCrafting;
@@ -284,10 +322,10 @@ namespace Objects
 			}
 
 			//Decrease the remaining roles
-			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKey, 1, ashwalkerEggs, -1);
+			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKeyAshwalker, 1, ashwalkerEggs, -1);
 
 			//Remove the player so they can join again once they die
-			GhostRoleManager.Instance.ServerRemoveWaitingPlayer(createdRoleKey, player);
+			GhostRoleManager.Instance.ServerRemoveWaitingPlayer(createdRoleKeyAshwalker, player);
 
 			Chat.AddExamineMsg(player.GameObject, "You have been pulled back from beyond the grave, with a new body and renewed purpose. Glory to the Necropolis!");
 
@@ -298,7 +336,7 @@ namespace Objects
 		private void OnDestruction(DestructionInfo info)
 		{
 			Chat.AddActionMsgToChat(gameObject, "As the nest dies, all the eggs explode. There will be no more ashwalkers today!");
-			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
+			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKeyAshwalker);
 		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))

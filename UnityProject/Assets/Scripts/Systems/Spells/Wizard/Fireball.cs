@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using Messages.Server;
-using UnityEngine;
-using Weapons;
+﻿using UnityEngine;
 using Weapons.Projectiles;
 
 namespace Systems.Spells.Wizard

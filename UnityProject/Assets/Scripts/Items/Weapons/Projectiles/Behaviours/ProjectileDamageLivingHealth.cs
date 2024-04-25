@@ -1,4 +1,5 @@
-﻿using HealthV2;
+﻿using System;
+using HealthV2;
 using Logs;
 using ScriptableObjects.Gun;
 using UnityEngine;
@@ -31,6 +32,12 @@ namespace Weapons.Projectiles.Behaviours
 			var coll = hit.CollisionHit.GameObject;
 			if (coll == null) return false;
 
+			if (damageData.Damage <= 0)
+			{
+				HealTarget(coll);
+				return true;
+			}
+
 			//TODO REMOVE AFTER SWITCHING MOBS TO LivingHealthMasterBase or else guns wont kill them
 			var livingHealth = coll.GetComponent<LivingHealthBehaviour>();
 			if (livingHealth != null)
@@ -59,9 +66,14 @@ namespace Weapons.Projectiles.Behaviours
 
 				return true;
 			}
-
-
 			return false;
+		}
+
+		private void HealTarget(GameObject hit)
+		{
+			if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealth) == false) return;
+			livingHealth.HealDamageOnAll(gameObject, Math.Abs(damageData.Damage), damageData.DamageType);
+			livingHealth.HealDamageOnAll(gameObject, Math.Abs(damageData.Damage), DamageType.Burn);
 		}
 
 		private void OnDisable()
