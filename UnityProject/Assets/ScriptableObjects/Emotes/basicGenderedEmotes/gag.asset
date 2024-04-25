@@ -363,6 +363,61 @@ MonoBehaviour:
           m_SubObjectName: 
           m_SubObjectType: 
           m_EditorAssetChanged: 0
+  - VoiceRace: {fileID: 11400000, guid: 5edc24611f99b9440a3e7b467b15a192, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Male/Gag 5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Female/Gag 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Gag/Female/Gag 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
   pitchRange: {x: 0.7, y: 1}
   allowedPlayerTypes: 1
   Behaviors: []

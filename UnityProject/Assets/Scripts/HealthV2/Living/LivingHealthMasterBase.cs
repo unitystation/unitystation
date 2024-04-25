@@ -1566,6 +1566,16 @@ namespace HealthV2
 
 			reagentPoolSystem?.Bleed(reagentPoolSystem.GetTotalBlood());
 
+			if (InitialSpecies != null)
+			{
+				Spawn.ServerPrefab(InitialSpecies.Base.MeatProduce,
+					gameObject.AssumedWorldPosServer(), count: Random.Range(1, 3),
+					scatterRadius: 0.5f);
+				Spawn.ServerPrefab(InitialSpecies.Base.SkinProduce,
+					gameObject.AssumedWorldPosServer(), count: Random.Range(1, 3),
+					scatterRadius: 0.5f);
+			}
+
 			Death();
 			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{

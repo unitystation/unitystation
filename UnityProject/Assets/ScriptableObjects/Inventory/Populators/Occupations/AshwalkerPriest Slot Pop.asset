@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e76afb59ec4485caa0a5cc0f2d142e9, type: 3}
+  m_Name: AshwalkerPriest Slot Pop
+  m_EditorClassIdentifier: 
+  Entries:
+  - DoNotGetFirstEmptySlot: 0
+    Prefab: {fileID: 3921521694364753778, guid: 1509c8b497d057845a003d17c03c1a87,
+      type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 0
+    IfOccupiedFindEmptySlot: 1
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - DoNotGetFirstEmptySlot: 0
+    Prefab: {fileID: 7636118406116123594, guid: 0859c5b6242d14346b836bf79e93ece1,
+      type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 2
+    IfOccupiedFindEmptySlot: 1
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - DoNotGetFirstEmptySlot: 0
+    Prefab: {fileID: 5419257071486252888, guid: d0727f8b7c5003a48aad272219705c5e,
+      type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 7
+    IfOccupiedFindEmptySlot: 1
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - DoNotGetFirstEmptySlot: 0
+    Prefab: {fileID: 320759090315932535, guid: 9ebdd8fb093d8434db3fe4a38f8100c6, type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 8
+    IfOccupiedFindEmptySlot: 1
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  skirtVariant: {fileID: 0}
+  duffelVariant: {fileID: 0}
+  satchelVariant: {fileID: 0}

@@ -352,8 +352,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   Pickupable: {fileID: 0}
   BaseBlurryVision: 0
+  DimLightColour: {r: 1, g: 1, b: 1, a: 0.003921569}
   OnBodyID: 0
   PreventsBlindness: 1
   DefaultPreventsBlindness_: 0
@@ -377,6 +379,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   FlashProtection: {fileID: 11400000, guid: 4f5b7ce1cca0a644cba934af14ea4b2c, type: 2}
   WeldingShieldImplants: 0
   FlashMultiplier: 1

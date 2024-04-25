@@ -11,11 +11,12 @@ namespace Items.Implants.Organs
 		//X-ray, colourblindness, Blindness have issues currentlyZ
 
 		public Pickupable Pickupable;
-
 		public int BaseBlurryVision = 0;
 
 		public RegisterPlayer CurrentlyOn { get; set; }
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
+
+		public Color DimLightColour = new Color(255, 255, 255, 1);
 
 		public bool IsValidSetup(RegisterPlayer player)
 		{
@@ -29,22 +30,12 @@ namespace Items.Implants.Organs
 
 			//Am I also in the organ storage? E.G Part of the body
 			if (RelatedPart.HealthMaster == null) return false;
-
-
-			//Loggy.LogError("IsValidSetup");
 			return true;
 		}
 
 		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
 		{
-			if (ShowForPlayer != null)
-			{
-				OnBodyID = ShowForPlayer.netId;
-			}
-			else
-			{
-				OnBodyID = NetId.Empty;
-			}
+			OnBodyID = ShowForPlayer != null ? ShowForPlayer.netId : NetId.Empty;
 		}
 
 		public override void Awake()
@@ -55,6 +46,17 @@ namespace Items.Implants.Organs
 			UpdateBlurryEye();
 		}
 
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
+		{
+			base.OnAddedToBody(livingHealth);
+			livingHealth.playerScript.DimPlayerLightController.lightColor = DimLightColour;
+		}
+
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		{
+			base.OnRemovedFromBody(livingHealth);
+			livingHealth.playerScript.DimPlayerLightController.ResetToDefault();
+		}
 
 		public void UpdateBlurryEye()
 		{

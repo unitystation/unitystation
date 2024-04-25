@@ -480,6 +480,7 @@ GameObject:
   - component: {fileID: 5323151696653614753}
   - component: {fileID: 6182295504772674896}
   - component: {fileID: 6835177244151955954}
+  - component: {fileID: 6097234027102085964}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -594,6 +595,7 @@ MonoBehaviour:
   PlayerSync: {fileID: 0}
   <PlayerFaith>k__BackingField: {fileID: 6182295504772674896}
   <Particles>k__BackingField: {fileID: 6835177244151955954}
+  <DimPlayerLightController>k__BackingField: {fileID: 0}
   RTT: 0
   playerChatLocation: {fileID: 1133514949248654}
   canVentCrawl: 0
@@ -612,12 +614,36 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6097234027102085964}
+        m_TargetAssemblyTypeName: Player.DimPlayerLightController, Assets
+        m_MethodName: TurnOnLight2D
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   <OnBodyUnPossesedByPlayer>k__BackingField:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8921540409595719048}
         m_TargetAssemblyTypeName: Systems.DynamicAmbience.DynamicReverb, Assets
         m_MethodName: DisableAmbienceForPlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6097234027102085964}
+        m_TargetAssemblyTypeName: Player.DimPlayerLightController, Assets
+        m_MethodName: TurnOffLight2D
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1773,6 +1799,23 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   particleHolder: {fileID: 7986544266158338470}
+--- !u!114 &6097234027102085964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cc46349d8fc49c386066976bb3340ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  light: {fileID: 4196149980577959187}
+  lightColor: {r: 1, g: 1, b: 1, a: 0.003921569}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -13600,7 +13643,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 8165807964432903219, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -14325,6 +14368,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Light2D
       objectReference: {fileID: 0}
+    - target: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -14395,6 +14442,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2b1333de46384f95876864de1911fff, type: 3}
+--- !u!114 &4196149980577959187 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
+    type: 3}
+  m_PrefabInstance: {fileID: 4300145449095171559}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4299649681570296155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4299649681570296155 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff,

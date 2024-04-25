@@ -146,5 +146,29 @@ MonoBehaviour:
           m_SubObjectName: 
           m_SubObjectType: 
           m_EditorAssetChanged: 0
+  - VoiceRace: {fileID: 11400000, guid: 5edc24611f99b9440a3e7b467b15a192, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Giggle/MaleGiggle.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Giggle/FemaleGiggle.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
   pitchRange: {x: 0.7, y: 1}
   allowedPlayerTypes: 1
+  Behaviors: []
+  references:
+    version: 2
+    RefIds: []

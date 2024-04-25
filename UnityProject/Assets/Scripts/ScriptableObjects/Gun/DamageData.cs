@@ -10,7 +10,7 @@ namespace ScriptableObjects.Gun
 	[CreateAssetMenu(fileName = "DamageData", menuName = "ScriptableObjects/Gun/DamageData", order = 0)]
 	public class DamageData : ScriptableObject
 	{
-		[Range(0, 100)]
+		[Range(-100, 100)]
 		[SerializeField] private float damage = 15;
 
 		public float Damage => damage;

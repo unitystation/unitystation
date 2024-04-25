@@ -148,6 +148,7 @@ namespace Systems.Clearance
 		{
 			foreach (var slot in slots)
 			{
+				if (slot == null) continue;
 				if (slot.ItemObject != null && slot.ItemObject.TryGetComponent<IClearanceSource>(out var idObject))
 				{
 					return returnIClearanceSource ? idObject : slot.ItemObject;

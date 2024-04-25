@@ -4,7 +4,6 @@ using Mirror;
 using UnityEngine;
 using Systems.Spells;
 using ScriptableObjects.Systems.Spells;
-using UI.Action;
 using UI.Core.Action;
 using Changeling;
 using Logs;
@@ -108,8 +107,18 @@ namespace Messages.Server
 			{
 				// Action pre-placed on a networked object
 				LoadNetworkObject(msg.NetObject);
-				var actions = NetworkObject.GetComponentsInChildren(DeserializeType(msg.ComponentID));
-				if ((actions.Length > msg.ComponentLocation))
+				var actions = new Component[]{};
+				try
+				{
+					var typeToFind = DeserializeType(msg.ComponentID);
+					actions = NetworkObject.GetComponentsInChildren(typeToFind);
+				}
+				catch (Exception e)
+				{
+					Loggy.LogError($"[SetActionUIMessage] {e}");
+				}
+
+				if (actions.Length > msg.ComponentLocation)
 				{
 					action = (actions[msg.ComponentLocation] as IActionGUI);
 				}

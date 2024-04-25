@@ -475,20 +475,6 @@ public partial class Chat
 
 
 // TODO move all these methods to a proper SpeechModifier SO
-	private static string Hiss(Match m)
-	{
-		string x = m.ToString();
-		if (char.IsLower(x[0]))
-		{
-			x = x + "ss";
-		}
-		else
-		{
-			x = x + "SS";
-		}
-
-		return x;
-	}
 
 	private static string Sing(string m)
 	{
