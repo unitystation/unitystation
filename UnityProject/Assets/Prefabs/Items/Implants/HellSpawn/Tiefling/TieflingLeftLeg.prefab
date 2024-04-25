@@ -66,10 +66,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7011999cadc4fa347881236a512a17ca,
         type: 2}
+    - target: {fileID: 2551905986815168162, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: storage.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: initialName
-      value: lizard left leg
+      value: Tiefing left leg
       objectReference: {fileID: 0}
     - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
@@ -172,7 +177,7 @@ PrefabInstance:
     - target: {fileID: 9074195140769878879, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: foreverID
-      value: 5cfb33daa98005f40ab7166bbbb9994e
+      value: 4UGdhO72CpP?h9d2-qHr
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2848539327214606354, guid: 2e6f2ff9beb985749940d242877d84f0, type: 3}

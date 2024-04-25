@@ -100,6 +100,8 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	[field: SerializeField] public PlayerFaith PlayerFaith { get; private set; }
 	[field: SerializeField] public PlayerParticle Particles { get; private set; }
 
+	[field: SerializeField] public DimPlayerLightController DimPlayerLightController { get; private set; }
+
 	/// <summary>
 	/// Serverside world position.
 	/// Outputs correct world position even if you're hidden (e.g. in a locker)
@@ -200,6 +202,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		MobLanguages = GetComponent<MobLanguages>();
 		PlayerFaith ??= GetComponent<PlayerFaith>();
 		Particles ??= GetComponent<PlayerParticle>();
+		DimPlayerLightController ??= GetComponent<DimPlayerLightController>();
 	}
 
 	public override void OnStartClient()

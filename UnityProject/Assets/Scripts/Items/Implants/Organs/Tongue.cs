@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using HealthV2;
 using Player.Language;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Items.Implants.Organs
@@ -9,10 +10,9 @@ namespace Items.Implants.Organs
 	{
 		private MobLanguages mobLanguages;
 
-		[SerializeField]
-		private List<LanguageSO> languages = new List<LanguageSO>();
-
-		public bool CannotSpeak {get; private set; }
+		[SerializeField] private List<LanguageSO> languages = new List<LanguageSO>();
+		[SerializeField] private ChatModifier speechModifiers = ChatModifier.None;
+		[field: SerializeField] public bool CannotSpeak {get; private set; }
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
@@ -26,7 +26,7 @@ namespace Items.Implants.Organs
 				mobLanguages.LearnLanguage(language, true);
 			}
 			livingHealth.IsMute.RecordPosition(this, CannotSpeak);
-
+			LivingHealthMaster.playerScript.inventorySpeechModifiers |= speechModifiers;
 		}
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
@@ -43,6 +43,7 @@ namespace Items.Implants.Organs
 				//Can no longer speak, but can still understand
 				mobLanguages.RemoveLanguage(language);
 			}
+			LivingHealthMaster.playerScript.inventorySpeechModifiers &= ~speechModifiers;
 		}
 
 		public void SetCannotSpeak(bool inValue)
