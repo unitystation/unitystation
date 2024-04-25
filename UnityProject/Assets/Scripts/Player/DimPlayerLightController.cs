@@ -8,9 +8,8 @@ namespace Player
 	public class DimPlayerLightController : NetworkBehaviour
 	{
 		[SerializeField] private LightSprite light;
-		[SyncVar(hook = nameof(UpdateColor))] public Color lightColor = new Color(255, 255, 255, 1);
+		[SyncVar] public Color lightColor = new Color(255, 255, 255, 1);
 		private Color defaultColor = new Color(255, 255, 255, 1);
-		private PlayerScript player;
 
 		private void Awake()
 		{
@@ -20,25 +19,22 @@ namespace Player
 				return;
 			}
 			defaultColor = light.Color;
-			player = GetComponent<PlayerScript>();
-		}
-
-		public void UpdateColor(Color oldValue, Color newValue)
-		{
-			if (oldValue == newValue) return;
-			lightColor = newValue;
-			RpcSetForPlayerOnly(player.connectionToClient, newValue);
-		}
-
-		[TargetRpc]
-		public void RpcSetForPlayerOnly(NetworkConnection connection, Color color)
-		{
-			light.Color = color;
 		}
 
 		public void UpdateLightLocally()
 		{
 			light.Color = lightColor;
+		}
+
+		public void TurnOffLight2D()
+		{
+			light.SetActive(false);
+		}
+
+		public void TurnOnLight2D()
+		{
+			light.SetActive(true);
+			UpdateLightLocally();
 		}
 
 		public void ResetToDefault()
