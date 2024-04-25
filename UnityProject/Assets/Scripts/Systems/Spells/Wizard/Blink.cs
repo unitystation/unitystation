@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using Systems.Teleport;
+﻿using Systems.Teleport;
 
 namespace Systems.Spells.Wizard
 {
