@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Logs;
+﻿using Logs;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]

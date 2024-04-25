@@ -1,5 +1,4 @@
-﻿using System;
-using Light2D;
+﻿using Light2D;
 using Logs;
 using Mirror;
 using UnityEngine;
@@ -11,6 +10,7 @@ namespace Player
 		[SerializeField] private LightSprite light;
 		[SyncVar(hook = nameof(UpdateColor))] public Color lightColor = new Color(255, 255, 255, 1);
 		private Color defaultColor = new Color(255, 255, 255, 1);
+		private PlayerScript player;
 
 		private void Awake()
 		{
@@ -20,13 +20,25 @@ namespace Player
 				return;
 			}
 			defaultColor = light.Color;
+			player = GetComponent<PlayerScript>();
 		}
 
 		public void UpdateColor(Color oldValue, Color newValue)
 		{
 			if (oldValue == newValue) return;
 			lightColor = newValue;
-			light.Color = newValue;
+			RpcSetForPlayerOnly(player.connectionToClient, newValue);
+		}
+
+		[TargetRpc]
+		public void RpcSetForPlayerOnly(NetworkConnection connection, Color color)
+		{
+			light.Color = color;
+		}
+
+		public void UpdateLightLocally()
+		{
+			light.Color = lightColor;
 		}
 
 		public void ResetToDefault()
