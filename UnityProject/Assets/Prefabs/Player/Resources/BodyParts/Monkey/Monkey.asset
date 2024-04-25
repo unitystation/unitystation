@@ -71,6 +71,13 @@ MonoBehaviour:
         NormalBlood: 500
         bloodReagent: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
         PumpingDevices: []
+        RegenBloodPool:
+          temperature: 273.15
+          reagents:
+            m_keys: []
+            m_values: []
+          reagentKeys: []
+        RegenEfficiency: 0.15
     - rid: 7896866705837654026
       type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
         asm: Assets}
@@ -106,6 +113,7 @@ MonoBehaviour:
         - {fileID: 11400000, guid: b7d0a552223af4d4d9f3eb3217df9183, type: 2}
         - {fileID: 11400000, guid: 2902beb621ef39d42b6f061978844fc3, type: 2}
         - {fileID: 11400000, guid: 13adffb9ac3eeb24fa7ea444c2d4dc1f, type: 2}
+        - {fileID: 11400000, guid: c08bfc7b09a88c34d9be46b34e311204, type: 2}
         MetabolismComponents: []
     - rid: 7896866705837654027
       type: {class: HungerSystem, ns: HealthV2.Living.PolymorphicSystems, asm: Assets}
