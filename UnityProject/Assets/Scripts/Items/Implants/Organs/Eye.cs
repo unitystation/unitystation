@@ -57,7 +57,7 @@ namespace Items.Implants.Organs
 			base.OnRemovedFromBody(livingHealth);
 			livingHealth.playerScript.DimPlayerLightController.ResetToDefault();
 		}
-		
+
 		public void UpdateBlurryEye()
 		{
 			int Calculated = 0;
