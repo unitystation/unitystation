@@ -1237,6 +1237,7 @@ namespace UI.CharacterCreator
 			currentCharacter.ValidateSpeciesCanBePlayerChosen();
 			InitiateFresh(setRace);
 			RefreshRace();
+			randomizeAppearance();
 		}
 
 		private void RefreshRace()
