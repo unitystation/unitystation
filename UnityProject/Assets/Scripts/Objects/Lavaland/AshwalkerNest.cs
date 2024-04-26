@@ -149,7 +149,7 @@ namespace Objects
 				if (creature.InitialSpecies == ashwalkerRaceData || creature.InitialSpecies == tieflingRaceData)
 				{
 					Chat.AddActionMsgToChat(gameObject,
-						$"The nest grumples violently as it first tries snatching up {creature.gameObject.ExpensiveName()}, " +
+						$"The nest grumples violently as it first tries snatching up {creature.playerScript.visibleName}, " +
 						$"but it puts them down as it notices that they're a {creature.InitialSpecies.name}");
 					continue;
 				}
