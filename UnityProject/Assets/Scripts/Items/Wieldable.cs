@@ -14,23 +14,23 @@ namespace Items
 
 	public class Wieldable : NetworkBehaviour, IServerInventoryMove, ICheckedInteractable<HandActivate>
 	{
-		[SerializeField]
-		private int damageUnwielded;
+		[SerializeField] private int damageUnwielded;
 
-		[SerializeField]
-		private int damageWielded;
+		[SerializeField] private int damageWielded;
 
 		public ItemsSprites Wielded = new ItemsSprites();
 		public ItemsSprites Unwielded = new ItemsSprites();
 
-		[SyncVar(hook = nameof(SyncState))]
-		private bool isWielded;
+		[SyncVar(hook = nameof(SyncState))] private bool isWielded;
 
 		private ItemAttributesV2 itemAttributes;
+
+		private Pickupable Pickupable;
 
 		private void Awake()
 		{
 			itemAttributes = GetComponent<ItemAttributesV2>();
+			Pickupable = GetComponent<Pickupable>();
 		}
 
 		private void OnEnable()
@@ -45,13 +45,16 @@ namespace Items
 
 		private void OnSwapHands()
 		{
-			if (isWielded)
-			{
-				Chat.AddExamineMsgFromServer(PlayerManager.LocalPlayerScript.gameObject, $"Your other hand is too busy holding {gameObject.ExpensiveName()}!");
-				HandsController.OnSwapHand.RemoveListener(OnSwapHands);
-				HandsController.SwapHand();
-				HandsController.OnSwapHand.AddListener(OnSwapHands);
-			}
+			if (isWielded == false) return;
+			if (Pickupable.ItemSlot == null) return;
+			if (Pickupable.ItemSlot.NamedSlot is not (NamedSlot.hands or NamedSlot.leftHand or NamedSlot.rightHand)) return;
+			if (Pickupable.ItemSlot.Player != PlayerManager.LocalPlayerScript.RegisterPlayer) return;
+
+			Chat.AddExamineMsg(PlayerManager.LocalPlayerScript.gameObject,
+				$"Your other hand is too busy holding {gameObject.ExpensiveName()}!");
+			HandsController.OnSwapHand.RemoveListener(OnSwapHands);
+			HandsController.SwapHand();
+			HandsController.OnSwapHand.AddListener(OnSwapHands);
 		}
 
 		private void SyncState(bool oldState, bool newState)
@@ -77,14 +80,14 @@ namespace Items
 				isWielded = false;
 				itemAttributes.ServerHitDamage = damageUnwielded;
 				itemAttributes.SetSprites(Unwielded);
-				HideHand( HiddenHandValue.none, info.FromPlayer.PlayerScript);
+				HideHand(HiddenHandValue.none, info.FromPlayer.PlayerScript);
 			}
 			else if (info.InventoryMoveType == InventoryMoveType.Transfer)
 			{
 				isWielded = false;
 				itemAttributes.ServerHitDamage = damageUnwielded;
 				itemAttributes.SetSprites(Unwielded);
-				HideHand( HiddenHandValue.none, info.FromPlayer.PlayerScript);
+				HideHand(HiddenHandValue.none, info.FromPlayer.PlayerScript);
 			}
 		}
 
@@ -138,7 +141,7 @@ namespace Items
 
 				if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.leftHand)
 				{
-					hiddenHandSelection =  HiddenHandValue.leftHand;
+					hiddenHandSelection = HiddenHandValue.leftHand;
 				}
 				else if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.rightHand)
 				{
@@ -154,7 +157,8 @@ namespace Items
 				{
 					itemAttributes.ServerHitDamage = damageWielded;
 					itemAttributes.SetSprites(Wielded);
-					Chat.AddExamineMsgFromServer(interaction.Performer, $"You wield {gameObject.ExpensiveName()} grabbing it with both of your hands.");
+					Chat.AddExamineMsgFromServer(interaction.Performer,
+						$"You wield {gameObject.ExpensiveName()} grabbing it with both of your hands.");
 					HideHand(hiddenHandSelection, interaction.PerformerPlayerScript);
 				}
 				else
@@ -165,7 +169,8 @@ namespace Items
 					HideHand(HiddenHandValue.none, interaction.PerformerPlayerScript);
 				}
 
-				PlayerAppearanceMessage.SendToAll(interaction.Performer, (int)interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), gameObject);
+				PlayerAppearanceMessage.SendToAll(interaction.Performer,
+					(int) interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), gameObject);
 			}
 		}
 	}

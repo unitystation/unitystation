@@ -7,12 +7,15 @@ using HealthV2;
 using Mirror;
 using UnityEngine;
 
-public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
+public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<HandActivate>
 {
 	public ReagentContainer LocalContainer;
 
 	public SpriteHandler SpriteHandler;
 
+	public SpriteHandler PullOrDrawSpriteHandler;
+
+	public SpriteHandler ContentsSpriteHandler;
 
 	public List<SicknessAffliction> SicknessesInSyringe = new List<SicknessAffliction>();
 
@@ -43,6 +46,38 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (SpriteHandler == null)
 		{
 			SpriteHandler = this.GetComponentInChildren<SpriteHandler>();
+		}
+
+		LocalContainer.OnReagentMixChanged.AddListener(ColourContentsChange);
+
+	}
+
+	public void ColourContentsChange()
+	{
+		if (ContentsSpriteHandler == null) return;
+		ContentsSpriteHandler.SetColor(LocalContainer.CurrentReagentMix.MixColor);
+		var Fraction = LocalContainer.ReagentMixTotal / LocalContainer.MaxCapacity;
+
+
+		if (Fraction >= 0.999f)
+		{
+			ContentsSpriteHandler.SetCatalogueIndexSprite(4);
+		}
+		else if (Fraction > 0.65f)
+		{
+			ContentsSpriteHandler.SetCatalogueIndexSprite(3);
+		}
+		else if (Fraction > 0.32f)
+		{
+			ContentsSpriteHandler.SetCatalogueIndexSprite(2);
+		}
+		else if (Fraction > 0.10f)
+		{
+			ContentsSpriteHandler.SetCatalogueIndexSprite(2);
+		}
+		else
+		{
+			ContentsSpriteHandler.SetCatalogueIndexSprite(0);
 		}
 	}
 
@@ -80,7 +115,9 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			if (slot.IsEmpty) continue;
 			time *= armourMultiplier;
 		}
-		Chat.AddCombatMsgToChat(performer.gameObject, $"You try to stick the {this.name} into {healthTarget.gameObject.ExpensiveName()}",
+
+		Chat.AddCombatMsgToChat(performer.gameObject,
+			$"You try to stick the {this.name} into {healthTarget.gameObject.ExpensiveName()}",
 			$"{performer.PlayerScript.visibleName} Tries to stick a {this.name} into {healthTarget.gameObject.ExpensiveName()}");
 
 		StandardProgressAction.Create(injectProgressBar,
@@ -96,14 +133,15 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			if (LHB.reagentPoolSystem != null)
 				LHB.reagentPoolSystem.BloodPool.Add(LocalContainer.TakeReagents(TransferAmount));
 			LocalContainer.ReagentsChanged();
-			Chat.AddCombatMsgToChat(performer.gameObject, $"You Inject The {this.name} into {LHB.gameObject.ExpensiveName()}",
+			Chat.AddCombatMsgToChat(performer.gameObject,
+				$"You Inject The {this.name} into {LHB.gameObject.ExpensiveName()}",
 				$"{performer.PlayerScript.visibleName} injects a {this.name} into {LHB.gameObject.ExpensiveName()}");
-			if(SicknessesInSyringe.Count > 0) LHB.AddSickness(SicknessesInSyringe.PickRandom().Sickness);
+			if (SicknessesInSyringe.Count > 0) LHB.AddSickness(SicknessesInSyringe.PickRandom().Sickness);
 			if (ChangesSprite) SpriteHandler.SetCatalogueIndexSprite(SpiteEmptyIndex);
 
 			if (LocalContainer.ReagentMixTotal == 0)
 			{
-				LocalContainer.SyringePulling = true;
+				SetSyringeState(true);
 			}
 		}
 		else
@@ -114,13 +152,65 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			if (ChangesSprite) SpriteHandler.SetCatalogueIndexSprite(SpiteFullIndex);
 			Chat.AddCombatMsgToChat(performer.gameObject, $"You pull the blood from {LHB.gameObject.ExpensiveName()}",
 				$"{performer.PlayerScript.visibleName} pulls the blood from {LHB.gameObject.ExpensiveName()}");
-			if(LHB.mobSickness.sicknessAfflictions.Count > 0) SicknessesInSyringe.AddRange(LHB.mobSickness.sicknessAfflictions);
+			if (LHB.mobSickness.sicknessAfflictions.Count > 0)
+				SicknessesInSyringe.AddRange(LHB.mobSickness.sicknessAfflictions);
 
 
 			if (LocalContainer.ReagentMixTotal == LocalContainer.MaxCapacity)
 			{
-				LocalContainer.SyringePulling = false;
+				SetSyringeState( false);
 			}
 		}
+	}
+
+	public bool WillInteract(HandActivate interaction, NetworkSide side)
+	{
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+		return true;
+	}
+
+	public void ServerPerformInteraction(HandActivate interaction)
+	{
+		SetSyringeState( !LocalContainer.SyringePulling);
+		if (LocalContainer.IsFull && LocalContainer.SyringePulling)
+		{
+			SetSyringeState(false);
+			Chat.AddExamineMsg(interaction.Performer,
+				$"The {gameObject.ExpensiveName()} Is full, you can't pull any more.");
+			return;
+		}
+
+		if (LocalContainer.IsEmpty && LocalContainer.SyringePulling == false)
+		{
+			SetSyringeState(true);
+			Chat.AddExamineMsg(interaction.Performer,
+				$"The {gameObject.ExpensiveName()} Is empty, there's nothing to inject.");
+			return;
+		}
+
+		var pullstreing = LocalContainer.SyringePulling ? "Pulling mode" : "Injecting mode";
+		Chat.AddExamineMsg(interaction.Performer,
+			$"You change {gameObject.ExpensiveName()} to {pullstreing}.");
+	}
+
+	public void SetSyringeState(bool Draw)
+	{
+		if (Draw)
+		{
+			LocalContainer.SyringePulling = true;
+			if (PullOrDrawSpriteHandler != null)
+			{
+				PullOrDrawSpriteHandler.SetCatalogueIndexSprite(1);
+			}
+		}
+		else
+		{
+			LocalContainer.SyringePulling = false;
+			if (PullOrDrawSpriteHandler != null)
+			{
+				PullOrDrawSpriteHandler.SetCatalogueIndexSprite(0);
+			}
+		}
+
 	}
 }

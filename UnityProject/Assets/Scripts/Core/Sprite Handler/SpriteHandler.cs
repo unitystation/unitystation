@@ -614,6 +614,7 @@ public class SpriteHandler : MonoBehaviour
 		if (Application.isPlaying)
 		{
 			ParentUniversalObjectPhysics = this.transform.parent.OrNull()?.GetComponent<UniversalObjectPhysics>();
+
 			spriteRenderer = GetComponent<SpriteRenderer>();
 			image = GetComponent<Image>();
 			if (image != null)
@@ -790,6 +791,10 @@ public class SpriteHandler : MonoBehaviour
 			OnSpriteChanged[i].Invoke(value);
 		}
 		OnSpriteUpdated?.Invoke();
+		if (CustomNetworkManager.IsHeadless == false)
+		{
+			ParentUniversalObjectPhysics?.pickupable?.Component?.RefreshUISlotImage();
+		}
 	}
 
 	protected virtual bool HasSpriteInImageComponent()

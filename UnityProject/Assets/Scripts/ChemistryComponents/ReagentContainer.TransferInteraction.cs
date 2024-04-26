@@ -22,36 +22,39 @@ namespace Chemistry.Components
 		NoTransfer = 4
 	}
 
-	public partial class ReagentContainer : ICheckedInteractable<HandApply>, //Transfer: active hand <-> object in the world
+	public partial class ReagentContainer :
+		ICheckedInteractable<HandApply>, //Transfer: active hand <-> object in the world
 		ICheckedInteractable<HandActivate>, //Activate to change transfer amount
 		ICheckedInteractable<InventoryApply> //Transfer: active hand <-> other hand
 	{
 		[Header("Transfer settings")]
-
 		[Tooltip("If not empty, another container should have one of this traits to interact")]
 		[FormerlySerializedAs("TraitWhitelist")]
 		[FormerlySerializedAs("AcceptedTraits")]
-		[SerializeField] private List<ItemTrait> traitWhitelist = new List<ItemTrait>();
+		[SerializeField]
+		private List<ItemTrait> traitWhitelist = new List<ItemTrait>();
 
 		[Tooltip("If not empty, only listed reagents can be inside container")]
 		[FormerlySerializedAs("ReagentWhitelist")]
 		[FormerlySerializedAs("AcceptedReagents")]
-		[SerializeField] private List<Reagent> reagentWhitelist = new List<Reagent>();
+		[SerializeField]
+		private List<Reagent> reagentWhitelist = new List<Reagent>();
 
-		[FormerlySerializedAs("TransferMode")]
-		[SerializeField] private TransferMode transferMode = TransferMode.Normal;
+		[FormerlySerializedAs("TransferMode")] [SerializeField]
+		private TransferMode transferMode = TransferMode.Normal;
 
 		[SerializeField] public bool SyringePulling;
 
 		public TransferMode TransferMode => transferMode;
 
-		[FormerlySerializedAs("PossibleTransferAmounts")]
-		[SerializeField] private List<float> possibleTransferAmounts = new List<float>();
+		[FormerlySerializedAs("PossibleTransferAmounts")] [SerializeField]
+		private List<float> possibleTransferAmounts = new List<float>();
 
 		[Range(1, 100)]
 		[FormerlySerializedAs("TransferAmount")]
 		[FormerlySerializedAs("InitialTransferAmount")]
-		[SerializeField] private float transferAmount = 20;
+		[SerializeField]
+		private float transferAmount = 20;
 
 		[SerializeField] private List<AddressableAudioSource> transferSound;
 
@@ -119,7 +122,7 @@ namespace Chemistry.Components
 			if (srcContainer == null || dstContainer == null) return false;
 
 			if (srcContainer.transferMode == TransferMode.NoTransfer
-				|| dstContainer.transferMode == TransferMode.NoTransfer)
+			    || dstContainer.transferMode == TransferMode.NoTransfer)
 			{
 				return false;
 			}
@@ -157,7 +160,8 @@ namespace Chemistry.Components
 				var one = interaction.HandObject.GetComponent<ReagentContainer>();
 				var two = interaction.TargetObject.GetComponent<ReagentContainer>();
 
-				var reagentContainerObjectInteractionScript = interaction.TargetObject.GetComponent<ReagentContainerObjectInteractionScript>();
+				var reagentContainerObjectInteractionScript =
+					interaction.TargetObject.GetComponent<ReagentContainerObjectInteractionScript>();
 
 				if (reagentContainerObjectInteractionScript != null)
 				{
@@ -187,6 +191,7 @@ namespace Chemistry.Components
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
+			if (transferMode == TransferMode.Syringe) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			return possibleTransferAmounts.Count != 0 || transferMode == TransferMode.Syringe;
@@ -194,51 +199,26 @@ namespace Chemistry.Components
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			if (transferMode == TransferMode.Syringe)
+			var currentIndex = possibleTransferAmounts.IndexOf(TransferAmount);
+			if (currentIndex != -1)
 			{
-				SyringePulling = !SyringePulling;
-				if (IsFull && SyringePulling)
-				{
-					SyringePulling = false;
-					Chat.AddExamineMsg(interaction.Performer,
-						$"The {gameObject.ExpensiveName()} Is full, you can't pull any more.");
-					return;
-				}
-
-				if (IsEmpty && SyringePulling == false)
-				{
-					SyringePulling = true;
-					Chat.AddExamineMsg(interaction.Performer,
-						$"The {gameObject.ExpensiveName()} Is empty, there's nothing to inject.");
-					return;
-				}
-
-				var pullstreing = SyringePulling ? "Pulling mode" : "Injecting mode";
-				Chat.AddExamineMsg(interaction.Performer,
-					$"You change {gameObject.ExpensiveName()} to {pullstreing}.");
+				TransferAmount = possibleTransferAmounts.Wrap(currentIndex + 1);
 			}
 			else
 			{
-				var currentIndex = possibleTransferAmounts.IndexOf(TransferAmount);
-				if (currentIndex != -1)
-				{
-					TransferAmount = possibleTransferAmounts.Wrap(currentIndex + 1);
-				}
-				else
-				{
-					TransferAmount = possibleTransferAmounts[0];
-				}
-
-				Chat.AddExamineMsg(interaction.Performer,
-					$"The {gameObject.ExpensiveName()}'s transfer amount is now {TransferAmount} units.");
+				TransferAmount = possibleTransferAmounts[0];
 			}
+
+			Chat.AddExamineMsg(interaction.Performer,
+				$"The {gameObject.ExpensiveName()}'s transfer amount is now {TransferAmount} units.");
 		}
 
 		/// <summary>
 		/// Server side only
 		/// Transfers Reagents between two containers
 		/// </summary>
-		private void ServerTransferInteraction(ReagentContainer objectInHands, ReagentContainer target, GameObject performer)
+		private void ServerTransferInteraction(ReagentContainer objectInHands, ReagentContainer target,
+			GameObject performer)
 		{
 			ReagentContainer transferTo = null;
 			switch (objectInHands.transferMode)
@@ -402,7 +382,7 @@ namespace Chemistry.Components
 			{
 				var transffered = CurrentReagentMix.Take(amount);
 
-				if(updateReactions == true) OnReagentMixChanged?.Invoke();
+				if (updateReactions == true) OnReagentMixChanged?.Invoke();
 
 				transferResult = target.Add(transffered, updateReactions);
 				if (!transferResult.Success)
