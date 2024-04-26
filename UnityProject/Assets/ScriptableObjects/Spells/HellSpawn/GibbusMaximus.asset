@@ -26,14 +26,14 @@ MonoBehaviour:
   PreventBeingControlledBy: 
   DisableOnEvent: 
   isAimable: 1
-  useCustomCursor: 0
-  cursorTexture: {fileID: 0}
+  useCustomCursor: 1
+  cursorTexture: {fileID: 2800000, guid: 49419f465bddca3449f0e806194ba1b1, type: 3}
   cursorOffsetType: 0
   cursorOffset: {x: 0, y: 0}
   spellImplementation: {fileID: 7469762742606550612, guid: cef1589efbcdad64489278278893b3f4,
     type: 3}
   chargeType: 0
-  cooldownTime: 195
+  cooldownTime: 400
   startingCharges: 10
   castSound:
     SetLoadSetting: 0

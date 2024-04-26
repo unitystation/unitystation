@@ -1,18 +1,23 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Systems.Character;
 using Systems.CraftingV2;
 using Systems.GhostRoles;
 using AddressableReferences;
 using HealthV2;
+using Items;
 using Logs;
 using Managers;
+using Mirror;
 using ScriptableObjects;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Objects
 {
-	public class AshwalkerNest : MonoBehaviour, IServerLifecycle, IExaminable
+	public class AshwalkerNest : NetworkBehaviour, IServerLifecycle, IExaminable, IHoverTooltip
 	{
 		[FormerlySerializedAs("ghostRole")] [SerializeField]
 		private GhostRoleData ashwalkerGhostRole = null;
@@ -30,6 +35,9 @@ namespace Objects
 
 		[SerializeField]
 		private AddressableAudioSource consumeSound = null;
+
+		[SerializeField]
+		private ItemTrait edibleTraitForTheNest;
 
 		//Meat cost of new eggs
 		[SerializeField]
@@ -54,19 +62,9 @@ namespace Objects
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
 
-		private static Vector3Int[] directions = new []
-		{
-			new Vector3Int(0, 1, 0),
-			new Vector3Int(1, 1, 0),
-			new Vector3Int(1, 0, 0),
-			new Vector3Int(1, -1, 0),
-			new Vector3Int(0, -1, 0),
-			new Vector3Int(-1, -1, 0),
-			new Vector3Int(-1, 0, 0),
-			new Vector3Int(-1, 1, 0)
-		};
-
 		private bool wasMapped;
+
+		[SyncVar] private long timeSinceLastSearch = DateTime.Now.Ticks;
 
 		#region Life Cycle
 
@@ -103,57 +101,63 @@ namespace Objects
 			if (eatingTimer > 0)
 			{
 				eatingTimer--;
-
 				if (eatingTimer == 5)
 				{
 					Chat.AddActionMsgToChat(gameObject, "The nest reaches out and searches for food.");
 				}
-
 				return;
 			}
 
 			eatingTimer = timeBetweenEating;
-
-			foreach (var direction in directions)
+			if (SearchAndEatupBodies() == false)
 			{
-				//TODO remove once mobs use new health
-				var oldHealth = registerTile.Matrix.Get<LivingHealthBehaviour>
-					(registerTile.LocalPositionServer + direction, ObjectType.Object, true).ToList();
-
-				if (oldHealth.Count > 0)
-				{
-					var mob = oldHealth[0];
-					if(mob.IsDead == false) continue;
-
-					EatMobBody(mob);
-					return;
-				}
-
-				//TODO change ObjectType.Player after old health removed
-				var newHealth = registerTile.Matrix.Get<LivingHealthMasterBase>
-					(registerTile.LocalPositionServer + direction, ObjectType.Player, true).ToList();
-
-				if (newHealth.Count > 0)
-				{
-					var health = newHealth[0];
-					if(health.IsDead == false) continue;
-
-					EatBody(health);
-					return;
-				}
+				Chat.AddActionMsgToChat(gameObject, "The nest gurgles in displeasure, there was no food to eat.");
 			}
 
-			Chat.AddActionMsgToChat(gameObject, "The nest gurgles in displeasure, there was no food to eat.");
+			timeSinceLastSearch = DateTime.Now.Ticks;
 		}
 
-		private void EatMobBody(LivingHealthBehaviour mobHealth)
+		private bool SearchAndEatupBodies()
 		{
-			mobHealth.Harvest();
-			IncreaseMeat();
+			// LivingHealthBehavior is obselte, don't search for it pls. Only search for MasterBase.
+			var creatures = MatrixManager.GetAdjacent<LivingHealthMasterBase>(gameObject.AssumedWorldPosServer().CutToInt(), true);
+			var organs = MatrixManager.GetAdjacent<ItemAttributesV2>(gameObject.AssumedWorldPosServer().CutToInt(), true);
+			bool ate = false;
+			string smallMeatMsg = $"Serrated tendrils eagerly pull nearby food from the {gameObject.ExpensiveName()}";
+			bool willBeSatisifed = DMMath.Prob(5);
+			if (willBeSatisifed is false) smallMeatMsg += ", but its hunger is never satiated.";
 
-			Chat.AddActionMsgToChat(gameObject, $"Serrated tendrils eagerly pull {mobHealth.gameObject.ExpensiveName()} to " +
-												$"the {gameObject.ExpensiveName()}, tearing the body apart as its blood seeps over the eggs.");
+			//(Max): HEY THERE, IF YOU ARE TRYING TO UPDATE THIS TO BALANCE OUT HOW THE NEST GENERATES 1-3 MORE MEAT PRODUCE AFTER GIBBING A PLAYER
+			//DO NOT CHANGE IT. THERE IS ANOTHER BALANCE UPDATE ALREADY IN THE WORKS FOR MEAT LIFECYCLES AND IT WILL BE PUSHED IN THE FORGE PR.
+			//LEAVE THIS AS IS FOR THE TIME BEING!!
+			foreach (var item in organs)
+			{
+				if (item!= null && item.GetTraits().Contains(edibleTraitForTheNest) == false) continue;
+				_ = Despawn.ServerSingle(item.gameObject);
+				ate = true;
+			}
 
+			if (ate)
+			{
+				Chat.AddActionMsgToChat(gameObject, smallMeatMsg);
+				if (willBeSatisifed) IncreaseMeat();
+			}
+
+			foreach (var creature in creatures)
+			{
+				if (creature.IsDead == false) continue;
+				if (creature.InitialSpecies == ashwalkerRaceData || creature.InitialSpecies == tieflingRaceData)
+				{
+					Chat.AddActionMsgToChat(gameObject,
+						$"The nest grumples violently as it first tries snatching up {creature.gameObject.ExpensiveName()}, " +
+						$"but it puts them down as it notices that they're a {creature.InitialSpecies.name}");
+					continue;
+				}
+				EatBody(creature);
+				ate = true;
+			}
+
+			return ate;
 		}
 
 		private void EatBody(LivingHealthMasterBase healthMasterBase)
@@ -174,7 +178,6 @@ namespace Objects
 			}
 
 			healthMasterBase.OnGib();
-
 			Chat.AddActionMsgToChat(gameObject, $"Serrated tendrils eagerly pull {healthMasterBase.gameObject.ExpensiveName()} to " +
 												$"the {gameObject.ExpensiveName()}, tearing the body apart as its blood seeps over the eggs.");
 
@@ -341,7 +344,41 @@ namespace Objects
 
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
-			return $"There {(ashwalkerEggs == 1 ? "is" : "are")} {ashwalkerEggs} egg{(ashwalkerEggs == 1 ? "" : "s")} in the nest.";
+			var msg = $"There {(ashwalkerEggs == 1 ? "is" : "are")} {ashwalkerEggs} egg{(ashwalkerEggs == 1 ? "" : "s")} in the nest.";
+			long currentTimeTicks = DateTime.Now.Ticks;
+			long elapsedTicks = currentTimeTicks - timeSinceLastSearch;
+			double elapsedSeconds = (double)elapsedTicks / TimeSpan.TicksPerSecond;
+			msg += "\n\n" + $"it's been {elapsedSeconds} seconds since its last meal.";
+			return msg;
+		}
+
+		public string HoverTip()
+		{
+			return Examine();
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			List<TextColor> textColors = new List<TextColor>
+			{
+				new TextColor() {Text = "Leave dead bodies or uncooked meat near the nest to feed it.", Color = Color.red}
+			};
+			return textColors;
 		}
 	}
 }
