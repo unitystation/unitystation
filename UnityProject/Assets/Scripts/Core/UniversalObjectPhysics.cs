@@ -21,6 +21,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using Util;
+using Util.Independent.FluentRichText;
 using Random = UnityEngine.Random;
 
 public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegisterTileInitialised
@@ -530,11 +531,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (newParent.OrNull()?.gameObject == this.gameObject)
 		{
 			Chat.AddGameWideSystemMsgToChat(
-				" Something doesn't feel right? **BBBBBBBBBBBBBOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMEMMEEEEE** ");
+				$"Anomoly Detected.. {gameObject.ExpensiveName()} has attempted to store itself within itself".Color(Color.red));
 			Loggy.LogError("Tried to store object within itself");
 			return; //Storing something inside of itself what?
 		}
-
 
 		PullSet(null, false); //Presume you can't Pulling stuff inside container
 		//TODO Handle non-disappearing containers like Cart riding
