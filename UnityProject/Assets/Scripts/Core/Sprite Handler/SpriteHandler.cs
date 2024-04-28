@@ -5,12 +5,10 @@ using Logs;
 using UnityEngine;
 using Mirror;
 using SecureStuff;
-using UnityEngine.Events;
 using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 #endif
 using UnityEngine.UI;
 
@@ -18,7 +16,7 @@ using UnityEngine.UI;
 ///	<summary>
 ///	for Handling sprite animations
 ///	</summary>
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 public class SpriteHandler : MonoBehaviour
 {
 	[SerializeField] public bool NetworkThis = true;
@@ -129,6 +127,15 @@ public class SpriteHandler : MonoBehaviour
 			}
 
 			return null;
+		}
+	}
+
+	private void OnBeforeSerialize()
+	{
+		if (PresentSpriteSet != null && PresentSpriteSet.Variance.Count > 0)
+		{
+			animationIndex = 0;
+			PushTexture(false);
 		}
 	}
 
