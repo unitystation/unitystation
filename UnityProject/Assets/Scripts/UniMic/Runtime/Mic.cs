@@ -129,6 +129,11 @@ namespace Adrenak.UniMic {
                 CurrentDeviceIndex = 0;
         }
 
+        public void OnDestroy()
+        {
+	        StopRecording();
+        }
+
         /// <summary>
         /// Sets a Mic device for Recording
         /// </summary>

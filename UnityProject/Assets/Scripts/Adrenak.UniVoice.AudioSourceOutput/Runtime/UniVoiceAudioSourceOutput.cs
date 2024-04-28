@@ -169,6 +169,7 @@ namespace Adrenak.UniVoice.AudioSourceOutput {
         /// Disposes the instance by deleting the GameObject of the component.
         /// </summary>
         public void Dispose() {
+	        if (this == null) return;
             Destroy(gameObject);
         }
 
