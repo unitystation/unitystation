@@ -3,6 +3,7 @@ using Logs;
 using MiniGames;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using MiniGames.MiniGameModules;
 
 namespace Objects.Closets
 {
@@ -12,6 +13,7 @@ namespace Objects.Closets
 		[SerializeField] private MiniGameResultTracker miniGameTracker;
 		[SerializeField] private List<MiniGameModule> miniGameModules;
 		[SerializeField] private ClosetControl control;
+		[SerializeField] private HasNetworkTab netTab = null;
 
 		private int currentMiniGameIndex = -1;
 
@@ -37,6 +39,9 @@ namespace Objects.Closets
 			}
 
 			currentMiniGameIndex = Random.Range(0, miniGameModules.Count - 1);
+
+			if(miniGameModules[currentMiniGameIndex] as ReflectionGolfModule != null) netTab.NetTabType = NetTabType.ReflectionGolf;
+
 			miniGameModules[currentMiniGameIndex].Setup(miniGameTracker, gameObject);
 			control.SetLock(ClosetControl.Lock.Locked);
 		}
