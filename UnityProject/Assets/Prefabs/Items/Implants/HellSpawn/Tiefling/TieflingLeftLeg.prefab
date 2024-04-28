@@ -50,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
+      propertyPath: SelfArmor.TemperatureProtectionInK.x
+      value: 248.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
       propertyPath: SelfArmor.TemperatureProtectionInK.y
       value: 800
       objectReference: {fileID: 0}
@@ -57,6 +62,16 @@ PrefabInstance:
         type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.TemperatureProtectionInK.x
+      value: 248.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.TemperatureProtectionInK.y
+      value: 800
       objectReference: {fileID: 0}
     - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
