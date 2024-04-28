@@ -366,24 +366,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	public string Examine(Vector3 worldPos)
 	{
-		string str = "";
-		if (integrity < 0.2f * initialIntegrity)
-		{
-			str = "it's falling apart";
-		}
-		else if (integrity < 0.4f * initialIntegrity)
-		{
-			str = "It appears very badly damaged.";
-		}
-		else if (integrity < 0.6f * initialIntegrity)
-		{
-			str = "It appears substantially damaged.";
-		}
-		else if (integrity < 0.8f * initialIntegrity)
-		{
-			str = "It appears damaged.";
-		}
-		return str;
+		return GetDamageDesc();
 	}
 
 	[Server]
@@ -467,9 +450,9 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		BeingDestroyed = null;
 	}
 
-	public string HoverTip()
+	public string GetDamageDesc()
 	{
-		string damageDesc = "Integrity: " + PercentageDamaged switch
+		return "Integrity: " + PercentageDamaged switch
 		{
 			< 10 => "Crumbling".Color(Color.red),
 			< 30 => "Heavily Damaged".Color(Color.red),
@@ -480,7 +463,11 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			>= 100 => "In Perfect Condition".Color(Color.green),
 			_ => "Unknown Condition"
 		};
-		return damageDesc;
+	}
+
+	public string HoverTip()
+	{
+		return GetDamageDesc();
 	}
 
 	public string CustomTitle()
