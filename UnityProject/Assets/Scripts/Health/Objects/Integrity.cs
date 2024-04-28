@@ -4,18 +4,17 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Profiling;
 using Mirror;
-using Core.Editor.Attributes;
 using AddressableReferences;
 using AdminCommands;
-using DatabaseAPI;
 using Effects.Overlays;
-using InGameEvents;
 using Logs;
 using Messages.Client.DevSpawner;
 using ScriptableObjects;
 using Systems.Atmospherics;
 using Systems.Explosions;
 using Systems.Interaction;
+using UI.Systems.Tooltips.HoverTooltips;
+using Util.Independent.FluentRichText;
 
 
 /// <summary>
@@ -28,7 +27,7 @@ using Systems.Interaction;
 /// </summary>
 ///
 [RequireComponent(typeof(RegisterTile))]
-public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IServerSpawn, IExaminable, IServerDespawn
+public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IServerSpawn, IExaminable, IServerDespawn, IHoverTooltip
 {
 
 	/// <summary>
@@ -132,7 +131,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	private static readonly float BURN_RATE = 1f;
 
-	public float integrity { get; private set; } = 100f;
+	[field: SyncVar] public float integrity { get; private set; } = 100f;
 	private bool destroyed = false;
 	private DamageType lastDamageType;
 	private RegisterTile registerTile;
@@ -143,7 +142,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public Meleeable Meleeable => meleeable;
 
 	//The current integrity divided by the initial integrity
-	public float PercentageDamaged => integrity.Approx(0) ? 0 : integrity / initialIntegrity;
+	public float PercentageDamaged => integrity.Approx(0) ? 0 : integrity / initialIntegrity * 100f;
 
 	//whether this is a large object (meaning we would use the large ash pile and large burning sprite)
 	private bool isLarge;
@@ -466,6 +465,42 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	{
 		BeingDestroyed?.Invoke();
 		BeingDestroyed = null;
+	}
+
+	public string HoverTip()
+	{
+		string damageDesc = PercentageDamaged switch
+		{
+			< 10 => "Crumbling".Color(Color.red),
+			< 30 => "Heavily Damaged".Color(Color.red),
+			< 40 => "Significantly Damaged".Color(Color.yellow),
+			< 60 => "Worn out Condition".Color(Color.yellow),
+			< 80 => "Slightly Damaged".Color(Color.green),
+			< 95 => "Scratched Condition".Color(Color.green),
+			>= 100 => "In Perfect Condition".Color(Color.green),
+			_ => "Unknown Condition"
+		};
+		return damageDesc;
+	}
+
+	public string CustomTitle()
+	{
+		return null;
+	}
+
+	public Sprite CustomIcon()
+	{
+		return null;
+	}
+
+	public List<Sprite> IconIndicators()
+	{
+		return null;
+	}
+
+	public List<TextColor> InteractionsStrings()
+	{
+		return null;
 	}
 }
 
