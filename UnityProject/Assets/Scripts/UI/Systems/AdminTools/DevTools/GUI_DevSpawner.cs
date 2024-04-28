@@ -116,9 +116,9 @@ public class GUI_DevSpawner : MonoBehaviour
 	    }
     }
 
-    public void Search()
+    public void Search(string SearchOverride = null)
     {
-	    if (searchBox.text.Length < minCharactersForSearch) return;
+	    if (string.IsNullOrWhiteSpace(SearchOverride) && searchBox.text.Length < minCharactersForSearch) return;
 
 		// delete previous results
 	    foreach (Transform child in contentPanel.transform)
@@ -126,7 +126,15 @@ public class GUI_DevSpawner : MonoBehaviour
 		    Destroy(child.gameObject);
 	    }
 
-	    var docs = spawnerSearch.Search(searchBox.text, DEBUGToggle.isOn);
+	    string StringSearch = searchBox.text;
+
+	    if (string.IsNullOrWhiteSpace(SearchOverride) == false)
+	    {
+		    StringSearch = SearchOverride;
+		    searchBox.text = SearchOverride;
+	    }
+
+	    var docs = spawnerSearch.Search(StringSearch, DEBUGToggle.isOn);
 
 	    // display new results
 	    foreach (var doc in docs)
