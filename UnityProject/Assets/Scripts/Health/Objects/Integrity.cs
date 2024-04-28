@@ -469,7 +469,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	public string HoverTip()
 	{
-		string damageDesc = "Health: " + PercentageDamaged switch
+		string damageDesc = "Integrity: " + PercentageDamaged switch
 		{
 			< 10 => "Crumbling".Color(Color.red),
 			< 30 => "Heavily Damaged".Color(Color.red),
