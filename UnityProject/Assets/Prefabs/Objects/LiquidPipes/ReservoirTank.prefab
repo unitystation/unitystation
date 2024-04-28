@@ -49,6 +49,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -92,6 +94,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: parentID
+      value: ebb08cf966efc084aa918bd8d9429604
+      objectReference: {fileID: 0}
     - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: foreverID
@@ -254,6 +261,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 760629e1bcc68d1418af70ac721a5761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   spritehandler: {fileID: 0}
   SpawnOnDeconstruct: {fileID: 0}
   registerTile: {fileID: 0}
@@ -283,6 +293,7 @@ MonoBehaviour:
         flagLogic: 0
     CustomLogic: 0
     NetCompatible: 0
+    SelfSufficient: 0
     mixAndVolume:
       mix:
         temperature: 273.15
@@ -313,7 +324,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ReactionSounds: 1
   maxCapacity: 1000
+  DEBUGReagent: {fileID: 0}
+  DEBUGAmount: 0
   reactionSet: {fileID: 0}
   AdditionalReactions: []
   initialReagentMix:

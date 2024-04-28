@@ -233,6 +233,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5232716269704749941, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
+      propertyPath: parentID
+      value: 1162a9966a460f940a18b4d183b04c30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5232716269704749941, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
       propertyPath: foreverID
       value: da2b6aaaa6bb94f4f963d5193aa2e1a8
       objectReference: {fileID: 0}
@@ -266,4 +271,5 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   WattsConsumption: 0.25

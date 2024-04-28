@@ -42,6 +42,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 864991872856124446, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
+      propertyPath: parentID
+      value: 6a1a4888888e8994187da2ccb8d6f1c2
+      objectReference: {fileID: 0}
+    - target: {fileID: 864991872856124446, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
       propertyPath: foreverID
       value: 51326f2264a075148a8aaa6bf95604c7
       objectReference: {fileID: 0}
@@ -426,6 +431,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   walkingSpeed: 1.5
   runningSpeed: 3
   legEfficiency: 1

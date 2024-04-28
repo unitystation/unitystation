@@ -112,9 +112,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &3777985596206283457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,9 +238,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &3296440861055232477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,6 +356,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: parentID
+      value: b69bfc56f39849d4ba9139d2d51bedb6
       objectReference: {fileID: 0}
     - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -610,6 +609,7 @@ MonoBehaviour:
   CurrentDirection: 3
   SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &7882156339634519424

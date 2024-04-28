@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3784158830486218459, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
+      propertyPath: parentID
+      value: 221b6b5f05c64124cb6bab0dbfc5f103
+      objectReference: {fileID: 0}
+    - target: {fileID: 3784158830486218459, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
       propertyPath: foreverID
       value: N!yRuKNuwOSZb-U8jMo2
       objectReference: {fileID: 0}
@@ -135,6 +140,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   <CurrentActiveStates>k__BackingField: []
   <MobStates>k__BackingField: []
   thinkingState: {fileID: 6222196209030829027}
@@ -156,6 +162,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   <Blacklist>k__BackingField: []
   <UpdateType>k__BackingField: 3
   <PeriodicUpdateInterval>k__BackingField: 1
@@ -193,6 +200,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   <Blacklist>k__BackingField: []
   <UpdateType>k__BackingField: 3
   <PeriodicUpdateInterval>k__BackingField: 0.35
@@ -230,6 +238,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   <Blacklist>k__BackingField: []
   <UpdateType>k__BackingField: 3
   <PeriodicUpdateInterval>k__BackingField: 0.75

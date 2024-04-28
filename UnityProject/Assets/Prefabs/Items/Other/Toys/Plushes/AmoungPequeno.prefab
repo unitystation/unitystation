@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -105,9 +107,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &9038798021405102749
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -288,6 +287,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9e8114d4dc7f1344f88877199349fa1b,
         type: 2}
+    - target: {fileID: 6590914017311023056, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: parentID
+      value: 75421751b31ee7f49b1adb8b70cd2375
+      objectReference: {fileID: 0}
     - target: {fileID: 6590914017311023056, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
       propertyPath: foreverID

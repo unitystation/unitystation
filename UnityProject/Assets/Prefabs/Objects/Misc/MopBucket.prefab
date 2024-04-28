@@ -49,6 +49,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -123,6 +125,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d39b222e9773a7044b5fbd38612e11eb,
         type: 2}
+    - target: {fileID: 4848496751115757459, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: parentID
+      value: a7af28adb717b4c44b8b2002b27670bd
+      objectReference: {fileID: 0}
     - target: {fileID: 4848496751115757459, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: foreverID
@@ -255,7 +262,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ReactionSounds: 1
   maxCapacity: 100
+  DEBUGReagent: {fileID: 0}
+  DEBUGAmount: 0
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   AdditionalReactions: []
   initialReagentMix:

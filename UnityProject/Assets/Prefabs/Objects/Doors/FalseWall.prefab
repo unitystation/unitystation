@@ -55,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4848496751115757459, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
+      propertyPath: parentID
+      value: a7af28adb717b4c44b8b2002b27670bd
+      objectReference: {fileID: 0}
+    - target: {fileID: 4848496751115757459, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
       propertyPath: foreverID
       value: e3fb07aeead92a74091216ef8df2c338
       objectReference: {fileID: 0}
@@ -233,6 +238,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  LiesFlat3D: 0
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 4061496330317937190}
   OneDirectionRestricted: 0
@@ -291,6 +297,7 @@ MonoBehaviour:
   enablePressureWarning: 0
   DoorPressureSpriteOffset: 25
   openingDirection: 0
+  <CanRelink>k__BackingField: 1
   BlockAutoClose: 0
   conType: 0
 --- !u!114 &5759204677302852279

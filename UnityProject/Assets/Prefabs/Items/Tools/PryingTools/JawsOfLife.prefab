@@ -38,6 +38,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
+      propertyPath: parentID
+      value: c9c58a9243d494537abcb4ee470efab0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
       propertyPath: foreverID
       value: 5288f8108626e2ff1aab9bd925ff1346
       objectReference: {fileID: 0}
@@ -346,6 +351,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  SetClothingSprite: 0
   initialStateIndex: 0
   states:
   - ExamineMessage: It is in prying mode.
@@ -370,6 +376,7 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+    clothingV2Index: 0
   - ExamineMessage: It is in cutting mode.
     changeMessage: You flick the Jaws of Life into cutting mode.
     changeSound:
@@ -391,3 +398,4 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+    clothingV2Index: 0

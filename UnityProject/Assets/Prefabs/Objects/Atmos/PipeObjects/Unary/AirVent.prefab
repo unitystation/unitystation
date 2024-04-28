@@ -81,6 +81,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2494681440875532984, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
+      propertyPath: parentID
+      value: 3937c48f98f9cd043babc5471ee77682
+      objectReference: {fileID: 0}
+    - target: {fileID: 2494681440875532984, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
       propertyPath: foreverID
       value: 0d553281bdfc0fd438b3f6c7db58688c
       objectReference: {fileID: 0}
@@ -272,6 +277,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49a3b980b33b4f6c945ab7c474875ab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   spritehandler: {fileID: 7490970043693980291}
   SpawnOnDeconstruct: {fileID: 8262118501024523374, guid: fdfe12eb6d2828d489777c6274a9d214,
     type: 3}
@@ -302,6 +310,7 @@ MonoBehaviour:
         flagLogic: 0
     CustomLogic: 0
     NetCompatible: 0
+    SelfSufficient: 0
     mixAndVolume:
       mix:
         temperature: 273.15
@@ -342,6 +351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Controller: {fileID: 0}
+  <CanRelink>k__BackingField: 1
 --- !u!114 &6735167719794446353 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7868529330565958841, guid: 3937c48f98f9cd043babc5471ee77682,

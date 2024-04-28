@@ -25,6 +25,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: parentID
+      value: ebb08cf966efc084aa918bd8d9429604
+      objectReference: {fileID: 0}
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: foreverID
       value: a96bbdda86a78074aaff58c8aff59a57
       objectReference: {fileID: 0}
@@ -272,7 +277,9 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &2422405172845915658
@@ -317,6 +324,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  GasSO: {fileID: 0}
   StoredGasMix:
     GasData:
       GasesArray:
@@ -330,6 +338,7 @@ MonoBehaviour:
   MaximumMoles: 1013.25
   ReleasePressure: 101.325
   CargoSealApproved: 0
+  explodeOnTooMuchDamage: 1
 --- !u!114 &5627962479411611065
 MonoBehaviour:
   m_ObjectHideFlags: 0

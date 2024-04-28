@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1852917357894011755, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
+      propertyPath: parentID
+      value: 5d7892c86699e21499ad5f872fd4d512
+      objectReference: {fileID: 0}
+    - target: {fileID: 1852917357894011755, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
       propertyPath: foreverID
       value: bde2e04457efae9448181975599790a5
       objectReference: {fileID: 0}
@@ -275,6 +280,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  GasSO: {fileID: 0}
   StoredGasMix:
     GasData:
       GasesArray: []
@@ -284,6 +290,7 @@ MonoBehaviour:
   MaximumMoles: 0
   ReleasePressure: 101.325
   CargoSealApproved: 0
+  explodeOnTooMuchDamage: 1
 --- !u!114 &5584791139615377314
 MonoBehaviour:
   m_ObjectHideFlags: 0

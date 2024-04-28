@@ -88,6 +88,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: parentID
+      value: a7abba22164ce49f0bf9b9b219f39298
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: foreverID
       value: 2f8bae18744e3a04589e3ec4ab5c2ae6
       objectReference: {fileID: 0}
@@ -124,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetTabType: 33
   requiresAltClick: 0
+  disabled: 0
 --- !u!114 &5015597723611310450
 MonoBehaviour:
   m_ObjectHideFlags: 0

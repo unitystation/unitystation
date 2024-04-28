@@ -96,6 +96,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4449915910089425125, guid: 422afccc119081a4fa895bc72e8ecd78,
         type: 3}
+      propertyPath: parentID
+      value: 422afccc119081a4fa895bc72e8ecd78
+      objectReference: {fileID: 0}
+    - target: {fileID: 4449915910089425125, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
       propertyPath: foreverID
       value: b670446c2e73a094aa965de9e3a5da59
       objectReference: {fileID: 0}
@@ -183,6 +188,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  LiesFlat3D: 0
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 8506050267606806406}
   AtmosPassable: 1

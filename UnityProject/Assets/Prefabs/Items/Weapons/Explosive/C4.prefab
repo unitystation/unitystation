@@ -107,6 +107,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
+  LiesFlat3D: 0
   prefabTracker: {fileID: 4995588745208452066}
   CurrentsortingGroup: {fileID: -7063633880587810702}
 --- !u!114 &4995588745208452066
@@ -121,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4629d03e356d64eb509d18a7450082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentID: root
   foreverID: Ba1MYhuJ@eQ4Pdz!Ukd$
   <AlternativePrefabName>k__BackingField: 
   <CanBeSpawnedByAdmin>k__BackingField: 1
@@ -139,6 +141,12 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDestruction:
+    m_PersistentCalls:
+      m_Calls: []
   initialIntegrity: 100
   soundOnHit:
     SetLoadSetting: 0
@@ -201,11 +209,12 @@ MonoBehaviour:
   exportName: C4
   exportMessage: Time to oga some bogas.
   noMouseHighlight: 0
-  initialSize: 1
   initialTraits:
   - {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260, type: 2}
   - {fileID: 11400000, guid: ad341a2eb0870e54b97a56ae508f6622, type: 2}
+  initialSize: 1
   hitDamage: 0
+  ShowHitDamage: 1
   damageType: 0
   throwDamage: 0
   traumaDamageChance: 0
@@ -323,6 +332,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetTabType: 46
   requiresAltClick: 0
+  disabled: 0
 --- !u!114 &8773347140368194127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,6 +348,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  scaleTransform: {x: 1, y: 1, z: 1}
 --- !u!114 &-7206360654378008403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,12 +373,14 @@ MonoBehaviour:
   slideTime: 0
   spinMagnitude: 0
   thrownBy: {fileID: 0}
+  thrownProtection: {fileID: 0}
   aim: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
   ChangesDirectionPush: 0
   Intangible: 0
+  MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
   DEBUG: 0
@@ -376,7 +389,6 @@ MonoBehaviour:
   isNotPushable: 0
   CanBeWindPushed: 1
   rotationTarget: {fileID: 0}
-  FramePushDecision: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -392,6 +404,7 @@ MonoBehaviour:
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  TimeSpentFlying: 0
   BuckledToObject: {fileID: 0}
 --- !u!1 &3204498178074362964
 GameObject:
@@ -450,9 +463,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!212 &1244029867708952306
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -470,6 +480,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

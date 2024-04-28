@@ -107,9 +107,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &6600481263806310036
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -272,6 +269,11 @@ PrefabInstance:
         type: 3}
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 8304884034944477691, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
+        type: 3}
+      propertyPath: parentID
+      value: 0a7ba29086818cf4a8010f3b2743a7ac
       objectReference: {fileID: 0}
     - target: {fileID: 8304884034944477691, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
         type: 3}

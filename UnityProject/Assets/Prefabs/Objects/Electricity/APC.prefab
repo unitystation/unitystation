@@ -112,9 +112,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &3917532995848785121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,6 +149,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingLayerID
       value: -1618464505
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548266987274834536, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: parentID
+      value: f9025da3beb40304cb15babfc0a6cafa
       objectReference: {fileID: 0}
     - target: {fileID: 1548266987274834536, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}

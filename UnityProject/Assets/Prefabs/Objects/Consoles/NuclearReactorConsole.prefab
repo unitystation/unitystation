@@ -475,6 +475,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
+      propertyPath: parentID
+      value: b46887a995abc224aab70e21b9e53697
+      objectReference: {fileID: 0}
+    - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
       propertyPath: foreverID
       value: b64a5d579b668bf4bb49fcad64b80b6a
       objectReference: {fileID: 0}
@@ -838,3 +843,4 @@ MonoBehaviour:
   minimumDamageBeforeObfuscation: 12
   ReactorChambers: {fileID: 0}
   chatAnnouncementCheckTime: 8
+  <CanRelink>k__BackingField: 1

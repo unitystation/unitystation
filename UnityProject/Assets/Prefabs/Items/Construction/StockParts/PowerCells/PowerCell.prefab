@@ -109,9 +109,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &2685493019566052597
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -295,6 +292,11 @@ PrefabInstance:
         type: 3}
       propertyPath: relatedRecipes.Array.data[1].ingredientIndex
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8278144391334123708, guid: 792079a5e2a75f94fab3174a3bcd7033,
+        type: 3}
+      propertyPath: parentID
+      value: 792079a5e2a75f94fab3174a3bcd7033
       objectReference: {fileID: 0}
     - target: {fileID: 8278144391334123708, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}

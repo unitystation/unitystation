@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -105,9 +107,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 1
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &8248558368109462878
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -161,6 +160,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialVariantIndex
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4848496751115757459, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: parentID
+      value: a7af28adb717b4c44b8b2002b27670bd
       objectReference: {fileID: 0}
     - target: {fileID: 4848496751115757459, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -347,7 +351,9 @@ MonoBehaviour:
   ChangeSprites: 1
   isChangingSO: 0
   CurrentDirection: 3
+  SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &7087012579486443808
@@ -362,7 +368,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7a784e759cd4d83a10d616f9999dbf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ReactionSounds: 1
   maxCapacity: 100
+  DEBUGReagent: {fileID: 0}
+  DEBUGAmount: 0
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   AdditionalReactions: []
   initialReagentMix:

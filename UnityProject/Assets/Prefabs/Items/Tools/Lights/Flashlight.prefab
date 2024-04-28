@@ -70,6 +70,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -134,6 +136,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0fd4ea174187a4e4888448d901247f42,
         type: 2}
+    - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: parentID
+      value: c9c58a9243d494537abcb4ee470efab0
+      objectReference: {fileID: 0}
     - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: foreverID
@@ -524,6 +531,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   actionData: {fileID: 11400000, guid: 9cf6b1b6994732d4cb5f023e0cefaf19, type: 2}
   allowedSlots: -1
   useSpriteHandler: 1
@@ -582,6 +590,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 3320711171919508498}
   IsOn: 0

@@ -251,6 +251,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9196119485141273601, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
+      propertyPath: parentID
+      value: 8e4c205a853b5d44bb1b793530feaefe
+      objectReference: {fileID: 0}
+    - target: {fileID: 9196119485141273601, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
       propertyPath: foreverID
       value: 17045812469b8c649babb925c6965066
       objectReference: {fileID: 0}
@@ -285,6 +290,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aeab22facc7c0949914afac2a41267f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   spritehandler: {fileID: 5639939868946462848}
   SpawnOnDeconstruct: {fileID: 0}
   registerTile: {fileID: 8415061280567833106}
@@ -314,6 +322,7 @@ MonoBehaviour:
         flagLogic: 0
     CustomLogic: 0
     NetCompatible: 0
+    SelfSufficient: 0
     mixAndVolume:
       mix:
         temperature: 273.15
@@ -357,6 +366,7 @@ MonoBehaviour:
   CurrentDirection: 1
   SynchroniseCurrentDirection: 1
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
   IsAtmosphericDevice: 1
   doNotResetOtherSpriteOptions: 0
 --- !u!210 &2511276323556255466 stripped

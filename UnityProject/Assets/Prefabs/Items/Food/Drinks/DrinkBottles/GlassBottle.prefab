@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -105,9 +107,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &7806547096474758670
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,6 +157,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -213,9 +214,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &5231688345591793492
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -230,6 +228,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d8d507b6f2e885047b2f4132c36db182,
         type: 2}
+    - target: {fileID: 962286876995267014, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: parentID
+      value: f1a38b78ce2ca024a92744e263e5e94a
+      objectReference: {fileID: 0}
     - target: {fileID: 962286876995267014, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: foreverID

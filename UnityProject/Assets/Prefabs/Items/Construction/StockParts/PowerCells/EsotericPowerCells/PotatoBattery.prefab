@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -107,9 +109,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &157762337711357078
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -218,6 +217,11 @@ PrefabInstance:
         type: 3}
       propertyPath: MaxWatts
       value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315500071468813385, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      propertyPath: parentID
+      value: a910878bd30ff5d439b94cd12e623762
       objectReference: {fileID: 0}
     - target: {fileID: 6315500071468813385, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}

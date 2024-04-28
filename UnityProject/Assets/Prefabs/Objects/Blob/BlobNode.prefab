@@ -50,6 +50,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -144,6 +146,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -199,9 +203,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &6624089964952517480
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -242,6 +243,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8416ecb21dbd0bf44b5872677467facd,
         type: 2}
+    - target: {fileID: 2236539368809610026, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      propertyPath: parentID
+      value: 8222ca60d13546344a9ff991f239a0b0
+      objectReference: {fileID: 0}
     - target: {fileID: 2236539368809610026, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
       propertyPath: foreverID
@@ -416,6 +422,8 @@ LineRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

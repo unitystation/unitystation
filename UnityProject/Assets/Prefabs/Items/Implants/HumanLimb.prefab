@@ -128,6 +128,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9204204549946934727, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
+      propertyPath: parentID
+      value: e241039a7933eb347bd1a9bb67a9078a
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204204549946934727, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
       propertyPath: foreverID
       value: 6a1a4888888e8994187da2ccb8d6f1c2
       objectReference: {fileID: 0}
@@ -200,3 +205,4 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}

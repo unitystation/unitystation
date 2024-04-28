@@ -103,6 +103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3157804438160328025, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
+      propertyPath: parentID
+      value: 84ac8abc1d963be42906a209a1b97350
+      objectReference: {fileID: 0}
+    - target: {fileID: 3157804438160328025, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
       propertyPath: foreverID
       value: J5iV0i90BCv4gFGo8YS@
       objectReference: {fileID: 0}
@@ -198,6 +203,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   researchServer: {fileID: 0}
+  <CanRelink>k__BackingField: 1
   PoweredState: 0
   storedRP: 0
   sampleTrait: {fileID: 11400000, guid: 31ece548e0e55e3499cb92bb19f4c068, type: 2}

@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -105,9 +107,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &9020300113209436218
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -204,6 +203,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2494681440875532984, guid: 9a9e0975a92c4564094bbb26dd165002,
         type: 3}
+      propertyPath: parentID
+      value: 9a9e0975a92c4564094bbb26dd165002
+      objectReference: {fileID: 0}
+    - target: {fileID: 2494681440875532984, guid: 9a9e0975a92c4564094bbb26dd165002,
+        type: 3}
       propertyPath: foreverID
       value: 7a167eaa044fd7142ad12de730b62846
       objectReference: {fileID: 0}
@@ -297,6 +301,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 805eeb2162a06ae499bfcfcb6956503d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   spritehandler: {fileID: 3067356371958476305}
   SpawnOnDeconstruct: {fileID: 574948493075495267, guid: f3c7b7569520f694cb13c4a36184aefb,
     type: 3}
@@ -327,6 +334,7 @@ MonoBehaviour:
         flagLogic: 0
     CustomLogic: 0
     NetCompatible: 0
+    SelfSufficient: 0
     mixAndVolume:
       mix:
         temperature: 273.15

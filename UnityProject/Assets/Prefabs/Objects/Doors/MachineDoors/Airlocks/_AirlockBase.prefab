@@ -114,9 +114,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &404576362407937357
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,9 +231,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &7418526098909645323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,9 +354,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &512806237205393311
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,9 +466,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &773641709186510069
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,9 +575,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &2233065044779290990
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,9 +691,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &5292488675851686727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1016,9 +998,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &3511082394880060143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1234,6 +1213,11 @@ PrefabInstance:
         type: 3}
       propertyPath: deviceType
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8484722225096306265, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: parentID
+      value: 1291a5cb15d008c41bf0a373403f56b2
       objectReference: {fileID: 0}
     - target: {fileID: 8484722225096306265, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}

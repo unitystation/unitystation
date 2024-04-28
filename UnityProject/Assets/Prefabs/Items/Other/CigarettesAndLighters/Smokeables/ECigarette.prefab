@@ -31,6 +31,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
+      propertyPath: parentID
+      value: 05a135eab68164d34bb02b82fff3cde0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
       propertyPath: foreverID
       value: 7a080af524aab314bac7f69c18defcd5
       objectReference: {fileID: 0}
@@ -181,7 +186,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ReactionSounds: 1
   maxCapacity: 100
+  DEBUGReagent: {fileID: 0}
+  DEBUGAmount: 0
   reactionSet: {fileID: 0}
   AdditionalReactions: []
   initialReagentMix:

@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -105,9 +107,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &5930475597155213129
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -347,6 +346,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5232716269704749941, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
+      propertyPath: parentID
+      value: 1162a9966a460f940a18b4d183b04c30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5232716269704749941, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
       propertyPath: foreverID
       value: reviver
       objectReference: {fileID: 0}
@@ -396,6 +400,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   objectPhysics: {fileID: 670891434631168175}
   reviveSound:
     SetLoadSetting: 0

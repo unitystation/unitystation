@@ -231,6 +231,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
+      propertyPath: parentID
+      value: b46887a995abc224aab70e21b9e53697
+      objectReference: {fileID: 0}
+    - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
       propertyPath: foreverID
       value: 7f6eacde79c191f49b453bd576d1c1ec
       objectReference: {fileID: 0}
@@ -327,3 +332,4 @@ MonoBehaviour:
   State: 0
   ReactorBoiler: {fileID: 0}
   ReactorTurbine: {fileID: 0}
+  <CanRelink>k__BackingField: 1

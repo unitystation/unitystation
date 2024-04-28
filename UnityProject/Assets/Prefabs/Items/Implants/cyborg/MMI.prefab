@@ -114,6 +114,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8854782995649863044, guid: 8f1728f5955b2e549b17eb98ffbd5c3c,
         type: 3}
+      propertyPath: parentID
+      value: 8f1728f5955b2e549b17eb98ffbd5c3c
+      objectReference: {fileID: 0}
+    - target: {fileID: 8854782995649863044, guid: 8f1728f5955b2e549b17eb98ffbd5c3c,
+        type: 3}
       propertyPath: foreverID
       value: 078c2fa95806853429b804a438e8dafe
       objectReference: {fileID: 0}
@@ -153,11 +158,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72c43885acb654c59b452e7069cb64f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   denyStorageOfStorageItems: 0
   itemStorage: {fileID: 0}
   canClickPickup: 0
+  showUIAction: 1
   canQuickEmpty: 0
   TopLevelAlt: 0
+  NoInteractionIfInventoryFull: 0
   actionData: {fileID: 0}
   DoNotShowInventoryOnUI: 0
 --- !u!114 &5358839147259459383

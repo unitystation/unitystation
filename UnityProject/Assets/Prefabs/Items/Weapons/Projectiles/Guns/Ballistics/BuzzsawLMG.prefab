@@ -107,9 +107,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &7427627602401574627
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,9 +214,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &9171831868174908090
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,9 +321,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &5938049191058846253
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -344,6 +335,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 58cabe8bff8ac22419b12f2377947e35,
         type: 2}
+    - target: {fileID: 3015805540452711487, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: parentID
+      value: a940a8ef1ee65024fb0a322703040d98
+      objectReference: {fileID: 0}
     - target: {fileID: 3015805540452711487, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: foreverID
