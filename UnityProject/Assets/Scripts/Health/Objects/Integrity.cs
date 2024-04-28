@@ -457,10 +457,10 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			< 10 => "Crumbling".Color(Color.red),
 			< 30 => "Heavily Damaged".Color(Color.red),
 			< 40 => "Significantly Damaged".Color(Color.yellow),
-			< 60 => "Worn out Condition".Color(Color.yellow),
+			< 60 => "Worn Out Condition".Color(Color.yellow),
 			< 80 => "Slightly Damaged".Color(Color.green),
 			< 95 => "Scratched Condition".Color(Color.green),
-			>= 100 => "In Perfect Condition".Color(Color.green),
+			>= 100 => "Perfect Condition".Color(Color.green),
 			_ => "Unknown Condition"
 		};
 	}
