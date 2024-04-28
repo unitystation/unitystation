@@ -295,6 +295,7 @@ namespace Objects
 		{
 			foreach (var obj in target)
 			{
+				if (obj == gameObject) continue;
 				StoreObject(obj, obj.transform.position - transform.position);
 			}
 			onGrab?.Invoke();
