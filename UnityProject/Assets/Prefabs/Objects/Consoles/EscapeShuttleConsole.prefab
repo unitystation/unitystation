@@ -378,6 +378,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
+      propertyPath: parentID
+      value: b46887a995abc224aab70e21b9e53697
+      objectReference: {fileID: 0}
+    - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
       propertyPath: foreverID
       value: 42a5d7e696d4b5441ad1ab218bc36662
       objectReference: {fileID: 0}
@@ -681,8 +686,10 @@ MonoBehaviour:
   MoveDirectionIn: 0
   MovedToAfterFinishingChain: {fileID: 0}
   StartOfChain: {fileID: 0}
+  DirectionOverride: -1
   StationStartBuoy: {fileID: 0}
   escapeBlockTimeLimit: 10
+  CentralCommandOverrideDirection: -1
   initialTimerSeconds: 120
   UnderflowFunnies:
   - FISH

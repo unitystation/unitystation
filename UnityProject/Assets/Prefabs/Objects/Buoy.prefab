@@ -25,6 +25,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: parentID
+      value: ebb08cf966efc084aa918bd8d9429604
+      objectReference: {fileID: 0}
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: foreverID
       value: 69ffc1053dc39a24fb870b2248780be4
       objectReference: {fileID: 0}
@@ -167,4 +172,4 @@ MonoBehaviour:
     ConnectTo: {fileID: 0}
     NextInLine: {fileID: 0}
     IsEnd: 0
-  RegisterTile: {fileID: 0}
+  <CanRelink>k__BackingField: 1

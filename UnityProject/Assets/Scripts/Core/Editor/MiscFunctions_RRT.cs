@@ -52,6 +52,33 @@ namespace Util
 			AddressablePicker.Refresh();
 		}
 
+		[MenuItem("Tools/regenerateID parents of prefabs")]
+		public static void RegenerateIDparents()
+		{
+			var prefabs = LoadAllPrefabsOfType<PrefabTracker>("");
+			foreach (var prefab in prefabs)
+			{
+
+				if (prefab.TryGetComponent<PrefabTracker>(out var prefabTracker) == false) continue;
+
+				var OLdv = prefabTracker.GetUnmodifiedParentID();
+				if (string.IsNullOrEmpty(OLdv))
+				{
+					var PID = prefabTracker.ParentID;
+					Loggy.LogError($"{prefabTracker.name} or {prefabTracker.OrNull()?.name} NEEDS to be committed with it's Parent ID.");
+					continue;
+				}
+
+				prefabTracker.ReassignParentID();
+
+				if (prefabTracker.ParentID != OLdv)
+				{
+					Loggy.LogError($"{prefabTracker.name} or {prefabTracker.OrNull()?.name} NEEDS to be committed with it's Parent ID.");
+				}
+			}
+
+		}
+
 		[MenuItem("Tools/---CompiledDammit!!!!!!!!! #&q")]
 		public static void CompiledDammit()
 		{

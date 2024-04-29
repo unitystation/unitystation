@@ -438,6 +438,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: parentID
+      value: a7abba22164ce49f0bf9b9b219f39298
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: foreverID
       value: 59bffb44a6861484ca22d6edb4fbf5e5
       objectReference: {fileID: 0}
@@ -501,6 +506,7 @@ MonoBehaviour:
   CurrentDirection: 1
   SynchroniseCurrentDirection: 1
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 1
 --- !u!114 &7343457972493425774

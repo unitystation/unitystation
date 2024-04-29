@@ -173,6 +173,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4995588745208452066, guid: 0a45eeafcc7b5164bb139db7bf25c0a8,
         type: 3}
+      propertyPath: parentID
+      value: Ba1MYhuJ@eQ4Pdz!Ukd$
+      objectReference: {fileID: 0}
+    - target: {fileID: 4995588745208452066, guid: 0a45eeafcc7b5164bb139db7bf25c0a8,
+        type: 3}
       propertyPath: foreverID
       value: kgvX$TOMOLf0LCN8batS
       objectReference: {fileID: 0}
@@ -248,12 +253,14 @@ MonoBehaviour:
   slideTime: 0
   spinMagnitude: 0
   thrownBy: {fileID: 0}
+  thrownProtection: {fileID: 0}
   aim: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
   ChangesDirectionPush: 0
   Intangible: 0
+  MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
   DEBUG: 0
@@ -262,7 +269,6 @@ MonoBehaviour:
   isNotPushable: 0
   CanBeWindPushed: 1
   rotationTarget: {fileID: 0}
-  FramePushDecision: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -278,6 +284,7 @@ MonoBehaviour:
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  TimeSpentFlying: 0
   BuckledToObject: {fileID: 0}
 --- !u!114 &743786382192184887
 MonoBehaviour:
@@ -337,6 +344,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  LiesFlat3D: 0
   prefabTracker: {fileID: 4862866717219594752}
   CurrentsortingGroup: {fileID: 2006165154517039504}
   AtmosPassable: 1
@@ -367,6 +375,7 @@ MonoBehaviour:
   exportName: Syndicate Bomb
   exportMessage: Time to Oga some Bogas
   noMouseHighlight: 0
+  initialTraits: []
   initialSize: 3
 --- !u!210 &2006165154517039504 stripped
 SortingGroup:

@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: parentID
+      value: ebb08cf966efc084aa918bd8d9429604
+      objectReference: {fileID: 0}
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: foreverID
       value: db8a2e4c2c7146b48abcc5b32a5ccd26
       objectReference: {fileID: 0}
@@ -259,6 +264,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7e047a99fadd2749863ed768a1c8162, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   ClangSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Clang.prefab
@@ -284,6 +292,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  GasSO: {fileID: 0}
   StoredGasMix:
     GasData:
       GasesArray: []
@@ -293,6 +302,7 @@ MonoBehaviour:
   MaximumMoles: 1013.25
   ReleasePressure: 101.325
   CargoSealApproved: 0
+  explodeOnTooMuchDamage: 1
 --- !u!114 &406488744750735638
 MonoBehaviour:
   m_ObjectHideFlags: 0

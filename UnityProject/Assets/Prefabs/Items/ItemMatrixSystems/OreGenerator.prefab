@@ -16,6 +16,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2750215698149839610, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
+      propertyPath: parentID
+      value: 6d04235bcbbde8349a6a46d46d8f8ae8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2750215698149839610, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
       propertyPath: foreverID
       value: 83b269ab1421fcf4a95ad3cf33935cff
       objectReference: {fileID: 0}
@@ -122,6 +127,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c91c941bdbb4ea04ca5c9dc2b6b9cf33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   config: {fileID: 11400000, guid: 316fa4f2494e2b443b1160ddd1a53b6f, type: 2}
   priority: 98
   RunAutomatic: 1

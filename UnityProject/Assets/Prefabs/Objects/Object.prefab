@@ -281,6 +281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4629d03e356d64eb509d18a7450082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentID: root
   foreverID: ebb08cf966efc084aa918bd8d9429604
   <AlternativePrefabName>k__BackingField: 
   <CanBeSpawnedByAdmin>k__BackingField: 1
@@ -472,6 +473,3 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []

@@ -16,6 +16,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 864991872856124446, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
+      propertyPath: parentID
+      value: 6a1a4888888e8994187da2ccb8d6f1c2
+      objectReference: {fileID: 0}
+    - target: {fileID: 864991872856124446, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
       propertyPath: foreverID
       value: ba9a875c31908af4ab3749cd127a2edb
       objectReference: {fileID: 0}
@@ -482,6 +487,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   armEfficiency: 1
   crawlingSpeed: 0.3
 --- !u!114 &5756682103643324902

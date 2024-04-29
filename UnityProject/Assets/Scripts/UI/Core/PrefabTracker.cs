@@ -10,6 +10,28 @@ namespace Util
 {
 	public class PrefabTracker : MonoBehaviour, IHaveForeverID
 	{
+
+		[SerializeField] private string parentID;
+		public string ParentID
+		{
+			get {
+#if UNITY_EDITOR
+				if (string.IsNullOrEmpty(parentID))
+				{
+					ReassignParentID();
+					try
+					{
+						PrefabUtility.SavePrefabAsset(this.gameObject);
+					}
+					catch (Exception) { }
+				}
+#endif
+				return parentID;
+			}
+			set => parentID = value;
+		}
+
+
 		public string ForeverID {
 			get {
 #if UNITY_EDITOR
@@ -31,6 +53,37 @@ namespace Util
 		[SerializeField] private string foreverID;
 		[field:SerializeField] public string AlternativePrefabName { get; private set; }
 		[field: SerializeField] public bool CanBeSpawnedByAdmin { get; private set; } = true;
+
+		public string GetUnmodifiedParentID()
+		{
+			return parentID;
+		}
+
+		[NaughtyAttributes.Button("get Parent ID")]
+		public void ReassignParentID() //Assuming it's a prefab Variant
+		{
+#if UNITY_EDITOR
+			var obs = PrefabUtility.GetCorrespondingObjectFromSource(this.gameObject);
+			if (obs != null)
+			{
+				var Tracker = obs.GetComponent<PrefabTracker>();
+				if (Tracker != null)
+				{
+					parentID = Tracker.ForeverID;
+				}
+				else
+				{
+					parentID = "null";
+				}
+
+			}
+			else
+			{
+				parentID = "root";
+			}
+			EditorUtility.SetDirty(gameObject);
+#endif
+		}
 
 		public void ReassignID() //Assuming it's a prefab Variant
 		{

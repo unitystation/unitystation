@@ -107,9 +107,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 3
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &2552689281887100783
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,9 +214,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 2
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &4773347837579322437
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,9 +321,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &5571931164864081013
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,9 +428,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 1
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &2577176557509859100
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -577,6 +565,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: parentID
+      value: a7abba22164ce49f0bf9b9b219f39298
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: foreverID
       value: d88c145d60cabfd4092f839650cea997
       objectReference: {fileID: 0}
@@ -664,9 +657,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &2581277900118603866 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4911511444418374, guid: a7abba22164ce49f0bf9b9b219f39298,

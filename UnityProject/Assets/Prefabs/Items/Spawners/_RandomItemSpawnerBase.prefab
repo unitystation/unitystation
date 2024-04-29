@@ -123,6 +123,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: parentID
+      value: a7abba22164ce49f0bf9b9b219f39298
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: foreverID
       value: abff3ae0227731244b0814b2055fa6f0
       objectReference: {fileID: 0}
@@ -166,6 +171,8 @@ MonoBehaviour:
   poolList: []
   spawnedItem: {fileID: 0}
   triggerManually: 0
+  automaticallyShoveIntoContainerBelowSpawnedItem: 1
+  deleteAfterUse: 1
 --- !u!114 &3217208320444730080
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -110,9 +110,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &5805812536563727567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -121,6 +118,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2521527662540365178, guid: 08128a9a69925eb4c93bc817c6ec2a88,
+        type: 3}
+      propertyPath: parentID
+      value: 08128a9a69925eb4c93bc817c6ec2a88
+      objectReference: {fileID: 0}
     - target: {fileID: 2521527662540365178, guid: 08128a9a69925eb4c93bc817c6ec2a88,
         type: 3}
       propertyPath: foreverID

@@ -16,6 +16,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: parentID
+      value: 35ef0ee8523cfc342bc863c12a3ac07c
+      objectReference: {fileID: 0}
+    - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: foreverID
       value: 445373074652a00409300b4b8a70dcb7
       objectReference: {fileID: 0}
@@ -187,6 +192,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   BlacklistReagents:
   - {fileID: 11400000, guid: 68548df5bd53cc24b8d2bbfa735a274d, type: 2}
   _ReagentCirculatedComponent: {fileID: 0}

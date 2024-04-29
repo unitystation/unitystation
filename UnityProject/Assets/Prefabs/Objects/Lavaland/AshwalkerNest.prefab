@@ -122,6 +122,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 145569013560448710, guid: bdc0bbe82126ea747b3fc1d25464d588,
         type: 3}
+      propertyPath: parentID
+      value: bdc0bbe82126ea747b3fc1d25464d588
+      objectReference: {fileID: 0}
+    - target: {fileID: 145569013560448710, guid: bdc0bbe82126ea747b3fc1d25464d588,
+        type: 3}
       propertyPath: foreverID
       value: f0665612bae0cb140b3e3c89f9ebcec3
       objectReference: {fileID: 0}
@@ -317,6 +322,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f620de7460104b3bb27d116f9e4dab46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   ashwalkerGhostRole: {fileID: 11400000, guid: 87ed037326d06fd458fe27837dfb4151, type: 2}
   priestGhostRole: {fileID: 11400000, guid: e620c8874098a6345a6074c499f5d5fb, type: 2}
   ashwalkerRaceData: {fileID: 11400000, guid: 31250f329a28a20458b0f76c1f157a7f, type: 2}

@@ -16,6 +16,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: parentID
+      value: 35ef0ee8523cfc342bc863c12a3ac07c
+      objectReference: {fileID: 0}
+    - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: foreverID
       value: 221b6b5f05c64124cb6bab0dbfc5f103
       objectReference: {fileID: 0}
@@ -125,8 +130,9 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   OnBodyID: 0
-  DrunkReagent: {fileID: 11400000, guid: 6d141e282b2a3ade0a523d28b721aa13, type: 2}
+  drunkReagent: {fileID: 11400000, guid: 6d141e282b2a3ade0a523d28b721aa13, type: 2}
   MaxDrunkAtPercentage: 0.06
   hasInbuiltSight: 0
   hasInbuiltHearing: 0

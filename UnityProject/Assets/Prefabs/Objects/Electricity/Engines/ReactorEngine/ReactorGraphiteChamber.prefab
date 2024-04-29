@@ -107,6 +107,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: parentID
+      value: ebb08cf966efc084aa918bd8d9429604
+      objectReference: {fileID: 0}
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: foreverID
       value: 28076fd63342e8b48879932cf48f8961
       objectReference: {fileID: 0}
@@ -407,6 +412,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e0d5635150f1249ad97e8674c561c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   spritehandler: {fileID: 0}
   SpawnOnDeconstruct: {fileID: 0}
   registerTile: {fileID: 0}
@@ -436,6 +444,7 @@ MonoBehaviour:
         flagLogic: 0
     CustomLogic: 0
     NetCompatible: 0
+    SelfSufficient: 0
     mixAndVolume:
       mix:
         temperature: 273.15

@@ -16,6 +16,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2750215698149839610, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
+      propertyPath: parentID
+      value: 6d04235bcbbde8349a6a46d46d8f8ae8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2750215698149839610, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
       propertyPath: foreverID
       value: b42028d7d036f7343a6a7d3b157d8386
       objectReference: {fileID: 0}
@@ -131,6 +136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae35ff434d7fbac48b8177d4ca61becc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   priority: 99
   generateFilthReagent: 1
   filthDensityPercentage: 2

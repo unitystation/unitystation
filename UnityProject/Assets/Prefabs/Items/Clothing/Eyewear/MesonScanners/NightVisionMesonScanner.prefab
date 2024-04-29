@@ -107,6 +107,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8585229615259169892, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
+      propertyPath: parentID
+      value: e6f80a7fd02e2c14ea72a1410452b690
+      objectReference: {fileID: 0}
+    - target: {fileID: 8585229615259169892, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
       propertyPath: foreverID
       value: db61b583bd06b6048a87e09970da5423
       objectReference: {fileID: 0}
@@ -171,6 +176,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   actionData: {fileID: 11400000, guid: a5f5824fd6f60514bae4cfbecbb9e44c, type: 2}
   allowedSlots: 512
   useSpriteHandler: 1

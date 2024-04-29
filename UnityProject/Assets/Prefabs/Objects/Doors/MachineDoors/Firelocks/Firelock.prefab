@@ -197,9 +197,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &6950079160659059188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,9 +320,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &5535747336687579010
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,9 +429,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &5893083064311537363
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,9 +546,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &2968860930292390072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -682,9 +670,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8097008815040610290
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,9 +784,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &2351700664918873728
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1016,6 +998,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8484722225096306265, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: parentID
+      value: 1291a5cb15d008c41bf0a373403f56b2
       objectReference: {fileID: 0}
     - target: {fileID: 8484722225096306265, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}

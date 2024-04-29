@@ -5,6 +5,7 @@ using Shared.Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(EscapeKeyTarget))]
@@ -34,6 +35,56 @@ public class DevCameraControls  : SingletonManager<DevCameraControls>
 	private bool? LightingSystemState = null;
 
 	public bool MappingItemState = false;
+
+	public Toggle Effects;
+	public Toggle Walls;
+	public Toggle Windows;
+	public Toggle Grills;
+	public Toggle Objects;
+	public Toggle Floors;
+	public Toggle Tables;
+	public Toggle Underfloor;
+	public Toggle Electrical;
+	public Toggle Pipes;
+	public Toggle Disposals;
+	public Toggle Base;
+
+
+	private bool? Override = null;
+
+	public void ToggleLayers()
+	{
+		SetLayerVisibility(Override ?? Effects.isOn, LayerType.Effects);
+		SetLayerVisibility(Override ?? Walls.isOn, LayerType.Walls);
+		SetLayerVisibility(Override ?? Windows.isOn, LayerType.Windows);
+		SetLayerVisibility(Override ?? Grills.isOn, LayerType.Grills);
+		SetObjectVisibility(Override ?? Objects.isOn);
+		SetLayerVisibility(Override ?? Tables.isOn, LayerType.Tables);
+		SetLayerVisibility(Override ?? Floors.isOn, LayerType.Floors);
+		SetLayerVisibility(Override ?? Underfloor.isOn, LayerType.Underfloor);
+		SetLayerVisibility(Override ?? Electrical.isOn, LayerType.Electrical);
+		SetLayerVisibility(Override ?? Pipes.isOn, LayerType.Pipe);
+		SetLayerVisibility(Override ?? Disposals.isOn, LayerType.Disposals);
+		SetLayerVisibility(Override ?? Base.isOn, LayerType.Base);
+		Override = null;
+	}
+
+
+	public void SetObjectVisibility(bool Ison)
+	{
+		foreach (var Matrix in MatrixManager.Instance.ActiveMatrices)
+		{
+			Matrix.Value.Matrix.MetaTileMap.Layers[LayerType.Objects].gameObject.SetActive(Ison);
+		}
+	}
+
+	public void SetLayerVisibility(bool Ison, LayerType LayerType)
+	{
+		foreach (var Matrix in MatrixManager.Instance.ActiveMatrices)
+		{
+			Matrix.Value.Matrix.MetaTileMap.Layers[LayerType].Tilemap.GetComponent<TilemapRenderer>().enabled = Ison;
+		}
+	}
 
 
 	private void OnEnable()
@@ -127,6 +178,8 @@ On";
 			Camera.main.GetComponent<LightingSystem>().enabled = true;
 		}
 		ToggleLayerForCulling(false);
+		Override = null;
+		ToggleLayers();
 	}
 
 

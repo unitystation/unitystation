@@ -292,6 +292,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: parentID
+      value: a7abba22164ce49f0bf9b9b219f39298
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: foreverID
       value: 82677ff961fa72944936cc923625a1bc
       objectReference: {fileID: 0}
@@ -386,6 +391,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9dd6c830eadb94ceb8578c8ac94dde66, type: 2}
   - {fileID: 11400000, guid: da0ab02318f88644982d7ebec5a2c8c9, type: 2}
   limbsToHurt: 0500000004000000
+  OnStepEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  MaxDamage: 0
 --- !u!114 &7942108884443502463
 MonoBehaviour:
   m_ObjectHideFlags: 0

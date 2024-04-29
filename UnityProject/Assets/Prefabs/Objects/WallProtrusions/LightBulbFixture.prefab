@@ -103,6 +103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6366695639211736623, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
+      propertyPath: parentID
+      value: fde32c02abddc814f9366ff1fb21f234
+      objectReference: {fileID: 0}
+    - target: {fileID: 6366695639211736623, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
       propertyPath: foreverID
       value: c937e0abe85aca9499d09951de736ec6
       objectReference: {fileID: 0}
@@ -273,7 +278,7 @@ PrefabInstance:
         type: 3}
       propertyPath: emergencyLightAnimator
       value: 
-      objectReference: {fileID: 8220138473564574690}
+      objectReference: {fileID: 0}
     - target: {fileID: 7803294762233930865, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: m_Sprite
@@ -387,15 +392,3 @@ SpriteRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 3817762127415849360}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8220138473564574690 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5109516359681254002, guid: fde32c02abddc814f9366ff1fb21f234,
-    type: 3}
-  m_PrefabInstance: {fileID: 3817762127415849360}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ee25e15c851c447bd342aa75f7ca2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

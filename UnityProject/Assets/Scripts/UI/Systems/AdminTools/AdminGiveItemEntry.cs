@@ -17,7 +17,7 @@ namespace UI.Systems.AdminTools
 		{
 			itemWindow = window;
 			doc = document;
-			itemName.text = document.SearchableName[0].Capitalize();
+			itemName.text = document.Name.Capitalize();
 			Sprite toUse = doc.Prefab.GetComponentInChildren<SpriteRenderer>()?.sprite;
 			if (toUse != null) itemIcon.sprite = toUse;
 		}

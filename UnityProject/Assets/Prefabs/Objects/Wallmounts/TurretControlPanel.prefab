@@ -106,6 +106,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: parentID
+      value: b69bfc56f39849d4ba9139d2d51bedb6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: foreverID
       value: 991d9e2b162f7ef4ca9b4fd2bdba60d2
       objectReference: {fileID: 0}
@@ -331,7 +336,9 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &5514233769525790750
@@ -354,6 +361,8 @@ MonoBehaviour:
   turrets: []
   isOn: 1
   isStun: 1
+  <CanRelink>k__BackingField: 1
+  <IgnoreMaxDistanceMapper>k__BackingField: 0
 --- !u!114 &8655049364412508971
 MonoBehaviour:
   m_ObjectHideFlags: 0

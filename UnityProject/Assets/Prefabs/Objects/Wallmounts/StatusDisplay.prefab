@@ -107,9 +107,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &6551633036436676155
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,6 +342,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: parentID
+      value: b69bfc56f39849d4ba9139d2d51bedb6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: foreverID
       value: b7053ef275ce5b74e827e60b034d1647
       objectReference: {fileID: 0}
@@ -525,6 +527,7 @@ MonoBehaviour:
   CurrentDirection: 3
   SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &4418285230092564619

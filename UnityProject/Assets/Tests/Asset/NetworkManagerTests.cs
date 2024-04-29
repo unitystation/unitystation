@@ -42,6 +42,19 @@ namespace Tests.Asset
 					.AppendLine(
 						$"{prefabTracker.name} or {tracker.OrNull()?.name} NEEDS to be committed with it's new Forever ID.");
 				storedIDs[prefabTracker.ForeverID] = prefabTracker;
+
+				var OLdv = prefabTracker.GetUnmodifiedParentID();
+				if (string.IsNullOrEmpty(OLdv))
+				{
+					var PID = prefabTracker.ParentID;
+					report.Fail().AppendLine($"{prefabTracker.name} or {tracker.OrNull()?.name} NEEDS to be committed with it's Parent ID.");
+					continue;
+				}
+				
+				if (prefabTracker.ParentID != OLdv)
+				{
+					report.Fail().AppendLine($"{prefabTracker.name} or {tracker.OrNull()?.name} NEEDS to be committed with it's Parent ID.");
+				}
 			}
 
 			if (networkManager!.TryGetComponent<SpawnListMonitor>(out var spawnListMonitor) == false)

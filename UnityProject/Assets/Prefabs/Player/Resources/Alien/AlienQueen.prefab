@@ -105,6 +105,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4951365732200208794, guid: d1bc864a55af6cb4cad058680cba977a,
         type: 3}
+      propertyPath: parentID
+      value: ZkF10G_?cnxzRpsYtRAm
+      objectReference: {fileID: 0}
+    - target: {fileID: 4951365732200208794, guid: d1bc864a55af6cb4cad058680cba977a,
+        type: 3}
       propertyPath: foreverID
       value: ecea10b4f1f8c1d41b5064bea9b885a9
       objectReference: {fileID: 0}
@@ -185,12 +190,14 @@ MonoBehaviour:
   slideTime: 0
   spinMagnitude: 0
   thrownBy: {fileID: 0}
+  thrownProtection: {fileID: 0}
   aim: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
   ChangesDirectionPush: 0
   Intangible: 0
+  MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
   DEBUG: 0
@@ -199,7 +206,6 @@ MonoBehaviour:
   isNotPushable: 0
   CanBeWindPushed: 1
   rotationTarget: {fileID: 0}
-  FramePushDecision: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -215,4 +221,5 @@ MonoBehaviour:
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  TimeSpentFlying: 0
   BuckledToObject: {fileID: 0}

@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 542775556866826484, guid: c8af057edecfa6c4f877ae1b042d6ead,
         type: 3}
+      propertyPath: parentID
+      value: c8af057edecfa6c4f877ae1b042d6ead
+      objectReference: {fileID: 0}
+    - target: {fileID: 542775556866826484, guid: c8af057edecfa6c4f877ae1b042d6ead,
+        type: 3}
       propertyPath: foreverID
       value: 5615206684c0a714997f9e856ba438ce
       objectReference: {fileID: 0}
@@ -182,6 +187,8 @@ MonoBehaviour:
   ChangeSprites: 1
   isChangingSO: 0
   CurrentDirection: 3
+  SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0

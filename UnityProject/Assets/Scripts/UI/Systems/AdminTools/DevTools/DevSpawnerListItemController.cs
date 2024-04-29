@@ -160,6 +160,13 @@ public class DevSpawnerListItemController : MonoBehaviour
 		}
 	}
 
+	public void OnSelectedParent()
+	{
+		var PrefabTracker = prefab.GetComponent<PrefabTracker>();
+		if (PrefabTracker == null) return;
+		GUI_DevSpawner.Instance.Search(PrefabTracker.ParentID);
+	}
+
 	public void OnSelected()
 	{
 		if (selectedItem != this)

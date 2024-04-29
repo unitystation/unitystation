@@ -399,6 +399,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5232716269704749941, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
+      propertyPath: parentID
+      value: 1162a9966a460f940a18b4d183b04c30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5232716269704749941, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
       propertyPath: foreverID
       value: e241039a7933eb347bd1a9bb67a9078a
       objectReference: {fileID: 0}
@@ -468,6 +473,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   Throughput: 1
   bloodReagent: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
 --- !u!114 &3243135318912008533
@@ -485,6 +491,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   ReagentMetabolism: 0.2
   reagentCirculatedComponent: {fileID: 0}
   saturationComponent: {fileID: 0}
@@ -503,6 +510,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
   wasteReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}
   bloodReagentConsumedPercentageb: 0.5
@@ -524,6 +532,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   traumaTypesOnBodyPart:
   - {fileID: 2728592379231489674}
   - {fileID: 6102157500274823570}
@@ -545,6 +554,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
   HealingNutrimentMultiplier: 2
   HungerState: 1

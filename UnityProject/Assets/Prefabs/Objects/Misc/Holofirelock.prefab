@@ -91,6 +91,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3744166961359211538, guid: 6ca88a64b87d2bf4abed2f9f8922d47d,
         type: 3}
+      propertyPath: parentID
+      value: 6ca88a64b87d2bf4abed2f9f8922d47d
+      objectReference: {fileID: 0}
+    - target: {fileID: 3744166961359211538, guid: 6ca88a64b87d2bf4abed2f9f8922d47d,
+        type: 3}
       propertyPath: foreverID
       value: 056e3e6b6f40fd04090b504404da5957
       objectReference: {fileID: 0}
@@ -206,6 +211,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  LiesFlat3D: 0
   prefabTracker: {fileID: 959867620065360818}
   CurrentsortingGroup: {fileID: 1508694426504458571}
   AtmosPassable: 1
@@ -250,6 +256,8 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 0
+  SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0

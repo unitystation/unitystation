@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4157834320596778834, guid: d3025a1bc493cc246a21c87ee6e6bfb6,
         type: 3}
+      propertyPath: parentID
+      value: PGadCZfNUoEJu2kz5mZ_
+      objectReference: {fileID: 0}
+    - target: {fileID: 4157834320596778834, guid: d3025a1bc493cc246a21c87ee6e6bfb6,
+        type: 3}
       propertyPath: foreverID
       value: jFLetrcTF$81Z84swKUx
       objectReference: {fileID: 0}
@@ -181,3 +186,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetTabType: 49
   requiresAltClick: 0
+  disabled: 0

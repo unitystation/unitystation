@@ -70,6 +70,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -195,6 +197,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6919096067490597734, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
+      propertyPath: parentID
+      value: da2b6aaaa6bb94f4f963d5193aa2e1a8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6919096067490597734, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
       propertyPath: foreverID
       value: HfC7r4F0e!1@q4jSSkhW
       objectReference: {fileID: 0}
@@ -252,6 +259,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 8188939494862089851}
   IsOn: 1
@@ -278,6 +286,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   IntensityColours:
   - Color: {r: 0.9607844, g: 0.86666673, b: 0.5137255, a: 0.21960784}
     Size: 5
@@ -301,6 +310,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   actionData: {fileID: 11400000, guid: e484eb50c6f30f445b168eb0b013c13d, type: 2}
   allowedSlots: -1
   useSpriteHandler: 0

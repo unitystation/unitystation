@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 368590725096982337, guid: 13186a514a60194429e94407b6cf1e0a,
         type: 3}
+      propertyPath: parentID
+      value: 13186a514a60194429e94407b6cf1e0a
+      objectReference: {fileID: 0}
+    - target: {fileID: 368590725096982337, guid: 13186a514a60194429e94407b6cf1e0a,
+        type: 3}
       propertyPath: foreverID
       value: 38e2c2e939a3d044e814d0195cb84ffa
       objectReference: {fileID: 0}
@@ -78,8 +83,19 @@ PrefabInstance:
       propertyPath: isRepresentationOfStack
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6964310498121591939, guid: 13186a514a60194429e94407b6cf1e0a,
+        type: 3}
+      propertyPath: 'stacksWith.Array.data[1]'
+      value: 
+      objectReference: {fileID: 5960176700413057615}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13186a514a60194429e94407b6cf1e0a, type: 3}
+--- !u!1 &5960176700413057615 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6748581008247049004, guid: 13186a514a60194429e94407b6cf1e0a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1085661674992390499}
+  m_PrefabAsset: {fileID: 0}

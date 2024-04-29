@@ -16,6 +16,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: parentID
+      value: 35ef0ee8523cfc342bc863c12a3ac07c
+      objectReference: {fileID: 0}
+    - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: foreverID
       value: 940a7490c94c6b3478f0b4268b2cf2c0
       objectReference: {fileID: 0}
@@ -192,6 +197,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   maxRunSpeedDebuff: -2
   maxWalkingDebuff: -1.5
   maxCrawlDebuff: -0.2

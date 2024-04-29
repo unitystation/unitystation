@@ -96,6 +96,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -155,9 +157,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &6198577405933172929
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,6 +301,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428698834604649417, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: parentID
+      value: b06b702714bab49b9ad949eab1ca4534
       objectReference: {fileID: 0}
     - target: {fileID: 4428698834604649417, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -525,6 +529,7 @@ MonoBehaviour:
   CheckUnauthorisedPersonnel: 0
   authorisedClearance: {fileID: 0}
   CheckUnidentifiedLifeSigns: 1
+  <CanRelink>k__BackingField: 1
 --- !u!114 &2506153195070795302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,6 +561,7 @@ MonoBehaviour:
   OnDeviceUnLinked:
     m_PersistentCalls:
       m_Calls: []
+  <CanRelink>k__BackingField: 1
 --- !u!114 &7246554565139759485
 MonoBehaviour:
   m_ObjectHideFlags: 0
