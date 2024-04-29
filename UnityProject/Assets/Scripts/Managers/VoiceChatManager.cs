@@ -55,9 +55,20 @@ public class VoiceChatManager : NetworkBehaviour, IInitialise
 
 		ClientEnabled = PlayerPrefs.GetInt(PlayerPrefKeys.VoiceChatToggle, 1) == 1;
 		ClientPushToTalk = PlayerPrefs.GetInt(PlayerPrefKeys.PushToTalkToggle, 1) == 1;
+		EventManager.AddHandler(Event.SceneUnloading, RoundEnd);
+
+	}
+
+	public void OnDestroy()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 
+	public void RoundEnd()
+	{
+		SyncEnabled(Enabled, false);
+	}
 
 	public void SyncEnabled(bool Oldv, bool Newv)
 	{
@@ -81,6 +92,7 @@ public class VoiceChatManager : NetworkBehaviour, IInitialise
 			UniVoiceUniMicInput.Dispose();
 			UniVoiceUniMicInput = null;
 			UniVoiceMirrorNetwork = null;
+			Destroy(Mic.Instance.gameObject);
 			OnEnabledChange?.Invoke();
 			MicrophoneIcon.Instance.gameObject.SetActive(false);
 		}

@@ -28,6 +28,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public List<GameObject> NetworkedManagersPrefabs;
 
+	public List<GameObject> ActiveNetworkedManagersPrefabs;
+
 	[HideInInspector] public bool _isServer;
 	[HideInInspector] private ServerConfig config;
 	public GameObject humanPlayerPrefab;
@@ -143,17 +145,35 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	public void StartHostWrapper()
 	{
 		StartHost();
+		EventManager.AddHandler(Event.SceneUnloading, RoundEnding);
+		EventManager.AddHandler(Event.ScenesLoadedServer, InitNetworkedManagers);
+	}
+
+	public void InitNetworkedManagers()
+	{
 		StartCoroutine(WaitForInit());
 	}
 
 	private IEnumerator WaitForInit()
 	{
+
 		yield return WaitFor.Seconds(1f);
 		foreach (var NetworkedManagersPrefab in NetworkedManagersPrefabs)
 		{
 			var spawnedObject = Object.Instantiate(NetworkedManagersPrefab, Vector3.zero, Quaternion.identity , this.gameObject.transform);
 			NetworkServer.Spawn(spawnedObject);
+			ActiveNetworkedManagersPrefabs.Add(spawnedObject);
 		}
+	}
+
+
+	public void RoundEnding()
+	{
+		foreach (var NetworkedManagersPrefab in ActiveNetworkedManagersPrefabs)
+		{
+			NetworkServer.Destroy(NetworkedManagersPrefab);
+		}
+		ActiveNetworkedManagersPrefabs.Clear();
 	}
 
 	void ApplyConfig()
