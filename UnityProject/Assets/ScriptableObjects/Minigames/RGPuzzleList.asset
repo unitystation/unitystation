@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4abde3d028ac77d499f5198ae65330fd, type: 3}
+  m_Name: RGPuzzleList
+  m_EditorClassIdentifier: 
+  easyLevelNames:
+  - Easy 5x5 A
+  - Easy 5x5 B
+  - Easy 6x5
+  - Easy 6x6
+  normalLevelNames:
+  - Medium 7x10
+  - Medium 8x7
+  - Medium 8x12
+  hardLevelNames:
+  - Hard 10x10
+  veryHardLevelNames:
+  - Hard 10x10

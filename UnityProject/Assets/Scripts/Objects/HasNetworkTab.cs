@@ -46,6 +46,9 @@ namespace Objects
 		{
 			if (DefaultWillInteract.Default(interaction, side, AllowTelekinesis : false) == false)
 				return false;
+
+			if (NetTabType == NetTabType.None) return false;
+
 			playerInteracted = interaction.Performer;
 			//interaction only works if hand is empty
 			if (interaction.HandObject != null && interaction.IsAltClick == false)

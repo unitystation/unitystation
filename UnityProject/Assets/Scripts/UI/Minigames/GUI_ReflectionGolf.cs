@@ -1,16 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using MiniGames.MiniGameModules;
 using UnityEngine.UI;
-using NaughtyAttributes;
 
 namespace UI.Minigames
 {
 	public class GUI_ReflectionGolf : NetTab
 	{
-		public ReflectionGolfModule miniGameModule;
+		public ReflectionGolfModule miniGameModule = null;
 		private ReflectionGolfInput gridInput;
 
 		private List<GridCell> cells = new List<GridCell>();
@@ -19,31 +17,54 @@ namespace UI.Minigames
 
 		private bool isUpdating = false;
 
+
 		[SerializeField]
 		private Sprite[] possibleSprites = new Sprite[16];
+
 		[SerializeField]
-		private GameObject cellPrefab = null;
+		private Image[] UndoLights = new Image[3];
+
+		[SerializeField]
+		private Sprite[] lightSprites = new Sprite[2];
+
+		[SerializeField]
+		private Sprite[] completeLightSprites = new Sprite[3];
 
 		[SerializeField]
 		private Image gridImage = null;
 
 		[SerializeField]
+		private Image puzzleCompleteImage = null;
+
+		[SerializeField]
 		private RectTransform parentTransform = null;
 
+		private RectTransform guiTransform = null;
+
+		[SerializeField]
+		private GameObject cellPrefab = null;
+
 		private const int CELL_BASE_SIZE = 100;
-		private const int MAXIMUM_ALLOWABLE_CELLS = 200; //This should be more than enough for any reasonable puzzle (can be expanded if need be) but just stops an ifinite loop from occuring if things go wrong.
+		private const int MAXIMUM_ALLOWABLE_CELLS = 300;
+
+
+		#region Lifecycle
 
 		private void Start()
 		{
+			guiTransform = this.GetComponent<RectTransform>();
 			gridInput = new ReflectionGolfInput(parentTransform);
+			puzzleCompleteImage.sprite = completeLightSprites[0];
 		}
 
-		protected override void InitServer()
+		public void Awake()
 		{
-			if (CustomNetworkManager.Instance._isServer)
-			{
-				StartCoroutine(WaitForProvider());
-			}
+			StartCoroutine(WaitForProvider());
+		}
+
+		public void OnEnable()
+		{
+			hasBeenClosed = false;
 		}
 
 		private IEnumerator WaitForProvider()
@@ -55,22 +76,25 @@ namespace UI.Minigames
 
 			miniGameModule = Provider.GetComponent<ReflectionGolfModule>();
 			miniGameModule.AttachGui(this);
+			miniGameModule.GetTracker().OnGameWon.AddListener(OnWin);
 
 			UpdateGUI();
-			
-			OnTabOpened.AddListener(UpdateGUIForPeepers);
-		}
 
-		private void UpdateGUI() //Client side
+			if (CustomNetworkManager.IsServer == false) OnTabOpened.AddListener(UpdateGUIForPeepers);
+		}	
+
+		public void UpdateGUI() //Client side
 		{
-			if(gridInput.initialised == false) gridInput.AttachModule(miniGameModule);
+			if(gridInput.initialised == false) gridInput.AttachGUI(this);
+
+			int lightCount = miniGameModule.FetchUndoCount();
+			foreach(var light in UndoLights)
+			{
+				light.sprite = lightSprites[lightCount > 0 ? 1 : 0];
+				lightCount--;
+			}
 
 			UpdateCellSprites();
-		}
-
-		public void OnGridPress()
-		{
-			gridInput.OnGridPress(Input.mousePosition);
 		}
 
 		public void UpdateGUIForPeepers(PlayerInfo notUsed)
@@ -90,6 +114,24 @@ namespace UI.Minigames
 			isUpdating = false;
 		}
 
+		public void OnUndoButtonPress()
+		{
+			if (gridInput != null) gridInput.OnUndo();
+		}
+
+		public void OnRestartButtonPress()
+		{
+			miniGameModule.BeginLevel();
+		}
+
+		#endregion
+
+		#region GRID
+
+		public void OnGridPress()
+		{
+			gridInput.OnGridPress(Input.mousePosition, guiTransform.position);
+		}
 
 		/// <summary>
 		/// Ensures we always have the right amount of cell gameobjects, never too many or too little.
@@ -104,6 +146,7 @@ namespace UI.Minigames
 			}
 
 			if (cells.Count == expectedCellCount) return;
+
 			while (cells.Count < expectedCellCount && cells.Count < MAXIMUM_ALLOWABLE_CELLS)
 			{
 				var newCell = Instantiate(cellPrefab, parentTransform);
@@ -121,28 +164,6 @@ namespace UI.Minigames
 			}
 		}
 
-
-		/// <summary>
-		/// Testing function for testing the rendering of grid cells and levels. 
-		/// </summary>
-		[ExecuteInEditMode, Button("TestUpdateCellSprites")]
-		public void TestCells()
-		{
-			cells.Clear();
-
-			ReflectionGolfModule newGame = gameObject.AddComponent(typeof(ReflectionGolfModule)) as ReflectionGolfModule;
-			newGame.StartMiniGame();
-			miniGameModule = newGame;
-
-
-			newGame.AttachGui(this);
-			UpdateCellSprites();
-
-			Debug.Log(expectedCellCount);
-
-			DestroyImmediate(newGame);
-		}
-
 		public void UpdateCellSprites()
 		{
 			int cellIndex = 0;
@@ -156,11 +177,11 @@ namespace UI.Minigames
 			{
 				for (int x = 0; x < miniGameModule.currentLevel.Width; x++)
 				{
-					int unfilteredIndex = miniGameModule.currentLevel.LevelData[x, y].value;
-					Debug.Log($"{x}{y}: {unfilteredIndex}");
+					int unfilteredIndex = miniGameModule.currentLevel.LevelData[x + y*miniGameModule.currentLevel.Width].value;
+
 					if (unfilteredIndex <= 0) continue;
 
-					float rotation = (float)(miniGameModule.currentLevel.LevelData[x, y].currentRotation * Math.PI / 2);
+					float rotation = miniGameModule.currentLevel.LevelData[x + y * miniGameModule.currentLevel.Width].currentRotation * 90;
 
 					cells[cellIndex].transformComponent.rotation = Quaternion.Euler(0, 0, rotation);
 					cells[cellIndex].transformComponent.sizeDelta = new Vector2(miniGameModule.ScaleFactor, miniGameModule.ScaleFactor);
@@ -170,12 +191,18 @@ namespace UI.Minigames
 
 					if(unfilteredIndex >= (int)SpecialCellTypes.ValidArrow)
 					{
-						spriteIndex = miniGameModule.currentLevel.LevelData[x, y].isNumber ? (int)SpecialCellTypes.ValidArrow : (int)SpecialCellTypes.ExpendedArrow;
+						spriteIndex = miniGameModule.currentLevel.LevelData[x + y * miniGameModule.currentLevel.Width].isNumber ? (int)SpecialCellTypes.ValidArrow : (int)SpecialCellTypes.ExpendedArrow;
 					}
 					cells[cellIndex].spriteComponenet.sprite = possibleSprites[spriteIndex];
 
 					cellIndex++;
 				}
+			}
+
+			while(cellIndex <= cells.Count - 1) //The only situation this will occur is when a line/arrow has overridden the goal, in this situation we dont want to destroy this excess cell as the goal still exists, but we need to hide it.
+			{
+				cells[cellIndex].transformComponent.anchoredPosition = new Vector2(-miniGameModule.ScaleFactor, -miniGameModule.ScaleFactor);
+				cellIndex++;
 			}
 		}
 
@@ -187,15 +214,41 @@ namespace UI.Minigames
 			{
 				for (int x = 0; x < miniGameModule.currentLevel.Width; x++)
 				{
-					int unfilteredIndex = miniGameModule.currentLevel.LevelData[x, y].value;
+					int unfilteredIndex = miniGameModule.currentLevel.LevelData[x + y * miniGameModule.currentLevel.Width].value;
 					if (unfilteredIndex <= 0) continue;
 
 					Color drawColor = Color.white;
-					if (miniGameModule.currentLevel.LevelData[x, y].isTouched == true) drawColor = Color.grey;
+					if (miniGameModule.currentLevel.LevelData[x + y * miniGameModule.currentLevel.Width].isTouched == true) drawColor = Color.grey;
 
 					cells[cellIndex].spriteComponenet.color = drawColor;
+
+					cellIndex++;
 				}
 			}
+		}
+
+		#endregion
+
+		#region OnWinLose
+
+		public void OnWin()
+		{
+			puzzleCompleteImage.sprite = completeLightSprites[1];
+
+			StartCoroutine(WaitToClose());
+
+			miniGameModule.GetTracker().OnGameWon.RemoveListener(OnWin);
+		}
+
+		public void OnFail()
+		{
+			puzzleCompleteImage.sprite = completeLightSprites[2];
+		}
+
+		private IEnumerator WaitToClose()
+		{
+			yield return new WaitForSeconds(3);
+			OnCloseTab();
 		}
 
 		public void UpdateExpectedCellCount(int newValue)
@@ -203,10 +256,22 @@ namespace UI.Minigames
 			expectedCellCount = newValue;
 		}
 
-		private struct GridCell //Saves us regetting componenets every update
+
+		bool hasBeenClosed = false;
+		public void OnCloseTab()  //Making sure the coroutine doesnt try close an already closed tab
 		{
-			public RectTransform transformComponent;
-			public Image spriteComponenet;
+			if (hasBeenClosed == true) return;
+			hasBeenClosed = true;
+			CloseTab();
 		}
+
+		#endregion
+
+	}
+
+	public struct GridCell //Saves us regetting componenets every update
+	{
+		public RectTransform transformComponent;
+		public Image spriteComponenet;
 	}
 }

@@ -32,7 +32,7 @@ namespace MiniGames.MiniGameModules
 			PASSCODE
 		}
 
-		public override void Setup(MiniGameResultTracker tracker, GameObject parent)
+		public override void Setup(MiniGameResultTracker tracker, GameObject parent, Difficulty difficulty = Difficulty.Normal)
 		{
 			base.Setup(tracker, parent);
 			randomNumber = Random.Range(MIN, MAX); //Number will only exist on the server because only the server calls Setup()

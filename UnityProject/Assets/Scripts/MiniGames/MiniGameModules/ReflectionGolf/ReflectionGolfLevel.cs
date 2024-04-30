@@ -1,8 +1,9 @@
-using MiniGames.MiniGameModules;
 using System;
 using UnityEngine;
 using System.Text.RegularExpressions;
 using System.IO;
+using Logs;
+using SecureStuff;
 
 namespace MiniGames.MiniGameModules
 {
@@ -15,7 +16,7 @@ namespace MiniGames.MiniGameModules
 
 		public short Height { get; private set; }
 
-		public CellData[,] LevelData { get; private set; } = new CellData[0, 0]; //Must be synced
+		public CellData[] LevelData { get; private set; } = new CellData[0]; //Must be synced
 
 		private string name = ""; //Only needed server side
 
@@ -26,117 +27,92 @@ namespace MiniGames.MiniGameModules
 		public ReflectionGolfLevel(string fileName, ReflectionGolfModule _miniGameModule)
 		{
 			miniGameModule = _miniGameModule;
-			Initialise(fileName);
-		}
-
-		public ReflectionGolfLevel(CellData[,] levelData, ReflectionGolfModule _miniGameModule)
-		{
-			miniGameModule = _miniGameModule;
-			LevelData = levelData;
-			Width = (short)levelData.GetLength(0);
-			Height = (short)levelData.GetLength(1);
-
-			FindGoal();
-		}
-
-		public void Initialise(string fileName)
-		{
 			name = fileName;
 			LoadLevelFromFile(fileName);
 		}
 
-		public void Reload()
+		public ReflectionGolfLevel(CellData[] levelData, short width, ReflectionGolfModule _miniGameModule)
 		{
-			LoadLevelFromFile(name);
-		}
+			miniGameModule = _miniGameModule;
+			LevelData = levelData;
+			Width = width;
+			Height = (short)(levelData.Length / width);
 
+			InitialiseLevelValues();
+
+			miniGameModule.miniGameGUI.UpdateGUI();
+		}
 
 		public void LoadLevelFromFile(string fileName)
 		{
 			miniGameModule.ClearAllMoves();
 
-			//if (name == "") return;
-			/*string level = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Content", "Puzzles", fileName));
+			if (name == "") return;
+			string path = Path.Combine("MiniGamesData", "ReflectionGolf", fileName + ".txt");
+
+			if (AccessFile.Exists(path) == false)
+			{
+				Loggy.LogError($"MiniGames/ReflectionGolfLevel.cs at line 64. The specified file path does not exist! {path}");
+				return;
+			}
+			string level = AccessFile.Load(path);
 
 			MatchCollection matches = Regex.Matches(level, @"([-\d ]+)+");
 
 			Height = (short)matches.Count;
 
-
-			LevelData = new CellData[Width, Height];
-
-
-
-			for(int y = 0; y < Height; y++)
+			int uniqueObjects = 0;
+			for (int y = 0; y < Height; y++)
 			{
 				string[] Values = matches[y].Value.Split(' ');
 
-				for (int x = 0; x < Width; x++)
+				if(y == 0)
 				{
-					LevelData[x, y].value = Int16.Parse(Values[x]);
-					uniqueObjects += PlaceObject(LevelData[x, y].value, x, y);
+					Width = (short)Values.Length;
+					LevelData = new CellData[Width * Height];
+					LevelData[0].width = Width;
 				}
-			}*/
 
-			int uniqueObjects = 0;
-
-			Height = 8;
-			Width = 8;
-
-			LevelData = new CellData[Width, Height];
-
-			for (int x = 0; x < Width; x++)
-			{
-				for (int y = 0; y < Height; y++)
+				for (int x = 0; x < Width; x++)
 				{
 					var newCell = new CellData();
 					newCell.value = 0;
 					newCell.currentRotation = 0;
 					newCell.isTouched = false;
 
-					if (x == 0 || x == Width - 1) newCell.value = 2;
-					else if (x == 1 && y == 1) newCell.value = 1;
-					else if (y == 0 && x % 2 == 1 && x != 9) newCell.value = (short)(2 + x);
-					LevelData[x, y] = newCell;
+					newCell.value = Int16.Parse(Values[x]);
+					if (newCell.value != 0) uniqueObjects++;
+					if (newCell.value == (int)SpecialCellTypes.Goal) GoalLocation = new Vector2Int(x, y);
+					if (newCell.value >= (int)SpecialCellTypes.Number) newCell.isNumber = true;
 
-					uniqueObjects += PlaceObject(LevelData[x, y].value, x, y);
+					LevelData[x + y*Width] = newCell;
 				}
 			}
-
 			miniGameModule.UpdateCellsData(uniqueObjects);
 		}
 
 		public void UpdateCell(int x, int y, CellData newData)
 		{
-			LevelData[x, y] = newData;
+			LevelData[x + y*Width] = newData;
 		}
+	
 
-		private short PlaceObject(int index, int x, int y)
+		private void InitialiseLevelValues()
 		{
-			switch (index)
-			{
-				case < 1:
-					return 0;
-				case 1:
-					GoalLocation = new Vector2Int(x, y);
-					return 1;
-				default:
-					return 1;
-			}
-		}
+			int uniqueObjects = 0;
 
-		private void FindGoal()
-		{
 			for (int x = 0; x < Width; x++)
 			{
 				for (int y = 0; y < Height; y++)
 				{
-					if(LevelData[x, y].value != (int)SpecialCellTypes.Goal) continue;
+					if (LevelData[x + y*Width].value != (int)SpecialCellTypes.None) uniqueObjects++;
+					if(LevelData[x + y*Width].value != (int)SpecialCellTypes.Goal) continue;
 
 					GoalLocation = new Vector2Int(x, y);
-					return;
 				}
 			}
+
+			miniGameModule.UpdateCellsData(uniqueObjects);
 		}
 
 	}
@@ -147,5 +123,6 @@ namespace MiniGames.MiniGameModules
 		public short currentRotation;
 		public bool isTouched;
 		public bool isNumber;
+		public short width;
 	}
 }
