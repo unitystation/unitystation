@@ -8,15 +8,12 @@ namespace UI.Minigames
 {
 	public class GUI_ReflectionGolf : NetTab
 	{
-		public ReflectionGolfModule miniGameModule = null;
+		public ReflectionGolfModule MiniGameModule { get; private set; } = null;
 		private ReflectionGolfInput gridInput;
 
-		private List<GridCell> cells = new List<GridCell>();
-
-		public int expectedCellCount { get; private set; } = 0;
+		private readonly List<GridCell> cells = new List<GridCell>();
 
 		private bool isUpdating = false;
-
 
 		[SerializeField]
 		private Sprite[] possibleSprites = new Sprite[16];
@@ -62,9 +59,10 @@ namespace UI.Minigames
 			StartCoroutine(WaitForProvider());
 		}
 
-		public void OnEnable()
+		public override void OnEnable()
 		{
 			hasBeenClosed = false;
+			base.OnEnable();
 		}
 
 		private IEnumerator WaitForProvider()
@@ -74,9 +72,9 @@ namespace UI.Minigames
 				yield return WaitFor.EndOfFrame;
 			}
 
-			miniGameModule = Provider.GetComponent<ReflectionGolfModule>();
-			miniGameModule.AttachGui(this);
-			miniGameModule.GetTracker().OnGameWon.AddListener(OnWin);
+			MiniGameModule = Provider.GetComponent<ReflectionGolfModule>();
+			MiniGameModule.OnGuiUpdate += UpdateGUI;
+			MiniGameModule.GetTracker().OnGameWon.AddListener(OnWin);
 
 			UpdateGUI();
 
@@ -85,9 +83,9 @@ namespace UI.Minigames
 
 		public void UpdateGUI() //Client side
 		{
-			if(gridInput.initialised == false) gridInput.AttachGUI(this);
+			if(gridInput.Initialised == false) gridInput.AttachGUI(this);
 
-			int lightCount = miniGameModule.FetchUndoCount();
+			int lightCount = MiniGameModule.FetchUndoCount();
 			foreach(var light in UndoLights)
 			{
 				light.sprite = lightSprites[lightCount > 0 ? 1 : 0];
@@ -121,11 +119,11 @@ namespace UI.Minigames
 
 		public void OnRestartButtonPress()
 		{
-			if (miniGameModule == null) return;
-			if (CustomNetworkManager.IsServer == false) miniGameModule.CmdReloadLevel();
+			if (MiniGameModule == null) return;
+			if (CustomNetworkManager.IsServer == false) MiniGameModule.CmdReloadLevel();
 			else
 			{
-				miniGameModule.BeginLevel();
+				MiniGameModule.BeginLevel();
 				UpdateGUI();
 			}		
 		}
@@ -144,6 +142,8 @@ namespace UI.Minigames
 		/// </summary>
 		public void TrimExtendCellList()
 		{
+			int expectedCellCount = MiniGameModule.ExpectedCellCount;
+
 			if (cells.Count == expectedCellCount) return;
 			while (cells.Count > expectedCellCount && cells.Count > 0)
 			{
@@ -174,30 +174,30 @@ namespace UI.Minigames
 		{
 			int cellIndex = 0;
 			
-			if (cells.Count != expectedCellCount) TrimExtendCellList();
+			if (cells.Count != MiniGameModule.ExpectedCellCount) TrimExtendCellList();
 
-			parentTransform.sizeDelta = new Vector2(miniGameModule.ScaleFactor * miniGameModule.currentLevel.Width, miniGameModule.ScaleFactor * miniGameModule.currentLevel.Height);
-			gridImage.pixelsPerUnitMultiplier = CELL_BASE_SIZE / miniGameModule.ScaleFactor;
+			parentTransform.sizeDelta = new Vector2(MiniGameModule.ScaleFactor * MiniGameModule.CurrentLevel.Width, MiniGameModule.ScaleFactor * MiniGameModule.CurrentLevel.Height);
+			gridImage.pixelsPerUnitMultiplier = CELL_BASE_SIZE / MiniGameModule.ScaleFactor;
 
-			for (int y = 0; y < miniGameModule.currentLevel.Height; y++)
+			for (int y = 0; y < MiniGameModule.CurrentLevel.Height; y++)
 			{
-				for (int x = 0; x < miniGameModule.currentLevel.Width; x++)
+				for (int x = 0; x < MiniGameModule.CurrentLevel.Width; x++)
 				{
-					int unfilteredIndex = miniGameModule.currentLevel.LevelData[x + y*miniGameModule.currentLevel.Width].value;
+					int unfilteredIndex = MiniGameModule.CurrentLevel.LevelData[x + y*MiniGameModule.CurrentLevel.Width].value;
 
 					if (unfilteredIndex <= 0) continue;
 
-					float rotation = miniGameModule.currentLevel.LevelData[x + y * miniGameModule.currentLevel.Width].currentRotation * 90;
+					float rotation = MiniGameModule.CurrentLevel.LevelData[x + y * MiniGameModule.CurrentLevel.Width].currentRotation * 90;
 
 					cells[cellIndex].transformComponent.rotation = Quaternion.Euler(0, 0, rotation);
-					cells[cellIndex].transformComponent.sizeDelta = new Vector2(miniGameModule.ScaleFactor, miniGameModule.ScaleFactor);
-					cells[cellIndex].transformComponent.anchoredPosition = new Vector3((x + 0.5f) * miniGameModule.ScaleFactor, (y + 0.5f) * miniGameModule.ScaleFactor, 0);
+					cells[cellIndex].transformComponent.sizeDelta = new Vector2(MiniGameModule.ScaleFactor, MiniGameModule.ScaleFactor);
+					cells[cellIndex].transformComponent.anchoredPosition = new Vector3((x + 0.5f) * MiniGameModule.ScaleFactor, (y + 0.5f) * MiniGameModule.ScaleFactor, 0);
 
 					int spriteIndex = unfilteredIndex;
 
 					if(unfilteredIndex >= (int)SpecialCellTypes.ValidArrow)
 					{
-						spriteIndex = miniGameModule.currentLevel.LevelData[x + y * miniGameModule.currentLevel.Width].isNumber ? (int)SpecialCellTypes.ValidArrow : (int)SpecialCellTypes.ExpendedArrow;
+						spriteIndex = MiniGameModule.CurrentLevel.LevelData[x + y * MiniGameModule.CurrentLevel.Width].isNumber ? (int)SpecialCellTypes.ValidArrow : (int)SpecialCellTypes.ExpendedArrow;
 					}
 					cells[cellIndex].spriteComponenet.sprite = possibleSprites[spriteIndex];
 
@@ -207,7 +207,7 @@ namespace UI.Minigames
 
 			while(cellIndex <= cells.Count - 1) //The only situation this will occur is when a line/arrow has overridden the goal, in this situation we dont want to destroy this excess cell as the goal still exists, but we need to hide it.
 			{
-				cells[cellIndex].transformComponent.anchoredPosition = new Vector2(-miniGameModule.ScaleFactor, -miniGameModule.ScaleFactor);
+				cells[cellIndex].transformComponent.anchoredPosition = new Vector2(-MiniGameModule.ScaleFactor, -MiniGameModule.ScaleFactor);
 				cellIndex++;
 			}
 		}
@@ -216,15 +216,17 @@ namespace UI.Minigames
 		{
 			int cellIndex = 0;
 
-			for (int y = 0; y < miniGameModule.currentLevel.Height; y++)
+			if (cells.Count != MiniGameModule.ExpectedCellCount) TrimExtendCellList();
+
+			for (int y = 0; y < MiniGameModule.CurrentLevel.Height; y++)
 			{
-				for (int x = 0; x < miniGameModule.currentLevel.Width; x++)
+				for (int x = 0; x < MiniGameModule.CurrentLevel.Width; x++)
 				{
-					int unfilteredIndex = miniGameModule.currentLevel.LevelData[x + y * miniGameModule.currentLevel.Width].value;
+					int unfilteredIndex = MiniGameModule.CurrentLevel.LevelData[x + y * MiniGameModule.CurrentLevel.Width].value;
 					if (unfilteredIndex <= 0) continue;
 
 					Color drawColor = Color.white;
-					if (miniGameModule.currentLevel.LevelData[x + y * miniGameModule.currentLevel.Width].isTouched == true) drawColor = Color.grey;
+					if (MiniGameModule.CurrentLevel.LevelData[x + y * MiniGameModule.CurrentLevel.Width].isTouched == true) drawColor = Color.grey;
 
 					cells[cellIndex].spriteComponenet.color = drawColor;
 
@@ -243,7 +245,7 @@ namespace UI.Minigames
 
 			StartCoroutine(WaitToClose());
 
-			miniGameModule.GetTracker().OnGameWon.RemoveListener(OnWin);
+			MiniGameModule.GetTracker().OnGameWon.RemoveListener(OnWin);
 		}
 
 		public void OnFail()
@@ -257,17 +259,14 @@ namespace UI.Minigames
 			OnCloseTab();
 		}
 
-		public void UpdateExpectedCellCount(int newValue)
-		{
-			expectedCellCount = newValue;
-		}
-
-
 		bool hasBeenClosed = false;
 		public void OnCloseTab()  //Making sure the coroutine doesnt try close an already closed tab
 		{
 			if (hasBeenClosed == true) return;
 			hasBeenClosed = true;
+
+			MiniGameModule.OnGuiUpdate -= UpdateGUI;
+
 			CloseTab();
 		}
 

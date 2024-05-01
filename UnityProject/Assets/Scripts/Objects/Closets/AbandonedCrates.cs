@@ -58,7 +58,7 @@ namespace Objects.Closets
 
 			if (currentMiniGameIndex < 0) return;
 
-			if (miniGameModules[currentMiniGameIndex] as ReflectionGolfModule != null) netTab.NetTabType = NetTabType.ReflectionGolf;
+			if (miniGameModules[currentMiniGameIndex] is ReflectionGolfModule) netTab.NetTabType = NetTabType.ReflectionGolf;
 
 			miniGameModules[currentMiniGameIndex].Setup(miniGameTracker, gameObject);
 

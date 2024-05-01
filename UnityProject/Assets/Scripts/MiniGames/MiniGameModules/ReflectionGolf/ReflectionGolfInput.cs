@@ -6,20 +6,20 @@ using UI.Minigames;
 public class ReflectionGolfInput
 {
 	private GUI_ReflectionGolf gui = null;
-	private ReflectionGolfModule miniGameModule => gui.miniGameModule;
+	private ReflectionGolfModule miniGameModule => gui.MiniGameModule;
 
-	private ReflectionGolfLevel level => miniGameModule.currentLevel;
+	private ReflectionGolfLevel level => miniGameModule.CurrentLevel;
 	private float cellSize => miniGameModule.ScaleFactor;
 
-	private RectTransform gridTransform = null;
+	private readonly RectTransform gridTransform = null;
 
 	private Vector2Int previousGridClick = Vector2Int.zero;
 
-	private bool isGameActive => miniGameModule.miniGameActive;
+	private bool isGameActive => miniGameModule.MiniGameActive;
 
-	private int MAX_RECURSION = 20; //This can be increased if needed, just here to prevent infinite loops in situtation wehere things go wrong.
+	private const int MAX_RECURSION = 20; //This can be increased if needed, just here to prevent infinite loops in situtation wehere things go wrong.
 
-	public bool initialised { get; private set; } = false;
+	public bool Initialised { get; private set; } = false;
 
 	public ReflectionGolfInput(RectTransform transform)
 	{
@@ -29,12 +29,12 @@ public class ReflectionGolfInput
 	public void AttachGUI(GUI_ReflectionGolf module) //Each GUI instance has its own input controller object, but each GolfModule can have multiple GUIs. More reliable to use the GUI here instead of the Module as a result
 	{
 		gui = module;
-		initialised = true;
+		Initialised = true;
 	}
 
 	public void OnGridPress(Vector3 mousePosition, Vector3 _uiPosition)
 	{
-		if (initialised == false || isGameActive == false) return;
+		if (Initialised == false || isGameActive == false) return;
 
 		Vector3 uiscale =  gui.transform.lossyScale;
 		float _cellSize = cellSize * uiscale.x;
@@ -117,28 +117,28 @@ public class ReflectionGolfInput
 
 		level.LevelData[indexOld] = oldCellData;
 
-		gui.UpdateExpectedCellCount(gui.expectedCellCount + lineLength);
+		miniGameModule.UpdateCellsData(miniGameModule.ExpectedCellCount + lineLength);
 		miniGameModule.InsertNewMove(previousGridClick, clickPosition);
 
-		if (CustomNetworkManager.IsServer) miniGameModule.SyncDataToClients(miniGameModule.previousMoves, level.Width, level.LevelData);
-		else miniGameModule.CmdSyncDataToSever(miniGameModule.previousMoves, level.Width, level.LevelData);
+		if (CustomNetworkManager.IsServer) miniGameModule.SyncDataToClients(miniGameModule.PreviousMoves, level.Width, level.LevelData);
+		else miniGameModule.CmdSyncDataToSever(miniGameModule.PreviousMoves, level.Width, level.LevelData);
 		
 	}
 
 	internal void OnUndo()
 	{
-		if (miniGameModule.previousMoves[0].numberLocation == Vector2Int.left || miniGameModule.previousMoves[0].clickLocation == Vector2Int.left) return;
+		if (miniGameModule.PreviousMoves[0].numberLocation == Vector2Int.left || miniGameModule.PreviousMoves[0].clickLocation == Vector2Int.left) return;
 
-		UndoLine(miniGameModule.previousMoves[0]); //Actually performs the Undo action on the grid
+		UndoLine(miniGameModule.PreviousMoves[0]); //Actually performs the Undo action on the grid
 
 		UndoInformation invalidEntry = new UndoInformation(Vector2Int.left, Vector2Int.left);
 
-		miniGameModule.previousMoves[0] = miniGameModule.previousMoves[1]; //Updates the undo array to remove the top most entry
-		miniGameModule.previousMoves[1] = miniGameModule.previousMoves[2];
-		miniGameModule.previousMoves[2] = invalidEntry;
+		miniGameModule.PreviousMoves[0] = miniGameModule.PreviousMoves[1]; //Updates the undo array to remove the top most entry
+		miniGameModule.PreviousMoves[1] = miniGameModule.PreviousMoves[2];
+		miniGameModule.PreviousMoves[2] = invalidEntry;
 
-		if (CustomNetworkManager.IsServer) miniGameModule.SyncDataToClients(miniGameModule.previousMoves, level.Width, level.LevelData); //Syncs the new grid data and undos to all clients
-		else miniGameModule.CmdSyncDataToSever(miniGameModule.previousMoves, level.Width, level.LevelData);
+		if (CustomNetworkManager.IsServer) miniGameModule.SyncDataToClients(miniGameModule.PreviousMoves, level.Width, level.LevelData); //Syncs the new grid data and undos to all clients
+		else miniGameModule.CmdSyncDataToSever(miniGameModule.PreviousMoves, level.Width, level.LevelData);
 
 		gui.UpdateGUI();
 	}
@@ -180,7 +180,7 @@ public class ReflectionGolfInput
 
 		}
 
-		gui.UpdateExpectedCellCount(gui.expectedCellCount - lineLength);
+		miniGameModule.UpdateCellsData(miniGameModule.ExpectedCellCount - lineLength);
 	}
 
 	private int ExtendNumber(Vector2Int extensionDirection)

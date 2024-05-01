@@ -8,18 +8,20 @@ namespace MiniGames.MiniGameModules
 {
 	public class ReflectionGolfModule : MiniGameModule
 	{		
-		public bool miniGameActive { get; private set; } = false;
-		public bool miniGameWon { get; private set; } = false;
+		public bool MiniGameActive { get; private set; } = false;
+		public bool MiniGameWon { get; private set; } = false;
 
-		public ReflectionGolfLevel currentLevel { get; private set; } = null;
-		public GUI_ReflectionGolf miniGameGUI { get; private set; } = null;
+		public ReflectionGolfLevel CurrentLevel { get; private set; } = null;
 
-		internal UndoInformation[] previousMoves { get; private set; } = new UndoInformation[MAX_UNDOS]; 
+		public delegate void GuiUpdate();
+		public GuiUpdate OnGuiUpdate;
+
+		internal UndoInformation[] PreviousMoves { get; private set; } = new UndoInformation[MAX_UNDOS]; 
 		private const int MAX_UNDOS = 3;
 
-		private int expectedCellCount = 0;
+		public int ExpectedCellCount { get; private set; } = 0;
 
-		public float ScaleFactor => ReflectionGolfLevel.DISPLAY_WIDTH / Math.Max(currentLevel.Width, currentLevel.Height);
+		public float ScaleFactor => ReflectionGolfLevel.DISPLAY_WIDTH / Math.Max(CurrentLevel.Width, CurrentLevel.Height);
 
 		private string currentLevelName = "Easy 5x5 A";
 
@@ -53,9 +55,9 @@ namespace MiniGames.MiniGameModules
 			if (CustomNetworkManager.IsServer == false) return;
 			if (currentLevelName == "") return;
 
-			currentLevel = new ReflectionGolfLevel(currentLevelName, this);
+			CurrentLevel = new ReflectionGolfLevel(currentLevelName, this);
 
-			SyncDataToClients(previousMoves, currentLevel.Width, currentLevel.LevelData);
+			SyncDataToClients(PreviousMoves, CurrentLevel.Width, CurrentLevel.LevelData);
 		}
 
 		public MiniGameResultTracker GetTracker()
@@ -66,21 +68,18 @@ namespace MiniGames.MiniGameModules
 	
 		public override void StartMiniGame()
 		{
-			if (miniGameActive == true) return;
-			miniGameActive = true;
+			if (MiniGameActive == true) return;
+			MiniGameActive = true;
 		}
 
 		public void InsertNewMove(Vector2Int numberLocation, Vector2Int clickLocation)
 		{
 			UndoInformation entry = new UndoInformation(numberLocation, clickLocation);
-			previousMoves[2] = previousMoves[1];
-			previousMoves[1] = previousMoves[0];
-			previousMoves[0] = entry;
+			PreviousMoves[2] = PreviousMoves[1];
+			PreviousMoves[1] = PreviousMoves[0];
+			PreviousMoves[0] = entry;
 
-
-			if (miniGameGUI == null) return;
-
-			miniGameGUI.UpdateGUI();
+			OnGuiUpdate?.Invoke();
 		}
 
 		public int FetchUndoCount()
@@ -88,7 +87,7 @@ namespace MiniGames.MiniGameModules
 			UndoInformation invalidUndo = new UndoInformation(Vector2Int.left, Vector2Int.left);
 			int i = 0;
 
-			foreach (var entry in previousMoves)
+			foreach (var entry in PreviousMoves)
 			{
 				if (entry.Equals(invalidUndo) == false) i++;
 			}
@@ -98,34 +97,18 @@ namespace MiniGames.MiniGameModules
 
 		public void ClearAllMoves()
 		{
-			previousMoves = new UndoInformation[MAX_UNDOS];
+			PreviousMoves = new UndoInformation[MAX_UNDOS];
 			for (int i = 0; i < MAX_UNDOS; i++)
 			{
-				previousMoves[i] = new UndoInformation(Vector2Int.left, Vector2Int.left);
+				PreviousMoves[i] = new UndoInformation(Vector2Int.left, Vector2Int.left);
 			}
 		}
 
 		#region UIFunctions
-
-		public void AttachGui(GUI_ReflectionGolf gui)
-		{
-			miniGameGUI = gui;
-			UpdateCellsData();
-		}
 		
 		public void UpdateCellsData(int _expectedCellCount)
 		{
-			expectedCellCount = _expectedCellCount;
-
-			UpdateCellsData();
-		}
-
-		public void UpdateCellsData()
-		{
-			if (miniGameGUI == null) return;
-
-			miniGameGUI.UpdateExpectedCellCount(expectedCellCount);
-			miniGameGUI.TrimExtendCellList();		
+			ExpectedCellCount = _expectedCellCount;
 		}
 
 		#endregion
@@ -134,7 +117,7 @@ namespace MiniGames.MiniGameModules
 
 		protected override void OnGameDone(bool t)
 		{
-			miniGameActive = false;
+			MiniGameActive = false;
 			base.OnGameDone(t);
 		}
 
@@ -160,7 +143,12 @@ namespace MiniGames.MiniGameModules
 		private void OnVictory()
 		{
 			Tracker.OnGameEnd(true);
-			miniGameActive = false;
+			MiniGameActive = false;
+		}
+
+		public void TriggerGuiUpdate()
+		{
+			OnGuiUpdate?.Invoke();
 		}
 
 		#endregion
@@ -172,9 +160,9 @@ namespace MiniGames.MiniGameModules
 		{
 			if (CustomNetworkManager.IsServer == true) return;
 
-			miniGameActive = true;
-			previousMoves = undoInformation;
-			currentLevel = new ReflectionGolfLevel(levelData, width, this);
+			MiniGameActive = true;
+			PreviousMoves = undoInformation;
+			CurrentLevel = new ReflectionGolfLevel(levelData, width, this);
 		}
 
 		[Command(requiresAuthority = false)]
@@ -185,10 +173,10 @@ namespace MiniGames.MiniGameModules
 			if (sender == null) return;
 			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
 
-			previousMoves = undoInformation;
-			currentLevel = new ReflectionGolfLevel(levelData, width,this);
+			PreviousMoves = undoInformation;
+			CurrentLevel = new ReflectionGolfLevel(levelData, width,this);
 
-			SyncDataToClients(previousMoves, width,levelData);
+			SyncDataToClients(PreviousMoves, width,levelData);
 		}
 
 		[Command(requiresAuthority = false)]
@@ -201,9 +189,9 @@ namespace MiniGames.MiniGameModules
 		[Command(requiresAuthority = false)]
 		internal void RequestSync() //Called by new clients in order to synchronise their puzzles
 		{
-			if (currentLevel == null) return;
+			if (CurrentLevel == null) return;
 
-			SyncDataToClients(previousMoves, currentLevel.Width, currentLevel.LevelData);
+			SyncDataToClients(PreviousMoves, CurrentLevel.Width, CurrentLevel.LevelData);
 		}
 
 		[ClientRpc]
@@ -211,8 +199,8 @@ namespace MiniGames.MiniGameModules
 		{
 			if (CustomNetworkManager.IsServer) return;
 
-			if (miniGameWon == true) return; //Make sure we can only trigger this once
-			miniGameWon = true;
+			if (MiniGameWon == true) return; //Make sure we can only trigger this once
+			MiniGameWon = true;
 
 			OnVictory();
 		}
@@ -223,8 +211,8 @@ namespace MiniGames.MiniGameModules
 			if (sender == null) return;
 			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
 
-			if (miniGameWon == true) return; //Make sure we can only trigger this once
-			miniGameWon = true;
+			if (MiniGameWon == true) return; //Make sure we can only trigger this once
+			MiniGameWon = true;
 
 			OnVictory();
 			SyncVictory();

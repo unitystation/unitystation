@@ -16,18 +16,15 @@ namespace MiniGames.MiniGameModules
 
 		public short Height { get; private set; }
 
-		public CellData[] LevelData { get; private set; } = new CellData[0]; //Must be synced
-
-		private string name = ""; //Only needed server side
+		public CellData[] LevelData { get; private set; } = new CellData[0]; 
 
 		public Vector2Int GoalLocation { get; private set; }
 
-		private ReflectionGolfModule miniGameModule = null;
+		private readonly ReflectionGolfModule miniGameModule = null;
 
 		public ReflectionGolfLevel(string fileName, ReflectionGolfModule _miniGameModule)
 		{
 			miniGameModule = _miniGameModule;
-			name = fileName;
 			LoadLevelFromFile(fileName);
 		}
 
@@ -35,22 +32,20 @@ namespace MiniGames.MiniGameModules
 		{
 			miniGameModule = _miniGameModule;
 
-			miniGameModule.ClearAllMoves();
-
 			LevelData = levelData;
 			Width = width;
 			Height = (short)(levelData.Length / width);
 
 			InitialiseLevelValues();
 
-			miniGameModule.miniGameGUI.UpdateGUI();
+			miniGameModule.TriggerGuiUpdate();
 		}
 
 		public void LoadLevelFromFile(string fileName)
 		{
 			miniGameModule.ClearAllMoves();
 
-			if (name == "") return;
+			if (fileName == "") return;
 			string path = Path.Combine("MiniGamesData", "ReflectionGolf", fileName + ".txt");
 
 			if (AccessFile.Exists(path) == false)
