@@ -16,7 +16,7 @@ namespace Objects.Closets
 		[SerializeField] private ClosetControl control;
 		[SerializeField] private HasNetworkTab netTab = null;
 
-		[SyncVar(hook = nameof(SyncMiniGame))] private int currentMiniGameIndex = -1;
+		[SyncVar(hook = nameof(SyncMiniGame))] private int currentMiniGameIndex = 0;
 		private bool hasCompletedPuzzle = false;
 
 
@@ -32,7 +32,8 @@ namespace Objects.Closets
 
 		public void SyncMiniGame(int oldValue, int newValue)
 		{
-			if(currentMiniGameIndex == newValue) return;
+			if (CustomNetworkManager.IsServer == true) return;
+			if (oldValue == newValue) return;
 
 			currentMiniGameIndex = newValue;
 
@@ -55,6 +56,8 @@ namespace Objects.Closets
 
 			}
 
+			if (currentMiniGameIndex < 0) return;
+
 			if (miniGameModules[currentMiniGameIndex] as ReflectionGolfModule != null) netTab.NetTabType = NetTabType.ReflectionGolf;
 
 			miniGameModules[currentMiniGameIndex].Setup(miniGameTracker, gameObject);
@@ -65,8 +68,6 @@ namespace Objects.Closets
 
 		public void StartGame()
 		{
-			if (currentMiniGameIndex < 0) return;
-
 			miniGameModules[currentMiniGameIndex].StartMiniGame();
 
 			miniGameTracker.OnStartGame?.Invoke();

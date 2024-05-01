@@ -548,7 +548,9 @@
             },
 			"Path" : {
 				"Methods": [
-					"string Combine(string, string)"
+					"string Combine(string, string)",
+                    "string Combine(string, string, string)",
+                    "string Combine(string, string, string, string)"
 				]
 			},
 			"StringReader" : {
