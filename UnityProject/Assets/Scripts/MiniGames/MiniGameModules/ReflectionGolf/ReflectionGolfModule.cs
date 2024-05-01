@@ -42,6 +42,8 @@ namespace MiniGames.MiniGameModules
 			base.Setup(tracker, parent);
 			selectedDifficulty = difficulty;
 
+			if (CustomNetworkManager.IsServer == false) return;
+
 			currentLevelName = puzzleListSO.RetrieveLevel(selectedDifficulty);
 			BeginLevel();
 		}

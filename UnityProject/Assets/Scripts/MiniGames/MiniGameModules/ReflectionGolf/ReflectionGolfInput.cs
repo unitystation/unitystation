@@ -1,9 +1,7 @@
 using MiniGames.MiniGameModules;
 using UnityEngine;
-using System.Drawing;
 using System;
 using UI.Minigames;
-using Clothing;
 
 public class ReflectionGolfInput
 {
@@ -38,10 +36,10 @@ public class ReflectionGolfInput
 	{
 		if (initialised == false || isGameActive == false) return;
 
-		float uiscale = UIManager.Instance.Scaler.scaleFactor;
-		float _cellSize = cellSize * uiscale;
+		Vector3 uiscale =  gui.transform.lossyScale;
+		float _cellSize = cellSize * uiscale.x;
 
-		Vector2 pos = (mousePosition - _uiPosition).To2() - gridTransform.anchoredPosition + new Vector2(300 * uiscale, 300 * uiscale); //To local coordinate space
+		Vector2 pos = (mousePosition - _uiPosition).To2() - gridTransform.anchoredPosition + new Vector2(300 * uiscale.x, 300 * uiscale.y); //To local coordinate space
 
 
 		if (level.Width < level.Height) pos.x = pos.x - ((level.Height - level.Width) * _cellSize / 2);
