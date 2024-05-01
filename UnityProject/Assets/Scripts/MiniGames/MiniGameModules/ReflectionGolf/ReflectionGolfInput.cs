@@ -153,15 +153,16 @@ public class ReflectionGolfInput
 
 		Vector2Int extensionDirection;
 		Vector2Int clickPosition = undo.clickLocation;
+		Vector2Int numPos = undo.numberLocation;
 
-		if (Math.Abs(clickPosition.x - previousGridClick.x) > Math.Abs(clickPosition.y - previousGridClick.y)) extensionDirection = new Vector2Int(Math.Sign(clickPosition.x - previousGridClick.x), 0);
-		else extensionDirection = new Vector2Int(0, Math.Sign(clickPosition.y - previousGridClick.y));
+		if (Math.Abs(clickPosition.x - numPos.x) > Math.Abs(clickPosition.y - numPos.y)) extensionDirection = new Vector2Int(Math.Sign(clickPosition.x - numPos.x), 0);
+		else extensionDirection = new Vector2Int(0, Math.Sign(clickPosition.y - numPos.y));
 
 		int lineLength = 0;
 
 		for (int i = 0; i < MAX_RECURSION; i++)
 		{
-			Vector2Int newGridPosition = previousGridClick + (extensionDirection * (i + 1));
+			Vector2Int newGridPosition = numPos + (extensionDirection * (i + 1));
 			int indexNew = newGridPosition.x + newGridPosition.y * level.Width;
 			int oldVal = level.LevelData[indexNew].value;
 

@@ -121,7 +121,13 @@ namespace UI.Minigames
 
 		public void OnRestartButtonPress()
 		{
-			miniGameModule.BeginLevel();
+			if (miniGameModule == null) return;
+			if (CustomNetworkManager.IsServer == false) miniGameModule.CmdReloadLevel();
+			else
+			{
+				miniGameModule.BeginLevel();
+				UpdateGUI();
+			}		
 		}
 
 		#endregion

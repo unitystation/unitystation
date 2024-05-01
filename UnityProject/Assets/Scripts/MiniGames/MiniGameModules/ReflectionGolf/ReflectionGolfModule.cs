@@ -21,7 +21,7 @@ namespace MiniGames.MiniGameModules
 
 		public float ScaleFactor => ReflectionGolfLevel.DISPLAY_WIDTH / Math.Max(currentLevel.Width, currentLevel.Height);
 
-		private string currentLevelName = "";
+		private string currentLevelName = "Easy 5x5 A";
 
 
 		[Header("Settings"), SerializeField]
@@ -41,15 +41,19 @@ namespace MiniGames.MiniGameModules
 		{
 			base.Setup(tracker, parent);
 			selectedDifficulty = difficulty;
+
 			currentLevelName = puzzleListSO.RetrieveLevel(selectedDifficulty);
 			BeginLevel();
 		}
 
 		public void BeginLevel()
 		{
-			if (CustomNetworkManager.IsServer) currentLevel = new ReflectionGolfLevel(currentLevelName, this);
+			if (CustomNetworkManager.IsServer == false) return;
+			if (currentLevelName == "") return;
 
-			StartMiniGame();
+			currentLevel = new ReflectionGolfLevel(currentLevelName, this);
+
+			SyncDataToClients(previousMoves, currentLevel.Width, currentLevel.LevelData);
 		}
 
 		public MiniGameResultTracker GetTracker()
@@ -57,10 +61,10 @@ namespace MiniGames.MiniGameModules
 			return Tracker;
 		}
 
+	
 		public override void StartMiniGame()
 		{
-			if (CustomNetworkManager.IsServer) SyncDataToClients(previousMoves, currentLevel.Width, currentLevel.LevelData);
-
+			if (miniGameActive == true) return;
 			miniGameActive = true;
 		}
 
@@ -109,7 +113,7 @@ namespace MiniGames.MiniGameModules
 		
 		public void UpdateCellsData(int _expectedCellCount)
 		{
-			expectedCellCount += _expectedCellCount;
+			expectedCellCount = _expectedCellCount;
 
 			UpdateCellsData();
 		}
@@ -183,6 +187,13 @@ namespace MiniGames.MiniGameModules
 			currentLevel = new ReflectionGolfLevel(levelData, width,this);
 
 			SyncDataToClients(previousMoves, width,levelData);
+		}
+
+		[Command(requiresAuthority = false)]
+		internal void CmdReloadLevel()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			BeginLevel();
 		}
 
 		[Command(requiresAuthority = false)]

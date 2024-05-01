@@ -34,6 +34,9 @@ namespace MiniGames.MiniGameModules
 		public ReflectionGolfLevel(CellData[] levelData, short width, ReflectionGolfModule _miniGameModule)
 		{
 			miniGameModule = _miniGameModule;
+
+			miniGameModule.ClearAllMoves();
+
 			LevelData = levelData;
 			Width = width;
 			Height = (short)(levelData.Length / width);
@@ -55,7 +58,9 @@ namespace MiniGames.MiniGameModules
 				Loggy.LogError($"MiniGames/ReflectionGolfLevel.cs at line 64. The specified file path does not exist! {path}");
 				return;
 			}
+
 			string level = AccessFile.Load(path);
+
 
 			MatchCollection matches = Regex.Matches(level, @"([-\d ]+)+");
 
@@ -88,6 +93,7 @@ namespace MiniGames.MiniGameModules
 					LevelData[x + y*Width] = newCell;
 				}
 			}
+		
 			miniGameModule.UpdateCellsData(uniqueObjects);
 		}
 
