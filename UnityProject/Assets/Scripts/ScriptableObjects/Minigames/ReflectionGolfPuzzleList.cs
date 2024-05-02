@@ -17,9 +17,9 @@ namespace ScriptableObjects.MiniGames
 		[SerializeField]
 		private List<string> veryHardLevelNames = new List<string>();
 
-		private const int LOWER_BIAS = 3;
-		private const int HIGHER_BIAS = 6;
-		private const int AT_LEVEL_BIAS = 10;
+		private const int LOWER_BIAS = 6;
+		private const int HIGHER_BIAS = 4;
+		private const int AT_LEVEL_BIAS = 8;
 
 		/// <summary>
 		/// Returns the string name of a level picked at random biased by the selected difficulty.
