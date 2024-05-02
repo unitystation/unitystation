@@ -6,20 +6,23 @@ using UI.Minigames;
 public class ReflectionGolfInput
 {
 	private GUI_ReflectionGolf gui = null;
+
 	private ReflectionGolfModule miniGameModule => gui.MiniGameModule;
+	private float cellSize => miniGameModule.ScaleFactor;
+	private bool isGameActive => miniGameModule.MiniGameActive;
 
 	private ReflectionGolfLevel level => miniGameModule.CurrentLevel;
-	private float cellSize => miniGameModule.ScaleFactor;
 
 	private readonly RectTransform gridTransform = null;
 
 	private Vector2Int previousGridClick = Vector2Int.zero;
 
-	private bool isGameActive => miniGameModule.MiniGameActive;
-
 	private const int MAX_RECURSION = 20; //This can be increased if needed, just here to prevent infinite loops in situtation wehere things go wrong.
 
 	public bool Initialised { get; private set; } = false;
+
+	private const int STANDARD_DISPLAY_WIDTH = 1920; //From online scene UI dimensions
+	private const int STANDARD_DISPLAY_HEIGHT = 1080;
 
 	public ReflectionGolfInput(RectTransform transform)
 	{
@@ -36,10 +39,10 @@ public class ReflectionGolfInput
 	{
 		if (Initialised == false || isGameActive == false) return;
 
-		Vector3 uiscale =  gui.transform.lossyScale;
-		float _cellSize = cellSize * uiscale.x;
+		float uiscale =  UIManager.Instance.Scaler.scaleFactor;
+		float _cellSize = cellSize * uiscale;
 
-		Vector2 pos = (mousePosition - _uiPosition).To2() - gridTransform.anchoredPosition + new Vector2(300 * uiscale.x, 300 * uiscale.y); //To local coordinate space
+		Vector2 pos = (mousePosition - _uiPosition).To2() - gridTransform.anchoredPosition*uiscale + new Vector2(300 * uiscale, 300 * uiscale); //To local coordinate space
 
 
 		if (level.Width < level.Height) pos.x = pos.x - ((level.Height - level.Width) * _cellSize / 2);

@@ -62,15 +62,7 @@ namespace Objects.Closets
 
 			miniGameModules[currentMiniGameIndex].Setup(miniGameTracker, gameObject);
 
-			StartGame();
-		}
-
-
-		public void StartGame()
-		{
-			miniGameModules[currentMiniGameIndex].StartMiniGame();
-
-			miniGameTracker.OnStartGame?.Invoke();
+			miniGameTracker.StartGame();
 		}
 
 		public void GameWin()
