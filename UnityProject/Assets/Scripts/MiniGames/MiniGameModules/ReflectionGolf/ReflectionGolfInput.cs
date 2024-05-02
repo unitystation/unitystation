@@ -21,8 +21,6 @@ public class ReflectionGolfInput
 
 	public bool Initialised { get; private set; } = false;
 
-	private const int STANDARD_DISPLAY_WIDTH = 1920; //From online scene UI dimensions
-	private const int STANDARD_DISPLAY_HEIGHT = 1080;
 
 	public ReflectionGolfInput(RectTransform transform)
 	{

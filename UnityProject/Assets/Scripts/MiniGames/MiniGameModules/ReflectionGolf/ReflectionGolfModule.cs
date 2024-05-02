@@ -31,14 +31,6 @@ namespace MiniGames.MiniGameModules
 		[SerializeField]
 		private ReflectionGolfPuzzleList puzzleListSO = null;
 
-		public override void OnStartClient()
-		{
-			base.OnStartClient();
-
-			if (CustomNetworkManager.IsServer) return;
-			RequestSync();
-		}
-
 		public override void Setup(MiniGameResultTracker tracker, GameObject parent, Difficulty difficulty = Difficulty.Normal)
 		{
 			base.Setup(tracker, parent);
@@ -146,11 +138,6 @@ namespace MiniGames.MiniGameModules
 			MiniGameActive = false;
 		}
 
-		public void TriggerGuiUpdate()
-		{
-			OnGuiUpdate?.Invoke();
-		}
-
 		#endregion
 
 		#region Networking
@@ -163,6 +150,8 @@ namespace MiniGames.MiniGameModules
 			MiniGameActive = true;
 			PreviousMoves = undoInformation;
 			CurrentLevel = new ReflectionGolfLevel(levelData, width, this);
+
+			OnGuiUpdate?.Invoke();
 		}
 
 		[Command(requiresAuthority = false)]
@@ -177,6 +166,8 @@ namespace MiniGames.MiniGameModules
 			CurrentLevel = new ReflectionGolfLevel(levelData, width,this);
 
 			SyncDataToClients(PreviousMoves, width,levelData);
+
+			OnGuiUpdate?.Invoke();
 		}
 
 		[Command(requiresAuthority = false)]
@@ -184,6 +175,8 @@ namespace MiniGames.MiniGameModules
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 			BeginLevel();
+
+			OnGuiUpdate?.Invoke();
 		}
 
 		[Command(requiresAuthority = false)]

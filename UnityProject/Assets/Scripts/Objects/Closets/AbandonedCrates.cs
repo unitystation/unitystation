@@ -20,7 +20,7 @@ namespace Objects.Closets
 		private bool hasCompletedPuzzle = false;
 
 
-		private void Awake()
+		private void Start()
 		{
 			if (control == null) control = GetComponent<ClosetControl>();
 
@@ -38,6 +38,7 @@ namespace Objects.Closets
 			currentMiniGameIndex = newValue;
 
 			SetupMiniGames();
+
 		}
 
 		private void SetupMiniGames()
@@ -58,11 +59,16 @@ namespace Objects.Closets
 
 			if (currentMiniGameIndex < 0) return;
 
-			if (miniGameModules[currentMiniGameIndex] is ReflectionGolfModule) netTab.NetTabType = NetTabType.ReflectionGolf;
-
 			miniGameModules[currentMiniGameIndex].Setup(miniGameTracker, gameObject);
 
 			miniGameTracker.StartGame();
+
+			ReflectionGolfModule golf = miniGameModules[currentMiniGameIndex] as ReflectionGolfModule;
+			if (golf != null)
+			{
+				netTab.NetTabType = NetTabType.ReflectionGolf;
+				golf.RequestSync();
+			}
 		}
 
 		public void GameWin()

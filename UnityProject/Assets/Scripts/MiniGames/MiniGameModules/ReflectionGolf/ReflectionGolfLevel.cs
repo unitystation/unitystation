@@ -37,8 +37,6 @@ namespace MiniGames.MiniGameModules
 			Height = (short)(levelData.Length / width);
 
 			InitialiseLevelValues();
-
-			miniGameModule.TriggerGuiUpdate();
 		}
 
 		public void LoadLevelFromFile(string fileName)
@@ -102,9 +100,9 @@ namespace MiniGames.MiniGameModules
 		{
 			int uniqueObjects = 0;
 
-			for (int x = 0; x < Width; x++)
+			for (int y = 0; y < Height; y++)
 			{
-				for (int y = 0; y < Height; y++)
+				for (int x = 0; x < Width; x++)
 				{
 					if (LevelData[x + y*Width].value != (int)SpecialCellTypes.None) uniqueObjects++;
 					if(LevelData[x + y*Width].value != (int)SpecialCellTypes.Goal) continue;

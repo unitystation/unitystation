@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MiniGames.MiniGameModules;
 using UnityEngine.UI;
+using Logs;
 
 namespace UI.Minigames
 {
@@ -121,11 +122,7 @@ namespace UI.Minigames
 		{
 			if (MiniGameModule == null) return;
 			if (CustomNetworkManager.IsServer == false) MiniGameModule.CmdReloadLevel();
-			else
-			{
-				MiniGameModule.BeginLevel();
-				UpdateGUI();
-			}		
+			else MiniGameModule.BeginLevel();	
 		}
 
 		#endregion
