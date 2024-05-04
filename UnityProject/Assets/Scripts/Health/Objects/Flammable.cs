@@ -259,6 +259,11 @@ namespace Health.Objects
 			}
 		}
 
+		public void AddFireStacks(int amount)
+		{
+			SyncOnFire(fireStacks, fireStacks + amount);
+		}
+
 		/// <summary>
 		/// EXPENSIVE, DO NOT SPAM THIS EVERY FRAME.
 		/// creates a hotspot for a given position (duh) which spreads around to nearby tiles by default, temprature can be defined for that spot.
