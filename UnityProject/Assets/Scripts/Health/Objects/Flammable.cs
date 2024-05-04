@@ -15,7 +15,7 @@ namespace Health.Objects
 {
 	[RequireComponent(typeof(Integrity))]
 	[RequireComponent(typeof(RegisterTile))]
-	public class Flammable : NetworkBehaviour, IServerSpawn, IRightClickable, IHoverTooltip
+	public class Flammable : NetworkBehaviour, IServerSpawn, IRightClickable, IHoverTooltip, IExaminable
 	{
 		private Integrity integrity;
 		public Integrity Integrity => integrity;
@@ -41,10 +41,10 @@ namespace Health.Objects
 		private bool isLarge = false;
 
 		[SerializeField] private float minimumFireDamageForStack = 12;
-		[SerializeField] private float chanceToSpread = 20;
+		[SerializeField, SyncVar] private float chanceToSpread = 20;
 		[SerializeField] private int maxStacks = 20;
 
-		private long lastBurnStackTickTime = 0;
+		[SyncVar] private long lastBurnStackTickTime = 0;
 		private const long BURN_STACK_TICK_INTERVAL = 60 * TimeSpan.TicksPerSecond; // 60 seconds in ticks
 
 		private bool isUpdating = false;
@@ -251,6 +251,11 @@ namespace Health.Objects
 			SyncOnFire(fireStacks, 0);
 		}
 
+		private void DebugMakeItAlwaysSpread()
+		{
+			chanceToSpread = 100;
+		}
+
 		public RightClickableResult GenerateRightClickOptions()
 		{
 			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) || KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
@@ -261,7 +266,8 @@ namespace Health.Objects
 			if (IsOnFire)
 			{
 				return RightClickableResult.Create()
-					.AddAdminElement("[Debug] - Set firestacks to 0", ResetFireStacks);
+					.AddAdminElement("[Debug] - Set firestacks to 0", ResetFireStacks)
+					.AddAdminElement("[Debug] - Set fire spread chance to 100%", DebugMakeItAlwaysSpread);
 			}
 			else
 			{
@@ -273,6 +279,12 @@ namespace Health.Objects
 		public string HoverTip()
 		{
 			if (IsOnFire == false) return null;
+			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) == false && KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
+			{
+				long currentTickTime = DateTime.UtcNow.Ticks;
+				long timeElapsed = currentTickTime - lastBurnStackTickTime;
+				return $"Firestacks: {fireStacks}\n last tick: {lastBurnStackTickTime}\n timeElapsed: {timeElapsed}".Color(RichTextColor.Yellow);
+			}
 			return "It's on fire!".Color(Color.red).Bold();
 		}
 
@@ -295,6 +307,12 @@ namespace Health.Objects
 		{
 			if (IsOnFire == false) return null;
 			return new List<TextColor> { new TextColor() { Text = "Find and use a fire extingusher!", Color = Color.red } };
+		}
+
+		public string Examine(Vector3 worldPos = default)
+		{
+			if (IsOnFire == false) return null;
+			return "It's on fire!".Color(Color.red).Bold();
 		}
 	}
 }
