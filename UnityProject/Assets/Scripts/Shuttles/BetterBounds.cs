@@ -25,7 +25,7 @@ namespace TileManagement
 
 		public Vector3 center => (Minimum + Maximum) / 2;
 
-		public bool Contains(Vector3 Point)
+		public readonly bool Contains(Vector3 Point)
 		{
 			if (Point.x >= Minimum.x && Point.x <= Maximum.x)
 			{
@@ -36,6 +36,62 @@ namespace TileManagement
 			}
 
 			return false;
+		}
+
+
+
+		public BetterBounds(Vector3 pointA, Vector3 pointB)
+		{
+			Minimum = new Vector3(Mathf.Min(pointA.x, pointB.x), Mathf.Min(pointA.y, pointB.y));
+			Maximum = new Vector3(Mathf.Max(pointA.x, pointB.x), Mathf.Max(pointA.y, pointB.y));
+		}
+
+
+		public bool LineIntersectsRect(Vector2 p1, Vector2 p2)
+		{
+			var Tmin = min;
+			var Tmax = max;
+
+			var Xmin_ymax = new Vector2(xMin, yMax);
+			var xMax_yMin = new Vector2(xMax, yMin);
+
+			return LineIntersectsLine(p1, p2, Tmin, Xmin_ymax) ||
+			       LineIntersectsLine(p1, p2, Tmin, xMax_yMin) ||
+			       LineIntersectsLine(p1, p2, Tmax, Xmin_ymax) ||
+			       LineIntersectsLine(p1, p2, Tmax, xMax_yMin) ||
+			       (FindPoint( p1) && FindPoint(p2));
+		}
+
+		private bool FindPoint(Vector2 Point)
+		{
+			if (Point.x > min.x && Point.x < max.x &&
+			    Point.y > min.y && Point.y < max.y)
+				return true;
+
+			return false;
+		}
+
+		private bool LineIntersectsLine(Vector2 l1p1, Vector2 l1p2, Vector2 l2p1, Vector2 l2p2)
+		{
+			float q = (l1p1.y - l2p1.y) * (l2p2.x - l2p1.x) - (l1p1.x - l2p1.x) * (l2p2.y - l2p1.y);
+			float d = (l1p2.x - l1p1.x) * (l2p2.y - l2p1.y) - (l1p2.y - l1p1.y) * (l2p2.x - l2p1.x);
+
+			if (d == 0)
+			{
+				return false;
+			}
+
+			float r = q / d;
+
+			q = (l1p1.y - l2p1.y) * (l1p2.x - l1p1.x) - (l1p1.x - l2p1.x) * (l1p2.y - l1p1.y);
+			float s = q / d;
+
+			if (r < 0 || r > 1 || s < 0 || s > 1)
+			{
+				return false;
+			}
+
+			return true;
 		}
 
 
@@ -55,7 +111,7 @@ namespace TileManagement
 					SmallestDistance = distance;
 					EntryPoint = Vector;
 				}
-				
+
 				Vector = new Vector3(Point.x, Minimum.y);
 				distance = (Vector - Point).magnitude;
 				if (SmallestDistance > distance)
@@ -132,6 +188,11 @@ namespace TileManagement
 				return EntryPoint;
 			}
 
+		}
+
+		public readonly BetterBounds ConvertToLocal(MatrixInfo Matrix)
+		{
+			return new BetterBounds(Minimum.ToLocal(Matrix), Maximum.ToLocal(Matrix));
 		}
 
 		public Vector3 GetCorner(int i)

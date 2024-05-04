@@ -185,6 +185,7 @@ On";
 
 	void ToggleLayerForCulling(bool state)
 	{
+		if (Camera.main == null) return;
 		int currentCullingMask = Camera.main.cullingMask;
 		if (layerToToggle == null) return;
 		int layerMaskToToggle = 1 << layerToToggle.Value;

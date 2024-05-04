@@ -405,7 +405,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			//TODO do we really need to go through all matrixes? Can we break out at some point?
 			foreach (var matrixInfo in Instance.ActiveMatricesList)
 			{
-				if (LineIntersectsRect(Worldorigin, WorldTo.Value, matrixInfo.WorldBounds))
+				if (matrixInfo.WorldBounds.LineIntersectsRect(Worldorigin, WorldTo.Value))
 				{
 					var localOrigin = WorldToLocal(Worldorigin, matrixInfo).To2();
 					var localTo = WorldToLocal(WorldTo.Value, matrixInfo).To2();

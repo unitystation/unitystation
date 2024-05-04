@@ -159,7 +159,7 @@ namespace SecureStuff
 
 						IEnumerable list = null;
 
-						if (Field.FieldType.IsGenericType && (AMonoSet as IEnumerable) != null)
+						if (Field.FieldType.IsGenericType && (AMonoSet as IEnumerable) != null && Field.FieldType.GetGenericTypeDefinition() != typeof(Dictionary<,>) )
 						{
 							//&& Field.FieldType.GetGenericArguments()[0]
 
@@ -269,14 +269,23 @@ namespace SecureStuff
 								var ForeverIDTracker = mono.GetComponent<IHaveForeverID>();
 								if (PrefabInstance != null)
 								{
-									var PrefabSOTracker = (Field.GetValue(PrefabInstance) as GameObject).GetComponent<IHaveForeverID>();
-									if (PrefabSOTracker != null)
+									try
 									{
-										if (PrefabSOTracker.ForeverID == ForeverIDTracker.ForeverID)
+										var PrefabSOTracker = (Field.GetValue(PrefabInstance) as GameObject).GetComponent<IHaveForeverID>();
+										if (PrefabSOTracker != null)
 										{
-											continue;
+											if (PrefabSOTracker.ForeverID == ForeverIDTracker.ForeverID)
+											{
+												continue;
+											}
 										}
 									}
+									catch (Exception e)
+									{
+										Console.WriteLine(e);
+										throw;
+									}
+
 								}
 
 								if (ForeverIDTracker != null)
@@ -461,8 +470,9 @@ namespace SecureStuff
 				}
 				else
 				{
+
 					var GameObjectModified = (modified[i] as GameObject);
-					if (GameObjectModified.transform.parent == null) //Prefab
+					if (GameObjectModified != null && GameObjectModified.transform.parent == null) //Prefab
 					{
 						var ForeverID = GameObjectModified.GetComponent<IHaveForeverID>();
 						if (ForeverID != null)

@@ -21,7 +21,6 @@ namespace MapSaver
 		//TODO Referencing other game objects?
 
 		//TODO Cross matrix references check
-		//TODO escape shuttle, shuttle  fuel, cargo shuttle , Make into Ethereal items
 		//TODO VVUIElementHandler For better serialisation support?
 
 
@@ -291,7 +290,7 @@ namespace MapSaver
 		}
 
 		public static MatrixData SaveMatrix(bool Compact, MetaTileMap MetaTileMap, bool SingleSave = true,
-			Vector3? Localboundarie1 = null, Vector3? Localboundarie2 = null, bool UseInstance = false)
+			List<BetterBounds> LocalArea  = null, bool UseInstance = false)
 		{
 			if (SingleSave)
 			{
@@ -304,10 +303,22 @@ namespace MapSaver
 			}
 
 
+			HashSet<Vector3Int> AllowedPoints = null;
+
+			if (LocalArea != null)
+			{
+				AllowedPoints = new HashSet<Vector3Int>();
+				foreach (var Bounds in LocalArea)
+				{
+					AllowedPoints.UnionWith(Bounds.allPositionsWithin());
+				}
+			}
+
+
 			MatrixData matrixData = new MatrixData();
 			matrixData.CompactObjectMapData =
-				SaveObjects(Compact, MetaTileMap, Localboundarie1, Localboundarie2, UseInstance);
-			SaveTileMap(Compact, matrixData, MetaTileMap, Localboundarie1, Localboundarie2);
+				SaveObjects(Compact, MetaTileMap, AllowedPoints, UseInstance);
+			SaveTileMap(Compact, matrixData, MetaTileMap, AllowedPoints);
 
 			//matrixData.MatrixName = MetaTileMap.matrix.NetworkedMatrix.gameObject.name;
 			matrixData.MatrixName = MetaTileMap.matrix.transform.parent.name;
@@ -356,33 +367,16 @@ namespace MapSaver
 			return matrixData;
 		}
 
-		// function to find if given point
-		// lies inside a given rectangle or not.
-		//TODO Tile map upgrade  upgrade to include xyz (Need special condition for underfloor since that's w)
-		//note Localboundarie1 Needs to be the smaller one
-		public static bool IsPointWithin(Vector3 Localboundarie1, Vector3 Localboundarie2, Vector3 Point)
-		{
-			if (Point.x > Localboundarie1.x && Point.x < Localboundarie2.x && Point.y > Localboundarie1.y &&
-			    Point.y < Localboundarie2.y)
-			{
-				return true;
-			}
-
-			return false;
-		}
-
-
 		public static void SaveTileMap(bool Compact, MatrixData ToSaveTo, MetaTileMap metaTileMap,
-			Vector3? Localboundarie1 = null,
-			Vector3? Localboundarie2 = null)
+			HashSet<Vector3Int> AllowedPoints = null)
 		{
 			if (Compact)
 			{
-				CompactTileMapSave(ToSaveTo, metaTileMap, Localboundarie1, Localboundarie2);
+				CompactTileMapSave(ToSaveTo, metaTileMap, AllowedPoints);
 			}
 			else
 			{
-				GitFriendlyTileMapSave(ToSaveTo, metaTileMap, Localboundarie1, Localboundarie2);
+				GitFriendlyTileMapSave(ToSaveTo, metaTileMap, AllowedPoints);
 			}
 		}
 
@@ -438,7 +432,7 @@ namespace MapSaver
 
 
 		public static void GitFriendlyTileMapSave(MatrixData ToSaveTo, MetaTileMap metaTileMap,
-			Vector3? Localboundarie1 = null, Vector3? Localboundarie2 = null)
+			HashSet<Vector3Int> AllowedPoints = null)
 		{
 			//# Matrix4x4
 			//§ TileID
@@ -446,7 +440,7 @@ namespace MapSaver
 
 			//☰ Layer
 			//@ location
-			bool UseBoundary = Localboundarie1 != null;
+			bool UseBoundary = AllowedPoints != null;
 
 			var TileMapData = new GitFriendlyTileMapData();
 
@@ -468,8 +462,9 @@ namespace MapSaver
 
 						if (UseBoundary)
 						{
-							if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value, TileAndLocation.LocalPosition) ==
-							    false)
+							var pos1 = TileAndLocation.LocalPosition;
+							pos1.z = 0;
+							if (AllowedPoints.Contains(pos1) == false)
 							{
 								continue;
 							}
@@ -518,9 +513,9 @@ namespace MapSaver
 							if (TileAndLocation == null) continue;
 							if (UseBoundary)
 							{
-								if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value,
-									    TileAndLocation.LocalPosition) ==
-								    false)
+								var pos1 = TileAndLocation.LocalPosition;
+								pos1.z = 0;
+								if (AllowedPoints.Contains(pos1) == false)
 								{
 									continue;
 								}
@@ -567,7 +562,7 @@ namespace MapSaver
 		}
 
 		public static void CompactTileMapSave(MatrixData ToSaveTo, MetaTileMap metaTileMap,
-			Vector3? Localboundarie1 = null, Vector3? Localboundarie2 = null)
+			HashSet<Vector3Int> AllowedPoints = null)
 		{
 			//# Matrix4x4
 			//§ TileID
@@ -575,7 +570,7 @@ namespace MapSaver
 
 			//☰ Layer
 			//@ location
-			bool UseBoundary = Localboundarie1 != null;
+			bool UseBoundary = AllowedPoints != null;
 
 			var TileMapData = new CompactTileMapData();
 
@@ -614,8 +609,9 @@ namespace MapSaver
 
 						if (UseBoundary)
 						{
-							if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value, TileAndLocation.LocalPosition) ==
-							    false)
+							var pos = TileAndLocation.LocalPosition;
+							pos.z = 0;
+							if (AllowedPoints.Contains(pos) == false)
 							{
 								continue;
 							}
@@ -674,9 +670,9 @@ namespace MapSaver
 							if (TileAndLocation == null) continue;
 							if (UseBoundary)
 							{
-								if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value,
-									    TileAndLocation.LocalPosition) ==
-								    false)
+								var pos = TileAndLocation.LocalPosition;
+								pos.z = 0;
+								if (AllowedPoints.Contains(pos) == false)
 								{
 									continue;
 								}
@@ -737,8 +733,9 @@ namespace MapSaver
 
 						if (UseBoundary)
 						{
-							if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value, TileAndLocation.LocalPosition) ==
-							    false)
+							var pos = TileAndLocation.LocalPosition;
+							pos.z = 0;
+							if (AllowedPoints.Contains(pos) == false)
 							{
 								continue;
 							}
@@ -790,9 +787,9 @@ namespace MapSaver
 							if (TileAndLocation == null) continue;
 							if (UseBoundary)
 							{
-								if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value,
-									    TileAndLocation.LocalPosition) ==
-								    false)
+								var pos = TileAndLocation.LocalPosition;
+								pos.z = 0;
+								if (AllowedPoints.Contains(pos) == false)
 								{
 									continue;
 								}
@@ -857,10 +854,9 @@ namespace MapSaver
 
 
 		public static CompactObjectMapData SaveObjects(bool Compact, MetaTileMap MetaTileMap,
-			Vector3? Localboundarie1 = null,
-			Vector3? Localboundarie2 = null, bool UseInstance = false)
+			HashSet<Vector3Int> AllowedPoints = null, bool UseInstance = false)
 		{
-			bool UseBoundary = Localboundarie1 != null;
+			bool UseBoundary = AllowedPoints != null;
 			CompactObjectMapData compactObjectMapData = new CompactObjectMapData();
 			compactObjectMapData.PrefabData = new List<PrefabData>();
 
@@ -886,8 +882,9 @@ namespace MapSaver
 			{
 				if (UseBoundary)
 				{
-					if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value, Object.transform.localPosition) ==
-					    false)
+					var pos1 = Object.transform.localPosition.RoundToInt();
+					pos1.z = 0;
+					if (AllowedPoints.Contains(pos1) == false)
 					{
 						continue;
 					}
@@ -902,16 +899,17 @@ namespace MapSaver
 				{
 					if (UseBoundary)
 					{
-						if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value,
-							    EtherealThing.SavedLocalPosition) ==
-						    false)
+
+						var pos1 = EtherealThing.transform.localPosition.RoundToInt();
+						pos1.z = 0;
+						if (AllowedPoints.Contains(pos1) == false)
 						{
 							continue;
 						}
 					}
 
 					ProcessIndividualObject(Compact, EtherealThing.gameObject, compactObjectMapData,
-						EtherealThing.SavedLocalPosition, UseInstance);
+						EtherealThing.transform.localPosition, UseInstance);
 				}
 			}
 
