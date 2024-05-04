@@ -29,6 +29,8 @@ namespace Health.Objects
 
 		private static GameObject SMALL_BURNING_PREFAB;
 		private static GameObject LARGE_BURNING_PREFAB;
+		[SerializeField] private GameObject fireParticlePrefab;
+		private ParticleSystem fireParticle;
 
 		private static OverlayTile SMALL_ASH;
 		private static OverlayTile LARGE_ASH;
@@ -59,7 +61,7 @@ namespace Health.Objects
 
 		private void OnDisable()
 		{
-			if (CustomNetworkManager.IsServer && fireStacks != 0)
+			if (CustomNetworkManager.IsServer && isUpdating)
 			{
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdateBurn);
 			}
@@ -80,6 +82,10 @@ namespace Health.Objects
 			}
 			//this is just a guess - large items can't be picked up
 			isLarge = GetComponent<Pickupable>() == null;
+			if (integrity.Resistances.Flammable)
+			{
+				ToggleOverlay(false);
+			}
 		}
 
 		public override void OnStartClient()
@@ -117,12 +123,14 @@ namespace Health.Objects
 
 			long currentTickTime = DateTime.UtcNow.Ticks;
 			long timeElapsed = currentTickTime - lastBurnStackTickTime;
+			ToggleOverlay(true);
 			if (timeElapsed >= BURN_STACK_TICK_INTERVAL)
 			{
 				lastBurnStackTickTime = currentTickTime;
 				// we only do this every 60 seconds to avoid constant GC stutters when there's hundreds of objects on fire.
 				CreateHotSpot(registerTile.LocalPosition, HOT_IN_KELVIN + fireStacks);
 				SyncOnFire(fireStacks, fireStacks - 1);
+				Spread();
 			}
 		}
 
@@ -132,6 +140,7 @@ namespace Health.Objects
 			var flammables = MatrixManager.GetAdjacent<Flammable>(gameObject.AssumedWorldPosServer().CutToInt(), true);
 			foreach (var flammable in flammables)
 			{
+				if (flammable.gameObject == gameObject) continue;
 				if (flammable.Integrity.Resistances.Flammable == false) continue;
 				flammable.SyncOnFire(flammable.fireStacks, flammable.fireStacks + Random.Range(1, 4));
 			}
@@ -140,16 +149,7 @@ namespace Health.Objects
 		private void SyncOnFire(int oldStacks, int newStacks)
 		{
 			fireStacks = Mathf.Clamp(newStacks, 0, maxStacks);
-			if (IsOnFire)
-			{
-				ToggleProcessing(isUpdating, true);
-				ToggleOverlay(true);
-			}
-			else
-			{
-				ToggleProcessing(isUpdating, false);
-				ToggleOverlay(false);
-			}
+			ToggleProcessing(isUpdating, IsOnFire);
 		}
 
 		private void ToggleOverlay(bool state)
@@ -172,24 +172,49 @@ namespace Health.Objects
 			{
 				burningObjectOverlay.StopBurning();
 			}
+			HandleFireParticles();
+		}
+
+		private void HandleFireParticles()
+		{
+			if (fireParticlePrefab == null) return;
+			if (fireStacks == maxStacks)
+			{
+				if (fireParticle == null)
+				{
+					fireParticle = Instantiate(fireParticlePrefab, transform).GetComponent<ParticleSystem>();
+				}
+				fireParticle.Play();
+				fireParticle.SetActive(true);
+			}
+			else
+			{
+				if (fireParticle != null)
+				{
+					fireParticle.Stop();
+					fireParticle.SetActive(false);
+				}
+			}
 		}
 
 		private void ToggleProcessing(bool oldState, bool newState)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 			isUpdating = newState;
-			if (isUpdating == true && oldState == false)
+			if (newState == true && oldState == false)
 			{
 				UpdateManager.Add(PeriodicUpdateBurn, BURN_RATE);
 				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} catches on fire!".Color(Color.red), gameObject);
 				registerTile = gameObject.RegisterTile();
 				CreateHotSpot(registerTile.LocalPosition, HOT_IN_KELVIN + fireStacks);
+				ToggleOverlay(true);
 				return;
 			}
 			if (oldState == true && newState == false)
 			{
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdateBurn);
 				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} is no longer on fire..", gameObject);
+				ToggleOverlay(false);
 			}
 		}
 
@@ -283,7 +308,7 @@ namespace Health.Objects
 			{
 				long currentTickTime = DateTime.UtcNow.Ticks;
 				long timeElapsed = currentTickTime - lastBurnStackTickTime;
-				return $"Firestacks: {fireStacks}\n last tick: {lastBurnStackTickTime}\n timeElapsed: {timeElapsed}".Color(RichTextColor.Yellow);
+				return $"Firestacks: {fireStacks}\n last tick: {lastBurnStackTickTime}\n timeElapsed: {timeElapsed}\n spreadChance: {chanceToSpread}%".Color(RichTextColor.Yellow);
 			}
 			return "It's on fire!".Color(Color.red).Bold();
 		}

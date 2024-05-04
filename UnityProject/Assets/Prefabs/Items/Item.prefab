@@ -266,7 +266,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  fireParticlePrefab: {fileID: 2178958902703507295, guid: 4c645d10f4218304496bf570a143b753,
+    type: 3}
   minimumFireDamageForStack: 12
+  chanceToSpread: 20
+  maxStacks: 20
 --- !u!114 &114738972662350094
 MonoBehaviour:
   m_ObjectHideFlags: 0
