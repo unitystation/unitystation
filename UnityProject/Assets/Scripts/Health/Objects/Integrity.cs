@@ -366,7 +366,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	public string Examine(Vector3 worldPos)
 	{
-		return GetDamageDesc();
+		return GetDamageDesc().Italic();
 	}
 
 	[Server]
