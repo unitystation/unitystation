@@ -56,8 +56,7 @@ namespace Messages.Client.Interaction
 				}
 
 				var examinableMsg = examinable.Examine(netMsg.mousePosition);
-				if (string.IsNullOrEmpty(examinableMsg))
-					continue;
+				if (string.IsNullOrEmpty(examinableMsg)) continue;
 
 				msg += examinableMsg;
 
