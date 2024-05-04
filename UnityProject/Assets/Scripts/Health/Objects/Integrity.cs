@@ -452,16 +452,16 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	public string GetDamageDesc()
 	{
-		return "Integrity: " + PercentageDamaged switch
+		return "It is " + PercentageDamaged switch
 		{
 			< 10 => "Crumbling".Color(Color.red),
 			< 30 => "Heavily Damaged".Color(Color.red),
 			< 40 => "Significantly Damaged".Color(Color.yellow),
-			< 60 => "Worn Out Condition".Color(Color.yellow),
+			< 60 => "in a " + "Worn Out Condition".Color(Color.yellow),
 			< 80 => "Slightly Damaged".Color(Color.green),
-			< 95 => "Scratched Condition".Color(Color.green),
-			>= 100 => "Perfect Condition".Color(Color.green),
-			_ => "Unknown Condition"
+			< 95 => "in a " + "Scratched Condition".Color(Color.green),
+			>= 100 => "in a " + "Perfect Condition".Color(Color.green),
+			_ => "in an unknown condition"
 		};
 	}
 
