@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Effects.Overlays;
+using HealthV2;
 using Logs;
 using Mirror;
 using ScriptableObjects;
@@ -138,11 +139,16 @@ namespace Health.Objects
 		{
 			if (DMMath.Prob(chanceToSpread) == false) return;
 			var flammables = MatrixManager.GetAdjacent<Flammable>(gameObject.AssumedWorldPosServer().CutToInt(), true);
+			var healths = MatrixManager.GetAdjacent<LivingHealthMasterBase>(gameObject.AssumedWorldPosServer().CutToInt(), true);
 			foreach (var flammable in flammables)
 			{
 				if (flammable.gameObject == gameObject) continue;
 				if (flammable.Integrity.Resistances.Flammable == false) continue;
 				flammable.SyncOnFire(flammable.fireStacks, flammable.fireStacks + Random.Range(1, 4));
+			}
+			foreach (var health in healths)
+			{
+				health.ChangeFireStacks(health.FireStacks + Random.Range(1, 5));
 			}
 		}
 
