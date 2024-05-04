@@ -454,14 +454,14 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	{
 		return "It is " + PercentageDamaged switch
 		{
-			< 10 => "Crumbling".Color(Color.red),
-			< 30 => "Heavily Damaged".Color(Color.red),
-			< 40 => "Significantly Damaged".Color(Color.yellow),
-			< 60 => "in a " + "Worn Out Condition".Color(Color.yellow),
-			< 80 => "Slightly Damaged".Color(Color.green),
-			< 95 => "in a " + "Scratched Condition".Color(Color.green),
-			>= 100 => "in a " + "Perfect Condition".Color(Color.green),
-			_ => "in an unknown condition"
+			< 10 => "crumbling.".Color(Color.red),
+			< 30 => "heavily damaged.".Color(Color.red),
+			< 40 => "significantly damaged.".Color(Color.yellow),
+			< 60 => "in a " + "worn out condition.".Color(Color.yellow),
+			< 80 => "slightly damaged.".Color(Color.green),
+			< 95 => "in a " + "scratched condition.".Color(Color.green),
+			>= 100 => "in " + "perfect condition.".Color(Color.green),
+			_ => "in an unknown condition."
 		};
 	}
 

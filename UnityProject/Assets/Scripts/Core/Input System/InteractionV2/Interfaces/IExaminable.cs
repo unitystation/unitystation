@@ -7,7 +7,12 @@ using UnityEngine;
 /// </summary>
 public interface IExaminable
 {
-	string Examine(Vector3 worldPos = default(Vector3));
+	string Examine(Vector3 worldPos = default);
+
+	/// <summary>
+	/// Higher priority will ensure this text is displayed first when constructing the examine message.
+	/// </summary>
+	int ExaminablePriority => 1;
 }
 
 [Flags]
