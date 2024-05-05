@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Health.Objects;
 using HealthV2;
 using UnityEngine;
 using Systems.Atmospherics;
@@ -73,9 +74,9 @@ namespace Systems.Interaction
 				return;
 			}
 
-			if (objectToBurn.TryGetComponent<LivingHealthBehaviour>(out var livingHealthBehaviour))
+			if (objectToBurn.TryGetComponent<Flammable>(out var flammable))
 			{
-				livingHealthBehaviour.ChangeFireStacks(playerMobFireStacks);
+				flammable.AddFireStacks(5);
 				return;
 			}
 

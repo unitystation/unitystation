@@ -67,7 +67,6 @@ namespace Items.Food
 
 		private void OnBurnUpServer(DestructionInfo info)
 		{
-			_ = Despawn.ServerSingle(gameObject);
 			Spawn.ServerPrefab(CookedProduct, gameObject.RegisterTile().WorldPosition, transform.parent);
 		}
 	}

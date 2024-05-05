@@ -32,6 +32,9 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 
 	public string InitialDescription => initialDescription;
 
+	// This examine message has priority over everything. If you make yours have higher priority, I will cut your ears.
+	public int ExaminablePriority => 10_000_000;
+
 	[Tooltip("Description of this item when spawned.")]
 	[SerializeField]
 	[TextArea(3,5)]
