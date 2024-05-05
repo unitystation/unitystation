@@ -123,6 +123,11 @@ namespace Objects.Atmospherics
 			pipeData.OnDisable();
 		}
 
+		public void OnDestroy()
+		{
+			pipeData.OnDisable();
+		}
+
 		#endregion
 
 		public virtual void TickUpdate() { }

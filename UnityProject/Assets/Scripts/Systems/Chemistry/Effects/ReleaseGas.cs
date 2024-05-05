@@ -18,13 +18,13 @@ namespace Chemistry.Effects
 		public override void Apply(MonoBehaviour onObject, float amount)
 		{
 			var Matrix =  onObject.gameObject.GetMatrixRoot();
-			
+
 			var	metaNode = Matrix.MetaDataLayer.Get(onObject.gameObject.AssumedWorldPosServer().ToLocalInt(Matrix));
 
 			lock (metaNode.GasMixLocal.GasesArray) //no Double lock
 			{
 				var mix = new GasMix(2.5f, TemperatureK);
-				mix.AddGas(ToRelease,AmountToRelease );
+				mix.AddGasWithTemperature(ToRelease,AmountToRelease,TemperatureK);
 				GasMix.TransferGas(metaNode.GasMixLocal,mix, mix.Moles );
 			}
 		}

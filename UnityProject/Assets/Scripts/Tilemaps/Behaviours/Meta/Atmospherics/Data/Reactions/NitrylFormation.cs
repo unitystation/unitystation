@@ -29,7 +29,7 @@ namespace Systems.Atmospherics
 			gasMix.RemoveGas(Gas.Nitrogen, reactionEfficiency);
 			gasMix.RemoveGas(Gas.BZ, 0.05f * reactionEfficiency);
 
-			gasMix.AddGas(Gas.Nitryl, reactionEfficiency);
+			gasMix.AddGasWithTemperature(Gas.Nitryl, reactionEfficiency, gasMix.Temperature);
 
 			if (energyUsed > 0)
 			{

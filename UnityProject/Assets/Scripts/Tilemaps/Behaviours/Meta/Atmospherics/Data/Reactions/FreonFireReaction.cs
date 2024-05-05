@@ -51,7 +51,7 @@ namespace Systems.Atmospherics
 					gasMix.RemoveGas(Gas.Freon, freonBurnRate);
 					gasMix.RemoveGas(Gas.Oxygen, freonBurnRate * oxygenBurnRate);
 
-					gasMix.AddGas(Gas.CarbonDioxide, freonBurnRate);
+					gasMix.AddGasWithTemperature(Gas.CarbonDioxide, freonBurnRate, gasMix.Temperature);
 
 					if (gasMix.Temperature < 160 && gasMix.Temperature > 120 && rnd.Next(0, 2) == 0)
 					{

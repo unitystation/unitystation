@@ -297,7 +297,7 @@ namespace Systems.Pipes
 
 				var cachedInternalEnergy = this.InternalEnergy + transferredEnergy;
 
-				toTransfer.gasMix.AddGas(gas, toRemoveGas);
+				toTransfer.gasMix.AddGasWithTemperature(gas, toRemoveGas,Temperature );
 				toTransfer.InternalEnergy = cachedInternalEnergy;
 			}
 

@@ -288,7 +288,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 		ApplyDamage(BURNING_DAMAGE, AttackType.Fire, DamageType.Burn);
 
-		node?.GasMixLocal.AddGas(Gas.Smoke, BURNING_DAMAGE * 100);
+		node?.GasMixLocal.AddGasWithTemperature(Gas.Smoke, BURNING_DAMAGE * 100, node.GasMixLocal.Temperature);
 	}
 
 	private void SyncOnFire(bool wasOnFire, bool onFire)

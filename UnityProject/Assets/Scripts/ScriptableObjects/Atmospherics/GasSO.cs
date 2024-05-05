@@ -60,5 +60,6 @@ namespace ScriptableObjects.Atmospherics
 		{
 			Index = newIndex;
 		}
+
 	}
 }

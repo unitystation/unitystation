@@ -26,7 +26,7 @@ namespace Objects.Atmospherics
 			Injecting = 2,
 		}
 
-		private readonly float molesRate = 100;
+		public float molesRate = 600;
 
 		[SerializeField]
 		[Tooltip("Set the injector's on/off switch (also requires power for operation)")]

@@ -24,8 +24,8 @@ namespace Systems.Atmospherics
 			{
 				var energyReleased = AtmosDefines.N2O_DECOMPOSITION_ENERGY_RELEASED * burnedFuel;
 
-				gasMix.AddGas(Gas.Oxygen, burnedFuel / 2f);
-				gasMix.AddGas(Gas.Nitrogen, burnedFuel);
+				gasMix.AddGasWithTemperature(Gas.Oxygen, burnedFuel / 2f, gasMix.Temperature);
+				gasMix.AddGasWithTemperature(Gas.Nitrogen, burnedFuel, gasMix.Temperature);
 
 				var newHeatCap = gasMix.WholeHeatCapacity;
 				if (newHeatCap > 0.0003f)

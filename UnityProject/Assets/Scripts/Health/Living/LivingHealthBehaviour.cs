@@ -635,7 +635,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		//If we are in a container then don't produce miasma
 		if (objectBehaviour.ContainedInObjectContainer != null) return;
 
-		node.GasMixLocal.AddGas(Gas.Miasma, AtmosDefines.MIASMA_CORPSE_MOLES);
+		node.GasMixLocal.AddGasWithTemperature(Gas.Miasma, AtmosDefines.MIASMA_CORPSE_MOLES, node.GasMixLocal.Temperature);
 	}
 
 	private bool NotSuitableForDeath()

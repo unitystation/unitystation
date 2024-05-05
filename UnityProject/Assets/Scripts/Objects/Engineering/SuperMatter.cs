@@ -595,11 +595,11 @@ namespace Objects.Engineering
 
 				//Calculate how much gas to release
 				//Varies based on power and gas content
-				removeMix.AddGas(Gas.Plasma, Mathf.Max((deviceEnergy * dynamicHeatModifier) / PlasmaReleaseModifier, 0));
+				removeMix.AddGasWithTemperature(Gas.Plasma, Mathf.Max((deviceEnergy * dynamicHeatModifier) / PlasmaReleaseModifier, 0), removeMix.Temperature);
 
 				//Varies based on power, gas content, and heat
-				removeMix.AddGas(Gas.Oxygen, Mathf.Max(((deviceEnergy + removeMix.Temperature * dynamicHeatModifier) - 273.15f) / OxygenReleaseModifier,
-						0));
+				removeMix.AddGasWithTemperature(Gas.Oxygen, Mathf.Max(((deviceEnergy + removeMix.Temperature * dynamicHeatModifier) - 273.15f) / OxygenReleaseModifier,
+						0), removeMix.Temperature);
 
 				//Return gas to tile
 				GasMix.TransferGas(gasMix, removeMix, removeMix.Moles);

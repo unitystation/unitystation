@@ -147,6 +147,7 @@ namespace Systems.Pipes
 
 		public virtual void OnDisable()
 		{
+			if (AtmosManager.Instance == null) return;
 			AtmosManager.Instance.RemovePipe(this);
 			Destroyed = true;
 			foreach (var Pipe in ConnectedPipes)
@@ -206,6 +207,7 @@ namespace Systems.Pipes
 
 		public void SpillContent(Tuple<ReagentMix, GasMix> ToSpill)
 		{
+			if (MatrixManager.Instance == null) return;
 			if (pipeNode == null && MonoPipe == null ) return;
 
 			Vector3Int ZeroedLocation = Vector3Int.zero;

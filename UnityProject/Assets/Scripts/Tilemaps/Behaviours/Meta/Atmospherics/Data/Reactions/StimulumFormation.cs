@@ -15,7 +15,7 @@ namespace Systems.Atmospherics
 		{
 			var oldHeatCap = gasMix.WholeHeatCapacity;
 
-			var heatScale = Mathf.Min(gasMix.Temperature / AtmosDefines.STIMULUM_HEAT_SCALE, 
+			var heatScale = Mathf.Min(gasMix.Temperature / AtmosDefines.STIMULUM_HEAT_SCALE,
 			gasMix.GetMoles(Gas.Tritium), gasMix.GetMoles(Gas.Plasma), gasMix.GetMoles(Gas.Nitryl));
 
 			var stimEnergyChange = heatScale + AtmosDefines.STIMULUM_FIRST_RISE * Mathf.Pow(heatScale, 2) -
@@ -29,7 +29,7 @@ namespace Systems.Atmospherics
 				return;
 			}
 
-			gasMix.AddGas(Gas.Stimulum, heatScale / 10f);
+			gasMix.AddGasWithTemperature(Gas.Stimulum, heatScale / 10f, gasMix.Temperature);
 
 			gasMix.RemoveGas(Gas.Tritium, heatScale);
 			gasMix.RemoveGas(Gas.Nitryl,  heatScale);

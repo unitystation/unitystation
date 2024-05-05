@@ -79,8 +79,8 @@ namespace Systems.Atmospherics
 
 			if (reactionEnergy > 0)
 			{
-				gasMix.AddGas(Gas.Oxygen, AtmosDefines.FUSION_TRITIUM_MOLES_USED * (reactionEnergy * AtmosDefines.FUSION_TRITIUM_CONVERSION_COEFFICIENT));
-				gasMix.AddGas(Gas.NitrousOxide, AtmosDefines.FUSION_TRITIUM_MOLES_USED * (reactionEnergy * AtmosDefines.FUSION_TRITIUM_CONVERSION_COEFFICIENT));
+				gasMix.AddGasWithTemperature(Gas.Oxygen, AtmosDefines.FUSION_TRITIUM_MOLES_USED * (reactionEnergy * AtmosDefines.FUSION_TRITIUM_CONVERSION_COEFFICIENT), gasMix.Temperature );
+				gasMix.AddGasWithTemperature(Gas.NitrousOxide, AtmosDefines.FUSION_TRITIUM_MOLES_USED * (reactionEnergy * AtmosDefines.FUSION_TRITIUM_CONVERSION_COEFFICIENT), gasMix.Temperature );
 			}
 
 			if (reactionEnergy != 0)

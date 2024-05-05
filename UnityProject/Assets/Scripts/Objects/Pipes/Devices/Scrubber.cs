@@ -50,6 +50,7 @@ namespace Objects.Atmospherics
 		private MetaDataNode metaNode;
 		private MetaDataLayer metaDataLayer;
 
+		private List<MetaDataNode> MetaNodes = new List<MetaDataNode>();
 		#region Lifecycle
 
 		public override void Awake()
@@ -58,7 +59,7 @@ namespace Objects.Atmospherics
 
 			if (CustomNetworkManager.IsServer)
 			{
-				defaultFilteredGases = new List<GasSO>() { Gas.CarbonDioxide };
+				defaultFilteredGases = new List<GasSO>() { Gas.CarbonDioxide,Gas.Ash,Gas.Smoke,Gas.Plasma };
 				defaultContaminatedGases = new List<GasSO>(Gas.Gases.Values);
 				defaultContaminatedGases.Remove(Gas.Oxygen);
 				defaultContaminatedGases.Remove(Gas.Nitrogen);
@@ -76,6 +77,14 @@ namespace Objects.Atmospherics
 			metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
 			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer);
 			pipeMix = selfSufficient ? GasMix.NewGasMix(GasMixes.BaseEmptyMix) : pipeData.GetMixAndVolume.GetGasMix();
+
+			MetaNodes.Add(metaNode);
+			MetaNodes.Add(metaDataLayer.Get(registerTile.LocalPositionServer+new Vector3Int(1,0,0)));
+			MetaNodes.Add(metaDataLayer.Get(registerTile.LocalPositionServer+new Vector3Int(-1,0,0)));
+			MetaNodes.Add(metaDataLayer.Get(registerTile.LocalPositionServer+new Vector3Int(0,-1,0)));
+			MetaNodes.Add(metaDataLayer.Get(registerTile.LocalPositionServer+new Vector3Int(0,-1,0)));
+
+
 
 			if (TryGetComponent<AcuDevice>(out var device) && device.Controller != null)
 			{
@@ -151,14 +160,18 @@ namespace Objects.Atmospherics
 			return true;
 		}
 
-		private void ModeScrub()
+		private void ScrubWith(MetaDataNode metaNode)
 		{
 			// Scrub out a portion of each specified gas.
 			// If all these gases exceed transfer amount, reduce each gas scrub mole count proportionally.
 
-			var percentageRemoved = (IsExpandedRange ?  ExpandedRangeNumber : NormalRangeNumber) * Effectiveness;
+			var percentageRemoved =
+				Mathf.Clamp((IsExpandedRange ? ExpandedRangeNumber : NormalRangeNumber) * Effectiveness, 0, 1);
+
 
 			float scrubbableMolesAvailable = 0;
+
+			var StartingTemperature = metaNode.GasMixLocal.Temperature;
 
 			lock (metaNode.GasMixLocal.GasesArray) //no Double lock
 			{
@@ -189,14 +202,29 @@ namespace Objects.Atmospherics
 				metaNode.GasMixLocal.RemoveGas(gas, transferAmount);
 				if (selfSufficient == false)
 				{
-					pipeMix.AddGas(gas, transferAmount);
+					pipeMix.AddGasWithTemperature(gas, transferAmount, StartingTemperature );
 				}
 			}
 
 			Array.Clear(scrubbingGasMoles, 0, scrubbingGasMoles.Length);
 		}
 
-		private void ModeSiphon()
+		private void ModeScrub()
+		{
+			if (IsExpandedRange)
+			{
+				foreach (var metaNode in MetaNodes)
+				{
+					ScrubWith(metaNode);
+				}
+			}
+			else
+			{
+				ScrubWith(metaNode);
+			}
+		}
+
+		private void SiphonWith(MetaDataNode metaNode)
 		{
 			float moles = metaNode.GasMixLocal.Moles * (IsExpandedRange ? ExpandedRangeNumber : NormalRangeNumber ) * Effectiveness * SiphonMultiplier; // siphon a portion
 			moles = moles.Clamp(0, nominalMolesTransferCap);
@@ -204,6 +232,21 @@ namespace Objects.Atmospherics
 			if (moles.Approx(0)) return;
 
 			GasMix.TransferGas(pipeMix, metaNode.GasMixLocal, moles);
+		}
+
+		private void ModeSiphon()
+		{
+			if (IsExpandedRange)
+			{
+				foreach (var metaNode in MetaNodes)
+				{
+					SiphonWith(metaNode);
+				}
+			}
+			else
+			{
+				SiphonWith(metaNode);
+			}
 		}
 
 		#endregion
