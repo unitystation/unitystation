@@ -215,48 +215,6 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		}
 	}
 
-	private void PeriodicUpdateBurn()
-	{
-		//Instantly stop burning if there's no oxygen at this location
-		MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionServer);
-		if (node?.GasMixLocal.GetMoles(Gas.Oxygen) < 1)
-		{
-			SyncOnFire(true, false);
-			return;
-		}
-
-		ApplyDamage(BURNING_DAMAGE, AttackType.Fire, DamageType.Burn);
-
-		node?.GasMixLocal.AddGasWithTemperature(Gas.Smoke, BURNING_DAMAGE * 100, node.GasMixLocal.Temperature);
-	}
-
-	private void SyncOnFire(bool wasOnFire, bool onFire)
-	{
-		EnsureInit();
-		//do nothing if this can't burn
-		if (!Resistances.Flammable) return;
-
-		this.onFire = onFire;
-		if (this.onFire)
-		{
-			if (CustomNetworkManager.IsServer)
-			{
-				UpdateManager.Add(PeriodicUpdateBurn, BURN_RATE);
-			}
-
-			burningObjectOverlay.Burn();
-		}
-		else
-		{
-			if (CustomNetworkManager.IsServer)
-			{
-				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdateBurn);
-			}
-
-			burningObjectOverlay.StopBurning();
-		}
-	}
-	
 	[Server]
 	private void CheckDestruction(bool explodeOnDestroy = false)
 	{
