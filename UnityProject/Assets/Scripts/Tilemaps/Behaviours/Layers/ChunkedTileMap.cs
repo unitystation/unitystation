@@ -20,9 +20,9 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 		return GetTile(position) != null;
 	}
 
-	public bool TryGetValue(Vector3Int position, out T Value )
+	public bool TryGetValue(Vector3Int position, out T Value, bool Expand = false)
 	{
-		Value = GetTile(position);
+		Value = GetTile(position,Expand );
 		return Value != null;
 	}
 

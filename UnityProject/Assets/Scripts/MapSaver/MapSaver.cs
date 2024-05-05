@@ -620,7 +620,7 @@ namespace MapSaver
 
 						if (TileAndLocation?.layerTile == null) continue;
 
-						if (TileAndLocation.layer.LayerType.IsUnderFloor())
+						if (TileAndLocation.layer.LayerType.IsMultilayer())
 						{
 							break;
 						}

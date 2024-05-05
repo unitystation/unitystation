@@ -240,7 +240,7 @@ public class Manager3D : MonoBehaviour
 					foreach (var LayerV in map.Layers)
 					{
 						var Layer = MultilayerPresentTiles[(int)LayerV.Key];
-						if (Layer == null || LayerV.Key.IsUnderFloor() == false) continue;
+						if (Layer == null || LayerV.Key.IsMultilayer() == false) continue;
 
 						if (LayerV.Value.LayerType != LayerType.Objects )
 						{
