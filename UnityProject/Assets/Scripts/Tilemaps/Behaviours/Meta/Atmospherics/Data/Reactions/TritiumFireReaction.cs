@@ -25,7 +25,7 @@ namespace Systems.Atmospherics
 				burnedFuel = gasMix.GetMoles(Gas.Oxygen) / AtmosDefines.TRITIUM_BURN_OXY_FACTOR;
 
 				gasMix.RemoveGas(Gas.Tritium, burnedFuel);
-				gasMix.AddGas(Gas.WaterVapor, burnedFuel / AtmosDefines.TRITIUM_BURN_OXY_FACTOR);
+				gasMix.AddGasWithTemperature(Gas.WaterVapor, burnedFuel / AtmosDefines.TRITIUM_BURN_OXY_FACTOR, gasMix.Temperature );
 
 				energyReleased += AtmosDefines.FIRE_HYDROGEN_ENERGY_WEAK * burnedFuel;
 			}
@@ -36,7 +36,7 @@ namespace Systems.Atmospherics
 				gasMix.RemoveGas(Gas.Tritium, burnedFuel / AtmosDefines.TRITIUM_BURN_TRIT_FACTOR);
 				gasMix.RemoveGas(Gas.Oxygen, burnedFuel);
 
-				gasMix.AddGas(Gas.WaterVapor, burnedFuel / AtmosDefines.TRITIUM_BURN_TRIT_FACTOR);
+				gasMix.AddGasWithTemperature(Gas.WaterVapor, burnedFuel / AtmosDefines.TRITIUM_BURN_TRIT_FACTOR, gasMix.Temperature );
 
 				energyReleased += AtmosDefines.FIRE_HYDROGEN_ENERGY_RELEASED * burnedFuel;
 			}

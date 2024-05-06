@@ -69,7 +69,7 @@ public class TestMapSaverScript : MonoBehaviour
 		}
 
 		//TODO Add a category for maps and blueprints
-		//File.WriteAllText("R:/tests/SaveMatrixSubsection.txt", JsonConvert.SerializeObject(MapSaver.MapSaver.SaveMatrix(Compact, MetaTileMap, true, Vector1, Vector2), settings));
+		//File.WriteAllText("R:/tests/SaveMatrixSubsection.txt", JsonConvert.SerializeObject(MapSaver.MapSaver.SaveMatrix(Compact, MetaTileMap, true, new List<BetterBounds>() {new BetterBounds(Vector1, Vector2)}), settings));
 	}
 
 

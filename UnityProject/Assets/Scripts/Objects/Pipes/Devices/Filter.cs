@@ -45,7 +45,7 @@ namespace Objects.Atmospherics
 		private FilterValues initalFilterValue = default;
 
 		public int MaxPressure = 9999;
-		private float TransferMoles = 5000f;
+		public float TransferMoles = 10000f;
 
 		public bool IsOn = false;
 

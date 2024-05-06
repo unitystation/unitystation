@@ -47,8 +47,7 @@ namespace Systems.Atmospherics
 		public override void Awake()
 		{
 			base.Awake();
-			atmosThread = gameObject.AddComponent<AtmosThread>();
-			atmosThread.tickDelay = 40;
+			atmosThread = gameObject.GetComponent<AtmosThread>();
 			simulation = new AtmosSimulation();
 			sampler = CustomSampler.Create("AtmosphericsStep");
 		}

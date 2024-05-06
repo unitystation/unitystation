@@ -1696,7 +1696,7 @@ namespace HealthV2
 			//Don't continuously produce miasma, only produce max 4 moles on the tile
 			if (node.GasMixLocal.GetMoles(Gas.Miasma) > 4) return;
 
-			node.GasMixLocal.AddGas(Gas.Miasma, AtmosDefines.MIASMA_CORPSE_MOLES);
+			node.GasMixLocal.AddGasWithTemperature(Gas.Miasma, AtmosDefines.MIASMA_CORPSE_MOLES, node.GasMixLocal.Temperature);
 		}
 
 		#region Examine

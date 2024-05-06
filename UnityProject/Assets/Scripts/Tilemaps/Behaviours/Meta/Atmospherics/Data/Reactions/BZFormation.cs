@@ -31,7 +31,7 @@ namespace Systems.Atmospherics
 				return;
 			}
 
-			gasMix.AddGas(Gas.BZ, reactionEfficiency);
+			gasMix.AddGasWithTemperature(Gas.BZ, reactionEfficiency, gasMix.Temperature);
 
 			gasMix.RemoveGas(Gas.NitrousOxide, reactionEfficiency);
 			gasMix.RemoveGas(Gas.Plasma, 2 * reactionEfficiency);

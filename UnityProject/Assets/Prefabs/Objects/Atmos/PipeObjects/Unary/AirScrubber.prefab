@@ -140,6 +140,11 @@ PrefabInstance:
       propertyPath: CurrentDirection
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5075775655067238256, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -323,10 +328,10 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   selfSufficient: 0
-  SiphonMultiplier: 2
-  ExpandedRangeNumber: 0.5
-  NormalRangeNumber: 0.25
-  nominalMolesTransferCap: 50
+  SiphonMultiplier: 4
+  ExpandedRangeNumber: 1
+  NormalRangeNumber: 0.8
+  nominalMolesTransferCap: 100
 --- !u!114 &5629559581263994867 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,

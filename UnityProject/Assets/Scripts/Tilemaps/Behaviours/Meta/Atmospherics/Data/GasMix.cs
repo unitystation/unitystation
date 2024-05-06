@@ -591,13 +591,6 @@ namespace Systems.Atmospherics
 		}
 
 
-
-		public void AddGas(GasSO gas, float moles)
-		{
-			GasData.ChangeMoles(gas, moles);
-			RecalculatePressure();
-		}
-
 		public void RemoveGas(GasSO gas, float moles)
 		{
 			GasData.ChangeMoles(gas, -moles);

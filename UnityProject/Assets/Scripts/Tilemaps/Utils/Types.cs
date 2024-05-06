@@ -47,6 +47,11 @@ public static class LayerUtil
 	{
 		return layerType is LayerType.Underfloor or LayerType.Electrical or LayerType.Pipe or LayerType.Disposals;
 	}
+
+	public static bool IsMultilayer(this LayerType layerType)
+	{
+		return layerType is LayerType.Underfloor or LayerType.Electrical or LayerType.Pipe or LayerType.Disposals or LayerType.Effects;
+	}
 }
 
 [Flags]

@@ -25,6 +25,7 @@ namespace Items
 		[Tooltip("List of possible pools of items to choose from")] [SerializeField]
 		private List<PoolData> poolList = null;
 
+		[HideInInspector]
 		public GameObject spawnedItem = null;
 
 		private const int MaxAmountRolls = 5;
@@ -43,13 +44,9 @@ namespace Items
 		{
 			if (overrideTrigger == false && triggerManually) return;
 			SpawnRandomItems(UnrestrictedAndspawn);
-			if (deleteAfterUse)
-			{
-				_ = Despawn.ServerSingle(gameObject);
-				return;
-			}
 			ShoveIntoStorage(gameObject);
 			APCtoSet.OrNull()?.RemoveFromAPC();
+
 		}
 
 		[Button]

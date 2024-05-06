@@ -120,7 +120,7 @@ namespace Health.Objects
 			}
 
 			integrity.ApplyDamage(BURNING_DAMAGE_PER_STACK * fireStacks, AttackType.Fire, DamageType.Burn);
-			node?.GasMixLocal.AddGas(Gas.Smoke, BURNING_DAMAGE_PER_STACK * 100);
+			node?.GasMixLocal.AddGas(Gas.Smoke, BURNING_DAMAGE_PER_STACK * 75, Kelvin.FromC(100f));
 
 			long currentTickTime = DateTime.UtcNow.Ticks;
 			long timeElapsed = currentTickTime - lastBurnStackTickTime;

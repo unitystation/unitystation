@@ -62,12 +62,12 @@ namespace Systems.Atmospherics
 
 					if (superSaturation)
 					{
-						gasMix.AddGas(Gas.Tritium, plasmaBurnRate);
+						gasMix.AddGasWithTemperature(Gas.Tritium, plasmaBurnRate, gasMix.Temperature);
 					}
 					else
 					{
-						gasMix.AddGas(Gas.CarbonDioxide, plasmaBurnRate * 0.75f);
-						gasMix.AddGas(Gas.WaterVapor, plasmaBurnRate * 0.25f);
+						gasMix.AddGasWithTemperature(Gas.CarbonDioxide, plasmaBurnRate * 0.75f, gasMix.Temperature);
+						gasMix.AddGasWithTemperature(Gas.WaterVapor, plasmaBurnRate * 0.25f, gasMix.Temperature);
 					}
 
 					energyReleased += AtmosDefines.FIRE_PLASMA_ENERGY_RELEASED * plasmaBurnRate;

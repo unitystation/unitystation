@@ -82,7 +82,7 @@ namespace HealthV2
 				//For now block breathing out water vapour as it will just fill a room
 				if(gas == Gas.WaterVapor) continue;
 
-				atmos.AddGas(gas, reagent.Value);
+				atmos.AddGasWithTemperature(gas, reagent.Value, blood.Temperature);
 			}
 		}
 

@@ -57,7 +57,7 @@ namespace Systems.Atmospherics
 				if (updateList.TryDequeue(out MetaDataNode node))
 				{
 					if(node.Exists == false) continue;
-					
+
 					//Wait for initial room set up as it is spread out over multiple frames
 					if(node.MetaDataSystem.SetUpDone == false) continue;
 
@@ -458,7 +458,7 @@ namespace Systems.Atmospherics
 		#region GasVisualEffects
 
 		//Handles checking for vfx changes
-		//If needed, sends them to a queue in ReactionManager so that main thread will apply them
+		//If needed, sends them to a queue in ReactionManage r so that main thread will apply them
 		public static void GasVisualEffects(MetaDataNode node)
 		{
 			foreach (var gasData in node.GasMixLocal.GasesArray) //doesn't appear to modify list while iterating

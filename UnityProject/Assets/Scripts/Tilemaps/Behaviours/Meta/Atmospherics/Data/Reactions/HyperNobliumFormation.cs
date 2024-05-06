@@ -31,7 +31,7 @@ namespace Systems.Atmospherics
 			gasMix.RemoveGas(Gas.Tritium, 10 * reactionEfficiency);
 			gasMix.RemoveGas(Gas.Nitrogen, 20 * reactionEfficiency);
 
-			gasMix.AddGas(Gas.HyperNoblium, reactionEfficiency);
+			gasMix.AddGasWithTemperature(Gas.HyperNoblium, reactionEfficiency, gasMix.Temperature);
 
 			gasMix.SetTemperature(
 				Mathf.Max((gasMix.Temperature * oldHeatCap - energyUsed) / gasMix.WholeHeatCapacity,

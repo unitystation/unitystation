@@ -32,7 +32,7 @@ namespace Systems.Research
 
 			if(ChangeTemperature) node.GasMixLocal.ChangeTemperature(TemperatureChange);
 
-			if(AddGas) node.GasMixLocal.AddGas(GasToAdd, MolesToAdd);
+			if(AddGas) node.GasMixLocal.AddGasWithTemperature(GasToAdd, MolesToAdd,node.GasMixLocal.Temperature);
 		}
 	}
 }
