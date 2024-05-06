@@ -46,6 +46,7 @@ namespace Health.Objects
 		[SerializeField] private float minimumFireDamageForStack = 12;
 		[SerializeField, SyncVar] private float chanceToSpread = 20;
 		[SerializeField] private int maxStacks = 20;
+		[SerializeField, SyncVar] private bool skipFlammableCheck = false;
 
 		[SyncVar] private long lastBurnStackTickTime = 0;
 		private const long BURN_STACK_TICK_INTERVAL = 60 * TimeSpan.TicksPerSecond; // 60 seconds in ticks
@@ -118,9 +119,12 @@ namespace Health.Objects
 				SyncOnFire(fireStacks, 0);
 				return;
 			}
-
-			integrity.ApplyDamage(BURNING_DAMAGE_PER_STACK * fireStacks, AttackType.Fire, DamageType.Burn);
 			node?.GasMixLocal.AddGas(Gas.Smoke, BURNING_DAMAGE_PER_STACK * 75, Kelvin.FromC(100f));
+
+			if (integrity.Resistances.Flammable || skipFlammableCheck)
+			{
+				integrity.ApplyDamage(BURNING_DAMAGE_PER_STACK * fireStacks, AttackType.Fire, DamageType.Burn);
+			}
 
 			long currentTickTime = DateTime.UtcNow.Ticks;
 			long timeElapsed = currentTickTime - lastBurnStackTickTime;
@@ -209,6 +213,7 @@ namespace Health.Objects
 			isUpdating = newState;
 			if (newState == true && oldState == false)
 			{
+				lastBurnStackTickTime = DateTime.UtcNow.Ticks;
 				UpdateManager.Add(PeriodicUpdateBurn, BURN_RATE);
 				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} catches on fire!".Color(Color.red), gameObject);
 				registerTile = gameObject.RegisterTile();
@@ -292,6 +297,11 @@ namespace Health.Objects
 			chanceToSpread = 100;
 		}
 
+		private void DebugSkipFlammableCheck()
+		{
+			skipFlammableCheck = true;
+		}
+
 		public RightClickableResult GenerateRightClickOptions()
 		{
 			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) || KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
@@ -299,17 +309,25 @@ namespace Health.Objects
 				return null;
 			}
 
-			if (IsOnFire)
+			var result = RightClickableResult.Create();
+
+			if (integrity.Resistances.Flammable || skipFlammableCheck)
 			{
-				return RightClickableResult.Create()
-					.AddAdminElement("[Debug] - Set firestacks to 0", ResetFireStacks)
+				result.AddAdminElement("[Debug] - Add 20 fire stacks", DebugAddStacks)
 					.AddAdminElement("[Debug] - Set fire spread chance to 100%", DebugMakeItAlwaysSpread);
 			}
 			else
 			{
-				return RightClickableResult.Create()
-					.AddAdminElement("[Debug] - Add 20 fire stacks", DebugAddStacks);
+				result.AddElement("[Debug] -  Force Flammable", DebugSkipFlammableCheck);
 			}
+
+			if (IsOnFire)
+			{
+				return RightClickableResult.Create()
+					.AddAdminElement("[Debug] - Set firestacks to 0", ResetFireStacks);
+			}
+
+			return result;
 		}
 
 		public string HoverTip()
