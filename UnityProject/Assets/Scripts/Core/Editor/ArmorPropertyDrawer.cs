@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Health.Objects
+namespace Core.Editor
 {
 	[CustomPropertyDrawer(typeof(Armor))]
 	public class ArmorDrawer : PropertyDrawer
