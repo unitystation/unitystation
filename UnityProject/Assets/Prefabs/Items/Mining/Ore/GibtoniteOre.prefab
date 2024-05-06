@@ -28,6 +28,21 @@ PrefabInstance:
       propertyPath: stackNames.Array.data[1].OverAmount
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3530973717534294305, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: chanceToSpread
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3530973717534294305, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: skipFlammableCheck
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3530973717534294305, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: minimumFireDamageForStack
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
       propertyPath: m_RootOrder
@@ -87,6 +102,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GibtoniteOre
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145377823770582758, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: Resistances.Flammable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4145792851350106790, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
