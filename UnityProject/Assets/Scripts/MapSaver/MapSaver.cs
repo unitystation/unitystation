@@ -35,22 +35,26 @@ namespace MapSaver
 
 		public class MapData
 		{
+			public string Ver = "1.0.0";
 			public string MapName;
 			public List<MatrixData> ContainedMatrices = new List<MatrixData>();
 		}
 
 		public class MatrixData
 		{
+			public string Ver = "1.0.0";
 			public string Location;
 			public uint MatrixID;
 			public string MatrixName;
 			public CompactTileMapData CompactTileMapData;
 			public GitFriendlyTileMapData GitFriendlyTileMapData;
 			public CompactObjectMapData CompactObjectMapData;
+			public List<GameGizmoModel> PreviewGizmos;
 		}
 
 		public class GitFriendlyTileMapData
 		{
+			public string Ver = "1.0.0";
 			private Dictionary<string, List<GitFriendlyIndividualTile>> InternalXYs =
 				new Dictionary<string, List<GitFriendlyIndividualTile>>();
 
@@ -107,6 +111,7 @@ namespace MapSaver
 
 		public class CompactTileMapData
 		{
+			public string Ver = "1.0.0";
 			public List<string> CommonColours;
 			public List<string> CommonLayerTiles;
 			public List<string> CommonMatrix4x4;
@@ -173,6 +178,7 @@ namespace MapSaver
 
 		public class CompactObjectMapData
 		{
+			public string Ver = "1.0.0";
 			public List<string> CommonPrefabs = new List<string>();
 
 			public List<PrefabData> PrefabData;
@@ -392,6 +398,13 @@ namespace MapSaver
 				return Math.Round(Position.x, 4) + "┼" + Math.Round(Position.y, 4) + "┼" + Math.Round(Position.z, 4) +
 				       "┼";
 			}
+		}
+
+		public static Vector3Int GitFriendlyPositionToVectorInt(string Position)
+		{
+			Position.Remove(0);
+			var  position = Position.Split("Y");
+			return new Vector3Int(int.Parse(position[0]), int.Parse(position[1]));
 		}
 
 		public static string VectorIntToGitFriendlyPosition(Vector3Int pos)

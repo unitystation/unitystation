@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using InGameGizmos;
+using Logs;
 using Newtonsoft.Json;
 using Shared.Managers;
 using TileManagement;
@@ -31,6 +33,9 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	public List<GizmoAndBox> PositionsToCopy = new List<GizmoAndBox>();
 
+
+	public List<GameGizmoSquare> PreviewGizmos = new List<GameGizmoSquare>();
+
 	public Vector3 ActiveBoundStart;
 	public Vector3 ActiveBoundCurrent;
 
@@ -38,6 +43,13 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 	private readonly Vector3 GIZMO_OFFSET = new Vector3(-0.5f, -0.5f, 0);
 
 	public string Clipboard;
+
+	public MouseGrabber MouseGrabberPrefab;
+
+	public MouseGrabber ActiveMouseGrabber; //TODO Destroy?
+
+
+	public MapSaver.MapSaver.MatrixData currentlyActivePaste;
 
 	private void OnEnable()
 	{
@@ -53,7 +65,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 	public override void Start()
 	{
 		base.Start();
-		this.gameObject.SetActive(false);
+		//this.gameObject.SetActive(false);
 	}
 
 
@@ -157,21 +169,89 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 		var Matrix = MatrixManager.AtPoint(PositionsToCopy[0].BetterBounds.Min, CustomNetworkManager.IsServer);
 		List<BetterBounds> LocalArea = new List<BetterBounds>();
+		List<GameGizmoModel> Gizmos = new List<GameGizmoModel>();
 		foreach (var Position in PositionsToCopy)
 		{
 			var Local = Position.BetterBounds.ConvertToLocal(Matrix);
+
+			var Size = Local.Maximum - Local.Minimum;
+			Gizmos.Add(new GameGizmoModel()
+			{
+				Pos = (Local.Minimum + (Size / 2f)).ToSerialiseString(),
+				Size = Size.ToSerialiseString(),
+			});
 			Local.Maximum += new Vector3(-0.5f, -0.5f, 0);
 			Local.Minimum -= new Vector3(-0.5f, -0.5f, 0);
 			LocalArea.Add(Local);
 		}
 
-		var data =JsonConvert.SerializeObject(
-			MapSaver.MapSaver.SaveMatrix(false,Matrix.MetaTileMap, true,LocalArea ), settings);
+		var Data =  MapSaver.MapSaver.SaveMatrix(false, Matrix.MetaTileMap, true, LocalArea);
+		Data.PreviewGizmos = Gizmos;
 
-		Clipboard = data;
-		GUIUtility.systemCopyBuffer = data;
+		var StringData =JsonConvert.SerializeObject(Data, settings);
+
+		Clipboard = StringData;
+		GUIUtility.systemCopyBuffer = StringData;
 
 
+	}
+
+	public void OnLoad()
+	{
+
+		MapSaver.MapSaver.MatrixData data = null;
+		//For now, we assume the clipboard?
+		try
+		{
+			data = JsonConvert.DeserializeObject<MapSaver.MapSaver.MatrixData>(GUIUtility.systemCopyBuffer);
+		}
+		catch (Exception e)
+		{
+			Loggy.LogWarning( GUIUtility.systemCopyBuffer + " " + e.ToString() );
+		}
+
+
+		if (data == null)
+		{
+			data = JsonConvert.DeserializeObject<MapSaver.MapSaver.MatrixData>(Clipboard);
+		}
+
+		//PreviewGizmos
+
+		Vector3? Offset00 = null;
+
+		foreach (var Gizmo in data.PreviewGizmos)
+		{
+			if (Offset00 == null)
+			{
+				Offset00 = Gizmo.Pos.ToVector3() - (Gizmo.Size.ToVector3() / 2f);
+			}
+			else
+			{
+				var Contender =  Gizmo.Pos.ToVector3() - (Gizmo.Size.ToVector3() / 2f);
+				if (Offset00.Value.magnitude > Contender.magnitude)
+				{
+					Offset00 = Contender;
+				}
+			}
+		}
+
+		if (ActiveMouseGrabber == null)
+		{
+			ActiveMouseGrabber = Instantiate(MouseGrabberPrefab);
+			ActiveMouseGrabber.OffsetRound = new Vector3(-0.5f, -0.5f, 0);
+			ActiveMouseGrabber.SnapPosition = true;
+		}
+
+
+
+		foreach (var Gizmo in data.PreviewGizmos)
+		{
+			PreviewGizmos.Add(GameGizmomanager.AddNewSquareStaticClient(ActiveMouseGrabber.gameObject,
+				(Gizmo.Pos.ToVector3() - Offset00.Value), Color.blue, BoxSize: Gizmo.Size.ToVector3()));
+		}
+
+		currentlyActivePaste = data;
 	}
 
 	[NaughtyAttributes.Button]
@@ -179,6 +259,12 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 	{
 		//Ignore spawn if pointer is hovering over GUI
 		if (EventSystem.current.IsPointerOverGameObject()) return;
+
+		if (currentlyActivePaste != null)
+		{
+
+			return;
+		}
 
 		if (StopSelectingButton.interactable)
 		{

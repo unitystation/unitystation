@@ -14,4 +14,15 @@ public class GameGizmo : MonoBehaviour
 	{
 		Destroy(this.gameObject);
 	}
+
+	public virtual string Serialisable()
+	{
+		return "";
+	}
+
+	public virtual void DeSerialisable(string Data)
+	{
+	}
+
+
 }

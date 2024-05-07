@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Initialisation;
+using Logs;
 using Shared.Managers;
 using Tiles;
 using UnityEngine;
@@ -50,6 +51,8 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 	private Dictionary<TileType, Dictionary<string, LayerTile>> tiles = new Dictionary<TileType, Dictionary<string, LayerTile>>();
 
 	public Dictionary<TileType, Dictionary<string, LayerTile>> Tiles => tiles;
+
+	public  Dictionary<string, LayerTile> AllTiles = new  Dictionary<string, LayerTile>();
 
 	private bool initialized;
 
@@ -125,6 +128,12 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 
 			foreach (var t in type.layerTiles)
 			{
+				if (AllTiles.ContainsKey(t.name) && AllTiles[t.name]  != t)
+				{
+					Loggy.LogError("oh no...." + t.name);
+				}
+
+				AllTiles[t.name] = t;
 				tilesLoaded++;
 				if (t.TileType == type.tileType)
 				{

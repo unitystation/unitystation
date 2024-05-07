@@ -861,9 +861,14 @@ MonoBehaviour:
   SelectingButton: {fileID: 4893028489712465458}
   UnSelectingButton: {fileID: 8464007330148088763}
   Updating: 0
+  PreviewGizmos: []
   ActiveBoundStart: {x: 0, y: 0, z: 0}
   ActiveBoundCurrent: {x: 0, y: 0, z: 0}
   ActiveGizmo: {fileID: 0}
+  Clipboard: 
+  MouseGrabberPrefab: {fileID: 1463975547057413061, guid: a6cb2966110999d47ba7d999db9238d2,
+    type: 3}
+  ActiveMouseGrabber: {fileID: 0}
 --- !u!1 &2437297096922243614
 GameObject:
   m_ObjectHideFlags: 0
@@ -3404,9 +3409,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DeviceMover, Assets
-        m_MethodName: OnSelected
+      - m_Target: {fileID: 9149249656799501178}
+        m_TargetAssemblyTypeName: CopyAndPaste, Assets
+        m_MethodName: OnLoad
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

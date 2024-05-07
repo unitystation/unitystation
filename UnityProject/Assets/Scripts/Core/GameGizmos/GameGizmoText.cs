@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Core.Utils;
+using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
 
@@ -15,6 +17,5 @@ public class GameGizmoText : GameGizmoTracked
 		text.color = Colour;
 		text.fontSize = TextSize;
 	}
-
 
 }
