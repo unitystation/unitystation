@@ -210,7 +210,7 @@ namespace Health.Objects
 			if (newState == true && oldState == false)
 			{
 				UpdateManager.Add(PeriodicUpdateBurn, BURN_RATE);
-				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} catches on fire!".Color(Color.red), gameObject);
+				Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} catches on fire!".Color(Color.red));
 				registerTile = gameObject.RegisterTile();
 				CreateHotSpot(registerTile.LocalPosition, HOT_IN_KELVIN + fireStacks);
 				ToggleOverlay(true);
@@ -219,7 +219,7 @@ namespace Health.Objects
 			if (oldState == true && newState == false)
 			{
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdateBurn);
-				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} is no longer on fire..", gameObject);
+				Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} is no longer on fire..");
 				ToggleOverlay(false);
 			}
 		}
