@@ -48,7 +48,7 @@ namespace AdminTools
 			AppendPersonalInformation(displayData, playerEntryData, isForMentor);
 			displayName.text = displayData.ToString();
 			displayName.color = playerEntryData.isAntag ? antagTextColor : Color.white;
-			offlineNot.SetActive(string.IsNullOrEmpty(PlayerData.ipAddress));
+			offlineNot.SetActive(playerEntryData.isOnline);
 
 			if (disableInteract)
 			{
