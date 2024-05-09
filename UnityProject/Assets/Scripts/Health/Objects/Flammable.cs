@@ -187,6 +187,7 @@ namespace Health.Objects
 
 		private void HandleFireParticles()
 		{
+			if (CustomNetworkManager.IsHeadless) return;
 			if (fireParticlePrefab == null) return;
 			if (fireStacks == maxStacks)
 			{
