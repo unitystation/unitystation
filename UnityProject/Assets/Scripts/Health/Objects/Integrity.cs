@@ -327,6 +327,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	public string GetDamageDesc()
 	{
+		if (Resistances.Indestructable) return "This object is indestructible!".Color(RichTextColor.Green).Bold();
 		return "It is " + PercentageDamaged switch
 		{
 			< 10 => "crumbling.".Color(Color.red),
