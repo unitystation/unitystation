@@ -11,6 +11,7 @@ using Objects;
 using SecureStuff;
 using Util;
 using Tiles;
+using UI.Core;
 
 namespace MapSaver
 {
@@ -947,61 +948,67 @@ namespace MapSaver
 			CompactObjectMapData compactObjectMapData,
 			Vector3? CoordinateOverride = null, bool UseInstance = false)
 		{
-			var RuntimeSpawned = Object.GetComponent<RuntimeSpawned>();
-			if (RuntimeSpawned != null) return;
+			if (Object.TryGetComponent<MapSaverIgnoreObject>(out var _))
+			{
+				Loggy.Log(Object.name + " Is getting skipped from processing.. ");
+				return;
+			}
 
-			PrefabData Prefab = new PrefabData();
+			var runtimeSpawned = Object.GetComponent<RuntimeSpawned>();
+			if (runtimeSpawned != null) return;
 
-			var Tracker = Object.GetComponent<PrefabTracker>();
-			if (Tracker == null)
+			PrefabData prefab = new PrefabData();
+
+			var tracker = Object.GetComponent<PrefabTracker>();
+			if (tracker == null)
 			{
 				Loggy.LogError(Object.name + " Is missing a PrefabTracker Please make it inherit from the base item/object prefab ");
 				return;
 			}
-			var OriginPrefab = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[Tracker.ForeverID];
+			var originPrefab = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[tracker.ForeverID];
 			if (Compact)
 			{
-				if (Object.name != OriginPrefab.name)
+				if (Object.name != originPrefab.name)
 				{
-					Prefab.Name = Object.name;
+					prefab.Name = Object.name;
 				}
 			}
 			else
 			{
-				Prefab.Name = Object.name;
+				prefab.Name = Object.name;
 			}
 
 
-			Prefab.PrefabID = Tracker.ForeverID;
+			prefab.PrefabID = tracker.ForeverID;
 			if (Compact)
 			{
-				Prefab.ID = IDStatic;
+				prefab.ID = IDStatic;
 				IDStatic++;
 			}
 			else
 			{
 				int trys = 0;
-				Prefab.GitID = Prefab.PrefabID + "_" + VectorToString(Object.transform.localPosition);
-				while (AlreadyReadySavedIDs.Contains(Prefab.GitID))
+				prefab.GitID = prefab.PrefabID + "_" + VectorToString(Object.transform.localPosition);
+				while (AlreadyReadySavedIDs.Contains(prefab.GitID))
 				{
 					var vec = Object.transform.localPosition;
 					vec.x += (0.001f * trys); //TODO May cause issues if you resolve conflict
-					Prefab.GitID = Prefab.PrefabID + "_" + VectorToString(vec, false);
+					prefab.GitID = prefab.PrefabID + "_" + VectorToString(vec, false);
 					trys++;
 				}
 
-				AlreadyReadySavedIDs.Add(Prefab.GitID);
+				AlreadyReadySavedIDs.Add(prefab.GitID);
 			}
 
-			Prefab.Object = new IndividualObject();
+			prefab.Object = new IndividualObject();
 			if (CoordinateOverride == null)
 			{
-				Prefab.LocalPRS = VectorToString(Object.transform.localPosition);
+				prefab.LocalPRS = VectorToString(Object.transform.localPosition);
 
 				if (Object.transform.localRotation.eulerAngles != Vector3.zero)
 				{
 					var Angles = Object.transform.localRotation.eulerAngles;
-					Prefab.LocalPRS = Prefab.LocalPRS + Math.Round(Angles.x, 2) + "ø" +
+					prefab.LocalPRS = prefab.LocalPRS + Math.Round(Angles.x, 2) + "ø" +
 					                  Math.Round(Angles.y, 2) + "ø" +
 					                  Math.Round(Angles.z, 2) + "ø";
 				}
@@ -1010,14 +1017,14 @@ namespace MapSaver
 				if (Object.transform.localScale != Vector3.one)
 				{
 					var Angles = Object.transform.localScale;
-					Prefab.LocalPRS = Prefab.LocalPRS + Math.Round(Angles.x, 2) + "↔" +
+					prefab.LocalPRS = prefab.LocalPRS + Math.Round(Angles.x, 2) + "↔" +
 					                  Math.Round(Angles.y, 2) + "↔" +
 					                  Math.Round(Angles.z, 2) + "↔";
 				}
 			}
 			else
 			{
-				Prefab.LocalPRS = VectorToString(CoordinateOverride.GetValueOrDefault(Vector3.zero));
+				prefab.LocalPRS = VectorToString(CoordinateOverride.GetValueOrDefault(Vector3.zero));
 			}
 
 			var OnObjectComplete = Object.GetComponentsInChildren<Component>(true).ToHashSet();
@@ -1025,15 +1032,15 @@ namespace MapSaver
 				.ToHashSet();
 
 
-			RecursiveSaveObject(OnObjectComplete, OnGmaeObjectComplete, Compact, Prefab, "0", Prefab.Object,
-				OriginPrefab,
+			RecursiveSaveObject(OnObjectComplete, OnGmaeObjectComplete, Compact, prefab, "0", prefab.Object,
+				originPrefab,
 				Object.gameObject, compactObjectMapData, CoordinateOverride, UseInstance);
-			if (Prefab.Object.RemoveEmptys())
+			if (prefab.Object.RemoveEmptys())
 			{
-				Prefab.Object = null;
+				prefab.Object = null;
 			}
 
-			compactObjectMapData.PrefabData.Add(Prefab);
+			compactObjectMapData.PrefabData.Add(prefab);
 		}
 
 
@@ -1066,10 +1073,6 @@ namespace MapSaver
 			var loopMax = Mathf.Max(PrefabObjectChildCount, gameObjectChildCount);
 			int PrefabIndex = 0;
 			int GameObjectIndex = 0;
-
-
-
-
 			int IDLocation = 0;
 
 			for (int i = 0; i < loopMax; i++)
@@ -1119,10 +1122,6 @@ namespace MapSaver
 				PrefabIndex++;
 				IDLocation++;
 			}
-
-
-
-
 		}
 
 		public static void FillOutClassData(HashSet<Component> AllComponentsOnObject,
