@@ -15,6 +15,7 @@ using Core.Lighting;
 using CustomInspectors;
 using HealthV2;
 using Logs;
+using SecureStuff;
 using Shared.Systems.ObjectConnection;
 
 namespace Objects.Engineering
@@ -221,6 +222,11 @@ namespace Objects.Engineering
 			var connectedDevicesCount = connectedDevices.Count;
 			for (int i = 0; i < connectedDevicesCount; i++)
 			{
+				if (connectedDevices[i] == null)
+				{
+					connectedDevices.RemoveAt(i);
+					continue;
+				}
 				connectedDevices[i].PowerNetworkUpdate(voltages);
 				calculatingResistance += (1 / connectedDevices[i].Resistance);
 			}
@@ -386,7 +392,7 @@ namespace Objects.Engineering
 		/// <summary>
 		/// List of the department batteries connected to this APC
 		/// </summary>
-		[SerializeField][FormerlySerializedAs("ConnectedDepartmentBatteries")]
+		[SerializeField, FormerlySerializedAs("ConnectedDepartmentBatteries"), PlayModeOnly]
 		private List<DepartmentBattery> connectedDepartmentBatteries = new List<DepartmentBattery>();
 		public List<DepartmentBattery> ConnectedDepartmentBatteries => connectedDepartmentBatteries;
 

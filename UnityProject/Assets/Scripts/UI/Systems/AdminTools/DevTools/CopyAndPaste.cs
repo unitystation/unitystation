@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using InGameGizmos;
 using Logs;
+using MapSaver;
 using Newtonsoft.Json;
 using Shared.Managers;
 using TileManagement;
@@ -40,7 +41,6 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 	public Vector3 ActiveBoundCurrent;
 
 	public GameGizmoSquare ActiveGizmo;
-	private readonly Vector3 GIZMO_OFFSET = new Vector3(-0.5f, -0.5f, 0);
 
 	public string Clipboard;
 
@@ -50,6 +50,8 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 
 	public MapSaver.MapSaver.MatrixData currentlyActivePaste;
+
+	public Vector3? Offset00 = null;
 
 	private void OnEnable()
 	{
@@ -77,6 +79,21 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			Updating = false;
 		}
+
+		currentlyActivePaste = null;
+		Offset00 = null;
+
+		foreach (var Gizmo in PreviewGizmos)
+		{
+			Gizmo.Remove();
+		}
+		PreviewGizmos.Clear();
+
+		foreach (var Gizmo in PositionsToCopy)
+		{
+			Gizmo.GameGizmoSquare.Remove();
+		}
+		PositionsToCopy.Clear();
 	}
 
 	[NaughtyAttributes.Button]
@@ -218,7 +235,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 		//PreviewGizmos
 
-		Vector3? Offset00 = null;
+
 
 		foreach (var Gizmo in data.PreviewGizmos)
 		{
@@ -236,10 +253,11 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			}
 		}
 
+		Offset00 = new Vector3(-0.5f, -0.5f, 0f) -Offset00;
+
 		if (ActiveMouseGrabber == null)
 		{
 			ActiveMouseGrabber = Instantiate(MouseGrabberPrefab);
-			ActiveMouseGrabber.OffsetRound = new Vector3(-0.5f, -0.5f, 0);
 			ActiveMouseGrabber.SnapPosition = true;
 		}
 
@@ -248,10 +266,16 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		foreach (var Gizmo in data.PreviewGizmos)
 		{
 			PreviewGizmos.Add(GameGizmomanager.AddNewSquareStaticClient(ActiveMouseGrabber.gameObject,
-				(Gizmo.Pos.ToVector3() - Offset00.Value), Color.blue, BoxSize: Gizmo.Size.ToVector3()));
+				 (Gizmo.Pos.ToVector3() + Offset00.Value ), Color.blue, BoxSize: Gizmo.Size.ToVector3()));
 		}
 
 		currentlyActivePaste = data;
+
+		if (Updating == false)
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			Updating = true;
+		}
 	}
 
 	[NaughtyAttributes.Button]
@@ -263,6 +287,8 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		if (currentlyActivePaste != null)
 		{
 
+			var Offset = ActiveMouseGrabber.gameObject.transform.position.ToLocal();
+			MapLoader.LoadSection( MatrixManager.AtPoint(MouseUtils.MouseToWorldPos(), CustomNetworkManager.IsServer) ,Offset00.Value, Offset, currentlyActivePaste);
 			return;
 		}
 
@@ -270,7 +296,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		{
 			if (ActiveGizmo == null)
 			{
-				var WorldPosition =GIZMO_OFFSET+ MouseUtils.MouseToWorldPos().RoundToInt();
+				var WorldPosition = MouseUtils.MouseToWorldPos().RoundToInt();
 				ActiveBoundStart = WorldPosition;
 				ActiveBoundCurrent = WorldPosition;
 				var Size = ActiveBoundCurrent - ActiveBoundStart;
@@ -280,9 +306,14 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			}
 			else
 			{
+
+				var data = new BetterBounds(ActiveBoundStart, ActiveBoundCurrent);
+
+				data = data.ExpandAllDirectionsBy(0.5f);
+
 				PositionsToCopy.Add( new GizmoAndBox()
 				{
-					BetterBounds = new BetterBounds(ActiveBoundStart, ActiveBoundCurrent),
+					BetterBounds = data,
 					GameGizmoSquare = ActiveGizmo
 				} );
 				ActiveGizmo = null;
@@ -309,29 +340,13 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 	{
 		ActiveBoundCurrent =   ((MouseUtils.MouseToWorldPos()).RoundToInt() );
 
-		var Size = ActiveBoundCurrent - ActiveBoundStart;
+		var data = new BetterBounds(ActiveBoundStart, ActiveBoundCurrent);
 
-		if (Size.x > 0)
-		{
-			ActiveBoundCurrent.x += 0.5f;
-		}
-		else
-		{
-			ActiveBoundCurrent.x += -0.5f;
-		}
+		data = data.ExpandAllDirectionsBy(0.5f);
 
-		if (Size.y > 0)
-		{
-			ActiveBoundCurrent.y += 0.5f;
-		}
-		else
-		{
-			ActiveBoundCurrent.y += -0.5f;
-		}
+		var Size = data.size;
 
-		Size = ActiveBoundCurrent - ActiveBoundStart;
-
-		ActiveGizmo.Position = ActiveBoundStart + (Size / 2f);
+		ActiveGizmo.Position = data.min + (Size / 2f);
 		ActiveGizmo.Size = Size;
 
 	}

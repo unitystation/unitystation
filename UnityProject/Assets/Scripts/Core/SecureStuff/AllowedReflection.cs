@@ -240,9 +240,17 @@ namespace SecureStuff
 			//so What they want access to
 			//Token/Account
 			//File access
+			Component workObject = null;
 
-			var workObject =
-				NetworkObject.GetComponent(MonoBehaviourName.Substring(MonoBehaviourName.LastIndexOf('.') + 1));
+			if (MonoBehaviourName.Contains("."))
+			{
+				workObject = NetworkObject.GetComponent(MonoBehaviourName.Substring(MonoBehaviourName.LastIndexOf('.') + 1));
+			}
+			else
+			{
+				workObject = NetworkObject.GetComponent(MonoBehaviourName);
+			}
+
 			var Worktype = workObject.GetType();
 
 			if (IsInvokeFunction == false)
@@ -253,7 +261,7 @@ namespace SecureStuff
 				{
 					if (infoField.IsStatic) return;
 					infoField.SetValue(workObject,
-						Librarian.Page.DeSerialiseValue(workObject, Newvalue, infoField.FieldType));
+						Librarian.Page.DeSerialiseValue(Newvalue, infoField.FieldType));
 					return;
 				}
 
@@ -265,7 +273,7 @@ namespace SecureStuff
 					if (Method == null) return;
 					if (Method.IsStatic) return;
 					infoProperty.SetValue(workObject,
-						Librarian.Page.DeSerialiseValue(workObject, Newvalue, infoProperty.PropertyType));
+						Librarian.Page.DeSerialiseValue(Newvalue, infoProperty.PropertyType));
 					return;
 				}
 			}

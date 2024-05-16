@@ -358,6 +358,7 @@ namespace Objects.Atmospherics
 
 		public void AddSlave(IAcuControllable device)
 		{
+			if (ConnectedDevices.Contains(device)) return;
 			ConnectedDevices.Add(device);
 			device.SetOperatingMode(DesiredMode);
 

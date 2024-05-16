@@ -168,6 +168,18 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 
 	}
 
+	public static LayerTile GetTile( string key)
+	{
+		if (Instance.AllTiles.TryGetValue(key, out var tl))
+		{
+			return tl;
+		}
+
+		Loggy.LogError( $"Could not find layerTile in dictionary with key: {key}");
+
+		return null;
+	}
+
 	public static LayerTile GetTile(TileType tileType, string key)
 	{
 		if (!Instance.initialized) Instance.StartCoroutine(Instance.LoadAllTiles());

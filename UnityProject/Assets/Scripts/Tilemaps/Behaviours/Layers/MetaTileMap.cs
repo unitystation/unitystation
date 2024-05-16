@@ -4,12 +4,15 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using _3D;
+using HealthV2;
 using Logs;
 using Messages.Server;
 using Objects;
 using Objects.Atmospherics;
 using ScriptableObjects;
 using SecureStuff;
+using Systems.DisposalPipes;
+using Systems.Electricity;
 using Tiles;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -105,6 +108,7 @@ namespace TileManagement
 
 		public Layer[] PassableAffecting { get; private set; }
 
+		public Layer[] AtmosphericAffecting { get; private set; }
 
 		/// <summary>
 		/// Array of only layers that can ever contain solid stuff
@@ -157,6 +161,7 @@ namespace TileManagement
 			var damageableLayersValues = new List<Layer>();
 
 			var PassableValues = new List<Layer>();
+			var AtmosphericAffectingValues = new List<Layer>();
 
 			foreach (Layer layer in GetComponentsInChildren<Layer>(true))
 			{
@@ -175,7 +180,10 @@ namespace TileManagement
 				{
 					PassableValues.Add(layer);
 				}}
-
+				if (type is LayerType.Walls or LayerType.Windows or LayerType.Floors or LayerType.Base){
+				{
+					AtmosphericAffectingValues.Add(layer);
+				}}
 				if (layer.GetComponent<TilemapDamage>())
 				{
 					damageableLayersValues.Add(layer);
@@ -252,7 +260,7 @@ namespace TileManagement
 			LayersKeys = layersKeys.ToArray();
 			layersValues.Sort((layerOne, layerTwo) =>
 				layerOne.LayerType.GetOrder().CompareTo(layerTwo.LayerType.GetOrder()));
-
+			AtmosphericAffecting = AtmosphericAffectingValues.ToArray();
 			LayersValues = layersValues.ToArray();
 
 			PassableAffecting = PassableValues.ToArray();
@@ -352,28 +360,12 @@ namespace TileManagement
 		private void MainThreadRemoveTile(TileLocation tileLocation)
 		{
 			//Remove before setting
-			if (tileLocation.layer.LayerType.IsMultilayer()) //TODO Tile map upgrade
+			if (tileLocation.InternalLayerTile is FuncPlaceRemoveTile funcPlaceRemoveTile)
 			{
-				lock (MultilayerPresentTiles)
-				{
-					var tileLocations = GetTileLocationsNeedLockSurrounding(tileLocation.LocalPosition, tileLocation.layer);
-					if (tileLocations != null)
-					{
-						if (tileLocations.Count > Math.Abs(1 - tileLocation.LocalPosition.z))
-						{
-							tileLocations[Math.Abs(1 - tileLocation.LocalPosition.z)] = null;
-						}
-					}
-				}
-			}
-			else
-			{
-				lock (PresentTiles)
-				{
-					PresentTiles[(int)tileLocation.layer.LayerType][tileLocation.LocalPosition] = null;
-				}
+				funcPlaceRemoveTile.OnRemoved(tileLocation.LocalPosition,matrix, tileLocation);
 			}
 
+			tileLocation.InternalLayerTile = null;
 			tileLocation.layer.RemoveTile(tileLocation.LocalPosition);
 
 			if (tileLocation.AssociatedSetCubeSprite != null)
@@ -440,7 +432,7 @@ namespace TileManagement
 				}
 			}
 
-			tileLocation.layer.SubsystemManager.UpdateAt(tileLocation.LocalPosition);
+
 			if (LocalCachedBounds != null)
 			{
 				if (LocalCachedBounds.Value.Contains(tileLocation.LocalPosition) == false)
@@ -455,7 +447,6 @@ namespace TileManagement
 					}
 				}
 			}
-
 			if (CustomNetworkManager.IsServer)
 			{
 				if (tileLocation.layerTile.LayerType.IsMultilayer()) //TODO Tilemap upgrade
@@ -486,6 +477,13 @@ namespace TileManagement
 					tileLocation.transformMatrix, tileLocation.Colour, tileLocation.layerTile.LayerType);
 			}
 			tileLocation.layer.SubsystemManager.UpdateAt(tileLocation.LocalPosition);
+
+
+			if (tileLocation.layerTile is FuncPlaceRemoveTile funcPlaceRemoveTile)
+			{
+				funcPlaceRemoveTile.OnPlaced(tileLocation.LocalPosition,matrix, tileLocation);
+			}
+
 		}
 
 		/// <summary>
@@ -812,13 +810,8 @@ namespace TileManagement
 		public bool IsSpaceAt(Vector3Int position, bool isServer, bool UseExactForMultilayer = false)
 		{
 			TileLocation tileLocation = null;
-			foreach (var layer in LayersValues)
+			foreach (var layer in AtmosphericAffecting)
 			{
-				if (layer.LayerType == LayerType.Objects) continue;
-				if (layer.LayerType.IsMultilayer()) continue;
-				if (layer.LayerType == LayerType.Tables) continue;
-				if (layer.LayerType == LayerType.Effects) continue;
-
 				tileLocation = GetCorrectTileLocationForLayer(position, layer, UseExactForMultilayer);
 
 				if (tileLocation?.layerTile == null) continue;
@@ -1097,7 +1090,7 @@ namespace TileManagement
 		}
 
 
-		private TileLocation GetTileExactLocationMultilayer(Vector3Int cellPosition, Layer layer)
+		private TileLocation GetTileExactLocationMultilayer(Vector3Int cellPosition, Layer layer, bool Remove = false)
 		{
 			//TODO Tile map upgrade , z Is used as a depth but that needs to be moved to vector4int where it would turn into w
 			//This you would just cast to vector3int
@@ -1110,7 +1103,12 @@ namespace TileManagement
 				{
 					if (tileLocations.Count > Math.Abs(1 - cellPosition.z))
 					{
-						return tileLocations[Math.Abs(1 - cellPosition.z)];
+						var Tile = tileLocations[Math.Abs(1 - cellPosition.z)];
+						if (Remove)
+						{
+							tileLocations[Math.Abs(1 - cellPosition.z)] = null;
+						}
+						return Tile;
 					}
 				}
 			}
@@ -2179,13 +2177,14 @@ namespace TileManagement
 
 				if (layer.LayerType.IsMultilayer()) //TODO Tile map upgrade
 				{
-					tileLocation = GetTileExactLocationMultilayer(position, layer);
+					tileLocation = GetTileExactLocationMultilayer(position, layer, true);
 				}
 				else
 				{
 					lock (PresentTiles)
 					{
 						PresentTiles[(int)layer.LayerType].TryGetValue(position, out tileLocation);
+						PresentTiles[(int) layer.LayerType][position] = null;
 					}
 				}
 
@@ -2208,10 +2207,7 @@ namespace TileManagement
 						}
 					}
 
-
-
 					tileLocation.layerTile = null;
-
 
 					ApplyTileChange(tileLocation);
 					if (refLayer != LayerType.Effects)
@@ -2236,7 +2232,7 @@ namespace TileManagement
 				{
 					if (exactPosition)
 					{
-						tileLocation = GetTileExactLocationMultilayer(position, layer);
+						tileLocation = GetTileExactLocationMultilayer(position, layer, true);
 					}
 					else
 					{
@@ -2245,7 +2241,7 @@ namespace TileManagement
 						{
 							positionNew.z = 1 - i;
 
-							tileLocation = GetTileExactLocationMultilayer(positionNew, layer);
+							tileLocation = GetTileExactLocationMultilayer(positionNew, layer, true);
 
 							if (tileLocation != null)
 							{
@@ -2266,6 +2262,7 @@ namespace TileManagement
 					lock (PresentTiles)
 					{
 						PresentTiles[(int)layer.LayerType].TryGetValue(position, out tileLocation);
+						PresentTiles[(int) layer.LayerType][position] = null;
 					}
 				}
 
@@ -2614,6 +2611,7 @@ namespace TileManagement
 
 		#endregion
 
+
 		public bool UnderFloorUtilitiesInitialised { get; private set; } = false;
 
 		public void InitialiseUnderFloorUtilities(bool isServer)
@@ -2672,49 +2670,10 @@ namespace TileManagement
 
 							if (isServer)
 							{
-								var electricalCableTile = getTile as ElectricalCableTile;
-								if (electricalCableTile != null)
+								var Functional = getTile as FuncPlaceRemoveTile;
+								if (Functional != null)
 								{
-									layer.Matrix.AddElectricalNode(new Vector3Int(n, p, localPlace.z),
-										electricalCableTile);
-								}
-
-								var disposalPipeTile = getTile as Objects.Disposals.DisposalPipe;
-								if (disposalPipeTile != null)
-								{
-									disposalPipeTile.InitialiseNode(localPlace, layer.Matrix);
-								}
-
-								var pipeTile = getTile as Objects.Atmospherics.PipeTile;
-								if (pipeTile != null)
-								{
-									var matrixStruct =
-										layer.Matrix.PipeLayer.Tilemap.GetTransformMatrix(localPlace);
-									var connection = PipeTile.GetRotatedConnection(pipeTile, matrixStruct);
-									var pipeDir = connection.Directions;
-									var canInitializePipe = true;
-									for (var d = 0; d < pipeDir.Length; d++)
-									{
-										if (pipeDir[d].Bool)
-										{
-											if (PipeDirCheck[d])
-											{
-												canInitializePipe = false;
-												Loggy.LogWarning(
-													$"A pipe is overlapping its connection at ({n}, {p}) in {layer.Matrix.gameObject.scene.name} - {layer.Matrix.name} with another pipe, removing one",
-													Category.Pipes);
-												layer.Tilemap.SetTile(localPlace, null);
-												break;
-											}
-
-											PipeDirCheck[d] = true;
-										}
-									}
-
-									if (canInitializePipe)
-									{
-										pipeTile.InitialiseNode(localPlace, layer.Matrix);
-									}
+									Functional.OnPlaced(localPlace, matrix, Tile);
 								}
 							}
 						}

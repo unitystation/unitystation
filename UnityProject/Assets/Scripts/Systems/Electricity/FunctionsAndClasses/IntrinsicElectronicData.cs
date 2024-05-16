@@ -39,6 +39,7 @@ namespace Systems.Electricity
 
 		public bool DestroyQueueing = false;
 		public bool DestroyAuthorised = false;
+		public bool TileRemoved = false;
 
 		public void SetDeadEnd()
 		{
@@ -272,7 +273,7 @@ namespace Systems.Electricity
 			return SB.ToString();
 		}
 
-		public void DestroyThisPlease()
+		public void DestroyThisPlease(bool TileRemovedAlready = false)
 		{
 			if (Present != null)
 			{
@@ -280,12 +281,16 @@ namespace Systems.Electricity
 			}
 			else
 			{
-				InternalDestroyThisPlease();
+				InternalDestroyThisPlease(TileRemovedAlready);
 			}
 		}
 
-		private void InternalDestroyThisPlease()
+		private void InternalDestroyThisPlease(bool TileRemovedAlready = false)
 		{
+			if (TileRemoved == false)
+			{
+				TileRemoved = TileRemovedAlready;
+			}
 			DestroyQueueing = true;
 			ElectricalManager.Instance.electricalSync.NUElectricalObjectsToDestroy.Add(this);
 		}
@@ -312,8 +317,10 @@ namespace Systems.Electricity
 				FlushConnectionAndUp();
 				MetaDataPresent.IsOn.ElectricalData.Remove(MetaDataPresent);
 				ElectricalManager.Instance.electricalSync.StructureChange = true;
-				MetaDataPresent.Locatedon.TileChangeManager.MetaTileMap.RemoveTileWithlayer(MetaDataPresent.NodeLocation, LayerType.Electrical);
-
+				if (TileRemoved == false)
+				{
+					MetaDataPresent.Locatedon.TileChangeManager.MetaTileMap.RemoveTileWithlayer(MetaDataPresent.NodeLocation, LayerType.Electrical);
+				}
 			}
 		}
 	}
