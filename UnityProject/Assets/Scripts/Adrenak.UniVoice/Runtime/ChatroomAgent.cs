@@ -201,11 +201,17 @@ namespace Adrenak.UniVoice {
                 // If we're muting ourselves to all, do nothing.
                 if (MuteSelf) return;
 
+                var ChannelCount = AudioInput.ChannelCount;
+                if (ChannelCount == 0)
+                {
+	                ChannelCount = 1;
+                }
+
                 // Send the audio segment to every deserving recipient
                 Network.SendAudioSegment(0, new ChatroomAudioSegment {
 	                segmentIndex = index,
 	                frequency = AudioInput.Frequency,
-	                channelCount = AudioInput.ChannelCount,
+	                channelCount = ChannelCount,
 	                samples = samples
                 });
 
