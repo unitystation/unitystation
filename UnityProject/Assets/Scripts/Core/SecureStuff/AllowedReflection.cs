@@ -38,6 +38,8 @@ namespace SecureStuff
 
 	public static class AllowedReflection
 	{
+		private static Dictionary<string, Type> NameToMonoBehaviour;
+
 		public static void RegisterNetworkMessages(Type messagebaseType, Type networkManagerExtensions,
 			string registerMethodName, bool IsServer)
 		{
@@ -94,7 +96,9 @@ namespace SecureStuff
 		{
 			if (ValidateMethodInfo(methodInfo))
 			{
-				return methodInfo.Invoke(instance, BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy, (Binder) null, parameters, (CultureInfo) null);
+				return methodInfo.Invoke(instance,
+					BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static |
+					BindingFlags.FlattenHierarchy, (Binder) null, parameters, (CultureInfo) null);
 			}
 			else
 			{
@@ -141,6 +145,26 @@ namespace SecureStuff
 			}
 
 			return EventInfo;
+		}
+
+
+		public static Type GetTypeByName(string className)
+		{
+			if (NameToMonoBehaviour == null)
+			{
+				var Types = AppDomain.CurrentDomain.GetAssemblies()
+					.Select(x => x.GetTypes().Where(t => t.IsSubclassOf(typeof(MonoBehaviour))));
+				NameToMonoBehaviour = new Dictionary<string, Type>();
+				foreach (var SubTypes in Types)
+				{
+					foreach (var Type in SubTypes)
+					{
+						NameToMonoBehaviour[Type.Name] = Type;
+					}
+				}
+			}
+
+			return NameToMonoBehaviour.GetValueOrDefault(className);
 		}
 
 
@@ -244,7 +268,8 @@ namespace SecureStuff
 
 			if (MonoBehaviourName.Contains("."))
 			{
-				workObject = NetworkObject.GetComponent(MonoBehaviourName.Substring(MonoBehaviourName.LastIndexOf('.') + 1));
+				workObject =
+					NetworkObject.GetComponent(MonoBehaviourName.Substring(MonoBehaviourName.LastIndexOf('.') + 1));
 			}
 			else
 			{

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -130,24 +131,18 @@ namespace MapSaver
 				var Component =  Object.GetComponent(ClassComponents[0]);
 				if (Component == null)
 				{
-					Loggy.LogError("TODO Work out how to add component?");
-					continue;
+					try
+					{
+						Component = Object.AddComponent(AllowedReflection.GetTypeByName(ClassComponents[0]));
+					}
+					catch (Exception e)
+					{
+						Loggy.LogError(e.ToString());
+						continue;
+					}
+
 				}
 				SecureMapsSaver.LoadData(Component, classData.Data, MapSaver.CodeClass.ThisCodeClass);
-
-			    // foreach (var Field in classData.Data)
-			    // {
-			    //TODO
-			    //Vector3 On light 2D being Weird
-			    //OK, so Handle references Across metrics/ID references
-			    //list changes
-			    //EtherealThing TODO
-
-
-			    //AllowedReflection.ChangeVariableClient(Object, ClassComponents[0], Field.Name, Field.Data, false);
-			    // }
-
-
 		    }
 
 		    if (IndividualObject.Children != null)
@@ -155,10 +150,12 @@ namespace MapSaver
 			    foreach (var Child in IndividualObject.Children)
 			    {
 				    var Id = int.Parse( Child.ID.Split(",").Last());
-				    if (Object.transform.childCount <= Id) //TODO Adding Game objects
+				    while (Object.transform.childCount <= Id)
 				    {
-					    return;
+					    var NewChild = new GameObject();
+					    NewChild.transform.SetParent(Object.transform);
 				    }
+
 				    var ObjectChild = Object.transform.GetChild(Id);
 				    ProcessClassData(ObjectChild.gameObject, Child);
 			    }
