@@ -44,7 +44,6 @@ namespace Items
 		{
 			if (overrideTrigger == false && triggerManually) return;
 			SpawnRandomItems(UnrestrictedAndspawn);
-			ShoveIntoStorage(gameObject);
 			APCtoSet.OrNull()?.RemoveFromAPC();
 
 		}
