@@ -369,6 +369,10 @@ namespace Util
 		public static void Generate()
 		{
 
+			var coolsdsa = AllowedReflection.GetTypeByName("LightSource");
+
+			return;
+
 			var ChunkedTileMap = new ChunkedTileMap<coolClass>();
 			var url = new Uri( "https://dev-api.unitystation.org/accounts/login-credentials");
 			var coiol = new HttpClient();

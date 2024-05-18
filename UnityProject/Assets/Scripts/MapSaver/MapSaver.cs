@@ -297,7 +297,7 @@ namespace MapSaver
 		}
 
 		public static MatrixData SaveMatrix(bool Compact, MetaTileMap MetaTileMap, bool SingleSave = true,
-			List<BetterBounds> LocalArea  = null, bool UseInstance = false)
+			List<BetterBounds> LocalArea  = null)
 		{
 			if (SingleSave)
 			{
@@ -324,7 +324,7 @@ namespace MapSaver
 
 			MatrixData matrixData = new MatrixData();
 			matrixData.CompactObjectMapData =
-				SaveObjects(Compact, MetaTileMap, AllowedPoints, UseInstance);
+				SaveObjects(Compact, MetaTileMap, AllowedPoints);
 			SaveTileMap(Compact, matrixData, MetaTileMap, AllowedPoints);
 
 			//matrixData.MatrixName = MetaTileMap.matrix.NetworkedMatrix.gameObject.name;
@@ -924,7 +924,7 @@ namespace MapSaver
 
 
 		public static CompactObjectMapData SaveObjects(bool Compact, MetaTileMap MetaTileMap,
-			HashSet<Vector3Int> AllowedPoints = null, bool UseInstance = false)
+			HashSet<Vector3Int> AllowedPoints = null)
 		{
 			bool UseBoundary = AllowedPoints != null;
 			CompactObjectMapData compactObjectMapData = new CompactObjectMapData();
@@ -960,7 +960,7 @@ namespace MapSaver
 					}
 				}
 
-				ProcessIndividualObject(Compact, Object.gameObject, compactObjectMapData, UseInstance: UseInstance);
+				ProcessIndividualObject(Compact, Object.gameObject, compactObjectMapData);
 			}
 
 			if (Application.isPlaying) //EtherealThings Haven't been triggered so they are in the correct spot
@@ -979,7 +979,7 @@ namespace MapSaver
 					}
 
 					ProcessIndividualObject(Compact, EtherealThing.gameObject, compactObjectMapData,
-						EtherealThing.transform.localPosition, UseInstance);
+						EtherealThing.transform.localPosition);
 				}
 			}
 
@@ -1075,7 +1075,7 @@ namespace MapSaver
 
 		public static void ProcessIndividualObject(bool Compact, GameObject Object,
 			CompactObjectMapData compactObjectMapData,
-			Vector3? CoordinateOverride = null, bool UseInstance = false)
+			Vector3? CoordinateOverride = null)
 		{
 			var RuntimeSpawned = Object.GetComponent<RuntimeSpawned>();
 			if (RuntimeSpawned != null) return;
@@ -1133,7 +1133,7 @@ namespace MapSaver
 
 			RecursiveSaveObject(OnObjectComplete, OnGmaeObjectComplete, Compact, Prefab, "0", Prefab.Object,
 				OriginPrefab,
-				Object.gameObject, compactObjectMapData, CoordinateOverride, UseInstance);
+				Object.gameObject, compactObjectMapData, CoordinateOverride);
 			if (Prefab.Object.RemoveEmptys())
 			{
 				Prefab.Object = null;
@@ -1239,13 +1239,13 @@ namespace MapSaver
 		{
 			Dictionary<string, int> ClassCount = new Dictionary<string, int>();
 
-			List<MonoBehaviour> PrefabComponents = new List<MonoBehaviour>();
+			List<Component> PrefabComponents = new List<Component>();
 			if (PrefabEquivalent != null)
 			{
-				PrefabComponents = PrefabEquivalent.GetComponents<MonoBehaviour>().ToList();
+				PrefabComponents = PrefabEquivalent.GetComponents<Component>().ToList();
 			}
 
-			var gameObjectComponents = gameObject.GetComponents<MonoBehaviour>().ToList();
+			var gameObjectComponents = gameObject.GetComponents<Component>().ToList();
 
 			var loopMax = Mathf.Max(PrefabComponents.Count, gameObjectComponents.Count);
 			int PrefabIndex = 0;
@@ -1278,7 +1278,7 @@ namespace MapSaver
 				}
 
 
-				MonoBehaviour PrefabMono = null;
+				Component PrefabMono = null;
 				if (PrefabComponents.Count > PrefabIndex)
 				{
 					PrefabMono = PrefabComponents[PrefabIndex];
@@ -1298,12 +1298,12 @@ namespace MapSaver
 							if (CoordinateOverride == null)
 							{
 								ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData,
-									gameObject.transform.localPosition, UseInstance);
+									gameObject.transform.localPosition);
 							}
 							else
 							{
 								ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData,
-									CoordinateOverride, UseInstance);
+									CoordinateOverride);
 							}
 						}
 					}
@@ -1318,12 +1318,12 @@ namespace MapSaver
 							if (CoordinateOverride == null)
 							{
 								ProcessIndividualObject(Compact, objectBehaviour.Item.gameObject, compactObjectMapData,
-									gameObject.transform.localPosition, UseInstance);
+									gameObject.transform.localPosition);
 							}
 							else
 							{
 								ProcessIndividualObject(Compact, objectBehaviour.Item.gameObject, compactObjectMapData,
-									CoordinateOverride, UseInstance);
+									CoordinateOverride);
 							}
 						}
 					}
@@ -1333,7 +1333,11 @@ namespace MapSaver
 				ClassCount.TryAdd(gameObjectMono.GetType().Name, 0);
 				OutClass.ClassID = gameObjectMono.GetType().Name + "@" + ClassCount[gameObjectMono.GetType().Name];
 				ClassCount[gameObjectMono.GetType().Name]++;
-				OutClass.Disabled = !gameObjectMono.enabled;
+				if (gameObjectMono is MonoBehaviour Mono)
+				{
+					OutClass.Disabled = !Mono.enabled;
+				}
+
 				if (Compact)
 				{
 					ComponentToID[gameObjectMono] = PrefabData.ID + "@" + individualObject.ID + "@" + OutClass.ClassID;
@@ -1354,7 +1358,7 @@ namespace MapSaver
 					gameObjectMono,
 					UseInstance);
 
-				if (OutClass.IsEmpty() == false)
+				if (OutClass.IsEmpty() == false || PrefabEquivalent == null)
 				{
 					individualObject.ClassDatas.Add(OutClass);
 				}

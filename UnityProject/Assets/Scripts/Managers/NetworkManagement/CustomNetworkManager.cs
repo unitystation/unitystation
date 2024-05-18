@@ -55,6 +55,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	private int currentLocation = 0;
 
+	public static Dictionary<uint, MapSaver.MapSaver.PrefabData> PrePayload =
+		new Dictionary<uint, MapSaver.MapSaver.PrefabData>();
+
 	public void UpdateMe()
 	{
 		if (allSpawnablePrefabs.Count > currentLocation)
@@ -76,6 +79,15 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 	}
 
+
+	public virtual void ObjectBeforePayloadDataClient(NetworkIdentity identity)
+	{
+		if (IsServer) return;
+		if (PrePayload.ContainsKey(identity.netId))
+		{
+			//TODO!!!!
+		}
+	}
 
 	public void Clear()
 	{

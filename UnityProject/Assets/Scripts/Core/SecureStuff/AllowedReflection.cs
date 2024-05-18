@@ -153,7 +153,7 @@ namespace SecureStuff
 			if (NameToMonoBehaviour == null)
 			{
 				var Types = AppDomain.CurrentDomain.GetAssemblies()
-					.Select(x => x.GetTypes().Where(t => t.IsSubclassOf(typeof(MonoBehaviour))));
+					.Select(x => x.GetTypes().Where(t => t.IsSubclassOf(typeof(Component))));
 				NameToMonoBehaviour = new Dictionary<string, Type>();
 				foreach (var SubTypes in Types)
 				{
@@ -163,8 +163,13 @@ namespace SecureStuff
 					}
 				}
 			}
+			var val = NameToMonoBehaviour.GetValueOrDefault(className);
+			if (val == null)
+			{
+				Loggy.LogError($"Was unable to find class name of {className}");
+			}
 
-			return NameToMonoBehaviour.GetValueOrDefault(className);
+			return val;
 		}
 
 

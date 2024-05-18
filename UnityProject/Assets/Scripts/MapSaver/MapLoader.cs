@@ -10,14 +10,13 @@ namespace MapSaver
 {
     public static class MapLoader
     {
-	    //TODO Add game objects
-	    //TODO Add scripts
 	    //TODO Gameobject references?
-		//TODO Handle GitID better
-	    //TODO Multiple components?
 	    //TODO is missing  Cross make such IDs when List!!
 
+	    //TODO Children rotation scale and position?
+	    //TODO Multiple components?
 	    //TODO ACU not set? Test
+	    //TODO Layer selection
 
 
 	    public static void ProcessorGitFriendlyTiles(MatrixInfo Matrix,  Vector3Int Offset00, Vector3Int Offset , MapSaver.GitFriendlyTileMapData GitFriendlyTileMapData )
@@ -154,6 +153,9 @@ namespace MapSaver
 				    {
 					    var NewChild = new GameObject();
 					    NewChild.transform.SetParent(Object.transform);
+					    NewChild.transform.localPosition= Vector3.zero;
+					    NewChild.transform.localScale = Vector3.one;
+					    NewChild.transform.rotation = Quaternion.identity;
 				    }
 
 				    var ObjectChild = Object.transform.GetChild(Id);
@@ -176,7 +178,5 @@ namespace MapSaver
 			    ProcessorCompactObjectMapData(Matrix, Offset00.RoundToInt(), Offset.RoundToInt(), MatrixData.CompactObjectMapData); //TODO Handle GitID better
 		    }
 	    }
-
-
     }
 }

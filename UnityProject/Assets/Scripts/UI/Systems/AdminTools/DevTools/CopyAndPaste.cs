@@ -53,6 +53,8 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	public Vector3? Offset00 = null;
 
+	public bool UseLocal = false;
+
 	private void OnEnable()
 	{
 		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
@@ -67,9 +69,14 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 	public override void Start()
 	{
 		base.Start();
-		//this.gameObject.SetActive(false);
+		this.gameObject.SetActive(false);
 	}
 
+
+	public void Close()
+	{
+		this.gameObject.SetActive(false);
+	}
 
 	private void OnDisable()
 	{
@@ -202,14 +209,29 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			LocalArea.Add(Local);
 		}
 
-		var Data =  MapSaver.MapSaver.SaveMatrix(false, Matrix.MetaTileMap, true, LocalArea);
-		Data.PreviewGizmos = Gizmos;
+		if (UseLocal == false)
+		{
+			ClientRequestsSaveMessage.Send(Gizmos, LocalArea, Matrix, false);
+		}
+		else
+		{
+			var Data =  MapSaver.MapSaver.SaveMatrix(false, Matrix.MetaTileMap, true, LocalArea);
+			Data.PreviewGizmos = Gizmos;
+			var StringData = JsonConvert.SerializeObject(Data, settings);
+			ReceiveData(StringData);
+		}
+	}
 
-		var StringData =JsonConvert.SerializeObject(Data, settings);
-
+	public void ReceiveData(string StringData)
+	{
 		Clipboard = StringData;
 		GUIUtility.systemCopyBuffer = StringData;
 
+		foreach (var Gizmo in PositionsToCopy)
+		{
+			Gizmo.GameGizmoSquare.Remove();
+		}
+		PositionsToCopy.Clear();
 
 	}
 
@@ -235,8 +257,6 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 		//PreviewGizmos
 
-
-
 		foreach (var Gizmo in data.PreviewGizmos)
 		{
 			if (Offset00 == null)
@@ -260,8 +280,6 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			ActiveMouseGrabber = Instantiate(MouseGrabberPrefab);
 			ActiveMouseGrabber.SnapPosition = true;
 		}
-
-
 
 		foreach (var Gizmo in data.PreviewGizmos)
 		{
@@ -287,8 +305,22 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		if (currentlyActivePaste != null)
 		{
 
+
 			var Offset = ActiveMouseGrabber.gameObject.transform.position.ToLocal();
 			MapLoader.LoadSection( MatrixManager.AtPoint(MouseUtils.MouseToWorldPos(), CustomNetworkManager.IsServer) ,Offset00.Value, Offset, currentlyActivePaste);
+
+			if (KeyboardInputManager.IsAltActionKeyPressed() == false)
+			{
+				currentlyActivePaste = null;
+
+				foreach (var Gizmo in PreviewGizmos)
+				{
+					Gizmo.Remove();
+				}
+				PreviewGizmos.Clear();
+				Destroy(ActiveMouseGrabber.gameObject);
+			}
+
 			return;
 		}
 
