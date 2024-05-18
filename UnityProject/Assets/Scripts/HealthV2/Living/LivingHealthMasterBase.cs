@@ -2176,6 +2176,13 @@ namespace HealthV2
 			StartCoroutine(ScreamCooldown());
 		}
 
+		public void IndicatePain()
+		{
+			if (EmoteActionManager.Instance == null || screamEmote == null
+													|| ConsciousState == ConsciousState.UNCONSCIOUS || IsDead) return;
+			EmoteActionManager.DoEmote(screamEmote, playerScript.gameObject);
+		}
+
 		private IEnumerator ScreamCooldown()
 		{
 			canScream = false;

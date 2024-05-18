@@ -257,6 +257,7 @@ namespace Adrenak.UniVoice
 					1, //AudioInput.ChannelCount
 					216 //		AudioInput.Frequency * ChannelCount / AudioInput.SegmentRate
 				); //Because it's using the microphone input For other people's output?!?! Dumb
+
 				output.ID = id.ToString();
 				PeerOutputs.Add(id, output);
 				Loggy.Log(TAG + "Added peer " + id);
