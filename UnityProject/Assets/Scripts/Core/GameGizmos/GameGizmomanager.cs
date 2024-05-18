@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Shared.Managers;
 using UnityEngine;
 
@@ -34,7 +35,15 @@ namespace InGameGizmos
 
 	public void OnDisable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		if (UpdateManager.Instance != null)
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+		else
+		{
+			Loggy.LogWarning("[GameGizmoManager/OnDisable()] - Tried adding a function to the UpdateManager, " +
+				"but UpdateManager is missing! Make sure you're not calling this when loading scenes. Or Ignore this if you're exiting playmode inside the Unity Editor.");
+		}
 	}
 
 	public void UpdateMe()
