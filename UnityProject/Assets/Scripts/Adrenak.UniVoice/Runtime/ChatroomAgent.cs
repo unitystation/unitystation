@@ -250,7 +250,7 @@ namespace Adrenak.UniVoice
 
 			PeerSettings.Add(id, new ChatroomPeerSettings());
 
-			if (CustomNetworkManager.IsHeadless == false && AudioInput.Frequency > 0 && AudioInput.ChannelCount> 0 && AudioInput.SegmentRate > 37)
+			if (CustomNetworkManager.IsHeadless == false && AudioInput.Frequency > 0 && AudioInput.ChannelCount> 0 && AudioInput.SegmentRate > 0)
 			{
 				var ChannelCount = AudioInput.ChannelCount;
 
