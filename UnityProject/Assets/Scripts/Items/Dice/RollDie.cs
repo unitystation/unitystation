@@ -64,7 +64,7 @@ namespace Items.Dice
 			ObjectPhysics.OnThrowEnd.AddListener(ThrowEndOld);
 			if (cookable != null && isRiggable)
 			{
-				cookable.OnCooked += Cook;
+				cookable.OnCooked.AddListener( Cook );
 			}
 		}
 
@@ -75,7 +75,7 @@ namespace Items.Dice
 			ObjectPhysics.OnThrowEnd.RemoveListener(ThrowEndOld);
 			if (cookable != null)
 			{
-				cookable.OnCooked -= Cook;
+				cookable.OnCooked.RemoveListener( Cook );
 			}
 		}
 
