@@ -250,16 +250,13 @@ namespace Adrenak.UniVoice
 
 			PeerSettings.Add(id, new ChatroomPeerSettings());
 
-			if (CustomNetworkManager.IsHeadless == false && AudioInput.Frequency > 0 && AudioInput.ChannelCount> 0 && AudioInput.SegmentRate > 0)
+			if (CustomNetworkManager.IsHeadless == false)
 			{
-				var ChannelCount = AudioInput.ChannelCount;
-
-
 				var output = AudioOutputFactory.Create(
-					AudioInput.Frequency,
-					ChannelCount,
-					AudioInput.Frequency * ChannelCount / AudioInput.SegmentRate
-				);
+					8000, //AudioInput.Frequency,
+					1, //AudioInput.ChannelCount
+					216 //		AudioInput.Frequency * ChannelCount / AudioInput.SegmentRate
+				); //Because it's using the microphone input For other people's output?!?! Dumb
 				output.ID = id.ToString();
 				PeerOutputs.Add(id, output);
 				Loggy.Log(TAG + "Added peer " + id);
