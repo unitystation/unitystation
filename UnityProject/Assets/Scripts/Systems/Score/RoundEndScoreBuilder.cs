@@ -39,6 +39,7 @@ namespace Systems.Score
 			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_FOODEATEN, "Food Eaten", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Weird);
 			ScoreMachine.AddNewScoreEntry(COMMON_TAIL_SCORE_ENTRY, "Tails Pulled", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Weird);
 			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_EXPLOSION, "Number of explosions this round", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Weird);
+			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_FLASHED, "Number of times a Player or NPC was blinded by a flash", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Weird);
 			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_CLOWNABUSE, "Clown Abused", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
 		}
 

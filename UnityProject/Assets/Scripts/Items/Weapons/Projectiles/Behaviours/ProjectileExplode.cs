@@ -47,7 +47,7 @@ namespace Weapons.Projectiles.Behaviours
 				return;
 			}
 
-			Explosion.StartExplosion(worldTilePosition, explosionStrength);
+			Explosion.StartExplosion(worldTilePosition, explosionStrength, stunNearbyPlayers: explosionStrength > 400);
 		}
 	}
 }

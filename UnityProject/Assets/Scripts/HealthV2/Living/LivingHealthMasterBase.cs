@@ -9,6 +9,7 @@ using UnityEngine.Events;
 using Mirror;
 using Systems.Atmospherics;
 using Chemistry;
+using Core;
 using Core.Chat;
 using Core.Utils;
 using Health.Sickness;
@@ -355,6 +356,12 @@ namespace HealthV2
 			BodyAlertManager = GetComponent<BodyAlertManager>();
 			//Needs to be in awake so the mobId is set before mind transfer (OnSpawnServer happens after that so cannot be used)
 			mobID = PlayerManager.Instance.GetMobID();
+			ComponentsTracker<LivingHealthMasterBase>.Instances.Add(this);
+		}
+
+		public void OnDestroy()
+		{
+			ComponentsTracker<LivingHealthMasterBase>.Instances.Remove(this);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -1314,6 +1321,7 @@ namespace HealthV2
 				if (EyeFlash != null && EyeFlash.TryFlash(flashDuration, checkForProtectiveCloth))
 				{
 					didFlash = true;
+					ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FLASHED);
 				}
 			}
 

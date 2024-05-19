@@ -22,7 +22,7 @@ namespace Systems.Research
 
 			var worldPos = objectPhysics.registerTile.WorldPosition;
 
-			Explosion.StartExplosion(worldPos, explosiveStrength, null, explosiveRadius);
+			Explosion.StartExplosion(worldPos, explosiveStrength, null, explosiveRadius, stunNearbyPlayers: true);
 		}
 	}
 }

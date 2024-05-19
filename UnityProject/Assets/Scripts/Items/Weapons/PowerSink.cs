@@ -139,7 +139,7 @@ namespace Items.Weapons
 			var worldPos = gameObject.AssumedWorldPosServer();
 			// Despawn the explosive
 			_ = Despawn.ServerSingle(gameObject);
-			Explosion.StartExplosion(worldPos.RoundToInt(), currentCharge * explosionAmplifer);
+			Explosion.StartExplosion(worldPos.RoundToInt(), currentCharge * explosionAmplifer, stunNearbyPlayers: true);
 		}
 
 		public void CheckForVoltage()
