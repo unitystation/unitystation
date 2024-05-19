@@ -130,6 +130,8 @@ namespace Items.Implants.Organs
 			livingHealth.IsMute.RemovePosition(this);
 			Itself.SetPossessingObject(null);
 			UpdateChatModifier(false);
+
+			PossessingMind?.Ghost();
 		}
 
 		public void SyncTelekinesis(bool Oldvalue, bool NewValue)
