@@ -12,7 +12,7 @@ namespace Systems.Explosions
 	{
 
 		// (Max) - why were these numbers choosen before?
-		// They may look less like magic numbers now, but there is no explanation for why they multiples of 8.
+		// They may look less like magic numbers now, but there is no explanation for why they are multiples of 8.
 		public const int EXPLOSION_STRENGTH_LOW = 800;
 		public const int EXPLOSION_STRENGTH_MEDIUM = 8000;
 		public const int EXPLOSION_STRENGTH_HIGH = 80000;
@@ -97,10 +97,14 @@ namespace Systems.Explosions
 			var s = ComponentsTracker<LivingHealthMasterBase>.GetAllNearbyTypesToLocation(startingPos.To3(), distance);
 			foreach (var obj in s)
 			{
+				// for performance reasons, if we have a big enough explosion: skip physics line checks as they're expensive.
+				// large explosions are slow enough as is because it has to damage/check hundreds of objects which all trigger
+				// different behaviors and events. We shouldn't strain the server with extra physics check ontop of that.
 				if (distance < 23)
 				{
 					if (IsStunReachable(startingPos, obj) == false) continue;
 				}
+				// if the explosion is too strong, skip flash protection check.
 				obj.TryFlash(5, strength < EXPLOSION_STRENGTH_HIGH);
 			}
 		}
