@@ -166,7 +166,6 @@ public class EscapeShuttle : AutopilotShipMachine
 	{
 		base.Start();
 		centComm = GameManager.Instance.GetComponent<CentComm>();
-
 		initialTimerSecondsCache = initialTimerSeconds;
 	}
 
@@ -175,19 +174,28 @@ public class EscapeShuttle : AutopilotShipMachine
 	{
 		matrixMove = GetComponentInParent<MatrixMove>();
 		networkedMatrix = GetComponentInParent<NetworkedMatrix>();
-
 		thrusters = GetComponentsInChildren<ShipThruster>().ToList();
+		GameManager.Instance.SetEscapeShuttle(this);
 		foreach (var thruster in thrusters)
 		{
 			var integrity = thruster.GetComponent<Integrity>();
 			integrity.OnWillDestroyServer.AddListener(OnWillDestroyThruster);
 		}
+
+
+
+	}
+
+	public void ReSet()
+	{
+		Initialised = false;
+		Status = EscapeShuttleStatus.OnRouteToCentCom;
 	}
 
 	private void OnEnable()
 	{
 		if(CustomNetworkManager.IsServer == false) return;
-
+		EventManager.AddHandler(Event.RoundEnded,  ReSet);
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
@@ -196,7 +204,7 @@ public class EscapeShuttle : AutopilotShipMachine
 		StopAllCoroutines();
 
 		if(CustomNetworkManager.IsServer == false) return;
-
+		EventManager.RemoveHandler(Event.RoundEnded,  ReSet);
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 

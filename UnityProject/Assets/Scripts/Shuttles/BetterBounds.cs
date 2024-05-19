@@ -47,7 +47,7 @@ namespace TileManagement
 		}
 
 
-		public bool LineIntersectsRect(Vector2 p1, Vector2 p2)
+		public readonly bool LineIntersectsRect(Vector2 p1, Vector2 p2)
 		{
 			var Tmin = min;
 			var Tmax = max;
@@ -62,7 +62,7 @@ namespace TileManagement
 			       (FindPoint( p1) && FindPoint(p2));
 		}
 
-		private bool FindPoint(Vector2 Point)
+		private readonly bool FindPoint(Vector2 Point)
 		{
 			if (Point.x > min.x && Point.x < max.x &&
 			    Point.y > min.y && Point.y < max.y)
@@ -71,7 +71,7 @@ namespace TileManagement
 			return false;
 		}
 
-		private bool LineIntersectsLine(Vector2 l1p1, Vector2 l1p2, Vector2 l2p1, Vector2 l2p2)
+		private static bool LineIntersectsLine(Vector2 l1p1, Vector2 l1p2, Vector2 l2p1, Vector2 l2p2)
 		{
 			float q = (l1p1.y - l2p1.y) * (l2p2.x - l2p1.x) - (l1p1.x - l2p1.x) * (l2p2.y - l2p1.y);
 			float d = (l1p2.x - l1p1.x) * (l2p2.y - l2p1.y) - (l1p2.y - l1p1.y) * (l2p2.x - l2p1.x);

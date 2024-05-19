@@ -9,7 +9,7 @@ namespace Tilemaps.Utils
 	/// </summary>
 	public class TileList
 	{
-		private readonly Dictionary<Vector3Int, TileListChunk<RegisterTile>> objects = new Dictionary<Vector3Int, TileListChunk<RegisterTile>>();
+		private readonly ChunkedTileMap<List<RegisterTile>> objects = new ChunkedTileMap<List<RegisterTile>>();
 
 		private static readonly List<RegisterTile> EmptyList = new List<RegisterTile>();
 
@@ -25,9 +25,9 @@ namespace Tilemaps.Utils
 			{
 				var list = new List<RegisterTile>();
 
-				foreach (var chunk in objects.Values)
+				foreach (var chunk in objects)
 				{
-					chunk.GetAllObjects(list);
+					list.AddRange(chunk);
 				}
 
 				return list;
@@ -36,29 +36,23 @@ namespace Tilemaps.Utils
 
 		public void Add(Vector3Int position, RegisterTile obj)
 		{
-			var chunkPos = GetChunkPos(position);
-
-			if (objects.ContainsKey(chunkPos) == false)
+			var Place = objects[position];
+			if (Place == null)
 			{
-				objects[chunkPos] = new TileListChunk<RegisterTile>();
+				Place = new List<RegisterTile>();
+				objects[position] = Place;
 			}
+			Place.Add(obj);
 
-			objects[chunkPos].Add(position, obj);
 			ReorderObjects(position);
 		}
 
 		public void Remove(Vector3Int position, RegisterTile obj)
 		{
-			var chunkPos = GetChunkPos(position);
-
-			if (objects.TryGetValue(chunkPos, out var objectsOut))
+			if (objects.TryGetValue(position, out var objectsOut))
 			{
-				objectsOut.Remove(position, obj);
-
-				if (objectsOut.HasObjects() == false)
-				{
-					objects.Remove(chunkPos);
-				}
+				objectsOut.Remove(obj);
+				//TODO Clearing out if there are 0 elements?
 			}
 		}
 
@@ -74,10 +68,10 @@ namespace Tilemaps.Utils
 				offset = position.y % 2 != 0 ? 3 : 2;
 			}
 
-			var chunkPos = GetChunkPos(position);
+			var Objects = objects[position];
 
 			var i = 0;
-			foreach (var register in objects[chunkPos].Get(position))
+			foreach (var register in Objects)
 			{
 				register.SetNewSortingOrder((i * 4) + offset);
 				i++;
@@ -86,29 +80,23 @@ namespace Tilemaps.Utils
 
 		public bool HasObjects(Vector3Int localPosition)
 		{
-			var chunkPos = GetChunkPos(localPosition);
-
-			return objects.TryGetValue(chunkPos, out var chunk) && chunk.HasObjects(localPosition);
+			return objects.TryGetValue(localPosition, out var chunk) && chunk != null && chunk.Count != 0;
 		}
 
 		public List<RegisterTile> Get(Vector3Int position)
 		{
-			var chunkPos = GetChunkPos(position);
-
-			return objects.TryGetValue(chunkPos, out var objectsOut) ? objectsOut.Get(position) : EmptyList;
+			return objects.TryGetValue(position, out var objectsOut) ? objectsOut : EmptyList;
 		}
 
 		public List<RegisterTile> Get(Vector3Int position, ObjectType type)
 		{
-			var chunkPos = GetChunkPos(position);
-
-			if (objects.TryGetValue(chunkPos, out var objectsOut) == false)
+			if (objects.TryGetValue(position, out var objectsOut) == false)
 			{
 				return EmptyList;
 			}
 
 			var list = new List<RegisterTile>();
-			foreach (var x in objectsOut.Get(position))
+			foreach (var x in objectsOut)
 			{
 				if (x.ObjectType == type)
 				{
@@ -131,11 +119,6 @@ namespace Tilemaps.Utils
 					action.Invoke(tempRegisterTiles[i]);
 				}
 			}
-		}
-
-		private Vector3Int GetChunkPos(Vector3Int tileLocalPos)
-		{
-			return new Vector3Int(tileLocalPos.x / ChunkSize, tileLocalPos.y / ChunkSize);
 		}
 	}
 

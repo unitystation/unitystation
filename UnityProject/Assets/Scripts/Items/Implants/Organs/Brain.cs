@@ -120,6 +120,7 @@ namespace Items.Implants.Organs
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
+			PossessingMind?.Ghost(); //so Players can see explosions if they Self Bomb
 			livingHealth.OnDeath -= DeathEvent;
 			livingHealth.OnRevive.RemoveListener(ReviveEvent);
 			if (livingHealth.brain == this)
@@ -130,6 +131,8 @@ namespace Items.Implants.Organs
 			livingHealth.IsMute.RemovePosition(this);
 			Itself.SetPossessingObject(null);
 			UpdateChatModifier(false);
+
+
 		}
 
 		public void SyncTelekinesis(bool Oldvalue, bool NewValue)
