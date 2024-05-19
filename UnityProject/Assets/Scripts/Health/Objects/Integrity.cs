@@ -113,7 +113,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[field: SyncVar] public float integrity { get; private set; } = 100f;
 	private bool destroyed = false;
 	private DamageInfo lastDamageInfo;
-	private DamageType lastDamageType => lastDamageInfo.DamageType;
+	private DamageType lastDamageType => lastDamageInfo?.DamageType ?? DamageType.Brute;
 	private RegisterTile registerTile;
 	public RegisterTile RegisterTile => registerTile;
 	private UniversalObjectPhysics universalObjectPhysics;
