@@ -97,11 +97,11 @@ namespace Systems.Explosions
 			var s = ComponentsTracker<LivingHealthMasterBase>.GetAllNearbyTypesToLocation(startingPos.To3(), distance);
 			foreach (var obj in s)
 			{
-				if (distance < 23)
+				if (distance < 12)
 				{
 					if (IsStunReachable(startingPos, obj) == false) continue;
 				}
-				obj.TryFlash(5, true);
+				obj.TryFlash(5, strength < EXPLOSION_STRENGTH_HIGH);
 			}
 		}
 
