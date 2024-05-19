@@ -1559,7 +1559,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		if (MappingIntangible == false)
 		{
-			registerTile.ServerSetLocalPosition(localPosition);
+			registerTile.ServerSetLocalPosition(localPosition); //TODO It's dumb and slow Combine into one
 			registerTile.ClientSetLocalPosition(localPosition);
 		}
 
