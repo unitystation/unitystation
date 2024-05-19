@@ -454,7 +454,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		if (CustomNetworkManager.IsServer == false) return;
 		if (!isProcessingSpaceBody && PendingSpaceBodies.Count > 0)
 		{
-			InitEscapeShuttle();
 			isProcessingSpaceBody = true;
 			StartCoroutine(ProcessSpaceBody(PendingSpaceBodies.Dequeue()));
 		}
@@ -953,11 +952,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			// Notify all clients that the round has ended
 			EventManager.Broadcast(Event.RoundEnded, true);
 			EventManager.Broadcast(Event.SceneUnloading, true);
-
-			if (GameManager.Instance != null)
-			{
-				GameManager.Instance.ResetEscapeShuttle();
-			}
 
 			try
 			{
