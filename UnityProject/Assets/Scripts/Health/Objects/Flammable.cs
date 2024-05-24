@@ -84,10 +84,6 @@ namespace Health.Objects
 			}
 			//this is just a guess - large items can't be picked up
 			isLarge = GetComponent<Pickupable>() == null;
-			if (integrity.Resistances.Flammable)
-			{
-				ToggleOverlay(false);
-			}
 		}
 
 		public override void OnStartClient()
@@ -103,10 +99,10 @@ namespace Health.Objects
 				var clonedIntegrity = info.ClonedFrom.GetComponent<Flammable>();
 				SyncOnFire(fireStacks, clonedIntegrity.fireStacks);
 			}
-			else
+			if (integrity.Resistances.Flammable)
 			{
-				ToggleOverlay(false);
-				SyncOnFire(fireStacks, 0);
+				//preloads the burning stuff for flammable objects
+				PreheatSprites();
 			}
 		}
 
@@ -162,18 +158,16 @@ namespace Health.Objects
 			ToggleProcessing(isUpdating, IsOnFire);
 		}
 
+		[Client]
 		private void ToggleOverlay(bool state)
 		{
-			if (burningObjectOverlay == null)
-			{
-				burningObjectOverlay = Instantiate(isLarge ? LARGE_BURNING_PREFAB : SMALL_BURNING_PREFAB, transform).GetComponent<BurningOverlay>();
-			}
+			PreheatSprites();
 			if (burningObjectOverlay == null)
 			{
 				Loggy.LogError("[Flammable/ToggleOverlay] - Failed to instantiate burning object overlay");
 				return;
 			}
-			burningObjectOverlay.enabled = state;
+			burningObjectOverlay.SetActive(state);
 			if (state)
 			{
 				burningObjectOverlay.Burn();
@@ -185,9 +179,18 @@ namespace Health.Objects
 			HandleFireParticles();
 		}
 
+		private void PreheatSprites()
+		{
+			if (burningObjectOverlay == null)
+			{
+				burningObjectOverlay = Instantiate(isLarge ? LARGE_BURNING_PREFAB : SMALL_BURNING_PREFAB, transform).GetComponent<BurningOverlay>();
+				burningObjectOverlay.Burn();
+			}
+		}
+
+		[Client]
 		private void HandleFireParticles()
 		{
-			if (CustomNetworkManager.IsHeadless) return;
 			if (fireParticlePrefab == null) return;
 			if (fireStacks == maxStacks)
 			{
@@ -210,7 +213,6 @@ namespace Health.Objects
 
 		private void ToggleProcessing(bool oldState, bool newState)
 		{
-			if (CustomNetworkManager.IsServer == false) return;
 			isUpdating = newState;
 			if (newState == true && oldState == false)
 			{
@@ -220,6 +222,7 @@ namespace Health.Objects
 				registerTile = gameObject.RegisterTile();
 				CreateHotSpot(registerTile.LocalPosition, HOT_IN_KELVIN + fireStacks);
 				ToggleOverlay(true);
+				PeriodicUpdateBurn();
 				return;
 			}
 			if (oldState == true && newState == false)
@@ -263,11 +266,6 @@ namespace Health.Objects
 			{
 				fireStacks += 1;
 			}
-		}
-
-		public void AddFireStacks(int amount)
-		{
-			SyncOnFire(fireStacks, fireStacks + amount);
 		}
 
 		/// <summary>

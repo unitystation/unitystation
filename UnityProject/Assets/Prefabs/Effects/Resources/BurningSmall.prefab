@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1682087833536344853}
   - component: {fileID: 6485798593100464536}
   - component: {fileID: 8746195124161956548}
+  - component: {fileID: 7698622354138618556}
   m_Layer: 10
   m_Name: BurningSmall
   m_TagString: Untagged
@@ -51,6 +52,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -107,9 +110,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &8746195124161956548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,5 +120,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dec6e9c0f1454b1a90892bc8915e6c16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7698622354138618556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558421102126524431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ba33d849f244521b86f761617ebd4a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

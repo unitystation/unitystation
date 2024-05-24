@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1279403570093724512, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: minimumFireDamageForStack
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_RootOrder
@@ -67,6 +72,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpaceCash
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821288291537931431, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: Resistances.Flammable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
