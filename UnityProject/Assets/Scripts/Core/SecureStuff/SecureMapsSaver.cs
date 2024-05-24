@@ -635,10 +635,10 @@ namespace SecureStuff
 				{
 					if (IsGoodField(Field) == false) continue;
 
-					if (Field.Name == "m_dict")
-					{
-						Loggy.LogError("ogggg");
-					}
+					// if (Field.Name == "m_dict")
+					// {
+					// 	Loggy.LogError("ogggg");
+					// }
 
 					if (Field.FieldType.IsValueType == false &&
 					    (Field.FieldType == typeof(string)) == false) //Cross object references
