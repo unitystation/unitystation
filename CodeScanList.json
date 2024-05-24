@@ -2306,7 +2306,8 @@
 			"GUIUtility" : {
 				"Methods" : [
 					"void set_systemCopyBuffer(string)",
-					"void RotateAroundPivot(float, UnityEngine.Vector2)"
+					"void RotateAroundPivot(float, UnityEngine.Vector2)",
+					"string get_systemCopyBuffer()"
 					]
 			},
 			"GUI" : {
@@ -3346,6 +3347,9 @@
 				"All": true
 			},
 			"MicrophoneAccess" : {
+				"All": true
+			},
+			"UnprocessedData" : {
 				"All": true
 			}
 		},
