@@ -24,6 +24,7 @@ namespace Systems.Explosions
 			public OverlayType effectOverlayType;
 			public Vector3Int position;
 			public MetaTileMap MetaTileMap;
+			public GameObject Firelight;
 
 			public void Pool()
 			{
@@ -43,13 +44,14 @@ namespace Systems.Explosions
 			}
 		}
 
-		public static void CleanupEffectLater(float seconds, MetaTileMap MetaTileMap, Vector3Int position, OverlayType effectOverlayType)
+		public static void CleanupEffectLater(float seconds, MetaTileMap MetaTileMap, Vector3Int position, OverlayType effectOverlayType, GameObject Firelight)
 		{
 			var EffectData = EffectDataToClean.Get();
 			EffectData.TimeLeft = Mathf.Min((int) seconds, 5);
 			EffectData.MetaTileMap = MetaTileMap;
 			EffectData.position = position;
 			EffectData.effectOverlayType = effectOverlayType;
+			EffectData.Firelight = Firelight;
 			DelayedEffectsToRemove.Add(EffectData);
 		}
 
@@ -58,7 +60,7 @@ namespace Systems.Explosions
 		{
 			if(Application.isEditor == false && NetworkServer.active == false) return;
 
-			UpdateManager.Add(Step, 0.5f);
+			UpdateManager.Add(Step, 0.4f);
 		}
 
 		private void OnDisable()
@@ -87,10 +89,15 @@ namespace Systems.Explosions
 			for (int i = DelayedEffectsToRemove.Count - 1; i >= 0; i--)
 			{
 				var timeEffect = DelayedEffectsToRemove[i];
-				timeEffect.TimeLeft = timeEffect.TimeLeft -0.5f; //Not the most accurate but good enough
+				timeEffect.TimeLeft = timeEffect.TimeLeft -0.4f; //Not the most accurate but good enough
 				if (timeEffect.TimeLeft < 0)
 				{
 					timeEffect.MetaTileMap.RemoveOverlaysOfType(timeEffect.position, LayerType.Effects, timeEffect.effectOverlayType);
+					if (timeEffect.Firelight != null)
+					{
+						_ = Despawn.ServerSingle(timeEffect.Firelight);
+					}
+
 					DelayedEffectsToRemove.RemoveAt(i);
 					timeEffect.Pool();
 				}

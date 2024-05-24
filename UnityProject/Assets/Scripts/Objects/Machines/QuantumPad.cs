@@ -203,13 +203,26 @@ namespace Objects.Science
 			//Use the transport object code from StationGateway
 
 			//detect players positioned on the portal bit of the gateway
-			foreach (UniversalObjectPhysics player in Matrix.Get<UniversalObjectPhysics>(registerTileLocation, ObjectType.Player, true))
+			foreach (var reg in Matrix.Get(registerTileLocation, isServer))
 			{
-				Chat.AddExamineMsgFromServer(player.gameObject, message);
+				//Don't teleport self lol
+				if(reg.gameObject == gameObject) continue;
+
 				SoundManager.PlayNetworkedForPlayer(connectedPad.gameObject, CommonSounds.Instance.StealthOff);
 				SoundManager.PlayNetworkedForPlayer(gameObject, CommonSounds.Instance.StealthOff);
-				TransportUtility.TransportObjectAndPulled(player, travelCoord, true, maintRoomChanceModifier);
-				somethingTeleported = true;
+				Chat.AddExamineMsgFromServer(reg.gameObject, message);
+				if (reg.gameObject.TryGetComponent(out IQuantumReaction reaction))
+				{
+					reaction.OnTeleportStart();
+					TransportUtility.TransportObjectAndPulled(reg.ObjectPhysics.Component, travelCoord);
+					reaction.OnTeleportEnd();
+				}
+
+				else
+				{
+					TransportUtility.TransportObjectAndPulled(reg.ObjectPhysics.Component, travelCoord);
+				}
+
 
 				if (IsLavaLandBase1Connector && firstEnteredTriggered == false)
 				{
@@ -217,29 +230,10 @@ namespace Objects.Science
 					EventManager.Broadcast(Event.LavalandFirstEntered);
 					firstEnteredTriggered = true;
 				}
-			}
-
-			//detect objects and items
-			foreach (var item in Matrix.Get<UniversalObjectPhysics>(registerTileLocation, ObjectType.Object, true)
-									.Concat(Matrix.Get<UniversalObjectPhysics>(registerTileLocation, ObjectType.Item, true)))
-			{
-				//Don't teleport self lol
-				if(item.gameObject == gameObject) continue;
-
-				if (item.gameObject.TryGetComponent(out IQuantumReaction reaction))
-				{
-					reaction.OnTeleportStart();
-					TransportUtility.TransportObjectAndPulled(item, travelCoord);
-					reaction.OnTeleportEnd();
-				}
-
-				else
-				{
-					TransportUtility.TransportObjectAndPulled(item, travelCoord);
-				}
 
 				somethingTeleported = true;
 			}
+
 
 			if (!doingAnimation && passiveDetect && somethingTeleported)
 			{

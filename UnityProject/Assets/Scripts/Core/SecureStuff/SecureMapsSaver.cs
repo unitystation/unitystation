@@ -788,8 +788,7 @@ namespace SecureStuff
 								{
 									try
 									{
-										var PrefabSOTracker = (Field.GetValue(PrefabInstance) as GameObject)
-											.GetComponent<IHaveForeverID>();
+										var PrefabSOTracker = (Field.GetValue(PrefabInstance) as GameObject).GetComponent<IHaveForeverID>();
 										if (PrefabSOTracker != null)
 										{
 											if (PrefabSOTracker.ForeverID == ForeverIDTracker.ForeverID)
@@ -1005,6 +1004,7 @@ namespace SecureStuff
 				}
 				else
 				{
+
 					var GameObjectModified = (modified[i] as GameObject);
 					if (GameObjectModified != null && GameObjectModified.transform.parent == null) //Prefab
 					{

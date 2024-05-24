@@ -68,19 +68,13 @@ namespace Systems.Interaction
 
 		private void DamageObject(GameObject objectToBurn)
 		{
-			if (objectToBurn.TryGetComponent<PlayerHealthV2>(out var playerHealth))
+			if (objectToBurn.TryGetComponent<LivingHealthMasterBase>(out var playerHealth))
 			{
 				playerHealth.ChangeFireStacks(playerMobFireStacks);
 				return;
 			}
 
-			if (objectToBurn.TryGetComponent<Flammable>(out var flammable))
-			{
-				flammable.AddFireStacks(5);
-				return;
-			}
-
-			if (objectToBurn.TryGetComponent<Integrity>(out var integrity) && integrity.Resistances.LavaProof == false)
+			if (objectToBurn.TryGetComponent<Integrity>(out var integrity) && (integrity.Resistances.LavaProof == false || integrity.Resistances.Flammable))
 			{
 				integrity.ApplyDamage(objectFireDamage, AttackType.Fire, DamageType.Burn);
 			}

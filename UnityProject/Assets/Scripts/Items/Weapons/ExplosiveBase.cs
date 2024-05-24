@@ -10,7 +10,6 @@ using Scripts.Core.Transform;
 using UI.Items;
 using UnityEngine.Events;
 using Chemistry;
-using Random = UnityEngine.Random;
 
 namespace Items.Weapons
 {
@@ -97,7 +96,7 @@ namespace Items.Weapons
 			blastData.BlastYield = explosiveStrength;
 
 			ExplosionEvent.Invoke(worldPos, blastData);
-			Explosion.StartExplosion(worldPos, explosiveStrength, null, explosiveRadius);
+			Explosion.StartExplosion(worldPos, explosiveStrength, null, explosiveRadius, stunNearbyPlayers: true);
 		}
 
 		/// <summary>

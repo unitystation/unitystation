@@ -317,20 +317,21 @@ namespace Adrenak.UniVoice.MirrorNetwork {
         }
 
         public void Server_OnMessage(NetworkConnectionToClient connection, ClientVoiceData.UniVoiceMessage message) {
-
-            if (IsServerOrHost == false) return;
-
             var tag = message.Tag;
 
             if (tag.Equals(AUDIO_SEGMENT)) {
+
                 var audioSender = message.audioSender;
                 var recipient = message.recipient;
 
                 // If the audio is for the server, we invoke the audio received event.
                 if (recipient == OwnID || recipient == -1) {
-	                var Info = PlayerList.Instance.GetOnline(connection);
-                    var segment = message.data;
-                    OnAudioReceived?.Invoke(audioSender, segment , Info.GameObject.NetId());
+	                if (CustomNetworkManager.IsHeadless == false)
+	                {
+		                var Info = PlayerList.Instance.GetOnline(connection);
+		                var segment = message.data;
+		                OnAudioReceived?.Invoke(audioSender, segment , Info.GameObject.NetId());
+	                }
                 }
                 // If the message is meant for someone else,
                 // we forward it to the intended recipient.
@@ -345,7 +346,7 @@ namespace Adrenak.UniVoice.MirrorNetwork {
 			                Tag = AUDIO_SEGMENT,
 			                recipient = -1,
 			                data =  message.data,
-			                Object =  Info.GameObject.NetId()
+			                Object = (Info?.GameObject).NetId()
 		                });
 	                }
 	                catch (Exception e)

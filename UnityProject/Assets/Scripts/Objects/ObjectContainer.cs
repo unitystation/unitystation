@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Logs;
 using UnityEngine;
 using Messages.Server;
 using Systems;
+using UnityEngine.Events;
 
 namespace Objects
 {
@@ -82,7 +84,15 @@ namespace Objects
 
 		public int StoredObjectsCount => storedObjects.Count;
 
-		public event Action<GameObject> ObjectStored;
+		/// <summary>
+		/// Invokes when each individual object is stored within this container.
+		/// </summary>
+		public UnityEvent<GameObject> OnObjectStored;
+
+		/// <summary>
+		/// Invokes when each individual object is removed from this container.
+		/// </summary>
+		public UnityEvent<GameObject> OnObjectRetrieved;
 
 		#region Lifecycle
 
@@ -104,6 +114,11 @@ namespace Objects
 			{
 				TrySpawnInitialContents(true);
 			}
+		}
+
+		private void OnDestroy()
+		{
+			OnObjectStored.RemoveAllListeners();
 		}
 
 		public virtual void OnDespawnServer(DespawnInfo info)
@@ -138,8 +153,13 @@ namespace Objects
 		/// <param name="offset"></param>
 		public void StoreObject(GameObject obj, Vector3 offset = new Vector3())
 		{
+			if (obj == null)
+			{
+				Loggy.LogError("[ObjectContainer/StoreObject] - HEY SHITASS, DON'T TRY ADDING NULL OBJECTS.");
+				return;
+			}
 			storedObjects.Add(obj, offset);
-			ObjectStored?.Invoke(obj);
+			OnObjectStored?.Invoke(obj);
 			if (obj.TryGetComponent<UniversalObjectPhysics>(out var objectPhysics))
 			{
 				objectPhysics.StoreTo(this);
@@ -224,13 +244,22 @@ namespace Objects
 			onDrop?.Invoke();
 		}
 
-		public void RetrieveObjects(Vector3? worldPosition = null)
+		public void RetrieveObjects(Vector3? worldPosition)
 		{
 			foreach (var entity in GetStoredObjects().ToArray())
 			{
 				RetrieveObject(entity, worldPosition);
 			}
 
+			storedObjects.Clear();
+		}
+
+		public void RetrieveObjects()
+		{
+			foreach (var entity in GetStoredObjects().ToArray())
+			{
+				RetrieveObject(entity, null);
+			}
 			storedObjects.Clear();
 		}
 
@@ -245,7 +274,7 @@ namespace Objects
 			foreach (var kvp in objects)
 			{
 				if (kvp.Key == null) continue;
-				ObjectStored?.Invoke(kvp.Key);
+				OnObjectStored?.Invoke(kvp.Key);
 				storedObjects[kvp.Key] = kvp.Value;
 				kvp.Key.GetComponent<UniversalObjectPhysics>().StoreTo( this );
 			}

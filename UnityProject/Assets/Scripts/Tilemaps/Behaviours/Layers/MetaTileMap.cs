@@ -176,14 +176,15 @@ namespace TileManagement
 					solidLayersValues.Add(layer);
 				}
 
-				if (type is LayerType.Walls or LayerType.Windows or LayerType.Grills or LayerType.Tables){
+				if (type is LayerType.Walls or LayerType.Windows or LayerType.Grills or LayerType.Tables)
 				{
 					PassableValues.Add(layer);
-				}}
-				if (type is LayerType.Walls or LayerType.Windows or LayerType.Floors or LayerType.Base){
+				}
+				if (type is LayerType.Walls or LayerType.Windows or LayerType.Floors or LayerType.Base)
 				{
 					AtmosphericAffectingValues.Add(layer);
-				}}
+				}
+
 				if (layer.GetComponent<TilemapDamage>())
 				{
 					damageableLayersValues.Add(layer);

@@ -23,7 +23,7 @@ public class PeriodicGasSetter : MonoBehaviour
 
 	private void OnEnable()
 	{
-		if (CustomNetworkManager.IsServer) return;
+		if (CustomNetworkManager.IsServer == false ) return;
 		if (RunOnStart == false) return;
 		UpdateManager.Add(UpdateLoop,UpdateNSeconds );
 		Added = true;
@@ -31,7 +31,7 @@ public class PeriodicGasSetter : MonoBehaviour
 
 	private void OnDisable()
 	{
-		if (CustomNetworkManager.IsServer) return;
+		if (CustomNetworkManager.IsServer  == false) return;
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateLoop);
 		Added = false;
 	}

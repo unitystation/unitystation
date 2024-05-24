@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b9c037cd481c0f4db1c77e9cdf31787, type: 3}
   m_Name: AlienHiss
   m_EditorClassIdentifier: 
-  emoteName: hiss
-  EmoteIcon: {fileID: 0}
+  emoteName: alien hiss
+  EmoteIcon: {fileID: 21300000, guid: c4acc663c60416b45b09c033247ed8e8, type: 3}
   requiresHands: 0
   allowEmoteWhileInCrit: 1
-  isAudibleEmote: 0
+  isAudibleEmote: 1
   allowEmoteWhileCrawling: 1
   viewText: hisses!
   youText: You hiss!
@@ -63,3 +63,7 @@ MonoBehaviour:
   TypedSounds: []
   pitchRange: {x: 0.7, y: 1}
   allowedPlayerTypes: 16
+  Behaviors: []
+  references:
+    version: 2
+    RefIds: []

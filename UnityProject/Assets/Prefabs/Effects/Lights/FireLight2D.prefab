@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 582239529690298414}
   - component: {fileID: 2910449130835195783}
   - component: {fileID: 5369051684285136003}
+  - component: {fileID: 4811951289892001390}
   m_Layer: 21
   m_Name: FireLight2D
   m_TagString: Untagged
@@ -252,3 +253,19 @@ MonoBehaviour:
   LiesFlat3D: 0
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
+--- !u!114 &4811951289892001390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762630675659964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a67aad38c961f45ad1cb44ac3b1f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  scaleTransform: {x: 1, y: 1, z: 1}

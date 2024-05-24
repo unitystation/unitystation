@@ -403,13 +403,16 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		if (layerMask != LayerTypeSelection.None)
 		{
 			//TODO do we really need to go through all matrixes? Can we break out at some point?
-			foreach (var matrixInfo in Instance.ActiveMatricesList)
+			var Count = Instance.ActiveMatricesList.Count;
+			var loc = Instance.ActiveMatricesList;
+			for (int i = 0; i < Count; i++)
 			{
-				if (matrixInfo.WorldBounds.LineIntersectsRect(Worldorigin, WorldTo.Value))
+				var Info = loc[i];
+				if (Info.WorldBounds.LineIntersectsRect(Worldorigin, WorldTo.Value))
 				{
-					var localOrigin = WorldToLocal(Worldorigin, matrixInfo).To2();
-					var localTo = WorldToLocal(WorldTo.Value, matrixInfo).To2();
-					Checkhit = matrixInfo.MetaTileMap.Raycast(localOrigin, Vector2.zero,
+					var localOrigin = WorldToLocal(Worldorigin, Info).To2();
+					var localTo = WorldToLocal(WorldTo.Value, Info).To2();
+					Checkhit = Info.MetaTileMap.Raycast(localOrigin, Vector2.zero,
 						distance,
 						layerMask,
 						localTo, tileNamesToIgnore, DEBUG: DEBUG);
