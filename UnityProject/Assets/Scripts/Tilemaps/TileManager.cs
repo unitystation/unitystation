@@ -130,7 +130,7 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 			{
 				if (AllTiles.ContainsKey(t.name) && AllTiles[t.name]  != t)
 				{
-					Loggy.LogError("oh no...." + t.name);
+					Loggy.LogError("Duplicate names for " + t.name);
 				}
 
 				AllTiles[t.name] = t;
