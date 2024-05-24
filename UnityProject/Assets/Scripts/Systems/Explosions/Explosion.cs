@@ -101,7 +101,7 @@ namespace Systems.Explosions
 				// for performance reasons, if we have a big enough explosion: skip physics line checks as they're expensive.
 				// large explosions are slow enough as is because it has to damage/check hundreds of objects which all trigger
 				// different behaviors and events. We shouldn't strain the server with extra physics check ontop of that.
-				if (distance < 23)
+				if (distance < 16)
 				{
 					if (IsStunReachable(startingPos, obj) == false) continue;
 				}
