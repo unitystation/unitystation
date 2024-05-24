@@ -100,7 +100,7 @@ namespace Objects.Engineering
 
 		private void OnDisable()
 		{
-			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
+			integrity?.OnWillDestroyServer?.RemoveListener(WhenDestroyed);
 			if (electricalNodeControl == null) return;
 			if(ElectricalManager.Instance == null)return;
 			if(ElectricalManager.Instance.electricalSync == null)return;

@@ -15,8 +15,11 @@ public class ClientRequestLoadMap : ClientMessage<ClientRequestLoadMap.NetMessag
 
 	public struct NetMessage : NetworkMessage
 	{
+		public Vector3 Offset00;
+		public Vector3 Offset;
 		public string Data;
 		public bool end;
+		public int MatrixID;
 	}
 
 	public override void Process(NetMessage msg)
@@ -35,40 +38,33 @@ public class ClientRequestLoadMap : ClientMessage<ClientRequestLoadMap.NetMessag
 			var data = String.Join("", SaveDatas[SentByPlayer]);
 			SaveDatas.Remove(SentByPlayer);
 			var mapdata = JsonConvert.DeserializeObject<MapSaver.MapSaver.MatrixData>(data);
-			MapLoader.LoadSection( pos, Offset00, Offset, mapdata);
+			MapLoader.LoadSection( MatrixManager.Get(msg.MatrixID),   msg.Offset00, msg.Offset, mapdata);
+
+			var newdata = JsonConvert.SerializeObject(mapdata.CompactObjectMapData);
+
+			CustomNetworkManager.LoadedMapDatas.Add(newdata);
+			ServerReturnMapData.SendAll( newdata , ServerReturnMapData.MessageType.MapDataForClient, true);
 		}
 
 	}
 
-	public static NetMessage Send(string data)
+	public static void Send(string data, Matrix Matrix,  Vector3 Offset00,Vector3 Offset )
 	{
 
 		var StringDatas = data.Chunk(5000).ToList();
-
-
-
 		for (int i = 0; i < StringDatas.Count; i++)
 		{
 			NetMessage  msg = new NetMessage
 			{
-				ID =  ID,
+				MatrixID =  Matrix.Id,
 				Data = new string(StringDatas[i].ToArray()),
-				end = (i + 1) >= StringDatas.Count
+				end = (i + 1) >= StringDatas.Count,
+				Offset = Offset,
+				Offset00 = Offset00
 			};
 
-			SendTo(recipient, msg);
+			Send(msg);
 		}
-
-		NetMessage msg = new NetMessage
-		{
-			PreviewGizmos = PreviewGizmos.ToArray(),
-			Bounds = Bounds.ToArray(),
-			MatrixID = Matrix.Id,
-			Compact = Compact
-		};
-
-		Send(msg);
-		return msg;
 
 	}
 }

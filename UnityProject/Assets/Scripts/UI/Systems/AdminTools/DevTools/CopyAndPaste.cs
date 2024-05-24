@@ -31,6 +31,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	public bool Updating = false;
 
+	public Toggle NonmappedItems;
 
 	public List<GizmoAndBox> PositionsToCopy = new List<GizmoAndBox>();
 
@@ -211,7 +212,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 		if (UseLocal == false)
 		{
-			ClientRequestsSaveMessage.Send(Gizmos, LocalArea, Matrix, false);
+			ClientRequestsSaveMessage.Send(Gizmos, LocalArea, Matrix, false, NonmappedItems.isOn);
 		}
 		else
 		{
@@ -307,7 +308,23 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 
 			var Offset = ActiveMouseGrabber.gameObject.transform.position.ToLocal();
-			MapLoader.LoadSection( MatrixManager.AtPoint(MouseUtils.MouseToWorldPos(), CustomNetworkManager.IsServer) ,Offset00.Value, Offset, currentlyActivePaste);
+
+			JsonSerializerSettings settings = new JsonSerializerSettings
+			{
+				NullValueHandling = NullValueHandling.Ignore, // Ignore null values
+				DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate, // Ignore default values
+				Formatting = Formatting.None
+			};
+
+			settings.Formatting = Formatting.None;
+
+			ClientRequestLoadMap.Send(
+				JsonConvert.SerializeObject(currentlyActivePaste,settings),
+				MatrixManager.AtPoint(MouseUtils.MouseToWorldPos(), CustomNetworkManager.IsServer).Matrix,
+				Offset00.Value,
+				Offset
+				);
+			//MapLoader.LoadSection( MatrixManager.AtPoint(MouseUtils.MouseToWorldPos(), CustomNetworkManager.IsServer) ,Offset00.Value, Offset, currentlyActivePaste);
 
 			if (KeyboardInputManager.IsAltActionKeyPressed() == false)
 			{

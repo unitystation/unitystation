@@ -159,12 +159,23 @@ namespace Player
 			STUnverifiedClientId = authData.ClientId;
 			STVerifiedUserid = authData.Account.Id;
 			STVerifiedConnPlayer = player;
+			SendDataToClient();
 
 			if (string.IsNullOrEmpty(currentScene) == false)
 			{
 				ServerRequestLoadedScenes(currentScene);
 			}
 		}
+
+		[Server]
+		public void SendDataToClient()
+		{
+			foreach (var MapData in CustomNetworkManager.LoadedMapDatas)
+			{
+				ServerReturnMapData.Send(this.gameObject, MapData, ServerReturnMapData.MessageType.MapDataForClient);
+			}
+		}
+
 
 		[Command]
 		public void CmdFinishLoading()

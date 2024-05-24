@@ -16,6 +16,7 @@ public class ClientRequestsSaveMessage : ClientMessage<ClientRequestsSaveMessage
 		public BetterBounds[] Bounds;
 		public int MatrixID;
 		public bool Compact;
+		public bool NonmappedItems;
 	}
 
 	public override void Process(NetMessage msg)
@@ -23,7 +24,7 @@ public class ClientRequestsSaveMessage : ClientMessage<ClientRequestsSaveMessage
 		if (IsFromAdmin() == false) return;
 		var Matrix = MatrixManager.Get(msg.MatrixID);
 
-		var Data =  MapSaver.MapSaver.SaveMatrix(msg.Compact, Matrix.MetaTileMap, true, msg.Bounds.ToList());
+		var Data =  MapSaver.MapSaver.SaveMatrix(msg.Compact, Matrix.MetaTileMap, true, msg.Bounds.ToList(), msg.NonmappedItems);
 
 		Data.PreviewGizmos = msg.PreviewGizmos.ToList();
 
@@ -41,17 +42,18 @@ public class ClientRequestsSaveMessage : ClientMessage<ClientRequestsSaveMessage
 
 		var StringData = JsonConvert.SerializeObject(Data, settings);
 
-		ServerAdminReturnMapData.Send(SentByPlayer.GameObject, StringData);
+		ServerReturnMapData.Send(SentByPlayer.GameObject, StringData, ServerReturnMapData.MessageType.MapDataFromSave);
 	}
 
-	public static NetMessage Send(List<GameGizmoModel> PreviewGizmos, List<BetterBounds> Bounds, MatrixInfo Matrix, bool Compact)
+	public static NetMessage Send(List<GameGizmoModel> PreviewGizmos, List<BetterBounds> Bounds, MatrixInfo Matrix, bool Compact, bool NonmappedItems)
 	{
 		NetMessage msg = new NetMessage
 		{
 			PreviewGizmos = PreviewGizmos.ToArray(),
 			Bounds = Bounds.ToArray(),
 			MatrixID = Matrix.Id,
-			Compact = Compact
+			Compact = Compact,
+			NonmappedItems = NonmappedItems
 		};
 
 		Send(msg);

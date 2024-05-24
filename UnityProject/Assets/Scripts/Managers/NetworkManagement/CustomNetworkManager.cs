@@ -11,6 +11,7 @@ using DatabaseAPI;
 using IgnoranceTransport;
 using Initialisation;
 using Logs;
+using MapSaver;
 using Messages.Server;
 using UnityEditor;
 using Util;
@@ -58,6 +59,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	public static Dictionary<uint, MapSaver.MapSaver.PrefabData> PrePayload =
 		new Dictionary<uint, MapSaver.MapSaver.PrefabData>();
 
+	public static List<string> LoadedMapDatas =
+		new List<string>();
+
 	public void UpdateMe()
 	{
 		if (allSpawnablePrefabs.Count > currentLocation)
@@ -80,18 +84,40 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	}
 
 
-	public virtual void ObjectBeforePayloadDataClient(NetworkIdentity identity)
+	public void ReceiveMattOverrides(MapSaver.MapSaver.CompactObjectMapData data, bool DoStraightaway)
+	{
+		foreach (var PD in data.PrefabData)
+		{
+			PrePayload[data.IDToNetIDClient[PD.GitID]] = PD;
+		}
+
+		if (DoStraightaway)
+		{
+			foreach (var PD in data.PrefabData)
+			{
+				if (Spawned.TryGetValue(data.IDToNetIDClient[PD.GitID], out var networkIdentity ))
+				{
+					ObjectBeforePayloadDataClient(networkIdentity);
+				}
+			}
+		}
+	}
+
+
+	public override void ObjectBeforePayloadDataClient(NetworkIdentity identity)
 	{
 		if (IsServer) return;
-		if (PrePayload.ContainsKey(identity.netId))
+		if (PrePayload.TryGetValue(identity.netId, out var prefabdata))
 		{
-			//TODO!!!!
+			MapLoader.ProcessIndividualObject(null, prefabdata, null, Vector3Int.zero, Vector3Int.zero, identity.gameObject);
 		}
 	}
 
 	public void Clear()
 	{
-		Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(IndexLookupSpawnablePrefabs, (u, k) => u != null) + " dead elements from CustomNetworkManager.IndexLookupSpawnablePrefabs");
+		Debug.Log("removed " +
+		          CleanupUtil.RidDictionaryOfDeadElements(IndexLookupSpawnablePrefabs, (u, k) => u != null) +
+		          " dead elements from CustomNetworkManager.IndexLookupSpawnablePrefabs");
 
 		foreach (var a in IndexLookupSpawnablePrefabs)
 		{
@@ -168,11 +194,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	private IEnumerator WaitForInit()
 	{
-
 		yield return WaitFor.Seconds(1f);
 		foreach (var NetworkedManagersPrefab in NetworkedManagersPrefabs)
 		{
-			var spawnedObject = Object.Instantiate(NetworkedManagersPrefab, Vector3.zero, Quaternion.identity , this.gameObject.transform);
+			var spawnedObject = Object.Instantiate(NetworkedManagersPrefab, Vector3.zero, Quaternion.identity,
+				this.gameObject.transform);
 			NetworkServer.Spawn(spawnedObject);
 			ActiveNetworkedManagersPrefabs.Add(spawnedObject);
 		}
@@ -185,7 +211,10 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			NetworkServer.Destroy(NetworkedManagersPrefab);
 		}
+
 		ActiveNetworkedManagersPrefabs.Clear();
+		PrePayload.Clear();
+		LoadedMapDatas.Clear();
 	}
 
 	void ApplyConfig()
@@ -207,16 +236,16 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			var telepathy = GetComponent<TelepathyTransport>();
 			if (telepathy != null)
 			{
-				telepathy.port = (ushort)config.ServerPort;
+				telepathy.port = (ushort) config.ServerPort;
 			}
 
 			var ignorance = GetComponent<Ignorance>();
 			if (ignorance != null)
 			{
-				ignorance.port = (ushort)config.ServerPort;
-
+				ignorance.port = (ushort) config.ServerPort;
 			}
 		}
+
 		if (string.IsNullOrEmpty(config.BindAddress) == false)
 		{
 			var ignorance = GetComponent<Ignorance>();
@@ -344,6 +373,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
+
 	public override void OnStartServer()
 	{
 		_isServer = true;
@@ -368,6 +398,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnStartClient()
 	{
+
+
+
 		if (AddressableCatalogueManager.Instance == null) return;
 
 		AddressableCatalogueManager.Instance.LoadClientCatalogues();
@@ -388,7 +421,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		Loggy.LogTrace($"Spawning a GameObject for the client {conn}.", Category.Connections);
 		base.OnServerAddPlayer(conn);
 		SubSceneManager.Instance.AddNewObserverScenePermissions(conn);
-		UpdateRoundTimeMessage.Send(GameManager.Instance.RoundTime.ToString("O"), GameManager.Instance.RoundTimeInMinutes);
+		UpdateRoundTimeMessage.Send(GameManager.Instance.RoundTime.ToString("O"),
+			GameManager.Instance.RoundTimeInMinutes);
 	}
 
 	//called on client side when client first connects to the server
@@ -431,7 +465,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 		//transfer to a temporary object
 		GameObject disconnectedViewer = Instantiate(CustomNetworkManager.Instance.disconnectedViewerPrefab);
-		NetworkServer.ReplacePlayerForConnection(conn, disconnectedViewer, BitConverter.ToUInt32(System.Guid.NewGuid().ToByteArray(), 0), false);
+		NetworkServer.ReplacePlayerForConnection(conn, disconnectedViewer,
+			BitConverter.ToUInt32(System.Guid.NewGuid().ToByteArray(), 0), false);
 
 		foreach (var ownedObject in conn.clientOwnedObjects.ToArray())
 		{

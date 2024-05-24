@@ -7,6 +7,7 @@ using Logs;
 using SecureStuff;
 using UnityEngine;
 using System.Linq;
+using Mirror;
 using Newtonsoft.Json;
 using NUnit.Compatibility;
 using UnityEngine.Events;
@@ -18,11 +19,9 @@ namespace SecureStuff
 		public void PopulateIDRelation(HashSet<FieldData> FieldDatas, FieldData fieldData, Component mono,
 			bool UseInstance = false);
 
-		public void FlagSaveKey(Component Object, FieldData FieldData, string key);
+		public void FlagSaveKey(string RootID, Component Object, FieldData FieldData);
 
 		public object ObjectsFromForeverID(string ForeverID, Type InType);
-
-		public List<UnprocessedData> Unprocessed { get; } //That's referencing game objects/Components
 		public Dictionary<string, GameObject> Objects { get; } //Look up dictionaries
 	}
 
@@ -41,7 +40,7 @@ namespace SecureStuff
 	{
 		public Component Object;
 		public FieldData FieldData;
-		public string key;
+		public string ID;
 	}
 
 	public class FieldData
@@ -111,12 +110,20 @@ namespace SecureStuff
 
 	public static class SecureMapsSaver
 	{
-		private static void ListHandle(Component Root, FieldInfo Field, object Object, FieldData ModField, int Index,
-			IPopulateIDRelation IPopulateIDRelation, bool AllLoaded = false)
+		private static void ListHandle(string RootID, Component Root, FieldInfo Field, object Object, FieldData ModField, int Index,
+			IPopulateIDRelation IPopulateIDRelation, bool AllLoaded = false, bool IsServer = true)
 		{
 			var List = (Field.GetValue(Object) as IList);
 			if (typeof(GameObject).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]))
 			{
+				if (IsServer == false)
+				{
+					if (IsGoodClientField(Field) == false)
+					{
+						return;
+					}
+				}
+
 				if (ModField.IsPrefabID == true)
 				{
 					if (ModField.Data == "#removed#")
@@ -145,6 +152,14 @@ namespace SecureStuff
 			}
 			else if (typeof(Component).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]))
 			{
+				if (IsServer == false)
+				{
+					if (IsGoodClientField(Field) == false)
+					{
+						return;
+					}
+				}
+
 				if (ModField.IsPrefabID == true)
 				{
 					if (ModField.Data == "#removed#")
@@ -186,7 +201,7 @@ namespace SecureStuff
 					}
 					else
 					{
-						IPopulateIDRelation.FlagSaveKey(Root, ModField, ModField.Data);
+						IPopulateIDRelation.FlagSaveKey(RootID, Root, ModField);
 					}
 				}
 			}
@@ -199,6 +214,10 @@ namespace SecureStuff
 				}
 				else
 				{
+					if (List == null)
+					{
+						Loggy.LogError("0oh no...");
+					}
 					while (List.Count <= Index)
 						//TODO Could be exploited? well You could just have a map with a million objects so idk xD
 					{
@@ -273,10 +292,10 @@ namespace SecureStuff
 			return Object.GetComponent(IDPath[2]); //TODO Support multiple;
 		}
 
-		private static void ProcessIndividualField(Component root, object Object, FieldData ModField,
+		private static void ProcessIndividualField(string RootID, Component root, object Object, FieldData ModField,
 			IPopulateIDRelation IPopulateIDRelation,
 			bool AllLoaded = false,
-			string AppropriateName = "")
+			string AppropriateName = "", bool IsServer = true)
 		{
 			var TypeMono = Object.GetType();
 			int Index = 0;
@@ -308,6 +327,10 @@ namespace SecureStuff
 				BindingFlags.FlattenHierarchy);
 			if (IsGoodField(Field) == false) return;
 
+			if (IsServer == false)
+			{
+				if (IsGoodClientField(Field) == false) return;
+			}
 
 
 			if (Field.FieldType.IsValueType == false &&
@@ -340,12 +363,20 @@ namespace SecureStuff
 
 					if (anyOfThem)
 					{
-						ListHandle(root, Field, Object, ModField, Index, IPopulateIDRelation, AllLoaded);
+						ListHandle(RootID, root, Field, Object, ModField, Index, IPopulateIDRelation, AllLoaded);
 					}
 				}
 
 				if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Component)))
 				{
+					if (IsServer == false)
+					{
+						if (IsGoodClientField(Field) == false)
+						{
+							return;
+						}
+					}
+
 					if (ModField.IsPrefabID == true)
 					{
 						var PrefabComponent = JsonConvert.DeserializeObject<PrefabComponent>(ModField.Data);
@@ -362,13 +393,21 @@ namespace SecureStuff
 						}
 						else
 						{
-							IPopulateIDRelation.FlagSaveKey(root, ModField, ModField.Data);
+							IPopulateIDRelation.FlagSaveKey(RootID, root, ModField);
 						}
 					}
 				}
 
 				if (Field.FieldType == typeof(UnityEngine.GameObject))
 				{
+					if (IsServer == false)
+					{
+						if (IsGoodClientField(Field) == false)
+						{
+							return;
+						}
+					}
+
 					if (ModField.IsPrefabID == true)
 					{
 						var Prefab = IPopulateIDRelation.ObjectsFromForeverID(ModField.Data, Field.FieldType);
@@ -382,7 +421,7 @@ namespace SecureStuff
 						}
 						else
 						{
-							IPopulateIDRelation.FlagSaveKey(root, ModField, ModField.Data);
+							IPopulateIDRelation.FlagSaveKey(RootID, root, ModField);
 						}
 					}
 				}
@@ -400,7 +439,7 @@ namespace SecureStuff
 
 				if (Field.FieldType.IsGenericType == false)
 				{
-					ProcessIndividualField(root, Field.GetValue(Object), ModField, IPopulateIDRelation, AllLoaded, AdditionalJumps);
+					ProcessIndividualField(RootID, root, Field.GetValue(Object), ModField, IPopulateIDRelation, AllLoaded, AdditionalJumps);
 					return;
 				}
 			}
@@ -420,7 +459,7 @@ namespace SecureStuff
 			if (Field.FieldType.IsGenericType && typeof(IEnumerable).IsAssignableFrom(Field.FieldType) &&
 			    Field.FieldType.GetGenericArguments()[0].IsValueType) //UnityEventBase Handle differently
 			{
-				ListHandle(root, Field, Object, ModField, Index, IPopulateIDRelation);
+				ListHandle(RootID, root, Field, Object, ModField, Index, IPopulateIDRelation);
 			}
 			else
 			{
@@ -429,9 +468,9 @@ namespace SecureStuff
 			}
 		}
 
-		private static void LoadDatarecursive(Component root, object Object, HashSet<FieldData> IndividualObject,
+		private static void LoadDatarecursive(string RootID,  Component root, object Object, HashSet<FieldData> IndividualObject,
 			IPopulateIDRelation IPopulateIDRelation,
-			bool AllLoaded = false) //Has to be Component to restrict it from being used in silly places
+			bool AllLoaded = false, bool IsServer = true) //Has to be Component to restrict it from being used in silly places
 		{
 			try
 			{
@@ -444,7 +483,7 @@ namespace SecureStuff
 				{
 					try
 					{
-						ProcessIndividualField(root, Object, ModField, IPopulateIDRelation, AllLoaded);
+						ProcessIndividualField(RootID,root, Object, ModField, IPopulateIDRelation, AllLoaded);
 					}
 					catch (Exception e)
 					{
@@ -458,12 +497,64 @@ namespace SecureStuff
 			}
 		}
 
-		public static void LoadData(Component Object, HashSet<FieldData> IndividualObject,
+		public static void LoadData(string RootID,  Component Object, HashSet<FieldData> IndividualObject,
 			IPopulateIDRelation IPopulateIDRelation,
-			bool AllLoaded = false) //Has to be Component to restrict it from being used in silly places
+			bool AllLoaded = false, bool IsServer =true) //Has to be Component to restrict it from being used in silly places
 		{
 			if (Object == null) return;
-			LoadDatarecursive(Object, Object, IndividualObject, IPopulateIDRelation, AllLoaded);
+			LoadDatarecursive(RootID,Object, Object, IndividualObject, IPopulateIDRelation, AllLoaded);
+		}
+
+		private static bool IsGoodClientField(FieldInfo Field)
+		{
+			//TODO Work out how to support
+			var attribute = Field.GetCustomAttributes(typeof(IsSyncedAttribute), true);
+			if (attribute.Length > 0)
+			{
+				return false;
+			}
+			attribute = Field.GetCustomAttributes(typeof(SyncVarAttribute), true);
+			if (attribute.Length > 0)
+			{
+				return false;
+			}
+
+			if (IsSubclassOfRawGeneric(typeof(SyncList<>), Field.FieldType))
+			{
+				return false;
+			}
+
+			if (IsSubclassOfRawGeneric(typeof(SyncDictionary<,>), Field.FieldType))
+			{
+				return false;
+			}
+
+			if (IsSubclassOfRawGeneric(typeof(SyncHashSet<>), Field.FieldType))
+			{
+				return false;
+			}
+
+
+			if (IsSubclassOfRawGeneric(typeof(SyncSortedSet<>), Field.FieldType))
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		private static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
+		{
+			while (toCheck != null && toCheck != typeof(object))
+			{
+				var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
+				if (generic == cur)
+				{
+					return true;
+				}
+				toCheck = toCheck.BaseType;
+			}
+			return false;
 		}
 
 		private static bool IsGoodField(FieldInfo Field)
@@ -543,6 +634,11 @@ namespace SecureStuff
 				foreach (var Field in coolFields) //Loop through found fields
 				{
 					if (IsGoodField(Field) == false) continue;
+
+					if (Field.Name == "m_dict")
+					{
+						Loggy.LogError("ogggg");
+					}
 
 					if (Field.FieldType.IsValueType == false &&
 					    (Field.FieldType == typeof(string)) == false) //Cross object references

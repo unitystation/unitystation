@@ -15,6 +15,13 @@ namespace SecureStuff
 	{
 	}
 
+	/// <summary>
+	/// Put this on Fields that Reference other objects, where you don't want funny scenarios where the map saver overwrites the networked state
+	/// </summary>
+	public class IsSyncedAttribute : Attribute
+	{
+	}
+
 	public struct MethodsAndAttributee<T> where T : BaseAttribute
 	{
 		public MethodInfo MethodInfo;
