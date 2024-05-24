@@ -173,13 +173,10 @@ namespace Systems.Explosions
 
 		private static int GetDistanceFromStrength(float strength)
 		{
-			if (strength < 1000000)
+			if (strength < 92000)
 			{
-				var result = (int)Math.Ceiling(Math.Log(strength / 100.0) * 2);
-				Loggy.Log(result.ToString());
-				return result;
+				return (int)Math.Ceiling(Math.Log(strength / 100.0) * 2);
 			}
-
 			return NUKE_FLASH_DISTANCE;
 		}
 	}

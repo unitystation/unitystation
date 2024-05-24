@@ -10,7 +10,6 @@ using Scripts.Core.Transform;
 using UI.Items;
 using UnityEngine.Events;
 using Chemistry;
-using Random = UnityEngine.Random;
 
 namespace Items.Weapons
 {
