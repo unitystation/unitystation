@@ -132,6 +132,11 @@ namespace MapSaver
 
 		public static void ProcessClassData(MapSaver.PrefabData prefabData, GameObject Object, MapSaver.IndividualObject IndividualObject)
 		{
+			if (IndividualObject == null)
+			{
+				return;
+			}
+
 			if (string.IsNullOrEmpty(IndividualObject.Name) == false)
 			{
 				Object.name = IndividualObject.Name;
