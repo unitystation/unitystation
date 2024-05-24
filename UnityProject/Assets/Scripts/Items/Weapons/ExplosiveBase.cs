@@ -97,7 +97,7 @@ namespace Items.Weapons
 			blastData.BlastYield = explosiveStrength;
 
 			ExplosionEvent.Invoke(worldPos, blastData);
-			Explosion.StartExplosion(worldPos, explosiveStrength, null, explosiveRadius);
+			Explosion.StartExplosion(worldPos, explosiveStrength, null, explosiveRadius, stunNearbyPlayers: true);
 		}
 
 		/// <summary>

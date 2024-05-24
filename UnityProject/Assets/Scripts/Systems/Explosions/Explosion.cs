@@ -16,6 +16,7 @@ namespace Systems.Explosions
 		public const int EXPLOSION_STRENGTH_LOW = 800;
 		public const int EXPLOSION_STRENGTH_MEDIUM = 8000;
 		public const int EXPLOSION_STRENGTH_HIGH = 80000;
+		public const int NUKE_FLASH_DISTANCE = 12580;
 
 		public class ExplosionData
 		{
@@ -172,23 +173,14 @@ namespace Systems.Explosions
 
 		private static int GetDistanceFromStrength(float strength)
 		{
-			return strength switch
+			if (strength < 1000000)
 			{
-				< 100 => 2, // fairly smol explosion
-				< 400 => 3,
-				< 800 => 6,
-				< 4000 => 8,
-				< 12000 => 12, // gernade
-				< 22000 => 14,
-				< 62000 => 16,
-				< 80000 => 24, // why do I hear loud beeping?
-				< 120000 => 48,
-				< 166000 => 64, // powersink with high energy siphon
-				< 248000 => 128, // powersink with maxcap bypass
-				< 648000 => 256, // someone is trying to be funny or is trying to crash the server
-				< 1000000 => 512, // nuke
-				_ => 6
-			};
+				var result = (int)Math.Ceiling(Math.Log(strength / 100.0) * 2);
+				Loggy.Log(result.ToString());
+				return result;
+			}
+
+			return NUKE_FLASH_DISTANCE;
 		}
 	}
 }
