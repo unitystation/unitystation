@@ -112,7 +112,7 @@ namespace Items.Others
 		{
 			var pos = gameObject.AssumedWorldPosServer().CutToInt();
 			_ = Despawn.ServerSingle(gameObject);
-			Explosion.StartExplosion(pos, explosionStrength, damageIgnoreAttributes: itemTraitsToIgnoreOnExplosion);
+			Explosion.StartExplosion(pos, explosionStrength, damageIgnoreAttributes: itemTraitsToIgnoreOnExplosion, stunNearbyPlayers: true);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)

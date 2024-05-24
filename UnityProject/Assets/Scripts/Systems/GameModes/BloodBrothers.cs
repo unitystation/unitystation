@@ -40,7 +40,7 @@ namespace GameModes
 				if (possibleBrother.Owner.CurrentPlayScript.IsDeadOrGhost == false) possibleBrother.Owner.CurrentPlayScript.playerHealth.Death(false);
 				if (DMMath.Prob(15))
 				{
-					Explosion.StartExplosion(possibleBrother.Owner.Body.gameObject.AssumedWorldPosServer().CutToInt(), 750);
+					Explosion.StartExplosion(possibleBrother.Owner.Body.gameObject.AssumedWorldPosServer().CutToInt(), 750, stunNearbyPlayers: true);
 				}
 			}
 

@@ -892,7 +892,7 @@ namespace Objects.Engineering
 
 			RadiationManager.Instance.RequestPulse( registerTile.LocalPositionServer, detonationRads, GetInstanceID());
 
-			Explosion.StartExplosion(registerTile.WorldPositionServer, explosionStrength);
+			Explosion.StartExplosion(registerTile.WorldPositionServer, explosionStrength, stunNearbyPlayers: true);
 
 			_ = Despawn.ServerSingle(gameObject);
 		}
