@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1058680709829996922, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: UesAddlistPopulater
@@ -300,6 +305,11 @@ PrefabInstance:
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 2728592379231489674, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2733873253844105974, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: m_Sprite
@@ -354,17 +364,17 @@ PrefabInstance:
     - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -380,6 +390,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4434023247273284483, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6102157500274823570, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7822575272286095514, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7822575272286095514, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
