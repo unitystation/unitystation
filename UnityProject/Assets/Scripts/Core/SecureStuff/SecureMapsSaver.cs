@@ -474,11 +474,6 @@ namespace SecureStuff
 		{
 			try
 			{
-				if (Object == null)
-				{
-					Loggy.LogError("oh....");
-				}
-
 				foreach (var ModField in IndividualObject)
 				{
 					try
@@ -505,9 +500,8 @@ namespace SecureStuff
 			LoadDatarecursive(RootID,Object, Object, IndividualObject, IPopulateIDRelation, AllLoaded);
 		}
 
-		private static bool IsGoodClientField(FieldInfo Field)
+		private static bool IsGoodClientField(FieldInfo Field) //So the client doesn't overwrite synchronised values from the server
 		{
-			//TODO Work out how to support
 			var attribute = Field.GetCustomAttributes(typeof(IsSyncedAttribute), true);
 			if (attribute.Length > 0)
 			{
@@ -557,55 +551,29 @@ namespace SecureStuff
 			return false;
 		}
 
+		private static bool HasAttribute(FieldInfo field, Type attributeType)
+		{
+			return field.GetCustomAttributes(attributeType, true).Length > 0;
+		}
+
 		private static bool IsGoodField(FieldInfo Field)
 		{
 			if (Field.IsPrivate || Field.IsAssembly || Field.IsFamily)
 			{
-				var attribute = Field.GetCustomAttributes(typeof(SerializeField), true);
-				if (attribute.Length == 0)
-				{
-					return false;
-				}
-
-				attribute = Field.GetCustomAttributes(typeof(HideInInspector), true);
-				if (attribute.Length > 0)
-				{
-					return false;
-				}
-
-				attribute = Field.GetCustomAttributes(typeof(NaughtyAttributes.ReadOnlyAttribute), true);
-				if (attribute.Length > 0)
-				{
-					return false;
-				}
-
-				attribute = Field.GetCustomAttributes(typeof(PlayModeOnlyAttribute), true);
-				if (attribute.Length > 0)
+				if (!HasAttribute(Field, typeof(SerializeField)) ||
+				    HasAttribute(Field, typeof(HideInInspector)) ||
+				    HasAttribute(Field, typeof(NaughtyAttributes.ReadOnlyAttribute)) ||
+				    HasAttribute(Field, typeof(PlayModeOnlyAttribute)))
 				{
 					return false;
 				}
 			}
 			else if (Field.IsPublic)
 			{
-				if (Field.IsNotSerialized)
-				{
-					return false;
-				}
-
-				var attribute = Field.GetCustomAttributes(typeof(PlayModeOnlyAttribute), true);
-				if (attribute.Length > 0)
-				{
-					return false;
-				}
-
-				attribute = Field.GetCustomAttributes(typeof(HideInInspector), true);
-				if (attribute.Length > 0)
-				{
-					return false;
-				}
-
-				attribute = Field.GetCustomAttributes(typeof(NaughtyAttributes.ReadOnlyAttribute), true);
-				if (attribute.Length > 0)
+				if (Field.IsNotSerialized ||
+				    HasAttribute(Field, typeof(PlayModeOnlyAttribute)) ||
+				    HasAttribute(Field, typeof(HideInInspector)) ||
+				    HasAttribute(Field, typeof(NaughtyAttributes.ReadOnlyAttribute)))
 				{
 					return false;
 				}

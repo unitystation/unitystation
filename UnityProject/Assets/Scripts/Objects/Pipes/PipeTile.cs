@@ -43,16 +43,19 @@ namespace Objects.Atmospherics
 					}
 				}
 			}
+
 			return true;
 		}
 
-		public override bool IsTileRepeated(Matrix4x4 thisTransformMatrix,BasicTile basicTile, Matrix4x4 TransformMatrix, MetaDataNode metaDataNode)
+		public override bool IsTileRepeated(Matrix4x4 thisTransformMatrix, BasicTile basicTile,
+			Matrix4x4 TransformMatrix, MetaDataNode metaDataNode)
 		{
 			var incomingConnection = GetRotatedConnection(this, thisTransformMatrix);
 			if (CanAddPipe(metaDataNode, incomingConnection) == false)
 			{
 				return true;
 			}
+
 			return false;
 		}
 
@@ -67,7 +70,7 @@ namespace Objects.Atmospherics
 			metaData.PipeData.Add(pipeNode);
 		}
 
-		public void InitialiseNode(Vector3Int Location, Matrix matrix,  Matrix4x4 Matrix4x4)
+		public void InitialiseNode(Vector3Int Location, Matrix matrix, Matrix4x4 Matrix4x4)
 		{
 			var ZeroedLocation = new Vector3Int(x: Location.x, y: Location.y, 0);
 			var metaData = matrix.MetaDataLayer.Get(ZeroedLocation);
@@ -88,20 +91,19 @@ namespace Objects.Atmospherics
 			var canInitializePipe = true;
 			for (var d = 0; d < pipeDir.Length; d++)
 			{
-				if (pipeDir[d].Bool)
-				{
-					if (PipeDirCheck[d])
-					{
-						canInitializePipe = false;
-						Loggy.LogWarning(
-							$"A pipe is overlapping its connection at ({TileLocation.x}, {TileLocation.y}) in {AssociatedMatrix.gameObject.scene.name} - {LayerType.ToString()} with another pipe, removing one",
-							Category.Pipes);
-						AssociatedMatrix.MetaTileMap.Layers[LayerType].Tilemap.SetTile(TileLocation, null);
-						break;
-					}
+				if (pipeDir[d].Bool == false) continue;
 
-					PipeDirCheck[d] = true;
+				if (PipeDirCheck[d])
+				{
+					canInitializePipe = false;
+					Loggy.LogWarning(
+						$"A pipe is overlapping its connection at ({TileLocation.x}, {TileLocation.y}) in {AssociatedMatrix.gameObject.scene.name} - {LayerType.ToString()} with another pipe, removing one",
+						Category.Pipes);
+					AssociatedMatrix.MetaTileMap.Layers[LayerType].Tilemap.SetTile(TileLocation, null);
+					break;
 				}
+
+				PipeDirCheck[d] = true;
 			}
 
 			if (canInitializePipe)

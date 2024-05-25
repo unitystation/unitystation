@@ -182,6 +182,8 @@ namespace MapSaver
 			}
 		}
 
+		//Offset00 the off set In the data so objects will appear at 0,0
+		//Offset to apply 0,0 to get the position you want
 		public static MapSaver.CompactObjectMapData LoadSection(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
 			MapSaver.MatrixData MatrixData)
 		{

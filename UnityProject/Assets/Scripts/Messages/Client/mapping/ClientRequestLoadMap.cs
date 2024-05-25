@@ -15,8 +15,8 @@ public class ClientRequestLoadMap : ClientMessage<ClientRequestLoadMap.NetMessag
 
 	public struct NetMessage : NetworkMessage
 	{
-		public Vector3 Offset00;
-		public Vector3 Offset;
+		public Vector3 Offset00; //the off set In the data so objects will appear at 0,0
+		public Vector3 Offset; //Offset to apply 0,0 to get the position you want
 		public string Data;
 		public bool end;
 		public int MatrixID;
