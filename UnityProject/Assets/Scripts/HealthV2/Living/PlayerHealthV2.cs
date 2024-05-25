@@ -110,15 +110,6 @@ namespace HealthV2
 			registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.BuckledToObject != null);
 		}
 
-		public override void OnGib()
-		{
-			//Drop everything
-			playerScript.Mind.OrNull()?.Ghost();
-			Inventory.ServerDropAll(dynamicItemStorage);
-			base.OnGib();
-			PlayerMove.playerScript.ObjectPhysics.DisappearFromWorld();
-		}
-
 		bool RegisterPlayer.IControlPlayerState.AllowChange(bool rest)
 		{
 			if (rest)

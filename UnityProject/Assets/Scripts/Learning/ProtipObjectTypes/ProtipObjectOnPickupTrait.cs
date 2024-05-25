@@ -31,8 +31,10 @@ namespace Learning.ProtipObjectTypes
 		private IEnumerator CheckHand()
 		{
 			yield return WaitFor.EndOfFrame;
+			if (PlayerManager.Instance == null || PlayerManager.LocalPlayerScript == null
+			                                   || PlayerManager.LocalPlayerScript.DynamicItemStorage == null) yield break;
 			var handslot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot();
-			if(handslot == null || handslot.IsEmpty || handslot.ItemAttributes.GetTraits().Count() == 0) yield break;
+			if (handslot == null || handslot.IsEmpty || handslot.ItemAttributes.GetTraits().Count() == 0) yield break;
 			foreach (var trait in handslot.ItemAttributes.GetTraits())
 			{
 				if(protipsForTraits.ContainsKey(trait) == false) continue;

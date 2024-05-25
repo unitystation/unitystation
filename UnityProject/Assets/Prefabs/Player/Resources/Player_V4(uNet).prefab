@@ -481,6 +481,8 @@ GameObject:
   - component: {fileID: 6182295504772674896}
   - component: {fileID: 6835177244151955954}
   - component: {fileID: 6097234027102085964}
+  - component: {fileID: 8039750332941386657}
+  - component: {fileID: 3794334480808639130}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -1817,6 +1819,57 @@ MonoBehaviour:
   syncInterval: 0.1
   light: {fileID: 4196149980577959187}
   lightColor: {r: 1, g: 1, b: 1, a: 0.003921569}
+--- !u!114 &8039750332941386657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29e531d10225486e962cf5f7808d45cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  IsEnabled: 1
+  health: {fileID: 1354417930896543338}
+  skinnableMob: {fileID: 3794334480808639130}
+  mob: {fileID: 114617133355526680}
+  defaultGibSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Bodyfall.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+--- !u!114 &3794334480808639130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a1bc2f580144e778b35d2fdcc016ee8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  gibbableMob: {fileID: 8039750332941386657}
+  defaultSkinningSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/BladeSlice.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -13644,7 +13697,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
