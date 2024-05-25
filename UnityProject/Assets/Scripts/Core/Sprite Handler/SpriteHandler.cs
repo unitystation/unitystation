@@ -45,10 +45,8 @@ public class SpriteHandler : MonoBehaviour
 
 	[SerializeField] private bool pushTextureOnStartUp = true;
 
-	[FormerlySerializedAs("variantIndex"), SerializeField, Range(0, 9)]
-	private int initialVariantIndex = 0;
-
-	private int variantIndex = 0;
+	[FormerlySerializedAs("initialVariantIndex"), SerializeField, Range(0, 9)]
+	public int variantIndex = 0;
 
 	private int cataloguePage = -1;
 
@@ -620,7 +618,6 @@ public class SpriteHandler : MonoBehaviour
 
 	protected virtual void Init()
 	{
-		variantIndex = initialVariantIndex;
 		if (randomInitialSprite && CatalogueCount > 0)
 		{
 			SetCatalogueIndexSprite(UnityEngine.Random.Range(0, CatalogueCount), NetworkThis);
@@ -1065,7 +1062,6 @@ public class SpriteHandler : MonoBehaviour
 		// ValidateLate might be called after this object is already destroyed.
 		if (this == null || Application.isPlaying) return;
 		if (Selection.activeGameObject != this.gameObject) return;
-		variantIndex = initialVariantIndex;
 		PushTexture();
 	}
 
