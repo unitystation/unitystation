@@ -84,7 +84,7 @@ namespace HealthV2.Living
 			if (Cooldowns.TryStart(interaction, this, NetworkSide.Server) == false) return;
 			var bar = StandardProgressAction.Create(
 				new StandardProgressActionConfig(StandardProgressActionType.Restrain, true, false),
-				()=> SpawnSpeciesProduce(Random.Range(1, 3), true));
+				()=> SpawnSpeciesProduce(1, true));
 			var time = Mathf.Clamp(health.OverallHealth / 8, TIME_MIN_SKINNING, TIME_MAX_SKINNING);
 			bar.ServerStartProgress(gibbableMob.gameObject.AssumedWorldPosServer(), time, interaction.Performer);
 			Chat.AddActionMsgToChat(gameObject,
