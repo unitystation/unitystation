@@ -90,7 +90,7 @@ namespace HealthV2.Living
 			Chat.AddActionMsgToChat(gameObject,
 				$"{interaction.PerformerPlayerScript.visibleName} starts skinning {interaction.TargetObject.ExpensiveName()}.".Color(Color.red));
 			PlayAudio();
-			health.ApplyDamageAll(interaction.Performer, 10, AttackType.Melee, DamageType.Brute,
+			health.ApplyDamageToRandomBodyPart(interaction.Performer, 10, AttackType.Melee, DamageType.Brute,
 				traumaticDamageTypes: TraumaticDamageTypes.PIERCE, traumaChance:100);
 		}
 

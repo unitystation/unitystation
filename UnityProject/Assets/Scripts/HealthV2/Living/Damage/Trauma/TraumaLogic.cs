@@ -50,6 +50,7 @@ namespace HealthV2
 
 		protected void PlayAudio()
 		{
+			if (DMMath.Prob(50)) return;
 			SoundManager.PlayNetworkedAtPos(onTakeDamageSounds.GetRandom(), gameObject.AssumedWorldPosServer());
 		}
 
