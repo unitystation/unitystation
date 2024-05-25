@@ -166,7 +166,7 @@ public class AutoCreatePrefab : EditorWindow
 		    }
 
 		    string relativePath = AssetDatabase.GetAssetPath(audioClip);
-		    string directoryPath = Path.GetDirectoryName(relativePath)?.Replace("Assets/AudioFiles", baseSavePath);
+		    string directoryPath = Path.GetDirectoryName(relativePath)?.Replace("Audio Files", baseSavePath);
 
 		    if (!Directory.Exists(directoryPath))
 		    {
@@ -201,7 +201,7 @@ public class AutoCreatePrefab : EditorWindow
 		    if (audioClip == null) continue;
 		    if (PrefabAlreadyExistsForAudioFile(audioClip.name) == false)
 		    {
-			    CreatePrefabForAudioClip(audioClip, "Assets/Prefabs/");
+			    CreatePrefabForAudioClip(audioClip, "Prefabs/");
 		    }
 		    else
 		    {
@@ -221,5 +221,6 @@ public class AutoCreatePrefab : EditorWindow
 	    }
 	    return false;
     }
+
 }
 #endif
