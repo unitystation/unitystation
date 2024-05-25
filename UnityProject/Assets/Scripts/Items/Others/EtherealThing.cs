@@ -21,7 +21,7 @@ public class EtherealThing : MonoBehaviour, IServerSpawn
 		}
 		else
 		{
-			Destroy(this.gameObject);
+			StartCoroutine(WaitingFrame());
 		}
 	}
 

@@ -340,21 +340,37 @@ namespace Systems.Pipes
 			return ToLog;
 		}
 
-		public void DestroyThis()
+		public void DestroyThis(bool TileAlreadyRemoved = false, Matrix4x4? matrix = null, Color? Colour  = null)
 		{
 			if (MonoPipe == null)
 			{
-				Matrix4x4 matrix = Matrix.MetaTileMap.GetMatrix4x4(pipeNode.NodeLocation, LayerType.Pipe, true).GetValueOrDefault(Matrix4x4.identity);
+				if (matrix == null)
+				{
+					matrix = Matrix.MetaTileMap.GetMatrix4x4(pipeNode.NodeLocation, LayerType.Pipe, true).GetValueOrDefault(Matrix4x4.identity);
+				}
+
 				var pipe = Spawn.ServerPrefab(pipeNode.RelatedTile.SpawnOnDeconstruct,
 											MatrixManager.LocalToWorld(pipeNode.NodeLocation, this.Matrix).To2().To3(),
-											localRotation: PipeDeconstruction.QuaternionFromMatrix(matrix)).GameObject;
+											localRotation: PipeDeconstruction.QuaternionFromMatrix(matrix.Value)).GameObject;
 
 				var itempipe = pipe.GetComponent<PipeItemTile>();
-				itempipe.Colour = Matrix.MetaTileMap.GetColour(pipeNode.NodeLocation, LayerType.Pipe, true).GetValueOrDefault(Color.white);
-				itempipe.Setsprite();
-				itempipe.rotatable.SetFaceDirectionRotationZ(PipeDeconstruction.QuaternionFromMatrix(matrix).eulerAngles.z);
+				if (Colour != null)
+				{
+					itempipe.Colour = Colour.Value;
+				}
+				else
+				{
+					itempipe.Colour = Matrix.MetaTileMap.GetColour(pipeNode.NodeLocation, LayerType.Pipe, true).GetValueOrDefault(Color.white);
+				}
 
-				pipeNode.LocatedOn.TileChangeManager.MetaTileMap.RemoveTileWithlayer(pipeNode.NodeLocation, LayerType.Pipe);
+				itempipe.Setsprite();
+				itempipe.rotatable.SetFaceDirectionRotationZ(PipeDeconstruction.QuaternionFromMatrix(matrix.Value).eulerAngles.z);
+
+				if (TileAlreadyRemoved == false)
+				{
+					pipeNode.LocatedOn.TileChangeManager.MetaTileMap.RemoveTileWithlayer(pipeNode.NodeLocation, LayerType.Pipe);
+				}
+
 				pipeNode.IsOn.PipeData.Remove(pipeNode);
 				OnDisable();
 			}

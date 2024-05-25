@@ -42,6 +42,11 @@ namespace AdminTools.VariableViewer
 		}
 
 
+		public override bool CanDeserialise(Type TType)
+		{
+			return typeof(ISOTracker).IsAssignableFrom(TType);
+		}
+
 		public override bool IsThisType(Type TType)
 		{
 			return typeof(ISOTracker).IsAssignableFrom(TType);
@@ -161,7 +166,7 @@ namespace AdminTools.VariableViewer
 			}
 
 			var TypeTile = typeof(LayerTile);
-			foreach (var TileType in 	TileManager.Instance.Tiles)
+			foreach (var TileType in TileManager.Instance.Tiles)
 			{
 				foreach (var Tile in TileType.Value)
 				{
@@ -176,8 +181,12 @@ namespace AdminTools.VariableViewer
 
 		}
 
-		public override object DeSerialise(string StringVariable, Type InType, object InObject, bool SetUI = false)
+		public override object DeSerialise(string StringVariable, Type InType, bool SetUI = false)
 		{
+			if (IndividualDropDownOptions.Count == 0)
+			{
+				InitialiseIndividualDropDownOptions();
+			}
 			return IndividualDropDownOptions[InType].FirstOrDefault(x => x.ForeverID == StringVariable);
 		}
 

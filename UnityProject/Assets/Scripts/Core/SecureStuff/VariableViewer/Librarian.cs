@@ -936,12 +936,12 @@ namespace SecureStuff
 				{
 					if (PInfo != null)
 					{
-						object DeSerialised = DeSerialiseValue(Variable, Value, VariableType);
+						object DeSerialised = DeSerialiseValue(Value, VariableType);
 						PInfo.SetValue(BindedTo.BookClass, DeSerialised);
 					}
 					else if (Info != null)
 					{
-						object DeSerialised = DeSerialiseValue(Variable, Value, VariableType);
+						object DeSerialised = DeSerialiseValue(Value, VariableType);
 						Info.SetValue(BindedTo.BookClass, DeSerialised);
 					}
 
@@ -973,12 +973,16 @@ namespace SecureStuff
 				}
 			}
 
+			public static string Serialise(object InObject, Type TypeOf)
+			{
+				return VVUIElementHandler.Serialise(InObject, TypeOf);
+			}
 
-			public static object DeSerialiseValue(object InObject, string StringVariable, Type InType)
+			public static object DeSerialiseValue(string StringVariable, Type InType)
 			{
 				if (VVUIElementHandler.CanDeSerialiseValue(InType))
 				{
-					var data = VVUIElementHandler.DeSerialiseValue(InObject, StringVariable, InType);
+					var data = VVUIElementHandler.DeSerialiseValue(StringVariable, InType);
 					if (data != null || StringVariable.Length == 0)
 					{
 						return data;
@@ -987,20 +991,20 @@ namespace SecureStuff
 
 				if (InType.IsEnum)
 				{
-					//if ()
-					return Enum.Parse(InObject.GetType(), StringVariable);
+					return Enum.Parse(InType, StringVariable);
 				}
 				else
 				{
-					if (InType == null || InObject == null || InObject as IConvertible == null)
+					try
 					{
-						Loggy.Log($"Can't convert {StringVariable} to {InObject.GetType()}  " +
-						          $"[(InType == null) = {InType == null} || (InObject == null) == {InObject == null} || (InObject as IConvertible == null) = {InObject as IConvertible == null}]",
-							Category.VariableViewer);
-						return null;
+						return Convert.ChangeType(StringVariable, InType);
+					}
+					catch (Exception e)
+					{
+						Loggy.LogError(e.ToString());
 					}
 
-					return Convert.ChangeType(StringVariable, InObject.GetType());
+					return null;
 				}
 			}
 
@@ -1117,7 +1121,7 @@ namespace SecureStuff
 			return null;
 		}
 
-		private static Type GetUnderlyingType(this MemberInfo member)
+		private static Type The(this MemberInfo member)
 		{
 			if (HubValidation.TrustedMode == false) return null;
 			switch (member.MemberType)

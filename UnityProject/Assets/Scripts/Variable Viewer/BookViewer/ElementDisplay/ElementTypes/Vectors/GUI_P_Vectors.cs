@@ -86,7 +86,7 @@ namespace AdminTools.VariableViewer
 					IsThisVector = Vector.Vector2;
 				}
 			}
-			DeSerialise(Data,  null, null,true);
+			DeSerialise(Data, null,true);
 		}
 
 		public void UpdateVector()
@@ -170,7 +170,7 @@ namespace AdminTools.VariableViewer
 			return (Data.ToString());
 		}
 
-		public override object DeSerialise(string StringVariable, Type InType, object InObject, bool SetUI = false)
+		public override object DeSerialise(string StringVariable, Type InType, bool SetUI = false)
 		{
 			if (CountStringOccurrences(StringVariable, ",") > 1)
 			{

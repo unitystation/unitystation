@@ -45,6 +45,12 @@ public class GUI_P_Component : PageElement
 
 	public override PageElementEnum PageElementType => PageElementEnum.Component;
 
+	public override bool CanDeserialise(Type TType)
+	{
+		return TType.IsSubclassOf(typeof(MonoBehaviour)) || TType == typeof(GameObject);
+	}
+
+
 	public override bool IsThisType(Type TType)
 		//TODO support coomponents in the future
 	{
@@ -239,7 +245,7 @@ public class GUI_P_Component : PageElement
 		return (Data.ToString());
 	}
 
-	public override object DeSerialise(string StringVariable, Type InType, object InObject, bool SetUI = false)
+	public override object DeSerialise(string StringVariable, Type InType, bool SetUI = false)
 	{
 		EditData data = JsonConvert.DeserializeObject<EditData>(StringVariable);
 		if (data.IDType == IDType.NULL)

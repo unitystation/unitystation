@@ -45,6 +45,13 @@ namespace Objects.Atmospherics
 			Controller.AddSlave(device);
 		}
 
+		public void Start()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			if (Controller == null) return;
+			Controller.AddSlave(device);
+		}
+
 		public void OnDespawnServer(DespawnInfo info)
 		{
 			if (Controller == null) return;

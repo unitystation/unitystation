@@ -65,8 +65,9 @@ namespace Core.Utils
 
 		public static string ToHexString(this UnityEngine.Color color)
 		{
-			return ColorUtility.ToHtmlStringRGBA(color);
+			return  $"#{ColorUtility.ToHtmlStringRGBA(color)}";
 		}
+
 	}
 
 	#if UNITY_EDITOR

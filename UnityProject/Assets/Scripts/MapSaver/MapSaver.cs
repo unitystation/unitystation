@@ -11,7 +11,6 @@ using Objects;
 using SecureStuff;
 using Util;
 using Tiles;
-using UI.Core;
 
 namespace MapSaver
 {
@@ -36,22 +35,27 @@ namespace MapSaver
 
 		public class MapData
 		{
+			public string Ver = "1.0.0";
 			public string MapName;
 			public List<MatrixData> ContainedMatrices = new List<MatrixData>();
 		}
 
 		public class MatrixData
 		{
+			public string Ver = "1.0.0";
 			public string Location;
 			public uint MatrixID;
 			public string MatrixName;
 			public CompactTileMapData CompactTileMapData;
 			public GitFriendlyTileMapData GitFriendlyTileMapData;
 			public CompactObjectMapData CompactObjectMapData;
+			public List<GameGizmoModel> PreviewGizmos;
 		}
 
 		public class GitFriendlyTileMapData
 		{
+			public string Ver = "1.0.0";
+
 			private Dictionary<string, List<GitFriendlyIndividualTile>> InternalXYs =
 				new Dictionary<string, List<GitFriendlyIndividualTile>>();
 
@@ -99,7 +103,7 @@ namespace MapSaver
 			public string Tel;
 			public int Lay;
 			public int? Z;
-			public string? Col;
+			public string Col;
 			public string Tf;
 
 			//public int? W;
@@ -108,6 +112,7 @@ namespace MapSaver
 
 		public class CompactTileMapData
 		{
+			public string Ver = "1.0.0";
 			public List<string> CommonColours;
 			public List<string> CommonLayerTiles;
 			public List<string> CommonMatrix4x4;
@@ -174,9 +179,11 @@ namespace MapSaver
 
 		public class CompactObjectMapData
 		{
+			public string Ver = "1.0.0";
 			public List<string> CommonPrefabs = new List<string>();
 
 			public List<PrefabData> PrefabData;
+			public Dictionary<string, uint> IDToNetIDClient = new Dictionary<string, uint>();
 		}
 
 		public class PrefabData
@@ -195,7 +202,7 @@ namespace MapSaver
 			public string Name;
 			public bool Removed = false;
 			public uint ChildLocation;
-			public string ID; //Child index, Child index,  Child index,
+			public string ID = "0"; //Child index, Child index,  Child index, NOTE Always has a Zero for root
 			public List<ClassData> ClassDatas = new List<ClassData>();
 			public List<IndividualObject> Children = null;
 
@@ -239,6 +246,7 @@ namespace MapSaver
 						Children = null;
 					}
 				}
+
 
 				return ISEmpty;
 			}
@@ -291,7 +299,7 @@ namespace MapSaver
 		}
 
 		public static MatrixData SaveMatrix(bool Compact, MetaTileMap MetaTileMap, bool SingleSave = true,
-			List<BetterBounds> LocalArea  = null, bool UseInstance = false)
+			List<BetterBounds> LocalArea = null, bool NonmappedItems = false)
 		{
 			if (SingleSave)
 			{
@@ -318,7 +326,7 @@ namespace MapSaver
 
 			MatrixData matrixData = new MatrixData();
 			matrixData.CompactObjectMapData =
-				SaveObjects(Compact, MetaTileMap, AllowedPoints, UseInstance);
+				SaveObjects(Compact, MetaTileMap, AllowedPoints, NonmappedItems);
 			SaveTileMap(Compact, matrixData, MetaTileMap, AllowedPoints);
 
 			//matrixData.MatrixName = MetaTileMap.matrix.NetworkedMatrix.gameObject.name;
@@ -350,6 +358,7 @@ namespace MapSaver
 					}
 					else
 					{
+						MFD.Item2.Data = "MISSING";
 						Loggy.LogError($"Missing money behaviour in MonoToID {MFD.Item1.name}");
 					}
 				}
@@ -381,6 +390,13 @@ namespace MapSaver
 			}
 		}
 
+		public static string StringToVector(string Data, out Vector3 Vector)
+		{
+			var position = Data.Split("┼");
+			Vector = new Vector3(float.Parse(position[0]), float.Parse(position[1]), float.Parse(position[2]));
+			return position[3];
+		}
+
 		public static string VectorToString(Vector3 Position, bool Round = true)
 		{
 			if (Round)
@@ -395,6 +411,13 @@ namespace MapSaver
 			}
 		}
 
+		public static Vector3Int GitFriendlyPositionToVectorInt(string Position)
+		{
+			Position = Position[1..];
+			var position = Position.Split("Y");
+			return new Vector3Int(int.Parse(position[0]), int.Parse(position[1]));
+		}
+
 		public static string VectorIntToGitFriendlyPosition(Vector3Int pos)
 		{
 			return $"X{pos.x}Y{pos.y}";
@@ -403,18 +426,52 @@ namespace MapSaver
 
 		public static string TileToString(LayerTile layerTile)
 		{
-			return layerTile.name + LayerChar + (int) layerTile.TileType;
+			return layerTile.name;
 		}
+
+
+		public static Matrix4x4 StringToMatrix4X4(string Stringy)
+		{
+			var Entries = Stringy.Split(",");
+
+			return new Matrix4x4()
+			{
+				m00 = float.Parse(Entries[0]),
+				m01 = float.Parse(Entries[1]),
+				m02 = float.Parse(Entries[2]),
+				m03 = float.Parse(Entries[3]),
+
+				m10 = float.Parse(Entries[4]),
+				m11 = float.Parse(Entries[5]),
+				m12 = float.Parse(Entries[6]),
+				m13 = float.Parse(Entries[7]),
+
+				m20 = float.Parse(Entries[8]),
+				m21 = float.Parse(Entries[9]),
+				m22 = float.Parse(Entries[10]),
+				m23 = float.Parse(Entries[11]),
+
+				m30 = float.Parse(Entries[12]),
+				m31 = float.Parse(Entries[13]),
+				m32 = float.Parse(Entries[14]),
+				m33 = float.Parse(Entries[15]),
+			};
+		}
+
 
 		public static string Matrix4X4ToString(Matrix4x4 matrix4X4, StringBuilder SB)
 		{
 			SB.Clear();
+
 			SB.Append(matrix4X4.m00.ToString());
 			SB.Append(",");
 			SB.Append(matrix4X4.m01.ToString());
 			SB.Append(",");
 			SB.Append(matrix4X4.m02.ToString());
 			SB.Append(",");
+			SB.Append(matrix4X4.m03.ToString());
+			SB.Append(",");
+
 
 			SB.Append(matrix4X4.m10.ToString());
 			SB.Append(",");
@@ -422,12 +479,26 @@ namespace MapSaver
 			SB.Append(",");
 			SB.Append(matrix4X4.m12.ToString());
 			SB.Append(",");
+			SB.Append(matrix4X4.m13.ToString());
+			SB.Append(",");
 
 			SB.Append(matrix4X4.m20.ToString());
 			SB.Append(",");
 			SB.Append(matrix4X4.m21.ToString());
 			SB.Append(",");
 			SB.Append(matrix4X4.m22.ToString());
+			SB.Append(",");
+			SB.Append(matrix4X4.m23.ToString());
+			SB.Append(",");
+
+			SB.Append(matrix4X4.m30.ToString());
+			SB.Append(",");
+			SB.Append(matrix4X4.m31.ToString());
+			SB.Append(",");
+			SB.Append(matrix4X4.m32.ToString());
+			SB.Append(",");
+			SB.Append(matrix4X4.m33.ToString());
+
 			return SB.ToString();
 		}
 
@@ -607,7 +678,6 @@ namespace MapSaver
 				{
 					foreach (var TileAndLocation in Layer)
 					{
-
 						if (UseBoundary)
 						{
 							var pos = TileAndLocation.LocalPosition;
@@ -855,7 +925,7 @@ namespace MapSaver
 
 
 		public static CompactObjectMapData SaveObjects(bool Compact, MetaTileMap MetaTileMap,
-			HashSet<Vector3Int> AllowedPoints = null, bool UseInstance = false)
+			HashSet<Vector3Int> AllowedPoints = null, bool NonmappedItems = false)
 		{
 			bool UseBoundary = AllowedPoints != null;
 			CompactObjectMapData compactObjectMapData = new CompactObjectMapData();
@@ -866,7 +936,7 @@ namespace MapSaver
 			if (Application.isPlaying)
 			{
 				Objects = MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.Instance._isServer)
-					.AllObjects; //TODO Disabled objects
+					.AllObjects; //TODO Disabled objectsxz
 			}
 			else
 			{
@@ -891,7 +961,7 @@ namespace MapSaver
 					}
 				}
 
-				ProcessIndividualObject(Compact, Object.gameObject, compactObjectMapData, UseInstance: UseInstance);
+				ProcessIndividualObject(Compact, Object.gameObject, compactObjectMapData, NonmappedItems : NonmappedItems);
 			}
 
 			if (Application.isPlaying) //EtherealThings Haven't been triggered so they are in the correct spot
@@ -900,7 +970,6 @@ namespace MapSaver
 				{
 					if (UseBoundary)
 					{
-
 						var pos1 = EtherealThing.transform.localPosition.RoundToInt();
 						pos1.z = 0;
 						if (AllowedPoints.Contains(pos1) == false)
@@ -910,7 +979,7 @@ namespace MapSaver
 					}
 
 					ProcessIndividualObject(Compact, EtherealThing.gameObject, compactObjectMapData,
-						EtherealThing.transform.localPosition, UseInstance);
+						EtherealThing.transform.localPosition, NonmappedItems : NonmappedItems);
 				}
 			}
 
@@ -944,103 +1013,138 @@ namespace MapSaver
 			return compactObjectMapData;
 		}
 
-		public static void ProcessIndividualObject(bool Compact, GameObject Object,
-			CompactObjectMapData compactObjectMapData,
-			Vector3? CoordinateOverride = null, bool UseInstance = false)
+		public static void StringToPRS(GameObject Object, string Data)
 		{
-			if (Object.TryGetComponent<MapSaverIgnoreObject>(out var _))
+			Data = StringToVector(Data, out Vector3 position);
+			Object.transform.localPosition = position;
+			if (Data.Contains("ø"))
 			{
-				Loggy.Log(Object.name + " Is getting skipped from processing.. ");
-				return;
-			}
-
-			var runtimeSpawned = Object.GetComponent<RuntimeSpawned>();
-			if (runtimeSpawned != null) return;
-
-			PrefabData prefab = new PrefabData();
-
-			var tracker = Object.GetComponent<PrefabTracker>();
-			if (tracker == null)
-			{
-				Loggy.LogError(Object.name + " Is missing a PrefabTracker Please make it inherit from the base item/object prefab ");
-				return;
-			}
-			var originPrefab = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[tracker.ForeverID];
-			if (Compact)
-			{
-				if (Object.name != originPrefab.name)
+				var rotation = Data.Split("ø");
+				Object.transform.rotation = Quaternion.Euler(new Vector3(float.Parse(rotation[0]),
+					float.Parse(rotation[1]), float.Parse(rotation[2])));
+				if (rotation.Length > 3)
 				{
-					prefab.Name = Object.name;
+					Data = rotation[3];
 				}
 			}
-			else
-			{
-				prefab.Name = Object.name;
-			}
 
-
-			prefab.PrefabID = tracker.ForeverID;
-			if (Compact)
+			if (Data.Contains("↔"))
 			{
-				prefab.ID = IDStatic;
-				IDStatic++;
-			}
-			else
-			{
-				int trys = 0;
-				prefab.GitID = prefab.PrefabID + "_" + VectorToString(Object.transform.localPosition);
-				while (AlreadyReadySavedIDs.Contains(prefab.GitID))
+				var Size = Data.Split("↔");
+				Object.transform.localScale =
+					new Vector3(float.Parse(Size[0]), float.Parse(Size[1]), float.Parse(Size[2]));
+				if (Size.Length > 3)
 				{
-					var vec = Object.transform.localPosition;
-					vec.x += (0.001f * trys); //TODO May cause issues if you resolve conflict
-					prefab.GitID = prefab.PrefabID + "_" + VectorToString(vec, false);
-					trys++;
+					Data = Size[3];
 				}
-
-				AlreadyReadySavedIDs.Add(prefab.GitID);
 			}
+		}
 
-			prefab.Object = new IndividualObject();
+		public static string PRSToString(GameObject Object, Vector3? CoordinateOverride = null)
+		{
+			string data = VectorToString(Object.transform.localPosition);
 			if (CoordinateOverride == null)
 			{
-				prefab.LocalPRS = VectorToString(Object.transform.localPosition);
+				data = VectorToString(Object.transform.localPosition);
 
 				if (Object.transform.localRotation.eulerAngles != Vector3.zero)
 				{
 					var Angles = Object.transform.localRotation.eulerAngles;
-					prefab.LocalPRS = prefab.LocalPRS + Math.Round(Angles.x, 2) + "ø" +
-					                  Math.Round(Angles.y, 2) + "ø" +
-					                  Math.Round(Angles.z, 2) + "ø";
+					data = data + Math.Round(Angles.x, 2) + "ø" +
+					       Math.Round(Angles.y, 2) + "ø" +
+					       Math.Round(Angles.z, 2) + "ø";
 				}
 
 
 				if (Object.transform.localScale != Vector3.one)
 				{
 					var Angles = Object.transform.localScale;
-					prefab.LocalPRS = prefab.LocalPRS + Math.Round(Angles.x, 2) + "↔" +
-					                  Math.Round(Angles.y, 2) + "↔" +
-					                  Math.Round(Angles.z, 2) + "↔";
+					data = data + Math.Round(Angles.x, 2) + "↔" +
+					       Math.Round(Angles.y, 2) + "↔" +
+					       Math.Round(Angles.z, 2) + "↔";
 				}
 			}
 			else
 			{
-				prefab.LocalPRS = VectorToString(CoordinateOverride.GetValueOrDefault(Vector3.zero));
+				data = VectorToString(CoordinateOverride.GetValueOrDefault(Vector3.zero));
 			}
+
+			return data;
+		}
+
+		public static void ProcessIndividualObject(bool Compact, GameObject Object,
+			CompactObjectMapData compactObjectMapData,
+			Vector3? CoordinateOverride = null, bool NonmappedItems = false)
+		{
+			if (NonmappedItems == false)
+			{
+				var RuntimeSpawned = Object.GetComponent<RuntimeSpawned>();
+				if (RuntimeSpawned != null) return;
+			}
+
+
+			PrefabData Prefab = new PrefabData();
+
+			var Tracker = Object.GetComponent<PrefabTracker>();
+			if (Tracker == null)
+			{
+				Loggy.LogError(Object.name +
+				               " Is missing a PrefabTracker Please make it inherit from the base item/object prefab ");
+				return;
+			}
+
+			var OriginPrefab = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[Tracker.ForeverID];
+			if (Compact)
+			{
+				if (Object.name != OriginPrefab.name)
+				{
+					Prefab.Name = Object.name;
+				}
+			}
+			else
+			{
+				Prefab.Name = Object.name;
+			}
+
+
+			Prefab.PrefabID = Tracker.ForeverID;
+			if (Compact)
+			{
+				Prefab.ID = IDStatic;
+				IDStatic++;
+			}
+			else
+			{
+				int trys = 0;
+				Prefab.GitID = Prefab.PrefabID + "_" + VectorToString(Object.transform.localPosition);
+				while (AlreadyReadySavedIDs.Contains(Prefab.GitID))
+				{
+					var vec = Object.transform.localPosition;
+					vec.x += (0.001f * trys); //TODO May cause issues if you resolve conflict
+					Prefab.GitID = Prefab.PrefabID + "_" + VectorToString(vec, false);
+					trys++;
+				}
+
+				AlreadyReadySavedIDs.Add(Prefab.GitID);
+			}
+
+			Prefab.Object = new IndividualObject();
+			Prefab.LocalPRS = PRSToString(Object, CoordinateOverride);
 
 			var OnObjectComplete = Object.GetComponentsInChildren<Component>(true).ToHashSet();
 			var OnGmaeObjectComplete = Object.GetComponentsInChildren<Transform>(true).Select(x => x.gameObject)
 				.ToHashSet();
 
 
-			RecursiveSaveObject(OnObjectComplete, OnGmaeObjectComplete, Compact, prefab, "0", prefab.Object,
-				originPrefab,
-				Object.gameObject, compactObjectMapData, CoordinateOverride, UseInstance);
-			if (prefab.Object.RemoveEmptys())
+			RecursiveSaveObject(OnObjectComplete, OnGmaeObjectComplete, Compact, Prefab, "0", Prefab.Object,
+				OriginPrefab,
+				Object.gameObject, compactObjectMapData, CoordinateOverride, NonmappedItems : NonmappedItems  );
+			if (Prefab.Object.RemoveEmptys())
 			{
-				prefab.Object = null;
+				Prefab.Object = null;
 			}
 
-			compactObjectMapData.PrefabData.Add(prefab);
+			compactObjectMapData.PrefabData.Add(Prefab);
 		}
 
 
@@ -1048,9 +1152,10 @@ namespace MapSaver
 			HashSet<GameObject> AllGameObjectOnObject, bool Compact, PrefabData PrefabData, string ID,
 			IndividualObject individualObject,
 			GameObject PrefabEquivalent, GameObject gameObject, CompactObjectMapData compactObjectMapData,
-			Vector3? CoordinateOverride = null, bool UseInstance = false)
+			Vector3? CoordinateOverride = null, bool UseInstance = false, bool NonmappedItems = false)
 		{
-			individualObject.ID = ID;
+			individualObject.ID =
+				ID; //NOTE The zero is technically redundant for the First layer, But it's built into the saver
 
 			if (PrefabEquivalent?.name != gameObject.name)
 			{
@@ -1060,7 +1165,7 @@ namespace MapSaver
 			//Compare classes here
 			FillOutClassData(AllComponentsOnObject, AllGameObjectOnObject, Compact, PrefabData, individualObject,
 				PrefabEquivalent, gameObject, compactObjectMapData,
-				CoordinateOverride, UseInstance);
+				CoordinateOverride, UseInstance, NonmappedItems);
 
 
 			int PrefabObjectChildCount = 0;
@@ -1069,21 +1174,25 @@ namespace MapSaver
 			{
 				PrefabObjectChildCount = PrefabEquivalent.transform.childCount;
 			}
+
 			var gameObjectChildCount = gameObject.transform.childCount;
 			var loopMax = Mathf.Max(PrefabObjectChildCount, gameObjectChildCount);
 			int PrefabIndex = 0;
 			int GameObjectIndex = 0;
+
+
 			int IDLocation = 0;
 
 			for (int i = 0; i < loopMax; i++)
 			{
-
 				if (PrefabObjectChildCount > PrefabIndex
-				    && PrefabEquivalent.transform.GetChild(PrefabIndex).name != gameObject.transform.GetChild(PrefabIndex).name)
+				    && PrefabEquivalent.transform.GetChild(PrefabIndex).name !=
+				    gameObject.transform.GetChild(PrefabIndex).name)
 				{
 					while (PrefabObjectChildCount > PrefabIndex)
 					{
-						if (PrefabEquivalent.transform.GetChild(PrefabIndex).name !=  gameObject.transform.GetChild(GameObjectIndex).name)
+						if (PrefabEquivalent.transform.GetChild(PrefabIndex).name !=
+						    gameObject.transform.GetChild(GameObjectIndex).name)
 						{
 							var AnewindividualObject = new IndividualObject()
 							{
@@ -1091,7 +1200,8 @@ namespace MapSaver
 								Removed = true,
 								ClassDatas = null
 							};
-							if (individualObject.Children == null) individualObject.Children = new List<IndividualObject>();
+							if (individualObject.Children == null)
+								individualObject.Children = new List<IndividualObject>();
 							individualObject.Children.Add(AnewindividualObject);
 							PrefabIndex++;
 							IDLocation++;
@@ -1113,10 +1223,12 @@ namespace MapSaver
 				var newindividualObject = new IndividualObject();
 				if (individualObject.Children == null) individualObject.Children = new List<IndividualObject>();
 				individualObject.Children.Add(newindividualObject);
-				RecursiveSaveObject(AllComponentsOnObject, AllGameObjectOnObject, Compact, PrefabData, ID + "," + IDLocation,
+				RecursiveSaveObject(AllComponentsOnObject, AllGameObjectOnObject, Compact, PrefabData,
+					ID + "," + IDLocation,
 					newindividualObject,
 					PrefabChild,
-					gameObject.transform.GetChild(GameObjectIndex).gameObject, compactObjectMapData, UseInstance: UseInstance);
+					gameObject.transform.GetChild(GameObjectIndex).gameObject, compactObjectMapData,
+					UseInstance: UseInstance, NonmappedItems : NonmappedItems);
 
 				GameObjectIndex++;
 				PrefabIndex++;
@@ -1128,17 +1240,17 @@ namespace MapSaver
 			HashSet<GameObject> AllGameObjectOnObject, bool Compact, PrefabData PrefabData,
 			IndividualObject individualObject,
 			GameObject PrefabEquivalent, GameObject gameObject, CompactObjectMapData compactObjectMapData,
-			Vector3? CoordinateOverride = null, bool UseInstance = false)
+			Vector3? CoordinateOverride = null, bool UseInstance = false, bool NonmappedItems = false)
 		{
 			Dictionary<string, int> ClassCount = new Dictionary<string, int>();
 
-			List<MonoBehaviour> PrefabComponents = new List<MonoBehaviour>();
+			List<Component> PrefabComponents = new List<Component>();
 			if (PrefabEquivalent != null)
 			{
-				PrefabComponents = PrefabEquivalent.GetComponents<MonoBehaviour>().ToList();
+				PrefabComponents = PrefabEquivalent.GetComponents<Component>().ToList();
 			}
 
-			var gameObjectComponents = gameObject.GetComponents<MonoBehaviour>().ToList();
+			var gameObjectComponents = gameObject.GetComponents<Component>().ToList();
 
 			var loopMax = Mathf.Max(PrefabComponents.Count, gameObjectComponents.Count);
 			int PrefabIndex = 0;
@@ -1155,10 +1267,10 @@ namespace MapSaver
 						if (PrefabComponents[PrefabIndex].GetType() != gameObjectComponents[GameObjectIndex].GetType())
 						{
 							ClassCount.TryAdd(PrefabComponents[PrefabIndex].GetType().Name, 0);
-							ClassCount[PrefabComponents[PrefabIndex].GetType().Name]++;
-
 							var RemoveOutClass = new ClassData();
-							RemoveOutClass.ClassID = PrefabComponents[PrefabIndex].GetType().Name + "@" + ClassCount[PrefabComponents[PrefabIndex].GetType().Name];
+							RemoveOutClass.ClassID = PrefabComponents[PrefabIndex].GetType().Name + "@" +
+							                         ClassCount[PrefabComponents[PrefabIndex].GetType().Name];
+							ClassCount[PrefabComponents[PrefabIndex].GetType().Name]++;
 							RemoveOutClass.Removed = true;
 							RemoveOutClass.Data = null;
 							individualObject.ClassDatas.Add(RemoveOutClass);
@@ -1172,15 +1284,13 @@ namespace MapSaver
 				}
 
 
-				MonoBehaviour PrefabMono = null;
+				Component PrefabMono = null;
 				if (PrefabComponents.Count > PrefabIndex)
 				{
 					PrefabMono = PrefabComponents[PrefabIndex];
 				}
 
 				var gameObjectMono = gameObjectComponents[GameObjectIndex];
-				ClassCount.TryAdd(gameObjectMono.GetType().Name, 0);
-				ClassCount[gameObjectMono.GetType().Name]++;
 
 
 				if (Application.isPlaying) //Is in edit mode you can't have stuff inside of inventories in this mode
@@ -1194,12 +1304,12 @@ namespace MapSaver
 							if (CoordinateOverride == null)
 							{
 								ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData,
-									gameObject.transform.localPosition, UseInstance);
+									gameObject.transform.localPosition, NonmappedItems : NonmappedItems);
 							}
 							else
 							{
 								ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData,
-									CoordinateOverride, UseInstance);
+									CoordinateOverride,  NonmappedItems : NonmappedItems);
 							}
 						}
 					}
@@ -1214,20 +1324,26 @@ namespace MapSaver
 							if (CoordinateOverride == null)
 							{
 								ProcessIndividualObject(Compact, objectBehaviour.Item.gameObject, compactObjectMapData,
-									gameObject.transform.localPosition, UseInstance);
+									gameObject.transform.localPosition, NonmappedItems : NonmappedItems);
 							}
 							else
 							{
 								ProcessIndividualObject(Compact, objectBehaviour.Item.gameObject, compactObjectMapData,
-									CoordinateOverride, UseInstance);
+									CoordinateOverride, NonmappedItems : NonmappedItems);
 							}
 						}
 					}
 				}
 
 				var OutClass = new ClassData();
+				ClassCount.TryAdd(gameObjectMono.GetType().Name, 0);
 				OutClass.ClassID = gameObjectMono.GetType().Name + "@" + ClassCount[gameObjectMono.GetType().Name];
-				OutClass.Disabled = !gameObjectMono.enabled;
+				ClassCount[gameObjectMono.GetType().Name]++;
+				if (gameObjectMono is MonoBehaviour Mono)
+				{
+					OutClass.Disabled = !Mono.enabled;
+				}
+
 				if (Compact)
 				{
 					ComponentToID[gameObjectMono] = PrefabData.ID + "@" + individualObject.ID + "@" + OutClass.ClassID;
@@ -1248,7 +1364,7 @@ namespace MapSaver
 					gameObjectMono,
 					UseInstance);
 
-				if (OutClass.IsEmpty() == false)
+				if (OutClass.IsEmpty() == false || PrefabEquivalent == null)
 				{
 					individualObject.ClassDatas.Add(OutClass);
 				}
@@ -1263,6 +1379,114 @@ namespace MapSaver
 		{
 			private static CodeClass thisCodeClass;
 			public static CodeClass ThisCodeClass => thisCodeClass ??= new CodeClass();
+
+
+			private static string GetID(string Id)
+			{
+				if (Id == "MISSING")
+				{
+					Loggy.LogError("Map has missing references");
+					return null;
+				}
+
+				return GetGameObjectPath(Id);
+			}
+
+			private static string GetGameObjectPath(string Id)
+			{
+				if (Id == "MISSING")
+				{
+					Loggy.LogError("Map has missing references");
+					return null;
+				}
+
+				var IDPath = Id.Split("@");
+				return IDPath[0];
+			}
+
+
+			public void Reset()
+			{
+				NeededToProcess.Clear();
+				Objects.Clear();
+			}
+
+			public void FlagSaveKey(string RootID, Component Object, FieldData FieldData)
+			{
+				var UnprocessedEntry = new UnprocessedData()
+				{
+					Object = Object,
+					FieldData = FieldData,
+					ID =  RootID
+				};
+
+				if (NeededToProcess.ContainsKey(RootID) == false)
+				{
+					NeededToProcess[RootID] = new ReferencesAndData();
+				}
+
+				//note [UnprocessedEntry] = new List<string>(); Can overwrite?
+
+
+				var NeededID = GetID(FieldData.Data);
+				if (string.IsNullOrEmpty(NeededID) == false)
+				{
+					NeededToProcess[RootID].ReferencesNeeded.Add(NeededID);
+				}
+
+				NeededToProcess[RootID].FieldsToPopulate.Add(UnprocessedEntry);
+			}
+
+			public void FinishLoading(string GitiD)
+			{
+				HashSet<FieldData> ReuseSEt = new HashSet<FieldData>();
+				foreach (var Waiting in NeededToProcess) //TODO Probably a bit slow
+				{
+					if (Waiting.Value.ReferencesNeeded.Contains(GitiD))
+					{
+						Waiting.Value.ReferencesNeeded.Remove(GitiD);
+					}
+
+					if (Waiting.Value.ReferencesNeeded.Count == 0)
+					{
+						foreach (var Unprocessed in Waiting.Value.FieldsToPopulate)
+						{
+							ReuseSEt.Add(Unprocessed.FieldData);
+							SecureMapsSaver.LoadData(Unprocessed.ID, Unprocessed.Object, ReuseSEt, MapSaver.CodeClass.ThisCodeClass, true);
+							ReuseSEt.Clear();
+						}
+					}
+				}
+			}
+
+			public object ObjectsFromForeverID(string ForeverID, Type InType)
+			{
+				if (ForeverID == "NULL")
+				{
+					return null;
+				}
+
+				if (CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs.TryGetValue(ForeverID,
+					    out var Gameobject))
+				{
+					return Gameobject;
+				}
+
+
+				return Librarian.Page.DeSerialiseValue(ForeverID, InType);
+			}
+
+
+			public Dictionary<string, ReferencesAndData> NeededToProcess =
+				new Dictionary<string, ReferencesAndData>();
+
+			public class ReferencesAndData
+			{
+				public List<string> ReferencesNeeded = new List<string>();
+				public List<UnprocessedData> FieldsToPopulate = new List<UnprocessedData>();
+			}
+
+			public Dictionary<string, GameObject> Objects { get; set; } = new Dictionary<string, GameObject>();
 
 			public void PopulateIDRelation(HashSet<FieldData> FieldDatas, FieldData fieldData, Component mono,
 				bool UseInstance = false)
