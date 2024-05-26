@@ -22,6 +22,8 @@ namespace MapSaver
 		//TODO Process if sub References are reference for Client ???
 
 
+		//TODO Cleanup code
+		//TODO buggy selections When swapping
 		//TODO Support ACUs silly gas dictionary
 
 		public static void ProcessorGitFriendlyTiles(MatrixInfo Matrix, Vector3Int Offset00, Vector3Int Offset,

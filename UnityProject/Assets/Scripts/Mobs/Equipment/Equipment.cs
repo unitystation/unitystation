@@ -171,21 +171,30 @@ public class Equipment : NetworkBehaviour
 	/// <returns>Unknown if an identity couldn't be found.</returns>
 	public string GetPlayerNameByEquipment()
 	{
-		var clearanceObject = ClearanceRestricted.GrabClearanceObject(script.gameObject);
-		if (clearanceObject == null)
+		string HighestIdentity = "Unknown";
+		bool? isPDA = null;
+
+		var clearanceObjects = ClearanceRestricted.GrabClearanceObject(script.gameObject);
+		foreach (var clearanceObject in clearanceObjects)
 		{
-			return "Unknown";
+			if (clearanceObject == null)
+			{
+				HighestIdentity = "Unknown";
+				continue;
+			}
+			if (clearanceObject.TryGetComponent<IDCard>(out var card))
+			{
+				HighestIdentity = card.RegisteredName;
+				return HighestIdentity;
+			}
+			else if (clearanceObject.TryGetComponent<PDALogic>(out var pda))
+			{
+				HighestIdentity = pda.RegisteredPlayerName;
+			}
 		}
-		var playerName = "Unknown";
-		if (clearanceObject.TryGetComponent<IDCard>(out var card))
-		{
-			playerName = card.RegisteredName;
-		}
-		else if (clearanceObject.TryGetComponent<PDALogic>(out var pda))
-		{
-			playerName = pda.RegisteredPlayerName;
-		}
-		return playerName;
+
+
+		return HighestIdentity;
 	}
 
 	#endregion Identity
