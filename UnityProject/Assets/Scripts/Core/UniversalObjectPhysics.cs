@@ -98,8 +98,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	private float localTileMoveSpeedOverride = 0;
 
 	[SyncVar]
-	private float
-		networkedTileMoveSpeedOverride = 0; //TODO Potential Desynchronisation issues, Probably should have a who caused
+	private float networkedTileMoveSpeedOverride = 0; //TODO Potential Desynchronisation issues, Probably should have a who caused
 
 	[SyncVar] public float tileMoveSpeed = 1;
 	[SyncVar] private uint parentContainer;
@@ -169,16 +168,16 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			if (localTileMoveSpeedOverride != 0)
 			{
-				return localTileMoveSpeedOverride;
+				return  Mathf.Max(0.25f, localTileMoveSpeedOverride) ;
 			}
 
 			if (networkedTileMoveSpeedOverride != 0)
 			{
-				return networkedTileMoveSpeedOverride;
+				return  Mathf.Max(0.25f, networkedTileMoveSpeedOverride);
 			}
 			else
 			{
-				return tileMoveSpeed;
+				return  Mathf.Max(0.25f, tileMoveSpeed);
 			}
 		}
 	}
