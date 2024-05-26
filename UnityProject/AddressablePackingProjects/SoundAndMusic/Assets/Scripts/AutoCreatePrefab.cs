@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.IO;
+
 #if UNITY_EDITOR
 public class AutoCreatePrefab : EditorWindow
 {
@@ -40,6 +42,12 @@ public class AutoCreatePrefab : EditorWindow
 	    {
 		    DuplicateAndReplace();
 	    }
+
+	    if (GUILayout.Button("Find and Create Prefabs for All Audio Clips"))
+	    {
+		    FindAndCreatePrefabsForAllAudioClips();
+	    }
+
 	    HandleDragAndDrop();
     }
 
@@ -141,5 +149,78 @@ public class AutoCreatePrefab : EditorWindow
 		    savePath = newSavePath + "/";
 	    }
     }
+
+    private void CreatePrefabForAudioClip(AudioClip audioClip, string baseSavePath)
+    {
+	    GameObject duplicatedPrefab = PrefabUtility.InstantiatePrefab(prefabToDuplicate) as GameObject;
+	    if (duplicatedPrefab != null)
+	    {
+		    AudioSource audioSource = duplicatedPrefab.GetComponent<AudioSource>();
+		    if (audioSource != null)
+		    {
+			    audioSource.clip = audioClip;
+		    }
+		    else
+		    {
+			    Debug.LogWarning("AudioSource component not found on duplicated prefab!");
+		    }
+
+		    string relativePath = AssetDatabase.GetAssetPath(audioClip);
+		    string directoryPath = Path.GetDirectoryName(relativePath)?.Replace("Audio Files", baseSavePath);
+
+		    if (!Directory.Exists(directoryPath))
+		    {
+			    Directory.CreateDirectory(directoryPath);
+		    }
+
+		    string prefabName = Path.GetFileNameWithoutExtension(audioClip.name) + ".prefab";
+		    string pathToSave = Path.Combine(directoryPath, prefabName);
+		    PrefabUtility.SaveAsPrefabAsset(duplicatedPrefab, pathToSave);
+		    DestroyImmediate(duplicatedPrefab);
+		    Debug.Log("Prefab duplicated and saved at: " + pathToSave);
+	    }
+	    else
+	    {
+		    Debug.LogError("Failed to duplicate prefab!");
+	    }
+    }
+
+    private void FindAndCreatePrefabsForAllAudioClips()
+    {
+	    if (prefabToDuplicate == null)
+	    {
+		    Debug.LogError("Prefab to duplicate is not selected!");
+		    return;
+	    }
+
+	    string[] audioClipGUIDs = AssetDatabase.FindAssets("t:AudioClip");
+	    foreach (string guid in audioClipGUIDs)
+	    {
+		    string path = AssetDatabase.GUIDToAssetPath(guid);
+		    AudioClip audioClip = AssetDatabase.LoadAssetAtPath<AudioClip>(path);
+		    if (audioClip == null) continue;
+		    if (PrefabAlreadyExistsForAudioFile(audioClip.name) == false)
+		    {
+			    CreatePrefabForAudioClip(audioClip, "Prefabs/");
+		    }
+		    else
+		    {
+			    Debug.Log($"Prefab already exists for {audioClip.name}.. Skipping..");
+		    }
+	    }
+    }
+
+    private bool PrefabAlreadyExistsForAudioFile(string audioClip)
+    {
+	    string[] prefabGUIDs = AssetDatabase.FindAssets(audioClip + " t:Prefab");
+	    foreach (string prefabGuid in prefabGUIDs)
+	    {
+		    string prefabPath = AssetDatabase.GUIDToAssetPath(prefabGuid);
+		    if (Path.GetFileNameWithoutExtension(prefabPath) != audioClip) continue;
+		    return true;
+	    }
+	    return false;
+    }
+
 }
 #endif

@@ -1,10 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-using UnityEngine.SceneManagement;
-using System;
-using Chemistry;
 using Core.Editor.Attributes;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems;
@@ -49,12 +44,12 @@ public class RaceHealthData
 
 	public GameObject MeatProduce;
 	public GameObject SkinProduce;
+	public ItemTrait SkinningItemTrait;
 	[FormerlySerializedAs("CanShowUpInTheCharacterCreatorScreen")] public bool CanBePlayerChosen = true;
 
 	public SpriteDataSO PreviewSprite;
 
 	[SerializeReference, SelectImplementation(typeof(HealthSystemBase))] public List<HealthSystemBase> SystemSettings = new List<HealthSystemBase>();
-
 }
 
 

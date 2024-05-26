@@ -64,6 +64,8 @@ MonoBehaviour:
       type: 3}
     SkinProduce: {fileID: 6495706577167429729, guid: d8939ebf8b82f5e4cbb20bfbead306c1,
       type: 3}
+    SkinningItemTrait: {fileID: 11400000, guid: 4fd46b7ca0066174bb16d0435eef3baa,
+      type: 2}
     CanBePlayerChosen: 0
     PreviewSprite: {fileID: 11400000, guid: 1496a006616a3674db8a141e28d71e33, type: 2}
     SystemSettings:
@@ -85,3 +87,10 @@ MonoBehaviour:
         NormalBlood: 500
         bloodReagent: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
         PumpingDevices: []
+        RegenBloodPool:
+          temperature: 273.15
+          reagents:
+            m_keys: []
+            m_values: []
+          reagentKeys: []
+        RegenEfficiency: 0.15

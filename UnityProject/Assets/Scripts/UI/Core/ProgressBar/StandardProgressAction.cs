@@ -1,4 +1,3 @@
-
 using System;
 using System.Linq;
 using Logs;
@@ -27,8 +26,6 @@ public class StandardProgressAction : IProgressAction
 {
 
 	private readonly StandardProgressActionConfig progressActionConfig;
-
-
 
 	//invoked on successful completion
 	private readonly Action onCompletion;

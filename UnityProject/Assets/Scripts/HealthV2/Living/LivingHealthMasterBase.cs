@@ -18,10 +18,8 @@ using HealthV2.Living.PolymorphicSystems;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Items.Implants.Organs;
 using JetBrains.Annotations;
-using Logs;
 using NaughtyAttributes;
 using Player;
-using Newtonsoft.Json;
 using ScriptableObjects.RP;
 using Systems.Construction.Parts;
 using Systems.Score;
@@ -39,7 +37,7 @@ namespace HealthV2
 	/// </Summary>
 	[RequireComponent(typeof(HealthStateController))]
 	[RequireComponent(typeof(MobSickness))]
-	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable, IGib,
+	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable,
 		IAreaReactionBase, IRightClickable, IServerSpawn, IHoverTooltip, IChargeable
 	{
 		public bool DoesNotRequireBrain = false;
@@ -324,6 +322,9 @@ namespace HealthV2
 
 		[NonSerialized] public PlayerHealthData InitialSpecies = null;
 
+
+		private IGib gibBehavior;
+
 		//Default is mute yes
 
 		public bool HasCoreBodyPart()
@@ -356,6 +357,7 @@ namespace HealthV2
 			BodyAlertManager = GetComponent<BodyAlertManager>();
 			//Needs to be in awake so the mobId is set before mind transfer (OnSpawnServer happens after that so cannot be used)
 			mobID = PlayerManager.Instance.GetMobID();
+			gibBehavior = GetComponent<IGib>();
 			ComponentsTracker<LivingHealthMasterBase>.Instances.Add(this);
 		}
 
@@ -1569,36 +1571,7 @@ namespace HealthV2
 		[Server]
 		public virtual void OnGib()
 		{
-			_ = SoundManager.PlayAtPosition(CommonSounds.Instance.Slip, gameObject.transform.position,
-				gameObject); //TODO: replace with gibbing noise
-
-			reagentPoolSystem?.Bleed(reagentPoolSystem.GetTotalBlood());
-
-			SpawnSpeciesProduce(3);
-
-			Death();
-			for (int i = BodyPartList.Count - 1; i >= 0; i--)
-			{
-				if (BodyPartList[i].BodyPartType == BodyPartType.Chest) continue;
-				BodyPartList[i].TryRemoveFromBody(true, PreventGibb_Death: true);
-			}
-		}
-
-		public void SpawnSpeciesProduce(int maximumProduce)
-		{
-			if (InitialSpecies == null) return;
-			if (InitialSpecies.Base.MeatProduce != null)
-			{
-				Spawn.ServerPrefab(InitialSpecies.Base.MeatProduce,
-					gameObject.AssumedWorldPosServer(), count: Random.Range(1, maximumProduce),
-					scatterRadius: 0.5f);
-			}
-			if (InitialSpecies.Base.SkinProduce != null)
-			{
-				Spawn.ServerPrefab(InitialSpecies.Base.SkinProduce,
-					gameObject.AssumedWorldPosServer(), count: Random.Range(1, maximumProduce),
-					scatterRadius: 0.5f);
-			}
+			gibBehavior.OnGib();
 		}
 
 		public void DismemberBodyPart(BodyPart bodyPart)

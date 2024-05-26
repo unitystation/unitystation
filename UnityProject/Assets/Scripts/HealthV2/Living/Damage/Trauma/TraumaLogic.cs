@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using AddressableReferences;
 using Logs;
 using UnityEngine;
 
@@ -10,6 +12,9 @@ namespace HealthV2
 
 		[SerializeField] protected float deadlyDamageInOneHit = 55f;
 		[SerializeField] protected BodyPart bodyPart;
+
+		[SerializeField] protected List<AddressableAudioSource> onTakeDamageSounds = new List<AddressableAudioSource>();
+		[SerializeField] protected bool playTraumaNoise = false;
 
 		protected int currentStage = 0;
 		public int CurrentStage => currentStage;
@@ -39,7 +44,14 @@ namespace HealthV2
 		{
 			if ( bodyPart.HealthMaster == null ) return;
 			if ( DMMath.Prob(data.TraumaDamageChance) == false ) return;
+			if ( onTakeDamageSounds.Count != 0 ) PlayAudio();
 			if ( data.DamageAmount >= deadlyDamageInOneHit ) ProgressDeadlyEffect();
+		}
+
+		protected void PlayAudio()
+		{
+			if (DMMath.Prob(50)) return;
+			SoundManager.PlayNetworkedAtPos(onTakeDamageSounds.GetRandom(), gameObject.AssumedWorldPosServer());
 		}
 
 		/// <summary>
