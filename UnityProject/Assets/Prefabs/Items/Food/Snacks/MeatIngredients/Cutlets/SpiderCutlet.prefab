@@ -212,6 +212,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
         type: 3}
+      propertyPath: relatedRecipes.Array.data[4].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
       propertyPath: relatedRecipes.Array.data[5].ingredientIndex
       value: 2
       objectReference: {fileID: 0}

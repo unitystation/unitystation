@@ -674,10 +674,17 @@ namespace Core.Editor.Tools
 
 			foreach (GameObject child in parentsAndChilds[requiredIngredient])
 			{
-				if (checkingRecipe.Result.Contains(child) == false)
+				if (child.GetComponent<CraftingIngredient>() != null)
 				{
-					CheckAndFixCraftingCrossLinks(checkingRecipe, indexInRecipe, child, parentsAndChilds);
+					var inggredient = child.GetComponent<CraftingIngredient>();
+					if (inggredient.InheritParentsRecipes == false)
+					{
+						continue;
+					}
 				}
+
+				CheckAndFixCraftingCrossLinks(checkingRecipe, indexInRecipe, child, parentsAndChilds);
+
 			}
 		}
 	}

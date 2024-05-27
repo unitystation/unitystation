@@ -13,6 +13,9 @@ namespace Systems.CraftingV2
 	public class CraftingIngredient : MonoBehaviour, ICheckedInteractable<HandApply>,  ICheckedInteractable<InventoryApply>
 	{
 
+		[SerializeField] [Tooltip("Should this inherit the prefab parents recipes, good example of when you want to turn this off, As with potato wedges since they inherit from potatoes, you can't make potato wedges from potato wedges")]
+		public bool InheritParentsRecipes = true;
+
 		[SerializeField, ReadOnly] [Tooltip("Automated field - don't try to change it manually. " +
 		                                    "Has the crafting ingredient simple recipe in its relatedRecipes list?")]
 		private bool hasSimpleRelatedRecipe;
