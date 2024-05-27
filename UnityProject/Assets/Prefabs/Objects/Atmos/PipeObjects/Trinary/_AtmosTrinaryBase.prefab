@@ -105,7 +105,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1001 &6058189371656200468
 PrefabInstance:
@@ -144,7 +144,7 @@ PrefabInstance:
     - target: {fileID: 3431779693841004074, guid: 48ba0ba8fbfe6f849ac4809f7dbfed89,
         type: 3}
       propertyPath: variantIndex
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3431779693841004074, guid: 48ba0ba8fbfe6f849ac4809f7dbfed89,
         type: 3}
@@ -169,10 +169,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397289304270860350, guid: 48ba0ba8fbfe6f849ac4809f7dbfed89,
         type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4397289304270860350, guid: 48ba0ba8fbfe6f849ac4809f7dbfed89,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4397289304270860350, guid: 48ba0ba8fbfe6f849ac4809f7dbfed89,
+        type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300006, guid: b0acb51e1d67bac48a3d15a157fef8bb,
         type: 3}
+    - target: {fileID: 4397289304270860350, guid: 48ba0ba8fbfe6f849ac4809f7dbfed89,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4749535366278089535, guid: 48ba0ba8fbfe6f849ac4809f7dbfed89,
         type: 3}
       propertyPath: m_RootOrder

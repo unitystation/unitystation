@@ -413,7 +413,7 @@ public class SpriteHandler : MonoBehaviour
 	}
 
 	//Used for VV So VV can trigger sprites
-	[VVNote(VVHighlight.SafeToModify100)]
+	[VVNote(VVHighlight.SafeToModify100), NaughtyAttributes.Button]
 	public void PushTextureWithNetworking()
 	{
 		PushTexture(true);
