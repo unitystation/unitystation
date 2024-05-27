@@ -99,6 +99,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A small carton, intended for holding drinks.
       objectReference: {fileID: 0}
+    - target: {fileID: 1146808799048469911, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1822638479480687849, guid: 40c34e56c622eb749908c4cf23b4778f,
         type: 3}
       propertyPath: maxCapacity

@@ -106,7 +106,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1001 &8783827724552596289
 PrefabInstance:
@@ -342,9 +342,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  integrity: {fileID: 0}
   CookTime: 15
   CookedProduct: {fileID: 0}
   CookableBy: 2
+  OnCooked:
+    m_PersistentCalls:
+      m_Calls: []
+  minimumDamage: 2
+  cookingByDamageType: 1
+  cookingByAttackType: 6
 --- !u!4 &8788344772610484879 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,

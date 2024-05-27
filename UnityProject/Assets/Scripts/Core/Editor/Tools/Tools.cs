@@ -588,6 +588,34 @@ namespace Core.Editor.Tools
 			}
 		}
 
+		[MenuItem("Tools/Crafting/ClearAllCraftingCrossLinks!")]
+		private static void ClearAllCraftingCrossLinks()
+		{
+			string[] recipeGuids = AssetDatabase.FindAssets("t:CraftingRecipe");
+
+			if (recipeGuids.Length == 0)
+			{
+				return;
+			}
+
+			foreach (string recipeGuid in recipeGuids)
+			{
+				CraftingRecipe recipe = AssetDatabase.LoadAssetAtPath<CraftingRecipe>(
+					AssetDatabase.GUIDToAssetPath(recipeGuid)
+				);
+				for (int i = 0; i < recipe.RequiredIngredients.Count; i++)
+				{
+					recipe.RequiredIngredients[i].RequiredItem.GetComponent<CraftingIngredient>().RelatedRecipes.Clear();
+					PrefabUtility.SavePrefabAsset(recipe.RequiredIngredients[i].RequiredItem);
+				}
+				for (int i = 0; i < recipe.Result.Count; i++)
+				{
+					recipe.Result[i].GetComponent<CraftingIngredient>()?.RelatedRecipes?.Clear();
+					PrefabUtility.SavePrefabAsset(recipe.Result[i]);
+				}
+			}
+		}
+
 		/// <summary>
 		/// 	Checks and fixes cross links of the ingredient-object and all its heirs recursively.
 		/// </summary>
@@ -646,7 +674,10 @@ namespace Core.Editor.Tools
 
 			foreach (GameObject child in parentsAndChilds[requiredIngredient])
 			{
-				CheckAndFixCraftingCrossLinks(checkingRecipe, indexInRecipe, child, parentsAndChilds);
+				if (checkingRecipe.Result.Contains(child) == false)
+				{
+					CheckAndFixCraftingCrossLinks(checkingRecipe, indexInRecipe, child, parentsAndChilds);
+				}
 			}
 		}
 	}

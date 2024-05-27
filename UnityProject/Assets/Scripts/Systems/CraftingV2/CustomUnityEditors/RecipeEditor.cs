@@ -277,11 +277,8 @@ namespace Systems.CraftingV2.CustomUnityEditors
 				{
 					continue;
 				}
-				if (
-					recipe.RequiredIngredients[i].RequiredItem.gameObject.TryGetComponent(
-						out CraftingIngredient craftingIngredient
-					)
-				)
+				if (recipe.RequiredIngredients[i].RequiredItem.gameObject.TryGetComponent(
+						out CraftingIngredient craftingIngredient))
 				{
 					craftingIngredient.RelatedRecipes.Add(new RelatedRecipe(recipe, i));
 					if (updateHasSimpleRelatedRecipe)
