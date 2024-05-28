@@ -43,9 +43,21 @@ namespace Systems.Storage
 				var slots = toPopulate.GetNamedItemSlots(entry.NamedSlot);
 				if (slots.Count == 0)
 				{
-					Loggy.LogTraceFormat("Skipping populating slot {0} because it doesn't exist in this itemstorage {1}.",
-						Category.EntitySpawn, entry.NamedSlot, toPopulate.name);
-					continue;
+					for (int i = 0; i < entry.AlternativeNamedSlots.Count; i++)
+					{
+						slots = toPopulate.GetNamedItemSlots(entry.AlternativeNamedSlots[i]);
+						if (slots.Count > 0)
+						{
+							break;
+						}
+					}
+
+					if (slots.Count == 0)
+					{
+						Loggy.LogTraceFormat("Skipping populating slot {0} because it doesn't exist in this itemstorage {1}.",
+							Category.EntitySpawn, entry.NamedSlot, toPopulate.name);
+						continue;
+					}
 				}
 
 				if (entry.Prefab == null)
@@ -134,6 +146,17 @@ namespace Systems.Storage
 					else
 					{
 						ItemSlot = ItemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
+						if (ItemSlot == null)
+						{
+							for (int i = 0; i < namedSlotPopulatorEntry.AlternativeNamedSlots.Count; i++)
+							{
+								ItemSlot = ItemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.AlternativeNamedSlots[i]);
+								if (ItemSlot != null)
+								{
+									break;
+								}
+							}
+						}
 					}
 
 					if (ItemSlot.Item != null && namedSlotPopulatorEntry.IfOccupiedFindEmptySlot)
@@ -186,6 +209,8 @@ namespace Systems.Storage
 		[Tooltip("Named slot being populated. A NamedSlot should not appear" +
 		                                         " more than once in these entries.")]
 		public NamedSlot NamedSlot = NamedSlot.none;
+
+		public List<NamedSlot> AlternativeNamedSlots = new List<NamedSlot>();
 
 		[HorizontalLine]
 
