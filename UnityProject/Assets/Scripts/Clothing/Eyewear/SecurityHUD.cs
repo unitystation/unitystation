@@ -73,7 +73,7 @@ public class SecurityHUD : NetworkBehaviour, IHUD
 		StatusIcon NewStatusIcon = StatusIcon.None;
 
 		//Magic
-		if (CrewManifestManager.Instance.NameLookUpSecurityRecords.ContainsKey(name))
+		if (string.IsNullOrEmpty(name) == false && CrewManifestManager.Instance.NameLookUpSecurityRecords.ContainsKey(name))
 		{
 			var Listy = CrewManifestManager.Instance.NameLookUpSecurityRecords[name];
 			foreach (var Record in Listy)

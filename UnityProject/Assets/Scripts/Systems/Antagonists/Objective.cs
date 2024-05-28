@@ -169,7 +169,7 @@ namespace Antagonists
 		/// </summary>
 		protected virtual void SetupInGame()
 		{
-			
+
 		}
 
 		/// <summary>

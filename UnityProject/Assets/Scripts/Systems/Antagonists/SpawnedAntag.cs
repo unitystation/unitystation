@@ -74,11 +74,25 @@ namespace Antagonists
 			return this;
 		}
 
+
+		public Objective AddObjective( Objective NonInstanceObjective)
+		{
+			var NewObjective = Instantiate(NonInstanceObjective);
+			NonInstanceObjective.DoSetupInGame(curOwner);
+
+			Objectives = Objectives.Concat(new[] { NewObjective });
+			return NewObjective;
+		}
+
 		/// <summary>
 		/// Clears antag objectives and other stuff
 		/// </summary>
 		public void Clear()
 		{
+			foreach (var objective in Objectives)
+			{
+				Destroy(objective);
+			}
 			Objectives = new List<Objective>();
 			IsAntagCanSeeObjectivesStatus = false;
 			curAntagonist = null;
@@ -185,6 +199,14 @@ namespace Antagonists
 		{
 			var message = $"{Owner.OrNull()?.Body.OrNull()?.playerName}, {Owner.OrNull()?.occupation.OrNull()?.DisplayName}\n";
 			return message;
+		}
+
+		public void OnDestroy()
+		{
+			foreach (var Objective in Objectives)
+			{
+				Destroy(Objective);
+			}
 		}
 	}
 }
