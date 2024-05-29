@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Items.Tool
 {
-	public class AdvancedLightReplacer : NetworkBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<HandApply>, IHoverTooltip
+	public class AdvancedLightReplacer : NetworkBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<HandApply>, IHoverTooltip, ICheckedInteractable<InventoryApply>
 	{
 		private bool lightTuner = false;
 		[SyncVar, SerializeField] private Color currentColor;
@@ -22,6 +22,33 @@ namespace Items.Tool
 		{
 			if (storage == null) storage = GetComponent<ItemStorage>();
 		}
+
+
+		public void ServerPerformInteraction(InventoryApply interaction)
+		{
+			storage.ServerTryTransferFrom(interaction.FromSlot);
+			Chat.AddActionMsgToChat(interaction.Performer,
+				$"You watch as the tool automatically pulls out a mechanical arm that slots in the {interaction.TargetObject.ExpensiveName()}",
+				$"{interaction.PerformerPlayerScript.visibleName} slots in the {interaction.TargetObject.ExpensiveName()} using the {gameObject.ExpensiveName()}.");
+			return;
+		}
+
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			if (interaction.TargetObject != this.gameObject) return false;
+
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.LightBulb) ||
+			    Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.LightTube))
+			{
+				return true;
+			}
+
+			return false;
+
+		}
+
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
