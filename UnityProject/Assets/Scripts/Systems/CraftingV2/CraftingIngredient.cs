@@ -61,18 +61,22 @@ namespace Systems.CraftingV2
 				possibleTools.Add(otherPossibleTool);
 			}
 
+
+
 			foreach (RelatedRecipe relatedRecipe in relatedRecipes)
 			{
 				if (relatedRecipe.Recipe.IsSimple == false)
 				{
 					continue;
 				}
+				string Reason = "";
 				if (side == NetworkSide.Client)
 				{
 					if (interaction.PerformerPlayerScript.PlayerCrafting.CanClientCraft(
 						    relatedRecipe.Recipe,
 						    possibleIngredients,
-						    possibleTools
+						    possibleTools,
+						    ref Reason
 					    ) == CraftingStatus.AllGood
 					   )
 					{
@@ -85,7 +89,8 @@ namespace Systems.CraftingV2
 						    relatedRecipe.Recipe,
 						    possibleIngredients,
 						    possibleTools,
-						    new List<ReagentContainer>()
+						    new List<ReagentContainer>(),
+						    ref Reason
 					    ) == CraftingStatus.AllGood
 					   )
 					{

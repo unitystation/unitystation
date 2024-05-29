@@ -153,20 +153,21 @@ namespace Systems.CraftingV2
 		public CraftingStatus CanBeCrafted(
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools,
-			List<ReagentContainer> reagentContainers
+			List<ReagentContainer> reagentContainers,
+			ref string ReasonString
 		)
 		{
-			if (CheckPossibleIngredients(possibleIngredients) == false)
+			if (CheckPossibleIngredients(possibleIngredients, ref ReasonString) == false)
 			{
 				return CraftingStatus.NotEnoughIngredients;
 			}
 
-			if (CheckPossibleTools(possibleTools) == false)
+			if (CheckPossibleTools(possibleTools, ref ReasonString) == false)
 			{
 				return CraftingStatus.NotEnoughTools;
 			}
 
-			if (CheckPossibleReagents(reagentContainers) == false)
+			if (CheckPossibleReagents(reagentContainers, ref ReasonString) == false)
 			{
 				return CraftingStatus.NotEnoughReagents;
 			}
@@ -189,15 +190,16 @@ namespace Systems.CraftingV2
 		public CraftingStatus CanBeCrafted(
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools,
-			List<KeyValuePair<int, float>> reagents
+			List<KeyValuePair<int, float>> reagents,
+			ref string ReasonString
 		)
 		{
-			if (CheckPossibleIngredients(possibleIngredients) == false)
+			if (CheckPossibleIngredients(possibleIngredients, ref ReasonString) == false)
 			{
 				return CraftingStatus.NotEnoughIngredients;
 			}
 
-			if (CheckPossibleTools(possibleTools) == false)
+			if (CheckPossibleTools(possibleTools, ref ReasonString) == false)
 			{
 				return CraftingStatus.NotEnoughTools;
 			}
@@ -212,15 +214,16 @@ namespace Systems.CraftingV2
 
 		public CraftingStatus CanBeCraftedIgnoringReagents(
 			List<CraftingIngredient> possibleIngredients,
-			List<ItemAttributesV2> possibleTools
+			List<ItemAttributesV2> possibleTools,
+			ref string Reason
 		)
 		{
-			if (CheckPossibleIngredients(possibleIngredients) == false)
+			if (CheckPossibleIngredients(possibleIngredients, ref Reason) == false)
 			{
 				return CraftingStatus.NotEnoughIngredients;
 			}
 
-			if (CheckPossibleTools(possibleTools) == false)
+			if (CheckPossibleTools(possibleTools, ref Reason) == false)
 			{
 				return CraftingStatus.NotEnoughTools;
 			}
@@ -233,7 +236,7 @@ namespace Systems.CraftingV2
 		/// </summary>
 		/// <param name="reagentContainers">The reagent containers that might be used for crafting.</param>
 		/// <returns>True if there are enough reagents for crafting, false otherwise.</returns>
-		public bool CheckPossibleReagents(List<ReagentContainer> reagentContainers)
+		public bool CheckPossibleReagents(List<ReagentContainer> reagentContainers, ref string ReasonString)
 		{
 			foreach (RecipeIngredientReagent requiredReagent in requiredReagents)
 			{
@@ -245,6 +248,7 @@ namespace Systems.CraftingV2
 
 				if (foundAmount < requiredReagent.RequiredAmount)
 				{
+					ReasonString += $", Not enough of {requiredReagent} Amount found {foundAmount} ";
 					return false;
 				}
 			}
@@ -286,7 +290,7 @@ namespace Systems.CraftingV2
 		/// </summary>
 		/// <param name="possibleTools">Tools that might be used for crafting.</param>
 		/// <returns>True if there are enough tools for crafting, false otherwise.</returns>
-		public bool CheckPossibleTools(List<ItemAttributesV2> possibleTools)
+		public bool CheckPossibleTools(List<ItemAttributesV2> possibleTools, ref string ReasonString)
 		{
 			foreach (ItemTrait itemTrait in requiredToolTraits)
 			{
@@ -300,6 +304,7 @@ namespace Systems.CraftingV2
 
 				if (foundRequiredToolTrait == false)
 				{
+					ReasonString += $", was unable to find tool {itemTrait.name}";
 					return false;
 				}
 			}
@@ -312,7 +317,7 @@ namespace Systems.CraftingV2
 		/// </summary>
 		/// <param name="possibleIngredients">Ingredients that might be used for crafting.</param>
 		/// <returns>True if there are enough ingredients for crafting, false otherwise.</returns>
-		public bool CheckPossibleIngredients(List<CraftingIngredient> possibleIngredients)
+		public bool CheckPossibleIngredients(List<CraftingIngredient> possibleIngredients, ref string Reason)
 		{
 			for (int reqIngIndex = 0; reqIngIndex < RequiredIngredients.Count; reqIngIndex++)
 			{
@@ -361,6 +366,7 @@ namespace Systems.CraftingV2
 				// did we looked through all the possibleIngredients, but did not find enough necessary ones?
 				if (countedAmount != RequiredIngredients[reqIngIndex].RequiredAmount)
 				{
+					Reason += $" Wasn't able to find enough of {RequiredIngredients[reqIngIndex].RequiredItem.name} ";
 					// yes, so crafting according to the recipe is impossible
 					return false;
 				}
@@ -383,7 +389,8 @@ namespace Systems.CraftingV2
 			List<ReagentContainer> reagentContainers
 		)
 		{
-			if (CanBeCrafted(possibleIngredients, possibleTools, reagentContainers) != CraftingStatus.AllGood)
+			var ReasonString = "";
+			if (CanBeCrafted(possibleIngredients, possibleTools, reagentContainers, ref ReasonString) != CraftingStatus.AllGood)
 			{
 				return;
 			}
