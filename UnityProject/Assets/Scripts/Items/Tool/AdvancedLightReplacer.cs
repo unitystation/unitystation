@@ -16,6 +16,8 @@ namespace Items.Tool
 		[SyncVar, SerializeField] private Color currentColor;
 		[SerializeField] private ItemStorage storage;
 
+		[SerializeField] public bool IsAdvanced = true;
+
 		private void Awake()
 		{
 			if (storage == null) storage = GetComponent<ItemStorage>();
@@ -23,6 +25,7 @@ namespace Items.Tool
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
+			if (IsAdvanced == false) return;
 			if (lightTuner && interaction.IsAltClick)
 			{
 				LightTunerWindowOpen(interaction.PerformerPlayerScript.netIdentity.connectionToClient);
@@ -35,12 +38,14 @@ namespace Items.Tool
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
+
 			if (gameObject.PickupableOrNull()?.ItemSlot == null) return false;
 			return interaction.TargetObject != null && DefaultWillInteract.Default(interaction, side);
 		}
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
+			if (IsAdvanced == false) return false;
 			return DefaultWillInteract.Default(interaction, side);
 		}
 
@@ -91,6 +96,7 @@ namespace Items.Tool
 		[Command(requiresAuthority = false)]
 		private void SetColorToTune(Color newColor, NetworkConnectionToClient sender = null)
 		{
+			if (IsAdvanced == false) return;
 			if (sender == null) return;
 			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
 			if (gameObject.PickupableOrNull().ItemSlot == null) return;
