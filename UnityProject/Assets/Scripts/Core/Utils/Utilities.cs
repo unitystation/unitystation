@@ -68,6 +68,16 @@ namespace Core.Utils
 			return  $"#{ColorUtility.ToHtmlStringRGBA(color)}";
 		}
 
+		public static float RoundToArbitrary(this float ValuedRound, float RoundBy)
+		{
+			if (RoundBy == 0)
+			{
+				throw new ArgumentException("Rounding value cannot be zero.", nameof(RoundBy));
+			}
+
+			return (float)(Math.Round(ValuedRound / RoundBy) * RoundBy);
+		}
+
 	}
 
 	#if UNITY_EDITOR
