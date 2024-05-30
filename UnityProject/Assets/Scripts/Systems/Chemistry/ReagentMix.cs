@@ -579,10 +579,10 @@ namespace Chemistry
 				return new ReagentMix();
 			}
 
-			if (float.IsNormal(amount) == false)
+			if (float.IsNegativeInfinity(amount) || float.IsNaN(amount)  || float.IsPositiveInfinity(amount))
 			{
 				Loggy.LogError($"Trying to Take {amount}", Category.Chemistry);
-				return new ReagentMix();;
+				return new ReagentMix();
 			}
 
 			var taken = new ReagentMix();

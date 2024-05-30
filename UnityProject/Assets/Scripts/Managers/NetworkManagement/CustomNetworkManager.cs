@@ -86,6 +86,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public void ReceiveMattOverrides(MapSaver.MapSaver.CompactObjectMapData data, bool DoStraightaway)
 	{
+		if (data == null) return;
 		foreach (var PD in data.PrefabData)
 		{
 			PrePayload[data.IDToNetIDClient[PD.GitID]] = PD;

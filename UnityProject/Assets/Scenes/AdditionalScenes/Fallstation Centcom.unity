@@ -16419,6 +16419,105 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 294218644}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &294372182
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1273785515}
+    m_Modifications:
+    - target: {fileID: 2704372773739415877, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: sceneId
+      value: 2137671821
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: CurrentDirection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: SelfPowered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: pipeData.SelfSufficient
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5789955113622535207, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_Name
+      value: Plasma Thruster (5)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9bda2d5647088c74392285230ba38474, type: 3}
+--- !u!4 &294372183 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+    type: 3}
+  m_PrefabInstance: {fileID: 294372182}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &304837588
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27269,6 +27368,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
+      propertyPath: ThrusterMultiplier
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
       propertyPath: pipeData.SelfSufficient
       value: 1
       objectReference: {fileID: 0}
@@ -28416,6 +28520,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 753188714}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &760754267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a18ed50c2381e55498365c3cf9b34433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &763444381
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29693,6 +29809,110 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7720165483630928142, guid: 91aad833277815d498e0686d9fc85bed,
     type: 3}
   m_PrefabInstance: {fileID: 789402356}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &792701872
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1273785515}
+    m_Modifications:
+    - target: {fileID: 2704372773739415877, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: sceneId
+      value: 3111030825
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: CurrentDirection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: SelfPowered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: pipeData.SelfSufficient
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: ThisThrusterDirectionClassification
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5789955113622535207, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_Name
+      value: Plasma Thruster (7)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9bda2d5647088c74392285230ba38474, type: 3}
+--- !u!4 &792701873 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+    type: 3}
+  m_PrefabInstance: {fileID: 792701872}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &794501559
 PrefabInstance:
@@ -37251,6 +37471,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
+      propertyPath: ThrusterMultiplier
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
       propertyPath: pipeData.SelfSufficient
       value: 1
       objectReference: {fileID: 0}
@@ -41609,6 +41834,9 @@ Transform:
   - {fileID: 1632191125}
   - {fileID: 1127570763}
   - {fileID: 601343241}
+  - {fileID: 294372183}
+  - {fileID: 1416336896}
+  - {fileID: 792701873}
   - {fileID: 1477552032}
   - {fileID: 1161971032}
   m_Father: {fileID: 547718485}
@@ -44566,6 +44794,110 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1489681963208858109, guid: 91d832be818283a4188516804e8d5ef0,
     type: 3}
   m_PrefabInstance: {fileID: 1415621968}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1416336895
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1273785515}
+    m_Modifications:
+    - target: {fileID: 2704372773739415877, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: sceneId
+      value: 2582395501
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: CurrentDirection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: SelfPowered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: pipeData.SelfSufficient
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: ThisThrusterDirectionClassification
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5789955113622535207, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_Name
+      value: Plasma Thruster (6)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9bda2d5647088c74392285230ba38474, type: 3}
+--- !u!4 &1416336896 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+    type: 3}
+  m_PrefabInstance: {fileID: 1416336895}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1416927610
 PrefabInstance:
@@ -50989,6 +51321,11 @@ PrefabInstance:
         type: 3}
       propertyPath: SelfPowered
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: ThrusterMultiplier
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
@@ -66648,6 +66985,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2132343301}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2137554027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1f2bad5f99f9f54da626bf73a043ac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2138426674
 PrefabInstance:
   m_ObjectHideFlags: 0

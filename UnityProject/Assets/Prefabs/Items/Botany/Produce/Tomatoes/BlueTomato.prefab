@@ -27,7 +27,7 @@ PrefabInstance:
     - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 30
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
@@ -37,8 +37,19 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
+      propertyPath: relatedRecipes.Array.data[30].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 50b34b4129af2c64788ccc6f359eaff0,
+        type: 2}
+    - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
       propertyPath: relatedRecipes.Array.data[18].ingredientIndex
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[30].ingredientIndex
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 333905541421504412, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}

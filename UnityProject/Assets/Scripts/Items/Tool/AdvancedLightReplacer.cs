@@ -10,19 +10,49 @@ using UnityEngine;
 
 namespace Items.Tool
 {
-	public class AdvancedLightReplacer : NetworkBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<HandApply>, IHoverTooltip
+	public class AdvancedLightReplacer : NetworkBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<HandApply>, IHoverTooltip, ICheckedInteractable<InventoryApply>
 	{
 		private bool lightTuner = false;
 		[SyncVar, SerializeField] private Color currentColor;
 		[SerializeField] private ItemStorage storage;
+
+		[SerializeField] public bool IsAdvanced = true;
 
 		private void Awake()
 		{
 			if (storage == null) storage = GetComponent<ItemStorage>();
 		}
 
+
+		public void ServerPerformInteraction(InventoryApply interaction)
+		{
+			storage.ServerTryTransferFrom(interaction.FromSlot);
+			Chat.AddActionMsgToChat(interaction.Performer,
+				$"You watch as the tool automatically pulls out a mechanical arm that slots in the {interaction.TargetObject.ExpensiveName()}",
+				$"{interaction.PerformerPlayerScript.visibleName} slots in the {interaction.TargetObject.ExpensiveName()} using the {gameObject.ExpensiveName()}.");
+			return;
+		}
+
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			if (interaction.TargetObject != this.gameObject) return false;
+
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.LightBulb) ||
+			    Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.LightTube))
+			{
+				return true;
+			}
+
+			return false;
+
+		}
+
+
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
+			if (IsAdvanced == false) return;
 			if (lightTuner && interaction.IsAltClick)
 			{
 				LightTunerWindowOpen(interaction.PerformerPlayerScript.netIdentity.connectionToClient);
@@ -35,12 +65,14 @@ namespace Items.Tool
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
+
 			if (gameObject.PickupableOrNull()?.ItemSlot == null) return false;
 			return interaction.TargetObject != null && DefaultWillInteract.Default(interaction, side);
 		}
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
+			if (IsAdvanced == false) return false;
 			return DefaultWillInteract.Default(interaction, side);
 		}
 
@@ -91,6 +123,7 @@ namespace Items.Tool
 		[Command(requiresAuthority = false)]
 		private void SetColorToTune(Color newColor, NetworkConnectionToClient sender = null)
 		{
+			if (IsAdvanced == false) return;
 			if (sender == null) return;
 			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
 			if (gameObject.PickupableOrNull().ItemSlot == null) return;

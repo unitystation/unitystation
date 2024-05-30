@@ -77,7 +77,7 @@ namespace Systems.FilthGenerator
 
 		private void SpawnOnTiles(ref List<Vector3Int> emptyTiled)
 		{
-			int numberOfPlayers = PlayerList.Instance.AllPlayers.Count;
+			int numberOfPlayers = Mathf.Max(PlayerList.Instance.AllPlayers.Count, 10);
 			float scaledDensityPercentage = filthDensityPercentage / (numberOfPlayers == 0 ? 1 : numberOfPlayers) / 4f;
 			int numberOfTiles = (int)Mathf.Clamp(emptyTiled.Count * 0.01f * scaledDensityPercentage, 0.5f, maxFilthPercentageForMatrix);
 

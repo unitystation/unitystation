@@ -13,6 +13,9 @@ namespace Systems.CraftingV2
 	public class CraftingIngredient : MonoBehaviour, ICheckedInteractable<HandApply>,  ICheckedInteractable<InventoryApply>
 	{
 
+		[SerializeField] [Tooltip("Should this inherit the prefab parents recipes, good example of when you want to turn this off, As with potato wedges since they inherit from potatoes, you can't make potato wedges from potato wedges")]
+		public bool InheritParentsRecipes = true;
+
 		[SerializeField, ReadOnly] [Tooltip("Automated field - don't try to change it manually. " +
 		                                    "Has the crafting ingredient simple recipe in its relatedRecipes list?")]
 		private bool hasSimpleRelatedRecipe;
@@ -58,18 +61,22 @@ namespace Systems.CraftingV2
 				possibleTools.Add(otherPossibleTool);
 			}
 
+
+
 			foreach (RelatedRecipe relatedRecipe in relatedRecipes)
 			{
 				if (relatedRecipe.Recipe.IsSimple == false)
 				{
 					continue;
 				}
+				string Reason = "";
 				if (side == NetworkSide.Client)
 				{
 					if (interaction.PerformerPlayerScript.PlayerCrafting.CanClientCraft(
 						    relatedRecipe.Recipe,
 						    possibleIngredients,
-						    possibleTools
+						    possibleTools,
+						    ref Reason
 					    ) == CraftingStatus.AllGood
 					   )
 					{
@@ -82,7 +89,8 @@ namespace Systems.CraftingV2
 						    relatedRecipe.Recipe,
 						    possibleIngredients,
 						    possibleTools,
-						    new List<ReagentContainer>()
+						    new List<ReagentContainer>(),
+						    ref Reason
 					    ) == CraftingStatus.AllGood
 					   )
 					{

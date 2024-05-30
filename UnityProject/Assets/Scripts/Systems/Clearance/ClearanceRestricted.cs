@@ -119,7 +119,7 @@ namespace Systems.Clearance
 
 			if (entity == null)
 			{
-				return null;
+				return ReturningList;
 			}
 			var playerStorage = entity.GetComponent<DynamicItemStorage>();
 			if (playerStorage != null)

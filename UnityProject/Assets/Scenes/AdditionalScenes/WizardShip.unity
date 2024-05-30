@@ -3000,10 +3000,25 @@ PrefabInstance:
       propertyPath: sceneId
       value: 2098722330
       objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: CurrentDirection
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
       propertyPath: SelfPowered
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: ThrusterMultiplier
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
@@ -4820,6 +4835,115 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 977142283}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &990285280
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8082954268645528609}
+    m_Modifications:
+    - target: {fileID: 2704372773739415877, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: sceneId
+      value: 2830971142
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: CurrentDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: SelfPowered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: ThrusterMultiplier
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: pipeData.SelfSufficient
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: ThisThrusterDirectionClassification
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 19.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5789955113622535207, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_Name
+      value: Plasma Thruster (8)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9bda2d5647088c74392285230ba38474, type: 3}
+--- !u!4 &990285281 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+    type: 3}
+  m_PrefabInstance: {fileID: 990285280}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &991717385
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6622,10 +6746,25 @@ PrefabInstance:
       propertyPath: sceneId
       value: 762142209
       objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: CurrentDirection
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
       propertyPath: SelfPowered
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: ThrusterMultiplier
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
@@ -6932,6 +7071,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
+      propertyPath: ThrusterMultiplier
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
       propertyPath: pipeData.SelfSufficient
       value: 1
       objectReference: {fileID: 0}
@@ -7033,6 +7177,11 @@ PrefabInstance:
         type: 3}
       propertyPath: SelfPowered
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: ThrusterMultiplier
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
@@ -7202,10 +7351,25 @@ PrefabInstance:
       propertyPath: sceneId
       value: 2433467687
       objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: CurrentDirection
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
       propertyPath: SelfPowered
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: ThrusterMultiplier
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
@@ -8027,6 +8191,115 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5643666973505429054, guid: 1579d1593a9b94346814c90d9de07043,
     type: 3}
   m_PrefabInstance: {fileID: 1563533803}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1612756307
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8082954268645528609}
+    m_Modifications:
+    - target: {fileID: 2704372773739415877, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: sceneId
+      value: 2694929642
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: CurrentDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: SelfPowered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: ThrusterMultiplier
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: pipeData.SelfSufficient
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: ThisThrusterDirectionClassification
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 19.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5789955113622535207, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: m_Name
+      value: Plasma Thruster (9)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9bda2d5647088c74392285230ba38474, type: 3}
+--- !u!4 &1612756308 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5787047136248249085, guid: 9bda2d5647088c74392285230ba38474,
+    type: 3}
+  m_PrefabInstance: {fileID: 1612756307}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1624144377
 PrefabInstance:
@@ -9674,10 +9947,25 @@ PrefabInstance:
       propertyPath: sceneId
       value: 873428443
       objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: CurrentDirection
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
       propertyPath: SelfPowered
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: ThrusterMultiplier
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
@@ -10482,10 +10770,25 @@ PrefabInstance:
       propertyPath: sceneId
       value: 2729496977
       objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: CurrentDirection
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385658394677474732, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
       propertyPath: SelfPowered
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
+        type: 3}
+      propertyPath: ThrusterMultiplier
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 5160355158865406143, guid: 9bda2d5647088c74392285230ba38474,
         type: 3}
@@ -22051,6 +22354,8 @@ Transform:
   - {fileID: 779865188}
   - {fileID: 1422185458}
   - {fileID: 1369883521}
+  - {fileID: 990285281}
+  - {fileID: 1612756308}
   - {fileID: 1391751742}
   - {fileID: 2106291900}
   - {fileID: 1351265705}

@@ -745,6 +745,19 @@ public static class Inventory
 				else
 				{
 					ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
+
+					if (ItemSlot == null)
+					{
+						for (int i = 0; i < namedSlotPopulatorEntry.AlternativeNamedSlots.Count; i++)
+						{
+							ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.AlternativeNamedSlots[i]);
+							if (ItemSlot != null)
+							{
+								break;
+							}
+						}
+					}
+
 				}
 
 				if (ItemSlot.Item != null && namedSlotPopulatorEntry.IfOccupiedFindEmptySlot)
@@ -807,6 +820,18 @@ public static class Inventory
 				else
 				{
 					ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
+
+					if (ItemSlot == null)
+					{
+						for (int i = 0; i < namedSlotPopulatorEntry.AlternativeNamedSlots.Count; i++)
+						{
+							ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.AlternativeNamedSlots[i]);
+							if (ItemSlot != null)
+							{
+								break;
+							}
+						}
+					}
 				}
 
 				if (ItemSlot.Item != null && namedSlotPopulatorEntry.IfOccupiedFindEmptySlot)

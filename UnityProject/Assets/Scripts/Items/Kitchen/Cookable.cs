@@ -39,6 +39,8 @@ namespace Items.Food
 
 		private float timeSpentCooking;
 
+		private Pickupable Pickupable;
+
 		[BoxGroup("Cooking by damage settings")]
 		[field: SerializeField]
 		public float minimumDamage = 2f;
@@ -52,6 +54,7 @@ namespace Items.Food
 		private void Awake()
 		{
 			if (integrity == null) integrity = GetComponent<Integrity>();
+			Pickupable = this.GetComponent<Pickupable>();
 			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 			if (CookableBy.HasFlag(CookSource.BurnUp))
 			{
@@ -98,7 +101,17 @@ namespace Items.Food
 
 		private void OnBurnUpServer(DestructionInfo info)
 		{
-			Spawn.ServerPrefab(CookedProduct, gameObject.RegisterTile().WorldPosition, transform.parent);
+			var item = Spawn.ServerPrefab(CookedProduct, gameObject.RegisterTile().WorldPosition, transform.parent);
+
+			if (Pickupable.ItemSlot != null)
+			{
+				Inventory.ServerAdd(item.GameObject, Pickupable.ItemSlot, ReplacementStrategy.DropOther);
+			}
+
+
+
+
+
 		}
 
 		public void CookProduct()

@@ -14,13 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Entries:
   - DoNotGetFirstEmptySlot: 0
-    Prefab: {fileID: 7253867937762778278, guid: 7e01e1cf7e220dd4c89448d8eb917418,
+    Prefab: {fileID: 8420368425496545348, guid: 8666356dbd72e2a4fb7121b0eb53909c,
       type: 3}
     UseIndex: 0
     IndexSlot: 0
-    NamedSlot: 12
+    NamedSlot: 1
+    AlternativeNamedSlots: 
     IfOccupiedFindEmptySlot: 1
-    ReplacementStrategy: 0
+    ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []
   - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 7636118406116123594, guid: aec4b97408d594f4d91c03418d9a457f,
@@ -28,6 +29,7 @@ MonoBehaviour:
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 2
+    AlternativeNamedSlots: 
     IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []
@@ -37,6 +39,7 @@ MonoBehaviour:
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 3
+    AlternativeNamedSlots: 
     IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []
@@ -46,6 +49,17 @@ MonoBehaviour:
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 6
+    AlternativeNamedSlots: 
+    IfOccupiedFindEmptySlot: 1
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - DoNotGetFirstEmptySlot: 0
+    Prefab: {fileID: 7253867937762778278, guid: 7e01e1cf7e220dd4c89448d8eb917418,
+      type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 12
+    AlternativeNamedSlots: 
     IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 0
     namedSlotPopulatorEntrys: []
@@ -55,17 +69,9 @@ MonoBehaviour:
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 15
+    AlternativeNamedSlots: 08000000
     IfOccupiedFindEmptySlot: 1
-    ReplacementStrategy: 1
-    namedSlotPopulatorEntrys: []
-  - DoNotGetFirstEmptySlot: 0
-    Prefab: {fileID: 8420368425496545348, guid: 8666356dbd72e2a4fb7121b0eb53909c,
-      type: 3}
-    UseIndex: 0
-    IndexSlot: 0
-    NamedSlot: 1
-    IfOccupiedFindEmptySlot: 1
-    ReplacementStrategy: 1
+    ReplacementStrategy: 0
     namedSlotPopulatorEntrys: []
   skirtVariant: {fileID: 3014020063061563662, guid: 7aed3ab769eed2841b559ecec3774a85,
     type: 3}

@@ -24,10 +24,12 @@ namespace MapSaver
 
 		//TODO Cleanup code
 		//TODO buggy selections When swapping
+		//TODO Escape cancels load
+		//TODO Escape cancels select
 		//TODO Support ACUs silly gas dictionary
 
 		public static void ProcessorGitFriendlyTiles(MatrixInfo Matrix, Vector3Int Offset00, Vector3Int Offset,
-			MapSaver.GitFriendlyTileMapData GitFriendlyTileMapData)
+			MapSaver.GitFriendlyTileMapData GitFriendlyTileMapData, HashSet<LayerType> LoadLayers = null)
 		{
 			foreach (var XY in GitFriendlyTileMapData.XYs)
 			{
@@ -36,6 +38,11 @@ namespace MapSaver
 				Pos += Offset;
 				foreach (var Layer in Matrix.MetaTileMap.LayersKeys)
 				{
+					if (LoadLayers != null && LoadLayers.Contains(Layer) == false)
+					{
+						continue;
+					}
+
 					Matrix.MetaTileMap.RemoveTileWithlayer(Pos, Layer);
 				}
 
@@ -43,7 +50,14 @@ namespace MapSaver
 
 				foreach (var Tile in XY.Value)
 				{
+
 					var Tel = TileManager.GetTile(Tile.Tel);
+
+					if (LoadLayers != null && LoadLayers.Contains(Tel.LayerType) == false)
+					{
+						continue;
+					}
+
 					var NewPos = Pos;
 
 					if (Tile.Z != null)
@@ -187,17 +201,17 @@ namespace MapSaver
 		//Offset00 the off set In the data so objects will appear at 0,0
 		//Offset to apply 0,0 to get the position you want
 		public static MapSaver.CompactObjectMapData LoadSection(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
-			MapSaver.MatrixData MatrixData)
+			MapSaver.MatrixData MatrixData, HashSet<LayerType> LoadLayers = null, bool LoadObjects = true)
 		{
 			//TODO MapSaver.CodeClass.ThisCodeClass?? Clearing?
 			MapSaver.CompactObjectMapData data = null;
 			if (MatrixData.GitFriendlyTileMapData != null)
 			{
 				ProcessorGitFriendlyTiles(Matrix, Offset00.RoundToInt(), Offset.RoundToInt(),
-					MatrixData.GitFriendlyTileMapData);
+					MatrixData.GitFriendlyTileMapData, LoadLayers);
 			}
 
-			if (MatrixData.CompactObjectMapData != null)
+			if (MatrixData.CompactObjectMapData != null && LoadObjects)
 			{
 				ProcessorCompactObjectMapData(Matrix, Offset00.RoundToInt(), Offset.RoundToInt(),
 					MatrixData.CompactObjectMapData); //TODO Handle GitID better

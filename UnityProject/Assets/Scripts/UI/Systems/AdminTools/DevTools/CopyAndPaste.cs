@@ -210,13 +210,17 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			LocalArea.Add(Local);
 		}
 
+		var ObjectsVisible = DevCameraControls.Instance.GetObjectsMappingVisible();
+		var Layers = DevCameraControls.Instance.ReturnVisibleLayers();
+
+
 		if (UseLocal == false)
 		{
-			ClientRequestsSaveMessage.Send(Gizmos, LocalArea, Matrix, false, NonmappedItems.isOn);
+			ClientRequestsSaveMessage.Send(Gizmos, LocalArea, Matrix, false, NonmappedItems.isOn, Layers, ObjectsVisible);
 		}
 		else
 		{
-			var Data =  MapSaver.MapSaver.SaveMatrix(false, Matrix.MetaTileMap, true, LocalArea);
+			var Data =  MapSaver.MapSaver.SaveMatrix(false, Matrix.MetaTileMap, true, LocalArea,NonmappedItems.isOn,Layers, ObjectsVisible  );
 			Data.PreviewGizmos = Gizmos;
 			var StringData = JsonConvert.SerializeObject(Data, settings);
 			ReceiveData(StringData);
@@ -318,11 +322,16 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 			settings.Formatting = Formatting.None;
 
+			var ObjectsVisible = DevCameraControls.Instance.GetObjectsMappingVisible();
+			var Layers = DevCameraControls.Instance.ReturnVisibleLayers();
+
 			ClientRequestLoadMap.Send(
 				JsonConvert.SerializeObject(currentlyActivePaste,settings),
 				MatrixManager.AtPoint(MouseUtils.MouseToWorldPos(), CustomNetworkManager.IsServer).Matrix,
 				Offset00.Value,
-				Offset
+				Offset,
+				Layers,
+				ObjectsVisible
 				);
 			//MapLoader.LoadSection( MatrixManager.AtPoint(MouseUtils.MouseToWorldPos(), CustomNetworkManager.IsServer) ,Offset00.Value, Offset, currentlyActivePaste);
 

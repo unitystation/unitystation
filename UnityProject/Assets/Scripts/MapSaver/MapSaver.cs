@@ -299,7 +299,7 @@ namespace MapSaver
 		}
 
 		public static MatrixData SaveMatrix(bool Compact, MetaTileMap MetaTileMap, bool SingleSave = true,
-			List<BetterBounds> LocalArea = null, bool NonmappedItems = false)
+			List<BetterBounds> LocalArea = null, bool NonmappedItems = false, HashSet<LayerType> LayersToProcess = null, bool DoSaveObjects = true)
 		{
 			if (SingleSave)
 			{
@@ -325,9 +325,12 @@ namespace MapSaver
 
 
 			MatrixData matrixData = new MatrixData();
-			matrixData.CompactObjectMapData =
-				SaveObjects(Compact, MetaTileMap, AllowedPoints, NonmappedItems);
-			SaveTileMap(Compact, matrixData, MetaTileMap, AllowedPoints);
+			if (DoSaveObjects)
+			{
+				matrixData.CompactObjectMapData = SaveObjects(Compact, MetaTileMap, AllowedPoints, NonmappedItems);
+			}
+
+			SaveTileMap(Compact, matrixData, MetaTileMap, AllowedPoints, LayersToProcess);
 
 			//matrixData.MatrixName = MetaTileMap.matrix.NetworkedMatrix.gameObject.name;
 			matrixData.MatrixName = MetaTileMap.matrix.transform.parent.name;
@@ -378,15 +381,15 @@ namespace MapSaver
 		}
 
 		public static void SaveTileMap(bool Compact, MatrixData ToSaveTo, MetaTileMap metaTileMap,
-			HashSet<Vector3Int> AllowedPoints = null)
+			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null)
 		{
 			if (Compact)
 			{
-				CompactTileMapSave(ToSaveTo, metaTileMap, AllowedPoints);
+				CompactTileMapSave(ToSaveTo, metaTileMap, AllowedPoints, LayersToProcess);
 			}
 			else
 			{
-				GitFriendlyTileMapSave(ToSaveTo, metaTileMap, AllowedPoints);
+				GitFriendlyTileMapSave(ToSaveTo, metaTileMap, AllowedPoints, LayersToProcess);
 			}
 		}
 
@@ -504,7 +507,7 @@ namespace MapSaver
 
 
 		public static void GitFriendlyTileMapSave(MatrixData ToSaveTo, MetaTileMap metaTileMap,
-			HashSet<Vector3Int> AllowedPoints = null)
+			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null)
 		{
 			//# Matrix4x4
 			//§ TileID
@@ -537,6 +540,14 @@ namespace MapSaver
 							var pos1 = TileAndLocation.LocalPosition;
 							pos1.z = 0;
 							if (AllowedPoints.Contains(pos1) == false)
+							{
+								continue;
+							}
+						}
+
+						if (LayersToProcess != null)
+						{
+							if (LayersToProcess.Contains(TileAndLocation.layer.LayerType) == false)
 							{
 								continue;
 							}
@@ -594,6 +605,15 @@ namespace MapSaver
 							}
 
 
+							if (LayersToProcess != null)
+							{
+								if (LayersToProcess.Contains(TileAndLocation.layer.LayerType) == false)
+								{
+									continue;
+								}
+							}
+
+
 							string pos = VectorIntToGitFriendlyPosition(TileAndLocation.LocalPosition);
 							if (XYs.ContainsKey(pos) == false)
 							{
@@ -634,7 +654,7 @@ namespace MapSaver
 		}
 
 		public static void CompactTileMapSave(MatrixData ToSaveTo, MetaTileMap metaTileMap,
-			HashSet<Vector3Int> AllowedPoints = null)
+			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null)
 		{
 			//# Matrix4x4
 			//§ TileID
@@ -660,18 +680,6 @@ namespace MapSaver
 			var PresentTiles = metaTileMap.PresentTilesNeedsLock;
 
 
-			List<LayerType> NonUnderfloor = new List<LayerType>()
-			{
-				LayerType.Base,
-				LayerType.Grills,
-				LayerType.Effects,
-				LayerType.Floors,
-				LayerType.Tables,
-				LayerType.Walls,
-				LayerType.Windows
-			};
-
-
 			lock (PresentTiles)
 			{
 				foreach (var Layer in PresentTiles)
@@ -690,6 +698,15 @@ namespace MapSaver
 
 
 						if (TileAndLocation?.layerTile == null) continue;
+
+						if (LayersToProcess != null)
+						{
+							if (LayersToProcess.Contains(TileAndLocation.layer.LayerType) == false)
+							{
+								continue;
+							}
+						}
+
 
 						if (TileAndLocation.layer.LayerType.IsMultilayer())
 						{
@@ -744,6 +761,14 @@ namespace MapSaver
 								var pos = TileAndLocation.LocalPosition;
 								pos.z = 0;
 								if (AllowedPoints.Contains(pos) == false)
+								{
+									continue;
+								}
+							}
+
+							if (LayersToProcess != null)
+							{
+								if (LayersToProcess.Contains(TileAndLocation.layer.LayerType) == false)
 								{
 									continue;
 								}
@@ -812,6 +837,14 @@ namespace MapSaver
 							}
 						}
 
+						if (LayersToProcess != null)
+						{
+							if (LayersToProcess.Contains(TileAndLocation.layer.LayerType) == false)
+							{
+								continue;
+							}
+						}
+
 						SB.Append(LocationChar);
 						SB.Append(TileAndLocation.LocalPosition.x);
 						SB.Append(",");
@@ -861,6 +894,14 @@ namespace MapSaver
 								var pos = TileAndLocation.LocalPosition;
 								pos.z = 0;
 								if (AllowedPoints.Contains(pos) == false)
+								{
+									continue;
+								}
+							}
+
+							if (LayersToProcess != null)
+							{
+								if (LayersToProcess.Contains(TileAndLocation.layer.LayerType) == false)
 								{
 									continue;
 								}

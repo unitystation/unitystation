@@ -14,20 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Entries:
   - DoNotGetFirstEmptySlot: 0
-    Prefab: {fileID: 8853098269862845401, guid: b58e6dd405ed93f47a08824b63de9fd6,
+    Prefab: {fileID: 3630185853609166337, guid: 87f3ae414da12c240addea367416f45c,
       type: 3}
     UseIndex: 0
     IndexSlot: 0
-    NamedSlot: 12
+    NamedSlot: 0
+    AlternativeNamedSlots: 
     IfOccupiedFindEmptySlot: 1
-    ReplacementStrategy: 0
+    ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []
   - DoNotGetFirstEmptySlot: 0
-    Prefab: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73,
+    Prefab: {fileID: 5316882905438950620, guid: 725d217f992b8d247b2f034c4a69136a,
       type: 3}
     UseIndex: 0
     IndexSlot: 0
-    NamedSlot: 11
+    NamedSlot: 1
+    AlternativeNamedSlots: 
     IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []
@@ -37,6 +39,7 @@ MonoBehaviour:
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 2
+    AlternativeNamedSlots: 
     IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []
@@ -46,15 +49,7 @@ MonoBehaviour:
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 3
-    IfOccupiedFindEmptySlot: 1
-    ReplacementStrategy: 1
-    namedSlotPopulatorEntrys: []
-  - DoNotGetFirstEmptySlot: 0
-    Prefab: {fileID: 3630185853609166337, guid: 87f3ae414da12c240addea367416f45c,
-      type: 3}
-    UseIndex: 0
-    IndexSlot: 0
-    NamedSlot: 0
+    AlternativeNamedSlots: 
     IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []
@@ -64,24 +59,7 @@ MonoBehaviour:
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 6
-    IfOccupiedFindEmptySlot: 1
-    ReplacementStrategy: 0
-    namedSlotPopulatorEntrys: []
-  - DoNotGetFirstEmptySlot: 0
-    Prefab: {fileID: 5316882905438950620, guid: 725d217f992b8d247b2f034c4a69136a,
-      type: 3}
-    UseIndex: 0
-    IndexSlot: 0
-    NamedSlot: 1
-    IfOccupiedFindEmptySlot: 1
-    ReplacementStrategy: 1
-    namedSlotPopulatorEntrys: []
-  - DoNotGetFirstEmptySlot: 0
-    Prefab: {fileID: 6150311403527200410, guid: 1a291489c8aa9da8598c8026ac53f935,
-      type: 3}
-    UseIndex: 0
-    IndexSlot: 0
-    NamedSlot: 10
+    AlternativeNamedSlots: 
     IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 0
     namedSlotPopulatorEntrys: []
@@ -91,8 +69,39 @@ MonoBehaviour:
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 9
+    AlternativeNamedSlots: 
     IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - DoNotGetFirstEmptySlot: 0
+    Prefab: {fileID: 6150311403527200410, guid: 1a291489c8aa9da8598c8026ac53f935,
+      type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 10
+    AlternativeNamedSlots: 
+    IfOccupiedFindEmptySlot: 1
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - DoNotGetFirstEmptySlot: 0
+    Prefab: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73,
+      type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 11
+    AlternativeNamedSlots: 
+    IfOccupiedFindEmptySlot: 1
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - DoNotGetFirstEmptySlot: 0
+    Prefab: {fileID: 8853098269862845401, guid: b58e6dd405ed93f47a08824b63de9fd6,
+      type: 3}
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 12
+    AlternativeNamedSlots: 
+    IfOccupiedFindEmptySlot: 1
+    ReplacementStrategy: 0
     namedSlotPopulatorEntrys: []
   - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 3208390474611170935, guid: 7e37d93965c2ed84b8b552ce1f8676ee,
@@ -100,8 +109,9 @@ MonoBehaviour:
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 15
+    AlternativeNamedSlots: 08000000
     IfOccupiedFindEmptySlot: 1
-    ReplacementStrategy: 1
+    ReplacementStrategy: 0
     namedSlotPopulatorEntrys: []
   - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 4651104055836449303, guid: d5a79e48a3e4bb340b7c440b63c8c3cd,
@@ -109,6 +119,7 @@ MonoBehaviour:
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 16
+    AlternativeNamedSlots: 
     IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []

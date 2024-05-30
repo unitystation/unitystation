@@ -155,6 +155,14 @@ namespace Tests
 
 			foreach (GameObject child in parentsAndChilds[requiredIngredient])
 			{
+				if (child.GetComponent<CraftingIngredient>() != null)
+				{
+					var inggredient = child.GetComponent<CraftingIngredient>();
+					if (inggredient.InheritParentsRecipes == false)
+					{
+						continue;
+					}
+				}
 				CheckIngredientsCrossLinks(checkingRecipe, indexInRecipe, child, parentsAndChilds, report);
 			}
 		}

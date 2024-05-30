@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/CustomObjective")]
 public class CustomObjective : Objective
 {
 	public bool Compleated => Complete;
@@ -17,6 +18,12 @@ public class CustomObjective : Objective
 	{
 		Complete = state;
 	}
+
+	public void SetDescription(string Description)
+	{
+		description = Description;
+	}
+
 
 	private void Init(string newDescription)
 	{
