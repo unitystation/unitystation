@@ -17,6 +17,8 @@ public class ClientRequestsSaveMessage : ClientMessage<ClientRequestsSaveMessage
 		public int MatrixID;
 		public bool Compact;
 		public bool NonmappedItems;
+		public LayerType[] Layers;
+		public bool SaveObjects;
 	}
 
 	public override void Process(NetMessage msg)
@@ -24,7 +26,13 @@ public class ClientRequestsSaveMessage : ClientMessage<ClientRequestsSaveMessage
 		if (IsFromAdmin() == false) return;
 		var Matrix = MatrixManager.Get(msg.MatrixID);
 
-		var Data =  MapSaver.MapSaver.SaveMatrix(msg.Compact, Matrix.MetaTileMap, true, msg.Bounds.ToList(), msg.NonmappedItems);
+		HashSet<LayerType> Layers = null;
+		if (msg.Layers != null)
+		{
+			Layers = msg.Layers.ToHashSet();
+		}
+
+		var Data =  MapSaver.MapSaver.SaveMatrix(msg.Compact, Matrix.MetaTileMap, true, msg.Bounds.ToList(), msg.NonmappedItems, Layers, msg.SaveObjects);
 
 		Data.PreviewGizmos = msg.PreviewGizmos.ToList();
 
@@ -45,7 +53,7 @@ public class ClientRequestsSaveMessage : ClientMessage<ClientRequestsSaveMessage
 		ServerReturnMapData.Send(SentByPlayer.GameObject, StringData, ServerReturnMapData.MessageType.MapDataFromSave);
 	}
 
-	public static NetMessage Send(List<GameGizmoModel> PreviewGizmos, List<BetterBounds> Bounds, MatrixInfo Matrix, bool Compact, bool NonmappedItems)
+	public static NetMessage Send(List<GameGizmoModel> PreviewGizmos, List<BetterBounds> Bounds, MatrixInfo Matrix, bool Compact, bool NonmappedItems, HashSet<LayerType> Layers = null, bool SaveObjects = true)
 	{
 		NetMessage msg = new NetMessage
 		{
@@ -53,7 +61,9 @@ public class ClientRequestsSaveMessage : ClientMessage<ClientRequestsSaveMessage
 			Bounds = Bounds.ToArray(),
 			MatrixID = Matrix.Id,
 			Compact = Compact,
-			NonmappedItems = NonmappedItems
+			NonmappedItems = NonmappedItems,
+			Layers = Layers?.ToArray(),
+			SaveObjects = SaveObjects
 		};
 
 		Send(msg);

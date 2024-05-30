@@ -41,6 +41,7 @@ public class DevCameraControls  : SingletonManager<DevCameraControls>
 	public Toggle Windows;
 	public Toggle Grills;
 	public Toggle Objects;
+	public Toggle MapObjects;
 	public Toggle Floors;
 	public Toggle Tables;
 	public Toggle Underfloor;
@@ -67,6 +68,101 @@ public class DevCameraControls  : SingletonManager<DevCameraControls>
 		SetLayerVisibility(Override ?? Disposals.isOn, LayerType.Disposals);
 		SetLayerVisibility(Override ?? Base.isOn, LayerType.Base);
 		Override = null;
+	}
+
+
+	public bool GetObjectsMappingVisible()
+	{
+		if (this.gameObject.activeInHierarchy == false)
+		{
+			return true;
+		}
+
+		if (Objects.isOn == false)
+		{
+			return false;
+		}
+
+		if (MapObjects.isOn == false)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	public HashSet<LayerType> ReturnVisibleLayers()
+	{
+		if (this.gameObject.activeInHierarchy == false)
+		{
+			return null;
+		}
+
+		HashSet<LayerType> Layers = new HashSet<LayerType>();
+		if (Effects.isOn)
+		{
+			Layers.Add(LayerType.Effects);
+		}
+
+		if (Walls.isOn)
+		{
+			Layers.Add(LayerType.Walls);
+		}
+
+		if (Windows.isOn)
+		{
+			Layers.Add(LayerType.Windows);
+		}
+
+		if (Grills.isOn)
+		{
+			Layers.Add(LayerType.Grills);
+		}
+
+		if (Objects.isOn || MapObjects.isOn)
+		{
+			Layers.Add(LayerType.Objects);
+		}
+
+		if (Tables.isOn)
+		{
+			Layers.Add(LayerType.Tables);
+		}
+
+		if (Floors.isOn)
+		{
+			Layers.Add(LayerType.Floors);
+		}
+
+		if (Underfloor.isOn)
+		{
+			Layers.Add(LayerType.Underfloor);
+		}
+
+		if (Electrical.isOn)
+		{
+			Layers.Add(LayerType.Electrical);
+		}
+
+
+		if (Pipes.isOn)
+		{
+			Layers.Add(LayerType.Pipe);
+		}
+
+		if (Disposals.isOn)
+		{
+			Layers.Add(LayerType.Disposals);
+		}
+
+		if (Base.isOn)
+		{
+			Layers.Add(LayerType.Base);
+		}
+
+		return Layers;
 	}
 
 
