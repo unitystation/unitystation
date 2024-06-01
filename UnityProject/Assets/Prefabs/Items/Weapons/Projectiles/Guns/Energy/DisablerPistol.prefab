@@ -12,7 +12,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 87130e89b2615974080ede1c69f264f3,
+      objectReference: {fileID: 690969683, guid: 87130e89b2615974080ede1c69f264f3,
         type: 3}
     - target: {fileID: 96014042515403583, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -23,7 +23,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 87130e89b2615974080ede1c69f264f3,
+      objectReference: {fileID: 793014794, guid: 87130e89b2615974080ede1c69f264f3,
         type: 3}
     - target: {fileID: 617012563949353989, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -32,15 +32,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: variantIndex
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: fdc69b3e6e0cf6943b0b074cb27fad96,
+        type: 2}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: fdc69b3e6e0cf6943b0b074cb27fad96,
+        type: 2}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: faf73a0cc98a54b4f875920228c39484,
+        type: 2}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: faf73a0cc98a54b4f875920228c39484,
         type: 2}
     - target: {fileID: 1848979366670267442, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 87130e89b2615974080ede1c69f264f3,
+      objectReference: {fileID: -171197430, guid: 87130e89b2615974080ede1c69f264f3,
         type: 3}
     - target: {fileID: 1848979366670267442, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -61,7 +89,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 87130e89b2615974080ede1c69f264f3,
+      objectReference: {fileID: 793014794, guid: 87130e89b2615974080ede1c69f264f3,
         type: 3}
     - target: {fileID: 2719026976851437719, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -70,9 +98,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4261677260032049300, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: variantIndex
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261677260032049300, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: fdc69b3e6e0cf6943b0b074cb27fad96,
+        type: 2}
+    - target: {fileID: 4261677260032049300, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261677260032049300, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: fdc69b3e6e0cf6943b0b074cb27fad96,
+        type: 2}
+    - target: {fileID: 4261677260032049300, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+        type: 2}
+    - target: {fileID: 4261677260032049300, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: faf73a0cc98a54b4f875920228c39484,
         type: 2}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -144,17 +200,17 @@ PrefabInstance:
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -189,15 +245,71 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4789836560011916208, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: variantIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789836560011916208, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fdc69b3e6e0cf6943b0b074cb27fad96,
+        type: 2}
+    - target: {fileID: 4789836560011916208, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789836560011916208, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: fdc69b3e6e0cf6943b0b074cb27fad96,
+        type: 2}
+    - target: {fileID: 4789836560011916208, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+        type: 2}
+    - target: {fileID: 4789836560011916208, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: faf73a0cc98a54b4f875920228c39484,
+        type: 2}
+    - target: {fileID: 6093713910395123777, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: variantIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6093713910395123777, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: fdc69b3e6e0cf6943b0b074cb27fad96,
         type: 2}
     - target: {fileID: 6093713910395123777, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: PresentSpriteSet
+      propertyPath: SubCatalogue.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6093713910395123777, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: fdc69b3e6e0cf6943b0b074cb27fad96,
+        type: 2}
+    - target: {fileID: 6093713910395123777, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+        type: 2}
+    - target: {fileID: 6093713910395123777, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: faf73a0cc98a54b4f875920228c39484,
         type: 2}
     - target: {fileID: 6227234703256324225, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -217,13 +329,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: chargeSprite
+      value: 
+      objectReference: {fileID: 7661957566163530242}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: countFiremode
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: hasChargeSprites
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: firemodeName.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: chargeSprites.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -240,6 +367,11 @@ PrefabInstance:
       propertyPath: 'firemodeName.Array.data[1]'
       value: Disable
       objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'chargeSprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7661957566163530242}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: 'firemodeUsage.Array.data[0]'
@@ -304,7 +436,22 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6227234703256324225, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
+    - {fileID: 2220118134753059110, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
+    - {fileID: 2153160782301408824, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
+--- !u!114 &7661957566163530242 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    type: 3}
+  m_PrefabInstance: {fileID: 7168411533482991006}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

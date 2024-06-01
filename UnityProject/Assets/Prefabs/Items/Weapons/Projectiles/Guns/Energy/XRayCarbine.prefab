@@ -23,7 +23,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 834d9558e4194cd49a81052160678d36,
+      objectReference: {fileID: -2032481274, guid: 834d9558e4194cd49a81052160678d36,
         type: 3}
     - target: {fileID: 617012563949353989, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -32,9 +32,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: variantIndex
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 2a220108b6d0e024e9361bac550bd6ff,
+        type: 2}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a220108b6d0e024e9361bac550bd6ff,
+        type: 2}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6413abfa113e3ef449f8cb4b0dd03f22,
         type: 2}
     - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -172,17 +194,17 @@ PrefabInstance:
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -248,6 +270,11 @@ PrefabInstance:
       propertyPath: FiringSound
       value: ShootLaser
       objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: chargeSprite
+      value: 
+      objectReference: {fileID: 7255061573551438603}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: countFiremode
@@ -342,7 +369,22 @@ PrefabInstance:
       value: 0.28125
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2220118134753059110, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
+    - {fileID: 2153160782301408824, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
+    - {fileID: 6227234703256324225, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
+--- !u!114 &7255061573551438603 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    type: 3}
+  m_PrefabInstance: {fileID: 7890523767225750679}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

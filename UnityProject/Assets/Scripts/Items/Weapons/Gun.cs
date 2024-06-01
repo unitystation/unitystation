@@ -265,7 +265,7 @@ namespace Weapons
 			}
 		}
 
-		public void OnInventoryMoveServer(InventoryMove info)
+		public virtual void OnInventoryMoveServer(InventoryMove info)
 		{
 			if (this.gameObject != info.MovedObject.gameObject) return;
 
