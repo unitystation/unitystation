@@ -23,7 +23,8 @@ namespace Shared.Systems.ObjectConnection
 		Artifact,
 		ResearchLaser,
 		QuantumPad,
-		MaintGeneratorExclusionZone
+		MaintGeneratorExclusionZone,
+		SolarPanel,
 	}
 
 	public interface IMultitoolLinkable

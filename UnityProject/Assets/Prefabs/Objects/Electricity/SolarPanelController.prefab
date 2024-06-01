@@ -14,11 +14,12 @@ GameObject:
   - component: {fileID: 114421102744754910}
   - component: {fileID: 3451459747492305769}
   - component: {fileID: 7228791764891142202}
-  - component: {fileID: 7947394244290333764}
   - component: {fileID: 7473882610070268955}
   - component: {fileID: 114656121473676726}
   - component: {fileID: 3508287085359387148}
   - component: {fileID: 7441832467366187905}
+  - component: {fileID: 2973786860525652224}
+  - component: {fileID: 5494377133169720483}
   m_Layer: 11
   m_Name: SolarPanelController
   m_TagString: Untagged
@@ -34,7 +35,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1575520830166772}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4, y: -34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -105,6 +106,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  LiesFlat3D: 0
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -149,7 +151,7 @@ MonoBehaviour:
   ApplianceType: 15
   WireEndB: 9
   WireEndA: 10
-  ListCanConnectTo: 04000000
+  ListCanConnectTo: 0400000001000000
   Reactions:
   - ConnectingDevice: 4
     DirectionReaction: 0
@@ -197,48 +199,6 @@ MonoBehaviour:
       Resistance:
         Ohms: 0
         ResistanceAvailable: 1
---- !u!114 &7947394244290333764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d118f1d8db746943b4a84d87f71d1d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ModuleType: 0
-  ControllingNode: {fileID: 0}
-  StartOnStartUp: 0
-  Previouscurrent: 0
-  current: 0
-  PreviousSupplyingVoltage: 0
-  SupplyingVoltage: 0
-  PreviousInternalResistance: 0
-  InternalResistance: 0
-  PreviousProducingWatts: 0
-  ProducingWatts: 0
-  MaximumCurrentSupport: 8
-  MinimumSupportVoltage: 2900
-  StandardSupplyingVoltage: 3000
-  CapacityMax: 1200034
-  CurrentCapacity: 0
-  ExtraChargeCutOff: 10
-  IncreasedChargeVoltage: 11
-  StandardChargeNumber: 500
-  MaxChargingDivider: 200
-  ChargingDivider: 0
-  InputLevel: 100
-  OutputLevel: 100
-  CanCharge: 1
-  Cansupport: 1
-  ToggleCanCharge: 1
-  ToggleCansupport: 1
-  SlowResponse: 0
-  PullingWatts: 0
-  ChargingWatts: 0
 --- !u!114 &7473882610070268955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,12 +272,14 @@ MonoBehaviour:
   slideTime: 0
   spinMagnitude: 0
   thrownBy: {fileID: 0}
+  thrownProtection: {fileID: 0}
   aim: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
   ChangesDirectionPush: 0
   Intangible: 0
+  MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
   DEBUG: 0
@@ -326,7 +288,6 @@ MonoBehaviour:
   isNotPushable: 1
   CanBeWindPushed: 1
   rotationTarget: {fileID: 0}
-  FramePushDecision: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -342,7 +303,48 @@ MonoBehaviour:
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  TimeSpentFlying: 0
   BuckledToObject: {fileID: 0}
+--- !u!114 &2973786860525652224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c5f98e27e54359bfd43c09282c70c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  ModuleSupply: {fileID: 5494377133169720483}
+  UpdateRate: 10
+--- !u!114 &5494377133169720483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afc0599350d172f4b97acd59a6626136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ModuleType: 0
+  ControllingNode: {fileID: 3451459747492305769}
+  StartOnStartUp: 1
+  Previouscurrent: 0
+  current: 0
+  PreviousSupplyingVoltage: 0
+  SupplyingVoltage: 3000
+  PreviousInternalResistance: 0
+  InternalResistance: 76000
+  PreviousProducingWatts: 0
+  ProducingWatts: 0
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,6 +394,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
