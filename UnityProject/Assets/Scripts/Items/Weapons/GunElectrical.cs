@@ -21,8 +21,11 @@ namespace Weapons
 		[SerializeField, Tooltip("(Optional) Charge Sprite, must have variants equal to amount of charge bars")]
 		public SpriteHandler chargeSprite;
 
-		private const int FULL_SPRITE = 2;
-		private const int NO_CELL_SPRITE = 3;
+		[SerializeField, Tooltip("(Optional) Ammo Sprite")]
+		public SpriteHandler ammoSprite;
+
+		private const int NO_CELL_SPRITE = 2;
+		private const int FULL_SPRITE = 3;
 
 		private const float magRemoveTime = 3f;
 
@@ -170,11 +173,11 @@ namespace Weapons
 		{
 			currentFiremode = newState;
 			FiringSoundA = firemodeFiringSound[currentFiremode];
-			UpdateChargeSprite();
-			//TODO: change sprite here
 		}
 
+		//This function should only be run serverside or it WILL desync the weapons sprites
 		public void UpdateChargeSprite() {
+			ammoSprite?.SetCatalogueIndexSprite(currentFiremode + 2);
 			if (chargeSprite == null) {
 				return;
 			}
@@ -182,7 +185,7 @@ namespace Weapons
 			{
 				chargeSprite.SetCatalogueIndexSprite(NO_CELL_SPRITE);
 			} else if (Battery.Watts / firemodeUsage[currentFiremode] != 0) {
-				chargeSprite.SetCatalogueIndexSprite(FULL_SPRITE);
+				chargeSprite.SetCatalogueIndexSprite(FULL_SPRITE + currentFiremode);
 				float rounds = Battery.Watts / firemodeUsage[currentFiremode];
 				float maxrounds = Battery.MaxWatts / firemodeUsage[currentFiremode];
 				int percent = Mathf.FloorToInt((rounds / maxrounds) * 100.0f);

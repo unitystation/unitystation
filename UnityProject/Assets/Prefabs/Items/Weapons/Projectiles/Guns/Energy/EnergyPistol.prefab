@@ -62,6 +62,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6043667599440289896, guid: bd3d8231022e86e498568076ae000883,
         type: 3}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: ammoSprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4979405696378388488, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
       propertyPath: m_Sprite
@@ -220,13 +225,19 @@ PrefabInstance:
         type: 3}
       propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: f463e72a7750346439293794de72d39b,
+      objectReference: {fileID: 11400000, guid: 01044b0d4c7dd06428dc0781b8198767,
         type: 2}
     - target: {fileID: 7606129215582619395, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
       propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
-      objectReference: {fileID: 11400000, guid: 01044b0d4c7dd06428dc0781b8198767,
+      objectReference: {fileID: 11400000, guid: f463e72a7750346439293794de72d39b,
+        type: 2}
+    - target: {fileID: 7606129215582619395, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: db446c4d3f4f185479369f6e0ae17fc8,
         type: 2}
     - target: {fileID: 8316631766976624318, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
