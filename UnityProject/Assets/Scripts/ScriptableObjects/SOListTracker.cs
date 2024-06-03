@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using ScriptableObjects;
 using ScriptableObjects.Atmospherics;
 using UnityEditor;
 using UnityEngine;
 #if UNITY_EDITOR
+using Chemistry;
 using UnityEngine;
 #endif
 
@@ -22,6 +24,7 @@ public class SOListTracker : SingletonScriptableObject<SOListTracker>
 		SOTrackers.AddRange(FindAssetsByType<SpriteDataSO>());
 		SOTrackers.AddRange(FindAssetsByType<ItemTrait>());
 		SOTrackers.AddRange(FindAssetsByType<GasSO>());
+		SOTrackers.AddRange(FindAssetsByType<Reagent>());
 	}
 
 	public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object

@@ -12,48 +12,43 @@ using Random = UnityEngine.Random;
 public class TestVariableViewerScript : NetworkBehaviour
 {
 
-	public List<int> IntList = new List<int>();
-
-	public List<Component> ComponentList = new List<Component>();
-
-	public List<GameObject> GameObjectList = new List<GameObject>();
-
-	public List<LayerTile> Tileslist = new List<LayerTile>();
+	public List<TestClass> TestClasss = new List<TestClass>();
 
 
-	private void DOThingPrivate()
-	{
-		Loggy.Log("DOThingPrivate");
-	}
+	public List<int> BasicListUntouched = new List<int>();
+	public List<int> BasicListRemoved = new List<int>();
+	public List<int> BasicListAdded = new List<int>();
 
+	public List<GameObject> PrefabGameObjectListAdded = new List<GameObject>();
 
-	public void DOThingPublic()
-	{
-		Loggy.Log("DOThingPublic");
-	}
+	public List<Component> PrefabComponentListAdded = new List<Component>();
 
+	public List<Component> GameComponentListAdded = new List<Component>();
+
+	public List<LayerTile> SoListAdded = new List<LayerTile>();
+
+	public SerializableDictionary<int, int> BasicDictionary = new SerializableDictionary<int, int>();
+
+	public SerializableDictionary<LayerTile, int> KeySOBasicDictionary = new SerializableDictionary<LayerTile, int>();
+
+	public SerializableDictionary<int, LayerTile> ValSOBasicDictionary = new SerializableDictionary<int, LayerTile>();
+
+	public List<List<int>> BasicListWithinList = new List<List<int>>();
 
 	void Start()
 	{
-		for (int i = 0; i < 10; i++)
-		{
-			// PListInt.Add(i);
-			// SyncPListbool.Add(true);
-			// SyncPListstring.Add(i.ToString() + "< t");
-			// SyncPListConnection.Add(Connection.East);
-			// var GG = new Teststruct
-			// {
-			// 	author = ("BOB" + i),
-			// 	price = i,
-			// 	title = i + "COOL?"
-			// };
-			// SyncPListTeststruct.Add(GG);
+		BasicListRemoved.RemoveAt(0);
 
-			// var oo = new MaintObject();
-			// oo.ObjectToSpawn = null;
-			// oo.ObjectChance = i;
-			// oo.RequiredWalls = 2;
-			// MaintObjectList.Add(oo);
+		for (int i = 0; i < 2; i++)
+		{
+			BasicListAdded.Add(i);
+			BasicDictionary[i+3] = i;
+			TestClasss.Add(new TestClass()
+			{
+				price = 324342 + i,
+				title = "bob" + i,
+				author = "bool le cool"
+			});
 		}
 
 		netIdentity.isDirty = true;
@@ -64,6 +59,14 @@ public class TestVariableViewerScript : NetworkBehaviour
 public struct Teststruct
 {
 	public decimal price;
+	public string title;
+	public string author;
+}
+
+[System.Serializable]
+public class TestClass
+{
+	public float price;
 	public string title;
 	public string author;
 }

@@ -34,9 +34,9 @@ namespace ScriptableObjects
 			set => foreverID = value;
 		}
 
-		[SerializeField] private string foreverID;
+		[SerializeField] protected string foreverID;
 
-		public void ReassignID() //Assuming it's a prefab Variant
+		public virtual void ReassignID() //Assuming it's a prefab Variant
 		{
 #if UNITY_EDITOR
 			foreverID =
@@ -67,7 +67,7 @@ namespace ScriptableObjects
 		internal static string CreateString(int stringLength)
 		{
 			var RNG = new System.Random();
-			const string allowedChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!@$?_-";
+			const string allowedChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!$?_-";
 			char[] chars = new char[stringLength];
 
 			for (int i = 0; i < stringLength; i++)

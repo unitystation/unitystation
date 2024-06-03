@@ -17,16 +17,7 @@ namespace MapSaver
 		//TODO Children rotation scale and position?
 		//TODO Multiple components?
 		//TODO ACU not set? Test
-		//TODO Layer selection
 
-		//TODO Process if sub References are reference for Client ???
-
-
-		//TODO Cleanup code
-		//TODO buggy selections When swapping
-		//TODO Escape cancels load
-		//TODO Escape cancels select
-		//TODO Support ACUs silly gas dictionary
 
 		public static void ProcessorGitFriendlyTiles(MatrixInfo Matrix, Vector3Int Offset00, Vector3Int Offset,
 			MapSaver.GitFriendlyTileMapData GitFriendlyTileMapData, HashSet<LayerType> LoadLayers = null)
@@ -175,7 +166,7 @@ namespace MapSaver
 					}
 				}
 
-				SecureMapsSaver.LoadData(prefabData.GitID , Component, classData.Data, MapSaver.CodeClass.ThisCodeClass);
+				SecureMapsSaver.LoadData(prefabData.GitID , Component, classData.Data, MapSaver.CodeClass.ThisCodeClass, CustomNetworkManager.IsServer);
 			}
 
 			if (IndividualObject.Children != null)

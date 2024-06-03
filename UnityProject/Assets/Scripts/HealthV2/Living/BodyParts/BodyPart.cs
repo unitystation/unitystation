@@ -69,7 +69,7 @@ namespace HealthV2
 		/// Player sprites for rendering equipment and clothing on the body part container
 		/// </summary>
 		[Tooltip("Player sprites for rendering equipment and clothing on this")]
-		public PlayerSprites playerSprites;
+		[HideInInspector] public PlayerSprites playerSprites;
 
 		[HideInInspector] public bool IsBleeding = false;
 

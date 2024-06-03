@@ -7,6 +7,7 @@ using Logs;
 using SecureStuff;
 using UnityEngine;
 using System.Linq;
+using System.Runtime.Serialization;
 using Mirror;
 using Newtonsoft.Json;
 using NUnit.Compatibility;
@@ -110,39 +111,45 @@ namespace SecureStuff
 
 	public static class SecureMapsSaver
 	{
-		private static void ListHandle(string RootID, Component Root, FieldInfo Field, object Object, FieldData ModField, int Index,
-			IPopulateIDRelation IPopulateIDRelation, bool AllLoaded = false, bool IsServer = true)
+		private static void ListHandleLoad(string RootID, Component Root, FieldInfo Field, object Object,
+			FieldData ModField, int Index,
+			IPopulateIDRelation IPopulateIDRelation, bool IsServer = true, string AdditionalJumps = "")
 		{
 			var List = (Field.GetValue(Object) as IList);
-			if (typeof(GameObject).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]))
-			{
-				if (IsServer == false)
-				{
-					if (IsGoodClientField(Field) == false)
-					{
-						return;
-					}
-				}
 
+			if (ModField.Data is "#removed#")
+			{
+				List.Remove(Index);
+				return;
+			}
+
+			if (ModField.Data is "NULL")
+			{
+				List[Index] = null; // never have to worry about value type because It can never be null on the map to
+				return;
+			}
+
+			var ListType = Field.FieldType.GetGenericArguments()[0];
+			while (List.Count <= Index)
+				//TODO Could be exploited? well You could just have a map with a million objects so idk xD
+			{
+				if (ListType.IsValueType)
+				{
+					//is dangerous
+					List.Add(Activator.CreateInstance(ListType));
+				}
+				else
+				{
+					List.Add(null);
+				}
+			}
+
+			if (typeof(GameObject).IsAssignableFrom(ListType))
+			{
 				if (ModField.IsPrefabID == true)
 				{
-					if (ModField.Data == "#removed#")
-					{
-						List.Remove(Index);
-					}
-					else
-					{
-						while (List.Count <= Index)
-							//TODO Could be exploited? well You could just have a map with a million objects so idk xD
-						{
-							List.Add(null);
-						}
-
-						var Prefab = IPopulateIDRelation.ObjectsFromForeverID(ModField.Data,
-							Field.FieldType.GetGenericArguments()[0]);
-
-						List[Index] = ((GameObject) Prefab);
-					}
+					var Prefab = IPopulateIDRelation.ObjectsFromForeverID(ModField.Data, ListType);
+					List[Index] = ((GameObject) Prefab);
 				}
 				else
 				{
@@ -150,114 +157,693 @@ namespace SecureStuff
 					//TODO Implement!!
 				}
 			}
-			else if (typeof(Component).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]))
+			else if (typeof(Component).IsAssignableFrom(ListType))
 			{
-				if (IsServer == false)
-				{
-					if (IsGoodClientField(Field) == false)
-					{
-						return;
-					}
-				}
-
 				if (ModField.IsPrefabID == true)
 				{
-					if (ModField.Data == "#removed#")
-					{
-						List.Remove(Index);
-					}
-					else
-					{
-						while (List.Count <= Index)
-							//TODO Could be exploited? well You could just have a map with a million objects so idk xD
-						{
-							List.Add(null);
-						}
-
-						var PrefabComponent = JsonConvert.DeserializeObject<PrefabComponent>(ModField.Data);
-						try
-						{
-							var Prefab = IPopulateIDRelation.ObjectsFromForeverID(PrefabComponent.ForeverId,
-								Field.FieldType.GetGenericArguments()[0]);
-							List[Index] = ((GameObject) Prefab).GetComponent(PrefabComponent.ComponentName);
-						}
-						catch (Exception e)
-						{
-							Loggy.LogError(e.ToString());
-						}
-					}
+					var PrefabComponent = JsonConvert.DeserializeObject<PrefabComponent>(ModField.Data);
+					var Prefab = IPopulateIDRelation.ObjectsFromForeverID(PrefabComponent.ForeverId, ListType);
+					List[Index] = ((GameObject) Prefab).GetComponent(PrefabComponent.ComponentName);
 				}
 				else
 				{
-					if (AllLoaded)
-					{
-						while (List.Count <= Index)
-							//TODO Could be exploited? well You could just have a map with a million objects so idk xD
-						{
-							List.Add(null);
-						}
+					var obs = GetComponentPath(ModField.Data, IPopulateIDRelation, out bool AllLoaded);
 
-						List[Index] = GetComponentPath(ModField.Data, IPopulateIDRelation);
-					}
-					else
+					if (AllLoaded == false)
 					{
 						IPopulateIDRelation.FlagSaveKey(RootID, Root, ModField);
-					}
-				}
-			}
-			else if (typeof(ScriptableObject).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]) &&
-			         typeof(IHaveForeverID).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]))
-			{
-				if (ModField.Data == "#removed#")
-				{
-					List.Remove(Index);
-				}
-				else
-				{
-					if (List == null)
-					{
-						Loggy.LogError("0oh no...");
-					}
-					while (List.Count <= Index)
-						//TODO Could be exploited? well You could just have a map with a million objects so idk xD
-					{
-						List.Add(null);
+						return;
 					}
 
-					var SO = IPopulateIDRelation.ObjectsFromForeverID(ModField.Data,
-						Field.FieldType.GetGenericArguments()[0]);
-					List[Index] = SO;
+					List[Index] = obs;
 				}
+			}
+			else if (typeof(ScriptableObject).IsAssignableFrom(ListType) &&
+			         typeof(IHaveForeverID).IsAssignableFrom(ListType))
+			{
+				var SO = IPopulateIDRelation.ObjectsFromForeverID(ModField.Data, ListType);
+				List[Index] = SO;
 			}
 			else
 			{
-				if (ModField.Data == "#removed#")
+				bool IsClass = ListType.IsValueType == false
+				               && (ListType == typeof(string)) == false
+				               && ListType.IsGenericType == false
+				               && ListType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length > 0;
+
+				if (IsClass)
 				{
-					List.Remove(Index);
+					ProcessIndividualField(RootID, Root, List[Index], ModField, IPopulateIDRelation, AdditionalJumps,
+						IsServer);
 				}
 				else
 				{
-					while (List.Count <= Index)
-						//TODO Could be exploited? well You could just have a map with a million objects so idk xD
-					{
-						List.Add(null);
-					}
-
-					List[Index] = Librarian.Page.DeSerialiseValue(ModField.Data,
-						Field.FieldType.GetGenericArguments()[0]);
+					List[Index] = Librarian.Page.DeSerialiseValue(ModField.Data, ListType);
 				}
 			}
 		}
 
-		private static GameObject GetGameObjectPath(string Id, IPopulateIDRelation IPopulateIDRelation)
+
+		private static void DictionaryHandleLoad(string RootID, Component Root, FieldInfo Field, object Object,
+			FieldData ModField, string Index,
+			IPopulateIDRelation IPopulateIDRelation, string AdditionalJumps, bool IsServer = true)
+		{
+			bool KeyisScriptableObject = false;
+			bool KeyIsComponent = false;
+
+			bool KeyanyOfThem = false;
+
+			var Arguments = Field.FieldType.GetGenericArguments();
+
+			if (Arguments.Length == 0)
+			{
+				Arguments = GetGenericBaseTypeArgument(Field.FieldType);
+			}
+
+			var KeyType = Arguments[0];
+
+			if (typeof(GameObject).IsAssignableFrom(KeyType))
+			{
+				KeyIsComponent = false;
+				KeyisScriptableObject = false;
+				KeyanyOfThem = true;
+			}
+			else if (typeof(Component).IsAssignableFrom(KeyType))
+			{
+				KeyIsComponent = true;
+				KeyisScriptableObject = false;
+				KeyanyOfThem = true;
+			}
+			else if (typeof(ScriptableObject).IsAssignableFrom(KeyType) &&
+			         typeof(IHaveForeverID).IsAssignableFrom(KeyType))
+			{
+				KeyIsComponent = false;
+				KeyisScriptableObject = true;
+				KeyanyOfThem = true;
+			}
+
+
+			if (typeof(System.Action).IsAssignableFrom(KeyType)
+			    || (typeof(UnityEngine.Events.UnityEventBase).IsAssignableFrom(KeyType))
+			    || (KeyType.IsGenericType && KeyType.GetGenericTypeDefinition() == typeof(Action<>)))
+			{
+				//Actions can get confused with runtime added onces vs Mapped Ones
+				return;
+			}
+
+			bool KeyIsClass = KeyanyOfThem == false
+			                  && KeyType.IsValueType == false
+			                  && (KeyType == typeof(string)) == false
+			                  && KeyType.IsGenericType == false
+			                  && KeyType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length > 0;
+
+			if (KeyIsClass == true) return; //is not Supported
+
+			if (KeyanyOfThem == false && KeyIsClass == false)
+			{
+				if (KeyType.IsValueType == false)
+				{
+					return; //Non-serialisable class
+				}
+			}
+
+
+			bool ValisScriptableObject = false;
+			bool ValIsComponent = false;
+
+			bool ValanyOfThem = false;
+
+			var ValType = Arguments[1];
+
+			if (typeof(GameObject).IsAssignableFrom(ValType))
+			{
+				ValIsComponent = false;
+				ValisScriptableObject = false;
+				ValanyOfThem = true;
+			}
+			else if (typeof(Component).IsAssignableFrom(ValType))
+			{
+				ValIsComponent = true;
+				ValisScriptableObject = false;
+				ValanyOfThem = true;
+			}
+			else if (typeof(ScriptableObject).IsAssignableFrom(ValType) &&
+			         typeof(IHaveForeverID).IsAssignableFrom(ValType))
+			{
+				ValIsComponent = false;
+				ValisScriptableObject = true;
+				ValanyOfThem = true;
+			}
+
+			bool ValIsClass = ValanyOfThem == false
+			                  && ValType.IsValueType == false
+			                  && (ValType == typeof(string)) == false
+			                  && ValType.IsGenericType == false
+			                  && ValType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length > 0;
+
+			if (typeof(System.Action).IsAssignableFrom(KeyType)
+			    || (typeof(UnityEngine.Events.UnityEventBase).IsAssignableFrom(KeyType))
+			    || (KeyType.IsGenericType && KeyType.GetGenericTypeDefinition() == typeof(Action<>)))
+			{
+				//Actions can get confused with runtime added onces vs Mapped Ones
+				return;
+			}
+
+			if (ValType.IsGenericType) return; //No list within lists for now
+			if (ValanyOfThem == false && ValIsClass == false)
+			{
+				if (ValType.IsValueType == false)
+				{
+					return; //Non-serialisable class
+				}
+			}
+
+
+			var Dictionary = (Field.GetValue(Object) as IDictionary);
+
+
+			object Key = null;
+
+
+			if (KeyIsComponent)
+			{
+				if (ModField.IsPrefabID == true)
+				{
+					var Split = Index.Split("#", 2);
+					var Prefab = IPopulateIDRelation.ObjectsFromForeverID(Split[0], KeyType);
+					Key = ((GameObject) Prefab).GetComponent(Split[1]);
+				}
+				else
+				{
+					Key = GetComponentPath(Index, IPopulateIDRelation, out bool loaded);
+					if (loaded == false)
+					{
+						IPopulateIDRelation.FlagSaveKey(RootID, Root, ModField);
+						return;
+					}
+				}
+			}
+			else if (KeyisScriptableObject)
+			{
+				Key = IPopulateIDRelation.ObjectsFromForeverID(Index, KeyType);
+			}
+			else if (KeyanyOfThem) //Is game object
+			{
+				if (ModField.IsPrefabID == true)
+				{
+					Key = IPopulateIDRelation.ObjectsFromForeverID(Index, KeyType);
+				}
+				else
+				{
+					Loggy.LogError("Needs to be added!!!");
+					//TODO Implement!!
+					return;
+				}
+			}
+			else
+			{
+				Key = Librarian.Page.DeSerialiseValue(Index, KeyType);
+			}
+
+
+			if (AdditionalJumps == "" && ModField.Data is "#removed#")
+			{
+				Dictionary.Remove(Key);
+				return;
+			}
+
+
+			if (AdditionalJumps == "" && ModField.Data is "NULL")
+			{
+				Dictionary[Key] = null;
+				return;
+			}
+
+			if (ValIsComponent)
+			{
+				if (ModField.IsPrefabID == true)
+				{
+					var prefabComponent = JsonConvert.DeserializeObject<PrefabComponent>(ModField.Data);
+					var prefab = IPopulateIDRelation.ObjectsFromForeverID(prefabComponent.ForeverId, ValType);
+					Dictionary[Key] = ((GameObject) prefab).GetComponent(prefabComponent.ComponentName);
+				}
+				else
+				{
+					Key = GetComponentPath(Index, IPopulateIDRelation, out bool loaded);
+					if (loaded == false)
+					{
+						IPopulateIDRelation.FlagSaveKey(RootID, Root, ModField);
+						return;
+					}
+				}
+			}
+			else if (ValisScriptableObject)
+			{
+				Dictionary[Key] = IPopulateIDRelation.ObjectsFromForeverID(ModField.Data, ValType);
+			}
+			else if (ValanyOfThem)
+			{
+				if (ModField.IsPrefabID == true)
+				{
+					Dictionary[Key] = IPopulateIDRelation.ObjectsFromForeverID(ModField.Data, ValType);
+				}
+				else
+				{
+					Loggy.LogError("Needs to be added!!!");
+					//TODO Implement!!
+					return;
+				}
+			}
+			else
+			{
+				if (ValIsClass)
+				{
+					ProcessIndividualField(RootID, Root, Dictionary[Key], ModField, IPopulateIDRelation,
+						AdditionalJumps, IsServer);
+				}
+				else
+				{
+					Dictionary[Key] = Librarian.Page.DeSerialiseValue(ModField.Data, ValType);
+				}
+			}
+		}
+
+		private static bool ReturnKey(object SpawnedInstance, bool isScriptableObject, bool IsComponent, bool anyOfThem,
+			Type Type, out string data)
+		{
+			if (isScriptableObject)
+			{
+				data = (SpawnedInstance as IHaveForeverID)?.ForeverID;
+				data = data?.Replace("@", "");
+				data = data?.Replace("#", "");
+				return true;
+			}
+			else
+			{
+				if (anyOfThem)
+				{
+					if (IsComponent)
+					{
+						var Component = (SpawnedInstance as Component);
+						if (Component.transform.parent == null) //Prefab
+						{
+							var ForeverID = Component.GetComponent<IHaveForeverID>();
+							if (ForeverID != null)
+							{
+								data = ForeverID.ForeverID + "#" + Component.GetType().Name;
+								data = data?.Replace("@", "");
+								data = data?.Replace("#", "");
+								return true;
+							}
+
+							data = "";
+							return false;
+						}
+						else
+						{
+							Loggy.LogError("Not compatible Component");
+							//This is due PopulateIDRelation Not supporting it in line of name
+							//IPopulateIDRelation.PopulateIDRelation(FieldDatas, FieldData, Component,UseInstance); //Callout
+							data = ""; //Not compatible
+							return false;
+						}
+					}
+					else
+					{
+						var GameObjectModified = (SpawnedInstance as GameObject);
+						if (GameObjectModified != null && GameObjectModified.transform.parent == null) //Prefab
+						{
+							var ForeverID = GameObjectModified.GetComponent<IHaveForeverID>();
+							if (ForeverID != null)
+							{
+								data = ForeverID.ForeverID;
+								data = data?.Replace("@", "");
+								data = data?.Replace("#", "");
+								return true;
+							}
+						}
+						else
+						{
+							data = ""; //Not compatible
+							Loggy.LogError("Not compatible GameObject");
+							return false;
+						}
+					}
+				}
+				else
+				{
+					data = Librarian.Page.Serialise(SpawnedInstance, Type);
+					data = data?.Replace("@", "");
+					data = data?.Replace("#", "");
+					return true;
+				}
+			}
+
+			Loggy.LogError("Not compatible HELP");
+			data = ""; //Not compatible
+			return false;
+		}
+
+		// Method to check if a type inherits from any generic class and get the type argument
+		private static Type[] GetGenericBaseTypeArgument(Type type)
+		{
+			while (type != null && type != typeof(object))
+			{
+				// Check if the type is a generic type
+				if (type.IsGenericType)
+				{
+					// Return the type argument of the generic base class
+					return type.GetGenericArguments();
+				}
+
+				// Move to the base type
+				type = type.BaseType;
+			}
+
+			// No generic base class found
+			return null;
+		}
+
+		private static void DictionaryHandleSave(object MonoSet, object PrefabDefault, FieldInfo Field,
+			HashSet<FieldData> FieldDatas, string Prefix, bool UseInstance, IPopulateIDRelation IPopulateIDRelation,
+			HashSet<Component> OnGameObjectComponents, HashSet<GameObject> AllGameObjectOnObject)
+		{
+			bool KeyisScriptableObject = false;
+			bool KeyIsComponent = false;
+
+			bool KeyanyOfThem = false;
+
+			var Arguments = Field.FieldType.GetGenericArguments();
+
+			if (Arguments.Length == 0)
+			{
+				Arguments = GetGenericBaseTypeArgument(Field.FieldType);
+			}
+
+			var KeyType = Arguments[0];
+
+			if (typeof(GameObject).IsAssignableFrom(KeyType))
+			{
+				KeyIsComponent = false;
+				KeyisScriptableObject = false;
+				KeyanyOfThem = true;
+			}
+			else if (typeof(Component).IsAssignableFrom(KeyType))
+			{
+				KeyIsComponent = true;
+				KeyisScriptableObject = false;
+				KeyanyOfThem = true;
+			}
+			else if (typeof(ScriptableObject).IsAssignableFrom(KeyType) &&
+			         typeof(IHaveForeverID).IsAssignableFrom(KeyType))
+			{
+				KeyIsComponent = false;
+				KeyisScriptableObject = true;
+				KeyanyOfThem = true;
+			}
+
+
+			if (typeof(System.Action).IsAssignableFrom(KeyType)
+			    || (typeof(UnityEngine.Events.UnityEventBase).IsAssignableFrom(KeyType))
+			    || (KeyType.IsGenericType && KeyType.GetGenericTypeDefinition() == typeof(Action<>)))
+			{
+				//Actions can get confused with runtime added onces vs Mapped Ones
+				return;
+			}
+
+			bool KeyIsClass = KeyanyOfThem == false
+			                  && KeyType.IsValueType == false
+			                  && (KeyType == typeof(string)) == false
+			                  && KeyType.IsGenericType == false
+			                  && KeyType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length > 0;
+
+			if (KeyIsClass == true) return; //is not Supported
+
+			if (KeyanyOfThem == false && KeyIsClass == false)
+			{
+				if (KeyType.IsValueType == false)
+				{
+					return; //Non-serialisable class
+				}
+			}
+
+
+			bool ValisScriptableObject = false;
+			bool ValIsComponent = false;
+
+			bool ValanyOfThem = false;
+
+			var ValType = Arguments[1];
+
+			if (typeof(GameObject).IsAssignableFrom(ValType))
+			{
+				ValIsComponent = false;
+				ValisScriptableObject = false;
+				ValanyOfThem = true;
+			}
+			else if (typeof(Component).IsAssignableFrom(ValType))
+			{
+				ValIsComponent = true;
+				ValisScriptableObject = false;
+				ValanyOfThem = true;
+			}
+			else if (typeof(ScriptableObject).IsAssignableFrom(ValType) &&
+			         typeof(IHaveForeverID).IsAssignableFrom(ValType))
+			{
+				ValIsComponent = false;
+				ValisScriptableObject = true;
+				ValanyOfThem = true;
+			}
+
+			bool ValIsClass = ValanyOfThem == false
+			                  && ValType.IsValueType == false
+			                  && (ValType == typeof(string)) == false
+			                  && ValType.IsGenericType == false
+			                  && ValType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length > 0;
+
+			if (typeof(System.Action).IsAssignableFrom(KeyType)
+			    || (typeof(UnityEngine.Events.UnityEventBase).IsAssignableFrom(KeyType))
+			    || (KeyType.IsGenericType && KeyType.GetGenericTypeDefinition() == typeof(Action<>)))
+			{
+				//Actions can get confused with runtime added onces vs Mapped Ones
+				return;
+			}
+
+			if (ValType.IsGenericType) return; //No list within lists for now
+			if (ValanyOfThem == false && ValIsClass == false)
+			{
+				if (ValType.IsValueType == false)
+				{
+					return; //Non-serialisable class
+				}
+			}
+
+			var modified = (MonoSet as IDictionary);
+
+			IDictionary original = null;
+
+			if (PrefabDefault != null)
+			{
+				original = (PrefabDefault as IDictionary);
+			}
+
+			foreach (var Key in modified.Keys)
+			{
+				object ValueOriginal = null;
+
+				bool MarkAsRemoved = false;
+
+				if (original?.Contains(Key) is true) //has key
+				{
+					ValueOriginal = original[Key];
+				}
+
+				if (ReturnKey(Key, KeyisScriptableObject, KeyIsComponent, KeyanyOfThem, KeyType,
+					    out var StringData))
+				{
+					if (ValIsClass && modified[Key] == null)
+					{
+						RecursiveSearchData(OnGameObjectComponents, AllGameObjectOnObject, IPopulateIDRelation,
+							FieldDatas,
+							Prefix + Field.Name + "#" + StringData + "#",
+							original[Key],
+							modified[Key],
+							UseInstance); //Recursive
+					}
+					else
+					{
+						if (CheckAreSame(ValueOriginal, modified[Key], OnGameObjectComponents, AllGameObjectOnObject) ==
+						    false)
+						{
+							FieldData fieldData = new FieldData();
+							fieldData.Name = Prefix + Field.Name + "#" + StringData;
+							SetDataFieldFor(fieldData, modified[Key], ValisScriptableObject, ValIsComponent,
+								ValanyOfThem,
+								ValType, FieldDatas, UseInstance, IPopulateIDRelation, false);
+							FieldDatas.Add(fieldData); //add data
+						}
+					}
+				}
+			}
+
+			if (original != null)
+			{
+				foreach (var OriginalKey in original.Keys)
+				{
+					if (modified.Contains(OriginalKey) == false)
+					{
+						if (ReturnKey(OriginalKey, KeyisScriptableObject, KeyIsComponent, KeyanyOfThem, KeyType,
+							    out var StringData))
+						{
+							FieldData fieldData = new FieldData();
+							fieldData.Name = Prefix + Field.Name + "#" + StringData;
+							SetDataFieldFor(fieldData, null, ValisScriptableObject, ValIsComponent, ValanyOfThem,
+								ValType, FieldDatas, UseInstance, IPopulateIDRelation, true);
+							FieldDatas.Add(fieldData); //add data
+						}
+					}
+				}
+			}
+		}
+
+
+		private static void ListHandleSave(object MonoSet, object PrefabDefault, FieldInfo Field,
+			HashSet<FieldData> FieldDatas, string Prefix, bool UseInstance, IPopulateIDRelation IPopulateIDRelation,
+			HashSet<Component> OnGameObjectComponents,
+			HashSet<GameObject> AllGameObjectOnObject)
+		{
+			if (MonoSet == null) return;
+
+			bool isScriptableObject = false;
+			bool IsComponent = false;
+
+			bool IsReferencedObject = false;
+
+			if (typeof(GameObject).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]))
+			{
+				IsComponent = false;
+				isScriptableObject = false;
+				IsReferencedObject = true;
+			}
+			else if (typeof(Component).IsAssignableFrom(
+				         Field.FieldType.GetGenericArguments()[0]))
+			{
+				IsComponent = true;
+				isScriptableObject = false;
+				IsReferencedObject = true;
+			}
+			else if (typeof(ScriptableObject).IsAssignableFrom(
+				         Field.FieldType.GetGenericArguments()[0]) &&
+			         typeof(IHaveForeverID).IsAssignableFrom(
+				         Field.FieldType.GetGenericArguments()[0]))
+			{
+				IsComponent = false;
+				isScriptableObject = true;
+				IsReferencedObject = true;
+			}
+
+
+			var ListType = Field.FieldType.GetGenericArguments()[0];
+
+			bool IsClass = IsReferencedObject == false
+			               && ListType.IsValueType == false
+			               && (ListType == typeof(string)) == false
+			               && ListType.IsGenericType == false
+			               && ListType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length > 0;
+
+			if (IsReferencedObject == false && IsClass == false)
+			{
+				if (ListType.IsValueType == false)
+				{
+					return; //Non-serialisable class
+				}
+			}
+
+
+			if (typeof(System.Action).IsAssignableFrom(ListType)
+			    || (typeof(UnityEngine.Events.UnityEventBase).IsAssignableFrom(ListType))
+			    || (ListType.IsGenericType && ListType.GetGenericTypeDefinition() == typeof(Action<>)))
+			{
+				//Actions can get confused with runtime added onces vs Mapped Ones
+				return;
+			}
+
+			var modified = IEnumeratorToList((MonoSet as IEnumerable).GetEnumerator());
+
+			List<object> original = new List<object>();
+
+
+			if (PrefabDefault != null)
+			{
+				original = IEnumeratorToList((PrefabDefault as IEnumerable).GetEnumerator());
+			}
+
+
+			for (int i = 0; i < Math.Max(original.Count, modified.Count); i++)
+			{
+				if ((i < original.Count && i < modified.Count) || (i < modified.Count && i >= original.Count))
+				{
+					object OriginalValue = null;
+					if (i < original.Count)
+					{
+						OriginalValue = original[i];
+					}
+
+					if (IsClass && modified[i] != null)
+					{
+						RecursiveSearchData(OnGameObjectComponents, AllGameObjectOnObject,
+							IPopulateIDRelation,
+							FieldDatas,
+							Prefix + Field.Name + "#" + i + "#",
+							OriginalValue,
+							modified[i],
+							UseInstance); //Recursive
+					}
+					else
+					{
+						if (CheckAreSame(OriginalValue, modified[i], OnGameObjectComponents,
+							    AllGameObjectOnObject) == false)
+						{
+							FieldData fieldData = new FieldData();
+							fieldData.Name = Prefix + Field.Name + "#" + i;
+							SetDataFieldFor(fieldData, modified[i], isScriptableObject, IsComponent,
+								IsReferencedObject,
+								ListType, FieldDatas, UseInstance, IPopulateIDRelation, false);
+							FieldDatas.Add(fieldData); //add data
+						}
+					}
+				}
+				else if (i < original.Count)
+				{
+					FieldData fieldData = new FieldData();
+					fieldData.Name = Prefix + Field.Name + "#" + i;
+					SetDataFieldFor(fieldData, null, isScriptableObject, IsComponent, IsReferencedObject,
+						ListType, FieldDatas, UseInstance, IPopulateIDRelation, true);
+					FieldDatas.Add(fieldData); //add data
+				}
+			}
+		}
+
+		private static GameObject GetGameObjectPath(string Id, IPopulateIDRelation IPopulateIDRelation, out bool Loaded)
 		{
 			if (Id == "MISSING")
 			{
+				Loaded = true;
 				Loggy.LogError("Map has missing references");
 				return null;
 			}
 
 			var IDPath = Id.Split("@");
+			if (IPopulateIDRelation.Objects.ContainsKey(IDPath[0]) == false)
+			{
+				Loaded = false;
+				return null;
+			}
+			else
+			{
+				Loaded = true;
+			}
+
 			var Object = IPopulateIDRelation.Objects[IDPath[0]];
 			//0,1
 			List<int> IDs = new List<int>();
@@ -276,30 +862,34 @@ namespace SecureStuff
 				IDs.RemoveAt(0);
 			}
 
+
 			return Object;
 		}
 
-		private static Component GetComponentPath(string Id, IPopulateIDRelation IPopulateIDRelation)
+		private static Component GetComponentPath(string Id, IPopulateIDRelation IPopulateIDRelation, out bool Loaded)
 		{
 			if (Id == "MISSING")
 			{
 				Loggy.LogError("Map has missing references");
+				Loaded = true;
 				return null;
 			}
 
 			var IDPath = Id.Split("@");
-			var Object = GetGameObjectPath(Id, IPopulateIDRelation);
+			var Object = GetGameObjectPath(Id, IPopulateIDRelation, out Loaded);
+			if (Loaded == false) return null;
 			return Object.GetComponent(IDPath[2]); //TODO Support multiple;
 		}
 
-		private static void ProcessIndividualField(string RootID, Component root, object Object, FieldData ModField,
+		private static void ProcessIndividualField(string RootID, Component root, object Object,
+			FieldData ModField,
 			IPopulateIDRelation IPopulateIDRelation,
-			bool AllLoaded = false,
 			string AppropriateName = "", bool IsServer = true)
 		{
 			var TypeMono = Object.GetType();
-			int Index = 0;
+			string Index = "";
 
+			bool MoreSteps = false;
 			string AdditionalJumps = "";
 			if (string.IsNullOrEmpty(AppropriateName))
 			{
@@ -307,24 +897,29 @@ namespace SecureStuff
 			}
 
 
-			if (AppropriateName.Contains("@")) //TODO do @ and # Collide?
+			if (AppropriateName.Contains("@"))
 			{
 				var NewPath = AppropriateName.Split("@", 2);
-				AdditionalJumps = NewPath[1];
 				AppropriateName = NewPath[0];
+				AdditionalJumps = NewPath[1];
 			}
 
 
 			if (AppropriateName.Contains("#"))
 			{
-				var Split = AppropriateName.Split("#");
+				var Split = AppropriateName.Split("#", 2);
 				AppropriateName = Split[0];
-				Index = int.Parse(Split[1]);
+				Index = Split[1];
+				if (Index.Contains("@")) //Contains further steps
+				{
+					Index = Index.Split("@", 2)[0];
+				}
 			}
 
 			var Field = TypeMono.GetField(AppropriateName,
 				BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic |
 				BindingFlags.FlattenHierarchy);
+
 			if (IsGoodField(Field) == false) return;
 
 			if (IsServer == false)
@@ -338,33 +933,27 @@ namespace SecureStuff
 			{
 				IEnumerable list = null;
 
+				if ((typeof(IDictionary<,>).IsAssignableFrom(Field.FieldType) ||
+				     typeof(IDictionary).IsAssignableFrom(Field.FieldType)))
+				{
+					//no Field.FieldType.IsGenericType && due to stupid class dictionary inheritance silly unity stuff
+					if (typeof(ISerializationCallbackReceiver)
+					    .IsAssignableFrom(Field
+						    .FieldType)) //so Serialisable dictionary only, can't directly reference due to assembly stuff
+					{
+						DictionaryHandleLoad(RootID, root, Field, Object, ModField, Index, IPopulateIDRelation,
+							AdditionalJumps, IsServer);
+					}
+
+					return;
+				}
+
+
 				if (Field.FieldType.IsGenericType && typeof(IEnumerable).IsAssignableFrom(Field.FieldType) &&
 				    Field.FieldType.GetGenericTypeDefinition() != typeof(Dictionary<,>))
 				{
-					bool isScriptableObject = false;
-					bool IsComponent = false;
-
-					bool anyOfThem = false;
-
-					if (typeof(GameObject).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]))
-					{
-						anyOfThem = true;
-					}
-					else if (typeof(Component).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]))
-					{
-						anyOfThem = true;
-					}
-					else if (typeof(ScriptableObject).IsAssignableFrom(
-						         Field.FieldType.GetGenericArguments()[0]) &&
-					         typeof(IHaveForeverID).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]))
-					{
-						anyOfThem = true;
-					}
-
-					if (anyOfThem)
-					{
-						ListHandle(RootID, root, Field, Object, ModField, Index, IPopulateIDRelation, AllLoaded);
-					}
+					ListHandleLoad(RootID, root, Field, Object, ModField, int.Parse(Index), IPopulateIDRelation,
+						IsServer, AdditionalJumps);
 				}
 
 				if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Component)))
@@ -381,33 +970,27 @@ namespace SecureStuff
 					{
 						var PrefabComponent = JsonConvert.DeserializeObject<PrefabComponent>(ModField.Data);
 						var Prefab =
-							IPopulateIDRelation.ObjectsFromForeverID(PrefabComponent.ForeverId, Field.FieldType);
+							IPopulateIDRelation.ObjectsFromForeverID(PrefabComponent.ForeverId,
+								Field.FieldType);
 
-						Field.SetValue(Object, ((GameObject) Prefab)?.GetComponent(PrefabComponent.ComponentName));
+						Field.SetValue(Object,
+							((GameObject) Prefab)?.GetComponent(PrefabComponent.ComponentName));
 					}
 					else
 					{
-						if (AllLoaded)
-						{
-							Field.SetValue(Object, GetComponentPath(ModField.Data, IPopulateIDRelation));
-						}
-						else
+
+						var data = GetComponentPath(ModField.Data, IPopulateIDRelation, out var AllLoaded);
+						if (AllLoaded == false)
 						{
 							IPopulateIDRelation.FlagSaveKey(RootID, root, ModField);
 						}
+						Field.SetValue(Object, data);
+						return;
 					}
 				}
 
 				if (Field.FieldType == typeof(UnityEngine.GameObject))
 				{
-					if (IsServer == false)
-					{
-						if (IsGoodClientField(Field) == false)
-						{
-							return;
-						}
-					}
-
 					if (ModField.IsPrefabID == true)
 					{
 						var Prefab = IPopulateIDRelation.ObjectsFromForeverID(ModField.Data, Field.FieldType);
@@ -415,14 +998,13 @@ namespace SecureStuff
 					}
 					else
 					{
-						if (AllLoaded)
-						{
-							Field.SetValue(Object, GetGameObjectPath(ModField.Data, IPopulateIDRelation));
-						}
-						else
+						var data = GetGameObjectPath(ModField.Data, IPopulateIDRelation, out var AllLoaded);
+						if (AllLoaded == false)
 						{
 							IPopulateIDRelation.FlagSaveKey(RootID, root, ModField);
 						}
+						Field.SetValue(Object, data);
+						return;
 					}
 				}
 
@@ -436,10 +1018,9 @@ namespace SecureStuff
 				//if Field is a class and is not related to unity engine.object Serialise it
 				if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object))) return;
 
-
 				if (Field.FieldType.IsGenericType == false)
 				{
-					ProcessIndividualField(RootID, root, Field.GetValue(Object), ModField, IPopulateIDRelation, AllLoaded, AdditionalJumps);
+					ProcessIndividualField(RootID, root, Field.GetValue(Object), ModField, IPopulateIDRelation,AdditionalJumps, IsServer);
 					return;
 				}
 			}
@@ -456,21 +1037,16 @@ namespace SecureStuff
 			var MonoSet = Field.GetValue(Object);
 			if (MonoSet == null) return;
 
-			if (Field.FieldType.IsGenericType && typeof(IEnumerable).IsAssignableFrom(Field.FieldType) &&
-			    Field.FieldType.GetGenericArguments()[0].IsValueType) //UnityEventBase Handle differently
-			{
-				ListHandle(RootID, root, Field, Object, ModField, Index, IPopulateIDRelation);
-			}
-			else
-			{
-				if (Field.FieldType.IsGenericType) return; //Unity editor can't handle this currently so same Functionality
-				Field.SetValue(Object, Librarian.Page.DeSerialiseValue(ModField.Data, Field.FieldType));
-			}
+
+			if (Field.FieldType.IsGenericType)
+				return; //Unity editor can't handle this currently so same Functionality
+			Field.SetValue(Object, Librarian.Page.DeSerialiseValue(ModField.Data, Field.FieldType));
 		}
 
-		private static void LoadDatarecursive(string RootID,  Component root, object Object, HashSet<FieldData> IndividualObject,
+		private static void LoadDatarecursive(string RootID, Component root, object Object,
+			HashSet<FieldData> IndividualObject,
 			IPopulateIDRelation IPopulateIDRelation,
-			bool AllLoaded = false, bool IsServer = true) //Has to be Component to restrict it from being used in silly places
+			bool IsServer = true) //Has to be Component to restrict it from being used in silly places
 		{
 			try
 			{
@@ -478,7 +1054,7 @@ namespace SecureStuff
 				{
 					try
 					{
-						ProcessIndividualField(RootID,root, Object, ModField, IPopulateIDRelation, AllLoaded);
+						ProcessIndividualField(RootID, root, Object, ModField, IPopulateIDRelation, "", IsServer);
 					}
 					catch (Exception e)
 					{
@@ -492,21 +1068,23 @@ namespace SecureStuff
 			}
 		}
 
-		public static void LoadData(string RootID,  Component Object, HashSet<FieldData> IndividualObject,
+		public static void LoadData(string RootID, Component Object, HashSet<FieldData> IndividualObject,
 			IPopulateIDRelation IPopulateIDRelation,
-			bool AllLoaded = false, bool IsServer =true) //Has to be Component to restrict it from being used in silly places
+			bool IsServer = true) //Has to be Component to restrict it from being used in silly places
 		{
 			if (Object == null) return;
-			LoadDatarecursive(RootID,Object, Object, IndividualObject, IPopulateIDRelation, AllLoaded);
+			LoadDatarecursive(RootID, Object, Object, IndividualObject, IPopulateIDRelation, IsServer);
 		}
 
-		private static bool IsGoodClientField(FieldInfo Field) //So the client doesn't overwrite synchronised values from the server
+		private static bool IsGoodClientField(FieldInfo Field)
+			//So the client doesn't overwrite synchronised values from the server
 		{
 			var attribute = Field.GetCustomAttributes(typeof(IsSyncedAttribute), true);
 			if (attribute.Length > 0)
 			{
 				return false;
 			}
+
 			attribute = Field.GetCustomAttributes(typeof(SyncVarAttribute), true);
 			if (attribute.Length > 0)
 			{
@@ -546,8 +1124,10 @@ namespace SecureStuff
 				{
 					return true;
 				}
+
 				toCheck = toCheck.BaseType;
 			}
+
 			return false;
 		}
 
@@ -582,7 +1162,8 @@ namespace SecureStuff
 			return true;
 		}
 
-		public static void RecursiveSearchData(HashSet<Component> OnGameObjectComponents,
+		public static void RecursiveSearchData(
+			HashSet<Component> OnGameObjectComponents,
 			HashSet<GameObject> AllGameObjectOnObject,
 			IPopulateIDRelation IPopulateIDRelation,
 			HashSet<FieldData> FieldDatas,
@@ -609,7 +1190,7 @@ namespace SecureStuff
 					// }
 
 					if (Field.FieldType.IsValueType == false &&
-					    (Field.FieldType == typeof(string)) == false) //Cross object references
+					    (Field.FieldType == typeof(string)) == false)
 					{
 						object APrefabDefault = null;
 						if (PrefabInstance != null)
@@ -619,212 +1200,45 @@ namespace SecureStuff
 
 						var AMonoSet = Field.GetValue(SpawnedInstance);
 
-
 						IEnumerable list = null;
 
-						if (Field.FieldType.IsGenericType && typeof(IEnumerable).IsAssignableFrom(Field.FieldType) &&
-						    Field.FieldType.GetGenericTypeDefinition() != typeof(Dictionary<,>))
+						if (Field.FieldType.IsGenericType &&
+						    typeof(IEnumerable).IsAssignableFrom(Field.FieldType) &&
+						    Field.FieldType.GetGenericTypeDefinition() != typeof(Dictionary<,>) &&
+						    typeof(IDictionary).IsAssignableFrom(Field.FieldType) == false &&
+						    typeof(HashSet<>).IsAssignableFrom(Field.FieldType) == false)
 						{
-							//&& Field.FieldType.GetGenericArguments()[0]
+							ListHandleSave(AMonoSet, APrefabDefault, Field, FieldDatas, Prefix, UseInstance,
+								IPopulateIDRelation, OnGameObjectComponents,
+								AllGameObjectOnObject);
 
-							bool isScriptableObject = false;
-							bool IsComponent = false;
-
-							bool anyOfThem = false;
-
-							if (typeof(GameObject).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]))
-							{
-								IsComponent = false;
-								isScriptableObject = false;
-								anyOfThem = true;
-							}
-							else if (typeof(Component).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]))
-							{
-								IsComponent = true;
-								isScriptableObject = false;
-								anyOfThem = true;
-							}
-							else if (typeof(ScriptableObject).IsAssignableFrom(
-								         Field.FieldType.GetGenericArguments()[0]) &&
-							         typeof(IHaveForeverID).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]))
-							{
-								IsComponent = false;
-								isScriptableObject = true;
-								anyOfThem = true;
-							}
-
-							if (anyOfThem)
-							{
-								var modified = IEnumeratorToList((AMonoSet as IEnumerable).GetEnumerator());
-
-								List<object> original = new List<object>();
-
-
-								if (APrefabDefault != null)
-								{
-									original = IEnumeratorToList((APrefabDefault as IEnumerable).GetEnumerator());
-								}
-
-
-								for (int i = 0; i < Math.Max(original.Count, modified.Count); i++)
-								{
-									if (i < original.Count && i < modified.Count)
-									{
-										if (CheckAreSame(original[i], modified[i]) == false)
-										{
-											SaveComponentGameObjectScriptableObject(IsComponent, isScriptableObject,
-												Prefix,
-												Field, i, modified, FieldDatas, UseInstance, IPopulateIDRelation);
-										}
-									}
-									else if (i < original.Count)
-									{
-										FieldData fieldData = new FieldData();
-										fieldData.Name = Prefix + Field.Name + "#" + i + "#" + "Removed";
-										fieldData.Data = "#removed#";
-										FieldDatas.Add(fieldData);
-									}
-									else if (i < modified.Count)
-									{
-										SaveComponentGameObjectScriptableObject(IsComponent, isScriptableObject, Prefix,
-											Field, i, modified, FieldDatas, UseInstance, IPopulateIDRelation);
-									}
-								}
-							}
-						}
-
-						if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Component)))
-						{
-							var Object = Field.GetValue(SpawnedInstance);
-							var mono = Object as Component;
-							if (mono == null) continue;
-
-							if (OnGameObjectComponents.Contains(mono))
-								continue; //Might be controversial but it cleans out Riffraff
-
-							if (mono.transform.parent == null) //is prefab
-							{
-								var ForeverIDTracker = mono.GetComponent<IHaveForeverID>();
-								if (PrefabInstance != null)
-								{
-									var PrefabSOTracker = (Field.GetValue(PrefabInstance) as Component)
-										.GetComponent<IHaveForeverID>();
-									if (PrefabSOTracker != null)
-									{
-										if (PrefabSOTracker.ForeverID == ForeverIDTracker.ForeverID)
-										{
-											continue;
-										}
-									}
-								}
-
-								if (ForeverIDTracker != null)
-								{
-									FieldData AfieldData = new FieldData();
-									AfieldData.Name = Prefix + Field.Name;
-
-									AfieldData.Data = ForeverIDTracker.ForeverID;
-									AfieldData.Data = JsonConvert.SerializeObject(new PrefabComponent()
-									{
-										ForeverId = ForeverIDTracker.ForeverID,
-										ComponentName = mono.GetType().Name
-									});
-									AfieldData.IsPrefabID = true;
-									FieldDatas.Add(AfieldData); //add data
-								}
-
-								continue; //is prefab instance
-							}
-
-							var fieldData = new FieldData();
-							fieldData.Name = Prefix + Field.Name;
-							IPopulateIDRelation.PopulateIDRelation(FieldDatas, fieldData, mono,
-								UseInstance); //Callout
 							continue;
 						}
 
-						if (Field.FieldType == typeof(UnityEngine.GameObject))
+						if ((typeof(IDictionary<,>).IsAssignableFrom(Field.FieldType) ||
+						     typeof(IDictionary).IsAssignableFrom(Field.FieldType)))
 						{
-							var Object = Field.GetValue(SpawnedInstance);
-							var mono = Object as GameObject;
-							if (mono == null) continue;
-
-							if (mono.transform.parent == null) //is prefab
+							//no Field.FieldType.IsGenericType && due to stupid class dictionary inheritance silly unity stuff
+							if (typeof(ISerializationCallbackReceiver)
+							    .IsAssignableFrom(Field
+								    .FieldType)) //so Serialisable dictionary only, can't directly reference due to assembly stuff
 							{
-								var ForeverIDTracker = mono.GetComponent<IHaveForeverID>();
-								if (PrefabInstance != null)
-								{
-									try
-									{
-										var PrefabSOTracker = (Field.GetValue(PrefabInstance) as GameObject).GetComponent<IHaveForeverID>();
-										if (PrefabSOTracker != null)
-										{
-											if (PrefabSOTracker.ForeverID == ForeverIDTracker.ForeverID)
-											{
-												continue;
-											}
-										}
-									}
-									catch (Exception e)
-									{
-										Console.WriteLine(e);
-										throw;
-									}
-								}
-
-								if (ForeverIDTracker != null)
-								{
-									FieldData AfieldData = new FieldData();
-									AfieldData.Name = Prefix + Field.Name;
-									AfieldData.Data = ForeverIDTracker.ForeverID;
-									AfieldData.IsPrefabID = true;
-									FieldDatas.Add(AfieldData); //add data
-								}
+								DictionaryHandleSave(AMonoSet, APrefabDefault, Field, FieldDatas, Prefix, UseInstance,
+									IPopulateIDRelation, OnGameObjectComponents, AllGameObjectOnObject);
 							}
 
-							//TODO Game object references
 							continue;
 						}
 
-						if (Field.FieldType.IsSubclassOf(typeof(ScriptableObject)) &&
-						    typeof(IHaveForeverID).IsAssignableFrom(Field.FieldType))
-						{
-							var SOTracker = Field.GetValue(SpawnedInstance) as IHaveForeverID;
-
-
-							IHaveForeverID PrefabSOTracker = null;
-							if (PrefabInstance != null)
-							{
-								PrefabSOTracker = Field.GetValue(PrefabInstance) as IHaveForeverID;
-							}
-
-							if (PrefabSOTracker?.ForeverID == SOTracker?.ForeverID)
-							{
-								continue;
-							}
-
-							var fieldData = new FieldData();
-							fieldData.Name = Prefix + Field.Name;
-							if (SOTracker != null)
-							{
-								fieldData.Data = SOTracker.ForeverID;
-							}
-							else
-							{
-								fieldData.Data = "NULL";
-							}
-
-							FieldDatas.Add(fieldData);
-							continue;
-						}
 
 						//if Field is a class and is not related to unity engine.object Serialise it
-						if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object))) continue;
-
 						if (Field.FieldType.IsGenericType == false &&
-						    (APrefabDefault != null || PrefabInstance == null) && AMonoSet != null)
+						    (APrefabDefault != null || PrefabInstance == null) && AMonoSet != null
+						    && Field.FieldType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length >
+						    0)
 						{
-							RecursiveSearchData(OnGameObjectComponents, AllGameObjectOnObject, IPopulateIDRelation,
+							RecursiveSearchData(OnGameObjectComponents, AllGameObjectOnObject,
+								IPopulateIDRelation,
 								FieldDatas,
 								Prefix + Field.Name + "@",
 								APrefabDefault,
@@ -832,88 +1246,180 @@ namespace SecureStuff
 								UseInstance); //Recursive
 							continue;
 						}
-					}
-
-
-					if (Field.FieldType.IsGenericType &&
-					    Field.FieldType.GetGenericTypeDefinition() == typeof(Dictionary<,>))
-						continue; //skipping all dictionaries For now
-					if (Field.FieldType == typeof(System.Action)) continue;
-					if (Field.FieldType.BaseType == typeof(UnityEngine.Events.UnityEventBase))
-						continue; //TODO Handle separately Since it is same as Object references
-
-
-					object PrefabDefault = null;
-					if (PrefabInstance != null)
-					{
-						PrefabDefault = Field.GetValue(PrefabInstance);
-					}
-
-					var MonoSet = Field.GetValue(SpawnedInstance);
-					if (MonoSet == null) continue;
-
-					if (Field.FieldType.IsGenericType && typeof(IEnumerable).IsAssignableFrom(Field.FieldType) &&
-					    Field.FieldType.GetGenericArguments()[0].IsValueType) //UnityEventBase Handle differently
-					{
-						var modified = IEnumeratorToList((MonoSet as IEnumerable).GetEnumerator());
-
-						List<object> original = new List<object>();
-
-
-						if (PrefabDefault != null)
+						else
 						{
-							original = IEnumeratorToList((PrefabDefault as IEnumerable).GetEnumerator());
-						}
+							if (Field.FieldType == typeof(System.Action)) continue;
+							if (Field.FieldType.BaseType == typeof(UnityEngine.Events.UnityEventBase)) continue;
 
-
-						for (int i = 0; i < Math.Max(original.Count, modified.Count); i++)
-						{
-							if (i < original.Count && i < modified.Count)
+							object PrefabDefault = null;
+							if (PrefabInstance != null)
 							{
-								if (CheckAreSame(original[i], modified[i]) == false)
+								PrefabDefault = Field.GetValue(PrefabInstance);
+							}
+
+							var MonoSet = Field.GetValue(SpawnedInstance);
+							if (MonoSet == null) continue;
+
+
+							if (CheckAreSame(PrefabDefault, MonoSet, OnGameObjectComponents,
+								    AllGameObjectOnObject) == false)
+							{
+								bool IsSO = (Field.FieldType.IsSubclassOf(typeof(ScriptableObject)) &&
+								             typeof(IHaveForeverID).IsAssignableFrom(Field.FieldType));
+
+								bool IsComponent = Field.FieldType.IsSubclassOf(typeof(UnityEngine.Component));
+
+								bool anyOfThem = IsComponent || IsSO;
+
+								if (anyOfThem == false)
 								{
-									FieldData fieldData = new FieldData();
-									fieldData.Name = Prefix + Field.Name + "#" + i;
-									fieldData.Data = modified[i]?.ToString();
-									FieldDatas.Add(fieldData); //add data
+									anyOfThem = Field.FieldType == typeof(UnityEngine.GameObject);
 								}
-							}
-							else if (i < original.Count)
-							{
+
+								if (anyOfThem == false)
+								{
+									if (Field.FieldType.IsGenericType)
+										continue; //Unity editor can't handle this currently so same Functionality
+									if (Field.FieldType.GetCustomAttributes(typeof(System.SerializableAttribute), true)
+										    .Length == 0) continue;
+									if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object))) continue;
+								}
+
+
 								FieldData fieldData = new FieldData();
-								fieldData.Name = Prefix + Field.Name + "#" + i + "#" + "Removed";
-								fieldData.Data = "#removed#";
-								FieldDatas.Add(fieldData);
-							}
-							else if (i < modified.Count)
-							{
-								FieldData fieldData = new FieldData();
-								fieldData.Name = Prefix + Field.Name + "#" + i;
-								fieldData.Data = modified[i]?.ToString();
+								fieldData.Name = Prefix + Field.Name;
+								SetDataFieldFor(fieldData, MonoSet, IsSO, IsComponent, anyOfThem, Field.FieldType,
+									FieldDatas, UseInstance, IPopulateIDRelation, false);
 								FieldDatas.Add(fieldData); //add data
 							}
 						}
-					}
-					else
-					{
-						if (Field.FieldType.IsGenericType)
-							continue; //Unity editor can't handle this currently so same Functionality
-						if (CheckAreSame(PrefabDefault, MonoSet) == false)
-						{
-							FieldData fieldData = new FieldData();
-							fieldData.Name = Prefix + Field.Name;
-							fieldData.Data = Librarian.Page.Serialise(MonoSet, Field.FieldType);
-							FieldDatas.Add(fieldData); //add data
-						}
-					}
 
-					//if is a Variables inside of the class will be flattened with field name of class@Field name
-					//Better if recursiveThrough the class
-
-					//Don't do sub- variables in struct
-					//If it is a class,
-					//Is class Is thing thing,
-					//and then Just repeat the loop but within that class with the added notation
+						// if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Component)))
+						// {
+						// 	var Object = Field.GetValue(SpawnedInstance);
+						// 	var mono = Object as Component;
+						// 	if (mono == null) continue;
+						//
+						// 	if (OnGameObjectComponents.Contains(mono))
+						// 		continue; //Might be controversial but it cleans out Riffraff
+						//
+						// 	if (mono.transform.parent == null) //is prefab
+						// 	{
+						// 		var ForeverIDTracker = mono.GetComponent<IHaveForeverID>();
+						// 		if (PrefabInstance != null)
+						// 		{
+						// 			var PrefabSOTracker = (Field.GetValue(PrefabInstance) as Component)
+						// 				.GetComponent<IHaveForeverID>();
+						// 			if (PrefabSOTracker != null)
+						// 			{
+						// 				if (PrefabSOTracker.ForeverID == ForeverIDTracker.ForeverID)
+						// 				{
+						// 					continue;
+						// 				}
+						// 			}
+						// 		}
+						//
+						// 		if (ForeverIDTracker != null)
+						// 		{
+						// 			FieldData AfieldData = new FieldData();
+						// 			AfieldData.Name = Prefix + Field.Name;
+						//
+						// 			AfieldData.Data = ForeverIDTracker.ForeverID;
+						// 			AfieldData.Data = JsonConvert.SerializeObject(new PrefabComponent()
+						// 			{
+						// 				ForeverId = ForeverIDTracker.ForeverID,
+						// 				ComponentName = mono.GetType().Name
+						// 			});
+						// 			AfieldData.IsPrefabID = true;
+						// 			FieldDatas.Add(AfieldData); //add data
+						// 		}
+						//
+						// 		continue; //is prefab instance
+						// 	}
+						//
+						// 	var fieldData = new FieldData();
+						// 	fieldData.Name = Prefix + Field.Name;
+						// 	IPopulateIDRelation.PopulateIDRelation(FieldDatas, fieldData, mono,
+						// 		UseInstance); //Callout
+						// 	continue;
+						// }
+						//
+						// if (Field.FieldType == typeof(UnityEngine.GameObject))
+						// {
+						// 	var Object = Field.GetValue(SpawnedInstance);
+						// 	var mono = Object as GameObject;
+						// 	if (mono == null) continue;
+						//
+						// 	if (mono.transform.parent == null) //is prefab
+						// 	{
+						// 		var ForeverIDTracker = mono.GetComponent<IHaveForeverID>();
+						// 		if (PrefabInstance != null)
+						// 		{
+						// 			try
+						// 			{
+						// 				var PrefabSOTracker = (Field.GetValue(PrefabInstance) as GameObject)
+						// 					.GetComponent<IHaveForeverID>();
+						// 				if (PrefabSOTracker != null)
+						// 				{
+						// 					if (PrefabSOTracker.ForeverID == ForeverIDTracker.ForeverID)
+						// 					{
+						// 						continue;
+						// 					}
+						// 				}
+						// 			}
+						// 			catch (Exception e)
+						// 			{
+						// 				Console.WriteLine(e);
+						// 				throw;
+						// 			}
+						// 		}
+						//
+						// 		if (ForeverIDTracker != null)
+						// 		{
+						// 			FieldData AfieldData = new FieldData();
+						// 			AfieldData.Name = Prefix + Field.Name;
+						// 			AfieldData.Data = ForeverIDTracker.ForeverID;
+						// 			AfieldData.IsPrefabID = true;
+						// 			FieldDatas.Add(AfieldData); //add data
+						// 		}
+						// 	}
+						//
+						// 	//TODO Game object references
+						// 	continue;
+						// }
+						//
+						// if (Field.FieldType.IsSubclassOf(typeof(ScriptableObject)) &&
+						//     typeof(IHaveForeverID).IsAssignableFrom(Field.FieldType))
+						// {
+						// 	var SOTracker = Field.GetValue(SpawnedInstance) as IHaveForeverID;
+						//
+						//
+						// 	IHaveForeverID PrefabSOTracker = null;
+						// 	if (PrefabInstance != null)
+						// 	{
+						// 		PrefabSOTracker = Field.GetValue(PrefabInstance) as IHaveForeverID;
+						// 	}
+						//
+						// 	if (PrefabSOTracker?.ForeverID == SOTracker?.ForeverID)
+						// 	{
+						// 		continue;
+						// 	}
+						//
+						// 	var fieldData = new FieldData();
+						// 	fieldData.Name = Prefix + Field.Name;
+						// 	if (SOTracker != null)
+						// 	{
+						// 		fieldData.Data = SOTracker.ForeverID;
+						// 	}
+						// 	else
+						// 	{
+						// 		fieldData.Data = "NULL";
+						// 	}
+						//
+						// 	FieldDatas.Add(fieldData);
+						// 	continue;
+						// }
+					}
 				}
 			}
 			catch (Exception e)
@@ -923,89 +1429,87 @@ namespace SecureStuff
 		}
 
 
-		private static void SaveComponentGameObjectScriptableObject(
-			bool IsComponent,
+		private static void SetDataFieldFor(FieldData FieldData, object SpawnedInstance,
 			bool isScriptableObject,
-			string Prefix,
-			FieldInfo Field,
-			int i,
-			List<object> modified,
-			HashSet<FieldData> FieldDatas,
-			bool UseInstance,
-			IPopulateIDRelation IPopulateIDRelation)
+			bool IsComponent, bool anyOfThem,
+			Type Type, HashSet<FieldData> FieldDatas, bool UseInstance, IPopulateIDRelation IPopulateIDRelation,
+			bool MarkAsRemoved)
 		{
+			if (SpawnedInstance == null)
+			{
+				if (MarkAsRemoved)
+				{
+					FieldData.Data = "#removed#";
+				}
+				else
+				{
+					FieldData.Data = "NULL";
+				}
+
+				return;
+			}
+
 			if (isScriptableObject)
 			{
-				FieldData fieldData = new FieldData();
-				fieldData.Name = Prefix + Field.Name + "#" + i;
-				fieldData.Data = (modified[i] as IHaveForeverID)?.ForeverID;
-				FieldDatas.Add(fieldData); //add data
+				FieldData.Data = (SpawnedInstance as IHaveForeverID)?.ForeverID;
+				return;
 			}
 			else
 			{
-				if (IsComponent)
+				if (anyOfThem)
 				{
-					var Component = (modified[i] as Component);
-					if (Component.transform.parent == null) //Prefab
+					if (IsComponent)
 					{
-						var ForeverID = Component.GetComponent<IHaveForeverID>();
-						if (ForeverID != null)
+						var Component = (SpawnedInstance as Component);
+						if (Component.transform.parent == null) //Prefab
 						{
-							FieldData fieldData = new FieldData();
-							fieldData.Name = Prefix + Field.Name + "#" + i;
-							fieldData.Data = JsonConvert.SerializeObject(new PrefabComponent()
+							var ForeverID = Component.GetComponent<IHaveForeverID>();
+							if (ForeverID != null)
 							{
-								ForeverId = ForeverID.ForeverID,
-								ComponentName = Component.GetType().Name
-							});
-							fieldData.IsPrefabID = true;
-							FieldDatas.Add(fieldData); //add data
+								FieldData.Data = JsonConvert.SerializeObject(new PrefabComponent()
+								{
+									ForeverId = ForeverID.ForeverID,
+									ComponentName = Component.GetType().Name
+								});
+								FieldData.IsPrefabID = true;
+								return;
+							}
+						}
+						else
+						{
+							IPopulateIDRelation.PopulateIDRelation(FieldDatas, FieldData, Component,
+								UseInstance); //Callout
+							return;
 						}
 					}
 					else
 					{
-						var mono = modified[i] as Component;
-						var fieldData = new FieldData();
-						fieldData.Name = Prefix + Field.Name + "#" + i;
-						IPopulateIDRelation.PopulateIDRelation(FieldDatas, fieldData, mono, UseInstance); //Callout
+						var GameObjectModified = (SpawnedInstance as GameObject);
+						if (GameObjectModified != null && GameObjectModified.transform.parent == null) //Prefab
+						{
+							var ForeverID = GameObjectModified.GetComponent<IHaveForeverID>();
+							if (ForeverID != null)
+							{
+								FieldData.Data = ForeverID.ForeverID;
+								FieldData.IsPrefabID = true;
+								return;
+							}
+						}
+						else
+						{
+							//TODO Support game objects
+						}
 					}
 				}
 				else
 				{
-
-					var GameObjectModified = (modified[i] as GameObject);
-					if (GameObjectModified != null && GameObjectModified.transform.parent == null) //Prefab
-					{
-						var ForeverID = GameObjectModified.GetComponent<IHaveForeverID>();
-						if (ForeverID != null)
-						{
-							FieldData fieldData = new FieldData();
-							fieldData.Name = Prefix + Field.Name + "#" + i;
-							fieldData.Data = ForeverID.ForeverID;
-							fieldData.IsPrefabID = true;
-							FieldDatas.Add(fieldData); //add data
-						}
-					}
-					else
-					{
-						object data = null;
-						if (modified[i] != null)
-						{
-							data = modified[i];
-						}
-
-						Loggy.LogError(
-							$"Unimplemented Referencing game objects in Scenes {data?.ToString()} with Field {Field.Name}");
-
-						//TODO
-						// var mono = modified[i] as Component;
-						// var fieldData = new FieldData();
-						// fieldData.Name = Prefix + Field.Name;
-						// IPopulateIDRelation.PopulateIDRelation(FieldDatas, fieldData, mono,
-						// UseInstance); //Callout
-					}
+					FieldData.Data = Librarian.Page.Serialise(SpawnedInstance, Type);
+					return;
 				}
 			}
+
+			FieldData.Data = ""; //Not compatible
+			return;
 		}
 
 		private static List<object> IEnumeratorToList(IEnumerator IEnumerable)
@@ -1041,7 +1545,8 @@ namespace SecureStuff
 			return List;
 		}
 
-		private static bool CheckAreSame(object PrefabDefault, object MonoSet)
+		private static bool CheckAreSame(object PrefabDefault, object MonoSet,
+			HashSet<Component> OnGameObjectComponents, HashSet<GameObject> AllGameObjectOnObject)
 		{
 			var selfValueComparer = PrefabDefault as IComparable;
 			if (PrefabDefault == null && MonoSet == null)
@@ -1050,6 +1555,22 @@ namespace SecureStuff
 			}
 			else if ((PrefabDefault == null && MonoSet != null) || (PrefabDefault != null && MonoSet == null))
 			{
+				if (MonoSet != null)
+				{
+					if (MonoSet is Component TMonoComponent)
+					{
+						if (OnGameObjectComponents.Contains(TMonoComponent))
+							return true; //Ignore because is instance on the same object
+					}
+
+					if (MonoSet is GameObject TMonoGameObject)
+					{
+						if (AllGameObjectOnObject.Contains(TMonoGameObject))
+							return true; //Ignore because is instance on the same object
+					}
+				}
+
+
 				return false; //One is null and the other wasn't
 			}
 
@@ -1066,14 +1587,22 @@ namespace SecureStuff
 			}
 
 
-			if (MonoSet is Component MonoComponent)
+			if (MonoSet is Component MonoComponent && MonoComponent != null)
 			{
+				if (OnGameObjectComponents.Contains(MonoSet))
+					return true; //Ignore because is instance on the same object
+
 				if (MonoComponent.transform.parent == null) //is Prefab
 				{
 					var MonoIHaveForeverID = MonoComponent.GetComponent<IHaveForeverID>();
 					if (MonoIHaveForeverID != null)
 					{
 						var PrefabIHaveForeverID = (PrefabDefault as Component)?.GetComponent<IHaveForeverID>();
+						if (PrefabIHaveForeverID == null)
+						{
+							return true; //idk What this is but I can't handle it Being different
+						}
+
 						if (MonoIHaveForeverID.ForeverID == PrefabIHaveForeverID?.ForeverID)
 						{
 							return true;
@@ -1085,19 +1614,30 @@ namespace SecureStuff
 					}
 					else
 					{
-						return false;
+						return true; //idk What this is but I can't handle it Being different
 					}
 				}
+
+				return false; //Assumed to be external reference
 			}
 
-			if (MonoSet is GameObject MonoGameObject)
+			if (MonoSet is GameObject MonoGameObject && MonoGameObject != null)
 			{
+				if (AllGameObjectOnObject.Contains(MonoSet))
+					return true; //Ignore because is instance on the same object
+
 				if (MonoGameObject.transform.parent == null) //is Prefab
 				{
 					var MonoIHaveForeverID = MonoGameObject.GetComponent<IHaveForeverID>();
 					if (MonoIHaveForeverID != null)
 					{
-						var PrefabIHaveForeverID = (PrefabDefault as GameObject)?.GetComponent<IHaveForeverID>();
+						var PrefabIHaveForeverID =
+							(PrefabDefault as GameObject)?.GetComponent<IHaveForeverID>();
+						if (PrefabIHaveForeverID == null)
+						{
+							return true; //idk What this is but I can't handle it Being different
+						}
+
 						if (MonoIHaveForeverID.ForeverID == PrefabIHaveForeverID?.ForeverID)
 						{
 							return true;
@@ -1109,9 +1649,11 @@ namespace SecureStuff
 					}
 					else
 					{
-						return false;
+						return true; //idk What this is but I can't handle it Being different
 					}
 				}
+
+				return false; //Assumed to be external reference
 			}
 
 

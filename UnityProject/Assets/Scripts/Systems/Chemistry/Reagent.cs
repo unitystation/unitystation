@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Chemistry
 {
 	[CreateAssetMenu(fileName = "reagent", menuName = "ScriptableObjects/Chemistry/Reagent")]
-	public class Reagent : ScriptableObject , IEquatable<Reagent>
+	public class Reagent : SOTracker , IEquatable<Reagent>
 	{
+
+
 		[SerializeField]
 		[Tooltip("This is optional")]
 		string displayName;
@@ -36,10 +39,28 @@ namespace Chemistry
 #endif
 		}
 
+		public override void ReassignID() //Assuming it's a prefab Variant
+		{
+#if UNITY_EDITOR
+			if (string.IsNullOrEmpty(foreverID))
+			{
+				foreverID = displayName;
+				return;
+			}
+
+			base.ReassignID();
+#endif
+		}
+
 		public string Name
 		{
 			get => displayName ?? name;
 			set => displayName = value;
+		}
+
+		public SOTracker ReturnSOTracker()
+		{
+			return this;
 		}
 
 		public override string ToString()
