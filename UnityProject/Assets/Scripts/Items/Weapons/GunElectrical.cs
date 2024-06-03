@@ -177,7 +177,10 @@ namespace Weapons
 
 		//This function should only be run serverside or it WILL desync the weapons sprites
 		public void UpdateChargeSprite() {
-			ammoSprite?.SetCatalogueIndexSprite(currentFiremode + 2);
+			if (ammoSprite != null )
+			{
+				ammoSprite.SetCatalogueIndexSprite(currentFiremode + 2);
+			}
 			if (chargeSprite == null) {
 				return;
 			}
