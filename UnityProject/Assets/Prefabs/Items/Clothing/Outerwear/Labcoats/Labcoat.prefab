@@ -131,6 +131,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A suit that protects against minor chemical spills.
       objectReference: {fileID: 0}
+    - target: {fileID: 8180636746358705475, guid: 47cf030149b5a174f91d3ec320a7f031,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d0f44e9d9403deb4eb822c44ab168b44,
+        type: 2}
+    - target: {fileID: 8180636746358705475, guid: 47cf030149b5a174f91d3ec320a7f031,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d6efdd9da8836ab489982ec4978eec9e,
+        type: 2}
+    - target: {fileID: 8180636746358705475, guid: 47cf030149b5a174f91d3ec320a7f031,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 8e2b0d34f2b2fa545983a08379250cac,
+        type: 2}
     - target: {fileID: 8474396741760651645, guid: 47cf030149b5a174f91d3ec320a7f031,
         type: 3}
       propertyPath: m_Sprite

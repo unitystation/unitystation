@@ -126,6 +126,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Unique and versatile chest rig, can hold security gear.
       objectReference: {fileID: 0}
+    - target: {fileID: 6147653212218516338, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b836e52cac64f1f44b3f718834efc353,
+        type: 2}
+    - target: {fileID: 6147653212218516338, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e30f0a8c60a058a47969bff1b995b94c,
+        type: 2}
+    - target: {fileID: 6147653212218516338, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 2589312ea058f0c46ae3b6870ce7e7f8,
+        type: 2}
     - target: {fileID: 6660843412095075786, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
         type: 3}
       propertyPath: itemStorageCapacity

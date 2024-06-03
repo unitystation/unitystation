@@ -66,6 +66,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: An armoured suit for exploring harsh environments.
       objectReference: {fileID: 0}
+    - target: {fileID: 6455339164689371185, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6455339164689371185, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6455339164689371185, guid: 18f685cd8e604954792553ebd4ea94c6,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: abf5240db096bb440a7baa36f72adaa2,
+        type: 2}
     - target: {fileID: 6740085358925630479, guid: 18f685cd8e604954792553ebd4ea94c6,
         type: 3}
       propertyPath: m_Sprite

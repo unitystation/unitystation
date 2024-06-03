@@ -21,6 +21,24 @@ PrefabInstance:
         you see underfloor objects such as cables and pipes, and the Radiation Scanner
         mode lets you see objects contaminated by radiation.
       objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 6df0036569a09804d908dda6debd667a,
+        type: 2}
+    - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 3528fb60f13faa143ab460be6d7078b5,
+        type: 2}
+    - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: a7e03a83d6857ba439ba4368e8d95914,
+        type: 2}
     - target: {fileID: 3273994478765017941, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
       propertyPath: m_Sprite

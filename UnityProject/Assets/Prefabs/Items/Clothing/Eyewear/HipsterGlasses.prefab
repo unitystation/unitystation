@@ -23,6 +23,12 @@ PrefabInstance:
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: e7c66dc6818ee2e4e8a12a7fbfa0a374,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 916b1c058b29b5748897dde13e976d66,
+        type: 2}
     - target: {fileID: 3273994478765017941, guid: e7c66dc6818ee2e4e8a12a7fbfa0a374,
         type: 3}
       propertyPath: m_Sprite

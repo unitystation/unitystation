@@ -100,6 +100,24 @@ PrefabInstance:
       value: Space not controlled by megacorporations, planets, or pirates is under
         the jurisdiction of Spacepol.
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 82b1d88afc2073b4f8a6031fcc14d8cf,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 0dcfd7020e9cfc04c96c3e8550091cf6,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 92534e937d139334095ec02a1fd993eb,
+        type: 2}
     - target: {fileID: 8174322744686822344, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
       propertyPath: parentID

@@ -99,6 +99,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It's a very amish looking suit.
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 38b027a46bf335d4bbe851112c2576c3,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 741d84fba36a3f44c811969a4c4bcf72,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 4cca968e1f8f3cf468e03adb676ced15,
+        type: 2}
     - target: {fileID: 8174322744686822344, guid: dff9b7e8f22ff9b4cb9e2f035702e875,
         type: 3}
       propertyPath: parentID

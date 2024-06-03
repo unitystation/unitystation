@@ -18,6 +18,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It's good being the king.
       objectReference: {fileID: 0}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c708e4aee29f33048add240297211a29,
+        type: 2}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f9812ad7ab0bc844fb45af99f9071fad,
+        type: 2}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 4cce2a33ad059744aa87124adfe8db18,
+        type: 2}
     - target: {fileID: 2067487341669760131, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_Sprite
@@ -236,6 +254,34 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  EmptyPListInt: 
-  PListInt: 
-  MaintObjectList: []
+  TestClasss:
+  - price: 0
+    title: sdfdsfsdghh
+    author: erdsfsdfs
+  - price: 0
+    title: aaaaa
+    author: dddddd
+  BasicListUntouched: 0a000000c8000000
+  BasicListRemoved: 64000000c80000002c010000
+  BasicListAdded: 64000000c8000000b80b0000
+  PrefabGameObjectListAdded:
+  - {fileID: 7636118406116123594, guid: 0a3cbe890b4a2df49aceab1e00c792dd, type: 3}
+  - {fileID: 8738207183834668076, guid: af90d446b899ee6468c242bfbcd268ef, type: 3}
+  PrefabComponentListAdded:
+  - {fileID: 4818338735250752201, guid: af90d446b899ee6468c242bfbcd268ef, type: 3}
+  - {fileID: 2394054255070875561, guid: af90d446b899ee6468c242bfbcd268ef, type: 3}
+  GameComponentListAdded: []
+  SoListAdded:
+  - {fileID: 11400000, guid: a51dca50f2097414594a8e8478f2d7ec, type: 2}
+  - {fileID: 11400000, guid: e5577b945f587664c9b4b197a2931709, type: 2}
+  BasicDictionary:
+    m_keys: ab0c0000
+    m_values: fa920300
+  KeySOBasicDictionary:
+    m_keys:
+    - {fileID: 11400000, guid: d2aeb02671bba8b469cad87a443bc682, type: 2}
+    m_values: 00000000
+  ValSOBasicDictionary:
+    m_keys: 4d010000
+    m_values:
+    - {fileID: 11400000, guid: 1f4fae5f3366ba74aa8f3b27d513f49c, type: 2}
