@@ -100,7 +100,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetworkThis: 1
-  SubCatalogue: []
+  SubCatalogue:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: a1441dd2a6731ad4bb00f3b36f1161ac, type: 2}
+  - {fileID: 11400000, guid: a1c68a7ba74471e43ba783b28fbc9e86, type: 2}
+  - {fileID: 11400000, guid: b24159a9b7289984ca9ee8c0b3215707, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: a1441dd2a6731ad4bb00f3b36f1161ac, type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
@@ -151,25 +156,31 @@ PrefabInstance:
     - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: SubCatalogue.Array.size
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: c73eeedb790e6b44b88d166acb084870,
+      objectReference: {fileID: 11400000, guid: 15e749fcd73b9f74a9e791e1432b2b93,
         type: 2}
     - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
-      objectReference: {fileID: 11400000, guid: 15e749fcd73b9f74a9e791e1432b2b93,
+      objectReference: {fileID: 11400000, guid: c73eeedb790e6b44b88d166acb084870,
         type: 2}
     - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: 'SubCatalogue.Array.data[4]'
       value: 
-      objectReference: {fileID: 11400000, guid: 15e749fcd73b9f74a9e791e1432b2b93,
+      objectReference: {fileID: 11400000, guid: 3bedb1d24d41eba448cfdc7443cbdec2,
+        type: 2}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f660b7c1153bc494ba391026ece91f24,
         type: 2}
     - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -469,6 +480,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 975013249514806011, guid: 47d3f5b042c2b6244ab27eea9e71be01,
         type: 3}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: ammoSprite
+      value: 
+      objectReference: {fileID: 2233387669780112674}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: FiringSound
