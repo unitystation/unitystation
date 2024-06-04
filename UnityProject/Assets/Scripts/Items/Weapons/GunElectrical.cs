@@ -18,6 +18,15 @@ namespace Weapons
 		public List<string> firemodeName = new List<string>();
 		public List<int> firemodeUsage = new List<int>();
 
+		[SerializeField, Tooltip("(Optional) Charge Sprite, must have variants equal to amount of charge bars")]
+		public SpriteHandler chargeSprite;
+
+		[SerializeField, Tooltip("(Optional) Ammo Sprite")]
+		public SpriteHandler ammoSprite;
+
+		private const int NO_CELL_SPRITE = 2;
+		private const int FULL_SPRITE = 3;
+
 		private const float magRemoveTime = 3f;
 
 		[SerializeField]
@@ -36,7 +45,18 @@ namespace Weapons
 		{
 			UpdateFiremode(currentFiremode, 0);
 			base.OnSpawnServer(info);
+			UpdateChargeSprite();
 		}
+
+		public override void OnInventoryMoveServer(InventoryMove info)
+		{
+			base.OnInventoryMoveServer(info);
+			//update sprite when moved into or out of inventory to handle
+			//weapon chargers and other things modifying charge whilst
+			//the weapon is out of a players inventory
+			UpdateChargeSprite();
+		}
+
 
 		public override bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
@@ -59,6 +79,7 @@ namespace Weapons
 			}
 			Chat.AddExamineMsgFromServer(interaction.Performer, $"You switch your {gameObject.ExpensiveName()} into {firemodeName[currentFiremode]} mode");
 			CurrentMagazine.ServerSetAmmoRemains(Battery.Watts / firemodeUsage[currentFiremode]);
+			UpdateChargeSprite();
 		}
 
 		public override bool WillInteract(AimApply interaction, NetworkSide side)
@@ -78,6 +99,7 @@ namespace Weapons
 			if (firemodeUsage[currentFiremode] > Battery.Watts) return;
 			base.ServerPerformInteraction(interaction);
 			CurrentMagazine.ServerSetAmmoRemains(Battery.Watts / firemodeUsage[currentFiremode]);
+			UpdateChargeSprite();
 		}
 
 		public override bool WillInteract(InventoryApply interaction, NetworkSide side)
@@ -115,6 +137,7 @@ namespace Weapons
 			if (mag)
 			{
 				ServerHandleReloadRequest(mag.gameObject);
+				UpdateChargeSprite();
 			}
 			else
 			{
@@ -130,6 +153,7 @@ namespace Weapons
 					$"The {gameObject.ExpensiveName()}'s power cell pops out",
 					$"{interaction.Performer.ExpensiveName()} finishes removing {gameObject.ExpensiveName()}'s energy cell.");
 				base.ServerHandleUnloadRequest();
+				UpdateChargeSprite();
 			}
 
 			var bar = StandardProgressAction.Create(base.ProgressConfig, ProgressFinishAction)
@@ -149,7 +173,30 @@ namespace Weapons
 		{
 			currentFiremode = newState;
 			FiringSoundA = firemodeFiringSound[currentFiremode];
-			//TODO: change sprite here
+		}
+
+		//This function should only be run serverside or it WILL desync the weapons sprites
+		public void UpdateChargeSprite() {
+			if (ammoSprite != null )
+			{
+				ammoSprite.SetCatalogueIndexSprite(currentFiremode + 2);
+			}
+			if (chargeSprite == null) {
+				return;
+			}
+			if (Battery == null)
+			{
+				chargeSprite.SetCatalogueIndexSprite(NO_CELL_SPRITE);
+			} else if (Battery.Watts / firemodeUsage[currentFiremode] != 0) {
+				chargeSprite.SetCatalogueIndexSprite(FULL_SPRITE + currentFiremode);
+				float rounds = Battery.Watts / firemodeUsage[currentFiremode];
+				float maxrounds = Battery.MaxWatts / firemodeUsage[currentFiremode];
+				int percent = Mathf.FloorToInt((rounds / maxrounds) * 100.0f);
+				int outof = Mathf.CeilToInt(percent * chargeSprite.PresentSpritesSet.Variance.Count / 100.0f);
+				chargeSprite.SetSpriteVariant(outof-1);
+			} else {
+				chargeSprite.PushClear();
+			}
 		}
 
 		public override String Examine(Vector3 pos)

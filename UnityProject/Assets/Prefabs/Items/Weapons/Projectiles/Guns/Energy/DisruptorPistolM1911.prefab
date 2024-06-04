@@ -12,17 +12,51 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: c3e4719600f900b45a770cd745348a53,
+      objectReference: {fileID: 1419645146, guid: c3e4719600f900b45a770cd745348a53,
         type: 3}
+    - target: {fileID: 401529772070430303, guid: 588d1ebc8abb732498ce241df11cdf66,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 889329914848962917, guid: 588d1ebc8abb732498ce241df11cdf66,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: c3e4719600f900b45a770cd745348a53,
+      objectReference: {fileID: 1666255712, guid: c3e4719600f900b45a770cd745348a53,
         type: 3}
+    - target: {fileID: 889329914848962917, guid: 588d1ebc8abb732498ce241df11cdf66,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1002179493391907580, guid: 588d1ebc8abb732498ce241df11cdf66,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d3a385c9fed65648a0ce87943465e3b,
+        type: 2}
+    - target: {fileID: 1002179493391907580, guid: 588d1ebc8abb732498ce241df11cdf66,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c4d033f552094484fbd868d7a2726996,
+        type: 2}
+    - target: {fileID: 1002179493391907580, guid: 588d1ebc8abb732498ce241df11cdf66,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d3a385c9fed65648a0ce87943465e3b,
+        type: 2}
+    - target: {fileID: 1002179493391907580, guid: 588d1ebc8abb732498ce241df11cdf66,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d3a385c9fed65648a0ce87943465e3b,
+        type: 2}
+    - target: {fileID: 1002179493391907580, guid: 588d1ebc8abb732498ce241df11cdf66,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[5]'
       value: 
       objectReference: {fileID: 11400000, guid: 9d3a385c9fed65648a0ce87943465e3b,
         type: 2}
@@ -40,14 +74,24 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: c3e4719600f900b45a770cd745348a53,
+      objectReference: {fileID: -2143222863, guid: c3e4719600f900b45a770cd745348a53,
         type: 3}
+    - target: {fileID: 2121051938727158098, guid: 588d1ebc8abb732498ce241df11cdf66,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2412933041803181559, guid: 588d1ebc8abb732498ce241df11cdf66,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: c3e4719600f900b45a770cd745348a53,
+      objectReference: {fileID: 1666255712, guid: c3e4719600f900b45a770cd745348a53,
         type: 3}
+    - target: {fileID: 2412933041803181559, guid: 588d1ebc8abb732498ce241df11cdf66,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4071982798066082234, guid: 588d1ebc8abb732498ce241df11cdf66,
         type: 3}
       propertyPath: _assetId
@@ -86,17 +130,17 @@ PrefabInstance:
     - target: {fileID: 4108727068087329146, guid: 588d1ebc8abb732498ce241df11cdf66,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4108727068087329146, guid: 588d1ebc8abb732498ce241df11cdf66,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4108727068087329146, guid: 588d1ebc8abb732498ce241df11cdf66,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4108727068087329146, guid: 588d1ebc8abb732498ce241df11cdf66,
         type: 3}
@@ -135,6 +179,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9d3a385c9fed65648a0ce87943465e3b,
         type: 2}
+    - target: {fileID: 4603555763062183412, guid: 588d1ebc8abb732498ce241df11cdf66,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d3a385c9fed65648a0ce87943465e3b,
+        type: 2}
+    - target: {fileID: 4603555763062183412, guid: 588d1ebc8abb732498ce241df11cdf66,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c4d033f552094484fbd868d7a2726996,
+        type: 2}
     - target: {fileID: 4610342328287703916, guid: 588d1ebc8abb732498ce241df11cdf66,
         type: 3}
       propertyPath: exportCost
@@ -157,16 +213,45 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9d3a385c9fed65648a0ce87943465e3b,
         type: 2}
+    - target: {fileID: 5097920336882853584, guid: 588d1ebc8abb732498ce241df11cdf66,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d3a385c9fed65648a0ce87943465e3b,
+        type: 2}
+    - target: {fileID: 5097920336882853584, guid: 588d1ebc8abb732498ce241df11cdf66,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c4d033f552094484fbd868d7a2726996,
+        type: 2}
     - target: {fileID: 5788992439995936033, guid: 588d1ebc8abb732498ce241df11cdf66,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 9d3a385c9fed65648a0ce87943465e3b,
         type: 2}
+    - target: {fileID: 5788992439995936033, guid: 588d1ebc8abb732498ce241df11cdf66,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d3a385c9fed65648a0ce87943465e3b,
+        type: 2}
+    - target: {fileID: 5788992439995936033, guid: 588d1ebc8abb732498ce241df11cdf66,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c4d033f552094484fbd868d7a2726996,
+        type: 2}
     - target: {fileID: 5957151285709905377, guid: 588d1ebc8abb732498ce241df11cdf66,
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6377965440200511806, guid: 588d1ebc8abb732498ce241df11cdf66,
+        type: 3}
+      propertyPath: ammoSprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7038029711895646307, guid: 588d1ebc8abb732498ce241df11cdf66,
         type: 3}

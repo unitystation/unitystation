@@ -1028,4 +1028,9 @@ public static class SweetExtensions
 		}
 		return vector3;
 	}
+
+	public static Vector2 RandomDirection(this Vector2 vector2)
+	{
+		return new Vector2((int)Random.Range(-1, 1), (int)Random.Range(-1, 1));
+	}
 }

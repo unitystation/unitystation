@@ -24,10 +24,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8d214081751072649812e7a7c271409e,
         type: 2}
+    - target: {fileID: 1270195432486377817, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2251631748089412755, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: 'traumaTypesOnBodyPart.Array.data[0]'
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2990615749064605777, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
@@ -35,6 +45,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1eea53d9d708d2841a280bbc4075f7c4,
         type: 2}
+    - target: {fileID: 4658738935948558912, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6403927333314702133, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: m_Sprite
@@ -279,6 +294,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8d214081751072649812e7a7c271409e,
         type: 2}
+    - target: {fileID: 8331319255090536633, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6409205596588662601, guid: 51326f2264a075148a8aaa6bf95604c7, type: 3}
     m_RemovedGameObjects: []
