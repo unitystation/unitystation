@@ -22,6 +22,8 @@ namespace UI.Systems.AdminTools.DevTools.Search
 
 		public readonly string Name;
 
+		public readonly string ForeverID;
+
 		public bool IsDEBUG;
 
 		private DevSpawnerDocument(GameObject prefab, bool _isDebug)
@@ -36,15 +38,20 @@ namespace UI.Systems.AdminTools.DevTools.Search
 			if (prefab.TryGetComponent<PrefabTracker>(out var tracker) == false)
 			{
 				SearchableName = SearchableNameList.ToArray();
+				ForeverID = "";
 				return;
 			}
 			SearchableNameList.Add(tracker.ForeverID);
-
+			ForeverID = tracker.ForeverID;
 			if (string.IsNullOrWhiteSpace(tracker.AlternativePrefabName) == false) SearchableNameList.Add(tracker.AlternativePrefabName);
 
 			while (tracker != null)
 			{
-				SearchableNameList.Add(tracker.ParentID);
+				if (SearchableNameList.Contains(tracker.ParentID) ==false)
+				{
+					SearchableNameList.Add(tracker.ParentID);
+				}
+
 				if (CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs.ContainsKey(tracker.ParentID))
 				{
 					tracker = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[tracker.ParentID].OrNull()?.GetComponent<PrefabTracker>();

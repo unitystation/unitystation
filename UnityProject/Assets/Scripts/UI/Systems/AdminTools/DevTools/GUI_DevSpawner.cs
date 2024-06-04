@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using Logs;
 using UI.Chat_UI;
 using UI.Systems.AdminTools.DevTools.Search;
@@ -60,7 +61,7 @@ public class GUI_DevSpawner : MonoBehaviour
 
 	void Start()
     {
-	    spawnerSearch = SpawnerSearch.ForPrefabs(Spawn.SpawnablePrefabs());
+	    spawnerSearch = SpawnerSearch.ForPrefabs(Spawn.SpawnablePrefabs().ToHashSet());
     }
 
 	private void OnEnable()
@@ -131,7 +132,10 @@ public class GUI_DevSpawner : MonoBehaviour
 	    if (string.IsNullOrWhiteSpace(SearchOverride) == false)
 	    {
 		    StringSearch = SearchOverride;
+		    bool Cashed = searchWhileTyping;
+		    searchWhileTyping = false;
 		    searchBox.text = SearchOverride;
+		    searchWhileTyping = Cashed;
 	    }
 
 	    var docs = spawnerSearch.Search(StringSearch, DEBUGToggle.isOn);

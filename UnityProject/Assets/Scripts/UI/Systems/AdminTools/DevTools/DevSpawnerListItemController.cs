@@ -164,8 +164,18 @@ public class DevSpawnerListItemController : MonoBehaviour
 	{
 		var PrefabTracker = prefab.GetComponent<PrefabTracker>();
 		if (PrefabTracker == null) return;
+		Destroy(this.gameObject);
 		GUI_DevSpawner.Instance.Search(PrefabTracker.ParentID);
 	}
+
+	public void OnSelectedShowChildren()
+	{
+		var PrefabTracker = prefab.GetComponent<PrefabTracker>();
+		if (PrefabTracker == null) return;
+		Destroy(this.gameObject);
+		GUI_DevSpawner.Instance.Search(PrefabTracker.ForeverID);
+	}
+
 
 	public void OnSelected()
 	{
