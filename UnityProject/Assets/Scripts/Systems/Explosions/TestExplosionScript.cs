@@ -22,7 +22,7 @@ namespace Systems.Explosions
 		{
 			if (registerObject == null)
 			{
-				Systems.Explosions.Explosion.StartExplosion(objectBehaviour.registerTile.WorldPositionServer, Strength);
+				Systems.Explosions.Explosion.StartExplosion(objectBehaviour.registerTile.WorldPositionServer, Strength, stunNearbyPlayers : true);
 			}
 			else
 			{

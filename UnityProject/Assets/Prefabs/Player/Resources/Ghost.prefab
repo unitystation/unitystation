@@ -30,6 +30,7 @@ GameObject:
   - component: {fileID: 8715673610173069278}
   - component: {fileID: 2874802121839058501}
   - component: {fileID: 6580243241134518793}
+  - component: {fileID: 1636046715642142906}
   m_Layer: 31
   m_Name: Ghost
   m_TagString: Untagged
@@ -126,9 +127,10 @@ MonoBehaviour:
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
+  <PlayerFaith>k__BackingField: {fileID: 0}
+  <Particles>k__BackingField: {fileID: 0}
+  <DimPlayerLightController>k__BackingField: {fileID: 0}
   RTT: 0
-  RcsMode: 0
-  RcsMatrixMove: {fileID: 0}
   playerChatLocation: {fileID: 4390267312333422610}
   canVentCrawl: 0
   <OnBodyPossesedByPlayer>k__BackingField:
@@ -201,6 +203,7 @@ MonoBehaviour:
   CurrentsortingGroup: {fileID: 0}
   <LayDownBehavior>k__BackingField: {fileID: 8715673610173069278}
   networkedLean: {fileID: 0}
+  stunAlert: {fileID: 0}
 --- !u!114 &1176408661413567387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,7 +223,9 @@ MonoBehaviour:
   ChangeSprites: 1
   isChangingSO: 0
   CurrentDirection: 3
+  SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &1105258743114886135
@@ -485,6 +490,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0fcbb58b2b4bc693b660c94ea99c28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1636046715642142906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91a1389b8ed1bed4ab758fc79677b6b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7113893953078827476
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,7 +561,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7320126117105815585}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -568,6 +585,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -621,11 +640,8 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &3704879063443130025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -665,7 +681,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8111350025120531929}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -690,6 +706,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -751,7 +769,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244529390177684204}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.738, y: 0.313, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -775,6 +793,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -833,8 +853,5 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
