@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Systems.Clearance;
 using UnityEngine;
 using Mirror;
@@ -103,8 +104,38 @@ namespace Items.PDA
 		private ItemSlot IDSlot = default;
 		private ItemSlot CartridgeSlot = default;
 
-		public IEnumerable<Clearance> IssuedClearance => IDCard.OrNull()?.ClearanceSource.IssuedClearance;
-		public IEnumerable<Clearance> LowPopIssuedClearance => IDCard.OrNull()?.ClearanceSource.LowPopIssuedClearance;
+		public IEnumerable<Clearance> IssuedClearance
+		{
+			get
+			{
+				var Clearance = IDCard.OrNull()?.ClearanceSource.IssuedClearance;
+				if (Clearance == null)
+				{
+					return Enumerable.Empty<Clearance>();
+				}
+				else
+				{
+					return Clearance;
+				}
+
+			}
+		}
+
+		public IEnumerable<Clearance> LowPopIssuedClearance
+		{
+			get
+			{
+				var Clearance =  IDCard.OrNull()?.ClearanceSource.LowPopIssuedClearance;
+				if (Clearance == null)
+				{
+					return Enumerable.Empty<Clearance>();
+				}
+				else
+				{
+					return Clearance;
+				}
+			}
+		}
 
 		#region Lifecycle
 

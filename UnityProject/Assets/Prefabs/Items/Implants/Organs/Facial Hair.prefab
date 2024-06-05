@@ -151,17 +151,17 @@ PrefabInstance:
     - target: {fileID: 2865015309928833681, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2865015309928833681, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2865015309928833681, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2865015309928833681, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
@@ -182,6 +182,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Facial Hair
+      objectReference: {fileID: 0}
+    - target: {fileID: 4201345808769060324, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+        type: 3}
+      propertyPath: Throughput
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8257078513733723234, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
