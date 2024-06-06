@@ -1239,6 +1239,7 @@ namespace HealthV2
 			if (bodyPartAim == BodyPartType.RightHand) bodyPartAim = BodyPartType.RightArm;
 			if (bodyPartAim == BodyPartType.LeftFoot) bodyPartAim = BodyPartType.LeftLeg;
 			if (bodyPartAim == BodyPartType.RightFoot) bodyPartAim = BodyPartType.RightLeg;
+			if (bodyPartAim == BodyPartType.Groin) bodyPartAim = BodyPartType.Chest;
 			return bodyPartAim;
 		}
 
