@@ -11,6 +11,7 @@ using Objects;
 using SecureStuff;
 using Util;
 using Tiles;
+using UI.Core;
 
 namespace MapSaver
 {
@@ -179,7 +180,9 @@ namespace MapSaver
 
 		public class CompactObjectMapData
 		{
-			public string Ver = "1.0.0";
+			public string Ver = "1.1.0";
+			//1.1.0 Added support for Dictionaries and change syntax for Removed Elements
+
 			public List<string> CommonPrefabs = new List<string>();
 
 			public List<PrefabData> PrefabData;
@@ -1193,8 +1196,12 @@ namespace MapSaver
 			HashSet<GameObject> AllGameObjectOnObject, bool Compact, PrefabData PrefabData, string ID,
 			IndividualObject individualObject,
 			GameObject PrefabEquivalent, GameObject gameObject, CompactObjectMapData compactObjectMapData,
-			Vector3? CoordinateOverride = null, bool UseInstance = false, bool NonmappedItems = false)
+			Vector3? CoordinateOverride = null, bool UseInstance = false, bool NonmappedItems = false,
+			bool IgnoreMapSaverIgnoreObject = false)
 		{
+
+			if (gameObject.HasComponent<MapSaverIgnoreObject>() && IgnoreMapSaverIgnoreObject == false) return;
+
 			individualObject.ID =
 				ID; //NOTE The zero is technically redundant for the First layer, But it's built into the saver
 
@@ -1493,7 +1500,7 @@ namespace MapSaver
 						foreach (var Unprocessed in Waiting.Value.FieldsToPopulate)
 						{
 							ReuseSEt.Add(Unprocessed.FieldData);
-							SecureMapsSaver.LoadData(Unprocessed.ID, Unprocessed.Object, ReuseSEt, MapSaver.CodeClass.ThisCodeClass, true);
+							SecureMapsSaver.LoadData(Unprocessed.ID, Unprocessed.Object, ReuseSEt, MapSaver.CodeClass.ThisCodeClass, CustomNetworkManager.IsServer);
 							ReuseSEt.Clear();
 						}
 					}
@@ -1544,11 +1551,6 @@ namespace MapSaver
 				}
 				else
 				{
-					if (mono.name == "SingleMediumCableCoil")
-					{
-						Loggy.LogError(fieldData.Name);
-					}
-
 					UnserialisedObjectReferences.Add(new Tuple<Component, FieldData>(mono, fieldData));
 				}
 

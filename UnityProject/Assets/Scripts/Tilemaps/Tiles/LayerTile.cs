@@ -73,7 +73,7 @@ namespace Tiles
 
 		internal static string CreateString(int stringLength)
 		{
-			const string allowedChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!@$?_-";
+			const string allowedChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!$?_-";
 			char[] chars = new char[stringLength];
 
 			for (int i = 0; i < stringLength; i++)

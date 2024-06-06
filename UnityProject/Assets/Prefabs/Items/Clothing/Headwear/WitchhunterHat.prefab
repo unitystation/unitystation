@@ -141,6 +141,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: This hat saw much use back in the day.
       objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: d3d950d792abb79fba51d3166022f581,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 640c3a53dc024a542980bacaae3e47b6,
+        type: 2}
+    - target: {fileID: 8004422176852823208, guid: d3d950d792abb79fba51d3166022f581,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d8bebd5aec0791a4191379760fbfe27e,
+        type: 2}
+    - target: {fileID: 8004422176852823208, guid: d3d950d792abb79fba51d3166022f581,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: f0bbb9ede5e803c48a7602b2d4e4e638,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

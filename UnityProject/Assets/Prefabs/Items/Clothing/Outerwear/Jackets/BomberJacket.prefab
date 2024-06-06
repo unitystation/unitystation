@@ -184,6 +184,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Aviators not included.
       objectReference: {fileID: 0}
+    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1184045503700264a87f3a0239dbb05a,
+        type: 2}
+    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a3c3f6d62c60a324088a1108cf886c10,
+        type: 2}
+    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 10d56a3def64a624786397bc5de7df00,
+        type: 2}
     - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: storage.Array.size

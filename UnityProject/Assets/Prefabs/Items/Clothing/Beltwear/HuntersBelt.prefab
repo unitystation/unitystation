@@ -100,6 +100,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A versatile belt, woven from sinew.
       objectReference: {fileID: 0}
+    - target: {fileID: 4570374279545905267, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c40532c23694b14782b1123b19cd8dc,
+        type: 2}
+    - target: {fileID: 4570374279545905267, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: cf775590769a1f247bcaaa8725a69a29,
+        type: 2}
+    - target: {fileID: 4570374279545905267, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: b789a0e94dd1cec4a817ca4cfe293d2e,
+        type: 2}
     - target: {fileID: 5691568116976668390, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
         type: 3}
       propertyPath: 'allClothingData.Array.data[0]'

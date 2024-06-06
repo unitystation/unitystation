@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 using Newtonsoft.Json;
@@ -34,6 +35,8 @@ namespace Objects.Atmospherics
 		/// <summary> Useful for newly-added gases where thresholds are unknown and should be set by the technician. </summary>
 		public static readonly float[] UnknownValues = { float.NaN, float.NaN, float.NaN, float.NaN };
 
+		public static readonly List<float> UnknownValueslist = new List<float>() { float.NaN, float.NaN, float.NaN, float.NaN };
+
 		public AcuThresholds Clone()
 		{
 			var data = new GasThresholdsDictionary();
@@ -49,11 +52,11 @@ namespace Objects.Atmospherics
 	}
 
 	[Serializable]
-	public class GasThresholdsStorage : SerializableDictionary.Storage<float[]> { }
+	public class GasThresholdsStorage : SerializableDictionary.Storage<List<float>> { }
 
 	/// <summary>
 	/// Serializable dictionary to map a <see cref="GasSO"/> to an array of thresholds.
 	/// </summary>
 	[Serializable]
-	public class GasThresholdsDictionary : SerializableDictionary<GasSO, float[], GasThresholdsStorage> { }
+	public class GasThresholdsDictionary : SerializableDictionary<GasSO, List<float>, GasThresholdsStorage> { }
 }

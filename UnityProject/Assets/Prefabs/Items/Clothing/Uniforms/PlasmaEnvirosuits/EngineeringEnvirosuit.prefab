@@ -50,6 +50,12 @@ PrefabInstance:
         the usual purple stripes being replaced by engineer's orange. It protects
         the user from fire and acid damage.
       objectReference: {fileID: 0}
+    - target: {fileID: 3075625591719413753, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: dee98f7a746c52b4880d37a6b6916b2c,
+        type: 2}
     - target: {fileID: 3189476086581078171, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
       propertyPath: m_Name

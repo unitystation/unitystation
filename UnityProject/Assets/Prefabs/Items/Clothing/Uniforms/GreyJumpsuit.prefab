@@ -149,9 +149,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e8c7460adca77f0428a6f8940ffac41f,
+        type: 2}
+    - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
       propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 6cb5d4ff4ad0c2c428d4763575d5b990,
+        type: 2}
+    - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c5135c2a7f4be934e93b17bbb0c16a2a,
+        type: 2}
+    - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 884657e4ba2e74248a9146eb11ba448c,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

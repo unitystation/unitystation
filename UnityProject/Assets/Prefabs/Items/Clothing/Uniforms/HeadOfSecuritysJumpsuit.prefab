@@ -158,6 +158,24 @@ PrefabInstance:
       value: A security jumpsuit decorated for those few with the dedication to achieve
         the position of Head of Security.
       objectReference: {fileID: 0}
+    - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 11e9dd2ed1ce63140b5027196d7c93ca,
+        type: 2}
+    - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 827fc5476f5037541ad3c0a00e192850,
+        type: 2}
+    - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 6eb8bab1a89d35a408fcae45f10e36db,
+        type: 2}
     - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: armoredBodyParts.Array.size

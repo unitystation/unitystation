@@ -94,6 +94,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: PURPLE HONK!
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: a08b3d5119d894fcb917204c9c820035,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 313858e447e07a04485a80554ba8f794,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: a08b3d5119d894fcb917204c9c820035,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4750f36fcaad1104ba90d8a8ecac9ffb,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: a08b3d5119d894fcb917204c9c820035,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: c44c0b31cdcf6b34d9d4a8b8cacd227e,
+        type: 2}
     - target: {fileID: 8174322744686822344, guid: a08b3d5119d894fcb917204c9c820035,
         type: 3}
       propertyPath: parentID

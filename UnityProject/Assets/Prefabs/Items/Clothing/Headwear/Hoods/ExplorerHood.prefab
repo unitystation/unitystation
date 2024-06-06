@@ -18,6 +18,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: An armoured hood for exploring harsh environments.
       objectReference: {fileID: 0}
+    - target: {fileID: 810653604209616596, guid: 3bc560c485f5ecb4491bce031cde1635,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 810653604209616596, guid: 3bc560c485f5ecb4491bce031cde1635,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 810653604209616596, guid: 3bc560c485f5ecb4491bce031cde1635,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: cafecd682832e6c4db19454c38e7722d,
+        type: 2}
     - target: {fileID: 879940858911987778, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
       propertyPath: Armor.Bio

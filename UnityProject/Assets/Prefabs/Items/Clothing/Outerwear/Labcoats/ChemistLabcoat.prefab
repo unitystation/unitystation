@@ -62,6 +62,12 @@ PrefabInstance:
       value: A suit that protects against minor chemical spills. Has an orange stripe
         on the shoulder.
       objectReference: {fileID: 0}
+    - target: {fileID: 8678186998923896121, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 1268c17f779a3584da1b590140a5fdc4,
+        type: 2}
     - target: {fileID: 8967636835189487879, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
       propertyPath: m_Sprite

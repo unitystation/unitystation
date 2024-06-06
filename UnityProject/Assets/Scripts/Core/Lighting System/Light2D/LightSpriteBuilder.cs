@@ -1,4 +1,6 @@
-﻿namespace Light2D
+﻿using UI.Core;
+
+namespace Light2D
 {
 	using UnityEngine;
 
@@ -41,6 +43,7 @@
 		public static GameObject BuildDefault(GameObject iRoot, Color iColor = default(Color), float iSize = 7)
 		{
 			var _gameObject = new GameObject("Light2D");
+			_gameObject.AddComponent<MapSaverIgnoreObject>();
 			_gameObject.transform.parent = iRoot.transform;
 			_gameObject.transform.localPosition = Vector3.zero;
 			_gameObject.transform.localScale = Vector3.one * iSize;

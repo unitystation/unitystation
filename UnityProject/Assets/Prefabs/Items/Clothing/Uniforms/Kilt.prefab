@@ -151,6 +151,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Tis a kilt, worn when killen them wee cultist folk
       objectReference: {fileID: 0}
+    - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ced9845ecbb40344eb063c3485c75ebc,
+        type: 2}
+    - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: acd32516bf2d74f468a4733c23cfd94d,
+        type: 2}
+    - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: ae2a1aa63cffcf24684c25a825f9e0e3,
+        type: 2}
     - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: bodyPartsCovered

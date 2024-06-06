@@ -108,7 +108,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1001 &5805812536563727567
 PrefabInstance:
@@ -310,8 +310,7 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
       value: 
-      objectReference: {fileID: 11400000, guid: c54a74cc5c50f204b9ae369968f291ad,
-        type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

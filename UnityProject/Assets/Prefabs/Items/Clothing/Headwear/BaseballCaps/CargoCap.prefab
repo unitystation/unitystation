@@ -18,6 +18,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It's a baseball hat in a tasteless yellow colour.
       objectReference: {fileID: 0}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 640c3a53dc024a542980bacaae3e47b6,
+        type: 2}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d8bebd5aec0791a4191379760fbfe27e,
+        type: 2}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 3974867d80b430040bae486807626c32,
+        type: 2}
     - target: {fileID: 2067487341669760131, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_Sprite

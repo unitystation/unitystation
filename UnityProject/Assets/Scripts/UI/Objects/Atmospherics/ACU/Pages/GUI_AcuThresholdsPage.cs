@@ -79,7 +79,7 @@ namespace UI.Objects.Atmospherics.Acu
 				var gas = Acu.Thresholds.GasMoles.Keys.ElementAt(i - 3);
 				var values = Acu.Thresholds.GasMoles.Values.ElementAt(i - 3);
 
-				UpdateThresholdEntry(i, ThresholdType.Gas, gas.Name, values, gas);
+				UpdateThresholdEntry(i, ThresholdType.Gas, gas.Name, values.ToArray(), gas);
 			}
 		}
 
