@@ -186,16 +186,10 @@ public class EscapeShuttle : AutopilotShipMachine
 
 	}
 
-	public void ReSet()
-	{
-		Initialised = false;
-		Status = EscapeShuttleStatus.OnRouteToCentCom;
-	}
 
 	private void OnEnable()
 	{
 		if(CustomNetworkManager.IsServer == false) return;
-		EventManager.AddHandler(Event.RoundEnded,  ReSet);
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
@@ -204,7 +198,6 @@ public class EscapeShuttle : AutopilotShipMachine
 		StopAllCoroutines();
 
 		if(CustomNetworkManager.IsServer == false) return;
-		EventManager.RemoveHandler(Event.RoundEnded,  ReSet);
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
