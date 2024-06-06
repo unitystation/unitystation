@@ -143,6 +143,24 @@ PrefabInstance:
       value: It's a jumpsuit worn by the quartermaster. It's specially designed to
         prevent back injuries caused by pushing paper.
       objectReference: {fileID: 0}
+    - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cc2c4ca16865f44782875f6fc931786,
+        type: 2}
+    - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c039f078f8a62e41a9a8acda1dd4782,
+        type: 2}
+    - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e37b7f55c10152458db698172a8741f,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

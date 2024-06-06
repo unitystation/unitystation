@@ -94,6 +94,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A belt used by abductor agents.
       objectReference: {fileID: 0}
+    - target: {fileID: 3748218149250418945, guid: 00019cd41de95b244ac165825679fd64,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ad58db3cc7b07444eadbd825dee63119,
+        type: 2}
+    - target: {fileID: 3748218149250418945, guid: 00019cd41de95b244ac165825679fd64,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ae7fd5c44b2a0574f8b53978606b3a1d,
+        type: 2}
+    - target: {fileID: 3748218149250418945, guid: 00019cd41de95b244ac165825679fd64,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: b9a1be9b3bc1d2547b56f5eab2eb07ac,
+        type: 2}
     - target: {fileID: 4405808240848351161, guid: 00019cd41de95b244ac165825679fd64,
         type: 3}
       propertyPath: itemStoragePopulator

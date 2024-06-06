@@ -36,6 +36,18 @@ PrefabInstance:
       value: A bag for the safe transportation and disposal of biowaste and other
         biological materials.
       objectReference: {fileID: 0}
+    - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 787876ba7e4ac3b49bee60e768ed0c91,
+        type: 2}
+    - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ed47fc897eb990f4391fa7adbf8d69e4,
+        type: 2}
     - target: {fileID: 3225680128402821201, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
       propertyPath: m_Sprite

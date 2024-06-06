@@ -50,6 +50,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It's a very fancy satchel made with fine leather.
       objectReference: {fileID: 0}
+    - target: {fileID: 7038180996947190509, guid: a168a3bbdfd796d48bf524dd9bef1803,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 6c47413c42fa1f447b2c759c907c74e1,
+        type: 2}
+    - target: {fileID: 7038180996947190509, guid: a168a3bbdfd796d48bf524dd9bef1803,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ac35681bca084b4459dcb0597730390c,
+        type: 2}
+    - target: {fileID: 7038180996947190509, guid: a168a3bbdfd796d48bf524dd9bef1803,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 82ed72d08aa3e9940aafc3e0ec7d9542,
+        type: 2}
     - target: {fileID: 7327580324930125523, guid: a168a3bbdfd796d48bf524dd9bef1803,
         type: 3}
       propertyPath: m_Sprite

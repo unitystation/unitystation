@@ -16,9 +16,6 @@ using UnityEngine.UI;
 [RequireComponent(typeof(EscapeKeyTarget))]
 public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 {
-
-	//TODO Remove mid placement gizmo
-
 	// so we can escape while drawing - enabled while drawing, disabled when done
 	private EscapeKeyTarget escapeKeyTarget;
 
@@ -28,6 +25,10 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	public Button SelectingButton;
 	public Button UnSelectingButton;
+
+
+	public Button Load;
+	public Button Save;
 
 	public bool Updating = false;
 
@@ -112,6 +113,9 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		StopSelectingButton.interactable = true;
 		StopUnSelectingButton.interactable = false;
 
+		Load.interactable = false;
+		Save.interactable = false;
+
 		UIManager.IsMouseInteractionDisabled = true;
 		escapeKeyTarget.enabled = true;
 		if (Updating == false)
@@ -129,6 +133,8 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		StopSelectingButton.interactable = false;
 		StopUnSelectingButton.interactable = true;
 
+		Load.interactable = false;
+		Save.interactable = false;
 
 		UIManager.IsMouseInteractionDisabled = true;
 		escapeKeyTarget.enabled = true;
@@ -141,6 +147,8 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	public void OnEscape()
 	{
+		ActiveGizmo?.Remove();
+		ActiveGizmo = null;
 		//stop drawing
 		if (Updating)
 		{
@@ -158,6 +166,8 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		StopUnSelectingButton.interactable = false;
 		UnSelectingButton.interactable = true;
 		SelectingButton.interactable = true;
+		Load.interactable = true;
+		Save.interactable = true;
 	}
 
 
@@ -299,6 +309,14 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			Updating = true;
 		}
+		escapeKeyTarget.enabled = true;
+
+		StopSelectingButton.interactable = false;
+		StopUnSelectingButton.interactable = false;
+		UnSelectingButton.interactable = false;
+		SelectingButton.interactable = false;
+		Load.interactable =false;
+		Save.interactable = false;
 	}
 
 	[NaughtyAttributes.Button]
@@ -333,7 +351,6 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 				Layers,
 				ObjectsVisible
 				);
-			//MapLoader.LoadSection( MatrixManager.AtPoint(MouseUtils.MouseToWorldPos(), CustomNetworkManager.IsServer) ,Offset00.Value, Offset, currentlyActivePaste);
 
 			if (KeyboardInputManager.IsAltActionKeyPressed() == false)
 			{
@@ -345,6 +362,17 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 				}
 				PreviewGizmos.Clear();
 				Destroy(ActiveMouseGrabber.gameObject);
+
+				escapeKeyTarget.enabled = false;
+
+				StopSelectingButton.interactable = false;
+				StopUnSelectingButton.interactable = false;
+
+				UnSelectingButton.interactable = true;
+				SelectingButton.interactable = true;
+				Load.interactable = true;
+				Save.interactable = true;
+				Offset00 = null;
 			}
 
 			return;
@@ -361,6 +389,10 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 				ActiveGizmo = GameGizmomanager.AddNewSquareStaticClient(null,
 					ActiveBoundStart + (Size / 2f), Color.red, BoxSize: Size);
+
+
+				Load.interactable = false;
+				Save.interactable = false;
 			}
 			else
 			{

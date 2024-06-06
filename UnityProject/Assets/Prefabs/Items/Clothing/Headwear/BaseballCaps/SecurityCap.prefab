@@ -202,6 +202,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It's a baseball hat in a tasteful red olour.
       objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: 788649a7f84574c48a54361479106732,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: da4748e23c628224ebf569773569500b,
+        type: 2}
+    - target: {fileID: 8004422176852823208, guid: 788649a7f84574c48a54361479106732,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 69588014030a4b64d9572ee4f1a8e560,
+        type: 2}
+    - target: {fileID: 8004422176852823208, guid: 788649a7f84574c48a54361479106732,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 1276f9e58e399114b8d04b367305b99b,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

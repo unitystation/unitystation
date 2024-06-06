@@ -109,7 +109,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1 &5401648930563241880
 GameObject:
@@ -216,7 +216,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1001 &5743791597393623618
 PrefabInstance:
@@ -375,6 +375,12 @@ PrefabInstance:
       propertyPath: inventoryMoveSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 6165a13e02930904e9c7f8dcb31d658b,
+        type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: inventoryRemoveSound.AssetAddress

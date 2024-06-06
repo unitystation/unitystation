@@ -89,6 +89,24 @@ PrefabInstance:
       propertyPath: initialName
       value: blue galaxy suit
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: 6e6c876b4d53442588042c04884308f2,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 82b1d88afc2073b4f8a6031fcc14d8cf,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: 6e6c876b4d53442588042c04884308f2,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 0dcfd7020e9cfc04c96c3e8550091cf6,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: 6e6c876b4d53442588042c04884308f2,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: b57a3b553c30bbe4699e96a5f7f750d5,
+        type: 2}
     - target: {fileID: 8174322744686822344, guid: 6e6c876b4d53442588042c04884308f2,
         type: 3}
       propertyPath: parentID

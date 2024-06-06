@@ -190,7 +190,7 @@ namespace Objects.Atmospherics
 				if (gasDetected && Thresholds.GasMoles.ContainsKey(gas) == false)
 				{
 					// Let thresholds know about this unrecognized gas, but values are undetermined (let a technician set them).
-					Thresholds.GasMoles.Add(gas, AcuThresholds.UnknownValues);
+					Thresholds.GasMoles.Add(gas, AcuThresholds.UnknownValueslist);
 				}
 
 				GasLevelStatus[gas] = gasDetected
@@ -204,7 +204,23 @@ namespace Objects.Atmospherics
 			OverallStatus = CompositionStatus > OverallStatus ? CompositionStatus : OverallStatus;
 		}
 
-		private AcuStatus GetMetricStatus(float[] thresholds, float value)
+		private AcuStatus GetMetricStatus( List<float> thresholds, float value)
+		{
+			for (int i = 0; i < thresholds.Count; i++)
+			{
+				// ACU does not have thresholds data set for this newly-registered gas.
+				if (float.IsNaN(thresholds[i])) return AcuStatus.Caution;
+			}
+
+			if (value < thresholds[0]) return AcuStatus.Alert;
+			if (value > thresholds[3]) return AcuStatus.Alert;
+			if (value > thresholds[2]) return AcuStatus.Caution;
+			if (value < thresholds[1]) return AcuStatus.Caution;
+
+			return AcuStatus.Nominal;
+		}
+
+		private AcuStatus GetMetricStatus( float[] thresholds, float value)
 		{
 			for (int i = 0; i < thresholds.Length; i++)
 			{

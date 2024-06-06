@@ -105,7 +105,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1001 &1004520157929427565
 PrefabInstance:
@@ -213,12 +213,14 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 72f4670f52db198499e7ff5e8058beb7,
+        type: 2}
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 2c23306c8bae1174fa3a80db4897a171,
+        type: 2}
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: itemSprites.LeftHand.Texture

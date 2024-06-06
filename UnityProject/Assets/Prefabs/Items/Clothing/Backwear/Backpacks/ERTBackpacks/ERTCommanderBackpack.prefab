@@ -105,6 +105,24 @@ PrefabInstance:
       value: A spacious backpack with lots of pockets, worn by the Commander of an
         Emergency Response Team.
       objectReference: {fileID: 0}
+    - target: {fileID: 4391634449878879340, guid: da93b0f7c392d46ba85123e2516cfa49,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e85e23a46f048934a92d55467f6f5a72,
+        type: 2}
+    - target: {fileID: 4391634449878879340, guid: da93b0f7c392d46ba85123e2516cfa49,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f55dbe3e08bb08d4a93374485402e535,
+        type: 2}
+    - target: {fileID: 4391634449878879340, guid: da93b0f7c392d46ba85123e2516cfa49,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: b0903ff9a2d15b0459509ea1507f6391,
+        type: 2}
     - target: {fileID: 6015560538749977770, guid: da93b0f7c392d46ba85123e2516cfa49,
         type: 3}
       propertyPath: itemStoragePopulator

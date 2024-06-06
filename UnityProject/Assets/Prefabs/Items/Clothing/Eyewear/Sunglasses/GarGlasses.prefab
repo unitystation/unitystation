@@ -60,9 +60,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2987011942256334699, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 0a9168d2625b17047b2600309b24c155,
+        type: 2}
+    - target: {fileID: 2987011942256334699, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
       propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af,
+        type: 2}
+    - target: {fileID: 2987011942256334699, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2c29f99cc648f75439db2f5ff1b69d12,
+        type: 2}
+    - target: {fileID: 2987011942256334699, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 0686ff3b8a7063c47b80ad71dd489fc4,
         type: 2}
     - target: {fileID: 3273994478765017941, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}

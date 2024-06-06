@@ -94,6 +94,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It's a backpack especially designed for use in a sterile environment.
       objectReference: {fileID: 0}
+    - target: {fileID: 4391634449878879340, guid: da93b0f7c392d46ba85123e2516cfa49,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d48986c47922f1469672ade83042cd2,
+        type: 2}
+    - target: {fileID: 4391634449878879340, guid: da93b0f7c392d46ba85123e2516cfa49,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 3f8743df8c0ddad4f9869cae3b418135,
+        type: 2}
+    - target: {fileID: 4391634449878879340, guid: da93b0f7c392d46ba85123e2516cfa49,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 4732ca0aca7a29c40ba16b649b38376c,
+        type: 2}
     - target: {fileID: 6015560538749977770, guid: da93b0f7c392d46ba85123e2516cfa49,
         type: 3}
       propertyPath: itemStoragePopulator

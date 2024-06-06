@@ -104,6 +104,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A simple maid uniform for housekeeping.
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: 8fd881065be8b411d84cfc10b38be725,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 28d463c80f4b7e144a0122a5213e6ba8,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: 8fd881065be8b411d84cfc10b38be725,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 55b15e2bfc8cd2146b809e841b8880f2,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: 8fd881065be8b411d84cfc10b38be725,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b528ad47ba6b2c48bbe07add08dbce4,
+        type: 2}
     - target: {fileID: 8174322744686822344, guid: 8fd881065be8b411d84cfc10b38be725,
         type: 3}
       propertyPath: parentID

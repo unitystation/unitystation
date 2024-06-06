@@ -142,6 +142,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A professional black suit. Nanotrasen Investigation Bureau approved!
       objectReference: {fileID: 0}
+    - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 54787447d94b5cb45b88b021151fd3f6,
+        type: 2}
+    - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d05b16c6ba8b2c441abc4c2ec5dbe962,
+        type: 2}
+    - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: cab78c78455b233458b661ae707c7f23,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

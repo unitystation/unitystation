@@ -131,6 +131,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A pair of gloves, they don't look special in any way.
       objectReference: {fileID: 0}
+    - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 90b0bea2b3c45a74195e11370a9aeab6,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

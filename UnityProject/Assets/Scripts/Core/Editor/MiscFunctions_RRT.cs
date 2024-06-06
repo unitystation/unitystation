@@ -18,6 +18,7 @@ using Items;
 using Items.Botany;
 using Logs;
 using SecureStuff;
+using Systems.Clothing;
 using Debug = UnityEngine.Debug;
 using Random = System.Random;
 
@@ -292,6 +293,28 @@ namespace Util
 		{
 			AssetDatabase.StartAssetEditing();
 		}
+
+		[MenuItem("Tools/Sprites/SetUpClothingSprites")]
+		public static void SetSpriteDataForClothing()
+		{
+			AssetDatabase.StartAssetEditing();
+			var ClothingPefabs = LoadAllPrefabsOfType<ClothingV2>(Application.dataPath);
+			foreach (var ClothingPefab in ClothingPefabs)
+			{
+				var DataToUse = ClothingPefab.CurrentClothData;
+				if (DataToUse == null) continue;
+				var Data = ClothingPefab.GenItemsSprites(DataToUse);
+				if (Data == null) continue;
+				var att = ClothingPefab.GetComponent<ItemAttributesV2>();
+				att.SetSprites(Data);
+
+				EditorUtility.SetDirty(ClothingPefab.gameObject);
+				Undo.RecordObject(ClothingPefab.gameObject, "set SetSprites");
+			}
+			AssetDatabase.StopAssetEditing();
+			AssetDatabase.SaveAssets();
+		}
+
 
 		[MenuItem("Tools/Sprites/Convert Json Sprites")]
 		public static void ConvertJsonSprites()

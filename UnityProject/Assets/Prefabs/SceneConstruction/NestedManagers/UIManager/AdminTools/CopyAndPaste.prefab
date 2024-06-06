@@ -996,6 +996,8 @@ MonoBehaviour:
   StopUnSelectingButton: {fileID: 8184094723193977431}
   SelectingButton: {fileID: 4893028489712465458}
   UnSelectingButton: {fileID: 8464007330148088763}
+  Load: {fileID: 6695947474531629431}
+  Save: {fileID: 2238961718316381683}
   Updating: 0
   NonmappedItems: {fileID: 6497384608892096184}
   PreviewGizmos: []
@@ -3022,7 +3024,7 @@ GameObject:
   - component: {fileID: 2315631399901824145}
   - component: {fileID: 2238961718316381683}
   m_Layer: 5
-  m_Name: Button (3)
+  m_Name: save
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3677,7 +3679,7 @@ GameObject:
   - component: {fileID: 2096306792454539871}
   - component: {fileID: 6695947474531629431}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: Load
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

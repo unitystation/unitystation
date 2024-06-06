@@ -111,6 +111,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A versatile chest rig, cherished by miners and hunters alike.
       objectReference: {fileID: 0}
+    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: aaf0a6c373f56c048a93b7b70cf8b4c3,
+        type: 2}
+    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 175aa5f9aa4b5a54fbd3080f2730b7a0,
+        type: 2}
+    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: d6e31725a453ad444a5d6944d6100b63,
+        type: 2}
     - target: {fileID: 4707276644318323434, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: parentID

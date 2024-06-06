@@ -1,4 +1,5 @@
 ﻿using Logs;
+using UI.Core;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -131,6 +132,7 @@ public class LightEmissionBehaviour : MonoBehaviour
 		}
 
 		oGameObject = new GameObject("Emission Renderer");
+		oGameObject.AddComponent<MapSaverIgnoreObject>();
 		oGameObject.transform.parent = iRoot.transform;
 		oGameObject.transform.localPosition = Vector3.zero;
 		oGameObject.transform.localEulerAngles = Vector3.zero;

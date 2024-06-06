@@ -19,6 +19,24 @@ PrefabInstance:
       value: A bulletproof combat helmet that excels in protecting the wearer against
         traditional projectile weaponry and explosives to a minor extent.
       objectReference: {fileID: 0}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 640c3a53dc024a542980bacaae3e47b6,
+        type: 2}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d8bebd5aec0791a4191379760fbfe27e,
+        type: 2}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 60373dc658763634386e3b5bbc567d68,
+        type: 2}
     - target: {fileID: 2067487341669760131, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_Sprite

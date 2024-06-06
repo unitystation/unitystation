@@ -61,6 +61,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A large duffel bag for holding tools and hats.
       objectReference: {fileID: 0}
+    - target: {fileID: 8825729893658049319, guid: cae650b8120e1f04a840374168f5169e,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7e24acd2bfb9fe248b1cc89e46e51d9b,
+        type: 2}
+    - target: {fileID: 8825729893658049319, guid: cae650b8120e1f04a840374168f5169e,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4d14a03326759c44d846a036b37af577,
+        type: 2}
+    - target: {fileID: 8825729893658049319, guid: cae650b8120e1f04a840374168f5169e,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: df784ab76f05f9d4f83314e070eeb74f,
+        type: 2}
     - target: {fileID: 8972668025943697713, guid: cae650b8120e1f04a840374168f5169e,
         type: 3}
       propertyPath: m_RootOrder

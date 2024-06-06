@@ -116,6 +116,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A set of tactical webbing worn by Syndicate boarding parties.
       objectReference: {fileID: 0}
+    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c0164f4048ab7064eabb7409a717a9b7,
+        type: 2}
+    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: eb50d0d7a793cfe409355f83394e5480,
+        type: 2}
+    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 4a280a5e5debb9e45b51a09010c3e8d6,
+        type: 2}
     - target: {fileID: 4707276644318323434, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: parentID

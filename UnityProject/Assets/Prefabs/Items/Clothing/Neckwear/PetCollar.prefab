@@ -60,6 +60,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It's for pets.
       objectReference: {fileID: 0}
+    - target: {fileID: 8122024160340692485, guid: b027dfa588d69d848a886ae80d5b25c2,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8122024160340692485, guid: b027dfa588d69d848a886ae80d5b25c2,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8122024160340692485, guid: b027dfa588d69d848a886ae80d5b25c2,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: f60b24d5a30132a41951e63949dfd154,
+        type: 2}
     - target: {fileID: 8406908623037895227, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
       propertyPath: m_Sprite

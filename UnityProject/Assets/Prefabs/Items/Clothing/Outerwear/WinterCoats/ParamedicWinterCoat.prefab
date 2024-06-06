@@ -47,6 +47,12 @@ PrefabInstance:
       value: A winter coat with blue markings. Warm, but probably won't protect from
         biological agents. For the cozy doctor on the go.
       objectReference: {fileID: 0}
+    - target: {fileID: 6049508525371871619, guid: f27991fd74b5f6941a1ad2f9e161a022,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: e67a1bb232d4aac47b9ffe6dc5763b63,
+        type: 2}
     - target: {fileID: 6092671967717950293, guid: f27991fd74b5f6941a1ad2f9e161a022,
         type: 3}
       propertyPath: _assetId
