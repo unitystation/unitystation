@@ -31,7 +31,13 @@ jobs:
         
       - name: Check description for no-cl
         id: is_no_cl
-        run: echo "no_cl=${{ startsWith(github.event.pull_request.body, 'no-cl') }}" >> $GITHUB_ENV
+        run: echo "no_cl=${{ contains(github.event.pull_request.body, 'no-cl') }}" >> $GITHUB_ENV
+
+      - name: Print environment variables
+        run: |
+          echo "draft=${{ env.draft }}"
+          echo "draft_title=${{ env.draft_title }}"
+          echo "no_cl=${{ env.no_cl }}"
 
       - name: pr2changelog
         id: pr2changelog
