@@ -146,7 +146,7 @@ namespace Items.Implants.Organs
 				}
 			}
 
-			if (ReagentCirculatedComponent.AssociatedSystem.BloodPool[SaturationComponent.bloodType] == 0)
+			if (SaturationComponent.bloodType == null || ReagentCirculatedComponent?.AssociatedSystem?.BloodPool == null ||  ReagentCirculatedComponent.AssociatedSystem.BloodPool[SaturationComponent.bloodType] == 0)
 			{
 				return false; //No point breathing if we dont have blood.
 			}

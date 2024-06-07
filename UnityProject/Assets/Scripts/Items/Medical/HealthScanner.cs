@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
+using System.Linq;
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems;
 using UnityEngine;
 using Util.Independent.FluentRichText;
 using Color = UnityEngine.Color;
@@ -85,6 +87,13 @@ namespace Items.Medical
 			}
 
 
+			var LivingHunger = health.ActiveSystems.FirstOrDefault(x => x is HungerSystem);
+
+			string DescriptionHunger = "N/A";
+			if (LivingHunger != null)
+			{
+				DescriptionHunger = ((HungerSystem) LivingHunger).CashedHungerState.ToString();
+			}
 
 			float[] fullDamage = new float[7];
 
@@ -93,7 +102,8 @@ namespace Items.Medical
 					$"{targetName} is {health.ConsciousState}\n" +
 					$"{targetName}'s heart is {heartState}\n" +
 					$"<b>Overall status: {totalPercent} % healthy</b>\n" +
-					$"Blood Pool level: {bloodTotal}cc, {bloodPercent} %\n");
+					$"Blood Pool level: {bloodTotal}cc, {bloodPercent} %\n" +
+					$"Patients hunger is: {DescriptionHunger} \n");
 			StringBuilder partMessages = new StringBuilder();
 			foreach (var bodypart in health.BodyPartList)
 			{

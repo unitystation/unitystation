@@ -475,7 +475,7 @@ namespace Doors
 			if (isFireLock == false)
 			{
 				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-				if (fireLock != null && fireLock.fireAlarm.activated) return;
+				if (fireLock != null && fireLock.fireAlarm.activated && fireLock.DoorMasterController.IsClosed) return;
 			}
 
 			if (!this || !gameObject) return; // probably destroyed by a shuttle crash

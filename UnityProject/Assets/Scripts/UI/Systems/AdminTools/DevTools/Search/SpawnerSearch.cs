@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Logs;
 using Mirror;
+using NUnit.Framework;
 using UI.Systems.AdminTools.DevTools.Search;
 using UnityEngine;
 
@@ -87,10 +88,16 @@ public class SpawnerSearch
 				var Entryj = Entry.SearchableName[j];
 				if (Entryj.Contains(standardizedSearch))
 				{
-					docs.Add(Entry);
+					if (Entry.ForeverID == standardizedSearch)
+					{
+						docs.Insert(0, Entry);
+					}
+					else
+					{
+						docs.Add(Entry);
+					}
 				}
 			}
-
 		}
 
 		return docs;
