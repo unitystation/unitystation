@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Items;
 using Logs;
@@ -8,6 +7,7 @@ using Mirror;
 using ScriptableObjects;
 using Machines;
 using Objects.Machines;
+using UI.Systems.Tooltips.HoverTooltips;
 
 namespace Objects.Construction
 {
@@ -32,7 +32,7 @@ namespace Objects.Construction
 	/// <summary>
 	/// Main Component for Machine Construction
 	/// </summary>
-	public class MachineFrame : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable
+	public class MachineFrame : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable, IHoverTooltip
 	{
 		[SerializeField] private StatefulState initialState = null;
 		[SerializeField] private StatefulState cablesAddedState = null;
@@ -623,36 +623,7 @@ namespace Objects.Construction
 
 			if (CurrentState == circuitAddedState)
 			{
-				msg = "You have these items left to add: \n";
-
-				foreach (var parts in machineParts.machineParts)
-				{
-					if (!basicPartsUsed.ContainsKey(parts.itemTrait))//If false then we have none of the itemtrait
-					{
-						msg += parts.amountOfThisPart;
-						msg += " " + parts.itemTrait.name;
-
-						if (parts.amountOfThisPart > 1)
-						{
-							msg += "s";
-						}
-
-						msg += "\n";
-					}
-					else if (basicPartsUsed[parts.itemTrait] != parts.amountOfThisPart)//If we have some but not enough of the itemtrait
-					{
-						msg += parts.amountOfThisPart - basicPartsUsed[parts.itemTrait];
-						msg += " " + parts.itemTrait.name;
-
-						if ((parts.amountOfThisPart - basicPartsUsed[parts.itemTrait]) > 1)
-						{
-							msg += "s";
-						}
-
-						msg += "\n";
-					}
-				}
-
+				msg += RemainingItemsExamineText();
 				msg += "Use crowbar to remove circuit board.\n";
 			}
 
@@ -661,6 +632,40 @@ namespace Objects.Construction
 				msg = "Use a screwdriver to finish construction or use crowbar to remove circuit board.\n";
 			}
 
+			return msg;
+		}
+
+		private string RemainingItemsExamineText()
+		{
+			var msg = "You have these items left to add: \n";
+
+			foreach (var parts in machineParts.machineParts)
+			{
+				if (!basicPartsUsed.ContainsKey(parts.itemTrait))//If false then we have none of the itemtrait
+				{
+					msg += parts.amountOfThisPart;
+					msg += " " + parts.itemTrait.name;
+
+					if (parts.amountOfThisPart > 1)
+					{
+						msg += "s";
+					}
+
+					msg += "\n";
+				}
+				else if (basicPartsUsed[parts.itemTrait] != parts.amountOfThisPart)//If we have some but not enough of the itemtrait
+				{
+					msg += parts.amountOfThisPart - basicPartsUsed[parts.itemTrait];
+					msg += " " + parts.itemTrait.name;
+
+					if ((parts.amountOfThisPart - basicPartsUsed[parts.itemTrait]) > 1)
+					{
+						msg += "s";
+					}
+
+					msg += "\n";
+				}
+			}
 			return msg;
 		}
 
@@ -815,6 +820,31 @@ namespace Objects.Construction
 			Box = 0,
 			BoxCable = 1,
 			BoxCircuit = 2
+		}
+
+		public string HoverTip()
+		{
+			return Examine(default);
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			return null;
 		}
 	}
 }
