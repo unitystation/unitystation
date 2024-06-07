@@ -323,17 +323,26 @@ MonoBehaviour:
   syncInterval: 0.1
   <Physics>k__BackingField: {fileID: 8330663360897040262}
   <LastProducedWatts>k__BackingField: 0
-  updateRate: 8
+  updateRate: 16
   productionPowerPointsPerFreeAvaliableSide: 150
   isOn: 1
   warningBeeper:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/DeniedBeep.prefab
+    AssetAddress: Assets/Prefabs/Machines/beep.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  wrenchSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Wrench.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  Controller: {fileID: 0}
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,24 +1,26 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AddressableReferences;
 using Core;
 using Messages.Server.SoundMessages;
 using Mirror;
 using Shared.Systems.ObjectConnection;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
+using Util.Independent.FluentRichText;
 
 namespace Systems.Electricity.PowerSupplies
 {
 	[RequireComponent(typeof(UniversalObjectPhysics))]
-	public class SolarPanel : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolSlaveable, IExaminable
+	public class SolarPanel : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolSlaveable, IExaminable, IHoverTooltip
 	{
-		private const int MAXIMUM_ALLOWED_CLUTTER = 8;
-
 		[field: SerializeField] public UniversalObjectPhysics Physics { get; private set; }
 		[field: SerializeField] public int LastProducedWatts { get; private set; } = 0;
-		[SerializeField] private float updateRate = 8f;
+		[SerializeField] private float updateRate = 16f;
 		[SerializeField] private int productionPowerPointsPerFreeAvaliableSide = 150;
 		[SerializeField] private bool isOn = true;
 		[SerializeField] private AddressableAudioSource warningBeeper;
+		[SerializeField] private AddressableAudioSource wrenchSound;
 
 		private AudioSourceParameters beeperSettings = new AudioSourceParameters()
 		{
@@ -34,14 +36,13 @@ namespace Systems.Electricity.PowerSupplies
 		public bool TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
 			if (master.gameObject.TryGetComponent<SolarPanelController>(out var controller) == false) return false;
-			Controller = controller;
 			return controller.AddDevice(this);
 		}
 
 		public void SetMasterEditor(IMultitoolMasterable master)
 		{
 			if (master.gameObject.TryGetComponent<SolarPanelController>(out var controller) == false) return;
-			Master = master;
+			Master = controller;
 			Controller = controller;
 			controller.AddDevice(this);
 		}
@@ -55,6 +56,10 @@ namespace Systems.Electricity.PowerSupplies
 				Controller.AddDevice(this);
 				Master ??= Controller;
 			}
+			else
+			{
+				isOn = false;
+			}
 		}
 
 		private void OnDestroy()
@@ -64,7 +69,17 @@ namespace Systems.Electricity.PowerSupplies
 
 		private void UpdateMe()
 		{
-			if (isOn == false || Controller == null) return;
+			if (isOn == false) return;
+			var points = CalculatePoints();
+			LastProducedWatts = points * 2;
+			if (points == 0)
+			{
+				if (warningBeeper != null) SoundManager.PlayNetworkedAtPos(warningBeeper, gameObject.AssumedWorldPosServer(), beeperSettings);
+			}
+		}
+
+		private int CalculatePoints()
+		{
 			var points = 0;
 			Vector3Int currentPos = gameObject.AssumedWorldPosServer().CutToInt();
 			Vector3Int[] directions = new Vector3Int[]
@@ -74,23 +89,16 @@ namespace Systems.Electricity.PowerSupplies
 				new Vector3Int(-1, 0),  // Left
 				new Vector3Int(1, 0)    // Right
 			};
-
 			foreach (Vector3Int direction in directions)
 			{
 				Vector3Int neighborPos = currentPos + direction;
 				if (MatrixManager.IsSpaceAt(neighborPos, true)) points += productionPowerPointsPerFreeAvaliableSide;
 			}
-
-			LastProducedWatts = points * 2;
-			if (points == 0)
-			{
-				if (warningBeeper != null) SoundManager.PlayNetworkedAtPos(warningBeeper, gameObject.AssumedWorldPosServer(), beeperSettings);
-			}
+			return points;
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (interaction.Intent != Intent.Help) return false;
 			return DefaultWillInteract.Default(interaction, side);
 		}
 
@@ -98,16 +106,21 @@ namespace Systems.Electricity.PowerSupplies
 		{
 			if (interaction.HandObject == null) return;
 			var traits = interaction.HandSlot.ItemAttributes.GetTraits();
-			if (traits.Contains(CommonTraits.Instance.Wrench))
-			{
-				Physics.SetIsNotPushable(!Physics.isNotPushable);
-				UpdatePushableStateProperties();
-			}
+			if (traits.Contains(CommonTraits.Instance.Wrench) == false) return;
+			Physics.SetIsNotPushable(!Physics.isNotPushable);
+			UpdatePushableStateProperties();
+			if (wrenchSound != null) SoundManager.PlayNetworkedAtPos(wrenchSound, gameObject.AssumedWorldPosServer());
+			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} turns {OnOff()} as its bolt make a clicking sound.");
 		}
 
 		private void UpdatePushableStateProperties()
 		{
 			isOn = Physics.isNotPushable;
+			if (isOn == false)
+			{
+				Controller?.RemoveDevice(this);
+				Master = null;
+			}
 		}
 
 		private string OnOff()
@@ -117,7 +130,46 @@ namespace Systems.Electricity.PowerSupplies
 
 		public string Examine(Vector3 worldPos = default)
 		{
-			return $"This panel is currently {OnOff()}.\n It's screen reads out: {LastProducedWatts}.";
+			var inital = $"This panel is currently {OnOff()}.\n It's screen reads out: {LastProducedWatts}.";
+			if (Controller == null)
+				inital += "\nHowever, This panel is not connected to any controllers to siphon the produced energy.";
+			return inital;
+		}
+
+		public string HoverTip()
+		{
+			return Examine();
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			List<TextColor> tips = new List<TextColor>();
+			if (isOn)
+			{
+				tips.Add(new TextColor() { Text = $"The panel produces energy every {updateRate} seconds.".Italic(), Color = Color.grey });
+			}
+			else
+			{
+				tips.Add(new TextColor() { Text = "An unbolted panel is turned off, and does not produce energy.".Italic(), Color = Color.grey });
+			}
+			tips.Add(new TextColor() { Text = "Use a wrench to bolt this panel down/up.", Color = Color.green });
+			if (Controller == null) tips.Add(new TextColor(){ Text = "Use a multi-tool to connect this panel to a Solar Panel Controller.", Color = Color.green});
+			return tips;
 		}
 	}
 }

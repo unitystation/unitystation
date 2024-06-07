@@ -42,6 +42,7 @@ namespace Systems.Electricity.PowerSupplies
 		{
 			if (connectedPanels.Contains(panel)) return false;
 			connectedPanels.Add(panel);
+			panel.Controller = this;
 			return true;
 		}
 
