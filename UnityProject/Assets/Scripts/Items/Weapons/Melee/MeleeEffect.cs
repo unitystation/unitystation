@@ -9,7 +9,7 @@ namespace Weapons
 	/// <summary>
 	/// Adding this to a weapon allows it to stun and/or randomly teleport targets on hit. 
 	/// </summary>
-	public class MeleeEffect : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
+	public class MeleeEffect : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IExaminable
 	{
 		/// <summary>
 		/// Sounds to play when striking someone
@@ -135,9 +135,10 @@ namespace Weapons
 			else if(toggleableEffect.CurrentWeaponState == ToggleableEffect.WeaponState.Off
 				|| toggleableEffect.CurrentWeaponState == ToggleableEffect.WeaponState.NoCell)
 			{
+				string retractedOrOff = hasBattery ? "retracted" : "off";
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You attempt to prod {interaction.TargetObject.ExpensiveName()} but the {gameObject.ExpensiveName()} was off!",
-					$"{interaction.Performer.ExpensiveName()} prods {interaction.TargetObject.ExpensiveName()}, luckily the {gameObject.ExpensiveName()} was off!");
+					$"You attempt to prod {interaction.TargetObject.ExpensiveName()} but the {gameObject.ExpensiveName()} was {retractedOrOff}!",
+					$"{interaction.Performer.ExpensiveName()} prods {interaction.TargetObject.ExpensiveName()}, luckily the {gameObject.ExpensiveName()} was {retractedOrOff}!");
 				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Tap, gameObject.RegisterTile().WorldPosition);
 				return;
 			}
@@ -202,7 +203,7 @@ namespace Weapons
 					}
 					else
 					{
-						Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is out of power.");
+						Chat.AddExamineMsg(performer, $"The {gameObject.ExpensiveName()} is out of power.");
 					}
 				}
 				else
@@ -236,6 +237,19 @@ namespace Weapons
 			{
 				canEffect = true;
 			}
+		}
+		public string Examine(Vector3 worldPos = default)
+		{
+			if (hasBattery)
+			{
+				if ( Battery != null)
+				{
+					return $"Charge indicator shows a {Mathf.Round(Battery.Watts*100/Battery.MaxWatts)} percent charge.";
+
+				}
+				return "It does not contain a battery.";
+			}
+			return "";
 		}
 	}
 }
