@@ -12,6 +12,8 @@ using Random = UnityEngine.Random;
 public class TestVariableViewerScript : NetworkBehaviour
 {
 
+	public int BasicINT = 99;
+
 	public List<TestClass> TestClasss = new List<TestClass>();
 
 

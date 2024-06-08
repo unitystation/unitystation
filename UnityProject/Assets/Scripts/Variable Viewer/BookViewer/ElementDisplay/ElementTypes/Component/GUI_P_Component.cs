@@ -95,7 +95,7 @@ public class GUI_P_Component : PageElement
 		if (Page != null)
 		{
 			PageID = Page.ID;
-			SentenceID = 0;
+			SentenceID = uint.MaxValue;
 			IsSentence = false;
 			iskey = false;
 		}
@@ -146,7 +146,8 @@ public class GUI_P_Component : PageElement
 				IDType = IDType.PrefabForeverID,
 				PrefabForeverID = ForeverID
 			}),
-			UISendToClientToggle.toggle);
+			UISendToClientToggle.toggle,
+			SentenceID);
 	}
 
 
@@ -160,7 +161,8 @@ public class GUI_P_Component : PageElement
 					IDType = IDType.Book,
 					BookID = BookID
 				}),
-				UISendToClientToggle.toggle);
+				UISendToClientToggle.toggle,
+				SentenceID);
 		}
 	}
 
@@ -174,7 +176,8 @@ public class GUI_P_Component : PageElement
 					IDType = IDType.Bookshelf,
 					ShelfID = ShelfID
 				}),
-				UISendToClientToggle.toggle);
+				UISendToClientToggle.toggle,
+				SentenceID);
 		}
 	}
 

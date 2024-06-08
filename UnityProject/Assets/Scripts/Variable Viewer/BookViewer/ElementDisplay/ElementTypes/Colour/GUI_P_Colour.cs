@@ -38,7 +38,7 @@ namespace AdminTools.VariableViewer
 			if (Page != null)
 			{
 				PageID = Page.ID;
-				SentenceID = 0;
+				SentenceID = UInt32.MaxValue;
 				IsSentence = false;
 				iskey = false;
 			}
@@ -65,7 +65,7 @@ namespace AdminTools.VariableViewer
 				Outstring += Convert.ToChar(Mathf.RoundToInt(thisColor.b * 255));
 				Outstring += Convert.ToChar(Mathf.RoundToInt(thisColor.a * 255));
 
-				RequestChangeVariableNetMessage.Send(PageID, Outstring, UISendToClientToggle.toggle);
+				RequestChangeVariableNetMessage.Send(PageID, Outstring, UISendToClientToggle.toggle, SentenceID);
 			}
 		}
 

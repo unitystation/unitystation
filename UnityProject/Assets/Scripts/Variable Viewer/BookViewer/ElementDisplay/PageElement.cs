@@ -8,7 +8,7 @@ using Object = System.Object;
 public class PageElement : MonoBehaviour
 {
 	public ulong PageID;
-	public uint SentenceID;
+	public uint SentenceID = uint.MaxValue;
 	public virtual PageElementEnum PageElementType => PageElementEnum.InputField;
 	public bool IsPoolble = true;
 
@@ -38,6 +38,7 @@ public class PageElement : MonoBehaviour
 		}
 		else
 		{
+			PageID = Sentence.OnPageID;
 			SentenceID = Sentence.SentenceID;
 		}
 	}
