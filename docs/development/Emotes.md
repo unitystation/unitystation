@@ -17,7 +17,7 @@ To make things simple for ourselves, we'll start of by making a basic emote that
 
 Emotes can be easily created by right clicking on the asset browser inside Unity, then searching for the type of Emote you'd like to create.
 
-![](/assets/images/EmoteSO/CreateBasicEmote.png)
+![](../assets/images/EmoteSO/CreateBasicEmote.png)
 
 After you've chosen the basic emote option, you'll be prompted to name your EmoteSO; we'll be naming it "Merp" for now.
 
@@ -25,7 +25,7 @@ After you've chosen the basic emote option, you'll be prompted to name your Emot
 
 After you've successfully created your emote, you will be able to see this in the inspector:
 
-![](/assets/images/EmoteSO/newExample.png)
+![](../assets/images/EmoteSO/newExample.png)
 
 Let's go through what each property does.
 
@@ -71,7 +71,7 @@ Let's go through what each property does.
 
 For our merp emote, we're going to simply fill in some basic text and a sound to play when we trigger the emote.
 
-![](/assets/images/EmoteSO/merp.png)
+![](../assets/images/EmoteSO/merp.png)
 
 And we're done.
 
@@ -83,7 +83,7 @@ We use `EmoteListSO` to keep track of all non-hidden emotes in the project, whic
 
 To add your emote, simply find `EmoteListSO` under `Assets/ScriptableObjects/Emotes`, and add your new emote in there.
 
-![](/assets/images/EmoteSO/EmoteSOList.png)
+![](../assets/images/EmoteSO/EmoteSOList.png)
 
 Once it's in the list, you can now trigger the emote via code manually by going `EmoteActionManager.DoEmote("merp", targetPlayer)`.
 
@@ -96,7 +96,7 @@ Emotes do not just play sounds and display text, they can also have extended beh
 
 Emotes use a design pattern that containerizes all behaviors into their own classes that inherit from the `IEmoteBehavior` interface. This interface is automatically detected inside Unity under the behaviors sections in emotes, so you don't need to worry about writing anything extra or worry about any manual steps to add these behaviors onto emotes. You only have to focus on writing your behaviors then you can easily add them later with a simple click.
 
-![](/assets/images/EmoteSO/behaviors.png)
+![](../assets/images/EmoteSO/behaviors.png)
 
 To demonstrate how easy it is to create behaviors for emotes, We'll be creating a simple behavior for a Fart emote that releases gasses under the player when they trigger it.
 
@@ -123,7 +123,7 @@ namespace ScriptableObjects.RP.EmoteBehaviors
 
 Once you're done, save and recompile the project; then the behavior can be added into any emote you want:
 
-![](/assets/images/EmoteSO/fart.png)
+![](../assets/images/EmoteSO/fart.png)
 
 It's that simple. You can adjust the values to your liking, and someone later on can reuse this same behavior for something like a burp emote that releases a different gas.
 
