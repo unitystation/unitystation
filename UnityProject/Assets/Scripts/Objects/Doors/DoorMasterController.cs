@@ -279,6 +279,10 @@ namespace Doors
 				}
 				PulseTryClose(interaction.Performer, inOverrideLogic: true);
 			}
+			else
+			{
+				AddChatTryInteractMessage(interaction, states);
+			}
 
 			StartInputCoolDown();
 		}
@@ -308,6 +312,22 @@ namespace Doors
 			else if(HasPower == false)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is unpowered");
+			}
+			else
+			{
+				AddChatTryInteractMessage(interaction, states);
+			}
+		}
+
+		public void AddChatTryInteractMessage(HandApply interaction, HashSet<DoorProcessingStates> States)
+		{
+			if (States.Contains(DoorProcessingStates.PhysicallyPrevented) && States.Contains(DoorProcessingStates.SoftwarePrevented) == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} tries to move but something is physically preventing it");
+			}
+			else if (States.Contains(DoorProcessingStates.SoftwarePrevented))
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} denies access");
 			}
 		}
 
