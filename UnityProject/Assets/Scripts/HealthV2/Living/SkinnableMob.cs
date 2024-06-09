@@ -13,7 +13,7 @@ namespace HealthV2.Living
 	/// </summary>
 	[RequireComponent(typeof(LivingHealthMasterBase))]
 	[RequireComponent(typeof(GibbableMob))]
-	public class SkinnableMob : NetworkBehaviour, ICheckedInteractable<HandApply>, IHoverTooltip, ICooldown
+	public class SkinnableMob : NetworkBehaviour, IHoverTooltip, ICooldown, IRightClickable
 	{
 		[SerializeField] private GibbableMob gibbableMob;
 		[SerializeField] private AddressableAudioSource defaultSkinningSound;
@@ -69,28 +69,19 @@ namespace HealthV2.Living
 				gameObject);
 		}
 
-		public bool WillInteract(HandApply interaction, NetworkSide side)
+		[Command(requiresAuthority = false)]
+		public void ServerPerformInteraction(PlayerScript performer)
 		{
-			if (interaction.Intent != Intent.Harm && interaction.IsAltClick == false) return false;
-			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-			if (interaction.HandObject == null) return false;
-			if (interaction.HandObject.Item().GetTraits().Contains(health.InitialSpecies.Base.SkinningItemTrait) ==
-			    false) return false;
-			return true;
-		}
-
-		public void ServerPerformInteraction(HandApply interaction)
-		{
-			if (Cooldowns.TryStart(interaction, this, NetworkSide.Server) == false) return;
+			if (Vector3.Distance(performer.gameObject.AssumedWorldPosServer(), gameObject.AssumedWorldPosServer()) > 2f) return;
 			var bar = StandardProgressAction.Create(
 				new StandardProgressActionConfig(StandardProgressActionType.Restrain, true, false),
 				()=> SpawnSpeciesProduce(1, true));
 			var time = Mathf.Clamp(health.OverallHealth / 8, TIME_MIN_SKINNING, TIME_MAX_SKINNING);
-			bar.ServerStartProgress(gibbableMob.gameObject.AssumedWorldPosServer(), time, interaction.Performer);
+			bar.ServerStartProgress(gibbableMob.gameObject.AssumedWorldPosServer(), time, performer.gameObject);
 			Chat.AddActionMsgToChat(gameObject,
-				$"{interaction.PerformerPlayerScript.visibleName} starts skinning {interaction.TargetObject.ExpensiveName()}.".Color(Color.red));
+				$"{performer.visibleName} starts skinning {gameObject.ExpensiveName()}.".Color(Color.red));
 			PlayAudio();
-			health.ApplyDamageToRandomBodyPart(interaction.Performer, 10, AttackType.Melee, DamageType.Brute,
+			health.ApplyDamageToRandomBodyPart(performer.gameObject, 10, AttackType.Melee, DamageType.Brute,
 				traumaticDamageTypes: TraumaticDamageTypes.PIERCE, traumaChance:100);
 		}
 
@@ -121,7 +112,21 @@ namespace HealthV2.Living
 			var result = new List<TextColor>();
 			if (hands != null && hands.ItemAttributes != null && hands.ItemAttributes.GetTraits().Contains(species.Base.SkinningItemTrait))
 			{
-				result.Add(new TextColor() {Text = "Alt click while in harm intent to skin this creature.", Color = Color.red});
+				result.Add(new TextColor() {Text = "Right click while they're buckled to an object or laying down to skin this creature.", Color = Color.red});
+			}
+			return result;
+		}
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			if (health.playerScript.RegisterPlayer.LayDownBehavior.IsLayingDown == false && health.playerScript.playerMove.BuckledToObject == null) return null;
+			RightClickableResult result = new RightClickableResult();
+			RaceSOSingleton.TryGetRaceByName(health.playerScript.characterSettings.Species, out var species);
+			foreach (var slot in PlayerManager.Equipment.ItemStorage.GetHandSlots())
+			{
+				if (slot == null || slot.IsEmpty) continue;
+				if (slot.ItemAttributes.GetTraits().Contains(species.Base.SkinningItemTrait) == false) continue;
+				result.AddElement("Skin Creature", () => ServerPerformInteraction(PlayerManager.LocalPlayerScript), Color.red);
 			}
 			return result;
 		}
