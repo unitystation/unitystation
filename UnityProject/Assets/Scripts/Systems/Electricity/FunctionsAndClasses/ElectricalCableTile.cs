@@ -18,7 +18,7 @@ public class ElectricalCableTile : FuncPlaceRemoveTile
 
 	public override void OnPlaced(Vector3Int TileLocation, Matrix AssociatedMatrix, TileLocation tileLocation)
 	{
-		AssociatedMatrix.AddElectricalNode(TileLocation, this);
+		AssociatedMatrix.AddElectricalNode(TileLocation, this, false, true);
 	}
 
 	public override void OnRemoved(Vector3Int TileLocation, Matrix AssociatedMatrix, TileLocation tileLocation)
@@ -29,6 +29,7 @@ public class ElectricalCableTile : FuncPlaceRemoveTile
 			foreach (var ElectricalData in Node.ElectricalData)
 			{
 				if (ElectricalData.RelatedTile != this) continue;
+				if (ElectricalData.InData.DropIngredients == false) return;
 				if (ElectricalData.InData.DestroyQueueing) return;
 				ElectricalData.InData.DestroyThisPlease(true);
 				Spawn.ServerPrefab(this.SpawnOnDeconstruct, TileLocation.ToWorld(AssociatedMatrix),

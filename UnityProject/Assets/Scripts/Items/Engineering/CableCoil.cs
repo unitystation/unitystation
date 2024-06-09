@@ -95,8 +95,7 @@ namespace Objects.Electrical
 				{
 					// Grab a list of electrical connections from the matrix at
 					// the given location.
-					var eConnList =
-						interaction.Performer.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
+					var eConnList = interaction.Performer.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
 
 					// Find any cables on the matrix that conflicts with our
 					// proposed connections.
@@ -311,7 +310,7 @@ namespace Objects.Electrical
 			if (eConn != null)
 			{
 				oldTileCost = eConn.MetaDataPresent.RelatedTile.SpawnAmountOnDeconstruct;
-				eConn.DestroyThisPlease();
+				eConn.DestroyThisPlease(dropIngredients : false);
 			}
 
 			// Get the electrical cable tile with the wire connection direction.
@@ -328,7 +327,7 @@ namespace Objects.Electrical
 			if (Inventory.ServerConsume(interaction.HandSlot, finalCost))
 			{
 				// Then, add an electrical node at the tile.
-				interaction.Performer.GetComponentInParent<Matrix>().AddElectricalNode(position.RoundToInt(), tile, true);
+				interaction.Performer.GetComponentInParent<Matrix>().AddElectricalNode(position.RoundToInt(), tile);
 			}
 			else
 			{
