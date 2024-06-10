@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dd0f7f114fd41d9802a9e350cd8a2ea, type: 3}
+  m_Name: Vulpic
+  m_EditorClassIdentifier: 
+  languageName: Vulpic
+  languageUniqueId: 24
+  desc: The guttural and language spoken by the Vulpkanin. Comprised of yaps and
+    growls.
+  key: 0
+  sentenceChance: 5
+  spaceChance: 35
+  priority: 90
+  sprite: {fileID: 21300000, guid: 50d1682178b7ee1c8a589794d96d83ff, type: 3}
+  chatSprite: {fileID: 11400000, guid: bb34f098cf0753a22a5d1b074baf0a70, type: 2}
+  flags: 0
+  syllables:
+  - rur
+  - ya
+  - cen
+  - rawr
+  - bar
+  - kuk
+  - tek
+  - qat
+  - uk
+  - wu
+  - vuh
+  - tah
+  - tch
+  - schz
+  - auch
+  - ist
+  - ein
+  - entch
+  - zwichs
+  - tut
+  - mir
+  - wo
+  - bis
+  - es
+  - vor
+  - nic
+  - gro
+  - lll
+  - enem
+  - zandt
+  - tzch
+  - noch
+  - hel
+  - ischt
+  - far
+  - wa
+  - baram
+  - iereng
+  - tech
+  - lach
+  - sam
+  - mak
+  - lich
+  - gen
+  - or
+  - ag
+  - eck
+  - gec
+  - stag
+  - onn
+  - bin
+  - ket
+  - jarl
+  - vulf
+  - einech
+  - cresthz
+  - azunein
+  - ghzth
+  syllablesString: "\"rur\",\"ya\",\"cen\",\"rawr\",\"bar\",\"kuk\",\"tek\",\"qat\",\"uk\",\"wu\",\"vuh\",\"tah\",\"tch\",\"schz\",\"auch\",
+    \t\"ist\",\"ein\",\"entch\",\"zwichs\",\"tut\",\"mir\",\"wo\",\"bis\",\"es\",\"vor\",\"nic\",\"gro\",\"lll\",\"enem\",\"zandt\",\"tzch\",\"noch\",
+    \t\"hel\",\"ischt\",\"far\",\"wa\",\"baram\",\"iereng\",\"tech\",\"lach\",\"sam\",\"mak\",\"lich\",\"gen\",\"or\",\"ag\",\"eck\",\"gec\",\"stag\",\"onn\",
+    \n\"bin\",\"ket\",\"jarl\",\"vulf\",\"einech\",\"cresthz\",\"azunein\",\"ghzth\""
