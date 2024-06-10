@@ -76,7 +76,7 @@ namespace Tiles
 				target.gameObject.TileLocalPosition().To3Int() + target.playerScript.CurrentDirection.ToLocalVector3Int(),
 				target.RegisterTile.TileChangeManager.MetaTileMap,
 				target.RegisterTile.Matrix
-			), target.gameObject.AssumedWorldPosServer(), ignoreProtection: true); //since you're running head first into this, we skip the protection check on equipment.
+			), target.gameObject.AssumedWorldPosServer()); //since you're running head first into this, we skip the protection check on equipment.
 			var severity = target.Electrocute(electrocutionExposure);
 
 			// If the electrocution was painful, return true to stop other interactions.
