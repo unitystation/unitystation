@@ -222,13 +222,21 @@ namespace Objects.Engineering
 			var connectedDevicesCount = connectedDevices.Count;
 			for (int i = 0; i < connectedDevicesCount; i++)
 			{
-				if (connectedDevices[i] == null)
+				try
 				{
-					connectedDevices.RemoveAt(i);
-					continue;
+					connectedDevices[i].PowerNetworkUpdate(voltages);
+					calculatingResistance += (1 / connectedDevices[i].Resistance);
 				}
-				connectedDevices[i].PowerNetworkUpdate(voltages);
-				calculatingResistance += (1 / connectedDevices[i].Resistance);
+				catch (Exception e) //Ingenious idea for not having to do null check all the time, A momentarily long frame for no null checks the rest of the time
+				{
+					if (connectedDevices[i] == null)
+					{
+						connectedDevices.RemoveAt(i);
+						continue;
+					}
+					Loggy.LogError(e.ToString());
+				}
+
 			}
 
 			resistanceSourceModule.Resistance = (1 / calculatingResistance);
