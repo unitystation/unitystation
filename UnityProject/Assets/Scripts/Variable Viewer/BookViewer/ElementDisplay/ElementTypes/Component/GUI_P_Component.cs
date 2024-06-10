@@ -47,14 +47,14 @@ public class GUI_P_Component : PageElement
 
 	public override bool CanDeserialise(Type TType)
 	{
-		return TType.IsSubclassOf(typeof(MonoBehaviour)) || TType == typeof(GameObject);
+		return TType.IsSubclassOf(typeof(MonoBehaviour)) || TType == typeof(GameObject) || TType == typeof(MonoBehaviour);
 	}
 
 
 	public override bool IsThisType(Type TType)
 		//TODO support coomponents in the future
 	{
-		return TType.IsSubclassOf(typeof(MonoBehaviour)) || TType == typeof(GameObject);
+		return TType.IsSubclassOf(typeof(MonoBehaviour)) || TType == typeof(GameObject) || TType == typeof(MonoBehaviour);
 	}
 
 	public override void SetUpValues(
@@ -196,7 +196,7 @@ public class GUI_P_Component : PageElement
 
 	public override string Serialise(object Data)
 	{
-		if (Data == "null")
+		if (Data == null || Data == "null")
 		{
 			return JsonConvert.SerializeObject(new EditData()
 			{

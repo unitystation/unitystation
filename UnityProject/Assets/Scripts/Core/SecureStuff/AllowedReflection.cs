@@ -35,10 +35,10 @@ namespace SecureStuff
 	[System.Serializable]
 	public class EventConnection
 	{
-		public Component TargetComponent;
+		public MonoBehaviour TargetComponent;
 		public string TargetFunction;
 
-		public Component SourceComponent;
+		public MonoBehaviour SourceComponent;
 		public string SourceEvent;
 	}
 

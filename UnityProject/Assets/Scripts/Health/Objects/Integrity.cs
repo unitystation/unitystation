@@ -293,8 +293,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 		return RightClickableResult.Create()
 			.AddAdminElement("[Debug] - Smash", AdminSmash)
-			.AddAdminElement("[Debug] - Delete", AdminDelete)
-			.AddAdminElement("[Debug] - Hotspot", AdminMakeHotspot);
+			.AddAdminElement("[Debug] - Delete", AdminDelete);
 	}
 
 	[NaughtyAttributes.Button()]
