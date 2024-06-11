@@ -16,8 +16,10 @@ namespace Objects.Engineering
 		public decimal OutputEnergy;
 		public decimal TotalEnergyInput;
 
-		public decimal Efficiency = 0.5M;
+		public decimal Efficiency = 0.825M;
 		private const int BOILING_TEMP = 100;
+
+		[SerializeField] private float boilerVolume = 10;
 
 		public ReactorPipe ReactorPipe;
 
@@ -30,7 +32,7 @@ namespace Objects.Engineering
 		public void Awake()
 		{
 			ReactorPipe = GetComponent<ReactorPipe>();
-			ReactorPipe.pipeData.mixAndVolume.SetVolume(10);
+			ReactorPipe.pipeData.mixAndVolume.SetVolume(boilerVolume);
 			//By making the boiler have a notably lower volume than the reactor itself,
 			//The reduction in water temp from the boiler doesn't overpower the reactor heat output.
 		}
