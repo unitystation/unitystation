@@ -28,13 +28,9 @@ namespace Objects.Engineering
 		[SerializeField] private ItemStorage RodStorage = default;
 		[SerializeField] private ItemStorage PipeStorage = default;
 
-		private decimal NeutronLeakingChance = 0.0397M;
-
-		public decimal EnergyReleased = 0; //Wattsec
+		public decimal EnergyReleased = 0; //Joules
 
 		public ItemTrait PipeItemTrait = null;
-
-		public float LikelihoodOfSpontaneousNeutron = 0.1f;
 
 		public System.Random RNG = new System.Random();
 
@@ -52,26 +48,29 @@ namespace Objects.Engineering
 
 		public float ControlRodDepthPercentage = 1;
 
-		private float EnergyToEvaporateWaterPer1 = 2000;
-
 		public float RodMeltingTemperatureK = 1100;
-		private float BoilingPoint = 373.15f;
 
 		public bool MeltedDown = false;
 		public bool PoppedPipes = false;
 
-		public decimal NeutronSingularity = 76488300000M;
 		public decimal CurrentPressure = 0;
 
-		public decimal MaxPressure = 120000;
+		public const decimal NEUTRON_SINGULARITY = 76488300000M;
+		public const decimal MAX_CORE_PRESSURE = 120000;
+		public const int MAX_CORE_TEMPERATURE = 1200;
+		public const int MAX_WATER_LEVEL = 240;
+
+		private const decimal NEUTRON_LEAK_CHANCE = 0.0397M;
+		private const float SPONTANEOUS_NEUTRON_CHANCE = 0.1f;
+
+		private const float MAX_CONTROL_ROD_DEPTH = 1f;
+		private const float MIN_CONTROL_ROD_DEPTH = 0.05f;
 
 		public GameObject Corium;
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
-		public decimal KFactor
-		{
-			get { return (CalculateKFactor()); }
-		}
+
+		public decimal KFactor => CalculateKFactor();
 
 		#region Lifecycle
 
@@ -154,7 +153,7 @@ namespace Objects.Engineering
 
 		public void SetControlRodDepth(float RequestedDepth)
 		{
-			ControlRodDepthPercentage = Mathf.Clamp(RequestedDepth, 0.1f, 1f);
+			ControlRodDepthPercentage = Mathf.Clamp(RequestedDepth, MIN_CONTROL_ROD_DEPTH, MAX_CONTROL_ROD_DEPTH);
 		}
 
 		public float Temperature => GetTemperature();
@@ -210,7 +209,7 @@ namespace Objects.Engineering
 
 
 			int SpontaneousNeutronProbability = RNG.Next(0, 10001);
-			if ((decimal) LikelihoodOfSpontaneousNeutron > (SpontaneousNeutronProbability / 1000M))
+			if ((decimal) SPONTANEOUS_NEUTRON_CHANCE > (SpontaneousNeutronProbability / 1000M))
 			{
 				PresentNeutrons += 1;
 			}
@@ -243,7 +242,7 @@ namespace Objects.Engineering
 		{
 			if (PresentNeutrons > 0)
 			{
-				var LeakedNeutrons = PresentNeutrons * NeutronLeakingChance;
+				var LeakedNeutrons = PresentNeutrons * NEUTRON_LEAK_CHANCE;
 				LeakedNeutrons = (((LeakedNeutrons / (LeakedNeutrons + ((decimal) Math.Pow((double) LeakedNeutrons, (double) 0.82M)))) - 0.5M) * 4M * 36000);
 				radiationProducer.SetLevel((float) LeakedNeutrons);
 			}
@@ -304,7 +303,7 @@ namespace Objects.Engineering
 				CurrentPressure = (decimal) Mathf.Clamp(((ReactorPipe.pipeData.mixAndVolume.Temperature - 293.15f) * ReactorPipe.pipeData.mixAndVolume.Total.x),
 					(float) decimal.MinValue, (float) decimal.MaxValue);
 
-				if (CurrentPressure > MaxPressure)
+				if (CurrentPressure > MAX_CORE_PRESSURE)
 				{
 					PoppedPipes = true;
 					var EmptySlot = PipeStorage.GetIndexedItemSlot(0);
