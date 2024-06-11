@@ -221,7 +221,7 @@ namespace UI.Objects.Engineering
 			private float last_Temperature = 200;
 
 			private decimal last_HighNeutronFluxDelta = 0;
-			private decimal highNeutronFluxDelta_Delta = 0;
+			private readonly decimal highNeutronFluxDelta_Delta = 0;
 
 			private LayerMask? hitMask;
 
