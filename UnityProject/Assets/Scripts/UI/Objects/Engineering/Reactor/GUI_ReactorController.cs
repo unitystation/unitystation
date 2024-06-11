@@ -53,18 +53,18 @@ namespace UI.Objects.Engineering
 		{
 			base.OnEnable();
 			if (CustomNetworkManager.Instance._isServer == false) return;
-			UpdateManager.Add(RefreshGUI, 1);
+			UpdateManager.Add(RefreshGui, 1);
 		}
 
 		private void OnDisable()
 		{
 			if (CustomNetworkManager.Instance._isServer == false) return;
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RefreshGUI);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RefreshGui);
 		}
 
 		#endregion
 
-		private void RefreshGUI()
+		private void RefreshGui()
 		{
 			if (IsMasterTab == false) return;
 			if (ReactorControlConsole == null || ReactorControlConsole.ReactorChambers == null) return;
@@ -123,7 +123,7 @@ namespace UI.Objects.Engineering
 
 		public float GetNeutronFluxSliderValue(float neutronFlux)
 		{
-			if (neutronFlux == 0) return 0;
+			if (neutronFlux < float.Epsilon && neutronFlux > -float.Epsilon) return 0;
 
 			float power = Mathf.Log10(neutronFlux);
 			float percent = Mathf.Clamp(Mathf.Clamp(power, 0, 100) / MAX_NEUTRON_FLUX_POWER * 100, 0, 100);
@@ -218,10 +218,7 @@ namespace UI.Objects.Engineering
 
 
 			private float last_Pressure = 0;
-			private float pressure_Delta = 0;
-
 			private float last_Temperature = 200;
-			private float temperature_Delta = 0;
 
 			private decimal last_HighNeutronFluxDelta = 0;
 			private decimal highNeutronFluxDelta_Delta = 0;
@@ -266,7 +263,7 @@ namespace UI.Objects.Engineering
 			{
 				highTemperature.SetState((chamber.RodMeltingTemperatureK - 200) < chamber.ReactorPipe.pipeData.mixAndVolume.Temperature);
 
-				temperature_Delta = Math.Abs(chamber.ReactorPipe.pipeData.mixAndVolume.Temperature - last_Temperature);
+				float temperature_Delta = Math.Abs(chamber.ReactorPipe.pipeData.mixAndVolume.Temperature - last_Temperature);
 
 				highTemperatureDelta.SetState(temperature_Delta > 10);
 
@@ -303,7 +300,7 @@ namespace UI.Objects.Engineering
 
 				highCorePressure.SetState(pressure > (float) (ReactorGraphiteChamber.MAX_CORE_PRESSURE - HIGH_PRESSURE_THRESHOLD));
 
-				pressure_Delta = Math.Abs(pressure - last_Pressure);
+				float pressure_Delta = Math.Abs(pressure - last_Pressure);
 				highPressureDelta.SetState(pressure_Delta > HIGH_PRESSURE_DELTA_THRESHOLD);
 				last_Pressure = pressure;
 			}
