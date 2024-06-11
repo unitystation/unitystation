@@ -8,6 +8,7 @@ using Audio.Containers;
 using Logs;
 using Objects.Security;
 using Systems;
+using Systems.Electricity;
 
 public static class CleanupUtil
 {
@@ -390,6 +391,7 @@ public static class CleanupUtil
 		TileManager.Instance.Cleanup_between_rounds();
 		CleanupUtil.RidListOfDeadElements(GameManager.Instance.SpaceBodies);
 		RidDictionaryOfDeadElements(LandingZoneManager.Instance.landingZones, (u, k) => u != null);
+		ElectricalManager.Instance.InBetweenScenesCleanUp();
 	}
 
 	/// <summary>

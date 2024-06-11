@@ -60,7 +60,7 @@ namespace AdminTools.VariableViewer
 			if (Page != null)
 			{
 				PageID = Page.ID;
-				SentenceID = 0;
+				SentenceID = uint.MaxValue;
 				IsSentence = false;
 				iskey = false;
 			}
@@ -80,8 +80,14 @@ namespace AdminTools.VariableViewer
 			base.SetUpValues(ValueType, Page, Sentence, Iskey);
 			var data = VVUIElementHandler.ReturnCorrectString(Page, Sentence, Iskey);
 			//TODO Populate drop-down
+			var usedValueType = ValueType;
+			if (ValueType.IsSubclassOf(typeof(LayerTile)))
+			{
+				usedValueType = typeof(LayerTile);
+			}
 
-			var Found = IndividualDropDownOptions[ValueType].FirstOrDefault(x => x.ForeverID == data);
+
+			var Found = IndividualDropDownOptions[usedValueType].FirstOrDefault(x => x.ForeverID == data);
 			SetupValues(Found);
 
 			if (data != null)
@@ -93,7 +99,7 @@ namespace AdminTools.VariableViewer
 				SetupValues(null);
 			}
 
-			ActiveList = IndividualDropDownOptions[ValueType];
+			ActiveList = IndividualDropDownOptions[usedValueType];
 		}
 
 		public void SetupValues(ISearchSpritePreview ISearchSpritePreview)
@@ -125,10 +131,7 @@ namespace AdminTools.VariableViewer
 		public void SetValue(ISearchSpritePreview change)
 		{
 			SetupValues(change);
-			if (PageID != 0)
-			{
-				RequestChangeVariableNetMessage.Send(PageID, Serialise(change), UISendToClientToggle.toggle);
-			}
+			RequestChangeVariableNetMessage.Send(PageID, Serialise(change) , UISendToClientToggle.toggle, SentenceID);
 		}
 
 		public void RequestOpenBookOnPage()

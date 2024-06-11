@@ -46,7 +46,7 @@ namespace AdminTools.VariableViewer
 		{
 			if (PageID != 0)
 			{
-				RequestChangeVariableNetMessage.Send(PageID, TDropdown.options[intloc].text, UISendToClientToggle.toggle);
+				RequestChangeVariableNetMessage.Send(PageID, TDropdown.options[intloc].text, UISendToClientToggle.toggle, SentenceID);
 			}
 		}
 

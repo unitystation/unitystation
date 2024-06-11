@@ -510,7 +510,7 @@ public class Matrix : MonoBehaviour
 			wireConnect.InData.Categorytype, position, newdata);
 	}
 
-	public void AddElectricalNode(Vector3Int position, ElectricalCableTile electricalCableTile, bool AddTile = false)
+	public void AddElectricalNode(Vector3Int position, ElectricalCableTile electricalCableTile, bool AddTile = true, bool AddLogic = false)
 	{
 		var checkPos = position;
 		checkPos.z = 0;
@@ -523,10 +523,13 @@ public class Matrix : MonoBehaviour
 			}
 		}
 
-		var newdata = new ElectricalMetaData();
-		newdata.Initialise(electricalCableTile, metaData, position, this);
-		metaData.ElectricalData.Add(newdata);
-
+		if (AddLogic)
+		{
+			var newdata = new ElectricalMetaData();
+			newdata.Initialise(electricalCableTile, metaData, position, this);
+			metaData.ElectricalData.Add(newdata);
+			ElectricalManager.Instance.electricalSync.StructureChange = true;
+		}
 	}
 
 	public void EditorAddElectricalNode(Vector3Int position, WireConnect wireConnect)

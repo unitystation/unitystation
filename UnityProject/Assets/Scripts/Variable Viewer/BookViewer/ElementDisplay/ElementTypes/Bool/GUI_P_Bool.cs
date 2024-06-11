@@ -29,10 +29,7 @@ namespace AdminTools.VariableViewer
 
 		private void ToggleValueChanged(Toggle change)
 		{
-			if (PageID != 0)
-			{
-				RequestChangeVariableNetMessage.Send(PageID, change.isOn.ToString(), UISendToClientToggle.toggle);
-			}
+			RequestChangeVariableNetMessage.Send(PageID, change.isOn.ToString(), UISendToClientToggle.toggle, SentenceID);
 		}
 
 		public override void Pool()

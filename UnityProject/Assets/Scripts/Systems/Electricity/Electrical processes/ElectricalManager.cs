@@ -54,5 +54,10 @@ namespace Systems.Electricity
 			electricalSync.StopSim();
 			Loggy.Log("Round Ended", Category.Electrical);
 		}
+
+		public void InBetweenScenesCleanUp()
+		{
+			electricalSync.InBetweenScenesCleanUp();
+		}
 	}
 }

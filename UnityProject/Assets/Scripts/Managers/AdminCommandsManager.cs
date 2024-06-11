@@ -1103,7 +1103,7 @@ namespace AdminCommands
 			if (tile is ElectricalCableTile electricalCableTile)
 			{
 				matrixInfo.Matrix.AddElectricalNode(localPos, electricalCableTile);
-				ElectricalManager.Instance.electricalSync.StructureChange = true;
+
 				return;
 			}
 
