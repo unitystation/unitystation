@@ -48,10 +48,7 @@ namespace Objects.Engineering
 
 		public float ControlRodDepthPercentage = 1;
 
-		private float EnergyToEvaporateWaterPer1 = 2000;
-
 		public float RodMeltingTemperatureK = 1100;
-		private float BoilingPoint = 373.15f;
 
 		public bool MeltedDown = false;
 		public bool PoppedPipes = false;

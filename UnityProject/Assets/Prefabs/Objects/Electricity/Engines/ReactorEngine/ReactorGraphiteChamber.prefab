@@ -328,7 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ReactionSounds: 1
-  maxCapacity: 100
+  maxCapacity: 240
   DEBUGReagent: {fileID: 0}
   DEBUGAmount: 0
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
@@ -488,7 +488,6 @@ MonoBehaviour:
   RodStorage: {fileID: 5255741207357749315}
   PipeStorage: {fileID: -6392628326379791579}
   PipeItemTrait: {fileID: 11400000, guid: 066fee8b180af6c47a2bf6cb99f725a5, type: 2}
-  LikelihoodOfSpontaneousNeutron: 0.1
   radiationProducer: {fileID: 0}
   registerObject: {fileID: 0}
   ReactorPipe: {fileID: 0}

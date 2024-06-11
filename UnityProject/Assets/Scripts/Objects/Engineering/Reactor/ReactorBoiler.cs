@@ -17,6 +17,7 @@ namespace Objects.Engineering
 		public decimal TotalEnergyInput;
 
 		public decimal Efficiency = 0.5M;
+		private const int BOILING_TEMP = 100;
 
 		public ReactorPipe ReactorPipe;
 
@@ -29,6 +30,9 @@ namespace Objects.Engineering
 		public void Awake()
 		{
 			ReactorPipe = GetComponent<ReactorPipe>();
+			ReactorPipe.pipeData.mixAndVolume.SetVolume(10);
+			//By making the boiler have a notably lower volume than the reactor itself,
+			//The reduction in water temp from the boiler doesn't overpower the reactor heat output.
 		}
 
 		private void OnEnable()
@@ -60,7 +64,7 @@ namespace Objects.Engineering
 		{
 			//Maybe change equation later to something cool
 			CurrentPressureInput = 0;
-			var ExpectedInternalEnergy = (ReactorPipe.pipeData.mixAndVolume.WholeHeatCapacity * Reactions.KOffsetC + 20f);
+			var ExpectedInternalEnergy = ReactorPipe.pipeData.mixAndVolume.WholeHeatCapacity * (Reactions.KOffsetC + BOILING_TEMP);
 
 			var InternalEnergy = ReactorPipe.pipeData.mixAndVolume.InternalEnergy;
 

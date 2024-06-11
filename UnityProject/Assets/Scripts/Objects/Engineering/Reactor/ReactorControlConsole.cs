@@ -47,7 +47,7 @@ namespace Objects.Engineering.Reactor
 			chatAnnouncementCheckTime = 2f;
 #endif
 		}
-		public void SuchControllRodDepth(float requestedDepth)
+		public void SuchControlRodDepth(float requestedDepth)
 		{
 			requestedDepth = requestedDepth.Clamp(0, 1);
 

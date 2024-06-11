@@ -106,14 +106,15 @@ namespace UI.Objects.Engineering
 
 			percentageChange = ReactorControlConsole.ReactorChambers.PresentNeutrons / previousRadlevel * 100;
 			percentageChange = percentageChange - 100;
+			var _percentageChange = percentageChange;
 
-			var ValuePercentageChange1_00 = Mathf.Clamp((float)(50 + (percentageChange * 5)), 0, 100);
+			var ValuePercentageChange1_00 = Mathf.Clamp((float)(50 + (_percentageChange * 5)), 0, 100);
 
-			percentageChange = (percentageChange % 1) * 10;
-			var ValuePercentageChange0_10 = Mathf.Clamp((float)(50 + (percentageChange * 50)), 0, 100);
+			_percentageChange = (_percentageChange % 1) * 10;
+			var ValuePercentageChange0_10 = Mathf.Clamp((float)(50 + (_percentageChange * 5)), 0, 100);
 
-			percentageChange = (percentageChange % 1) * 10;
-			var ValuePercentageChange0_01 = Mathf.Clamp((float)(50 + (percentageChange * 500)), 0, 100);
+			_percentageChange = (_percentageChange % 1) * 10;
+			var ValuePercentageChange0_01 = Mathf.Clamp((float)(50 + (_percentageChange * 5)), 0, 100);
 
 			CoreKValue1_00.MasterSetValue(Math.Round(ValuePercentageChange1_00).ToString());
 			CoreKValue0_10.MasterSetValue(Math.Round(ValuePercentageChange0_10).ToString());
@@ -149,7 +150,7 @@ namespace UI.Objects.Engineering
 		public void SetControlDepth()
 		{
 			//Loggy.Log("YO " + Depth);
-			ReactorControlConsole.SuchControllRodDepth(MainSetControl + (SecondarySetControl / 100));
+			ReactorControlConsole.SuchControlRodDepth(MainSetControl + (SecondarySetControl / 100));
 		}
 
 		[Serializable]
