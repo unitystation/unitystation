@@ -82,11 +82,11 @@ namespace Objects.Engineering.Reactor
 				SecondSinceLastUpdate = 0;
 				StringBuilder state = new StringBuilder();
 				state.AppendFormat("Warning, Reactor Meltdown/Catastrophe imminent.");
-				if (ReactorChambers.CurrentPressure >= ReactorChambers.MaxPressure / (decimal)1.35f)
+				if (ReactorChambers.CurrentPressure >= ReactorGraphiteChamber.MAX_CORE_PRESSURE / (decimal)1.35f)
 				{
 					state.AppendFormat("Pressure: ").AppendFormat(
 							(Math.Round((ReactorChambers.CurrentPressure /
-							            ReactorChambers.MaxPressure) * 100)).ToString())
+								ReactorGraphiteChamber.MAX_CORE_PRESSURE) * 100)).ToString())
 						.Append(".");
 				}
 
