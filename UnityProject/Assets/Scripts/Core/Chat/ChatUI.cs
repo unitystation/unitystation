@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,6 +15,7 @@ using Items;
 using Logs;
 using Shared.Managers;
 using UnityEngine.Serialization;
+using Util.Independent.FluentRichText;
 
 namespace UI.Chat_UI
 {
@@ -323,10 +326,19 @@ namespace UI.Chat_UI
 		public void AddChatEntry(string message, TMP_SpriteAsset languageSprite = null)
 		{
 			// Check for chat entry duplication
-			if (allEntries.Count > 0 && message.Equals(allEntries[allEntries.Count - 1].Message))
+			if (allEntries.Count > 5)
 			{
-				allEntries[allEntries.Count - 1].AddChatDuplication();
-				return;
+				for (int i = 0; i < 6; i++)
+				{
+					var entryToCheck = allEntries[allEntries.Count - i - 1];
+					string cleanedEntryMessage = Regex.Replace(entryToCheck.Message, @"<size=[^>]+>|</size>", string.Empty);
+					string cleanedMessage = Regex.Replace(message, @"<size=[^>]+>|</size>", string.Empty);
+					if (string.Equals(cleanedEntryMessage, cleanedMessage, StringComparison.InvariantCultureIgnoreCase))
+					{
+						entryToCheck.AddChatDuplication();
+						return;
+					}
+				}
 			}
 
 			GameObject entry = entryPool.GetChatEntry();
