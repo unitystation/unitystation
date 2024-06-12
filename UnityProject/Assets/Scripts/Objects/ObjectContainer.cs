@@ -160,7 +160,7 @@ namespace Objects
 			}
 			if (obj.TryGetComponent<UniversalObjectPhysics>(out var objectPhysics))
 			{
-				if (objectPhysics is MovementSynchronisation { Intangible: true }) return;
+				if (objectPhysics.Intangible) return;
 				storedObjects.Add(obj, offset);
 				OnObjectStored?.Invoke(obj);
 				objectPhysics.StoreTo(this);
