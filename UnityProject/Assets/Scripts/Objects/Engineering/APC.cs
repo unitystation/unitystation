@@ -225,12 +225,6 @@ namespace Objects.Engineering
 			{
 				try
 				{
-					if (connectedDevices[i] == null)
-					{
-
-						connectedDevices.RemoveAt(i);
-						continue;
-					}
 					connectedDevices[i].PowerNetworkUpdate(voltages);
 					calculatingResistance += (1 / connectedDevices[i].Resistance);
 				}
@@ -238,7 +232,6 @@ namespace Objects.Engineering
 				{
 					Loggy.LogError(e.ToString());
 				}
-
 			}
 
 			resistanceSourceModule.Resistance = (1 / calculatingResistance);
