@@ -219,8 +219,9 @@ namespace Objects.Engineering
 			}
 
 			float calculatingResistance = 0f;
+			connectedDevices.RemoveAll(item => item == null);
 			var connectedDevicesCount = connectedDevices.Count;
-			for (int i = 0; i < connectedDevicesCount; i++)
+			for (int i = 0; i < connectedDevicesCount - 1; i++)
 			{
 				try
 				{
