@@ -17,6 +17,7 @@ using HealthV2;
 using Logs;
 using SecureStuff;
 using Shared.Systems.ObjectConnection;
+using Systems.MobAIs;
 
 namespace Objects.Engineering
 {
@@ -220,21 +221,22 @@ namespace Objects.Engineering
 
 			float calculatingResistance = 0f;
 			var connectedDevicesCount = connectedDevices.Count;
-			for (int i = 0; i < connectedDevicesCount - 1; i++)
+			try
 			{
-				try
+				for (int i = 0; i < connectedDevicesCount - 1; i++)
 				{
+
 					connectedDevices[i].PowerNetworkUpdate(voltages);
 					calculatingResistance += (1 / connectedDevices[i].Resistance);
 				}
-				catch (Exception e) //Ingenious idea for not having to do null check all the time, A momentarily long frame for no null checks the rest of the time
-				{
-					connectedDevices.RemoveAll(item => item == null);
-					Loggy.LogError(e.ToString());
-					// exit early because there seems to be null shinangins going on with this APC,
-					// which triggers causes GC to bubble up while creating lots Exceptions if left unchecked.
-					return;
-				}
+			}
+			catch (Exception e)
+			{
+				connectedDevices.RemoveAll(item => item == null);
+				Loggy.LogError(e.ToString());
+				// exit early because there seems to be null shinangins going on with this APC,
+				// which triggers causes GC to bubble up while creating lots Exceptions if left unchecked.
+				return;
 			}
 
 			resistanceSourceModule.Resistance = (1 / calculatingResistance);
