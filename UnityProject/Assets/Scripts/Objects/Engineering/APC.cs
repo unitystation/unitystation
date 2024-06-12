@@ -223,7 +223,7 @@ namespace Objects.Engineering
 			var connectedDevicesCount = connectedDevices.Count;
 			try
 			{
-				for (int i = 0; i < connectedDevicesCount - 1; i++)
+				for (int i = 0; i < connectedDevicesCount; i++)
 				{
 
 					connectedDevices[i].PowerNetworkUpdate(voltages);
