@@ -158,10 +158,11 @@ namespace Objects
 				Loggy.LogError("[ObjectContainer/StoreObject] - HEY SHITASS, DON'T TRY ADDING NULL OBJECTS.");
 				return;
 			}
-			storedObjects.Add(obj, offset);
-			OnObjectStored?.Invoke(obj);
 			if (obj.TryGetComponent<UniversalObjectPhysics>(out var objectPhysics))
 			{
+				if (objectPhysics.Intangible) return;
+				storedObjects.Add(obj, offset);
+				OnObjectStored?.Invoke(obj);
 				objectPhysics.StoreTo(this);
 			}
 		}
