@@ -219,7 +219,6 @@ namespace Objects.Engineering
 			}
 
 			float calculatingResistance = 0f;
-			connectedDevices.RemoveAll(item => item == null);
 			var connectedDevicesCount = connectedDevices.Count;
 			for (int i = 0; i < connectedDevicesCount - 1; i++)
 			{
@@ -228,9 +227,13 @@ namespace Objects.Engineering
 					connectedDevices[i].PowerNetworkUpdate(voltages);
 					calculatingResistance += (1 / connectedDevices[i].Resistance);
 				}
-				catch (Exception e)
+				catch (Exception e) //Ingenious idea for not having to do null check all the time, A momentarily long frame for no null checks the rest of the time
 				{
+					connectedDevices.RemoveAll(item => item == null);
 					Loggy.LogError(e.ToString());
+					// exit early because there seems to be null shinangins going on with this APC,
+					// which triggers causes GC to bubble up while creating lots Exceptions if left unchecked.
+					return;
 				}
 			}
 
