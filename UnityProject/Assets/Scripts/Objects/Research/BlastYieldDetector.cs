@@ -170,7 +170,7 @@ namespace Systems.Research.Objects
 
 		private bool MeetsYieldTarget(ExplosiveBounty bounty, float yield)
 		{
-			if (bounty.RequiredYield.RequiredAmount <= 1) return yield <= ALLOWED_ERROR_PERCENT; //This is here to prevent / 0 errors and any errors that may arrive from very small divisions.
+			if (bounty.RequiredYield.RequiredAmount <= 1) return true;
 
 			float yieldDiff = Math.Abs(bounty.RequiredYield.RequiredAmount - yield);
 

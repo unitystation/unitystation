@@ -30,7 +30,7 @@ namespace UI.Objects.Research
 
 			bountyDetails.SetValue(label_text.ToString());
 
-			string targetName = bountyData.BountyName != null ? bountyData.BountyName : index.ToString();
+			string targetName = bountyData.BountyName != null && bountyData.BountyName != "" ? bountyData.BountyName : index.ToString();
 			bountyName.MasterSetValue($"Target [{targetName}]");
 		}
 	}

@@ -209,7 +209,7 @@ namespace Chemistry
 			//is a single inhibitor present?
 			foreach (var inhibitor in inhibitors.m_dict)
 			{
-				if (reagentMix[inhibitor.Key] > inhibitor.Value * reactionMultiple)
+				if (reagentMix[inhibitor.Key] >= inhibitor.Value * reactionMultiple)
 				{
 					return false;
 				}

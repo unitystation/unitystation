@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredients:
     m_keys:
-    - {fileID: 11400000, guid: 2fe711bafe5c109f8b44185374a5071d, type: 2}
+    - {fileID: 11400000, guid: 7b6a18c45b96273d39d6db9ebb2830ac, type: 2}
     - {fileID: 11400000, guid: 911271db97b77da51889f97d6688a103, type: 2}
     - {fileID: 11400000, guid: 05a7d0a1d347f6c21a6bace25e4e03ff, type: 2}
     m_values: 010000000100000001000000
   useExactAmounts: 0
-  MinimumReactionMultiple: 0
+  MinimumReactionMultiple: 1
   catalysts:
     m_keys:
     - {fileID: 11400000, guid: 61fb075ca9053fc48bd8a2f728068bc1, type: 2}
