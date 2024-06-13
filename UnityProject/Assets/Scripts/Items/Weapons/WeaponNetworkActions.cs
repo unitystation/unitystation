@@ -6,7 +6,9 @@ using TileManagement;
 using Mirror;
 using AddressableReferences;
 using HealthV2;
+using HealthV2.Limbs;
 using Items;
+using Logs;
 using Messages.Server.SoundMessages;
 using Player.Movement;
 using Systems.Interaction;
@@ -122,6 +124,19 @@ public class WeaponNetworkActions : NetworkBehaviour
 			weaponSound = weaponAttributes.hitSoundSettings == SoundItemSettings.OnlyObject ? null : weaponAttributes.ServerHitSound;
 			tramuticDamageType = weaponAttributes.TraumaticDamageType;
 			traumaDamageChance = weaponAttributes.TraumaDamageChance;
+		} else
+		{
+			//weaponAttributes is null so we are punching
+			GameObject activeArm = playerScript.PlayerNetworkActions.activeHand;
+			HumanoidArm armStats = activeArm.GetComponent<HumanoidArm>();
+			if (armStats != null)
+			{
+				damage = armStats.ArmMeleeDamage;
+				currentDamageType = armStats.ArmDamageType;
+				attackVerb = armStats.ArmDamageVerbs.PickRandom();
+				tramuticDamageType = armStats.ArmTraumaticDamage;
+				traumaDamageChance = armStats.ArmTraumaticChance;
+			}
 		}
 
 		LayerTile attackedTile = null;
