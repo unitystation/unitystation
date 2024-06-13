@@ -8,6 +8,8 @@ namespace Systems.Research
 	[CreateAssetMenu(fileName = "ExplosiveBounty", menuName = "ScriptableObjects/Systems/Research/ExplosiveBounty")]
 	public class ExplosiveBounty : ScriptableObject
 	{
+		[field: SerializeField] public string BountyName { get; private set; } = null;
+
 		[field: SerializeField] public BountyProperty RequiredYield { get; private set; } = new BountyProperty();
 
 		[field: SerializeField] public List<ReactionBountyEntry> RequiredReactions { get; private set; } = new List<ReactionBountyEntry>();

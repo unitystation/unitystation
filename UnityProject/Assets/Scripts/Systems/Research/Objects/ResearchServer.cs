@@ -268,7 +268,7 @@ namespace Systems.Research.Objects
 
 					if (reagentEntry.MinimumIncrement > 1)
 					{
-						amount = (int)Mathf.Round(amount / reagentEntry.MinimumIncrement) * reagentEntry.MinimumIncrement;
+						amount = ((int)Mathf.Round(amount / reagentEntry.MinimumIncrement)) * reagentEntry.MinimumIncrement;
 					}
 
 					reagentEntry.RequiredAmount = amount;
@@ -283,7 +283,7 @@ namespace Systems.Research.Objects
 
 					if (reactionEntry.MinimumIncrement > 1)
 					{
-						amount = (int)Mathf.Round(amount / reactionEntry.MinimumIncrement) * reactionEntry.MinimumIncrement;
+						amount = ((int)Mathf.Round(amount / reactionEntry.MinimumIncrement)) * reactionEntry.MinimumIncrement;
 					}
 
 					reactionEntry.RequiredAmount = amount;

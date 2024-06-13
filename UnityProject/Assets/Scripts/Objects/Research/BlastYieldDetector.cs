@@ -7,6 +7,7 @@ using Systems.Electricity;
 using UI.Core.Net;
 using UnityEngine;
 using Chemistry;
+using Chemistry.Effects;
 
 namespace Systems.Research.Objects
 {
@@ -103,12 +104,19 @@ namespace Systems.Research.Objects
 				if (blastData.ReagentMix == null) blastData.ReagentMix = new ReagentMix();
 				float yield = 0f;
 
-				//This really isnt a nice way of doing it, but the way the chemistry assemblies are set up means I cannot just get the potency without cyclic references.
-				//It's annoying but there is only a handful of explosive reactions anyways so its just better than nothing.
-				//Ideally in the future someone reorganises the Chemistry assemblies but this works for now.
 				foreach (Reaction reaction in explosiveReactions)
 				{
-					if (reaction.IsReactionValid(blastData.ReagentMix)) yield += ChemistryUtils.CalculateYieldFromReaction(reaction.GetReactionMultiple(blastData.ReagentMix), 1);
+					if (reaction.IsReactionValid(blastData.ReagentMix) == false) continue;
+
+					foreach(var effect in reaction.effectDict.m_dict)
+					{
+						ChemExplosion explosion = effect.Key as ChemExplosion;
+						if (explosion == null) continue;
+
+						float multiple = reaction.GetReactionMultiple(blastData.ReagentMix);
+
+						yield += explosion.FindYield(multiple * effect.Value);
+					}
 				}
 
 				blastData.BlastYield += yield;
@@ -187,6 +195,7 @@ namespace Systems.Research.Objects
 		{
 			foreach (ReactionBountyEntry reaction in bounty.RequiredReactions)
 			{
+				if(reaction.RequiredReaction is BodyHealthEffect)
 				if (reaction.RequiredReaction.IsReactionValid(mix) == false || reaction.RequiredReaction.GetReactionQuantity(mix) != reaction.RequiredAmount)
 				{
 					return false;

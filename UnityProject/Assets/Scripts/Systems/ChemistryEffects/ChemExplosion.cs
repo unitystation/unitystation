@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Systems.Explosions;
 using HealthV2;
+using Core.Accounts;
 
 namespace Chemistry.Effects
 {
@@ -24,6 +25,11 @@ namespace Chemistry.Effects
 		{
 
 			sender.StartCoroutine(NowExplosion(sender,amount ));
+		}
+
+		public virtual float FindYield(float amount)
+		{
+			return ChemistryUtils.CalculateYieldFromReaction(amount, potency);
 		}
 
 		public IEnumerator NowExplosion(MonoBehaviour sender, float amount)

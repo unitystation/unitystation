@@ -29,7 +29,9 @@ namespace UI.Objects.Research
 			}
 
 			bountyDetails.SetValue(label_text.ToString());
-			bountyName.MasterSetValue($"Target [{index}]");
+
+			string targetName = bountyData.BountyName != null ? bountyData.BountyName : index.ToString();
+			bountyName.MasterSetValue($"Target [{targetName}]");
 		}
 	}
 }

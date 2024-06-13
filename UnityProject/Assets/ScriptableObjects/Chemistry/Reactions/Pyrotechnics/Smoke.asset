@@ -24,8 +24,9 @@ MonoBehaviour:
     m_keys: []
     m_values: 
   inhibitors:
-    m_keys: []
-    m_values: 
+    m_keys:
+    - {fileID: 11400000, guid: 61fb075ca9053fc48bd8a2f728068bc1, type: 2}
+    m_values: 01000000
   hasMinTemp: 0
   serializableTempMin: 0
   hasMaxTemp: 0
