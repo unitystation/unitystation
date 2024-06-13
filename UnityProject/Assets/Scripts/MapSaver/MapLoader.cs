@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Initialisation;
 using Logs;
 using Mirror;
 using SecureStuff;
@@ -193,21 +194,31 @@ namespace MapSaver
 		public static MapSaver.CompactObjectMapData LoadSection(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
 			MapSaver.MatrixData MatrixData, HashSet<LayerType> LoadLayers = null, bool LoadObjects = true)
 		{
+			Matrix aaMatrix = null;
+
+			Matrix = null;
+			if (Matrix == null)
+			{
+				aaMatrix = MatrixManager.MakeNewMatrix();
+			}
+
 			//TODO MapSaver.CodeClass.ThisCodeClass?? Clearing?
 			MapSaver.CompactObjectMapData data = null;
 			if (MatrixData.GitFriendlyTileMapData != null)
 			{
-				ProcessorGitFriendlyTiles(Matrix, Offset00.RoundToInt(), Offset.RoundToInt(),
+				ProcessorGitFriendlyTiles(aaMatrix.MatrixInfo, Offset00.RoundToInt(), Offset.RoundToInt(),
 					MatrixData.GitFriendlyTileMapData, LoadLayers);
 			}
 
 			if (MatrixData.CompactObjectMapData != null && LoadObjects)
 			{
-				ProcessorCompactObjectMapData(Matrix, Offset00.RoundToInt(), Offset.RoundToInt(),
+				ProcessorCompactObjectMapData(aaMatrix.MatrixInfo, Offset00.RoundToInt(), Offset.RoundToInt(),
 					MatrixData.CompactObjectMapData); //TODO Handle GitID better
 			}
 
 			return data;
 		}
+
+
 	}
 }

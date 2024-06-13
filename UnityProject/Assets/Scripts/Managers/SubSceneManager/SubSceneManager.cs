@@ -10,6 +10,9 @@ using UnityEngine.SceneManagement;
 
 public partial class SubSceneManager : MonoBehaviour
 {
+	public GameObject MatrixPrefab;
+	public GameObject NetworkedMatrixPrefab;
+
 	private static SubSceneManager subSceneManager;
 
 	public static SubSceneManager Instance;

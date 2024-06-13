@@ -163,10 +163,8 @@ public class Matrix : MonoBehaviour
 		});
 	}
 
-	void Start()
-	{
-		StartCoroutine(MatrixManager.Instance.RegisterWhenReady(this));
-	}
+
+
 
 	public void CompressAllBounds()
 	{

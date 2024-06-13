@@ -16,6 +16,7 @@ using Messages.Client.SpriteMessages;
 using Shared.Managers;
 using Mirror;
 using Objects;
+using Shuttles;
 using Tiles;
 
 /// <summary>
@@ -100,6 +101,14 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		IsInitialized = false;
 	}
 
+	public static Matrix MakeNewMatrix()
+	{
+		//hummmm How to add matrix fluff?
+		var Object = Spawn.ServerPrefab(SubSceneManager.Instance.NetworkedMatrixPrefab).GameObject;
+		return Object.GetComponentInChildren<MatrixSync>().NetworkedMatrix.matrix;
+	}
+
+
 	void OnSceneChange(Scene oldScene, Scene newScene)
 	{
 		ResetMatrixManager();
@@ -133,13 +142,8 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		InitializingMatrixes.Clear();
 	}
 
-	public IEnumerator RegisterWhenReady(Matrix matrix)
+	public void RegisterWhenReady(Matrix matrix)
 	{
-		while (matrix.NetworkedMatrix.Initialized == false)
-		{
-			yield return null;
-		}
-
 		RegisterMatrix(matrix);
 		matrix.Initialized = true;
 
@@ -1369,25 +1373,4 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		var matrixAtPoint = AtPoint(worldPos, isServer);
 		matrixAction.Invoke(matrixAtPoint, WorldToLocalInt(worldPos, matrixAtPoint));
 	}
-}
-
-/// <summary>
-/// Types of bumps which can occur when bumping into something
-/// </summary>
-public enum BumpType
-{
-	/// Not bumping into anything - movement not prevented
-	None,
-
-	/// A closed door
-	ClosedDoor,
-
-	/// something which can be pushed from the current direction of movement
-	Push,
-
-	/// Bump which blocks movement and causes nothing else to happen
-	Blocked,
-
-	// Something we can swap places with
-	Swappable
 }
