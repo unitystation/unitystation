@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96e73ad475d1d24158bd2935f105cf3d, type: 3}
-  m_Name: MetalFoamReactionEffect
+  m_Name: SmartMetalFoamIron
   m_EditorClassIdentifier: 
   ingredients:
     m_keys:
-    - {fileID: 11400000, guid: fb6f63c3659458442bdb8faecfb8f6fb, type: 2}
-    m_values: 01000000
+    - {fileID: 11400000, guid: bb1b374d9154ed45ca903a8ace087e8d, type: 2}
+    - {fileID: 11400000, guid: 94790f2b8609fe11188aa84ac9edee86, type: 2}
+    - {fileID: 11400000, guid: 5b255694ed5e8945790b893c1975d7cc, type: 2}
+    m_values: 030000000100000001000000
   useExactAmounts: 0
   MinimumReactionMultiple: 0
   catalysts:
@@ -31,5 +33,9 @@ MonoBehaviour:
   results:
     m_keys: []
     m_values: 
-  effects:
-  - {fileID: 11400000, guid: 82f91b7f4665d6f40b1fb64787eff5a8, type: 2}
+  effects: []
+  effectDict:
+    m_keys:
+    - {fileID: 11400000, guid: b02971ad9743f4941bfef94fc0577b1c, type: 2}
+    m_values: 05000000
+  overrideDisplayName: Smart Metal Foam

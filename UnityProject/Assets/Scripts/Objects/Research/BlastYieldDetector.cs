@@ -108,7 +108,7 @@ namespace Systems.Research.Objects
 				//Ideally in the future someone reorganises the Chemistry assemblies but this works for now.
 				foreach (Reaction reaction in explosiveReactions)
 				{
-					if (reaction.IsReactionValid(blastData.ReagentMix)) yield += ChemistryUtils.CalculateYieldFromReaction(reaction.GetReactionAmount(blastData.ReagentMix), 1);
+					if (reaction.IsReactionValid(blastData.ReagentMix)) yield += ChemistryUtils.CalculateYieldFromReaction(reaction.GetReactionMultiple(blastData.ReagentMix), 1);
 				}
 
 				blastData.BlastYield += yield;
@@ -187,7 +187,7 @@ namespace Systems.Research.Objects
 		{
 			foreach (ReactionBountyEntry reaction in bounty.RequiredReactions)
 			{
-				if (reaction.RequiredReaction.IsReactionValid(mix) == false || reaction.RequiredReaction.GetReactionAmount(mix) != reaction.RequiredAmount)
+				if (reaction.RequiredReaction.IsReactionValid(mix) == false || reaction.RequiredReaction.GetReactionQuantity(mix) != reaction.RequiredAmount)
 				{
 					return false;
 				}

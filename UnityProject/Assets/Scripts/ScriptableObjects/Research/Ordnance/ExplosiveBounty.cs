@@ -29,6 +29,9 @@ namespace Systems.Research
 
 		[field: SerializeField, AllowNesting, ShowIf(nameof(RandomiseRequirement))]
 		public int MaxAmount { get; private set; }
+
+		[field: SerializeField, Tooltip("When randomising requirements, round to the nearest minimum increment."), AllowNesting, ShowIf(nameof(RandomiseRequirement))]
+		public int MinimumIncrement { get; private set; } = 1;
 	}
 
 	[System.Serializable]

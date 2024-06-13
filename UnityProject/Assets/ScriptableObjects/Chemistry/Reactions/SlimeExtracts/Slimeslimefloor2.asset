@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: Slimeslimefloor2
   m_EditorClassIdentifier: 
   ingredients:
-    m_keys:
-    - {fileID: 11400000, guid: eea05337a284c407e926bf3110b00916, type: 2}
-    m_values: 01000000
+    m_keys: []
+    m_values: 
   useExactAmounts: 0
   MinimumReactionMultiple: 0
   catalysts:
@@ -31,4 +30,7 @@ MonoBehaviour:
   results:
     m_keys: []
     m_values: 
-  effects: []
+  effectDict:
+    m_keys: []
+    m_values: 
+  overrideDisplayName: 

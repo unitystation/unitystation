@@ -18,10 +18,7 @@ namespace UI.Objects.Research
 
 			foreach (ReactionBountyEntry reaction in bountyData.RequiredReactions)
 			{
-				foreach (KeyValuePair<Reagent, int> product in reaction.RequiredReaction.results.m_dict)
-				{
-					label_text.Append($"\n\t-{product.Key.Name}: {reaction.RequiredAmount}u");
-				}
+				label_text.Append($"\n\t-{reaction.RequiredReaction.DisplayName}: {reaction.RequiredAmount}u");
 			}
 
 			label_text.Append($"\nRequired Reagents:");

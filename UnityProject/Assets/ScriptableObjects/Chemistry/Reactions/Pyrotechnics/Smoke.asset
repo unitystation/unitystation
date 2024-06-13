@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96e73ad475d1d24158bd2935f105cf3d, type: 3}
-  m_Name: SmartMetalFoamEffect
+  m_Name: Smoke
   m_EditorClassIdentifier: 
   ingredients:
     m_keys:
-    - {fileID: 11400000, guid: c20cb842d45d0ce488187ca9f529f4d4, type: 2}
-    m_values: 01000000
+    - {fileID: 11400000, guid: 7b6a18c45b96273d39d6db9ebb2830ac, type: 2}
+    - {fileID: 11400000, guid: 911271db97b77da51889f97d6688a103, type: 2}
+    - {fileID: 11400000, guid: 05a7d0a1d347f6c21a6bace25e4e03ff, type: 2}
+    m_values: 010000000100000001000000
   useExactAmounts: 0
   MinimumReactionMultiple: 0
   catalysts:
@@ -31,5 +33,8 @@ MonoBehaviour:
   results:
     m_keys: []
     m_values: 
-  effects:
-  - {fileID: 11400000, guid: b02971ad9743f4941bfef94fc0577b1c, type: 2}
+  effectDict:
+    m_keys:
+    - {fileID: 11400000, guid: 690b3ec697bcdbb4a9f17660753d9c65, type: 2}
+    m_values: 03000000
+  overrideDisplayName: Smoke

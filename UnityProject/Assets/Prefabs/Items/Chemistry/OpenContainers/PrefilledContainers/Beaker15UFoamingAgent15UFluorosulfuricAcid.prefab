@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6607856160027199336
+--- !u!1001 &3857346295489334286
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -16,28 +16,39 @@ PrefabInstance:
     - target: {fileID: 2364332256798584044, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
       propertyPath: foreverID
-      value: 652a69ebb9c8fea45bba4ff9940dab2e
+      value: bfc9ea9e8e9f0ed4f8a74bf3128ba6e4
       objectReference: {fileID: 0}
     - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
       propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 0b8ae0a034025c1afb82d9b40b73b7dc,
+      objectReference: {fileID: 11400000, guid: 5b255694ed5e8945790b893c1975d7cc,
+        type: 2}
+    - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 89e87c0935d40e6249cef390e612f90a,
         type: 2}
     - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
       propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
-      value: 30
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[1]'
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
@@ -97,12 +108,12 @@ PrefabInstance:
     - target: {fileID: 8679969532050251905, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
       propertyPath: m_Name
-      value: Beaker30UAluminium
+      value: Beaker10UFoamingAgent10UFluorosulfuricAcid
       objectReference: {fileID: 0}
     - target: {fileID: 8782379728963083573, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
       propertyPath: _assetId
-      value: 1282041836
+      value: 2800765163
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

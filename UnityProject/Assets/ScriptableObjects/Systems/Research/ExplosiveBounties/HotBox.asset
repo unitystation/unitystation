@@ -17,17 +17,20 @@ MonoBehaviour:
     <RequiredAmount>k__BackingField: 0
     <MinAmount>k__BackingField: 0
     <MaxAmount>k__BackingField: 0
+    <MinimumIncrement>k__BackingField: 0
   <RequiredReactions>k__BackingField:
   - <RandomiseRequirement>k__BackingField: 1
-    <RequiredAmount>k__BackingField: 0
+    <RequiredAmount>k__BackingField: 15
     <MinAmount>k__BackingField: 10
     <MaxAmount>k__BackingField: 30
+    <MinimumIncrement>k__BackingField: 5
     <RequiredReaction>k__BackingField: {fileID: 11400000, guid: 427c91daa07aa6048b7aa0ae7de25f2c,
       type: 2}
   - <RandomiseRequirement>k__BackingField: 1
-    <RequiredAmount>k__BackingField: 0
+    <RequiredAmount>k__BackingField: 30
     <MinAmount>k__BackingField: 10
     <MaxAmount>k__BackingField: 30
+    <MinimumIncrement>k__BackingField: 3
     <RequiredReaction>k__BackingField: {fileID: 11400000, guid: 58f58c64fb33e25d5a99b7caa2f16406,
       type: 2}
   <RequiredReagents>k__BackingField: []
