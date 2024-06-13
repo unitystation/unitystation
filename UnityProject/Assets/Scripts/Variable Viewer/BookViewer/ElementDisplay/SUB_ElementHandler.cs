@@ -55,7 +55,7 @@ public class SUB_ElementHandler : MonoBehaviour
 	public void Remove()
 	{
 		RequestChangeVariableNetMessage.Send(Sentence.OnPageID, Sentence.SentenceID.ToString(),
-			UISendToClientToggle.toggle, VariableViewer.ListModification.Remove);
+			UISendToClientToggle.toggle, 0,VariableViewer.ListModification.Remove);
 
 		var PageElements = this.GetComponentsInChildren<PageElement>();
 
@@ -75,7 +75,7 @@ public class SUB_ElementHandler : MonoBehaviour
 	public void Up()
 	{
 		RequestChangeVariableNetMessage.Send(Sentence.OnPageID, Sentence.SentenceID.ToString(),
-			UISendToClientToggle.toggle, VariableViewer.ListModification.Up);
+			UISendToClientToggle.toggle, uint.MaxValue,VariableViewer.ListModification.Up);
 
 		var currentIndex = transform.GetSiblingIndex();
 		var NewIndex = currentIndex - 1;
@@ -89,7 +89,7 @@ public class SUB_ElementHandler : MonoBehaviour
 	public void Down()
 	{
 		RequestChangeVariableNetMessage.Send(Sentence.OnPageID, Sentence.SentenceID.ToString(),
-			UISendToClientToggle.toggle, VariableViewer.ListModification.Down);
+			UISendToClientToggle.toggle, uint.MaxValue,VariableViewer.ListModification.Down);
 
 		var currentIndex = transform.GetSiblingIndex();
 		var NewIndex = currentIndex + 1;

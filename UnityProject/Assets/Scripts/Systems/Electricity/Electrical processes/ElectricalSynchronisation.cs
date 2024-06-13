@@ -133,8 +133,19 @@ namespace Systems.Electricity
 
 			SupplyToadd.Clear();
 			AliveSupplies.Clear();
+			foreach (var category in OrderList)
+			{
+				AliveSupplies[category] = new HashSet<ElectricalNodeControl>();
+			}
 			TotalSupplies.Clear();
 			ToRemove.Clear();
+			PoweredDevices.Clear();
+		}
+
+
+		public void InBetweenScenesCleanUp()
+		{
+			StopSim();
 		}
 
 		public void AddSupply(ElectricalNodeControl supply, PowerTypeCategory category)

@@ -1,12 +1,16 @@
 using Audio.Containers;
 using HealthV2;
 using Mirror;
+using Player;
 using UnityEngine;
 
 namespace Items.Implants.Organs
 {
 	public class Ears : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchronisedEffect
 	{
+
+		[SerializeField]
+		private float localChatRange = 14;
 
 		public float DefaultHearing = 1;
 
@@ -82,11 +86,13 @@ namespace Items.Implants.Organs
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckPressure);
+			(livingHealth as PlayerHealthV2).OrNull()?.playerScript.PlayerStats.RemoveModifier(PlayerStats.Stat.LocalChatRange, gameObject.name);
 		}
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			UpdateManager.Add(CheckPressure, 1);
+			(livingHealth as PlayerHealthV2).OrNull()?.playerScript.PlayerStats.AddModifier(PlayerStats.Stat.LocalChatRange, gameObject.name, localChatRange);
 		}
 
 		private void CheckPressure()

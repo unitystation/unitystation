@@ -41,6 +41,8 @@ namespace Systems.Electricity
 		public bool DestroyAuthorised = false;
 		public bool TileRemoved = false;
 
+		public bool DropIngredients = true;
+
 		public void SetDeadEnd()
 		{
 			Categorytype = PowerTypeCategory.DeadEndConnection;
@@ -273,8 +275,13 @@ namespace Systems.Electricity
 			return SB.ToString();
 		}
 
-		public void DestroyThisPlease(bool TileRemovedAlready = false)
+		public void DestroyThisPlease(bool TileRemovedAlready = false, bool dropIngredients = true)
 		{
+			if (dropIngredients == false)
+			{
+				DropIngredients = dropIngredients;
+			}
+
 			if (Present != null)
 			{
 				Present.DestroyThisPlease();
@@ -292,6 +299,7 @@ namespace Systems.Electricity
 				TileRemoved = TileRemovedAlready;
 			}
 			DestroyQueueing = true;
+
 			ElectricalManager.Instance.electricalSync.NUElectricalObjectsToDestroy.Add(this);
 		}
 

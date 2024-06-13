@@ -84,6 +84,7 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private void OnDisable()
 		{
+			Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 			//Clean up
 			foreach (Transform child in categoryContentPanel.transform)
 			{

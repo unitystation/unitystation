@@ -258,6 +258,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		try
 		{
 			data = JsonConvert.DeserializeObject<MapSaver.MapSaver.MatrixData>(GUIUtility.systemCopyBuffer);
+			Clipboard = GUIUtility.systemCopyBuffer;
 		}
 		catch (Exception e)
 		{

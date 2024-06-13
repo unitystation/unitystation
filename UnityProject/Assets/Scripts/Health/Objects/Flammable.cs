@@ -16,7 +16,7 @@ namespace Health.Objects
 {
 	[RequireComponent(typeof(Integrity))]
 	[RequireComponent(typeof(RegisterTile))]
-	public class Flammable : NetworkBehaviour, IServerSpawn, IRightClickable, IHoverTooltip, IExaminable
+	public class Flammable : NetworkBehaviour, IServerSpawn, IHoverTooltip, IExaminable
 	{
 		private Integrity integrity;
 		public Integrity Integrity => integrity;
@@ -301,33 +301,6 @@ namespace Health.Objects
 			skipFlammableCheck = true;
 		}
 
-		public RightClickableResult GenerateRightClickOptions()
-		{
-			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) || KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
-			{
-				return null;
-			}
-
-			var result = RightClickableResult.Create();
-
-			if (integrity.Resistances.Flammable || skipFlammableCheck)
-			{
-				result.AddAdminElement("[Debug] - Add 20 fire stacks", DebugAddStacks)
-					.AddAdminElement("[Debug] - Set fire spread chance to 100%", DebugMakeItAlwaysSpread);
-			}
-			else
-			{
-				result.AddElement("[Debug] -  Force Flammable", DebugSkipFlammableCheck);
-			}
-
-			if (IsOnFire)
-			{
-				return RightClickableResult.Create()
-					.AddAdminElement("[Debug] - Set firestacks to 0", ResetFireStacks);
-			}
-
-			return result;
-		}
 
 		public string HoverTip()
 		{

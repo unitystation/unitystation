@@ -51,7 +51,7 @@ namespace AdminTools.VariableViewer
 			if (Page != null)
 			{
 				PageID = Page.ID;
-				SentenceID = 0;
+				SentenceID = uint.MaxValue;
 				IsSentence = false;
 				iskey = false;
 			}
@@ -112,7 +112,7 @@ namespace AdminTools.VariableViewer
 						break;
 				}
 
-				RequestChangeVariableNetMessage.Send(PageID, Outstring, UISendToClientToggle.toggle);
+				RequestChangeVariableNetMessage.Send(PageID, Outstring, UISendToClientToggle.toggle, SentenceID);
 			}
 		}
 
