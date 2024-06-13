@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Player.Movement;
 using UnityEngine;
 
@@ -19,12 +20,18 @@ namespace HealthV2.Limbs
 		private float crawlingSpeed = 0.3f;
 		public float CrawlingSpeed => crawlingSpeed;
 
+		[Header("Arm Damage Stats")]
+		[SerializeField] public float ArmMeleeDamage = 5f;
+		[SerializeField] public DamageType ArmDamageType = DamageType.Brute;
+		[SerializeField] public List<string> ArmDamageVerbs;
+		[SerializeField] public TraumaticDamageTypes ArmTraumaticDamage;
+		[SerializeField] public float ArmTraumaticChance = 0;
+
+
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			base.OnAddedToBody(livingHealth);
 			playerHealth.OrNull()?.PlayerMove.AddModifier(this);
-
-
 		}
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
