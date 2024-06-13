@@ -29,6 +29,8 @@ public class WeaponNetworkActions : NetworkBehaviour
 	[SerializeField]
 	private DamageType damageType = DamageType.Brute;
 
+	private bool damageOverwritten = false;
+
 	private float traumaDamageChance = 0;
 	private TraumaticDamageTypes tramuticDamageType;
 
@@ -71,6 +73,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 		handDamage = newAttackDamage;
 		damageType = newDamageType;
 		chanceToHit = newChanceToHit;
+		damageOverwritten = true;
 	}
 
 	/// <summary>
@@ -124,7 +127,8 @@ public class WeaponNetworkActions : NetworkBehaviour
 			weaponSound = weaponAttributes.hitSoundSettings == SoundItemSettings.OnlyObject ? null : weaponAttributes.ServerHitSound;
 			tramuticDamageType = weaponAttributes.TraumaticDamageType;
 			traumaDamageChance = weaponAttributes.TraumaDamageChance;
-		} else
+		}
+		else if (damageOverwritten == false)
 		{
 			//weaponAttributes is null so we are punching
 			GameObject activeArm = playerScript.PlayerNetworkActions.activeHand;
