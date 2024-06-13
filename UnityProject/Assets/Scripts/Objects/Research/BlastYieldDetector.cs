@@ -195,7 +195,6 @@ namespace Systems.Research.Objects
 		{
 			foreach (ReactionBountyEntry reaction in bounty.RequiredReactions)
 			{
-				if(reaction.RequiredReaction is BodyHealthEffect)
 				if (reaction.RequiredReaction.IsReactionValid(mix) == false || reaction.RequiredReaction.GetReactionQuantity(mix) != reaction.RequiredAmount)
 				{
 					return false;
