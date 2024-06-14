@@ -267,7 +267,7 @@ namespace UI.Objects.Engineering
 
 				float temperature_Delta = Math.Abs(chamber.ReactorPipe.pipeData.mixAndVolume.Temperature - last_Temperature);
 
-				highTemperatureDelta.SetState(temperature_Delta > 50);
+				highTemperatureDelta.SetState(temperature_Delta > 25);
 
 				lowTemperature.SetState(chamber.ReactorPipe.pipeData.mixAndVolume.Temperature < 373.15f);
 
