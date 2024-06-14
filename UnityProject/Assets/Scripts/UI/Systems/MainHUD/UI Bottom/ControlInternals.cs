@@ -151,10 +151,13 @@ namespace UI
 					{
 						if (itemSlot.ItemObject != null && itemSlot.ItemObject.TryGetComponent(out GasContainer gasContainer))
 						{
-							Tank = itemSlot.ItemObject;
-							this.gasContainer = gasContainer;
-							Doublebreak = true;
-							break;
+							if (gasContainer.ignoreInternals == false)
+							{
+								Tank = itemSlot.ItemObject;
+								this.gasContainer = gasContainer;
+								Doublebreak = true;
+								break;
+							}
 						}
 					}
 					if (Doublebreak) break;

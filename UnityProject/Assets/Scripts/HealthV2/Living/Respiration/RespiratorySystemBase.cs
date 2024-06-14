@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using Chemistry;
 using Systems.Atmospherics;
 using Objects.Atmospherics;
@@ -157,7 +157,7 @@ namespace HealthV2
 				{
 					if (gasSlot.Item == null) continue;
 					var gasContainer = gasSlot.Item.GetComponent<GasContainer>();
-					if (gasContainer)
+					if (gasContainer && gasContainer.ignoreInternals == false)
 					{
 						return gasContainer;
 					}

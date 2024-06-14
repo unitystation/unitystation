@@ -70,6 +70,8 @@ namespace Objects.Atmospherics
 
 		[SerializeField] private bool explodeOnTooMuchDamage = true;
 
+		[SerializeField] public bool ignoreInternals = false;
+
 		#region Lifecycle
 
 		private void Awake()
