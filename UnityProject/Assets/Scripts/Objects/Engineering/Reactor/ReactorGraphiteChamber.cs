@@ -56,7 +56,7 @@ namespace Objects.Engineering
 		public decimal CurrentPressure = 0;
 
 		public const decimal NEUTRON_SINGULARITY = 76488300000M;
-		public const decimal MAX_CORE_PRESSURE = 240000;
+		public const decimal MAX_CORE_PRESSURE = 300000;
 		public const int MAX_CORE_TEMPERATURE = 2400;
 		public const int MAX_WATER_LEVEL = 240;
 
@@ -300,8 +300,7 @@ namespace Objects.Engineering
 					ReactorPipe.pipeData.mixAndVolume.InternalEnergy += ExtraEnergyGained;
 				}
 
-				CurrentPressure = (decimal) Mathf.Clamp(((ReactorPipe.pipeData.mixAndVolume.Temperature - 293.15f) * ReactorPipe.pipeData.mixAndVolume.Total.x),
-					(float) decimal.MinValue, (float) decimal.MaxValue);
+				CurrentPressure = (decimal) Mathf.Clamp((ReactorPipe.pipeData.mixAndVolume.Temperature - 273.15f) * ReactorPipe.pipeData.mixAndVolume.Total.x, 0, (float)decimal.MaxValue);
 
 				if (CurrentPressure > MAX_CORE_PRESSURE)
 				{

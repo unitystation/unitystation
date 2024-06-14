@@ -170,6 +170,7 @@ MonoBehaviour:
   Chambers: []
   <CanRelink>k__BackingField: 1
   <IgnoreMaxDistanceMapper>k__BackingField: 0
+  coolingRate: 0.5
 --- !u!114 &3579875241807105875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,4 +233,4 @@ MonoBehaviour:
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 1
   directional: {fileID: 0}
-  reservoirVolume: 50
+  reservoirVolume: 65
