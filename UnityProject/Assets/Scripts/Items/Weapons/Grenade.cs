@@ -45,7 +45,7 @@ namespace Items.Weapons
 
 		public UnityEvent OnExpload = new UnityEvent();
 
-		private void Start()
+		public virtual void Start()
 		{
 			registerItem = GetComponent<RegisterItem>();
 			objectPhysics = GetComponent<UniversalObjectPhysics>();
@@ -131,7 +131,7 @@ namespace Items.Weapons
 			}
 		}
 
-		public void Explode()
+		public virtual void Explode()
 		{
 			if (hasExploded)
 			{
@@ -162,7 +162,7 @@ namespace Items.Weapons
 			_ = SoundManager.PlayNetworkedAtPosAsync(armbomb, position);
 		}
 
-		private void UpdateTimer(bool timerRunning)
+		protected void UpdateTimer(bool timerRunning)
 		{
 			this.timerRunning = timerRunning;
 
