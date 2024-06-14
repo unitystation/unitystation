@@ -355,14 +355,9 @@ MonoBehaviour:
   boilerTurbineController: {fileID: 0}
   GUIBoilerAnnunciators:
     GUIBoilerTurbineController: {fileID: 0}
-    BoilerAtHighCapacity: {fileID: 4564573295912396991}
-    BoilerAtLowCapacity: {fileID: 5491675206814533034}
-    HighBoilerCapacityDelta: {fileID: 6871067373291173467}
-    HighPressure: {fileID: 0}
-    LowPressure: {fileID: 0}
-    HighPressureDelta: {fileID: 0}
-    Last_capacity: 0
-    capacityDelta: 0
+    BoilerAtHighPressure: {fileID: 4564573295912396991}
+    BoilerAtLowPressure: {fileID: 5491675206814533034}
+    HighBoilerPressureDelta: {fileID: 6871067373291173467}
   GUITurbineAnnunciators:
     GUIBoilerTurbineController: {fileID: 0}
     Highvoltage: {fileID: 5651477826983185308}
@@ -5551,7 +5546,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5458Watts
+  m_text: 0W
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6734,7 +6729,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0.0111A
+  m_text: 0A
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8126,7 +8121,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1000V
+  m_text: 0V
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

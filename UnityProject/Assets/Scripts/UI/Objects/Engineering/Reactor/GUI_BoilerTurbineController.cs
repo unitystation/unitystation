@@ -80,9 +80,6 @@ namespace UI.Objects.Engineering
 			public NetFlasher BoilerAtHighPressure = null;
 			public NetFlasher BoilerAtLowPressure = null;
 			public NetFlasher HighBoilerPressureDelta = null;
-			public NetFlasher HighPressure = null;
-			public NetFlasher LowPressure = null;
-			public NetFlasher HighPressureDelta = null;
 
 			public void Refresh()
 			{
