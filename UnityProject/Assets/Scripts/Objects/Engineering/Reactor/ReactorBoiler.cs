@@ -19,22 +19,20 @@ namespace Objects.Engineering
 		public decimal Efficiency = 0.825M;
 		private const int BOILING_TEMP = 100;
 
-		[SerializeField] private float boilerVolume = 10;
-
 		public ReactorPipe ReactorPipe;
 
 		public List<ReactorGraphiteChamber> Chambers;
 		// Start is called before the first frame update
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
+
+		[SerializeField, Range(0, 1), Tooltip("The % cooling of this boiler per update. 100% cools input gas immediately to 100 degrees. 0% doesn't cool the gas.")] private float coolingRate = 0.5f;
+
 		#region Lifecycle
 
 		public void Awake()
 		{
 			ReactorPipe = GetComponent<ReactorPipe>();
-			ReactorPipe.pipeData.mixAndVolume.SetVolume(boilerVolume);
-			//By making the boiler have a notably lower volume than the reactor itself,
-			//The reduction in water temp from the boiler doesn't overpower the reactor heat output.
 		}
 
 		private void OnEnable()
@@ -70,7 +68,7 @@ namespace Objects.Engineering
 
 			var InternalEnergy = ReactorPipe.pipeData.mixAndVolume.InternalEnergy;
 
-			CurrentPressureInput = (decimal) (InternalEnergy - ExpectedInternalEnergy);
+			CurrentPressureInput = (decimal)(InternalEnergy - ExpectedInternalEnergy) * (decimal)coolingRate;
 
 			if (CurrentPressureInput > 0)
 			{
@@ -83,9 +81,7 @@ namespace Objects.Engineering
 				// }
 
 
-				ReactorPipe.pipeData.mixAndVolume.InternalEnergy = ExpectedInternalEnergy;
-
-
+				ReactorPipe.pipeData.mixAndVolume.InternalEnergy = InternalEnergy - (float)CurrentPressureInput;
 				OutputEnergy = CurrentPressureInput * Efficiency; //Only half of the energy is converted into useful energy
 			}
 			else

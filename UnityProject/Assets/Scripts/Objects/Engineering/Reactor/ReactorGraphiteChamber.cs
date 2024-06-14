@@ -48,7 +48,7 @@ namespace Objects.Engineering
 
 		public float ControlRodDepthPercentage = 1;
 
-		public float RodMeltingTemperatureK = 1100;
+		public float RodMeltingTemperatureK = 2200;
 
 		public bool MeltedDown = false;
 		public bool PoppedPipes = false;
@@ -56,8 +56,8 @@ namespace Objects.Engineering
 		public decimal CurrentPressure = 0;
 
 		public const decimal NEUTRON_SINGULARITY = 76488300000M;
-		public const decimal MAX_CORE_PRESSURE = 120000;
-		public const int MAX_CORE_TEMPERATURE = 1200;
+		public const decimal MAX_CORE_PRESSURE = 240000;
+		public const int MAX_CORE_TEMPERATURE = 2400;
 		public const int MAX_WATER_LEVEL = 240;
 
 		private const decimal NEUTRON_LEAK_CHANCE = 0.0397M;

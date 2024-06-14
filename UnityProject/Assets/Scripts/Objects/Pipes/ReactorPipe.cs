@@ -7,12 +7,12 @@ namespace Objects.Atmospherics
 {
 	public class ReactorPipe : MonoPipe
 	{
-		public Reagent Water;
-		public List<ReactorPipe> ConnectedCores = new List<ReactorPipe>(); //needs To check properly
+		[SerializeField] private float reservoirVolume = 10;
+
 		public override void OnSpawnServer(SpawnInfo info)
 		{
 			pipeData.PipeAction = new ReservoirAction();
-			pipeData.GetMixAndVolume.GetReagentMix().Add(Water, 100);
+			pipeData.mixAndVolume.SetVolume(reservoirVolume);
 			base.OnSpawnServer(info);
 		}
 

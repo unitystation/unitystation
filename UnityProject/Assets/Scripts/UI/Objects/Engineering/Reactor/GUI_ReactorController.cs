@@ -30,8 +30,8 @@ namespace UI.Objects.Engineering
 		private float MainSetControl = 1;
 		private float SecondarySetControl = 1;
 
-		private const decimal HIGH_PRESSURE_THRESHOLD = 10000;
-		private const float HIGH_PRESSURE_DELTA_THRESHOLD = 100;
+		private const decimal HIGH_PRESSURE_THRESHOLD = 6000;
+		private const float HIGH_PRESSURE_DELTA_THRESHOLD = 250;
 
 		private const int MAX_NEUTRON_FLUX_POWER = 12;
 
@@ -64,7 +64,7 @@ namespace UI.Objects.Engineering
 
 		#endregion
 
-		private void RefreshGui()
+		public void RefreshGui()
 		{
 			if (IsMasterTab == false) return;
 			if (ReactorControlConsole == null || ReactorControlConsole.ReactorChambers == null) return;
