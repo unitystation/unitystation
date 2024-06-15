@@ -1,6 +1,5 @@
 using System;
 using AddressableReferences;
-using Audio.Containers;
 using Core;
 using Core.Lighting;
 using UnityEngine;
@@ -78,7 +77,7 @@ namespace Objects.Lighting
 		private bool sparking = false;
 
 		[Header("Audio")] [SerializeField] private AddressableAudioSource ambientSoundWhileOn;
-		[Header("Audio")] [SerializeField] private AddressableAudioSource turnOffOnNoise;
+		[SerializeField] private AddressableAudioSource turnOffOnNoise;
 		private string loopKey;
 
 		private bool SoundInit = false;
