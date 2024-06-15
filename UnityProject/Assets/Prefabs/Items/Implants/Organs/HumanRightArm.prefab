@@ -515,6 +515,12 @@ MonoBehaviour:
   RelatedPart: {fileID: 0}
   armEfficiency: 1
   crawlingSpeed: 0.3
+  ArmMeleeDamage: 5
+  ArmDamageType: 0
+  ArmDamageVerbs:
+  - punched
+  ArmTraumaticDamage: 0
+  ArmTraumaticChance: 0
 --- !u!114 &5756682103643324902
 MonoBehaviour:
   m_ObjectHideFlags: 0

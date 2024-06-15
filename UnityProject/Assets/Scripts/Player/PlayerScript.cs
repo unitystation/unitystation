@@ -102,6 +102,8 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 
 	[field: SerializeField] public DimPlayerLightController DimPlayerLightController { get; private set; }
 
+	public PlayerStats PlayerStats { get; private set; }
+
 	/// <summary>
 	/// Serverside world position.
 	/// Outputs correct world position even if you're hidden (e.g. in a locker)
@@ -203,6 +205,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		PlayerFaith ??= GetComponent<PlayerFaith>();
 		Particles ??= GetComponent<PlayerParticle>();
 		DimPlayerLightController ??= GetComponent<DimPlayerLightController>();
+		PlayerStats = GetComponent<PlayerStats>();
 	}
 
 	public override void OnStartClient()
