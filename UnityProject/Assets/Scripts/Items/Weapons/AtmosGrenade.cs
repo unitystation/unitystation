@@ -6,7 +6,7 @@ namespace Items.Weapons
 {
 	[RequireComponent(typeof(GasContainer))]
 	[RequireComponent(typeof(Grenade))]
-	public class AtmosGrenade : NetworkBehaviour, IServerInventoryMove, IExaminable
+	public class AtmosGrenade : NetworkBehaviour, IExaminable
 	{
 		[Tooltip("SpriteHandler used for gas color overlay")]
 		public SpriteHandler gasIndicatorSpriteHandler;
@@ -22,16 +22,13 @@ namespace Items.Weapons
 			grenade = GetComponent<Grenade>();
 			UpdateOverlay();
 			grenade.OnExpload.AddListener(ReleaseGas);
+			gasContainer.OnContentsUpdate += UpdateOverlay;
 		}
 
 		private void OnDestroy()
 		{
-			grenade.OnExpload.RemoveListener(ReleaseGas	);
-		}
-		
-		public void OnInventoryMoveServer(InventoryMove info)
-		{
-			UpdateOverlay();
+			grenade.OnExpload.RemoveListener(ReleaseGas);
+			gasContainer.OnContentsUpdate -= UpdateOverlay;
 		}
 		
 		public void ReleaseGas(){
@@ -41,17 +38,20 @@ namespace Items.Weapons
 
 		private void UpdateOverlay()
 		{
-			var gasCont = gasContainer.GasMixLocal.GetBiggestGasSOInMix();
-			if (gasCont != null)
+			if (isServer)
 			{
-				//gas SO's color property is for overriding the overlay tile color, use the reagents color and force alpha to be 255
-				var gasCol = gasCont.AssociatedReagent.color;
-					gasCol.a = 1f;
-				gasIndicatorSpriteHandler.SetColor(gasCol);
-			}
-			else
-			{
-				gasIndicatorSpriteHandler.SetColor(noGasColor);
+				var gasCont = gasContainer.GasMixLocal.GetBiggestGasSOInMix();
+				if (gasCont != null)
+				{
+					//gas SO's color property is for overriding the overlay tile color, use the reagents color and force alpha to be 255
+					var gasCol = gasCont.AssociatedReagent.color;
+						gasCol.a = 1f;
+					gasIndicatorSpriteHandler.SetColor(gasCol);
+				}
+				else
+				{
+					gasIndicatorSpriteHandler.SetColor(noGasColor);
+				}
 			}
 		}
 		
