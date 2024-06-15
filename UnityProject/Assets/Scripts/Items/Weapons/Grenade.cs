@@ -39,6 +39,10 @@ namespace Items.Weapons
 		// is timer finished or was interupted?
 		private bool timerRunning = false;
 
+		[SerializeField] private bool destroyGrenade = true;
+
+		[SerializeField] private bool allowReuse = false;
+
 		//this object's registerObject
 		private RegisterItem registerItem;
 		private UniversalObjectPhysics objectPhysics;
@@ -131,14 +135,20 @@ namespace Items.Weapons
 			}
 		}
 
-		public virtual void Explode()
+		public void Explode()
 		{
 			if (hasExploded)
 			{
 				return;
 			}
 
-			hasExploded = true;
+			if (allowReuse == false)
+			{
+				hasExploded = true;
+			}
+
+			UpdateTimer(false);
+
 			OnExpload?.Invoke();
 
 			if (isServer && explosionPrefab != null)
@@ -147,8 +157,11 @@ namespace Items.Weapons
 				var explosionMatrix = registerItem.Matrix;
 				var worldPos = objectPhysics.registerTile.WorldPosition;
 
-				// Despawn grenade
-				_ = Despawn.ServerSingle(gameObject);
+				if (destroyGrenade)
+				{
+					// Despawn grenade
+					_ = Despawn.ServerSingle(gameObject);
+				}
 
 				// Explosion here
 				var explosionGO = Instantiate(explosionPrefab, explosionMatrix.transform);

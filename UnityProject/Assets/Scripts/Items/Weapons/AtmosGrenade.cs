@@ -1,23 +1,32 @@
+using Mirror;
 using Objects.Atmospherics;
 using UnityEngine;
 
 namespace Items.Weapons
 {
 	[RequireComponent(typeof(GasContainer))]
-	public class AtmosGrenade : Grenade, IServerInventoryMove, IExaminable
+	[RequireComponent(typeof(Grenade))]
+	public class AtmosGrenade : NetworkBehaviour, IServerInventoryMove, IExaminable
 	{
 		[Tooltip("SpriteHandler used for gas color overlay")]
 		public SpriteHandler gasIndicatorSpriteHandler;
 	
 		private GasContainer gasContainer;
+		private Grenade grenade;
 		
 		private readonly Color noGasColor = new(0,0,0,0);
 
-		public override void Start()
+		public void Start()
 		{
-			base.Start();
 			gasContainer = GetComponent<GasContainer>();
+			grenade = GetComponent<Grenade>();
 			UpdateOverlay();
+			grenade.OnExpload.AddListener(ReleaseGas);
+		}
+
+		private void OnDestroy()
+		{
+			grenade.OnExpload.RemoveListener(ReleaseGas	);
 		}
 		
 		public void OnInventoryMoveServer(InventoryMove info)
@@ -25,16 +34,11 @@ namespace Items.Weapons
 			UpdateOverlay();
 		}
 		
-		public override void Explode()
-		{
-			if (isServer)
-			{
-				UpdateTimer(false);
-				gasContainer.ReleaseContentsInstantly();
-				UpdateOverlay();
-			}
+		public void ReleaseGas(){
+			gasContainer.ReleaseContentsInstantly();
+			UpdateOverlay();
 		}
-		
+
 		private void UpdateOverlay()
 		{
 			var gasCont = gasContainer.GasMixLocal.GetBiggestGasSOInMix();

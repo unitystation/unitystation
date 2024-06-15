@@ -234,8 +234,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6, type: 3}
+    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: allowReuse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: destroyGrenade
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: explosionPrefab
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
@@ -252,18 +266,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3810250351249838794}
   m_SourcePrefab: {fileID: 100100000, guid: 838a4732b2dece64497d074b7a700be6, type: 3}
---- !u!114 &1168828625518004275 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8561795974084681285, guid: 838a4732b2dece64497d074b7a700be6,
-    type: 3}
-  m_PrefabInstance: {fileID: 7415492768448960118}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1273544886000789325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1273544886000789325 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8594439505056330043, guid: 838a4732b2dece64497d074b7a700be6,
@@ -285,22 +287,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  explosionPrefab: {fileID: 0}
-  unstableFuse: 0
-  fuseLength: 3
-  armbomb:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Weapons/armbomb.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  spriteHandler: {fileID: 4965945796470316234}
-  pickupable: {fileID: 1168828625518004275}
-  OnExpload:
-    m_PersistentCalls:
-      m_Calls: []
   gasIndicatorSpriteHandler: {fileID: 314332131215810989}
 --- !u!114 &3810250351249838794
 MonoBehaviour:
@@ -335,15 +321,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7415492768448960118}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4965945796470316234 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
-    type: 3}
-  m_PrefabInstance: {fileID: 7415492768448960118}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
