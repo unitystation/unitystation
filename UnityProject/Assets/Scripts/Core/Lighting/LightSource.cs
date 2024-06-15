@@ -8,6 +8,7 @@ using Mirror;
 using ScriptableObjects;
 using Light2D;
 using Logs;
+using Messages.Server.SoundMessages;
 using Systems.Electricity;
 using Shared.Systems.ObjectConnection;
 using Objects.Construction;
@@ -76,6 +77,7 @@ namespace Objects.Lighting
 		private bool sparking = false;
 
 		[Header("Audio")] [SerializeField] private AddressableAudioSource ambientSoundWhileOn;
+		[SerializeField] private AddressableAudioSource turnOffOnNoise;
 		private string loopKey;
 
 		private bool SoundInit = false;
@@ -232,6 +234,10 @@ namespace Objects.Lighting
 				Animator.ServerStopAnim();
 			}
 			CheckAudioState();
+			if (newState == LightMountState.On)
+			{
+				SoundManager.PlayNetworkedAtPos(turnOffOnNoise, gameObject.AssumedWorldPosServer(), new AudioSourceParameters().PitchVariation(0.05f));
+			}
 		}
 
 		private void ChangeCurrentState(LightMountState newState)
