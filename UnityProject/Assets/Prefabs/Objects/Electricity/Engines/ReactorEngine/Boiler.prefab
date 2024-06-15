@@ -72,17 +72,17 @@ PrefabInstance:
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -170,6 +170,7 @@ MonoBehaviour:
   Chambers: []
   <CanRelink>k__BackingField: 1
   <IgnoreMaxDistanceMapper>k__BackingField: 0
+  coolingRate: 0.5
 --- !u!114 &3579875241807105875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,5 +233,4 @@ MonoBehaviour:
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 1
   directional: {fileID: 0}
-  Water: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
-  ConnectedCores: []
+  reservoirVolume: 65

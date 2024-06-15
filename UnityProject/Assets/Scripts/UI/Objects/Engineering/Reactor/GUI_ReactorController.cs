@@ -30,8 +30,8 @@ namespace UI.Objects.Engineering
 		private float MainSetControl = 1;
 		private float SecondarySetControl = 1;
 
-		private const decimal HIGH_PRESSURE_THRESHOLD = 10000;
-		private const float HIGH_PRESSURE_DELTA_THRESHOLD = 100;
+		private const decimal HIGH_PRESSURE_THRESHOLD = 60000;
+		private const float HIGH_PRESSURE_DELTA_THRESHOLD = 2500;
 
 		private const int MAX_NEUTRON_FLUX_POWER = 12;
 
@@ -47,6 +47,8 @@ namespace UI.Objects.Engineering
 			GUIReactorLayout.GUI_ReactorController = this;
 			GUIReactorAnnunciator.GUI_ReactorController = this;
 			GUIReactorLayout.Start();
+
+			RefreshGui();
 		}
 
 		public override void OnEnable()
@@ -64,7 +66,7 @@ namespace UI.Objects.Engineering
 
 		#endregion
 
-		private void RefreshGui()
+		public void RefreshGui()
 		{
 			if (IsMasterTab == false) return;
 			if (ReactorControlConsole == null || ReactorControlConsole.ReactorChambers == null) return;
@@ -265,7 +267,7 @@ namespace UI.Objects.Engineering
 
 				float temperature_Delta = Math.Abs(chamber.ReactorPipe.pipeData.mixAndVolume.Temperature - last_Temperature);
 
-				highTemperatureDelta.SetState(temperature_Delta > 10);
+				highTemperatureDelta.SetState(temperature_Delta > 25);
 
 				lowTemperature.SetState(chamber.ReactorPipe.pipeData.mixAndVolume.Temperature < 373.15f);
 
@@ -296,7 +298,7 @@ namespace UI.Objects.Engineering
 
 			private void SetCorePressureWarnings(ReactorGraphiteChamber chamber)
 			{
-				float pressure = chamber.ReactorPipe.pipeData.mixAndVolume.Temperature * chamber.ReactorPipe.pipeData.mixAndVolume.Total.x;
+				float pressure = (float)chamber.CurrentPressure;
 
 				highCorePressure.SetState(pressure > (float) (ReactorGraphiteChamber.MAX_CORE_PRESSURE - HIGH_PRESSURE_THRESHOLD));
 
