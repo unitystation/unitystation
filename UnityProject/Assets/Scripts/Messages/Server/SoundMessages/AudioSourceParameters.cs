@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Messages.Server.SoundMessages
 {
@@ -25,6 +28,9 @@ namespace Messages.Server.SoundMessages
 	/// </summary>
 	public struct AudioSourceParameters
 	{
+		/// <summary>
+		/// Unity volume goes from 0 to 1.
+		/// </summary>
 		public float Volume;
 		public float Time;
 		public float Pan;
@@ -78,6 +84,36 @@ namespace Messages.Server.SoundMessages
 			VolumeRolloffType = volumeRolloffType;
 			IsMute = isMute;
 			Loops = loops;
+		}
+
+		public AudioSourceParameters PitchVariation(float variation)
+		{
+			Pitch = Random.Range(1 - variation, 1 + variation);
+			return this;
+		}
+
+		public AudioSourceParameters SetVolume(float volume)
+		{
+			Volume = Mathf.Clamp(volume, 0f, 1f);
+			return this;
+		}
+
+		/// <summary>
+		/// Forces the sound to be played for everyone regadrless of their position.
+		/// </summary>
+		public AudioSourceParameters MakeSoundGlobal()
+		{
+			MinDistance = Single.MaxValue;
+			return this;
+		}
+
+		/// <summary>
+		/// useful for when unity is acting stupid with specific addressable audio prefabs that cannot be localfied.
+		/// </summary>
+		public AudioSourceParameters MakeSoundLocal(float numberOfTiles = 12)
+		{
+			MinDistance = numberOfTiles;
+			return this;
 		}
 
 		public override string ToString()

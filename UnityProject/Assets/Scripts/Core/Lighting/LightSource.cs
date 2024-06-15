@@ -236,7 +236,7 @@ namespace Objects.Lighting
 			CheckAudioState();
 			if (newState == LightMountState.On)
 			{
-				SoundManager.PlayNetworkedAtPos(turnOffOnNoise, gameObject.AssumedWorldPosServer(), new AudioSourceParameters());
+				SoundManager.PlayNetworkedAtPos(turnOffOnNoise, gameObject.AssumedWorldPosServer(), new AudioSourceParameters().PitchVariation(0.05f));
 			}
 		}
 
