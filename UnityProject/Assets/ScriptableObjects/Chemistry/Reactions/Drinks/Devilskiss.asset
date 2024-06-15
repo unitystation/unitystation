@@ -14,10 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredients:
     m_keys:
-    - {fileID: 11400000, guid: eea05337a284c407e926bf3110b00916, type: 2}
     - {fileID: 11400000, guid: d8b9bc35821b330168e659473e685d14, type: 2}
     - {fileID: 11400000, guid: a42ee1808745235d6992c36a45c1f94b, type: 2}
-    m_values: 010000000100000001000000
+    m_values: 0100000001000000
   useExactAmounts: 0
   MinimumReactionMultiple: 0
   catalysts:
@@ -34,4 +33,7 @@ MonoBehaviour:
     m_keys:
     - {fileID: 11400000, guid: e3c8eb9bab1dab526bee072efa361f89, type: 2}
     m_values: 03000000
-  effects: []
+  effectDict:
+    m_keys: []
+    m_values: 
+  overrideDisplayName: 

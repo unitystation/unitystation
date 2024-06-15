@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Linq;
+using System.Text;
 
 namespace Chemistry
 {
@@ -25,10 +25,36 @@ namespace Chemistry
 		[HideInInspector]
 		public float serializableTempMax;
 		public SerializableDictionary<Reagent, int> results;
-		public Effect[] effects;
+		public SerializableDictionary<Effect, int> effectDict;
 
 		public float? tempMin;
 		public float? tempMax;
+
+		[SerializeField] private string overrideDisplayName = null;
+
+		private string displayName = null;
+
+		//For ingame GUIs that might need to indentify this reaction. See ExplosiveBountyUIEntry.cs for an example
+		public string DisplayName
+		{
+			get
+			{
+				if (overrideDisplayName != null) return overrideDisplayName;
+				if (displayName != null) return displayName;
+
+				StringBuilder sb = new StringBuilder();
+
+				foreach (KeyValuePair<Reagent, int> product in results.m_dict)
+				{
+					sb.Append($"{product.Key.Name},");
+				}
+
+				sb.Remove(sb.Length - 1, 1); //remove last comma
+
+				displayName = sb.ToString();
+				return displayName;
+			}
+		}
 
 		public virtual bool Apply(object sender, ReagentMix reagentMix)
 		{
@@ -46,7 +72,7 @@ namespace Chemistry
 				return false;
 			}
 
-			var reactionMultiple = GetReactionAmount(reagentMix);
+			var reactionMultiple = GetReactionMultiple(reagentMix);
 
 			if (useExactAmounts)
 			{
@@ -67,7 +93,7 @@ namespace Chemistry
 
 		public void ApplyReaction(MonoBehaviour sender, ReagentMix reagentMix)
 		{
-			var reactionMultiplier = GetReactionAmount(reagentMix);
+			var reactionMultiplier = GetReactionMultiple(reagentMix);
 
 			foreach (var ingredient in ingredients.m_dict)
 			{
@@ -80,14 +106,14 @@ namespace Chemistry
 				reagentMix.Add(result.Key, reactionResult);
 			}
 
-			foreach (var effect in effects)
+			foreach (var effect in effectDict.m_dict)
 			{
-				if (effect != null)
-					effect.Apply(sender, reactionMultiplier);
+				var reactionResult = reactionMultiplier * effect.Value;
+				effect.Key.Apply(sender, reactionResult);
 			}
 		}
 
-		public float GetReactionAmount(ReagentMix reagentMix)
+		public float GetReactionMultiple(ReagentMix reagentMix)
 		{
 			var reactionMultiplier = Mathf.Infinity;
 			foreach (var ingredient in ingredients.m_dict)
@@ -99,6 +125,29 @@ namespace Chemistry
 				}
 			}
 			return reactionMultiplier;
+		}
+
+		/// <summary>
+		/// Calculates the total volume of products + quanity of reaction effects produced from this reaction.
+		/// Does not perform this reaction.
+		/// </summary>
+		public float GetReactionQuantity(ReagentMix reagentMix)
+		{
+			var multiplier = GetReactionMultiple(reagentMix);
+
+			float quantity = 0;
+
+			foreach (var result in results.m_dict)
+			{
+				quantity += multiplier * result.Value;
+			}
+
+			foreach (var effect in effectDict.m_dict)
+			{
+				quantity += multiplier * effect.Value;
+			}
+
+			return quantity;
 		}
 
 		public bool HasIngredients(ReagentMix reagentMix)
@@ -157,7 +206,7 @@ namespace Chemistry
 			//is a single inhibitor present?
 			foreach (var inhibitor in inhibitors.m_dict)
 			{
-				if (reagentMix[inhibitor.Key] > inhibitor.Value * reactionMultiple)
+				if (reagentMix[inhibitor.Key] >= inhibitor.Value * reactionMultiple)
 				{
 					return false;
 				}

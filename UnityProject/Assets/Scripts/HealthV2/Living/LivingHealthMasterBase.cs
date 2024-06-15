@@ -1531,7 +1531,7 @@ namespace HealthV2
 				{
 					if (reaction.HasIngredients(Chemicals))
 					{
-						var Amount = reaction.GetReactionAmount(Chemicals);
+						var Amount = reaction.GetReactionMultiple(Chemicals);
 						foreach (var TouchCharacteristics in reaction.InitialTouchCharacteristics)
 						{
 							ApplyDamageToBodyPart(this.gameObject, Amount * TouchCharacteristics.EffectPerOne,

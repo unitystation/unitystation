@@ -1,6 +1,8 @@
 using System.Collections;
 using Chemistry;
+using Core.Factories;
 using NUnit.Framework;
+using ScriptableObjects;
 using UnityEngine;
 using Effect = Chemistry.Effect;
 
@@ -34,14 +36,14 @@ namespace Tests.Chemistry
 			simpleReaction.catalysts = new SerializableDictionary<Reagent, int> { };
 			simpleReaction.inhibitors = new SerializableDictionary<Reagent, int> { };
 			simpleReaction.results = new SerializableDictionary<Reagent, int> {[c] = 1};
-			simpleReaction.effects = new global::Chemistry.Effect[0];
+			simpleReaction.effectDict = new SerializableDictionary<global::Chemistry.Effect, int> { };
 
 			var tempReaction = ScriptableObject.CreateInstance<Reaction>();
 			tempReaction.ingredients = new SerializableDictionary<Reagent, int> {[a] = 1, [b] = 1};
 			tempReaction.catalysts = new SerializableDictionary<Reagent, int> { };
 			tempReaction.inhibitors = new SerializableDictionary<Reagent, int> { };
 			tempReaction.results = new SerializableDictionary<Reagent, int> {[c] = 1};
-			tempReaction.effects = new global::Chemistry.Effect[0];
+			tempReaction.effectDict = new SerializableDictionary<global::Chemistry.Effect, int> { };
 			tempReaction.hasMinTemp = true;
 			tempReaction.serializableTempMin = 200;
 			tempReaction.hasMaxTemp = true;
