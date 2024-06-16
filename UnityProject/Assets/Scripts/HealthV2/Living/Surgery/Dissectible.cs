@@ -352,7 +352,7 @@ namespace HealthV2
 						//RelatedBodyPart can be null
 						var pokelimbtext = RelatedBodyPart != null ? $"'s {RelatedBodyPart.name}" : "";
 							Chat.AddActionMsgToChat(interaction, $" You poke {this.isOn.LivingHealthMasterBase.playerScript.visibleName}{pokelimbtext} with the {interaction.UsedObject.name} ",
-								$"{interaction.PerformerPlayerScript.visibleName} pokes {this.isOn.LivingHealthMasterBase.playerScript.visibleName} with the {interaction.UsedObject.name} ");
+								$"{interaction.PerformerPlayerScript.visibleName} pokes {this.isOn.LivingHealthMasterBase.playerScript.visibleName}{pokelimbtext} with the {interaction.UsedObject.name} ");
 					}
 				}
 
