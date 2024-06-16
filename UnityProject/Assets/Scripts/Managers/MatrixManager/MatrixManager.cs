@@ -16,6 +16,7 @@ using Messages.Client.SpriteMessages;
 using Shared.Managers;
 using Mirror;
 using Objects;
+using Player;
 using Shuttles;
 using Tiles;
 
@@ -125,6 +126,8 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			Debug.Log("removed " + CleanupUtil.RidListOfDeadElements(a.Value) + " dead matrices from MatrixManager.InitializingMatrixes");
 		}
 	}
+
+
 	public void ResetMatrixManager()
 	{
 		if (Instance != null)
@@ -159,7 +162,12 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		if (CustomNetworkManager.IsServer == false)
 		{
 			matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
-			TileChangeNewPlayer.Send(matrix.MatrixInfo.NetID);
+			var id = matrix.MatrixInfo.NetID;
+
+			JoinedViewer.AddOnPlayerValidated( (() =>
+			{
+				TileChangeNewPlayer.Send(id);
+			}));
 
 			if (AreAllMatrixReady())
 			{

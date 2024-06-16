@@ -197,7 +197,6 @@ namespace MapSaver
 		{
 			Matrix aaMatrix = null;
 
-			Matrix = null;
 			if (Matrix == null)
 			{
 				aaMatrix = MatrixManager.MakeNewMatrix();

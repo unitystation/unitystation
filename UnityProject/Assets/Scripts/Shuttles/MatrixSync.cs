@@ -27,17 +27,11 @@ namespace Shuttles
 
 		private void Awake()
 		{
-
-
-
-			if (transform.parent == null)
+			if (transform.parent != null)
 			{
-				Loggy.LogError($"{gameObject.name} had null transform parent", Category.Matrix);
-				return;
+				networkedMatrix = transform.parent.GetComponent<NetworkedMatrix>();
 			}
 
-
-			networkedMatrix = transform.parent.GetComponent<NetworkedMatrix>();
 
 			if (networkedMatrix == null)
 			{
