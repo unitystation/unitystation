@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Systems.CraftingV2;
 using Systems.CraftingV2.ClientServerLogic;
 using Systems.CraftingV2.GUI;
@@ -8,6 +9,7 @@ using Chemistry.Components;
 using Items;
 using Mirror;
 using NaughtyAttributes;
+using NSubstitute;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -445,6 +447,15 @@ namespace Player
 				)
 				{
 					reagentContainers.Add(reagentContainer);
+				}
+			}
+
+			for (int i = reagentContainers.Count - 1; i >= 0; i--)
+			{
+				if (reagentContainers[i].TransferMode is TransferMode.Syringe or TransferMode.InputOnly
+				    or TransferMode.NoTransfer)
+				{
+					reagentContainers.RemoveAt(i);
 				}
 			}
 
