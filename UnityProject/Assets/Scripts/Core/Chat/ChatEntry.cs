@@ -173,12 +173,18 @@ namespace UI.Chat_UI
 
 		public void AddChatDuplication()
 		{
-			SetStackPos();
+			SetStackPos(); // Always make sure the stack bubble has its position updated incase the entry gets updated.
 			stackText.text = $"x{++stackCount}";
 			ToggleUIElements(true);
 			stackObject.SetActive(true);
 			AnimateFade(1f, 0f);
 			StartCoroutine(AnimateStackObject());
+			StackMessageSizeIncrease();
+			this.RestartCoroutine(FadeCooldown(), ref fadeCooldownCoroutine);
+		}
+
+		private void StackMessageSizeIncrease()
+		{
 			string pattern = @"<size(?:=|\+=|\+)([0-9]+)>";
 			Match match = Regex.Match(messageText.text, pattern);
 			if (match.Success)
@@ -189,7 +195,6 @@ namespace UI.Chat_UI
 				messageText.text = update;
 				StartCoroutine(UpdateEntryHeight());
 			}
-			this.RestartCoroutine(FadeCooldown(), ref fadeCooldownCoroutine);
 		}
 
 		private void SetHidden(bool hidden, bool fromCooldown = false)
