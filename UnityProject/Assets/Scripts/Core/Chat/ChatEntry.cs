@@ -185,17 +185,21 @@ namespace UI.Chat_UI
 
 		private void StackMessageSizeIncrease()
 		{
-			string pattern = @"<size(?:=|\+=|\+)([0-9]+)>";
+			string pattern = @"<size(=|\+=|\+)([0-9]+)>";
 			Match match = Regex.Match(messageText.text, pattern);
 			if (match.Success)
 			{
-				float number = float.Parse(match.Groups[1].Value);
-				float newNumber = number + 1;
-				var update = Regex.Replace(messageText.text, pattern, m => $"<size={m.Groups[2].Value}{newNumber}>");
-				messageText.text = update;
+				messageText.text = Regex.Replace(messageText.text, pattern, match =>
+				{
+					float number = float.Parse(match.Groups[2].Value);
+					float newNumber = number + 1;
+					string newTag = $"<size{match.Groups[1].Value}{newNumber}>";
+					return newTag;
+				}, RegexOptions.IgnoreCase);
 				StartCoroutine(UpdateEntryHeight());
 			}
 		}
+
 
 		private void SetHidden(bool hidden, bool fromCooldown = false)
 		{
