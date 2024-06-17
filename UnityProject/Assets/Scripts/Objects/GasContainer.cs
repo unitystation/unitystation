@@ -22,8 +22,14 @@ namespace Objects.Atmospherics
 		public GasMix GasMixLocal
 		{
 			get => IsSealed ? internalGasMix : TileMix;
-			set => internalGasMix = value;
+			set
+			{
+				internalGasMix = value;
+				OnContentsUpdate?.Invoke();
+			}
 		}
+
+		public event Action OnContentsUpdate;
 
 		private GasMix internalGasMix;
 
@@ -69,6 +75,8 @@ namespace Objects.Atmospherics
 		public bool CargoSealApproved = false;
 
 		[SerializeField] private bool explodeOnTooMuchDamage = true;
+
+		[SerializeField] public bool ignoreInternals = false;
 
 		#region Lifecycle
 

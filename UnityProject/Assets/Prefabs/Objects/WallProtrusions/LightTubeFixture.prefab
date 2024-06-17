@@ -105,7 +105,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1 &8582599332015320669
 GameObject:
@@ -564,7 +564,7 @@ PrefabInstance:
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: variantIndex
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -892,6 +892,14 @@ MonoBehaviour:
   ambientSoundWhileOn:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbienceObjects/Amb LightFixture.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  turnOffOnNoise:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/light_on.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 

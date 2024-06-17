@@ -19,6 +19,8 @@ namespace UI.Objects.Engineering
 		[SerializeField] private NetText_label TurbineVoltage = null;
 		[SerializeField] private NetText_label TurbineCurrent = null;
 
+		private const int MAX_BOILER_TEMPERATURE = 2000;
+
 		private void Start()
 		{
 			if (Provider != null)
@@ -45,33 +47,29 @@ namespace UI.Objects.Engineering
 
 		public void Refresh()
 		{
-			if (boilerTurbineController.ReactorBoiler != null)
-			{
-				CapacityPercent = boilerTurbineController.ReactorBoiler.CurrentPressureInput /
-								  boilerTurbineController.ReactorBoiler.MaxPressureInput;
-				BoilerTemperature.MasterSetValue(Math
-					.Round((boilerTurbineController.ReactorBoiler.ReactorPipe.pipeData.mixAndVolume.Temperature /
-							12000) * 100).ToString());
+			if (boilerTurbineController == null || boilerTurbineController.ReactorBoiler == null) return;
+			
+			CapacityPercent = (decimal)(boilerTurbineController.ReactorBoiler.ReactorPipe.pipeData.mixAndVolume.Total.x
+					/ boilerTurbineController.ReactorBoiler.ReactorPipe.pipeData.mixAndVolume.TheVolume);
 
-				BoilerPressure.MasterSetValue(Math
-					.Round((boilerTurbineController.ReactorBoiler.CurrentPressureInput /
-							boilerTurbineController.ReactorBoiler.MaxPressureInput) * 100).ToString());
+			BoilerTemperature.MasterSetValue(Math
+					.Round((boilerTurbineController.ReactorBoiler.ReactorPipe.pipeData.mixAndVolume.Temperature / MAX_BOILER_TEMPERATURE) * 100).ToString());
+
+			BoilerPressure.MasterSetValue(Math
+					.Round((decimal)boilerTurbineController.ReactorBoiler.BoilerPressure / boilerTurbineController.ReactorBoiler.MaxPressureInput * 100).ToString());
 
 
-				BoilerCapacity.MasterSetValue(Math.Round((CapacityPercent) * 100).ToString());
+			BoilerCapacity.MasterSetValue(Math.Round(CapacityPercent * 100).ToString());
 				GUIBoilerAnnunciators.Refresh();
-			}
 
-			if (boilerTurbineController.ReactorTurbine != null)
-			{
-				TurbineCurrent.MasterSetValue(boilerTurbineController.ReactorTurbine.moduleSupplyingDevice.GetCurrente() +
+			TurbineCurrent.MasterSetValue(boilerTurbineController.ReactorTurbine.moduleSupplyingDevice.GetCurrente() +
 											  "A");
-				TurbineVoltage.MasterSetValue(boilerTurbineController.ReactorTurbine.moduleSupplyingDevice.GetVoltage() +
+			TurbineVoltage.MasterSetValue(boilerTurbineController.ReactorTurbine.moduleSupplyingDevice.GetVoltage() +
 											  "V");
-				TurbinePowerGenerating.MasterSetValue(boilerTurbineController.ReactorTurbine.moduleSupplyingDevice
+			TurbinePowerGenerating.MasterSetValue(boilerTurbineController.ReactorTurbine.moduleSupplyingDevice
 					.ProducingWatts + "W");
-				GUITurbineAnnunciators.Refresh();
-			}
+			GUITurbineAnnunciators.Refresh();
+			
 		}
 
 		[Serializable]
@@ -79,36 +77,31 @@ namespace UI.Objects.Engineering
 		{
 			public GUI_BoilerTurbineController GUIBoilerTurbineController;
 
-			public NetFlasher BoilerAtHighCapacity = null;
-			public NetFlasher BoilerAtLowCapacity = null;
-			public NetFlasher HighBoilerCapacityDelta = null;
-			public NetFlasher HighPressure = null;
-			public NetFlasher LowPressure = null;
-			public NetFlasher HighPressureDelta = null;
+			public NetFlasher BoilerAtHighPressure = null;
+			public NetFlasher BoilerAtLowPressure = null;
+			public NetFlasher HighBoilerPressureDelta = null;
 
 			public void Refresh()
 			{
-				Capacity();
+				Pressure();
 			}
 
-			public float Last_capacity = 0;
-			public float capacityDelta = 0;
+			private float last_pressure = 0;
+			private float pressureDelta = 0;
 
-			public void Capacity()
+			public void Pressure()
 			{
-				BoilerAtHighCapacity.MasterSetValue(
-					(GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.CurrentPressureInput >
-					 (GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.MaxPressureInput * 0.8m))
+				BoilerAtHighPressure.MasterSetValue((GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.BoilerPressure >
+					(float)(GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.MaxPressureInput * 0.8m))
 					.ToString());
 
-				BoilerAtLowCapacity.MasterSetValue(
-					(GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.CurrentPressureInput >
-					 (GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.MaxPressureInput * 0.1m))
+				BoilerAtLowPressure.MasterSetValue((GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.BoilerPressure >
+					(float)(GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.MaxPressureInput * 0.1m))
 					.ToString());
-				capacityDelta = Math.Abs((float)GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.CurrentPressureInput - Last_capacity);
+				pressureDelta = Math.Abs((float)GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.BoilerPressure - last_pressure);
 
-				HighBoilerCapacityDelta.MasterSetValue((capacityDelta > 200).ToString());
-				Last_capacity = (float)GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.CurrentPressureInput;
+				HighBoilerPressureDelta.MasterSetValue((pressureDelta > 200).ToString());
+				last_pressure = (float)GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.BoilerPressure;
 			}
 		}
 
@@ -121,12 +114,16 @@ namespace UI.Objects.Engineering
 			public NetFlasher LowVoltage = null;
 			public NetFlasher NoVoltage = null;
 
+			private const int NO_VOLTAGE_CUTOFF = 10;
+			private const int LOW_VOLTAGE_CUTOFF = 500000; //500 kV
+			private const int HIGH_VOLTAGE_CUTOFF = 1500000; //1.5 MV
+
 			public void Refresh()
 			{
 				var Voltage = GUIBoilerTurbineController.boilerTurbineController.ReactorTurbine.moduleSupplyingDevice.GetVoltage();
-				Highvoltage.MasterSetValue((Voltage > 780000).ToString());
-				LowVoltage.MasterSetValue((Voltage < 700000).ToString());
-				NoVoltage.MasterSetValue((Voltage < 10).ToString());
+				Highvoltage.MasterSetValue((Voltage > HIGH_VOLTAGE_CUTOFF).ToString());
+				LowVoltage.MasterSetValue((Voltage < LOW_VOLTAGE_CUTOFF).ToString());
+				NoVoltage.MasterSetValue((Voltage < NO_VOLTAGE_CUTOFF).ToString());
 			}
 
 		}

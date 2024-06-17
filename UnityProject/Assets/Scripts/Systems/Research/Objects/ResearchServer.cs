@@ -264,7 +264,14 @@ namespace Systems.Research.Objects
 			{
 				if (reagentEntry.RandomiseRequirement == true)
 				{
-					reagentEntry.RequiredAmount = (int)Random.Range(reagentEntry.MinAmount, reagentEntry.MaxAmount);
+					int amount = Random.Range(reagentEntry.MinAmount, reagentEntry.MaxAmount);
+
+					if (reagentEntry.MinimumIncrement > 1)
+					{
+						amount = ((int)Mathf.Round(amount / reagentEntry.MinimumIncrement)) * reagentEntry.MinimumIncrement;
+					}
+
+					reagentEntry.RequiredAmount = amount;
 				}
 			}
 
@@ -272,7 +279,14 @@ namespace Systems.Research.Objects
 			{
 				if (reactionEntry.RandomiseRequirement == true)
 				{
-					reactionEntry.RequiredAmount = (int)Random.Range(reactionEntry.MinAmount, reactionEntry.MaxAmount);
+					int amount = Random.Range(reactionEntry.MinAmount, reactionEntry.MaxAmount);
+
+					if (reactionEntry.MinimumIncrement > 1)
+					{
+						amount = ((int)Mathf.Round(amount / reactionEntry.MinimumIncrement)) * reactionEntry.MinimumIncrement;
+					}
+
+					reactionEntry.RequiredAmount = amount;
 				}
 			}
 

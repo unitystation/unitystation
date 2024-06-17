@@ -540,3 +540,12 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 34a32a7e1dca6124e9b583dd262acb0a, type: 2}
         m_values: 64000000f401000064000000f4010000
       productionTime: 5
+    - name: Atmospheric Grenade
+      product: {fileID: 1273544886000789325, guid: 9048a2e02f9e4d4cabf6fb1fe495a5ce,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: f401000032000000
+      productionTime: 5
