@@ -39,8 +39,9 @@ Once declared you can either play the sound by calling it in the script using th
 
 NOTE!!!
 
-Addressable builds Could change keys on Linux/Mac due to suffering from unnecessary filesystem Case sensitivityitis
+Addressable builds Is broken and will change keys on Linux/Mac due to suffering from unnecessary filesystem Case sensitivityitis,
 e.g Slip vs slip
-
+This result in an invalid bundle being generated, So if it's downloaded by a client you'll have to modify the contents of the bundle to generate a new hash,
+and have that downloaded instead of using the old one with the invalid key
 
 That's it!
