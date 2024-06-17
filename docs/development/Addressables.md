@@ -41,7 +41,6 @@ NOTE!!!
 
 Addressable builds Is broken and will change keys on Linux/Mac due to suffering from unnecessary filesystem Case sensitivityitis,
 e.g Slip vs slip
-This result in an invalid bundle being generated, So if it's downloaded by a client you'll have to modify the contents of the bundle to generate a new hash,
-and have that downloaded instead of using the old one with the invalid key
+This result in an invalid bundle being generated
 
 That's it!
