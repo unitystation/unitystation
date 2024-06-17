@@ -127,6 +127,7 @@ namespace Tilemaps.Behaviours.Layers
 			}
 			FireInitEvents();
 			Initialized = true;
+			MatrixManager.Instance.RegisterWhenReady(matrix);
 		}
 
 		public void OnStartClient()
@@ -142,6 +143,10 @@ namespace Tilemaps.Behaviours.Layers
 			}
 			FireInitEvents();
 			Initialized = true;
+			if (CustomNetworkManager.IsServer == false)
+			{
+				MatrixManager.Instance.RegisterWhenReady(matrix);
+			}
 		}
 
 		public void BackUpSetMatrixSync()
