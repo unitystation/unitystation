@@ -52,6 +52,7 @@ namespace ScriptableObjects
 			{
 				foreach (var reaction in allChemistryReactions)
 				{
+					if (reaction == null) continue;
 					foreach (var required in reaction.ingredients)
 					{
 						required.Key.RelatedReactions = new Reaction[0];
@@ -60,6 +61,7 @@ namespace ScriptableObjects
 
 				foreach (var reaction in allChemistryReactions)
 				{
+					if (reaction == null) continue;
 					foreach (var required in reaction.ingredients)
 					{
 						if (required.Key == null) continue;
