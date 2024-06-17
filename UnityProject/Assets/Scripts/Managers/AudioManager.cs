@@ -233,11 +233,7 @@ namespace Audio.Containers
                 Loggy.LogWarning("AudioManager received an addressable with an address set to the string 'null', look at log trace for responsible component", Category.Audio);
                 return null;
             }
-#if UNITY_EDITOR
-	        if (await addressableAudioSource.HasValidAddress() == false) return null; //So Don't randomly cry about incorrect audio source
-#endif
-
-
+            
             //Try to get the Audio Source from cache, if its not there load it into cache
             AddressableAudioSource addressableAudioSourceFromCache = null;
             lock (Instance.AudioLibrary)

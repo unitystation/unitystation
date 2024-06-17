@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Logs;
 using UnityEngine;
@@ -114,7 +115,7 @@ namespace AddressableReferences
 			}
 			else
 			{
-				Loggy.LogError("Asset is not loaded", Category.Addressables);
+				Loggy.LogError($"Asset is not loaded with ID of {AssetAddress}", Category.Addressables);
 				return null;
 			}
 		}

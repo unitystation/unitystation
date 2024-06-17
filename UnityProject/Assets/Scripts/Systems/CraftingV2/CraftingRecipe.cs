@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Systems.CraftingV2.ResultHandlers;
 using Chemistry.Components;
 using Items;
+using Logs;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -248,7 +249,7 @@ namespace Systems.CraftingV2
 
 				if (foundAmount < requiredReagent.RequiredAmount)
 				{
-					ReasonString += $", Not enough of {requiredReagent} Amount found {foundAmount} ";
+					ReasonString += $", Not enough of {requiredReagent.RequiredReagent.Name} Amount found {foundAmount} ";
 					return false;
 				}
 			}
@@ -412,7 +413,8 @@ namespace Systems.CraftingV2
 			List<ReagentContainer> reagentContainers
 		)
 		{
-			UseReagents(possibleIngredients);
+
+			UseReagents(reagentContainers);
 			var UsedIngredients = UseIngredients(possibleIngredients, out var PosOfoneIngredients);
 
 			CompleteCrafting(crafterPlayerScript, UsedIngredients, PosOfoneIngredients);
@@ -475,12 +477,12 @@ namespace Systems.CraftingV2
 		/// <param name="possibleReagentContainers">
 		/// 	The possible reagent containers whose content(reagents) might be used for crafting.
 		/// </param>
-		private void UseReagents(List<CraftingIngredient> possibleReagentContainers)
+		private void UseReagents(List<ReagentContainer> possibleReagentContainers)
 		{
 			foreach (RecipeIngredientReagent requiredReagent in RequiredReagents)
 			{
 				float amountUsed = 0;
-				foreach (CraftingIngredient possibleIngredient in possibleReagentContainers)
+				foreach (var possibleIngredient in possibleReagentContainers)
 				{
 					if (possibleIngredient.gameObject.TryGetComponent(out ReagentContainer reagentContainer))
 					{

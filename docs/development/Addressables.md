@@ -37,4 +37,10 @@ Once declared you can either play the sound by calling it in the script using th
 
 ![](../assets/images/AddressableSounds/select_sound.png)
 
+NOTE!!!
+
+Addressable builds Is broken and will change keys on Linux/Mac due to suffering from unnecessary filesystem Case sensitivityitis,
+e.g Slip vs slip
+This result in an invalid bundle being generated
+
 That's it!
