@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Logs;
 using UnityEngine;
@@ -70,6 +71,22 @@ namespace AddressableReferences
 				var validateAddress = Addressables.LoadResourceLocationsAsync(AssetAddress);
 
 				await validateAddress.Task;
+
+				if (validateAddress.IsValid() == false && AssetAddress.Contains("/")) //Try catch for capitalisation shenanigans on Mac and Linux
+				{
+					var PrefabName = AssetAddress.Split("/").Last();
+					
+					char firstChar = PrefabName[0];
+					char swappedChar = char.IsUpper(firstChar) ? char.ToLower(firstChar) : char.ToUpper(firstChar);
+					var NewPrefabName = swappedChar + PrefabName[1..];
+
+					var Copy = AssetAddress;
+					Copy = Copy.Replace(PrefabName, NewPrefabName);
+
+					validateAddress = Addressables.LoadResourceLocationsAsync(Copy);
+
+					await validateAddress.Task;
+				}
 
 				if (validateAddress.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded) {
 					if (validateAddress.Result.Count > 0) {
@@ -172,6 +189,24 @@ namespace AddressableReferences
 		{
 			var validate = Addressables.LoadResourceLocationsAsync(AssetAddress);
 			await validate.Task;
+
+			if (validate.IsValid() == false && AssetAddress.Contains("/")) //Try catch for capitalisation shenanigans on Mac and Linux
+			{
+
+				var PrefabName = AssetAddress.Split("/").Last();
+
+				char firstChar = PrefabName[0];
+				char swappedChar = char.IsUpper(firstChar) ? char.ToLower(firstChar) : char.ToUpper(firstChar);
+				var NewPrefabName = swappedChar + PrefabName[1..];
+
+				var Copy = AssetAddress;
+				Copy = Copy.Replace(PrefabName, NewPrefabName);
+
+				validate = Addressables.LoadResourceLocationsAsync(Copy);
+
+				await validate.Task;
+			}
+
 			if (validate.Status == AsyncOperationStatus.Succeeded) {
        			if (validate.Result.Count > 0) {
 					   return true;
