@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Managers.SettingsManager;
 using UnityEngine;
 using UnityEngine.UI;
@@ -172,17 +173,22 @@ namespace UI.Chat_UI
 
 		public void AddChatDuplication()
 		{
-			if (stackCount == 1)
-			{
-				// Just need to do this once; message size won't change.
-				SetStackPos();
-			}
-
+			SetStackPos();
 			stackText.text = $"x{++stackCount}";
 			ToggleUIElements(true);
 			stackObject.SetActive(true);
 			AnimateFade(1f, 0f);
 			StartCoroutine(AnimateStackObject());
+			string pattern = @"<size(?:=|\+=|\+)([0-9]+)>";
+			Match match = Regex.Match(messageText.text, pattern);
+			if (match.Success)
+			{
+				float number = float.Parse(match.Groups[1].Value);
+				float newNumber = number + 1;
+				var update = Regex.Replace(messageText.text, pattern, m => $"<size={m.Groups[2].Value}{newNumber}>");
+				messageText.text = update;
+				StartCoroutine(UpdateEntryHeight());
+			}
 			this.RestartCoroutine(FadeCooldown(), ref fadeCooldownCoroutine);
 		}
 
@@ -249,7 +255,7 @@ namespace UI.Chat_UI
 
 			if (toggleVisibleState)
 			{
-				if (UI.Chat_UI.ChatUI.Instance.ChatContentMinimumAlpha < 0.01f)
+				if (ChatUI.Instance.ChatContentMinimumAlpha < 0.01f)
 				{
 					ToggleUIElements(false);
 				}
