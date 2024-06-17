@@ -195,7 +195,7 @@ namespace UI.Chat_UI
 					float newNumber = number + 1;
 					string newTag = $"<size{match.Groups[1].Value}{newNumber}>";
 					return newTag;
-				}, RegexOptions.IgnoreCase);
+				}, RegexOptions.IgnoreCase | RegexOptions.Multiline);
 				StartCoroutine(UpdateEntryHeight());
 			}
 		}
