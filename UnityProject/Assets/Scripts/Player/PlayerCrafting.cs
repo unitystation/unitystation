@@ -9,7 +9,6 @@ using Chemistry.Components;
 using Items;
 using Mirror;
 using NaughtyAttributes;
-using NSubstitute;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
