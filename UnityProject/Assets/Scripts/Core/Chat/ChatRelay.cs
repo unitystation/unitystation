@@ -133,9 +133,10 @@ public class ChatRelay : NetworkBehaviour
 				var playerPosition = players[i].Script.PlayerChatLocation.OrNull()?.AssumedWorldPosServer()
 				                     ?? players[i].Script.gameObject.AssumedWorldPosServer();
 				//Get chatrange stat from playerstats
-				var playerhearing = players[i].Script.PlayerStats.GetTotalStat(PlayerStats.Stat.LocalChatRange);
+				var playerStats = players[i].Script.PlayerStats;
+				var playerHearing = playerStats == null ? 14f : playerStats.GetTotalStat(PlayerStats.Stat.LocalChatRange);
 				//Do player position to originator distance check
-				if (DistanceCheck(playerPosition, playerhearing) == false)
+				if (DistanceCheck(playerPosition, playerHearing) == false)
 				{
 					//Distance check failed so if we are Ai, then try send action and combat messages to their camera location
 					//as well as if possible
