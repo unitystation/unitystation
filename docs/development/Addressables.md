@@ -39,8 +39,7 @@ Once declared you can either play the sound by calling it in the script using th
 
 NOTE!!!
 
-Addressable builds Is broken and will change keys on Linux/Mac due to suffering from unnecessary filesystem Case sensitivityitis,
-e.g Slip vs slip
-This result in an invalid bundle being generated
+AutoCreatePrefab In the addressable Packing project Can mess up pre-existing keys if used,
+since it takes the name of the audio Clip instead of the prefab, potentially resulting in a different key for the Sound
 
 That's it!
