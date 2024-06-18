@@ -192,7 +192,6 @@ namespace UI.Chat_UI
 				messageText.text = Regex.Replace(messageText.text, pattern, match =>
 				{
 					float number = float.Parse(match.Groups[2].Value);
-					Debug.Log(number);
 					float newNumber = number + 2;
 					string newTag = $"<size{match.Groups[1].Value}+{newNumber}>";
 					return newTag;
