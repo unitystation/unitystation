@@ -41,24 +41,17 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <None Include="Library\PackageCache\com.unity.addressables@1.21.17\Tests\Editor\Unity.Addressables.Editor.Tests.asmdef" />
-     <Folder Include="Library\PackageCache\com.unity.addressables@1.21.17\Tests\Editor\DocExampleCode\ScriptReference" />
-     <Folder Include="Library\PackageCache\com.unity.addressables@1.21.17\Tests\Editor\Build" />
-     <None Include="Library\PackageCache\com.unity.addressables@1.21.17\Tests\Editor\DocExampleCode\Readme.txt" />
-     <Folder Include="Library\PackageCache\com.unity.addressables@1.21.17\Tests\Editor\DocExampleCode" />
-     <Folder Include="Library\PackageCache\com.unity.addressables@1.21.17\Tests\Editor\HostingServices" />
-     <Folder Include="Library\PackageCache\com.unity.addressables@1.21.17\Tests\Editor" />
-     <Folder Include="Library\PackageCache\com.unity.addressables@1.21.17\Tests\Editor\Diagnostics" />
-     <Folder Include="Library\PackageCache\com.unity.addressables@1.21.17\Tests\Editor\AnalyzeRules" />
-     <Reference Include="UnityEngine">
-     <HintPath>Q:\Fast programmes\Unity\2023.1.10f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
-     </Reference>
-     <Reference Include="UnityEngine.CoreModule">
-     <HintPath>Q:\Fast programmes\Unity\2023.1.10f1\Editor\Data\Managed\UnityEngine\UnityEngine.CoreModule.dll</HintPath>
-     </Reference>
-     <Reference Include="UnityEditor">
-     <HintPath>Q:\Fast programmes\Unity\2023.1.10f1\Editor\Data\Managed\UnityEngine\UnityEditor.dll</HintPath>
-     </Reference>
+    <None Include="Library\PackageCache\com.unity.addressables@1.21.20\Tests\Editor\Unity.Addressables.Editor.Tests.asmdef" />
+    <None Include="Library\PackageCache\com.unity.addressables@1.21.20\Tests\Editor\DocExampleCode\Readme.txt" />
+    <Reference Include="UnityEngine">
+      <HintPath>Q:\Fast programmes\Unity\2023.2.19f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>Q:\Fast programmes\Unity\2023.2.19f1\Editor\Data\Managed\UnityEngine\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>Q:\Fast programmes\Unity\2023.2.19f1\Editor\Data\Managed\UnityEngine\UnityEditor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
