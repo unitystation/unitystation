@@ -185,7 +185,7 @@ namespace UI.Chat_UI
 
 		private void StackMessageSizeIncrease()
 		{
-			string pattern = @"<size(=|\+=|\+)([0-9]+|[0-9]+\+|=[0-9]+\+)>";
+			string pattern = @"<Size(=|\+?=)?([0-9]+|\+[0-9]+|[0-9]+\+)?>";
 			Match match = Regex.Match(messageText.text, pattern);
 			if (match.Success)
 			{
