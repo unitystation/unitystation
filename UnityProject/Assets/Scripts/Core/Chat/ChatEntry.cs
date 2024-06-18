@@ -173,13 +173,13 @@ namespace UI.Chat_UI
 
 		public void AddChatDuplication()
 		{
-			SetStackPos(); // Always make sure the stack bubble has its position updated incase the entry gets updated.
 			stackText.text = $"x{++stackCount}";
 			ToggleUIElements(true);
 			stackObject.SetActive(true);
 			AnimateFade(1f, 0f);
 			StartCoroutine(AnimateStackObject());
 			StackMessageSizeIncrease();
+			SetStackPos(); // Always make sure the stack bubble has its position updated incase the entry gets updated.
 			this.RestartCoroutine(FadeCooldown(), ref fadeCooldownCoroutine);
 		}
 
@@ -193,7 +193,7 @@ namespace UI.Chat_UI
 				{
 					float number = float.Parse(match.Groups[2].Value);
 					Debug.Log(number);
-					float newNumber = number + 1;
+					float newNumber = number + 2;
 					string newTag = $"<size{match.Groups[1].Value}+{newNumber}>";
 					return newTag;
 				}, RegexOptions.IgnoreCase);
