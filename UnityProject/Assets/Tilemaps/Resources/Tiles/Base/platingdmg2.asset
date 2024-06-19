@@ -59,11 +59,13 @@ MonoBehaviour:
     PressureProtectionInKpa: {x: 30, y: 300}
   tileInteractions:
   - {fileID: 11400000, guid: 20594944fdc1e8c4f926faf5d0653dae, type: 2}
+  - {fileID: 11400000, guid: 26cde2c683404c491be3a9225eb5aafc, type: 2}
   <OnTileStartMining>k__BackingField: []
   <OnTileFinishMining>k__BackingField: []
   tileStepInteractions: []
-  spawnOnDeconstruct: {fileID: 0}
-  spawnAmountOnDeconstruct: 0
+  spawnOnDeconstruct: {fileID: 5331286249588652700, guid: 29ecbf5a1d918574cbcf5853927e0944,
+    type: 3}
+  spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
   toTileWhenDestroyed: {fileID: 0}
   spawnOnDestroy: {fileID: 0}
