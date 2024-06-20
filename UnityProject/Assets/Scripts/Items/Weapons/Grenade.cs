@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Systems.Explosions;
@@ -7,6 +8,7 @@ using AddressableReferences;
 using Objects;
 using UnityEngine.Events;
 using NaughtyAttributes;
+using UI.Systems.Tooltips.HoverTooltips;
 using Random = UnityEngine.Random;
 
 namespace Items.Weapons
@@ -16,7 +18,7 @@ namespace Items.Weapons
 	/// </summary>
 	[RequireComponent(typeof(Pickupable))]
 	[RequireComponent(typeof(ItemStorage))]
-	public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, ICheckedInteractable<InventoryApply>, IServerDespawn, ITrapComponent, IExaminable
+	public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, ICheckedInteractable<InventoryApply>, IServerDespawn, ITrapComponent, IExaminable, IHoverTooltip
 
 	{
 		[Tooltip("Explosion effect prefab, which creates when timer ends")]
@@ -147,7 +149,7 @@ namespace Items.Weapons
 			}
 			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Cable) && TriggerSlot.IsEmpty)
 			{
-				if (interaction.UsedObject.TryGetComponent<Stackable>(out var stackable))
+				if (interaction.UsedObject.TryGetComponent<Stackable>(out var stackable) && stackable.Amount > 1)
 				{
 					Inventory.ServerAdd(stackable.ServerRemoveOne(), TriggerSlot);
 				} else
@@ -293,9 +295,39 @@ namespace Items.Weapons
 
 		}
 
+		private string ExamineText()
+		{
+			return TriggerSlot.IsOccupied ? $"Uses a {TriggerSlot.ItemObject.ExpensiveName()} trigger." : "It lacks a trigger." ;
+		}
+
+		public string HoverTip()
+		{
+			return ExamineText();
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			return null;
+		}
+
 		public string Examine(Vector3 pos)
 		{
-			return TriggerSlot.IsOccupied ? $"Uses a {TriggerSlot.ItemObject.ExpensiveName()} trigger" : "It lacks a trigger." ;
+			return ExamineText();
 		}
 
 		[ContextMenu("Pull a pin")]
