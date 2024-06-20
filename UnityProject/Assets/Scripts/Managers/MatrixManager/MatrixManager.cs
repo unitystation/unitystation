@@ -48,6 +48,8 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	public static bool IsInitialized;
 
+	public event Action OnActiveMatricesChange;
+
 	/// <summary>
 	/// Find a wall tilemap via its Tilemap collider
 	/// </summary>
@@ -102,11 +104,18 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		IsInitialized = false;
 	}
 
-	public static Matrix MakeNewMatrix()
+	public static Matrix MakeNewMatrix(string Name = "Matrix")
 	{
-		//hummmm How to add matrix fluff?
+
+		if (string.IsNullOrEmpty(Name))
+		{
+			Name = "Matrix";
+		}
+
 		var Object = Spawn.ServerPrefab(SubSceneManager.Instance.NetworkedMatrixPrefab).GameObject;
-		return Object.GetComponentInChildren<MatrixSync>().NetworkedMatrix.matrix;
+		var Synchronise = Object.GetComponentInChildren<MatrixSync>();
+		Synchronise.GetComponent<MatrixNamesSynchronise>().MatrixNamesSet = Name;
+		return Synchronise.NetworkedMatrix.matrix;
 	}
 
 
@@ -301,6 +310,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		matrix.ConfigureMatrixInfo(matrixInfo);
 		InitCollisions(matrixInfo);
+		OnActiveMatricesChange?.Invoke();
 	}
 
 	private static MatrixInfo CreateMatrixInfoFromMatrix(Matrix matrix, int id)

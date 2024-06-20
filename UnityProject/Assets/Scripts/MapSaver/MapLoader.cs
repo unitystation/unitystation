@@ -193,13 +193,17 @@ namespace MapSaver
 		//Offset00 the off set In the data so objects will appear at 0,0
 		//Offset to apply 0,0 to get the position you want
 		public static MapSaver.CompactObjectMapData LoadSection(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
-			MapSaver.MatrixData MatrixData, HashSet<LayerType> LoadLayers = null, bool LoadObjects = true)
+			MapSaver.MatrixData MatrixData, HashSet<LayerType> LoadLayers = null, bool LoadObjects = true, string MatrixName = null)
 		{
 			Matrix aaMatrix = null;
 
 			if (Matrix == null)
 			{
-				aaMatrix = MatrixManager.MakeNewMatrix();
+				aaMatrix = MatrixManager.MakeNewMatrix(MatrixName);
+			}
+			else
+			{
+				aaMatrix = Matrix.Matrix;
 			}
 
 			//TODO MapSaver.CodeClass.ThisCodeClass?? Clearing?

@@ -19,9 +19,10 @@ public class ClientRequestLoadMap : ClientMessage<ClientRequestLoadMap.NetMessag
 		public Vector3 Offset; //Offset to apply 0,0 to get the position you want
 		public string Data;
 		public bool end;
-		public int MatrixID;
+		public int? MatrixID;
 		public LayerType[] LoadLayers;
 		public bool LoadObjects;
+		public string MatrixName;
 	}
 
 	public override void Process(NetMessage msg)
@@ -46,7 +47,13 @@ public class ClientRequestLoadMap : ClientMessage<ClientRequestLoadMap.NetMessag
 				LoadLayers = msg.LoadLayers.ToHashSet();
 			}
 
-			MapLoader.LoadSection( MatrixManager.Get(msg.MatrixID),   msg.Offset00, msg.Offset, mapdata, LoadLayers, msg.LoadObjects);
+			MatrixInfo MatrixInfo = null;
+			if (msg.MatrixID != null)
+			{
+				MatrixInfo = MatrixManager.Get(msg.MatrixID.Value);
+			}
+
+			MapLoader.LoadSection(MatrixInfo,  msg.Offset00, msg.Offset, mapdata, LoadLayers, msg.LoadObjects, msg.MatrixName);
 
 			if (msg.LoadObjects)
 			{
@@ -58,7 +65,7 @@ public class ClientRequestLoadMap : ClientMessage<ClientRequestLoadMap.NetMessag
 
 	}
 
-	public static void Send(string data, Matrix Matrix,  Vector3 Offset00,Vector3 Offset, HashSet<LayerType> Layers = null, bool LoadObjects = true)
+	public static void Send(string data, Matrix Matrix,  Vector3 Offset00,Vector3 Offset, HashSet<LayerType> Layers = null, bool LoadObjects = true, string NewMatrixName = "")
 	{
 
 		var StringDatas = data.Chunk(5000).ToList();
@@ -66,13 +73,14 @@ public class ClientRequestLoadMap : ClientMessage<ClientRequestLoadMap.NetMessag
 		{
 			NetMessage  msg = new NetMessage
 			{
-				MatrixID =  Matrix.Id,
+				MatrixID =  Matrix?.Id,
 				Data = new string(StringDatas[i].ToArray()),
 				end = (i + 1) >= StringDatas.Count,
 				Offset = Offset,
 				Offset00 = Offset00,
 				LoadLayers = Layers?.ToArray(),
-				LoadObjects = LoadObjects
+				LoadObjects = LoadObjects,
+				MatrixName = NewMatrixName
 			};
 
 			Send(msg);

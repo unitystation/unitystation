@@ -9,6 +9,7 @@ using MapSaver;
 using Newtonsoft.Json;
 using Shared.Managers;
 using TileManagement;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -29,6 +30,10 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	public Button Load;
 	public Button Save;
+
+	public TMP_Dropdown TMP_Dropdown;
+
+	public TMP_InputField TMP_InputField;
 
 	public bool Updating = false;
 
@@ -55,11 +60,55 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	public Vector3? Offset00 = null;
 
-	public bool UseLocal = false;
+	public Toggle UseLocal;
+
+
 
 	private void OnEnable()
 	{
 		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
+		MatrixManager.Instance.OnActiveMatricesChange += UpdateDropDown;
+		UpdateDropDown();
+		UpdateSelected(0);
+	}
+
+	public class CustomOption : TMP_Dropdown.OptionData
+	{
+		public int? ID;
+	}
+
+	public void UpdateSelected(int val)
+	{
+		var ID = (TMP_Dropdown.options[TMP_Dropdown.value] as CustomOption).ID;
+		if (ID != null)
+		{
+			TMP_InputField.interactable = false;
+			TMP_InputField.text = TMP_Dropdown.options[TMP_Dropdown.value].text;
+		}
+		else
+		{
+			TMP_InputField.interactable = true;
+			TMP_InputField.text = "";
+		}
+	}
+
+	public void UpdateDropDown()
+	{
+		var Options = TMP_Dropdown.options;
+		Options.Clear();
+		Options.Add(new CustomOption()
+		{
+			ID = null,
+			text = "New Matrix",
+		});
+		foreach (var Entry in MatrixManager.Instance.ActiveMatrices)
+
+			Options.Add(new CustomOption()
+			{
+				ID = Entry.Key,
+				text = Entry.Value.Name
+			});
+		TMP_Dropdown.options = Options;
 	}
 
 	public struct GizmoAndBox
@@ -72,6 +121,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 	{
 		base.Start();
 		this.gameObject.SetActive(false);
+		TMP_Dropdown.onValueChanged.AddListener(UpdateSelected);
 	}
 
 
@@ -82,6 +132,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	private void OnDisable()
 	{
+		MatrixManager.Instance.OnActiveMatricesChange -= UpdateDropDown;
 		OnEscape();
 		if (Updating)
 		{
@@ -103,6 +154,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			Gizmo.GameGizmoSquare.Remove();
 		}
 		PositionsToCopy.Clear();
+
 	}
 
 	[NaughtyAttributes.Button]
@@ -202,7 +254,14 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			settings.Formatting = Formatting.None;
 		}
 
-		var Matrix = MatrixManager.AtPoint(PositionsToCopy[0].BetterBounds.Min, CustomNetworkManager.IsServer);
+		var ID = (TMP_Dropdown.options[TMP_Dropdown.value] as CustomOption).ID;
+		MatrixInfo Matrix = MatrixManager.AtPoint(PositionsToCopy[0].BetterBounds.Min, CustomNetworkManager.IsServer);
+		if (ID != null)
+		{
+			Matrix = MatrixManager.Get(ID.Value);
+		}
+
+
 		List<BetterBounds> LocalArea = new List<BetterBounds>();
 		List<GameGizmoModel> Gizmos = new List<GameGizmoModel>();
 		foreach (var Position in PositionsToCopy)
@@ -224,7 +283,9 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		var Layers = DevCameraControls.Instance.ReturnVisibleLayers();
 
 
-		if (UseLocal == false)
+		Chat.AddExamineMsg( PlayerManager.LocalPlayerObject, $" Saving Portion of {Matrix.Name} " );
+
+		if (UseLocal.isOn == false)
 		{
 			ClientRequestsSaveMessage.Send(Gizmos, LocalArea, Matrix, false, NonmappedItems.isOn, Layers, ObjectsVisible);
 		}
@@ -329,8 +390,19 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		if (currentlyActivePaste != null)
 		{
 
+			MatrixInfo Matrix = null;
+			Vector3 Offset = ActiveMouseGrabber.gameObject.transform.position.ToLocal();
+			var ID = (TMP_Dropdown.options[TMP_Dropdown.value] as CustomOption).ID;
+			var MatrixName = TMP_InputField.text;
+			if (ID != null)
+			{
+				Matrix = MatrixManager.Get(ID.Value);
+				MatrixName = Matrix.Name;
+				Offset = ActiveMouseGrabber.gameObject.transform.position.ToLocal(Matrix);
+			}
 
-			var Offset = ActiveMouseGrabber.gameObject.transform.position.ToLocal();
+
+
 
 			JsonSerializerSettings settings = new JsonSerializerSettings
 			{
@@ -344,13 +416,20 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			var ObjectsVisible = DevCameraControls.Instance.GetObjectsMappingVisible();
 			var Layers = DevCameraControls.Instance.ReturnVisibleLayers();
 
+
+
+
+
+			Chat.AddExamineMsg( PlayerManager.LocalPlayerObject, $" Loading map Data onto {MatrixName} " );
+
 			ClientRequestLoadMap.Send(
 				JsonConvert.SerializeObject(currentlyActivePaste,settings),
-				MatrixManager.AtPoint(MouseUtils.MouseToWorldPos(), CustomNetworkManager.IsServer).Matrix,
+				Matrix?.Matrix,
 				Offset00.Value,
 				Offset,
 				Layers,
-				ObjectsVisible
+				ObjectsVisible,
+				TMP_InputField.text
 				);
 
 			if (KeyboardInputManager.IsAltActionKeyPressed() == false)
