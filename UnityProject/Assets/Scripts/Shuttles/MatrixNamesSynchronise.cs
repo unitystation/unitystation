@@ -24,6 +24,7 @@ public class MatrixNamesSynchronise : NetworkBehaviour
 
     public void SyncMatrixName(string OldName, string NewVal)
     {
+	    MatrixName = NewVal;
 	    transform.parent.name = NewVal;
 	    transform.parent.GetChild(0).name = NewVal;
     }
