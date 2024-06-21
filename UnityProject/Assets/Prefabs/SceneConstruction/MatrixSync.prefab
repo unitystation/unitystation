@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 792027007906254727}
   - component: {fileID: 5805040026845563395}
   - component: {fileID: 7629088633371058288}
+  - component: {fileID: 5344836421999333250}
   m_Layer: 0
   m_Name: MatrixSync
   m_TagString: Untagged
@@ -116,6 +117,8 @@ MonoBehaviour:
   SpinneyTurnVelocityBent: 0.5
   IsNotPilotable: 0
   SpinneyThreshold: 20
+  MoveCoolDown: 0
+  DragSpinneyCoolDown: 0
   WorldCurrentVelocity: {x: 0, y: 0, z: 0}
   CurrentTorque: 0
   currentLocalPivot: {x: 0, y: 0, z: 0}
@@ -123,9 +126,13 @@ MonoBehaviour:
   MetaTileMap: {fileID: 0}
   X: {fileID: 11400000, guid: 05d429583933b8143837956dceed7768, type: 2}
   GameGizmoSprite: {fileID: 0}
+  AIGameGizmoSprite: {fileID: 0}
+  MatrixBoundsGameGizmo: []
+  Debug: 0
   rotationSpeed: 30
   ShuttleNonSpinneyModeRounding: 30
-  TargetOrientation: -1
+  targetOrientation: -1
+  StartOrientation: -1
   IsMoving: 0
   RCSModeActive: 0
   playerControllingRcs: {fileID: 0}
@@ -134,15 +141,29 @@ MonoBehaviour:
   RCSRequiresThrusters: 1
   ShuttleConsuls: []
   AITravelSpeed: 10
-  TravelToWorldPOS: {x: 0, y: 0, z: 0}
+  TravelToObject: {fileID: 0}
+  travelToWorldPOS: {x: 0, y: 0, z: 0}
   HasMoveToTarget: 0
   ISMovingX: 0
   TargetFaceDirectionOverride: -1
   FullAISpeed: 0
   isMovingAroundMatrix: 0
-  IsMovingTowardsTargetX: 0
-  IsMovingTowardsTargetY: 0
-  HasGoneRoundACorner: 0
-  TravelPointIsWithinMatrix: 0
   IgnorePotentialCollisions: 0
   CentreObjectOverride: {fileID: 0}
+--- !u!114 &5344836421999333250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3131909417713665038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4ea5ddce59350a45936556f1828e30a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  MatrixNamesSet: 
+  MatrixName: 

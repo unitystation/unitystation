@@ -1343,24 +1343,28 @@ namespace MapSaver
 
 				if (Application.isPlaying) //Is in edit mode you can't have stuff inside of inventories in this mode
 				{
-					var objectContainer = gameObjectMono as ObjectContainer;
-					if (objectContainer != null)
+					if (CustomNetworkManager.IsServer)
 					{
-						foreach (var objectBehaviour in objectContainer.GetStoredObjects()
-							         .Select(obj => obj.GetComponent<UniversalObjectPhysics>()))
+						var objectContainer = gameObjectMono as ObjectContainer;
+						if (objectContainer != null)
 						{
-							if (CoordinateOverride == null)
+							foreach (var objectBehaviour in objectContainer.GetStoredObjects()
+								         .Select(obj => obj.GetComponent<UniversalObjectPhysics>()))
 							{
-								ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData,
-									gameObject.transform.localPosition, NonmappedItems : NonmappedItems);
-							}
-							else
-							{
-								ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData,
-									CoordinateOverride,  NonmappedItems : NonmappedItems);
+								if (CoordinateOverride == null)
+								{
+									ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData,
+										gameObject.transform.localPosition, NonmappedItems : NonmappedItems);
+								}
+								else
+								{
+									ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData,
+										CoordinateOverride,  NonmappedItems : NonmappedItems);
+								}
 							}
 						}
 					}
+
 
 
 					var itemStorage = gameObjectMono as ItemStorage;
