@@ -62,7 +62,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	public Toggle UseLocal;
 
-
+	public Toggle UesCompact;
 
 	private void OnEnable()
 	{
@@ -287,11 +287,11 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 		if (UseLocal.isOn == false)
 		{
-			ClientRequestsSaveMessage.Send(Gizmos, LocalArea, Matrix, false, NonmappedItems.isOn, Layers, ObjectsVisible);
+			ClientRequestsSaveMessage.Send(Gizmos, LocalArea, Matrix, UesCompact.isOn, NonmappedItems.isOn, Layers, ObjectsVisible);
 		}
 		else
 		{
-			var Data =  MapSaver.MapSaver.SaveMatrix(false, Matrix.MetaTileMap, true, LocalArea,NonmappedItems.isOn,Layers, ObjectsVisible  );
+			var Data =  MapSaver.MapSaver.SaveMatrix(UesCompact.isOn, Matrix.MetaTileMap, true, LocalArea,NonmappedItems.isOn,Layers, ObjectsVisible  );
 			Data.PreviewGizmos = Gizmos;
 			var StringData = JsonConvert.SerializeObject(Data, settings);
 			ReceiveData(StringData);

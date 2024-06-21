@@ -27,11 +27,11 @@ namespace MapSaver
 
 		//TODO ####### data output #######
 
-		public static readonly char Matrix4x4Char = '#';
-		public static readonly char TileIDChar = '§';
-		public static readonly char ColourChar = '◉';
-		public static readonly char LayerChar = '☰';
-		public static readonly char LocationChar = '@';
+		public const char Matrix4x4Char = '#';
+		public const char TileIDChar = '§';
+		public const char ColourChar = '◉';
+		public const char LayerChar = '☰';
+		public const char LocationChar = '@';
 
 
 		public class MapData
@@ -102,7 +102,6 @@ namespace MapSaver
 		public class GitFriendlyIndividualTile
 		{
 			public string Tel;
-			public int Lay;
 			public int? Z;
 			public string Col;
 			public string Tf;
@@ -113,7 +112,8 @@ namespace MapSaver
 
 		public class CompactTileMapData
 		{
-			public string Ver = "1.0.0";
+			public string Ver = "1.1.0";
+			//1.1.0 Removed layer Variable
 			public List<string> CommonColours;
 			public List<string> CommonLayerTiles;
 			public List<string> CommonMatrix4x4;
@@ -568,8 +568,6 @@ namespace MapSaver
 							Tile.Z = TileAndLocation.LocalPosition.z;
 						}
 
-						Tile.Lay = (int) TileAndLocation.layer.LayerType;
-
 						Tile.Tel = TileToString(TileAndLocation.layerTile);
 
 						if (TileAndLocation.Colour != Color.white)
@@ -629,8 +627,6 @@ namespace MapSaver
 							{
 								Tile.Z = TileAndLocation.LocalPosition.z;
 							}
-
-							Tile.Lay = (int) TileAndLocation.layer.LayerType;
 
 							Tile.Tel = TileToString(TileAndLocation.layerTile);
 
@@ -854,9 +850,7 @@ namespace MapSaver
 						SB.Append(TileAndLocation.LocalPosition.y);
 						SB.Append(",");
 						SB.Append(TileAndLocation.LocalPosition.z);
-						SB.Append(LayerChar);
-						SB.Append((int) TileAndLocation.layer.LayerType);
-
+						SB.Append(",");
 						int Index = CommonLayerTiles.IndexOf(TileAndLocation.layerTile);
 
 
@@ -917,8 +911,7 @@ namespace MapSaver
 							SB.Append(TileAndLocation.LocalPosition.y);
 							SB.Append(",");
 							SB.Append(TileAndLocation.LocalPosition.z);
-							SB.Append(LayerChar);
-							SB.Append((int) TileAndLocation.layer.LayerType);
+							SB.Append(",");
 
 							int Index = CommonLayerTiles.IndexOf(TileAndLocation.layerTile);
 
