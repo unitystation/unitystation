@@ -89,14 +89,28 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		if (data == null) return;
 		foreach (var PD in data.PrefabData)
 		{
-			PrePayload[data.IDToNetIDClient[PD.GitID]] = PD;
+			var id = PD.GitID;
+			if (string.IsNullOrEmpty(id))
+			{
+				id = PD.PrefabID;
+			}
+
+
+			PrePayload[data.IDToNetIDClient[id]] = PD;
 		}
 
 		if (DoStraightaway)
 		{
 			foreach (var PD in data.PrefabData)
 			{
-				if (Spawned.TryGetValue(data.IDToNetIDClient[PD.GitID], out var networkIdentity ))
+				var id = PD.GitID;
+				if (string.IsNullOrEmpty(id))
+				{
+					id = PD.PrefabID;
+				}
+
+
+				if (Spawned.TryGetValue(data.IDToNetIDClient[id], out var networkIdentity ))
 				{
 					ObjectBeforePayloadDataClient(networkIdentity);
 				}

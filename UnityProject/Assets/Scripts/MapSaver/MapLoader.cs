@@ -6,6 +6,7 @@ using Initialisation;
 using Logs;
 using Mirror;
 using SecureStuff;
+using Tiles;
 using UnityEngine;
 
 namespace MapSaver
@@ -18,6 +19,139 @@ namespace MapSaver
 		//TODO Children rotation scale and position?
 		//TODO Multiple components?
 		//TODO ACU not set? Test
+
+		public static void ProcessorCompactTileMapData(MatrixInfo Matrix, Vector3Int Offset00, Vector3Int Offset,
+			MapSaver.CompactTileMapData CompactTileMapData, HashSet<LayerType> LoadLayers = null)
+		{
+
+			var CommonMatrix4x4 = new List<Matrix4x4>();
+
+			foreach (var Matrix4x4 in CompactTileMapData.CommonMatrix4x4)
+			{
+				CommonMatrix4x4.Add(MapSaver.StringToMatrix4X4(Matrix4x4));
+			}
+
+			var CommonColours = new List<Color>();
+			foreach (var Colour in CompactTileMapData.CommonColours)
+			{
+				ColorUtility.TryParseHtmlString(Colour, out var IndividualColour);
+				CommonColours.Add(IndividualColour);
+			}
+
+			var CommonLayerTiles = new List<LayerTile>();
+
+			foreach (var TileName in CompactTileMapData.CommonLayerTiles)
+			{
+				CommonLayerTiles.Add(TileManager.GetTile(TileName));
+			}
+
+
+			var  TileLocations = CompactTileMapData.Data.Split("@");
+
+			foreach (var TileData in TileLocations)
+			{
+				if (string.IsNullOrEmpty(TileData)) continue;
+				//74,91,0☰0§2 Example
+				var Positions = TileData.Split(",");
+				Vector3Int Position = Vector3Int.zero;
+
+				try
+				{
+					Position = new Vector3Int(int.Parse(Positions[0]), int.Parse(Positions[1]),
+						int.Parse(Positions[2]));
+				}
+				catch (Exception e)
+				{
+					Loggy.LogError(e.ToString());
+					continue;
+				}
+
+
+				Position += Offset00;
+				Position += Offset;
+
+				var data = Positions[3];
+
+				var TileID = GetDataForTag(data, MapSaver.TileIDChar);
+				LayerTile Tel = null;
+				if (TileID != null)
+				{
+					Tel = CommonLayerTiles[TileID.Value];
+				}
+				else
+				{
+					Tel = CommonLayerTiles[0];
+				}
+
+				if (LoadLayers != null && LoadLayers.Contains(Tel.LayerType) == false)
+				{
+					continue;
+				}
+
+
+				Color? Colour = null;
+				var ColourID = GetDataForTag(data, MapSaver.ColourChar);
+				if (ColourID != null)
+				{
+					Colour = CommonColours[ColourID.Value];
+				}
+				else
+				{
+					Colour = CommonColours[0];
+				}
+
+				Matrix4x4? Matrix4x4 = null;
+				var MatrixID = GetDataForTag(data, MapSaver.Matrix4x4Char);
+				if (MatrixID != null)
+				{
+					Matrix4x4 = CommonMatrix4x4[MatrixID.Value];
+				}
+				else
+				{
+					Matrix4x4 = CommonMatrix4x4[0];
+				}
+
+				Matrix.MetaTileMap.SetTile(Position, Tel, Matrix4x4, Colour);
+			}
+		}
+
+
+
+		private static int? GetDataForTag(string data, char Tag)
+		{
+			if (data.Contains(Tag))
+			{
+				var StartTileID = data.IndexOf(Tag) +1 ;
+				for (int i = StartTileID; i < data.Length; i++)
+				{
+					if (data[i] is MapSaver.Matrix4x4Char or MapSaver.TileIDChar or MapSaver.ColourChar
+					    or MapSaver.LayerChar or MapSaver.LocationChar)
+					{
+						//is end
+						var Substring = data[StartTileID..i]; //Fancy new Syntax for basically substring
+						try
+						{
+							return int.Parse(Substring);;
+						}
+						catch (Exception e)
+						{
+							Loggy.LogError(e.ToString());
+							return int.Parse("1");
+						}
+
+
+					}
+
+				}
+
+				var Substring2 = data[StartTileID..]; //Fancy new Syntax for basically substring
+				return int.Parse(Substring2);
+			}
+			else
+			{
+				return null;
+			}
+		}
 
 
 		public static void ProcessorGitFriendlyTiles(MatrixInfo Matrix, Vector3Int Offset00, Vector3Int Offset,
@@ -84,6 +218,8 @@ namespace MapSaver
 				MapSaver.CodeClass.ThisCodeClass.Reset(); //TODO Some of the functionality could be handled here
 			}
 
+
+
 			foreach (var prefabData in CompactObjectMapData.PrefabData)
 			{
 				ProcessIndividualObject(CompactObjectMapData, prefabData, Matrix, Offset00, Offset);
@@ -104,10 +240,15 @@ namespace MapSaver
 			if (Object == null)
 			{
 				MapSaver.StringToVector(prefabData.LocalPRS, out Vector3 position);
+				string PrefabID = prefabData.PrefabID;
+				if (CompactObjectMapData.CommonPrefabs.Count > 0)
+				{
+					PrefabID = CompactObjectMapData.CommonPrefabs[int.Parse(prefabData.PrefabID)];
+				}
+
 				position += Offset00;
 				position += Offset;
-				Object = Spawn
-					.ServerPrefab(CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[prefabData.PrefabID],
+				Object = Spawn.ServerPrefab(CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[PrefabID],
 						position.ToWorld(Matrix)).GameObject;
 				MapSaver.StringToPRS(Object, prefabData.LocalPRS);
 				Object.transform.localPosition += Offset00;
@@ -127,15 +268,23 @@ namespace MapSaver
 				Object.name = prefabData.Name;
 			}
 
-			MapSaver.CodeClass.ThisCodeClass.Objects[prefabData.GitID] = Object;
+			var ID = prefabData.GitID;
+
+			if (string.IsNullOrEmpty(ID))
+			{
+				ID = prefabData.PrefabID;
+			}
+
+
+			MapSaver.CodeClass.ThisCodeClass.Objects[ID] = Object;
 			ProcessClassData(prefabData,Object, prefabData.Object);
 
 			if (CustomNetworkManager.IsServer)
 			{
-				CompactObjectMapData.IDToNetIDClient[prefabData.GitID] = Object.GetComponent<NetworkIdentity>().netId;
+				CompactObjectMapData.IDToNetIDClient[ID] = Object.GetComponent<NetworkIdentity>().netId;
 			}
 
-			MapSaver.CodeClass.ThisCodeClass.FinishLoading(prefabData.GitID);
+			MapSaver.CodeClass.ThisCodeClass.FinishLoading(ID);
 		}
 
 		public static void ProcessClassData(MapSaver.PrefabData prefabData, GameObject Object, MapSaver.IndividualObject IndividualObject)
@@ -167,7 +316,14 @@ namespace MapSaver
 					}
 				}
 
-				SecureMapsSaver.LoadData(prefabData.GitID , Component, classData.Data, MapSaver.CodeClass.ThisCodeClass, CustomNetworkManager.IsServer);
+				var ID = prefabData.GitID;
+
+				if (string.IsNullOrEmpty(ID))
+				{
+					ID = prefabData.PrefabID;
+				}
+
+				SecureMapsSaver.LoadData(ID , Component, classData.Data, MapSaver.CodeClass.ThisCodeClass, CustomNetworkManager.IsServer);
 			}
 
 			if (IndividualObject.Children != null)
@@ -208,6 +364,12 @@ namespace MapSaver
 
 			//TODO MapSaver.CodeClass.ThisCodeClass?? Clearing?
 			MapSaver.CompactObjectMapData data = null;
+			if (MatrixData.CompactTileMapData != null)
+			{
+				ProcessorCompactTileMapData(aaMatrix.MatrixInfo, Offset00.RoundToInt(), Offset.RoundToInt(),
+					MatrixData.CompactTileMapData, LoadLayers);
+			}
+
 			if (MatrixData.GitFriendlyTileMapData != null)
 			{
 				ProcessorGitFriendlyTiles(aaMatrix.MatrixInfo, Offset00.RoundToInt(), Offset.RoundToInt(),
