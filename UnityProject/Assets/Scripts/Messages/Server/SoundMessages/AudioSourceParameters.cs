@@ -41,7 +41,7 @@ namespace Messages.Server.SoundMessages
 		// Pitch of the sound
 		public float Pitch;
 
-		// Spatial blend of the audio source (0 for 2D, 1 for 3D)
+		// Spatial blend of the audio source (0 for Prefab default,  1 for 2D, 2 for 3D)
 		// Note:  2D spatial blend doesn't attenuate with distance
 		public float SpatialBlend;
 

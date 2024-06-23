@@ -380,6 +380,7 @@ public class SoundManager : MonoBehaviour
 	public static async Task Play(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken = "",
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false)
 	{
+		audioSourceParameters.SpatialBlend = 1; //Because it's global
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
 		await Play(addressableAudioSource, soundSpawnToken, audioSourceParameters, polyphonic);
 	}
@@ -554,9 +555,12 @@ public class SoundManager : MonoBehaviour
 			audioSource.panStereo = audioSourceParameters.Pan;
 
 		//0 is 2D and ignores max/min distance, 1 is 3d and obeys them
-		//Cannot convert sounds that are 3D by default to 2D
-		if(audioSourceParameters.SpatialBlend != 0)
-			audioSource.spatialBlend = audioSourceParameters.SpatialBlend;
+		if (audioSourceParameters.SpatialBlend != 0) //This is because structure with its stupid default value can't be set
+		{
+			var LocalValue = audioSourceParameters.SpatialBlend - 1;
+			audioSource.spatialBlend = LocalValue;
+
+		}
 
 		//Cannot change the minimum distance for audio falloff to 0
 		if(audioSourceParameters.MinDistance != 0)

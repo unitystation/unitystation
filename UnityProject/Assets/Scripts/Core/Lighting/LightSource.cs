@@ -305,7 +305,7 @@ namespace Objects.Lighting
 					else
 					{
 						SoundManager.ClientPlayAtPositionAttached(ambientSoundWhileOn,
-							gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
+							gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, false);
 						SoundInit = true;
 					}
 
