@@ -43,24 +43,24 @@ namespace Util
 		[MenuItem("Tools/Debug/------------ Debug function -----------")]
 		public static void Generate()
 		{
-			AssetDatabase.StartAssetEditing();
-			var AAAa = FindAssetsByType<Chemistry.Reaction>();
-			foreach (var a in AAAa)
-			{
-				if (a.effects == null) continue;
-				foreach (var effect in a.effects)
-				{
-					if (effect == null) continue;
-					if (a.effectDict.Contains(effect) == false)
-					{
-						a.effectDict[effect] = 1;
-					}
-				}
-				EditorUtility.SetDirty(a);
-			}
-
-			AssetDatabase.StopAssetEditing();
-			AssetDatabase.SaveAssets();
+			// AssetDatabase.StartAssetEditing();
+			// var AAAa = FindAssetsByType<Chemistry.Reaction>();
+			// foreach (var a in AAAa)
+			// {
+			// 	if (a.effects == null) continue;
+			// 	foreach (var effect in a.effects)
+			// 	{
+			// 		if (effect == null) continue;
+			// 		if (a.effectDict.Contains(effect) == false)
+			// 		{
+			// 			a.effectDict[effect] = 1;
+			// 		}
+			// 	}
+			// 	EditorUtility.SetDirty(a);
+			// }
+			//
+			// AssetDatabase.StopAssetEditing();
+			// AssetDatabase.SaveAssets();
 
 			return;
 

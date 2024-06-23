@@ -139,6 +139,7 @@ namespace Objects.Construction
 			}
 			var frame = Spawn.ServerPrefab(framePrefab, SpawnDestination.At(gameObject)).GameObject;
 			frame.GetComponent<ComputerFrame>().ServerInitFromComputer(this);
+			frame.GetComponent<Rotatable>().FaceDirection(this.GetComponent<Rotatable>().SynchroniseCurrentDirection);
 			_ = Despawn.ServerSingle(gameObject);
 
 			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
