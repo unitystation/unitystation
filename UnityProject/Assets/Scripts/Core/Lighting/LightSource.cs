@@ -220,6 +220,7 @@ namespace Objects.Lighting
 		private void SyncLightState(LightMountState oldState, LightMountState newState)
 		{
 			MountState = newState;
+			if (oldState == newState) return;
 			ChangeCurrentState(newState);
 			SetSprites();
 			SetColor(CurrentOnColor, CurrentOnColor);
