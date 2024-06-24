@@ -93,6 +93,8 @@ public class SpriteHandler : MonoBehaviour
 
 	public event Action OnSpriteUpdated;
 
+	public event Action OnVariantUpdated;
+
 	/// <summary>
 	/// Invokes when sprite data scriptable object is changed
 	/// Null if sprite became hidden
@@ -303,6 +305,7 @@ public class SpriteHandler : MonoBehaviour
 				{
 					NetUpdate(newVariantIndex: spriteVariant);
 				}
+				OnVariantUpdated?.Invoke();
 			}
 		}
 	}

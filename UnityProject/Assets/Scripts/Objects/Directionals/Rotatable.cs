@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Logs;
 using Mirror;
 using NaughtyAttributes;
@@ -8,6 +9,7 @@ using UnityEditor;
 #endif
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 
 public class Rotatable : NetworkBehaviour, IMatrixRotation90
@@ -51,6 +53,17 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 	[Tooltip("Should this rotate when Matrix rotate?")]
 	private bool MatrixRotateUpdate = true;
 
+	[SerializeField]
+	[Tooltip("Should the Sprite order change with the rotation")]
+	private bool SetOrder = false;
+
+	[ShowIf(nameof(SetOrder))] public List<int> Orders = new List<int>(){0, 0, 0, 0};
+
+	[SerializeField]
+	[Tooltip("Should the SetLayer change with the rotation")]
+	private bool SetLayer= false;
+
+	[ShowIf(nameof(SetLayer))] public List<string > Layers = new List<string >(){"Rename me 1", "Rename me 2","Rename me 3", "Rename me 4"};
 
 
 	private SpriteRenderer[] spriteRenderers;
@@ -61,6 +74,8 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 	public bool doNotResetOtherSpriteOptions = false;
 
 	private RegisterTile RegisterTile;
+
+	private SortingGroup SortingGroup;
 
 	/// <summary>
 	/// Invoked when this object's sprites should be updated to indicate it is facing the
@@ -230,6 +245,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 		}
 
 		RegisterTile = this.GetComponent<RegisterTile>();
+		SortingGroup = this.GetComponent<SortingGroup>();
 	}
 
 	public Quaternion ByDegreesToQuaternion(OrientationEnum dir)
@@ -257,6 +273,52 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 
 	public void RotateObject(OrientationEnum dir)
 	{
+		int spriteVariant = 0;
+		switch (dir)
+		{
+			case OrientationEnum.Up_By0:
+				spriteVariant = 1;
+				break;
+			case OrientationEnum.Right_By270:
+				spriteVariant = 2;
+				break;
+			case OrientationEnum.Down_By180:
+				spriteVariant = 0;
+				break;
+			case OrientationEnum.Left_By90:
+				spriteVariant = 3;
+				break;
+		}
+
+		if (SortingGroup != null)
+		{
+			if (SetOrder)
+			{
+				SortingGroup.sortingOrder = Orders[spriteVariant];
+			}
+
+			if (SetLayer)
+			{
+				SortingGroup.sortingLayerName = Layers[spriteVariant];
+			}
+		}
+		else
+		{
+			foreach (var spriteHandler in spriteHandlers)
+			{
+				if (SetOrder)
+				{
+					spriteHandler.SpriteRenderer.sortingOrder = Orders[spriteVariant];
+				}
+
+				if (SetLayer)
+				{
+					spriteHandler.SpriteRenderer.sortingLayerName = Layers[spriteVariant];
+				}
+			}
+		}
+
+
 		if (MethodRotation is RotationMethod.Parent or RotationMethod.ParentLockSprite)
 		{
 			transform.localRotation = ByDegreesToQuaternion(dir);
@@ -284,23 +346,6 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 
 		if (ChangeSprites == false) return;
 
-		int spriteVariant = 0;
-		switch (dir)
-		{
-			case OrientationEnum.Up_By0:
-				spriteVariant = 1;
-				break;
-			case OrientationEnum.Right_By270:
-				spriteVariant = 2;
-				break;
-			case OrientationEnum.Down_By180:
-				spriteVariant = 0;
-				break;
-			case OrientationEnum.Left_By90:
-				spriteVariant = 3;
-				break;
-		}
-
 		foreach (var spriteHandler in spriteHandlers)
 		{
 			if (isChangingSO)
@@ -312,6 +357,8 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 				spriteHandler.SetSpriteVariant(spriteVariant, false);
 			}
 		}
+
+
 	}
 
 	//client requests the server to change serverDirection
