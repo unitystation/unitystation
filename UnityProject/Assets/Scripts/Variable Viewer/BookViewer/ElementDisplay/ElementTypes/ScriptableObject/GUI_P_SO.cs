@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Messages.Client.VariableViewer;
 using ScriptableObjects;
 using SecureStuff;
@@ -155,16 +156,51 @@ namespace AdminTools.VariableViewer
 			return ((ISOTracker)Data)?.ForeverID;
 		}
 
+		private static bool InheritsFrom(Type type, Type baseType)
+		{
+			while (type != null && type != typeof(object))
+			{
+				if (type == baseType)
+				{
+					return true;
+				}
+				type = type.BaseType;
+			}
+			return false;
+		}
+
+		public static Type GetImmediateBaseType(Type type, Type stopType)
+		{
+			// Get the base type
+			Type CorrectType = type;
+			Type baseType = type.BaseType;
+			while (baseType != stopType)
+			{
+				CorrectType = baseType;
+				baseType = baseType.BaseType;
+			}
+
+			return CorrectType;
+		}
+
 		public void InitialiseIndividualDropDownOptions()
 		{
 			foreach (var SO in SOListTracker.Instance.SOTrackers)
 			{
 				if (SO == null) continue;
 				var Type = ((object) SO).GetType();
+
+				if (InheritsFrom(Type, typeof(SOTracker)))
+				{
+					Type = GetImmediateBaseType(Type, typeof(SOTracker));
+				}
+
+
 				if (IndividualDropDownOptions.ContainsKey(Type) == false)
 				{
 					IndividualDropDownOptions[Type] = new List<ISOTracker>();
 				}
+				
 				IndividualDropDownOptions[Type].Add(SO);
 			}
 
@@ -190,7 +226,17 @@ namespace AdminTools.VariableViewer
 			{
 				InitialiseIndividualDropDownOptions();
 			}
-			return IndividualDropDownOptions[InType].FirstOrDefault(x => x.ForeverID == StringVariable);
+
+			foreach (var Tracker in IndividualDropDownOptions[InType])
+			{
+				if (Tracker.ForeverID == StringVariable)
+				{
+					return Tracker;
+				}
+
+			}
+
+			return null;
 		}
 
 		public override void Pool()

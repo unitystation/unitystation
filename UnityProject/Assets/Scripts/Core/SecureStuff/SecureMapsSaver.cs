@@ -128,10 +128,11 @@ namespace SecureStuff
 				List[Index] = null; // never have to worry about value type because It can never be null on the map to
 				return;
 			}
+
 			var ListType = Field.FieldType.GetGenericArguments()[0];
 
 			bool ScriptObject = typeof(ScriptableObject).IsAssignableFrom(ListType) &&
-			          typeof(IHaveForeverID).IsAssignableFrom(ListType);
+			                    typeof(IHaveForeverID).IsAssignableFrom(ListType);
 
 			bool GameObject = typeof(GameObject).IsAssignableFrom(ListType);
 
@@ -142,12 +143,11 @@ namespace SecureStuff
 			               && ListType.IsGenericType == false
 			               && ListType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length > 0;
 
-
 			while (List.Count <= Index)
 				//TODO Could be exploited? well You could just have a map with a million objects so idk xD
 			{
 				if ((GameObject == false && Component == false && ScriptObject == false && IsClass)
-					|| ListType.IsValueType)
+				    || ListType.IsValueType)
 				{
 					//NOTEE is dangerous
 					List.Add(Activator.CreateInstance(ListType));
@@ -851,6 +851,13 @@ namespace SecureStuff
 				return null;
 			}
 
+			if (string.IsNullOrEmpty(Id))
+			{
+				Loggy.LogError("Map has Empty references");
+				Loaded = true;
+				return null;
+			}
+
 			var IDPath = Id.Split("@");
 			if (IPopulateIDRelation.Objects.ContainsKey(IDPath[0]) == false)
 			{
@@ -893,6 +900,13 @@ namespace SecureStuff
 				return null;
 			}
 
+			if (string.IsNullOrEmpty(Id))
+			{
+				Loggy.LogError("Map has Empty references");
+				Loaded = true;
+				return null;
+			}
+
 			var IDPath = Id.Split("@");
 			var Object = GetGameObjectPath(Id, IPopulateIDRelation, out Loaded);
 			if (Loaded == false) return null;
@@ -904,7 +918,18 @@ namespace SecureStuff
 			IPopulateIDRelation IPopulateIDRelation,
 			string AppropriateName = "", bool IsServer = true)
 		{
-			var TypeMono = Object.GetType();
+			Type TypeMono = null;
+			try
+			{
+				TypeMono = Object.GetType();
+			}
+			catch (Exception ex)
+			{
+				Loggy.LogError(ex.ToString());
+				return;
+			}
+
+
 			string Index = "";
 
 			bool MoreSteps = false;
@@ -938,6 +963,7 @@ namespace SecureStuff
 				BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic |
 				BindingFlags.FlattenHierarchy);
 
+			if (Field == null) return;
 			if (IsGoodField(Field) == false) return;
 
 			if (IsServer == false)
@@ -1039,6 +1065,16 @@ namespace SecureStuff
 
 				if (Field.FieldType.IsGenericType == false)
 				{
+					if (Field.FieldType.IsGenericType) return; //Unity editor can't handle this currently so same Functionality
+					if (Field.FieldType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length == 0) return;
+
+					if (Field.GetValue(Object) == null)
+					{
+						//NOTE Dangerous
+						Field.SetValue(Object, Activator.CreateInstance(Field.FieldType));
+					}
+
+
 					ProcessIndividualField(RootID, root, Field.GetValue(Object), ModField, IPopulateIDRelation,
 						AdditionalJumps, IsServer);
 					return;
@@ -1198,12 +1234,6 @@ namespace SecureStuff
 				{
 					if (IsGoodField(Field) == false) continue;
 
-					if (Field.Name == "TargetFunction")
-					{
-						Loggy.LogError("ogggg");
-					}
-
-
 					object APrefabDefault = null;
 					if (PrefabInstance != null)
 					{
@@ -1244,7 +1274,8 @@ namespace SecureStuff
 
 
 					//if Field is a class and is not related to unity engine.object Serialise it
-					if (Field.FieldType.IsValueType == false && Field.FieldType == typeof(string) == false && Field.FieldType.IsGenericType == false &&
+					if (Field.FieldType.IsValueType == false && Field.FieldType == typeof(string) == false &&
+					    Field.FieldType.IsGenericType == false &&
 					    (APrefabDefault != null || PrefabInstance == null) && AMonoSet != null
 					    && Field.FieldType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length > 0)
 					{
@@ -1291,9 +1322,14 @@ namespace SecureStuff
 							{
 								if (Field.FieldType.IsGenericType)
 									continue; //Unity editor can't handle this currently so same Functionality
-								if (Field.FieldType.GetCustomAttributes(typeof(System.SerializableAttribute), true)
-									    .Length == 0) continue;
-								if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object))) continue;
+
+
+								if (Field.FieldType.IsValueType == false)
+								{
+									if (Field.FieldType.GetCustomAttributes(typeof(System.SerializableAttribute), true)
+										    .Length == 0) continue;
+									if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object))) continue;
+								}
 							}
 
 
@@ -1471,6 +1507,7 @@ namespace SecureStuff
 					if (IsComponent)
 					{
 						var Component = (SpawnedInstance as Component);
+						if (Component == null) return;
 						if (Component.transform.parent == null) //Prefab
 						{
 							var ForeverID = Component.GetComponent<IHaveForeverID>();

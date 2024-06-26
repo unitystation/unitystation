@@ -42,7 +42,7 @@ namespace Items.Implants.Organs
 		}
 
 		[Serializable]
-		public struct SeverityAndSymptoms
+		public class SeverityAndSymptoms
 		{
 			public float HealthPercentageAndBelow;
 			//Could expand later on

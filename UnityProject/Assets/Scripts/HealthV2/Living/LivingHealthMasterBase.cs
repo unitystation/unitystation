@@ -142,9 +142,9 @@ namespace HealthV2
 		/// <summary>
 		/// A list of all body parts of the creature
 		/// </summary>
-		public List<BodyPart> BodyPartList = new List<BodyPart>();
+		[NonSerialized] public List<BodyPart> BodyPartList = new List<BodyPart>();
 
-		public List<BodyPart> SurfaceBodyParts = new List<BodyPart>();
+		[NonSerialized] public List<BodyPart> SurfaceBodyParts = new List<BodyPart>();
 
 		/// <summary>
 		/// The storage container for the body parts
@@ -226,7 +226,7 @@ namespace HealthV2
 
 		public float BodyPartSurfaceVolume = 5;
 
-		public List<HealthSystemBase> ActiveSystems = new List<HealthSystemBase>();
+		[HideInInspector] public List<HealthSystemBase> ActiveSystems = new List<HealthSystemBase>();
 
 
 		public BodyAlertManager BodyAlertManager { get; protected set; }

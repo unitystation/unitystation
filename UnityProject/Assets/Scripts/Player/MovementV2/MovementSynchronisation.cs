@@ -13,6 +13,7 @@ using Objects;
 using Player.Movement;
 using ScriptableObjects;
 using ScriptableObjects.Audio;
+using SecureStuff;
 using Systems.Character;
 using Systems.Explosions;
 using Systems.Scenes;
@@ -33,7 +34,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public double LastUpdatedFlyingPosition = 0;
 	public PlayerScript playerScript;
 
-	public List<MoveData> MoveQueue = new List<MoveData>();
+	[PlayModeOnly] public List<MoveData> MoveQueue = new List<MoveData>();
 
 	private const float MOVE_MAX_DELAY_QUEUE = 4f; //Only matters when low FPS mode
 
@@ -1132,6 +1133,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 
 		//Loggy.LogError(" Requested move > wth  Bump " + NewMoveData.Bump);
+		if (isServer) return;
 		CmdRequestMove(newMoveData);
 	}
 
