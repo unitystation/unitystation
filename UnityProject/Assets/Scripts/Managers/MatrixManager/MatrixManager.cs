@@ -223,7 +223,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		Count = SubSceneManager.Instance.loadedScenesList.Count;
 
-		if (Count > InitializingMatrixes.Count || SubSceneManager.Instance.clientIsLoadingSubscene || Count == 0 || SubSceneManager.Instance.SubSceneManagerNetworked.ScenesInitialLoadingComplete == false)
+		if (Count != InitializingMatrixes.Count || SubSceneManager.Instance.clientIsLoadingSubscene || Count == 0 || SubSceneManager.Instance.SubSceneManagerNetworked.ScenesInitialLoadingComplete == false)
 		{
 			return false;
 		}
