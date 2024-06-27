@@ -120,7 +120,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 #if UNITY_EDITOR
 				Application.isPlaying &&
 #endif
-				isServer == false && hasAuthority)
+				CustomNetworkManager.IsServer == false && hasAuthority)
 			{
 				CmdChangeDirection(dir);
 			}

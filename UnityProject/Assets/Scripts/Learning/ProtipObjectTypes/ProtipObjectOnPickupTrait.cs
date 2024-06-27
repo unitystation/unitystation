@@ -53,6 +53,13 @@ namespace Learning.ProtipObjectTypes
 				Loggy.LogError("[Protips] - Something went wrong accessing the player's local player script.. Are you sure everything is setup correctly?", Category.Character);
 				yield break;
 			}
+
+			if (PlayerManager.LocalPlayerScript.DynamicItemStorage == null)
+			{
+				Loggy.LogError("To MAX Please fix");
+				yield break;
+			}
+
 			PlayerManager.LocalPlayerScript.DynamicItemStorage.OnContentsChangeClient.AddListener(OnInventoryChange);
 			// For the hosts and editor use, check if we're a headless server or not.
 			if(CustomNetworkManager.IsHeadless == false) PlayerManager.LocalPlayerScript.
