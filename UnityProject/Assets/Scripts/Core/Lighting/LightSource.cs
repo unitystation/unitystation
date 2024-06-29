@@ -301,7 +301,7 @@ namespace Objects.Lighting
 			{
 				if (SoundInit)
 				{
-					SoundManager.TokenPlayNetworked(loopKey);
+					SoundManager.ClientTokenPlay(loopKey);
 				}
 				else
 				{
@@ -312,7 +312,7 @@ namespace Objects.Lighting
 			}
 			else
 			{
-				SoundManager.StopNetworked(loopKey, false);
+				SoundManager.ClientStop(loopKey, false);
 			}
 		}
 

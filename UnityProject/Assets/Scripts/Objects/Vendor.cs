@@ -322,7 +322,7 @@ namespace Objects
 			{
 				if (InitSound)
 				{
-					SoundManager.TokenPlayNetworked(loopKey);
+					SoundManager.ClientTokenPlay(loopKey);
 				}
 				else
 				{
@@ -333,7 +333,7 @@ namespace Objects
 			}
 			else
 			{
-				SoundManager.StopNetworked(loopKey, false);
+				SoundManager.ClientStop(loopKey, false);
 			}
 		}
 
