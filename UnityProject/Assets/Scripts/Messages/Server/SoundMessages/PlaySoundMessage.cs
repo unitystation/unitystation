@@ -59,7 +59,7 @@ namespace Messages.Server.SoundMessages
 			if (msg.AttachedToSource && msg.SourceObj != null)
 			{
 				SoundManager.ClientPlayAtPositionAttached(addressableAudioSources, msg.Position, msg.SourceObj,
-					Guid.NewGuid().ToString(), msg.Polyphonic, true, msg.AudioParameters);
+					msg.SoundSpawnToken, msg.Polyphonic, true, msg.AudioParameters);
 				return;
 			}
 			_ = isPositionProvided ?

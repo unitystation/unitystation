@@ -235,7 +235,7 @@ namespace Objects.Lighting
 				Animator.ServerStopAnim();
 			}
 			CheckAudioState();
-			if (newState == LightMountState.On)
+			if (newState == LightMountState.On && isServer)
 			{
 				SoundManager.PlayNetworkedAtPos(turnOffOnNoise, gameObject.AssumedWorldPosServer(), new AudioSourceParameters().PitchVariation(0.05f));
 			}
@@ -308,7 +308,10 @@ namespace Objects.Lighting
 
 
 						_ = SoundManager.PlayNetworkedAtPosAsync(ambientSoundWhileOn,
-							gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, false);
+							gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, false, new AudioSourceParameters()
+							{
+								Loops = true
+							});
 						SoundInit = true;
 					}
 

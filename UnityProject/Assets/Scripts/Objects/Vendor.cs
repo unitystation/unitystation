@@ -318,7 +318,7 @@ namespace Objects
 					else
 					{
 						_ = SoundManager.PlayNetworkedAtPosAsync(ambientSoundWhileOn,
-							gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
+							gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, false, new AudioSourceParameters( loops: true));
 						InitSound = true;
 					}
 

@@ -183,7 +183,7 @@ public class SoundManager : MonoBehaviour
 
 		addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
 
-		if (global)
+		if (global || audioSourceParameters.Loops)
 		{
 			return PlaySoundMessage.SendToAll(addressableAudioSource, worldPos, polyphonic, sourceObj, shakeParameters,
 				audioSourceParameters, attachToSource,  soundSpawnToken );
