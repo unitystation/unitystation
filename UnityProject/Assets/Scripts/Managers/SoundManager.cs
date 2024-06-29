@@ -183,7 +183,7 @@ public class SoundManager : MonoBehaviour
 
 		addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
 
-		if (global)
+		if (global || audioSourceParameters.Loops)
 		{
 			return PlaySoundMessage.SendToAll(addressableAudioSource, worldPos, polyphonic, sourceObj, shakeParameters,
 				audioSourceParameters, attachToSource,  soundSpawnToken );
@@ -681,7 +681,7 @@ public class SoundManager : MonoBehaviour
 	/// Plays a given sound from playing locally.
 	/// </summary>
 	/// <param name="soundSpawnToken">The Token of the soundSpawn to play</param>
-	public static void ClientTokenPlay(string soundSpawnToken, bool OneShot)
+	public static void ClientTokenPlay(string soundSpawnToken, bool OneShot = false)
 	{
 		if (Instance.SoundSpawns.ContainsKey(soundSpawnToken))
 		{

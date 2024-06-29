@@ -30,18 +30,17 @@ namespace Objects
 		[FormerlySerializedAs("VendorContent")]
 		public List<VendorItem> InitialVendorContent = new List<VendorItem>();
 
-		[Tooltip("Background color for UI")]
-		public Color HullColor = Color.white;
+		[Tooltip("Background color for UI")] public Color HullColor = Color.white;
 
 		[Tooltip("Should vended items be thrown and possible injure user?")]
 		public bool EjectObjects = false;
 
-		[ConditionalField("EjectObjects")]
-		[Tooltip("In which direction object should be thrown?")]
+		[ConditionalField("EjectObjects")] [Tooltip("In which direction object should be thrown?")]
 		public EjectDirection EjectDirection = EjectDirection.None;
 
-		[Header("Text messages")]
-		[SerializeField] private string restockMessage = "Items restocked.";
+		[Header("Text messages")] [SerializeField]
+		private string restockMessage = "Items restocked.";
+
 		[SerializeField] private string noAccessMessage = "Access denied!";
 
 		private string tooExpensiveMessage = "This is too expensive!";
@@ -55,16 +54,18 @@ namespace Objects
 		public VendorItemUpdateEvent OnItemVended = new VendorItemUpdateEvent();
 		public PowerState ActualCurrentPowerState = PowerState.On;
 
-		[Header("Audio")]
-		[SerializeField, FormerlySerializedAs("VendingSound")] private AddressableAudioSource vendingSound = null;
+		[Header("Audio")] [SerializeField, FormerlySerializedAs("VendingSound")]
+		private AddressableAudioSource vendingSound = null;
+
 		[SerializeField] private AddressableAudioSource ambientSoundWhileOn;
 		private string loopKey;
 
 		private bool InitSound = false;
 
-		[Header("Power")]
-		[SerializeField] private LightSprite lightSprite;
-		[SyncVar(hook = nameof(SetLightState))] private bool isLightOn = true;
+		[Header("Power")] [SerializeField] private LightSprite lightSprite;
+
+		[SyncVar(hook = nameof(SetLightState))]
+		private bool isLightOn = true;
 
 		private void Awake()
 		{
@@ -114,15 +115,16 @@ namespace Objects
 				Inventory.ServerDespawn(interaction.HandSlot);
 				Chat.AddActionMsgToChat(interaction.Performer, restockMessage, restockMessage);
 			}
+
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)
-				&& interaction.HandObject.TryGetComponent<Emag>(out var emag)
-				&& emag.EmagHasCharges())
+			    && interaction.HandObject.TryGetComponent<Emag>(out var emag)
+			    && emag.EmagHasCharges())
 			{
 				isEmagged = true;
 				emag.UseCharge(interaction);
 				Chat.AddActionMsgToChat(interaction,
 					"The product lock shorts out. light fumes pour from the dispenser...",
-							"You can smell caustic smoke from somewhere...");
+					"You can smell caustic smoke from somewhere...");
 			}
 		}
 
@@ -147,8 +149,10 @@ namespace Objects
 		/// <summary>
 		/// Default cooldown for vending
 		/// </summary>
-		protected Cooldown VendingCooldown {
-			get {
+		protected Cooldown VendingCooldown
+		{
+			get
+			{
 				if (CommonCooldowns.Instance == false)
 				{
 					return null;
@@ -249,10 +253,13 @@ namespace Objects
 			{
 				if (player is not null)
 				{
-					Chat.AddExamineMsg(player.GameObject, "This vendor currently doesn't have power to dispense anything!");
+					Chat.AddExamineMsg(player.GameObject,
+						"This vendor currently doesn't have power to dispense anything!");
 				}
+
 				return;
 			}
+
 			if (vendorItem == null)
 			{
 				return;
@@ -273,18 +280,21 @@ namespace Objects
 			{
 				return;
 			}
+
 			vendorItem.Stock--;
 
 			// State sucsess message to chat
-			Chat.AddActionMsgToChat(gameObject, $"The {spawnedItem.ExpensiveName()} was dispensed from the vending machine.");
+			Chat.AddActionMsgToChat(gameObject,
+				$"The {spawnedItem.ExpensiveName()} was dispensed from the vending machine.");
 
 			// Play vending sound
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.75f, 1.1f));
-			SoundManager.PlayNetworkedAtPos(vendingSound, gameObject.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(vendingSound, gameObject.AssumedWorldPosServer(), audioSourceParameters,
+				sourceObj: gameObject);
 
 			// Ejecting in direction
 			if (EjectObjects && EjectDirection != EjectDirection.None &&
-				spawnedItem.TryGetComponent<UniversalObjectPhysics>(out var uop))
+			    spawnedItem.TryGetComponent<UniversalObjectPhysics>(out var uop))
 			{
 				Vector3 offset = Vector3.zero;
 				switch (EjectDirection)
@@ -299,7 +309,8 @@ namespace Objects
 						offset = new Vector3(Random.Range(-0.15f, 0.15f), Random.Range(-0.15f, 0.15f), 0);
 						break;
 				}
-				uop.NewtonianPush(offset, 1, 0, 0, BodyPartType.Chest, inThrownBy:spawnedItem);
+
+				uop.NewtonianPush(offset, 1, 0, 0, BodyPartType.Chest, inThrownBy: spawnedItem);
 			}
 
 			OnItemVended.Invoke(vendorItem);
@@ -307,66 +318,74 @@ namespace Objects
 
 		private void CheckAudioState()
 		{
-			if (isServer)
+			if (isLightOn)
 			{
-				if (ActualCurrentPowerState is PowerState.On or PowerState.OverVoltage or PowerState.LowVoltage)
+				if (InitSound)
 				{
-					if (InitSound)
-					{
-						SoundManager.TokenPlayNetworked(loopKey);
-					}
-					else
-					{
-						_ = SoundManager.PlayNetworkedAtPosAsync(ambientSoundWhileOn,
-							gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
-						InitSound = true;
-					}
-
+					SoundManager.ClientTokenPlay(loopKey);
 				}
 				else
 				{
-					SoundManager.StopNetworked(loopKey, false);
+					SoundManager.ClientPlayAtPositionAttached(ambientSoundWhileOn,
+						gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, false);
+					InitSound = true;
 				}
 			}
-
+			else
+			{
+				SoundManager.ClientStop(loopKey, false);
+			}
 		}
 
 		private void CheckVendorLightState()
 		{
 			if (ActualCurrentPowerState is PowerState.On or PowerState.OverVoltage)
 			{
-				isLightOn = true;
+				SetLightState(isLightOn, true);
 			}
 			else
 			{
-				isLightOn = false;
+				SetLightState(isLightOn, false);
 			}
 		}
 
 		private void SetLightState(bool oldValue, bool newValue)
 		{
+			isLightOn = newValue;
 			lightSprite.OrNull()?.SetActive(newValue);
+			CheckAudioState();
 		}
 
 		#region IAPCPowerable
 
-		public void PowerNetworkUpdate(float voltage) { }
+		public void PowerNetworkUpdate(float voltage)
+		{
+		}
 
 		public void StateUpdate(PowerState state)
 		{
 			ActualCurrentPowerState = state;
-			CheckAudioState();
 			CheckVendorLightState();
 		}
 
 		#endregion
 	}
 
-	public enum EjectDirection { None, Up, Down, Random }
+	public enum EjectDirection
+	{
+		None,
+		Up,
+		Down,
+		Random
+	}
 
-	public class VendorUpdateEvent : UnityEvent { }
+	public class VendorUpdateEvent : UnityEvent
+	{
+	}
 
-	public class VendorItemUpdateEvent : UnityEvent<VendorItem> { }
+	public class VendorItemUpdateEvent : UnityEvent<VendorItem>
+	{
+	}
 
 	// Adding this as a separate class so we can easily extend it in future -
 	// add price or required access, stock amount and etc.
