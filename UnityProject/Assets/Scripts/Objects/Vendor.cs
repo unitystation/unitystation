@@ -307,24 +307,28 @@ namespace Objects
 
 		private void CheckAudioState()
 		{
-			if (ActualCurrentPowerState is PowerState.On or PowerState.OverVoltage or PowerState.LowVoltage)
+			if (isServer)
 			{
-				if (InitSound)
+				if (ActualCurrentPowerState is PowerState.On or PowerState.OverVoltage or PowerState.LowVoltage)
 				{
-					SoundManager.TokenPlayNetworked(loopKey);
+					if (InitSound)
+					{
+						SoundManager.TokenPlayNetworked(loopKey);
+					}
+					else
+					{
+						_ = SoundManager.PlayNetworkedAtPosAsync(ambientSoundWhileOn,
+							gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
+						InitSound = true;
+					}
+
 				}
 				else
 				{
-					SoundManager.ClientPlayAtPositionAttached(ambientSoundWhileOn,
-						gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
-					InitSound = true;
+					SoundManager.StopNetworked(loopKey, false);
 				}
+			}
 
-			}
-			else
-			{
-				SoundManager.StopNetworked(loopKey, false);
-			}
 		}
 
 		private void CheckVendorLightState()

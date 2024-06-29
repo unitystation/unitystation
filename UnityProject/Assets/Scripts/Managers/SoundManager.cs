@@ -150,6 +150,13 @@ public class SoundManager : MonoBehaviour
 		return PlayNetworked(addressableAudioSource, audioSourceParameters, polyphonic, shakeParameters);
 	}
 
+	public static async Task<string> PlayNetworkedAtPosAsync(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
+		GameObject gameObject, string soundSpawnToken,	bool polyphonic = false, bool isGlobal = false,
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
+	{
+		return await PlayNetworkedAtPosAsync(addressableAudioSource, worldPos, audioSourceParameters, polyphonic, isGlobal, new ShakeParameters(), gameObject, true, soundSpawnToken);
+	}
+
 	/// <summary>
 	/// Serverside: Play sound at given position for all clients.
 	/// </summary>
@@ -164,7 +171,7 @@ public class SoundManager : MonoBehaviour
 	/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
 	public static async Task<string> PlayNetworkedAtPosAsync(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false, bool global = true,
-		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null, bool attachToSource = false)
+		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null, bool attachToSource = false, string soundSpawnToken = null)
 	{
 		if (addressableAudioSource == null || string.IsNullOrEmpty(addressableAudioSource.AssetAddress) ||
 			addressableAudioSource.AssetAddress == "null")
@@ -179,12 +186,12 @@ public class SoundManager : MonoBehaviour
 		if (global)
 		{
 			return PlaySoundMessage.SendToAll(addressableAudioSource, worldPos, polyphonic, sourceObj, shakeParameters,
-				audioSourceParameters, attachToSource);
+				audioSourceParameters, attachToSource,  soundSpawnToken );
 		}
 		else
 		{
 			return PlaySoundMessage.SendToNearbyPlayers(addressableAudioSource, worldPos, polyphonic, sourceObj,
-				shakeParameters, audioSourceParameters, attachToSource);
+				shakeParameters, audioSourceParameters, attachToSource,  soundSpawnToken );
 		}
 	}
 

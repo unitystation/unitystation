@@ -305,8 +305,11 @@ namespace Objects.Lighting
 					}
 					else
 					{
-						SoundManager.ClientPlayAtPositionAttached(ambientSoundWhileOn,
+
+
+						_ = SoundManager.PlayNetworkedAtPosAsync(ambientSoundWhileOn,
 							gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, false);
+						SoundManager.ClientPlayAtPositionAttached(ambientSoundWhileOn, gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, false);
 						SoundInit = true;
 					}
 

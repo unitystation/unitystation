@@ -88,7 +88,7 @@ namespace Doors.Modules
 			}
 
 			soundGuid = Guid.NewGuid().ToString();
-			SoundManager.ClientPlayAtPositionAttached(prySound, master.RegisterTile.WorldPositionServer, gameObject, soundGuid);
+			_ = SoundManager.PlayNetworkedAtPosAsync(prySound, master.RegisterTile.WorldPositionServer, gameObject, soundGuid);
 
 			if (useTool)
 			{
