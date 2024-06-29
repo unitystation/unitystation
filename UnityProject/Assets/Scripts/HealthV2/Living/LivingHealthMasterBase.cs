@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AdminCommands;
+using AdminTools;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
 using Systems.Atmospherics;
 using Chemistry;
 using Core;
+using Core.Admin.Logs;
 using Core.Chat;
 using Core.Utils;
 using Health.Sickness;
@@ -1588,11 +1590,34 @@ namespace HealthV2
 			timeOfDeath = GameManager.Instance.RoundTime;
 
 			SetConsciousState(ConsciousState.DEAD);
-			OnDeathActions();
 			if (invokeDeathEvent) OnDeath?.Invoke();
+			LogDeath();
 		}
 
-		protected abstract void OnDeathActions();
+		private void LogDeath()
+		{
+			PlayerInfo player = playerScript?.PlayerInfo;
+			if (CustomNetworkManager.Instance._isServer == false && playerScript != null && player != null) return;
+
+			string killerName = null;
+			if (LastDamagedBy != null)
+			{
+				if (LastDamagedBy.TryGetPlayer(out var lastDamager))
+				{
+					killerName = lastDamager.Name;
+					AutoMod.ProcessPlayerKill(lastDamager, player);
+				}
+			}
+
+			killerName ??= "stressful work";
+			string playerName = playerScript?.visibleName ?? "dummy";
+			if (killerName == playerName)
+			{
+				Chat.AddActionMsgToChat(gameObject, "You committed suicide, what a waste.", $"{playerName} committed suicide.");
+			}
+			PlayerList.Instance.TrackKill(LastDamagedBy, gameObject);
+			AdminLogsManager.TrackKill(LastDamagedBy, this);
+		}
 
 		/// <summary>
 		/// Updates the blood health stats from the server via NetMsg
@@ -2263,6 +2288,7 @@ namespace HealthV2
 			if (script.gameObject == abuser) return; //Don't add to the score if the clown hits themselves.
 			ScoreMachine.AddToScoreInt(Mathf.RoundToInt(-5 * Amount), RoundEndScoreBuilder.COMMON_SCORE_CLOWNABUSE);
 		}
+
 
 		public string HoverTip()
 		{
