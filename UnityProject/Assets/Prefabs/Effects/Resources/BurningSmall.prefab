@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1682087833536344853}
   - component: {fileID: 6485798593100464536}
   - component: {fileID: 8746195124161956548}
-  - component: {fileID: 7698622354138618556}
+  - component: {fileID: 6729575132576026912}
   m_Layer: 10
   m_Name: BurningSmall
   m_TagString: Untagged
@@ -108,7 +108,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!114 &8746195124161956548
 MonoBehaviour:
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec6e9c0f1454b1a90892bc8915e6c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7698622354138618556
+--- !u!114 &6729575132576026912
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,6 +131,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1558421102126524431}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ba33d849f244521b86f761617ebd4a2, type: 3}
+  m_Script: {fileID: 11500000, guid: 181a5b4dde4eb324aa4b7559536ff75d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

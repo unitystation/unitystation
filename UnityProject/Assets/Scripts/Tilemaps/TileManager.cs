@@ -189,6 +189,11 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 			return layerTile;
 		}
 
+		if (Instance.AllTiles.TryGetValue(key, out layerTile))
+		{
+			return layerTile;
+		}
+
 		Debug.LogError(tiles == null
 			? $"Could not find {tileType} dictionary"
 			: $"Could not find layerTile in {tileType} dictionary with key: {key}");

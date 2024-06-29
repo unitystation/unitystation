@@ -220,6 +220,7 @@ namespace Objects.Lighting
 		private void SyncLightState(LightMountState oldState, LightMountState newState)
 		{
 			MountState = newState;
+			if (oldState == newState) return;
 			ChangeCurrentState(newState);
 			SetSprites();
 			SetColor(CurrentOnColor, CurrentOnColor);
@@ -304,8 +305,10 @@ namespace Objects.Lighting
 					}
 					else
 					{
-						SoundManager.ClientPlayAtPositionAttached(ambientSoundWhileOn,
-							gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
+
+
+						_ = SoundManager.PlayNetworkedAtPosAsync(ambientSoundWhileOn,
+							gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, false);
 						SoundInit = true;
 					}
 

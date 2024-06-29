@@ -131,12 +131,16 @@ public class Matrix : MonoBehaviour
 		DisposalsLayer = GetComponentInChildren<DisposalsLayer>();
 		tilemapsDamage = GetComponentsInChildren<TilemapDamage>().ToList();
 
-		if (MatrixManager.Instance.InitializingMatrixes.ContainsKey(gameObject.scene) == false)
+		if (gameObject.scene.name != "OnlineScene")
 		{
-			MatrixManager.Instance.InitializingMatrixes.Add(gameObject.scene, new List<Matrix>());
-		}
-		MatrixManager.Instance.InitializingMatrixes[gameObject.scene].Add(this);
+			if (MatrixManager.Instance.InitializingMatrixes.ContainsKey(gameObject.scene) == false)
+			{
 
+				MatrixManager.Instance.InitializingMatrixes.Add(gameObject.scene, new List<Matrix>());
+			}
+
+			MatrixManager.Instance.InitializingMatrixes[gameObject.scene].Add(this);
+		}
 
 		OnEarthquake.AddListener((worldPos, magnitude) =>
 		{

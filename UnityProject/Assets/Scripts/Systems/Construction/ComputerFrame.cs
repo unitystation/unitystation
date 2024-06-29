@@ -221,7 +221,9 @@ namespace Objects.Construction
 							Category.Construction, name);
 						return;
 					}
-					Spawn.ServerPrefab(circuitBoard.ComputerToSpawn, SpawnDestination.At(gameObject));
+					var Computer = Spawn.ServerPrefab(circuitBoard.ComputerToSpawn, SpawnDestination.At(gameObject)).GameObject;
+					Computer.GetComponent<Rotatable>()
+						.FaceDirection(this.GetComponent<Rotatable>().SynchroniseCurrentDirection);
 					_ = Despawn.ServerSingle(gameObject);
 				}
 				else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar))

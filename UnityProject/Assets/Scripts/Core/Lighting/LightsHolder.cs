@@ -9,7 +9,7 @@ namespace Core.Lighting
 {
 	public class LightsHolder : NetworkBehaviour
 	{
-		public readonly SyncList<LightData> Lights = new SyncList<LightData>();
+		[HideInInspector] public readonly SyncList<LightData> Lights = new SyncList<LightData>();
 
 		[SerializeField] private Transform lightsParent;
 		[SerializeField] private GameObject lightSpriteObject;

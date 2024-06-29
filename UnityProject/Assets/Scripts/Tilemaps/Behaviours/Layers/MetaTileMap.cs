@@ -1262,7 +1262,7 @@ namespace TileManagement
 		/// </summary>
 		/// <param name="cellPosition">cell position within the tilemap to get the tile of. NOT the same
 		/// as world position.</param>
-		public LayerTile GetTile(Vector3Int cellPosition, bool ignoreEffectsLayer = false,
+		public LayerTile GetTile(Vector3Int cellPosition, bool ignoreEffectsLayer = true,
 			bool useExactForMultilayer = false, bool excludeNonIntractable = false)
 		{
 			return GetTileLocation(cellPosition, ignoreEffectsLayer, useExactForMultilayer, excludeNonIntractable)
@@ -1274,7 +1274,7 @@ namespace TileManagement
 		/// </summary>
 		/// <param name="cellPosition">cell position within the tilemap to get the tile of. NOT the same
 		/// as world position.</param>
-		public TileLocation GetTileLocation(Vector3Int cellPosition, bool ignoreEffectsLayer = false,
+		public TileLocation GetTileLocation(Vector3Int cellPosition, bool ignoreEffectsLayer = true,
 			bool useExactForMultilayer = false, bool excludeNonIntractable = false)
 		{
 			TileLocation tileLocation = null;

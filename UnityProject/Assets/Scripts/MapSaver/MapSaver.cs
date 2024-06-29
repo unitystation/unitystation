@@ -302,7 +302,8 @@ namespace MapSaver
 		}
 
 		public static MatrixData SaveMatrix(bool Compact, MetaTileMap MetaTileMap, bool SingleSave = true,
-			List<BetterBounds> LocalArea = null, bool NonmappedItems = false, HashSet<LayerType> LayersToProcess = null, bool DoSaveObjects = true)
+			List<BetterBounds> LocalArea = null, bool NonmappedItems = false, HashSet<LayerType> LayersToProcess = null,
+			bool DoSaveObjects = true)
 		{
 			if (SingleSave)
 			{
@@ -998,7 +999,8 @@ namespace MapSaver
 					}
 				}
 
-				ProcessIndividualObject(Compact, Object.gameObject, compactObjectMapData, NonmappedItems : NonmappedItems);
+				ProcessIndividualObject(Compact, Object.gameObject, compactObjectMapData,
+					NonmappedItems: NonmappedItems);
 			}
 
 			if (Application.isPlaying) //EtherealThings Haven't been triggered so they are in the correct spot
@@ -1016,7 +1018,7 @@ namespace MapSaver
 					}
 
 					ProcessIndividualObject(Compact, EtherealThing.gameObject, compactObjectMapData,
-						EtherealThing.transform.localPosition, NonmappedItems : NonmappedItems);
+						EtherealThing.transform.localPosition, NonmappedItems: NonmappedItems);
 				}
 			}
 
@@ -1175,7 +1177,7 @@ namespace MapSaver
 
 			RecursiveSaveObject(OnObjectComplete, OnGmaeObjectComplete, Compact, Prefab, "0", Prefab.Object,
 				OriginPrefab,
-				Object.gameObject, compactObjectMapData, CoordinateOverride, NonmappedItems : NonmappedItems  );
+				Object.gameObject, compactObjectMapData, CoordinateOverride, NonmappedItems: NonmappedItems);
 			if (Prefab.Object.RemoveEmptys())
 			{
 				Prefab.Object = null;
@@ -1192,7 +1194,6 @@ namespace MapSaver
 			Vector3? CoordinateOverride = null, bool UseInstance = false, bool NonmappedItems = false,
 			bool IgnoreMapSaverIgnoreObject = false)
 		{
-
 			if (gameObject.HasComponent<MapSaverIgnoreObject>() && IgnoreMapSaverIgnoreObject == false) return;
 
 			individualObject.ID =
@@ -1269,7 +1270,7 @@ namespace MapSaver
 					newindividualObject,
 					PrefabChild,
 					gameObject.transform.GetChild(GameObjectIndex).gameObject, compactObjectMapData,
-					UseInstance: UseInstance, NonmappedItems : NonmappedItems);
+					UseInstance: UseInstance, NonmappedItems: NonmappedItems, IgnoreMapSaverIgnoreObject : IgnoreMapSaverIgnoreObject);
 
 				GameObjectIndex++;
 				PrefabIndex++;
@@ -1333,6 +1334,11 @@ namespace MapSaver
 
 				var gameObjectMono = gameObjectComponents[GameObjectIndex];
 
+				if (gameObjectMono == null)
+				{
+					//idk how it can be null but it can
+					return;
+				}
 
 				if (Application.isPlaying) //Is in edit mode you can't have stuff inside of inventories in this mode
 				{
@@ -1347,17 +1353,16 @@ namespace MapSaver
 								if (CoordinateOverride == null)
 								{
 									ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData,
-										gameObject.transform.localPosition, NonmappedItems : NonmappedItems);
+										gameObject.transform.localPosition, NonmappedItems: NonmappedItems);
 								}
 								else
 								{
 									ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData,
-										CoordinateOverride,  NonmappedItems : NonmappedItems);
+										CoordinateOverride, NonmappedItems: NonmappedItems);
 								}
 							}
 						}
 					}
-
 
 
 					var itemStorage = gameObjectMono as ItemStorage;
@@ -1369,12 +1374,12 @@ namespace MapSaver
 							if (CoordinateOverride == null)
 							{
 								ProcessIndividualObject(Compact, objectBehaviour.Item.gameObject, compactObjectMapData,
-									gameObject.transform.localPosition, NonmappedItems : NonmappedItems);
+									gameObject.transform.localPosition, NonmappedItems: NonmappedItems);
 							}
 							else
 							{
 								ProcessIndividualObject(Compact, objectBehaviour.Item.gameObject, compactObjectMapData,
-									CoordinateOverride, NonmappedItems : NonmappedItems);
+									CoordinateOverride, NonmappedItems: NonmappedItems);
 							}
 						}
 					}
@@ -1462,7 +1467,7 @@ namespace MapSaver
 				{
 					Object = Object,
 					FieldData = FieldData,
-					ID =  RootID
+					ID = RootID
 				};
 
 				if (NeededToProcess.ContainsKey(RootID) == false)
@@ -1494,11 +1499,19 @@ namespace MapSaver
 
 					if (Waiting.Value.ReferencesNeeded.Count == 0)
 					{
-						foreach (var Unprocessed in Waiting.Value.FieldsToPopulate)
+						try
 						{
-							ReuseSEt.Add(Unprocessed.FieldData);
-							SecureMapsSaver.LoadData(Unprocessed.ID, Unprocessed.Object, ReuseSEt, MapSaver.CodeClass.ThisCodeClass, CustomNetworkManager.IsServer);
-							ReuseSEt.Clear();
+							foreach (var Unprocessed in Waiting.Value.FieldsToPopulate)
+							{
+								ReuseSEt.Add(Unprocessed.FieldData);
+								SecureMapsSaver.LoadData(Unprocessed.ID, Unprocessed.Object, ReuseSEt, MapSaver.CodeClass.ThisCodeClass, CustomNetworkManager.IsServer);
+								ReuseSEt.Clear();
+							}
+						}
+						catch (Exception e)
+						{
+							Loggy.LogError(e.ToString());
+							throw e;
 						}
 					}
 				}

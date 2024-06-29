@@ -18,6 +18,7 @@ using Items;
 using Items.Botany;
 using Logs;
 using SecureStuff;
+using Systems.Atmospherics;
 using Systems.Clothing;
 using Debug = UnityEngine.Debug;
 using Random = System.Random;
@@ -37,6 +38,368 @@ namespace Util
 
 		public static SpriteCatalogue spriteCatalogue;
 
+
+
+		[MenuItem("Tools/Debug/------------ Debug function -----------")]
+		public static void Generate()
+		{
+			// AssetDatabase.StartAssetEditing();
+			// var AAAa = FindAssetsByType<Chemistry.Reaction>();
+			// foreach (var a in AAAa)
+			// {
+			// 	if (a.effects == null) continue;
+			// 	foreach (var effect in a.effects)
+			// 	{
+			// 		if (effect == null) continue;
+			// 		if (a.effectDict.Contains(effect) == false)
+			// 		{
+			// 			a.effectDict[effect] = 1;
+			// 		}
+			// 	}
+			// 	EditorUtility.SetDirty(a);
+			// }
+			//
+			// AssetDatabase.StopAssetEditing();
+			// AssetDatabase.SaveAssets();
+
+			return;
+
+			var ChunkedTileMap = new ChunkedTileMap<coolClass>();
+			var url = new Uri( "https://dev-api.unitystation.org/accounts/login-credentials");
+			var coiol = new HttpClient();
+			var ree = new HttpRequestMessage();
+			ree.Content = new StringContent(JsonConvert.SerializeObject(new LoginBody()
+			{
+				email = "AAA",
+				password = "bbbbb"
+			}), Encoding.UTF8, "application/json");
+
+			ree.Method = HttpMethod.Post;
+			ree.RequestUri = url;
+			ree.Headers.Add("Accept", "application/json");
+		 	var tt = coiol.SendAsync(ree);
+		    var data = tt.Result.Content.ReadAsStringAsync().Result;
+			// AssetDatabase.StartAssetEditing();
+			                     			// AssetDatabase.ForceReserializeAssets();
+			                     		// AssetDatabase.StopAssetEditing();
+			                             			// AssetDatabase.SaveAssets();
+
+			string aa = @"0​
+UnityEngine";
+			string Text = "0\u200b";
+			Loggy.LogError("Text > " + Text);
+			var nub = float.Parse(Text);
+
+			var OldTileMap = new Dictionary<Vector3, coolClass>();
+
+			for (int i = 0; i < 1000; i++)
+			{
+				for (int j = 0; j < 1000; j++)
+				{
+
+					var TheValue = new coolClass()
+					{
+						val = j
+					};
+
+					ChunkedTileMap[new Vector3Int(i, j)] = TheValue;
+					OldTileMap[new Vector3Int(i, j)] = TheValue;
+				}
+			}
+
+			var RNG = new Random();
+
+			var Stopwatch = new Stopwatch();
+			Stopwatch.Start();
+			for (int i = 0; i < 1000; i++)
+			{
+				for (int j = 0; j < 1000; j++)
+				{
+
+					var cool = ChunkedTileMap[new Vector3Int(RNG.Next(0,1000), RNG.Next(0,1000))];
+				}
+			}
+			Stopwatch.Stop();
+			Loggy.LogError("ChunkedTileMap > " + Stopwatch.ElapsedTicks);
+			Stopwatch.Reset();
+			Stopwatch.Start();
+			for (int i = 0; i < 1000; i++)
+			{
+				for (int j = 0; j < 1000; j++)
+				{
+					var cool = OldTileMap[new Vector3Int(RNG.Next(0,1000), RNG.Next(0,1000))];
+
+				}
+			}
+			Stopwatch.Stop();
+
+			Loggy.LogError("OldTileMap > " + Stopwatch.ElapsedTicks);
+
+			return;
+			//
+			//
+			//Loggy.LogError("nub > " + nub);
+			 // AssetDatabase.StartAssetEditing();
+			 //                     			AssetDatabase.ForceReserializeAssets();
+			 //                     		AssetDatabase.StopAssetEditing();
+			 //                             			AssetDatabase.SaveAssets();
+
+
+
+			// Get the type (class) that contains the method
+			// Type type = typeof(MiscFunctions_RRT);
+			//
+			// // Get the method information
+			// MethodInfo methodInfo = type.GetMethod("Dothing");
+			//
+			// var Info = methodInfo.GetCustomAttributes();
+
+			return;
+
+
+			EditorPrefs.SetInt("kAutoRefreshMode", (int) 1);
+			EditorPrefs.SetInt("kAutoRefresh", 1); //older unity versions
+			//var SGen = new SudokuGenerator();
+
+			//Loggy.LogError(SGen.generate("hard"));
+			return;
+			AssetDatabase.StartAssetEditing();
+			AssetDatabase.ForceReserializeAssets();
+			//FindInGo
+			var doors = LoadAllPrefabsOfType<DoorController>("");
+
+			foreach (var door in doors)
+			{
+				FindInGo(door.gameObject);
+				EditorUtility.SetDirty(door.gameObject);
+			}
+			// var stuff = FindAssetsByType<PlayerSlotStoragePopulator>();
+			//
+			// foreach (var PSSP in stuff)
+			// {
+			// 	bool NOID = true;
+			// 	foreach (var Entry in PSSP.Entries)
+			// 	{
+			// 		if (Entry.NamedSlot == NamedSlot.id)
+			// 		{
+			// 			NOID = false;
+			// 		}
+			//
+			// 		if (Entry.NamedSlot == NamedSlot.uniform)
+			// 		{
+			// 			Entry.ReplacementStrategy = ReplacementStrategy.DespawnOther;
+			// 		}
+			//
+			// 		if (Entry.NamedSlot == NamedSlot.back)
+			// 		{
+			// 			Entry.ReplacementStrategy = ReplacementStrategy.DespawnOther;
+			// 		}
+			//
+			// 		if (Entry.NamedSlot == NamedSlot.ear)
+			// 		{
+			// 			Entry.ReplacementStrategy = ReplacementStrategy.DespawnOther;
+			// 		}
+			// 	}
+			//
+			// 	if (NOID)
+			// 	{
+			// 		var ID = Spawn.GetPrefabByName("IDCardAutoInit");
+			// 		var all = new SlotPopulatorEntry();
+			// 		all.Prefab = ID;
+			// 		all.NamedSlot = NamedSlot.id;
+			// 		PSSP.Entries.Add(all);
+			// 	}
+			// 	EditorUtility.SetDirty( PSSP);
+			// }
+
+			// DirSearch_ex3(Application.dataPath + "/Textures");
+			AssetDatabase.StopAssetEditing();
+			AssetDatabase.SaveAssets();
+			//return;
+
+			// TODO The following code is unreachable! Remove it or make it usable. 😣
+			var pathe = Application.dataPath + "/Resources/Prefabs";
+			var aDDll = LoadAllPrefabsOfType<SpriteHandler>(pathe);
+			foreach (var SH in aDDll)
+			{
+				//foreach (var Sprite in SH.Sprites)
+				//{
+				//var SO = PullOutSO(Sprite.Texture);
+				//if (SH.SubCatalogue.Contains(SO) == false)
+				//{
+				//SH.SubCatalogue.Add(SO);
+				//}
+				//}
+
+				var SR = SH.GetComponent<SpriteRenderer>();
+				if (SR != null)
+				{
+					if (SR.sprite != null)
+					{
+						//SH.PresentSpriteSet = PullOutSO(SR.sprite.texture);
+					}
+				}
+
+				try
+				{
+					PrefabUtility.SavePrefabAsset(GetRoot(SH.gameObject));
+				}
+				catch
+				{
+					Loggy.Log(GetRoot(SH.gameObject).name + "Not root apparently", Category.Editor);
+				}
+			}
+
+
+			//return;
+			AssetDatabase.StartAssetEditing();
+			var AAA = FindAssetsByType<SpriteCatalogue>();
+			foreach (var a in AAA)
+			{
+				EditorUtility.SetDirty(a);
+			}
+
+			AssetDatabase.StopAssetEditing();
+			AssetDatabase.SaveAssets();
+
+			return;
+			var DD = LoadAllPrefabsOfType<SeedPacket>(Application.dataPath + "/Resources/Prefabs/Items/Botany");
+			//AssetDatabase.StartAssetEditing();
+			/*
+			var DDD = LoadAllPrefabsOfType<SeedPacket>(Application.dataPath + "/Resources/Prefabs/Items/Botany");
+			foreach (var d in DDD)
+			{
+				if (d == null ) continue;
+				if (d.plantData?.DeadSpriteSO == null && d.defaultPlantData != null)
+				{
+
+					d.plantData = d.defaultPlantData.plantData;
+					d.plantData.DeadSpriteSO = PullOutSO(d.plantData.DeadSprite.Texture);
+					d.plantData.FullyGrownSpriteSO = PullOutSO(d.plantData.FullyGrownSprite.Texture);
+
+					d.plantData.GrowthSpritesSOs.Clear();
+					foreach (var TT in d.plantData.GrowthSprites)
+					{
+						d.plantData.GrowthSpritesSOs.Add(PullOutSO(TT.Texture));
+					}
+
+					foreach (var Mutates in d.plantData.MutatesInTo)
+					{
+						if (Mutates.plantData.ProduceObject == null)
+						{
+							var Seepak = FindSeedPacket(Mutates);
+							if (Seepak == null)
+							{
+								Seepak = GenerateDummySeedPacket(Mutates);
+							}
+
+							Mutates.plantData.ProduceObject = GenerateDummyProduce(Mutates.plantData, Seepak);
+						}
+
+						var foodit = Mutates.plantData.ProduceObject.GetComponent<GrownFood>();
+
+
+						if (foodit != null)
+						{
+							var DSeepak = FindSeedPacket(Mutates);
+							if (DSeepak == null)
+							{
+								DSeepak = GenerateDummySeedPacket(Mutates);
+							}
+
+							foodit.seedPacket = DSeepak;
+							PrefabUtility.SavePrefabAsset(foodit.gameObject);
+						}
+
+						if (foodit != null && d.plantData.MutatesInToGameObject.Contains(foodit.seedPacket) == false)
+						{
+							d.plantData.MutatesInToGameObject.Add(Mutates.plantData.ProduceObject.GetComponent<GrownFood>().seedPacket);
+						}
+					}
+
+
+
+
+					PrefabUtility.SavePrefabAsset(d.gameObject);
+
+				}
+
+
+			}
+
+
+
+
+
+			foreach (var d in DD)
+			{
+				if (d.defaultPlantData == null) continue;
+				d.plantData.MutatesInToGameObject.Clear();
+				d.plantData = d.defaultPlantData.plantData;
+
+				d.plantData.DeadSpriteSO = PullOutSO(d.plantData.DeadSprite.Texture);
+				d.plantData.FullyGrownSpriteSO = PullOutSO(d.plantData.FullyGrownSprite.Texture);
+
+				d.plantData.GrowthSpritesSOs.Clear();
+				foreach (var TT in d.plantData.GrowthSprites)
+				{
+					d.plantData.GrowthSpritesSOs.Add(PullOutSO(TT.Texture));
+				}
+
+
+				foreach (var Mutates in d.plantData.MutatesInTo)
+				{
+					if (Mutates.plantData.ProduceObject == null)
+					{
+						var Seepak = FindSeedPacket(Mutates);
+						if (Seepak == null)
+						{
+							Seepak = GenerateDummySeedPacket(Mutates);
+						}
+
+						Mutates.plantData.ProduceObject = GenerateDummyProduce(Mutates.plantData, Seepak);
+					}
+
+					var foodit = Mutates.plantData.ProduceObject.GetComponent<GrownFood>();
+
+
+					if (foodit != null)
+					{
+						var DSeepak = FindSeedPacket(Mutates);
+						if (DSeepak == null)
+						{
+							DSeepak = GenerateDummySeedPacket(Mutates);
+						}
+
+						foodit.seedPacket = DSeepak;
+						PrefabUtility.SavePrefabAsset(foodit.gameObject);
+					}
+
+					if (foodit != null && d.plantData.MutatesInToGameObject.Contains(foodit.seedPacket) == false)
+					{
+						d.plantData.MutatesInToGameObject.Add(Mutates.plantData.ProduceObject.GetComponent<GrownFood>().seedPacket);
+					}
+				}
+
+				PrefabUtility.SavePrefabAsset(d.gameObject);
+			}
+
+			//AssetDatabase.StopAssetEditing();
+			return;
+
+
+			foreach (var oDe in ToDel)
+			{
+				AssetDatabase.DeleteAsset(oDe);
+			}
+
+			foreach (var Seve in ToSeve)
+			{
+				AssetDatabase.CreateAsset(Seve.Value, Seve.Key);
+				spriteCatalogue.Catalogue.Add(Seve.Value);
+			}
+			*/
+		}
 
 		// SerializedObject serializedObject = new UnityEditor.SerializedObject(transform);
 
@@ -386,352 +749,6 @@ namespace Util
 			public string password { get; set; }
 		}
 
-
-
-		[MenuItem("Tools/Debug/------------ Debug function -----------")]
-		public static void Generate()
-		{
-
-			var coolsdsa = AllowedReflection.GetTypeByName("LightSource");
-
-			return;
-
-			var ChunkedTileMap = new ChunkedTileMap<coolClass>();
-			var url = new Uri( "https://dev-api.unitystation.org/accounts/login-credentials");
-			var coiol = new HttpClient();
-			var ree = new HttpRequestMessage();
-			ree.Content = new StringContent(JsonConvert.SerializeObject(new LoginBody()
-			{
-				email = "AAA",
-				password = "bbbbb"
-			}), Encoding.UTF8, "application/json");
-
-			ree.Method = HttpMethod.Post;
-			ree.RequestUri = url;
-			ree.Headers.Add("Accept", "application/json");
-		 	var tt = coiol.SendAsync(ree);
-		    var data = tt.Result.Content.ReadAsStringAsync().Result;
-			// AssetDatabase.StartAssetEditing();
-			                     			// AssetDatabase.ForceReserializeAssets();
-			                     		// AssetDatabase.StopAssetEditing();
-			                             			// AssetDatabase.SaveAssets();
-
-			string aa = @"0​
-UnityEngine";
-			string Text = "0\u200b";
-			Loggy.LogError("Text > " + Text);
-			var nub = float.Parse(Text);
-
-			var OldTileMap = new Dictionary<Vector3, coolClass>();
-
-			for (int i = 0; i < 1000; i++)
-			{
-				for (int j = 0; j < 1000; j++)
-				{
-
-					var TheValue = new coolClass()
-					{
-						val = j
-					};
-
-					ChunkedTileMap[new Vector3Int(i, j)] = TheValue;
-					OldTileMap[new Vector3Int(i, j)] = TheValue;
-				}
-			}
-
-			var RNG = new Random();
-
-			var Stopwatch = new Stopwatch();
-			Stopwatch.Start();
-			for (int i = 0; i < 1000; i++)
-			{
-				for (int j = 0; j < 1000; j++)
-				{
-
-					var cool = ChunkedTileMap[new Vector3Int(RNG.Next(0,1000), RNG.Next(0,1000))];
-				}
-			}
-			Stopwatch.Stop();
-			Loggy.LogError("ChunkedTileMap > " + Stopwatch.ElapsedTicks);
-			Stopwatch.Reset();
-			Stopwatch.Start();
-			for (int i = 0; i < 1000; i++)
-			{
-				for (int j = 0; j < 1000; j++)
-				{
-					var cool = OldTileMap[new Vector3Int(RNG.Next(0,1000), RNG.Next(0,1000))];
-
-				}
-			}
-			Stopwatch.Stop();
-
-			Loggy.LogError("OldTileMap > " + Stopwatch.ElapsedTicks);
-
-			return;
-			//
-			//
-			//Loggy.LogError("nub > " + nub);
-			 // AssetDatabase.StartAssetEditing();
-			 //                     			AssetDatabase.ForceReserializeAssets();
-			 //                     		AssetDatabase.StopAssetEditing();
-			 //                             			AssetDatabase.SaveAssets();
-
-
-
-			// Get the type (class) that contains the method
-			// Type type = typeof(MiscFunctions_RRT);
-			//
-			// // Get the method information
-			// MethodInfo methodInfo = type.GetMethod("Dothing");
-			//
-			// var Info = methodInfo.GetCustomAttributes();
-
-			return;
-
-
-			EditorPrefs.SetInt("kAutoRefreshMode", (int) 1);
-			EditorPrefs.SetInt("kAutoRefresh", 1); //older unity versions
-			//var SGen = new SudokuGenerator();
-
-			//Loggy.LogError(SGen.generate("hard"));
-			return;
-			AssetDatabase.StartAssetEditing();
-			AssetDatabase.ForceReserializeAssets();
-			//FindInGo
-			var doors = LoadAllPrefabsOfType<DoorController>("");
-
-			foreach (var door in doors)
-			{
-				FindInGo(door.gameObject);
-				EditorUtility.SetDirty(door.gameObject);
-			}
-			// var stuff = FindAssetsByType<PlayerSlotStoragePopulator>();
-			//
-			// foreach (var PSSP in stuff)
-			// {
-			// 	bool NOID = true;
-			// 	foreach (var Entry in PSSP.Entries)
-			// 	{
-			// 		if (Entry.NamedSlot == NamedSlot.id)
-			// 		{
-			// 			NOID = false;
-			// 		}
-			//
-			// 		if (Entry.NamedSlot == NamedSlot.uniform)
-			// 		{
-			// 			Entry.ReplacementStrategy = ReplacementStrategy.DespawnOther;
-			// 		}
-			//
-			// 		if (Entry.NamedSlot == NamedSlot.back)
-			// 		{
-			// 			Entry.ReplacementStrategy = ReplacementStrategy.DespawnOther;
-			// 		}
-			//
-			// 		if (Entry.NamedSlot == NamedSlot.ear)
-			// 		{
-			// 			Entry.ReplacementStrategy = ReplacementStrategy.DespawnOther;
-			// 		}
-			// 	}
-			//
-			// 	if (NOID)
-			// 	{
-			// 		var ID = Spawn.GetPrefabByName("IDCardAutoInit");
-			// 		var all = new SlotPopulatorEntry();
-			// 		all.Prefab = ID;
-			// 		all.NamedSlot = NamedSlot.id;
-			// 		PSSP.Entries.Add(all);
-			// 	}
-			// 	EditorUtility.SetDirty( PSSP);
-			// }
-
-			// DirSearch_ex3(Application.dataPath + "/Textures");
-			AssetDatabase.StopAssetEditing();
-			AssetDatabase.SaveAssets();
-			//return;
-
-			// TODO The following code is unreachable! Remove it or make it usable. 😣
-			var pathe = Application.dataPath + "/Resources/Prefabs";
-			var aDDll = LoadAllPrefabsOfType<SpriteHandler>(pathe);
-			foreach (var SH in aDDll)
-			{
-				//foreach (var Sprite in SH.Sprites)
-				//{
-				//var SO = PullOutSO(Sprite.Texture);
-				//if (SH.SubCatalogue.Contains(SO) == false)
-				//{
-				//SH.SubCatalogue.Add(SO);
-				//}
-				//}
-
-				var SR = SH.GetComponent<SpriteRenderer>();
-				if (SR != null)
-				{
-					if (SR.sprite != null)
-					{
-						//SH.PresentSpriteSet = PullOutSO(SR.sprite.texture);
-					}
-				}
-
-				try
-				{
-					PrefabUtility.SavePrefabAsset(GetRoot(SH.gameObject));
-				}
-				catch
-				{
-					Loggy.Log(GetRoot(SH.gameObject).name + "Not root apparently", Category.Editor);
-				}
-			}
-
-
-			//return;
-			AssetDatabase.StartAssetEditing();
-			var AAA = FindAssetsByType<SpriteCatalogue>();
-			foreach (var a in AAA)
-			{
-				EditorUtility.SetDirty(a);
-			}
-
-			AssetDatabase.StopAssetEditing();
-			AssetDatabase.SaveAssets();
-
-			return;
-			var DD = LoadAllPrefabsOfType<SeedPacket>(Application.dataPath + "/Resources/Prefabs/Items/Botany");
-			//AssetDatabase.StartAssetEditing();
-			/*
-			var DDD = LoadAllPrefabsOfType<SeedPacket>(Application.dataPath + "/Resources/Prefabs/Items/Botany");
-			foreach (var d in DDD)
-			{
-				if (d == null ) continue;
-				if (d.plantData?.DeadSpriteSO == null && d.defaultPlantData != null)
-				{
-
-					d.plantData = d.defaultPlantData.plantData;
-					d.plantData.DeadSpriteSO = PullOutSO(d.plantData.DeadSprite.Texture);
-					d.plantData.FullyGrownSpriteSO = PullOutSO(d.plantData.FullyGrownSprite.Texture);
-
-					d.plantData.GrowthSpritesSOs.Clear();
-					foreach (var TT in d.plantData.GrowthSprites)
-					{
-						d.plantData.GrowthSpritesSOs.Add(PullOutSO(TT.Texture));
-					}
-
-					foreach (var Mutates in d.plantData.MutatesInTo)
-					{
-						if (Mutates.plantData.ProduceObject == null)
-						{
-							var Seepak = FindSeedPacket(Mutates);
-							if (Seepak == null)
-							{
-								Seepak = GenerateDummySeedPacket(Mutates);
-							}
-
-							Mutates.plantData.ProduceObject = GenerateDummyProduce(Mutates.plantData, Seepak);
-						}
-
-						var foodit = Mutates.plantData.ProduceObject.GetComponent<GrownFood>();
-
-
-						if (foodit != null)
-						{
-							var DSeepak = FindSeedPacket(Mutates);
-							if (DSeepak == null)
-							{
-								DSeepak = GenerateDummySeedPacket(Mutates);
-							}
-
-							foodit.seedPacket = DSeepak;
-							PrefabUtility.SavePrefabAsset(foodit.gameObject);
-						}
-
-						if (foodit != null && d.plantData.MutatesInToGameObject.Contains(foodit.seedPacket) == false)
-						{
-							d.plantData.MutatesInToGameObject.Add(Mutates.plantData.ProduceObject.GetComponent<GrownFood>().seedPacket);
-						}
-					}
-
-
-
-
-					PrefabUtility.SavePrefabAsset(d.gameObject);
-
-				}
-
-
-			}
-
-
-
-
-
-			foreach (var d in DD)
-			{
-				if (d.defaultPlantData == null) continue;
-				d.plantData.MutatesInToGameObject.Clear();
-				d.plantData = d.defaultPlantData.plantData;
-
-				d.plantData.DeadSpriteSO = PullOutSO(d.plantData.DeadSprite.Texture);
-				d.plantData.FullyGrownSpriteSO = PullOutSO(d.plantData.FullyGrownSprite.Texture);
-
-				d.plantData.GrowthSpritesSOs.Clear();
-				foreach (var TT in d.plantData.GrowthSprites)
-				{
-					d.plantData.GrowthSpritesSOs.Add(PullOutSO(TT.Texture));
-				}
-
-
-				foreach (var Mutates in d.plantData.MutatesInTo)
-				{
-					if (Mutates.plantData.ProduceObject == null)
-					{
-						var Seepak = FindSeedPacket(Mutates);
-						if (Seepak == null)
-						{
-							Seepak = GenerateDummySeedPacket(Mutates);
-						}
-
-						Mutates.plantData.ProduceObject = GenerateDummyProduce(Mutates.plantData, Seepak);
-					}
-
-					var foodit = Mutates.plantData.ProduceObject.GetComponent<GrownFood>();
-
-
-					if (foodit != null)
-					{
-						var DSeepak = FindSeedPacket(Mutates);
-						if (DSeepak == null)
-						{
-							DSeepak = GenerateDummySeedPacket(Mutates);
-						}
-
-						foodit.seedPacket = DSeepak;
-						PrefabUtility.SavePrefabAsset(foodit.gameObject);
-					}
-
-					if (foodit != null && d.plantData.MutatesInToGameObject.Contains(foodit.seedPacket) == false)
-					{
-						d.plantData.MutatesInToGameObject.Add(Mutates.plantData.ProduceObject.GetComponent<GrownFood>().seedPacket);
-					}
-				}
-
-				PrefabUtility.SavePrefabAsset(d.gameObject);
-			}
-
-			//AssetDatabase.StopAssetEditing();
-			return;
-
-
-			foreach (var oDe in ToDel)
-			{
-				AssetDatabase.DeleteAsset(oDe);
-			}
-
-			foreach (var Seve in ToSeve)
-			{
-				AssetDatabase.CreateAsset(Seve.Value, Seve.Key);
-				spriteCatalogue.Catalogue.Add(Seve.Value);
-			}
-			*/
-		}
 
 		private static void FindInGo(GameObject g)
 		{
