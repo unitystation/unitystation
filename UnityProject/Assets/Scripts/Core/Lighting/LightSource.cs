@@ -234,10 +234,12 @@ namespace Objects.Lighting
 			{
 				Animator.ServerStopAnim();
 			}
+
 			CheckAudioState();
 			if (newState == LightMountState.On && isServer)
 			{
-				SoundManager.PlayNetworkedAtPos(turnOffOnNoise, gameObject.AssumedWorldPosServer(), new AudioSourceParameters().PitchVariation(0.05f));
+				SoundManager.PlayNetworkedAtPos(turnOffOnNoise, gameObject.AssumedWorldPosServer(),
+					new AudioSourceParameters().PitchVariation(0.05f));
 			}
 		}
 
@@ -295,31 +297,22 @@ namespace Objects.Lighting
 
 		private void CheckAudioState()
 		{
-			if (isServer)
+			if (MountState == LightMountState.On)
 			{
-				if (MountState == LightMountState.On)
+				if (SoundInit)
 				{
-					if (SoundInit)
-					{
-						SoundManager.TokenPlayNetworked(loopKey);
-					}
-					else
-					{
-
-
-						_ = SoundManager.PlayNetworkedAtPosAsync(ambientSoundWhileOn,
-							gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, false, new AudioSourceParameters()
-							{
-								Loops = true
-							});
-						SoundInit = true;
-					}
-
+					SoundManager.TokenPlayNetworked(loopKey);
 				}
 				else
 				{
-					SoundManager.StopNetworked(loopKey, false);
+					SoundManager.ClientPlayAtPositionAttached(ambientSoundWhileOn,
+						gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, false);
+					SoundInit = true;
 				}
+			}
+			else
+			{
+				SoundManager.StopNetworked(loopKey, false);
 			}
 		}
 
@@ -396,6 +389,7 @@ namespace Objects.Lighting
 						"<color=red>You burn your hand on the bulb while attempting to remove it!</color>");
 					return;
 				}
+
 				var spawnedItem = Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer())
 					.GameObject;
 
@@ -448,7 +442,8 @@ namespace Objects.Lighting
 			_ = Despawn.ServerSingle(interaction.HandObject);
 		}
 
-		public void TryAddBulb(GameObject lightBulb) //NOTE Only used by Advanced light Replacer so Colour is inherited from  Advanced light Replacer
+		public void
+			TryAddBulb(GameObject lightBulb) //NOTE Only used by Advanced light Replacer so Colour is inherited from  Advanced light Replacer
 		{
 			if (MountState != LightMountState.MissingBulb) return;
 
@@ -481,7 +476,6 @@ namespace Objects.Lighting
 
 		public void PowerNetworkUpdate(float voltage)
 		{
-
 		}
 
 		public void StateUpdate(PowerState newPowerState)
