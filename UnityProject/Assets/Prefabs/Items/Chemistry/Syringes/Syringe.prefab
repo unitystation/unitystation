@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2632058926283194294}
   - component: {fileID: 9106746402845471768}
   - component: {fileID: 190108051400119662}
-  m_Layer: 10
+  m_Layer: 28
   m_Name: Sprite (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1 &5829844436876796117
 GameObject:
@@ -219,7 +219,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1001 &9161379464675248413
 PrefabInstance:

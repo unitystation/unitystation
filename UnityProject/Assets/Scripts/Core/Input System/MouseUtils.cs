@@ -198,6 +198,15 @@ public static class MouseUtils
 		for (var i = 0; i < bySortingOrder.Length; i++)
 		{
 			SpriteRenderer spriteRenderer = bySortingOrder[i];
+
+			Highlight.SetUpHiddenLayer();
+
+
+			if (spriteRenderer.gameObject.layer == Highlight.HiddenLayer && DevCameraControls.Instance.MappingItemState == false)
+			{
+				continue;
+			}
+
 			Sprite sprite = spriteRenderer.sprite;
 
 			if (spriteRenderer.enabled && sprite && spriteRenderer.color.a > 0)

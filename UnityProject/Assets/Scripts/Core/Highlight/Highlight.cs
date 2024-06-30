@@ -18,6 +18,8 @@ public class Highlight : MonoBehaviour, IInitialise
 
 	private static List<SpriteHandler> subscribeSpriteHandlers = new List<SpriteHandler>();
 
+	public static int? HiddenLayer = null;
+
 	public InitialisationSystems Subsystem => InitialisationSystems.Highlight;
 
 	void IInitialise.Initialise()
@@ -82,6 +84,7 @@ public class Highlight : MonoBehaviour, IInitialise
 				if (SH == null) continue;
 				SH.OnSpriteUpdated -= (UpdateCurrentHighlight);
 			}
+
 			subscribeSpriteHandlers.Clear();
 		}
 	}
@@ -101,6 +104,7 @@ public class Highlight : MonoBehaviour, IInitialise
 				if (SH == null) continue;
 				SH.OnSpriteUpdated -= (UpdateCurrentHighlight);
 			}
+
 			subscribeSpriteHandlers.Clear();
 
 			Texture2D mainTex = instance.spriteRenderer.sprite.texture;
@@ -109,10 +113,10 @@ public class Highlight : MonoBehaviour, IInitialise
 			{
 				data[xy] = new Color32(0, 0, 0, 0);
 			}
+
 			mainTex.SetPixels(data);
 			mainTex.Apply();
 			instance.TargetObject = null;
-
 		}
 	}
 
@@ -124,8 +128,18 @@ public class Highlight : MonoBehaviour, IInitialise
 			{
 				if (attributes.NoMouseHighlight) return;
 			}
+
 			ShowHighlight(Highlightobject);
 		}
+	}
+
+	public static void SetUpHiddenLayer()
+	{
+		if (HiddenLayer == null)
+		{
+			HiddenLayer = LayerMask.NameToLayer("Editor View Only");
+		}
+
 	}
 
 	public static void ShowHighlight(GameObject Highlightobject, bool ignoreHandApply = false)
@@ -141,6 +155,7 @@ public class Highlight : MonoBehaviour, IInitialise
 		{
 			data[xy] = new Color32(0, 0, 0, 0);
 		}
+
 		mainTex.SetPixels(data);
 
 		instance.TargetObject = Highlightobject;
@@ -155,6 +170,7 @@ public class Highlight : MonoBehaviour, IInitialise
 		trans.localScale = Vector3.one;
 		instance.spriteRenderer.sortingLayerID = SpriteRenderers[0].sortingLayerID;
 
+		SetUpHiddenLayer();
 		foreach (var SH in subscribeSpriteHandlers)
 		{
 			if (SH == null) continue;
@@ -179,6 +195,7 @@ public class Highlight : MonoBehaviour, IInitialise
 
 			foreach (var T in SpriteRenderers)
 			{
+				if (T.gameObject.layer == HiddenLayer && DevCameraControls.Instance.MappingItemState == false) continue;
 				if (T.sortingLayerName == "Preview") continue;
 				RecursiveTextureStack(mainTex, T);
 			}
@@ -196,12 +213,12 @@ public class Highlight : MonoBehaviour, IInitialise
 		int yy = 3;
 
 		for (int x = (int) SpriteRenderers.sprite.textureRect.position.x;
-			x < (int) SpriteRenderers.sprite.textureRect.position.x + SpriteRenderers.sprite.rect.width;
-			x++)
+		     x < (int) SpriteRenderers.sprite.textureRect.position.x + SpriteRenderers.sprite.rect.width;
+		     x++)
 		{
 			for (int y = (int) SpriteRenderers.sprite.textureRect.position.y;
-				y < SpriteRenderers.sprite.textureRect.position.y + SpriteRenderers.sprite.rect.height;
-				y++)
+			     y < SpriteRenderers.sprite.textureRect.position.y + SpriteRenderers.sprite.rect.height;
+			     y++)
 			{
 				if (SpriteRenderers.gameObject.activeInHierarchy == false) continue;
 				//Loggy.Log(yy + " <XX YY> " + xx + "   " +  x + " <X Y> " + y  );
@@ -225,6 +242,7 @@ public class Highlight : MonoBehaviour, IInitialise
 			if (SH == null) continue;
 			SH.OnSpriteUpdated -= (UpdateCurrentHighlight);
 		}
+
 		subscribeSpriteHandlers.Clear();
 	}
 
