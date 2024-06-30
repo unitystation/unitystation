@@ -199,10 +199,7 @@ public static class MouseUtils
 		{
 			SpriteRenderer spriteRenderer = bySortingOrder[i];
 
-			Highlight.SetUpHiddenLayer();
-
-
-			if (spriteRenderer.gameObject.layer == Highlight.HiddenLayer && DevCameraControls.Instance.MappingItemState == false)
+			if (DevCameraControls.ObjecIsVisible(spriteRenderer.gameObject) == false)
 			{
 				continue;
 			}
