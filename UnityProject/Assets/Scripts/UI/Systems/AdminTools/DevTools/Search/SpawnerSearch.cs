@@ -78,6 +78,8 @@ public class SpawnerSearch
 
 		List<DevSpawnerDocument> docs = new List<DevSpawnerDocument>();
 
+
+		bool LongEnoughForPrefabIDs = standardizedSearch.Length > 8;
 		var UPPER = ToUse.Length;
 		for (int i = 0; i < UPPER; i++)
 		{
@@ -95,6 +97,19 @@ public class SpawnerSearch
 					else
 					{
 						docs.Add(Entry);
+					}
+				}
+			}
+			if (LongEnoughForPrefabIDs)
+			{
+				if (Entry.RelatedPrefabsIDs.Contains(standardizedSearch))
+				{
+					if (Entry.ForeverID == standardizedSearch)
+					{
+						docs.Insert(0, Entry);
+					}
+					else
+					{ docs.Add(Entry);
 					}
 				}
 			}

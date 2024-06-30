@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using Util;
@@ -20,6 +21,8 @@ namespace UI.Systems.AdminTools.DevTools.Search
 		/// </summary>
 		public readonly string[] SearchableName;
 
+		public readonly string[] RelatedPrefabsIDs;
+
 		public readonly string Name;
 
 		public readonly string ForeverID;
@@ -33,23 +36,25 @@ namespace UI.Systems.AdminTools.DevTools.Search
 			IsDEBUG = _isDebug;
 			Prefab = prefab;
 			var SearchableNameList = new List<string>();
+			var RelatedPrefabsIDsList = new List<string>();
 			Name = prefab.name;
 			SearchableNameList.Add(SpawnerSearch.Standardize(prefab.name));
 			if (prefab.TryGetComponent<PrefabTracker>(out var tracker) == false)
 			{
 				SearchableName = SearchableNameList.ToArray();
 				ForeverID = "";
+				RelatedPrefabsIDs = Array.Empty<string>();
 				return;
 			}
-			SearchableNameList.Add(tracker.ForeverID);
+			RelatedPrefabsIDsList.Add(tracker.ForeverID);
 			ForeverID = tracker.ForeverID;
 			if (string.IsNullOrWhiteSpace(tracker.AlternativePrefabName) == false) SearchableNameList.Add(tracker.AlternativePrefabName);
 
 			while (tracker != null)
 			{
-				if (SearchableNameList.Contains(tracker.ParentID) ==false)
+				if (RelatedPrefabsIDsList.Contains(tracker.ParentID) ==false)
 				{
-					SearchableNameList.Add(tracker.ParentID);
+					RelatedPrefabsIDsList.Add(tracker.ParentID);
 				}
 
 				if (CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs.ContainsKey(tracker.ParentID))
@@ -63,6 +68,7 @@ namespace UI.Systems.AdminTools.DevTools.Search
 
 			}
 			SearchableName = SearchableNameList.ToArray();
+			RelatedPrefabsIDs = RelatedPrefabsIDsList.ToArray();
 		}
 
 		/// <summary>
