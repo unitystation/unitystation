@@ -95,6 +95,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		player = registerPlayer;
 	}
 
+	[SerializeField] private bool ignoreRoundstartGrabObjects = false;
+
 	[SerializeField] private GameObject ashPrefab;
 	public GameObject AshPrefab => ashPrefab;
 
@@ -140,7 +142,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 				ServerPopulate(Populater, PopulationContext.AfterSpawn(spawnInfo), info);
 			}
 		}
-
+		ignoreRoundstartGrabObjects = false;
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
@@ -753,6 +755,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 	public void GrabObjects(List<GameObject> target, Action onGrab = null)
 	{
+		if (ignoreRoundstartGrabObjects) return;
 		foreach (var item in target)
 		{
 			if (item == null) continue;
