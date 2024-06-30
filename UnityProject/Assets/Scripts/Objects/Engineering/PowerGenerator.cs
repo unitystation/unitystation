@@ -72,6 +72,7 @@ namespace Objects.Engineering
 		{
 			if (startAsOn)
 			{
+				securable.objectBehaviour.SetIsNotPushable(true);
 				fuelAmount = fuelPerSheet;
 				TryToggleOn();
 			}

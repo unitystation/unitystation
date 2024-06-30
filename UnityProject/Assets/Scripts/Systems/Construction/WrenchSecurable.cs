@@ -14,7 +14,7 @@ namespace Objects.Construction
 	public class WrenchSecurable : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
 		private RegisterObject registerObject;
-		private UniversalObjectPhysics objectBehaviour;
+		public UniversalObjectPhysics objectBehaviour;
 		private HandApply currentInteraction;
 		private string objectName;
 

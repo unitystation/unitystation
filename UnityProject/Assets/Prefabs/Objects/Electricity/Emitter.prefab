@@ -58,6 +58,11 @@ PrefabInstance:
       propertyPath: ReactionTo.ResistanceReactionA.Resistance.Ohms
       value: 1500
       objectReference: {fileID: 0}
+    - target: {fileID: 2370270784990566235, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: isNotPushable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2408678487295248438, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: m_Size.x
@@ -426,9 +431,17 @@ MonoBehaviour:
   ChangeSprites: 1
   isChangingSO: 0
   CurrentDirection: 3
-  SynchroniseCurrentDirection: 0
+  SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &7229877133248999746
