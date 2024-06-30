@@ -905,7 +905,7 @@ namespace UI.Chat_UI
 		{
 			if (PlayerManager.LocalPlayerScript == null)
 			{
-				return ChatChannel.OOC | ChatChannel.Local;
+				return ChatChannel.OOC;
 			}
 			else
 			{
