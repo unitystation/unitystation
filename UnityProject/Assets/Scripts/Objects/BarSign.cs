@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Logs;
 using Mirror;
 using Systems.Clearance;
 using Systems.Electricity;
@@ -125,7 +124,10 @@ namespace Objects
 			isEMPed = false;
 		}
 
-		public void PowerNetworkUpdate(float voltage) {}
+		public void PowerNetworkUpdate(float voltage)
+		{
+			//Unused as this code only cares about the current state
+		}
 
 		public void StateUpdate(PowerState state)
 		{
