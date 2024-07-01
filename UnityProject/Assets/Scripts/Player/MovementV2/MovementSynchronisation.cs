@@ -1250,7 +1250,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					spinFactor: 35, doNotUpdateThisClient: byClient);
 
 				var player = registerTile as RegisterPlayer;
-				player.OrNull()?.ServerSlip();
+				player.OrNull()?.ServerSlip(true);
 			}
 
 			if (toRemove != null)
@@ -1387,16 +1387,19 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		slippedOn = null;
 		if (slipProtection) return false;
-		if (CurrentMovementType != MovementType.Running) return false;
-		if (isServer == false && hasAuthority && UIManager.Instance.intentControl.Running == false) return false;
+
+
 
 
 		var toMatrix = SetMatrixCache.GetforDirection(moveAction.GlobalMoveDirection.ToVector().To3Int()).Matrix;
 		var localTo = (registerTile.WorldPosition + moveAction.GlobalMoveDirection.ToVector().To3Int())
 			.ToLocal(toMatrix)
 			.RoundToInt();
+
 		if (toMatrix.MetaDataLayer.IsSlipperyAt(localTo))
 		{
+			if (CurrentMovementType != MovementType.Running) return false;
+			if (isServer == false && hasAuthority && UIManager.Instance.intentControl.Running == false) return false;
 			return true;
 		}
 
