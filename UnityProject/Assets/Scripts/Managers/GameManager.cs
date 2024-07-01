@@ -645,14 +645,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 
 		CurrentRoundState = RoundState.Ended;
-		try
-		{
-			EventManager.Broadcast(Event.RoundEnded, true);
-		}
-		catch (Exception e)
-		{
-			Loggy.LogError(e.ToString());
-		}
+
 
 
 
@@ -673,6 +666,15 @@ public partial class GameManager : MonoBehaviour, IInitialise
 				VotingManager.Instance.SetupVote(VotingManager.VoteType.NextMap, VotingManager.VotePolicy.MajorityRules,
 					Mathf.FloorToInt(RoundEndTime - 1), this.gameObject, null);
 			}
+		}
+		catch (Exception e)
+		{
+			Loggy.LogError(e.ToString());
+		}
+
+		try
+		{
+			EventManager.Broadcast(Event.RoundEnded, true);
 		}
 		catch (Exception e)
 		{
