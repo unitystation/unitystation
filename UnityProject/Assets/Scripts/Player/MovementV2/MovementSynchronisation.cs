@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Chat;
 using Core.Editor.Attributes;
 using Core.Utils;
 using Items;
@@ -13,6 +14,7 @@ using Objects;
 using Player.Movement;
 using ScriptableObjects;
 using ScriptableObjects.Audio;
+using ScriptableObjects.RP;
 using SecureStuff;
 using Systems.Character;
 using Systems.Explosions;
@@ -78,6 +80,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	[SerializeField] private PassableExclusionTrait needsWalking = null;
 	[SerializeField] private PassableExclusionTrait needsRunning = null;
+
+	[SerializeField] private EmoteSO VomitEmote;
+
 
 	public Vector2Int CachedPreviousMove = Vector2Int.zero;
 	public Vector2Int CachedMove = Vector2Int.zero;
@@ -328,8 +333,17 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		holder = GetComponent<PassableExclusionHolder>();
 
 		ServerAllowInput.OnBoolChange.AddListener(BoolServerAllowInputChange);
-
+		OnImpact.AddListener(ImpactVomit);
 		base.Awake();
+	}
+
+	public void ImpactVomit(UniversalObjectPhysics ob, Vector2 Newtonian)
+	{
+		if (VomitEmote == null) return;
+		if (Newtonian.magnitude > 6.5f)
+		{
+			EmoteActionManager.DoEmote(VomitEmote, gameObject);
+		}
 	}
 
 	private void BoolServerAllowInputChange(bool NewValue)
@@ -1358,15 +1372,15 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	private bool DoesSlip(MoveData moveAction, out ItemAttributesV2 slippedOn)
 	{
-		bool slipProtection = true;
+		bool slipProtection = false;
 		if (playerScript.DynamicItemStorage != null)
 		{
 			foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))
 			{
-				if (itemSlot.ItemAttributes == null ||
-				    itemSlot.ItemAttributes.HasTrait(CommonTraits.Instance.NoSlip) == false)
+				if (itemSlot.ItemAttributes != null &&
+				    itemSlot.ItemAttributes.HasTrait(CommonTraits.Instance.NoSlip))
 				{
-					slipProtection = false;
+					slipProtection = true;
 				}
 			}
 		}
