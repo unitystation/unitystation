@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6480879544614087310}
   - component: {fileID: 4815598828540558011}
   - component: {fileID: 3646222219413759650}
+  - component: {fileID: 6017590403736606466}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -165,6 +166,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2962bf31e52443dc9130b234501fc020, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6017590403736606466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856013830592554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7eebce6872c4ef18eca1c359b5be159, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EntryConverter:
+    rid: 7488608823936024628
+  references:
+    version: 2
+    RefIds:
+    - rid: 7488608823936024628
+      type: {class: JsonAdminLogEntryConverter, ns: Core.Admin.Logs.Stores, asm: Assets}
+      data: 
 --- !u!1 &2025865168821906811
 GameObject:
   m_ObjectHideFlags: 0

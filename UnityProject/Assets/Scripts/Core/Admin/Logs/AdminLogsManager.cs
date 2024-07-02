@@ -29,12 +29,15 @@ namespace Core.Admin.Logs
 
 		public static void TrackKill(GameObject perp, LivingHealthMasterBase victim)
 		{
-			var log = perp == null ? $"{victim} died." : $"{perp} has caused the death of {victim}.";
+			var log = perp == null ?
+				$"{victim.playerScript.playerName} (as {victim.playerScript.visibleName}) died."
+				: $"{perp.ExpensiveName()} has caused the death of {victim.playerScript.playerName} (as {victim.playerScript.visibleName}).";
 			LogEntry entry = new LogEntry
 			{
 				AdminActions = new List<AdminActionToTake>(),
 				Log = log,
 				LogImportance = Severity.DEATH,
+				Perpetrator = perp,
 			};
 			OnNewLog?.Invoke(entry);
 		}

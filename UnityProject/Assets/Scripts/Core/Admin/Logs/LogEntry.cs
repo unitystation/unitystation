@@ -13,6 +13,22 @@ namespace Core.Admin.Logs
 		public GameObject Perpetrator;
 	}
 
+	public class HumanLogEntry
+	{
+		public DateTime LogTime;
+		public string Log;
+		public string LogImportance;
+		public string Perpetrator;
+
+		public HumanLogEntry(LogEntry entry)
+		{
+			LogTime = entry.LogTime;
+			Log = entry.Log;
+			LogImportance = entry.LogImportance.ToString();
+			Perpetrator = entry.Perpetrator?.ToString();
+		}
+	}
+
 	public class AdminActionToTake
 	{
 		public string Name;

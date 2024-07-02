@@ -2,6 +2,6 @@
 {
 	public interface IAdminLogEntryConverter<out T>
 	{
-		public T Convert(LogEntry entry);
+		public T Convert(object entry);
 	}
 }

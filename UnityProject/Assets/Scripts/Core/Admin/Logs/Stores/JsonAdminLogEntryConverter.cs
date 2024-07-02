@@ -5,9 +5,14 @@ namespace Core.Admin.Logs.Stores
 {
 	public class JsonAdminLogEntryConverter : IAdminLogEntryConverter<string>
 	{
-		public string Convert(LogEntry entry)
+		private JsonSerializerSettings _settings = new JsonSerializerSettings()
 		{
-			return JsonConvert.SerializeObject(entry);
+			NullValueHandling = NullValueHandling.Include, MissingMemberHandling = MissingMemberHandling.Ignore
+		};
+
+		public string Convert(object entry)
+		{
+			return JsonConvert.SerializeObject(entry, _settings) + "\n";
 		}
 	}
 }

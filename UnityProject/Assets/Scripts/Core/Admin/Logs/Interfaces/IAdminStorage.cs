@@ -4,6 +4,6 @@ namespace Core.Admin.Logs.Interfaces
 {
 	public interface IAdminStorage
 	{
-		public Task Store(LogEntry entry);
+		public Task Store(object entry);
 	}
 }
