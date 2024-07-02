@@ -116,7 +116,7 @@ public class PortableScrubber : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	public void OnDisable()
 	{
-		AtmosManager.Instance.RemoveUpdate(UpdateMe);
+		AtmosManager.Instance?.RemoveUpdate(UpdateMe);
 	}
 
 

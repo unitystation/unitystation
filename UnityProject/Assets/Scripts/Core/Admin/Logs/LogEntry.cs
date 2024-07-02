@@ -11,7 +11,7 @@ namespace Core.Admin.Logs
 		public List<AdminActionToTake> AdminActions = new List<AdminActionToTake>();
 		public Severity LogImportance;
 		public GameObject Perpetrator;
-		public LogCatagory Catagory;
+		public LogCategory Category;
 	}
 
 	public class HumanLogEntry
@@ -20,7 +20,7 @@ namespace Core.Admin.Logs
 		public string Log;
 		public string LogImportance;
 		public string Perpetrator;
-		public string Catagory;
+		public string Category;
 
 		public HumanLogEntry(LogEntry entry)
 		{
@@ -28,7 +28,7 @@ namespace Core.Admin.Logs
 			Log = entry.Log;
 			LogImportance = entry.LogImportance.ToString();
 			Perpetrator = entry.Perpetrator?.ToString();
-			Catagory = entry.Catagory.ToString();
+			Category = entry.Category.ToString();
 		}
 	}
 
@@ -48,7 +48,7 @@ namespace Core.Admin.Logs
 		IMMEDIATE_ATTENTION,
 	}
 
-	public enum LogCatagory
+	public enum LogCategory
 	{
 		MISC,
 		Connections,
@@ -60,5 +60,6 @@ namespace Core.Admin.Logs
 		Interaction,
 		Admin,
 		World,
+		RoundFlow,
 	}
 }

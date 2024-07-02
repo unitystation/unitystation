@@ -14,6 +14,7 @@ using Mirror;
 using GameConfig;
 using Initialisation;
 using Audio.Containers;
+using Core.Admin.Logs;
 using Logs;
 using Managers;
 using Messages.Server;
@@ -669,8 +670,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		CurrentRoundState = RoundState.Ended;
 
 
-
-
 		try
 		{
 			GameMode.EndRoundReport();
@@ -706,6 +705,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		StartCoroutine(WaitForRoundRestart());
 
 		_ = SoundManager.PlayNetworked(endOfRoundSounds.GetRandomClip());
+		AdminLogsManager.AddNewLog(null, $"Round {RoundID} has ended.", LogCategory.World);
 	}
 
 	/// <summary>
@@ -937,8 +937,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Loggy.LogError("Cannot restart round, round is already restarting!", Category.Round);
 			return;
 		}
-
-
 
 		CurrentRoundState = RoundState.Restarting;
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Antagonists;
+using Core.Admin.Logs;
 using DiscordWebhook;
 using Logs;
 using UI.CharacterCreator;
@@ -400,9 +401,9 @@ namespace GameModes
 				}
 			}
 
+			var msg = $"{PlayerList.Instance.ReadyPlayers.Count} players ready, {antagsToSpawn} antags to spawn. {playerSpawnRequests.Count} players spawned (excludes antags), {antagSpawnRequests.Count} antags spawned";
 			try
 			{
-				var msg = $"{PlayerList.Instance.ReadyPlayers.Count} players ready, {antagsToSpawn} antags to spawn. {playerSpawnRequests.Count} players spawned (excludes antags), {antagSpawnRequests.Count} antags spawned";
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "[GameMode]");
 			}
 			catch (Exception e)
@@ -412,6 +413,7 @@ namespace GameModes
 
 			GameManager.Instance.CurrentRoundState = RoundState.Started;
 			EventManager.Broadcast(Event.RoundStarted, true);
+			AdminLogsManager.AddNewLog(null, $"Round {GameManager.RoundID} has started. GameMode: {gameModeName}. {msg}.", LogCategory.RoundFlow);
 		}
 
 		protected void AntagJobAllocation(JobAllocator jobAllocator, List<PlayerInfo> playerPool,

@@ -32,6 +32,7 @@ namespace Core.Admin.Logs.Stores
 
 		private void QueueLog(LogEntry newEntry)
 		{
+			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound) return;
 			entries.Enqueue(new HumanLogEntry(newEntry));
 		}
 

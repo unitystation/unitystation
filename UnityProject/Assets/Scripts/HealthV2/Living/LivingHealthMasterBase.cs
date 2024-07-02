@@ -1323,7 +1323,7 @@ namespace HealthV2
 				{
 					didFlash = true;
 					ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FLASHED);
-					AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has been flashed and stunned.", LogCatagory.Interaction, Severity.SUSPICOUS);
+					AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has been flashed and stunned.", LogCategory.Interaction, Severity.SUSPICOUS);
 				}
 			}
 
@@ -1928,7 +1928,7 @@ namespace HealthV2
 
 			float damage = shockPower;
 			ApplyDamageAll(null, damage, AttackType.Internal, DamageType.Burn);
-			AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has been electrcuted at {gameObject.AssumedWorldPosServer()}.", LogCatagory.MobDamage);
+			AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has been electrcuted at {gameObject.AssumedWorldPosServer()}.", LogCategory.MobDamage);
 		}
 
 		#endregion
@@ -2201,7 +2201,7 @@ namespace HealthV2
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 			UpdateManager.Add(FastRegen, tickRate);
-			AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has recevied fast regen.", LogCatagory.MobDamage);
+			AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has recevied fast regen.", LogCategory.MobDamage);
 		}
 
 		private void FastRegen()

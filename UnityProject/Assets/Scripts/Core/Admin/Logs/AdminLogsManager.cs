@@ -27,7 +27,7 @@ namespace Core.Admin.Logs
 			OnNewLog?.Invoke(entry);
 		}
 
-		public static void AddNewLog(GameObject perp, string info, LogCatagory catagory, Severity severity = Severity.MISC)
+		public static void AddNewLog(GameObject perp, string info, LogCategory category, Severity severity = Severity.MISC)
 		{
 			LogEntry entry = new LogEntry
 			{
@@ -50,7 +50,7 @@ namespace Core.Admin.Logs
 				Log = log,
 				LogImportance = Severity.DEATH,
 				Perpetrator = perp,
-				Catagory = LogCatagory.MobDamage
+				Category = LogCategory.MobDamage
 			};
 			OnNewLog?.Invoke(entry);
 		}
@@ -67,7 +67,7 @@ namespace Core.Admin.Logs
 				Log = log,
 				LogImportance = Severity.MISC,
 				Perpetrator = perp,
-				Catagory = LogCatagory.MobDamage
+				Category = LogCategory.MobDamage
 			};
 			OnNewLog?.Invoke(entry);
 		}
@@ -83,7 +83,7 @@ namespace Core.Admin.Logs
 				Log = log,
 				LogImportance = Severity.MISC,
 				Perpetrator = perp,
-				Catagory = LogCatagory.ObjectDamage
+				Category = LogCategory.ObjectDamage
 			};
 			OnNewLog?.Invoke(entry);
 		}

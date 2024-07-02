@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 using System.Linq;
+using Core.Admin.Logs;
 using DiscordWebhook;
 using Logs;
 using Messages.Server.LocalGuiMessages;
@@ -198,9 +199,10 @@ namespace Antagonists
 			SpawnMind.ShowObjectives();
 			chosenAntag.AfterSpawn(SpawnMind);
 
-			Loggy.Log(
-				$"Created new antag. Made {SpawnMind.name} a {chosenAntag.AntagName} with objectives:\n{spawnedAntag.GetObjectivesForLog()}",
-				Category.Antags);
+			var msg =
+				$"Created new antag. Made {SpawnMind.name} a {chosenAntag.AntagName} with objectives:\n{spawnedAntag.GetObjectivesForLog()}";
+			Loggy.Log(msg, Category.Antags);
+			AdminLogsManager.AddNewLog(null, $"{msg}", LogCategory.RoundFlow);
 		}
 
 		private void SetTeamAntag(Mind spawnMind, Antagonist chosenAntag)
