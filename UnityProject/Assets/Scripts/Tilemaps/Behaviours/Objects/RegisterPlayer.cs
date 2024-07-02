@@ -301,6 +301,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		ServerCheckStandingChange(true);
 		OnSlipChangeServer.Invoke(IsSlippingServer, true);
 		playerScript.DynamicItemStorage.ServerDropItemsInHand();
+		playerScript.RegisterPlayer.ServerStun(1, false, false);
 	}
 
 	/// <summary>
@@ -365,11 +366,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		var oldVal = IsSlippingServer;
 		IsSlippingServer = false;
 
-		// Do not raise up a dead body
-		if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS)
-		{
-			ServerCheckStandingChange(false);
-		}
+
 
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
 
@@ -380,6 +377,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		}
 
 		ServerUpdateStunStatus(false);
+
+		// Do not raise up a dead body
+		if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS)
+		{
+			ServerCheckStandingChange(false);
+		}
 	}
 
 	public void ServerUpdateStunStatus(bool isStunned)
