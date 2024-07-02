@@ -56,7 +56,7 @@ namespace Core.Admin.Logs.Stores
 				return;
 			}
 			//TODO: Update this to have operations be IAdminLogEntryConverter specific to allow for things like easy SQLite integretions
-			string filePath = Path.Combine("Admin", $"{DateTime.Now:yyyy-MM-dd}.txt");
+			string filePath = Path.Combine("Admin", $"{DateTime.Now:yyyy-MM-dd} - {GameManager.RoundID}.txt");
 			CheckForDirectory(filePath);
 			await Task.Run(() =>
 			{

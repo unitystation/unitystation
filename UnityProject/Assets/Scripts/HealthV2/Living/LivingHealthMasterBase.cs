@@ -356,6 +356,7 @@ namespace HealthV2
 			mobID = PlayerManager.Instance.GetMobID();
 			gibBehavior = GetComponent<IGib>();
 			ComponentsTracker<LivingHealthMasterBase>.Instances.Add(this);
+			OnTakeDamageType += LogDamageEvent;
 		}
 
 		public void OnDestroy()
@@ -1317,11 +1318,12 @@ namespace HealthV2
 			var eyes = GetBodyPartsInArea(BodyPartType.Eyes, false);
 			foreach (var eye in eyes)
 			{
-				var EyeFlash = eye.GetComponentCustom<EyeFlash>();
-				if (EyeFlash != null && EyeFlash.TryFlash(flashDuration, checkForProtectiveCloth))
+				var eyeFlash = eye.GetComponentCustom<EyeFlash>();
+				if (eyeFlash != null && eyeFlash.TryFlash(flashDuration, checkForProtectiveCloth))
 				{
 					didFlash = true;
 					ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FLASHED);
+					AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has been flashed and stunned.", LogCatagory.Interaction, Severity.SUSPICOUS);
 				}
 			}
 
@@ -1926,6 +1928,7 @@ namespace HealthV2
 
 			float damage = shockPower;
 			ApplyDamageAll(null, damage, AttackType.Internal, DamageType.Burn);
+			AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has been electrcuted at {gameObject.AssumedWorldPosServer()}.", LogCatagory.MobDamage);
 		}
 
 		#endregion
@@ -2198,6 +2201,7 @@ namespace HealthV2
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 			UpdateManager.Add(FastRegen, tickRate);
+			AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has recevied fast regen.", LogCatagory.MobDamage);
 		}
 
 		private void FastRegen()
@@ -2287,6 +2291,12 @@ namespace HealthV2
 			if (abuser.TryGetComponent<PlayerScript>(out var script) == false) return;
 			if (script.gameObject == abuser) return; //Don't add to the score if the clown hits themselves.
 			ScoreMachine.AddToScoreInt(Mathf.RoundToInt(-5 * Amount), RoundEndScoreBuilder.COMMON_SCORE_CLOWNABUSE);
+		}
+
+		private void LogDamageEvent(DamageType damageType, GameObject perp, float damage)
+		{
+			DamageInfo info = new DamageInfo(damage, AttackType.Internal, damageType, null);
+			AdminLogsManager.TrackDamage(perp, this, info);
 		}
 
 
