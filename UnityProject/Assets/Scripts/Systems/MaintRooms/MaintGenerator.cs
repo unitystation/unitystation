@@ -126,8 +126,8 @@ namespace Systems.Scenes
 			possibleCells.Add(startingCellLocation);
 
 			Vector2Int currentCell;
-			Vector2Int newCell = new Vector2Int(0,0);
-			bool foundPath = false;
+			Vector2Int newCell;
+			bool foundPath;
 
 			do
 			{
