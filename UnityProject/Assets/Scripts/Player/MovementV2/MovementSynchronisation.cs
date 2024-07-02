@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Chat;
+using Core.Admin.Logs;
 using Core.Editor.Attributes;
 using Core.Utils;
 using Items;
@@ -1583,6 +1584,16 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		//Client side check for invalid tabs still open
 		//(Don't need to do this server side as the interactions are validated)
 		ControlTabs.CheckTabClose();
+	}
+
+	public override void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false,
+		bool doStepInteractions = true,
+		Vector2? momentum = null)
+	{
+		var oldPos = gameObject.AssumedWorldPosServer();
+		base.AppearAtWorldPositionServer(worldPos, smooth, doStepInteractions, momentum);
+		AdminLogsManager.AddNewLog(gameObject,
+			$"{gameObject.ExpensiveName()} has appeared at {gameObject.AssumedWorldPosServer()} (original position: {oldPos})", LogCategory.World);
 	}
 
 	private void SyncMovementType(MovementType oldType, MovementType newType)

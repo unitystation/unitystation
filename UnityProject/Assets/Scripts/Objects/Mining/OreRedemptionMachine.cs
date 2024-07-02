@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
+using System;
+using System.Collections.Generic;
+using Core.Admin.Logs;
+using UnityEngine;
 using Items;
 using Items.PDA;
 using Objects.Machines;
@@ -118,6 +122,9 @@ namespace Objects.Mining
 					idCard.currencies[(int)CurrencyType.LaborPoints] += laborPoints;
 					laborPoints = 0;
 					oreRedemptiomMachineGUI.UpdateLaborPoints(laborPoints);
+					AdminLogsManager.AddNewLog(player,
+						$"{player.ExpensiveName()} has claimed {pointsToClaim} labor points on ID ({idCard.RegisteredName}) " +
+						$"at {gameObject.AssumedWorldPosServer()}.", LogCategory.Interaction);
 					return;
 				}
 			}
