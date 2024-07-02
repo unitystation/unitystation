@@ -1573,6 +1573,7 @@ namespace HealthV2
 		[Server]
 		public void OnGib()
 		{
+			AdminLogsManager.AddNewLog(null, $"{gameObject.ExpensiveName()} is getting Gibbed!!", LogCategory.MobDamage, Severity.IMMEDIATE_ATTENTION);
 			gibBehavior.OnGib();
 		}
 

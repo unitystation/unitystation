@@ -381,7 +381,7 @@ namespace Objects.Disposals
 			StandardProgressAction.Create(cfg, StoringPlayer).ServerStartProgress(interaction.UsedObject.RegisterTile(), 2, interaction.Performer);
 
 			AdminLogsManager.AddNewLog(interaction.Performer,
-				$"{interaction.Performer.ExpensiveName()} is attempting to put {interaction.TargetObject.ExpensiveName()} " +
+				$"{interaction.Performer.ExpensiveName()} is attempting to put ({interaction.TargetObject.ExpensiveName()}) " +
 				$"into a DisposalBin at {gameObject.AssumedWorldPosServer()}.", LogCategory.Interaction, Severity.SUSPICOUS);
 		}
 
