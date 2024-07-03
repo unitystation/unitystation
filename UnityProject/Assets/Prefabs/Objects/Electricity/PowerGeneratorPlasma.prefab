@@ -108,11 +108,8 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 1
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1642589051554738
 GameObject:
   m_ObjectHideFlags: 0
@@ -5253,6 +5250,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  objectBehaviour: {fileID: 0}
   isSecuredStateExaminable: 1
   isExposedFloorPlatingRequired: 1
   secondsToSecure: 0
@@ -5439,7 +5437,7 @@ MonoBehaviour:
   DEBUG: 0
   tileMoveSpeed: 1
   HasOwnGravity: 0
-  isNotPushable: 1
+  isNotPushable: 0
   CanBeWindPushed: 1
   rotationTarget: {fileID: 0}
   stickyMovement: 0

@@ -363,7 +363,7 @@ namespace TileManagement
 			//Remove before setting
 			if (tileLocation.InternalLayerTile is FuncPlaceRemoveTile funcPlaceRemoveTile)
 			{
-				funcPlaceRemoveTile.OnRemoved(tileLocation.LocalPosition, matrix, tileLocation);
+				funcPlaceRemoveTile.OnRemoved(tileLocation.LocalPosition, matrix, tileLocation, tileLocation.DropItems);
 			}
 
 			tileLocation.InternalLayerTile = null;
@@ -2124,7 +2124,7 @@ namespace TileManagement
 		}
 
 		//Use TileChangeManager Instead if you want to me networked
-		public void RemoveTile(Vector3Int position)
+		public void RemoveTile(Vector3Int position, bool DropItems = true)
 		{
 			TileLocation tileLocation = null;
 			foreach (var layer in LayersValues)
@@ -2194,7 +2194,7 @@ namespace TileManagement
 					}
 
 					tileLocation.layerTile = null;
-
+					tileLocation.DropItems = DropItems;
 					ApplyTileChange(tileLocation);
 					if (refLayer != LayerType.Effects)
 					{
@@ -2206,7 +2206,7 @@ namespace TileManagement
 			}
 		}
 
-		public void RemoveTileWithlayer(Vector3Int position, LayerType refLayer, bool exactPosition = true)
+		public void RemoveTileWithlayer(Vector3Int position, LayerType refLayer, bool exactPosition = true, bool DropItems = true)
 		{
 			if (refLayer == LayerType.Objects) return;
 
@@ -2272,6 +2272,7 @@ namespace TileManagement
 					}
 
 					tileLocation.layerTile = null;
+					tileLocation.DropItems = DropItems;
 					ApplyTileChange(tileLocation);
 					if (refLayer != LayerType.Effects)
 					{

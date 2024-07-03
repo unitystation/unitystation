@@ -1089,38 +1089,13 @@ namespace AdminCommands
 				return;
 			}
 
-			Vector3Int searchVector;
-
 			if (tile is OverlayTile overlayTile)
 			{
-				searchVector = matrixInfo.MetaTileMap.AddOverlay(localPos, overlayTile, matrix4X4, colour);
+				matrixInfo.MetaTileMap.AddOverlay(localPos, overlayTile, matrix4X4, colour);
 			}
 			else
 			{
-				searchVector = matrixInfo.MetaTileMap.SetTile(localPos, tile, matrix4X4, colour);
-			}
-
-			if (tile is ElectricalCableTile electricalCableTile)
-			{
-				matrixInfo.Matrix.AddElectricalNode(localPos, electricalCableTile);
-
-				return;
-			}
-
-			if (tile is PipeTile pipeTile)
-			{
-				if (matrix4X4 == null)
-				{
-					matrix4X4 = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, Vector3.one);
-				}
-
-				pipeTile.InitialiseNodeNew(searchVector, matrixInfo.Matrix, matrix4X4.Value);
-				return;
-			}
-
-			if (tile is DisposalPipe disposalPipe)
-			{
-				disposalPipe.InitialiseNode(searchVector, matrixInfo.Matrix);
+				 matrixInfo.MetaTileMap.SetTile(localPos, tile, matrix4X4, colour);
 			}
 		}
 

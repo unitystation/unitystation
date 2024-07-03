@@ -303,7 +303,7 @@ namespace MapSaver
 
 		public static MatrixData SaveMatrix(bool Compact, MetaTileMap MetaTileMap, bool SingleSave = true,
 			List<BetterBounds> LocalArea = null, bool NonmappedItems = false, HashSet<LayerType> LayersToProcess = null,
-			bool DoSaveObjects = true)
+			bool DoSaveObjects = true, bool Cut = false)
 		{
 			if (SingleSave)
 			{
@@ -379,6 +379,110 @@ namespace MapSaver
 				}
 
 				FieldsToRefresh.Clear();
+			}
+
+			if (Cut)
+			{
+				var PresentTiles = MetaTileMap.PresentTilesNeedsLock;
+
+				List<TileLocation> TilesToRemove = new List<TileLocation>();
+
+				lock (PresentTiles)
+				{
+					foreach (var TileMaps in PresentTiles)
+					{
+						foreach (var Tile in TileMaps)
+						{
+							if (AllowedPoints == null)
+							{
+								TilesToRemove.Add(Tile);
+							}
+							else
+							{
+								if (AllowedPoints.Contains(Tile.LocalPosition))
+								{
+									TilesToRemove.Add(Tile);
+								}
+							}
+						}
+					}
+				}
+
+				var MultilayerPresentTiles = MetaTileMap.MultilayerPresentTilesNeedsLock;
+
+				lock (MultilayerPresentTiles)
+				{
+					foreach (var TileMaps in MultilayerPresentTiles)
+					{
+						foreach (var Tiles in TileMaps)
+						{
+							if (Tiles == null || Tiles.Count == 0) continue;
+							if (AllowedPoints == null)
+							{
+								TilesToRemove.AddRange(Tiles);
+							}
+							else
+							{
+
+								Vector3Int GoodPOS = Vector3Int.one;
+								bool Found = false;
+								foreach (var Tile in Tiles)
+								{
+									if (Tile != null)
+									{
+										GoodPOS = Tile.LocalPosition;
+										Found = true;
+										break;
+									}
+								}
+
+								if (Found == false) continue;
+								GoodPOS.z = 0; //TODO Tile map upgrade
+								if (AllowedPoints.Contains(GoodPOS))
+								{
+									TilesToRemove.AddRange(Tiles);
+								}
+							}
+						}
+					}
+				}
+
+
+				foreach (var Location in TilesToRemove)
+				{
+					Location?.Remove(false);
+				}
+
+
+				IEnumerable<RegisterTile> Objects =null;
+				if (Application.isPlaying)
+				{
+					Objects = MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.Instance._isServer).AllObjects; //TODO Disabled objectsxz
+				}
+				else
+				{
+					Objects = MetaTileMap.GetComponentsInChildren<RegisterTile>(true);
+#if UNITY_EDITOR
+					CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.ForeverIDLookupSpawnablePrefabs.Clear();
+					CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.SetUpSpawnablePrefabsForEverIDManual();
+					CustomNetworkManager.Instance = CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab;
+#endif
+				}
+
+				foreach (var Object in Objects)
+				{
+					if (AllowedPoints == null)
+					{
+						_ = Despawn.ServerSingle(Object.gameObject);
+					}
+					else
+					{
+						if (AllowedPoints.Contains(Object.LocalPosition))
+						{
+							_ = Despawn.ServerSingle(Object.gameObject);
+						}
+					}
+				}
 			}
 
 			return matrixData;

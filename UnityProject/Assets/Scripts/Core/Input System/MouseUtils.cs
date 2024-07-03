@@ -198,6 +198,12 @@ public static class MouseUtils
 		for (var i = 0; i < bySortingOrder.Length; i++)
 		{
 			SpriteRenderer spriteRenderer = bySortingOrder[i];
+
+			if (DevCameraControls.ObjecIsVisible(spriteRenderer.gameObject) == false)
+			{
+				continue;
+			}
+
 			Sprite sprite = spriteRenderer.sprite;
 
 			if (spriteRenderer.enabled && sprite && spriteRenderer.color.a > 0)

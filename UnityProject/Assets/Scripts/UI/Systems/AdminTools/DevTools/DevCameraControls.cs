@@ -53,6 +53,8 @@ public class DevCameraControls  : SingletonManager<DevCameraControls>
 
 	private bool? Override = null;
 
+	public static int? HiddenLayer = null;
+
 	public void ToggleLayers()
 	{
 		SetLayerVisibility(Override ?? Effects.isOn, LayerType.Effects);
@@ -68,6 +70,30 @@ public class DevCameraControls  : SingletonManager<DevCameraControls>
 		SetLayerVisibility(Override ?? Disposals.isOn, LayerType.Disposals);
 		SetLayerVisibility(Override ?? Base.isOn, LayerType.Base);
 		Override = null;
+	}
+
+
+	public static void SetUpHiddenLayer()
+	{
+		if (HiddenLayer == null)
+		{
+			HiddenLayer = LayerMask.NameToLayer("Editor View Only");
+		}
+
+	}
+
+	public static bool ObjecIsVisible(GameObject ob)
+	{
+		SetUpHiddenLayer();
+
+		if (ob.gameObject.layer == HiddenLayer && DevCameraControls.Instance.MappingItemState == false)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 

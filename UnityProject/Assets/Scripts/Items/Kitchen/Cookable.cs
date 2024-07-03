@@ -91,7 +91,7 @@ namespace Items.Food
 		public bool AddCookingTime(float time)
 		{
 			timeSpentCooking += time;
-			if (timeSpentCooking > CookTime)
+			if (timeSpentCooking > CookTime )
 			{
 				OnCooked?.Invoke();
 				return true;
@@ -101,7 +101,8 @@ namespace Items.Food
 
 		private void OnBurnUpServer(DestructionInfo info)
 		{
-			var item = Spawn.ServerPrefab(CookedProduct, gameObject.RegisterTile().WorldPosition, transform.parent);
+			if (CookedProduct == null) return;
+			var item = Spawn.ServerPrefab(CookedProduct, gameObject.AssumedWorldPosServer(), transform.parent);
 
 			if (Pickupable.ItemSlot != null)
 			{
@@ -111,13 +112,21 @@ namespace Items.Food
 
 
 
-
 		}
 
 		public void CookProduct()
 		{
 			OnBurnUpServer(null);
-			_ = Despawn.ServerSingle(gameObject);
+			var stackable = this.GetComponent<Stackable>();
+			if (stackable != null && stackable.Amount > 1)
+			{
+				stackable.ServerConsume(1);
+				this.ResetTimeCooked();
+			}
+			else
+			{
+				_ = Despawn.ServerSingle(this.gameObject);
+			}
 		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))

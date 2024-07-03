@@ -25,6 +25,8 @@ public class GUI_DevSpawner : MonoBehaviour
 
 	public Toggle DEBUGToggle;
 
+	public Toggle MappingToggle;
+
 	public int StackAmount
 	{
 		get

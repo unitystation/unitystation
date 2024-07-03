@@ -17,6 +17,7 @@ namespace Items.Others
 		private MovementSynchronisation playerMove;
 		private ItemActionButton actionButton;
 
+		[SyncVar(hook = nameof(SyncClientState))]
 		private bool isOn = false;
 
 		public float RunningSpeedModifier => runSpeedDebuff;
@@ -101,20 +102,41 @@ namespace Items.Others
 			pickupable.RefreshUISlotImage();
 		}
 
+		private void SyncClientState(bool OldState, bool NewState)
+		{
+			if (OldState)
+			{
+				RemoveEffect();
+			}
+
+			if (NewState)
+			{
+				ApplyEffect();
+			}
+		}
+
 		private void ApplyEffect()
 		{
 			itemAttributesV2.AddTrait(CommonTraits.Instance.NoSlip);
-			playerMove.AddModifier(this);
-			playerMove.CanBeWindPushed = false;
-			playerMove.HasOwnGravity = true;
+			if (isServer)
+			{
+				playerMove.AddModifier(this);
+				playerMove.CanBeWindPushed = false;
+				playerMove.HasOwnGravity = true;
+			}
+
+
 		}
 
 		private void RemoveEffect()
 		{
 			itemAttributesV2.RemoveTrait(CommonTraits.Instance.NoSlip);
-			playerMove.RemoveModifier(this);
-			playerMove.CanBeWindPushed = true;
-			playerMove.HasOwnGravity = false;
+			if (isServer)
+			{
+				playerMove.RemoveModifier(this);
+				playerMove.CanBeWindPushed = true;
+				playerMove.HasOwnGravity = false;
+			}
 		}
 	}
 }

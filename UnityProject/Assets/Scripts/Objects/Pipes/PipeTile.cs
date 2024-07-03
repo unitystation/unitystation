@@ -112,7 +112,7 @@ namespace Objects.Atmospherics
 			}
 		}
 
-		public override void OnRemoved(Vector3Int TileLocation, Matrix AssociatedMatrix, TileLocation tileLocation)
+		public override void OnRemoved(Vector3Int TileLocation, Matrix AssociatedMatrix, TileLocation tileLocation, bool SpawnItems)
 		{
 			var metaDataNode = AssociatedMatrix.GetMetaDataNode(TileLocation);
 			for (var i = 0; i < metaDataNode.PipeData.Count; i++)
@@ -120,7 +120,7 @@ namespace Objects.Atmospherics
 				if (metaDataNode.PipeData[i].RelatedTile != this)
 					continue; //TODO Stuff like layers and stuff can be included
 
-				metaDataNode.PipeData[i].pipeData.DestroyThis(true, tileLocation.transformMatrix, tileLocation.Colour);
+				metaDataNode.PipeData[i].pipeData.DestroyThis(true, tileLocation.transformMatrix, tileLocation.Colour, SpawnItems);
 			}
 		}
 	}

@@ -77,6 +77,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	protected MatrixCash SetMatrixCache = new MatrixCash();
 
+	public float ObjectBouncyness = 0.75f;
+
 	public const float DEFAULT_PUSH_SPEED = 6;
 
 	/// <summary>
@@ -1717,7 +1719,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					NewtonianMovement -= 2 * (NewtonianMovement * hit.Normal) * hit.Normal;
 					var offset = (0.1f * hit.Normal);
 					newPosition = hit.HitWorld + offset.To3();
-					NewtonianMovement *= 0.9f;
+					NewtonianMovement *= ObjectBouncyness;
 					spinMagnitude *= -1;
 
 
@@ -1759,7 +1761,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 						OnImpact.Invoke(this, NewtonianMovement);
 						NewtonianMovement -= 2 * (NewtonianMovement * normal) * normal;
-						NewtonianMovement *= 0.9f;
+						NewtonianMovement *= ObjectBouncyness;
 						spinMagnitude *= -1;
 					}
 

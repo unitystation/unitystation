@@ -168,24 +168,7 @@ namespace Objects.Kitchen
 			{
 				if(onGrill.gameObject.TryGetComponent(out Cookable slotCooked) && slotCooked.CookableBy.HasFlag(CookSource.Griddle))
 				{
-					if (slotCooked.AddCookingTime(cookTime) == true)
-					{
-						// Swap item for its cooked version, if applicable.
-						if (slotCooked.CookedProduct == null) return;
-						Spawn.ServerPrefab(slotCooked.CookedProduct, slotCooked.gameObject.transform.position, transform.parent);
-						var stackable = slotCooked.GetComponent<Stackable>();
-						if (stackable != null && stackable.Amount > 1)
-						{
-							stackable.ServerConsume(1);
-							slotCooked.ResetTimeCooked();
-						}
-						else
-						{
-							_ = Despawn.ServerSingle(slotCooked.gameObject);
-						}
-
-
-					}
+					slotCooked.AddCookingTime(cookTime);
 				}
 			}
 		}
@@ -228,7 +211,7 @@ namespace Objects.Kitchen
 				audioLoopGUID = Guid.NewGuid().ToString();
 
 				SoundManager.ClientPlayAtPositionAttached(RunningAudio, registerTile.WorldPosition, gameObject, audioLoopGUID,
-						audioSourceParameters: new AudioSourceParameters(pitch: voltageModifier, volume: 1));
+						audioSourceParameters: new AudioSourceParameters(pitch: voltageModifier, volume: 1, loops: true) );
 			}
 		}
 

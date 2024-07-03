@@ -57,8 +57,8 @@ public class ShuttleCameraRenderer : MonoBehaviour
 			if (MatrixMove != null)
 			{
 				if (MatrixMove.NetworkedMatrixMove.TargetOrientation != OrientationEnum.Default
-				    || MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity.magnitude > 0
-				    || MatrixMove.NetworkedMatrixMove.CurrentTorque > 0)
+				    || MatrixMove.NetworkedMatrixMove.SynchronisedVelocity.magnitude > 0
+				    || MatrixMove.NetworkedMatrixMove.SynchronisedSpin > 0)
 				{
 					LightingSystem.matrixRotationMode = true;
 				}

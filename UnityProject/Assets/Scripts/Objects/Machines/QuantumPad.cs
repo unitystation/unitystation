@@ -207,6 +207,7 @@ namespace Objects.Science
 			{
 				//Don't teleport self lol
 				if(reg.gameObject == gameObject) continue;
+				if(reg.ObjectPhysics.Component.Intangible) continue;
 
 				SoundManager.PlayNetworkedForPlayer(connectedPad.gameObject, CommonSounds.Instance.StealthOff);
 				SoundManager.PlayNetworkedForPlayer(gameObject, CommonSounds.Instance.StealthOff);

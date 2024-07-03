@@ -502,7 +502,7 @@ namespace Objects
 					SavedPipes.AddRange(node.PipeData);
 					foreach (var pipe in SavedPipes)
 					{
-						pipe.pipeData.DestroyThis();
+						pipe.pipeData.Remove();
 						ChangePoints(5);
 					}
 				}
