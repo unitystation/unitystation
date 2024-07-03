@@ -14,6 +14,7 @@ namespace TileManagement
 
 		public bool Removing = false;
 
+		public bool DropItems = true;
 		public LayerTile layerTile
 		{
 			get
@@ -69,6 +70,12 @@ namespace TileManagement
 				GameObject.Destroy(AssociatedSetCubeSprite.gameObject);
 			}
 			AssociatedSetCubeSprite = null;
+			DropItems = true;
+		}
+
+		public void Remove(bool DropItems = true)
+		{
+			metaTileMap.RemoveTileWithlayer(LocalPosition,InternalLayerTile.LayerType, true, DropItems);
 		}
 	}
 }

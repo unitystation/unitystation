@@ -64,6 +64,8 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	public Toggle UesCompact;
 
+	public Toggle CutSection;
+
 	private void OnEnable()
 	{
 		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
@@ -287,11 +289,11 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 		if (UseLocal.isOn == false)
 		{
-			ClientRequestsSaveMessage.Send(Gizmos, LocalArea, Matrix, UesCompact.isOn, NonmappedItems.isOn, Layers, ObjectsVisible);
+			ClientRequestsSaveMessage.Send(Gizmos, LocalArea, Matrix, UesCompact.isOn, NonmappedItems.isOn, Layers, ObjectsVisible, CutSection.isOn);
 		}
 		else
 		{
-			var Data =  MapSaver.MapSaver.SaveMatrix(UesCompact.isOn, Matrix.MetaTileMap, true, LocalArea,NonmappedItems.isOn,Layers, ObjectsVisible  );
+			var Data =  MapSaver.MapSaver.SaveMatrix(UesCompact.isOn, Matrix.MetaTileMap, true, LocalArea,NonmappedItems.isOn,Layers, ObjectsVisible, CutSection.isOn  );
 			Data.PreviewGizmos = Gizmos;
 			var StringData = JsonConvert.SerializeObject(Data, settings);
 			ReceiveData(StringData);

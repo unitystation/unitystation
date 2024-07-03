@@ -11,7 +11,7 @@ public class FuncPlaceRemoveTile : BasicTile
 
 	}
 
-	public virtual void OnRemoved(Vector3Int TileLocation, Matrix AssociatedMatrix, TileLocation tileLocation)
+	public virtual void OnRemoved(Vector3Int TileLocation, Matrix AssociatedMatrix, TileLocation tileLocation, bool DropItems)
 	{
 
 	}

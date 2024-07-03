@@ -78,7 +78,7 @@ namespace Objects.Disposals
 			InitialiseNode(TileLocation, AssociatedMatrix);
 		}
 
-		public override void OnRemoved(Vector3Int TileLocation, Matrix AssociatedMatrix, TileLocation tileLocation)
+		public override void OnRemoved(Vector3Int TileLocation, Matrix AssociatedMatrix, TileLocation tileLocation, bool SpawnItems)
 		{
 			var Node = AssociatedMatrix.MetaDataLayer.Get(TileLocation, false);
 			if (Node != null)
@@ -97,18 +97,22 @@ namespace Objects.Disposals
 				// Spawn pipe GameObject
 				if (this.SpawnOnDeconstruct == null) return;
 
-				var spawn = Spawn.ServerPrefab(this.SpawnOnDeconstruct, TileLocation.ToWorld(AssociatedMatrix));
-				if (spawn.Successful == false) return;
-
-				if (spawn.GameObject.TryGetComponent<Rotatable>(out var Rotatable))
+				if (SpawnItems)
 				{
-					Rotatable.FaceDirection(this.DisposalPipeObjectOrientation);
+					var spawn = Spawn.ServerPrefab(this.SpawnOnDeconstruct, TileLocation.ToWorld(AssociatedMatrix));
+					if (spawn.Successful == false) return;
+
+					if (spawn.GameObject.TryGetComponent<Rotatable>(out var Rotatable))
+					{
+						Rotatable.FaceDirection(this.DisposalPipeObjectOrientation);
+					}
+
+					if (spawn.GameObject.TryGetComponent<UniversalObjectPhysics>(out var behaviour))
+					{
+						behaviour.SetIsNotPushable(true);
+					}
 				}
 
-				if (spawn.GameObject.TryGetComponent<UniversalObjectPhysics>(out var behaviour))
-				{
-					behaviour.SetIsNotPushable(true);
-				}
 			}
 		}
 	}
