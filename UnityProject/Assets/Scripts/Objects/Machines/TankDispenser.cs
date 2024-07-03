@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Logs;
+using System.Linq;
+using System.Text;
 using Mirror;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
@@ -90,28 +91,20 @@ namespace Objects.Machines
 
 		public void TankInteraction(List<ItemSlot> slots, PositionalHandApply interaction)
 		{
-			bool removing = interaction.HandObject == null;
-			ItemSlot slot = null;
+			bool isRemoving = interaction.HandObject == null;
+			ItemSlot targetSlot = slots.FirstOrDefault(slot => isRemoving ? slot.Item != null : slot.Item == null);
 
-			foreach (var slotloop in slots)
+			if (targetSlot != null)
 			{
-				if (removing ? slotloop.Item != null : slotloop.Item == null)
-				{
-					slot = slotloop;
-					break;
-				}
-			}
-
-			if (slot != null)
-			{
-				ItemSlot from = removing ? slot : interaction.HandSlot;
-				ItemSlot to = removing ? interaction.HandSlot : slot;
+				ItemSlot from = isRemoving ? targetSlot : interaction.HandSlot;
+				ItemSlot to = isRemoving ? interaction.HandSlot : targetSlot;
 				Inventory.ServerTransfer(from, to);
 			}
 			else
 			{
-				Chat.AddExamineMsg(interaction.Performer, $"It's {(removing ? "Empty" : "Full")}");
+				Chat.AddExamineMsg(interaction.Performer, $"It's {(isRemoving ? "Empty" : "Full")}");
 			}
+
 			UpdateSprite();
 		}
 
@@ -131,7 +124,13 @@ namespace Objects.Machines
 
 		public string HoverTip()
 		{
-			return ExamineText();
+			var stringBuilder = new StringBuilder();
+			stringBuilder.AppendLine(ExamineText());
+			if (canStoreOxygen == false || canStorePlasma == false)
+			{
+				stringBuilder.AppendLine($"It doesn't seem to be able to store {(canStoreOxygen ? "plasma" : "oxygen")} tanks.");
+			}
+			return stringBuilder.ToString();
 		}
 
 		public string CustomTitle()
@@ -151,7 +150,13 @@ namespace Objects.Machines
 
 		public List<TextColor> InteractionsStrings()
 		{
-			return null;
+			var list = new List<TextColor>
+			{
+				new() { Color = Color.green, Text = "Click on plasma/oxygen tank sprites to insert/remove that tank." },
+				new() { Color = Color.green, Text = "Left Click with hand: Remove tank." },
+				new() { Color = Color.green, Text = "Left Click with tank: Insert tank." }
+			};
+			return list;
 		}
 	}
 }

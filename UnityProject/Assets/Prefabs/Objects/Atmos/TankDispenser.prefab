@@ -476,8 +476,8 @@ MonoBehaviour:
   syncInterval: 0.1
   isSecuredStateExaminable: 1
   isExposedFloorPlatingRequired: 0
-  secondsToSecure: 0
-  secondsToUnsecure: 0
+  secondsToSecure: 2
+  secondsToUnsecure: 2
   lockSpriteDirection: 0
   blockAnchorChange: 0
   blockMessage: 
@@ -527,10 +527,10 @@ MonoBehaviour:
   syncInterval: 0.1
   plasmaTankRegion: {fileID: 775045827348291194}
   plasmaTankSpriteHandler: {fileID: 5447672815575606489}
-  canStoreOxygen: 1
+  canStorePlasma: 1
   oxygenTankRegion: {fileID: 5477665961504868994}
   oxygenTankSpriteHandler: {fileID: 8567644700866011276}
-  canStorePlasma: 1
+  canStoreOxygen: 1
   tankStorage: {fileID: 2324379303159356683}
 --- !u!4 &8717144949317126356 stripped
 Transform:
