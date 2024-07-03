@@ -55,7 +55,7 @@ namespace Tiles.Pipes
 						$"{interaction.Performer.ExpensiveName()} starts to deconstruct the pipe...",
 						"You deconstruct the pipe",
 						$"{interaction.Performer.ExpensiveName()} deconstructs the pipe.",
-						() => { metaDataNode.PipeData[i].pipeData.DestroyThis(); });
+						() => { metaDataNode.PipeData[i].pipeData.Remove(); });
 
 				return;
 				// var Transform =  matrix.UnderFloorLayer.GetMatrix4x4(metaDataNode.PipeData[i].NodeLocation, metaDataNode.PipeData[i].RelatedTile);

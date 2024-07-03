@@ -136,7 +136,7 @@ namespace Systems.Explosions
 				SavedPipes.AddRange(node.PipeData);
 				foreach (var Pipe in SavedPipes)
 				{
-					Pipe.pipeData.DestroyThis();
+					Pipe.pipeData.Remove();
 				}
 			}
 		}

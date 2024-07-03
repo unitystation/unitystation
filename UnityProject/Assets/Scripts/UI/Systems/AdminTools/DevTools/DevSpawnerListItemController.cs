@@ -274,6 +274,16 @@ public class DevSpawnerListItemController : MonoBehaviour
 		{
 			var game = Spawn.ServerPrefab(prefab, MousePosition).GameObject;
 
+			if (GUI_DevSpawner.Instance.MappingToggle.isOn)
+			{
+				var NonMapped = game.gameObject.GetComponent<RuntimeSpawned>();
+				if (NonMapped != null)
+				{
+					Destroy(NonMapped);
+				}
+			}
+
+
 			if (game.TryGetComponent<Stackable>(out var Stackable) && GUI_DevSpawner.Instance.StackAmount != -1)
 			{
 				Stackable.ServerSetAmount(GUI_DevSpawner.Instance.StackAmount);
@@ -290,7 +300,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 		}
 		else
 		{
-			DevSpawnMessage.Send(prefab, (Vector3) MousePosition, GUI_DevSpawner.Instance.StackAmount, OrientationEnum);
+			DevSpawnMessage.Send(prefab, (Vector3) MousePosition, GUI_DevSpawner.Instance.StackAmount, OrientationEnum, GUI_DevSpawner.Instance.MappingToggle.isOn);
 		}
 	}
 }
