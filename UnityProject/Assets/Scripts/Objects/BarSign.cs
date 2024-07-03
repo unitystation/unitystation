@@ -59,11 +59,6 @@ namespace Objects
 			return true;
 		}
 		
-		public void OnSpawnServer()
-		{
-			ChangeSign(signIndex);
-		}
-
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			if (isEMPed || isPowered == false) return;
