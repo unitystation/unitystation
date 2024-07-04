@@ -153,7 +153,10 @@ namespace Objects.Engineering
 
 		public void SetControlRodDepth(float RequestedDepth)
 		{
-			ControlRodDepthPercentage = Mathf.Clamp(RequestedDepth, MIN_CONTROL_ROD_DEPTH, MAX_CONTROL_ROD_DEPTH);
+			if (MeltedDown == false)
+			{
+				ControlRodDepthPercentage = Mathf.Clamp(RequestedDepth, MIN_CONTROL_ROD_DEPTH, MAX_CONTROL_ROD_DEPTH);
+			}
 		}
 
 		public float Temperature => GetTemperature();
