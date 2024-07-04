@@ -189,8 +189,11 @@ namespace Objects.Atmospherics
 				return;
 			}
 
-			//Do vent crawl
-			DoVentCrawl(interaction, pipeMix);
+			if (isWelded == false)
+			{
+				//Do vent crawl
+				DoVentCrawl(interaction, pipeMix);
+			}
 		}
 
 		public string Examine(Vector3 worldPos = default)
