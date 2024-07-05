@@ -26,6 +26,9 @@ namespace AdminTools.VariableViewer
 		public static Dictionary<Type, List<ISOTracker>> IndividualDropDownOptions =
 			new Dictionary<Type, List<ISOTracker>>();
 
+		public static Dictionary<Type, Dictionary<string, ISOTracker>> OptimiseIndividualDropDownOptions =
+			new Dictionary<Type, Dictionary<string, ISOTracker>>();
+
 		public List<ISOTracker> ActiveList;
 
 		public SearchWithPreview DropDownSearch;
@@ -199,9 +202,11 @@ namespace AdminTools.VariableViewer
 				if (IndividualDropDownOptions.ContainsKey(Type) == false)
 				{
 					IndividualDropDownOptions[Type] = new List<ISOTracker>();
+					OptimiseIndividualDropDownOptions[Type] = new Dictionary<string, ISOTracker>();
 				}
-				
+
 				IndividualDropDownOptions[Type].Add(SO);
+				OptimiseIndividualDropDownOptions[Type][SO.ForeverID] = SO;
 			}
 
 			var TypeTile = typeof(LayerTile);
@@ -214,6 +219,7 @@ namespace AdminTools.VariableViewer
 						IndividualDropDownOptions[TypeTile] = new List<ISOTracker>();
 					}
 					IndividualDropDownOptions[TypeTile].Add(Tile.Value);
+					OptimiseIndividualDropDownOptions[TypeTile][Tile.Value.ForeverID] = Tile.Value;
 				}
 			}
 
@@ -227,16 +233,7 @@ namespace AdminTools.VariableViewer
 				InitialiseIndividualDropDownOptions();
 			}
 
-			foreach (var Tracker in IndividualDropDownOptions[InType])
-			{
-				if (Tracker.ForeverID == StringVariable)
-				{
-					return Tracker;
-				}
-
-			}
-
-			return null;
+			return OptimiseIndividualDropDownOptions[InType].GetValueOrDefault(StringVariable);
 		}
 
 		public override void Pool()

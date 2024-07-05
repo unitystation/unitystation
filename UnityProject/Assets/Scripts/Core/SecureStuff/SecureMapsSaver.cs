@@ -141,7 +141,7 @@ namespace SecureStuff
 			bool IsClass = ListType.IsValueType == false
 			               && (ListType == typeof(string)) == false
 			               && ListType.IsGenericType == false
-			               && ListType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length > 0;
+			               && ListType.IsDefined(typeof(System.SerializableAttribute));
 
 			while (List.Count <= Index)
 				//TODO Could be exploited? well You could just have a map with a million objects so idk xD
@@ -582,7 +582,7 @@ namespace SecureStuff
 
 
 			if (typeof(System.Action).IsAssignableFrom(KeyType)
-			    || (typeof(UnityEngine.Events.UnityEventBase).IsAssignableFrom(KeyType))
+			    ||  (typeof(UnityEngine.Events.UnityEventBase).IsAssignableFrom(KeyType))
 			    || (KeyType.IsGenericType && KeyType.GetGenericTypeDefinition() == typeof(Action<>)))
 			{
 				//Actions can get confused with runtime added onces vs Mapped Ones
@@ -593,7 +593,7 @@ namespace SecureStuff
 			                  && KeyType.IsValueType == false
 			                  && (KeyType == typeof(string)) == false
 			                  && KeyType.IsGenericType == false
-			                  && KeyType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length > 0;
+			                  && HasAttribute(Field, typeof(System.SerializableAttribute));
 
 			if (KeyIsClass == true) return; //is not Supported
 
@@ -637,7 +637,7 @@ namespace SecureStuff
 			                  && ValType.IsValueType == false
 			                  && (ValType == typeof(string)) == false
 			                  && ValType.IsGenericType == false
-			                  && ValType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length > 0;
+			                  && HasAttribute(Field, typeof(System.SerializableAttribute));
 
 			if (typeof(System.Action).IsAssignableFrom(KeyType)
 			    || (typeof(UnityEngine.Events.UnityEventBase).IsAssignableFrom(KeyType))
@@ -1183,7 +1183,7 @@ namespace SecureStuff
 
 		private static bool HasAttribute(FieldInfo field, Type attributeType)
 		{
-			return field.GetCustomAttributes(attributeType, true).Length > 0;
+			return field.IsDefined(attributeType, true);
 		}
 
 		private static bool IsGoodField(FieldInfo Field)
@@ -1228,7 +1228,7 @@ namespace SecureStuff
 				var coolFields = TypeMono.GetFields(
 					BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic |
 					BindingFlags.FlattenHierarchy
-				).ToList();
+				);
 
 				foreach (var Field in coolFields) //Loop through found fields
 				{
@@ -1262,8 +1262,7 @@ namespace SecureStuff
 					{
 						//no Field.FieldType.IsGenericType && due to stupid class dictionary inheritance silly unity stuff
 						if (typeof(ISerializationCallbackReceiver)
-						    .IsAssignableFrom(Field
-							    .FieldType)) //so Serialisable dictionary only, can't directly reference due to assembly stuff
+						    .IsAssignableFrom(Field.FieldType)) //so Serialisable dictionary only, can't directly reference due to assembly stuff
 						{
 							DictionaryHandleSave(AMonoSet, APrefabDefault, Field, FieldDatas, Prefix, UseInstance,
 								IPopulateIDRelation, OnGameObjectComponents, AllGameObjectOnObject);
@@ -1277,7 +1276,7 @@ namespace SecureStuff
 					if (Field.FieldType.IsValueType == false && Field.FieldType == typeof(string) == false &&
 					    Field.FieldType.IsGenericType == false &&
 					    (APrefabDefault != null || PrefabInstance == null) && AMonoSet != null
-					    && Field.FieldType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length > 0)
+					    && HasAttribute(Field, typeof(System.SerializableAttribute)))
 					{
 						RecursiveSearchData(OnGameObjectComponents, AllGameObjectOnObject,
 							IPopulateIDRelation,
