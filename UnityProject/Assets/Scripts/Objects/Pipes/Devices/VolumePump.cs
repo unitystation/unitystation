@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Logs;
 using Systems.Atmospherics;
 using UnityEngine;
 using Systems.Interaction;
@@ -7,7 +5,8 @@ using Systems.Pipes;
 
 namespace Objects.Atmospherics
 {
-	public class VolumePump : MonoPipe {
+	public class VolumePump : MonoPipe
+	{
 		public SpriteHandler spriteHandlerOverlay = null;
 
 		public float MaxPressure = 9000f;

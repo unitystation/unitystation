@@ -1,10 +1,11 @@
-using System.Collections.Generic;
 using UnityEngine;
 using Systems.Interaction;
 using Systems.Pipes;
+
 namespace Objects.Atmospherics
 {
-	public class PassivePump : MonoPipe {
+	public class PassivePump : MonoPipe
+	{
 		public SpriteHandler spriteHandlerOverlay = null;
 
 		public float TargetPressure = 101.325f;
