@@ -461,6 +461,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8026946951644424067, guid: 7f7934b263cb23040ade0147d14b39aa,
         type: 3}
+    - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: exportCost
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: initialName
+      value: power storage unit
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: initialDescription
+      value: A high-capacity superconducting magnetic energy storage (SMES) unit.
+      objectReference: {fileID: 0}
     - target: {fileID: 6327756969131596099, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: _assetId
