@@ -81,7 +81,7 @@ namespace UI.Objects.Engineering
 			CoreFluxLevel.MasterSetValue(GetNeutronFluxSliderValue((float)previousRadlevel).ToString());
 
 			GUIReactorLayout.Refresh();
-			GUIReactorAnnunciator.Refresh();		
+			GUIReactorAnnunciator.Refresh();
 		}
 
 		private void RefreshCoreSliders()
@@ -263,7 +263,15 @@ namespace UI.Objects.Engineering
 
 			private void SetTemperatureWarnings(ReactorGraphiteChamber chamber)
 			{
-				highTemperature.SetState((chamber.RodMeltingTemperatureK - 200) < chamber.ReactorPipe.pipeData.mixAndVolume.Temperature);
+				bool TEMPToohigh = (chamber.RodMeltingTemperatureK - 200) <
+				                   chamber.ReactorPipe.pipeData.mixAndVolume.Temperature;
+				highTemperature.SetState(TEMPToohigh);
+
+				if (TEMPToohigh)
+				{
+					GUI_ReactorController.ReactorControlConsole.SuchControlRodDepth(1);
+				}
+
 
 				float temperature_Delta = Math.Abs(chamber.ReactorPipe.pipeData.mixAndVolume.Temperature - last_Temperature);
 
@@ -300,7 +308,16 @@ namespace UI.Objects.Engineering
 			{
 				float pressure = (float)chamber.CurrentPressure;
 
-				highCorePressure.SetState(pressure > (float) (ReactorGraphiteChamber.MAX_CORE_PRESSURE - HIGH_PRESSURE_THRESHOLD));
+				bool PressureTooHigh = pressure > (float) (ReactorGraphiteChamber.MAX_CORE_PRESSURE - HIGH_PRESSURE_THRESHOLD);
+
+				highCorePressure.SetState(PressureTooHigh);
+
+				if (PressureTooHigh)
+				{
+					GUI_ReactorController.ReactorControlConsole.SuchControlRodDepth(1);
+				}
+
+
 
 				float pressure_Delta = Math.Abs(pressure - last_Pressure);
 				highPressureDelta.SetState(pressure_Delta > HIGH_PRESSURE_DELTA_THRESHOLD);

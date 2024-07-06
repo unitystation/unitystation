@@ -58,43 +58,67 @@ public class ServerReturnMapData : ServerMessage<ServerReturnMapData.NetMessage>
 		}
 	}
 
+	public static List<string> ChunkString(string str, int chunkSize)
+	{
+		List<string> chunks = new List<string>();
+		for (int i = 0; i < str.Length; i += chunkSize)
+		{
+			if (i + chunkSize > str.Length)
+			{
+				chunks.Add(str.Substring(i));
+			}
+			else
+			{
+				chunks.Add(str.Substring(i, chunkSize));
+			}
+		}
+		return chunks;
+	}
+
 	public static void Send(GameObject recipient, string data, MessageType Type)
 	{
-		var StringDatas = data.Chunk(5000).ToList();
+		 var stringChunks = ChunkString(data,5000);
+		 int id = GetNextAvailableID();
 
-		int ID = SevenAvailableID;
-		SevenAvailableID++;
+		 int chunkCount = stringChunks.Count;
+		 for (int i = 0; i < chunkCount; i++)
+		 {
+			 var chunk = stringChunks[i];
+			 NetMessage msg = new NetMessage
+			 {
+				 ID = id,
+				 Data = chunk,
+				 end = (i + 1) == chunkCount,
+				 MessageType = Type
+			 };
 
+			 SendTo(recipient, msg);
+		 }
 
-		for (int i = 0; i < StringDatas.Count; i++)
-		{
-			NetMessage  msg = new NetMessage
-			{
-				ID =  ID,
-				Data = new string(StringDatas[i].ToArray()),
-				end = (i + 1) >= StringDatas.Count,
-				MessageType =  Type
-			};
+	}
 
-			SendTo(recipient, msg);
-		}
+	private static int nextAvailableID = 0;
+
+	private static int GetNextAvailableID()
+	{
+		return nextAvailableID++;
 	}
 
 	public static void SendAll(string data, MessageType Type, bool DoStraightaway)
 	{
-		var StringDatas = data.Chunk(5000).ToList();
+		var stringChunks = ChunkString(data,5000);
 
 		int ID = SevenAvailableID;
 		SevenAvailableID++;
 
 
-		for (int i = 0; i < StringDatas.Count; i++)
+		for (int i = 0; i < stringChunks.Count; i++)
 		{
 			NetMessage msg = new NetMessage
 			{
 				ID = ID,
-				Data = new string(StringDatas[i].ToArray()),
-				end = (i + 1) >= StringDatas.Count,
+				Data = new string(stringChunks[i].ToArray()),
+				end = (i + 1) >= stringChunks.Count,
 				MessageType = Type,
 				DoStraightaway = DoStraightaway
 			};

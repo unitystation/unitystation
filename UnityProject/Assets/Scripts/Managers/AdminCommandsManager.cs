@@ -1146,7 +1146,7 @@ namespace AdminCommands
 				return;
 			}
 
-			matrixInfo.MetaTileMap.RemoveTileWithlayer(startLocalPos, layerType, false);
+			matrixInfo.MetaTileMap.RemoveTileWithlayer(startLocalPos, layerType, false, false);
 		}
 
 		[Command(requiresAuthority = false)]
