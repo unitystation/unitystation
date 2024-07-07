@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 4611852482270871784}
   - component: {fileID: 3652986707257552662}
   - component: {fileID: 8552236617046534393}
+  - component: {fileID: 1667371004181812017}
   m_Layer: 10
   m_Name: Item
   m_TagString: Abstract
@@ -271,6 +272,7 @@ MonoBehaviour:
   minimumFireDamageForStack: 12
   chanceToSpread: 20
   maxStacks: 20
+  skipFlammableCheck: 0
 --- !u!114 &114738972662350094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,6 +349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6083a8f6e47464fb42db6e06bc08665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InheritParentsRecipes: 1
   hasSimpleRelatedRecipe: 0
   relatedRecipes: []
 --- !u!114 &6393191727481188567
@@ -399,6 +402,7 @@ MonoBehaviour:
   MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
+  ObjectBouncyness: 0.75
   DEBUG: 0
   tileMoveSpeed: 1
   HasOwnGravity: 0
@@ -489,6 +493,19 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   scaleTransform: {x: 1, y: 1, z: 1}
+--- !u!114 &1667371004181812017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMeleeable: 1
 --- !u!1 &1344926539164060
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,5 +611,5 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
