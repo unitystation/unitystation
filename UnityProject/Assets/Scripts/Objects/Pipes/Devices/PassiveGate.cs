@@ -1,3 +1,4 @@
+using Messages.Server;
 using UnityEngine;
 using Systems.Interaction;
 using Systems.Pipes;
@@ -8,8 +9,8 @@ namespace Objects.Atmospherics
 	{
 		public SpriteHandler spriteHandlerOverlay = null;
 
-		public float TargetPressure = 101.325f;
 		public float MaxPressure = 4500f;
+		public float TargetPressure = 101.325f;
 
 		public bool IsOn = false;
 
@@ -29,13 +30,27 @@ namespace Objects.Atmospherics
 
 		public override void HandApplyInteraction(HandApply interaction)
 		{
-			ToggleState();
+			if (interaction.IsAltClick)
+			{
+				TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.PassiveGate, TabAction.Open);
+			}
+			else
+			{
+				ToggleState();
+			}
 		}
 
 		//Ai interaction
 		public override void AiInteraction(AiActivate interaction)
 		{
-			ToggleState();
+			if (interaction.ClickType == AiActivate.ClickTypes.AltClick)
+			{
+				TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.PassiveGate, TabAction.Open);
+			}
+			else
+			{
+				ToggleState();
+			}
 		}
 
 		private void ToggleState()
