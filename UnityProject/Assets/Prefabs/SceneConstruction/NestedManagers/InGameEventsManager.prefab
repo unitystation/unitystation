@@ -988,6 +988,7 @@ Transform:
   - {fileID: 2967834443619550631}
   - {fileID: 1614149104379286000}
   - {fileID: 1809593919738534580}
+  - {fileID: 2818879537820137543}
   m_Father: {fileID: 8934140032923375002}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3182805840338230512
@@ -1790,6 +1791,60 @@ MonoBehaviour:
   - {fileID: 2635048175138463619, guid: 2051dd9e472d44140859bd686a1b9957, type: 3}
   - {fileID: 1183914185710414931, guid: aa1efdb70671d874b8d13a06383a6d25, type: 3}
   announceText: A free buffet was distributed!
+--- !u!1 &7464679335885868483
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2818879537820137543}
+  - component: {fileID: 8493285509538577990}
+  m_Layer: 0
+  m_Name: Asteroid Drift
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2818879537820137543
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7464679335885868483}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8493285509538577990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7464679335885868483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bfcdb54bf11452a837373a3f0d70fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Asteroid Drift
+  StartTimer: 2
+  EndTimer: 18
+  EventType: 1
+  ChanceToHappen: 8
+  MinPlayersToTrigger: 5
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  CanRandomlyTrigger: 1
 --- !u!1 &7648139263688738906
 GameObject:
   m_ObjectHideFlags: 0

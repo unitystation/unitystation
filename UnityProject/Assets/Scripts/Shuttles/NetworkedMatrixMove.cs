@@ -1088,10 +1088,10 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			OnRotate?.Invoke();
 		}
 
-		var FacedDirection = ForwardsDirection.ToOrientationEnum();
-		if (PreviousDirectionFacing != FacedDirection)
+		var facedDirection = ForwardsDirection.ToOrientationEnum();
+		if (PreviousDirectionFacing != facedDirection)
 		{
-			PreviousDirectionFacing = FacedDirection;
+			PreviousDirectionFacing = facedDirection;
 			OnRotate90?.Invoke();
 		}
 
@@ -1104,9 +1104,9 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	public void TransformSetEuler(Vector3 Euler, bool UpdateConversion = true,
 		HashSet<NetworkedMatrixMove> Matrixs = null)
 	{
-		var SetQuaternion = new Quaternion();
-		SetQuaternion.eulerAngles = Euler;
-		TransformSetQuaternion(SetQuaternion, UpdateConversion);
+		var setQuaternion = new Quaternion();
+		setQuaternion.eulerAngles = Euler;
+		TransformSetQuaternion(setQuaternion, UpdateConversion);
 	}
 
 	public void TransformSetQuaternion(Quaternion SetTO, bool UpdateConversion = true,
@@ -1122,11 +1122,11 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			}
 		}
 
-		var Difference = TargetTransform.rotation.eulerAngles.z - SetTO.eulerAngles.z;
+		var difference = TargetTransform.rotation.eulerAngles.z - SetTO.eulerAngles.z;
 
 		TargetTransform.rotation = SetTO;
 
-		if (Mathf.Abs(Difference) > 0)
+		if (difference != 0)
 		{
 			OnRotate?.Invoke();
 		}
