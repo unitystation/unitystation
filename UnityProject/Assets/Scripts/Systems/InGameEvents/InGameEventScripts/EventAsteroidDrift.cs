@@ -8,7 +8,7 @@ namespace InGameEvents
 	public class EventAsteroidDrift : EventScriptBase
 	{
 		private MatrixInfo asteroid = null;
-		private float velecoity = 250;
+		private float velocity = 250;
 
 		public override void OnEventStart()
 		{
@@ -38,7 +38,7 @@ namespace InGameEvents
 
 		public override void OnEventStartTimed()
 		{
-			velecoity = Random.Range(0.45f, 0.95f);
+			velocity = Random.Range(0.45f, 0.95f);
 			UpdateManager.Add(CallbackType.FIXED_UPDATE, MoveShip);
 			base.OnEventStartTimed();
 		}
@@ -66,7 +66,7 @@ namespace InGameEvents
 			var mainstation = MatrixManager.MainStationMatrix;
 			Vector3 direction = asteroid.GameObject.transform.position - mainstation.GameObject.transform.position;
 			direction.Normalize();
-			direction *= -velecoity;
+			direction *= -velocity;
 			asteroid.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity += direction;
 		}
 	}
