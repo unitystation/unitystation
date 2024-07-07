@@ -975,12 +975,12 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	public void UpdateSyncVars()
 	{
 		if (isServer == false) return;
-		if (Mathf.Approximately(SynchronisedSpin, CurrentTorque) == false)
+		if (SynchronisedSpin != CurrentTorque))
 		{
 			SynchroniseSpin(SynchronisedSpin, CurrentTorque);
 		}
 
-		if (Mathf.Approximately(SynchronisedMass, Mass) == false)
+		if (SynchronisedMass != Mass)
 		{
 			SynchroniseMass(SynchronisedMass, Mass);
 		}
