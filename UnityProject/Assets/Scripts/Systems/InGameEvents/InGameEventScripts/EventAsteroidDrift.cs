@@ -39,13 +39,13 @@ namespace InGameEvents
 		public override void OnEventStartTimed()
 		{
 			velocity = Random.Range(0.45f, 0.95f);
-			UpdateManager.Add(CallbackType.FIXED_UPDATE, MoveShip);
+			UpdateManager.Add(CallbackType.UPDATE, MoveShip);
 			base.OnEventStartTimed();
 		}
 
 		public override void OnEventEndTimed()
 		{
-			UpdateManager.Remove(CallbackType.FIXED_UPDATE, MoveShip);
+			UpdateManager.Remove(CallbackType.UPDATE, MoveShip);
 			asteroid.MatrixMove.NetworkedMatrixMove.WorldCurrentVelocity = Vector3.zero;
 			var text = "The asteroid has appeared to slow down. Last known location is at: " +
 			           asteroid.GameObject.transform.position.CutToInt().ToString();
