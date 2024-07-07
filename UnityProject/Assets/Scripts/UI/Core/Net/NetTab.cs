@@ -81,6 +81,9 @@ public enum NetTabType
 	ChaplainItemShop = 63,
 	Book = 64,
 	Thruster = 65,
+	Pump = 66,
+	VolumePump = 67,
+	PassiveGate = 68,
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
 	// i.e TabJukeBox

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Messages.Server;
+using UnityEngine;
 using Systems.Interaction;
 using Systems.Pipes;
 
@@ -10,6 +11,7 @@ namespace Objects.Atmospherics
 		public SpriteHandler spriteHandlerOverlay = null;
 
 		public float MaxPressure = 4500f;
+		public float TargetPressure = 4500f;
 		public float TransferMoles = 10000f;
 
 		public bool IsOn = false;
@@ -30,13 +32,27 @@ namespace Objects.Atmospherics
 
 		public override void HandApplyInteraction(HandApply interaction)
 		{
-			ToggleState();
+			if (interaction.IsAltClick)
+			{
+				TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.Pump, TabAction.Open);
+			}
+			else
+			{
+				ToggleState();
+			}
 		}
 
 		//Ai interaction
 		public override void AiInteraction(AiActivate interaction)
 		{
-			ToggleState();
+			if (interaction.ClickType == AiActivate.ClickTypes.AltClick)
+			{
+				TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.Pump, TabAction.Open);
+			}
+			else
+			{
+				ToggleState();
+			}
 		}
 
 		private void ToggleState()
@@ -60,13 +76,13 @@ namespace Objects.Atmospherics
 			}
 
 			var pressureDensity = pipeData.mixAndVolume.Density();
-			if (pressureDensity.x > MaxPressure && pressureDensity.y > MaxPressure)
+			if (pressureDensity.x > TargetPressure && pressureDensity.y > TargetPressure)
 			{
 				return;
 			}
 
-			var toMove = new Vector2(Mathf.Abs((pressureDensity.x / MaxPressure) - 1),
-				Mathf.Abs((pressureDensity.y / MaxPressure) - 1));
+			var toMove = new Vector2(Mathf.Abs((pressureDensity.x / TargetPressure) - 1),
+				Mathf.Abs((pressureDensity.y / TargetPressure) - 1));
 
 			Vector2 availableReagents = new Vector2(0f, 0f);
 			foreach (var pipe in pipeData.ConnectedPipes)

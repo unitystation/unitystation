@@ -105,7 +105,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1001 &1410381801743561416
 PrefabInstance:
@@ -153,7 +153,7 @@ PrefabInstance:
     - target: {fileID: 1583787549853510187, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
@@ -168,7 +168,7 @@ PrefabInstance:
     - target: {fileID: 1583787549853510187, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.7071068
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
@@ -272,6 +272,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8913505815451129662, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
+      propertyPath: variantIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8913505815451129662, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
+        type: 3}
       propertyPath: initialVariantIndex
       value: 1
       objectReference: {fileID: 0}
@@ -364,6 +369,9 @@ MonoBehaviour:
   spawnedFromItem: 1
   directional: {fileID: 0}
   spriteHandlerOverlay: {fileID: 6365627804656590152}
+  MaxPressure: 4500
+  TargetPressure: 4500
+  TransferMoles: 10000
   IsOn: 0
 --- !u!114 &4912676989842207971 stripped
 MonoBehaviour:
