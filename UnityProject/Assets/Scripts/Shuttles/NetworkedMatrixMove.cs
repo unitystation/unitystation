@@ -1126,7 +1126,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 		TargetTransform.rotation = SetTO;
 
-		if (Mathf.Abs(difference) > 0)
+		if (difference != 0)
 		{
 			OnRotate?.Invoke();
 		}
