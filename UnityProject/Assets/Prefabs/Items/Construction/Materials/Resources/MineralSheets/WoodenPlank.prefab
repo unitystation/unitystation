@@ -172,7 +172,7 @@ PrefabInstance:
     - target: {fileID: 6191990561276589057, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6191990561276589057, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
@@ -180,6 +180,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8ed6ec8ceda6e4241b239a45ba342b99,
         type: 2}
+    - target: {fileID: 6191990561276589057, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c391184975b2be4cbe32ace1bc3255c,
+        type: 2}
+    - target: {fileID: 6191990561276589057, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c391184975b2be4cbe32ace1bc3255c,
+        type: 2}
+    - target: {fileID: 6191990561276589057, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
