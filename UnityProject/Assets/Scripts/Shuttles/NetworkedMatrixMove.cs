@@ -975,7 +975,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	public void UpdateSyncVars()
 	{
 		if (isServer == false) return;
-		if (SynchronisedSpin != CurrentTorque))
+		if (SynchronisedSpin != CurrentTorque)
 		{
 			SynchroniseSpin(SynchronisedSpin, CurrentTorque);
 		}
