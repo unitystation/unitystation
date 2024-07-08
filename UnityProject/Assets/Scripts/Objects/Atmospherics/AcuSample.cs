@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using ScriptableObjects.Atmospherics;
 using Systems.Atmospherics;
 
@@ -114,6 +115,11 @@ namespace Objects.Atmospherics
 		/// </summary>
 		public void AddSample(AcuSample sample)
 		{
+			if (sample == null)
+			{
+				Loggy.LogError("[AcuSample/AddSample] - Attempted to pass a null sample. If this happens outside the loading phase of a round, it is likely a bug.");
+				return;
+			}
 			pressureSum += sample.Pressure;
 			temperatureSum += sample.Temperature;
 

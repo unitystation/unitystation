@@ -393,7 +393,14 @@ namespace Objects.Atmospherics
 		};
 
 		private AcuSample atmosphericSample = new AcuSample();
-		AcuSample IAcuControllable.AtmosphericSample => atmosphericSample.FromGasMix(metaNode.GasMixLocal);
+		AcuSample IAcuControllable.AtmosphericSample
+		{
+			get
+			{
+				if (atmosphericSample != null && metaNode != null) return atmosphericSample.FromGasMix(metaNode.GasMixLocal);
+				return null;
+			}
+		}
 
 		public void SetOperatingMode(AcuMode mode)
 		{
