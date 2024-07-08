@@ -153,7 +153,9 @@ namespace Objects.Atmospherics
 			AtmosphericAverage.Clear();
 			foreach (IAcuControllable device in ConnectedDevices)
 			{
-				AtmosphericAverage.AddSample(device.AtmosphericSample);
+				var sample = device.AtmosphericSample;
+				if (sample == null) continue;
+				AtmosphericAverage.AddSample(sample);
 			}
 
 			if (acuSamplesAir)
