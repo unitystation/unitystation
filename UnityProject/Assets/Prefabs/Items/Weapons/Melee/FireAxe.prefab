@@ -51,13 +51,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
       propertyPath: attackVerbs.Array.size
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
@@ -106,6 +111,12 @@ PrefabInstance:
       propertyPath: 'initialTraits.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: a4ba1a0fdc49dd64bb97637eaeaea223,
+        type: 2}
+    - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91,
         type: 2}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
@@ -193,6 +204,16 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3889436081215922240, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3889436081215922240, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3931723898954859240, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
