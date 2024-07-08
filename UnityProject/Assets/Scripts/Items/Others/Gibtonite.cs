@@ -117,6 +117,13 @@ namespace Items.Others
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (interaction.HandSlot.ItemObject.TryGetComponent<Welder>(out var welder))
+			{
+				if (welder.IsOn == false) return;
+				SetState(GibState.FUSED);
+				Chat.AddActionMsgToChat(gameObject, $"{interaction.PerformerPlayerScript.visibleName} has re-activated the gibtonite!");
+				return;
+			}
 			if (interaction.HandSlot.ItemAttributes.GetTraits().Contains(miningScanner) && state == GibState.FUSED)
 			{
 				StopFuse();

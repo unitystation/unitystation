@@ -210,6 +210,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8867027435020732457}
+    - targetCorrespondingSourceObject: {fileID: 4043358603169337106, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2460191736446465427}
   m_SourcePrefab: {fileID: 100100000, guid: fdb2f97a13e5b31468c170e6847a8d15, type: 3}
 --- !u!1 &170274586052777823 stripped
 GameObject:
@@ -254,6 +258,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d3b5f22c1469bf34a81e377227b2acf5, type: 2}
   - {fileID: 11400000, guid: 6097f8423a1b255468e2285de46bc3d3, type: 2}
   - {fileID: 11400000, guid: eab4a0cf6ec899240b34c27ae82015e2, type: 2}
+--- !u!114 &2460191736446465427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170274586052777823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMeleeable: 1
 --- !u!114 &6276593887705394392 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7879885434909570197, guid: fdb2f97a13e5b31468c170e6847a8d15,
