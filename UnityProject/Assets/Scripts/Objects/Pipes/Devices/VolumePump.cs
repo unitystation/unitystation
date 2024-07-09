@@ -1,3 +1,4 @@
+using System;
 using Messages.Server;
 using Systems.Atmospherics;
 using UnityEngine;
@@ -11,10 +12,10 @@ namespace Objects.Atmospherics
 		public SpriteHandler spriteHandlerOverlay = null;
 		public SpriteHandler spriteHandlerOverclockedOverlay = null;
 
-		public float MaxPressure = 9000f;
-		public float MinPressure = 10f;
-		public float MaxVolume = 200f;
-		public float TransferVolume = 200f;
+		[NonSerialized] public float MaxPressure = 9000f;
+		[NonSerialized] public float MinPressure = 0.01f;
+		[NonSerialized] public float MaxVolume = 200f;
+		[NonSerialized] public float TransferVolume = 200f;
 
 		public bool IsOn = false;
 		private bool isOverclocked = false;
