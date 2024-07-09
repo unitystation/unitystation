@@ -193,7 +193,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1 &4770047258275636917
 GameObject:
@@ -335,7 +335,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1 &6856492196138066528
 GameObject:
@@ -443,7 +443,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1001 &8704332902418867922
 PrefabInstance:
@@ -881,6 +881,12 @@ MonoBehaviour:
   initialContents: {fileID: 0}
   spawnContentsAtRoundstart: 0
   registerTile: {fileID: 0}
+  OnObjectStored:
+    m_PersistentCalls:
+      m_Calls: []
+  OnObjectRetrieved:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5739732223049864694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -911,6 +917,7 @@ MonoBehaviour:
   ReleasePressure: 101.325
   CargoSealApproved: 0
   explodeOnTooMuchDamage: 0
+  ignoreInternals: 0
 --- !u!114 &6872015153723498109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -926,6 +933,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  objectBehaviour: {fileID: 0}
   isSecuredStateExaminable: 1
   isExposedFloorPlatingRequired: 0
   secondsToSecure: 3

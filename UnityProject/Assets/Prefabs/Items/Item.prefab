@@ -271,6 +271,7 @@ MonoBehaviour:
   minimumFireDamageForStack: 12
   chanceToSpread: 20
   maxStacks: 20
+  skipFlammableCheck: 0
 --- !u!114 &114738972662350094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,6 +348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6083a8f6e47464fb42db6e06bc08665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InheritParentsRecipes: 1
   hasSimpleRelatedRecipe: 0
   relatedRecipes: []
 --- !u!114 &6393191727481188567
@@ -399,6 +401,7 @@ MonoBehaviour:
   MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
+  ObjectBouncyness: 0.75
   DEBUG: 0
   tileMoveSpeed: 1
   HasOwnGravity: 0
@@ -594,5 +597,5 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
