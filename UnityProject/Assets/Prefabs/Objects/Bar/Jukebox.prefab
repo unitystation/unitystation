@@ -386,6 +386,7 @@ MonoBehaviour:
   MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
+  ObjectBouncyness: 0.75
   DEBUG: 0
   tileMoveSpeed: 1
   HasOwnGravity: 0
@@ -424,6 +425,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  objectBehaviour: {fileID: 0}
   isSecuredStateExaminable: 1
   isExposedFloorPlatingRequired: 0
   secondsToSecure: 0

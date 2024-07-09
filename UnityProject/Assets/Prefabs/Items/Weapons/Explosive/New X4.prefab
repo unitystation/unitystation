@@ -1,0 +1,158 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1501657368300291146
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1054902699740276603, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3da7f1362142e5c43808482f3aa86082,
+        type: 2}
+    - target: {fileID: 6418806779145695136, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f74007dbf4ce0e04fa6b3d90f3dac165,
+        type: 3}
+    - target: {fileID: 6517252666211574088, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: _assetId
+      value: 2968015533
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621940020426841340, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: m_Name
+      value: New X4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6626582295922368904, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6626582295922368904, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6626582295922368904, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6626582295922368904, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6626582295922368904, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6626582295922368904, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6626582295922368904, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6626582295922368904, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6626582295922368904, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6626582295922368904, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703680515157914526, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: exportName
+      value: X4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703680515157914526, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: initialName
+      value: X4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703680515157914526, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: initialDescription
+      value: The #1 assanation tool in space!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703680515157914526, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c62159a0a74a087478468a36fd74d704,
+        type: 2}
+    - target: {fileID: 6703680515157914526, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 86539cfb71e23a347b706fcc98568131,
+        type: 2}
+    - target: {fileID: 6703680515157914526, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 3da7f1362142e5c43808482f3aa86082,
+        type: 2}
+    - target: {fileID: 8710971326300351897, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: scaleSync
+      value: 
+      objectReference: {fileID: 53286352597045704, guid: 9ca978c567f2e5c4bb8a6be3190717f7,
+        type: 3}
+    - target: {fileID: 8710971326300351897, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: explosiveType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8710971326300351897, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: spriteHandler
+      value: 
+      objectReference: {fileID: 5258580723283386321, guid: 9ca978c567f2e5c4bb8a6be3190717f7,
+        type: 3}
+    - target: {fileID: 8710971326300351897, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: activeSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 6eedd99a9dc83864f808d929d4e9bd36,
+        type: 2}
+    - target: {fileID: 8710971326300351897, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: explosiveRadius
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8710971326300351897, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: explosiveStrength
+      value: 3500
+      objectReference: {fileID: 0}
+    - target: {fileID: 8710971326300351897, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
+      propertyPath: minimumTimeToDetonate
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 55e7ca4ce21d0bb4b816d936646959b7, type: 3}

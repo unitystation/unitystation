@@ -226,6 +226,7 @@ MonoBehaviour:
   minimumFireDamageForStack: 12
   chanceToSpread: 20
   maxStacks: 20
+  skipFlammableCheck: 0
 --- !u!114 &6838691275677014393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,6 +341,7 @@ MonoBehaviour:
   MappingIntangible: 0
   SnapToGridOnStart: 1
   IsPlayer: 0
+  ObjectBouncyness: 0.75
   DEBUG: 0
   tileMoveSpeed: 1
   HasOwnGravity: 0
@@ -492,5 +494,5 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []

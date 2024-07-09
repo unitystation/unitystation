@@ -853,6 +853,14 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 1
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!50 &50851566022184656
@@ -1116,8 +1124,6 @@ MonoBehaviour:
   DoesNotRequireBrain: 0
   tickRate: 1
   RTT: 0
-  BodyPartList: []
-  SurfaceBodyParts: []
   BodyPartStorage: {fileID: 0}
   playerSprites: {fileID: 0}
   BleedStacks: 0
@@ -1489,6 +1495,7 @@ MonoBehaviour:
   MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 1
+  ObjectBouncyness: 0.75
   DEBUG: 0
   tileMoveSpeed: 1
   HasOwnGravity: 0
@@ -1524,6 +1531,7 @@ MonoBehaviour:
   CrawlSpeed: 0
   needsWalking: {fileID: 11400000, guid: 06d78d19774fe204489d635ddb501f83, type: 2}
   needsRunning: {fileID: 11400000, guid: 79263d379ff044244a9baa143471a268, type: 2}
+  VomitEmote: {fileID: 11400000, guid: 10fbc8c0eb861c54199481242aef33a6, type: 2}
   CachedPreviousMove: {x: 0, y: 0}
   CachedMove: {x: 0, y: 0}
   ClientRequestedType: 0
