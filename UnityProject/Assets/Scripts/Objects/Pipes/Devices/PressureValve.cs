@@ -85,7 +85,6 @@ namespace Objects.Atmospherics
 			if (inputDensity.x - pressureDensity.x > ThresholdPressure || inputDensity.y - pressureDensity.y > ThresholdPressure)
 			{
 				pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.ConnectedPipes);
-				//spriteHandlerOverlay.AnimateOnce(1);
 			}
 		}
 	}
