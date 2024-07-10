@@ -57,6 +57,23 @@ PrefabInstance:
       propertyPath: _assetId
       value: 925680838
       objectReference: {fileID: 0}
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 18ac39b3a4c2e6347bb4431b95103a1a,
+        type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: exportCost
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3958995083ffaf54fa3a479b1eda2976,
+        type: 2}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: foreverID
@@ -121,7 +138,7 @@ MonoBehaviour:
   initialName: Poster
   initialDescription: A large piece of space-resistant printed paper.
   willHighlight: 1
-  exportCost: 3
+  exportCost: 60
   CanBeSoldInCargo: 1
   exportName: 
   exportMessage: 
