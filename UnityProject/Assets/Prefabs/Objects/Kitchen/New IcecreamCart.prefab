@@ -1,0 +1,223 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1249578838658160850
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1507022224781306558, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: _assetId
+      value: 544666406
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: HullColor.b
+      value: 0.72257215
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: HullColor.g
+      value: 0.6007476
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: HullColor.r
+      value: 0.9433962
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: VendorContent.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: vendingSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].Item
+      value: 
+      objectReference: {fileID: 8938376424530961626, guid: 61172890db55d3943b1a2a923ad33ce5,
+        type: 3}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[1].Item
+      value: 
+      objectReference: {fileID: 4172288064172063717, guid: 6a335e99bedd3e24eb3201c1f211f94e,
+        type: 3}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[2].Item
+      value: 
+      objectReference: {fileID: 3040265357538634785, guid: fe6948efb6cdc5147bf3997d9b3d0312,
+        type: 3}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].Item
+      value: 
+      objectReference: {fileID: 518708270638934352, guid: ab00c973ec3aabc43b432cbb78ddcdb7,
+        type: 3}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[4].Item
+      value: 
+      objectReference: {fileID: 3486408137043295472, guid: 92ba7e6c5cff2dc49a496e870b7d4eb7,
+        type: 3}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[5].Item
+      value: 
+      objectReference: {fileID: 3767046870115088516, guid: e4b36eb23624a964ea341ece8f412110,
+        type: 3}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[1].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[2].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[4].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[5].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].ItemName
+      value: Berry Creamsicle
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[1].ItemName
+      value: Orange Creamsicle
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[2].ItemName
+      value: Cornuto
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].ItemName
+      value: Jumbo ice cream pop
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[4].ItemName
+      value: Vanilla Icecream Sandwich
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208960398964462865, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[5].ItemName
+      value: Strawberry Icecream Sandwich
+      objectReference: {fileID: 0}
+    - target: {fileID: 2551049147832759558, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0b8b28d07346cc94888e6bc9dbf27cc2,
+        type: 2}
+    - target: {fileID: 6216723773787808149, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: parentID
+      value: b06b702714bab49b9ad949eab1ca4534
+      objectReference: {fileID: 0}
+    - target: {fileID: 6216723773787808149, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: foreverID
+      value: 14f7a658310344a43913f9474477dc37
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999263125430606086, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999263125430606086, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999263125430606086, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999263125430606086, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999263125430606086, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999263125430606086, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999263125430606086, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999263125430606086, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999263125430606086, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999263125430606086, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7005302426079191004, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: m_Name
+      value: New IcecreamCart
+      objectReference: {fileID: 0}
+    - target: {fileID: 7086389378137324491, guid: 6632299223265324f8ad6b9a74159e0c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2459917b8ebd32f468ef4e3f52020b83,
+        type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6632299223265324f8ad6b9a74159e0c, type: 3}

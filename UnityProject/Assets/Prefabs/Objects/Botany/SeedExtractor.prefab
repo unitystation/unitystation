@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 1344353824487468979}
   - component: {fileID: -8143133261756262945}
   - component: {fileID: 7635333748051383930}
+  - component: {fileID: 8604835593987322146}
   m_Layer: 11
   m_Name: SeedExtractor
   m_TagString: Untagged
@@ -109,6 +110,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  LiesFlat3D: 0
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -159,6 +161,12 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDestruction:
+    m_PersistentCalls:
+      m_Calls: []
   initialIntegrity: 100
   soundOnHit:
     SetLoadSetting: 0
@@ -274,6 +282,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &-2124316646537833442
 MonoBehaviour:
@@ -306,6 +315,7 @@ MonoBehaviour:
   OnDeviceUnLinked:
     m_PersistentCalls:
       m_Calls: []
+  <CanRelink>k__BackingField: 1
 --- !u!114 &5073811291310827968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,6 +339,7 @@ MonoBehaviour:
   exportName: 
   exportMessage: 
   noMouseHighlight: 0
+  initialTraits: []
   initialSize: 3
 --- !u!114 &1344353824487468979
 MonoBehaviour:
@@ -385,21 +396,23 @@ MonoBehaviour:
   slideTime: 0
   spinMagnitude: 0
   thrownBy: {fileID: 0}
+  thrownProtection: {fileID: 0}
   aim: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
   ChangesDirectionPush: 0
   Intangible: 0
+  MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
+  ObjectBouncyness: 0.75
   DEBUG: 0
   tileMoveSpeed: 1
   HasOwnGravity: 0
   isNotPushable: 1
   CanBeWindPushed: 1
   rotationTarget: {fileID: 0}
-  FramePushDecision: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -415,7 +428,33 @@ MonoBehaviour:
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  TimeSpentFlying: 0
   BuckledToObject: {fileID: 0}
+--- !u!114 &8604835593987322146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370979911323750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Plant DNA Manipulator
+  initialDescription: An advanced device designed to manipulate plant genetic makeup.
+  willHighlight: 1
+  exportCost: 0
+  CanBeSoldInCargo: 1
+  exportName: 
+  exportMessage: 
+  noMouseHighlight: 0
+  initialTraits: []
+  initialSize: 3
 --- !u!1 &1875389674981576
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,6 +504,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
