@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: pipe_item_tgate
+  m_EditorClassIdentifier: 
+  foreverID: 621a67c6c07f6e4d8be67a311c756e5a
+  Variance:
+  - Frames:
+    - sprite: {fileID: 338669519179345875, guid: 72b3a7042ab7ce4c080d786bfbd79e15,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -4182201802954843970, guid: 72b3a7042ab7ce4c080d786bfbd79e15,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 4228085361416547133, guid: 72b3a7042ab7ce4c080d786bfbd79e15,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 7880081468769851494, guid: 72b3a7042ab7ce4c080d786bfbd79e15,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 
