@@ -60,8 +60,7 @@ namespace Construction.Conveyors
 			if (Selection.activeGameObject != this.gameObject) return;
 #endif
 #if UNITY_EDITOR
-			EditorApplication.delayCall -= EditorRefreshSprites;
-			EditorApplication.delayCall += EditorRefreshSprites;
+			EditorRefreshSprites();
 #endif
 
 		}
@@ -308,7 +307,7 @@ namespace Construction.Conveyors
 		public bool TrySetMaster(GameObject performer, IMultitoolMasterable Inmaster)
 		{
 			var SwitchOLd = (Master as ConveyorBeltSwitch);
-			SwitchOLd.RemoveConveyorBelt(this);
+			SwitchOLd?.RemoveConveyorBelt(this);
 
 			Master = Inmaster;
 
