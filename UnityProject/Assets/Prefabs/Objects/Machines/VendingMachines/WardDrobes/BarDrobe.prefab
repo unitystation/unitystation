@@ -99,17 +99,17 @@ PrefabInstance:
     - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -140,7 +140,7 @@ PrefabInstance:
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.size
-      value: 24
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -485,6 +485,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[24].Item
+      value: 
+      objectReference: {fileID: 149138795711509353, guid: 91d00e4ca936dac95853fc53712bca22,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[2].Stock
       value: 2
       objectReference: {fileID: 0}
@@ -591,6 +597,11 @@ PrefabInstance:
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[23].Stock
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[24].Stock
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
@@ -712,6 +723,11 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[23].ItemName
       value: EMPTY SLOT
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[24].ItemName
+      value: Jukebox Key
       objectReference: {fileID: 0}
     - target: {fileID: 9058133508007248574, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}

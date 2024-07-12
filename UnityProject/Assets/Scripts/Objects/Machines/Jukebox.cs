@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using Mirror;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Systems.Electricity;
 using AddressableReferences;
 using Audio.Containers;
+using Items.Bar;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using Systems.Explosions;
@@ -16,7 +18,7 @@ namespace Objects
 	/// <summary>
 	/// A machine that plays music choosen by it's user's tastes in a cool place like a lounge or a bar.
 	/// </summary>
-	public class Jukebox : NetworkBehaviour, IAPCPowerable
+	public class Jukebox : NetworkBehaviour, IAPCPowerable, ICheckedInteractable<HandApply>
 	{
 		/// <summary>
 		/// How many watts at 240 V the Jukebox uses when not in use
@@ -59,12 +61,14 @@ namespace Objects
 
 		private AudioSourceParameters audioSourceParameters;
 
-		[SerializeField]
-		private AudioClipsArray adminMusic = null;
-
 		private List<AddressableAudioSource> musics;
 
 		private List<string> guid = new List<string>();
+
+		[SerializeField]
+		private ItemTrait keyItemTrait;
+		[SerializeField]
+		private ItemTrait vinylRecordItemTrait;
 
 		/// <summary>
 		/// The current state of the jukebox powered/overpowered/underpowered/no power
@@ -79,10 +83,12 @@ namespace Objects
 		private Integrity integrity;
 		private APCPoweredDevice power;
 		private RegisterTile registerTile;
+		private ItemStorage vinylStorage;
 		private int currentSongTrackIndex = 0;
 		private float startPlayTime;
 		private bool secondLoadAttempt;
 
+		private bool isOpened = false;
 		public bool IsPlaying { get; set; } = false;
 
 		public string TrackPosition {
@@ -119,6 +125,7 @@ namespace Objects
 			APCConnectionHandler = GetComponent<APCPoweredDevice>();
 			power = GetComponent<APCPoweredDevice>();
 			registerTile = GetComponent<RegisterTile>();
+			vinylStorage = GetComponent<ItemStorage>();
 			integrity = GetComponent<Integrity>();
 			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 
@@ -134,16 +141,15 @@ namespace Objects
 
 		private async Task InternalStart()
 		{
-			// We want the same musics that are in the lobby,
-			// so, I copy it's playlist here instead of managing two different playlists in UnityEditor.
 			musics = new List<AddressableAudioSource>();
-
-			foreach (var audioSource in adminMusic.AddressableAudioSource)
+			foreach (ItemSlot itemSlot in vinylStorage.GetOccupiedSlots())
 			{
-				var song = await AudioManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource> { audioSource });
-				musics.Add(song);
+				if (itemSlot.ItemObject.TryGetComponent<VinylRecord>(out var vinyl))
+				{
+					var song = await AudioManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource> { vinyl.music });
+					musics.Add(song);
+				}
 			}
-
 			UpdateGUI();
 		}
 
@@ -320,5 +326,69 @@ namespace Objects
 		}
 
 		#endregion
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (interaction.TargetObject != gameObject) return false;
+			return interaction.HandObject == null ||
+			       Validations.HasItemTrait(interaction.UsedObject, keyItemTrait) ||
+			       Validations.HasItemTrait(interaction.UsedObject, vinylRecordItemTrait);
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (interaction.HandObject == null && isOpened == false)
+			{
+				if (vinylStorage.HasAnyOccupied() && musics.Count > 0)
+				{
+					TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.Jukebox, TabAction.Open );
+				}
+				else
+				{
+					Chat.AddExamineMsg(interaction.Performer, "The jukebox does not contain any valid vinyl records.");
+				}
+			}
+			else
+			{
+				if (Validations.HasItemTrait(interaction.UsedObject, keyItemTrait))
+				{
+					ToggleLock(interaction);
+				}
+				else if (isOpened && (interaction.HandObject == null || Validations.HasItemTrait(interaction.UsedObject, vinylRecordItemTrait)))
+				{
+					TransferRecord(interaction);
+				}
+			}
+		}
+
+		private void ToggleLock(HandApply interaction)
+		{
+			if (isOpened)
+			{
+				//repopulate track list
+				secondLoadAttempt = false;
+				_ = InternalStart();
+			}
+			else
+			{
+				_ = Stop();
+				currentSongTrackIndex = 0;
+			}
+			isOpened = !isOpened;
+			Chat.AddExamineMsg(interaction.Performer, $"You {(isOpened ? "open" : "close")} the jukebox vinyl record storage.");
+		}
+
+		private void TransferRecord(HandApply interaction)
+		{
+			bool isRemoving = interaction.HandObject == null;
+			ItemSlot targetSlot = vinylStorage.GetIndexedSlots().FirstOrDefault(slot => isRemoving ? slot.Item != null : slot.Item == null);
+			if (targetSlot != null)
+			{
+				ItemSlot from = isRemoving ? targetSlot : interaction.HandSlot;
+				ItemSlot to = isRemoving ? interaction.HandSlot : targetSlot;
+				Inventory.ServerTransfer(from, to);
+			}
+		}
 	}
 }

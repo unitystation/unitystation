@@ -139,6 +139,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6025710849610195436}
+    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 259248993581454824}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
 --- !u!1 &1538287900822802099 stripped
 GameObject:
@@ -171,7 +175,9 @@ MonoBehaviour:
   MaxSoundDistance: 14
   Volume: 1
   Spread: 192
-  adminMusic: {fileID: 11400000, guid: 8f0c7210e66131a4980538619cd9d9cc, type: 2}
+  keyItemTrait: {fileID: 11400000, guid: 7da90644453fdb239a0b00b2e4154f39, type: 2}
+  vinylRecordItemTrait: {fileID: 11400000, guid: 7eef9258ea1b7040a99d2574da975288,
+    type: 2}
 --- !u!114 &6025710849610195436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,6 +201,35 @@ MonoBehaviour:
   lockSpriteDirection: 0
   blockAnchorChange: 0
   blockMessage: 
+--- !u!114 &259248993581454824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538287900822802099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 617470ff1ed069e4e907b2cde0f52203,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: f5751205d968e1a3581d228d567f0705,
+    type: 2}
+  itemStoragePopulator: {fileID: 11400000, guid: fa5589cc0db2ea4c3a8e7540c76046a8,
+    type: 2}
+  forceSpawnContents: 1
+  ManuallySpawnContent: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!114 &6271799514652255337 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
