@@ -332,14 +332,9 @@ namespace Objects
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.TargetObject != gameObject) return false;
-			if (interaction.HandObject == null ||
-				Validations.HasItemTrait(interaction.UsedObject, keyItemTrait) ||
-				Validations.HasItemTrait(interaction.UsedObject, vinylRecordItemTrait))
-			{
-				return true;
-
-			}
-			return false;
+			return interaction.HandObject == null ||
+			       Validations.HasItemTrait(interaction.UsedObject, keyItemTrait) ||
+			       Validations.HasItemTrait(interaction.UsedObject, vinylRecordItemTrait);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
@@ -359,31 +354,41 @@ namespace Objects
 			{
 				if (Validations.HasItemTrait(interaction.UsedObject, keyItemTrait))
 				{
-					if (isOpened)
-					{
-						//repopulate track list
-						secondLoadAttempt = false;
-						_ = InternalStart();
-					}
-					else
-					{
-						_ = Stop();
-						currentSongTrackIndex = 0;
-					}
-					isOpened = !isOpened;
-					Chat.AddExamineMsg(interaction.Performer, $"You {(isOpened ? "open" : "close")} the jukebox vinyl record storage.");
+					ToggleLock(interaction);
 				}
 				else if (isOpened && (interaction.HandObject == null || Validations.HasItemTrait(interaction.UsedObject, vinylRecordItemTrait)))
 				{
-					bool isRemoving = interaction.HandObject == null;
-					ItemSlot targetSlot = vinylStorage.GetIndexedSlots().FirstOrDefault(slot => isRemoving ? slot.Item != null : slot.Item == null);
-					if (targetSlot != null)
-					{
-						ItemSlot from = isRemoving ? targetSlot : interaction.HandSlot;
-						ItemSlot to = isRemoving ? interaction.HandSlot : targetSlot;
-						Inventory.ServerTransfer(from, to);
-					}
+					TransferRecord(interaction);
 				}
+			}
+		}
+
+		private void ToggleLock(HandApply interaction)
+		{
+			if (isOpened)
+			{
+				//repopulate track list
+				secondLoadAttempt = false;
+				_ = InternalStart();
+			}
+			else
+			{
+				_ = Stop();
+				currentSongTrackIndex = 0;
+			}
+			isOpened = !isOpened;
+			Chat.AddExamineMsg(interaction.Performer, $"You {(isOpened ? "open" : "close")} the jukebox vinyl record storage.");
+		}
+
+		private void TransferRecord(HandApply interaction)
+		{
+			bool isRemoving = interaction.HandObject == null;
+			ItemSlot targetSlot = vinylStorage.GetIndexedSlots().FirstOrDefault(slot => isRemoving ? slot.Item != null : slot.Item == null);
+			if (targetSlot != null)
+			{
+				ItemSlot from = isRemoving ? targetSlot : interaction.HandSlot;
+				ItemSlot to = isRemoving ? interaction.HandSlot : targetSlot;
+				Inventory.ServerTransfer(from, to);
 			}
 		}
 	}
