@@ -89,7 +89,6 @@ namespace Objects
 		private bool secondLoadAttempt;
 
 		private bool isOpened = false;
-		private bool isRebuildingTracklist = false;
 		public bool IsPlaying { get; set; } = false;
 
 		public string TrackPosition {
