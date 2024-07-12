@@ -6,15 +6,17 @@ using Systems.Pipes;
 
 namespace Objects.Atmospherics
 {
-	public class PassivePump : MonoPipe
+	public class TemperatureGate: MonoPipe
 	{
 		public SpriteHandler spriteHandlerOverlay = null;
 
-		[NonSerialized] public float MaxPressure = 4500f;
+		[NonSerialized] public float MaxTemperature = 4500f;
+		[NonSerialized] public float MinTemperature = 2.7f;
+		[NonSerialized] public float TargetTemperature = 273.15f;
 		[NonSerialized] public float ThresholdPressure = 10f;
-		[NonSerialized] public float TargetPressure = AtmosConstants.ONE_ATMOSPHERE;
-
+		
 		public bool IsOn = false;
+		private bool isInverted;
 
 		public override void OnSpawnServer(SpawnInfo info)
 		{
@@ -26,7 +28,6 @@ namespace Objects.Atmospherics
 			{
 				spriteHandlerOverlay.PushClear();
 			}
-
 			base.OnSpawnServer(info);
 		}
 
@@ -34,7 +35,12 @@ namespace Objects.Atmospherics
 		{
 			if (interaction.IsAltClick)
 			{
-				TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.PassiveGate, TabAction.Open);
+				TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.TemperatureGate, TabAction.Open);
+			}
+			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+			{
+				Chat.AddExamineMsg(interaction.Performer, isInverted ? "You set the Temperature Gate sensors to the default settings." : "You invert the Temperature Gate sensors.");
+				isInverted = !isInverted;
 			}
 			else
 			{
@@ -47,7 +53,7 @@ namespace Objects.Atmospherics
 		{
 			if (interaction.ClickType == AiActivate.ClickTypes.AltClick)
 			{
-				TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.PassiveGate, TabAction.Open);
+				TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.TemperatureGate, TabAction.Open);
 			}
 			else
 			{
@@ -75,25 +81,19 @@ namespace Objects.Atmospherics
 				return;
 			}
 			
-			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
-			
 			PipeData inputPipe = pipeData.Connections.GetFlagToDirection(FlagLogic.InputOne)?.Connected;
 			if (inputPipe == null) return;
 			
+			float inputTemp = inputPipe.GetMixAndVolume.Temperature;
+			
+			if (isInverted ? inputTemp < TargetTemperature : inputTemp > TargetTemperature) return;
+
+			Vector2 inputDensity = inputPipe.GetMixAndVolume.Density();
 			Vector2 pressureDensity = pipeData.mixAndVolume.Density();
-			
-			if (pressureDensity.x > TargetPressure && pressureDensity.y > TargetPressure) return;
-			
-			float chemDelta = TargetPressure - pressureDensity.x;
-			float gasDelta =  TargetPressure - pressureDensity.y;
-				
-			Vector2 transferValue = new Vector2
+			if (inputDensity.x - pressureDensity.x > ThresholdPressure || inputDensity.y - pressureDensity.y > ThresholdPressure)
 			{
-				x = chemDelta,
-				y = gasDelta
-			};
-			
-			inputPipe.GetMixAndVolume.TransferTo(pipeData.mixAndVolume, transferValue);
+				pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.ConnectedPipes);
+			}
 		}
 	}
 }

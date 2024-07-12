@@ -12,7 +12,7 @@ namespace Objects.Atmospherics
 
 		[NonSerialized] public float MaxPressure = 4500f;
 		[NonSerialized] public float ThresholdPressure = 10f;
-		[NonSerialized] public float TargetPressure = 101.325f;
+		[NonSerialized] public float TargetPressure = AtmosConstants.ONE_ATMOSPHERE;
 
 		public bool IsOn = false;
 
