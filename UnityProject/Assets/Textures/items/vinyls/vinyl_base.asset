@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: vinyl_base
+  m_EditorClassIdentifier: 
+  foreverID: d985082cb95a6c4beaec54606ec5bb86
+  Variance:
+  - Frames:
+    - sprite: {fileID: 2796931666323150037, guid: b8c2b6410aa99d50bb3a4bcdca8660b3,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 5744954928387251696, guid: b8c2b6410aa99d50bb3a4bcdca8660b3,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 
