@@ -70,6 +70,10 @@ namespace Objects
 		[SerializeField]
 		private ItemTrait vinylRecordItemTrait;
 
+		[SerializeField] private AddressableAudioSource openingStorageSound;
+		[SerializeField] private AddressableAudioSource closingStorageSound;
+		[SerializeField] private AddressableAudioSource satisfyingClick;
+
 		/// <summary>
 		/// The current state of the jukebox powered/overpowered/underpowered/no power
 		/// </summary>
@@ -342,7 +346,7 @@ namespace Objects
 				}
 				else
 				{
-					Chat.AddExamineMsg(interaction.Performer, "The jukebox does not contain any valid vinyl records.");
+					Chat.AddExamineMsg(interaction.Performer, "The jukebox is silent. A red LED labeled \"No Records\" blinks.");
 				}
 			}
 			else
@@ -360,24 +364,62 @@ namespace Objects
 
 		private void ToggleLock(HandApply interaction)
 		{
+			Chat.AddActionMsgToChat(
+				interaction.Performer,
+				$"You {(isOpened ? "close" : "open")} the jukebox vinyl record storage.",
+				$"{interaction.Performer.ExpensiveName()} {(isOpened ? "closes" : "opens")} the jukebox vinyl record storage."
+			);
+
 			if (isOpened)
 			{
+				SoundManager.PlayNetworkedAtPos(closingStorageSound, gameObject.AssumedWorldPosServer());
 				//repopulate track list
 				secondLoadAttempt = false;
 				_ = InternalStart();
 			}
 			else
 			{
+				SoundManager.PlayNetworkedAtPos(openingStorageSound, gameObject.AssumedWorldPosServer());
 				_ = Stop();
 				currentSongTrackIndex = 0;
 			}
 			isOpened = !isOpened;
-			Chat.AddExamineMsg(interaction.Performer, $"You {(isOpened ? "open" : "close")} the jukebox vinyl record storage.");
 		}
 
 		private void TransferRecord(HandApply interaction)
 		{
 			bool isRemoving = interaction.HandObject == null;
+
+			switch (isRemoving)
+			{
+				case true when vinylStorage.HasAnyOccupied() == false:
+					Chat.AddActionMsgToChat(
+						interaction.Performer,
+						"You reach into the jukebox, but find it empty.",
+						$"{interaction.Performer.ExpensiveName()} reaches into the jukebox, but finds it empty."
+					);
+					return;
+
+				case true:
+					Chat.AddActionMsgToChat(
+						interaction.Performer,
+						"You carefully remove a record from the jukebox.",
+						$"{interaction.Performer.ExpensiveName()} carefully removes a record from the jukebox."
+					);
+					break;
+				default:
+					SoundManager.PlayNetworkedAtPos(
+						satisfyingClick,
+						gameObject.AssumedWorldPosServer()
+					);
+					Chat.AddActionMsgToChat(
+						interaction.Performer,
+						"You insert a record into the jukebox with a satisfying click.",
+						$"{interaction.Performer.ExpensiveName()} inserts a record into the jukebox with a satisfying click."
+					);
+					break;
+			}
+
 			ItemSlot targetSlot = vinylStorage.GetIndexedSlots().FirstOrDefault(slot => isRemoving ? slot.Item != null : slot.Item == null);
 			if (targetSlot != null)
 			{
