@@ -63,7 +63,7 @@ namespace Objects
 
 		private List<AddressableAudioSource> musics;
 
-		private List<string> guid = new List<string>();
+		private List<string> guid = new();
 
 		[SerializeField]
 		private ItemTrait keyItemTrait;
@@ -91,32 +91,28 @@ namespace Objects
 		private bool isOpened = false;
 		public bool IsPlaying { get; set; } = false;
 
-		public string TrackPosition {
-			get {
-				return $"{currentSongTrackIndex + 1} / {musics.Count}";
-			}
-		}
+		public string TrackPosition => $"{currentSongTrackIndex + 1} / {musics.Count}";
 
-		public string SongName {
-			get {
+		public string SongName
+		{
+			get
+			{
 				string songName = musics[currentSongTrackIndex].AudioSource.clip.name;
 				return $"{songName.Split('_')[0]}";
 			}
 		}
 
-		public string Artist {
-			get {
+		public string Artist
+		{
+			get
+			{
 				string songName = musics[currentSongTrackIndex].AudioSource.clip.name;
 				string artist = songName.Contains("_") ? songName.Split('_')[1] : "Unknown";
 				return $"{artist}";
 			}
 		}
 
-		public string PlayStopButtonPrefabImage {
-			get {
-				return IsPlaying ? "GUI_Jukebox_Stop" : "GUI_Jukebox_Play";
-			}
-		}
+		public string PlayStopButtonPrefabImage => IsPlaying ? "GUI_Jukebox_Stop" : "GUI_Jukebox_Play";
 
 		#region Lifecycle
 
