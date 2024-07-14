@@ -58,8 +58,12 @@ namespace Items.Atmospherics
 				{
 					return;
 				}
-				ToolUtils.ServerPlayToolSound(interaction);
-				BuildPipe();
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 0,
+						string.Empty,
+						string.Empty,
+						$"You fasten the {gameObject.ExpensiveName()}.",
+						$"{interaction.Performer} fastens the {gameObject.ExpensiveName()}",
+						BuildPipe);
 			}
 			else
 			{
