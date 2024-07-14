@@ -134,6 +134,30 @@ MonoBehaviour:
   keyItemTrait: {fileID: 11400000, guid: 7da90644453fdb239a0b00b2e4154f39, type: 2}
   vinylRecordItemTrait: {fileID: 11400000, guid: 7eef9258ea1b7040a99d2574da975288,
     type: 2}
+  openingStorageSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Closet/wooden_closet_open.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  closingStorageSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Closet/wooden_closet_close.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  satisfyingClick:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/misc/box_deploy.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
 --- !u!114 &114977697586778270
 MonoBehaviour:
   m_ObjectHideFlags: 0
