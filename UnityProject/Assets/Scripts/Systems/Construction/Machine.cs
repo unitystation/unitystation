@@ -96,7 +96,7 @@ namespace Objects.Machines
 				if (panelopen)
 				{
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You unscrews the {gameObject.ExpensiveName()}'s cable panel.",
+						$"You unscrew the {gameObject.ExpensiveName()}'s cable panel.",
 						$"{interaction.Performer.ExpensiveName()} unscrews {gameObject.ExpensiveName()}'s cable panel.");
 					return;
 				}

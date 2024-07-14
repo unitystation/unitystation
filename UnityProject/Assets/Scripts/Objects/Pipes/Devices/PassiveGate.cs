@@ -1,12 +1,14 @@
 using System;
+using System.Collections.Generic;
 using Messages.Server;
 using UnityEngine;
 using Systems.Interaction;
 using Systems.Pipes;
+using UI.Systems.Tooltips.HoverTooltips;
 
 namespace Objects.Atmospherics
 {
-	public class PassivePump : MonoPipe
+	public class PassivePump : MonoPipe, IHoverTooltip
 	{
 		public SpriteHandler spriteHandlerOverlay = null;
 
@@ -94,6 +96,36 @@ namespace Objects.Atmospherics
 			};
 			
 			inputPipe.GetMixAndVolume.TransferTo(pipeData.mixAndVolume, transferValue);
+		}
+
+		public string HoverTip()
+		{
+			return null;
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			var list = new List<TextColor>
+			{
+				new() { Color = Color.green, Text = "Left Click: Toggle Power." },
+				new() { Color = Color.green, Text = "Alt Click: Open GUI." }
+			};
+			return list;
 		}
 	}
 }

@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: WrenchPipeDeconstruction
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
-  performerStartActionMessage: ' you unwrench the pipe '
-  othersStartActionMessage: '{performer} unwrenches the pipe '
+  performerStartActionMessage: You start to unfasten the pipe...
+  othersStartActionMessage: '{performer} starts to unfasten the pipe...'
+  seconds: 1
+  performerFinishActionMessage: You unfasten the pipe.
+  othersFinishActionMessage: '{performer} unfastens the pipe.'
