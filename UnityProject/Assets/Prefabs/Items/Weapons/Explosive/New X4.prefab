@@ -122,8 +122,7 @@ PrefabInstance:
         type: 3}
       propertyPath: scaleSync
       value: 
-      objectReference: {fileID: 53286352597045704, guid: 9ca978c567f2e5c4bb8a6be3190717f7,
-        type: 3}
+      objectReference: {fileID: 4152068401250585845}
     - target: {fileID: 8710971326300351897, guid: 55e7ca4ce21d0bb4b816d936646959b7,
         type: 3}
       propertyPath: explosiveType
@@ -133,8 +132,7 @@ PrefabInstance:
         type: 3}
       propertyPath: spriteHandler
       value: 
-      objectReference: {fileID: 5258580723283386321, guid: 9ca978c567f2e5c4bb8a6be3190717f7,
-        type: 3}
+      objectReference: {fileID: 1906483897785230129}
     - target: {fileID: 8710971326300351897, guid: 55e7ca4ce21d0bb4b816d936646959b7,
         type: 3}
       propertyPath: activeSpriteSO
@@ -161,3 +159,27 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55e7ca4ce21d0bb4b816d936646959b7, type: 3}
+--- !u!114 &1906483897785230129 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1054902699740276603, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1501657368300291146}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4152068401250585845 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3263395993873893567, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1501657368300291146}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a67aad38c961f45ad1cb44ac3b1f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

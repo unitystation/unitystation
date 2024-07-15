@@ -12,8 +12,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Node
       value: 
-      objectReference: {fileID: 3752193962950616969, guid: f0634729183c3dc47ab8bab359bb8585,
-        type: 3}
+      objectReference: {fileID: 8212135738603991929}
     - target: {fileID: 79449533410365835, guid: 224479214b5ed414193fdcb20d96678f,
         type: 3}
       propertyPath: 'ListCanConnectTo.Array.data[1]'
@@ -67,8 +66,7 @@ PrefabInstance:
         type: 3}
       propertyPath: ControllingNode
       value: 
-      objectReference: {fileID: 2854360313709731832, guid: f0634729183c3dc47ab8bab359bb8585,
-        type: 3}
+      objectReference: {fileID: 118010607394379084}
     - target: {fileID: 6096819183274574878, guid: 224479214b5ed414193fdcb20d96678f,
         type: 3}
       propertyPath: VoltageLimiting
@@ -154,3 +152,27 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 224479214b5ed414193fdcb20d96678f, type: 3}
+--- !u!114 &118010607394379084 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 79449533410365835, guid: 224479214b5ed414193fdcb20d96678f,
+    type: 3}
+  m_PrefabInstance: {fileID: 52073882911671495}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8212135738603991929 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8164565542460553150, guid: 224479214b5ed414193fdcb20d96678f,
+    type: 3}
+  m_PrefabInstance: {fileID: 52073882911671495}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

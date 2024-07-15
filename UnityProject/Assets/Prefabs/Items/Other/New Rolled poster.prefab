@@ -68,6 +68,26 @@ PrefabInstance:
       propertyPath: exportCost
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialName
+      value: Poster
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialDescription
+      value: A large piece of space-resistant printed paper.
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -87,11 +107,13 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: -1288553672626263368}
-    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: -6831521733435841288}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+--- !u!212 &409827743242720043 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 523088607391571149}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &522969193494093943 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
@@ -116,84 +138,6 @@ MonoBehaviour:
   wallPrefab: {fileID: 1642857750665843136, guid: 3e091c8c2a970a74e915174840cd98bb,
     type: 3}
   posterVariant: 1
-  spriteRend: {fileID: 856240420534071871, guid: 96145b3165f5248b78302cd49658b0b2,
-    type: 3}
+  spriteRend: {fileID: 409827743242720043}
   legitSprite: {fileID: 21300000, guid: e3686f4fd49b3da478b3e180a674bd37, type: 3}
   contrabandSprite: {fileID: 21300000, guid: 18ac39b3a4c2e6347bb4431b95103a1a, type: 3}
---- !u!114 &-6831521733435841288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 522969193494093943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  initialName: Poster
-  initialDescription: A large piece of space-resistant printed paper.
-  willHighlight: 1
-  exportCost: 60
-  CanBeSoldInCargo: 1
-  exportName: 
-  exportMessage: 
-  noMouseHighlight: 0
-  initialTraits: []
-  initialSize: 2
-  hitDamage: 0
-  ShowHitDamage: 1
-  damageType: 0
-  throwDamage: 0
-  traumaDamageChance: 0
-  TraumaticDamageType: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Tap.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  hitSoundSettings: 0
-  inventoryMoveSound:
-    SetLoadSetting: 0
-    AssetAddress: 
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  inventoryRemoveSound:
-    SetLoadSetting: 0
-    AssetAddress: 
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  canConnectToTank: 0
-  isEVACapable: 0
-  attackVerbs: []
-  CanBeUsedOnSelfOnHelpIntent: 0
-  itemSprites:
-    SpriteInventoryIcon: {fileID: 0}
-    SpriteLeftHand: {fileID: 11400000, guid: 0b395bda1e929674e9fec2099782a493, type: 2}
-    SpriteRightHand: {fileID: 11400000, guid: 4111f042fe2174641bfba131ce87df1a, type: 2}
-    Palette:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    IsPaletted: 0
-  IsFakeItem: 0

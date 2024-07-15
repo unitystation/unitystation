@@ -173,8 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 2
-  spriteHandler: {fileID: 8106342113633906247, guid: 5f2a216917a96134798b50c906728486,
-    type: 3}
+  spriteHandler: {fileID: 7150660706608220729}
   startSetUp: 0
   lightningHitWatts: 10
 --- !u!114 &8448798852466242647
@@ -200,3 +199,15 @@ MonoBehaviour:
   lockSpriteDirection: 0
   blockAnchorChange: 0
   blockMessage: 
+--- !u!114 &7150660706608220729 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 4032420302515840351}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

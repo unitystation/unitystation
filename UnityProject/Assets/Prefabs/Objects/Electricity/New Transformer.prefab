@@ -299,8 +299,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Node
       value: 
-      objectReference: {fileID: 3919982737323789382, guid: 84482a6a9ce96a746b992465f8766f03,
-        type: 3}
+      objectReference: {fileID: 8164565542460553150}
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: WireEndA
@@ -349,6 +348,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6096819183274574878}
   m_SourcePrefab: {fileID: 100100000, guid: f9025da3beb40304cb15babfc0a6cafa, type: 3}
+--- !u!114 &79449533410365835 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 8907020766126131425}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6454076665696494784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6450501851632886298 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
@@ -374,8 +385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ModuleType: 0
-  ControllingNode: {fileID: 2731523975421391927, guid: 84482a6a9ce96a746b992465f8766f03,
-    type: 3}
+  ControllingNode: {fileID: 79449533410365835}
   TurnRatio: 250
   InvertingTurnRatio: 0
   VoltageLimiting: 3300
@@ -383,3 +393,15 @@ MonoBehaviour:
   HighsideConnections: 0b000000
   LowsideConnections: 01000000
   TreatComingFromNullAs: 0
+--- !u!114 &8164565542460553150 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 779761725270966111, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 8907020766126131425}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6454076665696494784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
