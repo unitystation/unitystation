@@ -205,6 +205,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: parentID
+      value: ebb08cf966efc084aa918bd8d9429604
+      objectReference: {fileID: 0}
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: foreverID
       value: c73942e301ad48a4c87343bc6f8b20f7
       objectReference: {fileID: 0}
@@ -273,6 +278,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _assetId
       value: 3305028585
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialName
+      value: disposal bin
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialDescription
+      value: A pneumatic waste disposal unit. What can fit in this?
       objectReference: {fileID: 0}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -516,8 +531,7 @@ MonoBehaviour:
   OnDeviceLinked:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1330345529673600466, guid: f6fbc8ead7aa4d828142c67f20e5eb57,
-          type: 3}
+      - m_Target: {fileID: 6411296086095828320}
         m_TargetAssemblyTypeName: Objects.Disposals.DisposalBin, Assets
         m_MethodName: OnAPCLinked
         m_Mode: 1
@@ -532,8 +546,7 @@ MonoBehaviour:
   OnDeviceUnLinked:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1330345529673600466, guid: f6fbc8ead7aa4d828142c67f20e5eb57,
-          type: 3}
+      - m_Target: {fileID: 6411296086095828320}
         m_TargetAssemblyTypeName: Objects.Disposals.DisposalBin, Assets
         m_MethodName: OnAPCUnlinked
         m_Mode: 1

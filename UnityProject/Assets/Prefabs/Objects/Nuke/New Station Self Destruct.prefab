@@ -74,6 +74,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: New Station Self Destruct
       objectReference: {fileID: 0}
+    - target: {fileID: 5679806598854665840, guid: a0435651e9a40f54ea02c119de299b0f,
+        type: 3}
+      propertyPath: initialName
+      value: station self-destruct terminal
+      objectReference: {fileID: 0}
+    - target: {fileID: 5679806598854665840, guid: a0435651e9a40f54ea02c119de299b0f,
+        type: 3}
+      propertyPath: initialDescription
+      value: For when it all gets too much to bear. Do not taunt.
+      objectReference: {fileID: 0}
     - target: {fileID: 6893487376575220770, guid: a0435651e9a40f54ea02c119de299b0f,
         type: 3}
       propertyPath: _assetId

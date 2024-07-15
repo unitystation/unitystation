@@ -1,20 +1,23 @@
+using System;
+using System.Collections.Generic;
 using Messages.Server;
 using Systems.Atmospherics;
 using UnityEngine;
 using Systems.Interaction;
 using Systems.Pipes;
+using UI.Systems.Tooltips.HoverTooltips;
 
 namespace Objects.Atmospherics
 {
-	public class VolumePump : MonoPipe
+	public class VolumePump : MonoPipe, IHoverTooltip, IExaminable
 	{
 		public SpriteHandler spriteHandlerOverlay = null;
 		public SpriteHandler spriteHandlerOverclockedOverlay = null;
 
-		public float MaxPressure = 9000f;
-		public float MinPressure = 10f;
-		public float MaxVolume = 200f;
-		public float TransferVolume = 200f;
+		[NonSerialized] public float MaxPressure = 9000f;
+		[NonSerialized] public float MinPressure = 0.01f;
+		[NonSerialized] public float MaxVolume = 200f;
+		[NonSerialized] public float TransferVolume = 200f;
 
 		public bool IsOn = false;
 		private bool isOverclocked = false;
@@ -147,6 +150,42 @@ namespace Objects.Atmospherics
 		public static float FiniteOrDefault(float value)
 		{
 		    return float.IsNaN(value) == false && float.IsInfinity(value) == false ? value : default;
+		}
+
+		public string Examine(Vector3 worldPos = default)
+		{
+			return $"The volume pump pressure limiters are {(isOverclocked ? "disabled" : "enabled")}";
+		}
+
+		public string HoverTip()
+		{
+			return null;
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			var list = new List<TextColor>
+			{
+				new() { Color = Color.green, Text = "Left Click: Toggle Power." },
+				new() { Color = Color.green, Text = "Left Click with screwdriver: Toggle pressure limiters." },
+				new() { Color = Color.green, Text = "Alt Click: Open GUI." }
+			};
+			return list;
 		}
 	}	
 }

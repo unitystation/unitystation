@@ -278,16 +278,16 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5227503272454633194}
   m_SourcePrefab: {fileID: 100100000, guid: f9025da3beb40304cb15babfc0a6cafa, type: 3}
---- !u!114 &3313978800462231642 stripped
+--- !u!114 &3973952303404066763 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
+  m_CorrespondingSourceObject: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
     type: 3}
   m_PrefabInstance: {fileID: 6303848660673159472}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8464128812617895185}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &6749068304071417455 stripped
@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: decbbef8933914e4db80a8f7026d2ac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainSpriteHandler: {fileID: 0}
+  mainSpriteHandler: {fileID: 3973952303404066763}
   startSetUp: 0
   radiationWatts: 10
 --- !u!114 &5227503272454633194
@@ -359,7 +359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ModuleType: 2
-  ControllingNode: {fileID: 3313978800462231642}
+  ControllingNode: {fileID: 0}
   StartOnStartUp: 0
   Previouscurrent: 0
   current: 0

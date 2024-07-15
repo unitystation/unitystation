@@ -180,8 +180,15 @@ namespace Objects.Atmospherics
 			}
 			else
 			{
-				ToolUtils.ServerPlayToolSound(interaction);
-				Unwrench(interaction);
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 0,
+					string.Empty,
+					string.Empty,
+					$"You unfasten the {gameObject.ExpensiveName()}.",
+					$"{interaction.Performer} unfastens the {gameObject.ExpensiveName()}",
+					() =>
+					{
+						Unwrench(interaction);
+					});
 			}
 		}
 

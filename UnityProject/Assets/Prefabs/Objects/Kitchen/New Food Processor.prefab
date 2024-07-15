@@ -119,6 +119,16 @@ PrefabInstance:
       propertyPath: _assetId
       value: 2775686791
       objectReference: {fileID: 0}
+    - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialName
+      value: food processor
+      objectReference: {fileID: 0}
+    - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialDescription
+      value: Processes stuff, mostly food.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -146,7 +156,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6741912710746518622}
+      addedObject: {fileID: 7965610585904461320}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
 --- !u!1 &6431604156482685107 stripped
 GameObject:
@@ -201,7 +211,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  shaker: {fileID: 6741912710746518622}
+  shaker: {fileID: 7965610585904461320}
 --- !u!114 &3326221963050224024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,7 +290,7 @@ MonoBehaviour:
   lockSpriteDirection: 0
   blockAnchorChange: 0
   blockMessage: 
---- !u!114 &6741912710746518622
+--- !u!114 &7965610585904461320
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

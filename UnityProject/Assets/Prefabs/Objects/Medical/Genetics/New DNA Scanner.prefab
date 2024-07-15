@@ -131,6 +131,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ecb8e57d160749b4d96a1a9b89bfead5,
         type: 2}
+    - target: {fileID: 7516867733009817656, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: exportName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516867733009817656, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: initialName
+      value: DNA Scanner
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516867733009817656, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: initialDescription
+      value: It scans DNA structures.
+      objectReference: {fileID: 0}
     - target: {fileID: 8730627397065656938, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: _assetId

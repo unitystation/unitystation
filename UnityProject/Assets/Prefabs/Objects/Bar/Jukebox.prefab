@@ -19,10 +19,10 @@ GameObject:
   - component: {fileID: -345617527643195386}
   - component: {fileID: 1417926705260422826}
   - component: {fileID: 3768506210123730191}
-  - component: {fileID: 5903341338632580079}
   - component: {fileID: 610456076500646556}
   - component: {fileID: 4052659865295203801}
   - component: {fileID: 3582344492136636562}
+  - component: {fileID: 4058263790769576683}
   m_Layer: 11
   m_Name: Jukebox
   m_TagString: Untagged
@@ -130,7 +130,33 @@ MonoBehaviour:
   MaxSoundDistance: 14
   Volume: 1
   Spread: 192
-  adminMusic: {fileID: 11400000, guid: 8f0c7210e66131a4980538619cd9d9cc, type: 2}
+  keyItemTrait: {fileID: 11400000, guid: 7da90644453fdb239a0b00b2e4154f39, type: 2}
+  vinylRecordItemTrait: {fileID: 11400000, guid: 7eef9258ea1b7040a99d2574da975288,
+    type: 2}
+  openingStorageSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Closet/wooden_closet_open.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  closingStorageSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Closet/wooden_closet_close.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  satisfyingClick:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/misc/box_deploy.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
 --- !u!114 &114977697586778270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,23 +336,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   <CanRelink>k__BackingField: 1
---- !u!114 &5903341338632580079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010765165894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  NetTabType: 27
-  aiInteractable: 1
 --- !u!114 &610456076500646556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -433,6 +442,35 @@ MonoBehaviour:
   lockSpriteDirection: 0
   blockAnchorChange: 0
   blockMessage: 
+--- !u!114 &4058263790769576683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010765165894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 617470ff1ed069e4e907b2cde0f52203,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: f5751205d968e1a3581d228d567f0705,
+    type: 2}
+  itemStoragePopulator: {fileID: 11400000, guid: fa5589cc0db2ea4c3a8e7540c76046a8,
+    type: 2}
+  forceSpawnContents: 1
+  ManuallySpawnContent: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!1 &1000010906387252
 GameObject:
   m_ObjectHideFlags: 0

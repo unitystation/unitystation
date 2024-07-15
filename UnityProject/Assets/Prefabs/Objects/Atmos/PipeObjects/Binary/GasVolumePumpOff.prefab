@@ -134,7 +134,7 @@ Transform:
   m_GameObject: {fileID: 6794289328154901232}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -1, w: -0.00000004371139}
-  m_LocalPosition: {x: 0, y: -0.125, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -183,8 +183,7 @@ SpriteRenderer:
   m_SortingLayerID: 1724189913
   m_SortingLayer: 6
   m_SortingOrder: 12
-  m_Sprite: {fileID: -8985833670850833121, guid: 045c1b2e839c5b2e4b653cb39f59d193,
-    type: 3}
+  m_Sprite: {fileID: -726253958, guid: 045c1b2e839c5b2e4b653cb39f59d193, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -497,10 +496,6 @@ MonoBehaviour:
   directional: {fileID: 3277128481120464709}
   spriteHandlerOverlay: {fileID: 4061608417813807119}
   spriteHandlerOverclockedOverlay: {fileID: 1655122800985678562}
-  MaxPressure: 9000
-  MinPressure: 10
-  MaxVolume: 200
-  TransferVolume: 200
   IsOn: 0
 --- !u!4 &9147034662322829854 stripped
 Transform:

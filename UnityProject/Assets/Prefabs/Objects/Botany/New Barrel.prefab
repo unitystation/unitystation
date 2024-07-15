@@ -116,6 +116,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1342417162974140097}
+    - targetCorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4026986227481247173}
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!114 &1916759854718804464 stripped
 MonoBehaviour:
@@ -224,6 +228,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseStandardExamine: 1
+  ExamineAmount: 0
+  ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 2
+  SyringePulling: 0
+  possibleTransferAmounts: []
+  transferAmount: 20
+  transferSound: []
   ReactionSounds: 1
   maxCapacity: 300
   DEBUGReagent: {fileID: 0}
@@ -240,13 +254,26 @@ MonoBehaviour:
   ContentsSet: 0
   menuOptions: -1
   spriteHandler: {fileID: 0}
-  UseStandardExamine: 1
-  ExamineAmount: 0
-  ExamineContent: 0
-  traitWhitelist: []
-  reagentWhitelist: []
-  transferMode: 2
-  SyringePulling: 0
-  possibleTransferAmounts: []
-  transferAmount: 20
-  transferSound: []
+--- !u!114 &-4026986227481247173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6397717525953366826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  objectBehaviour: {fileID: 0}
+  isSecuredStateExaminable: 1
+  isExposedFloorPlatingRequired: 0
+  secondsToSecure: 3
+  secondsToUnsecure: 3
+  lockSpriteDirection: 0
+  blockAnchorChange: 0
+  blockMessage: 

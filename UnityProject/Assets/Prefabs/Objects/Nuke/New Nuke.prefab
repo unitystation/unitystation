@@ -102,6 +102,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8052c1708b6d99043a2da0a67d842306,
         type: 2}
+    - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: initialName
+      value: nuclear fission explosive
+      objectReference: {fileID: 0}
+    - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: initialDescription
+      value: You probably shouldn't stick around to see if this is armed.
+      objectReference: {fileID: 0}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: _assetId

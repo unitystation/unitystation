@@ -21,11 +21,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3701280433139661901, guid: c7c6619435930be4e91730eea5485a29,
         type: 3}
-      propertyPath: variantIndex
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3701280433139661901, guid: c7c6619435930be4e91730eea5485a29,
-        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 7ef4efaf38584864cbf59b529ad16bed,
@@ -40,11 +35,16 @@ PrefabInstance:
       propertyPath: foreverID
       value: mpnCi41x1Q90v?Y9WgMP
       objectReference: {fileID: 0}
+    - target: {fileID: 6986793253136492712, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: initialName
+      value: passive gate fitting
+      objectReference: {fileID: 0}
     - target: {fileID: 7271761278176277654, guid: c7c6619435930be4e91730eea5485a29,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 1ea580e0dfac57849bc8a45361ac16e0,
+      objectReference: {fileID: 21300000, guid: 1ea580e0dfac57849bc8a45361ac16e0,
         type: 3}
     - target: {fileID: 7352139474868009662, guid: c7c6619435930be4e91730eea5485a29,
         type: 3}

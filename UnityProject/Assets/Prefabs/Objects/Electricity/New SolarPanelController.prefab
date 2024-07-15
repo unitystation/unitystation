@@ -101,6 +101,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
+      propertyPath: Node
+      value: 
+      objectReference: {fileID: 8452876085178655955}
+    - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
       propertyPath: WireEndA
       value: 10
       objectReference: {fileID: 0}
@@ -282,3 +287,15 @@ MonoBehaviour:
   InternalResistance: 19000
   PreviousProducingWatts: 0
   ProducingWatts: 0
+--- !u!114 &8452876085178655955 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 779761725270966111, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 9195474316350675852}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6742319176260302765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
