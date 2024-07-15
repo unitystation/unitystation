@@ -4999,8 +4999,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Node
       value: 
-      objectReference: {fileID: 7281671087508858390, guid: 69c27c4a07b053d458c6fec363e66403,
-        type: 3}
+      objectReference: {fileID: 8378657802016484482}
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: WireEndB
@@ -5218,3 +5217,15 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   smokeParticles: {fileID: 198581407923697672, guid: 69c27c4a07b053d458c6fec363e66403,
     type: 3}
+--- !u!114 &8378657802016484482 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 779761725270966111, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 9121123814632575965}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6672603410258477052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

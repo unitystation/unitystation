@@ -103,8 +103,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Node
       value: 
-      objectReference: {fileID: 114421102744754910, guid: 88f0ad40498096a47ae87836baedb762,
-        type: 3}
+      objectReference: {fileID: 8452876085178655955}
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: WireEndA
@@ -212,6 +211,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5682924656864035169}
   m_SourcePrefab: {fileID: 100100000, guid: f9025da3beb40304cb15babfc0a6cafa, type: 3}
+--- !u!114 &367810793393636070 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 9195474316350675852}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6742319176260302765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6742319176260302765 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2453728123087481889, guid: f9025da3beb40304cb15babfc0a6cafa,
@@ -234,8 +245,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   isOn: 1
-  ElectricalNodeControl: {fileID: 3451459747492305769, guid: 88f0ad40498096a47ae87836baedb762,
-    type: 3}
+  ElectricalNodeControl: {fileID: 367810793393636070}
 --- !u!114 &-6557287720690333824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,8 +261,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  ModuleSupply: {fileID: 5494377133169720483, guid: 88f0ad40498096a47ae87836baedb762,
-    type: 3}
+  ModuleSupply: {fileID: 5682924656864035169}
   UpdateRate: 10
   connectedPanels: []
 --- !u!114 &5682924656864035169
@@ -268,8 +277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ModuleType: 0
-  ControllingNode: {fileID: 3451459747492305769, guid: 88f0ad40498096a47ae87836baedb762,
-    type: 3}
+  ControllingNode: {fileID: 367810793393636070}
   StartOnStartUp: 1
   Previouscurrent: 0
   current: 0
@@ -279,3 +287,15 @@ MonoBehaviour:
   InternalResistance: 19000
   PreviousProducingWatts: 0
   ProducingWatts: 0
+--- !u!114 &8452876085178655955 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 779761725270966111, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 9195474316350675852}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6742319176260302765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

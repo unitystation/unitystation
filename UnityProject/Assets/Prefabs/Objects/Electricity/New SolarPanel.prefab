@@ -122,7 +122,23 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: -537448779860458206}
+    - targetCorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7226085271713641589}
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
+--- !u!114 &896457116751271169 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4083520829584162099, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 3808724155500668978}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051972031724007035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1051972031724007035 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
@@ -144,7 +160,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  Node: {fileID: 1302529419740996430, guid: 97e7d03d1a301d840a18f83143835c24, type: 3}
+  Node: {fileID: 7226085271713641589}
   ApplianceType: 14
   WireEndB: 0
   WireEndA: 0
@@ -175,8 +191,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   isOn: 0
-  ElectricalNodeControl: {fileID: 2683382063024116834, guid: 97e7d03d1a301d840a18f83143835c24,
-    type: 3}
+  ElectricalNodeControl: {fileID: 775108202762365362}
 --- !u!114 &-537448779860458206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,8 +207,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  <Physics>k__BackingField: {fileID: 8330663360897040262, guid: 97e7d03d1a301d840a18f83143835c24,
-    type: 3}
+  <Physics>k__BackingField: {fileID: 896457116751271169}
   <LastProducedWatts>k__BackingField: 0
   updateRate: 16
   productionPowerPointsPerFreeAvaliableSide: 150
@@ -215,3 +229,21 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   Controller: {fileID: 0}
+--- !u!114 &7226085271713641589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051972031724007035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  registerTile: {fileID: 0}
+  connected: 0
+  Logall: 0
