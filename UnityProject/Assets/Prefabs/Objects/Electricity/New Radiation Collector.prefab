@@ -150,8 +150,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Node
       value: 
-      objectReference: {fileID: 8275105296698566321, guid: f432c33ecfefc314d9890767213b8d72,
-        type: 3}
+      objectReference: {fileID: 6749068304071417455}
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: WireEndB
@@ -279,6 +278,30 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5227503272454633194}
   m_SourcePrefab: {fileID: 100100000, guid: f9025da3beb40304cb15babfc0a6cafa, type: 3}
+--- !u!114 &3313978800462231642 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 6303848660673159472}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8464128812617895185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6749068304071417455 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 779761725270966111, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 6303848660673159472}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8464128812617895185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8464128812617895185 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2453728123087481889, guid: f9025da3beb40304cb15babfc0a6cafa,
@@ -320,8 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: decbbef8933914e4db80a8f7026d2ac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainSpriteHandler: {fileID: 8106342113633906247, guid: f432c33ecfefc314d9890767213b8d72,
-    type: 3}
+  mainSpriteHandler: {fileID: 0}
   startSetUp: 0
   radiationWatts: 10
 --- !u!114 &5227503272454633194
@@ -337,7 +359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ModuleType: 2
-  ControllingNode: {fileID: 0}
+  ControllingNode: {fileID: 3313978800462231642}
   StartOnStartUp: 0
   Previouscurrent: 0
   current: 0

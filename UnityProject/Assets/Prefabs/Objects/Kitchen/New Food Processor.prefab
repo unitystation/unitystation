@@ -143,6 +143,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8465290076450198579}
+    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6741912710746518622}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
 --- !u!1 &6431604156482685107 stripped
 GameObject:
@@ -197,7 +201,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  shaker: {fileID: 8428099613412960887, guid: b07ea9f765b04a7ab9767184611d7dfe, type: 3}
+  shaker: {fileID: 6741912710746518622}
 --- !u!114 &3326221963050224024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,7 +256,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  Target: {fileID: 4000011070416052, guid: b07ea9f765b04a7ab9767184611d7dfe, type: 3}
+  Target: {fileID: 7072007931719009024}
 --- !u!114 &8465290076450198579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,3 +280,28 @@ MonoBehaviour:
   lockSpriteDirection: 0
   blockAnchorChange: 0
   blockMessage: 
+--- !u!114 &6741912710746518622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6431604156482685107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03d7a3d174472564ea12881872e65759, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  axisMode: 0
+  animType: 0
+  spriteReference: {fileID: 7072007931719009024}
+  tween: {fileID: 5556437737810248796}
+--- !u!4 &7072007931719009024 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5754225766450433295}
+  m_PrefabAsset: {fileID: 0}

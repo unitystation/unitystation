@@ -73,6 +73,8 @@ public class ReplaceWithPrefab : EditorWindow
 					newObjectRotatable.FaceDirection(selectedRotatable.CurrentDirection);
 				}
 
+				newObject.name = selected.name;
+
 
 				// -- now delete the old prefab
 				Undo.DestroyObjectImmediate(selected);

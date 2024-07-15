@@ -63,7 +63,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3594497553666881711, guid: c937e0abe85aca9499d09951de736ec6,
         type: 3}
+      propertyPath: source
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3594497553666881711, guid: c937e0abe85aca9499d09951de736ec6,
+        type: 3}
       propertyPath: spriteHandler
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4405633098183203496, guid: c937e0abe85aca9499d09951de736ec6,
+        type: 3}
+      propertyPath: source
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4405633098183203496, guid: c937e0abe85aca9499d09951de736ec6,
@@ -139,6 +149,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7304496048957556183, guid: c937e0abe85aca9499d09951de736ec6,
         type: 3}
+      propertyPath: source
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7304496048957556183, guid: c937e0abe85aca9499d09951de736ec6,
+        type: 3}
       propertyPath: spriteHandler
       value: 
       objectReference: {fileID: 0}
@@ -147,7 +162,9 @@ PrefabInstance:
       propertyPath: foreverID
       value: aef082ffdd3b51f45bd9a56c6afda863
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6093979353265471059, guid: c937e0abe85aca9499d09951de736ec6, type: 3}
+    - {fileID: 7674979974564601818, guid: c937e0abe85aca9499d09951de736ec6, type: 3}
     m_RemovedGameObjects:
     - {fileID: 2955851806469709520, guid: c937e0abe85aca9499d09951de736ec6, type: 3}
     m_AddedGameObjects: []

@@ -92,6 +92,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: -6831521733435841288}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+--- !u!212 &409827743242720043 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 523088607391571149}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &522969193494093943 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
@@ -116,8 +122,7 @@ MonoBehaviour:
   wallPrefab: {fileID: 1642857750665843136, guid: 3e091c8c2a970a74e915174840cd98bb,
     type: 3}
   posterVariant: 1
-  spriteRend: {fileID: 856240420534071871, guid: 96145b3165f5248b78302cd49658b0b2,
-    type: 3}
+  spriteRend: {fileID: 409827743242720043}
   legitSprite: {fileID: 21300000, guid: e3686f4fd49b3da478b3e180a674bd37, type: 3}
   contrabandSprite: {fileID: 21300000, guid: 18ac39b3a4c2e6347bb4431b95103a1a, type: 3}
 --- !u!114 &-6831521733435841288

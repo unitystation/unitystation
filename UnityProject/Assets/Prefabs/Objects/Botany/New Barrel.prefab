@@ -117,6 +117,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1342417162974140097}
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
+--- !u!114 &1916759854718804464 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 7100864605536308579}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6397717525953366826 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
@@ -162,8 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47222e0949b25eb4d922fc0e53622de4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 2566107475804999531, guid: db8717f3f2a8a4170a0d870dcc9662e1,
-    type: 3}
+  container: {fileID: 1342417162974140097}
   closeSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Crate/crate_close.prefab
@@ -188,8 +199,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  barrelSpriteHandler: {fileID: 1016020168901396264, guid: db8717f3f2a8a4170a0d870dcc9662e1,
-    type: 3}
+  barrelSpriteHandler: {fileID: 1916759854718804464}
 --- !u!114 &4140194575161663140
 MonoBehaviour:
   m_ObjectHideFlags: 0

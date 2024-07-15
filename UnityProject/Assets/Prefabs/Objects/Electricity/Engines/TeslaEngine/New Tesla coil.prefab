@@ -158,7 +158,8 @@ PrefabInstance:
       propertyPath: initialDescription
       value: generates power from electric arcs
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -218,7 +219,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  Node: {fileID: 8275105296698566321, guid: ba38329bc0055f045b42b7e5271dc7b2, type: 3}
+  Node: {fileID: 4886011115342770592}
   ApplianceType: 5
   WireEndB: 9
   WireEndA: 0
@@ -264,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ModuleType: 2
-  ControllingNode: {fileID: 0}
+  ControllingNode: {fileID: 3298846619064125517}
   StartOnStartUp: 0
   Previouscurrent: 0
   current: 0
