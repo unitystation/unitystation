@@ -15,8 +15,33 @@ PrefabInstance:
       objectReference: {fileID: 8212135738603991929}
     - target: {fileID: 79449533410365835, guid: 224479214b5ed414193fdcb20d96678f,
         type: 3}
-      propertyPath: 'ListCanConnectTo.Array.data[1]'
-      value: 8
+      propertyPath: WireEndA
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 79449533410365835, guid: 224479214b5ed414193fdcb20d96678f,
+        type: 3}
+      propertyPath: WireEndB
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069712652644278202, guid: 224479214b5ed414193fdcb20d96678f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.019
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069712652644278202, guid: 224479214b5ed414193fdcb20d96678f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.143
+      objectReference: {fileID: 0}
+    - target: {fileID: 3134902703041067012, guid: 224479214b5ed414193fdcb20d96678f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.018
+      objectReference: {fileID: 0}
+    - target: {fileID: 3134902703041067012, guid: 224479214b5ed414193fdcb20d96678f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.315
       objectReference: {fileID: 0}
     - target: {fileID: 3192116734910697890, guid: 224479214b5ed414193fdcb20d96678f,
         type: 3}
@@ -27,7 +52,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 922e946201068b34e850de2e4d4e7265,
+      objectReference: {fileID: 21300000, guid: 0dc583cfea6ec334b91806c582d85c79,
         type: 3}
     - target: {fileID: 4106971565043437470, guid: 224479214b5ed414193fdcb20d96678f,
         type: 3}
@@ -38,7 +63,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 302f50de3dd7ae84d88916d1ecae1436,
+      objectReference: {fileID: 21300000, guid: 8b2e38a45a965cb4e9b2dccb3daf973c,
         type: 3}
     - target: {fileID: 4355089322573383412, guid: 224479214b5ed414193fdcb20d96678f,
         type: 3}
@@ -57,36 +82,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3228036655590114128, guid: 025f9c4810685f645804eb0b80b1b0ed,
         type: 3}
-    - target: {fileID: 6096819183274574878, guid: 224479214b5ed414193fdcb20d96678f,
-        type: 3}
-      propertyPath: TurnRatio
-      value: 12.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6096819183274574878, guid: 224479214b5ed414193fdcb20d96678f,
-        type: 3}
-      propertyPath: ControllingNode
-      value: 
-      objectReference: {fileID: 118010607394379084}
-    - target: {fileID: 6096819183274574878, guid: 224479214b5ed414193fdcb20d96678f,
-        type: 3}
-      propertyPath: VoltageLimiting
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6096819183274574878, guid: 224479214b5ed414193fdcb20d96678f,
-        type: 3}
-      propertyPath: VoltageLimitedTo
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6096819183274574878, guid: 224479214b5ed414193fdcb20d96678f,
-        type: 3}
-      propertyPath: 'LowsideConnections.Array.data[0]'
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6096819183274574878, guid: 224479214b5ed414193fdcb20d96678f,
-        type: 3}
-      propertyPath: 'HighsideConnections.Array.data[0]'
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6450501851632886298, guid: 224479214b5ed414193fdcb20d96678f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -142,28 +137,23 @@ PrefabInstance:
       propertyPath: m_Name
       value: New Transformer NS
       objectReference: {fileID: 0}
+    - target: {fileID: 6553089716254802135, guid: 224479214b5ed414193fdcb20d96678f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 59ed3f22a5aead44a9b65e53cdf203e9,
+        type: 3}
     - target: {fileID: 7989549210544560777, guid: 224479214b5ed414193fdcb20d96678f,
         type: 3}
       propertyPath: foreverID
       value: f7340273d27f97d4e908403b3808b75a
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2000034017176030746, guid: 224479214b5ed414193fdcb20d96678f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 224479214b5ed414193fdcb20d96678f, type: 3}
---- !u!114 &118010607394379084 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 79449533410365835, guid: 224479214b5ed414193fdcb20d96678f,
-    type: 3}
-  m_PrefabInstance: {fileID: 52073882911671495}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8212135738603991929 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8164565542460553150, guid: 224479214b5ed414193fdcb20d96678f,
