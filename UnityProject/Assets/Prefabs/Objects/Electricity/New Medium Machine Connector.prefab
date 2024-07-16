@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue:
-  - {fileID: 11400000, guid: af312efc417fa7f4cace32afb44bd310, type: 2}
+  - {fileID: 11400000, guid: 7f1f1bf0ab90dfc478153f9b6c39208d, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7f1f1bf0ab90dfc478153f9b6c39208d, type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
@@ -209,7 +209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue:
-  - {fileID: 11400000, guid: af312efc417fa7f4cace32afb44bd310, type: 2}
+  - {fileID: 11400000, guid: 7f1f1bf0ab90dfc478153f9b6c39208d, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7f1f1bf0ab90dfc478153f9b6c39208d, type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
@@ -317,7 +317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue:
-  - {fileID: 11400000, guid: af312efc417fa7f4cace32afb44bd310, type: 2}
+  - {fileID: 11400000, guid: 7f1f1bf0ab90dfc478153f9b6c39208d, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7f1f1bf0ab90dfc478153f9b6c39208d, type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
@@ -425,7 +425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue:
-  - {fileID: 11400000, guid: af312efc417fa7f4cace32afb44bd310, type: 2}
+  - {fileID: 11400000, guid: 7f1f1bf0ab90dfc478153f9b6c39208d, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7f1f1bf0ab90dfc478153f9b6c39208d, type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
@@ -444,6 +444,21 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: bb684284e149a524d9f53b039e51b806
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481169419180323577, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481169419180323577, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481169419180323577, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 776718967
       objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -543,6 +558,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: initialCrawlPassable
       value: 1
       objectReference: {fileID: 0}
@@ -562,7 +582,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: eabd3920d32be7344b53880c089ae6f9,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1481169419180323577, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 83141582606814714, guid: ebb08cf966efc084aa918bd8d9429604,

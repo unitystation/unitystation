@@ -13,7 +13,6 @@ using UnityEngine.UIElements;
 /// <see cref="RegisterTile"/> for an object, adds additional logic to
 /// make object passable / impassable.
 /// </summary>
-[ExecuteInEditMode]
 public class RegisterObject : RegisterTile, IPointerEnterHandler, IPointerExitHandler
 {
 

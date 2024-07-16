@@ -50,9 +50,27 @@ namespace Objects.Engineering
 		private bool hasInit;
 
 
+		private void Awake()
+		{
+			ElectricalNodeControl = this.GetComponent<ElectricalNodeControl>();
+			BatterySupplyingModule = this.GetComponent<BatterySupplyingModule>();
+		}
+
 		private void Start()
 		{
 			EnsureInit();
+		}
+
+		private void OnValidate()
+		{
+			if (enums.Count > 0)
+			{
+				for (int i = 0; i < enums.Count; i++)
+				{
+					Sprites[enums[i]] = Sprite[i];
+				}
+				Renderer.sprite = Sprites[CurrentSprite];
+			}
 		}
 
 		private void EnsureInit()

@@ -158,7 +158,8 @@ PrefabInstance:
       propertyPath: initialDescription
       value: generates power from electric arcs
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -264,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ModuleType: 2
-  ControllingNode: {fileID: 0}
+  ControllingNode: {fileID: 3298846619064125517}
   StartOnStartUp: 0
   Previouscurrent: 0
   current: 0

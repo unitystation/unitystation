@@ -45,6 +45,13 @@ namespace Systems.Electricity
 
 		public bool IsSelfPowered => isSelfPowered;
 
+
+		[SerializeField]
+		[Tooltip("Does this device **not** need to be linked to an APC to pass tests?")]
+		private bool mappingNotNeedToLink = false;
+
+		public bool MappingNotNeedToLink => mappingNotNeedToLink;
+
 		[SerializeField ]
 		[Tooltip("Watts consumed per update when running at 240v")]
 		private float wattusage = 0.01f;

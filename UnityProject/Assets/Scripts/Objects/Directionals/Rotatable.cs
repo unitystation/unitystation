@@ -273,6 +273,19 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 
 	public void RotateObject(OrientationEnum dir)
 	{
+		if (Application.isPlaying == false)
+		{
+			if (spriteHandlers == null || spriteHandlers.Length == 0)
+			{
+				spriteHandlers = GetComponentsInChildren<SpriteHandler>();
+			}
+
+			if (spriteRenderers == null || spriteRenderers.Length == 0 )
+			{
+				spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+			}
+		}
+
 		int spriteVariant = 0;
 		switch (dir)
 		{

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Construction.Conveyors;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -175,6 +176,9 @@ namespace CustomInspectors
 
 	[CustomEditor(typeof(SolarPanel))]
 	public class SolarPanelInspector : SlaveDeviceInspector { }
+
+	[CustomEditor(typeof(ConveyorBelt))]
+	public class ConveyorBeltInspector : SlaveDeviceInspector { }
 
 	#endregion
 }

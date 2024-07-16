@@ -8,7 +8,7 @@ public class ReplaceWithPrefab : EditorWindow
 	[SerializeField] private GameObject prefab;
 
 	// -- this creates the menu to open the "Replace With Prefab" window
-	[MenuItem("Tools/Replace With Prefab")]
+	[MenuItem("Mapping/Replace With Prefab")]
 	static void CreateReplaceWithPrefab()
 	{
 		EditorWindow.GetWindow<ReplaceWithPrefab>();
@@ -66,6 +66,16 @@ public class ReplaceWithPrefab : EditorWindow
 				newObject.transform.localRotation = selected.transform.localRotation;
 				newObject.transform.localScale = selected.transform.localScale;
 				newObject.transform.SetSiblingIndex(selected.transform.GetSiblingIndex());
+				var selectedRotatable = selected.GetComponent<Rotatable>();
+				var newObjectRotatable = newObject.GetComponent<Rotatable>();
+				if (selectedRotatable != null && newObjectRotatable != null)
+				{
+					newObjectRotatable.FaceDirection(selectedRotatable.CurrentDirection);
+				}
+
+				newObject.name = selected.name;
+
+
 				// -- now delete the old prefab
 				Undo.DestroyObjectImmediate(selected);
 			}

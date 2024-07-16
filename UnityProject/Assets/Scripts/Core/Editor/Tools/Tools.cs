@@ -199,6 +199,43 @@ namespace Core.Editor.Tools
 			Debug.Log($"{allNets.Count} net components found in prefabs");
 		}
 
+		[MenuItem("Mapping/RemmoveMissingTag")]
+		private static void RemoveNames()
+		{
+			string patternToRemove = "(Missing Prefab with guid:";
+
+			// Iterate through all root game objects in the current scene
+			foreach (GameObject root in SceneManager.GetActiveScene().GetRootGameObjects())
+			{
+				// Recursively clean the names of all child objects
+				CleanObjectName(root, patternToRemove);
+			}
+
+			// Save the scene after making changes
+			EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+		}
+
+		private static void CleanObjectName(GameObject obj, string patternToRemove)
+		{
+			if (obj.name.Contains(patternToRemove))
+			{
+				int startIndex = obj.name.IndexOf(patternToRemove);
+				int endIndex = obj.name.IndexOf(')', startIndex);
+				if (endIndex > startIndex)
+				{
+					// Remove the pattern from the name
+					obj.name = obj.name.Remove(startIndex, endIndex - startIndex + 1).Trim();
+				}
+			}
+
+			// Iterate through all child objects and clean their names as well
+			foreach (Transform child in obj.transform)
+			{
+				CleanObjectName(child.gameObject, patternToRemove);
+			}
+		}
+
+
 		[MenuItem("Mapping/Save all scenes")]
 		private static void SaveAllScenes()
 		{

@@ -23,6 +23,7 @@ namespace Systems.Pipes
 
 		public bool SelfSufficient = false;
 
+		public bool MappingNotRequiresLink = false;
 
 
 		[HideInInspector] public MixAndVolume mixAndVolume = new MixAndVolume();

@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -106,11 +108,8 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &7144248469089430455
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,6 +129,7 @@ GameObject:
   - component: {fileID: -2763973709699312979}
   - component: {fileID: -4847964719740510200}
   - component: {fileID: -7795735316591614971}
+  - component: {fileID: 6895231738127449299}
   m_Layer: 23
   m_Name: ConveyorSwitch
   m_TagString: Untagged
@@ -216,6 +216,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  LiesFlat3D: 0
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -266,6 +267,12 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDestruction:
+    m_PersistentCalls:
+      m_Calls: []
   initialIntegrity: 20
   soundOnHit:
     SetLoadSetting: 0
@@ -344,6 +351,7 @@ MonoBehaviour:
   exportName: 
   exportMessage: 
   noMouseHighlight: 0
+  initialTraits: []
   initialSize: 3
 --- !u!114 &-2763973709699312979
 MonoBehaviour:
@@ -360,6 +368,10 @@ MonoBehaviour:
   conveyorBelts: []
   ConveyorBeltSpeed: 6
   conType: 2
+  <MultiMaster>k__BackingField: 1
+  <MaxDistance>k__BackingField: 30
+  <CanRelink>k__BackingField: 1
+  <IgnoreMaxDistanceMapper>k__BackingField: 0
 --- !u!114 &-4847964719740510200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,21 +408,23 @@ MonoBehaviour:
   slideTime: 0
   spinMagnitude: 0
   thrownBy: {fileID: 0}
+  thrownProtection: {fileID: 0}
   aim: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
   ChangesDirectionPush: 0
   Intangible: 0
+  MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
+  ObjectBouncyness: 0.75
   DEBUG: 0
   tileMoveSpeed: 1
   HasOwnGravity: 0
   isNotPushable: 1
   CanBeWindPushed: 1
   rotationTarget: {fileID: 0}
-  FramePushDecision: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -426,4 +440,24 @@ MonoBehaviour:
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  TimeSpentFlying: 0
   BuckledToObject: {fileID: 0}
+--- !u!114 &6895231738127449299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144248469089430455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2611eb35a2c5a44884395da52fbddd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  conveyorBelts: []
+  ConveyorBeltSpeed: 6
+  conType: 2
+  <MultiMaster>k__BackingField: 1
+  <MaxDistance>k__BackingField: 30
+  <CanRelink>k__BackingField: 1
+  <IgnoreMaxDistanceMapper>k__BackingField: 0

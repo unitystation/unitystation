@@ -26,6 +26,7 @@ namespace Tests.Scenes
 			foreach (var device in RootObjects.ComponentsInChildren<APCPoweredDevice>().NotNull())
 			{
 				if (device.IsSelfPowered) continue;
+				if (device.MappingNotNeedToLink) continue;
 				if (device.GetComponentInChildren<AutoAPCLinker>() != null) continue;
 
 				var deviceLocation = device.transform.NameAndPosition();
