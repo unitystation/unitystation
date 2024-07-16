@@ -49,6 +49,7 @@ namespace Objects.Electrical
 			RefreshSprites();
 		}
 
+		[NaughtyAttributes.Button]
 		public void RefreshSprites()
 		{
 			HashSet<IntrinsicElectronicData> connections = new HashSet<IntrinsicElectronicData>();
@@ -68,14 +69,7 @@ namespace Objects.Electrical
 				SpriteHandler spriteHandler = kvp.Value;
 				if (activeDirections.Contains(kvp.Key))
 				{
-					if (spriteHandler.CurrentSpriteIndex == -1)
-					{
-						spriteHandler.SetCatalogueIndexSprite(0);
-					}
-					else
-					{
-						spriteHandler.PushTexture();
-					}
+					spriteHandler.PushTexture();
 				}
 				else
 				{
