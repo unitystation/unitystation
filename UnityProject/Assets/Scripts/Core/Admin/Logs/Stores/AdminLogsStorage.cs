@@ -1,25 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Core.Admin.Logs.Interfaces;
 using Core.Editor.Attributes;
 using Logs;
 using SecureStuff;
+using Shared.Managers;
 using UnityEngine;
 
 namespace Core.Admin.Logs.Stores
 {
-	public class AdminLogsStorage : MonoBehaviour, IAdminStorage
+	public class AdminLogsStorage : SingletonManager<AdminLogsManager>, IAdminStorage
 	{
 		private Queue<HumanLogEntry> entries = new Queue<HumanLogEntry>();
 		private bool readyForQueue = true;
 
+		public const int ENTRY_PAGE_SIZE = 10;
+
 		[SerializeField, SerializeReference, SelectImplementation(typeof(IAdminLogEntryConverter<string>))]
 		private IAdminLogEntryConverter<string> EntryConverter;
 
-		private void Start()
+		public override void Start()
 		{
+			base.Start();
 			AdminLogsManager.OnNewLog += QueueLog;
 		}
 
@@ -96,6 +101,107 @@ namespace Core.Admin.Logs.Stores
 			{
 				Loggy.Log("An unexpected error occurred: " + ex);
 			}
+		}
+
+		private void AddToEntryList(ref List<LogEntry> entries, string logLine)
+		{
+			LogEntry logEntry = EntryConverter.ConvertBackSingle(logLine);
+			if (logEntry != null)
+			{
+				entries.Add(logEntry);
+			}
+			else
+			{
+				Loggy.LogError($"[AdminLogsStorage/FetchLogsPaginated()] - Failed to convert log line to LogEntry: {logLine}");
+			}
+		}
+
+		public async Task<List<LogEntry>> FetchAllLogs(string fileName)
+		{
+			List<LogEntry> logEntries = new List<LogEntry>();
+			string filePath = Path.Combine("Admin", fileName);
+			try
+			{
+				if (AccessFile.Exists(filePath, true, FolderType.Logs, Application.isEditor == false) == false)
+				{
+					Loggy.LogError($"[AdminLogsStorage/FetchLogs()] - File not found: {filePath}");
+				}
+				string fileContent = await Task.Run(() => AccessFile.Load(filePath, FolderType.Logs, Application.isEditor == false));
+				string[] logLines = fileContent.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+				foreach (string logLine in logLines)
+				{
+					try
+					{
+						AddToEntryList(ref logEntries, logLine);
+					}
+					catch (Exception e)
+					{
+						Loggy.LogError($"[AdminLogsStorage/FetchLogs()] - Exception during log entry conversion: {e}");
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError($"[AdminLogsStorage/FetchLogs()] - Exception during file read: {e}");
+			}
+			return logEntries;
+		}
+
+		public async Task<List<LogEntry>> FetchLogsPaginated(string fileName, int pageNumber, int pageSize = ENTRY_PAGE_SIZE)
+		{
+			List<LogEntry> logEntries = new List<LogEntry>();
+			string filePath = Path.Combine("Admin", fileName);
+			try
+			{
+				if (AccessFile.Exists(filePath, true, FolderType.Logs, Application.isEditor == false) == false)
+				{
+					Loggy.LogError($"[AdminLogsStorage/FetchLogsPaginated()] - File not found: {filePath}");
+				}
+				string fileContent = await Task.Run(() => AccessFile.Load(filePath, FolderType.Logs, Application.isEditor == false));
+				string[] logLines = fileContent.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+				int skip = (pageNumber - 1) * pageSize;
+				int take = pageSize;
+				var paginatedLogLines = logLines.Skip(skip).Take(take);
+				foreach (string logLine in paginatedLogLines)
+				{
+					try
+					{
+						AddToEntryList(ref logEntries, logLine);
+					}
+					catch (Exception e)
+					{
+						Loggy.LogError($"[AdminLogsStorage/FetchLogsPaginated()] - Exception during log entry conversion: {e}");
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError($"[AdminLogsStorage/FetchLogsPaginated()] - Exception during file read: {e}");
+			}
+			return logEntries;
+		}
+
+		public static async Task<int> GetTotalPages(string fileName, int pageSize = ENTRY_PAGE_SIZE)
+		{
+			string filePath = Path.Combine("Admin", fileName);
+			int totalEntries = 0;
+			try
+			{
+				if (AccessFile.Exists(filePath, true, FolderType.Logs, Application.isEditor == false) == false)
+				{
+					Loggy.LogError($"[AdminLogsStorage/GetTotalPages()] - File not found: {filePath}");
+					return totalEntries;
+				}
+				string fileContent = await Task.Run(() => AccessFile.Load(filePath, FolderType.Logs, Application.isEditor == false));
+				string[] logLines = fileContent.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+				totalEntries = logLines.Length;
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError($"[AdminLogsStorage/GetTotalPages()] - Exception during file read: {e}");
+				return 0;
+			}
+			return (int)Math.Ceiling((double)totalEntries / pageSize);
 		}
 	}
 }

@@ -1,26 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Core.Admin.Logs;
+using Messages.Client.Admin.Logs;
+using TMPro;
 using UnityEngine;
 
 namespace UI.Systems.AdminTools.AdminLogs
 {
 	public class AdminLogsWindow : MonoBehaviour
 	{
-		private List<LogEntry> _logEntries = new List<LogEntry>();
+		private List<LogEntry> logEntries = new List<LogEntry>();
+		private List<AdminLogEntryUI> entriesUI = new List<AdminLogEntryUI>();
+		[SerializeField] private Transform logEntryBaseTransform;
+		[SerializeField] private Transform logsTranform;
+		[SerializeField] private TMP_Dropdown logFilesDropdown;
+		private int lastCachedLogNumber = 0;
+
+		public int NumberOfPagesAvaliable = 0;
 
 		private void OnEnable()
 		{
 			UpdateManager.Add(UpdateMe, 4f);
 		}
 
-		private void OnDisable()
+		private void UpdateMe()
 		{
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+
 		}
 
+		private void RequestLogPage(string logFileName, int page)
+		{
+			logFileName ??= Path.Combine("Admin", $"{DateTime.Now:yyyy-MM-dd} - {GameManager.RoundID}.txt");
+		}
 
-		private void UpdateMe()
+		private void RequestLogAvaliablePages(string logFileName)
+		{
+			logFileName ??= Path.Combine("Admin", $"{DateTime.Now:yyyy-MM-dd} - {GameManager.RoundID}.txt");
+			RequestLogFilePagesNumber.Send(logFileName);
+		}
+
+		public void UpdateLogList(List<LogEntry> logEntries)
 		{
 
 		}

@@ -1,4 +1,5 @@
-﻿using Core.Admin.Logs.Interfaces;
+﻿using System.Collections.Generic;
+using Core.Admin.Logs.Interfaces;
 using Newtonsoft.Json;
 
 namespace Core.Admin.Logs.Stores
@@ -13,6 +14,11 @@ namespace Core.Admin.Logs.Stores
 		public string Convert(object entry)
 		{
 			return JsonConvert.SerializeObject(entry, _settings) + "\n";
+		}
+
+		public LogEntry ConvertBackSingle(object entry)
+		{
+			return JsonConvert.DeserializeObject<LogEntry>(entry.ToString(), _settings);
 		}
 	}
 }
