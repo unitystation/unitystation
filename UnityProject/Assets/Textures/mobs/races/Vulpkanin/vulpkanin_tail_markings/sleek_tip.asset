@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: sleek_tip
+  m_EditorClassIdentifier: 
+  foreverID: 7035c0002beb8c04d99de7d294ce7dba
+  Variance:
+  - Frames:
+    - sprite: {fileID: 2804635634464602112, guid: 392c6d8eeb09965ba8ca998c1bc0ed2d,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 7074094626927078460, guid: 392c6d8eeb09965ba8ca998c1bc0ed2d,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -2743698017518426840, guid: 392c6d8eeb09965ba8ca998c1bc0ed2d,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 2791125671035427227, guid: 392c6d8eeb09965ba8ca998c1bc0ed2d,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 
