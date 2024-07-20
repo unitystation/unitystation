@@ -17,6 +17,7 @@ using HealthV2;
 using Objects;
 using Objects.Wallmounts;
 using Shared.Systems.ObjectConnection;
+using UnityEngine.Serialization;
 
 namespace Doors
 {
@@ -105,6 +106,8 @@ namespace Doors
 		private int closedLayer;
 		private int closedSortingLayer;
 
+		public bool UseMachinesForOpenLayeer = false;
+
 		public HackingProcessBase HackingProcessBase;
 
 		private GameObject byPlayer;
@@ -124,10 +127,16 @@ namespace Doors
 				closedLayer = LayerMask.NameToLayer("Windows");
 			}
 
+
+
 			closedSortingLayer = SortingLayer.NameToID("Doors Closed");
 
+
+
 			openLayer = LayerMask.NameToLayer("Door Open");
-			openSortingLayer = SortingLayer.NameToID("Doors Open");
+
+
+
 
 			if (TryGetComponent<FireLock>(out _))
 			{
@@ -144,6 +153,11 @@ namespace Doors
 			apc = GetComponent<APCPoweredDevice>();
 			doorAnimator = GetComponent<DoorAnimatorV2>();
 			doorAnimator.AnimationFinished += OnAnimationFinished;
+			if (UseMachinesForOpenLayeer)
+			{
+				openSortingLayer = SortingLayer.NameToID("Machines");
+			}
+
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
