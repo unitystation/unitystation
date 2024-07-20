@@ -176,7 +176,18 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		var slot = GetBestSlotFor(inGameObject);
 		if (slot == null) return false;
 
-		return Inventory.ServerAdd(inGameObject, slot);
+		var CurrentlyInSlot = inGameObject.GetComponent<Pickupable>().ItemSlot;
+
+		if (CurrentlyInSlot == null)
+		{
+			return Inventory.ServerAdd(inGameObject, slot);
+		}
+		else
+		{
+			return Inventory.ServerTransfer(CurrentlyInSlot, slot);
+		}
+
+
 	}
 
 	public bool ServerTransferGameObjectToItemSlot(GameObject outGameObject, ItemSlot Slot)
