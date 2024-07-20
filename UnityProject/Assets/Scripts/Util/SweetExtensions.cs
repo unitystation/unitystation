@@ -179,6 +179,11 @@ public static class SweetExtensions
 
 	}
 
+	public static bool IsUnreasonableNumber(this float Number)
+	{
+		return float.IsNaN(Number) || float.IsNegativeInfinity(Number) || float.IsPositiveInfinity(Number);
+	}
+
 
 	/// Creates garbage! Use very sparsely!
 	public static Vector3 AssumedWorldPosServer(this GameObject go, bool IsInGameItem = true)
