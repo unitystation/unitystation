@@ -179,6 +179,30 @@ public static class SweetExtensions
 
 	}
 
+	public static void RemoveNulls(this IList list)
+	{
+		// Ensure the list is not null
+		if (list == null)
+		{
+			throw new ArgumentNullException(nameof(list));
+		}
+
+		// Iterate backwards to avoid issues while removing items
+		for (int i = list.Count - 1; i >= 0; i--)
+		{
+			if (list[i] == null)
+			{
+				list.RemoveAt(i);
+			}
+		}
+	}
+
+
+	public static bool IsUnreasonableNumber(this float Number)
+	{
+		return float.IsNaN(Number) || float.IsNegativeInfinity(Number) || float.IsPositiveInfinity(Number);
+	}
+
 
 	/// Creates garbage! Use very sparsely!
 	public static Vector3 AssumedWorldPosServer(this GameObject go, bool IsInGameItem = true)

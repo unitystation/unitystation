@@ -1397,6 +1397,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (PulledBy.HasComponent) return;
 		if (worldDirection == Vector2.zero) return;
 
+		if (speed == 0) return;
+
+		if (speed.IsUnreasonableNumber())
+		{
+			Loggy.LogError("Unreasonable number detected in NewtonianPush for" + this.gameObject );
+			return;
+		}
+
 		aim = inAim;
 		thrownBy = inThrownBy;
 		thrownProtection = thrownBy;
@@ -1604,6 +1612,28 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public void FlyingUpdateMe()
 	{
+
+		if (NewtonianMovement.x.IsUnreasonableNumber() || NewtonianMovement.y.IsUnreasonableNumber())
+		{
+			Loggy.LogError("Unreasonable number detected with NewtonianMovement"+ transform.name);
+			var vec = NewtonianMovement;
+			vec.x = 0;
+			vec.y = 0;
+			NewtonianMovement = vec;
+		}
+
+
+		if (transform.position.x.IsUnreasonableNumber() || transform.position.y.IsUnreasonableNumber() || transform.position.z.IsUnreasonableNumber())
+		{
+			Loggy.LogError("Unreasonable number detected with transform.position with " + transform.name);
+			var vec = transform.position;
+			vec.x = 0;
+			vec.y = 0;
+			vec.z = 0;
+			transform.position = vec;
+		}
+
+
 		if (isVisible == false)
 		{
 			IsFlyingSliding = false;

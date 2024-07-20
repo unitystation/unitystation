@@ -29,6 +29,13 @@ namespace UI.Objects.Command
 		[SerializeField]
 		private NetText_label loginCardName = null;
 
+
+
+		[SerializeField]
+		private NetFilledInputField TargetName = null;
+		[SerializeField]
+		private NetFilledInputField TargetJobRole = null;
+
 		//cached mapping from access to its corresponding entry for fast lookup
 		private Dictionary<GUI_IDConsoleEntry, Clearance> accessToEntry = new Dictionary<GUI_IDConsoleEntry, Clearance>();
 		private Dictionary<GUI_IDConsoleEntry, Occupation> occupationToEntry = new Dictionary<GUI_IDConsoleEntry, Occupation>();
@@ -136,12 +143,36 @@ namespace UI.Objects.Command
 			}
 
 
-			valToSet = console.TargetCard != null ? $"{console.TargetCard.RegisteredName}, {console.TargetCard.GetJobTitle()}" : "-";
+			string TName = "-";
+			string JName = "-";
+			valToSet = "-";
+			if (console.TargetCard != null)
+			{
+				TName = console.TargetCard.RegisteredName;
+				JName = console.TargetCard.GetJobTitle();
+				valToSet = $"{TName}, {JName}";
+			}
+
+
 
 			if (valToSet.Equals(targetCardName.Value) == false)
 			{
 				targetCardName.MasterSetValue(valToSet);
 			}
+
+
+
+			if (JName.Equals(TargetJobRole.Value) == false)
+			{
+				TargetJobRole.MasterSetValue(JName);
+			}
+
+
+			if (TName.Equals(TargetName.Value) == false)
+			{
+				TargetName.MasterSetValue(TName);
+			}
+
 		}
 
 		public void ServerChangeName(string newName)
