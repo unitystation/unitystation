@@ -132,13 +132,22 @@ namespace Objects.Engineering
 				}
 			}
 			batteryCharging = false;
-			foreach (var bat in connectedDepartmentBatteries)
+			try
 			{
-				if (bat.BatterySupplyingModule.ChargingWatts > 0)
+				foreach (var bat in connectedDepartmentBatteries)
 				{
-					batteryCharging = true;
+					if (bat.BatterySupplyingModule.ChargingWatts > 0)
+					{
+						batteryCharging = true;
+					}
 				}
 			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+				connectedDepartmentBatteries.RemoveNulls();
+			}
+
 			SyncVoltage(voltageSync, electricalNodeControl.Node.InData.Data.ActualVoltage);
 			Current = electricalNodeControl.Node.InData.Data.CurrentInWire;
 			HandleDevices();
