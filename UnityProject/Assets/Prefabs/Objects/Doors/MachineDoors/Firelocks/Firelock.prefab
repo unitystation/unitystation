@@ -195,7 +195,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!114 &6950079160659059188
 MonoBehaviour:
@@ -318,7 +318,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1 &5535747336687579010
 GameObject:
@@ -427,7 +427,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1 &5893083064311537363
 GameObject:
@@ -544,7 +544,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!114 &2968860930292390072
 MonoBehaviour:
@@ -668,7 +668,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1 &8097008815040610290
 GameObject:
@@ -782,7 +782,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1001 &2351700664918873728
 PrefabInstance:
@@ -999,6 +999,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7782817179362649248, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 8484722225096306265, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: parentID
@@ -1137,6 +1142,7 @@ MonoBehaviour:
   blockAutoClose: 0
   clickDisablesAutoClose: 0
   isWindowedDoor: 1
+  UseMachinesForOpenLayeer: 1
   HackingProcessBase: {fileID: 3740312760444830440}
   ConstructibleDoor: {fileID: 3852277652561589864}
   <CanRelink>k__BackingField: 1
