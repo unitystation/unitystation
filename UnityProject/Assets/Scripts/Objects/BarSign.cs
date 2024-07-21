@@ -5,6 +5,7 @@ using Mirror;
 using Systems.Clearance;
 using Systems.Electricity;
 using Systems.Explosions;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,7 +19,7 @@ namespace Objects
 	}
 	
 	[RequireComponent(typeof(ClearanceRestricted))]
-	public class BarSign : NetworkBehaviour, ICheckedInteractable<HandApply>, IEmpAble, IAPCPowerable {
+	public class BarSign : NetworkBehaviour, ICheckedInteractable<HandApply>, IEmpAble, IAPCPowerable, IHoverTooltip {
 		
 		private ClearanceRestricted restricted;
 		private SpriteHandler spriteHandler;
@@ -71,14 +72,16 @@ namespace Objects
 					$"{interaction.PerformerPlayerScript.visibleName} {(isLocked ? "locks" : "unlocks")} the bar sign.");
 			} else if (interaction.HandObject == null && isLocked == false)
 			{
-				IncrementSign();
+				IncrementSign(interaction.IsAltClick);
 			}
 		}
 
-		private void IncrementSign()
+		private void IncrementSign(bool IsAltClick)
 		{
-			var newindex = spriteHandler.CurrentSpriteIndex + 1;
-			ChangeSign(newindex > spriteHandler.CatalogueCount - 1 ? EMPTY_SPRITE + 1 : newindex);
+			var newindex =  spriteHandler.CurrentSpriteIndex + (IsAltClick ? -1 : 1);
+			newindex = newindex > spriteHandler.CatalogueCount - 1 ? EMPTY_SPRITE + 1 : newindex;
+			newindex = newindex <= EMPTY_SPRITE ? spriteHandler.CatalogueCount - 1 : newindex;
+			ChangeSign(newindex);
 		}
 		
 		private void ChangeSign(int index)
@@ -146,6 +149,37 @@ namespace Objects
 					emission.enabled = false;
 					break;
 			}
+		}
+
+		public string HoverTip()
+		{
+			return null;
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			var list = new List<TextColor>
+			{
+				new() { Color = Color.green, Text = "Left Click with ID: Toggle lock." },
+				new() { Color = Color.green, Text = "Left Click while unlocked: Next Sign." },
+				new() { Color = Color.green, Text = "Alt Click while unlocked: Previous Sign." }
+			};
+			return list;
 		}
 	}	
 }
