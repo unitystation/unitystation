@@ -1718,8 +1718,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				integrity.ApplyDamage(damage, AttackType.Melee, iav2.ServerDamageType);
 			}
-			//TODO: Catching
-			//(Max): Catching what?
+			//TODO: Add the ability to catch thrown objects if the player has the "throw" state enabled on them.
 			if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase) && isServer)
 			{
 				var randomHitZone = aim.Randomize();
