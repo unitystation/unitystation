@@ -35,7 +35,6 @@ namespace Objects.Machines
 				oxygenTankSlots.Add(tankStorage.GetIndexedItemSlot(i));
 				plasmaTankSlots.Add(tankStorage.GetIndexedItemSlot(i + 10));
 			}
-			UpdateSprite();
 		}
 		
 		private void UpdateSprite()
