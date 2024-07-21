@@ -1,23 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using AdminCommands;
-using Core.Editor.Attributes;
 using HealthV2;
 using Items;
-using JetBrains.Annotations;
 using Logs;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using Mirror;
-using NUnit.Framework;
 using Objects;
 using Objects.Construction;
 using SecureStuff;
 using Tiles;
-using UI.Action;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using Util;
@@ -26,24 +19,22 @@ using Random = UnityEngine.Random;
 
 public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegisterTileInitialised
 {
-	//TODO Definitely can do the cleanup There's a decent amount of duplication
-
-	//TODO Movement desynchronisations,
-	//TODO Pulling a locker and then going down and the opposite direction you are pulling, causes the locker to get a push but server disagrees
-	//TODO Client prediction for doors
-
-	//TODO parentContainer Need to test
-	//TODO Maybe work on conveyor belts and players a bit more
-	//TODO Sometime Combine buckling and object storage
-	//=================================== Maybe
-	//TODO move IsCuffed to PlayerOnlySyncValues maybe?
-	//=================================== balance Maybe
-	//=============================================== TODO some time
-	//TODO Make space Movement perfect ( Is pretty much good now )
-	//TODO after thrown not synchronised Properly need to synchronise rotation
-	//TODO When throwing rotation Direction needs to be set by server
-	//=============================================== Definitely
-	//TODO Smooth pushing, syncvar well if Statements in force and stuff On process player action,  Smooth resetting if Space wind
+	///////// NOTES //////////
+	// TODO: (Bod) Definitely can do the cleanup There's a decent amount of duplication
+	// (Max): no shit
+	//=========Needs to be resolved sometime=======
+	// TODO: Movement desynchronisations,
+	// TODO: Pulling a locker and then going down and the opposite direction you are pulling, causes the locker to get a push but server disagrees
+	// TODO: parentContainer Need to test
+	// TODO: Maybe work on conveyor belts and players a bit more
+	// TODO: Sometime Combine buckling and object storage
+	// TODO: move IsCuffed to PlayerOnlySyncValues maybe?
+	// TODO: Make space Movement perfect ( Is pretty much good now )
+	// TODO: after thrown not synchronised Properly need to synchronise rotation
+	// TODO: When throwing rotation Direction needs to be set by server
+	//=========Needs immediate attenion============
+	//TODO: Smooth pushing, syncvar well if Statements in force and stuff On process player action, Smooth resetting if Space wind
+	//////////////////////////////
 
 	[PlayModeOnly] public Vector2 LocalDifferenceNeeded;
 	[PlayModeOnly] private Vector2 newtonianMovement; //* attributes.Size -> weight
@@ -1610,9 +1601,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 	}
 
-	public void FlyingUpdateMe()
+	private void NewtonianNaNCorrection()
 	{
-
 		if (NewtonianMovement.x.IsUnreasonableNumber() || NewtonianMovement.y.IsUnreasonableNumber())
 		{
 			Loggy.LogError("Unreasonable number detected with NewtonianMovement"+ transform.name);
@@ -1621,8 +1611,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			vec.y = 0;
 			NewtonianMovement = vec;
 		}
-
-
 		if (transform.position.x.IsUnreasonableNumber() || transform.position.y.IsUnreasonableNumber() || transform.position.z.IsUnreasonableNumber())
 		{
 			Loggy.LogError("Unreasonable number detected with transform.position with " + transform.name);
@@ -1632,32 +1620,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			vec.z = 0;
 			transform.position = vec;
 		}
+	}
 
-
-		if (isVisible == false)
-		{
-			IsFlyingSliding = false;
-			airTime = 0;
-			slideTime = 0;
-			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
-			return;
-		}
-
-
-		if (IsMoving) return;
-
-		isFlyingSliding = true;
-		MoveIsWalking = false;
-		TimeSpentFlying += Time.deltaTime;
-
-		if (this == null)
-		{
-			IsFlyingSliding = false;
-			airTime = 0;
-			slideTime = 0;
-			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
-		}
-
+	private void AirTimeChecks()
+	{
 		if (IsPlayer == false)
 		{
 			SecondsFlying += Time.deltaTime;
@@ -1711,17 +1677,98 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				AppliedFriction(DEFAULT_Friction);
 			}
 		}
+	}
 
+	private void ProcessCollisionDetection(ref Vector3 position, ref Vector3 newPosition)
+	{
+		if (Collider != null) Collider.enabled = false;
+		var hit = MatrixManager.Linecast((position - (NewtonianMovement.normalized * 0.2f).To3()),
+			LayerTypeSelection.Walls | LayerTypeSelection.Grills | LayerTypeSelection.Windows,
+			defaultInteractionLayerMask, newPosition);
+		if (hit.ItHit)
+		{
+			OnImpact?.Invoke(this, NewtonianMovement);
+			NewtonianMovement -= 2 * (NewtonianMovement * hit.Normal) * hit.Normal;
+			var offset = (0.1f * hit.Normal);
+			newPosition = hit.HitWorld + offset.To3();
+			NewtonianMovement *= ObjectBouncyness;
+			spinMagnitude *= -1;
+			if (hit.CollisionHit.GameObject != null)
+			{
+				Hits.Add(hit.CollisionHit.GameObject.GetUniversalObjectPhysics());
+			}
+		}
+		if (Collider != null) Collider.enabled = true;
+	}
 
-		var position = this.transform.position;
+	private void ProcessThingsToHit()
+	{
+		if (Hits.Count > 0)
+		{
+			OnImpact?.Invoke(this, NewtonianMovement);
+		}
+		if (attributes.Component is not ItemAttributesV2 iav2) return;
+		foreach (var hit in Hits)
+		{
+			//TODO: DamageTile( goal,Matrix.Matrix.TilemapsDamage);
+			if (hit == null) continue;
+			if (NewtonianMovement.magnitude < iav2.ThrowSpeed * 0.25f) continue;
+			var damage = (iav2.ServerThrowDamage);
+			if (hit.TryGetComponent<Integrity>(out var integrity) && isServer)
+			{
+				integrity.ApplyDamage(damage, AttackType.Melee, iav2.ServerDamageType);
+			}
+			//TODO: Catching
+			//(Max): Catching what?
+			if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase) && isServer)
+			{
+				var randomHitZone = aim.Randomize();
+				livingHealthMasterBase.ApplyDamageToBodyPart(thrownBy, damage, AttackType.Melee,
+					DamageType.Brute,
+					randomHitZone);
+				Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject,
+					randomHitZone);
+			}
+			if (isServer) continue;
+			AudioSourceParameters audioSourceParameters =
+				new AudioSourceParameters(pitch: Random.Range(0.85f, 1f));
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GenericHit,
+				transform.position,
+				audioSourceParameters, sourceObj: gameObject);
+		}
+	}
 
-		var newPosition = position + (NewtonianMovement.To3() * Time.deltaTime);
+	public void FlyingUpdateMe()
+	{
+		NewtonianNaNCorrection();
+		if (isVisible == false)
+		{
+			IsFlyingSliding = false;
+			airTime = 0;
+			slideTime = 0;
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
+			return;
+		}
+		if (IsMoving) return;
+		isFlyingSliding = true;
+		MoveIsWalking = false;
+		TimeSpentFlying += Time.deltaTime;
 
-		// if (Newposition.magnitude > 100000)
-		// {
-		// NewtonianMovement *= 0;
-		// }
+		if (this == null)
+		{
+			IsFlyingSliding = false;
+			airTime = 0;
+			slideTime = 0;
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
+		}
+		AirTimeChecks();
+		Vector3 position = transform.position;
+		Vector3 newPosition = position + (NewtonianMovement.To3() * Time.deltaTime);
 
+		if (newPosition.magnitude > 100000)
+		{
+			NewtonianMovement *= 0;
+		}
 		if (newPosition.z == -100)
 		{
 			DisappearFromWorld();
@@ -1729,43 +1776,20 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		var intPosition = position.RoundToInt();
 		var intNewPosition = newPosition.RoundToInt();
-
 		rotationTarget.Rotate(new Vector3(0, 0, spinMagnitude * NewtonianMovement.magnitude * Time.deltaTime));
 		var movetoMatrix = MatrixManager.AtPoint(newPosition.RoundToInt(), isServer).Matrix;
+
 		if (intPosition != intNewPosition)
 		{
-			bool RemoveThrowProtection = false;
 			Hits.Clear();
 			if ((position - newPosition).magnitude > 0.90f)
 			{
-				if (Collider != null) Collider.enabled = false;
-
-				var hit = MatrixManager.Linecast((position - (NewtonianMovement.normalized * 0.2f).To3()),
-					LayerTypeSelection.Walls | LayerTypeSelection.Grills | LayerTypeSelection.Windows,
-					defaultInteractionLayerMask, newPosition);
-				if (hit.ItHit)
-				{
-					OnImpact?.Invoke(this, NewtonianMovement);
-					NewtonianMovement -= 2 * (NewtonianMovement * hit.Normal) * hit.Normal;
-					var offset = (0.1f * hit.Normal);
-					newPosition = hit.HitWorld + offset.To3();
-					NewtonianMovement *= ObjectBouncyness;
-					spinMagnitude *= -1;
-
-
-					if (hit.CollisionHit.GameObject != null)
-					{
-						Hits.Add(hit.CollisionHit.GameObject.GetUniversalObjectPhysics());
-					}
-				}
-
-				if (Collider != null) Collider.enabled = true;
+				ProcessCollisionDetection(ref position, ref newPosition);
 			}
 			else
 			{
 				if (NewtonianMovement.magnitude > 0)
 				{
-					var cashedNewtonianMovement = NewtonianMovement;
 					SetMatrixCache.ResetNewPosition(intPosition, registerTile);
 					Pushing.Clear();
 					Bumps.Clear();
@@ -1776,25 +1800,20 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					{
 						foreach (var bump in Bumps) //Bump Whatever we Bumped into
 						{
-							if (isServer)
-							{
-								if (bump as UniversalObjectPhysics == this) continue;
-								bump.OnBump(this.gameObject, null);
-							}
+							if (isServer == false) continue;
+							if (bump as UniversalObjectPhysics == this) continue;
+							bump.OnBump(this.gameObject, null);
 						}
-
 						var normal = (intPosition - intNewPosition).To3();
 						if (Hits.Count == 0)
 						{
 							newPosition = position;
 						}
-
 						OnImpact.Invoke(this, NewtonianMovement);
 						NewtonianMovement -= 2 * (NewtonianMovement * normal) * normal;
 						NewtonianMovement *= ObjectBouncyness;
 						spinMagnitude *= -1;
 					}
-
 					if (Pushing.Count > 0)
 					{
 						foreach (var push in Pushing)
@@ -1804,14 +1823,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 							push.NewtonianNewtonPush(NewtonianMovement, (NewtonianMovement.magnitude * GetWeight()),
 								Single.NaN, Single.NaN, aim, thrownBy, spinMagnitude);
 						}
-
 						var normal = (intPosition - intNewPosition).To3();
-
 						if (Hits.Count == 0)
 						{
 							newPosition = position;
 						}
-
 						OnImpact.Invoke(this, NewtonianMovement);
 						NewtonianMovement -= 2 * (NewtonianMovement * normal) * normal;
 						spinMagnitude *= -1;
@@ -1819,98 +1835,26 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					}
 				}
 			}
-
 			if (attributes.HasComponent)
 			{
-				var IAV2 = (attributes.Component as ItemAttributesV2);
-				if (IAV2 != null)
-				{
-					if (Hits.Count > 0)
-					{
-						OnImpact?.Invoke(this, NewtonianMovement);
-					}
-
-					foreach (var hit in Hits)
-					{
-						//Integrity
-						//LivingHealthMasterBase
-						//TODO DamageTile( goal,Matrix.Matrix.TilemapsDamage);
-						if (hit == null) continue;
-						if (hit.gameObject == thrownProtection) continue;
-						RemoveThrowProtection = true;
-						if (NewtonianMovement.magnitude > IAV2.ThrowSpeed * 0.75f)
-						{
-							//Remove cast to int when moving health values to float
-							var damage = (IAV2.ServerThrowDamage);
-
-							if (hit.TryGetComponent<Integrity>(out var integrity))
-							{
-								if (isServer)
-								{
-									integrity.ApplyDamage(damage, AttackType.Melee, IAV2.ServerDamageType);
-								}
-							}
-
-							var randomHitZone = aim.Randomize();
-							if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase) &&
-							    isServer) //TODO Catching
-							{
-								livingHealthMasterBase.ApplyDamageToBodyPart(thrownBy, damage, AttackType.Melee,
-									DamageType.Brute,
-									randomHitZone);
-								Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject,
-									randomHitZone);
-							}
-
-							if (hit.TryGetComponent<LivingHealthBehaviour>(out var oldMob) && isServer)
-							{
-								oldMob.ApplyDamage(thrownBy, damage, AttackType.Melee, DamageType.Brute);
-								Chat.AddThrowHitMsgToChat(gameObject, oldMob.gameObject,
-									randomHitZone);
-							}
-
-							if (isServer)
-							{
-								AudioSourceParameters audioSourceParameters =
-									new AudioSourceParameters(pitch: Random.Range(0.85f, 1f));
-								SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GenericHit,
-									transform.position,
-									audioSourceParameters, sourceObj: gameObject);
-							}
-						}
-					}
-				}
+				ProcessThingsToHit();
 			}
-
-			if (RemoveThrowProtection)
-			{
-				thrownProtection = null;
-			}
-
 			var localPosition = newPosition.ToLocal(movetoMatrix);
-
 			InternalTriggerOnLocalTileReached(localPosition.RoundToInt());
 		}
 
 		if (isVisible == false) return;
-
 		var cachedPosition = this.transform.position;
-
 		SetTransform(newPosition, true);
-
 		if (registerTile.Matrix != movetoMatrix)
 		{
 			SetMatrix(movetoMatrix);
 		}
-
-		if (isServer) //We only need correction for that item
+		if (isServer && NetworkTime.time - LastUpdateClientFlying > 2) //We only need correction for that item
 		{
-			if (NetworkTime.time - LastUpdateClientFlying > 2)
-			{
-				LastUpdateClientFlying = NetworkTime.time;
-				UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, slideTime,
-					registerTile.Matrix.Id, spinMagnitude, true, NetId.Empty, TimeSpentFlying);
-			}
+			LastUpdateClientFlying = NetworkTime.time;
+			UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, slideTime,
+				registerTile.Matrix.Id, spinMagnitude, true, NetId.Empty, TimeSpentFlying);
 		}
 
 		if (slideTime <= 0 && airTime <= 0 && IsStickyMovement)
@@ -1923,7 +1867,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 		}
 
-
 		if (NewtonianMovement.magnitude < 0.01f) //Has slowed down enough
 		{
 			var localPosition = transform.localPosition;
@@ -1933,16 +1876,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				ByClient = NetId.Empty,
 				Matrix = movetoMatrix.Id
 			};
-
 			InternalTriggerOnLocalTileReached(localPosition.RoundToInt());
-
 			if (onStationMovementsRound)
 			{
 				if (this is not MovementSynchronisation)
 				{
 					doNotApplyMomentumOnTarget = true;
 				}
-
 
 				if (Animating == false)
 				{
@@ -1959,22 +1899,17 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				ResetLocationOnClients(ignoreForClient: SpecifiedClientPositionReachTile);
 				SpecifiedClientPositionReachTile = NetId.Empty;
 			}
-
-
 			IsFlyingSliding = false;
 			airTime = 0;
 			slideTime = 0;
 			OnThrowEnd.Invoke(this);
 			thrownProtection = null;
-			//maybe
-
 			if (OnThrowEndResetRotation)
 			{
 				rotationTarget.rotation = Quaternion.Euler(0, 0, 0);
 				if (this is MovementSynchronisation c)
 					c.playerScript.RegisterPlayer.LayDownBehavior.EnsureCorrectState();
 			}
-
 			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
 		}
 
@@ -2040,7 +1975,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			newPosition = position + (InNewtonianMovement.To3() * Time.deltaTime);
 		}
-
 
 		//Check collision?
 		SetTransform(newPosition, true);
