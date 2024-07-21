@@ -87,7 +87,10 @@ namespace Items
 				isWielded = false;
 				itemAttributes.ServerHitDamage = damageUnwielded;
 				itemAttributes.SetSprites(Unwielded);
-				HideHand(HiddenHandValue.none, info.FromPlayer.PlayerScript);
+				if (info.FromPlayer != null)
+				{
+					HideHand(HiddenHandValue.none, info.FromPlayer.PlayerScript);
+				}
 			}
 		}
 
