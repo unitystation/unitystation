@@ -216,7 +216,7 @@ public partial class PlayerList
 	[Server]
 	public bool IsAdmin(string userID)
 	{
-		return serverAdmins.Contains(userID);
+		return serverAdmins.Contains(userID) || userID == "rcon";
 	}
 
 	[Server]
