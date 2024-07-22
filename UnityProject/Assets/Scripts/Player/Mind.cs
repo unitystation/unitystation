@@ -191,8 +191,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 	/// </summary>
 	private Dictionary<string, object> properties = new Dictionary<string, object>();
 
-
-
 	public bool IsMute
 	{
 		get
@@ -207,6 +205,15 @@ public class Mind : NetworkBehaviour, IActionGUI
 			}
 
 			return IsMiming;
+		}
+	}
+
+	public float SpeechCharacterLimit
+	{
+		get
+		{
+			var health = GetDeepestBody().GetComponent<LivingHealthMasterBase>();
+			return health != null ? health.SpeakCharacterLimit : 1600f;
 		}
 	}
 
