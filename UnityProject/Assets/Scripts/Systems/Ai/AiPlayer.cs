@@ -1289,7 +1289,7 @@ namespace Systems.Ai
 			ChangeIntegrity(-1);
 		}
 
-		public void OnGib()
+		public void OnGib(bool ignoreNoGibRule = false)
 		{
 			Death();
 		}

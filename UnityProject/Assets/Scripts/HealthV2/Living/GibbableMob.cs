@@ -1,10 +1,9 @@
 ﻿using AddressableReferences;
-using HealthV2.Living;
 using Mirror;
 using UnityEngine;
 using Util.Independent.FluentRichText;
 
-namespace HealthV2
+namespace HealthV2.Living
 {
 	[RequireComponent(typeof(LivingHealthMasterBase))]
 	public class GibbableMob : NetworkBehaviour, IGib
@@ -19,17 +18,20 @@ namespace HealthV2
 		public PlayerScript Mob => mob;
 
 		[Server]
-		public void OnGib()
+		public void OnGib(bool ignoreNoGibRule = false)
 		{
 			PlayAudio();
-			if (IsEnabled == false || GameManager.Instance.GibbingAllowed == false)
+			if (ignoreNoGibRule == false)
 			{
-				Chat.AddActionMsgToChat(gameObject,
-					$"{mob.visibleName}'s body stretches violently before falling to the ground.".Color(Color.red));
-				mob.ObjectPhysics.NewtonianPush(new Vector2().RandomDirection(),500,
-					Random.Range(6, 55) / 100f, 8, (BodyPartType) Random.Range(0, 13), gameObject, Random.Range(0, 13));
-				health.Death();
-				return;
+				if (IsEnabled == false || GameManager.Instance.GibbingAllowed == false)
+				{
+					Chat.AddActionMsgToChat(gameObject,
+						$"{mob.visibleName}'s body stretches violently before falling to the ground.".Color(Color.red));
+					mob.ObjectPhysics.NewtonianPush(new Vector2().RandomDirection(),500,
+						Random.Range(6, 55) / 100f, 8, (BodyPartType) Random.Range(0, 13), gameObject, Random.Range(0, 13));
+					health.Death();
+					return;
+				}
 			}
 			//Prepare for gibbing.
 			mob.Mind.OrNull()?.Ghost();

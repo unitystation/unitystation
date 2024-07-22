@@ -1253,7 +1253,7 @@ namespace Blob
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
-		public void OnGib()
+		public void OnGib(bool ignoreNoGibRule = false)
 		{
 			Death();
 		}
