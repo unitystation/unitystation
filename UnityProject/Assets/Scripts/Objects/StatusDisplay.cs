@@ -76,18 +76,18 @@ namespace Objects.Wallmounts
 		private bool multiMaster = true; //TODO
 		public bool MultiMaster => multiMaster; //TODO
 
-		[SerializeField] private AccessRestrictions accessRestrictions;
+		private ClearanceRestricted restricted;
 
-		public AccessRestrictions AccessRestrictions
+		public ClearanceRestricted Restricted
 		{
 			get
 			{
-				if (accessRestrictions == null)
+				if (restricted == null)
 				{
-					accessRestrictions = GetComponent<AccessRestrictions>();
+					restricted = GetComponent<ClearanceRestricted>();
 				}
 
-				return accessRestrictions;
+				return restricted;
 			}
 		}
 
@@ -256,19 +256,19 @@ namespace Objects.Wallmounts
 
 				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Id))
 				{
-					if (AccessRestrictions == null)
+					if (Restricted == null)
 					{
 						Chat.AddExamineMsg(interaction.Performer, CLEARANCE_SETUP_NO_COMPONENT);
 						return;
 					}
 
-					if (AccessRestrictions.CheckAccess(interaction.HandObject) == false)
+					if (Restricted.HasClearance(interaction.HandObject) == false)
 					{
 						Chat.AddExamineMsg(interaction.Performer, CLEARANCE_OVERWRITE);
 						return;
 					}
 
-					AccessRestrictions.clearanceRestriction = Clearance.Security;
+					Restricted.SetClearance(new List<Clearance> {Clearance.Security});
 					Chat.AddExamineMsg(interaction.Performer, CLEARANCE_SETUP_SUCC);
 				}
 				else if (stateSync == MountedMonitorState.Image)
@@ -280,7 +280,7 @@ namespace Objects.Wallmounts
 				{
 					if (channel == StatusDisplayChannel.DoorTimer)
 					{
-						if (AccessRestrictions == null || AccessRestrictions.CheckAccess(interaction.Performer))
+						if (Restricted == null || Restricted.HasClearance(interaction.Performer))
 						{
 							AddTime(60);
 						}
@@ -548,7 +548,7 @@ namespace Objects.Wallmounts
 
 		private void ContextMenuOptionClicked(ContextMenuApply interaction)
 		{
-			if (!AccessRestrictions || AccessRestrictions.CheckAccess(interaction.Performer))
+			if (!Restricted || Restricted.HasClearance(interaction.Performer))
 			{
 				InteractionUtils.RequestInteract(interaction, this);
 			}
