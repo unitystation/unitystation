@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,7 +14,6 @@ using Items;
 using Logs;
 using Shared.Managers;
 using UnityEngine.Serialization;
-using Util.Independent.FluentRichText;
 
 namespace UI.Chat_UI
 {
@@ -121,7 +119,6 @@ namespace UI.Chat_UI
 
 		[field: SerializeField] public List<TMP_FontAsset> Fonts = new List<TMP_FontAsset>();
 		public int FontIndexToUse = -1;
-
 
 
 		public void SetPreferenceChatContent(float preference)
@@ -325,22 +322,7 @@ namespace UI.Chat_UI
 		/// </summary>
 		public void AddChatEntry(string message, TMP_SpriteAsset languageSprite = null)
 		{
-			// Check for chat entry duplication
-			if (allEntries.Count > 5)
-			{
-				for (int i = 0; i < 6; i++)
-				{
-					var entryToCheck = allEntries[allEntries.Count - i - 1];
-					string cleanedEntryMessage = Regex.Replace(entryToCheck.Message, @"<size=[^>]+>|</size>", string.Empty);
-					string cleanedMessage = Regex.Replace(message, @"<size=[^>]+>|</size>", string.Empty);
-					if (string.Equals(cleanedEntryMessage, cleanedMessage, StringComparison.InvariantCultureIgnoreCase))
-					{
-						entryToCheck.AddChatDuplication();
-						return;
-					}
-				}
-			}
-
+			if (WillUpdateStack(ref message)) return;
 			GameObject entry = entryPool.GetChatEntry();
 			var chatEntry = entry.GetComponent<ChatEntry>();
 			chatEntry.ViewportTransform = viewportTransform;
@@ -349,6 +331,23 @@ namespace UI.Chat_UI
 			SetEntryTransform(entry);
 			CheckLengthOfChatLog();
 			checkPositionEvent?.Invoke();
+		}
+
+		private bool WillUpdateStack(ref string message)
+		{
+			if (allEntries.Count <= 5) return false;
+			for (int i = 0; i < 6; i++)
+			{
+				var entryToCheck = allEntries[allEntries.Count - i - 1];
+				string cleanedEntryMessage = Regex.Replace(entryToCheck.Message, @"<size=[^>]+>|</size>", string.Empty);
+				string cleanedMessage = Regex.Replace(message, @"<size=[^>]+>|</size>", string.Empty);
+				if (string.Equals(cleanedEntryMessage, cleanedMessage, StringComparison.InvariantCultureIgnoreCase))
+				{
+					entryToCheck.AddChatDuplication();
+					return true;
+				}
+			}
+			return false;
 		}
 
 		private void CheckLengthOfChatLog()

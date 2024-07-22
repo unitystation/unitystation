@@ -45,6 +45,8 @@ namespace UI.Chat_UI
 		private int stackCount = 1;
 		private Vector3 stackScaleCache;
 
+		private const string SIZE_TAG_PATTERN = @"<size(=|\+=)(\+?[0-9]+\+?)>";
+
 		#region Lifecycle
 
 		private void Awake()
@@ -185,11 +187,11 @@ namespace UI.Chat_UI
 
 		private void StackMessageSizeIncrease()
 		{
-			string pattern = @"<size(=|\+=)(\+?[0-9]+\+?)>";
-			Match match = Regex.Match(messageText.text, pattern);
+			Match match = Regex.Match(messageText.text, SIZE_TAG_PATTERN);
 			if (match.Success)
 			{
-				messageText.text = Regex.Replace(messageText.text, pattern, match =>
+				if(HasLargeSizeTag(match)) return;
+				messageText.text = Regex.Replace(messageText.text, SIZE_TAG_PATTERN, match =>
 				{
 					float number = float.Parse(match.Groups[2].Value);
 					float newNumber = number + 2;
@@ -198,6 +200,15 @@ namespace UI.Chat_UI
 				}, RegexOptions.IgnoreCase);
 				StartCoroutine(UpdateEntryHeight());
 			}
+		}
+
+		private bool HasLargeSizeTag(Match match)
+		{
+			if (int.TryParse(match.Groups[2].Value, out var sizeValue) && sizeValue > 55)
+			{
+				return true;
+			}
+			return false;
 		}
 
 
