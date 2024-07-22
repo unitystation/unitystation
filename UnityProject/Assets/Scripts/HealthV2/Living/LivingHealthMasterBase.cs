@@ -1565,7 +1565,7 @@ namespace HealthV2
 
 
 		[Server]
-		public virtual void OnGib()
+		public void OnGib()
 		{
 			gibBehavior.OnGib();
 		}

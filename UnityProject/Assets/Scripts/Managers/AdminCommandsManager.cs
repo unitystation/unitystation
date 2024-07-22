@@ -411,7 +411,7 @@ namespace AdminCommands
 
 			LogAdminAction(message);
 
-			player.Script.GetComponent<IGib>()?.OnGib();
+			player.Script.GetComponent<IGib>()?.OnGib(true);
 
 			Chat.AddExamineMsgFromServer(player.Script.gameObject, "You are struck down by a mysterious force!");
 		}
