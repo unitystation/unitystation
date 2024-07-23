@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Items;
+using Items.PDA;
 using Objects.Machines;
 using Systems.Score;
 using UI.Objects.Cargo;
@@ -114,7 +113,7 @@ namespace Objects.Mining
 			{
 				if (itemSlot.ItemObject)
 				{
-					var idCard = AccessRestrictions.GetIDCard(itemSlot.ItemObject);
+					var idCard = GetId(itemSlot.ItemObject);
 					ScoreMachine.AddToScoreInt(laborPoints, RoundEndScoreBuilder.COMMON_SCORE_LABORPOINTS);
 					idCard.currencies[(int)CurrencyType.LaborPoints] += laborPoints;
 					laborPoints = 0;
@@ -122,6 +121,21 @@ namespace Objects.Mining
 					return;
 				}
 			}
+		}
+
+		private IDCard GetId(GameObject id)
+		{
+			if (id.TryGetComponent<IDCard>(out var idCard))
+			{
+				return idCard;
+			}
+
+			if (id.TryGetComponent<PDALogic>(out var pda))
+			{
+				return pda.GetIDCard();
+			}
+
+			return  null;
 		}
 	}
 }

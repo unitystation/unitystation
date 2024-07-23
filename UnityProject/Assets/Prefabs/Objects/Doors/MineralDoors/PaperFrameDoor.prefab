@@ -33,6 +33,36 @@ PrefabInstance:
       propertyPath: initialName
       value: paper frame door
       objectReference: {fileID: 0}
+    - target: {fileID: 3542702998424444105, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f5c6584956a23994daedad578eec9e24,
+        type: 2}
+    - target: {fileID: 3542702998424444105, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f5c6584956a23994daedad578eec9e24,
+        type: 2}
+    - target: {fileID: 3542702998424444105, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5311689a9de054e45b9a3ea0b8973916,
+        type: 2}
+    - target: {fileID: 3542702998424444105, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 2c467ce533c3bd04d94019b549c6d861,
+        type: 2}
+    - target: {fileID: 3542702998424444105, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 3f727728ce9154c4fac2bf5ce933829c,
+        type: 2}
     - target: {fileID: 3572030529697710648, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: openSFX
@@ -72,7 +102,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 7293338691250158940, guid: 32c30d45d974fab468b388255f5c6690,
+      objectReference: {fileID: 21300000, guid: 698815c252f30f345b2ca5b0e1e1bc73,
         type: 3}
     - target: {fileID: 8078043400501678596, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
@@ -229,8 +259,7 @@ PrefabInstance:
       propertyPath: 'animFrames.Array.data[14]'
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3542702998424444105, guid: d6882bf1e96328b4189c858524c259b6, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

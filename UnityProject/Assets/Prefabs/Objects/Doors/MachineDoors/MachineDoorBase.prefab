@@ -246,23 +246,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: -304701645951842033}
-    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 720260447592516819}
-    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 857808102172117800}
     - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1390110248989545576}
-    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4986678559899695466}
     - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       insertIndex: -1
@@ -286,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2cf30704fd754096ad1a718fc9b2782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorController: {fileID: -304701645951842033}
+  doorController: {fileID: 0}
   spritePath: 
   animFrames: 
   closeFrame: 0
@@ -332,76 +320,6 @@ MonoBehaviour:
   CurrentsortingGroup: {fileID: 7782817179362649248}
   OneDirectionRestricted: 0
   isClosed: 1
---- !u!114 &-304701645951842033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4813822218561835024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abede496a2014828a4bdb14c65ffd675, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  openSFX:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Doors/AirlockOpen.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  closeSFX:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Doors/AirlockOpen.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  doorAnimationSize: 6
-  doorAnimator: {fileID: -4969049584947791526}
-  DoorDeniedSpriteOffset: 12
-  DoorCoverSpriteOffset: 0
-  DoorLightSpriteOffset: 0
-  DoorSpriteOffset: 0
-  weldOverlay: {fileID: 0}
-  weldSprite: {fileID: 0}
-  isEmagged: 0
-  doorType: 0
-  damageOnClose: 0
-  damageClosed: 15
-  ignorePassableChecks: 0
-  IsAutomatic: 1
-  enableDisabledCollider: 0
-  isPerformingAction: 0
-  isWindowedDoor: 0
-  useSimpleLightAnimation: 0
-  useSimpleDeniedAnimation: 0
-  maxTimeOpen: 5
-  enablePressureWarning: 0
-  DoorPressureSpriteOffset: 25
-  openingDirection: 0
-  <CanRelink>k__BackingField: 1
-  BlockAutoClose: 0
-  conType: 7
---- !u!114 &720260447592516819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4813822218561835024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restriction: 0
 --- !u!114 &857808102172117800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,22 +374,6 @@ MonoBehaviour:
     type: 2}
   OnePeaceCoil: {fileID: 4041555603540783454, guid: c567e6c3b003a2b488534a8766866cb0,
     type: 3}
---- !u!114 &4986678559899695466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4813822218561835024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5cc73c31b95f9e4c888601cdf661a56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  allowInput: 1
 --- !u!114 &6693431644619622857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,6 +399,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!210 &7782817179362649248 stripped

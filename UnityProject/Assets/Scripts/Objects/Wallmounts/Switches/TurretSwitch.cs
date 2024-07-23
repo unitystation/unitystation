@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using Messages.Server;
@@ -10,11 +9,12 @@ using Logs;
 using UI.Core.Net;
 using Objects.Other;
 using Shared.Systems.ObjectConnection;
+using Systems.Clearance;
 
 
 namespace Objects.Wallmounts.Switches
 {
-	[RequireComponent(typeof(AccessRestrictions))]
+	[RequireComponent(typeof(ClearanceRestricted))]
 	[RequireComponent(typeof(APCPoweredDevice))]
 	public class TurretSwitch : ImnterfaceMultitoolGUI, ISubscriptionController, ICheckedInteractable<AiActivate>, IMultitoolMasterable, ICanOpenNetTab, IServerSpawn
 	{
@@ -22,11 +22,11 @@ namespace Objects.Wallmounts.Switches
 		[Tooltip("Is this door restricted?")]
 		public bool restricted;
 
-		private AccessRestrictions accessRestrictions;
-		public AccessRestrictions AccessRestrictions => accessRestrictions;
+		private ClearanceRestricted clearanceRestricted;
+		public ClearanceRestricted ClearanceRestricted => clearanceRestricted;
 
 		[SerializeField]
-		private List<Turret> turrets = new List<Turret>();
+		private List<Turret> turrets = new();
 
 		private SpriteHandler spriteHandler;
 		private APCPoweredDevice apcPoweredDevice;
@@ -50,7 +50,7 @@ namespace Objects.Wallmounts.Switches
 			gameObject.layer = LayerMask.NameToLayer("WallMounts");
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
-			accessRestrictions = GetComponent<AccessRestrictions>();
+			clearanceRestricted = GetComponent<ClearanceRestricted>();
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -173,7 +173,7 @@ namespace Objects.Wallmounts.Switches
 			{
 				if (turret == null)
 				{
-					Loggy.LogError($"null turrets in Turret switch at {this.transform.localPosition}");
+					Loggy.LogError($"null turrets in Turret switch at {transform.localPosition}");
 					continue;
 				}
 
@@ -195,11 +195,11 @@ namespace Objects.Wallmounts.Switches
 		//Called when player wants to open nettab, so we can validate access
 		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
 		{
-			if (accessRestrictions != null && restricted)
+			if (clearanceRestricted != null && restricted)
 			{
 				//Ai always allowed through, check other players access
 				if (playerObject.GetComponent<PlayerScript>().PlayerType != PlayerTypes.Ai &&
-				    accessRestrictions.CheckAccess(playerObject) == false)
+				    clearanceRestricted.HasClearance(playerObject) == false)
 				{
 					Chat.AddExamineMsgFromServer(playerObject, "Higher Access Level Needed");
 					return false;
@@ -214,19 +214,14 @@ namespace Objects.Wallmounts.Switches
 			var peppers = NetworkTabManager.Instance.GetPeepers(gameObject, NetTabType.TurretController);
 			if(peppers.Count == 0) return;
 
-			List<ElementValue> valuesToSend = new List<ElementValue>();
-
-			if (HasPower == false)
+			List<ElementValue> valuesToSend = new List<ElementValue>
 			{
-				valuesToSend.Add(new ElementValue() { Id = "TextSetting", Value = Encoding.UTF8.GetBytes("No Power") });
-			}
-			else
-			{
-				valuesToSend.Add(new ElementValue() { Id = "TextSetting", Value = Encoding.UTF8.GetBytes(IsOn ? IsStun ? "Stun" : "Lethal" : "Off") });
-			}
-
-			valuesToSend.Add(new ElementValue() { Id = "SliderPower", Value = Encoding.UTF8.GetBytes((isOn ? 1 * 100 : 0).ToString()) });
-			valuesToSend.Add(new ElementValue() { Id = "SliderStun", Value = Encoding.UTF8.GetBytes((isStun ? 0 : 1 * 100).ToString()) });
+				HasPower == false
+					? new ElementValue { Id = "TextSetting", Value = Encoding.UTF8.GetBytes("No Power") }
+					: new ElementValue { Id = "TextSetting", Value = Encoding.UTF8.GetBytes(IsOn ? IsStun ? "Stun" : "Lethal" : "Off") },
+				new() { Id = "SliderPower", Value = Encoding.UTF8.GetBytes((isOn ? 1 * 100 : 0).ToString()) },
+				new() { Id = "SliderStun", Value = Encoding.UTF8.GetBytes((isStun ? 0 : 1 * 100).ToString()) }
+			};
 
 			// Update all UI currently opened.
 			TabUpdateMessage.SendToPeepers(gameObject, NetTabType.TurretController, TabAction.Update, valuesToSend.ToArray());

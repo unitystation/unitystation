@@ -1,22 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
+using Systems.Clearance;
 using UnityEngine;
 
 namespace Objects
 {
-	[RequireComponent(typeof(AccessRestrictions))]
+	[RequireComponent(typeof(ClearanceRestricted))]
 	[RequireComponent(typeof(ObjectAttributes))]
 	[RequireComponent(typeof(Construction.WrenchSecurable))]
 	public class WrenchSecurableWithAccessRestriction : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
-		private AccessRestrictions accessRestrictions;
+		private ClearanceRestricted clearanceRestrictions;
 
 		private ObjectAttributes objectAttributes;
 
 		void Awake()
 		{
 			objectAttributes = GetComponent<ObjectAttributes>();
-			accessRestrictions = GetComponent<AccessRestrictions>();
+			clearanceRestrictions = GetComponent<ClearanceRestricted>();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -24,22 +23,11 @@ namespace Objects
 			//start with the default HandApply WillInteract logic.
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return !(accessRestrictions.CheckAccess(interaction.Performer) && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench));
-		}
-
-		public void ClientPredictInteraction(HandApply interaction)
-		{
-
-		}
-
-
-		public void ServerRollbackClient(HandApply interaction)
-		{
-
+			return !(clearanceRestrictions.HasClearance(interaction.Performer) && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench));
 		}
 
 		//invoked when the server recieves the interaction request and WIllinteract returns true
-		public async void ServerPerformInteraction(HandApply interaction)
+		public void ServerPerformInteraction(HandApply interaction)
 		{
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 			{
@@ -50,7 +38,8 @@ namespace Objects
 			else {
 				Chat.AddActionMsgToChat(interaction, "ACCESS DENIED","");
 			}
-			SoundManager.PlayAtPosition(CommonSounds.Instance.AccessDenied, transform.position);
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.AccessDenied,
+				gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
 		}
 	}
 }

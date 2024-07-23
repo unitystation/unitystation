@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Doors;
@@ -313,10 +314,10 @@ namespace Objects.Construction
 			var airlock = Spawn.ServerPrefab(airlockPrefab, SpawnDestination.At(gameObject)).GameObject;
 			if (airlockElectronicsSlot.IsOccupied)
 			{
-				AccessRestrictions airlockAccess = airlock.GetComponentInChildren<AccessRestrictions>();
+				ClearanceRestricted airlockAccess = airlock.GetComponentInChildren<ClearanceRestricted>();
 				GameObject airlockElectronics = airlockElectronicsSlot.ItemObject;
 				AirlockElectronics electronics = airlockElectronics.GetComponent<AirlockElectronics>();
-				airlockAccess.clearanceRestriction = electronics.CurrentClearance;
+				airlockAccess.SetClearance(new List<Clearance>{ electronics.CurrentClearance });
 			}
 		}
 

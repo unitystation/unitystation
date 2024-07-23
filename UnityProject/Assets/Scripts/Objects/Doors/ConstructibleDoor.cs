@@ -1,8 +1,10 @@
+using System.Linq;
 using Doors.Modules;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using UnityEngine;
 using Objects.Construction;
+using Systems.Clearance;
 using Systems.Clearance.Utils;
 using Systems.Interaction;
 
@@ -158,7 +160,7 @@ namespace Doors
 			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 
 			//When spawning the assembly prefab in the object's place, copy it's access restrictions.
-			AccessRestrictions airlockAccess = GetComponentInChildren<AccessRestrictions>();
+			ClearanceRestricted airlockAccess = GetComponentInChildren<ClearanceRestricted>();
 
 			//(Max) : This seems like it's prone to error, I recommend making the assembly part inside of the door prefab itself and not another one.
 			var doorAssembly = Spawn.ServerPrefab(airlockAssemblyPrefab, SpawnDestination.At(gameObject)).GameObject;
@@ -166,8 +168,7 @@ namespace Doors
 			    doorAssembly.TryGetComponent<AirlockAssembly>(out var assembly))
 			{
 				assembly.ServerInitFromComputer(AirlockElectronicsPrefab,
-					airlockAccess.clearanceRestriction != 0 ? airlockAccess.clearanceRestriction :
-						MigrationData.Translation[airlockAccess.restriction], doorMasterController.isWindowedDoor);
+					airlockAccess.RequiredClearance.FirstOrDefault(), doorMasterController.isWindowedDoor);
 			}
 
 			_ = Despawn.ServerSingle(gameObject);

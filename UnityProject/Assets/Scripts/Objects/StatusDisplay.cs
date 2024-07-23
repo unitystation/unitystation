@@ -46,8 +46,8 @@ namespace Objects.Wallmounts
 		public Sprite openCabled;
 		public Sprite closedOff;
 		public SpriteDataSO joeNews;
-		public List<DoorController> doorControllers = new List<DoorController>();
-		public List<DoorMasterController> NewdoorControllers = new List<DoorMasterController>();
+		public List<DoorController> doorControllers = new();
+		public List<DoorMasterController> NewdoorControllers = new();
 		public CentComm centComm;
 		public int currentTimerSeconds;
 		public bool countingDown;
@@ -64,7 +64,7 @@ namespace Objects.Wallmounts
 			NonScrewedPanel,
 			OpenCabled,
 			OpenEmpty
-		};
+		}
 
 		[SerializeField] private StatusDisplayChannel channel = StatusDisplayChannel.Command;
 
@@ -202,7 +202,7 @@ namespace Objects.Wallmounts
 				else if (hasCables && Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter))
 				{
 					//cut out cables
-					Chat.AddActionMsgToChat(interaction, $"You remove the cables.",
+					Chat.AddActionMsgToChat(interaction, "You remove the cables.",
 						$"{interaction.Performer.ExpensiveName()} removes the cables.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
@@ -218,23 +218,16 @@ namespace Objects.Wallmounts
 				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar))
 				{
 					//remove glass
-					Chat.AddActionMsgToChat(interaction, $"You remove the glass panel.",
+					Chat.AddActionMsgToChat(interaction, "You remove the glass panel.",
 						$"{interaction.Performer.ExpensiveName()} removes the glass panel.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					Spawn.ServerPrefab(CommonPrefabs.Instance.GlassSheet, SpawnDestination.At(gameObject), 2);
-					if (hasCables)
-					{
-						stateSync = MountedMonitorState.OpenCabled;
-					}
-					else
-					{
-						stateSync = MountedMonitorState.OpenEmpty;
-					}
+					stateSync = hasCables ? MountedMonitorState.OpenCabled : MountedMonitorState.OpenEmpty;
 				}
 				else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 				{
 					//screw in monitor, completing construction
-					Chat.AddActionMsgToChat(interaction, $"You connect the monitor.",
+					Chat.AddActionMsgToChat(interaction, "You connect the monitor.",
 						$"{interaction.Performer.ExpensiveName()} connects the monitor.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					if (hasCables)
@@ -248,7 +241,7 @@ namespace Objects.Wallmounts
 				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 				{
 					//disconnect the monitor
-					Chat.AddActionMsgToChat(interaction, $"You disconnect the monitor.",
+					Chat.AddActionMsgToChat(interaction, "You disconnect the monitor.",
 						$"{interaction.Performer.ExpensiveName()} disconnect the monitor.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					stateSync = MountedMonitorState.NonScrewedPanel;
@@ -286,7 +279,7 @@ namespace Objects.Wallmounts
 						}
 						else
 						{
-							Chat.AddExamineMsg(interaction.Performer, $"Access Denied.");
+							Chat.AddExamineMsg(interaction.Performer, "Access Denied.");
 							// Play sound
 							SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.AccessDenied,
 								gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
@@ -303,7 +296,7 @@ namespace Objects.Wallmounts
 
 		private void ChangeChannelMessage(HandApply interaction)
 		{
-			Chat.AddActionMsgToChat(interaction, $"You change the channel of the monitor.",
+			Chat.AddActionMsgToChat(interaction, "You change the channel of the monitor.",
 				$"{interaction.Performer.ExpensiveName()} changes the channel of the monitor.");
 		}
 
@@ -554,7 +547,7 @@ namespace Objects.Wallmounts
 			}
 			else
 			{
-				Chat.AddExamineMsg(interaction.Performer, $"Access Denied.");
+				Chat.AddExamineMsg(interaction.Performer, "Access Denied.");
 				// Play sound
 				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.AccessDenied, gameObject.AssumedWorldPosServer(),
 					sourceObj: gameObject);
