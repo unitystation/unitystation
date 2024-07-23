@@ -432,8 +432,8 @@ public class RightClickManager : SingletonManager<RightClickManager>
 		}
 
 		// See if this object has an AirLockAnimator then try to get the sprite from that, otherwise try to get the sprite from the first renderer we find
-		var airLockAnimator = forObject.GetComponentInChildren<AirLockAnimator>();
-		var spriteRenderer = airLockAnimator != null ? airLockAnimator.doorbase : forObject.GetComponentInChildren<SpriteRenderer>();
+		var airLockAnimator = forObject.GetComponentInChildren<DoorAnimatorV2>();
+		var spriteRenderer = airLockAnimator != null ? airLockAnimator.DoorBase.GetComponent<SpriteRenderer>() : forObject.GetComponentInChildren<SpriteRenderer>();
 
 		Sprite sprite = null;
 		if (spriteRenderer != null)

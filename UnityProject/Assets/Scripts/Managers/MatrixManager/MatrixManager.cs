@@ -631,44 +631,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// <param name="targetPos">target world position to check</param>
 	/// <returns>The DoorTrigger of the closed door object specified in the summary, null if no such object
 	/// exists at that location</returns>
-	public static InteractableDoor GetClosedDoorAt(Vector3Int worldOrigin, Vector3Int targetPos, bool isServer,
-		MatrixInfo MatrixAtOrigin = null, MatrixInfo MatrixAtTarget = null)
-	{
-		if (MatrixAtOrigin == null)
-		{
-			MatrixAtOrigin = AtPoint(worldOrigin, isServer);
-		}
-
-		if (MatrixAtTarget == null)
-		{
-			MatrixAtTarget = AtPoint(targetPos, isServer);
-		}
-
-		// Check door on the local tile first
-		Vector3Int localTarget = WorldToLocalInt(targetPos, MatrixAtTarget.Matrix);
-		var originDoorList = GetAs<RegisterDoor>(worldOrigin, isServer, MatrixAtOrigin);
-		foreach (var originDoor in originDoorList)
-		{
-			if (originDoor && originDoor.IsPassableFromInside(localTarget, isServer) ==
-			    false)
-				return originDoor.InteractableDoor;
-		}
-
-		// No closed door on local tile, check target tile
-		Vector3Int localOrigin = WorldToLocalInt(worldOrigin, MatrixAtOrigin.Matrix);
-		var targetDoorList = GetAs<RegisterDoor>(targetPos, isServer, MatrixAtTarget);
-		foreach (var targetDoor in targetDoorList)
-		{
-			if (targetDoor && targetDoor.IsPassableFromOutside(localOrigin, isServer) ==
-			    false)
-				return targetDoor.InteractableDoor;
-		}
-
-		// No closed doors on either tile
-		return null;
-	}
-
-
 	public static DoorMasterController GetNewClosedDoorAt(Vector3Int worldOrigin, Vector3Int targetPos, bool isServer)
 	{
 		// Check door on the local tile first

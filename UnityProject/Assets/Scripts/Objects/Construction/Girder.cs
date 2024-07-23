@@ -213,7 +213,7 @@ namespace Objects.Construction
 		private void ConstructFalseWall(HandApply interaction)
 		{
 			GameObject theWall = Spawn.ServerPrefab(FalseWall, SpawnDestination.At(gameObject)).GameObject;
-			DoorController doorController = theWall.GetComponent<DoorController>();
+			DoorMasterController doorController = theWall.GetComponent<DoorMasterController>();
 			tileChangeManager.MetaTileMap.SetTile(registerObject.LocalPositionServer, falseTile);
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 			_ = Despawn.ServerSingle(gameObject);
@@ -224,7 +224,7 @@ namespace Objects.Construction
 		private void ConstructReinforcedFalseWall(HandApply interaction)
 		{
 			GameObject theWall = Spawn.ServerPrefab(FalseReinforcedWall, SpawnDestination.At(gameObject)).GameObject;
-			DoorController doorController = theWall.GetComponent<DoorController>();
+			DoorMasterController doorController = theWall.GetComponent<DoorMasterController>();
 			tileChangeManager.MetaTileMap.SetTile(registerObject.LocalPositionServer, falseTile);
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 			_ = Despawn.ServerSingle(gameObject);

@@ -46,7 +46,6 @@ namespace Objects.Wallmounts
 		public Sprite openCabled;
 		public Sprite closedOff;
 		public SpriteDataSO joeNews;
-		public List<DoorController> doorControllers = new();
 		public List<DoorMasterController> NewdoorControllers = new();
 		public CentComm centComm;
 		public int currentTimerSeconds;
@@ -107,7 +106,7 @@ namespace Objects.Wallmounts
 				statusText = GameManager.Instance.CentComm.CommandStatusString;
 			}
 
-			if (doorControllers.Count > 0 || NewdoorControllers.Count > 0  )
+			if (NewdoorControllers.Count > 0  )
 			{
 				OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
 			}
@@ -209,7 +208,6 @@ namespace Objects.Wallmounts
 					stateSync = MountedMonitorState.OpenEmpty;
 					hasCables = false;
 					currentTimerSeconds = 0;
-					doorControllers.Clear();
 					NewdoorControllers.Clear();
 				}
 			}
@@ -367,19 +365,6 @@ namespace Objects.Wallmounts
 			cachedChannel = channel;
 		}
 
-		public void LinkDoor(DoorController doorController)
-		{
-			Loggy.LogWarning("[Deprecated] - old doors have exploits and bugs related to them. " +
-			                  "Please avoid using old doors whenever possible.");
-			//TODO: Nuke this as it has an exploits that's not really worth anyone's time. Move all doors to V2.
-			doorControllers.Add(doorController);
-			OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
-			if (stateSync == MountedMonitorState.Image)
-			{
-				stateSync = MountedMonitorState.StatusText;
-			}
-		}
-
 		public void NewLinkDoor(DoorMasterController doorController)
 		{
 			NewdoorControllers.Add(doorController);
@@ -450,13 +435,6 @@ namespace Objects.Wallmounts
 		// FIXME: replace the way Status display interacts with doors when I make door able to be interacted with devices.
 		private void CloseDoors()
 		{
-			foreach (var door in doorControllers)
-			{
-				//Todo make The actual console itself ingame Hackble, I wouldn't put it on the door because this could get removed and leave references on the door Still
-				//Putting it on this itself would be best
-				door.TryClose();
-			}
-
 			foreach (var door in NewdoorControllers)
 			{
 				//Todo make The actual console itself ingame Hackble, I wouldn't put it on the door because this could get removed and leave references on the door Still
@@ -468,12 +446,6 @@ namespace Objects.Wallmounts
 		// FIXME: replace the way Status display interacts with doors when I make door able to be interacted with devices.
 		private void OpenDoors()
 		{
-			foreach (var door in doorControllers)
-			{
-				//To do make The actual console itself ingame Hackble
-				door.TryOpen(null, true);
-			}
-
 			foreach (var door in NewdoorControllers)
 			{
 				door.TryOpen(null, true);

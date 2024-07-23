@@ -19,10 +19,6 @@ using Util;
 		private CheckedComponent<Rotatable> rotatableChecked = new CheckedComponent<Rotatable>();
 		public CheckedComponent<Rotatable> RotatableChecked => rotatableChecked;
 
-		[NonSerialized]
-		public InteractableDoor InteractableDoor;
-
-
 		public bool OneDirectionRestricted;
 
 		[SerializeField]
@@ -50,7 +46,6 @@ using Util;
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 			//Doors/airlocks aren't supposed to switch matrices
 			tileChangeManager = GetComponentInParent<TileChangeManager>();
-			InteractableDoor = this.GetComponent<InteractableDoor>();
 			rotatableChecked.ResetComponent(this);
 		}
 

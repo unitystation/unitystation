@@ -217,7 +217,7 @@ namespace Systems.MobAIs
 						break;
 					}
 
-					if (!registerObject.Matrix.GetFirst<DoorController>(checkTile, true))
+					if (!registerObject.Matrix.GetFirst<DoorMasterController>(checkTile, true))
 					{
 						continue;
 					}

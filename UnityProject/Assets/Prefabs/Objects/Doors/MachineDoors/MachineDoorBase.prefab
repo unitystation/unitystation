@@ -234,10 +234,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: -4969049584947791526}
-    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: -4231287787920305926}
     - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -262,27 +258,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6076651061907346860}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-4969049584947791526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4813822218561835024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2cf30704fd754096ad1a718fc9b2782, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  doorController: {fileID: 0}
-  spritePath: 
-  animFrames: 
-  closeFrame: 0
-  deniedFrame: 0
-  openFrame: 0
-  direction: 0
-  IncludeAccessDeniedAnim: 0
-  Smoothed: 0
 --- !u!114 &-4231287787920305926
 MonoBehaviour:
   m_ObjectHideFlags: 0
