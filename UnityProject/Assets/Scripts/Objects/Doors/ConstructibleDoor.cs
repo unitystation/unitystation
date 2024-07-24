@@ -32,9 +32,13 @@ namespace Doors
 
 		public bool Panelopen => panelopen;
 
+		[SerializeField] private bool allowHackingPanel = true;
+		public bool AllowHackingPanel => allowHackingPanel;
+
 		private DoorMasterController doorMasterController;
 		private BoltsModule boltsModule;
 		private WeldModule weldModule;
+		private PowerModule powerModule;
 		private Integrity integrity;
 
 		private void Awake()
@@ -42,6 +46,7 @@ namespace Doors
 			doorMasterController = GetComponent<DoorMasterController>();
 			boltsModule = GetComponentInChildren<BoltsModule>();
 			weldModule = GetComponentInChildren<WeldModule>();
+			powerModule = GetComponentInChildren<PowerModule>();
 
 			if (CustomNetworkManager.IsServer == false) return;
 
@@ -61,7 +66,7 @@ namespace Doors
 			if (Validations.HasUsedComponent<AirlockPainter>(interaction))
 				return true;
 
-			if (CheckWeld() && CheckBolts() && doorMasterController.HasPower == false)
+			if (CheckWeld() && CheckBolts() && CheckPower())
 			{
 				return Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Crowbar);
 			}
@@ -95,9 +100,18 @@ namespace Doors
 			}
 		}
 
+		public bool CheckPower()
+		{
+			if (powerModule == null)
+			{
+				return true;
+			}
+			return !powerModule.HasPower;
+		}
+
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver))
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && AllowHackingPanel)
 			{
 				panelopen = !panelopen;
 				if (panelopen)
@@ -123,7 +137,7 @@ namespace Doors
 					interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 			}
 
-			if (CheckWeld() && CheckBolts() && !doorMasterController.HasPower)
+			if (CheckWeld() && CheckBolts() && CheckPower())
 			{
 				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Crowbar) && airlockAssemblyPrefab)
 				{

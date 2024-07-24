@@ -602,6 +602,7 @@ GameObject:
   - component: {fileID: 2961418714501291413}
   - component: {fileID: 8126770096075580332}
   - component: {fileID: 3436040325946328418}
+  - component: {fileID: 4582012052051654184}
   m_Layer: 18
   m_Name: modules
   m_TagString: Untagged
@@ -651,6 +652,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requiredClearance: 0f000000
   type: 0
+--- !u!114 &4582012052051654184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7106671641055918703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c423f5e51deb46791afaa4439d14b4ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7901964432939451919
 GameObject:
   m_ObjectHideFlags: 0
@@ -1222,8 +1235,8 @@ MonoBehaviour:
   isAutomatic: 0
   allowInteraction: 0
   ignorePassableChecks: 1
-  maxTimeOpen: -1
-  blockAutoClose: 0
+  maxTimeOpen: 5
+  blockAutoClose: 1
   clickDisablesAutoClose: 0
   isWindowedDoor: 0
   UseMachinesForOpenLayeer: 0
@@ -1248,6 +1261,7 @@ MonoBehaviour:
   airlockAssemblyPrefab: {fileID: 0}
   airlockElectronicsPrefab: {fileID: 0}
   Reinforced: 0
+  allowHackingPanel: 0
 --- !u!114 &25917947699532951
 MonoBehaviour:
   m_ObjectHideFlags: 0

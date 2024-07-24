@@ -107,10 +107,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
-  - {fileID: 11400000, guid: 2c84d40bc0882214e8c9f8a452108416, type: 2}
-  - {fileID: 11400000, guid: d9b3c05b8754e0443a5280487586cd6e, type: 2}
-  - {fileID: 11400000, guid: 6ccaabd067e953b4bb15d6ef7d52bfb4, type: 2}
-  - {fileID: 11400000, guid: b6d6f712350769a4d95a3f16a0bfff85, type: 2}
+  - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
@@ -1008,10 +1008,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7350150046443313449}
-    - targetCorrespondingSourceObject: {fileID: 8374648283101600218, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7457084323368733585}
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
 --- !u!1 &283893224911832105 stripped
 GameObject:
@@ -1080,7 +1076,7 @@ MonoBehaviour:
   allowInteraction: 1
   ignorePassableChecks: 0
   maxTimeOpen: 5
-  blockAutoClose: 0
+  blockAutoClose: 1
   clickDisablesAutoClose: 0
   isWindowedDoor: 0
   UseMachinesForOpenLayeer: 0
@@ -1225,36 +1221,4 @@ MonoBehaviour:
   airlockAssemblyPrefab: {fileID: 0}
   airlockElectronicsPrefab: {fileID: 0}
   Reinforced: 0
---- !u!114 &7457084323368733585
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8321180160226194963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  minimumWorkingVoltage: 190
-  expectedRunningVoltage: 240
-  maximumWorkingVoltage: 300
-  deviceType: 0
-  isSelfPowered: 1
-  mappingNotNeedToLink: 1
-  wattusage: 0.01
-  InitialResistance: 100000000
-  RelatedAPC: {fileID: 0}
-  AdvancedControlToScript: 0
-  StateUpdateOnClient: 1
-  OnDeviceLinked:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeviceUnLinked:
-    m_PersistentCalls:
-      m_Calls: []
-  <CanRelink>k__BackingField: 0
+  allowHackingPanel: 0

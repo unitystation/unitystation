@@ -104,7 +104,7 @@ namespace Systems.MobAIs
 						if (tryGetDoor != null)
 						{
 							//Can the NPC access this door
-							if (CanNPCAccessDoor(tryGetDoor))
+							if (CanNpcAccessDoor(tryGetDoor))
 							{
 								visibleDoors.Add(coll);
 							}
@@ -218,7 +218,7 @@ namespace Systems.MobAIs
 			}
 		}
 
-		private bool CanNPCAccessDoor(DoorMasterController doorController)
+		private bool CanNpcAccessDoor(DoorMasterController doorController)
 		{
 			var restricted = doorController.ModulesList.Components<ClearanceRestricted>().FirstOrDefault();
 			if (restricted == null) return false;

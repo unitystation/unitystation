@@ -1012,10 +1012,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3363448639085241135}
-    - targetCorrespondingSourceObject: {fileID: 8374648283101600218, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4800547125813719976}
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
 --- !u!4 &1622667636829309004 stripped
 Transform:
@@ -1179,6 +1175,7 @@ MonoBehaviour:
   airlockAssemblyPrefab: {fileID: 0}
   airlockElectronicsPrefab: {fileID: 0}
   Reinforced: 0
+  allowHackingPanel: 0
 --- !u!114 &4730371593326977015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1245,39 +1242,6 @@ MonoBehaviour:
   - {r: 1, g: 0.6, b: 1, a: 1}
   RemoteSignallerTrait: {fileID: 0}
   OnePeaceCoil: {fileID: 0}
---- !u!114 &4800547125813719976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1626197849799790230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  minimumWorkingVoltage: 190
-  expectedRunningVoltage: 240
-  maximumWorkingVoltage: 300
-  deviceType: 0
-  isSelfPowered: 1
-  mappingNotNeedToLink: 1
-  wattusage: 0.01
-  InitialResistance: 100000000
-  RelatedAPC: {fileID: 0}
-  AdvancedControlToScript: 0
-  StateUpdateOnClient: 1
-  OnDeviceLinked:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeviceUnLinked:
-    m_PersistentCalls:
-      m_Calls: []
-  <CanRelink>k__BackingField: 0
 --- !u!210 &4061496330317937190 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 6554009657133641066, guid: a7af28adb717b4c44b8b2002b27670bd,
