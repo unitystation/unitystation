@@ -46,8 +46,7 @@ namespace Objects.Wallmounts
 		public Sprite openCabled;
 		public Sprite closedOff;
 		public SpriteDataSO joeNews;
-		public List<DoorController> doorControllers = new List<DoorController>();
-		public List<DoorMasterController> NewdoorControllers = new List<DoorMasterController>();
+		public List<DoorMasterController> NewdoorControllers = new();
 		public CentComm centComm;
 		public int currentTimerSeconds;
 		public bool countingDown;
@@ -64,7 +63,7 @@ namespace Objects.Wallmounts
 			NonScrewedPanel,
 			OpenCabled,
 			OpenEmpty
-		};
+		}
 
 		[SerializeField] private StatusDisplayChannel channel = StatusDisplayChannel.Command;
 
@@ -107,7 +106,7 @@ namespace Objects.Wallmounts
 				statusText = GameManager.Instance.CentComm.CommandStatusString;
 			}
 
-			if (doorControllers.Count > 0 || NewdoorControllers.Count > 0  )
+			if (NewdoorControllers.Count > 0  )
 			{
 				OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
 			}
@@ -202,14 +201,13 @@ namespace Objects.Wallmounts
 				else if (hasCables && Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter))
 				{
 					//cut out cables
-					Chat.AddActionMsgToChat(interaction, $"You remove the cables.",
+					Chat.AddActionMsgToChat(interaction, "You remove the cables.",
 						$"{interaction.Performer.ExpensiveName()} removes the cables.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
 					stateSync = MountedMonitorState.OpenEmpty;
 					hasCables = false;
 					currentTimerSeconds = 0;
-					doorControllers.Clear();
 					NewdoorControllers.Clear();
 				}
 			}
@@ -218,23 +216,16 @@ namespace Objects.Wallmounts
 				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar))
 				{
 					//remove glass
-					Chat.AddActionMsgToChat(interaction, $"You remove the glass panel.",
+					Chat.AddActionMsgToChat(interaction, "You remove the glass panel.",
 						$"{interaction.Performer.ExpensiveName()} removes the glass panel.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					Spawn.ServerPrefab(CommonPrefabs.Instance.GlassSheet, SpawnDestination.At(gameObject), 2);
-					if (hasCables)
-					{
-						stateSync = MountedMonitorState.OpenCabled;
-					}
-					else
-					{
-						stateSync = MountedMonitorState.OpenEmpty;
-					}
+					stateSync = hasCables ? MountedMonitorState.OpenCabled : MountedMonitorState.OpenEmpty;
 				}
 				else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 				{
 					//screw in monitor, completing construction
-					Chat.AddActionMsgToChat(interaction, $"You connect the monitor.",
+					Chat.AddActionMsgToChat(interaction, "You connect the monitor.",
 						$"{interaction.Performer.ExpensiveName()} connects the monitor.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					if (hasCables)
@@ -248,7 +239,7 @@ namespace Objects.Wallmounts
 				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 				{
 					//disconnect the monitor
-					Chat.AddActionMsgToChat(interaction, $"You disconnect the monitor.",
+					Chat.AddActionMsgToChat(interaction, "You disconnect the monitor.",
 						$"{interaction.Performer.ExpensiveName()} disconnect the monitor.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					stateSync = MountedMonitorState.NonScrewedPanel;
@@ -286,7 +277,7 @@ namespace Objects.Wallmounts
 						}
 						else
 						{
-							Chat.AddExamineMsg(interaction.Performer, $"Access Denied.");
+							Chat.AddExamineMsg(interaction.Performer, "Access Denied.");
 							// Play sound
 							SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.AccessDenied,
 								gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
@@ -303,7 +294,7 @@ namespace Objects.Wallmounts
 
 		private void ChangeChannelMessage(HandApply interaction)
 		{
-			Chat.AddActionMsgToChat(interaction, $"You change the channel of the monitor.",
+			Chat.AddActionMsgToChat(interaction, "You change the channel of the monitor.",
 				$"{interaction.Performer.ExpensiveName()} changes the channel of the monitor.");
 		}
 
@@ -372,19 +363,6 @@ namespace Objects.Wallmounts
 			statusText = centComm.CommandStatusString;
 			channel = broadcastedChannel;
 			cachedChannel = channel;
-		}
-
-		public void LinkDoor(DoorController doorController)
-		{
-			Loggy.LogWarning("[Deprecated] - old doors have exploits and bugs related to them. " +
-			                  "Please avoid using old doors whenever possible.");
-			//TODO: Nuke this as it has an exploits that's not really worth anyone's time. Move all doors to V2.
-			doorControllers.Add(doorController);
-			OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
-			if (stateSync == MountedMonitorState.Image)
-			{
-				stateSync = MountedMonitorState.StatusText;
-			}
 		}
 
 		public void NewLinkDoor(DoorMasterController doorController)
@@ -457,13 +435,6 @@ namespace Objects.Wallmounts
 		// FIXME: replace the way Status display interacts with doors when I make door able to be interacted with devices.
 		private void CloseDoors()
 		{
-			foreach (var door in doorControllers)
-			{
-				//Todo make The actual console itself ingame Hackble, I wouldn't put it on the door because this could get removed and leave references on the door Still
-				//Putting it on this itself would be best
-				door.TryClose();
-			}
-
 			foreach (var door in NewdoorControllers)
 			{
 				//Todo make The actual console itself ingame Hackble, I wouldn't put it on the door because this could get removed and leave references on the door Still
@@ -475,12 +446,6 @@ namespace Objects.Wallmounts
 		// FIXME: replace the way Status display interacts with doors when I make door able to be interacted with devices.
 		private void OpenDoors()
 		{
-			foreach (var door in doorControllers)
-			{
-				//To do make The actual console itself ingame Hackble
-				door.TryOpen(null, true);
-			}
-
 			foreach (var door in NewdoorControllers)
 			{
 				door.TryOpen(null, true);
@@ -554,7 +519,7 @@ namespace Objects.Wallmounts
 			}
 			else
 			{
-				Chat.AddExamineMsg(interaction.Performer, $"Access Denied.");
+				Chat.AddExamineMsg(interaction.Performer, "Access Denied.");
 				// Play sound
 				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.AccessDenied, gameObject.AssumedWorldPosServer(),
 					sourceObj: gameObject);

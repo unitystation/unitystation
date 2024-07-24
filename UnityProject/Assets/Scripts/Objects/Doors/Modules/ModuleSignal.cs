@@ -24,5 +24,6 @@
 		SoftwarePrevented,
 		SoftwareHacked,
 		PhysicallyPrevented,
+		PowerPrevented,
 	}
 }

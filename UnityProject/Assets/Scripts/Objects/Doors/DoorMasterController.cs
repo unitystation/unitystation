@@ -83,7 +83,7 @@ namespace Doors
 
 		private bool isPerformingAction = false;
 		public bool IsPerformingAction => isPerformingAction;
-		public bool HasPower => GetPowerState();
+		public bool HasPower => CheckPower();
 
 		private RegisterDoor registerTile;
 		public RegisterDoor RegisterTile => registerTile;
@@ -94,8 +94,6 @@ namespace Doors
 		private List<DoorModuleBase> modulesList;
 		public List<DoorModuleBase> ModulesList => modulesList;
 
-		private APCPoweredDevice apc;
-		public APCPoweredDevice Apc => apc;
 
 
 		[Tooltip("Does it have a glass window you can see trough?")]
@@ -150,7 +148,6 @@ namespace Doors
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 			registerTile = GetComponent<RegisterDoor>();
 			modulesList = GetComponentsInChildren<DoorModuleBase>().ToList();
-			apc = GetComponent<APCPoweredDevice>();
 			doorAnimator = GetComponent<DoorAnimatorV2>();
 			doorAnimator.AnimationFinished += OnAnimationFinished;
 			if (UseMachinesForOpenLayeer)
@@ -165,21 +162,7 @@ namespace Doors
 			HackingProcessBase.RegisterPort(TryForceClose, this.GetType());
 			HackingProcessBase.RegisterPort(TryBump, this.GetType());
 			HackingProcessBase.RegisterPort(TryClose, this.GetType());
-			HackingProcessBase.RegisterPort(CheckPower, this.GetType());
 			HackingProcessBase.RegisterPort(ConfirmAIConnection, this.GetType());
-		}
-
-		public bool GetPowerState()
-		{
-			return HackingProcessBase.PulsePortConnectedNoLoop(CheckPower);
-		}
-
-		public void CheckPower()
-		{
-			if (APCPoweredDevice.IsOn(apc.State))
-			{
-				HackingProcessBase.ReceivedPulse(CheckPower);
-			}
 		}
 
 		public override void OnStartClient()
@@ -196,6 +179,19 @@ namespace Doors
 				IsClosed ? DoorUpdateType.Close : DoorUpdateType.Open,
 				true,
 				ConstructibleDoor != null && ConstructibleDoor.Panelopen);
+		}
+
+
+		private bool CheckPower()
+		{
+			foreach (var module in modulesList)
+			{
+				if(module is PowerModule powerModule)
+				{
+					return powerModule.HasPower;
+				}
+			}
+			return true;
 		}
 
 		private void TryBump()
@@ -218,10 +214,6 @@ namespace Doors
 			if (!isPerformingAction && CheckStatusAllow(states))
 			{
 				TryOpen(byPlayer);
-			}
-			else if(HasPower == false && byPlayer != null)
-			{
-				Chat.AddExamineMsgFromServer(byPlayer, $"{gameObject.ExpensiveName()} is unpowered");
 			}
 
 			StartInputCoolDown();
@@ -247,7 +239,7 @@ namespace Doors
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (ConstructibleDoor.Panelopen)
+			if (ConstructibleDoor.Panelopen && ConstructibleDoor.AllowHackingPanel	)
 			{
 				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Cable) ||
 				    Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter))
@@ -323,10 +315,6 @@ namespace Doors
 				}
 				TryOpen(interaction.Performer);
 			}
-			else if(HasPower == false)
-			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is unpowered");
-			}
 			else
 			{
 				AddChatTryInteractMessage(interaction, states);
@@ -335,7 +323,11 @@ namespace Doors
 
 		public void AddChatTryInteractMessage(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			if (States.Contains(DoorProcessingStates.PhysicallyPrevented) && States.Contains(DoorProcessingStates.SoftwarePrevented) == false)
+			if (States.Contains(DoorProcessingStates.PowerPrevented))
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is unpowered");
+			}
+			else if (States.Contains(DoorProcessingStates.PhysicallyPrevented) && States.Contains(DoorProcessingStates.SoftwarePrevented) == false)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} tries to move but something is physically preventing it");
 			}
@@ -348,6 +340,7 @@ namespace Doors
 		public bool CheckStatusAllow(HashSet<DoorProcessingStates> states)
 		{
 			if (states.Contains(DoorProcessingStates.PhysicallyPrevented)) return false;
+			if (states.Contains(DoorProcessingStates.PowerPrevented)) return false;
 			if (states.Contains(DoorProcessingStates.SoftwarePrevented))
 			{
 				return states.Contains(DoorProcessingStates.SoftwareHacked);
@@ -367,15 +360,6 @@ namespace Doors
 			}
 
 			if(IsClosed == false || isPerformingAction) return;
-
-			if(HasPower == false)
-			{
-				if (originator != null)
-				{
-					Chat.AddExamineMsgFromServer(originator, $"{gameObject.ExpensiveName()} is unpowered");
-				}
-				return;
-			}
 
 			Open(blockClosing);
 		}
@@ -475,11 +459,6 @@ namespace Doors
 			else
 			{
 				ResetWaiting();
-			}
-
-			if(HasPower == false && originator != null)
-			{
-				Chat.AddExamineMsgFromServer(originator, $"{gameObject.ExpensiveName()} is unpowered");
 			}
 		}
 

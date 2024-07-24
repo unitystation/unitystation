@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Doors;
+using Systems.Clearance;
 
 namespace Systems.MobAIs
 {
@@ -98,11 +100,11 @@ namespace Systems.MobAIs
 				{
 					if (hit.CollisionHit.GameObject == coll.gameObject)
 					{
-						var tryGetDoor = coll.GetComponent<DoorController>();
+						var tryGetDoor = coll.GetComponent<DoorMasterController>();
 						if (tryGetDoor != null)
 						{
 							//Can the NPC access this door
-							if (CanNPCAccessDoor(tryGetDoor) && tryGetDoor.doorType != DoorType.sliding)
+							if (CanNpcAccessDoor(tryGetDoor))
 							{
 								visibleDoors.Add(coll);
 							}
@@ -216,11 +218,12 @@ namespace Systems.MobAIs
 			}
 		}
 
-		private bool CanNPCAccessDoor(DoorController doorController)
+		private bool CanNpcAccessDoor(DoorMasterController doorController)
 		{
-			if (doorController.AccessRestrictions == null) return false;
+			var restricted = doorController.ModulesList.Components<ClearanceRestricted>().FirstOrDefault();
+			if (restricted == null) return false;
 
-			if ((int)doorController.AccessRestrictions.restriction == 0)
+			if (restricted.HasClearance(gameObject))
 			{
 				return true;
 			}

@@ -1,8 +1,10 @@
+using System.Linq;
 using Doors.Modules;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using UnityEngine;
 using Objects.Construction;
+using Systems.Clearance;
 using Systems.Clearance.Utils;
 using Systems.Interaction;
 
@@ -30,9 +32,13 @@ namespace Doors
 
 		public bool Panelopen => panelopen;
 
+		[SerializeField] private bool allowHackingPanel = true;
+		public bool AllowHackingPanel => allowHackingPanel;
+
 		private DoorMasterController doorMasterController;
 		private BoltsModule boltsModule;
 		private WeldModule weldModule;
+		private PowerModule powerModule;
 		private Integrity integrity;
 
 		private void Awake()
@@ -40,6 +46,7 @@ namespace Doors
 			doorMasterController = GetComponent<DoorMasterController>();
 			boltsModule = GetComponentInChildren<BoltsModule>();
 			weldModule = GetComponentInChildren<WeldModule>();
+			powerModule = GetComponentInChildren<PowerModule>();
 
 			if (CustomNetworkManager.IsServer == false) return;
 
@@ -59,7 +66,7 @@ namespace Doors
 			if (Validations.HasUsedComponent<AirlockPainter>(interaction))
 				return true;
 
-			if (CheckWeld() && CheckBolts() && doorMasterController.HasPower == false)
+			if (CheckWeld() && CheckBolts() && CheckPower())
 			{
 				return Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Crowbar);
 			}
@@ -93,9 +100,18 @@ namespace Doors
 			}
 		}
 
+		public bool CheckPower()
+		{
+			if (powerModule == null)
+			{
+				return true;
+			}
+			return !powerModule.HasPower;
+		}
+
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver))
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && AllowHackingPanel)
 			{
 				panelopen = !panelopen;
 				if (panelopen)
@@ -121,7 +137,7 @@ namespace Doors
 					interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 			}
 
-			if (CheckWeld() && CheckBolts() && !doorMasterController.HasPower)
+			if (CheckWeld() && CheckBolts() && CheckPower())
 			{
 				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Crowbar) && airlockAssemblyPrefab)
 				{
@@ -158,7 +174,7 @@ namespace Doors
 			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 
 			//When spawning the assembly prefab in the object's place, copy it's access restrictions.
-			AccessRestrictions airlockAccess = GetComponentInChildren<AccessRestrictions>();
+			ClearanceRestricted airlockAccess = GetComponentInChildren<ClearanceRestricted>();
 
 			//(Max) : This seems like it's prone to error, I recommend making the assembly part inside of the door prefab itself and not another one.
 			var doorAssembly = Spawn.ServerPrefab(airlockAssemblyPrefab, SpawnDestination.At(gameObject)).GameObject;
@@ -166,8 +182,7 @@ namespace Doors
 			    doorAssembly.TryGetComponent<AirlockAssembly>(out var assembly))
 			{
 				assembly.ServerInitFromComputer(AirlockElectronicsPrefab,
-					airlockAccess.clearanceRestriction != 0 ? airlockAccess.clearanceRestriction :
-						MigrationData.Translation[airlockAccess.restriction], doorMasterController.isWindowedDoor);
+					airlockAccess.RequiredClearance.FirstOrDefault(), doorMasterController.isWindowedDoor);
 			}
 
 			_ = Despawn.ServerSingle(gameObject);

@@ -8,6 +8,7 @@ using Systems.Electricity;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
 using Items;
+using Items.PDA;
 using Light2D;
 using Mirror;
 using Random = UnityEngine.Random;
@@ -28,7 +29,7 @@ namespace Objects
 		private const float DispenseScatterRadius = 0.1f;
 
 		[FormerlySerializedAs("VendorContent")]
-		public List<VendorItem> InitialVendorContent = new List<VendorItem>();
+		public List<VendorItem> InitialVendorContent = new();
 
 		[Tooltip("Background color for UI")] public Color HullColor = Color.white;
 
@@ -43,15 +44,15 @@ namespace Objects
 
 		[SerializeField] private string noAccessMessage = "Access denied!";
 
-		private string tooExpensiveMessage = "This is too expensive!";
+		private const string tooExpensiveMessage = "This is too expensive!";
 
 		public bool isEmagged;
 
-		[HideInInspector] public List<VendorItem> VendorContent = new List<VendorItem>();
+		[HideInInspector] public List<VendorItem> VendorContent = new();
 
 		private ClearanceRestricted clearanceRestricted;
-		public VendorUpdateEvent OnRestockUsed = new VendorUpdateEvent();
-		public VendorItemUpdateEvent OnItemVended = new VendorItemUpdateEvent();
+		public VendorUpdateEvent OnRestockUsed = new();
+		public VendorItemUpdateEvent OnItemVended = new();
 		public PowerState ActualCurrentPowerState = PowerState.On;
 
 		[Header("Audio")] [SerializeField, FormerlySerializedAs("VendingSound")]
@@ -211,24 +212,22 @@ namespace Objects
 				{
 					if (itemSlot.ItemObject)
 					{
-						var idCard = AccessRestrictions.GetIDCard(itemSlot.ItemObject);
+						var idCard = GetId(itemSlot.ItemObject);
 						if (idCard.currencies[(int) itemToSpawn.Currency] >= itemToSpawn.Price)
 						{
 							idCard.currencies[(int) itemToSpawn.Currency] -= itemToSpawn.Price;
 							break;
 						}
-						else
-						{
-							Chat.AddWarningMsgFromServer(player.GameObject, tooExpensiveMessage);
-							return false;
-						}
+
+						Chat.AddWarningMsgFromServer(player.GameObject, tooExpensiveMessage);
+						return false;
 					}
 				}
 
 				var Hand = playerStorage.OrNull()?.GetActiveHandSlot();
 				if (Hand.ItemObject)
 				{
-					var idCard = AccessRestrictions.GetIDCard(Hand.ItemObject);
+					var idCard = GetId(Hand.ItemObject);
 					if (idCard.currencies[(int) itemToSpawn.Currency] >= itemToSpawn.Price)
 					{
 						idCard.currencies[(int) itemToSpawn.Currency] -= itemToSpawn.Price;
@@ -241,7 +240,22 @@ namespace Objects
 				}
 			}
 
-			return isSelectionValid;
+			return true;
+		}
+
+		private IDCard GetId(GameObject id)
+		{
+			if (id.TryGetComponent<IDCard>(out var idCard))
+			{
+				return idCard;
+			}
+
+			if (id.TryGetComponent<PDALogic>(out var pda))
+			{
+				return pda.GetIDCard();
+			}
+
+			return  null;
 		}
 
 		/// <summary>
@@ -339,14 +353,7 @@ namespace Objects
 
 		private void CheckVendorLightState()
 		{
-			if (ActualCurrentPowerState is PowerState.On or PowerState.OverVoltage)
-			{
-				SetLightState(isLightOn, true);
-			}
-			else
-			{
-				SetLightState(isLightOn, false);
-			}
+			SetLightState(isLightOn, ActualCurrentPowerState is PowerState.On or PowerState.OverVoltage);
 		}
 
 		private void SetLightState(bool oldValue, bool newValue)

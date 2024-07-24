@@ -1,8 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using NaughtyAttributes;
 using AddressableReferences;
-using Messages.Server;
 using Systems.Clearance;
 using Systems.Electricity;
 using Systems.Electricity.NodeModules;
@@ -18,7 +16,6 @@ namespace Objects.Engineering
 		private UniversalObjectPhysics objectBehaviour;
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
-		private AccessRestrictions accessRestrictions;
 		private ClearanceRestricted clearanceRestricted;
 		private ElectricalNodeControl electricalNodeControl;
 
@@ -69,7 +66,6 @@ namespace Objects.Engineering
 			directional = GetComponent<Rotatable>();
 			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			registerTile = GetComponent<RegisterTile>();
-			accessRestrictions = GetComponent<AccessRestrictions>();
 			clearanceRestricted = GetComponent<ClearanceRestricted>();
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();

@@ -51,17 +51,17 @@ PrefabInstance:
     - target: {fileID: 3472561457115889177, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3472561457115889177, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3472561457115889177, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3472561457115889177, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
         type: 3}
@@ -109,6 +109,36 @@ PrefabInstance:
       propertyPath: initialName
       value: plasma door
       objectReference: {fileID: 0}
+    - target: {fileID: 8247288469453312537, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 096edc77eb82d1e439d19d0eab873d23,
+        type: 2}
+    - target: {fileID: 8247288469453312537, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 096edc77eb82d1e439d19d0eab873d23,
+        type: 2}
+    - target: {fileID: 8247288469453312537, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 0857455dda64a7f45ae943b1874e8398,
+        type: 2}
+    - target: {fileID: 8247288469453312537, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ec74f6845a4a634a82b5690fc061a10,
+        type: 2}
+    - target: {fileID: 8247288469453312537, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9c6504db51437c04087a159b8334e7e8,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
