@@ -21,7 +21,7 @@ MonoBehaviour:
     StartSelf: 
     StartOther: 
     SuccessSelf: You successfully unfasten the cover on {WhoOn}'s {OnPart}
-    SuccessOther: '{performer} successfully unfasten the cover om {WhoOn}''s {OnPart}'
+    SuccessOther: '{performer} successfully unfastens the cover on {WhoOn}''s {OnPart}'
     FailSelf: 
     FailOther: 
   - RequiredTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
@@ -29,8 +29,8 @@ MonoBehaviour:
     FailChance: 0
     StartSelf: 
     StartOther: 
-    SuccessSelf: You successfully pry the cover on {WhoOn}'s {OnPart}
-    SuccessOther: '{performer} successfully prys the cover on {WhoOn}''s {OnPart}'
+    SuccessSelf: You successfully pry open the cover on {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} successfully prys open the cover on {WhoOn}''s {OnPart}'
     FailSelf: 
     FailOther: 
   - RequiredTrait: {fileID: 11400000, guid: aaed69546e98a47d8b488a046d00ebe7, type: 2}
@@ -48,7 +48,7 @@ MonoBehaviour:
     FailChance: 0
     StartSelf: 
     StartOther: 
-    SuccessSelf: You reattach the cover
+    SuccessSelf: You reattach the cover to {WhoOn}'s {OnPart}
     SuccessOther: '{performer} reattaches the cover to {WhoOn}''s {OnPart}'
     FailSelf: 
     FailOther: 
