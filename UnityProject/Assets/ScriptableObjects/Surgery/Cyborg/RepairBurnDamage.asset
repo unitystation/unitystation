@@ -21,7 +21,7 @@ MonoBehaviour:
     StartSelf: 
     StartOther: 
     SuccessSelf: You unscrew the cover
-    SuccessOther: 
+    SuccessOther: '{performer} unscrews the cover'
     FailSelf: 
     FailOther: 
   - RequiredTrait: {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
@@ -29,8 +29,9 @@ MonoBehaviour:
     FailChance: 0
     StartSelf: 
     StartOther: 
-    SuccessSelf: You cut the damaged cables
-    SuccessOther: 
+    SuccessSelf: You remove the damaged cables attached to {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} removes the damaged cables attached to {WhoOn}''s
+      {OnPart}'
     FailSelf: 
     FailOther: 
   - RequiredTrait: {fileID: 11400000, guid: e39c048ec864b47a495a40f9c76af764, type: 2}
@@ -38,8 +39,8 @@ MonoBehaviour:
     FailChance: 0
     StartSelf: 
     StartOther: 
-    SuccessSelf: You replace the missing cables
-    SuccessOther: 
+    SuccessSelf: You replace the missing cables in {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} replaces the missing cables in {WhoOn}''s {OnPart}'
     FailSelf: 
     FailOther: 
   - RequiredTrait: {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
@@ -47,8 +48,8 @@ MonoBehaviour:
     FailChance: 0
     StartSelf: 
     StartOther: 
-    SuccessSelf: You screw the cover back in
-    SuccessOther: 
+    SuccessSelf: You screw the cover back over {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} screws the cover back over {WhoOn}''s {OnPart}'
     FailSelf: 
     FailOther: 
   Affects: 1

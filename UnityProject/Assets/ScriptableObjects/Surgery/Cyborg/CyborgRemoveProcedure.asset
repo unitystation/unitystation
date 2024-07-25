@@ -20,8 +20,8 @@ MonoBehaviour:
     FailChance: 0
     StartSelf: 
     StartOther: 
-    SuccessSelf: 
-    SuccessOther: 
+    SuccessSelf: You successfully unfasten the bolts on {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} successfully unfastens the bolts on {WhoOn}''s {OnPart}'
     FailSelf: 
     FailOther: 
   - RequiredTrait: {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
@@ -29,7 +29,7 @@ MonoBehaviour:
     FailChance: 0
     StartSelf: 
     StartOther: 
-    SuccessSelf: 
-    SuccessOther: 
+    SuccessSelf: You disconnect the cables attached to {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} disconnects the cables attached to {WhoOn}''s {OnPart}'
     FailSelf: 
     FailOther: 
