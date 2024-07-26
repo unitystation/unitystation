@@ -1,21 +1,18 @@
 fileFormatVersion: 2
-guid: 86c5d22403a448d44a0c8bd0dacb8b14
+guid: 32831ae22d08f5b9a84346afc4b8340c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4043662931979035564
-    second: vulpkanin_body_markings_altpointsfadebelly_0
+      213: 5285228362901467000
+    second: vulpkanin_body_markings_fullbelly_m_0
   - first:
-      213: 1442029348574725647
-    second: vulpkanin_body_markings_altpointsfadebelly_1
+      213: 1045963393835839196
+    second: vulpkanin_body_markings_fullbelly_m_1
   - first:
-      213: 2092549564127558161
-    second: vulpkanin_body_markings_altpointsfadebelly_2
-  - first:
-      213: 2777228748151168361
-    second: vulpkanin_body_markings_altpointsfadebelly_3
+      213: -5525500021859800403
+    second: vulpkanin_body_markings_fullbelly_m_2
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -77,7 +74,7 @@ TextureImporter:
   ignorePngGamma: 0
   applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -89,37 +86,27 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Server
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: vulpkanin_body_markings_altpointsfadebelly_0
+      name: vulpkanin_body_markings_fullbelly_m_0
       rect:
         serializedVersion: 2
         x: 0
@@ -131,16 +118,16 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: ca3660c230afd1830800000000000000
-      internalID: 4043662931979035564
+      spriteID: 87faf879137e85940800000000000000
+      internalID: 5285228362901467000
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vulpkanin_body_markings_altpointsfadebelly_1
+      name: vulpkanin_body_markings_fullbelly_m_1
       rect:
         serializedVersion: 2
         x: 32
@@ -152,16 +139,16 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: f060c756d0e130410800000000000000
-      internalID: 1442029348574725647
+      spriteID: cdea5a93a22048e00800000000000000
+      internalID: 1045963393835839196
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vulpkanin_body_markings_altpointsfadebelly_2
+      name: vulpkanin_body_markings_fullbelly_m_2
       rect:
         serializedVersion: 2
         x: 64
@@ -173,16 +160,16 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 11ab8b4edba3a0d10800000000000000
-      internalID: 2092549564127558161
+      spriteID: daa22a6610b7153b0800000000000000
+      internalID: -5525500021859800403
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vulpkanin_body_markings_altpointsfadebelly_3
+      name: vulpkanin_body_markings_fullbelly_m_3
       rect:
         serializedVersion: 2
         x: 96
@@ -196,8 +183,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 96d9d8105d2ba8620800000000000000
-      internalID: 2777228748151168361
+      spriteID: 52d6c25625a22ef138c545b609f901ae
+      internalID: -145544428
       vertices: []
       indices: 
       edges: []
@@ -205,7 +192,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 36d39ce80a948629b9f91120d9d41309
     internalID: 0
     vertices: []
     indices: 
@@ -213,10 +200,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      vulpkanin_body_markings_altpointsfadebelly_0: 4043662931979035564
-      vulpkanin_body_markings_altpointsfadebelly_1: 1442029348574725647
-      vulpkanin_body_markings_altpointsfadebelly_2: 2092549564127558161
-      vulpkanin_body_markings_altpointsfadebelly_3: 2777228748151168361
+      vulpkanin_body_markings_fullbelly_m_0: 5285228362901467000
+      vulpkanin_body_markings_fullbelly_m_1: 1045963393835839196
+      vulpkanin_body_markings_fullbelly_m_2: -5525500021859800403
+      vulpkanin_body_markings_fullbelly_m_3: -145544428
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

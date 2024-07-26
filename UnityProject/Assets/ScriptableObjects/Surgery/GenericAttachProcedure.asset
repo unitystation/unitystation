@@ -22,8 +22,8 @@ MonoBehaviour:
     StartOther: '{performer} starts to use {Using} to cut open {WhoOn}''s {OnPart}'
     SuccessSelf: you use {Using} to cut open {WhoOn}'s {OnPart}
     SuccessOther: '{performer} uses {Using} to cut open {WhoOn}''s {OnPart}'
-    FailSelf: you miss cut with {Using} cutting into{WhoOn}'s {OnPart}
-    FailOther: '{performer} miss cutts with {Using} cutting into{WhoOn}''s {OnPart}'
+    FailSelf: you miscut with {Using}, cutting into {WhoOn}'s {OnPart}
+    FailOther: '{performer} miscuts with {Using}. cutting into {WhoOn}''s {OnPart}'
   - RequiredTrait: {fileID: 11400000, guid: fc51d63cf9b06574ca78a62da76969e5, type: 2}
     Time: 2
     FailChance: 0

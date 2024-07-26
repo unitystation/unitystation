@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Doors;
 using HealthV2;
 using Logs;
 using PathFinding;
+using Systems.Clearance;
 using Systems.MobAIs;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -308,11 +310,11 @@ namespace Mobs.BrainAI
 					var dir = path[node].position - Vector2Int.RoundToInt(transform.localPosition);
 					if (!registerTile.Matrix.IsPassableAtOneMatrixOneTile(registerTile.LocalPositionServer + (Vector3Int)dir, true, context: gameObject))
 					{
-						var dC = registerTile.Matrix.GetFirst<DoorController>(
+						var dC = registerTile.Matrix.GetFirst<DoorMasterController>(
 							registerTile.LocalPositionServer + (Vector3Int)dir, true);
 						if (dC != null)
 						{
-							dC.MobTryOpen(gameObject);
+							dC.TryOpen(gameObject);
 							yield return WaitFor.Seconds(1f);
 						}
 						else
@@ -417,10 +419,11 @@ namespace Mobs.BrainAI
 			}
 			else
 			{
-				var getDoor = matrix.GetFirst<DoorController>(checkPos, true);
+				var getDoor = matrix.GetFirst<DoorMasterController>(checkPos, true);
 				if (getDoor)
 				{
-					if (!getDoor.AccessRestrictions || (int)getDoor.AccessRestrictions.restriction == 0)
+					var restricted = getDoor.ModulesList.Components<ClearanceRestricted>().FirstOrDefault();
+					if (restricted == null || restricted.HasClearance(gameObject))
 					{
 						node.nodeType = PathFinding.NodeType.Open;
 					}

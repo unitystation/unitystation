@@ -244,8 +244,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 873b362aa82d0274eb311c8003a29a2b, type: 2}
   - {fileID: 11400000, guid: 47efbe39a7009d9419eb48769a2409c3, type: 2}
   - {fileID: 11400000, guid: 94628fa641ba01342a5db9ad420c45e6, type: 2}
-  speechModifiers: 0
+  speechModifiers: 16777216
   <CannotSpeak>k__BackingField: 0
+  maximumCharactersCanBeSpokenInOneMessage: 64
 --- !u!114 &5156403850238146881
 MonoBehaviour:
   m_ObjectHideFlags: 0

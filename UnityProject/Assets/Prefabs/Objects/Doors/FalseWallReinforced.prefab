@@ -12,7 +12,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: cc068196e6678c0408b39c13be566079,
+      objectReference: {fileID: -4348920143209673882, guid: 3b1a1c70dbb12644dbe8293427536165,
         type: 3}
     - target: {fileID: 1581140313371191937, guid: e3fb07aeead92a74091216ef8df2c338,
         type: 3}
@@ -104,6 +104,30 @@ PrefabInstance:
       propertyPath: spritePath
       value: icons/obj/doors/reinf_fwall_closing
       objectReference: {fileID: 0}
+    - target: {fileID: 6107332495178572876, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 1adf7a31984fcb7528b930d0c3affb66,
+        type: 2}
+    - target: {fileID: 6107332495178572876, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: dc2f53096f40d5f4d9c616ca75b0d37a,
+        type: 2}
+    - target: {fileID: 6107332495178572876, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 17ca891626ee90c42aa19c644f13593f,
+        type: 2}
+    - target: {fileID: 6107332495178572876, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: b298e2b813898cb43be5f01ea8488d77,
+        type: 2}
     - target: {fileID: 7155300196636081140, guid: e3fb07aeead92a74091216ef8df2c338,
         type: 3}
       propertyPath: _assetId
@@ -124,8 +148,7 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A huge chunk of reinforced metal used to separate rooms.
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6107332495178572876, guid: e3fb07aeead92a74091216ef8df2c338, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

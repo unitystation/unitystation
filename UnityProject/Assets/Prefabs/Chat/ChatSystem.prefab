@@ -58,6 +58,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 5431052916838343998, guid: 94208a0928046438d9b8a00796e7a5a7,
     type: 2}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.72
   m_Pitch: 1
@@ -247,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce6ebc820bc96f41b4b46c9e60cf195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cpmMax: 500
+  cpmMax: 700
   cpmMinCharacters: 5
   cpmWarning: You ran out of breath before you finished speaking.
   cpmWarningOOC: Your messages have been too long, please slow down.

@@ -162,7 +162,7 @@ namespace CustomInspectors
 	[CustomEditor(typeof(Turret))]
 	public class TurretInspector : SlaveDeviceInspector { }
 
-	[CustomEditor(typeof(DoorController))]
+	[CustomEditor(typeof(DoorMasterController))]
 	public class DoorControllerInspector : SlaveDeviceInspector { }
 
 	[CustomEditor(typeof(ReactorControlConsole))]

@@ -6,6 +6,7 @@ using UnityEngine;
 using Tilemaps.Behaviours.Meta;
 using AdminTools;
 using Communications;
+using Core.Chat;
 using DiscordWebhook;
 using DatabaseAPI;
 using Systems.Communications;
@@ -277,39 +278,55 @@ public partial class Chat : MonoBehaviour
 					AddWarningMsgFromServer(sentByPlayer.GameObject, $"You can't talk {CannotSpeakReason(player, processedMessage.chatModifiers)}");
 					return;
 				}
+				CorrectDeadGhostChannel(ref chatEvent, ref player);
+				CheckForChatInfluncersInsidePlayerStorage(ref chatEvent, ref player);
+				LimitCharactersSpokenBasedOnTounge(ref chatEvent, ref player);
+			}
+		}
+		InvokeChatEvent(chatEvent);
+	}
 
-				if (player.playerHealth.IsCrit)
+	private static void LimitCharactersSpokenBasedOnTounge(ref ChatEvent chatEvent, ref PlayerScript player)
+	{
+		if (player.playerHealth.SpeakCharacterLimit == null || player.playerHealth.SpeakCharacterLimit < 0) return;
+		if (chatEvent.message.Length > player.playerHealth.SpeakCharacterLimit)
+		{
+			const string suffix = "--..";
+			int maxMessageLength = (int)player.playerHealth.SpeakCharacterLimit - suffix.Length;
+			chatEvent.message = chatEvent.message.Substring(0, maxMessageLength) + suffix;
+			EmoteActionManager.DoEmote("gasp", player.gameObject);
+			AddExamineMsgToClient($"You physically or mentally do not have the capacity to speak more than " +
+			                           $"{player.playerHealth.SpeakCharacterLimit.State} characters at once.");
+		}
+	}
+
+	private static void CorrectDeadGhostChannel(ref ChatEvent chatEvent, ref PlayerScript player)
+	{
+		if (player.playerHealth.IsCrit == false) return;
+		if (player.playerHealth.IsDead == false)
+		{
+			//Crit players can't talk
+			return;
+		}
+		//Crit and dead ghost in body then only ghost channel
+		chatEvent.channels = ChatChannel.Ghost;
+	}
+
+	private static void CheckForChatInfluncersInsidePlayerStorage(ref ChatEvent chatEvent, ref PlayerScript player)
+	{
+		if (player.IsDeadOrGhost == false) return;
+		//Check if there's any items on the player that affects their chat (e.g : headphones, muzzles, etc)
+		foreach (var slots in player.DynamicItemStorage.ServerContents.Values)
+		{
+			foreach (var slot in slots)
+			{
+				if (slot.IsEmpty) continue;
+				if (slot.Item.TryGetComponent<IChatInfluencer>(out var listener) && listener.WillInfluenceChat())
 				{
-					if (player.playerHealth.IsDead == false)
-					{
-						//Crit players can't talk
-						return;
-					}
-
-					//Crit and dead ghost in body then only ghost channel
-					chatEvent.channels = ChatChannel.Ghost;
-				}
-
-				if (player.IsDeadOrGhost == false)
-				{
-					//Check if there's any items on the player that affects their chat (e.g : headphones, muzzles, etc)
-					foreach (var slots in player.DynamicItemStorage.ServerContents.Values)
-					{
-						foreach (var slot in slots)
-						{
-							if (slot.IsEmpty) continue;
-							if (slot.Item.TryGetComponent<IChatInfluencer>(out var listener)
-							    && listener.WillInfluenceChat() == true)
-							{
-								chatEvent = listener.InfluenceChat(chatEvent);
-							}
-						}
-					}
+					chatEvent = listener.InfluenceChat(chatEvent);
 				}
 			}
 		}
-
-		InvokeChatEvent(chatEvent);
 	}
 
 	public static string CannotSpeakReason(PlayerScript playerScript, ChatModifier processedMessage)

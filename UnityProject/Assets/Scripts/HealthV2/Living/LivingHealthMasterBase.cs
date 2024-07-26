@@ -313,19 +313,14 @@ namespace HealthV2
 		public GameObject MeatProduce => meatProduce;
 		public GameObject SkinProduce => skinProduce;
 
-
 		[NonSerialized] public MultiInterestBool IsMute = new MultiInterestBool(true,
 			MultiInterestBool.RegisterBehaviour.RegisterFalse,
 			MultiInterestBool.BoolBehaviour.ReturnOnTrue);
-
+		[NonSerialized] public MultiInterestFloat SpeakCharacterLimit = new MultiInterestFloat(-1f);
+		[NonSerialized] public PlayerHealthData InitialSpecies = null;
 		[SerializeField, Range(1, 60f)] private float updateTime = 1f;
 
-		[NonSerialized] public PlayerHealthData InitialSpecies = null;
-
-
 		private IGib gibBehavior;
-
-		//Default is mute yes
 
 		public bool HasCoreBodyPart()
 		{
@@ -1570,7 +1565,7 @@ namespace HealthV2
 
 
 		[Server]
-		public virtual void OnGib()
+		public void OnGib()
 		{
 			gibBehavior.OnGib();
 		}

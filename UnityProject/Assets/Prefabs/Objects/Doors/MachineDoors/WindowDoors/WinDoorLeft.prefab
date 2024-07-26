@@ -107,7 +107,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1 &1074031055898049289
 GameObject:
@@ -219,7 +219,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1 &4438836211544688341
 GameObject:
@@ -231,9 +231,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1700569893058568406}
   - component: {fileID: 3837625396176168484}
-  - component: {fileID: 4809973845143081316}
   - component: {fileID: 6439490706666682691}
   - component: {fileID: 7496389488666584486}
+  - component: {fileID: 6864056100259224192}
   m_Layer: 18
   m_Name: modules
   m_TagString: Untagged
@@ -269,19 +269,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lowVoltageOpenChance: 0.05
---- !u!114 &4809973845143081316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4438836211544688341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restriction: 0
 --- !u!114 &6439490706666682691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +295,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ef2e1fdce213d948989eb4b5d19a5d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6864056100259224192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4438836211544688341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c423f5e51deb46791afaa4439d14b4ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  apc: {fileID: 345023311217890025}
 --- !u!1 &4532754454576057609
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,7 +423,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!114 &13958259714040805
 MonoBehaviour:
@@ -551,7 +551,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!114 &5769904557371309318
 MonoBehaviour:
@@ -674,7 +674,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1 &5581672717811759928
 GameObject:
@@ -788,7 +788,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1001 &8598899142623505621
 PrefabInstance:
@@ -1150,6 +1150,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8642803761611812381}
   m_SourcePrefab: {fileID: 100100000, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
+--- !u!114 &345023311217890025 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8330720231993589308, guid: 1291a5cb15d008c41bf0a373403f56b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 8598899142623505621}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3862765748506000581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &3859295922778749471 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
@@ -1184,6 +1196,14 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &585629282179255951
@@ -1204,6 +1224,7 @@ MonoBehaviour:
   airlockElectronicsPrefab: {fileID: 2915179160587070810, guid: 78421020f3046494d83a50667724ef36,
     type: 3}
   Reinforced: 0
+  allowHackingPanel: 1
 --- !u!114 &5992051571612987798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1282,6 +1303,7 @@ MonoBehaviour:
   blockAutoClose: 0
   clickDisablesAutoClose: 1
   isWindowedDoor: 1
+  UseMachinesForOpenLayeer: 0
   HackingProcessBase: {fileID: 7214701586148948157}
   ConstructibleDoor: {fileID: 585629282179255951}
   <CanRelink>k__BackingField: 1

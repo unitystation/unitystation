@@ -166,7 +166,7 @@ UnityEngine";
 			AssetDatabase.StartAssetEditing();
 			AssetDatabase.ForceReserializeAssets();
 			//FindInGo
-			var doors = LoadAllPrefabsOfType<DoorController>("");
+			var doors = LoadAllPrefabsOfType<DoorMasterController>("");
 
 			foreach (var door in doors)
 			{
