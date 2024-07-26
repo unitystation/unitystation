@@ -27,21 +27,12 @@ namespace InGameEvents
 
 		[Tooltip("Assign dispersion agents e.g. smoke or foaming agent.")]
 		[SerializeField]
-		private List<Reagent> dispersionAgents = default;
-
-		[SerializeField]
 		private List<ReagentMix> dispersionMix = default;
 
 		[FormerlySerializedAs("RareDispenseProbability")]
 		[Tooltip("The  probability that a rare dispersionAgents will be chosen")]
 		[SerializeField]
 		private float rareDispenseProbability = 0.005f;
-
-		[FormerlySerializedAs("RareDispersionAgents")]
-		[Tooltip("Assign dispersion agents e.g. smoke or foaming agent That was one according to the Rare probability.")]
-		[SerializeField]
-		private List<Reagent> rareDispersionAgents = default;
-
 
 		[Tooltip("Assign dispersion agents e.g. smoke or foaming agent That was one according to the Rare probability.")]
 		[SerializeField]
