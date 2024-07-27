@@ -220,7 +220,7 @@ namespace Items.Bureaucracy
 		}
 
 		[Command(requiresAuthority = false)]
-		public void SwitchPrintingMode()
+		public void SwitchPrintingMode() //TODO Client validation!!!!!!!!!!
 		{
 			printer = new Printer(TrayCount, trayCapacity, TrayOpen, !printer.PrintBook);
 			var printingMode = printer.PrintBook ? "Books" : "Copies of Paper";

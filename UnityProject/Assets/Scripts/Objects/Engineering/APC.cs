@@ -146,6 +146,13 @@ namespace Objects.Engineering
 			{
 				Loggy.LogError(e.ToString());
 				connectedDepartmentBatteries.RemoveNulls();
+				foreach (var bat in connectedDepartmentBatteries.ToArray())
+				{
+					if (bat.BatterySupplyingModule == null)
+					{
+						connectedDepartmentBatteries.Remove(bat);
+					}
+				}
 			}
 
 			SyncVoltage(voltageSync, electricalNodeControl.Node.InData.Data.ActualVoltage);
