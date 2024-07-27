@@ -237,6 +237,7 @@ namespace Items.Bureaucracy
 			yield return WaitFor.Seconds(4f);
 			photocopierState = PhotocopierState.Idle;
 			Print(gameObject, bookPrefab, photocopierState == PhotocopierState.Idle, paperPrefab);
+
 			OnGuiRenderRequired();
 		}
 
@@ -268,6 +269,7 @@ namespace Items.Bureaucracy
 				var paper = paperObj.GetComponent<Paper>();
 				paper.SetServerString(ogPaper.ServerString); //TODO Funny effect with paper Writing Over Already printed text
 				Inventory.ServerDrop(paperSlot);
+				TonerCartadge.SpendInk();
 			}
 		}
 
@@ -285,6 +287,7 @@ namespace Items.Bureaucracy
 			foreach (var slot in ScannerStorage.GetOccupiedSlots())
 			{
 				papers.Add(slot.ItemObject.GetComponent<Paper>());
+				TonerCartadge.SpendInk();
 				var paper =  PaperTrayStorage.GetFirstOccupiedSlot();
 				Inventory.ServerDespawn(paper);
 			}
