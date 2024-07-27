@@ -91,7 +91,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	private float localTileMoveSpeedOverride = 0;
 
 	[SyncVar]
-	private float networkedTileMoveSpeedOverride = 0; //TODO Potential Desynchronisation issues, Probably should have a who caused
+	private float
+		networkedTileMoveSpeedOverride = 0; //TODO Potential Desynchronisation issues, Probably should have a who caused
 
 	[SyncVar] public float tileMoveSpeed = 1;
 	[SyncVar] private uint parentContainer;
@@ -161,16 +162,16 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			if (localTileMoveSpeedOverride != 0)
 			{
-				return  Mathf.Max(0.25f, localTileMoveSpeedOverride) ;
+				return Mathf.Max(0.25f, localTileMoveSpeedOverride);
 			}
 
 			if (networkedTileMoveSpeedOverride != 0)
 			{
-				return  Mathf.Max(0.25f, networkedTileMoveSpeedOverride);
+				return Mathf.Max(0.25f, networkedTileMoveSpeedOverride);
 			}
 			else
 			{
-				return  Mathf.Max(0.25f, tileMoveSpeed);
+				return Mathf.Max(0.25f, tileMoveSpeed);
 			}
 		}
 	}
@@ -244,9 +245,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[PlayModeOnly] public bool IsCurrentlyFloating;
 
-	private bool ResetClientPositionReachTile = false; //this is needed to fix issues with pull getting out of sync for Other players, Properly should fix the root cause, Of sending Delta pushes
+	private bool
+		ResetClientPositionReachTile =
+			false; //this is needed to fix issues with pull getting out of sync for Other players, Properly should fix the root cause, Of sending Delta pushes
 
-	private uint SpecifiedClientPositionReachTile = 0; //This is so when the client walks back into its own container it was pulling it doesn't bug out
+	private uint
+		SpecifiedClientPositionReachTile =
+			0; //This is so when the client walks back into its own container it was pulling it doesn't bug out
 
 	//Pulling.Component.ResetLocationOnClients();
 
@@ -523,7 +528,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (newParent.OrNull()?.gameObject == this.gameObject)
 		{
 			Chat.AddGameWideSystemMsgToChat(
-				$"Anomoly Detected.. {gameObject.ExpensiveName()} has attempted to store itself within itself".Color(Color.red));
+				$"Anomoly Detected.. {gameObject.ExpensiveName()} has attempted to store itself within itself"
+					.Color(Color.red));
 			Loggy.LogError("Tried to store object within itself");
 			return; //Storing something inside of itself what?
 		}
@@ -1392,7 +1398,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (speed.IsUnreasonableNumber())
 		{
-			Loggy.LogError("Unreasonable number detected in NewtonianPush for" + this.gameObject );
+			Loggy.LogError("Unreasonable number detected in NewtonianPush for" + this.gameObject);
 			return;
 		}
 
@@ -1605,13 +1611,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		if (NewtonianMovement.x.IsUnreasonableNumber() || NewtonianMovement.y.IsUnreasonableNumber())
 		{
-			Loggy.LogError("Unreasonable number detected with NewtonianMovement"+ transform.name);
+			Loggy.LogError("Unreasonable number detected with NewtonianMovement" + transform.name);
 			var vec = NewtonianMovement;
 			vec.x = 0;
 			vec.y = 0;
 			NewtonianMovement = vec;
 		}
-		if (transform.position.x.IsUnreasonableNumber() || transform.position.y.IsUnreasonableNumber() || transform.position.z.IsUnreasonableNumber())
+
+		if (transform.position.x.IsUnreasonableNumber() || transform.position.y.IsUnreasonableNumber() ||
+		    transform.position.z.IsUnreasonableNumber())
 		{
 			Loggy.LogError("Unreasonable number detected with transform.position with " + transform.name);
 			var vec = transform.position;
@@ -1624,14 +1632,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	private void AirTimeChecks()
 	{
-		if (IsPlayer == false)
+		SecondsFlying += Time.deltaTime;
+		if (SecondsFlying > 90) //Stop taking up CPU resources! If you're flying through space for too long
 		{
-			SecondsFlying += Time.deltaTime;
-			if (SecondsFlying > 90) //Stop taking up CPU resources! If you're flying through space for too long
-			{
-				NewtonianMovement *= 0;
-			}
+			NewtonianMovement *= 0;
 		}
+
 
 		if (PulledBy.HasComponent) return; //It is recursively handled By parent
 
@@ -1698,6 +1704,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				Hits.Add(hit.CollisionHit.GameObject.GetUniversalObjectPhysics());
 			}
 		}
+
 		if (Collider != null) Collider.enabled = true;
 	}
 
@@ -1707,6 +1714,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			OnImpact?.Invoke(this, NewtonianMovement);
 		}
+
 		if (attributes.Component is not ItemAttributesV2 iav2) return;
 		foreach (var hit in Hits)
 		{
@@ -1718,6 +1726,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				integrity.ApplyDamage(damage, AttackType.Melee, iav2.ServerDamageType);
 			}
+
 			//TODO: Add the ability to catch thrown objects if the player has the "throw" state enabled on them.
 			if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase) && isServer)
 			{
@@ -1728,6 +1737,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject,
 					randomHitZone);
 			}
+
 			if (isServer) continue;
 			AudioSourceParameters audioSourceParameters =
 				new AudioSourceParameters(pitch: Random.Range(0.85f, 1f));
@@ -1748,6 +1758,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
 			return;
 		}
+
 		if (IsMoving) return;
 		isFlyingSliding = true;
 		MoveIsWalking = false;
@@ -1760,6 +1771,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			slideTime = 0;
 			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
 		}
+
 		AirTimeChecks();
 		Vector3 position = transform.position;
 		Vector3 newPosition = position + (NewtonianMovement.To3() * Time.deltaTime);
@@ -1768,6 +1780,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			NewtonianMovement *= 0;
 		}
+
 		if (newPosition.z == -100)
 		{
 			DisappearFromWorld();
@@ -1803,16 +1816,19 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 							if (bump as UniversalObjectPhysics == this) continue;
 							bump.OnBump(this.gameObject, null);
 						}
+
 						var normal = (intPosition - intNewPosition).To3();
 						if (Hits.Count == 0)
 						{
 							newPosition = position;
 						}
+
 						OnImpact.Invoke(this, NewtonianMovement);
 						NewtonianMovement -= 2 * (NewtonianMovement * normal) * normal;
 						NewtonianMovement *= ObjectBouncyness;
 						spinMagnitude *= -1;
 					}
+
 					if (Pushing.Count > 0)
 					{
 						foreach (var push in Pushing)
@@ -1822,11 +1838,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 							push.NewtonianNewtonPush(NewtonianMovement, (NewtonianMovement.magnitude * GetWeight()),
 								Single.NaN, Single.NaN, aim, thrownBy, spinMagnitude);
 						}
+
 						var normal = (intPosition - intNewPosition).To3();
 						if (Hits.Count == 0)
 						{
 							newPosition = position;
 						}
+
 						OnImpact.Invoke(this, NewtonianMovement);
 						NewtonianMovement -= 2 * (NewtonianMovement * normal) * normal;
 						spinMagnitude *= -1;
@@ -1834,10 +1852,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					}
 				}
 			}
+
 			if (attributes.HasComponent)
 			{
 				ProcessThingsToHit();
 			}
+
 			var localPosition = newPosition.ToLocal(movetoMatrix);
 			InternalTriggerOnLocalTileReached(localPosition.RoundToInt());
 		}
@@ -1849,6 +1869,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			SetMatrix(movetoMatrix);
 		}
+
 		if (isServer && NetworkTime.time - LastUpdateClientFlying > 2) //We only need correction for that item
 		{
 			LastUpdateClientFlying = NetworkTime.time;
@@ -1898,6 +1919,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				ResetLocationOnClients(ignoreForClient: SpecifiedClientPositionReachTile);
 				SpecifiedClientPositionReachTile = NetId.Empty;
 			}
+
 			IsFlyingSliding = false;
 			airTime = 0;
 			slideTime = 0;
@@ -1909,6 +1931,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				if (this is MovementSynchronisation c)
 					c.playerScript.RegisterPlayer.LayDownBehavior.EnsureCorrectState();
 			}
+
 			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
 		}
 
