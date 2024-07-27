@@ -70,7 +70,7 @@ namespace Systems.Teleport
 					}
 				}
 
-				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, player.CurrentlyControllingObject.transform.position.RoundToInt(), player.CurrentlyControllingObject);
+				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, player.CurrentlyControllingObject.AssumedWorldPosServer().RoundToInt(), player.CurrentlyControllingObject);
 
 				yield return teleportInfo;
 			}
