@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0c8fd537387459c95edf35f9c5dd2c3, type: 3}
+  m_Name: TonerSupply
+  m_EditorClassIdentifier: 
+  OrderName: Crate with some premium toner
+  CreditCost: 1000
+  Crate: {fileID: 6829341300379324721, guid: 6ecb8b1a0d8d9184fa74bdd3c7ded42d, type: 3}
+  Items:
+  - {fileID: 6396562857704763032, guid: cbd7a12222367de41a635d5b41ec0ac9, type: 3}
+  - {fileID: 6396562857704763032, guid: cbd7a12222367de41a635d5b41ec0ac9, type: 3}
+  - {fileID: 6396562857704763032, guid: cbd7a12222367de41a635d5b41ec0ac9, type: 3}
+  - {fileID: 6396562857704763032, guid: cbd7a12222367de41a635d5b41ec0ac9, type: 3}
+  EmagOnly: 0
+  SuggestedCargoPrice: 79
+  ContentSellPrice: 66
+  WillFailUnitTests: 0

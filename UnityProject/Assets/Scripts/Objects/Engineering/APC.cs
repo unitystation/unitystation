@@ -120,13 +120,15 @@ namespace Objects.Engineering
 				{
 					if (device.Key.Data.InData.Categorytype != PowerTypeCategory.DepartmentBattery) continue;
 
-					if (connectedDepartmentBatteries.Contains(device.Key.Data.GetComponent<DepartmentBattery>()) == false)
+					var dep = device.Key.Data.GetComponent<DepartmentBattery>();
+					if (dep?.BatterySupplyingModule == null) continue;
+					if (connectedDepartmentBatteries.Contains(dep ) == false)
 					{
-						connectedDepartmentBatteries.Add(device.Key.Data.GetComponent<DepartmentBattery>());
+						connectedDepartmentBatteries.Add(dep );
 
-						if (departmentBatteries.Contains(device.Key.Data.GetComponent<DepartmentBattery>()) == false)
+						if (departmentBatteries.Contains(dep )== false)
 						{
-							departmentBatteries.Add(device.Key.Data.GetComponent<DepartmentBattery>());
+							departmentBatteries.Add(dep);
 						}
 					}
 				}
@@ -146,6 +148,13 @@ namespace Objects.Engineering
 			{
 				Loggy.LogError(e.ToString());
 				connectedDepartmentBatteries.RemoveNulls();
+				foreach (var bat in connectedDepartmentBatteries.ToArray())
+				{
+					if (bat.BatterySupplyingModule == null)
+					{
+						connectedDepartmentBatteries.Remove(bat);
+					}
+				}
 			}
 
 			SyncVoltage(voltageSync, electricalNodeControl.Node.InData.Data.ActualVoltage);

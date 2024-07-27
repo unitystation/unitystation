@@ -199,6 +199,17 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return Inventory.ServerTransfer(slot, Slot);
 	}
 
+	public ItemSlot GetFirstOccupiedSlot()
+	{
+		foreach (var itemSlot in GetItemSlots())
+		{
+			if (itemSlot.Item == null) continue;
+			return itemSlot;
+		}
+
+		return null;
+	}
+
 	public ItemSlot GetSlotFromItem(GameObject gameObject)
 	{
 		foreach (var itemSlot in GetItemSlots())

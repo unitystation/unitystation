@@ -306,10 +306,50 @@ MonoBehaviour:
   dispersionAgents:
   - {fileID: 11400000, guid: 61965072f426692ab9f3f996eedfd500, type: 2}
   - {fileID: 11400000, guid: 2fe711bafe5c109f8b44185374a5071d, type: 2}
+  dispersionMix:
+  - temperature: 648.15
+    reagents:
+      m_keys:
+      - {fileID: 11400000, guid: 2fe711bafe5c109f8b44185374a5071d, type: 2}
+      m_values:
+      - 25
+    reagentKeys: []
+  - temperature: 648.15
+    reagents:
+      m_keys:
+      - {fileID: 11400000, guid: 61965072f426692ab9f3f996eedfd500, type: 2}
+      - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+      m_values:
+      - 12.5
+      - 12.5
+    reagentKeys: []
   rareDispenseProbability: 0.005
   rareDispersionAgents:
   - {fileID: 11400000, guid: fb6f63c3659458442bdb8faecfb8f6fb, type: 2}
   - {fileID: 11400000, guid: c20cb842d45d0ce488187ca9f529f4d4, type: 2}
+  rareDispersionMix:
+  - temperature: 648.15
+    reagents:
+      m_keys:
+      - {fileID: 11400000, guid: 0b8ae0a034025c1afb82d9b40b73b7dc, type: 2}
+      - {fileID: 11400000, guid: 89e87c0935d40e6249cef390e612f90a, type: 2}
+      - {fileID: 11400000, guid: 61965072f426692ab9f3f996eedfd500, type: 2}
+      m_values:
+      - 15
+      - 5
+      - 5
+    reagentKeys: []
+  - temperature: 648.15
+    reagents:
+      m_keys:
+      - {fileID: 11400000, guid: 0b8ae0a034025c1afb82d9b40b73b7dc, type: 2}
+      - {fileID: 11400000, guid: 94790f2b8609fe11188aa84ac9edee86, type: 2}
+      - {fileID: 11400000, guid: 61965072f426692ab9f3f996eedfd500, type: 2}
+      m_values:
+      - 15
+      - 5
+      - 5
+    reagentKeys: []
   spawnDelayRange: {x: 3, y: 10}
 --- !u!1 &2176390301219290958
 GameObject:
