@@ -120,13 +120,15 @@ namespace Objects.Engineering
 				{
 					if (device.Key.Data.InData.Categorytype != PowerTypeCategory.DepartmentBattery) continue;
 
-					if (connectedDepartmentBatteries.Contains(device.Key.Data.GetComponent<DepartmentBattery>()) == false)
+					var dep = device.Key.Data.GetComponent<DepartmentBattery>();
+					if (dep?.BatterySupplyingModule == null) continue;
+					if (connectedDepartmentBatteries.Contains(dep ) == false)
 					{
-						connectedDepartmentBatteries.Add(device.Key.Data.GetComponent<DepartmentBattery>());
+						connectedDepartmentBatteries.Add(dep );
 
-						if (departmentBatteries.Contains(device.Key.Data.GetComponent<DepartmentBattery>()) == false)
+						if (departmentBatteries.Contains(dep )== false)
 						{
-							departmentBatteries.Add(device.Key.Data.GetComponent<DepartmentBattery>());
+							departmentBatteries.Add(dep);
 						}
 					}
 				}

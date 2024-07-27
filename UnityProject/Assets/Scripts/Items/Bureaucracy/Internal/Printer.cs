@@ -107,6 +107,8 @@ namespace Items.Bureaucracy.Internal
 			book.Setup(papers, "Book", "A freshly printed book.");
 		}
 
+
+
 		private void MakePhotoCopy(Scanner content, GameObject printerObj, GameObject paperPrefab)
 		{
 			foreach (var copySlot in content.Storage.GetOccupiedSlots())
