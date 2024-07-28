@@ -151,7 +151,7 @@ namespace UI
 					{
 						if (itemSlot.ItemObject != null && itemSlot.ItemObject.TryGetComponent(out GasContainer gasContainer))
 						{
-							if (gasContainer.ignoreInternals == false)
+							if (gasContainer.IgnoreInternals == false)
 							{
 								Tank = itemSlot.ItemObject;
 								this.gasContainer = gasContainer;
@@ -176,7 +176,7 @@ namespace UI
 
 			if (Tank != null)
 			{
-				if (PlayerManager.LocalPlayerScript.DynamicItemStorage.InventoryHasObject(Tank) == false)
+				if (PlayerManager.LocalPlayerScript.DynamicItemStorage.InventoryHasObject(Tank) == false || gasContainer.IgnoreInternals)
 				{
 					gasContainer = null;
 					Tank = null;

@@ -157,7 +157,7 @@ namespace HealthV2
 				{
 					if (gasSlot.Item == null) continue;
 					var gasContainer = gasSlot.Item.GetComponent<GasContainer>();
-					if (gasContainer && gasContainer.ignoreInternals == false)
+					if (gasContainer && gasContainer.IgnoreInternals == false)
 					{
 						return gasContainer;
 					}
