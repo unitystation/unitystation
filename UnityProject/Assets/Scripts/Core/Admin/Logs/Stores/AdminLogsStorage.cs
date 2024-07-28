@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Core.Admin.Logs.Stores
 {
-	public class AdminLogsStorage : SingletonManager<AdminLogsManager>, IAdminStorage
+	public class AdminLogsStorage : SingletonManager<AdminLogsStorage>, IAdminStorage
 	{
 		private Queue<HumanLogEntry> entries = new Queue<HumanLogEntry>();
 		private bool readyForQueue = true;
@@ -21,6 +21,7 @@ namespace Core.Admin.Logs.Stores
 
 		[SerializeField, SerializeReference, SelectImplementation(typeof(IAdminLogEntryConverter<string>))]
 		private IAdminLogEntryConverter<string> EntryConverter;
+		public IAdminLogEntryConverter<string> Converter => EntryConverter;
 
 		public override void Start()
 		{
@@ -103,9 +104,9 @@ namespace Core.Admin.Logs.Stores
 			}
 		}
 
-		private void AddToEntryList(ref List<LogEntry> entries, string logLine)
+		public static void AddToEntryList(ref List<LogEntry> entries, string logLine)
 		{
-			LogEntry logEntry = EntryConverter.ConvertBackSingle(logLine);
+			LogEntry logEntry = Instance.Converter.ConvertBackSingle(logLine);
 			if (logEntry != null)
 			{
 				entries.Add(logEntry);
@@ -116,7 +117,7 @@ namespace Core.Admin.Logs.Stores
 			}
 		}
 
-		public async Task<List<LogEntry>> FetchAllLogs(string fileName)
+		public static async Task<List<LogEntry>> FetchAllLogs(string fileName)
 		{
 			List<LogEntry> logEntries = new List<LogEntry>();
 			string filePath = Path.Combine("Admin", fileName);
@@ -147,7 +148,7 @@ namespace Core.Admin.Logs.Stores
 			return logEntries;
 		}
 
-		public async Task<List<LogEntry>> FetchLogsPaginated(string fileName, int pageNumber, int pageSize = ENTRY_PAGE_SIZE)
+		public static async Task<List<LogEntry>> FetchLogsPaginated(string fileName, int pageNumber, int pageSize = ENTRY_PAGE_SIZE)
 		{
 			List<LogEntry> logEntries = new List<LogEntry>();
 			string filePath = Path.Combine("Admin", fileName);

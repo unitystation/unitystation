@@ -15,13 +15,13 @@ namespace UI.Systems.AdminTools.AdminLogs
 		[SerializeField] private Transform logEntryBaseTransform;
 		[SerializeField] private Transform logsTranform;
 		[SerializeField] private TMP_Dropdown logFilesDropdown;
-		private int lastCachedLogNumber = 0;
-
+		private int lastPageNumber = 1;
 		public int NumberOfPagesAvaliable = 0;
 
 		private void OnEnable()
 		{
 			UpdateManager.Add(UpdateMe, 4f);
+			RequestLogAvaliablePages();
 		}
 
 		private void UpdateMe()
@@ -34,20 +34,16 @@ namespace UI.Systems.AdminTools.AdminLogs
 			logFileName ??= Path.Combine("Admin", $"{DateTime.Now:yyyy-MM-dd} - {GameManager.RoundID}.txt");
 		}
 
-		private void RequestLogAvaliablePages(string logFileName)
+		private void RequestLogAvaliablePages(string logFileName = null)
 		{
 			logFileName ??= Path.Combine("Admin", $"{DateTime.Now:yyyy-MM-dd} - {GameManager.RoundID}.txt");
 			RequestLogFilePagesNumber.Send(logFileName);
 		}
 
-		public void UpdateLogList(List<LogEntry> logEntries)
-		{
-
-		}
-
 		public void UpdateAvaliablePagesNumber(int pageNumber)
 		{
 			NumberOfPagesAvaliable = pageNumber;
+			RequestLogPage(null, lastPageNumber);
 		}
 	}
 }
