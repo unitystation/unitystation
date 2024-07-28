@@ -275,7 +275,11 @@ namespace Objects.Atmospherics
 
 		public string HoverTip()
 		{
-			return pickupable != null && canToggleIgnoreInternals ? $"A tank full of gas, its valve is {(IgnoreInternals ? "closed" : "open")} and it {(IgnoreInternals ? "will" : "won't")} be used by your internals" : "";
+			if (pickupable != null && canToggleIgnoreInternals)
+			{
+				return $"A tank full of gas, its valve is {(IgnoreInternals ? "closed" : "open")} and it {(IgnoreInternals ? "won't" : "will")} be used by your internals";
+			}
+			return null;
 		}
 
 		public string CustomTitle()
@@ -295,12 +299,15 @@ namespace Objects.Atmospherics
 
 		public List<TextColor> InteractionsStrings()
 		{
-			var list = new List<TextColor>
+			if (pickupable != null && canToggleIgnoreInternals)
 			{
-				new() { Color = Color.green, Text = pickupable != null && canToggleIgnoreInternals ? "Alt Click: Toggle usage of tank with internals" : "" },
-			};
-			return list;
+				var list = new List<TextColor>
+				{
+					new() { Color = Color.green, Text = "Alt Click: Toggle usage of tank with internals" },
+				};
+				return list;
+			}
+			return null;
 		}
-
 	}
 }
