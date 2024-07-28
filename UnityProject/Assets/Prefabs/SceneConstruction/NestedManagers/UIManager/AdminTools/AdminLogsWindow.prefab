@@ -242,6 +242,7 @@ GameObject:
   - component: {fileID: 5826641183339026009}
   - component: {fileID: 3851624088713879845}
   - component: {fileID: 4816015202153165899}
+  - component: {fileID: 9161605503408881160}
   m_Layer: 5
   m_Name: AdminLogsWindow
   m_TagString: Untagged
@@ -381,6 +382,22 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.156}
   m_EffectDistance: {x: 0, y: -3}
   m_UseGraphicAlpha: 1
+--- !u!114 &9161605503408881160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1962843585337018088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 345ffc7e6c424cb39f85dab02d609739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logEntryBaseTransform: {fileID: 8173227697570674531}
+  logsTranform: {fileID: 6873442305410430176}
+  logFilesDropdown: {fileID: 0}
+  NumberOfPagesAvaliable: 0
 --- !u!1 &3341154916209516818
 GameObject:
   m_ObjectHideFlags: 0

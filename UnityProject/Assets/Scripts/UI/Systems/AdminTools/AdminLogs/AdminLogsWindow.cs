@@ -44,5 +44,10 @@ namespace UI.Systems.AdminTools.AdminLogs
 		{
 
 		}
+
+		public void UpdateAvaliablePagesNumber(int pageNumber)
+		{
+			NumberOfPagesAvaliable = pageNumber;
+		}
 	}
 }

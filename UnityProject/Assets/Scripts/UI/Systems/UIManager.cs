@@ -21,6 +21,7 @@ using UI.Windows;
 using Systems.CraftingV2.GUI;
 using Systems.Faith.UI;
 using UI.Character;
+using UI.Systems.AdminTools.AdminLogs;
 using UI.Systems.AdminTools.DevTools;
 using UI.Systems.EndRound;
 using UI.Systems.ServerInfoPanel;
@@ -234,6 +235,8 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	[field: SerializeField] public ChaplainFirstTimeSelectScreen ChaplainFirstTimeSelectScreen { get; private set; }
 	[field: SerializeField] public FaithInfoUI FaithInfo { get; private set; }
+
+	[field: SerializeField] public AdminLogsWindow AdminLogsWindow { get; private set; }
 
 	public static string SetToolTip
 	{
