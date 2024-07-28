@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEditor;
@@ -6,9 +7,11 @@ using NaughtyAttributes;
 using Systems.Atmospherics;
 using Systems.Explosions;
 using ScriptableObjects.Atmospherics;
+using UI.Systems.Tooltips.HoverTooltips;
+
 namespace Objects.Atmospherics
 {
-	public class GasContainer : NetworkBehaviour, IGasMixContainer, IServerSpawn, IServerInventoryMove, ICheckedInteractable<InventoryApply>
+	public class GasContainer : NetworkBehaviour, IGasMixContainer, IServerSpawn, IServerInventoryMove, ICheckedInteractable<InventoryApply>, IHoverTooltip
 	{
 		//max pressure for determining explosion effects - effects will be maximum at this contained pressure
 		private static readonly float MAX_EXPLOSION_EFFECT_PRESSURE = 148517f;
@@ -269,5 +272,35 @@ namespace Objects.Atmospherics
 				SyncIgnoreInternals(ignoreInternals, !ignoreInternals);
 			}
 		}
+
+		public string HoverTip()
+		{
+			return pickupable != null && canToggleIgnoreInternals ? $"A tank full of gas, its valve is {(IgnoreInternals ? "closed" : "open")} and it {(IgnoreInternals ? "will" : "won't")} be used by your internals" : "";
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			var list = new List<TextColor>
+			{
+				new() { Color = Color.green, Text = pickupable != null && canToggleIgnoreInternals ? "Alt Click: Toggle usage of tank with internals" : "" },
+			};
+			return list;
+		}
+
 	}
 }
