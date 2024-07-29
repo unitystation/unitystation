@@ -108,7 +108,7 @@ namespace Tests.Asset
 				{
 					for (int j = 0; j < so.Variance[i].Frames.Count; j++)
 					{
-						var Status =  SerializedObjectFieldsMap.GetReferenceStatus(FieldInfo, so.Variance[i].Frames[j]);
+						var Status =  SerializedObjectFieldsMap.GetReferenceStatus(FieldInfo, so.Variance[i].Frames[j], true);
 						switch (Status)
 						{
 								case ReferenceStatus.Null:
