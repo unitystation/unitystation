@@ -16,7 +16,11 @@ namespace Messages.Client.Admin.Logs
 		public override void Process(NetMessage msg)
 		{
 			List<LogEntry> entries = AdminLogsStorage.FetchLogsPaginated(msg.LogFileName, msg.PageToRequest).Result;
-
+			UpdateLogFilePageEntries.NetMessage message = new UpdateLogFilePageEntries.NetMessage()
+			{
+				Entries = entries,
+			};
+			UpdateLogFilePageEntries.SendTo(SentByPlayer.Connection, message);
 		}
 
 		public static NetMessage Send(int page, string logFileName)
