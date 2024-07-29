@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEditor;
@@ -6,9 +7,11 @@ using NaughtyAttributes;
 using Systems.Atmospherics;
 using Systems.Explosions;
 using ScriptableObjects.Atmospherics;
+using UI.Systems.Tooltips.HoverTooltips;
+
 namespace Objects.Atmospherics
 {
-	public class GasContainer : NetworkBehaviour, IGasMixContainer, IServerSpawn, IServerInventoryMove
+	public class GasContainer : NetworkBehaviour, IGasMixContainer, IServerSpawn, IServerInventoryMove, ICheckedInteractable<InventoryApply>, IHoverTooltip
 	{
 		//max pressure for determining explosion effects - effects will be maximum at this contained pressure
 		private static readonly float MAX_EXPLOSION_EFFECT_PRESSURE = 148517f;
@@ -76,7 +79,9 @@ namespace Objects.Atmospherics
 
 		[SerializeField] private bool explodeOnTooMuchDamage = true;
 
-		[SerializeField] public bool ignoreInternals = false;
+		[SyncVar] private bool ignoreInternals;
+		public bool IgnoreInternals => ignoreInternals;
+		[SerializeField] public bool canToggleIgnoreInternals = true;
 
 		#region Lifecycle
 
@@ -89,6 +94,7 @@ namespace Objects.Atmospherics
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
+			SyncIgnoreInternals(ignoreInternals, true);
 			if (!gasIsInitialised)
 			{
 				UpdateGasMix();
@@ -99,6 +105,12 @@ namespace Objects.Atmospherics
 			{
 				integrity.OnApplyDamage.AddListener(OnServerDamage);
 			}
+		}
+
+		public override void OnStartClient()
+		{
+			SyncIgnoreInternals(ignoreInternals, ignoreInternals);
+			base.OnStartClient();
 		}
 
 		private void OnDisable()
@@ -120,6 +132,17 @@ namespace Objects.Atmospherics
 			}
 		}
 
+		private void SyncIgnoreInternals(bool _oldValue, bool _newValue)
+		{
+			ignoreInternals = _newValue;
+			//Dont bother with any ui stuff if we arent in the local players inventory
+			if (isClient && pickupable != null && pickupable.ItemSlot != null && pickupable.ItemSlot.LocalUISlot != null)
+			{
+				pickupable.RefreshUISlotImage();
+				UIManager.Instance.internalControls.InventoryChange();
+			}
+		}
+
 		#endregion Lifecycle
 
 		public void EqualiseWithTile()
@@ -131,6 +154,11 @@ namespace Objects.Atmospherics
 		// Needed for the internals tank on the player UI, to know oxygen gas percentage
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
+			if (info.InventoryMoveType == InventoryMoveType.Remove || info.InventoryMoveType == InventoryMoveType.Transfer && info.ToPlayer == null)
+			{
+				SyncIgnoreInternals(ignoreInternals, true);
+			}
+
 			//If going to a player start loop
 			if (info.ToPlayer != null && info.ToSlot != null)
 			{
@@ -224,6 +252,62 @@ namespace Objects.Atmospherics
 		{
 			gasIsInitialised = true;
 			GasMixLocal = GasMix.FromTemperature(StoredGasMix.GasData, StoredGasMix.Temperature, StoredGasMix.Volume);
+		}
+
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		{
+			if (interaction.TargetObject != gameObject) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (canToggleIgnoreInternals == false) return false;
+			return interaction.IsAltClick;
+		}
+
+		public void ServerPerformInteraction(InventoryApply interaction)
+		{
+			if (interaction.IsAltClick && canToggleIgnoreInternals)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, ignoreInternals
+					? "You open the canister's valve and connect it to your internals."
+					: "You close the canister's valve and disconnect it from your internals.");
+				SyncIgnoreInternals(ignoreInternals, !ignoreInternals);
+			}
+		}
+
+		public string HoverTip()
+		{
+			if (pickupable != null && canToggleIgnoreInternals)
+			{
+				return $"A tank full of gas, its valve is {(IgnoreInternals ? "closed" : "open")} and it {(IgnoreInternals ? "won't" : "will")} be used by your internals";
+			}
+			return null;
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			if (pickupable != null && canToggleIgnoreInternals)
+			{
+				var list = new List<TextColor>
+				{
+					new() { Color = Color.green, Text = "Alt Click: Toggle usage of tank with internals" },
+				};
+				return list;
+			}
+			return null;
 		}
 	}
 }
