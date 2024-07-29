@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using HealthV2;
+﻿using HealthV2;
 using UnityEngine;
 using Items;
 using Util.Independent.FluentRichText;
@@ -76,12 +75,15 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (HasTrauma(LHB)) HealTrauma(LHB, interaction);
 	}
 
-	private void ServerApplyHeal(LivingHealthMasterBase livingHealth, HandApply interaction)
+	private void ServerApplyHeal(LivingHealthMasterBase livingHealth, HandApply interaction, bool skipActionMessage = false)
 	{
-		Chat.AddActionMsgToChat(interaction,
-			$"You apply the {this.gameObject.ExpensiveName()} to {livingHealth.gameObject.ExpensiveName()} healing them.".Color(Color.green),
-			$"{interaction.Performer.gameObject.ExpensiveName()} applies the {this.gameObject.ExpensiveName()} to {livingHealth.gameObject.ExpensiveName()}, healing them.".Color(Color.green)
-		);
+		if (skipActionMessage == false)
+		{
+			Chat.AddActionMsgToChat(interaction,
+				$"You apply the {this.gameObject.ExpensiveName()} to {livingHealth.gameObject.ExpensiveName()} healing them.".Color(Color.green),
+				$"{interaction.Performer.gameObject.ExpensiveName()} applies the {this.gameObject.ExpensiveName()} to {livingHealth.gameObject.ExpensiveName()}, healing them.".Color(Color.green)
+			);
+		}
 		livingHealth.HealDamage(null, 40, healType, interaction.TargetBodyPart, true);
 		if (StopsExternalBleeding)
 		{
@@ -98,7 +100,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 				$"You apply the {this.gameObject.ExpensiveName()} to yourself, healing yourself.".Color(Color.green),
 				$"{originator.gameObject.ExpensiveName()} applies the {this.gameObject.ExpensiveName()} to themselves, healing them self.".Color(Color.green)
 				);
-			ServerApplyHeal(livingHealth, interaction);
+			ServerApplyHeal(livingHealth, interaction, true);
 		}
 
 		StandardProgressAction.Create(ProgressConfig, ProgressComplete)
