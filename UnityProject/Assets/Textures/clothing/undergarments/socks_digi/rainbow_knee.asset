@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: rainbow_knee
+  m_EditorClassIdentifier: 
+  foreverID: a0d8fb758c284c431848c30255659a95
+  Variance:
+  - Frames:
+    - sprite: {fileID: -4597900216811262485, guid: 3f0dfa000a99490baab4d51997d27a65,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -3590639337420268801, guid: 3f0dfa000a99490baab4d51997d27a65,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -1396358302614563376, guid: 3f0dfa000a99490baab4d51997d27a65,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -1466946771075384984, guid: 3f0dfa000a99490baab4d51997d27a65,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 
