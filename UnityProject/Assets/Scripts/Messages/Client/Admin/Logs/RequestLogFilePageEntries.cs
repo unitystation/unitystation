@@ -1,4 +1,6 @@
-﻿using Core.Admin.Logs.Stores;
+﻿using System.Collections.Generic;
+using Core.Admin.Logs;
+using Core.Admin.Logs.Stores;
 using Mirror;
 
 namespace Messages.Client.Admin.Logs
@@ -13,7 +15,8 @@ namespace Messages.Client.Admin.Logs
 
 		public override void Process(NetMessage msg)
 		{
-			var entries = AdminLogsStorage.FetchLogsPaginated(msg.LogFileName, msg.PageToRequest).Result;
+			List<LogEntry> entries = AdminLogsStorage.FetchLogsPaginated(msg.LogFileName, msg.PageToRequest).Result;
+
 		}
 
 		public static NetMessage Send(int page, string logFileName)

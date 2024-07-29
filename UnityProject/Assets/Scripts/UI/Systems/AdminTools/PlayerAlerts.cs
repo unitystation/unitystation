@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Admin.Logs;
 using Logs;
 using Messages.Client.Admin;
 using Messages.Server.AdminTools;
@@ -172,10 +173,8 @@ namespace AdminTools
 			var playerScript = perp.GetComponent<PlayerScript>();
 			if (playerScript == null || playerScript.IsGhost || playerScript.playerHealth == null) return;
 			PlayerInfo perpPlayer = perp.Player();
-			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					$"{admin.Player().Username} BRUTALLY GIBBED player {perpPlayer.Name} ({perpPlayer.Username}) for a " +
-			        $"{alertEntry.playerAlertType.ToString()} incident that happened at roundtime: {alertEntry.roundTime}", adminId);
-
+			AdminLogsManager.AddNewLog(admin, $"{admin.Player().Username} BRUTALLY GIBBED player {perpPlayer.Name} ({perpPlayer.Username}) for a " +
+			                                  $"{alertEntry.playerAlertType.ToString()} incident that happened at roundtime: {alertEntry.roundTime}", LogCategory.Admin);
 			playerScript.playerHealth.OnGib();
 
 			alertEntry.gibbed = true;
@@ -191,10 +190,8 @@ namespace AdminTools
 			var playerScript = perp.GetComponent<PlayerScript>();
 			if (playerScript == null || playerScript.IsGhost || playerScript.playerHealth == null) return;
 			PlayerInfo perpPlayer = perp.Player();
-			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					$"{admin.Player().Username} is talking to or monitoring player {perpPlayer.Name} ({perpPlayer.Username}) for a " +
-			        $"{alertEntry.playerAlertType} incident that happened at roundtime: {alertEntry.roundTime}", adminId);
-
+			AdminLogsManager.AddNewLog(admin, $"{admin.Player().Username} is talking to or monitoring player {perpPlayer.Name} ({perpPlayer.Username}) for a " +
+			                                  $"{alertEntry.playerAlertType} incident that happened at roundtime: {alertEntry.roundTime}", LogCategory.Admin);
 			alertEntry.takenCareOf = true;
 			ServerSendEntryToAllAdmins(alertEntry);
 			notifications.AddNotification(NotificationKey, -1);

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Admin.Logs;
 using Logs;
 using Messages.Client.Admin;
 using Messages.Server;
@@ -222,8 +223,7 @@ public class VotingManager : NetworkBehaviour
 		Chat.AddGameWideSystemMsgToChat($"<color={ChatTemplates.Blue}>Vote was vetoed by an admin.</color>");
 
 		var msg = $"Vote was vetoed by {admin.Username}.";
-
-		UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(msg, admin.AccountId);
+		AdminLogsManager.AddNewLog(admin.GameObject, msg, LogCategory.Admin);
 		Loggy.Log(msg, Category.Admin);
 	}
 

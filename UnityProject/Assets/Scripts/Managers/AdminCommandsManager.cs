@@ -14,6 +14,7 @@ using Strings;
 using HealthV2;
 using AdminTools;
 using Audio.Containers;
+using Core.Admin.Logs;
 using DatabaseAPI;
 using Doors;
 using Doors.Modules;
@@ -668,7 +669,7 @@ namespace AdminCommands
 
 		public static void LogAdminAction(string msg, string userName = "")
 		{
-			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(msg, null);
+			AdminLogsManager.AddNewLog(null, msg, LogCategory.Admin);
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
 				userName);
 			Loggy.Log(msg, Category.Admin);

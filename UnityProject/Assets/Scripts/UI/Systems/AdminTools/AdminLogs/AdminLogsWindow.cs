@@ -12,7 +12,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 	{
 		private List<LogEntry> logEntries = new List<LogEntry>();
 		private List<AdminLogEntryUI> entriesUI = new List<AdminLogEntryUI>();
-		[SerializeField] private Transform logEntryBaseTransform;
+		[SerializeField] private AdminLogEntryUI logEntryBase;
 		[SerializeField] private Transform logsTranform;
 		[SerializeField] private TMP_Dropdown logFilesDropdown;
 		private int lastPageNumber = 1;
@@ -20,23 +20,23 @@ namespace UI.Systems.AdminTools.AdminLogs
 
 		private void OnEnable()
 		{
-			UpdateManager.Add(UpdateMe, 4f);
 			RequestLogAvaliablePages();
 		}
 
-		private void UpdateMe()
+		private string GetLogFileName()
 		{
-
+			return Path.Combine("Admin", $"{DateTime.Now:yyyy-MM-dd} - {GameManager.RoundID}.txt");
 		}
 
 		private void RequestLogPage(string logFileName, int page)
 		{
-			logFileName ??= Path.Combine("Admin", $"{DateTime.Now:yyyy-MM-dd} - {GameManager.RoundID}.txt");
+			logFileName ??= GetLogFileName();
+			RequestLogFilePageEntries.Send(page, logFileName);
 		}
 
 		private void RequestLogAvaliablePages(string logFileName = null)
 		{
-			logFileName ??= Path.Combine("Admin", $"{DateTime.Now:yyyy-MM-dd} - {GameManager.RoundID}.txt");
+			logFileName ??= GetLogFileName();
 			RequestLogFilePagesNumber.Send(logFileName);
 		}
 
@@ -44,6 +44,21 @@ namespace UI.Systems.AdminTools.AdminLogs
 		{
 			NumberOfPagesAvaliable = pageNumber;
 			RequestLogPage(null, lastPageNumber);
+		}
+
+		public void UpdateLogEntries(List<LogEntry> newEntries)
+		{
+			logEntries = newEntries;
+			foreach (var oldEntries in entriesUI)
+			{
+				Destroy(oldEntries.gameObject);
+			}
+			entriesUI.Clear();
+			foreach (LogEntry newEntry in newEntries)
+			{
+				AdminLogEntryUI newEntryUI = Instantiate(logEntryBase, logsTranform, false);
+				newEntryUI.Setup(newEntry);
+			}
 		}
 	}
 }

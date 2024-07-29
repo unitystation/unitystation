@@ -1,4 +1,5 @@
-﻿using Logs;
+﻿using Core.Admin.Logs;
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -41,8 +42,7 @@ namespace Messages.Client.DevSpawner
 				if (MatrixManager.IsPassableAtAllMatricesOneTile(msg.WorldPosition.RoundToInt(), true))
 				{
 					Spawn.ServerClone(NetworkObject, msg.WorldPosition);
-					UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-						$"{SentByPlayer.Username} spawned a clone of {NetworkObject} at {msg.WorldPosition}", SentByPlayer.AccountId);
+					AdminLogsManager.AddNewLog(SentByPlayer.GameObject, $"{SentByPlayer.Username} spawned a clone of {NetworkObject} at {msg.WorldPosition}", LogCategory.Admin);
 				}
 			}
 		}

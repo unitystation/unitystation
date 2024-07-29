@@ -9003,13 +9003,12 @@ MonoBehaviour:
   mentorPlayerChat: {fileID: 1167706846593888731}
   adminToAdminChat: {fileID: 7046624507103924065}
   playerPrayerWindow: {fileID: 112312088245476783}
-  adminLogWindow: {fileID: 0}
+  adminLogWindow: {fileID: 5383423941912123711}
   playerListViews:
   - {fileID: 2869983725745740493}
   - {fileID: 4154739505116870463}
   - {fileID: 2706689862474878363}
   - {fileID: 558778539574445738}
-  - {fileID: 0}
 --- !u!1 &6807267304630520350
 GameObject:
   m_ObjectHideFlags: 0
@@ -13160,6 +13159,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 3859950086959294263}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5383423941912123711 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9161605503408881160, guid: 6515af0f83a18cd479f4a7f1db69fc6c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3859950086959294263}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 345ffc7e6c424cb39f85dab02d609739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4151965581331145435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14742,7 +14753,7 @@ PrefabInstance:
     - target: {fileID: 3150321220758447720, guid: 2e25e24c9ee95f44491ffdacc3f8a8d6,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 12931.5
+      value: 267.75
       objectReference: {fileID: 0}
     - target: {fileID: 4282084944812674569, guid: 2e25e24c9ee95f44491ffdacc3f8a8d6,
         type: 3}
@@ -14867,12 +14878,12 @@ PrefabInstance:
     - target: {fileID: 7086725715119619770, guid: 2e25e24c9ee95f44491ffdacc3f8a8d6,
         type: 3}
       propertyPath: m_Size
-      value: 0.6130252
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7086725715119619770, guid: 2e25e24c9ee95f44491ffdacc3f8a8d6,
         type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7350342322175482894, guid: 2e25e24c9ee95f44491ffdacc3f8a8d6,
         type: 3}
