@@ -38,6 +38,7 @@ namespace Systems.Radiation
 
 
 			lightSprite.SetColor(color);
+			UpdateValues(SynchroniseStrength);
 		}
 
 
