@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Items;
 using Items.Implants.Organs;
+using Logs;
 using Mirror;
 using UnityEngine;
 using NaughtyAttributes;
@@ -155,7 +156,15 @@ namespace HealthV2
 			for (int i = OrganList.Count - 1; i >= 0; i--)
 			{
 				var organ = OrganList[i];
-				organ.ImplantPeriodicUpdate();
+				try
+				{
+					organ.ImplantPeriodicUpdate();
+				}
+				catch (Exception e)
+				{
+					Loggy.LogError(e.ToString());
+				}
+
 			}
 
 			CalculateRadiationDamage();
