@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: trans_thigh
+  m_EditorClassIdentifier: 
+  foreverID: aa906e848fc9f79f29d0a06f3b586bdf
+  Variance:
+  - Frames:
+    - sprite: {fileID: 798202685642116630, guid: 55f7bbe3bd7e8389dad019a509b176b9,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 3969304927306993004, guid: 55f7bbe3bd7e8389dad019a509b176b9,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -4094544292670471718, guid: 55f7bbe3bd7e8389dad019a509b176b9,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -4727821309766150899, guid: 55f7bbe3bd7e8389dad019a509b176b9,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 
