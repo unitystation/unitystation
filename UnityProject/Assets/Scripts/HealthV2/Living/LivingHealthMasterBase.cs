@@ -1486,16 +1486,18 @@ namespace HealthV2
 		public void HealDamage(GameObject healingItem, float healAmt,
 			DamageType damageTypeToHeal, BodyPartType bodyPartAim, bool ExternalHealing = false)
 		{
+			var healingLeft = healAmt;
 			foreach (var bodyPart in SurfaceBodyParts)
 			{
-				if (bodyPart.BodyPartType == bodyPartAim)
+				if (bodyPart.BodyPartType == bodyPartAim && healingLeft > 0)
 				{
 					if (ExternalHealing && bodyPart.CanNotBeHealedByExternalHealingPack)
 					{
 						continue;
 					}
-
-					bodyPart.HealDamage(healingItem, healAmt, damageTypeToHeal);
+					var healingDamage = bodyPart.Damages[(int) damageTypeToHeal];
+					bodyPart.HealDamage(healingItem, Mathf.Max(0, healingLeft), damageTypeToHeal);
+					healingLeft -= healingDamage;
 				}
 			}
 
