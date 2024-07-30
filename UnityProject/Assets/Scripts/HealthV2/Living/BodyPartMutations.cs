@@ -5,6 +5,7 @@ using System.Linq;
 using Core.Utils;
 using HealthV2;
 using Items.Implants.Organs;
+using Logs;
 using Systems.Character;
 using UnityEngine;
 using Util;
@@ -52,7 +53,7 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	private void OnDMGMutationCheck(BodyPartDamageData data)
 	{
-		if (data.DamageAmount <= 0) return;
+		if (data.DamageAmount <= 0.50f) return;
 		if (data.DamageType != DamageType.Clone && data.DamageType != DamageType.Radiation) return;
 
 

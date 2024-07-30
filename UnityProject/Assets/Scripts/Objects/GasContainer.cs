@@ -79,7 +79,7 @@ namespace Objects.Atmospherics
 
 		[SerializeField] private bool explodeOnTooMuchDamage = true;
 
-		[SyncVar] private bool ignoreInternals;
+		[SyncVar, SerializeField] private bool ignoreInternals;
 		public bool IgnoreInternals => ignoreInternals;
 		[SerializeField] public bool canToggleIgnoreInternals = true;
 
@@ -94,7 +94,6 @@ namespace Objects.Atmospherics
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			SyncIgnoreInternals(ignoreInternals, true);
 			if (!gasIsInitialised)
 			{
 				UpdateGasMix();
@@ -154,11 +153,6 @@ namespace Objects.Atmospherics
 		// Needed for the internals tank on the player UI, to know oxygen gas percentage
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
-			if (info.InventoryMoveType == InventoryMoveType.Remove || info.InventoryMoveType == InventoryMoveType.Transfer && info.ToPlayer == null)
-			{
-				SyncIgnoreInternals(ignoreInternals, true);
-			}
-
 			//If going to a player start loop
 			if (info.ToPlayer != null && info.ToSlot != null)
 			{

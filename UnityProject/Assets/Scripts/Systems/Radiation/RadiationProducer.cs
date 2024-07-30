@@ -81,15 +81,19 @@ namespace Systems.Radiation
 				return;
 			}
 
+			if (Invalue < 0)
+			{
+				Invalue = 0;
+			}
+
 			OutPuttingRadiation = Invalue;
 			float LightPower = OutPuttingRadiation / 24000;
 			float LightSize = OutPuttingRadiation / 40000;
 			if (LightPower > 1)
 			{
-				lightSprite.transform.localScale = Vector3.one * (7 * LightSize);
 				LightPower = 1;
 			}
-
+			lightSprite.transform.localScale = Vector3.one * (7 * LightSize);
 			var Colour = lightSprite.GetColor();
 			Colour.a = LightPower;
 			lightSprite.SetColor(Colour);
