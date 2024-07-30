@@ -181,7 +181,17 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public PipeData PipeData => pipeData;
 
 	private CheckedComponent<UniversalObjectPhysics> objectPhysics = new CheckedComponent<UniversalObjectPhysics>();
-	public CheckedComponent<UniversalObjectPhysics> ObjectPhysics => objectPhysics;
+	public CheckedComponent<UniversalObjectPhysics> ObjectPhysics
+	{
+		get
+		{
+			if (objectPhysics.HasComponent == false)
+			{
+				objectPhysics.ResetComponent(gameObject);
+			}
+			return objectPhysics;
+		}
+	}
 
 	[SerializeField] private SortingGroup CurrentsortingGroup;
 

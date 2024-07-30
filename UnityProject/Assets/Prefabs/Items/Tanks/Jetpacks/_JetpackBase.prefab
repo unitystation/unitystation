@@ -160,6 +160,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5807605059177790027, guid: d27d06b68d77a3d49b21cce589f699da,
         type: 3}
+      propertyPath: ignoreInternals
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5807605059177790027, guid: d27d06b68d77a3d49b21cce589f699da,
+        type: 3}
       propertyPath: 'Gases.Array.data[0]'
       value: 0
       objectReference: {fileID: 0}

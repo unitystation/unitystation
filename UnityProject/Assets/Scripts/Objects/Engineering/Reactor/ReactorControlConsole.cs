@@ -4,6 +4,7 @@ using Communications;
 using InGameEvents;
 using Objects.Machines.ServerMachines.Communications;
 using System.Collections.Generic;
+using Logs;
 using SecureStuff;
 using Shared.Systems.ObjectConnection;
 using Systems.Communications;
@@ -81,6 +82,7 @@ namespace Objects.Engineering.Reactor
 			{
 				SecondSinceLastUpdate = 0;
 				StringBuilder state = new StringBuilder();
+				chatEvent.channels = ChatChannels;
 				state.AppendFormat("Warning, Reactor Meltdown/Catastrophe imminent.");
 				if (ReactorChambers.CurrentPressure >= ReactorGraphiteChamber.MAX_CORE_PRESSURE / (decimal)1.35f)
 				{
@@ -167,6 +169,31 @@ namespace Objects.Engineering.Reactor
 		{
 			if (emmitableSignalData.Count == 0) return false;
 			return poweredDevice.State >= PowerState.On;
+		}
+
+		private DateTime ScrumLastAnnounced = new DateTime(0);
+
+		public void AnnounceSCRAM()
+		{
+			try
+			{
+				if ((DateTime.Now - ScrumLastAnnounced).TotalSeconds > 60)
+				{
+					if (ReactorChambers.ControlRodDepthPercentage != 1 && ReactorChambers.MeltedDown == false)
+					{
+						ScrumLastAnnounced = DateTime.Now;
+						chatEvent.message = "The reactor has triggered an automatic SCRAM!!";
+						InfluenceChat(chatEvent);
+						_ = SoundManager.PlayNetworked(CommonSounds.Instance.AnnouncementAlert);
+					}
+				}
+
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+			}
+
 		}
 
 		public ChatEvent InfluenceChat(ChatEvent chatToManipulate)

@@ -107,7 +107,8 @@ MonoBehaviour:
     onePerTile: 0
     facePlayerDirectionOnConstruction: 0
   - name: Sink
-    prefab: {fileID: 1000012867342320, guid: ada1d6e92f8146e49438a98523606200, type: 3}
+    prefab: {fileID: 6285642168130081169, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+      type: 3}
     cost: 1
     buildTime: 5
     spawnAmount: 1
@@ -130,22 +131,23 @@ MonoBehaviour:
     onePerTile: 1
     facePlayerDirectionOnConstruction: 0
   - name: Low-voltage Machine Connector
-    prefab: {fileID: 1127054139694796, guid: e84d2342632015b4b8ce3227cb04533b, type: 3}
+    prefab: {fileID: 4359688610905566461, guid: e8ac2c5a2a017e44b903b5359c43e2f5,
+      type: 3}
     cost: 2
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
     facePlayerDirectionOnConstruction: 0
   - name: Medium-voltage Machine Connector
-    prefab: {fileID: 1127054139694796, guid: a6f87f3db636f2c4ba3aa4763aba4c3b, type: 3}
+    prefab: {fileID: 3824225269974939048, guid: bb684284e149a524d9f53b039e51b806,
+      type: 3}
     cost: 2
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
     facePlayerDirectionOnConstruction: 0
   - name: Conveyor Belt Switch
-    prefab: {fileID: 7144248469089430455, guid: 261dcc3c68f35e04e80b7d2f6415f742,
-      type: 3}
+    prefab: {fileID: 740222986987534991, guid: cab73e460ee8bf24e88988add17a2be5, type: 3}
     cost: 5
     buildTime: 10
     spawnAmount: 1
@@ -175,7 +177,7 @@ MonoBehaviour:
     onePerTile: 0
     facePlayerDirectionOnConstruction: 0
   - name: Conveyor Belt
-    prefab: {fileID: 7144248469089430455, guid: d029ccf2e161c824f931cda8b7404f9a,
+    prefab: {fileID: 8322409728722866350, guid: 856296105f077014ca9e533266df237a,
       type: 3}
     cost: 5
     buildTime: 10
@@ -212,14 +214,6 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 0
-    facePlayerDirectionOnConstruction: 0
-  - name: Water pump L to R
-    prefab: {fileID: 2372823301344523609, guid: 1be8bfa36ee455345a8f27806cda3f2a,
-      type: 3}
-    cost: 25
-    buildTime: 10
-    spawnAmount: 1
-    onePerTile: 1
     facePlayerDirectionOnConstruction: 0
   - name: FluidTank
     prefab: {fileID: 3407542624209996665, guid: 5eb0441fd1e97844189c28a3633d2cb9,

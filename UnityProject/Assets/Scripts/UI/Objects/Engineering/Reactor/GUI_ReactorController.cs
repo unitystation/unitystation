@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using UI.Core.NetUI;
 using Objects.Engineering;
@@ -31,6 +32,7 @@ namespace UI.Objects.Engineering
 		private float SecondarySetControl = 1;
 
 		private const decimal HIGH_PRESSURE_THRESHOLD = 60000;
+		private const decimal HIGH_PRESSURE_THRESHOLD_SCRAM = 10000;
 		private const float HIGH_PRESSURE_DELTA_THRESHOLD = 2500;
 
 		private const int MAX_NEUTRON_FLUX_POWER = 12;
@@ -108,15 +110,9 @@ namespace UI.Objects.Engineering
 
 			percentageChange = ReactorControlConsole.ReactorChambers.PresentNeutrons / previousRadlevel * 100;
 			percentageChange = percentageChange - 100;
-			var _percentageChange = percentageChange;
-
-			var ValuePercentageChange1_00 = Mathf.Clamp((float)(50 + (_percentageChange * 5)), 0, 100);
-
-			_percentageChange = (_percentageChange % 1) * 10;
-			var ValuePercentageChange0_10 = Mathf.Clamp((float)(50 + (_percentageChange * 5)), 0, 100);
-
-			_percentageChange = (_percentageChange % 1) * 10;
-			var ValuePercentageChange0_01 = Mathf.Clamp((float)(50 + (_percentageChange * 5)), 0, 100);
+			var ValuePercentageChange1_00 = Mathf.Clamp((float) (50 + (percentageChange * 5)), 0, 100);
+			var ValuePercentageChange0_10 = Mathf.Clamp((float) (50 + (percentageChange * 50)), 0, 100);
+			var ValuePercentageChange0_01 = Mathf.Clamp((float) (50 + (percentageChange * 500)), 0, 100);
 
 			CoreKValue1_00.MasterSetValue(Math.Round(ValuePercentageChange1_00).ToString());
 			CoreKValue0_10.MasterSetValue(Math.Round(ValuePercentageChange0_10).ToString());
@@ -269,6 +265,7 @@ namespace UI.Objects.Engineering
 
 				if (TEMPToohigh)
 				{
+					GUI_ReactorController.ReactorControlConsole.AnnounceSCRAM();
 					GUI_ReactorController.ReactorControlConsole.SuchControlRodDepth(1);
 				}
 
@@ -310,10 +307,13 @@ namespace UI.Objects.Engineering
 
 				bool PressureTooHigh = pressure > (float) (ReactorGraphiteChamber.MAX_CORE_PRESSURE - HIGH_PRESSURE_THRESHOLD);
 
+				bool PressureTooooHigh = pressure > (float) (ReactorGraphiteChamber.MAX_CORE_PRESSURE - HIGH_PRESSURE_THRESHOLD_SCRAM);
+
 				highCorePressure.SetState(PressureTooHigh);
 
-				if (PressureTooHigh)
+				if (PressureTooooHigh)
 				{
+					GUI_ReactorController.ReactorControlConsole.AnnounceSCRAM();
 					GUI_ReactorController.ReactorControlConsole.SuchControlRodDepth(1);
 				}
 
@@ -326,8 +326,8 @@ namespace UI.Objects.Engineering
 
 			public void SetRobDepthWarnings(ReactorGraphiteChamber chamber)
 			{
-				lowControlRodDepth.SetState(chamber.ControlRodDepthPercentage < 0.1f);
-				highControlRodDepth.SetState(chamber.ControlRodDepthPercentage > 0.80f);
+				lowControlRodDepth.SetState(chamber.ControlRodDepthPercentage < 0.20f);
+				highControlRodDepth.SetState(chamber.ControlRodDepthPercentage > 0.90f);
 			}
 		}
 	}

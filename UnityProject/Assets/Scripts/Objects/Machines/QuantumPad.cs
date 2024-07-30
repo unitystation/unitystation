@@ -5,6 +5,7 @@ using UnityEngine;
 using Mirror;
 using System.Linq;
 using Gateway;
+using Logs;
 using Shared.Systems.ObjectConnection;
 using Systems.Scenes;
 
@@ -207,6 +208,11 @@ namespace Objects.Science
 			{
 				//Don't teleport self lol
 				if(reg.gameObject == gameObject) continue;
+				if (reg.ObjectPhysics.Component == null)
+				{
+					Loggy.LogError( reg.name + " Does not have object physics");
+					continue;
+				}
 				if(reg.ObjectPhysics.Component.Intangible) continue;
 
 				SoundManager.PlayNetworkedForPlayer(connectedPad.gameObject, CommonSounds.Instance.StealthOff);
