@@ -150,6 +150,7 @@ namespace Core.Admin.Logs.Stores
 
 		public static async Task<List<LogEntry>> FetchLogsPaginated(string fileName, int pageNumber, int pageSize = ENTRY_PAGE_SIZE)
 		{
+			if (pageNumber <= 0) pageNumber = 1;
 			List<LogEntry> logEntries = new List<LogEntry>();
 			string filePath = Path.Combine("Admin", fileName);
 			try
@@ -159,6 +160,7 @@ namespace Core.Admin.Logs.Stores
 					Loggy.LogError($"[AdminLogsStorage/FetchLogsPaginated()] - File not found: {filePath}");
 				}
 				string fileContent = await Task.Run(() => AccessFile.Load(filePath, FolderType.Logs, Application.isEditor == false));
+				if (string.IsNullOrEmpty(fileContent)) return logEntries;
 				string[] logLines = fileContent.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 				int skip = (pageNumber - 1) * pageSize;
 				int take = pageSize;
