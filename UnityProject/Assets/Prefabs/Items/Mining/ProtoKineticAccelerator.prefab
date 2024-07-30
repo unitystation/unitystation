@@ -95,17 +95,17 @@ PrefabInstance:
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -253,8 +253,9 @@ MonoBehaviour:
     RecoveryDuration: 0
   WeaponType: 1
   allowPinSwap: 1
+  allowedAttachments: 6
+  attributes: {fileID: 0}
   isSuppressed: 0
-  isSuppressible: 0
   projectile: {fileID: 7081206667275519994, guid: a4c2debd67d612549b05801d1e37121a,
     type: 3}
   rechargeTime: 2

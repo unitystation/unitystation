@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -18,6 +19,7 @@ using Player;
 using Player.Movement;
 using UI.Action;
 using UI.Core.Action;
+using Weapons.WeaponAttachments;
 
 
 namespace Weapons
@@ -185,13 +187,13 @@ namespace Weapons
 		[ReadOnly] public ItemSlot magSlot;
 		[ReadOnly] public ItemSlot pinSlot;
 
-		//Attachable item slots
+		private ItemStorage itemStorage;
 		[ReadOnly] public ItemSlot suppressorSlot;
-		[ReadOnly] public ItemSlot flashlightSlot;
-		[ReadOnly] public ItemSlot bayonetSlot;
 
+		[SerializeField, EnumFlags] public AttachmentType allowedAttachments;
+		private List<WeaponAttachment> weaponAttachments = new();
 
-		private ItemAttributesV2 attributes;
+		public ItemAttributesV2 attributes;
 
 		//Stored melee related variables, for handling bayonets
 		private float defaultHitDamage;
@@ -204,15 +206,9 @@ namespace Weapons
 		/// If true, displays a message whenever a gun is shot
 		/// </summary>
 		[SerializeField, SyncVar(hook = nameof(SyncIsSuppressed)), Tooltip("If the gun displays a shooter message")]
-		private bool isSuppressed;
+		public bool isSuppressed;
 
 		public bool IsSuppressed => isSuppressed;
-
-		/// <summary>
-		/// Enables or disables the behaviour related to applying and removing suppressors from the gun
-		/// </summary>
-		[SerializeField, Tooltip("If suppressors can be applied or removed")]
-		private bool isSuppressible = default;
 
 		#region Init Logic
 
@@ -225,12 +221,10 @@ namespace Weapons
 			defaultDamageType = attributes.ServerDamageType;
 			defaultAttackVerbs = attributes.ServerAttackVerbs;
 
-			ItemStorage itemStorage = GetComponent<ItemStorage>();
+			itemStorage = GetComponent<ItemStorage>();
 			magSlot = itemStorage.GetIndexedItemSlot(0);
 			pinSlot = itemStorage.GetIndexedItemSlot(1);
 			suppressorSlot = itemStorage.GetIndexedItemSlot(2);
-			flashlightSlot = itemStorage.GetIndexedItemSlot(3);
-			bayonetSlot = itemStorage.GetIndexedItemSlot(4);
 
 			registerTile = GetComponent<RegisterTile>();
 			if (pinSlot == null || magSlot == null || itemStorage == null)
@@ -282,7 +276,7 @@ namespace Weapons
 			Inventory.ServerAdd(Spawn.ServerPrefab(pinPrefab).GameObject, pinSlot);
 			FiringPin.gunComp = this;
 
-			if (suppressorPrefab != null && isSuppressed && isSuppressible)
+			if (suppressorPrefab != null && isSuppressed && allowedAttachments.HasFlag(AttachmentType.Suppressor))
 			{
 				Inventory.ServerAdd(Spawn.ServerPrefab(suppressorPrefab).GameObject, suppressorSlot);
 			}
@@ -374,35 +368,14 @@ namespace Weapons
 
 					if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponAttachable))
 					{
-						if (interaction.UsedObject.TryGetComponent<ItemActionButton>(out var itemActionButton))
+						if (interaction.UsedObject.TryGetComponent<WeaponAttachment>(out var attachment))
 						{
-							if (Inventory.ServerTransfer(interaction.FromSlot, flashlightSlot))
+							if (allowedAttachments.HasFlag(attachment.AttachmentType) && attachment.AttachCheck(this) &&
+								Inventory.ServerTransfer(interaction.FromSlot, itemStorage.GetIndexedItemSlot((int) attachment.AttachmentSlot)))
 							{
-								//TODO: itemActionButton for flashlight?
+								weaponAttachments.Add(attachment);
+								attachment.AttachBehaviour(interaction, this);
 							}
-							return;
-						}
-
-						if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Suppressor) &&
-					         !isSuppressed && isSuppressible)
-						{
-							if (Inventory.ServerTransfer(interaction.FromSlot, suppressorSlot))
-							{
-								SyncIsSuppressed(isSuppressed, true);
-							}
-							return;
-						}
-
-						if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Knife) &&
-							interaction.UsedObject.TryGetComponent<ItemAttributesV2>(out var melee))
-						{
-							if (Inventory.ServerTransfer(interaction.FromSlot, bayonetSlot))
-							{
-								attributes.ServerHitDamage = melee.ServerHitDamage;
-								attributes.ServerDamageType = melee.ServerDamageType;
-								attributes.ServerAttackVerbs = melee.ServerAttackVerbs;
-							}
-							return;
 						}
 						return;
 					}
@@ -422,22 +395,14 @@ namespace Weapons
 
 			if (!WillInteract(ContextMenuApply.ByLocalPlayer(gameObject, null), NetworkSide.Client)) return result;
 
-			if (suppressorSlot.IsOccupied)
+			foreach (var attachment in weaponAttachments)
 			{
-				var suppressorRemoveInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "RemoveSuppressor");
-				result.AddElement("Remove Suppressor", () => ContextMenuOptionClicked(suppressorRemoveInteraction));
-			}
-
-			if (flashlightSlot.IsOccupied)
-			{
-				var flashlightRemoveInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "RemoveFlashlight");
-				result.AddElement("Remove Flashlight", () => ContextMenuOptionClicked(flashlightRemoveInteraction));
-			}
-
-			if (bayonetSlot.IsOccupied)
-			{
-				var bayonetRemoveInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "RemoveBayonet");
-				result.AddElement("Remove Bayonet", () => ContextMenuOptionClicked(bayonetRemoveInteraction));
+				//If an attachment is already stored and we dont have the flag, assume its intended to be iremovable
+				if (allowedAttachments.HasFlag(attachment.AttachmentType))
+				{
+					var interaction = ContextMenuApply.ByLocalPlayer(gameObject, attachment.InteractionKey);
+					result.AddElement(attachment.InteractionKey, () => ContextMenuOptionClicked(interaction));
+				}
 			}
 			return result;
 		}
@@ -456,30 +421,16 @@ namespace Weapons
 		{
 			if (serverHolder != interaction.Performer) return;
 
-			if (interaction.RequestedOption == "RemoveSuppressor")
+			foreach (var attachment in weaponAttachments)
 			{
-				if (isSuppressed && isSuppressible && suppressorSlot.Item != null)
+				if (interaction.RequestedOption == attachment.InteractionKey)
 				{
-					if (TransferHandOrFloor(interaction, suppressorSlot))
+					if (attachment.DetachCheck(this) && TransferHandOrFloor(interaction, itemStorage.GetSlotFromItem(attachment.gameObject)))
 					{
-						SyncIsSuppressed(isSuppressed, false);
+						weaponAttachments.Remove(attachment);
+						attachment.DetachBehaviour(interaction, this);
+						return;
 					}
-				}
-			}
-			else if (interaction.RequestedOption == "RemoveFlashlight")
-			{
-				if (TransferHandOrFloor(interaction, flashlightSlot))
-				{
-					//TODO: itemActionButton for flashlight?
-				}
-			}
-			else if (interaction.RequestedOption == "RemoveBayonet")
-			{
-				if (TransferHandOrFloor(interaction, bayonetSlot))
-				{
-					attributes.ServerHitDamage = defaultHitDamage;
-					attributes.ServerDamageType = defaultDamageType;
-					attributes.ServerAttackVerbs = defaultAttackVerbs;
 				}
 			}
 		}
@@ -995,7 +946,7 @@ namespace Weapons
 		/// <summary>
 		/// Syncs suppressed bool.
 		/// </summary>
-		private void SyncIsSuppressed(bool oldValue, bool newValue)
+		public void SyncIsSuppressed(bool oldValue, bool newValue)
 		{
 			isSuppressed = newValue;
 		}
