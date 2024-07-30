@@ -120,6 +120,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A military combat utility survival knife.
       objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c15c57c64195bdd284ef85535d84ad5,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

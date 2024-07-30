@@ -330,10 +330,10 @@ namespace Items
 					returnS =  "would do some damage";
 					break;
 				case < 7:
-					returnS =  "an okay damage";
+					returnS =  "okay damage";
 					break;
 				case < 11:
-					returnS =  "a decent damage";
+					returnS =  "decent damage";
 					break;
 				case < 13:
 					returnS =  "robust damage.";

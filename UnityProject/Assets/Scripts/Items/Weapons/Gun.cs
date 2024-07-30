@@ -8,6 +8,7 @@ using Mirror;
 using Items;
 using AddressableReferences;
 using HealthV2;
+using Items.Others;
 using Logs;
 using Messages.Server;
 using Messages.Server.SoundMessages;
@@ -15,6 +16,8 @@ using Weapons.Projectiles;
 using NaughtyAttributes;
 using Player;
 using Player.Movement;
+using UI.Action;
+using UI.Core.Action;
 
 
 namespace Weapons
@@ -25,7 +28,7 @@ namespace Weapons
 	[RequireComponent(typeof(Pickupable))]
 	[RequireComponent(typeof(ItemStorage))]
 	public class Gun : NetworkBehaviour, ICheckedInteractable<AimApply>, ICheckedInteractable<HandActivate>,
-		ICheckedInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn, IExaminable, ISuicide
+		ICheckedInteractable<InventoryApply>, ICheckedInteractable<ContextMenuApply>, IRightClickable, IServerInventoryMove, IServerSpawn, IExaminable, ISuicide
 	{
 		/// <summary>
 		/// Prefab to be spawned within on roundstart
@@ -181,7 +184,19 @@ namespace Weapons
 		private RegisterTile registerTile;
 		[ReadOnly] public ItemSlot magSlot;
 		[ReadOnly] public ItemSlot pinSlot;
+
+		//Attachable item slots
 		[ReadOnly] public ItemSlot suppressorSlot;
+		[ReadOnly] public ItemSlot flashlightSlot;
+		[ReadOnly] public ItemSlot bayonetSlot;
+
+
+		private ItemAttributesV2 attributes;
+
+		//Stored melee related variables, for handling bayonets
+		private float defaultHitDamage;
+		private DamageType defaultDamageType;
+		private IEnumerable<string> defaultAttackVerbs;
 
 		protected const float PinRemoveTime = 10f;
 
@@ -204,11 +219,19 @@ namespace Weapons
 		private void Awake()
 		{
 			//init weapon with missing settings
-			GetComponent<ItemAttributesV2>().AddTrait(CommonTraits.Instance.Gun);
+			attributes = GetComponent<ItemAttributesV2>();
+			attributes.AddTrait(CommonTraits.Instance.Gun);
+			defaultHitDamage = attributes.ServerHitDamage;
+			defaultDamageType = attributes.ServerDamageType;
+			defaultAttackVerbs = attributes.ServerAttackVerbs;
+
 			ItemStorage itemStorage = GetComponent<ItemStorage>();
 			magSlot = itemStorage.GetIndexedItemSlot(0);
 			pinSlot = itemStorage.GetIndexedItemSlot(1);
 			suppressorSlot = itemStorage.GetIndexedItemSlot(2);
+			flashlightSlot = itemStorage.GetIndexedItemSlot(3);
+			bayonetSlot = itemStorage.GetIndexedItemSlot(4);
+
 			registerTile = GetComponent<RegisterTile>();
 			if (pinSlot == null || magSlot == null || itemStorage == null)
 			{
@@ -317,10 +340,9 @@ namespace Weapons
 			//only reload if the gun is the target and item being used on us is in hand slot
 			if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
 			{
-				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Suppressor) ||
+				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponAttachable) ||
 				    Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) ||
-				    Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin) ||
-				    interaction.IsAltClick)
+				    Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin))
 				{
 					return true;
 				}
@@ -347,23 +369,131 @@ namespace Weapons
 					if (mag)
 					{
 						ServerHandleReloadRequest(mag.gameObject);
+						return;
 					}
-					else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Suppressor) &&
+
+					if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponAttachable))
+					{
+						if (interaction.UsedObject.TryGetComponent<ItemActionButton>(out var itemActionButton))
+						{
+							if (Inventory.ServerTransfer(interaction.FromSlot, flashlightSlot))
+							{
+								//TODO: itemActionButton for flashlight?
+							}
+							return;
+						}
+
+						if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Suppressor) &&
 					         !isSuppressed && isSuppressible)
-					{
-						SyncIsSuppressed(isSuppressed, true);
-						Inventory.ServerTransfer(interaction.FromSlot, suppressorSlot);
+						{
+							if (Inventory.ServerTransfer(interaction.FromSlot, suppressorSlot))
+							{
+								SyncIsSuppressed(isSuppressed, true);
+							}
+							return;
+						}
+
+						if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Knife) &&
+							interaction.UsedObject.TryGetComponent<ItemAttributesV2>(out var melee))
+						{
+							if (Inventory.ServerTransfer(interaction.FromSlot, bayonetSlot))
+							{
+								attributes.ServerHitDamage = melee.ServerHitDamage;
+								attributes.ServerDamageType = melee.ServerDamageType;
+								attributes.ServerAttackVerbs = melee.ServerAttackVerbs;
+							}
+							return;
+						}
+						return;
 					}
-					else
-					{
-						PinInteraction(interaction);
-					}
+
+					PinInteraction(interaction);
 				}
-				else if (isSuppressed && isSuppressible && suppressorSlot.Item != null)
+			}
+		}
+
+		#endregion
+
+		#region ContextMenu
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			var result = RightClickableResult.Create();
+
+			if (!WillInteract(ContextMenuApply.ByLocalPlayer(gameObject, null), NetworkSide.Client)) return result;
+
+			if (suppressorSlot.IsOccupied)
+			{
+				var suppressorRemoveInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "RemoveSuppressor");
+				result.AddElement("Remove Suppressor", () => ContextMenuOptionClicked(suppressorRemoveInteraction));
+			}
+
+			if (flashlightSlot.IsOccupied)
+			{
+				var flashlightRemoveInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "RemoveFlashlight");
+				result.AddElement("Remove Flashlight", () => ContextMenuOptionClicked(flashlightRemoveInteraction));
+			}
+
+			if (bayonetSlot.IsOccupied)
+			{
+				var bayonetRemoveInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "RemoveBayonet");
+				result.AddElement("Remove Bayonet", () => ContextMenuOptionClicked(bayonetRemoveInteraction));
+			}
+			return result;
+		}
+
+		private void ContextMenuOptionClicked(ContextMenuApply interaction)
+		{
+			InteractionUtils.RequestInteract(interaction, this);
+		}
+
+		public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
+		{
+			return DefaultWillInteract.Default(interaction, side);
+		}
+
+		public void ServerPerformInteraction(ContextMenuApply interaction)
+		{
+			if (serverHolder != interaction.Performer) return;
+
+			if (interaction.RequestedOption == "RemoveSuppressor")
+			{
+				if (isSuppressed && isSuppressible && suppressorSlot.Item != null)
 				{
-					SyncIsSuppressed(isSuppressed, false);
-					Inventory.ServerTransfer(suppressorSlot, interaction.FromSlot);
+					if (TransferHandOrFloor(interaction, suppressorSlot))
+					{
+						SyncIsSuppressed(isSuppressed, false);
+					}
 				}
+			}
+			else if (interaction.RequestedOption == "RemoveFlashlight")
+			{
+				if (TransferHandOrFloor(interaction, flashlightSlot))
+				{
+					//TODO: itemActionButton for flashlight?
+				}
+			}
+			else if (interaction.RequestedOption == "RemoveBayonet")
+			{
+				if (TransferHandOrFloor(interaction, bayonetSlot))
+				{
+					attributes.ServerHitDamage = defaultHitDamage;
+					attributes.ServerDamageType = defaultDamageType;
+					attributes.ServerAttackVerbs = defaultAttackVerbs;
+				}
+			}
+		}
+
+		private bool TransferHandOrFloor(ContextMenuApply interaction, ItemSlot targetslot)
+		{
+			ItemSlot hand = interaction.PerformerPlayerScript.DynamicItemStorage.GetBestHand();
+			if (Inventory.ServerTransfer(targetslot, hand) == false)
+			{
+				return Inventory.ServerDrop(targetslot);
+			}
+			else
+			{
+				return true;
 			}
 		}
 
