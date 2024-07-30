@@ -47,6 +47,7 @@ namespace Systems.Scenes
 		private void PostStart()
 		{
 			if (this == null) return;
+			if (gateway == null) return;
 			gateway.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(possibleExits.PickRandom().AssumedWorldPosServer()); //Randomise gateway position.
 
 			PlaceObjects();
