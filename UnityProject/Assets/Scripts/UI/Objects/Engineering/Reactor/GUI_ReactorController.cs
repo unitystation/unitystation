@@ -265,6 +265,7 @@ namespace UI.Objects.Engineering
 
 				if (TEMPToohigh)
 				{
+					GUI_ReactorController.ReactorControlConsole.AnnounceSCRAM();
 					GUI_ReactorController.ReactorControlConsole.SuchControlRodDepth(1);
 				}
 
@@ -312,6 +313,7 @@ namespace UI.Objects.Engineering
 
 				if (PressureTooooHigh)
 				{
+					GUI_ReactorController.ReactorControlConsole.AnnounceSCRAM();
 					GUI_ReactorController.ReactorControlConsole.SuchControlRodDepth(1);
 				}
 
