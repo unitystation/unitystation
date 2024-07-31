@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -9,16 +8,11 @@ using Mirror;
 using Items;
 using AddressableReferences;
 using HealthV2;
-using Items.Others;
 using Logs;
-using Messages.Server;
 using Messages.Server.SoundMessages;
 using Weapons.Projectiles;
 using NaughtyAttributes;
 using Player;
-using Player.Movement;
-using UI.Action;
-using UI.Core.Action;
 using Weapons.WeaponAttachments;
 
 
@@ -182,7 +176,6 @@ namespace Weapons
 		/// </summary>
 		[SerializeField] protected bool allowPinSwap = true;
 
-
 		private RegisterTile registerTile;
 		[ReadOnly] public ItemSlot magSlot;
 		[ReadOnly] public ItemSlot pinSlot;
@@ -194,11 +187,6 @@ namespace Weapons
 		private List<WeaponAttachment> weaponAttachments = new();
 
 		public ItemAttributesV2 attributes;
-
-		//Stored melee related variables, for handling bayonets
-		private float defaultHitDamage;
-		private DamageType defaultDamageType;
-		private IEnumerable<string> defaultAttackVerbs;
 
 		protected const float PinRemoveTime = 10f;
 
@@ -217,9 +205,6 @@ namespace Weapons
 			//init weapon with missing settings
 			attributes = GetComponent<ItemAttributesV2>();
 			attributes.AddTrait(CommonTraits.Instance.Gun);
-			defaultHitDamage = attributes.ServerHitDamage;
-			defaultDamageType = attributes.ServerDamageType;
-			defaultAttackVerbs = attributes.ServerAttackVerbs;
 
 			itemStorage = GetComponent<ItemStorage>();
 			magSlot = itemStorage.GetIndexedItemSlot(0);
@@ -284,7 +269,7 @@ namespace Weapons
 
 		public virtual void OnInventoryMoveServer(InventoryMove info)
 		{
-			if (this.gameObject != info.MovedObject.gameObject) return;
+			if (gameObject != info.MovedObject.gameObject) return;
 
 			if (info.ToPlayer != null)
 			{
@@ -647,6 +632,24 @@ namespace Weapons
 			return false;
 		}
 
+		//TODO: Future shit autumn needs to do:
+		//Clean all this up so it doesnt refer to shot queues anymore so this isnt actually hell to understand for future maintainers
+		//And then probably add a boatload more comments that arent just outdated and misleading as hell
+		//Unfuck the xml comments, queued shot struct should be thrown out eventually once this is all fixed up
+		//Burst needs to be reimplemented, also 'Cooldowne'
+		//Log pass
+		//Fix reloading quirks from queued shot being ripped out, also possibly add (optional) mag retention via alt click reload or something
+		//Magside stuff also needs to be fixed for queued shot stuff, bullet rng, shotgun spread, etc
+		//Throw out the old internal mag/supressor spawning system and replace it with something that isnt hot garbage
+		//Also redo gun init entirely, its similarly bad
+		//Go through all the other comments and check blame to see if they are still relevant, the first few in display shot probably arent
+		//Register tile var is unused, throw that out after triple checking where it was previously used and making sure that change hasnt broken shit
+		//Recoil needs to be looked at and probably fixed or replaced, additionally a pass on guneletrical and gunpka needs to be done but neither are as much as a mess as this has become
+		//Unfuck the ability to shoot over downed players, also give the player a method to melee with a loaded gun so bayonets arent next to useless
+		//Firing pin clumsy needs to be actually reimplemented sometime this century and also redo examine text, probably also add hover tooltip stuff
+		//Do a pass on Examine Messages and Action messages, also see if the progress bar for firing pins should be converted into the utils one maybe
+		//And then after all of thats fixed do a balance pass on all firearms, plus finally actually implement shit for all the guns that dont have projectiles done
+
 		/// <summary>
 		/// Perform an actual shot on the server, putting the request to shoot into our queue
 		/// and informing all clients of the shot once the shot is processed
@@ -906,15 +909,10 @@ namespace Weapons
 		/// </summary>
 		public void ServerHandleUnloadRequest()
 		{
-			ItemSlot hand = GetComponent<Pickupable>()?.ItemSlot?.Player.OrNull()?.GetComponent<DynamicItemStorage>()?
-				.GetBestHand();
-
 			if (MagInternal == true)
 			{
 				return;
 			}
-
-
 			UnloadMagSound();
 			Inventory.ServerDrop(magSlot);
 		}
