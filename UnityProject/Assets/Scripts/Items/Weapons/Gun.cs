@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -285,7 +285,9 @@ namespace Weapons
 				}
 
 				Inventory.ServerAdd(Spawn.ServerPrefab(prefab).GameObject, slot);
-				slot.ItemObject.GetComponent<WeaponAttachment>().AttachBehaviour(this);
+				var attachment = slot.ItemObject.GetComponent<WeaponAttachment>();
+				weaponAttachments.Add(attachment);
+				attachment.AttachBehaviour(this);
 			}
 		}
 
