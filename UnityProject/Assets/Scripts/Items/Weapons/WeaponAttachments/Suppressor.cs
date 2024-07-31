@@ -11,22 +11,22 @@ namespace Weapons.WeaponAttachments
 
 		public override bool AttachCheck(Gun gun)
 		{
-			return !gun.isSuppressed;
+			return !gun.IsSuppressed;
 		}
 		
 		public override bool DetachCheck(Gun gun)
 		{
-			return gun.isSuppressed;
+			return gun.IsSuppressed;
 		}
 		
 		public override void AttachBehaviour(Gun gun)
 		{
-			gun.SyncIsSuppressed(gun.isSuppressed, true);
+			gun.SyncIsSuppressed(gun.IsSuppressed, true);
 		}
 		
 		public override void DetachBehaviour(Gun gun)
 		{
-			gun.SyncIsSuppressed(gun.isSuppressed, false);
+			gun.SyncIsSuppressed(gun.IsSuppressed, false);
 		}
 	}
 }

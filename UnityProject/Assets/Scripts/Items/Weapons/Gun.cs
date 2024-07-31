@@ -193,7 +193,7 @@ namespace Weapons
 		/// If true, displays a message whenever a gun is shot
 		/// </summary>
 		[SerializeField, SyncVar(hook = nameof(SyncIsSuppressed)), Tooltip("If the gun displays a shooter message")]
-		public bool isSuppressed;
+		private bool isSuppressed;
 
 		public bool IsSuppressed => isSuppressed;
 
