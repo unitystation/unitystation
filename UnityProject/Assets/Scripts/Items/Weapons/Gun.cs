@@ -470,6 +470,12 @@ namespace Weapons
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
+			//Melee behaviour for things like bayonets
+			if (interaction.Intent == Intent.Harm && (interaction.TargetPosition - interaction.Performer.RegisterTile().LocalPosition.To2()).magnitude <= 1.5f)
+			{
+				return false;
+			}
+
 			if (CurrentMagazine == null)
 			{
 				PlayEmptySfx();
@@ -674,7 +680,7 @@ namespace Weapons
 		//Go through all the other comments and check blame to see if they are still relevant, the first few in display shot probably arent
 		//Register tile var is unused, throw that out after triple checking where it was previously used and making sure that change hasnt broken shit
 		//Recoil needs to be looked at and probably fixed or replaced, additionally a pass on guneletrical and gunpka needs to be done but neither are as much as a mess as this has become
-		//Unfuck the ability to shoot over downed players, also give the player a method to melee with a loaded gun so bayonets arent next to useless
+		//Unfuck the ability to shoot over downed players
 		//Firing pin clumsy needs to be actually reimplemented sometime this century and also redo examine text, probably also add hover tooltip stuff
 		//Do a pass on Examine Messages and Action messages, also see if the progress bar for firing pins should be converted into the utils one maybe
 		//And then after all of thats fixed do a balance pass on all firearms, plus finally actually implement shit for all the guns that dont have projectiles done
