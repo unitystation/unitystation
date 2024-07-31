@@ -9,6 +9,8 @@ namespace Weapons.WeaponAttachments
 		private DamageType defaultDamageType;
 		private IEnumerable<string> defaultAttackVerbs;
 
+		private ItemAttributesV2 gunAttributes;
+
 		protected void Awake()
 		{
 			InteractionKey = "Remove Bayonet";
@@ -17,20 +19,21 @@ namespace Weapons.WeaponAttachments
 		
 		public override void AttachBehaviour(Gun gun)
 		{
-			defaultHitDamage = gun.attributes.ServerHitDamage;
-			defaultDamageType = gun.attributes.ServerDamageType;
-			defaultAttackVerbs = gun.attributes.ServerAttackVerbs;
+			gunAttributes = gun.GetComponent<ItemAttributesV2>();
+			defaultHitDamage = gunAttributes.ServerHitDamage;
+			defaultDamageType = gunAttributes.ServerDamageType;
+			defaultAttackVerbs = gunAttributes.ServerAttackVerbs;
 			var melee = GetComponent<ItemAttributesV2>();
-			gun.attributes.ServerHitDamage = melee.ServerHitDamage;
-			gun.attributes.ServerDamageType = melee.ServerDamageType;
-			gun.attributes.ServerAttackVerbs = melee.ServerAttackVerbs;
+			gunAttributes.ServerHitDamage = melee.ServerHitDamage;
+			gunAttributes.ServerDamageType = melee.ServerDamageType;
+			gunAttributes.ServerAttackVerbs = melee.ServerAttackVerbs;
 		}
 		
 		public override void DetachBehaviour(Gun gun)
 		{
-			gun.attributes.ServerHitDamage = defaultHitDamage;
-			gun.attributes.ServerDamageType = defaultDamageType;
-			gun.attributes.ServerAttackVerbs = defaultAttackVerbs;
+			gunAttributes.ServerHitDamage = defaultHitDamage;
+			gunAttributes.ServerDamageType = defaultDamageType;
+			gunAttributes.ServerAttackVerbs = defaultAttackVerbs;
 		}
 	}
 }

@@ -187,8 +187,6 @@ namespace Weapons
 		private readonly List<WeaponAttachment> weaponAttachments = new();
 		private readonly List<ItemSlot> weaponAttachmentSlots = new();
 
-		public ItemAttributesV2 attributes;
-
 		protected const float PinRemoveTime = 10f;
 
 		/// <summary>
@@ -204,8 +202,7 @@ namespace Weapons
 		private void Awake()
 		{
 			//init weapon with missing settings
-			attributes = GetComponent<ItemAttributesV2>();
-			attributes.AddTrait(CommonTraits.Instance.Gun);
+			GetComponent<ItemAttributesV2>().AddTrait(CommonTraits.Instance.Gun);
 
 			itemStorage = GetComponent<ItemStorage>();
 			magSlot = itemStorage.GetIndexedItemSlot(0);
