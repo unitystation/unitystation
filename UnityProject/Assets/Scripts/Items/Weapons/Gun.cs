@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -82,10 +83,10 @@ namespace Weapons
 		private GameObject pinPrefab = null;
 
 		/// <summary>
-		/// The suppressor that will initally spawn attached to the gun provided the gun is suppressable
+		/// Attachments to init onto the weapon on roundstart
 		/// </summary>
-		[SerializeField, Tooltip("The suppressor initally attached to the gun (if there is one)")]
-		private GameObject suppressorPrefab = default;
+		[SerializeField, Tooltip("List of attachments to attach to the weapon on spawn")]
+		private List<GameObject> attachmentPrefabs = default;
 
 		/// <summary>
 		/// Checks if the weapon should spawn weapon casings
@@ -181,10 +182,10 @@ namespace Weapons
 		[ReadOnly] public ItemSlot pinSlot;
 
 		private ItemStorage itemStorage;
-		[ReadOnly] public ItemSlot suppressorSlot;
 
 		[SerializeField, EnumFlags] public AttachmentType allowedAttachments;
-		private List<WeaponAttachment> weaponAttachments = new();
+		private readonly List<WeaponAttachment> weaponAttachments = new();
+		private readonly List<ItemSlot> weaponAttachmentSlots = new();
 
 		public ItemAttributesV2 attributes;
 
@@ -209,7 +210,16 @@ namespace Weapons
 			itemStorage = GetComponent<ItemStorage>();
 			magSlot = itemStorage.GetIndexedItemSlot(0);
 			pinSlot = itemStorage.GetIndexedItemSlot(1);
-			suppressorSlot = itemStorage.GetIndexedItemSlot(2);
+
+			var slots = itemStorage.GetItemSlots().ToList();
+			for (int i = 0; i < slots.Count; i++)
+			{
+				if (i < 1)
+				{
+					continue;
+				}
+				weaponAttachmentSlots.Add(itemStorage.GetIndexedItemSlot(i));
+			}
 
 			registerTile = GetComponent<RegisterTile>();
 			if (pinSlot == null || magSlot == null || itemStorage == null)
@@ -261,9 +271,24 @@ namespace Weapons
 			Inventory.ServerAdd(Spawn.ServerPrefab(pinPrefab).GameObject, pinSlot);
 			FiringPin.gunComp = this;
 
-			if (suppressorPrefab != null && isSuppressed && allowedAttachments.HasFlag(AttachmentType.Suppressor))
+			foreach (var prefab in attachmentPrefabs)
 			{
-				Inventory.ServerAdd(Spawn.ServerPrefab(suppressorPrefab).GameObject, suppressorSlot);
+				if (prefab == null)
+				{
+					Loggy.LogError($"{gameObject.name} has null prefab in attachmentPrefab list");
+					continue;
+				}
+
+				var slot = weaponAttachmentSlots.FirstOrDefault(slot => slot.Item == null);
+
+				if (slot == null)
+				{
+					Loggy.LogError($"{gameObject.name} had no free attachment slot to add {prefab.name}");
+					continue;
+				}
+
+				Inventory.ServerAdd(Spawn.ServerPrefab(prefab).GameObject, slot);
+				slot.ItemObject.GetComponent<WeaponAttachment>().AttachBehaviour(this);
 			}
 		}
 
@@ -355,11 +380,16 @@ namespace Weapons
 					{
 						if (interaction.UsedObject.TryGetComponent<WeaponAttachment>(out var attachment))
 						{
-							if (allowedAttachments.HasFlag(attachment.AttachmentType) && attachment.AttachCheck(this) &&
-								Inventory.ServerTransfer(interaction.FromSlot, itemStorage.GetIndexedItemSlot((int) attachment.AttachmentSlot)))
+							//Check theres a free slot, check the attachment is allowed on this weapon
+							//Check if either duplicate attachments are allowed or no existing attachments are of the same type
+							//Call the attachments check function and then see if the attachment gets added to the weapon
+							var slot = weaponAttachmentSlots.FirstOrDefault(slot => slot.Item == null);
+							if (slot != null && allowedAttachments.HasFlag(attachment.AttachmentType) &&
+								(attachment.AllowDuplicateAttachments || weaponAttachments.Any(att => att.AttachmentType.Equals(attachment.AttachmentType)) == false) &&
+								attachment.AttachCheck(this) && Inventory.ServerTransfer(interaction.FromSlot, slot))
 							{
 								weaponAttachments.Add(attachment);
-								attachment.AttachBehaviour(interaction, this);
+								attachment.AttachBehaviour(this);
 							}
 						}
 						return;
@@ -413,7 +443,7 @@ namespace Weapons
 					if (attachment.DetachCheck(this) && TransferHandOrFloor(interaction, itemStorage.GetSlotFromItem(attachment.gameObject)))
 					{
 						weaponAttachments.Remove(attachment);
-						attachment.DetachBehaviour(interaction, this);
+						attachment.DetachBehaviour(this);
 						return;
 					}
 				}
@@ -640,7 +670,7 @@ namespace Weapons
 		//Log pass
 		//Fix reloading quirks from queued shot being ripped out, also possibly add (optional) mag retention via alt click reload or something
 		//Magside stuff also needs to be fixed for queued shot stuff, bullet rng, shotgun spread, etc
-		//Throw out the old internal mag/supressor spawning system and replace it with something that isnt hot garbage
+		//Throw out the old internal mag spawning system and replace it with something that isnt hot garbage
 		//Also redo gun init entirely, its similarly bad
 		//Go through all the other comments and check blame to see if they are still relevant, the first few in display shot probably arent
 		//Register tile var is unused, throw that out after triple checking where it was previously used and making sure that change hasnt broken shit

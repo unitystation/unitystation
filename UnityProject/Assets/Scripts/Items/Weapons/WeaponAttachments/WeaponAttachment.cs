@@ -5,10 +5,10 @@ namespace Weapons.WeaponAttachments
 {
 	public abstract class WeaponAttachment : MonoBehaviour
 	{
-		
 		[NonSerialized] public string InteractionKey;
 		[NonSerialized] public AttachmentType AttachmentType;
-		[NonSerialized] public AttachmentSlot AttachmentSlot;
+
+		[NonSerialized] public bool AllowDuplicateAttachments = false;
 
 		public virtual bool AttachCheck(Gun gun)
 		{
@@ -20,8 +20,8 @@ namespace Weapons.WeaponAttachments
 			return true;
 		}
 		
-		public abstract void AttachBehaviour(InventoryApply interaction, Gun gun);
-		public abstract void DetachBehaviour(ContextMenuApply interaction, Gun gun);
+		public abstract void AttachBehaviour(Gun gun);
+		public abstract void DetachBehaviour(Gun gun);
 	}
 	
 	[Flags]
@@ -33,12 +33,5 @@ namespace Weapons.WeaponAttachments
 		Flashlight = 1 << 1,
 		Bayonet = 1 << 2
 	}
-	
-	public enum AttachmentSlot
-	{
-		Suppressor = 2,
-		Flashlight = 3,
-		Bayonet = 4,
-	}
-	
+
 }

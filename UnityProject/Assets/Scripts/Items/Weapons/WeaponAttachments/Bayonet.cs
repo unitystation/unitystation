@@ -13,10 +13,9 @@ namespace Weapons.WeaponAttachments
 		{
 			InteractionKey = "Remove Bayonet";
 			AttachmentType = AttachmentType.Bayonet;
-			AttachmentSlot = AttachmentSlot.Suppressor;
 		}
 		
-		public override void AttachBehaviour(InventoryApply interaction, Gun gun)
+		public override void AttachBehaviour(Gun gun)
 		{
 			defaultHitDamage = gun.attributes.ServerHitDamage;
 			defaultDamageType = gun.attributes.ServerDamageType;
@@ -27,7 +26,7 @@ namespace Weapons.WeaponAttachments
 			gun.attributes.ServerAttackVerbs = melee.ServerAttackVerbs;
 		}
 		
-		public override void DetachBehaviour(ContextMenuApply interaction, Gun gun)
+		public override void DetachBehaviour(Gun gun)
 		{
 			gun.attributes.ServerHitDamage = defaultHitDamage;
 			gun.attributes.ServerDamageType = defaultDamageType;

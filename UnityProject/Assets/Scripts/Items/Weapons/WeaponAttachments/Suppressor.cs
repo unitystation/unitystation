@@ -7,7 +7,6 @@ namespace Weapons.WeaponAttachments
 		{
 			InteractionKey = "Remove Suppressor";
 			AttachmentType = AttachmentType.Suppressor;
-			AttachmentSlot = AttachmentSlot.Suppressor;
 		}
 
 		public override bool AttachCheck(Gun gun)
@@ -20,12 +19,12 @@ namespace Weapons.WeaponAttachments
 			return gun.isSuppressed;
 		}
 		
-		public override void AttachBehaviour(InventoryApply interaction, Gun gun)
+		public override void AttachBehaviour(Gun gun)
 		{
 			gun.SyncIsSuppressed(gun.isSuppressed, true);
 		}
 		
-		public override void DetachBehaviour(ContextMenuApply interaction, Gun gun)
+		public override void DetachBehaviour(Gun gun)
 		{
 			gun.SyncIsSuppressed(gun.isSuppressed, false);
 		}

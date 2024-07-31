@@ -7,15 +7,14 @@ namespace Weapons.WeaponAttachments
 		{
 			InteractionKey = "Remove Flashlight";
 			AttachmentType = AttachmentType.Flashlight;
-			AttachmentSlot = AttachmentSlot.Flashlight;
 		}
 
-		public override void AttachBehaviour(InventoryApply interaction, Gun gun)
+		public override void AttachBehaviour(Gun gun)
 		{
 			//TODO: itemActionButton for flashlight?
 		}
 		
-		public override void DetachBehaviour(ContextMenuApply interaction, Gun gun)
+		public override void DetachBehaviour(Gun gun)
 		{
 			//TODO: itemActionButton for flashlight?
 		}
