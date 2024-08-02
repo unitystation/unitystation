@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿﻿﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +16,39 @@ using NaughtyAttributes;
 using Player;
 using Weapons.WeaponAttachments;
 
+//TODO: All of this needs to be fixed:
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Code cleanup:
+		// - Update xml comments
+		// - Replace all references to shot queue
+		// - Remove code comments that are no longer relevant
+		// - Add new code comments
+		// - Redo logs, also re-add the logs that were removed when shotqueue was ripped out but probably shouldnt have been
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Feature fixes/implementation:
+		// - Reimplement burstfire
+		// - Reimplement clumsy shots
+		// - Redo mag/pin spawning behaviour
+		// - Redo gun init behaviour
+		// - Redo recoil implementation from shotqueue removal
+		// - Redo reloading implementation from shotqueue removal
+		// - Redo shot cooldown behaviour from shotqueue removal, new impl needs to support things for burstfire
+		// - Fix the ability to shoot over crit players and dead bodies
+		// - Fix or Redo mag behaviour thats no longer needed or broken from shotqueue removal
+		// - Update the way progress bars are done for firing pins
+		// - Many weapons still dont have their projectile behaviours done
+		// - Consider making recoil differ based on projectile
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// UX:
+		// - Redo examine messages
+		// - Redo action messages and add more of them
+		// - Consider adding hovertooltip messages
+		// - Consider adding mag retention reloads (probably not)
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Balance:
+		// - Do a balance pass on all firearms after the above problems have been fixed
+
+		// Dont make this list any longer, please...
 
 namespace Weapons
 {
@@ -112,9 +145,9 @@ namespace Weapons
 		[NonSerialized] public float CurrentRecoilVariance;
 
 		/// <summary>
-		/// The countdown untill we can shoot again (seconds)
+		/// If we are currently waiting on a shot cooldown to elapse
 		/// </summary>
-		[NonSerialized] public bool FireOnCooldowne = false;
+		[NonSerialized] public bool ShotCooldown = false;
 
 		/// <summary>
 		/// The name of the sound this gun makes when shooting
@@ -177,7 +210,6 @@ namespace Weapons
 		/// </summary>
 		[SerializeField] protected bool allowPinSwap = true;
 
-		private RegisterTile registerTile;
 		[ReadOnly] public ItemSlot magSlot;
 		[ReadOnly] public ItemSlot pinSlot;
 
@@ -218,7 +250,6 @@ namespace Weapons
 				weaponAttachmentSlots.Add(itemStorage.GetIndexedItemSlot(i));
 			}
 
-			registerTile = GetComponent<RegisterTile>();
 			if (pinSlot == null || magSlot == null || itemStorage == null)
 			{
 				Loggy.LogWarning($"{gameObject.name} missing components, may cause issues", Category.Firearms);
@@ -500,7 +531,7 @@ namespace Weapons
 			}
 
 
-			if (FireOnCooldowne == false)
+			if (ShotCooldown == false)
 			{
 
 				if (interaction.MouseButtonState == MouseButtonState.PRESS)
@@ -519,9 +550,9 @@ namespace Weapons
 
 		private IEnumerator DelayGun()
 		{
-			FireOnCooldowne = true;
+			ShotCooldown = true;
 			yield return WaitFor.Seconds(FireDelay);
-			FireOnCooldowne = false;
+			ShotCooldown = false;
 		}
 
 		public virtual void ServerPerformInteraction(AimApply interaction)
@@ -667,23 +698,6 @@ namespace Weapons
 			return false;
 		}
 
-		//TODO: Future shit autumn needs to do:
-		//Clean all this up so it doesnt refer to shot queues anymore so this isnt actually hell to understand for future maintainers
-		//And then probably add a boatload more comments that arent just outdated and misleading as hell
-		//Unfuck the xml comments, queued shot struct should be thrown out eventually once this is all fixed up
-		//Burst needs to be reimplemented, also 'Cooldowne'
-		//Log pass
-		//Fix reloading quirks from queued shot being ripped out, also possibly add (optional) mag retention via alt click reload or something
-		//Magside stuff also needs to be fixed for queued shot stuff, bullet rng, shotgun spread, etc
-		//Throw out the old internal mag spawning system and replace it with something that isnt hot garbage
-		//Also redo gun init entirely, its similarly bad
-		//Go through all the other comments and check blame to see if they are still relevant, the first few in display shot probably arent
-		//Register tile var is unused, throw that out after triple checking where it was previously used and making sure that change hasnt broken shit
-		//Recoil needs to be looked at and probably fixed or replaced, additionally a pass on guneletrical and gunpka needs to be done but neither are as much as a mess as this has become
-		//Unfuck the ability to shoot over downed players
-		//Firing pin clumsy needs to be actually reimplemented sometime this century and also redo examine text, probably also add hover tooltip stuff
-		//Do a pass on Examine Messages and Action messages, also see if the progress bar for firing pins should be converted into the utils one maybe
-		//And then after all of thats fixed do a balance pass on all firearms, plus finally actually implement shit for all the guns that dont have projectiles done
 
 		/// <summary>
 		/// Perform an actual shot on the server, putting the request to shoot into our queue
@@ -738,7 +752,7 @@ namespace Weapons
 				return;
 			}
 
-			if (FireOnCooldowne)
+			if (ShotCooldown)
 			{
 				Loggy.LogTrace("Player tried to shoot too fast.", Category.Exploits);
 				Loggy.LogWarning("Shot was attempted to be dequeued when the fire count down is not yet at 0.",
@@ -1058,25 +1072,6 @@ namespace Weapons
 			var health = performer.GetComponent<LivingHealthMasterBase>();
 			health.ApplyDamageAll(performer, health.MaxHealth / 2, AttackType.Bullet, DamageType.Brute);
 			yield return null;
-		}
-	}
-
-	/// <summary>
-	/// Represents a shot that has been queued up to fire when the weapon is next able to. Only used on server side.
-	/// </summary>
-	struct QueuedShot
-	{
-		public readonly GameObject shooter;
-		public readonly Vector2 finalDirection;
-		public readonly BodyPartType damageZone;
-		public readonly bool isSuicide;
-
-		public QueuedShot(GameObject shooter, Vector2 finalDirection, BodyPartType damageZone, bool isSuicide)
-		{
-			this.shooter = shooter;
-			this.finalDirection = finalDirection;
-			this.damageZone = damageZone;
-			this.isSuicide = isSuicide;
 		}
 	}
 
