@@ -58,7 +58,7 @@ namespace Antagonists
 
 			//Shuttle must be functional and player be on it
 			if (!ValidShuttles.Any( shuttle => shuttle.MatrixInfo != null
-				&& Owner.Body.RegisterPlayer.Matrix.Id == shuttle.MatrixInfo.Id && shuttle.HasWorkingThrusters))
+				&& Owner.Body.RegisterPlayer.Matrix.Id == shuttle.MatrixInfo.Id))
 			{
 				return false;
 			}

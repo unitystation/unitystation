@@ -51,7 +51,7 @@ namespace Antagonists
 
 			return !Owner.Body.playerHealth.IsDead &&
 				ValidShuttles.Any( shuttle => shuttle.MatrixInfo != null
-					&& (CheckOnShip(Owner.Body.RegisterPlayer, shuttle.MatrixInfo.Matrix)) && shuttle.HasWorkingThrusters);
+					&& CheckOnShip(Owner.Body.RegisterPlayer, shuttle.MatrixInfo.Matrix));
 		}
 	}
 }
