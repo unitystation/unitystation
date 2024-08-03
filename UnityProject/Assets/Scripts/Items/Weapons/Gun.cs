@@ -1,6 +1,7 @@
-﻿using System;
+﻿﻿﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -9,13 +10,45 @@ using Items;
 using AddressableReferences;
 using HealthV2;
 using Logs;
-using Messages.Server;
 using Messages.Server.SoundMessages;
 using Weapons.Projectiles;
 using NaughtyAttributes;
 using Player;
-using Player.Movement;
+using Weapons.WeaponAttachments;
 
+//TODO: All of this needs to be fixed:
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Code cleanup:
+		// - Update xml comments
+		// - Replace all references to shot queue
+		// - Remove code comments that are no longer relevant
+		// - Add new code comments
+		// - Redo logs, also re-add the logs that were removed when shotqueue was ripped out but probably shouldnt have been
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Feature fixes/implementation:
+		// - Reimplement burstfire
+		// - Reimplement clumsy shots
+		// - Redo mag/pin spawning behaviour
+		// - Redo gun init behaviour
+		// - Redo recoil implementation from shotqueue removal
+		// - Redo reloading implementation from shotqueue removal
+		// - Redo shot cooldown behaviour from shotqueue removal, new impl needs to support things for burstfire
+		// - Fix the ability to shoot over crit players and dead bodies
+		// - Fix or Redo mag behaviour thats no longer needed or broken from shotqueue removal
+		// - Update the way progress bars are done for firing pins
+		// - Many weapons still dont have their projectile behaviours done
+		// - Consider making recoil differ based on projectile
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// UX:
+		// - Redo examine messages
+		// - Redo action messages and add more of them
+		// - Consider adding hovertooltip messages
+		// - Consider adding mag retention reloads (probably not)
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Balance:
+		// - Do a balance pass on all firearms after the above problems have been fixed
+
+		// Dont make this list any longer, please...
 
 namespace Weapons
 {
@@ -25,7 +58,7 @@ namespace Weapons
 	[RequireComponent(typeof(Pickupable))]
 	[RequireComponent(typeof(ItemStorage))]
 	public class Gun : NetworkBehaviour, ICheckedInteractable<AimApply>, ICheckedInteractable<HandActivate>,
-		ICheckedInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn, IExaminable, ISuicide
+		ICheckedInteractable<InventoryApply>, ICheckedInteractable<ContextMenuApply>, IRightClickable, IServerInventoryMove, IServerSpawn, IExaminable, ISuicide
 	{
 		/// <summary>
 		/// Prefab to be spawned within on roundstart
@@ -83,10 +116,10 @@ namespace Weapons
 		private GameObject pinPrefab = null;
 
 		/// <summary>
-		/// The suppressor that will initally spawn attached to the gun provided the gun is suppressable
+		/// Attachments to init onto the weapon on roundstart
 		/// </summary>
-		[SerializeField, Tooltip("The suppressor initally attached to the gun (if there is one)")]
-		private GameObject suppressorPrefab = default;
+		[SerializeField, Tooltip("List of attachments to attach to the weapon on spawn")]
+		private List<GameObject> attachmentPrefabs = default;
 
 		/// <summary>
 		/// Checks if the weapon should spawn weapon casings
@@ -112,9 +145,9 @@ namespace Weapons
 		[NonSerialized] public float CurrentRecoilVariance;
 
 		/// <summary>
-		/// The countdown untill we can shoot again (seconds)
+		/// If we are currently waiting on a shot cooldown to elapse
 		/// </summary>
-		[NonSerialized] public bool FireOnCooldowne = false;
+		[NonSerialized] public bool ShotCooldown = false;
 
 		/// <summary>
 		/// The name of the sound this gun makes when shooting
@@ -177,11 +210,14 @@ namespace Weapons
 		/// </summary>
 		[SerializeField] protected bool allowPinSwap = true;
 
-
-		private RegisterTile registerTile;
 		[ReadOnly] public ItemSlot magSlot;
 		[ReadOnly] public ItemSlot pinSlot;
-		[ReadOnly] public ItemSlot suppressorSlot;
+
+		private ItemStorage itemStorage;
+
+		[SerializeField, EnumFlags] public AttachmentType allowedAttachments;
+		private readonly List<WeaponAttachment> weaponAttachments = new();
+		private readonly List<ItemSlot> weaponAttachmentSlots = new();
 
 		protected const float PinRemoveTime = 10f;
 
@@ -193,23 +229,27 @@ namespace Weapons
 
 		public bool IsSuppressed => isSuppressed;
 
-		/// <summary>
-		/// Enables or disables the behaviour related to applying and removing suppressors from the gun
-		/// </summary>
-		[SerializeField, Tooltip("If suppressors can be applied or removed")]
-		private bool isSuppressible = default;
-
 		#region Init Logic
 
 		private void Awake()
 		{
 			//init weapon with missing settings
 			GetComponent<ItemAttributesV2>().AddTrait(CommonTraits.Instance.Gun);
-			ItemStorage itemStorage = GetComponent<ItemStorage>();
+
+			itemStorage = GetComponent<ItemStorage>();
 			magSlot = itemStorage.GetIndexedItemSlot(0);
 			pinSlot = itemStorage.GetIndexedItemSlot(1);
-			suppressorSlot = itemStorage.GetIndexedItemSlot(2);
-			registerTile = GetComponent<RegisterTile>();
+
+			var slots = itemStorage.GetItemSlots().ToList();
+			for (int i = 0; i < slots.Count; i++)
+			{
+				if (i < 1)
+				{
+					continue;
+				}
+				weaponAttachmentSlots.Add(itemStorage.GetIndexedItemSlot(i));
+			}
+
 			if (pinSlot == null || magSlot == null || itemStorage == null)
 			{
 				Loggy.LogWarning($"{gameObject.name} missing components, may cause issues", Category.Firearms);
@@ -259,15 +299,32 @@ namespace Weapons
 			Inventory.ServerAdd(Spawn.ServerPrefab(pinPrefab).GameObject, pinSlot);
 			FiringPin.gunComp = this;
 
-			if (suppressorPrefab != null && isSuppressed && isSuppressible)
+			foreach (var prefab in attachmentPrefabs)
 			{
-				Inventory.ServerAdd(Spawn.ServerPrefab(suppressorPrefab).GameObject, suppressorSlot);
+				if (prefab == null)
+				{
+					Loggy.LogError($"{gameObject.name} has null prefab in attachmentPrefab list");
+					continue;
+				}
+
+				var slot = weaponAttachmentSlots.FirstOrDefault(slot => slot.Item == null);
+
+				if (slot == null)
+				{
+					Loggy.LogError($"{gameObject.name} had no free attachment slot to add {prefab.name}");
+					continue;
+				}
+
+				Inventory.ServerAdd(Spawn.ServerPrefab(prefab).GameObject, slot);
+				var attachment = slot.ItemObject.GetComponent<WeaponAttachment>();
+				weaponAttachments.Add(attachment);
+				attachment.AttachBehaviour(this);
 			}
 		}
 
 		public virtual void OnInventoryMoveServer(InventoryMove info)
 		{
-			if (this.gameObject != info.MovedObject.gameObject) return;
+			if (gameObject != info.MovedObject.gameObject) return;
 
 			if (info.ToPlayer != null)
 			{
@@ -317,10 +374,9 @@ namespace Weapons
 			//only reload if the gun is the target and item being used on us is in hand slot
 			if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
 			{
-				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Suppressor) ||
+				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponAttachable) ||
 				    Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) ||
-				    Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin) ||
-				    interaction.IsAltClick)
+				    Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin))
 				{
 					return true;
 				}
@@ -347,23 +403,93 @@ namespace Weapons
 					if (mag)
 					{
 						ServerHandleReloadRequest(mag.gameObject);
+						return;
 					}
-					else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Suppressor) &&
-					         !isSuppressed && isSuppressible)
+
+					if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponAttachable))
 					{
-						SyncIsSuppressed(isSuppressed, true);
-						Inventory.ServerTransfer(interaction.FromSlot, suppressorSlot);
+						if (interaction.UsedObject.TryGetComponent<WeaponAttachment>(out var attachment))
+						{
+							//Check theres a free slot, check the attachment is allowed on this weapon
+							//Check if either duplicate attachments are allowed or no existing attachments are of the same type
+							//Call the attachments check function and then see if the attachment gets added to the weapon
+							var slot = weaponAttachmentSlots.FirstOrDefault(slot => slot.Item == null);
+							if (slot != null && allowedAttachments.HasFlag(attachment.AttachmentType) &&
+								(attachment.AllowDuplicateAttachments || weaponAttachments.Any(att => att.AttachmentType.Equals(attachment.AttachmentType)) == false) &&
+								attachment.AttachCheck(this) && Inventory.ServerTransfer(interaction.FromSlot, slot))
+							{
+								weaponAttachments.Add(attachment);
+								attachment.AttachBehaviour(this);
+							}
+						}
+						return;
 					}
-					else
-					{
-						PinInteraction(interaction);
-					}
+
+					PinInteraction(interaction);
 				}
-				else if (isSuppressed && isSuppressible && suppressorSlot.Item != null)
+			}
+		}
+
+		#endregion
+
+		#region ContextMenu
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			var result = RightClickableResult.Create();
+
+			if (!WillInteract(ContextMenuApply.ByLocalPlayer(gameObject, null), NetworkSide.Client)) return result;
+
+			foreach (var attachment in weaponAttachments)
+			{
+				//If an attachment is already stored and we dont have the flag, assume its intended to be iremovable
+				if (allowedAttachments.HasFlag(attachment.AttachmentType))
 				{
-					SyncIsSuppressed(isSuppressed, false);
-					Inventory.ServerTransfer(suppressorSlot, interaction.FromSlot);
+					var interaction = ContextMenuApply.ByLocalPlayer(gameObject, attachment.InteractionKey);
+					result.AddElement(attachment.InteractionKey, () => ContextMenuOptionClicked(interaction));
 				}
+			}
+			return result;
+		}
+
+		private void ContextMenuOptionClicked(ContextMenuApply interaction)
+		{
+			InteractionUtils.RequestInteract(interaction, this);
+		}
+
+		public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
+		{
+			return DefaultWillInteract.Default(interaction, side);
+		}
+
+		public void ServerPerformInteraction(ContextMenuApply interaction)
+		{
+			if (serverHolder != interaction.Performer) return;
+
+			foreach (var attachment in weaponAttachments)
+			{
+				if (interaction.RequestedOption == attachment.InteractionKey)
+				{
+					if (attachment.DetachCheck(this) && TransferHandOrFloor(interaction, itemStorage.GetSlotFromItem(attachment.gameObject)))
+					{
+						weaponAttachments.Remove(attachment);
+						attachment.DetachBehaviour(this);
+						return;
+					}
+				}
+			}
+		}
+
+		private bool TransferHandOrFloor(ContextMenuApply interaction, ItemSlot targetslot)
+		{
+			ItemSlot hand = interaction.PerformerPlayerScript.DynamicItemStorage.GetBestHand();
+			if (Inventory.ServerTransfer(targetslot, hand) == false)
+			{
+				return Inventory.ServerDrop(targetslot);
+			}
+			else
+			{
+				return true;
 			}
 		}
 
@@ -374,6 +500,12 @@ namespace Weapons
 		public virtual bool WillInteract(AimApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+			//Melee behaviour for things like bayonets
+			if (interaction.Intent == Intent.Harm && (interaction.TargetPosition - interaction.Performer.RegisterTile().LocalPosition.To2()).magnitude <= 1.5f)
+			{
+				return false;
+			}
 
 			if (CurrentMagazine == null)
 			{
@@ -399,7 +531,7 @@ namespace Weapons
 			}
 
 
-			if (FireOnCooldowne == false)
+			if (ShotCooldown == false)
 			{
 
 				if (interaction.MouseButtonState == MouseButtonState.PRESS)
@@ -418,9 +550,9 @@ namespace Weapons
 
 		private IEnumerator DelayGun()
 		{
-			FireOnCooldowne = true;
+			ShotCooldown = true;
 			yield return WaitFor.Seconds(FireDelay);
-			FireOnCooldowne = false;
+			ShotCooldown = false;
 		}
 
 		public virtual void ServerPerformInteraction(AimApply interaction)
@@ -566,6 +698,7 @@ namespace Weapons
 			return false;
 		}
 
+
 		/// <summary>
 		/// Perform an actual shot on the server, putting the request to shoot into our queue
 		/// and informing all clients of the shot once the shot is processed
@@ -619,7 +752,7 @@ namespace Weapons
 				return;
 			}
 
-			if (FireOnCooldowne)
+			if (ShotCooldown)
 			{
 				Loggy.LogTrace("Player tried to shoot too fast.", Category.Exploits);
 				Loggy.LogWarning("Shot was attempted to be dequeued when the fire count down is not yet at 0.",
@@ -825,15 +958,10 @@ namespace Weapons
 		/// </summary>
 		public void ServerHandleUnloadRequest()
 		{
-			ItemSlot hand = GetComponent<Pickupable>()?.ItemSlot?.Player.OrNull()?.GetComponent<DynamicItemStorage>()?
-				.GetBestHand();
-
 			if (MagInternal == true)
 			{
 				return;
 			}
-
-
 			UnloadMagSound();
 			Inventory.ServerDrop(magSlot);
 		}
@@ -865,7 +993,7 @@ namespace Weapons
 		/// <summary>
 		/// Syncs suppressed bool.
 		/// </summary>
-		private void SyncIsSuppressed(bool oldValue, bool newValue)
+		public void SyncIsSuppressed(bool oldValue, bool newValue)
 		{
 			isSuppressed = newValue;
 		}
@@ -944,25 +1072,6 @@ namespace Weapons
 			var health = performer.GetComponent<LivingHealthMasterBase>();
 			health.ApplyDamageAll(performer, health.MaxHealth / 2, AttackType.Bullet, DamageType.Brute);
 			yield return null;
-		}
-	}
-
-	/// <summary>
-	/// Represents a shot that has been queued up to fire when the weapon is next able to. Only used on server side.
-	/// </summary>
-	struct QueuedShot
-	{
-		public readonly GameObject shooter;
-		public readonly Vector2 finalDirection;
-		public readonly BodyPartType damageZone;
-		public readonly bool isSuicide;
-
-		public QueuedShot(GameObject shooter, Vector2 finalDirection, BodyPartType damageZone, bool isSuicide)
-		{
-			this.shooter = shooter;
-			this.finalDirection = finalDirection;
-			this.damageZone = damageZone;
-			this.isSuicide = isSuicide;
 		}
 	}
 

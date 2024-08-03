@@ -15,6 +15,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 {
 	[BoxGroup("Guns")] public ItemTrait Gun;
 	[BoxGroup("Guns")] public ItemTrait Suppressor;
+	[BoxGroup("Guns")] public ItemTrait WeaponAttachable;
 	[BoxGroup("Guns")] public ItemTrait WeaponCell;
 	[BoxGroup("Guns")] public ItemTrait FiringPin;
 

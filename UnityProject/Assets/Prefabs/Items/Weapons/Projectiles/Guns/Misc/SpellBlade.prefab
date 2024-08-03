@@ -21,6 +21,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
+      propertyPath: allowedAttachments
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
       propertyPath: shootSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
@@ -77,17 +82,17 @@ PrefabInstance:
     - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
         type: 3}

@@ -195,9 +195,9 @@ public class MouseInputController : MonoBehaviour
 
 			if (loadedGun != null)
 			{
-				//if we are on harm intent with loaded gun,
+				//if we are on help intent with loaded gun,
 				//don't do anything else, just shoot (trigger the AimApply).
-				if (UIManager.CurrentIntent == Intent.Harm)
+				if (UIManager.CurrentIntent == Intent.Help)
 				{
 					CheckAimApply(MouseButtonState.PRESS);
 				}
