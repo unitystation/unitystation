@@ -11,9 +11,5 @@ namespace Weapons
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.ClownHonk, interaction.Performer.AssumedWorldPosServer(),
 			hornParameters, true, sourceObj: interaction.Performer);
 		}
-
-		public override void ClientBehaviour(AimApply interaction, bool isSuicide)
-		{
-		}
 	}
 }
