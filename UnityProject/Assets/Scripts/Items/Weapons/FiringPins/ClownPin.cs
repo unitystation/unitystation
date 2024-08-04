@@ -24,22 +24,5 @@ namespace Weapons
 				$"{interaction.Performer.ExpensiveName()} somehow manages to shoot themself in the face!");
 			}
 		}
-
-		public override void ClientBehaviour(AimApply interaction, bool isSuicide)
-		{
-			//TODO Commented out as client doesnt sync job, after mind rework see if job is now sync'd
-			// JobType job = GetJobClient();
-			//
-			// if (clusmyMisfire && job == JobType.CLOWN)
-			// {
-			// 	CallShotClient(interaction, isSuicide);
-			// }
-			// else
-			// {
-			// 	CallShotClient(interaction, true);
-			// }
-
-			CallShotClient(interaction, true);
-		}
 	}
 }

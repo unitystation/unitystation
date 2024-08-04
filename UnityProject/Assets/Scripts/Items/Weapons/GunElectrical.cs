@@ -5,9 +5,7 @@ using AddressableReferences;
 using Messages.Server.SoundMessages;
 using Mirror;
 using Systems.Construction.Parts;
-using UnityEditor;
 using UnityEngine;
-using Weapons.Projectiles;
 
 namespace Weapons
 {
@@ -110,6 +108,7 @@ namespace Weapons
 			if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
 			{
 				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && allowScrewdriver ||
+					Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponAttachable) ||
 					Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) ||
 					Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin))
 				{
@@ -132,17 +131,24 @@ namespace Weapons
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && CurrentMagazine != null && allowScrewdriver)
 			{
 				PowerCellRemoval(interaction);
+				return;
 			}
+
 			MagazineBehaviour mag = interaction.UsedObject.GetComponent<MagazineBehaviour>();
 			if (mag)
 			{
-				ServerHandleReloadRequest(mag.gameObject);
+				ServerReloadMagazine(mag.gameObject);
 				UpdateChargeSprite();
+				return;
 			}
-			else
+
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponAttachable))
 			{
-				base.PinInteraction(interaction);
+				AttachmentInteraction(interaction);
+				return;
 			}
+
+			base.PinInteraction(interaction);
 		}
 
 		private void PowerCellRemoval(InventoryApply interaction)
@@ -152,7 +158,7 @@ namespace Weapons
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"The {gameObject.ExpensiveName()}'s power cell pops out",
 					$"{interaction.Performer.ExpensiveName()} finishes removing {gameObject.ExpensiveName()}'s energy cell.");
-				base.ServerHandleUnloadRequest();
+				base.ServerUnloadMagazine();
 				UpdateChargeSprite();
 			}
 
@@ -165,7 +171,7 @@ namespace Weapons
 					$"You begin unsecuring the {gameObject.ExpensiveName()}'s power cell.",
 					$"{interaction.Performer.ExpensiveName()} begins unsecuring {gameObject.ExpensiveName()}'s power cell.");
 					AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
-				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: serverHolder);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: ServerHolder);
 			}
 		}
 
@@ -205,6 +211,9 @@ namespace Weapons
 			exam.AppendLine($"{WeaponType} - Fires {ammoType} ammunition")
 				.AppendLine(CurrentMagazine != null ? $"{Mathf.Floor(Battery.Watts / firemodeUsage[currentFiremode])} rounds loaded" : "It's empty!")
 				.AppendLine(FiringPin != null ? $"It has a {FiringPin.gameObject.ExpensiveName()} installed" : "It doesn't have a firing pin installed, it won't fire")
+				.AppendLine(allowedAttachments != 0
+				? $"It is compatible with {FormatAttachmentString()} attachments"
+					: "It cannot use any attachments.")
 				.Append(firemodeProjectiles.Count > 1 ? $"It is set to {firemodeName[currentFiremode]} mode." : "");
 			return exam.ToString();
 		}

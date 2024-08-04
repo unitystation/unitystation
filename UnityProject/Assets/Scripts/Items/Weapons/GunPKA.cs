@@ -1,9 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using AddressableReferences;
 using HealthV2;
-using Messages.Server.SoundMessages;
 
 namespace Weapons
 {
@@ -51,14 +49,14 @@ namespace Weapons
 			CurrentMagazine.LoadProjectile(projectile, 1);
 			if (IsSuppressed)
 			{
-				if (serverHolder != null)
+				if (ServerHolder != null)
 				{
-					Chat.AddExamineMsgFromServer(serverHolder, $"The {gameObject.ExpensiveName()} silently recharges.");
+					Chat.AddExamineMsgFromServer(ServerHolder, $"The {gameObject.ExpensiveName()} silently recharges.");
 				}
 			}
 			else
 			{
-				SoundManager.PlayNetworkedAtPos(rechargeSound, gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
+				SoundManager.PlayNetworkedAtPos(rechargeSound, gameObject.AssumedWorldPosServer(), sourceObj: ServerHolder);
 			}
 			allowRecharge = true;
 		}
