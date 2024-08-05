@@ -52,7 +52,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 		public string HoverTip()
 		{
 			return $"Perpetrator: {entry.Perpetrator}\n" +
-			       $"Time: {entry.LogTime.ToLongTimeString()}\n" +
+			       $"Time: {entry.LogTime.ToLongTimeString()} UTC\n" +
 			       $"Category: {entry.Category}\n" +
 			       $"Severity: {entry.LogImportance}\n";
 		}
