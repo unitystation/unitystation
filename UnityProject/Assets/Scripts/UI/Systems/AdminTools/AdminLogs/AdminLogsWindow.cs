@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Core.Admin.Logs;
 using Logs;
 using Messages.Client.Admin.Logs;
@@ -16,6 +17,8 @@ namespace UI.Systems.AdminTools.AdminLogs
 		[SerializeField] private AdminLogEntryUI logEntryBase;
 		[SerializeField] private Transform logsTranform;
 		[SerializeField] private TMP_Dropdown logFilesDropdown;
+		[SerializeField] private TMP_Dropdown logCategoriesFilterDropdown;
+		[SerializeField] private TMP_Dropdown logSeverityFilterDropdown;
 		[SerializeField] private TMP_Text AvaliablePagesText;
 		[SerializeField] private TMP_InputField CurrentSelectedPageInput;
 		private int lastPageNumber = 1;
@@ -24,6 +27,10 @@ namespace UI.Systems.AdminTools.AdminLogs
 		private void OnEnable()
 		{
 			RequestAllLogFileNames();
+			logSeverityFilterDropdown.ClearOptions();
+			logCategoriesFilterDropdown.ClearOptions();
+			logSeverityFilterDropdown.AddOptions(Enum.GetNames(typeof(Severity)).ToList());
+			logCategoriesFilterDropdown.AddOptions(Enum.GetNames(typeof(LogCategory)).ToList());
 		}
 
 		private void RequestLogPage(string logFileName, int page)
@@ -100,6 +107,38 @@ namespace UI.Systems.AdminTools.AdminLogs
 		public void OnGoToPageButtonClick()
 		{
 			RequestLogPage(logFilesDropdown.captionText.text, int.Parse(CurrentSelectedPageInput.text));
+		}
+
+		public void OnFilterBySeverityChange()
+		{
+			if (logSeverityFilterDropdown.value == 0)
+			{
+				foreach (var log in entriesUI)
+				{
+					log.gameObject.SetActive(true);
+				}
+				return;
+			}
+			foreach (var log in entriesUI)
+			{
+				log.gameObject.SetActive(log.StoredLogEntry.LogImportance == (Severity)logSeverityFilterDropdown.value);
+			}
+		}
+
+		public void OnFilterByCategoryChange()
+		{
+			if (logCategoriesFilterDropdown.value == 0)
+			{
+				foreach (var log in entriesUI)
+				{
+					log.gameObject.SetActive(true);
+				}
+				return;
+			}
+			foreach (var log in entriesUI)
+			{
+				log.gameObject.SetActive(log.StoredLogEntry.Category == (LogCategory)logCategoriesFilterDropdown.value);
+			}
 		}
 	}
 }

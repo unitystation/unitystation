@@ -67,7 +67,6 @@ public class UIManager : MonoBehaviour, IInitialise
 	public AdminChatButtons prayerChatButtons;
 	public AdminChatWindows adminChatWindows;
 	public ProfileScrollView profileScrollView;
-	public PlayerAlerts playerAlerts;
 	[FormerlySerializedAs("antagBanner")] public GUIAntagBanner spawnBanner;
 	private static bool preventChatInput;
 	[SerializeField] [Range(0.1f, 10f)] private float PhoneZoomFactor = 1.6f;
@@ -363,7 +362,6 @@ public class UIManager : MonoBehaviour, IInitialise
 		mentorChatButtons.ClearAllNotifications();
 		prayerChatButtons.ClearAllNotifications();
 		adminChatWindows.ResetAll();
-		playerAlerts.ClearLogs();
 	}
 
 	void DetermineInitialTargetFrameRate()

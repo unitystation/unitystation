@@ -20,6 +20,7 @@ using Weapons.Projectiles;
 using Weapons.Projectiles.Behaviours;
 using Random = UnityEngine.Random;
 using Communications;
+using Core.Admin.Logs;
 using Objects.Machines.ServerMachines.Communications;
 using ScriptableObjects.Communications;
 using Systems.Communications;
@@ -1180,9 +1181,10 @@ namespace Objects.Engineering
 		private void LogBumpForAdmin(GameObject thrownObject)
 		{
 			if (thrownObject.TryGetComponent<LastTouch>(out var touch) == false || touch.LastTouchedBy == null) return;
-			var time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
-			PlayerAlerts.LogPlayerAction(time, PlayerAlertTypes.RDM, touch.LastTouchedBy,
-				$"{time} : A {thrownObject.ExpensiveName()} was thrown at a super-matter and was last touched by {touch.LastTouchedBy.Script.playerName} ({touch.LastTouchedBy.Username}).");
+			AdminLogsManager.AddNewLog(touch.LastTouchedBy.GameObject,
+				$"A {thrownObject.ExpensiveName()} was thrown at a super-matter " +
+				$"and was last touched by {touch.LastTouchedBy.Script.playerName} ({touch.LastTouchedBy.Username}).",
+				LogCategory.Interaction, Severity.IMMEDIATE_ATTENTION);
 		}
 
 		#endregion

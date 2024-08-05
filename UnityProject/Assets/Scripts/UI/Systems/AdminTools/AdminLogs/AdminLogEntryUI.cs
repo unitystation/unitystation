@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using AdminTools;
-using Core.Admin.Logs;
+﻿using Core.Admin.Logs;
 using Messages.Client.Admin;
 using Mirror;
 using TMPro;
@@ -16,6 +14,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 		[SerializeField] private TMP_Text logInfo = null;
 		[SerializeField] private TMP_Text logTime = null;
 		private LogEntry entry = null;
+		public LogEntry StoredLogEntry => entry;
 		public string LogText => entry?.Log;
 
 		public void Setup(LogEntry newEntry)
@@ -26,12 +25,6 @@ namespace UI.Systems.AdminTools.AdminLogs
 			gameObject.SetActive(true);
 			//gibButton.onClick.AddListener(GibRequest);
 			//teleportButton.onClick.AddListener(TeleportTo);
-		}
-
-		private void GibRequest()
-		{
-			AdminPlayerAlertActions.Send(
-				PlayerAlertActions.Gibbed, entry.LogTime.ToLongTimeString(), AdminLogsManager.GetPerpIdFromString(entry.Perpetrator), PlayerList.Instance.AdminToken);
 		}
 
 		public void TeleportTo()
