@@ -89,5 +89,10 @@ namespace UI.Systems.AdminTools.AdminLogs
 				CurrentSelectedPageInput.text = NumberOfPagesAvaliable.ToString();
 			}
 		}
+
+		public void OnGoToPageButtonClick()
+		{
+			RequestLogPage(logFilesDropdown.captionText.text, int.Parse(CurrentSelectedPageInput.text));
+		}
 	}
 }
