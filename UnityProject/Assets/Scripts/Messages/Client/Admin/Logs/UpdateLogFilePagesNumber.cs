@@ -1,4 +1,5 @@
-﻿using Messages.Server;
+﻿using Initialisation;
+using Messages.Server;
 using Mirror;
 
 namespace Messages.Client.Admin.Logs
@@ -12,7 +13,7 @@ namespace Messages.Client.Admin.Logs
 
 		public override void Process(NetMessage msg)
 		{
-			UIManager.Instance.AdminLogsWindow.UpdateAvaliablePagesNumber(msg.PageNumber);
+			LoadManager.DoInMainThread(() => UIManager.Instance.AdminLogsWindow.UpdateAvaliablePagesNumber(msg.PageNumber));
 		}
 	}
 }

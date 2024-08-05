@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.Admin.Logs.Interfaces;
 using Core.Editor.Attributes;
+using Initialisation;
 using Logs;
 using SecureStuff;
 using Shared.Managers;
@@ -175,6 +176,7 @@ namespace Core.Admin.Logs.Stores
 					Loggy.LogError($"[AdminLogsStorage/FetchLogsPaginated()] - File not found: {filePath}");
 				}
 				string fileContent = await LoadData(filePath);
+				LoadManager.DoInMainThread(() => Loggy.Log("Moving back to main thread."));
 				if (string.IsNullOrEmpty(fileContent)) return logEntries;
 				string[] logLines = fileContent.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 				int skip = (pageNumber - 1) * pageSize;
@@ -211,6 +213,7 @@ namespace Core.Admin.Logs.Stores
 					return totalEntries;
 				}
 				string fileContent = await Task.Run(() => AccessFile.Load(filePath, FolderType.Logs, Application.isEditor == false));
+				LoadManager.DoInMainThread(() => Loggy.Log("Moving back to main thread."));
 				string[] logLines = fileContent.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 				totalEntries = logLines.Length;
 			}

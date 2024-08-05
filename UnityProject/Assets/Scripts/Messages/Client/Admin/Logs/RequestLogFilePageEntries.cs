@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Core.Admin.Logs;
 using Core.Admin.Logs.Stores;
+using Initialisation;
 using Mirror;
 
 namespace Messages.Client.Admin.Logs
@@ -20,7 +21,7 @@ namespace Messages.Client.Admin.Logs
 			{
 				Entries = entries,
 			};
-			UpdateLogFilePageEntries.SendTo(SentByPlayer.Connection, message);
+			LoadManager.DoInMainThread(() => UpdateLogFilePageEntries.SendTo(SentByPlayer.Connection, message));
 		}
 
 		public static NetMessage Send(int page, string logFileName)

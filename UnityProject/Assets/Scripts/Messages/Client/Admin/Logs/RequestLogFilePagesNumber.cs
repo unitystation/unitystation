@@ -1,4 +1,5 @@
 ﻿using Core.Admin.Logs.Stores;
+using Initialisation;
 using Mirror;
 
 namespace Messages.Client.Admin.Logs
@@ -13,7 +14,7 @@ namespace Messages.Client.Admin.Logs
 		public override void Process(NetMessage msg)
 		{
 			var number = AdminLogsStorage.GetTotalPages(msg.LogFileName).Result;
-			UpdateLogFilePagesNumber.SendTo(SentByPlayer.Connection, new UpdateLogFilePagesNumber.NetMessage { PageNumber = number });
+			LoadManager.DoInMainThread(() => UpdateLogFilePagesNumber.SendTo(SentByPlayer.Connection, new UpdateLogFilePagesNumber.NetMessage { PageNumber = number }));
 		}
 
 		public static NetMessage Send(string logFileName)
