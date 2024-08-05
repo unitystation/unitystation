@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core.Admin.Logs;
+using Initialisation;
 using Messages.Server;
 using Mirror;
 
@@ -14,7 +15,7 @@ namespace Messages.Client.Admin.Logs
 
 		public override void Process(NetMessage msg)
 		{
-			UIManager.Instance.AdminLogsWindow.UpdateLogEntries(msg.Entries);
+			LoadManager.DoInMainThread(() => UIManager.Instance.AdminLogsWindow.UpdateLogEntries(msg.Entries));
 		}
 	}
 }

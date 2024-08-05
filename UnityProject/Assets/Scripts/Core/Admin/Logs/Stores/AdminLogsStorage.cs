@@ -7,6 +7,7 @@ using Core.Admin.Logs.Interfaces;
 using Core.Editor.Attributes;
 using Initialisation;
 using Logs;
+using NUnit.Framework;
 using SecureStuff;
 using Shared.Managers;
 using UnityEngine;
@@ -151,7 +152,6 @@ namespace Core.Admin.Logs.Stores
 
 		public static async Task<List<LogEntry>> FetchLogsPaginated(string fileName, int pageNumber, int pageSize = ENTRY_PAGE_SIZE)
 		{
-
 			async Task<string> LoadData(string filePath)
 			{
 				var data = "";
@@ -223,6 +223,26 @@ namespace Core.Admin.Logs.Stores
 				return 0;
 			}
 			return (int)Math.Ceiling((double)totalEntries / pageSize);
+		}
+
+		public static async Task<List<string>> GetAllLogFiles()
+		{
+			List<string> totalEntries = new List<string>();
+			if (AccessFile.Exists("Admin", false, FolderType.Logs, Application.isEditor == false) == false)
+			{
+				Loggy.LogError($"[AdminLogsStorage/GetTotalPages()] - Logs folder not found.");
+				return totalEntries;
+			}
+			await Task.Run(() =>
+			{
+				string[] files = AccessFile.DirectoriesOrFilesIn("Admin", FolderType.Logs, Application.isEditor == false);
+				foreach (string file in files)
+				{
+					totalEntries.Add(file);
+				}
+			});
+			LoadManager.DoInMainThread(() => Loggy.Log("Moving back to main thread."));
+			return totalEntries;
 		}
 	}
 }

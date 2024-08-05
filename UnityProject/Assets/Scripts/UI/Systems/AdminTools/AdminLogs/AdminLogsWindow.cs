@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Core.Admin.Logs;
+using Logs;
 using Messages.Client.Admin.Logs;
 using TMPro;
 using UnityEngine;
@@ -21,6 +22,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 		private void OnEnable()
 		{
 			RequestLogAvaliablePages();
+			RequestAllLogFileNames();
 		}
 
 		private string GetLogFileName()
@@ -38,6 +40,17 @@ namespace UI.Systems.AdminTools.AdminLogs
 		{
 			logFileName ??= GetLogFileName();
 			RequestLogFilePagesNumber.Send(logFileName);
+		}
+
+		private void RequestAllLogFileNames()
+		{
+			RequestLogFilesNames.Send(new RequestLogFilesNames.NetMessage());
+		}
+
+		public void UpdateLogFileDropdown(List<string> logFileNames)
+		{
+			logFilesDropdown.ClearOptions();
+			logFilesDropdown.AddOptions(logFileNames);
 		}
 
 		public void UpdateAvaliablePagesNumber(int pageNumber)
@@ -59,6 +72,11 @@ namespace UI.Systems.AdminTools.AdminLogs
 				AdminLogEntryUI newEntryUI = Instantiate(logEntryBase, logsTranform, false);
 				newEntryUI.Setup(newEntry);
 			}
+		}
+
+		public void ShowErrorNoLogFound()
+		{
+			Loggy.LogError($"{GetLogFileName()} not found.");
 		}
 	}
 }
