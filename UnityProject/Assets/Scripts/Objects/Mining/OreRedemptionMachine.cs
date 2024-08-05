@@ -117,6 +117,7 @@ namespace Objects.Mining
 			{
 				if (itemSlot.ItemObject)
 				{
+					var pointsToClaim = laborPoints;
 					var idCard = GetId(itemSlot.ItemObject);
 					ScoreMachine.AddToScoreInt(laborPoints, RoundEndScoreBuilder.COMMON_SCORE_LABORPOINTS);
 					idCard.currencies[(int)CurrencyType.LaborPoints] += laborPoints;

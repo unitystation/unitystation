@@ -1,13 +1,16 @@
-﻿using Core.Admin.Logs;
+﻿using System.Collections.Generic;
+using Core.Admin.Logs;
 using Messages.Client.Admin;
 using Mirror;
 using TMPro;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UI.Systems.AdminTools.AdminLogs
 {
-	public class AdminLogEntryUI : MonoBehaviour
+	public class AdminLogEntryUI : MonoBehaviour, IHoverTooltip, IPointerEnterHandler, IPointerExitHandler
 	{
 		[SerializeField] private Button gibButton = null;
 		[SerializeField] private Button teleportButton = null;
@@ -44,6 +47,44 @@ namespace UI.Systems.AdminTools.AdminLogs
 			}
 			PlayerManager.LocalPlayerObject.GetComponent<GhostMove>()
 				.CMDSetServerPosition(target.transform.position);
+		}
+
+		public string HoverTip()
+		{
+			return $"Perpetrator: {entry.Perpetrator}\n" +
+			       $"Time: {entry.LogTime.ToLongTimeString()}\n" +
+			       $"Category: {entry.Category}\n" +
+			       $"Severity: {entry.LogImportance}\n";
+		}
+
+		public string CustomTitle()
+		{
+			return "Log Entry";
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			return null;
+		}
+
+		public void OnPointerEnter(PointerEventData eventData)
+		{
+			UIManager.SetHoverToolTip = gameObject;
+		}
+
+		public void OnPointerExit(PointerEventData eventData)
+		{
+			UIManager.SetHoverToolTip = null;
 		}
 	}
 }
