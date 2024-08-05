@@ -19,7 +19,7 @@ namespace Core.Admin.Logs.Stores
 		private Queue<HumanLogEntry> entries = new Queue<HumanLogEntry>();
 		private bool readyForQueue = true;
 
-		public const int ENTRY_PAGE_SIZE = 10;
+		public const int ENTRY_PAGE_SIZE = 45;
 
 		[SerializeField, SerializeReference, SelectImplementation(typeof(IAdminLogEntryConverter<string>))]
 		private IAdminLogEntryConverter<string> EntryConverter;
