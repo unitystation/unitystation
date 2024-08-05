@@ -16,6 +16,8 @@ namespace UI.Systems.AdminTools.AdminLogs
 		[SerializeField] private AdminLogEntryUI logEntryBase;
 		[SerializeField] private Transform logsTranform;
 		[SerializeField] private TMP_Dropdown logFilesDropdown;
+		[SerializeField] private TMP_Text AvaliablePagesText;
+		[SerializeField] private TMP_InputField CurrentSelectedPageInput;
 		private int lastPageNumber = 1;
 		public int NumberOfPagesAvaliable = 0;
 
@@ -24,20 +26,18 @@ namespace UI.Systems.AdminTools.AdminLogs
 			RequestAllLogFileNames();
 		}
 
-		private string GetLogFileName()
-		{
-			return $"{DateTime.Now:yyyy-MM-dd} - {GameManager.RoundID}.txt";
-		}
-
 		private void RequestLogPage(string logFileName, int page)
 		{
-			logFileName ??= GetLogFileName();
 			RequestLogFilePageEntries.Send(page, logFileName);
 		}
 
-		private void RequestLogAvaliablePages(string logFileName = null)
+		private void RequestLogAvaliablePages(string logFileName)
 		{
-			logFileName ??= GetLogFileName();
+			if (logFileName == null)
+			{
+				Loggy.LogError("HEY SHITASS, NO FUCKING FILE NAME.");
+				return;
+			}
 			RequestLogFilePagesNumber.Send(logFileName);
 		}
 
@@ -52,13 +52,14 @@ namespace UI.Systems.AdminTools.AdminLogs
 			logFilesDropdown.ClearOptions();
 			logFilesDropdown.AddOptions(logFileNames);
 			logFilesDropdown.value = logFilesDropdown.options.Count - 1;
-			RequestLogAvaliablePages();
+			RequestLogAvaliablePages(logFilesDropdown.captionText.text);
 		}
 
 		public void UpdateAvaliablePagesNumber(int pageNumber)
 		{
 			NumberOfPagesAvaliable = pageNumber;
-			RequestLogPage(null, lastPageNumber);
+			AvaliablePagesText.text = pageNumber.ToString();
+			RequestLogPage(logFilesDropdown.captionText.text, lastPageNumber);
 		}
 
 		public void UpdateLogEntries(List<LogEntry> newEntries)
@@ -74,11 +75,6 @@ namespace UI.Systems.AdminTools.AdminLogs
 				AdminLogEntryUI newEntryUI = Instantiate(logEntryBase, logsTranform, false);
 				newEntryUI.Setup(newEntry);
 			}
-		}
-
-		public void ShowErrorNoLogFound()
-		{
-			Loggy.LogError($"{GetLogFileName()} not found.");
 		}
 	}
 }

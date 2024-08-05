@@ -15,7 +15,7 @@ namespace Messages.Client.Admin.Logs
 
 		public override void Process(NetMessage msg)
 		{
-			LoadManager.DoInMainThread(() => UIManager.Instance.AdminLogsWindow.UpdateLogEntries(msg.Entries));
+			UIManager.Instance.AdminLogsWindow.UpdateLogEntries(msg.Entries);
 		}
 	}
 }

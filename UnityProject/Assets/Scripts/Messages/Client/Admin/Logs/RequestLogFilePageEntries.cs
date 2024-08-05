@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Core.Admin.Logs;
 using Core.Admin.Logs.Stores;
 using Initialisation;
@@ -16,12 +17,17 @@ namespace Messages.Client.Admin.Logs
 
 		public override void Process(NetMessage msg)
 		{
-			List<LogEntry> entries = AdminLogsStorage.FetchLogsPaginated(msg.LogFileName, msg.PageToRequest).Result;
+			_ = Do(msg, SentByPlayer.Connection);
+		}
+
+		private async Task Do(NetMessage msg, NetworkConnectionToClient admin)
+		{
+			List<LogEntry> entries = await AdminLogsStorage.FetchLogsPaginated(msg.LogFileName, msg.PageToRequest);
 			UpdateLogFilePageEntries.NetMessage message = new UpdateLogFilePageEntries.NetMessage()
 			{
 				Entries = entries,
 			};
-			LoadManager.DoInMainThread(() => UpdateLogFilePageEntries.SendTo(SentByPlayer.Connection, message));
+			LoadManager.DoInMainThread(() => UpdateLogFilePageEntries.SendTo(admin, message));
 		}
 
 		public static NetMessage Send(int page, string logFileName)

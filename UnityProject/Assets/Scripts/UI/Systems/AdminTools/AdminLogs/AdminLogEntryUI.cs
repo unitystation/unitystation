@@ -20,9 +20,10 @@ namespace UI.Systems.AdminTools.AdminLogs
 		public void Setup(LogEntry entry)
 		{
 			this.entry = entry;
-			gibButton.onClick.AddListener(GibRequest);
-			teleportButton.onClick.AddListener(TeleportTo);
 			logInfo.text = entry.Log;
+			gameObject.SetActive(true);
+			//gibButton.onClick.AddListener(GibRequest);
+			//teleportButton.onClick.AddListener(TeleportTo);
 		}
 
 		private void GibRequest()

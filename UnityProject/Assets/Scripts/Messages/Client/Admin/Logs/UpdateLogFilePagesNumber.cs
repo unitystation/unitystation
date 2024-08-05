@@ -13,7 +13,7 @@ namespace Messages.Client.Admin.Logs
 
 		public override void Process(NetMessage msg)
 		{
-			LoadManager.DoInMainThread(() => UIManager.Instance.AdminLogsWindow.UpdateAvaliablePagesNumber(msg.PageNumber));
+			UIManager.Instance.AdminLogsWindow.UpdateAvaliablePagesNumber(msg.PageNumber);
 		}
 	}
 }

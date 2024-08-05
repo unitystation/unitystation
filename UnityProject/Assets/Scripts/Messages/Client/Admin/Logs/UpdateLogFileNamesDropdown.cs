@@ -14,7 +14,7 @@ namespace Messages.Client.Admin.Logs
 
 		public override void Process(NetMessage msg)
 		{
-			LoadManager.DoInMainThread(() => UIManager.Instance.AdminLogsWindow.UpdateLogFileDropdown(msg.FileNames));
+			UIManager.Instance.AdminLogsWindow.UpdateLogFileDropdown(msg.FileNames);
 		}
 	}
 }
