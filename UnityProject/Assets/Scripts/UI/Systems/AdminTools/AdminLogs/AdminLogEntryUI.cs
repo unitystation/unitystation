@@ -29,7 +29,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 		private void GibRequest()
 		{
 			AdminPlayerAlertActions.Send(
-				PlayerAlertActions.Gibbed, entry.LogTime.ToLongTimeString(), entry.Perpetrator.NetId(), PlayerList.Instance.AdminToken);
+				PlayerAlertActions.Gibbed, entry.LogTime.ToLongTimeString(), AdminLogsManager.GetPerpIdFromString(entry.Perpetrator), PlayerList.Instance.AdminToken);
 		}
 
 		public void TeleportTo()
@@ -39,7 +39,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 			var spawned =
 				CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 
-			var target = spawned[entry.Perpetrator.NetId()];
+			var target = spawned[AdminLogsManager.GetPerpIdFromString(entry.Perpetrator)];
 			if (target == null) return;
 
 			if (PlayerManager.LocalPlayerScript.IsGhost == false)

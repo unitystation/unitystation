@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using HealthV2;
 using Shared.Managers;
 using UnityEngine;
@@ -34,7 +35,7 @@ namespace Core.Admin.Logs
 				AdminActions = new List<AdminActionToTake>(),
 				Log = info,
 				LogImportance = severity,
-				Perpetrator = perp,
+				Perpetrator = GetPerpString(perp),
 			};
 			AddNewLog(entry);
 		}
@@ -49,7 +50,7 @@ namespace Core.Admin.Logs
 				AdminActions = new List<AdminActionToTake>(),
 				Log = log,
 				LogImportance = Severity.DEATH,
-				Perpetrator = perp,
+				Perpetrator = GetPerpString(perp),
 				Category = LogCategory.MobDamage
 			};
 			OnNewLog?.Invoke(entry);
@@ -66,7 +67,7 @@ namespace Core.Admin.Logs
 				AdminActions = new List<AdminActionToTake>(),
 				Log = log,
 				LogImportance = Severity.MISC,
-				Perpetrator = perp,
+				Perpetrator = GetPerpString(perp),
 				Category = LogCategory.MobDamage
 			};
 			OnNewLog?.Invoke(entry);
@@ -82,10 +83,41 @@ namespace Core.Admin.Logs
 				AdminActions = new List<AdminActionToTake>(),
 				Log = log,
 				LogImportance = Severity.MISC,
-				Perpetrator = perp,
+				Perpetrator = GetPerpString(perp),
 				Category = LogCategory.ObjectDamage
 			};
 			OnNewLog?.Invoke(entry);
+		}
+
+		public static string GetPerpString(GameObject perp)
+		{
+			if (perp == null) return "[]";
+			if (perp.NetId() == global::NetId.Invalid) return perp.ExpensiveName();
+			return $"{perp.ExpensiveName()}->{perp.NetId()}";
+		}
+
+		public static uint GetPerpIdFromString(string input)
+		{
+			string pattern =  @"->(\d+)";
+
+			Regex regex = new Regex(pattern);
+			Match match = regex.Match(input);
+			if (match.Success)
+			{
+				string extractedValue = match.Groups[1].Value;
+				if (uint.TryParse(extractedValue, out uint result))
+				{
+					return result;
+				}
+				else
+				{
+					return global::NetId.Invalid;
+				}
+			}
+			else
+			{
+				return global::NetId.Invalid;
+			}
 		}
 	}
 }

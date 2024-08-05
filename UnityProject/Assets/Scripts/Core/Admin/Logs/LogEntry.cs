@@ -10,7 +10,7 @@ namespace Core.Admin.Logs
 		public string Log;
 		public List<AdminActionToTake> AdminActions = new List<AdminActionToTake>();
 		public Severity LogImportance;
-		public GameObject Perpetrator;
+		public string Perpetrator;
 		public LogCategory Category;
 	}
 
