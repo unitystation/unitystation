@@ -76,5 +76,18 @@ namespace UI.Systems.AdminTools.AdminLogs
 				newEntryUI.Setup(newEntry);
 			}
 		}
+
+		public void OnPageSelectorValueChange(string newValue)
+		{
+			if (int.TryParse(newValue, out int pageNumber) == false)
+			{
+				CurrentSelectedPageInput.text = "";
+				return;
+			}
+			if (pageNumber > NumberOfPagesAvaliable)
+			{
+				CurrentSelectedPageInput.text = NumberOfPagesAvaliable.ToString();
+			}
+		}
 	}
 }
