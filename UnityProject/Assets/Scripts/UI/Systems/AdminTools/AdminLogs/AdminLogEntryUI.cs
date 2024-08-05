@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Core.Admin.Logs;
-using Messages.Client.Admin;
 using Mirror;
 using TMPro;
 using UI.Systems.Tooltips.HoverTooltips;
