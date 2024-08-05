@@ -58,7 +58,9 @@ namespace UI.Systems.AdminTools.AdminLogs
 		public void UpdateAvaliablePagesNumber(int pageNumber)
 		{
 			NumberOfPagesAvaliable = pageNumber;
+			lastPageNumber = pageNumber;
 			AvaliablePagesText.text = pageNumber.ToString();
+			CurrentSelectedPageInput.text = pageNumber.ToString();
 			RequestLogPage(logFilesDropdown.captionText.text, lastPageNumber);
 		}
 
@@ -75,6 +77,11 @@ namespace UI.Systems.AdminTools.AdminLogs
 				AdminLogEntryUI newEntryUI = Instantiate(logEntryBase, logsTranform, false);
 				newEntryUI.Setup(newEntry);
 			}
+		}
+
+		public void OnLogFilesDropdownValueChange()
+		{
+			RequestLogAvaliablePages(logFilesDropdown.captionText.text);
 		}
 
 		public void OnPageSelectorValueChange(string newValue)

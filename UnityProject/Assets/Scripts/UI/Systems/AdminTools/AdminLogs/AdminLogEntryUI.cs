@@ -14,13 +14,15 @@ namespace UI.Systems.AdminTools.AdminLogs
 		[SerializeField] private Button gibButton = null;
 		[SerializeField] private Button teleportButton = null;
 		[SerializeField] private TMP_Text logInfo = null;
+		[SerializeField] private TMP_Text logTime = null;
 		private LogEntry entry = null;
 		public string LogText => entry?.Log;
 
-		public void Setup(LogEntry entry)
+		public void Setup(LogEntry newEntry)
 		{
-			this.entry = entry;
+			entry = newEntry;
 			logInfo.text = entry.Log;
+			logTime.text = newEntry.LogTime.ToLocalTime().ToLongTimeString();
 			gameObject.SetActive(true);
 			//gibButton.onClick.AddListener(GibRequest);
 			//teleportButton.onClick.AddListener(TeleportTo);
