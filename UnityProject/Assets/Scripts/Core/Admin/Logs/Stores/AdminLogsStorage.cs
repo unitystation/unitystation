@@ -225,7 +225,7 @@ namespace Core.Admin.Logs.Stores
 			return (int)Math.Ceiling((double)totalEntries / pageSize);
 		}
 
-		public static async Task<List<string>> GetAllLogFiles()
+		public static List<string> GetAllLogFiles()
 		{
 			List<string> totalEntries = new List<string>();
 			if (AccessFile.Exists("Admin", false, FolderType.Logs, Application.isEditor == false) == false)
@@ -233,15 +233,11 @@ namespace Core.Admin.Logs.Stores
 				Loggy.LogError($"[AdminLogsStorage/GetTotalPages()] - Logs folder not found.");
 				return totalEntries;
 			}
-			await Task.Run(() =>
+			string[] files = AccessFile.DirectoriesOrFilesIn("Admin", FolderType.Logs, Application.isEditor == false);
+			foreach (string file in files)
 			{
-				string[] files = AccessFile.DirectoriesOrFilesIn("Admin", FolderType.Logs, Application.isEditor == false);
-				foreach (string file in files)
-				{
-					totalEntries.Add(file);
-				}
-			});
-			LoadManager.DoInMainThread(() => Loggy.Log("Moving back to main thread."));
+				totalEntries.Add(file);
+			}
 			return totalEntries;
 		}
 	}

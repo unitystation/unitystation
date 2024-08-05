@@ -10,8 +10,8 @@ namespace Messages.Client.Admin.Logs
 
 		public override void Process(NetMessage msg)
 		{
-			var files = AdminLogsStorage.GetAllLogFiles().Result;
-			LoadManager.DoInMainThread(() => UpdateLogFileNamesDropdown.SendTo(SentByPlayer.Connection, new UpdateLogFileNamesDropdown.NetMessage { FileNames = files }));
+			var files = AdminLogsStorage.GetAllLogFiles();
+			UpdateLogFileNamesDropdown.SendTo(SentByPlayer.Connection, new UpdateLogFileNamesDropdown.NetMessage { FileNames = files });
 		}
 	}
 }

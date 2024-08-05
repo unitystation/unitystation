@@ -21,13 +21,12 @@ namespace UI.Systems.AdminTools.AdminLogs
 
 		private void OnEnable()
 		{
-			RequestLogAvaliablePages();
 			RequestAllLogFileNames();
 		}
 
 		private string GetLogFileName()
 		{
-			return Path.Combine("Admin", $"{DateTime.Now:yyyy-MM-dd} - {GameManager.RoundID}.txt");
+			return $"{DateTime.Now:yyyy-MM-dd} - {GameManager.RoundID}.txt";
 		}
 
 		private void RequestLogPage(string logFileName, int page)
@@ -49,8 +48,11 @@ namespace UI.Systems.AdminTools.AdminLogs
 
 		public void UpdateLogFileDropdown(List<string> logFileNames)
 		{
+			Loggy.Log(logFileNames.Count.ToString());
 			logFilesDropdown.ClearOptions();
 			logFilesDropdown.AddOptions(logFileNames);
+			logFilesDropdown.value = logFilesDropdown.options.Count - 1;
+			RequestLogAvaliablePages();
 		}
 
 		public void UpdateAvaliablePagesNumber(int pageNumber)
