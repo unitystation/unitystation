@@ -9,12 +9,15 @@ using Objects.Construction;
 
 namespace Objects.Atmospherics
 {
-	public class PipeDispenser : MonoBehaviour
+	public class PipeDispenser : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		private const float DISPENSING_TIME = 2; // As per sprite sheet JSON file.
 
 		[SerializeField]
 		private AddressableAudioSource OperatingSound = null;
+
+		[SerializeField]
+		private ItemTrait pipeDispensedItemTrait = null;
 
 		private UniversalObjectPhysics objectPhysics;
 		private WrenchSecurable securable;
@@ -99,6 +102,21 @@ namespace Objects.Atmospherics
 		private void OnAnchoredChange()
 		{
 			netTab.enabled = securable.IsAnchored;
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			return interaction.UsedObject != null && Validations.HasItemTrait(interaction.UsedObject, pipeDispensedItemTrait);
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (Validations.HasItemTrait(interaction.UsedObject, pipeDispensedItemTrait))
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You put the {interaction.UsedObject.ExpensiveName()} back into the {gameObject.ExpensiveName()}");
+				_= Despawn.ServerSingle(interaction.UsedObject);
+			}
 		}
 	}
 }
