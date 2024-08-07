@@ -516,7 +516,7 @@ namespace Weapons
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 			//Melee behaviour for things like bayonets
-			if (interaction.Intent == Intent.Harm && (interaction.TargetPosition - interaction.Performer.RegisterTile().LocalPosition.To2()).magnitude <= 1.5f)
+			if (interaction.Intent == Intent.Harm && BayonetCheck(interaction.Performer.RegisterTile().LocalPosition.To2(), interaction.TargetPosition))
 			{
 				return false;
 			}
@@ -559,6 +559,21 @@ namespace Weapons
 				}
 			}
 
+			return false;
+		}
+
+		//.magnitude leaves out small area in the outer corner of tiles diagonal to the player pos
+		//Doing it this way prevents that
+		private bool BayonetCheck(Vector2 playerPos, Vector2 targetPos)
+		{
+			const float checkRange = 1.5f;
+			if (playerPos.x >= targetPos.x - checkRange  && playerPos.x <= targetPos.x + checkRange)
+			{
+				if (playerPos.y >= targetPos.y - checkRange && playerPos.y <= targetPos.y + checkRange)
+				{
+					return true;
+				}
+			}
 			return false;
 		}
 
