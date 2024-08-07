@@ -195,11 +195,14 @@ public class MouseInputController : MonoBehaviour
 
 			if (loadedGun != null)
 			{
-				//if we are on help intent with loaded gun,
-				//don't do anything else, just shoot (trigger the AimApply).
-				if (UIManager.CurrentIntent == Intent.Help)
+				//if we are on harm intent with loaded gun,
+				//Do the aim apply first and then check other interactions
+				//This is to allow both not interacting with things that a player probably wants to shoot
+				//While also letting bayonet interactions for firearms work
+				if (UIManager.CurrentIntent == Intent.Harm)
 				{
 					CheckAimApply(MouseButtonState.PRESS);
+					CheckClick();
 				}
 				else
 				{
