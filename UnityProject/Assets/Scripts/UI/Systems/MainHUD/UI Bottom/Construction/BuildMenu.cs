@@ -17,7 +17,7 @@ namespace UI.UI_Bottom
 
 		[Tooltip("content panel into which the list items should be placed")]
 		[SerializeField] private GameObject contentPanel = null;
-
+		[SerializeField] private Transform constructionUI = null;
 		[SerializeField] private ConveyorBuildMenu conveyorBuildMenu = null;
 
 		public ConveyorBuildMenu ConveyorBuildMenu => conveyorBuildMenu;
@@ -65,7 +65,7 @@ namespace UI.UI_Bottom
 		public void ShowBuildMenu(BuildingMaterial buildingMaterial)
 		{
 			conveyorBuildMenu.gameObject.SetActive(false);
-			transform.GetChild(0).gameObject.SetActive(true);
+			constructionUI.SetActive(true);
 			currentBuildingMaterial = buildingMaterial;
 			UIManager.Instance.isInputFocus = true;
 			// delete previous results
@@ -96,7 +96,7 @@ namespace UI.UI_Bottom
 		public void CloseBuildMenu()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			transform.GetChild(0).gameObject.SetActive(false);
+			constructionUI.SetActive(false);
 			UIManager.Instance.isInputFocus = false;
 		}
 
