@@ -75,7 +75,6 @@ namespace AdminTools
 			mentorPlayerChat.ClearLogs();
 			adminToAdminChat.ClearLogs();
 			playerPrayerWindow.ClearLogs();
-			//adminLogWindow.ClearLogs();
 		}
 	}
 
