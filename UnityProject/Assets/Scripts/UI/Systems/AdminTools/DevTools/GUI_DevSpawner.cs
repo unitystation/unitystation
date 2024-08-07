@@ -20,12 +20,11 @@ public class GUI_DevSpawner : MonoBehaviour
 	[Tooltip("content panel into which the list items should be placed")]
 	public GameObject contentPanel;
 	public InputField searchBox;
-
 	public InputField StackAmountBox;
-
 	public Toggle DEBUGToggle;
-
 	public Toggle MappingToggle;
+
+	public GameObject Menu;
 
 	public int StackAmount
 	{
@@ -161,7 +160,7 @@ public class GUI_DevSpawner : MonoBehaviour
 	{
 		_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		Loggy.Log("Opening dev spawner menu", Category.NetUI);
-		transform.GetChild(0).gameObject.SetActive(true);
+		Menu.gameObject.SetActive(true);
 		transform.SetAsLastSibling();
 	}
 
@@ -169,6 +168,6 @@ public class GUI_DevSpawner : MonoBehaviour
 	{
 		_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		Loggy.Log("Closing dev spawner menu", Category.NetUI);
-		transform.GetChild(0).gameObject.SetActive(false);
+		Menu.SetActive(false);
 	}
 }
