@@ -621,6 +621,20 @@ namespace Weapons
 			{
 				FiringPin.ServerBehaviour(interaction, isSuicide);
 			}
+
+			if (interaction.Intent == Intent.Harm && interaction.UsedObject == gameObject)
+			{
+				List<ItemSlot> hands = interaction.PerformerPlayerScript.DynamicItemStorage.GetHandSlots();
+				hands.Remove(interaction.PerformerPlayerScript.DynamicItemStorage.GetActiveHandSlot());
+				foreach (var hand in hands)
+				{
+					if (hand.ItemObject != null && hand.ItemObject.TryGetComponent<Gun>(out var gun)
+						&& gun.WillInteract(interaction, NetworkSide.Server))
+					{
+						gun.ServerPerformInteraction(interaction);
+					}
+				}
+			}
 		}
 
 		#endregion
