@@ -6,9 +6,12 @@ using System.Reflection;
 using UnityEngine;
 using System.Text;
 using System.Linq;
+using AdminTools;
+using Core.Admin.Logs;
 using Logs;
 using Messages.Server.VariableViewer;
 using SecureStuff;
+using UI.Systems.AdminTools.AdminLogs;
 using UnityEngine.SceneManagement;
 using Component = UnityEngine.Component;
 using Object = System.Object;
@@ -246,12 +249,11 @@ public static class VariableViewer
 		{
 			if (ListModification == ListModification.NONE)
 			{
-				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					WhoBy.name + " Modified " + Librarian.IDToPage[PageID].VariableName + " on " +
-					Librarian.IDToPage[PageID].BindedTo.Title
-					+ " From " + VVUIElementHandler.Serialise(Librarian.IDToPage[PageID].Variable,
-						Librarian.IDToPage[PageID].VariableType) + " to " + ChangeTo
-					+ " with Send to clients? " + SendToClient, AdminId);
+				AdminLogsManager.AddNewLog(WhoBy, $"{WhoBy.name} Modified " + Librarian.IDToPage[PageID].VariableName + " on " +
+				                                  Librarian.IDToPage[PageID].BindedTo.Title
+				                                  + " From " + VVUIElementHandler.Serialise(Librarian.IDToPage[PageID].Variable,
+					                                  Librarian.IDToPage[PageID].VariableType) + " to " + ChangeTo
+				                                  + " with Send to clients? " + SendToClient, LogCategory.Admin);
 
 				if (SentenceID != uint.MaxValue && SentenceID != 0)
 				{
@@ -275,11 +277,10 @@ public static class VariableViewer
 			}
 			else
 			{
-				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					WhoBy.name + " Modified " + Librarian.IDToPage[PageID].VariableName + " on " +
-					Librarian.IDToPage[PageID].BindedTo.Title
-					+ " Did modifying action to " + ListModification + " to " + ChangeTo
-					+ " with Send to clients? " + SendToClient, AdminId);
+				AdminLogsManager.AddNewLog(WhoBy, WhoBy.name + " Modified " + Librarian.IDToPage[PageID].VariableName + " on " +
+				                                  Librarian.IDToPage[PageID].BindedTo.Title
+				                                  + " Did modifying action to " + ListModification + " to " + ChangeTo
+				                                  + " with Send to clients? " + SendToClient, LogCategory.Admin);
 				switch (ListModification)
 				{
 					case ListModification.Remove:
@@ -307,11 +308,8 @@ public static class VariableViewer
 	{
 		if (Librarian.IDToPage.ContainsKey(PageID))
 		{
-			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-				WhoBy.name + " Invoked " + Librarian.IDToPage[PageID].VariableName + " on " +
-				Librarian.IDToPage[PageID].BindedTo.Title
-				, AdminId);
-
+			AdminLogsManager.AddNewLog(WhoBy, WhoBy.name + " Invoked " + Librarian.IDToPage[PageID].VariableName + " on " +
+			                                  Librarian.IDToPage[PageID].BindedTo.Title, LogCategory.Admin);
 			Librarian.IDToPage[PageID].Invoke();
 			if (SendToClient)
 			{

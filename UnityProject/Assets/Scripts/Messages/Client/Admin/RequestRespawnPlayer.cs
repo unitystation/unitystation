@@ -1,4 +1,5 @@
 ﻿using Antagonists;
+using Core.Admin.Logs;
 using Logs;
 using Mirror;
 
@@ -40,10 +41,8 @@ namespace Messages.Client.Admin
 
 		private void TryRespawn(PlayerInfo deadPlayer, NetMessage msg, string occupation = null)
 		{
-			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					$"{SentByPlayer.Username} respawned dead player {deadPlayer.Username} ({deadPlayer.Name}) as {occupation}",
-					SentByPlayer.AccountId);
-
+			AdminLogsManager.AddNewLog(SentByPlayer.GameObject,
+				$"{SentByPlayer.Username} respawned dead player {deadPlayer.Username} ({deadPlayer.Name}) as {occupation}", LogCategory.Admin);
 			var respawnType = (RespawnType) msg.Type;
 
 			switch (respawnType)

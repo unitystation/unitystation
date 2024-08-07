@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using AdminCommands;
+using Core.Admin.Logs;
+using Core.Editor.Attributes;
 using HealthV2;
 using Items;
 using Logs;
@@ -684,7 +686,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		PullSet(newPulling.NewPulling, false, true);
 	}
 
-	public void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false, bool doStepInteractions = true,
+	public virtual void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false, bool doStepInteractions = true,
 		Vector2? momentum = null)
 	{
 		this.doStepInteractions = doStepInteractions;

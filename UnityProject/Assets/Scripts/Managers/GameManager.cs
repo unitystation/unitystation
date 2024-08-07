@@ -14,6 +14,7 @@ using Mirror;
 using GameConfig;
 using Initialisation;
 using Audio.Containers;
+using Core.Admin.Logs;
 using Logs;
 using Managers;
 using Messages.Server;
@@ -23,6 +24,7 @@ using UnityEngine.Profiling;
 using Player;
 using Systems.Cargo;
 using ScriptableObjects.Characters;
+using SecureStuff;
 using UnityEditor;
 using UnityEngine.Serialization;
 
@@ -222,6 +224,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			Destroy(this);
 		}
+		RoundID = LoadRoundID();
 	}
 
 
@@ -508,12 +511,32 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 	}
 
+	private void SaveRoundID()
+	{
+		AccessFile.Save("RoundID.txt", RoundID.ToString(), FolderType.Data, true);
+	}
+
+	private int LoadRoundID()
+	{
+		if (AccessFile.Exists("RoundID.txt", true, FolderType.Data, true) == false)
+		{
+			AccessFile.Save("RoundID.txt", "0", FolderType.Data, true);
+			return 0;
+		}
+		if (int.TryParse(AccessFile.Load("RoundID.txt", FolderType.Data, true), out var roundNumber))
+		{
+			return roundNumber;
+		}
+		return -1;
+	}
+
 	/// <summary>
 	/// Setup the station and then begin the round for the selected game mode
 	/// </summary>
 	public void StartRound()
 	{
 		RoundID++;
+		SaveRoundID();
 		waitForStart = false;
 
 		// Only do this stuff on the server
@@ -647,8 +670,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		CurrentRoundState = RoundState.Ended;
 
 
-
-
 		try
 		{
 			GameMode.EndRoundReport();
@@ -684,6 +705,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		StartCoroutine(WaitForRoundRestart());
 
 		_ = SoundManager.PlayNetworked(endOfRoundSounds.GetRandomClip());
+		AdminLogsManager.AddNewLog(null, $"Round {RoundID} has ended.", LogCategory.World);
 	}
 
 	/// <summary>
@@ -915,8 +937,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Loggy.LogError("Cannot restart round, round is already restarting!", Category.Round);
 			return;
 		}
-
-
 
 		CurrentRoundState = RoundState.Restarting;
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using AdminCommands;
 using AdminTools;
+using Core.Admin.Logs;
 using Managers;
 using UnityEngine;
 using Strings;
@@ -96,16 +97,14 @@ namespace Objects
 
 		private void ServerLogEmagEvent(HandApply prep)
 		{
-			var time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
-			UIManager.Instance.playerAlerts.ServerAddNewEntry(time, PlayerAlertTypes.Emag, prep.PerformerPlayerScript.PlayerInfo,
-				$"{time} : {prep.PerformerPlayerScript.playerName} emmaged the escape shuttle successfully!");
+			AdminLogsManager.AddNewLog(prep.PerformerPlayerScript.GameObject,
+				$"{prep.PerformerPlayerScript.playerName} emmaged the escape shuttle successfully!", LogCategory.RoundFlow, Severity.ANNOYING);
 		}
 
 		private void ServerLogEarlyVoteEvent(HandApply prep)
 		{
-			var time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
-			PlayerAlerts.LogPlayerAction(time, PlayerAlertTypes.Emag, prep.PerformerPlayerScript.PlayerInfo,
-				$"{time} : {prep.PerformerPlayerScript.playerName} voted for the shuttle to leave early.");
+			AdminLogsManager.AddNewLog(prep.PerformerPlayerScript.GameObject,
+				$"{prep.PerformerPlayerScript.playerName} voted for the shuttle to leave early.", LogCategory.RoundFlow, Severity.ANNOYING);
 		}
 
 		private void RegisterEarlyShuttleLaunch(IDCard card, PlayerScript performer)
@@ -115,7 +114,7 @@ namespace Objects
 				Chat.AddExamineMsg(performer.gameObject, "There is a hostile environment on the station, you're not permitted to leave");
 				return;
 			}
-			
+
 			if (GameManager.Instance.ShuttleSent)
 			{
 				Chat.AddExamineMsg(performer.gameObject, "The shuttle is already moving!");

@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AdminCommands;
+using AdminTools;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
 using Systems.Atmospherics;
 using Chemistry;
 using Core;
+using Core.Admin.Logs;
 using Core.Chat;
 using Core.Utils;
 using Health.Sickness;
@@ -354,6 +356,7 @@ namespace HealthV2
 			mobID = PlayerManager.Instance.GetMobID();
 			gibBehavior = GetComponent<IGib>();
 			ComponentsTracker<LivingHealthMasterBase>.Instances.Add(this);
+			OnTakeDamageType += LogDamageEvent;
 		}
 
 		public void OnDestroy()
@@ -1315,11 +1318,12 @@ namespace HealthV2
 			var eyes = GetBodyPartsInArea(BodyPartType.Eyes, false);
 			foreach (var eye in eyes)
 			{
-				var EyeFlash = eye.GetComponentCustom<EyeFlash>();
-				if (EyeFlash != null && EyeFlash.TryFlash(flashDuration, checkForProtectiveCloth))
+				var eyeFlash = eye.GetComponentCustom<EyeFlash>();
+				if (eyeFlash != null && eyeFlash.TryFlash(flashDuration, checkForProtectiveCloth))
 				{
 					didFlash = true;
 					ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FLASHED);
+					AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has been flashed and stunned.", LogCategory.Interaction, Severity.SUSPICOUS);
 				}
 			}
 
@@ -1569,6 +1573,7 @@ namespace HealthV2
 		[Server]
 		public void OnGib()
 		{
+			AdminLogsManager.AddNewLog(null, $"{gameObject.ExpensiveName()} is getting Gibbed!!", LogCategory.MobDamage, Severity.IMMEDIATE_ATTENTION);
 			gibBehavior.OnGib();
 		}
 
@@ -1588,11 +1593,34 @@ namespace HealthV2
 			timeOfDeath = GameManager.Instance.RoundTime;
 
 			SetConsciousState(ConsciousState.DEAD);
-			OnDeathActions();
 			if (invokeDeathEvent) OnDeath?.Invoke();
+			LogDeath();
 		}
 
-		protected abstract void OnDeathActions();
+		private void LogDeath()
+		{
+			PlayerInfo player = playerScript?.PlayerInfo;
+			if (CustomNetworkManager.Instance._isServer == false && playerScript != null && player != null) return;
+
+			string killerName = null;
+			if (LastDamagedBy != null)
+			{
+				if (LastDamagedBy.TryGetPlayer(out var lastDamager))
+				{
+					killerName = lastDamager.Name;
+					AutoMod.ProcessPlayerKill(lastDamager, player);
+				}
+			}
+
+			killerName ??= "stressful work";
+			string playerName = playerScript?.visibleName ?? "dummy";
+			if (killerName == playerName)
+			{
+				Chat.AddActionMsgToChat(gameObject, "You committed suicide, what a waste.", $"{playerName} committed suicide.");
+			}
+			PlayerList.Instance.TrackKill(LastDamagedBy, gameObject);
+			AdminLogsManager.TrackKill(LastDamagedBy, this);
+		}
 
 		/// <summary>
 		/// Updates the blood health stats from the server via NetMsg
@@ -1901,6 +1929,7 @@ namespace HealthV2
 
 			float damage = shockPower;
 			ApplyDamageAll(null, damage, AttackType.Internal, DamageType.Burn);
+			AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has been electrcuted at {gameObject.AssumedWorldPosServer()}.", LogCategory.MobDamage);
 		}
 
 		#endregion
@@ -2173,6 +2202,7 @@ namespace HealthV2
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 			UpdateManager.Add(FastRegen, tickRate);
+			AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has recevied fast regen.", LogCategory.MobDamage);
 		}
 
 		private void FastRegen()
@@ -2263,6 +2293,13 @@ namespace HealthV2
 			if (script.gameObject == abuser) return; //Don't add to the score if the clown hits themselves.
 			ScoreMachine.AddToScoreInt(Mathf.RoundToInt(-5 * Amount), RoundEndScoreBuilder.COMMON_SCORE_CLOWNABUSE);
 		}
+
+		private void LogDamageEvent(DamageType damageType, GameObject perp, float damage)
+		{
+			DamageInfo info = new DamageInfo(damage, AttackType.Internal, damageType, null);
+			AdminLogsManager.TrackDamage(perp, this, info);
+		}
+
 
 		public string HoverTip()
 		{

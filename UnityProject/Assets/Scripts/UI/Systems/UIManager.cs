@@ -21,6 +21,7 @@ using UI.Windows;
 using Systems.CraftingV2.GUI;
 using Systems.Faith.UI;
 using UI.Character;
+using UI.Systems.AdminTools.AdminLogs;
 using UI.Systems.AdminTools.DevTools;
 using UI.Systems.EndRound;
 using UI.Systems.ServerInfoPanel;
@@ -66,7 +67,6 @@ public class UIManager : MonoBehaviour, IInitialise
 	public AdminChatButtons prayerChatButtons;
 	public AdminChatWindows adminChatWindows;
 	public ProfileScrollView profileScrollView;
-	public PlayerAlerts playerAlerts;
 	[FormerlySerializedAs("antagBanner")] public GUIAntagBanner spawnBanner;
 	private static bool preventChatInput;
 	[SerializeField] [Range(0.1f, 10f)] private float PhoneZoomFactor = 1.6f;
@@ -235,6 +235,8 @@ public class UIManager : MonoBehaviour, IInitialise
 	[field: SerializeField] public ChaplainFirstTimeSelectScreen ChaplainFirstTimeSelectScreen { get; private set; }
 	[field: SerializeField] public FaithInfoUI FaithInfo { get; private set; }
 
+	[field: SerializeField] public AdminLogsWindow AdminLogsWindow { get; private set; }
+
 	public static string SetToolTip
 	{
 		set
@@ -360,7 +362,6 @@ public class UIManager : MonoBehaviour, IInitialise
 		mentorChatButtons.ClearAllNotifications();
 		prayerChatButtons.ClearAllNotifications();
 		adminChatWindows.ResetAll();
-		playerAlerts.ClearLogs();
 	}
 
 	void DetermineInitialTargetFrameRate()

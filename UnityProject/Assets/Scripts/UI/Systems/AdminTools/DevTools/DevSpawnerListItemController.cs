@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Core.Admin.Logs;
 using InGameGizmos;
 using Items;
 using Messages.Client.DevSpawner;
@@ -295,8 +296,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 			}
 
 			var player = PlayerManager.LocalPlayerObject.Player();
-			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					$"{player.Username} spawned a {prefab.name} at {MousePosition}", player.AccountId);
+			AdminLogsManager.AddNewLog(player.GameObject, $"{player.Username} spawned a {prefab.name} at {MousePosition}", LogCategory.Admin);
 		}
 		else
 		{
