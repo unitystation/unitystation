@@ -7,4 +7,5 @@ using UnityEngine;
 public class CommonManagerEditorOnly : SingletonScriptableObject<CommonManagerEditorOnly>
 {
 	public CustomNetworkManager CustomNetworkManagerPrefab;
+	public VariableViewerManager VariableViewerManager;
 }

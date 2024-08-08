@@ -76,7 +76,10 @@ public class MetaDataSystem : MatrixSystemBehaviour
 			StartCoroutine(LocateRooms());
 			Stopwatch Dsw = new Stopwatch();
 			Dsw.Start();
-			matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
+			if (matrix.NetworkedMatrix.IsJsonLoaded == false)
+			{
+				matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
+			}
 			Dsw.Stop();
 			Loggy.Log(
 				$"Initialise {gameObject.name} Utilities (Power cables, Atmos pipes): " + Dsw.ElapsedMilliseconds +
@@ -150,6 +153,25 @@ public class MetaDataSystem : MatrixSystemBehaviour
 
 	private IEnumerator LocateRooms()
 	{
+		bool CheckState = true;
+		while (CheckState)
+		{
+			lock (metaTileMap.QueuedChanges)
+			{
+				if (metaTileMap.QueuedChanges.Count > 0)
+				{
+					CheckState = true;
+				}
+				else
+				{
+					CheckState = false;
+				}
+			}
+
+			yield return null;
+		}
+
+
 		var bounds = metaTileMap.GetLocalBounds();
 
 		var overallWatch = new Stopwatch();

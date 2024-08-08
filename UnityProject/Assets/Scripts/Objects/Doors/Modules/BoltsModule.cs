@@ -2,6 +2,7 @@ using AddressableReferences;
 using System.Collections.Generic;
 using Initialisation;
 using Items;
+using Logs;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -38,7 +39,6 @@ namespace Doors.Modules
 				return boltsLights && master.HasPower;
 			}
 		}
-
 
 		public void OnSpawnServer(SpawnInfo info)
 		{

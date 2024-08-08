@@ -281,6 +281,7 @@ namespace TileManagement
 			var transform1 = ObjectLayer.transform;
 			localToWorldMatrix = transform1.localToWorldMatrix;
 			worldToLocalMatrix = transform1.worldToLocalMatrix;
+			CacheLocalBound();
 		}
 
 
@@ -435,21 +436,6 @@ namespace TileManagement
 				}
 			}
 
-
-			if (LocalCachedBounds != null)
-			{
-				if (LocalCachedBounds.Value.Contains(tileLocation.LocalPosition) == false)
-				{
-					var Bounds = LocalCachedBounds.Value; // struct funnies With references
-					Bounds.ExpandToPoint2D(tileLocation.LocalPosition);
-					LocalCachedBounds = Bounds;
-
-					lock (matrix)
-					{
-						GlobalCachedBounds = null;
-					}
-				}
-			}
 
 			if (CustomNetworkManager.IsServer)
 			{
@@ -1013,8 +999,22 @@ namespace TileManagement
 					}
 				}
 
-				ApplyTileChange(tileLocation);
+				if (LocalCachedBounds != null)
+				{
+					if (LocalCachedBounds.Value.Contains(tileLocation.LocalPosition) == false)
+					{
+						var Bounds = LocalCachedBounds.Value; // struct funnies With references
+						Bounds.ExpandToPoint2D(tileLocation.LocalPosition);
+						LocalCachedBounds = Bounds;
 
+						lock (matrix)
+						{
+							GlobalCachedBounds = null;
+						}
+					}
+				}
+
+				ApplyTileChange(tileLocation);
 
 				return position;
 			}

@@ -1019,7 +1019,8 @@ namespace SecureStuff
 
 				if (InType.IsEnum)
 				{
-					return Enum.Parse(InType, StringVariable);
+					var data = Enum.Parse(InType, StringVariable);
+					return data;
 				}
 				else
 				{

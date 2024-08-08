@@ -59,12 +59,14 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	public static Dictionary<uint, MapSaver.MapSaver.PrefabData> PrePayload =
 		new Dictionary<uint, MapSaver.MapSaver.PrefabData>();
 
-	public static List<string> LoadedMapDatas =
-		new List<string>();
+	public static List<string> LoadedMapDatas = new List<string>();
+
+	public static bool AllPrefabsLoadedSt => Instance.AllPrefabsLoaded;
+	public bool AllPrefabsLoaded => allSpawnablePrefabs.Count <= currentLocation;
 
 	public void UpdateMe()
 	{
-		if (allSpawnablePrefabs.Count > currentLocation)
+		if (AllPrefabsLoaded == false)
 		{
 			for (int i = 0; i < 50; i++)
 			{
@@ -148,11 +150,12 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void Awake()
 	{
+
 		if (IndexLookupSpawnablePrefabs.Count == 0)
 		{
 			new Task(SetUpSpawnablePrefabsIndex).Start();
 		}
-
+		//Instance = this;
 		if (Instance == null)
 		{
 			Instance = this;

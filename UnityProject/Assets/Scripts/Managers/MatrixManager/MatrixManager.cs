@@ -65,7 +65,15 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		{
 			if (Instance.mainStationMatrix == null)
 			{
-				return Instance.ActiveMatricesList[1];
+				if (Instance.ActiveMatricesList.Count > 1)
+				{
+					return Instance.ActiveMatricesList[1];
+				}
+				else
+				{
+					return Instance.ActiveMatricesList[0];
+				}
+
 			}
 			else
 			{
@@ -114,7 +122,8 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		var Object = Spawn.ServerPrefab(SubSceneManager.Instance.NetworkedMatrixPrefab).GameObject;
 		var Synchronise = Object.GetComponentInChildren<MatrixSync>();
-		Synchronise.GetComponent<MatrixNamesSynchronise>().MatrixNamesSet = Name;
+		Synchronise.GetComponent<MatrixNamesSynchronise>().SyncMatrixName("Matrix",Name);
+		Synchronise.NetworkedMatrix.IsJsonLoaded = true;
 		return Synchronise.NetworkedMatrix.matrix;
 	}
 
@@ -170,7 +179,11 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		if (CustomNetworkManager.IsServer == false)
 		{
-			matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
+			if (matrix.NetworkedMatrix.IsJsonLoaded == false)
+			{
+				matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
+			}
+
 			var id = matrix.MatrixInfo.NetID;
 
 			JoinedViewer.AddOnPlayerValidated( (() =>

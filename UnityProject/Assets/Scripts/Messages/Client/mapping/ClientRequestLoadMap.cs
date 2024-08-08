@@ -53,14 +53,7 @@ public class ClientRequestLoadMap : ClientMessage<ClientRequestLoadMap.NetMessag
 				MatrixInfo = MatrixManager.Get(msg.MatrixID.Value);
 			}
 
-			MapLoader.LoadSection(MatrixInfo,  msg.Offset00, msg.Offset, mapdata, LoadLayers, msg.LoadObjects, msg.MatrixName);
-
-			if (msg.LoadObjects)
-			{
-				var newdata = JsonConvert.SerializeObject(mapdata.CompactObjectMapData);
-				CustomNetworkManager.LoadedMapDatas.Add(newdata);
-				ServerReturnMapData.SendAll( newdata , ServerReturnMapData.MessageType.MapDataForClient, true);
-			}
+			MapLoader.ServerLoadSectionNoCoRoutine(MatrixInfo,  msg.Offset00, msg.Offset, mapdata, null, LoadLayers, msg.LoadObjects, msg.MatrixName);
 		}
 
 	}

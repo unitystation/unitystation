@@ -293,8 +293,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		}
 		else
 		{
-			var Data =  MapSaver.MapSaver.SaveMatrix(UesCompact.isOn, Matrix.MetaTileMap, true, LocalArea,NonmappedItems.isOn,Layers, ObjectsVisible, CutSection.isOn  );
-			Data.PreviewGizmos = Gizmos;
+			var Data =  MapSaver.MapSaver.SaveMatrix(UesCompact.isOn, Matrix.MetaTileMap, true, LocalArea,NonmappedItems.isOn,Layers, ObjectsVisible, CutSection.isOn, Gizmos  );
 			var StringData = JsonConvert.SerializeObject(Data, settings);
 			ReceiveData(StringData);
 		}
@@ -334,25 +333,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			data = JsonConvert.DeserializeObject<MapSaver.MapSaver.MatrixData>(Clipboard);
 		}
 
-		//PreviewGizmos
-
-		foreach (var Gizmo in data.PreviewGizmos)
-		{
-			if (Offset00 == null)
-			{
-				Offset00 = Gizmo.Pos.ToVector3() - (Gizmo.Size.ToVector3() / 2f);
-			}
-			else
-			{
-				var Contender =  Gizmo.Pos.ToVector3() - (Gizmo.Size.ToVector3() / 2f);
-				if (Offset00.Value.magnitude > Contender.magnitude)
-				{
-					Offset00 = Contender;
-				}
-			}
-		}
-
-		Offset00 = new Vector3(-0.5f, -0.5f, 0f) -Offset00;
+		Offset00 = data.Get00Victor();
 
 		if (ActiveMouseGrabber == null)
 		{
@@ -417,10 +398,6 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 			var ObjectsVisible = DevCameraControls.Instance.GetObjectsMappingVisible();
 			var Layers = DevCameraControls.Instance.ReturnVisibleLayers();
-
-
-
-
 
 			Chat.AddExamineMsg( PlayerManager.LocalPlayerObject, $" Loading map Data onto {MatrixName} " );
 

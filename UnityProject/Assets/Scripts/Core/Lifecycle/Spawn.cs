@@ -386,7 +386,7 @@ public static class Spawn
 	/// client-side hooks. Should only be called after object becomes networked / known by clients.
 	/// </summary>
 	/// <param name="result"></param>
-	public static void _ServerFireClientServerSpawnHooks(SpawnResult result)
+	public static void _ServerFireClientServerSpawnHooks(SpawnResult result, SpawnInfo SpawnInfoOverride = null)
 	{
 		//fire server hooks
 		foreach (var spawnedObject in result.GameObjects)
@@ -395,7 +395,15 @@ public static class Spawn
 			var comps = spawnedObject.GetComponentsInChildren<IServerSpawn>();
 			foreach (var comp in comps)
 			{
-				comp.OnSpawnServer(result.SpawnInfo);
+				if (SpawnInfoOverride != null)
+				{
+					comp.OnSpawnServer(SpawnInfoOverride);
+				}
+				else
+				{
+					comp.OnSpawnServer(result.SpawnInfo);
+				}
+
 			}
 		}
 	}

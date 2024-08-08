@@ -33,7 +33,7 @@ namespace Objects.Disposals
 
 		protected PositionalHandApply currentInteraction;
 
-		[SyncVar]
+		[SyncVar,SerializeField]
 		private InstallState installState = InstallState.Unattached;
 		public bool MachineUnattached => installState == InstallState.Unattached;
 		public bool MachineAnchored => installState == InstallState.Anchored;

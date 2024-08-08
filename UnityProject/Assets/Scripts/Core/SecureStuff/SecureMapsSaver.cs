@@ -206,7 +206,15 @@ namespace SecureStuff
 				}
 				else
 				{
-					List[Index] = Librarian.Page.DeSerialiseValue(ModField.Data, ListType);
+					try
+					{
+						List[Index] = Librarian.Page.DeSerialiseValue(ModField.Data, ListType);
+					}
+					catch (Exception e)
+					{
+						Loggy.LogError(e.ToString());
+					}
+
 				}
 			}
 		}
@@ -542,6 +550,43 @@ namespace SecureStuff
 			return null;
 		}
 
+		private static bool ContainsKey(this IDictionary Dictionary, object Key)
+		{
+			bool originalhasKey = false;
+			if (Dictionary != null)
+			{
+				foreach (var originalKey in Dictionary.Keys)
+				{
+					if (Key == originalKey)
+					{
+						originalhasKey = true;
+						break;
+					}
+				}
+			}
+
+			return originalhasKey;
+		}
+
+		private static object GetValue(this IDictionary Dictionary, object Key)
+		{
+			object Value = null;
+			if (Dictionary != null)
+			{
+				var enumerator = Dictionary.GetEnumerator();
+				// Loop through the hashtable using the enumerator
+				while (enumerator.MoveNext())
+				{
+					if (enumerator.Key == Key)
+					{
+						Value = enumerator.Value;
+					}
+				}
+			}
+
+			return Value;
+		}
+
 		private static void DictionaryHandleSave(object MonoSet, object PrefabDefault, FieldInfo Field,
 			HashSet<FieldData> FieldDatas, string Prefix, bool UseInstance, IPopulateIDRelation IPopulateIDRelation,
 			HashSet<Component> OnGameObjectComponents, HashSet<GameObject> AllGameObjectOnObject)
@@ -599,7 +644,7 @@ namespace SecureStuff
 
 			if (KeyanyOfThem == false && KeyIsClass == false)
 			{
-				if (KeyType.IsValueType == false)
+				if (KeyType.IsValueType && KeyType.IsPrimitive == false && KeyType.IsEnum == false)
 				{
 					return; //Non-serialisable class
 				}
@@ -650,7 +695,7 @@ namespace SecureStuff
 			if (ValType.IsGenericType) return; //No list within lists for now
 			if (ValanyOfThem == false && ValIsClass == false)
 			{
-				if (ValType.IsValueType == false)
+				if (ValType.IsValueType && ValType.IsPrimitive == false && ValType.IsEnum == false)
 				{
 					return; //Non-serialisable class
 				}
@@ -671,31 +716,37 @@ namespace SecureStuff
 
 				bool MarkAsRemoved = false;
 
-				if (original?.Contains(Key) is true) //has key
+				bool originalhasKey = false;
+				if (original != null)
 				{
-					ValueOriginal = original[Key];
+					originalhasKey = original.ContainsKey(Key);
+				}
+
+				if (originalhasKey) //has key
+				{
+					ValueOriginal = original.GetValue(Key);
 				}
 
 				if (ReturnKey(Key, KeyisScriptableObject, KeyIsComponent, KeyanyOfThem, KeyType,
 					    out var StringData))
 				{
-					if (ValIsClass && modified[Key] == null)
+					if (ValIsClass && modified.GetValue(Key) == null)
 					{
 						RecursiveSearchData(OnGameObjectComponents, AllGameObjectOnObject, IPopulateIDRelation,
 							FieldDatas,
 							Prefix + Field.Name + "#" + StringData + "@",
-							original[Key],
-							modified[Key],
+							original.GetValue(Key),
+							modified.GetValue(Key),
 							UseInstance); //Recursive
 					}
 					else
 					{
-						if (CheckAreSame(ValueOriginal, modified[Key], OnGameObjectComponents, AllGameObjectOnObject) ==
-						    false)
+						if (CheckAreSame(ValueOriginal, modified.GetValue(Key), OnGameObjectComponents, AllGameObjectOnObject) == false)
 						{
 							FieldData fieldData = new FieldData();
 							fieldData.Name = Prefix + Field.Name + "#" + StringData;
-							SetDataFieldFor(fieldData, modified[Key], ValisScriptableObject, ValIsComponent,
+
+							SetDataFieldFor(fieldData, modified.GetValue(Key), ValisScriptableObject, ValIsComponent,
 								ValanyOfThem,
 								ValType, FieldDatas, UseInstance, IPopulateIDRelation, false);
 							FieldDatas.Add(fieldData); //add data
@@ -708,7 +759,14 @@ namespace SecureStuff
 			{
 				foreach (var OriginalKey in original.Keys)
 				{
-					if (modified.Contains(OriginalKey) == false)
+					bool hasKey = false;
+					if (modified != null)
+					{
+						hasKey = modified.ContainsKey(OriginalKey);
+					}
+
+
+					if (hasKey == false)
 					{
 						if (ReturnKey(OriginalKey, KeyisScriptableObject, KeyIsComponent, KeyanyOfThem, KeyType,
 							    out var StringData))
@@ -771,7 +829,7 @@ namespace SecureStuff
 
 			if (IsReferencedObject == false && IsClass == false)
 			{
-				if (ListType.IsValueType == false)
+				if (ListType.IsValueType  && ListType.IsPrimitive == false && ListType.IsEnum == false)
 				{
 					return; //Non-serialisable class
 				}
@@ -929,7 +987,6 @@ namespace SecureStuff
 				return;
 			}
 
-
 			string Index = "";
 
 			bool MoreSteps = false;
@@ -1071,7 +1128,15 @@ namespace SecureStuff
 					if (Field.GetValue(Object) == null)
 					{
 						//NOTE Dangerous
-						Field.SetValue(Object, Activator.CreateInstance(Field.FieldType));
+						try
+						{
+							Field.SetValue(Object, Activator.CreateInstance(Field.FieldType));
+						}
+						catch (Exception e)
+						{
+							Loggy.LogError(e.ToString());
+						}
+
 					}
 
 
@@ -1276,7 +1341,7 @@ namespace SecureStuff
 					if (Field.FieldType.IsValueType == false && Field.FieldType == typeof(string) == false &&
 					    Field.FieldType.IsGenericType == false &&
 					    (APrefabDefault != null || PrefabInstance == null) && AMonoSet != null
-					    && HasAttribute(Field, typeof(System.SerializableAttribute)))
+					    && Field.FieldType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length > 0)
 					{
 						RecursiveSearchData(OnGameObjectComponents, AllGameObjectOnObject,
 							IPopulateIDRelation,

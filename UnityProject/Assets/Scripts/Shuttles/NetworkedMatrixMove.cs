@@ -956,13 +956,23 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 	public Vector3 ApplyDragTo(Vector3 CurrentMomentum, float Drag, float deltaTimeSeconds)
 	{
-		CurrentMomentum -= (CurrentMomentum * (Drag * deltaTimeSeconds));
+		var Multiplier = Drag * deltaTimeSeconds;
+		if (Drag * deltaTimeSeconds > 1)
+		{
+			Multiplier = 1;
+		}
+		CurrentMomentum -= (CurrentMomentum * Multiplier);
 		return CurrentMomentum;
 	}
 
 	public float ApplyDragTo(float CurrentMomentum, float Drag, float deltaTimeSeconds)
 	{
-		CurrentMomentum -= (CurrentMomentum * (Drag * deltaTimeSeconds));
+		var Multiplier = Drag * deltaTimeSeconds;
+		if (Drag * deltaTimeSeconds > 1)
+		{
+			Multiplier = 1;
+		}
+		CurrentMomentum -= (CurrentMomentum * Multiplier);
 		return CurrentMomentum;
 	}
 
