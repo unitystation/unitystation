@@ -1588,10 +1588,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public override void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false,
 		bool doStepInteractions = true,
-		Vector2? momentum = null)
+		Vector2? momentum = null, MatrixInfo  Matrixoveride = null)
 	{
 		var oldPos = gameObject.AssumedWorldPosServer();
-		base.AppearAtWorldPositionServer(worldPos, smooth, doStepInteractions, momentum);
+		base.AppearAtWorldPositionServer(worldPos, smooth, doStepInteractions, momentum, Matrixoveride);
 		AdminLogsManager.AddNewLog(gameObject,
 			$"{gameObject.ExpensiveName()} has appeared at {gameObject.AssumedWorldPosServer()} (original position: {oldPos})", LogCategory.World);
 	}
