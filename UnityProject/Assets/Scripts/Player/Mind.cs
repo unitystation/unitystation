@@ -17,6 +17,7 @@ using Systems.Antagonists.Antags;
 using UI.Core.Action;
 using System.Linq;
 using Changeling;
+using Core.Admin.Logs;
 using Logs;
 using static UniversalObjectPhysics;
 
@@ -422,6 +423,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 		}
 
 		SyncPossessing(IDPossessing, intID);
+		AdminLogsManager.AddNewLog(null, $"{gameObject} has possesed {obj.ExpensiveName()}.", LogCategory.Ghost);
 	}
 
 	public void InternalSetControllingObject(GameObject obj)

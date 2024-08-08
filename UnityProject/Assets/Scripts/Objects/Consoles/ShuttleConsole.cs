@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using AddressableReferences;
 using AdminTools;
+using Core.Admin.Logs;
 using Logs;
 using Managers;
 using Messages.Server;
@@ -123,9 +124,8 @@ namespace Objects.Shuttles
 
 		private void ServerLogEmagEvent(HandApply prep)
 		{
-			var time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
-			UIManager.Instance.playerAlerts.ServerAddNewEntry(time, PlayerAlertTypes.Emag, prep.PerformerPlayerScript.PlayerInfo,
-				$"{time} : {prep.PerformerPlayerScript.playerName} emmaged {gameObject}.");
+			AdminLogsManager.AddNewLog(prep.Performer,
+				$"{prep.PerformerPlayerScript.playerName} emmaged {gameObject}.", LogCategory.Interaction, Severity.SUSPICOUS);
 		}
 
 

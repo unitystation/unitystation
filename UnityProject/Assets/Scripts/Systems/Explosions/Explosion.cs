@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core;
+using Core.Admin.Logs;
 using HealthV2;
 using Logs;
 using Systems.Score;
@@ -26,11 +27,9 @@ namespace Systems.Explosions
 		public static void StartExplosion(Vector3Int WorldPOS, float strength, ExplosionNode nodeType = null,
 			int fixedRadius = -1, int fixedShakingStrength = -1, List<ItemTrait> damageIgnoreAttributes = null, bool stunNearbyPlayers = false)
 		{
-			if (nodeType == null)
-			{
-				nodeType = new ExplosionNode();
-			}
-
+			AdminLogsManager.AddNewLog(null, $"An explosion has occured at {WorldPOS} with strength: {strength}.", LogCategory.World,
+				strength > 75 ? Severity.IMMEDIATE_ATTENTION : Severity.SUSPICOUS);
+			nodeType ??= new ExplosionNode();
 			nodeType.IgnoreAttributes = damageIgnoreAttributes;
 
 			int Radius = 0;

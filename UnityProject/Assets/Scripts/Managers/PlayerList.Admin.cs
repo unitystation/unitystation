@@ -10,6 +10,7 @@ using DatabaseAPI;
 using Mirror;
 using UnityEngine;
 using Core.Accounts;
+using Core.Admin.Logs;
 using DiscordWebhook;
 using Lobby;
 using Logs;
@@ -857,11 +858,11 @@ public partial class PlayerList
 		string message = $"A kick is being processed by the server. " +
 				$"Username: {player.Username}. Character name: {player.Name}. Processed at: {DateTime.Now}.";
 		Loggy.Log(message, Category.Admin);
+		AdminLogsManager.AddNewLog(player.GameObject, reason, LogCategory.Admin);
 
 		StartCoroutine(KickOrBanPlayer(player, reason, false));
 
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, $"{message}\nReason: {reason}", "");
-		UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(message, null);
 
 		if (announce && ServerData.ServerConfig.DiscordWebhookEnableBanKickAnnouncement)
 		{
@@ -879,7 +880,7 @@ public partial class PlayerList
 		StartCoroutine(KickOrBanPlayer(player, reason, true, minutes));
 
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
-		UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(message, null);
+		AdminLogsManager.AddNewLog(player.GameObject, reason, LogCategory.Admin);
 
 		if (announce && ServerData.ServerConfig.DiscordWebhookEnableBanKickAnnouncement)
 		{
@@ -978,9 +979,7 @@ public partial class PlayerList
 		Loggy.Log(message, Category.Admin);
 
 		StartCoroutine(JobBanPlayer(player, reason, isPerma, banMinutes, jobType, admin));
-
-		UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord($"{admin.Username}: job banned {player.Username} from {jobType}, IsPerma: {isPerma}, BanMinutes: {banMinutes}", null);
-
+		AdminLogsManager.AddNewLog(player.GameObject, $"{admin.Username}: job banned {player.Username} from {jobType}, IsPerma: {isPerma}, BanMinutes: {banMinutes}", LogCategory.Admin, Severity.IMMEDIATE_ATTENTION);
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 
 		if (ghostAfter)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using AdminTools;
+using Core.Admin.Logs;
 using Logs;
 using UnityEngine;
 
@@ -46,9 +47,9 @@ namespace Objects.ExecutionDevices
 		private void LogExecution(GameObject executioner)
 		{
 			if (Victim == null || executioner == null) return;
-			var time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
-			UIManager.Instance.playerAlerts.ServerAddNewEntry(time, PlayerAlertTypes.RDM, executioner.Player(),
-				$"{time} : {executioner.Player().Mind.CurrentPlayScript.playerName} attempted to execute {Victim.ExpensiveName()} at {Victim.AssumedWorldPosServer()}.");
+			AdminLogsManager.AddNewLog(executioner,
+				$"{executioner.Player().Mind.CurrentPlayScript.playerName} " +
+				$"attempted to execute {Victim.ExpensiveName()} at {Victim.AssumedWorldPosServer()}.", LogCategory.MobDamage, Severity.DEATH);
 		}
 
 		public RightClickableResult GenerateRightClickOptions()

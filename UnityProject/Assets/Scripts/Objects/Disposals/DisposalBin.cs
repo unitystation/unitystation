@@ -6,6 +6,7 @@ using UnityEngine;
 using Mirror;
 using Systems.Disposals;
 using AddressableReferences;
+using Core.Admin.Logs;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
 using Systems.Atmospherics;
@@ -378,6 +379,10 @@ namespace Objects.Disposals
 
 			StandardProgressActionConfig cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction, false, false, false);
 			StandardProgressAction.Create(cfg, StoringPlayer).ServerStartProgress(interaction.UsedObject.RegisterTile(), 2, interaction.Performer);
+
+			AdminLogsManager.AddNewLog(interaction.Performer,
+				$"{interaction.Performer.ExpensiveName()} is attempting to put ({interaction.TargetObject.ExpensiveName()}) " +
+				$"into a DisposalBin at {gameObject.AssumedWorldPosServer()}.", LogCategory.Interaction, Severity.SUSPICOUS);
 		}
 
 		private void StorePlayer(MouseDrop interaction)

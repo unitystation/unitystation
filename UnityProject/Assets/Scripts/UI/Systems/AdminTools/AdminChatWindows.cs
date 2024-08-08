@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using UI.Systems.AdminTools.AdminLogs;
 using UnityEngine;
 
 namespace AdminTools
@@ -11,7 +11,7 @@ namespace AdminTools
 		public MentorPlayerChat mentorPlayerChat = null;
 		public AdminToAdminChat adminToAdminChat = null;
 		public PlayerPrayerWindow playerPrayerWindow = null;
-		public AdminLogWindow adminLogWindow = null;
+		public AdminLogsWindow adminLogWindow = null;
 		public List<AdminPlayersScrollView> playerListViews = new List<AdminPlayersScrollView>();
 
 		public AdminChatWindow SelectedWindow { get; private set; }
@@ -75,7 +75,6 @@ namespace AdminTools
 			mentorPlayerChat.ClearLogs();
 			adminToAdminChat.ClearLogs();
 			playerPrayerWindow.ClearLogs();
-			adminLogWindow.ClearLogs();
 		}
 	}
 

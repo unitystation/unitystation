@@ -163,6 +163,43 @@ namespace Messages.Server.SoundMessages
 			return soundSpawnToken;
 		}
 
+		public static string SendToAdmins(AddressableAudioSource addressableAudioSource, Vector3 pos,
+			bool polyphonic = false, GameObject sourceObj = null,
+			ShakeParameters shakeParameters = new ShakeParameters(),
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool attachedToSource = false, string soundSpawnToken = null)
+		{
+			var netId = NetId.Empty;
+			if (sourceObj != null)
+			{
+				var netB = sourceObj.GetRootGameObject().GetComponent<NetworkBehaviour>();
+				if (netB != null)
+				{
+					netId = netB.netId;
+				}
+			}
+
+			if (string.IsNullOrEmpty(soundSpawnToken))
+			{
+				soundSpawnToken = Guid.NewGuid().ToString();
+			}
+
+			NetMessage msg = new NetMessage
+			{
+				SoundAddressablePath = addressableAudioSource.AssetAddress,
+				Position = pos,
+				Polyphonic = polyphonic,
+				TargetNetId = netId,
+				ShakeParameters = shakeParameters,
+				AudioParameters = audioSourceParameters,
+				SoundSpawnToken = soundSpawnToken,
+				SourceObj = sourceObj,
+				AttachedToSource = attachedToSource
+			};
+
+			SendToAdmins(msg);
+			return soundSpawnToken;
+		}
+
 		/// <summary>
 		/// Send a sound to be played to a specific client
 		/// </summary>

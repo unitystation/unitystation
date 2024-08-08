@@ -6,6 +6,7 @@ using UnityEngine.Profiling;
 using Mirror;
 using AddressableReferences;
 using AdminCommands;
+using Core.Admin.Logs;
 using Logs;
 using Messages.Client.DevSpawner;
 using Systems.Explosions;
@@ -32,7 +33,6 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// </summary>
 	[NonSerialized]
 	public DestructionEvent OnWillDestroyServer = new DestructionEvent();
-
 
 	/// <summary>
 	/// Works on client and server , triggered when onDestroyed is called
@@ -73,7 +73,6 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	//  Commented out as it doesnt work correctly
 	[Tooltip("Sound to play when damage applied.")]
 	public AddressableAudioSource soundOnHit;
-
 
 	[Tooltip("A damage threshold the attack needs to pass in order to apply damage to this item.")]
 	public float damageDeflection = 0;
@@ -128,6 +127,9 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private bool isLarge;
 	public float Resistance => integrity * ((int)universalObjectPhysics.GetSize() / 10f);
 
+	[SerializeField] private bool logDamage = false;
+	private GameObject lastKnownAttacker = null;
+
 	private void Awake()
 	{
 		EnsureInit();
@@ -175,7 +177,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// <param name="damageType"></param>
 	[Server]
 	public void ApplyDamage(float damage, AttackType attackType, DamageType damageType, bool ignoreDeflection = false, bool triggerEvent = true, bool ignoreArmor = false,
-		bool explodeOnDestroy = false)
+		bool explodeOnDestroy = false, GameObject attacker = null)
 	{
 		//already destroyed, don't apply damage
 		if (destroyed || Resistances.Indestructable || (!ignoreDeflection && damage < damageDeflection)) return;
@@ -189,6 +191,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		{
 			integrity -= damage;
 			lastDamageInfo = damageInfo;
+			if (attacker != null) lastKnownAttacker = attacker;
 
 			if (triggerEvent)
 			{
@@ -197,8 +200,12 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			}
 
 			CheckDestruction(explodeOnDestroy);
-
-			Loggy.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Damage, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);
+			if (logDamage)
+			{
+				string logMessage = $"{gameObject.ExpensiveName()} took {damage} {damageType} damage from an {attackType} attack (resistance {Armor.GetRating(attackType)}) (integrity now {integrity})";
+				Loggy.LogTraceFormat(logMessage, Category.Damage);
+				AdminLogsManager.TrackDamage(attacker, this, logMessage);
+			}
 		}
 	}
 

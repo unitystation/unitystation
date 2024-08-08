@@ -1,4 +1,5 @@
-﻿using Logs;
+﻿using Core.Admin.Logs;
+using Logs;
 using UnityEngine;
 using Mirror;
 
@@ -44,12 +45,12 @@ namespace Messages.Client.DevSpawner
 				if (NetworkObject.TryGetComponent<PlayerScript>(out var victim))
 				{
 					victim.playerHealth.OnGib();
-					UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-						$"{SentByPlayer.Username} gibbed {victim.playerName} at {worldPos} using the dev destroyer tool.", SentByPlayer.AccountId);
+					AdminLogsManager.AddNewLog(SentByPlayer.GameObject,
+						$"{SentByPlayer.Username} gibbed {victim.playerName} at {worldPos} using the dev destroyer tool.", LogCategory.Admin);
 					return;
 				}
-				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					$"{SentByPlayer.Username} destroyed a {NetworkObject} at {worldPos}", SentByPlayer.AccountId);
+				AdminLogsManager.AddNewLog(SentByPlayer.GameObject,
+					$"{SentByPlayer.Username} destroyed a {NetworkObject} at {worldPos}", LogCategory.Admin);
 				_ = Despawn.ServerSingle(NetworkObject);
 			}
 		}

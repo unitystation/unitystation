@@ -12,6 +12,7 @@ using Managers;
 using Doors;
 using Logs;
 using Shared.Systems.ObjectConnection;
+using Systems.Ai;
 using Systems.Clearance;
 
 
@@ -271,17 +272,7 @@ namespace Objects.Wallmounts
 				{
 					if (channel == StatusDisplayChannel.DoorTimer)
 					{
-						if (Restricted == null || Restricted.HasClearance(interaction.Performer))
-						{
-							AddTime(60);
-						}
-						else
-						{
-							Chat.AddExamineMsg(interaction.Performer, "Access Denied.");
-							// Play sound
-							SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.AccessDenied,
-								gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
-						}
+						UpdateCellTimer(interaction);
 					}
 					else
 					{
@@ -289,6 +280,24 @@ namespace Objects.Wallmounts
 						stateSync = MountedMonitorState.Image;
 					}
 				}
+			}
+		}
+
+		private void UpdateCellTimer(HandApply interaction)
+		{
+			if (interaction.PerformerPlayerScript.gameObject.HasComponent<AiPlayer>())
+			{
+				return;
+			}
+			if (Restricted == null || Restricted.HasClearance(interaction.Performer))
+			{
+				AddTime(60);
+			}
+			else
+			{
+				Chat.AddExamineMsg(interaction.Performer, "Access Denied.");
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.AccessDenied,
+					gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
 			}
 		}
 

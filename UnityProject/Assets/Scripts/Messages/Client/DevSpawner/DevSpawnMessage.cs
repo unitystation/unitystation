@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.Admin.Logs;
 using Logs;
 using UnityEngine;
 using Mirror;
@@ -78,9 +79,7 @@ namespace Messages.Client.DevSpawner
 				{
 					Rotatable.FaceDirection(msg.OrientationEnum);
 				}
-
-				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					$"{SentByPlayer.Username} spawned a {prefab.name} at {worldPosition}", SentByPlayer.AccountId);
+				AdminLogsManager.AddNewLog(SentByPlayer.GameObject, $"{SentByPlayer.Username} spawned a {prefab.name} at {worldPosition}", LogCategory.Admin);
 			}
 			else
 			{

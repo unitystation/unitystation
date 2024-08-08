@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: ee76ba24a0cd443b1a308dd04cdb3678,
+  itemStorageStructure: {fileID: 11400000, guid: 54cbb4402f813441cb503dcd1d440082,
     type: 2}
   itemStorageCapacity: {fileID: 0}
   itemStoragePopulator: {fileID: 0}
@@ -235,6 +235,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &4644871529314044369
 MonoBehaviour:
@@ -311,5 +312,6 @@ MonoBehaviour:
     RecoveryDuration: 0
   WeaponType: 0
   allowPinSwap: 1
+  allowedAttachments: 6
+  attributes: {fileID: 0}
   isSuppressed: 0
-  isSuppressible: 0

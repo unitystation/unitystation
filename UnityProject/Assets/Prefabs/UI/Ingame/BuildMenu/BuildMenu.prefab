@@ -2394,7 +2394,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4183651651856864320
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2431,6 +2431,7 @@ MonoBehaviour:
   listItemPrefab: {fileID: 6290901097630366859, guid: 41ce2f8695cc54b45a0fa3ab82cbc7fa,
     type: 3}
   contentPanel: {fileID: 4228042807187021209}
+  constructionUI: {fileID: 4183669301474134302}
   conveyorBuildMenu: {fileID: 4903095661485989965}
   NumberInputField: {fileID: 5778306693462235258}
   searchField: {fileID: 1923391909679373291}
@@ -2500,7 +2501,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4183669301474134302
 RectTransform:
   m_ObjectHideFlags: 0

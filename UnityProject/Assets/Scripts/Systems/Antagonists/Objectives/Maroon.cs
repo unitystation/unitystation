@@ -107,8 +107,7 @@ namespace Antagonists
 			}
 
 			//If target is on functional escape shuttle, we failed
-			return ValidShuttles.Any( shuttle => shuttle
-				&& shuttle.MatrixInfo.Matrix.PresentPlayers.Contains(Owner.Body.RegisterPlayer) && shuttle.HasWorkingThrusters) == false;
+			return ValidShuttles.Any( shuttle => shuttle.MatrixInfo != null && shuttle.MatrixInfo.Matrix.PresentPlayers.Contains(Target.Body.RegisterPlayer) == false);
 		}
 	}
 }
