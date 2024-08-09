@@ -105,6 +105,7 @@ namespace Messages.Server.SoundMessages
 		public AudioSourceParameters MakeSoundGlobal()
 		{
 			MinDistance = Single.MaxValue;
+			SpatialBlend = 1;
 			return this;
 		}
 
