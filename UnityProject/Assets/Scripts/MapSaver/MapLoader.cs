@@ -5,6 +5,7 @@ using System.Linq;
 using Initialisation;
 using Logs;
 using Mirror;
+using Newtonsoft.Json;
 using SecureStuff;
 using Tiles;
 using UnityEngine;
@@ -23,7 +24,6 @@ namespace MapSaver
 		public static void ProcessorCompactTileMapData(MatrixInfo Matrix, Vector3Int Offset00, Vector3Int Offset,
 			MapSaver.CompactTileMapData CompactTileMapData, HashSet<LayerType> LoadLayers = null)
 		{
-
 			var CommonMatrix4x4 = new List<Matrix4x4>();
 
 			foreach (var Matrix4x4 in CompactTileMapData.CommonMatrix4x4)
@@ -46,7 +46,7 @@ namespace MapSaver
 			}
 
 
-			var  TileLocations = CompactTileMapData.Data.Split("@");
+			var TileLocations = CompactTileMapData.Data.Split("@");
 
 			foreach (var TileData in TileLocations)
 			{
@@ -116,12 +116,11 @@ namespace MapSaver
 		}
 
 
-
 		private static int? GetDataForTag(string data, char Tag)
 		{
 			if (data.Contains(Tag))
 			{
-				var StartTileID = data.IndexOf(Tag) +1 ;
+				var StartTileID = data.IndexOf(Tag) + 1;
 				for (int i = StartTileID; i < data.Length; i++)
 				{
 					if (data[i] is MapSaver.Matrix4x4Char or MapSaver.TileIDChar or MapSaver.ColourChar
@@ -131,17 +130,15 @@ namespace MapSaver
 						var Substring = data[StartTileID..i]; //Fancy new Syntax for basically substring
 						try
 						{
-							return int.Parse(Substring);;
+							return int.Parse(Substring);
+							;
 						}
 						catch (Exception e)
 						{
 							Loggy.LogError(e.ToString());
 							return int.Parse("1");
 						}
-
-
 					}
-
 				}
 
 				var Substring2 = data[StartTileID..]; //Fancy new Syntax for basically substring
@@ -176,7 +173,6 @@ namespace MapSaver
 
 				foreach (var Tile in XY.Value)
 				{
-
 					var Tel = TileManager.GetTile(Tile.Tel);
 
 					if (LoadLayers != null && LoadLayers.Contains(Tel.LayerType) == false)
@@ -204,7 +200,6 @@ namespace MapSaver
 						Matrix4x4 = MapSaver.StringToMatrix4X4(Tile.Tf);
 					}
 
-
 					Matrix.MetaTileMap.SetTile(NewPos, Tel, Matrix4x4, Colour);
 				}
 			}
@@ -219,12 +214,17 @@ namespace MapSaver
 			}
 
 
-
 			foreach (var prefabData in CompactObjectMapData.PrefabData)
 			{
-				ProcessIndividualObject(CompactObjectMapData, prefabData, Matrix, Offset00, Offset);
+				try
+				{
+					ProcessIndividualObject(CompactObjectMapData, prefabData, Matrix, Offset00, Offset);
+				}
+				catch (Exception e)
+				{
+					Loggy.LogError(e.ToString());
+				}
 			}
-
 
 
 			if (LoadingMultiple == false)
@@ -234,9 +234,11 @@ namespace MapSaver
 		}
 
 
-		public static void ProcessIndividualObject(MapSaver.CompactObjectMapData CompactObjectMapData, MapSaver.PrefabData prefabData, MatrixInfo Matrix, Vector3Int Offset00, Vector3Int Offset, GameObject Object = null)
+		public static void ProcessIndividualObject(MapSaver.CompactObjectMapData CompactObjectMapData,
+			MapSaver.PrefabData prefabData, MatrixInfo Matrix, Vector3Int Offset00, Vector3Int Offset,
+			GameObject Object = null)
 		{
-
+			SpawnResult SpawnResult = null;
 			if (Object == null)
 			{
 				MapSaver.StringToVector(prefabData.LocalPRS, out Vector3 position);
@@ -248,14 +250,17 @@ namespace MapSaver
 
 				position += Offset00;
 				position += Offset;
-				Object = Spawn.ServerPrefab(CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[PrefabID],
-						position.ToWorld(Matrix)).GameObject;
+				SpawnResult = Spawn.ServerPrefab(
+					CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[PrefabID],
+					position.ToWorld(Matrix), AutoOnSpawnServerHook: false, mapspawn: true);
+				Object = SpawnResult.GameObject;
 				MapSaver.StringToPRS(Object, prefabData.LocalPRS);
 				Object.transform.localPosition += Offset00;
 				Object.transform.localPosition += Offset;
-				Object.GetComponent<UniversalObjectPhysics>()?.AppearAtWorldPositionServer(Object.transform.localPosition.ToWorld(Matrix));
+				Object.GetComponent<UniversalObjectPhysics>()
+					?.AppearAtWorldPositionServer(Object.transform.localPosition.ToWorld(Matrix),
+						Matrixoveride: Matrix);
 			}
-
 
 
 			if (string.IsNullOrEmpty(prefabData.Name) == false)
@@ -277,17 +282,24 @@ namespace MapSaver
 
 
 			MapSaver.CodeClass.ThisCodeClass.Objects[ID] = Object;
-			ProcessClassData(prefabData,Object, prefabData.Object);
+			ProcessClassData(prefabData, Object, prefabData.Object);
 
 			if (CustomNetworkManager.IsServer)
 			{
 				CompactObjectMapData.IDToNetIDClient[ID] = Object.GetComponent<NetworkIdentity>().netId;
 			}
 
-			MapSaver.CodeClass.ThisCodeClass.FinishLoading(ID);
+			if (MapSaver.CodeClass.ThisCodeClass.FinishLoading(ID, SpawnResult))
+			{
+				if (SpawnResult != null)
+				{
+					Spawn._ServerFireClientServerSpawnHooks(SpawnResult, SpawnInfo.Mapped(SpawnResult.GameObject));
+				}
+			}
 		}
 
-		public static void ProcessClassData(MapSaver.PrefabData prefabData, GameObject Object, MapSaver.IndividualObject IndividualObject)
+		public static void ProcessClassData(MapSaver.PrefabData prefabData, GameObject Object,
+			MapSaver.IndividualObject IndividualObject)
 		{
 			if (IndividualObject == null)
 			{
@@ -323,7 +335,8 @@ namespace MapSaver
 					ID = prefabData.PrefabID;
 				}
 
-				SecureMapsSaver.LoadData(ID , Component, classData.Data, MapSaver.CodeClass.ThisCodeClass, CustomNetworkManager.IsServer);
+				SecureMapsSaver.LoadData(ID, Component, classData.Data, MapSaver.CodeClass.ThisCodeClass,
+					CustomNetworkManager.IsServer);
 			}
 
 			if (IndividualObject.Children != null)
@@ -346,45 +359,106 @@ namespace MapSaver
 			}
 		}
 
-		//Offset00 the off set In the data so objects will appear at 0,0
-		//Offset to apply 0,0 to get the position you want
-		public static MapSaver.CompactObjectMapData LoadSection(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
-			MapSaver.MatrixData MatrixData, HashSet<LayerType> LoadLayers = null, bool LoadObjects = true, string MatrixName = null)
+		public static IEnumerator ServerLoadMap(Vector3 Offset00, Vector3 Offset, MapSaver.MapData MapData)
 		{
-			Matrix aaMatrix = null;
-
-			if (Matrix == null)
+			foreach (var ToMapMatrix in MapData.ContainedMatrices)
 			{
-				aaMatrix = MatrixManager.MakeNewMatrix(MatrixName);
+				yield return ServerLoadSection(null, Offset00, Offset, ToMapMatrix, null,
+					MatrixName: ToMapMatrix.MatrixName, LoadingMultiple: true);
 			}
-			else
-			{
-				aaMatrix = Matrix.Matrix;
-			}
-
-			//TODO MapSaver.CodeClass.ThisCodeClass?? Clearing?
-			MapSaver.CompactObjectMapData data = null;
-			if (MatrixData.CompactTileMapData != null)
-			{
-				ProcessorCompactTileMapData(aaMatrix.MatrixInfo, Offset00.RoundToInt(), Offset.RoundToInt(),
-					MatrixData.CompactTileMapData, LoadLayers);
-			}
-
-			if (MatrixData.GitFriendlyTileMapData != null)
-			{
-				ProcessorGitFriendlyTiles(aaMatrix.MatrixInfo, Offset00.RoundToInt(), Offset.RoundToInt(),
-					MatrixData.GitFriendlyTileMapData, LoadLayers);
-			}
-
-			if (MatrixData.CompactObjectMapData != null && LoadObjects)
-			{
-				ProcessorCompactObjectMapData(aaMatrix.MatrixInfo, Offset00.RoundToInt(), Offset.RoundToInt(),
-					MatrixData.CompactObjectMapData); //TODO Handle GitID better
-			}
-
-			return data;
 		}
 
+		public static void ServerLoadSectionNoCoRoutine(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
+			MapSaver.MatrixData MatrixData, Action completeAction, HashSet<LayerType> LoadLayers = null,
+			bool LoadObjects = true, string MatrixName = null, bool LoadingMultiple = false)
+		{
+			GameManager.Instance.StartCoroutine(ServerLoadSection(Matrix, Offset00, Offset, MatrixData, completeAction,
+				LoadLayers, LoadObjects, MatrixName, LoadingMultiple));
+		}
 
+		//Offset00 the off set In the data so objects will appear at 0,0
+		//Offset to apply 0,0 to get the position you want
+		public static IEnumerator ServerLoadSection(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
+			MapSaver.MatrixData MatrixData, Action completeAction, HashSet<LayerType> LoadLayers = null,
+			bool LoadObjects = true, string MatrixName = null, bool LoadingMultiple = false)
+		{
+			Matrix aaMatrix = null;
+			try
+			{
+				if (Matrix == null)
+				{
+					aaMatrix = MatrixManager.MakeNewMatrix(MatrixName);
+					MapSaver.StringToPRS(aaMatrix.MatrixMove.NetworkedMatrixMove.TargetTransform.gameObject,
+						MatrixData.Location);
+					aaMatrix.MatrixMove.NetworkedMatrixMove.SetTransformPosition(aaMatrix.MatrixMove.NetworkedMatrixMove
+						.TargetTransform.position);
+				}
+				else
+				{
+					aaMatrix = Matrix.Matrix;
+				}
+
+				//TODO MapSaver.CodeClass.ThisCodeClass?? Clearing?
+				MapSaver.CompactObjectMapData data = null;
+				if (MatrixData.CompactTileMapData != null)
+				{
+					ProcessorCompactTileMapData(aaMatrix.MatrixInfo, Offset00.RoundToInt(), Offset.RoundToInt(),
+						MatrixData.CompactTileMapData, LoadLayers);
+				}
+
+				if (MatrixData.GitFriendlyTileMapData != null)
+				{
+					ProcessorGitFriendlyTiles(aaMatrix.MatrixInfo, Offset00.RoundToInt(), Offset.RoundToInt(),
+						MatrixData.GitFriendlyTileMapData, LoadLayers);
+				}
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+			}
+
+
+			bool CheckState = true;
+			while (CheckState)
+			{
+				lock (aaMatrix.MetaTileMap.QueuedChanges)
+				{
+					if (aaMatrix.MetaTileMap.QueuedChanges.Count > 0)
+					{
+						CheckState = true;
+					}
+					else
+					{
+						CheckState = false;
+					}
+				}
+
+				yield return null;
+			}
+
+
+			try
+			{
+
+				if (MatrixData.CompactObjectMapData != null && LoadObjects)
+				{
+					ProcessorCompactObjectMapData(aaMatrix.MatrixInfo, Offset00.RoundToInt(), Offset.RoundToInt(),
+						MatrixData.CompactObjectMapData, LoadingMultiple: LoadingMultiple); //TODO Handle GitID better
+				}
+
+				if (LoadObjects)
+				{
+					var newdata = JsonConvert.SerializeObject(MatrixData.CompactObjectMapData);
+					CustomNetworkManager.LoadedMapDatas.Add(newdata);
+					ServerReturnMapData.SendAll(newdata, ServerReturnMapData.MessageType.MapDataForClient, true);
+				}
+
+				completeAction?.Invoke();
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+			}
+		}
 	}
 }

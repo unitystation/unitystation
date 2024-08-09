@@ -224,6 +224,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 
 	public override void OnStartClient()
 	{
+		if (CustomNetworkManager.IsServer) return;
 		SyncServerDirection(SynchroniseCurrentDirection, SynchroniseCurrentDirection);
 	}
 

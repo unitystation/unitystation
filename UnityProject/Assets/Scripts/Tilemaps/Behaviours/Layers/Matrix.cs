@@ -494,7 +494,7 @@ public class Matrix : MonoBehaviour
 		var subsystemManager = this.GetComponentInParent<MatrixSystemManager>();
 		yield return subsystemManager.Initialize();
 
-		if (CustomNetworkManager.IsServer)
+		if (CustomNetworkManager.IsServer && NetworkedMatrix.IsJsonLoaded == false)
 		{
 			var iServerSpawnList = this.GetComponentsInChildren<IServerSpawn>();
 			GameManager.Instance.MappedOnSpawnServer(iServerSpawnList);

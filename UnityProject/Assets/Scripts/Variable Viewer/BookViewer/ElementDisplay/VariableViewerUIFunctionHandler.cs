@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using SecureStuff;
 using UnityEngine;
 
@@ -26,6 +27,7 @@ public static class VVUIElementHandler
 		CurrentlyOpen.Clear();
 		ToDestroy.Clear();
 		Type2Element.Clear();
+		TestedTypes.Clear();
 	}
 
 	public class SerialiseHook : ICustomSerialisationSystem
@@ -68,11 +70,19 @@ public static class VVUIElementHandler
 				TestedTypes.Add(TypeOf);
 				foreach (PageElementEnum _Enum in Enum.GetValues(typeof(PageElementEnum)))
 				{
-					if (AvailableElements[_Enum].IsThisType(TypeOf))
+					try
 					{
-						Type2Element[TypeOf] = AvailableElements[_Enum];
-						return (Type2Element[TypeOf].Serialise(InObject));
+						if (AvailableElements[_Enum].IsThisType(TypeOf))
+						{
+							Type2Element[TypeOf] = AvailableElements[_Enum];
+							return (Type2Element[TypeOf].Serialise(InObject));
+						}
 					}
+					catch (Exception e)
+					{
+						Loggy.LogError(e.ToString());
+					}
+
 				}
 			}
 

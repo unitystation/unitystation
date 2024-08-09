@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Core.Utils;
+using Initialisation;
 using Logs;
 using UnityEngine;
 using TileManagement;
@@ -12,6 +13,11 @@ using SecureStuff;
 using Util;
 using Tiles;
 using UI.Core;
+#if UNITY_EDITOR
+using UnityEditor;
+using System.IO;
+#endif
+using Object = UnityEngine.Object;
 
 namespace MapSaver
 {
@@ -39,18 +45,77 @@ namespace MapSaver
 			public string Ver = "1.0.0";
 			public string MapName;
 			public List<MatrixData> ContainedMatrices = new List<MatrixData>();
+
+
+			public Vector3 Get00Victor()
+			{
+				//PreviewGizmos
+				Vector3? Offset00 = null;
+
+				foreach (var Matrix in ContainedMatrices)
+				{
+					if (Offset00 == null)
+					{
+						Offset00 = Matrix.Get00Victor(true);
+					}
+					else
+					{
+						var Contender = Matrix.Get00Victor(true);
+						if (Offset00.Value.magnitude > Contender.magnitude)
+						{
+							Offset00 = Contender;
+						}
+					}
+				}
+
+				return Offset00.Value;
+			}
 		}
 
 		public class MatrixData
 		{
-			public string Ver = "1.0.0";
+			public string Ver = "1.1.0";
+
+			//1.1.0 = Location Updated to use PRS
 			public string Location;
 			public uint MatrixID;
 			public string MatrixName;
 			public CompactTileMapData CompactTileMapData;
 			public GitFriendlyTileMapData GitFriendlyTileMapData;
 			public CompactObjectMapData CompactObjectMapData;
-			public List<GameGizmoModel> PreviewGizmos;
+			public List<GameGizmoModel> PreviewGizmos = new List<GameGizmoModel>();
+
+			private Vector3? Offset00Cash;
+
+			public Vector3 Get00Victor(bool Cash = false)
+			{
+				if (Cash && Offset00Cash != null)
+				{
+					return Offset00Cash.Value;
+				}
+
+				//PreviewGizmos
+				Vector3? Offset00 = null;
+
+				foreach (var Gizmo in PreviewGizmos)
+				{
+					if (Offset00 == null)
+					{
+						Offset00 = Gizmo.Pos.ToVector3() - (Gizmo.Size.ToVector3() / 2f);
+					}
+					else
+					{
+						var Contender = Gizmo.Pos.ToVector3() - (Gizmo.Size.ToVector3() / 2f);
+						if (Offset00.Value.magnitude > Contender.magnitude)
+						{
+							Offset00 = Contender;
+						}
+					}
+				}
+
+				Offset00Cash = new Vector3(-0.5f, -0.5f, 0f) - Offset00.Value;
+				return Offset00Cash.Value;
+			}
 		}
 
 		public class GitFriendlyTileMapData
@@ -113,6 +178,7 @@ namespace MapSaver
 		public class CompactTileMapData
 		{
 			public string Ver = "1.1.0";
+
 			//1.1.0 Removed layer Variable
 			public List<string> CommonColours;
 			public List<string> CommonLayerTiles;
@@ -301,10 +367,62 @@ namespace MapSaver
 			return OutMapData;
 		}
 
+#if UNITY_EDITOR
+		public static List<T> LoadAllPrefabsOfType<T>(string path) where T : MonoBehaviour
+		{
+			if (path != "")
+			{
+				if (path.EndsWith("/"))
+				{
+					path = path.TrimEnd('/');
+				}
+			}
+
+			DirectoryInfo dirInfo = new DirectoryInfo(path);
+			FileInfo[] fileInf = dirInfo.GetFiles("*.prefab", SearchOption.AllDirectories);
+
+			//loop through directory loading the game object and checking if it has the component you want
+			List<T> prefabComponents = new List<T>();
+			foreach (FileInfo fileInfo in fileInf)
+			{
+				string fullPath = fileInfo.FullName.Replace(@"\", "/");
+				string assetPath = "Assets" + fullPath.Replace(Application.dataPath, "");
+				GameObject prefab = AssetDatabase.LoadAssetAtPath(assetPath, typeof(GameObject)) as GameObject;
+
+				if (prefab != null)
+				{
+					T hasT = prefab.GetComponent<T>();
+					if (hasT != null)
+					{
+						prefabComponents.Add(hasT);
+					}
+
+					var hasTT = prefab.GetComponentsInChildren<T>();
+
+					foreach (var S in hasTT)
+					{
+						prefabComponents.Add(S);
+					}
+				}
+			}
+
+			return prefabComponents;
+		}
+
+#endif
+
 		public static MatrixData SaveMatrix(bool Compact, MetaTileMap MetaTileMap, bool SingleSave = true,
 			List<BetterBounds> LocalArea = null, bool NonmappedItems = false, HashSet<LayerType> LayersToProcess = null,
-			bool DoSaveObjects = true, bool Cut = false)
+			bool DoSaveObjects = true, bool Cut = false, List<GameGizmoModel> PreviewGizmos = null)
 		{
+			VariableViewerManager VariableViewerManager = null;
+#if UNITY_EDITOR
+			if (Application.isPlaying == false)
+			{
+				(CommonManagerEditorOnly.Instance.VariableViewerManager as IInitialise).Initialise();
+			}
+#endif
+
 			if (SingleSave)
 			{
 				UnserialisedObjectReferences.Clear();
@@ -327,31 +445,30 @@ namespace MapSaver
 				}
 			}
 
-
+			BetterBounds LocalGizmoBound = new BetterBounds();
 			MatrixData matrixData = new MatrixData();
-			if (DoSaveObjects)
+			if (PreviewGizmos != null)
 			{
-				matrixData.CompactObjectMapData = SaveObjects(Compact, MetaTileMap, AllowedPoints, NonmappedItems);
+				matrixData.PreviewGizmos = PreviewGizmos;
 			}
 
-			SaveTileMap(Compact, matrixData, MetaTileMap, AllowedPoints, LayersToProcess);
+
+			if (DoSaveObjects)
+			{
+				matrixData.CompactObjectMapData = SaveObjects(Compact, MetaTileMap, ref LocalGizmoBound, AllowedPoints,
+					NonmappedItems);
+			}
+
+			SaveTileMap(Compact, matrixData, MetaTileMap, ref LocalGizmoBound, AllowedPoints, LayersToProcess);
 
 			//matrixData.MatrixName = MetaTileMap.matrix.NetworkedMatrix.gameObject.name;
 			matrixData.MatrixName = MetaTileMap.matrix.transform.parent.name;
 
 
 			matrixData.MatrixID = IDmatrixStatic;
-			matrixData.Location = Math.Round(MetaTileMap.matrix.transform.parent.localPosition.x, 2) + "┼" +
-			                      Math.Round(MetaTileMap.matrix.transform.parent.localPosition.y, 2) + "┼" +
-			                      Math.Round(MetaTileMap.matrix.transform.parent.localPosition.z, 2) + "┼";
 
 
-			var Angles = MetaTileMap.matrix.transform.parent.eulerAngles;
-			matrixData.Location = matrixData.Location +
-			                      Math.Round(Angles.x, 2) + "ø" +
-			                      Math.Round(Angles.y, 2) + "ø" +
-			                      Math.Round(Angles.z, 2) + "ø";
-
+			matrixData.Location = PRSToString(MetaTileMap.matrix.transform.parent.gameObject);
 
 			IDmatrixStatic++;
 
@@ -423,7 +540,6 @@ namespace MapSaver
 							}
 							else
 							{
-
 								Vector3Int GoodPOS = Vector3Int.one;
 								bool Found = false;
 								foreach (var Tile in Tiles)
@@ -454,10 +570,11 @@ namespace MapSaver
 				}
 
 
-				IEnumerable<RegisterTile> Objects =null;
+				IEnumerable<RegisterTile> Objects = null;
 				if (Application.isPlaying)
 				{
-					Objects = MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.Instance._isServer).AllObjects; //TODO Disabled objectsxz
+					Objects = MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.Instance._isServer)
+						.AllObjects; //TODO Disabled objectsxz
 				}
 				else
 				{
@@ -485,19 +602,48 @@ namespace MapSaver
 				}
 			}
 
+
+			if (PreviewGizmos == null)
+			{
+				var WorldBounds = LocalGizmoBound.ConvertToWorld(MetaTileMap.matrix.MatrixInfo);
+#if UNITY_EDITOR
+				if (Application.isPlaying == false)
+				{
+					var mat = MetaTileMap.ObjectLayer.transform.localToWorldMatrix;
+					WorldBounds = new BetterBounds(mat.MultiplyPoint(LocalGizmoBound.Minimum),
+						mat.MultiplyPoint(LocalGizmoBound.Maximum));
+				}
+
+#endif
+				matrixData.PreviewGizmos.Add(new GameGizmoModel()
+				{
+					Pos = WorldBounds.center.ToSerialiseString(),
+					Size = WorldBounds.size.ToSerialiseString()
+				});
+			}
+
+
 			return matrixData;
 		}
 
 		public static void SaveTileMap(bool Compact, MatrixData ToSaveTo, MetaTileMap metaTileMap,
+			ref BetterBounds Bounds,
 			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null)
 		{
+#if UNITY_EDITOR
+			if (Application.isPlaying == false)
+			{
+				metaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
+			}
+#endif
+
 			if (Compact)
 			{
-				CompactTileMapSave(ToSaveTo, metaTileMap, AllowedPoints, LayersToProcess);
+				CompactTileMapSave(ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess);
 			}
 			else
 			{
-				GitFriendlyTileMapSave(ToSaveTo, metaTileMap, AllowedPoints, LayersToProcess);
+				GitFriendlyTileMapSave(ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess);
 			}
 		}
 
@@ -614,7 +760,7 @@ namespace MapSaver
 		}
 
 
-		public static void GitFriendlyTileMapSave(MatrixData ToSaveTo, MetaTileMap metaTileMap,
+		public static void GitFriendlyTileMapSave(MatrixData ToSaveTo, MetaTileMap metaTileMap, ref BetterBounds Bounds,
 			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null)
 		{
 			//# Matrix4x4
@@ -660,6 +806,9 @@ namespace MapSaver
 								continue;
 							}
 						}
+
+
+						Bounds.ExpandToPoint2D(TileAndLocation.LocalPosition);
 
 						string pos = VectorIntToGitFriendlyPosition(TileAndLocation.LocalPosition);
 						if (XYs.ContainsKey(pos) == false)
@@ -720,6 +869,8 @@ namespace MapSaver
 							}
 
 
+							Bounds.ExpandToPoint2D(TileAndLocation.LocalPosition);
+
 							string pos = VectorIntToGitFriendlyPosition(TileAndLocation.LocalPosition);
 							if (XYs.ContainsKey(pos) == false)
 							{
@@ -757,7 +908,7 @@ namespace MapSaver
 			ToSaveTo.GitFriendlyTileMapData = TileMapData;
 		}
 
-		public static void CompactTileMapSave(MatrixData ToSaveTo, MetaTileMap metaTileMap,
+		public static void CompactTileMapSave(MatrixData ToSaveTo, MetaTileMap metaTileMap, ref BetterBounds Bounds,
 			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null)
 		{
 			//# Matrix4x4
@@ -949,6 +1100,9 @@ namespace MapSaver
 							}
 						}
 
+
+						Bounds.ExpandToPoint2D(TileAndLocation.LocalPosition);
+
 						SB.Append(LocationChar);
 						SB.Append(TileAndLocation.LocalPosition.x);
 						SB.Append(",");
@@ -1009,6 +1163,9 @@ namespace MapSaver
 								}
 							}
 
+
+							Bounds.ExpandToPoint2D(TileAndLocation.LocalPosition);
+
 							//TODO Tile map upgrade , Change to vector 4
 							SB.Append(LocationChar);
 							SB.Append(TileAndLocation.LocalPosition.x);
@@ -1066,7 +1223,7 @@ namespace MapSaver
 		}
 
 
-		public static CompactObjectMapData SaveObjects(bool Compact, MetaTileMap MetaTileMap,
+		public static CompactObjectMapData SaveObjects(bool Compact, MetaTileMap MetaTileMap, ref BetterBounds Bounds,
 			HashSet<Vector3Int> AllowedPoints = null, bool NonmappedItems = false)
 		{
 			bool UseBoundary = AllowedPoints != null;
@@ -1103,6 +1260,8 @@ namespace MapSaver
 					}
 				}
 
+
+				Bounds.ExpandToPoint2D(Object.transform.localPosition);
 				ProcessIndividualObject(Compact, Object.gameObject, compactObjectMapData,
 					NonmappedItems: NonmappedItems);
 			}
@@ -1374,7 +1533,8 @@ namespace MapSaver
 					newindividualObject,
 					PrefabChild,
 					gameObject.transform.GetChild(GameObjectIndex).gameObject, compactObjectMapData,
-					UseInstance: UseInstance, NonmappedItems: NonmappedItems, IgnoreMapSaverIgnoreObject : IgnoreMapSaverIgnoreObject);
+					UseInstance: UseInstance, NonmappedItems: NonmappedItems,
+					IgnoreMapSaverIgnoreObject: IgnoreMapSaverIgnoreObject);
 
 				GameObjectIndex++;
 				PrefabIndex++;
@@ -1591,34 +1751,55 @@ namespace MapSaver
 				NeededToProcess[RootID].FieldsToPopulate.Add(UnprocessedEntry);
 			}
 
-			public void FinishLoading(string GitiD)
+			public bool FinishLoading(string GitiD, SpawnResult SpawnResult)
 			{
+				bool NormalReturnBehaviour = true;
 				HashSet<FieldData> ReuseSEt = new HashSet<FieldData>();
+				if (NeededToProcess.ContainsKey(GitiD) && SpawnResult != null)
+				{
+					if (NeededToProcess[GitiD].ReferencesNeeded.Count > 0)
+					{
+						NeededToProcess[GitiD].SpawnResult = SpawnResult;
+						NormalReturnBehaviour = false;
+					}
+				}
+
 				foreach (var Waiting in NeededToProcess) //TODO Probably a bit slow
 				{
 					if (Waiting.Value.ReferencesNeeded.Contains(GitiD))
 					{
 						Waiting.Value.ReferencesNeeded.Remove(GitiD);
-					}
 
-					if (Waiting.Value.ReferencesNeeded.Count == 0)
-					{
-						try
+
+						if (Waiting.Value.ReferencesNeeded.Count == 0)
 						{
-							foreach (var Unprocessed in Waiting.Value.FieldsToPopulate)
+							try
 							{
-								ReuseSEt.Add(Unprocessed.FieldData);
-								SecureMapsSaver.LoadData(Unprocessed.ID, Unprocessed.Object, ReuseSEt, MapSaver.CodeClass.ThisCodeClass, CustomNetworkManager.IsServer);
-								ReuseSEt.Clear();
+								foreach (var Unprocessed in
+								         Waiting.Value.FieldsToPopulate) //TODO Could potentially error? list modified
+								{
+									ReuseSEt.Add(Unprocessed.FieldData);
+									SecureMapsSaver.LoadData(Unprocessed.ID, Unprocessed.Object, ReuseSEt,
+										MapSaver.CodeClass.ThisCodeClass, CustomNetworkManager.IsServer);
+									ReuseSEt.Clear();
+								}
 							}
-						}
-						catch (Exception e)
-						{
-							Loggy.LogError(e.ToString());
-							throw e;
+							catch (Exception e)
+							{
+								Loggy.LogError(e.ToString());
+								throw e;
+							}
+
+							if (Waiting.Value.SpawnResult != null && Waiting.Value.ReferencesNeeded.Count == 0)
+							{
+								Spawn._ServerFireClientServerSpawnHooks(Waiting.Value.SpawnResult, SpawnInfo.Mapped(Waiting.Value.SpawnResult.GameObject));
+								Waiting.Value.SpawnResult = null;
+							}
 						}
 					}
 				}
+
+				return NormalReturnBehaviour;
 			}
 
 			public object ObjectsFromForeverID(string ForeverID, Type InType)
@@ -1646,6 +1827,7 @@ namespace MapSaver
 			{
 				public List<string> ReferencesNeeded = new List<string>();
 				public List<UnprocessedData> FieldsToPopulate = new List<UnprocessedData>();
+				public SpawnResult SpawnResult;
 			}
 
 			public Dictionary<string, GameObject> Objects { get; set; } = new Dictionary<string, GameObject>();

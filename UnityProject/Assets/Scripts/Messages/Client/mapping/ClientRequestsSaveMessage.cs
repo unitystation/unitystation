@@ -34,9 +34,7 @@ public class ClientRequestsSaveMessage : ClientMessage<ClientRequestsSaveMessage
 		}
 
 		var Data = MapSaver.MapSaver.SaveMatrix(msg.Compact, Matrix.MetaTileMap, true, msg.Bounds.ToList(),
-			msg.NonmappedItems, Layers, msg.SaveObjects, msg.CutSection);
-
-		Data.PreviewGizmos = msg.PreviewGizmos.ToList();
+			msg.NonmappedItems, Layers, msg.SaveObjects, msg.CutSection, msg.PreviewGizmos.ToList());
 
 		JsonSerializerSettings settings = new JsonSerializerSettings
 		{

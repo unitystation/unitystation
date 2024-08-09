@@ -196,6 +196,11 @@ namespace TileManagement
 			return new BetterBounds(Minimum.ToLocal(Matrix), Maximum.ToLocal(Matrix));
 		}
 
+		public readonly BetterBounds ConvertToWorld(MatrixInfo Matrix)
+		{
+			return new BetterBounds(Minimum.ToWorld(Matrix), Maximum.ToWorld(Matrix));
+		}
+
 		public Vector3 GetCorner(int i)
 		{
 			if (i == 0)

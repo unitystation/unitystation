@@ -687,12 +687,16 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	}
 
 	public virtual void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false, bool doStepInteractions = true,
-		Vector2? momentum = null)
+		Vector2? momentum = null, MatrixInfo  Matrixoveride = null)
 	{
 		this.doStepInteractions = doStepInteractions;
 
 		SynchroniseVisibility(isVisible, true);
 		var matrix = MatrixManager.AtPoint(worldPos, isServer);
+		if (Matrixoveride != null)
+		{
+			matrix = Matrixoveride;
+		}
 		ForceSetLocalPosition(worldPos.ToLocal(matrix), momentum == null ? Vector2.zero : momentum.Value, smooth,
 			matrix.Id);
 
@@ -718,7 +722,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		bool updateClient = true, float rotation = 0, NetworkConnection client = null, int resetID = -1,
 		uint ignoreForClient = NetId.Empty, Vector3? localTarget = null)
 	{
-		rotationTarget.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
+		//rotationTarget.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
 
 		if (isServer && updateClient)
 		{

@@ -54,11 +54,6 @@ namespace Systems.Botany
 		private const int MAX_STAT = 100;
 		private const int MIN_STAT = 0;
 
-		//Use static methods to create new instances of PlantData
-		private PlantData()
-		{
-		}
-
 		/// <summary>
 		/// Gets a new instance of PlantData based on param
 		/// </summary>

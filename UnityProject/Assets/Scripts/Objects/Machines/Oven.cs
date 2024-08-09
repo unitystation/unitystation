@@ -238,17 +238,17 @@ namespace Objects.Kitchen
 		private void StartOven(bool silent)
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-			if(!silent)
+			if(silent == false)
 				SoundManager.PlayNetworkedAtPos(startSfx, WorldPosition, sourceObj: gameObject);
-			playAudioLoop = true;
+			OnSyncPlayAudioLoop(playAudioLoop, true);
 		}
 
 		private void HaltOven(bool silent)
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			if(!silent)
+			if(silent == false)
 				SoundManager.PlayNetworkedAtPos(startSfx, WorldPosition, sourceObj: gameObject);
-			playAudioLoop = false;
+			OnSyncPlayAudioLoop(playAudioLoop, false);
 		}
 
 		private void CheckCooked(float cookTime)
@@ -281,6 +281,7 @@ namespace Objects.Kitchen
 
 		private void OnSyncPlayAudioLoop(bool oldState, bool newState)
 		{
+			playAudioLoop = newState;
 			if (newState)
 			{
 				StartCoroutine(DelayOvenRunningSfx());
@@ -475,6 +476,7 @@ namespace Objects.Kitchen
 			{
 				if (state == PowerState.Off)
 				{
+					oven.OnSyncPlayAudioLoop(oven.playAudioLoop, false);
 					oven.SetState(new OvenUnpowered(oven));
 				}
 			}

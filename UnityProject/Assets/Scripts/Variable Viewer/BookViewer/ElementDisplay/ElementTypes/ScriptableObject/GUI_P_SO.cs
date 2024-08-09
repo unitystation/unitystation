@@ -217,6 +217,7 @@ namespace AdminTools.VariableViewer
 					if (IndividualDropDownOptions.ContainsKey(TypeTile) == false)
 					{
 						IndividualDropDownOptions[TypeTile] = new List<ISOTracker>();
+						OptimiseIndividualDropDownOptions[TypeTile] = new Dictionary<string, ISOTracker>();
 					}
 					IndividualDropDownOptions[TypeTile].Add(Tile.Value);
 					OptimiseIndividualDropDownOptions[TypeTile][Tile.Value.ForeverID] = Tile.Value;
