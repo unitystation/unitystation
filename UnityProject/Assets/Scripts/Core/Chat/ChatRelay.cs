@@ -413,7 +413,7 @@ public class ChatRelay : NetworkBehaviour
 			ChatUI.Instance.AddChatEntry(message, languageSprite);
 		}
 
-		AudioSourceParameters audioSourceParameters = new AudioSourceParameters();
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(spatialBlend: 1);
 		switch (channels)
 		{
 			case ChatChannel.Syndicate:
