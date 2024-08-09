@@ -76,9 +76,9 @@ namespace Core.Admin.Logs.Stores
 
 		private void CheckForDirectory(string filePath)
 		{
-			if (AccessFile.Exists(filePath, true, FolderType.Logs, Application.isEditor == false) == false)
+			if (AccessFile.Exists(filePath, true, FolderType.Logs, false) == false)
 			{
-				AccessFile.Save(filePath, "", FolderType.Logs, Application.isEditor == false);
+				AccessFile.Save(filePath, "", FolderType.Logs, false);
 			}
 		}
 
@@ -86,7 +86,7 @@ namespace Core.Admin.Logs.Stores
 		{
 			try
 			{
-				AccessFile.AppendAllText(filePath, newLog, FolderType.Logs, Application.isEditor == false);
+				AccessFile.AppendAllText(filePath, newLog, FolderType.Logs, false);
 			}
 			catch (UnauthorizedAccessException uae)
 			{
@@ -125,11 +125,11 @@ namespace Core.Admin.Logs.Stores
 			string filePath = Path.Combine("Admin", fileName);
 			try
 			{
-				if (AccessFile.Exists(filePath, true, FolderType.Logs, Application.isEditor == false) == false)
+				if (AccessFile.Exists(filePath, true, FolderType.Logs, false) == false)
 				{
 					Loggy.LogError($"[AdminLogsStorage/FetchLogs()] - File not found: {filePath}");
 				}
-				string fileContent = await Task.Run(() => AccessFile.Load(filePath, FolderType.Logs, Application.isEditor == false));
+				string fileContent = await Task.Run(() => AccessFile.Load(filePath, FolderType.Logs, false));
 				string[] logLines = fileContent.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 				foreach (string logLine in logLines)
 				{
@@ -157,7 +157,7 @@ namespace Core.Admin.Logs.Stores
 				var data = "";
 				try
 				{
-					data = await Task.Run(() => AccessFile.Load(filePath, FolderType.Logs, Application.isEditor == false));
+					data = await Task.Run(() => AccessFile.Load(filePath, FolderType.Logs, false));
 				}
 				catch (Exception e)
 				{
@@ -171,7 +171,7 @@ namespace Core.Admin.Logs.Stores
 			string filePath = Path.Combine("Admin", fileName);
 			try
 			{
-				if (AccessFile.Exists(filePath, true, FolderType.Logs, Application.isEditor == false) == false)
+				if (AccessFile.Exists(filePath, true, FolderType.Logs, false) == false)
 				{
 					Loggy.LogError($"[AdminLogsStorage/FetchLogsPaginated()] - File not found: {filePath}");
 				}
@@ -207,12 +207,12 @@ namespace Core.Admin.Logs.Stores
 			int totalEntries = 0;
 			try
 			{
-				if (AccessFile.Exists(filePath, true, FolderType.Logs, Application.isEditor == false) == false)
+				if (AccessFile.Exists(filePath, true, FolderType.Logs, false) == false)
 				{
 					Loggy.LogError($"[AdminLogsStorage/GetTotalPages()] - File not found: {filePath}");
 					return totalEntries;
 				}
-				string fileContent = await Task.Run(() => AccessFile.Load(filePath, FolderType.Logs, Application.isEditor == false));
+				string fileContent = await Task.Run(() => AccessFile.Load(filePath, FolderType.Logs, false));
 				LoadManager.DoInMainThread(() => Loggy.Log("Moving back to main thread."));
 				string[] logLines = fileContent.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 				totalEntries = logLines.Length;
@@ -228,12 +228,12 @@ namespace Core.Admin.Logs.Stores
 		public static List<string> GetAllLogFiles()
 		{
 			List<string> totalEntries = new List<string>();
-			if (AccessFile.Exists("Admin", false, FolderType.Logs, Application.isEditor == false) == false)
+			if (AccessFile.Exists("Admin", false, FolderType.Logs, false) == false)
 			{
 				Loggy.LogError($"[AdminLogsStorage/GetTotalPages()] - Logs folder not found.");
 				return totalEntries;
 			}
-			string[] files = AccessFile.DirectoriesOrFilesIn("Admin", FolderType.Logs, Application.isEditor == false);
+			string[] files = AccessFile.DirectoriesOrFilesIn("Admin", FolderType.Logs, false);
 			foreach (string file in files)
 			{
 				totalEntries.Add(file);
