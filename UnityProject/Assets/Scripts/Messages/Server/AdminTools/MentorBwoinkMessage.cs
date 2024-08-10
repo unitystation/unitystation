@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Messages.Server.SoundMessages;
+using Mirror;
 using UnityEngine;
 
 namespace Messages.Server.AdminTools
@@ -13,7 +14,7 @@ namespace Messages.Server.AdminTools
 
 		public override void Process(NetMessage msg)
 		{
-			_ = SoundManager.Play(CommonSounds.Instance.Bwoink);
+			_ = SoundManager.Play(CommonSounds.Instance.Bwoink, audioSourceParameters : new AudioSourceParameters(spatialBlend: 1));
 			Chat.AddMentorPrivMsg(msg.Message);
 		}
 

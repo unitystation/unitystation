@@ -20,7 +20,7 @@ namespace Objects.Engineering
 		public decimal OutputEnergy;
 		public decimal TotalEnergyInput;
 
-		public decimal Efficiency = 0.825M;
+		public decimal Efficiency = 0.9M; //0.825M
 		private const int BOILING_TEMP = 100;
 
 		public ReactorPipe ReactorPipe;

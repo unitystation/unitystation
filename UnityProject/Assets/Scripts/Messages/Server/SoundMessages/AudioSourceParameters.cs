@@ -43,6 +43,7 @@ namespace Messages.Server.SoundMessages
 
 		// Spatial blend of the audio source (0 for Prefab default,  1 for 2D, 2 for 3D)
 		// Note:  2D spatial blend doesn't attenuate with distance
+		// Note: 2D = Global
 		public float SpatialBlend;
 
 		//Sets the spread angle (in degrees) of a 3d stereo or multichannel sound in speaker space. (0 - 360f)
@@ -104,6 +105,7 @@ namespace Messages.Server.SoundMessages
 		public AudioSourceParameters MakeSoundGlobal()
 		{
 			MinDistance = Single.MaxValue;
+			SpatialBlend = 1;
 			return this;
 		}
 
