@@ -1,0 +1,244 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1679722502878249435
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 6907043651964914399, guid: ca8fe5f22442af4f8ab86ae517006c24,
+        type: 3}
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: rechargeTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: allowedAttachments
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: FiringSoundA.AssetAddress
+      value: Assets/Prefabs/Weapons/PlasmaCutter.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 871876898739104324, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3c11cc6e0fc53344ba7820367636737e,
+        type: 3}
+    - target: {fileID: 983609098388634077, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 540bb1ca3d2bf91418c92196cbffc492,
+        type: 2}
+    - target: {fileID: 4090146957569035995, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092814885568586395, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: _assetId
+      value: 3996111923
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_Name
+      value: ProtoKineticCrusher
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299065660771937395, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a3be40251dd159441be97228292ba182,
+        type: 3}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: hitDamage
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: initialName
+      value: proto-kinetic crusher
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: initialSize
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: initialDescription
+      value: An early design of the proto-kinetic accelerator, it is little more
+        than a combination of various mining tools cobbled together, forming a high-tech
+        club. While it is an effective mining tool, it did little to aid any but
+        the most skilled and/or suicidal miners against local fauna
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[0]'
+      value: smash
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[1]'
+      value: crush
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[2]'
+      value: cleave
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[3]'
+      value: chop
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[4]'
+      value: pulp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: dc34284c34ebc764f8b485877bddbf62,
+        type: 2}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
+        type: 2}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d96f07490c66c9946898b9e5dbca7ee6,
+        type: 2}
+    - target: {fileID: 7053223090983703362, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: foreverID
+      value: 3f3c69eb80c13d439a7659f6834b091a
+      objectReference: {fileID: 0}
+    - target: {fileID: 7790862161162773672, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e945fda21f680834ebd556f142dad0c6,
+        type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3052719004654847166}
+  m_SourcePrefab: {fileID: 100100000, guid: ad527ba4de069794796e314f236794f4, type: 3}
+--- !u!1 &3321191813867953908 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1679722502878249435}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-3052719004654847166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3321191813867953908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a45bf28f465e773996a9a5a74d40dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statusEffect: {fileID: 11400000, guid: 04a6d019e2cbb81cdb0bb5390f4091e1, type: 2}
+  markedHitBonus: 50
+  backstabBonus: 30
+  pushForce: 0
+  reqWield: 0
+  doPush: 0

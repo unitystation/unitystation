@@ -15,6 +15,8 @@ namespace Weapons
 		[SerializeField]
 		private float rechargeTime = 2.0f;
 
+		[SerializeField]
+		public SpriteHandler rechargeSpriteHandler;
 
 		public AddressableAudioSource rechargeSound;
 
@@ -23,6 +25,10 @@ namespace Weapons
 			base.OnSpawnServer(info);
 			CurrentMagazine.containedBullets[0] = projectile;
 			CurrentMagazine.ServerSetAmmoRemains(1);
+			if (rechargeSpriteHandler != null)
+			{
+				rechargeSpriteHandler.PushClear();
+			}
 		}
 
 		public override bool WillInteract(AimApply interaction, NetworkSide side)
@@ -44,6 +50,12 @@ namespace Weapons
 		private IEnumerator StartCooldown()
 		{
 			allowRecharge = false;
+
+			if (rechargeSpriteHandler != null)
+			{
+				rechargeSpriteHandler.PushTexture();
+			}
+
 			yield return WaitFor.Seconds(rechargeTime);
 			CurrentMagazine.ServerSetAmmoRemains(1);
 			CurrentMagazine.LoadProjectile(projectile, 1);
@@ -58,6 +70,12 @@ namespace Weapons
 			{
 				SoundManager.PlayNetworkedAtPos(rechargeSound, gameObject.AssumedWorldPosServer(), sourceObj: ServerHolder);
 			}
+
+			if (rechargeSpriteHandler != null)
+			{
+				rechargeSpriteHandler.PushClear();
+			}
+
 			allowRecharge = true;
 		}
 
