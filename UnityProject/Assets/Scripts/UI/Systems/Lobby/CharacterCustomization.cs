@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -217,7 +218,6 @@ namespace UI.CharacterCreator
 
 			SetUpSpeciesBody(setRace);
 			PopulateAllDropdowns(setRace);
-			RefreshAll();
 			DoInitChecks();
 		}
 
@@ -500,7 +500,7 @@ namespace UI.CharacterCreator
 			RefreshClothing();
 			RefreshPronoun();
 			RefreshRace();
-			RefreshRotation();
+			StartCoroutine(RefreshRotation());
 		}
 
 		public void RollRandomCharacter()
@@ -625,7 +625,7 @@ namespace UI.CharacterCreator
 			}
 
 			currentDir = (CharacterDir) nextDir;
-			RefreshRotation();
+			StartCoroutine(RefreshRotation());
 		}
 
 		public void RightRotate()
@@ -637,10 +637,10 @@ namespace UI.CharacterCreator
 			}
 
 			currentDir = (CharacterDir) nextDir;
-			RefreshRotation();
+			StartCoroutine(RefreshRotation());
 		}
 
-		public void RefreshRotation()
+		public IEnumerator RefreshRotation()
 		{
 			int referenceOffset = 0;
 			if (currentDir == CharacterDir.down)
@@ -674,17 +674,21 @@ namespace UI.CharacterCreator
 				i++;
 			}
 
-			foreach (var Customisation in OpenCustomisation)
+			// DO NOT REMOVE THE FRAME WAITS DOWN THERE UNLESS YOU WANT TO MAKE CHARACTERS INVISIBLE ON THE CHARACTER SCREEN
+			yield return WaitFor.EndOfFrame;
+			foreach (var partSprites in OpenBodySprites)
 			{
-				Customisation.SetRotation(referenceOffset);
-			}
-
-			foreach (var PartSprites in OpenBodySprites)
-			{
-				foreach (var PartSprite in PartSprites.Value)
+				foreach (var PartSprite in partSprites.Value)
 				{
+					yield return WaitFor.EndOfFrame;
 					PartSprite.ChangeSpriteVariant(referenceOffset);
 				}
+			}
+
+			foreach (var Customisation in OpenCustomisation)
+			{
+				yield return WaitFor.EndOfFrame; //(Max): Why do we need to wait a whole frame for each change? I want to die.
+				Customisation.SetRotation(referenceOffset);
 			}
 		}
 
@@ -1039,8 +1043,8 @@ namespace UI.CharacterCreator
 
 			currentCharacter.BodyType = AvailableBodyTypes[SelectedBodyType].bodyType;
 			SkinColourChange(CurrentSurfaceColour);
-			RefreshRotation();
 			RefreshBodyType();
+			StartCoroutine(RefreshRotation());
 		}
 
 		private void RefreshBodyType()

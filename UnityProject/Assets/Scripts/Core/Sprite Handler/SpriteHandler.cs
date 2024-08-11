@@ -287,26 +287,28 @@ public class SpriteHandler : MonoBehaviour
 
 	public void SetSpriteVariant(int spriteVariant, bool networked = true)
 	{
-		if (PresentSpriteSet != null)
+		if (PresentSpriteSet == null)
 		{
-			if (spriteVariant < PresentSpriteSet.Variance.Count)
+			Loggy.LogError("[SpriteHandler/SetSpriteVariant] - No sprite set to change.");
+			return;
+		}
+		if (spriteVariant < PresentSpriteSet.Variance.Count)
+		{
+			if (PresentSpriteSet.Variance[spriteVariant].Frames.Count <= animationIndex)
 			{
-				if (PresentSpriteSet.Variance[spriteVariant].Frames.Count <= animationIndex)
-				{
-					animationIndex = 0;
-				}
-
-				variantIndex = spriteVariant;
-				var Frame = PresentSpriteSet.Variance[variantIndex].Frames[animationIndex];
-				SetSprite(Frame);
-
-				TryToggleAnimationState(PresentSpriteSet.Variance[variantIndex].Frames.Count > 1);
-				if (networked)
-				{
-					NetUpdate(newVariantIndex: spriteVariant);
-				}
-				OnVariantUpdated?.Invoke();
+				animationIndex = 0;
 			}
+
+			variantIndex = spriteVariant;
+			var Frame = PresentSpriteSet.Variance[variantIndex].Frames[animationIndex];
+			SetImageSprite(null);
+			SetSprite(Frame);
+			TryToggleAnimationState(PresentSpriteSet.Variance[variantIndex].Frames.Count > 1);
+			if (networked)
+			{
+				NetUpdate(newVariantIndex: spriteVariant);
+			}
+			OnVariantUpdated?.Invoke();
 		}
 	}
 
