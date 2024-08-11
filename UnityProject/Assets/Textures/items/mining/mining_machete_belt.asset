@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: mining_machete_belt
+  m_EditorClassIdentifier: 
+  foreverID: b5834e796aa50a6cf8273ca1a40acd04
+  Variance:
+  - Frames:
+    - sprite: {fileID: 5310037711684084534, guid: 44f5972fc065a00d1b7c0c8da9becfd5,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 190689450, guid: 44f5972fc065a00d1b7c0c8da9becfd5, type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 1171892314, guid: 44f5972fc065a00d1b7c0c8da9becfd5, type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 195849085, guid: 44f5972fc065a00d1b7c0c8da9becfd5, type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

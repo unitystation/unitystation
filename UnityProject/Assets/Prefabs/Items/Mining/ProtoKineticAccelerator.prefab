@@ -10,9 +10,26 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 617012563949353989, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300002, guid: 0da9074ed2731424a811c652fe94d7b3,
+        type: 3}
+    - target: {fileID: 617012563949353989, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: variantIndex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fe3c0fd90fa84e849bfb70e9005a845c,
+        type: 2}
     - target: {fileID: 2153160782301408824, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_IsActive
@@ -157,7 +174,7 @@ PrefabInstance:
     - target: {fileID: 8546303518654307076, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4206346965545160429, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
@@ -171,6 +188,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 177576810467860530}
   m_SourcePrefab: {fileID: 100100000, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
+--- !u!114 &983609098388634077 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    type: 3}
+  m_PrefabInstance: {fileID: 326958216201229889}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4132242788693647151 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4454405483554457966, guid: 143d3926d4a5fa84f95f987c152b33a2,
@@ -192,11 +221,29 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  AllowSuicide: 0
+  pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
+    type: 3}
+  allowPinSwap: 1
+  FireDelay: 0
+  isSuppressed: 0
+  WeaponType: 1
+  MaxRecoilVariance: 0
+  ProjectileVelocity: 20
+  CameraRecoilConfig:
+    Distance: 0
+    RecoilDuration: 0
+    RecoveryDuration: 0
   ammoPrefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,
     type: 3}
-  casingPrefabOverride: {fileID: 0}
-  allowMagazineRemoval: 1
   ammoType: 18
+  casingPrefabOverride: {fileID: 0}
+  SpawnsCasing: 0
+  MagInternal: 1
+  SmartGun: 0
+  allowMagazineRemoval: 1
+  attachmentPrefabs: []
+  allowedAttachments: 6
   loadMagSound:
     SetLoadSetting: 0
     AssetAddress: 
@@ -213,12 +260,6 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
-    type: 3}
-  suppressorPrefab: {fileID: 0}
-  SpawnsCasing: 0
-  MagInternal: 1
-  SmartGun: 0
   FiringSoundA:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/KineticShot.prefab
@@ -243,22 +284,10 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  FireDelay: 0
-  AllowSuicide: 0
-  MaxRecoilVariance: 0
-  ProjectileVelocity: 20
-  CameraRecoilConfig:
-    Distance: 0
-    RecoilDuration: 0
-    RecoveryDuration: 0
-  WeaponType: 1
-  allowPinSwap: 1
-  allowedAttachments: 6
-  attributes: {fileID: 0}
-  isSuppressed: 0
   projectile: {fileID: 7081206667275519994, guid: a4c2debd67d612549b05801d1e37121a,
     type: 3}
   rechargeTime: 2
+  rechargeSpriteHandler: {fileID: 983609098388634077}
   rechargeSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/KineticReload.prefab

@@ -23,6 +23,8 @@ namespace Items
 
 		[SyncVar(hook = nameof(SyncState))] private bool isWielded;
 
+		public bool IsWielded => isWielded;
+
 		private ItemAttributesV2 itemAttributes;
 
 		private Pickupable Pickupable;

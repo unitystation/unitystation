@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: pk_claw_right
+  m_EditorClassIdentifier: 
+  foreverID: 0bbc0e6de7d51a889bdfdacb769c5ad7
+  Variance:
+  - Frames:
+    - sprite: {fileID: 2210458232350641780, guid: 5644d16284dca504d9697dcb2db99e67,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 8857587732582822454, guid: 5644d16284dca504d9697dcb2db99e67,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 817674073466240046, guid: 5644d16284dca504d9697dcb2db99e67,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -3990845646938698045, guid: 5644d16284dca504d9697dcb2db99e67,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

@@ -85,8 +85,9 @@ public class WeaponNetworkActions : NetworkBehaviour
 	/// <param name="attackDirection">vector pointing from attacker to the target</param>
 	/// <param name="damageZone">damage zone if attacking mob, otherwise use None</param>
 	/// <param name="layerType">layer being attacked if attacking tilemap, otherwise use None</param>
+	/// <param name="onHit">Use this for conditional behaviour you only want to apply when the melee attack hits</param>
 	[Server]
-	public void ServerPerformMeleeAttack(GameObject victim, Vector2 attackDirection, BodyPartType damageZone, LayerType layerType)
+	public void ServerPerformMeleeAttack(GameObject victim, Vector2 attackDirection, BodyPartType damageZone, LayerType layerType, Action onHit = null)
 	{
 		if (victim == null) return;
 		if (playerMove.ObjectIsBuckling.OrNull()?.gameObject != null && playerMove.ObjectIsBuckling is MovementSynchronisation)
@@ -235,6 +236,11 @@ public class WeaponNetworkActions : NetworkBehaviour
 			if (victim != gameObject)
 			{
 				RpcMeleeAttackLerp(attackDirection, weapon);
+			}
+
+			if (onHit != null)
+			{
+				onHit.Invoke();
 			}
 		}
 
