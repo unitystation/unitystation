@@ -184,16 +184,19 @@ public class WeaponNetworkActions : NetworkBehaviour
 			// Punches have 90% chance to hit, otherwise it is a miss.
 			if (DMMath.Prob(chanceToHit))
 			{
-				// The attack hit.
-				if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
+				if (BlockCheck(victim))
 				{
-					victimHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, currentDamageType, damageZone, traumaDamageChance: traumaDamageChance, tramuticDamageType: tramuticDamageType);
-					didHit = true;
-				}
-				else if (victim.TryGetComponent<LivingHealthBehaviour>(out var victimHealthOld))
-				{
-					victimHealthOld.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, currentDamageType, damageZone);
-					didHit = true;
+					// The attack hit.
+					if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
+					{
+						victimHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, currentDamageType, damageZone, traumaDamageChance: traumaDamageChance, tramuticDamageType: tramuticDamageType);
+						didHit = true;
+					}
+					else if (victim.TryGetComponent<LivingHealthBehaviour>(out var victimHealthOld))
+					{
+						victimHealthOld.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, currentDamageType, damageZone);
+						didHit = true;
+					}
 				}
 			}
 			else
@@ -245,6 +248,45 @@ public class WeaponNetworkActions : NetworkBehaviour
 		}
 
 		Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Melee);
+	}
+
+	private bool BlockCheck(GameObject victim)
+	{
+		float blockChance = 100f;
+		AddressableAudioSource blockSound = null;
+		string blockName = null;
+
+		if (victim.TryGetComponent<PlayerScript>(out var victimScript))
+		{
+			var hand = victimScript.DynamicItemStorage.GetActiveHandSlot();
+			if (hand != null)
+			{
+				var attribs = hand.ItemAttributes;
+				if (attribs != null)
+				{
+					blockChance -= attribs.BlockChance;
+					blockSound = attribs.ServerBlockSound;
+					blockName = hand.ItemObject.ExpensiveName();
+				}
+			}
+		}
+
+		if (DMMath.Prob(blockChance) == false)
+		{
+			//Victim blocked our attack
+			string victimName = victim.ExpensiveName();
+
+			if (blockSound != null)
+			{
+				SoundManager.PlayNetworkedAtPos(blockSound, transform.position, sourceObj: gameObject);
+			}
+
+			Chat.AddCombatMsgToChat(gameObject, $"{victimName} blocks your attack with {blockName}!",
+				$"{victimName} blocks {gameObject.ExpensiveName()}'s attack with {blockName}!");
+
+			return false;
+		}
+		return true;
 	}
 
 	[ClientRpc]
