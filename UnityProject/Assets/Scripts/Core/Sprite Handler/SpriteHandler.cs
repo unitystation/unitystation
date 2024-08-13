@@ -301,7 +301,6 @@ public class SpriteHandler : MonoBehaviour
 
 			variantIndex = spriteVariant;
 			var Frame = PresentSpriteSet.Variance[variantIndex].Frames[animationIndex];
-			SetImageSprite(null);
 			SetSprite(Frame);
 			TryToggleAnimationState(PresentSpriteSet.Variance[variantIndex].Frames.Count > 1);
 			if (networked)
