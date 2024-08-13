@@ -67,7 +67,6 @@ namespace Core.Database
 			var sss = JsonConvert.SerializeObject(body);
 			request.Content = new StringContent(sss, Encoding.UTF8, "application/json");
 			//request.Content = body.ToStringContent();
-			Loggy.Log("await Send(request);");
 			return await Send<T>(request);
 		}
 

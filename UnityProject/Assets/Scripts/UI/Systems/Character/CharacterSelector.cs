@@ -115,9 +115,11 @@ namespace UI.Character
 			characterPreviewDropdown.value = previewedCharacterKey;
 			characterPreviewRace.text = PreviewedCharacter.Species;
 			characterPreviewBodyType.text = PreviewedCharacter.BodyType.ToString();
-
-			// characterCustomization also manages the character sprite previewer, for now.
 			characterCustomization.LoadCharacter(PreviewedCharacter);
+			// This is responsible for showing characters on the selector screen outside the customizer.
+			// Do not remove this line unless you want characters to go invisible.
+			// (Max): This whole thing is scuffed.
+			StartCoroutine(characterCustomization.RefreshRotation());
 		}
 
 		private void CreateCharacter()

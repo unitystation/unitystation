@@ -93,7 +93,7 @@ public static class SweetExtensions
 			return player.Script.visibleName;
 		}
 
-		return go.name.Replace("NPC_", "").Replace("_", " ").Replace("(Clone)","");
+		return go?.name.Replace("NPC_", "").Replace("_", " ").Replace("(Clone)","");
 	}
 
 	public static T GetRandom<T>(this List<T> list)
