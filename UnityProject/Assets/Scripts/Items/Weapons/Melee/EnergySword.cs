@@ -37,7 +37,6 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	[SerializeField]
 	[Range(0, 100)]
 	private float activatedBlockChance = 50;
-	private float offBlockChance;
 
 	[SerializeField]
 	[Tooltip("The verbs to use when the energy sword being used to attack something while activated.")]
@@ -73,7 +72,6 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		offHitSound = itemAttributes.ServerHitSound;
 		offHitDamage = itemAttributes.ServerHitDamage;
 		offThrowDamage = itemAttributes.ServerThrowDamage;
-		offBlockChance = itemAttributes.BlockChance;
 		offAttackVerbs = new List<string>(itemAttributes.ServerAttackVerbs);
 		if (color == SwordColor.Random)
 		{
@@ -210,6 +208,7 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		itemAttributes.ServerHitSound = offHitSound;
 		itemAttributes.ServerHitDamage = offHitDamage;
 		itemAttributes.ServerThrowDamage = offThrowDamage;
+		itemAttributes.ServerBlockChance.RemovePosition(this);
 		itemAttributes.ServerAttackVerbs = offAttackVerbs;
 	}
 
@@ -219,7 +218,7 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		itemAttributes.ServerHitSound = activatedHitSound;
 		itemAttributes.ServerHitDamage = activatedHitDamage;
 		itemAttributes.ServerThrowDamage = activatedThrowDamage;
-		itemAttributes.BlockChance = activatedBlockChance;
+		itemAttributes.ServerBlockChance.RecordPosition(this, activatedBlockChance);
 		itemAttributes.ServerAttackVerbs = activatedVerbs;
 	}
 

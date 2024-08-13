@@ -265,7 +265,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 				var attribs = hand.ItemAttributes;
 				if (attribs != null)
 				{
-					blockChance -= attribs.BlockChance;
+					blockChance -= attribs.ServerBlockChance;
 					blockSound = attribs.ServerBlockSound;
 					blockName = hand.ItemObject.ExpensiveName();
 				}
