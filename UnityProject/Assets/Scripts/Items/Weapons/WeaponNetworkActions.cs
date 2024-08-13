@@ -250,6 +250,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 		Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Melee);
 	}
 
+	[Server]
 	private bool BlockCheck(GameObject victim)
 	{
 		float blockChance = 100f;
