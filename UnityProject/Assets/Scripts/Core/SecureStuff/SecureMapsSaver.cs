@@ -119,7 +119,7 @@ namespace SecureStuff
 
 			if (ModField.Data is "#removed#")
 			{
-				List.Remove(Index);
+				List.RemoveAt(Index);
 				return;
 			}
 
@@ -1155,7 +1155,8 @@ namespace SecureStuff
 				return; //TODO Handle separately Since it is same as Object references
 
 			if (Field.FieldType.IsGenericType) return; //Unity editor can't handle this currently so same Functionality
-			Field.SetValue(Object, Librarian.Page.DeSerialiseValue(ModField.Data, Field.FieldType));
+			var Value = Librarian.Page.DeSerialiseValue(ModField.Data, Field.FieldType);
+			Field.SetValue(Object, Value);
 		}
 
 		private static void LoadDatarecursive(string RootID, Component root, object Object,

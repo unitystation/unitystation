@@ -8,4 +8,7 @@ public class CommonManagerEditorOnly : SingletonScriptableObject<CommonManagerEd
 {
 	public CustomNetworkManager CustomNetworkManagerPrefab;
 	public VariableViewerManager VariableViewerManager;
+	public TileManager TileManager;
+	public GameObject Matrix;
+	public GameObject MatrixSync;
 }

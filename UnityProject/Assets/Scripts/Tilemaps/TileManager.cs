@@ -108,7 +108,7 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 		return true;
 	}
 
-	private IEnumerator LoadAllTiles(bool staggeredload = false)
+	public IEnumerator LoadAllTiles(bool staggeredload = false)
 	{
 		initialized = true;
 		tilesToLoad = 0;

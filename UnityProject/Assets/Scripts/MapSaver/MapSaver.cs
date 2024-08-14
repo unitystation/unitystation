@@ -609,7 +609,7 @@ namespace MapSaver
 #if UNITY_EDITOR
 				if (Application.isPlaying == false)
 				{
-					var mat = MetaTileMap.ObjectLayer.transform.localToWorldMatrix;
+					var mat = MetaTileMap.GetComponentInChildren<ObjectLayer>().transform.localToWorldMatrix;
 					WorldBounds = new BetterBounds(mat.MultiplyPoint(LocalGizmoBound.Minimum),
 						mat.MultiplyPoint(LocalGizmoBound.Maximum));
 				}
@@ -617,8 +617,8 @@ namespace MapSaver
 #endif
 				matrixData.PreviewGizmos.Add(new GameGizmoModel()
 				{
-					Pos = WorldBounds.center.ToSerialiseString(),
-					Size = WorldBounds.size.ToSerialiseString()
+					Pos = WorldBounds.center.RoundToArbitraryDepth(1).ToSerialiseString(),
+					Size = WorldBounds.size.RoundToArbitraryDepth(1).ToSerialiseString()
 				});
 			}
 
@@ -1322,12 +1322,16 @@ namespace MapSaver
 			if (Data.Contains("ø"))
 			{
 				var rotation = Data.Split("ø");
-				Object.transform.rotation = Quaternion.Euler(new Vector3(float.Parse(rotation[0]),
+				Object.transform.localRotation = Quaternion.Euler(new Vector3(float.Parse(rotation[0]),
 					float.Parse(rotation[1]), float.Parse(rotation[2])));
 				if (rotation.Length > 3)
 				{
 					Data = rotation[3];
 				}
+			}
+			else
+			{
+				Object.transform.localRotation = Quaternion.identity;
 			}
 
 			if (Data.Contains("↔"))
@@ -1340,21 +1344,30 @@ namespace MapSaver
 					Data = Size[3];
 				}
 			}
+			else
+			{
+				Object.transform.localScale = Vector3.one;
+			}
 		}
 
-		public static string PRSToString(GameObject Object, Vector3? CoordinateOverride = null)
+		public static string PRSToString(GameObject Object, Vector3? CoordinateOverride = null, bool Round = true)
 		{
-			string data = VectorToString(Object.transform.localPosition);
+			string data = "";
 			if (CoordinateOverride == null)
 			{
-				data = VectorToString(Object.transform.localPosition);
+				data = VectorToString(Object.transform.localPosition, Round);
 
 				if (Object.transform.localRotation.eulerAngles != Vector3.zero)
 				{
 					var Angles = Object.transform.localRotation.eulerAngles;
-					data = data + Math.Round(Angles.x, 2) + "ø" +
-					       Math.Round(Angles.y, 2) + "ø" +
-					       Math.Round(Angles.z, 2) + "ø";
+					var addString =Math.Round(Angles.x, 2) + "ø" +
+					               Math.Round(Angles.y, 2) + "ø" +
+					               Math.Round(Angles.z, 2) + "ø";
+
+					if (addString != "0ø0ø0ø") //0.0001 Resulting in it adding 0ø0ø0ø But then next Save it removing it, This fixes that
+					{
+						data = data + addString;
+					}
 				}
 
 
@@ -1368,7 +1381,7 @@ namespace MapSaver
 			}
 			else
 			{
-				data = VectorToString(CoordinateOverride.GetValueOrDefault(Vector3.zero));
+				data = VectorToString(CoordinateOverride.GetValueOrDefault(Vector3.zero), Round);
 			}
 
 			return data;
@@ -1409,6 +1422,8 @@ namespace MapSaver
 			}
 
 
+			bool Round = true;
+
 			Prefab.PrefabID = Tracker.ForeverID;
 			if (Compact)
 			{
@@ -1418,12 +1433,14 @@ namespace MapSaver
 			else
 			{
 				int trys = 0;
-				Prefab.GitID = Prefab.PrefabID + "_" + VectorToString(Object.transform.localPosition);
+				Prefab.GitID = Prefab.PrefabID + "_" + VectorToString(Object.transform.localPosition, true);
 				while (AlreadyReadySavedIDs.Contains(Prefab.GitID))
 				{
+
 					var vec = Object.transform.localPosition;
 					vec.x += (0.001f * trys); //TODO May cause issues if you resolve conflict
 					Prefab.GitID = Prefab.PrefabID + "_" + VectorToString(vec, false);
+					Round = false;
 					trys++;
 				}
 
@@ -1431,7 +1448,7 @@ namespace MapSaver
 			}
 
 			Prefab.Object = new IndividualObject();
-			Prefab.LocalPRS = PRSToString(Object, CoordinateOverride);
+			Prefab.LocalPRS = PRSToString(Object, CoordinateOverride, Round);
 
 			var OnObjectComplete = Object.GetComponentsInChildren<Component>(true).ToHashSet();
 			var OnGmaeObjectComplete = Object.GetComponentsInChildren<Transform>(true).Select(x => x.gameObject)
@@ -1691,8 +1708,8 @@ namespace MapSaver
 
 		public class CodeClass : IPopulateIDRelation
 		{
-			private static CodeClass thisCodeClass;
-			public static CodeClass ThisCodeClass => thisCodeClass ??= new CodeClass();
+			public static CodeClass PrivatethisCodeClass;
+			public static CodeClass ThisCodeClass => PrivatethisCodeClass ??= new CodeClass();
 
 
 			private static string GetID(string Id)
@@ -1775,8 +1792,7 @@ namespace MapSaver
 						{
 							try
 							{
-								foreach (var Unprocessed in
-								         Waiting.Value.FieldsToPopulate) //TODO Could potentially error? list modified
+								foreach (var Unprocessed in Waiting.Value.FieldsToPopulate) //TODO Could potentially error? list modified
 								{
 									ReuseSEt.Add(Unprocessed.FieldData);
 									SecureMapsSaver.LoadData(Unprocessed.ID, Unprocessed.Object, ReuseSEt,
@@ -1853,6 +1869,25 @@ namespace MapSaver
 				FieldsToRefresh.Add(fieldData);
 				FieldDatas.Add(fieldData);
 			}
+
+			public string ReportStatus()
+			{
+				string Returning = "";
+
+				foreach (var Process in MapSaver.CodeClass.ThisCodeClass.NeededToProcess)
+				{
+					if (Process.Value.ReferencesNeeded.Count > 0)
+					{
+						var stringMissing = $" {Process.Key} Is missing references {string.Join(", ", Process.Value.ReferencesNeeded)} ";
+						Loggy.LogError(stringMissing);
+						Returning += "\n" +stringMissing;
+					}
+				}
+
+				return Returning;
+			}
 		}
+
+
 	}
 }
