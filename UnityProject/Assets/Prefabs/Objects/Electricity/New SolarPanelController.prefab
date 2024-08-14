@@ -89,6 +89,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4484593196699027616, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: e5257fb2f1b3ba84fb0b19ee264d5136,
+        type: 2}
+    - target: {fileID: 4484593196699027616, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 1273523157772588440, guid: b62dcd3afe3452b458ba1bd5802972bb,
+        type: 3}
     - target: {fileID: 6327756969131596099, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: _assetId
