@@ -62,6 +62,64 @@ namespace Objects.Machines
 
 		private HackingProcessBase HackingProcessBase;
 
+		private void Awake()
+		{
+			HackingProcessBase = GetComponent<HackingProcessBase>();
+			if (CustomNetworkManager.IsServer == false) return;
+
+			integrity = GetComponent<Integrity>();
+			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			//Only do so on mapping
+			if (activeGameObjectpartsInFrame != null && activeGameObjectpartsInFrame.Count > 0) return;
+
+			if (activeGameObjectpartsInFrame == null)
+			{
+				Loggy.LogError($"BasicPartsUsed was null on {gameObject.ExpensiveName()}");
+				return;
+			}
+			//Means we are mapped so use machine parts ist
+			else if (ObjectpartsInFrame.Count == 0)
+			{
+				if (MachineParts.OrNull()?.machineParts == null)
+				{
+					if (canNotBeDeconstructed == false)
+					{
+						Loggy.LogError($"MachineParts was null on {gameObject.ExpensiveName()}");
+					}
+
+					return;
+				}
+
+				foreach (var part in MachineParts.machineParts)
+				{
+					var Intier = part.tier;
+
+					if (Intier == -1 && MachinePartsItemTraits.Instance.IsComponent(part.itemTrait))
+					{
+						//IS legacy settings reeeea
+						Intier = 1;
+					}
+
+					ObjectpartsInFrame.Add(new PartReference()
+					{
+						itemTrait = part.itemTrait,
+						tier = Intier,
+					}, part.amountOfThisPart);
+				}
+			}
+
+			var toRefresh = GetComponents<IRefreshParts>();
+
+			foreach (var refresh in toRefresh)
+			{
+				refresh.RefreshParts(ObjectpartsInFrame, this);
+			}
+		}
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
@@ -146,16 +204,6 @@ namespace Objects.Machines
 			}
 		}
 
-		private void Awake()
-		{
-			HackingProcessBase = GetComponent<HackingProcessBase>();
-			if (!CustomNetworkManager.IsServer) return;
-
-			integrity = GetComponent<Integrity>();
-
-			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
-		}
-
 		public void WhenDestroyed(DestructionInfo info)
 		{
 			//drop all our contents
@@ -230,55 +278,6 @@ namespace Objects.Machines
 					itemTrait = itemTrait,
 					tier = StockTier.OrNull()?.Tier ?? -1
 				}, KVP.Value);
-			}
-
-			var toRefresh = GetComponents<IRefreshParts>();
-
-			foreach (var refresh in toRefresh)
-			{
-				refresh.RefreshParts(ObjectpartsInFrame, this);
-			}
-		}
-
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			//Only do so on mapping
-			if (activeGameObjectpartsInFrame != null && activeGameObjectpartsInFrame.Count > 0) return;
-
-			if (activeGameObjectpartsInFrame == null)
-			{
-				Loggy.LogError($"BasicPartsUsed was null on {gameObject.ExpensiveName()}");
-				return;
-			}
-			//Means we are mapped so use machine parts ist
-			else if (ObjectpartsInFrame.Count == 0)
-			{
-				if (MachineParts.OrNull()?.machineParts == null)
-				{
-					if (canNotBeDeconstructed == false)
-					{
-						Loggy.LogError($"MachineParts was null on {gameObject.ExpensiveName()}");
-					}
-
-					return;
-				}
-
-				foreach (var part in MachineParts.machineParts)
-				{
-					var Intier = part.tier;
-
-					if (Intier == -1 && MachinePartsItemTraits.Instance.IsComponent(part.itemTrait))
-					{
-						//IS legacy settings reeeea
-						Intier = 1;
-					}
-
-					ObjectpartsInFrame.Add(new PartReference()
-					{
-						itemTrait = part.itemTrait,
-						tier = Intier,
-					}, part.amountOfThisPart);
-				}
 			}
 
 			var toRefresh = GetComponents<IRefreshParts>();

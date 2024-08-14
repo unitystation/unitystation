@@ -287,11 +287,7 @@ public class SpriteHandler : MonoBehaviour
 
 	public void SetSpriteVariant(int spriteVariant, bool networked = true)
 	{
-		if (PresentSpriteSet == null)
-		{
-			Loggy.LogError("[SpriteHandler/SetSpriteVariant] - No sprite set to change.");
-			return;
-		}
+		if (PresentSpriteSet == null) return;
 		if (spriteVariant < PresentSpriteSet.Variance.Count)
 		{
 			if (PresentSpriteSet.Variance[spriteVariant].Frames.Count <= animationIndex)

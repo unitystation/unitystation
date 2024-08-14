@@ -10,8 +10,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1548266987274834536, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
+      propertyPath: parentID
+      value: f9025da3beb40304cb15babfc0a6cafa
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548266987274834536, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
       propertyPath: foreverID
-      value: 0696b9d78f95f464da3b3581e8487fb9
+      value: HLC3owBBeLqKq_qStKku
       objectReference: {fileID: 0}
     - target: {fileID: 2353904009134093219, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
@@ -32,7 +37,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 69c30205422f3a24ba24c3c7252e898e,
+      objectReference: {fileID: 21300002, guid: 6e5121fa862912e489a9547a664417be,
         type: 3}
     - target: {fileID: 2453728123087481889, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
@@ -101,6 +106,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1273523157772588440, guid: b62dcd3afe3452b458ba1bd5802972bb,
         type: 3}
+    - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: initialName
+      value: Solar Panel Controller
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: initialDescription
+      value: A controller used to adjust solar panels to point at the most optimial
+        view for micro-light in space. Analyzes energy that is not easily harvestable
+        around it.
+      objectReference: {fileID: 0}
     - target: {fileID: 6327756969131596099, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: _assetId
@@ -108,8 +125,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c04c20dfad951fd4191fd35ca7d40732,
+        type: 2}
+    - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
       propertyPath: pushTextureOnStartUp
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
