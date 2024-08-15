@@ -17,7 +17,7 @@ namespace Systems.Electricity.PowerSupplies
 		public int MaxDistance { get; } = 64;
 		public bool IgnoreMaxDistanceMapper { get; } = false;
 
-		private void Awake()
+		private void Start()
 		{
 			ModuleSupply ??= GetComponent<ModuleSupplyingDevice>();
 			UpdateManager.Add(UpdateMe, UpdateRate);

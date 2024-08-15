@@ -232,6 +232,14 @@ public static class ConverterExtensions
 		return $"{Vector3data.x},{Vector3data.y},{Vector3data.z}";
 	}
 
+	public static  Vector3 RoundToArbitraryDepth(this Vector3 Vector3data, int NumberOfDigits)
+	{
+		return new Vector3((float) Math.Round(Vector3data.x, NumberOfDigits),
+			(float) Math.Round(Vector3data.y, NumberOfDigits),
+			(float) Math.Round(Vector3data.z, NumberOfDigits));
+	}
+
+
 	public static  Vector3 ToVector3(this string SerialiseData)
 	{
 		Vector3 TheColour = Vector3.zero;

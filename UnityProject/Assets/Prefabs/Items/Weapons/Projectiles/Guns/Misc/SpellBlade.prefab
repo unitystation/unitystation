@@ -26,6 +26,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
+      propertyPath: rechargeSpriteHandler
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
       propertyPath: shootSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
@@ -233,6 +238,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e113b73fcd84c9e408ec928cd7453fee,
         type: 2}
+    - target: {fileID: 8219921471277780293, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

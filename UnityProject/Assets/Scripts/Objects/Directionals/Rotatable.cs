@@ -39,7 +39,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 		}
 	}
 
-	[SyncVar(hook = nameof(SyncServerDirection))]
+	[HideInInspector, SyncVar(hook = nameof(SyncServerDirection))]
 	public OrientationEnum SynchroniseCurrentDirection;
 
 	[SyncVar(hook = nameof(SyncServerLockAndDirection))]

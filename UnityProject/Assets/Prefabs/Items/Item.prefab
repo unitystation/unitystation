@@ -81,6 +81,7 @@ MonoBehaviour:
   throwDamage: 0
   traumaDamageChance: 0
   TraumaticDamageType: 0
+  blockChance: 0
   throwSpeed: 2
   throwRange: 7
   hitSound:
@@ -92,6 +93,14 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   hitSoundSettings: 0
+  blockSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/smash.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   inventoryMoveSound:
     SetLoadSetting: 0
     AssetAddress: 
@@ -251,6 +260,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  logDamage: 0
 --- !u!114 &657520313027932809
 MonoBehaviour:
   m_ObjectHideFlags: 0

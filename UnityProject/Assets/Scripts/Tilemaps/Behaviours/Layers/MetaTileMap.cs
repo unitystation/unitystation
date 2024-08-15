@@ -880,13 +880,13 @@ namespace TileManagement
 
 		public Vector3Int SetTile(Vector3Int position, LayerTile tile, Matrix4x4? matrixTransform = null,
 			Color? color = null,
-			bool isPlaying = true)
+			bool isPlaying = true, bool useExactForMultilayer = false)
 		{
 			if (Layers.TryGetValue(tile.LayerType, out var layer))
 			{
 				if (isPlaying == false) //is the game playing or is this the levelbrush?
 				{
-					if (tile.LayerType.IsMultilayer()) //TODO Tile map upgrade
+					if (tile.LayerType.IsMultilayer() && useExactForMultilayer == false) //TODO Tile map upgrade
 					{
 						var found = false;
 						for (int i = 0; i < MaxDepth; i++)

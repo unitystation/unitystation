@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Chemistry;
 using Doors;
+using Initialisation;
 using Logs;
 using Managers;
 using TileManagement;
@@ -18,6 +19,7 @@ using Mirror;
 using Objects;
 using Player;
 using Shuttles;
+using Tilemaps.Behaviours.Layers;
 using Tiles;
 
 /// <summary>
@@ -120,11 +122,27 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			Name = "Matrix";
 		}
 
-		var Object = Spawn.ServerPrefab(SubSceneManager.Instance.NetworkedMatrixPrefab).GameObject;
-		var Synchronise = Object.GetComponentInChildren<MatrixSync>();
+		var MatrixPrefab = SubSceneManager.Instance?.NetworkedMatrixPrefab;
+		GameObject Object = null;
+
+#if UNITY_EDITOR
+		if (Application.isPlaying == false)
+		{
+			MatrixPrefab = CommonManagerEditorOnly.Instance.Matrix;
+			Object =  (GameObject)  UnityEditor.PrefabUtility.InstantiatePrefab(MatrixPrefab);
+			Object = (GameObject)  UnityEditor.PrefabUtility.InstantiatePrefab(CommonManagerEditorOnly.Instance.MatrixSync, Object.transform);
+		}
+#endif
+
+		if (Object == null)
+		{
+			Object = Spawn.ServerPrefab(MatrixPrefab).GameObject;
+		}
+
+		var Synchronise = Object.transform.parent.GetComponentInChildren<MatrixSync>();
 		Synchronise.GetComponent<MatrixNamesSynchronise>().SyncMatrixName("Matrix",Name);
-		Synchronise.NetworkedMatrix.IsJsonLoaded = true;
-		return Synchronise.NetworkedMatrix.matrix;
+		Object.transform.parent.GetComponentInChildren<NetworkedMatrix>().IsJsonLoaded = true;
+		return  Object.transform.parent.GetComponentInChildren<Matrix>();
 	}
 
 

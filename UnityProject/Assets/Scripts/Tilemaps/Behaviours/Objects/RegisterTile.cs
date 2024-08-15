@@ -233,10 +233,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 			convertTo3d.DoConvertTo3D();
 		}
-		else
-		{
-			transform.localRotation = Quaternion.Euler(0, 0, transform.localRotation.eulerAngles.z);
-		}
 	}
 
 	public override void OnStartServer()

@@ -176,7 +176,9 @@ namespace Weapons
 
 		private ItemStorage itemStorage;
 
+		//Note that this is only populated on the server
 		private readonly List<WeaponAttachment> weaponAttachments = new();
+
 		private readonly List<ItemSlot> weaponAttachmentSlots = new();
 
 		#region Init Logic
@@ -453,13 +455,22 @@ namespace Weapons
 
 			if (!WillInteract(ContextMenuApply.ByLocalPlayer(gameObject, null), NetworkSide.Client)) return result;
 
-			foreach (var attachment in weaponAttachments)
+			foreach (var slot in weaponAttachmentSlots)
 			{
-				//If an attachment is already stored and we dont have the flag, assume its intended to be iremovable
-				if (allowedAttachments.HasFlag(attachment.AttachmentType))
+				if (slot.ItemObject == null)
 				{
-					var interaction = ContextMenuApply.ByLocalPlayer(gameObject, attachment.InteractionKey);
-					result.AddElement(attachment.InteractionKey, () => ContextMenuOptionClicked(interaction));
+					continue;
+				}
+
+				var att = slot.ItemObject.GetComponent<WeaponAttachment>();
+				if (att != null)
+				{
+					//If an attachment is already stored and we dont have the flag, assume its intended to be iremovable
+					if (allowedAttachments.HasFlag(att.AttachmentType))
+					{
+						var interaction = ContextMenuApply.ByLocalPlayer(gameObject, att.InteractionKey);
+						result.AddElement(att.InteractionKey, () => ContextMenuOptionClicked(interaction));
+					}
 				}
 			}
 			return result;

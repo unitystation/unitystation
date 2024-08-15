@@ -53,17 +53,17 @@ PrefabInstance:
     - target: {fileID: 2069012091219738058, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2069012091219738058, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2069012091219738058, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2069012091219738058, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
@@ -109,7 +109,7 @@ PrefabInstance:
     - target: {fileID: 3157804438160328025, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
       propertyPath: foreverID
-      value: J5iV0i90BCv4gFGo8YS@
+      value: ArtifactAnalyser
       objectReference: {fileID: 0}
     - target: {fileID: 3310610160479360316, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
@@ -232,5 +232,6 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}

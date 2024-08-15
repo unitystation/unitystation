@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using MapSaver;
 using Newtonsoft.Json;
 using TileManagement;
 using UnityEngine;
@@ -17,17 +19,19 @@ public class TestMapSaverScript : MonoBehaviour
 	public Vector3Int Vector3Int2 = Vector3Int.zero;
 
 
+	public bool SAVETONormal = false;
+
 	public bool Compact = false;
 
 	public bool CompactJson = false;
+
 	[NaughtyAttributes.Button()]
 	public void SaveMatrix()
 	{
-
 		//Loggy.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveObjects(MetaTileMap)));
 		//Loggy.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveTileMap(MetaTileMap)));
 		//, UseInstance: true
-		var map = MapSaver.MapSaver.SaveMatrix(Compact,MetaTileMap, true);
+		var map = MapSaver.MapSaver.SaveMatrix(Compact, MetaTileMap, true);
 
 		JsonSerializerSettings settings = new JsonSerializerSettings
 		{
@@ -43,14 +47,11 @@ public class TestMapSaverScript : MonoBehaviour
 
 		//TODO Add a category for maps and blueprints
 		//File.WriteAllText("R:/tests/SaveMatrix.txt", JsonConvert.SerializeObject(map, settings));
-
-
 	}
 
 	[NaughtyAttributes.Button()]
 	public void SaveMatrixSubsection()
 	{
-
 		//Loggy.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveObjects(MetaTileMap)));
 		//Loggy.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveTileMap(MetaTileMap)));
 		Vector3 Vector1 = (Vector3) Vector3Int1 + new Vector3(0.5f, 0.5f, 0); //TODO Tile map upgrade
@@ -76,7 +77,6 @@ public class TestMapSaverScript : MonoBehaviour
 	[NaughtyAttributes.Button()]
 	public void SaveMap()
 	{
-
 		//Loggy.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveObjects(MetaTileMap)));
 		//Loggy.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveTileMap(MetaTileMap)));
 
@@ -96,7 +96,35 @@ public class TestMapSaverScript : MonoBehaviour
 		//Logger.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveTileMap(MetaTileMap)));
 
 		//TODO Add a category for maps and blueprints
-		//File.WriteAllText("R:/tests/SaveMap.txt", JsonConvert.SerializeObject(MapSaver.MapSaver.SaveMap(MapMatrices, Compact , "COOL MAP"), settings ));
+		if (SAVETONormal)
+		{
+			//File.WriteAllText("R:/tests/SaveMap.txt", JsonConvert.SerializeObject(MapSaver.MapSaver.SaveMap(MapMatrices, Compact , "COOL MAP"), settings ));
+		}
+		else
+		{
+			//File.WriteAllText("R:/tests/SaveMapCompare.txt", JsonConvert.SerializeObject(MapSaver.MapSaver.SaveMap(MapMatrices, Compact , "COOL MAP"), settings ));
+		}
+
 	}
 
+
+	[NaughtyAttributes.Button()]
+	public void SaveALLMap()
+	{
+		MapMatrices =  FindObjectsOfType<MetaTileMap>().ToList();
+		MapMatrices.Reverse();
+		SaveMap();
+	}
+
+	[NaughtyAttributes.Button()]
+	public void LoadMap()
+	{
+		// Read the file content
+		//string json = File.ReadAllText("R:/tests/SaveMap.txt");
+		var json = "";
+		MapSaver.MapSaver.CodeClass.ThisCodeClass.Reset();
+		// Deserialize the JSON content to a MapData object
+		MapSaver.MapSaver.MapData mapData = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(json);
+		StartCoroutine(MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData));
+	}
 }
