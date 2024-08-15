@@ -110,7 +110,7 @@ public class Matrix : MonoBehaviour
 	//Pretty self-explanatory, TODO gravity generator
 	public bool HasGravity = true;
 
-	private void Awake()
+	public void Awake()
 	{
 		metaTileMap = GetComponent<MetaTileMap>();
 		if (metaTileMap == null)
@@ -130,6 +130,8 @@ public class Matrix : MonoBehaviour
 		PipeLayer = GetComponentInChildren<PipeLayer>();
 		DisposalsLayer = GetComponentInChildren<DisposalsLayer>();
 		tilemapsDamage = GetComponentsInChildren<TilemapDamage>().ToList();
+
+		if (Application.isPlaying == false) return;
 
 		if (gameObject.scene.name != "OnlineScene")
 		{
