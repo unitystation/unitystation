@@ -362,7 +362,7 @@ namespace TileManagement
 		private void MainThreadRemoveTile(TileLocation tileLocation)
 		{
 			//Remove before setting
-			if (tileLocation.InternalLayerTile is FuncPlaceRemoveTile funcPlaceRemoveTile)
+			if (tileLocation.InternalLayerTile is FuncPlaceRemoveTile funcPlaceRemoveTile && CustomNetworkManager.IsServer)
 			{
 				funcPlaceRemoveTile.OnRemoved(tileLocation.LocalPosition, matrix, tileLocation, tileLocation.DropItems);
 			}
@@ -468,7 +468,7 @@ namespace TileManagement
 			tileLocation.layer.SubsystemManager.UpdateAt(tileLocation.LocalPosition);
 
 
-			if (tileLocation.layerTile is FuncPlaceRemoveTile funcPlaceRemoveTile)
+			if (tileLocation.layerTile is FuncPlaceRemoveTile funcPlaceRemoveTile && CustomNetworkManager.IsServer)
 			{
 				funcPlaceRemoveTile.OnPlaced(tileLocation.LocalPosition, matrix, tileLocation);
 			}
