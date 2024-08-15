@@ -100,8 +100,7 @@ namespace Systems.Pipes
 			Destroyed = false;
 
 			AtmosManager.Instance.AddPipe(this);
-			ConnectedPipes =
-				PipeFunctions.GetConnectedPipes(ConnectedPipes, this, MatrixPos, Matrix);
+			ConnectedPipes = PipeFunctions.GetConnectedPipes(ConnectedPipes, this, MatrixPos, Matrix);
 
 			foreach (var Pipe in ConnectedPipes)
 			{

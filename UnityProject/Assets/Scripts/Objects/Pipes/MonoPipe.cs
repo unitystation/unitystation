@@ -39,6 +39,8 @@ namespace Objects.Atmospherics
 
 		public static float MaxInternalPressure { get; } = AtmosConstants.ONE_ATMOSPHERE * 50;
 
+		public bool CanNowRotate = false;
+
 		#region Lifecycle
 
 		public virtual void Awake()
@@ -55,6 +57,7 @@ namespace Objects.Atmospherics
 		public void PipeRotated(OrientationEnum newDirection)
 		{
 			if (Matrix == null) return;
+			pipeData.OnDisable();
 			SetUpPipes(false, PreviousOrientation.RemoveDirectionsTogether(newDirection).ToPipeRotate());
 			PreviousOrientation = newDirection;
 		}
@@ -64,18 +67,21 @@ namespace Objects.Atmospherics
 		{
 			//Only run SetUpPipes for mapped, otherwise the item being used to place it will have the wrong pipe data
 			//As the pipe will not be rotated correctly before setup
+
+			CanNowRotate = info.SpawnType == SpawnType.Mapped;
 			SetUpPipes(spawnedFromItem && info.SpawnType != SpawnType.Mapped);
 		}
 
-		public void SetUpPipes(bool DoNotSetRotation = false, int? RotateOverride = null) //Warning this should only Called once!!! Since you get double rotations
+		public void SetUpPipes(bool DoNotSetRotation = false, int? RotateOverride = null, bool InCanNowRotate = false) //Warning this should only Called once!!! Since you get double rotations
 		{
+			CanNowRotate = InCanNowRotate;
 			if (pipeData.PipeAction == null)
 			{
 				pipeData.PipeAction = new MonoActions();
 			}
 			registerTile.SetPipeData(pipeData);
 			pipeData.MonoPipe = this;
-			if (DoNotSetRotation == false)
+			if (DoNotSetRotation == false && CanNowRotate)
 			{
 				int Offset = PipeFunctions.GetOffsetAngle(transform.localRotation.eulerAngles.z);
 				if (RotateOverride != null)
