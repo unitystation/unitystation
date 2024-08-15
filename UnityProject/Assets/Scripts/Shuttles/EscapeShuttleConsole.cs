@@ -4,6 +4,7 @@ using System.Globalization;
 using AdminCommands;
 using AdminTools;
 using Core.Admin.Logs;
+using Items;
 using Managers;
 using UnityEngine;
 using Strings;
@@ -53,7 +54,11 @@ namespace Objects
 					return;
 				}
 			}
-			TryEmagConsole(interaction);
+
+			if (interaction.HandObject.TryGetComponent<Emag>(out var Emag))
+			{
+				TryEmagConsole(interaction);
+			}
 		}
 
 		private void TryEmagConsole(HandApply interaction)

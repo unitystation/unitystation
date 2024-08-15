@@ -276,6 +276,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 9056394620644044228}
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
+--- !u!114 &913600146378425684 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 5634703418540122965}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8390320911816615196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8387353560818754502 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
@@ -314,6 +326,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &3033393858997830747
 MonoBehaviour:
@@ -399,6 +412,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &5478961262237790931
 MonoBehaviour:
@@ -445,6 +459,7 @@ MonoBehaviour:
     CustomLogic: 0
     NetCompatible: 0
     SelfSufficient: 0
+    MappingNotRequiresLink: 0
     mixAndVolume:
       mix:
         temperature: 273.15
@@ -487,9 +502,9 @@ MonoBehaviour:
   RodStorage: {fileID: 5255741207357749315}
   PipeStorage: {fileID: -6392628326379791579}
   PipeItemTrait: {fileID: 11400000, guid: 066fee8b180af6c47a2bf6cb99f725a5, type: 2}
-  radiationProducer: {fileID: 0}
-  registerObject: {fileID: 0}
-  ReactorPipe: {fileID: 0}
+  radiationProducer: {fileID: 4059444369323570419}
+  registerObject: {fileID: 913600146378425684}
+  ReactorPipe: {fileID: 5478961262237790931}
   ReactorRods:
   - {fileID: 0}
   - {fileID: 0}
@@ -511,7 +526,7 @@ MonoBehaviour:
   ReactorEngineStarters: []
   HasEnrichedRod: 0
   ControlRodDepthPercentage: 1
-  RodMeltingTemperatureK: 1100
+  RodMeltingTemperatureK: 2200
   MeltedDown: 0
   PoppedPipes: 0
   Corium: {fileID: 2574638943807976213, guid: e641b27549abd354084e3b8403810249, type: 3}

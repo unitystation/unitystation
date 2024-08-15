@@ -183,7 +183,9 @@ namespace Objects.Engineering.Reactor
 					{
 						ScrumLastAnnounced = DateTime.Now;
 						chatEvent.message = "The reactor has triggered an automatic SCRAM!!";
+						chatEvent.channels = ChatChannel.Common;
 						InfluenceChat(chatEvent);
+						chatEvent.channels = ChatChannel.Engineering;
 						_ = SoundManager.PlayNetworked(CommonSounds.Instance.AnnouncementAlert);
 					}
 				}

@@ -255,10 +255,16 @@ namespace GameModes
 				//We times the percentage based on the amount of open antag spaces
 				//E.g if traitor with two open slots it will be 25 * 2 = 50% chance on spawn to get the antag
 				//This prevents midround players from guessing when they can join the game to guarantee antag status
-				var percentage = midRoundAntagsChance * (expectedAntagCount - AntagManager.Instance.AntagCount);
-				if (DMMath.Prob(percentage))
+				if (expectedAntagCount - AntagManager.Instance.AntagCount > 1)
 				{
-					return true;
+					return true; //Basically we are lacking antagonist so add them
+				}
+				else
+				{
+					if (DMMath.Prob(midRoundAntagsChance))
+					{
+						return true;
+					}
 				}
 			}
 
@@ -401,6 +407,7 @@ namespace GameModes
 				}
 			}
 
+
 			var msg = $"{PlayerList.Instance.ReadyPlayers.Count} players ready, {antagsToSpawn} antags to spawn. {playerSpawnRequests.Count} players spawned (excludes antags), {antagSpawnRequests.Count} antags spawned";
 			try
 			{
@@ -457,7 +464,7 @@ namespace GameModes
 		protected int CalculateAntagCount(int playerCount)
 		{
 			if (hardNumberOfAntagsToSpawn > 0) return hardNumberOfAntagsToSpawn;
-			var antagCount = Math.Min((int)Math.Floor(playerCount * antagRatio), maxAntags);
+			var antagCount = Math.Min((int)Math.Floor(playerCount * AntagRatio), MaxAntags);
 			// If RequiresMinAntags is true then round up to MinAntags if antagCount is below
 			return ForceMinAntags ? Math.Max(MinAntags, antagCount) : antagCount;
 		}

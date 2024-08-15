@@ -20,11 +20,13 @@ namespace Items.Atmospherics
 			var monoPipe = spawn.GameObject.GetComponent<MonoPipe>();
 
 
-			monoPipe.directional.FaceDirection(this.rotatable.CurrentDirection);
+
 
 
 			monoPipe.SetColour(Colour);
-			monoPipe.SetUpPipes();
+			monoPipe.CanNowRotate = false;
+			monoPipe.directional.FaceDirection(this.rotatable.CurrentDirection);
+			monoPipe.SetUpPipes(InCanNowRotate: true);
 
 
 			_ = Despawn.ServerSingle(gameObject);
