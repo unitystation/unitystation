@@ -769,11 +769,11 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 
 	private readonly Dictionary<uint, IDynamicItemSlotS> ClientCash = new Dictionary<uint, IDynamicItemSlotS>();
 
-	public void ProcessChangeClient(string NewST, int Tries = 0)
+	public void ProcessChangeClient(string newSt, int tries = 0)
 	{
 		added.Clear();
 		removed.Clear();
-		var incomingList = JsonConvert.DeserializeObject<List<InternalData>>(NewST);
+		var incomingList = JsonConvert.DeserializeObject<List<InternalData>>(newSt);
 		var spawnedList = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 		if (incomingList != null)
 		{
@@ -781,7 +781,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 			{
 				if (spawnedList.TryGetValue(IntIn.ID, out var spawned) == false)
 				{
-					if (Tries > 10)
+					if (tries > 25)
 					{
 						Loggy.LogError($"Failed to find object in spawned objects, might have not spawned yet? netId: {IntIn}");
 						continue;
@@ -792,12 +792,12 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 					{
 						DynamicItemStorage DIS;
 
-						int LocalTries = Tries;
+						int LocalTries = tries;
 						LocalTries++;
 
 						if (wptr.TryGetTarget(out DIS))
 						{
-							DIS.ProcessChangeClient(NewST, LocalTries);
+							DIS.ProcessChangeClient(newSt, LocalTries);
 						}
 					}, 60);
 					return;
