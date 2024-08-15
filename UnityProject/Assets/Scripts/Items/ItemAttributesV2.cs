@@ -5,6 +5,7 @@ using UnityEngine;
 using Mirror;
 using AddressableReferences;
 using Core;
+using Core.Utils;
 using Systems.Clothing;
 using UI.Systems.Tooltips.HoverTooltips;
 using Util.Independent.FluentRichText;
@@ -91,6 +92,16 @@ namespace Items
 		[EnumFlag]
 		public TraumaticDamageTypes TraumaticDamageType;
 
+		[SerializeField,
+		Range(0, 100),
+		Tooltip("How likely a player is to block an attack if they are holding this item in their active hand, 0% for never.")]
+		private float blockChance = 0;
+
+		/// <summary>
+		/// MultiInterestFloat listing all sources that are effecting block chance, tracked server side only.
+		/// </summary>
+		public MultiInterestFloat ServerBlockChance = new();
+
 		[Header("Sprites/Sounds/Flags/Misc.")]
 
 		[Tooltip("How many tiles to move per 0.1s when being thrown")]
@@ -124,6 +135,18 @@ namespace Items
 		{
 			get => hitSound;
 			set => hitSound = value;
+		}
+
+		[Tooltip("Sound to be played when we block someone elses attack")]
+		[SerializeField]
+		private AddressableAudioSource blockSound = null;
+		/// <summary>
+		/// Sound to be played when we block someone elses attack, tracked server side only
+		/// </summary>
+		public AddressableAudioSource ServerBlockSound
+		{
+			get => blockSound;
+			set => blockSound = value;
 		}
 
 		[Tooltip("Sound to be played when object gets added to storage.")]
@@ -193,11 +216,13 @@ namespace Items
 		{
 			EnsureInit();
 			ComponentsTracker<ItemAttributesV2>.Instances.Add(this);
+			ServerBlockChance.RecordPosition(this, blockChance);
 		}
 
 		private void OnDestroy()
 		{
 			ComponentsTracker<ItemAttributesV2>.Instances.Remove(this);
+			ServerBlockChance.RemovePosition(this);
 		}
 
 		private void EnsureInit()

@@ -62,17 +62,17 @@ PrefabInstance:
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -125,6 +125,11 @@ PrefabInstance:
         type: 3}
       propertyPath: hitDamage
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: blockChance
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
