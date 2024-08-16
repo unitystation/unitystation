@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a1e9a7021acd5343ab7777f5bdc00ff, type: 3}
-  m_Name: cough
+  m_Name: CoughAndGiveSpeed
   m_EditorClassIdentifier: 
-  emoteName: cough
+  emoteName: h_cough_speedBoost
   EmoteIcon: {fileID: 21300000, guid: 3afe2724c44470e4b83c8d72218d8fe5, type: 3}
   requiresHands: 0
   allowEmoteWhileInCrit: 1
@@ -623,7 +623,13 @@ MonoBehaviour:
           m_EditorAssetChanged: 0
   pitchRange: {x: 0.7, y: 1}
   allowedPlayerTypes: 1
-  Behaviors: []
+  Behaviors:
+  - rid: 7777811492625449013
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 7777811492625449013
+      type: {class: GiveSpeedStatusEffect, ns: ScriptableObjects.RP.EmoteBehaviors,
+        asm: Assets}
+      data:
+        Effect: {fileID: 11400000, guid: 48a6a8b7f4d1b3549b27fb369c9d3630, type: 2}

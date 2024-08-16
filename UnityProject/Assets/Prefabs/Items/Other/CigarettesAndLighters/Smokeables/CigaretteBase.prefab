@@ -296,8 +296,9 @@ MonoBehaviour:
   syncInterval: 0.1
   buttPrefab: {fileID: 9060380378923672138, guid: 76c1cf9465a29384faac0d9df2eec3c9,
     type: 3}
-  smokeTimeSeconds: 180
+  smokeTimeSeconds: 12
   spriteHandler: {fileID: 3499719427789762796}
+  reagentContainer: {fileID: 8431387283529515776}
 --- !u!114 &8431387283529515776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,7 +322,9 @@ MonoBehaviour:
     reagents:
       m_keys:
       - {fileID: 11400000, guid: c4e931cdd4b041652928e77065466e6b, type: 2}
+      - {fileID: 11400000, guid: 1e2d4d88ed57165429f6d1c7504bfd20, type: 2}
       m_values:
+      - 15
       - 15
     reagentKeys: []
   destroyOnEmpty: 0

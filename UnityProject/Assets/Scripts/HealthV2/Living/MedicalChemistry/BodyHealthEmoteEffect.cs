@@ -1,11 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
-using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 using ScriptableObjects.RP;
 
 [CreateAssetMenu(fileName = "BodyHealthEmoteEffect",

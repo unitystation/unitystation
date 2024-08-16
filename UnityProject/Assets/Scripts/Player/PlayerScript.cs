@@ -101,6 +101,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	[field: SerializeField] public PlayerParticle Particles { get; private set; }
 
 	[field: SerializeField] public DimPlayerLightController DimPlayerLightController { get; private set; }
+	[field: SerializeField] public BodyAlertManager BodyAlerts { get; private set; }
 
 	public PlayerStats PlayerStats { get; private set; }
 
@@ -206,6 +207,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		Particles ??= GetComponent<PlayerParticle>();
 		DimPlayerLightController ??= GetComponent<DimPlayerLightController>();
 		PlayerStats = GetComponent<PlayerStats>();
+		BodyAlerts = GetComponent<BodyAlertManager>();
 	}
 
 	public override void OnStartClient()
