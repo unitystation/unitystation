@@ -72,9 +72,12 @@ namespace Objects.Atmospherics
 			SetUpPipes(spawnedFromItem && info.SpawnType != SpawnType.Mapped);
 		}
 
-		public void SetUpPipes(bool DoNotSetRotation = false, int? RotateOverride = null, bool InCanNowRotate = false) //Warning this should only Called once!!! Since you get double rotations
+		public void SetUpPipes(bool DoNotSetRotation = false, int? RotateOverride = null, bool? InCanNowRotate = null) //Warning this should only Called once!!! Since you get double rotations
 		{
-			CanNowRotate = InCanNowRotate;
+			if (InCanNowRotate != null)
+			{
+				CanNowRotate = InCanNowRotate.Value;
+			}
 			if (pipeData.PipeAction == null)
 			{
 				pipeData.PipeAction = new MonoActions();
