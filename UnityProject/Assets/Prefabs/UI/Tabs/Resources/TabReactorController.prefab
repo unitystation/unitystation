@@ -999,9 +999,9 @@ RectTransform:
   m_Father: {fileID: 4797981981078983053}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -14.699997, y: -124.85884}
-  m_SizeDelta: {x: -145.0507, y: -372.8}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 75.5245, y: -124.2}
+  m_SizeDelta: {x: 10, y: -373.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6887946497539188258
 CanvasRenderer:
@@ -1328,9 +1328,9 @@ RectTransform:
   m_Father: {fileID: 4175051373793091466}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -15.136543, y: 98.924614}
-  m_SizeDelta: {x: -144.16272, y: -321.28226}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 75.5245, y: 134.00002}
+  m_SizeDelta: {x: 10, y: -393.20004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4264661057485759146
 CanvasRenderer:
@@ -1354,7 +1354,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1556,7 +1556,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 251.92, y: -258.81}
+  m_AnchoredPosition: {x: 419.8701, y: -258.81}
   m_SizeDelta: {x: 167.95, y: 453.86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1422347225086143543
@@ -4316,6 +4316,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &1376823499768720121
 GameObject:
   m_ObjectHideFlags: 0
@@ -4682,6 +4683,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &1735887852700084617
 GameObject:
   m_ObjectHideFlags: 0
@@ -6332,6 +6334,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &2543390566338335675
 GameObject:
   m_ObjectHideFlags: 0
@@ -6936,6 +6939,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &2817837586261832286
 GameObject:
   m_ObjectHideFlags: 0
@@ -7258,7 +7262,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 419.87012, y: -258.81}
+  m_AnchoredPosition: {x: 251.92, y: -258.81}
   m_SizeDelta: {x: 167.95, y: 453.86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2458955691594269336
@@ -8044,9 +8048,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4797981981078983053}
+  - {fileID: 6467043176568393105}
   - {fileID: 4175051373793091466}
   - {fileID: 8930741472694679536}
-  - {fileID: 6467043176568393105}
   - {fileID: 3139390496857556699}
   m_Father: {fileID: 6908808888968611016}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8262,9 +8266,9 @@ RectTransform:
   m_Father: {fileID: 6467043176568393105}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -15.400002, y: 107.19588}
-  m_SizeDelta: {x: -144.1627, y: -337.1177}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 75.5245, y: 132}
+  m_SizeDelta: {x: 10, y: -389.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6705064350382244468
 CanvasRenderer:
@@ -8288,7 +8292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -8534,6 +8538,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &3326141270671650018
 GameObject:
   m_ObjectHideFlags: 0
@@ -9553,6 +9558,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &3841212733326017239
 GameObject:
   m_ObjectHideFlags: 0
@@ -9998,6 +10004,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &3956183800791801365
 GameObject:
   m_ObjectHideFlags: 0
@@ -10847,6 +10854,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &4335476971319713217
 GameObject:
   m_ObjectHideFlags: 0
@@ -11029,6 +11037,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &4353376908599774849
 GameObject:
   m_ObjectHideFlags: 0
@@ -11395,6 +11404,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &4564087745680676503
 GameObject:
   m_ObjectHideFlags: 0
@@ -12136,6 +12146,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &4988071873070177004
 GameObject:
   m_ObjectHideFlags: 0
@@ -12525,6 +12536,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &5069136253768301706
 GameObject:
   m_ObjectHideFlags: 0
@@ -16226,6 +16238,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &6479906297743584723
 GameObject:
   m_ObjectHideFlags: 0
@@ -17086,6 +17099,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &7130027600204879586
 GameObject:
   m_ObjectHideFlags: 0
@@ -17588,6 +17602,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &7223479041505421273
 GameObject:
   m_ObjectHideFlags: 0
@@ -18042,6 +18057,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &7350815550611356539
 GameObject:
   m_ObjectHideFlags: 0
@@ -19163,9 +19179,9 @@ RectTransform:
   m_Father: {fileID: 3139390496857556699}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -14.784004, y: 120.58696}
-  m_SizeDelta: {x: -144.1628, y: -365.526}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 75.5245, y: 120.374985}
+  m_SizeDelta: {x: 10, y: -365.94998}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8950261863233576301
 CanvasRenderer:
@@ -20768,6 +20784,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &8308236223634750962
 GameObject:
   m_ObjectHideFlags: 0
@@ -20998,6 +21015,7 @@ MonoBehaviour:
   OnAlphaValue: 1
   State: 0
   LightState: 0
+  UpdateAdded: 0
 --- !u!1 &8460629899572572789
 GameObject:
   m_ObjectHideFlags: 0
