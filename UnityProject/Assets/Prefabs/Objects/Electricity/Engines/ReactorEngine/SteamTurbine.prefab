@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aedda63e7d1cb2b41b8541c6fd7c0d52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moduleSupplyingDevice: {fileID: 0}
+  moduleSupplyingDevice: {fileID: 3582693408804968190}
   ConstructMaterial: {fileID: 5331286249588652700, guid: 29ecbf5a1d918574cbcf5853927e0944,
     type: 3}
   droppedMaterialAmount: 25
@@ -249,6 +249,6 @@ MonoBehaviour:
   PreviousSupplyingVoltage: 0
   SupplyingVoltage: 0
   PreviousInternalResistance: 0
-  InternalResistance: 0
+  InternalResistance: 10000
   PreviousProducingWatts: 0
   ProducingWatts: 0
