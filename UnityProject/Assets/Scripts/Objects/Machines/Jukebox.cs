@@ -12,13 +12,14 @@ using Items.Bar;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using Systems.Explosions;
+using Systems.Interaction;
 
 namespace Objects
 {
 	/// <summary>
 	/// A machine that plays music choosen by it's user's tastes in a cool place like a lounge or a bar.
 	/// </summary>
-	public class Jukebox : NetworkBehaviour, IAPCPowerable, ICheckedInteractable<HandApply>
+	public class Jukebox : NetworkBehaviour, IAPCPowerable, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>
 	{
 		/// <summary>
 		/// How many watts at 240 V the Jukebox uses when not in use
@@ -426,6 +427,27 @@ namespace Objects
 				ItemSlot from = isRemoving ? targetSlot : interaction.HandSlot;
 				ItemSlot to = isRemoving ? interaction.HandSlot : targetSlot;
 				Inventory.ServerTransfer(from, to);
+			}
+		}
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (interaction.ClickType != AiActivate.ClickTypes.NormalClick) return false;
+
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			if (isOpened == false && vinylStorage.HasAnyOccupied() && musics.Count > 0)
+			{
+				TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.Jukebox, TabAction.Open );
+			}
+			else
+			{
+				Chat.AddExamineMsg(interaction.Performer, "The jukebox is silent. A red LED labeled \"No Records\" blinks.");
 			}
 		}
 	}
