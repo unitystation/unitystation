@@ -10,21 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
-  m_Name: hammers_righthand_crusher
+  m_Name: pk_hammer_left_unwield
   m_EditorClassIdentifier: 
-  foreverID: d96f07490c66c9946898b9e5dbca7ee6
+  foreverID: ba0a0cf1710b84b3093857d1185b8786
   Variance:
   - Frames:
-    - sprite: {fileID: 21300000, guid: 79946568f5b597f468572ef45d8aa067, type: 3}
+    - sprite: {fileID: -2312605291381186142, guid: 4d6e854f31df748d598bd81348f78df0,
+        type: 3}
       secondDelay: 0
   - Frames:
-    - sprite: {fileID: 21300002, guid: 79946568f5b597f468572ef45d8aa067, type: 3}
+    - sprite: {fileID: 6746635050194879226, guid: 4d6e854f31df748d598bd81348f78df0,
+        type: 3}
       secondDelay: 0
   - Frames:
-    - sprite: {fileID: 21300004, guid: 79946568f5b597f468572ef45d8aa067, type: 3}
+    - sprite: {fileID: 9011912210987001276, guid: 4d6e854f31df748d598bd81348f78df0,
+        type: 3}
       secondDelay: 0
   - Frames:
-    - sprite: {fileID: 21300006, guid: 79946568f5b597f468572ef45d8aa067, type: 3}
+    - sprite: {fileID: 1562793585, guid: 4d6e854f31df748d598bd81348f78df0, type: 3}
       secondDelay: 0
   IsPalette: 0
   DisplayName: 

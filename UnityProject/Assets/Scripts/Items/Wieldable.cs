@@ -18,6 +18,8 @@ namespace Items
 
 		[SerializeField] private int damageWielded;
 
+		public int DamageWielded => damageWielded;
+
 		public ItemsSprites Wielded = new ItemsSprites();
 		public ItemsSprites Unwielded = new ItemsSprites();
 
