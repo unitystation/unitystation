@@ -1,6 +1,9 @@
-﻿using Audio.Managers;
+﻿using System.Linq;
+using Audio.Managers;
 using Audio.Containers;
+using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
@@ -41,9 +44,15 @@ namespace Unitystation.Options
 		[SerializeField]
 		private Toggle PushToTalkToggle = null;
 
+		[SerializeField] private TMP_Text cacheVersionText;
+
 		void OnEnable()
 		{
 			Refresh();
+			foreach (var path in AddressableCatalogueManager.GetCataloguePath())
+			{
+				cacheVersionText.text += path + "\n";
+			}
 		}
 
 		public void OnMasterVolumeChange()
@@ -129,6 +138,14 @@ namespace Unitystation.Options
 			PushToTalkToggle.isOn = PlayerPrefs.GetInt(PlayerPrefKeys.PushToTalkToggle, 1) == 1;
 		}
 
+		public void OnClearSoundCacheOption()
+		{
+			Addressables.CleanBundleCache();
+			Caching.ClearCache();
+			AddressableCatalogueManager.LoadHostCatalogues();
+			cacheVersionText.text = "<color=green>Cache cleared. Please restart the game.</color>";
+		}
+
 
 		public void ResetDefaults()
 		{
@@ -142,7 +159,7 @@ namespace Unitystation.Options
 					AudioManager.MusicVolume(0.2f);
 					AudioManager.TtsVolume(0.2f);
 					AudioListener.volume = 1;
-					AudioManager.CommonRadioChatter(false);
+					AudioManager.CommonRadioChatter(true);
 					AudioManager.RadioChatterVolume(0.2f);
 					Refresh();
 				},
