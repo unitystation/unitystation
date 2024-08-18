@@ -519,7 +519,7 @@ namespace Chemistry
 				return;
 			}
 
-			if (float.IsNormal(amount) == false)
+			if (float.IsNaN(amount) || float.IsNegativeInfinity(amount) || float.IsPositiveInfinity(amount))
 			{
 				Loggy.LogError($"Trying to Transfer by {amount}", Category.Chemistry);
 				return;
@@ -597,7 +597,7 @@ namespace Chemistry
 				return;
 			}
 
-			if (float.IsNaN(amount) || float.IsInfinity(amount))
+			if (float.IsNegativeInfinity(amount) || float.IsNaN(amount)  || float.IsPositiveInfinity(amount))
 			{
 				Loggy.LogError($"Trying to RemoveVolume {amount}", Category.Chemistry);
 				return;

@@ -928,9 +928,23 @@ namespace TileManagement
 						var tileLocations = GetTileLocationsNeedLockSurrounding(position, layer);
 						tileLocations ??= new List<TileLocation>();
 
-						int index = FindFirstEmpty(tileLocations);
+						int index = 0;
+						if (useExactForMultilayer == false)
+						{
+							index = FindFirstEmpty(tileLocations);
+							position.z = 1 - index;
 
-						position.z = 1 - index;
+						}
+						else
+						{
+							index = 1 - position.z;
+							while (tileLocations.Count < (index + 1))
+							{
+								tileLocations.Add(null);
+							}
+						}
+
+
 						if (tileLocations[index] == null)
 						{
 							tileLocations[index] = GetPooledTile();
@@ -942,6 +956,7 @@ namespace TileManagement
 						}
 
 						tileLocation = tileLocations[index];
+
 					}
 				}
 				else
