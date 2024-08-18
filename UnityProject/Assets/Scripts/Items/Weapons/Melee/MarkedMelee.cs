@@ -50,6 +50,7 @@ namespace Weapons
 				if (wieldable.IsWielded == false)
 				{
 					Chat.AddExamineMsgFromServer(interaction.Performer, "You need to be wielding this to attack");
+					return;
 				}
 			}
 			
@@ -101,9 +102,10 @@ namespace Weapons
 
 		public string Examine(Vector3 worldPos = default)
 		{
+			var baseDamage = reqWield ? wieldable.DamageWielded : attribs.ServerHitDamage;
 			StringBuilder exam = new StringBuilder();
-			exam.AppendLine($"Mark a creature with a destabilizing force using the projectile, then hit them with melee to do {attribs.ServerHitDamage + markedHitBonus}")
-				.AppendLine($"Does {attribs.ServerHitDamage + markedHitBonus + backstabBonus} damage instead if the target is backstabbed.");
+			exam.AppendLine($"Mark a creature with a destabilizing force using the projectile, then hit them with melee to do {baseDamage + markedHitBonus}")
+				.AppendLine($"Does {baseDamage + markedHitBonus + backstabBonus} damage instead if the target is backstabbed.");
 			return exam.ToString();
 		}
 	}

@@ -8,6 +8,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6943314109635352739, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: Wielded.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 189a01aa70bbfbed38cdfd017db1db9e,
+        type: 2}
+    - target: {fileID: -6943314109635352739, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: Wielded.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 412403bf70416084c8ad3592bb054b2f,
+        type: 2}
+    - target: {fileID: -6943314109635352739, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: Unwielded.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ba0a0cf1710b84b3093857d1185b8786,
+        type: 2}
+    - target: {fileID: -6943314109635352739, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: Unwielded.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 271159761dd723e058879cc834577eba,
+        type: 2}
     - target: {fileID: -3052719004654847166, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
       propertyPath: doPush
@@ -26,7 +50,7 @@ PrefabInstance:
     - target: {fileID: -3052719004654847166, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
       propertyPath: markedHitBonus
-      value: 70
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1529380664820982249, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
@@ -83,13 +107,13 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
-      objectReference: {fileID: 11400000, guid: 189a01aa70bbfbed38cdfd017db1db9e,
+      objectReference: {fileID: 11400000, guid: ba0a0cf1710b84b3093857d1185b8786,
         type: 2}
     - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
       value: 
-      objectReference: {fileID: 11400000, guid: 412403bf70416084c8ad3592bb054b2f,
+      objectReference: {fileID: 11400000, guid: 271159761dd723e058879cc834577eba,
         type: 2}
     - target: {fileID: 3235497439635828136, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}

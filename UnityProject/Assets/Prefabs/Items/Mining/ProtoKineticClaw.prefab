@@ -10,13 +10,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -3052719004654847166, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
+      propertyPath: reqWield
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3052719004654847166, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
       propertyPath: backstabBonus
       value: 60
       objectReference: {fileID: 0}
     - target: {fileID: -3052719004654847166, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
       propertyPath: markedHitBonus
-      value: 40
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1529380664820982249, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
@@ -35,6 +40,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3733394460219839377, guid: b7d5de9dc16a71a14872e2c960684297,
         type: 3}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: hitDamage
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
       propertyPath: initialName
@@ -172,7 +182,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1947099a6a3e050de98d91f9a04e6813,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6943314109635352739, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
