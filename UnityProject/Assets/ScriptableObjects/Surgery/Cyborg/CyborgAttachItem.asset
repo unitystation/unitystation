@@ -24,6 +24,7 @@ MonoBehaviour:
     SuccessOther: '{performer} unscrews the cover on {WhoOn}''s {OnPart}'
     FailSelf: 
     FailOther: 
+    BleedStacksToAdd: 1
   - RequiredTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
     Time: 0
     FailChance: 0
@@ -33,6 +34,7 @@ MonoBehaviour:
     SuccessOther: '{performer} unfastens the bolts on {WhoOn}''s {OnPart}'
     FailSelf: 
     FailOther: 
+    BleedStacksToAdd: 1
   - RequiredTrait: {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c, type: 2}
     Time: 0
     FailChance: 0
@@ -42,5 +44,6 @@ MonoBehaviour:
     SuccessOther: '{performer} attaches the {Using} to {WhoOn}''s {OnPart}'
     FailSelf: 
     FailOther: 
+    BleedStacksToAdd: -5
   RequiredImplantTrait: {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c,
     type: 2}

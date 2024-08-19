@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using HealthV2.Living.Surgery;
 using UnityEngine;
 
 namespace HealthV2
@@ -12,12 +13,12 @@ namespace HealthV2
 		public List<SurgeryStep> SurgerySteps = new List<SurgeryStep>();
 
 		public virtual void FinnishSurgeryProcedure(BodyPart OnBodyPart, HandApply interaction,
-			Dissectible.PresentProcedure PresentProcedure)
+			PresentProcedure PresentProcedure)
 		{
 		}
 
 		public virtual void UnsuccessfulStep(BodyPart OnBodyPart, HandApply interaction,
-			Dissectible.PresentProcedure PresentProcedure)
+			PresentProcedure PresentProcedure)
 		{
 		}
 	}
