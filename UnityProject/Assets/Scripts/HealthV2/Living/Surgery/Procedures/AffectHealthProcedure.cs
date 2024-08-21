@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using HealthV2.Living.Surgery;
 using Items;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -17,16 +18,16 @@ namespace HealthV2
 		public AttackType FailAttackType = AttackType.Melee;
 
 		public override void FinnishSurgeryProcedure(BodyPart OnBodyPart, HandApply interaction,
-			Dissectible.PresentProcedure PresentProcedure)
+			PresentProcedure presentProcedure)
 		{
-			if (PresentProcedure.RelatedBodyPart.ContainedIn != null)
+			if (presentProcedure.RelatedBodyPart.ContainedIn != null)
 			{
-				PresentProcedure.isOn.currentlyOn = PresentProcedure.RelatedBodyPart.ContainedIn.gameObject;
-				PresentProcedure.RelatedBodyPart = PresentProcedure.RelatedBodyPart.ContainedIn;
+				presentProcedure.isOn.currentlyOn = presentProcedure.RelatedBodyPart.ContainedIn.gameObject;
+				presentProcedure.RelatedBodyPart = presentProcedure.RelatedBodyPart.ContainedIn;
 			}
 			else
 			{
-				PresentProcedure.isOn.currentlyOn = null;
+				presentProcedure.isOn.currentlyOn = null;
 			}
 
 			if (interaction.HandSlot.Item != null)
@@ -50,7 +51,7 @@ namespace HealthV2
 		}
 
 		public override void UnsuccessfulStep(BodyPart OnBodyPart, HandApply interaction,
-			Dissectible.PresentProcedure PresentProcedure)
+			PresentProcedure presentProcedure)
 		{
 			OnBodyPart.TakeDamage(interaction.UsedObject,HeelStrength*0.1f,FailAttackType,Affects);
 		}

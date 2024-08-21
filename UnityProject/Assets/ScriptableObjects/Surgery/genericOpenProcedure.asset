@@ -24,6 +24,7 @@ MonoBehaviour:
     SuccessOther: '{performer} uses {Using} to cut open {WhoOn}''s {OnPart}'
     FailSelf: you miss cut with {Using} cutting into{WhoOn}'s {OnPart}
     FailOther: '{performer} miss cutts with {Using} cutting into{WhoOn}''s {OnPart}'
+    BleedStacksToAdd: 5
   - RequiredTrait: {fileID: 11400000, guid: 1e5559e895a286845ae6c1d616f3f26d, type: 2}
     Time: 1
     FailChance: 0
@@ -33,6 +34,7 @@ MonoBehaviour:
     SuccessOther: '{performer} uses {Using} to hold open {WhoOn}''s {OnPart}'
     FailSelf: you misuse {Using} failing to hold open {WhoOn}'s {OnPart}
     FailOther: '{performer} misuses {Using} failing to hold open {WhoOn}''s {OnPart}'
+    BleedStacksToAdd: 5
   - RequiredTrait: {fileID: 11400000, guid: fc51d63cf9b06574ca78a62da76969e5, type: 2}
     Time: 1
     FailChance: 0
@@ -42,3 +44,4 @@ MonoBehaviour:
     SuccessOther: '{performer} uses {Using} to clamp {WhoOn}''s {OnPart}'
     FailSelf: you misuse {Using} failing to clamp {WhoOn}'s {OnPart}
     FailOther: '{performer} misuses {Using} failing to clamp {WhoOn}''s {OnPart}'
+    BleedStacksToAdd: 5

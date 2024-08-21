@@ -1661,6 +1661,15 @@ namespace HealthV2
 			BleedStacks = Mathf.Clamp((BleedStacks + deltaValue), 0, maxBleedStacks);
 		}
 
+		public void AddBleedStacks(float deltaValue)
+		{
+			BleedStacks += Mathf.Clamp((BleedStacks + deltaValue), -1000, maxBleedStacks);
+			if (BleedStacks < 0)
+			{
+				BleedStacks = 0;
+			}
+		}
+
 		/// <summary>
 		/// Forces a number of bleed stacks on the creature.
 		/// </summary>

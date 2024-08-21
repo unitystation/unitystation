@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using HealthV2.Living.Surgery;
 using UnityEngine;
 
 namespace HealthV2
@@ -8,25 +9,25 @@ namespace HealthV2
 	public class CloseProcedure : SurgeryProcedureBase
 	{
 		public override void FinnishSurgeryProcedure(BodyPart OnBodyPart, HandApply interaction,
-			Dissectible.PresentProcedure PresentProcedure)
+			PresentProcedure presentProcedure)
 		{
-			base.FinnishSurgeryProcedure(OnBodyPart, interaction, PresentProcedure);
-			if (PresentProcedure.RelatedBodyPart.ContainedIn != null)
+			base.FinnishSurgeryProcedure(OnBodyPart, interaction, presentProcedure);
+			if (presentProcedure.RelatedBodyPart.ContainedIn != null)
 			{
-				PresentProcedure.isOn.currentlyOn = PresentProcedure.RelatedBodyPart.ContainedIn.gameObject;
+				presentProcedure.isOn.currentlyOn = presentProcedure.RelatedBodyPart.ContainedIn.gameObject;
 			}
 			else
 			{
-				PresentProcedure.isOn.SetBodyPartIsOpen(false,  false);
-				PresentProcedure.isOn.currentlyOn = null;
-				PresentProcedure.RelatedBodyPart = null;
+				presentProcedure.isOn.SetBodyPartIsOpen(false,  false);
+				presentProcedure.isOn.currentlyOn = null;
+				presentProcedure.RelatedBodyPart = null;
 			}
 		}
 
 		public override void UnsuccessfulStep(BodyPart OnBodyPart, HandApply interaction,
-			Dissectible.PresentProcedure PresentProcedure)
+			PresentProcedure presentProcedure)
 		{
-			base.UnsuccessfulStep(OnBodyPart, interaction,PresentProcedure );
+			base.UnsuccessfulStep(OnBodyPart, interaction,presentProcedure );
 		}
 	}
 }
