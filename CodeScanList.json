@@ -2989,6 +2989,13 @@
 				"All": true
 			}
 		},
+        "UnityEngine.Caching" : {
+			"Caching": {
+                "Methods": [
+                    "bool ClearCache()"
+                ]
+            }
+		},
 		"JetBrains.Annotations" : {
 			"CanBeNullAttribute":{
 				"All": true
