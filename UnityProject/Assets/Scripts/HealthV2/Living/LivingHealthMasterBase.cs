@@ -318,7 +318,7 @@ namespace HealthV2
 		[NonSerialized] public MultiInterestBool IsMute = new MultiInterestBool(true,
 			MultiInterestBool.RegisterBehaviour.RegisterFalse,
 			MultiInterestBool.BoolBehaviour.ReturnOnTrue);
-		[NonSerialized] public MultiInterestFloat SpeakCharacterLimit = new MultiInterestFloat(-1f);
+		[NonSerialized] public MultiInterestFloat SpeakCharacterLimit = new MultiInterestFloat(-1f, InSetFloatBehaviour : MultiInterestFloat.FloatBehaviour.PickTop );
 		[NonSerialized] public PlayerHealthData InitialSpecies = null;
 		[SerializeField, Range(1, 60f)] private float updateTime = 1f;
 		private List<MetabolismComponent> TMPUseList = new List<MetabolismComponent>();

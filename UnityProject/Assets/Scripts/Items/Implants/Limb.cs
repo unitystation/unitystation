@@ -33,7 +33,10 @@ namespace HealthV2
 		[SerializeField]
 		[Tooltip("A generalized number representing how efficient a limb is. 1 Is a human leg.")]
 		private float initialLimbEfficiency = 1f;
-		private readonly MultiInterestFloat limbEfficiency = new();
+
+		private readonly MultiInterestFloat limbEfficiency =
+			new(InSetFloatBehaviour: MultiInterestFloat.FloatBehaviour.AddBehaviour);
+
 		public float LimbEfficiency => limbEfficiency;
 
 		public float RunningSpeedModifier => runningSpeed * limbEfficiency * RelatedPart.TotalModified;
