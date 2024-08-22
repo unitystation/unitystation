@@ -49,10 +49,6 @@ namespace Unitystation.Options
 		void OnEnable()
 		{
 			Refresh();
-			foreach (var path in AddressableCatalogueManager.GetCataloguePath())
-			{
-				cacheVersionText.text += path + "\n";
-			}
 		}
 
 		public void OnMasterVolumeChange()
@@ -136,6 +132,7 @@ namespace Unitystation.Options
 
 			VoiceChatToggle.isOn = PlayerPrefs.GetInt(PlayerPrefKeys.VoiceChatToggle, 1) == 1;
 			PushToTalkToggle.isOn = PlayerPrefs.GetInt(PlayerPrefKeys.PushToTalkToggle, 1) == 1;
+			cacheVersionText.text = "";
 		}
 
 		public void OnClearSoundCacheOption()
