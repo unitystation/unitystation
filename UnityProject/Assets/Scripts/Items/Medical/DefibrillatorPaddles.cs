@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using AddressableReferences;
 using HealthV2;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 
 namespace Items.Medical
@@ -69,13 +70,13 @@ namespace Items.Medical
 				var objectPos = gameObject.AssumedWorldPosServer();
 				if (CanDefibrillate(livingHealthMaster, interaction.Performer) == false)
 				{
-					_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos);
+					_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos, new AudioSourceParameters(spatialBlend:3));
 					StartCoroutine(Cooldown());
 					return;
 				}
 
 				livingHealthMaster.RestartHeart();
-				_ = SoundManager.PlayNetworkedAtPosAsync(soundZap, objectPos);
+				_ = SoundManager.PlayNetworkedAtPosAsync(soundZap, objectPos, new AudioSourceParameters(spatialBlend:3));
 				if (livingHealthMaster.IsDead == false)
 				{
 					livingHealthMaster.playerScript.Mind.OrNull()?.StopGhosting();
@@ -84,7 +85,7 @@ namespace Items.Medical
 					return;
 				}
 
-				_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos);
+				_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos, new AudioSourceParameters(spatialBlend:3));
 				StartCoroutine(Cooldown());
 			}
 
@@ -105,7 +106,7 @@ namespace Items.Medical
 			onCooldown = true;
 			yield return WaitFor.Seconds(cooldown);
 			onCooldown = false;
-			SoundManager.PlayNetworkedAtPos(soundCharged, gameObject.AssumedWorldPosServer());
+			SoundManager.PlayNetworkedAtPos(soundCharged, gameObject.AssumedWorldPosServer(), new AudioSourceParameters(spatialBlend:3));
 		}
 
 		public void ServerPerformInteraction(HandActivate interaction)
@@ -120,7 +121,7 @@ namespace Items.Medical
 			{
 				Chat.AddExamineMsg(interaction.Performer, $"You prepare the {gameObject.ExpensiveName()}");
 				isReady = true;
-				_ = SoundManager.PlayNetworkedAtPosAsync(soundReady, gameObject.AssumedWorldPosServer());
+				_ = SoundManager.PlayNetworkedAtPosAsync(soundReady, gameObject.AssumedWorldPosServer(), new AudioSourceParameters(spatialBlend:3));
 				return;
 			}
 

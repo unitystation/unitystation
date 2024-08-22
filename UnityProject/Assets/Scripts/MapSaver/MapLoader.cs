@@ -111,7 +111,7 @@ namespace MapSaver
 					Matrix4x4 = CommonMatrix4x4[0];
 				}
 
-				Matrix.MetaTileMap.SetTile(Position, Tel, Matrix4x4, Colour, Application.isPlaying);
+				Matrix.MetaTileMap.SetTile(Position, Tel, Matrix4x4, Colour, Application.isPlaying, true);
 			}
 		}
 
@@ -199,7 +199,7 @@ namespace MapSaver
 					{
 						Matrix4x4 = MapSaver.StringToMatrix4X4(Tile.Tf);
 					}
-
+					
 					Matrix.MetaTileMap.SetTile(NewPos, Tel, Matrix4x4, Colour, Application.isPlaying, useExactForMultilayer : true);
 				}
 			}
