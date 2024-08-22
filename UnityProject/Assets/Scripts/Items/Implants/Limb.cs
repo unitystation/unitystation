@@ -92,18 +92,25 @@ namespace HealthV2
 			ModifierChanged();
 		}
 
+		/// <summary>
+		/// Changes the efficiency of the limb.
+		/// </summary>
+		/// <param name="newEfficiency">The new buff/debuff to add.</param>
+		/// <param name="changer">Who is giving the buff?</param>
 		public void SetNewEfficiency(float newEfficiency, object changer)
 		{
-			Debug.Log(newEfficiency);
-			if (newEfficiency == 0)
+			if (limbEfficiency.InterestedParties.ContainsKey(changer))
 			{
-				Debug.Log("removing efficiency");
-				limbEfficiency.RemovePosition(changer);
+				ModifierChanged();
 				return;
 			}
 			limbEfficiency.RecordPosition(changer, newEfficiency);
 			ModifierChanged();
-			Debug.Log(limbEfficiency.State);
+		}
+
+		public void RemoveEfficiency(object changer)
+		{
+			limbEfficiency.RemovePosition(changer);
 		}
 	}
 }

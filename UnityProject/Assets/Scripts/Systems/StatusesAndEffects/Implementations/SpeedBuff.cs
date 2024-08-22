@@ -8,13 +8,11 @@ using UnityEngine;
 namespace Systems.StatusesAndEffects.Implementations
 {
 	[CreateAssetMenu(fileName = "Speed Buff", menuName = "ScriptableObjects/StatusEffects/SpeedBuff")]
-	public class SpeedBuff : StatusEffect, IExpirableStatus, IStackableStatus
+	public class SpeedBuff : StatusEffect, IExpirableStatus
 	{
 		public event Action<IExpirableStatus> Expired;
 		public float Duration => duration;
 		public DateTime DeathTime { get; set; }
-		public int InitialStacks { get; set; }
-		public int Stacks { get; set; }
 		public float duration = 30f;
 		public float Buff = 1.25f;
 		public AlertSO SpeedBuffAlert;
@@ -42,14 +40,11 @@ namespace Systems.StatusesAndEffects.Implementations
 		{
 			base.OnRemoved();
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckExpiration);
-			if (Stacks <= 0)
+			PlayerBase?.BodyAlerts.UnRegisterAlert(SpeedBuffAlert);
+			if (PlayerBase == null) return;
+			foreach (var limb in PlayerBase.playerHealth.GetBodyFunctionsOfType<Limb>())
 			{
-				PlayerBase?.BodyAlerts.UnRegisterAlert(SpeedBuffAlert);
-				if (PlayerBase == null) return;
-				foreach (var limb in PlayerBase.playerHealth.GetBodyFunctionsOfType<Limb>())
-				{
-					limb.SetNewEfficiency(0, this);
-				}
+				limb.RemoveEfficiency(this);
 			}
 		}
 
