@@ -2611,7 +2611,10 @@
 			},
 			"UnassignedReferenceException" : {
 				"All": true
-			}
+			},
+            "Caching" : {
+                "All" : true
+            }
         },
 		"UnityEngine.Events" :{
 			"UnityEvent":{
@@ -2988,13 +2991,6 @@
 			"GraphicsFormat" : {
 				"All": true
 			}
-		},
-        "UnityEngine.Caching" : {
-			"Caching": {
-                "Methods": [
-                    "bool ClearCache()"
-                ]
-            }
 		},
 		"JetBrains.Annotations" : {
 			"CanBeNullAttribute":{
