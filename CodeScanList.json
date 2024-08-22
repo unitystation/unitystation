@@ -2611,7 +2611,12 @@
 			},
 			"UnassignedReferenceException" : {
 				"All": true
-			}
+			},
+            "Caching" : {
+                "Methods": [
+                    "bool ClearCache()"
+                ]
+            }
         },
 		"UnityEngine.Events" :{
 			"UnityEvent":{
