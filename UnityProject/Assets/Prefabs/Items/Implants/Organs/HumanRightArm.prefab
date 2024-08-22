@@ -513,8 +513,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   RelatedPart: {fileID: 0}
-  armEfficiency: 1
+  walkingSpeed: 0.1
+  runningSpeed: 0.1
   crawlingSpeed: 0.3
+  initialLimbEfficiency: 1
   ArmMeleeDamage: 5
   ArmDamageType: 0
   ArmDamageVerbs:
@@ -546,4 +548,5 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}

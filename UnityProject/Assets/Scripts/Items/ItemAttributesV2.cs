@@ -100,7 +100,7 @@ namespace Items
 		/// <summary>
 		/// MultiInterestFloat listing all sources that are effecting block chance, tracked server side only.
 		/// </summary>
-		public MultiInterestFloat ServerBlockChance = new();
+		public MultiInterestFloat ServerBlockChance = new( InSetFloatBehaviour: MultiInterestFloat.FloatBehaviour.AddBehaviour);
 
 		[Header("Sprites/Sounds/Flags/Misc.")]
 

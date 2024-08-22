@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4ea11761a8f2844865df391acdc61f, type: 3}
+  m_Name: TobaccoInBody
+  m_EditorClassIdentifier: 
+  ingredients:
+    m_keys:
+    - {fileID: 11400000, guid: c4e931cdd4b041652928e77065466e6b, type: 2}
+    m_values: 05000000
+  useExactAmounts: 0
+  MinimumReactionMultiple: 0
+  catalysts:
+    m_keys: []
+    m_values: 
+  inhibitors:
+    m_keys: []
+    m_values: 
+  hasMinTemp: 0
+  serializableTempMin: 0
+  hasMaxTemp: 0
+  serializableTempMax: 0
+  results:
+    m_keys: []
+    m_values: 
+  effectDict:
+    m_keys: []
+    m_values: 
+  overrideDisplayName: 
+  ReagentMetabolismMultiplier: 4
+  InternalAllRequired:
+  - {fileID: 11400000, guid: cf7011331adb47d4880a8f62edf3259d, type: 2}
+  InternalBlacklist: []
+  ExternalAllRequired: []
+  ExternalBlacklist: []
+  DamageEffect: 2
+  AttackType: 10
+  AttackBodyPartPerOneU: 0.1
+  CanOverdose: 1
+  ConcentrationBloodOverdose: 20
+  OverdoseDamageMultiplier: 2
+  MultiEffect: 0
+  Effects: []
+  EmoteEffects:
+  - CustomEmote: 0
+    CustomEmoterMessage: 
+    CustomShownMessage: 
+    Emote: {fileID: 11400000, guid: 927b3605deb040843bd819316ac663b5, type: 2}
+    ChancePerTick: 10
+    StopIfOverdosed: 0

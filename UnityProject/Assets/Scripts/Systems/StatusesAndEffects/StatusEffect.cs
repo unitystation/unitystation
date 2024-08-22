@@ -2,8 +2,11 @@ using UnityEngine;
 
 namespace Systems.StatusesAndEffects
 {
-	public abstract class StatusEffect: ScriptableObject
+	public abstract class StatusEffect : ScriptableObject
 	{
+		/// <summary>
+		/// The gameobject that contains this status effect. Usually the player.
+		/// </summary>
 		protected GameObject target;
 
 		public void Initialize(GameObject go)

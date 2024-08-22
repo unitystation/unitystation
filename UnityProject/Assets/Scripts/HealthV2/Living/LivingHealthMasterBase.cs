@@ -318,9 +318,19 @@ namespace HealthV2
 		[NonSerialized] public MultiInterestBool IsMute = new MultiInterestBool(true,
 			MultiInterestBool.RegisterBehaviour.RegisterFalse,
 			MultiInterestBool.BoolBehaviour.ReturnOnTrue);
-		[NonSerialized] public MultiInterestFloat SpeakCharacterLimit = new MultiInterestFloat(-1f);
+		[NonSerialized] public MultiInterestFloat SpeakCharacterLimit = new MultiInterestFloat(-1f, InSetFloatBehaviour : MultiInterestFloat.FloatBehaviour.PickTop );
 		[NonSerialized] public PlayerHealthData InitialSpecies = null;
 		[SerializeField, Range(1, 60f)] private float updateTime = 1f;
+		private List<MetabolismComponent> TMPUseList = new List<MetabolismComponent>();
+		[FormerlySerializedAs("AllExternalMetabolismReactions")]
+		[FormerlySerializedAs("ALLExternalMetabolismReactions")]
+		public List<ExternalBodyHealthEffect>
+			allExternalMetabolismReactions = new List<ExternalBodyHealthEffect>(); //TOOD Move somewhere static maybe
+
+		public List<MetabolismReaction> MetabolismReactions { get; } = new();
+
+		private Dictionary<MetabolismReaction, List<MetabolismComponent>> PrecalculatedMetabolismReactions =
+			new Dictionary<MetabolismReaction, List<MetabolismComponent>>();
 
 		private IGib gibBehavior;
 
@@ -529,13 +539,67 @@ namespace HealthV2
 			}
 		}
 
+		private void ExternalMetaboliseReactionsSurfraceReagentHandle(KeyValuePair<BodyPartType, ReagentMix> storage)
+		{
+			foreach (var reaction in PrecalculatedMetabolismReactions)
+			{
+				var hasBodyPart = false;
+				foreach (var bodyPart in PrecalculatedMetabolismReactions[reaction.Key])
+				{
+					if (SurfaceReagents.ContainsKey(bodyPart.RelatedPart.BodyPartType) == false)
+					{
+						if (BodyPartType.Chest == storage.Key)
+						{
+							hasBodyPart = true;
+							break;
+						}
+					}
+					else
+					{
+						if (bodyPart.RelatedPart.BodyPartType == storage.Key)
+						{
+							hasBodyPart = true;
+							break;
+						}
+					}
+				}
+				if (hasBodyPart) reaction.Key.Apply(this, storage.Value);
+			}
+		}
 
-		private List<MetabolismComponent> TMPUseList = new List<MetabolismComponent>();
+		private void ExternalMetaboliseReactionsInternalMetabolismReactions(KeyValuePair<BodyPartType, ReagentMix> storage)
+		{
+			foreach (MetabolismReaction reaction in MetabolismReactions)
+			{
+				TMPUseList.Clear();
+				float ProcessingAmount = 0;
+				foreach (var bodyPart in PrecalculatedMetabolismReactions[reaction])
+				{
+					if (SurfaceReagents.ContainsKey(bodyPart.RelatedPart.BodyPartType) == false)
+					{
+						if (BodyPartType.Chest == storage.Key)
+						{
+							TMPUseList.Add(bodyPart);
+							ProcessingAmount += 1;
+						}
+					}
+					else
+					{
+						if (bodyPart.RelatedPart.BodyPartType == storage.Key)
+						{
+							TMPUseList.Add(bodyPart);
+							ProcessingAmount += 1;
+						}
+					}
+				}
+				if (ProcessingAmount == 0) continue;
+				reaction.React(TMPUseList, storage.Value, ProcessingAmount);
+			}
+		}
 
-		public void ExternalMetaboliseReactions()
+		private void ExternalMetaboliseReactions()
 		{
 			var node = RegisterTile.Matrix.MetaDataLayer.Get(transform.localPosition.RoundToInt());
-
 			if (node != null && node.SmokeNode.IsActive)
 			{
 				if (RespiratorySystem == null || RespiratorySystem.IsEVACompatible() == false)
@@ -551,90 +615,22 @@ namespace HealthV2
 			{
 				if (RespiratorySystem == null || RespiratorySystem.IsEVACompatible() == false)
 				{
-					foreach (var SurfaceReagent in SurfaceReagents)
+					foreach (var surfaceReagent in SurfaceReagents)
 					{
-						ApplyReagentsToSurface(node.SmokeNode.Present.Clone(), SurfaceReagent.Key);
+						ApplyReagentsToSurface(node.SmokeNode.Present.Clone(), surfaceReagent.Key);
 					}
 				}
 			}
 
-			foreach (var storage in SurfaceReagents)
+			foreach (KeyValuePair<BodyPartType, ReagentMix> storage in SurfaceReagents)
 			{
 				if (storage.Value.Total == 0) continue;
-
 				MetabolismReactions.Clear();
-
-				foreach (var Reaction in PrecalculatedMetabolismReactions)
-				{
-					var HasBodyPart = false;
-					foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction.Key])
-					{
-						if (SurfaceReagents.ContainsKey(bodyPart.RelatedPart.BodyPartType) == false)
-						{
-							if (BodyPartType.Chest == storage.Key)
-							{
-								HasBodyPart = true;
-								break;
-							}
-						}
-						else
-						{
-							if (bodyPart.RelatedPart.BodyPartType == storage.Key)
-							{
-								HasBodyPart = true;
-								break;
-							}
-						}
-					}
-
-					if (HasBodyPart)
-					{
-						Reaction.Key.Apply(this, storage.Value);
-					}
-				}
-
-				foreach (var Reaction in MetabolismReactions)
-				{
-					TMPUseList.Clear();
-					float ProcessingAmount = 0;
-					foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction])
-					{
-						if (SurfaceReagents.ContainsKey(bodyPart.RelatedPart.BodyPartType) == false)
-						{
-							if (BodyPartType.Chest == storage.Key)
-							{
-								TMPUseList.Add(bodyPart);
-								ProcessingAmount += 1;
-							}
-						}
-						else
-						{
-							if (bodyPart.RelatedPart.BodyPartType == storage.Key)
-							{
-								TMPUseList.Add(bodyPart);
-								ProcessingAmount += 1;
-							}
-						}
-					}
-
-					if (ProcessingAmount == 0) continue;
-
-					Reaction.React(TMPUseList, storage.Value, ProcessingAmount);
-				}
-
+				ExternalMetaboliseReactionsSurfraceReagentHandle(storage);
+				ExternalMetaboliseReactionsInternalMetabolismReactions(storage);
 				storage.Value.Take(0.2f); //Evaporation
 			}
 		}
-
-		[FormerlySerializedAs("AllExternalMetabolismReactions")]
-		[FormerlySerializedAs("ALLExternalMetabolismReactions")]
-		public List<ExternalBodyHealthEffect>
-			allExternalMetabolismReactions = new List<ExternalBodyHealthEffect>(); //TOOD Move somewhere static maybe
-
-		public List<MetabolismReaction> MetabolismReactions { get; } = new();
-
-		private Dictionary<MetabolismReaction, List<MetabolismComponent>> PrecalculatedMetabolismReactions =
-			new Dictionary<MetabolismReaction, List<MetabolismComponent>>();
 
 		private void OnEnable()
 		{
@@ -1274,6 +1270,22 @@ namespace HealthV2
 			}
 
 			return null;
+		}
+
+		public List<T> GetBodyFunctionsOfType<T>() where T : BodyPartFunctionality
+		{
+			List<T> returnList = new List<T>();
+			foreach (var bodyPart in BodyPartList)
+			{
+				foreach (var organ in bodyPart.OrganList)
+				{
+					if (organ is T specificFunctionality)
+					{
+						returnList.Add(specificFunctionality);
+					}
+				}
+			}
+			return returnList;
 		}
 
 		public List<BodyPart> GetBodyPartsInArea(BodyPartType bodyPartAim, bool validateAim = true)
