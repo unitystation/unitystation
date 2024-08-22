@@ -2613,7 +2613,9 @@
 				"All": true
 			},
             "Caching" : {
-                "All" : true
+                "Methods": [
+                    "bool ClearCache()"
+                ]
             }
         },
 		"UnityEngine.Events" :{
