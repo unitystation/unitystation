@@ -1,24 +1,106 @@
 ﻿using System;
+using Core.Utils;
 using HealthV2;
 using Player.Movement;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace HealthV2
 {
-	public class Limb : BodyPartFunctionality
+	public class Limb : BodyPartFunctionality, IMovementEffect
 	{
+		[SerializeField]
+		[Tooltip("The walking speed that will be used when attached as a leg.\n" +
+		         "Additive with any additional legs.\n" +
+		         "Multiplied by leg efficiency.")]
+		protected float walkingSpeed = 1.5f;
+		public float WalkingSpeed => walkingSpeed;
+
+		[SerializeField]
+		[Tooltip("The running speed that will be used when attached as a leg.\n" +
+		         "Additive with any additional legs.\n" +
+		         "Multiplied by leg efficiency.")]
+		protected float runningSpeed = 3f;
+		public float RunningSpeed => runningSpeed;
+
+		[SerializeField]
+		[Tooltip("The running speed that will be used when attached as a leg.\n" +
+		         "Additive with any additional legs.\n" +
+		         "Multiplied by leg efficiency.")]
+		protected float crawlingSpeed = 0.5f;
+		public float CrawlingSpeed => crawlingSpeed;
+
+		[SerializeField]
+		[Tooltip("A generalized number representing how efficient a limb is. 1 Is a human leg.")]
+		private float initialLimbEfficiency = 1f;
+		private readonly MultiInterestFloat limbEfficiency = new();
+		public float LimbEfficiency => limbEfficiency;
+
+		public float RunningSpeedModifier => runningSpeed * limbEfficiency * RelatedPart.TotalModified;
+		public float WalkingSpeedModifier => walkingSpeed * limbEfficiency * RelatedPart.TotalModified;
+
+		public float CrawlingSpeedModifier
+		{
+			get => crawlingSpeed * limbEfficiency * RelatedPart.TotalModified;
+			protected set => crawlingSpeed = value;
+		}
+
 		protected PlayerHealthV2 playerHealth;
+
+		public override void Awake()
+		{
+			base.Awake();
+			limbEfficiency.RecordPosition(this, initialLimbEfficiency);
+		}
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			RelatedPart = GetComponent<BodyPart>();
 			playerHealth = RelatedPart.HealthMaster as PlayerHealthV2;
 			RelatedPart.ModifierChange += ModifierChanged;
+			playerHealth.OrNull()?.PlayerMove.AddModifier(this);
+		}
+
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		{
+			playerHealth.OrNull()?.PlayerMove.RemoveModifier(this);
 		}
 
 		public void ModifierChanged()
 		{
 			playerHealth.PlayerMove.UpdateSpeeds();
+		}
+
+		public void SetNewCrawlingSpeeds(float newCrawlingSpeed)
+		{
+			CrawlingSpeedModifier = newCrawlingSpeed;
+			ModifierChanged();
+		}
+
+		public void SetNewWalkingSpeeds(float newSpeed)
+		{
+			walkingSpeed = newSpeed;
+			ModifierChanged();
+		}
+
+		public void SetNewRunningSpeeds(float newSpeed)
+		{
+			runningSpeed = newSpeed;
+			ModifierChanged();
+		}
+
+		public void SetNewEfficiency(float newEfficiency, object changer)
+		{
+			Debug.Log(newEfficiency);
+			if (newEfficiency == 0)
+			{
+				Debug.Log("removing efficiency");
+				limbEfficiency.RemovePosition(changer);
+				return;
+			}
+			limbEfficiency.RecordPosition(changer, newEfficiency);
+			ModifierChanged();
+			Debug.Log(limbEfficiency.State);
 		}
 	}
 }

@@ -236,6 +236,16 @@ PrefabInstance:
       propertyPath: playTraumaNoise
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3523244764140818517, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: runningSpeed
+      value: 0.024
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523244764140818517, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: walkingSpeed
+      value: 0.024
+      objectReference: {fileID: 0}
     - target: {fileID: 3666507880365142169, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: PresentSpriteSet

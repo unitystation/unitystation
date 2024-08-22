@@ -1,4 +1,5 @@
 ﻿using System;
+using HealthV2;
 using Logs;
 using Player.Movement;
 using Systems.StatusesAndEffects.Interfaces;
@@ -7,20 +8,15 @@ using UnityEngine;
 namespace Systems.StatusesAndEffects.Implementations
 {
 	[CreateAssetMenu(fileName = "Speed Buff", menuName = "ScriptableObjects/StatusEffects/SpeedBuff")]
-	public class SpeedBuff : StatusEffect, IExpirableStatus, IMovementEffect, IStackableStatus
+	public class SpeedBuff : StatusEffect, IExpirableStatus, IStackableStatus
 	{
 		public event Action<IExpirableStatus> Expired;
 		public float Duration => duration;
 		public DateTime DeathTime { get; set; }
 		public int InitialStacks { get; set; }
 		public int Stacks { get; set; }
-		public float RunningSpeedModifier => runningSpeedModifier;
-		public float WalkingSpeedModifier => walkingSpeedModifier;
-		public float CrawlingSpeedModifier => crawlingSpeedModifier;
-		public float runningSpeedModifier = 12f;
-		public float walkingSpeedModifier = 8f;
-		public float crawlingSpeedModifier = 4f;
 		public float duration = 30f;
+		public float Buff = 1.25f;
 		public AlertSO SpeedBuffAlert;
 
 		private PlayerScript PlayerBase { get; set; }
@@ -35,7 +31,10 @@ namespace Systems.StatusesAndEffects.Implementations
 				Loggy.LogWarning($"[SpeedBuff] - Oi govna, can't make an inanimate object ({target}) belt it.");
 				return;
 			}
-			PlayerBase.playerMove.AddModifier(this);
+			foreach (var limb in PlayerBase.playerHealth.GetBodyFunctionsOfType<Limb>())
+			{
+				limb.SetNewEfficiency(Buff, this);
+			}
 			PlayerBase.BodyAlerts.RegisterAlert(SpeedBuffAlert);
 		}
 
@@ -45,8 +44,12 @@ namespace Systems.StatusesAndEffects.Implementations
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckExpiration);
 			if (Stacks <= 0)
 			{
-				PlayerBase?.playerMove.RemoveModifier(this);
 				PlayerBase?.BodyAlerts.UnRegisterAlert(SpeedBuffAlert);
+				if (PlayerBase == null) return;
+				foreach (var limb in PlayerBase.playerHealth.GetBodyFunctionsOfType<Limb>())
+				{
+					limb.SetNewEfficiency(0, this);
+				}
 			}
 		}
 

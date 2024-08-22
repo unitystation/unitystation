@@ -1272,14 +1272,20 @@ namespace HealthV2
 			return null;
 		}
 
-		public List<BodyPartFunctionality> GetBodyFunctions()
+		public List<T> GetBodyFunctionsOfType<T>() where T : BodyPartFunctionality
 		{
-			List<BodyPartFunctionality> ReturnList = new List<BodyPartFunctionality>();
+			List<T> returnList = new List<T>();
 			foreach (var bodyPart in BodyPartList)
 			{
-				ReturnList.AddRange(bodyPart.OrganList);
+				foreach (var organ in bodyPart.OrganList)
+				{
+					if (organ is T specificFunctionality)
+					{
+						returnList.Add(specificFunctionality);
+					}
+				}
 			}
-			return ReturnList;
+			return returnList;
 		}
 
 		public List<BodyPart> GetBodyPartsInArea(BodyPartType bodyPartAim, bool validateAim = true)
