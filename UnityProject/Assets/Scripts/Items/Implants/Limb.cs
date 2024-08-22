@@ -111,6 +111,7 @@ namespace HealthV2
 		public void RemoveEfficiency(object changer)
 		{
 			limbEfficiency.RemovePosition(changer);
+			ModifierChanged();
 		}
 	}
 }
