@@ -63,19 +63,24 @@ namespace Tests
 		/// - If the reference is considered Unity's null, it attempts to get the instance ID from the value.
 		/// - If that ID is not 0, then it means the reference is missing. Otherwise, the reference is Null/None.
 		/// </summary>
-		public static ReferenceStatus GetReferenceStatus(FieldInfo field, object instance, bool CareAboutNull)
+		public static ReferenceStatus GetReferenceStatus(FieldInfo field, object instance, bool CareAboutNull, out string ExtraInfo)
 		{
+			ExtraInfo = "";
 			var value = field.GetValue(instance);
+
+
 
 			// Check if the field is a list or array
 			if (value is IList objectList)
 			{
+				int i = 0;
 				ReferenceStatus combinedStatus = ReferenceStatus.Object;
 				foreach (var item in objectList)
 				{
 					var unityObject = item as Object;
 					if (unityObject != null)
 					{
+						i++;
 						continue;
 					}
 
@@ -87,7 +92,10 @@ namespace Tests
 					if (itemStatus == ReferenceStatus.Null && !CareAboutNull || itemStatus== ReferenceStatus.Missing  )
 					{
 						combinedStatus = itemStatus; // Missing or Null
+						ExtraInfo += $",at Index {i} ";
 					}
+
+					i++;
 				}
 
 				return combinedStatus;
@@ -131,11 +139,11 @@ namespace Tests
 			foreach (var field in GetSerializableFieldsFor(instance))
 			{
 				var fieldValue = field.GetValue(instance);
-				var fieldStatus = GetReferenceStatus(field, instance, CareAboutNulls);
+				var fieldStatus = GetReferenceStatus(field, instance, CareAboutNulls, out var Indexs);
 
 				if ((fieldStatus & status) != 0)
 				{
-					yield return (field.Name, fieldStatus);
+					yield return (field.Name + Indexs , fieldStatus);
 				}
 
 				if (fieldValue != null && typeof(IEnumerable).IsAssignableFrom(field.FieldType) &&
