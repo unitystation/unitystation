@@ -138,7 +138,8 @@ namespace Tests.Asset
 			var report = new TestReport();
 			var serializedObjectFieldsMap = new SerializedObjectFieldsMap();
 
-			foreach (var so in Utils.FindAssetsByType<ScriptableObject>(path))
+			var Objects =Utils.FindAssetsByType<ScriptableObject>(path);
+			foreach (var so in Objects)
 			{
 				var missingRefs = serializedObjectFieldsMap
 					.FieldNamesWithStatus(so, status)

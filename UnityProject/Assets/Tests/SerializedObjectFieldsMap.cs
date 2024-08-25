@@ -57,28 +57,59 @@ namespace Tests
 
 
 		/// <summary>
-		/// Checks and returns the field's reference status. A field that isn't null will return Object status.
-		/// If the reference is considered Unity's null, then attempt to get the instance ID from the value.
-		/// If that ID is not 0, then it means the reference is missing. Otherwise the reference is Null/None.
+		/// Checks and returns the field's reference status.
+		/// - If the field is a list, it checks each element and returns a combined status.
+		/// - If the field is not null, it will return Object status.
+		/// - If the reference is considered Unity's null, it attempts to get the instance ID from the value.
+		/// - If that ID is not 0, then it means the reference is missing. Otherwise, the reference is Null/None.
 		/// </summary>
 		public static ReferenceStatus GetReferenceStatus(FieldInfo field, object instance, bool CareAboutNull)
 		{
-			var value = field.GetValue(instance) as Object;
+			var value = field.GetValue(instance);
 
-			if (value != null) return ReferenceStatus.Object;
-
-
-			// At this point, value is Unity's null but the object may still actually exist.
-			var Status = Utils.GetInstanceID(value) != 0 ? ReferenceStatus.Missing : ReferenceStatus.Null;
-
-			if (Status == ReferenceStatus.Null && CareAboutNull == false)
+			// Check if the field is a list or array
+			if (value is IList objectList)
 			{
-				return ReferenceStatus.Object;
+				ReferenceStatus combinedStatus = ReferenceStatus.Object;
+				foreach (var item in objectList)
+				{
+					var unityObject = item as Object;
+					if (unityObject != null)
+					{
+						continue;
+					}
+
+					// At this point, value is Unity's null but the object may still actually exist.
+					var itemStatus = Utils.GetInstanceID(unityObject) != 0
+						? ReferenceStatus.Missing
+						: ReferenceStatus.Null;
+
+					if (itemStatus == ReferenceStatus.Null && !CareAboutNull || itemStatus== ReferenceStatus.Missing  )
+					{
+						combinedStatus = itemStatus; // Missing or Null
+					}
+				}
+
+				return combinedStatus;
 			}
+			else
+			{
+				// The field is not a list, proceed with the original logic
+				var unityObject = value as Object;
 
-			return Status;
+				if (unityObject != null) return ReferenceStatus.Object;
+
+				// At this point, value is Unity's null but the object may still actually exist.
+				var status = Utils.GetInstanceID(unityObject) != 0 ? ReferenceStatus.Missing : ReferenceStatus.Null;
+
+				if (status == ReferenceStatus.Null && CareAboutNull == false)
+				{
+					return ReferenceStatus.Object;
+				}
+
+				return status;
+			}
 		}
-
 
 		public IEnumerable<(string name, ReferenceStatus status)> FieldNamesWithStatus(object instance,
 			ReferenceStatus status, HashSet<int> visited = null)
@@ -102,9 +133,16 @@ namespace Tests
 				var fieldValue = field.GetValue(instance);
 				var fieldStatus = GetReferenceStatus(field, instance, CareAboutNulls);
 
+				if ((fieldStatus & status) != 0)
+				{
+					yield return (field.Name, fieldStatus);
+				}
+
 				if (fieldValue != null && typeof(IEnumerable).IsAssignableFrom(field.FieldType) &&
 				    field.FieldType != typeof(string))
 				{
+
+
 // Handle collections separately
 					if (fieldValue is IList collection)
 					{
@@ -126,11 +164,6 @@ namespace Tests
 				}
 				else
 				{
-					if ((fieldStatus & status) != 0)
-					{
-						yield return (field.Name, fieldStatus);
-					}
-
 					if (fieldValue != null)
 					{
 						if (IsObjectReference(field.FieldType) == false)
@@ -153,7 +186,8 @@ namespace Tests
 		{
 			return instance.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
 				.Where(field => field.IsPublic || field.GetCustomAttribute<SerializeField>() != null)
-				.Where(field => field.GetCustomAttribute<NonSerializedAttribute>() == null && field.GetCustomAttribute<HideInInspector>() == null)
+				.Where(field => field.GetCustomAttribute<NonSerializedAttribute>() == null &&
+				                field.GetCustomAttribute<HideInInspector>() == null)
 				.Where(field => field.FieldType.IsValueType == false && field.FieldType.IsPrimitive == false &&
 				                field.FieldType != typeof(string))
 				.Where(field => IsGenericTypeOrContainsInvalidGenericArguments(field.FieldType));
@@ -189,13 +223,18 @@ namespace Tests
 				// Check if any of the generic arguments are invalid
 				if (currentType.IsGenericType)
 				{
+					if (typeof(IEnumerable).IsAssignableFrom(currentType) == false)
+					{
+						return false;
+					}
+
 					foreach (var arg in currentType.GetGenericArguments())
 					{
 						if (typeof(UnityEngine.Object).IsAssignableFrom(arg))
 						{
-							if (!(typeof(IEnumerable).IsAssignableFrom(arg) && arg != typeof(string)))
+							if (arg != typeof(string))
 							{
-								return false;
+								return true;
 							}
 						}
 
