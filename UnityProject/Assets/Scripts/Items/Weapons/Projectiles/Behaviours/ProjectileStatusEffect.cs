@@ -1,14 +1,14 @@
+using Systems.StatusesAndEffects;
 using UnityEngine;
-using Systems.StatusesAndEffects.Implementations;
 
 namespace Weapons.Projectiles.Behaviours
 {
-	public class ProjectileMark : MonoBehaviour, IOnHit
+	public class ProjectileStatusEffect : MonoBehaviour, IOnHit
 	{
-		[Header("Adds the marked status effect when it hits a living thing.")]
+		[Header("Inflicts a status effect when it hits a living thing.")]
 
 		[SerializeField]
-		private Marked statusEffect;
+		private StatusEffect statusEffect;
 
 		public bool OnHit(MatrixManager.CustomPhysicsHit hit)
 		{
@@ -18,8 +18,8 @@ namespace Weapons.Projectiles.Behaviours
 			var playerScript = coll.GetComponent<PlayerScript>();
 			if (playerScript != null)
 			{
-				var mark = Instantiate(statusEffect);
-				playerScript.StatusEffectManager.AddStatus(mark);
+				var status = Instantiate(statusEffect);
+				playerScript.StatusEffectManager.AddStatus(status);
 				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject);
 				return true;
 			}

@@ -14,6 +14,7 @@ using Weapons.Projectiles;
 using NaughtyAttributes;
 using Player;
 using Weapons.WeaponAttachments;
+using Random = UnityEngine.Random;
 
 //TODO: All of this needs to be fixed:
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,6 +63,8 @@ namespace Weapons
 
 		[SerializeField, Tooltip("The firing pin initally inside the gun")]
 		private GameObject pinPrefab = null;
+
+		[SerializeField] protected bool useFiringPin = true;
 
 		[SerializeField] protected bool allowPinSwap = true;
 
@@ -238,15 +241,18 @@ namespace Weapons
 			Loggy.LogTraceFormat("Auto-populate magazine for {0}", Category.Firearms, name);
 			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 
-			if (pinPrefab == null)
+			if (useFiringPin)
 			{
-				Loggy.LogError($"{gameObject.name} firing pin prefab was null, cannot auto-populate.",
-					Category.Firearms);
-				return;
-			}
+				if (pinPrefab == null)
+				{
+					Loggy.LogError($"{gameObject.name} firing pin prefab was null, cannot auto-populate.",
+						Category.Firearms);
+					return;
+				}
 
-			Inventory.ServerAdd(Spawn.ServerPrefab(pinPrefab).GameObject, pinSlot);
-			FiringPin.gunComp = this;
+				Inventory.ServerAdd(Spawn.ServerPrefab(pinPrefab).GameObject, pinSlot);
+				FiringPin.gunComp = this;
+			}
 
 			foreach (var prefab in attachmentPrefabs)
 			{
@@ -391,6 +397,8 @@ namespace Weapons
 
 		protected void PinInteraction(InventoryApply interaction)
 		{
+			if (useFiringPin == false) return;
+
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) && allowPinSwap)
 			{
 				PinRemoval(interaction);
@@ -439,7 +447,7 @@ namespace Weapons
 					$"{interaction.Performer.ExpensiveName()} begins removing the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}.");
 
 				AudioSourceParameters audioSourceParameters =
-					new AudioSourceParameters(UnityEngine.Random.Range(0.8f, 1.2f));
+					new AudioSourceParameters(Random.Range(0.8f, 1.2f));
 				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.WireCutter,
 					interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: ServerHolder);
 			}
@@ -543,7 +551,7 @@ namespace Weapons
 				return false;
 			}
 
-			if (FiringPin == null)
+			if (useFiringPin && FiringPin == null)
 			{
 				if (interaction.Performer == PlayerManager.LocalPlayerObject)
 				{
@@ -628,9 +636,16 @@ namespace Weapons
 				}
 			}
 
-			if (FiringPin != null)
+			if (useFiringPin)
 			{
-				FiringPin.ServerBehaviour(interaction, isSuicide);
+				if (FiringPin != null)
+				{
+					FiringPin.ServerBehaviour(interaction, isSuicide);
+				}
+			}
+			else
+			{
+				ServerShoot(interaction.Performer, interaction.TargetVector.normalized, interaction.TargetBodyPart, isSuicide);
 			}
 
 			if (interaction.Intent == Intent.Harm && interaction.UsedObject == gameObject)
@@ -656,13 +671,18 @@ namespace Weapons
 			exam.AppendLine($"{WeaponType} - Fires {ammoType.ToString().Replace("_", "")} ammunition")
 				.AppendLine(CurrentMagazine != null
 					? $"{CurrentMagazine.ServerAmmoRemains} rounds loaded"
-					: "It's empty!")
-				.AppendLine(FiringPin != null
+					: "It's empty!");
+
+			if (useFiringPin)
+			{
+				exam.AppendLine(FiringPin != null
 					? $"It has a {FiringPin.gameObject.ExpensiveName()} installed"
-					: "It doesn't have a firing pin installed, it won't fire")
-				.AppendLine(allowedAttachments != 0
+					: "It doesn't have a firing pin installed, it won't fire");
+			}
+			
+			exam.AppendLine(allowedAttachments != 0
 				? $"It is compatible with {FormatAttachmentString()} attachments"
-					: "It cannot use any attachments.");
+				: "It cannot use any attachments.");
 			return exam.ToString();
 		}
 
@@ -992,16 +1012,16 @@ namespace Weapons
 		public Vector2 ApplyRecoil(Vector2 target)
 		{
 			float angle = Mathf.Atan2(target.y, target.x) * Mathf.Rad2Deg;
-			float angleVariance = MagSyncedRandomFloat(-CurrentRecoilVariance, CurrentRecoilVariance);
+			float angleVariance = RecoilVarianceRandomFloat(-CurrentRecoilVariance, CurrentRecoilVariance);
 			Loggy.LogTraceFormat("angleVariance {0}", Category.Firearms, angleVariance);
 			float newAngle = angle * Mathf.Deg2Rad + angleVariance;
 			Vector2 vec2 = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle)).normalized;
 			return vec2;
 		}
 
-		private float MagSyncedRandomFloat(float min, float max)
+		private float RecoilVarianceRandomFloat(float min, float max)
 		{
-			return (float) (CurrentMagazine.CurrentRng() * (max - min) + min);
+			return Random.value * (max - min) + min;
 		}
 
 		private void AppendRecoil()
@@ -1009,7 +1029,7 @@ namespace Weapons
 			if (CurrentRecoilVariance < MaxRecoilVariance)
 			{
 				//get a random recoil
-				float randRecoil = MagSyncedRandomFloat(CurrentRecoilVariance, MaxRecoilVariance);
+				float randRecoil = RecoilVarianceRandomFloat(CurrentRecoilVariance, MaxRecoilVariance);
 				Loggy.LogTraceFormat("randRecoil {0}", Category.Firearms, randRecoil);
 				CurrentRecoilVariance += randRecoil;
 				//make sure the recoil is not too high
