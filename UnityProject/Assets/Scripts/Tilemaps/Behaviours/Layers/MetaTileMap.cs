@@ -1306,7 +1306,7 @@ namespace TileManagement
 					if (excludeNonIntractable)
 					{
 						var basicTile = tileLocation.layerTile as BasicTile;
-						if (basicTile != null && basicTile.BlocksTileInteractionsUnder)
+						if (basicTile != null && (basicTile.BlocksTileInteractionsUnder || basicTile.TileInteractions.Count > 0))
 						{
 							break;
 						}

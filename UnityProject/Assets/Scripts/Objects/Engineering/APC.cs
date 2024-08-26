@@ -232,7 +232,7 @@ namespace Objects.Engineering
 		{
 			float voltages = Voltage;
 
-			if (voltages > 270)
+			if (voltages > 270) //TODO change
 			{
 				voltages = 0.001f;
 			}

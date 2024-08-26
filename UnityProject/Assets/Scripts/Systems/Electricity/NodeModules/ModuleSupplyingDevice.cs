@@ -97,7 +97,7 @@ namespace Systems.Electricity.NodeModules
 				ElectricalManager.Instance.electricalSync.NUResistanceChange.Add(ControllingNode);
 			}
 			PowerSupplyFunction.TurnOnSupply(this);
-		}
+			}
 
 		[RightClickMethod]
 		public override void TurnOffSupply()

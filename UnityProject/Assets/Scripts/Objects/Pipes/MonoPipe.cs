@@ -36,6 +36,8 @@ namespace Objects.Atmospherics
 
 		private OrientationEnum PreviousOrientation = OrientationEnum.Default;
 
+		public float InitialVolume = 0.05f;
+
 
 		public static float MaxInternalPressure { get; } = AtmosConstants.ONE_ATMOSPHERE * 50;
 
@@ -45,6 +47,7 @@ namespace Objects.Atmospherics
 
 		public virtual void Awake()
 		{
+			pipeData.GetMixAndVolume.GetGasMix().Volume = InitialVolume;
 			registerTile = GetComponent<RegisterTile>();
 			directional = GetComponent<Rotatable>();
 			if (directional != null)
