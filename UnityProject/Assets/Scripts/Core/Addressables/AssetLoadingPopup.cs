@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
@@ -10,6 +8,7 @@ public class AssetLoadingPopup : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI textUGUI = default;
 	[SerializeField] private Slider loadingSlider = default;
 	AsyncOperationHandle handle;
+
 	public void Setup(AsyncOperationHandle asyncOperationHandle, string path)
 	{
 		textUGUI.text = path;
@@ -31,9 +30,8 @@ public class AssetLoadingPopup : MonoBehaviour
 		if (handle.IsDone)
 		{
 			AssetManager.Instance.AssetDoneLoading();
-			Destroy(gameObject);
+			gameObject.SetActive(false);
 		}
-
 		loadingSlider.value = handle.PercentComplete;
 	}
 }

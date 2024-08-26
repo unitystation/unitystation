@@ -1,6 +1,9 @@
-﻿using Audio.Managers;
+﻿using System.Linq;
+using Audio.Managers;
 using Audio.Containers;
+using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
@@ -40,6 +43,8 @@ namespace Unitystation.Options
 
 		[SerializeField]
 		private Toggle PushToTalkToggle = null;
+
+		[SerializeField] private TMP_Text cacheVersionText;
 
 		void OnEnable()
 		{
@@ -127,6 +132,15 @@ namespace Unitystation.Options
 
 			VoiceChatToggle.isOn = PlayerPrefs.GetInt(PlayerPrefKeys.VoiceChatToggle, 1) == 1;
 			PushToTalkToggle.isOn = PlayerPrefs.GetInt(PlayerPrefKeys.PushToTalkToggle, 1) == 1;
+			cacheVersionText.text = "";
+		}
+
+		public void OnClearSoundCacheOption()
+		{
+			Addressables.CleanBundleCache();
+			Caching.ClearCache();
+			AddressableCatalogueManager.LoadHostCatalogues();
+			cacheVersionText.text = "<color=green>Cache cleared. Please restart the game.</color>";
 		}
 
 
