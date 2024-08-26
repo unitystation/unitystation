@@ -156,7 +156,7 @@ namespace Unitystation.Options
 					AudioManager.MusicVolume(0.2f);
 					AudioManager.TtsVolume(0.2f);
 					AudioListener.volume = 1;
-					AudioManager.CommonRadioChatter(true);
+					AudioManager.CommonRadioChatter(false);
 					AudioManager.RadioChatterVolume(0.2f);
 					Refresh();
 				},
