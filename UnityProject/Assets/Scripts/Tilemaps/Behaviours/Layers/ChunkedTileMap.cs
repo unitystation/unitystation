@@ -189,15 +189,18 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 	{
 		foreach (var chunkList in chunksXY)
 		{
-			foreach (var chunk in chunkList)
+			if (chunkList != null)
 			{
-				if (chunk != null)
+				foreach (var chunk in chunkList)
 				{
-					foreach (var tile in chunk)
+					if (chunk != null)
 					{
-						if (tile != null)
+						foreach (var tile in chunk)
 						{
-							yield return tile;
+							if (tile != null)
+							{
+								yield return tile;
+							}
 						}
 					}
 				}
@@ -206,15 +209,18 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 
 		foreach (var chunkList in chunksXnY)
 		{
-			foreach (var chunk in chunkList)
+			if (chunkList != null)
 			{
-				if (chunk != null)
+				foreach (var chunk in chunkList)
 				{
-					foreach (var tile in chunk)
+					if (chunk != null)
 					{
-						if (tile != null)
+						foreach (var tile in chunk)
 						{
-							yield return tile;
+							if (tile != null)
+							{
+								yield return tile;
+							}
 						}
 					}
 				}
@@ -223,32 +229,39 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 
 		foreach (var chunkList in chunksnXnY)
 		{
-			foreach (var chunk in chunkList)
+			if (chunkList != null)
 			{
-				if (chunk != null)
+				foreach (var chunk in chunkList)
 				{
-					foreach (var tile in chunk)
+					if (chunk != null)
 					{
-						if (tile != null)
+						foreach (var tile in chunk)
 						{
-							yield return tile;
+							if (tile != null)
+							{
+								yield return tile;
+							}
 						}
 					}
 				}
 			}
+
 		}
 
 		foreach (var chunkList in chunksnXY)
 		{
-			foreach (var chunk in chunkList)
+			if (chunkList != null)
 			{
-				if (chunk != null)
+				foreach (var chunk in chunkList)
 				{
-					foreach (var tile in chunk)
+					if (chunk != null)
 					{
-						if (tile != null)
+						foreach (var tile in chunk)
 						{
-							yield return tile;
+							if (tile != null)
+							{
+								yield return tile;
+							}
 						}
 					}
 				}
