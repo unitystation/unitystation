@@ -12,6 +12,7 @@ public class VariableViewerManager : MonoBehaviour, IInitialise
 
 	void IInitialise.Initialise()
 	{
+		MapSaver.MapSaver.CodeClass.ThisCodeClass.Reset();
 		VVUIElementHandler.ReSet();
 		VVUIElementHandler.VariableViewerManager = this;
 		VVUIElementHandler.Initialise(AvailableElementsToInitialise);

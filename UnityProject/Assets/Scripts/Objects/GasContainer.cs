@@ -8,6 +8,7 @@ using Systems.Atmospherics;
 using Systems.Explosions;
 using ScriptableObjects.Atmospherics;
 using UI.Systems.Tooltips.HoverTooltips;
+using UnityEngine.Serialization;
 
 namespace Objects.Atmospherics
 {
@@ -36,8 +37,8 @@ namespace Objects.Atmospherics
 
 		private GasMix internalGasMix;
 
-		[InfoBox("Remember to right-click component header to validiate values.")]
-		public GasMix StoredGasMix = new GasMix();
+		[FormerlySerializedAs("StoredGasMix")] [InfoBox("Remember to right-click component header to validiate values.")]
+		public GasMix StoredInitialGasMix = new GasMix();
 
 		public bool IsVenting { get; private set; } = false;
 
@@ -228,7 +229,7 @@ namespace Objects.Atmospherics
 				for (int i = List.List.Count - 1; i >= 0; i--)
 				{
 					var gas = GasMixLocal.GasesArray[i];
-					StoredGasMix.GasData.SetMoles(gas.GasSO, gas.Moles);
+					internalGasMix.GasData.SetMoles(gas.GasSO, gas.Moles);
 				}
 				List.Pool();
 			}
@@ -239,13 +240,13 @@ namespace Objects.Atmospherics
 		private void Validate()
 		{
 			Undo.RecordObject(gameObject, "Gas Change");
-			StoredGasMix = GasMix.FromTemperatureAndPressure(StoredGasMix.GasData, StoredGasMix.Temperature, StoredGasMix.Pressure, StoredGasMix.Volume );
+			StoredInitialGasMix = GasMix.FromTemperatureAndPressure(StoredInitialGasMix.GasData, StoredInitialGasMix.Temperature, StoredInitialGasMix.Pressure, StoredInitialGasMix.Volume );
 		}
 #endif
 		public void UpdateGasMix()
 		{
 			gasIsInitialised = true;
-			GasMixLocal = GasMix.FromTemperature(StoredGasMix.GasData, StoredGasMix.Temperature, StoredGasMix.Volume);
+			GasMixLocal = GasMix.FromTemperature(StoredInitialGasMix.GasData, StoredInitialGasMix.Temperature, StoredInitialGasMix.Volume);
 		}
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)

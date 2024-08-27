@@ -11,6 +11,7 @@ using Items;
 using Items.PDA;
 using Light2D;
 using Mirror;
+using SecureStuff;
 using Random = UnityEngine.Random;
 
 
@@ -53,7 +54,7 @@ namespace Objects
 		private ClearanceRestricted clearanceRestricted;
 		public VendorUpdateEvent OnRestockUsed = new();
 		public VendorItemUpdateEvent OnItemVended = new();
-		public PowerState ActualCurrentPowerState = PowerState.On;
+		[PlayModeOnly] public PowerState ActualCurrentPowerState = PowerState.On;
 
 		[Header("Audio")] [SerializeField, FormerlySerializedAs("VendingSound")]
 		private AddressableAudioSource vendingSound = null;

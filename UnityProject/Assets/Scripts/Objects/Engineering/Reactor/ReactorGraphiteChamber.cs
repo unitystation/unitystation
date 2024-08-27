@@ -8,6 +8,7 @@ using Items.Engineering;
 using Logs;
 using Objects.Atmospherics;
 using Objects.Engineering.Reactor;
+using SecureStuff;
 using Shared.Systems.ObjectConnection;
 
 
@@ -53,7 +54,7 @@ namespace Objects.Engineering
 		public bool MeltedDown = false;
 		public bool PoppedPipes = false;
 
-		public decimal CurrentPressure = 0;
+		[PlayModeOnly] public decimal CurrentPressure = 0;
 
 		public const decimal NEUTRON_SINGULARITY = 76488300000M;
 		public const decimal MAX_CORE_PRESSURE = 300000;

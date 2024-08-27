@@ -2,19 +2,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Objects.Machines
 {
 	public class MaterialSilo : MonoBehaviour, ICheckedInteractable<HandApply>, IServerLifecycle
 	{
-
-		public List<MaterialStorageLink> linkedStorages = new List<MaterialStorageLink>();
+		[FormerlySerializedAs("linkedStorages")]
+		public List<MaterialStorageLink> InitiallinkedStorages = new List<MaterialStorageLink>();
+		private List<MaterialStorageLink> linkedStorages = new List<MaterialStorageLink>();
 
 		private ItemTrait InsertedMaterialType;
 		public MaterialStorage materialStorage;
 
 		private void Awake()
 		{
+			linkedStorages.AddRange(InitiallinkedStorages);
 			materialStorage = GetComponent<MaterialStorage>();
 			CraftingManager.RoundstartStationSilo = this;
 		}

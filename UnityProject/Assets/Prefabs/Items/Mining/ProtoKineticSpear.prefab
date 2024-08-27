@@ -29,6 +29,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0dbb64c4104af82d998bfc50af22677a,
         type: 2}
+    - target: {fileID: 1939338352935450630, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0dbb64c4104af82d998bfc50af22677a,
+        type: 2}
     - target: {fileID: 1969785921733618591, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
       propertyPath: m_Sprite
@@ -92,6 +98,12 @@ PrefabInstance:
       propertyPath: itemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 88b63ae71afe6f4f88b5755c19d7d236,
+        type: 2}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 665f036c2a2b93b9bb5c8b4e9f57afbb,
         type: 2}
     - target: {fileID: 3235497439635828136, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
@@ -167,6 +179,12 @@ PrefabInstance:
     - target: {fileID: 8885920287978841459, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 665f036c2a2b93b9bb5c8b4e9f57afbb,
+        type: 2}
+    - target: {fileID: 8885920287978841459, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 665f036c2a2b93b9bb5c8b4e9f57afbb,
         type: 2}

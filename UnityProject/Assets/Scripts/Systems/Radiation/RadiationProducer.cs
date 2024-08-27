@@ -4,20 +4,26 @@ using Core.Sprite_Handler;
 using Light2D;
 using Logs;
 using Mirror;
+using SecureStuff;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Systems.Radiation
 {
 	public class RadiationProducer : NetworkBehaviour
 	{
 		public float OutPuttingRadiation = 0;
-		public Color color = new Color(93f / 255f, 202 / 255f, 49 / 255f, 0);
+		private Color Colour;
+		[FormerlySerializedAs("color")] public Color InitialColour = new Color(93f / 255f, 202 / 255f, 49 / 255f, 0);
 		[NonSerialized] public int ObjectID = 0;
 		public LightSpriteHandler lightSprite;
 
 
 		[SyncVar(hook = nameof(SynchStrength))]
-		public float SynchroniseStrength = 0;
+		[PlayModeOnly, NonSerialized] public float SynchroniseStrength = 0;
+
+		[FormerlySerializedAs("SynchroniseStrength")]
+		public float InitialStrength = 0;
 
 		private void SynchStrength(float old, float newv)
 		{
@@ -31,13 +37,13 @@ namespace Systems.Radiation
 
 		private void Awake()
 		{
-			//yeah dam Unity initial Conditions  is not updating
-			color = new Color(93f / 255f, 202 / 255f, 49 / 255f, 0);
+			InitialStrength = SynchroniseStrength;
+			Colour = InitialColour;
 
 			ObjectID = this.GetInstanceID();
 
 
-			lightSprite.SetColor(color);
+			lightSprite.SetColor(Colour);
 			UpdateValues(SynchroniseStrength);
 		}
 
@@ -68,6 +74,7 @@ namespace Systems.Radiation
 
 		public void SetLevel(float Invalue)
 		{
+			Invalue = Mathf.Max(0, Invalue);
 			SynchStrength(SynchroniseStrength, Invalue);
 		}
 
@@ -81,6 +88,7 @@ namespace Systems.Radiation
 				return;
 			}
 
+			if (Invalue < 0)
 			if (Invalue < 0)
 			{
 				Invalue = 0;

@@ -312,7 +312,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[PlayModeOnly] public double LastUpdateClientFlying = 0; //NetworkTime.time
 
-	public float TimeSpentFlying = 0;
+	[PlayModeOnly] public float TimeSpentFlying = 0;
 
 	// netid of the game object we are buckled to, NetId.Empty if not buckled
 	[field: SyncVar(hook = nameof(SyncObjectIsBuckling))]

@@ -106,11 +106,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a1441dd2a6731ad4bb00f3b36f1161ac, type: 2}
   - {fileID: 11400000, guid: a1c68a7ba74471e43ba783b28fbc9e86, type: 2}
   - {fileID: 11400000, guid: b24159a9b7289984ca9ee8c0b3215707, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: a1441dd2a6731ad4bb00f3b36f1161ac, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: a1441dd2a6731ad4bb00f3b36f1161ac,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &7393967512050525525
 PrefabInstance:
@@ -150,6 +151,17 @@ PrefabInstance:
     - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c73eeedb790e6b44b88d166acb084870,
+        type: 2}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: c73eeedb790e6b44b88d166acb084870,
         type: 2}
@@ -641,6 +653,12 @@ PrefabInstance:
     - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: adbd4390cc873274bb1ea49821b18840,
+        type: 2}
+    - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: adbd4390cc873274bb1ea49821b18840,
         type: 2}

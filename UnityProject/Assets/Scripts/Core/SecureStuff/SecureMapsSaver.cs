@@ -844,6 +844,12 @@ namespace SecureStuff
 				return;
 			}
 
+			if (IsReferencedObject == false && ListType.IsValueType == false)
+			{
+				if (ListType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length == 0) return;
+			}
+
+
 			var modified = IEnumeratorToList((MonoSet as IEnumerable).GetEnumerator());
 
 			List<object> original = new List<object>();

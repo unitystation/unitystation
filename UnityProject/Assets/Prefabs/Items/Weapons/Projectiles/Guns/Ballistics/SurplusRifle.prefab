@@ -101,11 +101,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 3514c3344006bd84ba65fc06f443492d, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 3514c3344006bd84ba65fc06f443492d,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &8501034030556885451
 PrefabInstance:
@@ -118,6 +119,12 @@ PrefabInstance:
     - target: {fileID: 2605031095160245205, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 75774c38f08b435498e156af60149724,
+        type: 2}
+    - target: {fileID: 2605031095160245205, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 75774c38f08b435498e156af60149724,
         type: 2}

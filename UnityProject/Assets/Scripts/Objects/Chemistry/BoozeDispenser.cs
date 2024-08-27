@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Chemistry.Components;
 using Mirror;
+using SecureStuff;
 using UnityEngine;
 using Systems.Electricity;
 
@@ -95,7 +96,7 @@ namespace Chemistry
 
 		#region IAPCPowerable
 
-		public PowerState ThisState;
+		[PlayModeOnly] public PowerState ThisState;
 
 		public void PowerNetworkUpdate(float voltage) { }
 

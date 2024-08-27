@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Initialisation;
+using SecureStuff;
 using Systems.Research.Data;
 using UnityEngine;
 using Util;
@@ -11,7 +12,7 @@ public class ItemResearchPotential : MonoBehaviour
 {
 
 
-	public bool IsTooPure = false;
+	[PlayModeOnly] public bool IsTooPure = false;
 
 	public PrefabTracker PrefabTracker;
 

@@ -5,6 +5,7 @@ using Mirror;
 using Systems.Electricity;
 using Objects.Machines;
 using ScriptableObjects.Systems.Research;
+using SecureStuff;
 using Shared.Systems.ObjectConnection;
 
 namespace Systems.Research.Objects
@@ -32,7 +33,7 @@ namespace Systems.Research.Objects
 		[SerializeField]
 		private Department MachineDepartment;
 
-		public PowerState PoweredState;
+		[PlayModeOnly] public PowerState PoweredState;
 
 		private ItemTrait InsertedMaterialType;
 		public MaterialStorageLink materialStorageLink;

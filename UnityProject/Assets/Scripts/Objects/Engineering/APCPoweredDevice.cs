@@ -52,8 +52,11 @@ namespace Systems.Electricity
 
 		public bool MappingNotNeedToLink => mappingNotNeedToLink;
 
-		[SerializeField ]
+		[SerializeField, FormerlySerializedAs("wattusage") ]
 		[Tooltip("Watts consumed per update when running at 240v")]
+		private float initialwattusage = 0.01f;
+
+
 		private float wattusage = 0.01f;
 
 		public float Wattusage
@@ -114,6 +117,7 @@ namespace Systems.Electricity
 
 		private void Awake()
 		{
+			wattusage = initialwattusage;
 #if UNITY_EDITOR
 		disconnectedImg = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Textures/EditorAssets/disconnected.png");
 

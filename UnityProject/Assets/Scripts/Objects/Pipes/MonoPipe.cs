@@ -8,6 +8,7 @@ using Logs;
 using Mirror;
 using Objects.Construction;
 using Objects.Other;
+using SecureStuff;
 using Systems.Atmospherics;
 using Systems.Disposals;
 
@@ -39,7 +40,7 @@ namespace Objects.Atmospherics
 
 		public static float MaxInternalPressure { get; } = AtmosConstants.ONE_ATMOSPHERE * 50;
 
-		public bool CanNowRotate = false;
+		[PlayModeOnly] public bool CanNowRotate = false;
 
 		#region Lifecycle
 

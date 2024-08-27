@@ -23,7 +23,7 @@ namespace Objects.Shuttles
 	{
 		//TODO Swapping matrix
 
-		public MatrixMove ShuttleMatrixMove;
+		[NonSerialized] public MatrixMove ShuttleMatrixMove;
 
 		[NonSerialized] public RegisterTile registerTile;
 		private HasNetworkTab hasNetworkTab;

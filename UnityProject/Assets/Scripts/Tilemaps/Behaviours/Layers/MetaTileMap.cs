@@ -465,6 +465,21 @@ namespace TileManagement
 					tileLocation.transformMatrix, tileLocation.Colour, tileLocation.layerTile.LayerType);
 			}
 
+			if (LocalCachedBounds != null)
+			{
+				if (LocalCachedBounds.Value.Contains(tileLocation.LocalPosition) == false)
+				{
+					var Bounds = LocalCachedBounds.Value; // struct funnies With references
+					Bounds.ExpandToPoint2D(tileLocation.LocalPosition);
+					LocalCachedBounds = Bounds;
+
+					lock (matrix)
+					{
+						GlobalCachedBounds = null;
+					}
+				}
+			}
+
 			tileLocation.layer.SubsystemManager.UpdateAt(tileLocation.LocalPosition);
 
 

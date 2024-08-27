@@ -10,6 +10,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
 using Mirror;
+using SecureStuff;
 using Systems.Score;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
@@ -25,7 +26,7 @@ namespace Items.Food
 	public class Edible : Consumable, ICheckedInteractable<HandActivate>, IHoverTooltip, IServerSpawn
 	{
 		public GameObject leavings;
-		[SerializeField, SyncVar] private int currentBites;
+		[PlayModeOnly, SerializeField, SyncVar] private int currentBites;
 		[SerializeField] private int maxBites = 1;
 		[SerializeField] private float forceFeedTime = 3f;
 		[SerializeField] private bool setCurrentBitesToMaxBitesOnServerSpawn = true;
