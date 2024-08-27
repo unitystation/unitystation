@@ -13,15 +13,9 @@ public class MetabolismReaction : Reaction
 
 	//Should it metabolise faster or slower
 	public float ReagentMetabolismMultiplier = 1;
-
-	//Reaction.metabolismspeedmultiplier
-
-
 	[FormerlySerializedAs("AllRequired")] public List<ItemTrait> InternalAllRequired = new List<ItemTrait>();
 	//public List<ItemTrait> SingleRequired = new List<ItemTrait>(); TODO add ability to Apply to multiple tags
 	[FormerlySerializedAs("Blacklist")] public List<ItemTrait> InternalBlacklist  = new List<ItemTrait>();
-
-
 	public List<ItemTrait> ExternalAllRequired = new List<ItemTrait>();
 	//public List<ItemTrait> SingleRequired = new List<ItemTrait>(); TODO add ability to Apply to multiple tags
 	public List<ItemTrait> ExternalBlacklist  = new List<ItemTrait>();
@@ -86,7 +80,6 @@ public class MetabolismReaction : Reaction
 			{
 				effect.Key.Apply(sender, effectResult);
 			}
-
 		}
 	}
 }

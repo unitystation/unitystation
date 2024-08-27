@@ -119,6 +119,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	protected bool doStepInteractions = true;
 	public bool CanBeWindPushed = true;
 
+	[NonSerialized] public bool DoImpactVomit = true;
+
 	[SerializeField] protected Transform rotationTarget;
 
 	public Vector3 OfficialPosition => GetRootObject.transform.position;

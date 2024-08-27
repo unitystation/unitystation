@@ -89,7 +89,6 @@ namespace Systems.Pipes
 				return (null);
 			}
 		}
-
 		public virtual void OnEnable()
 		{
 			if (PipeAction != null)

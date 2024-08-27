@@ -200,8 +200,15 @@ public static class SweetExtensions
 
 	public static bool IsUnreasonableNumber(this float Number)
 	{
-		return float.IsNaN(Number) || float.IsNegativeInfinity(Number) || float.IsPositiveInfinity(Number);
+		return float.IsNaN(Number) || float.IsInfinity(Number);
 	}
+
+	public static bool IsUnreasonable(this Vector3 Vecctor)
+	{
+		return Vecctor.x.IsUnreasonableNumber() || Vecctor.y.IsUnreasonableNumber() || Vecctor.z.IsUnreasonableNumber();
+	}
+
+
 
 
 	/// Creates garbage! Use very sparsely!

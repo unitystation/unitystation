@@ -457,9 +457,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   RelatedPart: {fileID: 0}
-  walkingSpeed: 1.5
+  walkingSpeed: 2
   runningSpeed: 3
-  legEfficiency: 1
+  crawlingSpeed: 0.024
+  initialLimbEfficiency: 1
 --- !u!114 &5655852655570756341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,6 +486,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &6633847452124842489
 MonoBehaviour:

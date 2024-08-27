@@ -1,15 +1,16 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using Chemistry.Components;
 using UnityEngine;
 using Mirror;
+using Systems.Atmospherics;
 
 namespace Items
 {
 	/// <summary>
 	/// Base class for smokable cigarette
 	/// </summary>
-	public class Cigarette : NetworkBehaviour, ICheckedInteractable<HandApply>,
-		ICheckedInteractable<InventoryApply>, IServerDespawn
+	public class Cigarette : NetworkBehaviour, IServerDespawn, ICheckedInteractable<HandApply>,
+		ICheckedInteractable<InventoryApply>, IServerInventoryMove
 	{
 		private const int DEFAULT_SPRITE = 0;
 		private const int LIT_SPRITE = 1;
@@ -26,18 +27,21 @@ namespace Items
 		private FireSource fireSource = null;
 		private Pickupable pickupable = null;
 
-		[SyncVar]
-		private bool isLit = false;
+		[SyncVar] private bool isLit = false;
+		[SerializeField] private ReagentContainer reagentContainer = null;
+		private RegisterPlayer smoker;
 
 		private void Awake()
 		{
 			pickupable = GetComponent<Pickupable>();
 			fireSource = GetComponent<FireSource>();
+			reagentContainer ??= GetComponent<ReagentContainer>();
 		}
 
 		public void OnDespawnServer(DespawnInfo info)
 		{
 			ServerChangeLit(false);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CigBurnLogic);
 		}
 
 		#region Interactions
@@ -109,7 +113,7 @@ namespace Items
 
 			if (isLitNow)
 			{
-				StartCoroutine(FireRoutine());
+				UpdateManager.Add(CigBurnLogic, smokeTimeSeconds);
 			}
 
 			isLit = isLitNow;
@@ -156,12 +160,26 @@ namespace Items
 			Spawn.ServerPrefab(buttPrefab, worldPos, tr, rotation);
 		}
 
-		private IEnumerator FireRoutine()
+		private void CigBurnLogic()
 		{
-			// wait until cigarette will burn
-			yield return new WaitForSeconds(smokeTimeSeconds);
-			// despawn cigarette and spawn burn
-			Burn();
+			reagentContainer.Temperature = 300;
+			var bigHit = DMMath.Prob(50) ? 5 : 2;
+			var burnReagent = reagentContainer.TakeReagents(bigHit);
+			if (smoker != null)
+			{
+				smoker.PlayerScript.playerHealth.reagentPoolSystem.BloodPool.Add(burnReagent);
+				Chat.AddExamineMsg(smoker.PlayerScript.gameObject, $"You take a drag out of the {gameObject.ExpensiveName()}");
+			}
+			if (reagentContainer.ReagentMixTotal.Approx(0)) Burn();
+		}
+
+		public void OnInventoryMoveServer(InventoryMove info)
+		{
+			smoker = null;
+			if (info.ToPlayer == null) return;
+			if (info.ToSlot == null) return;
+			if (info.ToSlot.NamedSlot != NamedSlot.mask) return;
+			smoker = info.ToPlayer;
 		}
 	}
 }

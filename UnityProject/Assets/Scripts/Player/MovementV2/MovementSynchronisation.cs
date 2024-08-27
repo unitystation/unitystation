@@ -340,7 +340,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void ImpactVomit(UniversalObjectPhysics ob, Vector2 Newtonian)
 	{
-		if (VomitEmote == null) return;
+		if (ob.DoImpactVomit == false || VomitEmote == null) return;
 		if (Newtonian.magnitude > 7f && DMMath.Prob(75))
 		{
 			EmoteActionManager.DoEmote(VomitEmote, gameObject);

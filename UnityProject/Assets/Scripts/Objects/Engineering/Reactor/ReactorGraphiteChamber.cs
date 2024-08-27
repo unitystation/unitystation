@@ -290,8 +290,11 @@ namespace Objects.Engineering
 						GasNode.GasMixLocal.InternalEnergy += ExtraEnergyGained * 0.000001f;
 						if (GasNode.GasMixLocal.Temperature > 5000)
 						{
-							GasNode.GasMixLocal.Temperature = 5000;
+							GasNode.GasMixLocal.SetTemperature(5000);
 						}
+
+						registerObject.TileChangeManager.SubsystemManager.UpdateAt(this.registerObject.LocalPosition,
+							SystemType.AtmosSystem);
 					}
 				}
 

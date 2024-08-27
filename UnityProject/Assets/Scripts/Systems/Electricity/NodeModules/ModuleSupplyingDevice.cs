@@ -98,7 +98,7 @@ namespace Systems.Electricity.NodeModules
 			}
 
 			PowerSupplyFunction.TurnOnSupply(this);
-		}
+			}
 
 		[RightClickMethod]
 		public override void TurnOffSupply()

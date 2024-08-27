@@ -8,7 +8,9 @@ namespace Core.Utils
 	public class MultiInterestFloat
 	{
 		[Serializable]
-		public class FloatEvent : UnityEvent<float> { }
+		public class FloatEvent : UnityEvent<float>
+		{
+		}
 
 		public float State => state;
 
@@ -27,13 +29,16 @@ namespace Core.Utils
 		public enum FloatBehaviour
 		{
 			ReturnOn0, //if any value is 0 Overrides all
-			ReturnOn1 //if any value is 1 overrides all
+			ReturnOn1, //if any value is 1 overrides all
+			AddBehaviour, //Add all together
+			PickTop //Pics the highest number
 		}
+
 		public float initialState => InitialState;
 
 		[SerializeField] private float InitialState;
 
-		public Dictionary<object, float> InterestedParties = new Dictionary<object ,float>();
+		public Dictionary<object, float> InterestedParties = new Dictionary<object, float>();
 
 		public FloatEvent OnFloatChange = new FloatEvent();
 
@@ -43,6 +48,7 @@ namespace Core.Utils
 			{
 				InterestedParties.Remove(Instance);
 			}
+
 			RecalculateBoolCash();
 		}
 
@@ -88,9 +94,16 @@ namespace Core.Utils
 				{
 					if (Tracked != null)
 					{
-						if (Position.Value > Tracked.Value)
+						if (SetFloatBehaviour == FloatBehaviour.AddBehaviour)
 						{
-							Tracked = Position.Value;
+							Tracked = Tracked.Value + Position.Value;
+						}
+						else
+						{
+							if (Position.Value > Tracked.Value)
+							{
+								Tracked = Position.Value;
+							}
 						}
 					}
 					else
@@ -119,9 +132,9 @@ namespace Core.Utils
 					state = Tracked.Value;
 					OnFloatChange?.Invoke(state);
 				}
+
 				return;
 			}
-
 
 
 			if (state != InitialState)
@@ -129,7 +142,6 @@ namespace Core.Utils
 				state = InitialState;
 				OnFloatChange?.Invoke(state);
 			}
-
 		}
 
 		public static implicit operator float(MultiInterestFloat value)
@@ -143,7 +155,7 @@ namespace Core.Utils
 		{
 			InitialState = InInitialState;
 			Behaviour = inRegisterBehaviour;
-			SetFloatBehaviour  = InSetFloatBehaviour;
+			SetFloatBehaviour = InSetFloatBehaviour;
 		}
 	}
 }

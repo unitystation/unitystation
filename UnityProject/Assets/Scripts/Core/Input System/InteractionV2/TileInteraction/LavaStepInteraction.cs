@@ -68,6 +68,15 @@ namespace Systems.Interaction
 
 		private void DamageObject(GameObject objectToBurn)
 		{
+			if (objectToBurn.TryGetComponent<UniversalObjectPhysics>(out var uop))
+			{
+				//dont damage things that are flying thru the air (jumpboots, thrown, etc)
+				if (uop.IsInAir)
+				{
+					return;
+				}
+			}
+
 			if (objectToBurn.TryGetComponent<LivingHealthMasterBase>(out var playerHealth))
 			{
 				playerHealth.ChangeFireStacks(playerMobFireStacks);

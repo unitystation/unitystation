@@ -157,6 +157,11 @@ PrefabInstance:
       propertyPath: <AlternativePrefabName>k__BackingField
       value: light
       objectReference: {fileID: 0}
+    - target: {fileID: 4349193172791428265, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: rotationTarget
+      value: 
+      objectReference: {fileID: 5730203012241659306}
     - target: {fileID: 8139896980434582913, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: relatedRecipes.Array.size
@@ -600,11 +605,11 @@ MonoBehaviour:
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 3320711171919508498}
   IsOn: 0
-  colour: {r: 1, g: 0.90938777, b: 0.6839622, a: 0.28235295}
+  colour: {r: 1, g: 0.90938777, b: 0.6839622, a: 0.21960784}
   objectLightSprite: {fileID: 0}
   commonComponents: {fileID: 0}
   SpriteShape: 0
-  Size: 8
+  Size: 11
   weakenOnGround: 0
   revertToOldConsistencyBehavior: 0
   weakenStrength: 1.25

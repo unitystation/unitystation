@@ -36,8 +36,6 @@ namespace Weapons
 		/// </summary>
 		public int ClientAmmoRemains => Math.Min(clientAmmoRemains, serverAmmoRemains);
 
-		private double[] RNGContents;
-
 		/// <summary>
 		///	The type of magazine. This effects various behaviours depending on its setting
 		/// </summary>
@@ -58,12 +56,6 @@ namespace Weapons
 		public override void OnStartClient()
 		{
 			InitLists();
-			SetupRng();
-		}
-
-		public override void OnStartServer()
-		{
-			SetupRng();
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -80,7 +72,6 @@ namespace Weapons
 				InitLists();
 			}
 			SyncServerAmmo(magazineSize, magazineSize);
-			SetupRng();
 		}
 
 		public virtual void InitLists()
@@ -104,20 +95,6 @@ namespace Weapons
 			magazineSize = newSize;
 			clientAmmoRemains = -1;
 			SyncServerAmmo(newSize, newSize);
-			SetupRng();
-		}
-
-		/// <summary>
-		/// Creates the RNG table.
-		/// </summary>
-		public void SetupRng()
-		{
-			RNGContents = new double[magazineSize + 1];
-			System.Random magSyncedRNG = new System.Random(GetComponent<NetworkIdentity>().netId.GetHashCode());
-			for (int i = 0; i <= magazineSize; i++)
-			{
-				RNGContents[magazineSize - i] = magSyncedRNG.NextDouble();
-			}
 		}
 
 		/// <summary>
@@ -260,26 +237,9 @@ namespace Weapons
 			Chat.AddExamineMsg(interaction.Performer, message);
 		}
 
-		/// <summary>
-		/// Gets an RNG double which is based on the current ammo remaining and this mag's net ID so client
-		///  can predict deviation / recoil based on how many shots.
-		/// </summary>
-		/// <returns></returns>
-		public double CurrentRng()
-		{
-			double CurrentRng = 1.0;
-			if (clientAmmoRemains <= RNGContents.Length - 1)
-			{
-				CurrentRng = RNGContents[clientAmmoRemains];
-			}
-
-			Loggy.LogTraceFormat("rng {0}, serverAmmo {1} clientAmmo {2}", Category.Firearms, CurrentRng, serverAmmoRemains, clientAmmoRemains);
-			return CurrentRng;
-		}
-
 		public virtual String Examine(Vector3 pos)
 		{
-			return $"Accepts {ammoType}\n It has {ServerAmmoRemains} out of {magazineSize} rounds within";
+			return $"Accepts {ammoType}\nIt has {ServerAmmoRemains} out of {magazineSize} rounds within";
 		}
 	}
 

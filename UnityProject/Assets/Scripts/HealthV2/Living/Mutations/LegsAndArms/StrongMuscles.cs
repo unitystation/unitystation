@@ -33,12 +33,12 @@ namespace HealthV2.Living.Mutations.LegsAndArms
 
 				if (Leg != null)
 				{
-					Leg.SetNewEfficiency(Leg.LegEfficiency + StrongMuscles.AddedEfficiency);
+					Leg.SetNewEfficiency(StrongMuscles.AddedEfficiency, this);
 				}
 
 				if (HumanoidArm != null)
 				{
-					HumanoidArm.SetNewEfficiency(HumanoidArm.ArmEfficiency + StrongMuscles.AddedEfficiency);
+					HumanoidArm.SetNewEfficiency(StrongMuscles.AddedEfficiency, this);
 				}
 
 			}
@@ -47,12 +47,12 @@ namespace HealthV2.Living.Mutations.LegsAndArms
 			{
 				if (Leg != null)
 				{
-					Leg.SetNewEfficiency(Leg.LegEfficiency - StrongMuscles.AddedEfficiency);
+					Leg.SetNewEfficiency(StrongMuscles.AddedEfficiency, this);
 				}
 
 				if (HumanoidArm != null)
 				{
-					HumanoidArm.SetNewEfficiency(HumanoidArm.ArmEfficiency - StrongMuscles.AddedEfficiency);
+					HumanoidArm.SetNewEfficiency(StrongMuscles.AddedEfficiency, this);
 				}
 			}
 
