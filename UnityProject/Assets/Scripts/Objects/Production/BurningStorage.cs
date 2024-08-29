@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Core.Admin.Logs;
 using HealthV2;
 using UnityEngine;
 using UnityEngine.Events;
@@ -71,6 +72,11 @@ namespace Objects.Production
 				{
 					obj.Value.creature.ApplyDamageAll(gameObject, burningDamage, AttackType.Fire, DamageType.Burn, false, TraumaticDamageTypes.BURN);
 					obj.Value.creature.ChangeFireStacks(obj.Value.creature.FireStacks + fireStacksForCreaturePerSecond);
+					AdminLogsManager.AddNewLog(
+						gameObject,
+						$"{obj.Value.creature.playerScript.playerName} is inside a burning storage at {gameObject.AssumedWorldPosServer()}" +
+						$" and their fire stacks is now {obj.Value.creature.FireStacks}",
+						LogCategory.MobDamage, Severity.IMMEDIATE_ATTENTION);
 				}
 				obj.Value.item.OrNull()?.ApplyDamage(burningDamage, AttackType.Fire, DamageType.Burn, true);
 			}

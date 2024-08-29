@@ -255,6 +255,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			Inventory.ServerDrop(itemSlot);
 		}
+		AdminLogsManager.AddNewLog(
+			null,
+			$"{gameObject.ExpensiveName()} has been uncuffed.",
+			LogCategory.Interaction);
 	}
 
 
@@ -284,6 +288,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			Inventory.ServerDrop(itemSlot);
 		}
+		AdminLogsManager.AddNewLog(
+			null,
+			$"{gameObject.ExpensiveName()} has been cuffed.",
+			LogCategory.Interaction);
 	}
 
 
@@ -790,7 +798,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				}
 
 				ServerCheckQueueingPulling(ref spawned, ref entry);
-				ServerCheckClientLocation(ref entry, ref fudged, ref stored, out bool reset, out bool smooth );
+				ServerCheckClientLocation(ref entry, ref fudged, ref stored, out bool reset, out bool smooth);
 
 				if (CanInPutMove())
 				{
@@ -1079,9 +1087,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			CMDTryEscapeContainer(PlayerAction.GetMoveAction(moveActions.Direction()));
 			return;
 		}
-
-
-
 	}
 
 	[Command]
@@ -1388,9 +1393,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		slippedOn = null;
 		if (slipProtection) return false;
-
-
-
 
 		var toMatrix = SetMatrixCache.GetforDirection(moveAction.GlobalMoveDirection.ToVector().To3Int()).Matrix;
 		var localTo = (registerTile.WorldPosition + moveAction.GlobalMoveDirection.ToVector().To3Int())

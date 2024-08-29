@@ -1,9 +1,6 @@
-﻿using System;
-using Core.Utils;
-using HealthV2;
+﻿using Core.Utils;
 using Player.Movement;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace HealthV2
 {
