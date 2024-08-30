@@ -83,6 +83,7 @@ namespace Systems.Research.Objects
 		#endregion
 
 		#region IAPCPowerable
+		[HideInInspector]
 		public PowerState PoweredState;
 
 		public void PowerNetworkUpdate(float voltage)

@@ -399,11 +399,17 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			SetTransform(synchLocalTargetPosition.Vector3, false);
 		}
 
+		CheckNSnapToGrid(isServer);
+	}
+
+	public void CheckNSnapToGrid(bool isServer)
+	{
 		if (SnapToGridOnStart && isServer)
 		{
 			SetTransform(transform.position.RoundToInt(), true);
 		}
 	}
+
 
 	public void OnRegisterTileInitialised(RegisterTile registerTile)
 	{
@@ -974,6 +980,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public void SetMatrix(Matrix movetoMatrix, bool SetTarget = true)
 	{
+
 		if (movetoMatrix == null) return;
 		if (registerTile == null)
 		{
@@ -1260,6 +1267,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public void ResetEverything()
 	{
+
 		if (IsFlyingSliding)
 		{
 			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);

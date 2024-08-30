@@ -16,8 +16,8 @@ namespace Objects.Engineering
 {
 	public class ReactorGraphiteChamber : MonoBehaviour, ICheckedInteractable<HandApply>, IMultitoolMasterable, IServerDespawn
 	{
-		public float EditorPresentNeutrons;
-		public float EditorEnergyReleased;
+		[PlayModeOnly] public float EditorPresentNeutrons;
+		[PlayModeOnly] public float EditorEnergyReleased;
 
 		public GameObject UraniumOre;
 		public GameObject MetalOre;

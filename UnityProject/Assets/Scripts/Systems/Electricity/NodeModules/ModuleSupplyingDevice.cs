@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Logs;
+using SecureStuff;
 using Systems.Electricity.Inheritance;
 using UnityEngine;
 
@@ -11,16 +12,16 @@ namespace Systems.Electricity.NodeModules
 		public bool StartOnStartUp = false;
 
 		[HideInInspector] public float Previouscurrent = 0;
-		public float current = 0;
+		[PlayModeOnly] public float current = 0;
 
 		[HideInInspector] public float PreviousSupplyingVoltage = 0;
-		public float SupplyingVoltage = 0;
+		[PlayModeOnly] public float SupplyingVoltage = 0;
 
 		[HideInInspector] public float PreviousInternalResistance = 0;
-		public float InternalResistance = 0;
+		[PlayModeOnly] public float InternalResistance = 0;
 
 		[HideInInspector] public float PreviousProducingWatts = 0;
-		public float ProducingWatts = 0;
+		[PlayModeOnly] public float ProducingWatts = 0;
 
 		public Current CurrentSource = new Current();
 

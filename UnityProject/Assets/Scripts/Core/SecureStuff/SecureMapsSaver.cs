@@ -1275,7 +1275,9 @@ namespace SecureStuff
 				if (Field.IsNotSerialized ||
 				    HasAttribute(Field, typeof(PlayModeOnlyAttribute)) ||
 				    HasAttribute(Field, typeof(HideInInspector)) ||
-				    HasAttribute(Field, typeof(NaughtyAttributes.ReadOnlyAttribute)))
+				    HasAttribute(Field, typeof(NaughtyAttributes.ReadOnlyAttribute)) ||
+				    HasAttribute(Field, typeof(NonSerializedAttribute)
+				    ))
 				{
 					return false;
 				}

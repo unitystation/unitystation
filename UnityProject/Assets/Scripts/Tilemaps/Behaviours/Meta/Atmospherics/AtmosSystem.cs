@@ -60,16 +60,6 @@ namespace Systems.Atmospherics
 				}
 			}
 
-			foreach (var gasSetter in toSetRoom)
-			{
-				_ = Despawn.ServerSingle(gasSetter.Value.gameObject);
-			}
-
-			foreach (var gasSetter in toSetOccupied)
-			{
-				_ = Despawn.ServerSingle(gasSetter.Value.gameObject);
-			}
-
 			toSetRoom.Clear();
 			toSetOccupied.Clear();
 		}

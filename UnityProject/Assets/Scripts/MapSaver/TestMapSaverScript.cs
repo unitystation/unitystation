@@ -94,15 +94,15 @@ public class TestMapSaverScript : MonoBehaviour
 
 		//Logger.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveObjects(MetaTileMap)));
 		//Logger.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveTileMap(MetaTileMap)));
-
+		var Map = MapSaver.MapSaver.SaveMap(MapMatrices, Compact, "COOL MAP");
 		//TODO Add a category for maps and blueprints
 		if (SAVETONormal)
 		{
-			//File.WriteAllText("R:/tests/SaveMap.txt", JsonConvert.SerializeObject(MapSaver.MapSaver.SaveMap(MapMatrices, Compact , "COOL MAP"), settings ));
+			File.WriteAllText("R:/tests/SaveMap.txt", JsonConvert.SerializeObject(Map, settings ));
 		}
 		else
 		{
-			//File.WriteAllText("R:/tests/SaveMapCompare.txt", JsonConvert.SerializeObject(MapSaver.MapSaver.SaveMap(MapMatrices, Compact , "COOL MAP"), settings ));
+			File.WriteAllText("R:/tests/SaveMapCompare.txt", JsonConvert.SerializeObject(Map, settings ));
 		}
 
 	}

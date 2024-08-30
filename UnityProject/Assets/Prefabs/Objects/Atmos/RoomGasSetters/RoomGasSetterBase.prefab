@@ -28,6 +28,16 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: -1964781063
       objectReference: {fileID: 0}
+    - target: {fileID: 4083520829584162099, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Intangible
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083520829584162099, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: MappingIntangible
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Size.x
@@ -173,6 +183,11 @@ PrefabInstance:
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
     - {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
@@ -184,6 +199,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6313797436603689428}
+    - targetCorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6617561116136244058}
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!210 &5037758053049356091 stripped
 SortingGroup:
@@ -210,3 +229,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gasMixToSpawn: {fileID: 0}
+--- !u!114 &6617561116136244058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7720728262316129163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05b7295e6a7b3f34b883bf5def034f35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Pickupable: {fileID: 0}
