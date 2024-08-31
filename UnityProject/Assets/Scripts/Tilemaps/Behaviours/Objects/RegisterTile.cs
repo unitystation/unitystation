@@ -462,6 +462,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 		var WorldCashed = transform.position;
 
+
+
 		transform.SetParent(objectLayer.transform, true);
 
 		//preserve absolute rotation if there was spin rotation
