@@ -98,11 +98,11 @@ public class TestMapSaverScript : MonoBehaviour
 		//TODO Add a category for maps and blueprints
 		if (SAVETONormal)
 		{
-			File.WriteAllText("R:/tests/SaveMap.txt", JsonConvert.SerializeObject(Map, settings ));
+			//File.WriteAllText("R:/tests/SaveMap.txt", JsonConvert.SerializeObject(Map, settings ));
 		}
 		else
 		{
-			File.WriteAllText("R:/tests/SaveMapCompare.txt", JsonConvert.SerializeObject(Map, settings ));
+			//File.WriteAllText("R:/tests/SaveMapCompare.txt", JsonConvert.SerializeObject(Map, settings ));
 		}
 
 	}
