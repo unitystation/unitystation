@@ -28,6 +28,8 @@ public class SpriteHandler : MonoBehaviour
 
 	public SpriteDataSO PresentSpritesSet => PresentSpriteSet;
 
+	public SpriteDataSO initialPresentSpriteSet => InitialPresentSpriteSet;
+
 	private SpriteDataSO.Frame PresentFrame = null;
 
 	[Tooltip(
