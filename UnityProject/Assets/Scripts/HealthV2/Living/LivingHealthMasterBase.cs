@@ -20,6 +20,7 @@ using HealthV2.Living.PolymorphicSystems;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Items.Implants.Organs;
 using JetBrains.Annotations;
+using Logs;
 using NaughtyAttributes;
 using Player;
 using ScriptableObjects.RP;
@@ -29,6 +30,7 @@ using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Systems.Character;
+using Util.Independent.FluentRichText;
 
 namespace HealthV2
 {
@@ -182,7 +184,7 @@ namespace HealthV2
 		/// </summary>
 		public float BleedStacks;
 
-		private float maxBleedStacks = 10f;
+		private float maxBleedStacks = 1000f;
 
 		[SerializeField, BoxGroup("PainFeedback")]
 		private float painScreamDamage = 20f;
@@ -252,13 +254,13 @@ namespace HealthV2
 				case int n when n.IsBetween(2, 3):
 					State = BleedingState.Low;
 					break;
-				case int n when n.IsBetween(4, 6):
+				case int n when n.IsBetween(3, 20):
 					State = BleedingState.Medium;
 					break;
-				case int n when n.IsBetween(7, 8):
+				case int n when n.IsBetween(20, 40):
 					State = BleedingState.High;
 					break;
-				case int n when n.IsBetween(9, 10):
+				case int n when n.IsBetween(50, 1000000000):
 					State = BleedingState.UhOh;
 					break;
 			}
@@ -912,8 +914,25 @@ namespace HealthV2
 		{
 			if (BleedStacks > 0)
 			{
-				reagentPoolSystem?.Bleed(1f * (float) Math.Ceiling(BleedStacks));
-				BleedStacks = BleedStacks - 0.1f;
+				var bloodTolose = BleedStacks;
+
+				if (BleedStacks >= 40)
+				{
+					bloodTolose = Mathf.Min(bloodTolose, 4);
+					Chat.AddActionMsgToChat(this.gameObject, $" {this.gameObject.ExpensiveName()} violently bleeds ".Color(Color.red));
+				}
+				else if (BleedStacks >= 20)
+				{
+					bloodTolose = Mathf.Min(bloodTolose, 2);
+					Chat.AddActionMsgToChat(this.gameObject, $" {this.gameObject.ExpensiveName()} bleeds ".Color(Color.yellow));
+				}
+				else
+				{
+					bloodTolose = Mathf.Min(bloodTolose, 1);
+				}
+
+				reagentPoolSystem?.Bleed(bloodTolose);
+				BleedStacks = BleedStacks - bloodTolose;
 			}
 		}
 
@@ -1671,11 +1690,12 @@ namespace HealthV2
 		public void ChangeBleedStacks(float deltaValue)
 		{
 			BleedStacks = Mathf.Clamp((BleedStacks + deltaValue), 0, maxBleedStacks);
+
 		}
 
 		public void AddBleedStacks(float deltaValue)
 		{
-			BleedStacks += Mathf.Clamp((BleedStacks + deltaValue), -1000, maxBleedStacks);
+			BleedStacks = Mathf.Clamp((BleedStacks + deltaValue), -1000, maxBleedStacks);
 			if (BleedStacks < 0)
 			{
 				BleedStacks = 0;

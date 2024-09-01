@@ -30,7 +30,7 @@ namespace HealthV2.Living.Surgery
 			isOn.NextTraitToUse = "";
 
 			ThisSurgeryStep = SurgeryProcedureBase.SurgerySteps[CurrentStep];
-			isOn.NextTraitToUse = ThisSurgeryStep?.RequiredTrait.Name;
+			isOn.NextTraitToUse = ThisSurgeryStep?.RequiredTrait?.Name;
 
 			if (ThisSurgeryStep != null)
 			{

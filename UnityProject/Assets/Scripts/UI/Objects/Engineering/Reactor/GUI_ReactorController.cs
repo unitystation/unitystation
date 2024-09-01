@@ -32,7 +32,7 @@ namespace UI.Objects.Engineering
 		private float SecondarySetControl = 1;
 
 		private const decimal HIGH_PRESSURE_THRESHOLD = 60000;
-		private const decimal HIGH_PRESSURE_THRESHOLD_SCRAM = 10000;
+		private const decimal HIGH_PRESSURE_THRESHOLD_SCRAM = 20000;
 		private const float HIGH_PRESSURE_DELTA_THRESHOLD = 2500;
 
 		private const int MAX_NEUTRON_FLUX_POWER = 12;
