@@ -24,10 +24,10 @@ namespace Core.Factories
 		private static GameObject largeXenoBloodTile;
 
 		[SerializeField]
-		private static float SmallBleedThreshold = 5f;
+		private static float SmallBleedThreshold = 1f;
 
 		[SerializeField]
-		private static float MedBleedThreshold = 15f;
+		private static float MedBleedThreshold = 3f;
 
 
 
@@ -76,7 +76,8 @@ namespace Core.Factories
 				sizeDesc = "pool";
 			}
 
-			var bloodTileInst = Spawn.ServerPrefab(chosenTile, worldPos, MatrixManager.AtPoint(worldPos.CutToInt(), true).Objects, Quaternion.identity);
+			var bloodTileInst = Spawn.ServerPrefab(chosenTile, worldPos, MatrixManager.AtPoint(worldPos, true).Objects,
+				Quaternion.identity);
 			if (bloodTileInst.Successful)
 			{
 				var colorDesc = TextUtils.ColorToString(bloodReagents.MixColor);
