@@ -932,9 +932,7 @@ namespace HealthV2
 				}
 
 				reagentPoolSystem?.Bleed(bloodTolose);
-				Loggy.LogError("Bleed  " + bloodTolose);
 				BleedStacks = BleedStacks - bloodTolose;
-				Loggy.LogError("BleedStacks Damage >  " + BleedStacks);
 			}
 		}
 
