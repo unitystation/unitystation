@@ -67,8 +67,7 @@ namespace TileManagement
 				new ChunkedTileMap<List<TileLocation>>(),
 			}; // == max Value
 
-		public ChunkedTileMap<List<TileLocation>>[] MultilayerPresentTilesNeedsLock =>
-			MultilayerPresentTiles;
+		public ChunkedTileMap<List<TileLocation>>[] MultilayerPresentTilesNeedsLock => MultilayerPresentTiles;
 
 		private Dictionary<Layer, BetterBoundsInt> BoundLocations = new Dictionary<Layer, BetterBoundsInt>();
 
@@ -92,6 +91,8 @@ namespace TileManagement
 				return PooledTileLocation.Count > 0 ? PooledTileLocation.Pop() : new TileLocation();
 			}
 		}
+
+		public Dictionary<Vector3Int, TileSaveRollback> TileSaveRollbacks = new Dictionary<Vector3Int, TileSaveRollback>();
 
 
 		public Queue<TileLocation> QueuedChanges = new Queue<TileLocation>();
@@ -895,8 +896,17 @@ namespace TileManagement
 
 		public Vector3Int SetTile(Vector3Int position, LayerTile tile, Matrix4x4? matrixTransform = null,
 			Color? color = null,
-			bool isPlaying = true, bool useExactForMultilayer = false)
+			bool isPlaying = true, bool useExactForMultilayer = false, bool MapSaveRecord = false)
 		{
+			if (MapSaveRecord)
+			{
+				TileSaveRollback TileSaveRollback = new TileSaveRollback();
+				TileSaveRollback.LocalPosition = position;
+				TileSaveRollback.ChangedToLayerTile = tile;
+				TileSaveRollback.InitialLayerTile = GetTile(position, tile.LayerType);
+				TileSaveRollbacks[position] = TileSaveRollback;
+			}
+
 			if (Layers.TryGetValue(tile.LayerType, out var layer))
 			{
 				if (isPlaying == false) //is the game playing or is this the levelbrush?

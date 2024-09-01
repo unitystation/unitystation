@@ -102,7 +102,7 @@ public class OreGenerator : ItemMatrixSystemInit
 			{
 				GeneratedLocations.Add(oreTile);
 				var oreCategory = weightedList[RANDOM.Next(weightedList.Count)];
-				tileChangeManager.MetaTileMap.SetTile(oreTile, oreCategory.WallTile);
+				tileChangeManager.MetaTileMap.SetTile(oreTile, oreCategory.WallTile, MapSaveRecord: true);
 				var intLocation = oreTile + Vector3Int.zero;
 				intLocation.z = -1;
 				tileChangeManager.MetaTileMap.AddOverlay(intLocation, oreCategory.OverlayTile as OverlayTile);
@@ -128,7 +128,7 @@ public class OreGenerator : ItemMatrixSystemInit
 			if (tile != null && ((BasicTile) tile).Mineable && GeneratedLocations.Contains(ranLocation) == false)
 			{
 				GeneratedLocations.Add(ranLocation);
-				tileChangeManager.MetaTileMap.SetTile(ranLocation, materialSpecified.WallTile);
+				tileChangeManager.MetaTileMap.SetTile(ranLocation, materialSpecified.WallTile, MapSaveRecord : true);
 				locations.Add(ranLocation);
 				ranLocation.z = -1;
 				tileChangeManager.MetaTileMap.AddOverlay(ranLocation, materialSpecified.OverlayTile as OverlayTile);

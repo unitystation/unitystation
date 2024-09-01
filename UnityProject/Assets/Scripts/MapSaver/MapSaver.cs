@@ -294,9 +294,9 @@ namespace MapSaver
 
 		public class CompactObjectMapData
 		{
-			public string Ver = "1.1.0";
+			public string Ver = "1.1.1";
 			//1.1.0 Added support for Dictionaries and change syntax for Removed Elements
-
+			//1.1.1 Lists now are specified in reversed order to Handle removed elements properly
 			public List<string> CommonPrefabs = new List<string>();
 
 			public List<PrefabData> PrefabData;
@@ -684,7 +684,7 @@ namespace MapSaver
 
 		public static void SaveTileMap(bool Compact, MatrixData ToSaveTo, MetaTileMap metaTileMap,
 			ref BetterBounds Bounds,
-			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null)
+			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null, bool NonmappedItems = false)
 		{
 #if UNITY_EDITOR
 			if (Application.isPlaying == false)
@@ -695,11 +695,11 @@ namespace MapSaver
 
 			if (Compact)
 			{
-				CompactTileMapSave(ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess);
+				CompactTileMapSave(ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess, NonmappedItems : NonmappedItems);
 			}
 			else
 			{
-				GitFriendlyTileMapSave(ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess);
+				GitFriendlyTileMapSave(ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess, NonmappedItems : NonmappedItems);
 			}
 		}
 
@@ -817,7 +817,7 @@ namespace MapSaver
 
 
 		public static void GitFriendlyTileMapSave(MatrixData ToSaveTo, MetaTileMap metaTileMap, ref BetterBounds Bounds,
-			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null)
+			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null, bool NonmappedItems = false)
 		{
 			//# Matrix4x4
 			//§ TileID
@@ -845,6 +845,8 @@ namespace MapSaver
 					{
 						if (TileAndLocation?.layerTile == null) continue;
 
+						LayerTile layerTile = TileAndLocation.layerTile;
+
 						if (UseBoundary)
 						{
 							var pos1 = TileAndLocation.LocalPosition;
@@ -855,6 +857,20 @@ namespace MapSaver
 							}
 						}
 
+						if (NonmappedItems == false)
+						{
+							if (metaTileMap.TileSaveRollbacks.TryGetValue(TileAndLocation.LocalPosition, out var data))
+							{
+								if (data.ChangedToLayerTile == layerTile)
+								{
+									layerTile = data.InitialLayerTile;
+									if (layerTile == null) continue;
+								}
+							}
+						}
+
+
+
 						if (LayersToProcess != null)
 						{
 							if (LayersToProcess.Contains(TileAndLocation.layer.LayerType) == false)
@@ -864,7 +880,7 @@ namespace MapSaver
 						}
 						else
 						{
-							if (TileAndLocation.layer.LayerType == LayerType.Effects) continue;
+							if (layerTile.LayerType == LayerType.Effects) continue;
 						}
 
 						Bounds.ExpandToPoint2D(TileAndLocation.LocalPosition);
@@ -881,7 +897,7 @@ namespace MapSaver
 							Tile.Z = TileAndLocation.LocalPosition.z;
 						}
 
-						Tile.Tel = TileToString(TileAndLocation.layerTile);
+						Tile.Tel = TileToString(layerTile);
 
 						if (TileAndLocation.Colour != Color.white)
 						{
@@ -917,7 +933,7 @@ namespace MapSaver
 									continue;
 								}
 							}
-
+							LayerTile layerTile = TileAndLocation.layerTile;
 
 							if (LayersToProcess != null)
 							{
@@ -929,6 +945,19 @@ namespace MapSaver
 							else
 							{
 								if (TileAndLocation.layer.LayerType == LayerType.Effects) continue;
+							}
+
+
+							if (NonmappedItems == false)
+							{
+								if (metaTileMap.TileSaveRollbacks.TryGetValue(TileAndLocation.LocalPosition, out var data))
+								{
+									if (data.ChangedToLayerTile == layerTile)
+									{
+										layerTile = data.InitialLayerTile;
+										if (layerTile == null) continue;
+									}
+								}
 							}
 
 
@@ -947,7 +976,7 @@ namespace MapSaver
 								Tile.Z = TileAndLocation.LocalPosition.z;
 							}
 
-							Tile.Tel = TileToString(TileAndLocation.layerTile);
+							Tile.Tel = TileToString(layerTile);
 
 							if (TileAndLocation.Colour != Color.white)
 							{
@@ -972,7 +1001,7 @@ namespace MapSaver
 		}
 
 		public static void CompactTileMapSave(MatrixData ToSaveTo, MetaTileMap metaTileMap, ref BetterBounds Bounds,
-			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null)
+			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null, bool NonmappedItems = false)
 		{
 			//# Matrix4x4
 			//§ TileID
@@ -1017,6 +1046,7 @@ namespace MapSaver
 
 						if (TileAndLocation?.layerTile == null) continue;
 
+
 						if (LayersToProcess != null)
 						{
 							if (LayersToProcess.Contains(TileAndLocation.layer.LayerType) == false)
@@ -1024,6 +1054,7 @@ namespace MapSaver
 								continue;
 							}
 						}
+
 
 
 						if (TileAndLocation.layer.LayerType.IsMultilayer())
@@ -1155,6 +1186,19 @@ namespace MapSaver
 							}
 						}
 
+						LayerTile layerTile = TileAndLocation.layerTile;
+						if (NonmappedItems == false)
+						{
+							if (metaTileMap.TileSaveRollbacks.TryGetValue(TileAndLocation.LocalPosition, out var data))
+							{
+								if (data.ChangedToLayerTile == layerTile)
+								{
+									layerTile = data.InitialLayerTile;
+									if (layerTile == null) continue;
+								}
+							}
+						}
+
 						if (LayersToProcess != null)
 						{
 							if (LayersToProcess.Contains(TileAndLocation.layer.LayerType) == false)
@@ -1176,7 +1220,7 @@ namespace MapSaver
 						SB.Append(",");
 						SB.Append(TileAndLocation.LocalPosition.z);
 						SB.Append(",");
-						int Index = CommonLayerTiles.IndexOf(TileAndLocation.layerTile);
+						int Index = CommonLayerTiles.IndexOf(layerTile);
 
 
 						if (Index != 0)
@@ -1221,6 +1265,19 @@ namespace MapSaver
 								}
 							}
 
+							LayerTile layerTile = TileAndLocation.layerTile;
+							if (NonmappedItems == false)
+							{
+								if (metaTileMap.TileSaveRollbacks.TryGetValue(TileAndLocation.LocalPosition, out var data))
+								{
+									if (data.ChangedToLayerTile == layerTile)
+									{
+										layerTile = data.InitialLayerTile;
+										if (layerTile == null) continue;
+									}
+								}
+							}
+
 							if (LayersToProcess != null)
 							{
 								if (LayersToProcess.Contains(TileAndLocation.layer.LayerType) == false)
@@ -1245,7 +1302,7 @@ namespace MapSaver
 							SB.Append(TileAndLocation.LocalPosition.z);
 							SB.Append(",");
 
-							int Index = CommonLayerTiles.IndexOf(TileAndLocation.layerTile);
+							int Index = CommonLayerTiles.IndexOf(layerTile);
 
 
 							if (Index != 0)

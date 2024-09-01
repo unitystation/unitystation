@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using Chemistry.Components;
+using ScriptableObjects;
+using SecureStuff;
 #if UNITY_EDITOR
 using UnityEditor;
 
@@ -11,7 +13,7 @@ using UnityEngine;
 namespace Items
 {
 	[CreateAssetMenu(fileName = "RandomItemPool", menuName = "ScriptableObjects/RandomItemPool")]
-	public class RandomItemPool : ScriptableObject
+	public class RandomItemPool : SOTracker
 	{
 		[Tooltip("List of game objects to choose from")][SerializeField]
 		private List<GameObjectPool> pool = null;
