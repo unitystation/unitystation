@@ -3,6 +3,7 @@ using UnityEngine;
 using Mirror;
 using System.Linq;
 using Objects.Construction;
+using SecureStuff;
 
 
 public class ShuttleConnector : NetworkBehaviour, ICheckedInteractable<HandApply>
@@ -10,7 +11,7 @@ public class ShuttleConnector : NetworkBehaviour, ICheckedInteractable<HandApply
 	public ShuttleConnector ConnectedToConnector;
 
 
-	public MatrixMove RelatedMove;
+	[PlayModeOnly] public MatrixMove RelatedMove;
 
 	public RegisterTile RegisterTile;
 

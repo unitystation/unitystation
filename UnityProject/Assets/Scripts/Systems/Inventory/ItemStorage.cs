@@ -95,13 +95,17 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		player = registerPlayer;
 	}
 
-	[SerializeField] private bool ignoreRoundstartGrabObjects = false;
+	[SerializeField, FormerlySerializedAs("ignoreRoundstartGrabObjects")]
+	private bool initialignoreRoundstartGrabObjects = false;
+
+	private bool ignoreRoundstartGrabObjects = false;
 
 	[SerializeField] private GameObject ashPrefab;
 	public GameObject AshPrefab => ashPrefab;
 
 	private void Awake()
 	{
+		ignoreRoundstartGrabObjects = initialignoreRoundstartGrabObjects;
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		CacheDefinedSlots();
 		if (SetSlotItemNotRemovableOnStartUp)

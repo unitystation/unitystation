@@ -144,7 +144,14 @@ public class EditorDrawPreview
 		if (guidToSpriteDataEntry.TryGetValue(guid, out var dataEntry))
 		{
 			entry = dataEntry;
-			return true;
+			if (entry == null)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
 		}
 
 		var assetPath = AssetDatabase.GUIDToAssetPath(guid);
@@ -153,6 +160,7 @@ public class EditorDrawPreview
 		if (assetType != typeof(SpriteDataSO))
 		{
 			entry = null;
+			guidToSpriteDataEntry[guid] = null;
 			return false;
 		}
 

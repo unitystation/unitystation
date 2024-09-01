@@ -2,6 +2,7 @@
 using Logs;
 using NaughtyAttributes;
 using Objects.Engineering;
+using SecureStuff;
 using Systems.Electricity;
 using UnityEngine;
 
@@ -17,9 +18,6 @@ namespace Systems.Scenes.Electricity
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 			EventManager.AddHandler(Event.RoundStarted, UpdateAPCStatus);
-#if UNITY_EDITOR
-			verboseDebugging = true;
-#endif
 		}
 
 		private void OnDestroy()

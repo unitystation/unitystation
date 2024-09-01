@@ -1,20 +1,26 @@
+using System;
 using UnityEngine;
 using Mirror;
 using Objects;
+using SecureStuff;
+using UnityEngine.Serialization;
 
 namespace Items
 {
 	public class RolledPoster : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 	{
 		public GameObject wallPrefab;
+
+	    [FormerlySerializedAs("posterVariant")]	public Posters InitialPoster;
 		[SyncVar(hook = nameof(SyncPosterType))]
-		public Posters posterVariant;
+		[PlayModeOnly, NonSerialized] public Posters posterVariant;
 		public SpriteRenderer spriteRend;
 		public Sprite legitSprite;
 		public Sprite contrabandSprite;
 
 		public override void OnStartServer()
 		{
+			posterVariant = InitialPoster;
 			var startPoster = wallPrefab.GetComponent<PosterBehaviour>().GetPoster(posterVariant);
 			posterVariant = startPoster.PosterName;
 			SyncPosterType(posterVariant, posterVariant);

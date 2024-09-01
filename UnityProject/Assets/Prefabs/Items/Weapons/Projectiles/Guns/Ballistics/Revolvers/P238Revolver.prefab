@@ -32,6 +32,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
+      propertyPath: allowMagazineRemoval
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
       propertyPath: FiringSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/Gun/Revolver/RevolverShot.prefab
       objectReference: {fileID: 0}
@@ -140,6 +145,12 @@ PrefabInstance:
     - target: {fileID: 7810681965648851131, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: aef0c35f3a3221943b2f7a7556e1a26f,
+        type: 2}
+    - target: {fileID: 7810681965648851131, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: aef0c35f3a3221943b2f7a7556e1a26f,
         type: 2}

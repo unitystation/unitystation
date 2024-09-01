@@ -16,7 +16,7 @@ using UnityEngine;
 
 public class Thruster : MonoPipe
 {
-	public MatrixMove RelatedMove;
+	private MatrixMove RelatedMove;
 	private RegisterTile RegisterTile;
 	public Rotatable Rotatable;
 
@@ -32,8 +32,7 @@ public class Thruster : MonoPipe
 
 	public float AThrusterUseMultiplier = 0.072975f;
 
-	[SyncVar]
-	public float ThrustPower;
+	[SyncVar] public float ThrustPower;
 
 	public bool SelfPowered = false;
 

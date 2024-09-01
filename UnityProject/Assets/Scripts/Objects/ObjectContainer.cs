@@ -237,7 +237,7 @@ namespace Objects
 				}
 				else
 				{
-					uop.AppearAtWorldPositionServer(worldPosition.Value);
+					uop.AppearAtWorldPositionServer(worldPosition.Value + offset);
 				}
 				uop.StoreTo(null);
 			}

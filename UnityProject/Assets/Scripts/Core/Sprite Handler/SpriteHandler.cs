@@ -23,8 +23,12 @@ public class SpriteHandler : MonoBehaviour
 
 	[SerializeField] private List<SpriteDataSO> SubCatalogue = new List<SpriteDataSO>();
 
-	[SerializeField] private SpriteDataSO PresentSpriteSet;
+	private SpriteDataSO PresentSpriteSet;
+	[SerializeField, FormerlySerializedAs("PresentSpriteSet")] private SpriteDataSO InitialPresentSpriteSet;
+
 	public SpriteDataSO PresentSpritesSet => PresentSpriteSet;
+
+	public SpriteDataSO initialPresentSpriteSet => InitialPresentSpriteSet;
 
 	private SpriteDataSO.Frame PresentFrame = null;
 
@@ -45,8 +49,12 @@ public class SpriteHandler : MonoBehaviour
 
 	[SerializeField] private bool pushTextureOnStartUp = true;
 
-	[FormerlySerializedAs("initialVariantIndex"), SerializeField, Range(0, 9)]
-	public int variantIndex = 0;
+	private int variantIndex = 0;
+
+	public int VariantIndex => variantIndex;
+
+	[FormerlySerializedAs("initialVariantIndex"), FormerlySerializedAs("variantIndex"), SerializeField, Range(0, 9)]
+	private int initialVariantIndex = 0;
 
 	private int cataloguePage = -1;
 
@@ -144,6 +152,10 @@ public class SpriteHandler : MonoBehaviour
 	public virtual void ClearPresentSpriteSet()
 	{
 		PresentSpriteSet = null;
+		if (Application.isPlaying == false)
+		{
+			InitialPresentSpriteSet = null;
+		}
 	}
 
 	/// <summary>
@@ -241,6 +253,10 @@ public class SpriteHandler : MonoBehaviour
 		{
 			isPaletteSet = false;
 			PresentSpriteSet = newSpriteSO;
+			if (Application.isPlaying == false)
+			{
+				InitialPresentSpriteSet = newSpriteSO;
+			}
 			// TODO: Network, change to network catalogue message
 			// See https://github.com/unitystation/unitystation/pull/5675#pullrequestreview-540239428
 			cataloguePage = SubCatalogue.FindIndex(SO => SO == newSpriteSO);
@@ -296,6 +312,11 @@ public class SpriteHandler : MonoBehaviour
 			}
 
 			variantIndex = spriteVariant;
+
+			if (Application.isPlaying == false)
+			{
+				variantIndex = initialVariantIndex;
+			}
 			var Frame = PresentSpriteSet.Variance[variantIndex].Frames[animationIndex];
 			SetSprite(Frame);
 			TryToggleAnimationState(PresentSpriteSet.Variance[variantIndex].Frames.Count > 1);
@@ -352,6 +373,10 @@ public class SpriteHandler : MonoBehaviour
 		cataloguePage = -1;
 		PushClear(false);
 		PresentSpriteSet = null;
+		if (Application.isPlaying == false)
+		{
+			InitialPresentSpriteSet = null;
+		}
 		OnSpriteDataSOChanged?.Invoke(null);
 		OnColorChanged.Clear();
 		OnSpriteChanged.Clear();
@@ -649,6 +674,12 @@ public class SpriteHandler : MonoBehaviour
 
 	protected virtual void Awake()
 	{
+		variantIndex = initialVariantIndex;
+		PresentSpriteSet = InitialPresentSpriteSet;
+#if UNITY_EDITOR
+		ValidateLate();
+#endif
+
 		if (Application.isPlaying)
 		{
 			ParentUniversalObjectPhysics = this.transform.parent.OrNull()?.GetComponent<UniversalObjectPhysics>();
@@ -1043,25 +1074,25 @@ public class SpriteHandler : MonoBehaviour
 	private void OnValidate()
 	{
 		if (Application.isPlaying) return;
-#if UNITY_EDITOR
 		if (Selection.activeGameObject != this.gameObject) return;
-#endif
-		if (PresentSpriteSet == null)
+		if (InitialPresentSpriteSet == null)
 		{
 			return;
 		}
 
-#if UNITY_EDITOR
 		EditorApplication.delayCall -= ValidateLate;
 		EditorApplication.delayCall += ValidateLate;
-#endif
+
 	}
 
 	public void ValidateLate()
 	{
 		// ValidateLate might be called after this object is already destroyed.
 		if (this == null || Application.isPlaying) return;
-		if (Selection.activeGameObject != this.gameObject) return;
+		if (Selection.activeGameObject == null) return;
+		if (Selection.activeGameObject.name != this.gameObject.transform.parent.gameObject.name) return;
+
+		PresentSpriteSet = InitialPresentSpriteSet;
 		PushTexture();
 	}
 

@@ -101,11 +101,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: b17bebc68a303e341ad9ae325f44e7ce, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: b17bebc68a303e341ad9ae325f44e7ce,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &1004520157929427565
 PrefabInstance:
@@ -153,6 +154,12 @@ PrefabInstance:
     - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4411773cea9c5fc4d985d0debd90c5dd,
+        type: 2}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 4411773cea9c5fc4d985d0debd90c5dd,
         type: 2}
@@ -375,6 +382,26 @@ PrefabInstance:
       propertyPath: Color.r
       value: 0.39215687
       objectReference: {fileID: 0}
+    - target: {fileID: 5344101728563766022, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0.69803923
+      objectReference: {fileID: 0}
+    - target: {fileID: 5344101728563766022, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.39215687
+      objectReference: {fileID: 0}
+    - target: {fileID: 5344101728563766022, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 5344101728563766022, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.39215687
+      objectReference: {fileID: 0}
     - target: {fileID: 5577623456038050690, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: m_Sprite
@@ -543,7 +570,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 1666505115895660852}
-  destroyThisComponentOnOpen: 1
+  destroyThisComponentOnOpen: 0
   openingNoise:
     SetLoadSetting: 0
     AssetAddress: 

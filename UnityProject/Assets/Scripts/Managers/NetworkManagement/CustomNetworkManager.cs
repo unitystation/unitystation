@@ -121,7 +121,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	}
 
 
-	public override void ObjectBeforePayloadDataClient(NetworkIdentity identity)
+	public override void ObjectBeforePayloadDataClient(NetworkIdentity identity) //NOTE : Won't handle object to object references,
+                                                                              //However these should be synchronised By mirror since I can't Think of a state where they won't be
 	{
 		if (IsServer) return;
 		if (PrePayload.TryGetValue(identity.netId, out var prefabdata))

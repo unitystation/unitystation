@@ -15,8 +15,12 @@ public class GlassShard : NetworkBehaviour, IServerSpawn
 	private SpriteRenderer spriteRenderer;
 	private UniversalObjectPhysics ObjectPhysics;
 	private SpriteHandler spriteHandler;
+	public bool AppearWithRandomOffset = true;
+	public bool AppearWithRandomRotation = true;
 
 	#region Lifecycle
+
+
 
 	void Awake()
 	{
@@ -36,11 +40,18 @@ public class GlassShard : NetworkBehaviour, IServerSpawn
 	public void SetSpriteAndScatter(int index)
 	{
 		spriteHandler.SetCatalogueIndexSprite(index);
-		ObjectPhysics?.ForceDrop(ObjectPhysics.OfficialPosition);
+		if (AppearWithRandomOffset)
+		{
+			ObjectPhysics?.ForceDrop(ObjectPhysics.OfficialPosition);
+		}
 
-		//Add a bit of rotation variance to the sprite obj:
-		var axis = new Vector3(0, 0, 1);
-		spriteRotation = Quaternion.AngleAxis(Random.Range(-180f, 180f), axis);
+
+		if (AppearWithRandomRotation)
+		{
+			//Add a bit of rotation variance to the sprite obj:
+			var axis = new Vector3(0, 0, 1);
+			spriteRotation = Quaternion.AngleAxis(Random.Range(-180f, 180f), axis);
+		}
 	}
 
 	private void SyncSpriteRotation(Quaternion oldValue, Quaternion newValue)
@@ -65,7 +76,8 @@ public class GlassShard : NetworkBehaviour, IServerSpawn
 		if (coll.gameObject.layer == 8)
 		{
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.8f, 1.2f));
-			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GlassStep, coll.transform.position, audioSourceParameters, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GlassStep, coll.transform.position,
+				audioSourceParameters, sourceObj: gameObject);
 		}
 	}
 }

@@ -199,7 +199,7 @@ namespace MapSaver
 					{
 						Matrix4x4 = MapSaver.StringToMatrix4X4(Tile.Tf);
 					}
-					
+
 					Matrix.MetaTileMap.SetTile(NewPos, Tel, Matrix4x4, Colour, Application.isPlaying, useExactForMultilayer : true);
 				}
 			}
@@ -277,7 +277,9 @@ namespace MapSaver
 					SpawnResult = Spawn.ServerPrefab(
 						CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[PrefabID],
 						position.ToWorld(Matrix), AutoOnSpawnServerHook: false, mapspawn: true);
+
 					Object = SpawnResult.GameObject;
+
 				}
 
 				MapSaver.StringToPRS(Object, prefabData.LocalPRS);
@@ -288,10 +290,12 @@ namespace MapSaver
 					Object.GetComponent<UniversalObjectPhysics>()
 						?.AppearAtWorldPositionServer(Object.transform.localPosition.ToWorld(Matrix),
 							Matrixoveride: Matrix.MatrixInfo);
+					Object.GetComponent<UniversalObjectPhysics>()?.SetMatrix(Matrix);
 				}
 			}
 
-
+			Object.GetComponent<UniversalObjectPhysics>()?.ResetEverything();
+			Object.transform.SetParent(Matrix.MetaTileMap.ObjectLayer.transform);
 			if (string.IsNullOrEmpty(prefabData.Name) == false)
 			{
 				Object.name = prefabData.Name;

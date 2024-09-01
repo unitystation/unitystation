@@ -2,6 +2,7 @@ using UnityEngine;
 using Systems.Hacking;
 using Messages.Server;
 using Messages.Server.SoundMessages;
+using SecureStuff;
 using Systems.Electricity;
 using UI.Core.Net;
 
@@ -25,7 +26,7 @@ namespace Objects.Construction
 		/// </summary>
 		public GameObject CircuitBoardPrefab => circuitBoardPrefab;
 
-		public bool hasPower = false;
+		[PlayModeOnly] public bool hasPower = false;
 
 		[Tooltip("Time taken to screwdrive to deconstruct this.")]
 		[SerializeField]

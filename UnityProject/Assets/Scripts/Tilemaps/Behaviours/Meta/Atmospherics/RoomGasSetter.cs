@@ -45,8 +45,6 @@ namespace Systems.Atmospherics
 				//Use ChangeGasMix to remove old gas overlays and add new overlays
 				metaDataNode.ChangeGasMix(GasMix.NewGasMix(GasMixToSpawn));
 			}
-
-			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		public void SetUp()
@@ -57,7 +55,7 @@ namespace Systems.Atmospherics
 				return;
 			}
 
-			var metaDataNode = registerTile.Matrix.GetMetaDataNode(registerTile.LocalPositionServer, false);
+			var metaDataNode = registerTile.Matrix.GetMetaDataNode(transform.localPosition.RoundToInt(), false);
 
 			if (metaDataNode == null) return;
 
@@ -69,7 +67,7 @@ namespace Systems.Atmospherics
 			else
 			{
 				//Set occupied before round start, do it during the atmos init
-				registerTile.Matrix.OrNull()?.GetComponentInParent<AtmosSystem>().OrNull()?.AddToListOccupied(registerTile.LocalPositionServer, this);
+				registerTile.Matrix.OrNull()?.GetComponentInParent<AtmosSystem>().OrNull()?.AddToListOccupied(transform.localPosition.RoundToInt(), this);
 			}
 		}
 	}

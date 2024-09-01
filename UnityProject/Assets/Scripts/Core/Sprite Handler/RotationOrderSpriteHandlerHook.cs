@@ -31,12 +31,12 @@ public class RotationOrderSpriteHandlerHook : MonoBehaviour
 	{
 		if (SetOrder)
 		{
-			SH.SpriteRenderer.sortingOrder = Orders[SH.variantIndex];
+			SH.SpriteRenderer.sortingOrder = Orders[SH.VariantIndex];
 		}
 
 		if (SetLayer)
 		{
-			SH.SpriteRenderer.sortingLayerName = Layers[SH.variantIndex];
+			SH.SpriteRenderer.sortingLayerName = Layers[SH.VariantIndex];
 		}
 
 	}

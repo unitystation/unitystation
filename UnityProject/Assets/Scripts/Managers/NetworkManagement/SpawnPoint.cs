@@ -10,8 +10,6 @@ namespace Systems.Spawns
 {
 	public class SpawnPoint : NetworkStartPosition
 	{
-		public SerializableDictionary<SpawnPointCategory, SpriteDataSO> Sprites =
-			new SerializableDictionary<SpawnPointCategory, SpriteDataSO>();
 
 
 		[VVNote(VVHighlight.SafeToModify100)]
@@ -28,9 +26,9 @@ namespace Systems.Spawns
 				{
 					var Position = transform.position.RoundToInt();
 					this.name = category.ToString() + " at " + Position.x + " " + Position.y;
-					if (Sprites.ContainsKey(category))
+					if (SpawnPointSpritesSingleton.Instance.Sprites.ContainsKey(category))
 					{
-						SpriteHandler.SetSpriteSO(Sprites[category]);
+						SpriteHandler.SetSpriteSO(SpawnPointSpritesSingleton.Instance.Sprites[category]);
 					}
 					else
 					{
@@ -64,9 +62,9 @@ namespace Systems.Spawns
 			{
 				var Position = transform.position.RoundToInt();
 				this.name = category.ToString() + " at " + Position.x + " " + Position.y;
-				if (Sprites.ContainsKey(category))
+				if (SpawnPointSpritesSingleton.Instance.Sprites.ContainsKey(category))
 				{
-					SpriteHandler.SetSpriteSO(Sprites[category]);
+					SpriteHandler.SetSpriteSO(SpawnPointSpritesSingleton.Instance.Sprites[category]);
 				}
 				else
 				{
