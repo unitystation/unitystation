@@ -516,12 +516,10 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 				// interaction should've triggered and did or we hit a cooldown, so we're
 				// done processing this request.
 				return true;
-				break;
 			}
 			else
 			{
 				tileInteraction.ServerRollbackClient(interaction);
-				return false;
 			}
 		}
 		return false;
