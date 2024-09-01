@@ -224,6 +224,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4cce2a33ad059744aa87124adfe8db18,
         type: 2}
+    - target: {fileID: 5406248525527790680, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4cce2a33ad059744aa87124adfe8db18,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -254,6 +260,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  BasicINT: 99
   TestClasss:
   - price: 0
     title: sdfdsfsdghh

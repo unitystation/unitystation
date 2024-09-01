@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using SecureStuff;
 using UnityEngine;
 using UI.Objects.Cargo;
+using UnityEngine.Serialization;
 
 namespace Objects.Machines
 {
@@ -10,13 +12,22 @@ namespace Objects.Machines
 	/// </summary>
 	public class MaterialStorageLink : MonoBehaviour
 	{
-		public bool IsUsingSilo;
-		public MaterialStorage usedStorage;
+		[FormerlySerializedAs("IsUsingSilo")]
+		public bool InitialIsUsingSilo;
+		[PlayModeOnly] public bool IsUsingSilo;
+
+
+		[FormerlySerializedAs("usedStorage")]
+		public MaterialStorage InitialusedStorage;
+		[PlayModeOnly] public MaterialStorage usedStorage;
+
 		private MaterialStorage selfStorage;
 		public GUI_MaterialsList materialListGUI;
 
 		private void Awake()
 		{
+			IsUsingSilo = InitialIsUsingSilo;
+			usedStorage = InitialusedStorage;
 			selfStorage = GetComponent<MaterialStorage>();
 			usedStorage = selfStorage;
 			usedStorage.UpdateGUIs.AddListener(UpdateGUI);

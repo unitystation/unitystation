@@ -20,7 +20,7 @@ namespace Objects.Atmospherics
 		{
 			pipeData.PipeAction = new ReservoirAction();
 			Container.SetIProvideReagentMix(pipeData);
-			pipeData.GetMixAndVolume.SetReagentMix(initialContents);
+			pipeData.GetMixAndVolume.SetReagentMix(initialContents.Clone());
 			pipeData.GetMixAndVolume.SetVolume(Container.MaxCapacity);
 
 			base.OnSpawnServer(info);

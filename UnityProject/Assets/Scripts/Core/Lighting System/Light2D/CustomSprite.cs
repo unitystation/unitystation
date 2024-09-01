@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Logs;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Light2D
 {
@@ -19,7 +20,10 @@ namespace Light2D
         /// <summary>
         /// Vertex color of mesh.
         /// </summary>
-        public Color Color = Color.white;
+        [NonSerialized] public Color Color = Color.white;
+
+        [FormerlySerializedAs("Color")]
+        public Color InitialColour = Color.white;
 
         /// <summary>
         /// Sprite from which mesh will be generated.
@@ -69,6 +73,7 @@ namespace Light2D
 
         protected virtual void OnEnable()
         {
+	        Color = InitialColour;
 	        if (Application.isPlaying == false)
 	        {
 		        TryReleaseMesh();

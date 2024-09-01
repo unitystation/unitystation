@@ -177,6 +177,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: aef0c35f3a3221943b2f7a7556e1a26f,
         type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: aef0c35f3a3221943b2f7a7556e1a26f,
+        type: 2}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: parentID
@@ -252,10 +258,28 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  AllowSuicide: 1
+  pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
+    type: 3}
+  allowPinSwap: 1
+  FireDelay: 0.5
+  isSuppressed: 0
+  WeaponType: 0
+  MaxRecoilVariance: 0
+  ProjectileVelocity: 20
+  CameraRecoilConfig:
+    Distance: 0.2
+    RecoilDuration: 0.05
+    RecoveryDuration: 0.6
   ammoPrefab: {fileID: 0}
-  casingPrefabOverride: {fileID: 0}
-  allowMagazineRemoval: 1
   ammoType: 0
+  casingPrefabOverride: {fileID: 0}
+  SpawnsCasing: 1
+  MagInternal: 0
+  SmartGun: 0
+  allowMagazineRemoval: 1
+  attachmentPrefabs: []
+  allowedAttachments: 6
   loadMagSound:
     SetLoadSetting: 0
     AssetAddress: 
@@ -272,12 +296,6 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
-    type: 3}
-  suppressorPrefab: {fileID: 0}
-  SpawnsCasing: 1
-  MagInternal: 0
-  SmartGun: 0
   FiringSoundA:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/Gun/Pistol/PistolShot.prefab
@@ -302,16 +320,3 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  FireDelay: 0.5
-  AllowSuicide: 1
-  MaxRecoilVariance: 0
-  ProjectileVelocity: 20
-  CameraRecoilConfig:
-    Distance: 0
-    RecoilDuration: 0
-    RecoveryDuration: 0
-  WeaponType: 0
-  allowPinSwap: 1
-  allowedAttachments: 6
-  attributes: {fileID: 0}
-  isSuppressed: 0

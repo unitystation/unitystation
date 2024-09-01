@@ -8,6 +8,7 @@ using Core;
 using Core.Utils;
 using Systems.Clothing;
 using UI.Systems.Tooltips.HoverTooltips;
+using UnityEngine.Serialization;
 using Util.Independent.FluentRichText;
 
 namespace Items
@@ -203,9 +204,11 @@ namespace Items
 
 		public ItemsSprites ItemSprites => itemSprites;
 
+		private ItemsSprites itemSprites = new ItemsSprites();
+
 		[Tooltip("The In hands Sprites If it has any")]
-		[SerializeField]
-		private ItemsSprites itemSprites;
+		[SerializeField, FormerlySerializedAs("itemSprites")]
+		private ItemsSprites InitialitemSprites;
 
 		[HideInInspector]
 		public bool IsFakeItem = false;
@@ -232,6 +235,13 @@ namespace Items
 			{
 				traits.Add(definedTrait);
 			}
+
+			itemSprites.Palette.Clear();
+			itemSprites.Palette.AddRange(InitialitemSprites.Palette);
+			itemSprites.SpriteInventoryIcon = InitialitemSprites.SpriteInventoryIcon;
+			itemSprites.SpriteLeftHand = InitialitemSprites.SpriteLeftHand;
+			itemSprites.SpriteRightHand = InitialitemSprites.SpriteRightHand;
+			itemSprites.IsPaletted = InitialitemSprites.IsPaletted;
 
 			hasInit = true;
 		}

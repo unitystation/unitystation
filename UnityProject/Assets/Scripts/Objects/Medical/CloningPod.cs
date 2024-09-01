@@ -5,6 +5,7 @@ using Machines;
 using UnityEngine;
 using Mirror;
 using Objects.Machines;
+using SecureStuff;
 using UnityEngine.Serialization;
 
 namespace Objects.Medical
@@ -15,7 +16,7 @@ namespace Objects.Medical
 		public SpriteRenderer spriteRenderer;
 		public Sprite cloningSprite;
 		public Sprite emptySprite;
-		public string statusString;
+		[PlayModeOnly] public string statusString;
 		public CloningConsole console;
 
 		[FormerlySerializedAs("LimbCloningDamage"), SerializeField] private float internalLimbCloningDamage = 25;

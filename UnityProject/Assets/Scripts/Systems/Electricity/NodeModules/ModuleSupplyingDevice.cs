@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using Logs;
+using SecureStuff;
 using Systems.Electricity.Inheritance;
 using UnityEngine;
 
@@ -8,38 +11,34 @@ namespace Systems.Electricity.NodeModules
 	{
 		public bool StartOnStartUp = false;
 
-		[HideInInspector]
-		public float Previouscurrent = 0;
-		public float current = 0;
+		[HideInInspector] public float Previouscurrent = 0;
+		[PlayModeOnly] public float current = 0;
 
-		[HideInInspector]
-		public float PreviousSupplyingVoltage = 0;
-		public float SupplyingVoltage = 0;
+		[HideInInspector] public float PreviousSupplyingVoltage = 0;
+		[PlayModeOnly] public float SupplyingVoltage = 0;
 
-		[HideInInspector]
-		public float PreviousInternalResistance = 0;
-		public float InternalResistance = 0;
+		[HideInInspector] public float PreviousInternalResistance = 0;
+		[PlayModeOnly] public float InternalResistance = 0;
 
-		[HideInInspector]
-		public float PreviousProducingWatts = 0;
-		public float ProducingWatts = 0;
+		[HideInInspector] public float PreviousProducingWatts = 0;
+		[PlayModeOnly] public float ProducingWatts = 0;
 
 		public Current CurrentSource = new Current();
 
 		public virtual void BroadcastSetUpMessage(ElectricalNodeControl Node)
 		{
 			RequiresUpdateOn = new HashSet<ElectricalUpdateTypeCategory>
-		{
-			ElectricalUpdateTypeCategory.PowerUpdateStructureChange,
-			ElectricalUpdateTypeCategory.PowerUpdateStructureChangeReact,
-			ElectricalUpdateTypeCategory.PowerUpdateCurrentChange,
-			ElectricalUpdateTypeCategory.TurnOnSupply,
-			ElectricalUpdateTypeCategory.TurnOffSupply,
-			ElectricalUpdateTypeCategory.PowerNetworkUpdate,
-			ElectricalUpdateTypeCategory.PotentialDestroyed,
-			ElectricalUpdateTypeCategory.GoingOffStage,
-			ElectricalUpdateTypeCategory.ObjectStateChange,
-		};
+			{
+				ElectricalUpdateTypeCategory.PowerUpdateStructureChange,
+				ElectricalUpdateTypeCategory.PowerUpdateStructureChangeReact,
+				ElectricalUpdateTypeCategory.PowerUpdateCurrentChange,
+				ElectricalUpdateTypeCategory.TurnOnSupply,
+				ElectricalUpdateTypeCategory.TurnOffSupply,
+				ElectricalUpdateTypeCategory.PowerNetworkUpdate,
+				ElectricalUpdateTypeCategory.PotentialDestroyed,
+				ElectricalUpdateTypeCategory.GoingOffStage,
+				ElectricalUpdateTypeCategory.ObjectStateChange,
+			};
 			ModuleType = ElectricalModuleTypeCategory.SupplyingDevice;
 			ControllingNode = Node;
 			ControllingNode.Node.InData.Data.SupplyingVoltage = SupplyingVoltage;
@@ -85,6 +84,7 @@ namespace Systems.Electricity.NodeModules
 		{
 			PowerSupplyFunction.PowerUpdateCurrentChange(this);
 		}
+
 		[RightClickMethod]
 		public override void TurnOnSupply()
 		{
@@ -94,8 +94,10 @@ namespace Systems.Electricity.NodeModules
 				{
 					ControllingNode.OverlayInternalResistance(InternalResistance, Connecting);
 				}
+
 				ElectricalManager.Instance.electricalSync.NUResistanceChange.Add(ControllingNode);
 			}
+
 			PowerSupplyFunction.TurnOnSupply(this);
 			}
 
@@ -138,40 +140,50 @@ namespace Systems.Electricity.NodeModules
 
 				ControllingNode.Node.InData.Data.ProducingWatts = ProducingWatts;
 				PreviousProducingWatts = ProducingWatts;
-				ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(ControllingNode.Node.InData.ControllingDevice);
+				ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(ControllingNode.Node.InData
+					.ControllingDevice);
 			}
 		}
 
 		public float GetVoltage()
 		{
-			if (ControllingNode.Node.InData.Data.SupplyDependent.ContainsKey(ControllingNode.Node) && ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream.Count > 0)
+			if (ControllingNode.Node.InData.Data.SupplyDependent.ContainsKey(ControllingNode.Node) &&
+			    ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream.Count > 0)
 			{
-				var DownNode = ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream.PickRandom();
+				var DownNode = ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream
+					.PickRandom();
 				ElectricityFunctions.WorkOutActualNumbers(DownNode);
 				return DownNode.Data.ActualVoltage;
 			}
+
 			return 0;
 		}
 
 		public float GetCurrente()
 		{
-			if (ControllingNode.Node.InData.Data.SupplyDependent.ContainsKey(ControllingNode.Node) && ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream.Count > 0)
+			if (ControllingNode.Node.InData.Data.SupplyDependent.ContainsKey(ControllingNode.Node) &&
+			    ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream.Count > 0)
 			{
-				var DownNode = ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream.PickRandom();
+				var DownNode = ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream
+					.PickRandom();
 				ElectricityFunctions.WorkOutActualNumbers(DownNode);
 				return (DownNode.Data.CurrentInWire);
 			}
+
 			return 0;
 		}
 
 		public float GetResistance()
 		{
-			if (ControllingNode.Node.InData.Data.SupplyDependent.ContainsKey(ControllingNode.Node) && ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream.Count > 0)
+			if (ControllingNode.Node.InData.Data.SupplyDependent.ContainsKey(ControllingNode.Node) &&
+			    ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream.Count > 0)
 			{
-				var DownNode = ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream.PickRandom();
+				var DownNode = ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream
+					.PickRandom();
 				ElectricityFunctions.WorkOutActualNumbers(DownNode);
 				return DownNode.Data.EstimatedResistance;
 			}
+
 			return 0;
 		}
 	}

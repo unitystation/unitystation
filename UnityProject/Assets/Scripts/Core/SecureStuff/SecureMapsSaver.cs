@@ -214,7 +214,6 @@ namespace SecureStuff
 					{
 						Loggy.LogError(e.ToString());
 					}
-
 				}
 			}
 		}
@@ -627,7 +626,7 @@ namespace SecureStuff
 
 
 			if (typeof(System.Action).IsAssignableFrom(KeyType)
-			    ||  (typeof(UnityEngine.Events.UnityEventBase).IsAssignableFrom(KeyType))
+			    || (typeof(UnityEngine.Events.UnityEventBase).IsAssignableFrom(KeyType))
 			    || (KeyType.IsGenericType && KeyType.GetGenericTypeDefinition() == typeof(Action<>)))
 			{
 				//Actions can get confused with runtime added onces vs Mapped Ones
@@ -741,7 +740,8 @@ namespace SecureStuff
 					}
 					else
 					{
-						if (CheckAreSame(ValueOriginal, modified.GetValue(Key), OnGameObjectComponents, AllGameObjectOnObject) == false)
+						if (CheckAreSame(ValueOriginal, modified.GetValue(Key), OnGameObjectComponents,
+							    AllGameObjectOnObject) == false)
 						{
 							FieldData fieldData = new FieldData();
 							fieldData.Name = Prefix + Field.Name + "#" + StringData;
@@ -829,7 +829,7 @@ namespace SecureStuff
 
 			if (IsReferencedObject == false && IsClass == false)
 			{
-				if (ListType.IsValueType  && ListType.IsPrimitive == false && ListType.IsEnum == false)
+				if (ListType.IsValueType && ListType.IsPrimitive == false && ListType.IsEnum == false)
 				{
 					return; //Non-serialisable class
 				}
@@ -844,6 +844,12 @@ namespace SecureStuff
 				return;
 			}
 
+			if (IsReferencedObject == false && ListType.IsValueType == false)
+			{
+				if (ListType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length == 0) return;
+			}
+
+
 			var modified = IEnumeratorToList((MonoSet as IEnumerable).GetEnumerator());
 
 			List<object> original = new List<object>();
@@ -855,7 +861,7 @@ namespace SecureStuff
 			}
 
 
-			for (int i = 0; i < Math.Max(original.Count, modified.Count); i++)
+			for (int i = Math.Max(original.Count, modified.Count) - 1; i >= 0; i--)
 			{
 				if ((i < original.Count && i < modified.Count) || (i < modified.Count && i >= original.Count))
 				{
@@ -1122,8 +1128,10 @@ namespace SecureStuff
 
 				if (Field.FieldType.IsGenericType == false)
 				{
-					if (Field.FieldType.IsGenericType) return; //Unity editor can't handle this currently so same Functionality
-					if (Field.FieldType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length == 0) return;
+					if (Field.FieldType.IsGenericType)
+						return; //Unity editor can't handle this currently so same Functionality
+					if (Field.FieldType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length ==
+					    0) return;
 
 					if (Field.GetValue(Object) == null)
 					{
@@ -1136,7 +1144,6 @@ namespace SecureStuff
 						{
 							Loggy.LogError(e.ToString());
 						}
-
 					}
 
 
@@ -1269,7 +1276,9 @@ namespace SecureStuff
 				if (Field.IsNotSerialized ||
 				    HasAttribute(Field, typeof(PlayModeOnlyAttribute)) ||
 				    HasAttribute(Field, typeof(HideInInspector)) ||
-				    HasAttribute(Field, typeof(NaughtyAttributes.ReadOnlyAttribute)))
+				    HasAttribute(Field, typeof(NaughtyAttributes.ReadOnlyAttribute)) ||
+				    HasAttribute(Field, typeof(NonSerializedAttribute)
+				    ))
 				{
 					return false;
 				}
@@ -1328,7 +1337,8 @@ namespace SecureStuff
 					{
 						//no Field.FieldType.IsGenericType && due to stupid class dictionary inheritance silly unity stuff
 						if (typeof(ISerializationCallbackReceiver)
-						    .IsAssignableFrom(Field.FieldType)) //so Serialisable dictionary only, can't directly reference due to assembly stuff
+						    .IsAssignableFrom(Field
+							    .FieldType)) //so Serialisable dictionary only, can't directly reference due to assembly stuff
 						{
 							DictionaryHandleSave(AMonoSet, APrefabDefault, Field, FieldDatas, Prefix, UseInstance,
 								IPopulateIDRelation, OnGameObjectComponents, AllGameObjectOnObject);
@@ -1743,8 +1753,22 @@ namespace SecureStuff
 					var MonoIHaveForeverID = MonoGameObject.GetComponent<IHaveForeverID>();
 					if (MonoIHaveForeverID != null)
 					{
-						var PrefabIHaveForeverID =
-							(PrefabDefault as GameObject)?.GetComponent<IHaveForeverID>();
+						if (PrefabDefault == null)
+						{
+							return true; //idk What this is but I can't handle it Being different
+						}
+
+						IHaveForeverID PrefabIHaveForeverID = null;
+						try
+						{
+							PrefabIHaveForeverID = (PrefabDefault as GameObject)?.GetComponent<IHaveForeverID>();
+						}
+						catch (NullReferenceException ex)
+						{
+							//IDK Apparently accessing this can Cause an error Even though it's technically access before I don't know it's weird
+							//and Apparently is not null xD
+						}
+
 						if (PrefabIHaveForeverID == null)
 						{
 							return true; //idk What this is but I can't handle it Being different

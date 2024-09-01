@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 1, g: 0.8939422, b: 0.5707547, a: 0.29803923}
+  InitialColour: {r: 1, g: 0.8939422, b: 0.5707547, a: 0.29803923}
   Sprite: {fileID: 21300000, guid: d889f81f1d032fc4aac62153542b2700, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -116,6 +116,12 @@ PrefabInstance:
     - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a2515159959a43243bb057fa12d11fe8,
+        type: 2}
+    - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: a2515159959a43243bb057fa12d11fe8,
         type: 2}

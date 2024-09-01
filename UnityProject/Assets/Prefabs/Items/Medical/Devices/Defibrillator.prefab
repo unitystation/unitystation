@@ -105,11 +105,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5081a5818830237448a6892d4f1d6570, type: 2}
   - {fileID: 11400000, guid: 1a7ac519b65384942adb176350536ddc, type: 2}
   - {fileID: 11400000, guid: 2d58c017638dfd4458062cfc90f8d7ce, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 2d58c017638dfd4458062cfc90f8d7ce, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 2d58c017638dfd4458062cfc90f8d7ce,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &5401648930563241880
 GameObject:
@@ -212,11 +213,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 22234447e213df5428b34e0175230bb6, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 22234447e213df5428b34e0175230bb6,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &5743791597393623618
 PrefabInstance:
@@ -392,6 +394,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5f754af6af6af34408e53cb0e4a078d1,
         type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f754af6af6af34408e53cb0e4a078d1,
+        type: 2}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: parentID
@@ -532,4 +540,5 @@ MonoBehaviour:
     DeprecatedContents:
     - {fileID: 1182366540502230666, guid: 89c3f4c525ddf014d8dbe780d74999b1, type: 3}
   SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}

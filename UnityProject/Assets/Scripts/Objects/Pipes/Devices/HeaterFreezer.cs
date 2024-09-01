@@ -11,6 +11,7 @@ using Logs;
 using Machines;
 using Objects.Machines;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 
 namespace Objects.Atmospherics
@@ -31,7 +32,10 @@ namespace Objects.Atmospherics
 		private float currentTemperature;
 		public float CurrentTemperature => currentTemperature;
 
-		[SerializeField]
+		[SerializeField, FormerlySerializedAs("targetTemperature")]
+		public float InitialTargetTemperature = 298.15f;
+
+
 		private float targetTemperature = 298.15f;
 		public float TargetTemperature => targetTemperature;
 
@@ -60,6 +64,7 @@ namespace Objects.Atmospherics
 
 		public override void Awake()
 		{
+			targetTemperature = InitialTargetTemperature;
 			base.Awake();
 
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();

@@ -78,4 +78,12 @@ namespace TileManagement
 			metaTileMap.RemoveTileWithlayer(LocalPosition,InternalLayerTile.LayerType, true, DropItems);
 		}
 	}
+
+	public class TileSaveRollback
+	{
+		public Vector3Int LocalPosition;
+		public LayerTile InitialLayerTile;
+		public LayerTile ChangedToLayerTile;
+
+	}
 }

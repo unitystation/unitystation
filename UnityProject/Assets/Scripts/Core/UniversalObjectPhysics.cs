@@ -314,7 +314,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[PlayModeOnly] public double LastUpdateClientFlying = 0; //NetworkTime.time
 
-	public float TimeSpentFlying = 0;
+	[PlayModeOnly] public float TimeSpentFlying = 0;
 
 	// netid of the game object we are buckled to, NetId.Empty if not buckled
 	[field: SyncVar(hook = nameof(SyncObjectIsBuckling))]
@@ -399,11 +399,17 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			SetTransform(synchLocalTargetPosition.Vector3, false);
 		}
 
+		CheckNSnapToGrid(isServer);
+	}
+
+	public void CheckNSnapToGrid(bool isServer)
+	{
 		if (SnapToGridOnStart && isServer)
 		{
 			SetTransform(transform.position.RoundToInt(), true);
 		}
 	}
+
 
 	public void OnRegisterTileInitialised(RegisterTile registerTile)
 	{
@@ -974,6 +980,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public void SetMatrix(Matrix movetoMatrix, bool SetTarget = true)
 	{
+
 		if (movetoMatrix == null) return;
 		if (registerTile == null)
 		{
@@ -1260,6 +1267,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public void ResetEverything()
 	{
+
 		if (IsFlyingSliding)
 		{
 			UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);

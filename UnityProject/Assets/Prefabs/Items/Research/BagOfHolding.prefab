@@ -179,6 +179,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a07d029a673b58447b7c55a47d3fb693,
         type: 2}
+    - target: {fileID: 7920186904468745292, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a07d029a673b58447b7c55a47d3fb693,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -302,4 +308,5 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}

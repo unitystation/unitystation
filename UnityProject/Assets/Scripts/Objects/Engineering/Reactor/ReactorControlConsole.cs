@@ -44,9 +44,6 @@ namespace Objects.Engineering.Reactor
 			chatEvent.position = objectPhysics.OfficialPosition;
 			chatEvent.originator = gameObject;
 			chatEvent.speaker = "[Reactor Control Console]";
-#if UNITY_EDITOR
-			chatAnnouncementCheckTime = 2f;
-#endif
 		}
 		public void SuchControlRodDepth(float requestedDepth)
 		{

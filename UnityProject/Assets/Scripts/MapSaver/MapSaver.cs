@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using Core.Utils;
 using Initialisation;
 using Logs;
+using Newtonsoft.Json;
 using UnityEngine;
 using TileManagement;
 using Objects;
@@ -13,6 +15,7 @@ using SecureStuff;
 using Util;
 using Tiles;
 using UI.Core;
+using Component = UnityEngine.Component;
 #if UNITY_EDITOR
 using UnityEditor;
 using System.IO;
@@ -74,11 +77,11 @@ namespace MapSaver
 
 		public class MatrixData
 		{
-			public string Ver = "1.1.0";
+			public string Ver = "1.1.1";
 
 			//1.1.0 = Location Updated to use PRS
+			//1.1.1 = Remove matrix ID
 			public string Location;
-			public uint MatrixID;
 			public string MatrixName;
 			public CompactTileMapData CompactTileMapData;
 			public GitFriendlyTileMapData GitFriendlyTileMapData;
@@ -135,30 +138,75 @@ namespace MapSaver
 
 			public void GenerateXYs()
 			{
-				XYs = InternalXYs.ToList().OrderBy(kvp => kvp.Key, new CustomKeyComparer()).ToList();
+				var Compare = new CustomKeyComparer();
+				XYs = InternalXYs.ToList().OrderBy(kvp => kvp.Key, Compare).ToList();
 			}
 
 
-			class CustomKeyComparer : IComparer<string>
+			public class CustomKeyComparer : IComparer<string>
 			{
+				public bool Tile = true;
+
 				public int Compare(string x, string y)
 				{
-					string[] partsX = x.Split('X', 'Y');
-					string[] partsY = y.Split('X', 'Y');
-
-					int x1 = int.Parse(partsX[1]);
-					int x2 = int.Parse(partsY[1]);
-
-					int y1 = int.Parse(partsX[2]);
-					int y2 = int.Parse(partsY[2]);
-
-					if (x1 != x2)
+					if (Tile)
 					{
-						return x1.CompareTo(x2);
+						string[] partsX = x.Split('X', 'Y');
+						string[] partsY = y.Split('X', 'Y');
+
+						int x1 = int.Parse(partsX[1]);
+						int x2 = int.Parse(partsY[1]);
+
+						int y1 = int.Parse(partsX[2]);
+						int y2 = int.Parse(partsY[2]);
+
+						if (x1 != x2)
+						{
+							return x1.CompareTo(x2);
+						}
+						else
+						{
+							return y1.CompareTo(y2);
+						}
 					}
 					else
 					{
-						return y1.CompareTo(y2);
+						string[] partsX = x.Split('┼');
+						string[] partsY = y.Split('┼');
+
+						float x1 = float.Parse(partsX[0]);
+						float x2 = float.Parse(partsY[0]);
+
+						float y1 = float.Parse(partsX[1]);
+						float y2 = float.Parse(partsY[1]);
+
+						float? z1 = null;
+						float? z2 = null;
+						if (partsX.Length > 2 &&
+						    partsY.Length > 2) //TODO Handle z been cut off but not confusing with scale or size?
+						{
+							z1 = float.Parse(partsX[2]);
+							z2 = float.Parse(partsY[2]);
+						}
+
+						if (x1 != x2)
+						{
+							return x1.CompareTo(x2);
+						}
+						else if (y1 != y2 || (z1 == null && z2 == null))
+						{
+							return y1.CompareTo(y2);
+						}
+						else if (z1 != z2)
+						{
+							return z1.Value.CompareTo(z2.Value);
+						}
+						else
+						{
+							var guidx = x.Split('@')[1];
+							var guidy = y.Split('@')[1];
+							return guidx.CompareTo(guidy);
+						}
 					}
 				}
 			}
@@ -246,20 +294,30 @@ namespace MapSaver
 
 		public class CompactObjectMapData
 		{
-			public string Ver = "1.1.0";
+			public string Ver = "1.1.1";
 			//1.1.0 Added support for Dictionaries and change syntax for Removed Elements
-
+			//1.1.1 Lists now are specified in reversed order to Handle removed elements properly
 			public List<string> CommonPrefabs = new List<string>();
 
 			public List<PrefabData> PrefabData;
 			public Dictionary<string, uint> IDToNetIDClient = new Dictionary<string, uint>();
+
+			public void SortXYs()
+			{
+				var Compare = new GitFriendlyTileMapData.CustomKeyComparer()
+				{
+					Tile = false
+				};
+				PrefabData = PrefabData.OrderBy(kvp => kvp.LocalPRS + "@" + kvp.PrefabID, Compare).ToList();
+			}
 		}
 
 		public class PrefabData
 		{
 			public string GitID;
 			public ulong ID; //is good
-			public string PrefabID;
+
+			[DefaultValue("0")] public string PrefabID = "0";
 			public string Name;
 			public string LocalPRS;
 			public IndividualObject Object;
@@ -271,7 +329,9 @@ namespace MapSaver
 			public string Name;
 			public bool Removed = false;
 			public uint ChildLocation;
-			public string ID = "0"; //Child index, Child index,  Child index, NOTE Always has a Zero for root
+
+			[DefaultValue("0")] public string ID = "0"; //Child index, Child index,  Child index, NOTE Always has a Zero for root
+
 			public List<ClassData> ClassDatas = new List<ClassData>();
 			public List<IndividualObject> Children = null;
 
@@ -464,10 +524,6 @@ namespace MapSaver
 			//matrixData.MatrixName = MetaTileMap.matrix.NetworkedMatrix.gameObject.name;
 			matrixData.MatrixName = MetaTileMap.matrix.transform.parent.name;
 
-
-			matrixData.MatrixID = IDmatrixStatic;
-
-
 			matrixData.Location = PRSToString(MetaTileMap.matrix.transform.parent.gameObject);
 
 			IDmatrixStatic++;
@@ -628,7 +684,7 @@ namespace MapSaver
 
 		public static void SaveTileMap(bool Compact, MatrixData ToSaveTo, MetaTileMap metaTileMap,
 			ref BetterBounds Bounds,
-			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null)
+			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null, bool NonmappedItems = false)
 		{
 #if UNITY_EDITOR
 			if (Application.isPlaying == false)
@@ -639,11 +695,11 @@ namespace MapSaver
 
 			if (Compact)
 			{
-				CompactTileMapSave(ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess);
+				CompactTileMapSave(ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess, NonmappedItems : NonmappedItems);
 			}
 			else
 			{
-				GitFriendlyTileMapSave(ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess);
+				GitFriendlyTileMapSave(ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess, NonmappedItems : NonmappedItems);
 			}
 		}
 
@@ -761,7 +817,7 @@ namespace MapSaver
 
 
 		public static void GitFriendlyTileMapSave(MatrixData ToSaveTo, MetaTileMap metaTileMap, ref BetterBounds Bounds,
-			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null)
+			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null, bool NonmappedItems = false)
 		{
 			//# Matrix4x4
 			//§ TileID
@@ -789,6 +845,8 @@ namespace MapSaver
 					{
 						if (TileAndLocation?.layerTile == null) continue;
 
+						LayerTile layerTile = TileAndLocation.layerTile;
+
 						if (UseBoundary)
 						{
 							var pos1 = TileAndLocation.LocalPosition;
@@ -799,6 +857,20 @@ namespace MapSaver
 							}
 						}
 
+						if (NonmappedItems == false)
+						{
+							if (metaTileMap.TileSaveRollbacks.TryGetValue(TileAndLocation.LocalPosition, out var data))
+							{
+								if (data.ChangedToLayerTile == layerTile)
+								{
+									layerTile = data.InitialLayerTile;
+									if (layerTile == null) continue;
+								}
+							}
+						}
+
+
+
 						if (LayersToProcess != null)
 						{
 							if (LayersToProcess.Contains(TileAndLocation.layer.LayerType) == false)
@@ -806,7 +878,10 @@ namespace MapSaver
 								continue;
 							}
 						}
-
+						else
+						{
+							if (layerTile.LayerType == LayerType.Effects) continue;
+						}
 
 						Bounds.ExpandToPoint2D(TileAndLocation.LocalPosition);
 
@@ -822,7 +897,7 @@ namespace MapSaver
 							Tile.Z = TileAndLocation.LocalPosition.z;
 						}
 
-						Tile.Tel = TileToString(TileAndLocation.layerTile);
+						Tile.Tel = TileToString(layerTile);
 
 						if (TileAndLocation.Colour != Color.white)
 						{
@@ -858,13 +933,30 @@ namespace MapSaver
 									continue;
 								}
 							}
-
+							LayerTile layerTile = TileAndLocation.layerTile;
 
 							if (LayersToProcess != null)
 							{
 								if (LayersToProcess.Contains(TileAndLocation.layer.LayerType) == false)
 								{
 									continue;
+								}
+							}
+							else
+							{
+								if (TileAndLocation.layer.LayerType == LayerType.Effects) continue;
+							}
+
+
+							if (NonmappedItems == false)
+							{
+								if (metaTileMap.TileSaveRollbacks.TryGetValue(TileAndLocation.LocalPosition, out var data))
+								{
+									if (data.ChangedToLayerTile == layerTile)
+									{
+										layerTile = data.InitialLayerTile;
+										if (layerTile == null) continue;
+									}
 								}
 							}
 
@@ -884,7 +976,7 @@ namespace MapSaver
 								Tile.Z = TileAndLocation.LocalPosition.z;
 							}
 
-							Tile.Tel = TileToString(TileAndLocation.layerTile);
+							Tile.Tel = TileToString(layerTile);
 
 							if (TileAndLocation.Colour != Color.white)
 							{
@@ -909,7 +1001,7 @@ namespace MapSaver
 		}
 
 		public static void CompactTileMapSave(MatrixData ToSaveTo, MetaTileMap metaTileMap, ref BetterBounds Bounds,
-			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null)
+			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null, bool NonmappedItems = false)
 		{
 			//# Matrix4x4
 			//§ TileID
@@ -954,6 +1046,7 @@ namespace MapSaver
 
 						if (TileAndLocation?.layerTile == null) continue;
 
+
 						if (LayersToProcess != null)
 						{
 							if (LayersToProcess.Contains(TileAndLocation.layer.LayerType) == false)
@@ -961,6 +1054,7 @@ namespace MapSaver
 								continue;
 							}
 						}
+
 
 
 						if (TileAndLocation.layer.LayerType.IsMultilayer())
@@ -1092,6 +1186,19 @@ namespace MapSaver
 							}
 						}
 
+						LayerTile layerTile = TileAndLocation.layerTile;
+						if (NonmappedItems == false)
+						{
+							if (metaTileMap.TileSaveRollbacks.TryGetValue(TileAndLocation.LocalPosition, out var data))
+							{
+								if (data.ChangedToLayerTile == layerTile)
+								{
+									layerTile = data.InitialLayerTile;
+									if (layerTile == null) continue;
+								}
+							}
+						}
+
 						if (LayersToProcess != null)
 						{
 							if (LayersToProcess.Contains(TileAndLocation.layer.LayerType) == false)
@@ -1099,7 +1206,10 @@ namespace MapSaver
 								continue;
 							}
 						}
-
+						else
+						{
+							if (TileAndLocation.layer.LayerType == LayerType.Effects) continue;
+						}
 
 						Bounds.ExpandToPoint2D(TileAndLocation.LocalPosition);
 
@@ -1110,7 +1220,7 @@ namespace MapSaver
 						SB.Append(",");
 						SB.Append(TileAndLocation.LocalPosition.z);
 						SB.Append(",");
-						int Index = CommonLayerTiles.IndexOf(TileAndLocation.layerTile);
+						int Index = CommonLayerTiles.IndexOf(layerTile);
 
 
 						if (Index != 0)
@@ -1155,12 +1265,29 @@ namespace MapSaver
 								}
 							}
 
+							LayerTile layerTile = TileAndLocation.layerTile;
+							if (NonmappedItems == false)
+							{
+								if (metaTileMap.TileSaveRollbacks.TryGetValue(TileAndLocation.LocalPosition, out var data))
+								{
+									if (data.ChangedToLayerTile == layerTile)
+									{
+										layerTile = data.InitialLayerTile;
+										if (layerTile == null) continue;
+									}
+								}
+							}
+
 							if (LayersToProcess != null)
 							{
 								if (LayersToProcess.Contains(TileAndLocation.layer.LayerType) == false)
 								{
 									continue;
 								}
+							}
+							else
+							{
+								if (TileAndLocation.layer.LayerType == LayerType.Effects) continue;
 							}
 
 
@@ -1175,7 +1302,7 @@ namespace MapSaver
 							SB.Append(TileAndLocation.LocalPosition.z);
 							SB.Append(",");
 
-							int Index = CommonLayerTiles.IndexOf(TileAndLocation.layerTile);
+							int Index = CommonLayerTiles.IndexOf(layerTile);
 
 
 							if (Index != 0)
@@ -1231,7 +1358,6 @@ namespace MapSaver
 			compactObjectMapData.PrefabData = new List<PrefabData>();
 
 			IEnumerable<RegisterTile> Objects = null;
-
 			if (Application.isPlaying)
 			{
 				Objects = MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.Instance._isServer)
@@ -1245,6 +1371,24 @@ namespace MapSaver
 				CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.SetUpSpawnablePrefabsForEverIDManual();
 				CustomNetworkManager.Instance = CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab;
 #endif
+			}
+
+			if (Application.isPlaying) //EtherealThings Haven't been triggered so they are in the correct spot
+			{
+				foreach (var EtherealThing in MetaTileMap.matrix.MetaDataLayer.EtherealThings)
+				{
+					if (UseBoundary)
+					{
+						var pos1 = EtherealThing.transform.localPosition.RoundToInt();
+						pos1.z = 0;
+						if (AllowedPoints.Contains(pos1) == false)
+						{
+							continue;
+						}
+					}
+					Bounds.ExpandToPoint2D(EtherealThing.transform.localPosition);
+					ProcessIndividualObject(Compact, EtherealThing.gameObject, compactObjectMapData, NonmappedItems: NonmappedItems);
+				}
 			}
 
 
@@ -1266,24 +1410,8 @@ namespace MapSaver
 					NonmappedItems: NonmappedItems);
 			}
 
-			if (Application.isPlaying) //EtherealThings Haven't been triggered so they are in the correct spot
-			{
-				foreach (var EtherealThing in MetaTileMap.matrix.MetaDataLayer.EtherealThings)
-				{
-					if (UseBoundary)
-					{
-						var pos1 = EtherealThing.transform.localPosition.RoundToInt();
-						pos1.z = 0;
-						if (AllowedPoints.Contains(pos1) == false)
-						{
-							continue;
-						}
-					}
-
-					ProcessIndividualObject(Compact, EtherealThing.gameObject, compactObjectMapData,
-						EtherealThing.transform.localPosition, NonmappedItems: NonmappedItems);
-				}
-			}
+			compactObjectMapData
+				.SortXYs(); //It's here so if you Saving compact or non Compactly order will still be the same
 
 			if (Compact)
 			{
@@ -1311,6 +1439,7 @@ namespace MapSaver
 						CommonPrefabID.IndexOf(prefabData.PrefabID).ToString(); //TODO Rethink ToString To save ""
 				}
 			}
+
 
 			return compactObjectMapData;
 		}
@@ -1356,40 +1485,41 @@ namespace MapSaver
 			if (CoordinateOverride == null)
 			{
 				data = VectorToString(Object.transform.localPosition, Round);
-
-				if (Object.transform.localRotation.eulerAngles != Vector3.zero)
-				{
-					var Angles = Object.transform.localRotation.eulerAngles;
-					var addString =Math.Round(Angles.x, 2) + "ø" +
-					               Math.Round(Angles.y, 2) + "ø" +
-					               Math.Round(Angles.z, 2) + "ø";
-
-					if (addString != "0ø0ø0ø") //0.0001 Resulting in it adding 0ø0ø0ø But then next Save it removing it, This fixes that
-					{
-						data = data + addString;
-					}
-				}
-
-
-				if (Object.transform.localScale != Vector3.one)
-				{
-					var Angles = Object.transform.localScale;
-					data = data + Math.Round(Angles.x, 2) + "↔" +
-					       Math.Round(Angles.y, 2) + "↔" +
-					       Math.Round(Angles.z, 2) + "↔";
-				}
 			}
 			else
 			{
 				data = VectorToString(CoordinateOverride.GetValueOrDefault(Vector3.zero), Round);
 			}
 
+			if (Object.transform.localRotation.eulerAngles != Vector3.zero)
+			{
+				var Angles = Object.transform.localRotation.eulerAngles;
+				var addString = Math.Round(Angles.x, 2) + "ø" +
+				                Math.Round(Angles.y, 2) + "ø" +
+				                Math.Round(Angles.z, 2) + "ø";
+
+				if (addString !=
+				    "0ø0ø0ø") //0.0001 Resulting in it adding 0ø0ø0ø But then next Save it removing it, This fixes that
+				{
+					data = data + addString;
+				}
+			}
+
+
+			if (Object.transform.localScale != Vector3.one)
+			{
+				var Angles = Object.transform.localScale;
+				data = data + Math.Round(Angles.x, 2) + "↔" +
+				       Math.Round(Angles.y, 2) + "↔" +
+				       Math.Round(Angles.z, 2) + "↔";
+			}
+
+
 			return data;
 		}
 
 		public static void ProcessIndividualObject(bool Compact, GameObject Object,
-			CompactObjectMapData compactObjectMapData,
-			Vector3? CoordinateOverride = null, bool NonmappedItems = false)
+			CompactObjectMapData compactObjectMapData, bool NonmappedItems = false)
 		{
 			if (NonmappedItems == false)
 			{
@@ -1408,7 +1538,8 @@ namespace MapSaver
 				return;
 			}
 
-			var OriginPrefab = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[Tracker.ForeverID];
+			GameObject OriginPrefab = null;
+			OriginPrefab = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[Tracker.ForeverID];
 			if (Compact)
 			{
 				if (Object.name != OriginPrefab.name)
@@ -1422,9 +1553,25 @@ namespace MapSaver
 			}
 
 
+			Vector3 LocalPositionToUse = Object.transform.localPosition;
+
+			if (Object.TryGetComponent<UniversalObjectPhysics>(out var physics))
+			{
+				physics.CheckNSnapToGrid(true);
+				if (physics.ContainedInObjectContainer && physics.ContainedInObjectContainer.StoredObjects.ContainsKey(physics.gameObject))
+				{
+					LocalPositionToUse = physics.GetRootObject.transform.localPosition + physics.ContainedInObjectContainer.StoredObjects[physics.gameObject];
+				}
+				else
+				{
+					LocalPositionToUse = physics.GetRootObject.transform.localPosition;
+				}
+
+			}
+
 			bool Round = true;
 
-			Prefab.PrefabID = Tracker.ForeverID;
+			Prefab.PrefabID = Tracker.ForeverID; //so Gets overwritten Later on but is useful for SortXYs sorting
 			if (Compact)
 			{
 				Prefab.ID = IDStatic;
@@ -1433,11 +1580,10 @@ namespace MapSaver
 			else
 			{
 				int trys = 0;
-				Prefab.GitID = Prefab.PrefabID + "_" + VectorToString(Object.transform.localPosition, true);
+				Prefab.GitID = Prefab.PrefabID + "_" + VectorToString(LocalPositionToUse, true);
 				while (AlreadyReadySavedIDs.Contains(Prefab.GitID))
 				{
-
-					var vec = Object.transform.localPosition;
+					var vec = LocalPositionToUse;
 					vec.x += (0.001f * trys); //TODO May cause issues if you resolve conflict
 					Prefab.GitID = Prefab.PrefabID + "_" + VectorToString(vec, false);
 					Round = false;
@@ -1448,16 +1594,15 @@ namespace MapSaver
 			}
 
 			Prefab.Object = new IndividualObject();
-			Prefab.LocalPRS = PRSToString(Object, CoordinateOverride, Round);
+			Prefab.LocalPRS = PRSToString(Object, LocalPositionToUse, Round);
 
 			var OnObjectComplete = Object.GetComponentsInChildren<Component>(true).ToHashSet();
 			var OnGmaeObjectComplete = Object.GetComponentsInChildren<Transform>(true).Select(x => x.gameObject)
 				.ToHashSet();
 
-
 			RecursiveSaveObject(OnObjectComplete, OnGmaeObjectComplete, Compact, Prefab, "0", Prefab.Object,
 				OriginPrefab,
-				Object.gameObject, compactObjectMapData, CoordinateOverride, NonmappedItems: NonmappedItems);
+				Object.gameObject, compactObjectMapData, NonmappedItems: NonmappedItems);
 			if (Prefab.Object.RemoveEmptys())
 			{
 				Prefab.Object = null;
@@ -1479,7 +1624,7 @@ namespace MapSaver
 			individualObject.ID =
 				ID; //NOTE The zero is technically redundant for the First layer, But it's built into the saver
 
-			if (PrefabEquivalent?.name != gameObject.name)
+			if (ID != "0" && PrefabEquivalent?.name != gameObject.name)
 			{
 				individualObject.Name = gameObject.name;
 			}
@@ -1633,13 +1778,11 @@ namespace MapSaver
 							{
 								if (CoordinateOverride == null)
 								{
-									ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData,
-										gameObject.transform.localPosition, NonmappedItems: NonmappedItems);
+									ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData, NonmappedItems: NonmappedItems);
 								}
 								else
 								{
-									ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData,
-										CoordinateOverride, NonmappedItems: NonmappedItems);
+									ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData, NonmappedItems: NonmappedItems);
 								}
 							}
 						}
@@ -1654,13 +1797,11 @@ namespace MapSaver
 							if (objectBehaviour.Item == null) continue;
 							if (CoordinateOverride == null)
 							{
-								ProcessIndividualObject(Compact, objectBehaviour.Item.gameObject, compactObjectMapData,
-									gameObject.transform.localPosition, NonmappedItems: NonmappedItems);
+								ProcessIndividualObject(Compact, objectBehaviour.Item.gameObject, compactObjectMapData, NonmappedItems: NonmappedItems);
 							}
 							else
 							{
-								ProcessIndividualObject(Compact, objectBehaviour.Item.gameObject, compactObjectMapData,
-									CoordinateOverride, NonmappedItems: NonmappedItems);
+								ProcessIndividualObject(Compact, objectBehaviour.Item.gameObject, compactObjectMapData, NonmappedItems: NonmappedItems);
 							}
 						}
 					}
@@ -1792,7 +1933,8 @@ namespace MapSaver
 						{
 							try
 							{
-								foreach (var Unprocessed in Waiting.Value.FieldsToPopulate) //TODO Could potentially error? list modified
+								foreach (var Unprocessed in
+								         Waiting.Value.FieldsToPopulate) //TODO Could potentially error? list modified
 								{
 									ReuseSEt.Add(Unprocessed.FieldData);
 									SecureMapsSaver.LoadData(Unprocessed.ID, Unprocessed.Object, ReuseSEt,
@@ -1808,7 +1950,8 @@ namespace MapSaver
 
 							if (Waiting.Value.SpawnResult != null && Waiting.Value.ReferencesNeeded.Count == 0)
 							{
-								Spawn._ServerFireClientServerSpawnHooks(Waiting.Value.SpawnResult, SpawnInfo.Mapped(Waiting.Value.SpawnResult.GameObject));
+								Spawn._ServerFireClientServerSpawnHooks(Waiting.Value.SpawnResult,
+									SpawnInfo.Mapped(Waiting.Value.SpawnResult.GameObject));
 								Waiting.Value.SpawnResult = null;
 							}
 						}
@@ -1878,16 +2021,15 @@ namespace MapSaver
 				{
 					if (Process.Value.ReferencesNeeded.Count > 0)
 					{
-						var stringMissing = $" {Process.Key} Is missing references {string.Join(", ", Process.Value.ReferencesNeeded)} ";
+						var stringMissing =
+							$" {Process.Key} Is missing references {string.Join(", ", Process.Value.ReferencesNeeded)} ";
 						Loggy.LogError(stringMissing);
-						Returning += "\n" +stringMissing;
+						Returning += "\n" + stringMissing;
 					}
 				}
 
 				return Returning;
 			}
 		}
-
-
 	}
 }

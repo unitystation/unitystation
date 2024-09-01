@@ -31,6 +31,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1666505115895660852, guid: d05e6959c655a704783a7df68cd10435,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a53497d0b78777b449dde714f9f04ff5,
+        type: 2}
+    - target: {fileID: 1666505115895660852, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: bae856632891643429b6b852dc05e1e8,
@@ -194,6 +200,21 @@ PrefabInstance:
     - target: {fileID: 5177685982098649451, guid: d05e6959c655a704783a7df68cd10435,
         type: 3}
       propertyPath: Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5177685982098649451, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5177685982098649451, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5177685982098649451, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: InitialColour.r
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5185865969733433047, guid: d05e6959c655a704783a7df68cd10435,

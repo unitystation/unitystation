@@ -11,6 +11,7 @@ using Systems.Interaction;
 using Managers;
 using Doors;
 using Logs;
+using SecureStuff;
 using Shared.Systems.ObjectConnection;
 using Systems.Ai;
 using Systems.Clearance;
@@ -48,7 +49,7 @@ namespace Objects.Wallmounts
 		public Sprite closedOff;
 		public SpriteDataSO joeNews;
 		public List<DoorMasterController> NewdoorControllers = new();
-		public CentComm centComm;
+		[PlayModeOnly] public CentComm centComm;
 		public int currentTimerSeconds;
 		public bool countingDown;
 
