@@ -26,13 +26,6 @@ namespace Weapons
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-
-			//Gotta exclude attachments or whatever this is applied to wont be able to use em
-			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponAttachable))
-			{
-				return false;
-			}
-
 			return true;
 		}
 
