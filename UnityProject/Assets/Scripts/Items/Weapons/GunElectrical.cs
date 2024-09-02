@@ -84,7 +84,10 @@ namespace Weapons
 		{
 			if (Battery == null || firemodeUsage[currentFiremode] > Battery.Watts)
 			{
-				PlayEmptySfx();
+				if (interaction.MouseButtonState != MouseButtonState.HOLD)
+				{
+					PlayEmptySfx();
+				}
 				return false;
 			}
 			CurrentMagazine.containedBullets[0] = firemodeProjectiles[currentFiremode];
@@ -201,7 +204,7 @@ namespace Weapons
 				int outof = Mathf.CeilToInt(percent * chargeSprite.PresentSpritesSet.Variance.Count / 100.0f);
 				chargeSprite.SetSpriteVariant(outof-1);
 			} else {
-				chargeSprite.PushClear();
+				chargeSprite.SetCatalogueIndexSprite(NO_CELL_SPRITE);
 			}
 		}
 
