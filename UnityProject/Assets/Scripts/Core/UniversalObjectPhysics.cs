@@ -1533,9 +1533,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 			MoveIsWalking = false;
 
-			if (IsFloating() && PulledBy.HasComponent == false && doNotApplyMomentumOnTarget == false)
+			if (IsFloating()  && PulledBy.HasComponent == false && doNotApplyMomentumOnTarget == false)
 			{
-				NewtonianMovement += (Vector2) LastDifference.normalized * cache;
+				NewtonianMovement = (Vector2) LastDifference.normalized * cache;
 				LastDifference = Vector3.zero;
 			}
 
@@ -1672,24 +1672,28 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			var floating = IsFloating();
 			if (floating == false)
 			{
-				AppliedFriction(DEFAULT_SLIDE_FRICTION);
+
+				AppliedFriction(DEFAULT_Friction);
+
 			}
 		}
 		else if (IsStickyMovement)
 		{
 			var floating = IsFloating();
-			if (floating == false)
-			{
-				if (NewtonianMovement.magnitude > maximumStickSpeed) //Too fast to grab onto anything
+
+				if (floating == false)
 				{
-					AppliedFriction(DEFAULT_Friction);
+					if (NewtonianMovement.magnitude > maximumStickSpeed) //Too fast to grab onto anything
+					{
+						AppliedFriction(DEFAULT_Friction);
+					}
+					else
+					{
+						//Stuck
+						NewtonianMovement *= 0;
+					}
 				}
-				else
-				{
-					//Stuck
-					NewtonianMovement *= 0;
-				}
-			}
+
 		}
 		else
 		{

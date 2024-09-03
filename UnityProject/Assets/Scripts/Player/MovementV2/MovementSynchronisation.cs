@@ -645,7 +645,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void ClientCheckLocationFlight()
 	{
-		if (hasAuthority == false || IsFloating() == false) return;
+		if (hasAuthority == false || IsFloating() == false ) return;
 		if (NetworkTime.time - LastUpdatedFlyingPosition > 2)
 		{
 			LastUpdatedFlyingPosition = NetworkTime.time;
@@ -1352,7 +1352,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				//Need to check for Obstructions
 				if (IsNotObstructed(moveAction, willPushObjects, bumps, Hits))
 				{
-					causesSlipClient = DoesSlip(moveAction, out slippedOn);
+					causesSlipClient = IsSlipperyAt(moveAction.GlobalMoveDirection.ToVector().To3Int(), out slippedOn);
 					return true;
 				}
 				else
@@ -1371,7 +1371,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		return false;
 	}
 
-	private bool DoesSlip(MoveData moveAction, out ItemAttributesV2 slippedOn)
+	protected bool IsSlipperyAt(Vector3Int moveVictor, out ItemAttributesV2 slippedOn)
 	{
 		bool slipProtection = false;
 		if (playerScript.DynamicItemStorage != null)
@@ -1390,10 +1390,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (slipProtection) return false;
 
 
-
-
-		var toMatrix = SetMatrixCache.GetforDirection(moveAction.GlobalMoveDirection.ToVector().To3Int()).Matrix;
-		var localTo = (registerTile.WorldPosition + moveAction.GlobalMoveDirection.ToVector().To3Int())
+		var toMatrix = SetMatrixCache.GetforDirection(moveVictor).Matrix;
+		var localTo = (registerTile.WorldPosition + moveVictor)
 			.ToLocal(toMatrix)
 			.RoundToInt();
 
@@ -1422,7 +1420,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				// (Max): There's better ways to do this but due to how movement code is designed
 				// you can't extend functionality that easily without bloating the code more than it already is.
 				// TODO: Rework movement to be open for extension and closed for modifications.
-				if (CanTeleport)
+				if (CanTeleport && isServer)
 				{
 					TeleportUtils.ServerTeleportRandom(playerScript.gameObject);
 				}

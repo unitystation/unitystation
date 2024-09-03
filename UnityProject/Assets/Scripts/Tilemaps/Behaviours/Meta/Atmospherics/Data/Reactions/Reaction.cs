@@ -29,6 +29,7 @@ namespace Systems.Atmospherics
 		private static GasReactions NitrylForm;
 		private static GasReactions BZForm;
 		private static GasReactions FreonForm;
+		private static GasReactions FreonCold;
 		private static GasReactions WaterVapour;
 		private static GasReactions StimulumForm;
 		private static GasReactions StimBallReaction;
@@ -139,7 +140,15 @@ namespace Systems.Atmospherics
 						{
 							minimumMolesToReact = 0.01f
 						}
-					}
+					},
+					{
+						Gas.Plasma,
+						new GasReactionData()
+						{
+							minimumMolesToReact = 0.01f
+						}
+					},
+
 				},
 
 				minimumTileTemperature: 0,
@@ -425,42 +434,71 @@ namespace Systems.Atmospherics
 
 			FreonForm = new GasReactions(
 
-				reaction: new FreonFormation(),
+					reaction: new FreonFormation(),
+
+					gasReactionData: new Dictionary<GasSO, GasReactionData>()
+					{
+						{
+							Gas.Plasma,
+							new GasReactionData()
+							{
+								minimumMolesToReact = 40
+							}
+						},
+
+						{
+							Gas.CarbonDioxide,
+							new GasReactionData()
+							{
+								minimumMolesToReact = 20
+							}
+						},
+
+						{
+							Gas.BZ,
+							new GasReactionData()
+							{
+								minimumMolesToReact = 20
+							}
+						}
+					},
+
+					minimumTileTemperature: AtmosDefines.FIRE_MINIMUM_TEMPERATURE_TO_EXIST + 100,
+					maximumTileTemperature: 10000000000,
+					minimumTilePressure: 0,
+					maximumTilePressure: 10000000000,
+
+					//Plasma + CO2 + BZ
+					minimumTileMoles: 80,
+					maximumTileMoles: 10000000000,
+					addToBaseReactions: true
+				);
+
+			#endregion
+
+			#region FreonCold
+
+			FreonCold = new GasReactions(
+
+				reaction: new freonfreeze(),
 
 				gasReactionData: new Dictionary<GasSO, GasReactionData>()
 				{
 					{
-						Gas.Plasma,
+						Gas.Freon,
 						new GasReactionData()
 						{
-							minimumMolesToReact = 40
+							minimumMolesToReact = 1
 						}
 					},
-
-					{
-						Gas.CarbonDioxide,
-						new GasReactionData()
-						{
-							minimumMolesToReact = 20
-						}
-					},
-
-					{
-						Gas.BZ,
-						new GasReactionData()
-						{
-							minimumMolesToReact = 20
-						}
-					}
 				},
 
-				minimumTileTemperature: AtmosDefines.FIRE_MINIMUM_TEMPERATURE_TO_EXIST + 100,
-				maximumTileTemperature: 10000000000,
+				minimumTileTemperature: TemperatureUtils.ZERO_CELSIUS_IN_KELVIN + -45,
+				maximumTileTemperature: TemperatureUtils.ZERO_CELSIUS_IN_KELVIN + 40f,
 				minimumTilePressure: 0,
 				maximumTilePressure: 10000000000,
 
-				//Plasma + CO2 + BZ
-				minimumTileMoles: 80,
+				minimumTileMoles: 5,
 				maximumTileMoles: 10000000000,
 				addToBaseReactions: true
 			);
@@ -682,7 +720,15 @@ namespace Systems.Atmospherics
 
 		public readonly int Index;
 
-		public GasReactions(Dictionary<GasSO, GasReactionData> gasReactionData, Reaction reaction, float minimumTileTemperature, float maximumTileTemperature, float minimumTilePressure, float maximumTilePressure, float minimumTileMoles, float maximumTileMoles, bool addToBaseReactions = false)
+		public GasReactions(Dictionary<GasSO, GasReactionData> gasReactionData,
+			Reaction reaction,
+			float minimumTileTemperature,
+			float maximumTileTemperature,
+			float minimumTilePressure,
+			float maximumTilePressure,
+			float minimumTileMoles,
+			float maximumTileMoles,
+			bool addToBaseReactions = false)
 		{
 			GasReactionData = gasReactionData;
 

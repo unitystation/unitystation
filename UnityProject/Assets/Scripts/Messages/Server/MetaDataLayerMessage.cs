@@ -25,7 +25,9 @@ public class MetaDataLayerMessage : ServerMessage<MetaDataLayerMessage.NetMessag
 		var MetaDataLayer = NetworkObject.transform.parent.GetComponentInChildren<MetaDataLayer>();
 		foreach (var Change in msg.Changes)
 		{
-			MetaDataLayer.Get(Change.Position).IsSlippery = Change.IsSlippy;
+			var node = MetaDataLayer.Get(Change.Position);
+			node.IsSlippery = Change.IsSlippy;
+			node.IsIceSlippy = Change.IsIceSlippy;
 		}
 	}
 
@@ -43,7 +45,8 @@ public class MetaDataLayerMessage : ServerMessage<MetaDataLayerMessage.NetMessag
 				Changes.Add(new DelayedData()
 				{
 					Position = metaData.Key,
-					IsSlippy = metaData.Value.IsSlippery
+					IsSlippy = metaData.Value.IsSlippery,
+					IsIceSlippy = metaData.Value.IsIceSlippy
 				});
 			}
 
@@ -70,7 +73,8 @@ public class MetaDataLayerMessage : ServerMessage<MetaDataLayerMessage.NetMessag
 				Changes.Add(new DelayedData()
 				{
 					Position = metaData.LocalPosition,
-					IsSlippy = metaData.IsSlippery
+					IsSlippy = metaData.IsSlippery,
+					IsIceSlippy = metaData.IsIceSlippy
 				});
 			}
 
@@ -87,6 +91,7 @@ public class MetaDataLayerMessage : ServerMessage<MetaDataLayerMessage.NetMessag
 	{
 		public Vector3Int Position;
 		public bool IsSlippy;
+		public bool IsIceSlippy;
 	}
 }
 
@@ -108,7 +113,8 @@ public static class UpdateTileMessageReaderWriters
 			var WorkingOn = new MetaDataLayerMessage.DelayedData
 			{
 				Position = reader.ReadVector3Int(),
-				IsSlippy = reader.ReadBool()
+				IsSlippy = reader.ReadBool(),
+				IsIceSlippy = reader.ReadBool()
 			};
 
 			message.Changes.Add(WorkingOn);
@@ -126,6 +132,7 @@ public static class UpdateTileMessageReaderWriters
 
 			writer.WriteVector3Int(delayedData.Position);
 			writer.WriteBool(delayedData.IsSlippy);
+			writer.WriteBool(delayedData.IsIceSlippy);
 		}
 
 		writer.WriteBool(false);

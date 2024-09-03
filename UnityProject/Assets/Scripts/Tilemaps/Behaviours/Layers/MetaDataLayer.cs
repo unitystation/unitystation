@@ -170,7 +170,8 @@ public class MetaDataLayer : MonoBehaviour
 
 	public bool IsSlipperyAt(Vector3Int position)
 	{
-		return Get(position, false).IsSlippery;
+		var node = Get(position, false);
+		return node.Allslippery;
 	}
 
 	public void MakeSlipperyAt(Vector3Int position, bool canDryUp = true)
