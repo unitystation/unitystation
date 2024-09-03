@@ -12,10 +12,12 @@ using Objects.Atmospherics;
 using Objects.Wallmounts;
 using Shared.Util;
 using Systems.Spawns;
+using TileManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 using Util;
 using Object = UnityEngine.Object;
 
@@ -101,6 +103,58 @@ namespace Core.Editor.Tools
 			}
 
 			Loggy.LogError(stringBuilder.ToString(), Category.Editor);
+		}
+
+
+		// Name of the child object to find and copy
+		private const string ChildToFind = "Effects";
+		private const string NewName = "UnderPlayerEffects";
+		private const LayerType NewLayerType = LayerType.UnderObjectsEffects; // Assuming this is a tag or layer name you use
+
+
+		[MenuItem("Mapping/add Underfloor effect layer")]
+		private static void addUnderfloorEffectLayer()
+		{
+			// Find all objects with the MetaTileMap component in the scene
+			MetaTileMap[] metaTileMaps = FindObjectsOfType<MetaTileMap>();
+
+			foreach (MetaTileMap metaTileMap in metaTileMaps)
+			{
+				Transform effectsChild = metaTileMap.transform.Find(ChildToFind);
+				if (effectsChild != null)
+				{
+					// Create a copy of the 'Effects' child
+					GameObject playerEffectsCopy = Instantiate(effectsChild.gameObject);
+
+					// Set the new name
+					playerEffectsCopy.name = NewName;
+
+					// Set the new layer type - assuming you have a 'LayerScript' or similar
+					Layer layerScript = playerEffectsCopy.GetComponent<Layer>();
+					if (layerScript != null)
+					{
+						layerScript.LayerType =  (NewLayerType);
+					}
+					else
+					{
+						Debug.LogWarning("LayerScript not found on the copied object: " + playerEffectsCopy.name);
+					}
+
+					// Reparent the new object under the MetaTileMap's parent
+					playerEffectsCopy.transform.SetParent(metaTileMap.transform);
+					playerEffectsCopy.transform.SetSiblingIndex(metaTileMap.transform.Find("Floors").GetSiblingIndex());
+					playerEffectsCopy.transform.localPosition = Vector3.zero;
+					playerEffectsCopy.transform.localScale = Vector3.one;
+					playerEffectsCopy.GetComponent<TilemapRenderer>().sortingLayerName = "Blood";
+					playerEffectsCopy.GetComponent<TilemapRenderer>().sortingOrder = -10;
+					Debug.Log("Copied and modified Effects object for: " + metaTileMap.name);
+				}
+				else
+				{
+					Debug.LogWarning("No child named 'Effects' found for: " + metaTileMap.name);
+				}
+			}
+			EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
 		}
 
 		[MenuItem("Mapping/Convert old Spawn points to new")]
