@@ -28,7 +28,7 @@ public class BodyPartAlerts : BodyPartFunctionality
 	}
 
 
-	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 	{
 		var AlertManager = livingHealth.GetComponent<BodyAlertManager>();
 		foreach (var alert in alerts)

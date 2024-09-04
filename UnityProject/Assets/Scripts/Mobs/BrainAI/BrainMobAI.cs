@@ -34,7 +34,7 @@ namespace Mobs.BrainAI
 
 		public CommonComponents Body;
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			Body = null;
 		}

@@ -12,7 +12,7 @@ namespace HealthV2.Limbs
 			playerHealth.OrNull()?.PlayerMove.AddLeg(this);
 		}
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			base.OnRemovedFromBody(livingHealth);
 			playerHealth.OrNull()?.PlayerMove.RemoveLeg(this);

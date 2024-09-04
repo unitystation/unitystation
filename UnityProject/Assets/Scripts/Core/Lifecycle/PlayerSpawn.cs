@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Core.Admin.Logs;
 using Logs;
 using UnityEngine;
 using Mirror;
@@ -220,13 +221,10 @@ public static class PlayerSpawn
 		CharacterSheet character, SpawnType spawnType)
 	{
 		GameObject bodyPrefab = CustomNetworkManager.Instance.humanPlayerPrefab;
-
 		if (requestedOccupation.OrNull()?.SpecialPlayerPrefab != null)
 		{
 			bodyPrefab = requestedOccupation.SpecialPlayerPrefab;
 		}
-
-
 		if (requestedOccupation.OrNull()?.BetterCustomProperties.FirstOrDefault(x => x is IGetPlayerPrefab) is IGetPlayerPrefab overwriteBody)
 		{
 			bodyPrefab = overwriteBody.GetPlayerPrefab();
@@ -235,20 +233,15 @@ public static class PlayerSpawn
 				return mind.gameObject;
 			}
 		}
-
-
 		if (requestedOccupation != null)
 		{
 			var data = requestedOccupation.BetterCustomProperties.OfType<IModifyCharacterSettings>();
-
 			foreach (var modifycharacter in data)
 			{
 				character = modifycharacter.ModifyingCharacterSheet(character);
 			}
 		}
-
 		var body = SpawnPlayerBody(bodyPrefab);
-
 		try
 		{
 			mind.ApplyOccupation(requestedOccupation); //Probably shouldn't be here?
@@ -283,7 +276,29 @@ public static class PlayerSpawn
 
 		//transfer control to the player object
 		//ServerTransferPlayer(connection, newPlayer, oldBody, Event.PlayerSpawned, toUseCharacterSettings, existingMind);
-
+		try
+		{
+			if (requestedOccupation != null)
+			{
+				AdminLogsManager.AddNewLog(
+					null,
+					$"{mind.ControlledBy.Username} has spawned as {requestedOccupation.DisplayName} " +
+					$"as {mind.CurrentCharacterSettings.Name}. Mind NetID: {mind.netId}",
+					LogCategory.RoundFlow);
+			}
+			else
+			{
+				AdminLogsManager.AddNewLog(
+					null,
+					$"{mind.ControlledBy.Username} has spawned without a specified occupation " +
+					$"as {mind.CurrentCharacterSettings.Name}. Mind NetID: {mind.netId}",
+					LogCategory.RoundFlow);
+			}
+		}
+		catch (Exception e)
+		{
+			Loggy.LogError("[PlayerSpawn/SpawnAndApplyRole()] - Error logging spawned player: " + e);
+		}
 		return body;
 	}
 
@@ -298,11 +313,8 @@ public static class PlayerSpawn
 		{
 			bodyPrefab = CustomNetworkManager.Instance.humanPlayerPrefab;
 		}
-
-
 		var matrixInfo = MatrixManager.AtPoint(Vector3.zero, true);
 		var parentTransform = matrixInfo.Objects;
-
 		//using parentTransform.rotation rather than Quaternion.identity because objects should always
 		//be upright w.r.t.  localRotation, NOT world rotation
 		var player = UnityEngine.Object.Instantiate(bodyPrefab, Vector3.zero,
@@ -324,24 +336,14 @@ public static class PlayerSpawn
 	private static void ApplyNewSpawnRoleToBody(GameObject body, Occupation requestedOccupation,
 		CharacterSheet character, SpawnType spawnType)
 	{
-		//Character attributes
-
 		var physics = body.GetComponent<UniversalObjectPhysics>();
-
-		//Character attributes
-
-
-		//Character attributes
 		var name = requestedOccupation.OrNull()?.JobType != JobType.AI ? character.Name : character.AiName;
 		body.name = name;
-
-
-		var PlayerScript = body.GetComponent<PlayerScript>();
-		if (PlayerScript)
+		var playerScript = body.GetComponent<PlayerScript>();
+		if (playerScript)
 		{
-			PlayerScript.characterSettings = character;
+			playerScript.characterSettings = character;
 		}
-
 		try
 		{
 			//Character attributes
@@ -387,7 +389,6 @@ public static class PlayerSpawn
 		catch (Exception e)
 		{
 			Loggy.LogError(e.ToString());
-
 			physics.AppearAtWorldPositionServer(SpawnPoint.GetRandomPointForLateSpawn().transform.position);
 		}
 
@@ -452,6 +453,20 @@ public static class PlayerSpawn
 		mind.Ghost();
 		mind.SetGhost(ghosty);
 		mind.CurrentCharacterSettings = character;
+		try
+		{
+			if (NonImportantMind == false)
+			{
+				AdminLogsManager.AddNewLog(
+					null,
+					$"A new mind has been created for {character.Name}. Mind NetID: {mind.netId}",
+					LogCategory.Ghost);
+			}
+		}
+		catch (Exception e)
+		{
+			Loggy.LogError("[PlayerSpawn] - Error while logging mind creation. " + e);
+		}
 
 		return mind;
 	}
@@ -470,22 +485,21 @@ public static class PlayerSpawn
 			adminItemStorage.ServerRemoveObserverPlayer(account.Mind.gameObject);
 			account.Mind.GetComponent<GhostSprites>().SetGhostSprite(false);
 		}
-
-
 		TransferAccountOccupyingMind(account, account.Mind, newMind);
-
-
 		if (isAdmin)
 		{
 			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(account);
 			adminItemStorage.ServerAddObserverPlayer(newMind.gameObject);
 		}
-
 		newMind.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);
 		if (account.ViewerScript != null)
 		{
 			_ = Despawn.ServerSingle(account.ViewerScript.gameObject);
 		}
+		AdminLogsManager.AddNewLog(
+			null,
+			$"{account.Account.Username} has been transfered to a new mind. Mind NetID: {newMind.netId}",
+			LogCategory.Ghost);
 	}
 
 	private static void TransferAccountOccupyingMind(PlayerInfo account, Mind from, Mind to)

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
+using Core.Admin.Logs;
 using UnityEngine;
 using Mirror;
 
@@ -89,6 +90,11 @@ namespace Items
 		/// </summary>
 		public bool UseCharge(HandApply interaction)
 		{
+			AdminLogsManager.AddNewLog(
+				interaction.Performer,
+				$"{interaction.PerformerPlayerScript.visibleName} has emmaged {interaction.TargetObject.name}.",
+				LogCategory.Interaction,
+				Severity.ANNOYING);
 			return UseCharge(interaction.TargetObject, interaction.Performer);
 		}
 

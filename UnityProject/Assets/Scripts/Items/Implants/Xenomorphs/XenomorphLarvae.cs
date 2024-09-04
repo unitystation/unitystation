@@ -39,7 +39,7 @@ namespace HealthV2
 			AddToInfected(playerScript);
 		}
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			if(checkPlayerScript.HasComponent == false) return;
 

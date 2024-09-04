@@ -34,7 +34,7 @@ namespace HealthV2
 			creatureTraumaAPI.Traumas.Add(RelatedPart, this);
 		}
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			RelatedPart.OnDamageTaken -= OnTakeDamage;
 			var creatureTraumaAPI = livingHealth.GetComponent<CreatureTraumaManager>();

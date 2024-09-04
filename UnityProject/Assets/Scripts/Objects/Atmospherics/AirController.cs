@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.Admin.Logs;
 using UnityEngine;
 using NaughtyAttributes;
 using ScriptableObjects.Atmospherics;
@@ -308,6 +309,11 @@ namespace Objects.Atmospherics
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You {(IsLocked ? "lock" : "unlock")} the air controller unit.",
 					$"{interaction.PerformerPlayerScript.visibleName} {(IsLocked ? "locks" : "unlocks")} the air controller unit.");
+				AdminLogsManager.AddNewLog(
+					interaction.Performer,
+					$"{interaction.PerformerPlayerScript.visibleName} has {(IsLocked ? "locked" : "unlocked")} a air control unit at {gameObject.ExpensiveName()}.",
+					LogCategory.Interaction,
+					Severity.SUSPICOUS);
 
 				OnStateChanged?.Invoke();
 			}

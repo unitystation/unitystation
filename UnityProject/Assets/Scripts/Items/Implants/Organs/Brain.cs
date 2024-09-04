@@ -118,7 +118,7 @@ namespace Items.Implants.Organs
 			livingHealth.OnRevive.AddListener(ReviveEvent);
 		}
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			PossessingMind?.Ghost(); //so Players can see explosions if they Self Bomb
 			livingHealth.OnDeath -= DeathEvent;

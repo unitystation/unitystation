@@ -1,9 +1,6 @@
-﻿using System;
-using Core.Utils;
-using HealthV2;
+﻿using Core.Utils;
 using Player.Movement;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace HealthV2
 {
@@ -64,7 +61,7 @@ namespace HealthV2
 			playerHealth.OrNull()?.PlayerMove.AddModifier(this);
 		}
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			playerHealth.OrNull()?.PlayerMove.RemoveModifier(this);
 		}
