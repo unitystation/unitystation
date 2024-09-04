@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using Communications;
+using Core;
 using UI.Systems.Tooltips.HoverTooltips;
 
 namespace Items.Weapons

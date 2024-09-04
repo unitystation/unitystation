@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using Systems.Character;
 using UI.Character;
 using UnityEngine;

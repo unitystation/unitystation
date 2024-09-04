@@ -121,7 +121,7 @@ MonoBehaviour:
   isEVACapable: 0
   attackVerbs: []
   CanBeUsedOnSelfOnHelpIntent: 0
-  itemSprites:
+  InitialitemSprites:
     SpriteInventoryIcon: {fileID: 0}
     SpriteLeftHand: {fileID: 11400000, guid: 0b395bda1e929674e9fec2099782a493, type: 2}
     SpriteRightHand: {fileID: 11400000, guid: 4111f042fe2174641bfba131ce87df1a, type: 2}
@@ -392,6 +392,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  BuckledToObject: {fileID: 0}
   LocalDifferenceNeeded: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   CorrectingCourse: 0
@@ -412,12 +413,8 @@ MonoBehaviour:
   SnapToGridOnStart: 0
   IsPlayer: 0
   ObjectBouncyness: 0.75
-  DEBUG: 0
   tileMoveSpeed: 1
   HasOwnGravity: 0
-  isNotPushable: 0
-  CanBeWindPushed: 1
-  rotationTarget: {fileID: 0}
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -427,14 +424,18 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
-  Pushing: []
   Hits: []
   isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
   TimeSpentFlying: 0
-  BuckledToObject: {fileID: 0}
+  DEBUG: 0
+  isNotPushable: 0
+  Pushing: []
+  CanBeWindPushed: 1
+  canResetRotationFromRightClick: 1
+  rotationTarget: {fileID: 0}
 --- !u!114 &2611437823404169790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -603,9 +604,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 531dea593ef508f4abc5b76a73fd82a8, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 531dea593ef508f4abc5b76a73fd82a8,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []

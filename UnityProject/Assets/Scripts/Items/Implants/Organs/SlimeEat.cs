@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
+using Core;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Items.Food;

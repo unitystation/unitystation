@@ -1,3 +1,4 @@
+using Core;
 using Logs;
 using ScriptableObjects;
 using UnityEngine;

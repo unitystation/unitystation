@@ -10,6 +10,7 @@ using Scripts.Core.Transform;
 using UI.Items;
 using UnityEngine.Events;
 using Chemistry;
+using Core;
 
 namespace Items.Weapons
 {

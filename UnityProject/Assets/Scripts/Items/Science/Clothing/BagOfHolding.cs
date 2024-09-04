@@ -1,3 +1,4 @@
+using Core;
 using UnityEngine;
 
 public class BagOfHolding : MonoBehaviour, IServerInventoryMove

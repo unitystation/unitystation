@@ -19,7 +19,7 @@ using System.Linq;
 using Changeling;
 using Core.Admin.Logs;
 using Logs;
-using static UniversalObjectPhysics;
+using static Core.UniversalObjectPhysics;
 
 /// <summary>
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind

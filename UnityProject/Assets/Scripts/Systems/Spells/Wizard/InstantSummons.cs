@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Core;
 using UnityEngine;
 
 namespace Systems.Spells.Wizard

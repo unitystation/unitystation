@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using NaughtyAttributes;
 using AddressableReferences;
+using Core;
 using Systems.Clearance;
 using Systems.Electricity;
 using Systems.Electricity.NodeModules;

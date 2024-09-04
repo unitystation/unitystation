@@ -1,6 +1,7 @@
 using UnityEngine;
 using HealthV2;
 using AddressableReferences;
+using Core;
 using NaughtyAttributes;
 
 namespace Items.Implants.Organs

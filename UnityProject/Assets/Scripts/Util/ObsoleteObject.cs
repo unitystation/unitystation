@@ -1,4 +1,5 @@
-﻿using Logs;
+﻿using Core;
+using Logs;
 using UnityEngine;
 
 namespace Util
