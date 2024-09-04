@@ -45,6 +45,7 @@ namespace TileManagement
 				new ChunkedTileMap<TileLocation>(),
 				new ChunkedTileMap<TileLocation>(),
 				new ChunkedTileMap<TileLocation>(),
+				new ChunkedTileMap<TileLocation>(),
 			}; // == max Value + 1
 
 		public ChunkedTileMap<TileLocation>[] PresentTilesNeedsLock => PresentTiles;
@@ -52,6 +53,7 @@ namespace TileManagement
 		private readonly ChunkedTileMap<List<TileLocation>>[] MultilayerPresentTiles =
 			new ChunkedTileMap<List<TileLocation>>[]
 			{
+				new ChunkedTileMap<List<TileLocation>>(),
 				new ChunkedTileMap<List<TileLocation>>(),
 				new ChunkedTileMap<List<TileLocation>>(),
 				new ChunkedTileMap<List<TileLocation>>(),

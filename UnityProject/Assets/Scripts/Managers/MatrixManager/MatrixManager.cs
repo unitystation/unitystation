@@ -1103,6 +1103,10 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			var DIR = MatrixCash.DIRs[i];
 			var matrixInfo = MatrixCash.GetforDirection(DIR);
 			var localPos = WorldToLocalInt(worldPos + DIR, matrixInfo);
+			if (matrixInfo.MetaDataLayer.IsSlipperyAt(localPos) )
+			{
+				continue;
+			}
 			if (matrixInfo.Matrix.HasGravity)
 			{
 				if (matrixInfo.MetaTileMap.IsEmptyTileMap(localPos) == false)

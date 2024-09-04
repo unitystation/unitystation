@@ -18,7 +18,8 @@ public enum TileType
 	UnderFloor,
 	Electrical,
 	Pipe,
-	Disposals
+	Disposals,
+	UnderObjectsEffects
 }
 
 //If you change numbers, scene layers will mess up
@@ -33,12 +34,13 @@ public enum LayerType
 	[Order(4)] Grills = 5,
 	[Order(5)] Tables = 9,
 	[Order(6)] Objects = 2,
-	[Order(7)] Floors = 3,
-	[Order(8)] Underfloor = 8,
-	[Order(9)] Electrical = 10,
-	[Order(10)] Pipe = 11,
-	[Order(11)] Disposals = 12,
-	[Order(12)] Base = 4
+	[Order(7)] UnderObjectsEffects = 13,
+	[Order(8)] Floors = 3,
+	[Order(9)] Underfloor = 8,
+	[Order(10)] Electrical = 10,
+	[Order(11)] Pipe = 11,
+	[Order(12)] Disposals = 12,
+	[Order(13)] Base = 4,
 }
 
 public static class LayerUtil
@@ -50,7 +52,7 @@ public static class LayerUtil
 
 	public static bool IsMultilayer(this LayerType layerType)
 	{
-		return layerType is LayerType.Underfloor or LayerType.Electrical or LayerType.Pipe or LayerType.Disposals or LayerType.Effects;
+		return layerType is LayerType.Underfloor or LayerType.Electrical or LayerType.Pipe or LayerType.Disposals or LayerType.Effects or LayerType.UnderObjectsEffects;
 	}
 }
 
@@ -70,6 +72,7 @@ public enum LayerTypeSelection
 	Electrical = 1 << 9,
 	Pipe = 1 << 10,
 	Disposals = 1 << 11,
+	UnderObjectsEffects = 1 << 12,
 	AllUnderFloor = Underfloor | Electrical | Pipe | Disposals,
 	All = ~None
 }
@@ -114,6 +117,8 @@ public static class LTSUtil
 				return LayerTypeSelection.Pipe;
 			case LayerType.Disposals:
 				return LayerTypeSelection.Disposals;
+			case LayerType.UnderObjectsEffects:
+				return LayerTypeSelection.UnderObjectsEffects;
 			default:
 				Loggy.LogError($"Failed to have case for: {Layer}");
 				break;

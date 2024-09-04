@@ -305,6 +305,22 @@ public class MetaDataNode : IGasMixContainer
 			ForceUpdateClient();
 		}
 	}
+	private bool _isIceSlippy = false;
+
+	public bool IsIceSlippy
+	{
+		get
+		{
+			return _isIceSlippy;
+		}
+		set
+		{
+			_isIceSlippy = value;
+			ForceUpdateClient();
+		}
+	}
+
+	public bool Allslippery => IsSlippery || IsIceSlippy;
 
 	public bool Exists => this != None;
 
@@ -425,6 +441,7 @@ public class MetaDataNode : IGasMixContainer
 
 	public void ForceUpdateClient()
 	{
+		if (CustomNetworkManager.IsServer == false) return;
 		PositionMatrix.MetaDataLayer.AddNetworkChange(LocalPosition, this);
 	}
 

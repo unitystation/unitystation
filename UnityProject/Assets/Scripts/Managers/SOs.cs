@@ -49,6 +49,10 @@ namespace ScriptableObjects
 		public UplinkPasswordList UplinkPasswordList;
 		public ThrusterFuelReactions ThrusterFuelReactions;
 
+		public SpawnPointSpritesSingleton SpawnPointSpritesSingleton;
+
+		public CommonTiles CommonTiles;
+
 		[FormerlySerializedAs("PlayerStatesSingleton")]
 		public PlayerTypeSingleton playerTypeSingleton;
 
@@ -86,6 +90,9 @@ namespace ScriptableObjects
 				{ typeof(UplinkPasswordList), UplinkPasswordList },
 				{ typeof(PlayerTypeSingleton), playerTypeSingleton },
 				{ typeof(ThrusterFuelReactions), ThrusterFuelReactions },
+				{ typeof(SpawnPointSpritesSingleton), SpawnPointSpritesSingleton },
+				{ typeof(CommonTiles), CommonTiles },
+
 			};
 		}
 

@@ -404,7 +404,7 @@ public class MetaDataView : BasicView
 		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
 		{
 			MetaDataNode node = source.Get(position, false);
-			if (node.IsSlippery)
+			if (node.Allslippery)
 			{
 				GizmoUtils.DrawCube( position, Color.cyan, true );
 			}

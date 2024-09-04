@@ -461,6 +461,25 @@ namespace Systems.Atmospherics
 		//If needed, sends them to a queue in ReactionManage r so that main thread will apply them
 		public static void GasVisualEffects(MetaDataNode node)
 		{
+			var newval = (
+				node.GasMixLocal.Pressure > 40 &&
+				node.GasMixLocal.Temperature < (TemperatureUtils.ZERO_CELSIUS_IN_KELVIN - 40));
+
+			if (node.IsIceSlippy != newval)
+			{
+				if (newval) //Adding
+				{
+					node.PositionMatrix.MetaTileMap.AddOverlay(node.LocalPosition,CommonTiles.Instance.IceEffect);
+				}
+				else if (node.IsIceSlippy ) //Removing
+				{
+					node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.LocalPosition, LayerType.UnderObjectsEffects, CommonTiles.Instance.IceEffect.OverlayType);
+				}
+
+				node.IsIceSlippy = newval;
+			}
+
+
 			foreach (var gasData in node.GasMixLocal.GasesArray) //doesn't appear to modify list while iterating
 			{
 				var gas = gasData.GasSO;
@@ -502,7 +521,10 @@ namespace Systems.Atmospherics
 					node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.LocalPosition, LayerType.Effects, gas.OverlayTile.OverlayType);
 				}
 			}
+
+
 		}
+
 
 		public static void RemovalAllGasOverlays(MetaDataNode node)
 		{
