@@ -18,6 +18,10 @@ public class SpriteDataSO : SOTracker
 
 	public string DisplayName;
 
+	//you can't access because of  namespace shenanigans Just use object HAHAHA
+	[NonSerialized] public object SpriteDataEntry;
+
+
 	[Serializable]
 	public struct Variant
 	{
