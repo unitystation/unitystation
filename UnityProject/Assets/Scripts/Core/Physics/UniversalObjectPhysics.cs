@@ -1192,7 +1192,7 @@ namespace Core.Physics
 				var floating = IsFloating();
 				if (floating == false)
 				{
-					AppliedFriction(DEFAULT_Friction);
+					AppliedFriction(DEFAULT_SLIDE_FRICTION);
 				}
 			}
 			else if (IsStickyMovement)
