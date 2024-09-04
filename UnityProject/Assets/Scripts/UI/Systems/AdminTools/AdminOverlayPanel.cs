@@ -3,6 +3,7 @@ using Core;
 using UnityEngine;
 using UnityEngine.UI;
 using Objects;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace AdminTools
 {

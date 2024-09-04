@@ -38,6 +38,7 @@ using TileManagement;
 using Tiles;
 using UI.Systems.AdminTools;
 using UI.Systems.AdminTools.DevTools;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace AdminCommands
 {

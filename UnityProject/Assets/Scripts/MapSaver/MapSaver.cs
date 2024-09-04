@@ -22,6 +22,7 @@ using UnityEditor;
 using System.IO;
 #endif
 using Object = UnityEngine.Object;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace MapSaver
 {

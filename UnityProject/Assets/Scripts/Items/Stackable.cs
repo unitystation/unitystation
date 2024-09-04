@@ -10,6 +10,7 @@ using Messages.Server;
 using UI;
 using UnityEngine.Serialization;
 using Util;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Allows an item to be stacked, occupying a single inventory slot.

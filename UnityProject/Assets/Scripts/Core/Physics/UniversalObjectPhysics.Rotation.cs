@@ -1,7 +1,7 @@
 ﻿using Mirror;
 using UnityEngine;
 
-namespace Core
+namespace Core.Physics
 {
 	public partial class UniversalObjectPhysics
 	{

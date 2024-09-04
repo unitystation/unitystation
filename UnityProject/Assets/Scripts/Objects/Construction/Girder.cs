@@ -6,6 +6,7 @@ using ScriptableObjects;
 using Doors;
 using TileManagement;
 using Tiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Construction
 {

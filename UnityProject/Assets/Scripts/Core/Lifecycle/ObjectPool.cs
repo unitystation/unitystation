@@ -5,6 +5,7 @@ using Core;
 using Logs;
 using Mirror;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Encapsulates the object pool itself and all the objects in the pool.

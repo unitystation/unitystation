@@ -8,6 +8,7 @@ using Core;
 using Messages.Server.SoundMessages;
 using Shared;
 using Tiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Construction
 {

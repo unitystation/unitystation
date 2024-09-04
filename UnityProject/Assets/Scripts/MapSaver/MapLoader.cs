@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using SecureStuff;
 using Tiles;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace MapSaver
 {

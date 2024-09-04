@@ -8,6 +8,7 @@ using Core;
 using Logs;
 using Messages.Server.SoundMessages;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Drawers
 {

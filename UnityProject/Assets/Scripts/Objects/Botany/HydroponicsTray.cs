@@ -9,6 +9,7 @@ using Core;
 using Items;
 using Items.Botany;
 using Logs;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Botany
 {

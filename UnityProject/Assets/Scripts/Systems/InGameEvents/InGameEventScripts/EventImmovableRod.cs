@@ -7,6 +7,7 @@ using UnityEngine;
 using Systems.Explosions;
 using Managers;
 using Strings;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace InGameEvents
 {

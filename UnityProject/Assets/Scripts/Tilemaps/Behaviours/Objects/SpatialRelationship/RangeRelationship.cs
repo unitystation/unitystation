@@ -4,6 +4,7 @@ using Core;
 using Logs;
 using UnityEngine;
 using Objects;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// spatial relationship which fires some logic and ends the relationship

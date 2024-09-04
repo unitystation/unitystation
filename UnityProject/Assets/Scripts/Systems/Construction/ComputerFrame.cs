@@ -4,6 +4,7 @@ using ScriptableObjects;
 using UnityEngine;
 using Items.Construction;
 using Logs;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Construction
 {

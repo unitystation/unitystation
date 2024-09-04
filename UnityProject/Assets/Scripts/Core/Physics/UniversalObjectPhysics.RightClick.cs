@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Core
+namespace Core.Physics
 {
 	public partial class UniversalObjectPhysics : IRightClickable
 	{
@@ -19,7 +19,7 @@ namespace Core
 			}
 
 			//check if our local player can reach this
-			var initiator = PlayerManager.LocalMindScript.GetDeepestBody().GetComponent<UniversalObjectPhysics>();
+			var initiator = PlayerManager.LocalMindScript.GetDeepestBody().GetComponent<Physics.UniversalObjectPhysics>();
 			if (initiator == null) return options;
 
 			//if it's pulled by us

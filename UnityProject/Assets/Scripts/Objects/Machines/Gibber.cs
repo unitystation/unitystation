@@ -9,6 +9,7 @@ using NaughtyAttributes;
 using Systems.Electricity;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Machines
 {

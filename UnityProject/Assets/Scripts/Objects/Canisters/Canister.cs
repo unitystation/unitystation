@@ -6,6 +6,7 @@ using Mirror;
 using Systems.Atmospherics;
 using Systems.Shuttles;
 using UI.Core.NetUI;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Atmospherics
 {

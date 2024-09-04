@@ -12,6 +12,7 @@ using Managers;
 using Systems.Score;
 using UI.Chat_UI;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Command
 {

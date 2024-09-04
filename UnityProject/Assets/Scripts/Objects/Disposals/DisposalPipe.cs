@@ -5,6 +5,7 @@ using UnityEngine;
 using Systems.DisposalPipes;
 using TileManagement;
 using Tiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Disposals
 {

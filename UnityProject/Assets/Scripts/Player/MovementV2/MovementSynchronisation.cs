@@ -28,6 +28,7 @@ using UI;
 using UI.Core.Action;
 using UnityEngine;
 using UnityEngine.Events;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI, ICooldown,
 	IBumpableObject, ICheckedInteractable<ContextMenuApply>

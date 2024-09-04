@@ -11,6 +11,7 @@ using Shared.Systems.ObjectConnection;
 using Systems.Communications;
 using Systems.Electricity;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Engineering.Reactor
 {

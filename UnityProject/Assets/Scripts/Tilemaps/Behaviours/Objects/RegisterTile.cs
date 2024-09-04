@@ -15,6 +15,7 @@ using Systems.Electricity;
 using Systems.Pipes;
 using Tiles;
 using Util;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public enum ObjectType
 {

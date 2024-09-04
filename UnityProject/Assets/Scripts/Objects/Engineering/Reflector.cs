@@ -12,6 +12,7 @@ using UnityEngine;
 using Weapons;
 using Weapons.Projectiles;
 using Weapons.Projectiles.Behaviours;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Engineering
 {

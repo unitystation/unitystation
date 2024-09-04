@@ -15,6 +15,7 @@ using Items;
 using Items.Food;
 using Machines;
 using Objects.Machines;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Objects.Kitchen

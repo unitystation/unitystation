@@ -17,6 +17,7 @@ using Messages.Server;
 using UnityEditor;
 using Util;
 using Object = UnityEngine.Object;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class CustomNetworkManager : NetworkManager, IInitialise
 {

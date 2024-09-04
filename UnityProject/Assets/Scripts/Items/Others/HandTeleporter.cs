@@ -7,6 +7,7 @@ using Systems.Teleport;
 using UnityEngine;
 using Systems.Scenes;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Items.Others
 {

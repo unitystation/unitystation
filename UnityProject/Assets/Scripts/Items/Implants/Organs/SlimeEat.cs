@@ -6,6 +6,7 @@ using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Items.Food;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 [RequireComponent( typeof(ReagentCirculatedComponent))]
 public class SlimeEat : BodyPartFunctionality

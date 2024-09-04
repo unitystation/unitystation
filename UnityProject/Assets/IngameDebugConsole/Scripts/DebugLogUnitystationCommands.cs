@@ -16,6 +16,7 @@ using Messages.Server.HealthMessages;
 using ScriptableObjects;
 using Systems.Character;
 using Systems.Score;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace IngameDebugConsole
 {

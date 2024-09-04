@@ -12,6 +12,7 @@ using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 #endif
 using UnityEngine.UI;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 ///	<summary>

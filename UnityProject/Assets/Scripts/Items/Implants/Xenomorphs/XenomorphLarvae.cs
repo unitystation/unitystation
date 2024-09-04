@@ -8,6 +8,7 @@ using Systems.Antagonists;
 using Systems.Character;
 using UnityEngine;
 using Util;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace HealthV2
 {

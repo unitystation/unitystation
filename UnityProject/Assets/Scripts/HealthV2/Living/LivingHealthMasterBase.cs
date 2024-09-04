@@ -31,6 +31,7 @@ using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Systems.Character;
 using Util.Independent.FluentRichText;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace HealthV2
 {

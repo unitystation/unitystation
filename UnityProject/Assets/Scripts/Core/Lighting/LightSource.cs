@@ -13,6 +13,7 @@ using Systems.Electricity;
 using Shared.Systems.ObjectConnection;
 using Objects.Construction;
 using UnityEngine.Serialization;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Objects.Lighting

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using Items;
 using Logs;
 using Messages.Client.DevSpawner;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 /// <summary>

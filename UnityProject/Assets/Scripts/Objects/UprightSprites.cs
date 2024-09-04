@@ -4,6 +4,7 @@ using Core;
 using UnityEngine;
 using Core.Editor.Attributes;
 using Logs;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 /// <summary>

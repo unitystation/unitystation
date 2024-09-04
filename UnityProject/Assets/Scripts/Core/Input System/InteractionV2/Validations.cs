@@ -11,6 +11,7 @@ using Logs;
 using Objects.Wallmounts;
 using ScriptableObjects;
 using Tiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 // TODO: namespace me to Systems.Interaction (have fun)

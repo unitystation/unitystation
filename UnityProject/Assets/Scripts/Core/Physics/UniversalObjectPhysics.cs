@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using AdminCommands;
 using HealthV2;
 using Items;
 using Logs;
@@ -15,7 +14,7 @@ using UnityEngine.Events;
 using Util;
 using Random = UnityEngine.Random;
 
-namespace Core
+namespace Core.Physics
 {
 	public partial class UniversalObjectPhysics : NetworkBehaviour, IRegisterTileInitialised
 	{

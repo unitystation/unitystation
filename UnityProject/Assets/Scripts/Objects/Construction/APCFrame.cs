@@ -9,6 +9,7 @@ using Mirror;
 using ScriptableObjects;
 using Objects.Engineering;
 using Systems.Electricity;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Construction
 {

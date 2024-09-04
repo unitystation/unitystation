@@ -8,6 +8,7 @@ using Systems.Electricity;
 using Systems.Botany;
 using Items;
 using Items.Botany;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Botany
 {

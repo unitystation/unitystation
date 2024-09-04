@@ -10,6 +10,7 @@ using Managers;
 using Mirror;
 using Systems.Electricity;
 using Systems.Electricity.NodeModules;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Items.Weapons
 {

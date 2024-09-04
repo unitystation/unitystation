@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Mirror;
 using Systems.Electricity;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Electrical
 {

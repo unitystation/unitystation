@@ -11,6 +11,7 @@ using Managers;
 using Messages.Server.SoundMessages;
 using Strings;
 using UI.Systems.Tooltips.HoverTooltips;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects
 {

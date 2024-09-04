@@ -16,6 +16,7 @@ using Managers;
 using Strings;
 using Systems.MobAIs;
 using UnityEngine.Profiling;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Blob
 {

@@ -9,6 +9,7 @@ using UnityEngine;
 using Systems.Spawns;
 using Objects;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Teleport
 {

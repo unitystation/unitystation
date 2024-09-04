@@ -6,6 +6,7 @@ using Systems.Character;
 using UI.Character;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class PlayerBlueprint : MonoBehaviour, IServerSpawn
 {

@@ -5,6 +5,7 @@ using UnityEngine;
 using Mirror;
 using ScriptableObjects;
 using Shared.Systems.ObjectConnection;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

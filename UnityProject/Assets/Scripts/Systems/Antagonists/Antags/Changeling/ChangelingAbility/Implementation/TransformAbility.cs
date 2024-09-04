@@ -10,6 +10,7 @@ using Systems.Character;
 using UI.Action;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Changeling
 {

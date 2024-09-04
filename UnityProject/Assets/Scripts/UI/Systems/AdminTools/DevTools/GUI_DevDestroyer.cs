@@ -3,6 +3,7 @@ using System.Linq;
 using Core;
 using UnityEngine;
 using Messages.Client.DevSpawner;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace UI.AdminTools

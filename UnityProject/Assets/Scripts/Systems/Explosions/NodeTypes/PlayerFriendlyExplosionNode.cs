@@ -6,6 +6,7 @@ using Items;
 using Light2D;
 using Systems.Explosions;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class PlayerFriendlyExplosionNode : ExplosionNode
 {

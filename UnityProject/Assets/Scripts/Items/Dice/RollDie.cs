@@ -5,6 +5,7 @@ using Mirror;
 using UnityEngine;
 using Items.Food;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Items.Dice
 {

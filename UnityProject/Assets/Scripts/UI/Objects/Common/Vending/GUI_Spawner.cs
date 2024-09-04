@@ -7,6 +7,7 @@ using UI.Core.NetUI;
 using UI.Objects.Shuttles;
 using HealthV2;
 using Logs;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace UI
 {

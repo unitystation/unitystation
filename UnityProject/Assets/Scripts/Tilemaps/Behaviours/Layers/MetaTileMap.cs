@@ -16,6 +16,7 @@ using Systems.DisposalPipes;
 using Systems.Electricity;
 using Tiles;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 #if UNITY_EDITOR
 using Debug = UnityEngine.Debug;
 

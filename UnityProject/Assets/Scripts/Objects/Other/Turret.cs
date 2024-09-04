@@ -19,6 +19,7 @@ using UI.Core.Net;
 using UnityEngine;
 using Weapons;
 using Weapons.Projectiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Objects.Other

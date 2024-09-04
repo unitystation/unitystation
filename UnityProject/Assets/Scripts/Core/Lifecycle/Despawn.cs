@@ -4,6 +4,7 @@ using Core;
 using Logs;
 using UnityEngine;
 using Systems.Electricity;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Main API for despawning objects. If you ever need to despawn something, look here

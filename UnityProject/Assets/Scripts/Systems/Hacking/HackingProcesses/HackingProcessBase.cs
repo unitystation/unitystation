@@ -12,6 +12,7 @@ using Logs;
 using Messages.Client;
 using Objects.Electrical;
 using Systems.Explosions;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Hacking
 {

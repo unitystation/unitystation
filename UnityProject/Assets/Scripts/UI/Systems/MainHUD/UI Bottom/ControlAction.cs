@@ -3,6 +3,7 @@ using Logs;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.UI;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace UI
 {

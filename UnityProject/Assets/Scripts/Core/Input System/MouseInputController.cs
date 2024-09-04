@@ -15,6 +15,7 @@ using UI;
 using UI.Action;
 using Tiles;
 using UI.Core.Action;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Main entry point for handling all input events

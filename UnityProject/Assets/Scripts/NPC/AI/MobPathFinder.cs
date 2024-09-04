@@ -8,6 +8,7 @@ using PathFinding;
 using Doors;
 using Logs;
 using Systems.Clearance;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Systems.MobAIs

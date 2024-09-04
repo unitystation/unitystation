@@ -8,6 +8,7 @@ using Logs;
 using Objects;
 using Systems.Cargo;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class AutopilotShipCargo : AutopilotShipMachine
 {

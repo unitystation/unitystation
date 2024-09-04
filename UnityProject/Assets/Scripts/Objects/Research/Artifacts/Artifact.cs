@@ -14,6 +14,7 @@ using ScriptableObjects.Atmospherics;
 using CustomInspectors;
 using Systems.Cargo;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 [System.Serializable]
 public class ArtifactSprite

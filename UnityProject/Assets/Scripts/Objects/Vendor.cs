@@ -14,6 +14,7 @@ using Light2D;
 using Mirror;
 using SecureStuff;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Objects

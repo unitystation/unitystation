@@ -10,6 +10,7 @@ using Systems;
 using Systems.Electricity;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Items
 {

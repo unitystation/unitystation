@@ -2,6 +2,7 @@ using Core;
 using Systems.Construction.Parts;
 using Systems.Electricity;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Closets
 {

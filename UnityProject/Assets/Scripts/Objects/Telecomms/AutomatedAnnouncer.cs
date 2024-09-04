@@ -9,6 +9,7 @@ using ScriptableObjects.Communications;
 using Systems.Communications;
 using InGameEvents;
 using Logs;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Telecomms
 {

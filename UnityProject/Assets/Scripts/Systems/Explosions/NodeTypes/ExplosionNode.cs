@@ -13,6 +13,7 @@ using Core.Lighting_System.Light2D;
 using Player;
 using Scripts.Core.Transform;
 using Systems.Atmospherics;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Systems.Explosions

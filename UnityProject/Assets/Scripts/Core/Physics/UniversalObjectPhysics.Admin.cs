@@ -1,6 +1,6 @@
 ﻿using AdminCommands;
 
-namespace Core
+namespace Core.Physics
 {
 	public partial class UniversalObjectPhysics
 	{

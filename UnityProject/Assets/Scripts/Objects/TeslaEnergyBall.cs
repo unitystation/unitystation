@@ -12,6 +12,7 @@ using UnityEngine;
 using Weapons.Projectiles.Behaviours;
 using Random = UnityEngine.Random;
 using Tiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects
 {

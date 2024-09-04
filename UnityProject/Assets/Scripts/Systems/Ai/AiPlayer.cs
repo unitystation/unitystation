@@ -15,6 +15,7 @@ using Objects.Research;
 using UI.Systems.MainHUD.UI_Bottom;
 using UnityEngine;
 using HealthV2;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Ai
 {

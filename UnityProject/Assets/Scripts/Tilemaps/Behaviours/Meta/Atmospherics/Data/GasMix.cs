@@ -9,6 +9,7 @@ using ScriptableObjects.Atmospherics;
 using Systems.Pipes;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Systems.Atmospherics

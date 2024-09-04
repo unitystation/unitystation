@@ -13,6 +13,7 @@ using Messages.Server.SoundMessages;
 using Systems.Atmospherics;
 using Systems.Electricity;
 using UI.Systems.Tooltips.HoverTooltips;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Disposals
 {

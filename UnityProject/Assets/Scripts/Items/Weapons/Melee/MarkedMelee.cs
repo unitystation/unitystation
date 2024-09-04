@@ -3,6 +3,7 @@ using Core;
 using UnityEngine;
 using Items;
 using Systems.StatusesAndEffects.Implementations;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Weapons
 {

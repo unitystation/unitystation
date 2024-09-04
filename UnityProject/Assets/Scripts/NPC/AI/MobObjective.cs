@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core;
 using Doors;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Systems.MobAIs

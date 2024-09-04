@@ -19,6 +19,7 @@ using Tilemaps.Utils;
 using Util;
 using Tiles;
 using PipeLayer = Tilemaps.Behaviours.Layers.PipeLayer;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Behavior which indicates a matrix - a contiguous grid of tiles.

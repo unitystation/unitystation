@@ -31,6 +31,7 @@ using Systems.Faith;
 using Tiles;
 using Util;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {

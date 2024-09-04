@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Core;
 using Logs;
 using Messages.Server;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public static class SweetExtensions
 {

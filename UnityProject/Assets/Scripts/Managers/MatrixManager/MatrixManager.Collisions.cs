@@ -14,6 +14,7 @@ using Random = UnityEngine.Random;
 using Objects.Electrical;
 using Objects.Engineering;
 using TileManagement;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Collision-related stuff

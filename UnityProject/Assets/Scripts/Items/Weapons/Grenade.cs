@@ -11,6 +11,7 @@ using UnityEngine.Events;
 using NaughtyAttributes;
 using UI.Systems.Tooltips.HoverTooltips;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Items.Weapons
 {

@@ -7,6 +7,7 @@ using Mirror;
 using Communications;
 using Core;
 using UI.Systems.Tooltips.HoverTooltips;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Items.Weapons
 {

@@ -14,6 +14,7 @@ using Systems.Explosions;
 using Systems.Interaction;
 using UI.Systems.Tooltips.HoverTooltips;
 using Util.Independent.FluentRichText;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Component which allows an object to have an integrity value (basically an object's version of HP),

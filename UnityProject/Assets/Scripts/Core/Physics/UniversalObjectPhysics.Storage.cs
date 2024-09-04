@@ -1,10 +1,10 @@
 ﻿using Logs;
 using Mirror;
 using Objects;
-using Util.Independent.FluentRichText;
 using UnityEngine;
+using Util.Independent.FluentRichText;
 
-namespace Core
+namespace Core.Physics
 {
 	public partial class UniversalObjectPhysics
 	{

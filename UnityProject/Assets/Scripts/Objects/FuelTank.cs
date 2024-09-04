@@ -6,6 +6,7 @@ using Chemistry;
 using Chemistry.Components;
 using Core;
 using Systems.Explosions;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Engineering
 {

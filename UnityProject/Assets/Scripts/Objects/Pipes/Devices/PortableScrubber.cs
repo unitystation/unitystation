@@ -6,6 +6,7 @@ using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;
 using Systems.Atmospherics;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class PortableScrubber : MonoBehaviour, ICheckedInteractable<HandApply>
 {

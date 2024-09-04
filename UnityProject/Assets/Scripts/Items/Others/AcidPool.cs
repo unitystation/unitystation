@@ -2,6 +2,7 @@
 using System.Timers;
 using Core;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Items.Others
 {

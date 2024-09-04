@@ -1,6 +1,7 @@
 ﻿using Core;
 using Logs;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Util
 {

@@ -23,6 +23,7 @@ using Player;
 using Shuttles;
 using Tilemaps.Behaviours.Layers;
 using Tiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Defines collision type we expect

@@ -16,7 +16,7 @@ namespace Core.Characters.AttributeBehaviors
 		public override void Run(GameObject characterBody)
 		{
 			Transform spawnTransform;
-			var physics = characterBody.GetComponent<UniversalObjectPhysics>();
+			var physics = characterBody.GetComponent<Physics.UniversalObjectPhysics>();
 			// Spawn normal location for special jobs or if less than 2 minutes passed
 			if (GameManager.Instance.RoundTime < ARRIVALS_SPAWN_TIME)
 			{

@@ -3,6 +3,7 @@ using Core;
 using Mirror;
 using UI.Action;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Items.Others
 {

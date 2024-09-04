@@ -7,6 +7,7 @@ using NaughtyAttributes;
 using Objects;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Items.Cargo.Wrapping
 {

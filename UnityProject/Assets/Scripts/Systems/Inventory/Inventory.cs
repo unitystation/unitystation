@@ -10,6 +10,7 @@ using UnityEngine;
 using Systems.Storage;
 using Objects;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Main API for modifying inventory. If you need to do something with inventory, check here first.

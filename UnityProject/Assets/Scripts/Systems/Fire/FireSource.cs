@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core;
 using UnityEngine;
 using Objects;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Defines fire sources like candles, lighters or activated welder

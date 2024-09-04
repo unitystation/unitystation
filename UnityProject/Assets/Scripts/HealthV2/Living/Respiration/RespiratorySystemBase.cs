@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Core;
 using Items.Implants.Organs;
 using Mirror;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace HealthV2
 {

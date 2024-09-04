@@ -8,6 +8,7 @@ using UnityEngine;
 using Messages.Server;
 using Systems;
 using UnityEngine.Events;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects
 {

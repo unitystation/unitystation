@@ -9,6 +9,7 @@ using ScriptableObjects;
 using Machines;
 using Objects.Machines;
 using UI.Systems.Tooltips.HoverTooltips;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Construction
 {

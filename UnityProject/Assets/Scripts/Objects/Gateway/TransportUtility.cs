@@ -4,6 +4,7 @@ using Core;
 using UnityEngine;
 using Objects;
 using Systems.Explosions;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Gateway
 {

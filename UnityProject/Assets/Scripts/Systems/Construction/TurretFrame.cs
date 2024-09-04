@@ -6,6 +6,7 @@ using Objects.Other;
 using ScriptableObjects;
 using UnityEngine;
 using Weapons;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Construction
 {

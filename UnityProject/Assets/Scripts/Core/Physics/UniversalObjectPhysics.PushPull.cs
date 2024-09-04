@@ -6,7 +6,7 @@ using SecureStuff;
 using UnityEngine;
 using Util;
 
-namespace Core
+namespace Core.Physics
 {
 	public partial class UniversalObjectPhysics
 	{
@@ -18,9 +18,9 @@ namespace Core
 
 		//## PULLING TARGETS ## //
 		// TODO: Bod this is not what CheckedComponent is for as the reference is not on the same object as this script - Dan
-		[PlayModeOnly] public CheckedComponent<UniversalObjectPhysics> Pulling = new();
-		[PlayModeOnly] public CheckedComponent<UniversalObjectPhysics> PulledBy = new();
-		public UniversalObjectPhysics DeepestPullingOrItself
+		[PlayModeOnly] public CheckedComponent<Physics.UniversalObjectPhysics> Pulling = new();
+		[PlayModeOnly] public CheckedComponent<Physics.UniversalObjectPhysics> PulledBy = new();
+		public Physics.UniversalObjectPhysics DeepestPullingOrItself
 		{
 			get
 			{
@@ -36,12 +36,12 @@ namespace Core
 		}
 
 		//## PUSHING TARGETS ## //
-		[HideInInspector] public List<UniversalObjectPhysics> Pushing = new List<UniversalObjectPhysics>();
+		[HideInInspector] public List<Physics.UniversalObjectPhysics> Pushing = new List<Physics.UniversalObjectPhysics>();
 
 		//## WIND AND OTHER ## //
 		public bool CanBeWindPushed = true;
 
-		public void PullSet(UniversalObjectPhysics toPull, bool byClient, bool synced = false)
+		public void PullSet(Physics.UniversalObjectPhysics toPull, bool byClient, bool synced = false)
 		{
 			if (toPull != null && ContainedInObjectContainer != null) return; //Can't pull stuff inside of objects)
 
@@ -181,7 +181,7 @@ namespace Core
 		}
 
 		public void TryTilePush(Vector2Int worldDirection, GameObject byClient, float speed = Single.NaN,
-			UniversalObjectPhysics pushedBy = null, bool overridePull = false, UniversalObjectPhysics pulledBy = null,
+			Physics.UniversalObjectPhysics pushedBy = null, bool overridePull = false, Physics.UniversalObjectPhysics pulledBy = null,
 			bool useWorld = false)
 		{
 			if (isFlyingSliding) return;
@@ -199,9 +199,9 @@ namespace Core
 			}
 		}
 
-		public void ForceTilePush(Vector2Int worldDirection, List<UniversalObjectPhysics> inPushing, GameObject byClient,
+		public void ForceTilePush(Vector2Int worldDirection, List<Physics.UniversalObjectPhysics> inPushing, GameObject byClient,
 			float speed = Single.NaN, bool isWalk = false,
-			UniversalObjectPhysics pushedBy = null, bool overridePull = false, UniversalObjectPhysics pulledBy = null,
+			Physics.UniversalObjectPhysics pushedBy = null, bool overridePull = false, Physics.UniversalObjectPhysics pulledBy = null,
 			bool SendWorld = false)
 		{
 			if (isFlyingSliding) return;
@@ -259,10 +259,10 @@ namespace Core
 
 			if (ChangesDirectionPush)
 			{
-				rotatable.OrNull()?.SetFaceDirectionLocalVector(worldDirection);
+				GameObjectExtensions.OrNull(rotatable)?.SetFaceDirectionLocalVector(worldDirection);
 			}
 
-			var localPosition = (newWorldPosition).ToLocal(movetoMatrix);
+			var localPosition = ConverterExtensions.ToLocal(newWorldPosition, movetoMatrix);
 
 			SetLocalTarget = new Vector3WithData()
 			{
@@ -339,7 +339,7 @@ namespace Core
 
 		public void ClientTryTogglePull()
 		{
-			var initiator = PlayerManager.LocalPlayerScript.GetComponent<UniversalObjectPhysics>();
+			var initiator = PlayerManager.LocalPlayerScript.GetComponent<Physics.UniversalObjectPhysics>();
 			float interactDist = PlayerScript.INTERACTION_DISTANCE;
 			var reachRange = ReachRange.Standard;
 			if (PlayerManager.LocalPlayerScript.playerHealth.brain != null &&
@@ -391,7 +391,7 @@ namespace Core
 		{
 			if (ContainedInObjectContainer != null) return; //Can't pull stuff inside of objects
 			if (pullableObject == null || pullableObject == this.gameObject) return;
-			var pullable = pullableObject.GetComponent<UniversalObjectPhysics>();
+			var pullable = pullableObject.GetComponent<Physics.UniversalObjectPhysics>();
 			if (pullable == null || pullable.isNotPushable)
 			{
 				return;
@@ -444,7 +444,7 @@ namespace Core
 
 		public struct PullData : IEquatable<PullData>
 		{
-			public UniversalObjectPhysics NewPulling;
+			public Physics.UniversalObjectPhysics NewPulling;
 			public bool WasCausedByClient;
 
 			public override bool Equals(object obj)

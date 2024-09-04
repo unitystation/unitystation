@@ -10,6 +10,7 @@ using NaughtyAttributes;
 using Player;
 using Systems.Clothing;
 using UI.CharacterCreator;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace HealthV2
 {

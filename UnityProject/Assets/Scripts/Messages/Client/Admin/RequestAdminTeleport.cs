@@ -2,6 +2,7 @@
 using Core.Admin.Logs;
 using UnityEngine;
 using Mirror;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Messages.Client.Admin

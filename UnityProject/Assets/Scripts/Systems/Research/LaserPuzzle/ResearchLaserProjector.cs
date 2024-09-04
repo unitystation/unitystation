@@ -13,6 +13,7 @@ using Weapons.Projectiles;
 using Systems.Research.Data;
 using UI.Core.Net;
 using UI.Systems.Tooltips.HoverTooltips;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Research
 {

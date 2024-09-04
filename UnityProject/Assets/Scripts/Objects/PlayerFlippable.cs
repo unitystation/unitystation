@@ -3,6 +3,7 @@ using Core;
 using Logs;
 using Messages.Client.Interaction;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects
 {

@@ -11,6 +11,7 @@ using UI.Items;
 using UnityEngine.Events;
 using Chemistry;
 using Core;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Items.Weapons
 {

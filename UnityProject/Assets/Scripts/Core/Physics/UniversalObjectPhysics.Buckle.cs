@@ -1,20 +1,20 @@
 ﻿using Mirror;
 
-namespace Core
+namespace Core.Physics
 {
 	public partial class UniversalObjectPhysics
 	{
 		// netid of the game object we are buckled to, NetId.Empty if not buckled
 		[field: SyncVar(hook = nameof(SyncObjectIsBuckling))]
-		public UniversalObjectPhysics ObjectIsBuckling { get; protected set; } //If your chair the person buckled to you
+		public Physics.UniversalObjectPhysics ObjectIsBuckling { get; protected set; } //If your chair the person buckled to you
 
-		public UniversalObjectPhysics BuckledToObject; //If you're a person the chair you are buckle to
+		public Physics.UniversalObjectPhysics BuckledToObject; //If you're a person the chair you are buckle to
 		public bool IsBuckled => BuckledToObject != null;
 
-		public virtual void BuckleToChange(UniversalObjectPhysics newBuckledTo) { }
+		public virtual void BuckleToChange(Physics.UniversalObjectPhysics newBuckledTo) { }
 
 		// syncvar hook invoked client side when the buckledTo changes
-		private void SyncObjectIsBuckling(UniversalObjectPhysics oldBuckledTo, UniversalObjectPhysics newBuckledTo)
+		private void SyncObjectIsBuckling(Physics.UniversalObjectPhysics oldBuckledTo, Physics.UniversalObjectPhysics newBuckledTo)
 		{
 			// unsub if we are subbed
 			if (oldBuckledTo != null)
@@ -53,7 +53,7 @@ namespace Core
 		private void OnBuckledObjectDirectionChange(OrientationEnum newDir)
 		{
 			if (rotatable == null) rotatable = gameObject.GetComponent<Rotatable>();
-			rotatable.OrNull()?.FaceDirection(newDir);
+			GameObjectExtensions.OrNull<Rotatable>(rotatable)?.FaceDirection(newDir);
 		}
 
 		// ReSharper disable Unity.PerformanceAnalysis
@@ -71,7 +71,7 @@ namespace Core
 		/// Server side logic for buckling a player
 		/// </summary>
 		[Server]
-		public void BuckleTo(UniversalObjectPhysics newBuckledTo)
+		public void BuckleTo(Physics.UniversalObjectPhysics newBuckledTo)
 		{
 			if (newBuckledTo == null)
 			{

@@ -5,6 +5,7 @@ using Core;
 using HealthV2;
 using Items;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class CommonComponents : MonoBehaviour
 {

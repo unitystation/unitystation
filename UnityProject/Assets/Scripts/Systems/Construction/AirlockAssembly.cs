@@ -7,6 +7,7 @@ using Items.Construction;
 using ScriptableObjects;
 using Core.Editor.Attributes;
 using Systems.Clearance;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Construction
 {

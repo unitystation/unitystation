@@ -10,6 +10,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 [RequireComponent(typeof(EscapeKeyTarget))]
 public class DeviceMover : SingletonManager<DeviceMover>
