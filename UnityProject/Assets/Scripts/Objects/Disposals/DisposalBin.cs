@@ -6,12 +6,14 @@ using UnityEngine;
 using Mirror;
 using Systems.Disposals;
 using AddressableReferences;
+using Core;
 using Core.Admin.Logs;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
 using Systems.Atmospherics;
 using Systems.Electricity;
 using UI.Systems.Tooltips.HoverTooltips;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Disposals
 {

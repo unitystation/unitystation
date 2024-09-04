@@ -552,7 +552,7 @@ namespace Core.Editor.Tools
 			int count = 0;
 			foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
 			{
-				foreach (var objectPhysics in gameObject.GetComponentsInChildren<UniversalObjectPhysics>())
+				foreach (var objectPhysics in gameObject.GetComponentsInChildren<Physics.UniversalObjectPhysics>())
 				{
 					if (objectPhysics.SnapToGridOnStart == false) continue;
 
@@ -625,7 +625,7 @@ namespace Core.Editor.Tools
 				if (Missing)
 				{
 					Undo.RegisterCompleteObjectUndo(o, "Remove missing scripts");
-					o.AddComponent<UniversalObjectPhysics>();
+					o.AddComponent<Physics.UniversalObjectPhysics>();
 					GameObjectUtility.RemoveMonoBehavioursWithMissingScript(o);
 					EditorUtility.SetDirty(o);
 					goCount++;

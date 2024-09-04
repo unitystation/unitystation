@@ -2,10 +2,12 @@ using System.Collections;
 using AddressableReferences;
 using Chemistry;
 using Chemistry.Components;
+using Core;
 using Mirror;
 using Objects;
 using UnityEngine;
 using Items.Weapons;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<HandActivate>, IServerDespawn, ITrapComponent,
 	ICheckedInteractable<InventoryApply>

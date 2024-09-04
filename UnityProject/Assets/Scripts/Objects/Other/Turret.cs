@@ -8,6 +8,7 @@ using Systems.Construction;
 using Systems.Electricity;
 using Systems.MobAIs;
 using AddressableReferences;
+using Core;
 using Messages.Server;
 using Mirror;
 using Objects.Security;
@@ -18,6 +19,7 @@ using UI.Core.Net;
 using UnityEngine;
 using Weapons;
 using Weapons.Projectiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Objects.Other

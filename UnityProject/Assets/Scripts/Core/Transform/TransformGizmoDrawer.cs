@@ -1,5 +1,7 @@
 using System;
+using Core;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// Put this on items with UniversalObjectPhysics and you'll have gizmos for these
 public class TransformGizmoDrawer : MonoBehaviour {

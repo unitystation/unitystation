@@ -8,12 +8,14 @@ using Mirror;
 using NaughtyAttributes;
 using AddressableReferences;
 using Audio.Containers;
+using Core;
 using Messages.Server.SoundMessages;
 using Systems.Electricity;
 using Items;
 using Items.Food;
 using Machines;
 using Objects.Machines;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Objects.Kitchen

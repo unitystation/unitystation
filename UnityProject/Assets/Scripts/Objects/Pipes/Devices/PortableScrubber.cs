@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;
 using Systems.Atmospherics;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class PortableScrubber : MonoBehaviour, ICheckedInteractable<HandApply>
 {

@@ -3,6 +3,7 @@ using AddressableReferences;
 using Core;
 using Items;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Mobs.BrainAI.States.Arial
 {

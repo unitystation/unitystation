@@ -14,6 +14,7 @@ using Strings;
 using HealthV2;
 using AdminTools;
 using Audio.Containers;
+using Core;
 using Core.Admin.Logs;
 using DatabaseAPI;
 using Doors;
@@ -37,6 +38,7 @@ using TileManagement;
 using Tiles;
 using UI.Systems.AdminTools;
 using UI.Systems.AdminTools.DevTools;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace AdminCommands
 {

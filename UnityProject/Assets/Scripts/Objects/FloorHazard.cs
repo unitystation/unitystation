@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Systems.MobAIs;
 using AddressableReferences;
+using Core;
 using HealthV2;
 using HealthV2.Limbs;
 using Logs;
@@ -11,6 +12,7 @@ using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects
 {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using Logs;
 using UnityEngine;
 using Mirror;
@@ -11,6 +12,7 @@ using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 #endif
 using UnityEngine.UI;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 ///	<summary>

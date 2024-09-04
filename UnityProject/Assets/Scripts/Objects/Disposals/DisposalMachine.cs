@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using Core;
+using UnityEngine;
 using Mirror;
 using Objects.Atmospherics;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Disposals
 {

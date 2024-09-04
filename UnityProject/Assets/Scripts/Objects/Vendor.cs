@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Systems.Electricity;
 using AddressableReferences;
+using Core;
 using Messages.Server.SoundMessages;
 using Items;
 using Items.PDA;
@@ -13,6 +14,7 @@ using Light2D;
 using Mirror;
 using SecureStuff;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Objects

@@ -1,10 +1,12 @@
 using System.Collections;
 using System;
 using AddressableReferences;
+using Core;
 using UnityEngine;
 using Mirror;
 using Systems.Botany;
 using Systems.Explosions;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Items.Weapons
 {

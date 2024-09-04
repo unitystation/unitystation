@@ -19,8 +19,10 @@ using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Changeling;
+using Core;
 using Logs;
 using Systems.Faith;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IHoverTooltip
 {

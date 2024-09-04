@@ -1,5 +1,7 @@
+using Core;
 using UnityEngine;
 using Systems.Explosions;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Research
 {

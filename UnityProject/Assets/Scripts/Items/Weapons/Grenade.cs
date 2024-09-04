@@ -5,11 +5,13 @@ using UnityEngine;
 using Mirror;
 using Systems.Explosions;
 using AddressableReferences;
+using Core;
 using Objects;
 using UnityEngine.Events;
 using NaughtyAttributes;
 using UI.Systems.Tooltips.HoverTooltips;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Items.Weapons
 {

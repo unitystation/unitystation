@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Core;
 using HealthV2;
 using Logs;
 using Systems.Ai;
@@ -8,6 +9,7 @@ using UnityEngine;
 using Systems.Spawns;
 using Objects;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Teleport
 {

@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Core;
 using HealthV2;
 using Mirror;
 using NaughtyAttributes;
 using Systems.Electricity;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Machines
 {

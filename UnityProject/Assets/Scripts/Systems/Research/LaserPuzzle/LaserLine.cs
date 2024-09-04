@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using Objects.Engineering;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class LaserLine : MonoBehaviour
 {

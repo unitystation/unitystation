@@ -3,11 +3,13 @@ using System;
 using System.Linq;
 using UnityEngine;
 using AddressableReferences;
+using Core;
 using Mirror;
 using Objects.Atmospherics;
 using Systems.Disposals;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Disposals
 {

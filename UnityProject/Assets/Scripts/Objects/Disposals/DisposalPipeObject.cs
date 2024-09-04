@@ -1,8 +1,10 @@
 using System.Linq;
+using Core;
 using Logs;
 using UnityEngine;
 using Mirror;
 using Systems.Disposals;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Disposals
 {

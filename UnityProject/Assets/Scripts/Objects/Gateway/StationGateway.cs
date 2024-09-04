@@ -2,6 +2,7 @@
 using Mirror;
 using UnityEngine;
 using System.Linq;
+using Core;
 using UnityEditor;
 using Gateway;
 using Logs;
@@ -10,6 +11,7 @@ using Managers;
 using Messages.Server.SoundMessages;
 using Strings;
 using UI.Systems.Tooltips.HoverTooltips;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects
 {

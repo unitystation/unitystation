@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using Systems.Character;
 using UI.Character;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class PlayerBlueprint : MonoBehaviour, IServerSpawn
 {

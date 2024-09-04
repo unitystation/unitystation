@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using Core;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Allows a coin to be flipped by activating in-hand or throwing.

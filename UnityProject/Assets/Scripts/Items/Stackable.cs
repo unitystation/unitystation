@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using Logs;
 using Mirror;
 using UnityEngine;
@@ -9,6 +10,7 @@ using Messages.Server;
 using UI;
 using UnityEngine.Serialization;
 using Util;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Allows an item to be stacked, occupying a single inventory slot.

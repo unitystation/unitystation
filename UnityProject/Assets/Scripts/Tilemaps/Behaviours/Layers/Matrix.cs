@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using Doors;
 using UnityEngine;
 using UnityEngine.Events;
@@ -18,6 +19,7 @@ using Tilemaps.Utils;
 using Util;
 using Tiles;
 using PipeLayer = Tilemaps.Behaviours.Layers.PipeLayer;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Behavior which indicates a matrix - a contiguous grid of tiles.

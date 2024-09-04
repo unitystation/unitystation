@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using Core;
 using Logs;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Shared.Managers;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class ComponentManager : SingletonManager<ComponentManager>
 {

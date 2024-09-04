@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core;
 using Items;
 using Items.Implants.Organs;
 using Logs;
@@ -9,6 +10,7 @@ using NaughtyAttributes;
 using Player;
 using Systems.Clothing;
 using UI.CharacterCreator;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace HealthV2
 {

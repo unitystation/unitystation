@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using UnityEngine;
 using UI.Core.NetUI;
 using UI.Objects.Shuttles;
 using HealthV2;
 using Logs;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace UI
 {

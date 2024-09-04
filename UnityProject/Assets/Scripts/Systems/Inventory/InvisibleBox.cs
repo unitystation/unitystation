@@ -1,5 +1,7 @@
+using Core;
 using Mirror;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Only mime can make it visible until it's moved

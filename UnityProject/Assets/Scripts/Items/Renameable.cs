@@ -1,8 +1,10 @@
+using Core;
 using Items;
 using Messages.Server;
 using Mirror;
 using UnityEngine;
 using WebSocketSharp;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class Renameable : NetworkBehaviour, ICheckedInteractable<HandActivate>, IRightClickable
 {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using Core.Chat;
 using Core.Admin.Logs;
 using Core.Editor.Attributes;
@@ -27,6 +28,7 @@ using UI;
 using UI.Core.Action;
 using UnityEngine;
 using UnityEngine.Events;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI, ICooldown,
 	IBumpableObject, ICheckedInteractable<ContextMenuApply>

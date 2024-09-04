@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Core;
 using Core.Admin.Logs;
 using UnityEngine;
 using Items;
@@ -8,6 +9,7 @@ using Items.PDA;
 using Objects.Machines;
 using Systems.Score;
 using UI.Objects.Cargo;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Mining
 {

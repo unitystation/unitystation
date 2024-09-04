@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using Logs;
 using Objects;
 using Tilemaps.Utils;
 using Tiles;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 /// <summary>

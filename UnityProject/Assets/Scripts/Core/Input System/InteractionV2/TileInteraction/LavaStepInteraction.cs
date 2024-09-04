@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using Core;
 using Health.Objects;
 using HealthV2;
 using UnityEngine;
 using Systems.Atmospherics;
 using Tiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Interaction
 {

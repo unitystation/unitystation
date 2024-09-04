@@ -1,10 +1,12 @@
 ﻿using System;
+using Core;
 using Light2D;
 using Logs;
 using Mirror;
 using TileManagement;
 using Tiles;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class TilemapDamage : MonoBehaviour, IFireExposable
 {

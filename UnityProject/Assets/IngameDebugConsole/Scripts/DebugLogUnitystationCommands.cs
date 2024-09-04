@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using AdminCommands;
+using Core;
 using UnityEngine;
 using UnityEditor;
 using Systems.Atmospherics;
@@ -15,6 +16,7 @@ using Messages.Server.HealthMessages;
 using ScriptableObjects;
 using Systems.Character;
 using Systems.Score;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace IngameDebugConsole
 {

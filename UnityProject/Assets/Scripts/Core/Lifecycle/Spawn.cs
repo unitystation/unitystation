@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Core;
 using Logs;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Objects;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Main API for all types of spawning (except players - see PlayerSpawn). If you ever need to spawn something, look here.

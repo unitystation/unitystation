@@ -8,6 +8,7 @@ using Shared.Systems.ObjectConnection;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 using Util.Independent.FluentRichText;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Electricity.PowerSupplies
 {

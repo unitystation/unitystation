@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core;
 using UnityEngine;
 using Systems.DisposalPipes;
 using TileManagement;
 using Tiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Disposals
 {

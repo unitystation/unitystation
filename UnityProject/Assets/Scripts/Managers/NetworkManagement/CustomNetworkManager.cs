@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core;
 using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
@@ -16,6 +17,7 @@ using Messages.Server;
 using UnityEditor;
 using Util;
 using Object = UnityEngine.Object;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class CustomNetworkManager : NetworkManager, IInitialise
 {

@@ -4,6 +4,7 @@ using System.Linq;
 using Systems.ElectricalArcs;
 using Systems.Explosions;
 using AddressableReferences;
+using Core;
 using HealthV2;
 using Mirror;
 using Objects.Engineering;
@@ -11,6 +12,7 @@ using UnityEngine;
 using Weapons.Projectiles.Behaviours;
 using Random = UnityEngine.Random;
 using Tiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects
 {

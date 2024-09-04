@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using UnityEngine;
 using UnityEngine.Serialization;
 using PathFinding;
 using Doors;
 using Logs;
 using Systems.Clearance;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Systems.MobAIs

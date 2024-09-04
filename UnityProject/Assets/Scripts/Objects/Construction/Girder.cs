@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using Core;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects;
 using Doors;
 using TileManagement;
 using Tiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Construction
 {

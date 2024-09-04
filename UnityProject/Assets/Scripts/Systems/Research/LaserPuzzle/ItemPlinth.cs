@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using InGameEvents;
 using Items;
 using Logs;
@@ -11,6 +12,7 @@ using UnityEngine;
 using Util;
 using Weapons.Projectiles;
 using Weapons.Projectiles.Behaviours;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>, IOnHitDetect
 {

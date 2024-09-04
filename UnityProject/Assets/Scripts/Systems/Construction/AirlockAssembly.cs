@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Core;
 using UnityEngine;
 using Mirror;
 using Doors;
@@ -6,6 +7,7 @@ using Items.Construction;
 using ScriptableObjects;
 using Core.Editor.Attributes;
 using Systems.Clearance;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Construction
 {

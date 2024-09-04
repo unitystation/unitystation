@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using Logs;
 using UnityEngine;
 using Systems.Explosions;
 using Managers;
 using Strings;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace InGameEvents
 {

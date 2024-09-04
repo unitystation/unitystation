@@ -1,9 +1,11 @@
 using System;
+using Core;
 using Logs;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Mirror;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Construction
 {

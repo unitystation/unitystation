@@ -1,5 +1,7 @@
 
+using Core;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Defines where an object should be spawned.

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using _3D;
+using Core;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
@@ -14,6 +15,7 @@ using Systems.Electricity;
 using Systems.Pipes;
 using Tiles;
 using Util;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public enum ObjectType
 {

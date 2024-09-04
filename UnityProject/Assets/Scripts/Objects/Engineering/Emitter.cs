@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using NaughtyAttributes;
 using AddressableReferences;
+using Core;
 using Systems.Clearance;
 using Systems.Electricity;
 using Systems.Electricity.NodeModules;
 using Systems.Interaction;
 using Weapons.Projectiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Objects.Engineering

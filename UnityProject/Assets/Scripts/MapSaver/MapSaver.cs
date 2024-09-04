@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using Core;
 using Core.Utils;
 using Initialisation;
 using Logs;
@@ -21,6 +22,7 @@ using UnityEditor;
 using System.IO;
 #endif
 using Object = UnityEngine.Object;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace MapSaver
 {

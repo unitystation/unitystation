@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core;
 using Core.Utils;
 using Logs;
 using NaughtyAttributes;
@@ -8,6 +9,7 @@ using ScriptableObjects.Atmospherics;
 using Systems.Pipes;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Systems.Atmospherics

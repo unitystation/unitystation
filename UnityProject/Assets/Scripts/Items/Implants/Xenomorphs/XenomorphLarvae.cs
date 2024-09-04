@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core;
 using Logs;
 using Messages.Server;
 using Mirror;
@@ -7,6 +8,7 @@ using Systems.Antagonists;
 using Systems.Character;
 using UnityEngine;
 using Util;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace HealthV2
 {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core;
 using Items;
 using Logs;
 using Messages.Client;
@@ -9,6 +10,7 @@ using UnityEngine;
 using Systems.Storage;
 using Objects;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Main API for modifying inventory. If you need to do something with inventory, check here first.

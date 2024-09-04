@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Core;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -11,6 +12,7 @@ using Logs;
 using Messages.Client;
 using Objects.Electrical;
 using Systems.Explosions;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Hacking
 {

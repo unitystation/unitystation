@@ -1,4 +1,5 @@
 ﻿using System;
+using Core;
 using Logs;
 using Messages.Server;
 using Mirror;
@@ -11,6 +12,7 @@ using UnityEngine;
 using Weapons;
 using Weapons.Projectiles;
 using Weapons.Projectiles.Behaviours;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Engineering
 {

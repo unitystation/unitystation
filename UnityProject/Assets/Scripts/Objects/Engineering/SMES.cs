@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
+using Core;
 using UnityEngine;
 using Mirror;
 using Systems.Electricity.NodeModules;
 using Systems.Explosions;
 using Systems.Interaction;
 using Objects.Machines;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Objects.Engineering

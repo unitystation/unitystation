@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core;
 using Effects;
 using Gateway;
 using Items;
@@ -9,6 +10,7 @@ using Systems.Explosions;
 using UnityEngine;
 using Weapons.Projectiles;
 using Weapons.Projectiles.Behaviours;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Research
 {

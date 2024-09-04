@@ -8,10 +8,12 @@ using Systems.Pipes;
 using Items;
 using TileManagement;
 using AddressableReferences;
+using Core;
 using Core.Lighting_System.Light2D;
 using Player;
 using Scripts.Core.Transform;
 using Systems.Atmospherics;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Systems.Explosions

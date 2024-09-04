@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Chemistry;
+using Core;
 using Doors;
 using HealthV2;
 using Initialisation;
@@ -22,6 +23,7 @@ using Player;
 using Shuttles;
 using Tilemaps.Behaviours.Layers;
 using Tiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Defines collision type we expect

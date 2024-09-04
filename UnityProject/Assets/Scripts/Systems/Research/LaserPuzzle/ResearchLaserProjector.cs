@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using Logs;
 using Mirror;
 using Newtonsoft.Json;
@@ -12,6 +13,7 @@ using Weapons.Projectiles;
 using Systems.Research.Data;
 using UI.Core.Net;
 using UI.Systems.Tooltips.HoverTooltips;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Research
 {

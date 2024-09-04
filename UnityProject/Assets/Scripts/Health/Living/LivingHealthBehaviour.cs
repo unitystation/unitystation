@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using UnityEngine;
 using UnityEngine.Profiling;
 using Mirror;
@@ -10,6 +11,7 @@ using Light2D;
 using HealthV2;
 using Logs;
 using Newtonsoft.Json;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 /// <summary>

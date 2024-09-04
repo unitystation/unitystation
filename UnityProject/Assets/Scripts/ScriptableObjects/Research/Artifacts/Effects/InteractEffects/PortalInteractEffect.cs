@@ -1,8 +1,10 @@
+using Core;
 using UnityEngine;
 using Objects.Research;
 using Systems.Explosions;
 using Items;
 using Systems.Scenes;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Research
 {

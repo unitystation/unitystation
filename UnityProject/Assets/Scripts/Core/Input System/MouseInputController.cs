@@ -2,6 +2,7 @@ using Mirror;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using Logs;
 using Messages.Client.Interaction;
 using UnityEngine;
@@ -14,6 +15,7 @@ using UI;
 using UI.Action;
 using Tiles;
 using UI.Core.Action;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Main entry point for handling all input events

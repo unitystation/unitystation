@@ -1,10 +1,12 @@
 using System;
+using Core;
 using Logs;
 using UnityEngine;
 using Mirror;
 using Systems.Atmospherics;
 using Systems.Shuttles;
 using UI.Core.NetUI;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Atmospherics
 {
