@@ -7,7 +7,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 {
 	public interface IBodyPartComponentBase
 	{
-		public void OnRemovedFromBody(LivingHealthMasterBase livingHealth);
+		public void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null);
 		public void OnAddedToBody(LivingHealthMasterBase livingHealth);
 		public bool HasSystem(LivingHealthMasterBase livingHealth);
 
