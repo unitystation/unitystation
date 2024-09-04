@@ -1055,7 +1055,7 @@ namespace Core.Physics
 
 				if (IsFloating() && PulledBy.HasComponent == false && doNotApplyMomentumOnTarget == false)
 				{
-					NewtonianMovement += (Vector2) LastDifference.normalized * cache;
+					NewtonianMovement = (Vector2) LastDifference.normalized * cache;
 					LastDifference = Vector3.zero;
 				}
 
@@ -1192,12 +1192,13 @@ namespace Core.Physics
 				var floating = IsFloating();
 				if (floating == false)
 				{
-					AppliedFriction(DEFAULT_SLIDE_FRICTION);
+					AppliedFriction(DEFAULT_Friction);
 				}
 			}
 			else if (IsStickyMovement)
 			{
 				var floating = IsFloating();
+
 				if (floating == false)
 				{
 					if (NewtonianMovement.magnitude > maximumStickSpeed) //Too fast to grab onto anything
@@ -1210,6 +1211,7 @@ namespace Core.Physics
 						NewtonianMovement *= 0;
 					}
 				}
+
 			}
 			else
 			{
