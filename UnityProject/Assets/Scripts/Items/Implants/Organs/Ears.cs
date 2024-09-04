@@ -83,7 +83,7 @@ namespace Items.Implants.Organs
 		}
 
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckPressure);
 			(livingHealth as PlayerHealthV2).OrNull()?.playerScript.PlayerStats.RemoveModifier(PlayerStats.Stat.LocalChatRange, gameObject.name);

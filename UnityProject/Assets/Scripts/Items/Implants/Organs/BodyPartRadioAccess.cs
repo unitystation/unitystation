@@ -8,7 +8,7 @@ public class BodyPartRadioAccess : BodyPartFunctionality
 	[NaughtyAttributes.EnumFlags]
 	public ChatChannel AvailableChannels;
 
-	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 	{
 		var CombinedRadioAccess = livingHealth.GetComponent<CombinedRadioAccess>();
 		if (CombinedRadioAccess != null)

@@ -276,21 +276,28 @@ public static class PlayerSpawn
 
 		//transfer control to the player object
 		//ServerTransferPlayer(connection, newPlayer, oldBody, Event.PlayerSpawned, toUseCharacterSettings, existingMind);
-		if (requestedOccupation != null)
+		try
 		{
-			AdminLogsManager.AddNewLog(
-				null,
-				$"{mind.ControlledBy.Username} has spawned as {requestedOccupation.DisplayName} " +
-				$"as {mind.CurrentCharacterSettings.Name}. Mind NetID: {mind.netId}",
-				LogCategory.RoundFlow);
+			if (requestedOccupation != null)
+			{
+				AdminLogsManager.AddNewLog(
+					null,
+					$"{mind.ControlledBy.Username} has spawned as {requestedOccupation.DisplayName} " +
+					$"as {mind.CurrentCharacterSettings.Name}. Mind NetID: {mind.netId}",
+					LogCategory.RoundFlow);
+			}
+			else
+			{
+				AdminLogsManager.AddNewLog(
+					null,
+					$"{mind.ControlledBy.Username} has spawned without a specified occupation " +
+					$"as {mind.CurrentCharacterSettings.Name}. Mind NetID: {mind.netId}",
+					LogCategory.RoundFlow);
+			}
 		}
-		else
+		catch (Exception e)
 		{
-			AdminLogsManager.AddNewLog(
-				null,
-				$"{mind.ControlledBy.Username} has spawned without a specified occupation " +
-				$"as {mind.CurrentCharacterSettings.Name}. Mind NetID: {mind.netId}",
-				LogCategory.RoundFlow);
+			Loggy.LogError("[PlayerSpawn/SpawnAndApplyRole()] - Error logging spawned player: " + e);
 		}
 		return body;
 	}
@@ -446,13 +453,21 @@ public static class PlayerSpawn
 		mind.Ghost();
 		mind.SetGhost(ghosty);
 		mind.CurrentCharacterSettings = character;
-		if (NonImportantMind == false)
+		try
 		{
-			AdminLogsManager.AddNewLog(
-			null,
-			$"A new mind has been created. Mind NetID: {mind.netId}",
-			LogCategory.Ghost);
+			if (NonImportantMind == false)
+			{
+				AdminLogsManager.AddNewLog(
+					null,
+					$"A new mind has been created for {character.Name}. Mind NetID: {mind.netId}",
+					LogCategory.Ghost);
+			}
 		}
+		catch (Exception e)
+		{
+			Loggy.LogError("[PlayerSpawn] - Error while logging mind creation. " + e);
+		}
+
 		return mind;
 	}
 

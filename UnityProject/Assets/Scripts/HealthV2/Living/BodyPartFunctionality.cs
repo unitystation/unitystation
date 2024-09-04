@@ -2,6 +2,7 @@ using System;
 using Core.Admin.Logs;
 using Mirror;
 using Systems.Explosions;
+using UnityEngine;
 
 namespace HealthV2
 {
@@ -14,12 +15,21 @@ namespace HealthV2
 
 		public virtual void ImplantPeriodicUpdate(){}
 
-		public virtual void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		/// <summary>
+		/// Logic that happens when this body part gets removed from a mob.
+		/// </summary>
+		/// <param name="livingHealth">The body of the mob that this part is being removed from.</param>
+		/// <param name="source">Who is removing this body part?</param>
+		public virtual void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
-			AdminLogsManager.AddNewLog(
-				null,
-				$"{gameObject.ExpensiveName()} has been removed from {livingHealth.gameObject.ExpensiveName()}'s body.",
-				LogCategory.MobDamage);
+			if (source == null) return;
+			if (livingHealth.playerScript.Mind != null && livingHealth.playerScript.Mind.NonImportantMind == false)
+			{
+				AdminLogsManager.AddNewLog(
+					source,
+					$"{gameObject.ExpensiveName()} has been removed from {livingHealth.gameObject.ExpensiveName()}'s body.",
+					LogCategory.MobDamage);
+			}
 		}
 
 		/// <summary>

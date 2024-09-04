@@ -61,7 +61,7 @@ namespace HealthV2
 			playerHealth.OrNull()?.PlayerMove.AddModifier(this);
 		}
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			playerHealth.OrNull()?.PlayerMove.RemoveModifier(this);
 		}
