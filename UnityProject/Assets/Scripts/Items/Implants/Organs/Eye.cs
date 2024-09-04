@@ -52,7 +52,7 @@ namespace Items.Implants.Organs
 			livingHealth.playerScript.DimPlayerLightController.lightColor = DimLightColour;
 		}
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			base.OnRemovedFromBody(livingHealth);
 			livingHealth.playerScript.DimPlayerLightController.ResetToDefault();

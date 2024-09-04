@@ -1,7 +1,6 @@
 ﻿using System;
 using HealthV2;
 using Logs;
-using Player.Movement;
 using Systems.StatusesAndEffects.Interfaces;
 using UnityEngine;
 

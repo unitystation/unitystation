@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using AddressableReferences;
+using Core.Admin.Logs;
 using HealthV2;
 using Objects.Production;
 using Systems.Clearance;
@@ -89,6 +90,12 @@ namespace Objects.Drawers
 			if (interaction.IsAltClick && drawerState != DrawerState.Open)
 			{
 				Cremate();
+				AdminLogsManager.AddNewLog(
+					gameObject,
+					$"{interaction.PerformerPlayerScript.playerName} has enabled a cremator at {gameObject.AssumedWorldPosServer()}",
+					LogCategory.Interaction,
+					Severity.SUSPICOUS
+					);
 				return;
 			}
 			base.ServerPerformInteraction(interaction);

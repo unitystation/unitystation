@@ -2,6 +2,7 @@
 using Chemistry.Components;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
+using UnityEngine;
 
 namespace Items.Implants.Organs
 {
@@ -92,7 +93,7 @@ namespace Items.Implants.Organs
 			}
 		}
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			base.OnRemovedFromBody(livingHealth);
 			BodyFats.Clear();

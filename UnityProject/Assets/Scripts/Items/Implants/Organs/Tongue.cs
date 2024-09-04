@@ -31,7 +31,7 @@ namespace Items.Implants.Organs
 			LivingHealthMaster.playerScript.inventorySpeechModifiers = LivingHealthMaster.playerScript.inventorySpeechModifiers | speechModifiers;
 		}
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 			livingHealth.IsMute.RemovePosition(this);

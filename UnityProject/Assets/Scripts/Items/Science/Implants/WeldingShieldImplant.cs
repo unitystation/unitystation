@@ -1,5 +1,6 @@
 using HealthV2;
 using Player;
+using UnityEngine;
 
 namespace Items.Implants.Organs
 {
@@ -13,7 +14,7 @@ namespace Items.Implants.Organs
 			flash.WeldingShieldImplants++;
 		}
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			flash.WeldingShieldImplants--;
 			flash = null;

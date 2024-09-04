@@ -6,6 +6,7 @@ using UnityEngine;
 using Systems.MobAIs;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Core.Admin.Logs;
 using Managers;
 using Systems.Ai;
 using Messages.Server;
@@ -241,14 +242,18 @@ public class ChatRelay : NetworkBehaviour
 			}
 		}
 
+		string message = $"{chatEvent.speaker} {chatEvent.message}";
+		if ((namelessChannels & chatEvent.channels) != chatEvent.channels)
+		{
+			message = $"<b>[{chatEvent.channels}]</b> {message}";
+		}
+		AdminLogsManager.AddNewLog(
+			null,
+			$"Chat: {message}",
+			LogCategory.MISC
+		);
 		if (rconManager != null)
 		{
-			string message = $"{chatEvent.speaker} {chatEvent.message}";
-			if ((namelessChannels & chatEvent.channels) != chatEvent.channels)
-			{
-				message = $"<b>[{chatEvent.channels}]</b> {message}";
-			}
-
 			RconManager.AddChatLog(message);
 		}
 	}

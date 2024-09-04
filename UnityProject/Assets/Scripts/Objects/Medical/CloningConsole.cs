@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Admin.Logs;
 using HealthV2;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -176,6 +177,11 @@ namespace Objects.Medical
 			var record = new CloningRecord();
 			record.UpdateRecord(livingHealth, playerScript);
 			cloningRecords.Add(record);
+			AdminLogsManager.AddNewLog(
+				null,
+				$"{gameObject.ExpensiveName()} at {gameObject.AssumedWorldPosServer()}" +
+				$" has created a new cloning record for {playerScript.playerName}.",
+				LogCategory.RoundFlow);
 		}
 
 		public void UpdateDisplay()

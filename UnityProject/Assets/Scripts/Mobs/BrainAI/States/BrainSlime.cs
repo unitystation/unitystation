@@ -41,7 +41,7 @@ public class BrainSlime : BrainMobState
 		RecentDamage += DMG;
 	}
 
-	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 	{
 		livingHealth.OnTakeDamageType -= IncomingDamage;
 		SlimeEat = null;

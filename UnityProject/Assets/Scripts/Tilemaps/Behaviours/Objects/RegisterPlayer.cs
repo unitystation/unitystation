@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Admin.Logs;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
@@ -219,6 +220,11 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		{
 			MatrixOld.PresentPlayers.Remove(this);
 			MatrixOld.UpdatedPlayerFrame = Time.frameCount;
+			AdminLogsManager.AddNewLog(
+				gameObject,
+				$"{playerScript.playerName} has left {MatrixOld.name}",
+				LogCategory.World
+			);
 		}
 
 		if (MatrixNew != null && MatrixNew.PresentPlayers.Contains(this) == false)
