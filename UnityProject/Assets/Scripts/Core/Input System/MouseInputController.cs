@@ -151,7 +151,6 @@ public class MouseInputController : MonoBehaviour
 
 		}
 
-
 		CheckMouseInput();
 		CheckCursorTexture();
 	}
@@ -572,9 +571,10 @@ public class MouseInputController : MonoBehaviour
 
 		var draggable =
 			MouseUtils.GetOrderedObjectsUnderMouse(null, go =>
-					go.GetComponent<MouseDraggable>() != null &&
-					go.GetComponent<MouseDraggable>().enabled &&
-					go.GetComponent<MouseDraggable>().CanBeginDrag(PlayerManager.LocalPlayerScript))
+					go.TryGetComponent<MouseDraggable>(out var draggable) &&
+					draggable.enabled &&
+					draggable.CanBeginDrag(PlayerManager.LocalPlayerScript) &&
+					go.HasComponent<Ghost>() == false)
 				.FirstOrDefault();
 		if (draggable != null)
 		{
