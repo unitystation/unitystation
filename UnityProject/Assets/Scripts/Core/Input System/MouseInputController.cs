@@ -569,20 +569,14 @@ public class MouseInputController : MonoBehaviour
 			return null;
 		}
 
-		var draggable =
-			MouseUtils.GetOrderedObjectsUnderMouse(null, go =>
+		var draggable = MouseUtils.GetOrderedObjectsUnderMouse(null, go =>
 					go.TryGetComponent<MouseDraggable>(out var draggable) &&
 					draggable.enabled &&
 					draggable.CanBeginDrag(PlayerManager.LocalPlayerScript) &&
-					go.HasComponent<Ghost>() == false)
-				.FirstOrDefault();
-		if (draggable != null)
-		{
-			var dragComponent = draggable.GetComponent<MouseDraggable>();
-			return dragComponent;
-		}
-
-		return null;
+					go.HasComponent<Ghost>() == false).FirstOrDefault();
+		if (draggable== null) return null;
+		var dragComponent = draggable.GetComponent<MouseDraggable>();
+		return dragComponent;
 	}
 
 	public static void Point()
