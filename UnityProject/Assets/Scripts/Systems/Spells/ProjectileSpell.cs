@@ -25,9 +25,9 @@ namespace Systems.Spells
 		{
 			Vector3Int casterWorldPos = caster.Script.WorldPos;
 			Vector2 castVector = clickPosition - casterWorldPos;
-
-			ProjectileManager.InstantiateAndShoot(projectilePrefab, castVector, caster.GameObject,
-				null, BodyPartType.None);
+			for(int i = 0; i < ProjectilesPerUse; i++)
+				ProjectileManager.InstantiateAndShoot(projectilePrefab, castVector, caster.GameObject,
+					null, BodyPartType.None);
 			return true;
 		}
 	}
